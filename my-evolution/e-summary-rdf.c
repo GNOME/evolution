@@ -276,14 +276,17 @@ display_doc (RDF *r)
 			     "width=\"48\" height=\"48\"><b>");
 
 	if (r->cache == NULL) {
-		g_string_append (html, _("There was an error downloading news feed</b></dt>"));
+		char *tmp_utf;
+
+		tmp_utf = e_utf8_from_locale_string (_("There was an error downloading news feed"));
+		g_string_append (html, tmp_utf);
+		g_string_append (html, "</b></dt>");
+		g_free (tmp_utf);
 	} else {
 		tree_walk (r->cache->root, r, html);
 	}
 
-	if (r->html != NULL) {
-		g_free (r->html);
-	}
+	g_free (r->html);
 	g_string_append (html, "</dl>");
 	r->html = html->str;
 	g_string_free (html, FALSE);
