@@ -2004,7 +2004,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			
 			localtime_r (&target_date, &due);
 			
-			e_utf8_strftime_fix_am_pm (due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %P"), &due);
+			e_utf8_strftime_fix_am_pm (due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %p"), &due);
 		} else {
 			due_date[0] = '\0';
 		}
