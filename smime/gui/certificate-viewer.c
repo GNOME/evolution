@@ -20,6 +20,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "certificate-viewer.h"
 
 #include "e-asn1-object.h"

@@ -1,4 +1,4 @@
-
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Copyright 2003, Novell Inc.
  *
  * Author(s): Michael Zucchi <notzed@ximian.com>
@@ -17,6 +17,11 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <libgnome/gnome-i18n.h>
 

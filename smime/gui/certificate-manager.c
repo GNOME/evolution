@@ -20,6 +20,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #define GLADE_FILE_NAME "smime-ui.glade"
 
 #include <gtk/gtk.h>
