@@ -1,5 +1,86 @@
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/test-reflow.c (destroy_callback): change signature
+	to that of a weak ref notify function.
+	(main): ::destroy -> weak_ref.
+
+	* gui/widgets/test-minicard.c (destroy_callback): change signature
+	to that of a weak ref notify function.
+	(main): ::destroy -> weak_ref.
+
+	* gui/widgets/test-minicard-view.c (destroy_callback): change
+	signature to that of a weak ref notify function.
+	(main): ::destroy -> weak_ref.
+
+	* gui/widgets/test-minicard-label.c (destroy_callback): change
+	signature to that of a weak ref notify function.
+	(main): ::destroy -> weak_ref.
+
+	* gui/widgets/e-minicard-widget.c (e_minicard_widget_init): ifdef
+	out the call to gnome_canvas_set_scroll_region.  It doesn't seem
+	necessary judging from the rest of the code, and it also crashes
+	the addressbook if it's in.
+
+	* gui/widgets/e-minicard-widget-test.c (destroy_callback): change
+	signature to that of a weak ref notify function.
+	(main): ::destroy -> weak_ref.
+
+	* gui/widgets/e-minicard-control.c (free_struct): change signature
+	to that of a weak ref notify function.
+	(e_minicard_control_factory): ::destroy -> weak_ref.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init):
+	::destroy -> weak_ref.
+	(e_addressbook_view_print): same.
+	(free_closure): change signature to that of a weak ref notify
+	function.
+	(e_contact_print_destroy): same.
+	(invisible_destroyed): same.
+
+	* gui/widgets/e-addressbook-util.c
+	(e_addressbook_prompt_save_dialog): convert from GnomeDialog to
+	GtkDialog.
+	(e_addressbook_show_multiple_cards): same.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(prompt_to_save_changes): change response ids to use
+	GTK_RESPONSE_.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(clear_widget): new function.
+	(e_select_names_manager_activate_dialog): ::destroy -> weak_ref.
+
+	* gui/component/select-names/e-select-names.c (clear_widget):
+	change signature to that of a weak ref notify function.
+	(e_select_names_init): ::destroy -> weak_ref.
+
+	* gui/component/e-address-popup.c (mini_wizard_destroy_cb): change
+	signature to that of a weak ref notify function.
+	(mini_wizard_new): ::destroy -> weak_ref.
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_destroy): change signature to that of a
+	weak ref notify function.
+	(ldap_config_control_destroy_callback): same.
+	(addressbook_add_server_druid): ::destroy -> weak_ref.
+	(addressbook_edit_server_dialog): same.
+	(ldap_config_control_new): same.
+
+	* gui/component/addressbook.c (destroy_callback): change signature
+	to that of a a weak ref notify function.
+	(addressbook_factory_new_control): ::destroy -> weak_ref.
+
+	* gui/merging/e-card-merging.c (response): rename clicked to this,
+	and destroy the dialog here.
+	(match_query_callback): ::clicked -> ::response
+
+	* gui/merging/e-card-merging-book-commit-duplicate-detected.glade:
+	convert.
+
+	* gui/merging/e-card-duplicate-detected.glade: same.
+
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (_arrow_pressed): change
 	around a little, still ifdefed though.
 

@@ -539,7 +539,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-destroy_callback(GtkWidget *widget, gpointer data)
+destroy_callback(gpointer data, GObject *where_object_was)
 {
 	AddressbookView *view = data;
 	if (view->view && view->view->model && view->view->model->book_view)
@@ -1111,9 +1111,7 @@ addressbook_factory_new_control (void)
 
 	view->vbox = gtk_vbox_new (FALSE, 0);
 
-	g_signal_connect (view->vbox, "destroy",
-			  G_CALLBACK (destroy_callback),
-			  (gpointer) view);
+	g_object_weak_ref (G_OBJECT (view->vbox), destroy_callback, view);
 
 	/* Create the control. */
 	view->control = bonobo_control_new (view->vbox);

@@ -32,7 +32,7 @@
 GnomeCanvasItem *label;
 GnomeCanvasItem *rect;
 
-static void destroy_callback(GtkWidget *app, gpointer data)
+static void destroy_callback(gpointer data, GObject *where_object_was)
 {
   exit(0);
 }
@@ -110,9 +110,7 @@ int main( int argc, char *argv[] )
 
 
   /* Connect the signals */
-  g_signal_connect( app, "destroy",
-		    G_CALLBACK( destroy_callback ),
-		    ( gpointer ) app );
+  g_object_weak_ref (app, destroy_callback, app);
 
   g_signal_connect( canvas , "size_allocate",
 		    G_CALLBACK ( allocate_callback ),

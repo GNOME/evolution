@@ -317,8 +317,9 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 }
 
 static void
-addressbook_source_dialog_destroy (GtkWidget *widget, AddressbookSourceDialog *dialog)
+addressbook_source_dialog_destroy (gpointer data, GObject *where_object_was)
 {
+	AddressbookSourceDialog *dialog = data;
 #ifdef NEW_ADVANCED_UI
 #define IF_UNREF(x) if (x) g_object_unref ((x))
 
@@ -1080,8 +1081,8 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 			  G_CALLBACK(addressbook_add_server_druid_finish), sdialog);
 	g_signal_connect (sdialog->druid, "cancel",
 			  G_CALLBACK(addressbook_add_server_druid_cancel), sdialog);
-	g_signal_connect (sdialog->window, "destroy",
-			  G_CALLBACK(addressbook_source_dialog_destroy), sdialog);
+	g_object_weak_ref (G_OBJECT (sdialog->window),
+			   addressbook_source_dialog_destroy, sdialog);
 
 	/* make sure we fill in the default values */
 	addressbook_source_dialog_set_source (sdialog, NULL);
@@ -1416,8 +1417,8 @@ addressbook_edit_server_dialog (AddressbookDialog *dialog, int model_row)
 			  "clicked", G_CALLBACK(edit_dialog_apply_clicked), sdialog);
 	g_signal_connect (sdialog->close_button,
 			  "clicked", G_CALLBACK(edit_dialog_close_clicked), sdialog);
-	g_signal_connect (sdialog->window, "destroy",
-			  G_CALLBACK(addressbook_source_dialog_destroy), sdialog);
+	g_object_weak_ref (G_OBJECT (sdialog->window),
+			   addressbook_source_dialog_destroy, sdialog);
 
 	gtk_widget_set_sensitive (sdialog->ok_button, FALSE);
 	gtk_widget_set_sensitive (sdialog->apply_button, FALSE);
@@ -1498,8 +1499,8 @@ delete_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 }
 
 static void
-ldap_config_control_destroy_callback (EvolutionConfigControl *config_control,
-				      void *data)
+ldap_config_control_destroy_callback (gpointer data,
+				      GObject *where_object_was)
 {
 	AddressbookDialog *dialog;
 
@@ -1659,8 +1660,8 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 	dialog->config_control = control;
 	g_signal_connect (dialog->config_control, "apply",
 			  G_CALLBACK (ldap_config_control_apply_callback), dialog);
-	g_signal_connect (dialog->config_control, "destroy",
-			  G_CALLBACK (ldap_config_control_destroy_callback), dialog);
+	g_object_weak_ref (G_OBJECT (dialog->config_control), 
+			   ldap_config_control_destroy_callback, dialog);
 
 	gtk_widget_unref (dialog->page);
 #endif

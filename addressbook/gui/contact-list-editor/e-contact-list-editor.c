@@ -413,12 +413,12 @@ prompt_to_save_changes (EContactListEditor *editor)
 		return TRUE;
 
 	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
-	case 0: /* Save */
+	case GTK_RESPONSE_YES:
 		save_card (editor, FALSE);
 		return TRUE;
-	case 1: /* Discard */
+	case GTK_RESPONSE_NO:
 		return TRUE;
-	case 2: /* Cancel */
+	case GTK_RESPONSE_CANCEL:
 	default:
 		return FALSE;
 	}

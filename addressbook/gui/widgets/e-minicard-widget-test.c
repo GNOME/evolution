@@ -60,7 +60,7 @@
 
 /* This is a horrible thing to do, but it is just a test. */
 
-static void destroy_callback(GtkWidget *app, gpointer data)
+static void destroy_callback(gpointer data, GObject *where_object_was)
 {
   exit(0);
 }
@@ -106,9 +106,7 @@ int main( int argc, char *argv[] )
   gnome_app_set_contents( GNOME_APP( app ), minicard );
 
   /* Connect the signals */
-  g_signal_connect( app, "destroy",
-		    G_CALLBACK( destroy_callback ),
-		    ( gpointer ) app );
+  g_object_weak_ref (app, destroy_callback, app);
 
   gtk_widget_show_all( app );
 

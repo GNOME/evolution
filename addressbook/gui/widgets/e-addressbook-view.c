@@ -92,7 +92,7 @@ static void selection_received (GtkWidget *invisible, GtkSelectionData *selectio
 				guint time, EAddressbookView *view);
 static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_data,
 			   guint info, guint time_stamp, EAddressbookView *view);
-static void invisible_destroyed (GtkWidget *invisible, EAddressbookView *view);
+static void invisible_destroyed (gpointer data, GObject *where_object_was);
 
 static GtkTableClass *parent_class = NULL;
 
@@ -303,9 +303,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 	g_signal_connect (eav->invisible, "selection_received",
 			  G_CALLBACK (selection_received),
 			  eav);
-	g_signal_connect (eav->invisible, "destroy",
-			  G_CALLBACK (invisible_destroyed),
-			  eav);
+	g_object_weak_ref (G_OBJECT (eav->invisible), invisible_destroyed, eav);
 }
 
 static void
@@ -1018,8 +1016,10 @@ button_toggled(GtkWidget *button, LetterClosure *closure)
 }
 
 static void
-free_closure(GtkWidget *button, LetterClosure *closure)
+free_closure(gpointer data, GObject *where_object_was)
 {
+	GtkWidget *button = GTK_WIDGET (where_object_was);
+	LetterClosure *closure = data;
 	if (button != NULL &&
 	    button == closure->view->current_alphabet_widget) {
 		closure->view->current_alphabet_widget = NULL;
@@ -1074,8 +1074,7 @@ create_alphabet (EAddressbookView *view)
 		closure->vbox = vbox;
 		g_signal_connect(button, "toggled",
 				 G_CALLBACK (button_toggled), closure);
-		g_signal_connect(button, "destroy",
-				 G_CALLBACK (free_closure), closure);
+		g_object_weak_ref (G_OBJECT (button), free_closure, closure);
 
 	}
 	g_strfreev (label_v);
@@ -1397,13 +1396,18 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	command_state_change (view);
 }
 
+typedef struct {
+	GtkWidget *table;
+	GObject *printable;
+} EContactPrintDialogWeakData;
+
 static void
-e_contact_print_destroy(GnomeDialog *dialog, gpointer data)
+e_contact_print_destroy(gpointer data, GObject *where_object_was)
 {
-	ETableScrolled *table = g_object_get_data(G_OBJECT(dialog), "table");
-	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
-	g_object_unref (printable);
-	g_object_unref (table);
+	EContactPrintDialogWeakData *weak_data = data;
+	g_object_unref (weak_data->printable);
+	g_object_unref (weak_data->table);
+	g_free (weak_data);
 }
 
 static void
@@ -1534,6 +1538,7 @@ e_addressbook_view_print(EAddressbookView *view)
 		GtkWidget *dialog;
 		EPrintable *printable;
 		ETable *etable;
+		EContactPrintDialogWeakData *weak_data;
 
 		dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
@@ -1549,8 +1554,14 @@ e_addressbook_view_print(EAddressbookView *view)
 		
 		g_signal_connect(dialog,
 				 "clicked", G_CALLBACK(e_contact_print_button), NULL);
-		g_signal_connect(dialog,
-				 "destroy", G_CALLBACK(e_contact_print_destroy), NULL);
+
+		weak_data = g_new (EContactPrintDialogWeakData, 1);
+
+		weak_data->table = view->widget;
+		weak_data->printable = G_OBJECT (printable);
+
+		g_object_weak_ref (G_OBJECT (dialog), e_contact_print_destroy, weak_data);
+
 		gtk_widget_show(dialog);
 	}
 }
@@ -1646,8 +1657,9 @@ e_addressbook_view_delete_selection(EAddressbookView *view)
 }
 
 static void
-invisible_destroyed (GtkWidget *invisible, EAddressbookView *view)
+invisible_destroyed (gpointer data, GObject *where_object_was)
 {
+	EAddressbookView *view = data;
 	view->invisible = NULL;
 }
 

@@ -60,19 +60,26 @@ gint
 e_addressbook_prompt_save_dialog (GtkWindow *parent)
 {
 	GtkWidget *dialog;
+	gint response;
 
-	dialog = gnome_message_box_new (_("Do you want to save changes?"),
-					GNOME_MESSAGE_BOX_QUESTION,
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
+	dialog = gtk_message_dialog_new (parent,
+					  (GtkDialogFlags)0,
+					  GTK_MESSAGE_QUESTION,
+					  GTK_BUTTONS_NONE,
+					 _("Do you want to save changes?"));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_YES, GTK_RESPONSE_YES,
+				GTK_STOCK_NO, GTK_RESPONSE_NO,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_grab_focus (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 
-	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+
+	return response;
 }
 
 static void
@@ -154,12 +161,6 @@ e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
 	return ce;
 }
 
-typedef struct {
-	EBook *book;
-	GList *list;
-	gboolean editable;
-} BookAndList;
-
 static void
 view_cards (EBook *book, GList *list, gboolean editable)
 {
@@ -172,24 +173,6 @@ view_cards (EBook *book, GList *list, gboolean editable)
 	}
 }
 
-static void
-view_question_clicked (GtkObject *object, int button, BookAndList *bnl)
-{
-	GnomeDialog *dialog = GNOME_DIALOG (object);
-	switch (button) {
-	case 0:
-		view_cards (bnl->book, bnl->list, bnl->editable);
-		break;
-	}
-	gnome_dialog_close(dialog);
-}
-
-static void
-view_question_destroyed (GtkObject *object, GList *list)
-{
-	gtk_main_quit();
-}
-
 void
 e_addressbook_show_multiple_cards (EBook *book,
 				   GList *list,
@@ -198,32 +181,22 @@ e_addressbook_show_multiple_cards (EBook *book,
 	if (list) {
 		int length = g_list_length (list);
 		if (length > 5) {
-			char *string;
 			GtkWidget *dialog;
-			BookAndList bnl;
+			gint response;
 
-			bnl.book = book;
-			bnl.list = list;
-			bnl.editable = editable;
+			dialog = gtk_message_dialog_new (NULL,
+							 0,
+							 GTK_MESSAGE_QUESTION,
+							 GTK_BUTTONS_YES_NO,
+							 _("Opening %d cards will open %d new windows as well.\n"
+							   "Do you really want to display all of these cards?"),
+							 length,
+							 length);
 
-			dialog = gnome_dialog_new (_("Display Cards?"),
-						   _("Display Cards"),
-						   GNOME_STOCK_BUTTON_CANCEL,
-						   NULL);
-
-			string = g_strdup_printf (_("Opening %d cards will open %d new windows as well.\n"
-						    "Do you really want to display all of these cards?"), length, length);
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), gtk_label_new (string), FALSE, FALSE, 0);
-			g_free (string);
-
-			g_signal_connect (dialog, "destroy",
-					  G_CALLBACK (view_question_destroyed), &bnl);
-			g_signal_connect (dialog, "clicked",
-					  G_CALLBACK (view_question_clicked), &bnl);
-
-			gtk_widget_show_all (dialog);
-
-			gtk_main();
+			response = gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			if (response == GTK_RESPONSE_YES)
+				view_cards (book, list, editable);
 		} else {
 			view_cards (book, list, editable);
 		}

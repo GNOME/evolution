@@ -169,10 +169,12 @@ e_minicard_widget_init (EMinicardWidget *emw)
 					  "width", (double) 100,
 					  NULL );
 
+#if PENDING_PORT_WORK
+	/* XXX this crashes since the canvas has no h/v adjustments. */
 	gnome_canvas_set_scroll_region ( GNOME_CANVAS( emw ),
 					 0, 0,
 					 100, 100 );
-	
+#endif
 	emw->card = NULL;
 }
 

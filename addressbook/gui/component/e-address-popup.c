@@ -114,7 +114,7 @@ mini_wizard_cancel_cb (GtkWidget *b, gpointer closure)
 }
 
 static void
-mini_wizard_destroy_cb (GtkWidget *w, gpointer closure)
+mini_wizard_destroy_cb (gpointer closure, GObject *where_object_was)
 {
 	MiniWizard *wiz = (MiniWizard *) closure;
 	if (wiz->cleanup_cb)
@@ -158,10 +158,10 @@ mini_wizard_new (void)
 			  "clicked",
 			  G_CALLBACK (mini_wizard_cancel_cb),
 			  wiz);
-	g_signal_connect (wiz->body,
-			  "destroy",
-			  G_CALLBACK (mini_wizard_destroy_cb),
-			  wiz);
+
+	g_object_weak_ref (G_OBJECT (wiz->body),
+			   mini_wizard_destroy_cb,
+			   wiz);
 
 	return wiz;
 	

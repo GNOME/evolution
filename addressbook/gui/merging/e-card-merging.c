@@ -11,7 +11,6 @@
 #include <config.h>
 
 #include "e-card-merging.h"
-#include <libgnomeui/gnome-dialog.h>
 #include <ebook/e-card-compare.h>
 #include <glade/glade.h>
 #include <gtk/gtksignal.h>
@@ -53,9 +52,11 @@ cancelit (ECardMergingLookup *lookup)
 }
 
 static void
-clicked (GnomeDialog *dialog, int button, ECardMergingLookup *lookup)
+response (GtkWidget *dialog, int response, ECardMergingLookup *lookup)
 {
-	switch (button) {
+	gtk_widget_destroy (dialog);
+
+	switch (response) {
 	case 0:
 		doit (lookup);
 		break;
@@ -64,7 +65,6 @@ clicked (GnomeDialog *dialog, int button, ECardMergingLookup *lookup)
 		break;
 	}
 	g_free (lookup);
-	gnome_dialog_close (dialog);
 }
 
 static void
@@ -102,8 +102,10 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 
 		widget = glade_xml_get_widget (ui, "dialog-duplicate-contact");
 
-		g_signal_connect (widget, "clicked",
-				  G_CALLBACK (clicked), lookup);
+		g_signal_connect (widget, "response",
+				  G_CALLBACK (response), lookup);
+
+		gtk_widget_show_all (widget);
 	}
 }
 

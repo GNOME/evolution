@@ -573,6 +573,13 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 	}
 }
 
+static void
+clear_widget (gpointer data, GObject *where_object_was)
+{
+	GtkWidget **widget_ref = data;
+	*widget_ref = NULL;
+}
+
 void
 e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 					const char *id)
@@ -605,10 +612,7 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 				   G_CALLBACK(e_select_names_clicked),
 				   manager);
 
-		g_signal_connect(manager->names,
-				 "destroy",
-				 G_CALLBACK(gtk_widget_destroyed), 
-				 &manager->names);
+		g_object_weak_ref (manager->names, clear_widget, &manager->names);
 
 		gtk_widget_show(GTK_WIDGET(manager->names));
 	}

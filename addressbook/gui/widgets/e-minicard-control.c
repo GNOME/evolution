@@ -265,7 +265,7 @@ save_in_addressbook(GtkWidget *button, gpointer data)
 }
 
 static void
-free_struct (GtkWidget *control, gpointer data)
+free_struct (gpointer data, GObject *where_object_was)
 {
 	EMinicardControl *minicard_control = data;
 	e_free_object_list (minicard_control->card_list);
@@ -317,8 +317,7 @@ e_minicard_control_factory (BonoboGenericFactory *Factory,
 
 	control = bonobo_control_new (vbox);
 
-	g_signal_connect (control, "destroy",
-			  G_CALLBACK (free_struct), minicard_control);
+	g_object_weak_ref (G_OBJECT (control), free_struct, minicard_control);
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_content_types,
