@@ -72,9 +72,9 @@
 #define E_CELL_COMBO_UTF8_KEY		"UTF-8-TEXT"
 
 
-static void e_cell_combo_class_init	(GtkObjectClass	*object_class);
+static void e_cell_combo_class_init	(GObjectClass	*object_class);
 static void e_cell_combo_init		(ECellCombo	*ecc);
-static void e_cell_combo_destroy	(GtkObject	*object);
+static void e_cell_combo_dispose	(GObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
 					 GdkEvent	*event,
@@ -115,15 +115,15 @@ E_MAKE_TYPE (e_cell_combo, "ECellCombo", ECellCombo,
 
 
 static void
-e_cell_combo_class_init			(GtkObjectClass	*object_class)
+e_cell_combo_class_init			(GObjectClass	*object_class)
 {
 	ECellPopupClass *ecpc = (ECellPopupClass *) object_class;
 
-	object_class->destroy = e_cell_combo_destroy;
+	object_class->dispose = e_cell_combo_dispose;
 
 	ecpc->popup = e_cell_combo_do_popup;
 
-	parent_class = gtk_type_class (e_cell_popup_get_type ());
+	parent_class = g_type_class_ref (E_CELL_POPUP_TYPE);
 }
 
 
@@ -163,19 +163,19 @@ e_cell_combo_init			(ECellCombo	*ecc)
 					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	gtk_widget_show (ecc->popup_list);
 
-	gtk_signal_connect (GTK_OBJECT (ecc->popup_window),
-			    "button_press_event",
-			    GTK_SIGNAL_FUNC (e_cell_combo_button_press),
-			    ecc);
+	g_signal_connect (ecc->popup_window,
+			  "button_press_event",
+			  G_CALLBACK (e_cell_combo_button_press),
+			  ecc);
 	/* We use connect_after here so the list updates the selection before
 	   we hide the popup and update the cell. */
-	gtk_signal_connect_after (GTK_OBJECT (ecc->popup_window),
-				  "button_release_event",
-				  GTK_SIGNAL_FUNC (e_cell_combo_button_release),
-				  ecc);
-	gtk_signal_connect (GTK_OBJECT (ecc->popup_window),
-			    "key_press_event",
-			    GTK_SIGNAL_FUNC (e_cell_combo_key_press), ecc);
+	g_signal_connect_after (ecc->popup_window,
+				"button_release_event",
+				G_CALLBACK (e_cell_combo_button_release),
+				ecc);
+	g_signal_connect (ecc->popup_window,
+			  "key_press_event",
+			  G_CALLBACK (e_cell_combo_key_press), ecc);
 }
 
 
@@ -189,17 +189,17 @@ e_cell_combo_init			(ECellCombo	*ecc)
 ECell *
 e_cell_combo_new			(void)
 {
-	ECellCombo *ecc = gtk_type_new (e_cell_combo_get_type ());
+	ECellCombo *ecc = g_object_new (E_CELL_COMBO_TYPE, NULL);
 
 	return (ECell*) ecc;
 }
 
 
 /*
- * GtkObject::destroy method
+ * GObject::dispose method
  */
 static void
-e_cell_combo_destroy			(GtkObject *object)
+e_cell_combo_dispose			(GObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
@@ -207,7 +207,7 @@ e_cell_combo_destroy			(GtkObject *object)
 		gtk_widget_destroy (ecc->popup_window);
 	ecc->popup_window = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 
@@ -238,9 +238,9 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 		gtk_widget_show (listitem);
 		gtk_container_add (GTK_CONTAINER (ecc->popup_list), listitem);
 
-		gtk_object_set_data_full (GTK_OBJECT (listitem),
-					  E_CELL_COMBO_UTF8_KEY,
-					  g_strdup (utf8_text), g_free);
+		g_object_set_data_full (G_OBJECT (listitem),
+					E_CELL_COMBO_UTF8_KEY,
+					g_strdup (utf8_text), g_free);
 
 		elem = elem->next;
 	}
@@ -306,8 +306,8 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 		listitem = GTK_WIDGET (elem->data);
 
 		/* We need to compare against the UTF-8 text. */
-		list_item_text = gtk_object_get_data (GTK_OBJECT (listitem),
-						      E_CELL_COMBO_UTF8_KEY);
+		list_item_text = g_object_get_data (G_OBJECT (listitem),
+						    E_CELL_COMBO_UTF8_KEY);
 
 		if (list_item_text && !strcmp (list_item_text, cell_text)) {
 			found = TRUE;
@@ -622,8 +622,8 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 
 	/* Get the text of the selected item. */
 	listitem = list->selection->data;
-	text = gtk_object_get_data (GTK_OBJECT (listitem),
-				    E_CELL_COMBO_UTF8_KEY);
+	text = g_object_get_data (G_OBJECT (listitem),
+				  E_CELL_COMBO_UTF8_KEY);
 	g_return_if_fail (text != NULL);
 
 	/* Compare it with the existing cell contents. */

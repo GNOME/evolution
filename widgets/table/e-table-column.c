@@ -32,6 +32,7 @@ enum {
 
 static guint etc_signals [LAST_SIGNAL] = { 0, };
 
+#define PARENT_CLASS GTK_TYPE_OBJECT
 static GtkObjectClass *e_table_column_parent_class;
 
 static void
@@ -62,48 +63,31 @@ e_table_column_class_init (GtkObjectClass *object_class)
 {
 	G_OBJECT_CLASS (object_class)->finalize = e_table_column_finalize;
 
-	e_table_column_parent_class = (gtk_type_class (gtk_object_get_type ()));
+	e_table_column_parent_class = g_type_class_ref (PARENT_CLASS);
 
 	etc_signals [STRUCTURE_CHANGE] =
-		gtk_signal_new ("structure_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableColumn, structure_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("structure_change",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableColumn, structure_change),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 	etc_signals [DIMENSION_CHANGE] = 
-		gtk_signal_new ("dimension_change", 
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableColumn, dimension_change),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, etc_signals, LAST_SIGNAL);
+		g_signal_new ("dimension_change", 
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableColumn, dimension_change),
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
-GtkType
-e_table_column_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableColumn",
-			sizeof (ETableColumn),
-			sizeof (ETableColumnClass),
-			(GtkClassInitFunc) e_table_column_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_table_column,
+	     "ETableColumn",
+	     ETableColumn,
+	     e_table_column_class_init,
+	     NULL,
+	     PARENT_TYPE);
 
 static void
 etc_do_insert (ETableColumn *etc, int pos, ETableCol *val)
@@ -129,7 +113,7 @@ e_table_column_add_column (ETableColumn *etc, ETableCol *tc, int pos)
 	etc_do_insert (etc, pos, tc);
 	etc->col_count++;
 
-	gtk_signal_emit (GTK_OBJECT (etc), etc_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (etc, etc_signals [STRUCTURE_CHANGE], 0);
 }
 
 ETableCol *
@@ -273,7 +257,7 @@ e_table_column_move (ETableColumn *etc, int source_index, int target_index)
 	old = etc->columns [source_index];
 	etc_do_remove (etc, source_index);
 	etc_do_insert (etc, target_index, old);
-	gtk_signal_emit (GTK_OBJECT (etc), etc_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (etc, etc_signals [STRUCTURE_CHANGE], 0);
 }
 
 void
@@ -285,7 +269,7 @@ e_table_column_remove (ETableColumn *etc, int idx)
 	g_return_if_fail (idx < etc->col_count);
 
 	etc_do_remove (etc, idx);
-	gtk_signal_emit (GTK_OBJECT (etc), etc_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (etc, etc_signals [STRUCTURE_CHANGE], 0);
 }
 
 void
@@ -303,5 +287,5 @@ e_table_column_set_size (ETableColumn *etc, int idx, int size)
 	g_return_if_fail (size > 0);
 
 	etc->columns [idx]->width = size;
-	gtk_signal_emit (GTK_OBJECT (etc), etc_signals [SIZE_CHANGE], idx);
+	g_signal_emit (etc, etc_signals [SIZE_CHANGE], 0, idx);
 }

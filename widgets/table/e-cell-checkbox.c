@@ -59,7 +59,7 @@ E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_cla
 ECell *
 e_cell_checkbox_new (void)
 {
-	ECellCheckbox *eccb = gtk_type_new (e_cell_checkbox_get_type ());
+	ECellCheckbox *eccb = g_object_new (E_CELL_CHECKBOX_TYPE, NULL);
 
 	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), 2, 2, checks);
       

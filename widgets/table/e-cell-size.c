@@ -61,7 +61,7 @@ e_cell_size_class_init (GtkObjectClass *object_class)
 {
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;
@@ -98,7 +98,7 @@ e_cell_size_init (GtkObject *object)
 ECell *
 e_cell_size_new (const char *fontname, GtkJustification justify)
 {
-	ECellSize *ecd = gtk_type_new (e_cell_size_get_type ());
+	ECellSize *ecd = g_object_new (E_CELL_SIZE_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
       

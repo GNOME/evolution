@@ -31,10 +31,10 @@
 G_BEGIN_DECLS
 
 #define E_CELL_TOGGLE_TYPE        (e_cell_toggle_get_type ())
-#define E_CELL_TOGGLE(o)          (GTK_CHECK_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))
-#define E_CELL_TOGGLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TOGGLE_TYPE, ECellToggleClass))
-#define E_IS_CELL_TOGGLE(o)       (GTK_CHECK_TYPE ((o), E_CELL_TOGGLE_TYPE))
-#define E_IS_CELL_TOGGLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TOGGLE_TYPE))
+#define E_CELL_TOGGLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))
+#define E_CELL_TOGGLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TOGGLE_TYPE, ECellToggleClass))
+#define E_IS_CELL_TOGGLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TOGGLE_TYPE))
+#define E_IS_CELL_TOGGLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TOGGLE_TYPE))
 
 typedef struct {
 	ECell parent;
@@ -50,7 +50,7 @@ typedef struct {
 	ECellClass parent_class;
 } ECellToggleClass;
 
-GtkType    e_cell_toggle_get_type  (void);
+GType      e_cell_toggle_get_type  (void);
 ECell     *e_cell_toggle_new       (int border, int n_states, GdkPixbuf **images);
 void       e_cell_toggle_construct (ECellToggle *etog, int border,
 				    int n_states, GdkPixbuf **images);

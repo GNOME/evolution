@@ -32,10 +32,10 @@
 G_BEGIN_DECLS
 
 #define E_CELL_PROGRESS_TYPE        (e_cell_progress_get_type ())
-#define E_CELL_PROGRESS(o)          (GTK_CHECK_CAST ((o), E_CELL_PROGRESS_TYPE, ECellProgress))
-#define E_CELL_PROGRESS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_PROGRESS_TYPE, ECellProgressClass))
-#define E_IS_CELL_PROGRESS(o)       (GTK_CHECK_TYPE ((o), E_CELL_PROGRESS_TYPE))
-#define E_IS_CELL_PROGRESS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_PROGRESS_TYPE))
+#define E_CELL_PROGRESS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PROGRESS_TYPE, ECellProgress))
+#define E_CELL_PROGRESS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_PROGRESS_TYPE, ECellProgressClass))
+#define E_IS_CELL_PROGRESS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_PROGRESS_TYPE))
+#define E_IS_CELL_PROGRESS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_PROGRESS_TYPE))
 
 typedef struct {
 	ECell parent;
@@ -59,7 +59,7 @@ typedef struct {
 	ECellClass parent_class;
 } ECellProgressClass;
 
-GtkType    e_cell_progress_get_type  (void);
+GType      e_cell_progress_get_type  (void);
 ECell     *e_cell_progress_new       (int min, int max, int width, int height);
 void       e_cell_progress_construct (ECellProgress *eprog, int padding, int border,
 				      int min, int max, int width, int height, guchar red, guchar green, guchar blue);

@@ -32,10 +32,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
-#define E_TABLE_GROUP_LEAF(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))
-#define E_TABLE_GROUP_LEAF_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeafClass))
-#define E_IS_TABLE_GROUP_LEAF(o)       (GTK_CHECK_TYPE ((o), E_TABLE_GROUP_LEAF_TYPE))
-#define E_IS_TABLE_GROUP_LEAF_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_LEAF_TYPE))
+#define E_TABLE_GROUP_LEAF(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))
+#define E_TABLE_GROUP_LEAF_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeafClass))
+#define E_IS_TABLE_GROUP_LEAF(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_GROUP_LEAF_TYPE))
+#define E_IS_TABLE_GROUP_LEAF_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_LEAF_TYPE))
 
 typedef struct {
 	ETableGroup group;
@@ -81,7 +81,7 @@ ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 					   ETableHeader     *header,
 					   ETableModel *model,
 					   ETableSortInfo *sort_info);
-GtkType      e_table_group_leaf_get_type  (void);
+GType        e_table_group_leaf_get_type  (void);
 
 
 G_END_DECLS

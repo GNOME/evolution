@@ -65,16 +65,16 @@ etsv_dispose (GObject *object)
 	etsv->table_model_changed_id = 0;
 
 #if 0
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etsv->table_model_row_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etsv->table_model_cell_changed_id);
+	g_signal_handler_disconnect (etss->source,
+				     etsv->table_model_row_changed_id);
+	g_signal_handler_disconnect (etss->source,
+				     etsv->table_model_cell_changed_id);
 
 	etsv->table_model_row_changed_id = 0;
 	etsv->table_model_cell_changed_id = 0;
 #endif
 	if (etsv->sort_info_changed_id)
-		g_signal_handler_disconnect (G_OBJECT (etsv->sort_info),
+		g_signal_handler_disconnect (etsv->sort_info,
 				             etsv->sort_info_changed_id);
 	etsv->sort_info_changed_id = 0;
 
@@ -150,7 +150,7 @@ etsv_insert_idle(ETreeSortedVariable *etsv)
 ETableModel *
 e_tree_sorted_variable_new (ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETreeSortedVariable *etsv = gtk_type_new (E_TREE_SORTED_VARIABLE_TYPE);
+	ETreeSortedVariable *etsv = g_object_new (E_TREE_SORTED_VARIABLE_TYPE, NULL);
 	ETreeSortedVariable *etsv = E_TABLE_SUBSET_VARIABLE (etsv);
 
 	if (e_table_subset_variable_construct (etsv, source) == NULL){
@@ -163,15 +163,15 @@ e_tree_sorted_variable_new (ETreeModel *source, ETableHeader *full_header, ETabl
 	etsv->full_header = full_header;
 	g_object_ref(etsv->full_header);
 
-	etsv->table_model_changed_id = g_signal_connect (G_OBJECT (source), "model_changed",
+	etsv->table_model_changed_id = g_signal_connect (source, "model_changed",
 							 G_CALLBACK (etsv_proxy_model_changed), etsv);
 #if 0
-	etsv->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
-							       GTK_SIGNAL_FUNC (etsv_proxy_model_row_changed), etsv);
-	etsv->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
-								GTK_SIGNAL_FUNC (etsv_proxy_model_cell_changed), etsv);
+	etsv->table_model_row_changed_id = g_signal_connect (source, "model_row_changed",
+							     G_CALLBACK (etsv_proxy_model_row_changed), etsv);
+	etsv->table_model_cell_changed_id = g_signal_connect (source, "model_cell_changed",
+							      G_CALLBACK (etsv_proxy_model_cell_changed), etsv);
 #endif
-	etsv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+	etsv->sort_info_changed_id = g_signal_connect (sort_info, "sort_info_changed",
 						       G_CALLBACK (etsv_sort_info_changed), etsv);
 
 	return E_TABLE_MODEL(etsv);

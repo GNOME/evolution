@@ -43,10 +43,10 @@
 G_BEGIN_DECLS
 
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
-#define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
-#define E_CELL_TEXT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TEXT_TYPE, ECellTextClass))
-#define E_IS_CELL_TEXT(o)       (GTK_CHECK_TYPE ((o), E_CELL_TEXT_TYPE))
-#define E_IS_CELL_TEXT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TEXT_TYPE))
+#define E_CELL_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
+#define E_CELL_TEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TEXT_TYPE, ECellTextClass))
+#define E_IS_CELL_TEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TEXT_TYPE))
+#define E_IS_CELL_TEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TEXT_TYPE))
 
 typedef struct {
 	ECell parent;
@@ -85,7 +85,7 @@ typedef struct {
 	void  (*set_value) (ECellText *cell, ETableModel *model, int col, int row, const char *text);
 } ECellTextClass;
 
-GtkType    e_cell_text_get_type (void);
+GType      e_cell_text_get_type (void);
 ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
 ECell     *e_cell_text_construct(ECellText *cell, const char *fontname, GtkJustification justify);
 

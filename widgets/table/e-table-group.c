@@ -50,10 +50,9 @@ enum {
 static guint etg_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean etg_get_focus (ETableGroup      *etg);
-static void etg_destroy (GtkObject *object);
 
 static void
-etg_destroy (GtkObject *object)
+etg_dispose (GObject *object)
 {
 	ETableGroup *etg = E_TABLE_GROUP(object);
 
@@ -72,8 +71,8 @@ etg_destroy (GtkObject *object)
 		etg->model = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (etg_parent_class)->destroy)
-		GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (etg_parent_class)->dispose)
+		G_OBJECT_CLASS (etg_parent_class)->dispose (object);
 }
 
 /**
@@ -422,9 +421,9 @@ e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [CURSOR_CHANGE],
-			 row);
+	g_signal_emit (e_table_group,
+		       etg_signals [CURSOR_CHANGE], 0,
+		       row);
 }
 
 /**
@@ -440,9 +439,9 @@ e_table_group_cursor_activated (ETableGroup *e_table_group, gint row)
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [CURSOR_ACTIVATED],
-			 row);
+	g_signal_emit (e_table_group,
+		       etg_signals [CURSOR_ACTIVATED], 0,
+		       row);
 }
 
 /**
@@ -460,9 +459,9 @@ e_table_group_double_click (ETableGroup *e_table_group, gint row, gint col, GdkE
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [DOUBLE_CLICK],
-			 row, col, event);
+	g_signal_emit (e_table_group,
+		       etg_signals [DOUBLE_CLICK], 0,
+		       row, col, event);
 }
 
 /**
@@ -482,9 +481,9 @@ e_table_group_right_click (ETableGroup *e_table_group, gint row, gint col, GdkEv
 	g_return_val_if_fail (e_table_group != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [RIGHT_CLICK],
-			 row, col, event, &return_val);
+	g_signal_emit (e_table_group,
+		       etg_signals [RIGHT_CLICK], 0,
+		       row, col, event, &return_val);
 
 	return return_val;
 }
@@ -506,9 +505,9 @@ e_table_group_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *e
 	g_return_val_if_fail (e_table_group != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [CLICK],
-			 row, col, event, &return_val);
+	g_signal_emit (e_table_group,
+		       etg_signals [CLICK], 0,
+		       row, col, event, &return_val);
 
 	return return_val;
 }
@@ -530,9 +529,9 @@ e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEven
 	g_return_val_if_fail (e_table_group != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [KEY_PRESS],
-			 row, col, event, &return_val);
+	g_signal_emit (e_table_group,
+		       etg_signals [KEY_PRESS], 0,
+		       row, col, event, &return_val);
 
 	return return_val;
 }
@@ -554,9 +553,9 @@ e_table_group_start_drag (ETableGroup *e_table_group, gint row, gint col, GdkEve
 	g_return_val_if_fail (e_table_group != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
 
-	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [START_DRAG],
-			 row, col, event, &return_val);
+	g_signal_emit (e_table_group,
+		       etg_signals [START_DRAG], 0,
+		       row, col, event, &return_val);
 
 	return return_val;
 }
@@ -608,12 +607,12 @@ etg_get_focus (ETableGroup      *etg)
 }
 
 static void
-etg_class_init (GtkObjectClass *object_class)
+etg_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 	ETableGroupClass *klass = (ETableGroupClass *) object_class;
 
-	object_class->destroy = etg_destroy;
+	object_class->dispose = etg_dispose;
 
 	item_class->event = etg_event;
 
@@ -638,69 +637,74 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->compute_location = NULL;
 	klass->get_cell_geometry = NULL;
 
-	etg_parent_class = gtk_type_class (PARENT_TYPE);
+	etg_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	etg_signals [CURSOR_CHANGE] =
-		gtk_signal_new ("cursor_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, cursor_change),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("cursor_change",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, cursor_change),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [CURSOR_ACTIVATED] =
-		gtk_signal_new ("cursor_activated",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, cursor_activated),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("cursor_activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, cursor_activated),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [DOUBLE_CLICK] =
-		gtk_signal_new ("double_click",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, double_click),
-				e_marshal_NONE__INT_INT_BOXED,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT,
-				GTK_TYPE_INT, GDK_TYPE_EVENT);
+		g_signal_new ("double_click",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, double_click),
+			      NULL, NULL,
+			      e_marshal_NONE__INT_INT_BOXED,
+			      G_TYPE_NONE, 3, G_TYPE_INT,
+			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [RIGHT_CLICK] =
-		gtk_signal_new ("right_click",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, right_click),
-				e_marshal_INT__INT_INT_BOXED,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GDK_TYPE_EVENT);
+		g_signal_new ("right_click",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, right_click),
+			      NULL, NULL,
+			      e_marshal_INT__INT_INT_BOXED,
+			      G_TYPE_INT, 3, G_TYPE_INT, G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [CLICK] =
-		gtk_signal_new ("click",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, click),
-				e_marshal_INT__INT_INT_BOXED,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT,
-				GTK_TYPE_INT, GDK_TYPE_EVENT);
+		g_signal_new ("click",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, click),
+			      NULL, NULL,
+			      e_marshal_INT__INT_INT_BOXED,
+			      G_TYPE_INT, 3, G_TYPE_INT,
+			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [KEY_PRESS] =
-		gtk_signal_new ("key_press",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, key_press),
-				e_marshal_INT__INT_INT_BOXED,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT,
-				GTK_TYPE_INT, GDK_TYPE_EVENT);
+		g_signal_new ("key_press",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, key_press),
+			      NULL, NULL,
+			      e_marshal_INT__INT_INT_BOXED,
+			      G_TYPE_INT, 3, G_TYPE_INT,
+			      G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [START_DRAG] =
-		gtk_signal_new ("start_drag",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableGroupClass, start_drag),
-				e_marshal_INT__INT_INT_BOXED,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT,
-				GTK_TYPE_INT, GDK_TYPE_EVENT);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, etg_signals, LAST_SIGNAL);
+		g_signal_new ("start_drag",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableGroupClass, start_drag),
+			      NULL, NULL,
+			      e_marshal_INT__INT_INT_BOXED,
+			      G_TYPE_INT, 3, G_TYPE_INT,
+			      G_TYPE_INT, GDK_TYPE_EVENT);
 }
 
 E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE)

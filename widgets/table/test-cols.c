@@ -212,8 +212,8 @@ multi_cols_test (void)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	canvas = e_canvas_new ();
 
-	gtk_signal_connect (GTK_OBJECT (canvas), "size_allocate",
-			    GTK_SIGNAL_FUNC (set_canvas_size), NULL);
+	g_signal_connect (canvas, "size_allocate",
+			  G_CALLBACK (set_canvas_size), NULL);
 	
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);

@@ -95,12 +95,12 @@ enum {
 };
 
 enum {
-	ARG_0,
-	ARG_LENGTH_THRESHOLD,
-	ARG_MODEL,
-	ARG_UNIFORM_ROW_HEIGHT,
-	ARG_ALWAYS_SEARCH,
-	ARG_USE_CLICK_TO_ADD
+	PROP_0,
+	PROP_LENGTH_THRESHOLD,
+	PROP_MODEL,
+	PROP_UNIFORM_ROW_HEIGHT,
+	PROP_ALWAYS_SEARCH,
+	PROP_USE_CLICK_TO_ADD
 };
 
 enum {
@@ -301,7 +301,7 @@ connect_header (ETable *e_table, ETableState *state)
 }
 
 static void
-et_destroy (GtkObject *object)
+et_dispose (GObject *object)
 {
 	ETable *et = E_TABLE (object);
 
@@ -395,7 +395,7 @@ et_destroy (GtkObject *object)
 	g_free(et->domain);
 	et->domain = NULL;
 
-	(*parent_class->destroy)(object);
+	(*G_OBJECT_CLASS (parent_class)->dispose)(object);
 }
 
 static void
@@ -689,10 +689,10 @@ table_canvas_reflow_idle (ETable *e_table)
 	gdouble oldheight, oldwidth;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
-	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
-			"height", &height,
-			"width", &width,
-			NULL);
+	g_object_get (e_table->canvas_vbox,
+		      "height", &height,
+		      "width", &width,
+		      NULL);
 	item_height = height;
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
@@ -722,15 +722,15 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 
 	width = alloc->width;
 	g_value_set_double (val, width);
-	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
-			"height", &height,
-			NULL);
+	g_object_get (e_table->canvas_vbox,
+		      "height", &height,
+		      NULL);
 	item_height = height;
 	height = MAX ((int)height, alloc->height);
 
-	gtk_object_set (GTK_OBJECT (e_table->canvas_vbox),
-			"width", width,
-			NULL);
+	g_object_set (e_table->canvas_vbox,
+		      "width", width,
+		      NULL);
 	g_object_set_property (G_OBJECT (e_table->header), "width", val);
 	g_free (val);
 	if (e_table->reflow_idle_id)
@@ -999,9 +999,9 @@ changed_idle (gpointer data)
 		if (et->group)
 			gtk_object_destroy (GTK_OBJECT (et->group));
 		et_build_groups(et);
-		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
-				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
-				NULL);
+		g_object_set (et->canvas_vbox,
+			      "width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
+			      NULL);
 
 		if (GTK_WIDGET_REALIZED(et->table_canvas))
 			table_canvas_size_allocate (GTK_WIDGET(et->table_canvas), &GTK_WIDGET(et->table_canvas)->allocation, et);
@@ -1262,15 +1262,15 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 			     "sort_info", e_table->sort_info,
 			     NULL);
 	if (e_table->header_item)
-		gtk_object_set(GTK_OBJECT(e_table->header_item),
-			       "ETableHeader", e_table->header,
-			       "sort_info", e_table->sort_info,
-			       NULL);
+		g_object_set(e_table->header_item,
+			     "ETableHeader", e_table->header,
+			     "sort_info", e_table->sort_info,
+			     NULL);
 	if (e_table->click_to_add)
-		gtk_object_set(GTK_OBJECT(e_table->click_to_add),
-			       "header", e_table->header,
-			       NULL);
-
+		g_object_set(e_table->click_to_add,
+			     "header", e_table->header,
+			     NULL);
+	
 	e_table->need_rebuild = TRUE;
 	if (!e_table->rebuild_idle_id)
 		e_table->rebuild_idle_id = g_idle_add_full (20, changed_idle, e_table, NULL);
@@ -1692,7 +1692,7 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec != NULL, NULL);
 
-	e_table = gtk_type_new (e_table_get_type ());
+	e_table = g_object_new (E_TABLE_TYPE, NULL);
 
 	e_table = e_table_construct (e_table, etm, ete, spec, state);
 
@@ -1729,7 +1729,7 @@ e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const char *spe
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec_fn != NULL, NULL);
 
-	e_table = gtk_type_new (e_table_get_type ());
+	e_table = g_object_new (E_TABLE_TYPE, NULL);
 
 	e_table = e_table_construct_from_spec_file (e_table, etm, ete, spec_fn, state_fn);
 
@@ -2037,22 +2037,25 @@ e_table_commit_click_to_add (ETable *table)
 }
 
 static void
-et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+et_get_property (GObject *object,
+		 guint prop_id,
+		 GValue *value,
+		 GParamSpec *pspec)
 {
-	ETable *etable = E_TABLE (o);
+	ETable *etable = E_TABLE (object);
 
-	switch (arg_id){
-	case ARG_MODEL:
-		GTK_VALUE_OBJECT (*arg) = (GtkObject *) etable->model;
+	switch (prop_id){
+	case PROP_MODEL:
+		g_value_set_object (value, etable->model);
 		break;
-	case ARG_UNIFORM_ROW_HEIGHT:
-		GTK_VALUE_BOOL (*arg) = etable->uniform_row_height;
+	case PROP_UNIFORM_ROW_HEIGHT:
+		g_value_set_boolean (value, etable->uniform_row_height);
 		break;
-	case ARG_ALWAYS_SEARCH:
-		GTK_VALUE_BOOL (*arg) = etable->always_search;
+	case PROP_ALWAYS_SEARCH:
+		g_value_set_boolean (value, etable->always_search);
 		break;
-	case ARG_USE_CLICK_TO_ADD:
-		GTK_VALUE_BOOL (*arg) = etable->use_click_to_add;
+	case PROP_USE_CLICK_TO_ADD:
+		g_value_set_boolean (value, etable->use_click_to_add);
 		break;
 	default:
 		break;
@@ -2065,39 +2068,42 @@ typedef struct {
 } bool_closure;
 
 static void
-et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+et_set_property (GObject *object,
+		  guint prop_id,
+		  const GValue *value,
+		  GParamSpec *pspec)
 {
-	ETable *etable = E_TABLE (o);
+	ETable *etable = E_TABLE (object);
 
-	switch (arg_id){
-	case ARG_LENGTH_THRESHOLD:
-		etable->length_threshold = GTK_VALUE_INT (*arg);
+	switch (prop_id){
+	case PROP_LENGTH_THRESHOLD:
+		etable->length_threshold = g_value_get_int (value);
 		if (etable->group) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
-					       "length_threshold", GTK_VALUE_INT (*arg),
+					       "length_threshold", etable->length_threshold,
 					       NULL);
 		}
 		break;
-	case ARG_UNIFORM_ROW_HEIGHT:
-		etable->uniform_row_height = GTK_VALUE_BOOL (*arg);
+	case PROP_UNIFORM_ROW_HEIGHT:
+		etable->uniform_row_height = g_value_get_boolean (value);
 		if (etable->group) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
-					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
+					       "uniform_row_height", etable->uniform_row_height,
 					       NULL);
 		}
 		break;
-	case ARG_ALWAYS_SEARCH:
-		if (etable->always_search == GTK_VALUE_BOOL (*arg))
+	case PROP_ALWAYS_SEARCH:
+		if (etable->always_search == g_value_get_boolean (value))
 			return;
 
-		etable->always_search = GTK_VALUE_BOOL (*arg);
+		etable->always_search = g_value_get_boolean (value);
 		clear_current_search_col (etable);
 		break;
-	case ARG_USE_CLICK_TO_ADD:
-		if (etable->use_click_to_add == GTK_VALUE_BOOL (*arg))
+	case PROP_USE_CLICK_TO_ADD:
+		if (etable->use_click_to_add == g_value_get_boolean (value))
 			return;
 
-		etable->use_click_to_add = GTK_VALUE_BOOL (*arg);
+		etable->use_click_to_add = g_value_get_boolean (value);
 		clear_current_search_col (etable);
 
 		if (etable->use_click_to_add) {
@@ -2976,20 +2982,20 @@ et_drag_data_received(GtkWidget *widget,
 static void
 e_table_class_init (ETableClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	object_class                    = (GtkObjectClass *) class;
+	object_class                    = (GObjectClass *) class;
 	widget_class                    = (GtkWidgetClass *) class;
 	container_class                 = (GtkContainerClass *) class;
 
 	parent_class                    = g_type_class_peek_parent (class);
 
-	object_class->destroy           = et_destroy;
-	G_OBJECT_CLASS (object_class)->finalize = et_finalize;
-	object_class->set_arg           = et_set_arg;
-	object_class->get_arg           = et_get_arg;
+	object_class->dispose           = et_dispose;
+	object_class->finalize          = et_finalize;
+	object_class->set_property      = et_set_property;
+	object_class->get_property      = et_get_property;
 
 	widget_class->grab_focus        = et_grab_focus;
 	widget_class->unrealize         = et_unrealize;
@@ -3229,16 +3235,40 @@ e_table_class_init (ETableClass *class)
 			      e_marshal_NONE__OBJECT_OBJECT,
 			      G_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 
-	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
-	gtk_object_add_arg_type ("ETable::uniform_row_height", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
-	gtk_object_add_arg_type ("ETable::always_search", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_ALWAYS_SEARCH);
-	gtk_object_add_arg_type ("ETable::use_click_to_add", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_USE_CLICK_TO_ADD);
-	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
-				 GTK_ARG_READABLE, ARG_MODEL);
+	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
+					 g_param_spec_int ("length_threshold",
+							   _("Length Threshold"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
+					 g_param_spec_boolean ("uniform_row_height",
+							       _("Uniform row height"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ALWAYS_SEARCH,
+					 g_param_spec_boolean ("always_search",
+							       _("Always Search"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_USE_CLICK_TO_ADD,
+					 g_param_spec_boolean ("use_click_to_add",
+							       _("Use click to add"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_MODEL,
+					 g_param_spec_object ("model",
+							      _("Model"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_MODEL_TYPE,
+							      G_PARAM_READABLE));
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE)

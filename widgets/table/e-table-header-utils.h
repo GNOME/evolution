@@ -32,14 +32,12 @@
 extern "C" {
 #endif /* __cplusplus */
 
-double  e_table_header_compute_height  (ETableCol      *ecol,
-					GtkStyle       *style,
-					GdkFont        *font);
+double  e_table_header_compute_height (ETableCol *ecol,
+				       GtkWidget *widget);
 double  e_table_header_width_extras    (GtkStyle       *style);
 void    e_table_header_draw_button     (GdkDrawable    *drawable,
 					ETableCol      *ecol,
 					GtkStyle       *style,
-					GdkFont        *font,
 					GtkStateType    state,
 					GtkWidget      *widget,
 					int             x,
@@ -49,15 +47,6 @@ void    e_table_header_draw_button     (GdkDrawable    *drawable,
 					int             button_width,
 					int             button_height,
 					ETableColArrow  arrow);
-void    e_table_draw_elided_string     (GdkDrawable    *drawable,
-					GdkFont        *font,
-					GdkGC          *gc,
-					int             x,
-					int             y,
-					const char     *str,
-					int             max_width,
-					gboolean        center);
-				 
 
 #ifdef __cplusplus
 }

@@ -34,10 +34,10 @@
 #include <gal/e-table/e-cell-popup.h>
 
 #define E_CELL_COMBO_TYPE        (e_cell_combo_get_type ())
-#define E_CELL_COMBO(o)          (GTK_CHECK_CAST ((o), E_CELL_COMBO_TYPE, ECellCombo))
-#define E_CELL_COMBO_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_COMBO_TYPE, ECellComboClass))
-#define E_IS_CELL_COMBO(o)       (GTK_CHECK_TYPE ((o), E_CELL_COMBO_TYPE))
-#define E_IS_CELL_COMBO_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_COMBO_TYPE))
+#define E_CELL_COMBO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_COMBO_TYPE, ECellCombo))
+#define E_CELL_COMBO_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_COMBO_TYPE, ECellComboClass))
+#define E_IS_CELL_COMBO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_COMBO_TYPE))
+#define E_IS_CELL_COMBO_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_COMBO_TYPE))
 
 
 typedef struct {
@@ -53,7 +53,7 @@ typedef struct {
 } ECellComboClass;
 
 
-GtkType    e_cell_combo_get_type		(void);
+GType      e_cell_combo_get_type		(void);
 ECell     *e_cell_combo_new			(void);
 
 /* These must be UTF-8. */

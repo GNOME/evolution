@@ -45,10 +45,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_TYPE        (e_table_get_type ())
-#define E_TABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_TYPE, ETable))
-#define E_TABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_TYPE, ETableClass))
-#define E_IS_TABLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_TYPE))
-#define E_IS_TABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_TYPE))
+#define E_TABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_TYPE, ETable))
+#define E_TABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_TYPE, ETableClass))
+#define E_IS_TABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_TYPE))
+#define E_IS_TABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_TYPE))
 
 typedef struct _ETableDragSourceSite ETableDragSourceSite;
 
@@ -226,7 +226,7 @@ typedef struct {
 						  guint               info,
 						  guint               time);
 } ETableClass;
-GtkType          e_table_get_type                  (void);
+GType            e_table_get_type                  (void);
 ETable          *e_table_construct                 (ETable               *e_table,
 						    ETableModel          *etm,
 						    ETableExtras         *ete,

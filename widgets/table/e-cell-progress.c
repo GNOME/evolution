@@ -297,7 +297,7 @@ eprog_max_width (ECellView *ecell_view, int model_col, int view_col)
 }
 
 static void
-eprog_destroy (GtkObject *object)
+eprog_dispose (GObject *object)
 {
 	ECellProgress *eprog = E_CELL_PROGRESS (object);
 	
@@ -305,15 +305,15 @@ eprog_destroy (GtkObject *object)
 	g_free (eprog->image);
 	g_free (eprog->buffer);
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_cell_progress_class_init (GtkObjectClass *object_class)
+e_cell_progress_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = eprog_destroy;
+	object_class->dispose = eprog_dispose;
 
 	ecc->new_view   = eprog_new_view;
 	ecc->kill_view  = eprog_kill_view;
@@ -324,7 +324,7 @@ e_cell_progress_class_init (GtkObjectClass *object_class)
 	ecc->height     = eprog_height;
 	ecc->max_width  = eprog_max_width;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 E_MAKE_TYPE(e_cell_progress, "ECellProgress", ECellProgress, e_cell_progress_class_init, NULL, PARENT_TYPE);
@@ -382,7 +382,7 @@ e_cell_progress_construct (ECellProgress *eprog, int padding, int border, int mi
 ECell *
 e_cell_progress_new (int min, int max, int width, int height)
 {
-	ECellProgress *eprog = gtk_type_new (e_cell_progress_get_type ());
+	ECellProgress *eprog = g_object_new (E_CELL_PROGRESS_TYPE, NULL);
 
 	e_cell_progress_construct (eprog, 1, 1, min, max, (width<9) ? 9 : width, (height<9) ? 9 : height, 0x00, 0x00, 0x00);
 

@@ -134,7 +134,7 @@ e_cell_date_class_init (GtkObjectClass *object_class)
 {
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;
@@ -172,7 +172,7 @@ e_cell_date_init (GtkObject *object)
 ECell *
 e_cell_date_new (const char *fontname, GtkJustification justify)
 {
-	ECellDate *ecd = gtk_type_new (e_cell_date_get_type ());
+	ECellDate *ecd = g_object_new (E_CELL_DATE_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
       

@@ -31,6 +31,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <gal/util/e-util.h>
+#include <gal/util/e-i18n.h>
 
 #include "e-tree-scrolled.h"
 
@@ -41,8 +42,8 @@
 static GtkObjectClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_TREE
+	PROP_0,
+	PROP_TREE
 };
 
 static void
@@ -56,7 +57,7 @@ e_tree_scrolled_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (ets, GTK_CAN_FOCUS);
 
-	ets->tree = gtk_type_new(e_tree_get_type());
+	ets->tree = g_object_new (E_TREE_TYPE, NULL);
 
 	e_scroll_frame_set_policy      (scroll_frame, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	e_scroll_frame_set_shadow_type (scroll_frame, GTK_SHADOW_IN);
@@ -160,16 +161,16 @@ e_tree_scrolled_get_tree                 (ETreeScrolled *ets)
 }
 
 static void
-ets_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETreeScrolled *ets = E_TREE_SCROLLED (o);
+	ETreeScrolled *ets = E_TREE_SCROLLED (object);
 
-	switch (arg_id){
-	case ARG_TREE:
-		if (ets->tree)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(ets->tree);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+	switch (prop_id){
+	case PROP_TREE:
+		g_value_set_object (value, ets->tree);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -199,24 +200,28 @@ ets_focus (GtkWidget *container, GtkDirectionType direction)
 static void
 e_tree_scrolled_class_init (ETreeScrolledClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	container_class = (GtkContainerClass *) class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->get_arg = ets_get_arg;
+	object_class->get_property = ets_get_property;
 
 	widget_class->grab_focus = ets_grab_focus;
 
 	widget_class->focus = ets_focus;
 
-	gtk_object_add_arg_type ("ETreeScrolled::tree", GTK_TYPE_OBJECT,
-				 GTK_ARG_READABLE, ARG_TREE);
+	g_object_class_install_property (object_class, PROP_TREE,
+					 g_param_spec_object ("tree",
+							      _( "Tree" ),
+							      _( "Tree" ),
+							      E_TREE_TYPE,
+							      G_PARAM_READABLE));
 }
 
 E_MAKE_TYPE(e_tree_scrolled, "ETreeScrolled", ETreeScrolled, e_tree_scrolled_class_init, e_tree_scrolled_init, PARENT_TYPE)

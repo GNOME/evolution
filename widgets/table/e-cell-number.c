@@ -48,7 +48,7 @@ e_cell_number_class_init (GtkObjectClass *object_class)
 {
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	ectc->get_text  = ecn_get_text;
 	ectc->free_text = ecn_free_text;
@@ -75,7 +75,7 @@ e_cell_number_init (GtkObject *object)
 ECell *
 e_cell_number_new (const char *fontname, GtkJustification justify)
 {
-	ECellNumber *ecn = gtk_type_new (e_cell_number_get_type ());
+	ECellNumber *ecn = g_object_new (E_CELL_NUMBER_TYPE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecn), fontname, justify);
       

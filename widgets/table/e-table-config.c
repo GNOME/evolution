@@ -63,7 +63,9 @@ config_finalize (GObject *object)
 {
 	ETableConfig *config = E_TABLE_CONFIG (object);
 
-	gtk_object_destroy (GTK_OBJECT (config->state));
+	if (config->state)
+		g_object_unref (config->state);
+	config->state = NULL;
 
 	if (config->source_state)
 		g_object_unref (config->source_state);
@@ -175,11 +177,11 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		/*
 		 * Sorting is set, auto select the text
 		 */
-		gtk_signal_handler_block (
-			GTK_OBJECT (widgets [i].radio_ascending),
+		g_signal_handler_block (
+			widgets [i].radio_ascending,
 			widgets [i].toggled_id);
-		gtk_signal_handler_block (
-			GTK_OBJECT (widgets [i].combo->entry),
+		g_signal_handler_block (
+			widgets [i].combo->entry,
 			widgets [i].changed_id);
 		
 		if (i < count){
@@ -233,11 +235,11 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		/* Set the text */
 		gtk_combo_text_set_text (widgets [i].combo, text);
 
-		gtk_signal_handler_unblock (
-			GTK_OBJECT (widgets [i].radio_ascending),
+		g_signal_handler_unblock (
+			widgets [i].radio_ascending,
 			widgets [i].toggled_id);
-		gtk_signal_handler_unblock (
-			GTK_OBJECT (widgets [i].combo->entry),
+		g_signal_handler_unblock (
+			widgets [i].combo->entry,
 			widgets [i].changed_id);
 	}
 }
@@ -366,8 +368,8 @@ config_fields_info_update (ETableConfig *config)
 static void
 do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 {
-	GnomeDialog *dialog;
-	int button, running = 1;
+	GtkDialog *dialog;
+	int response, running = 1;
 
 	config->temp_state = e_table_state_duplicate (config->state);
 
@@ -380,14 +382,14 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		
 
 	if (is_sort)
-		dialog = GNOME_DIALOG (config->dialog_sort);
+		dialog = GTK_DIALOG (config->dialog_sort);
 	else
-		dialog = GNOME_DIALOG (config->dialog_group_by);
+		dialog = GTK_DIALOG (config->dialog_group_by);
 	
 	do {
-		button = gnome_dialog_run (dialog);
-		switch (button){
-		case 0:
+		response = gtk_dialog_run (dialog);
+		switch (response){
+		case 0: /* clear fields */
 			if (is_sort){
 				e_table_sort_info_sorting_truncate (
 					config->temp_state->sort_info, 0);
@@ -398,8 +400,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			update_sort_and_group_config_dialog (config, is_sort);
 			continue;
 
-			/* OK */
-		case 1:
+		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
 			config->state = config->temp_state;
 			config->temp_state = 0;
@@ -408,8 +409,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				GNOME_PROPERTY_BOX (config->dialog_toplevel));
 			break;
 
-			/* CANCEL */
-		case 2:
+		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
 			config->temp_state = 0;
 			running = 0;
@@ -417,8 +417,8 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		}
 		
 	} while (running);
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-
+	gtk_widget_hide (GTK_WIDGET (dialog));
+	
 	if (is_sort)
 		config_sort_info_update (config);
 	else
@@ -455,7 +455,7 @@ do_fields_config_dialog (ETableConfig *config)
 		}
 		
 	} while (running);
-	gnome_dialog_close (GNOME_DIALOG (config->dialog_show_fields));
+	gtk_widget_hide (GTK_WIDGET (config->dialog_show_fields));
 
 	config_fields_info_update (config);
 }
@@ -536,9 +536,10 @@ config_button_group (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-dialog_destroyed (GtkObject *dialog, ETableConfig *config)
+dialog_destroyed (gpointer data, GObject *where_object_was)
 {
-	gtk_object_destroy (GTK_OBJECT (config));
+	ETableConfig *config = data;
+	g_object_unref (config);
 }
 
 static void
@@ -676,14 +677,14 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	 * After we have runtime modified things, signal connect
 	 */
 	for (i = 0; i < 4; i++){
-		config->sort [i].changed_id = gtk_signal_connect (
-			GTK_OBJECT (config->sort [i].combo->entry),
-			"changed", GTK_SIGNAL_FUNC (sort_entry_changed),
+		config->sort [i].changed_id = g_signal_connect (
+			config->sort [i].combo->entry,
+			"changed", G_CALLBACK (sort_entry_changed),
 			&config->sort [i]);
 
-		config->sort [i].toggled_id = gtk_signal_connect (
-			GTK_OBJECT (config->sort [i].radio_ascending),
-			"toggled", GTK_SIGNAL_FUNC (sort_ascending_toggled),
+		config->sort [i].toggled_id = g_signal_connect (
+			config->sort [i].radio_ascending,
+			"toggled", G_CALLBACK (sort_ascending_toggled),
 			&config->sort [i]);
 	}
 }
@@ -788,14 +789,14 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 	 * After we have runtime modified things, signal connect
 	 */
 	for (i = 0; i < 4; i++){
-		config->group [i].changed_id = gtk_signal_connect (
-			GTK_OBJECT (config->group [i].combo->entry),
-			"changed", GTK_SIGNAL_FUNC (group_entry_changed),
+		config->group [i].changed_id = g_signal_connect (
+			config->group [i].combo->entry,
+			"changed", G_CALLBACK (group_entry_changed),
 			&config->group [i]);
 
-		config->group [i].toggled_id = gtk_signal_connect (
-			GTK_OBJECT (config->group [i].radio_ascending),
-			"toggled", GTK_SIGNAL_FUNC (group_ascending_toggled),
+		config->group [i].toggled_id = g_signal_connect (
+			config->group [i].radio_ascending,
+			"toggled", G_CALLBACK (group_ascending_toggled),
 			&config->group [i]);
 	}
 }
@@ -961,14 +962,14 @@ static void
 configure_fields_dialog (ETableConfig *config, GladeXML *gui)
 {
 	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-available")));
-	gtk_object_get (GTK_OBJECT (config->available),
-			"model", &config->available_model,
-			NULL);
+	g_object_get (config->available,
+		      "model", &config->available_model,
+		      NULL);
 
 	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (glade_xml_get_widget (gui, "custom-shown")));
-	gtk_object_get (GTK_OBJECT (config->shown),
-			"model", &config->shown_model,
-			NULL);
+	g_object_get (config->shown,
+		      "model", &config->shown_model,
+		      NULL);
 
 	connect_button (config, gui, "button-add",    GTK_SIGNAL_FUNC (config_button_add));
 	connect_button (config, gui, "button-remove", GTK_SIGNAL_FUNC (config_button_remove));
@@ -1027,10 +1028,9 @@ setup_gui (ETableConfig *config)
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);
 	configure_fields_dialog (config, gui);
-	
-	g_signal_connect (
-		G_OBJECT (config->dialog_toplevel), "destroy",
-		G_CALLBACK (dialog_destroyed), config);
+
+	g_object_weak_ref (G_OBJECT (config->dialog_toplevel),
+			   dialog_destroyed, config);
 
 	g_signal_connect (
 		G_OBJECT (config->dialog_toplevel), "apply",

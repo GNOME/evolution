@@ -77,13 +77,13 @@ struct line {
 
 /* Object argument IDs */
 enum {
-	ARG_0,
+	PROP_0,
 
-	ARG_STRIKEOUT_COLUMN,
-	ARG_BOLD_COLUMN,
-	ARG_COLOR_COLUMN,
-	ARG_EDITABLE,
-	ARG_BG_COLOR_COLUMN
+	PROP_STRIKEOUT_COLUMN,
+	PROP_BOLD_COLUMN,
+	PROP_COLOR_COLUMN,
+	PROP_EDITABLE,
+	PROP_BG_COLOR_COLUMN
 };
 
 
@@ -1196,16 +1196,16 @@ tooltip_event (GtkWidget *window,
 
 		event->button.x = tooltip->cx;
 		event->button.y = tooltip->cy;
-		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
-					 event, &ret_val);
+		g_signal_emit_by_name (tooltip->eti, "event",
+				       event, &ret_val);
 		if (!ret_val)
 			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(tooltip->eti)->canvas), event);
 		ret_val = TRUE;
 		break;
 	case GDK_KEY_PRESS:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
-		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
-					 event, &ret_val);
+		g_signal_emit_by_name (tooltip->eti, "event",
+				       event, &ret_val);
 		if (!ret_val)
 			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(tooltip->eti)->canvas), event);
 		ret_val = TRUE;
@@ -1324,8 +1324,8 @@ ect_show_tooltip (ECellView *ecell_view,
 					(double) tooltip_height);
 	gtk_widget_show (canvas);
 	gtk_widget_realize (window);
-	gtk_signal_connect (GTK_OBJECT (window), "event",
-			    GTK_SIGNAL_FUNC (tooltip_event), tooltip);
+	g_signal_connect (window, "event",
+			  G_CALLBACK (tooltip_event), tooltip);
 
 	e_canvas_popup_tooltip (E_CANVAS(text_view->canvas), window, pixel_origin.x + tooltip->x,
 				pixel_origin.y + tooltip->y - 1);
@@ -1347,31 +1347,34 @@ ect_finalize (GObject *object)
 }
 /* Set_arg handler for the text item */
 static void
-ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+ect_set_property (GObject *object,
+		  guint prop_id,
+		  const GValue *value,
+		  GParamSpec *pspec)
 {
 	ECellText *text;
 
 	text = E_CELL_TEXT (object);
 
-	switch (arg_id) {
-	case ARG_STRIKEOUT_COLUMN:
-		text->strikeout_column = GTK_VALUE_INT (*arg);
+	switch (prop_id) {
+	case PROP_STRIKEOUT_COLUMN:
+		text->strikeout_column = g_value_get_int (value);
 		break;
 
-	case ARG_BOLD_COLUMN:
-		text->bold_column = GTK_VALUE_INT (*arg);
+	case PROP_BOLD_COLUMN:
+		text->bold_column = g_value_get_int (value);
 		break;
 
-	case ARG_COLOR_COLUMN:
-		text->color_column = GTK_VALUE_INT (*arg);
+	case PROP_COLOR_COLUMN:
+		text->color_column = g_value_get_int (value);
 		break;
 
-	case ARG_EDITABLE:
-		text->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+	case PROP_EDITABLE:
+		text->editable = g_value_get_boolean (value);
 		break;
 
-	case ARG_BG_COLOR_COLUMN:
-		text->bg_color_column = GTK_VALUE_INT (*arg);
+	case PROP_BG_COLOR_COLUMN:
+		text->bg_color_column = g_value_get_int (value);
 		break;
 
 	default:
@@ -1381,35 +1384,38 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 /* Get_arg handler for the text item */
 static void
-ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+ect_get_property (GObject *object,
+		  guint prop_id,
+		  GValue *value,
+		  GParamSpec *pspec)
 {
 	ECellText *text;
 
 	text = E_CELL_TEXT (object);
 
-	switch (arg_id) {
-	case ARG_STRIKEOUT_COLUMN:
-		GTK_VALUE_INT (*arg) = text->strikeout_column;
+	switch (prop_id) {
+	case PROP_STRIKEOUT_COLUMN:
+		g_value_set_int (value, text->strikeout_column);
 		break;
 
-	case ARG_BOLD_COLUMN:
-		GTK_VALUE_INT (*arg) = text->bold_column;
+	case PROP_BOLD_COLUMN:
+		g_value_set_int (value, text->bold_column);
 		break;
 
-	case ARG_COLOR_COLUMN:
-		GTK_VALUE_INT (*arg) = text->color_column;
+	case PROP_COLOR_COLUMN:
+		g_value_set_int (value, text->color_column);
 		break;
 
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = text->editable ? TRUE : FALSE;
+	case PROP_EDITABLE:
+		g_value_set_boolean (value, text->editable);
 		break;
 
-	case ARG_BG_COLOR_COLUMN:
-		GTK_VALUE_INT (*arg) = text->bg_color_column;
+	case PROP_BG_COLOR_COLUMN:
+		g_value_set_int (value, text->bg_color_column);
 		break;
 
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -1418,11 +1424,11 @@ static char *ellipsis_default = NULL;
 static gboolean use_ellipsis_default = TRUE;
 
 static void
-e_cell_text_class_init (GtkObjectClass *object_class)
+e_cell_text_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
-	char *ellipsis_env;
+	const char *ellipsis_env;
 
 	G_OBJECT_CLASS (object_class)->finalize = ect_finalize;
 
@@ -1449,21 +1455,45 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ectc->free_text = ect_real_free_text;
 	ectc->set_value = ect_real_set_value;
 
-	object_class->get_arg = ect_get_arg;
-	object_class->set_arg = ect_set_arg;
+	object_class->get_property = ect_get_property;
+	object_class->set_property = ect_set_property;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	gtk_object_add_arg_type ("ECellText::strikeout_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_STRIKEOUT_COLUMN);
-	gtk_object_add_arg_type ("ECellText::bold_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
-	gtk_object_add_arg_type ("ECellText::color_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
-	gtk_object_add_arg_type ("ECellText::editable",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("ECellText::bg_color_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BG_COLOR_COLUMN);
+	g_object_class_install_property (object_class, PROP_STRIKEOUT_COLUMN,
+					 g_param_spec_int ("strikeout_column",
+							   _("Strikeout Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_BOLD_COLUMN,
+					 g_param_spec_int ("bold_column",
+							   _("Bold Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_COLOR_COLUMN,
+					 g_param_spec_int ("color_column",
+							   _("Color Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EDITABLE,
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_BG_COLOR_COLUMN,
+					 g_param_spec_int ("bg_color_column",
+							   _("BG Color Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1538,7 +1568,7 @@ e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification j
 ECell *
 e_cell_text_new (const char *fontname, GtkJustification justify)
 {
-	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
+	ECellText *ect = g_object_new (E_CELL_TEXT_TYPE, NULL);
 
 	e_cell_text_construct(ect, fontname, justify);
 
@@ -2135,15 +2165,15 @@ static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
 					  GDK_SELECTION_TYPE_STRING,
 					  E_SELECTION_CLIPBOARD);
 		
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
-				    GTK_SIGNAL_FUNC (_selection_get), 
-				    edit);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
-				    GTK_SIGNAL_FUNC (_selection_clear_event),
-				    edit);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
-				    GTK_SIGNAL_FUNC (_selection_received),
-				    edit);
+		g_signal_connect (invisible, "selection_get",
+				  G_CALLBACK (_selection_get), 
+				  edit);
+		g_signal_connect (invisible, "selection_clear_event",
+				  G_CALLBACK (_selection_clear_event),
+				  edit);
+		g_signal_connect (invisible, "selection_received",
+				  G_CALLBACK (_selection_received),
+				  edit);
 
 		g_object_weak_ref (G_OBJECT (invisible), invisible_finalize, edit);
 	}
@@ -2203,10 +2233,10 @@ _get_tep (CellEdit *edit)
 		edit->tep = e_text_event_processor_emacs_like_new ();
 		g_object_ref (edit->tep);
 		gtk_object_sink (GTK_OBJECT (edit->tep));
-		gtk_signal_connect (GTK_OBJECT(edit->tep),
-				   "command",
-				   GTK_SIGNAL_FUNC(e_cell_text_view_command),
-				   (gpointer) edit);
+		g_signal_connect (edit->tep,
+				  "command",
+				  G_CALLBACK(e_cell_text_view_command),
+				  (gpointer) edit);
 	}
 }
 

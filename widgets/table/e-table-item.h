@@ -36,10 +36,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
-#define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
-#define E_TABLE_ITEM_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_ITEM_TYPE, ETableItemClass))
-#define E_IS_TABLE_ITEM(o)       (GTK_CHECK_TYPE ((o), E_TABLE_ITEM_TYPE))
-#define E_IS_TABLE_ITEM_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_ITEM_TYPE))
+#define E_TABLE_ITEM(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
+#define E_TABLE_ITEM_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_ITEM_TYPE, ETableItemClass))
+#define E_IS_TABLE_ITEM(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_ITEM_TYPE))
+#define E_IS_TABLE_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_ITEM_TYPE))
 
 typedef struct {
 	GnomeCanvasItem  parent;
@@ -179,7 +179,7 @@ typedef struct {
 	gint        (*start_drag)       (ETableItem *eti, int row, int col, GdkEvent *event);
 	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
 } ETableItemClass;
-GtkType     e_table_item_get_type            (void);
+GType       e_table_item_get_type            (void);
 
 
 /*

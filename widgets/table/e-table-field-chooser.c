@@ -28,70 +28,70 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
+#include <gal/util/e-i18n.h>
+#include <gal/util/e-util.h>
 
 static void e_table_field_chooser_init		(ETableFieldChooser		 *card);
 static void e_table_field_chooser_class_init	(ETableFieldChooserClass	 *klass);
-static void e_table_field_chooser_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_table_field_chooser_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_table_field_chooser_destroy (GtkObject *object);
+static void e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_dispose (GObject *object);
 
+#define PARENT_TYPE GTK_TYPE_VBOX
 static GtkVBoxClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_FULL_HEADER,
-	ARG_HEADER,
-	ARG_DND_CODE
+	PROP_0,
+	PROP_FULL_HEADER,
+	PROP_HEADER,
+	PROP_DND_CODE
 };
 
-GtkType
-e_table_field_chooser_get_type (void)
-{
-	static GtkType table_field_chooser_type = 0;
-
-	if (!table_field_chooser_type)
-		{
-			static const GtkTypeInfo table_field_chooser_info =
-			{
-				"ETableFieldChooser",
-				sizeof (ETableFieldChooser),
-				sizeof (ETableFieldChooserClass),
-				(GtkClassInitFunc) e_table_field_chooser_class_init,
-				(GtkObjectInitFunc) e_table_field_chooser_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-				(GtkClassInitFunc) NULL,
-			};
-
-			table_field_chooser_type = gtk_type_unique (gtk_vbox_get_type (), &table_field_chooser_info);
-		}
-
-	return table_field_chooser_type;
-}
+E_MAKE_TYPE (e_table_field_chooser,
+	     "ETableFieldChooser",
+	     ETableFieldChooser,
+	     e_table_field_chooser_class_init,
+	     e_table_field_chooser_init,
+	     PARENT_TYPE);
 
 static void
 e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkVBoxClass *vbox_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 	vbox_class = (GtkVBoxClass *) klass;
 
 	glade_gnome_init();
 
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
 
-	object_class->set_arg = e_table_field_chooser_set_arg;
-	object_class->get_arg = e_table_field_chooser_get_arg;
-	object_class->destroy = e_table_field_chooser_destroy;
-	gtk_object_add_arg_type ("ETableFieldChooser::dnd_code", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_DND_CODE);
-	gtk_object_add_arg_type ("ETableFieldChooser::full_header", GTK_TYPE_OBJECT,
-				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
-	gtk_object_add_arg_type ("ETableFieldChooser::header", GTK_TYPE_OBJECT,
-				 GTK_ARG_READWRITE, ARG_HEADER);
+	object_class->set_property = e_table_field_chooser_set_property;
+	object_class->get_property = e_table_field_chooser_get_property;
+	object_class->dispose      = e_table_field_chooser_dispose;
+
+	g_object_class_install_property (object_class, PROP_DND_CODE,
+					 g_param_spec_string ("dnd_code",
+							      _("DnD code"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FULL_HEADER,
+					 g_param_spec_object ("full_header",
+							      _("Full Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HEADER,
+					 g_param_spec_object ("header",
+							      _("Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
@@ -101,9 +101,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETab
 	gnome_canvas_item_set( etfc->item,
 			       "width", (double) allocation->width,
 			       NULL );
-	gtk_object_get(GTK_OBJECT(etfc->item),
-		       "height", &height,
-		       NULL);
+	g_object_get(etfc->item,
+		     "height", &height,
+		     NULL);
 	height = MAX(height, allocation->height);
 	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
 	gnome_canvas_item_set( etfc->rect,
@@ -115,9 +115,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETab
 static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 {
 	double height;
-	gtk_object_get(GTK_OBJECT(etfc->item),
-		       "height", &height,
-		       NULL);
+	g_object_get(etfc->item,
+		     "height", &height,
+		     NULL);
 
 	height = MAX(height, etfc->last_alloc.height);
 
@@ -165,25 +165,25 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 					   "dnd_code", etfc->dnd_code,
 					   NULL );
 
-	gtk_signal_connect( GTK_OBJECT( etfc->canvas ), "reflow",
-			    GTK_SIGNAL_FUNC( resize ),
-			    etfc);
+	g_signal_connect( etfc->canvas, "reflow",
+			  G_CALLBACK ( resize ),
+			  etfc);
 
 	gnome_canvas_set_scroll_region ( GNOME_CANVAS( etfc->canvas ),
 					 0, 0,
 					 100, 100 );
 
 	/* Connect the signals */
-	gtk_signal_connect (GTK_OBJECT (etfc->canvas), "size_allocate",
-			    GTK_SIGNAL_FUNC (allocate_callback),
-			    etfc);
+	g_signal_connect (etfc->canvas, "size_allocate",
+			  G_CALLBACK (allocate_callback),
+			  etfc);
 
 	gtk_widget_pop_colormap ();
 	gtk_widget_show(widget);
 }
 
 static void
-e_table_field_chooser_destroy (GtkObject *object)
+e_table_field_chooser_dispose (GObject *object)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
 
@@ -202,58 +202,58 @@ e_table_field_chooser_destroy (GtkObject *object)
 		g_object_unref (etfc->gui);
 	etfc->gui = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 GtkWidget*
 e_table_field_chooser_new (void)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_table_field_chooser_get_type ()));
+	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TABLE_FIELD_CHOOSER_TYPE, NULL));
 	return widget;
 }
 
 static void
-e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
 
-	switch (arg_id){
-	case ARG_DND_CODE:
+	switch (prop_id){
+	case PROP_DND_CODE:
 		g_free(etfc->dnd_code);
-		etfc->dnd_code = g_strdup(GTK_VALUE_STRING (*arg));
+		etfc->dnd_code = g_strdup(g_value_get_string(value));
 		if (etfc->item)
-			gtk_object_set(GTK_OBJECT(etfc->item),
-				       "dnd_code", etfc->dnd_code,
-				       NULL);
+			g_object_set(etfc->item,
+				     "dnd_code", etfc->dnd_code,
+				     NULL);
 		break;
-	case ARG_FULL_HEADER:
+	case PROP_FULL_HEADER:
 		if (etfc->full_header)
 			g_object_unref (etfc->full_header);
-		if (GTK_VALUE_OBJECT(*arg))
-			etfc->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
+		if (g_value_get_object (value))
+			etfc->full_header = E_TABLE_HEADER(g_value_get_object (value));
 		else
 			etfc->full_header = NULL;
 		if (etfc->full_header)
 			g_object_ref (etfc->full_header);
 		if (etfc->item)
-			gtk_object_set(GTK_OBJECT(etfc->item),
-				       "full_header", etfc->full_header,
-				       NULL);
+			g_object_set(etfc->item,
+				     "full_header", etfc->full_header,
+				     NULL);
 		break;
-	case ARG_HEADER:
+	case PROP_HEADER:
 		if (etfc->header)
 			g_object_unref (etfc->header);
-		if (GTK_VALUE_OBJECT(*arg))
-			etfc->header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
+		if (g_value_get_object (value))
+			etfc->header = E_TABLE_HEADER(g_value_get_object (value));
 		else
 			etfc->header = NULL;
 		if (etfc->header)
 			g_object_ref (etfc->header);
 		if (etfc->item)
-			gtk_object_set(GTK_OBJECT(etfc->item),
-				       "header", etfc->header,
-				       NULL);
+			g_object_set(etfc->item,
+				     "header", etfc->header,
+				     NULL);
 		break;
 	default:
 		break;
@@ -261,22 +261,22 @@ e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
-e_table_field_chooser_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
 
-	switch (arg_id) {
-	case ARG_DND_CODE:
-		GTK_VALUE_STRING (*arg) = g_strdup (etfc->dnd_code);
+	switch (prop_id) {
+	case PROP_DND_CODE:
+		g_value_set_string (value, g_strdup (etfc->dnd_code));
 		break;
-	case ARG_FULL_HEADER:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfc->full_header);
+	case PROP_FULL_HEADER:
+		g_value_set_object (value, etfc->full_header);
 		break;
-	case ARG_HEADER:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfc->header);
+	case PROP_HEADER:
+		g_value_set_object (value, etfc->header);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }

@@ -24,12 +24,17 @@
 #include <config.h>
 #include "e-table-col.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 
 static GObjectClass *parent_class;
 
+enum {
+	PROP_0,
+	PROP_COMPARE_COL,
+};
 
 static void
-etc_finalize (GObject *object)
+etc_dispose (GObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
@@ -45,7 +50,36 @@ etc_finalize (GObject *object)
 		g_free (etc->text);
 	etc->text = NULL;
 	
-	parent_class->finalize (object);
+	parent_class->dispose (object);
+}
+
+static void
+etc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+	ETableCol *etc = E_TABLE_COL (object);
+
+	switch (prop_id) {
+	case PROP_COMPARE_COL:
+		etc->compare_col = g_value_get_int (value);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
+etc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+	ETableCol *etc = E_TABLE_COL (object);
+
+	switch (prop_id) {
+	case PROP_COMPARE_COL:
+		g_value_set_int (value, etc->compare_col);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
 }
  
 static void
@@ -53,7 +87,16 @@ e_table_col_class_init (GObjectClass *object_class)
 {
 	parent_class = g_type_class_peek_parent (object_class);
 
-	object_class->finalize = etc_finalize;
+	object_class->dispose = etc_dispose;
+	object_class->set_property = etc_set_property;
+	object_class->get_property = etc_get_property;
+
+	g_object_class_install_property (object_class, PROP_COMPARE_COL,
+					 g_param_spec_int ("compare_col",
+							   _( "Width" ),
+							   "Width", 
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE)); 
 }
 
 static void

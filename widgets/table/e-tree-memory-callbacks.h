@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TREE_MEMORY_CALLBACKS_TYPE        (e_tree_memory_callbacks_get_type ())
-#define E_TREE_MEMORY_CALLBACKS(o)          (GTK_CHECK_CAST ((o), E_TREE_MEMORY_CALLBACKS_TYPE, ETreeMemoryCallbacks))
-#define E_TREE_MEMORY_CALLBACKS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_MEMORY_CALLBACKS_TYPE, ETreeMemoryCallbacksClass))
-#define E_IS_TREE_MEMORY_CALLBACKS(o)       (GTK_CHECK_TYPE ((o), E_TREE_MEMORY_CALLBACKS_TYPE))
-#define E_IS_TREE_MEMORY_CALLBACKS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_CALLBACKS_TYPE))
+#define E_TREE_MEMORY_CALLBACKS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_MEMORY_CALLBACKS_TYPE, ETreeMemoryCallbacks))
+#define E_TREE_MEMORY_CALLBACKS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_MEMORY_CALLBACKS_TYPE, ETreeMemoryCallbacksClass))
+#define E_IS_TREE_MEMORY_CALLBACKS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_MEMORY_CALLBACKS_TYPE))
+#define E_IS_TREE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_CALLBACKS_TYPE))
 
 
 typedef GdkPixbuf* (*ETreeMemoryCallbacksIconAtFn)             (ETreeModel *etree, ETreePath path, void *model_data);
@@ -88,7 +88,7 @@ typedef struct {
 	ETreeMemoryClass parent_class;
 } ETreeMemoryCallbacksClass;
 
-GtkType e_tree_memory_callbacks_get_type (void);
+GType   e_tree_memory_callbacks_get_type (void);
 
 ETreeModel *e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 

@@ -94,14 +94,14 @@ static GdkPixmap *remove_col_pixmap, *remove_col_mask;
 static GdkPixmap *add_col_pixmap, *add_col_mask;
 
 enum {
-	ARG_0,
-	ARG_TABLE_HEADER,
-	ARG_FULL_HEADER,
-	ARG_DND_CODE,
-	ARG_TABLE_FONTSET,
-	ARG_SORT_INFO,
-	ARG_TABLE,
-	ARG_TREE
+	PROP_0,
+	PROP_TABLE_HEADER,
+	PROP_FULL_HEADER,
+	PROP_DND_CODE,
+	PROP_TABLE_FONTSET,
+	PROP_SORT_INFO,
+	PROP_TABLE,
+	PROP_TREE
 };
 
 enum {
@@ -115,7 +115,7 @@ static void scroll_off (ETableHeaderItem *ethi);
 static void scroll_on (ETableHeaderItem *ethi, guint scroll_direction);
 
 static void
-ethi_destroy (GtkObject *object){
+ethi_dispose (GObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 
 	ethi_drop_table_header (ethi);
@@ -129,9 +129,9 @@ ethi_destroy (GtkObject *object){
 
 	if (ethi->sort_info) {
 		if (ethi->sort_info_changed_id)
-			g_signal_handler_disconnect (G_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+			g_signal_handler_disconnect (ethi->sort_info, ethi->sort_info_changed_id);
 		if (ethi->group_info_changed_id)
-			g_signal_handler_disconnect (G_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
+			g_signal_handler_disconnect (ethi->sort_info, ethi->group_info_changed_id);
 		g_object_unref (ethi->sort_info);
 		ethi->sort_info = NULL;
 	}
@@ -144,8 +144,8 @@ ethi_destroy (GtkObject *object){
 		g_object_unref (ethi->config);
 	ethi->config = NULL;
 	
-	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (ethi_parent_class)->dispose)
+		(*G_OBJECT_CLASS (ethi_parent_class)->dispose) (object);
 }
 
 static int
@@ -170,7 +170,8 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 		ETableCol *ecol = e_table_header_get_column (eth, col);
 		int height;
 
-		height = e_table_header_compute_height (ecol, style, ethi->font);
+		height = e_table_header_compute_height (ecol,
+							GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas));
 
 		if (height > maxheight)
 			maxheight = height;
@@ -239,7 +240,7 @@ ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 }
 
 static void
-ethi_font_load (ETableHeaderItem *ethi, char *fontname)
+ethi_font_load (ETableHeaderItem *ethi, const char *fontname)
 {
 	GdkFont *font = NULL;
 
@@ -293,10 +294,10 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 	ethi->height = e_table_header_item_get_height (ethi);
 
 	ethi->structure_change_id = g_signal_connect (
-		G_OBJECT (header), "structure_change",
+		header, "structure_change",
 		G_CALLBACK (structure_changed), ethi);
 	ethi->dimension_change_id = g_signal_connect (
-		G_OBJECT (header), "dimension_change",
+		header, "dimension_change",
 		G_CALLBACK (dimension_changed), ethi);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
@@ -309,70 +310,73 @@ ethi_sort_info_changed (ETableSortInfo *sort_info, ETableHeaderItem *ethi)
 }
 
 static void
-ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ethi_set_property (GObject *object,
+		   guint prop_id,
+		   const GValue *value,
+		   GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ETableHeaderItem *ethi;
 
-	item = GNOME_CANVAS_ITEM (o);
-	ethi = E_TABLE_HEADER_ITEM (o);
+	item = GNOME_CANVAS_ITEM (object);
+	ethi = E_TABLE_HEADER_ITEM (object);
 
-	switch (arg_id){
-	case ARG_TABLE_HEADER:
+	switch (prop_id){
+	case PROP_TABLE_HEADER:
 		ethi_drop_table_header (ethi);
-		ethi_add_table_header (ethi, E_TABLE_HEADER(GTK_VALUE_POINTER (*arg)));
+		ethi_add_table_header (ethi, E_TABLE_HEADER(g_value_get_object (value)));
 		break;
 
-	case ARG_FULL_HEADER:
+	case PROP_FULL_HEADER:
 		if (ethi->full_header)
 			g_object_unref(ethi->full_header);
-		ethi->full_header = E_TABLE_HEADER(GTK_VALUE_POINTER (*arg));
+		ethi->full_header = E_TABLE_HEADER(g_value_get_object (value));
 		if (ethi->full_header)
 			g_object_ref(ethi->full_header);
 		break;
 
-	case ARG_DND_CODE:
+	case PROP_DND_CODE:
 		g_free(ethi->dnd_code);
-		ethi->dnd_code = g_strdup (GTK_VALUE_STRING (*arg));
+		ethi->dnd_code = g_strdup (g_value_get_string (value));
 		break;
 
-	case ARG_TABLE_FONTSET:
-		ethi_font_load (ethi, GTK_VALUE_STRING (*arg));
+	case PROP_TABLE_FONTSET:
+		ethi_font_load (ethi, g_value_get_string (value));
 		break;
 
-	case ARG_SORT_INFO:
+	case PROP_SORT_INFO:
 		if (ethi->sort_info){
 			if (ethi->sort_info_changed_id)
 				g_signal_handler_disconnect (
-					G_OBJECT(ethi->sort_info),
+					ethi->sort_info,
 					ethi->sort_info_changed_id);
 
 			if (ethi->group_info_changed_id)
 				g_signal_handler_disconnect (
-					G_OBJECT(ethi->sort_info),
+					ethi->sort_info,
 					ethi->group_info_changed_id);
 			g_object_unref (ethi->sort_info);
 		}
-		ethi->sort_info = GTK_VALUE_POINTER (*arg);
+		ethi->sort_info = g_value_get_object (value);
 		g_object_ref (ethi->sort_info);
 		ethi->sort_info_changed_id =
 			g_signal_connect (
-				G_OBJECT(ethi->sort_info), "sort_info_changed",
+				ethi->sort_info, "sort_info_changed",
 				G_CALLBACK (ethi_sort_info_changed), ethi);
 		ethi->group_info_changed_id =
 			g_signal_connect (
-				G_OBJECT(ethi->sort_info), "group_info_changed",
+				ethi->sort_info, "group_info_changed",
 				G_CALLBACK(ethi_sort_info_changed), ethi);
 		break;
-	case ARG_TABLE:
-		if (GTK_VALUE_OBJECT(*arg))
-			ethi->table = E_TABLE(GTK_VALUE_OBJECT(*arg));
+	case PROP_TABLE:
+		if (g_value_get_object (value))
+			ethi->table = E_TABLE(g_value_get_object (value));
 		else
 			ethi->table = NULL;
 		break;
-	case ARG_TREE:
-		if (GTK_VALUE_OBJECT(*arg))
-			ethi->tree = E_TREE(GTK_VALUE_OBJECT(*arg));
+	case PROP_TREE:
+		if (g_value_get_object (value))
+			ethi->tree = E_TREE(g_value_get_object (value));
 		else
 			ethi->tree = NULL;
 		break;
@@ -381,21 +385,24 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
-ethi_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ethi_get_property (GObject *object,
+		   guint prop_id,
+		   GValue *value,
+		   GParamSpec *pspec)
 {
 	ETableHeaderItem *ethi;
 
-	ethi = E_TABLE_HEADER_ITEM (o);
+	ethi = E_TABLE_HEADER_ITEM (object);
 
-	switch (arg_id){
-	case ARG_FULL_HEADER:
-		GTK_VALUE_POINTER (*arg) = G_OBJECT (ethi->full_header);
+	switch (prop_id){
+	case PROP_FULL_HEADER:
+		g_value_set_object (value, ethi->full_header);
 		break;
-	case ARG_DND_CODE:
-		GTK_VALUE_STRING (*arg) = g_strdup (ethi->dnd_code);
+	case PROP_DND_CODE:
+		g_value_set_string (value, g_strdup (ethi->dnd_code));
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -718,7 +725,7 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	gdk_drag_status (context, 0, time);
 
-	droptype = gdk_atom_name (GPOINTER_TO_INT (context->targets->data));
+	droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (context->targets->data));
 	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
 				      ethi->dnd_code);
 
@@ -909,20 +916,20 @@ ethi_realize (GnomeCanvasItem *item)
   	g_free(ethi_drop_types[0].target); 
 
 	/* Drop signals */
-	ethi->drag_motion_id = gtk_signal_connect        (GTK_OBJECT (item->canvas), "drag_motion",
-							  GTK_SIGNAL_FUNC (ethi_drag_motion), ethi);
-	ethi->drag_leave_id = gtk_signal_connect         (GTK_OBJECT (item->canvas), "drag_leave",
-							  GTK_SIGNAL_FUNC (ethi_drag_leave), ethi);
-	ethi->drag_drop_id = gtk_signal_connect          (GTK_OBJECT (item->canvas), "drag_drop",
-							  GTK_SIGNAL_FUNC (ethi_drag_drop), ethi);
-	ethi->drag_data_received_id = gtk_signal_connect (GTK_OBJECT (item->canvas), "drag_data_received",
-							  GTK_SIGNAL_FUNC (ethi_drag_data_received), ethi);
+	ethi->drag_motion_id = g_signal_connect (item->canvas, "drag_motion",
+						 G_CALLBACK (ethi_drag_motion), ethi);
+	ethi->drag_leave_id = g_signal_connect (item->canvas, "drag_leave",
+						G_CALLBACK (ethi_drag_leave), ethi);
+	ethi->drag_drop_id = g_signal_connect (item->canvas, "drag_drop",
+					       G_CALLBACK (ethi_drag_drop), ethi);
+	ethi->drag_data_received_id = g_signal_connect (item->canvas, "drag_data_received",
+							G_CALLBACK (ethi_drag_data_received), ethi);
 
 	/* Drag signals */
-	ethi->drag_end_id = gtk_signal_connect           (GTK_OBJECT (item->canvas), "drag_end",
-							  GTK_SIGNAL_FUNC (ethi_drag_end), ethi);
-	ethi->drag_data_get_id = gtk_signal_connect      (GTK_OBJECT (item->canvas), "drag_data_get",
-							  GTK_SIGNAL_FUNC (ethi_drag_data_get), ethi);
+	ethi->drag_end_id = g_signal_connect (item->canvas, "drag_end",
+					      G_CALLBACK (ethi_drag_end), ethi);
+	ethi->drag_data_get_id = g_signal_connect (item->canvas, "drag_data_get",
+						   G_CALLBACK (ethi_drag_data_get), ethi);
 
 }
 
@@ -933,13 +940,13 @@ ethi_unrealize (GnomeCanvasItem *item)
 
 	gdk_font_unref (ethi->font);
 
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_leave_id);
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_drop_id);
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_data_received_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_motion_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_leave_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_drop_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_data_received_id);
 
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_end_id);
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_data_get_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_end_id);
+	g_signal_handler_disconnect (item->canvas, ethi->drag_data_get_id);
 
 	gtk_drag_dest_unset (GTK_WIDGET (item->canvas));
 
@@ -1006,7 +1013,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 			continue;
 
 		e_table_header_draw_button (drawable, ecol,
-					    GTK_WIDGET (canvas)->style, ethi->font,
+					    GTK_WIDGET (canvas)->style,
 					    GTK_WIDGET_STATE (canvas),
 					    GTK_WIDGET (canvas),
 					    x1 - x, -y,
@@ -1198,7 +1205,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 	e_table_header_draw_button (
 		pixmap, ecol,
-		widget->style, ethi->font,
+		widget->style,
 		GTK_WIDGET_STATE (widget),
 		widget,
 		0, 0,
@@ -1371,11 +1378,11 @@ static void
 ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	GtkWidget *etfcd = e_table_field_chooser_dialog_new();
-	gtk_object_set(GTK_OBJECT(etfcd),
-		       "full_header", info->ethi->full_header,
-		       "header", info->ethi->eth,
-		       "dnd_code", info->ethi->dnd_code,
-		       NULL);
+	g_object_set(etfcd,
+		     "full_header", info->ethi->full_header,
+		     "header", info->ethi->eth,
+		     "dnd_code", info->ethi->dnd_code,
+		     NULL);
 	gtk_widget_show(etfcd);
 }
 
@@ -1390,9 +1397,9 @@ ethi_popup_best_fit(GtkWidget *widget, EthiHeaderInfo *info)
 	ETableHeaderItem *ethi = info->ethi;
 	int width;
 
-	gtk_signal_emit_by_name (GTK_OBJECT (ethi->eth),
-				 "request_width",
-				 info->col, &width);
+	g_signal_emit_by_name (ethi->eth,
+			       "request_width",
+			       info->col, &width);
 	/* Add 10 to stop it from "..."ing */
 	e_table_header_set_size (ethi->eth, info->col, width + 10);
 	
@@ -1406,8 +1413,9 @@ ethi_popup_format_columns(GtkWidget *widget, EthiHeaderInfo *info)
 }
 
 static void
-config_destroyed (GtkObject *object, ETableHeaderItem *ethi)
+config_destroyed (gpointer data, GObject *where_object_was)
 {
+	ETableHeaderItem *ethi = data;
 	ethi->config = NULL;
 }
 
@@ -1445,9 +1453,8 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 		ethi->config = e_table_config_new (
 				_("Customize Current View"),
 				spec, state);
-		g_signal_connect (
-			ethi->config, "destroy",
-			G_CALLBACK (config_destroyed), ethi);
+		g_object_weak_ref (G_OBJECT (ethi->config),
+				   config_destroyed, ethi);
 		g_signal_connect (
 			ethi->config, "changed",
 			G_CALLBACK (apply_changes), ethi);
@@ -1464,21 +1471,21 @@ free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
-	E_POPUP_ITEM (N_("Sort Ascending"),            GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  2),
-	E_POPUP_ITEM (N_("Sort Descending"),           GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 2),
-	E_POPUP_ITEM (N_("Unsort"),                    GTK_SIGNAL_FUNC(ethi_popup_unsort),          0),
+	E_POPUP_ITEM (N_("Sort Ascending"),            G_CALLBACK(ethi_popup_sort_ascending),  2),
+	E_POPUP_ITEM (N_("Sort Descending"),           G_CALLBACK(ethi_popup_sort_descending), 2),
+	E_POPUP_ITEM (N_("Unsort"),                    G_CALLBACK(ethi_popup_unsort),          0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Group By This Field"),       GTK_SIGNAL_FUNC(ethi_popup_group_field),     16),
-	E_POPUP_ITEM (N_("Group By Box"),              GTK_SIGNAL_FUNC(ethi_popup_group_box),       128),
+	E_POPUP_ITEM (N_("Group By This Field"),       G_CALLBACK(ethi_popup_group_field),     16),
+	E_POPUP_ITEM (N_("Group By Box"),              G_CALLBACK(ethi_popup_group_box),       128),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Remove This Column"),        GTK_SIGNAL_FUNC(ethi_popup_remove_column),   8),
-	E_POPUP_ITEM (N_("Add a Column..."),           GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   0),
+	E_POPUP_ITEM (N_("Remove This Column"),        G_CALLBACK(ethi_popup_remove_column),   8),
+	E_POPUP_ITEM (N_("Add a Column..."),           G_CALLBACK(ethi_popup_field_chooser),   0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Alignment"),                 GTK_SIGNAL_FUNC(ethi_popup_alignment),       128),
-	E_POPUP_ITEM (N_("Best Fit"),                  GTK_SIGNAL_FUNC(ethi_popup_best_fit),        2),
-	E_POPUP_ITEM (N_("Format Columns..."),         GTK_SIGNAL_FUNC(ethi_popup_format_columns),  128),
+	E_POPUP_ITEM (N_("Alignment"),                 G_CALLBACK(ethi_popup_alignment),       128),
+	E_POPUP_ITEM (N_("Best Fit"),                  G_CALLBACK(ethi_popup_best_fit),        2),
+	E_POPUP_ITEM (N_("Format Columns..."),         G_CALLBACK(ethi_popup_format_columns),  128),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Customize Current View..."), GTK_SIGNAL_FUNC(ethi_popup_customize_view),  4),
+	E_POPUP_ITEM (N_("Customize Current View..."), G_CALLBACK(ethi_popup_customize_view),  4),
 	E_POPUP_TERMINATOR
 };
 
@@ -1499,16 +1506,16 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 						 128, info, E_I18N_DOMAIN);
-	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-			    GTK_SIGNAL_FUNC (free_popup_info), info);
+	g_signal_connect (popup, "selection-done",
+			  G_CALLBACK (free_popup_info), info);
 	e_popup_menu (popup, (GdkEvent *) event);
 }
 
 static void
 ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 {
-	gtk_signal_emit (GTK_OBJECT (ethi),
-			 ethi_signals [BUTTON_PRESSED], event);
+	g_signal_emit (ethi,
+		       ethi_signals [BUTTON_PRESSED], 0, event);
 }
 
 static void
@@ -1673,9 +1680,9 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		else {
 			int width = 0;
-			gtk_signal_emit_by_name (GTK_OBJECT (ethi->eth),
-						 "request_width",
-						 (int)ethi->resize_col, &width);
+			g_signal_emit_by_name (ethi->eth,
+					       "request_width",
+					       (int)ethi->resize_col, &width);
 			/* Add 10 to stop it from "..."ing */
 			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
 
@@ -1710,15 +1717,15 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-ethi_class_init (GtkObjectClass *object_class)
+ethi_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 
-	ethi_parent_class = gtk_type_class (PARENT_OBJECT_TYPE);
+	ethi_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
 	
-	object_class->destroy = ethi_destroy;
-	object_class->set_arg = ethi_set_arg;
-	object_class->get_arg = ethi_get_arg;
+	object_class->dispose = ethi_dispose;
+	object_class->set_property = ethi_set_property;
+	object_class->get_property = ethi_get_property;
 
 	item_class->update      = ethi_update;
 	item_class->realize     = ethi_realize;
@@ -1726,21 +1733,55 @@ ethi_class_init (GtkObjectClass *object_class)
 	item_class->draw        = ethi_draw;
 	item_class->point       = ethi_point;
 	item_class->event       = ethi_event;
-	
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", G_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
-	gtk_object_add_arg_type ("ETableHeaderItem::full_header", G_TYPE_OBJECT,
-				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
-	gtk_object_add_arg_type ("ETableHeaderItem::dnd_code", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_DND_CODE);
-	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
-	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", G_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
-	gtk_object_add_arg_type ("ETableHeaderItem::table", GTK_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_TABLE);
-	gtk_object_add_arg_type ("ETableHeaderItem::tree", E_TREE_TYPE,
-				 GTK_ARG_WRITABLE, ARG_TREE);
+
+	g_object_class_install_property (object_class, PROP_DND_CODE,
+					 g_param_spec_string ("dnd_code",
+							      _("DnD code"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TABLE_FONTSET,
+					 g_param_spec_string ("fontset",
+							      _("Fontset"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_FULL_HEADER,
+					 g_param_spec_object ("full_header",
+							      _("Full Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
+					 g_param_spec_object ("ETableHeader",
+							      _("Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_SORT_INFO,
+					 g_param_spec_object ("sort_info",
+							      _("Sort Info"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_SORT_INFO_TYPE,
+							      G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_TABLE,
+					 g_param_spec_object ("table",
+							      _("Table"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_TYPE,
+							      G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_TREE,
+					 g_param_spec_object ("tree",
+							      _("Tree"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TREE_TYPE,
+							      G_PARAM_WRITABLE));
 
 	/*
 	 * Create our pixmaps for DnD
@@ -1755,14 +1796,13 @@ ethi_class_init (GtkObjectClass *object_class)
 		&add_col_mask, NULL, add_col_xpm);
 
 	ethi_signals [BUTTON_PRESSED] =
-		gtk_signal_new ("button_pressed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableHeaderItemClass, button_pressed),
-				e_marshal_NONE__BOXED,
-				GTK_TYPE_NONE, 1, GDK_TYPE_EVENT);
-		
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, ethi_signals, LAST_SIGNAL);
+		g_signal_new ("button_pressed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
+			      NULL, NULL,
+			      e_marshal_NONE__BOXED,
+			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 
 static void
@@ -1790,26 +1830,9 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->tree = NULL;
 }
 
-GtkType
-e_table_header_item_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableHeaderItem",
-			sizeof (ETableHeaderItem),
-			sizeof (ETableHeaderItemClass),
-			(GtkClassInitFunc) ethi_class_init,
-			(GtkObjectInitFunc) ethi_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_OBJECT_TYPE, &info);
-	}
-
-	return type;
-}
-
+E_MAKE_TYPE (e_table_header_item,
+	     "ETableHeaderItem",
+	     ETableHeaderItem,
+	     ethi_class_init,
+	     ethi_init,
+	     PARENT_OBJECT_TYPE)

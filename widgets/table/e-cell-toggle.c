@@ -430,7 +430,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->max_width  = etog_max_width;
 	ecc->style_set  = etog_style_set;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -493,7 +493,7 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 ECell *
 e_cell_toggle_new (int border, int n_states, GdkPixbuf **images)
 {
-	ECellToggle *etog = gtk_type_new (e_cell_toggle_get_type ());
+	ECellToggle *etog = g_object_new (E_CELL_TOGGLE_TYPE, NULL);
 
 	e_cell_toggle_construct (etog, border, n_states, images);
 

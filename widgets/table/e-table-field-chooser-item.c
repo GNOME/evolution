@@ -31,6 +31,7 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "gal/widgets/e-canvas.h"
@@ -63,16 +64,16 @@ static void etfci_drop_table_header (ETableFieldChooserItem *etfci);
 static void etfci_drop_full_header (ETableFieldChooserItem *etfci);
 
 enum {
-	ARG_0,
-	ARG_FULL_HEADER,
-	ARG_HEADER,
-	ARG_DND_CODE,
-	ARG_WIDTH,
-	ARG_HEIGHT
+	PROP_0,
+	PROP_FULL_HEADER,
+	PROP_HEADER,
+	PROP_DND_CODE,
+	PROP_WIDTH,
+	PROP_HEIGHT
 };
 
 static void
-etfci_destroy (GtkObject *object)
+etfci_dispose (GObject *object)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
@@ -87,8 +88,8 @@ etfci_destroy (GtkObject *object)
 		gdk_font_unref(etfci->font);
 	etfci->font = NULL;
 
-	if (GTK_OBJECT_CLASS (etfci_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (etfci_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (etfci_parent_class)->dispose)
+		(*G_OBJECT_CLASS (etfci_parent_class)->dispose) (object);
 }
 
 static gint
@@ -108,7 +109,7 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 		ecol = e_table_header_get_column (etfci->combined_header, i);
 		if (ecol->disabled)
 			continue;
-		height += e_table_header_compute_height (ecol, style, etfci->font);
+		height += e_table_header_compute_height (ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
 		if (height > loc)
 			return i;
 	}
@@ -172,7 +173,7 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 		ecol = e_table_header_get_column (etfci->combined_header, i);
 		if (ecol->disabled)
 			continue;
-		height += e_table_header_compute_height (ecol, style, etfci->font);
+		height += e_table_header_compute_height (ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas));
 	}
 
 	etfci->height = height;
@@ -234,16 +235,16 @@ etfci_font_load (ETableFieldChooserItem *etfci)
 static void
 etfci_drop_full_header (ETableFieldChooserItem *etfci)
 {
-	GtkObject *header;
+	GObject *header;
 	
 	if (!etfci->full_header)
 		return;
 
-	header = GTK_OBJECT (etfci->full_header);
+	header = G_OBJECT (etfci->full_header);
 	if (etfci->full_header_structure_change_id)
-		gtk_signal_disconnect (header, etfci->full_header_structure_change_id);
+		g_signal_handler_disconnect (header, etfci->full_header_structure_change_id);
 	if (etfci->full_header_dimension_change_id)
-		gtk_signal_disconnect (header, etfci->full_header_dimension_change_id);
+		g_signal_handler_disconnect (header, etfci->full_header_dimension_change_id);
 	etfci->full_header_structure_change_id = 0;
 	etfci->full_header_dimension_change_id = 0;
 
@@ -272,28 +273,28 @@ etfci_add_full_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 	etfci->full_header = header;
 	g_object_ref (etfci->full_header);
 
-	etfci->full_header_structure_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "structure_change",
-		GTK_SIGNAL_FUNC(full_header_structure_changed), etfci);
-	etfci->full_header_dimension_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "dimension_change",
-		GTK_SIGNAL_FUNC(full_header_dimension_changed), etfci);
+	etfci->full_header_structure_change_id = g_signal_connect (
+		header, "structure_change",
+		G_CALLBACK(full_header_structure_changed), etfci);
+	etfci->full_header_dimension_change_id = g_signal_connect (
+		header, "dimension_change",
+		G_CALLBACK(full_header_dimension_changed), etfci);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
 etfci_drop_table_header (ETableFieldChooserItem *etfci)
 {
-	GtkObject *header;
+	GObject *header;
 	
 	if (!etfci->header)
 		return;
 
-	header = GTK_OBJECT (etfci->header);
+	header = G_OBJECT (etfci->header);
 	if (etfci->table_header_structure_change_id)
-		gtk_signal_disconnect (header, etfci->table_header_structure_change_id);
+		g_signal_handler_disconnect (header, etfci->table_header_structure_change_id);
 	if (etfci->table_header_dimension_change_id)
-		gtk_signal_disconnect (header, etfci->table_header_dimension_change_id);
+		g_signal_handler_disconnect (header, etfci->table_header_dimension_change_id);
 	etfci->table_header_structure_change_id = 0;
 	etfci->table_header_dimension_change_id = 0;
 
@@ -322,71 +323,71 @@ etfci_add_table_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 	etfci->header = header;
 	g_object_ref (etfci->header);
 
-	etfci->table_header_structure_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "structure_change",
-		GTK_SIGNAL_FUNC(table_header_structure_changed), etfci);
-	etfci->table_header_dimension_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "dimension_change",
-		GTK_SIGNAL_FUNC(table_header_dimension_changed), etfci);
+	etfci->table_header_structure_change_id = g_signal_connect (
+		header, "structure_change",
+		G_CALLBACK(table_header_structure_changed), etfci);
+	etfci->table_header_dimension_change_id = g_signal_connect (
+		header, "dimension_change",
+		G_CALLBACK(table_header_dimension_changed), etfci);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-etfci_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etfci_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ETableFieldChooserItem *etfci;
 
-	item = GNOME_CANVAS_ITEM (o);
-	etfci = E_TABLE_FIELD_CHOOSER_ITEM (o);
+	item = GNOME_CANVAS_ITEM (object);
+	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (arg_id){
-	case ARG_FULL_HEADER:
+	switch (prop_id){
+	case PROP_FULL_HEADER:
 		etfci_drop_full_header (etfci);
-		if (GTK_VALUE_OBJECT (*arg))
-			etfci_add_full_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
+		if (g_value_get_object (value))
+			etfci_add_full_header (etfci, E_TABLE_HEADER(g_value_get_object (value)));
 		break;
 
-	case ARG_HEADER:
+	case PROP_HEADER:
 		etfci_drop_table_header (etfci);
-		if (GTK_VALUE_OBJECT (*arg))
-			etfci_add_table_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
+		if (g_value_get_object (value))
+			etfci_add_table_header (etfci, E_TABLE_HEADER(g_value_get_object (value)));
 		break;
 
-	case ARG_DND_CODE:
+	case PROP_DND_CODE:
 		g_free(etfci->dnd_code);
-		etfci->dnd_code = g_strdup(GTK_VALUE_STRING (*arg));
+		etfci->dnd_code = g_strdup(g_value_get_string (value));
 		break;
 
-	case ARG_WIDTH:
-		etfci->width = GTK_VALUE_DOUBLE (*arg);
+	case PROP_WIDTH:
+		etfci->width = g_value_get_double (value);
 		gnome_canvas_item_request_update(item);
 		break;
 	}
 }
 
 static void
-etfci_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ETableFieldChooserItem *etfci;
 
-	item = GNOME_CANVAS_ITEM (o);
-	etfci = E_TABLE_FIELD_CHOOSER_ITEM (o);
+	item = GNOME_CANVAS_ITEM (object);
+	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (arg_id){
+	switch (prop_id){
 
-	case ARG_DND_CODE:
-		GTK_VALUE_STRING (*arg) = g_strdup (etfci->dnd_code);
+	case PROP_DND_CODE:
+		g_value_set_string (value, g_strdup (etfci->dnd_code));
 		break;
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = etfci->width;
+	case PROP_WIDTH:
+		g_value_set_double (value, etfci->width);
 		break;
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = etfci->height;
+	case PROP_HEIGHT:
+		g_value_set_double (value, etfci->height);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -432,12 +433,12 @@ etfci_realize (GnomeCanvasItem *item)
 	if (!etfci->font)
 		etfci_font_load (etfci);
 
-	etfci->drag_end_id = gtk_signal_connect (
-		GTK_OBJECT (item->canvas), "drag_end",
-		GTK_SIGNAL_FUNC (etfci_drag_end), etfci);
-	etfci->drag_data_get_id = gtk_signal_connect (
-		GTK_OBJECT (item->canvas), "drag_data_get",
-		GTK_SIGNAL_FUNC (etfci_drag_data_get), etfci);
+	etfci->drag_end_id = g_signal_connect (
+		item->canvas, "drag_end",
+		G_CALLBACK (etfci_drag_end), etfci);
+	etfci->drag_data_get_id = g_signal_connect (
+		item->canvas, "drag_data_get",
+		G_CALLBACK (etfci_drag_data_get), etfci);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
@@ -450,9 +451,9 @@ etfci_unrealize (GnomeCanvasItem *item)
 		gdk_font_unref (etfci->font);
 	etfci->font = NULL;
 
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), etfci->drag_end_id);
+	g_signal_handler_disconnect (item->canvas, etfci->drag_end_id);
 	etfci->drag_end_id = 0;
-	gtk_signal_disconnect (GTK_OBJECT (item->canvas), etfci->drag_data_get_id);
+	g_signal_handler_disconnect (item->canvas, etfci->drag_data_get_id);
 	etfci->drag_data_get_id = 0;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->unrealize)
@@ -487,7 +488,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 		if (ecol->disabled)
 			continue;
 
-		y2 += e_table_header_compute_height (ecol, style, etfci->font);
+		y2 += e_table_header_compute_height (ecol, GTK_WIDGET (canvas));
 		
 		if (y1 > (y + height))
 			break;
@@ -496,7 +497,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 			continue;
 
 		e_table_header_draw_button (drawable, ecol,
-					    style, etfci->font, state,
+					    style, state,
 					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
 					    width, height,
@@ -562,11 +563,11 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free(etfci_drag_types[0].target);
 
-	button_height = e_table_header_compute_height (ecol, widget->style, etfci->font);
+	button_height = e_table_header_compute_height (ecol, widget);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
 
 	e_table_header_draw_button (pixmap, ecol,
-				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
+				    widget->style, GTK_WIDGET_STATE (widget),
 				    widget,
 				    0, 0,
 				    etfci->width, button_height,
@@ -623,15 +624,15 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-etfci_class_init (GtkObjectClass *object_class)
+etfci_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 
-	etfci_parent_class = gtk_type_class (PARENT_OBJECT_TYPE);
+	etfci_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
 	
-	object_class->destroy = etfci_destroy;
-	object_class->set_arg = etfci_set_arg;
-	object_class->get_arg = etfci_get_arg;
+	object_class->dispose = etfci_dispose;
+	object_class->set_property = etfci_set_property;
+	object_class->get_property = etfci_get_property;
 
 	item_class->update      = etfci_update;
 	item_class->realize     = etfci_realize;
@@ -639,17 +640,41 @@ etfci_class_init (GtkObjectClass *object_class)
 	item_class->draw        = etfci_draw;
 	item_class->point       = etfci_point;
 	item_class->event       = etfci_event;
-	
-	gtk_object_add_arg_type ("ETableFieldChooserItem::dnd_code", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_DND_CODE);
-	gtk_object_add_arg_type ("ETableFieldChooserItem::full_header", GTK_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_FULL_HEADER);
-	gtk_object_add_arg_type ("ETableFieldChooserItem::header", GTK_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_HEADER);
-	gtk_object_add_arg_type ("ETableFieldChooserItem::width", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_WIDTH);
-	gtk_object_add_arg_type ("ETableFieldChooserItem::height", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READABLE, ARG_HEIGHT);
+
+	g_object_class_install_property (object_class, PROP_DND_CODE,
+					 g_param_spec_string ("dnd_code",
+							      _("DnD code"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FULL_HEADER,
+					 g_param_spec_object ("full_header",
+							      _("Full Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HEADER,
+					 g_param_spec_object ("header",
+							      _("Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _("Width"),
+							      /*_( */"XXX blurb" /*)*/,
+							      0, G_MAXDOUBLE, 0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _("Height"),
+							      /*_( */"XXX blurb" /*)*/,
+							      0, G_MAXDOUBLE, 0,
+							      G_PARAM_READABLE));
 }
 
 static void
@@ -678,26 +703,9 @@ etfci_init (GnomeCanvasItem *item)
 	e_canvas_item_set_reflow_callback(item, etfci_reflow);
 }
 
-GtkType
-e_table_field_chooser_item_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableFieldChooserItem",
-			sizeof (ETableFieldChooserItem),
-			sizeof (ETableFieldChooserItemClass),
-			(GtkClassInitFunc) etfci_class_init,
-			(GtkObjectInitFunc) etfci_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_OBJECT_TYPE, &info);
-	}
-
-	return type;
-}
-
+E_MAKE_TYPE (e_table_field_chooser_item,
+	     "ETableFieldChooserItem",
+	     ETableFieldChooserItem,
+	     etfci_class_init,
+	     etfci_init,
+	     PARENT_OBJECT_TYPE);

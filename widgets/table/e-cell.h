@@ -34,11 +34,11 @@
 G_BEGIN_DECLS
 
 #define E_CELL_TYPE         (e_cell_get_type ())
-#define E_CELL(o)           (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
-#define E_CELL_CLASS(k)     (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
-#define E_CELL_GET_CLASS(o) (GTK_CHECK_GET_CLASS((o), E_CELL_TYPE, ECellClass))
-#define E_IS_CELL(o)        (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
-#define E_IS_CELL_CLASS(k)  (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
+#define E_CELL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TYPE, ECell))
+#define E_CELL_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
+#define E_CELL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_CELL_TYPE, ECellClass))
+#define E_IS_CELL(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TYPE))
+#define E_IS_CELL_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
 typedef gboolean (*ETableSearchFunc) (gconstpointer haystack,
 				      const char *needle);
@@ -118,7 +118,7 @@ typedef struct {
 	void       (*style_set)        (ECellView *ecell_view, GtkStyle *previous_style);
 } ECellClass;
 
-GtkType    e_cell_get_type                      (void);
+GType      e_cell_get_type                      (void);
 
 /* View creation methods. */
 ECellView *e_cell_new_view                      (ECell             *ecell,

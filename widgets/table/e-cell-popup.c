@@ -139,7 +139,7 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 	ecc->show_tooltip = ecp_show_tooltip;
 	ecc->get_bg_color = ecp_get_bg_color;
 
-	parent_class = gtk_type_class (e_cell_get_type ());
+	parent_class = g_type_class_ref (E_CELL_TYPE);
 }
 
 
@@ -161,7 +161,7 @@ e_cell_popup_init		(ECellPopup	*ecp)
 ECell *
 e_cell_popup_new		(void)
 {
-	ECellPopup *ecp = gtk_type_new (e_cell_popup_get_type ());
+	ECellPopup *ecp = g_object_new (E_CELL_POPUP_TYPE, NULL);
 
 	return (ECell*) ecp;
 }

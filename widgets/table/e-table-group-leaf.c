@@ -29,6 +29,7 @@
 #include "e-table-sorted-variable.h"
 #include "e-table-sorted.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include "gal/widgets/e-canvas.h"
 
 #define PARENT_TYPE e_table_group_get_type ()
@@ -37,26 +38,23 @@ static GnomeCanvasGroupClass *etgl_parent_class;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_HEIGHT,
-	ARG_WIDTH,
-	ARG_MINIMUM_WIDTH,
-	ARG_FROZEN,
-	ARG_TABLE_ALTERNATING_ROW_COLORS,
-	ARG_TABLE_HORIZONTAL_DRAW_GRID,
-	ARG_TABLE_VERTICAL_DRAW_GRID,
-	ARG_TABLE_DRAW_FOCUS,
-	ARG_CURSOR_MODE,
-	ARG_LENGTH_THRESHOLD,
-	ARG_SELECTION_MODEL,
-	ARG_UNIFORM_ROW_HEIGHT
+	PROP_0,
+	PROP_HEIGHT,
+	PROP_WIDTH,
+	PROP_MINIMUM_WIDTH,
+	PROP_FROZEN,
+	PROP_TABLE_ALTERNATING_ROW_COLORS,
+	PROP_TABLE_HORIZONTAL_DRAW_GRID,
+	PROP_TABLE_VERTICAL_DRAW_GRID,
+	PROP_TABLE_DRAW_FOCUS,
+	PROP_CURSOR_MODE,
+	PROP_LENGTH_THRESHOLD,
+	PROP_SELECTION_MODEL,
+	PROP_UNIFORM_ROW_HEIGHT
 };
 
-static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-
 static void
-etgl_destroy (GtkObject *object)
+etgl_dispose (GObject *object)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
 
@@ -67,26 +65,26 @@ etgl_destroy (GtkObject *object)
 
 	if (etgl->item) {
 		if (etgl->etgl_cursor_change_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_cursor_change_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_cursor_change_id);
 		if (etgl->etgl_cursor_activated_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_cursor_activated_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_cursor_activated_id);
 		if (etgl->etgl_double_click_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_double_click_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_double_click_id);
 		if (etgl->etgl_right_click_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_right_click_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_right_click_id);
 		if (etgl->etgl_click_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_click_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_click_id);
 		if (etgl->etgl_key_press_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_key_press_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_key_press_id);
 		if (etgl->etgl_start_drag_id != 0)
-			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
-					       etgl->etgl_start_drag_id);
+			g_signal_handler_disconnect (etgl->item,
+						     etgl->etgl_start_drag_id);
 
 		etgl->etgl_cursor_change_id = 0;
 		etgl->etgl_cursor_activated_id = 0;
@@ -105,8 +103,8 @@ etgl_destroy (GtkObject *object)
 		etgl->selection_model = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (etgl_parent_class)->destroy)
-		GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (etgl_parent_class)->dispose)
+		G_OBJECT_CLASS (etgl_parent_class)->dispose (object);
 }
 
 static void
@@ -155,7 +153,7 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 
 	g_return_val_if_fail (parent != NULL, NULL);
 
-	etgl = gtk_type_new (e_table_group_leaf_get_type ());
+	etgl = g_object_new (E_TABLE_GROUP_LEAF_TYPE, NULL);
 
 	e_table_group_leaf_construct (parent, etgl, full_header,
 				      header, model, sort_info);
@@ -234,12 +232,12 @@ etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF(item);
 
-	gtk_object_get(GTK_OBJECT(leaf->item),
-		       "height", &leaf->height,
-		       NULL);
-	gtk_object_get(GTK_OBJECT(leaf->item),
-		       "width", &leaf->width,
-		       NULL);
+	g_object_get(leaf->item,
+		     "height", &leaf->height,
+		     NULL);
+	g_object_get(leaf->item,
+		     "width", &leaf->width,
+		     NULL);
 
 	e_canvas_item_request_parent_reflow (item);
 }
@@ -268,35 +266,35 @@ etgl_realize (GnomeCanvasItem *item)
 		"uniform_row_height", etgl->uniform_row_height,
 		NULL));
 
-	etgl->etgl_cursor_change_id    = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "cursor_change",
-							     GTK_SIGNAL_FUNC(etgl_cursor_change),
-							     etgl);
-	etgl->etgl_cursor_activated_id = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "cursor_activated",
-							     GTK_SIGNAL_FUNC(etgl_cursor_activated),
-							     etgl);
-	etgl->etgl_double_click_id     = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "double_click",
-							     GTK_SIGNAL_FUNC(etgl_double_click),
-							     etgl);
+	etgl->etgl_cursor_change_id    = g_signal_connect (etgl->item,
+							   "cursor_change",
+							   G_CALLBACK(etgl_cursor_change),
+							   etgl);
+	etgl->etgl_cursor_activated_id = g_signal_connect (etgl->item,
+							   "cursor_activated",
+							   G_CALLBACK(etgl_cursor_activated),
+							   etgl);
+	etgl->etgl_double_click_id     = g_signal_connect (etgl->item,
+							   "double_click",
+							   G_CALLBACK(etgl_double_click),
+							   etgl);
 
-	etgl->etgl_right_click_id      = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "right_click",
-							     GTK_SIGNAL_FUNC(etgl_right_click),
-							     etgl);
-	etgl->etgl_click_id            = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "click",
-							     GTK_SIGNAL_FUNC(etgl_click),
-							     etgl);
-	etgl->etgl_key_press_id        = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "key_press",
-							     GTK_SIGNAL_FUNC(etgl_key_press),
-							     etgl);
-	etgl->etgl_start_drag_id       = gtk_signal_connect (GTK_OBJECT(etgl->item),
-							     "start_drag",
-							     GTK_SIGNAL_FUNC(etgl_start_drag),
-							     etgl);
+	etgl->etgl_right_click_id      = g_signal_connect (etgl->item,
+							   "right_click",
+							   G_CALLBACK(etgl_right_click),
+							   etgl);
+	etgl->etgl_click_id            = g_signal_connect (etgl->item,
+							   "click",
+							   G_CALLBACK(etgl_click),
+							   etgl);
+	etgl->etgl_key_press_id        = g_signal_connect (etgl->item,
+							   "key_press",
+							   G_CALLBACK(etgl_key_press),
+							   etgl);
+	etgl->etgl_start_drag_id       = g_signal_connect (etgl->item,
+							   "start_drag",
+							   G_CALLBACK(etgl_start_drag),
+							   etgl);
 
 	e_canvas_item_request_reflow(item);
 }
@@ -415,40 +413,36 @@ etgl_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, in
 }
 
 static void
-etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+etgl_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
-	switch (arg_id) {
-	case ARG_FROZEN:
-		if (GTK_VALUE_BOOL (*arg))
-			etg->frozen = TRUE;
-		else {
-			etg->frozen = FALSE;
-		}
+	switch (prop_id) {
+	case PROP_FROZEN:
+		etg->frozen = g_value_get_boolean (value);
 		break;
-	case ARG_MINIMUM_WIDTH:
-	case ARG_WIDTH:
-		etgl->minimum_width = GTK_VALUE_DOUBLE(*arg);
+	case PROP_MINIMUM_WIDTH:
+	case PROP_WIDTH:
+		etgl->minimum_width = g_value_get_double (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
 					       "minimum_width", etgl->minimum_width,
 					       NULL);
 		}
 		break;
-	case ARG_LENGTH_THRESHOLD:
-		etgl->length_threshold = GTK_VALUE_INT (*arg);
+	case PROP_LENGTH_THRESHOLD:
+		etgl->length_threshold = g_value_get_int (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					       "length_threshold", GTK_VALUE_INT (*arg),
+					       "length_threshold", etgl->length_threshold,
 					       NULL);
 		}
 		break;
-	case ARG_SELECTION_MODEL:
+	case PROP_SELECTION_MODEL:
 		if (etgl->selection_model)
 			g_object_unref(etgl->selection_model);
-		etgl->selection_model = E_SELECTION_MODEL(GTK_VALUE_POINTER (*arg));
+		etgl->selection_model = E_SELECTION_MODEL(g_value_get_object (value));
 		if (etgl->selection_model) {
 			g_object_ref(etgl->selection_model);
 		}
@@ -459,8 +453,8 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_UNIFORM_ROW_HEIGHT:
-		etgl->uniform_row_height = GTK_VALUE_BOOL (*arg);
+	case PROP_UNIFORM_ROW_HEIGHT:
+		etgl->uniform_row_height = g_value_get_boolean (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
 					       "uniform_row_height", etgl->uniform_row_height,
@@ -468,48 +462,48 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_TABLE_ALTERNATING_ROW_COLORS:
-		etgl->alternating_row_colors = GTK_VALUE_BOOL (*arg);
+	case PROP_TABLE_ALTERNATING_ROW_COLORS:
+		etgl->alternating_row_colors = g_value_get_boolean (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					       "alternating_row_colors", GTK_VALUE_BOOL (*arg),
+					       "alternating_row_colors", etgl->alternating_row_colors,
 					       NULL);
 		}
 		break;
 
-	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
-		etgl->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
+	case PROP_TABLE_HORIZONTAL_DRAW_GRID:
+		etgl->horizontal_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					       "horizontal_draw_grid", GTK_VALUE_BOOL (*arg),
+					       "horizontal_draw_grid", etgl->horizontal_draw_grid,
 					       NULL);
 		}
 		break;
 
-	case ARG_TABLE_VERTICAL_DRAW_GRID:
-		etgl->vertical_draw_grid = GTK_VALUE_BOOL (*arg);
+	case PROP_TABLE_VERTICAL_DRAW_GRID:
+		etgl->vertical_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					       "vertical_draw_grid", GTK_VALUE_BOOL (*arg),
+					       "vertical_draw_grid", etgl->vertical_draw_grid,
 					       NULL);
 		}
 		break;
 
-	case ARG_TABLE_DRAW_FOCUS:
-		etgl->draw_focus = GTK_VALUE_BOOL (*arg);
+	case PROP_TABLE_DRAW_FOCUS:
+		etgl->draw_focus = g_value_get_boolean (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					"drawfocus", GTK_VALUE_BOOL (*arg),
-					NULL);
+					       "drawfocus", etgl->draw_focus,
+					       NULL);
 		}
 		break;
 
-	case ARG_CURSOR_MODE:
-		etgl->cursor_mode = GTK_VALUE_INT (*arg);
+	case PROP_CURSOR_MODE:
+		etgl->cursor_mode = g_value_get_int (value);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					"cursor_mode", GTK_VALUE_INT (*arg),
-					NULL);
+					       "cursor_mode", etgl->cursor_mode,
+					       NULL);
 		}
 		break;
 	default:
@@ -518,45 +512,45 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
-etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+etgl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
-	switch (arg_id) {
-	case ARG_FROZEN:
-		GTK_VALUE_BOOL (*arg) = etg->frozen;
+	switch (prop_id) {
+	case PROP_FROZEN:
+		g_value_set_boolean (value, etg->frozen);
 		break;
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = etgl->height;
+	case PROP_HEIGHT:
+		g_value_set_double (value, etgl->height);
 		break;
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = etgl->width;
+	case PROP_WIDTH:
+		g_value_set_double (value, etgl->width);
 		break;
-	case ARG_MINIMUM_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = etgl->minimum_width;
+	case PROP_MINIMUM_WIDTH:
+		g_value_set_double (value, etgl->minimum_width);
 		break;
-	case ARG_UNIFORM_ROW_HEIGHT:
-		GTK_VALUE_BOOL (*arg) = etgl->uniform_row_height;
+	case PROP_UNIFORM_ROW_HEIGHT:
+		g_value_set_boolean (value, etgl->uniform_row_height);
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-etgl_class_init (GtkObjectClass *object_class)
+etgl_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
 	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS(object_class);
 
-	object_class->destroy = etgl_destroy;
-	object_class->set_arg = etgl_set_arg;
-	object_class->get_arg = etgl_get_arg;
+	object_class->dispose = etgl_dispose;
+	object_class->set_property = etgl_set_property;
+	object_class->get_property = etgl_get_property;
 
 	item_class->realize = etgl_realize;
 
-	etgl_parent_class = gtk_type_class (PARENT_TYPE);
+	etgl_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_group_class->add = etgl_add;
 	e_group_class->add_array = etgl_add_array;
@@ -571,31 +565,89 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->compute_location = etgl_compute_location;
 	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
 
-	gtk_object_add_arg_type ("ETableGroupLeaf::alternating_row_colors", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_ALTERNATING_ROW_COLORS);
-	gtk_object_add_arg_type ("ETableGroupLeaf::horizontal_draw_grid", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
-	gtk_object_add_arg_type ("ETableGroupLeaf::vertical_draw_grid", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_VERTICAL_DRAW_GRID);
-	gtk_object_add_arg_type ("ETableGroupLeaf::drawfocus", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
-	gtk_object_add_arg_type ("ETableGroupLeaf::cursor_mode", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
-	gtk_object_add_arg_type ("ETableGroupLeaf::length_threshold", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
-	gtk_object_add_arg_type ("ETableGroupLeaf::selection_model", E_SELECTION_MODEL_TYPE,
-				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
+	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
+					 g_param_spec_boolean ("alternating_row_colors",
+							       _( "Alternating Row Colors" ),
+							       _( "Alternating Row Colors" ), 
+							       FALSE,
+							       G_PARAM_WRITABLE));
 
-	gtk_object_add_arg_type ("ETableGroupLeaf::height", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READABLE, ARG_HEIGHT);
-	gtk_object_add_arg_type ("ETableGroupLeaf::width", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_WIDTH);
-	gtk_object_add_arg_type ("ETableGroupLeaf::minimum_width", GTK_TYPE_DOUBLE,
-				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
-	gtk_object_add_arg_type ("ETableGroupLeaf::frozen", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_FROZEN);
-	gtk_object_add_arg_type ("ETableGroupLeaf::uniform_row_height", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
+	g_object_class_install_property (object_class, PROP_TABLE_HORIZONTAL_DRAW_GRID,
+					 g_param_spec_boolean ("horizontal_draw_grid",
+							       _( "Horizontal Draw Grid" ),
+							       _( "Horizontal Draw Grid" ),
+							       FALSE,
+							       G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_TABLE_VERTICAL_DRAW_GRID,
+					 g_param_spec_boolean ("vertical_draw_grid",
+							       _( "Vertical Draw Grid" ),
+							       _( "Vertical Draw Grid" ),
+							       FALSE,
+							       G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_TABLE_DRAW_FOCUS,
+					 g_param_spec_boolean ("drawfocus",
+							       _( "Draw focus" ),
+							       _( "Draw focus" ),
+							       FALSE,
+							       G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
+					 g_param_spec_int ("cursor_mode",
+							   _( "Cursor mode" ),
+							   _( "Cursor mode" ),
+							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET, E_CURSOR_LINE,
+							   G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
+					 g_param_spec_int ("length_threshold",
+							   _( "Length Threshold" ),
+							   _( "Length Threshold" ),
+							   0, G_MAXINT, 0,
+							   G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_SELECTION_MODEL,
+					 g_param_spec_object ("selection_model",
+							      _( "Selection model" ),
+							      _( "Selection model" ),
+							      E_SELECTION_MODEL_TYPE,
+							      G_PARAM_WRITABLE));
+
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _( "Height" ),
+							      _( "Height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READABLE));
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _( "Width" ),
+							      _( "Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
+					 g_param_spec_double ("minimum_width",
+							      _( "Minimum width" ),
+							      _( "Minimum Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FROZEN,
+					 g_param_spec_boolean ("frozen",
+							       _( "Frozen" ),
+							       _( "Frozen" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
+					 g_param_spec_boolean ("uniform_row_height",
+							       _( "Uniform row height" ),
+							       _( "Uniform row height" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 static void

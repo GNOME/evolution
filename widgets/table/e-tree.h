@@ -45,10 +45,10 @@
 G_BEGIN_DECLS
 
 #define E_TREE_TYPE        (e_tree_get_type ())
-#define E_TREE(o)          (GTK_CHECK_CAST ((o), E_TREE_TYPE, ETree))
-#define E_TREE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_TYPE, ETreeClass))
-#define E_IS_TREE(o)       (GTK_CHECK_TYPE ((o), E_TREE_TYPE))
-#define E_IS_TREE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_TYPE))
+#define E_TREE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_TYPE, ETree))
+#define E_TREE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_TYPE, ETreeClass))
+#define E_IS_TREE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_TYPE))
+#define E_IS_TREE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_TYPE))
 typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 typedef struct ETreePriv ETreePriv;
 
@@ -136,7 +136,7 @@ typedef struct {
 						 guint               time);
 } ETreeClass;
 
-GtkType         e_tree_get_type                   (void);
+GType           e_tree_get_type                   (void);
 ETree          *e_tree_construct                  (ETree                *e_tree,
 						   ETreeModel           *etm,
 						   ETableExtras         *ete,

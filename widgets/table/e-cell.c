@@ -26,7 +26,7 @@
 #include "e-cell.h"
 #include "gal/util/e-util.h"
 
-#define PARENT_TYPE gtk_object_get_type ()
+#define PARENT_TYPE GTK_TYPE_OBJECT
 
 #define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 

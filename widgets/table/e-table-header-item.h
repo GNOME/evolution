@@ -35,10 +35,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_HEADER_ITEM_TYPE        (e_table_header_item_get_type ())
-#define E_TABLE_HEADER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))
-#define E_TABLE_HEADER_ITEM_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItemClass))
-#define E_IS_TABLE_HEADER_ITEM(o)       (GTK_CHECK_TYPE ((o), E_TABLE_HEADER_ITEM_TYPE))
-#define E_IS_TABLE_HEADER_ITEM_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_ITEM_TYPE))
+#define E_TABLE_HEADER_ITEM(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))
+#define E_TABLE_HEADER_ITEM_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItemClass))
+#define E_IS_TABLE_HEADER_ITEM(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_HEADER_ITEM_TYPE))
+#define E_IS_TABLE_HEADER_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_ITEM_TYPE))
 
 typedef struct {
 	GnomeCanvasItem  parent;
@@ -107,7 +107,7 @@ typedef struct {
 	void (*button_pressed) (ETableHeaderItem *ethi, GdkEventButton *button);
 } ETableHeaderItemClass;
 
-GtkType    e_table_header_item_get_type (void);
+GType      e_table_header_item_get_type (void);
 
 G_END_DECLS
 

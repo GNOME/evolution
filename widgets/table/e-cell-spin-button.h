@@ -35,10 +35,10 @@
 #include <gal/e-table/e-cell.h>
 
 #define E_CELL_SPIN_BUTTON_TYPE        (e_cell_spin_button_get_type ())
-#define E_CELL_SPIN_BUTTON(o)          (GTK_CHECK_CAST ((o), E_CELL_SPIN_BUTTON_TYPE, ECellSpinButton))
-#define E_CELL_SPIN_BUTTON_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_SPIN_BUTTON_TYPE, ECellSpinButtonClass))
-#define M_IS_CELL_SPIN_BUTTON(o)       (GTK_CHECK_TYPE ((o), E_CELL_SPIN_BUTTON_TYPE))
-#define M_IS_CELL_SPIN_BUTTON_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_SPIN_BUTTON_TYPE))
+#define E_CELL_SPIN_BUTTON(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_SPIN_BUTTON_TYPE, ECellSpinButton))
+#define E_CELL_SPIN_BUTTON_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_SPIN_BUTTON_TYPE, ECellSpinButtonClass))
+#define M_IS_CELL_SPIN_BUTTON(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_SPIN_BUTTON_TYPE))
+#define M_IS_CELL_SPIN_BUTTON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_SPIN_BUTTON_TYPE))
 
 typedef union {
 	gint     i;
@@ -75,7 +75,7 @@ typedef struct {
 			    gint                   row);
 } ECellSpinButtonClass;
 
-GtkType    e_cell_spin_button_get_type     (void);
+GType      e_cell_spin_button_get_type     (void);
 ECell *    e_cell_spin_button_new          (gint     min,
 					    gint     max,
 					    gint     step,

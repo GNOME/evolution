@@ -33,10 +33,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_CONTAINER_TYPE        (e_table_group_container_get_type ())
-#define E_TABLE_GROUP_CONTAINER(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainer))
-#define E_TABLE_GROUP_CONTAINER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainerClass))
-#define E_IS_TABLE_GROUP_CONTAINER(o)       (GTK_CHECK_TYPE ((o), E_TABLE_GROUP_CONTAINER_TYPE))
-#define E_IS_TABLE_GROUP_CONTAINER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_CONTAINER_TYPE))
+#define E_TABLE_GROUP_CONTAINER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainer))
+#define E_TABLE_GROUP_CONTAINER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainerClass))
+#define E_IS_TABLE_GROUP_CONTAINER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_GROUP_CONTAINER_TYPE))
+#define E_IS_TABLE_GROUP_CONTAINER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_CONTAINER_TYPE))
 
 typedef struct {
 	ETableGroup group;
@@ -91,7 +91,7 @@ void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETable
 						ETableHeader     *header,
 						ETableModel *model, ETableSortInfo *sort_info, int n);
 
-GtkType      e_table_group_container_get_type  (void);
+GType        e_table_group_container_get_type  (void);
 
 G_END_DECLS
 

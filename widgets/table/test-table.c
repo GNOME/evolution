@@ -303,8 +303,8 @@ table_browser_test (void)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	canvas = e_canvas_new ();
 
-	gtk_signal_connect (GTK_OBJECT (canvas), "size_allocate",
-			    GTK_SIGNAL_FUNC (set_canvas_size), NULL);
+	g_signal_connect (canvas, "size_allocate",
+			  G_CALLBACK (set_canvas_size), NULL);
 
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
@@ -359,8 +359,8 @@ toggle_grid (void *nothing, ETable *etable)
 {
 	static gboolean shown;
 
-	gtk_object_get (GTK_OBJECT (etable), "drawgrid", &shown, NULL);
-	gtk_object_set (GTK_OBJECT (etable), "drawgrid", !shown, NULL);
+	g_object_get (etable, "drawgrid", &shown, NULL);
+	g_object_set (etable, "drawgrid", !shown, NULL);
 }
 
 static void
@@ -411,17 +411,17 @@ compare=\"string\"/>\n", i, column_labels[i]);
 	e_table = e_table_new (e_table_model, NULL, spec->str, state);
 
 	/* This makes value_at not called just to determine row height.  */
-	gtk_object_set (GTK_OBJECT (e_table),
-			"uniform_row_height", 1,
-			NULL);
+	g_object_set (e_table,
+		      "uniform_row_height", 1,
+		      NULL);
 
 	g_string_free (spec, TRUE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
 #ifdef BIT_ROT
-	gtk_signal_connect (GTK_OBJECT(e_table), "row_selection",
-			    GTK_SIGNAL_FUNC(row_selection_test), NULL);
+	g_signal_connect (e_table, "row_selection",
+			  G_CALLBACK(row_selection_test), NULL);
 #endif
 
 	vbox = gtk_vbox_new (FALSE, 0);
@@ -434,13 +434,13 @@ compare=\"string\"/>\n", i, column_labels[i]);
 	 * gadgets
 	 */
 	button = gtk_button_new_with_label ("Save spec");
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (save_spec), e_table);
+	g_signal_connect (button, "clicked",
+			  G_CALLBACK (save_spec), e_table);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
 	bhide = gtk_button_new_with_label ("Toggle Grid");
-	gtk_signal_connect (GTK_OBJECT (bhide), "clicked",
-			    GTK_SIGNAL_FUNC (toggle_grid), e_table);
+	g_signal_connect (bhide, "clicked",
+			  G_CALLBACk (toggle_grid), e_table);
 	gtk_box_pack_start (GTK_BOX (vbox), bhide, FALSE, FALSE, 0);
 #endif
 

@@ -34,7 +34,7 @@
 static GtkVBoxClass *etcf_parent_class;
 
 static void
-etcf_destroy (GtkObject *object)
+etcf_dispose (GObject *object)
 {
 	ETableConfigField *etcf = E_TABLE_CONFIG_FIELD (object);
 
@@ -46,15 +46,15 @@ etcf_destroy (GtkObject *object)
 		g_object_unref (etcf->sort_info);
 	etct->sort_info = NULL;
 
-	GTK_OBJECT_CLASS (etcf_parent_class)->destroy (object);
+	G_OBJECT_CLASS (etcf_parent_class)->dispose (object);
 }
 
 static void
-etcf_class_init (GtkObjectClass *klass)
+etcf_class_init (GObjectClass *klass)
 {
-	etcf_parent_class = gtk_type_class (PARENT_TYPE);
+	etcf_parent_class = g_type_class_ref (PARENT_TYPE);
 	
-	klass->destroy = etcf_destroy;
+	klass->dispose = etcf_dispose;
 }
 
 static void
@@ -76,7 +76,7 @@ e_table_config_field_new       (ETableSpecification *spec,
 				ETableSortInfo      *sort_info,
 				gboolean             grouping)
 {
-	ETableConfigField *etcf = gtk_type_new (E_TABLE_CONFIG_FIELD_TYPE);
+	ETableConfigField *etcf = g_object_new (E_TABLE_CONFIG_FIELD_TYPE, NULL);
 
 	e_table_config_field_construct (etcf, spec, sort_info, grouping);
 
@@ -217,12 +217,12 @@ etcf_setup(ETableConfigField *etcf)
 		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(etcf->combo)->entry), "None");
 	}
 
-	gtk_signal_connect(GTK_OBJECT(GTK_COMBO(etcf->combo)->entry), "changed",
-			   GTK_SIGNAL_FUNC(changed), etcf);
-	gtk_signal_connect(GTK_OBJECT(etcf->radio_ascending), "toggled",
-			   GTK_SIGNAL_FUNC(toggled), etcf);
-	gtk_signal_connect(GTK_OBJECT(etcf->radio_descending), "toggled",
-			   GTK_SIGNAL_FUNC(toggled), etcf);
+	g_signal_connect(GTK_COMBO(etcf->combo)->entry, "changed",
+			 G_CALLBACK (changed), etcf);
+	g_signal_connect(etcf->radio_ascending, "toggled",
+			 G_CALLBACK (toggled), etcf);
+	g_signal_connect(etcf->radio_descending, "toggled",
+			 G_CALLBACK (toggled), etcf);
 }
 
 static ETableConfigField *
@@ -271,7 +271,7 @@ e_table_config_field_construct_nth (ETableConfigField   *etcf,
 	gtk_box_pack_start(GTK_BOX(internal_vbox2), etcf->radio_descending, FALSE, FALSE, 0);
 
 	if (n < 3) {
-		etcf->child_fields = GTK_WIDGET(gtk_type_new (E_TABLE_CONFIG_FIELD_TYPE));
+		etcf->child_fields = GTK_WIDGET(g_object_new (E_TABLE_CONFIG_FIELD_TYPE, NULL));
 		e_table_config_field_construct_nth(E_TABLE_CONFIG_FIELD(etcf->child_fields), spec, sort_info, grouping, n + 1);
 		gtk_box_pack_start(GTK_BOX(etcf), etcf->child_fields, FALSE, FALSE, 0);
 		gtk_widget_show(etcf->child_fields);

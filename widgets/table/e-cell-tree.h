@@ -36,10 +36,10 @@
 G_BEGIN_DECLS
 
 #define E_CELL_TREE_TYPE        (e_cell_tree_get_type ())
-#define E_CELL_TREE(o)          (GTK_CHECK_CAST ((o), E_CELL_TREE_TYPE, ECellTree))
-#define E_CELL_TREE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TREE_TYPE, ECellTreeClass))
-#define E_IS_CELL_TREE(o)       (GTK_CHECK_TYPE ((o), E_CELL_TREE_TYPE))
-#define E_IS_CELL_TREE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TREE_TYPE))
+#define E_CELL_TREE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TREE_TYPE, ECellTree))
+#define E_CELL_TREE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TREE_TYPE, ECellTreeClass))
+#define E_IS_CELL_TREE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TREE_TYPE))
+#define E_IS_CELL_TREE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TREE_TYPE))
 
 typedef struct {
 	ECell parent;
@@ -56,7 +56,7 @@ typedef struct {
 	ECellClass parent_class;
 } ECellTreeClass;
 
-GtkType    e_cell_tree_get_type (void);
+GType      e_cell_tree_get_type (void);
 ECell     *e_cell_tree_new      (GdkPixbuf *open_pixbuf,
 				 GdkPixbuf *closed_pixbuf,
 				 gboolean draw_lines,

@@ -189,7 +189,7 @@ eth_group_info_changed(ETableSortInfo *info, ETableHeader *eth)
 }
 
 static void
-eth_set_prop (GObject *object, guint prop_id, const GValue *val, GParamSpec *pspec)
+eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
@@ -223,7 +223,7 @@ eth_set_prop (GObject *object, guint prop_id, const GValue *val, GParamSpec *psp
 }
 
 static void
-eth_get_prop (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec)
+eth_get_property (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
@@ -249,8 +249,8 @@ e_table_header_class_init (GObjectClass *object_class)
 	ETableHeaderClass *klass = E_TABLE_HEADER_CLASS (object_class);
 
 	object_class->finalize = eth_finalize;
-	object_class->set_property = eth_set_prop;
-	object_class->get_property = eth_get_prop;
+	object_class->set_property = eth_set_property;
+	object_class->get_property = eth_get_property;
 
 	e_table_header_parent_class = g_type_class_peek_parent (object_class);
 

@@ -397,10 +397,10 @@ ecv_print_height (ECellView *ecell_view, GnomePrintContext *context,
 #endif
 
 /*
- * GtkObject::destroy method
+ * GObject::dispose method
  */
 static void
-ecv_destroy (GtkObject *object)
+ecv_dispose (GObject *object)
 {
 	ECellVbox *ecv = E_CELL_VBOX (object);
 	int i;
@@ -413,15 +413,15 @@ ecv_destroy (GtkObject *object)
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_cell_vbox_class_init (GtkObjectClass *object_class)
+e_cell_vbox_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = ecv_destroy;
+	object_class->dispose = ecv_dispose;
 
 	ecc->new_view         = ecv_new_view;
 	ecc->kill_view        = ecv_kill_view;
@@ -442,7 +442,7 @@ e_cell_vbox_class_init (GtkObjectClass *object_class)
 	ecc->get_bg_color     = ecv_get_bg_color;
 #endif
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -468,7 +468,7 @@ E_MAKE_TYPE(e_cell_vbox, "ECellVbox", ECellVbox, e_cell_vbox_class_init, e_cell_
 ECell *
 e_cell_vbox_new (void)
 {
-	ECellVbox *ecv = gtk_type_new (e_cell_vbox_get_type ());
+	ECellVbox *ecv = g_object_new (E_CELL_VBOX_TYPE, NULL);
 
 	return (ECell *) ecv;
 }

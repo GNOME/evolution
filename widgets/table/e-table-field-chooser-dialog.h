@@ -24,7 +24,7 @@
 #ifndef __E_TABLE_FIELD_CHOOSER_DIALOG_H__
 #define __E_TABLE_FIELD_CHOOSER_DIALOG_H__
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <gal/e-table/e-table-field-chooser.h>
 #include <gal/e-table/e-table-header.h>
 
@@ -42,10 +42,10 @@ extern "C" {
  */
 
 #define E_TABLE_FIELD_CHOOSER_DIALOG_TYPE			(e_table_field_chooser_dialog_get_type ())
-#define E_TABLE_FIELD_CHOOSER_DIALOG(obj)			(GTK_CHECK_CAST ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialog))
-#define E_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialogClass))
-#define E_IS_TABLE_FIELD_CHOOSER_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
-#define E_IS_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
+#define E_TABLE_FIELD_CHOOSER_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialog))
+#define E_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialogClass))
+#define E_IS_TABLE_FIELD_CHOOSER_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
+#define E_IS_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
 
 
 typedef struct _ETableFieldChooserDialog       ETableFieldChooserDialog;
@@ -53,7 +53,7 @@ typedef struct _ETableFieldChooserDialogClass  ETableFieldChooserDialogClass;
 
 struct _ETableFieldChooserDialog
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	/* item specific fields */
 	ETableFieldChooser *etfc;
@@ -64,12 +64,12 @@ struct _ETableFieldChooserDialog
 
 struct _ETableFieldChooserDialogClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 
 GtkWidget *e_table_field_chooser_dialog_new(void);
-GtkType    e_table_field_chooser_dialog_get_type (void);
+GType      e_table_field_chooser_dialog_get_type (void);
 
 #ifdef __cplusplus
 }

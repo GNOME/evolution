@@ -42,10 +42,10 @@
 #define E_CELL_SPIN_BUTTON_ARROW_WIDTH  16
 #define PARENT_TYPE e_cell_get_type ()
 
-static void e_cell_spin_button_class_init   (GtkObjectClass   *klass);
+static void e_cell_spin_button_class_init   (GObjectClass   *klass);
 static void e_cell_spin_button_init         (GtkObject        *object);
 
-static void         ecsb_destroy      (GtkObject	*object);
+static void         ecsb_dispose      (GObject	*object);
 
 /* ECell Functions */
 static ECellView *  ecsb_new_view     (ECell                 *ecell,
@@ -120,12 +120,12 @@ static guint    signals[LAST_SIGNAL] = { 0 };
 static ECell   *parent_class;
 
 static void 
-e_cell_spin_button_class_init     (GtkObjectClass   *klass)
+e_cell_spin_button_class_init     (GObjectClass   *klass)
 {
         ECellClass             *ecc    = (ECellClass *) klass;  
 	ECellSpinButtonClass   *ecsbc  = (ECellSpinButtonClass *) klass;
         
-        klass->destroy     = ecsb_destroy;
+        klass->dispose     = ecsb_dispose;
 
 	ecc->realize       = ecsb_realize;
 	ecc->unrealize     = ecsb_unrealize;
@@ -144,19 +144,18 @@ e_cell_spin_button_class_init     (GtkObjectClass   *klass)
 
 	ecsbc->step        = NULL;
 
-        parent_class       = gtk_type_class (E_CELL_TYPE);
+        parent_class       = g_type_class_ref (E_CELL_TYPE);
 
 	signals[STEP] =
-		gtk_signal_new ("step",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ECellSpinButtonClass, step),
-				e_marshal_NONE__POINTER_INT_INT_INT,
-				GTK_TYPE_NONE,
-				4, GTK_TYPE_POINTER, GTK_TYPE_INT, 
-				GTK_TYPE_INT, GTK_TYPE_INT);
-	
-	E_OBJECT_CLASS_ADD_SIGNALS (klass, signals, LAST_SIGNAL);
+		g_signal_new ("step",
+			      G_OBJECT_CLASS_TYPE (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECellSpinButtonClass, step),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER_INT_INT_INT,
+			      G_TYPE_NONE,
+			      4, G_TYPE_POINTER, G_TYPE_INT, 
+			      G_TYPE_INT, G_TYPE_INT);
 }
 
 static void 
@@ -365,20 +364,20 @@ ecsb_event        (ECellView        *ecv,
 				/* Yep, which one? */
 				if (event->button.y <= height / 2) {
 					ecsb->up_pressed = TRUE;
-					gtk_signal_emit (GTK_OBJECT(ecsb),
-							 signals[STEP],
-							 ecv,
-							 STEP_UP,
-							 view_col,
-							 row);
+					g_signal_emit (ecsb,
+						       signals[STEP], 0,
+						       ecv,
+						       STEP_UP,
+						       view_col,
+						       row);
 				} else {
 					ecsb->down_pressed = TRUE;
-					gtk_signal_emit (GTK_OBJECT(ecsb),
-							 signals[STEP],
-							 ecv,
-							 STEP_DOWN,
-							 view_col,
-							 row);
+					g_signal_emit (ecsb,
+						       signals[STEP], 0,
+						       ecv,
+						       STEP_DOWN,
+						       view_col,
+						       row);
 				}
 
 				e_table_item_redraw_range (eti,
@@ -513,7 +512,7 @@ ecsb_show_tooltip (ECellView        *ecv,
 }
 
 static void 
-ecsb_destroy (GtkObject	*object)
+ecsb_dispose (GObject	*object)
 {
 	ECellSpinButton *mcsp;
 
@@ -522,7 +521,7 @@ ecsb_destroy (GtkObject	*object)
 	
 	mcsp = E_CELL_SPIN_BUTTON (object);
 	
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 ECell *
@@ -533,15 +532,15 @@ e_cell_spin_button_new (gint     min,
 {
 	ECellSpinButton   *ecsb;
 	
-	ecsb = gtk_type_new (E_CELL_SPIN_BUTTON_TYPE);
+	ecsb = g_object_new (E_CELL_SPIN_BUTTON_TYPE, NULL);
 
 	if (!child_cell) {
 		child_cell = e_cell_number_new (NULL, 
 						GTK_JUSTIFY_LEFT);
 		
-		gtk_signal_connect (GTK_OBJECT (ecsb), "step",
-				    GTK_SIGNAL_FUNC (e_cell_spin_button_step),
-				    NULL);
+		g_signal_connect (ecsb, "step",
+				  G_CALLBACK (e_cell_spin_button_step),
+				  NULL);
 	}
 	
 	ecsb->child   = child_cell;
@@ -560,13 +559,13 @@ e_cell_spin_button_new_float (gfloat    min,
 {
 	ECellSpinButton   *ecsb;
 	
-	ecsb = gtk_type_new (E_CELL_SPIN_BUTTON_TYPE);
+	ecsb = g_object_new (E_CELL_SPIN_BUTTON_TYPE, NULL);
 
 	if (!child_cell) {
 		child_cell = e_cell_float_new (NULL, GTK_JUSTIFY_LEFT);
-		gtk_signal_connect (GTK_OBJECT (ecsb), "step",
-				    GTK_SIGNAL_FUNC (e_cell_spin_button_step_float),
-				    NULL);
+		g_signal_connect (ecsb, "step",
+				  G_CALLBACK (e_cell_spin_button_step_float),
+				  NULL);
 	}
 	
 	ecsb->child   = child_cell;

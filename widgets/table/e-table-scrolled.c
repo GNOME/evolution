@@ -33,6 +33,7 @@
 
 #include "e-table.h"
 #include "e-table-scrolled.h"
+#include "gal/util/e-i18n.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -41,8 +42,8 @@
 static GtkObjectClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_TABLE
+	PROP_0,
+	PROP_TABLE
 };
 
 static void
@@ -56,7 +57,7 @@ e_table_scrolled_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (ets, GTK_CAN_FOCUS);
 
-	ets->table = gtk_type_new(e_table_get_type());
+	ets->table = g_object_new (E_TABLE_TYPE, NULL);
 
 	e_scroll_frame_set_policy      (scroll_frame, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	e_scroll_frame_set_shadow_type (scroll_frame, GTK_SHADOW_IN);
@@ -161,16 +162,16 @@ e_table_scrolled_get_table                 (ETableScrolled *ets)
 }
 
 static void
-ets_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETableScrolled *ets = E_TABLE_SCROLLED (o);
+	ETableScrolled *ets = E_TABLE_SCROLLED (object);
 
-	switch (arg_id){
-	case ARG_TABLE:
-		if (ets->table)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(ets->table);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+	switch (prop_id){
+	case PROP_TABLE:
+		g_value_set_object (value, ets->table);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -200,24 +201,28 @@ ets_focus (GtkWidget *container, GtkDirectionType direction)
 static void
 e_table_scrolled_class_init (ETableScrolledClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	container_class = (GtkContainerClass *) class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->get_arg = ets_get_arg;
+	object_class->get_property = ets_get_property;
 
 	widget_class->grab_focus = ets_grab_focus;
 
 	widget_class->focus = ets_focus;
 
-	gtk_object_add_arg_type ("ETableScrolled::table", GTK_TYPE_OBJECT,
-				 GTK_ARG_READABLE, ARG_TABLE);
+	g_object_class_install_property (object_class, PROP_TABLE,
+					 g_param_spec_object ("table",
+							      _( "Table" ),
+							      _( "Table" ),
+							      E_TABLE_TYPE,
+							      G_PARAM_READABLE));
 }
 
 E_MAKE_TYPE(e_table_scrolled, "ETableScrolled", ETableScrolled, e_table_scrolled_class_init, e_table_scrolled_init, PARENT_TYPE)

@@ -24,7 +24,9 @@
 #include <stdio.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-pixbuf.h"
+#include <gal/util/e-i18n.h>
 
+#define PARENT_TYPE E_CELL_TYPE
 static ECellClass *parent_class;
 
 typedef struct _ECellPixbufView ECellPixbufView;
@@ -36,11 +38,11 @@ struct _ECellPixbufView {
 
 /* Object argument IDs */
 enum {
-	ARG_0,
+	PROP_0,
 
-	ARG_SELECTED_COLUMN,
-	ARG_FOCUSED_COLUMN,
-	ARG_UNSELECTED_COLUMN
+	PROP_SELECTED_COLUMN,
+	PROP_FOCUSED_COLUMN,
+	PROP_UNSELECTED_COLUMN
 };
 
 static int
@@ -69,7 +71,7 @@ e_cell_pixbuf_new (void)
 {
     ECellPixbuf *ecp;
 
-    ecp = gtk_type_new (E_CELL_PIXBUF_TYPE);
+    ecp = g_object_new (E_CELL_PIXBUF_TYPE, NULL);
     e_cell_pixbuf_construct (ecp);
 
     return (ECell *) ecp;
@@ -291,30 +293,33 @@ pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
 }
 
 static void
-pixbuf_destroy (GtkObject *object)
+pixbuf_dispose (GObject *object)
 {
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
-pixbuf_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+pixbuf_set_property (GObject *object,
+		     guint prop_id,
+		     const GValue *value,
+		     GParamSpec *pspec)
 {
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
 
-	switch (arg_id) {
-	case ARG_SELECTED_COLUMN:
-		pixbuf->selected_column = GTK_VALUE_INT (*arg);
+	switch (prop_id) {
+	case PROP_SELECTED_COLUMN:
+		pixbuf->selected_column = g_value_get_int (value);
 		break;
 
-	case ARG_FOCUSED_COLUMN:
-		pixbuf->focused_column = GTK_VALUE_INT (*arg);
+	case PROP_FOCUSED_COLUMN:
+		pixbuf->focused_column = g_value_get_int (value);
 		break;
 
-	case ARG_UNSELECTED_COLUMN:
-		pixbuf->unselected_column = GTK_VALUE_INT (*arg);
+	case PROP_UNSELECTED_COLUMN:
+		pixbuf->unselected_column = g_value_get_int (value);
 		break;
 
 	default:
@@ -324,27 +329,30 @@ pixbuf_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 /* Get_arg handler for the pixbuf item */
 static void
-pixbuf_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+pixbuf_get_property (GObject *object,
+		     guint prop_id,
+		     GValue *value,
+		     GParamSpec *pspec)
 {
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
 	
-	switch (arg_id) {
-	case ARG_SELECTED_COLUMN:
-		GTK_VALUE_INT (*arg) = pixbuf->selected_column;
+	switch (prop_id) {
+	case PROP_SELECTED_COLUMN:
+		g_value_set_int (value, pixbuf->selected_column);
 		break;
 
-	case ARG_FOCUSED_COLUMN:
-		GTK_VALUE_INT (*arg) = pixbuf->focused_column;
+	case PROP_FOCUSED_COLUMN:
+		g_value_set_int (value, pixbuf->focused_column);
 		break;
 
-	case ARG_UNSELECTED_COLUMN:
-		GTK_VALUE_INT (*arg) = pixbuf->unselected_column;
+	case PROP_UNSELECTED_COLUMN:
+		g_value_set_int (value, pixbuf->unselected_column);
 		break;
 
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -360,13 +368,13 @@ e_cell_pixbuf_init (GtkObject *object)
 }
 
 static void
-e_cell_pixbuf_class_init (GtkObjectClass *object_class)
+e_cell_pixbuf_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = pixbuf_destroy;
-	object_class->set_arg = pixbuf_set_arg;
-	object_class->get_arg = pixbuf_get_arg;
+	object_class->dispose = pixbuf_dispose;
+	object_class->set_property = pixbuf_set_property;
+	object_class->get_property = pixbuf_get_property;
 
 	ecc->new_view = pixbuf_new_view;
 	ecc->kill_view = pixbuf_kill_view;
@@ -377,34 +385,33 @@ e_cell_pixbuf_class_init (GtkObjectClass *object_class)
 	ecc->print_height = pixbuf_print_height;
 	ecc->max_width = pixbuf_max_width;
 
-	parent_class = gtk_type_class (E_CELL_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	gtk_object_add_arg_type ("ECellPixbuf::selected_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_SELECTED_COLUMN);
-	gtk_object_add_arg_type ("ECellPixbuf::focused_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_FOCUSED_COLUMN);
-	gtk_object_add_arg_type ("ECellPixbuf::unselected_column",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_UNSELECTED_COLUMN);
+	g_object_class_install_property (object_class, PROP_SELECTED_COLUMN,
+					 g_param_spec_int ("selected_column",
+							   _("Selected Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FOCUSED_COLUMN,
+					 g_param_spec_int ("focused_column",
+							   _("Focused Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_UNSELECTED_COLUMN,
+					 g_param_spec_int ("unselected_column",
+							   _("Unselected Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
 }
 
-GtkType
-e_cell_pixbuf_get_type (void)
-{
-    static guint type = 0;
-
-    if (!type) {
-        GtkTypeInfo type_info = {
-            "ECellPixbuf",
-            sizeof (ECellPixbuf),
-            sizeof (ECellPixbufClass),
-            (GtkClassInitFunc) e_cell_pixbuf_class_init,
-            (GtkObjectInitFunc) e_cell_pixbuf_init,
-            NULL, NULL,
-        };
-
-        type = gtk_type_unique (e_cell_get_type (), &type_info);
-    }
-
-    return type;
-}
-
+E_MAKE_TYPE (e_cell_pixbuf,
+	     "ECellPixbuf",
+	     ECellPixbuf,
+	     e_cell_pixbuf_class_init,
+	     e_cell_pixbuf_init,
+	     PARENT_TYPE)

@@ -35,10 +35,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
-#define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
-#define E_TABLE_GROUP_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_GROUP_TYPE, ETableGroupClass))
-#define E_IS_TABLE_GROUP(o)       (GTK_CHECK_TYPE ((o), E_TABLE_GROUP_TYPE))
-#define E_IS_TABLE_GROUP_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_TYPE))
+#define E_TABLE_GROUP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
+#define E_TABLE_GROUP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_GROUP_TYPE, ETableGroupClass))
+#define E_IS_TABLE_GROUP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_GROUP_TYPE))
+#define E_IS_TABLE_GROUP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_TYPE))
 
 typedef struct {
 	GnomeCanvasGroup group;
@@ -166,7 +166,7 @@ gint          e_table_group_start_drag        (ETableGroup       *etg,
 					       gint               row,
 					       gint               col,
 					       GdkEvent          *event);
-GtkType       e_table_group_get_type          (void);
+GType         e_table_group_get_type          (void);
 
 typedef void (*ETableGroupLeafFn) (void *e_table_item, void *closure);
 void          e_table_group_apply_to_leafs    (ETableGroup       *etg,

@@ -31,10 +31,10 @@
 G_BEGIN_DECLS
 
 #define E_TREE_SCROLLED_TYPE        (e_tree_scrolled_get_type ())
-#define E_TREE_SCROLLED(o)          (GTK_CHECK_CAST ((o), E_TREE_SCROLLED_TYPE, ETreeScrolled))
-#define E_TREE_SCROLLED_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SCROLLED_TYPE, ETreeScrolledClass))
-#define E_IS_TREE_SCROLLED(o)       (GTK_CHECK_TYPE ((o), E_TREE_SCROLLED_TYPE))
-#define E_IS_TREE_SCROLLED_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_SCROLLED_TYPE))
+#define E_TREE_SCROLLED(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_SCROLLED_TYPE, ETreeScrolled))
+#define E_TREE_SCROLLED_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_SCROLLED_TYPE, ETreeScrolledClass))
+#define E_IS_TREE_SCROLLED(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_SCROLLED_TYPE))
+#define E_IS_TREE_SCROLLED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SCROLLED_TYPE))
 
 typedef struct {
 	EScrollFrame parent;
@@ -46,7 +46,7 @@ typedef struct {
 	EScrollFrameClass parent_class;
 } ETreeScrolledClass;
 
-GtkType         e_tree_scrolled_get_type                  (void);
+GType           e_tree_scrolled_get_type                  (void);
 
 ETreeScrolled *e_tree_scrolled_construct                 (ETreeScrolled *ets,
 							  ETreeModel    *etm,

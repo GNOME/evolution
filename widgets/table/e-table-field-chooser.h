@@ -39,10 +39,10 @@ G_BEGIN_DECLS
  */
 
 #define E_TABLE_FIELD_CHOOSER_TYPE			(e_table_field_chooser_get_type ())
-#define E_TABLE_FIELD_CHOOSER(obj)			(GTK_CHECK_CAST ((obj), E_TABLE_FIELD_CHOOSER_TYPE, ETableFieldChooser))
-#define E_TABLE_FIELD_CHOOSER_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TABLE_FIELD_CHOOSER_TYPE, ETableFieldChooserClass))
-#define E_IS_TABLE_FIELD_CHOOSER(obj)		(GTK_CHECK_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
-#define E_IS_TABLE_FIELD_CHOOSER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
+#define E_TABLE_FIELD_CHOOSER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TABLE_FIELD_CHOOSER_TYPE, ETableFieldChooser))
+#define E_TABLE_FIELD_CHOOSER_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TABLE_FIELD_CHOOSER_TYPE, ETableFieldChooserClass))
+#define E_IS_TABLE_FIELD_CHOOSER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
+#define E_IS_TABLE_FIELD_CHOOSER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
 
 
 typedef struct _ETableFieldChooser       ETableFieldChooser;
@@ -72,7 +72,7 @@ struct _ETableFieldChooserClass
 
 
 GtkWidget *e_table_field_chooser_new(void);
-GtkType    e_table_field_chooser_get_type (void);
+GType      e_table_field_chooser_get_type (void);
 
 G_END_DECLS
 

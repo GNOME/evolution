@@ -26,10 +26,10 @@
 #include <gal/e-table/e-table.h>
 
 #define E_CELL_PIXBUF_TYPE		(e_cell_pixbuf_get_type ())
-#define E_CELL_PIXBUF(o)		(GTK_CHECK_CAST ((o), E_CELL_PIXBUF_TYPE, ECellPixbuf))
-#define E_CELL_PIXBUF_CLASS(k)	(GTK_CHECK_CAST_CLASS ((k), E_CELL_PIXBUF_TYPE, ECellPixbufClass))
-#define E_IS_CELL_PIXBUF(o)		(GTK_CHECK_TYPE ((o), E_CELL_PIXBUF_TYPE))
-#define E_IS_CELL_PIXBUF_CLASS(k)	(GTK_CHECK_CLASS_TYPE ((k), E_CELL_PIXBUF_TYPE))
+#define E_CELL_PIXBUF(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PIXBUF_TYPE, ECellPixbuf))
+#define E_CELL_PIXBUF_CLASS(k)	(G_TYPE_CHECK_INSTANCE_CAST_CLASS ((k), E_CELL_PIXBUF_TYPE, ECellPixbufClass))
+#define E_IS_CELL_PIXBUF(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_PIXBUF_TYPE))
+#define E_IS_CELL_PIXBUF_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_PIXBUF_TYPE))
 
 typedef struct _ECellPixbuf ECellPixbuf;
 typedef struct _ECellPixbufClass ECellPixbufClass;
@@ -46,7 +46,7 @@ struct _ECellPixbufClass {
     ECellClass parent_class;
 };
 
-GtkType e_cell_pixbuf_get_type (void);
+GType   e_cell_pixbuf_get_type (void);
 ECell *e_cell_pixbuf_new (void);
 void e_cell_pixbuf_construct (ECellPixbuf *ecp);
 

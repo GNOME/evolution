@@ -655,10 +655,10 @@ ect_print_height (ECellView *ecell_view, GnomePrintContext *context,
 }
 
 /*
- * GtkObject::destroy method
+ * GObject::dispose method
  */
 static void
-ect_destroy (GtkObject *object)
+ect_dispose (GObject *object)
 {
 	ECellTree *ect = E_CELL_TREE (object);
 
@@ -675,15 +675,15 @@ ect_destroy (GtkObject *object)
 		gdk_pixbuf_unref (ect->closed_pixbuf);
 	ect->closed_pixbuf = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_cell_tree_class_init (GtkObjectClass *object_class)
+e_cell_tree_class_init (GObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = ect_destroy;
+	object_class->dispose = ect_dispose;
 
 	ecc->new_view         = ect_new_view;
 	ecc->kill_view        = ect_kill_view;
@@ -700,7 +700,7 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 	ecc->show_tooltip     = ect_show_tooltip;
 	ecc->get_bg_color     = ect_get_bg_color;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE)
@@ -764,7 +764,7 @@ e_cell_tree_new (GdkPixbuf *open_pixbuf,
 		 gboolean draw_lines,
 		 ECell *subcell)
 {
-	ECellTree *ect = gtk_type_new (e_cell_tree_get_type ());
+	ECellTree *ect = g_object_new (E_CELL_TREE_TYPE, NULL);
 
 	e_cell_tree_construct (ect, open_pixbuf, closed_pixbuf, draw_lines, subcell);
 
