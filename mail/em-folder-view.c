@@ -1021,7 +1021,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	 *
 	 * This is the context menu shown on the message list or over a message.
 	 */
-	emp = em_popup_new("org.gnome.mail.folderview.popup");
+	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup");
 	target = em_folder_view_get_popup_target(emfv, emp);
 
 	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)

@@ -1,5 +1,9 @@
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (emfv_popup): Fix the popup id.
+	
+2004-11-03  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-view.c (emfv_list_done_message_selected): revert
 	jeff's last change - we do actually want to know when we couldn't
 	load a message.  the crash he was fixing was fixed elsewhere.
