@@ -19,6 +19,7 @@
 #include <camel/camel-folder.h>
 #include "message-list.h"
 #include "message-thread.h"
+#include "mail-config.h"
 #include "mail.h"
 #include "Mail.h"
 #include "widgets/e-table/e-table-header-item.h"
@@ -848,7 +849,7 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		e_tree_model_node_insert(etm, NULL, 0, message_list);
 	e_tree_model_node_set_expanded (etm, message_list->tree_root, TRUE);
 
-	if (threaded_view) {
+	if (mail_config_thread_list()) {
 		struct _container *head;
 
 		head = thread_messages (message_list->folder, uids);
@@ -1031,14 +1032,11 @@ message_list_foreach (MessageList *message_list,
 					       mlfe_callback, &mlfe_data);
 }
 
-gboolean threaded_view = TRUE;
-
 void
 message_list_toggle_threads (BonoboUIHandler *uih, void *user_data,
 			     const char *path)
 {
 	MessageList *ml = user_data;
-
-	threaded_view = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	mail_config_set_thread_list(bonobo_ui_handler_menu_get_toggle_state (uih, path));
 	message_list_regenerate (ml, ml->search);
 }

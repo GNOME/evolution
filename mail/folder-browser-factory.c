@@ -18,6 +18,7 @@
 #include "folder-browser.h"
 #include "mail.h"
 #include "shell/Evolution.h"
+#include "mail-config.h"
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
@@ -60,7 +61,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					       _("_Threaded Message List"),
 					       NULL, -1, 0, 0, NULL, NULL);
 	bonobo_ui_handler_menu_set_toggle_state (uih, "/View/Threaded",
-						 threaded_view);
+						 mail_config_thread_list());
 	bonobo_ui_handler_menu_set_callback (uih, "/View/Threaded",
 					     message_list_toggle_threads,
 					     FOLDER_BROWSER (folder_browser)->message_list,

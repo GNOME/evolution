@@ -67,5 +67,7 @@ main (int argc, char *argv [])
 	GDK_THREADS_LEAVE ();
 #endif
 
+	mail_config_write_on_exit ();
+
 	return 0;
 }

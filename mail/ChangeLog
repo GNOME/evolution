@@ -1,3 +1,7 @@
+2000-08-08  Jeremy Wise  <jwise@pathwaynet.com>
+	* mail-config.[ch], main.c, folder-browser-factory.c: State of the
+	threaded list toggle is now saved via gnome_config
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c (service_page_item_new): Attach a signal

@@ -243,6 +243,12 @@ mail_config_read ()
 			       evolution_dir);
 	config->send_html = gnome_config_get_bool (str);
 	g_free (str);
+
+	/* Show Messages Threaded */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
+			       evolution_dir);
+	config->thread_list = gnome_config_get_bool (str);
+	g_free (str);
 	
 	gnome_config_sync ();
 }
@@ -339,6 +345,20 @@ mail_config_write ()
 			       evolution_dir);
 	gnome_config_set_bool (str, config->send_html);
 	g_free (str);
+
+	gnome_config_sync ();
+}
+
+void
+mail_config_write_on_exit ()
+{
+	gchar *str;
+
+	/* Show Messages Threaded */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->thread_list);
+	g_free (str);
 	
 	gnome_config_sync ();
 }
@@ -378,6 +398,18 @@ gboolean
 mail_config_send_html ()
 {
 	return config->send_html;
+}
+
+gboolean
+mail_config_thread_list ()
+{
+	return config->thread_list;
+}
+
+void
+mail_config_set_thread_list (gboolean value)
+{
+	config->thread_list = value;
 }
 
 MailConfig *

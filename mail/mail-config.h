@@ -45,6 +45,7 @@ typedef struct
 	GSList *news;
 	MailConfigService *transport;
 	gboolean send_html;
+	gboolean thread_list;
 } MailConfig;
 
 /* Identities */
@@ -62,6 +63,7 @@ void mail_config_init (void);
 void mail_config_clear (void);
 void mail_config_read (void);
 void mail_config_write (void);
+void mail_config_write_on_exit (void);
 
 /* Accessor functions */
 gboolean mail_config_is_configured ();
@@ -69,7 +71,8 @@ MailConfigIdentity *mail_config_get_default_identity (void);
 MailConfigService *mail_config_get_default_source (void);
 MailConfigService *mail_config_get_transport (void);
 gboolean mail_config_send_html ();
-
+gboolean mail_config_thread_list ();
+void mail_config_set_thread_list (gboolean value);
 MailConfig *mail_config_fetch (void);
 
 #endif
