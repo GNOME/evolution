@@ -1,3 +1,10 @@
+2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* configure.in: Check for isblank
+
+	* config.h.in: 
+	* acconfig.h: #undef HAVE_ISBLANK
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Bump Bonobo requirement to >= 0.20

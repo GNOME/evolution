@@ -22,6 +22,7 @@
 #undef PGP_PATH
 #undef USING_GNOME_PRINT_0_20
 #undef NEED_KRB_SENDAUTH_PROTO
+#undef HAVE_ISBLANK
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
