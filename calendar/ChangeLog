@@ -1,3 +1,7 @@
+1998-11-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c: Add ctype.h
+
 1998-10-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-cal.c (gnome_calendar_direction): Add the offset from the

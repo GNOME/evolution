@@ -8,6 +8,7 @@
  */
 #include <string.h>
 #include <glib.h>
+#include <ctype.h>
 #include "calobj.h"
 #include "timeutil.h"
 #include "versit/vcc.h"
