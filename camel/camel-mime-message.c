@@ -206,7 +206,7 @@ camel_mime_message_set_date (CamelMimeMessage *message,  time_t date, int offset
 #if defined(HAVE_TIMEZONE)
 		tz = timezone;
 #elif defined(HAVE_TM_GMTOFF)
-		tz = local->tm_gmtoff;
+		tz = -local->tm_gmtoff;
 #endif
 		offset = -(((tz/60/60) * 100) + (tz/60 % 60));
 		if (local->tm_isdst>0)

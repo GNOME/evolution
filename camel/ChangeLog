@@ -1,3 +1,9 @@
+2001-12-07  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-message.c (camel_mime_message_set_date): Fix the
+	tm_gmtoff case (its sign is the opposite of "timezone"). Fixes
+	#14678
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_content_type_simple): Protect against
