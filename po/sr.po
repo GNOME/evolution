@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-07 11:38+0200\n"
+"POT-Creation-Date: 2004-10-13 10:31+0200\n"
 "PO-Revision-Date: 2004-10-07 11:40+0200\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <gnom@prevod.org>\n"
@@ -256,7 +256,7 @@ msgstr "Подесите самодопуњавање"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: addressbook/gui/component/addressbook-view.c:1144
+#: addressbook/gui/component/addressbook-view.c:1143
 #: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "Контакти"
@@ -318,7 +318,7 @@ msgid "Create a new contact list"
 msgstr "Направи нови списак контаката"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:813
+#: addressbook/gui/component/addressbook-view.c:812
 msgid "New Address Book"
 msgstr "Нови адресар"
 
@@ -421,12 +421,12 @@ msgstr ""
 "\n"
 "Будите стрпљиви док Еволуција пренесе ваше податке ПилотСинка..."
 
-#: addressbook/gui/component/addressbook-view.c:711
+#: addressbook/gui/component/addressbook-view.c:710
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Адресар „%s“ ће бити уклоњен. Сигурно желите да наставите?"
 
-#: addressbook/gui/component/addressbook-view.c:814
+#: addressbook/gui/component/addressbook-view.c:813
 #: addressbook/gui/widgets/e-addressbook-view.c:1123
 #: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -437,7 +437,7 @@ msgstr "Адресар „%s“ ће бити уклоњен. Сигурно ж�
 msgid "Delete"
 msgstr "Обриши"
 
-#: addressbook/gui/component/addressbook-view.c:815
+#: addressbook/gui/component/addressbook-view.c:814
 #: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Особине..."
@@ -447,12 +447,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Анонимно приступам LDAP серверу"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:420
+#: camel/providers/groupwise/camel-gw-listener.c:460
 msgid "Failed to authenticate.\n"
 msgstr "Нисам могао да се пријавим.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:409
+#: camel/providers/groupwise/camel-gw-listener.c:449
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sУнеси лозинку за %s (корисник %s)"
@@ -2908,8 +2908,8 @@ msgstr "Протокол није подржан"
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
 #: camel/camel-service.c:724 camel/camel-service.c:886
-#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:463
-#: camel/providers/pop3/camel-pop3-store.c:544
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:474
+#: camel/providers/pop3/camel-pop3-store.c:555
 msgid "Cancelled"
 msgstr "Поништено"
 
@@ -2920,6 +2920,7 @@ msgstr "Не могу да откажем"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
+#: calendar/gui/comp-editor-factory.c:428
 msgid "Authentication Failed"
 msgstr "Пријава неуспела"
 
@@ -3781,7 +3782,7 @@ msgstr "Роковник Еволуције је неочекиван оконч
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Ваши календари неће бити доступни док се Еволуција поново не покрене."
 
-#: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Унесите лозинку"
@@ -3853,7 +3854,7 @@ msgstr "Део Еволуције за задужења"
 #: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
-#: camel/providers/groupwise/camel-gw-listener.c:332
+#: camel/providers/groupwise/camel-gw-listener.c:372
 msgid "Tasks"
 msgstr "Задужења"
 
@@ -4130,8 +4131,8 @@ msgstr "Нерасподељено"
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1910
-#: camel/providers/groupwise/camel-gw-listener.c:331
-#: camel/providers/groupwise/camel-gw-listener.c:361
+#: camel/providers/groupwise/camel-gw-listener.c:371
+#: camel/providers/groupwise/camel-gw-listener.c:401
 msgid "Calendar"
 msgstr "Календар"
 
@@ -4307,19 +4308,29 @@ msgstr "Недељни преглед"
 msgid "Month View"
 msgstr "Месечни преглед"
 
-#: calendar/gui/comp-editor-factory.c:409
+#: calendar/gui/comp-editor-factory.c:410
 msgid "Error while opening the calendar"
 msgstr "Грешка код отварања календара"
 
-#: calendar/gui/comp-editor-factory.c:420
+#: calendar/gui/comp-editor-factory.c:416
 msgid "Method not supported when opening the calendar"
 msgstr "Метод није подржан код отварања календара"
 
-#: calendar/gui/comp-editor-factory.c:426
+#: calendar/gui/comp-editor-factory.c:422
 msgid "Permission denied to open the calendar"
 msgstr "Забрањен приступ календару"
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:434
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:561
+#: camel/providers/pop3/camel-pop3-store.c:568
+#: camel/providers/pop3/camel-pop3-store.c:574 shell/e-shell.c:1228
+msgid "Unknown error"
+msgstr "Непозната грешка"
+
+#: calendar/gui/comp-editor-factory.c:478
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -4851,43 +4862,43 @@ msgstr "До "
 msgid "Could not update object"
 msgstr "Нисам могао да освежим променама објекат"
 
-#: calendar/gui/dialogs/comp-editor.c:878
-#: calendar/gui/dialogs/comp-editor.c:915
+#: calendar/gui/dialogs/comp-editor.c:870
+#: calendar/gui/dialogs/comp-editor.c:907
 msgid "Edit Appointment"
 msgstr "Измени заказани састанак"
 
-#: calendar/gui/dialogs/comp-editor.c:883
-#: calendar/gui/dialogs/comp-editor.c:920
+#: calendar/gui/dialogs/comp-editor.c:875
+#: calendar/gui/dialogs/comp-editor.c:912
 #, c-format
 msgid "Appointment - %s"
 msgstr "Заказани састанак - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:886
-#: calendar/gui/dialogs/comp-editor.c:923
+#: calendar/gui/dialogs/comp-editor.c:878
+#: calendar/gui/dialogs/comp-editor.c:915
 #, c-format
 msgid "Task - %s"
 msgstr "Задужење - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:889
-#: calendar/gui/dialogs/comp-editor.c:926
+#: calendar/gui/dialogs/comp-editor.c:881
+#: calendar/gui/dialogs/comp-editor.c:918
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Унос у дневник - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:900
-#: calendar/gui/dialogs/comp-editor.c:936
+#: calendar/gui/dialogs/comp-editor.c:892
+#: calendar/gui/dialogs/comp-editor.c:928
 msgid "No summary"
 msgstr "Нема сажетка"
 
-#: calendar/gui/dialogs/comp-editor.c:1302
-#: calendar/gui/dialogs/comp-editor.c:1335
-#: calendar/gui/dialogs/comp-editor.c:1359
+#: calendar/gui/dialogs/comp-editor.c:1294
+#: calendar/gui/dialogs/comp-editor.c:1327
+#: calendar/gui/dialogs/comp-editor.c:1351
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Измене учињене на овом предмету могу бити занемарене ако буде освежен "
 "променама"
 
-#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1375
 msgid "Unable to use current version!"
 msgstr "Не могу да користим текућу верзију!"
 
@@ -5142,7 +5153,7 @@ msgstr "_Почетно време:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1111
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
+#: mail/em-account-prefs.c:427 mail/em-folder-view.c:936
 #: mail/mail-account-gui.c:1577 mail/mail-account-gui.c:2022
 #: mail/mail-config.glade.h:103
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
@@ -5669,7 +5680,7 @@ msgstr "%s на %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s за непознат тип покретача"
 
-#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2385
+#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2389
 #, c-format
 msgid "Click to open %s"
 msgstr "Кликните да отворите %s"
@@ -5783,7 +5794,7 @@ msgstr "Не"
 #: camel/providers/imap4/camel-imap4-engine.c:1432
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1506
-#: camel/providers/imap4/camel-imap4-store.c:1194
+#: camel/providers/imap4/camel-imap4-store.c:1204
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
@@ -5854,7 +5865,7 @@ msgstr "Уносим промене у објекте"
 
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1084
 #: calendar/gui/e-calendar-view.c:1431 calendar/gui/e-calendar-view.c:1512
-#: mail/em-folder-view.c:899 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:902 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Отвори"
 
@@ -5864,7 +5875,7 @@ msgstr "Отвори _веб страницу"
 
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
 #: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
-#: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
+#: mail/em-folder-view.c:904 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Сачувај као..."
@@ -5921,7 +5932,7 @@ msgstr "_Обележи изабрана задужења као завршен�
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:927
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9099,7 +9110,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1245
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1261
 #: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Поништено."
@@ -9477,7 +9488,7 @@ msgstr "Важење тражених уверења је истекло."
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:225
-#: camel/providers/imap/camel-imap-store.c:1245
+#: camel/providers/imap/camel-imap-store.c:1256
 msgid "Bad authentication response from server."
 msgstr "Лош одговор на пријаву од сервера."
 
@@ -10177,31 +10188,22 @@ msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Ова опција ће повезати на IMAP сервер коришћењем лозинке у обичном тексту."
 
-#: camel/providers/groupwise/camel-gw-listener.c:362
+#: camel/providers/groupwise/camel-gw-listener.c:402
 msgid "Checklist"
 msgstr "Попис"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3229
+#: camel/providers/imap/camel-imap-store.c:3240
 msgid "Operation cancelled"
 msgstr "Операција обустављена"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3232
+#: camel/providers/imap/camel-imap-store.c:3243
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Веза са сервером је неочекивано искључена: %s"
-
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:260
-#: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:557
-#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
-msgid "Unknown error"
-msgstr "Непозната грешка"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
@@ -10387,80 +10389,80 @@ msgstr "IMAP сервер %s"
 msgid "IMAP service for %s on %s"
 msgstr "IMAP сервис за %s на %s"
 
-#: camel/providers/imap/camel-imap-store.c:552
-#: camel/providers/imap/camel-imap-store.c:576
-#: camel/providers/imapp/camel-imapp-store.c:239
-#: camel/providers/nntp/camel-nntp-store.c:219
-#: camel/providers/pop3/camel-pop3-store.c:177
-#: camel/providers/smtp/camel-smtp-transport.c:271
-#: camel/providers/smtp/camel-smtp-transport.c:292
+#: camel/providers/imap/camel-imap-store.c:559
+#: camel/providers/imap/camel-imap-store.c:587
+#: camel/providers/imapp/camel-imapp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/pop3/camel-pop3-store.c:184
+#: camel/providers/smtp/camel-smtp-transport.c:278
+#: camel/providers/smtp/camel-smtp-transport.c:304
 #, c-format
 msgid "Could not connect to %s (port %s): %s"
 msgstr "Нисам могао да се повежем на %s (порт %s): %s"
 
-#: camel/providers/imap/camel-imap-store.c:554
+#: camel/providers/imap/camel-imap-store.c:561
 #: camel/providers/imap4/camel-imap4-store.c:210
-#: camel/providers/pop3/camel-pop3-store.c:179
-#: camel/providers/smtp/camel-smtp-transport.c:273
+#: camel/providers/pop3/camel-pop3-store.c:186
+#: camel/providers/smtp/camel-smtp-transport.c:280
 msgid "SSL unavailable"
 msgstr "SSL није доступан"
 
-#: camel/providers/imap/camel-imap-store.c:573
-#: camel/providers/imap/camel-imap-store.c:850
+#: camel/providers/imap/camel-imap-store.c:584
+#: camel/providers/imap/camel-imap-store.c:861
 #: camel/providers/imap4/camel-imap4-store.c:221
-#: camel/providers/imapp/camel-imapp-store.c:236
-#: camel/providers/nntp/camel-nntp-store.c:216
-#: camel/providers/nntp/camel-nntp-store.c:234
-#: camel/providers/pop3/camel-pop3-store.c:199
+#: camel/providers/imapp/camel-imapp-store.c:246
+#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/pop3/camel-pop3-store.c:210
 msgid "Connection cancelled"
 msgstr "Повезивање поништено"
 
-#: camel/providers/imap/camel-imap-store.c:684
-#: camel/providers/imap/camel-imap-store.c:715
+#: camel/providers/imap/camel-imap-store.c:695
+#: camel/providers/imap/camel-imap-store.c:726
 #: camel/providers/imap4/camel-imap4-store.c:246
 #: camel/providers/imap4/camel-imap4-store.c:259
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Нисам могао да се повежем на IMAP сервер %s у сигурносном моду: %s"
 
-#: camel/providers/imap/camel-imap-store.c:685
-#: camel/providers/pop3/camel-pop3-store.c:240
+#: camel/providers/imap/camel-imap-store.c:696
+#: camel/providers/pop3/camel-pop3-store.c:251
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS екстензија није подржана."
 
-#: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/imap/camel-imap-store.c:727
 #: camel/providers/imap4/camel-imap4-store.c:247
-#: camel/providers/pop3/camel-pop3-store.c:281
+#: camel/providers/pop3/camel-pop3-store.c:292
 msgid "SSL negotiations failed"
 msgstr "SSL преговори нису успели"
 
-#: camel/providers/imap/camel-imap-store.c:853
+#: camel/providers/imap/camel-imap-store.c:864
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Нисам могао да се повежем помоћу наредбе %s: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1277
+#: camel/providers/imap/camel-imap-store.c:1288
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP сервер %s не подржава тражени тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1287
-#: camel/providers/smtp/camel-smtp-transport.c:493
+#: camel/providers/imap/camel-imap-store.c:1298
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Нема подршке за тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1310
-#: camel/providers/imapp/camel-imapp-store.c:352
+#: camel/providers/imap/camel-imap-store.c:1321
+#: camel/providers/imapp/camel-imapp-store.c:362
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sМолим унесите IMAP лозинку за %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1324
+#: camel/providers/imap/camel-imap-store.c:1335
 msgid "You didn't enter a password."
 msgstr "Нисте унели лозинку."
 
-#: camel/providers/imap/camel-imap-store.c:1353
+#: camel/providers/imap/camel-imap-store.c:1364
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10471,26 +10473,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1872
-#: camel/providers/imap/camel-imap-store.c:2062
+#: camel/providers/imap/camel-imap-store.c:1883
+#: camel/providers/imap/camel-imap-store.c:2073
 #, c-format
 msgid "No such folder %s"
 msgstr "Нема таквог директоријума %s"
 
-#: camel/providers/imap/camel-imap-store.c:1890
-#: camel/providers/imap/camel-imap-store.c:2268
-#: camel/providers/imap4/camel-imap4-store.c:735
+#: camel/providers/imap/camel-imap-store.c:1901
+#: camel/providers/imap/camel-imap-store.c:2279
+#: camel/providers/imap4/camel-imap4-store.c:745
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Име директоријума „%s“ није исправно јер садржи знак „%c“"
 
-#: camel/providers/imap/camel-imap-store.c:1948
-#: camel/providers/imap/camel-imap-store.c:2329
+#: camel/providers/imap/camel-imap-store.c:1959
+#: camel/providers/imap/camel-imap-store.c:2340
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Главни директоријум не може садржати директоријуме у себи"
 
-#: camel/providers/imap/camel-imap-store.c:2003
+#: camel/providers/imap/camel-imap-store.c:2014
 #: camel/providers/local/camel-maildir-store.c:139
 #: camel/providers/local/camel-mbox-store.c:209
 #: camel/providers/local/camel-mh-store.c:236
@@ -10498,7 +10500,7 @@ msgstr "Главни директоријум не може садржати д�
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Не могу да направим директоријум „%s“: директоријум постоји."
 
-#: camel/providers/imap/camel-imap-store.c:2279
+#: camel/providers/imap/camel-imap-store.c:2290
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Непознати главни директоријум: %s"
@@ -10626,95 +10628,95 @@ msgstr ""
 msgid "Could not connect to %s: %s"
 msgstr "Нисам могао да се повежем на %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:334
+#: camel/providers/imap4/camel-imap4-store.c:344
 #, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "Нисам могао да се пријавим на ИМАП сервер %s помоћу механизма пријаве „%s“"
 
-#: camel/providers/imap4/camel-imap4-store.c:379
+#: camel/providers/imap4/camel-imap4-store.c:389
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sУнесите ИМАП лозинку корисника „%s“ на рачунару %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:449
+#: camel/providers/imap4/camel-imap4-store.c:459
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Нисам могао да се пријавим на ИМАП сервер %s помоћу %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:672
+#: camel/providers/imap4/camel-imap4-store.c:682
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr "Не могу да добавим директоријум „%s“ са ИМАП сервера %s: непознато"
 
-#: camel/providers/imap4/camel-imap4-store.c:786
+#: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Не могу да направим директоријум „%s“: неисправно име сандучета"
 
-#: camel/providers/imap4/camel-imap4-store.c:792
+#: camel/providers/imap4/camel-imap4-store.c:802
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "Не могу да направим директоријум „%s“: лоша наредба"
 
-#: camel/providers/imap4/camel-imap4-store.c:823
+#: camel/providers/imap4/camel-imap4-store.c:833
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Не могу да обришем директоријум „%s“: нарочити директоријум"
 
-#: camel/providers/imap4/camel-imap4-store.c:882
+#: camel/providers/imap4/camel-imap4-store.c:892
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "Не могу да обришем директоријум „%s“: неисправно име сандучета"
 
-#: camel/providers/imap4/camel-imap4-store.c:887
+#: camel/providers/imap4/camel-imap4-store.c:897
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Не могу да обришем директоријум „%s“: лоша наредба"
 
-#: camel/providers/imap4/camel-imap4-store.c:907
+#: camel/providers/imap4/camel-imap4-store.c:917
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "Не могу да преименујем директоријум „%s“ у „%s“: нарочити директоријум"
 
-#: camel/providers/imap4/camel-imap4-store.c:939
+#: camel/providers/imap4/camel-imap4-store.c:949
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr ""
 "Не могу да преименујем директоријум „%s“ у „%s“: неисправно име сандучета"
 
-#: camel/providers/imap4/camel-imap4-store.c:944
+#: camel/providers/imap4/camel-imap4-store.c:954
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Не могу да преименујем директоријум „%s“ у „%s“: лоша наредба"
 
-#: camel/providers/imap4/camel-imap4-store.c:1192
+#: camel/providers/imap4/camel-imap4-store.c:1202
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr "Не могу да добавим податке %s за образац „%s“ на ИМАП серверу %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1194
+#: camel/providers/imap4/camel-imap4-store.c:1204
 msgid "Bad command"
 msgstr "Лоша наредба"
 
-#: camel/providers/imap4/camel-imap4-store.c:1270
+#: camel/providers/imap4/camel-imap4-store.c:1280
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr ""
 "Не могу да се претплатим на директоријум „%s“: неисправно име сандучета"
 
-#: camel/providers/imap4/camel-imap4-store.c:1275
+#: camel/providers/imap4/camel-imap4-store.c:1285
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Не могу да се претплатим на директоријум „%s“: лоша наредба"
 
-#: camel/providers/imap4/camel-imap4-store.c:1335
+#: camel/providers/imap4/camel-imap4-store.c:1345
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "Не могу да се одјавим са директоријума „%s“: неисправно име сандучета"
 
-#: camel/providers/imap4/camel-imap4-store.c:1340
+#: camel/providers/imap4/camel-imap4-store.c:1350
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Не могу да се одјавим са директоријума „%s“: лоша наредба"
@@ -10755,7 +10757,7 @@ msgstr ""
 "\n"
 " !!! НЕ КОРИСТИТЕ ОВО ЗА ВАЖНУ ПОШТУ  !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:336
+#: camel/providers/imapp/camel-imapp-store.c:346
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Нисам могао да се повежем на ПОП сервер %s"
@@ -11286,7 +11288,7 @@ msgstr ""
 "Директоријум је можда оштећен, копирајте сачувано у `%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1137
+#: camel/providers/nntp/camel-nntp-store.c:1153
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Унесите ННТП лозинку за %s@%s"
@@ -11388,28 +11390,28 @@ msgid ""
 msgstr ""
 "Ова опција ће пријавити на NNTP сервер коришћењем лозинке у обичном тексту."
 
-#: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1247
+#: camel/providers/nntp/camel-nntp-store.c:120
+#: camel/providers/nntp/camel-nntp-store.c:1263
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP команда неуспела: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:237
+#: camel/providers/nntp/camel-nntp-store.c:248
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Нисам могао да прочитам поздрав од %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:260
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP сервер %s је узвратио кодом о грешци %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:413
+#: camel/providers/nntp/camel-nntp-store.c:429
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET вести преко %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:792
+#: camel/providers/nntp/camel-nntp-store.c:808
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11420,7 +11422,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:886
+#: camel/providers/nntp/camel-nntp-store.c:902
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11430,7 +11432,7 @@ msgstr ""
 "\n"
 "Нема такве групе. Изабрана ставка је вероватно надређени директоријум."
 
-#: camel/providers/nntp/camel-nntp-store.c:918
+#: camel/providers/nntp/camel-nntp-store.c:934
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11440,35 +11442,35 @@ msgstr ""
 "\n"
 "Група не постоји!"
 
-#: camel/providers/nntp/camel-nntp-store.c:943
+#: camel/providers/nntp/camel-nntp-store.c:959
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "Не можете направити директоријум у смештају вести: претплатите се уместо "
 "тога."
 
-#: camel/providers/nntp/camel-nntp-store.c:951
+#: camel/providers/nntp/camel-nntp-store.c:967
 msgid "You cannot rename a folder in a News store."
 msgstr "Не можете преименовати директоријум у смештају вести."
 
-#: camel/providers/nntp/camel-nntp-store.c:959
+#: camel/providers/nntp/camel-nntp-store.c:975
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Не можете уклонити директоријум у смештају вести: одјавите се уместо тога."
 
-#: camel/providers/nntp/camel-nntp-store.c:1129
+#: camel/providers/nntp/camel-nntp-store.c:1145
 msgid "Authentication requested but no username provided"
 msgstr "Неопходна је пријава а корисничко име није унето"
 
-#: camel/providers/nntp/camel-nntp-store.c:1159
+#: camel/providers/nntp/camel-nntp-store.c:1175
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Нисам могао да се пријавим сервер: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1276
+#: camel/providers/nntp/camel-nntp-store.c:1319
 msgid "Not connected."
 msgstr "Неповезан."
 
-#: camel/providers/nntp/camel-nntp-store.c:1327
+#: camel/providers/nntp/camel-nntp-store.c:1370
 #, c-format
 msgid "No such folder: %s"
 msgstr "Нема таквог директоријума: %s"
@@ -11567,30 +11569,30 @@ msgstr ""
 "протокола. Ово можда неће радити свим корисницима чак и на серверима који "
 "тврде да то подржавају."
 
-#: camel/providers/pop3/camel-pop3-store.c:202
+#: camel/providers/pop3/camel-pop3-store.c:213
 #, c-format
 msgid "Could not connect to POP server %s (port %s): %s"
 msgstr "Нисам могао да се повежем на ПОП сервер %s (порт %s): %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:221
+#: camel/providers/pop3/camel-pop3-store.c:232
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %s)"
 msgstr "Нисам могао да прочитам исправни поздрав ПОП сервера %s (порт %s)"
 
-#: camel/providers/pop3/camel-pop3-store.c:239
-#: camel/providers/pop3/camel-pop3-store.c:268
-#: camel/providers/pop3/camel-pop3-store.c:280
+#: camel/providers/pop3/camel-pop3-store.c:250
+#: camel/providers/pop3/camel-pop3-store.c:279
+#: camel/providers/pop3/camel-pop3-store.c:291
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Нисам могао да се повежем на ПОП сервер %s у безбедном режиму: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:378
+#: camel/providers/pop3/camel-pop3-store.c:389
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Нисам могао да се повежем на ПОП сервер %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:419
-#: camel/providers/pop3/camel-pop3-store.c:533
+#: camel/providers/pop3/camel-pop3-store.c:430
+#: camel/providers/pop3/camel-pop3-store.c:544
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11599,28 +11601,28 @@ msgstr ""
 "Нисам могао да се повежем на POP сервер %s: Тражени механизам пријаве није "
 "подржан."
 
-#: camel/providers/pop3/camel-pop3-store.c:435
+#: camel/providers/pop3/camel-pop3-store.c:446
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL `%s' пријава неуспела на POP сервер %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:447
+#: camel/providers/pop3/camel-pop3-store.c:458
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Не могу да се пријавим на POP сервер %s: грешка код SASL протокола"
 
-#: camel/providers/pop3/camel-pop3-store.c:466
+#: camel/providers/pop3/camel-pop3-store.c:477
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Нисам могао да се пријавим на POP сервер %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:492
+#: camel/providers/pop3/camel-pop3-store.c:503
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sУнесите лозинку за корисника „%s“ на рачунару %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:547
-#: camel/providers/pop3/camel-pop3-store.c:560
+#: camel/providers/pop3/camel-pop3-store.c:558
+#: camel/providers/pop3/camel-pop3-store.c:571
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11629,7 +11631,7 @@ msgstr ""
 "Нисам могао да се повежем на POP сервер %s.\n"
 "Грешка код слања лозинке: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:554
+#: camel/providers/pop3/camel-pop3-store.c:565
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11638,7 +11640,7 @@ msgstr ""
 "Нисам могао да се повежем на ПОП сервер %s.\n"
 "Грешка код слања корисничког имена: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:659
+#: camel/providers/pop3/camel-pop3-store.c:670
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Нема таквог директоријума `%s'."
@@ -11806,40 +11808,40 @@ msgstr "Неуспела привремена пријава"
 msgid "Authentication required"
 msgstr "Неопходна пријава"
 
-#: camel/providers/smtp/camel-smtp-transport.c:315
+#: camel/providers/smtp/camel-smtp-transport.c:327
 msgid "Welcome response error"
 msgstr "Грешка код одговора добродошлице"
 
-#: camel/providers/smtp/camel-smtp-transport.c:350
-#: camel/providers/smtp/camel-smtp-transport.c:389
+#: camel/providers/smtp/camel-smtp-transport.c:362
+#: camel/providers/smtp/camel-smtp-transport.c:401
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Нисам могао да се повежем на SMTP сервер %s у сигурносном моду: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:351
+#: camel/providers/smtp/camel-smtp-transport.c:363
 msgid "server does not appear to support SSL"
 msgstr "сервер изгледа да не подржава SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:365
+#: camel/providers/smtp/camel-smtp-transport.c:377
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "Неуспела STARTTLS команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:392
 msgid "STARTTLS command failed"
 msgstr "Неуспела STARTTLS команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:483
+#: camel/providers/smtp/camel-smtp-transport.c:495
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP сервер %s не подржава тражени тип ауторизације %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:521
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sУнесите лозинку за слање за корисника „%s“ на рачунару %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:540
+#: camel/providers/smtp/camel-smtp-transport.c:552
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11850,93 +11852,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:676
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP сервер %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:678
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP достава поште преко %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:696
 msgid "Cannot send message: service not connected."
 msgstr "Не могу да пошаљем поруку: услуга није повезана."
 
-#: camel/providers/smtp/camel-smtp-transport.c:690
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: sender address not valid."
 msgstr "Не могу да пошаљем поруку: адреса пошиљаоца није исправна."
 
-#: camel/providers/smtp/camel-smtp-transport.c:694
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Sending message"
 msgstr "Слање припремљених порука"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:721
 msgid "Cannot send message: no recipients defined."
 msgstr "Не могу да пошаљем поруку: нису одређени примаоци."
 
-#: camel/providers/smtp/camel-smtp-transport.c:720
+#: camel/providers/smtp/camel-smtp-transport.c:732
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Не могу да пошаљем поруку: један или више неисправних прималаца"
 
-#: camel/providers/smtp/camel-smtp-transport.c:889
+#: camel/providers/smtp/camel-smtp-transport.c:901
 msgid "SMTP Greeting"
 msgstr "SMTP поздрав"
 
-#: camel/providers/smtp/camel-smtp-transport.c:906
+#: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "Неуспела HELO команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:923
+#: camel/providers/smtp/camel-smtp-transport.c:935
 msgid "HELO command failed"
 msgstr "Неуспела HELO команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:989
+#: camel/providers/smtp/camel-smtp-transport.c:1001
 msgid "SMTP Authentication"
 msgstr "SMTP пријава"
 
-#: camel/providers/smtp/camel-smtp-transport.c:995
+#: camel/providers/smtp/camel-smtp-transport.c:1007
 msgid "Error creating SASL authentication object."
 msgstr "Грешка код превљења објекта SASL пријаве."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1024
+#: camel/providers/smtp/camel-smtp-transport.c:1035
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "Неуспела AUTH команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1029
+#: camel/providers/smtp/camel-smtp-transport.c:1041
 msgid "AUTH command failed"
 msgstr "Неуспела AUTH команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1091
+#: camel/providers/smtp/camel-smtp-transport.c:1103
 msgid "Bad authentication response from server.\n"
 msgstr "Лош одговор на пријаву од сервера.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1116
+#: camel/providers/smtp/camel-smtp-transport.c:1128
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "Неуспела MAIL FROM команда: %s: порука није послата"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1133
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 msgid "MAIL FROM command failed"
 msgstr "Неуспела MAIL FROM команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1157
+#: camel/providers/smtp/camel-smtp-transport.c:1169
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "Неуспела RCPT TO команда: %s: порука није послата"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1176
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> неуспело"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1215
-#: camel/providers/smtp/camel-smtp-transport.c:1273
-#: camel/providers/smtp/camel-smtp-transport.c:1292
+#: camel/providers/smtp/camel-smtp-transport.c:1227
+#: camel/providers/smtp/camel-smtp-transport.c:1285
+#: camel/providers/smtp/camel-smtp-transport.c:1304
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "Неуспела DATA команда: %s: порука није послата"
@@ -11944,26 +11946,26 @@ msgstr "Неуспела DATA команда: %s: порука није посл
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1232
-#: camel/providers/smtp/camel-smtp-transport.c:1308
+#: camel/providers/smtp/camel-smtp-transport.c:1244
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 msgid "DATA command failed"
 msgstr "Неуспела DATA команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1343
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "Неуспела RSET команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1347
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 msgid "RSET command failed"
 msgstr "Неуспела RSET команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1370
+#: camel/providers/smtp/camel-smtp-transport.c:1382
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "Неуспела QUIT команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "QUIT command failed"
 msgstr "Неуспела QUIT команда"
 
@@ -12293,6 +12295,10 @@ msgstr ""
 #: composer/mail-composer-errors.xml.h:33
 msgid "_Discard Changes"
 msgstr "_Занемари промене"
+
+#: composer/mail-composer-errors.xml.h:34
+msgid "Save Message"
+msgstr "Сачувај поруку"
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "_Save Message"
@@ -12901,7 +12907,7 @@ msgid "Evolution Mail preferences control"
 msgstr "Контрола особина Еволуција поште"
 
 # 48x48/emblems/emblem-mail.icon.in.h:1
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:422
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:511
 #: mail/mail-component.c:562
@@ -13107,7 +13113,7 @@ msgstr "није означен"
 msgid "Junk Test"
 msgstr "Провера ђубрета"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:935
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Етикета"
@@ -13321,7 +13327,7 @@ msgid "_Move to Folder"
 msgstr "_Премести у директоријум"
 
 #: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
-#: mail/em-folder-view.c:803 mail/message-list.c:1703
+#: mail/em-folder-view.c:806 mail/message-list.c:1703
 msgid "_Move"
 msgstr "Пре_мести"
 
@@ -13335,13 +13341,13 @@ msgid "Scanning folders in \"%s\""
 msgstr "Претражујем директоријуме у \"%s\""
 
 #: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
-#: mail/em-folder-view.c:803 mail/em-folder-view.c:817
+#: mail/em-folder-view.c:806 mail/em-folder-view.c:820
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Одаберите директоријум"
 
-#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:820
 msgid "C_opy"
 msgstr "У_множи"
 
@@ -13395,145 +13401,145 @@ msgid "_Properties"
 msgstr "О_собине"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:900 mail/em-popup.c:690
+#: mail/em-folder-view.c:903 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "_Уреди као нову поруку..."
 
-#: mail/em-folder-view.c:902
+#: mail/em-folder-view.c:905
 msgid "_Print"
 msgstr "_Штампај"
 
-#: mail/em-folder-view.c:905 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:908 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Одговори пошиљаоцу"
 
-#: mail/em-folder-view.c:906 mail/em-popup.c:811
+#: mail/em-folder-view.c:909 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Одговори на _листу"
 
-#: mail/em-folder-view.c:907 mail/em-popup.c:812
+#: mail/em-folder-view.c:910 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Одговори _Свима"
 
-#: mail/em-folder-view.c:908 mail/em-popup.c:814
+#: mail/em-folder-view.c:911 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "Просл_еди"
 
-#: mail/em-folder-view.c:911
+#: mail/em-folder-view.c:914
 msgid "Follo_w Up..."
 msgstr "Пр_ати..."
 
-#: mail/em-folder-view.c:912
+#: mail/em-folder-view.c:915
 msgid "Fla_g Completed"
 msgstr "Означ_и завршене"
 
-#: mail/em-folder-view.c:913
+#: mail/em-folder-view.c:916
 msgid "Cl_ear Flag"
 msgstr "Скло_ни ознаку"
 
-#: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:919 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "О_значи као прочитано"
 
-#: mail/em-folder-view.c:917
+#: mail/em-folder-view.c:920
 msgid "Mark as _Unread"
 msgstr "Означи као _непрочитано"
 
-#: mail/em-folder-view.c:918
+#: mail/em-folder-view.c:921
 msgid "Mark as _Important"
 msgstr "Оначи као _важно"
 
-#: mail/em-folder-view.c:919
+#: mail/em-folder-view.c:922
 msgid "_Mark as Unimportant"
 msgstr "_Означи као неважно"
 
-#: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:923 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Означи као _ђубре"
 
-#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:924 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Означи да _није ђубре"
 
-#: mail/em-folder-view.c:925
+#: mail/em-folder-view.c:928
 msgid "U_ndelete"
 msgstr "Пониш_ти брисање"
 
-#: mail/em-folder-view.c:928
+#: mail/em-folder-view.c:931
 msgid "Mo_ve to Folder..."
 msgstr "Прене_си у директоријум..."
 
-#: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:932 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Копирај у директоријум..."
 
-#: mail/em-folder-view.c:937
+#: mail/em-folder-view.c:940
 msgid "Add Sender to Address_book"
 msgstr "Додај пошиљаоца у адреса_р"
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:943
 msgid "Appl_y Filters"
 msgstr "При_мени филтере"
 
-#: mail/em-folder-view.c:941
+#: mail/em-folder-view.c:944
 msgid "F_ilter Junk"
 msgstr "Ф_илтрирај ђубре"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:947
 msgid "Crea_te Rule From Message"
 msgstr "На_прави правило од поруке"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:948
 msgid "VFolder on _Subject"
 msgstr "VFolder на _Наслов"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:949
 msgid "VFolder on Se_nder"
 msgstr "VFolder на П_ошиљаоца"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:950
 msgid "VFolder on _Recipients"
 msgstr "VFolder на _Примаоце"
 
-#: mail/em-folder-view.c:948
+#: mail/em-folder-view.c:951
 msgid "VFolder on Mailing _List"
 msgstr "VFolder на дописну _листу"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:955
 msgid "Filter on Sub_ject"
 msgstr "Филтрирај према насло_ву"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:956
 msgid "Filter on Sen_der"
 msgstr "Филтрирај према п_ошиљаоцу"
 
-#: mail/em-folder-view.c:954
+#: mail/em-folder-view.c:957
 msgid "Filter on Re_cipients"
 msgstr "Филтрирај према п_римаоцу"
 
-#: mail/em-folder-view.c:955
+#: mail/em-folder-view.c:958
 msgid "Filter on _Mailing List"
 msgstr "Филтрирај према _дописној листи"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1711 mail/em-folder-view.c:1751
+#: mail/em-folder-view.c:1714 mail/em-folder-view.c:1754
 #: mail/mail-config.glade.h:68
 msgid "Default"
 msgstr "Подразумевани"
 
-#: mail/em-folder-view.c:1848
+#: mail/em-folder-view.c:1851
 msgid "Print Message"
 msgstr "Штампај поруку"
 
-#: mail/em-folder-view.c:2115
+#: mail/em-folder-view.c:2118
 msgid "_Copy Link Location"
 msgstr "_Умножи адресу везе"
 
-#: mail/em-folder-view.c:2380
+#: mail/em-folder-view.c:2384
 #, c-format
 msgid "Click to mail %s"
 msgstr "Кликните да пошаљете %s"
@@ -14666,9 +14672,9 @@ msgstr "Корисничко_име"
 msgid "_Path:"
 msgstr "_Путања:"
 
-#: mail/mail-account-gui.c:1782
-msgid "Select individual file"
-msgstr "Одаберите неку датотеку"
+#: mail/mail-account-gui.c:1782 shell/e-shell-importer.c:643
+msgid "Select a file"
+msgstr "Одаберите датотеку"
 
 #: mail/mail-autofilter.c:74
 #, c-format
@@ -16762,10 +16768,6 @@ msgstr "Аутоматско"
 #: shell/e-shell-importer.c:638
 msgid "F_ilename:"
 msgstr "_Назив датотеке:"
-
-#: shell/e-shell-importer.c:643
-msgid "Select a file"
-msgstr "Одаберите датотеку"
 
 #: shell/e-shell-importer.c:655
 msgid "File _type:"
@@ -19594,6 +19596,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% завршено)"
+
+#~ msgid "Select individual file"
+#~ msgstr "Одаберите неку датотеку"
 
 #~ msgid "Failed to resolve host `%s': %s"
 #~ msgstr "Нисам могао да пронађем домаћина `%s': %s"
