@@ -94,7 +94,7 @@ popup_info_cleanup (GtkWidget *w, gpointer info)
 /* You are in a maze of twisty little callbacks, all alike... */
 
 static void
-edit_contact_info_have_book_cb (EBook *book, gpointer user_data)
+make_contact_editor_cb (EBook *book, gpointer user_data)
 {
 	if (book) {
 		EDestination *dest = E_DESTINATION (user_data);
@@ -116,7 +116,7 @@ edit_contact_info_cb (GtkWidget *w, gpointer user_data)
 		return;
 
 	gtk_object_ref (GTK_OBJECT (info->dest));
-	e_book_use_local_address_book (edit_contact_info_have_book_cb, (gpointer) info->dest);
+	e_book_use_local_address_book (make_contact_editor_cb, (gpointer) info->dest);
 }
 
 static void

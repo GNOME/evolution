@@ -37,12 +37,11 @@
 #include <addressbook/contact-editor/e-contact-editor.h>
 #include <addressbook/contact-editor/e-contact-quick-add.h>
 #include <addressbook/gui/widgets/e-minicard-widget.h>
-
+#include <addressbook/gui/widgets/e-addressbook-util.h>
 static GtkObjectClass *parent_class;
-static EBook *common_book = NULL; /* still sort of lame */
 
-static void e_address_popup_destroy             (GtkObject *);
-static void e_address_popup_query              (EAddressPopup *);
+static void e_address_popup_destroy (GtkObject *);
+static void e_address_popup_query   (EAddressPopup *);
 
 
 static void
@@ -68,6 +67,9 @@ e_address_popup_destroy (GtkObject *obj)
 
 	if (pop->card)
 		gtk_object_unref (GTK_OBJECT (pop->card));
+
+	if (pop->scheduled_refresh)
+		gtk_idle_remove (pop->scheduled_refresh);
 
 	if (pop->leave_timeout_tag)
 		gtk_timeout_remove (pop->leave_timeout_tag);
@@ -129,17 +131,66 @@ e_address_popup_refresh_names (EAddressPopup *pop)
 	e_address_popup_query (pop);
 }
 
+static gint
+refresh_idle_cb (gpointer ptr)
+{
+	EAddressPopup *pop = E_ADDRESS_POPUP (ptr);
+	e_address_popup_refresh_names (pop);
+	pop->scheduled_refresh = 0;
+	return 0;
+}
+
+static void
+e_address_popup_schedule_refresh (EAddressPopup *pop)
+{
+	if (pop->scheduled_refresh == 0)
+		pop->scheduled_refresh = gtk_idle_add (refresh_idle_cb, pop);
+}
+
+/* If we are handed something of the form "Foo <bar@bar.com>",
+   do the right thing. */
+static gboolean
+e_address_popup_set_free_form (EAddressPopup *pop, const gchar *txt)
+{
+	gchar *lt, *gt = NULL;
+
+	g_return_val_if_fail (pop && E_IS_ADDRESS_POPUP (pop), FALSE);
+
+	if (txt == NULL)
+		return FALSE;
+
+	lt = strchr (txt, '<');
+	if (lt)
+		gt = strchr (txt, '>');
+
+	if (lt && gt && lt+1 < gt) {
+		gchar *name  = g_strndup (txt,  lt-txt);
+		gchar *email = g_strndup (lt+1, gt-lt-1);
+		e_address_popup_set_name (pop, name);
+		e_address_popup_set_email (pop, email);
+
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
 void
 e_address_popup_set_name (EAddressPopup *pop, const gchar *name)
 {
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
-	g_free (pop->name);
-	pop->name = g_strdup (name);
-	g_strstrip (pop->name);
+	/* We only allow the name to be set once. */
+	if (pop->name)
+		return;
 
-	if (pop->name && pop->email)
-		e_address_popup_refresh_names (pop);
+	if (!e_address_popup_set_free_form (pop, name)) {
+		pop->name = g_strdup (name);
+		if (pop->name)
+			g_strstrip (pop->name);
+	}
+
+	e_address_popup_schedule_refresh (pop);
 }
 
 void
@@ -147,12 +198,17 @@ e_address_popup_set_email (EAddressPopup *pop, const gchar *email)
 {
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
-	g_free (pop->email);
-	pop->email = g_strdup (email);
-	g_strstrip (pop->email);
+	/* We only allow the e-mail to be set once. */
+	if (pop->email)
+		return;
 
-	if (pop->name && pop->email)
-		e_address_popup_refresh_names (pop);
+	if (!e_address_popup_set_free_form (pop, email)) {
+		pop->email = g_strdup (email);
+		if (pop->email)
+			g_strstrip (pop->email);
+	}
+
+	e_address_popup_schedule_refresh (pop);
 }
 
 void
@@ -214,10 +270,17 @@ e_address_popup_new (void)
 }
 
 static void
+contact_editor_cb (EBook *book, gpointer closure)
+{
+	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
+	EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
+	e_contact_editor_raise (ce);	
+}
+
+static void
 edit_contact_info_cb (EAddressPopup *pop)
 {
-	EContactEditor *ce = e_addressbook_show_contact_editor (common_book, pop->card, FALSE, TRUE);
-	e_contact_editor_raise (ce);
+	e_book_use_local_address_book (contact_editor_cb, pop);
 	gtk_widget_destroy (GTK_WIDGET (pop));
 }
 
@@ -250,7 +313,6 @@ static void
 add_contacts_cb (EAddressPopup *pop)
 {
 	if (pop->email && *pop->email) {
-
 		if (pop->name && *pop->name)
 			e_contact_quick_add (pop->name, pop->email, NULL, NULL);
 		else
@@ -280,7 +342,23 @@ e_address_popup_no_matches (EAddressPopup *pop)
 static void
 e_address_popup_multiple_matches (EAddressPopup *pop)
 {
-	
+	pop->multiple_matches = TRUE;
+}
+
+static void
+e_address_popup_name_only_matches (EAddressPopup *pop, const GList *cards)
+{
+	const GList *iter;
+	for (iter = cards; iter != NULL; iter = g_list_next (iter)) {
+		const ECard *card = E_CARD (iter->data);
+		gchar *name = e_card_name_to_string (card->name);
+		gchar *s = g_strdup_printf ("Matched %s", name);
+		GtkWidget *w = gtk_label_new (s);
+		gtk_widget_show (w);
+		g_free (name);
+		g_free (s);
+		gtk_box_pack_start (GTK_BOX (pop->main_vbox), w, TRUE, TRUE, 0);
+	}
 }
 
 
@@ -289,6 +367,25 @@ e_address_popup_multiple_matches (EAddressPopup *pop)
 /*
  *  Addressbook Query Fun
  */
+
+static void
+name_only_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
+{
+	EAddressPopup *pop;
+
+	if (status != E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS)
+		return;
+
+	pop = E_ADDRESS_POPUP (closure);
+
+	pop->query_tag = 0;
+
+	if (cards == NULL) {
+		e_address_popup_no_matches (pop);
+	} else {
+		e_address_popup_name_only_matches (pop, cards);
+	}
+}
 
 static void
 query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
@@ -300,47 +397,38 @@ query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpoint
 
 	pop = E_ADDRESS_POPUP (closure);
 
-	pop->have_queried = TRUE;
+	pop->query_tag = 0;
 	gtk_widget_hide (pop->query_msg);
 
 	if (cards == NULL) {
-
-		e_address_popup_no_matches (pop);
-
+		
+		/* Do a name-only query if:
+		   (1) The name is non-empty.
+		   (2) The e-mail is also non-empty (so that the query we just did wasn't actually a name-only query.
+		*/
+		if (pop->name && *pop->name && pop->email && *pop->email) {
+			pop->query_tag = e_book_name_and_email_query (book, pop->name, NULL, name_only_query_cb, pop);
+		} else {
+			e_address_popup_no_matches (pop);
+		}
+		
 	} else {
 		if (g_list_length ((GList *) cards) == 1)
 			e_address_popup_cardify (pop, E_CARD (cards->data));
 		else
 			e_address_popup_multiple_matches (pop);
 	}
-
-	pop->query_tag = 0;
 }
 
 static void
-start_query (EAddressPopup *pop)
+start_query (EBook *book, gpointer closure)
 {
-	g_assert (common_book != NULL);
-	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
+	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
 
 	if (pop->query_tag)
-		e_book_simple_query_cancel (common_book, pop->query_tag);
+		e_book_simple_query_cancel (book, pop->query_tag);
 
-	pop->query_tag = e_book_name_and_email_query (common_book, pop->name, pop->email, query_cb, pop);
-}
-
-static void
-loaded_book_cb (EBook *book, EBookStatus status, gpointer closure)
-{
-	g_return_if_fail (status == E_BOOK_STATUS_SUCCESS);
-	g_return_if_fail (book != NULL);
-
-	if (common_book == NULL) {
-		common_book = book;
-		gtk_object_ref (GTK_OBJECT (common_book));
-	}
-	
-	start_query (E_ADDRESS_POPUP (closure));
+	pop->query_tag = e_book_name_and_email_query (book, pop->name, pop->email, query_cb, pop);
 }
 
 static void
@@ -348,12 +436,7 @@ e_address_popup_query (EAddressPopup *pop)
 {
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
-	if (common_book == NULL) {
-		EBook *book = e_book_new ();
-		e_book_load_local_address_book (book, loaded_book_cb, pop);
-	} else {
-		start_query (pop);
-	}
+	e_book_use_local_address_book (start_query, pop);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/

@@ -60,8 +60,9 @@ struct _EAddressPopup {
 	GtkWidget *generic_view;
 	GtkWidget *minicard_view;
 
+	guint scheduled_refresh;
 	guint query_tag;
-	gboolean have_queried, multiple_matches;
+	gboolean multiple_matches;
 	ECard *card;
 };
 

@@ -1,3 +1,33 @@
+2001-06-21  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(make_contact_editor_cb): Renamed.  (The old name,
+	edit_contact_info_have_book_cb was a hold-over from before, when
+	we weren't using e_book_use_local_address_book.)
+
+	* gui/component/e-address-popup.c
+	(e_address_popup_schedule_refresh): A Added.  We now do the name
+	refreshes in an idle function, rather than in the setters.
+	(e_address_popup_set_free_form): Added.  Properly handle inputs of
+	the form "Foo <bar@zar.com>", extracting the name and e-mail
+	address.
+	(e_address_popup_set_name): Check to make sure that the free-form
+	handler shouldn't be used to handle the input.  Schedule a refresh
+	after making any changes.
+	(e_address_popup_set_email): Check to make sure that the free-form
+	handler shouldn't be used to handle the input.  Schedule a refresh
+	after making any changes.
+	(e_address_popup_name_only_matches): Temporary place-holder for
+	handling name-only matches.
+	(query_cb): If our initial query fails (and included e-mail
+	information), do a name-only query.  This is to handle the case of
+	adding new e-mail addresses to existing contacts.
+	(e_address_popup_query): Eliminated the "common_book" crap; using
+	e_book_use_local_address_book instead.
+
+	* backend/ebook/e-card-compare.c (match_search_info_free): Make
+	sure that the ->avoid list gets properly freed.
+
 2001-06-20  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c
