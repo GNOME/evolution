@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-10 10:49+0200\n"
-"PO-Revision-Date: 2005-02-10 14:55+0200\n"
+"PO-Revision-Date: 2005-02-22 15:06+0200\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "элемент календаря evolution"
 
 #: a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
-msgstr ""
+msgstr "Комбо-кнопка"
 
 #: a11y/widgets/ea-combo-button.c:50
 msgid "Activate Default"
@@ -263,7 +263,7 @@ msgid ""
 "misspelled or your network connection could be down."
 msgstr ""
 "Возможно, сервер адресной книги недоступен, имя сервера может быть введено "
-"неправильно или соединение с сетью отсуствует."
+"неправильно или соединение с сетью отсутствует."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -2335,7 +2335,7 @@ msgstr "Книга назначения"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:277
 msgid "Is New Contact"
-msgstr "Является новым конактом"
+msgstr "Является новым контактом"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:284
 msgid "Writable Fields"
@@ -3868,7 +3868,7 @@ msgstr "Вы действительно хотите удалить эти {0} �
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr "Вся имнформация из этих записей журнала будет безвозвратно удалена."
+msgstr "Вся информация из этих записей журнала будет безвозвратно удалена."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -4065,7 +4065,7 @@ msgstr "Этот список задач не отмечен для автоно
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
-msgstr " Некорые функции могут работать некорректно с текущей версией сервера"
+msgstr " Некоторые функции могут работать некорректно с текущей версией сервера"
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4127,7 +4127,7 @@ msgstr "Адрес:"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "Snooze _time:"
-msgstr ""
+msgstr "Напомнить _через:"
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
@@ -4425,7 +4425,7 @@ msgstr "Позиция вертикальной панели задач"
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
-msgstr ""
+msgstr "Часовой пояс по умолчанию, используемый для дат календаря, в виде непереведенного имени Olsen из базы часовых поясов, например \"America/New York\"."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 #, no-c-format
@@ -4435,11 +4435,10 @@ msgid ""
 msgstr "Шаблон URL для отправки данных о занятости. %u заменяется на левую часть почтового адреса (имя пользователя), %d - домен."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
-#, fuzzy
 msgid ""
 "Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
 "minutes."
-msgstr "Интервал, отображаемый в режимах \"День\" и \"Рабочая неделя\""
+msgstr "Интервалы времени</short> <short>Интервалы, отображаемые в режимах \"День\" и \"Рабочая неделя\", в минутах."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Time the last alarm ran, in time_t."
@@ -4863,19 +4862,19 @@ msgstr "недели"
 #: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%.0fK"
-msgstr "%.0fK"
+msgstr "%.0fКБ"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:111
 #: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fM"
-msgstr "%.0fM"
+msgstr "%.0fМБ"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:114
 #: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fG"
-msgstr "%.0fG"
+msgstr "%.0fГБ"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:298
 #: calendar/gui/dialogs/cal-attachment-bar.c:913
@@ -7116,7 +7115,7 @@ msgstr "В процессе"
 
 #: calendar/gui/e-meeting-time-sel.c:413 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr "Вне офиса"
+msgstr "Не на работе"
 
 #: calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
@@ -9702,13 +9701,13 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
-"<b>Currently, your status is \"Вне офиса\". </b>\n"
+"<b>Сейчас ваше состояние \"Не на работе\". </b>\n"
 "\n"
-"Изменить состояние на \"В офисе\"? "
+"Изменить состояние на \"На работе\"? "
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b>Сообщение \"Вне офиса\":</b>"
+msgstr "<b>Автответ об остуствии:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -9722,15 +9721,15 @@ msgid ""
 msgstr ""
 "<small>Сообщение, указанное ниже, будет автоматически отправлено всем лицам, "
 "приславшим вам\n"
-"почту во время вашего отсутствия в офисе.</small>"
+"почту во время вашего отсутствия на работе.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr "Я сейчас в офисе"
+msgstr "Я сейчас на работе"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr "Я сейчас вне офиса"
+msgstr "Я сейчас не на работе"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
@@ -9738,7 +9737,7 @@ msgstr "Нет, не изменять состояние"
 
 #: designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr "Помощник для состояния \"Вне офиса\""
+msgstr "Заместитель"
 
 #: designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
@@ -10071,7 +10070,7 @@ msgstr "Входящие"
 
 #: filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr ""
+msgstr "Отображать фильтры почты:"
 
 #: filter/filter.glade.h:5
 msgid ""
@@ -11436,9 +11435,9 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
-"Еслив программе Evolution отсутствует встроенная программа просмотра для "
+"Если в программе Evolution отсутствует встроенная программа просмотра для "
 "определенного типа mime, любые типы mime из этого списка, связанные с "
-"компонентом просмотра bonobo среды Гном, могут испольоваться для отображения "
+"компонентом просмотра bonobo среды Гном, могут использоваться для отображения "
 "содержимого."
 
 #: mail/evolution-mail.schemas.in.in.h:29
@@ -12920,7 +12919,7 @@ msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"Убеитесь, что ваш пароль введен правильно.  Помните, что многие пароли "
+"Убедитесь, что ваш пароль введен правильно.  Помните, что многие пароли "
 "чувствительны к регистру, поэтому клавиша \"Caps Lock\" должна быть "
 "отключена."
 
@@ -13468,6 +13467,9 @@ msgid ""
 "until\n"
 "      you can accept its license."
 msgstr ""
+"Не удается прочитать файл лицензии \"{0}\", из-за\n"
+"     проблемы с установкой.  Вы не сможете использовать этого провайдера, пока\n"
+"     не примете его лицензию."
 
 #. mail:checking-service title
 #: mail/mail-errors.xml.h:245
@@ -13481,9 +13483,8 @@ msgstr "Подождите, пожалуйста."
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:249
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Для запрошенного механизма аутентификации требуется шифрование"
+msgstr "Опрашивается сервер для получения списка поддерживаемых механизмов аутентификации."
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:251
@@ -14116,19 +14117,19 @@ msgid ""
 "each person who sends mail to you while you are out of the office."
 msgstr ""
 "Сообщение, указанное ниже, будет автоматически отправлено\n"
-"всем лицам, приславшим вам почту во время вашего отсутствия в офисе."
+"всем лицам, приславшим вам почту во время вашего отсутствия на работе."
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:140
 msgid "I am in the office"
-msgstr "Я сейчас в офисе"
+msgstr "Я сейчас на работе"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:154
 msgid "I am out of the office"
-msgstr "Я сейчас вне офиса"
+msgstr "Я сейчас на работе"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:168
 msgid "Out of office Message:"
-msgstr "Сообщение \"Вне офиса\":"
+msgstr "Автответ об остутствии:"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
@@ -14234,7 +14235,7 @@ msgid ""
 "tasks or free/busy information"
 msgstr ""
 "Это сообщение содержит календарь, но календарь не содержит событий, задач "
-"или сведений о занятосит."
+"или сведений о занятости."
 
 #: plugins/itip-formatter/itip-formatter.c:1020
 msgid "The calendar attached contains multiple items"
@@ -14598,6 +14599,9 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"Собщение эл. почты будет отправлено по URL \"{0}\". Вы можете либо отправить сообщение автоматически, либо сначала просмотреть и изменить его.\n"
+"\n"
+"Вскоре после отправки вы должны получить ответ из списка рассылки."
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
 msgid "_Send message"
@@ -14693,7 +14697,7 @@ msgstr "Предпочитать PLAIN"
 
 #: plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "Только когда показывается PLAIN"
 
 #: plugins/prefer-plain/prefer-plain.c:150
 msgid "HTML Mode"
@@ -14709,7 +14713,7 @@ msgstr "Сохранить все вложения"
 
 #: plugins/save-attachments/save-attachments.c:331
 msgid "Select save base name"
-msgstr ""
+msgstr "Выбрать базовое имя для сохранения"
 
 #: plugins/save-attachments/save-attachments.c:351
 msgid "MIME Type"
@@ -14743,7 +14747,7 @@ msgstr "Дополнительные параметры формата CSV"
 
 #: plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
-msgstr ""
+msgstr "Предварять заголовок"
 
 #: plugins/save-calendar/csv-format.c:535
 msgid "Value delimiter:"
@@ -14755,7 +14759,7 @@ msgstr "Разделитель записи:"
 
 #: plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "Инкапсулировать значения в:"
 
 #: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
@@ -14779,7 +14783,7 @@ msgstr "Выберите файл назначения"
 msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
-msgstr ""
+msgstr "Подразумеваемое расширение имени файла для этого типа (%s) не используется в выбранном имени файла. Продолжить?"
 
 #: plugins/send-options/send-options.c:82
 #, c-format
@@ -14797,6 +14801,8 @@ msgid ""
 "\n"
 "You cannot share folder with specified user \"{0}\" \n"
 msgstr ""
+"\n"
+"Вы не можете разделить папку с указанным пользователем \"{0}\" \n"
 
 #. org.gnome.evolution.mail_shared_folder:no-user primary
 #: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
@@ -14822,7 +14828,7 @@ msgstr "Сообщение"
 
 #: plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Извещение общей папки"
 
 #: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
@@ -14837,18 +14843,16 @@ msgid "_Cutomize notification message"
 msgstr "_Настроить сообщение уведомления"
 
 #: plugins/shared-folder/properties.glade.h:13
-#, fuzzy
 msgid "_Not Shared"
-msgstr "Не началась"
+msgstr "_Не общая"
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "_Shared With ..."
-msgstr ""
+msgstr "_Общая с..."
 
 #: plugins/shared-folder/properties.glade.h:16
-#, fuzzy
 msgid "_Sharing"
-msgstr "С тенью"
+msgstr "_Общий доступ"
 
 #: plugins/shared-folder/share-folder-common.c:315
 msgid "Users"
@@ -14859,14 +14863,13 @@ msgid "Enter the users and set permissions"
 msgstr "Введите пользователей и установите права"
 
 #: plugins/shared-folder/share-folder-common.c:401
-#, fuzzy
 msgid "Sharing"
-msgstr "С тенью"
+msgstr "Общий доступ"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
+msgstr "Вернуться к подшивке сообщений по _теме"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
@@ -14918,7 +14921,7 @@ msgstr "Запуск в автономном режиме"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "The configuration version of Evolution, with major/minor/configuration level"
-msgstr ""
+msgstr "Версия конфигурации Evolution, с уровнями major/minor/configuration"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "The default height for the main window, in pixels."
@@ -14937,6 +14940,8 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
 msgstr ""
+"Версия последней обновленной версии Evolution, с уровнями major/minor/"
+"configuration"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
@@ -17673,7 +17678,7 @@ msgstr "Выпадающий список для выбора времени"
 
 #: widgets/misc/e-dateedit.c:372
 msgid "Time Combo Box"
-msgstr ""
+msgstr "Выпадающий список времени"
 
 #: widgets/misc/e-error.c:84 widgets/misc/e-error.c:85
 #: widgets/misc/e-error.c:127
@@ -17794,7 +17799,7 @@ msgstr "Карта мира"
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
-msgstr ""
+msgstr "Интерактивная карта для выбора часового пояса при помощи мыши. При помощи клавиатуры можно выбрать часовой пояс из выпадающего списка ниже."
 
 #: widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -17859,9 +17864,8 @@ msgid "<b>Replies</b>"
 msgstr "<b>Ответы</b>"
 
 #: widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Проверка подлинности</b>"
+msgstr "<b>Извещение о доставке</b>"
 
 #: widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
@@ -17876,9 +17880,8 @@ msgid "C_lassification"
 msgstr "К_лассификация"
 
 #: widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Получить последнюю информацию по задаче"
+msgstr "_Создать отправленный элемент для отслеживания информации"
 
 #: widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
@@ -17889,18 +17892,20 @@ msgid "Gene_ral Options"
 msgstr "Общие па_раметры"
 
 #: widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Отчеты о прочтении"
+msgstr ""
+"Нет\n"
+"Сообщение о доставке"
 
 #: widgets/misc/e-send-options.glade.h:12
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "Отчеты о прочтении"
+msgstr ""
+"Нет\n"
+"Сообщение о доставке\n"
 
 #: widgets/misc/e-send-options.glade.h:15
 msgid ""
@@ -17913,9 +17918,8 @@ msgstr ""
 "Конфиденциальное\n"
 
 #: widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "Стиль _ответа:"
+msgstr "_Запрошен ответ"
 
 #: widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
@@ -17934,22 +17938,20 @@ msgstr ""
 "Низкий"
 
 #: widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Ширина"
+msgstr "_В течении"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
-msgstr ""
+msgstr "_При получении: "
 
 #: widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Дата выполнения:"
+msgstr "При _завершении:"
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
-msgstr ""
+msgstr "При _отказе:    "
 
 #: widgets/misc/e-send-options.glade.h:30
 msgid "_After:"
@@ -17969,12 +17971,11 @@ msgstr "_Доставлено"
 
 #: widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
-msgstr ""
+msgstr "_Установить срок актуальности"
 
 #: widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "Неозаглавленное"
+msgstr "_До:"
 
 #: widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
@@ -17982,7 +17983,7 @@ msgstr "_Когда удобно"
 
 #: widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
-msgstr ""
+msgstr "_При открывании:  "
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
