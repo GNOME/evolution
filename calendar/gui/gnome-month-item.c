@@ -44,7 +44,9 @@ static int sept_1752[42] = {
 #define REFORMATION_DAY 639787		/* First day of the reformation, counted from 1 Jan 1 */
 #define MISSING_DAYS 11			/* They corrected out 11 days */
 #define THURSDAY 4			/* First day of reformation */
-#define SATURDAY 6
+#define SATURDAY 6			/* Offset value; 1 Jan 1 was a Saturday */
+#define SEPT_1752_START 2		/* Start day within month */
+#define SEPT_1752_END 20		/* End day within month */
 
 
 enum {
@@ -313,21 +315,136 @@ create_headings (GnomeMonthItem *mitem)
 	}
 }
 
+/* Returns the number of leap years since year 1 up to (but not including) the specified year */
+static int
+leap_years_up_to (int year)
+{
+	return (year / 4					/* trivial leapness */
+		- ((year > 1700) ? (year / 100 - 17) : 0)	/* minus centuries since 1700 */
+		+ ((year > 1600) ? ((year - 1600) / 400) : 0));	/* plus centuries since 1700 divisible by 400 */
+}
+
+/* Returns whether the specified year is a leap year */
+static int
+is_leap_year (int year)
+{
+	if (year <= 1752)
+		return !(year % 4);
+	else
+		return (!(year % 4) && (year % 100)) || !(year % 400);
+}
+
+/* Returns the 1-based day number within the year of the specified date */
+static int
+day_in_year (int day, int month, int year)
+{
+	int is_leap, i;
+
+	is_leap = is_leap_year (year);
+
+	for (i = 0; i < month; i++)
+		day += days_in_month [is_leap][i];
+
+	return day;
+}
+
+/* Returns the day of the week (zero-based, zero is Sunday) for the specified date.  For the days
+ * that were removed on the Gregorian reformation, it returns Thursday.
+ */
+static int
+day_in_week (int day, int month, int year)
+{
+	int n;
+
+	n = (year - 1) * 365 + leap_years_up_to (year - 1) + day_in_year (day, month, year);
+
+	if (n < REFORMATION_DAY)
+		return (n - 1 + SATURDAY) % 7;
+
+	if (n >= (REFORMATION_DAY + MISSING_DAYS))
+		return (n - 1 + SATURDAY - MISSING_DAYS) % 7;
+
+	return THURSDAY;
+}
+
+/* Fills the 42-element days array with the day numbers for the specified month.  Slots outside the
+ * bounds of the month are filled with zeros.  The starting and ending indexes of the days are
+ * returned in the start and end arguments.
+ */
+static void
+build_month (int month, int year, int *days, int *start, int *end)
+{
+	int i;
+	int d_month, d_week;
+
+	/* Note that months are zero-based, so September is month 8 */
+
+	if ((year == 1752) && (month == 8)) {
+		memcpy (days, sept_1752, 42 * sizeof (int));
+
+		if (start)
+			*start = SEPT_1752_START;
+
+		if (end)
+			*end = SEPT_1752_END;
+
+		return;
+	}
+
+	for (i = 0; i < 42; i++)
+		days[i] = 0;
+
+	d_month = days_in_month[is_leap_year (year)][month];
+	d_week = day_in_week (1, month, year);
+
+	for (i = 0; i < d_month; i++)
+		days[d_week + i] = i + 1;
+
+	if (start)
+		*start = d_week;
+
+	if (end)
+		*end = d_week + d_month - 1;
+}
+
 /* Set the day numbers in the monthly calendar */
 static void
 set_days (GnomeMonthItem *mitem)
 {
-	int i;
+	int i, ofs;
+	int days[42];
+	int start, end;
 	char buf[100];
 
-	/* FIXME: actually calculate the numbers */
+	build_month (mitem->month, mitem->year, days, &start, &end);
 
-	for (i = 0; i < 42; i++) {
-		sprintf (buf, "%d", i);
+	if (mitem->start_on_monday)
+		ofs = (start + 6) % 7;
+	else
+		ofs = start;
+
+	/* Clear days before start of month */
+
+	for (i = 0; i < ofs; i++)
+		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+				       "text", NULL,
+				       NULL);
+
+	/* Set days of month */
+
+	for (; start <= end; start++, i++) {
+		sprintf (buf, "%d", days[start]);
 		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
 				       "text", buf,
 				       NULL);
 	}
+
+	/* Clear days after end of month */
+
+	for (; i < 42; i++)
+		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+				       "text", NULL,
+				       NULL);
 }
 
 /* Creates the items for the days */
@@ -369,16 +486,6 @@ create_days (GnomeMonthItem *mitem)
 	set_days (mitem);
 }
 
-/* Returns a normalized day index (as in sunday to saturday) based on a visible day index */
-static int
-get_day_index (GnomeMonthItem *mitem, int draw_index)
-{
-	if (mitem->start_on_monday)
-		return (draw_index + 1) % 7;
-	else
-		return draw_index;
-}
-
 /* Resets the text of the day name headings */
 static void
 set_day_names (GnomeMonthItem *mitem)
@@ -387,7 +494,7 @@ set_day_names (GnomeMonthItem *mitem)
 
 	for (i = 0; i < 7; i++)
 		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + i],
-				       "text", mitem->day_names[get_day_index (mitem, i)],
+				       "text", mitem->day_names[mitem->start_on_monday ? ((i + 1) % 7) : i],
 				       NULL);
 }
 
@@ -660,6 +767,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_START_ON_MONDAY:
 		mitem->start_on_monday = GTK_VALUE_BOOL (*arg);
 		set_day_names (mitem);
+		set_days (mitem);
 		break;
 
 	default:
