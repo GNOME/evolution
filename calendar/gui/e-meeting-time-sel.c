@@ -852,6 +852,9 @@ e_meeting_time_selector_destroy (GtkObject *object)
 		mts->model = NULL;
 	}
 	
+	mts->display_top = NULL;
+	mts->display_main = NULL;
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);
 }

@@ -1,3 +1,13 @@
+2003-04-29  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-editor.c (task_editor_finalize): ditto
+
+	* gui/dialogs/event-editor.c (event_editor_finalize): don't unref
+	the model here
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_destroy): null
+	up the display_top and display_main for re-entrancy purposes
+
 2003-04-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): kill warnings

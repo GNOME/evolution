@@ -395,7 +395,11 @@ event_editor_finalize (GObject *object)
 	g_object_unref((priv->meet_page));
 	g_object_unref((priv->sched_page));
 
-	g_object_unref((priv->model));
+#if 0
+	/* FIXME we don't unref here because we "sink" in 
+	   e-meeting-model.c:init */
+	g_object_unref (priv->model);
+#endif
 
 	g_free (priv);
 
