@@ -92,8 +92,8 @@ static ETableScrolledClass *message_list_parent_class;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
-static char *filter_date (const void *data);
-static char *filter_size (const void *data);
+static char *filter_date (void *reserved, const void *data, void *closure);
+static char *filter_size (void *reserved, const void *data, void *closure);
 
 static void save_tree_state(MessageList *ml);
 
@@ -288,7 +288,7 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 }
 
 static gchar *
-filter_size (const void *data)
+filter_size (void *reserved, const void *data, void *closure)
 {
 	gint size = GPOINTER_TO_INT(data);
 	gfloat fsize;
@@ -386,6 +386,7 @@ message_list_select (MessageList *message_list, int base_row,
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
 	vrow = e_table_model_to_view_row (et, base_row);
 
+	/* This means that we'll move at least one message in 'direction'. */
 	if (vrow != last)
 		vrow += direction;
 
@@ -638,10 +639,10 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 		
 	case COL_SENT:
 	case COL_RECEIVED:
-		return filter_date (value);
+		return filter_date (NULL, value, NULL);
 		
 	case COL_SIZE:
-		return filter_size (value);
+		return filter_size (NULL, value, NULL);
 
 	case COL_FROM:
 	case COL_SUBJECT:
@@ -955,7 +956,7 @@ message_list_init_images (void)
 }
 
 static char *
-filter_date (const void *data)
+filter_date (void *reserved, const void *data, void *closure)
 {
 	time_t date = GPOINTER_TO_INT (data);
 	time_t nowdate = time(NULL);
@@ -1055,7 +1056,7 @@ message_list_create_extras (void)
 	/* date cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"text_filter", filter_date,
+			"text_filter_func", filter_date,
 			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
@@ -1078,7 +1079,7 @@ message_list_create_extras (void)
 	/* size cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_RIGHT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"text_filter", filter_size,
+			"text_filter_func", filter_size,
 			"strikeout_column", COL_DELETED,
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
