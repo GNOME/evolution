@@ -1,3 +1,11 @@
+2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/Makefile.am: Added rules to generate
+	`Evolution-Addressbook-SelectNames.h'.
+
+	* gui/dialogs/comp-editor-util.h: #include
+	"Evolution-Addressbook-SelectNames.h" from this directory.
+
 2001-10-31  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-options.c: #include <string.h>

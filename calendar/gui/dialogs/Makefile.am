@@ -1,22 +1,36 @@
-INCLUDES = 						\
-	-DG_LOG_DOMAIN=\"calendar-gui\"			\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/calendar/cal-client		\
-	-I$(top_builddir)/calendar/cal-client		\
-	-I$(top_srcdir)/libical/src/libical		\
-	-I$(top_builddir)/libical/src/libical		\
-	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
-	-I$(top_builddir)/addressbook/backend/ebook	\
-	-I$(includedir)					\
-	$(EXTRA_GNOME_CFLAGS)				\
+IDLS = $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+
+IDL_GENERATED =                 			\
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
+
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+
+BUILT_SOURCES = $(IDL_GENERATED)
+
+INCLUDES = 								\
+	-DG_LOG_DOMAIN=\"calendar-gui\"					\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/calendar					\
+	-I$(top_srcdir)/calendar/cal-client				\
+	-I$(top_builddir)/calendar/cal-client				\
+	-I$(top_srcdir)/libical/src/libical				\
+	-I$(top_builddir)/libical/src/libical				\
+	-I$(top_builddir)/shell						\
+	-I$(top_srcdir)/shell						\
+	-I$(top_srcdir)/addressbook/backend/ebook			\
+	-I$(top_builddir)/addressbook/backend/ebook			\
+	-I$(includedir)							\
+	$(EXTRA_GNOME_CFLAGS)						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"				\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	$(BONOBO_VFS_GNOME_CFLAGS)					\
         -DGNOMELOCALEDIR=\""$(localedir)"\"
 
 noinst_LIBRARIES = libcal-dialogs.a
