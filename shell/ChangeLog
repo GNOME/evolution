@@ -1,3 +1,8 @@
+2001-09-12  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-importer-client.c 
+	(evolution_importer_client_process_item): Remove spew.
+
 2001-09-10  Dan Winship  <danw@ximian.com>
 
 	* e-shell-view.c (socket_destroy_cb): Oops. Remove duplicate free.

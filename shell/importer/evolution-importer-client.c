@@ -213,7 +213,6 @@ evolution_importer_client_process_item (EvolutionImporterClient *client,
 
 	corba_importer = client->objref;
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
-	g_warning ("%s", __FUNCTION__);
 	GNOME_Evolution_Importer_processItem (corba_importer,
 					      corba_listener, &ev);
 	CORBA_exception_free (&ev);
