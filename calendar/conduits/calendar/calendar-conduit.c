@@ -248,7 +248,6 @@ get_pilot_day (icalrecurrencetype_weekday wd)
 	}
 }
 
-/* FIX ME Is there a better way to see if no start time set? */
 static gboolean
 is_empty_time (struct tm time) 
 {

@@ -206,6 +206,16 @@ map_name (EToDoConduitContext *ctxt)
 	return filename;
 }
 
+static gboolean
+is_empty_time (struct tm time) 
+{
+	if (time.tm_sec || time.tm_min || time.tm_hour 
+	    || time.tm_mday || time.tm_mon || time.tm_year) 
+		return FALSE;
+	
+	return TRUE;
+}
+
 static GList *
 next_changed_item (EToDoConduitContext *ctxt, GList *changes) 
 {
@@ -434,11 +444,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_percent (comp, &percent);
 	}
 
-	/* FIX ME This is a bit hackish, how else can we tell if there is
-	 * no due date set?
-	 */
-	if (todo.due.tm_sec || todo.due.tm_min || todo.due.tm_hour 
-	    || todo.due.tm_mday || todo.due.tm_mon || todo.due.tm_year) {
+	if (is_empty_time (todo.due)) {
 		due = icaltime_from_timet (mktime (&todo.due), FALSE, TRUE);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);

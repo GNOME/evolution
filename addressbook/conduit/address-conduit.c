@@ -245,6 +245,15 @@ map_name (EAddrConduitContext *ctxt)
 	return filename;
 }
 
+static char *
+get_entry_text (struct Address address, int field)
+{
+	if (address.entry[field])
+		return e_pilot_utf8_from_pchar (address.entry[field]);
+	
+	return strdup ("");
+}
+
 static void
 compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
 {
@@ -377,79 +386,96 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECardSimple *simple;
 	ECardDeliveryAddress delivery;
 	char *string;
-	char *stringparts[4];
+	char *stringparts[3];
 	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
 	unpack_Address (&address, remote->record, remote->length);
 
-	if (in_card == NULL) {
+	if (in_card == NULL)
 		ecard = e_card_new("");
-	} else {
+	else
 		ecard = e_card_duplicate (in_card);
-	}
 	simple = e_card_simple_new (ecard);
 
-#define get(pilotprop) \
-        (address.entry [(pilotprop)])
-#define check(pilotprop) \
-        (address.entry [(pilotprop)] && *address.entry [(pilotprop)])
-
+	/* Name and company */
 	i = 0;
-	if (check(entryFirstname))
-		stringparts[i++] = get(entryFirstname);
-	if (check(entryLastname))
-		stringparts[i++] = get(entryLastname);
+	if (address.entry[entryFirstname] && *address.entry[entryFirstname])
+		stringparts[i++] = address.entry[entryFirstname];
+	if (address.entry[entryLastname] && *address.entry[entryLastname])
+		stringparts[i++] = address.entry[entryLastname];
 	stringparts[i] = NULL;
+
 	string = g_strjoinv(" ", stringparts);
-	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FULL_NAME, string);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FULL_NAME, e_pilot_utf8_from_pchar (string));
 	g_free(string);
 
-	if (check (entryTitle))
-		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, get (entryTitle));
+	if (address.entry[entryTitle]) {
+		char *txt = get_entry_text (address, entryTitle);
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
+		free (txt);
+	}
 
-	if (check (entryCompany))
-		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, get (entryCompany));
+	if (address.entry[entryCompany]) {
+		char *txt = get_entry_text (address, entryCompany);
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
+		free (txt);
+	}
 
+	/* Address */
 	memset (&delivery, 0, sizeof (ECardDeliveryAddress));
 	delivery.flags = E_CARD_ADDR_HOME;
-	if (check (entryAddress))
-		delivery.street = get (entryAddress);
-	if (check (entryCity))
-		delivery.city = get (entryCity);
-	if (check (entryState))
-		delivery.region = get (entryState);
-	if (check (entryCountry))
-		delivery.country = get (entryCountry);
-	if (check (entryZip))
-		delivery.code = get (entryZip);
+	if (address.entry[entryAddress])
+		delivery.street = get_entry_text (address, entryAddress);
+	if (address.entry[entryCity])
+		delivery.city = get_entry_text (address, entryCity);
+	if (address.entry[entryState])
+		delivery.region = get_entry_text (address, entryState);
+	if (address.entry[entryCountry])
+		delivery.country = get_entry_text (address, entryCountry);
+	if (address.entry[entryZip])
+		delivery.code = address.entry[entryZip];
+
 	string = e_card_delivery_address_to_string (&delivery);
 	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_HOME, string);
 	g_free (string);
-	
+
+	if (address.entry[entryAddress])
+		free (delivery.street);
+	if (address.entry[entryCity])
+		free (delivery.city);
+	if (address.entry[entryState])
+		free (delivery.region);
+	if (address.entry[entryCountry])
+		free (delivery.country);
+	if (address.entry[entryZip])
+		free (delivery.code);	
+
+	/* Phone numbers */
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
-
+		char *phonenum = get_entry_text (address, i);
+		
 		if (!strcmp (phonelabel, "E-mail"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, phonenum);
 		else if (!strcmp (phonelabel, "Home"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME,address.entry[i] ? address.entry[i] : "" );
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME, phonenum);
 		else if (!strcmp (phonelabel, "Work"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, phonenum);
 		else if (!strcmp (phonelabel, "Fax"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, phonenum);
 		else if (!strcmp (phonelabel, "Other"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, phonenum);
 		else if (!strcmp (phonelabel, "Main"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, phonenum);
 		else if (!strcmp (phonelabel, "Pager"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, phonenum);
 		else if (!strcmp (phonelabel, "Mobile"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, address.entry[i] ? address.entry[i] : "");
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, phonenum);
+
+		free (phonenum);
 	}
-#undef get
-#undef check
 
 	e_card_simple_sync_card (simple);
 	gtk_object_unref(GTK_OBJECT(simple));

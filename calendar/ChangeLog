@@ -1,5 +1,12 @@
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/calendar/calendar-conduit.c: Remove pointless comment
+
+	* conduits/todo/todo-conduit.c (is_empty_time): add utility function
+	(comp_from_remote_record): use it
+
+2000-12-19  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/calendar/calendar-conduit.c (local_record_from_comp): 
 	Convert cal component strings to pilot character set
 	(comp_from_remote_record): vice versa

@@ -1,5 +1,10 @@
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
+	*conduit/address-conduit.c (ecard_from_remote_record): Convert
+	pilot strings to utf for the e-cards.
+	
+2000-12-19  JP Rosevear  <jpr@helixcode.com>
+
 	* conduit/address-conduit.c (local_record_from_ecard): Convert ecard
 	strings to pilot encodings
 
