@@ -21,14 +21,14 @@ images_DATA = \
 	ico-weather.png			\
 	import.png			\
 	import.xpm			\
-   inbox-16.png \
-   inbox-full-16.png \
+	inbox-16.png			\
+	inbox-full-16.png		\
 	move_message.xpm		\
 	offline.png			\
 	online.png			\
-   open-in-new-window-16.png \
-   outbox-16.png \
-   outbox-full-16.png \
+	open-in-new-window-16.png 	\
+	outbox-16.png 			\
+	outbox-full-16.png 		\
 	pattern.png			\
 	print.xpm			\
 	print-preview.xpm		\
@@ -61,10 +61,10 @@ images_DATA = \
 	evolution-trash.png 		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
-   faq-16.png \
+	faq-16.png			\
 	fetch-mail.png			\
-   folder-copy-16.png \
-   folder-move-16.png \
+	folder-copy-16.png		\
+	folder-move-16.png		\
 	globe.png           		\
 	hide_deleted_messages.xpm	\
 	hide_read_messages.xpm		\
@@ -76,7 +76,7 @@ images_DATA = \
 	mail-config-druid-receive.png	\
 	mail-config-druid-send.png	\
 	mail-config-druid-account-name.png \
-   mark-as-important-16.png \
+	mark-as-important-16.png	\
 	myevo-appointments.png		\
 	myevo-mail-summary.png		\
 	myevo-post-it.png		\
@@ -111,6 +111,8 @@ images_DATA = \
 	splash.png			\
 	thankyou.png			\
 	undelete_message-16.png		\
+	wax-seal.png			\
+	wax-seal-broken.png		\
 	work_offline.xpm		\
 	work_online-16.png		\
 	world_map-960.png

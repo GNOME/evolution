@@ -1,3 +1,9 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* wax-seal.png: Added.
+
+	* wax-seal-broken.png: Added.
+
 2001-08-17  Jakub Steiner <jimmac@ximian.com>
 
 	* splash.png: marketing spoils the fun. boring splash again.
@@ -5,7 +11,8 @@
 2001-08-17  Jakub Steiner <jimmac@ximian.com>
 
 	* splash.png: Ruperzilla splash
-   * splash-1-0.png: 1.0 candidate
+	
+	* splash-1-0.png: 1.0 candidate
 
 2001-08-16  Jakub Steiner <jimmac@ximian.com>
 
@@ -15,8 +22,9 @@
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
 	* add-attachment.png: get rid of the yellow
-	* compose-message.png: the old one seemed too dark to me. This
-     one shares the same document base as the new stuff.
+
+	* compose-message.png: the old one seemed too dark to me. This one
+	shares the same document base as the new stuff.
 
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
@@ -32,12 +40,13 @@
 
 2001-08-15  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* goto-24.png: Icon for "Goto date.." -button. Someone could add this
-	into the code?
+	* goto-24.png: Icon for "Goto date.." -button. Someone could add
+	this into the code?
 
 2001-08-14  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* arrow-[left,right]-24.png: new arrow icons for calendar toolbar..
+	* arrow-[left,right]-24.png: new arrow icons for calendar
+	toolbar..
 
 2001-08-14  Jakub Steiner <jimmac@ximian.com>
 
@@ -49,9 +58,10 @@
 
 2001-08-09  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* send-receive.xpm: Updated this to have the yellow/green arrows 
-	so it matches the style of other icons. Noticed that tasklist scales
-	16x16 icons larger, so they generally look Bad(tm). (fixes #6475)
+	* send-receive.xpm: Updated this to have the yellow/green arrows
+	so it matches the style of other icons. Noticed that tasklist
+	scales 16x16 icons larger, so they generally look Bad(tm). (fixes
+	#6475)
 
 2001-08-07  Damon Chaplin  <damon@ximian.com>
 
@@ -66,16 +76,15 @@
 	
 2001-08-07  Jakub Steiner <jimmac@ximian.com>
 
-	* inbox-*, outbox-*: tree view icons
-   * filters.xpm, edit-16.xpm, marlboro_filters.xpm: remove unused
-   * vfolder-16.xpm, delete-message.xpm, undelete-message.xpm: let's
-     not use xpms
-   * evolution-trash-mini.png: new version for edit>delete message,
-     tree view and everything
-   * undelete_message-16.png, folder-move-16.png,
-     open-in-new-window-16.png, folder-copy-16.png: tree view icons
-   * faq-16.png, mark-as-important-16.png: menu icons
-	* Makefile.am (images_DATA): add new icons, change some xpms to pngs
+	* inbox-*, outbox-*: tree view icons * filters.xpm, edit-16.xpm,
+	marlboro_filters.xpm: remove unused * vfolder-16.xpm,
+	delete-message.xpm, undelete-message.xpm: let's not use xpms *
+	evolution-trash-mini.png: new version for edit>delete message,
+	tree view and everything * undelete_message-16.png,
+	folder-move-16.png, open-in-new-window-16.png, folder-copy-16.png:
+	tree view icons * faq-16.png, mark-as-important-16.png: menu icons
+	* Makefile.am (images_DATA): add new icons, change some xpms to
+	pngs
       
 
 2001-08-03  Jakub Steiner <jimmac@ximian.com>
@@ -85,10 +94,10 @@
 
 2001-08-02  Jakub Steiner <jimmac@ximian.com>
 
-	* myevo-mail-summary.png, myevo-post-it.png,
-	* myevo-appointments.png: icons for My Evolution -- mail summary,
-	  tasks, appointments. These are _NOT_TO_ replace the shortcut
-	  icons, but solely for My Evolution.
+	* myevo-mail-summary.png, myevo-post-it.png, *
+	myevo-appointments.png: icons for My Evolution -- mail summary,
+	tasks, appointments. These are _NOT_TO_ replace the shortcut
+	icons, but solely for My Evolution.
 	
 2001-08-02  Tuomas Kuosmanen  <tigert@ximian.com>
 
@@ -100,22 +109,22 @@
 
 2001-07-31  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* send-24-receive.png: New version, looks more consistent with the 
+	* send-24-receive.png: New version, looks more consistent with the
 	other icons.
 
 2001-07-30  Jakub Steiner <jimmac@ximian.com>
 
 	* search-16.png, search-and-replace-16.png: menu versions for
-	  shell and editor.
-	* properties-16.png: properties for shel (maybe other places too)
-	* send-16.png, send-later-16.png: editor, shell menu.
-	* work_online-16.png: to accompany work online menu toggle.
-	* save-16.png, save-as-16.png: everywhere. (based on Tuomas new
-	  gnome stock panel icon)
+	  shell and editor.  * properties-16.png: properties for shel
+	  (maybe other places too) * send-16.png, send-later-16.png:
+	  editor, shell menu.  * work_online-16.png: to accompany work
+	  online menu toggle.  * save-16.png, save-as-16.png:
+	  everywhere. (based on Tuomas new gnome stock panel icon)
 	
 2001-07-27    <tigert@ximian.com>
 
-	* new_appointment.[xpm,png]: New version, fixes bug #4704 hopefully.
+	* new_appointment.[xpm,png]: New version, fixes bug #4704
+	hopefully.
 
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
@@ -132,8 +141,8 @@
 
 2001-07-20  Rodrigo Moya <rodrigo@ximian.com>
 
-	* Makefile.am: install 2 new category icons (16_category_suppliers.png
-	and 16_category_time-and-expenses.png)
+	* Makefile.am: install 2 new category icons
+	(16_category_suppliers.png and 16_category_time-and-expenses.png)
 
 2001-07-20    <tigert@ximian.com>
 
@@ -142,11 +151,11 @@
 
 	* 16_category_suppliers.png: Icon for "Suppliers" category..
 
-	* evolution-calendar.png, evolution-contacts.png, 
+	* evolution-calendar.png, evolution-contacts.png,
 	evolution-inbox.png, evolution-tasks.png, evolution-today.png:
 	Took out the colored background circles from the icons, apparently
-	people found them confusing rather than useful, especially on small
-	icons -mode of the shortcutbar.
+	people found them confusing rather than useful, especially on
+	small icons -mode of the shortcutbar.
 
 2001-07-19  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -154,8 +163,8 @@
 
 2001-07-19    <tigert@ximian.com>
 
-	* 16_category_strategies.png, 16_category_status.png:
-	New category icons.
+	* 16_category_strategies.png, 16_category_status.png: New category
+	icons.
 
 2001-07-19  Jakub Steiner <jimmac@ximian.com>
 
@@ -179,13 +188,13 @@
 
 2001-07-13  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* 16_category_*.png: Some category icons for calendar/tasks, 
-	to match the different category types for events. Still many
-	to do, but I wanted to commit them so you people can start
-	hacking on the code already. More to follow shortly.
+	* 16_category_*.png: Some category icons for calendar/tasks, to
+	match the different category types for events. Still many to do,
+	but I wanted to commit them so you people can start hacking on the
+	code already. More to follow shortly.
 
-	* 16_customize.png: Icon for "Customize toolbars" or whatever 
-	menu item that deals with customizing stuff (the icon is a wrench)
+	* 16_customize.png: Icon for "Customize toolbars" or whatever menu
+	item that deals with customizing stuff (the icon is a wrench)
 
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 
@@ -193,11 +202,11 @@
 
 2001-07-12    <tigert@ximian.com>
 
-	* delete_message.[png,xpm]: New versions for the trashcan icon.
-	I am wondering if we should do some filename cleanup here, all menu 
+	* delete_message.[png,xpm]: New versions for the trashcan icon.  I
+	am wondering if we should do some filename cleanup here, all menu
 	icons should really be 16_foo.png, whereas the toolbar ones should
-	be foo.png. Currently we are mixing PNG and XPM here with some files
-	having otherwise same names (like this one)..
+	be foo.png. Currently we are mixing PNG and XPM here with some
+	files having otherwise same names (like this one)..
 
 2001-07-11    <tigert@ximian.com>
 
@@ -205,8 +214,8 @@
 
 2001-07-10  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* new_appointment.png: New appointment icon. 	
-	* new_appointment.xpm: Small version.. (should we change this to 
+	* new_appointment.png: New appointment icon.  *
+	new_appointment.xpm: Small version.. (should we change this to
 	16_new_appointment.png btw?
 
 2001-07-09  Iain Holmes  <iain@ximian.com>
@@ -215,9 +224,9 @@
 
 2001-07-07    <tigert@ximian.com>
 
-	* 16_[cut,copy,paste].png: New icons for the Edit->[Cut,Copy,Paste]
-	entries, the current gnome-stock ones start to look bad when scaled 
-	down, so these are already 16x16 pixels.
+	* 16_[cut,copy,paste].png: New icons for the
+	Edit->[Cut,Copy,Paste] entries, the current gnome-stock ones start
+	to look bad when scaled down, so these are already 16x16 pixels.
 
 2001-07-05  Jakub Steiner <jimmac@ximian.com>
 
@@ -251,8 +260,8 @@
 
 	* print.png: Icon for print message.
 
-	* next-message.png, previous-message.png: New icons to replace
-	the  < > arrows in the mailer. 
+	* next-message.png, previous-message.png: New icons to replace the
+	< > arrows in the mailer.
 
 2001-06-29  Chris Toshok  <toshok@ximian.com>
 
@@ -268,20 +277,21 @@
 
 2001-06-27  Tuomas Kuosmanen  <tigert@ximian.com>
 
-	* evolution-calendar-mini.png: New version of the folder tree's 
+	* evolution-calendar-mini.png: New version of the folder tree's
 	calendar icon. Doesnt look too much like the contacts icon.
 
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 
-	* world_map-960.png: world map picture used for selecting timezones.
-	* Makefile.am (images_DATA): added world_map-960.png for timezones.
+	* world_map-960.png: world map picture used for selecting
+	timezones.  * Makefile.am (images_DATA): added world_map-960.png
+	for timezones.
 
 2001-06-14  Jakub Steiner <jimmac@ximian.com>
 
-	* apply-filters-16.xpm: for mailer menu.
-	* vfolder-16.xpm: vfolder icon for menu items
-	* hand-16.xpm: originally ment for customize toolbars. might not work
-	* edit-16.xpm: edit message (message open)
+	* apply-filters-16.xpm: for mailer menu.  * vfolder-16.xpm:
+	vfolder icon for menu items * hand-16.xpm: originally ment for
+	customize toolbars. might not work * edit-16.xpm: edit message
+	(message open)
 	
 2001-06-13  Jakub Steiner <jimmac@ximian.com>
 
@@ -289,20 +299,13 @@
 
 2001-06-13  Jakub Steiner <jimmac@ximian.com>
 
-	* splash-1-0.png: Initial mockup for the final splash.
-	  Didn't wan't to overwrite the unstable splash.png.
+	* splash-1-0.png: Initial mockup for the final splash.  Didn't
+	  wan't to overwrite the unstable splash.png.
 	
 2001-06-07  Iain Holmes  <iain@ximian.com>
 
-	* empty.gif:
-	  es-weather.png
-	  es-appointments.png
-	  ico-calendar.png
-	  ico-mail.png
-	  ico-rdf.png
-	  ico-weather.png
-	  bcg.png
-	  rdf.png
+	* empty.gif: es-weather.png es-appointments.png ico-calendar.png
+	  ico-mail.png ico-rdf.png ico-weather.png bcg.png rdf.png
 	  pattern.png: Added all these for the new My Evolution
 
 2001-06-04  Jakub Steiner <jimmac@ximian.com>
@@ -330,17 +333,16 @@
 2001-05-16  Jakub Steiner <jimmac@ximian.com>
 
 	* evolution-calendar.png, evolution-contacts.png,
-	  evolution-inbox.png, evolution-today.png,
-	  evolution-tasks.png: fixed bug #2862. Also changed the
-	  envelope icon
-	  Oh and we use #b39169 for calendar now
+	  evolution-inbox.png, evolution-today.png, evolution-tasks.png:
+	  fixed bug #2862. Also changed the envelope icon Oh and we use
+	  #b39169 for calendar now
 	  
 2001-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (images_DATA): Added `online.png' and `offline.png'.
 
-	* online.png: New icon by Tuomas.
-	* offline.png: New icon by Tuomas.
+	* online.png: New icon by Tuomas.  * offline.png: New icon by
+	Tuomas.
 
 2001-05-14  Duncan Mak  <duncan@ximian.com>
 
