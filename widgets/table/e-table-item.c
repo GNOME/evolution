@@ -553,8 +553,6 @@ eti_remove_selection_model (ETableItem *eti)
 				     eti->cursor_change_id);
 	g_signal_handler_disconnect (eti->selection,
 				     eti->cursor_activated_id);
-        g_signal_emit_by_name (G_OBJECT(eti),
-                               "selection_model_removed", eti->selection);
 	g_object_unref (eti->selection);
 
 	eti->selection_change_id = 0;
@@ -1466,6 +1464,8 @@ eti_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 		break;
 		
 	case PROP_SELECTION_MODEL:
+		g_signal_emit_by_name (G_OBJECT(eti),
+				       "selection_model_removed", eti->selection);
 		eti_remove_selection_model (eti);
 		if (g_value_get_object (value))
 			eti_add_selection_model (eti, E_SELECTION_MODEL(g_value_get_object(value)));
