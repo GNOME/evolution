@@ -154,7 +154,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 		return family_match ? E_CARD_MATCH_EXACT : E_CARD_MATCH_PARTIAL;
 
 	if (possible == matches+1)
-		return family_match ? E_CARD_MATCH_PARTIAL : E_CARD_MATCH_VAGUE;
+		return family_match ? E_CARD_MATCH_VAGUE : E_CARD_MATCH_NONE;
 
 	return E_CARD_MATCH_NONE;
 }

@@ -1,3 +1,9 @@
+2001-08-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-compare.c (e_card_compare_name): Made it so
+	that if there's one less match than possible compares are
+	considered more VAGUE.  Fixes Ximian bug #3400.
+
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
