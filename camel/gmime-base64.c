@@ -17,7 +17,7 @@ static char *base64_alphabet =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /**
- * gmime_encode_base64:
+ * gmime_encode_base64_to_stream:
  * @input: The data source to be encoded in base64 format
  * @output: Where to put the encoded information in.
  *
@@ -25,7 +25,7 @@ static char *base64_alphabet =
  * base64 encoding and stores it on the @output CamelStream object
  */
 void
-gmime_encode_base64 (CamelStream *input, CamelStream *output)
+gmime_encode_base64_to_stream (CamelStream *input, CamelStream *output)
 {
 	char buffer [BSIZE];
 	char obuf [80];	/* Output is limited to 76 characters, rfc2045 */
@@ -81,6 +81,11 @@ gmime_encode_base64 (CamelStream *input, CamelStream *output)
 	camel_stream_write (output, obuf, j);
 	camel_stream_flush (output);
 }
+
+
+
+
+
 
 
 /**

@@ -235,9 +235,15 @@ typedef void (*mime_handler_fn) (CamelFormatter *formatter,
 static gchar*
 lookup_unique_id (CamelDataWrapper* root, CamelDataWrapper* child)
 {
+	/* ** FIXME : replace this with a string representing
+	   the location of the objetc in the tree */
 	/* TODO: assert our return value != NULL */
 
-	return "NYI";
+	gchar *temp_hack_uid;
+
+	temp_hack_uid = g_strdup_printf ("%p", camel_data_wrapper_get_output_stream (child));
+
+	return temp_hack_uid;
 }
 
 static GHashTable* mime_function_table;

@@ -42,6 +42,7 @@
 #include "camel-mime-part-utils.h"
 #include "gmime-base64.h"
 #include "camel-seekable-substream.h"
+#include "camel-stream-b64.h"
 
 
 typedef enum {
@@ -606,13 +607,31 @@ _get_content_object (CamelMedium *medium)
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelStream *stream;
+	CamelStream *decoded_stream;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object entering\n");
 
 	if (!medium->content ) {
 		stream = mime_part->content_input_stream; 
+		decoded_stream = stream;
+
+		switch (mime_part->encoding) {
 		
-		camel_mime_part_construct_content_from_stream (mime_part, stream);
+		case CAMEL_MIME_PART_ENCODING_DEFAULT:
+		case CAMEL_MIME_PART_ENCODING_7BIT:
+		case CAMEL_MIME_PART_ENCODING_8BIT:
+		case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+			break;
+
+		case CAMEL_MIME_PART_ENCODING_BASE64:
+			decoded_stream = camel_stream_b64_new_with_input_stream (stream);
+			camel_stream_b64_set_mode (CAMEL_STREAM_B64 (decoded_stream), 
+						   CAMEL_STREAM_B64_DECODER);
+			break;
+		}
+
+
+		camel_mime_part_construct_content_from_stream (mime_part, decoded_stream);
 		
 	} else {
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object part has a pointer "
@@ -663,7 +682,7 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 			g_warning ("Class `%s' does not implement `get_stream'",
 				   gtk_type_name (GTK_OBJECT (content)->klass->type));
 		}
-		gmime_encode_base64 (wrapper_stream, stream);
+		gmime_encode_base64_to_stream (wrapper_stream, stream);
 		break;
 	default:
 		g_warning ("Encoding type `%s' not supported.",
@@ -848,11 +867,37 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 static CamelStream *
 _get_output_stream (CamelDataWrapper *data_wrapper)
 {
-	
+	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
+	CamelStream *input_stream;
+	CamelStream *output_stream;
+	/* ** FIXME : bogus bogus bogus - test test test */
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
-	return camel_data_wrapper_get_input_stream (data_wrapper);
+	input_stream = camel_data_wrapper_get_input_stream (data_wrapper);
+	
+	if (input_stream == NULL)
+		return NULL;
+
+	switch (mime_part->encoding) {
+		
+	case CAMEL_MIME_PART_ENCODING_DEFAULT:
+	case CAMEL_MIME_PART_ENCODING_7BIT:
+	case CAMEL_MIME_PART_ENCODING_8BIT:
+		return input_stream;
+		
+	case CAMEL_MIME_PART_ENCODING_BASE64:
+		output_stream = camel_stream_b64_new_with_input_stream (input_stream);
+		camel_stream_b64_set_mode (CAMEL_STREAM_B64 (output_stream), 
+					   CAMEL_STREAM_B64_ENCODER);
+		return output_stream;
+
+	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+		return input_stream;
+	}
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
 
+	return NULL;
 }
 
 
@@ -872,6 +917,7 @@ camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
 	}
 	return "";
 }
+
 
 
 /* FIXME I am not sure this is the correct way to do this.  */

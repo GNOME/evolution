@@ -11,6 +11,6 @@
 
 #include "camel-stream.h"
 
-void gmime_encode_base64 (CamelStream *input, CamelStream *output);
+void gmime_encode_base64_to_stream (CamelStream *input, CamelStream *output);
 
 #endif

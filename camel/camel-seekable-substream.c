@@ -182,6 +182,14 @@ _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint
 	CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::_set_bounds Leaving\n");
 }
 
+static void
+_reemit_parent_signal (CamelStream *parent_stream, gpointer user_data)
+{
+	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (user_data);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (seekable_substream), "data_available");
+	
+}
 
 
 static void 	   
@@ -201,6 +209,20 @@ _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substre
 
 	/* set the bound of the substream */
 	_set_bounds (seekable_substream, inf_bound, sup_bound);
+
+	/* 
+	 *  connect to the parent stream "data_available"
+	 *  stream so that we can reemit the signal on the 
+	 *  seekable substream in case some data would 
+	 *  be available for us 
+	 */
+	gtk_signal_connect (GTK_OBJECT (parent_stream),
+			    "data_available", 
+			    _reemit_parent_signal,
+			    seekable_substream);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (seekable_substream), "data_available");
+
 }
 
 
@@ -454,7 +476,7 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 			seekable_stream->cur_pos = MIN (real_offset, substream_len);
 		} else 
 			seekable_stream->cur_pos = 0;
-		printf ("** set in substream %p, offset=%d\n", stream, real_offset);
+		printf ("** set in substream %p, offset=%lld\n", stream, real_offset);
 	}
 	
 

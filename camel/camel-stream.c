@@ -38,7 +38,7 @@ static guint camel_stream_signals[LAST_SIGNAL] = { 0 };
 static GtkObjectClass *parent_class = NULL;
 
 
-/* Returns the class for a CamelMimeMessage */
+/* Returns the class for a CamelStream */
 #define CS_CLASS(so) CAMEL_STREAM_CLASS (GTK_OBJECT(so)->klass)
 
 static void

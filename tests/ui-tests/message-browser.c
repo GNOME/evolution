@@ -256,9 +256,35 @@ static void
 on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 {
 	GtkWidget* message_box;
+	CamelStream *stream;
+	CamelStream *save_stream;
+	gchar tmp_buffer[4096];
+	gint nb_bytes_read;
+	
 	gchar* message = g_strdup_printf ("You have clicked on this link:\n%s",
 					  url);
+	sscanf (url, "camel://%p", &stream);
+	save_stream = camel_stream_fs_new_with_name ("saved-file", CAMEL_STREAM_FS_WRITE);
 	
+
+	do {
+	  
+	  /* read next chunk of text */
+	  nb_bytes_read = camel_stream_read (stream,
+					     tmp_buffer,
+					     4096);
+	  
+	  /* If there's any text, write it to the stream */
+	  if (nb_bytes_read > 0) {
+	    camel_stream_write (save_stream, tmp_buffer, nb_bytes_read);
+	    
+	  }
+	  
+		
+	} while (!camel_stream_eos (stream));
+	
+	camel_stream_close (save_stream);
+
 	message_box = gnome_message_box_new (message,
 					     GNOME_MESSAGE_BOX_INFO,
 					     "Okay", NULL);
@@ -266,6 +292,8 @@ on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 	gnome_dialog_set_default (GNOME_DIALOG (message_box), 1);
 	gnome_dialog_run (message_box);
 	g_free (message);
+
+	
 }
 
 
