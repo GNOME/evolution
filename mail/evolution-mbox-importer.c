@@ -160,7 +160,7 @@ support_format_fn (EvolutionImporter *importer,
 	
 	/* SIGNATURE */
 	fread (&signature, 5, 1, handle); 
-	if (strcmp (signature, "From ") == 0) {
+	if (strncmp (signature, "From ", 5) == 0) {
 		fclose (handle);
 		return TRUE;
 	}

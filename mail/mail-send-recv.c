@@ -186,6 +186,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 
 	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_sensitive(gd, 0, FALSE);
+	gnome_window_icon_set_from_file (GTK_WINDOW (gd), 
+					 EVOLUTION_DATADIR "images/evolution/evolution-inbox.png");
 
 	frame= (GtkFrame *)gtk_frame_new(_("Receiving"));
 	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)frame, TRUE, TRUE, 0);
@@ -493,54 +495,64 @@ void mail_send_receive(void)
 	GSList *sources;
 	GList *scan;
 	FilterContext *fc;
+	static GtkWidget *gd = NULL;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
 
-	sources = mail_config_get_sources();
-	if (!sources)
-		return;
-	account = mail_config_get_default_account();
-	if (!account || !account->transport)
-		return;
-
-	fc = mail_load_filter_context();
-
-	/* what to do about pop before smtp ?
-	   Well, probably hook into receive_done or receive_status on
-	   the right pop account, and when it is, then kick off the
-	   smtp one. */
-	data = build_dialogue(sources, outbox_folder, account->transport->url);
-	scan = data->infos;
-	while (scan) {
-		struct _send_info *info = scan->data;
-
-		switch(info->type) {
-		case SEND_RECEIVE:
-			mail_fetch_mail(info->uri, info->keep,
-					fc, FILTER_SOURCE_INCOMING,
-					info->cancel,
-					receive_get_folder, info,
-					receive_status, info,
-					receive_done, info);
-			break;
-		case SEND_SEND:
-			/* todo, store the folder in info? */
-			mail_send_queue(outbox_folder, info->uri,
-					fc, FILTER_SOURCE_OUTGOING,
-					info->cancel,
-					receive_get_folder, info,
-					receive_status, info,
-					receive_done, info);
-			break;
-		case SEND_UPDATE:
-			/* FIXME: error reporting? */
-			mail_get_store(info->uri, receive_update_got_store, info);
-			break;
+	if (gd != NULL) {
+		g_assert (GTK_WIDGET_REALIZED (gd));
+		gdk_window_show (gd->window);
+		gdk_window_raise (gd->window);
+	} else {
+		sources = mail_config_get_sources();
+		if (!sources)
+			return;
+		account = mail_config_get_default_account();
+		if (!account || !account->transport)
+			return;
+		
+		fc = mail_load_filter_context();
+		
+		/* what to do about pop before smtp ?
+		   Well, probably hook into receive_done or receive_status on
+		   the right pop account, and when it is, then kick off the
+		   smtp one. */
+		data = build_dialogue(sources, outbox_folder, account->transport->url);
+		scan = data->infos;
+		gd = data->gd;
+		gtk_signal_connect (GTK_OBJECT (gd), "destroy",
+				    GTK_SIGNAL_FUNC (gtk_widget_destroyed), &gd);
+		while (scan) {
+			struct _send_info *info = scan->data;
+			
+			switch(info->type) {
+			case SEND_RECEIVE:
+				mail_fetch_mail(info->uri, info->keep,
+						fc, FILTER_SOURCE_INCOMING,
+						info->cancel,
+						receive_get_folder, info,
+						receive_status, info,
+						receive_done, info);
+				break;
+			case SEND_SEND:
+				/* todo, store the folder in info? */
+				mail_send_queue(outbox_folder, info->uri,
+						fc, FILTER_SOURCE_OUTGOING,
+						info->cancel,
+						receive_get_folder, info,
+						receive_status, info,
+						receive_done, info);
+				break;
+			case SEND_UPDATE:
+				/* FIXME: error reporting? */
+				mail_get_store(info->uri, receive_update_got_store, info);
+				break;
+			}
+			scan = scan->next;
 		}
-		scan = scan->next;
-	}
 
-	gtk_object_unref((GtkObject *)fc);
+		gtk_object_unref((GtkObject *)fc);
+	}
 }
 

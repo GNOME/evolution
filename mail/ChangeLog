@@ -1,3 +1,12 @@
+2001-01-30  Iain Holmes  <iain@ximian.com>
+
+	* mail-send-recv.c (mail_send_receive): Only allow one send and
+	receive to be running at once.
+	(build_dialogue): Set the icon for the window.
+
+	* evolution-mbox-importer.c (support_format_fn): Only compare the first
+	5 bytes of the signature.
+
 2001-01-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* folder-browser.c: Fix typo.
