@@ -120,120 +120,123 @@ e_table_scrolled_real_construct (ETableScrolled *ets)
 	gtk_widget_show(GTK_WIDGET(ets->table));
 }
 
-ETableScrolled *
-e_table_scrolled_construct (ETableScrolled *ets, ETableHeader *full_header,
-			    ETableModel *etm, const char *spec)
+ETableScrolled *e_table_scrolled_construct                 (ETableScrolled    *ets,
+							    ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec,
+							    const char        *state)
 {
 	g_return_val_if_fail(ets != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
-	g_return_val_if_fail(full_header != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec != NULL, NULL);
-	
-	e_table_construct(ets->table, full_header, etm, spec);
+
+	e_table_construct(ets->table, etm, ete, spec, state);
 
 	e_table_scrolled_real_construct(ets);
 
 	return ets;
 }
 
-ETableScrolled *
-e_table_scrolled_construct_from_spec_file (ETableScrolled *ets, ETableHeader *full_header, ETableModel *etm,
-					   const char *filename)
-{
-	g_return_val_if_fail(ets != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
-	g_return_val_if_fail(full_header != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
-	g_return_val_if_fail(etm != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
-	g_return_val_if_fail(filename != NULL, NULL);
-	
-	e_table_construct_from_spec_file(ets->table, full_header, etm, filename);
-
-	e_table_scrolled_real_construct(ets);
-
-	return ets;
-}
-
-GtkWidget *
-e_table_scrolled_new (ETableHeader *full_header, ETableModel *etm, const char *spec)
+GtkWidget      *e_table_scrolled_new                       (ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec,
+							    const char        *state)
 {
 	ETableScrolled *ets;
 
-	g_return_val_if_fail(full_header != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
-	g_return_val_if_fail(spec != NULL, NULL);	
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
+	g_return_val_if_fail(spec != NULL, NULL);
 
 	ets = E_TABLE_SCROLLED (gtk_widget_new (e_table_scrolled_get_type (),
 						"hadjustment", NULL,
 						"vadjustment", NULL,
 						NULL));
 
-	ets = e_table_scrolled_construct (ets, full_header, etm, spec);
-		
+	ets = e_table_scrolled_construct (ets, etm, ete, spec, state);
+
 	return GTK_WIDGET (ets);
 }
 
-GtkWidget *
-e_table_scrolled_new_from_spec_file (ETableHeader *full_header, ETableModel *etm, const char *filename)
+ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled    *ets,
+							    ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec_fn,
+							    const char        *state_fn)
+{
+	g_return_val_if_fail(ets != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
+	g_return_val_if_fail(etm != NULL, NULL);
+	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
+	g_return_val_if_fail(spec_fn != NULL, NULL);
+
+	e_table_construct_from_spec_file(ets->table, etm, ete, spec_fn, state_fn);
+
+	e_table_scrolled_real_construct(ets);
+
+	return ets;
+}
+
+GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec_fn,
+							    const char        *state_fn)
 {
 	ETableScrolled *ets;
 
-	g_return_val_if_fail(full_header != NULL, NULL);
-	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), NULL);
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_MODEL(etm), NULL);
-	g_return_val_if_fail(filename != NULL, NULL);
-	
+	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
+	g_return_val_if_fail(spec_fn != NULL, NULL);
+
 	ets = gtk_type_new (e_table_scrolled_get_type ());
 
-	ets = e_table_scrolled_construct_from_spec_file (ets, full_header, etm, filename);
-		
+	ets = e_table_scrolled_construct_from_spec_file (ets, etm, ete, spec_fn, state_fn);
+
 	return GTK_WIDGET (ets);
 }
 
-gchar *
-e_table_scrolled_get_specification (ETableScrolled *ets)
+gchar          *e_table_scrolled_get_state                 (ETableScrolled    *ets)
 {
 	g_return_val_if_fail(ets != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
 
-	return e_table_get_specification(ets->table);
+	return e_table_get_state(ets->table);
 }
 
-void
-e_table_scrolled_save_specification (ETableScrolled *ets, gchar *filename)
+void            e_table_scrolled_save_state                (ETableScrolled    *ets,
+							    const gchar       *filename)
 {
 	g_return_if_fail(ets != NULL);
 	g_return_if_fail(E_IS_TABLE_SCROLLED(ets));
 	g_return_if_fail(filename != NULL);
 
-	e_table_save_specification(ets->table, filename);
+	e_table_save_state(ets->table, filename);
 }
 
-int
-e_table_scrolled_set_specification(ETableScrolled *ets, const char *spec)
+void
+e_table_scrolled_set_state(ETableScrolled *ets, const char *state)
 {
-	g_return_val_if_fail(ets != NULL, -1);
-	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), -1);
-	g_return_val_if_fail(spec != NULL, -1);
+	g_return_if_fail(ets != NULL);
+	g_return_if_fail(E_IS_TABLE_SCROLLED(ets));
+	g_return_if_fail(state != NULL);
 
-	return e_table_set_specification(ets->table, spec);
+	e_table_set_state(ets->table, state);
 }
 
-int
-e_table_scrolled_load_specification(ETableScrolled *ets, gchar *filename)
+void
+e_table_scrolled_load_state(ETableScrolled *ets, const gchar *filename)
 {
-	g_return_val_if_fail(ets != NULL, -1);
-	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), -1);
-	g_return_val_if_fail(filename != NULL, -1);
+	g_return_if_fail(ets != NULL);
+	g_return_if_fail(E_IS_TABLE_SCROLLED(ets));
+	g_return_if_fail(filename != NULL);
 
-	return e_table_load_specification(ets->table, filename);
+	e_table_load_state(ets->table, filename);
 }
 
 void

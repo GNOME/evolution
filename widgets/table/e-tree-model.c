@@ -361,7 +361,6 @@ static const char *
 etable_row_sort_group(ETableModel *etm, int row)
 {
 	ETreeModel *etree = E_TREE_MODEL(etm);
-	ETreeModelClass *et_class = ETM_CLASS(etm);
 	ETreePath* node = e_tree_model_node_at_row (etree, row);
 
 	g_return_val_if_fail (node, "");

@@ -31,34 +31,46 @@ typedef struct {
 	gint        (*key_press)          (ETableScrolled *est, int row, int col, GdkEvent *event);
 } ETableScrolledClass;
 
-GtkType         e_table_scrolled_get_type   		  (void);
+GtkType         e_table_scrolled_get_type         (void);
 
-ETableScrolled *e_table_scrolled_construct  		  (ETableScrolled *ets, ETableHeader *full_header, ETableModel *etm,
-	      						   const char *spec);
-GtkWidget      *e_table_scrolled_new        		  (ETableHeader *full_header, ETableModel *etm,
-							   const char *spec);
+ETableScrolled *e_table_scrolled_construct                 (ETableScrolled    *ets,
+							    ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec,
+							    const char        *state);
+GtkWidget      *e_table_scrolled_new                       (ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec,
+							    const char        *state);
 
-ETableScrolled *e_table_scrolled_construct_from_spec_file (ETableScrolled *e_table_scrolled,
-							   ETableHeader *full_header,
-							   ETableModel *etm,
-							   const char *filename);
-GtkWidget      *e_table_scrolled_new_from_spec_file       (ETableHeader *full_header,
-							   ETableModel *etm,
-							   const char *filename);
+ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled    *ets,
+							    ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec_fn,
+							    const char        *state_fn);
+GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel       *etm,
+							    ETableExtras      *ete,
+							    const char        *spec_fn,
+							    const char        *state_fn);
 
-gchar          *e_table_scrolled_get_specification        (ETableScrolled *e_table_scrolled);
-void            e_table_scrolled_save_specification       (ETableScrolled *e_table_scrolled, gchar *filename);
-int		e_table_scrolled_set_specification        (ETableScrolled *e_table_scrolled, const char *spec);
-int             e_table_scrolled_load_specification       (ETableScrolled *e_table_scrolled, gchar *filename);
+gchar          *e_table_scrolled_get_state                 (ETableScrolled    *ets);
+void            e_table_scrolled_save_state                (ETableScrolled    *ets,
+							    const gchar       *filename);
 
-void            e_table_scrolled_set_cursor_row           (ETableScrolled *e_table_scrolled,
-							   int row);
+/* note that it is more efficient to provide the state at creation time */
+void            e_table_scrolled_set_state                 (ETableScrolled    *ets,
+							    const gchar       *state);
+void            e_table_scrolled_load_state                (ETableScrolled    *ets,
+							    const gchar       *filename);
+
+void            e_table_scrolled_set_cursor_row            (ETableScrolled    *ets,
+							    int                row);
 /* -1 means we don't have the cursor. */
-int             e_table_scrolled_get_cursor_row           (ETableScrolled *e_table_scrolled);
-void            e_table_scrolled_selected_row_foreach     (ETableScrolled *e_table_scrolled,
-							   ETableForeachFunc callback,
-							   gpointer closure);
-EPrintable     *e_table_scrolled_get_printable            (ETableScrolled *e_table_scrolled);
+int             e_table_scrolled_get_cursor_row            (ETableScrolled    *ets);
+void            e_table_scrolled_selected_row_foreach      (ETableScrolled    *ets,
+							    ETableForeachFunc  callback,
+							    gpointer           closure);
+EPrintable     *e_table_scrolled_get_printable             (ETableScrolled    *ets);
 
 END_GNOME_DECLS
 

@@ -178,7 +178,7 @@ e_table_gui_config (ETable *etable)
 
 	config_data = g_new (ConfigData, 1);
 	config_data->gui = gui;
-	config_data->old_spec = e_table_get_specification (etable);
+	config_data->old_spec = e_table_get_state (etable);
 	
 	gtk_object_set_data (
 		GTK_OBJECT (dialog), "config-data",

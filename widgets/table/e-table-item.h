@@ -16,13 +16,6 @@
 #define E_IS_TABLE_ITEM(o)       (GTK_CHECK_TYPE ((o), E_TABLE_ITEM_TYPE))
 #define E_IS_TABLE_ITEM_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_ITEM_TYPE))
 
-/* list selection modes */
-typedef enum
-{
-	E_TABLE_CURSOR_LINE,
-	E_TABLE_CURSOR_SIMPLE,
-} ETableCursorMode;
-
 typedef struct {
 	GnomeCanvasItem  parent;
 	ETableModel     *table_model;

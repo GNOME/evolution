@@ -3,6 +3,7 @@
 #define _E_TABLE_SORT_INFO_H_
 
 #include <gtk/gtkobject.h>
+#include <gnome-xml/tree.h>
 
 #define E_TABLE_SORT_INFO_TYPE        (e_table_sort_info_get_type ())
 #define E_TABLE_SORT_INFO(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORT_INFO_TYPE, ETableSortInfo))
@@ -40,21 +41,33 @@ typedef struct {
 	void        (*group_info_changed)     (ETableSortInfo *info);
 } ETableSortInfoClass;
 
-GtkType      	 e_table_sort_info_get_type (void);
+GtkType           e_table_sort_info_get_type            (void);
 
-void             e_table_sort_info_freeze             (ETableSortInfo *info);
-void             e_table_sort_info_thaw               (ETableSortInfo *info);
+void              e_table_sort_info_freeze              (ETableSortInfo   *info);
+void              e_table_sort_info_thaw                (ETableSortInfo   *info);
 
-guint        	 e_table_sort_info_grouping_get_count (ETableSortInfo *info);
-void             e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length);
-ETableSortColumn e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n);
-void             e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column);
+guint             e_table_sort_info_grouping_get_count  (ETableSortInfo   *info);
+void              e_table_sort_info_grouping_truncate   (ETableSortInfo   *info,
+							 int               length);
+ETableSortColumn  e_table_sort_info_grouping_get_nth    (ETableSortInfo   *info,
+							 int               n);
+void              e_table_sort_info_grouping_set_nth    (ETableSortInfo   *info,
+							 int               n,
+							 ETableSortColumn  column);
 
-guint        	 e_table_sort_info_sorting_get_count  (ETableSortInfo *info);
-void             e_table_sort_info_sorting_truncate   (ETableSortInfo *info, int length);
-ETableSortColumn e_table_sort_info_sorting_get_nth    (ETableSortInfo *info, int n);
-void             e_table_sort_info_sorting_set_nth    (ETableSortInfo *info, int n, ETableSortColumn column);
+guint             e_table_sort_info_sorting_get_count   (ETableSortInfo   *info);
+void              e_table_sort_info_sorting_truncate    (ETableSortInfo   *info,
+							 int               length);
+ETableSortColumn  e_table_sort_info_sorting_get_nth     (ETableSortInfo   *info,
+							 int               n);
+void              e_table_sort_info_sorting_set_nth     (ETableSortInfo   *info,
+							 int               n,
+							 ETableSortColumn  column);
 
-ETableSortInfo  *e_table_sort_info_new                (void);
+ETableSortInfo   *e_table_sort_info_new                 (void);
+void              e_table_sort_info_load_from_node      (ETableSortInfo   *info,
+							 xmlNode          *node);
+xmlNode          *e_table_sort_info_save_to_node        (ETableSortInfo   *info,
+							 xmlNode          *parent);
 
 #endif /* _E_TABLE_SORT_INFO_H_ */

@@ -13,4 +13,11 @@
 typedef void (*ETableForeachFunc) (int model_row,
 				   gpointer closure);
 
+/* list selection modes */
+typedef enum
+{
+	E_TABLE_CURSOR_LINE,
+	E_TABLE_CURSOR_SIMPLE,
+} ETableCursorMode;
+
 #endif

@@ -11,6 +11,7 @@
 #include <gtk/gtksignal.h>
 #include "e-table-sort-info.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
 
 #define ETM_CLASS(e) ((ETableSortInfoClass *)((GtkObject *)e)->klass)
 
@@ -236,3 +237,61 @@ e_table_sort_info_new (void)
 {
 	return gtk_type_new (e_table_sort_info_get_type ());
 }
+
+void
+e_table_sort_info_load_from_node (ETableSortInfo *info,
+				  xmlNode        *node)
+{
+	int i;
+	xmlNode *grouping;
+
+	i = 0;
+	for (grouping = node->childs; grouping && !strcmp (grouping->name, "group"); grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_grouping_set_nth(info, i++, column);
+	}
+	i = 0;
+	for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_sorting_set_nth(info, i++, column);
+	}
+}
+
+xmlNode *
+e_table_sort_info_save_to_node (ETableSortInfo *info,
+				xmlNode        *parent)
+{
+	xmlNode *grouping;
+	xmlNode *node;
+	int i;
+	const int sort_count = e_table_sort_info_sorting_get_count (info);
+	const int group_count = e_table_sort_info_grouping_get_count (info);
+	
+	grouping = xmlNewChild (parent, NULL, "grouping", NULL);
+	node = grouping;
+
+	for (i = 0; i < group_count; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(info, i);
+		xmlNode *new_node = xmlNewChild(node, NULL, "group", NULL);
+
+		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
+		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		node = new_node;
+	}
+
+	for (i = 0; i < sort_count; i++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(info, i);
+		xmlNode *new_node = xmlNewChild(node, NULL, "leaf", NULL);
+		
+		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
+		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		node = new_node;
+	}
+
+	return grouping;
+}
+
