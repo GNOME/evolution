@@ -1,3 +1,10 @@
+1999-03-23  Nat Friedman  <nat@nat.org>
+
+	* eventedit.c (ee_store_recur_rule_to_ical): Set the
+ 	recur->interval to the value of the recur_rr_month_period spin
+ 	button if the event is being set "by day."  This closes bug #675
+ 	as reported by bagfors@hpc2n.umu.se.  Thanks for the report!
+
 1999-03-10  Clifford R. Conover <rconover@montana.edu>
 
 	* gncal-todo.c (simple_todo_editor): Add support for Due Date when

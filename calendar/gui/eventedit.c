@@ -570,6 +570,9 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 			ical->recur->u.month_day =
 				gtk_spin_button_get_value_as_int (
 					GTK_SPIN_BUTTON (ee->recur_rr_month_date));
+			ical->recur->interval =
+				gtk_spin_button_get_value_as_int (
+					GTK_SPIN_BUTTON (ee->recur_rr_month_period));
 		} else {
 			/* by position */
 
