@@ -321,8 +321,6 @@ setup_local_storage (EShell *shell)
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
-	gtk_object_unref (GTK_OBJECT (local_storage));
-
 	return TRUE;
 }
 

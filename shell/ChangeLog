@@ -1,3 +1,7 @@
+2000-09-24  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (setup_local_storage): Don't unref the local storage.
+
 2000-09-22  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view-menu.c (e_shell_view_menu_setup): upd.
