@@ -50,11 +50,11 @@ static void set_pixmap		(BonoboUIComponent *uic,
 
 /* Callback for the new appointment command */
 static void
-new_appointment_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal;
 
-	gcal = GNOME_CALENDAR (user_data);
+	gcal = GNOME_CALENDAR (data);
 	gnome_calendar_new_appointment (gcal);
 }
 
@@ -85,7 +85,7 @@ print (GnomeCalendar *gcal, gboolean preview)
 
 /* File/Print callback */
 static void
-file_print_cb (BonoboUIComponent *uih, void *data, const char *path)
+file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal;
 
@@ -127,74 +127,94 @@ set_normal_cursor (GnomeCalendar *gcal)
 }
 
 static void
-previous_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+previous_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
 	set_clock_cursor (gcal);
 	gnome_calendar_previous (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-next_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+next_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
 	set_clock_cursor (gcal);
 	gnome_calendar_next (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-today_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+today_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
 	set_clock_cursor (gcal);
 	gnome_calendar_goto_today (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-goto_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+goto_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
 	goto_dialog (gcal);
 }
 
 static void
-show_day_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
 
 	gnome_calendar_set_view (gcal, "dayview", FALSE, TRUE);
 }
 
 static void
-show_work_week_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
 
 	gnome_calendar_set_view (gcal, "workweekview", FALSE, TRUE);
 }
 
 static void
-show_week_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
 
 	gnome_calendar_set_view (gcal, "weekview", FALSE, TRUE);
 }
 
 static void
-show_month_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
+show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
 
 	gnome_calendar_set_view (gcal, "monthview", FALSE, TRUE);
 }
 
 
 static void
-new_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
+new_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	new_calendar ();
 }
@@ -226,7 +246,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 }
 
 static void
-open_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
+open_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GtkFileSelection *fs;
 
@@ -265,12 +285,15 @@ close_save (GtkWidget *w)
 }
 
 static void
-save_as_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
+save_as_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
+	GnomeCalendar *gcal;
 	GtkFileSelection *fs;
 
+	gcal = GNOME_CALENDAR (data);
+
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save calendar")));
-	gtk_object_set_user_data (GTK_OBJECT (fs), user_data);
+	gtk_object_set_user_data (GTK_OBJECT (fs), gcal);
 
 	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
 			    (GtkSignalFunc) save_ok,
@@ -288,7 +311,7 @@ save_as_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-properties_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
+properties_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	if (!preferences_dialog)
 		preferences_dialog = cal_prefs_dialog_new ();
@@ -298,22 +321,22 @@ properties_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("CalendarNew", new_calendar_cmd),
-	BONOBO_UI_UNSAFE_VERB ("CalendarOpen", open_calendar_cmd),
-	BONOBO_UI_UNSAFE_VERB ("CalendarSaveAs", save_as_calendar_cmd),
-	BONOBO_UI_UNSAFE_VERB ("CalendarPrint", file_print_cb),
-	BONOBO_UI_UNSAFE_VERB ("EditNewAppointment", new_appointment_cb),
-	BONOBO_UI_UNSAFE_VERB ("CalendarPreferences", properties_cmd),
-
-	BONOBO_UI_UNSAFE_VERB ("CalendarPrev", previous_clicked),
-	BONOBO_UI_UNSAFE_VERB ("CalendarToday", today_clicked),
-	BONOBO_UI_UNSAFE_VERB ("CalendarNext", next_clicked),
-	BONOBO_UI_UNSAFE_VERB ("CalendarGoto", goto_clicked),
-
-	BONOBO_UI_UNSAFE_VERB ("ShowDayView", show_day_view_clicked),
-	BONOBO_UI_UNSAFE_VERB ("ShowWorkWeekView", show_work_week_view_clicked),
-	BONOBO_UI_UNSAFE_VERB ("ShowWeekView", show_week_view_clicked),
-	BONOBO_UI_UNSAFE_VERB ("ShowMonthView", show_month_view_clicked),
+	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarOpen", open_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarSaveAs", save_as_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
+	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
+	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
+		  
+	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
+	BONOBO_UI_VERB ("CalendarToday", today_clicked),
+	BONOBO_UI_VERB ("CalendarNext", next_clicked),
+	BONOBO_UI_VERB ("CalendarGoto", goto_clicked),
+		  
+	BONOBO_UI_VERB ("ShowDayView", show_day_view_clicked),
+	BONOBO_UI_VERB ("ShowWorkWeekView", show_work_week_view_clicked),
+	BONOBO_UI_VERB ("ShowWeekView", show_week_view_clicked),
+	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 
 	BONOBO_UI_VERB_END
 };

@@ -6,16 +6,15 @@
 
 gchar *s = N_("Go To Date");
 gchar *s = N_("Go To Today");
-gchar *s = N_("January\n"
-              "February\n"
-              "March\n"
-              "April\n"
-              "May\n"
-              "June\n"
-              "July\n"
-              "August\n"
-              "September\n"
-              "October\n"
-              "November\n"
-              "December\n"
-              "");
+gchar *s = N_("January");
+gchar *s = N_("February");
+gchar *s = N_("March");
+gchar *s = N_("April");
+gchar *s = N_("May");
+gchar *s = N_("June");
+gchar *s = N_("July");
+gchar *s = N_("August");
+gchar *s = N_("September");
+gchar *s = N_("October");
+gchar *s = N_("November");
+gchar *s = N_("December");

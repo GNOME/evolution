@@ -3104,7 +3104,7 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	if (day_view->editing_event_day >= 0)
 		e_day_view_stop_editing_event (day_view);
 
-	if (delete_component_dialog (event->comp)) {
+	if (delete_component_dialog (event->comp, widget)) {
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);

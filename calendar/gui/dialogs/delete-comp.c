@@ -24,6 +24,7 @@
 #endif
 
 #include <gnome.h>
+#include <gal/widgets/e-unicode.h>
 #include "delete-comp.h"
 
 
@@ -31,6 +32,8 @@
 /**
  * delete_component_dialog:
  * @comp: A calendar component.
+ * @widget: A widget to use as a basis for conversion from UTF8 into font
+ * encoding.
  * 
  * Pops up a dialog box asking the user whether he wants to delete a particular
  * calendar component.
@@ -38,31 +41,47 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-delete_component_dialog (CalComponent *comp)
+delete_component_dialog (CalComponent *comp, GtkWidget *widget)
 {
 	CalComponentText summary;
 	CalComponentVType vtype;
-	char *str;
-	char *type;
+	char *str, *tmp;
 	GtkWidget *dialog;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
 	vtype = cal_component_get_vtype (comp);
 	cal_component_get_summary (comp, &summary);
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		type = _("Are you sure you want to delete the appointment");
+		if (summary.value)
+			str = g_strdup_printf (_("Are you sure you want to delete the appointment "
+						 "`%s'?"), summary.value);
+		else
+			str = g_strdup (_("Are you sure you want to delete this "
+					  "untitled appointment?"));
 		break;
 
 	case CAL_COMPONENT_TODO:
-		type = _("Are you sure you want to delete the task");
+		if (summary.value)
+			str = g_strdup_printf (_("Are you sure you want to delete the task "
+						 "`%s'?"), summary.value);
+		else
+			str = g_strdup (_("Are you sure you want to delete this "
+					  "untitled task?"));
 		break;
 
 	case CAL_COMPONENT_JOURNAL:
-		type = _("Are you sure you want to delete the journal entry");
+		if (summary.value)
+			str = g_strdup_printf (_("Are you sure you want to delete the journal entry "
+						 "`%s'?"), summary.value);
+		else
+			str = g_strdup (_("Are you sure want to delete this "
+					  "untitled journal entry?"));
 		break;
 
 	default:
@@ -70,16 +89,19 @@ delete_component_dialog (CalComponent *comp)
 		return FALSE;
 	}
 
-	if (summary.value)
-		str = g_strdup_printf ("%s `%s'?", type, summary.value);
-	else
-		str = g_strdup_printf ("%s?", type);
-
-	dialog = gnome_question_dialog_modal (str, NULL, NULL);
+	tmp = e_utf8_to_gtk_string (widget, str);
 	g_free (str);
 
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
-		return TRUE;
-	else
+	if (tmp) {
+		dialog = gnome_question_dialog_modal (tmp, NULL, NULL);
+		g_free (tmp);
+
+		if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
+			return TRUE;
+		else
+			return FALSE;
+	} else {
+		g_message ("delete_component_dialog(): Could not convert the string from UTF8");
 		return FALSE;
+	}
 }

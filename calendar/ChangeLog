@@ -1,3 +1,29 @@
+2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Do not
+	compose strings so that they can be localized correctly.  Also,
+	convert from UTF8 into the font's encoding.  Fixes bug #1030.
+
+	* gui/e-calendar-table.c (delete_component): Pass the widget
+	argument to delete_component_dialog().
+
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): Likewise.
+
+	* gui/e-week-view.c (e_week_view_on_delete_appointment): Likewise.
+
+	* gui/event-editor.c (file_delete_cb): Likewise.
+
+	* gui/calendar-commands.c: Use BONOBO_UI_VERB() instead of
+	BONOBO_UI_UNSAFE_VERB().  Guess what, all of our handler
+	signatures were wrong.
+
+	* gui/event-editor.c: Likewise.
+
+	* gui/dialogs/task-editor.c: Likewise.
+
+	* gui/goto-dialog.glade: Added some spacing between the month/year
+	widgets and the calendar widget.
+
 2001-01-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_destroy): Unconditionally remove

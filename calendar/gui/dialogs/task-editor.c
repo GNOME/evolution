@@ -138,12 +138,12 @@ static void set_title_from_comp (TaskEditor *tedit, CalComponent *comp);
 static void clear_widgets (TaskEditor *tedit);
 static void fill_widgets (TaskEditor *tedit);
 
-static void file_save_cb (GtkWidget *widget, gpointer data);
-static void file_save_and_close_cb (GtkWidget *widget, gpointer data);
-static void file_delete_cb (GtkWidget *widget, gpointer data);
-static void file_close_cb (GtkWidget *widget, gpointer data);
+static void file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path);
+static void file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path);
+static void file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path);
+static void file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path);
 
-static void debug_xml_cb (GtkWidget *widget, gpointer data);
+static void debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path);
 
 static void save_todo_object (TaskEditor *tedit);
 static void dialog_to_comp_object (TaskEditor *tedit);
@@ -220,12 +220,12 @@ task_editor_new (void)
 
 static BonoboUIVerb verbs [] = {
 
-	BONOBO_UI_UNSAFE_VERB ("FileSave", file_save_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileDelete", file_delete_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileClose", file_close_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", file_save_and_close_cb),
-
-	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", debug_xml_cb),
+	BONOBO_UI_VERB ("FileSave", file_save_cb),
+	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
+	BONOBO_UI_VERB ("FileClose", file_close_cb),
+	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
+		  
+	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
 
 	BONOBO_UI_VERB_END
 };
@@ -999,7 +999,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 }
 
 static void
-debug_xml_cb (GtkWidget *widget, gpointer data)
+debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit = TASK_EDITOR (data);
 	TaskEditorPrivate *priv = tedit->priv;
@@ -1009,7 +1009,7 @@ debug_xml_cb (GtkWidget *widget, gpointer data)
 
 /* File/Save callback */
 static void
-file_save_cb (GtkWidget *widget, gpointer data)
+file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit;
 
@@ -1019,7 +1019,7 @@ file_save_cb (GtkWidget *widget, gpointer data)
 
 /* File/Save and Close callback */
 static void
-file_save_and_close_cb (GtkWidget *widget, gpointer data)
+file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit;
 
@@ -1030,7 +1030,7 @@ file_save_and_close_cb (GtkWidget *widget, gpointer data)
 
 /* File/Delete callback */
 static void
-file_delete_cb (GtkWidget *widget, gpointer data)
+file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit;
 	TaskEditorPrivate *priv;
@@ -1056,7 +1056,7 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 
 /* File/Close callback */
 static void
-file_close_cb (GtkWidget *widget, gpointer data)
+file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit;
 

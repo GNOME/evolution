@@ -2377,7 +2377,7 @@ close_dialog (EventEditor *ee)
 
 
 static void
-debug_xml_cb (GtkWidget *widget, gpointer data)
+debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv = ee->priv;
@@ -2387,7 +2387,7 @@ debug_xml_cb (GtkWidget *widget, gpointer data)
 
 /* File/Save callback */
 static void
-file_save_cb (GtkWidget *widget, gpointer data)
+file_save_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 
@@ -2397,7 +2397,7 @@ file_save_cb (GtkWidget *widget, gpointer data)
 
 /* File/Save and Close callback */
 static void
-file_save_and_close_cb (GtkWidget *widget, gpointer data)
+file_save_and_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 
@@ -2408,7 +2408,7 @@ file_save_and_close_cb (GtkWidget *widget, gpointer data)
 
 /* File/Delete callback */
 static void
-file_delete_cb (GtkWidget *widget, gpointer data)
+file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
@@ -2421,7 +2421,7 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 	
 	g_return_if_fail (priv->comp);
 
-	if (delete_component_dialog (priv->comp)) {
+	if (delete_component_dialog (priv->comp, priv->app)) {
 		const char *uid;
 
 		cal_component_get_uid (priv->comp, &uid);
@@ -2437,7 +2437,7 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 
 /* File/Close callback */
 static void
-file_close_cb (GtkWidget *widget, gpointer data)
+file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 
@@ -2450,7 +2450,7 @@ file_close_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-schedule_meeting_cb (GtkWidget *widget, gpointer data)
+schedule_meeting_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
@@ -2473,14 +2473,14 @@ schedule_meeting_cb (GtkWidget *widget, gpointer data)
  * this and the task-editor.
  */
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("FileSave", file_save_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileDelete", file_delete_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileClose", file_close_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileSaveAndClose", file_save_and_close_cb),
-
-	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cb),
-
-	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", debug_xml_cb),
+	BONOBO_UI_VERB ("FileSave", file_save_cb),
+	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
+	BONOBO_UI_VERB ("FileClose", file_close_cb),
+	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
+		  
+	BONOBO_UI_VERB ("ActionScheduleMeeting", schedule_meeting_cb),
+		  
+	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
 
 	BONOBO_UI_VERB_END
 };

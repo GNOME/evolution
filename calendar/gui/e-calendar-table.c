@@ -400,13 +400,13 @@ e_calendar_table_on_mark_task_complete (GtkWidget *menuitem,
 
 /* Deletes a component from the table */
 static void
-delete_component (CalendarModel *model, int row)
+delete_component (CalendarModel *model, int row, GtkWidget *widget)
 {
 	CalComponent *comp;
 
 	comp = calendar_model_get_component (model, row);
 
-	if (delete_component_dialog (comp)) {
+	if (delete_component_dialog (comp, widget)) {
 		CalClient *client;
 		const char *uid;
 
@@ -426,7 +426,7 @@ e_calendar_table_on_delete_task (GtkWidget *menuitem,
 {
 	ECalendarMenuData *menu_data = (ECalendarMenuData*) data;
 
-	delete_component (menu_data->cal_table->model, menu_data->row);
+	delete_component (menu_data->cal_table->model, menu_data->row, menuitem);
 }
 
 
@@ -439,7 +439,7 @@ e_calendar_table_on_key_press (ETable *table,
 			       ECalendarTable *cal_table)
 {
 	if (event->keyval == GDK_Delete) {
-		delete_component (cal_table->model, row);
+		delete_component (cal_table->model, row, GTK_WIDGET (table));
 		return TRUE;
 	}
 

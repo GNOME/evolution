@@ -79,7 +79,7 @@
       <class>GtkVBox</class>
       <name>vbox</name>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -90,7 +90,7 @@
 	<class>GtkHBox</class>
 	<name>hbox12</name>
 	<homogeneous>True</homogeneous>
-	<spacing>3</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
@@ -144,10 +144,6 @@ December
 	    <fill>True</fill>
 	  </child>
 	</widget>
-      </widget>
-
-      <widget>
-	<class>Placeholder</class>
       </widget>
 
       <widget>

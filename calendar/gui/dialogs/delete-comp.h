@@ -24,6 +24,6 @@
 
 #include <cal-util/cal-component.h>
 
-gboolean delete_component_dialog (CalComponent *comp);
+gboolean delete_component_dialog (CalComponent *comp, GtkWidget *widget);
 
 #endif
