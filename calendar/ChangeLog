@@ -1,3 +1,8 @@
+1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (ical_object_create_from_vobject): If mail alarm or
+	program alarm are missing the action, then set an empty default. 
+
 1998-08-18  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-month-item.c (gnome_month_item_day2index): New public

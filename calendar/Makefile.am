@@ -20,6 +20,7 @@ gnomecal_SOURCES = \
 	calobj.h		\
 	eventedit.c		\
 	eventedit.h		\
+	getdate.y		\
 	gncal-day-panel.c	\
 	gncal-day-panel.h	\
 	gncal-day-view.c	\
@@ -34,7 +35,6 @@ gnomecal_SOURCES = \
 	gncal-year-view.h	\
 	gnome-month-item.c	\
 	gnome-month-item.h	\
-	getdate.y		\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	goto.c			\

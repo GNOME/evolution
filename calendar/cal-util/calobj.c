@@ -676,7 +676,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 			if ((a = is_a_prop_of (vo, VCProcedureNameProp))){
 				ical->palarm.data = g_strdup (str_val (a));
 				free (the_str);
-			}
+			} else
+				ical->palarm.data = g_strdup ("");
 		}
 	}
 
@@ -692,7 +693,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 			if ((a = is_a_prop_of (vo, VCEmailAddressProp))){
 				ical->malarm.data = g_strdup (str_val (a));
 				free (the_str);
-			}
+			} else
+				ical->malarm.data = g_strdup ("");
 		}
 	}
 
