@@ -1,3 +1,8 @@
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: set the
+	config item type
+
 2004-05-02  Sivaiah Nallagatla  <snallagatla@novell.com>
                                                                                                                              
         * gui/component/addressbook-config.c (dialog_to_source) : see if the selected

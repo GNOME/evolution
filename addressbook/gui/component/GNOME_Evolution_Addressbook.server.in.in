@@ -134,6 +134,10 @@
 	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		value="stock_contact"/>
 
+	<oaf_attribute name="evolution2:config_item:type" type="stringv">
+		<item value="contacts"/>
+	</oaf_attribute>
+
 	<oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
 
 	<oaf_attribute name="name" type="string"
