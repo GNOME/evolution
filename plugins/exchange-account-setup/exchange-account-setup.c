@@ -397,7 +397,6 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 		*/
 		camel_url = camel_url_new_with_base (NULL, account_url);
 		owa_url = camel_url_get_param (camel_url, "owa_url");
-		camel_url_free (camel_url);
 
 		parent = data->parent;
 		owa_entry = add_owa_entry_to_editor (parent, 
@@ -408,6 +407,7 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_box_pack_start (GTK_BOX (parent), owa_entry, 
 				    FALSE, FALSE, 0);
 		gtk_widget_show (parent);
+		camel_url_free (camel_url);
 	}
 	g_free (account_url);
 	if (account_list)
