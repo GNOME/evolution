@@ -469,6 +469,7 @@ init (ESourceSelector *selector)
 	g_signal_connect (cell_renderer, "toggled", G_CALLBACK (cell_toggled_callback), selector);
 
 	cell_renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (cell_renderer), "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, cell_renderer, (GtkTreeCellDataFunc) text_cell_data_func, selector, NULL);
 

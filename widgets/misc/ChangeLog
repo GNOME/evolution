@@ -1,3 +1,10 @@
+2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-source-selector.c (init): Set the mode on the text cell
+	renderer to GTK_CELL_RENDERER_MODE_ACTIVATABLE so clicking on the
+	text doesn't change the status of the checkbox.  [Many thanks to
+	Jonathan Blandford for telling me how to do this!]
+
 2003-12-01  JP Rosevear <jpr@ximian.com>
 
 	* e-source-selector.c (class_init): list the signal args properly
