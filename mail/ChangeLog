@@ -1,3 +1,11 @@
+2001-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-ui.c: Disable search if no message
+	loaded/viewed.  Also for #14348.
+
+	* folder-browser.c: Disable "Add sender to addressbook" if we dont
+	have a message loaded (it wont work).  For #14348.
+
 2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (load_content_loaded): Make sure the mail-display
