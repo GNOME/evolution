@@ -710,10 +710,5 @@
   <code>(shell "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
- <part name="run-once">
-  <title>Run Once</title>
-  <code>(only-once (shell "/bin/sh" "-c" ${command}))</code>
-  <input type="command" name="command"/>
- </part>
 </actionset>
 </filterdescription>
