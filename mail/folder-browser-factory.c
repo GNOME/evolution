@@ -76,19 +76,46 @@ development_warning ()
 	GtkWidget *label, *warning_dialog;
 
 	warning_dialog = gnome_dialog_new (
-		"Don't do that",
+		"Evolution 0.0",
 		"I know what I'm doing,\nI want to lose mail!",
 		"I'll try it later",
 		NULL);
 
 	label = gtk_label_new (
-		_("This is a development version of Evolution.\n"
-		  "Using the mail component on your mail files\n"
-		  "is extremely hazardous.\n\n"
-		  "Do not run this program on your real mail,\n"
-		  "do not give it access to your real mail server,\n"
-		  "and do not send mail to real people with it.\n\n"
-		  "You have been warned\n"));
+		_(
+		  "Hi.  Thanks for taking the time to download this preview release of\n"
+		  "the Evolution groupware suite.\n"
+		  "\n"
+		  "The Evolution team has worked hard to make Evolution as robust,\n"
+		  "extensible, pretty, fast and well-suited to heavy internet users as\n"
+		  "possible.  And we're very tired.  But we're not done -- not yet.\n"
+		  "\n"
+		  "As you explore Evolution, please understand that most of our work has\n"
+		  "been focused on the backend engine which drives the entire system and\n"
+		  "not on the user interface.  We are just cresting the hill now, though,\n"
+		  "and will be pouring most of our love and attention into the UI from\n"
+		  "here out.  But at least you know that you're not using demoware.\n"
+		  "\n"
+		  "So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
+		  "mail, leave stray processes running, consume 100% CPU, race, lock,\n"
+		  "send HTML mail to random mailing lists, and embarass you in front of\n"
+		  "your friends and co-workers.  Use at your own risk.\n"
+		  "\n"
+		  "We hope that you enjoy the results of our hard work, and we eagerly\n"
+		  "await your contributions!\n"
+		  ));
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+			    label, TRUE, TRUE, 0);
+
+	label = gtk_label_new (
+		_(
+		  "Thanks\n"
+		  "The Evolution Team\n"
+		  ));
+	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
+	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
@@ -96,7 +123,6 @@ development_warning ()
 
 	result = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
 	
-	gtk_object_destroy (GTK_OBJECT (label));
 	gtk_object_destroy (GTK_OBJECT (warning_dialog));
 
 	return result;

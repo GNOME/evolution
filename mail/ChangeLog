@@ -1,3 +1,8 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser-factory.c (development_warning): New development
+	warning text from Nat.
+
 2000-05-10  Larry Ewing  <lewing@helixcode.com>
 
 	* mail-config.c (html_new): only set the default background color
