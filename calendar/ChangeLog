@@ -1,5 +1,14 @@
 2003-01-02  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/event-page.glade: name the show time frame
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets) 
+	(event_page_init): init show time frame
+	(event_page_fill_widgets): hide/show frame as needed
+	(get_widgets): get the frame
+
+2003-01-02  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/alarm-notify/alarm-queue.c (mail_notification): kill mail
 	notification code
 

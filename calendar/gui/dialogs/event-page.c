@@ -66,7 +66,8 @@ struct _EventPagePrivate {
 	GtkWidget *classification_public;
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
-
+	
+	GtkWidget *show_time_frame;
 	GtkWidget *show_time_as_free;
 	GtkWidget *show_time_as_busy;
 
@@ -183,6 +184,7 @@ event_page_init (EventPage *epage)
 	priv->classification_public = NULL;
 	priv->classification_private = NULL;
 	priv->classification_confidential = NULL;
+	priv->show_time_frame = NULL;
 	priv->show_time_as_free = NULL;
 	priv->show_time_as_busy = NULL;
 	priv->contacts_btn = NULL;
@@ -473,7 +475,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	const char *location;
 	const char *categories;
 	GSList *l;
-
+	
 	g_return_if_fail (page->client != NULL);
 
 	epage = EVENT_PAGE (page);
@@ -557,8 +559,10 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 				    transparency_map);
 		break;
 	}
-
-
+	if (cal_client_get_static_capability (page->client, "no-transparency"))
+		gtk_widget_hide (priv->show_time_frame);
+	else
+		gtk_widget_show (priv->show_time_frame);
 
 	/* Categories */
 	cal_component_get_categories (comp, &categories);
@@ -799,6 +803,7 @@ get_widgets (EventPage *epage)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
+	priv->show_time_frame = GW ("show-time-frame");
 	priv->show_time_as_free = GW ("show-time-as-free");
 	priv->show_time_as_busy = GW ("show-time-as-busy");
 
@@ -821,6 +826,7 @@ get_widgets (EventPage *epage)
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
+		&& priv->show_time_frame
 		&& priv->show_time_as_free
 		&& priv->show_time_as_busy
 		&& priv->contacts_btn
