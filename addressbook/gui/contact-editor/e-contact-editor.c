@@ -1030,7 +1030,7 @@ file_send_as_cb (GtkWidget *widget, gpointer data)
 	e_card_simple_sync_card (ce->simple);
 
 	card = ce->card;
-	e_card_send(card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	e_addressbook_send_card(card, E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT);
 }
 
 static void
@@ -1045,7 +1045,7 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 	e_card_simple_sync_card (ce->simple);
 
 	card = ce->card;
-	e_card_send(card, E_CARD_DISPOSITION_AS_TO);
+	e_addressbook_send_card(card, E_ADDRESSBOOK_DISPOSITION_AS_TO);
 }
 
 gboolean

@@ -681,7 +681,7 @@ send_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	GList *cards = get_card_list (card_and_book);
 	if (cards) {
-		e_card_list_send(cards, E_CARD_DISPOSITION_AS_ATTACHMENT);
+		e_addressbook_send_card_list(cards, E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT);
 		e_free_object_list(cards);
 	}
 }
@@ -693,7 +693,7 @@ send_to (GtkWidget *widget, CardAndBook *card_and_book)
 	GList *cards = get_card_list (card_and_book);
 
 	if (cards) {
-		e_card_list_send(cards, E_CARD_DISPOSITION_AS_TO);
+		e_addressbook_send_card_list(cards, E_ADDRESSBOOK_DISPOSITION_AS_TO);
 		e_free_object_list(cards);
 	}
 }
@@ -1877,7 +1877,7 @@ e_addressbook_view_send (EAddressbookView *view)
 {
 	GList *list = get_selected_cards (view);
 	if (list)
-		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
+		e_addressbook_send_card_list (list, E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT);
 	e_free_object_list(list);
 }
 
@@ -1886,7 +1886,7 @@ e_addressbook_view_send_to (EAddressbookView *view)
 {
 	GList *list = get_selected_cards (view);
 	if (list)
-		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
+		e_addressbook_send_card_list (list, E_ADDRESSBOOK_DISPOSITION_AS_TO);
 	e_free_object_list(list);
 }
 

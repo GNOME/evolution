@@ -24,23 +24,9 @@ $(CORBA_ADDRESSBOOK_SOURCE_H): $(CORBA_ADDRESSBOOK_IDL)
 
 $(CORBA_ADDRESSBOOK_SOURCE_C): $(CORBA_ADDRESSBOOK_SOURCE_H)
 
-
-CORBA_COMPOSER_SOURCE_H	=		\
-        Evolution-Composer.h
-CORBA_COMPOSER_SOURCE_C = 		\
-        Evolution-Composer-common.c     \
-        Evolution-Composer-skels.c      \
-        Evolution-Composer-stubs.c
-CORBA_COMPOSER_IDL = $(srcdir)/../../../composer/Evolution-Composer.idl
-
-CORBA_SOURCE_H = $(CORBA_COMPOSER_SOURCE_H) $(CORBA_ADDRESSBOOK_SOURCE_H)
-CORBA_SOURCE_C = $(CORBA_COMPOSER_SOURCE_C) $(CORBA_ADDRESSBOOK_SOURCE_C)
+CORBA_SOURCE_H = $(CORBA_ADDRESSBOOK_SOURCE_H)
+CORBA_SOURCE_C = $(CORBA_ADDRESSBOOK_SOURCE_C)
 CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
-
-$(CORBA_COMPOSER_SOURCE_H): $(CORBA_COMPOSER_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(CORBA_COMPOSER_IDL)
-
-$(CORBA_COMPOSER_SOURCE_C): $(CORBA_COMPOSER_SOURCE_H)
 
 
 # The component 
@@ -185,7 +171,7 @@ BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:
-	cd $(distdir); rm -f $(BUILT_SOURCES) $(CORBA_SOURCE_C)
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in.in \
 		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in

@@ -362,3 +362,270 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 
 	CORBA_free (folder);
 }
+
+#include <Evolution-Composer.h>
+
+#define COMPOSER_OAFID "OAFIID:GNOME_Evolution_Mail_Composer"
+
+void
+e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
+{
+#if PENDING_PORT_WORK
+	GNOME_Evolution_Composer composer_server;
+	CORBA_Environment ev;
+
+	if (cards == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+	
+	composer_server = bonobo_activation_activate_from_id (COMPOSER_OAFID, 0, NULL, &ev);
+
+	if (disposition == E_ADDRESSBOOK_DISPOSITION_AS_TO) {
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
+		int to_i, bcc_i;
+		GList *iter;
+		gint to_length = 0, bcc_length = 0;
+
+		/* Figure out how many addresses of each kind we have. */
+		for (iter = cards; iter != NULL; iter = g_list_next (iter)) {
+			ECard *card = E_CARD (iter->data);
+			if (e_card_evolution_list (card)) {
+				gint len = card->email ? e_list_length (card->email) : 0;
+				if (e_card_evolution_list_show_addresses (card))
+					to_length += len;
+				else
+					bcc_length += len;
+			} else {
+				if (card->email != NULL)
+					++to_length;
+			}
+		}
+
+		/* Now I have to make a CORBA sequences that represents a recipient list with
+		   the right number of entries, for the cards. */
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_length;
+		to_list->_length = to_length;
+		if (to_length > 0) {
+			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+		}
+
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+		
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_length;
+		bcc_list->_length = bcc_length;
+		if (bcc_length > 0) {
+			bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+		}
+
+		to_i = 0;
+		bcc_i = 0;
+		while (cards != NULL) {
+			ECard *card = cards->data;
+			EIterator *iterator;
+			gchar *name, *addr;
+			gboolean is_list, is_hidden, free_name_addr;
+			GNOME_Evolution_Composer_Recipient *recipient;
+
+			if (card->email != NULL) {
+
+				is_list = e_card_evolution_list (card);
+				is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
+			
+				for (iterator = e_list_get_iterator (card->email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+					
+					if (is_hidden) {
+						recipient = &(bcc_list->_buffer[bcc_i]);
+						++bcc_i;
+					} else {
+						recipient = &(to_list->_buffer[to_i]);
+						++to_i;
+					}
+					
+					name = "";
+					addr = "";
+					free_name_addr = FALSE;
+					if (e_iterator_is_valid (iterator)) {
+						
+						if (is_list) {
+							/* We need to decode the list entries, which are XMLified EDestinations. */
+							EDestination *dest = e_destination_import (e_iterator_get (iterator));
+							if (dest != NULL) {
+								name = g_strdup (e_destination_get_name (dest));
+								addr = g_strdup (e_destination_get_email (dest));
+								free_name_addr = TRUE;
+								g_object_unref (dest);
+							}
+							
+						} else { /* is just a plain old card */
+							if (card->name)
+								name = e_card_name_to_string (card->name);
+							addr = g_strdup ((char *) e_iterator_get (iterator));
+							free_name_addr = TRUE;
+						}
+					}
+					
+					recipient->name    = CORBA_string_dup (name ? name : "");
+					recipient->address = CORBA_string_dup (addr ? addr : "");
+					
+					if (free_name_addr) {
+						g_free ((gchar *) name);
+						g_free ((gchar *) addr);
+					}
+					
+					/* If this isn't a list, we quit after the first (i.e. the default) address. */
+					if (!is_list)
+						break;
+					
+				}
+				g_object_unref (iterator);
+			}
+
+			cards = g_list_next (cards);
+		}
+
+		subject = CORBA_string_dup ("");
+
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
+	} else if (disposition == E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT) {
+		CORBA_char *content_type, *filename, *description;
+		GNOME_Evolution_Composer_AttachmentData *attach_data;
+		CORBA_boolean show_inline;
+		char *tempstr;
+
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
+		
+		content_type = CORBA_string_dup ("text/x-vcard");
+		filename = CORBA_string_dup ("");
+
+		if (cards->next) {
+			description = CORBA_string_dup (_("Multiple VCards"));
+		} else {
+			char *file_as;
+
+			g_object_get(cards->data,
+				     "file_as", &file_as,
+				     NULL);
+
+			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
+			description = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
+
+		show_inline = FALSE;
+
+		tempstr = e_card_list_get_vcard (cards);
+		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
+		attach_data->_maximum = attach_data->_length = strlen (tempstr);
+		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+		strcpy (attach_data->_buffer, tempstr);
+		g_free (tempstr);
+
+		GNOME_Evolution_Composer_attachData (composer_server, 
+						     content_type, filename, description,
+						     show_inline, attach_data,
+						     &ev);
+	
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+	
+		CORBA_free (content_type);
+		CORBA_free (filename);
+		CORBA_free (description);
+		CORBA_free (attach_data);
+
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_list->_length = 0;
+		
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_list->_length = 0;
+
+		if (!cards || cards->next) {
+			subject = CORBA_string_dup ("Contact information");
+		} else {
+			ECard *card = cards->data;
+			const gchar *tempstr2;
+
+			tempstr2 = NULL;
+			g_object_get(card,
+				     "file_as", &tempstr2,
+				     NULL);
+			if (!tempstr2 || !*tempstr2)
+				g_object_get(card,
+					     "full_name", &tempstr2,
+					     NULL);
+			if (!tempstr2 || !*tempstr2)
+				g_object_get(card,
+					     "org", &tempstr2,
+					     NULL);
+			if (!tempstr2 || !*tempstr2) {
+				EList *list;
+				EIterator *iterator;
+				g_object_get(card,
+					     "email", &list,
+					     NULL);
+				iterator = e_list_get_iterator (list);
+				if (e_iterator_is_valid (iterator)) {
+					tempstr2 = e_iterator_get (iterator);
+				}
+				g_object_unref (iterator);
+			}
+
+			if (!tempstr2 || !*tempstr2)
+				tempstr = g_strdup_printf ("Contact information");
+			else
+				tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
+			subject = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
+		
+		GNOME_Evolution_Composer_setHeaders (composer_server, "", to_list, cc_list, bcc_list, subject, &ev);
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
+	}
+
+	GNOME_Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+#endif
+}
+
+void
+e_addressbook_send_card (ECard *card, EAddressbookDisposition disposition)
+{
+	GList *list;
+	list = g_list_prepend (NULL, card);
+	e_addressbook_send_card_list (list, disposition);
+	g_list_free (list);
+}
+

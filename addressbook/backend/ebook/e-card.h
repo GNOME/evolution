@@ -195,16 +195,6 @@ GList                *e_card_load_cards_from_string_with_default_charset  (const
 									   char                       *default_charset);
 void                  e_card_free_empty_lists                             (ECard                      *card);
 
-enum _ECardDisposition {
-	E_CARD_DISPOSITION_AS_ATTACHMENT,
-	E_CARD_DISPOSITION_AS_TO,
-};
-typedef enum _ECardDisposition ECardDisposition;
-void                  e_card_send                           (ECard                      *card,
-							     ECardDisposition            disposition);
-void                  e_card_list_send                      (GList                      *cards,
-							     ECardDisposition            disposition);
-
 /* Getting ECards via their URIs */
 typedef void (*ECardCallback) (ECard *card, gpointer closure);
 void                  e_card_load_uri                       (const gchar                *book_uri,

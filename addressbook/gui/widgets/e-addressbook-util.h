@@ -48,6 +48,16 @@ void                e_addressbook_transfer_cards            (EBook       *source
 							     gboolean     delete_from_source,
 							     GtkWindow   *parent_window);
 
+typedef enum {
+	E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT,
+	E_ADDRESSBOOK_DISPOSITION_AS_TO,
+} EAddressbookDisposition;
+
+void                e_addressbook_send_card                 (ECard                   *card,
+							     EAddressbookDisposition  disposition);
+void                e_addressbook_send_card_list            (GList                   *cards,
+							     EAddressbookDisposition  disposition);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

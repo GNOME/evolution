@@ -463,7 +463,7 @@ file_send_as_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_card_send(cle->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	e_addressbook_send_card(cle->card, E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT);
 }
 
 static void
@@ -473,7 +473,7 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_card_send(cle->card, E_CARD_DISPOSITION_AS_TO);
+	e_addressbook_send_card(cle->card, E_ADDRESSBOOK_DISPOSITION_AS_TO);
 }
 
 static void

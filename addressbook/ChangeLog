@@ -1,3 +1,28 @@
+2003-02-28  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_list_send, e_card_send): Remove
+	these from here; talking to the mailer doesn't really belong at
+	the libebook level anyway.
+
+	* backend/ebook/Makefile.am: Remove Evolution-Composer CORBA
+	stuff, which fixes some linking problems on OS X.
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_send_card_list,
+	e_addressbook_send_card): Move from e-card.c and rename.
+
+	* gui/widgets/Makefile.am: move Evolution-Composer CORBA stuff
+	here
+
+	* gui/widgets/e-addressbook-view.c (send_as, send_to,
+	e_addressbook_view_send, e_addressbook_view_send_to): Update for
+	new function names.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (file_send_as_cb,
+	file_send_to_cb): Likewise
+
+	* gui/contact-editor/e-contact-editor.c (file_send_as_cb,
+	file_send_to_cb): Likewise
+
 2003-02-27  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (book_open_cb): use g_signal_connect

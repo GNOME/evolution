@@ -17,10 +17,28 @@ INCLUDES =										\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
+CORBA_COMPOSER_SOURCE_H	=			\
+	Evolution-Composer.h
+CORBA_COMPOSER_SOURCE_C =			\
+	Evolution-Composer-common.c		\
+	Evolution-Composer-skels.c		\
+	Evolution-Composer-stubs.c
+CORBA_COMPOSER_IDL = $(srcdir)/../../../composer/Evolution-Composer.idl
+
+$(CORBA_COMPOSER_SOURCE_H): $(CORBA_COMPOSER_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(CORBA_COMPOSER_IDL)
+
+$(CORBA_COMPOSER_SOURCE_C): $(CORBA_COMPOSER_SOURCE_H)
+
+CORBA_SOURCE_H = $(CORBA_COMPOSER_SOURCE_H)
+CORBA_SOURCE_C = $(CORBA_COMPOSER_SOURCE_C)
+CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
+
 noinst_LIBRARIES =				\
 	libeminicard.a
 
 libeminicard_a_SOURCES =			\
+	$(CORBA_SOURCE)				\
 	e-addressbook-marshal.c			\
 	e-addressbook-reflow-adapter.c		\
 	e-addressbook-reflow-adapter.h		\
@@ -69,6 +87,12 @@ e-addressbook-marshal.c: e-addressbook-marshal.h
 	|| ( rm -f e-addressbook-marshal.tmp && exit 1 )
 
 MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
+
+BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 #noinst_PROGRAMS =				\
 #	 minicard-widget-test			\
