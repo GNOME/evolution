@@ -48,7 +48,7 @@
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (4)
+#define CAMEL_FOLDER_SUMMARY_VERSION (5)
 
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -969,7 +969,16 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	mi->user_flags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
 	mi->date_received = 0;
-
+	mi->message_id = header_msgid_decode(header_raw_find(&h, "message-id", NULL));
+	/* if we have a references, use that, otherwise, see if we have an in-reply-to
+	   header, with parsable content, otherwise *shrug* */
+	mi->references = header_references_decode(header_raw_find(&h, "references", NULL));
+	if (mi->references == NULL) {
+		char *id;
+		id = header_msgid_decode(header_raw_find(&h, "in-reply-to", NULL));
+		if (id)
+			header_references_list_append_asis(&mi->references, id);
+	}
 	return mi;
 }
 
@@ -995,6 +1004,15 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_string(in, &mi->to);
 	mi->content = NULL;
 
+	camel_folder_summary_decode_string(in, &mi->message_id);
+
+	camel_folder_summary_decode_uint32(in, &count);
+	for (i=0;i<count;i++) {
+		char *id;
+		camel_folder_summary_decode_string(in, &id);
+		header_references_list_append_asis(&mi->references, id);
+	}
+
 	camel_folder_summary_decode_uint32(in, &count);
 	for (i=0;i<count;i++) {
 		char *name;
@@ -1011,6 +1029,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
 	guint32 count;
 	CamelFlag *flag;
+	struct _header_references *refs;
 
 	io(printf("Saving message info\n"));
 
@@ -1022,6 +1041,16 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 	camel_folder_summary_encode_string(out, mi->subject);
 	camel_folder_summary_encode_string(out, mi->from);
 	camel_folder_summary_encode_string(out, mi->to);
+
+	camel_folder_summary_encode_string(out, mi->message_id);
+
+	count = header_references_list_size(&mi->references);
+	camel_folder_summary_encode_uint32(out, count);
+	refs = mi->references;
+	while (refs) {
+		camel_folder_summary_encode_string(out, refs->id);
+		refs = refs->next;
+	}
 
 	count = camel_flag_list_size(&mi->user_flags);
 	camel_folder_summary_encode_uint32(out, count);
@@ -1040,6 +1069,8 @@ message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 	g_free(mi->subject);
 	g_free(mi->from);
 	g_free(mi->to);
+	g_free(mi->message_id);
+	header_references_list_clear(&mi->references);
 	camel_flag_list_free(&mi->user_flags);
 	g_free(mi);
 }

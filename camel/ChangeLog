@@ -1,3 +1,21 @@
+2000-06-02  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (header_decode_date): If we get a funny
+	result, just throw it out.  Basically a fix for the one true
+	broken TradeClient.
+
+2000-06-01  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder-summary.c (message_info_free): Free
+	references/messsage id.
+	(message_info_save): Save them.
+	(message_info_load): Load them.
+	(message_info_new): And get them from the new message.
+	(CAMEL_FOLDER_SUMMARY_VERSION): Bumped for new changes.
+
+	* camel-folder-summary.h: Added references and messageid to
+	summary.
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* camel-session.c: Ref and unref objects in the service cache
@@ -26,6 +44,7 @@
 	* camel-data-wrapper.c (finalize): unref the stream, if it exists.
 
 2000-06-01  Not Zed  <NotZed@HelixCode.com>
+>>>>>>> 1.212
 
 	* camel-mime-part.c (construct_from_parser): For a message part,
 	set the default content-type to message/rfc822.  Maybe needs to be

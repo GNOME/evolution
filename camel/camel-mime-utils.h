@@ -23,6 +23,12 @@
 
 #include <time.h>
 
+/* a list of references for this message */
+struct _header_references {
+	struct _header_references *next;
+	char *id;
+};
+
 struct _header_param {
 	struct _header_param *next;
 	char *name;
@@ -136,6 +142,12 @@ char *header_format_date(time_t time, int offset);
 
 /* decode a message id */
 char *header_msgid_decode(const char *in);
+
+/* decode a References header */
+struct _header_references *header_references_decode(const char *in);
+void header_references_list_clear(struct _header_references **list);
+void header_references_list_append_asis(struct _header_references **list, char *ref);
+int header_references_list_size(struct _header_references **list);
 
 /* decode the mime-type header */
 void header_mime_decode(const char *in, int *maj, int *min);

@@ -1505,16 +1505,13 @@ header_decode_address(const char **in)
 	return addr;
 }
 
-char *
-header_msgid_decode(const char *in)
+static char *
+header_msgid_decode_internal(const char **in)
 {
-	const char *inptr = in;
+	const char *inptr = *in;
 	char *msgid = NULL;
 
 	d(printf("decoding Message-ID: '%s'\n", in));
-
-	if (in == NULL)
-		return NULL;
 
 	header_decode_lwsp(&inptr);
 	if (*inptr == '<') {
@@ -1534,8 +1531,80 @@ header_msgid_decode(const char *in)
 	} else {
 		w(g_warning("missing opening '<' on message id: %s", in));
 	}
+	*in = inptr;
 
 	return msgid;
+}
+
+char *
+header_msgid_decode(const char *in)
+{
+	if (in == NULL)
+		return NULL;
+
+	return header_msgid_decode_internal(&in);
+}
+
+void
+header_references_list_append_asis(struct _header_references **list, char *ref)
+{
+	struct _header_references *w = (struct _header_references *)list, *n;
+	while (w->next)
+		w = w->next;
+	n = g_malloc(sizeof(*n));
+	n->id = ref;
+	n->next = 0;
+	w->next = n;
+}
+
+int
+header_references_list_size(struct _header_references **list)
+{
+	int count = 0;
+	struct _header_references *w = *list;
+	while (w) {
+		count++;
+		w = w->next;
+	}
+	return count;
+}
+
+void
+header_references_list_clear(struct _header_references **list)
+{
+	struct _header_references *w = *list, *n;
+	while (w) {
+		n = w->next;
+		g_free(w->id);
+		g_free(w);
+		w = n;
+	}
+	*list = NULL;
+}
+
+/* generate a list of references, from most recent up */
+struct _header_references *
+header_references_decode(const char *in)
+{
+	const char *inptr = in, *intmp;
+	struct _header_references *head = NULL, *node;
+	char *id, *last;
+
+	if (in == NULL)
+		return NULL;
+
+	do {
+		last = inptr;
+		id = header_msgid_decode_internal(&inptr);
+		if (id) {
+			node = g_malloc(sizeof(*node));
+			node->next = head;
+			head = node;
+			node->id = id;
+		}
+	} while (last != inptr);
+
+	return head;
 }
 
 struct _header_address *
@@ -1891,8 +1960,12 @@ header_decode_date(const char *in, int *saveoffset)
 			header_decode_lwsp(&inptr);
 			if (*inptr == ',')
 				inptr++;
-			else
-				w(g_warning("day not followed by ','"));
+			else {
+				w(g_warning("day not followed by ',' its probably a broken TradeClient, so we'll ignore its date entirely"));
+				if (saveoffset)
+					*saveoffset = 0;
+				return 0;
+			}
 		}
 	}
 	tm.tm_mday = header_decode_int(&inptr);

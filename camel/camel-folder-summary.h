@@ -79,6 +79,10 @@ typedef struct {
 	time_t date_sent;
 	time_t date_received;
 
+	/* Message-ID / References structures */
+	char *message_id;	/* for this message */
+	struct _header_references *references; /* from parent to root */
+
 	struct _CamelFlag *user_flags;
 
 	/* tree of content description - NULL if it is not available */
