@@ -1,3 +1,9 @@
+2001-03-15  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* az.po: Added Azeri file
+	* {es,fi,fr,ga,hu,nl,nn,no,sk,sl,sv}.po: corrected headers
+	and/or syntax errrors
+
 2001-03-15  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.

@@ -68,10 +68,9 @@ development_warning (void)
 		"Evolution" VERSION,
 		GNOME_STOCK_BUTTON_OK,
 		NULL);
-/* xgettext:no-c-format */
 	label = gtk_label_new (
-		_(
-		  "Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
+		/* xgettext:no-c-format */
+		_("Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 		  "of the Evolution groupware suite.\n"
 		  "\n"
 		  "Evolution is not yet complete. It's getting close, but there are\n"

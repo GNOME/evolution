@@ -1,3 +1,7 @@
+2001-03-15  Pablo Saratxaga  <pabloàmandrakesoft.com>
+
+	* main.c: fixed a no-c-format tag
+
 2001-03-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importer/Makefile.am (INCLUDES): Remove `-g Wall' and friends.

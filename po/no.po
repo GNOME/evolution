@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2001-03-13 00:10-0500\n"
+"POT-Creation-Date: 2001-03-15 11:10+0100\n"
 "PO-Revision-Date: 2001-03-13 00:18-05:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -406,7 +406,7 @@ msgid "Phone Types"
 msgstr "Telefontyper"
 
 #: addressbook/contact-editor/contact-editor.glade.h:14
-#: addressbook/contact-editor/e-contact-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:1271
 msgid "Primary Email"
 msgstr "Primær e-post"
 
@@ -497,109 +497,109 @@ msgstr "De_tte er postadressen"
 msgid "Delete Contact?"
 msgstr "Slett kontakt?"
 
-#: addressbook/contact-editor/e-contact-editor.c:578
+#: addressbook/contact-editor/e-contact-editor.c:590
 msgid "This contact belongs to these categories:"
 msgstr "Denne kontakten hører til disse kategoriene:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1193
+#: addressbook/contact-editor/e-contact-editor.c:1229
 #: addressbook/gui/widgets/e-addressbook-view.c:601
 msgid "Assistant"
 msgstr "Assistent"
 
-#: addressbook/contact-editor/e-contact-editor.c:1194
-#: addressbook/contact-editor/e-contact-editor.c:1261
+#: addressbook/contact-editor/e-contact-editor.c:1230
+#: addressbook/contact-editor/e-contact-editor.c:1297
 #: addressbook/gui/widgets/e-addressbook-view.c:581
 msgid "Business"
 msgstr "Arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1195
+#: addressbook/contact-editor/e-contact-editor.c:1231
 #: addressbook/gui/widgets/e-addressbook-view.c:588
 msgid "Business 2"
 msgstr "Arbeid 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1196
+#: addressbook/contact-editor/e-contact-editor.c:1232
 #: addressbook/gui/widgets/e-addressbook-view.c:586
 msgid "Business Fax"
 msgstr "Faks på arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1197
+#: addressbook/contact-editor/e-contact-editor.c:1233
 msgid "Callback"
 msgstr "Tilbakering"
 
-#: addressbook/contact-editor/e-contact-editor.c:1198
+#: addressbook/contact-editor/e-contact-editor.c:1234
 #: addressbook/gui/widgets/e-addressbook-view.c:585
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1199
+#: addressbook/contact-editor/e-contact-editor.c:1235
 msgid "Company"
 msgstr "Firma"
 
-#: addressbook/contact-editor/e-contact-editor.c:1200
-#: addressbook/contact-editor/e-contact-editor.c:1262
+#: addressbook/contact-editor/e-contact-editor.c:1236
+#: addressbook/contact-editor/e-contact-editor.c:1298
 #: addressbook/gui/widgets/e-addressbook-view.c:582
 msgid "Home"
 msgstr "Hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1201
+#: addressbook/contact-editor/e-contact-editor.c:1237
 #: addressbook/gui/widgets/e-addressbook-view.c:589
 msgid "Home 2"
 msgstr "Hjemme 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1202
+#: addressbook/contact-editor/e-contact-editor.c:1238
 #: addressbook/gui/widgets/e-addressbook-view.c:587
 msgid "Home Fax"
 msgstr "Faks hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1203
+#: addressbook/contact-editor/e-contact-editor.c:1239
 #: addressbook/gui/widgets/e-addressbook-view.c:590
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1204
+#: addressbook/contact-editor/e-contact-editor.c:1240
 #: addressbook/gui/widgets/e-addressbook-view.c:584
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1205
-#: addressbook/contact-editor/e-contact-editor.c:1263
+#: addressbook/contact-editor/e-contact-editor.c:1241
+#: addressbook/contact-editor/e-contact-editor.c:1299
 #: addressbook/gui/widgets/e-addressbook-view.c:591
 #: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:46
 msgid "Other"
 msgstr "Annet"
 
-#: addressbook/contact-editor/e-contact-editor.c:1206
+#: addressbook/contact-editor/e-contact-editor.c:1242
 msgid "Other Fax"
 msgstr "Annen faks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1207
+#: addressbook/contact-editor/e-contact-editor.c:1243
 #: addressbook/gui/widgets/e-addressbook-view.c:592
 msgid "Pager"
 msgstr "Personsøker"
 
-#: addressbook/contact-editor/e-contact-editor.c:1208
+#: addressbook/contact-editor/e-contact-editor.c:1244
 #: addressbook/gui/widgets/e-addressbook-view.c:580
 msgid "Primary"
 msgstr "Primær"
 
-#: addressbook/contact-editor/e-contact-editor.c:1209
+#: addressbook/contact-editor/e-contact-editor.c:1245
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1210
+#: addressbook/contact-editor/e-contact-editor.c:1246
 msgid "Telex"
 msgstr "Teleks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1211
+#: addressbook/contact-editor/e-contact-editor.c:1247
 msgid "TTY/TDD"
 msgstr "TTY/TTD"
 
-#: addressbook/contact-editor/e-contact-editor.c:1236
+#: addressbook/contact-editor/e-contact-editor.c:1272
 #: addressbook/gui/widgets/e-addressbook-view.c:593
 msgid "Email 2"
 msgstr "E-post 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1237
+#: addressbook/contact-editor/e-contact-editor.c:1273
 #: addressbook/gui/widgets/e-addressbook-view.c:594
 msgid "Email 3"
 msgstr "E-post 3"
@@ -816,7 +816,7 @@ msgid "None (anonymous mode)"
 msgstr "Ingen (anonym modus)"
 
 #: addressbook/gui/component/addressbook-config.c:160
-#: camel/providers/imap/camel-imap-store.c:260
+#: camel/providers/imap/camel-imap-store.c:261
 #: camel/providers/nntp/camel-nntp-store.c:293
 #: camel/providers/pop3/camel-pop3-store.c:145
 msgid "Password"
@@ -945,7 +945,7 @@ msgstr "Adressebok-kilder"
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:9 filter/filter.glade.h:2
-#: filter/libfilter-i18n.h:11 mail/folder-browser.c:570
+#: filter/libfilter-i18n.h:11 mail/folder-browser.c:571
 #: mail/mail-config.glade.h:20 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:7 ui/evolution-task-editor-dialog.xml.h:18
@@ -1457,7 +1457,7 @@ msgstr "Konfidensiell"
 
 #: calendar/gui/calendar-model.c:375 calendar/gui/event-editor.c:1590
 #: calendar/gui/event-editor.c:1617
-#: camel/providers/smtp/camel-smtp-transport.c:196
+#: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -2252,7 +2252,7 @@ msgid "New Appointment..."
 msgstr "Ny avtale..."
 
 #: calendar/gui/e-day-view.c:3026 calendar/gui/e-week-view.c:3234
-#: mail/folder-browser.c:541 ui/evolution-calendar.xml.h:15
+#: mail/folder-browser.c:542 ui/evolution-calendar.xml.h:15
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Åpne"
@@ -3023,7 +3023,7 @@ msgstr "Dette året (%Y)"
 msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
-#: calendar/gui/print.c:1317 mail/mail-callbacks.c:1287
+#: calendar/gui/print.c:1317 mail/mail-callbacks.c:1293
 #: ui/evolution-addressbook.xml.h:10 ui/evolution-calendar.xml.h:20
 #: ui/evolution-mail.xml.h:32
 msgid "Print Preview"
@@ -3090,7 +3090,7 @@ msgstr "Feil under kjøring av filter: %s: %s"
 msgid "Error executing filter search: %s: %s"
 msgstr "Feil under lagring av filtersøk: %s: %s"
 
-#: camel/camel-folder-search.c:320
+#: camel/camel-folder-search.c:323
 #, c-format
 msgid ""
 "Cannot parse search expression: %s:\n"
@@ -3099,7 +3099,7 @@ msgstr ""
 "Kan ikke tolke uttrykket: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:330
+#: camel/camel-folder-search.c:333
 #, c-format
 msgid ""
 "Error executing search expression: %s:\n"
@@ -3108,16 +3108,16 @@ msgstr ""
 "Feil under kjøring av søkeuttrykket %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:477 camel/camel-folder-search.c:505
+#: camel/camel-folder-search.c:480 camel/camel-folder-search.c:508
 msgid "(match-all) requires a single bool result"
 msgstr "(treff-alle) krever et enkelt bolsk resultat"
 
-#: camel/camel-folder-search.c:551
+#: camel/camel-folder-search.c:554
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Utfører spørring på ukjent header: %s"
 
-#: camel/camel-folder-search.c:660 camel/camel-folder-search.c:697
+#: camel/camel-folder-search.c:663 camel/camel-folder-search.c:700
 msgid "Invalid type in body-contains, expecting string"
 msgstr "Ugyldig type i kropp-inneholder, forventer streng"
 
@@ -3197,47 +3197,47 @@ msgstr "Movemail-programmet feilet: %s"
 msgid "(Unknown error)"
 msgstr "(Ukjent feil)"
 
-#: camel/camel-provider.c:133
+#: camel/camel-provider.c:137
 #, c-format
 msgid "Could not load %s: %s"
 msgstr "Kunne ikke laste %s: %s"
 
-#: camel/camel-provider.c:141
+#: camel/camel-provider.c:145
 #, c-format
 msgid "Could not load %s: No initialization code in module."
 msgstr "Kunne ikke laste %s: Ingen initieringskode i modulen."
 
-#: camel/camel-remote-store.c:176
+#: camel/camel-remote-store.c:181
 #, c-format
 msgid "%s server %s"
 msgstr "%s-tjener %s"
 
-#: camel/camel-remote-store.c:180
+#: camel/camel-remote-store.c:185
 #, c-format
 msgid "%s service for %s on %s"
 msgstr "%s-tjeneste for %s på %s"
 
-#: camel/camel-remote-store.c:306
+#: camel/camel-remote-store.c:232
 msgid "Connection cancelled"
 msgstr "Tilkobling avbrutt"
 
-#: camel/camel-remote-store.c:309 camel/camel-remote-store.c:322
-#: camel/providers/smtp/camel-smtp-transport.c:229
+#: camel/camel-remote-store.c:235
+#: camel/providers/smtp/camel-smtp-transport.c:244
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Kunne ikke koble til %s (port %d): %s"
 
-#: camel/camel-remote-store.c:310 camel/camel-remote-store.c:323
+#: camel/camel-remote-store.c:236
 msgid "(unknown host)"
 msgstr "(ukjent vert)"
 
-#: camel/camel-remote-store.c:408 camel/camel-remote-store.c:470
-#: camel/camel-remote-store.c:539
+#: camel/camel-remote-store.c:317 camel/camel-remote-store.c:379
+#: camel/camel-remote-store.c:448
 #: camel/providers/imap/camel-imap-command.c:289
 msgid "Operation cancelled"
 msgstr "Opreasjon avbrutt"
 
-#: camel/camel-remote-store.c:544
+#: camel/camel-remote-store.c:453
 msgid "Server unexpectedly disconnected"
 msgstr "Tjener koblet fra uventet."
 
@@ -3340,7 +3340,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:215
-#: camel/providers/imap/camel-imap-store.c:380
+#: camel/providers/imap/camel-imap-store.c:381
 msgid "Bad authentication response from server."
 msgstr "Ugyldig svar på autentisering fra tjener."
 
@@ -3394,12 +3394,12 @@ msgstr "E-post-tilbyder for virtuelle mapper"
 msgid "For reading mail as a query of another set of folders"
 msgstr "For lesing av e-post som en spørring på et annet sett med mapper"
 
-#: camel/camel-session.c:323
+#: camel/camel-session.c:322
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Ingen tilbyder tilgjengelig for protokoll `%s'"
 
-#: camel/camel-session.c:418
+#: camel/camel-session.c:417
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -3429,7 +3429,7 @@ msgstr "URL-streng `%s' inneholder en ugyldig protokoll"
 msgid "Port number in URL `%s' is non-numeric"
 msgstr "Portnummer i URL `%s' er ikke-numerisk"
 
-#: camel/camel-vee-folder.c:914
+#: camel/camel-vee-folder.c:960
 #, c-format
 msgid "No such message: %s"
 msgstr "Ingen slik melding: %s"
@@ -3484,34 +3484,44 @@ msgstr "IMAPv4"
 msgid "For reading and storing mail on IMAP servers."
 msgstr "For lesing og lagring av e-post på IMAP-tjenere."
 
-#: camel/providers/imap/camel-imap-store.c:262
+#: camel/providers/imap/camel-imap-provider.c:59
+#, fuzzy
+msgid "Secure IMAPv4"
+msgstr "IMAPv4"
+
+#: camel/providers/imap/camel-imap-provider.c:61
+#, fuzzy
+msgid "For reading and storing mail on IMAP servers over an SSL connection."
+msgstr "For lesing og lagring av e-post på IMAP-tjenere."
+
+#: camel/providers/imap/camel-imap-store.c:263
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Dette valget vil la deg koble til en IMAP-tjener ved å bruke et "
 "klartekst-passord."
 
-#: camel/providers/imap/camel-imap-store.c:407
+#: camel/providers/imap/camel-imap-store.c:415
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-tjener %s støtter ikke etterspurt autentiseringstype %s"
 
-#: camel/providers/imap/camel-imap-store.c:418
+#: camel/providers/imap/camel-imap-store.c:426
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Ingen støtte for autentiseringstype %s"
 
-#: camel/providers/imap/camel-imap-store.c:446
+#: camel/providers/imap/camel-imap-store.c:454
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVennligst skriv inn IMAP-passord for %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:461
-#: camel/providers/smtp/camel-smtp-transport.c:345
+#: camel/providers/imap/camel-imap-store.c:469
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "You didn't enter a password."
 msgstr "Du skrev ikke inn et passord."
 
-#: camel/providers/imap/camel-imap-store.c:482
-#: camel/providers/smtp/camel-smtp-transport.c:353
+#: camel/providers/imap/camel-imap-store.c:498
+#: camel/providers/smtp/camel-smtp-transport.c:381
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -3522,7 +3532,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:756
+#: camel/providers/imap/camel-imap-store.c:772
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Kan ikke opprette katalog %s: %s"
@@ -3928,6 +3938,21 @@ msgstr ""
 "e-post fra enkelte e-posttilbydere via web i tillegg til proprietære "
 "e-postsystemer."
 
+#: camel/providers/pop3/camel-pop3-provider.c:54
+msgid "Secure POP"
+msgstr ""
+
+#: camel/providers/pop3/camel-pop3-provider.c:56
+#, fuzzy
+msgid ""
+"For connecting to POP servers over an SSL connection. The POP protocol can "
+"also be used to retrieve mail from certain web mail providers and "
+"proprietary email systems."
+msgstr ""
+"For tilkobling til POP-tjenere. POP-protokollen kan også brukes for å hente "
+"e-post fra enkelte e-posttilbydere via web i tillegg til proprietære "
+"e-postsystemer."
+
 #: camel/providers/pop3/camel-pop3-store.c:147
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
@@ -4000,7 +4025,7 @@ msgstr ""
 "Kunne ikke koble til POP-tjener.\n"
 "Feil ved oversending av passord: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:535
+#: camel/providers/pop3/camel-pop3-store.c:543
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Ingen slik mappe `%s'."
@@ -4052,11 +4077,11 @@ msgstr "sendmail avsluttet med status %d: melding ikke sendt."
 msgid "Could not find 'From' address in message"
 msgstr "Kunne ikke finne 'Fra'-adresse i melding"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:244
+#: camel/providers/sendmail/camel-sendmail-transport.c:245
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:246
+#: camel/providers/sendmail/camel-sendmail-transport.c:247
 msgid "Mail delivery via the sendmail program"
 msgstr "Levering av e-post via sendmail programmet"
 
@@ -4068,121 +4093,132 @@ msgstr "SMTP"
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
 msgstr "For levering av e-post via en ekstern e-posttjener med SMTP.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:143
+#: camel/providers/smtp/camel-smtp-provider.c:53
+msgid "Secure SMTP"
+msgstr ""
+
+#: camel/providers/smtp/camel-smtp-provider.c:55
+#, fuzzy
+msgid ""
+"For delivering mail by connecting to a remote mailhub using SMTP over an SSL "
+"connection.\n"
+msgstr "For levering av e-post via en ekstern e-posttjener med SMTP.\n"
+
+#: camel/providers/smtp/camel-smtp-transport.c:147
 msgid "Syntax error, command unrecognized"
 msgstr "Syntaksfeil, kommando ikke gjenkjent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:145
+#: camel/providers/smtp/camel-smtp-transport.c:149
 msgid "Syntax error in parameters or arguments"
 msgstr "Syntaksfeil i parametere eller argumenter"
 
-#: camel/providers/smtp/camel-smtp-transport.c:147
+#: camel/providers/smtp/camel-smtp-transport.c:151
 msgid "Command not implemented"
 msgstr "Kommando ikke implementert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:149
+#: camel/providers/smtp/camel-smtp-transport.c:153
 msgid "Command parameter not implemented"
 msgstr "Kommandoparameter ikke implementert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:151
+#: camel/providers/smtp/camel-smtp-transport.c:155
 msgid "System status, or system help reply"
 msgstr "Systemstatus, eller svar på systemhjelp"
 
-#: camel/providers/smtp/camel-smtp-transport.c:153
+#: camel/providers/smtp/camel-smtp-transport.c:157
 msgid "Help message"
 msgstr "Hjelp-melding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:155
+#: camel/providers/smtp/camel-smtp-transport.c:159
 msgid "Service ready"
 msgstr "Tjeneste klar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:157
+#: camel/providers/smtp/camel-smtp-transport.c:161
 msgid "Service closing transmission channel"
 msgstr "Tjenesten lukker sendekanalen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:159
+#: camel/providers/smtp/camel-smtp-transport.c:163
 msgid "Service not available, closing transmission channel"
 msgstr "Tjenesten er ikke tilgjengelig, lukker sendekanalen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:161
+#: camel/providers/smtp/camel-smtp-transport.c:165
 msgid "Requested mail action okay, completed"
 msgstr "Forespurt e-post handling er ok, fullført"
 
-#: camel/providers/smtp/camel-smtp-transport.c:163
+#: camel/providers/smtp/camel-smtp-transport.c:167
 msgid "User not local; will forward to <forward-path>"
 msgstr "Ikke lokal bruker; videresender til <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:165
+#: camel/providers/smtp/camel-smtp-transport.c:169
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "Forespurt e-post handling er ikke utført: postboks ikke tilgjengelig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:167
+#: camel/providers/smtp/camel-smtp-transport.c:171
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "Forespurt handling ikke utført: postboks ikke tilgjengelig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:169
+#: camel/providers/smtp/camel-smtp-transport.c:173
 msgid "Requested action aborted: error in processing"
 msgstr "Forespurt handling avbrutt: feil i prosessering"
 
-#: camel/providers/smtp/camel-smtp-transport.c:171
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "User not local; please try <forward-path>"
 msgstr "Ikke lokal bruker; vennligst prøv <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Requested action not taken: insufficient system storage"
 msgstr "Forespurt handling ikke utført: utilstrekkelig lagringsplass"
 
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr "Forespurt e-post handling avbrutt: lagringsallokering oversteget"
 
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "Forespurt handling ikke utført: postboksnavn ikke tillatt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "Start e-post input; slutt med <CRLF>.<CRLF>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:185
 msgid "Transaction failed"
 msgstr "Transaksjonen feilet"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "A password transition is needed"
 msgstr "Passordoverføring kreves"
 
-#: camel/providers/smtp/camel-smtp-transport.c:187
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Authentication mechanism is too weak"
 msgstr "Autentiseringsmekanismen er for svak"
 
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Encryption required for requested authentication mechanism"
 msgstr "Kryptering kreves for forespurt autentiseringsmekanisme."
 
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "Temporary authentication failure"
 msgstr "Midlertidig autentiseringsfeil"
 
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Authentication required"
 msgstr "Autentisering kreves"
 
-#: camel/providers/smtp/camel-smtp-transport.c:258
+#: camel/providers/smtp/camel-smtp-transport.c:286
 #, c-format
 msgid "Welcome response error: %s: possibly non-fatal"
 msgstr "Feil ved Welcome-svar: %s: mulig ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:330
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVennligst skriv inn SMTP-passord for %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:438
+#: camel/providers/smtp/camel-smtp-transport.c:466
 msgid "No authentication required"
 msgstr "Ingen autentisering nødvendig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:440
+#: camel/providers/smtp/camel-smtp-transport.c:468
 msgid ""
 "This option will connect to the SMTP server without using any kind of "
 "authentication. This should be fine for connecting to most SMTP servers."
@@ -4190,106 +4226,106 @@ msgstr ""
 "Dette alternativet lar deg koble til SMTP-tjeneren uten bruk av "
 "autentisering. Dette bør fungere for de fleste SMTP-tjenerene."
 
-#: camel/providers/smtp/camel-smtp-transport.c:483
+#: camel/providers/smtp/camel-smtp-transport.c:511
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-tjener %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:485
+#: camel/providers/smtp/camel-smtp-transport.c:513
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP e-postlevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:510
+#: camel/providers/smtp/camel-smtp-transport.c:538
 msgid "Cannot send message: sender address not defined."
 msgstr "Kan ikke sende melding: senderadresse ikke definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:517
+#: camel/providers/smtp/camel-smtp-transport.c:545
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan ikke sende melding: senderadresse ikke gyldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:559
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan ikke sende melding: ingen mottakere definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:625
+#: camel/providers/smtp/camel-smtp-transport.c:653
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for HELO-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:644
+#: camel/providers/smtp/camel-smtp-transport.c:672
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "Feil ved HELO-svar: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:679
-#: camel/providers/smtp/camel-smtp-transport.c:691
+#: camel/providers/smtp/camel-smtp-transport.c:707
+#: camel/providers/smtp/camel-smtp-transport.c:719
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Tidsavbrudd for AUTH-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:749
+#: camel/providers/smtp/camel-smtp-transport.c:777
 msgid "Bad authentication response from server.\n"
 msgstr "Ugyldig svar på autentisering fra tjener.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:774
+#: camel/providers/smtp/camel-smtp-transport.c:802
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:793
+#: camel/providers/smtp/camel-smtp-transport.c:821
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Feil ved \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:818
+#: camel/providers/smtp/camel-smtp-transport.c:846
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for \"RCPT TO\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:837
+#: camel/providers/smtp/camel-smtp-transport.c:865
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Feil ved \"RCPT TO\"-svar: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:868
+#: camel/providers/smtp/camel-smtp-transport.c:896
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for DATA-forespørsel: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:887
+#: camel/providers/smtp/camel-smtp-transport.c:915
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Feil ved DATA-svar: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:902
-#: camel/providers/smtp/camel-smtp-transport.c:920
+#: camel/providers/smtp/camel-smtp-transport.c:930
+#: camel/providers/smtp/camel-smtp-transport.c:948
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Tidsavbrudd for DATA-send: meldingsterminering: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:939
+#: camel/providers/smtp/camel-smtp-transport.c:967
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Feil ved DATA-svar: meldingsterminering: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:963
+#: camel/providers/smtp/camel-smtp-transport.c:991
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Tidsavbrudd for RSET-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:982
+#: camel/providers/smtp/camel-smtp-transport.c:1010
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Feil ved RSET-svar: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1005
+#: camel/providers/smtp/camel-smtp-transport.c:1033
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for QUIT-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1024
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Feil ved QUIT-svar: %s: ikke-fatal"
@@ -4377,33 +4413,40 @@ msgid "From:"
 msgstr "Fra:"
 
 #.
+#. * Reply-To:
+#.
+#: composer/e-msg-composer-hdrs.c:351 mail/mail-format.c:681
+msgid "Reply-To:"
+msgstr "Svar-til:"
+
+#.
 #. * Subject:
 #.
-#: composer/e-msg-composer-hdrs.c:351 mail/mail-format.c:601
+#: composer/e-msg-composer-hdrs.c:362 mail/mail-format.c:601
 msgid "Subject:"
 msgstr "Emne:"
 
-#: composer/e-msg-composer-hdrs.c:365 mail/mail-format.c:683
+#: composer/e-msg-composer-hdrs.c:376 mail/mail-format.c:683
 msgid "To:"
 msgstr "Til:"
 
-#: composer/e-msg-composer-hdrs.c:366
+#: composer/e-msg-composer-hdrs.c:377
 msgid "Enter the recipients of the message"
 msgstr "Skriv inn mottakerene for meldingen"
 
-#: composer/e-msg-composer-hdrs.c:369 mail/mail-format.c:685
+#: composer/e-msg-composer-hdrs.c:380 mail/mail-format.c:685
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:370
+#: composer/e-msg-composer-hdrs.c:381
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
 
-#: composer/e-msg-composer-hdrs.c:373
+#: composer/e-msg-composer-hdrs.c:384
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:374
+#: composer/e-msg-composer-hdrs.c:385
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -4434,12 +4477,12 @@ msgstr "Feil under lagring av fil: %s"
 msgid "Error loading file: %s"
 msgstr "Feil under lasting av fil: %s"
 
-#: composer/e-msg-composer.c:817 evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:818 data/evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:823
+#: composer/e-msg-composer.c:824
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -4449,27 +4492,27 @@ msgstr ""
 "\n"
 "Vil du lagre endringene?"
 
-#: composer/e-msg-composer.c:848
+#: composer/e-msg-composer.c:849
 msgid "Open file"
 msgstr "Åpne fil"
 
-#: composer/e-msg-composer.c:974
+#: composer/e-msg-composer.c:975
 msgid "That file does not exist."
 msgstr "Filen eksisterer ikke."
 
-#: composer/e-msg-composer.c:984
+#: composer/e-msg-composer.c:985
 msgid "That is not a regular file."
 msgstr "Er ikke en vanlig fil."
 
-#: composer/e-msg-composer.c:994
+#: composer/e-msg-composer.c:995
 msgid "That file exists but is not readable."
 msgstr "Filen eksisterer men er ikke lesbar."
 
-#: composer/e-msg-composer.c:1004
+#: composer/e-msg-composer.c:1005
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Filen ser ut til å være tilgjengelig men open(2) feilet."
 
-#: composer/e-msg-composer.c:1026
+#: composer/e-msg-composer.c:1027
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -4477,15 +4520,15 @@ msgstr ""
 "File en meget stor (mer enn 100K).\n"
 "Er du sikker på at du vil sette den inn?"
 
-#: composer/e-msg-composer.c:1047
+#: composer/e-msg-composer.c:1048
 msgid "An error occurred while reading the file."
 msgstr "En feil oppsto under lesing fra filen."
 
-#: composer/e-msg-composer.c:1327 composer/e-msg-composer.c:1655
+#: composer/e-msg-composer.c:1349 composer/e-msg-composer.c:1681
 msgid "Compose a message"
 msgstr "Skriv en melding"
 
-#: composer/e-msg-composer.c:1739
+#: composer/e-msg-composer.c:1765
 msgid "Could not create composer window."
 msgstr "Kan ikke opprette komponeringsvinduet."
 
@@ -4500,6 +4543,10 @@ msgstr ""
 #: composer/evolution-composer.c:367
 msgid "Cannot initialize Evolution's composer."
 msgstr "Kan ikke initiere Evolutions composer."
+
+#: data/evolution.desktop.in.h:2
+msgid "The Evolution groupware suite"
+msgstr "Gruppevaresuiten Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -4835,29 +4882,20 @@ msgstr "nå"
 msgid "<click here to select a date>"
 msgstr "<klikk her for å velge en dato>"
 
-#: filter/filter-editor.c:160 mail/mail-autofilter.c:336
-#: mail/mail-autofilter.c:358
-msgid "Add Filter Rule"
-msgstr "Legg til filterregel"
-
-#: filter/filter-editor.c:233
-msgid "Edit Filter Rule"
-msgstr "Redigér filterregel"
-
-#: filter/filter-editor.c:457 filter/filter.glade.h:4
-msgid "Edit Filters"
-msgstr "Redigér filtre"
+#: filter/filter-editor.c:126 filter/filter.glade.h:6
+msgid "Filter Rules"
+msgstr "Filterregler"
 
 #. and now for the action area
-#: filter/filter-filter.c:403
+#: filter/filter-filter.c:424
 msgid "Then"
 msgstr "Så"
 
-#: filter/filter-filter.c:416
+#: filter/filter-filter.c:437
 msgid "Add action"
 msgstr "Legg til handling"
 
-#: filter/filter-filter.c:422
+#: filter/filter-filter.c:443
 msgid "Remove action"
 msgstr "Fjern handling"
 
@@ -4894,35 +4932,35 @@ msgstr ""
 msgid "Test"
 msgstr "Test"
 
-#: filter/filter-rule.c:572
+#: filter/filter-rule.c:597
 msgid "Rule name: "
 msgstr "Regelnavn: "
 
-#: filter/filter-rule.c:576
+#: filter/filter-rule.c:601
 msgid "Untitled"
 msgstr "Uten navn"
 
-#: filter/filter-rule.c:592
+#: filter/filter-rule.c:617
 msgid "If"
 msgstr "Hvis"
 
-#: filter/filter-rule.c:609
+#: filter/filter-rule.c:634
 msgid "Execute actions"
 msgstr "Utfør handlinger"
 
-#: filter/filter-rule.c:613
+#: filter/filter-rule.c:638
 msgid "if all criteria are met"
 msgstr "hvis alle kriterier er møtt"
 
-#: filter/filter-rule.c:618
+#: filter/filter-rule.c:643
 msgid "if any criteria are met"
 msgstr "hvis et kriterie er møtt"
 
-#: filter/filter-rule.c:629
+#: filter/filter-rule.c:654
 msgid "Add criterion"
 msgstr "Legg til kriterie"
 
-#: filter/filter-rule.c:635
+#: filter/filter-rule.c:660
 msgid "Remove criterion"
 msgstr "Fjern kriterie"
 
@@ -4940,13 +4978,13 @@ msgstr "Viktig"
 msgid "Read"
 msgstr "Les"
 
+#: filter/filter.glade.h:4
+msgid "Edit Filters"
+msgstr "Redigér filtre"
+
 #: filter/filter.glade.h:5
 msgid "Edit VFolders"
 msgstr "Redigér VFoldere"
-
-#: filter/filter.glade.h:6
-msgid "Filter Rules"
-msgstr "Filterregler"
 
 #: filter/filter.glade.h:7
 msgid "Incoming"
@@ -4956,7 +4994,7 @@ msgstr "Innkommende"
 msgid "Outgoing"
 msgstr "Utgående"
 
-#: filter/filter.glade.h:10
+#: filter/filter.glade.h:10 filter/vfolder-editor.c:126
 msgid "Virtual Folders"
 msgstr "Virtuelle mapper"
 
@@ -5149,36 +5187,25 @@ msgstr "var etter"
 msgid "was before"
 msgstr "var før"
 
-#: filter/score-editor.c:127
-msgid "Add Rule"
-msgstr "Legg til regel"
-
-#: filter/score-editor.c:166
-msgid "Edit Score Rule"
+#: filter/score-editor.c:126
+#, fuzzy
+msgid "Score Rules"
 msgstr "Rediger poengregel"
 
-#: filter/vfolder-editor.c:155
-msgid "Add VFolder Rule"
-msgstr "Legg til regel for VFolder"
-
-#: filter/vfolder-editor.c:204
-msgid "Edit VFolder Rule"
-msgstr "Redigér VFolder regel"
-
-#: mail/component-factory.c:304
+#: mail/component-factory.c:306
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initiere Evolutions e-postkomponent."
 
-#: mail/component-factory.c:377
+#: mail/component-factory.c:379
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
-#: mail/folder-browser-factory.c:214
+#: mail/folder-browser-factory.c:237
 #, c-format
 msgid "Properties for \"%s\""
 msgstr "Egenskaper for \"%s\""
 
-#: mail/folder-browser-factory.c:216 ui/evolution-event-editor.xml.h:39
+#: mail/folder-browser-factory.c:239 ui/evolution-event-editor.xml.h:39
 #: ui/evolution-task-editor-dialog.xml.h:42
 msgid "Properties"
 msgstr "Egenskaper"
@@ -5187,81 +5214,81 @@ msgstr "Egenskaper"
 msgid "Store search as vFolder"
 msgstr "Lagre søk som vMappe"
 
-#: mail/folder-browser.c:508
+#: mail/folder-browser.c:509
 msgid "VFolder on Subject"
 msgstr "VFolder for emne"
 
-#: mail/folder-browser.c:511
+#: mail/folder-browser.c:512
 msgid "VFolder on Sender"
 msgstr "VFolder for sender"
 
-#: mail/folder-browser.c:514
+#: mail/folder-browser.c:515
 msgid "VFolder on Recipients"
 msgstr "VFolder for mottakere"
 
-#: mail/folder-browser.c:517 mail/folder-browser.c:701
+#: mail/folder-browser.c:518 mail/folder-browser.c:702
 msgid "VFolder on Mailing List"
 msgstr "VFolder på e-postliste"
 
-#: mail/folder-browser.c:523
+#: mail/folder-browser.c:524
 msgid "Filter on Subject"
 msgstr "Filtrér etter emne"
 
-#: mail/folder-browser.c:526
+#: mail/folder-browser.c:527
 msgid "Filter on Sender"
 msgstr "Filtrér etter sender"
 
-#: mail/folder-browser.c:529
+#: mail/folder-browser.c:530
 msgid "Filter on Recipients"
 msgstr "Filtrér etter mottaker"
 
-#: mail/folder-browser.c:532 mail/folder-browser.c:700
+#: mail/folder-browser.c:533 mail/folder-browser.c:701
 msgid "Filter on Mailing List"
 msgstr "Filtrér etter e-postliste"
 
-#: mail/folder-browser.c:543
+#: mail/folder-browser.c:544
 msgid "Save As..."
 msgstr "Lagre som..."
 
-#: mail/folder-browser.c:545 mail/mail-view.c:148
+#: mail/folder-browser.c:546 mail/mail-view.c:148
 #: ui/evolution-addressbook.xml.h:9 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail.xml.h:31 ui/evolution-tasks.xml.h:4
 msgid "Print"
 msgstr "Skriv ut"
 
-#: mail/folder-browser.c:550
+#: mail/folder-browser.c:551
 msgid "Reply to Sender"
 msgstr "Svar til sender"
 
-#: mail/folder-browser.c:552 mail/mail-view.c:141 ui/evolution-mail.xml.h:39
+#: mail/folder-browser.c:553 mail/mail-view.c:141 ui/evolution-mail.xml.h:39
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser.c:554 mail/mail-view.c:144 ui/evolution-mail.xml.h:15
+#: mail/folder-browser.c:555 mail/mail-view.c:144 ui/evolution-mail.xml.h:15
 msgid "Forward"
 msgstr "Videresend"
 
-#: mail/folder-browser.c:556
+#: mail/folder-browser.c:557
 msgid "Forward inline"
 msgstr "Videresend \"inline\""
 
-#: mail/folder-browser.c:559
+#: mail/folder-browser.c:560
 msgid "Mark as Read"
 msgstr "Markér som lest"
 
-#: mail/folder-browser.c:561
+#: mail/folder-browser.c:562
 msgid "Mark as Unread"
 msgstr "Merk som ulest"
 
-#: mail/folder-browser.c:566
+#: mail/folder-browser.c:567
 msgid "Move to Folder..."
 msgstr "Flytt til mappe..."
 
-#: mail/folder-browser.c:568
+#: mail/folder-browser.c:569
 msgid "Copy to Folder..."
 msgstr "Kopiér til mappe..."
 
-#: mail/folder-browser.c:572
+#: mail/folder-browser.c:573
 msgid "Undelete"
 msgstr "Angre slett"
 
@@ -5269,20 +5296,20 @@ msgstr "Angre slett"
 #. GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  0 },
 #. { "",                               NULL,
 #. GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
-#: mail/folder-browser.c:582
+#: mail/folder-browser.c:583
 msgid "Apply Filters"
 msgstr "Påfør filtre"
 
-#: mail/folder-browser.c:586
+#: mail/folder-browser.c:587
 msgid "Create Rule From Message"
 msgstr "Lage regel fra melding"
 
-#: mail/folder-browser.c:703
+#: mail/folder-browser.c:704
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrér etter e-postliste (%s)"
 
-#: mail/folder-browser.c:704
+#: mail/folder-browser.c:705
 #, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr "VFolder på e-postliste (%s)"
@@ -5318,22 +5345,6 @@ msgstr "Factory for Evolution e-post komponent."
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
 msgid "Factory for the Mail Summary component."
 msgstr "Factory for e-post sammendrag komponent."
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:9
-msgid "Factory to import Outlook Express 4 mails into Evolution"
-msgstr "Factory for å importere Outlook Express 4-meldinger til Evolution"
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:10
-msgid "Factory to import mbox into Evolution"
-msgstr "Factory for å importere mbox til Evolution"
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:11
-msgid "Imports Outlook Express 4 files into Evolution"
-msgstr "Importerer Outlook Express 4-filer til Evolution"
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:12
-msgid "Imports mbox files into Evolution"
-msgstr "Importerer mbox-filer til Evolution"
 
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
@@ -5422,6 +5433,10 @@ msgstr "E-post fra %s"
 #, c-format
 msgid "%s mailing list"
 msgstr "%s e-postliste"
+
+#: mail/mail-autofilter.c:336 mail/mail-autofilter.c:358
+msgid "Add Filter Rule"
+msgstr "Legg til filterregel"
 
 #: mail/mail-callbacks.c:85
 msgid ""
@@ -5516,7 +5531,7 @@ msgstr "Lagre melding som..."
 msgid "Save Messages As..."
 msgstr "Lagre meldinger som..."
 
-#: mail/mail-callbacks.c:1198
+#: mail/mail-callbacks.c:1204
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -5525,11 +5540,11 @@ msgstr ""
 "Feil under lasting av filter-informasjon:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1247
+#: mail/mail-callbacks.c:1253
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: mail/mail-callbacks.c:1294
+#: mail/mail-callbacks.c:1300
 msgid "Printing of message failed"
 msgstr "Feil under utskrift av melding"
 
@@ -5784,7 +5799,7 @@ msgstr ""
 "Klikk \"Neste\" for å begynne."
 
 #: mail/mail-config.glade.h:82 ui/evolution-event-editor.xml.h:58
-#: ui/evolution-message-composer.xml.h:42 ui/evolution-subscribe.xml.h:10
+#: ui/evolution-message-composer.xml.h:43 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-task-editor-dialog.xml.h:70 ui/evolution.xml.h:28
 msgid "_Edit"
 msgstr "R_edigér"
@@ -5859,10 +5874,6 @@ msgstr "Skjul"
 #, c-format
 msgid "%s attachment"
 msgstr "%s-vedlegg"
-
-#: mail/mail-format.c:681
-msgid "Reply-To:"
-msgstr "Svar-til:"
 
 #: mail/mail-format.c:704
 msgid "Loading message content"
@@ -5988,15 +5999,15 @@ msgstr ""
 "Feil under utføring av operasjon:\n"
 "%s"
 
-#: mail/mail-mt.c:502 mail/mail-mt.c:531 mail/mail-mt.c:875
+#: mail/mail-mt.c:502 mail/mail-mt.c:531 mail/mail-mt.c:878
 msgid "Working"
 msgstr "Arbeider"
 
-#: mail/mail-mt.c:666 mail/session.c:90
+#: mail/mail-mt.c:666 mail/session.c:91
 msgid "Do you accept?"
 msgstr "Aksepterer du?"
 
-#: mail/mail-mt.c:857
+#: mail/mail-mt.c:860
 msgid "Evolution progress"
 msgstr "Evolution fremgang"
 
@@ -6186,7 +6197,9 @@ msgstr "Videresendt melding (uten emne)"
 msgid ""
 "-----Forwarded Message-----<br><b>From:</b> %s<br><b>To:</b> "
 "%s<br><b>Subject:</b> %s<br>"
-msgstr "-----Videresendt melding---<br><b>Fra:</b> %s<br><b>Til:</b> %s<br><b>Emne:</b> %s<br>"
+msgstr ""
+"-----Videresendt melding---<br><b>Fra:</b> %s<br><b>Til:</b> "
+"%s<br><b>Emne:</b> %s<br>"
 
 #: mail/mail-vfolder.c:248
 msgid "VFolders"
@@ -6651,7 +6664,7 @@ msgstr "%s - Evolution - %s [%s]"
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan ikke sette opp lokal lagring -- %s"
 
-#: shell/e-shell.c:1238
+#: shell/e-shell.c:1242
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -6738,7 +6751,7 @@ msgid "Error saving shortcuts."
 msgstr "Feil under lagring av snarveier."
 
 #: shell/e-storage-set-view.c:468 ui/evolution-event-editor.xml.h:76
-#: ui/evolution-message-composer.xml.h:51
+#: ui/evolution-message-composer.xml.h:53
 #: ui/evolution-task-editor-dialog.xml.h:90 ui/evolution.xml.h:42
 msgid "_View"
 msgstr "_Vis"
@@ -6799,8 +6812,8 @@ msgstr "Spesifisert type er ikke støttet for dette lageret"
 msgid "The Evolution shell."
 msgstr "Evolution skallet."
 
-#: shell/main.c:74
-#, c-format
+#: shell/main.c:73
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
@@ -6837,7 +6850,7 @@ msgstr ""
 "Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
 "spenning på at du tilbyr din hjelp!\n"
 
-#: shell/main.c:99
+#: shell/main.c:98
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6845,15 +6858,15 @@ msgstr ""
 "Takk\n"
 "Evolution utviklerene\n"
 
-#: shell/main.c:130
+#: shell/main.c:129
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan ikke initialisere Evolution skallet."
 
-#: shell/main.c:176
+#: shell/main.c:175
 msgid "Disable."
 msgstr "Slå av."
 
-#: shell/main.c:196
+#: shell/main.c:195
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
@@ -7099,13 +7112,13 @@ msgid "Send _message to contact..."
 msgstr "Send _melding til kontakt..."
 
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-event-editor.xml.h:59
-#: ui/evolution-message-composer.xml.h:43 ui/evolution-subscribe.xml.h:11
+#: ui/evolution-message-composer.xml.h:44 ui/evolution-subscribe.xml.h:11
 #: ui/evolution-task-editor-dialog.xml.h:71 ui/evolution.xml.h:29
 msgid "_File"
 msgstr "_Fil"
 
 #: ui/evolution-contact-editor.xml.h:16 ui/evolution-event-editor.xml.h:71
-#: ui/evolution-message-composer.xml.h:49
+#: ui/evolution-message-composer.xml.h:51
 #: ui/evolution-task-editor-dialog.xml.h:85
 msgid "_Save"
 msgstr "_Lagre"
@@ -7244,7 +7257,7 @@ msgid "Print Setup"
 msgstr "Skriveroppsett"
 
 #: ui/evolution-event-editor.xml.h:40 ui/evolution-message-composer.xml.h:14
-#: ui/evolution-task-editor-dialog.xml.h:50 widgets/misc/e-filter-bar.c:207
+#: ui/evolution-task-editor-dialog.xml.h:50 widgets/misc/e-filter-bar.c:233
 msgid "Save"
 msgstr "Lagre"
 
@@ -7281,12 +7294,12 @@ msgstr "Redigér sideinnstillinger for aktiv skriver"
 msgid "Task _Request (FIXME)"
 msgstr "_Oppgaveforespørsel"
 
-#: ui/evolution-event-editor.xml.h:52 ui/evolution-message-composer.xml.h:37
+#: ui/evolution-event-editor.xml.h:52 ui/evolution-message-composer.xml.h:38
 #: ui/evolution-task-editor-dialog.xml.h:63
 msgid "_About..."
 msgstr "_Om..."
 
-#: ui/evolution-event-editor.xml.h:53 ui/evolution-message-composer.xml.h:40
+#: ui/evolution-event-editor.xml.h:53 ui/evolution-message-composer.xml.h:41
 #: ui/evolution-task-editor-dialog.xml.h:65 ui/evolution.xml.h:26
 msgid "_Close"
 msgstr "L_ukk"
@@ -7300,12 +7313,12 @@ msgstr "_Kontakt"
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: ui/evolution-event-editor.xml.h:56 ui/evolution-message-composer.xml.h:41
+#: ui/evolution-event-editor.xml.h:56 ui/evolution-message-composer.xml.h:42
 #: ui/evolution-task-editor-dialog.xml.h:68
 msgid "_Debug"
 msgstr "_Feilsøk"
 
-#: ui/evolution-event-editor.xml.h:60 ui/evolution-message-composer.xml.h:45
+#: ui/evolution-event-editor.xml.h:60 ui/evolution-message-composer.xml.h:46
 #: ui/evolution-task-editor-dialog.xml.h:72 ui/evolution.xml.h:33
 msgid "_Help"
 msgstr "_Hjelp"
@@ -7726,31 +7739,41 @@ msgstr "Slå av/på visning av CC-feltet"
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Slå av/på visning av Fra-feltet"
 
-#: ui/evolution-message-composer.xml.h:38
+#: ui/evolution-message-composer.xml.h:37
+#, fuzzy
+msgid "Toggles whether the Reply-To field is displayed"
+msgstr "Slå av/på visning av CC-feltet"
+
+#: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
 msgstr "_Bcc-felt"
 
-#: ui/evolution-message-composer.xml.h:39
+#: ui/evolution-message-composer.xml.h:40
 msgid "_Cc Field"
 msgstr "_Cc-felt"
 
-#: ui/evolution-message-composer.xml.h:44
+#: ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
 msgstr "_Fra-felt"
 
-#: ui/evolution-message-composer.xml.h:46
+#: ui/evolution-message-composer.xml.h:47
 msgid "_Insert"
 msgstr "Sett _inn"
 
-#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-message-composer.xml.h:48
 msgid "_Insert text file... (FIXME)"
 msgstr "Sett _inn tekstfil..."
 
-#: ui/evolution-message-composer.xml.h:48
+#: ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
 msgstr "_Åpne..."
 
 #: ui/evolution-message-composer.xml.h:50
+#, fuzzy
+msgid "_Reply-To Field"
+msgstr "Svar-til:"
+
+#: ui/evolution-message-composer.xml.h:52
 msgid "_Security"
 msgstr "_Sikkerhet"
 
@@ -8133,15 +8156,15 @@ msgstr "Tide er gyldig"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-filter-bar.c:134
+#: widgets/misc/e-filter-bar.c:160
 msgid "Save Search"
 msgstr "Lagre søk"
 
-#: widgets/misc/e-filter-bar.c:205
+#: widgets/misc/e-filter-bar.c:231
 msgid "Advanced Search"
 msgstr "Avansert søk"
 
-#: widgets/misc/e-filter-bar.c:285
+#: widgets/misc/e-filter-bar.c:311
 msgid "Advanced ..."
 msgstr "Avansert..."
 
@@ -8190,9 +8213,29 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
-#: evolution.desktop.in.h:2
-msgid "The Evolution groupware suite"
-msgstr "Gruppevaresuiten Evolution"
+#~ msgid "Edit Filter Rule"
+#~ msgstr "Redigér filterregel"
+
+#~ msgid "Add Rule"
+#~ msgstr "Legg til regel"
+
+#~ msgid "Add VFolder Rule"
+#~ msgstr "Legg til regel for VFolder"
+
+#~ msgid "Edit VFolder Rule"
+#~ msgstr "Redigér VFolder regel"
+
+#~ msgid "Factory to import Outlook Express 4 mails into Evolution"
+#~ msgstr "Factory for å importere Outlook Express 4-meldinger til Evolution"
+
+#~ msgid "Factory to import mbox into Evolution"
+#~ msgstr "Factory for å importere mbox til Evolution"
+
+#~ msgid "Imports Outlook Express 4 files into Evolution"
+#~ msgstr "Importerer Outlook Express 4-filer til Evolution"
+
+#~ msgid "Imports mbox files into Evolution"
+#~ msgstr "Importerer mbox-filer til Evolution"
 
 #~ msgid "Disabled"
 #~ msgstr "Slått av"
