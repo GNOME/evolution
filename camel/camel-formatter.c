@@ -76,6 +76,7 @@ static gchar* text_to_html (const guchar *input,
 
 /* compares strings case-insensitively */
 static gint strcase_equal (gconstpointer v, gconstpointer v2);
+static void str_tolower (gchar* str);
 
 /* writes the header info for a mime message into a stream */
 static void write_header_info_to_stream (CamelMimeMessage* mime_message,
@@ -125,6 +126,8 @@ camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 				      CamelStream* body_stream)
 {
 	CamelFormatterPrivate* fmt = formatter->priv;
+
+	g_print ("camel_formatter_mime_message_to_html: entered\n");
 	
 	/* initialize members of our formatter */
 	fmt->current_root = mime_message;
@@ -164,6 +167,9 @@ lookup_unique_id (CamelMimeMessage* root, CamelDataWrapper* child)
 
 static GHashTable* mime_function_table;
 
+/* This tries to create a tag, given a mimetype and the child of a
+ * mime message. It can return NULL if it can't match the mimetype to
+ * a bonobo object.  */
 static gchar*
 get_bonobo_tag_for_object (CamelFormatter* formatter,
 			   CamelDataWrapper* wrapper,
@@ -211,6 +217,9 @@ call_handler_function (CamelFormatter* formatter,
 /*
  * Try to find a handler function in our own lookup table
  */
+	str_tolower (mimetype_whole);
+	str_tolower (mimetype_main);	
+	
 	if (mimetype_whole)
 		handler_function = g_hash_table_lookup (
 			mime_function_table, mimetype_whole);
@@ -250,7 +259,7 @@ call_handler_function (CamelFormatter* formatter,
 	else {
 		handle_unknown_type (formatter, wrapper);
 		debug ("no function or bonobo object found for mimetype \"%s\"\n",
-		       mimetype_whole || mimetype_main);
+		       mimetype_whole?mimetype_whole:mimetype_main);
 	}
 }
 
@@ -260,12 +269,9 @@ call_handler_function (CamelFormatter* formatter,
  *----------------------------------------------------------------------*/
 
 /* This routine was originally written by Daniel Velliard, (C) 1998
-   World Wide Web Consortium.
-
-   It will (for example) turn the input 'ab <c>' into 'ab &lt;c&gt;'
-
-   It has also been altered to turn '\n' into <br>.
-*/
+ * World Wide Web Consortium.
+ * - It will (for example) turn the input 'ab <c>' into 'ab &lt;c&gt;'
+ * - It has also been altered to turn '\n' into <br>. */
 static gchar *
 text_to_html (const guchar *input,
 		 guint len,
@@ -453,11 +459,24 @@ write_header_info_to_stream (CamelMimeMessage* mime_message,
 		write_recipients_to_stream ("BCC:", recipients, stream);
 }
 
+/* case-insensitive string comparison */
 static gint
 strcase_equal (gconstpointer v, gconstpointer v2)
 {
 	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
+
+static void
+str_tolower (gchar* str)
+{
+	int i;
+	int len = strlen (str);
+	
+	for (i = 0; i < len; i++) {
+		str[i] = tolower (str[i]);
+	}
+}
+
  
 #define MIME_TYPE_WHOLE(a)  (gmime_content_field_get_mime_type ( \
                                       camel_mime_part_get_content_type (CAMEL_MIME_PART (a))))
@@ -480,6 +499,9 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 	/* Plain text is embodied in a CamelSimpleDataWrapper */
 	g_assert (CAMEL_IS_SIMPLE_DATA_WRAPPER (wrapper));
 	simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (wrapper);
+
+	camel_stream_write_string (formatter->priv->stream,
+				   "\n<!-- text/plain below -->\n");
 
 	/* If there's any text, write it to the stream */
 	if (simple_data_wrapper->byte_array->len != 0) {
@@ -525,7 +547,9 @@ handle_text_html (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 		text = text_to_html (simple_data_wrapper->byte_array->data,
 				     simple_data_wrapper->byte_array->len,
 				     &returned_strlen);
-					
+
+		camel_stream_write_string (formatter->priv->stream,
+					   "\n<!-- text/html below -->\n");
 		camel_stream_write_string (formatter->priv->stream, text);
 		g_free (text);
 	}
@@ -560,6 +584,8 @@ handle_vcard (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 	gchar* vcard;
 	debug ("handle_vcard: entered\n");
 
+	camel_stream_write_string (formatter->priv->stream,
+				   "\n<!-- image below -->\n");	
 //	camel_stream_write_string (formatter->priv->stream, vcard);
 //	g_free (vcard);
 		
@@ -576,7 +602,10 @@ handle_mime_message (CamelFormatter *formatter,
 	CamelDataWrapper* message_contents =
 		camel_medium_get_content_object (CAMEL_MEDIUM (mime_message));
 
-	debug ("handle_mime_message: entered\n");	
+	debug ("handle_mime_message: entered\n");
+	camel_stream_write_string (formatter->priv->stream,
+				   "\n<!-- mime message below -->\n");
+	
 	camel_stream_write_string (formatter->priv->stream,
 				   "<table width=95% border=1><tr><td>\n\n");		
 
@@ -822,6 +851,7 @@ camel_formatter_init (gpointer object, gpointer klass)
 {
 	CamelFormatter* cmf = CAMEL_FORMATTER (object);
 	cmf->priv = g_new (CamelFormatterPrivate, 1);
+	cmf->priv->attachments = NULL;
 }
 
  

@@ -1,5 +1,13 @@
 2000-02-08  Matt Loper  <matt.loper@splashtech.com>
 
+	* tests/test-formatter.c (convert_to_html_and_print): Use the
+	buffer length of the stream to create strings which are then
+	printed, rather than printing the stream (which might not have a
+	trailing \0) directly.
+
+	* camel/camel-formatter.c (str_tolower): New function; makes a
+	string lowercase.
+
 	* tests/test-formatter.c (convert_to_html_and_print): Fixed call
 	to 'camel_formatter_mime_message_to_html' to contain correct
 	params.

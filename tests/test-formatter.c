@@ -14,16 +14,29 @@ static void
 convert_to_html_and_print (CamelMimeMessage *msg)
 {
 	CamelFormatter* cmf = camel_formatter_new();
+	gchar* header_str;
+	gchar* body_str;
+	
 	CamelStream* header_stream =
 		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);	
 	CamelStream* body_stream =
 		camel_stream_mem_new (CAMEL_STREAM_FS_WRITE);
 	camel_formatter_mime_message_to_html (
 		cmf, msg, header_stream, body_stream);
+
+	header_str = g_strndup (
+		CAMEL_STREAM_MEM (header_stream)->buffer->data,
+		CAMEL_STREAM_MEM (header_stream)->buffer->len);
+	body_str = g_strndup (
+		CAMEL_STREAM_MEM (body_stream)->buffer->data,
+		CAMEL_STREAM_MEM (body_stream)->buffer->len);	
 	g_print ("Header follows\n----------------------\n%s\n",
-		 (CAMEL_STREAM_MEM(header_stream))->buffer->data);
+		 header_str);
 	g_print ("Body follows\n----------------------\n%s\n",
-		 (CAMEL_STREAM_MEM(body_stream))->buffer->data);	
+		 body_str);
+
+	g_free (header_str);
+	g_free (body_str);
 }
 
 static void
@@ -63,11 +76,13 @@ main (int argc, char**argv)
 		printf ("You must create the file mail.test before running this test");
 		exit(2);
 	}
-	
-	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+
+	camel_data_wrapper_construct_from_stream (
+		CAMEL_DATA_WRAPPER (message), input_stream);
 
 	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 	convert_to_html_and_print (message);	
+
 
 	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
