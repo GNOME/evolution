@@ -19,6 +19,7 @@
 #include <ebook/e-book.h>
 #include <e-util/e-canvas.h>
 #include <e-util/e-util.h>
+#include <e-util/e-popup-menu.h>
 #include "e-minicard-view.h"
 
 #include <e-table.h>
@@ -26,6 +27,7 @@
 
 #include <e-addressbook-model.h>
 #include "e-contact-editor.h"
+#include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"
 
 #include <addressbook/printing/e-contact-print.h>
@@ -858,6 +860,23 @@ table_double_click(ETable *table, gint row, AddressbookView *view)
 }
 
 static void
+save_as (GtkWidget *widget, ECard *card)
+{
+	e_contact_save_as(_("Save as VCard"), card);
+}
+
+static gint
+table_right_click(ETable *table, gint row, gint col, GdkEvent *event, AddressbookView *view)
+{
+	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
+	EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
+
+	e_popup_menu_run (menu, (GdkEventButton *)event, 0, card);
+
+	return TRUE;
+}
+
+static void
 create_table_view (AddressbookView *view, char *initial_query)
 {
 	ECell *cell_left_just;
@@ -906,6 +925,8 @@ create_table_view (AddressbookView *view, char *initial_query)
 
 	gtk_signal_connect(GTK_OBJECT(view->table), "double_click",
 			   GTK_SIGNAL_FUNC(table_double_click), view);
+	gtk_signal_connect(GTK_OBJECT(view->table), "right_click",
+			   GTK_SIGNAL_FUNC(table_right_click), view);
 
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
 
