@@ -81,8 +81,7 @@ static gboolean smtp_auth (CamelSmtpTransport *transport, const char *mech, Came
 static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender,
 			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
-static gboolean smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message,
-			   gboolean has_8bit_parts, CamelException *ex);
+static gboolean smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelException *ex);
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
@@ -722,10 +721,7 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		}
 	}
 	
-	/* passing in has_8bit_parts saves time as we don't have to
-           recurse through the message all over again if the user is
-           not sending 8bit mime parts */
-	if (!smtp_data (smtp_transport, message, has_8bit_parts, ex)) {
+	if (!smtp_data (smtp_transport, message, ex)) {
 		camel_operation_end (NULL);
 		return FALSE;
 	}
@@ -1222,7 +1218,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 }
 
 static gboolean
-smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean has_8bit_parts, CamelException *ex)
+smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
 	struct _header_raw *header, *savedbcc, *n, *tail;
@@ -1231,16 +1227,14 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	CamelMimeFilter *crlffilter;
 	int ret;
 	
-	/* if the message contains 8bit/binary mime parts and the server
-	   doesn't support it, set our required encoding to be 7bit */
-	if (has_8bit_parts && !(transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME))
+	/* If the server doesn't support 8BITMIME, set our required encoding to be 7bit */
+	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME))
 		enctype = CAMEL_BESTENC_7BIT;
 	
 	/* FIXME: should we get the best charset too?? */
-	/* Changes the encoding of any 8bit/binary mime parts to fit
-	   within our required encoding type and also force any text
-	   parts with long lines (longer than 998 octets) to wrap by
-	   QP or base64 encoding them. */
+	/* Changes the encoding of all mime parts to fit within our required
+	   encoding type and also force any text parts with long lines (longer
+	   than 998 octets) to wrap by QP or base64 encoding them. */
 	camel_mime_message_set_best_encoding (message, CAMEL_BESTENC_GET_ENCODING, enctype);
 	
 	cmdbuf = g_strdup ("DATA\r\n");

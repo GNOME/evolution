@@ -1,3 +1,14 @@
+2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part.c (process_header): Removed unused variable left
+	over from my previous fix.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Don't pass
+	'has_8bit_parts' to smtp_data() anymore.
+	(smtp_data): No longer takes 'has_8bit_parts' argument. Ignore
+	whether or not the message has 8bit parts when deciding what the
+	required encoding type we need to enforce. Fixes bug #39744.
+
 2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (process_header): Use

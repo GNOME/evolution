@@ -211,7 +211,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelHeaderType header_type;
-	const char *charset, *p;
+	const char *charset;
 	char *text;
 
 	/* Try to parse the header pair. If it corresponds to something   */
