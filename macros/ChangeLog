@@ -1,3 +1,8 @@
+2002-11-27  Stanislav Brabec  <sbrabec@suse.cz>
+
+	* gnome-pilot.m4: Added missing quotes:
+	PISOCK_LIBS="-lpisock -lpisync"
+
 2002-09-20  JP Rosevear  <jpr@ximian.com>
 
 	* gnome-pilot.m4: fix problem where -lpisync was not linked in if

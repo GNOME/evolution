@@ -53,7 +53,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	fi
 		
 	if test "x$PISOCK_LIBS" = "x"; then
-		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock -lpisync], 
+		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS="-lpisock -lpisync"], 
 			[ AC_MSG_ERROR([Unable to find libpisock. Try http://www.pilot-link.org.]) ])
 	fi
 	
