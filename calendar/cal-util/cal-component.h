@@ -71,16 +71,18 @@ char *cal_component_gen_uid (void);
 
 CalComponent *cal_component_new (void);
 
-CalComponent *cal_component_new_from_icalcomponent (icalcomponent *ical);
+void cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type);
+
+void cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp);
+icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
-void cal_component_set_vtype (CalComponent *comp, CalComponentVType type);
 
 const char *cal_component_get_uid (CalComponent *comp);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
-const char *cal_component_get_summary (CalComponent *comp);
-void cal_component_set_summary (CalComponent *comp, const char *summary);
+void cal_component_get_summary (CalComponent *comp, const char **summary, const char **altrep);
+void cal_component_set_summary (CalComponent *comp, const char *summary, const char *altrep);
 
 
 

@@ -1,3 +1,26 @@
+2000-06-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c: Change of plans.  We use an
+	icalcomponent from libical as our core representation so that we
+	can preserve extension fields and fields that we don't (yet)
+	support.  CalComponent is just a wrapper with a nice API that
+	provides non-iterative, random access to the ical's fields.
+	(cal_component_destroy): Free the thing correctly.
+	(cal_component_get_vtype): Re-implement in terms of icalcomponent.
+	(cal_component_set_icalcomponent): New function to set the
+	CalComponent's data from an existing icalcomponent.
+	(cal_component_get_icalcomponent): New function.
+	(cal_component_set_new_vtype): New convenience function to create
+	an empty component.
+	(scan_icalcomponent): Core scanning function.
+	(scan_property): Another core scanning function.
+	(cal_component_get_uid): Use the property directly.
+	(cal_component_get_summary): Ditto.  Handle the altrep parameter
+	as well.
+	(cal_component_set_summary): Ditto.  Feel the pain, motherfucker.
+	It is ridiculous how much code this involves.
+	(scan_summary): Ditto.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component-factory.c (owner_set_cb): Get an

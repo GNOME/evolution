@@ -28,14 +28,17 @@
 
 /* Private part of the CalComponent structure */
 typedef struct {
-	/* Type of this component */
-	CalComponentVType type;
+	/* The icalcomponent we wrap */
+	icalcomponent *icalcomp;
 
-	/* Summary string, optional */
-	char *summary;
+	/* Properties */
 
-	/* Unique identifier, MUST be present */
-	char *uid;
+	icalproperty *uid_prop;
+
+	struct {
+		icalproperty *prop;
+		icalparameter *altrep_param;
+	} summary;
 } CalComponentPrivate;
 
 
@@ -102,7 +105,28 @@ cal_component_init (CalComponent *comp)
 	priv = g_new0 (CalComponentPrivate, 1);
 	comp->priv = priv;
 
-	priv->uid = cal_component_gen_uid ();
+	priv->uid_prop = cal_component_gen_uid ();
+}
+
+/* Frees the internal icalcomponent only if it does not have a parent.  If it
+ * does, it means we don't own it and we shouldn't free it.
+ */
+static void
+free_icalcomponent (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	priv = comp->priv;
+
+	if (!priv->icalcomp)
+		return;
+
+	/* FIXME: remove the mappings! */
+
+	if (icalcomponent_get_parent (priv->icalcomp) != NULL)
+		icalcomponent_free (priv->icalcomp);
+
+	priv->icalcomp = NULL;
 }
 
 /* Destroy handler for the calendar component object */
@@ -118,10 +142,7 @@ cal_component_destroy (GtkObject *object)
 	comp = CAL_COMPONENT (object);
 	priv = comp->priv;
 
-	if (priv->uid) {
-		g_free (priv->uid);
-		priv->uid = NULL;
-	}
+	free_icalcomponent (comp);
 
 	g_free (priv);
 	comp->priv = NULL;
@@ -172,9 +193,9 @@ cal_component_gen_uid (void)
  * cal_component_new:
  * @void:
  * 
- * Creates a new empty calendar component object whose only set field is the
- * unique identifier.  You should set the type of this component as soon as
- * possible by using cal_component_set_vtype().
+ * Creates a new empty calendar component object.  You should set it from an
+ * #icalcomponent structure by using cal_component_set_icalcomponent() or with a
+ * new empty component type by using cal_component_set_new_vtype().
  * 
  * Return value: A newly-created calendar component object.
  **/
@@ -184,77 +205,210 @@ cal_component_new (void)
 	return CAL_COMPONENT (gtk_type_new (CAL_COMPONENT_TYPE));
 }
 
-/* Parses a property and stores it in the calendar component */
+/* Scans the summary property */
 static void
-load_property (CalComponent *comp, icalproperty *prop)
+scan_summary (CalComponent *comp, icalproperty *prop)
 {
+	CalComponentPrivate *priv;
+	icalparameter *param;
+
+	priv = comp->priv;
+
+	priv->summary.prop = prop;
+
+	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
+	     param;
+	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER)) {
+		icalparameter_kind kind;
+		
+		kind = icalparameter_isa (param);
+		
+		switch (kind) {
+		case ICAL_ALTREP_PARAMETER:
+			priv->summary.altrep_param = param;
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+/* Scans an icalproperty and adds its mapping to the component */
+static void
+scan_property (CalComponent *comp, icalproperty *prop)
+{
+	CalComponentPrivate *priv;
 	icalproperty_kind kind;
 
-	kind = icalproperty_isa (prop);
+	priv = comp->priv;
 
-	/* FIXME */
+	switch (kind) {
+	case ICAL_SUMMARY_PROPERTY:
+		scan_summary (comp, prop);
+
+	case ICAL_UID_PROPERTY:
+		priv->uid_prop = prop;
+
+	default:
+		break;
+	}
+}
+
+/* Scans an icalcomponent for its properties so that we can provide
+ * random-access to them.
+ */
+static void
+scan_icalcomponent (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	icalproperty *prop;
+
+	priv = comp->priv;
+
+	g_assert (priv->icalcomp != NULL);
+
+	for (prop = icalcomponent_get_first_property (priv->icalcomp, ICAL_ANY_PROPERTY);
+	     prop;
+	     prop = icalcomponent_get_next_property (priv->icalcomp, ICAL_ANY_PROPERTY))
+		scan_property (comp, prop);
+
+	/* FIXME: parse ALARM subcomponents */
 }
 
 /**
- * cal_component_new_from_icalcomponent:
- * @ical: An #icalcomponent structure with the component to parse.
+ * cal_component_set_new_vtype:
+ * @comp: A calendar component object.
+ * @type: Type of calendar component to create.
  * 
- * Creates a new calendar component object from an #icalcomponent from libical.
- * This function only deals with VEVENT, VTODO, VJOURNAL, VFREEBUSY, AND
- * VTIMEZONE components.
- * 
- * Return value: A newly-created calendar component object.
+ * Clears any existing component data from a calendar component object and
+ * creates a new #icalcomponent of the specified type for it.  The only property
+ * that will be set in the new component will be its unique identifier.
  **/
-CalComponent *
-cal_component_new_from_icalcomponent (icalcomponent *ical)
+void
+cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
 {
-	CalComponent *comp;
+	CalComponentPrivate *priv;
+	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
-	CalComponentVType type;
+	char *uid;
 	icalproperty *prop;
 
-	g_return_val_if_fail (ical != NULL, NULL);
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
-	kind = icalcomponent_isa (ical);
+	priv = comp->priv;
 
-	switch (kind) {
-	case ICAL_VEVENT_COMPONENT:
-		type = CAL_COMPONENT_EVENT;
+	free_icalcomponent (comp);
+
+	if (type == CAL_COMPONENT_NO_TYPE)
+		return;
+
+	/* Figure out the kind */
+
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		kind = ICAL_VEVENT_COMPONENT;
 		break;
 
-	case ICAL_VTODO_COMPONENT:
-		type = CAL_COMPONENT_TODO;
+	case CAL_COMPONENT_TODO:
+		kind = ICAL_VTODO_COMPONENT;
 		break;
 
-	case ICAL_VJOURNAL_COMPONENT:
-		type = CAL_COMPONENT_JOURNAL;
+	case CAL_COMPONENT_JOURNAL:
+		kind = ICAL_VJOURNAL_COMPONENT;
 		break;
 
-	case ICAL_VFREEBUSY_COMPONENT:
-		type = CAL_COMPONENT_FREEBUSY;
+	case CAL_COMPONENT_FREEBUSY:
+		kind = ICAL_VFREEBUSY_COMPONENT;
 		break;
 
-	case ICAL_VTIMEZONE_COMPONENT:
-		type = CAL_COMPONENT_TIMEZONE;
+	case CAL_COMPONENT_TIMEZONE:
+		kind = ICAL_VTIMEZONE_COMPONENT;
 		break;
 
 	default:
-		g_message ("cal_component_new_from_icalcomponent(): Unsupported component type %d",
-			   kind);
-		return NULL;
+		g_assert_not_reached ();
+		kind = ICAL_NO_COMPONENT;
 	}
 
-	comp = cal_component_new ();
-	cal_component_set_vtype (comp, type);
+	/* Create an UID */
 
-	for (prop = icalcomponent_get_first_property (ical, ICAL_ANY_PROPERTY);
-	     prop;
-	     prop = icalcomponent_get_next_property (ical, ICAL_ANY_PROPERTY))
-		load_property (comp, prop);
+	icalcomp = icalcomponent_new (kind);
+	if (!icalcomp) {
+		g_message ("cal_component_set_new_vtype(): Could not create the icalcomponent!");
+		return;
+	}
 
-	/* FIXME: parse ALARM subcomponents */
+	uid = cal_component_gen_uid ();
+	prop = icalproperty_new_uid (uid);
+	g_free (uid);
 
-	return comp;
+	if (!prop) {
+		icalcomponent_free (icalcomp);
+		g_message ("cal_component_set_new_vtype(): Could not create the UID property!");
+		return;
+	}
+
+	icalcomponent_add_property (icalcomp, prop);
+
+	/* Scan the component to build our mapping table */
+
+	priv->icalcomp = icalcomp;
+	scan_icalcomponent (comp);
+}
+
+/**
+ * cal_component_set_icalcomponent:
+ * @comp: A calendar component object.
+ * @icalcomp: An #icalcomponent.
+ * 
+ * Sets the contents of a calendar component object from an #icalcomponent
+ * structure.  If the @comp already had an #icalcomponent set into it, it will
+ * will be freed automatically if the #icalcomponent does not have a parent
+ * component itself.
+ **/
+void
+cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+
+	if (priv->icalcomp == icalcomp)
+		return;
+
+	free_icalcomponent (comp);
+
+	priv->icalcomp = icalcomp;
+
+	if (priv->icalcomp)
+		scan_icalcomponent (comp);
+}
+
+/**
+ * cal_component_get_icalcomponent:
+ * @comp: A calendar component object.
+ * 
+ * Queries the #icalcomponent structure that a calendar component object is
+ * wrapping.
+ * 
+ * Return value: An #icalcomponent structure, or NULL if the @comp has no
+ * #icalcomponent set to it.
+ **/
+icalcomponent *
+cal_component_get_icalcomponent (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+
+	priv = comp->priv;
+	return priv->icalcomp;
 }
 
 /**
@@ -269,34 +423,38 @@ CalComponentVType
 cal_component_get_vtype (CalComponent *comp)
 {
 	CalComponentPrivate *priv;
+	icalcomponent_kind kind;
 
 	g_return_val_if_fail (comp != NULL, CAL_COMPONENT_NO_TYPE);
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CAL_COMPONENT_NO_TYPE);
 
 	priv = comp->priv;
-	return priv->type;
-}
 
-/**
- * cal_component_set_vtype:
- * @comp: A calendar component object.
- * @type: Type of the component, as defined by RFC 2445.
- * 
- * Sets the type of a calendar component object.  This function should be used
- * as soon as possible after creating a new calendar component so that its type
- * can be known to the rest of the program.
- **/
-void
-cal_component_set_vtype (CalComponent *comp, CalComponentVType type)
-{
-	CalComponentPrivate *priv;
+	if (!priv->icalcomp)
+		return CAL_COMPONENT_NO_TYPE;
 
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (type != CAL_COMPONENT_NO_TYPE);
+	kind = icalcomponent_isa (priv->icalcomp);
+	switch (kind) {
+	case ICAL_VEVENT_COMPONENT:
+		return CAL_COMPONENT_EVENT;
 
-	priv = comp->priv;
-	priv->type = type;
+	case ICAL_VTODO_COMPONENT:
+		return CAL_COMPONENT_TODO;
+
+	case ICAL_VJOURNAL_COMPONENT:
+		return CAL_COMPONENT_JOURNAL;
+
+	case ICAL_VFREEBUSY_COMPONENT:
+		return CAL_COMPONENT_FREEBUSY;
+
+	case ICAL_VTIMEZONE_COMPONENT:
+		return CAL_COMPONENT_TIMEZONE;
+
+	default:
+		/* We should have been loaded with a supported type! */
+		g_assert_not_reached ();
+		return CAL_COMPONENT_NO_TYPE;
+	}
 }
 
 /**
@@ -316,7 +474,11 @@ cal_component_get_uid (CalComponent *comp)
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
 
 	priv = comp->priv;
-	return priv->uid;
+
+	/* This MUST exist, since we ensured that it did */
+	g_assert (priv->uid_prop != NULL);
+
+	return icalproperty_get_uid (priv->uid_prop);
 }
 
 /**
@@ -336,30 +498,44 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 	g_return_if_fail (uid != NULL);
 
 	priv = comp->priv;
-	g_assert (priv->uid != NULL);
 
-	g_free (priv->uid);
-	priv->uid = g_strdup (uid);
+	/* This MUST exist, since we ensured that it did */
+	g_assert (priv->uid_prop != NULL);
+
+	icalproperty_set_uid (priv->uid_prop, (char *) uid);
 }
 
 /**
  * cal_component_get_summary:
  * @comp: A calendar component object.
+ * @summary: Return value for the summary string.
+ * @altrep: Return value for the alternate representation string.
  * 
  * Queries the summary of a calendar component object.
- * 
- * Return value: Summary string.
  **/
-const char *
-cal_component_get_summary (CalComponent *comp)
+void
+cal_component_get_summary (CalComponent *comp, const char **summary, const char **altrep)
 {
 	CalComponentPrivate *priv;
 
-	g_return_val_if_fail (comp != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
 	priv = comp->priv;
-	return priv->summary;
+
+	if (summary) {
+		if (priv->summary.prop)
+			*summary = icalproperty_get_summary (priv->summary.prop);
+		else
+			*summary = NULL;
+	}
+
+	if (altrep) {
+		if (priv->summary.altrep_param)
+			*altrep = icalparameter_get_altrep (priv->summary.altrep_param);
+		else
+			*altrep = NULL;
+	}
 }
 
 /**
@@ -370,7 +546,7 @@ cal_component_get_summary (CalComponent *comp)
  * Sets the summary of a calendar component object.
  **/
 void
-cal_component_set_summary (CalComponent *comp, const char *summary)
+cal_component_set_summary (CalComponent *comp, const char *summary, const char *altrep)
 {
 	CalComponentPrivate *priv;
 
@@ -379,8 +555,42 @@ cal_component_set_summary (CalComponent *comp, const char *summary)
 
 	priv = comp->priv;
 
-	if (priv->summary)
-		g_free (priv->summary);
+	g_return_if_fail (priv->icalcomp != NULL);
 
-	priv->summary = g_strdup (summary);
+	if (!summary)
+		g_return_if_fail (altrep == NULL);
+
+	if (summary) {
+		if (priv->summary.prop)
+			icalproperty_set_summary (priv->summary.prop, (char *) summary);
+		else {
+			priv->summary.prop = icalproperty_new_summary ((char *) summary);
+			icalcomponent_add_property (priv->icalcomp, priv->summary.prop);
+		}
+	} else if (priv->summary.prop) {
+		icalcomponent_remove_property (priv->icalcomp, priv->summary.prop);
+		icalproperty_free (priv->summary.prop);
+
+		priv->summary.prop = NULL;
+		priv->summary.altrep_param = NULL;
+	}
+
+	if (altrep) {
+		g_assert (priv->summary.prop != NULL);
+
+		if (priv->summary.altrep_param)
+			icalparameter_set_altrep (priv->summary.altrep_param, (char *) altrep);
+		else {
+			priv->summary.altrep_param = icalparameter_new_altrep ((char *) altrep);
+			icalproperty_add_parameter (priv->summary.prop, priv->summary.altrep_param);
+		}
+	} else if (priv->summary.altrep_param) {
+#if 0
+		/* FIXME: this fucking routine will assert(0) since it is not implemented */
+		icalproperty_remove_parameter (priv->summary.prop, ICAL_ALTREP_PARAMETER);
+		icalparameter_free (priv->summary.altrep_param);
+#endif
+
+		priv->summary.altrep_param = NULL;
+	}
 }
