@@ -1,5 +1,17 @@
 2001-08-13  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (add_to_supported_fields): don't
+	g_strdup the stuff we're passing into e_list_append, since it does
+	the copy for us.
+	(check_schema_support): don't initialize supported_fields list
+	here, since there's a gross case where the programmer/user can
+	bring up the contact editor before the connection stuff is
+	finished, and we don't want to crash.
+	(pas_backend_ldap_init): move it here to we can guarantee it's
+	there. (bug #6546).
+
+2001-08-13  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-config.c
 	(addressbook_source_dialog_set_source): don't access source->auth
 	if source == NULL (bug #7086).
