@@ -484,7 +484,7 @@ mark_orig_text (EMsgComposer *composer)
 		*((CORBA_boolean *) flag->_value) = CORBA_TRUE;
 
 		CORBA_exception_init (&ev);
-		HTMLEditor_Engine_set_object_data_by_type (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
+		HTMLEditor_Engine_setObjectDataByType (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
 		CORBA_free (flag);
 		CORBA_exception_free (&ev);
 	}

@@ -67,8 +67,8 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 static void
 reply_indent (HTMLEditorListener *l, CORBA_Environment * ev)
 {
-	if (!HTMLEditor_Engine_paragraph_is_empty (l->composer->editor_engine, ev)) {
-		if (HTMLEditor_Engine_paragraph_previous_is_empty (l->composer->editor_engine, ev))
+	if (!HTMLEditor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
+		if (HTMLEditor_Engine_isPreviousParagraphEmpty (l->composer->editor_engine, ev))
 			HTMLEditor_Engine_command (l->composer->editor_engine, "cursor-backward", ev);
 		else {
 			HTMLEditor_Engine_command (l->composer->editor_engine, "insert-paragraph", ev);
@@ -94,12 +94,12 @@ impl_event (PortableServer_Servant _servant,
 
 	if (!strcmp (name, "command")) {
 		/* FIXME check for insert-paragraph command */
-		data = HTMLEditor_Engine_get_paragraph_data (l->composer->editor_engine, "orig", ev);
+		data = HTMLEditor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
 		if (ev->_major == CORBA_NO_EXCEPTION && data) {
 			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data))
 				reply_indent (l, ev);
 			BONOBO_ARG_SET_BOOLEAN (data, CORBA_FALSE);
-			HTMLEditor_Engine_set_paragraph_data (l->composer->editor_engine, "orig", data, ev);
+			HTMLEditor_Engine_setParagraphData (l->composer->editor_engine, "orig", data, ev);
 		}
 	} else if (!strcmp (name, "image_url")) {
 		gchar *url;

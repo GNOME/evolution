@@ -1,3 +1,9 @@
+2000-11-14  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c: updated to HTMLEditor API changes
+
+	* listener.c: updated to HTMLEditor API changes
+
 2000-11-13  Radek Doulik  <rodo@helixcode.com>
 
 	* listener.c (reply_indent): extracted function, does reply
