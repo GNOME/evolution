@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-09-01 11:02+0200\n"
-"PO-Revision-Date: 2001-09-02 17:46+0200\n"
+"POT-Creation-Date: 2001-09-06 12:13+0200\n"
+"PO-Revision-Date: 2001-09-06 12:14+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -669,10 +669,6 @@ msgstr ""
 "adresowej"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
-msgid "Factory for the Evolution addressbook component."
-msgstr "Generator komponentów ksi±¿ki adresowej Evolution."
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
 msgid "Factory for the sample Addressbook control"
 msgstr "Generator przyk³adowych komponentów ksi±¿ki adresowej"
 
@@ -816,10 +812,11 @@ msgstr "_Dodaj"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
 #: filter/filter.glade.h:1 mail/mail-config.glade.h:1
-#: ui/evolution-mail-messagedisplay.xml.h:1
+#: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
+#: ui/evolution-mail-list.xml.h:1 ui/evolution-mail-messagedisplay.xml.h:1
 #: ui/evolution-message-composer.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1 ui/evolution-subscribe.xml.h:1
-#: ui/evolution.xml.h:1
+#: ui/evolution-tasks.xml.h:1
 msgid "_Edit"
 msgstr "_Edycja"
 
@@ -1064,7 +1061,9 @@ msgstr "_Faks s³u¿bowy"
 msgid "Ca_tegories..."
 msgstr "Ka_tegorie..."
 
+#. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+#: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "Contact Editor"
 msgstr "Edytor kontaktów"
 
@@ -1261,7 +1260,7 @@ msgstr "Angola"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Antarctica"
@@ -1349,7 +1348,7 @@ msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Bouvet Island"
-msgstr ""
+msgstr "Wyspa Bouveta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Brazil"
@@ -1421,7 +1420,7 @@ msgstr "Chiny"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Christmas Island"
-msgstr ""
+msgstr "Wyspa Bo¿ego Narodzenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cocos (Keeling) Islands"
@@ -1429,27 +1428,28 @@ msgstr "Wyspy Kokosowe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Colombia"
-msgstr ""
+msgstr "Columbia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Comoros"
-msgstr ""
+msgstr "Komory"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Congo"
 msgstr "Kongo"
 
+# [cyba] Nie mam pewno¶ci, ale jest zatoka Cooka, cie¶nina, góry, wiêc chyba...
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cook Islands"
-msgstr ""
+msgstr "Wyspy Cooka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Costa Rica"
-msgstr ""
+msgstr "Kostaryka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "Cote d'Ivoire"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Countr_y:"
@@ -1457,7 +1457,7 @@ msgstr "_Kraj:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Croatia"
-msgstr ""
+msgstr "Chorwacja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Cuba"
@@ -1501,15 +1501,15 @@ msgstr "Egipt"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "El Salvador"
-msgstr ""
+msgstr "Salwador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Gwinea Równikowa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Eritrea"
-msgstr ""
+msgstr "Erytrea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Estonia"
@@ -1525,7 +1525,7 @@ msgstr "Falklandy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Wyspy Faroe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Fiji"
@@ -1561,7 +1561,7 @@ msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Germany"
@@ -1605,7 +1605,7 @@ msgstr "Gwinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Gwinea Bissau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Guyana"
@@ -1669,7 +1669,7 @@ msgstr "Japonia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Jordan"
-msgstr ""
+msgstr "Jordania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kazakhstan"
@@ -1681,7 +1681,7 @@ msgstr "Kenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kuwait"
@@ -1689,7 +1689,7 @@ msgstr "Kuwejt"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Laos"
@@ -1701,7 +1701,7 @@ msgstr "Litwa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Lebanon"
-msgstr ""
+msgstr "Libia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Lesotho"
@@ -1713,7 +1713,7 @@ msgstr "Liberia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Lithuania"
@@ -1761,7 +1761,7 @@ msgstr "Wyspy Marshalla"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Martinique"
-msgstr ""
+msgstr "Martynika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Mauritania"
@@ -1773,7 +1773,7 @@ msgstr "Mauritius"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Mayotte"
-msgstr ""
+msgstr "Majotta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Mexico"
@@ -1855,9 +1855,10 @@ msgstr "Niue"
 msgid "Norfolk Island"
 msgstr "Wyspa Norfolk"
 
+# [cyba] S± Mariany, wiêc pó³nocne pewnie te¿...
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Pó³nocne Mariany"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Norway"
@@ -1873,7 +1874,7 @@ msgstr "Pakistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Panama"
@@ -1925,7 +1926,7 @@ msgstr "Republika Mo³dawii"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Reunion"
-msgstr ""
+msgstr "Reunion"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Romania"
@@ -1959,9 +1960,10 @@ msgstr "Samoa"
 msgid "San Marino"
 msgstr "San Marino"
 
+# [cyba] Tak jest w moim atlasie, drugiej czê¶ci nie ma
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "Sao Tome"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Saudi Arabia"
@@ -2065,7 +2067,7 @@ msgstr "Togo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tokelau"
-msgstr ""
+msgstr "Tokelau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tonga"
@@ -2093,7 +2095,7 @@ msgstr "Turks i Caicos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "U.S. Virgin Islands"
@@ -2137,7 +2139,7 @@ msgstr "Uzbekistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Venezuela"
@@ -2344,114 +2346,6 @@ msgstr "Zaawansowane wyszukiwanie"
 #: mail/mail-search.c:1
 msgid "Search"
 msgstr "Wyszukiwanie"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "123"
-msgstr "123"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "a"
-msgstr "a"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "b"
-msgstr "b"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "c"
-msgstr "c"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "d"
-msgstr "d"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "e"
-msgstr "e"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "f"
-msgstr "f"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "g"
-msgstr "g"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "h"
-msgstr "h"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "i"
-msgstr "i"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "j"
-msgstr "j"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "k"
-msgstr "k"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "l"
-msgstr "l"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "m"
-msgstr "m"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "n"
-msgstr "n"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "o"
-msgstr "o"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "p"
-msgstr "p"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "q"
-msgstr "q"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "r"
-msgstr "r"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "s"
-msgstr "s"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "t"
-msgstr "t"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "u"
-msgstr "u"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "v"
-msgstr "v"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "w"
-msgstr "w"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "x"
-msgstr "x"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "y"
-msgstr "y"
-
-#: addressbook/gui/widgets/alphabet.glade.h:1
-msgid "z"
-msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:1
 msgid "No cards"
@@ -2907,10 +2801,6 @@ msgid "Factory for the Calendar Summary component."
 msgstr "Generator komponentu zestawienia kalendarza"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
-msgid "Factory for the Evolution calendar component."
-msgstr "Generator komponentów kalendarza Evolution."
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the calendar iTip view control"
 msgstr "Generator formantu wy¶wietlania iTip kalendarza"
 
@@ -2921,6 +2811,10 @@ msgstr "Generator przyk³adowego formantu kalendarza"
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory to centralize calendar component editor dialogs"
 msgstr "Generator centralizuj±cy okna edytora komponentu kalendarza"
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
+msgid "Factory to create a component editor factory"
+msgstr "Generator tworz±cy generator komponentu edytora"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -3060,7 +2954,6 @@ msgstr "%d %B %Y"
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:1
 #: calendar/gui/e-week-view-main-item.c:1 calendar/gui/print.c:1
-#: my-evolution/e-summary-calendar.c:1
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -4113,7 +4006,7 @@ msgstr "Cz³onek"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 msgid "Role"
@@ -4577,7 +4470,7 @@ msgstr "Zwrócenie siê o aktualizacjê spotkania"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
-msgid "<b>%s</b> has replyed to a meeting request."
+msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> odpowiedzia³ na zwrócenie siê o spotkanie."
 
 #: calendar/gui/e-itip-control.c:1
@@ -4641,7 +4534,7 @@ msgstr "Zwrócenie siê o aktualizacjê zadania"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
-msgid "<b>%s</b> has replyed to a task assignment."
+msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> odpowiedzia³ na przypisanie zadania."
 
 #: calendar/gui/e-itip-control.c:1
@@ -4681,7 +4574,7 @@ msgstr "Zwrócenie siê o informacjê o zajêto¶ci"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
-msgid "<b>%s</b> has replyed to a free/busy request."
+msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> odpowiedzia³ na zwrócenie siê o informacjê o zajêto¶ci."
 
 #: calendar/gui/e-itip-control.c:1
@@ -4840,6 +4733,10 @@ msgstr "Nale¿y podaæ organizatora."
 #: calendar/gui/itip-utils.c:1
 msgid "Calendar attachment"
 msgstr "Za³±cznik kalendarza"
+
+#: calendar/gui/main.c:1
+msgid "Could not create the component editor factory"
+msgstr "Nie mo¿na stworzyæ generatora komponentu edytora"
 
 #: calendar/gui/print.c:1
 msgid "1st"
@@ -7148,7 +7045,7 @@ msgstr ""
 
 #: composer/e-msg-composer.c:1
 msgid ""
-"Evolution has found unsaved files from a previous session.\n"
+"Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 "Odnaleziono niezapisane pliki z poprzedniej sesji Evolution.\n"
@@ -7164,10 +7061,9 @@ msgstr ""
 "\n"
 "Czy chcesz zapisaæ zmiany?"
 
-#: composer/e-msg-composer.c:1 data/evolution.desktop.in.h:1
-#: shell/e-shell-view-menu.c:1
-msgid "Evolution"
-msgstr "Evolution"
+#: composer/e-msg-composer.c:1
+msgid "Warning: Modified Message"
+msgstr "Uwaga: Zmodyfikowany list"
 
 #: composer/e-msg-composer.c:1
 msgid "Open file"
@@ -7196,6 +7092,10 @@ msgstr ""
 #: composer/evolution-composer.c:1
 msgid "Cannot initialize Evolution's composer."
 msgstr "Nie mo¿na zainicjowaæ edytora listów Evolution."
+
+#: data/evolution.desktop.in.h:1
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
@@ -7267,6 +7167,11 @@ msgstr "%H:%M:%S"
 #: widgets/misc/e-dateedit.c:1
 msgid "%I:%M %p"
 msgstr "%H:%M"
+
+#. strptime format for hour and AM/PM
+#: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
+msgid "%I %p"
+msgstr "%H"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
@@ -7850,7 +7755,7 @@ msgstr ""
 "Czy chcesz zaimportowaæ je do Evolution?"
 
 #: importers/pine-importer.c:1
-msgid "Evolution is importer your old Pine data"
+msgid "Evolution is importing your old Pine data"
 msgstr "Evolution importuje stare dane Pine'a"
 
 #: importers/pine-importer.c:1
@@ -7888,10 +7793,6 @@ msgstr "Generator komponentów folderu pocztowego Evolution."
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Factory for the Evolution composer."
 msgstr "Generator edytora listów Evolution."
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:1
-msgid "Factory for the Evolution mail component."
-msgstr "Generator komponentu pocztowego Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Factory for the Mail Summary component."
@@ -9358,7 +9259,7 @@ msgid "Cancelling..."
 msgstr "Anulowanie..."
 
 #: mail/mail-send-recv.c:1
-msgid "Send & Receive mail"
+msgid "Send & Receive Mail"
 msgstr "Wysy³anie i odbiór poczty"
 
 #: mail/mail-send-recv.c:1
@@ -9394,10 +9295,6 @@ msgstr "Przes³any list"
 #: mail/mail-tools.c:1
 msgid "Forwarded Message"
 msgstr "Przes³any list"
-
-#: mail/mail-vfolder.c:1
-msgid "UNMATCHED"
-msgstr "Bez dopasowania"
 
 #: mail/mail-vfolder.c:1
 msgid "VFolders"
@@ -9557,10 +9454,6 @@ msgstr "_Odsubskrybuj"
 msgid "Evolution component for the executive summary."
 msgstr "Komponent Evolution obs³uguj±cy zestawienie wykonawcze."
 
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
-msgid "Factory for the Evolution executive summary component."
-msgstr "Generator komponentu zestawienia wykonawczego Evolution."
-
 #: my-evolution/component-factory.c:1
 msgid "Folder containing the Evolution Summary"
 msgstr "Folder zawieraj±cy Zestawienie Evolution"
@@ -9578,12 +9471,13 @@ msgid "No appointments"
 msgstr "Brak terminów"
 
 #: my-evolution/e-summary-calendar.c:1
-msgid "%l:%M%p"
-msgstr "%k:%M"
+msgid "%k%M %d %B"
+msgstr "%k%M %d %B"
 
+# [cyba] Wypada zostawiæ ten format 12-godzinny, bo jest te¿ alternatywa (z %k) wybierana przez program
 #: my-evolution/e-summary-calendar.c:1
-msgid "%a %l:%M%p"
-msgstr "%a %k:%M"
+msgid "%l:%M %d %B"
+msgstr "%l:%M %d %B"
 
 #: my-evolution/e-summary-mail.c:1
 msgid "Mail summary"
@@ -10894,8 +10788,16 @@ msgid "One w_eek"
 msgstr "J_eden tydzieñ"
 
 #: my-evolution/my-evolution.glade.h:1
+msgid "R_efresh time (seconds):"
+msgstr "O_kres od¶wie¿ania (sekundy):"
+
+#: my-evolution/my-evolution.glade.h:1
 msgid "Refresh _time (seconds):"
 msgstr "O_kres od¶wie¿ania (sekundy):"
+
+#: my-evolution/my-evolution.glade.h:1
+msgid "S_how full path for folders"
+msgstr "_Wy¶wietlanie pe³nych ¶cie¿ek folderów"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid "Show _all tasks"
@@ -10946,16 +10848,8 @@ msgid "_One day"
 msgstr "_Jeden dzieñ"
 
 #: my-evolution/my-evolution.glade.h:1
-msgid "_Refresh time (seconds):"
-msgstr "_Okres od¶wie¿ania (sekundy):"
-
-#: my-evolution/my-evolution.glade.h:1
 msgid "_Schedule"
 msgstr "P_lanowanie"
-
-#: my-evolution/my-evolution.glade.h:1
-msgid "_Show full path for folders"
-msgstr "_Wy¶wietlanie pe³nych ¶cie¿ek folderów"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid "_Weather"
@@ -11223,6 +11117,11 @@ msgstr ""
 
 #: shell/e-shell-importer.c:1
 #, c-format
+msgid "File %s does not exist"
+msgstr "Plik %s nie istnieje."
+
+#: shell/e-shell-importer.c:1
+#, c-format
 msgid ""
 "There is no importer that is able to handle\n"
 "%s"
@@ -11324,16 +11223,20 @@ msgid "Bug buddy could not be run."
 msgstr "Nie mo¿na uruchomiæ Bug buddy."
 
 #: shell/e-shell-view-menu.c:1
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution"
+
+#: shell/e-shell-view-menu.c:1
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
 msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-view-menu.c:1
 msgid ""
-"Evolution is a suite of groupware applications\n"
+"Ximian Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
 "within the GNOME desktop environment."
 msgstr ""
-"Evolution to funkcjonuj±cy w ¶rodowisku\n"
+"Ximian Evolution to funkcjonuj±cy w ¶rodowisku\n"
 "GNOME pakiet aplikacji do komunikacji\n"
 "grupowej za po¶rednictwem poczty\n"
 "elektronicznej, wspólnego kalendarza i\n"
@@ -11383,29 +11286,31 @@ msgstr "(Brak)"
 
 #: shell/e-shell-view.c:1
 #, c-format
-msgid "%s - Evolution %s"
-msgstr "%s - Evolution %s"
+msgid "%s - Ximian Evolution %s"
+msgstr "%s - Ximian Evolution %s"
 
 #: shell/e-shell-view.c:1
 #, c-format
-msgid "%s - Evolution %s [%s]"
-msgstr "%s - Evolution %s [%s]"
+msgid "%s - Ximian Evolution %s [%s]"
+msgstr "%s - Ximian Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1
-msgid "Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Evolution dzia³a obecnie w trybie z pod³±czeniem do sieci. Aby przej¶æ w "
-"tryb bez pod³±czenia, kliknij ten przycisk."
+"Ximian Evolution dzia³a obecnie w trybie z pod³±czeniem do sieci. Aby "
+"przej¶æ w tryb bez pod³±czenia, kliknij ten przycisk."
 
 #: shell/e-shell-view.c:1
-msgid "Evolution is in the process of going offline."
-msgstr "Evolution przechodzi obecnie w tryb bez pod³±czenia do sieci."
+msgid "Ximian Evolution is in the process of going offline."
+msgstr "Ximian Evolution przechodzi obecnie w tryb bez pod³±czenia do sieci."
 
 #: shell/e-shell-view.c:1
-msgid "Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Evolution dzia³a obecnie w trybie bez pod³±czenia do sieci. Aby przej¶æ w "
-"tryb z pod³±czeniem, kliknij ten przycisk."
+"Ximian Evolution dzia³a obecnie w trybie bez pod³±czenia do sieci. Aby "
+"przej¶æ w tryb z pod³±czeniem, kliknij ten przycisk."
 
 #: shell/e-shell.c:1
 #, c-format
@@ -11726,9 +11631,9 @@ msgstr "Mo¿na zaimportowaæ do Evolution dane z nastêpuj±cych plików:"
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
-"of the Evolution groupware suite.\n"
+"of the Ximian Evolution groupware suite.\n"
 "\n"
-"Evolution is not yet complete. It's getting close, but there are\n"
+"Ximian Evolution is not yet complete. It's getting close, but there are\n"
 "places where features are either missing or only half working. \n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
@@ -11739,7 +11644,7 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 "Dziêkujemy za poswiêcenie czasu na pobranie niniejszego testowego\n"
-"wydania Evolution - pakietu do komunikacji grupowej.\n"
+"wydania Ximian Evolution - pakietu do komunikacji grupowej.\n"
 "\n"
 "Evolution nie zosta³o jeszcze ukoñczone. Prace zbli¿aj± siê ku\n"
 "koñcowi, jednak wci±¿ istniej± miejsca, w których pewne\n"
@@ -11754,19 +11659,19 @@ msgstr ""
 #: shell/main.c:1
 msgid ""
 "Thanks\n"
-"The Evolution Team\n"
+"The Ximian Evolution Team\n"
 msgstr ""
 "Dziêkujemy\n"
-"Zespó³ twórców Evolution\n"
+"Zespó³ twórców Ximian Evolution\n"
 
 #: shell/main.c:1
-msgid "Cannot access the Evolution shell."
-msgstr "Nie mo¿na uzyskaæ dostêpu do pow³oki Evolution."
+msgid "Cannot access the Ximian Evolution shell."
+msgstr "Nie mo¿na uzyskaæ dostêpu do pow³oki Ximian Evolution."
 
 #: shell/main.c:1
 #, c-format
-msgid "Cannot initialize the Evolution shell: %s"
-msgstr "Nie mo¿na zainicjowaæ pow³oki Evolution: %s"
+msgid "Cannot initialize the Ximian Evolution shell: %s"
+msgstr "Nie mo¿na zainicjowaæ pow³oki Ximian Evolution: %s"
 
 #: shell/main.c:1
 msgid "Disable splash screen"
@@ -12994,8 +12899,8 @@ msgid "_Task"
 msgstr "_Zadanie"
 
 #: ui/evolution.xml.h:1
-msgid "About Evolution..."
-msgstr "Informacje o Evolution..."
+msgid "About Ximian Evolution..."
+msgstr "Informacje o Ximian Evolution..."
 
 #: ui/evolution.xml.h:1
 msgid "Add to _Shortcut Bar"
@@ -13034,10 +12939,6 @@ msgid "E_xit"
 msgstr "_Zakoñcz"
 
 #: ui/evolution.xml.h:1
-msgid "Evolution _FAQ"
-msgstr "_Najczê¶ciej zadawane pytania"
-
-#: ui/evolution.xml.h:1
 msgid "Evolution _Window"
 msgstr "_Okno Evolution"
 
@@ -13062,8 +12963,8 @@ msgid "Open this folder in an other window"
 msgstr "Otwiera folder w nowym oknie"
 
 #: ui/evolution.xml.h:1
-msgid "Show information about Evolution"
-msgstr "Wy¶wietla informacje o Evolution"
+msgid "Show information about Ximian Evolution"
+msgstr "Wy¶wietla informacje o Ximian Evolution"
 
 #: ui/evolution.xml.h:1
 msgid "Submit Bug Report"
@@ -13099,8 +13000,12 @@ msgid "View the selected folder"
 msgstr "Wy¶wietla zaznaczony folder"
 
 #: ui/evolution.xml.h:1
-msgid "_About Evolution..."
-msgstr "_Informacje o Evolution..."
+msgid "Ximian Evolution _FAQ"
+msgstr "_Najczê¶ciej zadawane pytania"
+
+#: ui/evolution.xml.h:1
+msgid "_About Ximian Evolution..."
+msgstr "_Informacje o Ximian Evolution..."
 
 #: ui/evolution.xml.h:1
 msgid "_Copy..."
