@@ -1,3 +1,7 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* e-shell-importer.c (prepare_intelligent_page): Fix a warning
+
 2003-07-22  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
@@ -11,7 +15,7 @@
 	forward button rather than jump to finish page.  [#46017]
 
 2003-07-15  Antonio Xu  <antonio.xu@sun.com>
-                                                                                
+	
         * e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
         "back" signal to back_finish_func in finish page.
         (back_finish_func): handle "back" signal.

@@ -739,8 +739,7 @@ prepare_intelligent_page (GnomeDruidPage *page,
 	GtkWidget *dialog;
 	ImportDialogImporterPage *import;
 	GList *l, *importers;
-	GtkWidget *table;
-	GtkLabel *no_data;
+	GtkWidget *table, *no_data;
 	int running = 0;
 
 	if (data->importerpage->prepared == TRUE) {
