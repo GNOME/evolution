@@ -1,3 +1,8 @@
+2001-12-13  Chris Toshok  <toshok@ximian.com>
+
+	* camel-data-cache.c: include stdlib.h (for alloca on freebsd) and
+	only include alloca.h if HAVE_ALLOCA_H is defined.
+
 2001-12-11  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #17085

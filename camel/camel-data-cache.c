@@ -28,7 +28,10 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#endif
 
 #include "camel-data-cache.h"
 #include "camel-exception.h"
