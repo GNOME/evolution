@@ -370,7 +370,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
-	if (status == E_CALENDAR_STATUS_OK) {
+	if (status != E_CALENDAR_STATUS_OK) {
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
