@@ -1,3 +1,21 @@
+2003-07-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.h:
+	* gui/e-week-view.h: removed unneeded prototypes.
+
+	* gui/e-cal-view.[ch] (e_cal_view_get_visible_time_range): new
+	function.
+	(selection_received): deal correctly with the selected time range.
+
+	* gui/e-week-view.c (e_week_view_get_visible_time_range): made it
+	private as the implementation of the 'get_visible_time_range'
+	virtual method.
+
+	* gui/e-day-view.c (e_day_view_get_visible_time_range): ditto.
+
+	* gui/gnome-cal.c (gnome_calendar_direction): merged redundant 'case'.
+	(focus_current_view): removed redundant code.
+
 2003-07-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_get_selected_events):

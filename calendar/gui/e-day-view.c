@@ -154,6 +154,7 @@ static gboolean e_day_view_popup_menu (GtkWidget *widget);
 static GList *e_day_view_get_selected_events (ECalView *cal_view);
 static void e_day_view_get_selected_time_range (EDayView *day_view, time_t *start_time, time_t *end_time);
 static void e_day_view_set_selected_time_range (EDayView *day_view, time_t start_time, time_t end_time);
+static gboolean e_day_view_get_visible_time_range (EDayView *day_view, time_t *start_time, time_t *end_time);
 static void e_day_view_update_query (EDayView *day_view);
 static void e_day_view_goto_start_of_work_day (EDayView *day_view);
 static void e_day_view_goto_end_of_work_day (EDayView *day_view);
@@ -507,6 +508,7 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->get_selected_events = e_day_view_get_selected_events;
 	view_class->get_selected_time_range = e_day_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
+	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
 	view_class->update_query        = e_day_view_update_query;
 }
 
@@ -2247,6 +2249,21 @@ e_day_view_get_selected_time_range	(EDayView	*day_view,
 		*end_time = end;
 }
 
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+static gboolean
+e_day_view_get_visible_time_range	(EDayView	*day_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	/* If the date isn't set, return FALSE. */
+	if (day_view->lower == 0 && day_view->upper == 0)
+		return FALSE;
+
+	*start_time = day_view->day_starts[0];
+	*end_time = day_view->day_starts[day_view->days_shown];
+
+	return TRUE;
+}
 
 static void
 e_day_view_recalc_day_starts (EDayView *day_view,
@@ -7731,23 +7748,6 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 
 	return time_width;
 }
-
-/* Gets the visible time range. Returns FALSE if no time range has been set. */
-gboolean
-e_day_view_get_visible_time_range	(EDayView	*day_view,
-					 time_t		*start_time,
-					 time_t		*end_time)
-{
-	/* If the date isn't set, return FALSE. */
-	if (day_view->lower == 0 && day_view->upper == 0)
-		return FALSE;
-
-	*start_time = day_view->day_starts[0];
-	*end_time = day_view->day_starts[day_view->days_shown];
-
-	return TRUE;
-}
-
 
 /* Queues a layout, unless one is already queued. */
 static void

@@ -385,11 +385,6 @@ void       e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 							 time_t		 start_time,
 							 time_t		 end_time);
 
-/* Gets the visible time range. Returns FALSE if no time range has been set. */
-gboolean   e_week_view_get_visible_time_range	(EWeekView	*week_view,
-						 time_t		*start_time,
-						 time_t		*end_time);
-
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
 gboolean   e_week_view_get_multi_week_view	(EWeekView	*week_view);
 void       e_week_view_set_multi_week_view	(EWeekView	*week_view,
@@ -426,18 +421,11 @@ icaltimezone* e_week_view_get_timezone		(EWeekView	*week_view);
 void	      e_week_view_set_timezone		(EWeekView	*week_view,
 						 icaltimezone	*zone);
 
-/* Clipboard related functions */
-void       e_week_view_cut_clipboard            (EWeekView      *week_view);
-void       e_week_view_copy_clipboard           (EWeekView      *week_view);
-void       e_week_view_paste_clipboard          (EWeekView      *week_view);
-
 void       e_week_view_delete_event		(EWeekView      *week_view);
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);
-
-CalComponent *e_week_view_get_selected_event    (EWeekView      *week_view);
 
 /*
  * Internal functions called by the associated canvas items.

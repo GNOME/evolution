@@ -1215,12 +1215,6 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 		break;
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
-		start_time = time_add_week_with_zone (start_time, direction,
-						      priv->zone);
-		end_time = time_add_week_with_zone (end_time, direction,
-						    priv->zone);
-		break;
-
 	case GNOME_CAL_WEEK_VIEW:
 		start_time = time_add_week_with_zone (start_time, direction,
 						      priv->zone);
@@ -1291,27 +1285,7 @@ focus_current_view (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		gtk_widget_grab_focus (priv->day_view);
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		gtk_widget_grab_focus (priv->work_week_view);
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		gtk_widget_grab_focus (priv->week_view);
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		gtk_widget_grab_focus (priv->month_view);
-		break;
-
-	default:
-		g_warning ("A penguin fell on its face!");
-		g_assert_not_reached ();
-	}
+	gtk_widget_grab_focus (gnome_calendar_get_current_view_widget (gcal));
 }
 
 void
@@ -2555,26 +2529,8 @@ gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 
 	priv = gcal->priv;
 
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->day_view), start_time, end_time);
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		retval = e_day_view_get_visible_time_range (E_DAY_VIEW (priv->work_week_view), start_time, end_time);
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->week_view), start_time, end_time);
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		retval = e_week_view_get_visible_time_range (E_WEEK_VIEW (priv->month_view), start_time, end_time);
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
+	e_cal_view_get_visible_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
+					   start_time, end_time);
 
 	return retval;
 }

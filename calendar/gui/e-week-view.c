@@ -113,6 +113,7 @@ static gboolean e_week_view_focus (GtkWidget *widget,
 static GList *e_week_view_get_selected_events (ECalView *cal_view);
 static void e_week_view_get_selected_time_range (EWeekView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_set_selected_time_range (EWeekView *cal_view, time_t start_time, time_t end_time);
+static gboolean e_week_view_get_visible_time_range (EWeekView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_update_query (EWeekView *week_view);
 static void e_week_view_draw_shadow (EWeekView *week_view);
 
@@ -263,6 +264,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->get_selected_events = e_week_view_get_selected_events;
 	view_class->get_selected_time_range = e_week_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
+	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
 	view_class->update_query        = e_week_view_update_query;
 }
 
@@ -1484,6 +1486,25 @@ e_week_view_get_selected_time_range	(EWeekView	*week_view,
 
 	if (end_time)
 		*end_time = week_view->day_starts[end_day + 1];
+}
+
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+static gboolean
+e_week_view_get_visible_time_range	(EWeekView	*week_view,
+					 time_t		*start_time,
+					 time_t		*end_time)
+{
+	gint num_days;
+
+	/* If we don't have a valid date set yet, return FALSE. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return FALSE;
+
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	*start_time = week_view->day_starts[0];
+	*end_time = week_view->day_starts[num_days];
+
+	return TRUE;
 }
 
 
@@ -4135,26 +4156,6 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 
 	return time_width;
 }
-
-/* Gets the visible time range. Returns FALSE if no time range has been set. */
-gboolean
-e_week_view_get_visible_time_range	(EWeekView	*week_view,
-					 time_t		*start_time,
-					 time_t		*end_time)
-{
-	gint num_days;
-
-	/* If we don't have a valid date set yet, return FALSE. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return FALSE;
-
-	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
-	*start_time = week_view->day_starts[0];
-	*end_time = week_view->day_starts[num_days];
-
-	return TRUE;
-}
-
 
 /* Queues a layout, unless one is already queued. */
 static void

@@ -95,6 +95,7 @@ e_cal_view_class_init (ECalViewClass *klass)
 	klass->get_selected_events = NULL;
 	klass->get_selected_time_range = NULL;
 	klass->set_selected_time_range = NULL;
+	klass->get_visible_time_range = NULL;
 	klass->update_query = NULL;
 
 	/* clipboard atom */
@@ -141,11 +142,9 @@ selection_received (GtkWidget *invisible,
 	CalComponent *comp;
 	time_t selected_time_start, selected_time_end;
 	struct icaltimetype itime;
-	struct icaltimetype tmp_itime;
 	time_t tt_start, tt_end;
 	struct icaldurationtype ic_dur;
 	char *uid;
-	CalComponentDateTime ccdt;
 	icaltimezone *default_zone;
 
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
@@ -185,40 +184,31 @@ selection_received (GtkWidget *invisible,
 			if (child_kind == ICAL_VEVENT_COMPONENT ||
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				icalcomponent *new_icalcomp;
-
-				new_icalcomp = icalcomponent_new_clone (subcomp);
-				comp = cal_component_new ();
-
-				/* change the day for the event */
-				tt_start = icaltime_as_timet (
-					icalcomponent_get_dtstart (new_icalcomp));
-				tt_end = icaltime_as_timet (
-					icalcomponent_get_dtend (new_icalcomp));
+				tt_start = icaltime_as_timet (icalcomponent_get_dtstart (subcomp));
+				tt_end = icaltime_as_timet (icalcomponent_get_dtend (subcomp));
 				ic_dur = icaldurationtype_from_int (tt_end - tt_start);
+				itime = icaltime_from_timet_with_zone (selected_time_start,
+								       FALSE, default_zone);
 
-				tmp_itime = icaltime_from_timet_with_zone (
-					selected_time_start, FALSE, default_zone);
-				itime = icalcomponent_get_dtstart (new_icalcomp);
-				itime.year = tmp_itime.year;
-				itime.month = tmp_itime.month;
-				itime.day = tmp_itime.day;
-
-				cal_component_set_icalcomponent (comp, new_icalcomp);
-				ccdt.value = &itime;
-				ccdt.tzid = icaltimezone_get_tzid (default_zone);
-				cal_component_set_dtstart (comp, &ccdt);
-
+				icalcomponent_set_dtstart (subcomp, itime);
 				itime = icaltime_add (itime, ic_dur);
-				ccdt.value = &itime;
-				cal_component_set_dtend (comp, &ccdt);
+				icalcomponent_set_dtend (subcomp, itime);
 
 				uid = cal_component_gen_uid ();
+				comp = cal_component_new ();
+				cal_component_set_icalcomponent (
+					comp, icalcomponent_new_clone (subcomp));
 				cal_component_set_uid (comp, uid);
 
 				cal_client_update_object (cal_view->priv->client, comp);
+				if (itip_organizer_is_user (comp, cal_view->priv->client) &&
+				    send_component_dialog (gtk_widget_get_toplevel (cal_view),
+							   cal_view->priv->client, comp, TRUE)) {
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
+							cal_view->priv->client, NULL);
+				}
 
-				g_free (uid);
+				free (uid);
 				g_object_unref (comp);
 			}
 			subcomp = icalcomponent_get_next_component (
@@ -229,39 +219,30 @@ selection_received (GtkWidget *invisible,
 
 	}
 	else {
-		comp = cal_component_new ();
-
-		/* change the day for the event */
 		tt_start = icaltime_as_timet (icalcomponent_get_dtstart (icalcomp));
 		tt_end = icaltime_as_timet (icalcomponent_get_dtend (icalcomp));
 		ic_dur = icaldurationtype_from_int (tt_end - tt_start);
+		itime = icaltime_from_timet_with_zone (selected_time_start, FALSE, default_zone);
 
-		tmp_itime = icaltime_from_timet_with_zone (
-			selected_time_start, FALSE, default_zone);
-		itime = icalcomponent_get_dtstart (icalcomp);
-		itime.year = tmp_itime.year;
-		itime.month = tmp_itime.month;
-		itime.day = tmp_itime.day;
-
-		cal_component_set_icalcomponent (comp, icalcomp);
-		ccdt.value = &itime;
-		ccdt.tzid = icaltimezone_get_tzid (default_zone);
-		cal_component_set_dtstart (comp, &ccdt);
-
+		icalcomponent_set_dtstart (icalcomp, itime);
 		itime = icaltime_add (itime, ic_dur);
-		ccdt.value = &itime;
-		cal_component_set_dtend (comp, &ccdt);
+		icalcomponent_set_dtend (icalcomp, itime);
 
 		uid = cal_component_gen_uid ();
-		cal_component_set_uid (comp, (const char *) uid);
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (icalcomp));
+		cal_component_set_uid (comp, uid);
 
 		cal_client_update_object (cal_view->priv->client, comp);
-
 		if (itip_organizer_is_user (comp, cal_view->priv->client) &&
-		    send_component_dialog (gtk_widget_get_toplevel (cal_view), cal_view->priv->client, comp, TRUE))
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, cal_view->priv->client, NULL);
+		    send_component_dialog (gtk_widget_get_toplevel (cal_view),
+					   cal_view->priv->client, comp, TRUE)) {
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
+					cal_view->priv->client, NULL);
+		}
 
-		g_free (uid);
+		free (uid);
 		g_object_unref (comp);
 	}
 
@@ -473,6 +454,17 @@ e_cal_view_set_selected_time_range (ECalView *cal_view, time_t start_time, time_
 
 	if (E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->set_selected_time_range) {
 		E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->set_selected_time_range (
+			cal_view, start_time, end_time);
+	}
+}
+
+gboolean
+e_cal_view_get_visible_time_range (ECalView *cal_view, time_t *start_time, time_t *end_time)
+{
+	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+
+	if (E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range) {
+		E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range (
 			cal_view, start_time, end_time);
 	}
 }

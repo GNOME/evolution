@@ -56,6 +56,7 @@ struct _ECalViewClass {
 	GList * (* get_selected_events) (ECalView *cal_view);
 	void (* get_selected_time_range) (ECalView *cal_view, time_t *start_time, time_t *end_time);
 	void (* set_selected_time_range) (ECalView *cal_view, time_t start_time, time_t end_time);
+	gboolean (* get_visible_time_range) (ECalView *cal_view, time_t *start_time, time_t *end_time);
 	void (* update_query) (ECalView *cal_view);
 };
 
@@ -73,6 +74,7 @@ void           e_cal_view_set_status_message (ECalView *cal_view, const gchar *m
 GList         *e_cal_view_get_selected_events (ECalView *cal_view);
 void           e_cal_view_get_selected_time_range (ECalView *cal_view, time_t *start_time, time_t *end_time);
 void           e_cal_view_set_selected_time_range (ECalView *cal_view, time_t start_time, time_t end_time);
+gboolean       e_cal_view_get_visible_time_range (ECalView *cal_view, time_t *start_time, time_t *end_time);
 void           e_cal_view_update_query (ECalView *cal_view);
 
 void           e_cal_view_cut_clipboard (ECalView *cal_view);
