@@ -1,3 +1,10 @@
+2003-08-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Original patch from David Woodhouse, but modified a bit by me.
+
+	* e-msg-composer.c (handle_mailto): Fix insertion of arbitrary
+	headers from mailto: links. Ignore From: and Reply-To: headers.
+
 2003-08-13  Lorenzo Gil Sanchez  <lgs@sicem.biz>
 
 	* e-msg-composer-hdrs.c (account_removed_cb): fixed an insulting
