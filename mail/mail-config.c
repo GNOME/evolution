@@ -249,7 +249,10 @@ mail_config_init (void)
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-	       
+		char *err;
+		g_error ("Very serious error, cannot activate config database '%s'",
+			 (err = bonobo_exception_get_text (&ev)));
+		g_free (err);
 		CORBA_exception_free (&ev);
 		return;
  	}
