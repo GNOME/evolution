@@ -34,7 +34,15 @@
 #include <gtk/gtkimage.h>
 #include "em-icon-stream.h"
 
+#include "e-util/e-msgport.h"
+
 #define d(x) 
+
+struct _emis_cache_node {
+	EMCacheNode node;
+
+	GdkPixbuf *pixbuf;
+};
 
 static void em_icon_stream_class_init (EMIconStreamClass *klass);
 static void em_icon_stream_init (CamelObject *object);
@@ -45,6 +53,15 @@ static int emis_sync_close(CamelStream *stream);
 static int emis_sync_flush(CamelStream *stream);
 
 static EMSyncStreamClass *parent_class = NULL;
+static EMCache *emis_cache;
+
+static void
+emis_cache_free(void *data)
+{
+	struct _emis_cache_node *node = data;
+
+	g_object_unref(node->pixbuf);
+}
 
 CamelType
 em_icon_stream_get_type (void)
@@ -61,6 +78,8 @@ em_icon_stream_get_type (void)
 					    NULL,
 					    (CamelObjectInitFunc) em_icon_stream_init,
 					    (CamelObjectFinalizeFunc) em_icon_stream_finalize);
+
+		emis_cache = em_cache_new(60, sizeof(struct _emis_cache_node), emis_cache_free);
 	}
 	
 	return type;
@@ -96,6 +115,9 @@ emis_cleanup(EMIconStream *emis)
 		g_signal_handler_disconnect(emis->image, emis->destroy_id);
 		emis->destroy_id = 0;
 	}
+
+	g_free(emis->key);
+	emis->key = NULL;
 
 	emis->image = NULL;
 	emis->sync.cancel = TRUE;
@@ -137,6 +159,7 @@ emis_sync_close(CamelStream *stream)
 	EMIconStream *emis = (EMIconStream *)stream;
 	int width, height, ratio;
 	GdkPixbuf *pixbuf, *mini;
+	struct _emis_cache_node *node;
 
 	if (emis->loader == NULL)
 		return -1;
@@ -174,10 +197,15 @@ emis_sync_close(CamelStream *stream)
 		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
 #endif
 		gtk_image_set_from_pixbuf(emis->image, mini);
-		g_object_unref(mini);
+		pixbuf = mini;
 	} else {
+		g_object_ref(pixbuf);
 		gtk_image_set_from_pixbuf(emis->image, pixbuf);
 	}
+
+	node = (struct _emis_cache_node *)em_cache_node_new(emis_cache, emis->key);
+	node->pixbuf = pixbuf;
+	em_cache_add(emis_cache, (EMCacheNode *)node);
 
 	g_object_unref(emis->loader);
 	emis->loader = NULL;
@@ -195,14 +223,40 @@ emis_image_destroy(struct _GtkImage *image, EMIconStream *emis)
 }
 
 CamelStream *
-em_icon_stream_new(GtkImage *image)
+em_icon_stream_new(GtkImage *image, const char *key)
 {
 	EMIconStream *new;
-	
+
 	new = EM_ICON_STREAM(camel_object_new(EM_ICON_STREAM_TYPE));
 	new->image = image;
 	new->destroy_id = g_signal_connect(image, "destroy", G_CALLBACK(emis_image_destroy), new);
 	new->loader = gdk_pixbuf_loader_new();
+	new->key = g_strdup(key);
 
 	return (CamelStream *)new;
+}
+
+GdkPixbuf *
+em_icon_stream_get_image(const char *key)
+{
+	struct _emis_cache_node *node;
+	GdkPixbuf *pb = NULL;
+
+	/* forces the cache to be setup if not */
+	em_icon_stream_get_type();
+
+	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
+	if (node) {
+		pb = node->pixbuf;
+		g_object_ref(pb);
+		em_cache_node_unref(emis_cache, (EMCacheNode *)node);
+	}
+
+	return pb;
+}
+
+void
+em_icon_stream_clear_cache(void)
+{
+	em_cache_clear(emis_cache);
 }

@@ -36,6 +36,7 @@ struct _CamelMedium;
 struct _CamelSession;
 struct _CamelURL;
 struct _CamelDataWrapper;
+struct _CamelMimeMessage;
 
 typedef struct _EMFormat EMFormat;
 typedef struct _EMFormatClass EMFormatClass;
@@ -68,6 +69,7 @@ struct _EMFormatPURI {
 
 	char *uri;		/* will be the location of the part, may be empty */
 	char *cid;		/* will always be set, a fake one created if needed */
+	char *part_id;		/* will always be set, emf->part_id->str for this part */
 
 	EMFormatPURIFunc func;
 	struct _CamelMimePart *part;
@@ -98,7 +100,12 @@ struct _EMFormat {
 	
 	struct _EMFormatPrivate *priv;
 	
-	struct _CamelMedium *message; /* the current message */
+	struct _CamelMimeMessage *message; /* the current message */
+
+	struct _CamelFolder *folder;
+	char *uid;
+
+	GString *part_id;	/* current part id prefix, for identifying parts directly */
 
 	EDList header_list;	/* if empty, then all */
 
@@ -130,7 +137,7 @@ struct _EMFormatClass {
 	const EMFormatHandler *(*find_handler)(EMFormat *, const char *mime_type);
 
 	/* start formatting a message */
-	void (*format_clone)(EMFormat *, struct _CamelMedium *, EMFormat *);
+	void (*format_clone)(EMFormat *, struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *, EMFormat *);
 	/* some internel error/inconsistency */
 	void (*format_error)(EMFormat *, struct _CamelStream *, const char *msg);
 
@@ -186,9 +193,14 @@ void em_format_push_level(EMFormat *emf);
 void em_format_pull_level(EMFormat *emf);
 
 /* clones inline state/view and format, or use to redraw */
-#define em_format_format_clone(emf, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (msg), (src))
+#define em_format_format_clone(emf, folder, uid, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), (src))
 /* formats a new message */
-#define em_format_format(emf, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (msg), NULL)
+#define em_format_format(emf, folder, uid, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), NULL)
+#define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf),				\
+										       ((EMFormat *)(emf))->folder,	\
+										       ((EMFormat *)(emf))->uid,	\
+										       ((EMFormat *)(emf))->message,	\
+										       (emf))
 #define em_format_format_error(emf, stream, txt) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_error((emf), (stream), (txt))
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
 #define em_format_format_message(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_message((emf), (stream), (msg))

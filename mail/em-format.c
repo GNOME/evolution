@@ -58,7 +58,7 @@ static void emf_builtin_init(EMFormatClass *);
 static const char *emf_snoop_part(CamelMimePart *part);
 
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
-static void emf_format_clone(EMFormat *emf, CamelMedium *msg, EMFormat *emfsource);
+static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
 static gboolean emf_busy(EMFormat *emf);
 
 enum {
@@ -77,6 +77,7 @@ emf_init(GObject *o)
 	emf->inline_table = g_hash_table_new(NULL, NULL);
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
+	emf->part_id = g_string_new("");
 }
 
 static void
@@ -92,7 +93,8 @@ emf_finalise(GObject *o)
 
 	em_format_clear_headers(emf);
 	g_free(emf->charset);
-	
+	g_string_free(emf->part_id, TRUE);
+
 	/* FIXME: check pending jobs */
 	
 	((GObjectClass *)emf_parent)->finalize(o);
@@ -262,7 +264,6 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 {
 	EMFormatPURI *puri;
 	const char *tmp;
-	static unsigned int uriid;
 
 	g_assert(size >= sizeof(*puri));
 	puri = g_malloc0(size);
@@ -271,6 +272,7 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 	puri->func = func;
 	puri->use_count = 0;
 	puri->cid = g_strdup(cid);
+	puri->part_id = g_strdup(emf->part_id->str);
 
 	if (part) {
 		camel_object_ref(part);
@@ -282,7 +284,7 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 		if (tmp)
 			puri->cid = g_strdup_printf("cid:%s", tmp);
 		else
-			puri->cid = g_strdup_printf("em-no-cid-%u", uriid++);
+			puri->cid = g_strdup_printf("em-no-cid:%s", emf->part_id->str);
 
 		d(printf("built cid '%s'\n", puri->cid));
 
@@ -421,6 +423,7 @@ emf_clear_puri_node(struct _EMFormatPURITree *node)
 		while (pn) {
 			g_free(pw->uri);
 			g_free(pw->cid);
+			g_free(pw->part_id);
 			if (pw->part)
 				camel_object_unref(pw->part);
 			g_free(pw);
@@ -515,7 +518,7 @@ emf_clone_inlines(void *key, void *val, void *data)
 }
 
 static void
-emf_format_clone(EMFormat *emf, CamelMedium *msg, EMFormat *emfsource)
+emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource)
 {
 	em_format_clear_puri_tree(emf);
 
@@ -532,6 +535,20 @@ emf_format_clone(EMFormat *emf, CamelMedium *msg, EMFormat *emfsource)
 		}
 	}
 
+	/* what a mess */
+	if (folder != emf->folder) {
+		if (emf->folder)
+			camel_object_unref(emf->folder);
+		if (folder)
+			camel_object_ref(folder);
+		emf->folder = folder;
+	}
+
+	if (uid != emf->uid) {
+		g_free(emf->uid);
+		emf->uid = g_strdup(uid);
+	}
+
 	if (msg != emf->message) {
 		if (emf->message)
 			camel_object_unref(emf->message);
@@ -539,6 +556,13 @@ emf_format_clone(EMFormat *emf, CamelMedium *msg, EMFormat *emfsource)
 			camel_object_ref(msg);
 		emf->message = msg;
 	}
+
+	g_string_truncate(emf->part_id, 0);
+	if (folder != NULL)
+		/* TODO build some string based on the folder name/location? */
+		g_string_append_printf(emf->part_id, ".%p", folder);
+	if (uid != NULL)
+		g_string_append_printf(emf->part_id, ".%s", uid);
 }
 
 static gboolean
@@ -550,7 +574,9 @@ emf_busy(EMFormat *emf)
 /**
  * em_format_format_clone:
  * @emf: Mail formatter.
- * @msg: Mail message.
+ * @folder: Camel Folder.
+ * @uid: Uid of message.
+ * @msg: Camel Message.
  * @emfsource: Used as a basis for user-altered layout, e.g. inline viewed
  * attachments.
  * 
@@ -600,7 +626,7 @@ em_format_set_mode(EMFormat *emf, em_format_mode_t type)
 
 	/* force redraw if type changed afterwards */
 	if (emf->message)
-		em_format_format_clone(emf, emf->message, emf);
+		em_format_redraw(emf);
 }
 
 /**
@@ -623,9 +649,8 @@ em_format_set_charset(EMFormat *emf, const char *charset)
 	emf->charset = g_strdup(charset);
 
 	if (emf->message)
-		em_format_format_clone(emf, emf->message, emf);
+		em_format_redraw(emf);
 }
-
 
 /**
  * em_format_set_default_charset:
@@ -648,7 +673,7 @@ em_format_set_default_charset(EMFormat *emf, const char *charset)
 	emf->default_charset = g_strdup(charset);
 
 	if (emf->message && emf->charset == NULL)
-		em_format_format_clone(emf, emf->message, emf);
+		em_format_redraw(emf);
 }
 
 /**
@@ -960,14 +985,18 @@ static void
 emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
-	
+	int len;
+
 	if (!CAMEL_IS_MULTIPART(mp)) {
 		em_format_format_source(emf, stream, part);
 		return;
 	}
 
 	/* try the data fork for something useful, doubtful but who knows */
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".appledouble.1");
 	em_format_part(emf, stream, camel_multipart_get_part(mp, 1));
+	g_string_truncate(emf->part_id, len);
 }
 
 /* RFC ??? */
@@ -975,17 +1004,20 @@ static void
 emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
-	int i, nparts;
+	int i, nparts, len;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
 		em_format_format_source(emf, stream, part);
 		return;
 	}
-	
+
+	len = emf->part_id->len;
 	nparts = camel_multipart_get_number(mp);	
 	for (i = 0; i < nparts; i++) {
 		part = camel_multipart_get_part(mp, i);
+		g_string_append_printf(emf->part_id, ".mixed.%d", i);
 		em_format_part(emf, stream, part);
+		g_string_truncate(emf->part_id, len);
 	}
 }
 
@@ -994,7 +1026,7 @@ static void
 emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
-	int i, nparts;
+	int i, nparts, bestid;
 	CamelMimePart *best = NULL;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
@@ -1015,15 +1047,21 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 		  return part;*/
 
 		if (em_format_find_handler(emf, mime_type)
-		    || (best == NULL && em_format_fallback_handler(emf, mime_type)))
+		    || (best == NULL && em_format_fallback_handler(emf, mime_type))) {
 			best = part;
+			bestid = i;
+		}
 
 		g_free(mime_type);
 	}
 
-	if (best)
+	if (best) {
+		int len = emf->part_id->len;
+
+		g_string_append_printf(emf->part_id, ".alternative.%d", bestid);
 		em_format_part(emf, stream, best);
-	else
+		g_string_truncate(emf->part_id, len);
+	} else
 		emf_multipart_mixed(emf, stream, part, info);
 }
 
@@ -1035,6 +1073,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	CamelCipherContext *cipher;
 	CamelException ex;
 	const char *protocol;
+	int len;
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
@@ -1060,7 +1099,10 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 		return;
 	}
 
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".encrypted");
 	em_format_part(emf, stream, mime_part);
+	g_string_truncate(emf->part_id, len);
 	camel_object_unref(mime_part);
 }
 
@@ -1079,7 +1121,8 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const char *location, *start;
-	int i, nparts;
+	int i, nparts, partidlen, displayid = 0;
+	char *oldpartid;
 	CamelURL *base_save = NULL;
 	struct _EMFormatPURITree *ptree;
 	EMFormatPURI *puri, *purin;
@@ -1107,6 +1150,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 			
 			if (cid && !strncmp(cid, start, len) && strlen(cid) == len) {
 				display_part = body_part;
+				displayid = i;
 				break;
 			}
 		}
@@ -1128,16 +1172,24 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	}
 	em_format_push_level(emf);
 
+	oldpartid = g_strdup(emf->part_id->str);
+	partidlen = emf->part_id->len;
+
 	/* queue up the parts for possible inclusion */
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part(mp, i);
 		if (body_part != display_part) {
+			/* set the partid since add_puri uses it */
+			g_string_append_printf(emf->part_id, ".related.%d", i);
 			puri = em_format_add_puri(emf, sizeof(EMFormatPURI), NULL, body_part, emf_write_related);
+			g_string_truncate(emf->part_id, partidlen);
 			d(printf(" part '%s' '%s' added\n", puri->uri?puri->uri:"", puri->cid));
 		}
 	}
 	
+	g_string_append_printf(emf->part_id, ".related.%d", displayid);
 	em_format_part(emf, stream, display_part);
+	g_string_truncate(emf->part_id, partidlen);
 	camel_stream_flush(stream);
 
 	ptree = emf->pending_uri_level;
@@ -1146,14 +1198,19 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	while (purin) {
 		if (purin->use_count == 0) {
 			d(printf("part '%s' '%s' used '%d'\n", purin->uri?purin->uri:"", purin->cid, purin->use_count));
-			if (purin->func == emf_write_related)
+			if (purin->func == emf_write_related) {
+				g_string_printf(emf->part_id, "%s", puri->part_id);
 				em_format_part(emf, stream, puri->part);
-			else
+			} else
 				printf("unreferenced uri generated by format code: %s\n", purin->uri?purin->uri:purin->cid);
 		}
 		puri = purin;
 		purin = purin->next;
 	}
+
+	g_string_printf(emf->part_id, "%s", oldpartid);
+	g_free(oldpartid);
+
 	em_format_pull_level(emf);
 	
 	if (location) {
@@ -1172,6 +1229,7 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	CamelException ex;
 	const char *message = NULL;
 	gboolean good = FALSE;
+	int len;
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
@@ -1180,7 +1238,10 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 		return;
 	}
 
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".signed");
 	em_format_part(emf, stream, cpart);
+	g_string_truncate(emf->part_id, len);
 
 	/* FIXME: This sequence is also copied in em-format-html.c */
 
@@ -1228,13 +1289,17 @@ static void
 emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
+	int len;
 
 	if (!CAMEL_IS_MIME_MESSAGE(dw)) {
 		em_format_format_source(emf, stream, part);
 		return;
 	}
 
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".rfc822");
 	em_format_format_message(emf, stream, (CamelMedium *)dw);
+	g_string_truncate(emf->part_id, len);
 }
 
 static EMFormatHandler type_builtin_table[] = {

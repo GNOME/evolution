@@ -1,3 +1,59 @@
+2004-01-13  Ross Burton  <ross@burtonini.com>
+
+	* em-folder-browser.c (emfb_empty_trash):
+	Pass the parent window, fixing a crasher.  Bug #52161.
+
+2004-01-14  Not Zed  <NotZed@Ximian.com>
+
+	** See bug 51660.
+	
+	* em-format-html-quote.c (efhq_multipart_related): setup part_id
+	appropriately.
+
+	* em-format-html-display.c (efhd_output_secure): use part_id in
+	classid, and add .signed to part_id for subpart.
+	(efhd_bonobo_unknown): use part_id in classid.
+	(efhd_format_attachment): use part_id in classid's.
+
+	* em-format-html.c (efh_multipart_related)
+	(emfh_multipart_related_check): setup part_id for each subpart.
+	(efh_output_secure): as above, and use the part_id for the
+	classid.
+	(em_format_html_add_pobject): use part_id for a generated classid.
+	(efh_text_plain): setup pseudo-parts into part_id.
+
+	* em-format.c (emf_format_clone): setup the part_id base, folder +
+	uid.
+	(emf_finalise): free the part_id gstring.
+	(emf_init): allocate the part_id gstring.
+	(em_format_add_puri): build the cid from the part_id rather than
+	an arbitrary number, so it is more persistent.  Also save the
+	part_id in the puri for multipart/related use.
+	(emf_multipart_mixed, emf_multipart_alternative)
+	(emf_multipart_appledouble, emf_multipart_encrypted)
+	(emf_multipart_related, emf_multipart_signed): Set the part_id for
+	each subpart.
+	(emf_clear_puri_node): free part_id.
+
+2004-01-13  Not Zed  <NotZed@Ximian.com>
+
+	** See bug 51660.
+
+	* em-format-html-print.c (em_format_html_print_print): dont take
+	message, get the message from the source formatter.
+
+	* em-format.c (emf_format_clone): Added folder and uid parameters,
+	changed camelmedium to a mimemessage.
+
+	* em-format-html-display.c (efhd_attachment_button): check the
+	icon image cache and if the image is there use it.
+
+	* em-icon-stream.c (em_icon_stream_get_image): api to lookup
+	finished images in cache.
+	(em_icon_stream_new): add a cache key arg.
+	(emis_sync_close): store the image in the cache once its
+	completed.
+
 2004-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate): Handle upgrading from 1.0.x and 1.2.x

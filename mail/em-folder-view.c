@@ -386,7 +386,7 @@ static void
 emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 {
 	if (emfv->preview)
-		em_format_format((EMFormat *)emfv->preview, NULL);
+		em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
 	
 	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_queued);
 }
@@ -1597,7 +1597,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 	EMFormatHTMLPrint *print;
 	GnomePrintConfig *config = NULL;
 	int res;
-	struct _CamelMedium *msg;
+	struct _CamelMimeMessage *msg;
 
 	/* FIXME: need to load the message first */
 	if (!emfv->preview_active)
@@ -1630,7 +1630,7 @@ int em_folder_view_print(EMFolderView *emfv, int preview)
 
 	print = em_format_html_print_new();
 	em_format_set_session((EMFormat *)print, ((EMFormat *)emfv->preview)->session);
-	res = em_format_html_print_print(print, msg, (EMFormatHTML *)emfv->preview, config, preview);
+	res = em_format_html_print_print(print, (EMFormatHTML *)emfv->preview, config, preview);
 	g_object_unref(print);
 	if (config)
 		g_object_unref(config);
@@ -1701,7 +1701,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 {
 	EMFolderView *emfv = data;
 
-	em_format_format((EMFormat *)emfv->preview, (struct _CamelMedium *)msg);
+	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
 	
 	if (emfv->priv->seen_id)
 		g_source_remove(emfv->priv->seen_id);
@@ -1737,7 +1737,7 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 		} else {
 			g_free(emfv->priv->displayed_uid);
 			emfv->priv->displayed_uid = NULL;
-			em_format_format((EMFormat *)emfv->preview, NULL);
+			em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
 		}
 	}
 
@@ -2047,7 +2047,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			em_format_default_headers(emf);
 		/* force a redraw */
 		if (emf->message)
-			em_format_format_clone(emf, emf->message, emf);
+			em_format_format_clone(emf, emf->folder, emf->uid, emf->message, emf);
 		break; }
 	}
 }

@@ -32,6 +32,6 @@ GType em_format_html_print_get_type(void);
 
 EMFormatHTMLPrint *em_format_html_print_new(void);
 
-int em_format_html_print_print(EMFormatHTMLPrint *efhp, struct _CamelMedium *msg, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview);
+int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview);
 
 #endif /* ! _EM_FORMAT_HTML_PRINT_H */

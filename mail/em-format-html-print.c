@@ -152,8 +152,10 @@ emfhp_complete(EMFormatHTMLPrint *efhp, void *data)
 	g_object_unref(efhp);
 }
 
-int em_format_html_print_print(EMFormatHTMLPrint *efhp, struct _CamelMedium *msg, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview)
+int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview)
 {
+	EMFormat *emfs = (EMFormat *)source;
+
 	efhp->config = print_config;
 	if (print_config)
 		g_object_ref(print_config);
@@ -164,7 +166,7 @@ int em_format_html_print_print(EMFormatHTMLPrint *efhp, struct _CamelMedium *msg
 	g_signal_connect(efhp, "complete", G_CALLBACK(emfhp_complete), efhp);
 
 	g_object_ref(efhp);
-	em_format_format_clone((EMFormat *)efhp, msg, (EMFormat *)source);
+	em_format_format_clone((EMFormat *)efhp, emfs->folder, emfs->uid, emfs->message, (EMFormat *)source);
 
 	return 0;		/* damn async ... */
 }

@@ -2372,7 +2372,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	camel_stream_mem_set_byte_array (mem, buf);
 	
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
-	em_format_format((EMFormat *)emfq, (CamelMedium *)message);
+	em_format_format((EMFormat *)emfq, NULL, NULL, message);
 	g_object_unref (emfq);
 	
 	camel_stream_write ((CamelStream *) mem, "", 1);

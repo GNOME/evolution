@@ -34,7 +34,7 @@ struct _EMFormatHTMLQuotePrivate {
 	char *credits;
 };
 
-static void efhq_format_clone (EMFormat *, CamelMedium *, EMFormat *);
+static void efhq_format_clone (EMFormat *, CamelFolder *, const char *, CamelMimeMessage *, EMFormat *);
 static void efhq_format_error (EMFormat *emf, CamelStream *stream, const char *txt);
 static void efhq_format_message (EMFormat *, CamelStream *, CamelMedium *);
 static void efhq_format_source (EMFormat *, CamelStream *, CamelMimePart *);
@@ -126,9 +126,9 @@ em_format_html_quote_new_with_credits (const char *credits)
 }
 
 static void
-efhq_format_clone (EMFormat *emf, CamelMedium *part, EMFormat *src)
+efhq_format_clone (EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
-	((EMFormatClass *) efhq_parent)->format_clone (emf, part, src);
+	((EMFormatClass *) efhq_parent)->format_clone (emf, folder, uid, msg, src);
 }
 
 static void
@@ -182,7 +182,7 @@ efhq_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const char *location, *start;
-	int i, nparts;
+	int i, nparts, partidlen, displayid = 0;
 	CamelURL *base_save = NULL;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
@@ -209,6 +209,7 @@ efhq_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 			
 			if (cid && !strncmp(cid, start, len) && strlen(cid) == len) {
 				display_part = body_part;
+				displayid = i;
 				break;
 			}
 		}
@@ -229,7 +230,11 @@ efhq_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	}
 	em_format_push_level(emf);
 
+	partidlen = emf->part_id->len;
+	g_string_append_printf(emf->part_id, "related.%d", displayid);
 	em_format_part(emf, stream, display_part);
+	g_string_truncate(emf->part_id, partidlen);
+
 	em_format_pull_level(emf);
 	
 	if (location) {

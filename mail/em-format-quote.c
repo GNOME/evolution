@@ -36,7 +36,7 @@ struct _EMFormatQuotePrivate {
 	int dummy;
 };
 
-static void emfq_format_clone(EMFormat *, CamelMedium *, EMFormat *);
+static void emfq_format_clone(EMFormat *, CamelFolder *, const char *, CamelMimeMessage *, EMFormat *);
 static void emfq_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
 static void emfq_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void emfq_format_source(EMFormat *, CamelStream *, CamelMimePart *);
@@ -127,14 +127,14 @@ em_format_quote_new(const char *credits, CamelStream *stream, guint32 flags)
 }
 
 static void
-emfq_format_clone(EMFormat *emf, CamelMedium *part, EMFormat *src)
+emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
 #define emfq ((EMFormatQuote *)emf)
 
-	((EMFormatClass *)emfq_parent)->format_clone(emf, part, src);
+	((EMFormatClass *)emfq_parent)->format_clone(emf, folder, uid, msg, src);
 
 	camel_stream_reset(emfq->stream);
-	em_format_format_message(emf, emfq->stream, part);
+	em_format_format_message(emf, emfq->stream, (CamelMedium *)msg);
 	camel_stream_flush(emfq->stream);
 
 	g_signal_emit_by_name(emf, "complete");
@@ -151,7 +151,7 @@ static void
 emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 {
 	EMFormatQuote *emfq =(EMFormatQuote *) emf;
-	
+
 	if (emfq->credits)
 		camel_stream_printf(stream, "%s", emfq->credits);
 

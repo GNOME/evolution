@@ -45,6 +45,7 @@ typedef struct _EMIconStream {
 	guint destroy_id;
 	struct _GdkPixbufLoader *loader;
 	struct _GtkImage *image;
+	char *key;
 } EMIconStream;
 
 typedef struct {
@@ -53,7 +54,9 @@ typedef struct {
 
 CamelType    em_icon_stream_get_type (void);
 
-CamelStream *em_icon_stream_new(GtkImage *image);
+CamelStream *em_icon_stream_new(GtkImage *image, const char *key);
+struct _GdkPixbuf *em_icon_stream_get_image(const char *key);
+void em_icon_stream_clear_cache(void);
 
 #ifdef __cplusplus
 }

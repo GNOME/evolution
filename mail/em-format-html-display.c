@@ -126,7 +126,7 @@ static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisp
   static gboolean efhd_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTMLDisplay *efh);*/
 
 static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type);
-static void efhd_format_clone(EMFormat *, CamelMedium *, EMFormat *);
+static void efhd_format_clone(EMFormat *, CamelFolder *folder, const char *, CamelMimeMessage *msg, EMFormat *);
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
 static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
@@ -383,7 +383,7 @@ em_format_html_display_set_search(EMFormatHTMLDisplay *efhd, int type, GSList *s
 	}
 
 	d(printf("redrawing with search\n"));
-	em_format_format_clone((EMFormat *)efhd, ((EMFormat *)efhd)->message, (EMFormat *)efhd);
+	em_format_redraw((EMFormat *)efhd);
 }
 
 static void
@@ -836,9 +836,9 @@ static void
 efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
 {
 	CamelCipherValidity *save = ((EMFormatHTML *)emf)->valid_parent;
+	int len;
 
 	/* Note: this same logic is in efh_output_secure */
-
 	if (((EMFormatHTML *)emf)->valid == NULL) {
 		((EMFormatHTML *)emf)->valid = valid;
 	} else {
@@ -847,7 +847,12 @@ efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 	}
 
 	((EMFormatHTML *)emf)->valid_parent = valid;
+
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".signed");
 	em_format_part(emf, stream, part);
+	g_string_truncate(emf->part_id, len);
+
 	((EMFormatHTML *)emf)->valid_parent = save;
 
 	if (((EMFormatHTML *)emf)->valid == valid
@@ -858,7 +863,8 @@ efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 
 		camel_stream_printf(stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0 bgcolor=%s><tr>",
 				    valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD?"#88bb88":"#bb8888");
-		classid = g_strdup_printf("smime:///em-format-html/%p/icon/signed", part);
+
+		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
 		pobj->valid = camel_cipher_validity_clone(valid);
 		pobj->object.free = efhd_xpkcs7mime_free;
@@ -970,10 +976,9 @@ efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
 static void
 efhd_bonobo_unknown(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	static int partid;
 	char *classid;
 
-	classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%p/%d", part, partid++);
+	classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%s", emf->part_id->str);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
 	camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, info->mime_type);
 	g_free(classid);
@@ -1001,9 +1006,9 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 	return handle;
 }
 
-static void efhd_format_clone(EMFormat *emf, CamelMedium *part, EMFormat *src)
+static void efhd_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
-	((EMFormatClass *)efhd_parent)->format_clone(emf, part, src);
+	((EMFormatClass *)efhd_parent)->format_clone(emf, folder, uid, msg, src);
 }
 
 /* TODO: if these aren't going to do anything should remove */
@@ -1033,7 +1038,7 @@ efhd_attachment_show(GtkWidget *w, struct _attach_puri *info)
 	info->shown = ~info->shown;
 	em_format_set_inline(info->puri.format, info->puri.part, info->shown);
 	/* FIXME: do this in an idle handler */
-	em_format_format_clone(info->puri.format, info->puri.format->message, info->puri.format);
+	em_format_redraw(info->puri.format);
 #if 0
 	/* FIXME: track shown state in parent */
 
@@ -1249,14 +1254,24 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	simple_type = camel_content_type_simple (((CamelDataWrapper *)pobject->part)->mime_type);
 	camel_strdown(simple_type);
 
-	/* cache? */
 	/* FIXME: offline parts, just get icon */
 	if (camel_content_type_is (((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
 		EMFormatHTMLJob *job;
+		GdkPixbuf *mini;
+		char *key;
 
-		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
-		job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w);
-		em_format_html_job_queue(efh, job);
+		key = pobject->classid;
+		mini = em_icon_stream_get_image(key);
+		if (mini) {
+			d(printf("got image from cache '%s'\n", key));
+			gtk_image_set_from_pixbuf((GtkImage *)w, mini);
+			g_object_unref(mini);
+		} else {
+			d(printf("need to create icon image '%s'\n", key));
+			job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
+			job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w, key);
+			em_format_html_job_queue(efh, job);
+		}
 	} else {
 		GdkPixbuf *pixbuf = e_icon_for_mime_type(simple_type, 24);
 		GdkPixbuf *mini = gdk_pixbuf_scale_simple(pixbuf, 24, 24, GDK_INTERP_BILINEAR);
@@ -1457,7 +1472,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	char *classid, *text, *html;
 	struct _attach_puri *info;
 
-	classid = g_strdup_printf("attachment-%p", part);
+	classid = g_strdup_printf("attachment%s", emf->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_button);
 	info->handle = handle;
@@ -1492,11 +1507,9 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 			handle->handler(emf, stream, part, handle);
 		/*camel_stream_printf(stream, "<iframe src=\"%s\" marginheight=0 marginwidth=0>%s</iframe>\n", classid, _("Attachment content could not be loaded"));*/
 	} else if (efhd_use_component(mime_type)) {
-		static int partid;
-
 		g_free(classid); /* messy */
 
-		classid = g_strdup_printf("bonobo-unknown:///em-formath-html-display/%p/%d", part, partid++);
+		classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%s", emf->part_id->str);
 		em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
 		camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, mime_type);
 	}
