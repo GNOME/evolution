@@ -1838,7 +1838,7 @@ append_category_cb (gpointer key, gpointer value, gpointer data)
 	c = data;
 
 	g_ptr_array_set_size (c, c->len + 1);	
-	c->pdata[c->len] = g_strdup (category);
+	c->pdata[c->len - 1] = g_strdup (category);
 	
 }
 
@@ -1874,7 +1874,7 @@ client_categories_changed_cb (ECal *ecal, GPtrArray *categories, gpointer data)
 	merged = g_ptr_array_sized_new (g_hash_table_size (cat_hash));
 	g_ptr_array_set_size (merged, 0);
 
-	g_hash_table_foreach (cat_hash, append_category_cb, &merged);
+	g_hash_table_foreach (cat_hash, append_category_cb, merged);
 	g_hash_table_destroy (cat_hash);
 
 	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), merged);
