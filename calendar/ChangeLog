@@ -1,4 +1,11 @@
 2003-05-15  JP Rosevear  <jpr@ximian.com>
+ 
+	Fixes #41930
+ 	
+ 	* idl/evolution-calendar.idl: Make sure everything that can raise
+ 	a NotFound exception lists it
+	
+2003-05-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c
 	(e_meeting_time_selector_refresh_free_busy): ref ourselves the

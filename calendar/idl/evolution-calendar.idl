@@ -200,7 +200,7 @@ module Calendar {
 		 * structures themselves.  
 		 */
 		CalComponentAlarmsSeq getAlarmsInRange (in Time_t start, in Time_t end)
-			raises (InvalidRange);
+			raises (NotFound, InvalidRange);
 
 		/* Returns free/busy objects for the given interval */
 		CalObjSeq getFreeBusy (in UserList users, in Time_t start, in Time_t end)
@@ -233,7 +233,7 @@ module Calendar {
 		 * updated version.
 		 */
 		void updateObjects (in CalObj calobj, in CalObjModType mod)
-			raises (InvalidObject, PermissionDenied);
+			raises (NotFound, InvalidObject, PermissionDenied);
 
 		/* Removes a component */
 		void removeObject (in CalObjUID uid, in CalObjModType mod)
