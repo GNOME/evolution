@@ -1,3 +1,9 @@
+2001-03-09  Dan Winship  <danw@ximian.com>
+
+	* configure.in (EVOLUTION_MICRO_VERSION): Hm... probably would be
+	clever to be calling this 0.9 rather than 0.8, since it's almost
+	0.10.
+
 2001-03-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* libversit/vcc.y: Changed int to char when returning a character
