@@ -450,7 +450,7 @@ e_tasks_set_ui_component (ETasks *tasks,
 	if (ui_component) {
 		if (!tasks->priv->creatable_items_handler) {
 			tasks->priv->creatable_items_handler =
-				e_user_creatable_items_handler_new ("tasks");
+				e_user_creatable_items_handler_new ("tasks", NULL, NULL);
 		}
 		e_user_creatable_items_handler_activate (tasks->priv->creatable_items_handler, ui_component);
 	}

@@ -2015,7 +2015,7 @@ gnome_calendar_set_ui_component (GnomeCalendar *gcal,
 	if (ui_component) {
 		if (!gcal->priv->creatable_items_handler) {
 			gcal->priv->creatable_items_handler =
-				e_user_creatable_items_handler_new ("calendar");
+				e_user_creatable_items_handler_new ("calendar", NULL, NULL);
 		}
 		e_user_creatable_items_handler_activate (gcal->priv->creatable_items_handler, ui_component);
 	}

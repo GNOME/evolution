@@ -1,3 +1,11 @@
+2004-04-21  Not Zed  <NotZed@Ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_set_ui_component): fix for
+	user_creatable_items api changes.
+
+	* gui/e-tasks.c (e_tasks_set_ui_component): fix for
+	user_creatable_items api changes.
+
 2004-04-19  Michael Terry  <mike@mterry.name>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in:
