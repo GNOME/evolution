@@ -63,6 +63,7 @@ typedef struct {
 
 	gint		 popup_view_col;
 	gint		 popup_row;
+	ETableModel	*popup_model;
 } ECellPopup;
 
 

@@ -147,6 +147,7 @@ static void
 e_cell_popup_init		(ECellPopup	*ecp)
 {
 	ecp->popup_shown = FALSE;
+	ecp->popup_model = NULL;
 }
 
 
@@ -271,7 +272,7 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 		show_popup_arrow = TRUE;
 		ecp->popup_arrow_shown = TRUE;
 	} else if (ecp->popup_shown && ecp->popup_view_col == view_col
-		   && ecp->popup_row == row) {
+		   && ecp->popup_row == row && ecp->popup_model == ((ECellView *) ecp_view)->e_table_model) {
 		show_popup_arrow = TRUE;
 	}
 
@@ -502,6 +503,7 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 
 	ecp->popup_view_col = view_col;
 	ecp->popup_row = row;
+	ecp->popup_model = ((ECellView *) ecp_view)->e_table_model;
 
 	return popup_func ? popup_func (ecp, event, row, view_col) : FALSE;
 }
