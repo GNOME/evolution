@@ -13,6 +13,8 @@ Calendar:
 
   - Fixed custom Glade widgets on non-Linux systems (Dan).
 
+  - Fixed crashing problems in the event/task editor (Damon).
+
 Mailer:
 
   - Fixed the multiple error-dialog thing.  (Michael)
