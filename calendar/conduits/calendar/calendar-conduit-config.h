@@ -43,7 +43,7 @@ static void
 calconduit_load_configuration (ECalConduitCfg **c, guint32 pilot_id) 
 {
 	gchar prefix[256];
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
+	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/",
 		    pilot_id);
 	
 	*c = g_new0 (ECalConduitCfg,1);
@@ -67,7 +67,7 @@ calconduit_save_configuration (ECalConduitCfg *c)
 {
 	gchar prefix[256];
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
+	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/",
 		    c->pilot_id);
 
 	gnome_config_push_prefix (prefix);

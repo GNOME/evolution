@@ -1,5 +1,18 @@
 2001-10-22  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-itip-control.c (set_date_label): write out the correct
+	time in the control
+
+	* pcs/cal.c (build_fb_seq): utility function to build sequences of
+	f/b data
+	(impl_Cal_get_free_busy): use above so we never return a NULL
+
+	* conduits/calendar/calendar-conduit-config.h
+	(calconduit_save_configuration): fix c/p error
+	(calconduit_load_configuration): ditto
+
+2001-10-22  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/meeting-page.c (meeting_page_destroy): we don't need
 	to save the state
 

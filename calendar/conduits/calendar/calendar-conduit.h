@@ -48,7 +48,7 @@ struct _ECalLocalRecord {
 	/* The corresponding Comp object */
 	CalComponent *comp;
 
-        /* pilot-link todo structure */
+        /* pilot-link appointment structure */
 	struct Appointment *appt;
 };
 

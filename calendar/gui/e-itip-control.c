@@ -500,11 +500,11 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 			write_label_piece (end, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>");
 			break;
 		case CAL_COMPONENT_FREEBUSY:
-			write_label_piece (start, buffer, 1024, U_("Free/Busy info ends: <b>"),
+			write_label_piece (end, buffer, 1024, U_("Free/Busy info ends: <b>"),
 					   "</b><br>");
 			break;
 		default:
-			write_label_piece (start, buffer, 1024, U_("Ends: <b>"), "</b><br>");
+			write_label_piece (end, buffer, 1024, U_("Ends: <b>"), "</b><br>");
 		}
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
