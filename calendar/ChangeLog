@@ -1,3 +1,9 @@
+2000-08-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_on_new_appointment): Do not alloc
+	the struct icaltimetype but point to one on the stack.  More
+	importantly, set the date.tzid to NULL.
+
 2000-08-24  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor-dialog.glade: Remove owner field

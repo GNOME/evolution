@@ -2404,6 +2404,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	CalComponentDateTime date;
 	time_t dtstart, dtend;
+	struct icaltimetype itt;
 	
 	day_view = E_DAY_VIEW (data);
 
@@ -2411,12 +2412,14 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 	
-	date.value = g_new (struct icaltimetype, 1);
+	date.value = &itt;
+	date.tzid = NULL;
+
 	*date.value = icaltimetype_from_timet (dtstart, FALSE);
 	cal_component_set_dtstart (comp, &date);
+
 	*date.value = icaltimetype_from_timet (dtend, FALSE);
 	cal_component_set_dtend (comp, &date);
-	g_free (date.value);
 
 	cal_component_commit_sequence (comp);
 
