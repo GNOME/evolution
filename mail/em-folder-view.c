@@ -332,6 +332,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	emfv->folder_uri = g_strdup(uri);
 	if (folder != emfv->folder) {
 		if (emfv->folder) {
+			mail_sync_folder (emfv->folder, NULL, NULL);
 			if (emfv->priv->folder_changed_id)
 				camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
 			camel_object_unref(emfv->folder);

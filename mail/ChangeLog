@@ -1,5 +1,8 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-view.c (emfv_set_folder): Sync the folder before
+	replacing it with the new folder.
+
 	* em-folder-tree.c (em_folder_tree_set_selected): Need to prepend
 	a "/" to path if the path is the url fragment. Also fixed to
 	select the store node if path == "/".
