@@ -1,3 +1,8 @@
+2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Change
+	"evolution:config_item" into "evolution2:config_item".
+
 2003-10-29  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: add the
