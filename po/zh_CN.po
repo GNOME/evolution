@@ -7189,7 +7189,7 @@ msgstr "无法发送邮件： 发送者地址无定义。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:588
 msgid "Cannot send message: sender address not valid."
-msgstr "无法发送邮件： 发送者地址不合法。"
+msgstr "无法发送邮件： 发送者地址无效。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:561
 msgid "Sending message"
@@ -7839,7 +7839,7 @@ msgid ""
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
 "您忘记选择文件夹了。\n"
-"请退回并指定一个合法的文件夹以便存入邮件。"
+"请退回并指定一个有效的文件夹以便存入邮件。"
 
 #: filter/filter-folder.c:242 filter/vfolder-rule.c:364
 #: mail/mail-account-gui.c:837
@@ -8506,7 +8506,7 @@ msgstr "应用过滤规则"
 
 #: mail/folder-browser.c:1478
 msgid "Create Ru_le From Message"
-msgstr "从消息创建规则(_L)"
+msgstr "从邮件创建规则(_L)"
 
 #: mail/folder-browser.c:1628
 msgid "Filter on Mailing List"
@@ -8576,7 +8576,7 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
-"注意：在进行邮件箱格式间转换时，出现可能无法\n"
+"注意：在进行邮件箱格式转换时，可能出现无法\n"
 "自动修复的错误 (例如磁盘空间不足)。\n"
 "请谨慎使用该功能。"
 
@@ -8594,7 +8594,7 @@ msgstr "mh"
 
 #: mail/mail-account-editor-news.c:105 mail/mail-account-editor.c:107
 msgid "You have not filled in all of the required information."
-msgstr "您还没有填写所有必须的信息。"
+msgstr "您还没有填写所有必需的信息。"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
@@ -8722,7 +8722,7 @@ msgstr "您还没有设置邮件传输方法"
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
-msgstr "您正在发送 HTML 格式的消息，当以下接收者不希望接收 HTML 格式的邮件：\n"
+msgstr "您正在发送 HTML 格式的邮件，但以下接收者不希望接收 HTML 格式的邮件：\n"
 
 #: mail/mail-callbacks.c:280
 msgid "Send anyway?"
@@ -8733,7 +8733,7 @@ msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
-"该消息没有主题。\n"
+"该邮件没有主题。\n"
 "确实要发送？"
 
 #: mail/mail-callbacks.c:366
@@ -8759,11 +8759,11 @@ msgstr ""
 
 #: mail/mail-callbacks.c:469
 msgid "This message contains invalid recipients:"
-msgstr "该消息含有无效的接收者："
+msgstr "该邮件含有无效的接收者："
 
 #: mail/mail-callbacks.c:504
 msgid "You must specify recipients in order to send this message."
-msgstr "您必须指定接收者以便发送该消息。"
+msgstr "您必须指定接收者以便发送该邮件。"
 
 #: mail/mail-callbacks.c:600
 msgid "You must configure an account before you can send this email."
@@ -8779,16 +8779,16 @@ msgstr "在 %Y-%m-%d %a 的 %H:%M， %%s 写道："
 
 #: mail/mail-callbacks.c:1281 mail/message-browser.c:130
 msgid "Move message(s) to"
-msgstr "将消息移动到"
+msgstr "将邮件移动到"
 
 #: mail/mail-callbacks.c:1283 mail/message-browser.c:132
 msgid "Copy message(s) to"
-msgstr "将消息复制到"
+msgstr "将邮件复制到"
 
 #: mail/mail-callbacks.c:1753
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
-msgstr "您确信您需要编辑所有的 %d 个消息？"
+msgstr "您确定要编辑所有的 %d 个邮件？"
 
 #: mail/mail-callbacks.c:1778
 msgid ""
@@ -8796,7 +8796,7 @@ msgid ""
 "in the Drafts folder."
 msgstr ""
 "您只能编辑保存在草稿\n"
-"文件夹的消息。"
+"文件夹的邮件。"
 
 #: mail/mail-callbacks.c:1817
 msgid ""
@@ -8804,20 +8804,20 @@ msgid ""
 "in the Sent folder."
 msgstr ""
 "您只能重新发送已发送\n"
-"文件夹里的消息。"
+"文件夹里的邮件。"
 
 #: mail/mail-callbacks.c:1831
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
-msgstr "您确信您希望重新发送所有的 %d 个消息？"
+msgstr "您确定要重新发送所有的 %d 个邮件？"
 
 #: mail/mail-callbacks.c:1857
 msgid "No Message Selected"
-msgstr "没有选择消息"
+msgstr "没有选择邮件"
 
 #: mail/mail-callbacks.c:1951
 msgid "Save Message As..."
-msgstr "消息另存为..."
+msgstr "邮件另存为..."
 
 #: mail/mail-callbacks.c:1953
 msgid "Save Messages As..."
@@ -8834,10 +8834,10 @@ msgid ""
 "\n"
 "Really erase these messages?"
 msgstr ""
-"该操作将永久删除所有标记为删除的所有消息。如果您继续，您将无法恢复这些消"
-"息。\n"
+"该操作将永久删除所有标记为删除的所有邮件。如果您继续，您将无法恢复这些邮"
+"件。\n"
 "\n"
-"确实删除这些消息？"
+"真的要删除这些邮件？"
 
 #: mail/mail-callbacks.c:2136
 msgid "Do not ask me again."
@@ -8910,8 +8910,8 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"您基本上完成了邮件配置过程。身份标识、邮件接收服务器和您提供\n"
-"的邮件发送传输方法将组合起来构成 Evolution 邮件帐号。\n"
+"您基本上完成了邮件配置过程。您提供的身份标识、邮件接收服务器和\n"
+"邮件发送传输方法将组合起来构成 Evolution 邮件帐号。\n"
 "请在下面输入该帐号的名称。\n"
 "该名称仅用于显示。"
 
@@ -9262,7 +9262,7 @@ msgid ""
 msgstr ""
 "欢迎使用 Evolution 邮件配置助手。\n"
 "\n"
-"点击 “下一步” 以便开始。"
+"点击 “下一步” 开始。"
 
 #: mail/mail-config.glade.h:91
 msgid "_Always load images off the net"
@@ -9530,7 +9530,7 @@ msgid "Pointer to FTP site (%s)"
 msgstr "指向 FTP 站点 (%s)"
 
 #: mail/mail-format.c:2082
-#, c-format
+#, fuzzy, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "在站点“%2$s”指向本地文件 (%1$s) 合法"
 
@@ -11660,7 +11660,7 @@ msgstr "重命名文件夹"
 #: shell/e-shell-folder-creation-dialog.c:148
 #, c-format
 msgid "The specified folder name is not valid: %s"
-msgstr "指定的文件夹名称不合法： %s"
+msgstr "指定的文件夹名称无效：%s"
 
 #: shell/e-shell-folder-creation-dialog.c:111
 #, c-format
@@ -11681,7 +11681,7 @@ msgid ""
 "the requested operation."
 msgstr ""
 "文件夹的类型对于请求的\n"
-"操作来说是不合法的。"
+"操作来说是无效的。"
 
 #: shell/e-shell-folder-selection-dialog.c:359
 msgid "New..."
@@ -11721,8 +11721,8 @@ msgid ""
 "Waiting 5 seconds to retry."
 msgstr ""
 "正在导入 %s\n"
-"导入没有就绪。\n"
-"请 5 秒中以后再试。"
+"导入器没有就绪。\n"
+"请 5 秒以后再试。"
 
 #: shell/e-shell-importer.c:263 shell/e-shell-importer.c:294
 #, c-format
@@ -13503,7 +13503,7 @@ msgstr "现在发送邮件"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Show / hide attachments"
-msgstr "显示 / 隐藏附件"
+msgstr "显示或隐藏附件"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Show _attachments"
@@ -13604,7 +13604,7 @@ msgstr "订阅"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr "取消订阅"
+msgstr "退订"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
@@ -13780,7 +13780,7 @@ msgstr "转到文件夹(_G)..."
 
 #: ui/evolution.xml.h:41
 msgid "_Import..."
-msgstr "正在导入(_I)..."
+msgstr "导入(_I)..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
