@@ -362,16 +362,22 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 		ETreePath *node = e_cell_tree_get_node (tree_model, row);
 		int offset = offset_of_node (tree_model, node);
 		int subcell_offset = offset;
+		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);
+		gboolean expanded = e_tree_model_node_is_expanded (tree_model, node);
 
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
-			gnome_print_moveto (context,
-					    offset - INDENT_AMOUNT / 2,
-					    height / 2);
 
-			gnome_print_lineto (context,
-					    offset,
-					    height / 2);
+			if (!e_tree_model_node_is_root (tree_model, node)
+			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
+				gnome_print_moveto (context,
+						    offset - INDENT_AMOUNT / 2,
+						    height / 2);
+
+				gnome_print_lineto (context,
+						    offset,
+						    height / 2);
+			}
 
 			if (visible_depth_of_node (tree_model, node) != 0) {
 				gnome_print_moveto (context,
@@ -403,29 +409,29 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 			}
 		}
 
-#if 0
 		/* now draw our icon if we're expandable */
 		if (expandable) {
+			double image_matrix [6] = {16, 0, 0, 16, 0, 0};
 			GdkPixbuf *image = (expanded 
 					    ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
 					    : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
-			int width, height;
+			int image_width, image_height, image_rowstride;
+			guchar *image_pixels;
 
-			width = gdk_pixbuf_get_width(image);
-			height = gdk_pixbuf_get_height(image);
+			image_width = gdk_pixbuf_get_width(image);
+			image_height = gdk_pixbuf_get_height(image);
+			image_pixels = gdk_pixbuf_get_pixels(image);
+			image_rowstride = gdk_pixbuf_get_rowstride(image);
 
-			gdk_pixbuf_render_to_drawable_alpha (image,
-							     drawable,
-							     0, 0,
-							     x1 + subcell_offset - INDENT_AMOUNT / 2 - width / 2,
-							     y1 + (y2 - y1) / 2 - height / 2,
-							     width, height,
-							     GDK_PIXBUF_ALPHA_BILEVEL,
-							     128,
-							     GDK_RGB_DITHER_NORMAL,
-							     width, 0);
+			image_matrix [4] = subcell_offset - INDENT_AMOUNT / 2 - image_width / 2;
+			image_matrix [5] = height / 2 - image_height / 2;
+
+			gnome_print_gsave (context);
+			gnome_print_concat (context, image_matrix);
+
+			gnome_print_rgbaimage (context, image_pixels, image_width, image_height, image_rowstride);
+			gnome_print_grestore (context);
 		}
-#endif
 
 		gnome_print_stroke (context);
 
