@@ -1,9 +1,0 @@
-Makefile.in
-Makefile
-core
-.deps
-.libs
-test-service
-rdf-summary
-GNOME_Evolution_Summary_test.oaf
-GNOME_Evolution_Summary_rdf.oaf
