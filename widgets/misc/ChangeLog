@@ -1,3 +1,12 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-multi-config-dialog.c: Updated for changes to e-config-page.c
+	(init): Removed the OK and Apply buttons.
+
+	* e-config-page.c (e_config_page_apply): Removed.
+	(e_config_page_is_applied): Removed.
+	(e_config_page_changed): Removed.
+
 2004-04-01  Dan Winship  <danw@ximian.com>
 
 	* e-url-entry.c (init): Make the button initially insensitive.

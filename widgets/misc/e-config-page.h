@@ -53,21 +53,12 @@ struct _EConfigPage {
 
 struct _EConfigPageClass {
 	GtkEventBoxClass parent_class;
-
-	/* Signals.  */
-	void (* apply)     (EConfigPage *config_page);
-	void (* changed)   (EConfigPage *config_page);
+	
 };
 
 
 GtkType    e_config_page_get_type    (void);
 GtkWidget *e_config_page_new         (void);
-
-void      e_config_page_apply       (EConfigPage *config_page);
-gboolean  e_config_page_is_applied  (EConfigPage *config_page);
-
-/* Protected.  */
-void      e_config_page_changed  (EConfigPage *config_page);
 
 #ifdef __cplusplus
 }

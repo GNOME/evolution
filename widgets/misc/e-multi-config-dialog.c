@@ -36,24 +36,21 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-
+
 #define PARENT_TYPE gtk_dialog_get_type ()
 static GtkDialogClass *parent_class = NULL;
 
 #define SWITCH_PAGE_INTERVAL 250
 
-
 
 struct _EMultiConfigDialogPrivate {
 	GSList *pages;
-
+	
 	GtkWidget *list_e_table;
 	ETableModel *list_e_table_model;
-
+	
 	GtkWidget *notebook;
-
-	int num_unapplied;
-
+	
 	int set_page_timeout_id;
 	int set_page_timeout_page;
 };
@@ -82,26 +79,6 @@ static char *list_e_table_spec =
 	"  </ETableState>"
 	"</ETableSpecification>";
 
-
-/* Button handling.  */
-
-static void
-update_buttons (EMultiConfigDialog *dialog)
-{
-	EMultiConfigDialogPrivate *priv;
-
-	priv = dialog->priv;
-
-	if (priv->num_unapplied > 0) {
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
-	} else {
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, FALSE);
-	}
-}
-
-
 /* Page handling.  */
 
 static GtkWidget *
@@ -132,23 +109,6 @@ create_page_container (const char *description,
 	return vbox;
 }
 
-/* Page callbacks.  */
-
-static void
-page_changed_callback (EConfigPage *page,
-		       void *data)
-{
-	EMultiConfigDialog *dialog;
-	EMultiConfigDialogPrivate *priv;
-
-	dialog = E_MULTI_CONFIG_DIALOG (data);
-	priv = dialog->priv;
-
-	priv->num_unapplied ++;
-
-	update_buttons (dialog);
-}
-
 /* Timeout for switching pages (so it's more comfortable navigating with the
    keyboard).  */
 
@@ -168,7 +128,6 @@ set_page_timeout_callback (void *data)
 }
 
 
-
 /* Button handling.  */
 
 static void
@@ -177,37 +136,7 @@ do_close (EMultiConfigDialog *dialog)
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
-static void
-do_apply (EMultiConfigDialog *dialog)
-{
-	EMultiConfigDialogPrivate *priv;
-	GSList *p;
 
-	priv = dialog->priv;
-
-	for (p = priv->pages; p != NULL; p = p->next) {
-		EConfigPage *page_widget = p->data;
-
-		if (! e_config_page_is_applied (page_widget)) {
-			e_config_page_apply (page_widget);
-			priv->num_unapplied --;
-		}
-	}
-
-	g_assert (priv->num_unapplied == 0);
-	update_buttons (dialog);
-}
-
-static void
-do_ok (EMultiConfigDialog *dialog)
-{
-	do_apply (dialog);
-	do_close (dialog);
-}
-
-
-
-
 /* ETable signals.  */
 
 static void
@@ -229,7 +158,7 @@ table_cursor_change_callback (ETable *etable,
 	priv->set_page_timeout_page = row;
 }
 
-
+
 /* GObject methods.  */
 
 static void
@@ -251,12 +180,11 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
+
 /* GtkDialog methods.  */
 
 static void
-impl_response (GtkDialog *dialog,
-	       int response_id)
+impl_response (GtkDialog *dialog, int response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
 	EMultiConfigDialogPrivate *priv;
@@ -276,12 +204,6 @@ impl_response (GtkDialog *dialog,
 					    &error);
 		if (error != NULL)
 			g_warning ("%s", error->message);
-		break;
-	case GTK_RESPONSE_OK:
-		do_ok (multi_config_dialog);
-		break;
-	case GTK_RESPONSE_APPLY:
-		do_apply (multi_config_dialog);
 		break;
 	case GTK_RESPONSE_CLOSE:
 	default:
@@ -347,6 +269,7 @@ canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
 {
 	int i;
 	int row_count;
+	
 	row_count = e_table_model_row_count (dialog->priv->list_e_table_model);
 	for (i = 0; i < row_count; i++) {
 		fill_in_pixbufs (dialog, i);
@@ -431,9 +354,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 
 	gtk_dialog_add_buttons (GTK_DIALOG (multi_config_dialog),
 				GTK_STOCK_HELP, GTK_RESPONSE_HELP,
-				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
 	
@@ -448,7 +369,6 @@ init (EMultiConfigDialog *multi_config_dialog)
 	priv->list_e_table          = list_e_table;
 	priv->list_e_table_model    = list_e_table_model;
 	priv->notebook              = notebook;
-	priv->num_unapplied         = 0;
 	priv->set_page_timeout_id   = 0;
 	priv->set_page_timeout_page = 0;
 
@@ -466,7 +386,7 @@ e_multi_config_dialog_new (void)
 	return GTK_WIDGET (dialog);
 }
 
-
+
 void
 e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 				const char *title,
@@ -504,13 +424,6 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 		e_table_set_cursor_row (table, 0);
 		e_selection_model_select_all (e_table_get_selection_model (table));
 	}
-
-	if (! e_config_page_is_applied (page_widget))
-		priv->num_unapplied ++;
-
-	g_signal_connect (page_widget, "changed", G_CALLBACK (page_changed_callback), dialog);
-
-	update_buttons (dialog);
 }
 
 void
@@ -527,5 +440,5 @@ e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), page);
 }
 
-
+
 E_MAKE_TYPE (e_multi_config_dialog, "EMultiConfigDialog", EMultiConfigDialog, class_init, init, PARENT_TYPE)
