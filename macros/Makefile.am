@@ -22,11 +22,9 @@ MACROS=						\
   gnome.m4					\
   gperf-check.m4				\
   linger.m4					\
-  need-declaration.m4				\
-  xerces.m4					\
-  mozilla.m4
+  need-declaration.m4				
 
-EXTRA_DIST=$(MACROS) gnome-common.m4 gnome-gettext.m4 autogen.sh mozilla-version.pl xerces-version.pl
+EXTRA_DIST=$(MACROS) gnome-common.m4 gnome-gettext.m4 autogen.sh
 MAINTAINERCLEANFILES=macros.dep
 
 @MAINT@macros.dep: Makefile.am
