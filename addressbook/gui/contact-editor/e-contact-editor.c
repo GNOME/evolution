@@ -975,6 +975,10 @@ sensitize_email (EContactEditor *editor)
 		if (!editor->target_editable)
 			enabled = FALSE;
 
+		if (E_CONTACT_FIRST_EMAIL_ID + i - 1 <= E_CONTACT_LAST_EMAIL_ID &&
+		    !is_field_supported (editor, E_CONTACT_FIRST_EMAIL_ID + i - 1))
+			enabled = FALSE;
+
 		sensitize_email_record (editor, i, enabled);
 	}
 }
