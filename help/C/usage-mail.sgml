@@ -67,20 +67,15 @@
       <para>
 	Your <application>Evolution</application>
 	<guilabel>Inbox</guilabel> will look something like the one in
-	<xref linkend="usage-mail-intro-fig">. Just below the toolbar
-	is the <interface>message list</interface>, showing message
-	header information like <guilabel>Subject</guilabel> and
-	<guilabel>Date</guilabel>.  The message itself appears below
-	that, in the <interface>view pane</interface>.  If you find
-	the <interface>view pane</interface> too small, you can resize
+	<xref linkend="usage-mail-intro-fig">. 
+	If you find the <interface>view pane</interface> too small, you can resize
 	the pane, enlarge the whole window, or double-click on the
 	message in the <interface>message list</interface> to have it
 	open in a new window.  To change the sizes of a pane, just click
         and hold on the divider between the two panes.  Then you can drag
         up and down to select the size of the panes.  Just like with 
-        folders, you can
-	right-click on messages in the message list and get a menu of
-	possible actions.
+        folders, you can right-click on messages in the message list and 
+	get a menu of possible actions.
      </para>
 
  <!-- ==============Figure=================================== -->

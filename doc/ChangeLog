@@ -1,3 +1,64 @@
+2001-06-22  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Pulled some redundant information.
+
+2001-06-21  battery841  <battery841@mediaone.net>
+	
+	* C/preface.sgml, C/fig/mail-inbox.png, C/fig/mainwindow-pic.png, C/usage-mail.sgml: Updated screenshots and redid layout for graphics on pages.
+	
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+	
+	* C/usage-contact.sgml: Fixed .gif problem
+		
+	* C/usage-mail.sgml:
+	
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Specify the file format
+
+	* C/usage-contact.sgml, C/usage-mail.sgml:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+		
+	* C/usage-mail.sgml: Trying to fix the .gif problem
+
+	* C/fig/calendar.png, C/fig/contact.png, C/usage-calendar.sgml:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-calendar.sgml: Redid graphics to add labels to them and
+		described the labels in text.
+
+	* C/config-encryption.sgml, C/evolution.sgml:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/evolution.sgml: Added config-encryption.sgml for building
+
+	* C/fig/calendar.png, C/fig/config-cal.png, C/fig/config-mail.png, C/fig/filter-assist-fig.png, C/fig/filter-new-fig.png, C/fig/mail-composer.png, C/fig/mail-druid-pic.png, C/fig/mail-inbox.png, C/fig/print-dest.png, C/fig/print-preview.png, C/fig/vfolder-createrule-fig.png:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/fig/*png: Updated graphics for newer UI.
+
+	* C/fig/full-1.png, C/fig/full-2.png, C/fig/full-3.png, C/fig/full-4.png, C/fig/full-5.png, C/fig/full-6.png, C/fig/full-7.png, C/fig/mainwindow-pic.png, C/usage-mail.sgml:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Redid graphics to add labels to them and described 	in labels in text.  Looks good!
+
+	* C/usage-encryption.sgml:
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/encryption.sgml: Added file
+
+	* C/preface.sgml:
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/ChangeLog: Moved my entires to doc/ChangeLog per request of danw
+
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-contact.sgml: Fixed .gif problem
