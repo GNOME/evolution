@@ -1,3 +1,7 @@
+2003-09-25  Christian Neumair  <chris@gnome-de.org>
+
+	* de.po: Fixed German translation (#126118).
+
 2003-11-02  Changwoo Ryu  <cwryu@debian.org>
 
 	* ko.po: Updated Korean translation.
