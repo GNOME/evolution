@@ -1,5 +1,11 @@
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* component-factory.c (owner_unset_cb): bonobo_main_quit() instead
+	of gtk_main_quit().
+	(component_destroy): Likewise.
+
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* component-factory.c: Removed unused #define
 	COMPONENT_FACTORY_ID.
 	(component_factory_init): Removed unused variable.

@@ -28,13 +28,12 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-shlib-factory.h>
+#include <bonobo/bonobo-main.h>
 
 #include <shell/evolution-shell-component.h>
 #include <shell/Evolution.h>
 
 #include <gal/widgets/e-gui-utils.h>
-
-#include <gtk/gtkmain.h>
 
 #include "e-summary-factory.h"
 #include "e-summary-offline-handler.h"
@@ -109,20 +108,17 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-	gtk_main_quit ();
+	bonobo_main_quit ();
 }
 
 static void
 component_destroy (BonoboObject *factory,
-		 gpointer user_data)
+		   gpointer user_data)
 {
 	running_objects--;
 
-	if (running_objects > 0) {
+	if (running_objects > 0)
 		return;
-	}
-
-	gtk_main_quit ();
 }
 
 static BonoboObject *
