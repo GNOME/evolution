@@ -210,6 +210,14 @@ cal_repo_get_objects (PortableServer_Servant servant,
 	return res;
 }
 
+static CORBA_long
+cal_repo_get_number_of_objects (PortableServer_Servant servant,
+				CORBA_Environment *ev)
+{
+	GnomeCalendar *gcal = gnomecal_from_servant (servant);
+	return g_list_length(gcal->cal->events);
+}
+
 static GNOME_Calendar_Repository_String_Sequence*
 cal_repo_get_object_id_list(PortableServer_Servant servant,
 			    CORBA_Environment *ev)
@@ -281,6 +289,7 @@ init_calendar_repo_class (void)
 	calendar_repository_epv.delete_object = cal_repo_delete_object;
 	calendar_repository_epv.update_object = cal_repo_update_object;
 	calendar_repository_epv.get_objects = cal_repo_get_objects;
+	calendar_repository_epv.get_number_of_objects = cal_repo_get_number_of_objects;
 	calendar_repository_epv.get_updated_objects = cal_repo_get_updated_objects;
 	calendar_repository_epv.update_pilot_id = cal_repo_update_pilot_id;
 	calendar_repository_epv.get_object_id_list = cal_repo_get_object_id_list;

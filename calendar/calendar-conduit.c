@@ -43,14 +43,14 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
 
-#define CONDUIT_VERSION "0.8.6"
+#define CONDUIT_VERSION "0.8.9"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
 #define G_LOG_DOMAIN "gcalconduit" 
 
 #define DEBUG_CALCONDUIT 
-#undef DEBUG_CALCONDUIT 
+#undef DEBUG_CALCONDUIT
 
 #ifdef DEBUG_CALCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
@@ -577,6 +577,30 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	return 0;
 }
 
+static void
+check_for_slow_setting(GnomePilotConduit *c, 
+		       GCalConduitContext *ctxt)
+{
+	CORBA_long entry_number;
+	entry_number = 
+		GNOME_Calendar_Repository_get_number_of_objects(ctxt->calendar, 
+								&(ctxt->ev));
+
+	if (ctxt->ev._major == CORBA_USER_EXCEPTION){
+		show_exception(&(ctxt->ev));
+		CORBA_exception_free(&(ctxt->ev)); 
+	} else if(ctxt->ev._major != CORBA_NO_EXCEPTION) {
+	        WARN (_("Error while communicating with calendar server"));
+		show_exception(&(ctxt->ev));
+		CORBA_exception_free(&(ctxt->ev)); 
+	} else {
+		LOG (_("Calendar holds %d entries"),entry_number);
+		/* If the local base is empty, do a slow sync */
+		if ( entry_number <= 0) {
+			gnome_pilot_conduit_standard_set_slow(c);
+		}
+	}
+}
 
 static gint
 pre_sync(GnomePilotConduit *c, 
@@ -590,7 +614,7 @@ pre_sync(GnomePilotConduit *c,
 
 	ctxt->calendar = CORBA_OBJECT_NIL;
 	
-	if (start_calendar_server(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),GET_GCALCONTEXT(c)) != 0) {
+	if (start_calendar_server(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),ctxt) != 0) {
 		WARN(_("Could not start gnomecal server"));
 		return -1;
 	}
@@ -601,11 +625,13 @@ pre_sync(GnomePilotConduit *c,
 
 	buf = (unsigned char*)g_malloc(0xffff);
 	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff))<0) {
-		WARN(_("Could not read pilot's Appoint application block"));
+		WARN(_("Could not read pilot's DateBook application block"));
 		return -1;
 	}
 	unpack_AppointmentAppInfo(&(ctxt->ai),buf,l);
 	g_free(buf);
+
+	check_for_slow_setting(c,ctxt);
 
 	return 0;
 }
@@ -1360,9 +1386,7 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gtk_object_set_data(retval,"gcalconduit_cfg",cfg);
 
 	gcalconduit_new_context(&ctxt,cfg);
-	/* No real need to set it, since all signal are given this
-	   as their user data */
-	gtk_object_set_data(retval,"gcalconduit_context",ctxt);
+	gtk_object_set_data(GTK_OBJECT(retval),"gcalconduit_context",ctxt);
 
 	gtk_signal_connect (retval, "match_record", (GtkSignalFunc) match_record, ctxt);
 	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
@@ -1382,8 +1406,6 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gtk_signal_connect (retval, "delete_all", (GtkSignalFunc) delete_all, ctxt);
 	gtk_signal_connect (retval, "transmit", (GtkSignalFunc) transmit, ctxt);
 	gtk_signal_connect (retval, "pre_sync", (GtkSignalFunc) pre_sync, ctxt);
-
-
 
 	return GNOME_PILOT_CONDUIT (retval);
 }

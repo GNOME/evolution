@@ -1,3 +1,16 @@
+1999-12-07  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit.c (pre_sync): Check if local store is
+	empty. If, force slow sync.
+
+	* GnomeCal.idl (GNOME): Added get_number_of_objects.
+
+	* corba-cal.c (cal_repo_get_number_of_objects): implemented the
+ 	get_number_of_objects.
+
+	* calendar-conduit-control-applet.c (setStateCfg): Fixed bug that
+	caused the capplet to always set the sync action to Disable upon start.
+
 1999-12-05  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am (Conduits_second_DATA): Also install .desktop files

@@ -65,6 +65,7 @@ gcalconduit_load_configuration(GCalConduitCfg **c,
 	g_assert(*c != NULL);
 	gnome_config_push_prefix(prefix);
 	(*c)->open_secret = gnome_config_get_bool("open_secret=FALSE");
+	(*c)->sync_type = GnomePilotConduitSyncTypeCustom; /* set in capplets main */
 	gnome_config_pop_prefix();
 	
 	(*c)->pilotId = pilotId;
@@ -92,6 +93,7 @@ gcalconduit_dupe_configuration(GCalConduitCfg *c) {
 	GCalConduitCfg *retval;
 	g_return_val_if_fail(c!=NULL,NULL);
 	retval = g_new0(GCalConduitCfg,1);
+	retval->sync_type = c->sync_type;
 	retval->open_secret = c->open_secret;
 	retval->pilotId = c->pilotId;
 	return retval;

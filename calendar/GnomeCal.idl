@@ -96,6 +96,12 @@ module GNOME {
 			 */
 			string get_updated_objects ();
 
+			/* 
+			 * Returns the number of objects in the calendar
+			 * repository. 
+			 */
+			long get_number_of_objects();
+
 			/*
 			 * done:
 			 * 

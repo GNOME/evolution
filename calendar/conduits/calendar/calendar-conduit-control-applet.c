@@ -29,7 +29,6 @@ GtkWidget *cfgOptionsWindow=NULL;
 GtkWidget *cfgStateWindow=NULL;
 GtkWidget *dialogWindow=NULL;
 
-gboolean activated,org_activation_state;
 GnomePilotConduitMgmt *conduit;
 
 static void doTrySettings(GtkWidget *widget, gpointer);
@@ -90,7 +89,7 @@ doCancelSettings(GtkWidget *widget, gpointer whatever)
 static void
 doRevertSettings(GtkWidget *widget, gpointer whatever)
 {
-	gcalconduit_destroy_configuration(curState);
+	gcalconduit_destroy_configuration(&curState);
 	curState = gcalconduit_dupe_configuration(origState);
 	setStateCfg(cfgStateWindow,curState);
 	setSettings(curState);
@@ -150,7 +149,6 @@ void about_cb (GtkWidget *widget, gpointer data) {
 }
 
 static void toggled_cb(GtkWidget *widget, gpointer data) {
-  gtk_widget_set_sensitive(cfgOptionsWindow,GTK_TOGGLE_BUTTON(widget)->active);
   capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
 }
 
@@ -168,7 +166,6 @@ static void
 activate_sync_type(GtkMenuItem *widget, gpointer data)
 {
 	curState->sync_type = GPOINTER_TO_INT(data);
-	gtk_widget_set_sensitive(cfgOptionsWindow,curState->sync_type!=GnomePilotConduitSyncTypeCustom);
 	if(!ignore_changes)
 		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
 }
@@ -177,7 +174,7 @@ static GtkWidget
 *createStateCfgWindow(void)
 {
 	GtkWidget *vbox, *table;
-	GtkWidget *label, *button;
+	GtkWidget *label;
 	GtkWidget *optionMenu,*menuItem;
 	GtkMenu   *menu;
 	gint i;
@@ -215,20 +212,21 @@ static GtkWidget
 }
 
 static void
-setStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
+setStateCfg(GtkWidget *widget,GCalConduitCfg *cfg)
 {
-    GtkWidget *button;
-    gchar num[40];
-/*
-    button = gtk_object_get_data(GTK_OBJECT(w), "conduit_on_off");
+	GtkOptionMenu *optionMenu;
+	GtkMenu *menu;
+	
+	optionMenu = gtk_object_get_data(GTK_OBJECT(widget), "conduit_state");
+	g_assert(optionMenu!=NULL);
+	menu = GTK_MENU(gtk_option_menu_get_menu(optionMenu));
 
-    g_assert(button!=NULL);
-
-    ignore_changes = TRUE;
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),activated);
-    gtk_widget_set_sensitive(cfgOptionsWindow,GTK_TOGGLE_BUTTON(button)->active);
-    ignore_changes = FALSE;
-*/
+  
+	ignore_changes = TRUE;
+	/* Here were are relying on the items in menu being the same 
+	   order as in GnomePilotConduitSyncType. */
+	gtk_option_menu_set_history(optionMenu,(int)cfg->sync_type);
+	ignore_changes = FALSE;
 }
 
 
@@ -348,9 +346,9 @@ main( int argc, char *argv[] )
 
 	/* put all code to set things up in here */
 	gcalconduit_load_configuration(&origState,pilotId);
-	curState = gcalconduit_dupe_configuration(origState);
+	gpilotd_conduit_mgmt_get_sync_type(conduit,pilotId,&origState->sync_type);
 
-	org_activation_state = activated = gpilotd_conduit_mgmt_is_enabled(conduit,pilotId);
+	curState = gcalconduit_dupe_configuration(origState);
     
 	pilot_capplet_setup();
 
