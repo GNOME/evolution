@@ -716,7 +716,7 @@ read_msg (GIOChannel * source, GIOCondition condition, gpointer userdata)
 
 	case ERROR:
 		DEBUG (("*** Message -- ERROR\n"));
-		show_error (msg);
+		/* show_error (msg); */
 		break;
 
 		/* Don't fall through; dispatch_func does the FINISHED
