@@ -239,13 +239,7 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 	while (elem) {
 		char *utf8_text = elem->data;
 
-		/* We store a copy of the UTF-8 text as data inside the
-		   listitem, but convert it to the current locale to go in
-		   the listitem widget. */
-		char *locale_text = e_utf8_to_locale_string (utf8_text);
-
-		listitem = gtk_list_item_new_with_label (locale_text);
-		g_free (locale_text);
+		listitem = gtk_list_item_new_with_label (utf8_text);
 
 		gtk_widget_show (listitem);
 		gtk_container_add (GTK_CONTAINER (ecc->popup_list), listitem);
