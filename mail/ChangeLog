@@ -1,3 +1,40 @@
+2004-02-06  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53258.
+
+	* em-format-html-display.c (efhd_find_handler): force any bonobo
+	handler types to always be inline, even attachments.
+
+	* em-format.c (em_format_is_inline): use handler flags for special
+	cases, removing all hard-coded types.
+
+	* em-format.h (EMFormatHandler): add a flags field, so far a flag
+	to set default inline viewing of the content.
+
+2004-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-properties.c: include string.h to kill warning.
+
+	** See bug #53627.
+	
+	* em-folder-view.c (emfv_popup_mark_junk): changed to work like
+	delete does, jumping to the next message if required, and marking
+	things immediately, then queuing up the junk marking job if
+	required.
+
+	* mail-ops.c (mail_mark_junk): ugh, this stuff totally can't go
+	accessing messagelist from another thread!!!!  Changed so this
+	code only does the junk reporting, not setting flags.  UGH!  It
+	should be doing this implictly on the folder when you set the
+	flags, or at least when you sync the folder!!!  Changed ot use the
+	queued thread.
+
+	* message-list.c (find_next_undeleted): changed to find
+	next-unhidden, i.e. junk as well as deleted, if we're in
+	hide-deleted mode.
+	(build_tree): always call find_next_undeleted if we have a cursor.
+	(build_flat): same.
+
 2004-02-05  Rodney Dawes  <dobey@ximian.com>
 
 	* em-message-browser.c (emmb_list_message_selected): Grab focus on

@@ -1892,13 +1892,18 @@ find_next_undeleted (MessageList *ml)
 	int vrow;
 	ETree *et = ml->tree;
 	CamelMessageInfo *info;
-	
+	guint32 check;
+
 	node = g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid);
 	if (node == NULL)
 		return NULL;
-	
+
+	check = CAMEL_MESSAGE_JUNK;
+	if (ml->hidedeleted)
+		check |= CAMEL_MESSAGE_DELETED;
+
 	info = get_message_info (ml, node);
-	if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+	if (info && (info->flags & check) == 0) {
 		return NULL;
 	}
 
@@ -1915,7 +1920,7 @@ find_next_undeleted (MessageList *ml)
 
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
-		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+		if (info && (info->flags & check) == 0) {
 			return g_strdup (camel_message_info_uid (info));
 		}
 		vrow ++;
@@ -1957,11 +1962,8 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		ml->tree_root =	e_tree_memory_node_insert(E_TREE_MEMORY(etm), NULL, 0, NULL);
 	}
 
-	if (ml->cursor_uid) {
-		if (ml->hidedeleted) {
-			saveuid = find_next_undeleted(ml);
-		}
-	}
+	if (ml->cursor_uid)
+		saveuid = find_next_undeleted(ml);
 
 #define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
 
@@ -2274,11 +2276,8 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	gettimeofday(&start, NULL);
 #endif
 
-	if (ml->cursor_uid) {
-		if (ml->hidedeleted) {
-			saveuid = find_next_undeleted(ml);
-		}
-	}
+	if (ml->cursor_uid)
+		saveuid = find_next_undeleted(ml);
 
 #ifndef BROKEN_ETREE
 	if (changes) {

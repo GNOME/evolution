@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -912,6 +911,7 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 
 			h->mime_type = g_strdup(mime_type);
 			h->handler = efhd_bonobo_unknown;
+			h->flags = EM_FORMAT_HANDLER_INLINE_DISPOSITION;
 			g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
 
 			handle = h;
@@ -1461,7 +1461,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_button);
 	info->handle = handle;
-	info->shown = em_format_is_inline(emf, info->puri.part) && handle != NULL;
+	info->shown = em_format_is_inline(emf, info->puri.part, handle);
 	info->snoop_mime_type = emf->snoop_mime_type;
 
 	camel_stream_write_string(stream,

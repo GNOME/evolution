@@ -558,13 +558,47 @@ emfv_popup_mark_unimportant(GtkWidget *w, EMFolderView *emfv)
 static void
 emfv_popup_mark_junk (GtkWidget *w, EMFolderView *emfv)
 {
-	mail_mark_junk (emfv->folder, emfv->list, TRUE);
+	GPtrArray *uids, *uidsjunk;
+	int i;
+
+	if (emfv->folder == NULL)
+		return;
+	
+	uidsjunk = g_ptr_array_new();
+	uids = message_list_get_selected(emfv->list);
+	camel_folder_freeze(emfv->folder);
+
+	for (i=0; i<uids->len; i++) {
+		char *uid = uids->pdata[i];
+
+		if (camel_folder_set_message_flags(emfv->folder, uid,
+						   CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK,
+						   CAMEL_MESSAGE_JUNK)) {
+			g_ptr_array_add(uidsjunk, g_strdup(uid));
+		}
+	}
+
+	camel_folder_thaw(emfv->folder);
+
+	if (uids->len == 1)
+		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
+
+	message_list_free_uids(emfv->list, uids);
+
+	if (uidsjunk->len)
+		mail_mark_junk(emfv->folder, uidsjunk, TRUE);
+	else
+		em_utils_uids_free(uidsjunk);
 }
 
 static void
 emfv_popup_mark_nojunk (GtkWidget *w, EMFolderView *emfv)
 {
-	mail_mark_junk (emfv->folder, emfv->list, FALSE);
+	GPtrArray *uids;
+	
+	uids = message_list_get_selected(emfv->list);
+	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_JUNK, 0);
+	mail_mark_junk(emfv->folder, uids, FALSE);
 }
 
 static void
@@ -572,13 +606,13 @@ emfv_popup_delete(GtkWidget *w, EMFolderView *emfv)
 {
 	GPtrArray *uids;
 	
-	uids = message_list_get_selected (emfv->list);
-	em_folder_view_mark_selected (emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
+	uids = message_list_get_selected(emfv->list);
+	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
 	
 	if (uids->len == 1)
-		message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
+		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
 	
-	em_utils_uids_free (uids);
+	em_utils_uids_free(uids);
 }
 
 static void

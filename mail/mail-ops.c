@@ -2406,7 +2406,7 @@ struct _mark_junk_mail_msg {
 	struct _mail_msg msg;
 	
 	CamelFolder *folder;
-	MessageList *list;
+	GPtrArray *uids;
 	gboolean junk;
 };
 
@@ -2420,45 +2420,34 @@ static void
 mark_junk_mark (struct _mail_msg *mm)
 {
 	struct _mark_junk_mail_msg *m = (struct _mark_junk_mail_msg *) mm;
-	CamelJunkPlugin *csp = NULL;
-	GPtrArray *uids;
+	CamelJunkPlugin *csp = ((CamelService *)m->folder->parent_store)->session->junk_plugin;
 	gboolean commit_reports = FALSE;
+	void (*report)(CamelJunkPlugin *, CamelMimeMessage *);
 	int i;
 
-	if (m->folder == NULL)
+	if (csp == NULL)
 		return;
-	
-	uids = message_list_get_selected (m->list);
-	camel_folder_freeze (m->folder);
 
-	for (i=0; i<uids->len; i++) {
-		guint32 flags;
+	/* FIXME: This should probably be implictly handled by the
+	   folder when you apply the junk bit, e.g. at sync time. */
 
-		flags = camel_folder_get_message_flags (m->folder, uids->pdata[i]);
-		if (((flags & CAMEL_MESSAGE_JUNK) == CAMEL_MESSAGE_JUNK) != m->junk) {
-			CamelMimeMessage *msg = camel_folder_get_message (m->folder, uids->pdata[i], NULL);
+	if (m->junk)
+		report = camel_junk_plugin_report_junk;
+	else
+		report = camel_junk_plugin_report_notjunk;
 
-			if (msg) {
-				csp = CAMEL_SERVICE (m->folder->parent_store)->session->junk_plugin;
-				if (m->junk)
-					camel_junk_plugin_report_junk (csp, msg);
-				else
-					camel_junk_plugin_report_notjunk (csp, msg);
+	for (i=0; i<m->uids->len; i++) {
+		CamelMimeMessage *msg = camel_folder_get_message(m->folder, m->uids->pdata[i], NULL);
 
-				commit_reports = TRUE;
-				camel_object_unref (msg);
-			}
+		if (msg) {
+			report(csp, msg);
+			commit_reports = TRUE;
+			camel_object_unref(msg);
 		}
-		camel_folder_set_message_flags(m->folder, uids->pdata[i],
-					       CAMEL_MESSAGE_JUNK | (m->junk ? CAMEL_MESSAGE_DELETED : 0),
-					       m->junk ? CAMEL_MESSAGE_JUNK : 0);
 	}
 
 	if (commit_reports)
-		camel_junk_plugin_commit_reports (csp);
-
-	message_list_free_uids(m->list, uids);
-	camel_folder_thaw(m->folder);
+		camel_junk_plugin_commit_reports(csp);
 }
 
 static void
@@ -2471,8 +2460,8 @@ mark_junk_free (struct _mail_msg *mm)
 {
 	struct _mark_junk_mail_msg *m = (struct _mark_junk_mail_msg *)mm;
 	
-	if (m->folder)
-		camel_object_unref (m->folder);
+	camel_object_unref(m->folder);
+	em_utils_uids_free(m->uids);
 }
 
 static struct _mail_msg_op mark_junk_op = {
@@ -2483,15 +2472,15 @@ static struct _mail_msg_op mark_junk_op = {
 };
 
 void
-mail_mark_junk (CamelFolder *folder, MessageList *list, gboolean junk)
+mail_mark_junk(CamelFolder *folder, GPtrArray *uids, gboolean junk)
 {
 	struct _mark_junk_mail_msg *m;
 	
-	m = mail_msg_new (&mark_junk_op, NULL, sizeof (*m));
+	m = mail_msg_new(&mark_junk_op, NULL, sizeof (*m));
 	m->folder = folder;
-	camel_object_ref (folder);
-	m->list = list;
+	camel_object_ref(folder);
+	m->uids = uids;
 	m->junk = junk;
 	
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	e_thread_put(mail_thread_queued, (EMsg *) m);
 }

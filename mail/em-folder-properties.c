@@ -23,6 +23,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkdialog.h>
@@ -260,7 +262,7 @@ em_folder_properties_show(GtkWindow *parent, CamelFolder *folder, const char *ur
 	if (!strncmp(uri, "vfolder:", 8))
 		vfolder_edit_rule(uri);
 	else if (folder == NULL)
-		mail_get_folder (uri, 0, emfp_dialog_got_folder, NULL, mail_thread_new);
+		mail_get_folder(uri, 0, emfp_dialog_got_folder, NULL, mail_thread_new);
 	else
 		emfp_dialog_got_folder((char *)uri, folder, NULL);
 }

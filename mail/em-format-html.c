@@ -1658,7 +1658,7 @@ efh_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 
 	camel_stream_write_string(stream, "</font></td></tr><tr></table>");
 
-	if (handle && em_format_is_inline(emf, part))
+	if (handle && em_format_is_inline(emf, part, handle))
 		handle->handler(emf, stream, part, handle);
 }
 

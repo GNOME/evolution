@@ -821,39 +821,38 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
  * em_format_is_inline:
  * @emf: 
  * @part: 
+ * @handle: handler for this part
  * 
  * Returns true if the part should be displayed inline.  Any part with
- * a Content-Disposition of inline, or any message type is displayed
- * inline.
+ * a Content-Disposition of inline, or if the @handle has a default
+ * inline set, will be shown inline.
  *
- * ::set_inline() called on the same part will override any calculated
+ * :set_inline() called on the same part will override any calculated
  * value.
  * 
  * Return value: 
  **/
-int em_format_is_inline(EMFormat *emf, CamelMimePart *part)
+int em_format_is_inline(EMFormat *emf, CamelMimePart *part, const EMFormatHandler *handle)
 {
 	void *dummy, *override;
 	const char *tmp;
-	CamelContentType *ct;
+
+	if (handle == NULL)
+		return FALSE;
 
 	if (g_hash_table_lookup_extended(emf->inline_table, part, &dummy, &override))
 		return GPOINTER_TO_INT(override);
 
-	ct = camel_mime_part_get_content_type(part);
-
-	/* TODO: make this depend on libnss supported */
-	/* For some reason rfc2633 says we always add this as an attachment, which
-	   stuffs us up since we don't want to treat it that way at all ... */
-	if (camel_content_type_is(ct, "application", "x-pkcs7-mime"))
+	/* some types need to override the disposition, e.g. application/x-pkcs7-mime */
+	if (handle->flags & EM_FORMAT_HANDLER_INLINE_DISPOSITION)
 		return TRUE;
 
 	tmp = camel_mime_part_get_disposition(part);
 	if (tmp)
 		return g_ascii_strcasecmp(tmp, "inline") == 0;
 
-	/* messages are always inline? */
-	return camel_content_type_is (ct, "message", "*");
+	/* otherwise, use the default for this handler type */
+	return (handle->flags & EM_FORMAT_HANDLER_INLINE) != 0;
 }
 
 /**
@@ -1348,7 +1347,7 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 
 static EMFormatHandler type_builtin_table[] = {
 #ifdef HAVE_NSS
-	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime },
+	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 	{ "multipart/alternative", emf_multipart_alternative },
 	{ "multipart/appledouble", emf_multipart_appledouble },
@@ -1357,13 +1356,13 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "multipart/signed", emf_multipart_signed },
 	{ "multipart/related", emf_multipart_related },
 	{ "multipart/*", emf_multipart_mixed },
-	{ "message/rfc822", emf_message_rfc822 },
-	{ "message/news", emf_message_rfc822 },
-	{ "message/*", emf_message_rfc822 },
+	{ "message/rfc822", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
+	{ "message/news", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
+	{ "message/*", emf_message_rfc822, EM_FORMAT_HANDLER_INLINE },
 
 	/* Insert brokenly-named parts here */
 #ifdef HAVE_NSS
-	{ "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime },
+	{ "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 
 };

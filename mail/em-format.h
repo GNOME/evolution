@@ -57,8 +57,14 @@ typedef enum _em_format_mode_t {
 struct _EMFormatHandler {
 	char *mime_type;
 	EMFormatFunc handler;
+	guint32 flags;
 	GList *applications;	/* gnome vfs short-list of applications, do we care? */
 };
+
+/* inline by default */
+#define EM_FORMAT_HANDLER_INLINE (1<<0)
+/* inline by default, and override content-disposition always */
+#define EM_FORMAT_HANDLER_INLINE_DISPOSITION (1<<1)
 
 typedef struct _EMFormatPURI EMFormatPURI;
 typedef void (*EMFormatPURIFunc)(EMFormat *md, struct _CamelStream *stream, EMFormatPURI *puri);
@@ -184,7 +190,7 @@ void em_format_add_header(EMFormat *emf, const char *name, guint32 flags);
    Or maybe it should live with sub-classes? */
 
 int em_format_is_attachment(EMFormat *emf, struct _CamelMimePart *part);
-int em_format_is_inline(EMFormat *emf, struct _CamelMimePart *part);
+int em_format_is_inline(EMFormat *emf, struct _CamelMimePart *part, const EMFormatHandler *handle);
 /* FIXME: not sure about this api */
 void em_format_set_inline(EMFormat *emf, struct _CamelMimePart *part, int state);
 char *em_format_describe_part(struct _CamelMimePart *part, const char *mimetype);
