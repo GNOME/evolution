@@ -1,5 +1,12 @@
 2002-10-20  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #29067 ] 
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): we
+	need to create a card_sexp even when doing summary queries since
+	it's used to check modifications of cards in the view.
+
+2002-10-20  Chris Toshok  <toshok@ximian.com>
+
        [ fixes #32144 ]
 	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as):
 	convert the name to the gtk locale before saving.

@@ -370,6 +370,13 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		view->card_sexp = NULL;
 	}
 
+	view->card_sexp = pas_backend_card_sexp_new (view->search);
+	
+	if (!view->card_sexp) {
+		pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_InvalidQuery);
+		return;
+	}
+
 	if (pas_backend_summary_is_summary_query (bf->priv->summary, view->search)) {
 		do_summary_query (bf, view, completion_search);
 	}
@@ -381,13 +388,6 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		DBC     *dbc;
 		DBT     id_dbt, vcard_dbt;
 		int     file_version_name_len;
-
-		view->card_sexp = pas_backend_card_sexp_new (view->search);
-	
-		if (!view->card_sexp) {
-			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_InvalidQuery);
-			return;
-		}
 
 		file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
 
