@@ -26,6 +26,19 @@
 #include <gnome-xml/parser.h>
 #include <e-pilot-map.h>
 
+typedef struct 
+{
+	char *uid;
+	gboolean archived;
+} EPilotMapPidNode;
+
+typedef struct
+{
+	guint32 pid;
+	gboolean archived;
+} EPilotMapUidNode;
+
+
 static void
 map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
 {
@@ -54,30 +67,28 @@ map_sax_start_element (void *data, const xmlChar *name,
 	}
 	 
 	if (!strcmp (name, "map")) {
-		char *uid = NULL;
-		guint32 *pid = g_new (guint32, 1);
-
-		*pid = 0;
+		const char *uid = NULL;
+		guint32 pid = 0;
+		gboolean archived = FALSE;
 
 		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
 			
 			val++;
 			if (!strcmp (*attrs, "uid")) 
-				uid = g_strdup (*val);
+				uid = *val;
 			
 			if (!strcmp (*attrs, "pilot_id"))
-				*pid = strtoul (*val, NULL, 0);
+				pid = strtoul (*val, NULL, 0);
+
+			if (!strcmp (*attrs, "archived"))
+				archived = strtoul (*val, NULL, 0)== 1 ? TRUE : FALSE;
 				
 			attrs = ++val;
 		}
 			
-		if (uid && *pid != 0) {
-			g_hash_table_insert (map->pid_map, pid, uid);
-			g_hash_table_insert (map->uid_map, uid, pid);
-		} else {
-			g_free (pid);
-		}
+		if (uid && pid != 0)
+			e_pilot_map_insert (map, pid, uid, archived);
 	}
 }
 
@@ -87,26 +98,47 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 	xmlNodePtr root = data;
 	xmlNodePtr mnode;
 	unsigned long *pid = key;
-	const char *uid = value;
+	EPilotMapPidNode *pnode = value;
 	char *pidstr;
-	
+
 	mnode = xmlNewChild (root, NULL, "map", NULL);
-	xmlSetProp (mnode, "uid", uid);
+	
 	pidstr = g_strdup_printf ("%lu", *pid);
 	xmlSetProp (mnode, "pilot_id", pidstr);
 	g_free (pidstr);
+
+	xmlSetProp (mnode, "uid", pnode->uid);
+
+	if (pnode->archived)
+		xmlSetProp (mnode, "archived", "1");
+	else
+		xmlSetProp (mnode, "archived", "0");
 }
 
 gboolean 
 e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid)
 {
-	return FALSE;
+	EPilotMapPidNode *pnode;
+	
+	pnode = g_hash_table_lookup (map->pid_map, &pid);
+
+	if (pnode == NULL)
+		return FALSE;
+	
+	return pnode->archived;
 }
 
 gboolean 
 e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 {
-	return FALSE;
+	EPilotMapUidNode *unode;
+	
+	unode = g_hash_table_lookup (map->uid_map, uid);
+
+	if (unode == NULL)
+		return FALSE;
+	
+	return unode->archived;
 }
 
 void 
@@ -114,35 +146,43 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 {
 	char *new_uid;
 	guint32 *new_pid = g_new (guint32, 1);
+	EPilotMapPidNode *pnode = g_new0 (EPilotMapPidNode, 1);
+	EPilotMapUidNode *unode = g_new0 (EPilotMapUidNode, 1);
 	
 	*new_pid = pid;
 	new_uid = g_strdup (uid);
 
-	g_hash_table_insert (map->pid_map, new_pid, new_uid);
-	g_hash_table_insert (map->uid_map, new_uid, new_pid);
+	pnode->uid = new_uid;
+	pnode->archived = archived;
+	
+	unode->pid = pid;
+	unode->archived = archived;
+	
+	g_hash_table_insert (map->pid_map, new_pid, pnode);
+	g_hash_table_insert (map->uid_map, new_uid, unode);
 }
 
 guint32 
 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid) 
 {
-	guint32 *pid;
+	EPilotMapUidNode *unode;
 	
-	pid = g_hash_table_lookup (map->uid_map, uid);
+	unode = g_hash_table_lookup (map->uid_map, uid);
 
-	if (pid == NULL)
+	if (unode == NULL)
 		return 0;
 	
-	return *pid;
+	return unode->pid;
 }
 
 const char *
 e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
 {
-	const char *uid;
+	EPilotMapPidNode *pnode;
 	
-	uid = g_hash_table_lookup (map->pid_map, &pid);
+	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
-	return uid;
+	return pnode->uid;
 }
 
 int 

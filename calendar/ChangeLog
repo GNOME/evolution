@@ -1,3 +1,10 @@
+2000-10-27  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c (add_archive_record): Take proper
+	number of parameters
+
+	* conduits/calendar/calendar-conduit.c (add_archive_record): ditto
+
 2000-10-26  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (EventEditorPrivate): Integrate Anna's new

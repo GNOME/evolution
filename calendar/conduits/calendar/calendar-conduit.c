@@ -874,7 +874,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 static gint
 add_archive_record (GnomePilotConduitSyncAbs *conduit,
-		    ECalLocalRecord *local,
 		    GnomePilotRecord *remote,
 		    ECalConduitContext *ctxt)
 {

@@ -1,3 +1,15 @@
+2000-10-27  JP Rosevear  <jpr@helixcode.com>
+
+	* e-pilot-map.c (map_sax_start_element): Get archive field while
+	parsing
+	(map_write_foreach): Write out archive field
+	(e_pilot_map_pid_is_archived): implement
+	(e_pilot_map_uid_is_archived): ditto
+	(e_pilot_map_insert): Insert new node structures
+	(e_pilot_map_lookup_pid): Take into account the list is now
+	a list of structures
+	(e_pilot_map_lookup_uid): ditto
+
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
 	* ename/e-address-western.c (e_address_western_is_postal): 

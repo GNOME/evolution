@@ -755,7 +755,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 static gint
 add_archive_record (GnomePilotConduitSyncAbs *conduit,
-		    EToDoLocalRecord *local,
 		    GnomePilotRecord *remote,
 		    EToDoConduitContext *ctxt)
 {
@@ -818,7 +817,7 @@ delete_archive_record (GnomePilotConduitSyncAbs *conduit,
 		       EToDoLocalRecord *local,
 		       EToDoConduitContext *ctxt)
 {
-	int retval =0;
+	int retval = 0;
 	
 	g_return_val_if_fail(local!=NULL,-1);
 
