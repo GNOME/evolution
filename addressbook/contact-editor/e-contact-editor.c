@@ -79,6 +79,7 @@ static void set_fields(EContactEditor *editor);
 static void set_address_field(EContactEditor *editor, int result);
 static void add_field_callback(GtkWidget *widget, EContactEditor *editor);
 static void command_state_changed (EContactEditor *ce);
+static void close_dialog (EContactEditor *ce);
 
 static GtkObjectClass *parent_class = NULL;
 
