@@ -18,8 +18,8 @@
 #include "e-addressbook-util.h"
 #include "e-addressbook-marshal.h"
 
-#define PARENT_TYPE gtk_object_get_type()
-GtkObjectClass *parent_class;
+#define PARENT_TYPE G_TYPE_OBJECT
+GObjectClass *parent_class;
 
 /*
  * EAddressbookModel callbacks
@@ -279,7 +279,7 @@ backend_died (EBook *book,
 static void
 e_addressbook_model_class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = addressbook_dispose;
 	object_class->set_property   = e_addressbook_model_set_property;
@@ -387,7 +387,7 @@ e_addressbook_model_class_init (GObjectClass *object_class)
 			      G_STRUCT_OFFSET (EAddressbookModelClass, stop_state_changed),
 			      NULL, NULL,
 			      e_addressbook_marshal_NONE__NONE,
-			      GTK_TYPE_NONE, 0);
+			      G_TYPE_NONE, 0);
 
 	e_addressbook_model_signals [BACKEND_DIED] =
 		g_signal_new ("backend_died",
@@ -400,7 +400,7 @@ e_addressbook_model_class_init (GObjectClass *object_class)
 }
 
 static void
-e_addressbook_model_init (GtkObject *object)
+e_addressbook_model_init (GObject *object)
 {
 	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
 	model->book = NULL;
@@ -594,24 +594,25 @@ e_addressbook_model_get_property (GObject *object, guint prop_id, GValue *value,
 	}
 }
 
-GtkType
+GType
 e_addressbook_model_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type){
-		GtkTypeInfo info = {
-			"EAddressbookModel",
-			sizeof (EAddressbookModel),
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (EAddressbookModelClass),
-			(GtkClassInitFunc) e_addressbook_model_class_init,
-			(GtkObjectInitFunc) e_addressbook_model_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_addressbook_model_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EAddressbookModel),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_addressbook_model_init,
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "EAddressbookModel", &info, 0);
 	}
 
 	return type;
@@ -622,7 +623,7 @@ e_addressbook_model_new (void)
 {
 	EAddressbookModel *et;
 
-	et = gtk_type_new (e_addressbook_model_get_type ());
+	et = g_object_new (E_TYPE_ADDRESSBOOK_MODEL, NULL);
 	
 	return et;
 }

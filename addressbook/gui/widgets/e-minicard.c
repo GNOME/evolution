@@ -96,29 +96,28 @@ enum {
 
 static guint e_minicard_signals [LAST_SIGNAL] = {0, };
 
-GtkType
+GType
 e_minicard_get_type (void)
 {
-  static GtkType minicard_type = 0;
+	static GType type = 0;
 
-  if (!minicard_type)
-    {
-      static const GtkTypeInfo minicard_info =
-      {
-        "EMinicard",
-        sizeof (EMinicard),
-        sizeof (EMinicardClass),
-        (GtkClassInitFunc) e_minicard_class_init,
-        (GtkObjectInitFunc) e_minicard_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!type) {
+		static const GTypeInfo info =  {
+			sizeof (EMinicardClass),
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_minicard_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EMinicard),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_minicard_init,
+		};
 
-      minicard_type = gtk_type_unique (gnome_canvas_group_get_type (), &minicard_info);
-    }
+		type = g_type_register_static (gnome_canvas_group_get_type (), "EMinicard", &info, 0);
+	}
 
-  return minicard_type;
+	return type;
 }
 
 static void
@@ -139,14 +138,14 @@ e_minicard_class_init (EMinicardClass *klass)
 					 g_param_spec_double ("width",
 							      _("Width"),
 							      /*_( */"XXX blurb" /*)*/,
-							      0.0, 0.0, 0.0,
+							      10.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
 							      _("Height"),
 							      /*_( */"XXX blurb" /*)*/,
-							      0.0, 0.0, 0.0,
+							      10.0, G_MAXDOUBLE, 10.0,
 							      G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
 
 	g_object_class_install_property (object_class, PROP_HAS_FOCUS,

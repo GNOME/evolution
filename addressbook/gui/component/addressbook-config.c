@@ -15,6 +15,7 @@
 
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -269,13 +270,13 @@ addressbook_dialog_get_source (AddressbookSourceDialog *dialog)
 {
 	AddressbookSource *source = g_new0 (AddressbookSource, 1);
 
-	source->name       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->display_name));
-	source->host       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
-	source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->email));
-	source->binddn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
-	source->port       = e_utf8_gtk_entry_get_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry));
-	source->rootdn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
-	source->limit      = atoi(e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->limit_spinbutton)));
+	source->name       = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->display_name)));
+	source->host       = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->host)));
+	source->email_addr = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->email)));
+	source->binddn     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->binddn)));
+	source->port       = g_strdup (gtk_entry_get_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry)));
+	source->rootdn     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->rootdn)));
+	source->limit      = atoi(gtk_entry_get_text (GTK_ENTRY (dialog->limit_spinbutton)));
 	source->scope      = dialog->scope;
 	source->auth       = dialog->auth;
 	source->ssl        = dialog->ssl;
@@ -289,15 +290,15 @@ static void
 addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, AddressbookSource *source)
 {
 	char *string;
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? source->name : "");
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->binddn), source ? source->binddn : "");
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry), source ? source->port : LDAP_PORT_STRING);
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? source->name : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
+	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), source ? source->binddn : "");
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry), source ? source->port : LDAP_PORT_STRING);
+	gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
 	string = g_strdup_printf ("%d", source ? source->limit : 100);
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->limit_spinbutton), string);
+	gtk_entry_set_text (GTK_ENTRY (dialog->limit_spinbutton), string);
 	g_free (string);
 
 	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
@@ -457,23 +458,21 @@ static gboolean
 general_tab_check (AddressbookSourceDialog *dialog)
 {
 	gboolean valid = TRUE;
-	char *string;
+	const char *string;
 
-	string = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
+	string = gtk_entry_get_text (GTK_ENTRY (dialog->host));
 	if (!string || !string[0])
 		valid = FALSE;
-	g_free (string);
 
 	if (valid) {
 		if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 			if (dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-				string = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
+				string = gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
 			else
-				string = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->email));
+				string = gtk_entry_get_text (GTK_ENTRY (dialog->email));
 
 			if (!string || !string[0])
 				valid = FALSE;
-			g_free (string);
 		}
 	}
 
@@ -535,7 +534,7 @@ port_changed_func (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
 	/* if the port value is ldaps, set the SSL/TLS option menu to
 	   Always and desensitize it */
-	char *string = e_utf8_gtk_entry_get_text (GTK_ENTRY (item));
+	const char *string = gtk_entry_get_text (GTK_ENTRY (item));
 
 	dialog->connecting_modify_func (item, dialog);
 
@@ -549,9 +548,7 @@ port_changed_func (GtkWidget *item, AddressbookSourceDialog *dialog)
 	else {
 		gtk_widget_set_sensitive (dialog->ssl_optionmenu, TRUE);
 	}
-		
-		
-	g_free (string);
+
 }
 
 static void
@@ -580,12 +577,11 @@ static gboolean
 connecting_tab_check (AddressbookSourceDialog *dialog)
 {
 	gboolean valid = TRUE;
-	char *string;
+	const char *string;
 
-	string = e_utf8_gtk_entry_get_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry));
+	string = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO(dialog->port_combo)->entry));
 	if (!string || !string[0])
 		valid = FALSE;
-	g_free (string);
 
 	return valid;
 }
@@ -731,7 +727,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 			/* ugh. */
 			for (i = 0; values[i]; i ++) {
 				if (e_selection_model_is_row_selected (selection_model, i)) {
-					e_utf8_gtk_entry_set_text (GTK_ENTRY (sdialog->rootdn), values[i]);
+					gtk_entry_set_text (GTK_ENTRY (sdialog->rootdn), values[i]);
 					break; /* single selection, so we can quit when we've found it. */
 				}
 			}
@@ -818,12 +814,11 @@ static gboolean
 display_name_check (AddressbookSourceDialog *dialog)
 {
 	gboolean valid = TRUE;
-	char *string;
+	const char *string;
 
-	string = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->display_name));
+	string = gtk_entry_get_text (GTK_ENTRY (dialog->display_name));
 	if (!string || !string[0])
 		valid = FALSE;
-	g_free (string);
 
 	return valid;
 }
@@ -832,9 +827,8 @@ static void
 display_name_page_prepare (GtkWidget *page, GtkWidget *gnome_druid, AddressbookSourceDialog *dialog)
 {
 	if (!dialog->display_name_changed) {
-		char *server_name = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->display_name), server_name);
-		g_free (server_name);
+		const char *server_name = gtk_entry_get_text (GTK_ENTRY (dialog->host));
+		gtk_entry_set_text (GTK_ENTRY (dialog->display_name), server_name);
 	}
 
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID(dialog->druid),
@@ -1470,8 +1464,8 @@ edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 		/* Ok was clicked */
 		source = addressbook_source_copy(sdialog->source);
 
-		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->name);
-		e_utf8_gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 1, source->host);
+		gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->name);
+		gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 1, source->host);
 		gtk_clist_set_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row, source);
 
 		evolution_config_control_changed (dialog->config_control);
@@ -1725,11 +1719,11 @@ addressbook_config_create_new_source (const char *new_source, GtkWidget *parent)
 	AddressbookSourceDialog *dialog;
 	GladeXML *gui;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
 	dialog = addressbook_source_dialog (gui, NULL, parent);
 
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->name), new_source);
+	gtk_entry_set_text (GTK_ENTRY (dialog->name), new_source);
 
 	gnome_dialog_close_hides (GNOME_DIALOG(dialog->dialog), TRUE);
 

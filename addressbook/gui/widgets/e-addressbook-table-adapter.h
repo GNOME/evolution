@@ -7,11 +7,11 @@
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
-#define E_ADDRESSBOOK_TABLE_ADAPTER_TYPE        (e_addressbook_table_adapter_get_type ())
-#define E_ADDRESSBOOK_TABLE_ADAPTER(o)          (GTK_CHECK_CAST ((o), E_ADDRESSBOOK_TABLE_ADAPTER_TYPE, EAddressbookTableAdapter))
-#define E_ADDRESSBOOK_TABLE_ADAPTER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_ADDRESSBOOK_TABLE_ADAPTER_TYPE, EAddressbookTableAdapterClass))
-#define E_IS_ADDRESSBOOK_TABLE_ADAPTER(o)       (GTK_CHECK_TYPE ((o), E_ADDRESSBOOK_TABLE_ADAPTER_TYPE))
-#define E_IS_ADDRESSBOOK_TABLE_ADAPTER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_ADDRESSBOOK_TABLE_ADAPTER_TYPE))
+#define E_TYPE_ADDRESSBOOK_TABLE_ADAPTER        (e_addressbook_table_adapter_get_type ())
+#define E_ADDRESSBOOK_TABLE_ADAPTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, EAddressbookTableAdapter))
+#define E_ADDRESSBOOK_TABLE_ADAPTER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, EAddressbookTableAdapterClass))
+#define E_IS_ADDRESSBOOK_TABLE_ADAPTER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER))
+#define E_IS_ADDRESSBOOK_TABLE_ADAPTER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER))
 
 /* Virtual Column list:
    0   Email
@@ -36,7 +36,7 @@ struct _EAddressbookTableAdapterClass {
 };
 
 
-GtkType      e_addressbook_table_adapter_get_type (void);
+GType        e_addressbook_table_adapter_get_type (void);
 void         e_addressbook_table_adapter_construct (EAddressbookTableAdapter *adapter,
 						    EAddressbookModel *model);
 ETableModel *e_addressbook_table_adapter_new (EAddressbookModel *model);

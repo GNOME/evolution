@@ -21,7 +21,7 @@
 
 #include <config.h>
 
-#include <gtk/gtkinvisible.h>
+#include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -128,25 +128,25 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 static GalViewCollection *collection = NULL;
 
-GtkType
+GType
 e_addressbook_view_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		static const GtkTypeInfo info =
-		{
-			"EAddressbookView",
-			sizeof (EAddressbookView),
+		static const GTypeInfo info =  {
 			sizeof (EAddressbookViewClass),
-			(GtkClassInitFunc) e_addressbook_view_class_init,
-			(GtkObjectInitFunc) e_addressbook_view_init,
-			/* reserved_1 */ NULL,
-		       	/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_addressbook_view_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EAddressbookView),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_addressbook_view_init,
 		};
-		
-		type = gtk_type_unique (gtk_table_get_type (), &info);
+
+		type = g_type_register_static (GTK_TYPE_TABLE, "EAddressbookView", &info, 0);
 	}
 
 	return type;
@@ -356,7 +356,7 @@ e_addressbook_view_dispose (GObject *object)
 GtkWidget*
 e_addressbook_view_new (void)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_addressbook_view_get_type ()));
+	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_ADDRESSBOOK_VIEW, NULL));
 	return widget;
 }
 
@@ -370,7 +370,6 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 init_collection (void)
 {
-#ifdef PENDING_PORT_WORK
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
@@ -401,7 +400,6 @@ init_collection (void)
 
 		gal_view_collection_load(collection);
 	}
-#endif
 }
 
 static void
@@ -423,6 +421,7 @@ display_view(GalViewInstance *instance,
 static void
 setup_menus (EAddressbookView *view)
 {
+#if PENDING_PORT_WORK
 	if (view->book && view->view_instance == NULL) {
 		init_collection ();
 		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
@@ -437,6 +436,7 @@ setup_menus (EAddressbookView *view)
 		g_signal_connect(view->view_instance, "display_view",
 				 G_CALLBACK (display_view), view);
 	}
+#endif
 }
 
 static void

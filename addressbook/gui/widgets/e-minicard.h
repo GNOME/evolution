@@ -41,11 +41,11 @@ extern "C" {
  * card		ECard*		RW		Pointer to the ECard
  */
 
-#define E_MINICARD_TYPE			(e_minicard_get_type ())
-#define E_MINICARD(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_TYPE, EMinicard))
-#define E_MINICARD_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_TYPE, EMinicardClass))
-#define E_IS_MINICARD(obj)		(GTK_CHECK_TYPE ((obj), E_MINICARD_TYPE))
-#define E_IS_MINICARD_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_TYPE))
+#define E_TYPE_MINICARD			(e_minicard_get_type ())
+#define E_MINICARD(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD, EMinicard))
+#define E_MINICARD_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD, EMinicardClass))
+#define E_IS_MINICARD(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD))
+#define E_IS_MINICARD_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD))
 
 
 typedef struct _EMinicard       EMinicard;
@@ -106,7 +106,7 @@ struct _EMinicardClass
 };
 
 
-GtkType     e_minicard_get_type     (void);
+GType       e_minicard_get_type     (void);
 const char *e_minicard_get_card_id  (EMinicard *minicard);
 int         e_minicard_compare      (EMinicard *minicard1,
 				     EMinicard *minicard2);

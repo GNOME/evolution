@@ -9,11 +9,11 @@
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card.h"
 
-#define E_ADDRESSBOOK_REFLOW_ADAPTER_TYPE        (e_addressbook_reflow_adapter_get_type ())
-#define E_ADDRESSBOOK_REFLOW_ADAPTER(o)          (GTK_CHECK_CAST ((o), E_ADDRESSBOOK_REFLOW_ADAPTER_TYPE, EAddressbookReflowAdapter))
-#define E_ADDRESSBOOK_REFLOW_ADAPTER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_ADDRESSBOOK_REFLOW_ADAPTER_TYPE, EAddressbookReflowAdapterClass))
-#define E_IS_ADDRESSBOOK_REFLOW_ADAPTER(o)       (GTK_CHECK_TYPE ((o), E_ADDRESSBOOK_REFLOW_ADAPTER_TYPE))
-#define E_IS_ADDRESSBOOK_REFLOW_ADAPTER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_ADDRESSBOOK_REFLOW_ADAPTER_TYPE))
+#define E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER        (e_addressbook_reflow_adapter_get_type ())
+#define E_ADDRESSBOOK_REFLOW_ADAPTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, EAddressbookReflowAdapter))
+#define E_ADDRESSBOOK_REFLOW_ADAPTER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, EAddressbookReflowAdapterClass))
+#define E_IS_ADDRESSBOOK_REFLOW_ADAPTER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER))
+#define E_IS_ADDRESSBOOK_REFLOW_ADAPTER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER))
 
 typedef struct _EAddressbookReflowAdapter EAddressbookReflowAdapter;
 typedef struct _EAddressbookReflowAdapterPrivate EAddressbookReflowAdapterPrivate;
@@ -36,7 +36,7 @@ struct _EAddressbookReflowAdapterClass {
 };
 
 
-GtkType       e_addressbook_reflow_adapter_get_type          (void);
+GType         e_addressbook_reflow_adapter_get_type          (void);
 void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,
 							      EAddressbookModel         *model);
 EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel         *model);

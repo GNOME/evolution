@@ -132,7 +132,7 @@ gal_view_minicard_init      (GalViewMinicard *gvm)
 GalView *
 gal_view_minicard_new (const gchar *title)
 {
-	return gal_view_minicard_construct (gtk_type_new (gal_view_minicard_get_type ()), title);
+	return gal_view_minicard_construct (g_object_new (GAL_TYPE_VIEW_MINICARD, NULL), title);
 }
 
 /**
@@ -153,26 +153,25 @@ gal_view_minicard_construct  (GalViewMinicard *view,
 	return GAL_VIEW(view);
 }
 
-GtkType
+GType
 gal_view_minicard_get_type        (void)
 {
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewMinicard",
-			sizeof (GalViewMinicard),
+	static GType type = 0;
+
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (GalViewMinicardClass),
-			(GtkClassInitFunc) gal_view_minicard_class_init,
-			(GtkObjectInitFunc) gal_view_minicard_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) gal_view_minicard_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (GalViewMinicard),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) gal_view_minicard_init,
 		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
+
+		type = g_type_register_static (PARENT_TYPE, "GalViewMinicard", &info, 0);
 	}
 
 	return type;

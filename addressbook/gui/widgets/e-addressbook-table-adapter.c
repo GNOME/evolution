@@ -343,24 +343,25 @@ model_changed (EAddressbookModel *model,
 	e_table_model_changed (E_TABLE_MODEL (adapter));
 }
 
-GtkType
+GType
 e_addressbook_table_adapter_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type){
-		GtkTypeInfo info = {
-			"EAddressbookTableAdapter",
-			sizeof (EAddressbookTableAdapter),
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (EAddressbookTableAdapterClass),
-			(GtkClassInitFunc) e_addressbook_table_adapter_class_init,
-			(GtkObjectInitFunc) e_addressbook_table_adapter_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_addressbook_table_adapter_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EAddressbookTableAdapter),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_addressbook_table_adapter_init,
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "EAddressbookTableAdapter", &info, 0);
 	}
 
 	return type;
@@ -400,7 +401,7 @@ e_addressbook_table_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookTableAdapter *et;
 
-	et = gtk_type_new (e_addressbook_table_adapter_get_type ());
+	et = g_object_new(E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, NULL);
 
 	e_addressbook_table_adapter_construct (et, model);
 

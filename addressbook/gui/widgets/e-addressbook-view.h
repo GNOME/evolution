@@ -40,11 +40,11 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define E_ADDRESSBOOK_VIEW_TYPE			(e_addressbook_view_get_type ())
-#define E_ADDRESSBOOK_VIEW(obj)			(GTK_CHECK_CAST ((obj), E_ADDRESSBOOK_VIEW_TYPE, EAddressbookView))
-#define E_ADDRESSBOOK_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_ADDRESSBOOK_VIEW_TYPE, EAddressbookViewClass))
-#define E_IS_ADDRESSBOOK_VIEW(obj)		(GTK_CHECK_TYPE ((obj), E_ADDRESSBOOK_VIEW_TYPE))
-#define E_IS_ADDRESSBOOK_VIEW_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_ADDRESSBOOK_VIEW_TYPE))
+#define E_TYPE_ADDRESSBOOK_VIEW			(e_addressbook_view_get_type ())
+#define E_ADDRESSBOOK_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookView))
+#define E_ADDRESSBOOK_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewClass))
+#define E_IS_ADDRESSBOOK_VIEW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ADDRESSBOOK_VIEW))
+#define E_IS_ADDRESSBOOK_VIEW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_ADDRESSBOOK_VIEW))
 
 typedef enum {
 	E_ADDRESSBOOK_VIEW_NONE, /* initialized to this */
@@ -100,7 +100,7 @@ struct _EAddressbookViewClass
 };
 
 GtkWidget *e_addressbook_view_new                 (void);
-GtkType    e_addressbook_view_get_type            (void);
+GType      e_addressbook_view_get_type            (void);
 
 void       e_addressbook_view_setup_menus         (EAddressbookView  *view,
 						   BonoboUIComponent *uic);

@@ -138,16 +138,14 @@ set_empty_message (EMinicardView *view)
 	}
 
 	if (editable)
-		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view.\n\n"
-							    "Double-click here to create a new Contact."));
+		empty_message = _("\n\nThere are no items to show in this view.\n\n"
+				  "Double-click here to create a new Contact.");
 	else
-		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view."));
+		empty_message = _("\n\nThere are no items to show in this view.");
 
 	g_object_set (view,
 		      "empty_message", empty_message,
 		      NULL);
-
-	g_free (empty_message);
 }
 
 static void
@@ -477,24 +475,25 @@ e_minicard_view_init (EMinicardView *view)
 	set_empty_message (view);
 }
 
-GtkType
+GType
 e_minicard_view_get_type (void)
 {
-	static GtkType reflow_type = 0;
+	static GType reflow_type = 0;
 
 	if (!reflow_type) {
-		static const GtkTypeInfo reflow_info = {
-			"EMinicardView",
-			sizeof (EMinicardView),
+		static const GTypeInfo reflow_info =  {
 			sizeof (EMinicardViewClass),
-			(GtkClassInitFunc) e_minicard_view_class_init,
-			(GtkObjectInitFunc) e_minicard_view_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_minicard_view_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EMinicardView),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_minicard_view_init,
 		};
 
-		reflow_type = gtk_type_unique (PARENT_TYPE, &reflow_info);
+		reflow_type = g_type_register_static (PARENT_TYPE, "EMinicardView", &reflow_info, 0);
 	}
 
 	return reflow_type;

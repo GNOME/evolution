@@ -57,29 +57,28 @@ enum {
 	ARG_EDITABLE
 };
 
-GtkType
+GType
 e_minicard_label_get_type (void)
 {
-  static GtkType minicard_label_type = 0;
+	static GType type = 0;
 
-  if (!minicard_label_type)
-    {
-      static const GtkTypeInfo minicard_label_info =
-      {
-        "EMinicardLabel",
-        sizeof (EMinicardLabel),
-        sizeof (EMinicardLabelClass),
-        (GtkClassInitFunc) e_minicard_label_class_init,
-        (GtkObjectInitFunc) e_minicard_label_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!type) {
+		static const GTypeInfo info =  {
+			sizeof (EMinicardLabelClass),
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_minicard_label_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EMinicardLabel),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_minicard_label_init,
+		};
 
-      minicard_label_type = gtk_type_unique (gnome_canvas_group_get_type (), &minicard_label_info);
-    }
+		type = g_type_register_static (gnome_canvas_group_get_type (), "EMinicardLabel", &info, 0);
+	}
 
-  return minicard_label_type;
+	return type;
 }
 
 static void

@@ -12,6 +12,8 @@
 
 #include <string.h>
 #include <glib.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkvbox.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -1072,7 +1074,7 @@ make_suboptions (AddressbookView *view)
 		const char *category = e_categories_master_list_nth (master_list, i);
 
 		subitems[i+1].id = i;
-		subitems[i+1].text = e_utf8_to_locale_string (category);
+		subitems[i+1].text = g_strdup (category);
 		subitems[i+1].translate = FALSE;
 	}
 	subitems[N+1].id = -1;

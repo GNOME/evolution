@@ -178,7 +178,6 @@ e_contact_list_model_add_destination (EContactListModel *model, EDestination *de
 
 	model->data[model->data_count ++] = dest;
 	g_object_ref (dest);
-	gtk_object_sink (GTK_OBJECT (dest));
 
 	e_table_model_changed (E_TABLE_MODEL (model));
 }

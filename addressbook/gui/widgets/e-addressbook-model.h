@@ -2,22 +2,23 @@
 #ifndef _E_ADDRESSBOOK_MODEL_H_
 #define _E_ADDRESSBOOK_MODEL_H_
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <glib-object.h>
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
 #define E_TYPE_ADDRESSBOOK_MODEL        (e_addressbook_model_get_type ())
-#define E_ADDRESSBOOK_MODEL(o)          (GTK_CHECK_CAST ((o), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModel))
-#define E_ADDRESSBOOK_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelClass))
-#define E_IS_ADDRESSBOOK_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TYPE_ADDRESSBOOK_MODEL))
-#define E_IS_ADDRESSBOOK_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TYPE_ADDRESSBOOK_MODEL))
+#define E_ADDRESSBOOK_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModel))
+#define E_ADDRESSBOOK_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelClass))
+#define E_IS_ADDRESSBOOK_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_ADDRESSBOOK_MODEL))
+#define E_IS_ADDRESSBOOK_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_ADDRESSBOOK_MODEL))
 
 typedef struct _EAddressbookModel EAddressbookModel;
 typedef struct _EAddressbookModelClass EAddressbookModelClass;
 
 struct _EAddressbookModel {
-	GtkObject parent;
+	GObject parent;
 
 	/* item specific fields */
 	EBook *book;
@@ -40,7 +41,7 @@ struct _EAddressbookModel {
 
 
 struct _EAddressbookModelClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Signals
@@ -58,7 +59,7 @@ struct _EAddressbookModelClass {
 };
 
 
-GtkType            e_addressbook_model_get_type                  (void);
+GType              e_addressbook_model_get_type                  (void);
 EAddressbookModel *e_addressbook_model_new                       (void);
 
 /* Returns object with ref count of 1. */

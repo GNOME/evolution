@@ -13,11 +13,11 @@
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-factory.h>
 
-#define GAL_VIEW_FACTORY_MINICARD_TYPE        (gal_view_factory_minicard_get_type ())
-#define GAL_VIEW_FACTORY_MINICARD(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_FACTORY_MINICARD_TYPE, GalViewFactoryMinicard))
-#define GAL_VIEW_FACTORY_MINICARD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_FACTORY_MINICARD_TYPE, GalViewFactoryMinicardClass))
-#define GAL_IS_VIEW_FACTORY_MINICARD(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_FACTORY_MINICARD_TYPE))
-#define GAL_IS_VIEW_FACTORY_MINICARD_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_FACTORY_MINICARD_TYPE))
+#define GAL_TYPE_VIEW_FACTORY_MINICARD        (gal_view_factory_minicard_get_type ())
+#define GAL_VIEW_FACTORY_MINICARD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicard))
+#define GAL_VIEW_FACTORY_MINICARD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_TYPE_VIEW_FACTORY_MINICARD, GalViewFactoryMinicardClass))
+#define GAL_IS_VIEW_FACTORY_MINICARD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_TYPE_VIEW_FACTORY_MINICARD))
+#define GAL_IS_VIEW_FACTORY_MINICARD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_TYPE_VIEW_FACTORY_MINICARD))
 
 typedef struct {
 	GalViewFactory base;
@@ -28,7 +28,7 @@ typedef struct {
 } GalViewFactoryMinicardClass;
 
 /* Standard functions */
-GtkType         gal_view_factory_minicard_get_type   (void);
+GType           gal_view_factory_minicard_get_type   (void);
 GalViewFactory *gal_view_factory_minicard_new        (void);
 GalViewFactory *gal_view_factory_minicard_construct  (GalViewFactoryMinicard *factory);
 

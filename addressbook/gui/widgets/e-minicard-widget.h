@@ -36,11 +36,11 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define E_MINICARD_WIDGET_TYPE			(e_minicard_widget_get_type ())
-#define E_MINICARD_WIDGET(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_WIDGET_TYPE, EMinicardWidget))
-#define E_MINICARD_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_WIDGET_TYPE, EMinicardWidgetClass))
-#define E_IS_MINICARD_WIDGET(obj)		(GTK_CHECK_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
-#define E_IS_MINICARD_WIDGET_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
+#define E_TYPE_MINICARD_WIDGET			(e_minicard_widget_get_type ())
+#define E_MINICARD_WIDGET(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD_WIDGET, EMinicardWidget))
+#define E_MINICARD_WIDGET_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD_WIDGET, EMinicardWidgetClass))
+#define E_IS_MINICARD_WIDGET(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_WIDGET))
+#define E_IS_MINICARD_WIDGET_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_WIDGET))
 
 
 typedef struct _EMinicardWidget       EMinicardWidget;
@@ -64,7 +64,7 @@ struct _EMinicardWidgetClass
 
 
 GtkWidget *e_minicard_widget_new(void);
-GtkType    e_minicard_widget_get_type (void);
+GType      e_minicard_widget_get_type (void);
 
 void e_minicard_widget_set_card (EMinicardWidget *, ECard *);
 

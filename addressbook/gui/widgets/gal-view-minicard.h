@@ -14,11 +14,11 @@
 #include <gal/menus/gal-view.h>
 #include <e-minicard-view-widget.h>
 
-#define GAL_VIEW_MINICARD_TYPE        (gal_view_minicard_get_type ())
-#define GAL_VIEW_MINICARD(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_MINICARD_TYPE, GalViewMinicard))
-#define GAL_VIEW_MINICARD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_MINICARD_TYPE, GalViewMinicardClass))
-#define GAL_IS_VIEW_MINICARD(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_MINICARD_TYPE))
-#define GAL_IS_VIEW_MINICARD_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_MINICARD_TYPE))
+#define GAL_TYPE_VIEW_MINICARD        (gal_view_minicard_get_type ())
+#define GAL_VIEW_MINICARD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_MINICARD, GalViewMinicard))
+#define GAL_VIEW_MINICARD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
+#define GAL_IS_VIEW_MINICARD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_TYPE_VIEW_MINICARD))
+#define GAL_IS_VIEW_MINICARD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_TYPE_VIEW_MINICARD))
 
 typedef struct {
 	GalView              base;
@@ -35,7 +35,7 @@ typedef struct {
 } GalViewMinicardClass;
 
 /* Standard functions */
-GtkType  gal_view_minicard_get_type   (void);
+GType    gal_view_minicard_get_type   (void);
 GalView *gal_view_minicard_new        (const gchar         *title);
 GalView *gal_view_minicard_construct  (GalViewMinicard     *view,
 				       const gchar         *title);

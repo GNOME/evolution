@@ -413,24 +413,25 @@ e_addressbook_reflow_adapter_init (GtkObject *object)
 	priv->model_changed_id = 0;
 }
 
-GtkType
+GType
 e_addressbook_reflow_adapter_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type){
-		GtkTypeInfo info = {
-			"EAddressbookReflowAdapter",
-			sizeof (EAddressbookReflowAdapter),
+	if (!type) {
+		static const GTypeInfo info =  {
 			sizeof (EAddressbookReflowAdapterClass),
-			(GtkClassInitFunc) e_addressbook_reflow_adapter_class_init,
-			(GtkObjectInitFunc) e_addressbook_reflow_adapter_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_addressbook_reflow_adapter_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EAddressbookReflowAdapter),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_addressbook_reflow_adapter_init,
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "EAddressbookReflowAdapter", &info, 0);
 	}
 
 	return type;
@@ -468,7 +469,7 @@ e_addressbook_reflow_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookReflowAdapter *et;
 
-	et = gtk_type_new (e_addressbook_reflow_adapter_get_type ());
+	et = g_object_new (E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, NULL);
 
 	e_addressbook_reflow_adapter_construct (et, model);
 

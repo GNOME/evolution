@@ -1,5 +1,59 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/gal-view-minicard.[ch]: gobjectify this.
+
+	* gui/widgets/e-minicard.[ch]: gobjectify this.
+	(e_minicard_class_init): change the
+	min/max values of the width/height paramspecs so that they can
+	actually be set to something other than 0.0.
+
+	* gui/widgets/e-minicard-widget.[ch]: gobjectify this.
+
+	* gui/widgets/e-minicard-view.[ch]: gobjectify this.
+	(set_empty_message): don't need e_utf8_from_locale_string anymore.
+
+	* gui/widgets/e-minicard-view-widget.[ch]: gobjectify this.
+
+	* gui/widgets/e-minicard-label.[ch]: gobjectify this.
+
+	* gui/widgets/e-addressbook-view.[ch]: gobjectify this.
+
+	* gui/widgets/e-addressbook-table-adapter.[ch]: gobjectify this.
+
+	* gui/widgets/e-addressbook-reflow-adapter.[ch]: gobjectify this.
+
+	* gui/widgets/e-addressbook-model.[ch]: gobjectify this.
+
+	* gui/widgets/e-minicard-control.c (e_minicard_control_factory):
+	fix bonobo_persist_stream_new api change.
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(e_contact_list_model_add_destination): get rid of the
+	gtk_object_sink here.
+
+	* gui/component/ldap-config.glade: glade-2 version of this file.
+	
+	* gui/component/e-address-popup.c (e_address_popup_refresh_names):
+	don't need e_utf8_to_gtk_string anymore.
+
+	* gui/component/addressbook.c (make_suboptions): don't need
+	e_utf8_to_locale_string anymore.
+
+	* gui/component/addressbook-config.c
+	(addressbook_dialog_get_source): get rid of the e_utf8 gtk_entry
+	functions.
+	(addressbook_source_dialog_set_source): same.
+	(general_tab_check): same.
+	(port_changed_func): same.
+	(connecting_tab_check): same.
+	(query_for_supported_bases): same.
+	(display_name_check): same.
+	(display_name_page_prepare): same.
+	(edit_source_clicked): same.
+	(addressbook_config_create_new_source): same.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-card-sexp.c
 	(pas_backend_card_sexp_class_init): use g_type_class_peek_parent.
 

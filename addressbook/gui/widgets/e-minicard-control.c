@@ -26,6 +26,9 @@
 #include "e-minicard-widget.h"
 #include "e-card-merging.h"
 
+#define MINICARD_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
+#define MINICARD_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_MiniCard_ControlFactory"
+
 typedef struct {
 	EMinicardWidget *minicard;
 	GList *card_list;
@@ -220,21 +223,6 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	g_free (vcard);
 } /* pstream_save */
 
-static CORBA_long
-pstream_get_max_size (BonoboPersistStream *ps, void *data,
-		      CORBA_Environment *ev)
-{
-	EMinicardControl *minicard_control = data;
-	char *vcard;
-	gint length;
-
-	vcard = e_card_list_get_vcard(minicard_control->card_list);
-	length = strlen (vcard);
-	g_free (vcard);
-
-	return length;
-}
-
 static Bonobo_Persist_ContentTypeList *
 pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 			   CORBA_Environment *ev)
@@ -333,8 +321,8 @@ e_minicard_control_factory (BonoboGenericFactory *Factory,
 			  G_CALLBACK (free_struct), minicard_control);
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
-					    pstream_get_max_size,
 					    pstream_get_content_types,
+					    MINICARD_CONTROL_ID,
 					    minicard_control);
 
 #if 0
@@ -368,7 +356,7 @@ e_minicard_control_factory_init (void)
 
 	factory =
 		bonobo_generic_factory_new (
-		        "OAFIID:GNOME_Evolution_Addressbook_MiniCard_ControlFactory",
+			MINICARD_CONTROL_FACTORY_ID,
 			e_minicard_control_factory, NULL);
 
 	if (factory == NULL)

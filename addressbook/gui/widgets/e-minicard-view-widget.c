@@ -58,29 +58,28 @@ enum {
 
 static guint signals [LAST_SIGNAL] = {0, };
 
-GtkType
+GType
 e_minicard_view_widget_get_type (void)
 {
-  static GtkType type = 0;
+	static GType type = 0;
 
-  if (!type)
-    {
-      static const GtkTypeInfo info =
-      {
-        "EMinicardViewWidget",
-        sizeof (EMinicardViewWidget),
-        sizeof (EMinicardViewWidgetClass),
-        (GtkClassInitFunc) e_minicard_view_widget_class_init,
-        (GtkObjectInitFunc) e_minicard_view_widget_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!type) {
+		static const GTypeInfo info =  {
+			sizeof (EMinicardViewWidgetClass),
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_minicard_view_widget_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EMinicardViewWidget),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_minicard_view_widget_init,
+		};
 
-      type = gtk_type_unique (e_canvas_get_type (), &info);
-    }
+		type = g_type_register_static (e_canvas_get_type (), "EMinicardViewWidget", &info, 0);
+	}
 
-  return type;
+	return type;
 }
 
 static void

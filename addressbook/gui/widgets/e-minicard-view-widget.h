@@ -24,16 +24,13 @@
 #include "addressbook/backend/ebook/e-book.h"
 #include "e-minicard-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-#define E_MINICARD_VIEW_WIDGET_TYPE			(e_minicard_view_widget_get_type ())
-#define E_MINICARD_VIEW_WIDGET(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_VIEW_WIDGET_TYPE, EMinicardViewWidget))
-#define E_MINICARD_VIEW_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_VIEW_WIDGET_TYPE, EMinicardViewWidgetClass))
-#define E_IS_MINICARD_VIEW_WIDGET(obj) 		(GTK_CHECK_TYPE ((obj), E_MINICARD_VIEW_WIDGET_TYPE))
-#define E_IS_MINICARD_VIEW_WIDGET_CLASS(klass) 	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_VIEW_WIDGET_TYPE))
+#define E_TYPE_MINICARD_VIEW_WIDGET		(e_minicard_view_widget_get_type ())
+#define E_MINICARD_VIEW_WIDGET(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD_VIEW_WIDGET, EMinicardViewWidget))
+#define E_MINICARD_VIEW_WIDGET_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD_VIEW_WIDGET, EMinicardViewWidgetClass))
+#define E_IS_MINICARD_VIEW_WIDGET(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW_WIDGET))
+#define E_IS_MINICARD_VIEW_WIDGET_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW_WIDGET))
 
 
 typedef struct _EMinicardViewWidget       EMinicardViewWidget;
@@ -63,15 +60,13 @@ struct _EMinicardViewWidgetClass
 };
 
 
-GtkType          e_minicard_view_widget_get_type             (void);
+GType            e_minicard_view_widget_get_type             (void);
 GtkWidget       *e_minicard_view_widget_new                  (EAddressbookReflowAdapter *adapter);
 
 /* Get parts of the view widget. */
 ESelectionModel *e_minicard_view_widget_get_selection_model  (EMinicardViewWidget       *view);
 EMinicardView   *e_minicard_view_widget_get_view             (EMinicardViewWidget       *view);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_MINICARD_VIEW_WIDGET_H__ */

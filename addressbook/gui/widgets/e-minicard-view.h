@@ -27,10 +27,7 @@
 #include "addressbook/backend/ebook/e-book.h"
 #include "e-addressbook-reflow-adapter.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EMinicardView - A canvas item container.
  *
@@ -51,11 +48,11 @@ extern "C" {
  * height       double          RW              height of the reflow
  */
 
-#define E_MINICARD_VIEW_TYPE			(e_minicard_view_get_type ())
-#define E_MINICARD_VIEW(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_VIEW_TYPE, EMinicardView))
-#define E_MINICARD_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_VIEW_TYPE, EMinicardViewClass))
-#define E_IS_MINICARD_VIEW(obj) 		(GTK_CHECK_TYPE ((obj), E_MINICARD_VIEW_TYPE))
-#define E_IS_MINICARD_VIEW_CLASS(klass) 	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_VIEW_TYPE))
+#define E_TYPE_MINICARD_VIEW			(e_minicard_view_get_type ())
+#define E_MINICARD_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD_VIEW, EMinicardView))
+#define E_MINICARD_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD_VIEW, EMinicardViewClass))
+#define E_IS_MINICARD_VIEW(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW))
+#define E_IS_MINICARD_VIEW_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW))
 
 
 typedef struct _EMinicardView       EMinicardView;
@@ -83,7 +80,7 @@ struct _EMinicardViewClass
 	void (*right_click) (EMinicardView *view, GdkEvent *event);
 };
 
-GtkType  e_minicard_view_get_type          (void);
+GType    e_minicard_view_get_type          (void);
 void     e_minicard_view_remove_selection  (EMinicardView *view,
 					    EBookCallback  cb,
 					    gpointer       closure);
@@ -91,9 +88,7 @@ void     e_minicard_view_jump_to_letter    (EMinicardView *view,
 					    gunichar       letter);
 GList   *e_minicard_view_get_card_list     (EMinicardView *view);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
+G_END_DECLS
 
 #endif /* __E_MINICARD_VIEW_H__ */
