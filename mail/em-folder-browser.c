@@ -709,6 +709,7 @@ emfb_list_built(MessageList *ml, EMFolderBrowser *emfb)
 	emfb->priv->list_built_id = 0;
 	
 	/* FIXME: if the 1st message in the list is unread, this will actually select the second unread msg */
+	/* FIXME: this usually happens "too soon" and so the toolbar/menu-items remain desensitised even tho with the message selected they should be sensitive */
 	if (((EMFolderView *)emfb)->list->cursor_uid == NULL)
 		message_list_select(((EMFolderView *)emfb)->list,
 				    MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
