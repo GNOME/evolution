@@ -1,3 +1,8 @@
+2000-09-29  Peter Williams  <peterw@helixcode.com>
+
+	* ui/Makefile.am (XML_FILES): Install the new evolution-subscribe.xml
+	file.
+
 2000-09-29  Chris Toshok  <toshok@helixcode.com>
 
 	* ui/evolution-mail.xml: add a Settings/Manage Subscriptions...
