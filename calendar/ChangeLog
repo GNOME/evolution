@@ -1,3 +1,20 @@
+2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-offline-handler.c (impl_dispose): Chain. Prevent
+	double unrefs.
+	(impl_finalize): Chain.
+
+	* gui/e-alarm-list.c (finalize): Chain.
+
+	* gui/e-comp-editor-registry.c (destroy): Chain. Prevent double frees.
+	(editor_destroy_cb): Don't crash if we get the destroy signal twice.
+
+	* gui/e-date-time-list.c (e_date_time_list_finalize): Chain.
+
+	* gui/e-meeting-attendee.c (finalize): Chain.
+
+	* gui/e-meeting-model.c (finalize): Chain.
+
 2003-08-12 Andrew Wu <Yang.Wu@sun.com>
 
        * gui/e-day-view.c

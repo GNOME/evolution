@@ -50,13 +50,21 @@ destroy (GtkObject *obj)
 {
 	ECompEditorRegistry *reg;
 	ECompEditorRegistryPrivate *priv;
-	
+
 	reg = E_COMP_EDITOR_REGISTRY (obj);
 	priv = reg->priv;
 
-	g_hash_table_destroy (priv->editors);
-	
-	g_free (priv);
+	if (priv) {
+		if (priv->editors) {
+			g_hash_table_destroy (priv->editors);
+			priv->editors = NULL;
+		}
+
+		g_free (priv);
+		reg->priv = NULL;
+	}
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 static void
@@ -195,10 +203,10 @@ editor_destroy_cb (GtkWidget *widget, gpointer data)
 	cal_component_get_uid (comp, &uid);
 
 	rdata = g_hash_table_lookup (priv->editors, uid);
-	g_assert (rdata != NULL);
-	
-	g_hash_table_remove (priv->editors, rdata->uid);
-	g_free (rdata->uid);
-	g_free (rdata);
-}
 
+	if (rdata != NULL) {
+		g_hash_table_remove (priv->editors, rdata->uid);
+		g_free (rdata->uid);
+		g_free (rdata);
+	}
+}

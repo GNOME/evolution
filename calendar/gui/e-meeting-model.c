@@ -671,6 +671,9 @@ finalize (GObject *obj)
  		g_source_remove (priv->refresh_idle_id);
  		
 	g_free (priv);
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+ 		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 GtkObject *

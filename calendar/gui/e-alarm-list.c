@@ -225,6 +225,9 @@ static void
 e_alarm_list_finalize (GObject *object)
 {
 	EAlarmList *alarm_list = E_ALARM_LIST (object);
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /* Fulfill the GtkTreeModel requirements */
