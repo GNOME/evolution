@@ -1,3 +1,14 @@
+2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #51605.
+
+	* em-folder-selector.c (emfs_response): Handle creating a new
+	folder (pop up a create-folder-selector dialog).
+
+	* em-folder-tree.c (emft_popup_new_folder_response): Moved all the
+	logic into em_folder_tree_create_folder().
+	(em_folder_tree_create_folder): New function to create a folder.
+
 2003-12-04  Radek Doulik  <rodo@ximian.com>
 
 	* em-folder-view.c: set junk toolbar buttons pixmaps

@@ -71,6 +71,8 @@ const char *em_folder_tree_get_selected_path (EMFolderTree *emft);
 
 EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
 
+gboolean em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *uri);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

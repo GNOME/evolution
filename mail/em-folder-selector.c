@@ -57,7 +57,6 @@ static void em_folder_selector_class_init (EMFolderSelectorClass *klass);
 static void em_folder_selector_init (EMFolderSelector *emfs);
 static void em_folder_selector_destroy (GtkObject *obj);
 static void em_folder_selector_finalize (GObject *obj);
-static void em_folder_selector_response (GtkDialog *dialog, int response);
 
 
 static GtkDialogClass *parent_class = NULL;
@@ -92,14 +91,11 @@ em_folder_selector_class_init (EMFolderSelectorClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
-	GtkDialogClass *dialog_class = GTK_DIALOG_CLASS (klass);
 	
 	parent_class = g_type_class_ref (GTK_TYPE_DIALOG);
 	
 	object_class->finalize = em_folder_selector_finalize;
 	gtk_object_class->destroy = em_folder_selector_destroy;
-	
-	dialog_class->response = em_folder_selector_response;
 }
 
 static void
@@ -127,15 +123,31 @@ em_folder_selector_finalize (GObject *obj)
 }
 
 static void
-em_folder_selector_response (GtkDialog *dialog, int response)
+emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 {
-	EMFolderSelector *emfs = (EMFolderSelector *) dialog;
+	EMFolderTreeModel *model;
+	const char *path, *uri;
+	EMFolderTree *emft;
 	
-	switch (response) {
-	case EM_FOLDER_SELECTOR_RESPONSE_NEW:
-		/* FIXME: implement me */
-		break;
+	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
+		return;
+	
+	model = em_folder_tree_get_model (emfs->emft);
+	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	dialog = em_folder_selector_create_new (emft, 0, _("Create New Folder"), _("Specify where to create the folder:"));
+	gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) emfs);
+	
+	if (gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK) {
+		uri = em_folder_selector_get_selected_uri ((EMFolderSelector *) dialog);
+		path = em_folder_selector_get_selected_path ((EMFolderSelector *) dialog);
+		
+		if (em_folder_tree_create_folder (emfs->emft, path, uri))
+			em_folder_tree_set_selected (emfs->emft, uri);
 	}
+	
+	gtk_widget_destroy (dialog);
+	
+	g_signal_stop_emission_by_name (emfs, "response");
 }
 
 static void
@@ -178,8 +190,10 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (emfs)->vbox), 6);
 	
 	emfs->flags = flags;
-	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE)
-		gtk_dialog_add_buttons (GTK_DIALOG (emfs), GTK_STOCK_NEW, EM_FOLDER_SELECTOR_RESPONSE_NEW, NULL);
+	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
+		gtk_dialog_add_button (GTK_DIALOG (emfs), GTK_STOCK_NEW, EM_FOLDER_SELECTOR_RESPONSE_NEW);
+		g_signal_connect (emfs, "response", G_CALLBACK (emfs_response), emfs);
+	}
 	
 	gtk_dialog_add_buttons (GTK_DIALOG (emfs), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
@@ -188,7 +202,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_dialog_set_default_response (GTK_DIALOG (emfs), GTK_RESPONSE_OK);
 	
 	emfs->emft = emft;
-	gtk_widget_show ((GtkWidget *) emfs->emft);
+	gtk_widget_show ((GtkWidget *) emft);
 	
 	g_signal_connect (emfs->emft, "folder-selected", G_CALLBACK (folder_selected_cb), emfs);
 	

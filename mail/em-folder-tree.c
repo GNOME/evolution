@@ -1000,25 +1000,18 @@ emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 
-static void
-emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTree *emft)
+
+gboolean
+em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *uri)
 {
-	/* FIXME: ugh, kludge-a-licious: EMFolderSelector uses EMFolderTree so we can poke emfs->emft internals */
-	struct _EMFolderTreePrivate *priv = emfs->emft->priv;
+	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	const char *uri, *parent, *path, *full_name;
+	const char *parent, *full_name;
 	char *name, *namebuf = NULL;
 	GtkWidget *dialog;
 	CamelStore *store;
 	CamelException ex;
 	
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy ((GtkWidget *) emfs);
-		return;
-	}
-	
-	uri = em_folder_selector_get_selected_uri (emfs);
-	path = em_folder_selector_get_selected_path (emfs);
 	d(printf ("Creating folder: %s (%s)\n", path, uri));
 	
 	camel_exception_init (&ex);
@@ -1056,19 +1049,36 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	
 	g_free (namebuf);
 	
-	gtk_widget_destroy ((GtkWidget *) emfs);
-	
-	return;
+	return TRUE;
 	
  exception:
 	
-	dialog = gtk_message_dialog_new ((GtkWindow *) emfs, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+	dialog = gtk_message_dialog_new ((GtkWindow *) emft, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	camel_exception_clear (&ex);
 	g_free (namebuf);
 	
 	gtk_widget_show (dialog);
+	
+	return FALSE;
+}
+
+static void
+emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTree *emft)
+{
+	const char *uri, *path;
+	
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy ((GtkWidget *) emfs);
+		return;
+	}
+	
+	uri = em_folder_selector_get_selected_uri (emfs);
+	path = em_folder_selector_get_selected_path (emfs);
+	
+	if (em_folder_tree_create_folder (emfs->emft, path, uri))
+		gtk_widget_destroy ((GtkWidget *) emfs);
 }
 
 static void

@@ -1139,7 +1139,7 @@ em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gb
 static void
 expanded_save (gpointer key, gpointer value, FILE *fp)
 {
-	/* FIXME: don't save nodes that don't exist in the tree anymore... */
+	/* FIXME: don't save stale entries */
 	if (!GPOINTER_TO_INT (value))
 		return;
 	
