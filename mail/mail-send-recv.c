@@ -210,6 +210,7 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 {
 	g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 	data->gd = NULL;
+	send_recv_dialogue = NULL;
 }
 
 static void
@@ -225,14 +226,10 @@ dialogue_response(GtkDialog *gd, int button, struct _send_data *data)
 		gtk_dialog_set_response_sensitive(gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
 	default:
-		/* FIXME: check this works */
 		d(printf("hiding dialogue\n"));
-		gtk_widget_destroy((GtkWidget *)gd);
-		g_object_unref(gd);
-#if 0
 		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
 		data->gd = NULL;
-#endif
+		/*gtk_widget_destroy((GtkWidget *)gd);*/
 		break;
 	}
 }
@@ -299,6 +296,7 @@ build_dialogue (const GSList *accounts, CamelFolder *outbox, const char *destina
 	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, 0, NULL);
 	stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	gtk_button_set_label(stop, _("Cancel All"));
+	gtk_widget_show((GtkWidget *)stop);
 	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
 	g_object_set(gd, "resizable", FALSE, NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");

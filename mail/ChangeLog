@@ -1,3 +1,9 @@
+2003-01-10  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (dialogue_response): dont unref the dialogue.
+	(dialog_destroy_cb): null out the send_recv_dialogue after destroy.
+	(build_dialogue): show the stop button
+
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
 	* folder-info.c (evolution_folder_info_notify_ready): pass bag to
