@@ -320,12 +320,24 @@ calendar_save (Calendar *cal, char *fname)
 	addPropValue (vcal, VCVersionProp, VERSION);
 	cal->temp = vcal;
 
-	for (l = cal->events; l; l = l->next){
+	/* Events */
+
+	for (l = cal->events; l; l = l->next) {
 		VObject *obj;
 			
 		obj = ical_object_to_vobject ((iCalObject *) l->data);
 		addVObjectProp (vcal, obj);
 	}
+
+	/* To-do entries */
+
+	for (l = cal->todo; l; l = l->next) {
+		VObject *obj;
+
+		obj = ical_object_to_vobject ((iCalObject *) l->data);
+		addVObjectProp (vcal, obj);
+	}
+
 	writeVObjectToFile (fname, vcal);
 	cleanVObject (vcal);
 	cleanStrTbl ();

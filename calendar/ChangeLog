@@ -1,3 +1,10 @@
+1998-04-23  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* calendar.c (calendar_save): Actually save the to-do entries.
+
+	* gncal-todo.c (simple_todo_editor): Now you can add and edit
+	to-do entries.
+
 1998-04-22  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c: Made it use popup_menu().
