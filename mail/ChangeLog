@@ -1,7 +1,30 @@
+2002-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_send_queued_cb): Delete the Draft
+	item that this was edited from if that is the case as well as
+	setting any replied flags if we need to. Fixes bug #18171.
+	(save_draft_done): Not only delete the previously saved draft, but
+	also set any PostSendData on the message being replied to or
+	whatever. Fixes bug #20224.
+	(compose_msg): Create an empty callback data struct which is now a
+	MUST.
+	(mail_reply): Fill in the new post_send_data info and also move
+	the creation of the post_send_data to AFTER the creation of the
+	composer widget so we don't leak on fail.
+	(forward_get_composer): Pass an empty post_send_data structure as
+	the user_data to the signal callbacks.
+	(send_to_url): Same.
+	(post_to_url): Here too.
+	(redirect_get_composer): And here.
+	(do_edit_messages): We no longer use the evil kludge of setting
+	data on the composer object to denote the drafts_uid etc, this is
+	now part of the post_send_data struct.
+
 2002-08-07  Peter Williams  <peterw@ximian.com>
 
-	* component-factory.c (request_quit): If outbox_folder is NULL, don't
-	try and get its message count (this should never happen, but has.)
+	* component-factory.c (request_quit): If outbox_folder is NULL,
+	don't try and get its message count (this should never happen, but
+	has.)
 
 2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
