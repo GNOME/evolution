@@ -1589,6 +1589,9 @@
 				  <property name="rules_hint">False</property>
 				  <property name="reorderable">False</property>
 				  <property name="enable_search">True</property>
+				  <accessibility>
+				    <atkproperty name="AtkObject::accessible_name" translatable="yes">Publishing Table</atkproperty>
+				  </accessibility>
 				</widget>
 			      </child>
 			    </widget>

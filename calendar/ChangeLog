@@ -1,3 +1,10 @@
+2005-03-30  Li Yuan  <li.yuan@sun.com>
+
+	Fixes #73914
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	add a11y name to Publishing Table.
+
 2005-03-28  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #44719
