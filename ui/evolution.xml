@@ -127,5 +127,6 @@
 		  _tip="Create a new window displaying this folder"
 		  accel="*Control**Shift*w"/>
     </popup>
+  </popups>
 
 </Root>

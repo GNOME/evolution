@@ -1,5 +1,9 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution.xml: Ooops, add missing closing </popups> tag.
+
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: Add back send/receive command and toolbar button.
 
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
