@@ -563,16 +563,12 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
 
     icalerror_assert( (cimpl->parent ==0),"The child component has already been added to a parent component. Remove the component with icalcomponent_remove_component before calling icalcomponent_add_component");
 
-    fprintf (stderr, "In icalcomponent_add_component\n");
-
     cimpl->parent = parent;
 
     pvl_push(impl->components,child);
 
     /* If the new component is a VTIMEZONE, add it to our array. */
     if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
-	fprintf (stderr, "  it is a VTIMEZONE component.\n");
-
 	/* FIXME: Currently we are also creating this array when loading in
 	   a builtin VTIMEZONE, when we don't need it. */
 	if (!impl->timezones)
@@ -582,9 +578,6 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
 
 	/* Flag that we need to sort it before doing any binary searches. */
 	impl->timezones_sorted = 0;
-
-	fprintf (stderr, "  num timezones in array: %i\n",
-		 impl->timezones->num_elements);
     }
 }
 
@@ -1584,6 +1577,7 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
 {
   icalproperty *tzid_prop;
   const char *tzid;
+  char *tzid_copy;
   icaltimezone *existing_vtimezone;
 
   /* Get the TZID of the VTIMEZONE. */
@@ -1614,14 +1608,22 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
 
   /* Now we have two VTIMEZONEs with the same TZID (which isn't a globally
      unique one), so we compare the VTIMEZONE components to see if they are
-     the same. If they are, we don't need to do anything. */
-  if (icalcomponent_compare_vtimezones (existing_vtimezone, vtimezone))
+     the same. If they are, we don't need to do anything. We make a copy of
+     the tzid, since the parameter may get modified in these calls. */
+  tzid_copy = strdup (tzid);
+  if (!tzid_copy) {
+    icalerror_set_errno(ICAL_NEWFAILED_ERROR);
     return;
-  /* FIXME: Handle possible NEWFAILED error. */
+  }
 
-  /* Now we have two different VTIMEZONEs with the same TZID. */
-  icalcomponent_handle_conflicting_vtimezones (comp, vtimezone, tzid_prop,
-					       tzid, tzids_to_rename);
+  if (!icalcomponent_compare_vtimezones (existing_vtimezone, vtimezone)) {
+    /* FIXME: Handle possible NEWFAILED error. */
+
+    /* Now we have two different VTIMEZONEs with the same TZID. */
+    icalcomponent_handle_conflicting_vtimezones (comp, vtimezone, tzid_prop,
+						 tzid_copy, tzids_to_rename);
+  }
+  free (tzid_copy);
 }
 
 
@@ -1745,8 +1747,10 @@ static void icalcomponent_rename_tzids_callback(icalparameter *param, void *data
     /* Step through the rename table to see if the current TZID matches
        any of the ones we want to rename. */
     for (i = 0; i < rename_table->num_elements - 1; i += 2) {
-        if (!strcmp (tzid, icalarray_element_at (rename_table, i)))
+        if (!strcmp (tzid, icalarray_element_at (rename_table, i))) {
 	    icalparameter_set_tzid (param, icalarray_element_at (rename_table, i + 1));
+	    break;
+	}
     }
 }
 
@@ -1813,13 +1817,10 @@ icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
     lower = middle = 0;
     upper = impl->timezones->num_elements;
 
-    fprintf (stderr, "In icalcomponent_get_timezone (%i): %s\n", upper, tzid);
-
     while (lower < upper) {
 	middle = (lower + upper) >> 1;
 	zone = icalarray_element_at (impl->timezones, middle);
 	zone_tzid = icaltimezone_get_tzid (zone);
-	fprintf (stderr, "   comparing with: %s\n", zone_tzid);
 	cmp = strcmp (tzid, zone_tzid);
 	if (cmp == 0)
 	    return zone;
@@ -1871,7 +1872,7 @@ static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
 	return -1;
 
     /* Get the TZID property of the second VTIMEZONE. */
-    prop2 = icalcomponent_get_first_property (vtimezone1, ICAL_TZID_PROPERTY);
+    prop2 = icalcomponent_get_first_property (vtimezone2, ICAL_TZID_PROPERTY);
     if (!prop2)
 	return -1;
 

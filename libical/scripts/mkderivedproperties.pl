@@ -179,6 +179,24 @@ icalproperty* icalproperty_vanew_${lc}($type v, ...){
    va_end(args);
    return (icalproperty*)impl;
 }
+EOM
+
+    # Allow EXDATEs to take DATE values easily.
+    if ($lc eq "exdate") {
+	print<<EOM;
+void icalproperty_set_${lc}(icalproperty* prop, $type v){
+    icalvalue *value;
+    $set_pointer_check
+    icalerror_check_arg_rv( (prop!=0),"prop");
+    if (v.is_date)
+        value = icalvalue_new_date(v);
+    else
+        value = icalvalue_new_datetime(v);
+    icalproperty_set_value(prop,value);
+}
+EOM
+    } else {
+	print<<EOM;
 void icalproperty_set_${lc}(icalproperty* prop, $type v){
     icalvalue *value;
     $set_pointer_check
@@ -186,6 +204,10 @@ void icalproperty_set_${lc}(icalproperty* prop, $type v){
     value = icalvalue_new_${lcvalue}(v);
     icalproperty_set_value(prop,value);
 }
+EOM
+    }
+
+ print<<EOM;
 $type icalproperty_get_${lc}(icalproperty* prop){
     icalvalue *value;
     icalerror_check_arg( (prop!=0),"prop");

@@ -459,6 +459,7 @@ struct { char* str;size_t offset; short limit;  } recurmap[] =
 };
 
 /* A private routine in icalvalue.c */
+void print_date_to_string(char* str,  struct icaltimetype *data);
 void print_datetime_to_string(char* str,  struct icaltimetype *data);
 
 char* icalrecurrencetype_as_string(struct icalrecurrencetype *recur)
@@ -483,7 +484,10 @@ char* icalrecurrencetype_as_string(struct icalrecurrencetype *recur)
     if(recur->until.year != 0){
 	
 	temp[0] = 0;
-	print_datetime_to_string(temp,&(recur->until));
+	if (recur->until.is_date)
+	    print_date_to_string(temp,&(recur->until));
+	else
+	    print_datetime_to_string(temp,&(recur->until));
 	
 	icalmemory_append_string(&str,&str_p,&buf_sz,";UNTIL=");
 	icalmemory_append_string(&str,&str_p,&buf_sz, temp);

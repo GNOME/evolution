@@ -1305,7 +1305,6 @@ icaltimezone_get_builtin_timezone	(const char *location)
 	middle = (lower + upper) >> 1;
 	zone = icalarray_element_at (builtin_timezones, middle);
 	zone_location = icaltimezone_get_location (zone);
-	fprintf (stderr, "  comparing with: %s\n", zone_location);
 	cmp = strcmp (location, zone_location);
 	if (cmp == 0)
 	    return zone;
@@ -1315,7 +1314,7 @@ icaltimezone_get_builtin_timezone	(const char *location)
 	    lower = middle + 1;
     }
 
-    fprintf (stderr, "  not found\n");
+    fprintf (stderr, "  ***** not found\n");
 
     return NULL;
 }

@@ -1,3 +1,27 @@
+2001-07-30  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalcomponent.c (icalcomponent_merge_vtimezone): copy
+	the TZID just in case the property we got it from gets modified.
+	(icalcomponent_rename_tzids_callback): break out of the loop if we
+	have renamed the TZID parameter. Otherwise our tzid variable would be
+	invalid.
+
+	* scripts/mkderivedproperties.pl (fudge_data): changed this so we can
+	set EXDATEs that are DATE values, by checking the is_date field.
+	I'm not entirely sure this is the way it should be done.
+	If it is, I'll also do this for other things like DTSTART/DTEND.
+
+	* src/libical/icalrecur.c (icalrecurrencetype_as_string): handle
+	UNTIL as a DATE value as well as a DATE-TIME.
+
+	* src/libical/icalcomponent.c (icalcomponent_compare_vtimezones): 
+	fixed stupid error, getting TZID property from wrong VTIMEZONE.
+	This would only have affected iTIP stuff, with VTIMEZONEs that don't
+	use the '/' prefix (i.e. from Outlook). It probably just meant we
+	kept multiple copies of the same VTIMEZONE.
+
+	* src/libical/icaltimezone.c: removed some debugging messages.
+
 2001-07-26  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icalcomponent.c (icalcomponent_begin_component):
