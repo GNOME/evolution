@@ -619,3 +619,31 @@ rule_context_get_rank_rule (RuleContext *f, FilterRule *rule, const char *source
 	
 	return -1;
 }
+
+FilterRule *
+rule_context_find_rank_rule (RuleContext *f, int rank, const char *source)
+{
+	GList *node;
+	int i = 0;
+
+	g_assert(f);
+
+	d(printf("getting rule at rank %d source '%s'\n", rank, source?source:"<any>"));
+
+	node = f->rules;
+	while (node) {
+		FilterRule *r = node->data;
+
+		d(printf(" checking against rule '%s' rank '%d'\n", r->name, i));
+
+		if (source == NULL || (r->source && strcmp(r->source, source) == 0)) {
+			if (rank == i)
+				return r;
+			i++;
+		}
+		
+		node = node->next;
+	}
+	
+	return NULL;
+}

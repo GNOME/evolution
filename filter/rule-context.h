@@ -100,6 +100,7 @@ FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last);
 
 FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last, const char *source);
 FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name, const char *source);
+FilterRule 	*rule_context_find_rank_rule(RuleContext *f, int rank, const char *source);
 void		rule_context_add_rule(RuleContext *f, FilterRule *new);
 void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *title, const char *path);
 void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);

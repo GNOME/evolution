@@ -1,3 +1,30 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* rule-editor.c (rule_move): Add undo for move.
+	(rule_editor_add_undo): Add extra rank item.
+	(rule_editor_play_undo): handle rank case.
+	(rule_editor_finalise): Clean up any hanging over undo log.
+	(editor_clicked): Only enable 'undo' if we have
+	EVOLUTION_RULE_UNDO enabled.  Code still a bit flakey.
+	(rule_editor_construct): Only enable a cancel button if
+	EVOLUTION_RULE_UNDO is set.
+
+	* filter-rule.c (filter_rule_set_name): Emit a changed event if it
+	changes.
+	(filter_rule_set_source): Same.
+
+2001-10-26    <NotZed@Ximian.com>
+
+	* rule-context.c (rule_context_find_rank_rule): Find a rule at a
+	specific rank/source.
+
+	* rule-editor.c (add_editor_clicked): Log the added object.
+	(rule_editor_add_undo): New function to add an undo record to the
+	rule editor.
+	(edit_editor_clicked): Log the changed object.
+	(rule_delete): Add undo object.
+	(rule_editor_play_undo): Play an undo log back.
+
 2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_add): Desensitize the parent dialog.

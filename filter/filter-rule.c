@@ -169,18 +169,30 @@ void
 filter_rule_set_name (FilterRule *fr, const char *name)
 {
 	g_assert (IS_FILTER_RULE (fr));
+
+	if ((fr->name && name && strcmp(fr->name, name) == 0)
+	    || (fr->name == NULL && name == NULL))
+		return;
 	
 	g_free (fr->name);
 	fr->name = g_strdup (name);
+
+	filter_rule_emit_changed(fr);
 }
 
 void
 filter_rule_set_source (FilterRule *fr, const char *source)
 {
 	g_assert (IS_FILTER_RULE (fr));
+
+	if ((fr->source && source && strcmp(fr->source, source) == 0)
+	    || (fr->source == NULL && source == NULL))
+		return;
 	
 	g_free (fr->source);
 	fr->source = g_strdup (source);
+
+	filter_rule_emit_changed(fr);
 }
 
 int
