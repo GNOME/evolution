@@ -70,6 +70,7 @@ struct _ESelectNames
 	ETableScrolled *table;
 	ETableModel *adapter;
 	EAddressbookModel *model;
+	GtkWidget *categories;
 	int currently_selected;
 	EvolutionStorageListener *listener;
 	GHashTable *folders;

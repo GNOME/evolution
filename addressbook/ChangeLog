@@ -1,5 +1,13 @@
 2001-06-26  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h,
+	gui/component/select-names/select-names.glade
+	(e_select_names_create_categories): Added a categories combo here.
+	It's not used yet.
+
+2001-06-26  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/search/addresstypes.xml: Added category searching to the
 	advanced search dialog here.
 	

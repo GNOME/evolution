@@ -78,7 +78,7 @@
     <widget>
       <class>GtkTable</class>
       <name>table-top</name>
-      <rows>4</rows>
+      <rows>5</rows>
       <columns>2</columns>
       <homogeneous>False</homogeneous>
       <row_spacing>6</row_spacing>
@@ -118,7 +118,7 @@
 	  <editable>True</editable>
 	  <text_visible>True</text_visible>
 	  <text_max_length>0</text_max_length>
-	  <text></text>
+	  <text>=</text>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -177,8 +177,8 @@
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
-	  <top_attach>3</top_attach>
-	  <bottom_attach>4</bottom_attach>
+	  <top_attach>4</top_attach>
+	  <bottom_attach>5</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
@@ -201,8 +201,8 @@
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
-	  <top_attach>3</top_attach>
-	  <bottom_attach>4</bottom_attach>
+	  <top_attach>4</top_attach>
+	  <bottom_attach>5</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
@@ -259,6 +259,29 @@
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
 	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>Custom</class>
+	<name>custom-categories</name>
+	<creation_function>e_select_names_create_categories</creation_function>
+	<int1>0</int1>
+	<int2>0</int2>
+	<last_modification_time>Wed, 27 Jun 2001 01:47:01 GMT</last_modification_time>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>3</top_attach>
+	  <bottom_attach>4</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
 	</child>
       </widget>
     </widget>

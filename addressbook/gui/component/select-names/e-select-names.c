@@ -39,6 +39,8 @@
 #include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-table-model.h"
+#include <gal/widgets/e-categories-master-list-combo.h>
+#include <e-util/e-categories-master-list-wombat.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
@@ -383,6 +385,25 @@ e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 	CORBA_exception_free(&ev);
 }
 
+GtkWidget *e_select_names_create_categories (gchar *name,
+					     gchar *string1, gchar *string2,
+					     gint int1, gint int2);
+
+GtkWidget *
+e_select_names_create_categories (gchar *name,
+				  gchar *string1, gchar *string2,
+				  gint int1, gint int2)
+{
+	ECategoriesMasterList *ecml;
+	GtkWidget *combo;
+
+	ecml = e_categories_master_list_wombat_new ();
+	combo = e_categories_master_list_combo_new (ecml);
+	gtk_object_unref (GTK_OBJECT (ecml));
+
+	return combo;
+}
+
 static void
 e_select_names_init (ESelectNames *e_select_names)
 {
@@ -415,6 +436,8 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
 	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
+
+	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 
 	e_select_names->currently_selected = -1;
 
