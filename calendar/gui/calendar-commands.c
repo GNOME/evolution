@@ -351,7 +351,7 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 			gtk_object_unref (GTK_OBJECT (comp));
 		}
 
-		g_free (comp_list);
+ 		g_list_free (comp_list);
 	}
 }
 

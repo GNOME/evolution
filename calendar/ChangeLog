@@ -1,3 +1,14 @@
+2001-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.c (e_meeting_model_refresh_busy_periods):
+	remove silly debug #if 0
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): g_list_free
+	rather than g_free
+
+	* gui/e-itip-control.c (write_html): eliminate code path that
+	caused double freed memory
+
 2001-09-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/schedule-page.*: A page that shows the meeting time

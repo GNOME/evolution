@@ -637,7 +637,9 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 			html = g_strdup_printf (itip_desc,
 						organizer.cn ? 
 						organizer.cn : 
-						itip_strip_mailto (organizer.value));		
+						itip_strip_mailto (organizer.value));
+		else
+			html = g_strdup_printf (itip_desc, "An unknown person");
 		break;
 	}
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));

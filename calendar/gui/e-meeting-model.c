@@ -1218,7 +1218,6 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 	for (i = 0; i < priv->attendees->len; i++)
 		g_ptr_array_index (not_found, i) = g_ptr_array_index (priv->attendees, i);
 
-#if 0	
 	/* Check the server for free busy data */	
 	if (priv->client) {
 		GList *fb_data, *users = NULL, *l;
@@ -1260,7 +1259,7 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 				process_free_busy (im, ia, cal_component_get_as_string (comp));
 		}	
 	}
-#endif	
+
 	/* Look for fburl's of attendee with no free busy info on server */
 	if (!priv->book_loaded) {
 		priv->book_load_wait = TRUE;
