@@ -1250,6 +1250,10 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
+
+	/* When printing, do citations in black -- grey tends to be hard to read. */
+	if (md->printing)
+		citation_color = 0xffffff;
 	
 	mail_html_write (html, stream,
 			 "\n<!-- text/plain, flowed -->\n"

@@ -1,5 +1,8 @@
 2001-12-17  Jon Trowbridge  <trow@ximian.com>
 
+	* mail-format.c (handle_text_plain_flowed): Set citation color to
+	black when we are printing.
+
 	* mail-format.c (attachment_header): Avoid embedding <object> tags
 	when we are printing.
 	(handle_multipart_signed): Don't do the click-for-info signature
