@@ -1,0 +1,96 @@
+
+LIBICAL -- An implementation of basic iCAL protocols
+
+The code and datafiles in this distribution are licensed under the
+Mozilla Public License. See http://www.mozilla.org/NPL/MPL-1.0.html
+for a copy of the license. Alternately, you may use libical under the
+terms of the GNU Library General Public License. See
+http://www.fsf.org/copyleft/lesser.html for a copy of the LGPL.
+
+This dual license ensures that the library can be incorporated into
+both proprietary code and GPL'd programs, and will benefit from
+improvements made by programmers in both realms. I will only accept
+changes into my version of the library if they are similarly
+dual-licensed.
+
+The code in this distribution implements the iCal protocols as
+described in RFC2445 and RFC2446. The code is in very early stages of
+development.
+
+This code is under active development. If you would like to contribute
+to the project, you can contact me, Eric Busboom, at
+eric@softwarestudio.org. The project has a webpage at
+
+	http://softwarestudio.org/libical/index.html 
+
+and a mailing list that you can join by sending the following mail:
+
+	------------
+	To: minimalist@softwarestudio.org
+	Subject: subscribe libical
+	------------
+
+
+Building the library
+--------------------
+
+This distribution is developed on Red Hat Linux 6.0 and usually
+compiles on SunOS 5.6 and FreeBSD 2.27. I have reports of success of
+previous version on MacOS ( with CodeWarrior ) but I don't know about
+any other systems.
+
+The library is configured with automake. From the root directory, run 
+
+	./configure
+
+To build all of the Makefiles for your system. If you will be installing the library, you may want to use the --prefix flag to set the directory where the library and header files will be installed. 
+
+	./configure --prefix=/proj/local/
+
+If configure runs fine, run "make" to build the library and 
+"make install" to install it.
+
+The current version of libical focuses on creating and
+manipulating iCal objects. With it, you can parse text representations
+of iCal components, add and remove sub-components, properties,
+parameters and values, and print the components back out as strings. 
+
+
+Notes for Libical Developers
+-------------------
+
+If you don't want to use gcc as the compiler, and you got the sources
+from CVS, you should set the CC variable to the path to the compiler
+and run "automake --include-deps" to keep automake from using
+gcc-specific automatic dependancy tracking.
+
+        > CC=/pkg/SUNWspro/bin/cc; export CC
+        > automake --include-deps
+        > ./configure --prefix=/proj/local/
+        > make
+
+You will not need to re-run automake unless you got the sources from CVS. 
+
+
+Perl Library
+------------
+
+There is a perl language binding of this library, LIBICAL. 
+It is  available from http://www.softwarestudio.org/libical
+
+Parser
+------
+
+The parser is a test program that will convert a text representation
+of an iCal object to the internal representation and print it back out
+as text. It is primarily a test tool, but it is also a good
+demonstration of how the library works. 
+
+To use it, cat one of the test components into the parser
+executable. For example, from the root of the distribution:
+
+	src/test/icalparser < test-data/1.1  
+
+
+Eric Busboom
+eric@softwarestudio.org

@@ -1,0 +1,1698 @@
+
+
+Terminals which are not used:
+
+   FLOATNUMBER
+   STRING
+   EOL
+   CHARACTER
+   COLON
+   TIMESEPERATOR
+   BIT8
+   ACCEPTED
+   ADD
+   AUDIO
+   BASE64
+   BINARY
+   BOOLEAN
+   BUSY
+   BUSYTENTATIVE
+   BUSYUNAVAILABLE
+   CALADDRESS
+   CANCEL
+   CANCELLED
+   CHAIR
+   CHILD
+   COMPLETED
+   CONFIDENTIAL
+   CONFIRMED
+   COUNTER
+   DATE
+   DATETIME
+   DECLINECOUNTER
+   DECLINED
+   DELEGATED
+   DISPLAY
+   DRAFT
+   DURATION
+   EMAIL
+   END
+   FINAL
+   FLOAT
+   FREE
+   GREGORIAN
+   GROUP
+   INDIVIDUAL
+   INPROCESS
+   INTEGER
+   NEEDSACTION
+   NONPARTICIPANT
+   OPAQUE
+   OPTPARTICIPANT
+   PARENT
+   PERIOD
+   PRIVATE
+   PROCEDURE
+   PUBLIC
+   PUBLISH
+   RECUR
+   REFRESH
+   REPLY
+   REQPARTICIPANT
+   REQUEST
+   RESOURCE
+   ROOM
+   SIBLING
+   START
+   TENTATIVE
+   TEXT
+   THISANDFUTURE
+   THISANDPRIOR
+   TIME
+   TRANSPAENT
+   UNKNOWN
+   UTCOFFSET
+   XNAME
+   ALTREP
+   CN
+   CUTYPE
+   DAYLIGHT
+   DIR
+   ENCODING
+   EVENT
+   FBTYPE
+   FMTTYPE
+   LANGUAGE
+   MEMBER
+   PARTSTAT
+   RANGE
+   RELATED
+   RELTYPE
+   ROLE
+   RSVP
+   SENTBY
+   STANDARD
+   URI
+
+
+
+Grammar
+rule 1    value -> binary_value
+rule 2    value -> boolean_value
+rule 3    value -> date_value
+rule 4    value -> datetime_value
+rule 5    value -> duration_value
+rule 6    value -> period_value
+rule 7    value -> recur_value
+rule 8    value -> utcoffset_value
+rule 9    value -> error
+rule 10   binary_value -> "unimplemented2"
+rule 11   boolean_value -> TRUE
+rule 12   boolean_value -> FALSE
+rule 13   date_value -> DIGITS
+rule 14   utc_char ->		/* empty */
+rule 15   utc_char -> UTC_CHAR
+rule 16   utc_char_b ->		/* empty */
+rule 17   utc_char_b -> UTC_CHAR
+rule 18   datetime_value -> DIGITS TIME_CHAR DIGITS utc_char
+rule 19   dur_date -> dur_day
+rule 20   dur_date -> dur_day dur_time
+rule 21   dur_week -> DIGITS 'W'
+rule 22   dur_time -> TIME_CHAR dur_hour
+rule 23   dur_time -> TIME_CHAR dur_minute
+rule 24   dur_time -> TIME_CHAR dur_second
+rule 25   dur_hour -> DIGITS 'H'
+rule 26   dur_hour -> DIGITS 'H' dur_minute
+rule 27   dur_minute -> DIGITS 'M'
+rule 28   dur_minute -> DIGITS 'M' dur_second
+rule 29   dur_second -> DIGITS 'S'
+rule 30   dur_day -> DIGITS 'D'
+rule 31   dur_prefix ->		/* empty */
+rule 32   dur_prefix -> '+'
+rule 33   dur_prefix -> '-'
+rule 34   duration_value -> dur_prefix 'P' dur_date
+rule 35   duration_value -> dur_prefix 'P' dur_time
+rule 36   duration_value -> dur_prefix 'P' dur_week
+rule 37   period_value -> DIGITS TIME_CHAR DIGITS utc_char '/' DIGITS TIME_CHAR DIGITS utc_char_b
+rule 38   period_value -> DIGITS TIME_CHAR DIGITS utc_char '/' duration_value
+rule 39   recur_start -> FREQ EQUALS SECONDLY
+rule 40   recur_start -> FREQ EQUALS MINUTELY
+rule 41   recur_start -> FREQ EQUALS HOURLY
+rule 42   recur_start -> FREQ EQUALS DAILY
+rule 43   recur_start -> FREQ EQUALS WEEKLY
+rule 44   recur_start -> FREQ EQUALS MONTHLY
+rule 45   recur_start -> FREQ EQUALS YEARLY
+rule 46   weekday -> SU
+rule 47   weekday -> MO
+rule 48   weekday -> TU
+rule 49   weekday -> WE
+rule 50   weekday -> TH
+rule 51   weekday -> FR
+rule 52   weekday -> SA
+rule 53   weekday_list -> weekday
+rule 54   weekday_list -> DIGITS weekday
+rule 55   weekday_list -> weekday_list COMMA weekday
+rule 56   recur_list -> DIGITS
+rule 57   recur_list -> recur_list COMMA DIGITS
+rule 58   recur_skip -> INTERVAL EQUALS DIGITS
+rule 59   recur_skip -> WKST EQUALS SU
+rule 60   recur_skip -> WKST EQUALS MO
+rule 61   recur_skip -> WKST EQUALS TU
+rule 62   recur_skip -> WKST EQUALS WE
+rule 63   recur_skip -> WKST EQUALS TH
+rule 64   recur_skip -> WKST EQUALS FR
+rule 65   recur_skip -> WKST EQUALS SA
+rule 66   recur_skip -> BYSECOND EQUALS recur_list
+rule 67   recur_skip -> BYMINUTE EQUALS recur_list
+rule 68   recur_skip -> BYHOUR EQUALS recur_list
+rule 69   recur_skip -> BYDAY EQUALS weekday_list
+rule 70   recur_skip -> BYMONTH EQUALS recur_list
+rule 71   recur_skip -> BYMONTHDAY EQUALS recur_list
+rule 72   recur_skip -> BYYEARDAY EQUALS recur_list
+rule 73   recur_skip -> BYWEEKNO EQUALS recur_list
+rule 74   recur_skip -> BYSETPOS EQUALS recur_list
+rule 75   recur_skip -> UNTIL EQUALS datetime_value
+rule 76   recur_skip -> UNTIL EQUALS date_value
+rule 77   recur_skip -> COUNT EQUALS DIGITS
+rule 78   recur_skip_list ->		/* empty */
+rule 79   recur_skip_list -> recur_skip_list SEMICOLON recur_skip
+rule 80   recur_value -> recur_start recur_skip_list
+rule 81   plusminus -> '+'
+rule 82   plusminus -> '-'
+rule 83   utcoffset_value -> plusminus INTNUMBER INTNUMBER
+rule 84   utcoffset_value -> plusminus INTNUMBER INTNUMBER INTNUMBER
+
+Terminals, with rules where they appear
+
+$ (-1)
+'+' (43) 32 81
+'-' (45) 33 82
+'/' (47) 37 38
+'D' (68) 30
+'H' (72) 25 26
+'M' (77) 27 28
+'P' (80) 34 35 36
+'S' (83) 29
+'W' (87) 21
+error (256) 9
+DIGITS (257) 13 18 21 25 26 27 28 29 30 37 38 54 56 57 58 77
+INTNUMBER (258) 83 84
+FLOATNUMBER (259)
+STRING (260)
+EOL (261)
+EQUALS (262) 39 40 41 42 43 44 45 58 59 60 61 62 63 64 65 66 67 68
+    69 70 71 72 73 74 75 76 77
+CHARACTER (263)
+COLON (264)
+COMMA (265) 55 57
+SEMICOLON (266) 79
+TIMESEPERATOR (267)
+TRUE (268) 11
+FALSE (269) 12
+FREQ (270) 39 40 41 42 43 44 45
+BYDAY (271) 69
+BYHOUR (272) 68
+BYMINUTE (273) 67
+BYMONTH (274) 70
+BYMONTHDAY (275) 71
+BYSECOND (276) 66
+BYSETPOS (277) 74
+BYWEEKNO (278) 73
+BYYEARDAY (279) 72
+DAILY (280) 42
+MINUTELY (281) 40
+MONTHLY (282) 44
+SECONDLY (283) 39
+WEEKLY (284) 43
+HOURLY (285) 41
+YEARLY (286) 45
+INTERVAL (287) 58
+COUNT (288) 77
+UNTIL (289) 75 76
+WKST (290) 59 60 61 62 63 64 65
+MO (291) 47 60
+SA (292) 52 65
+SU (293) 46 59
+TU (294) 48 61
+WE (295) 49 62
+TH (296) 50 63
+FR (297) 51 64
+BIT8 (298)
+ACCEPTED (299)
+ADD (300)
+AUDIO (301)
+BASE64 (302)
+BINARY (303)
+BOOLEAN (304)
+BUSY (305)
+BUSYTENTATIVE (306)
+BUSYUNAVAILABLE (307)
+CALADDRESS (308)
+CANCEL (309)
+CANCELLED (310)
+CHAIR (311)
+CHILD (312)
+COMPLETED (313)
+CONFIDENTIAL (314)
+CONFIRMED (315)
+COUNTER (316)
+DATE (317)
+DATETIME (318)
+DECLINECOUNTER (319)
+DECLINED (320)
+DELEGATED (321)
+DISPLAY (322)
+DRAFT (323)
+DURATION (324)
+EMAIL (325)
+END (326)
+FINAL (327)
+FLOAT (328)
+FREE (329)
+GREGORIAN (330)
+GROUP (331)
+INDIVIDUAL (332)
+INPROCESS (333)
+INTEGER (334)
+NEEDSACTION (335)
+NONPARTICIPANT (336)
+OPAQUE (337)
+OPTPARTICIPANT (338)
+PARENT (339)
+PERIOD (340)
+PRIVATE (341)
+PROCEDURE (342)
+PUBLIC (343)
+PUBLISH (344)
+RECUR (345)
+REFRESH (346)
+REPLY (347)
+REQPARTICIPANT (348)
+REQUEST (349)
+RESOURCE (350)
+ROOM (351)
+SIBLING (352)
+START (353)
+TENTATIVE (354)
+TEXT (355)
+THISANDFUTURE (356)
+THISANDPRIOR (357)
+TIME (358)
+TRANSPAENT (359)
+UNKNOWN (360)
+UTCOFFSET (361)
+XNAME (362)
+ALTREP (363)
+CN (364)
+CUTYPE (365)
+DAYLIGHT (366)
+DIR (367)
+ENCODING (368)
+EVENT (369)
+FBTYPE (370)
+FMTTYPE (371)
+LANGUAGE (372)
+MEMBER (373)
+PARTSTAT (374)
+RANGE (375)
+RELATED (376)
+RELTYPE (377)
+ROLE (378)
+RSVP (379)
+SENTBY (380)
+STANDARD (381)
+URI (382)
+TIME_CHAR (383) 18 22 23 24 37 38
+UTC_CHAR (384) 15 17
+"unimplemented2" (385) 10
+
+Nonterminals, with rules where they appear
+
+value (141)
+    on left: 1 2 3 4 5 6 7 8 9
+binary_value (142)
+    on left: 10, on right: 1
+boolean_value (143)
+    on left: 11 12, on right: 2
+date_value (144)
+    on left: 13, on right: 3 76
+utc_char (145)
+    on left: 14 15, on right: 18 37 38
+utc_char_b (146)
+    on left: 16 17, on right: 37
+datetime_value (147)
+    on left: 18, on right: 4 75
+dur_date (148)
+    on left: 19 20, on right: 34
+dur_week (149)
+    on left: 21, on right: 36
+dur_time (150)
+    on left: 22 23 24, on right: 20 35
+dur_hour (151)
+    on left: 25 26, on right: 22
+dur_minute (152)
+    on left: 27 28, on right: 23 26
+dur_second (153)
+    on left: 29, on right: 24 28
+dur_day (154)
+    on left: 30, on right: 19 20
+dur_prefix (155)
+    on left: 31 32 33, on right: 34 35 36
+duration_value (156)
+    on left: 34 35 36, on right: 5 38
+period_value (157)
+    on left: 37 38, on right: 6
+recur_start (158)
+    on left: 39 40 41 42 43 44 45, on right: 80
+weekday (159)
+    on left: 46 47 48 49 50 51 52, on right: 53 54 55
+weekday_list (160)
+    on left: 53 54 55, on right: 55 69
+recur_list (161)
+    on left: 56 57, on right: 57 66 67 68 70 71 72 73 74
+recur_skip (162)
+    on left: 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
+    76 77, on right: 79
+recur_skip_list (163)
+    on left: 78 79, on right: 79 80
+recur_value (164)
+    on left: 80, on right: 7
+plusminus (165)
+    on left: 81 82, on right: 83 84
+utcoffset_value (166)
+    on left: 83 84, on right: 8
+
+
+state 0
+
+    error	shift, and go to state 1
+    DIGITS	shift, and go to state 2
+    TRUE	shift, and go to state 3
+    FALSE	shift, and go to state 4
+    FREQ	shift, and go to state 5
+    "unimplemented2"	shift, and go to state 6
+    '+' 	shift, and go to state 7
+    '-' 	shift, and go to state 8
+
+    'P' 	reduce using rule 31 (dur_prefix)
+
+    value	go to state 133
+    binary_value	go to state 9
+    boolean_value	go to state 10
+    date_value	go to state 11
+    datetime_value	go to state 12
+    dur_prefix	go to state 13
+    duration_value	go to state 14
+    period_value	go to state 15
+    recur_start	go to state 16
+    recur_value	go to state 17
+    plusminus	go to state 18
+    utcoffset_value	go to state 19
+
+
+
+state 1
+
+    value  ->  error .   (rule 9)
+
+    $default	reduce using rule 9 (value)
+
+
+
+state 2
+
+    date_value  ->  DIGITS .   (rule 13)
+    datetime_value  ->  DIGITS . TIME_CHAR DIGITS utc_char   (rule 18)
+    period_value  ->  DIGITS . TIME_CHAR DIGITS utc_char '/' DIGITS TIME_CHAR DIGITS utc_char_b   (rule 37)
+    period_value  ->  DIGITS . TIME_CHAR DIGITS utc_char '/' duration_value   (rule 38)
+
+    TIME_CHAR	shift, and go to state 20
+
+    $default	reduce using rule 13 (date_value)
+
+
+
+state 3
+
+    boolean_value  ->  TRUE .   (rule 11)
+
+    $default	reduce using rule 11 (boolean_value)
+
+
+
+state 4
+
+    boolean_value  ->  FALSE .   (rule 12)
+
+    $default	reduce using rule 12 (boolean_value)
+
+
+
+state 5
+
+    recur_start  ->  FREQ . EQUALS SECONDLY   (rule 39)
+    recur_start  ->  FREQ . EQUALS MINUTELY   (rule 40)
+    recur_start  ->  FREQ . EQUALS HOURLY   (rule 41)
+    recur_start  ->  FREQ . EQUALS DAILY   (rule 42)
+    recur_start  ->  FREQ . EQUALS WEEKLY   (rule 43)
+    recur_start  ->  FREQ . EQUALS MONTHLY   (rule 44)
+    recur_start  ->  FREQ . EQUALS YEARLY   (rule 45)
+
+    EQUALS	shift, and go to state 21
+
+
+
+state 6
+
+    binary_value  ->  "unimplemented2" .   (rule 10)
+
+    $default	reduce using rule 10 (binary_value)
+
+
+
+state 7
+
+    dur_prefix  ->  '+' .   (rule 32)
+    plusminus  ->  '+' .   (rule 81)
+
+    INTNUMBER	reduce using rule 81 (plusminus)
+    $default	reduce using rule 32 (dur_prefix)
+
+
+
+state 8
+
+    dur_prefix  ->  '-' .   (rule 33)
+    plusminus  ->  '-' .   (rule 82)
+
+    INTNUMBER	reduce using rule 82 (plusminus)
+    $default	reduce using rule 33 (dur_prefix)
+
+
+
+state 9
+
+    value  ->  binary_value .   (rule 1)
+
+    $default	reduce using rule 1 (value)
+
+
+
+state 10
+
+    value  ->  boolean_value .   (rule 2)
+
+    $default	reduce using rule 2 (value)
+
+
+
+state 11
+
+    value  ->  date_value .   (rule 3)
+
+    $default	reduce using rule 3 (value)
+
+
+
+state 12
+
+    value  ->  datetime_value .   (rule 4)
+
+    $default	reduce using rule 4 (value)
+
+
+
+state 13
+
+    duration_value  ->  dur_prefix . 'P' dur_date   (rule 34)
+    duration_value  ->  dur_prefix . 'P' dur_time   (rule 35)
+    duration_value  ->  dur_prefix . 'P' dur_week   (rule 36)
+
+    'P' 	shift, and go to state 22
+
+
+
+state 14
+
+    value  ->  duration_value .   (rule 5)
+
+    $default	reduce using rule 5 (value)
+
+
+
+state 15
+
+    value  ->  period_value .   (rule 6)
+
+    $default	reduce using rule 6 (value)
+
+
+
+state 16
+
+    recur_value  ->  recur_start . recur_skip_list   (rule 80)
+
+    $default	reduce using rule 78 (recur_skip_list)
+
+    recur_skip_list	go to state 23
+
+
+
+state 17
+
+    value  ->  recur_value .   (rule 7)
+
+    $default	reduce using rule 7 (value)
+
+
+
+state 18
+
+    utcoffset_value  ->  plusminus . INTNUMBER INTNUMBER   (rule 83)
+    utcoffset_value  ->  plusminus . INTNUMBER INTNUMBER INTNUMBER   (rule 84)
+
+    INTNUMBER	shift, and go to state 24
+
+
+
+state 19
+
+    value  ->  utcoffset_value .   (rule 8)
+
+    $default	reduce using rule 8 (value)
+
+
+
+state 20
+
+    datetime_value  ->  DIGITS TIME_CHAR . DIGITS utc_char   (rule 18)
+    period_value  ->  DIGITS TIME_CHAR . DIGITS utc_char '/' DIGITS TIME_CHAR DIGITS utc_char_b   (rule 37)
+    period_value  ->  DIGITS TIME_CHAR . DIGITS utc_char '/' duration_value   (rule 38)
+
+    DIGITS	shift, and go to state 25
+
+
+
+state 21
+
+    recur_start  ->  FREQ EQUALS . SECONDLY   (rule 39)
+    recur_start  ->  FREQ EQUALS . MINUTELY   (rule 40)
+    recur_start  ->  FREQ EQUALS . HOURLY   (rule 41)
+    recur_start  ->  FREQ EQUALS . DAILY   (rule 42)
+    recur_start  ->  FREQ EQUALS . WEEKLY   (rule 43)
+    recur_start  ->  FREQ EQUALS . MONTHLY   (rule 44)
+    recur_start  ->  FREQ EQUALS . YEARLY   (rule 45)
+
+    DAILY	shift, and go to state 26
+    MINUTELY	shift, and go to state 27
+    MONTHLY	shift, and go to state 28
+    SECONDLY	shift, and go to state 29
+    WEEKLY	shift, and go to state 30
+    HOURLY	shift, and go to state 31
+    YEARLY	shift, and go to state 32
+
+
+
+state 22
+
+    duration_value  ->  dur_prefix 'P' . dur_date   (rule 34)
+    duration_value  ->  dur_prefix 'P' . dur_time   (rule 35)
+    duration_value  ->  dur_prefix 'P' . dur_week   (rule 36)
+
+    DIGITS	shift, and go to state 33
+    TIME_CHAR	shift, and go to state 34
+
+    dur_date	go to state 35
+    dur_week	go to state 36
+    dur_time	go to state 37
+    dur_day	go to state 38
+
+
+
+state 23
+
+    recur_skip_list  ->  recur_skip_list . SEMICOLON recur_skip   (rule 79)
+    recur_value  ->  recur_start recur_skip_list .   (rule 80)
+
+    SEMICOLON	shift, and go to state 39
+
+    $default	reduce using rule 80 (recur_value)
+
+
+
+state 24
+
+    utcoffset_value  ->  plusminus INTNUMBER . INTNUMBER   (rule 83)
+    utcoffset_value  ->  plusminus INTNUMBER . INTNUMBER INTNUMBER   (rule 84)
+
+    INTNUMBER	shift, and go to state 40
+
+
+
+state 25
+
+    datetime_value  ->  DIGITS TIME_CHAR DIGITS . utc_char   (rule 18)
+    period_value  ->  DIGITS TIME_CHAR DIGITS . utc_char '/' DIGITS TIME_CHAR DIGITS utc_char_b   (rule 37)
+    period_value  ->  DIGITS TIME_CHAR DIGITS . utc_char '/' duration_value   (rule 38)
+
+    UTC_CHAR	shift, and go to state 41
+
+    $default	reduce using rule 14 (utc_char)
+
+    utc_char	go to state 42
+
+
+
+state 26
+
+    recur_start  ->  FREQ EQUALS DAILY .   (rule 42)
+
+    $default	reduce using rule 42 (recur_start)
+
+
+
+state 27
+
+    recur_start  ->  FREQ EQUALS MINUTELY .   (rule 40)
+
+    $default	reduce using rule 40 (recur_start)
+
+
+
+state 28
+
+    recur_start  ->  FREQ EQUALS MONTHLY .   (rule 44)
+
+    $default	reduce using rule 44 (recur_start)
+
+
+
+state 29
+
+    recur_start  ->  FREQ EQUALS SECONDLY .   (rule 39)
+
+    $default	reduce using rule 39 (recur_start)
+
+
+
+state 30
+
+    recur_start  ->  FREQ EQUALS WEEKLY .   (rule 43)
+
+    $default	reduce using rule 43 (recur_start)
+
+
+
+state 31
+
+    recur_start  ->  FREQ EQUALS HOURLY .   (rule 41)
+
+    $default	reduce using rule 41 (recur_start)
+
+
+
+state 32
+
+    recur_start  ->  FREQ EQUALS YEARLY .   (rule 45)
+
+    $default	reduce using rule 45 (recur_start)
+
+
+
+state 33
+
+    dur_week  ->  DIGITS . 'W'   (rule 21)
+    dur_day  ->  DIGITS . 'D'   (rule 30)
+
+    'W' 	shift, and go to state 43
+    'D' 	shift, and go to state 44
+
+
+
+state 34
+
+    dur_time  ->  TIME_CHAR . dur_hour   (rule 22)
+    dur_time  ->  TIME_CHAR . dur_minute   (rule 23)
+    dur_time  ->  TIME_CHAR . dur_second   (rule 24)
+
+    DIGITS	shift, and go to state 45
+
+    dur_hour	go to state 46
+    dur_minute	go to state 47
+    dur_second	go to state 48
+
+
+
+state 35
+
+    duration_value  ->  dur_prefix 'P' dur_date .   (rule 34)
+
+    $default	reduce using rule 34 (duration_value)
+
+
+
+state 36
+
+    duration_value  ->  dur_prefix 'P' dur_week .   (rule 36)
+
+    $default	reduce using rule 36 (duration_value)
+
+
+
+state 37
+
+    duration_value  ->  dur_prefix 'P' dur_time .   (rule 35)
+
+    $default	reduce using rule 35 (duration_value)
+
+
+
+state 38
+
+    dur_date  ->  dur_day .   (rule 19)
+    dur_date  ->  dur_day . dur_time   (rule 20)
+
+    TIME_CHAR	shift, and go to state 34
+
+    $default	reduce using rule 19 (dur_date)
+
+    dur_time	go to state 49
+
+
+
+state 39
+
+    recur_skip_list  ->  recur_skip_list SEMICOLON . recur_skip   (rule 79)
+
+    BYDAY	shift, and go to state 50
+    BYHOUR	shift, and go to state 51
+    BYMINUTE	shift, and go to state 52
+    BYMONTH	shift, and go to state 53
+    BYMONTHDAY	shift, and go to state 54
+    BYSECOND	shift, and go to state 55
+    BYSETPOS	shift, and go to state 56
+    BYWEEKNO	shift, and go to state 57
+    BYYEARDAY	shift, and go to state 58
+    INTERVAL	shift, and go to state 59
+    COUNT	shift, and go to state 60
+    UNTIL	shift, and go to state 61
+    WKST	shift, and go to state 62
+
+    recur_skip	go to state 63
+
+
+
+state 40
+
+    utcoffset_value  ->  plusminus INTNUMBER INTNUMBER .   (rule 83)
+    utcoffset_value  ->  plusminus INTNUMBER INTNUMBER . INTNUMBER   (rule 84)
+
+    INTNUMBER	shift, and go to state 64
+
+    $default	reduce using rule 83 (utcoffset_value)
+
+
+
+state 41
+
+    utc_char  ->  UTC_CHAR .   (rule 15)
+
+    $default	reduce using rule 15 (utc_char)
+
+
+
+state 42
+
+    datetime_value  ->  DIGITS TIME_CHAR DIGITS utc_char .   (rule 18)
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char . '/' DIGITS TIME_CHAR DIGITS utc_char_b   (rule 37)
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char . '/' duration_value   (rule 38)
+
+    '/' 	shift, and go to state 65
+
+    $default	reduce using rule 18 (datetime_value)
+
+
+
+state 43
+
+    dur_week  ->  DIGITS 'W' .   (rule 21)
+
+    $default	reduce using rule 21 (dur_week)
+
+
+
+state 44
+
+    dur_day  ->  DIGITS 'D' .   (rule 30)
+
+    $default	reduce using rule 30 (dur_day)
+
+
+
+state 45
+
+    dur_hour  ->  DIGITS . 'H'   (rule 25)
+    dur_hour  ->  DIGITS . 'H' dur_minute   (rule 26)
+    dur_minute  ->  DIGITS . 'M'   (rule 27)
+    dur_minute  ->  DIGITS . 'M' dur_second   (rule 28)
+    dur_second  ->  DIGITS . 'S'   (rule 29)
+
+    'H' 	shift, and go to state 66
+    'M' 	shift, and go to state 67
+    'S' 	shift, and go to state 68
+
+
+
+state 46
+
+    dur_time  ->  TIME_CHAR dur_hour .   (rule 22)
+
+    $default	reduce using rule 22 (dur_time)
+
+
+
+state 47
+
+    dur_time  ->  TIME_CHAR dur_minute .   (rule 23)
+
+    $default	reduce using rule 23 (dur_time)
+
+
+
+state 48
+
+    dur_time  ->  TIME_CHAR dur_second .   (rule 24)
+
+    $default	reduce using rule 24 (dur_time)
+
+
+
+state 49
+
+    dur_date  ->  dur_day dur_time .   (rule 20)
+
+    $default	reduce using rule 20 (dur_date)
+
+
+
+state 50
+
+    recur_skip  ->  BYDAY . EQUALS weekday_list   (rule 69)
+
+    EQUALS	shift, and go to state 69
+
+
+
+state 51
+
+    recur_skip  ->  BYHOUR . EQUALS recur_list   (rule 68)
+
+    EQUALS	shift, and go to state 70
+
+
+
+state 52
+
+    recur_skip  ->  BYMINUTE . EQUALS recur_list   (rule 67)
+
+    EQUALS	shift, and go to state 71
+
+
+
+state 53
+
+    recur_skip  ->  BYMONTH . EQUALS recur_list   (rule 70)
+
+    EQUALS	shift, and go to state 72
+
+
+
+state 54
+
+    recur_skip  ->  BYMONTHDAY . EQUALS recur_list   (rule 71)
+
+    EQUALS	shift, and go to state 73
+
+
+
+state 55
+
+    recur_skip  ->  BYSECOND . EQUALS recur_list   (rule 66)
+
+    EQUALS	shift, and go to state 74
+
+
+
+state 56
+
+    recur_skip  ->  BYSETPOS . EQUALS recur_list   (rule 74)
+
+    EQUALS	shift, and go to state 75
+
+
+
+state 57
+
+    recur_skip  ->  BYWEEKNO . EQUALS recur_list   (rule 73)
+
+    EQUALS	shift, and go to state 76
+
+
+
+state 58
+
+    recur_skip  ->  BYYEARDAY . EQUALS recur_list   (rule 72)
+
+    EQUALS	shift, and go to state 77
+
+
+
+state 59
+
+    recur_skip  ->  INTERVAL . EQUALS DIGITS   (rule 58)
+
+    EQUALS	shift, and go to state 78
+
+
+
+state 60
+
+    recur_skip  ->  COUNT . EQUALS DIGITS   (rule 77)
+
+    EQUALS	shift, and go to state 79
+
+
+
+state 61
+
+    recur_skip  ->  UNTIL . EQUALS datetime_value   (rule 75)
+    recur_skip  ->  UNTIL . EQUALS date_value   (rule 76)
+
+    EQUALS	shift, and go to state 80
+
+
+
+state 62
+
+    recur_skip  ->  WKST . EQUALS SU   (rule 59)
+    recur_skip  ->  WKST . EQUALS MO   (rule 60)
+    recur_skip  ->  WKST . EQUALS TU   (rule 61)
+    recur_skip  ->  WKST . EQUALS WE   (rule 62)
+    recur_skip  ->  WKST . EQUALS TH   (rule 63)
+    recur_skip  ->  WKST . EQUALS FR   (rule 64)
+    recur_skip  ->  WKST . EQUALS SA   (rule 65)
+
+    EQUALS	shift, and go to state 81
+
+
+
+state 63
+
+    recur_skip_list  ->  recur_skip_list SEMICOLON recur_skip .   (rule 79)
+
+    $default	reduce using rule 79 (recur_skip_list)
+
+
+
+state 64
+
+    utcoffset_value  ->  plusminus INTNUMBER INTNUMBER INTNUMBER .   (rule 84)
+
+    $default	reduce using rule 84 (utcoffset_value)
+
+
+
+state 65
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' . DIGITS TIME_CHAR DIGITS utc_char_b   (rule 37)
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' . duration_value   (rule 38)
+
+    DIGITS	shift, and go to state 82
+    '+' 	shift, and go to state 83
+    '-' 	shift, and go to state 84
+
+    $default	reduce using rule 31 (dur_prefix)
+
+    dur_prefix	go to state 13
+    duration_value	go to state 85
+
+
+
+state 66
+
+    dur_hour  ->  DIGITS 'H' .   (rule 25)
+    dur_hour  ->  DIGITS 'H' . dur_minute   (rule 26)
+
+    DIGITS	shift, and go to state 86
+
+    $default	reduce using rule 25 (dur_hour)
+
+    dur_minute	go to state 87
+
+
+
+state 67
+
+    dur_minute  ->  DIGITS 'M' .   (rule 27)
+    dur_minute  ->  DIGITS 'M' . dur_second   (rule 28)
+
+    DIGITS	shift, and go to state 88
+
+    $default	reduce using rule 27 (dur_minute)
+
+    dur_second	go to state 89
+
+
+
+state 68
+
+    dur_second  ->  DIGITS 'S' .   (rule 29)
+
+    $default	reduce using rule 29 (dur_second)
+
+
+
+state 69
+
+    recur_skip  ->  BYDAY EQUALS . weekday_list   (rule 69)
+
+    DIGITS	shift, and go to state 90
+    MO  	shift, and go to state 91
+    SA  	shift, and go to state 92
+    SU  	shift, and go to state 93
+    TU  	shift, and go to state 94
+    WE  	shift, and go to state 95
+    TH  	shift, and go to state 96
+    FR  	shift, and go to state 97
+
+    weekday	go to state 98
+    weekday_list	go to state 99
+
+
+
+state 70
+
+    recur_skip  ->  BYHOUR EQUALS . recur_list   (rule 68)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 101
+
+
+
+state 71
+
+    recur_skip  ->  BYMINUTE EQUALS . recur_list   (rule 67)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 102
+
+
+
+state 72
+
+    recur_skip  ->  BYMONTH EQUALS . recur_list   (rule 70)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 103
+
+
+
+state 73
+
+    recur_skip  ->  BYMONTHDAY EQUALS . recur_list   (rule 71)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 104
+
+
+
+state 74
+
+    recur_skip  ->  BYSECOND EQUALS . recur_list   (rule 66)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 105
+
+
+
+state 75
+
+    recur_skip  ->  BYSETPOS EQUALS . recur_list   (rule 74)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 106
+
+
+
+state 76
+
+    recur_skip  ->  BYWEEKNO EQUALS . recur_list   (rule 73)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 107
+
+
+
+state 77
+
+    recur_skip  ->  BYYEARDAY EQUALS . recur_list   (rule 72)
+
+    DIGITS	shift, and go to state 100
+
+    recur_list	go to state 108
+
+
+
+state 78
+
+    recur_skip  ->  INTERVAL EQUALS . DIGITS   (rule 58)
+
+    DIGITS	shift, and go to state 109
+
+
+
+state 79
+
+    recur_skip  ->  COUNT EQUALS . DIGITS   (rule 77)
+
+    DIGITS	shift, and go to state 110
+
+
+
+state 80
+
+    recur_skip  ->  UNTIL EQUALS . datetime_value   (rule 75)
+    recur_skip  ->  UNTIL EQUALS . date_value   (rule 76)
+
+    DIGITS	shift, and go to state 111
+
+    date_value	go to state 112
+    datetime_value	go to state 113
+
+
+
+state 81
+
+    recur_skip  ->  WKST EQUALS . SU   (rule 59)
+    recur_skip  ->  WKST EQUALS . MO   (rule 60)
+    recur_skip  ->  WKST EQUALS . TU   (rule 61)
+    recur_skip  ->  WKST EQUALS . WE   (rule 62)
+    recur_skip  ->  WKST EQUALS . TH   (rule 63)
+    recur_skip  ->  WKST EQUALS . FR   (rule 64)
+    recur_skip  ->  WKST EQUALS . SA   (rule 65)
+
+    MO  	shift, and go to state 114
+    SA  	shift, and go to state 115
+    SU  	shift, and go to state 116
+    TU  	shift, and go to state 117
+    WE  	shift, and go to state 118
+    TH  	shift, and go to state 119
+    FR  	shift, and go to state 120
+
+
+
+state 82
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' DIGITS . TIME_CHAR DIGITS utc_char_b   (rule 37)
+
+    TIME_CHAR	shift, and go to state 121
+
+
+
+state 83
+
+    dur_prefix  ->  '+' .   (rule 32)
+
+    $default	reduce using rule 32 (dur_prefix)
+
+
+
+state 84
+
+    dur_prefix  ->  '-' .   (rule 33)
+
+    $default	reduce using rule 33 (dur_prefix)
+
+
+
+state 85
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' duration_value .   (rule 38)
+
+    $default	reduce using rule 38 (period_value)
+
+
+
+state 86
+
+    dur_minute  ->  DIGITS . 'M'   (rule 27)
+    dur_minute  ->  DIGITS . 'M' dur_second   (rule 28)
+
+    'M' 	shift, and go to state 67
+
+
+
+state 87
+
+    dur_hour  ->  DIGITS 'H' dur_minute .   (rule 26)
+
+    $default	reduce using rule 26 (dur_hour)
+
+
+
+state 88
+
+    dur_second  ->  DIGITS . 'S'   (rule 29)
+
+    'S' 	shift, and go to state 68
+
+
+
+state 89
+
+    dur_minute  ->  DIGITS 'M' dur_second .   (rule 28)
+
+    $default	reduce using rule 28 (dur_minute)
+
+
+
+state 90
+
+    weekday_list  ->  DIGITS . weekday   (rule 54)
+
+    MO  	shift, and go to state 91
+    SA  	shift, and go to state 92
+    SU  	shift, and go to state 93
+    TU  	shift, and go to state 94
+    WE  	shift, and go to state 95
+    TH  	shift, and go to state 96
+    FR  	shift, and go to state 97
+
+    weekday	go to state 122
+
+
+
+state 91
+
+    weekday  ->  MO .   (rule 47)
+
+    $default	reduce using rule 47 (weekday)
+
+
+
+state 92
+
+    weekday  ->  SA .   (rule 52)
+
+    $default	reduce using rule 52 (weekday)
+
+
+
+state 93
+
+    weekday  ->  SU .   (rule 46)
+
+    $default	reduce using rule 46 (weekday)
+
+
+
+state 94
+
+    weekday  ->  TU .   (rule 48)
+
+    $default	reduce using rule 48 (weekday)
+
+
+
+state 95
+
+    weekday  ->  WE .   (rule 49)
+
+    $default	reduce using rule 49 (weekday)
+
+
+
+state 96
+
+    weekday  ->  TH .   (rule 50)
+
+    $default	reduce using rule 50 (weekday)
+
+
+
+state 97
+
+    weekday  ->  FR .   (rule 51)
+
+    $default	reduce using rule 51 (weekday)
+
+
+
+state 98
+
+    weekday_list  ->  weekday .   (rule 53)
+
+    $default	reduce using rule 53 (weekday_list)
+
+
+
+state 99
+
+    weekday_list  ->  weekday_list . COMMA weekday   (rule 55)
+    recur_skip  ->  BYDAY EQUALS weekday_list .   (rule 69)
+
+    COMMA	shift, and go to state 123
+
+    $default	reduce using rule 69 (recur_skip)
+
+
+
+state 100
+
+    recur_list  ->  DIGITS .   (rule 56)
+
+    $default	reduce using rule 56 (recur_list)
+
+
+
+state 101
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYHOUR EQUALS recur_list .   (rule 68)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 68 (recur_skip)
+
+
+
+state 102
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYMINUTE EQUALS recur_list .   (rule 67)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 67 (recur_skip)
+
+
+
+state 103
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYMONTH EQUALS recur_list .   (rule 70)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 70 (recur_skip)
+
+
+
+state 104
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYMONTHDAY EQUALS recur_list .   (rule 71)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 71 (recur_skip)
+
+
+
+state 105
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYSECOND EQUALS recur_list .   (rule 66)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 66 (recur_skip)
+
+
+
+state 106
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYSETPOS EQUALS recur_list .   (rule 74)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 74 (recur_skip)
+
+
+
+state 107
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYWEEKNO EQUALS recur_list .   (rule 73)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 73 (recur_skip)
+
+
+
+state 108
+
+    recur_list  ->  recur_list . COMMA DIGITS   (rule 57)
+    recur_skip  ->  BYYEARDAY EQUALS recur_list .   (rule 72)
+
+    COMMA	shift, and go to state 124
+
+    $default	reduce using rule 72 (recur_skip)
+
+
+
+state 109
+
+    recur_skip  ->  INTERVAL EQUALS DIGITS .   (rule 58)
+
+    $default	reduce using rule 58 (recur_skip)
+
+
+
+state 110
+
+    recur_skip  ->  COUNT EQUALS DIGITS .   (rule 77)
+
+    $default	reduce using rule 77 (recur_skip)
+
+
+
+state 111
+
+    date_value  ->  DIGITS .   (rule 13)
+    datetime_value  ->  DIGITS . TIME_CHAR DIGITS utc_char   (rule 18)
+
+    TIME_CHAR	shift, and go to state 125
+
+    $default	reduce using rule 13 (date_value)
+
+
+
+state 112
+
+    recur_skip  ->  UNTIL EQUALS date_value .   (rule 76)
+
+    $default	reduce using rule 76 (recur_skip)
+
+
+
+state 113
+
+    recur_skip  ->  UNTIL EQUALS datetime_value .   (rule 75)
+
+    $default	reduce using rule 75 (recur_skip)
+
+
+
+state 114
+
+    recur_skip  ->  WKST EQUALS MO .   (rule 60)
+
+    $default	reduce using rule 60 (recur_skip)
+
+
+
+state 115
+
+    recur_skip  ->  WKST EQUALS SA .   (rule 65)
+
+    $default	reduce using rule 65 (recur_skip)
+
+
+
+state 116
+
+    recur_skip  ->  WKST EQUALS SU .   (rule 59)
+
+    $default	reduce using rule 59 (recur_skip)
+
+
+
+state 117
+
+    recur_skip  ->  WKST EQUALS TU .   (rule 61)
+
+    $default	reduce using rule 61 (recur_skip)
+
+
+
+state 118
+
+    recur_skip  ->  WKST EQUALS WE .   (rule 62)
+
+    $default	reduce using rule 62 (recur_skip)
+
+
+
+state 119
+
+    recur_skip  ->  WKST EQUALS TH .   (rule 63)
+
+    $default	reduce using rule 63 (recur_skip)
+
+
+
+state 120
+
+    recur_skip  ->  WKST EQUALS FR .   (rule 64)
+
+    $default	reduce using rule 64 (recur_skip)
+
+
+
+state 121
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' DIGITS TIME_CHAR . DIGITS utc_char_b   (rule 37)
+
+    DIGITS	shift, and go to state 126
+
+
+
+state 122
+
+    weekday_list  ->  DIGITS weekday .   (rule 54)
+
+    $default	reduce using rule 54 (weekday_list)
+
+
+
+state 123
+
+    weekday_list  ->  weekday_list COMMA . weekday   (rule 55)
+
+    MO  	shift, and go to state 91
+    SA  	shift, and go to state 92
+    SU  	shift, and go to state 93
+    TU  	shift, and go to state 94
+    WE  	shift, and go to state 95
+    TH  	shift, and go to state 96
+    FR  	shift, and go to state 97
+
+    weekday	go to state 127
+
+
+
+state 124
+
+    recur_list  ->  recur_list COMMA . DIGITS   (rule 57)
+
+    DIGITS	shift, and go to state 128
+
+
+
+state 125
+
+    datetime_value  ->  DIGITS TIME_CHAR . DIGITS utc_char   (rule 18)
+
+    DIGITS	shift, and go to state 129
+
+
+
+state 126
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' DIGITS TIME_CHAR DIGITS . utc_char_b   (rule 37)
+
+    UTC_CHAR	shift, and go to state 130
+
+    $default	reduce using rule 16 (utc_char_b)
+
+    utc_char_b	go to state 131
+
+
+
+state 127
+
+    weekday_list  ->  weekday_list COMMA weekday .   (rule 55)
+
+    $default	reduce using rule 55 (weekday_list)
+
+
+
+state 128
+
+    recur_list  ->  recur_list COMMA DIGITS .   (rule 57)
+
+    $default	reduce using rule 57 (recur_list)
+
+
+
+state 129
+
+    datetime_value  ->  DIGITS TIME_CHAR DIGITS . utc_char   (rule 18)
+
+    UTC_CHAR	shift, and go to state 41
+
+    $default	reduce using rule 14 (utc_char)
+
+    utc_char	go to state 132
+
+
+
+state 130
+
+    utc_char_b  ->  UTC_CHAR .   (rule 17)
+
+    $default	reduce using rule 17 (utc_char_b)
+
+
+
+state 131
+
+    period_value  ->  DIGITS TIME_CHAR DIGITS utc_char '/' DIGITS TIME_CHAR DIGITS utc_char_b .   (rule 37)
+
+    $default	reduce using rule 37 (period_value)
+
+
+
+state 132
+
+    datetime_value  ->  DIGITS TIME_CHAR DIGITS utc_char .   (rule 18)
+
+    $default	reduce using rule 18 (datetime_value)
+
+
+
+state 133
+
+    $   	go to state 134
+
+
+
+state 134
+
+    $   	go to state 135
+
+
+
+state 135
+
+    $default	accept

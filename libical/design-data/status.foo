@@ -1,0 +1,104 @@
+2.0    STATOK                  Operation was successfully performed.
+
+2.0.1  START-SENDATA           Start ICAL input; end with
+                               <CRLF>.<CRLF>
+
+2.0.11 OK-DATAFOLLOWS          The request was processed
+                               successfully. Reply data follows on
+                               the next line and terminates with
+                              <CRLF>.<CRLF>
+
+2.0.2  REPLY-PENDING           A timeout has occurred. The server is
+                               still working on the reply. Use
+                               CONTINUE to continue waiting for the
+                               reply or ABORT to terminate the
+                               command.
+
+2.0.3 ABORTED                  In response to the client issuing an
+                               ABORT command, this reply code
+                               indicates that any command currently
+                               underway was successsfully aborted.
+
+2.0.4 WILL-ATTEMPT             The specified Calendar is not here
+                               but an attempt will be made to deliver
+                               the request or reply to the Calendar
+                               anyway. There is a trust relationship
+                               between this iRIP server and the
+                               iRIP server for the target calendar.
+
+2.0.5  TRUSTED-WILL-QUEUE      The specified Calendar cannot be
+                               contacted directly and a trust
+                               relationship exists between this
+                               server and the server on which the
+                               Calendar exists. The request or reply
+                               will be queued and delivered to the
+                               target calendar when its iRIP server
+                               contacts this server and issues the
+                               SWITCH command.
+                                                                         
+2.0.6  WILL-ATTEMPT            The specified Calendar is not here
+                               but an attempt will be made to deliver
+                               the request or reply to the Calendar
+                               anyway. There is not a trust
+                               relationship between the iRIP server
+                               and the iRIP server for the target
+                               calendar.
+
+2.0.7  QUEUED                  The message has been queued for
+                               delivery.
+
+2.0.8  QUEUE-EMPTY             There are no more queued messages.
+
+2.2    NO COMMAND IN PROGRESS  An ABORT or CONTINUE was received when
+                               no command was in progress
+
+6.1    AUTHENTICATE FAILURE    Unsupported authentication mechanism,
+                               credentials rejected
+
+6.2    AUTHENTICATION ABORTED  Sender aborted authentication,
+                               authentication exchange cancelled
+
+8.0    GENERAL FAILURE         A failure has occurred in the Receiver
+                               that prevents the operation from
+                               succeeding.
+
+8.1    SERVER TOO BUSY         Sent when a session cannot be
+                               established because the iRIP
+                               Receiver is too busy.
+
+8.2    ICAL OBJECT TOO BIG     Used to signal that an ICAL object has
+                               exceeded the server's size limit.
+
+8.3    DATE TOO LARGE          A DATETIME value was too far in the
+                               future to be represented on this
+                               Calendar.
+
+8.4    DATE TOO SMALL          A DATETIME value was too far in the
+                               past to be represented on this
+                               Calendar.
+
+9.0    INVALID iRIP COMMAND    An unrecongnized command was received.
+
+9.1    UNEXPECTED COMMAND      A command was issued in a manner
+                               inconsistent with the state diagram.
+                               For example, issuing the SENDATA
+                               command without having specified any
+                               RECIPIENTs will cause this error.
+10.1   REFERRAL                Accompanied by an alternate address.
+                               The RECIPIENT specified should be
+                               contacted at the given alternate
+                               address. The referral address MUST
+                               follow the reply code.
+
+10.2   SERVER SHUT DOWN        The server is shutting down.
+
+10.3   SERVER STOPPING FLOOD 2
+
+
+10.4   EXCEEDED QUOTAS         The operation has not be performed
+                               because it would cause the resources
+                               (memory, disk, CPU, etc) to exceed the
+                               allocated quota
+
+10.5   QUEUED TOO LONG         The ITIP message has been queued too
+                               long. Delivery has been aborted.         

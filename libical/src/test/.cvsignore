@@ -1,0 +1,11 @@
+Makefile
+usecases
+copycluster
+regression
+icalparser
+findobj
+.deps
+.libs
+parser
+storage
+Makefile.in
