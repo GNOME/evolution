@@ -130,7 +130,7 @@ e_table_state_load_from_node (ETableState *state,
 				children, "source");
 			column_info->expansion =
 				e_xml_get_double_prop_by_name_with_default(
-					children, "expansion", -2);
+					children, "expansion", 1);
 
 			list = g_list_append (list, column_info);
 		} else if (state->sort_info == NULL &&

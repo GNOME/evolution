@@ -1901,6 +1901,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
+		if (eti->tooltip->timer) {
+			gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->timer = 0;
+		}
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 		if (cursor_col == -1)
