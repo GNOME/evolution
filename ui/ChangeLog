@@ -1,3 +1,8 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Set it up to have an
+	e-charset-picker bonobo-ui menu attached to the Edit menu.
+
 2001-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Rename "New -> Evolution bar shortcut" into "New
