@@ -1,3 +1,9 @@
+2003-06-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (get_factories): don't use a static GList,
+	since the value returned is freed in destroy_factories, making several
+	clients use a buggy GList if one of them happen to be destroyed.
+
 2003-06-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/print.c (get_font_for_size): Remove debug output.

@@ -729,14 +729,11 @@ client_forget_password_cb (WombatClient *w_client,
 static GList *
 get_factories (void)
 {
-	static GList *factories = NULL;
+	GList *factories = NULL;
 	GNOME_Evolution_Calendar_CalFactory factory;
 	Bonobo_ServerInfoList *servers;
 	CORBA_Environment ev;
 	int i;
-
-	if (factories != NULL)
-		return factories;
 
 	CORBA_exception_init (&ev);
 
