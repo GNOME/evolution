@@ -1,3 +1,8 @@
+2001-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* e-sexp.c (e_sexp_encode_string): Make it handle a NULL string as
+	an empty string.
+
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_thread_destroy): Wait a lot lot longer for

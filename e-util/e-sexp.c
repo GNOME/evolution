@@ -1156,7 +1156,10 @@ e_sexp_encode_string(GString *s, const char *string)
 	char c;
 	const char *p;
 
-	p = string;
+	if (string == NULL)
+		p = "";
+	else
+		p = string;
 	g_string_append(s, " \"");
 	while ( (c = *p++) ) {
 		if (c=='\\' || c=='\"' || c=='\'')
