@@ -1,3 +1,14 @@
+2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder): Updated to give special
+	attention to the root folder.
+
+	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names_internal): 
+	Updated to handle the root folder
+	(imap_get_message_count_internal): return 0 if folder can't hold messages
+	(camel_imap_folder_new): Change so that root folder gets special attention
+	and always gets can_hold_messages set to FALSE
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c: Remove exceptions from a number of methods that

@@ -180,12 +180,16 @@ CamelFolder *
 camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex)
 {
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
+	CamelURL *url = CAMEL_SERVICE (parent)->url;
 	char *dir_sep;
 
 	dir_sep = CAMEL_IMAP_STORE (parent)->dir_sep;
 	
 	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, dir_sep, FALSE, ex);
-
+ 
+	if (!strcmp (folder_name, url->path + 1))
+		folder->can_hold_messages = FALSE;
+	
 	imap_get_subfolder_names_internal (folder, ex);
 	imap_get_summary_internal (folder, ex);
 
@@ -369,6 +373,7 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	gint status, count = 0;
 
 	g_return_val_if_fail (folder != NULL, 0);
+	g_return_val_if_fail (folder->can_hold_messages, 0);
 
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
@@ -684,8 +689,10 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
 	if (url && url->path) {
-		if (!strcmp (folder->full_name, "INBOX"))
+		if (!strcmp (folder->full_name, url->path + 1))
 			namespace = g_strdup (url->path + 1);
+		else if (!strcmp (folder->full_name, "INBOX"))
+			namespace = g_strdup (url->path + 1); /* FIXME: erm...not sure */
 		else
 			namespace = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	} else {

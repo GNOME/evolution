@@ -66,7 +66,7 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboo
 				CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
 static gboolean imap_noop (gpointer data);
-static gboolean stream_is_alive (CamelStream *istream);
+/*static gboolean stream_is_alive (CamelStream *istream);*/
 static int camel_imap_status (char *cmdid, char *respbuf);
 
 static void
@@ -171,7 +171,7 @@ try_connect (CamelService *service, CamelException *ex)
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
+	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
 
 		/* We don't want to set a CamelException here */
 
@@ -423,7 +423,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 
 	/* Lets add a timeout so that we can hopefully prevent getting disconnected */
-	store->timeout_id = gtk_timeout_add (60000, imap_noop, store);
+	store->timeout_id = gtk_timeout_add (600000, imap_noop, store);
 	
 	return TRUE;
 }
@@ -594,6 +594,7 @@ folder_is_selectable (CamelStore *store, const char *folder_path)
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
+	CamelURL *url = CAMEL_SERVICE (store)->url;
 	CamelFolder *new_folder;
 	char *folder_path, *dir_sep;
 	
@@ -601,28 +602,27 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	g_return_val_if_fail (folder_name != NULL, NULL);
 	
 	dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;
-	
+
 	if (!strcmp (folder_name, dir_sep))
-		folder_path = g_strdup ("INBOX");
+		folder_path = g_strdup (url->path + 1);
 	else
 		folder_path = g_strdup (folder_name);
-	
+
 	new_folder = camel_imap_folder_new (store, folder_path, ex);
-#if 0
-	if (camel_exception_is_set (ex)) {
-		camel_exception_clear (ex);
-		g_free (folder_path);
-		return NULL;
-	}
-#endif
+
+	if (!strcmp (folder_name, dir_sep))
+		return new_folder;
+
 	if (create && !imap_create (new_folder, ex)) {
-		if (!folder_is_selectable (store, folder_path))
+		if (!folder_is_selectable (store, folder_path)) {
 			camel_exception_clear (ex);
-		
-		g_free (folder_path);
-		/* FIXME: destroy new_folder */
-		
-		return NULL;
+			new_folder->can_hold_messages = FALSE;
+			return new_folder;
+		} else {
+			g_free (folder_path);
+			gtk_object_unref (GTK_OBJECT (new_folder));		
+			return NULL;
+		}
 	}
 	
 	return new_folder;
@@ -648,6 +648,7 @@ imap_noop (gpointer data)
 	return TRUE;
 }
 
+#if 0
 static gboolean
 stream_is_alive (CamelStream *istream)
 {
@@ -664,6 +665,7 @@ stream_is_alive (CamelStream *istream)
 	
 	return FALSE;
 }
+#endif
 
 static int
 camel_imap_status (char *cmdid, char *respbuf)
@@ -970,8 +972,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	
 	g_ptr_array_free (data, TRUE);
 	
-	if (folder && recent > 0)
-		gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
+	if (folder && recent > 0) {
+		CamelException *ex;
+
+		ex = camel_exception_new ();
+		camel_imap_folder_changed (folder, ex);
+		camel_exception_free (ex);
+	}
 	
 	return status;
 }
