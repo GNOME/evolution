@@ -366,10 +366,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			folder = NULL;
 		}
 	} else {
-		/* we dont want to note file url's, they need to be noted elsewhere (sigh) */
-		if (strncmp(uri, "file:", 5) != 0)
-			mail_note_folder(folder, NULL);
-		/*mail_folder_cache_note_folder (uri, folder);*/
+		mail_note_folder(folder, NULL);
 	}
 	
 	camel_url_free (url);

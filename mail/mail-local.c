@@ -110,6 +110,8 @@ typedef struct {
 	CamelFolder *real_folder;
 	CamelStore *real_store;
 
+	char *real_path;
+
 	struct _local_meta *meta;
 
 	GMutex *real_folder_lock; /* no way to use the CamelFolder's lock, so... */
@@ -415,7 +417,7 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 
 	g_assert(mlf->real_folder == NULL);
 
-	uri = g_strdup_printf("%s:%s%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path, folder->full_name);
+	uri = g_strdup_printf("%s:%s%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path, mlf->real_path);
 	d(printf("opening real store: %s\n", uri));
 	mlf->real_store = camel_session_get_store(session, uri, ex);
 	g_free(uri);
@@ -508,7 +510,7 @@ mail_local_folder_get_type (void)
 }
 
 static MailLocalFolder *
-mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store, const char *full_name, CamelException *ex)
+mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store, const char *full_name, char *path, CamelException *ex)
 {
 	const char *name;
 	char *metapath;
@@ -521,6 +523,9 @@ mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store,
 	d(printf("constructing local folder: full = %s, name = %s\n", full_name, name));
 
 	camel_folder_construct(CAMEL_FOLDER (mlf), CAMEL_STORE(parent_store), full_name, name);
+
+	mlf->real_path = ((CamelFolder *)mlf)->full_name;
+	((CamelFolder *)mlf)->full_name = g_strdup(path);
 
 	metapath = g_strdup_printf("%s/%s/local-metadata.xml", ((CamelService *)parent_store)->url->path, full_name);
 	mlf->meta = load_metainfo(metapath);
@@ -555,7 +560,7 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, Cam
 	}
 
 	store_uri = g_strdup_printf("%s:%s%s", mlf->meta->format,
-				    ((CamelService *)((CamelFolder *)mlf)->parent_store)->url->path, ((CamelFolder *)mlf)->full_name);
+				    ((CamelService *)((CamelFolder *)mlf)->parent_store)->url->path, mlf->real_path);
 	fromstore = camel_session_get_store(session, store_uri, ex);
 	g_free(store_uri);
 	if (fromstore == NULL)
@@ -652,11 +657,28 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 	MailLocalFolder *folder;
 	char *physical_uri;
 	CamelFolderInfo *info;
+	char *path = NULL;
 
-	d(printf("--LOCAL-- get_folder: %s", folder_name));
+	d(printf("--LOCAL-- get_folder: %s\n", folder_name));
+
+	physical_uri = g_strdup_printf("file:/%s/%s", ((CamelService *)store)->url->path, folder_name);
+	LOCAL_STORE_LOCK(local_store);
+	info = g_hash_table_lookup(local_store->folder_infos, physical_uri);
+	g_free(physical_uri);
+	if (info) {
+		path = g_strdup(info->full_name);
+		LOCAL_STORE_UNLOCK(local_store);
+	} else {
+		LOCAL_STORE_UNLOCK(local_store);
+		g_warning("LocalStore opening a folder we weren't told existed!: %s", physical_uri);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open folder: %s: No such folder"),
+				      folder_name);
+		return NULL;
+	}
 
 	folder = (MailLocalFolder *)camel_object_new(MAIL_LOCAL_FOLDER_TYPE);
-	folder = mail_local_folder_construct(folder, local_store, folder_name, ex);
+	folder = mail_local_folder_construct(folder, local_store, folder_name, path, ex);
 	if (folder == NULL)
 		return NULL;
 
@@ -674,23 +696,6 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 			return NULL;
 		}
 	}
-
-	physical_uri = g_strdup_printf("file:/%s/%s", ((CamelService *)store)->url->path, folder_name);
-	LOCAL_STORE_LOCK(local_store);
-	info = g_hash_table_lookup(local_store->folder_infos, physical_uri);
-	if (info) {
-		char *path = g_strdup(info->full_name);
-
-		d(printf("noting folder: '%s' path = '%s'\n", info->url, info->full_name));
-		
-		LOCAL_STORE_UNLOCK(local_store);
-		mail_note_folder((CamelFolder *)folder, path);
-		g_free(path);
-	} else {
-		LOCAL_STORE_UNLOCK(local_store);
-		g_warning("LocalStore opening a folder we weren't told existed!: %s", physical_uri);
-	}
-	g_free(physical_uri);
 
 	return (CamelFolder *)folder;
 }
@@ -808,7 +813,19 @@ mail_local_store_get_type (void)
 
 static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, const char *path, const char *name)
 {
-	CamelFolderInfo *info;
+	CamelFolderInfo *info = NULL;
+	CamelURL *url;
+
+	url = camel_url_new(uri, NULL);
+	if (url == NULL) {
+		g_warning("Shell trying to add invalid folder url: %s", uri);
+		return;
+	}
+	if (url->path == NULL || url->path[0] == 0) {
+		g_warning("Shell trying to add invalid folder url: %s", uri);
+		camel_url_free(url);
+		return;
+	}
 
 	LOCAL_STORE_LOCK(mls);
 
@@ -825,14 +842,18 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 
 	LOCAL_STORE_UNLOCK(mls);
 
-	d(printf("adding folder: '%s' path = '%s'\n", info->url, path));
+	camel_url_free(url);
 
-	/* FIXME: should copy info, so we dont get a removed while we're using it? */
-	camel_object_trigger_event((CamelObject *)mls, "folder_created", info);
+	if (info) {
+		d(printf("adding folder: '%s' path = '%s'\n", uri, path));
 
-	/* this is just so the folder is opened at least once to setup the folder
-	   counts etc in the display.  Joy eh?   The result is discarded. */
-	mail_get_folder(uri, NULL, NULL);
+		/* FIXME: should copy info, so we dont get a removed while we're using it? */
+		camel_object_trigger_event((CamelObject *)mls, "folder_created", info);
+
+		/* this is just so the folder is opened at least once to setup the folder
+		   counts etc in the display.  Joy eh?   The result is discarded. */
+		mail_get_folder(uri, NULL, NULL);
+	}
 }
 
 struct _search_info {

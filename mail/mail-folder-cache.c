@@ -40,7 +40,7 @@
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 
-#define d(x) 
+#define d(x) x
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -52,13 +52,14 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
 
-	char *path;
+	char *path;		/* shell path */
 	char *name;		/* shell display name? */
+	char *full_name;	/* full name of folder/folderinfo */
 	CamelFolder *folder;	/* if known */
 };
 
 struct _store_info {
-	GHashTable *folders;	/* by path */
+	GHashTable *folders;	/* by full_name */
 
 	/* only 1 should be set */
 	EvolutionStorage *storage;
@@ -106,7 +107,7 @@ setup_folder(const char *path, CamelFolderInfo *fi, struct _store_info *si)
 	int unread = fi->unread_message_count;
 
 	LOCK(info_lock);
-	mfi = g_hash_table_lookup(si->folders, path);
+	mfi = g_hash_table_lookup(si->folders, fi->full_name);
 	if (mfi) {
 		UNLOCK(info_lock);
 		update_1folder(mfi, fi);
@@ -116,8 +117,9 @@ setup_folder(const char *path, CamelFolderInfo *fi, struct _store_info *si)
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(path);
 		mfi->name = g_strdup(fi->name);
+		mfi->full_name = g_strdup(fi->full_name);
 		mfi->store_info = si;
-		g_hash_table_insert(si->folders, mfi->path, mfi);
+		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		UNLOCK(info_lock);
 
 		if (si->storage != NULL) {
@@ -178,7 +180,7 @@ real_note_folder(CamelFolder *folder, char *path, void *data)
 		path = g_strdup_printf("/%s", folder->full_name);
 
 	LOCK(info_lock);
-	mfi = g_hash_table_lookup(si->folders, path);
+	mfi = g_hash_table_lookup(si->folders, folder->full_name);
 	UNLOCK(info_lock);
 
 	if (mfi == NULL) {
@@ -198,7 +200,7 @@ real_note_folder(CamelFolder *folder, char *path, void *data)
 
 	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "finalised", folder_finalised, mfi);
+	camel_object_hook_event((CamelObject *)folder, "finalized", folder_finalised, mfi);
 
 	camel_object_unref((CamelObject *)folder);
 }
@@ -271,6 +273,7 @@ free_folder_info(char *path, struct _folder_info *info, void *data)
 {
 	g_free(info->path);
 	g_free(info->name);
+	g_free(info->full_name);
 }
 
 static void
@@ -343,7 +346,7 @@ setup_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storag
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_hook_event((CamelObject *)store, "finalised", store_finalised, NULL);
+		camel_object_hook_event((CamelObject *)store, "finalized", store_finalised, NULL);
 	}
 
 	UNLOCK(info_lock);

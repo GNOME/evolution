@@ -1,3 +1,30 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): Dont special case file:
+	url's anymore.
+
+	* mail-local.c: Add real_path to MailLocalFolder.
+	(mail_local_folder_construct): Added path argument, setup
+	full_name == path, and real_path == full_name.
+	(mls_get_folder): First lookup folderinfo to confirm this folder
+	exists, then use that to properly construct the folder paths.
+	(mail_local_folder_reconfigure): Use real_path not full_name to
+	create the store uri.
+	(mlf_set_folder): Use real_path not folder_name to get real uri
+	path.
+
+2001-09-19    <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (setup_store): Use the wrong spelling of
+	finalised for the event hook.
+	(real_note_folder): Use the wrong spelling of finalised for the
+	event hook.
+	(free_folder_info): Free the full_name parameter.
+	(setup_folder): 
+	(real_note_folder): Key the folderinfo table on full_name, not
+	path.
+
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (save_messages_save): Convert all textual parts to
