@@ -1,5 +1,11 @@
 2004-02-09  Rodney Dawes  <dobey@ximian.com>
 
+	* tools/killev.c: Use the AlarmNotify_Factory for --force-shutdown
+
+	Fixes #54084
+
+2004-02-09  Rodney Dawes  <dobey@ximian.com>
+
 	* data/evolution.desktop.in.in: Updated BugzillaOtherBinaries tag
 
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
