@@ -29,6 +29,7 @@
 #include "mail.h"
 #include "shell/e-setup.h"
 #include "e-util/e-html-utils.h"
+#include <camel/camel-mime-utils.h>
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
@@ -546,11 +547,14 @@ write_field_to_stream (const char *description, const char *value,
 	char *encoded_value;
 
 	if (value) {
-		unsigned char *p;
+		unsigned char *raw, *p;
 
-		encoded_value = e_text_to_html (value,
+		raw = header_decode_string (value);
+
+		encoded_value = e_text_to_html (raw,
 						E_TEXT_TO_HTML_CONVERT_NL |
 						E_TEXT_TO_HTML_CONVERT_URLS);
+		g_free (raw);
 		for (p = (unsigned char *)encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';

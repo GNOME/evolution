@@ -1,5 +1,8 @@
 2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-format.c (write_field_to_stream): Decode the header before
+	writing it to the header box.
+
 	* mail-callbacks.c (send_receieve_mail): fetch mail before
 	sending, this is a temp fix for POP-before-SMTP authentication.
 
