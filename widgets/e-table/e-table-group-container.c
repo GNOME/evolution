@@ -615,7 +615,6 @@ etgc_add (ETableGroup *etg, gint row)
 static void
 etgc_add_all (ETableGroup *etg)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	int rows = e_table_model_row_count(etg->model);
 	int i;
 	for (i = 0; i < rows; i++)

@@ -292,8 +292,6 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 static void
 e_table_fill_table (ETable *e_table, ETableModel *model)
 {
-	int count, i;
-
 	e_table_group_add_all (e_table->group);
 #if 0
 	count = e_table_model_row_count (model);
