@@ -1,3 +1,11 @@
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #7775, crash trying to do New Task]
+
+	* e-shell-user-creatable-items-handler.c (verb_fn): Make sure we
+	don't pass NULL strings to
+	`GNOME_Evolution_ShellComponent_userCreateNewItem()'.
+
 2001-08-21  Damon Chaplin  <damon@ximian.com>
 
 	* e-gray-bar.c (endarken_style): unref the rc_style.

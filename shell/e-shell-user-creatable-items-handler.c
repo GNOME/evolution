@@ -303,8 +303,8 @@ verb_fn (BonoboUIComponent *ui_component,
 			GNOME_Evolution_ShellComponent_userCreateNewItem
 				(bonobo_object_corba_objref (BONOBO_OBJECT (component->component_client)),
 				 id,
-				 e_shell_view_get_current_physical_uri (shell_view),
-				 e_shell_view_get_current_folder_type (shell_view),
+				 e_safe_corba_string (e_shell_view_get_current_physical_uri (shell_view)),
+				 e_safe_corba_string (e_shell_view_get_current_folder_type (shell_view)),
 				 &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION)
