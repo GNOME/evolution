@@ -1,4 +1,13 @@
-2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+2001-03-15  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c: Added edit item to search-bar menu.
+
+	* mail-callbacks.c (filter_edit): Changed for filter_editor_new()
+	api addition/change.
+
+	* mail-vfolder.c (vfolder_edit): Use vfolder_editor_new intead.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>X
 
 	* session.c (mail_session_init): Tell camel to init NSS.
 	(mail_session_accept_dialog): Doh! NULL terminate the list of

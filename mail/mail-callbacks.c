@@ -1176,6 +1176,12 @@ filter_druid_clicked (GtkWidget *w, int button, FolderBrowser *fb)
 	}
 }
 
+static const char *filter_source_names[] = {
+	"incoming",
+	"outgoing",
+	NULL,
+};
+
 void
 filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -1204,7 +1210,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		return;
 	}
 	
-	w = filter_editor_construct (fc);
+	w = (GtkWidget *)filter_editor_new(fc, filter_source_names);
 	gtk_object_set_data_full (GTK_OBJECT (w), "context", fc, (GtkDestroyNotify)gtk_object_unref);
 	gtk_signal_connect (GTK_OBJECT (w), "clicked", filter_druid_clicked, fb);
 	gtk_widget_show (GTK_WIDGET (w));

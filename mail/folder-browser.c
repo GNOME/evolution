@@ -217,6 +217,7 @@ static ESearchBarItem folder_browser_search_menu_items[] = {
 	E_FILTERBAR_RESET,
 	E_FILTERBAR_SAVE,
 	{ N_("Store search as vFolder"),  ESB_SAVE     },
+	E_FILTERBAR_EDIT,
 	{ NULL,                           -1           }
 };
 
