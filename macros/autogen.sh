@@ -14,7 +14,7 @@ DIE=0
 (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have "\`libtool\'" installed to compile Gnome."
-    echo "Get ftp://alpha.gnu.org/gnu/libtool-1.0h.tar.gz"
+    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
 }
@@ -22,7 +22,7 @@ DIE=0
 (automake --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have "\`automake\'" installed to compile Gnome."
-    echo "Get ftp://ftp.cygnus.com/pub/home/tromey/automake-1.2d.tar.gz"
+    echo "Get ftp://ftp.gnu.org/pub/gnu/automake-1.3.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
     NO_AUTOMAKE=yes
@@ -34,7 +34,7 @@ test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: Missing "\`aclocal\'".  The version of "\`automake\'
     echo "installed doesn't appear recent enough."
-    echo "Get ftp://ftp.cygnus.com/pub/home/tromey/automake-1.2d.tar.gz"
+    echo "Get ftp://ftp.gnu.org/pub/gnu/automake-1.3.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
 }

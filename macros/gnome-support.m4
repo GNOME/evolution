@@ -57,7 +57,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
       LIBOBJS="$LIBOBJS easy-vsnprintf.o",
       LIBOBJS="$LIBOBJS vsnprintf.o")])
 
-  AC_REPLACE_FUNCS(strtok_r strcasecmp strndup strnlen vasprintf)
+  AC_REPLACE_FUNCS(scandir strtok_r strcasecmp strndup strnlen vasprintf)
 
   if test "$LIBOBJS" != ""; then
      need_gnome_support=yes
