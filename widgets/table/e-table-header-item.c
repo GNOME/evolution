@@ -384,7 +384,6 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 		GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->window,
 		&rx, &ry);
 
-	printf ("Offset: %d, Location: %d\n", x, rx);
 	gtk_widget_set_uposition (arrow_down, rx + x - ARROW_PTR, ry - ARROW_DOWN_HEIGHT);
 	gtk_widget_show_all (arrow_down);
 
@@ -691,10 +690,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 	gint group_indent = 0;
 
-#if 0
-	printf ("My coords are: %g %g %g %g\n",
-		item->x1, item->y1, item->x2, item->y2);
-#endif
 
 	if (ethi->sort_info) {
 		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
@@ -831,6 +826,8 @@ ethi_end_resize (ETableHeaderItem *ethi, int new_size)
 	e_table_header_set_size (ethi->eth, ethi->resize_col, new_size);
 
 	ethi->resize_col = -1;
+	ethi->resize_guide = GINT_TO_POINTER (0);
+	
 	ethi_request_redraw (ethi);
 }
 
@@ -947,6 +944,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (ethi->resize_guide == NULL){
 				/* Quick hack until I actually bind the views */
 				ethi->resize_guide = GINT_TO_POINTER (1);
+				
 				gnome_canvas_item_grab (item,
 							GDK_POINTER_MOTION_MASK |
 							GDK_BUTTON_RELEASE_MASK,
