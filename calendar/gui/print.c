@@ -2255,56 +2255,40 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 }
 
 static void
-print_event (GnomePrintContext *pc, CalComponent *comp,
-	     double left, double right, double top, double bottom)
-{
-	CalComponentText text;
-	GSList *desc, *l;
-	
-	/* Summary */
-	cal_component_get_summary (comp, &text);
-	print_text_size (pc, 18, text.value, ALIGN_LEFT,
-			 left+3, right, top-3, top - 21);
-	top -= 21;
-	
-	/* Date information */
-	print_date_label (pc, comp, left+3, right, top-3, top - 15);
-	top -= 15;
-
-	/* Description */
-	cal_component_get_description_list (comp, &desc);
-	for (l = desc; l != NULL; l = l->next) {
-		CalComponentText *text = l->data;
-		
-	}
-	cal_component_free_text_list (desc);
-}
-
-static void
-print_task (GnomePrintContext *pc, CalComponent *comp,
-	    double left, double right, double top, double bottom)
-{
-	CalComponentText text;
-
-	cal_component_get_summary (comp, &text);
-	print_text_size (pc, 24, text.value, ALIGN_CENTER,
-			 left+3, right, top-3, top - 27);
-}
-
-static void
 print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 		 double left, double right, double top, double bottom)
 {
+	GnomeFont *font;
 	CalComponentVType vtype;
+	CalComponentText text;
+	GSList *desc, *l;
 	
 	vtype = cal_component_get_vtype (comp);
+	
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		print_event (pc, comp, left, right, top, bottom);
-		break;
-		
 	case CAL_COMPONENT_TODO:
-		print_task (pc, comp, left, right, top, bottom);
+		/* Summary */
+		cal_component_get_summary (comp, &text);
+		print_text_size (pc, 18, text.value, ALIGN_LEFT,
+				 left+3, right, top-3, top - 21);
+		top -= 21;
+	
+		/* Date information */
+		print_date_label (pc, comp, left+3, right, top-3, top - 15);
+		top -= 30;
+
+		/* Description */
+		font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, FALSE, 12);
+		cal_component_get_description_list (comp, &desc);
+		for (l = desc; l != NULL; l = l->next) {
+			CalComponentText *text = l->data;
+		
+			if (text->value != NULL)
+				top = bound_text (pc, font, text->value, left, right, top-3, bottom, 3);
+		}
+		cal_component_free_text_list (desc);
+
 		break;
 	default:
 	}
