@@ -359,7 +359,7 @@ property_event (BonoboListener *listener,
 		gpointer user_data)
 {
 	PropertyDialog *data = (PropertyDialog *) user_data;
-	if (strcmp (event_name, "property_box_changed") == 0) {
+	if (strcmp (event_name, BONOBO_PROPERTY_CONTROL_CHANGED) == 0) {
 		gnome_property_box_changed (GNOME_PROPERTY_BOX (data->dialog));
 		return;
 	}

@@ -67,6 +67,7 @@ evolution_executive_summary_LDADD = 					\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
+	-lgal						\
 	$(GTKHTML_LIBS)					\
 	$(UNICODE_LIBS)
 

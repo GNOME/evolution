@@ -44,6 +44,7 @@
 
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-component-factory-client.h>
+#include <evolution-services/executive-summary-html-view.h>
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -568,7 +569,7 @@ html_event (BonoboListener *listener,
 	ESummaryWindow *window = (ESummaryWindow *) user_data;
 
 	g_print ("Event: %s\n", event_name);
-	if (strcmp (event_name, "html_changed") != 0) {
+	if (strcmp (event_name, EXECUTIVE_SUMMARY_HTML_VIEW_HTML_CHANGED) != 0) {
 		return;
 	}
 

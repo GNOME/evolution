@@ -25,6 +25,9 @@
 #define _EXECUTIVE_SUMMARY_HTML_VIEW_H__
 
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-event-source.h>
+
+#define EXECUTIVE_SUMMARY_HTML_VIEW_HTML_CHANGED "GNOME:Evolution:Summary:HTMLView:html_changed"
 
 #define EXECUTIVE_SUMMARY_HTML_VIEW_TYPE (executive_summary_html_view_get_type ())
 #define EXECUTIVE_SUMMARY_HTML_VIEW(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_HTML_VIEW_TYPE, ExecutiveSummaryHtmlView))
@@ -47,11 +50,13 @@ struct _ExecutiveSummaryHtmlViewClass {
 };
 
 GtkType executive_summary_html_view_get_type (void);
+BonoboObject *executive_summary_html_view_new_full (BonoboEventSource *event_source);
 BonoboObject *executive_summary_html_view_new (void);
 
 void executive_summary_html_view_set_html (ExecutiveSummaryHtmlView *view,
 					   const char *html);
 const char *executive_summary_html_view_get_html (ExecutiveSummaryHtmlView *view);
+BonoboEventSource *executive_summary_html_view_get_event_source (ExecutiveSummaryHtmlView *view);
 
 #endif
 

@@ -161,17 +161,18 @@ E_MAKE_TYPE (executive_summary_html_view, "ExecutiveSummaryHtmlView",
 
 static void
 executive_summary_html_view_construct (ExecutiveSummaryHtmlView *view,
+				       BonoboEventSource *event_source,
 				       GNOME_Evolution_Summary_HTMLView corba_object)
 {
 	ExecutiveSummaryHtmlViewPrivate *priv;
 
 	g_return_if_fail (view != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_HTML_VIEW (view));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 
 	priv = view->private;
 	
-	priv->event_source = bonobo_event_source_new ();
-	g_warning ("new event source: %p", priv->event_source);
+	priv->event_source = event_source;
 	bonobo_object_add_interface (BONOBO_OBJECT (view), 
 				     BONOBO_OBJECT (priv->event_source));
 
@@ -180,7 +181,9 @@ executive_summary_html_view_construct (ExecutiveSummaryHtmlView *view,
 
 /*** Public API ***/
 /**
- * executive_summary_html_view_new:
+ * executive_summary_html_view_new_full:
+ * @event_source: A BonoboEventSource that will be aggregated onto the 
+ * interface.
  *
  * Creates a new BonoboObject that implements 
  * the HTMLView.idl interface.
@@ -188,11 +191,14 @@ executive_summary_html_view_construct (ExecutiveSummaryHtmlView *view,
  * Returns: A BonoboObject.
  */
 BonoboObject *
-executive_summary_html_view_new (void)
+executive_summary_html_view_new_full (BonoboEventSource *event_source)
 {
 	ExecutiveSummaryHtmlView *view;
 	POA_GNOME_Evolution_Summary_HTMLView *servant;
 	GNOME_Evolution_Summary_HTMLView corba_object;
+
+	g_return_val_if_fail (event_source != NULL, NULL);
+	g_return_val_if_fail (BONOBO_IS_EVENT_SOURCE (event_source), NULL);
 
 	servant = create_servant ();
 	if (servant == NULL)
@@ -201,9 +207,30 @@ executive_summary_html_view_new (void)
 	view = gtk_type_new (executive_summary_html_view_get_type ());
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (view),
 						       servant);
-	executive_summary_html_view_construct (view, corba_object);
+
+	bonobo_object_ref (BONOBO_OBJECT (event_source));
+	executive_summary_html_view_construct (view, event_source, corba_object);
 
 	return BONOBO_OBJECT (view);
+}
+
+/**
+ * executive_summary_html_view_new:
+ *
+ * Creates a new BonoboObject that implements 
+ * the HTMLView.idl interface.
+ * Creates a default Bonobo::EventSource interface that will be aggregated onto
+ * the interface.
+ *
+ * Returns: A BonoboObject.
+ */
+BonoboObject *
+executive_summary_html_view_new (void)
+{
+	BonoboEventSource *event_source;
+
+	event_source = bonobo_event_source_new ();
+	return executive_summary_html_view_new_full (event_source);
 }
 
 /**
@@ -240,10 +267,11 @@ executive_summary_html_view_set_html (ExecutiveSummaryHtmlView *view,
 	any._type = (CORBA_TypeCode) TC_short;
 	any._value = &s;
 
-	g_warning ("Notifying event source: %p", priv->event_source);
 	bonobo_event_source_notify_listeners (BONOBO_EVENT_SOURCE (priv->event_source),
-					      "html_changed", &any, NULL);
+					      EXECUTIVE_SUMMARY_HTML_VIEW_HTML_CHANGED, 
+					      &any, NULL);
 }
+
 /**
  * executive_summary_html_view_get_html:
  * @view: The ExecutiveSummaryHtmlView to operate on.
@@ -267,3 +295,19 @@ executive_summary_html_view_get_html (ExecutiveSummaryHtmlView *view)
 	return priv->html;
 }
 	
+/**
+ * executive_summary_html_view_get_event_source:
+ * @view: The ExecutiveSummaryHtmlView to operate on.
+ *
+ * Retrieves the BonoboEventSource that is used in this view.
+ *
+ * Returns: A BonoboEventSource pointer.
+ */
+BonoboEventSource *
+executive_summary_html_view_get_event_source (ExecutiveSummaryHtmlView *view)
+{
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (IS_EXECUTIVE_SUMMARY_HTML_VIEW (view), NULL);
+
+	return view->private->event_source;
+}

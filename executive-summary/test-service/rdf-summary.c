@@ -300,6 +300,7 @@ download (RdfSummary *summary)
 	/* Then parse it */
 	/* The update it */
 
+	g_print ("Starting download\n");
 	view = EXECUTIVE_SUMMARY_HTML_VIEW (summary->view);
 	result = gnome_vfs_open (&handle, summary->location, 
 				 GNOME_VFS_OPEN_READ);
@@ -353,6 +354,8 @@ download (RdfSummary *summary)
 	tree_walk (doc->root, summary, html);
 	executive_summary_html_view_set_html (view, html->str);
 	g_string_free (html, TRUE);
+
+	g_print ("Finished Download\n");
 	return FALSE;
 }
 
@@ -495,7 +498,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	     void *closure)
 {
 	RdfSummary *summary;
-	BonoboObject *component, *view, *bag, *property;
+	BonoboObject *component, *view, *bag, *property, *event_source;
 	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
 	
 	summary = g_new (RdfSummary, 1);
@@ -510,7 +513,12 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 
 	summary->component = component;
 
-	view = executive_summary_html_view_new ();
+	/* Share the event source between the ExecutiveSummaryHtmlView and the
+	   BonoboPropertyControl as we can only have one Bonobo::EventSource
+	   interface aggregated */
+	event_source = bonobo_event_source_new ();
+
+	view = executive_summary_html_view_new_full (BONOBO_EVENT_SOURCE (event_source));
 	summary->view = view;
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      html);
@@ -528,7 +536,9 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 				 "The icon for this component's window", 0);
 	bonobo_object_add_interface (component, bag);
 				 
-	property = bonobo_property_control_new (property_control, 1, summary);
+	property = bonobo_property_control_new_full (property_control, 1,
+						     BONOBO_EVENT_SOURCE (event_source),
+						     summary);
 	summary->property_control = property;
 
 	gtk_signal_connect (GTK_OBJECT (property), "action",
@@ -537,7 +547,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, property);
 
 	running_views++;
-	g_idle_add (download, summary);
+	gtk_timeout_add (5000, download, summary);
 
 	return component;
 }

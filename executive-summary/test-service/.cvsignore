@@ -4,3 +4,4 @@ core
 .deps
 .libs
 test-service
+rdf-summary

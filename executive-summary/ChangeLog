@@ -1,3 +1,24 @@
+2000-12-11  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-html-view.h: Add a define
+	for the "html_changed" signal to name space it. Change the function
+	declarations to fit with the below change too.
+
+	* evolution-services/executive-summary-html-view.c 
+	(executive_summary_html_view_new): Create a default BonoboEventSource
+	and use the new _full function.
+	(executive_summary_html_view_new_full): Creates a new HtmlView with
+	the given BonoboEventSource.
+	(executive_summary_html_view_get_event_source): Returns the 
+	BonoboEventSource for the view.
+	(executive_summary_html_view_set_html): Use the new #define for the event
+	name.
+
+	* test-service/rdf-summary.c (create_view): Share the BonoboEventSource
+	between the HtmlView and the BonoboPropertyControl.
+
+	* component/e-summary.c (html_event): Use the name spaced #define.
+
 2000-12-08  Iain Holmes  <iain@helixcode.com>
 
 	* summary.html: Don't hardcode the image paths.
