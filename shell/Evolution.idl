@@ -12,16 +12,8 @@
 
 #include <Evolution-common.idl>
 
-#include <Evolution-Activity.idl>
 #include <Evolution-Component.idl>
 #include <Evolution-ConfigControl.idl>
-#include <Evolution-Session.idl>
-#include <Evolution-ShellComponent.idl>
-#include <Evolution-ShellComponentDnd.idl>
 #include <Evolution-Offline.idl>
-#include <Evolution-ShellView.idl>
-#include <Evolution-Shortcuts.idl>
-#include <Evolution-Storage.idl>
-#include <Evolution-StorageSetView.idl>
 #include <Evolution-Shell.idl>
 #include <Evolution-Wizard.idl>

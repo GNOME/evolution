@@ -26,8 +26,6 @@
 
 #include "e-activity-handler.h"
 
-#include "e-shell-corba-icon-utils.h"
-
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

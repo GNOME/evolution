@@ -1,5 +1,27 @@
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Evolution-Session.idl: Remove.
+	* Evolution-Activity.idl: Remove.
+	* Evolution-ShellComponent.idl: Remove.
+	* Evolution-ShellComponentDnd.idl: Remove.
+	* Evolution-ShellView.idl: Remove.
+	* Evolution-Shortcuts.idl: Remove.
+	* Evolution-Storage.idl: Remove.
+	* Evolution-StorageSetView.idl: Remove.
+
+	* evolution-shell-view.c: Remove.
+	* evolution-shell-view.h: Remove.
+
+	* evolution-session.c: Remove.
+	* evolution-session.h: Remove.
+
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-activity-handler.c: Do not #include
+	"e-shell-corba-icon-utils.h".
+
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder-list.c: Remove.
 	* e-folder-list.h: Remove.
 

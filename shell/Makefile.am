@@ -26,18 +26,10 @@ noinst_PROGRAMS = evolution
 # Shell CORBA stuff
 
 IDLS = \
-	Evolution-Activity.idl			\
 	Evolution-ConfigControl.idl		\
 	Evolution-Component.idl			\
 	Evolution-Offline.idl			\
-	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
-	Evolution-ShellComponent.idl		\
-	Evolution-ShellComponentDnd.idl		\
-	Evolution-ShellView.idl			\
-	Evolution-Shortcuts.idl			\
-	Evolution-Storage.idl			\
-	Evolution-StorageSetView.idl		\
 	Evolution-Wizard.idl			\
 	Evolution-common.idl			\
 	Evolution.idl
@@ -114,9 +106,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
 	evolution-config-control.h		\
-	evolution-session.h			\
 	evolution-shell-component-utils.h	\
-	evolution-shell-view.h			\
 	evolution-wizard.h
 
 libeshell_la_SOURCES = 				\
@@ -127,9 +117,7 @@ libeshell_la_SOURCES = 				\
 	e-shell-corba-icon-utils.c		\
 	e-shell-utils.c				\
 	evolution-config-control.c		\
-	evolution-session.c			\
 	evolution-shell-component-utils.c	\
-	evolution-shell-view.c			\
 	evolution-wizard.c			\
 	$(eshellinclude_HEADERS)
 
