@@ -198,9 +198,9 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
 	const MailConfigAccount *account = NULL;
-	GtkWidget *confirm, *button;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
+	GtkWidget *confirm;
 	const GSList *list;
 	GtkTreeIter iter;
 	int ans;
@@ -218,13 +218,13 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 					  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					  _("Are you sure you want to delete this account?"));
 	
-	button = gtk_button_new_from_stock (GTK_STOCK_YES);
-	gtk_button_set_label ((GtkButton *) button, _("Delete"));
-	gtk_dialog_add_action_widget ((GtkDialog *) confirm, button, GTK_RESPONSE_YES);
+	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_YES);
+	gtk_button_set_label (button, _("Delete"));
+	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_YES);
 	
-	button = gtk_button_new_from_stock (GTK_STOCK_NO);
-	gtk_button_set_label ((GtkButton *) button, _("Don't delete"));
-	gtk_dialog_add_action_widget ((GtkDialog *) confirm, button, GTK_RESPONSE_NO);
+	button = (GtkButton *) gtk_button_new_from_stock (GTK_STOCK_NO);
+	gtk_button_set_label (button, _("Don't delete"));
+	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_NO);
 	
 	ans = gtk_dialog_run ((GtkDialog *) confirm);
 	gtk_widget_destroy (confirm);
