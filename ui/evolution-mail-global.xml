@@ -44,7 +44,7 @@
 
   <menu>
 
-    <submenu name="View">
+    <submenu name="View" _label="_View">
       <menuitem name="ViewPreview" verb="" _label="_Preview Pane"/>
       <separator f="" name="emailglobal"/>
       <placeholder name="MailMessageView"/>
