@@ -1,4 +1,11 @@
 2003-04-28  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: Added appropriate spacing
+	and padding to the calendar/tasks page of the settings dialog. 
+	Fixes bug #41129
+
+
+2003-04-28  Anna Marie Dirks  <anna@ximian.com>
 	
 	* gui/dialogs/task-page.glade: Finishes up fixing #41256 by
 	adding appropriate spacing/padding to the main task page.

@@ -17,7 +17,7 @@
     <widget class="GtkVBox" id="vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="hbuttonbox1">
@@ -80,7 +80,7 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox10">
-	      <property name="border_width">4</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
@@ -95,7 +95,7 @@
 
 		  <child>
 		    <widget class="GtkTable" id="table5">
-		      <property name="border_width">4</property>
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="n_rows">2</property>
 		      <property name="n_columns">3</property>
@@ -270,7 +270,7 @@
 
 		  <child>
 		    <widget class="GtkTable" id="table8">
-		      <property name="border_width">4</property>
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="n_rows">3</property>
 		      <property name="n_columns">4</property>
@@ -685,6 +685,7 @@
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox13">
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">6</property>
@@ -888,7 +889,7 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox8">
-	      <property name="border_width">4</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
@@ -1050,7 +1051,7 @@
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox12">
-		      <property name="border_width">4</property>
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">6</property>
