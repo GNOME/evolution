@@ -96,9 +96,14 @@ get_message_info(MessageList *message_list, gint row)
 			}
 		} else
 			g_warning ("get_message_info: row %d out of range", row);
-	} else {
-		if (row<message_list->summary_table->len)
-			info = message_list->summary_table->pdata[row];
+	} else if (row < message_list->summary_table->len) {
+		ETreeModel *model = (ETreeModel *)message_list->table_model;
+		ETreePath *node;
+
+		node = e_tree_model_node_at_row (model, row);
+		row = GPOINTER_TO_INT (e_tree_model_node_get_data (model, node));
+
+		info = message_list->summary_table->pdata[row];
 	}
 
 	return info;
@@ -573,8 +578,7 @@ ml_tree_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
-	/* we just map the node to a row id, and reuse the other value_at */
-	int row = (int)e_tree_model_node_get_data (etm, path);
+	int row = e_tree_model_row_of_node (etm, path);
 
 	return ml_value_at((ETableModel *)etm, col, row, model_data);
 }
@@ -582,7 +586,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 static void
 ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col, const void *val, void *model_data)
 {
-	int row = (int)e_tree_model_node_get_data (etm, path);
+	int row = e_tree_model_row_of_node (etm, path);
 
 	ml_set_value_at((ETableModel *)etm, col, row, val, model_data);
 }
@@ -590,7 +594,7 @@ ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col, const void *val
 static gboolean
 ml_tree_is_cell_editable (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
-	int row = (int)e_tree_model_node_get_data (etm, path);
+	int row = e_tree_model_row_of_node (etm, path);
 
 	return ml_is_cell_editable((ETableModel *)etm, col, row, model_data);
 }

@@ -1,3 +1,10 @@
+2000-07-06  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (get_message_info): Map tree model row numbers to
+	summary row numbers.
+	(ml_tree_value_at, ml_tree_set_value_at,
+	ml_tree_is_cell_editable): So don't do that here.
+
 2000-07-06  JP Rosevear  <jpr@arcavia.com>
 
 	* mail-config.glade*: Glade files for the configuration dialog.
