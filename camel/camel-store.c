@@ -50,10 +50,7 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 
-static void        init_trash (CamelStore *store);
 static CamelFolder *get_trash (CamelStore *store, CamelException *ex);
-
-static void        init_junk (CamelStore *store);
 static CamelFolder *get_junk (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *create_folder (CamelStore *store,
@@ -96,9 +93,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->compare_folder_name = g_str_equal;
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_inbox = get_inbox;
-	camel_store_class->init_trash = init_trash;
 	camel_store_class->get_trash = get_trash;
-	camel_store_class->init_junk = init_junk;
 	camel_store_class->get_junk = get_junk;
 	camel_store_class->create_folder = create_folder;
 	camel_store_class->delete_folder = delete_folder;
@@ -242,18 +237,33 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 		folder = camel_object_bag_reserve(store->folders, folder_name);
 	
 	if (!folder) {
-		folder = CS_CLASS (store)->get_folder (store, folder_name, flags, ex);
-		if (folder) {
-			/* Add the folder to the vTrash/vJunk folder if this store implements it */
-			if (store->vtrash)
-				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
-			if (store->vjunk)
-				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vjunk), folder);
-			
-			if (store->folders)
+		if ((store->flags & CAMEL_STORE_VTRASH) && strcmp(folder_name, CAMEL_VTRASH_NAME) == 0)
+			folder = CS_CLASS(store)->get_trash(store, ex);
+		else if ((store->flags & CAMEL_STORE_VJUNK) && strcmp(folder_name, CAMEL_VJUNK_NAME) == 0)
+			folder = CS_CLASS(store)->get_junk(store, ex);
+		else {
+			folder = CS_CLASS (store)->get_folder(store, folder_name, flags, ex);
+			if (folder) {
+				CamelVeeFolder *vfolder;
+
+				if ((store->flags & CAMEL_STORE_VTRASH)
+				    && (vfolder = camel_object_bag_get(store->folders, CAMEL_VTRASH_NAME))) {
+					camel_vee_folder_add_folder(vfolder, folder);
+					camel_object_unref(vfolder);
+				}
+
+				if ((store->flags & CAMEL_STORE_VJUNK)
+				    && (vfolder = camel_object_bag_get(store->folders, CAMEL_VJUNK_NAME))) {
+					camel_vee_folder_add_folder(vfolder, folder);
+					camel_object_unref(vfolder);
+				}
+			}
+		}
+
+		if (store->folders) {
+			if (folder)
 				camel_object_bag_add(store->folders, folder_name, folder);
-		} else {
-			if (store->folders)
+			else
 				camel_object_bag_abort(store->folders, folder_name);
 		}
 	}
@@ -302,6 +312,34 @@ camel_store_create_folder (CamelStore *store, const char *parent_name,
 	return fi;
 }
 
+/* deletes folder/removes it from the folder cache, if it's there */
+static void
+cs_delete_cached_folder(CamelStore *store, const char *folder_name)
+{
+	CamelFolder *folder;
+
+	if (store->folders
+	    && (folder = camel_object_bag_get(store->folders, folder_name))) {
+		CamelVeeFolder *vfolder;
+			
+		if ((store->flags & CAMEL_STORE_VTRASH)
+		    && (vfolder = camel_object_bag_get(store->folders, CAMEL_VTRASH_NAME))) {
+			camel_vee_folder_remove_folder(vfolder, folder);
+			camel_object_unref(vfolder);
+		}
+
+		if ((store->flags & CAMEL_STORE_VJUNK)
+		    && (vfolder = camel_object_bag_get(store->folders, CAMEL_VJUNK_NAME))) {
+			camel_vee_folder_remove_folder(vfolder, folder);
+			camel_object_unref(vfolder);
+		}
+
+		camel_folder_delete(folder);
+
+		camel_object_bag_remove(store->folders, folder);
+		camel_object_unref(folder);
+	}
+}
 
 static void
 delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
@@ -321,32 +359,26 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 void
 camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	CamelFolder *folder = NULL;
-	
+	CamelException local;
+
+	/* TODO: should probably be a parameter/bit on the storeinfo */
+	if (((store->flags & CAMEL_STORE_VTRASH) && strcmp(folder_name, CAMEL_VTRASH_NAME) == 0)
+	    || ((store->flags & CAMEL_STORE_VJUNK) && strcmp(folder_name, CAMEL_VJUNK_NAME) == 0)) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Cannot delete folder: %s: Invalid operation"), folder_name);
+		return;
+	}
+
+	camel_exception_init(&local);
+
 	CAMEL_STORE_LOCK(store, folder_lock);
 
-	/* NB: Note similarity of this code to unsubscribe_folder */
-	
-	/* if we deleted a folder, force it out of the cache, and also out of the vtrash/vjunk if setup */
-	if (store->folders) {
-		folder = camel_object_bag_get(store->folders, folder_name);
-		if (folder) {
-			if (store->vtrash)
-				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
-			if (store->vjunk)
-				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vjunk, folder);
-			camel_folder_delete (folder);
-		}
-	}
+	CS_CLASS(store)->delete_folder(store, folder_name, &local);
 
-	CS_CLASS (store)->delete_folder (store, folder_name, ex);
-	
-	if (folder) {
-		if (store->folders)
-			camel_object_bag_remove (store->folders, folder);
-		
-		camel_object_unref (folder);
-	}
+	if (!camel_exception_is_set(&local))
+		cs_delete_cached_folder(store, folder_name);
+	else
+		camel_exception_xfer(ex, &local);
 	
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
@@ -485,22 +517,6 @@ camel_store_get_inbox (CamelStore *store, CamelException *ex)
 	return folder;
 }
 
-static void
-trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
-{
-	CamelStore *store = CAMEL_STORE (user_data);
-	
-	store->vtrash = NULL;
-}
-
-static void
-junk_finalize (CamelObject *junk, gpointer event_data, gpointer user_data)
-{
-	CamelStore *store = CAMEL_STORE (user_data);
-	
-	store->vjunk = NULL;
-}
-
 /* FIXME: derive vjunk folder object from vee_folder */
 #include "camel-vee-store.h"
 static CamelFolder *
@@ -518,85 +534,36 @@ camel_vjunk_folder_new (CamelStore *parent_store, const char *name)
 }
 
 static void
-init_trash_or_junk (CamelStore *store, CamelFolder *folder, void (*finalize) (CamelObject *o, gpointer event_data, gpointer user_data))
+setup_special(CamelStore *store, CamelFolder *folder)
 {
-	if (folder) {
-		/* FIXME: this should probably use the object bag or another one ? ... */
-		/* attach to the finalise event of the vtrash/vjunk */
-		camel_object_hook_event (folder, "finalize", finalize, store);
-		
-		/* add all the pre-opened folders to the vtrash/vjunk */
-		if (store->folders) {
-			GPtrArray *folders = camel_object_bag_list(store->folders);
-			int i;
+	GPtrArray *folders = camel_object_bag_list(store->folders);
+	int i;
 
-			for (i=0;i<folders->len;i++) {
-				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (folder), (CamelFolder *)folders->pdata[i]);
-				camel_object_unref(folders->pdata[i]);
-			}
-			g_ptr_array_free(folders, TRUE);
-		}
+	for (i=0;i<folders->len;i++) {
+		camel_vee_folder_add_folder((CamelVeeFolder *)folder, (CamelFolder *)folders->pdata[i]);
+		camel_object_unref(folders->pdata[i]);
 	}
-}
-
-static void
-init_trash (CamelStore *store)
-{
-	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
-		return;
-
-	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
-	init_trash_or_junk (store, store->vtrash, trash_finalize);
-}
-
-static void
-init_junk (CamelStore *store)
-{
-	if ((store->flags & CAMEL_STORE_VJUNK) == 0)
-		return;
-
-	store->vjunk = camel_vjunk_folder_new (store, CAMEL_VJUNK_NAME);
-	init_trash_or_junk (store, store->vjunk, junk_finalize);
+	g_ptr_array_free(folders, TRUE);
 }
 
 static CamelFolder *
-get_trash (CamelStore *store, CamelException *ex)
+get_trash(CamelStore *store, CamelException *ex)
 {
-	if (store->vtrash) {
-		camel_object_ref (store->vtrash);
-		return store->vtrash;
-	} else {
-		CS_CLASS (store)->init_trash (store);
-		if (store->vtrash) {
-			/* We don't ref here because we don't want the
-                           store to own a ref on the trash folder */
-			/*camel_object_ref (store->vtrash);*/
-			return store->vtrash;
-		} else {
-			w(g_warning ("This store does not support vTrash."));
-			return NULL;
-		}
-	}
+	CamelFolder *folder = camel_vtrash_folder_new(store, CAMEL_VTRASH_NAME);
+
+	setup_special(store, folder);
+
+	return folder;
 }
 
 static CamelFolder *
-get_junk (CamelStore *store, CamelException *ex)
+get_junk(CamelStore *store, CamelException *ex)
 {
-	if (store->vjunk) {
-		camel_object_ref (CAMEL_OBJECT (store->vjunk));
-		return store->vjunk;
-	} else {
-		CS_CLASS (store)->init_junk (store);
-		if (store->vjunk) {
-			/* We don't ref here because we don't want the
-                           store to own a ref on the junk folder */
-			/*camel_object_ref (CAMEL_OBJECT (store->vjunk));*/
-			return store->vjunk;
-		} else {
-			w(g_warning ("This store does not support vJunk."));
-			return NULL;
-		}
-	}
+	CamelFolder *folder = camel_vjunk_folder_new(store, CAMEL_VJUNK_NAME);
+
+	setup_special(store, folder);
+
+	return folder;
 }
 
 /** 
@@ -612,11 +579,22 @@ camel_store_get_trash (CamelStore *store, CamelException *ex)
 {
 	CamelFolder *folder;
 
-	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
+	if ((store->flags & CAMEL_STORE_VTRASH) == 0
+	    || store->folders == NULL)
 		return NULL;
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
-	folder = CS_CLASS (store)->get_trash (store, ex);
+
+	folder = camel_object_bag_reserve(store->folders, CAMEL_VTRASH_NAME);
+	if (!folder) {
+		folder = CS_CLASS(store)->get_trash(store, ex);
+
+		if (folder)
+			camel_object_bag_add(store->folders, CAMEL_VTRASH_NAME, folder);
+		else
+			camel_object_bag_abort(store->folders, CAMEL_VTRASH_NAME);
+	}
+
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	return folder;
@@ -635,11 +613,22 @@ camel_store_get_junk (CamelStore *store, CamelException *ex)
 {
 	CamelFolder *folder;
 
-	if ((store->flags & CAMEL_STORE_VJUNK) == 0)
+	if ((store->flags & CAMEL_STORE_VJUNK) == 0
+	    || store->folders == NULL)
 		return NULL;
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
-	folder = CS_CLASS (store)->get_junk (store, ex);
+
+	folder = camel_object_bag_reserve(store->folders, CAMEL_VJUNK_NAME);
+	if (!folder) {
+		folder = CS_CLASS(store)->get_junk(store, ex);
+
+		if (folder)
+			camel_object_bag_add(store->folders, CAMEL_VJUNK_NAME, folder);
+		else
+			camel_object_bag_abort(store->folders, CAMEL_VJUNK_NAME);
+	}
+
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	return folder;
@@ -695,8 +684,7 @@ get_folder_info (CamelStore *store, const char *top,
 }
 
 static void
-add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, const char *full_name,
-		  const char *url_base, gboolean unread_count)
+add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, const char *full_name, gboolean unread_count)
 {
 	CamelFolderInfo *fi, *vinfo, *parent;
 	char *uri, *path;
@@ -747,11 +735,10 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	/* Fill in the new fields */
 	vinfo->full_name = g_strdup (full_name);
 	vinfo->name = g_strdup (vinfo->full_name);
-	vinfo->url = g_strdup_printf ("%s:%s", url_base, uri);
+	vinfo->url = uri;
 	if (!unread_count)
 		vinfo->unread_message_count = -1;
 	vinfo->path = g_strdup_printf ("/%s", vinfo->name);
-	g_free (uri);
 }
 
 /**
@@ -793,9 +780,9 @@ camel_store_get_folder_info (CamelStore *store, const char *top,
 	
 	if (info && (top == NULL || *top == '\0')) {
 		if (info->url && (store->flags & CAMEL_STORE_VTRASH))
-			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash", FALSE);
+			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), FALSE);
 		if (info->url && (store->flags & CAMEL_STORE_VJUNK))
-			add_special_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk", TRUE);
+			add_special_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), TRUE);
 	}
 	
 	return info;
@@ -851,7 +838,6 @@ camel_store_free_folder_info_nop (CamelStore *store, CamelFolderInfo *fi)
 	;
 }
 
-
 /**
  * camel_folder_info_free:
  * @fi: the CamelFolderInfo
@@ -871,7 +857,6 @@ camel_folder_info_free (CamelFolderInfo *fi)
 		g_free (fi);
 	}
 }
-
 
 /**
  * camel_folder_info_build_path:
@@ -930,6 +915,9 @@ free_name(void *key, void *data, void *user)
  * camel_folder_info_build will create additional CamelFolderInfo with
  * %NULL urls to fill in gaps in the tree. The value of @short_names
  * is used in constructing the names of these intermediate folders.
+ *
+ * NOTE: This is deprected, do not use this.
+ * FIXME: remove this/move it to imap, which is the only user of it now.
  *
  * Return value: the top level of the tree of linked folder info.
  **/
@@ -1090,9 +1078,8 @@ camel_store_supports_subscriptions (CamelStore *store)
 	return (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 }
 
-
 static gboolean
-folder_subscribed (CamelStore *store, const char *folder_name)
+folder_subscribed(CamelStore *store, const char *folder_name)
 {
 	w(g_warning ("CamelStore::folder_subscribed not implemented for `%s'",
 		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
@@ -1107,8 +1094,7 @@ folder_subscribed (CamelStore *store, const char *folder_name)
  * Return value: TRUE if folder is subscribed, FALSE if not.
  **/
 gboolean
-camel_store_folder_subscribed (CamelStore *store,
-			       const char *folder_name)
+camel_store_folder_subscribed(CamelStore *store, const char *folder_name)
 {
 	gboolean ret;
 
@@ -1125,7 +1111,7 @@ camel_store_folder_subscribed (CamelStore *store,
 }
 
 static void
-subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+subscribe_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	w(g_warning ("CamelStore::subscribe_folder not implemented for `%s'",
 		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
@@ -1137,9 +1123,7 @@ subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex
  * @folder_name: the folder to subscribe to.
  **/
 void
-camel_store_subscribe_folder (CamelStore *store,
-			      const char *folder_name,
-			      CamelException *ex)
+camel_store_subscribe_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
@@ -1152,12 +1136,11 @@ camel_store_subscribe_folder (CamelStore *store,
 }
 
 static void
-unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+unsubscribe_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	w(g_warning ("CamelStore::unsubscribe_folder not implemented for `%s'",
 		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
-
 
 /**
  * camel_store_unsubscribe_folder: marks a folder as unsubscribed.
@@ -1165,43 +1148,26 @@ unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *
  * @folder_name: the folder to unsubscribe from.
  **/
 void
-camel_store_unsubscribe_folder (CamelStore *store,
-				const char *folder_name,
-				CamelException *ex)
+camel_store_unsubscribe_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	CamelFolder *folder = NULL;
+	CamelException local;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
+	camel_exception_init(&local);
+
 	CAMEL_STORE_LOCK(store, folder_lock);
-
-	/* NB: Note similarity of this code to delete_folder */
-
-	/* if we deleted a folder, force it out of the cache, and also out of the vtrash/vjunk if setup */
-	if (store->folders) {
-		folder = camel_object_bag_get(store->folders, folder_name);
-		if (folder) {
-			if (store->vtrash)
-				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
-			if (store->vjunk)
-				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vjunk, folder);
-			camel_folder_delete (folder);
-		}
-	}
 
 	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
 
-	if (folder) {
-		if (store->folders)
-			camel_object_bag_remove(store->folders, folder);
-
-		camel_object_unref(folder);
-	}
+	if (!camel_exception_is_set(&local))
+		cs_delete_cached_folder(store, folder_name);
+	else
+		camel_exception_xfer(ex, &local);
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
-
 
 static void
 noop (CamelStore *store, CamelException *ex)
@@ -1209,7 +1175,6 @@ noop (CamelStore *store, CamelException *ex)
 	/* no-op */
 	;
 }
-
 
 /**
  * camel_store_noop:
@@ -1223,7 +1188,6 @@ camel_store_noop (CamelStore *store, CamelException *ex)
 {
 	CS_CLASS (store)->noop (store, ex);
 }
-
 
 /* Return true if these uri's refer to the same object */
 gboolean

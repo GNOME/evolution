@@ -92,9 +92,6 @@ struct _CamelStore
 	CamelService parent_object;
 	struct _CamelStorePrivate *priv;
 	
-	CamelFolder *vtrash;
-	CamelFolder *vjunk;
-	
 	CamelObjectBag *folders;
 
 	int flags;
@@ -125,15 +122,10 @@ typedef struct {
 						     const char *folder_name,
 						     guint32 flags,
 						     CamelException *ex);
-	CamelFolder *   (*get_inbox)                (CamelStore *store,
-						     CamelException *ex);
-	
-	void            (*init_trash)               (CamelStore *store);
-	CamelFolder *   (*get_trash)                (CamelStore *store,
-						     CamelException *ex);
-	void            (*init_junk)                (CamelStore *store);
-	CamelFolder *   (*get_junk)                 (CamelStore *store,
-						     CamelException *ex);
+
+	CamelFolder *   (*get_inbox)                (CamelStore *store, CamelException *ex);	
+	CamelFolder *   (*get_trash)                (CamelStore *store, CamelException *ex);
+	CamelFolder *   (*get_junk)                 (CamelStore *store, CamelException *ex);
 	
 	CamelFolderInfo *(*create_folder)           (CamelStore *store,
 						     const char *parent_name,

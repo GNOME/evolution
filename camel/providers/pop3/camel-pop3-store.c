@@ -69,7 +69,6 @@ static GList *query_auth_types (CamelService *service, CamelException *ex);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				guint32 flags, CamelException *ex);
 
-static void init_trash (CamelStore *store);
 static CamelFolder *get_trash  (CamelStore *store, CamelException *ex);
 
 static void
@@ -88,7 +87,6 @@ camel_pop3_store_class_init (CamelPOP3StoreClass *camel_pop3_store_class)
 	camel_service_class->disconnect = pop3_disconnect;
 
 	camel_store_class->get_folder = get_folder;
-	camel_store_class->init_trash = init_trash;
 	camel_store_class->get_trash = get_trash;
 }
 
@@ -644,13 +642,6 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelExce
 		return NULL;
 	}
 	return camel_pop3_folder_new (store, ex);
-}
-
-static void
-init_trash (CamelStore *store)
-{
-	/* no-op */
-	;
 }
 
 static CamelFolder *

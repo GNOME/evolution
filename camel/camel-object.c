@@ -1736,6 +1736,7 @@ camel_object_bag_add(CamelObjectBag *bag, const void *key, void *vo)
 	pair->name = bag_name;
 	pair->data = bag;
 	pair->flags = 0;
+	pair->func.event = NULL;
 
 	pair->next = hooks->list;
 	hooks->list = pair;

@@ -1,3 +1,27 @@
+2004-02-04  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_delete_folder): changed order around,
+	first try to delete and only remove from the object bag if the
+	delete worked.  If vjunk/vtrash enabled, don't allow those to be
+	deleted.
+	(cs_delete_cached_folder): helper to delete the folder if its in
+	the cache, remove it from trash/junk, etc.
+	(camel_store_unsubscribe_folder): changed similarly to
+	delete_folder.
+
+	* camel-vee-store.c (vee_delete_folder): dont do any trash/junk
+	processing anymore.
+
+2004-02-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c: use the folders object bag to manage the trash
+	folder and junk folders.  Remove the init_trash and init_junk
+	stuff, just use get_trash and get_junk to mean the same thing.
+	Get rid of the hacked up vjunk and vtrash "uri" stuff too.
+
+	* camel-object.c (camel_object_bag_add): null out the pair->func,
+	otherwise we get an uninitalised memory read during unhook event.
+
 2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-folder.c (vee_folder_build_folder): Use macro casts

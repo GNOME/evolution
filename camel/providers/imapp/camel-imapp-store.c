@@ -70,7 +70,6 @@ static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *imap_query_auth_types (CamelService *service, CamelException *ex);
 
-static void imap_init_trash (CamelStore *store);
 static CamelFolder *imap_get_trash  (CamelStore *store, CamelException *ex);
 
 static CamelFolder *imap_get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
@@ -101,9 +100,7 @@ camel_imapp_store_class_init (CamelIMAPPStoreClass *camel_imapp_store_class)
 	camel_service_class->connect = imap_connect;
 	camel_service_class->disconnect = imap_disconnect;
 
-	camel_store_class->init_trash = imap_init_trash;
 	camel_store_class->get_trash = imap_get_trash;
-
 	camel_store_class->get_folder = imap_get_folder;
 	camel_store_class->get_inbox = imap_get_inbox;
 
@@ -461,13 +458,6 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	}
 	
 	return TRUE;
-}
-
-static void
-imap_init_trash (CamelStore *store)
-{
-	/* no-op */
-	;
 }
 
 static CamelFolder *

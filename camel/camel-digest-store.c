@@ -38,9 +38,7 @@
 static CamelFolder *digest_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static void digest_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void digest_rename_folder (CamelStore *store, const char *old, const char *new, CamelException *ex);
-static void digest_init_trash (CamelStore *store);
 static CamelFolder *digest_get_trash  (CamelStore *store, CamelException *ex);
-static void digest_init_junk (CamelStore *store);
 static CamelFolder *digest_get_junk  (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *digest_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
@@ -92,9 +90,7 @@ camel_digest_store_class_init (CamelDigestStoreClass *klass)
 	store_class->get_folder_info = digest_get_folder_info;
 	store_class->free_folder_info = camel_store_free_folder_info_full;
 	
-	store_class->init_trash = digest_init_trash;
 	store_class->get_trash = digest_get_trash;
-	store_class->init_junk = digest_init_junk;
 	store_class->get_junk = digest_get_junk;
 }
 
@@ -158,24 +154,10 @@ digest_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	return NULL;
 }
 
-static void
-digest_init_trash (CamelStore *store)
-{
-	/* no-op */
-	;
-}
-
 static CamelFolder *
 digest_get_trash (CamelStore *store, CamelException *ex)
 {
 	return NULL;
-}
-
-static void
-digest_init_junk (CamelStore *store)
-{
-	/* no-op */
-	;
 }
 
 static CamelFolder *
