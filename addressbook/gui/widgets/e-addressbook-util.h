@@ -22,7 +22,8 @@
 #define __E_ADDRESSBOOK_UTIL_H__
 
 #include "addressbook/backend/ebook/e-book.h"
-#include "addressbook/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,6 +35,9 @@ void            e_addressbook_error_dialog (const gchar *msg,
 EContactEditor* e_addressbook_show_contact_editor (EBook *book, ECard *card,
 						   gboolean is_new_card,
 						   gboolean editable);
+EContactListEditor * e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
+							     gboolean is_new_card,
+							     gboolean editable);
 
 #ifdef __cplusplus
 }

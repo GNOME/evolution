@@ -39,8 +39,8 @@
 #include <libgnomeui/gnome-popup-menu.h>
 
 #include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/contact-editor/e-contact-editor.h>
-#include <addressbook/contact-editor/e-contact-quick-add.h>
+#include <addressbook/gui/contact-editor/e-contact-editor.h>
+#include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include "e-addressbook-util.h"
 #include "e-select-names-popup.h"
 

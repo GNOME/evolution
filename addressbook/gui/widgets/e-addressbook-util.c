@@ -25,7 +25,6 @@
 #include <gnome.h>
 
 #include "e-addressbook-util.h"
-#include "e-contact-editor.h"
 #include "e-card-merging.h"
 
 void
@@ -53,39 +52,38 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 
 
 static void
-card_added_cb (EBook* book, EBookStatus status, const char *id,
-	       gpointer user_data)
+added_cb (EBook* book, EBookStatus status, const char *id,
+	  gboolean is_list)
 {
-	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
 	if (status != E_BOOK_STATUS_SUCCESS) {
-		e_addressbook_error_dialog (_("Error adding card"), status);
+		e_addressbook_error_dialog (is_list ? _("Error adding list") : _("Error adding card"), status);
 	}
 }
 
 static void
-card_modified_cb (EBook* book, EBookStatus status,
-		  gpointer user_data)
+modified_cb (EBook* book, EBookStatus status,
+	     gboolean is_list)
 {
-	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
 	if (status != E_BOOK_STATUS_SUCCESS) {
-		e_addressbook_error_dialog (_("Error modifying card"), status);
+		e_addressbook_error_dialog (is_list ? _("Error modifying list") : _("Error modifying card"),
+					    status);
 	}
 }
 
 static void
-card_deleted_cb (EBook* book, EBookStatus status,
-		 gpointer user_data)
+deleted_cb (EBook* book, EBookStatus status,
+	    gboolean is_list)
 {
-	g_print ("%s: %s(): a card was removed\n", __FILE__, __FUNCTION__);
 	if (status != E_BOOK_STATUS_SUCCESS) {
-		e_addressbook_error_dialog (_("Error removing card"), status);
+		e_addressbook_error_dialog (is_list ? _("Error removing list") : _("Error removing card"),
+					    status);
 	}
 }
 
 static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
+editor_closed_cb (GtkObject *editor, gpointer data)
 {
-	gtk_object_unref (GTK_OBJECT (ce));
+	gtk_object_unref (editor);
 }
 
 EContactEditor *
@@ -98,13 +96,36 @@ e_addressbook_show_contact_editor (EBook *book, ECard *card,
 	ce = e_contact_editor_new (book, card, is_new_card, editable);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "card_added",
-			    GTK_SIGNAL_FUNC (card_added_cb), NULL);
+			    GTK_SIGNAL_FUNC (added_cb), GINT_TO_POINTER (FALSE));
 	gtk_signal_connect (GTK_OBJECT (ce), "card_modified",
-			    GTK_SIGNAL_FUNC (card_modified_cb), NULL);
+			    GTK_SIGNAL_FUNC (modified_cb), GINT_TO_POINTER (FALSE));
 	gtk_signal_connect (GTK_OBJECT (ce), "card_deleted",
-			    GTK_SIGNAL_FUNC (card_deleted_cb), NULL);
+			    GTK_SIGNAL_FUNC (deleted_cb), GINT_TO_POINTER (FALSE));
 	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+
+	return ce;
+}
+
+EContactListEditor *
+e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
+					gboolean is_new_card,
+					gboolean editable)
+{
+	EContactListEditor *ce;
+
+	ce = e_contact_list_editor_new (book, card, is_new_card, editable);
+
+	gtk_signal_connect (GTK_OBJECT (ce), "list_added",
+			    GTK_SIGNAL_FUNC (added_cb), GINT_TO_POINTER (TRUE));
+	gtk_signal_connect (GTK_OBJECT (ce), "list_modified",
+			    GTK_SIGNAL_FUNC (modified_cb), GINT_TO_POINTER (TRUE));
+	gtk_signal_connect (GTK_OBJECT (ce), "list_deleted",
+			    GTK_SIGNAL_FUNC (deleted_cb), GINT_TO_POINTER (TRUE));
+	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), GINT_TO_POINTER (TRUE));
+
+	e_contact_list_editor_show (ce);
 
 	return ce;
 }

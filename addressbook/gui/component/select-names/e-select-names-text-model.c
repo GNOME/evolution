@@ -16,7 +16,7 @@
 
 #include <gal/e-text/e-text-model-repos.h>
 
-#include <addressbook/contact-editor/e-contact-editor.h>
+#include <addressbook/gui/contact-editor/e-contact-editor.h>
 #include "e-select-names-text-model.h"
 #include "e-addressbook-util.h"
 

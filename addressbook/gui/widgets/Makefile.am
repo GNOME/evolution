@@ -4,7 +4,7 @@ INCLUDES =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
-	-I$(top_srcdir)/addressbook/contact-editor	\
+	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/widgets/misc			\
 	$(BONOBO_GNOME_CFLAGS)				\
@@ -66,7 +66,8 @@ minicard_test_LDADD =							\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
@@ -118,7 +119,8 @@ minicard_widget_test_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
 	$(top_builddir)/e-util/libeutil.la				\

@@ -34,8 +34,8 @@
 #include <gal/widgets/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/contact-editor/e-contact-editor.h>
-#include <addressbook/contact-editor/e-contact-quick-add.h>
+#include <addressbook/gui/contact-editor/e-contact-editor.h>
+#include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include <addressbook/gui/widgets/e-minicard-widget.h>
 #include <addressbook/gui/widgets/e-addressbook-util.h>
 static GtkObjectClass *parent_class;

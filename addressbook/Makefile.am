@@ -3,5 +3,5 @@ CONDUIT_SUBDIR=conduit
 endif
 
 SUBDIRS =	\
-	backend printing contact-editor gui $(CONDUIT_SUBDIR)
+	backend printing gui $(CONDUIT_SUBDIR)
 

@@ -30,7 +30,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <addressbook/contact-editor/e-contact-quick-add.h>
+#include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include "e-address-widget.h"
 
 static void e_address_widget_class_init (EAddressWidgetClass *klass);

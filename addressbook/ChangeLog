@@ -1,3 +1,59 @@
+2001-06-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/Makefile.am (minicard_test_LDADD): correct path to
+	libecontacteditor.a.
+	(minicard_widget_test_LDADD): same.
+	(INCLUDES): same, for the includes.
+
+	* gui/widgets/e-minicard.h: correct e-contact-editor.h path.
+
+	* gui/widgets/e-addressbook-util.h: correct path to
+	e-contact-editor.h, and add e-contact-list-editor.h.  Add
+	prototype for e_addressbook_show_contact_list_editor.
+
+	* gui/widgets/e-addressbook-util.c: remove #include
+	"e-contact-editor.h" (our header includes it.)
+	(added_cb): rename card_added_cb to this, and make it so it can be
+	reused in both the list and card cases.  remove the g_print too.
+	(modified_cb): same for modified case.
+	(deleted_cb): same for deleted case.
+	(editor_closed_cb): change first arg to GtkObject* so we can reuse
+	this for both list and card.
+	(e_addressbook_show_contact_editor): use added_cb, modified_cb,
+	deleted_cb, and pass FALSE as user_data.
+	(e_addressbook_show_contact_list_editor): new function, same as
+	above but creating a contact-list-editor, and pass TRUE as
+	user_data.
+
+	* gui/component/e-address-popup.c: correct path to contact-editor.
+
+	* gui/component/e-address-widget.c: same.
+	
+	* gui/component/select-names/e-select-names-popup.c: same.
+
+	* gui/component/select-names/e-select-names-text-model.c: same.
+
+	* gui/component/addressbook.c (new_contact_list_cb): new function.
+	(update_command_state): update ContactNewList command.
+	(verbs): remove ViewAll from the toolbar from the verb list.  Add
+	ContactNewList.
+	(pixmaps): same for pixmaps.
+	
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): new
+	path for contact-editor.
+	(INCLUDES): same.
+
+	* gui/contact-list-editor/e-contact-list-model.h:
+	* gui/contact-list-editor/e-contact-list-model.c:
+	* gui/contact-list-editor/e-contact-list-editor.h:
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	* gui/contact-list-editor/Makefile.am: Initial contact-list editor
+	  commit.
+
+	* gui/Makefile.am (SUBDIRS): add contact-editor.
+
+	* Makefile.am: (SUBDIRS): remove contact-editor.
+
 2001-06-21  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-popup.c

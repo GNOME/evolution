@@ -1,24 +1,25 @@
 SUBDIRS	= select-names
 
-INCLUDES =						\
-	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)				\
-	-I$(top_srcdir)					\
-	-I$(top_builddir)				\
-	-I$(top_srcdir)/shell				\
-	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/addressbook/gui/minicard	\
-	-I$(top_srcdir)/addressbook/gui/widgets		\
-	-I$(top_srcdir)/addressbook/contact-editor	\
-	-I$(top_srcdir)/addressbook/backend		\
-	-I$(top_builddir)/addressbook/backend		\
-	$(BONOBO_HTML_GNOME_CFLAGS)			\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+INCLUDES =							\
+	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
+	$(EXTRA_GNOME_CFLAGS)					\
+	$(GNOME_INCLUDEDIR)					\
+	-I$(top_srcdir)						\
+	-I$(top_builddir)					\
+	-I$(top_srcdir)/shell					\
+	-I$(top_builddir)/shell					\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)/addressbook/gui/contact-editor		\
+	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
+	-I$(top_srcdir)/addressbook/gui/minicard		\
+	-I$(top_srcdir)/addressbook/gui/widgets			\
+	-I$(top_srcdir)/addressbook/backend			\
+	-I$(top_builddir)/addressbook/backend			\
+	$(BONOBO_HTML_GNOME_CFLAGS)				\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 bin_PROGRAMS =	\
@@ -49,7 +50,8 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
