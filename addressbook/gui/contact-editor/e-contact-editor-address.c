@@ -30,6 +30,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gtk/gtkcombo.h>
+#include <gtk/gtkstock.h>
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>

@@ -1398,7 +1398,7 @@ e_contact_print_destroy(gpointer data, GObject *where_object_was)
 }
 
 static void
-e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
+e_contact_print_button(GtkDialog *dialog, gint button, gpointer data)
 {
 	GnomePrintMaster *master;
 	GnomePrintContext *pc;
@@ -1427,7 +1427,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		gnome_print_master_close(master);
 		gnome_print_master_print(master);
 		g_object_unref (master);
-		gnome_dialog_close(dialog);
+		gtk_widget_destroy((GtkWidget *)dialog);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		master = gnome_print_master_new_from_config (gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
@@ -1454,7 +1454,8 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		g_object_unref (master);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		gnome_dialog_close(dialog);
+	default:
+		gtk_widget_destroy((GtkWidget *)dialog);
 		break;
 	}
 }

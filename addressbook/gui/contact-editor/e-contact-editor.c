@@ -29,6 +29,7 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkstock.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-i18n.h>

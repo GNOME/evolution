@@ -1,3 +1,15 @@
+2002-12-02  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (e_contact_print_button):
+	gnomedialog -> gtkdialog stuff.  print dialog is a gtkdialog now.
+
+	* gui/contact-editor/e-contact-editor.c: include gtkstock.h
+
+
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* gui/contact-editor/e-contact-editor-address.c: #include gtkstock.h
+
 2002-11-29  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-minicard-view-widget.c (column_width_changed): the
