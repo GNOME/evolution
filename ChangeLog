@@ -1,5 +1,7 @@
 2001-03-07  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* shell/main: /* xgettext:no-c-format */ before the welcome
+	message.
 	* configure.in: Don't try to generate a Makefile in
 	camel/providers/vee as it's empty.
 	
