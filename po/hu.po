@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.1\n"
 "POT-Creation-Date: 2003-07-07 15:49+0200\n"
-"PO-Revision-Date: 2003-07-07 16:36+0200\n"
+"PO-Revision-Date: 2003-07-10 10:23+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -12581,7 +12581,7 @@ msgstr "Melléklet"
 
 #: mail/mail-config.glade.h:22
 msgid "Authentication"
-msgstr "Hitelesítés:"
+msgstr "Hitelesítés"
 
 #: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-13)"
@@ -12782,7 +12782,7 @@ msgstr "PGP/GPG _kulcs azonosítója:"
 
 #: mail/mail-config.glade.h:85
 msgid "Pick a color"
-msgstr "Színkiválasztás"
+msgstr "Szín kiválasztása"
 
 #: mail/mail-config.glade.h:86
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -12846,19 +12846,19 @@ msgstr "Biztonságos MIME (S/MIME)"
 
 #: mail/mail-config.glade.h:102
 msgid "Select HTML fixed width font"
-msgstr "Válaszd ki a fix szélességű betűt a HTML-hez"
+msgstr "Fix szélességű betűkészlet választása a HTML-hez"
 
 #: mail/mail-config.glade.h:103
 msgid "Select HTML fixed width font for printing"
-msgstr "Válaszd ki a fix szélességű betűt a HTML nyomtatásához"
+msgstr "Fix szélességű betűkészlet választása a HTML nyomtatásához"
 
 #: mail/mail-config.glade.h:104
 msgid "Select HTML variable width font"
-msgstr "Válaszd ki a változó szélességű betűt a HTML-hez"
+msgstr "Változó szélességű betűkészlet választása a HTML-hez"
 
 #: mail/mail-config.glade.h:105
 msgid "Select HTML variable width font for printing"
-msgstr "Válaszd ki a változó szélességű betűt a HTML nyomtatásához"
+msgstr "Változó szélességű betűkészlet választása a HTML nyomtatásához"
 
 #: mail/mail-config.glade.h:106
 msgid "Sending Email"
@@ -26306,7 +26306,7 @@ msgstr "Kijelölt névjegyek mentése VCard-ként."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
-msgstr "Mindet kijelöli"
+msgstr "Mindent kijelöl"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Select all contacts"
@@ -26559,7 +26559,7 @@ msgstr "Levél _küldése ennek a személynek..."
 #: ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Save"
-msgstr "_Mentés"
+msgstr "M_entés"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
@@ -27213,7 +27213,7 @@ msgstr "Fájl csatolása"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
 msgid "Close the current file"
-msgstr "Aktuális fájl bezárása"
+msgstr "Az aktuális fájl bezárása"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
