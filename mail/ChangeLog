@@ -1,3 +1,10 @@
+2004-05-24  Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* mail-account-gui.c (mail_account_gui_build_extra_conf) : added empty 
+       handling for CAMEL_PROVIDER_CONF_HIDDEN
+	* (extract_values) : added handling for CAMEL_PROVIDER_CONF_HIDDEN
+
+
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (regen_list_regened): pull the message from the

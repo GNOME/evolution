@@ -1226,7 +1226,10 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			enable_widget = hbox;
 			break;
 		}
-		
+
+		case CAMEL_PROVIDER_CONF_HIDDEN:
+			break;
+
 		case CAMEL_PROVIDER_CONF_END:
 			goto done;
 		}
@@ -1290,7 +1293,12 @@ extract_values (MailAccountGuiService *source, GHashTable *extra_config, CamelUR
 			camel_url_set_param (url, entries[i].name, name);
 			g_free (name);
 			break;
-			
+
+		case CAMEL_PROVIDER_CONF_HIDDEN:
+			if (entries[i].value)
+				camel_url_set_param (url, entries[i].name, entries[i].value);
+			break;
+
 		case CAMEL_PROVIDER_CONF_END:
 			return;
 			
