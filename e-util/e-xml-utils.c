@@ -148,6 +148,26 @@ e_xml_get_double_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 	return ret_val;
 }
 
+double
+e_xml_get_double_prop_by_name_with_default(const xmlNode *parent, const xmlChar *prop_name,
+					   gdouble def)
+{
+	xmlChar *prop;
+	double ret_val = 0;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
+	if (prop) {
+		sscanf (prop, "%lf", &ret_val);
+		xmlFree (prop);
+	} else {
+		ret_val = def;
+	}
+	return ret_val;
+}
+
 void
 e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, double value)
 {
@@ -182,7 +202,7 @@ e_xml_get_string_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 }
 
 void
-e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, char *value)
+e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, const char *value)
 {
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);

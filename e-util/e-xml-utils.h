@@ -47,6 +47,9 @@ void      e_xml_set_bool_prop_by_name               (xmlNode       *parent,
 
 double    e_xml_get_double_prop_by_name             (const xmlNode *parent,
 						     const xmlChar *prop_name);
+double    e_xml_get_double_prop_by_name_with_default(const xmlNode *parent,
+						     const xmlChar *prop_name,
+						     gdouble        def);
 void      e_xml_set_double_prop_by_name             (xmlNode       *parent,
 						     const xmlChar *prop_name,
 						     double         value);
@@ -55,7 +58,7 @@ char     *e_xml_get_string_prop_by_name             (const xmlNode *parent,
 						     const xmlChar *prop_name);
 void      e_xml_set_string_prop_by_name             (xmlNode       *parent,
 						     const xmlChar *prop_name,
-						     char          *value);
+						     const char    *value);
 
 char     *e_xml_get_translated_string_prop_by_name  (const xmlNode *parent,
 						     const xmlChar *prop_name);
