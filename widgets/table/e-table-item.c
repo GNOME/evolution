@@ -3087,8 +3087,10 @@ eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *
 
 	if (eti_editing(eti))
 		e_table_item_leave_edit_(eti);
-	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_ACTIVATED],
-			 view_row);
+
+	if (view_row != -1)
+		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_ACTIVATED],
+				 view_row);
 }
 
 static void
