@@ -1027,7 +1027,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		
 		desc = outbuf = g_new (unsigned char, outlen + 1);
 		
-		locale = e_iconv_locale_charset();
+		locale = e_iconv_locale_charset ();
 		if (!locale)
 			locale = "iso-8859-1";
 		

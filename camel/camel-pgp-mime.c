@@ -29,6 +29,7 @@
 #include "camel-mime-message.h"
 #include "camel-mime-filter-from.h"
 #include "camel-mime-filter-crlf.h"
+#include "camel-mime-filter-charset.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
@@ -373,11 +374,30 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
 	camel_object_unref (CAMEL_OBJECT (from_filter));
-
+	
 	type = camel_mime_part_get_content_type (mime_part);
-	if (header_content_type_param (type, "x-inline-pgp-hack"))
+	if (header_content_type_param (type, "x-inline-pgp-hack")) {
+		/* this is a kludge around inline pgp signatures - basically,
+		   the multipart/signed is faked - the original part (aka part #1)
+		   is the original mime part and the signature is a copy of the
+		   signature in part #1 */
+		CamelMimeFilterCharset *charset_filter;
+		CamelContentType *content_type;
+		const char *charset;
+		
+		content_type = camel_mime_part_get_content_type (part);
+		charset = header_content_type_param (content_type, "charset");
+		if (charset) {
+			charset_filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+			if (charset_filter) {
+				camel_stream_filter_add (filtered_stream,
+							 CAMEL_MIME_FILTER (charset_filter));
+				camel_object_unref (CAMEL_OBJECT (charset_filter));
+			}
+		}
+		
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	else
+	} else
 		wrapper = CAMEL_DATA_WRAPPER (part);
 	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));

@@ -1,3 +1,9 @@
+2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_verify): If we are
+	kludging around a inline-pgp signed part, do some charset
+	conversion to protect any 8bit text.
+
 2001-10-22    <NotZed@Ximian.com>
 
 	* camel-filter-search.c, camel-folder-search.c (check_header): Use
