@@ -2750,6 +2750,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
 					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
@@ -3100,7 +3101,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						       &event_num, &span_num))
 			return FALSE;
 
-		if (gdkevent->button.button == 3) {
+		if (gdkevent->button.button == 3 && !E_TEXT (item)->editing) {
 			EWeekViewEvent *e;
 			gboolean destroyed;
 
@@ -3127,8 +3128,10 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 
-		week_view->pressed_event_num = event_num;
-		week_view->pressed_span_num = span_num;
+		if (gdkevent->button.button != 3) {
+			week_view->pressed_event_num = event_num;
+			week_view->pressed_span_num = span_num;
+		}
 
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
@@ -3214,6 +3217,8 @@ e_week_view_on_editing_started (EWeekView *week_view,
 						span_num);
 	}
 
+	g_object_set (item, "handle_popup", TRUE, NULL);
+
 	gtk_signal_emit (GTK_OBJECT (week_view),
 			 e_week_view_signals[SELECTION_CHANGED]);
 }
@@ -3252,6 +3257,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	if (!uid)
 		return;
 
+	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
 	g_object_get (G_OBJECT (span->text_item), "text", &text, NULL);
 	g_assert (text != NULL);
 

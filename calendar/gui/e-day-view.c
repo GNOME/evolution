@@ -1433,14 +1433,6 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
-#if 0
-	/* FIXME when gal is fixed */
-	if (E_CANVAS (day_view->main_canvas)->ic)
-		gdk_im_begin (E_CANVAS (day_view->main_canvas)->ic,
-			      GTK_LAYOUT (day_view->main_canvas)->bin_window);
-#endif
-
 	return FALSE;
 }
 
@@ -1460,14 +1452,6 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
-
-	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
-
-#if 0
-	/* FIXME when gal is fixed */
-	if (E_CANVAS (day_view->main_canvas)->ic)
-		gdk_im_end ();
-#endif
 
 	return FALSE;
 }
@@ -5298,6 +5282,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "use_ellipsis", TRUE,
 					       "draw_background", FALSE,
 					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
 		g_signal_connect (event->canvas_item, "event",
 				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
@@ -5455,6 +5440,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "use_ellipsis", TRUE,
 						       "draw_background", FALSE,
 						       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
 			g_signal_connect (event->canvas_item, "event",
 					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
@@ -6206,6 +6192,8 @@ e_day_view_on_editing_started (EDayView *day_view,
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
 	}
 
+	g_object_set (item, "handle_popup", TRUE, NULL);
+
 	gtk_signal_emit (GTK_OBJECT (day_view),
 			 e_day_view_signals[SELECTION_CHANGED]);
 }
@@ -6255,6 +6243,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
 
+	g_object_set (event->canvas_item, "handle_popup", FALSE, NULL);
 	g_object_get (G_OBJECT (event->canvas_item),
 		      "text", &text,
 		      NULL);

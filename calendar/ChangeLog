@@ -1,3 +1,25 @@
+2003-04-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #41641
+
+	* gui/e-day-view.c (e_day_view_focus_in): Remove assert an old
+	input method code.
+	(e_day_view_focus_out): Ditto.
+	(e_day_view_reshape_long_event): Set input method context.
+	(e_day_view_reshape_day_event): Ditto.
+	(e_day_view_on_editing_started): Let EText handle the context popup.
+	(e_day_view_on_editing_stopped): Turn off EText's handling of context
+	popup.
+
+	* gui/e-week-view.c (e_week_view_reshape_event_span): Set input
+	method context.
+	(e_week_view_on_text_item_event): Let the EText item handle
+	right-click context popup if we're editing it.
+	(e_week_view_on_editing_started): Let the EText item handle the
+	context popup.
+	(e_weeK_view_on_editing_stopped): Turn off EText's handling of
+	context popup.
+
 2003-04-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41671
