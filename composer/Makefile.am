@@ -16,11 +16,9 @@ HTML_EDITOR_GENERATED =		\
 	Editor-skels.c	\
 	Editor-stubs.c
 
-selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
-
-$(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
+$(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		-I $(selectnamesdir)  $(srcdir)/Composer.idl
+		$(srcdir)/Composer.idl
 
 Editor-commmon.c: $(GTKHTML_DATADIR)/Editor.idl
 
@@ -53,7 +51,6 @@ INCLUDES =								\
 	-I$(top_builddir)/camel					 	\
 	-I$(top_srcdir)/addressbook/backend				\
 	-I$(top_builddir)/addressbook/backend				\
-	-I$(top_builddir)/addressbook/gui/component/select-names	\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\

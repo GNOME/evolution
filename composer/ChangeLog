@@ -1,3 +1,11 @@
+2004-12-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* Makefile.am (selectnamesdir)
+	(IDL_GENERATED)
+	(INCLUDES): Remove select-names from here.
+
+	* Composer.idl: Remove Evolution-Addressbook-SelectNames.idl include.
+
 2004-12-22  Hans Petter Jansson  <hpj@novell.com>
 
 	* e-msg-composer-hdrs.c (addressbook_dialog_response)
