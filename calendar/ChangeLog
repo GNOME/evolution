@@ -1,3 +1,17 @@
+2004-09-10  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #62374
+
+	* gui/alarm-notify/alarm-queue.c (load_missed_alarms): removed this
+	function.
+	(cal_opened_cb): no need to call load_missed_alarms,
+	load_alarms_for_today will do everything.
+	(alarm_queue_add_client): ditto.
+	(load_alarms_for_today): take into account the last saved notification
+	time.
+	(load_alarms): unref the previous query, this function should now
+	only be called once per time range.
+
 2004-09-09  JP Rosevear  <jpr@novell.com>
  
  	Fixes #65454
@@ -9,7 +23,7 @@
  	(weren't using it anywhere)
  	(destroy): collapse finalize work into here and guard against
  	multiple destroy calls
-	
+
 2004-09-08  JP Rosevear  <jpr@novell.com>
 
 	Fixes #62728
