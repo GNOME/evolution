@@ -59,6 +59,7 @@ typedef struct {
 	gint refs;
 	EAddressbookView *view;
 	ESearchBar *search;
+	gint        ecml_changed_id;
 	GtkWidget *vbox;
 	EvolutionActivityClient *activity;
 	BonoboControl *control;
@@ -419,6 +420,16 @@ addressbook_view_unref (AddressbookView *view)
 		g_free (view);
 }
 
+static ECategoriesMasterList *
+get_master_list (void)
+{
+	static ECategoriesMasterList *category_list = NULL;
+
+	if (category_list == NULL)
+		category_list = e_categories_master_list_wombat_new ();
+	return category_list;
+}
+
 static void
 addressbook_view_clear (AddressbookView *view)
 {
@@ -449,6 +460,12 @@ addressbook_view_clear (AddressbookView *view)
 
 	if (view->refs == 0)
 		g_free(view);
+
+	if (view->ecml_changed_id != 0) {
+		gtk_signal_disconnect (GTK_OBJECT(get_master_list()),
+				       view->ecml_changed_id);
+		view->ecml_changed_id = 0;
+	}
 }
 
 static void
@@ -813,16 +830,6 @@ addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
 	}
 }
 
-static ECategoriesMasterList *
-get_master_list (void)
-{
-	static ECategoriesMasterList *category_list = NULL;
-
-	if (category_list == NULL)
-		category_list = e_categories_master_list_wombat_new ();
-	return category_list;
-}
-
 static void
 addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 {
@@ -994,6 +1001,59 @@ addressbook_config_database (CORBA_Environment *ev)
 	return config_db;
 }
 
+static int
+compare_subitems (const void *a, const void *b)
+{
+	const ESearchBarSubitem *subitem_a = a;
+	const ESearchBarSubitem *subitem_b = b;
+
+	return strcoll (subitem_a->text, subitem_b->text);
+}
+
+static void
+make_suboptions (AddressbookView *view)
+{
+	ESearchBarSubitem *subitems;
+	ECategoriesMasterList *master_list;
+	gint i, N;
+
+	master_list = get_master_list ();
+	N = e_categories_master_list_count (master_list);
+	subitems = g_new (ESearchBarSubitem, N+2);
+
+	subitems[0].id = G_MAXINT;
+	subitems[0].text = g_strdup (_("Any Category"));
+	subitems[0].translate = FALSE;
+
+	for (i=0; i<N; ++i) {
+		const char *category = e_categories_master_list_nth (master_list, i);
+
+		subitems[i+1].id = i;
+		subitems[i+1].text = e_utf8_to_locale_string (category);
+		subitems[i+1].translate = FALSE;
+	}
+	subitems[N+1].id = -1;
+	subitems[N+1].text = NULL;
+
+	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
+
+	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
+}
+
+static void
+ecml_changed (ECategoriesMasterList *ecml, AddressbookView *view)
+{
+	make_suboptions (view);
+}
+
+static void
+connect_master_list_changed (AddressbookView *view)
+{
+	view->ecml_changed_id =
+		gtk_signal_connect (GTK_OBJECT (get_master_list()), "changed",
+				    GTK_SIGNAL_FUNC (ecml_changed), view);
+}
+
 BonoboControl *
 addressbook_factory_new_control (void)
 {
@@ -1015,35 +1075,11 @@ addressbook_factory_new_control (void)
 	/* Create the control. */
 	view->control = bonobo_control_new (view->vbox);
 
-	/* We attach subitems to the "Category is" item, so that we get an option menu of categories. */
-	if (addressbook_search_option_items[ESB_CATEGORY].subitems == NULL) {
-		ESearchBarSubitem *subitems;
-		ECategoriesMasterList *master_list;
-		gint i, N;
-		
-		g_assert (addressbook_search_option_items[ESB_CATEGORY].id == ESB_CATEGORY); /* sanity check */
-
-		master_list = get_master_list ();
-		N = e_categories_master_list_count (master_list);
-		addressbook_search_option_items[ESB_CATEGORY].subitems = subitems = g_new (ESearchBarSubitem, N+2);
-
-		subitems[0].id = G_MAXINT;
-		subitems[0].text = g_strdup (_("Any Category"));
-		subitems[0].translate = FALSE;
-
-		for (i=0; i<N; ++i) {
-			const char *category = e_categories_master_list_nth (master_list, i);
-
-			subitems[i+1].id = i;
-			subitems[i+1].text = e_utf8_to_locale_string (category);
-			subitems[i+1].translate = FALSE;
-		}
-		subitems[N+1].id = -1;
-		subitems[N+1].text = NULL;
-	}
-
 	view->search = E_SEARCH_BAR(e_search_bar_new(addressbook_search_menu_items,
 						     addressbook_search_option_items));
+	make_suboptions (view);
+	connect_master_list_changed (view);
+
 	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->search),
 			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
