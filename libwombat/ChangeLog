@@ -1,4 +1,4 @@
-2001-06-25    <peterw@ximian.com>
+2001-06-25  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (libwombat_static_la_SOURCES): Create a static
 	libwombat for the conduits.
