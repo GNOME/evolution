@@ -33,7 +33,13 @@
 #include <gtkhtml/htmlengine.h>
 #include <libgnomeui/gnome-window-icon.h>
 
-static GtkObjectClass *parent_class;
+
+static ESearchingTokenizer *mail_search_tokenizer (MailSearch *ms);
+static void mail_search_redisplay_message (MailSearch *ms);
+
+
+static GtkObjectClass *parent_class = NULL;
+
 
 static void
 mail_search_finalise (GObject *obj)
