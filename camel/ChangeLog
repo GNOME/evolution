@@ -1,5 +1,10 @@
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-utils.c (header_encode_string): Make sure to add the
+	space char after an encoded word when the encoding is iso-8859-1.
+
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_get_message): When
 	getting a literal string response, don't include the \r\n after
 	the closing } (as in: "... {798}\r\n...")

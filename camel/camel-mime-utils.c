@@ -1093,12 +1093,14 @@ header_encode_string(const unsigned char *in)
 		}
 		inptr = newinptr;
 		if (unicode_isspace(c)) {
+			/* we've reached the end of a 'word' */
 			switch (encoding) {
 			case 0:
 				out = g_string_append_len(out, start, inptr-start);
 				break;
 			case 1:
 				rfc2047_encode_word(out, start, inptr-start-1, "ISO-8859-1", IS_ESAFE);
+				out = g_string_append_c (out, c);
 				break;
 			case 2:
 				rfc2047_encode_word(out, start, inptr-start-1,
