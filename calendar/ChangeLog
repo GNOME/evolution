@@ -1,5 +1,36 @@
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-cal-view.[ch] (e_cal_view_delete_selected_occurrence):
+	new function.
+	(e_cal_view_get_timezone, e_cal_view_set_timezone): new functions.
+	(e_cal_view_class_init): added new class' signal.
+
+	* gui/e-week-view.[ch] (e_week_view_delete_occurrence,
+	 e_week_view_delete_occurrence_internal): removed.
+	(e_week_view_get_timezone): removed.
+	(e_week_view_set_timezone): renamed to timezone_changed_cb, as
+	the callback for timezone changes in the parent ECalView.
+	(e_week_view_on_button_press): call gnome_calendar_new_appointment
+	instead of the non-existant e_week_view_new_appointment.
+
+	* gui/e-day-view.[ch] (e_day_view_delete_occurrence,
+	 e_day_view_delete_occurrence_internal): removed.
+	(e_day_view_get_timezone): removed.
+	(e_day_view_set_timezone): renamed to timezone_changed_cb, as
+	the callback for timezone changes in the parent ECalView.
+
+	* gui/gnome-cal.c (gnome_calendar_delete_selected_occurrence):
+	made it call e_cal_view_delete_selected_occurrence.
+	(gnome_calendar_update_config_settings): call the generic
+	e_cal_view_set_timezone on all view widgets.
+
+	* gui/e-day-view-top-item.c:
+	* gui/e-week-view-main-item.c:
+	* gui/e-day-view-main-item.c: removed mentions to non-existant
+	structure fields.
+
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-view.h: define ECalViewEvent as the base struct for
 	the other views.
 

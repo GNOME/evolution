@@ -230,6 +230,31 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->update_query        = e_week_view_update_query;
 }
 
+static void
+timezone_changed_cb (ECalView *cal_view, icaltimezone *old_zone,
+		     icaltimezone *new_zone, gpointer user_data)
+{
+	struct icaltimetype tt = icaltime_null_time ();
+	time_t lower;
+	EWeekView *week_view = (EWeekView *) cal_view;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	/* Recalculate the new start of the first week. We just use exactly
+	   the same time, but with the new timezone. */
+	tt.year = g_date_year (&week_view->first_day_shown);
+	tt.month = g_date_month (&week_view->first_day_shown);
+	tt.day = g_date_day (&week_view->first_day_shown);
+
+	lower = icaltime_as_timet_with_zone (tt, new_zone);
+
+	e_week_view_recalc_day_starts (week_view, lower);
+	e_week_view_update_query (week_view);
+}
 
 static void
 e_week_view_init (EWeekView *week_view)
@@ -253,7 +278,6 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->spans = NULL;
 
-	week_view->zone = NULL;
 	week_view->multi_week_view = FALSE;
 	week_view->weeks_shown = 6;
 	week_view->rows = 6;
@@ -369,6 +393,10 @@ e_week_view_init (EWeekView *week_view)
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
+
+	/* connect to ECalView's signals */
+	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
 
@@ -1078,7 +1106,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 				      e_week_view_add_event, week_view,
 				      cal_client_resolve_tzid_cb,
 				      e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-				      week_view->zone);
+				      e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	g_object_unref (comp);
 
@@ -1273,7 +1301,7 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	time_to_gdate_with_zone (&date, start_time, week_view->zone);
+	time_to_gdate_with_zone (&date, start_time, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	if (week_view->multi_week_view) {
 		/* Find the number of days since the start of the month. */
@@ -1322,9 +1350,9 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
 		week_view->first_day_shown = base_date;
 		start_time = time_add_day_with_zone (start_time, -day_offset,
-						     week_view->zone);
+						     e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 		start_time = time_day_begin_with_zone (start_time,
-						       week_view->zone);
+						       e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 		e_week_view_recalc_day_starts (week_view, start_time);
 		e_week_view_update_query (week_view);
 	}
@@ -1334,10 +1362,10 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 		- g_date_julian (&base_date);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
-						   week_view->zone))
+						   e_cal_view_get_timezone (E_CAL_VIEW (week_view))))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
-		time_to_gdate_with_zone (&end_date, end_time - 60, week_view->zone);
+		time_to_gdate_with_zone (&end_date, end_time - 60, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 		week_view->selection_end_day = g_date_julian (&end_date)
 			- g_date_julian (&base_date);
 	}
@@ -1370,17 +1398,17 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	time_to_gdate_with_zone (&date, start_time, week_view->zone);
+	time_to_gdate_with_zone (&date, start_time, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	
 	/* Set the selection to the given days. */
 	week_view->selection_start_day = g_date_julian (&date)
 		- g_date_julian (&week_view->first_day_shown);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
-						   week_view->zone))
+						   e_cal_view_get_timezone (E_CAL_VIEW (week_view))))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
-		time_to_gdate_with_zone (&end_date, end_time - 60, week_view->zone);
+		time_to_gdate_with_zone (&end_date, end_time - 60, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 		week_view->selection_end_day = g_date_julian (&end_date)
 			- g_date_julian (&week_view->first_day_shown);
 	}
@@ -1503,7 +1531,7 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 		start_tt.day = g_date_day (&base_date);
 
 		start_time = icaltime_as_timet_with_zone (start_tt,
-							  week_view->zone);
+							  e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 		e_week_view_recalc_day_starts (week_view, start_time);
 		e_week_view_update_query (week_view);
@@ -1553,7 +1581,7 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	week_view->day_starts[0] = tmp_time;
 	for (day = 1; day <= num_days; day++) {
 		tmp_time = time_add_day_with_zone (tmp_time, 1,
-						   week_view->zone);
+						   e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 		week_view->day_starts[day] = tmp_time;
 	}
 }
@@ -1776,49 +1804,6 @@ e_week_view_set_24_hour_format	(EWeekView	*week_view,
 	week_view->events_need_reshape = TRUE;
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-
-/* The current timezone. */
-icaltimezone*
-e_week_view_get_timezone		(EWeekView	*week_view)
-{
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
-
-	return week_view->zone;
-}
-
-
-void
-e_week_view_set_timezone		(EWeekView	*week_view,
-					 icaltimezone	*zone)
-{
-	icaltimezone *old_zone;
-	struct icaltimetype tt = icaltime_null_time ();
-	time_t lower;
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	old_zone = week_view->zone;
-	if (old_zone == zone)
-		return;
-
-	week_view->zone = zone;
-
-	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return;
-
-	/* Recalculate the new start of the first week. We just use exactly
-	   the same time, but with the new timezone. */
-	tt.year = g_date_year (&week_view->first_day_shown);
-	tt.month = g_date_month (&week_view->first_day_shown);
-	tt.day = g_date_day (&week_view->first_day_shown);
-
-	lower = icaltime_as_timet_with_zone (tt, zone);
-
-	e_week_view_recalc_day_starts (week_view, lower);
-	e_week_view_update_query (week_view);
 }
 
 static gboolean
@@ -2072,7 +2057,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return FALSE;
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		e_week_view_new_appointment (week_view, FALSE);
+		gnome_calendar_new_appointment (e_cal_view_get_calendar (E_CAL_VIEW (week_view)));
 		return TRUE;
 	}
 
@@ -2364,9 +2349,9 @@ e_week_view_add_event (CalComponent *comp,
 	g_return_val_if_fail (end > week_view->day_starts[0], TRUE);
 
 	start_tt = icaltime_from_timet_with_zone (start, FALSE,
-						  week_view->zone);
+						  e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	end_tt = icaltime_from_timet_with_zone (end, FALSE,
-						week_view->zone);
+						e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	event.comp = comp;
 	g_object_ref (event.comp);
@@ -2382,7 +2367,7 @@ e_week_view_add_event (CalComponent *comp,
 
 	event.different_timezone = FALSE;
 	if (!cal_comp_util_compare_event_timezones (comp, e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-						    week_view->zone))
+						    e_cal_view_get_timezone (E_CAL_VIEW (week_view))))
 		event.different_timezone = TRUE;
 
 	g_array_append_val (week_view->events, event);
@@ -2801,7 +2786,7 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 	start_tt.month = g_date_month (&date);
 	start_tt.day = g_date_day (&date);
 
-	lower = icaltime_as_timet_with_zone (start_tt, week_view->zone);
+	lower = icaltime_as_timet_with_zone (start_tt, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	e_week_view_recalc_day_starts (week_view, lower);
 	e_week_view_update_query (week_view);
@@ -3340,14 +3325,14 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	date.tzid = NULL;
 
 	/* We use DATE values now, so we don't need the timezone. */
-	/*date.tzid = icaltimezone_get_tzid (week_view->zone);*/
+	/*date.tzid = icaltimezone_get_tzid (e_cal_view_get_timezone (E_CAL_VIEW (week_view)));*/
 
 	*date.value = icaltime_from_timet_with_zone (dtstart, TRUE,
-						     week_view->zone);
+						     e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	cal_component_set_dtstart (comp, &date);
 
 	*date.value = icaltime_from_timet_with_zone (dtend, TRUE,
-						     week_view->zone);
+						     e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_set_categories (comp, week_view->default_category);
@@ -3409,50 +3394,6 @@ e_week_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
-static void
-e_week_view_delete_occurrence_internal (EWeekView *week_view, gint event_num)
-{
-	EWeekViewEvent *event;
-	CalComponent *comp;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				event_num);
-
-	if (cal_component_is_instance (event->comp)) {
-		const char *uid;
-
-		cal_component_get_uid (event->comp, &uid);
-		delete_error_dialog (cal_client_remove_object_with_mod (
-					     e_cal_view_get_cal_client (E_CAL_VIEW (week_view)),
-					     uid, CALOBJ_MOD_THIS),
-				     CAL_COMPONENT_EVENT);
-		return;
-	}
-
-	/* We must duplicate the CalComponent, or we won't know it has changed
-	   when we get the "update_event" callback. */
-
-	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
-
-	if (cal_client_update_object (e_cal_view_get_cal_client (E_CAL_VIEW (week_view)), comp)
-	    != CAL_CLIENT_RESULT_SUCCESS)
-		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
-
-	g_object_unref (comp);
-}
-
-void
-e_week_view_delete_occurrence (EWeekView *week_view)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (week_view->editing_event_num == -1)
-		return;
-
-	e_week_view_delete_occurrence_internal (week_view, week_view->editing_event_num);
-}
-
 void
 e_week_view_unrecur_appointment (EWeekView *week_view)
 {
@@ -3470,7 +3411,7 @@ e_week_view_unrecur_appointment (EWeekView *week_view)
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
+	cal_comp_util_add_exdate (comp, event->start, e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3483,13 +3424,13 @@ e_week_view_unrecur_appointment (EWeekView *week_view)
 	cal_component_set_exrule_list (new_comp, NULL);
 
 	date.value = &itt;
-	date.tzid = icaltimezone_get_tzid (week_view->zone);
+	date.tzid = icaltimezone_get_tzid (e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 
 	*date.value = icaltime_from_timet_with_zone (event->start, FALSE,
-						     week_view->zone);
+						     e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	cal_component_set_dtstart (new_comp, &date);
 	*date.value = icaltime_from_timet_with_zone (event->end, FALSE,
-						     week_view->zone);
+						     e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
 	cal_component_set_dtend (new_comp, &date);
 
 	/* Now update both CalComponents. Note that we do this last since at

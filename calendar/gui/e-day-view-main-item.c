@@ -186,7 +186,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
 
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, day_view->zone);
+		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
+							      e_cal_view_get_timezone (E_CAL_VIEW (day_view)));
 		weekday = icaltime_day_of_week (day_start_tt) - 1;
 		
 		work_day = day_view->working_days & (1 << weekday);

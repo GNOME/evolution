@@ -245,7 +245,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, day_view->zone);
+		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
+							      e_cal_view_get_timezone (E_CAL_VIEW (day_view)));
 		day_start.tm_year = day_start_tt.year - 1900;
 		day_start.tm_mon = day_start_tt.month - 1;
 		day_start.tm_mday = day_start_tt.day;

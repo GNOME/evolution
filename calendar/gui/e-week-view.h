@@ -193,9 +193,6 @@ struct _EWeekView
 	/* The start of each day displayed. */
 	time_t day_starts[E_WEEK_VIEW_MAX_WEEKS * 7 + 1];
 
-	/* The timezone. */
-	icaltimezone *zone;
-
 	/* The base date, where the adjustment value is 0. */
 	GDate base_date;
 
@@ -395,11 +392,6 @@ void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
 gboolean   e_week_view_get_24_hour_format	(EWeekView	*week_view);
 void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
 						 gboolean	 use_24_hour);
-
-/* The current timezone. */
-icaltimezone* e_week_view_get_timezone		(EWeekView	*week_view);
-void	      e_week_view_set_timezone		(EWeekView	*week_view,
-						 icaltimezone	*zone);
 
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 

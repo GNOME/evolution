@@ -75,6 +75,7 @@ struct _ECalViewClass {
 
 	/* Notification signals */
 	void (* selection_changed) (ECalView *cal_view);
+	void (* timezone_changed) (ECalView *cal_view, icaltimezone *old_zone, icaltimezone *new_zone);
 
 	/* Virtual methods */
 	GList * (* get_selected_events) (ECalView *cal_view); /* a GList of ECalViewEvent's */
@@ -92,6 +93,8 @@ CalClient     *e_cal_view_get_cal_client (ECalView *cal_view);
 void           e_cal_view_set_cal_client (ECalView *cal_view, CalClient *client);
 const gchar   *e_cal_view_get_query (ECalView *cal_view);
 void           e_cal_view_set_query (ECalView *cal_view, const gchar *sexp);
+icaltimezone  *e_cal_view_get_timezone (ECalView *cal_view);
+void           e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone);
 
 void           e_cal_view_set_status_message (ECalView *cal_view, const gchar *message);
 
@@ -106,6 +109,7 @@ void           e_cal_view_copy_clipboard (ECalView *cal_view);
 void           e_cal_view_paste_clipboard (ECalView *cal_view);
 void           e_cal_view_delete_selected_event (ECalView *cal_view);
 void           e_cal_view_delete_selected_events (ECalView *cal_view);
+void           e_cal_view_delete_selected_occurrence (ECalView *cal_view);
 
 GtkMenu       *e_cal_view_create_popup_menu (ECalView *cal_view);
 

@@ -228,9 +228,6 @@ struct _EDayView
 	/* The start of each day & an extra element to hold the last time. */
 	time_t day_starts[E_DAY_VIEW_MAX_DAYS + 1];
 
-	/* The timezone. */
-	icaltimezone *zone;
-
 	/* An array of EDayViewEvent elements for the top view and each day. */
 	GArray *long_events;
 	GArray *events[E_DAY_VIEW_MAX_DAYS];
@@ -529,12 +526,6 @@ void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
 gint	   e_day_view_get_week_start_day	(EDayView	*day_view);
 void	   e_day_view_set_week_start_day	(EDayView	*day_view,
 						 gint		 week_start_day);
-
-/* The current timezone. */
-icaltimezone* e_day_view_get_timezone		(EDayView	*day_view);
-void	      e_day_view_set_timezone		(EDayView	*day_view,
-						 icaltimezone	*zone);
-
 
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
 

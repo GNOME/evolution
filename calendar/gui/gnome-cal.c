@@ -2270,10 +2270,10 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 						 priv->zone);
 	}
 
-	e_day_view_set_timezone (E_DAY_VIEW (priv->day_view), priv->zone);
-	e_day_view_set_timezone (E_DAY_VIEW (priv->work_week_view), priv->zone);
-	e_week_view_set_timezone (E_WEEK_VIEW (priv->week_view), priv->zone);
-	e_week_view_set_timezone (E_WEEK_VIEW (priv->month_view), priv->zone);
+	e_cal_view_set_timezone (E_CAL_VIEW (priv->day_view), priv->zone);
+	e_cal_view_set_timezone (E_CAL_VIEW (priv->work_week_view), priv->zone);
+	e_cal_view_set_timezone (E_CAL_VIEW (priv->week_view), priv->zone);
+	e_cal_view_set_timezone (E_CAL_VIEW (priv->month_view), priv->zone);
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -2942,11 +2942,7 @@ gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
 	if (location == FOCUS_CALENDAR) {
 
 		view = gnome_calendar_get_current_view_widget (gcal);
-
-		if (E_IS_DAY_VIEW (view))
-			e_day_view_delete_occurrence (E_DAY_VIEW (view));
-		else
-			e_week_view_delete_occurrence (E_WEEK_VIEW (view));
+		e_cal_view_delete_selected_occurrence (E_CAL_VIEW (view));
 	}
 }
 

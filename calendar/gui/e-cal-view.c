@@ -28,6 +28,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-dialog-utils.h"
+#include "cal-util/cal-util-marshal.h"
 #include "cal-util/timeutil.h"
 #include "evolution-activity-client.h"
 #include "calendar-commands.h"
@@ -65,6 +66,9 @@ struct _ECalViewPrivate {
 
 	/* The popup menu */
 	EPopupMenu *view_menu;
+
+	/* The timezone. */
+	icaltimezone *zone;
 };
 
 static void e_cal_view_class_init (ECalViewClass *klass);
@@ -77,6 +81,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 /* Signal IDs */
 enum {
 	SELECTION_CHANGED,
+	TIMEZONE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -99,6 +104,14 @@ e_cal_view_class_init (ECalViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	e_cal_view_signals[TIMEZONE_CHANGED] =
+		g_signal_new ("timezone_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalViewClass, timezone_changed),
+			      NULL, NULL,
+			      cal_util_marshal_VOID__POINTER_POINTER,
+			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
 	/* Method override */
 	object_class->destroy = e_cal_view_destroy;
@@ -410,6 +423,29 @@ e_cal_view_set_query (ECalView *cal_view, const gchar *sexp)
 	e_cal_view_update_query (cal_view);
 }
 
+icaltimezone *
+e_cal_view_get_timezone (ECalView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), NULL);
+	return cal_view->priv->zone;
+}
+
+void
+e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone)
+{
+	icaltimezone *old_zone;
+
+	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+
+	if (zone == cal_view->priv->zone)
+		return;
+
+	old_zone = cal_view->priv->zone;
+	cal_view->priv->zone = zone;
+	g_signal_emit (G_OBJECT (cal_view), e_cal_view_signals[TIMEZONE_CHANGED], 0,
+		       old_zone, cal_view->priv->zone);
+}
+
 void
 e_cal_view_set_status_message (ECalView *cal_view, const gchar *message)
 {
@@ -643,6 +679,44 @@ e_cal_view_delete_selected_events (ECalView *cal_view)
 			delete_event (cal_view, event->comp);
 	}
 
+	g_list_free (selected);
+}
+
+void
+e_cal_view_delete_selected_occurrence (ECalView *cal_view)
+{
+	ECalViewEvent *event;
+	GList *selected;
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	event = (ECalViewEvent *) selected->data;
+
+	if (cal_component_is_instance (event->comp)) {
+		const char *uid;
+
+		cal_component_get_uid (event->comp, &uid);
+		delete_error_dialog (
+			cal_client_remove_object_with_mod (cal_view->priv->client, uid, CALOBJ_MOD_THIS),
+			CAL_COMPONENT_EVENT);
+	} else {
+		CalComponent *comp;
+
+		/* we must duplicate the CalComponent, or we won't know it has changed
+		   when we get the "update_event" signal */
+		comp = cal_component_clone (event->comp);
+		cal_comp_util_add_exdate (comp, event->start, cal_view->priv->zone);
+
+		if (cal_client_update_object (cal_view->priv->client, comp)
+		    != CAL_CLIENT_RESULT_SUCCESS)
+			g_message ("e_cal_view_delete_selected_occurrence(): Could not update the object!");
+
+		g_object_unref (comp);
+	}
+
+	/* free memory */
 	g_list_free (selected);
 }
 
@@ -890,7 +964,7 @@ on_delete_occurrence (GtkWidget *widget, gpointer user_data)
 	ECalView *cal_view;
 
 	cal_view = E_CAL_VIEW (user_data);
-	gnome_calendar_delete_selected_occurrence (cal_view->priv->calendar);
+	e_cal_view_delete_selected_occurrence (cal_view);
 }
 
 static void
