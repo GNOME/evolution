@@ -71,24 +71,22 @@ development_warning (void)
 
 	label = gtk_label_new (
 		_(
-		  "Hi.  Thanks for taking the time to download this preview release\n"
+		  "Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 		  "of the Evolution groupware suite.\n"
 		  "\n"
-		  "Over the time since the past release, our focus has been on making\n"
-		  "Evolution usable.  Many of the Evolution developers are now using\n"
-		  "Evolution to read their mail full time. You could too. (Just\n"
-		  "be sure to keep a backup.)\n"
+		  "Evolution is not yet complete. It's getting close, but there are\n"
+		  "places where features are either missing or only half working. If\n"
+		  "you can't figure out how to do something, it's probably because\n"
+		  "there's no way to do it yet! :-)\n"
 		  "\n"
-		  "But while we have fixed many bugs affecting its stability and\n"
-		  "security, you still get the disclaimer:  Evolution will: crash,\n"
-		  "lose your mail when you don't want it to, refuse to delete your\n"
-		  "mail when you do want it to, leave stray processes running,\n"
-		  "consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-		  "lists, and embarass you in front of your friends and co-workers.\n"
-		  "Use only as directed.\n"
+		  "We hope Evolution will be usable for you, but we still feel the\n"
+		  "need to warn you that it may: crash, lose your mail, leave stray\n"
+		  "processes running, consume 100% of your CPU, send non-\n"
+		  "compliant commands to your servers, and generally embarass you\n"
+		  "in front of your friends and co-workers. Use only as directed.\n"
 		  "\n"
-		  "We hope that you enjoy the results of our hard work, and we eagerly\n"
-		  "await your contributions!\n"
+		  "We hope that you enjoy the results of our hard work, and we\n"
+		  "eagerly await your contributions!\n"
 		  ));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
