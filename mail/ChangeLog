@@ -1,5 +1,11 @@
 2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (on_right_click): Draw colour rectangles for
+	each of the colour items and set a closure on each.
+	(colourise_msg): colourise the message, yo.
+
+2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (colour_msg): New callback to set a colour on a
 	message.
 

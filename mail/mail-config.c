@@ -71,11 +71,11 @@
 
 
 MailConfigLabel label_defaults[5] = {
-	{ N_("Important"), 0xff0000 },  /* red */
-	{ N_("Work"),      0xff8c00 },  /* orange */
-	{ N_("Personal"),  0x008b00 },  /* forest green */
-	{ N_("To Do"),     0x0000ff },  /* blue */
-	{ N_("Later"),     0x8b008b }   /* magenta */
+	{ N_("Important"), 0x00ff0000 },  /* red */
+	{ N_("Work"),      0x00ff8c00 },  /* orange */
+	{ N_("Personal"),  0x00008b00 },  /* forest green */
+	{ N_("To Do"),     0x000000ff },  /* blue */
+	{ N_("Later"),     0x008b008b }   /* magenta */
 };
 
 typedef struct {

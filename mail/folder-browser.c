@@ -1442,6 +1442,36 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 	}
 }
 
+struct _colour_data {
+	FolderBrowser *fb;
+	guint32 rgb;
+};
+
+#define COLOUR_NONE (~0)
+
+static void
+colourise_msg (GtkWidget *widget, gpointer user_data)
+{
+	struct _colour_data *data = user_data;
+	char *colour = NULL;
+	GPtrArray *uids;
+	int i;
+	
+	if (data->rgb != COLOUR_NONE) {
+		colour = alloca (8);
+		sprintf (colour, "#%.2x%.2x%.2x", (data->rgb & 0xff0000) >> 16,
+			 (data->rgb & 0xff00) >> 8, data->rgb & 0xff);
+	}
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "colour", colour);
+	}
+	g_ptr_array_free (uids, TRUE);
+}
+
+
 enum {
 	SELECTION_SET              = 1<<1,
 	CAN_MARK_READ              = 1<<2,
@@ -1477,11 +1507,13 @@ static EPopupMenu filter_menu[] = {
 };
 
 static EPopupMenu label_menu[] = {
-	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
-	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
-	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
-	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
-	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	{ N_("None"), NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
+	E_POPUP_SEPARATOR,
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, NULL, 0 },
 	E_POPUP_TERMINATOR
 };
 
@@ -1523,7 +1555,7 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Label"),                    NULL, GTK_SIGNAL_FUNC (NULL), NULL, label_menu, SELECTION_SET },
+	{ N_("Label"),                    NULL, GTK_SIGNAL_FUNC (NULL), NULL, label_menu, 0 },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1623,13 +1655,27 @@ setup_popup_icons (void)
 	}
 }
 
+static void
+colour_closures_free (GPtrArray *closures)
+{
+	struct _colour_data *data;
+	int i;
+	
+	for (i = 0; i < closures->len; i++) {
+		data = closures->pdata[i];
+		gtk_object_unref (GTK_OBJECT (data->fb));
+		g_free (data);
+	}
+	g_ptr_array_free (closures, TRUE);
+}
+
 /* handle context menu over message-list */
 static int
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	extern CamelFolder *sent_folder;
 	CamelMessageInfo *info;
-	GPtrArray *uids;
+	GPtrArray *uids, *closures;
 	int enable_mask = 0;
 	int hide_mask = 0;
 	int i;
@@ -1784,14 +1830,54 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	}
 	
 	/* create the label/colour menu */
+	closures = g_ptr_array_new ();
+	label_menu[0].closure = g_new (struct _colour_data, 1);
+	g_ptr_array_add (closures, label_menu[0].closure);
+	gtk_object_ref (GTK_OBJECT (fb));
+	((struct _colour_data *) label_menu[0].closure)->fb = fb;
+	((struct _colour_data *) label_menu[0].closure)->rgb = COLOUR_NONE;
+	
 	for (i = 0; i < 5; i++) {
-		label_menu[i].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
+		struct _colour_data *closure;
+		GdkPixmap *pixmap;
+		GdkColormap *map;
+		GdkColor color;
+		guint32 rgb;
+		GdkGC *gc;
+		
+		rgb = mail_config_get_label_color (i);
+		
+		color.red = ((rgb & 0xff0000) >> 8) | 0xff;
+		color.green = (rgb & 0xff00) | 0xff;
+		color.blue = ((rgb & 0xff) << 8) | 0xff;
+		
+		map = gdk_colormap_get_system ();
+		gdk_color_alloc (map, &color);
+		
+		pixmap = gdk_pixmap_new (GTK_WIDGET (fb)->window, 16, 16, -1);
+		gc = gdk_gc_new (GTK_WIDGET (fb)->window);
+		gdk_gc_set_foreground (gc, &color);
+		gdk_draw_rectangle (pixmap, gc, TRUE, 0, 0, 16, 16);
+		
+		closure = g_new (struct _colour_data, 1);
+		gtk_object_ref (GTK_OBJECT (fb));
+		closure->fb = fb;
+		closure->rgb = rgb;
+		
+		g_ptr_array_add (closures, closure);
+		
+		label_menu[i + 2].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
+		label_menu[i + 2].pixmap = gtk_pixmap_new (pixmap, NULL);
+		label_menu[i + 2].closure = closure;
 	}
 	
 	setup_popup_icons ();
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
+	
+	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures",
+				  (GtkDestroyNotify) closures, colour_closures_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;
@@ -1811,7 +1897,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	
 	/* free the label/colour menu */
 	for (i = 0; i < 5; i++) {
-		g_free (label_menu[i].name);
+		g_free (label_menu[i + 2].name);
 	}
 	
 	return TRUE;

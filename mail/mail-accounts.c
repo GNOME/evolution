@@ -658,7 +658,7 @@ static void
 label_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, gpointer user_data)
 {
 	MailAccountsDialog *dialog = user_data;
-	guint32 rgb;
+	guint32 rgb = 0;
 	int label;
 	
 	for (label = 0; label < 5; label++) {
@@ -692,6 +692,7 @@ restore_labels_clicked (GtkButton *button, gpointer user_data)
 	for (i = 0; i < 5; i++) {
 		e_utf8_gtk_entry_set_text (dialog->labels[i].name, U_(label_defaults[i].name));
 		set_color (dialog->labels[i].color, label_defaults[i].color);
+		mail_config_set_label_color (i, label_defaults[i].color);
 	}
 }
 
