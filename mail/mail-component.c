@@ -899,7 +899,8 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	mail_note_store_remove (store);
 	
 	em_folder_tree_model_remove_store (priv->model, store);
-	
+
+	camel_object_ref(store);
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
 

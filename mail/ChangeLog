@@ -1,3 +1,9 @@
+2004-03-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mail_component_remove_store): ref the store
+	before running the async disconnect, otherwise we unref one too
+	many times.
+
 2004-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_setup): Don't set the
