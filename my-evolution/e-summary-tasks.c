@@ -136,7 +136,8 @@ sort_uids (gconstpointer a,
 	CalComponent *comp_a, *comp_b;
 	CalClient *client = user_data;
 	CalClientGetStatus status;
-	int real_a = 0, real_b = 0;
+	/* let undefined priorities be lowest ones */
+	int lowest = 10, rv;
 	int *pri_a, *pri_b;
 
 	/* a after b then return > 0 */
@@ -149,13 +150,22 @@ sort_uids (gconstpointer a,
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return 1;
 
-	pri_a = &real_a;
-	pri_b = &real_b;
-
 	cal_component_get_priority (comp_a, &pri_a);
 	cal_component_get_priority (comp_b, &pri_b);
 
-	return *pri_a - *pri_b;
+	if (pri_a == NULL)
+		pri_a = &lowest;
+	if (pri_b == NULL)
+		pri_b = &lowest;
+
+	rv = *pri_a - *pri_b;
+
+	if (pri_a != &lowest)
+		cal_component_free_priority (pri_a);
+	if (pri_b != &lowest)
+		cal_component_free_priority (pri_b);
+
+	return rv;
 }
 
 static GList *

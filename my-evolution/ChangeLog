@@ -1,3 +1,9 @@
+2002-02-14  Radek Doulik  <rodo@ximian.com>
+
+	* e-summary-tasks.c (sort_uids): fix case when priority is
+	undefined and pri_a or pri_b is returned as NULL, also fixes
+	memory leak
+
 2002-02-08  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary-calendar.c (e_cal_comp_util_compare_event_timezones): 
