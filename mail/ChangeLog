@@ -1,3 +1,25 @@
+2004-07-27  Not Zed  <NotZed@Ximian.com>
+
+	** See #57972.
+
+	* message-list.c (search_func): removed.
+	(ml_search_path): new function to just search, not actually change
+	the cursor like e_tree_find does.
+	(message_list_can_select): new function, returns true if the
+	selection specified is possible without changing the selection.
+	(message_list_select): rewritten.
+	(select_path): helper to select a path in a way that 'works
+	reliably'.
+	(message_list_select_next_thread): rewritten to use the
+	table-adapter, so it properly handles arbitrary sorting.
+
+	* em-folder-view.c (em_folder_view_get_popup_target): setup
+	next/prev flags as appropriate.
+	(emfv_enable_map[]): setup next/prev flags.
+
+	* em-folder-view.h: added last and first message status bits to
+	folder view select mask.
+
 2004-07-23  Radek Doulik  <rodo@ximian.com>
 
 	* added len parameter to em_utils_part_to_html and

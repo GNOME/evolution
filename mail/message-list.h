@@ -165,8 +165,10 @@ typedef void (*MessageListForeachFunc) (MessageList *message_list,
 					gpointer user_data);
 
 typedef enum {
-	MESSAGE_LIST_SELECT_NEXT = 1,
-	MESSAGE_LIST_SELECT_PREVIOUS = -1
+	MESSAGE_LIST_SELECT_NEXT = 0,
+	MESSAGE_LIST_SELECT_PREVIOUS = 1,
+	MESSAGE_LIST_SELECT_DIRECTION = 1, /* direction mask */
+	MESSAGE_LIST_SELECT_WRAP = 1<<1, /* option bit */
 } MessageListSelectDirection;
 
 GtkType        message_list_get_type   (void);
@@ -188,8 +190,8 @@ void	       message_list_free_uids(MessageList *ml, GPtrArray *uids);
 gboolean       message_list_select     (MessageList *message_list,
 					MessageListSelectDirection direction,
 					guint32 flags,
-					guint32 mask,
-					gboolean wraparound);
+					guint32 mask);
+gboolean message_list_can_select(MessageList *ml, MessageListSelectDirection direction, guint32 flags, guint32 mask);
 
 void           message_list_select_uid (MessageList *message_list,
 					const char *uid);

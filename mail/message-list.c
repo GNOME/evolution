@@ -461,32 +461,6 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 	return e_poolv_get (poolv, index);
 }
 
-struct search_func_data {
-	MessageList *message_list;
-	guint32 flags;
-	guint32 mask;
-	ETreePath path;
-};
-
-static gboolean
-search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
-{
-	CamelMessageInfo *info;
-
-	if (e_tree_model_node_is_root (data->message_list->model, path))
-		return FALSE;
-
-	info = get_message_info (data->message_list, path);
-	
-	if (info && (info->flags & data->mask) == data->flags) {
-		g_free(data->message_list->cursor_uid);
-		data->message_list->cursor_uid = NULL;
-		data->path = path;
-		return TRUE;
-	}
-	return FALSE;
-}
-
 static void
 clear_selection(MessageList *ml, struct _MLSelection *selection)
 {
@@ -502,6 +476,88 @@ clear_selection(MessageList *ml, struct _MLSelection *selection)
 	selection->folder_uri = NULL;
 }
 
+static ETreePath
+ml_search_forward(MessageList *ml, int start, int end, guint32 flags, guint32 mask)
+{
+	ETreePath path;
+	int row;
+	CamelMessageInfo *info;
+	ETreeTableAdapter *etta = e_tree_get_table_adapter(ml->tree);
+
+	for (row = start; row <= end; row ++) {
+		path = e_tree_table_adapter_node_at_row(etta, row);
+		if (path
+		    && (info = get_message_info(ml, path))
+		    && (info->flags & mask) == flags)
+			return path;
+	}
+
+	return NULL;
+}
+
+static ETreePath
+ml_search_backward(MessageList *ml, int start, int end, guint32 flags, guint32 mask)
+{
+	ETreePath path;
+	int row;
+	CamelMessageInfo *info;
+	ETreeTableAdapter *etta = e_tree_get_table_adapter(ml->tree);
+
+	for (row = start; row >= end; row --) {
+		path = e_tree_table_adapter_node_at_row(etta, row);
+		if (path
+		    && (info = get_message_info(ml, path))
+		    && (info->flags & mask) == flags)
+			return path;
+	}
+
+	return NULL;
+}
+
+static ETreePath
+ml_search_path(MessageList *ml, MessageListSelectDirection direction, guint32 flags, guint32 mask)
+{
+	ETreePath node;
+	int row, count;
+	ETreeTableAdapter *etta = e_tree_get_table_adapter(ml->tree);
+
+	if (ml->cursor_uid == NULL
+	    || (node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid)) == NULL)
+		return NULL;
+
+	row = e_tree_table_adapter_row_of_node(etta, node);
+	if (row == -1)
+		return NULL;
+	count = e_table_model_row_count((ETableModel *)etta);
+
+	if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
+		node = ml_search_forward(ml, row + 1, count - 1, flags, mask);
+	else
+		node = ml_search_backward(ml, row-1, 0, flags, mask);
+
+	if (node == NULL && (direction & MESSAGE_LIST_SELECT_WRAP)) {
+		if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
+			node = ml_search_forward(ml, 0, row, flags, mask);
+		else
+			node = ml_search_backward(ml, count-1, row, flags, mask);
+	}
+
+	return node;
+}
+
+static void
+select_path(MessageList *ml, ETreePath path)
+{
+	ETreeSelectionModel *etsm = (ETreeSelectionModel *)e_tree_get_selection_model(ml->tree);
+
+	g_free(ml->cursor_uid);
+	ml->cursor_uid = NULL;
+
+	e_tree_table_adapter_show_node(e_tree_get_table_adapter(ml->tree), path);
+	e_tree_set_cursor(ml->tree, path);
+	e_tree_selection_model_select_single_path(etsm, path);
+}
+
 /**
  * message_list_select:
  * @message_list: a MessageList
@@ -509,8 +565,6 @@ clear_selection(MessageList *ml, struct _MLSelection *selection)
  * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
- * @wraparound: if %TRUE, go back to the beginning for 
- *     the next match if necessary.
  *
  * This moves the message list selection to a suitable row. @base_row
  * lists the first (model) row to try, but as a special case, model
@@ -518,43 +572,43 @@ clear_selection(MessageList *ml, struct _MLSelection *selection)
  * what constitutes a suitable row. @direction is
  * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
  * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
- * previous. If no suitable row is found, the selection will be
+ * previous. %MESSAGE_LIST_SELECT_WRAP is an option bit which specifies the
+ * search should wrap.
+ *
+ * If no suitable row is found, the selection will be
  * unchanged.
  *
  * Returns %TRUE if a new message has been selected or %FALSE otherwise.
  **/
 gboolean
-message_list_select (MessageList               *message_list,
-		     MessageListSelectDirection direction,
-		     guint32                    flags,
-		     guint32                    mask,
-		     gboolean                   wraparound)
+message_list_select(MessageList *ml, MessageListSelectDirection direction, guint32 flags, guint32 mask)
 {
-	struct search_func_data data;
-	ETreeFindNextParams params = 0;
-	
-	data.message_list = message_list;
-	data.flags = flags;
-	data.mask = mask;
-	data.path = NULL;
+	ETreePath path;
 
-	if (direction == MESSAGE_LIST_SELECT_NEXT)
-		params |= E_TREE_FIND_NEXT_FORWARD;
-	else
-		params |= E_TREE_FIND_NEXT_BACKWARD;
-	
-	if (wraparound)
-		params |= E_TREE_FIND_NEXT_WRAP;
-	
-	if (e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data)) {
-		ETreeSelectionModel *etsm = (ETreeSelectionModel *)e_tree_get_selection_model (message_list->tree);
-
-		e_tree_selection_model_select_single_path(etsm, data.path);
+	path = ml_search_path(ml, direction, flags, mask);
+	if (path) {
+		select_path(ml, path);
 		return TRUE;
 	} else
 		return FALSE;
 }
 
+/**
+ * message_list_can_select:
+ * @ml: 
+ * @direction: 
+ * @flags: 
+ * @mask: 
+ * 
+ * Returns true if the selection specified is possible with the current view.
+ * 
+ * Return value: 
+ **/
+gboolean
+message_list_can_select(MessageList *ml, MessageListSelectDirection direction, guint32 flags, guint32 mask)
+{
+	return ml_search_path(ml, direction, flags, mask) != NULL;
+}
 
 /**
  * message_list_select_uid:
@@ -591,39 +645,32 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 	}
 }
 
-
 void
-message_list_select_next_thread (MessageList *message_list)
+message_list_select_next_thread (MessageList *ml)
 {
-	ETreePath node, last;
-	
-	if (!message_list->cursor_uid)
+	ETreePath node;
+	ETreeTableAdapter *etta = e_tree_get_table_adapter(ml->tree);
+	int i, count, row;
+
+	if (!ml->cursor_uid
+	    || (node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid)) == NULL)
 		return;
-	
-	/* get the thread parent node */
-	last = node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid);
-	while (!e_tree_model_node_is_root (message_list->model, node)) {
-		last = node;
-		node = e_tree_model_node_get_parent (message_list->model, node);
-	}
-	
-	/* get the next toplevel node */
-	node = e_tree_model_node_get_next (message_list->model, last);
-	
-	if (node) {
-		CamelMessageInfo *info;
-		
-		info = get_message_info (message_list, node);
-		e_tree_set_cursor (message_list->tree, node);
-		
-		g_free (message_list->cursor_uid);
-		message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
-		
-		g_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], 0,
-			       camel_message_info_uid (info));
+
+	row = e_tree_table_adapter_row_of_node(etta, node);
+	if (row == -1)
+		return;
+	count = e_table_model_row_count((ETableModel *)etta);
+
+	/* find the next node which has a root parent (i.e. toplevel node) */
+	for (i=row+1;i<count-1;i++) {
+		node = e_tree_table_adapter_node_at_row(etta, i);
+		if (node
+		    && e_tree_model_node_is_root(ml->model, e_tree_model_node_get_parent(ml->model, node))) {
+			select_path(ml, node);
+			return;
+		}
 	}
 }
-
 
 /**
  * message_list_select_all:

@@ -724,7 +724,7 @@ emfv_popup_mark_junk (GtkWidget *w, EMFolderView *emfv)
 				     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
 				     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
 	if (uids->len == 1)
-		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
+		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 
 	message_list_free_uids(emfv->list, uids);
 }
@@ -739,7 +739,7 @@ emfv_popup_mark_nojunk (GtkWidget *w, EMFolderView *emfv)
 				     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
 				     CAMEL_MESSAGE_JUNK_LEARN);
 	if (uids->len == 1)
-		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
+		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 
 	message_list_free_uids(emfv->list, uids);
 }
@@ -753,8 +753,8 @@ emfv_popup_delete(GtkWidget *w, EMFolderView *emfv)
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
 	
 	if (uids->len == 1) {
-		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE) && emfv->hide_deleted)
-			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
+		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
+			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 	}
 	em_utils_uids_free(uids);
 }
@@ -1110,7 +1110,7 @@ emfv_mail_next(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 }
 
 static void
@@ -1118,7 +1118,7 @@ emfv_mail_next_flagged(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 	
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
 }
 
 static void
@@ -1126,7 +1126,7 @@ emfv_mail_next_unread(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 }
 
 static void
@@ -1142,7 +1142,7 @@ emfv_mail_previous(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
 static void
@@ -1150,7 +1150,7 @@ emfv_mail_previous_flagged(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
 }
 
 static void
@@ -1158,7 +1158,7 @@ emfv_mail_previous_unread(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN, TRUE);
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
 }
 
 static void
@@ -1549,11 +1549,11 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "EditPaste",                EM_POPUP_SELECT_FOLDER },
 
 	/* FIXME: should these be single-selection? */
-	{ "MailNext",                 EM_POPUP_SELECT_MANY },
+	{ "MailNext",                 EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_NEXT_MSG },
 	{ "MailNextFlagged",          EM_POPUP_SELECT_MANY },
 	{ "MailNextUnread",           EM_POPUP_SELECT_MANY },
 	{ "MailNextThread",           EM_POPUP_SELECT_MANY },
-	{ "MailPrevious",             EM_POPUP_SELECT_MANY },
+	{ "MailPrevious",             EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_PREV_MSG },
 	{ "MailPreviousFlagged",      EM_POPUP_SELECT_MANY },
 	{ "MailPreviousUnread",       EM_POPUP_SELECT_MANY },
 
@@ -1869,6 +1869,12 @@ em_folder_view_get_popup_target(EMFolderView *emfv)
 
 	if (message_list_hidden(emfv->list) != 0)
 		t->mask &= ~EM_FOLDER_VIEW_SELECT_HIDDEN;
+
+	if (message_list_can_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0))
+		t->mask &= ~EM_FOLDER_VIEW_SELECT_NEXT_MSG;
+
+	if (message_list_can_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0))
+		t->mask &= ~EM_FOLDER_VIEW_SELECT_PREV_MSG;
 
 	/* See bug #54770 */
 	if (!emfv->hide_deleted)
