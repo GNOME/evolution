@@ -193,8 +193,25 @@ folder_browser_properties_init (FolderBrowser *fb)
 }
 
 static void
+search_activate(GtkEntry *entry, FolderBrowser *fb)
+{
+	char *text;
+
+	text = gtk_entry_get_text(entry);
+	if (text == NULL || text[0] == 0) {
+		message_list_set_search (fb->message_list, NULL);
+	} else {
+		char *search = g_strdup_printf("(match-all (header-contains \"Subject\" \"%s\"))", text);
+		message_list_set_search (fb->message_list, search);
+		g_free(search);
+	}
+}
+
+static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
+	GtkWidget *entry, *hbox, *label;
+
 	/*
 	 * The panned container
 	 */
@@ -203,9 +220,26 @@ folder_browser_gui_init (FolderBrowser *fb)
 
 	gtk_table_attach (
 		GTK_TABLE (fb), fb->vpaned,
-		0, 1, 0, 2,
+		0, 1, 1, 3,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND,
+		0, 0);
+
+	/* quick-search entry */
+	hbox = gtk_hbox_new(FALSE, 3);
+	gtk_widget_show(hbox);
+	entry = gtk_entry_new();
+	gtk_widget_show(entry);
+	gtk_signal_connect(entry, "activate", search_activate, fb);
+	label = gtk_label_new("Search (subject contains)");
+	gtk_widget_show(label);
+	gtk_box_pack_end((GtkBox *)hbox, entry, FALSE, FALSE, 3);
+	gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 3);
+	gtk_table_attach (
+		GTK_TABLE (fb), hbox,
+		0, 1, 0, 1,
+		GTK_FILL | GTK_EXPAND,
+		0,
 		0, 0);
 
 	fb->message_list_w = message_list_get_widget (fb->message_list);

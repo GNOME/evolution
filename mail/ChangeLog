@@ -1,3 +1,20 @@
+2000-05-01  NotZed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (folder_browser_gui_init): A hackish little
+	quick-search entry.
+	(search_activate): Perform a quick-search on the folder subject
+	only.
+
+	* message-list.c (get_message_info): If there is an active search,
+	then get the data from that ... use this instead of
+	_get_message_info().
+	(ml_row_count): If we have an active search, get the info from its
+	result.
+	(select_msg): Changed to use get_message_info, so searches work.
+	(ml_value_at): And same here.
+
+	* mail-display.c: Include missing errno.h.
+
 2000-04-30  Dan Winship  <danw@helixcode.com>
 
 	* session.c (session_providers_init): This is no longer necessary.

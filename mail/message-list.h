@@ -59,6 +59,9 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 
+	/* FIXME: This should use a better format ... */
+	GList *matches;		/* when a search has been performed ... */
+
 	/* used by the idle-call to select a row */
 	int row_to_select;
 	guint idle_id;

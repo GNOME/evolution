@@ -55,6 +55,27 @@ on_row_selection_cmd (ETable *table,
 		      gpointer user_data);
 
 
+CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
+{
+	CamelMessageInfo *info = NULL;
+
+	if (message_list->matches) {
+		char *uid;
+
+		uid = g_list_nth_data(message_list->matches, row);
+		if (uid)
+			info = camel_folder_summary_get_by_uid(message_list->folder, uid);
+	} else {
+		GPtrArray *msg_info_array;
+		msg_info_array = camel_folder_summary_get_message_info 
+			(message_list->folder, row, 1);
+		if (msg_info_array && msg_info_array->len > 0) {
+			info = msg_info_array->pdata[0];
+		}
+		g_ptr_array_free(msg_info_array, TRUE);
+	}
+	return info;
+}
 
 /* select a message and display it */
 static void
@@ -66,15 +87,10 @@ select_msg (MessageList *message_list, gint row)
 	camel_exception_init (&ex);
 
 	if (camel_folder_has_uid_capability  (message_list->folder)) {
-		GPtrArray *msg_info_array;
 		CamelMessageInfo *msg_info;
-		
-		msg_info_array = camel_folder_summary_get_message_info 
-			(message_list->folder, row, 1);
-		
-		if (msg_info_array) {
-			msg_info = msg_info_array->pdata[0];
-			
+
+		msg_info = get_message_info(message_list, row);
+		if (msg_info) {
 			message = camel_folder_get_message_by_uid (message_list->folder, 
 								   msg_info->uid,
 								   &ex);
@@ -85,8 +101,6 @@ select_msg (MessageList *message_list, gint row)
 			}
 		}
 		
-		g_ptr_array_free (msg_info_array, TRUE);
-
 		if (message)
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
 						  CAMEL_MEDIUM (message));
@@ -117,11 +131,15 @@ ml_row_count (ETableModel *etm, void *data)
 		return 0;
 	}
 
-	camel_exception_init (&ex);
+	if (message_list->matches) {
+		v = g_list_length(message_list->matches);
+	} else {
+		camel_exception_init (&ex);
 	
-	v = camel_folder_get_message_count (message_list->folder, &ex);
-	if (camel_exception_get_id (&ex))
-		v = 0;
+		v = camel_folder_get_message_count (message_list->folder, &ex);
+		if (camel_exception_get_id (&ex))
+			v = 0;
+	}
 	
 	/* in the case where no message is available, return 1
 	 * however, cause we want to be able to show a text */
@@ -135,7 +153,6 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	static char buffer [10];
 	MessageList *message_list = data;
 	CamelFolder *folder;
-	GPtrArray *msg_info_array = NULL;
 	CamelMessageInfo *msg_info;
 	CamelException ex;
 	void *retval = NULL;
@@ -148,17 +165,14 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	
 	
 	/* retrieve the message information array */
-	msg_info_array = camel_folder_summary_get_message_info (folder, row, 1);
+	msg_info = get_message_info(message_list, row);
 
 	/* 
 	 * in the case where it is zero message long 
 	 * display nothing 
 	 */
-	if (msg_info_array->len == 0)
+	if (msg_info == NULL)
 		goto nothing_to_see;
-
-	msg_info = msg_info_array->pdata[0];
-	
 	
 	switch (col){
 	case COL_ONLINE_STATUS:
@@ -216,7 +230,6 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		g_assert_not_reached ();
 	}
 
-	g_ptr_array_free (msg_info_array, TRUE);
 	return retval;
 	
 	
@@ -225,8 +238,6 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	 * in the case there is nothing to look at, 
 	 * notify the user.
 	 */
-	if (msg_info_array)
-		g_ptr_array_free (msg_info_array, TRUE);
 	if (col == COL_SUBJECT)
 		return "No item in this view";
 	else 
@@ -656,6 +667,26 @@ message_list_new (FolderBrowser *parent_folder_browser)
 }
 
 void
+message_list_set_search (MessageList *message_list, const char *search)
+{
+	if (message_list->matches) {
+		/* FIXME: free contents too ... */
+		g_list_free(message_list->matches);
+		message_list->matches = NULL;
+	}
+	if (search) {
+		CamelException ex;
+
+		printf("Searching for: %s\n", search);
+		camel_exception_init (&ex);
+		message_list->matches = camel_folder_search_by_expression(message_list->folder, search, &ex);
+	}
+
+	e_table_model_changed (message_list->table_model);
+	select_msg (message_list, 0);
+}
+
+void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
 	CamelException ex;
@@ -666,7 +697,12 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (CAMEL_IS_FOLDER (camel_folder));
 	g_return_if_fail (camel_folder_has_summary_capability (camel_folder));
-	
+
+	if (message_list->matches) {
+		/* FIXME: free contents too ... */
+		g_list_free(message_list->matches);
+		message_list->matches = NULL;
+	}
 	
 	camel_exception_init (&ex);
 	
