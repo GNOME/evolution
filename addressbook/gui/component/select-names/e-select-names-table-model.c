@@ -27,12 +27,13 @@ enum {
 static void e_select_names_table_model_init       (ESelectNamesTableModel *model);
 static void e_select_names_table_model_class_init (ESelectNamesTableModelClass *klass);
 
-static void e_select_names_table_model_destroy    (GtkObject *object);
+static void e_select_names_table_model_dispose      (GObject *object);
 static void e_select_names_table_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_select_names_table_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_select_names_table_model_model_changed (ESelectNamesModel *source,
 						      ESelectNamesTableModel *model);
 
+static ETableModelClass *parent_class = NULL;
 
 static void
 e_select_names_table_model_add_source (ESelectNamesTableModel *model,
@@ -41,9 +42,9 @@ e_select_names_table_model_add_source (ESelectNamesTableModel *model,
 	model->source = source;
 	if (model->source)
 		g_object_ref(model->source);
-	model->source_changed_id = g_signal_connect(GTK_OBJECT(model->source), "changed",
-						      G_CALLBACK(e_select_names_table_model_model_changed),
-						      model);
+	model->source_changed_id = g_signal_connect(model->source, "changed",
+						    G_CALLBACK(e_select_names_table_model_model_changed),
+						    model);
 }
 
 static void
@@ -145,14 +146,16 @@ fill_in_info (ESelectNamesTableModel *model)
 static void
 clear_info (ESelectNamesTableModel *model)
 {
-	int i;
-	for (i = 0; i < model->count; i++) {
-		g_free(model->data[i].name);
-		g_free(model->data[i].email);
+	if (model->data) {
+		int i;
+		for (i = 0; i < model->count; i++) {
+			g_free(model->data[i].name);
+			g_free(model->data[i].email);
+		}
+		g_free(model->data);
+		model->data = NULL;
+		model->count = -1;
 	}
-	g_free(model->data);
-	model->data = NULL;
-	model->count = -1;
 }
 
 /*
@@ -168,6 +171,9 @@ e_select_names_table_model_dispose (GObject *object)
 
 	e_select_names_table_model_drop_source (model);
 	clear_info(model);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -331,6 +337,8 @@ e_select_names_table_model_class_init (ESelectNamesTableModelClass *klass)
 
 	object_class = G_OBJECT_CLASS(klass);
 	table_model_class = E_TABLE_MODEL_CLASS(klass);
+
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = e_select_names_table_model_dispose;
 	object_class->get_property = e_select_names_table_model_get_property;

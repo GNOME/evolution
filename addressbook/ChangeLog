@@ -1,5 +1,36 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-model.h: parent class
+	is GObjectClass.
+
+	* gui/component/select-names/e-simple-card-bonobo.c
+	(impl_dispose): guard against multiple invocations, and chain
+	dispose.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_dispose): guard against multiple invocations.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_dispose): guard against multiple
+	invocations.
+	(e_select_names_text_model_set_source): fix casts.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(e_select_names_table_model_add_source): remove the GTK_OBJECT
+	cast, fixes a warning.
+	(clear_info): guard against multiple invocations from ::dispose.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_dispose): same.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_dispose): same.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_dispose): guard against multiple invocations.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/contact-list-editor.glade: convert to glade-2
 
 	* gui/contact-list-editor/e-contact-list-editor.c: port work.

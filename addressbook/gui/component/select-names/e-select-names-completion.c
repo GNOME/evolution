@@ -791,19 +791,22 @@ e_select_names_completion_dispose (GObject *object)
 {
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
 
-	if (comp->priv->text_model)
-		g_object_unref (comp->priv->text_model);
+	if (comp->priv) {
+		if (comp->priv->text_model)
+			g_object_unref (comp->priv->text_model);
 
-	e_select_names_completion_clear_book_data (comp);
+		e_select_names_completion_clear_book_data (comp);
 
-	g_free (comp->priv->waiting_query);
-	g_free (comp->priv->query_text);
+		g_free (comp->priv->waiting_query);
+		g_free (comp->priv->query_text);
 
-	g_free (comp->priv->cached_query_text);
-	g_list_foreach (comp->priv->cached_cards, (GFunc)g_object_unref, NULL);
-	g_list_free (comp->priv->cached_cards);
+		g_free (comp->priv->cached_query_text);
+		g_list_foreach (comp->priv->cached_cards, (GFunc)g_object_unref, NULL);
+		g_list_free (comp->priv->cached_cards);
 
-	g_free (comp->priv);
+		g_free (comp->priv);
+		comp->priv = NULL;
+	}
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);

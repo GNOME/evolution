@@ -61,6 +61,7 @@ struct _ESelectNamesModelPrivate {
 	gboolean pending_changed;
 };
 
+static GObjectClass *parent_class = NULL;
 
 static void e_select_names_model_init (ESelectNamesModel *model);
 static void e_select_names_model_class_init (ESelectNamesModelClass *klass);
@@ -97,6 +98,7 @@ e_select_names_model_class_init (ESelectNamesModelClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS(klass);
+	parent_class = g_type_class_peek_parent (klass);
 
 	e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED] =
 		g_signal_new ("changed",
@@ -139,15 +141,20 @@ static void
 e_select_names_model_dispose (GObject *object)
 {
 	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (object);
-	
-	g_free (model->priv->title);
-	g_free (model->priv->id);
 
-	g_list_foreach (model->priv->data, (GFunc) g_object_unref, NULL);
-	g_list_free (model->priv->data);
+	if (model->priv) {
+		g_free (model->priv->title);
+		g_free (model->priv->id);
 
-	g_free (model->priv);
+		g_list_foreach (model->priv->data, (GFunc) g_object_unref, NULL);
+		g_list_free (model->priv->data);
 
+		g_free (model->priv);
+		model->priv = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 

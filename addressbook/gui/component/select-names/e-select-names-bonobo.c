@@ -378,14 +378,20 @@ impl_dispose (GObject *object)
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
 
-	if (priv->manager->names) {
-		gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
-		priv->manager->names = NULL;
+	if (priv) {
+		if (priv->manager->names) {
+			gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
+			priv->manager->names = NULL;
+		}
+
+		g_object_unref (priv->manager);
+
+		g_free (priv);
+		select_names->priv = NULL;
 	}
 
-	g_object_unref (priv->manager);
-
-	g_free (priv);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 

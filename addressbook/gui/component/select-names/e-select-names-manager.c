@@ -38,6 +38,7 @@ enum {
 
 static guint e_select_names_manager_signals[LAST_SIGNAL] = { 0 };
 
+static GObjectClass *parent_class = NULL;
 
 typedef struct {
 	char *id;
@@ -60,7 +61,7 @@ typedef struct {
 static void e_select_names_manager_init (ESelectNamesManager *manager);
 static void e_select_names_manager_class_init (ESelectNamesManagerClass *klass);
 
-static void e_select_names_manager_destroy (GtkObject *object);
+static void e_select_names_manager_dispose (GObject *object);
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
@@ -605,9 +606,9 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 				   manager);
 
 		g_signal_connect(manager->names,
-				   "destroy",
-				   G_CALLBACK(gtk_widget_destroyed), 
-				   &manager->names);
+				 "destroy",
+				 G_CALLBACK(gtk_widget_destroyed), 
+				 &manager->names);
 
 		gtk_widget_show(GTK_WIDGET(manager->names));
 	}
@@ -638,21 +639,36 @@ e_select_names_manager_dispose (GObject *object)
 		manager->names = NULL;
 	}
 
-	g_list_foreach (manager->sections, (GFunc) e_select_names_manager_section_free, NULL);
-	g_list_free (manager->sections);
-	manager->sections = NULL;
+	if (manager->sections) {
+		g_list_foreach (manager->sections, (GFunc) e_select_names_manager_section_free, NULL);
+		g_list_free (manager->sections);
+		manager->sections = NULL;
+	}
 
-	g_list_foreach (manager->entries, (GFunc) e_select_names_manager_entry_free, NULL);
-	g_list_free (manager->entries);
-	manager->entries = NULL;
+	if (manager->entries) {
+		g_list_foreach (manager->entries, (GFunc) e_select_names_manager_entry_free, NULL);
+		g_list_free (manager->entries);
+		manager->entries = NULL;
+	}
 
-	g_list_foreach (manager->completion_books, (GFunc) g_object_unref, NULL);
-	g_list_free (manager->completion_books);
-	manager->completion_books = NULL;
+	if (manager->completion_books) {
+		g_list_foreach (manager->completion_books, (GFunc) g_object_unref, NULL);
+		g_list_free (manager->completion_books);
+		manager->completion_books = NULL;
+	}
 
-	g_signal_handler_disconnect (e_book_get_config_database(), manager->listener_id);
+	if (manager->listener_id) {
+		g_signal_handler_disconnect (e_book_get_config_database(), manager->listener_id);
+		manager->listener_id = 0;
+	}
 
-	g_free (manager->cached_folder_list);
+	if (manager->cached_folder_list) {
+		g_free (manager->cached_folder_list);
+		manager->cached_folder_list = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -661,6 +677,7 @@ e_select_names_manager_class_init (ESelectNamesManagerClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS(klass);
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = e_select_names_manager_dispose;
 

@@ -592,16 +592,37 @@ e_select_names_dispose (GObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 
-	g_object_unref(e_select_names->gui);
-	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
-	g_hash_table_destroy(e_select_names->children);
-	g_object_unref(e_select_names->without);
-	g_object_unref(e_select_names->adapter);
-	g_object_unref(e_select_names->model);
+	if (e_select_names->gui) {
+		g_object_unref(e_select_names->gui);
+		e_select_names->gui = NULL;
+	}
 
-	g_free(e_select_names->def);
+	if (e_select_names->children) {
+		g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
+		g_hash_table_destroy(e_select_names->children);
+		e_select_names->children = NULL;
+	}
 
-	(*(G_OBJECT_CLASS(parent_class))->dispose)(object);
+	if (e_select_names->without) {
+		g_object_unref(e_select_names->without);
+		e_select_names->without = NULL;
+	}
+	if (e_select_names->adapter) {
+		g_object_unref(e_select_names->adapter);
+		e_select_names->adapter = NULL;
+	}
+	if (e_select_names->model) {
+		g_object_unref(e_select_names->model);
+		e_select_names->model = NULL;
+	}
+
+	if (e_select_names->def) {
+		g_free(e_select_names->def);
+		e_select_names->def = NULL;
+	}
+
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 GtkWidget*

@@ -29,13 +29,13 @@ typedef struct _ESelectNamesModelClass ESelectNamesModelClass;
 struct _ESelectNamesModelPrivate;
 
 struct _ESelectNamesModel {
-	GtkObject object;
+	GObject object;
 	
 	struct _ESelectNamesModelPrivate *priv;
 };
 
 struct _ESelectNamesModelClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*changed) (ESelectNamesModel *model);
 	void (*resized) (ESelectNamesModel *model, gint index, gint old_len, gint new_len);

@@ -140,13 +140,17 @@ impl_dispose (GObject *object)
 	simple_card = E_SIMPLE_CARD_BONOBO (object);
 	priv = simple_card->priv;
 
-	if (priv->card_simple) {
-		g_object_unref (priv->card_simple);
+	if (priv) {
+		if (priv->card_simple) {
+			g_object_unref (priv->card_simple);
+		}
+
+		g_free (priv);
+		simple_card->priv = NULL;
 	}
 
-	g_free (priv);
-
-	simple_card->priv = NULL;
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 

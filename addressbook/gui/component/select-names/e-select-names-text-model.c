@@ -163,8 +163,14 @@ e_select_names_text_model_dispose (GObject *object)
 	
 	model = E_SELECT_NAMES_TEXT_MODEL (object);
 
-	g_free (model->text);
-	g_free (model->sep);
+	if (model->text) {
+		g_free (model->text);
+		model->text = NULL;
+	}
+	if (model->sep) {
+		g_free (model->sep);
+		model->sep = NULL;
+	}
 	
 	e_select_names_text_model_set_source (model, NULL);
 	
@@ -264,13 +270,13 @@ e_select_names_text_model_set_source (ESelectNamesTextModel *model,
 
 	if (model->source) {
 		g_object_ref (model->source);
-		model->source_changed_id = g_signal_connect (GTK_OBJECT(model->source),
+		model->source_changed_id = g_signal_connect (model->source,
 							     "changed",
-							     GTK_SIGNAL_FUNC (changed_cb),
+							     G_CALLBACK (changed_cb),
 							     model);
-		model->source_resize_id = g_signal_connect (GTK_OBJECT(model->source),
+		model->source_resize_id = g_signal_connect (model->source,
 							    "resized",
-							    GTK_SIGNAL_FUNC (resize_cb),
+							    G_CALLBACK (resize_cb),
 							    model);
 	}
 }
