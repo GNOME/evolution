@@ -1,3 +1,12 @@
+2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-offline-handler.c (update_dialog_tree_view): Renamed
+	from update_dialog_clist, Ported to GtkTreeView.
+	(update_dialog_tree_view_hash_foreach): Likewise.
+
+	* glade/e-active-connection-dialog.glade: Rename
+	"active_connection_clist" to "active_connection_treeview".
+
 2003-03-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-about-box.c: Make Radek's surname correct, Doulík,

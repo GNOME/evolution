@@ -37,6 +37,8 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtktreeview.h>
 #include <gtk/gtktypeutils.h>
 #include <gtk/gtkwidget.h>
 
@@ -520,28 +522,24 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 /* The confirmation dialog.  */
 
 static void
-update_dialog_clist_hash_foreach (void *key,
-				  void *data,
-				  void *user_data)
+update_dialog_tree_view_hash_foreach (void *key,
+				      void *data,
+				      void *user_data)
 {
 	ComponentInfo *component_info;
 	const GNOME_Evolution_Connection *p;
-	GtkWidget *clist;
+	GtkTreeModel *model = GTK_TREE_MODEL (user_data);
 	int i;
-
-	clist = GTK_WIDGET (user_data);
 
 	component_info = (ComponentInfo *) data;
 	for (i = 0, p = component_info->active_connection_list->_buffer;
 	     i < component_info->active_connection_list->_length;
 	     i++, p++) {
-		char *columns[3];
+		GtkTreeIter iter;
+		char *host = g_strdup_printf ("%s (%s)", p->hostName, p->type);
 
-		columns[0] = p->hostName;
-		columns[1] = p->type;
-		columns[2] = NULL;
-
-		gtk_clist_prepend (GTK_CLIST (clist), columns);
+		gtk_list_store_prepend (GTK_LIST_STORE (model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, host, -1);
 	}
 }
 
@@ -549,23 +547,29 @@ static void
 update_dialog_clist (EShellOfflineHandler *offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
-	GtkWidget *clist;
+	GtkWidget *tree_view;
+	GtkTreeModel *model;
+	GtkTreeModel *model_sort;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
 
 	priv = offline_handler->priv;
 	if (priv->dialog_gui == NULL)
 		return;
 
-	clist = glade_xml_get_widget (priv->dialog_gui, "active_connection_clist");
+        tree_view = glade_xml_get_widget (priv->dialog_gui, "active_connection_treeview");
+	g_assert (GTK_IS_TREE_VIEW (tree_view));
 
-	gtk_clist_set_auto_sort (GTK_CLIST (clist), TRUE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
 
-	gtk_clist_freeze (GTK_CLIST (clist));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("Host", renderer, "text", 0, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
-	/* Populate the GtkCList.  */
-	gtk_clist_clear (GTK_CLIST (clist));
-	g_hash_table_foreach (priv->id_to_component_info, update_dialog_clist_hash_foreach, clist);
+	model = gtk_list_store_new (1, G_TYPE_STRING);
+	g_hash_table_foreach (priv->id_to_component_info, update_dialog_tree_view_hash_foreach, model);
 
-	gtk_clist_thaw (GTK_CLIST (clist));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), model);
 }
 
 static void
