@@ -2938,14 +2938,15 @@ done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
 
-	do_mail_print (fb, preview);
+	if (msg)
+		do_mail_print (fb, preview);
 }
 
 /* Ack!  Most of this is copied from folder-browser.c */
 static void
 do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
 {
-	if (!fb->preview_shown) {
+	if (!fb->preview_shown || fb->mail_display->current_message == NULL) {
 		/* If the preview pane is closed, we have to do some
 		   extra magic to load the message. */
 		struct blarg_this_sucks *blarg = g_new (struct blarg_this_sucks, 1);

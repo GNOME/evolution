@@ -1,3 +1,14 @@
+2002-07-24  Peter Williams  <peterw@ximian.com>
+
+	* mail-callbacks.c (do_mail_fetch_and_print): Check for whether
+	current_message is NULL as well as preview_shown (if we tried to
+	load the message and failed, as may happen in offline mode.)
+	(done_message_selected): Only print if we actually got the message.
+
+	* folder-browser.c (folder_browser_query_changed): New function,
+	use this on the query_changed signal. Don't run the search if
+	they only changed the dropdown.
+
 2002-07-23  Peter Williams  <peterw@ximian.com>
 
 	* mail-ops.c (get_store_get): Call camel_session_get_service

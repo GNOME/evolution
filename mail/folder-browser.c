@@ -1185,6 +1185,15 @@ folder_browser_search_do_search (ESearchBar *esb, FolderBrowser *fb)
 	return;
 }
 
+static void
+folder_browser_query_changed (ESearchBar *esb, FolderBrowser *fb)
+{
+	if (e_search_bar_get_item_id (esb) != E_FILTERBAR_ADVANCED_ID)
+		return;
+
+	folder_browser_search_do_search (esb, fb);
+}
+
 void
 folder_browser_toggle_preview (BonoboUIComponent           *component,
 			       const char                  *path,
@@ -2289,7 +2298,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_signal_connect (GTK_OBJECT (fb->search), "search_activated",
 			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
 	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",
-			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
+			    GTK_SIGNAL_FUNC (folder_browser_query_changed), fb);
 	
 	
 	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),
