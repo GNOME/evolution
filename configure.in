@@ -297,6 +297,11 @@ BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkh
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
+GNOME_VFS_LIBS="`gnome-config --libs vfs`"
+GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
+AC_SUBST(GNOME_VFS_LIBS)
+AC_SUBST(GNOME_VFS_CFLAGS)
+
 dnl ******************************
 dnl GtkHTML checking
 dnl ******************************
