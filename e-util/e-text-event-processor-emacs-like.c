@@ -56,9 +56,9 @@ static const ETextEventProcessorCommand control_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* t */
 	{ E_TEP_START_OF_LINE,      E_TEP_DELETE, 0, "" }, /* u */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* v */
-	{ E_TEP_BACKWARD_WORD,      E_TEP_DELETE, 0, "" }, /* w */
+	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* w */
 	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* x */
-	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* y */
+	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* y */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" }           /* z */
 };
 
@@ -159,6 +159,20 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			tep_el->mouse_down = TRUE;
 		}
 		break;
+	case GDK_2BUTTON_PRESS:
+		if (event->button.button == 1) {
+			command.action = E_TEP_SELECT;
+			command.position = E_TEP_SELECT_WORD;
+			command.time = event->button.time;
+		}
+		break;
+	case GDK_3BUTTON_PRESS:
+		if (event->button.button == 1) {
+			command.action = E_TEP_SELECT;
+			command.position = E_TEP_SELECT_ALL;
+			command.time = event->button.time;
+		}
+		break;
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1) {
 			command.action = E_TEP_UNGRAB;
@@ -166,6 +180,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
 			command.time = event->button.time;
 			tep_el->mouse_down = FALSE;
+			command.action = E_TEP_NOP;
 		} else if (event->button.button == 2) {
 			command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
@@ -299,7 +314,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.string = control_keys[(int) (key.keyval - 'a')].string;
 					}
 
-					if (key.keyval == 'x') {
+					if (key.keyval == 'x' || key.keyval == 'w') {
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
 						gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);

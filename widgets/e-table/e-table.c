@@ -770,7 +770,6 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlGrouping;
 	
 	GtkWidget *scrolledwindow;
-	GtkWidget *vbox;
 
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -803,7 +802,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
 	
-	gtk_container_add (GTK_CONTAINER (scrolledwindow), e_table->table_canvas);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), GTK_WIDGET(e_table->table_canvas));
 	gtk_widget_show (scrolledwindow);
 	
 	/*

@@ -193,6 +193,9 @@ struct _EText {
 	guint needs_calc_height : 1;    /* Need calc_height */
 	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
+
+	gint dbl_timeout;               /* Double click timeout */
+	gint tpl_timeout;               /* Triple click timeout */
 };
 
 struct _ETextClass {

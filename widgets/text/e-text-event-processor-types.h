@@ -68,7 +68,11 @@ enum _ETextEventProcessorCommandPosition {
 	E_TEP_BACKWARD_PARAGRAPH,
 
 	E_TEP_FORWARD_PAGE,
-	E_TEP_BACKWARD_PAGE
+	E_TEP_BACKWARD_PAGE,
+
+	E_TEP_SELECT_WORD,
+	E_TEP_SELECT_ALL
+
 };
 
 enum _ETextEventProcessorCommandAction {

@@ -1,3 +1,17 @@
+2000-04-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c: Made the tooltip show up in the correct
+	place and configuration when using the "max_lines", "anchor"
+	(untested), or "justification" arguments.
+
+From a patch by Iain Holmes <ih@csd.abdn.ac.uk>
+	
+	* widgets/e-text/e-text-event-processor-emacs-like.c,
+	widget/e-text/e-text-event-processor-types.h,
+	widgets/e-text/e-text.c, widgets/e-text/e-text.h: Changed C-w and
+	C-y to control the X clipboard.  Added double and triple click
+	events.
+
 2000-04-24  Fatih Demir	<kabalak@gmx.net>
 
 	* configure.in : Added tr to ALL_LINGUAS .
