@@ -2844,7 +2844,10 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 	else
 		newuid = NULL;
 
-	if ((newuid == NULL && ml->cursor_uid == NULL)
+	/* If the selection isn't empty, then we ignore the no-uid check, since this event
+	   is also used for other updating.  If it is empty, it might just be a setup event
+	   from etree which we do need to ignore */
+	if ((newuid == NULL && ml->cursor_uid == NULL && uids->len == 0)
 	    || (newuid != NULL && ml->cursor_uid != NULL && !strcmp(ml->cursor_uid, newuid))) {
 		/* noop */
 	} else {

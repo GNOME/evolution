@@ -1924,7 +1924,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 void
 mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 {
-	GtkWidget *stores, *transports, *item;
+	GtkWidget *stores, *transports, *item, *none;
 	GtkWidget *fstore = NULL, *ftransport = NULL;
 	int si = 0, hstore = 0, ti = 0, htransport = 0;
 	int max_width = 0;
@@ -1950,6 +1950,15 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	/* Construct source/transport option menus */
 	stores = gtk_menu_new ();
 	transports = gtk_menu_new ();
+
+	/* add a "None" option to the stores menu */
+	none = item = gtk_menu_item_new_with_label (_("None"));
+	g_object_set_data ((GObject *) item, "provider", NULL);
+	g_signal_connect (item, "activate", G_CALLBACK (source_type_changed), gui);
+	gtk_menu_shell_append(GTK_MENU_SHELL(stores), item);
+	gtk_widget_show (item);
+	si++;
+
 	providers = camel_provider_list(TRUE);
 	
 	/* sort the providers, remote first */
@@ -2000,7 +2009,8 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 			if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
 				gtk_widget_set_sensitive (item, FALSE);
 			
-			if (!ftransport) {
+			if (!ftransport
+			    && !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 				ftransport = item;
 				htransport = ti;
 			}
@@ -2035,18 +2045,9 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 	g_list_free (providers);
 	
-	/* add a "None" option to the stores menu */
-	item = gtk_menu_item_new_with_label (_("None"));
-	g_object_set_data ((GObject *) item, "provider", NULL);
-	g_signal_connect (item, "activate", G_CALLBACK (source_type_changed), gui);
-	
-	gtk_menu_shell_append(GTK_MENU_SHELL(stores), item);
-	
-	gtk_widget_show (item);
-	
 	if (!fstore || !source_proto) {
-		fstore = item;
-		hstore = si;
+		fstore = none;
+		hstore = 0;
 	}
 	
 	/* set the menus on the optionmenus */

@@ -1,5 +1,16 @@
 2004-05-17  Not Zed  <NotZed@Ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_setup): put the None item
+	at the head of the providers list.
+	(mail_account_gui_setup): only set the transport default fallback
+	if it is not a STORE_AND_TRANSPORT type provider (since that was
+	just disabled).  #57939.
+
+	* message-list.c (on_selection_changed_cmd): only NOOP if we have
+	no selection and no uid, if we have a selection and no uid, then
+	always update.  Fixes #58267 without breaking the double-load
+	thing.
+
 	* em-folder-view.c (em_folder_view_open_selected): keep the hide
 	deleted status.  Makes #51082 work at last.
 
