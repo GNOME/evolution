@@ -149,6 +149,8 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 
+	puts (__FUNCTION__);
+
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
@@ -169,6 +171,8 @@ popup_storage_set_view_close_button_clicked (ETitleBar *title_bar,
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 
+	puts (__FUNCTION__);
+
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
@@ -179,24 +183,6 @@ popup_storage_set_view_close_button_clicked (ETitleBar *title_bar,
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
-}
-
-static void
-disconnect_popup_signals (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
-				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
-				       shell_view);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view),
-				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
-				       shell_view);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_title_bar),
-				       GTK_SIGNAL_FUNC (popup_storage_set_view_close_button_clicked),
-				       shell_view);
 }
 
 static void
@@ -228,6 +214,29 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "close_button_clicked",
 			    GTK_SIGNAL_FUNC (popup_storage_set_view_close_button_clicked), shell_view);
+}
+
+static void
+disconnect_popup_signals (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	puts (__FUNCTION__);
+
+	priv = shell_view->priv;
+
+	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
+				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
+				       shell_view);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view),
+				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
+				       shell_view);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_title_bar),
+				       GTK_SIGNAL_FUNC (popup_storage_set_view_close_button_clicked),
+				       shell_view);
+	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
+				       GTK_SIGNAL_FUNC (storage_set_view_box_map_cb),
+				       shell_view);
 }
 
 static void

@@ -1,3 +1,8 @@
+2000-07-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (disconnect_popup_signals): Disconnect the "map"
+	signal handler too.
+
 2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-folder-creation-dialog.c (add_folder_types): Work around
