@@ -4,8 +4,8 @@ INCLUDES =						\
 
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = org-gnome-mark-calendar-offline.eplug
-plugin_LTLIBRARIES = liborg-gnome-mark-calendar-offline.la
+plugin_DATA = org-gnome-select-one-source.eplug
+plugin_LTLIBRARIES = liborg-gnome-select-one-source.la
 
-liborg_gnome_mark_calendar_offline_la_SOURCES = mark-calendar-offline.c
-liborg_gnome_mark_calendar_offline_la_LDFLAGS = -module -avoid-version
+liborg_gnome_select_one_source_la_SOURCES = select-one-source.c
+liborg_gnome_select_one_source_la_LDFLAGS = -module -avoid-version
