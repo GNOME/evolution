@@ -32,9 +32,9 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 
-	table_browser_test ();
-	multi_cols_test ();
-	check_test ();
+/*  	table_browser_test (); */
+/*  	multi_cols_test (); */
+/*  	check_test (); */
 
 	e_table_test ();
 	

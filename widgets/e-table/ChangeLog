@@ -1,3 +1,43 @@
+2000-09-11  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-header-item.c (ethi_maybe_start_drag): Set maybe_drag
+	to FALSE. Seems to fix a crash for me.
+	(ethi_event): Handle the double click on the dividers.
+
+	* e-table-header.c (e_table_header_class_init): Add a 
+	"request_width" signal.
+
+	* e-table-item.c (eti_add_header_model): Connect to the
+	"request_width" signal.
+	(eti_request_column_width): Call the e_cell_max_width on the
+	appropriate column.
+
+	* e-cell.c (e_cell_max_width): Call the max_width method.
+
+	* e-cell-text.c (ect_max_width): Calculate the max width.
+
+	* e-cell-toggle.c (etog_max_width): Calculate the max width.
+
+	* e-cell-tree.c (ect_max_width): Same.
+
+2000-09-11  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-header-item.c (ethi_drag_motion): Check if the
+	type of the dragged item is a etable header item.
+
+2000-09-11  Iain Holmes  <iain@helixcode.com>
+	
+	* e-table-header-item.c (set_cursor): Check if the column
+	is resizeable before setting the cursor to E_CURSOR_SIZE_X 
+
+2000-09-11  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-header-item.c: Use the font and button drawing
+	from the theme.
+
+	* e-table.c: Use the height of the font to set the size for
+	the header_canvas, instead of hard coding it to 16
+
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (tree_example_2_LDADD): Add `$(GNOME_VFS_LIBS)' and
@@ -17,6 +57,7 @@
 
 	* e-tree-simple.c: Fixed the ETableModel callbacks.
 
+>>>>>>> 1.273
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-tree-example-1.c: Added base ETableModel functions.

@@ -198,3 +198,11 @@ e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, 
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->leave_edit (
 		ecell_view, model_col, view_col, row, edit_context);
 }
+
+int
+e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
+{
+	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->max_width 
+		(ecell_view, model_col, view_col);
+}
+	      

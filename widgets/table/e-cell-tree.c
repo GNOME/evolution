@@ -353,6 +353,67 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 }
 
 /*
+ * ECell::max_width method
+ */
+static int
+ect_max_width (ECellView *ecell_view, int model_col, int view_col)
+{
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+	int row;
+	int number_of_rows;
+	int max_width = 0;
+	int width = 0;
+
+	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
+	
+	for (row = 0; row < number_of_rows; row++) {
+		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
+		ETreePath *node;
+		GdkPixbuf *node_image;
+		int node_image_width = 0, node_image_height = 0;
+		ETreePath *parent_node;
+		
+		int offset, subcell_offset;
+		gboolean expanded, expandable;
+		
+		node = e_cell_tree_get_node (tree_model, row);
+		
+		offset = offset_of_node (tree_model, node);
+		expandable = e_tree_model_node_is_expandable (tree_model, node);
+		expanded = e_tree_model_node_is_expanded (tree_model, node);
+		subcell_offset = offset;
+
+		node_image = e_tree_model_icon_of_node (tree_model, node);
+
+		if (node_image) {
+			node_image_width = gdk_pixbuf_get_width (node_image);
+			node_image_height = gdk_pixbuf_get_height (node_image);
+		}
+
+		width = subcell_offset + node_image_width;
+
+		if (expandable) {
+			GdkPixbuf *image;
+
+			image = (expanded 
+				 ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
+				 : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
+
+			width += gdk_pixbuf_get_width(image);
+		}
+
+		width += e_cell_max_width (tree_view->subcell_view, model_col, 
+					   view_col);
+
+		max_width = MAX (max_width, width);
+	}
+
+	return max_width;
+}
+
+		
+		
+/*
  * ECellView::enter_edit method
  */
 static void *
@@ -510,6 +571,7 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 	ecc->leave_edit = ect_leave_edit;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
+	ecc->max_width = ect_max_width;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }

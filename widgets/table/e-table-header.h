@@ -40,6 +40,7 @@ typedef struct {
 
 	void (*structure_change) (ETableHeader *eth);
 	void (*dimension_change) (ETableHeader *eth, int col);
+	int (*request_width) (ETableHeader *eth, int col);
 } ETableHeaderClass;
 
 GtkType        e_table_header_get_type   (void);

@@ -24,6 +24,7 @@ enum {
 enum {
 	STRUCTURE_CHANGE,
 	DIMENSION_CHANGE,
+	REQUEST_WIDTH,
 	LAST_SIGNAL
 };
 
@@ -158,6 +159,13 @@ e_table_header_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, dimension_change),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+	eth_signals [REQUEST_WIDTH] = 
+		gtk_signal_new ("request_width",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableHeaderClass, request_width),
+				gtk_marshal_INT__INT,
+				GTK_TYPE_INT, 1, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, eth_signals, LAST_SIGNAL);
 }

@@ -203,7 +203,17 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 {
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->header_canvas),
-		0, 0, alloc->width - 1, COLUMN_HEADER_HEIGHT - 1);
+		0, 0, alloc->width - 1, /*  COLUMN_HEADER_HEIGHT - 1 */
+		E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1);
+
+	/* When the header item is created ->height == 0,
+	   as the font is only created when everything is realized.
+	   So we set the usize here as well, so that the size of the 
+	   header is correct */
+	if (GTK_WIDGET (e_table->header_canvas)->allocation.height !=
+	    E_TABLE_HEADER_ITEM (e_table->header_item)->height)
+		gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, 
+				      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
 }
 
 static void
@@ -234,7 +244,8 @@ e_table_setup_header (ETable *e_table)
 		GTK_OBJECT (e_table->header_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (header_canvas_size_allocate), e_table);
 
-	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, COLUMN_HEADER_HEIGHT);
+	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, 
+			      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
 }
 
 static gboolean

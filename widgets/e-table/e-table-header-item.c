@@ -136,18 +136,28 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 }
 
 static void
-ethi_font_load (ETableHeaderItem *ethi, char *font)
+ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 {
 	if (ethi->font)
 		gdk_font_unref (ethi->font);
-	
-	ethi->font = gdk_fontset_load (font);
-	if (ethi->font == NULL)
-		ethi->font = gdk_font_load ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
+
+	ethi->font = font;
 	
 	ethi->height = ethi->font->ascent + ethi->font->descent + HEADER_PADDING;
 	if (ethi->height < MIN_ARROW_SIZE + 4 + HEADER_PADDING)
 		ethi->height = MIN_ARROW_SIZE + 4 + HEADER_PADDING;
+}
+
+static void
+ethi_font_load (ETableHeaderItem *ethi, char *fontname)
+{
+	GdkFont *font;
+
+	font = gdk_fontset_load (fontname);
+	if (font == NULL)
+		font = gdk_font_load ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
+	
+	ethi_font_set (ethi, font);
 }
 
 static void
@@ -468,7 +478,21 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		  gint x, gint y, guint time,
 		  ETableHeaderItem *ethi)
 {
+	char *droptype, *headertype;
+
 	gdk_drag_status (context, 0, time);
+
+	droptype = gdk_atom_name (GPOINTER_TO_INT (context->targets->data));
+	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
+				      ethi->dnd_code);
+
+	if (strcmp (droptype, headertype) != 0) {
+		g_free (headertype);
+		return FALSE;
+	}
+
+	g_free (headertype);
+
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
@@ -530,6 +554,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 	int drop_col = ethi->drop_col;
 	int i;
 	ethi->drop_col = -1;
+
 	if (column < 0)
 		return;
 	for (i = 0; i < count; i++) {
@@ -634,7 +659,7 @@ ethi_realize (GnomeCanvasItem *item)
 	gdk_gc_set_foreground (ethi->gc, &c);
 
 	if (!ethi->font)
-		ethi_font_load (ethi, "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
+		ethi_font_set (ethi, GTK_WIDGET (item->canvas)->style->font);
 
 	/*
 	 * Now, configure DnD
@@ -643,7 +668,7 @@ ethi_realize (GnomeCanvasItem *item)
 	gtk_drag_dest_set (GTK_WIDGET (item->canvas), 0,
 			   ethi_drop_types, ELEMENTS (ethi_drop_types),
 			   GDK_ACTION_MOVE);
-	g_free(ethi_drop_types[0].target);
+  	g_free(ethi_drop_types[0].target); 
 
 	/* Drop signals */
 	ethi->drag_motion_id = gtk_signal_connect        (GTK_OBJECT (item->canvas), "drag_motion",
@@ -695,20 +720,23 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 {
 	GdkRectangle clip;
 	int xtra;
+
+	clip.x = x;
+	clip.y = y;
+	clip.width = width;
+	clip.height = height;
+
+	gdk_window_set_back_pixmap (GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->window, NULL, FALSE);
 	
-	gdk_draw_rectangle (
-		drawable, gc, TRUE,
-		x + 1, y + 1, width - 2, height -2);
-	
-	gtk_draw_shadow (
-		style, drawable, 
-		GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-		x , y, width, height);
+	gtk_paint_box (style, drawable,
+		       GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+		       &clip, NULL, "button",
+		       x, y, width, height);
 
 	clip.x = x + HEADER_PADDING / 2;
 	clip.y = y + HEADER_PADDING / 2;
 	clip.width = width - HEADER_PADDING;
-	clip.height = ethi->height;
+	clip.height = ethi->height - HEADER_PADDING;
 	
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
 
@@ -882,15 +910,21 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 static void
 set_cursor (ETableHeaderItem *ethi, int pos)
 {
+	int col;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
 		
 	/* We might be invoked before we are realized */
 	if (!canvas->window)
 		return;
 
-	if (is_pointer_on_division (ethi, pos, NULL, NULL))
-		e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
-	else
+	if (is_pointer_on_division (ethi, pos, NULL, &col)) {
+		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
+
+		if (ecol->resizeable)
+			e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
+		else
+			e_cursor_set (canvas->window, E_CURSOR_ARROW);
+	} else
 		e_cursor_set (canvas->window, E_CURSOR_ARROW);
 }
 
@@ -909,9 +943,11 @@ ethi_maybe_start_drag (ETableHeaderItem *ethi, GdkEventMotion *event)
 	if (!ethi->maybe_drag)
 		return FALSE;
 
-	if (ethi->eth->col_count < 2)
+	if (ethi->eth->col_count < 2) {
+		ethi->maybe_drag = FALSE;
 		return FALSE;
-	
+	}
+		
 	if (MAX (abs (ethi->click_x - event->x),
 		 abs (ethi->click_y - event->y)) <= 3)
 		return FALSE;
@@ -1280,6 +1316,16 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 		if (e->button.button != 1)
 			break;
+		else {
+			int width = 0;
+			gtk_signal_emit_by_name (GTK_OBJECT (ethi->eth),
+						 "request_width",
+						 (int)ethi->resize_col, &width);
+			/* Add 10 to stop it from "..."ing */
+			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
+
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
+		}
 		break;
 		
 	case GDK_BUTTON_RELEASE: {
@@ -1400,6 +1446,7 @@ ethi_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 		
+	gtk_object_class_add_signals (object_class, ethi_signals, LAST_SIGNAL);
 }
 
 static void

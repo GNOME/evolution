@@ -460,6 +460,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gboolean selected;
 	EFontStyle style;
 
+	EFontStyle style = E_FONT_PLAIN;
+
 	selected = flags & E_CELL_SELECTED;
 
 	if (edit){
@@ -1267,6 +1269,32 @@ ect_print_height (ECellView *ecell_view, GnomePrintContext *context,
 	return 16;
 }
 
+static int
+ect_max_width (ECellView *ecell_view,
+	       int model_col,
+	       int view_col)
+{
+	/* New ECellText */
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	EFont *font;
+	int row;
+	int number_of_rows;
+	int max_width = 0;
+
+	font = text_view->font;
+	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
+
+	for (row = 0; row < number_of_rows; row++) {
+		CurrentCell cell;
+		build_current_cell (&cell, text_view, model_col, view_col, row);
+		split_into_lines (&cell);
+		calc_line_widths (&cell);
+		max_width = MAX (max_width, cell.breaks->max_width);
+	}
+	
+	return max_width;
+}
+
 /*
  * GtkObject::destroy method
  */
@@ -1357,6 +1385,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->leave_edit = ect_leave_edit;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
+	ecc->max_width = ect_max_width;
 
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;

@@ -69,6 +69,7 @@ typedef struct {
 				    gdouble width, gdouble height);
 	gdouble    (*print_height) (ECellView *ecell_view, GnomePrintContext *context,
 				    int model_col, int view_col, int row, gdouble width);
+	int        (*max_width) (ECellView *ecell_view, int model_col, int view_col);
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
@@ -88,6 +89,7 @@ void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context,
 			      double width, double height);
 gdouble    e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 				int model_col, int view_col, int row, gdouble width);
+int        e_cell_max_width (ECellView *ecell_view, int model_col, int view_col);
 void       e_cell_focus     (ECellView *ecell_view, int model_col, int view_col, int row,
 			     int x1, int y1, int x2, int y2);
 void       e_cell_unfocus   (ECellView *ecell_view);

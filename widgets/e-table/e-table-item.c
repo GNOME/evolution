@@ -367,7 +367,9 @@ eti_remove_header_model (ETableItem *eti)
 			       eti->header_structure_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->header),
 			       eti->header_dim_change_id);
-
+	gtk_signal_disconnect (GTK_OBJECT (eti->header),
+			       eti->header_request_width_id);
+	
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
 		eti_detach_cell_views (eti);
@@ -377,6 +379,7 @@ eti_remove_header_model (ETableItem *eti)
 
 	eti->header_structure_change_id = 0;
 	eti->header_dim_change_id = 0;
+	eti->header_request_width_id = 0;
 	eti->header = NULL;
 }
 
@@ -826,6 +829,18 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 }
 
+static int
+eti_request_column_width (ETableHeader *eth, int col, ETableItem *eti)
+{
+	int width = 0;
+	
+	if (eti->cell_views) {
+		width = e_cell_max_width (eti->cell_views[col], view_to_model_col(eti, col), col);
+	}
+
+	return width;
+}
+
 static void
 eti_add_header_model (ETableItem *eti, ETableHeader *header)
 {
@@ -843,6 +858,10 @@ eti_add_header_model (ETableItem *eti, ETableHeader *header)
 	eti->header_structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
 		GTK_SIGNAL_FUNC (eti_header_structure_changed), eti);
+
+	eti->header_request_width_id = gtk_signal_connect 
+		(GTK_OBJECT (header), "request_width",
+		 GTK_SIGNAL_FUNC (eti_request_column_width), eti);
 }
 
 /*
