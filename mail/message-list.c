@@ -107,8 +107,6 @@ static gint on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent 
 static char *filter_date (time_t date);
 static char *filter_size (int size);
 
-static void save_tree_state(MessageList *ml);
-
 static void folder_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 static void message_changed (CamelObject *o, gpointer event_data, gpointer user_data);
 
@@ -1000,7 +998,7 @@ message_list_create_extras (void)
 }
 
 static void
-save_header_state(MessageList *ml)
+save_tree_state(MessageList *ml)
 {
 	char *filename;
 
@@ -1009,6 +1007,10 @@ save_header_state(MessageList *ml)
 
 	filename = mail_config_folder_to_cachename(ml->folder, "et-header-");
 	e_tree_save_state(ml->tree, filename);
+	g_free(filename);
+
+	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
+	e_tree_save_expanded_state(ml->tree, filename);
 	g_free(filename);
 }
 
@@ -1053,8 +1055,8 @@ message_list_setup_etree(MessageList *message_list)
 		
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
 		printf ("folder name is '%s'\n", name);
+
 		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
-		
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
 			e_tree_load_state (message_list->tree, path);
@@ -1067,8 +1069,15 @@ message_list_setup_etree(MessageList *message_list)
 			
 			e_tree_set_state (message_list->tree, state);
 		}
-		
 		g_free (path);
+		
+		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
+		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+			/* build based on saved file */
+			e_tree_load_expanded_state (message_list->tree, path);
+		}
+		g_free (path);
+
 		g_free (name);
 	}
 }
@@ -1101,7 +1110,6 @@ message_list_destroy (GtkObject *object)
 
 	if (message_list->folder) {
 		save_tree_state(message_list);
-		save_header_state(message_list);
 		hide_save_state(message_list);
 	}
 
@@ -1277,92 +1285,6 @@ clear_tree (MessageList *ml)
 
 }
 
-/* we save the node id to the file if the node should be closed when
-   we start up.  We only save nodeid's for messages with children */
-static void
-save_node_state(MessageList *ml, FILE *out, ETreePath node)
-{
-	CamelMessageInfo *info;
-
-	while (node) {
-		ETreePath child = e_tree_model_node_get_first_child (ml->model, node);
-		if (child) {
-			if (!e_tree_node_is_expanded(ml->tree, node)) {
-				info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
-				g_assert(info);
-				fprintf(out, "%08x%08x\n", info->message_id.id.part.hi, info->message_id.id.part.lo);
-			}
-			save_node_state(ml, out, child);
-		}
-		node = e_tree_model_node_get_next (ml->model, node);
-	}
-}
-
-static GHashTable *
-load_tree_state(MessageList *ml)
-{
-	char *filename, linebuf[10240];
-	GHashTable *result;
-	FILE *in;
-	int len;
-
-	result = g_hash_table_new(g_str_hash, g_str_equal);
-	filename = mail_config_folder_to_cachename(ml->folder, "treestate-");
-	in = fopen(filename, "r");
-	if (in) {
-		while (fgets(linebuf, sizeof(linebuf), in) != NULL) {
-			len = strlen(linebuf);
-			if (len) {
-				linebuf[len-1] = 0;
-				g_hash_table_insert(result, g_strdup(linebuf), (void *)1);
-			}
-		}
-		fclose(in);
-	}
-	g_free(filename);
-	return result;
-}
-
-/* save tree info */
-static void
-save_tree_state(MessageList *ml)
-{
-	char *filename;
-	ETreePath node;
-	ETreePath child;
-	FILE *out;
-	int rem;
-
-	filename = mail_config_folder_to_cachename(ml->folder, "treestate-");
-	out = fopen(filename, "w");
-	if (out) {
-		node = e_tree_model_get_root(ml->model);
-		child = e_tree_model_node_get_first_child (ml->model, node);
-		if (node && child) {
-			save_node_state(ml, out, child);
-		}
-		rem = ftell(out) == 0;
-		fclose(out);
-		/* remove the file if it was empty, should probably check first, but this is easier */
-		if (rem)
-			unlink(filename);
-	}
-	g_free(filename);
-}
-
-static void
-free_node_state(void *key, void *value, void *data)
-{
-	g_free(key);
-}
-
-static void
-free_tree_state(GHashTable *expanded_nodes)
-{
-	g_hash_table_foreach(expanded_nodes, free_node_state, 0);
-	g_hash_table_destroy(expanded_nodes);
-}
-
 /* we try and find something that isn't deleted in our tree
    there is actually no assurance that we'll find somethign that will
    still be there next time, but its probably going to work most of the time */
@@ -1389,15 +1311,14 @@ static const char *find_next_undeleted(MessageList *ml, ETreePath *node)
 
 /* only call if we have a tree model */
 /* builds the tree structure */
-static void build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row, GHashTable *);
+static void build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row);
 
-static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes);
+static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row);
 
 static void
 build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *changes)
 {
 	int row = 0;
-	GHashTable *expanded_nodes;
 	ETreeModel *etm = ml->model;
 	ETreePath *top;
 	char *saveuid = NULL;
@@ -1409,7 +1330,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	printf("Building tree\n");
 	gettimeofday(&start, NULL);
 #endif
-	expanded_nodes = load_tree_state(ml);
 
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
@@ -1440,14 +1360,14 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
 
-		build_subtree(ml, ml->tree_root, thread->tree, &row, expanded_nodes);
+		build_subtree(ml, ml->tree_root, thread->tree, &row);
 
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
 #ifndef BROKEN_ETREE
 	} else {
 		static int tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp);
 
-		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
+		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row);
 		top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 		tree_equal(ml->model, top, thread->tree);
 	}
@@ -1468,8 +1388,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		ml->cursor_uid = NULL;
 		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
-
-	free_tree_state(expanded_nodes);
 	
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
@@ -1485,7 +1403,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
    is faster than inserting to the right row :( */
 /* Otherwise, this code would probably go as it does the same thing essentially */
 static void
-build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes)
+build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row)
 {
 	ETreeModel *tree = ml->model;
 	ETreePath node;
@@ -1499,7 +1417,7 @@ build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int 
 		camel_folder_ref_message_info(ml->folder, (CamelMessageInfo *)c->message);
 
 		if (c->child) {
-			build_subtree(ml, node, c->child, row, expanded_nodes);
+			build_subtree(ml, node, c->child, row);
 		}
 		c = c->next;
 	}
@@ -1563,7 +1481,7 @@ tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 
 /* adds a single node, retains save state, and handles adding children if required */
 static void
-add_node_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row, int myrow, GHashTable *expanded_nodes)
+add_node_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row, int myrow)
 {
 	ETreeModel *etm = ml->model;
 	ETreePath node;
@@ -1578,7 +1496,7 @@ add_node_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThre
 	(*row)++;
 
 	if (c->child) {
-		build_subtree_diff(ml, node, NULL, c->child, row, expanded_nodes);
+		build_subtree_diff(ml, node, NULL, c->child, row);
 	}
 }
 
@@ -1615,7 +1533,7 @@ remove_node_diff(MessageList *ml, ETreePath node, int depth)
 /* applies a new tree structure to an existing tree, but only by changing things
    that have changed */
 static void
-build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes)
+build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row)
 {
 	ETreeModel *etm = ml->model;
 	ETreePath ap, *ai, *at, *tmp;
@@ -1630,7 +1548,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 		if (ap == NULL) {
 			t(printf("out of old nodes\n"));
 			/* ran out of old nodes - remaining nodes are added */
-			add_node_diff(ml, parent, ap, bp, row, myrow, expanded_nodes);
+			add_node_diff(ml, parent, ap, bp, row, myrow);
 			myrow++;
 			bp = bp->next;
 		} else if (bp == NULL) {
@@ -1662,7 +1580,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 			tmp = e_tree_model_node_get_first_child(etm, ap);
 			/* make child lists match (if either has one) */
 			if (bp->child || tmp) {
-				build_subtree_diff(ml, ap, tmp, bp->child, row, expanded_nodes);
+				build_subtree_diff(ml, ap, tmp, bp->child, row);
 			}
 			ap = e_tree_model_node_get_next(etm, ap);
 			bp = bp->next;
@@ -1685,7 +1603,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 					bt = bp;
 					while (bt != bi) {
 						t(printf("adding new node 0\n"));
-						add_node_diff(ml, parent, NULL, bt, row, myrow, expanded_nodes);
+						add_node_diff(ml, parent, NULL, bt, row, myrow);
 						myrow++;
 						bt = bt->next;
 					}
@@ -1693,7 +1611,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 				} else {
 					t(printf("adding new node 1\n"));
 					/* no match in new nodes, add one, try next */
-					add_node_diff(ml, parent, NULL, bp, row, myrow, expanded_nodes);
+					add_node_diff(ml, parent, NULL, bp, row, myrow);
 					myrow++;
 					bp = bp->next;
 				}
@@ -1711,7 +1629,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 				} else {
 					t(printf("adding new node 2\n"));
 					/* didn't find match in old nodes, must be new node? */
-					add_node_diff(ml, parent, NULL, bp, row, myrow, expanded_nodes);
+					add_node_diff(ml, parent, NULL, bp, row, myrow);
 					myrow++;
 					bp = bp->next;
 #if 0

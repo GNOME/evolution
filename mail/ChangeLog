@@ -1,3 +1,8 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (save_tree_state, message_list_setup_etree): Save
+	the expanded state using the ETree built in expanded state code.
+
 2001-04-05  Not Zed  <NotZed@Ximian.com>
 
 	* Merge from evolution-0-10 to evolution-0-10-merge-0 into head.
