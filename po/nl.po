@@ -24,7 +24,7 @@ msgstr "Fabriek om GnomeCard bestanden importeren in Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
-msgstr "Importeert GnomeCard bestanden naar Evolution."
+msgstr "Importeert GnomeCard bestanden in Evolution."
 
 #: addressbook/backend/ebook/e-card.c:3595
 msgid "Card: "
@@ -656,9 +656,8 @@ msgstr "De URI die de Mapbladeraar zal laten zien"
 #. * card.
 #.
 #: addressbook/gui/component/e-address-popup.c:178
-#, fuzzy
 msgid "(none)"
-msgstr "(Geen naam)"
+msgstr "(geen)"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
@@ -7218,43 +7217,37 @@ msgid "calendar information"
 msgstr "kalenderinformatie"
 
 #: default_user/searches.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "bevat"
+msgstr "Inhoud bevat"
 
 #: default_user/searches.xml.h:2
-#, fuzzy
 msgid "Body does not contain"
-msgstr "bevat niet"
+msgstr "Inhoud bevat niet"
 
 #: default_user/searches.xml.h:3
 msgid "Body or subject contains"
 msgstr "Inhoud of onderwerp bevat"
 
 #: default_user/searches.xml.h:4
-#, fuzzy
 msgid "Message contains"
-msgstr "Naam bevat"
+msgstr "Bericht bevat"
 
 #: default_user/searches.xml.h:5
 #, fuzzy
 msgid "Recipients contain"
-msgstr "Geadresseerden"
+msgstr "Geadresseerden bevatten"
 
 #: default_user/searches.xml.h:6
-#, fuzzy
 msgid "Sender contains"
-msgstr "Naam bevat"
+msgstr "Verzender bevat"
 
 #: default_user/searches.xml.h:7
-#, fuzzy
 msgid "Subject contains"
-msgstr "Naam bevat"
+msgstr "Onderwerp bevat"
 
 #: default_user/searches.xml.h:8
-#, fuzzy
 msgid "Subject does not contain"
-msgstr "bevat niet"
+msgstr "Onderwerp bevat niet"
 
 #. strptime format for a date.
 #: e-util/e-time-utils.c:86 e-util/e-time-utils.c:128
@@ -11425,7 +11418,6 @@ msgid "Select the folder you want the shortcut to point to:"
 msgstr "Selecteer de map die je wilt openen"
 
 #: shell/e-shell-view-menu.c:684
-#, fuzzy
 msgid "Work Online"
 msgstr "Werk met netwerk"
 
@@ -11616,9 +11608,8 @@ msgid "Error saving shortcuts."
 msgstr "Fout bij opslaan van snelkoppelingen."
 
 #: shell/e-shortcuts.c:1040
-#, fuzzy
 msgid "Shortcuts"
-msgstr "_Snelkoppelingsbalk"
+msgstr "Snelkoppelingen"
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
 msgid "(No name)"
@@ -12707,7 +12698,7 @@ msgstr "Iedereen beantwoorden"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "S_earch Message"
-msgstr "Zoek bericht"
+msgstr "Zoek b_ericht"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Save the message as a text file"
