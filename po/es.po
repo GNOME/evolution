@@ -11749,7 +11749,7 @@ msgstr "Trabajando"
 
 #: mail/mail-ops.c:87
 msgid "Filtering Folder"
-msgstr "Carpeta de filtrado"
+msgstr "Filtrando carpeta"
 
 #: mail/mail-ops.c:258
 msgid "Fetching Mail"
