@@ -939,7 +939,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	m->store = store;
 	m->emft = emft;
 	m->top = g_strdup (top);
-	m->flags = 0;
+	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = NULL;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);

@@ -1,5 +1,9 @@
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (emft_tree_row_expanded): Get recursive folder
+	listing (needed or folders that have as-of-yet-unloaded-subfolders
+	that contain unread mail will not be bolded). Fixes bug #51045.
+
 	Fix for bug #53195.
 
 	* em-folder-browser.c (emfb_set_folder): Restore search_state.
