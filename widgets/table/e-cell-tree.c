@@ -362,6 +362,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			break;
 		default:
 			/* nada */
+			break;
 		}
 
 		return_value = e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags, actions);
@@ -379,6 +380,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			break;
 		default:
 			/* nada */
+			break;
 		}
 
 		return return_value;
