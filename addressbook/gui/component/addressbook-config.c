@@ -650,8 +650,8 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	GtkWidget *vbox, *dialog_vbox;
 #ifdef INCLUDE_FILE_SOURCE
 	GtkWidget *menu;
-	AddressbookSourcePageItem *first_item = NULL;
 #endif
+	AddressbookSourcePageItem *first_item = NULL;
 	GtkWidget *area;
 	int i;
 	int row = 0;
@@ -712,10 +712,10 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 
 #ifdef INCLUDE_FILE_SOURCE
 		item->item = gtk_menu_item_new_with_label (addressbook_config_source_label (i));
+#endif
 		
 		if (!first_item)
 			first_item = item;
-#endif
 
 		gtk_notebook_append_page (GTK_NOTEBOOK (dialog->notebook),
 					  item->vbox, NULL);
@@ -732,7 +732,9 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 
 #ifdef INCLUDE_FILE_SOURCE
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (dialog->source_option), menu);
+#endif
 	source_type_menuitem_activate (first_item->item, first_item);
+#ifdef INCLUDE_FILE_SOURCE
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->source_option), 0);
 #endif
 

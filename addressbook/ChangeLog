@@ -1,5 +1,10 @@
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-config.c (addressbook_source_dialog):
+	correct bug causing the Ok button to never be enabled.
+
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-component.c (populate_context_menu):
 	example.
 
