@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-13 00:42+0800\n"
+"POT-Creation-Date: 2005-01-13 12:48+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -3233,23 +3233,29 @@ msgstr "角色"
 msgid "Spouse"
 msgstr "配偶"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
+#. Translators: This is a vcard standard and stands for the type of
+#. phone used by the hearing impaired. TTY stands for "teletype"
+#. (familiar from Unix device names), and TDD is "Telecommunications
+#. Device for Deaf". However, you probably want to leave this
+#. abbreviation unchanged unless you know that there is actually a
+#. different and established translation for this in your language.
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
 msgstr "TTYTDD"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
 msgstr "电传"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
 msgstr "头衔"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
 msgstr "单位"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
 msgstr "网站"
 
@@ -7412,7 +7418,8 @@ msgstr "不要再次询问。"
 msgid "Print Tasks"
 msgstr "打印任务"
 
-#: calendar/gui/weekday-picker.c:318
+#. The first letter of each day of the week starting with Sunday
+#: calendar/gui/weekday-picker.c:319
 msgid "SMTWTFS"
 msgstr "日一二三四五六"
 
