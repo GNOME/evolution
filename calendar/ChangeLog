@@ -1,3 +1,26 @@
+2005-03-15  JP Rosevear  <jpr@novell.com> 
+ 
+ 	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try
+ 	again
+ 	(client_cal_opened_cb): ditto
+  
+2005-03-15  JP Rosevear  <jpr@novell.com> 
+ 
+ 	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received):
+ 	abort sequence
+ 	(e_day_view_on_top_canvas_motion): prevent drag of recurring events
+ 	(e_day_view_on_main_canvas_motion): ditto
+ 
+ 	* gui/e-calendar-view.c (on_unrecur_appointment): clear recur id
+ 	on the existing and new before updating, modify ALL for the master
+	
+2005-03-15  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/tasks-component.c (ensure_sources): ensure the color and
+ 	primary config are set on the personal source
+ 
+ 	* gui/calendar-component.c (ensure_sources): ditto
+	
 2005-03-15  JP Rosevear  <jpr@novell.com>
 
 	* gui/itip-utils.c (itip_send_comp): when publishing, the to_list

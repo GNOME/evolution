@@ -1,11 +1,3 @@
-2005-03-16  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* gui/widgets/e-addressbook-view.c: (search_menu_activated):
-	make the search field consistent with the Search Dialog.
-
-	Fixes #73270
-
-
 2005-03-03   Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/component/addressbook.c (load_source_auth_cb):

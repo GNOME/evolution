@@ -1,3 +1,67 @@
+Evolution 2.2.1, 2005-03-15
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+   #73206 - Evolution crashed when clicked on 'Cancel' of LDAP authentication (Siva)
+
+ * Calendar
+   #73563 - evolution-alarm-notify crashes after pressing snooze button (JP)
+   #72979 - Meeting is displayed as appointment in 'List view' (Chen) 
+   #73501 - In 'Send Options' popup 'General Options' tab should be removed for exchange (Sush)
+
+ * Mail
+   #73293 - unread messages becoming read do not update menu items (Michael)
+   #73139 - Not able to see the icons of Shared Folders (Vivek)
+   #73100 - Unify Evolution license text check box messages in Evolution mailer (Michael)
+   #71733 - signature editor should set focus on title field (Harry Lu)
+   #73501 - In 'Send Options' popup 'General Options' tab should be removed (Sushma)
+
+ * Plugins
+   #72807 - Switching from gw account crashes Evolution (Siva)
+   #73201 -Sharing tab is not present in the properties of a folder which has a space in its name (Vivek)
+
+Other bugs
+
+ * Calendar
+   - Fix memory leak in calendar views (Michael)
+   - Fix forward as icalendar (JP)
+   - Fix default color and selection on first run (JP)
+
+ * Mail
+   - Improved Post-To handling (Michael)
+   - Fix To/CC/BCC cut and paste (Hans)
+
+ * Plugins
+   - Don't return an invisible item in gw account setup (Michael)
+   - Handle assigned tasks in itip formatter (JP)
+
+ * All
+   - Clean up debug spew (Michael)
+   - Fix memory leak for gal view menus (Michael)
+
+Updated translations:
+	-pl (GNOME PL Team)
+	-ja (Takeshi AIHANA)
+	-da (Martin Willemoes Hansen)
+	-fr (Christophe Merlet)
+	-ko (Changwoo Ryu)
+	-en_GB (David Lodge)
+	-tr (Baris Cicek)
+	-cs (Miloslav Trmac)
+	-de (Frank Arnold)
+	-sr (Danilo Segan)
+	-sr@Latn (Danilo Segan)
+	-es (Francisco Javier F. Serrador)
+	-pt_BR (Raphael Higino)
+	-sq (Laurent Dhima)
+	-fi (Hile Tuohela)
+	-gu (Ankit Patel)
+	-sv (Christian Rose)
+	-pt (Duarte Loreto)
+	-en_CA (Adam Weinberger)
+
 Evolution 2.2.0, 2005-03-07
 ---------------------------
 
