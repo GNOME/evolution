@@ -86,6 +86,7 @@ idl_DATA = $(IDLS)
 EXTRA_DIST = $(server_DATA)				\
 	$(server_in_files)				\
 	$(idl_DATA)					\
+	ChangeLog.pre-1-4				\
 	GNOME_Evolution_WombatLDAP.server.in.in		\
 	GNOME_Evolution_WombatNOLDAP.server.in.in
 

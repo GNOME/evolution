@@ -70,6 +70,9 @@ oaf_in_files = GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in	\
 
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST =					\
+	$(oaf_in_files)				\
+	$(oaf_DATA)				\
+	ChangeLog.pre-1-4
 
 @XML_I18N_MERGE_OAF_RULE@

@@ -4,7 +4,6 @@ privlibexec_SCRIPTS =			\
 
 privlibexec_PROGRAMS =			\
 	evolution-addressbook-import	\
-	evolution-launch-composer	\
 	killev
 
 

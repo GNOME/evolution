@@ -93,6 +93,7 @@ libcomposer_la_SOURCES = 			\
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(IDLS)					\
+	ChangeLog.pre-1-4			\
 	composer-marshal.list			\
 	bad-icon.xpm
 

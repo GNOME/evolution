@@ -290,4 +290,5 @@ noinst_HEADERS =				\
 	camel-html-parser.h
 
 EXTRA_DIST =					\
+	ChangeLog.pre-1-4			\
 	README

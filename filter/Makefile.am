@@ -69,8 +69,13 @@ libfilter_la_SOURCES =				\
 
 libfilter_la_DEPENDENCIES = libfilter-i18n.h
 
-EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
-	$(glade_DATA) libfilter-i18n.h filter-marshal.list
+EXTRA_DIST =					\
+	$(glade_DATA)				\
+	ChangeLog.pre-1-4			\
+	filter-marshal.list			\
+	filtertypes.xml				\
+	libfilter-i18n.h			\
+	vfoldertypes.xml
 
 # basic rules.
 filterdir = $(privdatadir)

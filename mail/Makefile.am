@@ -192,6 +192,7 @@ $(EVOLUTION_MAIL_CORBA_GENERATED_H): Mailer.idl
 $(EVOLUTION_MAIL_CORBA_GENERATED_C): $(EVOLUTION_MAIL_CORBA_GENERATED_H)
 
 EXTRA_DIST = 				\
+	ChangeLog.pre-1-4		\
 	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\

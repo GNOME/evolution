@@ -6,4 +6,7 @@ endif
 
 SUBDIRS = idl cal-util pcs cal-client gui importers $(CONDUIT_DIR)
 
-EXTRA_DIST = zones.h
+EXTRA_DIST =			\
+	ChangeLog.pre-1-4	\
+	zones.h
+

@@ -136,7 +136,10 @@ libeconduit_la_SOURCES = $(pilot_compile)
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = -all-static
 
-EXTRA_DIST = $(pilot_sources) e-util-marshal.list
+EXTRA_DIST =				\
+	$(pilot_sources)		\
+	ChangeLog.pre-1-4		\
+	e-util-marshal.list
 
 edb3include_HEADERS =			\
 	e-db3-utils.h			\

@@ -234,6 +234,8 @@ evolution_SOURCES =				\
 	e-shell-view-menu.h			\
 	e-shell-view.c				\
 	e-shell-view.h				\
+	e-shell-window.c			\
+	e-shell-window.h			\
 	e-shell.c				\
 	e-shell.h				\
 	e-shortcuts-view-model.c		\
@@ -359,6 +361,7 @@ EXTRA_DIST = 					\
 	$(etspec_DATA)				\
 	$(schema_DATA)				\
 	$(icons)				\
+	ChangeLog.pre-1-4			\
 	GNOME_Evolution_TestComponent.server	\
 	e-shell-marshal.list			\
 	evolution-nognome.in

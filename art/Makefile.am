@@ -229,6 +229,7 @@ if DEFAULT_BINARY
 endif
 
 EXTRA_DIST = 				\
+	ChangeLog.pre-1-4		\
 	attachment.xpm			\
 	bell.xpm			\
 	check-filled.xpm		\

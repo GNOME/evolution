@@ -117,6 +117,7 @@ EXTRA_DIST = 				\
 	$(server_DATA)			\
 	$(Location_DATA)		\
 	$(glade_DATA)			\
+	ChangeLog.pre-1-4		\
 	Locations.h			\
 	Location-translation-script	\
 	check-empty.xpm			\

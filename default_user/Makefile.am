@@ -3,7 +3,9 @@ SUBDIRS = local
 defaultdir = $(privdatadir)/default_user
 default_DATA = addressbook-sources.xml searches.xml vfolders.xml
 
-EXTRA_DIST = $(default_DATA)
+EXTRA_DIST =			\
+	$(default_DATA)		\
+	ChangeLog.pre-1-4
 
 install-data-hook:
 	-mkdir $(DESTDIR)$(defaultdir)/views

@@ -33,3 +33,5 @@ noinst_LTLIBRARIES = libwombat-static.la
 
 libwombat_static_la_SOURCES = $(libwombat_la_SOURCES)
 libwombat_static_la_LDFLAGS = --all-static
+
+EXTRA_DIST = ChangeLog.pre-1-4
