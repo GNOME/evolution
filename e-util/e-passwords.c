@@ -246,29 +246,32 @@ e_passwords_forget_password (const char *key)
 char *
 e_passwords_get_password (const char *key)
 {
-	char *passwd = g_hash_table_lookup (passwords, key);
-	char *path;
+	char *path, *passwd = g_hash_table_lookup (passwords, key);
 	CORBA_Environment ev;
-
+	char *encoded;
+	
 	if (passwd)
 		return g_strdup (passwd);
-
+	
 	/* not part of the session hash, look it up in the on disk db */
 	path = password_path (key);
-
+	
 	/* We need to pass an ev to bonobo-conf, or it will emit a
 	 * g_warning if the data isn't found.
 	 */
 	CORBA_exception_init (&ev);
-	passwd = bonobo_config_get_string (db, path, &ev);
+	encoded = bonobo_config_get_string (db, path, &ev);
 	CORBA_exception_free (&ev);
-
+	
 	g_free (path);
-
-	if (passwd)
-		return decode_base64 (passwd);
-	else
+	
+	if (!encoded)
 		return NULL;
+	
+	passwd = decode_base64 (encoded);
+	g_free (encoded);
+	
+	return passwd;
 }
 
 /**
