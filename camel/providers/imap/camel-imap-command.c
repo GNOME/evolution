@@ -146,9 +146,7 @@ static CamelImapResponse *
 imap_read_response (CamelImapStore *store, CamelException *ex)
 {
 	CamelImapResponse *response;
-	int number, exists = 0;
-	GArray *expunged = NULL;
-	char *respbuf, *retcode, *word, *p;
+	char *respbuf, *retcode;
 
 	/* Read first line */
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
@@ -156,6 +154,9 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		return NULL;
 
 	response = g_new0 (CamelImapResponse, 1);
+	response->folder = store->current_folder;
+	if (response->folder)
+		camel_object_ref (CAMEL_OBJECT (response->folder));
 	response->untagged = g_ptr_array_new ();
 
 	/* Check for untagged data */
@@ -165,50 +166,19 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		if (camel_exception_is_set (ex))
 			break;
 
-		/* If it starts with a number, we might deal with
-		 * it ourselves.
-		 */
-		word = imap_next_word (respbuf);
-		number = strtoul (word, &p, 10);
-		if (p != word && store->current_folder) {
-			word = imap_next_word (p);
-			if (!g_strcasecmp (word, "EXISTS")) {
-				exists = number;
-				g_free (respbuf);
-				goto next;
-			} else if (!g_strcasecmp (word, "EXPUNGE")) {
-				if (!expunged) {
-					expunged = g_array_new (FALSE, FALSE,
-								sizeof (int));
-				}
-				g_array_append_val (expunged, number);
-				g_free (respbuf);
-				goto next;
-			}
-		} else {
-			if (!g_strncasecmp (word, "BYE", 3)) {
-				/* connection was lost, no more data to fetch */
-				store->connected = FALSE;
-				g_free (respbuf);
-				respbuf = NULL;
-				break;
-			}
+		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
+			/* Connection was lost, no more data to fetch */
+			store->connected = FALSE;
+			g_free (respbuf);
+			respbuf = NULL;
+			break;
 		}
 
 		g_ptr_array_add (response->untagged, respbuf);
-	next:
 		if (camel_remote_store_recv_line (
 			CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0)
 			break;
 	}
-
-	/* Update the summary */
-	if (store->current_folder && (exists > 0 || expunged)) {
-		camel_imap_folder_changed (store->current_folder, exists,
-					   expunged, NULL);
-	}
-	if (expunged)
-		g_array_free (expunged, TRUE);
 
 	if (!respbuf || camel_exception_is_set (ex)) {
 		camel_imap_response_free (response);
@@ -372,22 +342,73 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 
 /**
  * camel_imap_response_free:
- * response: a CamelImapResponse:
+ * @response: a CamelImapResponse:
  *
- * Frees all of the data in @response.
+ * Frees all of the data in @response and processes any untagged
+ * EXPUNGE and EXISTS responses in it.
  **/
 void
 camel_imap_response_free (CamelImapResponse *response)
 {
-	int i;
+	int i, number, exists = 0;
+	GArray *expunged = NULL;
+	char *resp, *p;
 
 	if (!response)
 		return;
-	for (i = 0; i < response->untagged->len; i++)
-		g_free (response->untagged->pdata[i]);
+
+	for (i = 0; i < response->untagged->len; i++) {
+		resp = response->untagged->pdata[i];
+
+		if (response->folder) {
+			/* Check if it's something we need to handle. */
+			number = strtoul (resp + 2, &p, 10);
+			if (!g_strcasecmp (p, " EXISTS")) {
+				exists = number;
+			} else if (!g_strcasecmp (p, " EXPUNGE")) {
+				if (!expunged) {
+					expunged = g_array_new (FALSE, FALSE,
+								sizeof (int));
+				}
+				g_array_append_val (expunged, number);
+			}
+		}
+		g_free (resp);
+	}
+
 	g_ptr_array_free (response->untagged, TRUE);
 	g_free (response->status);
+
+	if (response->folder) {
+		if (exists > 0 || expunged) {
+			/* Update the summary */
+			camel_imap_folder_changed (response->folder,
+						   exists, expunged, NULL);
+			if (expunged)
+				g_array_free (expunged, TRUE);
+		}
+
+		camel_object_unref (CAMEL_OBJECT (response->folder));
+	}
+
 	g_free (response);
+}
+
+/**
+ * camel_imap_response_free:
+ * @response: a CamelImapResponse:
+ *
+ * Frees all of the data in @response without processing any untagged
+ * responses.
+ **/
+void
+camel_imap_response_free_without_processing (CamelImapResponse *response)
+{
+	if (response->folder) {
+		camel_object_unref (CAMEL_OBJECT (response->folder));
+		response->folder = NULL;
+	}
+	camel_imap_response_free (response);
 }
 
 /**
@@ -419,14 +440,11 @@ camel_imap_response_extract (CamelImapResponse *response, const char *type,
 
 		if (!g_strncasecmp (resp, type, len))
 			break;
-		
-		g_free (response->untagged->pdata[i]);
 	}
 
 	if (i < response->untagged->len) {
 		resp = response->untagged->pdata[i];
-		for (i++; i < response->untagged->len; i++)
-			g_free (response->untagged->pdata[i]);
+		g_ptr_array_remove_index (response->untagged, i);
 	} else {
 		resp = NULL;
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -434,9 +452,7 @@ camel_imap_response_extract (CamelImapResponse *response, const char *type,
 					"%s information"), type);
 	}
 
-	g_ptr_array_free (response->untagged, TRUE);
-	g_free (response->status);
-	g_free (response);
+	camel_imap_response_free (response);
 	return resp;
 }
 

@@ -1,3 +1,28 @@
+2001-03-22  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_response): Don't
+	look at untagged responses other than "* BYE"...
+	(camel_imap_response_free): ...do it here instead...
+	(camel_imap_response_free_without_processing): ...but not here.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	Remove the "EXISTS" line from the response so
+	camel_imap_response_free won't try to process it.
+	(camel_imap_folder_selected): If we get an EXISTS response mixed
+	in with the FETCH responses, record the new EXISTS value.
+	Use camel_imap_response_free_without_processing so that an EXISTS
+	response won't cause a loop.
+	(imap_rescan): Use camel_imap_response_free_without_processing.
+	(imap_update_summary): Use
+	camel_imap_response_free_without_processing. If an EXISTS response
+	shows up, call imap_update_summary again to get the new messages.
+	(imap_protocol_get_summary_specifier): Use BODY.PEEK[0], not
+	RFC822.HEADER for prev IMAP4rev1, since the FETCH parser won't
+	deal with RFC822.HEADER responses.
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Fix an
+	uninitialized variable
+
 2001-03-21  Dan Winship  <danw@ximian.com>
 
 	* camel-provider.h: (CamelProvider) add a "GList *authtypes", so

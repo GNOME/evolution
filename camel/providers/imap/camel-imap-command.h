@@ -37,6 +37,7 @@ extern "C" {
 #include <glib.h>
 
 struct _CamelImapResponse {
+	CamelFolder *folder;
 	GPtrArray *untagged;
 	char *status;
 };
@@ -50,6 +51,7 @@ CamelImapResponse *camel_imap_command_continuation (CamelImapStore *store,
 						    const char *cmdbuf);
 
 void  camel_imap_response_free                 (CamelImapResponse *response);
+void  camel_imap_response_free_without_processing(CamelImapResponse *response);
 char *camel_imap_response_extract              (CamelImapResponse *response,
 						const char *type,
 						CamelException *ex);

@@ -1109,6 +1109,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	if (!subscribed_only || !recursive || top) {
 		if (!camel_imap_store_check_online (imap_store, ex))
 			return NULL;
+		online = TRUE;
 	} else
 		online = camel_imap_store_check_online (imap_store, NULL);
 

@@ -84,11 +84,6 @@ static void imap_copy_message_to (CamelFolder *source, const char *uid,
 static void imap_move_message_to (CamelFolder *source, const char *uid,
 				  CamelFolder *destination, CamelException *ex);
 
-/* summary info */
-static void imap_update_summary (CamelFolder *folder, int first, int last,
-				 CamelFolderChangeInfo *changes,
-				 CamelException *ex);
-
 /* searching */
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 static void       imap_search_free          (CamelFolder *folder, GPtrArray *uids);
@@ -228,8 +223,14 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		} else if (isdigit ((unsigned char)*resp)) {
 			unsigned long num = strtoul (resp, &resp, 10);
 
-			if (!g_strncasecmp (resp, " EXISTS", 7))
+			if (!g_strncasecmp (resp, " EXISTS", 7)) {
 				exists = num;
+				/* Remove from the response so nothing
+				 * else tries to interpret it.
+				 */
+				g_free (response->untagged->pdata[i]);
+				g_ptr_array_remove_index (response->untagged, i--);
+			}
 		}
 	}
 
@@ -266,17 +267,21 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		for (i = 0; i < response->untagged->len; i++) {
 			resp = response->untagged->pdata[i];
 			val = strtoul (resp + 2, &resp, 10);
-			if (val == count && !g_strncasecmp (resp, " FETCH (", 8))
-				break;
-		}
+			if (val == 0)
+				continue;
+			if (!g_strcasecmp (resp, " EXISTS")) {
+				/* Another one?? */
+				exists = val;
+				continue;
+			}
+			if (uid != 0 || val != count || g_strncasecmp (resp, " FETCH (", 8) != 0)
+				continue;
 
-		if (i < response->untagged->len) {
 			fetch_data = parse_fetch_response (imap_folder, resp + 7);
-			uid = strtoul (g_datalist_get_data (&fetch_data, "UID"),
-				       NULL, 10);
+			uid = strtoul (g_datalist_get_data (&fetch_data, "UID"), NULL, 10);
 			g_datalist_clear (&fetch_data);
 		}
-		camel_imap_response_free (response);
+		camel_imap_response_free_without_processing (response);
 
 		info = camel_folder_summary_index (folder->summary, count - 1);
 		val = strtoul (camel_message_info_uid (info), NULL, 10);
@@ -366,7 +371,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 			g_datalist_clear (&fetch_data);
 			g_ptr_array_remove_index_fast (response->untagged, i--);
 		}
-		camel_imap_response_free (response);
+		camel_imap_response_free_without_processing (response);
 	}
 
 	/* If we find a UID in the summary that doesn't correspond to
@@ -991,12 +996,13 @@ imap_protocol_get_summary_specifier (CamelImapStore *store)
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
 		return "UID FLAGS RFC822.SIZE BODY.PEEK[HEADER]";
 	else
-		return "UID FLAGS RFC822.SIZE RFC822.HEADER";
+		return "UID FLAGS RFC822.SIZE BODY.PEEK[0]";
 }
 
 static void
-imap_update_summary (CamelFolder *folder, int first, int last,
-		     CamelFolderChangeInfo *changes, CamelException *ex)
+imap_update_summary (CamelFolder *folder,
+		     CamelFolderChangeInfo *changes,
+		     CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
@@ -1004,41 +1010,39 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	GPtrArray *headers, *messages;
 	const char *summary_specifier;
 	char *p;
-	int i, seq, count;
+	int i, seq, first, exists = 0;
 	CamelMimeMessage *msg;
 	CamelMessageInfo *mi;
 	GData *fetch_data;
 
+	first = camel_folder_summary_count (folder->summary) + 1;
 	summary_specifier = imap_protocol_get_summary_specifier (store);
-	/* We already have the command lock */
-	if (first == last) {
-		response = camel_imap_command (store, folder, ex,
-					       "FETCH %d (%s)", first,
-					       summary_specifier);
-	} else {
-		response = camel_imap_command (store, folder, ex,
-					       "FETCH %d:%d (%s)", first,
-					       last, summary_specifier);
-	}
 
+	/* We already have the command lock */
+	response = camel_imap_command (store, folder, ex, "FETCH %d:* (%s)",
+				       first, summary_specifier);
 	if (!response)
 		return;
 
-	count = camel_folder_summary_count (folder->summary);
 	messages = g_ptr_array_new ();
-	g_ptr_array_set_size (messages, last - first + 1);
 	headers = response->untagged;
 	for (i = 0; i < headers->len; i++) {
 		p = headers->pdata[i];
 		if (*p++ != '*' || *p++ != ' ')
 			continue;
 		seq = strtoul (p, &p, 10);
-		if (!seq || seq < first || seq > last)
+		if (!g_strcasecmp (p, " EXISTS")) {
+			exists = seq;
+			continue;
+		}
+		if (!seq || seq < first)
 			continue;
 		if (g_strncasecmp (p, " FETCH (", 8) != 0)
 			continue;
 		p += 7;
 
+		if (seq - first >= messages->len)
+			g_ptr_array_set_size (messages, seq - first + 1);
 		mi = messages->pdata[seq - first];
 		fetch_data = parse_fetch_response (imap_folder, p);
 
@@ -1071,14 +1075,22 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 
 		g_datalist_clear (&fetch_data);
 	}
-	camel_imap_response_free (response);
+	camel_imap_response_free_without_processing (response);
 
 	for (i = 0; i < messages->len; i++) {
 		mi = messages->pdata[i];
+		if (!mi) {
+			g_warning ("No information for message %d", i + first);
+			continue;
+		}
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
 	}
 	g_ptr_array_free (messages, TRUE);
+
+	/* Did more mail arrive while we were doing this? */
+	if (exists && exists > camel_folder_summary_count (folder->summary))
+		imap_update_summary (folder, changes, ex);
 }
 
 /* Called with the store's command_lock locked */
@@ -1108,7 +1120,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 
 	len = camel_folder_summary_count (folder->summary);
 	if (exists > len)
-		imap_update_summary (folder, len + 1, exists, changes, ex);
+		imap_update_summary (folder, changes, ex);
 
 	if (camel_folder_change_info_changed (changes)) {
 		camel_object_trigger_event (CAMEL_OBJECT (folder),
