@@ -1,3 +1,9 @@
+2002-12-02  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_get_vobject): back out fix for
+	#28945 because it breaks some internal assumptions about the
+	structure of contact lists.
+
 2002-11-30  Chris Toshok  <toshok@ximian.com>
 
 	[ the rest of the fix for #31763 ]

@@ -574,15 +574,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 		EIterator *iterator = e_list_get_iterator(card->email);
 		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *emailprop;
-			char *e = (char *) e_iterator_get(iterator);
-			if (!strncmp (e, "<?xml", 5)) {
-				EDestination *dest = e_destination_import (e);
-				emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, e_destination_get_address (dest));
-				gtk_object_unref (GTK_OBJECT (dest));
-			}
-			else {
-				emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, e);
-			}
+			emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
 			addProp (emailprop, VCInternetProp);
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
