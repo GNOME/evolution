@@ -206,6 +206,23 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 #undef ICON_HEIGHT
 }
 
+static int
+folder_compare_cb (gconstpointer a, gconstpointer b)
+{
+	EFolder *folder_a;
+	EFolder *folder_b;
+	const char *name_a;
+	const char *name_b;
+
+	folder_a = E_FOLDER (a);
+	folder_b = E_FOLDER (b);
+
+	name_a = e_folder_get_name (folder_a);
+	name_b = e_folder_get_name (folder_b);
+
+	return strcmp (name_a, name_b);
+}
+
 static void
 insert_folders (EStorageSetView *storage_set_view,
 		GtkCTreeNode *parent,
@@ -228,6 +245,8 @@ insert_folders (EStorageSetView *storage_set_view,
 	folder_list = e_storage_list_folders (storage, path);
 	if (folder_list == NULL)
 		return;
+
+	folder_list = g_list_sort (folder_list, folder_compare_cb);
 
 	for (p = folder_list; p != NULL; p = p->next) {
 		EFolder *folder;

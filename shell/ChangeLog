@@ -1,5 +1,12 @@
 2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-storage-set-view.c
+	(folder_compare_cb): Callback comparison function for comparing
+	folders based on their names.
+	(insert_folders): Use it to sort the folder list before using it.
+
+2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c
 	(setup_storages): Pass the pointer to the folder type repository.
 	(e_shell_construct): Initialize the folder type repository before
