@@ -120,7 +120,7 @@ static void
 set_contents (EMFolderSelectionButton *button)
 {
 	struct _EMFolderSelectionButtonPrivate *priv = button->priv;
-	const char *path;
+	const char *folder_name;
 	CamelURL *url;
 	
 	if (priv->uri == NULL
@@ -129,15 +129,15 @@ set_contents (EMFolderSelectionButton *button)
 		return;
 	}
 	
-	path = url->fragment ? url->fragment : url->path;
+	folder_name = url->fragment ? url->fragment : url->path + 1;
 	
-	if (path == NULL) {
+	if (folder_name == NULL) {
 		camel_url_free (url);
 		set_contents_unselected (button);
 		return;
 	}
 	
-	gtk_label_set_text (GTK_LABEL (priv->label), path);
+	gtk_label_set_text (GTK_LABEL (priv->label), folder_name);
 	camel_url_free (url);
 }
 

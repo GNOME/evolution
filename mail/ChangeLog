@@ -1,5 +1,14 @@
 2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-selection-button.c (set_contents): Fixed to not
+	include leading '/' in the folder name in the label.
+
+	* em-folder-tree.c (emft_popup_new_folder_response): Implemented
+	error reporting via gtk dialogs.
+	(emft_popup_copy_folder_selected): Same.
+
+2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c (emft_popup_new_folder_response): Use a
 	folder_name rather than a path as the name argument to
 	camel_store_create_folder(), fixes creation of IMAP folders.

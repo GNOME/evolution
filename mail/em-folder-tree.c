@@ -1130,6 +1130,7 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	CamelStore *fromstore, *tostore;
 	char *tobase, *frombase;
 	CamelException ex;
+	GtkWidget *dialog;
 	CamelURL *url;
 	
 	if (uri == NULL) {
@@ -1142,19 +1143,14 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	d(printf ("copying folder '%s' to '%s'\n", priv->selected_path, uri));
 	
 	camel_exception_init (&ex);
-	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex))) {
-		/* FIXME: error dialog? */
-		camel_exception_clear (&ex);
-		return;
-	}
+	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex)))
+		goto exception;
 	
 	frombase = priv->selected_path + 1;
 	
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
-		/* FIXME: error dialog? */
 		camel_object_unref (fromstore);
-		camel_exception_clear (&ex);
-		return;
+		goto exception;
 	}
 	
 	url = camel_url_new (uri, NULL);
@@ -1168,6 +1164,17 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	em_copy_folders (tostore, tobase, fromstore, frombase, cfd->delete);
 	
 	camel_url_free (url);
+	g_free (cfd);
+	
+	return;
+	
+ exception:
+	
+	dialog = gtk_message_dialog_new ((GtkWindow *) cfd->emft, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
+	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+	camel_exception_clear (&ex);
+	gtk_widget_show (dialog);
 	g_free (cfd);
 }
 
@@ -1204,6 +1211,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	struct _EMFolderTreePrivate *priv = emfs->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	const char *uri, *parent;
+	GtkWidget *dialog;
 	CamelStore *store;
 	CamelException ex;
 	char *path, *name;
@@ -1218,16 +1226,13 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	d(printf ("Creating folder: %s (%s)\n", path, uri));
 	
 	camel_exception_init (&ex);
-	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
-		/* FIXME: error dialog? */
-		gtk_widget_destroy ((GtkWidget *) emfs);
-		return;
-	}
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex)))
+		goto exception;
 	
 	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
-		gtk_widget_destroy ((GtkWidget *) emfs);
 		camel_object_unref (store);
-		return;
+		g_assert_not_reached ();
+		goto exception;
 	}
 	
 	camel_object_unref (store);
@@ -1246,21 +1251,28 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	
 	camel_store_create_folder (si->store, parent, name, &ex);
 	if (camel_exception_is_set (&ex)) {
-		d(printf ("Create failed: %s\n", ex.desc));
-		/* FIXME: error dialog? */
+		goto exception;
 	} else if (camel_store_supports_subscriptions (si->store)) {
 		camel_store_subscribe_folder (si->store, path, &ex);
-		if (camel_exception_is_set (&ex)) {
-			d(printf ("Subscribe failed: %s\n", ex.desc));
-			/* FIXME: error dialog? */
-		}
+		if (camel_exception_is_set (&ex))
+			goto exception;
 	}
-	
-	camel_exception_clear (&ex);
 	
 	g_free (path);
 	
 	gtk_widget_destroy ((GtkWidget *) emfs);
+	
+	return;
+	
+ exception:
+	
+	dialog = gtk_message_dialog_new ((GtkWindow *) emfs, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
+	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+	camel_exception_clear (&ex);
+	g_free (path);
+	
+	gtk_widget_show (dialog);
 }
 
 static void
@@ -2051,9 +2063,50 @@ em_folder_tree_remove_store (EMFolderTree *emft, CamelStore *store)
 void
 em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 {
+	struct _EMFolderTreeModelStoreInfo *si;
+	struct _EMFolderTreePrivate *priv;
+	GtkTreeSelection *selection;
+	GtkTreeRowReference *row;
+	GtkTreePath *tree_path;
+	CamelStore *store;
+	CamelException ex;
+	CamelURL *url;
+	char *path;
+	
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
-	/* FIXME: implement me */
+	priv = emft->priv;
+	
+	camel_exception_init (&ex);
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		camel_object_unref (store);
+		return;
+	}
+	
+	camel_object_unref (store);
+	
+	if (!(url = camel_url_new (uri, NULL)))
+		return;
+	
+	path = url->fragment ? url->fragment : url->path;
+	row = g_hash_table_lookup (si->path_hash, path);
+	camel_url_free (url);
+	
+	if (row != NULL) {
+		/* this is easy... */
+		selection = gtk_tree_view_get_selection (priv->treeview);
+		tree_path = gtk_tree_row_reference_get_path (row);
+		gtk_tree_selection_select_path (selection, tree_path);
+		gtk_tree_path_free (tree_path);
+		return;
+	}
+	
+	/* FIXME: need to fill out parent paths and stuff so we can select the requested path */
 }
 
 
