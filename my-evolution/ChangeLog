@@ -1,6 +1,7 @@
 2003-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary.c (destroy): Remove the weak pointer on priv->control.
+	[#43117]
 
 2003-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
