@@ -5,6 +5,8 @@
 	(write_to_stream): If we have a charset on a text type that
 	isn't us-ascii or utf-8, then we need to reencode it, so add a
 	filter to do that too.
+	(write_to_stream): Fix some warnings/use the right constructor,
+	oops.
 
 	* camel-mime-utils.c (append_latin1): New function - even though
 	its broken, we'll assume mailers send latin1 headers instead of
