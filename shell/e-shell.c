@@ -41,6 +41,7 @@
 #include "e-shell-startup-wizard.h"
 
 #include "e-shell-marshal.h"
+#include "es-event.h"
 
 #include "evolution-shell-component-utils.h"
 
@@ -1057,6 +1058,7 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 {
 	EShell *shell;
 	EShellPrivate *priv;
+	ESEvent *ese;
 
 	shell = E_SHELL (data);
 	priv = shell->priv;
@@ -1071,6 +1073,17 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 	priv->offline_handler = NULL;
 
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
+
+	/** @Event: Shell online state changed
+	 * @Id: state.changed
+	 * @Target: ESMenuTargetState
+	 * 
+	 * This event is emitted whenever the shell online state changes.
+	 *
+	 * Only the online and offline states are emitted.
+	 */
+	ese = es_event_peek();
+	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, TRUE));
 }
 
 /**
@@ -1120,7 +1133,8 @@ e_shell_go_online (EShell *shell,
 	EShellPrivate *priv;
 	GSList *component_infos;
 	GSList *p;
-	
+	ESEvent *ese;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
@@ -1153,6 +1167,9 @@ e_shell_go_online (EShell *shell,
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
 	e_passwords_set_online (TRUE);
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
+
+	ese = es_event_peek();
+	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, TRUE));
 }
 
 

@@ -30,6 +30,7 @@
 #include "e-shell-window-commands.h"
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
+#include "es-menu.h"
 
 #include <gal/util/e-util.h>
 
@@ -78,6 +79,9 @@ typedef struct _ComponentView ComponentView;
 
 struct _EShellWindowPrivate {
 	EShell *shell;
+
+	/* plugin menu manager */
+	ESMenu *menu;
 
 	/* All the ComponentViews.  */
 	GSList *component_views;
@@ -326,6 +330,8 @@ update_offline_toggle_status (EShellWindow *window)
 	GdkBitmap *icon_mask;
 	const char *tooltip;
 	gboolean sensitive;
+	guint32 flags = 0;
+	ESMenuTargetShell *t;
 
 	priv = window->priv;
 
@@ -336,12 +342,14 @@ update_offline_toggle_status (EShellWindow *window)
 		sensitive   = TRUE;
 		tooltip     = _("Evolution is currently online.  "
 				"Click on this button to work offline.");
+		flags = ES_MENU_SHELL_ONLINE;
 		break;
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = FALSE;
 		tooltip     = _("Evolution is in the process of going offline.");
+		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
 		icon_pixmap = offline_pixmap;
@@ -349,6 +357,7 @@ update_offline_toggle_status (EShellWindow *window)
 		sensitive   = TRUE;
 		tooltip     = _("Evolution is currently offline.  "
 				"Click on this button to work online.");
+		flags = ES_MENU_SHELL_OFFLINE;
 		break;
 	default:
 		g_assert_not_reached ();
@@ -358,6 +367,11 @@ update_offline_toggle_status (EShellWindow *window)
 	gtk_image_set_from_pixmap (GTK_IMAGE (priv->offline_toggle_image), icon_pixmap, icon_mask);
 	gtk_widget_set_sensitive (priv->offline_toggle, sensitive);
 	gtk_tooltips_set_tip (priv->tooltips, priv->offline_toggle, tooltip, NULL);
+
+	/* TODO: If we get more shell flags, this should be centralised */
+	t = es_menu_target_new_shell(priv->menu, flags);
+	t->target.widget = (GtkWidget *)window;
+	e_menu_update_target((EMenu *)priv->menu, t);
 }
 
 static void
@@ -701,6 +715,8 @@ impl_finalize (GObject *object)
 	g_slist_foreach (priv->component_views, (GFunc) component_view_free, NULL);
 	g_slist_free (priv->component_views);
 
+	g_object_unref(priv->menu);
+
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -738,6 +754,17 @@ init (EShellWindow *shell_window)
 	priv->tooltips = gtk_tooltips_new ();
 
 	shell_window->priv = priv;
+
+	/** @HookPoint: Shell Main Menu
+	 * @Id: org.gnome.evolution.shell
+	 * @Type: ESMenu
+	 * @Target: ESMenuTargetShell
+	 *
+	 * This hook point is used to add bonobo menu's to the main
+	 * evolution shell window, used for global commands not
+	 * requiring a specific component.
+	 */
+	priv->menu = es_menu_new("org.gnome.evolution.shell");
 }
 
 
@@ -780,6 +807,7 @@ e_shell_window_new (EShell *shell,
 			       "evolution-" BASE_VERSION, NULL);
 
 	e_shell_window_commands_setup (window);
+	e_menu_activate((EMenu *)priv->menu, priv->ui_component, TRUE);
 
 	setup_widgets (window);
 

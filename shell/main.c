@@ -33,6 +33,7 @@
 #include "e-shell-constants.h"
 
 #include "e-shell.h"
+#include "es-menu.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -86,8 +87,9 @@
 #include "e-util/e-plugin-mono.h"
 #endif
 
-#define DEVELOPMENT
-
+#ifndef DEVELOPMENT
+#define DEVELOPMENT (1)
+#endif
 
 static EShell *shell = NULL;
 
@@ -591,6 +593,8 @@ main (int argc, char **argv)
 			e_plugin_register_type(e_plugin_mono_get_type());
 #endif
 		e_plugin_register_type(e_plugin_lib_get_type());
+		e_plugin_hook_register_type(es_menu_hook_get_type());
+		e_plugin_hook_register_type(es_event_hook_get_type());
 		e_plugin_load_plugins();
 	}
 

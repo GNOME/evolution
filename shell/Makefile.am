@@ -132,6 +132,10 @@ evolution_SOURCES =				\
 	e-shell.h				\
 	e-sidebar.c				\
 	e-sidebar.h				\
+	es-event.c				\
+	es-event.h				\
+	es-menu.c				\
+	es-menu.h				\
 	main.c
 
 evolution_LDADD =							\

@@ -1,3 +1,20 @@
+2004-10-25  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (main): register event hook.
+
+	* e-shell.c (offline_procedure_finished_cb, e_shell_go_online):
+	emit new state changed event.
+
+	* main.c (main): register the menu hook.
+	(): only define DEVELOPMENT if not already.
+
+	* e-shell-window.c (init): setup menu manager.
+	(e_shell_window_new): activate menu manager.
+	(update_offline_toggle_status): update the menu manager when the
+	offline state changes (currently only state which requires it)
+
+	* es-menu.[ch]: Shell plugin menu manager.
+
 2004-10-07  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): initialise plugin system.
