@@ -1,4 +1,4 @@
-importersdir = $(pkglibdir)/evolution-mail-importers/$(VERSION)
+importersdir = $(privlibdir)/evolution-mail-importers
 
 importers_LTLIBRARIES = liboutlook.la libmbox.la
 

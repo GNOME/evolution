@@ -1,3 +1,10 @@
+2002-07-10  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (importerdir): Define this in terms of the new
+	privlibdir, again resulting in a new directory name.
+
+	* importers/Makefile.am (importersdir): Here too.
+
 2002-07-15  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_editor_clicked): Set the vfolder_editor

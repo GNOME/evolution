@@ -1134,7 +1134,14 @@ AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 dnl --- evolution-mail flags
 
-camel_providerdir='$(libdir)/evolution/camel-providers/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
+dnl ******************************
+dnl Versioned library files
+dnl ******************************
+
+privlibdir='$(pkglibdir)/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
+AC_SUBST(privlibdir)
+
+camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS, $GCONF_CFLAGS $THREADS_CFLAGS, $GCONF_LIBS $THREADS_LIBS)

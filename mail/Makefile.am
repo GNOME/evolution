@@ -2,7 +2,7 @@ SUBDIRS = importers
 
 bin_PROGRAMS =	evolution-mail
 
-importerdir = $(libdir)/evolution/evolution-mail-importers/$(VERSION)
+importerdir = $(privlibdir)/evolution-mail-importers
 
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\

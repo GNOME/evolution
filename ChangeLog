@@ -1,3 +1,11 @@
+2002-07-10  Peter Williams  <peterw@ximian.com>
+
+	* configure.in (privlibdir): Define a versioned library directory that we can
+	use for things that are ABI-sensitive: camel providers, importers... Define
+	camel_providerder in terms of this, resulting in a new location for the
+	providers. Camel will have to be rebuilt for it to get the new
+	-D flag.
+
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
 	* configure.in (E_UTIL_LIBS): e-util relies on bonobo-conf
