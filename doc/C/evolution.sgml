@@ -11,6 +11,7 @@
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
+<!ENTITY CONFIG-ENCRYPTION SYSTEM "config-encryption.sgml">
 <!ENTITY MENUREF SYSTEM "menuref.sgml">
 <!ENTITY FAQ SYSTEM "evolution-faq.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">

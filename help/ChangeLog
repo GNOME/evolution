@@ -1,5 +1,7 @@
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
+	* C/evolution.sgml: Added config-encryption.sgml for building
+
 	* C/fig/*png: Updated graphics for newer UI.
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
