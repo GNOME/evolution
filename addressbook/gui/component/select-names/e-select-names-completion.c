@@ -116,6 +116,12 @@ make_match (EDestination *dest, const gchar *menu_form, double score)
 
 	e_completion_match_set_text (match, e_destination_get_name (dest), menu_form);
 
+	/* Reject any match that has null text fields. */
+	if (! (e_completion_match_get_match_text (match) && e_completion_match_get_menu_text (match))) {
+		gtk_object_unref (GTK_OBJECT (match));
+		return NULL;
+	}
+
 	/* Since we sort low to high, we negate so that larger use scores will come first */
 	match->sort_major = card ? -floor (e_card_get_use_score (card)) : 0;
 

@@ -1,3 +1,10 @@
+2001-10-29  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(make_match): Drop a match if either of the text fields is NULL.
+	This could happen if any of the utf-8 involved is invalid, for
+	example. (Bug #13757)
+
 2001-10-29  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (is_syncable): fix bug that allowed
@@ -53,6 +60,7 @@
 	(field_activated): Stop editing on the activate signal and remove
 	the focus from the text.  Fixes Ximian bug #12286.
 
+>>>>>>> 1.897
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.h: tidy
