@@ -466,6 +466,51 @@ socket_connect (struct hostent *h, int port)
 	return fd;
 }
 
+static void
+save_ssl_cert (const char *certid)
+{
+	char *path, *filename;
+	struct stat st;
+	int fd;
+	
+	path = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
+	if (mkdir (path, 0700) == -1) {
+		if (errno != EEXIST)
+			return;
+		
+		if (stat (path, &st) == -1)
+			return;
+		
+		if (!S_ISDIR (st.st_mode))
+			return;
+	}
+	
+	filename = g_strdup_printf ("%s/%s", path, certid);
+	g_free (path);
+	
+	fd = open (filename, O_WRONLY | O_CREAT);
+	if (fd != -1)
+		close (fd);
+	
+	g_free (filename);
+}
+
+static gboolean
+ssl_cert_is_saved (const char *certid)
+{
+	char *filename;
+	int fd;
+	
+	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
+	
+	fd = open (filename, O_RDONLY);
+	g_free (filename);
+	if (fd != -1)
+		close (fd);
+	
+	return fd != -1;
+}
+
 static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
@@ -480,6 +525,9 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
+	
+	if (stream)
+		ok = ssl_cert_is_saved (stream->priv->expected_host);
 	
 	if (!ok && stream) {
 		CamelService *service = stream->priv->service;
@@ -499,6 +547,9 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 		
 		ok = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
 		g_free (prompt);
+		
+		if (ok)
+			save_ssl_cert (stream->priv->expected_host);
 	}
 	
 	return ok;

@@ -57,7 +57,6 @@ CamelType camel_tcp_stream_ssl_get_type (void);
 /* public methods */
 CamelStream *camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host);
 
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1,3 +1,10 @@
+2001-10-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (ssl_verify): Same hack as below.
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): Hack around the fact that
+	adding a cert to nss's certdb seems to not work.
+
 2001-10-10    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_sync): Only re-build the folder if we're

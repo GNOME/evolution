@@ -333,6 +333,51 @@ ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server
 }
 #endif
 
+static void
+save_ssl_cert (const char *certid)
+{
+	char *path, *filename;
+	struct stat st;
+	int fd;
+	
+	path = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
+	if (mkdir (path, 0700) == -1) {
+		if (errno != EEXIST)
+			return;
+		
+		if (stat (path, &st) == -1)
+			return;
+		
+		if (!S_ISDIR (st.st_mode))
+			return;
+	}
+	
+	filename = g_strdup_printf ("%s/%s", path, certid);
+	g_free (path);
+	
+	fd = open (filename, O_WRONLY | O_CREAT);
+	if (fd != -1)
+		close (fd);
+	
+	g_free (filename);
+}
+
+static gboolean
+ssl_cert_is_saved (const char *certid)
+{
+	char *filename;
+	int fd;
+	
+	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
+	
+	fd = open (filename, O_RDONLY);
+	g_free (filename);
+	if (fd != -1)
+		close (fd);
+	
+	return fd != -1;
+}
+
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
@@ -347,6 +392,10 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	
 	ssl = CAMEL_TCP_STREAM_SSL (data);
 	service = ssl->priv->service;
+	
+	/* this is part of a work-around hack */
+	if (ssl_cert_is_saved (ssl->priv->expected_host))
+		return SECSuccess;
 	
 	cert = SSL_PeerCertificate (sockfd);
 	
@@ -386,6 +435,10 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 		
 		CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageSSLServer, 1, certs,
 				  NULL, TRUE, FALSE, cert->nickname);
+		
+		/* and since the above code doesn't seem to
+                   work... time for a good ol' fashioned hack */
+		save_ssl_cert (ssl->priv->expected_host);
 		
 		return SECSuccess;
 	}
