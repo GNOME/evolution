@@ -1,7 +1,7 @@
 Evolution was written by:
 
 Bertrand Guiheneuf <bertrand@helixcode.com>
-	Main author of Camel.
+	Main author of Camel
 
 Chris Lahey (clahey@helixcode.com)
 	Mini-card display widget
@@ -11,13 +11,16 @@ Damon Chaplin <damon@helixcode.com>
 	Meeting time selector widget
 	Shortcut Bar widget
 
+Ettore Perazzoli <ettore@helixcode.com>
+	Message composer
+
 Federico Mena <federico@helixcode.com>
 	Gnome Calendar views, and engine
-	Gnome Calendar server.
+	Gnome Calendar server
 
 Miguel de Icaza <miguel@helixcode.com>
-	Gnome Calendar engine.
-	Base64 encoding in Camel. 
+	Gnome Calendar engine
+	Base64 encoding in Camel
 	Evolution Shell
 	ETable widget
 	Toolbar
