@@ -1,8 +1,8 @@
 <oaf_info>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
-            type="exe"
-            location="evolution-test-component">
+            type="factory"
+            location="GNOME:GNOME_Evolution_TestComponent_ShellComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>

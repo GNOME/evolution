@@ -304,8 +304,10 @@ EXTRA_DIST = 					\
 	$(server_in_files)			\
 	$(server_DATA)				\
 	$(etspec_DATA)				\
+	$(schema_DATA)				\
 	$(icons)				\
 	GNOME_Evolution_TestComponent.server	\
+	e-shell-marshal.list			\
 	evolution-nognome.in
 
 # Purify support
