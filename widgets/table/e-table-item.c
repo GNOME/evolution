@@ -50,6 +50,7 @@
 #define FOCUSED_BORDER 2
 
 #define d(x)
+#define DO_TOOLTIPS
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
@@ -2504,7 +2505,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
-		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
+		if (g_getenv ("GAL_DO_TOOLTIPS")) {
 			if (eti->tooltip->timer > 0)
 				gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;

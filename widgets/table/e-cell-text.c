@@ -1577,7 +1577,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 
-	ellipsis_env = getenv ("GAL_ELLIPSIS");
+	ellipsis_env = g_getenv ("GAL_ELLIPSIS");
 	if (ellipsis_env) {
 		if (*ellipsis_env) {
 			ellipsis_default = g_strdup (ellipsis_env);
