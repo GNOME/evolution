@@ -1,8 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-*.lo
-*.la
-GNOME_Evolution_Addressbook*.server
-GNOME_Evolution_Addressbook*.server.in
