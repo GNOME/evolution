@@ -1,3 +1,8 @@
+2001-07-30  Jason Leach  <jleach@ximian.com>
+
+	* Makefile.am (install-data-hook): Only try to make a
+	$(defaultdir)/news if building with NNTP support.
+
 2001-07-19  Chris Toshok  <toshok@ximian.com>
 
 	* addressbook-sources.xml: remove all the servers that just don't
