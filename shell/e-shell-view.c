@@ -1738,8 +1738,6 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	/* We were actively viewing the component that just crashed, so flip to the default URI */
 	if (viewing_closed_uri)
 		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
-
-	g_free (copy_of_uri);
 }
 
 
