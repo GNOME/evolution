@@ -97,7 +97,6 @@ typedef struct {
 
 	/* Virtual methods */
 	int (*connect)    (CamelTcpStream *stream, struct hostent *host, int port);
-	int (*disconnect) (CamelTcpStream *stream);
 	int (*getsockopt) (CamelTcpStream *stream, CamelSockOptData *data);
 	int (*setsockopt) (CamelTcpStream *stream, const CamelSockOptData *data);
 	
@@ -108,7 +107,6 @@ CamelType camel_tcp_stream_get_type (void);
 
 /* public methods */
 int camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
-int camel_tcp_stream_disconnect (CamelTcpStream *stream);
 int camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 int camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 

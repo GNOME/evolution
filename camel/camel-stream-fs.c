@@ -313,7 +313,11 @@ stream_flush (CamelStream *stream)
 static int
 stream_close (CamelStream *stream)
 {
-	return close(((CamelStreamFs *)stream)->fd);
+	if (close (((CamelStreamFs *)stream)->fd) == -1)
+		return -1;
+	
+	((CamelStreamFs *)stream)->fd= -1;
+	return 0;
 }
 
 static off_t

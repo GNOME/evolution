@@ -1,5 +1,22 @@
 2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-stream-fs.c (stream_close): If the close() is successful,
+	set the fd to -1.
+
+	* camel-tcp-stream-raw.c: Removed the disconnect() method.
+	(stream_close): If the close() is successful, set the sockfd to
+	-1.
+
+	* camel-tcp-stream-ssl.c: Removed the disconnect() method.
+	(stream_close): If the close() is successful, set the sockfd to
+	NULL.
+
+	* camel-tcp-stream.c (camel_tcp_stream_disconnect): Removed,
+	easier to just use the close() method as it did the same thing
+	anyway.
+
+2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-raw.c (stream_getsockopt): Updated to be able
 	to get the CAMEL_SOCKOPT_NONBLOCKING socket opt.
 	(stream_setsockopt): Updated to be able to set the

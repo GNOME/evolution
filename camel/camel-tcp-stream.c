@@ -31,7 +31,6 @@ static CamelStreamClass *parent_class = NULL;
 #define CTS_CLASS(so) CAMEL_TCP_STREAM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static int tcp_connect    (CamelTcpStream *stream, struct hostent *host, int port);
-static int tcp_disconnect (CamelTcpStream *stream);
 static int tcp_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int tcp_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
@@ -45,7 +44,6 @@ camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
 	
 	/* tcp stream methods */
 	camel_tcp_stream_class->connect    = tcp_connect;
-	camel_tcp_stream_class->disconnect = tcp_disconnect;
 	camel_tcp_stream_class->getsockopt = tcp_getsockopt;
 	camel_tcp_stream_class->setsockopt = tcp_setsockopt;
 }
@@ -99,31 +97,6 @@ camel_tcp_stream_connect (CamelTcpStream *stream, struct hostent *host, int port
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
 	
 	return CTS_CLASS (stream)->connect (stream, host, port);
-}
-
-
-static int
-tcp_disconnect (CamelTcpStream *stream)
-{
-	g_warning ("CamelTcpStream::disconnect called on default implementation\n");
-	return -1;
-}
-
-
-/**
- * camel_tcp_stream_disconnect:
- * @stream: tcp stream object
- *
- * Disconnect the tcp stream and properly close the socket.
- *
- * Return value: zero on success or -1 on fail.
- **/
-int
-camel_tcp_stream_disconnect (CamelTcpStream *stream)
-{
-	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
-	
-	return CTS_CLASS (stream)->disconnect (stream);
 }
 
 

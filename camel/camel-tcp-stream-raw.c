@@ -41,7 +41,6 @@ static int stream_flush  (CamelStream *stream);
 static int stream_close  (CamelStream *stream);
 
 static int stream_connect (CamelTcpStream *stream, struct hostent *host, int port);
-static int stream_disconnect (CamelTcpStream *stream);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
@@ -62,7 +61,6 @@ camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_cl
 	camel_stream_class->close = stream_close;
 	
 	camel_tcp_stream_class->connect = stream_connect;
-	camel_tcp_stream_class->disconnect = stream_disconnect;
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
 	camel_tcp_stream_class->setsockopt = stream_setsockopt;
 }
@@ -160,8 +158,11 @@ stream_flush (CamelStream *stream)
 static int
 stream_close (CamelStream *stream)
 {
-	g_warning ("CamelTcpStreamRaw::close: Better to call ::disconnect.\n");
-	return close (((CamelTcpStreamRaw *)stream)->sockfd);
+	if (close (((CamelTcpStreamRaw *)stream)->sockfd) == -1)
+		return -1;
+	
+	((CamelTcpStreamRaw *)stream)->sockfd = -1;
+	return 0;
 }
 
 
@@ -191,12 +192,6 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	raw->sockfd = fd;
 	
 	return 0;
-}
-
-static int
-stream_disconnect (CamelTcpStream *stream)
-{
-	return close (((CamelTcpStreamRaw *)stream)->sockfd);
 }
 
 
@@ -268,7 +263,7 @@ stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
 static int
 stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 {
-	int optname, optlen;
+	int optname;
 	
 	if ((optname = get_sockopt_optname (data)) == -1)
 		return -1;
