@@ -124,7 +124,7 @@ static void     ldap_op_restart (LDAPOp *op);
 static gboolean ldap_op_process_on_idle (PASBackend *backend);
 static void     ldap_op_finished (LDAPOp *op);
 
-static ECardSimple *build_card_from_entry (LDAP *ldap, LDAPMessage *e);
+static ECardSimple *build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasses);
 
 static void email_populate (ECardSimple *card, char **values);
 struct berval** email_ber (ECardSimple *card);
@@ -427,7 +427,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 }
 
 static ECardSimple *
-search_for_dn (PASBackendLDAP *bl, const char *dn)
+search_for_dn_with_objectclasses (PASBackendLDAP *bl, const char *dn, GList **existing_objectclasses)
 {
 	LDAP *ldap = bl->priv->ldap;
 	LDAPMessage    *res, *e;
@@ -442,7 +442,7 @@ search_for_dn (PASBackendLDAP *bl, const char *dn)
 		while (NULL != e) {
 			if (!strcmp (ldap_get_dn (ldap, e), dn)) {
 				printf ("found it\n");
-				result = build_card_from_entry (ldap, e);
+				result = build_card_from_entry (ldap, e, existing_objectclasses);
 				break;
 			}
 			e = ldap_next_entry (ldap, e);
@@ -452,6 +452,12 @@ search_for_dn (PASBackendLDAP *bl, const char *dn)
 	}
 
 	return result;
+}
+
+static ECardSimple *
+search_for_dn (PASBackendLDAP *bl, const char *dn)
+{
+	return search_for_dn_with_objectclasses (bl, dn, NULL);
 }
 
 static void
@@ -752,26 +758,60 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 }
 
 static void
-add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array, gboolean modify)
+add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array, GList *existing_objectclasses)
 {
 	LDAPMod *objectclass_mod;
 
-	objectclass_mod = g_new (LDAPMod, 1);
-	objectclass_mod->mod_op = modify ? LDAP_MOD_REPLACE : LDAP_MOD_ADD;
-	objectclass_mod->mod_type = g_strdup ("objectClass");
-	objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
-	objectclass_mod->mod_values[0] = g_strdup (TOP);
-	objectclass_mod->mod_values[1] = g_strdup (PERSON);
-	objectclass_mod->mod_values[2] = g_strdup (ORGANIZATIONALPERSON);
-	objectclass_mod->mod_values[3] = g_strdup (INETORGPERSON);
-	if (bl->priv->evolutionPersonSupported) {
-		objectclass_mod->mod_values[4] = g_strdup (EVOLUTIONPERSON);
-		objectclass_mod->mod_values[5] = NULL;
+	if (existing_objectclasses) {
+		int i = 0;
+
+		objectclass_mod = g_new (LDAPMod, 1);
+		objectclass_mod->mod_op = LDAP_MOD_ADD;
+		objectclass_mod->mod_type = g_strdup ("objectClass");
+		objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
+
+		/* yes, this is a linear search for each of our
+                   objectclasses, but really, how many objectclasses
+                   are there going to be in any sane ldap entry? */
+#define FIND_INSERT(oc) \
+	if (!g_list_find_custom (existing_objectclasses, (oc), (GCompareFunc)g_strcasecmp)) \
+	         objectclass_mod->mod_values[i++] = g_strdup ((oc));
+
+		FIND_INSERT (TOP);
+		FIND_INSERT (PERSON);
+		FIND_INSERT (ORGANIZATIONALPERSON);
+		FIND_INSERT (INETORGPERSON);
+		if (bl->priv->evolutionPersonSupported)
+			FIND_INSERT (EVOLUTIONPERSON);
+		objectclass_mod->mod_values[i] = NULL;
+
+		if (i) {
+			g_ptr_array_add (mod_array, objectclass_mod);
+		}
+		else {
+			g_free (objectclass_mod->mod_type);
+			g_free (objectclass_mod->mod_values);
+			g_free (objectclass_mod);
+		}
 	}
 	else {
-		objectclass_mod->mod_values[4] = NULL;
+		objectclass_mod = g_new (LDAPMod, 1);
+		objectclass_mod->mod_op = LDAP_MOD_ADD;
+		objectclass_mod->mod_type = g_strdup ("objectClass");
+		objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
+		objectclass_mod->mod_values[0] = g_strdup (TOP);
+		objectclass_mod->mod_values[1] = g_strdup (PERSON);
+		objectclass_mod->mod_values[2] = g_strdup (ORGANIZATIONALPERSON);
+		objectclass_mod->mod_values[3] = g_strdup (INETORGPERSON);
+		if (bl->priv->evolutionPersonSupported) {
+			objectclass_mod->mod_values[4] = g_strdup (EVOLUTIONPERSON);
+			objectclass_mod->mod_values[5] = NULL;
+		}
+		else {
+			objectclass_mod->mod_values[4] = NULL;
+		}
+		g_ptr_array_add (mod_array, objectclass_mod);
 	}
-	g_ptr_array_add (mod_array, objectclass_mod);
 }
 
 typedef struct {
@@ -826,7 +866,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	g_ptr_array_remove (mod_array, NULL);
 
 	/* add our objectclass(es) */
-	add_objectclass_mod (bl, mod_array, FALSE);
+	add_objectclass_mod (bl, mod_array, NULL);
 
 	/* then put the NULL back */
 	g_ptr_array_add (mod_array, NULL);
@@ -1072,6 +1112,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 	LDAPMod **ldap_mods;
 	LDAP *ldap;
 	ECardSimple *current_card;
+	GList *existing_objectclasses = NULL;
 
 	new_ecard = e_card_new (modify_op->vcard);
 	id = e_card_get_id(new_ecard);
@@ -1081,7 +1122,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 	if (op->view)
 		pas_book_view_notify_status_message (op->view, _("Modifying card from LDAP server..."));
 
-	current_card = search_for_dn (bl, id);
+	current_card = search_for_dn_with_objectclasses (bl, id, &existing_objectclasses);
 
 	if (current_card) {
 		ECardSimple *new_card = e_card_simple_new (new_ecard);
@@ -1096,7 +1137,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 			/* add our objectclass(es), making sure
                            evolutionPerson is there if it's supported */
-			add_objectclass_mod (bl, mod_array, TRUE);
+			add_objectclass_mod (bl, mod_array, existing_objectclasses);
 
 			/* then put the NULL back */
 			g_ptr_array_add (mod_array, NULL);
@@ -1143,6 +1184,8 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 		/* and clean up */
 		free_mods (mod_array);
+		g_list_foreach (existing_objectclasses, (GFunc)g_free, NULL);
+		g_list_free (existing_objectclasses);
 		gtk_object_unref (GTK_OBJECT(new_card));
 		gtk_object_unref (GTK_OBJECT(current_card));
 	}
@@ -2093,7 +2136,7 @@ typedef struct {
 } LDAPSearchOp;
 
 static ECardSimple *
-build_card_from_entry (LDAP *ldap, LDAPMessage *e)
+build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasses)
 {
 	ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
 	ECardSimple *card = e_card_simple_new (ecard);
@@ -2108,29 +2151,38 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e)
 	     attr = ldap_next_attribute (ldap, e, ber)) {
 		int i;
 		struct prop_info *info = NULL;
+		char **values;
 
-		for (i = 0; i < num_prop_infos; i ++)
-			if (!g_strcasecmp (attr, prop_info[i].ldap_attr))
-				info = &prop_info[i];
-
-		if (info) {
-			char **values;
+		if (existing_objectclasses && !strcasecmp (attr, "objectclass")) {
 			values = ldap_get_values (ldap, e, attr);
+			for (i = 0; values[i]; i ++)
+				*existing_objectclasses = g_list_append (*existing_objectclasses, g_strdup (values[i]));
 
-			if (values) {
-				if (info->prop_type & PROP_TYPE_STRING) {
-				/* if it's a normal property just set the string */
-					e_card_simple_set (card, info->field_id, values[0]);
+			ldap_value_free (values);
+		}
+		else {
+			for (i = 0; i < num_prop_infos; i ++)
+				if (!g_strcasecmp (attr, prop_info[i].ldap_attr))
+					info = &prop_info[i];
 
+			if (info) {
+				values = ldap_get_values (ldap, e, attr);
+
+				if (values) {
+					if (info->prop_type & PROP_TYPE_STRING) {
+						/* if it's a normal property just set the string */
+						e_card_simple_set (card, info->field_id, values[0]);
+
+					}
+					else if (info->prop_type & PROP_TYPE_COMPLEX) {
+						/* if it's a list call the ecard-populate function,
+						   which calls gtk_object_set to set the property */
+						info->populate_ecard_func(card,
+									  values);
+					}
+
+					ldap_value_free (values);
 				}
-				else if (info->prop_type & PROP_TYPE_COMPLEX) {
-				/* if it's a list call the ecard-populate function,
-				   which calls gtk_object_set to set the property */
-					info->populate_ecard_func(card,
-								  values);
-				}
-
-				ldap_value_free (values);
 			}
 		}
 	}
@@ -2186,7 +2238,7 @@ poll_ldap (LDAPSearchOp *op)
 	e = ldap_first_entry(ldap, res);
 
 	while (NULL != e) {
-		ECardSimple *card = build_card_from_entry (ldap, e);
+		ECardSimple *card = build_card_from_entry (ldap, e, NULL);
 
 		cards = g_list_append (cards, e_card_simple_get_vcard_assume_utf8 (card));
 
