@@ -2285,7 +2285,7 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 		e_msg_composer_set_pgp_sign (composer,
 					     account->pgp_always_sign &&
 					     (!account->pgp_no_imip_sign || !composer->mime_type ||
-					      g_strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
+					      strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
 		e_msg_composer_set_smime_sign (composer, account->smime_always_sign);
 		update_auto_recipients (hdrs, UPDATE_AUTO_CC, account->always_cc ? account->cc_addrs : NULL);
 		update_auto_recipients (hdrs, UPDATE_AUTO_BCC, account->always_bcc ? account->bcc_addrs : NULL);
@@ -3532,7 +3532,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		while (*format && isspace ((unsigned) *format))
 			format++;
 		
-		if (!g_strcasecmp (format, "text/html"))
+		if (!strcasecmp (format, "text/html"))
 			e_msg_composer_set_send_html (new, TRUE);
 		else
 			e_msg_composer_set_send_html (new, FALSE);
@@ -3546,8 +3546,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
 		if (!is_special_header (headers->name) ||
-		    !g_strcasecmp (headers->name, "References") ||
-		    !g_strcasecmp (headers->name, "In-Reply-To")) {
+		    !strcasecmp (headers->name, "References") ||
+		    !strcasecmp (headers->name, "In-Reply-To")) {
 			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
 			g_ptr_array_add (new->extra_hdr_values, g_strdup (headers->value));
 		}
@@ -3684,7 +3684,7 @@ e_msg_composer_new_from_url (const char *url_in)
 	char *content;
 	int len, clen;
 	
-	g_return_val_if_fail (g_strncasecmp (url_in, "mailto:", 7) == 0, NULL);
+	g_return_val_if_fail (strncasecmp (url_in, "mailto:", 7) == 0, NULL);
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
@@ -3719,19 +3719,19 @@ e_msg_composer_new_from_url (const char *url_in)
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
 			
-			if (!g_strncasecmp (header, "to", len)) {
+			if (!strncasecmp (header, "to", len)) {
 				to = add_recipients (to, content, FALSE);
-			} else if (!g_strncasecmp (header, "cc", len)) {
+			} else if (!strncasecmp (header, "cc", len)) {
 				cc = add_recipients (cc, content, FALSE);
-			} else if (!g_strncasecmp (header, "bcc", len)) {
+			} else if (!strncasecmp (header, "bcc", len)) {
 				bcc = add_recipients (bcc, content, FALSE);
-			} else if (!g_strncasecmp (header, "subject", len)) {
+			} else if (!strncasecmp (header, "subject", len)) {
 				g_free (subject);
 				subject = g_strdup (content);
-			} else if (!g_strncasecmp (header, "body", len)) {
+			} else if (!strncasecmp (header, "body", len)) {
 				g_free (body);
 				body = g_strdup (content);
-			} else if (!g_strncasecmp (header, "attach", len)) {
+			} else if (!strncasecmp (header, "attach", len)) {
 				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
 			} else {
 				/* add an arbitrary header? */
