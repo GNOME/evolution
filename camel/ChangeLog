@@ -1,3 +1,9 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Start
+	scanning new messages at maxuid + 1 rather than uidval + 1? Maybe
+	I'm missing the logic, but anyways...this might fix bug #5348.
+
 2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_keepalive): If we are

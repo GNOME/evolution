@@ -1588,24 +1588,24 @@ imap_update_summary (CamelFolder *folder, int exists,
 		     GPtrArray *recents,
 		     CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	CamelImapResponseType type;
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *fetch_data = NULL, *messages = NULL, *needheaders;
-	char *uid, *resp;
+	guint32 flags, uidval, maxuid;
+	int i, seq, first, size, got;
+	CamelImapResponseType type;
 	const char *header_spec;
-	int i, seq, first, size, got, uidval;
 	CamelMessageInfo *mi;
 	CamelStream *stream;
-	guint32 flags;
+	char *uid, *resp;
 	GData *data;
-
+	
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
 		header_spec = "HEADER";
 	else
 		header_spec = "0";
-
+	
 	/* Figure out if any of the new messages are already cached (which
 	 * may be the case if we're re-syncing after disconnected operation).
 	 * If so, get their UIDs, FLAGS, and SIZEs. If not, get all that
@@ -1619,16 +1619,17 @@ imap_update_summary (CamelFolder *folder, int exists,
 		camel_folder_summary_info_free (folder->summary, mi);
 	} else
 		uidval = 0;
-
+	
 	size = (exists - seq) * (IMAP_PRETEND_SIZEOF_FLAGS + IMAP_PRETEND_SIZEOF_SIZE);
 	got = 0;
-
-	if (uidval >= camel_imap_message_cache_max_uid (imap_folder->cache)) {
+	
+	maxuid = camel_imap_message_cache_max_uid (imap_folder->cache);
+	if (uidval >= maxuid) {
 		/* None of the new messages are cached */
 		size += (exists - seq) * IMAP_PRETEND_SIZEOF_HEADERS;
 		if (!camel_imap_command_start (store, folder, ex,
 					       "UID FETCH %d:* (FLAGS RFC822.SIZE BODY.PEEK[%s])",
-					       uidval + 1, header_spec))
+					       maxuid + 1, header_spec))
 			return;
 		camel_operation_start (NULL, _("Fetching summary information for new messages"));
 	} else {
@@ -1638,7 +1639,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 			return;
 		camel_operation_start (NULL, _("Scanning for new messages"));
 	}
-
+	
 	/* Parse the responses. We can't add a message to the summary
 	 * until we've gotten its headers, and there's no guarantee
 	 * the server will send the responses in a useful order...
@@ -1806,13 +1807,13 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	CamelMessageInfo *info;
 	GPtrArray *recents = NULL;
 	int len;
-
+	
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
-
+	
 	changes = camel_folder_change_info_new ();
 	if (expunged) {
 		int i, id;
-
+		
 		for (i = 0; i < expunged->len; i++) {
 			id = g_array_index (expunged, int, i);
 			info = camel_folder_summary_index (folder->summary, id - 1);
@@ -1830,44 +1831,43 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 			camel_folder_summary_info_free(folder->summary, info);
 		}
 	}
-
+	
 	len = camel_folder_summary_count (folder->summary);
 	if (exists > len) {
 		if (imap_folder->do_filtering)
 			recents = g_ptr_array_new ();
 		imap_update_summary (folder, exists, changes, recents, ex);
 	}
-
+	
 	/* if we have updates to make for filtering (probably), then we freeze the
 	   folder so we dont show them till they're complete, this may cause unacceptable
 	   delays for users, but the alternative isn't very nice either (show them and let
 	   them change as processed) */
-	if (recents && !camel_exception_is_set(ex) && recents->len) {
+	if (recents && !camel_exception_is_set (ex) && recents->len) {
 		CamelFilterDriver *driver;
-
-		camel_folder_freeze(folder);
-
-		if (camel_folder_change_info_changed(changes))
-			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", changes);
-
-		driver = camel_session_get_filter_driver(CAMEL_SERVICE(folder->parent_store)->session, "incoming", ex);
+		
+		camel_folder_freeze (folder);
+		
+		if (camel_folder_change_info_changed (changes))
+			camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
+		
+		driver = camel_session_get_filter_driver (CAMEL_SERVICE (folder->parent_store)->session, "incoming", ex);
 		if (driver) {
-			camel_filter_driver_filter_folder(driver, folder, NULL, recents, FALSE, ex);
-			camel_object_unref(CAMEL_OBJECT(driver));
+			camel_filter_driver_filter_folder (driver, folder, NULL, recents, FALSE, ex);
+			camel_object_unref (CAMEL_OBJECT (driver));
 		}
-
-		camel_folder_thaw(folder);
+		
+		camel_folder_thaw (folder);
 	} else {
-		if (camel_folder_change_info_changed(changes))
-			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", changes);
+		if (camel_folder_change_info_changed (changes))
+			camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
 	}
-
+	
 	camel_folder_change_info_free (changes);
-
+	
 	if (recents)
 		g_ptr_array_free (recents, TRUE);
-
-
+	
 	camel_folder_summary_save (folder->summary);
 }
 
