@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-03 06:19+0100\n"
-"PO-Revision-Date: 2004-12-03 11:16+0530\n"
+"PO-Revision-Date: 2004-12-03 11:19+0530\n"
 "Last-Translator: Amanpreet Singh Alam <aalam@redhat.com>\n"
 "Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -12286,7 +12286,7 @@ msgstr "ਇਸ ਸਮੇਂ ਮੈਂ ਦਫਤਰ ਵਿੱਚ ਕੰਮ ਕਰ
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr "ਇਸ ਸਮੇਂ ਮੈਂ ਦਫਤਰ ਵਿੱਚ ਕੰਮ ਕਰ ਰਿਹਾ ਹਾਂ"
+msgstr "ਇਸ ਸਮੇਂ ਮੈਂ ਦਫਤਰ ਤੋਂ ਬਾਹਰ ਹਾਂ"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
