@@ -167,6 +167,8 @@ ETableState    *e_tree_get_state_object           (ETree                *e_tree)
 ETableSpecification    *e_tree_get_spec           (ETree                *e_tree);
 
 /* note that it is more efficient to provide the state at creation time */
+void            e_tree_set_search_column          (ETree *e_tree,
+						   gint  col);
 void            e_tree_set_state                  (ETree                *e_tree,
 						   const gchar          *state);
 void            e_tree_set_state_object           (ETree                *e_tree,

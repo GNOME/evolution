@@ -1107,6 +1107,27 @@ e_tree_setup_table (ETree *e_tree)
 	et_build_item(e_tree);
 }
 
+/**
+ * e_tree_set_search_column:
+ * @e_tree: #ETree object that will be modified
+ * @col: Column index to use for searches 
+ *
+ * This routine sets the current search column to be used for keypress
+ * searches of the #ETree. If -1 is passed in for column, the current
+ * search column is cleared.
+ */
+void
+e_tree_set_search_column (ETree *e_tree, gint  col)
+{
+	if (col == -1) {
+		clear_current_search_col (e_tree);
+		return;
+	}
+
+	e_tree->priv->search_col_set = TRUE;
+	e_tree->priv->current_search_col = e_table_header_get_column (e_tree->priv->full_header, col);
+}
+
 void
 e_tree_set_state_object(ETree *e_tree, ETableState *state)
 {
