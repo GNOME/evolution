@@ -1,3 +1,8 @@
+2001-10-10  Larry Ewing  <lewing@ximian.com>
+
+	* gui/e-itip-control.c (init): set the default character set to
+	utf-8.
+
 2001-10-10  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal-factory.c (lookup_backend): Return the original key in

@@ -1,3 +1,6 @@
+
+
+
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-itip-control.c
  *
@@ -243,6 +246,9 @@ init (EItipControl *itip)
 
 	/* Html Widget */
 	priv->html = gtk_html_new ();
+	gtk_html_set_default_content_type (priv->html, 
+					   "text/html; charset=utf-8");
+
 	gtk_widget_show (priv->html);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
