@@ -42,6 +42,8 @@ struct _ESummaryTasks {
 	CalClient *client;
 
 	char *html;
+	char *due_today_colour;
+	char *overdue_colour;
 };
 
 const char *
@@ -250,9 +252,9 @@ get_task_colour (ESummary *summary,
 		end_t = icaltime_as_timet (*due.value);
 
 		if (end_t >= todays_start && end_t <= todays_end) {
-			ret = "blue";
+			ret = summary->tasks->due_today_colour;
 		} else if (end_t < t) {
-			ret = "red";
+			ret = summary->tasks->overdue_colour;
 		} else {
 			ret = "black";
 		}
@@ -429,15 +431,36 @@ e_summary_tasks_protocol (ESummary *summary,
 void
 e_summary_tasks_init (ESummary *summary)
 {
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	ESummaryTasks *tasks;
 	gboolean result;
 
 	g_return_if_fail (summary != NULL);
 
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Tasks cannot get database ");
+		db = CORBA_OBJECT_NIL;
+	}
+	CORBA_exception_free (&ev);
+	
 	tasks = g_new (ESummaryTasks, 1);
 	summary->tasks = tasks;
 	tasks->html = NULL;
 
+	/* Get some configuration values from the calendar */
+	if (db != CORBA_OBJECT_NIL) {
+		tasks->due_today_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
+		tasks->overdue_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
+
+		bonobo_object_release_unref (db, NULL);
+	} else {
+		tasks->due_today_colour = g_strdup ("blue");
+		tasks->overdue_colour = g_strdup ("red");
+	}
+	
 	tasks->client = cal_client_new ();
 	if (tasks->client == NULL) {
 		g_warning ("Error making the client");
@@ -476,7 +499,9 @@ e_summary_tasks_free (ESummary *summary)
 	tasks = summary->tasks;
 	gtk_object_unref (GTK_OBJECT (tasks->client));
 	g_free (tasks->html);
-
+	g_free (tasks->due_today_colour);
+	g_free (tasks->overdue_colour);
+	
 	g_free (tasks);
 	summary->tasks = NULL;
 }

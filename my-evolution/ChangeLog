@@ -1,3 +1,10 @@
+2002-08-14  Iain <iain@ximian.com>
+
+	* e-summary-tasks.c (get_task_colour): Return the stored task colour.
+	(e_summary_tasks_init): Get the colour for overdue and todays tasks
+	from the wombat.
+	(e_summary_tasks_free): Free the stored colours.
+
 2002-08-12  Iain <iain@ximian.com>
 
 	* e-summary-preferences.c: Removed duff URIs
