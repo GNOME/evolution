@@ -1,5 +1,11 @@
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (e_shell_view_save_settings): Save the paned
+	positions.
+	(e_shell_view_load_settings): Restore them.
+
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c (save_settings_for_views): New.  Code moved out of
 	`e_shell_save_settings'.
 	(e_shell_save_settings): Use it.

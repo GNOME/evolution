@@ -987,6 +987,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 			    GConfClient *gconf_client,
 			    const char *prefix)
 {
+	EShellViewPrivate *priv;
 	GConfError *err = NULL;
 	const char *uri;
 	char *path;
@@ -998,6 +999,8 @@ e_shell_view_save_settings (EShellView *shell_view,
 	g_return_val_if_fail (prefix != NULL, FALSE);
 	g_return_val_if_fail (g_path_is_absolute (prefix), FALSE);
 
+	priv = shell_view->priv;
+
 #define SET(type, key, value)						\
 	path = g_strconcat (prefix, "/", (key), NULL);			\
 	gconf_client_set_##type (gconf_client, path, (value), &err);	\
@@ -1007,8 +1010,10 @@ e_shell_view_save_settings (EShellView *shell_view,
 		return FALSE;						\
 	}
 
-	SET (int, "FolderBarMode",   e_shell_view_get_folder_bar_mode (shell_view))
-	SET (int, "ShortcutBarMode", e_shell_view_get_shortcut_bar_mode (shell_view));
+	SET (int, "FolderBarMode",      e_shell_view_get_folder_bar_mode (shell_view))
+	SET (int, "ShortcutBarMode",    e_shell_view_get_shortcut_bar_mode (shell_view));
+	SET (int, "HPanedPosition",     e_paned_get_position (E_PANED (priv->hpaned)));
+	SET (int, "ViewHPanedPosition", e_paned_get_position (priv->view_hpaned));
 
 	uri = e_shell_view_get_current_uri (shell_view);
 	if (uri != NULL) {
@@ -1045,8 +1050,9 @@ e_shell_view_load_settings (EShellView *shell_view,
 			    GConfClient *gconf_client,
 			    const char *prefix)
 {
-	gboolean val;
+	EShellViewPrivate *priv;
 	GConfError *err = NULL;
+	int val;
 	char *stringval;
 	char *path;
 
@@ -1056,6 +1062,8 @@ e_shell_view_load_settings (EShellView *shell_view,
 	g_return_val_if_fail (GCONF_IS_CLIENT (gconf_client), FALSE);
 	g_return_val_if_fail (prefix != NULL, FALSE);
 	g_return_val_if_fail (g_path_is_absolute (prefix), FALSE);
+
+	priv = shell_view->priv;
 
 #define GET(type, key, value)						\
 	path = g_strconcat (prefix, "/", (key), NULL);			\
@@ -1071,6 +1079,12 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	GET (int, "ShortcutBarMode", val);
 	e_shell_view_set_shortcut_bar_mode (shell_view, val);
+
+	GET (int, "HPanedPosition", val);
+	e_paned_set_position (E_PANED (priv->hpaned), val);
+
+	GET (int, "ViewHPanedPosition", val);
+	e_paned_set_position (E_PANED (priv->view_hpaned), val);
 
 	GET (string, "DisplayedURI", stringval);
 	e_shell_view_display_uri (shell_view, stringval);
