@@ -64,4 +64,6 @@ color_init (void)
 
 	color_alloc_name ("gray60", &gs_light_gray);
 	color_alloc_name ("gray20", &gs_dark_gray);
+
+	color_inited = 1;
 }
