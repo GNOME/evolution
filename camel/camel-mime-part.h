@@ -94,7 +94,7 @@ const     gchar *camel_mime_part_get_description	(CamelMimePart *mime_part);
 void	         camel_mime_part_set_disposition	(CamelMimePart *mime_part, const gchar *disposition);
 const     gchar *camel_mime_part_get_disposition	(CamelMimePart *mime_part);
 
-void	         camel_mime_part_set_filename		(CamelMimePart *mime_part, gchar *filename);
+void	         camel_mime_part_set_filename		(CamelMimePart *mime_part, const gchar *filename);
 const	  gchar *camel_mime_part_get_filename		(CamelMimePart *mime_part);
 
 void             camel_mime_part_set_content_id		(CamelMimePart *mime_part, const char *contentid);

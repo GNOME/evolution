@@ -328,7 +328,7 @@ camel_mime_part_set_disposition (CamelMimePart *mime_part, const gchar *disposit
 	text = header_disposition_format(mime_part->disposition);
 
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
-				 "Content-Description", text);
+				 "Content-Disposition", text);
 
 	g_free(text);
 }
@@ -346,7 +346,7 @@ camel_mime_part_get_disposition (CamelMimePart *mime_part)
 /* **** Content-Disposition: filename="xxx" */
 
 void
-camel_mime_part_set_filename (CamelMimePart *mime_part, gchar *filename)
+camel_mime_part_set_filename (CamelMimePart *mime_part, const gchar *filename)
 {
 	char *str;
 	if (mime_part->disposition == NULL)
