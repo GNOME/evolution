@@ -143,6 +143,7 @@ month_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	requisition->height = 150;
 }
 
+#if 0 /* Time runs horizontally */
 /* Adjusts a single segment from a child */
 static void
 adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
@@ -204,6 +205,50 @@ adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
 			       "x2", ix1 + width * end_factor,
 			       "y2", iy1 + slot_height * (child->slot_start + child->slots_used),
 			       NULL);
+}
+#endif
+
+static void
+adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
+{
+	GnomeMonthItem *mitem;
+	struct tm tm;
+	int day_index;
+	GnomeCanvasItem *item;
+	double day_width, day_height;
+	double x1, y1, x2, y2;
+	double y;
+	double slot_width;
+
+	mitem = GNOME_MONTH_ITEM (mv->mitem);
+
+	/* Find out the dimensions of the day item for the segment */
+
+	tm = *localtime (&seg->start);
+	day_index = gnome_month_item_day2index (mitem, tm.tm_mday);
+	g_assert (day_index != -1);
+
+	item = gnome_month_item_num2child (mitem, day_index + GNOME_MONTH_ITEM_DAY_GROUP);
+	gnome_canvas_item_get_bounds (item, &x1, &y1, &x2, &y2);
+
+	/* Get the bottom coordinate of the day label */
+
+	item = gnome_month_item_num2child (mitem, day_index + GNOME_MONTH_ITEM_DAY_LABEL);
+	gnome_canvas_item_get_bounds (item, NULL, NULL, NULL, &y);
+
+	/* Calculate usable area */
+
+	y1 += y;
+	day_width = x2 - x1;
+	day_height = y2 - y1;
+
+	slot_width = day_width / child->slots_used;
+
+	/* Set the coordinates of the segment's item */
+
+	
+
+	
 }
 
 /* Adjusts the child events of the month view to the appropriate size and position */
@@ -291,6 +336,7 @@ child_destroy (MonthView *mv, struct child *child)
 	g_free (child);
 }
 
+#if 0 /* Time runs horizontally */
 /* Creates the list of segments that are used to display a child.  Each child may have several
  * segments, because it may span several weeks in the month view.  This function only creates the
  * segment structures and the associated canvas items, but it does not set their final position in
@@ -350,6 +396,60 @@ child_create_segments (MonthView *mv, struct child *child)
 		week_begin = time_add_week (week_begin, 1);
 		week_end = time_add_week (week_end, 1);
 	} while ((child->end > week_begin) && (week_begin < month_end));
+
+	/* Reverse the list to put it in increasing order */
+
+	child->segments = g_list_reverse (child->segments);
+}
+#endif
+
+/* Time runs vertically */
+static void
+child_create_segments (MonthView *mv, struct child *child)
+{
+	time_t t;
+	time_t month_begin, month_end;
+	time_t day_begin, day_end;
+	struct segment *seg;
+
+	/* Get the month's extents */
+
+	t = time_from_day (mv->year, mv->month, 1);
+	month_begin = time_month_begin (t);
+	month_end = time_month_end (t);
+
+	/* Get the first day of the event */
+
+	t = MAX (child->start, month_begin);
+	day_begin = time_day_begin (t);
+	day_end = time_day_end (day_begin);
+
+	/* Loop until the event ends or the month ends -- the segments list is created in reverse
+	 * order.
+	 */
+
+	do {
+		seg = g_new (struct segment, 1);
+
+		/* Clip the child to this day */
+
+		seg->start = MAX (child->start, day_begin);
+		seg->end = MIN (child->end, day_end);
+
+		seg->item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (mv->mitem),
+						   gnome_canvas_rect_get_type (),
+						   "fill_color", color_spec_from_prop (COLOR_PROP_MARK_DAY_BG),
+						   "outline_color", "black",
+						   "width_pixels", 0,
+						   NULL);
+
+		child->segments = g_list_prepend (child->segments, seg);
+
+		/* Next day */
+
+		day_begin = time_add_day (day_begin, 1);
+		day_end = time_day_end (day_begin);
+	} while ((child->end > day_begin) && (day_begin < month_end));
 
 	/* Reverse the list to put it in increasing order */
 
