@@ -29,9 +29,8 @@
 #include <gdk/gdk.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-col.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef struct _ETableHeader ETableHeader;
 
@@ -115,7 +114,7 @@ ETableCol    *e_table_header_prioritized_column_selected  (ETableHeader       *e
 							   gpointer            user_data);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_HEADER_H_ */
 

@@ -24,9 +24,8 @@
 #define _E_CELL_DATE_H_
 
 #include <gal/e-table/e-cell-text.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_DATE_TYPE        (e_cell_date_get_type ())
 #define E_CELL_DATE(o)          (GTK_CHECK_CAST ((o), E_CELL_DATE_TYPE, ECellDate))
@@ -45,6 +44,6 @@ typedef struct {
 GtkType    e_cell_date_get_type (void);
 ECell     *e_cell_date_new      (const char *fontname, GtkJustification justify);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_DATE_H_ */

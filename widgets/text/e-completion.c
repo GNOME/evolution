@@ -26,6 +26,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <gal/util/e-util.h>
 #include "e-completion.h"
 #include "gal/util/e-util.h"
 
@@ -110,7 +111,7 @@ e_completion_class_init (ECompletionClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, request_completion),
-				gtk_marshal_NONE__POINTER_INT_INT,
+				e_marshal_NONE__POINTER_INT_INT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_INT);
 
@@ -119,7 +120,7 @@ e_completion_class_init (ECompletionClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, begin_completion),
-				gtk_marshal_NONE__POINTER_INT_INT,
+				e_marshal_NONE__POINTER_INT_INT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_INT);
 
@@ -189,17 +190,19 @@ e_completion_destroy (GtkObject *object)
 {
 	ECompletion *complete = E_COMPLETION (object);
 
-	g_free (complete->priv->search_text);
-	complete->priv->search_text = NULL;
+	if (complete->priv) {
+		g_free (complete->priv->search_text);
+		complete->priv->search_text = NULL;
 
-	e_completion_clear_matches (complete);
-	e_completion_clear_search_stack (complete);
+		e_completion_clear_matches (complete);
+		e_completion_clear_search_stack (complete);
 
-	g_ptr_array_free (complete->priv->matches, TRUE);
-	complete->priv->matches = NULL;
+		g_ptr_array_free (complete->priv->matches, TRUE);
+		complete->priv->matches = NULL;
 
-	g_free (complete->priv);
-	complete->priv = NULL;
+		g_free (complete->priv);
+		complete->priv = NULL;
+	}
 
 	if (parent_class->destroy)
 		(parent_class->destroy) (object);
@@ -393,7 +396,7 @@ e_completion_begin_search (ECompletion *complete, const gchar *text, gint pos, g
 	g_return_if_fail (E_IS_COMPLETION (complete));
 	g_return_if_fail (text != NULL);
 
-	klass = E_COMPLETION_CLASS (GTK_OBJECT (complete)->klass);
+	klass = E_COMPLETION_CLASS (GTK_OBJECT_GET_CLASS (complete));
 
 	if (!complete->priv->searching && complete->priv->done_search) {
 

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-memory.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -30,8 +30,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
@@ -219,12 +219,15 @@ etmm_destroy (GtkObject *object)
 	ETreeMemory *etmm = E_TREE_MEMORY (object);
 	ETreeMemoryPriv *priv = etmm->priv;
 
+	if (priv) {
 	/* XXX lots of stuff to free here */
 
-	if (priv->root)
-		e_tree_memory_node_remove (etmm, priv->root);
+		if (priv->root)
+			e_tree_memory_node_remove (etmm, priv->root);
 
-	g_free (priv);
+		g_free (priv);
+	}
+	etmm->priv = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

@@ -1,10 +1,10 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-colors.c - General color allocation utilities
  * Copyright 2000, 2001, Ximian, Inc.
  *
  * Authors:
- *   Miguel de Icaza (miguel@kernel.org)
+ *  Miguel de Icaza (miguel@kernel.org)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -29,71 +29,75 @@
 #include <gtk/gtkwidget.h>
 #include "e-colors.h"
 
-static gboolean e_color_inited;
-static GdkColorContext *e_color_context;
-
 GdkColor e_white, e_dark_gray, e_black;
 
-int 
+gulong
 e_color_alloc (gushort red, gushort green, gushort blue)
 {
-	int failed;
-	
-	if (!e_color_inited)
-		e_color_init ();
-	
-	return gdk_color_context_get_pixel (e_color_context,
-					    red, green, blue, &failed);
+	e_color_init ();
+
+	red >>= 8;
+	green >>= 8;
+	blue >>= 8;
+	return gdk_rgb_xpixel_from_rgb (
+		((red & 0xff) << 16) | ((green & 0xff) << 8) |
+		(blue & 0xff));
 }
 
 void
-e_color_alloc_gdk (GdkColor *c)
+e_color_alloc_gdk (GtkWidget *widget, GdkColor *c)
 {
-	int failed;
-	
-	g_return_if_fail (c != NULL);
-	
-	if (!e_color_inited)
-		e_color_init ();
-	
-	c->pixel = gdk_color_context_get_pixel (e_color_context, c->red, c->green, c->blue, &failed);
+	GdkColormap *map;
+
+	e_color_init ();
+
+	if (widget)
+		map = gtk_widget_get_colormap (widget);
+	else /* FIXME: multi depth broken ? */
+		map = gtk_widget_get_default_colormap ();
+
+	gdk_rgb_find_color (map, c);
 }
 
 void
-e_color_alloc_name (const char *name, GdkColor *c)
+e_color_alloc_name (GtkWidget *widget, const char *name, GdkColor *c)
 {
-	int failed;
-	
-	g_return_if_fail (name != NULL);
-	g_return_if_fail (c != NULL);
+	GdkColormap *map;
 
-	if (!e_color_inited)
-		e_color_init ();
-	
+	e_color_init ();
+
 	gdk_color_parse (name, c);
-	c->pixel = 0;
-	c->pixel = gdk_color_context_get_pixel (e_color_context, c->red, c->green, c->blue, &failed);
+
+	if (widget)
+		map = gtk_widget_get_colormap (widget);
+	else /* FIXME: multi depth broken ? */
+		map = gtk_widget_get_default_colormap ();
+
+	gdk_rgb_find_color (map, c);
 }
 
 void
 e_color_init (void)
 {
-	GdkColormap *colormap;
+	static gboolean e_color_inited = FALSE;
 
 	/* It's surprisingly easy to end up calling this twice.  Survive.  */
 	if (e_color_inited)
 		return;
 
-	colormap = gtk_widget_get_default_colormap ();
-
-	/* Initialize the color context */
-	e_color_context = gdk_color_context_new (
-		gtk_widget_get_default_visual (), colormap);
-
 	e_color_inited = TRUE;
 
 	/* Allocate the default colors */
-	gdk_color_white (colormap, &e_white);
-	gdk_color_black (colormap, &e_black);
-	e_color_alloc_name ("gray20",  &e_dark_gray);
+	e_white.red   = 65535;
+	e_white.green = 65535;
+	e_white.blue  = 65535;
+	e_color_alloc_gdk (NULL, &e_white);
+
+	e_black.red   = 0;
+	e_black.green = 0;
+	e_black.blue  = 0;
+	e_color_alloc_gdk (NULL, &e_black);
+
+	e_color_alloc_name (NULL, "gray20",  &e_dark_gray);
 }
+

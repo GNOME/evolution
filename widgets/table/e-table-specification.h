@@ -25,7 +25,7 @@
 #define _E_TABLE_SPECIFICATION_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-column-specification.h>

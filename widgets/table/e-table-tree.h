@@ -25,9 +25,8 @@
 #define _E_TABLE_TREE_H_
 
 #include <gal/e-table/e-table-model.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef struct {
 	char *title;
@@ -44,6 +43,6 @@ typedef struct {
 ETableGroup *e_table_group_new      (const char *title, ETableModel *table);
 ETableGroup *e_table_group_new_leaf (const char *title);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_TREE_H_ */

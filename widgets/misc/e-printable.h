@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-printable.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -26,9 +26,8 @@
 
 #include <gtk/gtkobject.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_PRINTABLE_TYPE        (e_printable_get_type ())
 #define E_PRINTABLE(o)          (GTK_CHECK_CAST ((o), E_PRINTABLE_TYPE, EPrintable))
@@ -86,6 +85,6 @@ gboolean    e_printable_will_fit            (EPrintable        *e_printable,
 					     gdouble            max_height,
 					     gboolean           quantized);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_PRINTABLE_H_ */

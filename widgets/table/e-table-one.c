@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-one.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -133,35 +133,42 @@ one_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-one_destroy (GtkObject *object)
+one_finalize (GObject *object)
 {
-	ETableOne *one = E_TABLE_ONE(object);
-	
-	if (one->source) {
+	ETableOne *one = E_TABLE_ONE (object);
+
+	if (one->data) {
 		int i;
 		int col_count;
 
 		col_count = e_table_model_column_count(one->source);
-		
-		if (one->data) {
-			for (i = 0; i < col_count; i++) {
-				e_table_model_free_value(one->source, i, one->data[i]);
-			}
-		}
 
-		gtk_object_unref(GTK_OBJECT(one->source));
+		for (i = 0; i < col_count; i++)
+			e_table_model_free_value(one->source, i, one->data[i]);
+		g_free (one->data);
 	}
+	one->data = NULL;
 
-	g_free(one->data);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+static void
+one_dispose (GObject *object)
+{
+	ETableOne *one = E_TABLE_ONE (object);
+	
+	if (one->source)
+		gtk_object_unref(GTK_OBJECT(one->source));
+	one->source = NULL;
+
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
 e_table_one_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
+	GObjectClass     *gobject_class = (GObjectClass *) object_class;
 
 	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
 
@@ -176,7 +183,8 @@ e_table_one_class_init (GtkObjectClass *object_class)
 	model_class->value_is_empty = one_value_is_empty;
 	model_class->value_to_string = one_value_to_string;
 
-	object_class->destroy = one_destroy;
+	gobject_class->dispose = one_dispose;
+	gobject_class->finalize = one_finalize;
 }
 
 static void

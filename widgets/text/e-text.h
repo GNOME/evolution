@@ -38,15 +38,13 @@
 #define E_TEXT_H
 
 #include <gtk/gtkobject.h>
-#include <gtk/gtkpacker.h>
 
 #include <gal/widgets/e-font.h>
 #include <gal/util/e-text-event-processor.h>
 #include <gal/e-text/e-text-model.h>
 #include <gal/widgets/e-canvas.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
@@ -249,7 +247,7 @@ struct _EText {
 
 	gint     last_type_request;       /* Last selection type requested. */
 	guint32  last_time_request;       /* The time of the last selection request. */
-	guint32  last_selection_request;  /* The time of the last selection request. */
+	GdkAtom  last_selection_request;  /* The time of the last selection request. */
 	GList   *queued_requests;         /* Queued selection requests. */
 };
 
@@ -269,6 +267,6 @@ GtkType  e_text_get_type        (void);
 void     e_text_cancel_editing  (EText *text);
 void     e_text_stop_editing    (EText *text);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

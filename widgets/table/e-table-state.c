@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-state.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -21,7 +21,6 @@
  * 02111-1307, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -31,8 +30,8 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkobject.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-table-state.h"
@@ -93,6 +92,26 @@ e_table_state_new (void)
 	ETableState *etst = gtk_type_new (E_TABLE_STATE_TYPE);
 
 	return (ETableState *) etst;
+}
+
+ETableState *
+e_table_state_vanilla (int col_count)
+{
+	GString *str;
+	int i;
+	ETableState *res;
+
+	str = g_string_new ("<ETableState>\n");
+	for (i = 0; i < col_count; i++)
+		g_string_append_printf (str, "  <column source=\"%d\"/>\n", i);
+	g_string_append (str, "  <grouping></grouping>\n");
+	g_string_append (str, "</ETableState>\n");
+
+	res = e_table_state_new ();
+	e_table_state_load_from_string (res, str->str);
+
+	g_string_free (str, TRUE);
+	return res;
 }
 
 gboolean
@@ -191,7 +210,7 @@ e_table_state_save_to_file      (ETableState *state,
 	
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
 	
-	e_xml_save_file (filename, doc);
+	xmlSaveFile (filename, doc);
 	
 	xmlFreeDoc (doc);
 }

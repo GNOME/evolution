@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-group-leaf.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -23,7 +23,7 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include "e-table-sorted-variable.h"
@@ -128,6 +128,8 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
 							       full_header,
 							       sort_info));
 
+	gtk_object_ref (GTK_OBJECT (etgl->ets));
+	gtk_object_sink (GTK_OBJECT (etgl->ets));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
@@ -449,8 +451,9 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (etgl->selection_model)
 			gtk_object_unref(GTK_OBJECT(etgl->selection_model));
 		etgl->selection_model = E_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
-		if (etgl->selection_model)
+		if (etgl->selection_model) {
 			gtk_object_ref(GTK_OBJECT(etgl->selection_model));
+		}
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
 					       "selection_model", etgl->selection_model,

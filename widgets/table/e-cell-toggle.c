@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell-toggle.c - Multi-state image toggle cell object.
  * Copyright 1999, 2000, Ximian, Inc.
  *
@@ -27,7 +27,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-toggle.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-hsv-utils.h"
@@ -45,6 +45,23 @@ typedef struct {
 static ECellClass *parent_class;
 
 #define CACHE_SEQ_COUNT 6
+
+static int
+gnome_print_pixbuf (GnomePrintContext *pc, GdkPixbuf *pixbuf)
+{
+       if (gdk_pixbuf_get_has_alpha (pixbuf))
+               return gnome_print_rgbaimage  (pc,
+					      gdk_pixbuf_get_pixels    (pixbuf),
+					      gdk_pixbuf_get_width     (pixbuf),
+					      gdk_pixbuf_get_height    (pixbuf),
+					      gdk_pixbuf_get_rowstride (pixbuf));
+       else
+               return gnome_print_rgbimage  (pc,
+					     gdk_pixbuf_get_pixels    (pixbuf),
+					     gdk_pixbuf_get_width     (pixbuf),
+					     gdk_pixbuf_get_height    (pixbuf),
+					     gdk_pixbuf_get_rowstride (pixbuf));
+}
 
 /*
  * ECell::realize method
@@ -378,7 +395,7 @@ etog_style_set (ECellView *ecell_view, GtkStyle *previous_style)
 }
 
 static void
-etog_destroy (GtkObject *object)
+etog_finalize (GObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
 	int i;
@@ -391,7 +408,7 @@ etog_destroy (GtkObject *object)
 	etog->images = NULL;
 	etog->n_states = 0;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
@@ -399,7 +416,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 
-	object_class->destroy = etog_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = etog_finalize;
 
 	ecc->new_view   = etog_new_view;
 	ecc->kill_view  = etog_kill_view;

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-memory.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -32,8 +32,8 @@
 #include <fcntl.h>
 
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
@@ -59,9 +59,11 @@ etmm_destroy (GtkObject *object)
 	ETableMemoryPriv *priv = etmm->priv;
 
 	/* XXX lots of stuff to free here */
-
-	g_free (priv->data);
-	g_free (priv);
+	if (priv) {
+		g_free (priv->data);
+		g_free (priv);
+	}
+	etmm->priv = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

@@ -27,9 +27,8 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-tree.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TREE_SCROLLED_TYPE        (e_tree_scrolled_get_type ())
 #define E_TREE_SCROLLED(o)          (GTK_CHECK_CAST ((o), E_TREE_SCROLLED_TYPE, ETreeScrolled))
@@ -71,7 +70,7 @@ GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel    *etm,
 
 ETree         *e_tree_scrolled_get_tree                 (ETreeScrolled *ets);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TREE_SCROLLED_H_ */
 

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-scrolled.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -26,10 +26,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdio.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include "e-table.h"
 #include "e-table-scrolled.h"
@@ -188,13 +188,13 @@ ets_grab_focus (GtkWidget *widget)
 
 /* Focus handler for the scrolled ETable */
 static gint
-ets_focus (GtkContainer *container, GtkDirectionType direction)
+ets_focus (GtkWidget *container, GtkDirectionType direction)
 {
 	ETableScrolled *ets;
 
 	ets = E_TABLE_SCROLLED (container);
 
-	return gtk_container_focus (GTK_CONTAINER (ets->table), direction);
+	return gtk_widget_child_focus (GTK_WIDGET (ets->table), direction);
 }
 
 static void
@@ -214,7 +214,7 @@ e_table_scrolled_class_init (ETableScrolledClass *class)
 
 	widget_class->grab_focus = ets_grab_focus;
 
-	container_class->focus = ets_focus;
+	widget_class->focus = ets_focus;
 
 	gtk_object_add_arg_type ("ETableScrolled::table", GTK_TYPE_OBJECT,
 				 GTK_ARG_READABLE, ARG_TABLE);

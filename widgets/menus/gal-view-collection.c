@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-collection.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -27,8 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <libgnome/gnome-defs.h>
+#include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
@@ -158,21 +157,23 @@ gal_view_collection_destroy (GtkObject *object)
 	for (i = 0; i < collection->view_count; i++) {
 		gal_view_collection_item_free (collection->view_data[i]);
 	}
-	g_free(collection->view_data);
-	collection->view_count = 0;
+	g_free (collection->view_data);
 	collection->view_data = NULL;
+	collection->view_count = 0;
 
-	e_free_object_list(collection->factory_list);
+	e_free_object_list (collection->factory_list);
 	collection->factory_list = NULL;
 
 	for (i = 0; i < collection->removed_view_count; i++) {
 		gal_view_collection_item_free (collection->removed_view_data[i]);
 	}
 	g_free(collection->removed_view_data);
+	collection->removed_view_data  = NULL;
 	collection->removed_view_count = 0;
-	collection->removed_view_data = NULL;
 
 	g_free(collection->system_dir);
+	collection->system_dir = NULL;
+
 	g_free(collection->local_dir);
 	collection->system_dir = NULL;
 	collection->local_dir = NULL;
@@ -200,7 +201,7 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (GalViewCollectionClass, display_view),
-				gtk_marshal_NONE__OBJECT,
+				e_marshal_NONE__OBJECT,
 				GTK_TYPE_NONE, 1, GAL_VIEW_TYPE);
 
 	gal_view_collection_signals [CHANGED] =
@@ -241,7 +242,7 @@ gal_view_collection_init (GalViewCollection *collection)
  * gal_view_collection_get_type:
  *
  */
-guint
+GtkType
 gal_view_collection_get_type (void)
 {
 	static guint type = 0;
@@ -836,3 +837,4 @@ gal_view_collection_set_default_view (GalViewCollection *collection, const char 
 	gal_view_collection_changed (collection);
 	collection->default_view_built_in = FALSE;
 }
+

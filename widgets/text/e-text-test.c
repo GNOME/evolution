@@ -105,10 +105,8 @@ main (int argc,
   gtk_signal_connect (GTK_OBJECT (window), "destroy",
 		      GTK_SIGNAL_FUNC (quit_cb), NULL);
 
-  gtk_widget_push_visual (gdk_rgb_get_visual ());
   gtk_widget_push_colormap (gdk_rgb_get_cmap ());
   canvas = e_canvas_new ();
-  gtk_widget_pop_visual ();
   gtk_widget_pop_colormap ();
   scroller = gtk_scrolled_window_new (NULL, NULL);
   vbox = gtk_vbox_new (FALSE, 2);

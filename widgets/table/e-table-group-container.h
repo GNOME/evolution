@@ -24,14 +24,13 @@
 #ifndef _E_TABLE_GROUP_CONTAINER_H_
 #define _E_TABLE_GROUP_CONTAINER_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-item.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_CONTAINER_TYPE        (e_table_group_container_get_type ())
 #define E_TABLE_GROUP_CONTAINER(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainer))
@@ -94,6 +93,6 @@ void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETable
 
 GtkType      e_table_group_container_get_type  (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_CONTAINER_H_ */

@@ -20,6 +20,8 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+#include <gal/util/e-i18n.h>
 #include <gnome.h>
 #include "widget-color-combo.h"
 #include "color-palette.h"
@@ -39,10 +41,13 @@ main ( gint argc, gchar* argv[] )
 	GtkWidget * T;
 	ColorGroup *cg;
 
-	gnome_init ("tester", "1.0", argc, argv);
+	gnome_program_init ("tester", "1.0",
+			    LIBGNOMEUI_MODULE,
+			    argc, argv, NULL);
 
 	dialog = gnome_dialog_new ("TESTER", GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+
 	cg = color_group_fetch ("fore_color_group", dialog);
 	T = color_palette_new ("Color Palette", NULL, cg);
 
@@ -51,15 +56,17 @@ main ( gint argc, gchar* argv[] )
 	gtk_widget_show_all (T);
 
 	cg = color_group_fetch ("fore_color_group", dialog);
-	T = color_combo_new (cursor_hand_open_xpm, _("Automatic"),
-			     &e_black, cg);
+	T = color_combo_new (
+		gdk_pixbuf_new_from_xpm_data ((char const **)cursor_hand_open_xpm),
+		_("Automatic"), &e_black, cg);
 	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG (dialog)-> vbox ),
 			   T, TRUE, TRUE, 5);
 	gtk_widget_show_all (T);
 
 	cg = color_group_fetch ("back_color_group", dialog);
-	T = color_combo_new (cursor_hand_open_xpm, _("Automatic"),
-			     &e_black, cg);
+	T = color_combo_new (
+		gdk_pixbuf_new_from_xpm_data ((char const **)cursor_hand_open_xpm),
+		_("Automatic"), &e_black, cg);
 	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG (dialog)-> vbox ),
 			   T, TRUE, TRUE, 5);
 	gtk_widget_show_all (T);

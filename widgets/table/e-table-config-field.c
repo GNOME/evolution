@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-config-field.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -23,7 +23,10 @@
 
 #include <config.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkbox.h>
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include "e-table-config-field.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type())
@@ -35,8 +38,13 @@ etcf_destroy (GtkObject *object)
 {
 	ETableConfigField *etcf = E_TABLE_CONFIG_FIELD (object);
 
-	gtk_object_unref(GTK_OBJECT(etcf->spec));
-	gtk_object_unref(GTK_OBJECT(etcf->sort_info));
+	if (etct->spec)
+		gtk_object_unref(GTK_OBJECT(etcf->spec));
+	etct->spec = NULL;
+
+	if (etct->sort_info)
+		gtk_object_unref(GTK_OBJECT(etcf->sort_info));
+	etct->sort_info = NULL;
 
 	GTK_OBJECT_CLASS (etcf_parent_class)->destroy (object);
 }

@@ -27,8 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <libgnome/gnome-defs.h>
+#include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
@@ -230,7 +229,7 @@ gal_view_instance_init (GalViewInstance *instance)
  * gal_view_instance_get_type:
  *
  */
-guint
+GtkType
 gal_view_instance_get_type (void)
 {
 	static guint type = 0;
@@ -505,7 +504,7 @@ view_item_cb (GtkWidget *widget,
 static void
 add_popup_radio_item (EPopupMenu *menu_item,
 		      gchar *title,
-		      void (*fn) (GtkWidget *widget, gpointer closure),
+		      GtkSignalFunc fn,
 		      gpointer closure,
 		      gboolean value)
 {
@@ -522,7 +521,7 @@ add_popup_radio_item (EPopupMenu *menu_item,
 static void
 add_popup_menu_item (EPopupMenu *menu_item,
 		     gchar *title,
-		     void (*fn) (GtkWidget *widget, gpointer closure),
+		     GtkSignalFunc fn,
 		     gpointer closure)
 {
 	const EPopupMenu menu_item_struct = 

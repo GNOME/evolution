@@ -25,16 +25,15 @@
 #ifndef _E_TABLE_ITEM_H_
 #define _E_TABLE_ITEM_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-defines.h>
 #include <gal/e-table/e-table-tooltip.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/widgets/e-printable.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
 #define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
@@ -221,6 +220,6 @@ int	    e_table_item_row_diff	     (ETableItem	*eti,
 					      int		 start_row,
 					      int		 end_row);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_ITEM_H_ */

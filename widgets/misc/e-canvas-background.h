@@ -24,10 +24,9 @@
 #ifndef E_CANVAS_BACKGROUND_H
 #define E_CANVAS_BACKGROUND_H
 
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 /*
  * name			type		read/write	description
@@ -67,16 +66,6 @@ struct _ECanvasBackgroundClass {
 /* Standard Gtk function */
 GtkType e_canvas_background_get_type (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
-
-
-
-
-
-
-
-
-
-

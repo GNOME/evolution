@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-factory.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -24,7 +24,7 @@
 #include <config.h>
 #include "gal-view-factory.h"
 
-#define GVF_CLASS(e) ((GalViewFactoryClass *)((GtkObject *)e)->klass)
+#define GVF_CLASS(e) ((GalViewFactoryClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 
@@ -41,7 +41,7 @@ static GtkObjectClass *gal_view_factory_parent_class;
  * Returns: The title of the factory.
  */
 const char *
-gal_view_factory_get_title       (GalViewFactory *factory)
+gal_view_factory_get_title (GalViewFactory *factory)
 {
 	g_return_val_if_fail (factory != NULL, 0);
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);

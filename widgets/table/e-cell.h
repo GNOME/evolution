@@ -27,17 +27,18 @@
 
 #include <gdk/gdktypes.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-font.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-tooltip.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
-#define E_CELL_TYPE        (e_cell_get_type ())
-#define E_CELL(o)          (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
-#define E_CELL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
-#define E_IS_CELL(o)       (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
-#define E_IS_CELL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
+#define E_CELL_TYPE         (e_cell_get_type ())
+#define E_CELL(o)           (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
+#define E_CELL_CLASS(k)     (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
+#define E_CELL_GET_CLASS(o) (GTK_CHECK_GET_CLASS((o), E_CELL_TYPE, ECellClass))
+#define E_IS_CELL(o)        (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
+#define E_IS_CELL_CLASS(k)  (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
 typedef gboolean (*ETableSearchFunc) (gconstpointer haystack,
 				      const char *needle);
@@ -216,7 +217,6 @@ void       e_cell_free_state                    (ECellView         *ecell_view,
 						 int                row,
 						 void              *state);
 
-
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_H_ */

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-bit-array.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -148,6 +148,7 @@ eba_destroy (GtkObject *object)
 	eba = E_BIT_ARRAY (object);
 
 	g_free(eba->data);
+	eba->data = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -425,5 +426,7 @@ e_bit_array_new (int count)
 	EBitArray *eba = gtk_type_new (e_bit_array_get_type ());
 	eba->bit_count = count;
 	eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
+	gtk_object_ref (GTK_OBJECT (eba));
+	gtk_object_sink (GTK_OBJECT (eba));
 	return eba;
 }

@@ -8,7 +8,7 @@
  *   Chris Lahey <clahey@ximian.com>
  *
  * A lot of code taken from:
- *
+ * 
  * Text item type for GnomeCanvas widget
  *
  * GnomeCanvas is basically a port of the Tk toolkit's most excellent
@@ -37,11 +37,10 @@
 #ifndef _E_CELL_TEXT_H_
 #define _E_CELL_TEXT_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
@@ -101,7 +100,7 @@ void	   e_cell_text_free_text (ECellText *cell, char *text);
 /* Sets the ETableModel value, based on the given string. */
 void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row, const char *text);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_TEXT_H_ */
 

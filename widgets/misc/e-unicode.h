@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-unicode.h - utf-8 support functions for gal
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -30,12 +30,10 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
-#include <gnome-xml/tree.h>
-#include <gal/unicode/gunicode.h>
+#include <libxml/tree.h>
 #include <iconv.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define G_UTF8_IN_GAL
 
@@ -128,7 +126,7 @@ guint32      gdk_keyval_to_unicode                          (guint          keys
 gchar       *e_xml_get_translated_utf8_string_prop_by_name  (const xmlNode *parent,
 							     const xmlChar *prop_name);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
 

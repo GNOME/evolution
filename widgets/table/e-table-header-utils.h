@@ -5,8 +5,8 @@
  *
  * Authors:
  *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza <miguel@ximian.com>
- *   Federico Mena-Quintero <federico@ximian.com>
+ *          Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

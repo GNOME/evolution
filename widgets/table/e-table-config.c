@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-config.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -67,13 +67,20 @@ enum {
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
 
 static void
-config_destroy (GtkObject *object)
+config_finalize (GObject *object)
 {
 	ETableConfig *config = E_TABLE_CONFIG (object);
 
 	gtk_object_destroy (GTK_OBJECT (config->state));
-	gtk_object_unref (GTK_OBJECT (config->source_state));
-	gtk_object_unref (GTK_OBJECT (config->source_spec));
+
+	if (config->source_state)
+		gtk_object_unref (GTK_OBJECT (config->source_state));
+	config->source_state = NULL;
+
+	if (config->source_spec)
+		gtk_object_unref (GTK_OBJECT (config->source_spec));
+	config->source_spec = NULL;
+
 	g_free (config->header);
 	config->header = NULL;
 
@@ -82,8 +89,8 @@ config_destroy (GtkObject *object)
 
 	g_free (config->domain);
 	config->domain = NULL;
-	
-	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
+
+	G_OBJECT_CLASS (config_parent_class)->finalize (object);
 }
 
 static void
@@ -123,7 +130,7 @@ config_class_init (GtkObjectClass *object_class)
 	klass->changed        = NULL;
 
 	object_class->get_arg = config_get_arg;
-	object_class->destroy = config_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = config_finalize;
 
 	e_table_config_signals [CHANGED] =
 		gtk_signal_new ("changed",
@@ -615,7 +622,7 @@ sort_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *sort)
 	ETableConfigSortWidgets *base = &config->sort[0];
 	int idx = sort - base;
 	
-	char *s = gtk_entry_get_text (entry);
+	const char *s = gtk_entry_get_text (entry);
 
 	if (s && s [0] && g_hash_table_lookup (sort->combo->elements, s)){
 		ETableSortColumn c;
@@ -702,11 +709,13 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	for (i = 0; i < 4; i++){
 		config->sort [i].changed_id = gtk_signal_connect (
 			GTK_OBJECT (config->sort [i].combo->entry),
-			"changed", sort_entry_changed, &config->sort [i]);
+			"changed", GTK_SIGNAL_FUNC (sort_entry_changed),
+			&config->sort [i]);
 
 		config->sort [i].toggled_id = gtk_signal_connect (
 			GTK_OBJECT (config->sort [i].radio_ascending),
-			"toggled", sort_ascending_toggled, &config->sort [i]);
+			"toggled", GTK_SIGNAL_FUNC (sort_ascending_toggled),
+			&config->sort [i]);
 	}
 }
 
@@ -717,7 +726,7 @@ group_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *group)
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
 	int idx = group - base;
-	char *s = gtk_entry_get_text (entry);
+	const char *s = gtk_entry_get_text (entry);
 
 	if (s && s [0] && g_hash_table_lookup (group->combo->elements, s)){
 		ETableSortColumn c;
@@ -812,11 +821,13 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 	for (i = 0; i < 4; i++){
 		config->group [i].changed_id = gtk_signal_connect (
 			GTK_OBJECT (config->group [i].combo->entry),
-			"changed", group_entry_changed, &config->group [i]);
+			"changed", GTK_SIGNAL_FUNC (group_entry_changed),
+			&config->group [i]);
 
 		config->group [i].toggled_id = gtk_signal_connect (
 			GTK_OBJECT (config->group [i].radio_ascending),
-			"toggled", group_ascending_toggled, &config->group [i]);
+			"toggled", GTK_SIGNAL_FUNC (group_ascending_toggled),
+			&config->group [i]);
 	}
 }
 
@@ -990,10 +1001,10 @@ configure_fields_dialog (ETableConfig *config, GladeXML *gui)
 			"model", &config->shown_model,
 			NULL);
 
-	connect_button (config, gui, "button-add",    config_button_add);
-	connect_button (config, gui, "button-remove", config_button_remove);
-	connect_button (config, gui, "button-up",     config_button_up);
-	connect_button (config, gui, "button-down",   config_button_down);
+	connect_button (config, gui, "button-add",    GTK_SIGNAL_FUNC (config_button_add));
+	connect_button (config, gui, "button-remove", GTK_SIGNAL_FUNC (config_button_remove));
+	connect_button (config, gui, "button-up",     GTK_SIGNAL_FUNC (config_button_up));
+	connect_button (config, gui, "button-down",   GTK_SIGNAL_FUNC (config_button_down));
 
 	setup_fields (config);
 }
@@ -1006,9 +1017,9 @@ setup_gui (ETableConfig *config)
 	create_global_store (config);
 
 	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
-		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config.glade", NULL, E_I18N_DOMAIN);
+		gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade", NULL, E_I18N_DOMAIN);
 	} else {
-		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, E_I18N_DOMAIN);
+		gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, E_I18N_DOMAIN);
 	}
 
 	gtk_object_unref (GTK_OBJECT (global_store));
@@ -1040,9 +1051,9 @@ setup_gui (ETableConfig *config)
 	config->fields_label = glade_xml_get_widget (
 		gui, "label-fields");
 
-	connect_button (config, gui, "button-sort", config_button_sort);
-	connect_button (config, gui, "button-group", config_button_group);
-	connect_button (config, gui, "button-fields", config_button_fields);
+	connect_button (config, gui, "button-sort", GTK_SIGNAL_FUNC (config_button_sort));
+	connect_button (config, gui, "button-group", GTK_SIGNAL_FUNC (config_button_group));
+	connect_button (config, gui, "button-fields", GTK_SIGNAL_FUNC (config_button_fields));
 	
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);

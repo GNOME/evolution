@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cell.c - base class for cell renderers in e-table
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -28,7 +28,7 @@
 
 #define PARENT_TYPE gtk_object_get_type ()
 
-#define ECVIEW_EC_CLASS(v) (E_CELL_CLASS (GTK_OBJECT ((v)->ecell)->klass))
+#define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 
 static ECellView *
 ec_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
@@ -200,7 +200,7 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_co
 ECellView *
 e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->new_view (
+	return E_CELL_GET_CLASS (ecell)->new_view (
 		ecell, table_model, e_table_item_view);
 }
 

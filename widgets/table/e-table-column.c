@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-column.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -35,7 +35,7 @@ static guint etc_signals [LAST_SIGNAL] = { 0, };
 static GtkObjectClass *e_table_column_parent_class;
 
 static void
-e_table_column_destroy (GtkObject *object)
+e_table_column_finalize (GObject *object)
 {
 	ETableColumn *etc = E_TABLE_COLUMN (object);
 	const int cols = etc->col_count;
@@ -54,14 +54,13 @@ e_table_column_destroy (GtkObject *object)
 	for (i = 0; i < cols; i++)
 		e_table_column_remove (etc, i);
 	
-	if (e_table_column_parent_class->destroy)
-		e_table_column_parent_class->destroy (object);
+	G_OBJECT_CLASS (e_table_column_parent_class)->finalize (object);
 }
 
 static void
 e_table_column_class_init (GtkObjectClass *object_class)
 {
-	object_class->destroy = e_table_column_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = e_table_column_finalize;
 
 	e_table_column_parent_class = (gtk_type_class (gtk_object_get_type ()));
 

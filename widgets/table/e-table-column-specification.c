@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-column-specification.c - Savable specification of a column.
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -24,8 +24,8 @@
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-xml-utils.h"
 #include "gal/util/e-util.h"
 #include "e-table-column-specification.h"
@@ -38,10 +38,15 @@ static void
 free_strings (ETableColumnSpecification *etcs)
 {
 	g_free(etcs->title);
+	etcs->title = NULL;
 	g_free(etcs->pixbuf);
+	etcs->pixbuf = NULL;
 	g_free(etcs->cell);
+	etcs->cell = NULL;
 	g_free(etcs->compare);
+	etcs->compare = NULL;
 	g_free(etcs->search);
+	etcs->search = NULL;
 }
 
 static void

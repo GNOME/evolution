@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-extras.c - Set of hash table sort of thingies.
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -64,15 +64,25 @@ ete_destroy (GtkObject *object)
 {
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
 
-	g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
-	g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
-	g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
-	g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
+	if (ete->cells) {
+		g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
+		g_hash_table_destroy (ete->cells);
+	}
 
-	g_hash_table_destroy (ete->cells);
-	g_hash_table_destroy (ete->compares);
-	g_hash_table_destroy (ete->searches);
-	g_hash_table_destroy (ete->pixbufs);
+	if (ete->compares) {
+		g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (ete->compares);
+	}
+
+	if (ete->searches) {
+		g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (ete->searches);
+	}
+
+	if (ete->pixbufs) {
+		g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
+		g_hash_table_destroy (ete->pixbufs);
+	}
 
 	ete->cells = NULL;
 	ete->compares = NULL;
@@ -97,6 +107,40 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 	int int2 = atoi(data2);
 
 	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
+}
+
+/* UTF-8 strncasecmp - not optimized */
+
+static gint
+g_utf8_strncasecmp (const gchar *s1,
+		    const gchar *s2,
+		    guint n)
+{
+	gunichar c1, c2;
+
+	g_return_val_if_fail (s1 != NULL && g_utf8_validate (s1, -1, NULL), 0);
+	g_return_val_if_fail (s2 != NULL && g_utf8_validate (s2, -1, NULL), 0);
+
+	while (n && *s1 && *s2)
+		{
+
+			n -= 1;
+
+			c1 = g_unichar_tolower (g_utf8_get_char (s1));
+			c2 = g_unichar_tolower (g_utf8_get_char (s2));
+
+			/* Collation is locale-dependent, so this totally fails to do the right thing. */
+			if (c1 != c2)
+				return c1 < c2 ? -1 : 1;
+
+			s1 = g_utf8_next_char (s1);
+			s2 = g_utf8_next_char (s2);
+		}
+
+	if (n == 0 || (*s1 == '\0' && *s2 == '\0'))
+		return 0;
+
+	return *s1 ? 1 : -1;
 }
 
 static gboolean

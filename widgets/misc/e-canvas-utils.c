@@ -143,8 +143,7 @@ show_area_timeout (gpointer data)
 {
 	DoubsAndCanvas *dac = data;
 
-	if (!GTK_OBJECT_DESTROYED(dac->canvas))
-		e_canvas_show_area(dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
+	e_canvas_show_area(dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
 	gtk_object_unref(GTK_OBJECT(dac->canvas));
 	g_free(dac);
 	return FALSE;

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table.c - A graphical view of a Table.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -22,18 +22,18 @@
  * 02111-1307, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
@@ -158,7 +158,7 @@ static void et_drag_data_received(GtkWidget *widget,
 				  guint time,
 				  ETable *et);
 
-static gint et_focus (GtkContainer *container, GtkDirectionType direction);
+static gint et_focus (GtkWidget *container, GtkDirectionType direction);
 
 static void scroll_off (ETable *et);
 static void scroll_on (ETable *et, guint scroll_direction);
@@ -292,13 +292,13 @@ connect_header (ETable *e_table, ETableState *state)
 
 	e_table->structure_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->header), "structure_change",
-				    structure_changed, e_table);
+				    GTK_SIGNAL_FUNC (structure_changed), e_table);
 	e_table->expansion_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->header), "expansion_change",
-				    expansion_changed, e_table);
+				    GTK_SIGNAL_FUNC (expansion_changed), e_table);
 	e_table->dimension_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->header), "dimension_change",
-				    dimension_changed, e_table);
+				    GTK_SIGNAL_FUNC (dimension_changed), e_table);
 }
 
 static void
@@ -316,40 +316,76 @@ et_destroy (GtkObject *object)
 			gtk_signal_disconnect (GTK_OBJECT (et->search),
 					       et->search_accept_id);
 		gtk_object_unref (GTK_OBJECT (et->search));
+		et->search = NULL;
 	}
 
-	if (et->group_info_change_id)
+	if (et->group_info_change_id) {
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
-	if (et->sort_info_change_id)
+		et->group_info_change_id = 0;
+	}
+	
+	if (et->sort_info_change_id) {
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->sort_info_change_id);
+		et->sort_info_change_id = 0;
+	}
 
-	if (et->reflow_idle_id)
+	if (et->reflow_idle_id) {
 		g_source_remove(et->reflow_idle_id);
-	et->reflow_idle_id = 0;
+		et->reflow_idle_id = 0;
+	}
 
 	scroll_off (et);
 
 	disconnect_header (et);
-	
-	gtk_object_unref (GTK_OBJECT (et->model));
-	gtk_object_unref (GTK_OBJECT (et->full_header));
-	gtk_object_unref (GTK_OBJECT (et->sort_info));
-	gtk_object_unref (GTK_OBJECT (et->sorter));
-	gtk_object_unref (GTK_OBJECT (et->selection));
-	if (et->spec)
+
+	if (et->model) {
+		gtk_object_unref (GTK_OBJECT (et->model));
+		et->model = NULL;
+	}
+
+	if (et->full_header) {
+		gtk_object_unref (GTK_OBJECT (et->full_header));
+		et->full_header = NULL;
+	}
+
+	if (et->sort_info) {
+		gtk_object_unref (GTK_OBJECT (et->sort_info));
+		et->sort_info = NULL;
+	}
+
+	if (et->sorter) {
+		gtk_object_unref (GTK_OBJECT (et->sorter));
+		et->sorter = NULL;
+	}
+
+	if (et->selection) {
+		gtk_object_unref (GTK_OBJECT (et->selection));
+		et->selection = NULL;
+	}
+
+	if (et->spec) {
 		gtk_object_unref (GTK_OBJECT (et->spec));
+		et->spec = NULL;
+	}
 
-	if (et->header_canvas != NULL)
+	if (et->header_canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+		et->header_canvas = NULL;
+	}
 
-	if (et->site != NULL)
+	if (et->site != NULL) {
 		e_table_drag_source_unset (et);
+		et->site = NULL;
+	}
 
-	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
+	if (et->table_canvas != NULL) {
+		gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
+		et->table_canvas = NULL;
+	}
 
-	if (et->rebuild_idle_id) {
+	if (et->rebuild_idle_id != 0) {
 		g_source_remove (et->rebuild_idle_id);
 		et->rebuild_idle_id = 0;
 	}
@@ -458,6 +494,19 @@ init_search (ETable *e_table)
 }
 
 static void
+et_finalize (GObject *object)
+{
+	ETable *et = E_TABLE (object);
+
+	g_free (et->click_to_add_message);
+	et->click_to_add_message = NULL;
+
+	g_free(et->domain);
+	et->domain = NULL;
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 e_table_init (GtkObject *object)
 {
 	ETable *e_table = E_TABLE (object);
@@ -528,18 +577,18 @@ et_grab_focus (GtkWidget *widget)
 
 /* Focus handler for the ETable */
 static gint
-et_focus (GtkContainer *container, GtkDirectionType direction)
+et_focus (GtkWidget *container, GtkDirectionType direction)
 {
 	ETable *e_table;
 
 	e_table = E_TABLE (container);
 
-	if (container->focus_child) {
-		gtk_container_set_focus_child (container, NULL);
+	if (GTK_CONTAINER (container)->focus_child) {
+		gtk_container_set_focus_child (GTK_CONTAINER (container), NULL);
 		return FALSE;
 	}
 
-	return gtk_container_focus (GTK_CONTAINER (e_table->table_canvas), direction);
+	return gtk_widget_child_focus (GTK_WIDGET (e_table->table_canvas), direction);
 }
 
 static void
@@ -1003,6 +1052,7 @@ static void
 et_eti_leave_edit (ETable *et)
 {
 	GnomeCanvas *canvas = et->table_canvas;
+
 	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
 		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
 
@@ -1393,11 +1443,17 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
+	int col_count, i;
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
-	else
+	else {
 		ete = e_table_extras_new();
+		gtk_object_ref(GTK_OBJECT(ete));
+		gtk_object_sink(GTK_OBJECT(ete));
+	}
+
+	e_table->domain = g_strdup (specification->domain);
 
 	e_table->domain = g_strdup (specification->domain);
 
@@ -1410,11 +1466,22 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
+	gtk_object_ref (GTK_OBJECT (e_table->full_header));
+	gtk_object_sink (GTK_OBJECT (e_table->full_header));
+
+	col_count = e_table_header_count (e_table->full_header);
+	for (i = 0; i < col_count; i++) {
+		ETableCol *col = e_table_header_get_column(e_table->full_header, i);
+		if (col && col->search) {
+			e_table->current_search_col = col;
+			e_table->search_col_set = TRUE;
+			break;
+		}
+	}
 
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	connect_header (e_table, state);
@@ -1440,6 +1507,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		       NULL);
 
 	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
+	gtk_object_ref (GTK_OBJECT (e_table->sorter));
+	gtk_object_sink (GTK_OBJECT (e_table->sorter));
 
 	gtk_object_set (GTK_OBJECT (e_table->selection),
 			"model", etm,
@@ -1482,7 +1551,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 			  0, 0);
 
 	gtk_widget_pop_colormap ();
-	gtk_widget_pop_visual ();
 
 	gtk_object_unref(GTK_OBJECT(ete));
 
@@ -1517,13 +1585,21 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec_str != NULL, NULL);
 
+	gtk_object_ref (GTK_OBJECT (etm));
+	gtk_object_sink (GTK_OBJECT (etm));
+
 	specification = e_table_specification_new();
+	gtk_object_ref (GTK_OBJECT (specification));
+	gtk_object_sink (GTK_OBJECT (specification));
 	if (!e_table_specification_load_from_string(specification, spec_str)) {
 		gtk_object_unref(GTK_OBJECT(specification));
 		return NULL;
 	}
+
 	if (state_str) {
 		state = e_table_state_new();
+		gtk_object_ref (GTK_OBJECT (state));
+		gtk_object_sink (GTK_OBJECT (state));
 		e_table_state_load_from_string(state, state_str);
 		if (state->col_count <= 0) {
 			gtk_object_unref(GTK_OBJECT(state));
@@ -2804,7 +2880,11 @@ static void
 context_destroyed (gpointer data)
 {
 	ETable *et = data;
-	if (!GTK_OBJECT_DESTROYED (et)) {
+	/* if (!GTK_OBJECT_DESTROYED (et)) */
+#ifndef NO_WARNINGS
+#warning FIXME
+#endif
+	{
 		et->last_drop_x       = 0;
 		et->last_drop_y       = 0;
 		et->last_drop_time    = 0;
@@ -2980,6 +3060,7 @@ e_table_class_init (ETableClass *class)
 	parent_class                    = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy           = et_destroy;
+	G_OBJECT_CLASS (object_class)->finalize = et_finalize;
 	object_class->set_arg           = et_set_arg;
 	object_class->get_arg           = et_get_arg;
 
@@ -2987,7 +3068,7 @@ e_table_class_init (ETableClass *class)
 	widget_class->unrealize         = et_unrealize;
 	widget_class->size_request      = et_size_request;
 
-	container_class->focus          = et_focus;
+	widget_class->focus             = et_focus;
 
 	class->cursor_change            = NULL;
 	class->cursor_activated         = NULL;
@@ -3039,40 +3120,45 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, double_click),
-				gtk_marshal_NONE__INT_INT_POINTER,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_NONE__INT_INT_BOXED,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, right_click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [CLICK] =
 		gtk_signal_new ("click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, key_press),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [START_DRAG] =
 		gtk_signal_new ("start_drag",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, start_drag),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	et_signals [STATE_CHANGE] =
 		gtk_signal_new ("state_change",
@@ -3088,38 +3174,38 @@ e_table_class_init (ETableClass *class)
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, white_space_event),
 				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
+				GTK_TYPE_INT, 1, GDK_TYPE_EVENT);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		gtk_signal_new ("table_drag_begin",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_begin),
-				gtk_marshal_NONE__INT_INT_POINTER,
+				e_marshal_NONE__INT_INT_OBJECT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT);
+				GDK_TYPE_DRAG_CONTEXT);
 	et_signals[TABLE_DRAG_END] =
 		gtk_signal_new ("table_drag_end",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_end),
-				gtk_marshal_NONE__INT_INT_POINTER,
+				e_marshal_NONE__INT_INT_OBJECT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT);
+				GDK_TYPE_DRAG_CONTEXT);
 	et_signals[TABLE_DRAG_DATA_GET] =
 		gtk_signal_new ("table_drag_data_get",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_data_get),
-				e_marshal_NONE__INT_INT_POINTER_POINTER_UINT_UINT,
+				e_marshal_NONE__INT_INT_OBJECT_POINTER_UINT_UINT,
 				GTK_TYPE_NONE, 6,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT,
+				GDK_TYPE_DRAG_CONTEXT,
 				GTK_TYPE_SELECTION_DATA,
 				GTK_TYPE_UINT,
 				GTK_TYPE_UINT);
@@ -3128,33 +3214,33 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_data_delete),
-				gtk_marshal_NONE__INT_INT_POINTER,
+				e_marshal_NONE__INT_INT_OBJECT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT);
+				GDK_TYPE_DRAG_CONTEXT);
 
 	et_signals[TABLE_DRAG_LEAVE] =
 		gtk_signal_new ("table_drag_leave",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_leave),
-				e_marshal_NONE__INT_INT_POINTER_UINT,
+				e_marshal_NONE__INT_INT_OBJECT_UINT,
 				GTK_TYPE_NONE, 4,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT,
+				GDK_TYPE_DRAG_CONTEXT,
 				GTK_TYPE_UINT);
 	et_signals[TABLE_DRAG_MOTION] =
 		gtk_signal_new ("table_drag_motion",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_motion),
-				e_marshal_BOOL__INT_INT_POINTER_INT_INT_UINT,
+				e_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
 				GTK_TYPE_BOOL, 6,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT,
+				GDK_TYPE_DRAG_CONTEXT,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
 				GTK_TYPE_UINT);
@@ -3163,11 +3249,11 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_drop),
-				e_marshal_BOOL__INT_INT_POINTER_INT_INT_UINT,
+				e_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
 				GTK_TYPE_BOOL, 6,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT,
+				GDK_TYPE_DRAG_CONTEXT,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
 				GTK_TYPE_UINT);
@@ -3176,11 +3262,11 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, table_drag_data_received),
-				e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_UINT_UINT,
+				e_marshal_NONE__INT_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
 				GTK_TYPE_NONE, 8,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
-				GTK_TYPE_GDK_DRAG_CONTEXT,
+				GDK_TYPE_DRAG_CONTEXT,
 				GTK_TYPE_INT,
 				GTK_TYPE_INT,
 				GTK_TYPE_SELECTION_DATA,
@@ -3196,7 +3282,7 @@ e_table_class_init (ETableClass *class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClass, set_scroll_adjustments),
-				gtk_marshal_NONE__POINTER_POINTER,
+				e_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,

@@ -24,7 +24,6 @@
 #ifndef _GAL_VIEW_ETABLE_H_
 #define _GAL_VIEW_ETABLE_H_
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view.h>
 #include <gal/e-table/e-table-state.h>
@@ -32,7 +31,7 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-tree.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define GAL_VIEW_ETABLE_TYPE        (gal_view_etable_get_type ())
 #define GAL_VIEW_ETABLE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_ETABLE_TYPE, GalViewEtable))
@@ -73,6 +72,7 @@ void     gal_view_etable_attach_tree   (GalViewEtable       *view,
 					ETree               *tree);
 void     gal_view_etable_detach        (GalViewEtable       *view);
 
-END_GNOME_DECLS
+
+G_END_DECLS
 
 #endif /* _GAL_VIEW_ETABLE_H_ */

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-selection-model.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -27,7 +27,7 @@
 #include "e-selection-model.h"
 #include "gal/util/e-util.h"
 
-#define ESM_CLASS(e) ((ESelectionModelClass *)((GtkObject *)e)->klass)
+#define ESM_CLASS(e) ((ESelectionModelClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 
@@ -92,11 +92,11 @@ esm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_SELECTION_MODE:
-		GTK_VALUE_ENUM(*arg) = esm->mode;
+		GTK_VALUE_INT(*arg) = esm->mode;
 		break;
 
 	case ARG_CURSOR_MODE:
-		GTK_VALUE_ENUM(*arg) = esm->cursor_mode;
+		GTK_VALUE_INT(*arg) = esm->cursor_mode;
 		break;
 	}
 }
@@ -113,7 +113,7 @@ esm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_SELECTION_MODE:
-		esm->mode = GTK_VALUE_ENUM(*arg);
+		esm->mode = GTK_VALUE_INT(*arg);
 		if (esm->mode == GTK_SELECTION_SINGLE) {
 			int cursor_row = e_selection_model_cursor_row(esm);
 			int cursor_col = e_selection_model_cursor_col(esm);
@@ -122,7 +122,7 @@ esm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_CURSOR_MODE:
-		esm->cursor_mode = GTK_VALUE_ENUM(*arg);
+		esm->cursor_mode = GTK_VALUE_INT(*arg);
 		break;
 	}
 }
@@ -203,14 +203,13 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	klass->move_selection_end    = NULL;
 	klass->set_selection_end     = NULL;
 
-
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_selection_model_signals, LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("ESelectionModel::sorter", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_SORTER);
-	gtk_object_add_arg_type ("ESelectionModel::selection_mode", GTK_TYPE_ENUM,
+	gtk_object_add_arg_type ("ESelectionModel::selection_mode", GTK_TYPE_INT,
 				 GTK_ARG_READWRITE, ARG_SELECTION_MODE);
-	gtk_object_add_arg_type ("ESelectionModel::cursor_mode", GTK_TYPE_ENUM,
+	gtk_object_add_arg_type ("ESelectionModel::cursor_mode", GTK_TYPE_INT,
 				 GTK_ARG_READWRITE, ARG_CURSOR_MODE);
 }
 
@@ -416,7 +415,6 @@ e_selection_model_do_something (ESelectionModel *selection,
 			break;
 		case GTK_SELECTION_BROWSE:
 		case GTK_SELECTION_MULTIPLE:
-		case GTK_SELECTION_EXTENDED:
 			if (shift_p) {
 				e_selection_model_set_selection_end (selection, row);
 			} else {
@@ -426,6 +424,9 @@ e_selection_model_do_something (ESelectionModel *selection,
 					e_selection_model_select_single_row (selection, row);
 				}
 			}
+			break;
+		default:
+			g_assert_not_reached ();
 			break;
 		}
 		e_selection_model_change_cursor(selection, row, col);
@@ -506,7 +507,6 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 	switch (selection->mode) {
 	case GTK_SELECTION_BROWSE:
 	case GTK_SELECTION_MULTIPLE:
-	case GTK_SELECTION_EXTENDED:
 		if (shift_p) {
 			e_selection_model_set_selection_end (selection, row);
 		} else if (!ctrl_p) {
@@ -516,6 +516,9 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 		break;
 	case GTK_SELECTION_SINGLE:
 		e_selection_model_select_single_row (selection, row);
+		break;
+	default:
+		g_assert_not_reached ();
 		break;
 	}
 	if (row != -1) {

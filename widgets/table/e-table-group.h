@@ -24,16 +24,15 @@
 #ifndef _E_TABLE_GROUP_H_
 #define _E_TABLE_GROUP_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-defines.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-printable.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
@@ -174,6 +173,6 @@ void          e_table_group_apply_to_leafs    (ETableGroup       *etg,
 					       ETableGroupLeafFn  fn,
 					       void              *closure);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_H_ */

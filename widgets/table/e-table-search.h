@@ -25,10 +25,8 @@
 #define _E_TABLE_SEARCH_H_
 
 #include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
-#include <gal/unicode/gunicode.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_SEARCH_TYPE        (e_table_search_get_type ())
 #define E_TABLE_SEARCH(o)          (GTK_CHECK_CAST ((o), E_TABLE_SEARCH_TYPE, ETableSearch))
@@ -67,6 +65,6 @@ void          e_table_search_input_character  (ETableSearch *e_table_search,
 gboolean      e_table_search_backspace        (ETableSearch *e_table_search);
 void          e_table_search_cancel           (ETableSearch *e_table_search);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_SEARCH_H_ */

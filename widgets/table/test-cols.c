@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * test-cols.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -159,7 +159,6 @@ multi_cols_test (void)
 	ECell *cell_left_just, *cell_image_toggle;
 	GnomeCanvasItem *item;
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	
 	e_table_model = e_table_simple_new (

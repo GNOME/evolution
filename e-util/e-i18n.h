@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-i18n.h
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -35,13 +35,13 @@
 #ifndef __E_I18N_H__
 #define __E_I18N_H__
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #ifdef ENABLE_NLS
-#    include <libintl.h>
+	/* this function is defined in e-util.c */
+	extern char *e_gettext (const char *msgid);
 #    undef _
 #    ifdef GNOME_EXPLICIT_TRANSLATION_DOMAIN
 #        define _(String) dgettext (GNOME_EXPLICIT_TRANSLATION_DOMAIN, String)
@@ -70,25 +70,6 @@ BEGIN_GNOME_DECLS
 #    define E_I18N_DOMAIN ""
 #endif
 
-/*
- * Do not remove the following define, nor do surround it with ifdefs.
- *
- * If you get any `redefined' errors, it means that you are including
- * -incorrectly- a header file provided by gnome-libs before this file.
- * To correctly solve this issue include this file before any libgnome/
- * libgnomeui headers
- */
-
-#define __GNOME_I18N_H__ 1
-
-
-/* This is copied staight out of the prototypes for gnome-i18n.h */
-const char *gnome_i18n_get_language(void);
-GList      *gnome_i18n_get_language_list (const gchar *category_name);
-void	   gnome_i18n_set_preferred_language (const char *val);
-const char *gnome_i18n_get_preferred_language (void);
-void gnome_i18n_init (void);
-
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_I18N_H__ */

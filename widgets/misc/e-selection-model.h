@@ -26,7 +26,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/util/e-sorter.h>
-#include <gdk/gdktypes.h>
+#include <gdk/gdkevents.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -46,8 +46,10 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkwindow.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtktypebuiltins.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -69,7 +71,7 @@ enum {
 	E_TEXT_LAST_SIGNAL
 };
 
-static guint signals[E_TEXT_LAST_SIGNAL] = { 0 };
+static GQuark e_text_signals[E_TEXT_LAST_SIGNAL] = { 0 };
 
 
 
@@ -205,35 +207,48 @@ e_text_destroy (GtkObject *object)
 
 	text = E_TEXT (object);
 
-	if (text->tooltip_owner) {
+	if (text->tooltip_owner)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
-	}
+	text->tooltip_owner = 0;
 
 	if (text->model_changed_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (text->model), 
 				       text->model_changed_signal_id);
+	text->model_changed_signal_id = 0;
 
 	if (text->model_repos_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (text->model),
 				       text->model_repos_signal_id);
+	text->model_repos_signal_id = 0;
 
 	if (text->model)
 		gtk_object_unref(GTK_OBJECT(text->model));
+	text->model = NULL;
 
 	if (text->tep_command_id)
 		gtk_signal_disconnect(GTK_OBJECT(text->tep),
 				      text->tep_command_id);
+	text->tep_command_id = 0;
 
 	if (text->tep)
 		gtk_object_unref (GTK_OBJECT(text->tep));
+	text->tep = NULL;
 	
 	if (text->invisible)
 		gtk_object_unref (GTK_OBJECT(text->invisible));
+	text->invisible = NULL;
 
 	g_free (text->lines);
+	text->lines = NULL;
+
 	g_free (text->primary_selection);
+	text->primary_selection = NULL;
+
 	g_free (text->clipboard_selection);
+	text->clipboard_selection = NULL;
+
 	g_free (text->revert);
+	text->revert = NULL;
 
 	if (text->font)
 		e_font_unref (text->font);
@@ -246,6 +261,7 @@ e_text_destroy (GtkObject *object)
 
 	if (text->stipple)
 		gdk_bitmap_unref (text->stipple);
+	text->stipple = NULL;
 
 	if (text->timeout_id) {
 		g_source_remove(text->timeout_id);
@@ -293,7 +309,7 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 
-	gtk_signal_emit (GTK_OBJECT (text), signals[E_TEXT_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 }
 
 static void
@@ -643,6 +659,9 @@ text_draw_with_objects (ETextModel *model,
 	if (text == NULL)
 		return;
 	
+	if (text == NULL)
+		return;
+	
 	while (*text && numbytes > 0) {
 		gint obj_num = -1;
 		
@@ -682,7 +701,7 @@ text_draw_with_objects (ETextModel *model,
 
 typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
 
-#define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), (c))))
+#define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), -1, (c))))
 
 static gint
 line_splitter (ETextModel *model, EFont *font, EFontStyle style,
@@ -773,20 +792,8 @@ line_split_cb (int line_num, const char *start, int length, gpointer user_data)
 static void
 split_into_lines (EText *text)
 {
-	double clip_width;
-
-	if (text->text == NULL)
-		return;
-
 	/* Free old array of lines */
 	e_text_free_lines (text);
-
-	clip_width = text->clip_width;
-	if (clip_width >= 0 && text->draw_borders) {
-		clip_width -= 6;
-		if (clip_width < 0)
-			clip_width = 0;
-	}
 
 	/* First, count the number of lines */
 	text->num_lines = line_splitter (text->model, text->font, text->style,
@@ -883,7 +890,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		e_text_free_lines(text);
 
 		text->text = e_text_model_get_text(text->model);
-		gtk_signal_emit (GTK_OBJECT (text), signals[E_TEXT_CHANGED]);
+		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
@@ -1004,13 +1011,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ANCHOR:
-		text->anchor = GTK_VALUE_ENUM (*arg);
+		text->anchor = GTK_VALUE_INT (*arg);
 		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
 	case ARG_JUSTIFICATION:
-		text->justification = GTK_VALUE_ENUM (*arg);
+		text->justification = GTK_VALUE_INT (*arg);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -1205,8 +1212,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 
 	if (color_changed) {
+#ifndef NO_WARNINGS
+#warning Color stuff ...
+#endif
+#if 0
 		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
 			gdk_color_context_query_color (item->canvas->cc, &color);
+#endif
 
 		text->color = color;
 
@@ -1228,7 +1240,6 @@ static void
 e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	EText *text;
-	GdkColor *color;
 
 	text = E_TEXT (object);
 
@@ -1259,11 +1270,11 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ANCHOR:
-		GTK_VALUE_ENUM (*arg) = text->anchor;
+		GTK_VALUE_INT (*arg) = text->anchor;
 		break;
 
 	case ARG_JUSTIFICATION:
-		GTK_VALUE_ENUM (*arg) = text->justification;
+		GTK_VALUE_INT (*arg) = text->justification;
 		break;
 
 	case ARG_CLIP_WIDTH:
@@ -1291,9 +1302,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_FILL_COLOR_GDK:
-		color = g_new (GdkColor, 1);
-		*color = text->color;
-		GTK_VALUE_BOXED (*arg) = color;
+		GTK_VALUE_BOXED (*arg) = gdk_color_copy (&text->color);
 		break;
 
 	case ARG_FILL_COLOR_RGBA:
@@ -1510,14 +1519,19 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+#ifndef NO_WARNINGS
+#warning Color brokenness ...
+#endif
+#if 0
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
 	gdk_gc_set_foreground (text->gc, &text->color);
+#endif
 	
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (text->font == NULL) {
-		gdk_font_ref (GTK_WIDGET (item->canvas)->style->font);
-		text->font = e_font_from_gdk_font (GTK_WIDGET (item->canvas)->style->font);
+		gdk_font_ref (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
+		text->font = e_font_from_gdk_font (gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
 	}
 }
 
@@ -1732,7 +1746,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 * me as to whether it should be:
 				 * thiswidth + 2 or thiswidth + 1.
 				 */
-				gtk_paint_focus (widget->style, drawable, 
+				gtk_paint_focus (widget->style, drawable, GTK_STATE_NORMAL,
 						 NULL, widget, "entry",
 						 thisx, thisy, thiswidth - 1, thisheight - 1);
 			}
@@ -1742,10 +1756,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gtk_paint_flat_box (widget->style, drawable,
 					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
 					    NULL, widget, "entry_bg", 
-					    thisx + widget->style->klass->xthickness,
-					    thisy + widget->style->klass->ythickness, 
-					    thiswidth - widget->style->klass->xthickness * 2,
-					    thisheight - widget->style->klass->ythickness * 2);
+					    thisx + widget->style->xthickness,
+					    thisy + widget->style->ythickness, 
+					    thiswidth - widget->style->xthickness * 2,
+					    thisheight - widget->style->ythickness * 2);
 		}
 	}
 	if (text->draw_button) {
@@ -1801,8 +1815,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 
 			if (GTK_WIDGET_CAN_DEFAULT (widget)) {
-				thisx += widget->style->klass->xthickness;
-				thisy += widget->style->klass->ythickness;
+				thisx += widget->style->xthickness;
+				thisy += widget->style->ythickness;
 				thiswidth -= 2 * thisx + default_spacing;
 				thisheight -= 2 * thisy + default_spacing;
 				thisx += (1 + default_spacing) / 2;
@@ -1835,13 +1849,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				thiswidth += 2;
 				thisheight += 2;
 
-				gtk_paint_focus (widget->style, widget->window,
+				gtk_paint_focus (widget->style, widget->window, GTK_WIDGET_STATE (widget),
 						 &area, widget, "button",
 						 thisx + xoff, thisy + yoff, thiswidth - 1, thisheight - 1);
 			}
 		}
 	}
-
 
 	if (!text->text || !text->font)
 		return;
@@ -2503,9 +2516,10 @@ static gboolean
 tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 {
 	gint ret_val = FALSE;
-	if (GTK_OBJECT_DESTROYED (text)) {
+
+	if (!text->model)
 		return FALSE;
-	}
+
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
@@ -2751,6 +2765,35 @@ start_editing (EText *text)
 	g_timer_start(text->timer);
 }
 
+void
+e_text_stop_editing (EText *text)
+{
+	if (!text->editing)
+		return;
+
+	g_free (text->revert);
+	text->revert = NULL;
+
+	text->editing = FALSE;
+	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
+		gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->default_cursor);
+		text->default_cursor_shown = TRUE;
+	}
+	if (text->timer) {
+		g_timer_stop(text->timer);
+		g_timer_destroy(text->timer);
+		text->timer = NULL;
+	}
+}
+
+void
+e_text_cancel_editing (EText *text)
+{
+	if (text->revert)
+		e_text_model_set_text(text->model, text->revert);
+	e_text_stop_editing (text);
+}
+
 static gboolean
 _click (gpointer data)
 {
@@ -2766,7 +2809,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	gint return_val = 0;
 
-	if (GTK_OBJECT_DESTROYED (item))
+	if (!text->model)
 		return FALSE;
 
 	e_tep_event.type = event->type;
@@ -2818,7 +2861,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
 			if (event->type == GDK_KEY_PRESS)
-				gtk_signal_emit (GTK_OBJECT (text), signals[E_TEXT_KEYPRESS],
+				gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_KEYPRESS],
 						 e_tep_event.key.keyval, e_tep_event.key.state);
 			
 
@@ -2870,7 +2913,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
 			gtk_signal_emit (GTK_OBJECT (text),
-					 signals[E_TEXT_POPUP],
+					 e_text_signals[E_TEXT_POPUP],
 					 &(event->button),
 					 _get_position_from_xy (text, event->button.x, event->button.y));
 
@@ -3401,7 +3444,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
-		gtk_signal_emit (GTK_OBJECT (text), signals[E_TEXT_ACTIVATE]);
+		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_ACTIVATE]);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -3721,6 +3764,7 @@ _selection_received (GtkInvisible *invisible,
 		command.time = time;
 		e_text_command(text->tep, &command, text);
 	}
+
 	text->last_type_request = -1;
 	d(g_print ("Setting last_type_request to %d at line %d\n", text->last_type_request, __LINE__));
 	if (text->queued_requests) {
@@ -3733,8 +3777,6 @@ _selection_received (GtkInvisible *invisible,
 		e_text_request_paste (text);
 	}
 }
-
-
 
 static void
 e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
@@ -3934,7 +3976,7 @@ e_text_class_init (ETextClass *klass)
 
 	parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
-	signals[E_TEXT_CHANGED] =
+	e_text_signals[E_TEXT_CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
@@ -3942,7 +3984,7 @@ e_text_class_init (ETextClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	signals[E_TEXT_ACTIVATE] =
+	e_text_signals[E_TEXT_ACTIVATE] =
 		gtk_signal_new ("activate",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
@@ -3950,7 +3992,7 @@ e_text_class_init (ETextClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	signals[E_TEXT_KEYPRESS] =
+	e_text_signals[E_TEXT_KEYPRESS] =
 		gtk_signal_new ("keypress",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
@@ -3958,23 +4000,15 @@ e_text_class_init (ETextClass *klass)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_UINT, GTK_TYPE_UINT);
 
-	signals[E_TEXT_POPUP] =
+	e_text_signals[E_TEXT_POPUP] =
 		gtk_signal_new ("popup",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, popup),
-				gtk_marshal_NONE__POINTER_INT,
+				e_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
-	signals[E_TEXT_STYLE_SET] =
-		gtk_signal_new ("style_set",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextClass, style_set),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_STYLE);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, E_TEXT_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
 
 
 	gtk_object_add_arg_type ("EText::model",
@@ -3988,7 +4022,7 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::fontset",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONTSET);
 	gtk_object_add_arg_type ("EText::font_gdk",
-				 GTK_TYPE_GDK_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
+				 GDK_TYPE_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
 	gtk_object_add_arg_type ("EText::font_e",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
 	gtk_object_add_arg_type ("EText::bold",
@@ -4014,11 +4048,11 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::fill_color",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FILL_COLOR);
 	gtk_object_add_arg_type ("EText::fill_color_gdk",
-				 GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
+				 GDK_TYPE_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
 	gtk_object_add_arg_type ("EText::fill_color_rgba",
 				 GTK_TYPE_UINT, GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
 	gtk_object_add_arg_type ("EText::fill_stipple",
-				 GTK_TYPE_GDK_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
+				 GDK_TYPE_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
 	gtk_object_add_arg_type ("EText::text_width",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_WIDTH);
 	gtk_object_add_arg_type ("EText::text_height",
@@ -4055,24 +4089,21 @@ e_text_class_init (ETextClass *klass)
 
 
 
-	klass->changed        = NULL;
-	klass->activate       = NULL;
-	klass->keypress       = NULL;
-	klass->popup          = NULL;
-	klass->style_set      = e_text_style_set;
+	klass->changed = NULL;
+	klass->activate = NULL;
 
 	object_class->destroy = e_text_destroy;
 	object_class->set_arg = e_text_set_arg;
 	object_class->get_arg = e_text_get_arg;
 
-	item_class->update    = e_text_update;
-	item_class->realize   = e_text_realize;
+	item_class->update = e_text_update;
+	item_class->realize = e_text_realize;
 	item_class->unrealize = e_text_unrealize;
-	item_class->draw      = e_text_draw;
-	item_class->point     = e_text_point;
-	item_class->bounds    = e_text_bounds;
-	item_class->render    = e_text_render;
-	item_class->event     = e_text_event;
+	item_class->draw = e_text_draw;
+	item_class->point = e_text_point;
+	item_class->bounds = e_text_bounds;
+	item_class->render = e_text_render;
+	item_class->event = e_text_event;
 }
 
 /* Object initialization function for the text item */
@@ -4142,15 +4173,12 @@ e_text_init (EText *text)
 
 	text->pointer_in              = FALSE;
 	text->default_cursor_shown    = TRUE;
-
 	text->line_wrap               = FALSE;
 	text->break_characters        = NULL;
 	text->max_lines               = -1;
-
 	text->tooltip_timeout         = 0;
 	text->tooltip_count           = 0;
 	text->tooltip_owner           = FALSE;
-
 	text->dbl_timeout             = 0;
 	text->tpl_timeout             = 0;
 
@@ -4203,31 +4231,3 @@ e_text_get_type (void)
 	return text_type;
 }
 
-void
-e_text_cancel_editing (EText *text)
-{
-	if (text->revert)
-		e_text_model_set_text(text->model, text->revert);
-	e_text_stop_editing (text);
-}
-
-void
-e_text_stop_editing (EText *text)
-{
-	if (!text->editing)
-		return;
-
-	g_free (text->revert);
-	text->revert = NULL;
-
-	text->editing = FALSE;
-	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
-		gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->default_cursor);
-		text->default_cursor_shown = TRUE;
-	}
-	if (text->timer) {
-		g_timer_stop(text->timer);
-		g_timer_destroy(text->timer);
-		text->timer = NULL;
-	}
-}

@@ -25,11 +25,10 @@
 #ifndef E_COMPLETION_H
 #define E_COMPLETION_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 #include "e-completion-match.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_COMPLETION_TYPE        (e_completion_get_type ())
 #define E_COMPLETION(o)          (GTK_CHECK_CAST ((o), E_COMPLETION_TYPE, ECompletion))
@@ -96,7 +95,7 @@ void         e_completion_lost_match  (ECompletion *comp, ECompletionMatch *);
 void         e_completion_clear       (ECompletion *comp);
 void         e_completion_end_search  (ECompletion *comp);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 
 #endif /* E_COMPLETION_H */

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-view-etable.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -144,10 +144,15 @@ gal_view_etable_destroy         (GtkObject *object)
 	gal_view_etable_detach (view);
 
 	g_free(view->title);
+	view->title = NULL;
+
 	if (view->spec)
 		gtk_object_unref(GTK_OBJECT(view->spec));
+	view->spec = NULL;
+
 	if (view->state)
 		gtk_object_unref(GTK_OBJECT(view->state));
+	view->state = NULL;
 
 	if (GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy) (object);

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-reflow-model.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -26,7 +26,7 @@
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 
-#define ERM_CLASS(e) ((EReflowModelClass *)((GtkObject *)e)->klass)
+#define ERM_CLASS(e) ((EReflowModelClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE gtk_object_get_type ()
 
@@ -193,7 +193,7 @@ e_reflow_model_class_init (GtkObjectClass *object_class)
 }
 
 
-guint
+GtkType
 e_reflow_model_get_type (void)
 {
 	static guint type = 0;

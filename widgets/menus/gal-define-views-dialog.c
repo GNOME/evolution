@@ -26,7 +26,8 @@
 #include "gal-define-views-dialog.h"
 
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
@@ -225,7 +226,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-define-views.glade", NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
@@ -238,8 +239,8 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gtk_widget_unref(widget);
 
 	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
+				    GTK_STOCK_OK,
+				    GTK_STOCK_CANCEL,
 				    NULL);
 
 	gdvd_connect_signal(dialog, "button-new",    "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));
@@ -264,7 +265,9 @@ gal_define_views_dialog_destroy (GtkObject *object)
 {
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
 
-	gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+	if (gal_define_views_dialog->gui)
+		gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+	gal_define_views_dialog->gui = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

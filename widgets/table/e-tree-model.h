@@ -27,9 +27,9 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+
+G_BEGIN_DECLS
 
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
@@ -220,6 +220,7 @@ void        e_tree_model_node_deleted            (ETreeModel     *tree_model,
 void        e_tree_model_node_request_collapse   (ETreeModel     *tree_model,
 						  ETreePath       deleted_node);
 
-END_GNOME_DECLS
+
+G_END_DECLS
 
 #endif /* _E_TREE_MODEL_H */

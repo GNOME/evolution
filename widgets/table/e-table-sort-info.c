@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-sort-info.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -54,8 +54,11 @@ etsi_destroy (GtkObject *object)
 	
 	if (etsi->groupings)
 		g_free(etsi->groupings);
+	etsi->groupings = NULL;
+
 	if (etsi->sortings)
 		g_free(etsi->sortings);
+	etsi->sortings = NULL;
 
 	GTK_OBJECT_CLASS (e_table_sort_info_parent_class)->destroy (object);
 }

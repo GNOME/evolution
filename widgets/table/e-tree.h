@@ -24,10 +24,10 @@
 #ifndef _E_TREE_H_
 #define _E_TREE_H_
 
+#include <gtk/gtkdnd.h>
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
-#include <libgnomeui/gnome-canvas.h>
-
+#include <libxml/tree.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-printable.h>
 
 #include <gal/e-table/e-table-extras.h>
@@ -35,7 +35,6 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-tree-table-adapter.h>
-#include <libgnome/gnome-defs.h>
 
 #define E_TREE_USE_TREE_SELECTION
 
@@ -43,7 +42,7 @@
 #include <gal/e-table/e-tree-selection-model.h>
 #endif
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TREE_TYPE        (e_tree_get_type ())
 #define E_TREE(o)          (GTK_CHECK_CAST ((o), E_TREE_TYPE, ETree))
@@ -305,7 +304,7 @@ gboolean        e_tree_find_next                  (ETree                *et,
 void            e_tree_right_click_up             (ETree                *et);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TREE_H_ */
 

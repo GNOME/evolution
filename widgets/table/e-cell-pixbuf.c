@@ -22,7 +22,7 @@
  */
 
 #include <stdio.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-pixbuf.h"
 
 static ECellClass *parent_class;
@@ -42,6 +42,23 @@ enum {
 	ARG_FOCUSED_COLUMN,
 	ARG_UNSELECTED_COLUMN
 };
+
+static int
+gnome_print_pixbuf (GnomePrintContext *pc, GdkPixbuf *pixbuf)
+{
+       if (gdk_pixbuf_get_has_alpha (pixbuf))
+               return gnome_print_rgbaimage  (pc,
+					      gdk_pixbuf_get_pixels    (pixbuf),
+					      gdk_pixbuf_get_width     (pixbuf),
+					      gdk_pixbuf_get_height    (pixbuf),
+					      gdk_pixbuf_get_rowstride (pixbuf));
+       else
+               return gnome_print_rgbimage  (pc,
+					     gdk_pixbuf_get_pixels    (pixbuf),
+					     gdk_pixbuf_get_width     (pixbuf),
+					     gdk_pixbuf_get_height    (pixbuf),
+					     gdk_pixbuf_get_rowstride (pixbuf));
+}
 
 /*
  * ECellPixbuf functions
@@ -370,7 +387,7 @@ e_cell_pixbuf_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_UNSELECTED_COLUMN);
 }
 
-guint
+GtkType
 e_cell_pixbuf_get_type (void)
 {
     static guint type = 0;
@@ -382,8 +399,7 @@ e_cell_pixbuf_get_type (void)
             sizeof (ECellPixbufClass),
             (GtkClassInitFunc) e_cell_pixbuf_class_init,
             (GtkObjectInitFunc) e_cell_pixbuf_init,
-            NULL,
-            NULL,
+            NULL, NULL,
         };
 
         type = gtk_type_unique (e_cell_get_type (), &type_info);

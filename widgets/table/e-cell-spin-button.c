@@ -348,7 +348,7 @@ ecsb_event        (ECellView        *ecv,
 		
 	ecsb_view   = (ECellSpinButtonView *) ecv;
 	ecsb        = E_CELL_SPIN_BUTTON (ecsb_view->cell_view.ecell);
-	ecsb_class  = E_CELL_SPIN_BUTTON_CLASS (GTK_OBJECT(ecsb)->klass);
+	ecsb_class  = E_CELL_SPIN_BUTTON_CLASS (GTK_OBJECT_GET_CLASS (ecsb));
 	eti         = E_TABLE_ITEM (ecsb_view->cell_view.e_table_item_view);
 	
 	switch (event->type) {
@@ -474,12 +474,11 @@ ecsb_focus        (ECellView        *ecell_view,
 	
 	ecsb_view = (ECellSpinButtonView *) ecell_view;
 
-	klass = E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass);
+	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
-	if (klass->focus) {
+	if (klass->focus)
 		klass->focus (ecell_view, model_col, view_col, row, 
 			      x1, y1, x2, y2);
-	}
 }
 
 static void
@@ -489,12 +488,10 @@ ecsb_unfocus      (ECellView        *ecell_view)
 	ECellSpinButtonView   *ecsb_view;
 	
 	ecsb_view = (ECellSpinButtonView *) ecell_view;
-	klass = E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass);
+	klass = E_CELL_GET_CLASS (ecell_view->ecell);
 
-	if (klass->unfocus) {
+	if (klass->unfocus)
 		klass->unfocus (ecell_view);
-	}
-	
 }
 
 static void         
@@ -516,7 +513,7 @@ ecsb_show_tooltip (ECellView        *ecv,
 }
 
 static void 
-ecsb_destroy        (GtkObject	*object)
+ecsb_destroy (GtkObject	*object)
 {
 	ECellSpinButton *mcsp;
 
@@ -543,7 +540,7 @@ e_cell_spin_button_new (gint     min,
 						GTK_JUSTIFY_LEFT);
 		
 		gtk_signal_connect (GTK_OBJECT (ecsb), "step",
-				    e_cell_spin_button_step, 
+				    GTK_SIGNAL_FUNC (e_cell_spin_button_step),
 				    NULL);
 	}
 	
@@ -568,7 +565,7 @@ e_cell_spin_button_new_float (gfloat    min,
 	if (!child_cell) {
 		child_cell = e_cell_float_new (NULL, GTK_JUSTIFY_LEFT);
 		gtk_signal_connect (GTK_OBJECT (ecsb), "step",
-				    e_cell_spin_button_step_float, 
+				    GTK_SIGNAL_FUNC (e_cell_spin_button_step_float),
 				    NULL);
 	}
 	

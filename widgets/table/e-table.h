@@ -25,9 +25,10 @@
 #ifndef _E_TABLE_H_
 #define _E_TABLE_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <gtk/gtkdnd.h>
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-group.h>
@@ -40,9 +41,8 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
 #include <gal/e-table/e-table-search.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_TYPE        (e_table_get_type ())
 #define E_TABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_TYPE, ETable))
@@ -350,7 +350,9 @@ void             e_table_right_click_up            (ETable               *table)
 
 void             e_table_commit_click_to_add       (ETable               *table);
 
-END_GNOME_DECLS
+void             e_table_commit_click_to_add       (ETable               *table);
+
+G_END_DECLS
 
 #endif /* _E_TABLE_H_ */
 

@@ -24,9 +24,8 @@
 #define _E_CELL_CHECKBOX_H_
 
 #include <gal/e-table/e-cell-toggle.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_CHECKBOX_TYPE        (e_cell_checkbox_get_type ())
 #define E_CELL_CHECKBOX(o)          (GTK_CHECK_CAST ((o), E_CELL_CHECKBOX_TYPE, ECellCheckbox))
@@ -45,7 +44,7 @@ typedef struct {
 GtkType    e_cell_checkbox_get_type (void);
 ECell     *e_cell_checkbox_new      (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_CHECKBOX_H_ */
 

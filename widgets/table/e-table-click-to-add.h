@@ -24,15 +24,14 @@
 #ifndef _E_TABLE_CLICK_TO_ADD_H_
 #define _E_TABLE_CLICK_TO_ADD_H_
 
-#include <gnome-xml/tree.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libxml/tree.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-table-selection-model.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
 #define E_TABLE_CLICK_TO_ADD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
@@ -73,6 +72,6 @@ GtkType    e_table_click_to_add_get_type (void);
 
 void       e_table_click_to_add_commit (ETableClickToAdd *etcta);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_CLICK_TO_ADD_H_ */

@@ -116,7 +116,6 @@ e_text_model_uri_destroy (GtkObject *object)
 		g_free (iter->data);
 	g_list_free (model_uri->uris);
 	model_uri->uris = NULL;
-	
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -345,7 +344,7 @@ e_text_model_uri_activate_nth_object (ETextModel *model, gint i)
 	objectify_idle_flush (E_TEXT_MODEL_URI (model));
 	
 	obj_str = e_text_model_strdup_nth_object (model, i);
-	gnome_url_show (obj_str);
+	gnome_url_show (obj_str, NULL);
 	g_free (obj_str);
 }
 

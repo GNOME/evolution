@@ -25,9 +25,8 @@
 #define GNOME_APP_LIB_CURSORS_H
 
 #include <gdk/gdk.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 typedef enum {
 	E_CURSOR_FAT_CROSS,
@@ -43,6 +42,7 @@ typedef enum {
 	E_CURSOR_PRESS,
 	E_CURSOR_HAND_OPEN,
 	E_CURSOR_HAND_CLOSED,
+	E_CURSOR_XTERM,
 	E_CURSOR_NUM_CURSORS
 } ECursorType;
 
@@ -63,6 +63,6 @@ G_STMT_START {									     \
 
 GdkCursor *e_cursor_get (ECursorType type);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* GNOME_APP_LIB_CURSORS_H */

@@ -110,11 +110,10 @@ e_text_event_processor_init (ETextEventProcessor *tep)
 gint
 e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event)
 {
-	if (E_TEXT_EVENT_PROCESSOR_CLASS(GTK_OBJECT(tep)->klass)->event) {
-		return E_TEXT_EVENT_PROCESSOR_CLASS(GTK_OBJECT(tep)->klass)->event(tep, event);
-	} else {
+	if (E_TEXT_EVENT_PROCESSOR_CLASS (GTK_OBJECT_GET_CLASS (tep))->event)
+		return E_TEXT_EVENT_PROCESSOR_CLASS(GTK_OBJECT_GET_CLASS (tep))->event(tep, event);
+	else
 		return 0;
-	}
 }
 
 /* Set_arg handler for the text item */

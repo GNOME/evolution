@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-sorted-variable.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -50,20 +50,27 @@ etsv_destroy (GtkObject *object)
 {
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (object);
 
-	gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
-			       etsv->sort_info_changed_id);
+	if (etsv->sort_info_changed_id)
+		gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
+				       etsv->sort_info_changed_id);
+	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id) {
 		g_source_remove(etsv->sort_idle_id);
+		etsv->sort_idle_id = 0;
 	}
 	if (etsv->insert_idle_id) {
 		g_source_remove(etsv->insert_idle_id);
+		etsv->insert_idle_id = 0;
 	}
 
 	if (etsv->sort_info)
 		gtk_object_unref(GTK_OBJECT(etsv->sort_info));
+	etsv->sort_info = NULL;
+
 	if (etsv->full_header)
 		gtk_object_unref(GTK_OBJECT(etsv->full_header));
+	etsv->full_header = NULL;
 
 	GTK_OBJECT_CLASS (etsv_parent_class)->destroy (object);
 }

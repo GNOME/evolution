@@ -24,10 +24,9 @@
 #ifndef _E_HSV_UTILS_H_
 #define _E_HSV_UTILS_H_
 
-#include <libgnome/gnome-defs.h>
 #include <gdk/gdk.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 void  e_hsv_to_rgb  (gdouble   h,
 		     gdouble   s,
@@ -48,6 +47,6 @@ void  e_hsv_tweak   (GdkColor *colour,
 		     gdouble   delta_s,
 		     gdouble   delta_v);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_HSV_UTILS_H_ */

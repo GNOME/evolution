@@ -25,7 +25,7 @@
 #define _E_TABLE_STATE_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/e-table/e-table-sort-info.h>
 
 #ifdef __cplusplus
@@ -54,6 +54,8 @@ typedef struct {
 
 GtkType      e_table_state_get_type          (void);
 ETableState *e_table_state_new               (void);
+
+ETableState *e_table_state_vanilla	     (int col_count);
 
 gboolean     e_table_state_load_from_file    (ETableState   *state,
 					      const char    *filename);

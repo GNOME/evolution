@@ -27,10 +27,8 @@
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-collection.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
-
+G_BEGIN_DECLS
 
 #define GAL_VIEW_INSTANCE_TYPE        (gal_view_instance_get_type ())
 #define GAL_VIEW_INSTANCE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_INSTANCE_TYPE, GalViewInstance))
@@ -113,7 +111,6 @@ EPopupMenu      *gal_view_instance_get_popup_menu       (GalViewInstance   *inst
 void             gal_view_instance_free_popup_menu      (GalViewInstance   *instance,
 							 EPopupMenu        *menu);
 
-END_GNOME_DECLS
-
+G_END_DECLS
 
 #endif /* _GAL_VIEW_INSTANCE_H_ */

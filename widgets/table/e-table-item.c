@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-item.c
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -35,6 +35,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 #include "e-table-subset.h"
 #include "e-cell.h"
@@ -42,6 +43,7 @@
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -50,7 +52,6 @@
 #define FOCUSED_BORDER 2
 
 #define d(x)
-#define DO_TOOLTIPS
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
@@ -941,6 +942,13 @@ eti_check_cursor_bounds (ETableItem *eti)
 		return;
 	}
 	
+	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
+		return;
+
+	if (eti->frozen_count > 0) {
+		return;
+	}
+	
 	gtk_object_get(GTK_OBJECT(eti->selection),
 		       "cursor_row", &cursor_row,
 		       NULL);
@@ -985,10 +993,12 @@ static gboolean
 eti_idle_show_cursor_cb (gpointer data)
 {
 	ETableItem *eti = data;
-	if (!GTK_OBJECT_DESTROYED (eti)) {
+
+	if (eti->selection) {
 		eti_show_cursor (eti, 0);
 		eti_check_cursor_bounds (eti);
 	}
+
 	gtk_object_unref (GTK_OBJECT (eti));
 	return FALSE;
 }
@@ -1270,6 +1280,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	}
 
 	eti_freeze (eti);
+	
 	eti_table_model_changed (table_model, eti);
 }
 
@@ -1388,25 +1399,29 @@ eti_destroy (GtkObject *object)
 		g_source_remove(eti->height_cache_idle_id);
 		eti->height_cache_idle_id = 0;
 	}
+	eti->height_cache_idle_count = 0;
 
 	if (eti->height_cache)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
-	eti->height_cache_idle_count = 0;
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 	if (eti->tooltip) {
 		if (eti->tooltip->background)
 			gdk_color_free (eti->tooltip->background);
+		eti->tooltip->background = NULL;
+
 		if (eti->tooltip->foreground)
 			gdk_color_free (eti->tooltip->foreground);
+		eti->tooltip->foreground = NULL;
+
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
 		g_free (eti->tooltip);
+		eti->tooltip = NULL;
 	}
-	eti->tooltip = NULL;
 
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
@@ -1848,6 +1863,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (first_row == -1)
 			return;
 	}
+
+	last_row = row;
+
+	if (first_row == -1)
+		return;
 
 	/*
 	 * Draw cells
@@ -2309,6 +2329,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->drag_x        = realx;
 				eti->drag_y        = realy;
 				eti->drag_state    = e->button.state;
+				eti->grabbed       = TRUE;
 				d(g_print ("%s: eti_grab\n", __FUNCTION__));
 				eti_grab (eti, e->button.time);
 			}
@@ -2454,11 +2475,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e->button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
 			e->button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
 
-#if 0
-			button.x = x1;
-			button.y = y1;
-#endif
-
 			if (e->button.button == 1) {
 				if (eti->maybe_in_drag) {
 					eti->maybe_in_drag = FALSE;
@@ -2518,7 +2534,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
-		if (g_getenv ("GAL_DO_TOOLTIPS")) {
+		if (!g_getenv ("GAL_DONT_DO_TOOLTIPS")) {
 			if (eti->tooltip->timer > 0)
 				gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->col = col;
@@ -2886,7 +2902,7 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, cursor_activated),
-				gtk_marshal_NONE__INT,
+				e_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	eti_signals [DOUBLE_CLICK] =
@@ -2894,40 +2910,45 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
-				gtk_marshal_NONE__INT_INT_POINTER,
-				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_NONE__INT_INT_BOXED,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [START_DRAG] =
 		gtk_signal_new ("start_drag",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, start_drag),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, right_click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [CLICK] =
 		gtk_signal_new ("click",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, click),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, key_press),
-				e_marshal_INT__INT_INT_POINTER,
-				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__INT_INT_BOXED,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT,
+				GTK_TYPE_INT, GDK_TYPE_EVENT);
 
 	eti_signals [STYLE_SET] =
 		gtk_signal_new ("style_set",
@@ -2938,7 +2959,6 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eti_signals, LAST_SIGNAL);
-
 }
 
 GtkType

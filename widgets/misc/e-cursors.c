@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-cursors.c - cursor handling for gnumeric
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -55,6 +55,7 @@ static CursorDef cursors [] = {
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
 	{ NULL, 10, 10, cursor_hand_open_xpm },
 	{ NULL, 10, 10, cursor_hand_closed_xpm },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_XTERM,             NULL },
 	{ NULL, 0,    0,  NULL }
 };
 
@@ -109,6 +110,8 @@ void
 e_cursors_init (void)
 {
 	int i;
+
+	e_color_init ();
 
 	for (i = 0; cursors [i].hot_x; i++){
 		GdkBitmap *bitmap, *mask;

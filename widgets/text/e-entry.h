@@ -25,15 +25,13 @@
 #ifndef _E_ENTRY_H_
 #define _E_ENTRY_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <gal/e-text/e-text.h>
 #include "e-completion.h"
-#include <libgnome/gnome-defs.h>
 
-
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_ENTRY_TYPE        (e_entry_get_type ())
 #define E_ENTRY(o)          (GTK_CHECK_CAST ((o), E_ENTRY_TYPE, EEntry))
@@ -84,6 +82,6 @@ void         e_entry_enable_completion_full (EEntry *entry, ECompletion *complet
 					     EEntryCompletionHandler handler);
 gboolean     e_entry_completion_popup_is_visible (EEntry *entry);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_ENTRY_H_ */

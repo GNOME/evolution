@@ -28,9 +28,30 @@
 
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
+
+#define E_POPUP_SEPARATOR  { "", NULL, (NULL), NULL, 0 }
+#define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL, 0 }
+
+
+/* In the following, CC = custom closure */
+
+#define E_POPUP_ITEM(name,fn,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), NULL, NULL, 0, 0, 0, 0 }
+#define E_POPUP_ITEM_CC(name,fn,closure,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), NULL, (closure), 0, 0, 0, 1 }
+#define E_POPUP_SUBMENU(name,submenu,disable_mask) { (name), NULL, NULL, (submenu), (disable_mask), NULL, NULL, 0, 0, 0, 0 }
+
+#define E_POPUP_PIXMAP_ITEM(name,pixmap,fn,disable_mask) { (name), (pixmap), (fn), NULL, (disable_mask), NULL, NULL, 0, 0, 0, 0 }
+#define E_POPUP_PIXMAP_ITEM_CC(name,pixmap,fn,closure,disable_mask) { (name), (pixmap), (fn), NULL, (disable_mask), NULL, (closure), 0, 0, 0, 1 }
+#define E_POPUP_PIXMAP_SUBMENU(name,pixmap,submenu,disable_mask) { (name), (pixmap), NULL, (submenu), (disable_mask), NULL, NULL, 0, 0, 0, 0 }
+
+#define E_POPUP_PIXMAP_WIDGET_ITEM(name,pixmap_widget,fn,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), NULL, 0, 0, 0, 0 }
+#define E_POPUP_PIXMAP_WIDGET_ITEM_CC(name,pixmap_widget,fn,closure,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), (closure), 0, 0, 0, 1 }
+#define E_POPUP_PIXMAP_WIDGET_SUBMENU(name,pixmap_widget,submenu,disable_mask) { (name), NULL, NULL, (submenu), (disable_mask), (pixmap_widget), NULL, 0, 0, 0, 0 }
+
+
+#define E_POPUP_TOGGLE_ITEM(name,fn,disable_mask,value) { (name), NULL, (fn), NULL, (disable_mask), NULL, NULL, 1, 0, value, 0 }
+#define E_POPUP_TOGGLE_ITEM_CC(name,fn,closure,disable_mask,value) { (name), NULL, (fn), NULL, (disable_mask), NULL, (closure), 1, 0, value, 1 }
 
 #define E_POPUP_SEPARATOR  { "", NULL, (NULL), NULL, 0 }
 #define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL, 0 }
@@ -70,12 +91,14 @@ BEGIN_GNOME_DECLS
 #define E_POPUP_RADIO_PIXMAP_WIDGET_ITEM(name,pixmap_widget,fn,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), NULL, 0, 1, value, 0 }
 #define E_POPUP_RADIO_PIXMAP_WIDGET_ITEM_CC(name,pixmap_widget,fn,closure,disable_mask) { (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), (closure), 0, 1, value, 1 }
 
+
 typedef struct _EPopupMenu EPopupMenu;
 
 struct _EPopupMenu {
 	char *name;
-	gchar *pixname;
-	void (*fn) (GtkWidget *widget, void *closure);
+	char *pixname;
+	GtkSignalFunc fn;
+
 	EPopupMenu *submenu;
 	guint32 disable_mask;
 
@@ -89,7 +112,6 @@ struct _EPopupMenu {
 
 	guint use_custom_closure : 1;
 };
-
 
 GtkMenu    *e_popup_menu_create              (EPopupMenu       *menu_list,
 					      guint32           disable_mask,
@@ -115,6 +137,6 @@ void        e_popup_menu_free_1              (EPopupMenu       *menu_item);
 EPopupMenu *e_popup_menu_copy                (const EPopupMenu *menu_item);
 void        e_popup_menu_free                (EPopupMenu       *menu_item);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* E_POPUP_MENU_H */

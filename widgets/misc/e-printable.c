@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-printable.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -55,16 +55,17 @@ e_printable_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, print_page),
-				e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL,
-				GTK_TYPE_NONE, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
+				e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+				G_TYPE_NONE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
 	e_printable_signals [DATA_LEFT] =
 		gtk_signal_new ("data_left",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, data_left),
-				gtk_marshal_BOOL__NONE,
-				GTK_TYPE_BOOL, 0, GTK_TYPE_NONE);
+				e_marshal_BOOLEAN__NONE,
+				G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
 
 	e_printable_signals [RESET] =
 		gtk_signal_new ("reset",
@@ -72,23 +73,25 @@ e_printable_class_init (GtkObjectClass *object_class)
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, reset),
 				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0, GTK_TYPE_NONE);
+				G_TYPE_NONE, 0, G_TYPE_NONE);
 
 	e_printable_signals [HEIGHT] =
 		gtk_signal_new ("height",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, height),
-				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL,
-				GTK_TYPE_DOUBLE, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
+				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+				G_TYPE_DOUBLE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
 	e_printable_signals [WILL_FIT] =
 		gtk_signal_new ("will_fit",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, will_fit),
-				e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL,
-				GTK_TYPE_BOOL, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
+				e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+				G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
+				G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_printable_signals, LAST_SIGNAL);
 
@@ -100,7 +103,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 }
 
 
-guint
+GtkType
 e_printable_get_type (void)
 {
   static guint type = 0;

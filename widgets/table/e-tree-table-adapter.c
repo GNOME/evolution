@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-table-adapter.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -31,8 +31,8 @@
 #include <string.h>
 
 #include <gtk/gtksignal.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-table-adapter.h"
@@ -405,6 +405,11 @@ etta_destroy (GtkObject *object)
 {
 	ETreeTableAdapter *etta = E_TREE_TABLE_ADAPTER (object);
 
+	if (!etta->priv) {
+		GTK_OBJECT_CLASS (parent_class)->destroy (object);
+		return;
+	}
+
 	if (etta->priv->source && e_tree_model_has_save_id(etta->priv->source)) {
 		g_hash_table_foreach(etta->priv->attributes, free_string, NULL);
 	}
@@ -444,6 +449,7 @@ etta_destroy (GtkObject *object)
 	g_free (etta->priv->map_table);
 
 	g_free (etta->priv);
+	etta->priv = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -961,7 +967,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 			      save_expanded_state_func,
 			      &tar);
 	
-	e_xml_save_file (filename, doc);
+	xmlSaveFile (filename, doc);
 	
 	xmlFreeDoc (doc);
 }
@@ -1003,6 +1009,8 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		xmlFreeDoc (doc);
 		return;
 	}
+
+	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 

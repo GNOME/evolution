@@ -90,6 +90,7 @@ e_completion_view_paint (GtkWidget *widget, GdkRectangle *area)
 	
 }
 
+#if 0
 static void
 e_completion_view_draw (GtkWidget *widget, GdkRectangle *area)
 {
@@ -109,6 +110,7 @@ e_completion_view_draw (GtkWidget *widget, GdkRectangle *area)
 			gtk_widget_draw (bin->child, &child_area);
 	}
 }
+#endif
 
 static gint
 e_completion_view_expose_event (GtkWidget *widget, GdkEventExpose *event)			  
@@ -276,7 +278,6 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	object_class->destroy = e_completion_view_destroy;
 
 	widget_class->key_press_event = e_completion_view_local_key_press_handler;
-	widget_class->draw = e_completion_view_draw;
 	widget_class->expose_event = e_completion_view_expose_event;
 	widget_class->size_request = e_completion_view_size_request;
 	widget_class->size_allocate = e_completion_view_size_allocate;
@@ -297,16 +298,19 @@ e_completion_view_destroy (GtkObject *object)
 	e_completion_view_disconnect (cv);
 	e_completion_view_clear_choices (cv);
 
-	g_ptr_array_free (cv->choices, TRUE);
+	if (cv->choices)
+		g_ptr_array_free (cv->choices, TRUE);
+	cv->choices = NULL;
 
 	if (cv->key_widget) {
 		gtk_signal_disconnect (GTK_OBJECT (cv->key_widget), cv->key_signal_id);
 		gtk_object_unref (GTK_OBJECT (cv->key_widget));
+		cv->key_widget = NULL;
 	}
 
 	if (cv->completion)
 		gtk_object_unref (GTK_OBJECT (cv->completion));
-
+	cv->completion = NULL;
 
 	if (parent_class->destroy)
 		(parent_class->destroy) (object);

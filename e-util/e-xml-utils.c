@@ -42,9 +42,9 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <math.h>
-
-#include <parser.h>
-#include <xmlmemory.h>
+#include <string.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
@@ -104,7 +104,7 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 static xmlNode *
 e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 						 const gchar *name,
-						 GList *lang_list,
+						 const GList *lang_list,
 						 gint *best_lang_score)
 {
 	xmlNodePtr best_node = NULL, node;
@@ -117,7 +117,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 		}
 		lang = xmlGetProp (node, "xml:lang");
 		if (lang != NULL) {
-			GList *l;
+			const GList *l;
 			gint i;
 
 			for (l = lang_list, i = 0;
@@ -149,7 +149,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 xmlNode *
 e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
 				      const gchar *name,
-				      GList *lang_list)
+				      const GList *lang_list)
 {
 	gint best_lang_score = INT_MAX;
 
@@ -441,320 +441,3 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 }
 
 
-/* Replacement for xmlSaveFile */
-
-static void xmlNodeDump (xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level, int format);
-
-
-static void
-xmlAttrDump (xmlBufferPtr buf, xmlDocPtr doc, xmlAttrPtr cur)
-{
-	xmlChar *value;
-	
-	if (cur == NULL) {
-#ifdef DEBUG_TREE
-		fprintf(stderr, "xmlAttrDump : property == NULL\n");
-#endif
-		return;
-	}
-	
-	xmlBufferWriteChar (buf, " ");
-	if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
-		xmlBufferWriteCHAR (buf, cur->ns->prefix);
-		xmlBufferWriteChar (buf, ":");
-	}
-	
-	xmlBufferWriteCHAR (buf, cur->name);
-	value = xmlNodeListGetString (doc, cur->val, 0);
-	if (value) {
-		xmlBufferWriteChar (buf, "=");
-		xmlBufferWriteQuotedString (buf, value);
-		xmlFree (value);
-	} else  {
-		xmlBufferWriteChar (buf, "=\"\"");
-	}
-}
-
-static void
-xmlAttrListDump (xmlBufferPtr buf, xmlDocPtr doc, xmlAttrPtr cur)
-{
-	if (cur == NULL) {
-#ifdef DEBUG_TREE
-		fprintf(stderr, "xmlAttrListDump : property == NULL\n");
-#endif
-		return;
-	}
-	
-	while (cur != NULL) {
-		xmlAttrDump (buf, doc, cur);
-		cur = cur->next;
-	}
-}
-
-static void
-xmlNodeListDump (xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level, int format)
-{
-	int i;
-	
-	if (cur == NULL) {
-#ifdef DEBUG_TREE
-		fprintf(stderr, "xmlNodeListDump : node == NULL\n");
-#endif
-		return;
-	}
-	
-	while (cur != NULL) {
-		if ((format) && (xmlIndentTreeOutput) &&
-		    (cur->type == XML_ELEMENT_NODE))
-			for (i = 0; i < level; i++)
-				xmlBufferWriteChar (buf, "  ");
-		xmlNodeDump (buf, doc, cur, level, format);
-		if (format) {
-			xmlBufferWriteChar (buf, "\n");
-		}
-		cur = cur->next;
-	}
-}
-
-static void
-xmlNodeDump (xmlBufferPtr buf, xmlDocPtr doc, xmlNodePtr cur, int level, int format)
-{
-	int i;
-	xmlNodePtr tmp;
-	
-	if (cur == NULL) {
-#ifdef DEBUG_TREE
-		fprintf(stderr, "xmlNodeDump : node == NULL\n");
-#endif
-		return;
-	}
-	
-	if (cur->type == XML_TEXT_NODE) {
-		if (cur->content != NULL) {
-			xmlChar *buffer;
-			
-#ifndef XML_USE_BUFFER_CONTENT
-			buffer = xmlEncodeEntitiesReentrant (doc, cur->content);
-#else
-			buffer = xmlEncodeEntitiesReentrant (doc, xmlBufferContent (cur->content));
-#endif
-			if (buffer != NULL) {
-				xmlBufferWriteCHAR (buf, buffer);
-				xmlFree (buffer);
-			}
-		}
-		return;
-	}
-	
-	if (cur->type == XML_PI_NODE) {
-		if (cur->content != NULL) {
-			xmlBufferWriteChar (buf, "<?");
-			xmlBufferWriteCHAR (buf, cur->name);
-			if (cur->content != NULL) {
-				xmlBufferWriteChar (buf, " ");
-#ifndef XML_USE_BUFFER_CONTENT
-				xmlBufferWriteCHAR (buf, cur->content);
-#else
-				xmlBufferWriteCHAR (buf, xmlBufferContent (cur->content));
-#endif
-			}
-			xmlBufferWriteChar (buf, "?>");
-		}
-		return;
-	}
-	
-	if (cur->type == XML_COMMENT_NODE) {
-		if (cur->content != NULL) {
-			xmlBufferWriteChar (buf, "<!--");
-#ifndef XML_USE_BUFFER_CONTENT
-			xmlBufferWriteCHAR (buf, cur->content);
-#else
-			xmlBufferWriteCHAR (buf, xmlBufferContent (cur->content));
-#endif
-			xmlBufferWriteChar (buf, "-->");
-		}
-		return;
-	}
-	
-	if (cur->type == XML_ENTITY_REF_NODE) {
-		xmlBufferWriteChar (buf, "&");
-		xmlBufferWriteCHAR (buf, cur->name);
-		xmlBufferWriteChar (buf, ";");
-		return;
-	}
-	
-	if (cur->type == XML_CDATA_SECTION_NODE) {
-		xmlBufferWriteChar (buf, "<![CDATA[");
-		if (cur->content != NULL)
-#ifndef XML_USE_BUFFER_CONTENT
-			xmlBufferWriteCHAR (buf, cur->content);
-#else
-		xmlBufferWriteCHAR (buf, xmlBufferContent(cur->content));
-#endif
-		xmlBufferWriteChar (buf, "]]>");
-		return;
-	}
-	
-	if (format == 1) {
-		tmp = cur->childs;
-		while (tmp != NULL) {
-			if ((tmp->type == XML_TEXT_NODE) || 
-			    (tmp->type == XML_ENTITY_REF_NODE)) {
-				format = 0;
-				break;
-			}
-			tmp = tmp->next;
-		}
-	}
-	
-	xmlBufferWriteChar (buf, "<");
-	if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
-		xmlBufferWriteCHAR (buf, cur->ns->prefix);
-		xmlBufferWriteChar (buf, ":");
-	}
-	
-	xmlBufferWriteCHAR (buf, cur->name);
-	
-	if (cur->properties != NULL)
-		xmlAttrListDump (buf, doc, cur->properties);
-	
-	if ((cur->content == NULL) && (cur->childs == NULL) &&
-	    (!xmlSaveNoEmptyTags)) {
-		xmlBufferWriteChar (buf, "/>");
-		return;
-	}
-	
-	xmlBufferWriteChar (buf, ">");
-	if (cur->content != NULL) {
-		xmlChar *buffer;
-		
-#ifndef XML_USE_BUFFER_CONTENT
-		buffer = xmlEncodeEntitiesReentrant (doc, cur->content);
-#else
-		buffer = xmlEncodeEntitiesReentrant (doc, xmlBufferContent (cur->content));
-#endif
-		if (buffer != NULL) {
-			xmlBufferWriteCHAR (buf, buffer);
-			xmlFree (buffer);
-		}
-	}
-	
-	if (cur->childs != NULL) {
-		if (format)
-			xmlBufferWriteChar (buf, "\n");
-		
-		xmlNodeListDump (buf, doc, cur->childs, (level >= 0 ? level + 1 : -1), format);
-		if ((xmlIndentTreeOutput) && (format))
-			for (i = 0; i < level; i++)
-				xmlBufferWriteChar (buf, "  ");
-	}
-	
-	xmlBufferWriteChar (buf, "</");
-	if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
-		xmlBufferWriteCHAR (buf, cur->ns->prefix);
-		xmlBufferWriteChar (buf, ":");
-	}
-	
-	xmlBufferWriteCHAR (buf, cur->name);
-	xmlBufferWriteChar (buf, ">");
-}
-
-static void
-xmlDocContentDump (xmlBufferPtr buf, xmlDocPtr cur)
-{
-	xmlBufferWriteChar (buf, "<?xml version=");
-	
-	if (cur->version != NULL)
-		xmlBufferWriteQuotedString (buf, cur->version);
-	else
-		xmlBufferWriteChar (buf, "\"1.0\"");
-	
-	if ((cur->encoding != NULL) &&
-	    (strcasecmp (cur->encoding, "UTF-8") != 0)) {
-		xmlBufferWriteChar (buf, " encoding=");
-		xmlBufferWriteQuotedString (buf, cur->encoding);
-	}
-	
-	switch (cur->standalone) {
-        case 1:
-		xmlBufferWriteChar (buf, " standalone=\"yes\"");
-		break;
-	}
-	
-	xmlBufferWriteChar (buf, "?>\n");
-	if (cur->root != NULL) {
-		xmlNodePtr child = cur->root;
-		
-		while (child != NULL) {
-			xmlNodeDump (buf, cur, child, 0, 1);
-			xmlBufferWriteChar (buf, "\n");
-			child = child->next;
-		}
-	}
-}
-
-int
-e_xml_save_file (const char *filename, xmlDocPtr doc)
-{
-	char *filesave, *slash;
-	size_t n, written = 0;
-	xmlBufferPtr buf;
-	int errnosave;
-	int ret, fd;
-	ssize_t w;
-	
-	filesave = alloca (strlen (filename) + 5);
-	slash = strrchr (filename, '/');
-	if (slash)
-		sprintf (filesave, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
-	else
-		sprintf (filesave, ".#%s", filename);
-	
-	fd = open (filesave, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-		return -1;
-	
-	if (!(buf = xmlBufferCreate ())) {
-		close (fd);
-		unlink (filesave);
-		errno = ENOMEM;
-		return -1;
-	}
-	
-	xmlDocContentDump (buf, doc);
-	
-	n = buf->use;
-	do {
-		do {
-			w = write (fd, buf->content + written, n - written);
-		} while (w == -1 && errno == EINTR);
-		
-		if (w > 0)
-			written += w;
-	} while (w != -1 && written < n);
-	
-	xmlBufferFree (buf);
-	
-	if (written < n || fsync (fd) == -1) {
-		errnosave = errno;
-		close (fd);
-		unlink (filesave);
-		errno = errnosave;
-		return -1;
-	}
-	
-	while ((ret = close (fd)) == -1 && errno == EINTR)
-		;
-	
-	if (ret == -1)
-		return -1;
-	
-	if (rename (filesave, filename) == -1) {
-		errnosave = errno;
-		unlink (filesave);
-		errno = errnosave;
-		return -1;
-	}
-	
-	return 0;
-}

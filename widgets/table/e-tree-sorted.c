@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-sorted.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -38,8 +38,8 @@
 #include <fcntl.h>
 #include <string.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
@@ -594,6 +594,10 @@ ets_destroy (GtkObject *object)
 	ETreeSortedPriv *priv = ets->priv;
 
 	/* FIXME lots of stuff to free here */
+	if (!priv) {
+		GTK_OBJECT_CLASS (parent_class)->destroy (object);
+		return;
+	}
 
 	if (priv->root)
 		free_path(priv->root);
@@ -652,6 +656,8 @@ ets_destroy (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(priv->full_header));
 
 	g_free (priv);
+
+	ets->priv = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

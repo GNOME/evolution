@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-subset-variable.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -28,7 +28,7 @@
 #include "gal/util/e-util.h"
 #include "e-table-subset-variable.h"
 
-#define ETSSV_CLASS(e) ((ETableSubsetVariableClass *)((GtkObject *)e)->klass)
+#define ETSSV_CLASS(e) ((ETableSubsetVariableClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE
 

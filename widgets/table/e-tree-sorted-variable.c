@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-sorted-variable.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -62,32 +62,40 @@ etsv_destroy (GtkObject *object)
 {
 	ETreeSortedVariable *etsv = E_TREE_SORTED_VARIABLE (object);
 
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etsv->table_model_changed_id);
+	if (etsv->table_model_changed_id)
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etsv->table_model_changed_id);
+	etsv->table_model_changed_id = 0;
+
 #if 0
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_cell_changed_id);
-#endif
-	gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
-			       etsv->sort_info_changed_id);
 
-	if (etsv->sort_idle_id) {
-		g_source_remove(etsv->sort_idle_id);
-	}
-	if (etsv->insert_idle_id) {
-		g_source_remove(etsv->insert_idle_id);
-	}
-
-	etsv->table_model_changed_id = 0;
 	etsv->table_model_row_changed_id = 0;
 	etsv->table_model_cell_changed_id = 0;
+#endif
+	if (etsv->sort_info_changed_id)
+		gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
+				       etsv->sort_info_changed_id);
+	etsv->sort_info_changed_id = 0;
+
+	if (etsv->sort_idle_id)
+		g_source_remove(etsv->sort_idle_id);
+	etsv->sort_idle_id = 0;
+	
+	if (etsv->insert_idle_id)
+		g_source_remove(etsv->insert_idle_id);
+	etsv->insert_idle_id = 0;
 
 	if (etsv->sort_info)
 		gtk_object_unref(GTK_OBJECT(etsv->sort_info));
+	etsv->sort_info = NULL;
+
 	if (etsv->full_header)
 		gtk_object_unref(GTK_OBJECT(etsv->full_header));
+	etsv->full_header = NULL;
 
 	GTK_OBJECT_CLASS (etsv_parent_class)->destroy (object);
 }

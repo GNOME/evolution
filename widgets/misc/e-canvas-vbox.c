@@ -193,9 +193,11 @@ e_canvas_vbox_destroy (GtkObject *object)
 {
 	ECanvasVbox *vbox = E_CANVAS_VBOX(object);
 
-	g_list_foreach(vbox->items, disconnect_item_cb, vbox);
-	g_list_free(vbox->items);
-	vbox->items = NULL;
+	if (vbox->items) {
+		g_list_foreach(vbox->items, disconnect_item_cb, vbox);
+		g_list_free(vbox->items);
+		vbox->items = NULL;
+	}
 	
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
@@ -250,8 +252,7 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 static void
 e_canvas_vbox_remove_item (GnomeCanvasItem *item, ECanvasVbox *vbox)
 {
-	if (!GTK_OBJECT_DESTROYED (vbox))
-		vbox->items = g_list_remove(vbox->items, item);
+	vbox->items = g_list_remove(vbox->items, item);
 }
 
 static void
@@ -363,14 +364,14 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
 void
 e_canvas_vbox_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
-	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item)
-		(E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item) (e_canvas_vbox, item);
+	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item)
+		(E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item) (e_canvas_vbox, item);
 }
 
 void
 e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
-	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item_start)
-		(E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item_start) (e_canvas_vbox, item);
+	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item_start)
+		(E_CANVAS_VBOX_CLASS(GTK_OBJECT_GET_CLASS(e_canvas_vbox))->add_item_start) (e_canvas_vbox, item);
 }
 	

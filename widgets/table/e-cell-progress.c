@@ -38,7 +38,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "e-cell-progress.h"
 #include "gal/util/e-util.h"
 #include "e-table-item.h"

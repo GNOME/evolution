@@ -1,4 +1,4 @@
-/* 
+/*
  * e-cell-float.c - Float item for e-table.
  * Copyright 2001, CodeFactory AB
  * Copyright 2001, Mikael Hallendal <micke@codefactory.se>

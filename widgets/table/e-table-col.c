@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-col.c
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -29,7 +29,7 @@
 
 #define PARENT_TYPE (gtk_object_get_type ())
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 
 enum {
@@ -39,21 +39,25 @@ enum {
 };
 
 static void
-etc_destroy (GtkObject *object)
+etc_finalize (GObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
-	gtk_object_unref (GTK_OBJECT(etc->ecell));
+	if (etc->ecell)
+		gtk_object_unref (GTK_OBJECT(etc->ecell));
+	etc->ecell = NULL;
 
 	if (etc->pixbuf)
 		gdk_pixbuf_unref (etc->pixbuf);
+	etc->pixbuf = NULL;
+
 	if (etc->text)
 		g_free (etc->text);
+	etc->text = NULL;
 	
-	(*parent_class->destroy)(object);
+	parent_class->finalize (object);
 }
  
-
 static void
 etc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
@@ -91,9 +95,10 @@ static void
 e_table_col_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
-	object_class->destroy = etc_destroy;
 	object_class->get_arg = etc_get_arg;
 	object_class->set_arg = etc_set_arg;
+
+	G_OBJECT_CLASS (object_class)->finalize = etc_finalize;
 
 	gtk_object_add_arg_type ("ETableCol::sortable",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_SORTABLE);  

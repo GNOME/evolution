@@ -24,13 +24,12 @@
 #ifndef _E_TABLE_GROUP_LEAF_H_
 #define _E_TABLE_GROUP_LEAF_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-subset.h>
 #include <gal/e-table/e-table-item.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
 #define E_TABLE_GROUP_LEAF(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))
@@ -85,7 +84,7 @@ ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 GtkType      e_table_group_leaf_get_type  (void);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_LEAF_H_ */
 

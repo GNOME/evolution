@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-gui-utils.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -28,9 +28,8 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 void
 e_notice (GtkWindow *window, const char *type, const char *format, ...)
@@ -41,7 +40,7 @@ e_notice (GtkWindow *window, const char *type, const char *format, ...)
 
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
-	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
+	dialog = gnome_message_box_new (str, type, GTK_STOCK_OK, NULL);
 	va_end (args);
 	g_free (str);
 	
@@ -162,22 +161,24 @@ e_container_change_tab_order_callback(GtkContainer *container,
 				if (GTK_WIDGET_DRAWABLE (child) &&
 				    GTK_IS_CONTAINER (child) &&
 				    !GTK_WIDGET_HAS_FOCUS (child))
-					if (gtk_container_focus (GTK_CONTAINER (child), direction)) {
-						gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+					if (gtk_widget_child_focus (GTK_WIDGET (child), direction)) {
+						gtk_signal_emit_stop_by_name (
+							GTK_OBJECT (container), "focus");
 						return TRUE;
 					}
 			}
 		}
 		else if (GTK_WIDGET_DRAWABLE (child)) {
 			if (GTK_IS_CONTAINER (child)) {
-				if (gtk_container_focus (GTK_CONTAINER (child), direction)) {
-					gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+				if (gtk_widget_child_focus (GTK_WIDGET (child), direction)) {
+					gtk_signal_emit_stop_by_name (
+						GTK_OBJECT (container), "focus");
 					return TRUE;
 				}
 			}
 			else if (GTK_WIDGET_CAN_FOCUS (child)) {
 				gtk_widget_grab_focus (child);
-				gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+				gtk_signal_emit_stop_by_name (GTK_OBJECT (container), "focus");
 				return TRUE;
 			}
 		}

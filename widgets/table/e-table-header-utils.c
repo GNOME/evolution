@@ -5,8 +5,8 @@
  *
  * Authors:
  *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza <miguel@ximian.com>
- *   Federico Mena-Quintero <federico@ximian.com>
+ *          Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -31,6 +31,8 @@
 
 #include <string.h> /* strlen() */
 #include <glib.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkwindow.h>
 #include "e-table-defines.h"
 #include <gal/widgets/e-unicode.h>
 
@@ -56,7 +58,7 @@ e_table_header_compute_height (ETableCol *ecol, GtkStyle *style, GdkFont *font)
 	g_return_val_if_fail (E_IS_TABLE_COL (ecol), -1);
 	g_return_val_if_fail (style != NULL, -1);
 
-	ythick = style->klass->ythickness;
+	ythick = style->ythickness;
 
 	if (font)
 		height = font->ascent + font->descent;
@@ -80,7 +82,7 @@ e_table_header_width_extras (GtkStyle *style)
 {
 	g_return_val_if_fail (style != NULL, -1);
 
-	return 2 * (style->klass->xthickness + HEADER_PADDING);
+	return 2 * (style->xthickness + HEADER_PADDING);
 }
 
 /* Creates a pixmap that is a composite of a background color and the upper-left
@@ -250,8 +252,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	gc = g_label->style->fg_gc[GTK_STATE_NORMAL];
 
-	xthick = style->klass->xthickness;
-	ythick = style->klass->ythickness;
+	xthick = style->xthickness;
+	ythick = style->ythickness;
 
 	/* Button bevel */
 

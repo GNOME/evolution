@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * gal-define-views-model.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -22,9 +22,9 @@
  */
 
 #include <config.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal-define-views-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()
@@ -49,7 +49,9 @@ gdvm_destroy(GtkObject *object)
 {
 	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
 
-	gtk_object_unref(GTK_OBJECT(model->collection));
+	if (model->collection)
+		gtk_object_unref(GTK_OBJECT(model->collection));
+	model->collection = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

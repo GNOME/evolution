@@ -26,10 +26,8 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-factory.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
-
+G_BEGIN_DECLS
 
 #define GAL_VIEW_COLLECTION_TYPE        (gal_view_collection_get_type ())
 #define GAL_VIEW_COLLECTION(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_COLLECTION_TYPE, GalViewCollection))
@@ -146,7 +144,7 @@ void                   gal_view_collection_set_default_view         (GalViewColl
 								     const char        *id);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 
 #endif /* _GAL_VIEW_COLLECTION_H_ */

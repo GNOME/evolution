@@ -130,8 +130,10 @@ e_canvas_init (ECanvas *canvas)
 {
 	canvas->selection = NULL;
 	canvas->cursor = NULL;
+#ifdef GAL_GDK_IM
 	canvas->ic = NULL;
 	canvas->ic_attr = NULL;
+#endif
 	canvas->tooltip_window = NULL;
 }
 
@@ -275,8 +277,13 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 					 &ev,
 					 &finished);
 
+#ifndef NO_WARNINGS
+#warning FIXME - needs thought
+#endif
+#if 0
 		if (GTK_OBJECT_DESTROYED (item))
 			finished = TRUE;
+#endif
 
 		parent = item->parent;
 		gtk_object_unref (GTK_OBJECT (item));
@@ -333,7 +340,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int c
 	y = i.y;
 #endif
 
-	return (* GNOME_CANVAS_ITEM_CLASS (item->object.klass)->point) (
+	return (* GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT_GET_CLASS (item))->point) (
 		item, x, y, cx, cy, actual_item);
 }
 
@@ -409,11 +416,11 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* these fields don't have the same offsets in both types of events */
 
 		if (canvas->pick_event.type == GDK_ENTER_NOTIFY) {
-			x = canvas->pick_event.crossing.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
-			y = canvas->pick_event.crossing.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+			x = canvas->pick_event.crossing.x + canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.crossing.y + canvas->scroll_y1 - canvas->zoom_yofs;
 		} else {
-			x = canvas->pick_event.motion.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
-			y = canvas->pick_event.motion.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+			x = canvas->pick_event.motion.x + canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.motion.y + canvas->scroll_y1 - canvas->zoom_yofs;
 		}
 
 		/* canvas pixel coords */
@@ -635,8 +642,10 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic)
 		gdk_im_begin (ecanvas->ic, canvas->layout.bin_window);
+#endif
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -659,8 +668,10 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
 
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic)
 		gdk_im_end ();
+#endif
 
 	if (canvas->focused_item) {
 		full_event.focus_change = *event;
@@ -675,11 +686,11 @@ ec_style_set_recursive (GnomeCanvasItem *item, GtkStyle *previous_style)
 {
 	guint signal_id = gtk_signal_lookup ("style_set", GTK_OBJECT_TYPE (item));
 	if (signal_id >= 1) {
-		GtkSignalQuery *query = gtk_signal_query (signal_id);
-		if (query->return_val == GTK_TYPE_NONE && query->nparams == 1 && query->params[0] == GTK_TYPE_STYLE) {
+		GSignalQuery query;
+		g_signal_query (signal_id, &query);
+		if (query.return_type == GTK_TYPE_NONE && query.n_params == 1 && query.param_types[0] == GTK_TYPE_STYLE) {
 			gtk_signal_emit (GTK_OBJECT (item), signal_id, previous_style);
 		}
-		g_free (query);
 	}
 
 	if (GNOME_IS_CANVAS_GROUP (item) ) {
@@ -700,13 +711,16 @@ static void
 e_canvas_realize (GtkWidget *widget)
 {
 	gint width, height;
+#ifdef GAL_GDK_IM
 	ECanvas *ecanvas = E_CANVAS (widget);
+#endif
 
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
 		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
 
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
+#ifdef GAL_GDK_IM
 	if (gdk_im_ready () && (ecanvas->ic_attr = gdk_ic_attr_new ()) != NULL) {
 		GdkEventMask mask;
 		GdkICAttr *attr = ecanvas->ic_attr;
@@ -760,7 +774,7 @@ e_canvas_realize (GtkWidget *widget)
 		} else
 			g_warning ("Can't create input context.");
 	}
-
+#endif
 }
 
 static void
@@ -768,10 +782,12 @@ e_canvas_unrealize (GtkWidget *widget)
 {
 	ECanvas * ecanvas = E_CANVAS (widget);
 
-	if (ecanvas->idle_id)
+	if (ecanvas->idle_id) {
 		g_source_remove(ecanvas->idle_id);
-	ecanvas->idle_id = 0;
+		ecanvas->idle_id = 0;
+	}
 
+#ifdef GAL_GDK_IM
 	if (ecanvas->ic) {
 		gdk_ic_destroy (ecanvas->ic);
 		ecanvas->ic = NULL;
@@ -780,6 +796,7 @@ e_canvas_unrealize (GtkWidget *widget)
 		gdk_ic_attr_destroy (ecanvas->ic_attr);
 		ecanvas->ic_attr = NULL;
 	}
+#endif
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
@@ -1074,7 +1091,8 @@ void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
 						    GTK_SIGNAL_FUNC (e_canvas_visibility), canvas);
 		}
 	}
-	gtk_widget_popup (widget, x, y);
+	gtk_widget_set_uposition (widget, x, y);
+	gtk_widget_show (widget);
 }
 
 void e_canvas_hide_tooltip  (ECanvas *canvas)

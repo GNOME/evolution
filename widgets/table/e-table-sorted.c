@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-sorted.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -53,21 +53,24 @@ ets_destroy (GtkObject *object)
 {
 	ETableSorted *ets = E_TABLE_SORTED (object);
 
-	if (ets->sort_idle_id) {
+	if (ets->sort_idle_id)
 		g_source_remove(ets->sort_idle_id);
-	}
-	if (ets->insert_idle_id) {
+	ets->sort_idle_id = 0;
+
+	if (ets->insert_idle_id)
 		g_source_remove(ets->insert_idle_id);
-	}
+	ets->insert_idle_id = 0;
 
 	if (ets->sort_info) {
 		gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
 				       ets->sort_info_changed_id);
 		gtk_object_unref(GTK_OBJECT(ets->sort_info));
+		ets->sort_info = NULL;
 	}
 
 	if (ets->full_header)
 		gtk_object_unref(GTK_OBJECT(ets->full_header));
+	ets->full_header = NULL;
 
 	GTK_OBJECT_CLASS (ets_parent_class)->destroy (object);
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * e-cell-pixbuf.h - An ECell that displays a GdkPixbuf
  * Copyright 2001, Ximian, Inc.
  *

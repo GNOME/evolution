@@ -28,10 +28,9 @@
 #include <gtk/gtkwindow.h>
 
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnome/gnome-defs.h>
 #include <glade/glade-xml.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 void      e_popup_menu                    (GtkMenu       *menu,
 					   GdkEvent      *event);
@@ -57,6 +56,6 @@ gboolean  e_glade_xml_set_sensitive       (GladeXML      *gui,
 					   char          *name,
 					   gboolean       sensitive);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* GAL_GUI_UTILS_H */

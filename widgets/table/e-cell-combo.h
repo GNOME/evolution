@@ -3,8 +3,8 @@
  * e-cell-combo.h: Combo cell renderer
  * Copyright 2001, Ximian, Inc.
  *
- * Author:
- *   Damon Chaplin <damon@ximian.com>
+ * Author :
+ *  Damon Chaplin <damon@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

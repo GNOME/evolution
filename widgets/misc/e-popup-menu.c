@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-popup-menu.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -25,6 +25,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <gtk/gtkimage.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkaccellabel.h>
 #include <gtk/gtklabel.h>
@@ -32,13 +33,12 @@
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkradiomenuitem.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gtkpixmapmenuitem.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gtk/gtkimagemenuitem.h>
 
 #include "e-popup-menu.h"
 #include "e-gui-utils.h"
 
-#include <libgnome/gnome-i18n.h>
+#include <gal/util/e-i18n.h>
 
 /*
  * Creates an item with an optional icon
@@ -47,30 +47,22 @@ static void
 make_item (GtkMenu *menu, GtkMenuItem *item, const char *name, GtkWidget *pixmap)
 {
 	GtkWidget *label;
-	guint label_accel;
+
+	if (*name == '\0')
+		return;
 
 	/*
 	 * Ugh.  This needs to go into Gtk+
 	 */
-	label = gtk_accel_label_new ("");
-	label_accel = gtk_label_parse_uline (GTK_LABEL (label), name);
+	label = gtk_label_new_with_mnemonic (name);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
 	
 	gtk_container_add (GTK_CONTAINER (item), label);
 	
-	if (label_accel != GDK_VoidSymbol){
-		gtk_widget_add_accelerator (
-			GTK_WIDGET (item),
-			"activate_item",
-			gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
-			label_accel, 0,
-			GTK_ACCEL_LOCKED);
-	}
-	
-	if (pixmap && GTK_IS_PIXMAP_MENU_ITEM (item)){
+	if (pixmap && GTK_IS_IMAGE_MENU_ITEM (item)){
 		gtk_widget_show (pixmap);
-		gtk_pixmap_menu_item_set_pixmap (GTK_PIXMAP_MENU_ITEM (item), pixmap);
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), pixmap);
 	}
 }
 
@@ -121,7 +113,7 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				else if (menu_list[i].is_radio)
 					item = gtk_radio_menu_item_new (group);
 				else
-					item = menu_list[i].pixmap_widget ? gtk_pixmap_menu_item_new () : gtk_menu_item_new ();
+					item = menu_list[i].pixmap_widget ? gtk_image_menu_item_new () : gtk_menu_item_new ();
 				if (menu_list[i].is_toggle || menu_list[i].is_radio)
 					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), menu_list[i].is_active);
 				if (menu_list[i].is_radio)

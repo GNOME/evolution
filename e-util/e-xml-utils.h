@@ -24,11 +24,10 @@
 #ifndef __E_XML_UTILS__
 #define __E_XML_UTILS__
 
-#include <libgnome/gnome-defs.h>
 #include <glib.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 xmlNode *e_xml_get_child_by_name                     (const xmlNode *parent,
                                                       const xmlChar *child_name);
@@ -39,7 +38,7 @@ xmlNode *e_xml_get_child_by_name_by_lang             (const xmlNode *parent,
 /* lang_list set to NULL means use the current locale. */
 xmlNode *e_xml_get_child_by_name_by_lang_list        (const xmlNode *parent,
                                                       const gchar   *name,
-                                                      GList         *lang_list);
+                                                      const GList   *lang_list);
 xmlNode *e_xml_get_child_by_name_no_lang             (const xmlNode *parent,
                                                       const gchar   *name);
 
@@ -95,9 +94,6 @@ void      e_xml_set_string_prop_by_name              (xmlNode       *parent,
 gchar    *e_xml_get_translated_string_prop_by_name   (const xmlNode *parent,
                                                       const xmlChar *prop_name);
 
-
-int       e_xml_save_file (const char *filename, xmlDocPtr doc);
-
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_XML_UTILS__ */

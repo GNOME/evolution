@@ -122,13 +122,16 @@ e_table_text_model_destroy (GtkObject *object)
 	if (model->cell_changed_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT(model->model), 
 				      model->cell_changed_signal_id);
+	model->cell_changed_signal_id = 0;
 
 	if (model->row_changed_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT(model->model), 
 				      model->row_changed_signal_id);
+	model->row_changed_signal_id = 0;
 
 	if (model->model)
 		gtk_object_unref (GTK_OBJECT(model->model));
+	model->model = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

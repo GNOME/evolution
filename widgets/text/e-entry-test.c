@@ -21,10 +21,11 @@
  * 02111-1307, USA.
  */
 
-#include "config.h"
+#include <config.h>
 
 #include <gnome.h>
 #include "e-entry.h"
+#include <gal/util/e-i18n.h>
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {

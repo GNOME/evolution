@@ -27,9 +27,8 @@
 #include <gtk/gtkobject.h>
 #include <gal/util/e-sorter.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_SORTER_ARRAY_TYPE        (e_sorter_array_get_type ())
 #define E_SORTER_ARRAY(o)          (GTK_CHECK_CAST ((o), E_SORTER_ARRAY_TYPE, ESorterArray))
@@ -73,6 +72,6 @@ void          e_sorter_array_set_count  (ESorterArray     *esa,
 void          e_sorter_array_append     (ESorterArray     *esa,
 					 int               count);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_SORTER_ARRAY_H_ */

@@ -24,12 +24,11 @@
 #ifndef _E_CELL_TOGGLE_H_
 #define _E_CELL_TOGGLE_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-cell.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_TOGGLE_TYPE        (e_cell_toggle_get_type ())
 #define E_CELL_TOGGLE(o)          (GTK_CHECK_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))
@@ -56,7 +55,7 @@ ECell     *e_cell_toggle_new       (int border, int n_states, GdkPixbuf **images
 void       e_cell_toggle_construct (ECellToggle *etog, int border,
 				    int n_states, GdkPixbuf **images);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_TOGGLE_H_ */
 

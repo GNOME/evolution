@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-sorter.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -34,7 +34,7 @@
 
 static GtkObjectClass *parent_class;
 
-#define ES_CLASS(es) ((ESorterClass *)((GtkObject *)(es))->klass)
+#define ES_CLASS(es) ((ESorterClass *)((GTypeInstance *)(es))->g_class)
 
 static gint es_model_to_sorted (ESorter *es, int row);
 static gint es_sorted_to_model (ESorter *es, int row);

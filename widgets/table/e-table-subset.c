@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-subset.c - Implements a table that contains a subset of another table.
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -41,7 +41,7 @@ static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel 
 
 static ETableModelClass *etss_parent_class;
 
-#define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT(object)->klass))
+#define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT_GET_CLASS(object)))
 
 static gint
 etss_get_view_row (ETableSubset *etss, int row)
@@ -112,6 +112,7 @@ etss_destroy (GtkObject *object)
 	}
 
 	g_free (etss->map_table);
+	etss->map_table = NULL;
 
 	GTK_OBJECT_CLASS (etss_parent_class)->destroy (object);
 }

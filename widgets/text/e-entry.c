@@ -28,14 +28,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 #include <stdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <gtk/gtktypebuiltins.h>
+#include <libxml/parser.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
@@ -177,12 +175,12 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	g_return_if_fail (requisition != NULL);
 
 	if (entry->priv->draw_borders) {
-		xthick = 2 * widget->style->klass->xthickness;
-		ythick = 2 * widget->style->klass->ythickness;
+		xthick = 2 * widget->style->xthickness;
+		ythick = 2 * widget->style->ythickness;
 	} else {
 		xthick = ythick = 0;
 	}
-
+	
 	if (entry->priv->emulate_label_resize) {
 		gdouble width;
 		gtk_object_get (GTK_OBJECT (entry->item),
@@ -198,8 +196,8 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 
 	d(g_print("%s: width = %d\n", __FUNCTION__, requisition->width));
 
-	requisition->height = (2 + widget->style->font->ascent +
-			       widget->style->font->descent +
+	requisition->height = (2 + gtk_style_get_font (widget->style)->ascent +
+			       gtk_style_get_font (widget->style)->descent +
 			       ythick);
 }
 
@@ -276,6 +274,8 @@ e_entry_init (GtkObject *object)
 
 	entry->priv = g_new0 (EEntryPrivate, 1);
 
+	entry->priv->emulate_label_resize = FALSE;
+	
 	entry->priv->emulate_label_resize = FALSE;
 	
 	entry->canvas = GNOME_CANVAS (e_canvas_new ());
@@ -904,7 +904,7 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	case ARG_JUSTIFICATION:
 		gtk_object_get(item,
-			       "justification", &GTK_VALUE_ENUM (*arg),
+			       "justification", &GTK_VALUE_INT (*arg),
 			       NULL);
 		break;
 
@@ -1061,7 +1061,7 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_JUSTIFICATION:
-		entry->priv->justification = GTK_VALUE_ENUM (*arg);
+		entry->priv->justification = GTK_VALUE_INT (*arg);
 		gtk_object_get(item,
 			       "clip_width", &width,
 			       "clip_height", &height,
@@ -1071,8 +1071,8 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			xthick = 0;
 			ythick = 0;
 		} else {
-			xthick = widget->style->klass->xthickness;
-			ythick = widget->style->klass->ythickness;
+			xthick = widget->style->xthickness;
+			ythick = widget->style->ythickness;
 		}
 
 		switch (entry->priv->justification) {
@@ -1210,25 +1210,27 @@ e_entry_destroy (GtkObject *object)
 {
 	EEntry *entry = E_ENTRY (object);
 
-	if (entry->priv->completion_delay_tag)
-		gtk_timeout_remove (entry->priv->completion_delay_tag);
+	if (entry->priv) {
+		if (entry->priv->completion_delay_tag)
+			gtk_timeout_remove (entry->priv->completion_delay_tag);
 
-	if (entry->priv->completion)
-		gtk_object_unref (GTK_OBJECT (entry->priv->completion));
-	if (entry->priv->completion_view_popup) {
-		gtk_widget_destroy (GTK_WIDGET (entry->priv->completion_view_popup));
-		gtk_object_unref (GTK_OBJECT (entry->priv->completion_view_popup));
+		if (entry->priv->completion)
+			gtk_object_unref (GTK_OBJECT (entry->priv->completion));
+		if (entry->priv->completion_view_popup) {
+			gtk_widget_destroy (GTK_WIDGET (entry->priv->completion_view_popup));
+			gtk_object_unref (GTK_OBJECT (entry->priv->completion_view_popup));
+		}
+		g_free (entry->priv->pre_browse_text);
+
+		if (entry->priv->changed_since_keypress_tag)
+			gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+
+		if (entry->priv->ptr_grab)
+			gdk_pointer_ungrab (GDK_CURRENT_TIME);
+
+		g_free (entry->priv);
+		entry->priv = NULL;
 	}
-	g_free (entry->priv->pre_browse_text);
-
-	if (entry->priv->changed_since_keypress_tag)
-		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
-
-	if (entry->priv->ptr_grab)
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
-
-	g_free (entry->priv);
-	entry->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -1290,7 +1292,7 @@ e_entry_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EEntryClass, popup),
-				gtk_marshal_NONE__POINTER_INT,
+				e_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 	e_entry_signals[E_ENTRY_COMPLETION_POPUP] =
@@ -1315,17 +1317,17 @@ e_entry_class_init (GtkObjectClass *object_class)
 	gtk_object_add_arg_type ("EEntry::fontset",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONTSET);
 	gtk_object_add_arg_type ("EEntry::font_gdk",
-				 GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_FONT_GDK);
+				 GDK_TYPE_FONT, GTK_ARG_READWRITE, ARG_FONT_GDK);
 	gtk_object_add_arg_type ("EEntry::justification",
 				 GTK_TYPE_JUSTIFICATION, GTK_ARG_READWRITE, ARG_JUSTIFICATION);
 	gtk_object_add_arg_type ("EEntry::fill_color",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FILL_COLOR);
 	gtk_object_add_arg_type ("EEntry::fill_color_gdk",
-				 GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
+				 GDK_TYPE_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
 	gtk_object_add_arg_type ("EEntry::fill_color_rgba",
 				 GTK_TYPE_UINT, GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
 	gtk_object_add_arg_type ("EEntry::fill_stipple",
-				 GTK_TYPE_GDK_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
+				 GDK_TYPE_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
 	gtk_object_add_arg_type ("EEntry::editable",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
 	gtk_object_add_arg_type ("EEntry::use_ellipsis",

@@ -25,7 +25,7 @@
 #define _E_REFLOW_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -30,9 +30,8 @@
 #include <gal/e-table/e-table-subset-variable.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-header.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_SORTER_TYPE        (e_table_sorter_get_type ())
 #define E_TABLE_SORTER(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTER_TYPE, ETableSorter))
@@ -70,6 +69,6 @@ GtkType       e_table_sorter_get_type                   (void);
 ETableSorter *e_table_sorter_new                        (ETableModel     *etm,
 							 ETableHeader    *full_header,
 							 ETableSortInfo  *sort_info);
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_SORTER_H_ */

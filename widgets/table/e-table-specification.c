@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-specification.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -31,8 +31,8 @@
 #include <string.h>
 
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 
@@ -51,17 +51,17 @@ etsp_destroy (GtkObject *object)
 			gtk_object_unref (GTK_OBJECT (etsp->columns[i]));
 		}
 		g_free (etsp->columns);
+		etsp->columns = NULL;
 	}
 
 	if (etsp->state)
 		gtk_object_unref (GTK_OBJECT (etsp->state));
+	etsp->state                = NULL;
+
 	g_free (etsp->click_to_add_message);
+	etsp->click_to_add_message = NULL;
 
 	g_free (etsp->domain);
-
-	etsp->columns              = NULL;
-	etsp->state                = NULL;
-	etsp->click_to_add_message = NULL;
 	etsp->domain		   = NULL;
 
 	GTK_OBJECT_CLASS (etsp_parent_class)->destroy (object);
@@ -251,6 +251,8 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		if (!strcmp (children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
+			gtk_object_ref (GTK_OBJECT (col_spec));
+			gtk_object_sink (GTK_OBJECT (col_spec));
 			e_table_column_specification_load_from_node (col_spec, children);
 			list = g_list_append (list, col_spec);
 		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {
@@ -258,6 +260,11 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 			e_table_state_load_from_node (specification->state, children);
 			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
 		}
+	}
+
+	if (specification->state == NULL) {
+		/* Make the default state.  */
+		specification->state = e_table_state_vanilla (g_list_length (list));
 	}
 
 	specification->columns = g_new (ETableColumnSpecification *, g_list_length (list) + 1);
@@ -293,7 +300,7 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 	
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	
-	ret = e_xml_save_file (filename, doc);
+	ret = xmlSaveFile (filename, doc);
 	
 	xmlFreeDoc (doc);
 	

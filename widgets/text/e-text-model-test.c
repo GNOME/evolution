@@ -67,10 +67,8 @@ main (int argc, gchar **argv)
   for (i=0; i<2; ++i) {
     win[i] = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   
-    gtk_widget_push_visual (gdk_rgb_get_visual ());
     gtk_widget_push_colormap (gdk_rgb_get_cmap ());
     canvas[i] = e_canvas_new ();
-    gtk_widget_pop_visual ();
     gtk_widget_pop_colormap ();
 
     item[i] = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas[i])),

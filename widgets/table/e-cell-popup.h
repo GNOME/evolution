@@ -32,7 +32,7 @@
 #ifndef _E_CELL_POPUP_H_
 #define _E_CELL_POPUP_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
 
 #define E_CELL_POPUP_TYPE        (e_cell_popup_get_type ())
@@ -89,6 +89,10 @@ ECell   *e_cell_popup_new                (void);
 ECell   *e_cell_popup_get_child          (ECellPopup *ecp);
 void     e_cell_popup_set_child          (ECellPopup *ecp,
 					  ECell      *child);
+
+void     e_cell_popup_set_shown          (ECellPopup *ecp,
+					  gboolean    shown);
+void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
 
 void     e_cell_popup_set_shown          (ECellPopup *ecp,
 					  gboolean    shown);

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-header-item.c
  * Copyright 1999, 2000, 2001, Ximian, Inc.
  *
@@ -29,15 +29,17 @@
 #include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkdnd.h>
-#include <libgnomeui/gnome-canvas.h>
-#include <libgnomeui/gnome-canvas-util.h>
-#include <libgnomeui/gnome-canvas-polygon.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtkimage.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-polygon.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gal/widgets/e-cursors.h"
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+#include "gal/util/e-marshal.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
 #include "gal/widgets/e-gui-utils.h"
@@ -136,9 +138,11 @@ ethi_destroy (GtkObject *object){
 
 	if (ethi->full_header)
 		gtk_object_unref (GTK_OBJECT(ethi->full_header));
+	ethi->full_header = NULL;
 
 	if (ethi->config)
 		gtk_object_destroy (GTK_OBJECT (ethi->config));
+	ethi->config = NULL;
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
@@ -211,8 +215,12 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
-
+#ifndef NO_WARNINGS
+#warning FOO BAA
+#endif
+#if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+#endif
 		}
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
@@ -239,7 +247,7 @@ ethi_font_load (ETableHeaderItem *ethi, char *fontname)
 		font = gdk_fontset_load (fontname);
 
 	if (font == NULL) {
-		font = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->style->font;
+		font = gtk_style_get_font (GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->style);
 		gdk_font_ref (font);
 	}
 	
@@ -471,14 +479,13 @@ make_shaped_window_from_xpm (const char **xpm)
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
 	gdk_pixbuf_unref (pixbuf);
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	win = gtk_window_new (GTK_WINDOW_POPUP);
-	pix = gtk_pixmap_new (pixmap, bitmap);
+
+	pix = gtk_image_new_from_pixmap (pixmap, bitmap);
 	gtk_widget_realize (win);
 	gtk_container_add (GTK_CONTAINER (win), pix);
 	gtk_widget_shape_combine_mask (win, bitmap, 0, 0);
-	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 	
 	gdk_pixmap_unref (pixmap);
@@ -594,6 +601,7 @@ do_drag_motion(ETableHeaderItem *ethi,
 {
 	d(g_print("In do_drag_motion\n"));
 	d(g_print("x = %d, y = %d, ethi->width = %d, ethi->height = %d\n", x, y, ethi->width, ethi->height));
+
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
@@ -681,13 +689,13 @@ static void
 context_destroyed (gpointer data)
 {
 	ETableHeaderItem *ethi = data;
-	if (!GTK_OBJECT_DESTROYED (ethi)) {
-		ethi->last_drop_x       = 0;
-		ethi->last_drop_y       = 0;
-		ethi->last_drop_time    = 0;
-		ethi->last_drop_context = NULL;
-		scroll_off (ethi);
-	}
+
+	ethi->last_drop_x       = 0;
+	ethi->last_drop_y       = 0;
+	ethi->last_drop_time    = 0;
+	ethi->last_drop_context = NULL;
+	scroll_off (ethi);
+
 	gtk_object_unref (GTK_OBJECT (ethi));
 }
 
@@ -723,10 +731,8 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	d(g_print ("y = %d, widget->allocation.y = %d, GTK_LAYOUT (widget)->vadjustment->value = %f\n", y, widget->allocation.y, GTK_LAYOUT (widget)->vadjustment->value));
 
-#if 0
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
-#endif
 
 	if (x < 20)
 		direction |= ET_SCROLL_LEFT;
@@ -891,7 +897,7 @@ ethi_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	if (!ethi->font)
-		ethi_font_set (ethi, GTK_WIDGET (item->canvas)->style->font);
+		ethi_font_set (ethi, gtk_style_get_font (GTK_WIDGET (item->canvas)->style));
 
 	/*
 	 * Now, configure DnD
@@ -1753,8 +1759,8 @@ ethi_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderItemClass, button_pressed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_GDK_EVENT);
+				e_marshal_NONE__BOXED,
+				GTK_TYPE_NONE, 1, GDK_TYPE_EVENT);
 		
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, ethi_signals, LAST_SIGNAL);
 }

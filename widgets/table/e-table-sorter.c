@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-table-sorter.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -88,10 +88,15 @@ ets_destroy (GtkObject *object)
 	
 	if (ets->sort_info)
 		gtk_object_unref(GTK_OBJECT(ets->sort_info));
+	ets->sort_info = NULL;
+
 	if (ets->full_header)
 		gtk_object_unref(GTK_OBJECT(ets->full_header));
+	ets->full_header = NULL;
+
 	if (ets->source)
 		gtk_object_unref(GTK_OBJECT(ets->source));
+	ets->source = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/*
  * e-tree-selection-model.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -635,15 +635,19 @@ etsm_destroy (GtkObject *object)
 
 	etsm = E_TREE_SELECTION_MODEL (object);
 
-	etsm_real_clear (etsm);
-	etsm->priv->cursor_path = NULL;
-	drop_model(etsm);
-	drop_ets(etsm);
+	if (etsm->priv) {
+		etsm_real_clear (etsm);
+		etsm->priv->cursor_path = NULL;
 
-	g_free (etsm->priv->cursor_save_id);
+		drop_model(etsm);
+		drop_ets(etsm);
+		
+		g_free (etsm->priv->cursor_save_id);
+		etsm->priv->cursor_save_id = NULL;
 
-	g_free(etsm->priv);
-	etsm->priv = NULL;
+		g_free (etsm->priv);
+		etsm->priv = NULL;
+	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -1326,6 +1330,8 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 
 	priv->frozen_count                    = 0;
 
+	priv->frozen_count                    = 0;
+
 
 	priv->tree_model_pre_change_id        = 0;
 	priv->tree_model_no_change_id         = 0;
@@ -1337,7 +1343,6 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->tree_model_node_deleted_id      = 0;
 
 	priv->sorted_model_node_resorted_id   = 0;
-
 	priv->selected_row                    = -1;
 	priv->selected_range_end              = -1;
 }

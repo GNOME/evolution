@@ -55,6 +55,7 @@
 #include <config.h>
 #include <string.h> /* strcmp() */
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
@@ -202,7 +203,8 @@ e_cell_combo_destroy			(GtkObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
-	gtk_widget_destroy (ecc->popup_window);
+	if (ecc->popup_window)
+		gtk_widget_destroy (ecc->popup_window);
 	ecc->popup_window = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -405,7 +407,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	*y += y1 + 1;
 
 	scrollbar_width = popup->vscrollbar->requisition.width
-		+ GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT (popup)->klass)->scrollbar_spacing;
+		+ GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	avail_height = gdk_screen_height () - *y;
 
@@ -422,11 +424,11 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
   
 	/* Calculate the desired width. */
 	*width = list_requisition.width
-		+ 2 * popwin->child->style->klass->xthickness
+		+ 2 * popwin->child->style->xthickness
 		+ 2 * GTK_CONTAINER (popwin->child)->border_width
 		+ 2 * GTK_CONTAINER (popup)->border_width
 		+ 2 * GTK_CONTAINER (GTK_BIN (popup)->child)->border_width
-		+ 2 * GTK_BIN (popup)->child->style->klass->xthickness;
+		+ 2 * GTK_BIN (popup)->child->style->xthickness;
 
 	/* Use at least the same width as the column. */
 	if (*width < column_width)
@@ -440,16 +442,16 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	}
 
 	/* Calculate all the borders etc. that we need to add to the height. */
-	work_height = (2 * popwin->child->style->klass->ythickness
+	work_height = (2 * popwin->child->style->ythickness
 		       + 2 * GTK_CONTAINER (popwin->child)->border_width
 		       + 2 * GTK_CONTAINER (popup)->border_width
 		       + 2 * GTK_CONTAINER (GTK_BIN (popup)->child)->border_width
-		       + 2 * GTK_BIN (popup)->child->style->klass->xthickness);
+		       + 2 * GTK_BIN (popup)->child->style->xthickness);
 
 	/* Add on the height of the horizontal scrollbar if we need it. */
 	if (show_hscroll)
 		work_height += popup->hscrollbar->requisition.height +
-			GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT (popup)->klass)->scrollbar_spacing;
+			GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	/* Check if it fits in the available height. */
 	if (work_height + list_requisition.height > avail_height) {

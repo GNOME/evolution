@@ -414,7 +414,7 @@ set_empty(EReflow *reflow)
 							      "width", reflow->minimum_width,
 							      "clip", TRUE,
 							      "use_ellipsis", TRUE,
-							      "font_gdk", GTK_WIDGET(GNOME_CANVAS_ITEM(reflow)->canvas)->style->font,
+							      "font_gdk", gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(reflow)->canvas)->style),
 							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
 							      "text", reflow->empty_message,
@@ -532,10 +532,10 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 	reflow->adjustment = adjustment;
 	reflow->adjustment_changed_id =
 		gtk_signal_connect (GTK_OBJECT (adjustment), "changed",
-				    adjustment_changed, reflow);
+				    GTK_SIGNAL_FUNC (adjustment_changed), reflow);
 	reflow->adjustment_value_changed_id =
 		gtk_signal_connect (GTK_OBJECT (adjustment), "value_changed",
-				    adjustment_changed, reflow);
+				    GTK_SIGNAL_FUNC (adjustment_changed), reflow);
 	gtk_object_ref (GTK_OBJECT (adjustment));
 }
 
@@ -675,13 +675,15 @@ e_reflow_destroy (GtkObject *object)
 	reflow->count          = 0;
 	reflow->allocated_count = 0;
 
-	if (reflow->incarnate_idle_id != 0)
+	if (reflow->incarnate_idle_id)
 		g_source_remove (reflow->incarnate_idle_id);
+	reflow->incarnate_idle_id = 0;
 
 	disconnect_model (reflow);
 	disconnect_selection (reflow);
 	
 	g_free(reflow->empty_message);
+	reflow->empty_message = NULL;
   
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
@@ -1284,8 +1286,17 @@ e_reflow_class_init (EReflowClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EReflowClass, selection_event),
-				e_marshal_INT__OBJECT_POINTER,
-				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT, GTK_TYPE_GDK_EVENT);
+				e_marshal_INT__OBJECT_BOXED,
+				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT,
+				GDK_TYPE_EVENT);
+
+	signals [COLUMN_WIDTH_CHANGED] =
+		gtk_signal_new ("column_width_changed",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (EReflowClass, column_width_changed),
+				e_marshal_NONE__DOUBLE,
+				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
 
 	signals [COLUMN_WIDTH_CHANGED] =
 		gtk_signal_new ("column_width_changed",
