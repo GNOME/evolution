@@ -71,6 +71,13 @@ struct _MailAccountsTab {
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
 	GtkButton *mail_able;
+	
+	GtkCList *news;
+	int news_row;
+	GtkButton *news_add;
+	GtkButton *news_edit;
+	GtkButton *news_delete;
+	GtkWidget *news_editor;
 };
 
 struct _MailAccountsTabClass {

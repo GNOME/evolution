@@ -2926,16 +2926,16 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 static void
 do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
 {
-	if (! fb->preview_shown) {
+	if (!fb->preview_shown) {
 		/* If the preview pane is closed, we have to do some
 		   extra magic to load the message. */
 		struct blarg_this_sucks *blarg = g_new (struct blarg_this_sucks, 1);
-
+		
 		blarg->fb = fb;
 		blarg->preview = preview;
-
+		
 		fb->loading_id = 0;
-	
+		
 		/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
 		if (fb->loading_uid) {
 			g_free (fb->pending_uid);
@@ -2949,13 +2949,13 @@ do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
 				g_free (blarg);
 			}
 		}
-
 	} else {
 		do_mail_print (fb, preview);
 	}
 }
 
 /* </evil_code> */
+
 
 void
 print_msg (GtkWidget *button, gpointer user_data)

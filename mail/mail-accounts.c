@@ -457,6 +457,221 @@ mail_accounts_load (MailAccountsTab *prefs)
 }
 
 
+#ifdef ENABLE_NNTP
+static void
+load_news (MailAccountsTab *prefs)
+{
+	const MailConfigService *service;
+	const GSList *node;
+	int i = 0;
+	
+	gtk_clist_freeze (prefs->news);
+	
+	gtk_clist_clear (prefs->news);
+	
+	node = mail_config_get_news_sources ();
+	
+	while (node) {
+		CamelURL *url;
+		char *text[1];
+		
+	        service = node->data;
+		
+		if (service->url)
+			url = camel_url_new (service->url, NULL);
+		else
+			url = NULL;
+		
+		text[0] = g_strdup_printf ("%s", url && url->host ? url->host : _("None"));
+		
+		if (url)
+			camel_url_free (url);
+		
+		gtk_clist_append (prefs->news, text);
+		g_free (text[0]);
+		
+		/* set the account on the row */
+		gtk_clist_set_row_data (prefs->news, i, (gpointer) service);
+		
+		node = node->next;
+		i++;
+	}
+	
+	gtk_clist_thaw (prefs->news);
+}
+
+
+/* news callbacks */
+static void
+news_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	
+	prefs->news_row = row;
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), TRUE);
+}
+
+static void
+news_unselect_row (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer user_data)
+{
+	MailAccountsTab *prefs = data;
+	
+	prefs->news_row = -1;
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), FALSE);
+}
+
+static void
+news_editor_destroyed (GtkWidget *widget, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	
+	load_news (prefs);
+	prefs->news_editor = NULL;
+}
+
+static void
+news_edit_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	
+	if (prefs->news_editor == NULL) {
+		if (prefs->news_row >= 0) {
+			MailConfigService *service;
+			
+			service = gtk_clist_get_row_data (prefs->news, prefs->news_row);
+			prefs->news_editor = mail_account_editor_news_new (service);
+			gtk_signal_connect (GTK_OBJECT (prefs->news_editor), "destroy",
+					    GTK_SIGNAL_FUNC (news_editor_destroyed),
+					    prefs);
+			gtk_widget_show (GTK_WIDGET (prefs->news_editor));
+		}
+	} else {
+		gdk_window_raise (GTK_WIDGET (prefs->news_editor)->window);
+	}
+}
+
+static void 
+news_add_destroyed (GtkWidget *widget, gpointer user_data)
+{
+	gpointer *send = user_data;
+	MailAccountsTab *prefs;
+	MailConfigService *service;
+	
+	service = send[0];
+	prefs = send[1];
+	g_free (send);
+	
+	load_news (prefs);
+	
+	mail_load_storage_by_uri (prefs->shell, service->url, NULL);
+	
+	/* FIXME: why do we re-load? */
+	load_news (prefs);
+}
+
+static void
+news_add_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	MailConfigService *service;
+	gpointer *send;
+	
+	if (prefs->news_editor == NULL) {
+		send = g_new (gpointer, 2);
+		
+		service = g_new0 (MailConfigService, 1);
+		service->url = NULL;
+		
+		prefs->news_editor = mail_account_editor_news_new (service);
+		send[0] = service;
+		send[1] = prefs;
+		gtk_signal_connect (GTK_OBJECT (prefs->news_editor), "destroy",
+				    GTK_SIGNAL_FUNC (news_add_destroyed),
+				    send);
+		gtk_widget_show (GTK_WIDGET (prefs->news_editor));
+	} else {
+		gdk_window_raise (GTK_WIDGET (prefs->news_editor)->window);
+	}
+}
+
+static void
+news_delete_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	GtkWidget *window, *label;
+	MailConfigService *server;
+	GnomeDialog *confirm;
+	int ans;
+	
+	/* don't allow user to delete an account if he might be editing it */
+	if (prefs->news_row < 0 || prefs->news_editor != NULL)
+		return;
+	
+	window = gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW);
+	
+	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this news account?"),
+						  GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO, NULL));
+	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
+	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
+	label = gtk_label_new (_("Are you sure you want to delete this news account?"));
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_box_pack_start (GTK_BOX (confirm->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show (label);
+	gnome_dialog_set_parent (confirm, GTK_WINDOW (window));
+	ans = gnome_dialog_run_and_close (confirm);
+	
+	if (ans == 0) {
+		const GSList *servers;
+		int row, len;
+		
+		server = gtk_clist_get_row_data (prefs->news, prefs->news_row);
+		
+		/* remove it from the folder-tree in the shell */
+		if (server && server->url) {
+			CamelProvider *prov;
+			CamelException ex;
+			
+			camel_exception_init (&ex);
+			prov = camel_session_get_provider (session, server->url, &ex);
+			if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
+			    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+				CamelService *store;
+				
+				store = camel_session_get_service (session, server->url,
+								   CAMEL_PROVIDER_STORE, &ex);
+				if (store != NULL) {
+					g_warning ("removing news storage: %s", server->url);
+					mail_remove_storage (CAMEL_STORE (store));
+					camel_object_unref (CAMEL_OBJECT (store));
+				}
+			} else
+				g_warning ("%s is not a remote news storage.", server->url);
+			camel_exception_clear (&ex);
+		}
+		
+		/* remove it from the config file */
+		servers = mail_config_remove_news (server);
+		mail_config_write ();
+		
+		gtk_clist_remove (prefs->news, prefs->news_row);
+		
+		len = servers ? g_slist_length ((GSList *) servers) : 0;
+		if (len > 0) {
+			row = prefs->news_row;
+			row = row >= len ? len - 1 : row;
+			gtk_clist_select_row (prefs->news, row, 0);
+		} else {
+			prefs->news_row = -1;
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), FALSE);
+		}
+	}
+}
+#endif /* ENABLE_NNTP */
+
+
 GtkWidget *mail_accounts_etable_new (char *widget_name, char *string1, char *string2,
 				     int int1, int int2);
 
@@ -523,7 +738,11 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	prefs->gui = gui;
 	
 	/* get our toplevel widget */
+#ifdef ENABLE_NEWS
+	toplevel = glade_xml_get_widget (gui, "toplevel_notebook");
+#else
 	toplevel = glade_xml_get_widget (gui, "toplevel");
+#endif
 	
 	/* reparent */
 	gtk_widget_ref (toplevel);
@@ -580,6 +799,28 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
 	gtk_signal_connect (GTK_OBJECT (prefs->mail_able), "clicked",
 			    account_able_clicked, prefs);
+	
+#ifdef ENABLE_NEWS
+	prefs->news = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "clistNews"));
+	gtk_signal_connect (GTK_OBJECT (prefs->news), "select-row",
+			    news_select_row, prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->news), "unselect-row",
+			    news_unselect_row, prefs);
+	
+	news_load (prefs);
+	
+	prefs->news_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsAdd"));
+	gtk_signal_connect (GTK_OBJECT (prefs->news_add), "clicked",
+			    news_add_clicked, prefs);
+	
+	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsEdit"));
+	gtk_signal_connect (GTK_OBJECT (prefs->news_edit), "clicked",
+			    news_edit_clicked, prefs);
+	
+	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
+	gtk_signal_connect (GTK_OBJECT (prefs->news_delete), "clicked",
+			    news_delete_clicked, prefs);
+#endif
 }
 
 

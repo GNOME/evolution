@@ -1,5 +1,8 @@
 2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (mail_accounts_tab_construct): Setup News
+	preferences too if it is enabled.
+
 	* mail-account-gui.c (mail_account_gui_new): Set the text of the
 	reply-to.
 	(mail_account_gui_save): Get the reply-to text here.
