@@ -287,7 +287,7 @@ get_name (CamelService *service, gboolean brief)
 {
 	g_warning ("CamelService::get_name not implemented for `%s'",
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (service)));
-	return "???";
+	return g_strdup ("???");
 }		
 
 /**
