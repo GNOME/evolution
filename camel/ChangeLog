@@ -1,3 +1,14 @@
+2004-01-27  Radek Doulik  <rodo@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): set
+	CAMEL_FOLDER_SUPRESS_JUNK_TEST flag
+	(imap_update_summary): update CAMEL_FOLDER_SUPRESS_JUNK_TEST flag
+
+	* camel-folder.c (folder_changed): use
+	CAMEL_FOLDER_SUPRESS_JUNK_TEST flag instead of check_junk_for_imap
+
+	* camel-folder.h (CAMEL_FOLDER_SUPRESS_JUNK_TEST): added new flag
+
 2004-01-27  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53373.
