@@ -26,7 +26,6 @@
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-without.h>
-#include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
 
 #include <addressbook/gui/widgets/e-addressbook-model.h>

@@ -54,7 +54,6 @@
 
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-canvas-utils.h>
-#include <gal/widgets/e-font.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-table-simple.h>

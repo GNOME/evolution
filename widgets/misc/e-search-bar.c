@@ -639,13 +639,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 			char *str;
 
 			str = string_without_underscores (_(items[i].text));
-			if (_(items[i].text) == items[i].text) {
-				/* It may be english string, or utf8 rule name */
-				item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
-			} else {
-				item = gtk_menu_item_new_with_label (str);
-			}
-
+			item = gtk_menu_item_new_with_label (str);
 			g_free (str);
 		} else {
 			item = gtk_menu_item_new ();

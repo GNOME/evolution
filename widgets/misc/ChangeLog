@@ -1,3 +1,7 @@
+2003-04-08  Mike Kestner  <mkestner@ximian.com>
+
+	* e-search-bar.c (set_option): kill an old e_utf8_gtk usage
+ 
 2003-04-06  Chris Toshok  <toshok@ximian.com>
 
 	* e-cell-percent.h: e_cell_percent_get_type returns GType, not

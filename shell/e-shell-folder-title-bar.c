@@ -35,7 +35,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-font.h>
 
 #include "widgets/misc/e-clipped-label.h"
 #include "e-shell-constants.h"
