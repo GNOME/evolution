@@ -622,7 +622,7 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 	CamelMimeParser *mp = NULL;
 	int i, count;
 	CamelMboxMessageInfo *info = NULL;
-	int fd = -1;
+	int fd = -1, pfd;
 	char *xevnew, *xevtmp;
 	const char *xev;
 	int len;
@@ -642,10 +642,20 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 		return -1;
 	}
 
+	/* need to dup since mime parser closes its fd once it is finalised */
+	pfd = dup(fd);
+	if (pfd == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not store folder: %s"),
+				     g_strerror(errno));
+		close(fd);
+		return -1;
+	}
+
 	mp = camel_mime_parser_new();
 	camel_mime_parser_scan_from(mp, TRUE);
 	camel_mime_parser_scan_pre_from(mp, TRUE);
-	camel_mime_parser_init_with_fd(mp, fd);
+	camel_mime_parser_init_with_fd(mp, pfd);
 
 	count = camel_folder_summary_count(s);
 	for (i = 0; i < count; i++) {

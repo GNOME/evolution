@@ -1,3 +1,8 @@
+2005-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_quick): use a different
+	fd for the mime parser, so the fd doesn't get closed twice.
+
 2005-03-01  Not Zed  <NotZed@Ximian.com>
 
 	* tests/misc/test2.c: fix the case of the charset specification,
