@@ -11825,7 +11825,7 @@ msgstr "A levélküldés módja nincs beállítva"
 
 #: mail/component-factory.c:1023
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Vannak el nem küldött levelek. biztos hogy kilépsz?"
+msgstr "Vannak el nem küldött levelek. Biztosan kilépsz?"
 
 #: mail/component-factory.c:1063
 msgid "New Mail Message"
@@ -23763,7 +23763,7 @@ msgstr "Hírforrás"
 
 #: my-evolution/e-summary-shown.c:496
 msgid "All"
-msgstr "Mindenki"
+msgstr "Minden"
 
 #: my-evolution/e-summary-shown.c:521 my-evolution/e-summary-table.c:58
 msgid "Shown"
