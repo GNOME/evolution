@@ -1,3 +1,7 @@
+2001-02-27  JP Rosevear  <jpr@ximian.com>
+
+	* NEWS: add a little pilot info
+
 2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in (EVOLUTION_MICRO_VERSION): Bump up to 9.
