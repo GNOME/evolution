@@ -117,14 +117,14 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				if (menu_list[i].is_toggle || menu_list[i].is_radio)
 					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), menu_list[i].is_active);
 				if (menu_list[i].is_radio)
-					group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
+					group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 
 				make_item (menu, GTK_MENU_ITEM (item), dgettext(domain, menu_list[i].name), menu_list[i].pixmap_widget);
 			} else {
 				item = gtk_menu_item_new ();
 			}
 
-			gtk_menu_append (menu, item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 			if (!menu_list[i].submenu) {
 				if (menu_list[i].fn)
