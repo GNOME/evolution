@@ -40,6 +40,7 @@
 #include "camel-imap4-stream.h"
 #include "camel-imap4-command.h"
 #include "camel-imap4-utils.h"
+#include "camel-imap4-summary.h"
 
 
 static void camel_imap4_store_class_init (CamelIMAP4StoreClass *klass);
@@ -1054,6 +1055,11 @@ imap4_build_folder_info (CamelStore *store, const char *top, guint32 flags, GPtr
 	char *name, *p;
 	CamelURL *url;
 	int i;
+	
+	if (array->len == 0) {
+		g_ptr_array_free (array, TRUE);
+		return NULL;
+	}
 	
 	g_ptr_array_sort (array, (GCompareFunc) list_sort);
 	

@@ -1,3 +1,9 @@
+2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	Make sure we have elements in the array, if not then we're done
+	(return a NULL fi).
+
 2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (imap4_get_uid_set): Fixed
@@ -463,7 +469,7 @@
 	Fix for #58738 ja_JP.UTF-8: Evolution crashes when certain 
 	ASCII/non-ASCII combination is used in mail subject
 
-	* camel-mime-utils.c: (camel_header_encode_string) Use 
+	* camel-mime-utils.c (camel_header_encode_string) Use 
 	camel_mime_is_lwsp for determining word separators, 
 	according to rfc822 (which's also same for rfc2047). 
 	g_unichar_isspace as word separator is illegal.
