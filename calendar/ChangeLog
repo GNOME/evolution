@@ -1,3 +1,15 @@
+2004-05-18  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_do_cursor_key_up),
+	(e_week_view_do_cursor_key_down), (e_week_view_do_cursor_key_left),
+	(e_week_view_do_cursor_key_right), (e_month_view_do_cursor_key_up),
+	(e_month_view_do_cursor_key_down),
+	(e_month_view_do_cursor_key_left),
+	(e_month_view_do_cursor_key_right), (e_week_view_cursor_key_up),
+	(e_week_view_cursor_key_down), (e_week_view_cursor_key_left),
+	(e_week_view_cursor_key_right), (e_week_view_do_key_press): make
+	the focus movable in week/month view when no events are selected.
+
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
 	* gui/dialogs/event-editor.c: Same.

@@ -3495,6 +3495,172 @@ e_week_view_is_one_day_event	(EWeekView	*week_view,
 	return FALSE;
 }
 
+static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
+static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
+
+static void
+e_week_view_do_cursor_key_up (EWeekView *week_view)
+{
+	if (week_view->selection_start_day <= 0)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day--;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_week_view_do_cursor_key_down (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1 ||
+		week_view->selection_start_day >= 6)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day++;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_week_view_do_cursor_key_left (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day = map_left[week_view->selection_start_day];
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_week_view_do_cursor_key_right (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day = map_right[week_view->selection_start_day];
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_month_view_do_cursor_key_up (EWeekView *week_view)
+{
+	if (week_view->selection_start_day < 7)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day -= 7;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_month_view_do_cursor_key_down (EWeekView *week_view)
+{
+	gint weeks_shown = e_week_view_get_weeks_shown (week_view);
+
+	if (week_view->selection_start_day == -1 ||
+		week_view->selection_start_day >= (weeks_shown - 1) * 7)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day += 7;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_month_view_do_cursor_key_left (EWeekView *week_view)
+{
+	if (week_view->selection_start_day <= 0)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day--;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_month_view_do_cursor_key_right (EWeekView *week_view)
+{
+	gint weeks_shown = e_week_view_get_weeks_shown (week_view);
+
+	if (week_view->selection_start_day == -1 ||
+		week_view->selection_start_day >= weeks_shown * 7 - 1)
+		return;
+	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	week_view->selection_start_day++;
+	week_view->selection_end_day = week_view->selection_start_day;
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+e_week_view_cursor_key_up (EWeekView *week_view, GnomeCalendarViewType view_type)
+{
+	switch (view_type) {
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_do_cursor_key_up (week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+		e_month_view_do_cursor_key_up (week_view);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+e_week_view_cursor_key_down (EWeekView *week_view, GnomeCalendarViewType view_type)
+{
+	switch (view_type) {
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_do_cursor_key_down (week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+		e_month_view_do_cursor_key_down (week_view);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+e_week_view_cursor_key_left (EWeekView *week_view, GnomeCalendarViewType view_type)
+{
+	switch (view_type) {
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_do_cursor_key_left (week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+		e_month_view_do_cursor_key_left (week_view);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+e_week_view_cursor_key_right (EWeekView *week_view, GnomeCalendarViewType view_type)
+{
+	switch (view_type) {
+	case GNOME_CAL_WEEK_VIEW:
+		e_week_view_do_cursor_key_right (week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+		e_month_view_do_cursor_key_right (week_view);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
 static gboolean
 e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
@@ -3512,6 +3678,8 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	AddEventData add_event_data;
 	guint keyval;
 	gboolean read_only = TRUE;
+	gboolean stop_emission;
+	GnomeCalendarViewType view_type;
 	
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
@@ -3530,6 +3698,33 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 #endif
 
+	/* Handle the cursor keys for moving the selection */
+	view_type = gnome_calendar_get_view (e_calendar_view_get_calendar (E_CAL_VIEW (week_view)));
+	stop_emission = FALSE;
+	if (!(event->state & GDK_SHIFT_MASK)
+		&& !(event->state & GDK_MOD1_MASK)) {
+		stop_emission = TRUE;
+		switch (keyval) {
+		case GDK_Up:
+			e_week_view_cursor_key_up (week_view, view_type);
+			break;
+		case GDK_Down:
+			e_week_view_cursor_key_down (week_view, view_type);
+			break;
+		case GDK_Left:
+			e_week_view_cursor_key_left (week_view, view_type);
+			break;
+		case GDK_Right:
+			e_week_view_cursor_key_right (week_view, view_type);
+			break;
+		default:
+			stop_emission = FALSE;
+			break;
+		}
+	}
+	if (stop_emission)
+		return TRUE;
+	
 	/*Navigation through days with arrow keys*/
 	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
