@@ -1033,7 +1033,63 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 static char *
 cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 {
-	return NULL;
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+	icalcomponent *vfb;
+	char *calobj;
+	struct icaltimetype itime;
+	GList *uids;
+	GList *l;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	/* create the iCal VFREEBUSY component */
+	vfb = icalcomponent_new_vfreebusy ();
+	itime = icaltime_from_timet (start, 1);
+	icalcomponent_set_dtstart (vfb, itime);
+	itime = icaltime_from_timet (end, 1);
+	icalcomponent_set_dtend (vfb, itime);
+
+	/* add all objects in the given interval */
+	uids = cal_backend_get_objects_in_range (CAL_BACKEND (cbfile),
+						 CALOBJ_TYPE_ANY, start, end);
+	for (l = uids; l != NULL; l = l->next) {
+		char *comp_str;
+		icalcomponent *icalcomp;
+		icalproperty *icalprop;
+		struct icalperiodtype ipt;
+		char *uid = (char *) l->data;
+
+		comp_str = cal_backend_get_object (CAL_BACKEND (cbfile), uid);
+		if (!comp_str)
+			continue;
+
+		icalcomp = icalparser_parse_string (comp_str);
+		g_free (comp_str);
+		if (!icalcomp)
+			continue;
+
+		ipt.start = icalcomponent_get_dtstart (icalcomp);
+		ipt.end = icalcomponent_get_dtend (icalcomp);
+		ipt.duration = icalcomponent_get_duration (icalcomp);
+
+		/* add busy information to the vfb component */
+		icalprop = icalproperty_new (ICAL_FREEBUSY_PROPERTY);
+		icalproperty_set_freebusy (icalprop, ipt);
+		icalcomponent_add_property (vfb, icalprop);
+	}
+
+	calobj = g_strdup (icalcomponent_as_ical_string (vfb));
+
+	icalcomponent_free (vfb);
+	cal_obj_uid_list_free (uids);
+
+	return calobj;
 }
 
 typedef struct 
