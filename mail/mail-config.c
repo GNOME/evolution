@@ -538,7 +538,7 @@ account_to_xml (MailConfigAccount *account)
 	if (account->smime_key)
 		xmlNewTextChild (node, NULL, "key-id", account->smime_key);
 	
-	xmlDocDumpMemory (doc, &xmlbuf, &n);
+	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
 	xmlFreeDoc (doc);
 	
 	/* remap to glib memory */
