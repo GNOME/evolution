@@ -735,6 +735,9 @@ table_drag_begin (ETable *etable,
 
 	/* Query the `ShellComponentDnd::SourceFolder' interface on the
 	   component.  */
+	/* FIXME we could use the new
+	   `evolution_shell_component_client_get_dnd_source_interface()'
+	   call. */
 
 	CORBA_exception_init (&ev);
 
