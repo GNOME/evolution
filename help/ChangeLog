@@ -1,3 +1,7 @@
+2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Add `sgmldocs.make' to `EXTRA_DIST'.
+
 2001-08-20  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-exec-summary.sgml: Moved introductory/basic content to the
