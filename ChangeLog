@@ -1,3 +1,14 @@
+2001-03-01  Jakub Steiner <jimmac@ximian.com>
+
+	* art/48_evo-address-conduit.png: 48^2 version of the
+	addressbook pilot conduit. (for the new control center)
+	* art/16_evo-address-conduit.png: 16x16 version for current
+	gnomecc
+	* art/48_evo-todo-conduit.png: for new gnomecc
+	* art/16_evo-todo-conduit.png: for old gnomecc
+	* art/48_evo-calendar-conduit.png: for new gnomecc
+	* art/16_evo-calendar-conduit.png: for old gnomecc
+
 2001-03-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Check for gal 0.5.99.2.
