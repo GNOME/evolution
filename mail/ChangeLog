@@ -175,7 +175,6 @@
 	(add_storage): Only call mail_note_store() if we plan on
 	auto-connecting.
 
->>>>>>> 1.2246
 2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (on_right_click): Increase the size of the
