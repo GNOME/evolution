@@ -1,3 +1,11 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Set $ACLOCAL to have the $ACLOCAL_FLAGS in it, so
+	it doesn't fail to regenerate the files if you run make without a
+	manual autogen after making changes to configure.in and friends.
+	[Many thanks to Marco Pesenti Gritti for pointing out the fix to
+	me.]
+
 2003-10-22  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Require ORBit 2.8.0 or newer for threading

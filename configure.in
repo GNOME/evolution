@@ -10,6 +10,9 @@ AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
+dnl Put the ACLOCAL flags in the Makefile
+ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
+
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
