@@ -1,6 +1,5 @@
 /* Automatically generated. Do not edit. */
 char *s = N_("Adjust Score");
-char *s = N_("Always Match");
 char *s = N_("Assign Color");
 char *s = N_("Assign Score");
 char *s = N_("Attachments");
@@ -37,6 +36,7 @@ char *s = N_("Junk");
 char *s = N_("Junk Test");
 char *s = N_("Label");
 char *s = N_("Mailing list");
+char *s = N_("Match All");
 char *s = N_("Message Body");
 char *s = N_("Message Header");
 char *s = N_("Message is Junk");
