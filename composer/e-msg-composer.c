@@ -150,23 +150,31 @@ get_editor_text (BonoboWidget *editor, char *format)
 static char *
 format_text (char *text)
 {
-	char *out, *s, *d, *space;
-	int len;
+	GString *out;
+	char *s, *space, *outstr;
+	int len, tabbing, i;
+	gboolean linestart = TRUE;
 
 	len = strlen (text);
-	out = g_malloc (len + len / LINE_LEN + 3);
+	out = g_string_sized_new (len + len / LINE_LEN);
 
 	s = text;
-	d = out;
-
 	while (*s) {
+		if (linestart) {
+			tabbing = 0;
+			while (*s == '\t') {
+				s++;
+				tabbing++;
+			}
+		}
+
 		len = strcspn (s, "\n");
-		if (len > LINE_LEN) {
+		if (len > LINE_LEN - tabbing * 8) {
 			/* If we can break anywhere between s and
 			 * s + LINE_LEN, do that. We can break between
 			 * space and anything but &nbsp;
 			 */
-			space = s + LINE_LEN;
+			space = s + LINE_LEN - tabbing * 8;
 			while (space > s && (*space != ' '
 					     || (*(space + 1) == '\240')
 					     || (*(space - 1) == '\240')))
@@ -176,24 +184,32 @@ format_text (char *text)
 				len = space - s;
 		}
 
+		/* Do initial tabs */
+		for (i = 0; i < tabbing; i++)
+			g_string_append_c (out, '\t');
+
 		/* Copy the line... */
 		while (len--) {
-			*d++ = (*s == '\240' ? ' ' : *s);
+			g_string_append_c (out, *s == '\240' ? ' ' : *s);
 			s++;
 		}
 
 		/* Eat whitespace... */
 		while (*s == ' ' || *s == '\240')
 			s++;
-		if (*s == '\n')
+		if (*s == '\n') {
 			s++;
+			linestart = TRUE;
+		} else
+			linestart = FALSE;
 
 		/* And end the line. */
-		*d++ = '\n';
+		g_string_append_c (out, '\n');
 	}
 
-	*d++ = '\0';
-	return out;
+	outstr = out->str;
+	g_string_free (out, FALSE);
+	return outstr;
 }
 
 typedef enum {
