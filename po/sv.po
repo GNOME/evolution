@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156.2.8 2003/03/17 20:44:51 ettore Exp $
+# $Id: sv.po,v 1.156.2.9 2003/03/27 01:13:07 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-03-17 12:10-0500\n"
-"PO-Revision-Date: 2003-03-07 18:57+0100\n"
+"POT-Creation-Date: 2003-03-27 02:02+0100\n"
+"PO-Revision-Date: 2003-03-27 02:10+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4392,8 +4392,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"E som tas bort är ett möte. Vill du skicka ett meddelande om att det är "
-"inställt?"
+"Dagsboksposten som tas bort är publicerad. Vill du skicka ett meddelande om "
+"att det är inställt?"
 
 #: calendar/gui/dialogs/cancel-comp.c:80
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -5020,57 +5020,46 @@ msgid "_Due Date:"
 msgstr "Förfallo_datum:"
 
 #: calendar/gui/e-calendar-table.c:440
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -8668,7 +8657,9 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
-#: camel/providers/imap/camel-imap-store.c:1059
+#: camel/providers/imap/camel-imap-store.c:1059 camel/camel-sasl-gssapi.c:189
+#: camel/camel-sasl-gssapi.c:238 camel/camel-sasl-gssapi.c:273
+#: camel/camel-sasl-gssapi.c:289
 msgid "Bad authentication response from server."
 msgstr "Felaktigt autentiseringssvar från servern."
 
@@ -27933,6 +27924,125 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
+#: calendar/gui/comp-editor-factory.c:456
+msgid "Error while opening the calendar"
+msgstr "Fel vid öppnande av kalendern"
+
+#: calendar/gui/comp-editor-factory.c:465
+msgid "Method not supported when opening the calendar"
+msgstr "Metoden stöds inte vid öppnande av kalendern"
+
+#: calendar/gui/comp-editor-factory.c:469
+msgid "Permission denied to open calendar"
+msgstr "Åtkomst nekas för öppnande av kalendern"
+
+#: calendar/gui/dialogs/recur-comp.c:52
+msgid "You are modifying a recurring event, what would you like to modify?"
+msgstr "Du ändrar en återkommande händelse. Vad vill du ändra?"
+
+#: calendar/gui/dialogs/recur-comp.c:56
+msgid "You are modifying a recurring task, what would you like to modify?"
+msgstr "Du ändrar en återkommande uppgift. Vad vill du ändra?"
+
+#: calendar/gui/dialogs/recur-comp.c:60
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Du ändrar en återkommande dagsbokspost. Vad vill du ändra?"
+
+#: calendar/gui/dialogs/recur-comp.c:77
+msgid "This Instance Only"
+msgstr "Endast denna instans"
+
+#: calendar/gui/dialogs/recur-comp.c:80
+msgid "This and Future Instances"
+msgstr "Denna och framtida instanser"
+
+#: calendar/gui/dialogs/recur-comp.c:82
+msgid "All Instances"
+msgstr "Alla instanser"
+
+#: camel/camel-sasl-gssapi.c:48
+msgid "GSSAPI"
+msgstr "GSSAPI"
+
+#: camel/camel-sasl-gssapi.c:50
+msgid "This option will connect to the server using Kerberos 5 authentication."
+msgstr ""
+"Detta alternativ kommer att ansluta till servern med Kerberos 5-"
+"autentisering."
+
+#: camel/camel-sasl-gssapi.c:148
+msgid ""
+"The specified mechanism is not supported by the provided credential, or is "
+"unrecognized by the implementation."
+msgstr ""
+"Den angivna mekanismen stöds inte av den angivna identitetshandlingen, eller "
+"känns inte igen av implementationen."
+
+#: camel/camel-sasl-gssapi.c:153
+msgid "The provided target_name parameter was ill-formed."
+msgstr "Den target_name-parameter som tillhandahölls var felaktigt utformad."
+
+#: camel/camel-sasl-gssapi.c:156
+msgid ""
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
+msgstr ""
+"Den target_name-parameter som tillhandahölls innehöll en ogiltig typ av namn "
+"eller en typ som inte stöds."
+
+#: camel/camel-sasl-gssapi.c:160
+msgid ""
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
+msgstr ""
+"input_token innehåller olika kanalbindningar gentemot de som är angivna via "
+"parametern input_chan_bindings."
+
+#: camel/camel-sasl-gssapi.c:165
+msgid ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+msgstr ""
+"input_token innehåller en ogiltig signatur eller en signatur som inte kunde "
+"verifieras."
+
+#: camel/camel-sasl-gssapi.c:169
+msgid ""
+"The supplied credentials were not valid for context initiation, or the "
+"credential handle did not reference any credentials."
+msgstr ""
+"De angivna identitetshandlingarna var inte giltiga för sammanhangsinitiering "
+"eller så refererade inte identitetshandlingshandtaget några "
+"identitetshandlingar."
+
+#: camel/camel-sasl-gssapi.c:174
+msgid "The supplied context handle did not refer to a valid context."
+msgstr ""
+"Det angivna sammanhangshandtaget refererade inte till ett giltigt sammanhang."
+
+#: camel/camel-sasl-gssapi.c:177
+msgid "The consistency checks performed on the input_token failed."
+msgstr "Konsekvenskontrollerna som utförts på input_token har misslyckats."
+
+#: camel/camel-sasl-gssapi.c:180
+msgid "The consistency checks performed on the credential failed."
+msgstr ""
+"Konsekvenskontrollerna som utförts på identitetshandlingen har misslyckats."
+
+#: camel/camel-sasl-gssapi.c:183
+msgid "The referenced credentials have expired."
+msgstr "De refererade identitetshandlingarna har gått ut."
+
+#: camel/camel-sasl-gssapi.c:213
+#, c-format
+msgid "Failed to resolve host `%s': %s"
+msgstr "Misslyckades med att slå upp värden \"%s\": %s"
+
+#: camel/camel-sasl-gssapi.c:297
+msgid "Unsupported security layer."
+msgstr "Säkerhetslagret stöds inte."
+
 #~ msgid ""
 #~ "Evolution does not yet support email notification for reminders.  You "
 #~ "will not be able to edit the options for this reminder."
@@ -29432,9 +29542,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid " _Remove"
 #~ msgstr " _Ta bort"
-
-#~ msgid "Al_l stations:"
-#~ msgstr "_Alla stationer:"
 
 #~ msgid "All _folders:"
 #~ msgstr "_Alla mappar:"
