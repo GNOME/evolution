@@ -1,5 +1,13 @@
 2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Set the shadow type
+	for the EScrollFrame.  Also, make the EStorageSetView widget grab
+	the focus.  For some reason it doesnt' seem to work, but I'll
+	blame ETree for now.
+
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_for_current_uri): Display the folder name
 	before "Evolution" instead of after it.  Also, display the
 	sub-version string if it was defined when configuring.

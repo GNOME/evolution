@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell-folder-selection-dialog.c
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -326,6 +326,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 		set_default_folder (folder_selection_dialog, default_uri);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -336,6 +337,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	gtk_widget_show (scroll_frame);
 	gtk_widget_show (priv->storage_set_view);
+
+	gtk_widget_grab_focus (priv->storage_set_view);
 }
 
 /**
