@@ -1,3 +1,5 @@
+SUBDIRS = 16x16 48x48
+
 images_DATA = \
 	about-box.png			\
 	bcg.png				\
