@@ -1,3 +1,23 @@
+2002-02-06  Damon Chaplin  <damon@ximian.com>
+
+	* src/libicalvcal/icalvcal.c: major changes to support RRULE/EXRULE,
+	VALARMS and several other properties.
+
+	* src/libicalvcal/icalvcal.h (icalvcal_convert_with_defaults): new
+	function to pass defaults for a few values into the importer. These
+	are used when the vCalendar file doesn't provide the property but it
+	is required in iCalendar.
+
+	* src/libicalvcal/vcc.y: support multi-valued properties, by appending
+	new ones and separating by ';'. This was pinched from our changes to
+	evolution/libversit/vcc.y.
+
+	* src/libicalvcal/Makefile.am: renamed library to libicalvcal-evolution
+	Don't install the headers.
+
+	* design-data/parameters.csv: added new error for error's parsing
+	vCalendar properties.
+
 2002-01-28  Dan Winship  <danw@ximian.com>
 
 	* src/libical/icalrecur.c (icalrecur_add_bydayrules): Skip over

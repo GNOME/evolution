@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libicalvcal.la
+lib_LTLIBRARIES = libicalvcal-evolution.la
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -6,22 +6,27 @@ INCLUDES =			\
 	-I$(top_builddir)/src/libical	\
 	-I$(top_srcdir)/src/libicalss
 
-libicalvcal_la_LDFLAGS = -version-info 0:0:0
+libicalvcal_evolution_la_LDFLAGS = -version-info 0:0:0
 
-libicalvcal_la_SOURCES =	\
-	icalvcal.c		\
-	vcc.y			\
-	vobject.c		\
-	vcaltmp.c
-
-libicalvcalincludedir = $(includedir)/libicalvcal
-
-libicalvcalinclude_HEADERS =	\
+libicalvcal_evolution_la_SOURCES =	\
 	icalvcal.h		\
+	icalvcal.c		\
 	port.h			\
 	vcc.h			\
+	vcc.y			\
 	vobject.h		\
-	vcaltmp.h
+	vobject.c		\
+	vcaltmp.h		\
+	vcaltmp.c
+
+#libicalvcalincludedir = $(includedir)/evolution/libicalvcal
+
+#libicalvcalinclude_HEADERS =	\
+#	icalvcal.h		\
+#	port.h			\
+#	vcc.h			\
+#	vobject.h		\
+#	vcaltmp.h
 
 EXTRA_DIST =		\
 	README.TXT	\
