@@ -15,7 +15,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "e-table-config.h"
-#include "e-table-config-field.h"
 #include "gal/util/e-util.h"
 
 
