@@ -165,6 +165,9 @@ int          row);
 void        e_table_model_row_deleted         (ETableModel *e_table_model,
 int          row);
 
+void        e_table_model_freeze              (ETableModel *e_table_model);
+void        e_table_model_thaw                (ETableModel *e_table_model);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_MODEL_H_ */

@@ -365,6 +365,8 @@ setup_fields (ETableConfig *config)
 {
 	int i;
 
+	e_table_model_freeze (config->available_model);
+	e_table_model_freeze (config->shown_model);
 	e_table_without_show_all (config->available_model);
 	e_table_subset_variable_clear (config->shown_model);
 
@@ -379,6 +381,8 @@ setup_fields (ETableConfig *config)
 			e_table_without_hide (config->available_model, GINT_TO_POINTER(idx));
 		}
 	}
+	e_table_model_thaw (config->available_model);
+	e_table_model_thaw (config->shown_model);
 }
 
 static void
@@ -473,6 +477,10 @@ static void
 do_fields_config_dialog (ETableConfig *config)
 {
 	int response, running = 1;
+
+	gtk_widget_ensure_style (config->dialog_show_fields);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_show_fields)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_show_fields)->action_area), 12);
 
 	config->temp_state = e_table_state_duplicate (config->state);
 
@@ -1188,6 +1196,10 @@ e_table_config_new (const char          *header,
 		g_object_unref (config);
 		return NULL;
 	}
+
+	gtk_widget_ensure_style (config->dialog_toplevel);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_toplevel)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_toplevel)->action_area), 12);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
 					   GTK_RESPONSE_APPLY, FALSE);

@@ -28,6 +28,7 @@
 #include "gal/util/e-marshal.h"
 
 #define ETM_CLASS(e) (E_TABLE_MODEL_GET_CLASS (e))
+#define ETM_FROZEN(e) (GPOINTER_TO_INT (g_object_get_data (G_OBJECT(e), "frozen")) != 0)
 
 #define d(x)
 
@@ -386,6 +387,9 @@ e_table_model_pre_change (ETableModel *e_table_model)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	if (ETM_FROZEN (e_table_model))
+		return;
 	
 	d(print_tabs());
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
@@ -414,6 +418,9 @@ e_table_model_no_change (ETableModel *e_table_model)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
@@ -441,6 +448,9 @@ e_table_model_changed (ETableModel *e_table_model)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type)));
 	d(depth++);
@@ -465,6 +475,9 @@ e_table_model_row_changed (ETableModel *e_table_model, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
@@ -490,6 +503,9 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row, col));
 	d(depth++);
@@ -515,6 +531,9 @@ e_table_model_rows_inserted (ETableModel *e_table_model, int row, int count)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
@@ -555,6 +574,9 @@ e_table_model_rows_deleted (ETableModel *e_table_model, int row, int count)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	if (ETM_FROZEN (e_table_model))
+		return;
+	
 	d(print_tabs());
 	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, gtk_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
 	d(depth++);
@@ -577,3 +599,18 @@ e_table_model_row_deleted (ETableModel *e_table_model, int row)
 {
 	e_table_model_rows_deleted(e_table_model, row, 1);
 }
+
+void
+e_table_model_freeze (ETableModel *e_table_model)
+{
+	e_table_model_pre_change (e_table_model);
+	g_object_set_data (G_OBJECT (e_table_model), "frozen", GINT_TO_POINTER (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (e_table_model), "frozen")) + 1));
+}
+
+void
+e_table_model_thaw (ETableModel *e_table_model)
+{
+	g_object_set_data (G_OBJECT (e_table_model), "frozen", GINT_TO_POINTER (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (e_table_model), "frozen")) - 1));
+	e_table_model_changed (e_table_model);
+}
+
