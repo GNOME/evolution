@@ -1,3 +1,15 @@
+2002-09-23  Aaron Weber  <aaron@ximian.com>
+
+	* README: Update URLs for mailing lists, Evolution application
+	page, help information. Remove note that Evolution is beta. In
+	general, changes to the "soft" data.  Also, jeff's commit to this
+	file from 2001-11-21 seems to have been lost, so I re-removed the
+	stuff he took out. And changed libnspr to mozilla-nspr, and
+	libnss3 to mozilla-nss.
+
+	* data/evolution.1: Update with information about where the real
+	help is. Clarify example formatting.
+	 
 2002-09-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/cde_app_root/Makefile.am: New.

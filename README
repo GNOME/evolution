@@ -1,17 +1,14 @@
 Evolution is the integrated mail, calendar and address book
 distributed suite from Ximian, Inc.
 
-See http://www.ximian.com/apps/evolution.php3 for more information.
+See http://www.ximian.com/products/evolution for more information.
 
-Note that Evolution is still beta. This means it may delete all of
-your mail if you give it the chance.
-
-If you are using Evolution, you should subscribe to the Evolution
-mailing list. If you are interested in hacking on it, you should
-subscribe to the Evolution Hackers mailing list. Send mail to
-"evolution-request@ximian.com" or
-"evolution-hackers-request@ximian.com" with the word "subscribe" in
-the body of the message. If you are planning to work on any part of
+If you are using Evolution, you may wish to subscribe to the Evolution
+users mailing list. If you are interested in contributing to
+development on it, you should certainly subscribe to the Evolution
+Hackers mailing list. Visit
+http://developer.ximian.com/community/lists.html to subscribe to
+Ximian mailing lists. If you are planning to work on any part of
 Evolution, please send mail to the mailing list first, to avoid
 duplicated effort (and to make sure that you aren't basing your work
 on interfaces that are expected to change).
@@ -22,9 +19,16 @@ http://lists.ximian.com/archives/public/evolution-hackers/
 
 There is also an #evolution IRC channel on irc.gnome.org.
 
+Help for Evolution is available in the user manual (select "Help" from
+the menu after running the application), at the Ximian knowledge base
+(http://support.ximian.com), in the Evolution man page (run "man
+evolution" at the command line), and in the --help strings (run
+"evolution --help" at the command line).
 
-IF IT DOESN'T WORK
-------------------
+The rest of this file is dedicated to building Evolution.
+
+PROBLEMS BUILDING EVOLUTION
+---------------------------
 
 Did you read the "How to build" section below?
 
@@ -94,33 +98,32 @@ DEPENDENCIES
 
 The following required libraries are available in GNOME CVS, under the
 given names.  Most (but not all) of them are also available as
-tarballs on ftp.gnome.org.  The (*)ed packages are available in Ximian
-GNOME ( http://www.ximian.com/desktop/ ).  Other packages may be
-available from the Ximian GNOME evolution preview mirror.
+tarballs on ftp.gnome.org or one of the Ximian mirrors listed at
+http://ximian.com/mirrors.html. 
 
 If installing from packages, remember that you need both the runtime
 and -devel packages for each library.
 
- - GNU intltool 0.18 (*)
+ - GNU intltool 0.18 
 
- - scrollkeeper - 0.1.4 or later (*)
+ - scrollkeeper - 0.1.4 or later 
 
  - gnome-xml - 1.8.17 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_BRANCH".)
-   (*)
+   
 
- - gnome-print - 0.35 or later (*)
+ - gnome-print - 0.35 or later 
 
- - gdk-pixbuf - 0.18.0 or later (*)
+ - gdk-pixbuf - 0.18.0 or later 
 
- - ORBit - 0.5.8 or later (*) (If you get this from GNOME CVS, use the
+ - ORBit - 0.5.8 or later  (If you get this from GNOME CVS, use the
    tag "orbit-stable-0-5".)
 
  - oaf - 0.6.10 or later (If you get this from GNOME CVS, use the tag
    "oaf-stable-0-6")
 
    *** If you are using oaf from CVS, you should use the flag
-   *** "--disable-more-warnings" when configure, or it may fail to
+   *** "--disable-more-warnings" when you configure, or it may fail to
    *** build.
 
  - gnome-vfs - 1.0.5 or later (If you get this from GNOME CVS, use
@@ -130,21 +133,21 @@ and -devel packages for each library.
    *** "--disable-more-warnings" when configuring, or it may fail to
    *** build.
 
- - libglade - 0.14 or later
+ - libglade - 0.14 or later 
 
- - bonobo - 1.0.3 or later
+ - bonobo - 1.0.3 or later 
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - bonobo-conf - 1.0.16 or later
+ - bonobo-conf - 1.0.16 or later 
 
- - gal (GNOME Application Library) - 0.20 or later
+ - gal (GNOME Application Library) - 0.20 or later 
 
- - gtkhtml - 1.1.2 or later
+ - gtkhtml - 1.1.2 or later 
 
- - SOUP - 0.7.x
+ - SOUP - 0.7.x 
 
    *** If you are compiling from CVS, grab the soup-0-7 branch.
 
@@ -153,7 +156,7 @@ Other non-GNOME Dependencies:
  - Berkeley's libdb - 3.1.17
 
    db3 is available from http://www.sleepycat.com. Make sure to get
-   3.1.17, it isn't the latest version.
+   3.1.17, which isn't the latest version.
 
      --- IMPORTANT WARNING ---
 
@@ -192,7 +195,7 @@ Other non-GNOME Dependencies:
      separately.
 
      The Evolution team will be infinitely grateful for your
-     co-operation.  Thanks.
+     co-operation. Thanks.
 
 
 COMPILING BERKELEY DB
@@ -225,13 +228,13 @@ it without messing up your system installation.
 COMPILING PALM PILOT SUPPORT
 ----------------------------
 
-If you want support for PalmPilot syncing (currently experimental so
-please back up your pilot) you will also need to do the following:
+If you want support for PalmPilot syncing you will also need recent
+versions of:
 
-1) pilot-link 0.9.5
+1) pilot-link 
 http://www.pilot-link.org
 
-2) gnome-pilot 0.1.61
+2) gnome-pilot
 http://www.eskil.org/gnome-pilot/
 
 3) evolution
@@ -244,23 +247,16 @@ make install
 SSL SUPPORT
 -----------
 
-If you want SSL support (and someday S/MIME), you will also need libnspr4 and
-libnss3 which can be found at http://www.mozilla.org.
+If you want SSL support (and someday S/MIME), you will also need
+mozilla-nspr and mozilla-nss, which can be found at
+http://www.mozilla.org.
 
-Once you have libnspr4 and libnss3 (and their respective includes) installed,
-in your evolution source directory do:
+Once you have those libraries (and their respective includes)
+installed, in your evolution source directory do:
+
 ./autogen.sh --prefix=<evo-prefix> --with-nspr-includes=<nspr-includes-prefix>
 --with-nspr-libs=<nspr-libs-prefix> --with-nss-includes=<nss-includes-prefix>
 --with-nss-libs=<nss-libs-prefix>
-
-You'll need to `cp ~/.mozilla/default/*.db ~/evolution` on you've
-installed Evolution in order to get a functional SSL-enabled
-Evolution.
-
-WARNING: Evolution also comes with OpenSSL support
-(--with-openssl-libs and --with-openssl-includes), but it's not very
-well tested, and quite unstable at this point.  It is recommended that
-you use the NSPR-based SSL support instead.
 
 
 NEWSGROUP (NNTP) SUPPORT
