@@ -1,5 +1,13 @@
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Part of a fix for bug #39809
+
+	* mail-vfolder.c (vfolder_edit): Don't add the cancel button here.
+
+	* mail-callbacks.c (filter_edit): Don't add the cancel button here.
+
+2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-display.c (do_external_viewer): Lookup the handler for the
 	type. If we don't have a registered handler or if the registered
 	handler is not meant to be handled via a bonobo component, don't

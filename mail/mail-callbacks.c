@@ -2778,7 +2778,6 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	/* FIXME: maybe this needs destroy func? */
 	gtk_window_set_transient_for ((GtkWindow *) filter_editor, FB_WINDOW (fb));
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
-	gtk_dialog_add_button ((GtkDialog *) filter_editor, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GtkDestroyNotify) g_object_unref);
 	g_signal_connect (filter_editor, "response", G_CALLBACK (filter_editor_response), fb);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
