@@ -1,3 +1,8 @@
+2000-10-19  Chris Toshok  <toshok@helixcode.com>
+
+	* message-list.c (nuke_uids): e-tree-model is now opaque.  use the
+	accessor to get the root node.
+
 2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c: #include "mail-vfolder.h"

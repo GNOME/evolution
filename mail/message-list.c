@@ -1342,9 +1342,11 @@ static void
 nuke_uids (GtkObject *o)
 {
 	ETreeModel *etm = E_TREE_MODEL (o);
+	ETreePath *root = e_tree_model_get_root (etm);
 
-	if (etm->root)
-		e_tree_model_node_traverse (etm, etm->root, nuke_uids_cb, NULL);
+	if (root)
+		e_tree_model_node_traverse (etm, root,
+					    nuke_uids_cb, NULL);
 }
 
 static void
