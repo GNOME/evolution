@@ -20,6 +20,7 @@ INCLUDES = -I../..				\
 libcamelnntp_la_SOURCES = 			\
 	camel-nntp-auth.c			\
 	camel-nntp-folder.c			\
+	camel-nntp-grouplist.c			\
 	camel-nntp-newsrc.c			\
 	camel-nntp-provider.c			\
 	camel-nntp-store.c			\
@@ -29,6 +30,7 @@ libcamelnntpinclude_HEADERS =			\
 	camel-nntp-auth.h			\
 	camel-nntp-resp-codes.h			\
 	camel-nntp-folder.h			\
+	camel-nntp-grouplist.h			\
 	camel-nntp-newsrc.h			\
 	camel-nntp-store.h			\
 	camel-nntp-utils.h

@@ -33,6 +33,7 @@ extern "C" {
 
 #include "camel-remote-store.h"
 #include "camel-nntp-newsrc.h"
+#include "camel-nntp-types.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
 #define CAMEL_NNTP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
@@ -51,13 +52,13 @@ enum {
 	CAMEL_NNTP_OVER_LAST
 };
 
-typedef struct {
+struct CamelNNTPOverField {
 	int index;
 	gboolean full; /* full in the OVER sense - the field name
                           precedes the ':' in the XOVER list. */
-} CamelNNTPOverField;
+};
 
-typedef struct {
+struct CamelNNTPStore {
 	CamelRemoteStore parent_object;	
 
 #define CAMEL_NNTP_EXT_SEARCH     (1<<0)
@@ -76,15 +77,14 @@ typedef struct {
 	CamelNNTPOverField overview_field[ CAMEL_NNTP_OVER_LAST ];
 
 	CamelNNTPNewsrc *newsrc;
+	CamelNNTPGroupList *group_list;
 
-} CamelNNTPStore;
+};
 
-
-
-typedef struct {
+struct CamelNNTPStoreClass {
 	CamelRemoteStoreClass parent_class;
 
-} CamelNNTPStoreClass;
+};
 
 
 /* public methods */

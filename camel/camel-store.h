@@ -51,12 +51,16 @@ typedef struct _CamelFolderInfo {
 #define CAMEL_IS_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_STORE_TYPE))
 
 
+/* Flags for store flags */
+#define CAMEL_STORE_SUBSCRIPTIONS (1 << 0)
+
 struct _CamelStore
 {
 	CamelService parent_object;
 
 	GHashTable *folders;
 
+	int flags;
 };
 
 
@@ -94,12 +98,21 @@ typedef struct {
 
 	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
 						     const char *top,
-						     gboolean fase,
+						     gboolean fast,
 						     gboolean recursive,
+						     gboolean subscribed_only,
 						     CamelException *ex);
 	void            (*free_folder_info)         (CamelStore *store,
 						     CamelFolderInfo *fi);
 
+	gboolean        (*folder_subscribed)        (CamelStore *store,
+						     const char *folder_name);
+	void            (*subscribe_folder)         (CamelStore *store,
+						     const char *folder_name,
+						     CamelException *ex);
+	void            (*unsubscribe_folder)       (CamelStore *store,
+						     const char *folder_name,
+						     CamelException *ex);
 } CamelStoreClass;
 
 
@@ -126,12 +139,12 @@ void             camel_store_rename_folder      (CamelStore *store,
 
 CamelFolderInfo *camel_store_get_folder_info    (CamelStore *store,
 						 const char *top,
-						 gboolean fase,
+						 gboolean fast,
 						 gboolean recursive,
+						 gboolean subscribed_only,
 						 CamelException *ex);
 void             camel_store_free_folder_info   (CamelStore *store,
 						 CamelFolderInfo *fi);
-
 
 void             camel_store_free_folder_info_full (CamelStore *store,
 						    CamelFolderInfo *fi);
@@ -143,6 +156,17 @@ void             camel_folder_info_build           (GPtrArray *folders,
 						    CamelFolderInfo *top,
 						    char separator,
 						    gboolean short_names);
+
+gboolean         camel_store_supports_subscriptions   (CamelStore *store);
+
+gboolean         camel_store_folder_subscribed        (CamelStore *store,
+						       const char *folder_name);
+void             camel_store_subscribe_folder         (CamelStore *store,
+						       const char *folder_name,
+						       CamelException *ex);
+void             camel_store_unsubscribe_folder       (CamelStore *store,
+						       const char *folder_name,
+						       CamelException *ex);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,49 @@
+2000-10-06  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/Makefile.am (libcamelnntpinclude_HEADERS): add
+	camel-nntp-grouplist.h
+	(libcamelnntp_la_SOURCES): add camel-nntp-grouplist.c
+
+	* providers/nntp/camel-nntp-provider.c: add our own hash functions
+	for nntp urls.
+
+	* providers/nntp/camel-nntp-newsrc.c
+	(camel_nntp_newsrc_group_is_subscribed): new function.
+	(camel_nntp_newsrc_subscribe_group): new function.
+	(camel_nntp_newsrc_unsubscribe_group): new function.
+
+	* providers/nntp/camel-nntp-newsrc.h: add prototypes for
+	_group_is_subscribed, _subscribe_group, and _unsubscribe_group.
+
+	* providers/nntp/camel-nntp-store.c
+	(build_folder_info_from_grouplist): new function.
+	(nntp_store_get_folder_info): add subscribed_only_parameter.  if
+	it's FALSE, load the grouplist and call
+	build_folder_info_from_grouplist.
+	(nntp_store_folder_subscribed): implement.
+	(nntp_store_subscribe_folder): implement.
+	(nntp_store_unsubscribe_folder): implement.
+	(camel_nntp_store_init): add CAMEL_STORE_SUBSCRIPTIONS to the
+	store's flags.
+
+	* providers/mh/camel-mh-store.c (get_folder_info): add
+	subscribed_only parameter.
+
+	* providers/mbox/camel-mbox-store.c (get_folder_info): add
+	subscribed_only parameter.
+
+	* providers/imap/camel-imap-store.c (get_folder_info): add
+	subscribed_only parameter.
+
+	* camel-store.c (camel_store_supports_subscriptions): new function.
+	(camel_store_folder_subscribed): new function.
+	(camel_store_subscribe_folder): new function.
+	(camel_store_unsubscribe_folder): new function.
+
+	* camel-store.h: add prototypes and virtual functions for the
+	subscribe implementation.  also, add a subscribed_only argument to
+	camel_store_get_folder_info.
+
 2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.c (header_address_list_format_append): Encode

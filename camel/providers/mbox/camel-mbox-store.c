@@ -49,6 +49,7 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
+					 gboolean subscribed_only,
 					 CamelException *ex);
 
 static void
@@ -287,6 +288,7 @@ get_name (CamelService *service, gboolean brief)
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
 		 gboolean fast, gboolean recursive,
+		 gboolean subscribed_only,
 		 CamelException *ex)
 {
 	/* FIXME: This is broken, but it corresponds to what was

@@ -7,14 +7,18 @@
 
 typedef struct CamelNNTPNewsrc CamelNNTPNewsrc;
 
-int       camel_nntp_newsrc_get_highest_article_read    (CamelNNTPNewsrc *newsrc, char *group_name);
+int       camel_nntp_newsrc_get_highest_article_read    (CamelNNTPNewsrc *newsrc, const char *group_name);
 void      camel_nntp_newsrc_mark_article_read           (CamelNNTPNewsrc *newsrc,
-							 char *group_name, int num);
+							 const char *group_name, int num);
 void      camel_nntp_newsrc_mark_range_read             (CamelNNTPNewsrc *newsrc,
-							 char *group_name, long low, long high);
+							 const char *group_name, long low, long high);
 
 gboolean  camel_nntp_newsrc_article_is_read             (CamelNNTPNewsrc *newsrc,
-							 char *group_name, long num);
+							 const char *group_name, long num);
+
+gboolean   camel_nntp_newsrc_group_is_subscribed        (CamelNNTPNewsrc *newsrc, const char *group_name);
+void       camel_nntp_newsrc_subscribe_group            (CamelNNTPNewsrc *newsrc, const char *group_name);
+void       camel_nntp_newsrc_unsubscribe_group          (CamelNNTPNewsrc *newsrc, const char *group_name);
 
 GPtrArray *camel_nntp_newsrc_get_subscribed_group_names (CamelNNTPNewsrc *newsrc);
 GPtrArray *camel_nntp_newsrc_get_all_group_names        (CamelNNTPNewsrc *newsrc);

@@ -63,6 +63,7 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
+					 gboolean subscribed_only,
 					 CamelException *ex);
 static void imap_keepalive (CamelRemoteStore *store);
 
@@ -489,7 +490,8 @@ parse_list_response_as_folder_info (const char *response,
 
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top, gboolean fast,
-		 gboolean recursive, CamelException *ex)
+		 gboolean recursive, gboolean subscribed_only,
+		 CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;

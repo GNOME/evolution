@@ -45,12 +45,11 @@ typedef struct {
 struct CamelNNTPNewsrc {
 	gchar *filename;
 	GHashTable *groups;
-	GHashTable *subscribed_groups;
 	gboolean dirty;
 } ;
 
 static NewsrcGroup *
-camel_nntp_newsrc_group_add (CamelNNTPNewsrc *newsrc, char *group_name, gboolean subscribed)
+camel_nntp_newsrc_group_add (CamelNNTPNewsrc *newsrc, const char *group_name, gboolean subscribed)
 {
 	NewsrcGroup *new_group = g_malloc(sizeof(NewsrcGroup));
 
@@ -59,8 +58,6 @@ camel_nntp_newsrc_group_add (CamelNNTPNewsrc *newsrc, char *group_name, gboolean
 	new_group->ranges = g_array_new (FALSE, FALSE, sizeof (ArticleRange));
 
 	g_hash_table_insert (newsrc->groups, new_group->name, new_group);
-	if (subscribed)
-		g_hash_table_insert (newsrc->subscribed_groups, new_group->name, new_group);
 
 	newsrc->dirty = TRUE;
 
@@ -162,7 +159,7 @@ camel_nntp_newsrc_group_mark_range_read(CamelNNTPNewsrc *newsrc, NewsrcGroup *gr
 }
 
 int
-camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, char *group_name)
+camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, const char *group_name)
 {
 	NewsrcGroup *group;
 
@@ -172,13 +169,13 @@ camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, char *group
 }
 
 void
-camel_nntp_newsrc_mark_article_read (CamelNNTPNewsrc *newsrc, char *group_name, int num)
+camel_nntp_newsrc_mark_article_read (CamelNNTPNewsrc *newsrc, const char *group_name, int num)
 {
 	camel_nntp_newsrc_mark_range_read (newsrc, group_name, num, num);
 }
 
 void
-camel_nntp_newsrc_mark_range_read(CamelNNTPNewsrc *newsrc, char *group_name, long low, long high)
+camel_nntp_newsrc_mark_range_read(CamelNNTPNewsrc *newsrc, const char *group_name, long low, long high)
 {
 	NewsrcGroup *group;
 
@@ -197,7 +194,7 @@ camel_nntp_newsrc_mark_range_read(CamelNNTPNewsrc *newsrc, char *group_name, lon
 }
 
 gboolean
-camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, char *group_name, long num)
+camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, const char *group_name, long num)
 {
 	int i;
 	NewsrcGroup *group;
@@ -212,6 +209,49 @@ camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, char *group_name, lo
 	}
 
 	return FALSE;
+}
+
+gboolean  
+camel_nntp_newsrc_group_is_subscribed (CamelNNTPNewsrc *newsrc, const char *group_name)
+{
+	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+
+	if (group) {
+		return group->subscribed;
+	}
+	else {
+		return FALSE;
+	}
+}
+
+void
+camel_nntp_newsrc_subscribe_group (CamelNNTPNewsrc *newsrc, const char *group_name)
+{
+	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+
+	if (group) {
+		if (!group->subscribed)
+			newsrc->dirty = TRUE;
+		group->subscribed = TRUE;
+	}
+	else {
+		camel_nntp_newsrc_group_add (newsrc, group_name, TRUE);
+	}
+}
+
+void
+camel_nntp_newsrc_unsubscribe_group (CamelNNTPNewsrc *newsrc, const char *group_name)
+{
+	NewsrcGroup *group = g_hash_table_lookup (newsrc->groups, group_name);
+
+	if (group) {
+		if (group->subscribed)
+			newsrc->dirty = TRUE;
+		group->subscribed = FALSE;
+	}
+	else {
+		camel_nntp_newsrc_group_add (newsrc, group_name, FALSE);
+	}
 }
 
 struct newsrc_ptr_array {
@@ -237,7 +277,7 @@ camel_nntp_newsrc_get_subscribed_group_names (CamelNNTPNewsrc *newsrc)
 	npa.ptr_array = g_ptr_array_new();
 	npa.subscribed_only = TRUE;
 
-	g_hash_table_foreach (newsrc->subscribed_groups,
+	g_hash_table_foreach (newsrc->groups,
 			      (GHFunc)get_group_foreach, &npa);
 
 	return npa.ptr_array;
@@ -451,7 +491,6 @@ camel_nntp_newsrc_read_for_server (const char *server)
 	newsrc = g_new0(CamelNNTPNewsrc, 1);
 	newsrc->filename = filename;
 	newsrc->groups = g_hash_table_new (g_str_hash, g_str_equal);
-	newsrc->subscribed_groups = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if ((fp = fopen(filename, "r")) == NULL) {
 		g_warning ("~/.newsrc-%s not present.\n", server);

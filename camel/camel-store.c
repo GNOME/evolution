@@ -50,6 +50,7 @@ static char *get_default_folder_name (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
+					 gboolean subscribed_only,
 					 CamelException *ex);
 static void free_folder_info (CamelStore *store, CamelFolderInfo *tree);
 
@@ -57,6 +58,10 @@ static CamelFolder *lookup_folder (CamelStore *store, const char *folder_name);
 static void cache_folder (CamelStore *store, const char *folder_name,
 			  CamelFolder *folder);
 static void uncache_folder (CamelStore *store, CamelFolder *folder);
+
+static gboolean folder_subscribed (CamelStore *store, const char *folder_name);
+static void subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
+static void unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
@@ -75,6 +80,9 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->lookup_folder = lookup_folder;
 	camel_store_class->cache_folder = cache_folder;
 	camel_store_class->uncache_folder = uncache_folder;
+	camel_store_class->folder_subscribed = folder_subscribed;
+	camel_store_class->subscribe_folder = subscribe_folder;
+	camel_store_class->unsubscribe_folder = unsubscribe_folder;
 }
 
 static void
@@ -83,6 +91,7 @@ camel_store_init (void *o, void *k)
 	CamelStore *store = o;
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	store->flags = 0;
 }
 
 static void
@@ -384,6 +393,7 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
 		 gboolean fast, gboolean recursive,
+		 gboolean subscribed_only,
 		 CamelException *ex)
 {
 	g_warning ("CamelStore::get_folder_info not implemented for `%s'",
@@ -414,12 +424,14 @@ get_folder_info (CamelStore *store, const char *top,
 CamelFolderInfo *
 camel_store_get_folder_info (CamelStore *store, const char *top,
 			     gboolean fast, gboolean recursive,
+			     gboolean subscribed_only,
 			     CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 
 	return CS_CLASS (store)->get_folder_info (store, top, fast,
-						  recursive, ex);
+						  recursive, subscribed_only,
+						  ex);
 }
 
 
@@ -558,3 +570,79 @@ camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
 		}
 	}
 }
+
+gboolean
+camel_store_supports_subscriptions (CamelStore *store)
+{
+	return (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
+}
+
+
+static gboolean
+folder_subscribed (CamelStore *store, const char *folder_name)
+{
+	g_warning ("CamelStore::folder_subscribed not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	return FALSE;
+}
+
+/**
+ * camel_store_folder_subscribed: Tell whether or not a folder has been subscribed to.
+ * @store: a CamelStore
+ * @folder_name: the folder on which we're querying subscribed status.
+ * Return value: TRUE if folder is subscribed, FALSE if not.
+ **/
+gboolean
+camel_store_folder_subscribed (CamelStore *store,
+			       const char *folder_name)
+{
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	return CS_CLASS (store)->folder_subscribed (store, folder_name);
+}
+
+static void
+subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	g_warning ("CamelStore::subscribe_folder not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+}
+
+/**
+ * camel_store_subscribe_folder: marks a folder as subscribed.
+ * @store: a CamelStore
+ * @folder_name: the folder to subscribe to.
+ **/
+void
+camel_store_subscribe_folder (CamelStore *store,
+			      const char *folder_name,
+			      CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	CS_CLASS (store)->subscribe_folder (store, folder_name, ex);
+}
+
+static void
+unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	g_warning ("CamelStore::unsubscribe_folder not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+}
+
+
+/**
+ * camel_store_unsubscribe_folder: marks a folder as unsubscribed.
+ * @store: a CamelStore
+ * @folder_name: the folder to unsubscribe from.
+ **/
+void
+camel_store_unsubscribe_folder (CamelStore *store,
+				const char *folder_name,
+				CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
+}
+

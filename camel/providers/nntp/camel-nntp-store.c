@@ -38,6 +38,7 @@
 #include "camel-nntp-resp-codes.h"
 #include "camel-folder-summary.h"
 #include "camel-nntp-store.h"
+#include "camel-nntp-grouplist.h"
 #include "camel-nntp-folder.h"
 #include "camel-nntp-auth.h"
 #include "camel-exception.h"
@@ -336,8 +337,39 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 }
 
 static CamelFolderInfo *
+build_folder_info_from_grouplist (CamelNNTPStore *nntp_store)
+{
+	CamelURL *url = CAMEL_SERVICE (nntp_store)->url;
+	CamelFolderInfo *groups = NULL, *last = NULL, *fi;
+	GList *g;
+
+	for (g = nntp_store->group_list->group_list; g; g = g_list_next (g)) {
+		CamelNNTPGroupListEntry *entry = g->data;
+
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->name = g_strdup (entry->group_name);
+		fi->full_name = g_strdup (entry->group_name);
+		fi->url = g_strdup_printf ("nntp://%s%s%s/%s",
+					   url->user ? url->user : "",
+					   url->user ? "@" : "",
+					   url->host, (char *)entry->group_name);
+		/* FIXME */
+		fi->message_count = fi->unread_message_count = -1;
+
+		if (last)
+			last->sibling = fi;
+		else
+			groups = fi;
+		last = fi;
+	}
+
+	return groups;
+}
+
+static CamelFolderInfo *
 nntp_store_get_folder_info (CamelStore *store, const char *top,
 			    gboolean fast, gboolean recursive,
+			    gboolean subscribed_only,
 			    CamelException *ex)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
@@ -357,6 +389,19 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 				      CAMEL_SERVICE(store)->url->host,
 				      strerror(errno));
 		return NULL;
+	}
+
+	if (top == NULL && !subscribed_only) {
+		if (!nntp_store->group_list)
+			nntp_store->group_list = camel_nntp_grouplist_fetch (nntp_store, ex);
+		if (camel_exception_is_set (ex)) {
+			return NULL;
+		}
+		else {
+			fi = build_folder_info_from_grouplist (nntp_store);
+			return fi;
+		}
+
 	}
 
 	if (top == NULL) {
@@ -403,6 +448,32 @@ nntp_store_get_root_folder_name (CamelStore *store, CamelException *ex)
 	return g_strdup ("");
 }
 
+static gboolean
+nntp_store_folder_subscribed (CamelStore *store, const char *folder_name)
+{
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	return camel_nntp_newsrc_group_is_subscribed (nntp_store->newsrc, folder_name);
+}
+
+static void
+nntp_store_subscribe_folder (CamelStore *store, const char *folder_name,
+			     CamelException *ex)
+{
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	camel_nntp_newsrc_subscribe_group (nntp_store->newsrc, folder_name);
+}
+
+static void
+nntp_store_unsubscribe_folder (CamelStore *store, const char *folder_name,
+			       CamelException *ex)
+{
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	camel_nntp_newsrc_unsubscribe_group (nntp_store->newsrc, folder_name);
+}
+
 static void
 finalize (CamelObject *object)
 {
@@ -437,6 +508,10 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	camel_store_class->get_root_folder_name = nntp_store_get_root_folder_name;
 	camel_store_class->get_folder_info = nntp_store_get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
+
+	camel_store_class->folder_subscribed = nntp_store_folder_subscribed;
+	camel_store_class->subscribe_folder = nntp_store_subscribe_folder;
+	camel_store_class->unsubscribe_folder = nntp_store_unsubscribe_folder;
 }
 
 
@@ -446,12 +521,15 @@ camel_nntp_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
+	CamelStore *store = CAMEL_STORE (object);
 
 	service->url_flags = (CAMEL_SERVICE_URL_NEED_HOST
 			      | CAMEL_SERVICE_URL_ALLOW_USER
 			      | CAMEL_SERVICE_URL_ALLOW_PASSWORD
 			      | CAMEL_SERVICE_URL_ALLOW_AUTH);
 	remote_store->default_port = NNTP_PORT;
+
+	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
 }
 
 CamelType
