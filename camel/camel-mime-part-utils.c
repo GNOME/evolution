@@ -158,6 +158,10 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	/* flush the iconv conversion */
 	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
 	
+	/* now set the true length on the GByteArray */
+	converted = outlen - outleft;
+	g_byte_array_set_size (out, converted);
+	
 	e_iconv_close (cd);
 	
 	return out;
