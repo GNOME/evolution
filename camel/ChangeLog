@@ -1,3 +1,7 @@
+2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Fix Ettore's fix.
+
 2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (camel_pgp_context_new): No longer takes a

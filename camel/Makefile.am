@@ -205,8 +205,11 @@ libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
 libcamel_static_la_LDFLAGS = --all-static
 
-camel-lock-helper($EXEEXT): camel-lock-helper.o camel-lock.o
-	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
+camel_lock_helper_SOURCES = 			\
+	camel-lock-helper.c 			\
+	camel-lock-helper.h			\
+	camel-lock.c				\
+	camel-lock.h
 
 install-exec-hook:
 	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \
@@ -244,13 +247,10 @@ noinst_HEADERS =				\
 	camel-charset-map-private.h		\
 	camel-private.h				\
 	camel-search-private.h			\
-	camel-lock-helper.h			\
 	camel-html-parser.h
 
-# manually include camel-lock-helper.c since we build it manually
 EXTRA_DIST =					\
-	README 					\
-	camel-lock-helper.c
+	README
 
 #noinst_PROGRAMS =				\
 #	camel-mime-filter-from
