@@ -1,3 +1,8 @@
+2003-02-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts.c (shortcut_item_new): Get the name from the name,
+	not the type.  Fixes #37952, pointed out by Lonnie Borntreger.
+
 2003-02-17  Chris Toshok  <toshok@ximian.com>
 
 	* e-shortcuts.c (load_shortcuts): plug memory leak - free path.

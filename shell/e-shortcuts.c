@@ -138,7 +138,7 @@ shortcut_item_new (const char *uri,
 	if (name == NULL)
 		new->name = g_path_get_basename (uri);
 	else
-		new->name = g_strdup (type);
+		new->name = g_strdup (name);
 
 	new->uri              = g_strdup (uri);
 	new->type             = g_strdup (type);
