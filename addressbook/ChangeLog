@@ -10,6 +10,8 @@
 	(pas_backend_file_add_client): unref the book for the same reason
 	as above
 
+	* Fixes bug #2255
+
 2001-04-30  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c (vcard_matches_search): if the
