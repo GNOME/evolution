@@ -1,3 +1,7 @@
+2001-09-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal to 0.11.99.2.
+
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* configure.in: Bumped required version of GAL to 0.11.3
