@@ -1,3 +1,61 @@
+2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c: Do not #include "e-local-folder.h".
+
+	* Makefile.am: Don't build evolution-test-component for now since
+	it's all out of date.
+
+	* main.c (evolution_debug_log): Make static instead of extern.
+
+	* e-user-creatable-items-handler.c: #include
+	<bonobo/bonobo-control.h>.
+
+	* e-shell.h: Do not include "e-uri-schema-registry.h" or
+	"evolution-shell-component-client.h".
+	* e-shell.c: Likewise.
+
+	* e-shell.c (struct _EShellPrivate): Removed member
+	uri_schema_registry.
+	(impl_Shell_handleURI): #if 0 it out for now.
+	(e_shell_peek_uri_schema_registry): Disabled for now.
+
+	* e-uri-schema-registry.c: Don't compile for now.
+
+	* e-corba-storage-registry.c: Remove.
+	* e-corba-storage-registry.h: Remove.
+	* e-corba-storage.c: Remove.
+	* e-corba-storage.h: Remove.
+	* e-folder-dnd-bridge.c: Remove.
+	* e-folder-dnd-bridge.h: Remove.
+	* e-folder-selection-dialog.c: Remove.
+	* e-folder-selection-dialog.h: Remove.
+	* e-folder-type-registry.c: Remove.
+	* e-folder-type-registry.h: Remove.
+	* e-local-folder.c: Remove.
+	* e-local-folder.h: Remove.
+	* e-local-storage.c: Remove.
+	* e-local-storage.h: Remove.
+	* e-shell-folder-selection-dialog.c: Remove.
+	* e-shell-folder-selection-dialog.h: Remove.
+	* e-shell-view.c: Remove.
+	* e-shell-view.h: Remove.
+	* e-storage-browser.c: Remove.
+	* e-storage-browser.h: Remove.
+	* e-storage-set-view.c: Remove.
+	* e-storage-set-view.h: Remove.
+	* e-storage-set.c: Remove.
+	* e-storage-set.h: Remove.
+	* e-storage.c: Remove.
+	* e-storage.h: Remove.
+	* evolution-shell-component-client.c: Remove.
+	* evolution-shell-component-client.h: Remove.
+	* evolution-shell-component-dnd.c: Remove.
+	* evolution-shell-component-dnd.h: Remove.
+	* evolution-storage-listener.c: Remove.
+	* evolution-storage-listener.h: Remove.
+	* evolution-storage-set-view-listener.c: Remove.
+	* evolution-storage-set-view-listener.h: Remove.
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (DEVELOPMENT_WARNING): Define.

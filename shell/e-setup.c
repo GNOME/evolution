@@ -27,7 +27,6 @@
 
 #include "e-setup.h"
 
-#include "e-local-folder.h"
 #include "e-shell-constants.h"
 
 #include "e-util/e-dialog-utils.h"

@@ -91,7 +91,7 @@ static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
 static char *default_component_id = NULL;
 
-extern char *evolution_debug_log;
+static char *evolution_debug_log = NULL;
 
 
 static GtkWidget *

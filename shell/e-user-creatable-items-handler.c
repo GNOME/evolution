@@ -36,6 +36,7 @@
 
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-control.h>
 
 #include <libgnome/gnome-i18n.h>
 

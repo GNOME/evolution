@@ -21,7 +21,7 @@ INCLUDES =							\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
-noinst_PROGRAMS = evolution evolution-test-component
+noinst_PROGRAMS = evolution
 
 # Shell CORBA stuff
 
@@ -109,64 +109,40 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-corba-storage.h			\
-	e-folder-dnd-bridge.h			\
 	e-folder-list.h				\
-	e-folder-selection-dialog.h		\
 	e-folder-tree.h				\
-	e-folder-type-registry.h		\
 	e-folder.h				\
 	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
-	e-storage-browser.h			\
-	e-storage-set-view.h			\
-	e-storage-set.h				\
-	e-storage.h				\
 	evolution-activity-client.h		\
 	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
 	evolution-session.h			\
 	evolution-shell-client.h		\
-	evolution-shell-component-client.h	\
-	evolution-shell-component-dnd.h		\
-	evolution-shell-component-utils.h	\
 	evolution-shell-component.h		\
+	evolution-shell-component-utils.h	\
 	evolution-shell-view.h			\
-	evolution-storage-listener.h		\
-	evolution-storage-set-view-listener.h	\
 	evolution-storage.h			\
 	evolution-wizard.h
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-corba-storage.c			\
-	e-folder-dnd-bridge.c			\
 	e-folder-list.c				\
-	e-folder-selection-dialog.c		\
 	e-folder-tree.c				\
-	e-folder-type-registry.c		\
 	e-folder.c				\
 	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
 	e-shell-utils.c				\
-	e-storage-browser.c			\
-	e-storage-set-view.c			\
-	e-storage-set.c				\
-	e-storage.c				\
 	evolution-activity-client.c		\
 	evolution-config-control.c		\
 	evolution-folder-selector-button.c	\
 	evolution-session.c			\
 	evolution-shell-client.c		\
-	evolution-shell-component-client.c	\
-	evolution-shell-component-dnd.c		\
-	evolution-shell-component-utils.c	\
 	evolution-shell-component.c		\
+	evolution-shell-component-utils.c	\
 	evolution-shell-view.c			\
-	evolution-storage-listener.c		\
-	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
 	$(eshellinclude_HEADERS)
@@ -185,14 +161,8 @@ evolution_SOURCES =				\
 	e-config-upgrade.h			\
 	e-corba-config-page.c			\
 	e-corba-config-page.h			\
-	e-corba-storage-registry.c		\
-	e-corba-storage-registry.h		\
 	e-history.c				\
 	e-history.h				\
-	e-local-folder.c			\
-	e-local-folder.h			\
-	e-local-storage.c			\
-	e-local-storage.h			\
 	e-setup.c				\
 	e-setup.h				\
 	e-shell-about-box.c			\
@@ -204,7 +174,6 @@ evolution_SOURCES =				\
 	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
-	e-shell-view.h				\
 	e-shell-window-commands.c		\
 	e-shell-window-commands.h		\
 	e-shell-window.c			\
@@ -219,8 +188,6 @@ evolution_SOURCES =				\
 	e-task-bar.h				\
 	e-task-widget.c				\
 	e-task-widget.h				\
-	e-uri-schema-registry.c			\
-	e-uri-schema-registry.h			\
 	main.c
 
 evolution_LDADD =							\
@@ -234,17 +201,17 @@ evolution_LDADD =							\
 
 # Test component
 
-evolution_test_component_SOURCES =	\
-	evolution-test-component.c
+# evolution_test_component_SOURCES =	\
+# 	evolution-test-component.c
 
-evolution_test_component_LDADD = 	\
-	libeshell.la			\
-	$(SHELL_LIBS)
+# evolution_test_component_LDADD = 	\
+# 	libeshell.la			\
+# 	$(SHELL_LIBS)
 
-install-test-component: evolution-test-component
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(serverdir)
-	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
+# install-test-component: evolution-test-component
+# 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
+# 	$(mkinstalldirs) $(DESTDIR)$(serverdir)
+# 	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
 
 # Misc stuff
 

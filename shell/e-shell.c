@@ -32,11 +32,9 @@
 #include "e-shell-constants.h"
 #include "e-shell-settings-dialog.h"
 #include "e-shell-startup-wizard.h"
-#include "e-uri-schema-registry.h"
 
 #include "e-shell-marshal.h"
 
-#include "evolution-shell-component-client.h"
 #include "evolution-shell-component-utils.h"
 
 #include "importer/intelligent.h"
@@ -79,7 +77,7 @@ struct _EShellPrivate {
 	GList *windows;
 
 	EUserCreatableItemsHandler *user_creatable_items_handler;
-	EUriSchemaRegistry *uri_schema_registry;
+	/* EUriSchemaRegistry *uri_schema_registry; FIXME */
 	EComponentRegistry *component_registry;
 
 	/* Names for the types of the folders that have maybe crashed.  */
@@ -195,6 +193,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		      const CORBA_char *uri,
 		      CORBA_Environment *ev)
 {
+#if 0
 	EvolutionShellComponentClient *schema_handler;
 	EShell *shell;
 	EShellPrivate *priv;
@@ -239,6 +238,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 				     ex_GNOME_Evolution_Shell_NotFound, NULL);
 		return;
 	}
+#endif
 }
 
 static void
@@ -360,10 +360,12 @@ impl_dispose (GObject *object)
 		priv->user_creatable_items_handler = NULL;
 	}
 
+#if 0				/* FIXME */
 	if (priv->uri_schema_registry != NULL) {
 		g_object_unref (priv->uri_schema_registry);
 		priv->uri_schema_registry = NULL;
 	}
+#endif
 
 	for (p = priv->windows; p != NULL; p = p->next) {
 		EShellWindow *window;
@@ -644,6 +646,7 @@ e_shell_request_close_window (EShell *shell,
 }
 
 
+#if 0				/* FIXME */
 /**
  * e_shell_peek_uri_schema_registry:
  * @shell: An EShell object.
@@ -659,6 +662,8 @@ e_shell_peek_uri_schema_registry (EShell *shell)
 
 	return shell->priv->uri_schema_registry;
 }
+#endif
+
 
 /**
  * e_shell_peek_component_registry:

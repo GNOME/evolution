@@ -39,7 +39,6 @@ typedef struct _EShellClass   EShellClass;
 
 #include "e-component-registry.h"
 #include "e-shell-window.h"
-#include "e-uri-schema-registry.h"
 #include "e-user-creatable-items-handler.h"
 
 
@@ -108,7 +107,10 @@ gboolean      e_shell_request_close_window  (EShell       *shell,
 					     EShellWindow *window);
 
 
+#if 0
 EUriSchemaRegistry *e_shell_peek_uri_schema_registry  (EShell *shell);
+#endif
+
 EComponentRegistry *e_shell_peek_component_registry   (EShell *shell);
 
 gboolean            e_shell_save_settings            (EShell *shell);
