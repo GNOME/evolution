@@ -1,3 +1,8 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c: #include widgets/misc/e-charset-picker.h since
+	it was moved there from libgal.
+
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
 	* importers/evolution-mbox-importer.c (mbox_factory_fn): Kill

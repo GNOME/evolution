@@ -30,7 +30,8 @@
 #include <libgnomeui/gnome-stock.h>
 #include <camel/camel-url.h>
 #include <camel/camel-pgp-context.h>
-#include <gal/widgets/e-charset-picker.h>
+
+#include "widgets/misc/e-charset-picker.h"
 
 #include "mail.h"
 #include "mail-accounts.h"
