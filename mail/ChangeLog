@@ -1,3 +1,19 @@
+2004-02-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_setting_notify): If
+	gconf_entry_get_value() returns NULL, then it means the key was
+	unset or something. Don't use g_return_if_fail() for that.
+
+	First of the lockdown fixes...
+
+	* em-composer-prefs.c (em_composer_prefs_construct): Same as
+	below.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Respect
+	locked-down keys by disabling their sensitivity to the user.
+	(settings_changed): Don't re-enable check_incoming_imap if the key
+	is locked.
+
 2004-02-26  Rodney Dawes  <dobey@ximian.com>
 
 	* em-format-html-display.c (efhd_attachment_button): Create the

@@ -329,7 +329,7 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 				return;
 			}
 		}
-
+		
 		g_free(script);
 		dialog = gtk_message_dialog_new (GTK_WINDOW (prefs->sig_script_dialog),
 						 GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -497,9 +497,9 @@ spell_set_ui (EMComposerPrefs *prefs)
 	gboolean go;
 	char **strv = NULL;
 	int i;
-
+	
 	prefs->spell_active = FALSE;
-
+	
 	/* setup the language list */
 	present = g_hash_table_new (g_str_hash, g_str_equal);
 	if (prefs->language_str && (strv = g_strsplit (prefs->language_str, " ", 0))) {
@@ -536,7 +536,7 @@ spell_get_language_str (EMComposerPrefs *prefs)
 	GtkTreeIter iter;
 	gboolean go;
 	char *rv;
-
+	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
 	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
 	     go;
@@ -595,7 +595,7 @@ spell_load_values (EMComposerPrefs *prefs)
 {
 	GConfValue *val;
 	char *def_lang;
-
+	
 	def_lang = g_strdup (e_iconv_locale_language ());
 	g_free (prefs->language_str);
 	prefs->language_str = g_strdup (def_lang);
@@ -673,7 +673,7 @@ spell_language_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	gboolean state = FALSE;
-
+	
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, -1);
 		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Disable") : _("Enable"));
@@ -788,6 +788,22 @@ spell_setup_check_options (EMComposerPrefs *prefs)
  * End of Spell checking
  */
 
+
+static void
+toggle_button_init (GtkToggleButton *toggle, GConfClient *gconf, const char *key, int not, GCallback toggled, void *user_data)
+{
+	gboolean bool;
+	
+	bool = gconf_client_get_bool (gconf, key, NULL);
+	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
+	
+	if (toggled)
+		g_signal_connect (toggle, "toggled", toggled, user_data);
+	
+	if (!gconf_client_key_is_writable (gconf, key, NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
+}
+
 static void
 em_composer_prefs_construct (EMComposerPrefs *prefs)
 {
@@ -796,7 +812,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	GladeXML *gui;
 	GtkListStore *model;
 	GtkTreeSelection *selection;
-	gboolean bool;
+	gboolean bool, locked;
 	int style;
 	char *buf;
 	
@@ -819,35 +835,37 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	
 	/* Default Behavior */
 	prefs->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/send_html", NULL);
-	gtk_toggle_button_set_active (prefs->send_html, bool);
-	g_signal_connect (prefs->send_html, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs->send_html, prefs->gconf,
+			    "/apps/evolution/mail/composer/send_html",
+			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/empty_subject", NULL);
-	gtk_toggle_button_set_active (prefs->prompt_empty_subject, bool);
-	g_signal_connect (prefs->prompt_empty_subject, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs->prompt_empty_subject, prefs->gconf,
+			    "/apps/evolution/mail/prompts/empty_subject",
+			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/only_bcc", NULL);
-	gtk_toggle_button_set_active (prefs->prompt_bcc_only, bool);
-	g_signal_connect (prefs->prompt_bcc_only, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+	toggle_button_init (prefs->prompt_bcc_only, prefs->gconf,
+			    "/apps/evolution/mail/prompts/only_bcc",
+			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/magic_smileys", NULL);
-	gtk_toggle_button_set_active (prefs->auto_smileys, bool);
-	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
-
+	toggle_button_init (prefs->auto_smileys, prefs->gconf,
+			    "/apps/evolution/mail/composer/magic_smileys",
+			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/inline_spelling", NULL);
-	gtk_toggle_button_set_active (prefs->spell_check, bool);
-	g_signal_connect (prefs->spell_check, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
-
+	toggle_button_init (prefs->auto_smileys, prefs->gconf,
+			    "/apps/evolution/mail/composer/inline_spelling",
+			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
+	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
 	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->charset, FALSE);
 	g_free (buf);
 	
 	/* Spell Checking: GNOME Spell part */
@@ -883,6 +901,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
 			       attach_style_info, &style);
 	option_menu_connect (prefs->forward_style, prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/format/forward_style", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->forward_style, FALSE);
 	
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
 	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL);
@@ -891,6 +911,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
 			       attach_style_info, &style);
 	option_menu_connect (prefs->reply_style, prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->reply_style, FALSE);
 	
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();

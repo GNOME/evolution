@@ -159,8 +159,12 @@ static void
 settings_changed (GtkWidget *widget, gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	gboolean check_incoming, locked = FALSE;
 	
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), gtk_toggle_button_get_active (prefs->check_incoming));
+	if ((check_incoming = gtk_toggle_button_get_active (prefs->check_incoming)))
+		locked = gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/sa/check_incoming_imap", NULL);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), check_incoming && !locked);
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
 }
@@ -388,6 +392,80 @@ emmp_header_entry_changed (GtkWidget *entry, gpointer user_data)
 }
 
 static void
+entry_init (GtkEntry *entry, GConfClient *gconf, const char *key, GCallback changed, void *user_data)
+{
+	char *string;
+	
+	string = gconf_client_get_string (gconf, key, NULL);
+	gtk_entry_set_text (entry, string ? string : "");
+	g_free (string);
+	
+	if (changed)
+		g_signal_connect (entry, "changed", changed, user_data);
+	
+	if (!gconf_client_key_is_writable (gconf, key, NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) entry, FALSE);
+}
+
+static void
+spin_button_init (GtkSpinButton *spin, GConfClient *gconf, const char *key, float div, GCallback value_changed, void *user_data)
+{
+	GError *err = NULL;
+	double min, max;
+	char *mkey, *p;
+	int val;
+	
+	gtk_spin_button_get_range (spin, &min, &max);
+	
+	mkey = g_alloca (strlen (key) + 5);
+	p = g_stpcpy (mkey, key);
+	*p++ = '_';
+	
+	/* see if the admin locked down the min value */
+	strcpy (p, "min");
+	val = gconf_client_get_int (gconf, mkey, &err);
+	if (err == NULL)
+		g_clear_error (&err);
+	else
+		min = (1.0 * val) / div;
+	
+	/* see if the admin locked down the max value */
+	strcpy (p, "max");
+	val = gconf_client_get_int (gconf, mkey, &err);
+	if (err == NULL)
+		g_clear_error (&err);
+	else
+		max = (1.0 * val) / div;
+	
+	gtk_spin_button_set_range (spin, min, max);
+	
+	/* get the value */
+	val = gconf_client_get_int (gconf, key, NULL);
+	gtk_spin_button_set_value (spin, (1.0 * val) / div);
+	
+	if (value_changed)
+		g_signal_connect (spin, "value-changed", value_changed, user_data);
+	
+	if (!gconf_client_key_is_writable (gconf, key, NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) spin, FALSE);
+}
+
+static void
+toggle_button_init (GtkToggleButton *toggle, GConfClient *gconf, const char *key, int not, GCallback toggled, void *user_data)
+{
+	gboolean bool;
+	
+	bool = gconf_client_get_bool (gconf, key, NULL);
+	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
+	
+	if (toggled)
+		g_signal_connect (toggle, "toggled", toggled, user_data);
+	
+	if (!gconf_client_key_is_writable (gconf, key, NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
+}
+
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
 	GSList *list, *header_config_list, *header_add_list, *p;
@@ -398,7 +476,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	GtkTreeIter iter;
 	char *font, *buf;
 	GladeXML *gui;
-	gboolean bool, check_incoming;
+	gboolean locked, check_incoming;
 	int val, i;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab", NULL);
@@ -417,63 +495,77 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	/* Message Display */
 	prefs->timeout_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkMarkTimeout"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/mark_seen", NULL);
-	gtk_toggle_button_set_active (prefs->timeout_toggle, bool);
-	g_signal_connect (prefs->timeout_toggle, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->timeout_toggle, prefs->gconf,
+			    "/apps/evolution/mail/display/mark_seen",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	prefs->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
-	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/mark_seen_timeout", NULL);
-	gtk_spin_button_set_value (prefs->timeout, (1.0 * val) / 1000.0);
-	g_signal_connect (prefs->timeout, "value-changed", G_CALLBACK (settings_changed), prefs);
+	spin_button_init (prefs->timeout, prefs->gconf,
+			  "/apps/evolution/mail/display/mark_seen_timeout",
+			  1000.0, G_CALLBACK (settings_changed), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/charset", NULL);
 	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/charset", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->charset, FALSE);
 	g_free (buf);
 	
 	prefs->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHighlightCitations"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/mark_citations", NULL);
-	gtk_toggle_button_set_active (prefs->citation_highlight, bool);
-	g_signal_connect (prefs->citation_highlight, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->citation_highlight, prefs->gconf,
+			    "/apps/evolution/mail/display/mark_citations",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
 	colorpicker_set_color (prefs->citation_color, buf ? buf : "#737373");
 	g_signal_connect (prefs->citation_color, "color-set", G_CALLBACK (color_set), prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->citation_color, FALSE);
 	g_free (buf);
 	
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL);
-	gtk_toggle_button_set_active (prefs->empty_trash, bool);
-	g_signal_connect (prefs->empty_trash, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->empty_trash, prefs->gconf,
+			    "/apps/evolution/mail/trash/empty_on_exit",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	prefs->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/expunge", NULL);
-	gtk_toggle_button_set_active (prefs->confirm_expunge, bool);
-	g_signal_connect (prefs->confirm_expunge, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->empty_trash, prefs->gconf,
+			    "/apps/evolution/mail/prompts/expunge",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	/* New Mail Notification */
+	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/notify/type", NULL);
+	
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/notify/type", NULL);
 	prefs->notify_not = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyNot"));
 	gtk_toggle_button_set_active (prefs->notify_not, val == MAIL_CONFIG_NOTIFY_NOT);
 	g_signal_connect (prefs->notify_not, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_not, FALSE);
 	
 	prefs->notify_beep = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyBeep"));
 	gtk_toggle_button_set_active (prefs->notify_beep, val == MAIL_CONFIG_NOTIFY_BEEP);
 	g_signal_connect (prefs->notify_beep, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_beep, FALSE);
 	
 	prefs->notify_play_sound = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radNotifyPlaySound"));
 	gtk_toggle_button_set_active (prefs->notify_play_sound, val == MAIL_CONFIG_NOTIFY_PLAY_SOUND);
 	g_signal_connect (prefs->notify_play_sound, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_play_sound, FALSE);
 	
 	prefs->notify_sound_file = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyPlaySound"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)), buf ? buf : "");
 	g_signal_connect (gnome_file_entry_gtk_entry (prefs->notify_sound_file), "changed",
 			  G_CALLBACK (settings_changed), prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->notify_sound_file, FALSE);
 	g_free (buf);
 	
 	/* Mail  Fonts */
@@ -481,45 +573,58 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->font_fixed = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "radFontFixed"));
 	gnome_font_picker_set_font_name (prefs->font_fixed, font);
 	g_signal_connect (prefs->font_fixed, "font-set", G_CALLBACK (font_changed), prefs);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->font_fixed, FALSE);
 	
 	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	prefs->font_variable = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "radFontVariable"));
 	gnome_font_picker_set_font_name (prefs->font_variable, font);
 	g_signal_connect (prefs->font_variable, "font-set", G_CALLBACK (font_changed), prefs);
-
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
+	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->font_variable, FALSE);
+	
 	prefs->font_share = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radFontUseSame"));
-	gtk_toggle_button_set_active (prefs->font_share, !bool);
-	g_signal_connect (prefs->font_share, "toggled", G_CALLBACK (font_share_changed), prefs);
+	toggle_button_init (prefs->font_share, prefs->gconf,
+			    "/apps/evolution/mail/display/fonts/use_custom",
+			    TRUE, G_CALLBACK (font_share_changed), prefs);
 	font_share_changed (GTK_WIDGET (prefs->font_share), prefs);
 	
 	/* HTML Mail tab */
 	
 	/* Loading Images */
+	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
 	g_signal_connect (prefs->images_never, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_never, FALSE);
 	
 	prefs->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesSometimes"));
 	gtk_toggle_button_set_active (prefs->images_sometimes, val == MAIL_CONFIG_HTTP_SOMETIMES);
 	g_signal_connect (prefs->images_sometimes, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_sometimes, FALSE);
 	
 	prefs->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesAlways"));
 	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
 	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (settings_changed), prefs);
+	if (locked)
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
 	
 	prefs->show_animated = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowAnimatedImages"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/animate_images", NULL);
-	gtk_toggle_button_set_active (prefs->show_animated, bool);
-	g_signal_connect (prefs->show_animated, "toggled", G_CALLBACK (settings_changed), prefs);
-
-	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL);
-	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, bool);
-	g_signal_connect (prefs->prompt_unwanted_html, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->show_animated, prefs->gconf,
+			    "/apps/evolution/mail/display/animate_images",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
+	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
+	toggle_button_init (prefs->prompt_unwanted_html, prefs->gconf,
+			    "/apps/evolution/mail/prompts/unwanted_html",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
+	
+	/* Labels... */
+	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/labels", NULL);
 	i = 0;
 	list = mail_config_get_labels ();
 	while (list != NULL && i < 5) {
@@ -530,10 +635,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		
 		widget_name = g_strdup_printf ("txtLabel%d", i);
 		prefs->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
+		gtk_widget_sensitive ((GtkWidget *) prefs->labels[i].name, !locked);
 		g_free (widget_name);
 		
 		widget_name = g_strdup_printf ("colorLabel%d", i);
 		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
+		gtk_widget_sensitive ((GtkWidget *) prefs->labels[i].color, !locked);
 		g_free (widget_name);
 		
 		gtk_entry_set_text (prefs->labels[i].name, label->name);
@@ -547,13 +654,24 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	}
 	
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
+	gtk_widget_sensitive ((GtkWidget *) prefs->restore_labels, !locked);
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);
 	
 	/* headers */
+	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
+	
 	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, !locked);
+	
 	prefs->remove_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersRemove"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->remove_header, !locked);
+	
 	prefs->entry_header = GTK_ENTRY (glade_xml_get_widget (gui, "txtHeaders"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->entry_header, !locked);
+	
 	prefs->header_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "treeHeaders"));
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->header_list, !locked);
+	
 	selection = gtk_tree_view_get_selection (prefs->header_list);
 	g_signal_connect (selection, "changed", G_CALLBACK (emmp_header_list_row_selected), prefs);
 	g_signal_connect (prefs->entry_header, "changed", G_CALLBACK (emmp_header_entry_changed), prefs);
@@ -650,25 +768,27 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	/* Junk prefs */
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
-	check_incoming = bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming", NULL);
-	gtk_toggle_button_set_active (prefs->check_incoming, bool);
-	g_signal_connect (prefs->check_incoming, "toggled", G_CALLBACK (settings_changed), prefs);
-
+	toggle_button_init (prefs->check_incoming, prefs->gconf,
+			    "/apps/evolution/mail/junk/sa/check_incoming",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
+	
+	check_incoming = gtk_toggle_button_get_active (prefs->check_incoming);
 	prefs->check_incoming_imap = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkDoNotCheckIMAP"));
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), check_incoming);
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming_imap", NULL);
-	gtk_toggle_button_set_active (prefs->check_incoming_imap, !bool);
-	g_signal_connect (prefs->check_incoming_imap, "toggled", G_CALLBACK (settings_changed), prefs);
-
+	toggle_button_init (prefs->check_incoming_imap, prefs->gconf,
+			    "/apps/evolution/mail/junk/sa/check_incoming_imap",
+			    TRUE, G_CALLBACK (settings_changed), prefs);
+	if (!gtk_toggle_button_get_active (prefs->check_incoming))
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->check_incoming_imap, FALSE);
+	
 	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/local_only", NULL);
-	gtk_toggle_button_set_active (prefs->sa_local_tests_only, bool);
-	g_signal_connect (prefs->sa_local_tests_only, "toggled", G_CALLBACK (settings_changed), prefs);
-
+	toggle_button_init (prefs->sa_local_tests_only, prefs->gconf,
+			    "/apps/evolution/mail/junk/sa/local_only",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
+	
 	prefs->sa_use_daemon = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSAUseDaemon"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/use_daemon", NULL);
-	gtk_toggle_button_set_active (prefs->sa_use_daemon, bool);
-	g_signal_connect (prefs->sa_use_daemon, "toggled", G_CALLBACK (settings_changed), prefs);
+	toggle_button_init (prefs->sa_use_daemon, prefs->gconf,
+			    "/apps/evolution/mail/junk/sa/use_daemon",
+			    FALSE, G_CALLBACK (settings_changed), prefs);
 }
 
 GtkWidget *

@@ -2014,27 +2014,30 @@ static GHashTable *emfv_setting_key;
 static void
 emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFolderView *emfv)
 {
+	GConfValue *value;
 	char *tkey;
 
 	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
-	g_return_if_fail (gconf_entry_get_value (entry) != NULL);
+	
+	if (!(value = gconf_entry_get_value (entry)))
+		return;
 	
 	tkey = strrchr(entry->key, '/');
 	g_return_if_fail (tkey != NULL);
 	
 	switch(GPOINTER_TO_INT(g_hash_table_lookup(emfv_setting_key, tkey+1))) {
 	case EMFV_ANIMATE_IMAGES:
-		em_format_html_display_set_animate(emfv->preview, gconf_value_get_bool(gconf_entry_get_value(entry)));
+		em_format_html_display_set_animate(emfv->preview, gconf_value_get_bool (value));
 		break;
 	case EMFV_CHARSET:
-		em_format_set_default_charset((EMFormat *)emfv->preview, gconf_value_get_string(gconf_entry_get_value(entry)));
+		em_format_set_default_charset((EMFormat *)emfv->preview, gconf_value_get_string (value));
 		break;
 	case EMFV_CITATION_COLOUR: {
 		const char *s;
 		GdkColor colour;
 		guint32 rgb;
 
-		s = gconf_value_get_string(gconf_entry_get_value(entry));
+		s = gconf_value_get_string (value);
 		gdk_color_parse(s?s:"#737373", &colour);
 		rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
 		em_format_html_set_mark_citations((EMFormatHTML *)emfv->preview,
@@ -2042,15 +2045,15 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		break; }
 	case EMFV_CITATION_MARK:
 		em_format_html_set_mark_citations((EMFormatHTML *)emfv->preview,
-						  gconf_value_get_bool(gconf_entry_get_value(entry)),
+						  gconf_value_get_bool (value),
 						  ((EMFormatHTML *)emfv->preview)->citation_colour);
 		break;
 	case EMFV_CARET_MODE:
-		em_format_html_display_set_caret_mode(emfv->preview, gconf_value_get_bool(gconf_entry_get_value(entry)));
+		em_format_html_display_set_caret_mode(emfv->preview, gconf_value_get_bool (value));
 		break;
 	case EMFV_MESSAGE_STYLE:
 		if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
-			int style = gconf_value_get_int(gconf_entry_get_value(entry));
+			int style = gconf_value_get_int (value);
 			
 			if (style < EM_FORMAT_NORMAL || style > EM_FORMAT_SOURCE)
 				style = EM_FORMAT_NORMAL;
@@ -2058,19 +2061,19 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		}
 		break;
 	case EMFV_MARK_SEEN:
-		emfv->mark_seen = gconf_value_get_bool(gconf_entry_get_value(entry));
+		emfv->mark_seen = gconf_value_get_bool (value);
 		break;
 	case EMFV_MARK_SEEN_TIMEOUT:
-		emfv->mark_seen_timeout = gconf_value_get_int(gconf_entry_get_value(entry));
+		emfv->mark_seen_timeout = gconf_value_get_int (value);
 		break;
 	case EMFV_LOAD_HTTP: {
-		int style = gconf_value_get_int(gconf_entry_get_value(entry));
+		int style = gconf_value_get_int (value);
 
 		/* FIXME: this doesn't handle the 'sometimes' case, only the always case */
 		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, style == 2);
 		break; }
 	case EMFV_XMAILER_MASK:
-		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int(gconf_entry_get_value(entry)));
+		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int (value));
 		break;
 	case EMFV_HEADERS: {
 		GSList *header_config_list, *p;
