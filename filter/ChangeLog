@@ -1,5 +1,17 @@
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c: We now use a "copied" variable to record
+	whether a message was marked as copied or not instead of trying to
+	"guess" by looking at the folders hash table as that won't work at
+	all anymore.
+	(do_copy): Renamed as this is more appropriate now that it
+	actually copies the message rather than marking it for copying
+	later. Also fixed a logic error which prevented a message from
+	being dumped into a folder if the fodler had been previously
+	opened.
+
+2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): No longer takes a
 	self_destruct argument.
 

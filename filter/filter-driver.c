@@ -38,7 +38,7 @@
 #include "filter-filter.h"
 #include "e-util/e-sexp.h"
 
-#define d(x) x
+#define d(x)
 
 struct _FilterDriverPrivate {
 	GHashTable *globals;       /* global variables */
@@ -55,6 +55,7 @@ struct _FilterDriverPrivate {
 	
 	gboolean terminated;       /* message processing was terminated */
 	gboolean deleted;          /* message was marked for deletion */
+	gboolean copied;           /* message was copied to some folder or another */
 	
 	CamelMimeMessage *message; /* input message */
 	CamelMessageInfo *info;    /* message summary info */
@@ -76,7 +77,7 @@ static int close_folders (FilterDriver *d);
 
 static ESExpResult *do_delete (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *mark_forward (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
-static ESExpResult *mark_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
+static ESExpResult *do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
@@ -90,7 +91,7 @@ static struct {
 } symbols[] = {
 	{ "delete",     (ESExpFunc *) do_delete,    0 },
 	{ "forward-to", (ESExpFunc *) mark_forward, 0 },
-	{ "copy-to",    (ESExpFunc *) mark_copy,    0 },
+	{ "copy-to",    (ESExpFunc *) do_copy,    0 },
 	{ "stop",       (ESExpFunc *) do_stop,      0 },
 	{ "set-colour", (ESExpFunc *) do_colour,    0 },
 	{ "set-score",  (ESExpFunc *) do_score,     0 }
@@ -262,13 +263,14 @@ mark_forward (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriv
 }
 
 static ESExpResult *
-mark_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *driver)
+do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *driver)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	int i;
 	
 	if (!p->terminated) {
 		d(fprintf (stderr, "copying message...\n"));
+		p->copied = TRUE;
 		for (i = 0; i < argc; i++) {
 			if (argv[i]->type == ESEXP_RES_STRING) {
 				/* open folders we intent to copy to */
@@ -280,11 +282,11 @@ mark_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver 
 					outbox = open_folder (driver, folder);
 					if (!outbox)
 						continue;
-					
-					mail_tool_camel_lock_up ();
-					camel_folder_append_message (outbox, p->message, p->info, p->ex);
-					mail_tool_camel_lock_down ();
 				}
+				
+				mail_tool_camel_lock_up ();
+				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+				mail_tool_camel_lock_down ();
 			}
 		}
 	}
@@ -407,7 +409,6 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	ESExpResult *r;
 	GString *fsearch, *faction;
 	FilterFilter *rule;
-	gboolean filtered = FALSE;
 	
 	gtk_object_ref (GTK_OBJECT (driver));
 	camel_object_ref (CAMEL_OBJECT (message));
@@ -418,6 +419,7 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	p->ex = camel_exception_new ();
 	p->terminated = FALSE;
 	p->deleted = FALSE;
+	p->copied = FALSE;
 	p->message = message;
 	p->info = info;
 	
@@ -464,15 +466,11 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	if (!p->deleted && g_hash_table_size (p->folders) == 0) {
-		if (inbox) {
-			/* copy it to the default inbox */
-			mail_tool_camel_lock_up ();
-			camel_folder_append_message (inbox, p->message, p->info, p->ex);
-			mail_tool_camel_lock_down ();
-		}
-	} else {
-		filtered = TRUE;
+	if (!p->deleted && !p->copied && inbox) {
+		/* copy it to the default inbox */
+		mail_tool_camel_lock_up ();
+		camel_folder_append_message (inbox, p->message, p->info, p->ex);
+		mail_tool_camel_lock_down ();
 	}
 	
 	/* transfer the exception over to the parents exception */
@@ -486,5 +484,5 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	
 	gtk_object_unref (GTK_OBJECT (driver));
 	
-	return filtered;
+	return p->copied;
 }
