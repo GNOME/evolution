@@ -12119,30 +12119,26 @@ msgid "Configure the calendar's settings"
 msgstr ""
 
 #: ui/evolution-calendar.xml.h:4
-#, fuzzy
 msgid "Create a New All Day _Event"
-msgstr "新規に毎日のイベントを作成します"
+msgstr "新規全日イベントを作成(_E)"
 
 #: ui/evolution-calendar.xml.h:5
-#, fuzzy
 msgid "Create a New _Task"
-msgstr "新規タスクを作成します"
+msgstr "新規タスクの作成(_T)"
 
 #: ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Create a _New Appointment"
-msgstr "新規約束を作成します"
+msgstr "新規約束の作成(_N)"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Create an event for the whole day"
-msgstr ""
+msgstr "全日のイベントを作成します"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Day"
 msgstr "日"
 
 #: ui/evolution-calendar.xml.h:12
-#, fuzzy
 msgid "Delete the appointment"
 msgstr "この約束を削除"
 
@@ -12227,9 +12223,8 @@ msgid "_Calendar Settings..."
 msgstr "カレンダ設定(_C)..."
 
 #: ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Publish Free/Busy Information"
-msgstr "必須情報"
+msgstr "空き/多忙 情報の公開(_P)"
 
 #: ui/evolution-calendar.xml.h:43
 msgid "_Task..."
@@ -12244,9 +12239,8 @@ msgid "Close"
 msgstr "閉じる"
 
 #: ui/evolution-comp-editor.xml.h:3
-#, fuzzy
 msgid "Close this item"
-msgstr "このアイテムを削除します"
+msgstr "このアイテムを閉じる"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -12258,9 +12252,8 @@ msgid "Main toolbar"
 msgstr "メインツールバー"
 
 #: ui/evolution-comp-editor.xml.h:7
-#, fuzzy
 msgid "Preview the printed item"
-msgstr "印刷されるメッセージのプレビューを表示します"
+msgstr "印刷されるアイテムのプレビュー"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
@@ -12345,44 +12338,36 @@ msgid "Send _message to list..."
 msgstr "コンタクトへメッセージを送信(_M)..."
 
 #: ui/evolution-event-editor.xml.h:1
-#, fuzzy
 msgid "Cancel Mee_ting"
-msgstr "打合せをキャンセル"
+msgstr "ミーティングのキャンセル(_T)"
 
 #: ui/evolution-event-editor.xml.h:2
-#, fuzzy
 msgid "Cancel the meeting for this item"
-msgstr "このフォルダの設定を変更します"
+msgstr "このアイテムのミーティングをキャンセル"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
-#, fuzzy
 msgid "Forward as i_Calendar"
-msgstr "vCalenderとして転送(_C) (FIXME)"
+msgstr "iCalenderとして転送(_C)"
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
-#, fuzzy
 msgid "Forward this item via email"
-msgstr "このメッセージを転送します"
+msgstr "メールでこのアイテムを転送"
 
 #: ui/evolution-event-editor.xml.h:5
 msgid "Obtain the latest meeting information"
-msgstr ""
+msgstr "最新のミーティング情報を取得"
 
 #: ui/evolution-event-editor.xml.h:6
-#, fuzzy
 msgid "Re_fresh Meeting"
-msgstr ""
-"要求\n"
-"打合せ"
+msgstr "ミーティングのリフレッシュ(_F)"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Schedule _Meeting"
-msgstr "打合せのスケジュール(_M)"
+msgstr "ミーティングのスケジュール(_M)"
 
 #: ui/evolution-event-editor.xml.h:8
-#, fuzzy
 msgid "Schedule a meeting for this item"
-msgstr "打合せのスケジュール"
+msgstr "このアイテムへのミーティングをスケジュール"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
@@ -12573,7 +12558,7 @@ msgstr "メッセージリストをスレッド化します"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr "抹消(_E)"
+msgstr "消去(_E)"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
@@ -12600,9 +12585,8 @@ msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "選択されたメッセージの受信者全員への返信を作成します"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "選択されたメッセージの送信者への返信を作成します"
+msgstr "選択されたメッセージのメーリングリスト宛の返信を作成します"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Compose a reply to the sender of the selected message"
@@ -12677,9 +12661,8 @@ msgid "Display the previous unread message"
 msgstr "前の未読メッセージを表示します"
 
 #: ui/evolution-mail-message.xml.h:24
-#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr "メーリングリストのフィルタ(_L)"
+msgstr "メーリングリストのフィルタ(_L)..."
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Filter on Se_nder..."
@@ -13366,9 +13349,8 @@ msgid "Change the settings for the summary"
 msgstr "このフォルダの設定を変更"
 
 #: ui/my-evolution.xml.h:4
-#, fuzzy
 msgid "Print summary"
-msgstr "メールサマリ"
+msgstr "サマリ印刷"
 
 #: ui/my-evolution.xml.h:5
 msgid "Reload"
@@ -13379,9 +13361,8 @@ msgid "Reload the view"
 msgstr "ビューの再読込み"
 
 #: ui/my-evolution.xml.h:8
-#, fuzzy
 msgid "_Summary Settings..."
-msgstr "メール設定(_M)..."
+msgstr "サマリ設定(_S)..."
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
@@ -13433,6 +13414,9 @@ msgid ""
 "zone.\n"
 " Use the right mouse button to zoom out."
 msgstr ""
+"マウスの左ボタンを使って地図のエリアを拡大してタイムゾーンを選択して"
+"ください。\n"
+"マウスの右ボタンで縮小します。"
 
 #: widgets/menus/gal-view-menus.c:218
 msgid "_Current View"
@@ -13524,14 +13508,12 @@ msgid "New"
 msgstr "ニュース"
 
 #: widgets/misc/e-charset-picker.c:160
-#, fuzzy, c-format
 msgid "Unknown character set: %s"
 msgstr "不明な文字コードセット: %s"
 
 #: widgets/misc/e-charset-picker.c:202
-#, fuzzy
 msgid "Enter the character set to use"
-msgstr "デフォルトのキャラクタセット: "
+msgstr "使用するキャラクタセットを入力してください"
 
 #: widgets/misc/e-charset-picker.c:277
 msgid "Other..."
