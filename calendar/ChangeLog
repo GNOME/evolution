@@ -1,3 +1,27 @@
+2001-07-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c: be careful about adding and
+	stripping MAILTO:'s properly
+
+	* gui/dialogs/meeting-page.etspec: add missing columns
+
+	* gui/itip-utils.c (itip_strip_mailto): point to the real start of
+	the email address
+
+	* gui/itip-utils.h: add proto
+
+	* gui/itip-control-factory.c: get rid of the my address property
+
+	* gui/e-itip-control.c: use the users real identity to figure out
+	which attendee they are
+	(find_my_address): figure out who the user is among the attendees
+
+	* gui/e-itip-control.h: remove protos
+
+	* gui/dialogs/Makefile.am: extra dist etspecs
+
+	* gui/Makefile.am: ditto
+
 2001-07-11  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/e-calendar-table.c: Added a hack to get the last

@@ -75,4 +75,5 @@ etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = meeting-page.etspec
 
 EXTRA_DIST =			\
-	$(glade_DATA)
+	$(glade_DATA)		\
+	$(etspec_DATA)

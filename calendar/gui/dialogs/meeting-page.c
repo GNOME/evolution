@@ -305,7 +305,7 @@ clear_widgets (MeetingPage *mpage)
 	priv->other = FALSE;
 }
 
-/* fill_widgets handler for the task page */
+/* fill_widgets handler for the meeting page */
 static void
 meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
@@ -335,8 +335,9 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	}
 	gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
 
-	if (organizer.value != NULL) {		
-		gchar *s = e_utf8_to_gtk_string (priv->existing_organizer, organizer.value);
+	if (organizer.value != NULL) {
+		const gchar *strip = itip_strip_mailto (organizer.value);
+		gchar *s = e_utf8_to_gtk_string (priv->existing_organizer, strip);
 
 		gtk_widget_hide (priv->organizer_table);
 		gtk_widget_show (priv->existing_organizer_table);
@@ -344,7 +345,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		
 		gtk_label_set_text (GTK_LABEL (priv->existing_organizer), s);
 		g_free (s);
-
+		
 		priv->existing = TRUE;
 	} else {
 		gtk_widget_hide (priv->other_organizer_lbl);
@@ -387,7 +388,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	priv->updating = FALSE;
 }
 
-/* fill_component handler for the task page */
+/* fill_component handler for the meeting page */
 static void
 meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
@@ -448,8 +449,8 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		att->role = attendee->role;
 		att->status = attendee->status;
 		att->rsvp = attendee->rsvp;
-		att->delto = attendee->delto;
-		att->delfrom = attendee->delfrom;
+		att->delto = (attendee->delto && *attendee->delto) ? attendee->delto : NULL;
+		att->delfrom = (attendee->delfrom && *attendee->delfrom) ? attendee->delfrom : NULL;
 		att->sentby = attendee->sentby;
 		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
 		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
@@ -844,7 +845,7 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 
 	attendee = g_new0 (struct attendee, 1);
 	
-	attendee->address = g_strdup (e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
+	attendee->address = g_strdup_printf ("MAILTO:%s", e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
 	attendee->member = g_strdup (e_table_model_value_at (model, MEETING_MEMBER_COL, row));
 	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
 	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
@@ -878,7 +879,7 @@ value_at (ETableModel *etm, int col, int row, void *data)
 	
 	switch (col) {
 	case MEETING_ATTENDEE_COL:
-		return attendee->address;
+		return itip_strip_mailto (attendee->address);
 	case MEETING_MEMBER_COL:
 		return attendee->member;
 	case MEETING_TYPE_COL:
@@ -918,7 +919,7 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 	case MEETING_ATTENDEE_COL:
 		if (attendee->address)
 			g_free (attendee->address);
-		attendee->address = g_strdup (val);
+		attendee->address = g_strdup_printf ("MAILTO:%s", val);
 		break;
 	case MEETING_MEMBER_COL:
 		if (attendee->member)
@@ -1014,7 +1015,7 @@ init_value (ETableModel *etm, int col, void *data)
 	case MEETING_CN_COL:
 		return g_strdup ("");
 	case MEETING_LANG_COL:
-		return g_strdup ("English");
+		return g_strdup ("en");
 	}
 	
 	return g_strdup ("");

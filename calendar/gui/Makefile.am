@@ -165,6 +165,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
+	$(etspec_DATA)			\
 	$(oaf_in_files)
 
 install-data-local:

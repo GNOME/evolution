@@ -66,6 +66,7 @@ struct _EItipControlPrivate {
 	int current;
 	int total;
 
+	GList *addresses;
 	gchar *from_address;
 	gchar *my_address;
 };
@@ -254,6 +255,9 @@ init (EItipControl *itip)
 
 	itip->priv = priv;
 
+	/* Addresses */
+	priv->addresses = itip_addresses_get ();
+	
 	/* Header */
 	priv->count = gtk_label_new ("0 of 0");
 	gtk_widget_show (priv->count);
@@ -341,6 +345,8 @@ destroy (GtkObject *obj)
 
 	priv = itip->priv;
 
+	itip_addresses_free (priv->addresses);
+	
 	g_free (priv);
 }
 
@@ -348,6 +354,42 @@ GtkWidget *
 e_itip_control_new (void)
 {
 	return gtk_type_new (E_TYPE_ITIP_CONTROL);
+}
+
+static void
+find_my_address (EItipControl *itip, icalcomponent *ical_comp)
+{
+	EItipControlPrivate *priv;
+	icalproperty *prop;
+	const char *attendee, *text;
+	icalvalue *value;
+	
+	priv = itip->priv;
+
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+	{
+		GList *l;
+		
+		value = icalproperty_get_value (prop);
+		if (!value)
+			continue;
+
+		attendee = icalvalue_get_string (value);
+		
+		attendee = icalvalue_get_string (value);
+
+		text = itip_strip_mailto (attendee);
+		for (l = priv->addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+			
+			if (strcmp (a->address, text)) {
+				priv->my_address = a->address;
+				return;
+			}
+		}
+	}
 }
 
 static icalproperty *
@@ -369,13 +411,7 @@ find_attendee (icalcomponent *ical_comp, char *address)
 
 		attendee = icalvalue_get_string (value);
 
-		/* Here I strip off the "MAILTO:" if it is present. */
-		text = strchr (attendee, ':');
-		if (text != NULL)
-			text++;
-		else
-			text = attendee;
-
+		text = itip_strip_mailto (attendee);
 		if (!strstr (text, address))
 			break;
 	}
@@ -630,6 +666,7 @@ show_current_event (EItipControl *itip)
 	default:
 		set_message (itip, _("The message is not understandable."), TRUE);
 	}
+
 }
 
 static void
@@ -736,6 +773,8 @@ show_current (EItipControl *itip)
 	default:
 		set_message (itip, _("The message contains only unsupported requests."), TRUE);
 	}
+
+	find_my_address (itip, priv->ical_comp);
 }
 
 void
@@ -822,31 +861,6 @@ e_itip_control_get_from_address (EItipControl *itip)
 
 	return priv->from_address;
 }
-
-
-void
-e_itip_control_set_my_address (EItipControl *itip, const gchar *address)
-{
-	EItipControlPrivate *priv;
-
-	priv = itip->priv;
-
-	if (priv->my_address)
-		g_free (priv->my_address);
-	
-	priv->my_address = g_strdup (address);
-}
-
-const gchar *
-e_itip_control_get_my_address (EItipControl *itip)
-{
-	EItipControlPrivate *priv;
-
-	priv = itip->priv;
-
-	return priv->my_address;
-}
-
 
 static void
 update_item (EItipControl *itip) 

@@ -67,10 +67,6 @@ gint         e_itip_control_get_data_size    (EItipControl *itip);
 void         e_itip_control_set_from_address (EItipControl *itip,
 					      const gchar  *address);
 const gchar *e_itip_control_get_from_address (EItipControl *itip);
-void         e_itip_control_set_my_address   (EItipControl *itip,
-					      const gchar  *address);
-const gchar *e_itip_control_get_my_address   (EItipControl *itip);
-
 
 #ifdef __cplusplus
 }

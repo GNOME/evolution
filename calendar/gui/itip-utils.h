@@ -30,6 +30,8 @@ typedef struct {
 GList *itip_addresses_get (void);
 void itip_addresses_free (GList *addresses);
 
+const gchar *itip_strip_mailto (const gchar *address);
+
 void itip_send_comp (CalComponentItipMethod method, CalComponent *comp);
 
 

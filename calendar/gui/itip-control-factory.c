@@ -40,7 +40,6 @@ extern gchar *evolution_dir;
 
 enum E_ITIP_BONOBO_ARGS {
 	FROM_ADDRESS_ARG_ID,
-	MY_ADDRESS_ARG_ID
 };
 
 /*
@@ -182,9 +181,6 @@ get_prop (BonoboPropertyBag *bag,
 	case FROM_ADDRESS_ARG_ID:
 		BONOBO_ARG_SET_STRING (arg, e_itip_control_get_from_address (itip));
 		break;
-	case MY_ADDRESS_ARG_ID:
-		BONOBO_ARG_SET_STRING (arg, e_itip_control_get_my_address (itip));
-		break;
 	}
 }
 
@@ -200,9 +196,6 @@ set_prop ( BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case FROM_ADDRESS_ARG_ID:
 		e_itip_control_set_from_address (itip, BONOBO_ARG_GET_STRING (arg));
-		break;
-	case MY_ADDRESS_ARG_ID:
-		e_itip_control_set_my_address (itip, BONOBO_ARG_GET_STRING (arg));
 		break;
 	}
 }
@@ -224,8 +217,6 @@ itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	prop_bag = bonobo_property_bag_new (get_prop, set_prop, itip);
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "from_address", 0 );
-	bonobo_property_bag_add (prop_bag, "my_address", MY_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
-				 "my_address", 0 );
 
 	bonobo_control_set_properties (control, prop_bag);
 	bonobo_object_unref (BONOBO_OBJECT (prop_bag));

@@ -31,6 +31,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <gtk/gtkwidget.h>
+#include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
 #include "itip-utils.h"
@@ -146,6 +147,21 @@ itip_addresses_free (GList *addresses)
 	g_list_free (addresses);
 }
 
+const gchar *
+itip_strip_mailto (const gchar *address) 
+{
+	const gchar *text;
+	
+	if (address == NULL)
+		return NULL;
+	
+	text = e_strstrcase (address, "mailto:");
+	if (text != NULL && strlen (address) > 7)
+		address += 7;
+
+	return address;
+}
+
 void
 itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 {
@@ -174,11 +190,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	composer_server = BONOBO_OBJREF (bonobo_server);
 
 	switch (method) {
-	case CAL_COMPONENT_METHOD_PUBLISH:
-		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-		to_list->_maximum = to_list->_length = 0;
-		break;
-
 	case CAL_COMPONENT_METHOD_REQUEST:
 	case CAL_COMPONENT_METHOD_CANCEL:
 		cal_component_get_attendee_list (comp, &attendees);
@@ -191,13 +202,14 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		
 		for (cntr = 0, l = attendees; cntr < len; cntr++, l = l->next) {
 			CalComponentAttendee *att = l->data;
+			gchar *real;
 			
 			recipient = &(to_list->_buffer[cntr]);
 			if (att->cn)
 				recipient->name = CORBA_string_dup (att->cn);
 			else
 				recipient->name = CORBA_string_dup ("");
-			recipient->address = CORBA_string_dup (att->value);
+			recipient->address = CORBA_string_dup (itip_strip_mailto (att->value));
 		}
 		break;
 
@@ -225,6 +237,11 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		else
 			recipient->name = CORBA_string_dup ("");
 		recipient->address = CORBA_string_dup (organizer.value);
+		break;
+
+	default:
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_list->_length = 0;
 		break;
 	}
 
