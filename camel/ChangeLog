@@ -1,3 +1,8 @@
+2001-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (folder_changed): Fix a cut n paste bug, we
+	want uid_removed not uid_changed deref, fixes bug #1999.
+
 2001-03-27  Dan Winship  <danw@ximian.com>
 
 	* camel-sasl.c (camel_sasl_authtype_list): add an argument to say

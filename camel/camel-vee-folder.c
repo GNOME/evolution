@@ -897,7 +897,7 @@ folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder 
 		}
 
 		for (i=0;i<changes->uid_removed->len;i++) {
-			vuid = g_strdup_printf("%.8s%s", hash, (char *)changes->uid_changed->pdata[i]);
+			vuid = g_strdup_printf("%.8s%s", hash, (char *)changes->uid_removed->pdata[i]);
 			vinfo = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, vuid);
 			if (vinfo) {
 				camel_folder_change_info_remove_uid(vf->changes, vuid);
