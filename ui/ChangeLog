@@ -1,3 +1,8 @@
+2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-mail.xml: Moved ViewSource to the View menu and made
+	it a toggle menu.
+
 2000-11-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Added View Message Source.

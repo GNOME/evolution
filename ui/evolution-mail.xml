@@ -4,6 +4,9 @@
 
     <cmd name="ViewThreaded"
       _label="_Threaded" _tip="Threaded Message list" type="toggle" />
+
+    <cmd name="ViewSource"
+      _label="_Source" _tip="View Raw Message Source" type="toggle" />
  
   </commands>
 
@@ -46,6 +49,8 @@
       <menuitem/>
 
       <menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
+
+      <menuitem name="Source" verb="ViewSource" accel=""/>
 
     </submenu>
 
@@ -167,10 +172,6 @@
            accel="*Shift**Alt*i"/>
 
         </submenu>
-
-        <menuitem name="MessageViewSource" verb=""
-        _label="View Message Source"
-         accel=""/>
 
       </submenu>
       
