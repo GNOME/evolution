@@ -624,13 +624,19 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 	const char *info;
 	
 	/* Start the table, create the pop-up object. */
-	gtk_html_stream_printf (stream,
-				"<table cellspacing=0 cellpadding=0>"
-				"<tr><td><table width=10 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
-				"<td><object classid=\"popup:%s\" type=\"%s\"></object></td>"
-				"<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
-				"<td><font size=-1>",
-				get_cid (part, md), mime_type);
+	mail_html_write (html, stream, 
+			 "<table cellspacing=0 cellpadding=0>"
+			 "<tr><td><table width=10 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>");
+
+	if (! md->printing) {
+		gtk_html_stream_printf (stream, "<td><object classid=\"popup:%s\" type=\"%s\"></object></td>",
+					get_cid (part, md), mime_type);
+	}
+	
+	mail_html_write (html, stream,
+			 "<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
+			 "<td><font size=-1>");
+
 	
 	/* Write the MIME type */
 	info = gnome_vfs_mime_get_value (mime_type, "description");
@@ -1729,7 +1735,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	subpart = camel_multipart_get_part (mp, i);
 	mail_part_set_default_displayed_inline (subpart, md, FALSE);
 	
-	if (!mail_part_is_displayed_inline (subpart, md)) {
+	if (!mail_part_is_displayed_inline (subpart, md) && !md->printing) {
 		char *url;
 		
 		/* Write out the click-for-info object */
@@ -1790,7 +1796,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		}
 		
 		if (message) {
-			gtk_html_stream_printf (stream, "<font size=-1 %s>", good ? "" : "color=red");
+			gtk_html_stream_printf (stream, "<font size=-1 %s>", good || md->printing ? "" : "color=red");
 			mail_text_write (html, stream, md->printing, message);
 			mail_html_write (html, stream, "</font>");
 		}
@@ -2078,9 +2084,12 @@ static gboolean
 handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 		   MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	gtk_html_stream_printf (stream,
-				"<object classid=\"%s\" type=\"%s\"></object>",
-				get_cid (part, md), mime_type);
+	if (! md->printing) {
+		gtk_html_stream_printf (stream,
+					"<object classid=\"%s\" type=\"%s\"></object>",
+					get_cid (part, md), mime_type);
+	}
+
 	return TRUE;
 }
 
