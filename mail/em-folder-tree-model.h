@@ -27,6 +27,8 @@
 #include <gtk/gtktreednd.h>
 #include <gtk/gtktreestore.h>
 
+#include <libxml/tree.h>
+
 #include <camel/camel-store.h>
 
 #include <e-util/e-account-list.h>
@@ -81,11 +83,11 @@ struct _EMFolderTreeModelStoreInfo {
 struct _EMFolderTreeModel {
 	GtkTreeStore parent_object;
 	
-	char *filename;          /* state filename */
+	char *filename;            /* state filename */
+	xmlDocPtr expanded;        /* saved expanded state from previous session */
 	
 	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
 	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
-	GHashTable *expanded;      /* saved expanded state from previous session */
 	
 	EAccountList *accounts;
 	GHashTable *account_hash;  /* maps accounts to store-info's */
@@ -100,6 +102,10 @@ struct _EMFolderTreeModelClass {
 	void     (* loading_row)        (EMFolderTreeModel *model,
 					 GtkTreePath *path,
 					 GtkTreeIter *iter);
+	
+	void     (* loaded_row)        (EMFolderTreeModel *model,
+					GtkTreePath *path,
+					GtkTreeIter *iter);
 	
 	void     (* folder_added)       (EMFolderTreeModel *model,
 					 const char *path,
@@ -125,6 +131,9 @@ void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFo
 gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key);
 void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded);
 void em_folder_tree_model_save_expanded (EMFolderTreeModel *model);
+
+typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const char *path, void *user_data);
+void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, void *user_data);
 
 void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
 

@@ -1,5 +1,39 @@
 2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #55358.
+
+	* em-folder-tree.c (emft_expand_node): Changed to be the callback
+	function for em_folder_tree_model_expand_foreach().
+	(emft_maybe_expand_row): Renamed from emft_loading_row_cb(). We
+	now handle both "loading-row" an "loaded-row" signals. Also
+	updated for slight change in key generation.
+	(em_folder_tree_new_with_model): Connect to the "loaded-row"
+	signal.
+	(emft_update_model_expanded_state): Updated for slight change in
+	key generation.
+
+	* em-folder-tree-model.c (em_folder_tree_model_add_store): Emit
+	the "loaded-row" signal for the newly added store.
+	(em_folder_tree_model_set_folder_info): Emit "loaded-row" for the
+	row we've just set the info on (but only after we've added a child
+	node if there is one, so the signal handler can expand the newly
+	added row if appropriate).
+	(em_folder_tree_model_class_init): Setup the "loaded-row" signal.
+	(em_folder_tree_model_finalize): The tree-state is now an xml file
+	and not a binary file, so change the expanded free func.
+	(em_folder_tree_model_load_state): Load the expand-state xml
+	file. If one doesn't exist, setup some defaults.
+	(em_folder_tree_model_get_expanded): Scan the XML tree for the
+	node.
+	(em_folder_tree_model_set_expanded): Same.
+	(em_folder_tree_model_save_expanded): Save the expand-state xml
+	tree to disk.
+	(em_folder_tree_model_expand_foreach): New function to iterate
+	over all xml nodes and call the callback if the expand state is
+	"true".
+
+2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-component.c (impl_requestCreateItem): Don't focus the
 	name_entry widget here.
 

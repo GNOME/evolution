@@ -32,7 +32,11 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include <libxml/parser.h>
+
 #include <e-util/e-mktemp.h>
+
+#include <gal/util/e-xml-utils.h>
 
 #include <camel/camel-file-utils.h>
 
@@ -78,6 +82,7 @@ static void account_removed (EAccountList *accounts, EAccount *account, gpointer
 
 enum {
 	LOADING_ROW,
+	LOADED_ROW,
 	FOLDER_ADDED,
 	LAST_SIGNAL
 };
@@ -146,11 +151,22 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_TYPE_POINTER,
 			      G_TYPE_POINTER);
 	
+	signals[LOADED_ROW] =
+		g_signal_new ("loaded-row",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loaded_row),
+			      NULL, NULL,
+			      em_marshal_VOID__POINTER_POINTER,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER,
+			      G_TYPE_POINTER);
+	
 	signals[FOLDER_ADDED] =
 		g_signal_new ("folder-added",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
+			      G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_added),
 			      NULL, NULL,
 			      em_marshal_VOID__STRING_STRING,
 			      G_TYPE_NONE, 2,
@@ -237,7 +253,6 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	model->store_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->uri_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	model->expanded = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
 	
@@ -285,17 +300,14 @@ uri_hash_free (gpointer key, gpointer value, gpointer user_data)
 	gtk_tree_row_reference_free (value);
 }
 
-static gboolean
-expanded_free (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	return TRUE;
-}
-
 static void
 em_folder_tree_model_finalize (GObject *obj)
 {
 	EMFolderTreeModel *model = (EMFolderTreeModel *) obj;
+	
+	g_free (model->filename);
+	if (model->expanded)
+		xmlFreeDoc (model->expanded);
 	
 	g_hash_table_foreach (model->store_hash, store_hash_free, NULL);
 	g_hash_table_destroy (model->store_hash);
@@ -303,14 +315,9 @@ em_folder_tree_model_finalize (GObject *obj)
 	g_hash_table_foreach (model->uri_hash, uri_hash_free, NULL);
 	g_hash_table_destroy (model->uri_hash);
 	
-	g_hash_table_foreach (model->expanded, (GHFunc) expanded_free, NULL);
-	g_hash_table_destroy (model->expanded);
-	
 	g_hash_table_destroy (model->account_hash);
 	g_signal_handler_disconnect (model->accounts, model->account_changed_id);
 	g_signal_handler_disconnect (model->accounts, model->account_removed_id);
-	
-	g_free (model->filename);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -332,18 +339,27 @@ tree_sortable_iface_init (GtkTreeSortableIface *iface)
 static void
 em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 {
-	char *node;
-	FILE *fp;
+	xmlNodePtr root, node;
+	struct stat st;
 	
-	g_hash_table_foreach_remove (model->expanded, expanded_free, NULL);
+	if (model->expanded)
+		xmlFreeDoc (model->expanded);
 	
-	if ((fp = fopen (filename, "r")) == NULL)
+	if (stat (filename, &st) == 0 && (model->expanded = xmlParseFile (filename)))
 		return;
 	
-	while (camel_file_util_decode_string (fp, &node) != -1)
-		g_hash_table_insert (model->expanded, node, GINT_TO_POINTER (TRUE));
+	/* setup some defaults - expand "Local Folders" and "VFolders" */
+	model->expanded = xmlNewDoc ("1.0");
+	root = xmlNewDocNode (model->expanded, NULL, "tree-state", NULL);
+	xmlDocSetRootElement (model->expanded, root);
 	
-	fclose (fp);
+	node = xmlNewChild (root, NULL, "node", NULL);
+	xmlSetProp (node, "name", "local");
+	xmlSetProp (node, "expand", "true");
+	
+	node = xmlNewChild (root, NULL, "node", NULL);
+	xmlSetProp (node, "name", "vfolder");
+	xmlSetProp (node, "expand", "true");
 }
 
 
@@ -359,7 +375,7 @@ em_folder_tree_model_new (const char *evolution_dir)
 					      GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
 					      GTK_SORT_ASCENDING);
 	
-	filename = g_build_filename (evolution_dir, "mail", "config", "folder-tree.state", NULL);
+	filename = g_build_filename (evolution_dir, "mail", "config", "folder-tree-expand-state.xml", NULL);
 	em_folder_tree_model_load_state (model, filename);
 	model->filename = filename;
 	
@@ -428,17 +444,18 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreeIter sub;
 	gboolean load;
 	struct _CamelFolder *folder;
-
+	gboolean emitted = FALSE;
+	
 	load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
 	path_row = gtk_tree_row_reference_copy (uri_row);
 	gtk_tree_path_free (path);
-
+	
 	g_hash_table_insert (model->uri_hash, g_strdup (fi->uri), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
-
+	
 	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread == -1 ? 0 : fi->unread;
@@ -459,15 +476,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
 	
-	if (fi->child) {
-		fi = fi->child;
-		
-		do {
-			gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
-			em_folder_tree_model_set_folder_info (model, &sub, si, fi);
-			fi = fi->next;
-		} while (fi);
-	} else if (load) {
+	if (load) {
 		/* create a placeholder node for our subfolders... */
 		gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
 		gtk_tree_store_set ((GtkTreeStore *) model, &sub,
@@ -482,6 +491,31 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		
 		path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 		g_signal_emit (model, signals[LOADING_ROW], 0, path, iter);
+		gtk_tree_path_free (path);
+		return;
+	}
+	
+	if (fi->child) {
+		fi = fi->child;
+		
+		do {
+			gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
+			
+			if (!emitted) {
+				path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
+				g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
+				gtk_tree_path_free (path);
+				emitted = TRUE;
+			}
+			
+			em_folder_tree_model_set_folder_info (model, &sub, si, fi);
+			fi = fi->next;
+		} while (fi);
+	}
+	
+	if (!emitted) {
+		path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
+		g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
 		gtk_tree_path_free (path);
 	}
 }
@@ -740,7 +774,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, &iter);
 	row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
-	gtk_tree_path_free (path);
 	
 	si = g_new (struct _EMFolderTreeModelStoreInfo, 1);
 	si->display_name = g_strdup (display_name);
@@ -774,6 +807,9 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	si->renamed_id = camel_object_hook_event (store, "folder_renamed", CAMEL_CALLBACK (folder_renamed_cb), model);
 	si->subscribed_id = camel_object_hook_event (store, "folder_subscribed", CAMEL_CALLBACK (folder_subscribed_cb), model);
 	si->unsubscribed_id = camel_object_hook_event (store, "folder_unsubscribed", CAMEL_CALLBACK (folder_unsubscribed_cb), model);
+	
+	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
+	gtk_tree_path_free (path);
 }
 
 
@@ -870,11 +906,64 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
 }
 
 
+static xmlNodePtr
+find_xml_node (xmlNodePtr root, const char *name)
+{
+	xmlNodePtr node;
+	char *nname;
+	
+	node = root->children;
+	while (node != NULL) {
+		if (!strcmp (node->name, "node")) {
+			nname = xmlGetProp (node, "name");
+			if (nname && !strcmp (nname, name)) {
+				xmlFree (nname);
+				return node;
+			}
+			
+			xmlFree (nname);
+		}
+		
+		node = node->next;
+	}
+	
+	return node;
+}
+
 gboolean
 em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 {
-	if (g_hash_table_lookup (model->expanded, key))
-		return TRUE;
+	xmlNodePtr node;
+	const char *name;
+	char *buf, *p;
+	
+	node = model->expanded ? model->expanded->children : NULL;
+	if (!node || strcmp (node->name, "tree-state") != 0)
+		return FALSE;
+	
+	name = buf = g_alloca (strlen (key) + 1);
+	p = g_stpcpy (buf, key);
+	if (p[-1] == '/')
+		p[-1] = '\0';
+	p = NULL;
+	
+	do {
+		if ((p = strchr (name, '/')))
+			*p = '\0';
+		
+		if ((node = find_xml_node (node, name))) {
+			gboolean expanded;
+			
+			buf = xmlGetProp (node, "expand");
+			expanded = buf && !strcmp (buf, "true");
+			xmlFree (buf);
+			
+			if (!expanded || p == NULL)
+				return expanded;
+		}
+		
+		name = p ? p + 1 : NULL;
+	} while (name && node);
 	
 	return FALSE;
 }
@@ -883,34 +972,58 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 void
 em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded)
 {
-	gpointer okey, oval;
+	xmlNodePtr node, parent;
+	const char *name;
+	char *buf, *p;
 	
-	if (g_hash_table_lookup_extended (model->expanded, key, &okey, &oval)) {
-		g_hash_table_remove (model->expanded, okey);
-		g_free (okey);
+	if (model->expanded == NULL)
+		model->expanded = xmlNewDoc ("1.0");
+	
+	if (!model->expanded->children) {
+		node = xmlNewDocNode (model->expanded, NULL, "tree-state", NULL);
+		xmlDocSetRootElement (model->expanded, node);
+	} else {
+		node = model->expanded->children;
 	}
 	
-	if (expanded)
-		g_hash_table_insert (model->expanded, g_strdup (key), GINT_TO_POINTER (TRUE));
-}
-
-
-static void
-expanded_save (gpointer key, gpointer value, FILE *fp)
-{
-	/* FIXME: don't save stale entries */
-	if (!GPOINTER_TO_INT (value))
-		return;
+	name = buf = g_alloca (strlen (key) + 1);
+	p = g_stpcpy (buf, key);
+	if (p[-1] == '/')
+		p[-1] = '\0';
+	p = NULL;
 	
-	camel_file_util_encode_string (fp, key);
+	do {
+		parent = node;
+		if ((p = strchr (name, '/')))
+			*p = '\0';
+		
+		if (!(node = find_xml_node (node, name))) {
+			if (expanded) {
+				/* node (or parent node) doesn't exist, need to add it */
+				node = xmlNewChild (parent, NULL, "node", NULL);
+				xmlSetProp (node, "name", name);
+				xmlSetProp (node, "expand", "true");
+			} else {
+				/* node doesn't exist, so we don't need to set expanded to FALSE */
+				return;
+			}
+		} else if (p == NULL && !expanded) {
+			/* found the node we were looking for */
+			xmlSetProp (node, "expand", "false");
+			return;
+		}
+		
+		name = p ? p + 1 : NULL;
+	} while (name);
 }
 
 void
 em_folder_tree_model_save_expanded (EMFolderTreeModel *model)
 {
-	char *dirname, *tmpname;
-	FILE *fp;
-	int fd;
+	char *dirname;
+	
+	if (model->expanded == NULL)
+		return;
 	
 	dirname = g_path_get_dirname (model->filename);
 	if (camel_mkdir (dirname, 0777) == -1 && errno != EEXIST) {
@@ -919,43 +1032,53 @@ em_folder_tree_model_save_expanded (EMFolderTreeModel *model)
 	}
 	
 	g_free (dirname);
-	tmpname = g_strdup_printf ("%s~", model->filename);
 	
-	if (!(fp = fopen (tmpname, "w+"))) {
-		g_free (tmpname);
-		return;
-	}
-	
-	g_hash_table_foreach (model->expanded, (GHFunc) expanded_save, fp);
-	
-	if (fflush (fp) != 0)
-		goto exception;
-	
-	if ((fd = fileno (fp)) == -1)
-		goto exception;
-	
-	if (fsync (fd) == -1)
-		goto exception;
-	
-	fclose (fp);
-	fp = NULL;
-	
-	if (rename (tmpname, model->filename) == -1)
-		goto exception;
-	
-	g_free (tmpname);
-	
-	return;
-	
- exception:
-	
-	if (fp != NULL)
-		fclose (fp);
-	
-	unlink (tmpname);
-	g_free (tmpname);
+	e_xml_save_file (model->filename, model->expanded);
 }
 
+
+static void
+expand_foreach_r (EMFolderTreeModel *model, xmlNodePtr parent, const char *dirname, EMFTModelExpandFunc func, void *user_data)
+{
+	xmlNodePtr node = parent->children;
+	char *path, *name, *expand;
+	
+	while (node != NULL) {
+		if (!strcmp (node->name, "node")) {
+			name = xmlGetProp (node, "name");
+			expand = xmlGetProp (node, "expand");
+			
+			if (expand && name && !strcmp (expand, "true")) {
+				if (dirname)
+					path = g_strdup_printf ("%s/%s", dirname, name);
+				else
+					path = g_strdup (name);
+				
+				func (model, path, user_data);
+				if (node->children)
+					expand_foreach_r (model, node, path, func, user_data);
+				g_free (path);
+			}
+			
+			xmlFree (expand);
+			xmlFree (name);
+		}
+		
+		node = node->next;
+	}
+}
+
+void
+em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, void *user_data)
+{
+	xmlNodePtr root;
+	
+	root = model->expanded ? model->expanded->children : NULL;
+	if (!root || !root->children || strcmp (root->name, "tree-state") != 0)
+		return;
+	
+	expand_foreach_r (model, root, NULL, func, user_data);
+}
 
 void
 em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread)

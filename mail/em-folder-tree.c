@@ -34,12 +34,15 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#include <libxml/tree.h>
+
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-file-utils.h>
@@ -80,6 +83,7 @@ struct _EMFolderTreePrivate {
 	guint save_state_id;
 	
 	guint loading_row_id;
+	guint loaded_row_id;
 	
 	GtkTreeRowReference *drag_row;
 };
@@ -374,6 +378,11 @@ em_folder_tree_destroy (GtkObject *obj)
 		priv->loading_row_id = 0;
 	}
 	
+	if (priv->loaded_row_id != 0) {
+		g_signal_handler_disconnect (priv->model, priv->loaded_row_id);
+		priv->loaded_row_id = 0;
+	}
+	
 	if (priv->save_state_id != 0) {
 		g_source_remove (priv->save_state_id);
 		emft_save_state (emft);
@@ -458,75 +467,72 @@ em_folder_tree_new (void)
 	return (GtkWidget *) emft;
 }
 
-struct _gsbn {
-	struct _EMFolderTreeModelStoreInfo *si;
-	const char *name;
-};
-
 static void
-emft_get_store_by_name (CamelStore *store, struct _EMFolderTreeModelStoreInfo *si, struct _gsbn *gsbn)
-{
-	if (!strcmp (si->display_name, gsbn->name))
-		gsbn->si = si;
-}
-
-static void
-emft_expand_node (const char *key, gpointer value, EMFolderTree *emft)
+emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
+	extern CamelStore *vfolder_store;
 	GtkTreeRowReference *row;
 	GtkTreePath *path;
 	EAccount *account;
+	CamelStore *store;
 	const char *p;
-	char *id;
+	char *uid;
+	size_t n;
 	
-	if (!(p = strchr (key, ':')))
-		return;
+	if (!(p = strchr (key, '/')))
+		n = strlen (key);
+	else
+		n = (p - key);
 	
-	id = g_strndup (key, p - key);
-	if ((account = mail_config_get_account_by_uid (id)) && account->enabled) {
+	uid = g_alloca (n + 1);
+	memcpy (uid, key, n);
+	uid[n] = '\0';
+	
+	if ((account = mail_config_get_account_by_uid (uid)) && account->enabled) {
 		CamelException ex;
-		CamelStore *store;
 		
 		camel_exception_init (&ex);
 		store = (CamelStore *) camel_session_get_service (session, account->source->url, CAMEL_PROVIDER_STORE, &ex);
 		camel_exception_clear (&ex);
 		
-		if (store == NULL || !(si = g_hash_table_lookup (priv->model->store_hash, store))) {
-			if (store)
-				camel_object_unref (store);
-			g_free (id);
+		if (store == NULL)
 			return;
-		}
+	} else if (!strcmp (uid, "vfolder")) {
+		if (!(store = vfolder_store))
+			return;
+		
+		camel_object_ref (store);
+	} else if (!strcmp (uid, "local")) {
+		if (!(store = mail_component_peek_local_store (NULL)))
+			return;
+		
+		camel_object_ref (store);
 	} else {
-		struct _gsbn gsbn;
-		
-		gsbn.si = NULL;
-		gsbn.name = id;
-		
-		g_hash_table_foreach (priv->model->store_hash, (GHFunc) emft_get_store_by_name, &gsbn);
-		if (!(si = gsbn.si)) {
-			g_free (id);
-			return;
-		}
+		return;
 	}
 	
-	g_free (id);
-	
-	p++;
-	if (!strcmp (p, "/"))
-		row = si->row;
-	else if (!(row = g_hash_table_lookup (si->path_hash, p)))
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		camel_object_unref (store);
 		return;
+	}
+	
+	camel_object_unref (store);
+	
+	if (p != NULL) {
+		if (!(row = g_hash_table_lookup (si->path_hash, p)))
+			return;
+	} else
+		row = si->row;
 	
 	path = gtk_tree_row_reference_get_path (row);
-	gtk_tree_view_expand_to_path (priv->treeview, path);
+	gtk_tree_view_expand_row (priv->treeview, path, FALSE);
 	gtk_tree_path_free (path);
 }
 
 static void
-emft_loading_row_cb (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
+emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	CamelStore *store;
@@ -540,13 +546,19 @@ emft_loading_row_cb (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIt
 	
 	si = g_hash_table_lookup (model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s:%s", account->uid, path);
+	        key = g_strdup_printf ("%s%s", account->uid, path);
+	} else if (CAMEL_IS_VEE_STORE (store)) {
+		/* vfolder store */
+		key = g_strdup_printf ("vfolder%s", path);
 	} else {
-		key = g_strdup_printf ("%s:%s", si->display_name, path);
+		/* local store */
+		key = g_strdup_printf ("local%s", path);
 	}
 	
-	if (em_folder_tree_model_get_expanded (model, key))
+	if (em_folder_tree_model_get_expanded (model, key)) {
 		gtk_tree_view_expand_to_path (emft->priv->treeview, tree_path);
+		gtk_tree_view_expand_row (emft->priv->treeview, tree_path, FALSE);
+	}
 	
 	g_free (key);
 }
@@ -560,10 +572,10 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	em_folder_tree_construct (emft, model);
 	g_object_ref (model);
 	
-	/* FIXME: this sucks... */
-	g_hash_table_foreach (model->expanded, (GHFunc) emft_expand_node, emft);
+	em_folder_tree_model_expand_foreach (model, emft_expand_node, emft);
 	
-	emft->priv->loading_row_id = g_signal_connect (model, "loading-row", G_CALLBACK (emft_loading_row_cb), emft);
+	emft->priv->loading_row_id = g_signal_connect (model, "loading-row", G_CALLBACK (emft_maybe_expand_row), emft);
+	emft->priv->loaded_row_id = g_signal_connect (model, "loaded-row", G_CALLBACK (emft_maybe_expand_row), emft);
 	
 	return (GtkWidget *) emft;
 }
@@ -1562,9 +1574,13 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 	
 	si = g_hash_table_lookup (priv->model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s:%s", account->uid, path);
+	        key = g_strdup_printf ("%s%s", account->uid, path);
+	} else if (CAMEL_IS_VEE_STORE (store)) {
+		/* vfolder store */
+		key = g_strdup_printf ("vfolder%s", path);
 	} else {
-		key = g_strdup_printf ("%s:%s", si->display_name, path);
+		/* local store */
+		key = g_strdup_printf ("local%s", path);
 	}
 	
 	em_folder_tree_model_set_expanded (priv->model, key, expanded);

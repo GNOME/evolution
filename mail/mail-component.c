@@ -632,7 +632,6 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), mc);
 		gtk_widget_show(dialog);
 	} else {
-
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
 		return;
