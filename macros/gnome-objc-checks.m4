@@ -45,6 +45,8 @@ EOF
   ])
 
   AM_CONDITIONAL(OBJECTIVE_C, test x$ac_cv_prog_objc_works = xyes)
+  dnl Also set the shell variable OBJECTIVE_C to "yes" or "no".
+  OBJECTIVE_C=$ac_cv_prog_objc_works
 ])
 
 AC_DEFUN([GNOME_INIT_OBJC],

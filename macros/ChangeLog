@@ -1,3 +1,8 @@
+Fri Feb 27 10:05:34 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-objc-checks.m4 (GNOME_CHECK_OBJC): Set OBJECTIVE_C shell
+	variable.
+
 1998-02-26  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-x-checks.m4 (CPPFLAGS): Put $X_CFLAGS here, not in
