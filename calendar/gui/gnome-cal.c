@@ -24,6 +24,7 @@
 #include "alarm.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
+#include "eventedit.h"
 #include "gncal-todo.h"
 #include "gnome-cal.h"
 #include "year-view.h"
