@@ -1,3 +1,12 @@
+2004-01-16 Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* providers/groupwise/camel-groupwise-provider.c: added some conf entries for 
+	LDAP address setup
+	* providers/groupwise/camel-gw-listener.c: added add_ldap_addressbook_source,
+        modify_ldap_addressbook_source, remove_ldap_addressbook_source functions for 
+	setting up  LDAP address book. Also setting "username" property on cal/tasks ESources 
+
+
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #52881.

@@ -55,23 +55,24 @@ CamelProviderConfEntry groupwise_conf_entries[] = {
 	  N_("Check for new messages in all folders"), "1" },
 	{ CAMEL_PROVIDER_CONF_SECTION_END },
 
-	/* extra Groupwise  configuration settings */
-	/*CAMEL_PROVIDER_CONF_SECTION_START, "ldapserver", NULL,
-	  N_("Address Book") },
-
-	{ CAMEL_PROVIDER_CONF_ENTRY, "ldap_server", NULL,
-	  N_("LDAP Server Name:") },
-
-	{ CAMEL_PROVIDER_CONF_CHECKSPIN, "ldap_download_limit", NULL,
-	  N_("LDAP Download limit: %s"), "y:1:500:10000" },
-
-	  { CAMEL_PROVIDER_CONF_SECTION_END }, */
-
 	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
 	  N_("Apply filters to new messages in Inbox on this server"), "0" },
 
 	{ CAMEL_PROVIDER_CONF_CHECKBOX, "offline_sync", NULL,
 	  N_("Automatically synchronize remote mail locally"), "0" },
+
+	/* extra Groupwise  configuration settings */
+	{CAMEL_PROVIDER_CONF_SECTION_START, "ldapserver", NULL,
+	  N_("Address Book") },
+
+	{ CAMEL_PROVIDER_CONF_ENTRY, "ldap_server", NULL,
+	  N_("LDAP Server Name:") },
+
+	{ CAMEL_PROVIDER_CONF_ENTRY, "search_base", NULL, 
+	  N_("Search base:") },
+	
+	 { CAMEL_PROVIDER_CONF_SECTION_END }, 
+
 
 	{ CAMEL_PROVIDER_CONF_END }
 };
@@ -136,7 +137,7 @@ camel_provider_module_init (CamelSession *session)
 		g_atexit ( free_groupwise_listener );
 	}
 	
-	g_object_unref (temp_session);
+	camel_object_unref (temp_session);
 
 }
 

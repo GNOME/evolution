@@ -27,6 +27,7 @@
 
 #include "camel-gw-listener.h"
 #include <string.h>
+#include  "camel-i18n.h"
 
 /*stores some info about all currently existing groupwise accounts 
   list of GwAccountInfo structures */
@@ -49,6 +50,8 @@ typedef struct _GwAccountInfo GwAccountInfo;
 
 #define GROUPWISE_URI_PREFIX   "groupwise://" 
 #define GROUPWISE_PREFIX_LENGTH 12
+
+#define LDAP_URI_PREFIX "ldap://"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 
@@ -153,7 +156,7 @@ lookup_account_info (const char *key)
 
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char* source_name, const char* relative_uri)
+add_esource (const char *conf_key, const char *group_name,  const char* source_name, const char *username, const char* relative_uri)
 {
 	ESourceList *source_list;
 	ESourceGroup *group;
@@ -167,6 +170,7 @@ add_esource (const char *conf_key, const char *group_name,  const char* source_n
 
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
+	e_source_set_property (source, "username", username);
 	e_source_group_add_source (group, source, -1);
 
 	e_source_list_sync (source_list, NULL);
@@ -288,9 +292,9 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	
 	url = camel_url_new (info->source_url, NULL);
 	/* FIXME: don't hard-code the port number */
-	relative_uri =  g_strdup_printf ("%s@%s:7181", url->user, url->host);
-	add_esource ("/apps/evolution/calendar/sources", info->name,  "Default", relative_uri);
-	add_esource ("/apps/evolution/tasks/sources", info->name,  "Default", relative_uri);
+	relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
+	add_esource ("/apps/evolution/calendar/sources", info->name, N_("Default"), url->user, relative_uri);
+	add_esource ("/apps/evolution/tasks/sources", info->name, N_("Default"), url->user,  relative_uri);
 	
 	groupwise_accounts = g_list_append (groupwise_accounts, info);
 	
@@ -323,6 +327,143 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	g_free (relative_uri);
 
 }
+static void 
+add_ldap_addressbook_source (EAccount *account)
+{
+	CamelURL *url;
+	const char *ldap_server_name;
+	const char *search_scope;
+	ESourceList *list;
+        ESourceGroup *group;
+        ESource *source;
+        GSList *groups;
+       	gboolean found_group;
+	char * relative_uri;
+
+	url = camel_url_new (account->source->url, NULL);
+
+	if (url == NULL) {
+		return;
+	}
+	
+	ldap_server_name = camel_url_get_param (url, "ldap_server");
+	search_scope = camel_url_get_param (url, "search_base");
+
+	if (ldap_server_name == NULL) {
+	
+		return;
+	}
+
+	list = e_source_list_new_for_gconf (gconf_client_get_default (), "/apps/evolution/addressbook/sources" );
+	groups = e_source_list_peek_groups (list); 
+
+	relative_uri = g_strdup_printf ("%s:%s/%s%s%s", ldap_server_name, "389",
+                                      search_scope, "??", "sub");
+		
+	found_group = FALSE;
+
+	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+
+		group = E_SOURCE_GROUP (groups->data);
+		if ( strcmp ( e_source_group_peek_base_uri (group), LDAP_URI_PREFIX) == 0) {
+			source = e_source_new (account->name, relative_uri);
+			e_source_set_property ( source, "limit", "100");
+			e_source_set_property ( source, "ssl", "never");
+			e_source_set_property (source, "auth", "none");
+			e_source_group_add_source (group, source, -1);
+			e_source_list_sync (list, NULL);
+			found_group = TRUE;
+		}
+	}
+
+	g_free (relative_uri);
+	g_object_unref (list);
+	camel_url_free (url);
+	
+}
+
+static void 
+modify_ldap_addressbook_source ( EAccount *account)
+{
+	CamelURL *url;
+	const char *ldap_server_name;
+	const char *search_scope;
+	ESourceList *list;
+        ESourceGroup *group;
+        ESource *source;
+        GSList *groups;
+       	gboolean found_group;
+	char * relative_uri;
+
+	url = camel_url_new (account->source->url, NULL);
+
+	if (url == NULL) {
+		return;
+	}
+	
+	ldap_server_name = camel_url_get_param (url, "ldap_server");
+
+	if (ldap_server_name == NULL) {
+		return;
+	}
+		
+	search_scope = camel_url_get_param (url, "search_base");
+
+	list = e_source_list_new_for_gconf (gconf_client_get_default (), "/apps/evolution/addressbook/sources" );
+	groups = e_source_list_peek_groups (list); 
+
+	relative_uri = g_strdup_printf ("%s:%s/%s%s%s", ldap_server_name, "389",
+                                      search_scope, "??", "sub");
+		
+	found_group = FALSE;
+
+	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+
+		group = E_SOURCE_GROUP (groups->data);
+		if ( strcmp ( e_source_group_peek_base_uri (group), LDAP_URI_PREFIX) == 0) {
+			source = e_source_group_peek_source_by_name (group, account->name);
+			e_source_set_relative_uri (source, relative_uri);
+			e_source_list_sync (list, NULL);
+			found_group = TRUE;
+		}
+	}
+
+	g_free (relative_uri);
+	g_object_unref (list);
+	camel_url_free (url);
+
+}
+static void 
+remove_ldap_addressbook_source ( EAccount *account )
+{
+	ESourceList *list;
+        ESourceGroup *group;
+        ESource *source;
+        GSList *groups;
+       	gboolean found_group;
+
+	list = e_source_list_new_for_gconf (gconf_client_get_default (), "/apps/evolution/addressbook/sources" );
+	groups = e_source_list_peek_groups (list); 
+
+		found_group = FALSE;
+
+	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+
+		group = E_SOURCE_GROUP (groups->data);
+		if ( strcmp ( e_source_group_peek_base_uri (group), LDAP_URI_PREFIX) == 0) {
+
+			source = e_source_group_peek_source_by_name (group, account->name);
+			e_source_group_remove_source (group, source);
+			e_source_list_sync (list, NULL);
+			found_group = TRUE;
+						
+		}
+	}
+	g_object_unref (list);
+	
+
+}
+
 
 static void 
 account_added (EAccountList *account_listener, EAccount *account)
@@ -339,7 +480,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->source_url = g_strdup (account->source->url);
 	
 	add_calendar_tasks_sources (info);
-	
+	add_ldap_addressbook_source(account);
 }
 
 
@@ -380,6 +521,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			existing_account_info->name = g_strdup (account->name);
 			existing_account_info->source_url = g_strdup (account->source->url);
 			camel_url_free (url);
+			modify_ldap_addressbook_source (account);
 		}
 		
 	}
@@ -401,6 +543,7 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	}
 
 	remove_calendar_tasks_sources (info);
+	remove_ldap_addressbook_source (account);
 
 }
 
