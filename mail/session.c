@@ -10,7 +10,6 @@
 #include <gnome.h>
 #include "mail.h"
 #include "mail-threads.h"
-#include "e-util/e-setup.h"
 
 CamelSession *session;
 GHashTable *passwords;
@@ -201,9 +200,7 @@ remove_callback (guint handle)
 void
 session_init (void)
 {
-	e_setup_base_dir ();
 	camel_init ();
-
 	session = camel_session_new (auth_callback, register_callback, 
 				     remove_callback);
 }

@@ -14,7 +14,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <gnome.h>
-#include "e-util/e-setup.h"
 #include "e-util/e-util.h"
 #include "e-util/e-html-utils.h"
 #include "mail-display.h"

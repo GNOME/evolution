@@ -30,7 +30,6 @@
 #include "mail-threads.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
-#include "e-util/e-setup.h"
 #include "composer/e-msg-composer.h"
 
 /* ** FETCH MAIL ********************************************************** */

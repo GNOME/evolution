@@ -38,11 +38,11 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "e-util/e-gui-utils.h"
-#include "e-util/e-setup.h"
 
 #include "component-factory.h"
 
 CamelFolder *drafts_folder = NULL;
+char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 static void create_imap_storage (EvolutionShellComponent *shell_component);
@@ -57,9 +57,6 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
 	{ NULL, NULL }
 };
-
-/* GROSS HACK: for passing to other parts of the program */
-/*EvolutionShellClient *global_shell_client = NULL;*/
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -103,13 +100,14 @@ create_folder (EvolutionShellComponent *shell_component,
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
+	      const char *evolution_homedir,
 	      gpointer user_data)
 {
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
-	/* GROSS HACK */
-	/*global_shell_client = shell_client;*/
+	evolution_dir = g_strdup (evolution_homedir);
 	
+	mail_config_init ();
 	mail_do_setup_draftbox ();
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);

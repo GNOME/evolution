@@ -36,7 +36,6 @@
 #include "mail-ops.h"
 #include "mail-local.h"
 #include "folder-browser.h"
-#include "e-util/e-setup.h"
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 #include "widgets/e-table/e-table.h"

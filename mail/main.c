@@ -54,7 +54,6 @@ main (int argc, char *argv [])
 	session_init ();
 	e_cursors_init ();
 
-	mail_config_init ();
 	component_factory_init ();
 
 	GDK_THREADS_ENTER ();

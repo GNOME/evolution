@@ -33,7 +33,6 @@
 #include <glade/glade.h>
 
 #include "e-util/e-html-utils.h"
-#include "e-util/e-setup.h"
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-config-gui.h"

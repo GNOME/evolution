@@ -29,7 +29,6 @@
 #include <errno.h>
 #include "camel/camel.h"
 #include "camel/providers/vee/camel-vee-folder.h"
-#include "e-util/e-setup.h"
 #include "mail-vfolder.h"
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"

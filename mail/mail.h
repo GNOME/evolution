@@ -25,8 +25,9 @@
 #include "mail-config-gui.h"
 #include "folder-browser.h"
 
-/* FIXME FIXME FIXME this sucks sucks sucks sucks */
+extern char *evolution_dir;
 
+/* FIXME FIXME FIXME this sucks sucks sucks sucks */
 /* folder-browser-factory */
 void           folder_browser_factory_init         (void);
 BonoboControl *folder_browser_factory_new_control  (const char *uri);

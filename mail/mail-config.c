@@ -33,7 +33,7 @@
 #include <glade/glade.h>
 
 #include "e-util/e-html-utils.h"
-#include "e-util/e-setup.h"
+#include "mail.h"
 #include "mail-config.h"
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";

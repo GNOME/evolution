@@ -1,3 +1,20 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* session.c (session_init): Don't call e_setup_base_dir. It was
+	wrong and it doesn't exist any more.
+
+	* component-factory.c (owner_set_cb): Update for changed
+	prototype, and record the evolution_homedir. Move call to
+	mail_config_init here from session.c so it happens after
+	evolution_dir is initialized.
+
+	* mail.h: define "extern char *evolution_dir;" (formerly in
+	e-util/e-setup.h)
+
+	* component-factory.c, mail-callbacks.c, mail-config-gui.c,
+	mail-config.c, mail-display.c, mail-format.c, mail-ops.c,
+	mail-tools.c, session.c: Remove "e-util/e-setup.h" include.
+
 2000-08-10  Peter Williams  <peterw@helixcode.com>
 
 	* test-thread.c (queue_ops): Use mail_operations_terminate() to

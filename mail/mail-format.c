@@ -27,7 +27,6 @@
 #include "mail-display.h"
 #include "mail.h"
 #include "e-util/e-html-utils.h"
-#include "e-util/e-setup.h" /*for evolution_dir*/
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
