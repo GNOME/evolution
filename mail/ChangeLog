@@ -1,3 +1,8 @@
+2000-10-01  Iain Holmes  <iain@helixcode.com>
+
+	* mail-display.c (on_object_requested): If the attachment is an image
+	display a thumbnail of it, instead of the generic image icon.
+
 2000-09-29  Miguel de Icaza  <miguel@helixcode.com>
 
 	* folder-browser-factory.c: Add print preview verb here.
@@ -384,6 +389,7 @@
 	(thread_messages_free): Remove the return, run as is.
 	(prune_empty): Plugged another small leak.
 
+>>>>>>> 1.552
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (run_filter_ondemand): Updated to use the new

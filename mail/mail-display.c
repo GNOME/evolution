@@ -26,6 +26,10 @@
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
+#include <bonobo/bonobo-ui-toolbar-icon.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gdk-pixbuf-loader.h>
+
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
 static GtkObjectClass *mail_display_parent_class;
@@ -355,17 +359,103 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		const char *icon;
 		GtkWidget *pixmap, *ebox;
 
-		icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
-		if (icon) {
-			pixmap = gnome_pixmap_new_from_file_at_size (icon,
-								     24, 24);
-		} else {
-			char *filename;
+		if (strncmp (eb->type, "image", 5) == 0) {
+			CamelDataWrapper *iwrapper;
+			CamelStream *mstream;
+			GdkPixbufLoader *loader;
+			GdkPixbuf *pixbuf, *mini;
+			gboolean error;
+			char tmp[4096];
+			int len;
 
-			filename = gnome_pixmap_file ("gnome-unknown.png");
-			pixmap = gnome_pixmap_new_from_file_at_size (filename,
+			/* Get a pixbuf from the wrapper */
+
+			mstream = camel_stream_mem_new ();
+			iwrapper = camel_medium_get_content_object (medium);
+			camel_data_wrapper_write_to_stream (iwrapper, mstream);
+			camel_stream_reset (mstream);
+
+			/* ...convert the CamelStreamMem to a GdkPixbuf... */
+			loader = gdk_pixbuf_loader_new ();
+
+			do {
+				len = camel_stream_read (mstream, tmp, 4096);
+				if (len > 0) {
+					error = !gdk_pixbuf_loader_write (loader,
+									  tmp,
+									  len);
+					if (error)
+						break;
+				} else {
+					if (camel_stream_eos (mstream))
+						break;
+					error = TRUE;
+					break;
+				}
+			} while (!camel_stream_eos (mstream));
+
+			if (error) {
+				icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
+				if (icon) {
+					pixmap = gnome_pixmap_new_from_file_at_size 
+						(icon, 24, 24);
+				} else {
+					char *filename;
+					
+
+					filename = gnome_pixmap_file ("gnome-unknown.png");
+					pixmap = gnome_pixmap_new_from_file_at_size 
+						(filename, 24, 24);
+					g_free (filename);
+				}
+			} else {
+				int width, height, ratio;
+
+				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+				width = gdk_pixbuf_get_width (pixbuf);
+				height = gdk_pixbuf_get_height (pixbuf);
+
+				if (width >= height) {
+					if (width > 24) {
+						ratio = width / 24;
+						width = 24;
+						height /= ratio;
+					}
+				} else {
+					if (height > 24) {
+						ratio = height / 24;
+						height = 24;
+						width /= ratio;
+					}
+				}
+
+				mini = gdk_pixbuf_scale_simple (pixbuf,
+								width, height,
+								GDK_INTERP_BILINEAR);
+				/* Use this, because it is the gdk-pixbuf
+				   version of gnome_pixmap. We need this
+				   because Imlib is not threadsafe, and
+				   it was causing all sorts of problems */
+				pixmap = bonobo_ui_toolbar_icon_new_from_pixbuf (mini);
+				gdk_pixbuf_unref (mini);
+			}
+			
+			camel_object_unref (CAMEL_OBJECT (mstream));
+			gdk_pixbuf_loader_close (loader);
+			gtk_object_destroy (GTK_OBJECT (loader));
+		} else {
+			icon = gnome_vfs_mime_get_value (eb->type, "icon-filename");
+			if (icon) {
+				pixmap = gnome_pixmap_new_from_file_at_size (icon,
 								     24, 24);
-			g_free (filename);
+			} else {
+				char *filename;
+				
+				filename = gnome_pixmap_file ("gnome-unknown.png");
+				pixmap = gnome_pixmap_new_from_file_at_size (filename,
+									     24, 24);
+				g_free (filename);
+			}
 		}
 
 		ebox = gtk_event_box_new ();
@@ -418,7 +508,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	ba = g_byte_array_new ();
 	cstream = camel_stream_mem_new_with_byte_array (ba);
 	wrapper = camel_medium_get_content_object (medium);
-	camel_data_wrapper_write_to_stream (wrapper, cstream);
+ 	camel_data_wrapper_write_to_stream (wrapper, cstream);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
