@@ -1,3 +1,8 @@
+2001-10-24  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-addressbook.xml: Added Delete and BackSpace
+	keybindings here.
+
 2001-10-22  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-message-composer.xml: Added an accelerator (H_TML) to the Format->Html

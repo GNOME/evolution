@@ -157,4 +157,9 @@
 
 	</dockitem>
 
+	<keybindings>
+	        <accel name="Delete" verb="ContactDelete"/>
+	        <accel name="BackSpace" verb="ContactDelete"/>
+	</keybindings>
+
 </Root>
