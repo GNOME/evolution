@@ -1,3 +1,7 @@
+2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Fixed some column widths.
+
 2000-10-18  Iain Holmes  <iain@helixcode.com>
 
 	* mail-config-gui.c (mail_config): Make all the CLists have passive
