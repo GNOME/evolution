@@ -304,7 +304,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	if ((fd[0] = open (src, O_RDONLY)) == -1)
 		return -1;
 	
-	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_EXCL, 0666)) == -1) {
 		errnosav = errno;
 		close (fd[0]);
 		errno = errnosav;

@@ -1,3 +1,10 @@
+2004-01-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.c (cp): Don't O_TRUNC the dest file, instead use
+	O_EXCL and don't do anything if the dest file already exists (this
+	way we don't re-migrate an mbox or corrupt any summary/ibex/meta
+	files).
+
 2004-01-12  Not Zed  <NotZed@Ximian.com>
 
 	** See bug 52737.
