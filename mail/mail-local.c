@@ -495,6 +495,9 @@ local_reconfigure_folder(FolderBrowser *fb)
 			   ((CamelService *)store)->url->protocol);
 
 	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, data);
-	gtk_widget_show((GtkWidget *)gd);
 	gtk_object_unref((GtkObject *)gui);
+
+	GDK_THREADS_ENTER ();
+	gnome_dialog_run_and_close (GNOME_DIALOG (gd));
+	GDK_THREADS_LEAVE ();
 }

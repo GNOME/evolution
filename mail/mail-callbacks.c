@@ -69,19 +69,19 @@ check_configured (void)
 }
 
 static void
-main_select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
+main_select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
-	ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;
+	/*ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;*/
   
 	message_list_select (fb->message_list, -1, MESSAGE_LIST_SELECT_NEXT,
   			     0, CAMEL_MESSAGE_SEEN);
 }
 
 static void
-select_first_unread (CamelFolder *folder, gpointer event_data, gpointer data)
+select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 {
-	mail_op_forward_event (main_select_first_unread, folder, event_data, data);
+	mail_op_forward_event (main_select_first_unread, object, event_data, data);
 }
 
 void

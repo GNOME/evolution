@@ -1,5 +1,10 @@
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
+	* mail-local.c (local_reconfigure_folder): Make the dialog
+	modal.
+
+	* mail-callbacks.c (select_first_unread): Fix some warnings.
+
 	* mail-threads.c (mail_op_forward_event): New function that
 	writes a FORWARD_EVENT signal to the compipe, to allow Camel
 	events to be handled in the main thread.
@@ -14,7 +19,6 @@
 	(main_folder_changed): Same as above.
 	(message_changed): Same as above.
 	(main_message_changed): Same as above.
-
 
 	* mail-format.c (free_byte_array): Note about using
 	mail_op_forward_event. (cmm_destroyed): Same.
