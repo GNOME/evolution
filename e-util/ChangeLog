@@ -1,3 +1,9 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* e-html-utils.c (e_text_to_html): Fix the tab expansion
+	for when the length would exceed the ten characters that
+	we allocated.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* e-setup.[ch]: Remove. The shell tells the components where
