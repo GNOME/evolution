@@ -1,26 +1,3 @@
-1999-07-07  Tuomas J. Lukka  <lukka@iki.fi>
-	* gnome-x-checks.m4: add a comment on how to get gtk-1.3 and
-	glib 1.3 from CVS
-
-1999-07-06  Tuomas J. Lukka  <lukka@iki.fi>
-
-	* gnome-x-checks.m4: forbid compiling with Gtk-1.3 for now.
-        gnome only works with 1.2 so far. 
-
-1999-07-05  Raja R Harinath  <harinath@cs.umn.edu>
-
-	* gnome.m4: Make "extra library" message slightly easier to read.
-
-Sat Jun 26 01:47:53 1999  Tim Janik  <timj@gtk.org>
-
-	* compiler-flags.m4: give -Wunused to gcc instead of -Wno-unused.
-
-1999-06-11  Tuomas J. Lukka <lukka@iki.fi>
-
-	* gnome-guile-checks.m4: Debian has qt_null in -lqthreads but
- 	  no main. Changed both checks for 'main' to qt_null.
-	  I hope this is correct - it shouldn't break anything.
-
 1999-05-11  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* Makefile.am (MACROS): Add `gnome-bonobo-check.m4'.

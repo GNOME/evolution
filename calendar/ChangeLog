@@ -1,3 +1,64 @@
+1999-04-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Fixed cut&paste
+	bug for day fontsets.
+
+1999-05-26  Russell Steinthal  <steintr@condor.penguinpowered.com>
+
+	* gncal-todo.c main.c main.h prop.c: Added support for priorities
+	for todo items.  Doesn't do much, but you can set them and sort by
+	them.  (Use the properties box to enable them; should they be on
+	by default?)
+
+1999-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* main.c (parse_an_arg): Added missing break here.  It was causing
+	core dumps when invoked with --userfile.
+
+	* gnome-cal.c (gnome_calendar_set_view): Add some assertions here,
+	to pin point the bug reported on gnome-list.
+
+	* calobj.c (load_recurrence): Make intervals always exist.  a 0
+	interval is wrong.
+
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c: Removed unused macro CALENDAR_HEIGHT.
+
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c (idle_handler): Set the canvas scroll region here,
+	not in size_allocate().  Also, use the correct width and height
+	based on the allocation and the precomputed minimum width/height
+	values.
+
+	* gnome-cal.c (setup_widgets): Set the scrollbar policy of the
+	scrolled window.
+
+	* main.c (setup_appbar): Use the correct type for the appbar.
+
+	* gncal-day-view.c: Removed unused function switch_to_day().
+
+	* gncal-day-panel.c (calendar_day_selected): Removed unused variable.
+
+1999-05-25  Nat Friedman  <nat@nat.org>
+
+	* doc/C/gnomecal.sgml: Fixed a typo.
+
+	* gnome-cal.c (setup_widgets): Added a scrolled window widget into
+ 	which the year view is placed.
+
+	* year-view.c (CALENDAR_HEIGHT): The height of the total year view
+ 	inside the scrolled window.
+	(idle_handler): Set the height of the year view to
+ 	CALENDAR_HEIGHT.
+	(year_view_size_allocate): Set the scroll region of the year view
+ 	canvas to allocation->width, CALENDAR_HEIGHT.
+
+1999-04-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* main.c (dump_todo): Add --todo flag to dump the todo contents.
+
 1999-07-19  Matt Martin <matt@abacusnet.net>
 
 	* timeutil.c (time_from_isodate): Handle the 'Z' parameter to the

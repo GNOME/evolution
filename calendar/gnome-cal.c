@@ -44,6 +44,7 @@ gnome_calendar_get_type (void)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
+	GtkWidget *sw;
 	time_t now;
 
 	now = time (NULL);
