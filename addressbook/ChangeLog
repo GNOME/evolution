@@ -1,3 +1,90 @@
+2004-04-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Commit new contact editor
+	UI by Anna.
+
+	* gui/contact-editor/e-contact-editor.c: Comment out bonobo includes.
+	(_email_arrow_pressed)
+	(_address_arrow_pressed)
+	(set_im_fields)
+	(find_address_mailing)
+	(set_address_field)
+	(add_im_clicked)
+	(edit_im_clicked)
+	(remove_im_clicked)
+	(im_button_press_cb)
+	(im_selected_cb)
+	(im_treeview_drag_data_get_cb)
+	(im_treeview_drag_data_rcv_cb)
+	(setup_im_treeview)
+	(email_entry_changed)
+	(address_to_text)
+	(text_to_address)
+	(address_text_changed)
+	(address_mailing_changed)
+	(full_addr_clicked)
+	(e_contact_editor_build_email_ui)
+	(e_contact_editor_build_address_ui)
+	(_email_arrow_pressed)
+	(_address_arrow_pressed)
+	(find_address_mailing)
+	(add_im_field)
+	(set_im_fields)
+	(set_address_field): Removed.
+	(address_name)
+	(im_service)
+	(im_location): Add lookup structs.
+	(init_email_record_location)
+	(init_email)
+	(fill_in_email_record)
+	(extract_email_record)
+	(email_location_to_index)
+	(email_index_to_location)
+	(im_index_to_location)
+	(get_email_location)
+	(get_im_location)
+	(fill_in_email)
+	(extract_email)
+	(init_im_record_location)
+	(init_im_record_service)
+	(init_im)
+	(fill_in_im_record)
+	(fill_in_im)
+	(extract_im_record)
+	(extract_im)
+	(init_address_field)
+	(init_address_record)
+	(init_address)
+	(fill_in_address_field)
+	(fill_in_address_record)
+	(fill_in_address)
+	(extract_address_field)
+	(extract_address_record)
+	(extract_address)
+	(file_save_and_close_cb)
+	(file_cancel_cb)
+	(set_entry_text): Implemented.
+	(connect_arrow_button_signals): Updated some widget names.
+	(set_entry_changed_signals): Removed dead widgets, updated names for
+	others.
+	(print_cb)
+	(tb_save_and_close_cb)
+	(create_ui): Disabled Bonobo toolbar/menus.
+	(e_contact_editor_init): Disabled Bonobo toolbar/menus. Init new
+	UI elements. Remove init of old UI elements.
+	(command_state_changed): Disabled Bonobo toolbar/menus. Act on new
+	ok/cancel buttons.
+	(_phone_arrow_pressed): Updated widget names.
+	(set_phone_field): Use set_entry_text ().
+	(set_fields): Update widget names, remove old address code, call new
+	fill_in_* code.
+	(field_mapping): Remove dead widgets.
+	(widget_field_mapping): Ditto.
+	(enable_writable_fields): Remove calls for old email/address UI.
+	Update some names.
+	(fill_in_info): Don't find_address_mailing() or set_im_fields().
+	(extract_info): Call new extraction funcs.
+
 2004-04-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-view.c (book_open_cb): force the info
