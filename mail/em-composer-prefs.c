@@ -666,6 +666,12 @@ spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer
 }
 
 static void
+spell_live_toggled (GtkWidget *widget, gpointer user_data)
+{
+	spell_changed (user_data);
+}
+
+static void
 spell_language_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
 {
 	GtkTreeIter iter;
@@ -747,6 +753,7 @@ spell_setup (EMComposerPrefs *prefs)
 	
 	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", G_CALLBACK (spell_color_set), prefs);
 	glade_xml_signal_connect_data (prefs->gui, "spellLanguageEnable", GTK_SIGNAL_FUNC (spell_language_enable), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLiveToggled", G_CALLBACK (spell_live_toggled), prefs);
 	
 	g_signal_connect (prefs->language, "button_press_event", G_CALLBACK (spell_language_button_press), prefs);
 }
@@ -853,7 +860,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
-	toggle_button_init (prefs->auto_smileys, prefs->gconf,
+	toggle_button_init (prefs->spell_check, prefs->gconf,
 			    "/apps/evolution/mail/composer/inline_spelling",
 			    FALSE, G_CALLBACK (toggle_button_toggled), prefs);
 	
