@@ -861,6 +861,25 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 	return account;
 }
 
+inline static void
+mail_ignore (EMsgComposer *composer, const gchar *name, const gchar *address)
+{
+	e_msg_composer_ignore (composer, name && *name ? name : address);
+}
+
+static void
+mail_ignore_address (EMsgComposer *composer, const CamelInternetAddress *addr)
+{
+	const gchar *name, *address;
+	gint i, max;
+
+	max = camel_address_length (CAMEL_ADDRESS (addr));
+	for (i = 0; i < max; i++) {
+		camel_internet_address_get (addr, i, &name, &address);
+		mail_ignore (composer, name, address);
+	}
+}
+
 static EMsgComposer *
 mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char *uid, int mode)
 {
@@ -895,19 +914,17 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		  localtime (&date));
 	format = e_utf8_from_locale_string (date_str);
 	text = mail_tool_quote_message (message, format, name && *name ? name : address);
+	mail_ignore (composer, name, address);
 	g_free (format);
-	
-	if (text) {
-		e_msg_composer_set_body_text (composer, text);
-		g_free (text);
-	}
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
 	
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-	
+	mail_ignore_address (composer, to_addrs);
+	mail_ignore_address (composer, cc_addrs);
+
 	if (mode == REPLY_LIST) {
 		CamelMessageInfo *info;
 		const char *mlist;
@@ -970,6 +987,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				e_destination_set_email (dest, reply_addr);
 				to = g_list_append (to, dest);
 				g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
+				mail_ignore (composer, name, reply_addr);
 			}
 		}
 		
@@ -1021,6 +1039,10 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	g_list_free (to);
 	g_list_free (cc);
 	
+	if (text) {
+		e_msg_composer_set_body_text (composer, text);
+		g_free (text);
+	}
 	e_msg_composer_set_headers (composer, me ? me->name : NULL, tov, ccv, NULL, subject);
 	
 	e_destination_freev (tov);

@@ -1,3 +1,11 @@
+2002-01-31  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): ignore spell checking of
+	words in addresses, move set_body_text after all ignored words are
+	set so we don't have to spell check whole document again
+	(mail_ignore_address): helper function
+	(mail_ignore): ditto
+
 2002-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_edit): Pass the parent window to
