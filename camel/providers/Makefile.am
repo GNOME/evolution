@@ -4,4 +4,9 @@ if ENABLE_NNTP
 NNTP_DIR=nntp
 endif
 
-SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local
+if ENABLE_IMAPP
+IMAPP_DIR=imapp
+endif
+
+SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local $(IMAPP_DIR)
+
