@@ -26,6 +26,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <ctype.h>
 #include "mail.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
@@ -138,11 +139,13 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_folder_get_message_count (folder) == 0) {
 		data->empty = TRUE;
 	} else {
+		CamelUIDCache *cache;
 		gchar *userrules;
 		gchar *systemrules;
 		FilterContext *fc;
 		FilterDriver *filter;
-		GPtrArray *uids;
+		GPtrArray *uids, *new_uids;
+		char *url, *p, *filename;
 		int i;
 		
 		userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -161,10 +164,33 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_folder_freeze (input->destination);
 		
 		uids = camel_folder_get_uids (folder);
+		
+		/* get the mail source's uid cache file */
+		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+		for (p = url; *p; p++) {
+			if (!isascii ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
+				*p = '_';
+		}
+		
+		filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, url);
+		g_free (url);
+		
+		cache = camel_uid_cache_new (filename);
+		
+		if (cache) {
+			/* determine the new uids */
+			new_uids = camel_uid_cache_get_new_uids (cache, uids);
+			camel_folder_free_uids (folder, uids);
+			uids = new_uids;
+		}
+		
+		/* get/filter the new messages */
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
 			CamelMessageInfo *info;
 			gboolean free_info;
+			
+			mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
 			
 			message = camel_folder_get_message (folder, uids->pdata[i], ex);
 			if (camel_exception_is_set (ex))
