@@ -220,7 +220,7 @@ dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
 AC_MSG_CHECKING(for Bonobo >= 0.15)
-if gnome-config --libs bonobo > /dev/null 2>&1; then
+if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
 	case $vers
 	in
@@ -240,8 +240,8 @@ fi
 dnl Check 0.15 vs post-0.15
 saved_CFLAGS="$CFLAGS"
 saved_LDFLAGS="$LDFLAGS"
-CFLAGS="$CFLAGS `gnome-config --cflags bonobo`"
-LDFLAGS="$LDFLAGS `gnome-config --libs bonobo`"
+CFLAGS="$CFLAGS `gnome-config --cflags bonobox`"
+LDFLAGS="$LDFLAGS `gnome-config --libs bonobox`"
 AC_TRY_COMPILE([
 #include <bonobo/bonobo-ui-handler.h>
 ],[
@@ -301,13 +301,13 @@ AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gnomecanvaspixbuf gnomeui`"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanvaspixbuf gnomeui `"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui`"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui `"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
@@ -368,8 +368,8 @@ AC_CHECK_FUNCS(gnome_vfs_mime_get_default_action_without_fallback)
 CFLAGS="$saved_CFLAGS"
 LDFLAGS="$saved_LDFLAGS"
 
-BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
-BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
+BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
+BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)
 AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 
