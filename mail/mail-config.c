@@ -448,7 +448,7 @@ config_write_style (void)
 	 *
 	 * EPFIXME this kludge needs to go away.
 	 */
-	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), ".evolution/mail/config", MAIL_CONFIG_RC, NULL);
 
 	rc = fopen (filename, "w");
 

@@ -522,6 +522,9 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 {
 	ETreePath node;
 
+	if (message_list->folder == NULL)
+		return;
+
 	if (message_list->regen) {
 		g_free(message_list->pending_select_uid);
 		message_list->pending_select_uid = g_strdup(uid);

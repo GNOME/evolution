@@ -1,5 +1,12 @@
 2003-12-12  Not Zed  <NotZed@Ximian.com>
 
+	* mail-config.c (config_write_style): put the style in .evolution.
+
+	** See bug #52023.
+
+	* message-list.c (message_list_select_uid): noop if we've been
+	destroyed (foldre == NULL).
+
 	** See bug #52108.
 
 	* em-format.c (em_format_is_attachment): also recognise
