@@ -1,3 +1,10 @@
+2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Use the new
+	CamelMultipartEncrypted class to do our encryption work for us. We
+	also need to always get the user's userid before encrypting since
+	pgp/gpg need that.
+
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Use

@@ -88,7 +88,6 @@
 #include "camel/camel.h"
 #include "camel/camel-charset-map.h"
 #include "camel/camel-session.h"
-#include "camel/camel-multipart-signed.h"
 
 #include "mail/mail.h"
 #include "mail/mail-crypto.h"
@@ -496,9 +495,9 @@ build_message (EMsgComposer *composer)
 		
 		if (composer->pgp_sign) {
 			CamelInternetAddress *from = NULL;
-			const char *pgpid;
 			CamelMultipartSigned *mps;
 			CamelCipherContext *cipher;
+			const char *userid;
 			
 			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
 			if (cipher == NULL) {
@@ -508,26 +507,26 @@ build_message (EMsgComposer *composer)
 			}
 			
 			if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
-				pgpid = hdrs->account->pgp_key;
+				userid = hdrs->account->pgp_key;
 			} else {
 				/* time for plan b */
 				from = e_msg_composer_hdrs_get_from (hdrs);
-				camel_internet_address_get (from, 0, NULL, &pgpid);
+				camel_internet_address_get (from, 0, NULL, &userid);
 			}
 			
 			mps = camel_multipart_signed_new ();
-			camel_multipart_signed_sign (mps, cipher, part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
+			camel_multipart_signed_sign (mps, cipher, part, userid, CAMEL_CIPHER_HASH_SHA1, &ex);
+			camel_object_unref (cipher);
 			
 			if (from)
-				camel_object_unref (CAMEL_OBJECT (from));
+				camel_object_unref (from);
 			
 			/* if cancelled, just leave part as is, otherwise, replace content with the multipart */
 			if (camel_exception_is_set (&ex)) {
 				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
 					camel_exception_clear (&ex);
 				} else {
-					camel_object_unref (CAMEL_OBJECT (mps));
-					camel_object_unref (CAMEL_OBJECT (cipher));
+					camel_object_unref (mps);
 					goto exception;
 				}
 			} else {
@@ -535,37 +534,36 @@ build_message (EMsgComposer *composer)
 				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mps);
 			}
 			
-			camel_object_unref (CAMEL_OBJECT (mps));
-			camel_object_unref (CAMEL_OBJECT (cipher));
+			camel_object_unref (mps);
 		}
 		
 		if (composer->pgp_encrypt) {
 			/* FIXME: recipients should be an array of key ids rather than email addresses */
+			CamelInternetAddress *from = NULL;
 			const CamelInternetAddress *addr;
-			const char *address;
+			CamelMultipartEncrypted *mpe;
+			CamelCipherContext *cipher;
 			GPtrArray *recipients;
+			const char *address;
+			const char *userid;
 			int i, len;
 			
 			camel_exception_init (&ex);
 			recipients = g_ptr_array_new ();
 			
-			/* check to see if we should encrypt to self */
-			if (hdrs->account && hdrs->account->pgp_encrypt_to_self) {
-				CamelInternetAddress *from = NULL;
-				
-				if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
-					address = hdrs->account->pgp_key;
-				} else {
-					/* time for plan b */
-					from = e_msg_composer_hdrs_get_from (hdrs);
-					camel_internet_address_get (from, 0, NULL, &address);
-				}
-				
-				g_ptr_array_add (recipients, g_strdup (address));
-				
-				if (from)
-					camel_object_unref (CAMEL_OBJECT (from));
+			/* get our userid */
+			userid = NULL;
+			if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
+				userid = hdrs->account->pgp_key;
+			} else {
+				/* time for plan b */
+				from = e_msg_composer_hdrs_get_from (hdrs);
+				camel_internet_address_get (from, 0, NULL, &userid);
 			}
+			
+			/* check to see if we should encrypt to self */
+			if (hdrs->account && hdrs->account->pgp_encrypt_to_self && userid)
+				g_ptr_array_add (recipients, g_strdup (userid));
 			
 			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
 			len = camel_address_length (CAMEL_ADDRESS (addr));
@@ -588,14 +586,34 @@ build_message (EMsgComposer *composer)
 				g_ptr_array_add (recipients, g_strdup (address));
 			}
 			
-			mail_crypto_pgp_mime_part_encrypt (&part, recipients, &ex);
+			mpe = camel_multipart_encrypted_new ();
+			cipher = mail_crypto_get_pgp_cipher_context (hdrs->account);
+			
+			camel_multipart_encrypted_encrypt (mpe, part, cipher, userid, recipients, &ex);
+			
+			camel_object_unref (cipher);
+			
+			if (from)
+				camel_object_unref (from);
+			
 			for (i = 0; i < recipients->len; i++)
 				g_free (recipients->pdata[i]);
 			g_ptr_array_free (recipients, TRUE);
 			
-			if (camel_exception_is_set (&ex)
-			    && camel_exception_get_id (&ex) != CAMEL_EXCEPTION_USER_CANCEL)
-				goto exception;
+			/* if cancelled, just leave part as is, otherwise, replace content with the multipart */
+			if (camel_exception_is_set (&ex)) {
+				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
+					camel_exception_clear (&ex);
+				} else {
+					camel_object_unref (mpe);
+					goto exception;
+				}
+			} else {
+				camel_multipart_set_boundary (CAMEL_MULTIPART (mpe), NULL);
+				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mpe);
+			}
+			
+			camel_object_unref (mpe);
 		}
 		
 		current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
