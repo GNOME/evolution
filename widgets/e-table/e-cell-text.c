@@ -16,7 +16,8 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx> */
+ * Author: Federico Mena <federico@nuclecu.unam.mx>
+ */
 #include <config.h>
 #include <gtk/gtkenums.h>
 #include <gtk/gtkentry.h>
