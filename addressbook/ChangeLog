@@ -1,3 +1,13 @@
+2004-06-04  JP Rosevear  <jpr@novell.com>
+
+	Fixes #55945
+	
+	* importers/*.server.in.in: ditto
+
+	* importers/evolution-ldif-importer.c: fix OAFIIDs
+
+	* importers/evolution-vcard-importer.c: ditto
+
 2004-06-04  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c

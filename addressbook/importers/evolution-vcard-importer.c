@@ -48,8 +48,8 @@
 #include <util/eab-book-util.h>
 #include <util/e-destination.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
+#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:" BASE_VERSION
+#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer:" BASE_VERSION
 
 typedef struct {
 	ESource *primary;

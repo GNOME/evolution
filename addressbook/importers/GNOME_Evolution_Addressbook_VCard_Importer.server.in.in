@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:@VERSION@"
 	    type="shlib"
 	    location="@IMPORTERSDIR@/libevolution-addressbook-vcard-importer.so">
 
@@ -12,9 +12,9 @@
 		       _value="Evolution VCard importer"/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Importer:@VERSION@"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory">
+	    location="OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Importer:@VERSION@"/>

@@ -34,8 +34,8 @@
 #include <widgets/misc/e-source-selector.h>
 #include <util/e-destination.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory"
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer"
+#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory:" BASE_VERSION
+#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer:" BASE_VERSION
 
 static GHashTable *dn_contact_hash;
 
