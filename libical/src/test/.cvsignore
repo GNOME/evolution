@@ -9,3 +9,4 @@ findobj
 parser
 storage
 Makefile.in
+stow
