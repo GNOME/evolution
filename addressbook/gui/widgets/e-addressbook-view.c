@@ -33,7 +33,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
-#include <gal/util/e-unicode.i18n.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
