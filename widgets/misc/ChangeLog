@@ -1,3 +1,13 @@
+2001-01-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-calendar.c (e_calendar_init): Unset the GTK_CAN_FOCUS flag on
+	the ECalendar.
+	(e_calendar_focus_in): Removed function since it did nothing.
+	(e_calendar_focus_out): Likewise.
+	(e_calendar_key_press): Likewise.
+	(e_calendar_init): Turn off the GTK_CAN_FOCUS flag for both arrow
+	buttons.
+
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_set_max_days_sel): Make zero

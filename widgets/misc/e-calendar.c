@@ -99,12 +99,6 @@ static void e_calendar_size_allocate	(GtkWidget	*widget,
 					 GtkAllocation	*allocation);
 static void e_calendar_draw		(GtkWidget	*widget,
 					 GdkRectangle	*area);
-static gint e_calendar_focus_in		(GtkWidget	*widget,
-					 GdkEventFocus	*event);
-static gint e_calendar_focus_out	(GtkWidget	*widget,
-					 GdkEventFocus	*event);
-static gint e_calendar_key_press	(GtkWidget	*widget,
-					 GdkEventKey	*event);
 static gint e_calendar_drag_motion	(GtkWidget      *widget,
 					 GdkDragContext *context,
 					 gint            x,
@@ -150,9 +144,6 @@ e_calendar_class_init (ECalendarClass *class)
  	widget_class->size_request	   = e_calendar_size_request;
  	widget_class->size_allocate	   = e_calendar_size_allocate;
 	widget_class->draw		   = e_calendar_draw;
-	widget_class->focus_in_event	   = e_calendar_focus_in;
-	widget_class->focus_out_event	   = e_calendar_focus_out;
-	widget_class->key_press_event	   = e_calendar_key_press;
 	widget_class->drag_motion	   = e_calendar_drag_motion;
 	widget_class->drag_leave	   = e_calendar_drag_leave;
 }
@@ -167,6 +158,8 @@ e_calendar_init (ECalendar *cal)
 	GdkColormap *colormap;
 	GdkPixmap *gdk_pixmap;
 	GdkBitmap *gdk_mask;
+
+	GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
 
 	/* Create the small font. */
 	small_font = gdk_font_load (E_CALENDAR_SMALL_FONT);
@@ -188,6 +181,7 @@ e_calendar_init (ECalendar *cal)
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
@@ -213,6 +207,7 @@ e_calendar_init (ECalendar *cal)
 						NULL);
 
 	button = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
@@ -409,30 +404,6 @@ e_calendar_draw			(GtkWidget	*widget,
 #if 0
 	(*GTK_WIDGET_CLASS (grandparent_class)->draw) (widget, area);
 #endif
-}
-
-
-static gint
-e_calendar_focus_in		(GtkWidget	*widget,
-				 GdkEventFocus	*event)
-{
-	return FALSE;
-}
-
-
-static gint
-e_calendar_focus_out		(GtkWidget	*widget,
-				 GdkEventFocus	*event)
-{
-	return FALSE;
-}
-
-
-static gint
-e_calendar_key_press		(GtkWidget	*widget,
-				 GdkEventKey	*event)
-{
-	return FALSE;
 }
 
 
