@@ -1975,8 +1975,10 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 {
 	char *path;
 	
-	mail_folder_cache_set_update_estorage (fi->url, storage);
-	mail_folder_cache_note_folderinfo (fi->url, fi);
+	if (fi->url) {
+		mail_folder_cache_set_update_estorage (fi->url, storage);
+		mail_folder_cache_note_folderinfo (fi->url, fi);
+	}
 
 	path = g_strdup_printf ("%s/%s", prefix, fi->name);
 	evolution_storage_new_folder (storage, path, fi->name,
