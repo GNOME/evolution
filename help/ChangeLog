@@ -1,3 +1,11 @@
+2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/Makefile.am (SGML_FILES): Add `evolution.sgml'.
+	(evolution-guide): Process `evolution.sgml', not
+	`evolution-guide.sgml'.
+	(dist-hook): s/evolution-guide/evolution/
+	(install-data-local): Likewise.
+
 2001-03-14  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* C/Makefile.am: there's no apx-fdl.sgml and evolution-guide.sgml

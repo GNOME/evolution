@@ -1,6 +1,7 @@
 evolution_helpdir = $(datadir)/gnome/help/evolution/C
 
 SGML_FILES =			\
+	evolution.sgml		\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
@@ -15,25 +16,25 @@ SGML_FILES =			\
 	usage-sync.sgml
 
 
-EXTRA_DIST = \
+EXTRA_DIST = 		\
 	$(SGML_FILES)
 
 all: evolution-guide
 
 evolution-guide: $(SGML_FILES)
-	-db2html evolution-guide.sgml
+	-db2html evolution.sgml
 
 dist-hook:
-	mkdir $(distdir)/evolution-guide
-	-cp evolution-guide/*.html evolution-guide/*.css $(distdir)/evolution-guide
+	mkdir $(distdir)/evolution
+	-cp evolution/*.html evolution/*.css $(distdir)/evolution
 	mkdir $(distdir)/fig
 	-cp fig/*.png $(distdir)/fig
-	mkdir $(distdir)/evolution-guide/stylesheet-images
-	-cp evolution-guide/stylesheet-images/* $(distdir)/evolution-guide/stylesheet-images
+	mkdir $(distdir)/evolution/stylesheet-images
+	-cp evolution/stylesheet-images/* $(distdir)/evolution/stylesheet-images
 
-install-data-local: evolution-guide
+install-data-local: evolution
 	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)
-	-for file in $(srcdir)/evolution-guide/*.html $(srcdir)/evolution-guide/*.css; do \
+	-for file in $(srcdir)/evolution/*.html $(srcdir)/evolution/*.css; do \
 		basefile=`basename $$file`; \
 		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/$$basefile; \
 	done
@@ -45,7 +46,7 @@ install-data-local: evolution-guide
 	done
 
 	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/stylesheet-images
-	-for file in $(srcdir)/evolution-guide/stylesheet-images/*; do \
+	-for file in $(srcdir)/evolution/stylesheet-images/*; do \
 		basefile=`basename $$file`; \
 		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/stylesheet-images/$$basefile; \
 	done

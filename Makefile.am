@@ -14,7 +14,6 @@ EXTRA_DIST =			\
 	xml-i18n-extract.in
 
 SUBDIRS =			\
-	doc			\
         intl                    \
         macros                  \
         data                    \
@@ -37,4 +36,5 @@ SUBDIRS =			\
         default_user            \
 	views			\
         tools                   \
+	doc			\
         po

@@ -1,3 +1,10 @@
+2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-devel-guide.sgml: Disable the importer references here
+	too.
+
+	* Makefile.am: Remove the importer stuff for now.
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* calendar/cal-client/Makefile.am (install-data-local): Install
