@@ -607,7 +607,7 @@ scan_property (CalComponent *comp, icalproperty *prop)
 static const char *
 alarm_uid_from_prop (icalproperty *prop)
 {
-	char *xstr;
+	const char *xstr;
 
 	g_assert (icalproperty_isa (prop) == ICAL_X_PROPERTY);
 
@@ -1129,12 +1129,13 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 /**
  * cal_component_get_status:
  * @comp: A calendar component object.
- * @status: Return value for the status string.
+ * @status: Return value for the status value.  It is set to #ICAL_STATUS_NONE
+ * if the component has no status property.
  *
  * Queries the status property of a calendar component object.
  **/
 void
-cal_component_get_status (CalComponent *comp, const char **status)
+cal_component_get_status (CalComponent *comp, icalproperty_status *status)
 {
 	CalComponentPrivate *priv;
 
@@ -1146,7 +1147,7 @@ cal_component_get_status (CalComponent *comp, const char **status)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	if (!priv->status) {
-		*status = NULL;
+		*status = ICAL_STATUS_NONE;
 		return;
 	}
 
@@ -1156,25 +1157,25 @@ cal_component_get_status (CalComponent *comp, const char **status)
 /**
  * cal_component_set_status:
  * @comp: A calendar component object.
- * @status: a status string, e.g. "IN-PROCESS", "NEEDS-ACTION". See the RFC.
+ * @status: Status value.  You should use #ICAL_STATUS_NONE if you want to unset
+ * this property.
  *
- * Sets the status string property of a calendar component object.
+ * Sets the status property of a calendar component object.
  **/
 void
-cal_component_set_status (CalComponent *comp, const char *status)
+cal_component_set_status (CalComponent *comp, icalproperty_status status)
 {
 	CalComponentPrivate *priv;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (status != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	priv->need_sequence_inc = TRUE;
 
-	if (status == NULL) {
+	if (status == ICAL_STATUS_NONE) {
 		if (priv->status) {
 			icalcomponent_remove_property (priv->icalcomp, priv->status);
 			icalproperty_free (priv->status);
@@ -1185,11 +1186,10 @@ cal_component_set_status (CalComponent *comp, const char *status)
 	}
 
 	if (priv->status) {
-		icalproperty_set_status (priv->status, (char *) status);
+		icalproperty_set_status (priv->status, status);
 	} else {
-		priv->status = icalproperty_new_status ((char *) status);
-		icalcomponent_add_property (priv->icalcomp,
-					    priv->status);
+		priv->status = icalproperty_new_status (status);
+		icalcomponent_add_property (priv->icalcomp, priv->status);
 	}
 }
 

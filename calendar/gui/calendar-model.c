@@ -1915,7 +1915,6 @@ ensure_task_complete (CalComponent *comp,
 {
 	struct icaltimetype *old_completed = NULL;
 	struct icaltimetype new_completed;
-	const char *old_status;
 	int *old_percent, new_percent;
 	gboolean set_completed = TRUE;
 
@@ -1945,9 +1944,6 @@ ensure_task_complete (CalComponent *comp,
 	}
 	if (old_percent)
 		cal_component_free_percent (old_percent);
-
-	/* Status. */
-	cal_component_get_status (comp, &old_status);
 }
 
 
@@ -1958,7 +1954,7 @@ ensure_task_complete (CalComponent *comp,
 static void
 ensure_task_not_complete (CalComponent *comp)
 {
-	const char *old_status;
+	icalproperty_status old_status;
 	int *old_percent;
 
 	/* Date Completed. */
@@ -1973,8 +1969,8 @@ ensure_task_not_complete (CalComponent *comp)
 
 	/* Status. */
 	cal_component_get_status (comp, &old_status);
-	if (old_status && !strcmp (old_status, "COMPLETED"))
-		cal_component_set_status (comp, "NEEDS-ACTION");
+	if (old_status == ICAL_STATUS_COMPLETED)
+		cal_component_set_status (comp, ICAL_STATUS_NEEDSACTION);
 }
 
 

@@ -12,7 +12,6 @@
 #include <gnome.h>
 #include <bonobo.h>
 #include <glade/glade.h>
-#include <icaltypes.h>
 #include <ical.h>
 #include <time.h>
 #include <Evolution-Composer.h>

@@ -161,9 +161,6 @@ static void raise_and_focus (GtkWidget *widget);
 static TaskEditorPriority priority_value_to_index (int priority_value);
 static int priority_index_to_value (TaskEditorPriority priority);
 
-static int status_string_to_value	(const char *status_string);
-static const char* status_value_to_string	(int status);
-
 static void completed_changed		(EDateEdit	*dedit,
 					 TaskEditor	*tedit);
 static void status_changed		(GtkMenu	*menu,
@@ -744,7 +741,7 @@ fill_widgets (TaskEditor *tedit)
 	int *priority_value, *percent;
 	icalproperty_status status;
 	TaskEditorPriority priority;
-	const char *url, *status_string;
+	const char *url;
 
 	priv = tedit->priv;
 
@@ -810,10 +807,8 @@ fill_widgets (TaskEditor *tedit)
 	}
 
 	/* Status. */
-	cal_component_get_status (priv->comp, &status_string);
-	if (status_string) {
-		status = status_string_to_value (status_string);
-	} else {
+	cal_component_get_status (priv->comp, &status);
+	if (status == ICAL_STATUS_NONE) {
 		/* Try to user the percent value. */
 		if (percent) {
 			if (*percent == 0)
@@ -822,9 +817,8 @@ fill_widgets (TaskEditor *tedit)
 				status = ICAL_STATUS_COMPLETED;
 			else
 				status = ICAL_STATUS_INPROCESS;
-		} else {
+		} else
 			status = ICAL_STATUS_NEEDSACTION;
-		}
 	}
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
@@ -892,7 +886,6 @@ dialog_to_comp_object (TaskEditor *tedit)
 	int priority_value, percent;
 	CalComponentClassification classification;
 	char *url;
-	const char *status_string;
 	char *str;
 	
 	priv = tedit->priv;
@@ -975,8 +968,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 
 	/* Status. */
 	status = e_dialog_option_menu_get (priv->status, status_map);
-	status_string = status_value_to_string (status);
-	cal_component_set_status (comp, status_string);
+	cal_component_set_status (comp, status);
 
 	/* Priority. */
 	priority = e_dialog_option_menu_get (priv->priority, priority_map);
@@ -1114,36 +1106,6 @@ priority_index_to_value (TaskEditorPriority priority)
 	}
 
 	return retval;
-}
-
-
-static int
-status_string_to_value	(const char *status_string)
-{
-	int i;
-
-	for (i = 0; status_map[i] != -1; i++) {
-		if (!strcmp (status_string_map[i], status_string))
-			return status_map[i];
-	}
-
-	g_warning ("Invalid todo status string");
-	return ICAL_STATUS_NEEDSACTION;
-}
-
-
-static const char*
-status_value_to_string	(int status)
-{
-	int i;
-
-	for (i = 0; status_map[i] != -1; i++) {
-		if (status_map[i] == status)
-			return status_string_map[i];
-	}
-
-	g_warning ("Invalid todo status value");
-	return NULL;
 }
 
 

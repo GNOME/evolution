@@ -3,7 +3,6 @@
 #define ITIP_UTILS_HEADER
 
 #include <config.h>
-#include <icaltypes.h>
 #include <ical.h>
 #include <string.h>
 #include <gnome.h>

@@ -11,7 +11,7 @@
 
 
 #include <time.h>
-#include <icaltypes.h>
+#include <ical.h>
 
 
 time_t time_from_isodate        (char *str);

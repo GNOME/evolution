@@ -1,3 +1,32 @@
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	This is to make things work with libical 0.21helix1 and later.
+	Warnings remain because at last libical was constified; will take
+	care of those tomorrow.
+
+	* cal-util/timeutil.h: #include <ical.h> instead of <icaltypes.h>
+
+	* gui/e-itip-control.c: Likewise.
+
+	* gui/e-meeting-edit.c: Likewise.
+
+	* gui/itip-utils.h: Likewise.
+
+	* cal-util/cal-component.c (alarm_uid_from_prop): constify.
+	(cal_component_get_status): Updated for new libical API.
+	(cal_component_set_status): Likewise.
+
+	* gui/calendar-model.c (ensure_task_complete): Removed unused
+	status code.
+	(ensure_task_not_complete): Update for new status API.
+
+	* gui/dialogs/task-editor.c (status_string_to_value): Removed
+	function.
+	(status_value_to_string): Removed function.
+	(status_string_map): Removed variable.
+	(fill_widgets): Update for new status API.
+	(dialog_to_comp_object): Likewise.
+
 2000-12-11  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/cal-recur.c (generate_instances_for_chunk): updated the
@@ -17,7 +46,7 @@
 	Fixed the 'All day event' toggle button.
 	Made the 'Alarm' page sensitive as appropriate when filling widgets.
 	(Though note that the alarm widgets are not being set yet.)
-	
+
 	* gui/dialogs/task-editor.c: added changed flag as above.
 
 	* gui/event-editor-dialog.glade: used good names for all the
@@ -59,8 +88,8 @@
 
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-calendar-table.c (e_calendar_table_init): Attach signal 
-	handlers to the e_scrolled_table's etable rather than to the 
+	* gui/e-calendar-table.c (e_calendar_table_init): Attach signal
+	handlers to the e_scrolled_table's etable rather than to the
 	e_scrolled_table directly
 	(e_calendar_table_on_double_click): This signal provides more
 	params now
@@ -76,7 +105,7 @@
 	until pcs can be altered (longer term)
 
 	* conduits/todo/todo-conduit.c (post_sync): ditto
-	
+
 2000-12-07  Chris Toshok  <toshok@helixcode.com>
 
 	* cal-client/Makefile.am (client_test_LDADD): add
@@ -140,7 +169,7 @@
 
 	* pcs/cal-backend.h: update prototype
 
-	* pcs/cal-backend.c (cal_backend_compute_changes_foreach_key): Build 
+	* pcs/cal-backend.c (cal_backend_compute_changes_foreach_key): Build
 	the corba struct rather than the old calobjchange thing
 	(cal_backend_compute_changes): ditto.  build and return the actual
 	corba sequence rather than the list of calobjchanges
@@ -149,17 +178,17 @@
 	* cal-util/cal-util.h: Remove CalObjChange cruft
 
 	* cal-util/cal-util.c (cal_obj_change_list_free): Kill
-	
+
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
-	* cal-util/cal-util.c: 
+	* cal-util/cal-util.c:
 
 	* conduits/calendar/calendar-conduit.c (map_name): Update so as not to conflict
 	with calendar
 	(next_changed_item): update to use CalClientChange instead of CalObjChange
 	(compute_status): ditto
 	(pre_sync): ditto
-	(for_each_modified): since we now have the cal component we can call 
+	(for_each_modified): since we now have the cal component we can call
 	local_record_from_comp directly
 
 	* conduits/todo/todo-conduit.c: same as above
@@ -203,16 +232,16 @@
 	CalClientChange.
 
 	* cal-client/Makefile.am: Build new files
-	
+
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/Makefile.am: Fix my build stupidty READ THE MACRO
-	
+
 	* conduits/calendar/Makefile.am: ditto
 
 2000-12-04  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-day-view-time-item.c (e_day_view_time_item_get_column_width): 
+	* gui/e-day-view-time-item.c (e_day_view_time_item_get_column_width):
 	Initialize max_large_digit_width to 0 to prevent crazy sizing issues.
 
 2000-12-04  Dan Winship  <danw@helixcode.com>
@@ -283,7 +312,7 @@
 	* conduits/calendar/calendar-conduit.c: Debug message cleanups
 	(get_ical_day): Fix off-by-one error which affected weekly occurences.
 	(comp_from_remote_record): Monthly by day and by date were reversed
-	(nth_weekday): function taken from event-editor.c that encodes BYDAY 
+	(nth_weekday): function taken from event-editor.c that encodes BYDAY
 	values - this needs to be in libical really.
 	(comp_from_remote_record): Don't set the description if the pilot note
 	is null.  Rejig so that we don't have to free objects.
@@ -329,7 +358,7 @@
 
 2000-11-28  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view*.[hc]: 
+	* gui/e-day-view*.[hc]:
 	* gui/e-week-view*.[hc]: finished 12-hour support and tried to tidy
 	up & comment the drawing code in places. Also fixed a couple of bugs I
 	spotted. All the options on the 'Calendar' page should now work.
@@ -348,7 +377,7 @@
 
 	* conduits/todo/todo-conduit.c (free_prepare): Ditto
 
-	* conduits/calendar/calendar-conduit.c (free_prepare): Adjust 
+	* conduits/calendar/calendar-conduit.c (free_prepare): Adjust
 	free_prepare to the correct signal parameters.  Don't actually
 	do anything - there is a semantic discrepancy that needs to be
 	resolved.
@@ -361,7 +390,7 @@
 
 	* gui/gnome-cal.c: added more support for config settings.
 
-	* gui/e-week-view.[hc]: 
+	* gui/e-week-view.[hc]:
 	* gui/e-day-view.[hc]: added support for setting - show event end
 	times, week start day and 12-hour format (unfinished).
 
@@ -382,7 +411,7 @@
 	* gui/dialogs/task-editor.c (task_editor_create_date_edit): use
 	config settings.
 
-	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config): 
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config):
 	updated EDateEdit calls.
 
 2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
@@ -395,7 +424,7 @@
 	* cal-util/cal-component.c (free_icalcomponent): DOH, fixed
 	reversed test for the presence of the icalcomp's parent.  This was
 	causing memory leaks in the Wombat and elsewhere.
-	
+
 	* pcs/cal-backend.c (cal_backend_set_node_timet): Plug leak.
 
 2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
@@ -413,8 +442,8 @@
 	* pcs/cal-backend.c (cal_backend_log_entry): Plug leak.
 	(cal_backend_log_sync): Free the entry->uid.
 
-	* util/icalendar-save.[ch]: 
-	* util/icalendar-test.c: 
+	* util/icalendar-save.[ch]:
+	* util/icalendar-test.c:
 	* util/icalendar.[ch]: Removed obsolete files.
 
 2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
@@ -440,8 +469,8 @@
 	(time_format_changed): Removed.
 	(colors_changed): Removed.
 
-	* gui/calendar-commands.h: 
-	* gui/prop.c (prop_apply): 
+	* gui/calendar-commands.h:
+	* gui/prop.c (prop_apply):
 	* gui/calendar-commands.c (init_calendar): Removed the old to-do
 	list crap.
 
@@ -468,7 +497,7 @@
 	thing to do for most meetings.
 
 2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
-	
+
 	* gui/e-itip-control.c: made the REPLY code actually work.
 
 2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
@@ -616,11 +645,11 @@
 	component.
 
 2000-11-08   Jesse Pavel   <jpavel@helixcode.com>
-	
+
 	* gui/e-itip-control.c, gui/e-itip-control.glade: updated the GUI
 	to allow the user to add PUBLISHed events to his calendar, and created
 	unworking buttons for meeting requests.
-	
+
 2000-11-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	These changes fix bugzilla bugs #874 and #875.
@@ -687,7 +716,7 @@
 	* gui/e-itip-control.c, gui/e-itip-control.glade: changed to GUI to
 	accomodate dynamically generated buttons, which will be tailored to
 	the type of iTip message that is incoming.
-	
+
 	* gui/e-meeting-dialog.glade gui/e-meeting-edit.c: added a new button
 	to publish events, in addition to requesting meetings.
 
@@ -758,7 +787,7 @@
 
 	* gui/main.c: (main): added call to bindtextdomain and textdomain, so
 	all calendar gui shows up localized.
-	
+
 2000-10-31  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (count_by_xxx): Hmmm.  SHRT_MAX changed to
@@ -778,7 +807,7 @@
 	add changed_hash.
 
 	* conduits/calendar/calendar-conduit.h: ditto
-	
+
 	* conduits/todo/todo-conduit.c (next_changed_item): Utility function
 	to get the next "really" changed item (changed status can be cleared now)
 	(compute_status): Compute status based on changed_hash
@@ -858,7 +887,7 @@
 
 2000-10-27    <jpr@helixcode.com>
 
-	* conduits/calendar/calendar-conduit.c (check_for_slow_setting): 
+	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
 	Check boundary case of fast sync
 
 	* conduits/todo/todo-conduit.c (check_for_slow_setting): ditto
