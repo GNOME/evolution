@@ -4,8 +4,6 @@
 
 2001-02-09  JP Rosevear  <jpr@ximian.com>
 
-	* src/libical/Makefile.am: The built sources shouldn't be cleaned
-
 	* src/libical/icalparameter.c.in (icalparameter_new_from_string):
 	its NEEDS-ACTION rather than NEEDSACTION
 	(icalparameter_as_ical_string): ditto
