@@ -1,3 +1,9 @@
+2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Set the default
+	response to GTK_RESPONSE_OK.
+
 2003-04-29  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Fix install of evolution

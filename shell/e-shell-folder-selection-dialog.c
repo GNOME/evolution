@@ -416,6 +416,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 				NULL);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (folder_selection_dialog), GTK_RESPONSE_OK, FALSE);
+	gtk_dialog_set_default_response (GTK_DIALOG (folder_selection_dialog), GTK_RESPONSE_OK);
 
 	/* Make sure we get destroyed if the shell gets destroyed.  */
 
