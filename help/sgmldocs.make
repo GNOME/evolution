@@ -50,7 +50,8 @@ omf: omf_timestamp
 
 omf_timestamp: $(omffile)
 	-for file in $(srcdir)/$(omffile); do \
-	  scrollkeeper-preinstall $(docdir)/$(docname).sgml $$file $(omf_dir)/$$file; \
+	  basefile=`echo $$file | sed -e 's,^.*/,,'`; \
+	  scrollkeeper-preinstall $(docdir)/$(docname).sgml $$file $(omf_dir)/$$basefile; \
 	done
 	touch omf_timestamp
 
