@@ -1,3 +1,80 @@
+Evolution 2.1.1, 2004-11-28
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+
+   #28725 - should not say "no items in this view" until the backend is done responding (Sushma)
+   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu)
+   #61976 - Near-identical strings, should be made identical (Rodney)
+   #67656 - almost the same email address are considrered identical (Siva)
+   #61966 - Typo in string: Word "be" missing (Andre Klapper)
+   #69079 - Data repeated after save with bad date format (Siva)
+   #66854 - Some strings are missed to translation (partial, Rodney)
+
+ * Mail
+
+   #68787 - Crash when migrating 1.4 data to 2.0.2 (Michael)
+   #69109 - EHLO or HELO with ip addresses does not conform rfc 821 (Michael)
+   #69408 - Evolution hang in message fetching with ima4rev1 (Jeff)
+   #69145 - toplevel message/rfc822 parts are broken for IMAP (Michael)
+   #69241 - base64 attachement holding PGP block (Jeff)
+   #69160 - IMAP4 dont freez on scaning imap folders (Jeff)
+   #67496 - html email not rendered in preview pane (Michael)
+
+ * Calendar
+
+   #68624 - Requires URL to have http:// or webcal:// at beginning (Diego Sevilla Ruiz)
+   #47529 - Date in reminder window appears in UTF-8 in non-UTF-8 locale (Rodney)
+   #6767  - Fix hardcode colors in day, week, month views (Li Yuan)
+   #68707 - Events ending at 12:00 AM show as ending at 12:00 pm (JP)
+
+ * Shell
+
+   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu) 
+
+Other bugs
+
+ * Address Book
+
+    - Handle required fields (Siva)
+    - a11y fixes (Hao Sheng)
+    - make shift-F10 popup menu (Hao Sheng)
+    - don't show error dialog when cancelling operation (Siva)
+
+ * Mail
+
+    - Reduce memory for vfolder operations (Michael)
+    - Use unix sockets for spam checking (Radek)
+		
+ * Calendar
+
+    - warn is summary is blank (Chen)
+    - allow creating new calendar with right click on a group (Harish)
+    - EConfigize new calendar and calendar properties (David Trowbridge)
+    - make sure switch between 12/24h time shows immediately (JP)
+
+  * Plugins
+
+    - set "base" plugin target (Michael)
+    - add webcal config plugin (David Trowbridge)
+    - mailing list actions plugin (Meilof Venningen)   
+    - plugin manager plugin (Michael)   
+
+Updated translations:
+
+  - da (Martin Willemoes Hansen)
+  - lt (Žygimantas Beručka)
+  - nl (Vincent van Adrighem)
+  - de (Hendrik Richter)
+  - it (Marco Ciampa)
+  - ca (Jordi Mallach)
+  - fa (Meelad Zakaria)
+  - sq (Laurent Dhima)
+  - fr (Sebastien Bacher)
+  - cs (Juraj Kubelka)
+
 Evolution 2.1.0, 2004-11-01
 ----------------------------
 
