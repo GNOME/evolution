@@ -6,12 +6,18 @@
  * Authors: Iain Holmes  <iain@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 #include <liboaf/liboaf.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "Mail.h"
 #include "e-summary.h"
 #include "e-summary-mail.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-listener.h>
@@ -85,12 +91,16 @@ e_summary_mail_generate_html (ESummary *summary)
 	ESummaryMail *mail;
 	GString *string;
 	GList *p;
+	gchar *s;
 
 	mail = summary->mail;
 	string = g_string_new ("<dl><dt><img src=\"ico-mail.png\" "
-			       "align=\"middle\" alt=\"\" width=\"48\" "
-			       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">Mail summary</a>"
-			       "</b></dt><dd><table numcols=\"2\" width=\"100%\">");
+	                       "align=\"middle\" alt=\"\" width=\"48\" "
+	                       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">");
+	s = e_utf8_from_locale_string (_("Mail summary"));
+	g_string_append (string, s);
+	g_free (s);
+	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = mail->shown; p; p = p->next) {
 		folder_gen_html (p->data, string);

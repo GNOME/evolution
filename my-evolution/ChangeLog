@@ -1,3 +1,22 @@
+2001-06-30  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-summary-calendar.c (generate_html):
+	Marked strings for translation + conversion to utf8.
+
+	* e-summary-mail.c
+	Added missing #include <config.h>
+	(e_summary_mail_generate_html):
+	Marked strings for translation + conversion to utf8.
+
+	* e-summary-weather.c
+	(e_summary_weather_get_html, open_callback):
+	Marked strings for translation + conversion to utf8.
+	(weather_make_html): Fixed leaks.
+
+	* e-summary-rdf.c
+	(tree_walk): Fixed leaks.
+	(read_callback): Marked strings for translation.
+
 2001-06-29  Iain Holmes  <iain@ximian.com>
 
 	* e-summary.c (e_summary_draw): Resurrect the hack to stop GtkHTML from

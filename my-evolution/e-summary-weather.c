@@ -41,14 +41,19 @@ e_summary_weather_get_html (ESummary *summary)
 	GList *weathers;
 	GString *string;
 	char *html;
+	char *s;
 
 	if (summary->weather == NULL) {
 		return NULL;
 	}
 
 	string = g_string_new ("<dl><img src=\"ico-weather.png\" align=\"middle\" "
-			       "alt=\"\" width=\"48\" height=\"48\"><b>"
-			       "<a href=\"http://www.metoffice.gov.uk\">My Weather</a></b>");
+	                       "alt=\"\" width=\"48\" height=\"48\"><b>"
+	                       "<a href=\"http://www.metoffice.gov.uk\">");
+	s = e_utf8_from_locale_string (_("My Weather"));
+	g_string_append (string, s);
+	g_free (s);
+	g_string_append (string, "</a></b>");
 	for (weathers = summary->weather->weathers; weathers; weathers = weathers->next) {
 		if (((Weather *)weathers->data)->html == NULL) {
 			continue;
@@ -77,7 +82,7 @@ weather_make_html (Weather *w)
 {
 	GString *string;
 	ESummaryWeatherLocation *location;
-	char *sky, *temp, *cond, *uri, *url;
+	char *sky, *temp, *cond, *uri, *url, *s;
 
 	string = g_string_new ("<dd><img align=\"middle\" "
 			       "src=\"es-weather.png\">&#160;<b>");
@@ -96,11 +101,17 @@ weather_make_html (Weather *w)
 	temp = weather_temp_string (w);
 	cond = (char *) weather_conditions_string (w);
 
-	g_string_append (string, e_utf8_from_locale_string (sky));
-	g_string_append (string, " ");
-	g_string_append (string, e_utf8_from_locale_string (cond));
-	g_string_append (string, " ");
-	g_string_append (string, e_utf8_from_locale_string (temp));
+	s = e_utf8_from_locale_string (sky);
+	g_string_append (string, s);
+	g_free (s);
+	g_string_append_c (string, ' ');
+	s = e_utf8_from_locale_string (cond);
+	g_string_append (string, s);
+	g_free (s);
+	g_string_append_c (string, ' ');
+	s = e_utf8_from_locale_string (temp);
+	g_string_append (string, s);
+	g_free (s);
 	g_free (temp);
 
 	g_string_append (string, "<font size=\"-1\">");
@@ -274,7 +285,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	       Weather *w)
 {
 	if (result != GNOME_VFS_OK) {
-		w->html = g_strdup ("<b>Error downloading Metar</b>");
+		w->html = e_utf8_from_locale_string (_("<b>Error downloading Metar</b>"));
 
 		e_summary_draw (w->summary);
 		return;

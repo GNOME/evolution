@@ -11,6 +11,7 @@
 #endif
 
 #include <gnome.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "e-summary-calendar.h"
 #include "e-summary.h"
@@ -152,21 +153,30 @@ generate_html (gpointer data)
 						CALOBJ_TYPE_EVENT, day_begin,
 						day_end);
 	if (uids == NULL) {
-		if (calendar->html) {
-			g_free (calendar->html);
-		}
-		calendar->html = g_strdup ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
-					   "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">Appointments</a>"
-					   "</b></dt><dd><b>No appointments</b></dd></dl>");
+		char *s1, *s2;
+
+		s1 = e_utf8_from_locale_string (_("Appointments"));
+		s2 = e_utf8_from_locale_string (_("No appointments"));
+		g_free (calendar->html);
+		calendar->html = g_strconcat ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
+		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">",
+		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
+		g_free (s1);
+		g_free (s2);
 
 		e_summary_draw (summary);
 		return FALSE;
 	} else {
+		char *s;
+
 		uids = cal_list_sort (uids, sort_uids, summary);
 
 		string = g_string_new ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
-				       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">Appointments</a>"
-				       "</b></dt><dd>");
+		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">");
+		s = e_utf8_from_locale_string (_("Appointments"));
+		g_string_append (string, s);
+		g_free (s);
+		g_string_append (string, "</a></b></dt><dd>");
 		for (l = uids; l; l = l->next) {
 			char *uid, *start_str;
 			CalComponent *comp;

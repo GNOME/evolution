@@ -18,6 +18,8 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
@@ -235,7 +237,9 @@ tree_walk (xmlNodePtr root,
 		full = g_strdup_printf ("<a href=\"%s\">", u);
 		g_string_append (html, full);
 	}
-	g_string_append (html, e_utf8_from_locale_string (t));
+	t = e_utf8_from_locale_string (t);
+	g_string_append (html, t);
+	g_free (t);
 	if (*u != '\0') {
 		g_string_append (html, "</a>");
 	}
@@ -284,7 +288,9 @@ tree_walk (xmlNodePtr root,
 			g_free (tmp);
 		}
 		
-		tmp = g_strdup_printf ("%s\n</A></font></li>", e_utf8_from_locale_string (p));
+		p = e_utf8_from_locale_string (p);
+		tmp = g_strdup_printf ("%s\n</A></font></li>", p);
+		g_free (p);
 		g_string_append (html, tmp);
 		g_free (tmp);
 	}
@@ -361,7 +367,7 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	       RDF *r)
 {
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-		r->html = g_strdup ("<b>Error downloading RDF</b>");
+		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
 
 		e_summary_draw (r->summary);
 		r->handle = NULL;
@@ -387,7 +393,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	       RDF *r)
 {
 	if (result != GNOME_VFS_OK) {
-		r->html = g_strdup ("<b>Error downloading RDF</b>");
+		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
 
 		e_summary_draw (r->summary);
 		return;
