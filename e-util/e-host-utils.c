@@ -57,7 +57,12 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 		return errno;
 #else
 	struct hostent *hp;
-	return gethostbyname_r(name, host, buf, buflen, &hp, herr);
+	int retval;
+
+	retval = gethostbyname_r(name, host, buf, buflen, &hp, herr);
+	if (hp != NULL)
+		*herr = 0;
+	return retval;
 #endif
 #else
 	int i;

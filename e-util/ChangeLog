@@ -1,3 +1,14 @@
+2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-host-utils.c (e_gethostbyname_r)
+	[HAVE_GETHOSTBYNAME_R && GETHOSTBYNAME_R_FIVE_ARGS]: Set `*herr'
+	to zero if the function returns a non-NULL pointer to the hostent.
+	According to the docs, a returned non-NULL hostent always means
+	"no error" no matter what the returned value of `herr' is.  [And
+	in fact, at least on libc 2.2.3, trying to resolve `localhost'
+	sets herr to `HOST_NOT_FOUND' even if the name is resolved
+	correctly and the returned hostent is non-NULL.]
+
 2001-05-16  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (e_text_to_html_full): add
