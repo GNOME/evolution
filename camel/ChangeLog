@@ -1,3 +1,10 @@
+2003-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Add a CRLF filter to the output stream to
+	convert any CRLF sequences into plain old line-feeds to work
+	around a bug in some local transport programs.
+
 2003-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-filter.c: Add a 'flushed' state variable to the
