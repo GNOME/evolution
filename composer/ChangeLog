@@ -1,3 +1,9 @@
+2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (set_editor_text): Add a <br> tag between the
+	message text and the signature text (makes it nicer looking and
+	also fixes bug #53747.
+
 2004-02-17  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_unrealize): renamed from unmap
@@ -66,7 +72,7 @@
 2004-01-28  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #53176, probably fixes others too.
-	
+
 	* e-msg-composer.c (set_editor_text): When we set the text, always
 	add the signature implictly.  Means we don't have to set it
 	manually and break changing the file, or hit any races.

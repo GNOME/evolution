@@ -1094,13 +1094,15 @@ set_editor_text(EMsgComposer *composer, const char *text, int setsig)
 
 	/* This copying bullshit is because the bonobo stream interface is just painful */
 	len = strlen(text);
-	if (setsig
-	    && (sig = get_signature_html(composer))) {
-		len += strlen(sig);
-		content = mem = g_malloc(len+1);
-		memcpy(mem, text, strlen(text));
-		strcpy(mem + strlen(text), sig);
-		g_free(sig);
+	if (setsig && (sig = get_signature_html (composer))) {
+		char *p;
+		
+		len += strlen (sig) + 4;
+		content = p = mem = g_malloc (len + 1);
+		p = g_stpcpy (mem, text);
+		p = g_stpcpy (p, "<br>");
+		strcpy (p, sig);
+		g_free (sig);
 	} else {
 		content = text;
 	}
