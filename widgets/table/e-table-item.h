@@ -75,6 +75,8 @@ typedef struct {
 	int              cursor_change_id;
 	int              cursor_activated_id;
 
+	guint            cursor_idle_id;
+
 	/* View row, -1 means unknown */
 	int              old_cursor_row;
 
