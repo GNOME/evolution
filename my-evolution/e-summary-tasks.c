@@ -117,6 +117,7 @@ sort_uids (gconstpointer a,
 	CalClient *client = user_data;
 	CalClientGetStatus status;
 	CalComponentDateTime start_a, start_b;
+	int retval;
 
 	/* a after b then return > 0 */
 
@@ -131,7 +132,12 @@ sort_uids (gconstpointer a,
 	cal_component_get_dtstart (comp_a, &start_a);
 	cal_component_get_dtstart (comp_b, &start_b);
 
-	return icaltime_compare (*start_a.value, *start_b.value);
+	retval = icaltime_compare (*start_a.value, *start_b.value);
+
+	cal_component_free_datetime (&start_a);
+	cal_component_free_datetime (&start_b);
+
+	return retval;
 }
 
 static GList *
@@ -165,6 +171,7 @@ get_todays_uids (CalClient *client,
 				today = g_list_append (today, g_strdup (uid));
 			}
 		}
+		cal_component_free_datetime (&end);
 	}
 
 	if (today == NULL) {
@@ -248,6 +255,7 @@ generate_html (gpointer data)
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><strike><a href=\"evolution:/local/Tasks\">%s</a></strike></font><br>",
 						       text.value);
+				cal_component_free_icaltimetype (completed);
 			}
 
 			g_string_append (string, tmp);

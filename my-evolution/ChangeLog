@@ -1,3 +1,11 @@
+2001-08-06  Damon Chaplin  <damon@ximian.com>
+
+	* e-summary-tasks.c (sort_uids): 
+	(get_todays_uids): 
+	(generate_html): 
+	* e-summary-calendar.c (sort_uids): free the CalComponentDateTime
+	and icaltimetype values after finishing with them.
+
 2001-08-03  Jason Leach  <jleach@ximian.com>
 
 	* e-summary-mail.c (update_folder_cb): Callback for the

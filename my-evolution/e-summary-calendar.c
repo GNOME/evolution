@@ -118,6 +118,7 @@ sort_uids (gconstpointer a,
 	ESummaryCalendar *calendar = summary->calendar;
 	CalClientGetStatus status;
 	CalComponentDateTime start_a, start_b;
+	int retval;
 
 	/* a after b then return > 0 */
 
@@ -132,7 +133,12 @@ sort_uids (gconstpointer a,
 	cal_component_get_dtstart (comp_a, &start_a);
 	cal_component_get_dtstart (comp_b, &start_b);
 
-	return icaltime_compare (*start_a.value, *start_b.value);
+	retval = icaltime_compare (*start_a.value, *start_b.value);
+
+	cal_component_free_datetime (&start_a);
+	cal_component_free_datetime (&start_b);
+
+	return retval;
 }
 
 static gboolean
@@ -211,10 +217,14 @@ generate_html (gpointer data)
 			}
 
 			cal_component_get_summary (comp, &text);
+
 			cal_component_get_dtstart (comp, &start);
 			cal_component_get_dtend (comp, &end);
 			
 			start_t = icaltime_as_timet (*start.value);
+
+			cal_component_free_datetime (&start);
+			cal_component_free_datetime (&end);
 
 			start_str = g_new (char, 20);
 			start_tm = localtime (&start_t);
