@@ -1,3 +1,8 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (init_trash): Rename the folder to "Trash" and
+	i18nify it.
+
 2001-03-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.h: Comment out everything unless HAVE_NSS
