@@ -1,3 +1,11 @@
+2002-05-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate):
+	camel_pop3_engine_iterate doesn't return the state, it returns -1
+	on fail, 0 when finished processing request or >0 if more ops are
+	in the queue, so don't check status against CAMEL_POP3_STATE_OK,
+	instead check pcp->state against that.
+
 2002-05-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.h: s/class/klass for arguments so that c++

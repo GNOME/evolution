@@ -495,18 +495,18 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 		return FALSE;
 	}
 	
-	while ((status = camel_pop3_engine_iterate(store->engine, pcp)) > 0)
+	while ((status = camel_pop3_engine_iterate (store->engine, pcp)) > 0)
 		;
 	
-	if (status != CAMEL_POP3_COMMAND_OK) {
-		if (status == CAMEL_POP3_COMMAND_ERR)
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      _("Unable to connect to POP server.\nError sending password: %s"),
-					      store->engine->line);
-		else
+	if (pcp->state != CAMEL_POP3_COMMAND_OK) {
+		if (status == -1)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Unable to connect to POP server.\nError sending password: %s"),
 					      errno ? g_strerror (errno) : _("Unknown error"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      _("Unable to connect to POP server.\nError sending password: %s"),
+					      store->engine->line);
 	}
 	camel_pop3_engine_command_free(store->engine, pcp);
 
