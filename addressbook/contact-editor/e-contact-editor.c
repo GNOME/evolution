@@ -938,6 +938,8 @@ create_toolbar (EContactEditor *ce)
 
 	bonobo_ui_handler_create_toolbar (ce->uih, "Toolbar");
 
+#warning When the UI is converted to xml this is possible with a single tag
+#if 0
 	/* Fetch the toolbar.  What a pain in the ass. */
 
 	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (ce->app), GNOME_APP_TOOLBAR_NAME);
@@ -948,9 +950,12 @@ create_toolbar (EContactEditor *ce)
 
 	/* Turn off labels as GtkToolbar sucks */
 	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar_child), GTK_TOOLBAR_ICONS);
+#endif
 
 	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ce);
 	bonobo_ui_handler_toolbar_add_list (ce->uih, "/Toolbar", list);
+
+#warning In theory the list should be freed too, but just convert to an xml file.
 }
 
 /* Callback used when the dialog box is destroyed */
@@ -1009,6 +1014,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
+	GtkWidget *bonobo_win;
 
 	e_contact_editor->email_info = NULL;
 	e_contact_editor->phone_info = NULL;
@@ -1064,6 +1070,27 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
 				   categories_clicked, e_contact_editor);
 
+
+	/* Construct the app */
+	bonobo_win = bonobo_win_new ("contact-editor-dialog", "Contact Editor");
+
+	/* FIXME: The sucking bit */
+	{
+		GtkWidget *contents;
+
+		contents = gnome_dock_get_client_area (
+			GNOME_DOCK (GNOME_APP (e_contact_editor->app)->dock));
+		if (!contents) {
+			g_message ("contact_editor_construct(): Could not get contents");
+			return;
+		}
+		gtk_widget_ref (contents);
+		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
+		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		gtk_widget_destroy (e_contact_editor->app);
+		e_contact_editor->app = bonobo_win;
+	}
+
 	/* Build the menu and toolbar */
 
 	e_contact_editor->uih = bonobo_ui_handler_new ();
@@ -1072,7 +1099,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		return;
 	}
 
-	bonobo_ui_handler_set_app (e_contact_editor->uih, GNOME_APP (e_contact_editor->app));
+	bonobo_ui_handler_set_app (e_contact_editor->uih, BONOBO_WIN (e_contact_editor->app));
 
 	create_menu (e_contact_editor);
 	create_toolbar (e_contact_editor);

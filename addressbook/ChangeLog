@@ -1,3 +1,8 @@
+2000-09-13  Michael Meeks  <michael@helixcode.com>
+
+	* contact-editor/e-contact-editor.c (e_contact_editor_init): hack.
+	(create_toolbar): ditto.
+
 2000-09-07  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/addressbook.c: Radicaly update UI handler code.
