@@ -68,6 +68,8 @@ void  e_multi_config_dialog_add_page  (EMultiConfigDialog *dialog,
 				       const char         *description,
 				       GdkPixbuf          *icon,
 				       EConfigPage        *page);
+void  e_multi_config_dialog_show_page (EMultiConfigDialog *dialog,
+				       int                 page);
 
 #ifdef __cplusplus
 }

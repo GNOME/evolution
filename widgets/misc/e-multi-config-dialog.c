@@ -464,5 +464,19 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 	update_buttons (dialog);
 }
 
+void
+e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
+{
+	EMultiConfigDialogPrivate *priv;
+
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
+
+	priv = dialog->priv;
+
+	e_table_set_cursor_row (e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->list_e_table)), page);
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), page);
+}
+
 
 E_MAKE_TYPE (e_multi_config_dialog, "EMultiConfigDialog", EMultiConfigDialog, class_init, init, PARENT_TYPE)

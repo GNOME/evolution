@@ -1,3 +1,10 @@
+2002-04-06  JP Rosevear  <jpr@ximian.com>
+
+	* e-multi-config-dialog.c (e_multi_config_dialog_show_page): show
+	a specific page number
+
+	* e-multi-config-dialog.h: new proto
+
 2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c: Change the ETable specs so it doesn't
