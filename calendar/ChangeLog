@@ -1,3 +1,13 @@
+2000-03-28  Seth Alves  <alves@hungry.com>
+
+	* gui/Makefile.am (LINK_FLAGS): added libeutil.la and libetext.a
+
+	* gui/main.c (calendar_iterate): switch from string_to_ical_object to
+	ical_object_find_in_string
+	(calendar_get_events_in_range): same
+	(session_save_state): commented out references
+	to gcal->client->filename
+
 2000-03-27  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_get_object): Use

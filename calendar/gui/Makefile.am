@@ -81,6 +81,8 @@ LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
 	$(top_builddir)/calendar/cal-util/libcalutil.la \
+	$(top_builddir)/e-util/libeutil.la \
+	$(top_builddir)/widgets/e-text/libetext.a \
 	$(top_builddir)/libversit/libversit.la \
 	$(ICAL_LINK_FLAGS) \
 	$(top_builddir)/calendar/cal-client/libcal-client.la

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Main file for the GNOME Calendar program
  * Copyright (C) 1998 the Free Software Foundation
@@ -674,8 +675,10 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 
 	if (calendar_file && g_file_exists (calendar_file))
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
+	/* FIX ME
 	else
-		GNOME_CALENDAR (toplevel)->calc->filename = g_strdup (calendar_file);
+		GNOME_CALENDAR (toplevel)->client->filename = g_strdup (calendar_file);
+	*/
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
@@ -937,18 +940,20 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 
 		geometry = gnome_geometry_string (GTK_WIDGET (gcal)->window);
 
-		if (strcmp (gcal->calc->filename, user_calendar_file) == 0)
+		/* FIX ME
+		if (strcmp (gcal->client->filename, user_calendar_file) == 0)
 			argv [i++] = "--userfile";
 		else {
 			argv [i++] = "--file";
-			argv [i++] = gcal->calc->filename;
+			argv [i++] = gcal->client->filename;
 		}
+		*/
+
 		argv [i++] = "--geometry";
 		argv [i++] = geometry;
 		argv [i++] = "--view";
 		argv [i++] = gnome_calendar_get_current_view_name (gcal);
 		free_list = g_list_append (free_list, geometry);
-		/* calendar_save (gcal->cal, gcal->cal->filename); FIXME */
 	}
 	argv [i] = NULL;
 	gnome_client_set_clone_command (client, i, argv);
@@ -1065,13 +1070,29 @@ calendar_iterate (GnomeCalendar *cal,
 {
 	GList *l, *uids = 0;
 
-	uids = cal_client_get_uids (cal->calc, CALOBJ_TYPE_EVENT);
+	uids = cal_client_get_uids (cal->client, CALOBJ_TYPE_EVENT);
 
 	for (l = uids; l; l = l->next){
-		char *obj_string = cal_client_get_object (cal->calc, l->data);
-		iCalObject *obj = string_to_ical_object (obj_string);
+		CalObjFindStatus status;
+		iCalObject *ico;
+		char *uid = l->data;
+		char *obj_string = cal_client_get_object (cal->client, uid);
 
-		ical_object_generate_events (obj, start, end, cb, closure);
+		/*iCalObject *obj = string_to_ical_object (obj_string);*/
+		status = ical_object_find_in_string (uid, obj_string, &ico);
+		switch (status){
+		case CAL_OBJ_FIND_SUCCESS:
+			ical_object_generate_events (ico, start, end,
+						     cb, closure);
+			break;
+		case CAL_OBJ_FIND_SYNTAX_ERROR:
+			printf("calendar_iterate: syntax error uid=%s\n",uid);
+			break;
+		case CAL_OBJ_FIND_NOT_FOUND:
+			printf("calendar_iterate: obj not found uid=%s\n",uid);
+			break;
+		}
+
 		g_free (l->data);
 	}
 	g_list_free (uids);
@@ -1099,16 +1120,35 @@ GList *calendar_get_events_in_range (CalClient *calc,
 	uids = cal_client_get_events_in_range (calc, start, end);
 
 	for (l = uids; l; l = l->next){
+		CalObjFindStatus status;
 		char *obj_string = cal_client_get_object (calc, l->data);
-		iCalObject *obj = string_to_ical_object (obj_string);
+		/*iCalObject *obj = string_to_ical_object (obj_string);*/
+		iCalObject *ico;
+		char *uid = l->data;
 
-		CalendarObject *co = g_new (CalendarObject, 1);
-		co->ev_start = start;
-		co->ev_end   = end;
-		co->ico      = obj;
+		status = ical_object_find_in_string (uid, obj_string, &ico);
+		switch (status){
+		case CAL_OBJ_FIND_SUCCESS:
+			{
+				CalendarObject *co = g_new (CalendarObject, 1);
+				co->ev_start = start;
+				co->ev_end   = end;
+				co->ico      = ico;
 
-		res = g_list_insert_sorted (res, co,
-					    calendar_object_compare_by_start);
+				res = g_list_insert_sorted (res, co,
+					calendar_object_compare_by_start);
+				break;
+			}
+		case CAL_OBJ_FIND_SYNTAX_ERROR:
+			printf ("calendar_get_events_in_range: "
+				"syntax error uid=%s\n", uid);
+			break;
+		case CAL_OBJ_FIND_NOT_FOUND:
+			printf ("calendar_get_events_in_range: "
+				"obj not found uid=%s\n", uid);
+			break;
+		}
+
 	}
 
 	return res;
