@@ -399,8 +399,8 @@ static void
 set_state (GalViewMenus *gvm, char *path, CORBA_Environment *ev)
 {
 	char *full_path = g_strdup_printf ("/commands/%s", path);
+
 	bonobo_ui_component_set_prop (gvm->priv->component, full_path, "state", "1", ev);
-	g_print ("set_prop path: %s\n", full_path);
 	g_free (full_path);
 }
 
