@@ -1265,10 +1265,8 @@ edit_dialog_store_change (AddressbookSourceDialog *sdialog)
 	/* store the new source in the addressbook dialog */
 	old_source = e_table_memory_get_data (E_TABLE_MEMORY (dialog->sourcesModel), sdialog->source_model_row);
 	addressbook_source_free (old_source);
-	e_table_memory_store_remove (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-				     sdialog->source_model_row);
 
-	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
+	e_table_memory_store_change (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
 				     sdialog->source_model_row, source, source->name, source->host);
 
 	/* and let the config control know about the change */
