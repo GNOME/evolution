@@ -113,6 +113,9 @@ url_extract (const unsigned char **text, gboolean check)
  *     which probably means you don't want to use this flag on
  *     pieces of data that aren't delimited by at least line breaks.
  *
+ *     If E_TEXT_TO_HTML_CONVERT_NL and E_TEXT_TO_HTML_CONVERT_SPACES
+ *     are both defined, then TABs will also be converted to spaces.
+ *
  *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap <a href="..."> </a> around
  *     strings that look like URLs.
  **/
@@ -122,7 +125,7 @@ e_text_to_html (const char *input, unsigned int flags)
 	const unsigned char *cur = input, *end;
 	char *buffer = NULL;
 	char *out = NULL;
-	int buffer_size = 0;
+	int buffer_size = 0, col;
 
 	/* Allocate a translation buffer.  */
 	buffer_size = strlen (input) * 2 + 5;
@@ -132,6 +135,7 @@ e_text_to_html (const char *input, unsigned int flags)
 	if (flags & E_TEXT_TO_HTML_PRE)
 		out += sprintf (out, "<PRE>\n");
 
+	col = 0;
 	while (*cur) {
 		if (isalpha (*cur) && (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
@@ -162,6 +166,7 @@ e_text_to_html (const char *input, unsigned int flags)
 				out += sprintf (out,
 						"<a href=\"%s\">%s</a>",
 						refurl, dispurl);
+				col += strlen (tmpurl);
 				g_free (tmpurl);
 				g_free (refurl);
 				g_free (dispurl);
@@ -179,6 +184,7 @@ e_text_to_html (const char *input, unsigned int flags)
 				  end - cur + 10);
 		memcpy (out, cur, end - cur);
 		out += end - cur;
+		col += end - cur;
 
 		if (!*end)
 			break;
@@ -188,37 +194,55 @@ e_text_to_html (const char *input, unsigned int flags)
 		case '<':
 			strcpy (out, "&lt;");
 			out += 4;
+			col++;
 			break;
 
 		case '>':
 			strcpy (out, "&gt;");
 			out += 4;
+			col++;
 			break;
 
 		case '&':
 			strcpy (out, "&amp;");
 			out += 5;
+			col++;
 			break;
 
 		case '"':
 			strcpy (out, "&quot;");
 			out += 6;
+			col++;
 			break;
 
 		case '\n':
-			*out++ = *cur;
 			if (flags & E_TEXT_TO_HTML_CONVERT_NL) {
 				strcpy (out, "<br>");
 				out += 4;
 			}
+			*out++ = *cur;
+			col = 0;
 			break;
+
+		case '\t':
+			if (flags & (E_TEXT_TO_HTML_CONVERT_SPACES |
+				     E_TEXT_TO_HTML_CONVERT_NL)) {
+				do {
+					strcpy (out, "&nbsp;");
+					out += 6;
+					col++;
+				} while (col % 8);
+				break;
+			}
+			/* otherwise, FALL THROUGH */
 
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
 				if (cur == (const unsigned char *)input ||
-				    *(cur + 1) == ' ') {
+				    *(cur + 1) == ' ' || *(cur + 1) == '\t') {
 					strcpy (out, "&nbsp;");
 					out += 6;
+					col++;
 					break;
 				}
 			}
@@ -231,6 +255,7 @@ e_text_to_html (const char *input, unsigned int flags)
 				*out++ = *cur;
 			} else
 				out += g_snprintf(out, 9, "&#%d;", *cur);
+			col++;
 			break;
 		}
 
