@@ -105,6 +105,17 @@ camel_operation_init(void)
 }
 
 /**
+ * camel_operation_shutdown:
+ *
+ * Cleans up internal variables.
+ **/
+void
+camel_operation_shutdown (void)
+{
+	pthread_key_delete (&operation_key);
+}
+
+/**
  * camel_operation_new:
  * @status: Callback for receiving status messages.  This will always
  * be called with an internal lock held.

@@ -114,6 +114,7 @@ struct _camel_header_newsgroup {
 
 /* MUST be called before everything else */
 void camel_mime_utils_init(void);
+void camel_mime_utils_shutdown (void);
 
 /* Address lists */
 struct _camel_header_address *camel_header_address_new (void);

@@ -46,6 +46,7 @@ static int initialised = FALSE;
 static void
 camel_shutdown (void)
 {
+	void camel_operation_shutdown (void);
 	CamelCertDB *certdb;
 	
 	if (!initialised)
@@ -62,6 +63,9 @@ camel_shutdown (void)
 		camel_certdb_save (certdb);
 		camel_object_unref (certdb);
 	}
+	
+	camel_operation_shutdown ();
+	camel_mime_utils_shutdown ();
 	
 	initialised = FALSE;
 }

@@ -4246,7 +4246,7 @@ camel_mime_utils_init(void)
 	base64_init();
 
 	/* precompile regex's for speed at runtime */
-	for (i = 0; i < sizeof(mail_list_magic) / sizeof(mail_list_magic[0]); i++) {
+	for (i = 0; i < G_N_ELEMENTS (mail_list_magic); i++) {
 		errcode = regcomp(&mail_list_magic[i].regex, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE);
 		if (errcode != 0) {
 			char *errstr;
@@ -4263,4 +4263,14 @@ camel_mime_utils_init(void)
 	}
 
 	g_assert(regex_compilation_failed == 0);
+}
+
+
+void
+camel_mime_utils_shutdown (void)
+{
+	int i;
+	
+	for (i = 0; i < G_N_ELEMENTS (mail_list_magic); i++)
+		regfree (&mail_list_magic[i].regex);
 }

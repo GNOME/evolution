@@ -1,5 +1,13 @@
 2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
 
+	* camel.c (camel_shutdown): Call camel_mime_utils_shutdown() and
+	camel_operation_shutdown().
+
+	* camel-operation.c (camel_operation_shutdown): New function.
+
+	* camel-mime-utils.c (camel_mime_utils_shutdown): New function to
+	clean up the compiled regexes.
+
 	* camel-stream-buffer.c (set_vbuf): Need to re-init sbf->ptr and
 	sbf->end too, or we'll be sorrryy!
 
