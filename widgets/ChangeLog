@@ -1,3 +1,7 @@
+2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* menus/gal-view-menus.c: #include bonobo-ui-util.h
+
 2001-10-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* misc/Makefile.am:

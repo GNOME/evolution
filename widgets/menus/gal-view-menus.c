@@ -17,6 +17,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
+#include <bonobo/bonobo-ui-util.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/menus/gal-define-views-dialog.h>
