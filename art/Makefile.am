@@ -21,14 +21,24 @@ images_DATA = \
 
 EXTRA_DIST = \
 	attachment.xpm \
+	compose-message.png \
+	copy-message.png \
 	empty.xpm \
+	fetch-mail.png \
+	forward.png \
 	mail-new.xpm \
 	mail-read.xpm \
 	mail-replied.xpm \
 	mark.xpm \
 	meeting.xpm \
+	move-message.png \
 	priority-high.xpm \
 	priority-low.xpm \
+	reply.png \
+	reply-to-all.png \
 	tree-expanded.xpm \
 	tree-unexpanded.xpm \
 	$(images_DATA)
+
+
+
