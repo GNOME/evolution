@@ -1,3 +1,15 @@
+2002-03-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/main.c: use bonobo exception macros to tidy
+
+	* gui/itip-control-factory.c: ditto
+
+	* gui/gnome-cal.c: ditto
+
+	* gui/comp-editor-factory.c: ditto
+
+	* gui/calendar-commands.c: ditto
+
 2002-03-14  JP Rosevear  <jpr@ximian.com>
 
 	* idl/evolution-calendar.idl: add all day event editor mode

@@ -34,6 +34,7 @@
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-exception.h>
 
 #include <gal/widgets/e-cursors.h>
 
@@ -103,7 +104,7 @@ launch_alarm_daemon (void)
 	CORBA_exception_init (&ev);
 	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("add_alarms(): Could not activate the alarm notification service");
 		CORBA_exception_free (&ev);
 		return;
@@ -114,7 +115,7 @@ launch_alarm_daemon (void)
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (an, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("add_alarms(): Could not unref the alarm notification service");
 
 	CORBA_exception_free (&ev);

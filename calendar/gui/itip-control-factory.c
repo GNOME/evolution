@@ -30,6 +30,7 @@
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-stream-client.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-exception.h>
 #include <ical.h>
 
 #include "e-itip-control.h"
@@ -63,7 +64,7 @@ stream_read (Bonobo_Stream stream)
 		Bonobo_Stream_read (stream, READ_CHUNK_SIZE,
 				    &buffer, &ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION) {
+		if (BONOBO_EX (&ev)) {
 			CORBA_exception_free (&ev);
 			return NULL;
 		}
@@ -101,15 +102,13 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	gchar *text;
 	
 	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
-	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_WrongDataType, NULL);
+	    g_strcasecmp (type, "text/x-calendar") != 0) {
+		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
 	}
 
 	if ((text = stream_read (stream)) == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_FileNotFound, NULL);
+		bonobo_exception_set (ev, ex_Bonobo_Persist_FileNotFound);
 		return;
 	}
 
@@ -130,8 +129,7 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
 	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Bonobo_Persist_WrongDataType, NULL);
+		bonobo_exception_set (ev, ex_Bonobo_Persist_WrongDataType);
 		return;
 	}
 

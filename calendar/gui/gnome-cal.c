@@ -35,6 +35,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-exception.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
 #include "e-util/e-url.h"
@@ -1801,7 +1802,7 @@ add_alarms (const char *uri)
 	CORBA_exception_init (&ev);
 	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("add_alarms(): Could not activate the alarm notification service");
 		CORBA_exception_free (&ev);
 		return;
@@ -1813,18 +1814,13 @@ add_alarms (const char *uri)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_AlarmNotify_addCalendar (an, uri, &ev);
 
-	if (ev._major == CORBA_USER_EXCEPTION) {
-		char *ex_id;
-
-		ex_id = CORBA_exception_id (&ev);
-		if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
-			g_message ("add_calendar(): Invalid URI reported from the "
-				   "alarm notification service");
-		else if (strcmp (ex_id,
-				 ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError) == 0)
-			g_message ("add_calendar(): The alarm notification service could "
-				   "not contact the backend");
-	} else if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI))
+		g_message ("add_calendar(): Invalid URI reported from the "
+			   "alarm notification service");
+	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError))
+		g_message ("add_calendar(): The alarm notification service could "
+			   "not contact the backend");		
+	else if (BONOBO_EX (&ev))
 		g_message ("add_calendar(): Could not issue the addCalendar request");
 
 	CORBA_exception_free (&ev);
@@ -1833,7 +1829,7 @@ add_alarms (const char *uri)
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (an, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("add_alarms(): Could not unref the alarm notification service");
 
 	CORBA_exception_free (&ev);

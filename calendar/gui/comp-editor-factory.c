@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <bonobo/bonobo-exception.h>
 #include <evolution-calendar.h>
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
@@ -589,9 +590,7 @@ lookup_open_client (CompEditorFactory *factory, const char *str_uri, CORBA_Envir
 
 	uri = e_uri_new (str_uri);
 	if (!uri) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CompEditorFactory_InvalidURI,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CompEditorFactory_InvalidURI);
 		return NULL;
 	}
 	e_uri_free (uri);
@@ -600,10 +599,7 @@ lookup_open_client (CompEditorFactory *factory, const char *str_uri, CORBA_Envir
 	if (!oc) {
 		oc = open_client (factory, str_uri);
 		if (!oc) {
-			CORBA_exception_set (
-				ev, CORBA_USER_EXCEPTION,
-				ex_GNOME_Evolution_Calendar_CompEditorFactory_BackendContactError,
-				NULL);
+			bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CompEditorFactory_BackendContactError);
 			return NULL;
 		}
 	}

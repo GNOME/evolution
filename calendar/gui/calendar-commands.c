@@ -45,6 +45,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-exception.h>
 #include <cal-util/timeutil.h>
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
@@ -339,7 +340,7 @@ get_shell_view_interface (BonoboControl *control)
 	shell_view = Bonobo_Unknown_queryInterface (control_frame,
 						    "IDL:GNOME/Evolution/ShellView:1.0",
 						    &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("get_shell_view_interface(): "
 			   "Could not queryInterface() on the control frame");
 		shell_view = CORBA_OBJECT_NIL;
@@ -464,7 +465,7 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, label, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("control_util_set_folder_bar_label(): Could not set the folder bar label");
 
 	CORBA_exception_free (&ev);
