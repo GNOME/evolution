@@ -1,3 +1,8 @@
+2001-01-21  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (delete_record):  Remove
+	deleted records from the pilot map so we don't have dupes in the future
+	
 2001-01-19  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (table_right_click): 

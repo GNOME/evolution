@@ -973,13 +973,14 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("delete_record: delete %s\n", print_local (local));
 
+	e_pilot_map_remove_by_uid (ctxt->map, local->ecard->id);
 	e_book_remove_card_by_id (ctxt->ebook, local->ecard->id, status_cb, &commit_status);
 	
 	gtk_main (); /* enter sub mainloop */
 	
 	if (commit_status != E_BOOK_STATUS_SUCCESS && commit_status != E_BOOK_STATUS_CARD_NOT_FOUND)
 		WARN ("delete_record: failed to delete card in ebook\n");
-
+	
 	return retval;
 }
 
