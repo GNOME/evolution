@@ -1,3 +1,8 @@
+2000-05-30  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Ooops.  Fix
+	inverted key/value pair in the call to `g_hash_table_insert()'.
+
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
 	* main.c (main): Remove extra free of evolution_directory.

@@ -782,7 +782,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 		path = g_strconcat ("/", name, NULL);
 		g_hash_table_insert (priv->ctree_node_to_path, parent, path);
-		g_hash_table_insert (priv->path_to_ctree_node, parent, path);
+		g_hash_table_insert (priv->path_to_ctree_node, path, parent);
 
 		insert_folders (storage_set_view, parent, storage, "/", 1);
 	}
