@@ -422,7 +422,7 @@ e_selection_model_do_something (ESelectionModel *selection,
  * right clicks and other events where if the user hit the selection,
  * they don't want it to change.
  */
-void
+gboolean
 e_selection_model_maybe_do_something      (ESelectionModel *selection,
 					   guint            row,
 					   guint            col,
@@ -432,8 +432,10 @@ e_selection_model_maybe_do_something      (ESelectionModel *selection,
 		e_selection_model_change_cursor(selection, row, col);
 		gtk_signal_emit(GTK_OBJECT(selection),
 				e_selection_model_signals[CURSOR_CHANGED], row, col);
+		return FALSE;
 	} else {
 		e_selection_model_do_something(selection, row, col, state);
+		return TRUE;
 	}
 }
 

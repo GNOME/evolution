@@ -76,7 +76,7 @@ void      e_selection_model_do_something         (ESelectionModel *esm,
 						  guint            row,
 						  guint            col,
 						  GdkModifierType  state);
-void      e_selection_model_maybe_do_something   (ESelectionModel *esm,
+gboolean  e_selection_model_maybe_do_something   (ESelectionModel *esm,
 						  guint            row,
 						  guint            col,
 						  GdkModifierType  state);
