@@ -14,7 +14,7 @@
 #include <bonobo/bonobo-main.h>
 #include "e-util/e-util.h"
 #include "camel/camel-exception.h"
-#include "camel/camel-folder-summary.h"
+#include <camel/camel-folder.h>
 #include "message-list.h"
 #include "Mail.h"
 #include "widgets/e-table/e-table-header-item.h"
@@ -70,7 +70,7 @@ select_msg (MessageList *message_list, gint row)
 		CamelMessageInfo *msg_info;
 		
 		msg_info_array = camel_folder_summary_get_message_info 
-			(message_list->folder_summary, row, 1);
+			(message_list->folder, row, 1);
 		
 		if (msg_info_array) {
 			msg_info = msg_info_array->pdata[0];
@@ -113,14 +113,18 @@ ml_row_count (ETableModel *etm, void *data)
 	CamelException ex;
 	int v;
 	
-	if (!message_list->folder)
+	if (!message_list->folder) {
+		printf("nothing???\n");
 		return 0;
+	}
 
 	camel_exception_init (&ex);
 	
 	v = camel_folder_get_message_count (message_list->folder, &ex);
+	printf("message count = %d\n", v);
 	if (camel_exception_get_id (&ex))
 		v = 0;
+	printf("now message count = %d\n", v);
 	
 	
 	/* in the case where no message is available, return 1
@@ -134,7 +138,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 {
 	static char buffer [10];
 	MessageList *message_list = data;
-	CamelFolderSummary *summary;
+	CamelFolder *folder;
 	GPtrArray *msg_info_array = NULL;
 	CamelMessageInfo *msg_info;
 	CamelException ex;
@@ -142,14 +146,13 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 
 	camel_exception_init (&ex);
 	
-	summary = message_list->folder_summary;
-	if (!summary)
+	folder = message_list->folder;
+	if (!folder)
 		goto nothing_to_see;
 	
 	
 	/* retrieve the message information array */
-	msg_info_array = camel_folder_summary_get_message_info (summary,
-								row, 1);
+	msg_info_array = camel_folder_summary_get_message_info (folder, row, 1);
 
 	/* 
 	 * in the case where it is zero message long 
@@ -179,8 +182,8 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_FROM:
-		if (msg_info->sender)
-			retval = msg_info->sender;
+		if (msg_info->from)
+			retval = msg_info->from;
 		else
 			retval = "";
 		break;
@@ -205,7 +208,11 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_SIZE:
-		sprintf (buffer, "%d", msg_info->size);
+		if (msg_info->content) {
+			sprintf (buffer, "%d", msg_info->content->size);
+		} else {
+			sprintf (buffer, "0");
+		}
 		retval = buffer;
 		break;
 			
@@ -702,18 +709,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 			ex.desc?ex.desc:"unknown_reason");	  
 		return;
 	}
-	
-	message_list->folder_summary =
-		camel_folder_get_summary (camel_folder, &ex);
-	
-	
-	if (camel_exception_get_id (&ex)) {
-		printf ("Unable to get summary: %s\n",
-			ex.desc?ex.desc:"unknown_reason");	  	  
-		return;
-	}
-	
-
 	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 	

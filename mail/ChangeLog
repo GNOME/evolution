@@ -1,3 +1,17 @@
+2000-04-20  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile.am (evolution_mail_LDADD): Add libibex.la to link.
+
+	* message-list.h: Removed folder summary.
+
+	* message-list.c: Dont include folder-summary anymore.
+	(select_msg): Changed to use folder, not summary in
+	summary_get_message_info().  God this code is grotty.
+	(ml_value_at): Ditto.
+	(ml_value_at): Changed to use new interface.  Hmm, this returns a
+	static variable, that seems wrong.
+	(message_list_set_folder): Remove folder summary.
+
 2000-04-20  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c: update for bonobo change, and remove a

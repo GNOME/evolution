@@ -52,6 +52,7 @@ evolution_mail_LDADD = 					\
 	../widgets/e-text/libetext.a			\
 	../camel/libcamel.la				\
 	../e-util/libeutil.la				\
+	../libibex/libibex.la				\
 	$(BONOBO_HTML_GNOME_LIBS)			\
         -lunicode
 
