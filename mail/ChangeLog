@@ -1,3 +1,13 @@
+2003-12-22  David Moore  <davmre@bellsouth.net>
+  
+  	* em-popup.c (emp_part_popup_set_background): Implemented; sets an 
+ 	image attachment as the GNOME wallpaper.
+  	
+  	* em-utils.c (emu_save_part_done): Created a prototype at the top
+  	of the file.
+  	(em_utils_save_part_to_file): Added; save a message part to a 
+  	specified file on disk.
+ 
 2003-12-18  Rodney Dawes  <dobey@ximian.com>
 
 	* em-message-browser.c (emmb_init): Merge in

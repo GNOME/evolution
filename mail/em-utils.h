@@ -86,6 +86,7 @@ void em_utils_reply_to_message_by_uid (struct _CamelFolder *folder, const char *
 void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid);
 
 void em_utils_save_part(struct _GtkWidget *parent, const char *prompt, struct _CamelMimePart *part);
+gboolean em_utils_save_part_to_file(struct _GtkWidget *parent, const char *filename, struct _CamelMimePart *part);
 void em_utils_save_messages (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 
 void em_utils_add_address(struct _GtkWidget *parent, const char *email);

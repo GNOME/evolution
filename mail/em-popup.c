@@ -22,7 +22,14 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-string-utils.h>
+#include <camel/camel-mime-utils.h>
+#include <camel/camel-mime-part.h>
 #include <camel/camel-url.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
+#include <gal/util/e-util.h>
 
 static void emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data);
 
@@ -602,8 +609,67 @@ emp_part_popup_saveas(GtkWidget *w, EMPopupTarget *t)
 static void
 emp_part_popup_set_background(GtkWidget *w, EMPopupTarget *t)
 {
-	/* set as background ... */
-	printf("UNIMPLEMENTED: set background, but it would be cool, no?\n");
+	GConfClient *gconf;
+	char *str, *filename, *path, *extension;
+	unsigned int i=1;
+	
+	filename = g_strdup(camel_mime_part_get_filename(t->data.part.part));
+	   
+	/* if filename is blank, create a default filename based on MIME type */
+	if (!filename || !filename[0]) {
+		CamelContentType *ct;
+
+		ct = camel_mime_part_get_content_type(t->data.part.part);
+		g_free (filename);
+		filename = g_strdup_printf (_("untitled_image.%s"), ct->subtype);
+	}
+
+	e_filename_make_safe(filename);
+	
+	path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", filename, NULL);
+	
+	extension = strrchr(filename, '.');
+	if (extension)
+		*extension++ = 0;
+	
+	/* if file exists, stick a (number) on the end */
+	while (g_file_test(path, G_FILE_TEST_EXISTS)) {
+		char *name;
+		name = g_strdup_printf(extension?"%s (%d).%s":"%s (%d)", filename, i++, extension);
+		g_free(path);
+		path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", name, NULL);
+		g_free(name);
+	}
+	
+	g_free(filename);
+	
+	if (em_utils_save_part_to_file(w, path, t->data.part.part)) {
+		gconf = gconf_client_get_default();
+		
+		/* if the filename hasn't changed, blank the filename before 
+		*  setting it so that gconf detects a change and updates it */
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_filename", NULL)) != NULL 
+		     && strcmp (str, path) == 0) {
+			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", "", NULL);
+		}
+		
+		g_free (str);
+		gconf_client_set_string(gconf, "/desktop/gnome/background/picture_filename", path, NULL);
+		
+		/* if GNOME currently doesn't display a picture, set to "wallpaper"
+		 * display mode, otherwise leave it alone */
+		if ((str = gconf_client_get_string(gconf, "/desktop/gnome/background/picture_options", NULL)) == NULL 
+		     || strcmp(str, "none") == 0) {
+			gconf_client_set_string(gconf, "/desktop/gnome/background/picture_options", "wallpaper", NULL);
+		}
+		
+		gconf_client_suggest_sync(gconf, NULL);
+		
+		g_free(str);
+		g_object_unref(gconf);
+	}
+	
+	g_free(path);
 }
 
 static void

@@ -33,6 +33,7 @@
 
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-url-scanner.h>
+#include <camel/camel-file-utils.h>
 
 #include <filter/filter-editor.h>
 
@@ -52,6 +53,7 @@
 #include "em-format-quote.h"
 
 static EAccount *guess_account (CamelMimeMessage *message);
+static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
 /**
  * em_utils_prompt_user:
@@ -1387,6 +1389,55 @@ em_utils_save_part(GtkWidget *parent, const char *prompt, CamelMimePart *part)
 	gtk_widget_show((GtkWidget *)filesel);
 }
 
+/**
+ * em_utils_save_part_to_file:
+ * @parent: parent window
+ * @filename: filename to save to
+ * @part: part to save
+ * 
+ * Save a part's content to a specific file
+ * Creates all needed directories and overwrites without prompting
+ *
+ * Returns %TRUE if saving succeeded, %FALSE otherwise
+ **/
+gboolean
+em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePart *part) 
+{
+	int done;
+	char *dirname;
+	struct stat st;
+	
+	if (filename[0] == 0)
+		return FALSE;
+	
+	dirname = g_path_get_dirname(filename);
+	if (camel_mkdir(dirname, 0777) == -1) {
+		e_notice(parent, GTK_MESSAGE_ERROR,
+				 _("Cannot save to `%s'\n %s"), filename, g_strerror(errno));
+		g_free(dirname);
+		return FALSE;
+	}
+	g_free(dirname);
+
+	if (access(filename, F_OK) == 0) {
+		if (access(filename, W_OK) != 0) {
+			e_notice(parent, GTK_MESSAGE_ERROR,
+				 _("Cannot save to `%s'\n %s"), filename, g_strerror(errno));
+			return FALSE;
+		}
+	}
+	
+	if (stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
+		e_notice(parent, GTK_MESSAGE_ERROR,
+				 _("Error: '%s' exists and is not a regular file"), filename);
+		return FALSE;
+	}
+	
+	/* FIXME: This doesn't handle default charsets */
+	mail_msg_wait(mail_save_part(part, filename, emu_save_part_done, &done));
+	
+	return done;
+}
 
 struct _save_messages_data {
 	CamelFolder *folder;
@@ -2258,7 +2309,8 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 
 	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 
-	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/expunge",
+	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, 
+				  "/apps/evolution/mail/prompts/expunge",
 				  _("This operation will permanently remove all deleted messages "
 				    "in the folder `%s'. If you continue, you "
 				    "will not be able to recover these messages.\n"
