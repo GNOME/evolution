@@ -1,3 +1,9 @@
+2003-12-18  Rodney Dawes  <dobey@ximian.com>
+
+	* em-message-browser.c (emmb_init): Merge in
+	evolution-mail-message-display.xml first, since it is the parent UI
+	XML, really fixes bug #49949
+
 2003-12-16  JP Rosevear  <jpr@ximian.com>
 
 	* em-format-html-display.c: #ifdef out certain code pieces if

@@ -62,8 +62,8 @@ emmb_init(GObject *o)
 	((EMFolderView *)emmb)->preview_active = TRUE;
 
 	g_slist_free(emmb->view.ui_files);
-	emmb->view.ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-message.xml");
-	emmb->view.ui_files = g_slist_append(emmb->view.ui_files, EVOLUTION_UIDIR "/evolution-mail-messagedisplay.xml");
+	emmb->view.ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-messagedisplay.xml");
+	emmb->view.ui_files = g_slist_append(emmb->view.ui_files, EVOLUTION_UIDIR "/evolution-mail-message.xml");
 
 	/* currently: just use a scrolledwindow for preview widget */
 	p->preview = gtk_scrolled_window_new(NULL, NULL);
