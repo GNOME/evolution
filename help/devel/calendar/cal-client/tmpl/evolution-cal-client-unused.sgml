@@ -1,0 +1,10 @@
+<!-- ##### FUNCTION cal_client_get_events_in_range ##### -->
+<para>
+
+</para>
+
+@client: 
+@start: 
+@end: 
+@Returns: 
+

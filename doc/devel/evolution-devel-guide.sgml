@@ -3,7 +3,12 @@
 <!entity calendar-architecture SYSTEM "calendar/architecture.sgml">
 <!entity calendar-reference SYSTEM "calendar/reference.sgml">
 <!entity CalClient SYSTEM "calendar/cal-client/sgml/cal-client.sgml">
+<!entity CalComponent SYSTEM "calendar/cal-util/sgml/cal-component.sgml">
+<!entity cal-util SYSTEM "calendar/cal-util/sgml/cal-util.sgml">
+<!entity cal-recur SYSTEM "calendar/cal-util/sgml/cal-recur.sgml">
+<!entity timeutil SYSTEM "calendar/cal-util/sgml/timeutil.sgml">
 <!entity PCS "<acronym>PCS</acronym>">
+<!entity libical "<application>libical</application>">
 ]>
 
 <book>

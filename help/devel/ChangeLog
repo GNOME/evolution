@@ -1,3 +1,18 @@
+2000-08-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* calendar/cal-util/*: Integrated the cal-util library into the
+	documentation framework.
+
+	* calendar/Makefile.am (SUBDIRS): Added the cal-util directory.
+
+	* evolution-devel-guide.sgml: Added entities for the cal-util stuff.
+	Added entity for libical.
+
+	* calendar/reference.sgml: Added the cal-util reference entries.
+
+	* calendar/cal-client/evolution-cal-client-sections.txt: Updated
+	for new API.
+
 2000-08-09  Peter Williams  <peterw@helixcode.com>
 
 	* Makefile.am (maintainer-clean-local): Don't depend

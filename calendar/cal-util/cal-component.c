@@ -127,7 +127,6 @@ static GtkObjectClass *parent_class;
 
 /**
  * cal_component_get_type:
- * @void:
  *
  * Registers the #CalComponent class if necessary, and returns the type ID
  * associated to it.
@@ -294,7 +293,6 @@ cal_component_destroy (GtkObject *object)
 
 /**
  * cal_component_gen_uid:
- * @void:
  *
  * Generates a unique identifier suitable for calendar components.
  *
@@ -330,7 +328,6 @@ cal_component_gen_uid (void)
 
 /**
  * cal_component_new:
- * @void:
  *
  * Creates a new empty calendar component object.  You should set it from an
  * #icalcomponent structure by using cal_component_set_icalcomponent() or with a
@@ -2809,7 +2806,7 @@ cal_component_set_url (CalComponent *comp, const char *url)
  * @comp: A calendar component object.
  * @pilot_id: Return value for the pilot ID.
  *
- * Returns the pilot id of a calendar component object, if any.
+ * Queries the pilot id of a calendar component object, if any.
  **/
 void
 cal_component_get_pilot_id (CalComponent *comp, unsigned long *pilot_id)
@@ -2838,7 +2835,7 @@ cal_component_set_pilot_id (CalComponent *comp, unsigned long pilot_id)
  * @comp: A calendar component object.
  * @pilot_status: Return value for the pilot sync status.
  *
- * Returns the pilot status of a calendar component object, if any.
+ * Queries the pilot status of a calendar component object, if any.
  **/
 void
 cal_component_get_pilot_status (CalComponent *comp, unsigned long *pilot_status)

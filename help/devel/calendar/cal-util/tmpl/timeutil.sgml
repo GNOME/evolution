@@ -1,0 +1,260 @@
+<!-- ##### SECTION Title ##### -->
+timeutil
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION time_from_icaltimetype ##### -->
+<para>
+
+</para>
+
+@itt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_from_isodate ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_from_start_duration ##### -->
+<para>
+
+</para>
+
+@start: 
+@duration: 
+@Returns: 
+
+
+<!-- ##### FUNCTION isodate_from_time_t ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION get_time_t_hour ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION isodiff_to_secs ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION isodiff_from_secs ##### -->
+<para>
+
+</para>
+
+@secs: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_add_minutes ##### -->
+<para>
+
+</para>
+
+@time: 
+@minutes: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_add_day ##### -->
+<para>
+
+</para>
+
+@time: 
+@days: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_add_week ##### -->
+<para>
+
+</para>
+
+@time: 
+@weeks: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_add_month ##### -->
+<para>
+
+</para>
+
+@time: 
+@months: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_add_year ##### -->
+<para>
+
+</para>
+
+@time: 
+@years: 
+@Returns: 
+
+
+<!-- ##### FUNCTION format_simple_hour ##### -->
+<para>
+
+</para>
+
+@hour: 
+@use_am_pm: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_days_in_month ##### -->
+<para>
+
+</para>
+
+@year: 
+@month: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_from_day ##### -->
+<para>
+
+</para>
+
+@year: 
+@month: 
+@day: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_day_hour ##### -->
+<para>
+
+</para>
+
+@t: 
+@hour: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_year_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_year_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_month_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_month_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_week_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_week_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_day_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION time_day_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+
+<!-- ##### FUNCTION parse_date ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION print_time_t ##### -->
+<para>
+
+</para>
+
+@t: 
+
+

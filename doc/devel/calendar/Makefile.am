@@ -1,4 +1,4 @@
-SUBDIRS = cal-client
+SUBDIRS = cal-client cal-util
 
 EXTRA_DIST =				\
 	architecture.sgml		\

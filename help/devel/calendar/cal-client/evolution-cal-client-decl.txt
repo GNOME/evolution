@@ -83,7 +83,7 @@ CalClient *client, CalObjType type
 <FUNCTION>
 <NAME>cal_client_get_object</NAME>
 <RETURNS>CalClientGetStatus  </RETURNS>
-CalClient *client,const char *uid,iCalObject **ico
+CalClient *client,const char *uid,CalComponent **comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_uid_by_pilot_id</NAME>
@@ -101,9 +101,14 @@ CalClient *client, char *uid,unsigned long pilot_id,unsigned long pilot_status
 CalClient *client, CalObjType type
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_get_events_in_range</NAME>
+<NAME>cal_client_get_objects_in_range</NAME>
 <RETURNS>GList  *</RETURNS>
-CalClient *client, time_t start, time_t end
+CalClient *client, CalObjType type,time_t start, time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_generate_instances</NAME>
+<RETURNS>void  </RETURNS>
+CalClient *client, CalObjType type,time_t start, time_t end,CalRecurInstanceFn cb, gpointer cb_data
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_alarms_in_range</NAME>
@@ -118,7 +123,7 @@ CalClient *client, const char *uid,time_t start, time_t end,GList **alarms
 <FUNCTION>
 <NAME>cal_client_update_object</NAME>
 <RETURNS>gboolean  </RETURNS>
-CalClient *client, iCalObject *ico
+CalClient *client, CalComponent *comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_remove_object</NAME>

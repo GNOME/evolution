@@ -38,7 +38,6 @@ GTK+ object for communication with personal calendar server.
 
   </para>
 
-
 <!-- ##### MACRO CAL_CLIENT ##### -->
   <para>
     Casts a #GtkObject to a #CalClient.
@@ -61,14 +60,11 @@ GTK+ object for communication with personal calendar server.
 
 @CAL_CLIENT_LOAD_SUCCESS: Indicates a successful load or create
   operation; the corresponding calendar is ready for use.
-
 @CAL_CLIENT_LOAD_ERROR: Indicates an error while loading or creating
   the calendar.
-
 @CAL_CLIENT_LOAD_IN_USE: Indicates that a create request failed
   because the specified calendar was already being used by another
   client.
-
 @CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED: Indicates an error due to
   trying to load a calendar for which a backend type is not present.
 
@@ -79,10 +75,8 @@ GTK+ object for communication with personal calendar server.
   </para>
 
 @CAL_CLIENT_GET_SUCCESS: Indicates a successful get operation.
-
 @CAL_CLIENT_GET_NOT_FOUND: Indicates that the requested object was
   not found.
-
 @CAL_CLIENT_GET_SYNTAX_ERROR: Indicates a syntax error when parsing
   the requested object.  This could indicate a bug in the calendar
   client libraries or in the Wombat server.
@@ -132,8 +126,35 @@ GTK+ object for communication with personal calendar server.
 
 @client: 
 @uid: 
-@ico: 
+@comp: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@ico: 
+
+
+<!-- ##### FUNCTION cal_client_get_objects_in_range ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@start: 
+@end: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_generate_instances ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@start: 
+@end: 
+@cb: 
+@cb_data: 
 
 
 <!-- ##### FUNCTION cal_client_get_uid_by_pilot_id ##### -->
@@ -168,17 +189,6 @@ GTK+ object for communication with personal calendar server.
 @Returns: 
 
 
-<!-- ##### FUNCTION cal_client_get_events_in_range ##### -->
-<para>
-
-</para>
-
-@client: 
-@start: 
-@end: 
-@Returns: 
-
-
 <!-- ##### FUNCTION cal_client_get_alarms_in_range ##### -->
 <para>
 
@@ -209,8 +219,10 @@ GTK+ object for communication with personal calendar server.
 </para>
 
 @client: 
-@ico: 
+@comp: 
 @Returns: 
+<!-- # Unused Parameters # -->
+@ico: 
 
 
 <!-- ##### FUNCTION cal_client_remove_object ##### -->
@@ -232,6 +244,9 @@ GTK+ object for communication with personal calendar server.
     request.
   </para>
 
+@calclient: the object which received the signal.
+@arg1: 
+<!-- # Unused Parameters # -->
 @client: Calendar client which received the notification.
 @status: Status of the request.  See the description of
   #CalClientLoadStatus for more details.
@@ -244,6 +259,9 @@ GTK+ object for communication with personal calendar server.
     new version of the object and update their display, for example.
   </para>
 
+@calclient: the object which received the signal.
+@arg1: 
+<!-- # Unused Parameters # -->
 @client: Calendar client which received the notification.
 @uid: Unique identifier of the calendar component that changed in the
   personal calendar server's storage.
@@ -257,6 +275,9 @@ GTK+ object for communication with personal calendar server.
     example.
   </para>
 
+@calclient: the object which received the signal.
+@arg1: 
+<!-- # Unused Parameters # -->
 @client: Calendar client which received the notification.
 @uid: Unique identifier of the calendar component that was removed
   from the personal calendar server's storage.
@@ -267,3 +288,4 @@ mode: sgml
 sgml-parent-document: ("../../../evolution-devel-guide.sgml" "book" "refsect2" "")
 End:
 -->
+
