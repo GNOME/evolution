@@ -1862,7 +1862,6 @@ mail_account_gui_save (MailAccountGui *gui)
 {
 	EAccount *account, *new;
 	CamelProvider *provider = NULL;
-	CamelURL *source_url = NULL, *url;
 	gboolean is_new = FALSE;
 	const char *new_name;
 	gboolean is_storage;
@@ -1907,10 +1906,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	/* source */
 	save_service (&gui->source, gui->extra_config, new->source);
-	if (new->source->url) {
+	if (new->source->url)
 		provider = camel_session_get_provider (session, new->source->url, NULL);
-		source_url = provider ? camel_url_new (new->source->url, NULL) : NULL;
-	}
 	
 	new->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (new->source->auto_check)
@@ -1924,33 +1921,20 @@ mail_account_gui_save (MailAccountGui *gui)
 		save_service (&gui->transport, NULL, new->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
-	url = source_url && gui->drafts_folder_uri ? camel_url_new (gui->drafts_folder_uri, NULL) : NULL;
-	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
-	    (url && provider->url_equal (source_url, url))) {
+	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri)) {
 		new->drafts_folder_uri = g_strdup (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		new->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	}
 	
-	if (url)
-		camel_url_free (url);
-	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
-	url = source_url && gui->sent_folder_uri ? camel_url_new (gui->sent_folder_uri, NULL) : NULL;
-	if (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
-	    (url && provider->url_equal (source_url, url))) {
+	if (mail_config_get_account_by_source_url (gui->sent_folder_uri)) {
 		new->sent_folder_uri = g_strdup (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		new->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	}
-	
-	if (url)
-		camel_url_free (url);
-	
-	if (source_url)
-		camel_url_free (source_url);
 	
 	new->always_cc = gtk_toggle_button_get_active (gui->always_cc);
 	new->cc_addrs = g_strdup (gtk_entry_get_text (gui->cc_addrs));

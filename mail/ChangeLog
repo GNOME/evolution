@@ -1,3 +1,14 @@
+2003-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Allow the user to
+	select any fodler for his/her Drafts and Sent folders. Fixes bug
+	#45412.
+
+2003-09-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (invisible_selection_clear_event_callback): Don't
+	clear the clipboard. Fixes bug #48203.
+
 2003-09-09  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (build_dialogue): use an eclippedlabel for

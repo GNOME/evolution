@@ -2139,14 +2139,7 @@ invisible_selection_clear_event_callback (GtkWidget *widget,
 					  GdkEventSelection *event,
 					  void *data)
 {
-	MailDisplay *display;
-	
-	display = MAIL_DISPLAY (data);
-	
-	g_free (display->selection);
-	display->selection = NULL;
-	
-	return TRUE;
+	return FALSE;
 }
 
 static void
