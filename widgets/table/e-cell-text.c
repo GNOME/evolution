@@ -36,6 +36,7 @@
 #include <gtk/gtkinvisible.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-cell-text.h"
@@ -312,6 +313,7 @@ static void
 ect_cancel_edit (ECellTextView *text_view)
 {
 	ect_stop_editing (text_view);
+	e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
 }
 
 /*
@@ -1204,6 +1206,8 @@ ect_show_tooltip (ECellView *ecell_view,
 
 	canvas = e_canvas_new ();
 	gtk_container_add (GTK_CONTAINER (window), canvas);
+	GTK_WIDGET_UNSET_FLAGS (canvas, GTK_CAN_FOCUS);
+	GTK_WIDGET_UNSET_FLAGS (window, GTK_CAN_FOCUS);
 
 	max_width = 0.0;
 	for (lines = cell.breaks->lines, i = 0; i < cell.breaks->num_lines;
