@@ -113,8 +113,6 @@
                         <menuitem name="ViewReplyTo" verb=""/>
 	                <menuitem name="ViewCC" verb=""/>
 	                <menuitem name="ViewBCC" verb=""/>
-			<separator/>
-                        <menuitem name="BonoboCustomize" verb="" pos="bottom"/>
 		</submenu>
 		
                 <submenu name="Insert" _label="_Insert">
