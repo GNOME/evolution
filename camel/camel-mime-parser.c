@@ -71,6 +71,115 @@ int inend_id = -1,
 #define _header_scan_state _CamelMimeParserPrivate
 #define _PRIVATE(o) (((CamelMimeParser *)(o))->priv)
 
+#ifdef MEMPOOL
+typedef struct _MemPoolNode {
+	struct _MemPoolNode *next;
+
+	int free;
+	char data[1];
+} MemPoolNode;
+
+typedef struct _MemPoolThresholdNode {
+	struct _MemPoolThresholdNode *next;
+	char data[1];
+} MemPoolThresholdNode;
+
+typedef struct _MemPool {
+	int blocksize;
+	int threshold;
+	struct _MemPoolNode *blocks;
+	struct _MemPoolThresholdNode *threshold_blocks;
+} MemPool;
+
+MemPool *mempool_new(int blocksize, int threshold);
+void *mempool_alloc(MemPool *pool, int size);
+void mempool_flush(MemPool *pool, int freeall);
+void mempool_free(MemPool *pool);
+
+MemPool *mempool_new(int blocksize, int threshold)
+{
+	MemPool *pool;
+
+	pool = g_malloc(sizeof(*pool));
+	if (threshold >= blocksize)
+		threshold = blocksize * 2 / 3;
+	pool->blocksize = blocksize;
+	pool->threshold = threshold;
+	pool->blocks = NULL;
+	pool->threshold_blocks = NULL;
+	return pool;
+}
+
+void *mempool_alloc(MemPool *pool, int size)
+{
+	size = (size + STRUCT_ALIGN) & (~(STRUCT_ALIGN-1));
+	if (size>=pool->threshold) {
+		MemPoolThresholdNode *n;
+
+		n = g_malloc(sizeof(*n) - sizeof(char) + size);
+		n->next = pool->threshold_blocks;
+		pool->threshold_blocks = n;
+		return &n->data[0];
+	} else {
+		MemPoolNode *n;
+
+		n = pool->blocks;
+		while (n) {
+			if (n->free >= size) {
+				n->free -= size;
+				return &n->data[n->free];
+			}
+			n = n->next;
+		}
+
+		n = g_malloc(sizeof(*n) - sizeof(char) + pool->blocksize);
+		n->next = pool->blocks;
+		pool->blocks = n;
+		n->free = pool->blocksize - size;
+		return &n->data[n->free];
+	}
+}
+
+void mempool_flush(MemPool *pool, int freeall)
+{
+	MemPoolThresholdNode *tn, *tw;
+	MemPoolNode *pw, *pn;
+
+	tw = pool->threshold_blocks;
+	while (tw) {
+		tn = tw->next;
+		g_free(tw);
+		tw = tn;
+	}
+	pool->threshold_blocks = NULL;
+
+	if (freeall) {
+		pw = pool->blocks;
+		while (pw) {
+			pn = pw->next;
+			g_free(pw);
+			pw = pn;
+		}
+		pool->blocks = NULL;
+	} else {
+		pw = pool->blocks;
+		while (pw) {
+			pw->free = pool->blocksize;
+			pw = pw->next;
+		}
+	}
+}
+
+void mempool_free(MemPool *pool)
+{
+	if (pool) {
+		mempool_flush(pool, 1);
+		g_free(pool);
+	}
+}
+
+#endif
+
 struct _header_scan_state {
 
     /* global state */

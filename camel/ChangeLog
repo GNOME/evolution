@@ -1,3 +1,8 @@
+2003-11-14  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-parser.c (SCAN_BUF): oops, put the mempool stuff
+	back, we don't use e-memory afterall.  Damn plane hacking.
+
 2003-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-parser.c: Remove mempool code, we use the stuff in
