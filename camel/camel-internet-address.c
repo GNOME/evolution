@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define d(x) x
+#define d(x) 
 
 static int    internet_decode		(CamelAddress *, const char *raw);
 static char * internet_encode		(CamelAddress *);

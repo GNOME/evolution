@@ -96,7 +96,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	/* FIXME: there's probably a safer way to size this ...? */
 	/* We could always resize if we run out of room in outbuf (but it'd be nice not
 	   to have to) */
-	camel_mime_filter_set_size(mf, len*5, FALSE);
+	camel_mime_filter_set_size(mf, len*5+16, FALSE);
 	inbuf = in;
 	inlen = len;
 	outbuf = mf->outbuf;
@@ -160,7 +160,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	}
 
 	/* FIXME: there's probably a safer way to size this ...? */
-	camel_mime_filter_set_size(mf, len*5, FALSE);
+	camel_mime_filter_set_size(mf, len*5+16, FALSE);
 	inbuf = in;
 	inlen = len;
 	outbuf = mf->outbuf;

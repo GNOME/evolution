@@ -1,3 +1,38 @@
+2000-11-24  Not Zed  <NotZed@HelixCode.com>
+
+	* Makefile.am (SUBDIRS): Add tests.
+
+	* camel-mime-filter-basic.c (filter): Well, I'll add the extra
+	bytes here too, lathough not strictly needed, might save a
+	re-malloc when we get to complete().
+
+	* camel-mime-filter-charset.c (filter): Make sure we have room if
+	we only convert very short data.
+	(complete): and here too.
+
+	* tests/Makefile.am: Initial test harness & tests.  Requires gcc
+	for this.
+
+	* camel-internet-address.c (d): Turn off debug.
+
+	* camel-charset-map.c (camel_charset_step): Oops, & masks for set
+	intersection, not | them.  Dunno how this got even close to
+	working.
+
+2000-11-23  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter-basic.c (filter): For base64 encoding, the
+	output size for 0, 1, or 2 bytes of input can exceed input*2, so
+	make sure we account for that as well.
+	(complete): And here.
+	(complete): Similarly for qp encoding, if we have a trailing
+	space, we need some extra bytes (not needed for 'filter()', as any
+	such bytes are stored in state/save).
+
+	* camel-mime-utils.c (quoted_decode_step): Removed fixme not required.
+	(quoted_encode_close): Dont append a trailing afterall.  Otherwise
+	a pass through the encode/decode will grow the message each time.
+
 2000-11-22  Radek Doulik  <rodo@helixcode.com>
 
 	* camel-mime-utils.c (header_msgid_generate): check for return

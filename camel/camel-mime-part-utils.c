@@ -114,7 +114,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 	}
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
-		d(printf("appending o/p data: %.*s\n", len, buf));
+		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
 		if (buffer) {
 			if (buffer->len > 20480 && seekable_source) {
 				/* is this a 'big' message?  Yes?  We dont want to convert it all then.*/
@@ -132,7 +132,9 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 	if (buffer) {
 		CamelStream *mem;
+
 		d(printf("Small message part, kept in memory!\n"));
+
 		mem = camel_stream_mem_new_with_byte_array(buffer);
 		camel_data_wrapper_construct_from_stream (dw, mem);
 		camel_object_unref ((CamelObject *)mem);

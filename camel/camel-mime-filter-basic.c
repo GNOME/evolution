@@ -98,23 +98,27 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
-		camel_mime_filter_set_size(mf, len*2, FALSE);
+		camel_mime_filter_set_size(mf, len*2+6, FALSE);
 		newlen = base64_encode_close(in, len, TRUE, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len*2+6);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is definetly more than needed ... */
-		camel_mime_filter_set_size(mf, len*4, FALSE);
+		camel_mime_filter_set_size(mf, len*4+4, FALSE);
 		newlen = quoted_encode_close(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len*4+4);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
-		camel_mime_filter_set_size(mf, len, FALSE);
+ 		camel_mime_filter_set_size(mf, len, FALSE);
 		newlen = base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len, FALSE);
 		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len);
 		break;
 	default:
 		g_warning("unknown type %d in CamelMimeFilterBasic", f->type);
@@ -142,23 +146,27 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
-		camel_mime_filter_set_size(mf, len*2, FALSE);
+		camel_mime_filter_set_size(mf, len*2+6, FALSE);
 		newlen = base64_encode_step(in, len, TRUE, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len*2+6);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is overly conservative, but will do */
-		camel_mime_filter_set_size(mf, len*4, FALSE);
+		camel_mime_filter_set_size(mf, len*4+4, FALSE);
 		newlen = quoted_encode_step(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len*4+4);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len, FALSE);
 		newlen = base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len, FALSE);
 		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		g_assert(newlen <= len);
 		break;
 	default:
 		g_warning("unknown type %d in CamelMimeFilterBasic", f->type);

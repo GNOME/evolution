@@ -285,6 +285,11 @@ base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned
 
 	c1 = ((unsigned char *)save)[1];
 	c2 = ((unsigned char *)save)[2];
+	
+	d(printf("mode = %d\nc1 = %c\nc2 = %c\n",
+		 (int)((char *)save)[0],
+		 (int)((char *)save)[1],
+		 (int)((char *)save)[2]));
 
 	switch (((char *)save)[0]) {
 	case 2:
@@ -560,10 +565,6 @@ quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, 
 		}
 	}
 
-	/* hmm, not sure if this should really be added here, we dont want
-	   to add it to the content, afterall ...? */
-	*outptr++ = '\n';
-
 	*save = 0;
 	*state = -1;
 
@@ -677,7 +678,6 @@ quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestat
 		case 0:
 			while (inptr<inend) {
 				c = *inptr++;
-				/* FIXME: use a specials table to avoid 3 comparisons for the common case */
 				if (c=='=') { 
 					state = 1;
 					break;

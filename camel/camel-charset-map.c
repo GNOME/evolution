@@ -231,7 +231,7 @@ camel_charset_step(CamelCharset *c, const char *in, int len)
 		}
 		inptr = newinptr;
 		if (c<=0xffff) {
-			mask |= charset_mask(c);
+			mask &= charset_mask(c);
 		
 			if (c>=128 && c<256)
 				level = MAX(level, 1);
