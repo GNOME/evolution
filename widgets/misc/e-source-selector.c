@@ -378,28 +378,55 @@ text_cell_data_func (GtkTreeViewColumn *column,
 		ESource *source;
 		guint32 color;
 		gboolean has_color;
-
+		
 		g_assert (E_IS_SOURCE (data));
 		source = E_SOURCE (data);
-
+		
 		g_object_set (renderer,
 			      "text", e_source_peek_name (source),
 			      "weight", PANGO_WEIGHT_NORMAL,
+			      "foreground_set", FALSE,
 			      NULL);
+	}
 
-		has_color = e_source_get_color (source, &color);
-		if (!has_color) {
-			g_object_set (renderer,
-				      "foreground_set", FALSE,
-				      NULL);
-		} else {
-			char *color_string = g_strdup_printf ("#%06x", color);
-			g_object_set (renderer,
-				      "foreground_set", TRUE,
-				      "foreground", color_string,
-				      NULL);
-			g_free (color_string);
+	g_object_unref (data);
+}
+
+static void
+pixbuf_cell_data_func (GtkTreeViewColumn *column,
+		       GtkCellRenderer *renderer,
+		       GtkTreeModel *model,
+		       GtkTreeIter *iter,
+		       ESourceSelector *selector)
+{
+	void *data;
+
+	gtk_tree_model_get (model, iter, 0, &data, -1);
+
+	if (E_IS_SOURCE_GROUP (data)) {
+		g_object_set (renderer,
+			      "pixbuf", NULL,
+			      NULL);
+	} else {	
+		ESource *source;
+		guint32 color;
+		gboolean has_color;
+		GdkPixbuf *pixbuf;
+
+		g_assert (E_IS_SOURCE (data));
+		source = E_SOURCE (data);
+		
+		if (e_source_get_color (source, &color)) {
+			pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 16, 16);
+			gdk_pixbuf_fill (pixbuf, color << 8);
 		}
+			
+		g_object_set (renderer,
+			      "pixbuf", pixbuf,
+			      NULL);
+			
+		if (pixbuf)
+			g_object_unref (pixbuf);
 	}
 
 	g_object_unref (data);
@@ -710,6 +737,9 @@ init (ESourceSelector *selector)
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column (GTK_TREE_VIEW (selector), column);
 
+	cell_renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, cell_renderer, (GtkTreeCellDataFunc) pixbuf_cell_data_func, selector, NULL);
 	cell_renderer = gtk_cell_renderer_toggle_new ();
 	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
 	gtk_tree_view_column_set_cell_data_func (column, cell_renderer, (GtkTreeCellDataFunc) toggle_cell_data_func, selector, NULL);
