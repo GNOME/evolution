@@ -1,5 +1,9 @@
 2001-03-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* NEWS: Updated again for the release.
+
+2001-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Require Bonobo 0.37 and gnome-vfs 0.6.2.
 
 	* README: Updated accordingly.
