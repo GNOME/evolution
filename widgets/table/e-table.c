@@ -56,7 +56,7 @@
 #include "e-table-utils.h"
 
 #include <atk/atk.h>
-#include "gal/a11y/e-table/gal-a11y-e-table-factory.h"
+#include "gal/a11y/e-table/gal-a11y-e-table.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -3343,10 +3343,7 @@ e_table_class_init (ETableClass *class)
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READABLE));
 
-	atk_registry_set_factory_type (atk_get_default_registry (),
-				       E_TABLE_TYPE,
-				       gal_a11y_e_table_factory_get_type ());
-
+	gal_a11y_e_table_init ();
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE)

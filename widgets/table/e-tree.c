@@ -54,7 +54,7 @@
 
 #include "e-tree.h"
 #include "gal/util/e-marshal.h"
-#include "gal/a11y/e-table/gal-a11y-e-tree-factory.h"
+#include "gal/a11y/e-table/gal-a11y-e-tree.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -3318,10 +3318,7 @@ e_tree_class_init (ETreeClass *class)
 					     10,
 					     G_PARAM_READABLE));
 
-	atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TREE_TYPE,
-					gal_a11y_e_tree_factory_get_type ());
-
+	gal_a11y_e_tree_init ();
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE)
