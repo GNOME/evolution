@@ -8276,7 +8276,7 @@ msgstr "Impossibile elaborare con GPG %s il messaggio: %s\n"
 #: camel/camel-gpg-context.c:1197
 #, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Fallita l'esecuzione di gpg: %s."
+msgstr "Fallita l'esecuzione di gpg: %s"
 
 #: camel/camel-gpg-context.c:1227 camel/camel-gpg-context.c:1305
 #: camel/camel-gpg-context.c:1379 camel/camel-gpg-context.c:1409
@@ -8703,11 +8703,11 @@ msgstr "Impossibile creare una cartella: Operazione non supportata in questo sto
 
 #: camel/camel-tcp-stream-openssl.c:566
 msgid "Unable to get issuer's certificate"
-msgstr "Impossibile ottenere il certificato dall'emittente."
+msgstr "Impossibile ottenere il certificato dall'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get Certificate Revocation List"
-msgstr "Impossibile ottenere l'elenco revoche dei certificati."
+msgstr "Impossibile ottenere l'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:570
 msgid "Unable to decrypt certificate signature"
@@ -8723,11 +8723,11 @@ msgstr "Impossibile decodificare la chiave pubblica dell'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:576
 msgid "Certificate signature failure"
-msgstr "Problema con la firma del certificato"
+msgstr "Fallita la firma del certificato"
 
 #: camel/camel-tcp-stream-openssl.c:578
 msgid "Certificate Revocation List signature failure"
-msgstr "Problema con la firma dell'elenco revoche dei certificati"
+msgstr "Fallita la firma dell'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:580
 msgid "Certificate not yet valid"
@@ -8739,11 +8739,11 @@ msgstr "Certificato scaduto"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "CRL not yet valid"
-msgstr "CLR non ancora valido"
+msgstr "CRL non ancora valido"
 
 #: camel/camel-tcp-stream-openssl.c:586
 msgid "CRL has expired"
-msgstr "CLR scaduto"
+msgstr "CRL scaduto"
 
 #: camel/camel-tcp-stream-openssl.c:591
 msgid "Error in CRL"
@@ -8925,27 +8925,27 @@ msgstr "Non é presente il messaggio %s in %s"
 
 #: camel/camel-vee-folder.c:816 camel/camel-vee-folder.c:822
 msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "Impossibiel copiare o spostare messaggi in una Cartella Virtuale"
+msgstr "Impossibile copiare o spostare messaggi in una cartella virtuale"
 
 #: camel/camel-vee-store.c:296
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Impossibile eliminare la cartella: %s: Operazione non valida"
+msgstr "Impossibile eliminare la cartella: %s: operazione non valida"
 
 #: camel/camel-vee-store.c:319
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Impossibile eliminare la cartella %s: Cartella inesistente"
+msgstr "Impossibile eliminare la cartella %s: cartella inesistente"
 
 #: camel/camel-vee-store.c:332
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Impossibile rinominare la cartella %s: Operazione non valida"
+msgstr "Impossibile rinominare la cartella %s: operazione non valida"
 
 #: camel/camel-vee-store.c:340
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Impossibile rinominare la cartella %s: Cartella inesistente"
+msgstr "Impossibile rinominare la cartella %s: cartella inesistente"
 
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
