@@ -220,16 +220,28 @@ sync_block(struct _memcache *block_cache, struct _memblock *memblock)
 void
 ibex_block_cache_sync(struct _memcache *block_cache)
 {
-	struct _memblock *memblock;
+	struct _memblock *memblock, *rootblock = 0;
 
 	memblock = (struct _memblock *)block_cache->nodes.head;
 	while (memblock->next) {
-		if (memblock->flags & BLOCK_DIRTY) {
-			sync_block(block_cache, memblock);
+		if (memblock->block == 0) {
+			rootblock = memblock;
+		} else {
+			if (memblock->flags & BLOCK_DIRTY) {
+				sync_block(block_cache, memblock);
+			}
 		}
 		memblock = memblock->next;
 	}
-	fsync(block_cache->fd);
+
+	if (rootblock) {
+		struct _root *root = (struct _root *)&rootblock->data;
+		root->flags |= IBEX_ROOT_SYNCF;
+		sync_block(block_cache, rootblock);
+	}
+	if (fsync(block_cache->fd) == 0) {
+		block_cache->flags |= IBEX_ROOT_SYNCF;
+	}
 
 #ifdef IBEX_STATS
 	dump_stats(block_cache);
@@ -291,6 +303,15 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 	memblock = g_hash_table_lookup(block_cache->index, (void *)blockid);
 	if (memblock) {
 		d(printf("foudn blockid in cache %d = %p\n", blockid, &memblock->data));
+#if 0
+		if (blockid == 0) {
+			struct _root *root = &memblock->data;
+			d(printf("superblock state:\n"
+				 " roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d",
+				 root->roof, root->free, root->words, root->names, root->tail));
+			
+		}
+#endif
 		/* 'access' page */
 		ibex_list_remove((struct _listnode *)memblock);
 		ibex_list_addtail(&block_cache->nodes, (struct _listnode *)memblock);
@@ -318,6 +339,18 @@ ibex_block_read(struct _memcache *block_cache, blockid_t blockid)
 		g_hash_table_remove(block_cache->index, (void *)old->block);
 		ibex_list_remove((struct _listnode *)old);
 		if (old->flags & BLOCK_DIRTY) {
+			/* are we about to un-sync the file?  update root and sync it */
+			if (block_cache->flags & IBEX_ROOT_SYNCF) {
+				/* TODO: put the rootblock in the block_cache struct, not in the cache */
+				struct _memblock *rootblock = g_hash_table_lookup(block_cache->index, (void *)0);
+				struct _root *root = (struct _root *)&rootblock->data;
+
+				g_assert(rootblock != NULL);
+				root->flags &= ~IBEX_ROOT_SYNCF;
+				sync_block(block_cache, rootblock);
+				if (fsync(block_cache->fd) == 0)
+					block_cache->flags &= ~IBEX_ROOT_SYNCF;
+			}
 			sync_block(block_cache, old);
 		}
 		g_free(old);
@@ -365,8 +398,10 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 	}
 
 	root = (struct _root *)ibex_block_read(block_cache, 0);
-	if (root->roof == 0 || memcmp(root->version, "ibx3", 4)) {
-		d(printf("Initialising superblock\n"));
+	if (root->roof == 0
+	    || memcmp(root->version, "ibx3", 4)
+	    || ((root->flags & IBEX_ROOT_SYNCF) == 0)) {
+		(printf("Initialising superblock\n"));
 		/* reset root data */
 		memcpy(root->version, "ibx3", 4);
 		root->roof = 1024;
@@ -374,12 +409,16 @@ ibex_block_cache_open(const char *name, int flags, int mode)
 		root->words = 0;
 		root->names = 0;
 		root->tail = 0;	/* list of tail blocks */
+		root->flags = 0;
 		ibex_block_dirty((struct _block *)root);
+		/* reset the file contents */
+		ftruncate(block_cache->fd, 1024);
 	} else {
-		d(printf("superblock already initialised:\n"
-			 " roof = %d\n free = %d\n words = %d\n names = %d\n",
-			 root->roof, root->free, root->words, root->names));
+		(printf("superblock already initialised:\n"
+			" roof = %d\n free = %d\n words = %d\n names = %d\n tail = %d",
+			root->roof, root->free, root->words, root->names, root->tail));
 	}
+	block_cache->flags = root->flags;
 	/* this should be moved higher up */
 	{
 		struct _IBEXWord *ibex_create_word_index(struct _memcache *bc, blockid_t *wordroot, blockid_t *nameroot);
@@ -435,7 +474,7 @@ ibex_block_free(struct _memcache *block_cache, blockid_t blockid)
 	struct _root *root = (struct _root *)ibex_block_read(block_cache, 0);
 	struct _block *block = ibex_block_read(block_cache, blockid);
 
-	block->next = root->free;
+	block->next = block_number(root->free);
 	root->free = blockid;
 	ibex_block_dirty((struct _block *)root);
 	ibex_block_dirty((struct _block *)block);

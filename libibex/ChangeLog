@@ -1,3 +1,19 @@
+2000-09-28  Not Zed  <NotZed@HelixCode.com>
+
+	* block.c (ibex_block_free): Make sure we map the 'free' block to
+	a block number when unlinking a block (fixes a lot of assertion
+	failures).
+	(ibex_block_cache_open): Initialise sync flag on root block.  If
+	it is not set on open then the index could be in an invalid state,
+	and should be rescanned.
+	(ibex_block_cache_sync): Sync root block last, and set the sync
+	flag.
+	(ibex_block_cache_open): Mirror root block flags in block_cache
+	struct.
+	(ibex_block_cache_sync): Likewise.
+	(ibex_block_read): If we write a dirty block, then we clear the
+	sync flag if its still set; we are no longer synced.
+
 2000-09-19  Not Zed  <NotZed@HelixCode.com>
 
 	** Merged from IBEX_DISK branch to head.
