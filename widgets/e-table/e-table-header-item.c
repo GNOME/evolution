@@ -1150,9 +1150,11 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 {
 }
 
+/* Bit 1 is always disabled. */
+/* Bit 2 is disabled if not "sortable". */
 static EPopupMenu ethi_context_menu [] = {
-	{ "Sort Ascending",            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  0},
-	{ "Sort Descending",           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 0},
+	{ "Sort Ascending",            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  2},
+	{ "Sort Descending",           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 2},
 	{ "Unsort",                    NULL, GTK_SIGNAL_FUNC(ethi_popup_unsort),          0},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       0},
 	{ "Group By This Field",       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     0},
@@ -1173,9 +1175,11 @@ static void
 ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
+	ETableCol *col;
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
-	e_popup_menu_run (ethi_context_menu, event, 1, info);
+	col = e_table_header_get_column (ethi->eth, info->col);
+	e_popup_menu_run (ethi_context_menu, event, 1 + (col->sortable ? 0 : 2), info);
 }
 
 static void
@@ -1310,29 +1314,31 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 					break;
 				}
 			}
-			if (!found) {
-				length = e_table_sort_info_sorting_get_count(ethi->sort_info);
-				for (i = 0; i < length; i++) {
-					ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
-					if (model_col == column.column){
-						int ascending = column.ascending;
-						ascending = ! ascending;
-						column.ascending = ascending;
-						e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
-						found = 1;
-						break;
+			if(col->sortable) {
+				if (!found) {
+					length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+					for (i = 0; i < length; i++) {
+						ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
+						if (model_col == column.column){
+							int ascending = column.ascending;
+							ascending = ! ascending;
+							column.ascending = ascending;
+							e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
+							found = 1;
+							break;
+						}
 					}
 				}
-			}
-			if (!found) {
-				ETableSortColumn column = { model_col, 1 };
-				length = e_table_sort_info_sorting_get_count(ethi->sort_info);
-				if (length == 0)
-					length++;
-				e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+				if (!found) {
+					ETableSortColumn column = { model_col, 1 };
+					length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+					if (length == 0)
+						length++;
+					e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+				}
 			}
 		}
-
+		
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
 

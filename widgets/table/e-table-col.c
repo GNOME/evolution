@@ -17,6 +17,12 @@
 
 static GtkObjectClass *parent_class;
 
+
+enum {
+	ARG_0,
+	ARG_SORTABLE,
+};
+
 static void
 etc_destroy (GtkObject *object)
 {
@@ -31,18 +37,53 @@ etc_destroy (GtkObject *object)
 	
 	(*parent_class->destroy)(object);
 }
-      
+ 
+
+static void
+etc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	ETableCol *etc = E_TABLE_COL (o);
+	
+	switch (arg_id){
+	case ARG_SORTABLE:
+		etc->sortable = GTK_VALUE_BOOL(*arg);
+		break;
+	}
+}
+
+static void
+etc_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	ETableCol *etc = E_TABLE_COL (o);
+	
+	switch (arg_id){
+	case ARG_SORTABLE:
+		GTK_VALUE_BOOL(*arg) = etc->sortable;
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
+	}
+}
+     
 static void
 e_table_col_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
 	object_class->destroy = etc_destroy;
+	object_class->get_arg = etc_get_arg;
+	object_class->set_arg = etc_set_arg;
+
+	gtk_object_add_arg_type ("ETableCol::sortable",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_SORTABLE);  
 }
 
 static void
 e_table_col_init (ETableCol *etc)
 {
 	etc->width = 0;
+	etc->sortable = 1;
+	etc->groupable = 1;
 }
 
 E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE);

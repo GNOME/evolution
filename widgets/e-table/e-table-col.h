@@ -36,6 +36,8 @@ struct _ETableCol {
 	unsigned int is_pixbuf:1;
 	unsigned int selected:1;
 	unsigned int resizeable:1;
+	unsigned int sortable:1;
+	unsigned int groupable:1;
 	int          col_idx;
 
 	ETableColArrow arrow;

@@ -1,3 +1,10 @@
+2000-07-31  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-col.c, e-table-col.h: Added an argument to set a column
+	so that you can't sort by that column.
+
+	* e-table-header-item.c: Obey the sortable column of ETableCol.
+
 2000-07-29  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-click-to-add.c: Made enter key destroy and recreate the
