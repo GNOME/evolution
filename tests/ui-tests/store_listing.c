@@ -1,4 +1,5 @@
-/* Bertrand.Guiheneuf@aful.org                                               */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Author : Bertrand.Guiheneuf@aful.org                                  */
 
 
 
@@ -12,24 +13,194 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include "camel-folder.h"
+#include "camel-mh-folder.h"
+#include "camel-mh-store.h"
+#include "camel.h"
 
 static GladeXML *xml;
 
+static void add_mail_store (const gchar *store_url);
+static void show_folder_messages (CamelFolder *folder);
+
 
 void
-on_exit1_activate (GtkWidget *widget, void *data)
+mailbox_row_selected (GtkCTree *ctree, GList *node, gint column, gpointer user_data)
 {
-  gtk_main_quit ();
+	GtkCTreeNode *mailbox_node = GTK_CTREE_NODE (node);
+	CamelFolder *folder;
+	const gchar *mailbox_name;
+
+	folder = gtk_ctree_node_get_row_data (ctree, mailbox_node);
+	if (folder && IS_CAMEL_FOLDER (folder)) {
+		mailbox_name = camel_folder_get_name (folder);
+		printf ("Mailbox name : %s\n", mailbox_name);
+		show_folder_messages (folder);
+	} else {
+		printf ("Node is a store\n");
+	}
+	
+}
+
+
+static void 
+message_destroy_notify (gpointer data)
+{
+	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (data);
+
+	gtk_object_unref (GTK_OBJECT (message));
+
+}
+
+
+
+
+
+static void
+show_folder_messages (CamelFolder *folder)
+{
+	GtkWidget *message_clist;
+	gint folder_message_count;
+	CamelMimeMessage *message;
+	gint i;
+	gchar *clist_row_text[3];
+	const char *sent_date, *subject, *sender;
+	gint current_row;
+
+	message_clist = glade_xml_get_widget (xml, "message-clist");
+
+	/* clear old message list */
+	gtk_clist_clear (GTK_CLIST (message_clist));
+
+	folder_message_count = camel_folder_get_message_count (folder);
+	for (i=0; i<folder_message_count; i++) {
+		message = camel_folder_get_message (folder, i);
+
+		sent_date = camel_mime_message_get_sent_date (message);
+		sender = camel_mime_message_get_from (message);
+		subject = camel_mime_message_get_subject (message);
+
+		if (sent_date) clist_row_text [0] = g_strdup (sent_date);
+		else clist_row_text [0] = g_strdup ('\0');
+		if (sender) clist_row_text [1] = g_strdup (sender);
+		else clist_row_text [1] = g_strdup ('\0');
+		if (subject) clist_row_text [2] = g_strdup (subject);
+		else clist_row_text [2] = g_strdup ('\0');
+
+		current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
+		gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
+	}
+	
+	
+	
+}
+
+
+
+/* add a mail store given by its URL */
+static void
+add_mail_store (const gchar *store_url)
+{
+
+	CamelStore *store;
+	GtkWidget *mailbox_and_store_tree;
+	GtkCTreeNode* new_store_node;
+	GtkCTreeNode* new_folder_node;
+	char *new_tree_text[1];
+	GList *subfolder_list;
+	CamelFolder *root_folder;
+	CamelFolder *new_folder;
+
+
+	/* normally the store type is found automatically 
+	   with the URL, this is not implemented for 
+	   the moment */
+	store = gtk_type_new (CAMEL_MH_STORE_TYPE);
+	camel_store_init (store, (CamelSession *)NULL, g_strdup (store_url));
+	
+	//store_list = g_list_append (store_list, (gpointer)store);
+	mailbox_and_store_tree = glade_xml_get_widget (xml, "store-and-mailbox-tree");
+	new_tree_text[0] = g_strdup (store_url);
+	new_store_node = gtk_ctree_insert_node (GTK_CTREE (mailbox_and_store_tree),
+					  NULL,
+					  NULL,
+					  new_tree_text,
+					  0,
+					  NULL,
+					  NULL,
+					  NULL,
+					  NULL,
+					  FALSE,
+					  FALSE);
+
+	/* normally, use get_root_folder */
+	root_folder = camel_store_get_folder (store, "");
+	subfolder_list = camel_folder_list_subfolders (root_folder);
+	while (subfolder_list) {
+		new_tree_text[0] = subfolder_list->data;
+		new_folder = camel_store_get_folder (store, subfolder_list->data);
+		new_folder_node = gtk_ctree_insert_node (GTK_CTREE (mailbox_and_store_tree),
+							 new_store_node,
+							 NULL,
+							 new_tree_text,
+							 0,
+							 NULL,
+							 NULL,
+							 NULL,
+							 NULL,
+							 FALSE,
+							 FALSE);
+
+
+		gtk_ctree_node_set_row_data (GTK_CTREE (mailbox_and_store_tree), new_folder_node, (gpointer)new_folder);
+		subfolder_list = subfolder_list->next;
+	}
+	
+	
+}
+
+
+/* ----- */
+void
+on_exit_activate (GtkWidget *widget, void *data)
+{
+	gtk_main_quit ();
 }
 
 
 void
-on_about1_activate (GtkWidget *widget, void *data)
+on_about_activate (GtkWidget *widget, void *data)
 {
-   GtkWidget *about_widget;
-   
-   about_widget = glade_xml_get_widget (xml, "about_widget");
-   gtk_widget_show (about_widget);
+	GtkWidget *about_widget;
+	
+	about_widget = glade_xml_get_widget (xml, "about_widget");
+	gtk_widget_show (about_widget);
+}
+
+void
+on_new_store_activate (GtkWidget *widget, void *data)
+{
+	GtkWidget *new_store_dialog;
+	GtkWidget *new_store_gnome_entry;
+	GtkWidget *new_store_entry;
+	gchar *url_text;
+
+
+	gint pressed_button;
+
+	new_store_dialog = glade_xml_get_widget (xml, "new_store_dialog");
+	pressed_button = gnome_dialog_run (GNOME_DIALOG (new_store_dialog));
+
+	if ((pressed_button != 0) && (pressed_button != 1))
+		return;
+	
+	new_store_gnome_entry = glade_xml_get_widget (xml, "new-store-entry");
+	new_store_entry = gnome_entry_gtk_entry (GNOME_ENTRY (new_store_gnome_entry));
+	url_text = gtk_entry_get_text (GTK_ENTRY (new_store_entry));
+	
+	if (url_text)
+		add_mail_store (url_text);
+	
 }
 
 
@@ -38,17 +209,17 @@ on_about1_activate (GtkWidget *widget, void *data)
 int
 main(int argc, char *argv[])
 {
- 
-  gnome_init ("store_listing", "1.0", argc, argv);
-
-  glade_gnome_init();
-
-  xml = glade_xml_new ("store_listing.glade", NULL);
-  if (xml) glade_xml_signal_autoconnect (xml);
-
-  
-  gtk_main ();
-  
-  return 0;
+	
+	gnome_init ("store_listing", "1.0", argc, argv);
+	
+	glade_gnome_init ();
+	camel_init ();
+	xml = glade_xml_new ("store_listing.glade", NULL);
+	if (xml) glade_xml_signal_autoconnect (xml);
+	
+	
+	gtk_main ();
+	
+	return 0;
 }
 

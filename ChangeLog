@@ -1,4 +1,9 @@
-1999-08-10  root  <guiheneu@jean.joudboeuf.fr>
+1999-08-09  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/store_listing.c: 
+	* tests/ui-tests/store_listing.glade:
+	Quick and (very) dirty hack to test Camel more
+	easily.
 
 	* camel/camel-folder.c (camel_folder_append_message): 
 	new method.
