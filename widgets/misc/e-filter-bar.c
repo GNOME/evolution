@@ -329,7 +329,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	while ((rule = rule_context_next_rule (efb->context, rule, source))) {
 		item.id = id++;
 
-		if (num <= 10) {
+		if (type == 0 && num <= 10) {
 			item.text = g_strdup_printf ("_%d. %s", num % 10, rule->name);
 			num ++;
 		} else {
