@@ -1,7 +1,7 @@
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-crypto.c (mail_crypto_openpgp_encrypt): Fix to prevent
-	possible buffer overflows
+	possible buffer overflows and a logic fix.
 
 2000-08-27  Jeffrey Stedfast  <fejj@helixcode.com>
 

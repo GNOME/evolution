@@ -429,7 +429,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 {
 	GPtrArray *recipient_list = NULL;
 	GPtrArray *argv;
-	int retval, i, r;
+	int retval, r;
 	char *path;
 	char *passphrase = NULL, *ciphertext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
@@ -462,7 +462,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	for (r = 0; r < recipients->len; r++) {
 		char *buf, *recipient;
 		
-		recipient = recipients->pdata[i];
+		recipient = recipients->pdata[r];
 		buf = g_strdup_printf ("-r %s", recipient);
 		g_ptr_array_add (recipient_list, buf);
 	}
@@ -496,7 +496,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	for (r = 0; r < recipients->len; r++) {
 		char *buf, *recipient;
 		
-		recipient = recipients->pdata[i];
+		recipient = recipients->pdata[r];
 		buf = g_strdup_printf ("-r %s", recipient);
 		g_ptr_array_add (recipient_list, buf);
 	}
@@ -525,7 +525,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	for (r = 0; r < recipients->len; r++) {
 		char *buf, *recipient;
 		
-		recipient = recipients->pdata[i];
+		recipient = recipients->pdata[r];
 		buf = g_strdup_printf ("-r %s", recipient);
 		g_ptr_array_add (recipient_list, buf);
 	}
