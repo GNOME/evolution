@@ -81,7 +81,7 @@
 		<widget class="Custom" id="list-image">
 		  <property name="visible">True</property>
 		  <property name="creation_function">eab_create_image_chooser_widget</property>
-		  <property name="string1">evolution-contacts-plain.png</property>
+		  <property name="string1">stock_addressbook</property>
 		  <property name="int1">0</property>
 		  <property name="int2">0</property>
 		  <property name="last_modification_time">Sat, 23 Jun 2001 05:59:21 GMT</property>

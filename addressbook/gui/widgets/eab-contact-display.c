@@ -44,14 +44,14 @@ struct _EABContactDisplayPrivate {
 
 #define HEADER_COLOR      "#7f7f7f"
 #define IMAGE_COL_WIDTH   "20"
-#define CONTACT_LIST_ICON "contact-list-16.png"
-#define AIM_ICON          "im-aim.png"
-#define GROUPWISE_ICON    "im-nov.png"
-#define ICQ_ICON          "im-icq.png"
-#define JABBER_ICON       "im-jabber.png"
-#define MSN_ICON          "im-msn.png"
-#define YAHOO_ICON        "im-yahoo.png"
-#define VIDEOCONF_ICON    "videoconf.png"
+#define CONTACT_LIST_ICON "stock_contact-list"
+#define AIM_ICON          "im-aim"
+#define GROUPWISE_ICON    "im-nov"
+#define ICQ_ICON          "im-icq"
+#define JABBER_ICON       "im-jabber"
+#define MSN_ICON          "im-msn"
+#define YAHOO_ICON        "im-yahoo"
+#define VIDEOCONF_ICON    "stock_video-conferencing"
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
 
@@ -73,20 +73,17 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	else if (!strncmp (url, "evo-icon:", strlen ("evo-icon:"))) {
 		gchar *data;
 		gsize data_length;
-		char *filename;
+		gchar *filename;
 
-		/* make sure people can't embed ../../../../../../etc/passwd or something */
-		if (!strchr (url, '/')) {
-			filename = g_build_filename (EVOLUTION_IMAGESDIR, url + strlen ("evo-icon:"), NULL);
-
-			if (g_file_get_contents (filename, &data, &data_length, NULL))
-				gtk_html_stream_write (handle, data, data_length);
-
-			gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
-
-			g_free (filename);
+		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), 16);
+		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
+			gtk_html_stream_write (handle, data, data_length);
 			g_free (data);
 		}
+
+		gtk_html_stream_close (handle, GTK_HTML_STREAM_OK);
+
+		g_free (filename);
 	}
 }
 

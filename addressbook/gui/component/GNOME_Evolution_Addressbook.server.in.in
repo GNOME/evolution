@@ -61,7 +61,7 @@
 
         <oaf_attribute name="evolution:button_label" type="string" _value="Contacts"/>
         <oaf_attribute name="evolution:button_sort_order" type="string" value="-9"/>
-        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-contacts.png"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="stock_addressbook"/>
 
 </oaf_server>
 
@@ -108,7 +108,7 @@
                        _value="Manager your S/Mime certificates here"/>
                                                                                           
         <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-                       value="pgp-signature-ok.png"/>
+                       value="stock_lock-ok"/>
                                                                                           
         <oaf_attribute name="evolution2:config_item:priority" type="string" value="-6"/>
                                                                                           
@@ -132,7 +132,7 @@
 		_value="Configure autocomple here"/>
 
 	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		value="folder-settings.png"/>
+		value="stock_contact"/>
 
 	<oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
 

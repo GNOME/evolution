@@ -971,10 +971,7 @@ eab_create_image_chooser_widget(gchar *name,
 	char *filename;
 	GtkWidget *w = NULL;
 	if (string1) {
-		if (*string1 == '/')
-			filename = g_strdup(string1);
-		else
-			filename = g_build_filename (EVOLUTION_IMAGESDIR, string1, NULL);
+		filename = e_icon_factory_get_icon_filename (string1, 48);
 
 		w = e_image_chooser_new ();
 		e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);

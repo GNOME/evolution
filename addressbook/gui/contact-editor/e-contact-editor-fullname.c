@@ -21,7 +21,7 @@
 
 #include <config.h>
 #include "e-contact-editor-fullname.h"
-#include <libgnomeui/gnome-window-icon.h>
+#include <e-util/e-icon-factory.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkcombo.h>
@@ -103,7 +103,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	char *icon_path;
+	GList *icon_list;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_fullname),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -126,9 +126,12 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
 	g_object_unref(widget);
 
-	icon_path = g_concat_dir_and_file (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png");
-	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor_fullname), icon_path);
-	g_free (icon_path);
+	icon_list = e_icon_factory_get_icon_list ("stock_contact");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_fullname), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 }
 
 void

@@ -21,6 +21,7 @@
 #include <config.h>
 
 #include "e-contact-list-editor.h"
+#include <e-util/e-icon-factory.h>
 
 #include <string.h>
 
@@ -182,7 +183,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	GladeXML *gui;
 	GtkWidget *bonobo_win;
 	BonoboUIContainer *container;
-	char *icon_path;
+	GList *icon_list;
 
 	editor->contact = NULL;
 	editor->changed = FALSE;
@@ -278,9 +279,12 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  G_CALLBACK (app_delete_event_cb), editor);
 
 	/* set the icon */
-	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "contact-list-16.png", NULL);
-	gnome_window_icon_set_from_file (GTK_WINDOW (editor->app), icon_path);
-	g_free (icon_path);
+	icon_list = e_icon_factory_get_icon_list ("stock_contact-list");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (editor->app), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 }
 
 static void
@@ -514,18 +518,18 @@ BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
-	E_PIXMAP ("/commands/ContactListEditorSave", "save-16.png"),
-	E_PIXMAP ("/commands/ContactListEditorSaveClose", "save-16.png"),
-	E_PIXMAP ("/commands/ContactListEditorSaveAs", "save-as-16.png"),
+	E_PIXMAP ("/commands/ContactListEditorSave", "stock_save", 16),
+	E_PIXMAP ("/commands/ContactListEditorSaveClose", "stock_save", 16),
+	E_PIXMAP ("/commands/ContactListEditorSaveAs", "stock_save_as", 16),
 
-	E_PIXMAP ("/commands/ContactListEditorDelete", "evolution-trash-mini.png"),
+	E_PIXMAP ("/commands/ContactListEditorDelete", "stock_delete", 16),
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-	E_PIXMAP ("/commands/ContactListEditorPrint", "print.xpm"),
-	E_PIXMAP ("/commands/ContactListEditorPrintEnvelope", "print.xpm"),
+	E_PIXMAP ("/commands/ContactListEditorPrint", "stock_print", 16),
+	E_PIXMAP ("/commands/ContactListEditorPrintEnvelope", "stock_print", 16),
 #endif
-	E_PIXMAP ("/Toolbar/ContactListEditorSaveClose", "buttons/save-24.png"),
-	E_PIXMAP ("/Toolbar/ContactListEditorDelete", "buttons/delete-message.png"),
-	E_PIXMAP ("/Toolbar/ContactListEditorPrint", "buttons/print.png"),
+	E_PIXMAP ("/Toolbar/ContactListEditorSaveClose", "stock_save", 24),
+	E_PIXMAP ("/Toolbar/ContactListEditorDelete", "stock_delete", 24),
+	E_PIXMAP ("/Toolbar/ContactListEditorPrint", "stock_print", 24),
 
 	E_PIXMAP_END
 };

@@ -44,9 +44,10 @@
 #include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include "eab-gui-util.h"
 #include "e-select-names-popup.h"
+#include <e-util/e-icon-factory.h>
 
-#define LIST_ICON_FILENAME "contact-list-16.png"
-#define CONTACT_ICON_FILENAME "evolution-contacts-mini.png"
+#define LIST_ICON_NAME "stock_contact-list"
+#define CONTACT_ICON_NAME "stock_contact"
 
 typedef struct _PopupInfo PopupInfo;
 struct _PopupInfo {
@@ -191,6 +192,7 @@ toggle_html_mail_cb (GtkWidget *w, gpointer user_data)
 static void
 populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 {
+	GdkPixbuf *pixbuf;
 	GtkWidget *image;
 	EContact *contact;
 	GtkWidget *menuitem;
@@ -289,9 +291,9 @@ populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 
-	image = gtk_image_new_from_file (list
-					 ? EVOLUTION_IMAGESDIR "/" LIST_ICON_FILENAME
-					 : EVOLUTION_IMAGESDIR "/" CONTACT_ICON_FILENAME);
+	pixbuf = e_icon_factory_get_icon (list ? LIST_ICON_NAME : CONTACT_ICON_NAME, 16);
+	image = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref (pixbuf);
 	gtk_widget_show (image);
 	menuitem = gtk_image_menu_item_new_with_label (e_destination_get_name (info->dest));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),

@@ -39,6 +39,7 @@
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
+#include <e-util/e-icon-factory.h>
 #include "util/e-destination.h"
 
 static void e_minicard_init		(EMinicard		 *card);
@@ -62,7 +63,7 @@ static GnomeCanvasGroupClass *parent_class = NULL;
 
 #define d(x)
 
-#define LIST_ICON_FILENAME "contact-list-16.png"
+#define LIST_ICON_NAME "stock_contact-list"
 
 static void
 e_minicard_field_destroy(EMinicardField *field)
@@ -235,7 +236,7 @@ e_minicard_init (EMinicard *minicard)
 
 	minicard->contact          = NULL;
 
-	minicard->list_icon_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" LIST_ICON_FILENAME, NULL);
+	minicard->list_icon_pixbuf = e_icon_factory_get_icon (LIST_ICON_NAME, 16);
 	minicard->list_icon_size   = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
 
 	minicard->editor           = NULL;
@@ -426,6 +427,9 @@ e_minicard_finalize (GObject *object)
 	
 	if (e_minicard->contact)
 		g_object_unref (e_minicard->contact);
+	
+	if (e_minicard->list_icon_pixbuf)
+		g_object_unref (e_minicard->list_icon_pixbuf);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);

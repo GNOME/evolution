@@ -44,6 +44,7 @@
 #include "widgets/misc/e-source-selector.h"
 
 #include "e-util/e-passwords.h"
+#include "e-util/e-icon-factory.h"
 #include "shell/e-user-creatable-items-handler.h"
 
 #include "evolution-shell-component-utils.h"
@@ -66,7 +67,7 @@
 static GObjectClass *parent_class = NULL;
 
 /* This is used for the addressbook status bar */
-#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "evolution-contacts-mini.png"
+#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "stock_contact"
 static GdkPixbuf *progress_icon = NULL;
 
 #define d(x)
@@ -285,7 +286,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 		char *clientid = g_strdup_printf ("%p", view);
 
 		if (progress_icon == NULL)
-			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
+			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, 16);
 
 		priv->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
 									  progress_icon, message, TRUE);
@@ -432,17 +433,17 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "save-as-16.png"),
-	E_PIXMAP ("/menu/File/Print/ContactsPrint", "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "print-preview.xpm"),
+	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save_as", 16),
+	E_PIXMAP ("/menu/File/Print/ContactsPrint", "stock_print", 16),
+	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "stock_print-preview", 16),
 
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "16_cut.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "16_copy.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "16_paste.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "stock_cut", 16),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "stock_copy", 16),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "stock_paste", 16),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "stock_delete", 16),
 
-	E_PIXMAP ("/Toolbar/ContactsPrint", "buttons/print.png"),
-	E_PIXMAP ("/Toolbar/ContactDelete", "buttons/delete-message.png"),
+	E_PIXMAP ("/Toolbar/ContactsPrint", "stock_print", 24),
+	E_PIXMAP ("/Toolbar/ContactDelete", "stock_delete", 24),
 
 	E_PIXMAP_END
 };
@@ -1026,7 +1027,7 @@ addressbook_view_init (AddressbookView *view)
 	e_activity_handler_attach_task_bar (priv->activity_handler,
 					    E_TASK_BAR (priv->statusbar_widget));
 
-	priv->info_widget = e_info_label_new("evolution-contacts-mini.png");
+	priv->info_widget = e_info_label_new("stock_contact");
 	e_info_label_set_info((EInfoLabel*)priv->info_widget, _("Contacts"), "");
 	gtk_widget_show (priv->info_widget);
 

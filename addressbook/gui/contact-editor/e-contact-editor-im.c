@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include "e-contact-editor-im.h"
-#include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkbox.h>
@@ -34,6 +33,7 @@
 #include <gtk/gtksizegroup.h>
 #include <gtk/gtkstock.h>
 #include <string.h>
+#include <e-util/e-icon-factory.h>
 
 static void e_contact_editor_im_init		(EContactEditorIm		 *card);
 static void e_contact_editor_im_class_init	(EContactEditorImClass	 *klass);
@@ -68,12 +68,12 @@ static const char *im_labels[] = {
 };
 
 static const char *im_images[] = {
-	"im-aim.png",
-	"im-nov.png",
-	"im-jabber.png",
-	"im-yahoo.png",
-	"im-msn.png",
-	"im-icq.png"
+	"im-aim",
+	"im-nov",
+	"im-jabber",
+	"im-yahoo",
+	"im-msn",
+	"im-icq"
 };
 
 GType
@@ -176,9 +176,7 @@ setup_service_optmenu(EContactEditorIm *editor)
 	GtkWidget *label;
 	GtkWidget *image;
 	GdkPixbuf *pixbuf;
-	GdkPixbuf *scale;
 	GtkSizeGroup *sg;
-	char *icon_path;
 	int i;
 
 	optmenu = glade_xml_get_widget(editor->gui, "optmenu-service");
@@ -198,16 +196,12 @@ setup_service_optmenu(EContactEditorIm *editor)
 		gtk_container_add(GTK_CONTAINER(item), hbox);
 		gtk_widget_show(hbox);
 
-		icon_path = g_concat_dir_and_file(EVOLUTION_IMAGESDIR, im_images[i]);
-		pixbuf = gdk_pixbuf_new_from_file(icon_path, NULL);
-		g_free(icon_path);
+		pixbuf = e_icon_factory_get_icon(im_images[i], 16);
 
 		if (pixbuf != NULL) {
-			scale = gdk_pixbuf_scale_simple(pixbuf, 16, 16, GDK_INTERP_BILINEAR);
-			image = gtk_image_new_from_pixbuf(scale);
+			image = gtk_image_new_from_pixbuf(pixbuf);
 
 			g_object_unref(G_OBJECT(pixbuf));
-			g_object_unref(G_OBJECT(scale));
 		}
 		else
 			image = gtk_image_new();
@@ -261,7 +255,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	char *icon_path;
+	GList *icon_list;
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_im),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -295,9 +289,13 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 
 	gtk_widget_grab_focus(glade_xml_get_widget(gui, "entry-username"));
 
-	icon_path = g_concat_dir_and_file (EVOLUTION_IMAGESDIR, "evolution-contacts-mini.png");
-	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor_im), icon_path);
-	g_free (icon_path);
+	/* set the icon */
+	icon_list = e_icon_factory_get_icon_list ("stock_contact");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (e_contact_editor_im), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 }
 
 void

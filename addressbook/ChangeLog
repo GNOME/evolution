@@ -1,3 +1,26 @@
+2004-04-19  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Set the default image for
+	the contact photo to be the stock_person image in the icon theme
+
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	* gui/component/addressbook-component.c:
+	* gui/component/addressbook-view.c:
+	* gui/component/select-names/e-select-names-popup.c:
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-list-editor/contact-list-editor.glade:
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	* gui/merging/eab-contact-commit-duplicate-detected.glade:
+	* gui/merging/eab-contact-duplicate-detected.glade:
+	* gui/widgets/e-minicard.c:
+	* gui/widgets/eab-contact-display.c:
+	* gui/widgets/eab-gui-util.c: Update the addressbook to use the icon
+	theme via the EIconFactory object in e-util
+
 2004-04-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (nonempty): new macro.

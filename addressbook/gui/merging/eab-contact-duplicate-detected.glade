@@ -182,7 +182,7 @@ in this folder.  Would you like to add it anyway?</property>
 		<widget class="Custom" id="custom2">
 		  <property name="visible">True</property>
 		  <property name="creation_function">e_create_image_widget</property>
-		  <property name="string1">malehead.png</property>
+		  <property name="string1">stock_person</property>
 		  <property name="int1">0</property>
 		  <property name="int2">0</property>
 		  <property name="last_modification_time">Fri, 08 Jun 2001 00:18:39 GMT</property>
