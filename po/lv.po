@@ -23502,7 +23502,7 @@ msgstr "Virdžīnija"
 msgid "Virginia Beach"
 msgstr "Virdžīnijas Pludmale"
 
-Vri#: my-evolution/Locations.h:2390
+#: my-evolution/Locations.h:2390
 msgid "Virginia Tech Airport"
 msgstr "Virdžīnijas Tehniskā Lidosta"
 
@@ -24031,7 +24031,7 @@ msgstr "Zadara"
 msgid "Zagreb"
 msgstr "Zagreba"
 
-Za#: my-evolution/Locations.h:2519
+#: my-evolution/Locations.h:2519
 msgid "Zakinthos"
 msgstr "Zakintos"
 
