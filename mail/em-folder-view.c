@@ -1237,15 +1237,9 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 
 	/* HACK: Nasty internal gtkhtml poking going on here */
 
-	/* Disabled since there's no simple way to find out if
-	   gtkhtml has the primary selection right now */
-
-	/* Ugh, to use the clipboard we need to request the selection
-	   and have an async callback - painful to deal with */
-
-	/*clip = gtk_clipboard_get(GDK_SELECTION_PRIMARY);*/
-	if (FALSE /*gtk_clipboard_get_owner(clip) == (GObject *)emfv->preview*/
+	if (((EMFormatHTML *)emfv->preview)->html->engine->selection
 	    && ((EMFormatHTML *)emfv->preview)->html->engine->primary) {
+		/* && GTK_WIDGET_HAS_FOCUS(emfv->preview->formathtml.html)*/
 		CamelMimeMessage *msg, *src;
 		struct _camel_header_raw *header;
 		HTMLEngineSaveState *state;
@@ -1275,8 +1269,6 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	} else {
 		em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
 	}
-
-	/*g_object_unref(clip);*/
 }
 
 static void
@@ -2093,6 +2085,17 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	EMPopup *emp;
 	EMPopupTarget *target;
 	GtkMenu *menu;
+
+	if (uri == NULL && part == NULL) {
+		/* So we don't try and popup with nothing selected - rather odd result! */
+		GPtrArray *uids = message_list_get_selected(emfv->list);
+		int doit = uids->len > 0;
+
+		message_list_free_uids(emfv->list, uids);
+		if (doit)
+			emfv_popup(emfv, event);
+		return doit;
+	}
 
 	/* FIXME: this maybe should just fit on em-html-display, it has access to the
 	   snooped part type */

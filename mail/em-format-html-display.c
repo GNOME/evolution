@@ -584,30 +584,29 @@ efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormat
 	const char *url;
 	gboolean res = FALSE;
 	gint offset;
+	EMFormatPURI *puri = NULL;
+	char *uri = NULL;
 
 	if (event->button != 3)
 		return FALSE;
 
 	e = ((GtkHTML *)widget)->engine;
 	obj = html_engine_get_object_at(e, event->x, event->y, &offset, FALSE);
-	if (obj == NULL)
-		return FALSE;
 
 	d(printf("popup button pressed\n"));
 
-	if ( (url = html_object_get_src(obj)) != NULL
-	     || (url = html_object_get_url(obj, offset)) != NULL) {
-		EMFormatPURI *puri;
-		char *uri;
-
+	if ( obj != NULL
+	     && ((url = html_object_get_src(obj)) != NULL
+		 || (url = html_object_get_url(obj, offset)) != NULL)) {
 		uri = gtk_html_get_url_object_relative((GtkHTML *)widget, obj, url);
 		puri = em_format_find_puri((EMFormat *)efhd, uri);
 
 		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
-
-		g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
-		g_free(uri);
 	}
+
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
+
+	g_free(uri);
 
 	return res;
 }

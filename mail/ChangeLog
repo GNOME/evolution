@@ -1,5 +1,14 @@
 2004-05-13  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (emfv_message_reply): re-enabled the reply to
+	selection stuff.  I worked out how to make it work; I think.
+
+	* em-format-html-display.c (efhd_html_button_press_event): if we
+	aren't on a clickable object, do a null popup event instead.
+
+	* em-folder-view.c (emfv_format_popup_event): do the full popup if
+	we aren't on anything (not on a uri or part).  See #8414.
+
 	* GNOME_Evolution_Mail.server.in.in: added "email" to the
 	uri_schema's attribute.
 
