@@ -1,5 +1,15 @@
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c: New member `ping_timeout_id' in
+	`EvolutionShellComponentPrivate'.
+	(setup_owner_pinging): New helper function.
+	(impl_owner_died): Unref the owner and set ->owner_client to
+	%NULL.
+	(impl_setOwner): Don't unref here.
+	(destroy): Remove the source for ->ping_timeout_id if not -1.
+
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c: #include "e-util/e-gtk-utils.h".
 	(quit_box_new): Queue a draw on the window; otherwise it seems to
 	fail to redraw in some cases for some reason [see #11412].

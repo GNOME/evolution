@@ -39,6 +39,9 @@
 #include "Evolution.h"
 
 
+#define PING_DELAY 10000
+
+
 #define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 
 static GtkObjectClass *parent_class = NULL;
@@ -65,6 +68,8 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellClient *owner_client;
 
 	GSList *user_creatable_item_types; /* UserCreatableItemType */
+
+	int ping_timeout_id;
 
 	void *closure;
 };
@@ -164,6 +169,54 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 
 	for (i = 0; i < count; i++)
 		corba_sequence->_buffer[i] = CORBA_string_dup (array[i]);
+}
+
+
+/* Owner pinging.  */
+
+static gboolean
+owner_ping_callback (void *data)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+	Bonobo_Unknown owner_objref;
+	gboolean alive;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (data);
+	priv = shell_component->priv;
+
+	owner_objref = bonobo_object_corba_objref (BONOBO_OBJECT (priv->owner_client));
+
+	if (owner_objref == CORBA_OBJECT_NIL)
+		return FALSE;
+
+	g_print ("Pinging shell...\n");
+
+	alive = bonobo_unknown_ping (owner_objref);
+	if (alive) {
+		g_print ("\tSuccess\n");
+		return TRUE;
+	}
+
+	g_print ("\t*** Shell is dead\n");
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
+
+	priv->ping_timeout_id = -1;
+
+	return FALSE;
+}
+
+static void
+setup_owner_pinging (EvolutionShellComponent *shell_component)
+{
+	EvolutionShellComponentPrivate *priv;
+
+	priv = shell_component->priv;
+
+	if (priv->ping_timeout_id != -1)
+		g_source_remove (priv->ping_timeout_id);
+
+	priv->ping_timeout_id = g_timeout_add (PING_DELAY, owner_ping_callback, shell_component);
 }
 
 
@@ -320,9 +373,6 @@ impl_setOwner (PortableServer_Servant servant,
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 					     ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied, NULL);
 
-			bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
-			priv->owner_client = NULL;
-
 			gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
 		}
 
@@ -334,6 +384,8 @@ impl_setOwner (PortableServer_Servant servant,
 	if (ev->_major == CORBA_NO_EXCEPTION) {
 		priv->owner_client = evolution_shell_client_new (shell_duplicate);
 		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client, evolution_homedir);
+
+		setup_owner_pinging (shell_component);
 	}
 }
 
@@ -584,6 +636,9 @@ destroy (GtkObject *object)
 
 	priv = shell_component->priv;
 
+	if (priv->ping_timeout_id != -1)
+		g_source_remove (priv->ping_timeout_id);
+
 	CORBA_exception_init (&ev);
 
 	if (priv->owner_client != NULL)
@@ -622,6 +677,13 @@ destroy (GtkObject *object)
 static void
 impl_owner_died (EvolutionShellComponent *shell_component)
 {
+	EvolutionShellComponentPrivate *priv;
+
+	priv = shell_component->priv;
+
+	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
+	priv->owner_client = NULL;
+
 	/* The default implementation for ::owner_died emits ::owner_unset, so
 	   that we make the behavior for old components kind of correct without
 	   even if they don't handle the new ::owner_died signal correctly
@@ -737,6 +799,8 @@ init (EvolutionShellComponent *shell_component)
 	priv->owner_client                    = NULL;
 	priv->user_creatable_item_types       = NULL;
 	priv->closure                         = NULL;
+
+	priv->ping_timeout_id                 = -1;
 
 	shell_component->priv = priv;
 }
