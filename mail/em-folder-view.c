@@ -542,16 +542,52 @@ emfv_popup_undelete(GtkWidget *w, EMFolderView *emfv)
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_DELETED, 0);
 }
 
+struct _move_data {
+	EMFolderView *emfv;
+	GPtrArray *uids;
+	int delete;
+};
+
+static void
+emfv_popup_move_cb(const char *uri, void *data)
+{
+	struct _move_data *d = data;
+
+	if (uri)
+		mail_transfer_messages(d->emfv->folder, d->uids, d->delete, uri, 0, NULL, NULL);
+	else
+		em_utils_uids_free(d->uids);
+
+	g_object_unref(d->emfv);
+	g_free(d);
+}
+
 static void
 emfv_popup_move(GtkWidget *w, EMFolderView *emfv)
 {
-	/* FIXME */
+	struct _move_data *d;
+
+	d = g_malloc(sizeof(*d));
+	d->emfv = emfv;
+	g_object_ref(emfv);
+	d->uids = message_list_get_selected(emfv->list);
+	d->delete = TRUE;
+
+	em_select_folder((GtkWidget *)emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
 }
 
 static void
 emfv_popup_copy(GtkWidget *w, EMFolderView *emfv)
 {
-	/* FIXME */
+	struct _move_data *d;
+
+	d = g_malloc(sizeof(*d));
+	d->emfv = emfv;
+	g_object_ref(emfv);
+	d->uids = message_list_get_selected(emfv->list);
+	d->delete = FALSE;
+
+	em_select_folder((GtkWidget *)emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
 }
 
 static void

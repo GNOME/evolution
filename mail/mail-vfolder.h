@@ -11,7 +11,7 @@
 #include "filter/vfolder-rule.h"
 #include "filter/filter-part.h"
 
-void vfolder_load_storage(GNOME_Evolution_Shell shell);
+void vfolder_load_storage(void);
 
 void vfolder_edit (void);
 void vfolder_edit_rule(const char *name);

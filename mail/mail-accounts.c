@@ -33,9 +33,11 @@
 #include <gtk/gtktreeselection.h>
 
 #include "mail.h"
+#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
 #include "mail-account-editor.h"
+#include "mail-ops.h"
 #include "mail-send-recv.h"
 
 #include "art/mark.xpm"
@@ -248,8 +250,8 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
-			mail_remove_storage_by_uri (account->source->url);
-		
+			mail_component_remove_storage_by_uri (mail_component_peek (), account->source->url);
+
 		/* remove it from the config file */
 		mail_config_remove_account (account);
 		accounts = mail_config_get_accounts ();
@@ -297,6 +299,7 @@ account_default_clicked (GtkButton *button, gpointer user_data)
 static void
 account_able_clicked (GtkButton *button, gpointer user_data)
 {
+	MailComponent *component = mail_component_peek ();
 	MailAccountsTab *prefs = user_data;
 	GtkTreeSelection *selection;
 	EAccount *account = NULL;
@@ -317,9 +320,11 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		   folder-tree, otherwise add it to the folder-tree */
 		if (account->source->url) {
 			if (account->enabled)
-				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
+				mail_component_load_storage_by_uri (component,
+								    account->source->url,
+								    account->name);
 			else
-				mail_remove_storage_by_uri (account->source->url);
+				mail_component_remove_storage_by_uri (component, account->source->url);
 		}
 		
 		mail_autoreceive_setup ();
@@ -354,17 +359,18 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 	gtk_tree_path_free (path);
 	
 	if (account) {
+		MailComponent *component = mail_component_peek ();
+
 		/* if the account got disabled, remove it from the
 		   folder-tree, otherwise add it to the folder-tree */
 		if (account->source->url) {
 			if (account->enabled)
-				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
+				mail_component_load_storage_by_uri (component, account->source->url, account->name);
 			else
-				mail_remove_storage_by_uri (account->source->url);
+				mail_component_remove_storage_by_uri (component, account->source->url);
 		}
 		
 		mail_autoreceive_setup ();
-		
 		mail_config_write ();
 	}
 }

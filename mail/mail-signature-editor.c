@@ -395,11 +395,11 @@ mail_signature_editor (MailConfigSignature *sig, GtkWindow *parent, gboolean is_
 			       EVOLUTION_UIDIR "/evolution-signature-editor.xml",
 			       "evolution-signature-editor", NULL);
 	
-	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:3.0",
+	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:3.1",
 						     bonobo_ui_component_get_container (component));
 	
 	if (editor->control == NULL) {
-		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:3.0'.");
+		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:3.1'.");
 		
 		destroy_editor (editor);
 		return;

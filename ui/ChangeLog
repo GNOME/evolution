@@ -1,3 +1,12 @@
+2003-10-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-calendar.xml: removed stock icon for "NewCalendar"
+	verb, and added items for creating calendar events.
+
+2003-10-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-calendar.xml: added 'New Calendar' menu item.
+
 2003-10-10  Hans Petter Jansson  <hpj@ximian.com>
 
 	* evolution-calendar.xml: Add calendar list view task button.
@@ -42,6 +51,12 @@
 	"S" for "Save", "C" for "Save and _Close", "A" for "Save _As...",
 	"D" for "Delete". Fixes bug #47379.
  
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Cleaned up a bunch of menu and toolbar items that
+	are not being used or do not belong to the shell anymore in the
+	new UI.  Also removed all pop-up menus.
+
 2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-tasks.xml: s/Expunge/Purge.

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalsslexer.l,v 1.4 2003/09/24 02:06:52 hansp Exp $
+  $Id: icalsslexer.l,v 1.5 2003/10/21 18:28:18 ettore Exp $
   $Locker:  $
 
 (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org

@@ -27,9 +27,10 @@
 #endif
 
 #include "mail-offline-handler.h"
-#include "mail.h"
+#include "mail-component.h"
 #include "mail-ops.h"
 #include "mail-folder-cache.h"
+#include "mail.h"
 
 #include <gtk/gtkmain.h>
 
@@ -77,10 +78,10 @@ create_connection_list (void)
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
-	list->_maximum = mail_storages_count ();
+	list->_maximum = mail_component_get_storage_count (mail_component_peek ());
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
 
-	mail_storages_foreach (add_connection, list);
+	mail_component_storages_foreach (mail_component_peek (), add_connection, list);
 
 	return list;
 }
@@ -260,7 +261,7 @@ impl_goOffline (PortableServer_Servant servant,
 
 	/* FIXME: If send/receive active, wait for it to finish */
 
-	mail_storages_foreach (storage_go_offline, progress_listener);
+	mail_component_storages_foreach (mail_component_peek (), storage_go_offline, progress_listener);
 }
 
 static void
@@ -270,8 +271,7 @@ storage_go_online (gpointer key, gpointer value, gpointer data)
 
 	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
 		mail_store_set_offline (store, FALSE, NULL, NULL);
-		mail_note_store (store, NULL, NULL, CORBA_OBJECT_NIL,
-				 NULL, NULL);
+		mail_note_store (store, NULL, NULL, NULL, NULL);
 	}
 }
 
@@ -288,7 +288,7 @@ impl_goOnline (PortableServer_Servant servant,
 	/* Enable auto-mail-checking */
 	camel_session_set_online (session, TRUE);
 
-	mail_storages_foreach (storage_go_online, NULL);
+	mail_component_storages_foreach (mail_component_peek (), storage_go_online, NULL);
 }
 
 /* GObject methods.  */

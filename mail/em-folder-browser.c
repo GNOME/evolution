@@ -156,9 +156,8 @@ static void
 emfb_init(GObject *o)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
+	RuleContext *search_context = mail_component_peek_search_context (mail_component_peek ());
 	struct _EMFolderBrowserPrivate *p;
-	/* FIXME ... */
-	extern RuleContext *search_context;
 
 	p = emfb->priv = g_malloc0(sizeof(struct _EMFolderBrowserPrivate));
 

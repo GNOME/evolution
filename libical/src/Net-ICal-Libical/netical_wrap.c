@@ -96,6 +96,12 @@ extern "C" {
  * SWIGSTATIC.
  *
  * $Log$
+ * Revision 1.2  2003/10/21 18:28:33  ettore
+ * Merge new-ui-branch to the trunk.
+ *
+ * Revision 1.1.2.1  2003/09/23 19:43:57  ettore
+ * Sync with trunk, and fixicate a bit so it still works.
+ *
  * Revision 1.1  2003/09/11 22:04:08  hansp
  * Import new libical from mainline HEAD and make appropriate changes to
  * Evolution.

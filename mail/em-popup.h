@@ -69,6 +69,7 @@ enum _em_popup_target_t {
 	EM_POPUP_TARGET_SELECT,
 	EM_POPUP_TARGET_URI,
 	EM_POPUP_TARGET_PART,
+	EM_POPUP_TARGET_FOLDER,
 };
 
 /* Flags that describe a TARGET_SELECT */
@@ -103,6 +104,13 @@ enum {
 	EM_POPUP_PART_IMAGE = 1<<1,
 };
 
+/* Flags that describe TARGET_FOLDER */
+enum {
+	EM_POPUP_FOLDER_LOCAL = 1<<0,
+	EM_POPUP_FOLDER_REMOTE = 1<<1,
+	EM_POPUP_FOLDER_VFOLDER = 1<<2,
+};
+
 struct _EMPopupTarget {
 	enum _em_popup_target_t type;
 	guint32 mask;		/* depends on type, see above */
@@ -118,6 +126,9 @@ struct _EMPopupTarget {
 			char *mime_type;
 			struct _CamelMimePart *part;
 		} part;
+		struct {
+			char *folder_uri;
+		} folder;
 	} data;
 };
 

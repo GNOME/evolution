@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.40 2003/10/09 21:02:23 fejj Exp $
+#  $Id: Makefile.am,v 1.41 2003/10/21 18:28:29 ettore Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org

@@ -36,6 +36,7 @@ struct _GtkWindow;
 struct _CamelFolder;
 struct _CamelStream;
 struct _CamelMimeMessage;
+struct _CamelMimePart;
 struct _GtkSelectionData;
 struct _GtkAdjustment;
 struct _EMsgComposer;

@@ -94,7 +94,7 @@ typedef struct _ComponentInfo ComponentInfo;
 struct _EShellOfflineHandlerPrivate {
 	EShell *shell;
 
-	EShellView *parent_shell_view;
+	GtkWindow *parent_window;
 
 	GladeXML *dialog_gui;
 
@@ -755,7 +755,7 @@ init (EShellOfflineHandler *shell_offline_handler)
 	priv = g_new (EShellOfflineHandlerPrivate, 1);
 
 	priv->shell                 = NULL;
-	priv->parent_shell_view     = NULL;
+	priv->parent_window         = NULL;
 
 	priv->dialog_gui            = NULL;
 
@@ -824,18 +824,18 @@ e_shell_offline_handler_new (EShell *shell)
  **/
 void
 e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_handler,
-						EShellView *parent_shell_view)
+						GtkWindow *parent_window)
 {
 	EShellOfflineHandlerPrivate *priv;
 
 	g_return_if_fail (offline_handler != NULL);
 	g_return_if_fail (E_IS_SHELL_OFFLINE_HANDLER (offline_handler));
-	g_return_if_fail (parent_shell_view == NULL || E_IS_SHELL_VIEW (parent_shell_view));
+	g_return_if_fail (parent_window == NULL || GTK_IS_WINDOW (parent_window));
 
 	priv = offline_handler->priv;
 
 	priv->procedure_in_progress = TRUE;
-	priv->parent_shell_view = parent_shell_view;
+	priv->parent_window = parent_window;
 
 	/* Add an extra ref here as the signal handlers might want to unref
 	   us.  */
@@ -855,11 +855,10 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	if (priv->num_total_connections > 0 && priv->parent_shell_view != NULL) {
+	if (priv->num_total_connections > 0 && priv->parent_window != NULL) {
 		pop_up_confirmation_dialog (offline_handler);
 	} else {
-		e_shell_offline_sync_all_folders (priv->shell,
-						  parent_shell_view ? GTK_WINDOW (parent_shell_view) : NULL);
+		e_shell_offline_sync_all_folders (priv->shell, parent_window);
 		finalize_offline (offline_handler);
 	}
 

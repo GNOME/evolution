@@ -28,8 +28,6 @@
 #include "mail-session.h"
 #include "mail-mt.h"
 
-#include "component-factory.h"
-
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
 #define LOG_LOCKS
@@ -911,10 +909,11 @@ static void do_op_status(struct _mail_msg *mm)
 				what = msg->ops->describe_msg (msg, FALSE);
 			else
 				what = _("Working");
-			
+
+			/* EPFIXME: redo activity client stuff.  */
 			if (global_shell_client) {
 				activity = evolution_activity_client_new (global_shell_client,
-									  COMPONENT_ID,
+									  "evolution-mail",
 									  progress_icon, what, TRUE,
 									  &display);
 			} else {

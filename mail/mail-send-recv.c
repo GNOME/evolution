@@ -46,6 +46,7 @@
 
 #include "mail.h"
 #include "mail-mt.h"
+#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-tools.h"
@@ -167,7 +168,7 @@ static void free_send_info(void *key, struct _send_info *info, void *data)
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
 	if (info->timeout_id != 0)
-		gtk_timeout_remove(info->timeout_id);
+		g_source_remove(info->timeout_id);
 	g_free(info->what);
 	g_free(info);
 }
@@ -207,7 +208,7 @@ static void hide_send_info(void *key, struct _send_info *info, void *data)
 	info->status = NULL;
 
 	if (info->timeout_id != 0) {
-		gtk_timeout_remove (info->timeout_id);
+		g_source_remove (info->timeout_id);
 		info->timeout_id = 0;
 	}
 }
@@ -366,7 +367,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 			info->keep = source->keep_on_server;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
-			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 			
 			g_hash_table_insert (data->active, info->uri, info);
 			list = g_list_prepend (list, info);
@@ -375,7 +376,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 			e_iterator_next (iter);
 			continue;
 		} else if (info->timeout_id == 0)
-			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
 		recv_icon = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/receive-24.png");
 		
@@ -423,12 +424,12 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 			info->keep = FALSE;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
-			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 			
 			g_hash_table_insert (data->active, SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
-			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
 		send_icon  = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/send-24.png");
 		
@@ -663,10 +664,10 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	struct _send_info *info = data;
 	
 	if (store) {
-		EvolutionStorage *storage = mail_lookup_storage (store);
+		EStorage *storage = mail_component_lookup_storage (mail_component_peek (), store);
 		
 		if (storage) {
-			mail_note_store(store, info->cancel, storage, CORBA_OBJECT_NIL, receive_update_done, info);
+			mail_note_store(store, info->cancel, storage, receive_update_done, info);
 			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
 		} else {
 			/* If we get here, store must be an external
@@ -770,7 +771,7 @@ static void auto_clean_set(void *key, struct _auto_data *info, GHashTable *set)
 {
 	d(printf("removing auto-check for %s %p\n", info->uri, info));
 	g_hash_table_remove(set, info->uri);
-	gtk_timeout_remove(info->timeout_id);
+	g_source_remove(info->timeout_id);
 	g_free(info->uri);
 	g_free(info);
 }
@@ -811,15 +812,15 @@ mail_autoreceive_setup (void)
 				info->keep = source->keep_on_server;
 				if (info->period != source->auto_check_time*60) {
 					info->period = source->auto_check_time*60;
-					gtk_timeout_remove(info->timeout_id);
-					info->timeout_id = gtk_timeout_add(info->period*1000, auto_timeout, info);
+					g_source_remove(info->timeout_id);
+					info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
 				}
 			} else {
 				info = g_malloc0(sizeof(*info));
 				info->uri = g_strdup(source->url);
 				info->keep = source->keep_on_server;
 				info->period = source->auto_check_time*60;
-				info->timeout_id = gtk_timeout_add(info->period*1000, auto_timeout, info);
+				info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
 				g_hash_table_insert(auto_active, info->uri, info);
 				/* If we do this at startup, it can cause the logon dialogue to be hidden,
 				   so lets not */

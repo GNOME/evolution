@@ -533,10 +533,11 @@ mlf_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			/* CamelObject args */
 		case CAMEL_OBJECT_ARG_DESCRIPTION:
 			if (mlf->description == NULL) {
+				const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 				int pathlen;
 
 				/* string to describe a local folder as the location of a message */
-				pathlen = strlen(evolution_dir) + strlen("local") + 1;
+				pathlen = strlen(base_directory) + strlen("local") + 1;
 				if (strlen(folder->full_name) > pathlen)
 					mlf->description = g_strdup_printf(_("Local folders/%s"), folder->full_name+pathlen);
 				else

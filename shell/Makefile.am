@@ -28,6 +28,7 @@ noinst_PROGRAMS = evolution evolution-test-component
 IDLS = \
 	Evolution-Activity.idl			\
 	Evolution-ConfigControl.idl		\
+	Evolution-Component.idl			\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
@@ -112,19 +113,29 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-folder.h				\
+	e-corba-storage.h			\
+	e-folder-dnd-bridge.h			\
 	e-folder-list.h				\
+	e-folder-selection-dialog.h		\
 	e-folder-tree.h				\
+	e-folder-type-registry.h		\
+	e-folder.h				\
+	e-icon-factory.h			\
 	e-shell-corba-icon-utils.h		\
+	e-shell-utils.h				\
+	e-storage-browser.h			\
+	e-storage-set-view.h			\
+	e-storage-set.h				\
+	e-storage.h				\
 	evolution-activity-client.h		\
 	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
 	evolution-session.h			\
 	evolution-shell-client.h		\
 	evolution-shell-component-client.h	\
-	evolution-shell-component.h		\
 	evolution-shell-component-dnd.h		\
 	evolution-shell-component-utils.h	\
+	evolution-shell-component.h		\
 	evolution-shell-view.h			\
 	evolution-storage-listener.h		\
 	evolution-storage-set-view-listener.h	\
@@ -133,25 +144,35 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
-	e-folder.c				\
+	e-corba-storage.c			\
+	e-folder-dnd-bridge.c			\
 	e-folder-list.c				\
+	e-folder-selection-dialog.c		\
 	e-folder-tree.c				\
+	e-folder-type-registry.c		\
+	e-folder.c				\
+	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
+	e-shell-marshal.c			\
+	e-shell-utils.c				\
+	e-storage-browser.c			\
+	e-storage-set-view.c			\
+	e-storage-set.c				\
+	e-storage.c				\
 	evolution-activity-client.c		\
 	evolution-config-control.c		\
 	evolution-folder-selector-button.c	\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\
-	evolution-shell-component.c		\
 	evolution-shell-component-dnd.c		\
 	evolution-shell-component-utils.c	\
+	evolution-shell-component.c		\
 	evolution-shell-view.c			\
 	evolution-storage-listener.c		\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
-	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LIBADD =				\
@@ -162,30 +183,18 @@ libeshell_la_LIBADD =				\
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
 	$(WOMBAT_IDL_GENERATED)			\
-	e-activity-handler.c			\
-	e-activity-handler.h			\
 	e-component-info.c			\
 	e-component-info.h			\
-	e-component-registry.c			\
-	e-component-registry.h			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
 	e-corba-config-page.c			\
 	e-corba-config-page.h			\
-	e-corba-shortcuts.c			\
-	e-corba-shortcuts.h			\
 	e-corba-storage-registry.c		\
 	e-corba-storage-registry.h		\
 	e-corba-storage.c			\
 	e-corba-storage.h			\
-	e-folder-dnd-bridge.c			\
-	e-folder-dnd-bridge.h			\
-	e-folder-type-registry.c		\
-	e-folder-type-registry.h		\
 	e-history.c				\
 	e-history.h				\
-	e-icon-factory.c			\
-	e-icon-factory.h			\
 	e-local-folder.c			\
 	e-local-folder.h			\
 	e-local-storage.c			\
@@ -194,71 +203,27 @@ evolution_SOURCES =				\
 	e-setup.h				\
 	e-shell-about-box.c			\
 	e-shell-about-box.h			\
-	e-shell-config.c			\
-	e-shell-config.h			\
-	e-shell-config-autocompletion.c		\
-	e-shell-config-autocompletion.h		\
-	e-shell-config-offline.c		\
-	e-shell-config-offline.h		\
-	e-shell-config-default-folders.c	\
-	e-shell-config-default-folders.h	\
-	e-shell-config-folder-settings.c	\
-	e-shell-config-folder-settings.h	\
 	e-shell-constants.h			\
-	e-shell-folder-commands.c		\
-	e-shell-folder-commands.h		\
-	e-shell-folder-creation-dialog.c	\
-	e-shell-folder-creation-dialog.h	\
-	e-shell-folder-selection-dialog.c	\
-	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
-	e-shell-importer.c			\
-	e-shell-importer.h			\
-	e-shell-offline-handler.c		\
-	e-shell-offline-handler.h		\
-	e-shell-offline-sync.c			\
-	e-shell-offline-sync.h			\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
-	e-shell-shared-folder-picker-dialog.c 	\
-	e-shell-shared-folder-picker-dialog.h 	\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
-	e-shell-user-creatable-items-handler.c	\
-	e-shell-user-creatable-items-handler.h	\
 	e-shell-utils.c				\
 	e-shell-utils.h				\
-	e-shell-view-menu.c			\
-	e-shell-view-menu.h			\
-	e-shell-view.c				\
-	e-shell-view.h				\
+	e-shell-window-commands.c		\
+	e-shell-window-commands.h		\
+	e-shell-window.c			\
+	e-shell-window.h			\
 	e-shell.c				\
 	e-shell.h				\
-	e-shortcuts-view-model.c		\
-	e-shortcuts-view-model.h		\
-	e-shortcuts-view.c			\
-	e-shortcuts-view.h			\
-	e-shortcuts.c				\
-	e-shortcuts.h				\
-	e-splash.c				\
-	e-splash.h				\
-	e-storage-set-view.c			\
-	e-storage-set-view.h			\
-	e-storage-set.c				\
-	e-storage-set.h				\
-	e-storage.c				\
-	e-storage.h				\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\
 	e-task-widget.h				\
 	e-uri-schema-registry.c			\
 	e-uri-schema-registry.h			\
-	evolution-storage-set-view.c		\
-	evolution-storage-set-view.h		\
-	evolution-storage-set-view-factory.c	\
-	evolution-storage-set-view-factory.h	\
 	main.c
 
 evolution_LDADD =							\

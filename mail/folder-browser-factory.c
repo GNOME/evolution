@@ -118,14 +118,13 @@ control_destroy_cb (GtkObject *fb, GObject *control)
 }
 
 BonoboControl *
-folder_browser_factory_new_control (const char *uri,
-				    const GNOME_Evolution_Shell shell)
+folder_browser_factory_new_control (const char *uri)
 {
 	BonoboControl *control;
 	GtkWidget *fb;
 
 #if 0	
-	if (!(fb = folder_browser_new (shell, uri)))
+	if (!(fb = folder_browser_new (uri)))
 		return NULL;
 	
 	FOLDER_BROWSER (fb)->pref_master = TRUE; /* save UI settings changed in this FB */

@@ -3,7 +3,7 @@
   <!-- Folder display control -->
 
   <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ControlFactory"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Factory_2"
 	      type="shlib"
 	      location="@COMPONENTDIR@/libevolution-mail.so">
 
@@ -27,6 +27,22 @@
 
     <oaf_attribute name="name" type="string"
 		   _value="Evolution Mail folder viewer"/>
+  </oaf_server>
+
+  <!-- Component Interface -->
+
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Component_2"
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/Evolution/Component:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="name" type="string" _value="Evolution Mail component"/>
+
+    <oaf_attribute name="evolution:component_icon" type="string" value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:component_display_order" type="number" value="1"/>
   </oaf_server>
 
   <!-- Shell Component -->
@@ -53,7 +69,7 @@
   <!-- (composer) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Composer"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution:Composer:1.0"/>
@@ -109,7 +125,7 @@
   <!-- Account Editor -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -138,7 +154,7 @@
   <!-- Mail Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -163,7 +179,7 @@
   <!-- Composer Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>

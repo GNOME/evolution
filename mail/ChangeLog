@@ -1,3 +1,85 @@
+2003-10-21  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (emc_popup_properties): implement.
+	(emc_popup_properties_got_folder): builds dynamic
+	folder-properties dialogue.
+	(emc_popup_properties_response): set the properties on the folder
+	on an ok response.
+	(emc_popup_properties_free): free the properties working data.
+
+	* mail-folder-cache.c (unset_folder_info): unhook from the right
+	function for message_changed.
+
+2003-10-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (emc_popup_new_folder): pass the right object
+	to set_selected().  Fixes a new real bug.  Undid reformatting.
+
+2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-component.c: General compile fixes.
+	(emc_popup_new_folder): Fixed to not shadow a parameter. Fixes a
+	real bug.
+
+	* mail-component.h: Added some prototypes.
+
+2003-10-13  Not Zed  <NotZed@Ximian.com>
+
+	* em-popup.c (em_popup_create_menu_once): only hookup target free
+	if we have a target set.
+
+	* mail-component.c (load_accounts): removed debug i accidentally
+	left in.
+	(emc_tree_right_click): handle right-click context menu, using an
+	EMPopup table.
+	(emc_popup_*): setup empty popup handlers.
+
+2003-10-13  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-selection.c (em_select_folder): asynchornous folder
+	selection call.
+	(emfs_folder_selected): callback for folder selected.
+
+	* em-folder-view.c (emfv_popup_move): implement.
+	(emfv_popup_copy): "
+	(emfv_popup_move_cb): async folder select callback to run it.
+
+2003-10-10  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-gui.c
+	(mail_account_gui_folder_selector_button_new): use
+	em_folder_selection_button.
+	(mail_account_gui_new): "
+	(folder_selected): "
+
+	* em-folder-selection-button.c: Make this use camel uri's rather
+	than camelfolders.
+	(set_selection): removed, redundant.
+	(impl_dispose): removed, not needed.
+
+	* em-folder-selection-button.h: change the selected signal not to
+	actually return the selection, which must get retrieved later.
+
+	* mail-component.c (em_uri_from_camel): create an evo mail uri
+	from a camel one.
+	(em_uri_to_camel): the reverse.
+
+	* mail-signature-editor.c (mail_signature_editor): up the version
+	of the gtkhtml editor.
+
+2003-10-09  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-selection-button.c (set_selection): always set
+	selected_folder, otherwise we don't unset it properly.
+
+	* em-folder-selection.c (em_folder_selection_run_dialog): fix a
+	small memleak.
+	(em_folder_selection_run_dialog_uri): do the same as run_dialog
+	but take, and return physical uri's.
+
+	* mail-component-factory.c (factory): removed some fixme's, and
+	re-hookedup the composer.
+
 2003-10-09  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* em-icon-stream.c: (emis_sync_close):
@@ -9,6 +91,38 @@
 	* em-folder-view.c: Add a hide_mask to the
 	create-rule-from-message bars so that we don't segfault when we
 	right click with a multi-selection.
+
+2003-10-08  Chris Toshok  <toshok@ximian.com>
+
+	* em-utils.c (em_utils_camel_address_to_destination): EDestination
+	=> EABDestination, and e_destination => eab_destination.
+	(reply_get_composer): same.
+	(post_reply_to_message): same.
+
+	* em-composer-utils.c (ask_confirm_for_unwanted_html_mail)
+	EDestination => EABDestination, and e_destination =>
+	eab_destination.
+	(composer_get_message):same.
+
+2003-10-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mail_component_peek): setup vfolders once we
+	hve the component, since its setup will call mail_component_peek,
+	fun recursion.
+
+2003-10-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (setup_local_folder): removed.
+	(setup_local_store): setup various needed globals properly.
+	(setup_account_storages): renamed to load_accounts.
+	(go_online): turn on interactivity as well as onlinedness.
+
+	* GNOME_Evolution_Mail.server.in.in: point the preferences pages
+	to the right factory.
+
+2003-10-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.[ch]: Fix copyrights.
 
 2003-10-06  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -27,6 +141,22 @@
 	* em-folder-browser.c (emfb_set_folder): Disable the selection of
 	the first unread message for now. This is actually annoying the
 	fuck out of me, Radek, and a few other people.
+
+2003-10-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (add_storage): Add the storage to the hash
+	after we've initialised it.
+	(mail_component_evomail_uri_from_folder): hardcode "local" account
+	pseudo-id for local folders.
+	(mail_component_get_folder_from_evomail_uri): handle the "local"
+	account case.
+
+2003-10-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (setup_local_store): use mbox:/path rather than
+	mbox:///path - the mbox code is 'wrong', but this is easier to
+	fix.  fixes local unread counts.  maybe the provider url-compare
+	should address this too.
 
 2003-10-02  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
@@ -101,6 +231,27 @@
 
 	* em-format.c (emf_init): Oops, put the arguments in the right order.
 
+2003-09-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c: New member local_store in
+	MailComponentPrivate.
+	(impl_dispose): Unref.
+	(mail_component_load_storage_by_uri): Return the CamelStore.
+	(setup_local_folder): New.
+	(setup_local_store): New.
+	(mail_component_init): Call it.
+	(mail_component_peek_storage_set): New.
+	(mail_component_get_folder_from_evomail_uri): New.
+	(mail_component_evomail_uri_from_folder): New.
+
+	* em-folder-selection-button.c: New.
+	* em-folder-selection-button.h: New.
+
+	* em-folder-selection.c: New.
+	* em-folder-selection.h: New.
+
+	* em-marshal.list: Add NONE:POINTER.
+
 2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Allow any file: uri
@@ -119,6 +270,33 @@
 	return empty string if the charset has not been set, so if the
 	charset string is empty, default the charset to the user's locale
 	charset. Partial fix for bug #47638.
+
+2003-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c (add_storage): Remove unused arg "uri".
+	(mail_component_add_store): Likewise.
+	(add_storage): Don't set the "Connecting..." node.
+	(mail_component_init): Set up local store at
+	~/.evolution/mail/local.
+
+	* evolution-mbox-upgrade.c (get_local_store): Remove a double
+	xmlFree() that was causing it to crash.
+
+
+2003-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c (add_storage): Note the new store.
+
+	* mail-component-factory.c: Don't include "mail-callbacks.h"
+	anymore.
+
+	* em-format-html.c (em_format_html_get_type): Get the base
+	directory with mail_component_peek_base_directory().
+	* em-utils.c (filter_editor_response): Likewise.
+	(em_utils_edit_filters): Likewise.
+
+	* em-folder-browser.c (emfb_init): Get the search context through
+	mail_component_peek_search_context().
 
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -273,6 +451,14 @@
 	* evolution-mbox-upgrade.c: New source file to migrate from the
 	old mbox structure to the new mbox structure.
 
+2003-09-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): Allow NULL storage in
+	precondition.
+
+	* mail-component.c (mail_component_init): Remove debugging
+	message.
+
 2003-08-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-format.c (write_date): translate the local time format.
@@ -284,14 +470,13 @@
 	day names, and the autoconf magic which made Not Zed dislike the
 	inclusion of the timezone name.
 
-2003-08-14  Jeffrey Stedfast  <fejj@ximian.com>
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
-	* mail-ops.c (mail_send_message): Don't abort at the first failure
-	after sending (filtering, appending to Sent, syncing). Instead,
-	keep a running tab of exceptions and then set a culmulative
-	exception at the end to report to our caller. Also, if we fail to
-	append to the account Sent folder, try again with the local Sent
-	folder. Fixes bug #46512.
+	* GNOME_Evolution_Mail.server.in.in: Rename
+	GNOME_Evolution_Mail_Component2 to
+	GNOME_Evolution_Mail_Component_2 and GNOME_Evolution_Mail_Factory2
+	to GNOME_Evolution_Mail_Factory_2.
+	* mail-component-factory.c: Update accordingly.
 
 2003-08-18  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -336,6 +521,15 @@
 	* mail-display.c (mail_display_render): Change "%P" to "%p" so 
 	that strftime() can work under solaris.
 
+2003-08-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): Don't abort at the first failure
+	after sending (filtering, appending to Sent, syncing). Instead,
+	keep a running tab of exceptions and then set a culmulative
+	exception at the end to report to our caller. Also, if we fail to
+	append to the account Sent folder, try again with the local Sent
+	folder. Fixes bug #46512.
+
 2003-08-13  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 	
 	* e-searching-tokenizer.c (searcher_next_token): Fix for 45818 (
@@ -352,6 +546,12 @@
 
 	* mail-session.c (remove_timeout): Removed.
 	(register_timeout): Removed.
+
+2003-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c (storage_go_online): Pass NULL for the
+	operation pointer to mail_note_store(), to sync with Michael's
+	changes.
 
 2003-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -1307,6 +1507,154 @@
 
 	* message-browser.c (message_browser_new): Handle our own Delete
 	key presses. Fixes bug #45597.
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-callbacks.c (do_view_message): No need to pass a shell
+	argument to message_browser_new() anymore.
+
+	* message-browser.c (message_browser_new): Removed arg shell.  No
+	need to pass it to folder_browser_new() either.
+
+	* mail-component.c (create_view_callback): No need to pass a shell
+	arg to folder_browser_factory_new_control() anymore.
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	Removed arg shell; folder_browser_browser_new() doesn't need it
+	anymore.
+
+	* folder-browser.c (folder_browser_destroy): No need to unref
+	->shell anymore.
+	(folder_browser_new): Removed shell arg.
+	(folder_browser_gui_init): Removed a const qualifier that was not
+	supposed to be there.
+
+	* folder-browser.h: Removed member shell from struct
+	FolderBrowser.
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser.c (folder_browser_gui_init): Get the search
+	context through mail_component_peek_search_context(), since it's
+	no longer a global variable.
+	(folder_browser_gui_init): Cleaned up an extra unneeded if()
+	statement.
+
+	* mail-component.c: New member search_context in struct
+	MailComponentPrivate.
+	(mail_component_peek_search_context): New.
+	(setup_search_context): New function to initialize the
+	search_context, based on the old code in component-factory.c.
+	(mail_component_init): Call it here.
+	(impl_dispose): Unref the rule_context.
+
+	* mail-component-factory.c: Removed global variable
+	search_context.
+
+2003-07-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-component.c (browser_page_switched_callback): New callback
+	for the "page_switched" signal on EStorageBrowser; deactivate the
+	previous page, activate the new one.
+	(impl_createControls): Connect.
+
+2003-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-mt.c (do_op_status): Pass "evolution-mail" as the ID to
+	evolution_activity_client_new().  [This is just a temporary thing
+	to avoid the fact that we don't have component-factory.h anymore.
+	Eventually we'll just get rid of the activity client stuff.]
+
+	* mail-component-factory.c: Added to the build.  Also, finished
+	implementing and moving the factory over from component-factory.c.
+
+	* component-factory.c: Removed from the build.
+	* component-factory.h: Removed from the build.
+
+	* mail-component.c: Removed some debugging messages.
+
+2003-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* subscribe-dialog.c: Converted to use EStorages instead of
+	EvolutionStorages and the new MailComponent object.
+
+	* mail.h: Nuked a bunch of stuff.  This will go away when I am
+	done refactoring.
+
+	* mail-offline-handler.c: Use the new MailComponent object.
+
+	* mail-folder-cache.c, mail-folder-cache.h: Converted to use
+	EStorages instead of EvolutionStorages.
+
+	* mail-display.c: Use g_timeout and g_source functions instead of
+	gtk_timeout functions.
+
+	* mail-send-recv.c: Use g_timeout and g_source functions instead
+	of gtk_timeout functions.
+	(receive_update_got_store): Updated for the new mail_note_store().
+
+	* mail-session.c: Use g_timeout and g_source functions instead of
+	gtk_timeout functions.
+
+	* mail-config-factory.c (factory): Removed.
+
+	* folder-browser.c (folder_browser_destroy): Use GLib
+	timeout/source functions instead of the deprecated GTK ones.
+	(done_message_selected): Likewise.
+	(folder_browser_gui_init): Protect against fb->search being NULL.
+
+	* mail-account-gui.c (add_new_store): Use new MailComponent object
+	and EStorages instead of EvolutionStorages.
+	(mail_account_gui_save): Likewise.
+
+	* mail-accounts.c (account_delete_clicked): Use new MailComponent
+	object and EStorages instead of EvolutionStorages.
+	(account_able_clicked): Likewise.
+	(account_able_toggled): Likewise.
+
+	* mail-autofilter.c: Use mail_component_peek_base_directory()
+	instead of the evolution_dir global.
+	* mail-callbacks.c: Likewise.
+	* mail-config.c (uri_to_evname): Likewise.
+	(mail_config_get_signature_list): Likewise.
+	(delete_unused_signature_file): Likewise.
+	* mail-display.c (mail_display_class_init): Likewise.
+	* mail-importer.c (mail_importer_make_local_folder): Likewise.
+	* mail-local.c (mlf_getv): Likewise.
+	* mail-ops.c (uid_cachename_hack): Likewise.
+	* mail-summary.c (generate_folder_summaries): Likewise.
+	* mail-tools.c (mail_tool_get_local_inbox): Likewise.
+	(mail_tools_folder_to_url): Likewise.
+	* mail-vfolder.c (mail_vfolder_delete_uri): Likewise.
+	(mail_vfolder_rename_uri): Likewise.
+	(context_rule_removed): Likewise.
+	(store_folder_deleted): Likewise.
+	(store_folder_renamed): Likewise.
+	(vfolder_load_storage): Likewise.
+	(vfolder_editor_response): Likewise.
+	(edit_rule_response): Likewise.
+	(new_rule_clicked): Likewise.
+	(vfolder_gui_add_rule): Likewise.
+	* mail-session.c (main_get_filter_driver): Likewise.
+	(mail_session_forget_password): Likewise.
+	(mail_session_init): Get a base_directory arg.
+
+	* component-factory.c, component-factory.h: Disabled a bunch of
+	stuff to get it to compile in the new configuration.  These files
+	will eventually go away when I am done refactoring this.
+
+	* Makefile.am: Do not build importers, compile generate
+	skels/stubs for Evolution.
+
+	* GNOME_Evolution_Mail.server.in.in: Rename control factory to
+	OAFIID:GNOME_Evolution_Mail_Factory2.  Add new component
+	GNOME_Evolution_Mail_Component2.
+
+	* mail-component-factory.c: New file implementing the Bonobo
+	factory.
+
+	* mail-component.c, mail-component.h: New files implementing the
+	new mail component, using the new Evolution::Component IDL.
 
 2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 

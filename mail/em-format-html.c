@@ -62,6 +62,8 @@
 #include <camel/camel-file-utils.h>
 
 #include <e-util/e-msgport.h>
+
+#include "mail-component.h"
 #include "mail-mt.h"
 
 #include "em-format-html.h"
@@ -214,15 +216,15 @@ em_format_html_get_type(void)
 			sizeof(EMFormatHTML), 0,
 			(GInstanceInitFunc)efh_init
 		};
-		extern char *evolution_dir;
+		const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 		char *path;
 
 		efh_parent = g_type_class_ref(em_format_get_type());
 		type = g_type_register_static(em_format_get_type(), "EMFormatHTML", &info, 0);
 
 		/* cache expiry - 2 hour access, 1 day max */
-		path = alloca(strlen(evolution_dir)+16);
-		sprintf(path, "%s/cache", evolution_dir);
+		path = alloca(strlen(base_directory)+16);
+		sprintf(path, "%s/cache", base_directory);
 		emfh_http_cache = camel_data_cache_new(path, 0, NULL);
 		camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
 		camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);

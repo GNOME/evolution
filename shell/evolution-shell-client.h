@@ -20,6 +20,8 @@
  * Author: Ettore Perazzoli
  */
 
+/* FIXME: This file will have to go away.  */
+
 #ifndef __EVOLUTION_SHELL_CLIENT_H__
 #define __EVOLUTION_SHELL_CLIENT_H__
 
@@ -48,8 +50,6 @@ typedef struct _EvolutionShellClientClass   EvolutionShellClientClass;
 
 struct _EvolutionShellClient {
 	GObject base;
-
-	EvolutionShellClientPrivate *priv;
 };
 
 struct _EvolutionShellClientClass {

@@ -25,14 +25,15 @@
 #ifndef _MAIL_FOLDER_CACHE_H
 #define _MAIL_FOLDER_CACHE_H
 
-#include <shell/evolution-storage.h>
+#include "e-storage.h"
 
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
    runtime via the folder_created event */
 void
-mail_note_store(CamelStore *store, CamelOperation *op, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
-		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data);
+mail_note_store(CamelStore *store, CamelOperation *op, EStorage *storage,
+		void (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
+		void *data);
 
 /* de-note a store */
 void mail_note_store_remove(CamelStore *store);
@@ -41,7 +42,7 @@ void mail_note_store_remove(CamelStore *store);
    The folder must have already been created on the store (which has already been noted)
    before the folder can be opened
  */
-void mail_note_folder(struct _CamelFolder *folder);
+void mail_note_folder(CamelFolder *folder);
 
 /* Returns true if a folder is available (yet), and also sets *folderp (if supplied)
    to a (referenced) copy of the folder if it has already been opened */

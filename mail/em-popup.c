@@ -353,7 +353,8 @@ em_popup_create_menu_once(EMPopup *emp, EMPopupTarget *target, guint32 hide_mask
 
 	menu = em_popup_create_menu(emp, hide_mask, disable_mask);
 
-	g_signal_connect_swapped(menu, "selection_done", G_CALLBACK(em_popup_target_free), target);
+	if (target)
+		g_signal_connect_swapped(menu, "selection_done", G_CALLBACK(em_popup_target_free), target);
 	g_signal_connect(menu, "selection_done", G_CALLBACK(emp_popup_done), emp);
 
 	return menu;

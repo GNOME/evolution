@@ -40,6 +40,7 @@
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
 #include "mail.h"
+#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-tools.h"
@@ -593,7 +594,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	
 	gconf = mail_config_get_gconf_client ();
 	
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	fc = (RuleContext *) filter_context_new ();
 	rule_context_load (fc, system, user);
@@ -743,16 +744,16 @@ mail_session_forget_password (const char *key)
 }
 
 void
-mail_session_init (void)
+mail_session_init (const char *base_directory)
 {
 	char *camel_dir;
-	
-	if (camel_init (evolution_dir, TRUE) != 0)
+
+	if (camel_init (base_directory, TRUE) != 0)
 		exit (0);
 	
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
 	
-	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
+	camel_dir = g_strdup_printf ("%s/mail", base_directory);
 	camel_session_construct (session, camel_dir);
 	
 	/* The shell will tell us to go online. */

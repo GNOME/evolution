@@ -53,7 +53,9 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
+
 #include "mail.h"
+#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
@@ -448,6 +450,8 @@ config_write_style (void)
 	 * may not have been set yet
 	 *
 	 * filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
+	 *
+	 * EPFIXME this kludge needs to go away.
 	 */
 	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
 
@@ -528,6 +532,7 @@ mail_config_init (void)
 	mail_config_clear ();
 
 	/*
+	  EPFIXME: This kludge needs to go away.
 	  filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
 	*/
 	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
@@ -933,6 +938,7 @@ mail_config_get_default_transport (void)
 static char *
 uri_to_evname (const char *uri, const char *prefix)
 {
+	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *safe;
 	char *tmp;
 
@@ -940,9 +946,9 @@ uri_to_evname (const char *uri, const char *prefix)
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/%s%s.xml", evolution_dir, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/%s%s", evolution_dir, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -1057,7 +1063,10 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 	char *url, *filename;
 	
 	url = mail_config_folder_to_safe_url (folder);
-	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
+	filename = g_strdup_printf ("%s/config/%s%s",
+				    mail_component_peek_base_directory (mail_component_peek ()),
+				    prefix,
+				    url);
 	g_free (url);
 	
 	return filename;
@@ -1328,22 +1337,24 @@ mail_config_get_signature_list (void)
 static char *
 get_new_signature_filename (void)
 {
+	const char *base_directory;
 	char *filename, *id;
 	struct stat st;
 	int i;
-	
-	filename = g_build_filename (evolution_dir, "/signatures", NULL);
+
+	base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	filename = g_build_filename (base_directory, "signatures", NULL);
 	if (lstat (filename, &st)) {
 		if (errno == ENOENT) {
 			if (mkdir (filename, 0700))
-				g_warning ("Fatal problem creating %s/signatures directory.", evolution_dir);
+				g_warning ("Fatal problem creating %s directory.", filename);
 		} else
-			g_warning ("Fatal problem with %s/signatures directory.", evolution_dir);
+			g_warning ("Fatal problem with %s directory.", filename);
 	}
 	g_free (filename);
 	
-	filename = g_malloc (strlen (evolution_dir) + sizeof ("/signatures/signature-") + 12);
-	id = g_stpcpy (filename, evolution_dir);
+	filename = g_malloc (strlen (base_directory) + sizeof ("/signatures/signature-") + 12);
+	id = g_stpcpy (filename, base_directory);
 	id = g_stpcpy (id, "/signatures/signature-");
 	
 	for (i = 0; i < (INT_MAX - 1); i++) {
@@ -1400,7 +1411,8 @@ delete_unused_signature_file (const char *filename)
 	char *signatures_dir;
 	int len;
 	
-	signatures_dir = g_strconcat (evolution_dir, "/signatures", NULL);
+	signatures_dir = g_strconcat (mail_component_peek_base_directory (mail_component_peek ()),
+				      "/signatures", NULL);
 	
 	/* remove signature file if it's in evolution dir and no other signature uses it */
 	len = strlen (signatures_dir);

@@ -36,6 +36,7 @@
 
 #include <filter/filter-editor.h>
 
+#include "mail-component.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
@@ -215,14 +216,14 @@ static GtkWidget *filter_editor = NULL;
 static void
 filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 {
-	extern char *evolution_dir;
 	FilterContext *fc;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
 		char *user;
 		
 		fc = g_object_get_data ((GObject *) dialog, "context");
-		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+		user = g_strdup_printf ("%s/filters.xml",
+					mail_component_peek_base_directory (mail_component_peek ()));
 		rule_context_save ((RuleContext *) fc, user);
 		g_free (user);
 	}
@@ -249,7 +250,7 @@ static const char *filter_source_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
-	extern char *evolution_dir;
+	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *user, *system;
 	FilterContext *fc;
 	
@@ -259,7 +260,7 @@ em_utils_edit_filters (GtkWidget *parent)
 	}
 	
 	fc = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	user = g_strdup_printf ("%s/filters.xml", base_directory);
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *) fc, system, user);
 	g_free (user);
@@ -773,10 +774,10 @@ generate_account_hash (void)
 	return account_hash;
 }
 
-static EDestination **
+static EABDestination **
 em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 {
-	EDestination *dest, **destv;
+	EABDestination *dest, **destv;
 	int n, i, j;
 	
 	if (iaddr == NULL)
@@ -785,14 +786,14 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 	if ((n = camel_address_length ((CamelAddress *) iaddr)) == 0)
 		return NULL;
 	
-	destv = g_malloc (sizeof (EDestination *) * (n + 1));
+	destv = g_malloc (sizeof (EABDestination *) * (n + 1));
 	for (i = 0, j = 0; i < n; i++) {
 		const char *name, *addr;
 		
 		if (camel_internet_address_get (iaddr, i, &name, &addr)) {
-			dest = e_destination_new ();
-			e_destination_set_name (dest, name);
-			e_destination_set_email (dest, addr);
+			dest = eab_destination_new ();
+			eab_destination_set_name (dest, name);
+			eab_destination_set_email (dest, addr);
 			
 			destv[j++] = dest;
 		}
@@ -813,7 +814,7 @@ reply_get_composer (GtkWidget *parent, CamelMimeMessage *message, EAccount *acco
 		    CamelInternetAddress *to, CamelInternetAddress *cc)
 {
 	const char *message_id, *references;
-	EDestination **tov, **ccv;
+	EABDestination **tov, **ccv;
 	EMsgComposer *composer;
 	char *subject;
 	
@@ -1211,7 +1212,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	const char *message_id, *references;
 	CamelInternetAddress *to = NULL;
 	GtkWidget *parent = user_data;
-	EDestination **tov = NULL;
+	EABDestination **tov = NULL;
 	EMsgComposer *composer;
 	char *subject, *url;
 	EAccount *account;

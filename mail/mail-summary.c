@@ -72,7 +72,6 @@ typedef struct {
 
 static int queue_len = 0;
 
-extern char *evolution_dir;
 extern EvolutionStorage *vfolder_storage;
 
 #define MAIN_READER main_compipe[0]
@@ -295,7 +294,7 @@ generate_folder_summaries (MailSummary *summary)
 	CamelException *ex;
 	int i;
 
-	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+	user = g_strdup_printf ("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/vfoldertypes.xml";
 
 	context = vfolder_context_new ();

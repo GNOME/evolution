@@ -20,6 +20,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/* EPFIXME: This file should go away.  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -54,6 +56,7 @@
 #include "mail-config.h"
 #include "mail-config-factory.h"
 #include "mail-preferences.h"
+#include "mail-component.h"
 #include "mail-composer-prefs.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
@@ -79,7 +82,6 @@ char *default_sent_folder_uri;
 CamelFolder *sent_folder = NULL;
 char *default_outbox_folder_uri;
 CamelFolder *outbox_folder = NULL;
-char *evolution_dir;
 
 EvolutionShellClient *global_shell_client = NULL;
 
@@ -135,6 +137,14 @@ type_is_vtrash (const char *type)
 {
 	return !strcmp (type, "vtrash");
 }
+
+
+/* Forward decls just to get it to compile without warnings.  EPFIXME: This is
+   all junk at this point in the refactoring anyways, so it will all die.  */
+static void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
+static void mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *accounts);
+static void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
+
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -766,6 +776,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
+#if 0
 	GNOME_Evolution_Shell corba_shell;
 	EAccountList *accounts;
 	int i;
@@ -774,7 +785,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	global_shell_client = shell_client;
 	g_object_weak_ref ((GObject *) shell_client, (GWeakNotify) shell_client_destroy, NULL);
 	
-	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
 	
 	async_event = mail_async_event_new();
@@ -831,6 +841,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	/* Everything should be ready now */
 	evolution_folder_info_notify_ready ();
+#endif
 }
 
 static void
@@ -1037,7 +1048,7 @@ request_quit (EvolutionShellComponent *shell_component,
 }
 
 static BonoboObject *
-create_component (void)
+create_shell_component (void)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
@@ -1336,12 +1347,14 @@ storage_xfer_folder (EvolutionStorage *storage,
 	camel_exception_clear (&ex);
 }
 
+#if 0				/* EPFIXME */
 static void
 storage_connected (CamelStore *store, CamelFolderInfo *info, void *listener)
 {
 	notify_listener (listener, (info ? GNOME_Evolution_Storage_OK :
 				    GNOME_Evolution_Storage_GENERIC_ERROR));
 }
+#endif
 
 static void
 storage_connect (EvolutionStorage *storage,
@@ -1349,8 +1362,10 @@ storage_connect (EvolutionStorage *storage,
 		 const char *path,
 		 CamelStore *store)
 {
+#if 0				/* EPFIXME */
 	mail_note_store (CAMEL_STORE (store), NULL, storage, CORBA_OBJECT_NIL,
 			 storage_connected, listener);
+#endif
 }
 
 static void
@@ -1373,7 +1388,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 		evolution_storage_has_subfolders (storage, "/", _("Connecting..."));
 		mail_hash_storage (store, storage);
 		/*if (auto_connect)*/
-		mail_note_store ((CamelStore *) store, NULL, storage, CORBA_OBJECT_NIL, NULL, NULL);
+		/* EPFIXME mail_note_store ((CamelStore *) store, NULL, storage, CORBA_OBJECT_NIL, NULL, NULL); */
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:
@@ -1386,34 +1401,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	}
 }
 
-void
-mail_add_storage (CamelStore *store, const char *name, const char *uri)
-{
-	EvolutionShellClient *shell_client;
-	GNOME_Evolution_Shell shell;
-	CamelException ex;
-	
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	shell = evolution_shell_client_corba_objref (shell_client);
-	
-	camel_exception_init (&ex);
-	
-	if (name == NULL) {
-		char *service_name;
-		
-		service_name = camel_service_get_name ((CamelService *) store, TRUE);
-		add_storage (service_name, uri, (CamelService *) store, shell, &ex);
-		g_free (service_name);
-	} else {
-		add_storage (name, uri, (CamelService *) store, shell, &ex);
-	}
-	
-	camel_exception_clear (&ex);
-}
-
-void
+static void
 mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name)
 {
 	CamelException ex;
@@ -1468,7 +1456,7 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	camel_object_unref (CAMEL_OBJECT (store));
 }
 
-void
+static void
 mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *accounts)
 {
 	CamelException ex;
@@ -1500,103 +1488,23 @@ mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *accounts)
 	g_object_unref (iter);
 }
 
-void
+static void
 mail_hash_storage (CamelService *store, EvolutionStorage *storage)
 {
 	camel_object_ref (CAMEL_OBJECT (store));
 	g_hash_table_insert (storages_hash, store, storage);
 }
 
-EvolutionStorage *
-mail_lookup_storage (CamelStore *store)
-{
-	EvolutionStorage *storage;
-	
-	/* Because the storages_hash holds a reference to each store
-	 * used as a key in it, none of them will ever be gc'ed, meaning
-	 * any call to camel_session_get_{service,store} with the same
-	 * URL will always return the same object. So this works.
-	 */
-	
-	storage = g_hash_table_lookup (storages_hash, store);
-	if (storage)
-		bonobo_object_ref (BONOBO_OBJECT (storage));
-	
-	return storage;
-}
-
+#if 0
 static void
 store_disconnect(CamelStore *store, void *event_data, void *data)
 {
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
 	camel_object_unref (CAMEL_OBJECT (store));
 }
+#endif
 
-void
-mail_remove_storage (CamelStore *store)
-{
-	EvolutionStorage *storage;
-	EvolutionShellClient *shell_client;
-	GNOME_Evolution_Shell corba_shell;
-	
-	/* Because the storages_hash holds a reference to each store
-	 * used as a key in it, none of them will ever be gc'ed, meaning
-	 * any call to camel_session_get_{service,store} with the same
-	 * URL will always return the same object. So this works.
-	 */
-	
-	storage = g_hash_table_lookup (storages_hash, store);
-	if (!storage)
-		return;
-	
-	g_hash_table_remove (storages_hash, store);
-	
-	/* so i guess potentially we could have a race, add a store while one
-	   being removed.  ?? */
-	mail_note_store_remove(store);
-	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	corba_shell = evolution_shell_client_corba_objref(shell_client);
-	
-	evolution_storage_deregister_on_shell (storage, corba_shell);
-	
-	mail_async_event_emit(async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc)store_disconnect, store, NULL, NULL);
-}
-
-void
-mail_remove_storage_by_uri (const char *uri)
-{
-	CamelProvider *prov;
-	CamelService *store;
-
-	prov = camel_session_get_provider (session, uri, NULL);
-	if (!prov)
-		return;
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
-		return;
-
-	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
-	if (store != NULL) {
-		mail_remove_storage (CAMEL_STORE (store));
-		camel_object_unref (CAMEL_OBJECT (store));
-	}
-}
-
-int
-mail_storages_count (void)
-{
-	return g_hash_table_size (storages_hash);
-}
-
-void
-mail_storages_foreach (GHFunc func, gpointer data)
-{
-	g_hash_table_foreach (storages_hash, func, data);
-}
-
-
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ControlFactory"
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_Factory_2"
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig"
 #define WIZARD_IID "OAFIID:GNOME_Evolution_Mail_Wizard"
@@ -1608,9 +1516,14 @@ factory (BonoboGenericFactory *factory,
 	 const char *component_id,
 	 void *closure)
 {
-	if (strcmp (component_id, COMPONENT_ID) == 0)
-		return create_component();
-	else if (strcmp(component_id, MAIL_CONFIG_IID) == 0)
+	if (strcmp (component_id, SHELL_COMPONENT_ID) == 0)
+		return create_shell_component();
+	else if (strcmp (component_id, COMPONENT_ID) == 0) {
+		MailComponent *component = mail_component_peek ();
+
+		bonobo_object_ref (BONOBO_OBJECT (component));
+		return BONOBO_OBJECT (component);
+	} else if (strcmp(component_id, MAIL_CONFIG_IID) == 0)
 		return (BonoboObject *)g_object_new (evolution_mail_config_get_type (), NULL);
 	else if (strcmp(component_id, FOLDER_INFO_IID) == 0)
 		return evolution_folder_info_new();

@@ -23,7 +23,8 @@
 #ifndef COMPONENT_FACTORY_H
 #define COMPONENT_FACTORY_H
 
-#define COMPONENT_ID 		"OAFIID:GNOME_Evolution_Mail_ShellComponent"
+#define COMPONENT_ID 		"OAFIID:GNOME_Evolution_Mail_Component2"
+#define SHELL_COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_ShellComponent"
 #define SUMMARY_FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
 #endif

@@ -38,6 +38,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
 #include "mail.h"
+#include "mail-component.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
@@ -229,7 +230,8 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 	
-	filename = g_strdup_printf ("%s/mail/pop3/cache-%s", evolution_dir, encoded_url);
+	filename = g_strdup_printf ("%s/mail/pop3/cache-%s",
+				    mail_component_peek_base_directory (mail_component_peek ()), encoded_url);
 	
 	/* lame hack, but we can't expect user's to actually migrate
            their cache files - brain power requirements are too
@@ -238,7 +240,9 @@ uid_cachename_hack (CamelStore *store)
 		/* This is either the first time the user has checked
                    mail with this POP provider or else their cache
                    file is in the old location... */
-		old_location = g_strdup_printf ("%s/config/cache-%s", evolution_dir, encoded_url);
+		old_location = g_strdup_printf ("%s/config/cache-%s",
+						mail_component_peek_base_directory (mail_component_peek ()),
+						encoded_url);
 		if (stat (old_location, &st) == -1) {
 			/* old location doesn't exist either so use the new location */
 			g_free (old_location);

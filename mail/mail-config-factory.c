@@ -34,8 +34,6 @@
 
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
 
-static BonoboGenericFactory *factory = NULL;
-
 
 typedef void (*ApplyFunc) (GtkWidget *prefs);
 

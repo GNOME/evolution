@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: acampi 
 #  
-#  $Id: Makefile.am,v 1.4 2003/10/07 14:28:18 danw Exp $
+#  $Id: Makefile.am,v 1.5 2003/10/21 18:28:26 ettore Exp $
 #
 #
 # (C) COPYRIGHT 2003, Andrea Campi, mailto:a.campi@inet.it

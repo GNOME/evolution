@@ -30,6 +30,9 @@
 	<oaf_attribute name="name" type="string"
                        _value="Evolution Calendar local file backend"/>
 
+        <oaf_attribute name="calendar:supported_protocols" type="stringv">
+		<item value="file"/>
+        </oaf_attribute>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Wombat_InterfaceCheck"

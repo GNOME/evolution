@@ -31,23 +31,7 @@
 #include "mail-session.h"
 #include "mail-types.h"
 
-extern char *evolution_dir;
-
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
-
-/* component factory for lack of a better place */
-void mail_add_storage (CamelStore *store, const char *name, const char *uri);
-void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
-/*takes a GSList of MailConfigServices */
-void mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *sources);
-
-void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
-EvolutionStorage *mail_lookup_storage (CamelStore *store);
-void mail_remove_storage_by_uri (const char *uri);
-void mail_remove_storage (CamelStore *store);
-void mail_storages_foreach (GHFunc func, gpointer data);
-int  mail_storages_count (void);
-
 gboolean evolution_folder_info_factory_init (void);
 

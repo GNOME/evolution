@@ -36,16 +36,20 @@
 #include <e-util/e-account-list.h>
 #include <e-util/e-dialog-utils.h>
 
-#include "evolution-folder-selector-button.h"
+#include "em-folder-selection-button.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
+#include "mail-component.h"
 #include "mail-composer-prefs.h"
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail.h"
+
+#include "e-storage.h"
+
 
 #define d(x)
 
@@ -1060,16 +1064,13 @@ extract_values (MailAccountGuiService *source, GHashTable *extra_config, CamelUR
 	}
 }
 
-
 static void
-folder_selected (EvolutionFolderSelectorButton *button,
-		 GNOME_Evolution_Folder *corba_folder,
-		 gpointer user_data)
+folder_selected (EMFolderSelectionButton *button, gpointer user_data)
 {
 	char **folder_name = user_data;
 	
 	g_free (*folder_name);
-	*folder_name = g_strdup (corba_folder->physicalUri);
+	*folder_name = g_strdup(em_folder_selection_button_get_selection(button));
 }
 
 static void
@@ -1080,14 +1081,12 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	/* Drafts folder */
 	g_free (gui->drafts_folder_uri);
 	gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
-	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->drafts_folder_button),
-						  gui->drafts_folder_uri);
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
 	
 	/* Sent folder */
 	g_free (gui->sent_folder_uri);
 	gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
-	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->sent_folder_button),
-						  gui->sent_folder_uri);
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 }
 
 GtkWidget *mail_account_gui_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2);
@@ -1097,7 +1096,7 @@ mail_account_gui_folder_selector_button_new (char *widget_name,
 					     char *string1, char *string2,
 					     int int1, int int2)
 {
-	return (GtkWidget *)g_object_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON, NULL);
+	return (GtkWidget *)em_folder_selection_button_new(_("Select Folder"), NULL);
 }
 
 static gboolean
@@ -1410,7 +1409,6 @@ prepare_signatures (MailAccountGui *gui)
 MailAccountGui *
 mail_account_gui_new (EAccount *account, MailAccountsTab *dialog)
 {
-	const char *allowed_types[] = { "mail/*", NULL };
 	MailAccountGui *gui;
 	GtkWidget *button;
 	
@@ -1499,31 +1497,21 @@ mail_account_gui_new (EAccount *account, MailAccountsTab *dialog)
 	
 	/* Drafts folder */
 	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
-	g_signal_connect (gui->drafts_folder_button, "selected",
-			  G_CALLBACK (folder_selected), &gui->drafts_folder_uri);
+	g_signal_connect (gui->drafts_folder_button, "selected", G_CALLBACK (folder_selected), &gui->drafts_folder_uri);
 	if (account->drafts_folder_uri)
 		gui->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
 	else
 		gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
-	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->drafts_folder_button),
-						    global_shell_client,
-						    _("Select Folder"),
-						    gui->drafts_folder_uri,
-						    allowed_types);
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
 	
 	/* Sent folder */
 	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
-	g_signal_connect (gui->sent_folder_button, "selected",
-			  G_CALLBACK (folder_selected), &gui->sent_folder_uri);
+	g_signal_connect (gui->sent_folder_button, "selected", G_CALLBACK (folder_selected), &gui->sent_folder_uri);
 	if (account->sent_folder_uri)
 		gui->sent_folder_uri = g_strdup (account->sent_folder_uri);
 	else
 		gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
-	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->sent_folder_button),
-						    global_shell_client,
-						    _("Select Folder"),
-						    gui->sent_folder_uri,
-						    allowed_types);
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 	
 	/* Special Folders "Reset Defaults" button */
 	button = glade_xml_get_widget (gui->xml, "default_folders_button");
@@ -1842,18 +1830,21 @@ static void
 add_new_store (char *uri, CamelStore *store, void *user_data)
 {
 	EAccount *account = user_data;
-	EvolutionStorage *storage;
+	MailComponent *component = mail_component_peek ();
+	EStorage *storage;
 	
 	if (store == NULL)
 		return;
+
+	/* EPFIXME: Strange refcounting semantics here?!  */
 	
-	storage = mail_lookup_storage (store);
+	storage = mail_component_lookup_storage (component, store);
 	if (storage) {
 		/* store is already in the folder tree, so do nothing */
-		bonobo_object_unref (BONOBO_OBJECT (storage));
+		g_object_unref (storage);
 	} else {
 		/* store is *not* in the folder tree, so lets add it. */
-		mail_add_storage (store, account->name, account->source->url);
+		mail_component_add_store (component, store, account->name);
 	}
 }
 
@@ -1968,7 +1959,7 @@ mail_account_gui_save (MailAccountGui *gui)
 #define sources_equal(old,new) (new->url && !strcmp (old->url, new->url))
 		if (!sources_equal (account->source, new->source)) {
 			/* Remove the old storage from the folder-tree */
-			mail_remove_storage_by_uri (account->source->url);
+			mail_component_remove_storage_by_uri (mail_component_peek (), account->source->url);
 		}
 	}
 	

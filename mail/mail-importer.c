@@ -36,12 +36,12 @@
 #include <camel/camel-exception.h>
 #include <e-util/e-path.h>
 
+#include "mail-component.h"
 #include "mail-importer.h"
 #include "mail-local.h"
 #include "mail.h"
 
 static GList *importer_modules = NULL;
-extern char *evolution_dir;
 static GNOME_Evolution_Storage local_storage = NULL;
 
 void mail_importer_uninit (void);
@@ -95,7 +95,8 @@ mail_importer_make_local_folder(const char *folderpath)
 	} else {
 		struct _create_data data = { GNOME_Evolution_Storage_GENERIC_ERROR, FALSE };
 
-		tmp = g_strdup_printf("file://%s/local", evolution_dir);
+		tmp = g_strdup_printf("file://%s/local",
+				      mail_component_peek_base_directory (mail_component_peek ()));
 		uri = e_path_to_physical(tmp, folderpath);
 		g_free(tmp);
 		tmp = strrchr(uri, '/');

@@ -1,4 +1,4 @@
-SUBDIRS = importers
+SUBDIRS = # importers FIXME
 
 libexec_PROGRAMS =				\
 	evolution-mbox-upgrade
@@ -39,127 +39,152 @@ INCLUDES =						\
 
 component_LTLIBRARIES = libevolution-mail.la
 
-EVOLUTION_MAIL_CORBA_GENERATED_H =		\
+
+# Code generation for Mailer.idl
+
+MAILER_IDL = Mailer.idl
+
+MAILER_IDL_GENERATED_H =		\
 	Mailer.h
-EVOLUTION_MAIL_CORBA_GENERATED_C =		\
+MAILER_IDL_GENERATED_C =		\
 	Mailer-common.c				\
 	Mailer-skels.c				\
 	Mailer-stubs.c
-EVOLUTION_MAIL_CORBA_GENERATED = $(EVOLUTION_MAIL_CORBA_GENERATED_C) $(EVOLUTION_MAIL_CORBA_GENERATED_H)
+MAILER_IDL_GENERATED = $(MAILER_IDL_GENERATED_C) $(MAILER_IDL_GENERATED_H)
+
+$(MAILER_IDL_GENERATED_H): Mailer.idl 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Mailer.idl
+$(MAILER_IDL_GENERATED_C): $(MAILER_IDL_GENERATED_H)
+
+
+# Code generation for Spell.idl
 
 SPELL_IDL = Spell.idl
 
-IDL_GENERATED_H = 		\
+SPELL_IDL_GENERATED_H = 		\
 	Spell.h
-IDL_GENERATED_C = 		\
+SPELL_IDL_GENERATED_C = 		\
 	Spell-common.c		\
 	Spell-skels.c		\
 	Spell-stubs.c
-IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
+SPELL_IDL_GENERATED = $(SPELL_IDL_GENERATED_C) $(SPELL_IDL_GENERATED_H)
 
-$(IDL_GENERATED_H): $(SPELL_IDL)
+$(SPELL_IDL_GENERATED_H): $(SPELL_IDL)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Spell.idl
-$(IDL_GENERATED_C): $(IDL_GENERATED_H)
+$(SPELL_IDL_GENERATED_C): $(SPELL_IDL_GENERATED_H)
 
 Spell-impl.o: Spell.h
 
-libevolution_mail_la_SOURCES =		\
-	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
-	$(IDL_GENERATED)		\
-	component-factory.c		\
-	component-factory.h		\
-	e-searching-tokenizer.c		\
-	e-searching-tokenizer.h		\
-	em-inline-filter.c		\
-	em-inline-filter.h		\
-	em-folder-view.c		\
-	em-folder-view.h		\
-	em-folder-browser.c		\
-	em-folder-browser.h		\
-	em-format.c			\
-	em-format.h			\
-	em-format-html.c		\
-	em-format-html.h		\
-	em-format-html-display.c	\
-	em-format-html-display.h	\
-	em-format-html-print.c		\
-	em-format-html-print.h		\
-	em-format-html-quote.c		\
-	em-format-html-quote.h		\
-	em-format-quote.c		\
-	em-format-quote.h		\
-	em-marshal.c			\
-	em-marshal.h			\
-	em-message-browser.c		\
-	em-message-browser.h		\
-	em-composer-utils.c		\
-	em-composer-utils.h		\
-	em-popup.c			\
-	em-popup.h			\
-	em-utils.c			\
-	em-utils.h			\
-	em-subscribe-editor.c		\
-	em-subscribe-editor.h		\
-	em-sync-stream.c		\
-	em-sync-stream.h		\
-	em-icon-stream.c		\
-	em-icon-stream.h		\
-	em-html-stream.c		\
-	em-html-stream.h		\
-	folder-browser-factory.c	\
-	folder-browser-factory.h	\
-	folder-info.c			\
-	folder-info.h			\
-	mail-account-editor.c		\
-	mail-account-editor.h		\
-	mail-account-gui.c		\
-	mail-account-gui.h		\
-	mail-accounts.c			\
-	mail-accounts.h			\
-	mail-autofilter.c		\
-	mail-autofilter.h		\
-	mail-composer-prefs.c		\
-	mail-composer-prefs.h		\
-	mail-config.c			\
-	mail-config.h			\
-	mail-config-druid.c		\
-	mail-config-druid.h		\
-	mail-crypto.c			\
-	mail-crypto.h			\
-	mail-config-factory.c		\
-	mail-config-factory.h		\
-	mail-preferences.c		\
-	mail-preferences.h		\
-	mail-folder-cache.c		\
-	mail-folder-cache.h		\
-	mail-importer.c			\
-	mail-importer.h			\
-	mail-local.c			\
-	mail-local.h			\
-	mail-mt.c			\
-	mail-mt.h			\
-	mail-offline-handler.c		\
-	mail-offline-handler.h		\
-	mail-ops.c			\
-	mail-ops.h			\
-	mail-send-recv.c		\
-	mail-send-recv.h		\
-	mail-session.c			\
-	mail-session.h			\
-	mail-signature-editor.c		\
-	mail-signature-editor.h		\
-	mail-tools.c			\
-	mail-tools.h			\
-	mail-types.h			\
-	mail-vfolder.c			\
-	mail-vfolder.h			\
-	message-list.c			\
-	message-list.h			\
-	message-tag-editor.c		\
-	message-tag-editor.h		\
-	message-tag-followup.c		\
-	message-tag-followup.h		\
+
+# libevolution-mail
+
+libevolution_mail_la_SOURCES =			\
+	$(SPELL_IDL_GENERATED)			\
+	$(MAILER_IDL_GENERATED)			\
+	e-searching-tokenizer.c			\
+	e-searching-tokenizer.h			\
+	em-inline-filter.c			\
+	em-inline-filter.h			\
+	em-folder-selection.c			\
+	em-folder-selection.h			\
+	em-folder-selection-button.c		\
+	em-folder-selection-button.h		\
+	em-folder-selector.c			\
+	em-folder-selector.h			\
+	em-folder-view.c			\
+	em-folder-view.h			\
+	em-folder-browser.c			\
+	em-folder-browser.h			\
+	em-format.c				\
+	em-format.h				\
+	em-format-html.c			\
+	em-format-html.h			\
+	em-format-html-display.c		\
+	em-format-html-display.h		\
+	em-format-html-print.c			\
+	em-format-html-print.h			\
+	em-format-html-quote.c			\
+	em-format-html-quote.h			\
+	em-format-quote.c			\
+	em-format-quote.h			\
+	em-marshal.c				\
+	em-marshal.h				\
+	em-message-browser.c			\
+	em-message-browser.h			\
+	em-composer-utils.c			\
+	em-composer-utils.h			\
+	em-popup.c				\
+	em-popup.h				\
+	em-utils.c				\
+	em-utils.h				\
+	em-subscribe-editor.c			\
+	em-subscribe-editor.h			\
+	em-sync-stream.c			\
+	em-sync-stream.h			\
+	em-icon-stream.c			\
+	em-icon-stream.h			\
+	em-html-stream.c			\
+	em-html-stream.h			\
+	folder-browser-factory.c		\
+	folder-browser-factory.h		\
+	folder-info.c				\
+	folder-info.h				\
+	mail-account-editor.c			\
+	mail-account-editor.h			\
+	mail-account-gui.c			\
+	mail-account-gui.h			\
+	mail-accounts.c				\
+	mail-accounts.h				\
+	mail-autofilter.c			\
+	mail-autofilter.h			\
+	mail-component-factory.c		\
+	mail-component.c			\
+	mail-component.h			\
+	mail-composer-prefs.c			\
+	mail-composer-prefs.h			\
+	mail-config.c				\
+	mail-config.h				\
+	mail-config-druid.c			\
+	mail-config-druid.h			\
+	mail-crypto.c				\
+	mail-crypto.h				\
+	mail-config-factory.c			\
+	mail-config-factory.h			\
+	mail-preferences.c			\
+	mail-preferences.h			\
+	mail-folder-cache.c			\
+	mail-folder-cache.h			\
+	mail-importer.c				\
+	mail-importer.h				\
+	mail-mt.c				\
+	mail-mt.h				\
+	mail-offline-handler.c			\
+	mail-offline-handler.h			\
+	mail-ops.c				\
+	mail-ops.h				\
+	mail-send-recv.c			\
+	mail-send-recv.h			\
+	mail-session.c				\
+	mail-session.h				\
+	mail-signature-editor.c			\
+	mail-signature-editor.h			\
+	mail-tools.c				\
+	mail-tools.h				\
+	mail-types.h				\
+	mail-vfolder.c				\
+	mail-vfolder.h				\
+	message-list.c				\
+	message-list.h				\
+	message-tag-editor.c			\
+	message-tag-editor.h			\
+	message-tag-followup.c			\
+	message-tag-followup.h			\
 	mail.h
+
+# EPFIXME: Functionality to be brought back to life.
+#
+#	mail-local.c
+#	mail-local.h
 
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
@@ -177,6 +202,9 @@ libevolution_mail_la_LIBADD =					\
 libevolution_mail_la_LDFLAGS =				\
 	-avoid-version -module
 
+
+# .server files
+
 evolution_mbox_upgrade_SOURCES = evolution-mbox-upgrade.c
 evolution_mbox_upgrade_LDADD = 				\
 	$(top_builddir)/camel/libcamel.la 		\
@@ -190,21 +218,16 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
+
+# Misc data to install
+
+glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade mail-search.glade
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
 @EVO_MARSHAL_RULE@
 
-glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade mail-search.glade
+etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 
-etspec_DATA = message-list.etspec
-
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_DATA = evolution-mail.schemas
-
-idl_DATA = Mailer.idl
-
-$(EVOLUTION_MAIL_CORBA_GENERATED_H): Mailer.idl 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Mailer.idl
-$(EVOLUTION_MAIL_CORBA_GENERATED_C): $(EVOLUTION_MAIL_CORBA_GENERATED_H)
+idl_DATA = $(MAILER_IDL)
 
 EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
@@ -217,6 +240,9 @@ EXTRA_DIST = 				\
 	$(server_DATA)			\
 	$(etspec_DATA)
 
+
+# Purify support
+
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 
@@ -228,6 +254,12 @@ evolution-mail.pure: evolution-mail
 
 endif
 
+
+# GConf
+
+schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+schema_DATA = evolution-mail.schemas
+
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
@@ -235,8 +267,11 @@ install-data-local:
 		done \
 	fi
 
+
+# Prologue
+
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED) $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
+BUILT_SOURCES = $(MAILER_IDL_GENERATED) $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)

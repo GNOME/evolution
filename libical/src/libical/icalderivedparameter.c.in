@@ -3,7 +3,7 @@
   FILE: icalderivedparameters.{c,h}
   CREATOR: eric 09 May 1999
   
-  $Id: icalderivedparameter.c.in,v 1.2 2003/09/11 22:04:19 hansp Exp $
+  $Id: icalderivedparameter.c.in,v 1.3 2003/10/21 18:28:29 ettore Exp $
   $Locker:  $
     
 

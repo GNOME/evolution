@@ -13,6 +13,7 @@
 #include <Evolution-common.idl>
 
 #include <Evolution-Activity.idl>
+#include <Evolution-Component.idl>
 #include <Evolution-ConfigControl.idl>
 #include <Evolution-Session.idl>
 #include <Evolution-ShellComponent.idl>

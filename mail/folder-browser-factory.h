@@ -15,8 +15,7 @@
 #include "Evolution.h"
 #include "e-util/e-list.h"
 
-BonoboControl *folder_browser_factory_new_control       (const char            *uri,
-							 const GNOME_Evolution_Shell  shell);
+BonoboControl *folder_browser_factory_new_control       (const char *uri);
 EList         *folder_browser_factory_get_control_list  (void);
 
 struct _EMFolderBrowser *folder_browser_factory_get_browser(const char *uri);
