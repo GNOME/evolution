@@ -1,5 +1,9 @@
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
+	* message-list.etspec: Added priorities.
+
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
 	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): Set
 	the title of our GalViewCollection.
 
