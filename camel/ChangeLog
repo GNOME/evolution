@@ -1,3 +1,19 @@
+2001-01-16  Dan Winship  <danw@ximian.com>
+
+	* camel-tcp-stream-raw.c (stream_getsockopt, stream_setsockopt):
+	* camel-stream-fs.c (stream_read, stream_write): 
+	* camel-remote-store.c (socket_connect): fcntl(fd, F_GETFL)
+	returns the flags as the return value, not via a passed in
+	pointer. And F_SETFL looks for an int, not a long, and you have to
+	pass it what it's expecting because it's a va_arg parameter. (Yes,
+	the man page lies on Linux. But check the UNIX98 spec or the glibc
+	source.) Also, fix another bug in socket_connect: if we manage to
+	connect right away, unset O_NONBLOCK so it doesn't mess us up
+	later.
+
+	Fixes a bunch of problems with non-blocking I/O being done in the
+	allegedly-blocking case and then returning EWOULDBLOCK.
+
 2001-01-16  Chris Toshok  <toshok@ximian.com>
 
 	* providers/Makefile.am (NNTP_DIR): set to nntp if ENABLE_NNTP

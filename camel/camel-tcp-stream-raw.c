@@ -243,9 +243,10 @@ stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
 		return -1;
 	
 	if (data->option == CAMEL_SOCKOPT_NONBLOCKING) {
-		long flags;
+		int flags;
 		
-		if (fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL, &flags) == -1)
+		flags = fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL);
+		if (flags == -1)
 			return -1;
 		
 		data->value.non_blocking = flags & O_NONBLOCK;
@@ -269,9 +270,10 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 		return -1;
 	
 	if (data->option == CAMEL_SOCKOPT_NONBLOCKING) {
-		guint32 flags, set;
+		int flags, set;
 		
-		if (fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL, &flags) == -1)
+		fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_GETFL);
+		if (flags == -1)
 			return -1;
 		
 		set = data->value.non_blocking ? 1 : 0;

@@ -240,15 +240,16 @@ static int socket_connect(struct hostent *h, int port)
 		return fd;
 	} else {
 		fd_set rdset, wrset;
-		long flags;
-		int fdmax;
+		int flags, fdmax;
 
-		fcntl(fd, F_GETFL, &flags);
+		flags = fcntl(fd, F_GETFL);
 		fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 
 		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
-		if (ret == 0)
+		if (ret == 0) {
+			fcntl(fd, F_SETFL, flags);
 			return fd;
+		}
 
 		if (errno != EINPROGRESS) {
 			close(fd);
