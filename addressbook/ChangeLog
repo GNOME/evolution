@@ -1,3 +1,9 @@
+2004-06-23  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/eab-gui-util.c
+	(eab_send_contact_list_as_attachment): use memcpy not strcpy to
+	copy to memory buffer.  Fixes a UMW.  See #60532.
+
 2004-06-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-view.c: Add an x-source-vcard target entry
