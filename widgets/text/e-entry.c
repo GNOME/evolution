@@ -1126,7 +1126,7 @@ e_entry_destroy (GtkObject *object)
 	if (entry->priv->completion)
 		gtk_object_unref (GTK_OBJECT (entry->priv->completion));
 	if (entry->priv->completion_view_popup)
-		gtk_widget_destroy (entry->priv->completion_view_popup);
+		gtk_object_unref (GTK_OBJECT (entry->priv->completion_view_popup));
 	g_free (entry->priv->pre_browse_text);
 
 	if (entry->priv->changed_since_keypress_tag)

@@ -740,6 +740,7 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 					cv);
 
 	cv->table = e_table_scrolled_new (cv->model, NULL, simple_spec, NULL);
+	gtk_object_unref (GTK_OBJECT (cv->model));
 
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (cv->table), GTK_SHADOW_NONE);
 	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (cv->table), 0);
