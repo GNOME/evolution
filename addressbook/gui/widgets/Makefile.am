@@ -8,6 +8,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/widgets/misc			\
+	-I$(top_builddir)/shell				\
 	$(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 

@@ -1,3 +1,14 @@
+2001-07-02  Peter Williams  <peterw@ximian.com>
+
+	* gui/contact-editor/Makefile.am (INCLUDES): srcdir !=
+	builddir compile fix.
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): Same.
+
+	* gui/widgets/Makefile.am (INCLUDES): Same.
+
+	* gui/search/Makefile.am (INCLUDES): Same.
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (categories_clicked):

@@ -6,6 +6,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_srcdir)/addressbook/gui/merging	\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
+	-I$(top_builddir)/shell			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
