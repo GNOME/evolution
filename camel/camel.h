@@ -34,8 +34,6 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <camel/data-wrapper-repository.h>
-#include <camel/data-wrapper-repository.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-simple-data-wrapper.h>
