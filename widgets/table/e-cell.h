@@ -40,6 +40,9 @@ G_BEGIN_DECLS
 #define E_IS_CELL(o)        (GTK_CHECK_TYPE ((o), E_CELL_TYPE))
 #define E_IS_CELL_CLASS(k)  (GTK_CHECK_CLASS_TYPE ((k), E_CELL_TYPE))
 
+typedef gboolean (*ETableSearchFunc) (gconstpointer haystack,
+				      const char *needle);
+
 typedef enum {
 	E_CELL_SELECTED       = 1 << 0,
 
@@ -56,12 +59,12 @@ typedef enum {
 
 	E_CELL_EDITING        = 1 << 4,
 
-	E_CELL_CURSOR         = 1 << 5,
+	E_CELL_CURSOR         = 1 << 5
 } ECellFlags;
 
 typedef enum {
 	E_CELL_GRAB           = 1 << 0,
-	E_CELL_UNGRAB         = 1 << 1,
+	E_CELL_UNGRAB         = 1 << 1
 } ECellActions;
 
 typedef struct {
@@ -111,6 +114,8 @@ typedef struct {
 	int        (*max_width_by_row) (ECellView *ecell_view, int model_col, int view_col, int row);
 	void       (*show_tooltip) (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip);
 	gchar     *(*get_bg_color)     (ECellView *ecell_view, int row);
+
+	void       (*style_set)        (ECellView *ecell_view, GtkStyle *previous_style);
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
@@ -170,6 +175,9 @@ void       e_cell_show_tooltip                  (ECellView         *ecell_view,
 						 ETableTooltip     *tooltip);
 gchar     *e_cell_get_bg_color                  (ECellView         *ecell_view,
 						 int                row);
+void       e_cell_style_set                     (ECellView         *ecell_view,
+						 GtkStyle          *previous_style);
+
 void       e_cell_focus                         (ECellView         *ecell_view,
 						 int                model_col,
 						 int                view_col,

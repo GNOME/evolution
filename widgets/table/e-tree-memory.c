@@ -42,13 +42,22 @@
 
 #define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreeMemoryPath))
 
-static ETreeModel *parent_class;
+static ETreeModelClass *parent_class;
 static GMemChunk  *node_chunk;
+
+enum {
+	FILL_IN_CHILDREN,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = { 0, };
 
 typedef struct ETreeMemoryPath ETreeMemoryPath;
 
 struct ETreeMemoryPath {
 	gpointer         node_data;
+
+	guint            children_computed : 1;
 
 	/* parent/child/sibling pointers */
 	ETreeMemoryPath *parent;
@@ -70,6 +79,17 @@ struct ETreeMemoryPriv {
 
 
 /* ETreeMemoryPath functions */
+
+static inline void
+check_children (ETreeMemory *memory, ETreePath node)
+{
+	ETreeMemoryPath *path = node;
+	if (!path->children_computed) {
+		gtk_signal_emit (GTK_OBJECT (memory),
+				 signals[FILL_IN_CHILDREN], node);
+		path->children_computed = TRUE;
+	}
+}
 
 static int
 e_tree_memory_path_depth (ETreeMemoryPath *path)
@@ -230,6 +250,8 @@ static ETreePath
 etmm_get_first_child (ETreeModel *etm, ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
+	check_children (E_TREE_MEMORY (etm), node);
 	return path->first_child;
 }
 
@@ -237,6 +259,8 @@ static ETreePath
 etmm_get_last_child (ETreeModel *etm, ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
+	check_children (E_TREE_MEMORY (etm), node);
 	return path->last_child;
 }
 
@@ -265,6 +289,8 @@ static gboolean
 etmm_is_expandable (ETreeModel *etm, ETreePath node)
 {
 	ETreeMemoryPath *path = node;
+
+	check_children (E_TREE_MEMORY (etm), node);
 	return path->first_child != NULL;
 }
 
@@ -274,13 +300,15 @@ etmm_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
 	ETreeMemoryPath *path = node;
 	guint n_children;
 
+	check_children (E_TREE_MEMORY (etm), node);
+
 	n_children = path->num_children;
 
 	if (nodes) {
 		ETreeMemoryPath *p;
 		int i = 0;
 
-		(*nodes) = g_malloc (sizeof (ETreePath) * n_children);
+		(*nodes) = g_new (ETreePath, n_children);
 		for (p = path->first_child; p; p = p->next_sibling) {
 			(*nodes)[i++] = p;
 		}
@@ -304,30 +332,65 @@ etmm_get_expanded_default (ETreeModel *etm)
 	return priv->expanded_default;
 }
 
+static void
+etmm_clear_children_computed (ETreeMemoryPath *path)
+{
+	for (path = path->first_child; path; path = path->next_sibling) {
+		path->children_computed = FALSE;
+		etmm_clear_children_computed (path);
+	}
+}
+
+static void
+etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
+{
+	if (node)
+		etmm_clear_children_computed (node);
+
+	if (parent_class->node_request_collapse) {
+		parent_class->node_request_collapse (etm, node);
+	}
+}
+
 
 static void
-e_tree_memory_class_init (GtkObjectClass *klass)
+e_tree_memory_class_init (ETreeMemoryClass *klass)
 {
-	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
+	ETreeModelClass *tree_class   = (ETreeModelClass *) klass;
+	GtkObjectClass  *object_class = (GtkObjectClass *) klass;
 
 	parent_class                     = gtk_type_class (PARENT_TYPE);
 	
 	node_chunk                       = g_mem_chunk_create (ETreeMemoryPath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
 
-	klass->destroy                   = etmm_destroy;
+	signals [FILL_IN_CHILDREN] =
+		gtk_signal_new ("fill_in_children",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETreeMemoryClass, fill_in_children),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
-	tree_class->get_root             = etmm_get_root;
-	tree_class->get_prev             = etmm_get_prev;
-	tree_class->get_next             = etmm_get_next;
-	tree_class->get_first_child      = etmm_get_first_child;
-	tree_class->get_last_child       = etmm_get_last_child;
-	tree_class->get_parent           = etmm_get_parent;
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
-	tree_class->is_root              = etmm_is_root;
-	tree_class->is_expandable        = etmm_is_expandable;
-	tree_class->get_children         = etmm_get_children;
-	tree_class->depth                = etmm_depth;
-	tree_class->get_expanded_default = etmm_get_expanded_default;
+	object_class->destroy             = etmm_destroy;
+
+	tree_class->get_root              = etmm_get_root;
+	tree_class->get_prev              = etmm_get_prev;
+	tree_class->get_next              = etmm_get_next;
+	tree_class->get_first_child       = etmm_get_first_child;
+	tree_class->get_last_child        = etmm_get_last_child;
+	tree_class->get_parent            = etmm_get_parent;
+
+	tree_class->is_root               = etmm_is_root;
+	tree_class->is_expandable         = etmm_is_expandable;
+	tree_class->get_children          = etmm_get_children;
+	tree_class->depth                 = etmm_depth;
+	tree_class->get_expanded_default  = etmm_get_expanded_default;
+
+	tree_class->node_request_collapse = etmm_node_request_collapse;
+
+	klass->fill_in_children           = NULL;
 }
 
 static void
@@ -459,6 +522,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	new_path = g_chunk_new0 (ETreeMemoryPath, node_chunk);
 
 	new_path->node_data = node_data;
+	new_path->children_computed = FALSE;
 
 	if (parent_path != NULL) {
 		e_tree_memory_path_insert (parent_path, position, new_path);

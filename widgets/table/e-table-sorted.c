@@ -103,7 +103,7 @@ ets_init (ETableSorted *ets)
 	ets->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, ets_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, ets_init, PARENT_TYPE)
 
 static gboolean
 ets_sort_idle(ETableSorted *ets)

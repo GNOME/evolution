@@ -40,6 +40,8 @@
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
+#include <gal/e-table/e-table-search.h>
+#include <libgnome/gnome-defs.h>
 
 G_BEGIN_DECLS
 
@@ -54,7 +56,7 @@ typedef struct _ETableDragSourceSite ETableDragSourceSite;
 typedef enum {
 	E_TABLE_CURSOR_LOC_NONE = 0,
 	E_TABLE_CURSOR_LOC_ETCTA = 1 << 0,
-	E_TABLE_CURSOR_LOC_TABLE = 1 << 1,
+	E_TABLE_CURSOR_LOC_TABLE = 1 << 1
 } ETableCursorLoc;
 
 typedef struct {
@@ -74,6 +76,14 @@ typedef struct {
 	ETableCursorLoc cursor_loc;
 	ETableSpecification *spec;
 
+	ETableSearch     *search;
+
+	ETableSearchFunc  current_search;
+	int               current_search_col;
+
+	guint   	  search_search_id;
+	guint   	  search_accept_id;
+
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
@@ -81,6 +91,11 @@ typedef struct {
 	int table_rows_deleted_id;
 
 	int group_info_change_id;
+	int sort_info_change_id;
+
+	int structure_change_id;
+	int expansion_change_id;
+	int dimension_change_id;
 
 	int reflow_idle_id;
 	int scroll_idle_id;
@@ -106,6 +121,7 @@ typedef struct {
 	guint row_selection_active : 1;
 
 	guint horizontal_scrolling : 1;
+	guint horizontal_resize : 1;
 
 	guint is_grouped : 1;
 
@@ -137,6 +153,10 @@ typedef struct {
 	int drag_row;
 	int drag_col;
 	ETableDragSourceSite *site;
+
+	int header_width;
+
+	char *domain;
 } ETable;
 
 typedef struct {
@@ -150,6 +170,8 @@ typedef struct {
 	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
+	void        (*state_change)       (ETable *et);
+	gint        (*white_space_event)  (ETable *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,
@@ -244,22 +266,22 @@ void            e_table_load_state                (ETable               *e_table
 void            e_table_set_cursor_row            (ETable               *e_table,
 						   int                   row);
 
-/* -1 means we don't have the cursor. */
-int             e_table_get_cursor_row            (ETable               *e_table);
-void            e_table_selected_row_foreach      (ETable               *e_table,
-						   EForeachFunc          callback,
-						   gpointer              closure);
-gint            e_table_selected_count            (ETable               *e_table);
-EPrintable     *e_table_get_printable             (ETable               *e_table);
-gint            e_table_get_next_row              (ETable               *e_table,
-						   gint                  model_row);
-gint            e_table_get_prev_row              (ETable               *e_table,
-						   gint                  model_row);
-gint            e_table_model_to_view_row         (ETable               *e_table,
-						   gint                  model_row);
-gint            e_table_view_to_model_row         (ETable               *e_table,
-						   gint                  view_row);
-void            e_table_get_cell_at               (ETable *table,
+/* -1 means we don't have the cursor.  This is in model rows. */
+int              e_table_get_cursor_row            (ETable               *e_table);
+void             e_table_selected_row_foreach      (ETable               *e_table,
+						    EForeachFunc          callback,
+						    gpointer              closure);
+gint             e_table_selected_count            (ETable               *e_table);
+EPrintable      *e_table_get_printable             (ETable               *e_table);
+gint             e_table_get_next_row              (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_get_prev_row              (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_model_to_view_row         (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_view_to_model_row         (ETable               *e_table,
+						    gint                  view_row);
+void             e_table_get_cell_at               (ETable               *table,
 						    int                   x,
 						    int                   y,
 						    int                  *row_return,

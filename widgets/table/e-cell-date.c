@@ -179,4 +179,4 @@ e_cell_date_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecd;
 }
 
-E_MAKE_TYPE(e_cell_date, "ECellDate", ECellDate, e_cell_date_class_init, e_cell_date_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_date, "ECellDate", ECellDate, e_cell_date_class_init, e_cell_date_init, PARENT_TYPE)

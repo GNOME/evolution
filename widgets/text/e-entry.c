@@ -95,7 +95,7 @@ enum {
 	ARG_DRAW_BACKGROUND,
 	ARG_DRAW_BUTTON,
 	ARG_EMULATE_LABEL_RESIZE,
-	ARG_CURSOR_POS,
+	ARG_CURSOR_POS
 };
 
 typedef struct _EEntryPrivate EEntryPrivate;
@@ -473,6 +473,11 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 	GtkWidget *pop = entry->priv->completion_view_popup;
 
 	if (pop == NULL)
+		return;
+
+	/* The async query can give us a result after the focus was lost by the
+	   widget.  In that case, we don't want to show the pop-up.   */
+	if (! GTK_WIDGET_HAS_FOCUS (entry->canvas))
 		return;
 
 	if (visible) {
@@ -1347,4 +1352,4 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 }
 
-E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);
+E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE)

@@ -44,10 +44,6 @@ etst_destroy (GtkObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
-	if (etst->sort_info)
-		gtk_object_unref (GTK_OBJECT (etst->sort_info));
-	etst->sort_info = NULL;
-
 	if (etst->columns) {
 		g_free (etst->columns);
 		etst->columns = NULL;
@@ -56,6 +52,11 @@ etst_destroy (GtkObject *object)
 	if (etst->expansions) {
 		g_free (etst->expansions);
 		etst->expansions = NULL;
+	}
+	
+	if (etst->sort_info) {
+		gtk_object_unref (GTK_OBJECT (etst->sort_info));
+		etst->sort_info = NULL;
 	}
 	
 	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
@@ -79,7 +80,7 @@ etst_init (ETableState *state)
 	state->sort_info = e_table_sort_info_new();
 }
 
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE)
 
 ETableState *
 e_table_state_new (void)

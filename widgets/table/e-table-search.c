@@ -133,7 +133,7 @@ e_table_search_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableSearchClass, search),
-				e_marshal_BOOL__STRING_ENUM,
+				e_marshal_BOOLEAN__STRING_ENUM,
 				GTK_TYPE_BOOL, 2, GTK_TYPE_STRING, GTK_TYPE_ENUM);
 
 	e_table_search_signals [SEARCH_ACCEPT] =
@@ -161,7 +161,7 @@ e_table_search_init (ETableSearch *ets)
 }
 
 
-guint
+GtkType
 e_table_search_get_type (void)
 {
 	static guint type = 0;

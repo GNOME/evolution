@@ -230,3 +230,34 @@ e_container_focus_nth_entry(GtkContainer *container, int n)
 	if (data.widget)
 		gtk_widget_grab_focus(data.widget);
 }
+
+gboolean
+e_glade_xml_connect_widget (GladeXML *gui, char *name, char *signal, GtkSignalFunc cb, gpointer closure)
+{
+	GtkWidget *widget;
+
+	widget = glade_xml_get_widget (gui, name);
+
+	if (widget) {
+		gtk_signal_connect (GTK_OBJECT (widget), signal,
+				    cb, closure);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+gboolean
+e_glade_xml_set_sensitive (GladeXML *gui, char *name, gboolean sensitive)
+{
+	GtkWidget *widget;
+
+	widget = glade_xml_get_widget (gui, name);
+
+	if (widget) {
+		gtk_widget_set_sensitive (widget, sensitive);
+		return TRUE;
+	}
+
+	return FALSE;
+}

@@ -1495,7 +1495,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 
 	if (color_changed) {
+#ifndef NO_WARNINGS
 #warning Color stuff ...
+#endif
 #if 0
 		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
 			gdk_color_context_query_color (item->canvas->cc, &color);
@@ -1800,7 +1802,9 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+#ifndef NO_WARNINGS
 #warning Color brokenness ...
+#endif
 #if 0
 	gdk_color_context_query_color (item->canvas->cc, &text->color);
 	gdk_gc_set_foreground (text->gc, &text->color);
@@ -1983,7 +1987,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	if (text->draw_background || text->draw_button) {
-		main_gc = widget->style->text_gc[GTK_STATE_NORMAL];
+		main_gc = widget->style->fg_gc[GTK_WIDGET_STATE (widget)];
 	} else {
 		main_gc = text->gc;
 	}
@@ -3316,6 +3320,31 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 /* fixme: */
 
 static int
+next_word (EText *text, int start)
+{
+	char *p;
+	int length;
+
+	length = strlen (text->text);
+
+	if (start >= length) {
+		return length;
+	} else {
+		p = g_utf8_next_char (text->text + start);
+
+		while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
+			gunichar unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) {
+				return p - text->text;
+			} else 
+				p = g_utf8_next_char (p);
+		}
+	}
+			
+	return p - text->text;
+}
+
+static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int length, obj_num;
@@ -3410,28 +3439,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_WORD:
-		new_pos = -1;
-		length = strlen (text->text);
-
-		if (text->selection_end >= length) {
-			new_pos = length;
-		} else {
-
-			p = g_utf8_next_char (text->text + text->selection_end);
-
-			while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
-				unival = g_utf8_get_char (p);
-				if (g_unichar_isspace (unival)) {
-					new_pos = p - text->text;
-					p = NULL;
-				} else 
-					p = g_utf8_next_char (p);
-			}
-		}
-			
-		if (new_pos == -1)
-			new_pos = p - text->text;
-
+		new_pos = next_word (text, text->selection_end);
 		break;
 
 	case E_TEP_BACKWARD_WORD:
@@ -3603,6 +3611,50 @@ _insert(EText *text, char *string, int value)
 }
 
 static void
+capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
+{
+	gboolean first = TRUE;
+	const char *p = text->text + start;
+	const char *text_end = text->text + end;
+	char *new_text = g_new0 (char, g_utf8_strlen (text->text + start, start - end) * 6);
+	char *output = new_text;
+
+	while (p && *p && p < text_end && g_unichar_validate (g_utf8_get_char (p))) {
+		gunichar unival = g_utf8_get_char (p);
+		gunichar newval = unival;
+
+		switch (type) {
+		case E_TEP_CAPS_UPPER:
+			newval = g_unichar_toupper (unival);
+			break;
+		case E_TEP_CAPS_LOWER:
+			newval = g_unichar_tolower (unival);
+			break;
+		case E_TEP_CAPS_TITLE:
+			if (g_unichar_isalpha (unival)) {
+				if (first)
+					newval = g_unichar_totitle (unival);
+				else
+					newval = g_unichar_tolower (unival);
+				first = FALSE;
+			} else {
+				first = TRUE;
+			}
+			break;
+		}
+		g_unichar_to_utf8 (newval, output);
+		output = g_utf8_next_char (output);
+
+		p = g_utf8_next_char (p);
+	}
+	*output = 0;
+
+	e_text_model_delete (text->model, start, end - start);
+	e_text_model_insert (text->model, start, new_text);
+	g_free (new_text);
+}
+
+static void
 e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
 {
 	EText *text = E_TEXT(data);
@@ -3685,15 +3737,29 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		text->select_by_word = command->value;
 		break;
 	case E_TEP_GRAB:
-		gnome_canvas_item_grab (GNOME_CANVAS_ITEM(text), 
-					GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
-					text->i_cursor,
-					command->time);
+		e_canvas_item_grab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
+				    GNOME_CANVAS_ITEM(text), 
+				    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+				    text->i_cursor,
+				    command->time,
+				    NULL,
+				    NULL);
 		scroll = FALSE;
 		break;
 	case E_TEP_UNGRAB:
-		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
+		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
+				      GNOME_CANVAS_ITEM(text),
+				      command->time);
 		scroll = FALSE;
+		break;
+	case E_TEP_CAPS:
+		if (text->selection_start == text->selection_end) {
+			capitalize (text, text->selection_start, next_word (text, text->selection_start), command->value);
+		} else {
+			int selection_start = MIN (text->selection_start, text->selection_end);
+			int selection_end = text->selection_start + text->selection_end - selection_start; /* Slightly faster than MAX */
+			capitalize (text, selection_start, selection_end, command->value);
+		}
 		break;
 	case E_TEP_NOP:
 		scroll = FALSE;

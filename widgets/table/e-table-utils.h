@@ -31,12 +31,12 @@
 
 G_BEGIN_DECLS
 
-ETableHeader *e_table_state_to_header            (GtkWidget           *widget,
-						  ETableHeader        *full_header,
-						  ETableState         *state);
+ETableHeader *e_table_state_to_header      (GtkWidget           *widget,
+					    ETableHeader        *full_header,
+					    ETableState         *state);
 
-ETableHeader *e_table_spec_to_full_header        (ETableSpecification *spec,
-						  ETableExtras        *ete);
+ETableHeader *e_table_spec_to_full_header  (ETableSpecification *spec,
+					    ETableExtras        *ete);
 
 G_END_DECLS
 

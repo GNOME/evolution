@@ -26,6 +26,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view-collection.h>
+#include <gal/widgets/e-popup-menu.h>
 
 G_BEGIN_DECLS
 
@@ -49,6 +50,12 @@ typedef struct {
 	char *current_id;
 
 	GalView *current_view;
+
+	guint view_changed_id;
+	guint collection_changed_id;
+
+	guint loaded : 1;
+	char *default_view;
 } GalViewInstance;
 
 typedef struct {
@@ -77,15 +84,33 @@ GalViewInstance *gal_view_instance_construct            (GalViewInstance   *inst
 /* Manipulate the current view. */
 char            *gal_view_instance_get_current_view_id  (GalViewInstance   *instance);
 void             gal_view_instance_set_current_view_id  (GalViewInstance   *instance,
-							 char              *view_id);
+							 const char        *view_id);
 GalView         *gal_view_instance_get_current_view     (GalViewInstance   *instance);
 
-/* Manipulate the view collection */
-void             gal_view_instance_save_current_view    (GalViewInstance   *instance);
-void             gal_view_instance_set_default          (GalViewInstance   *instance);
+/* Sets the current view to the given custom view. */
+void             gal_view_instance_set_custom_view      (GalViewInstance   *instance,
+							 GalView           *view);
 
+
+/* Returns true if this instance has ever been used before. */
+gboolean         gal_view_instance_exists               (GalViewInstance   *instance);
+
+/* Manipulate the view collection */
+/* void             gal_view_instance_set_as_default       (GalViewInstance   *instance); */
+void             gal_view_instance_save_as              (GalViewInstance   *instance);
+
+/* This is idempotent.  Once it's been called once, the rest of the calls are ignored. */
+void             gal_view_instance_load                 (GalViewInstance   *instance);
+
+/* These only mean anything before gal_view_instance_load is called the first time.  */
+const char      *gal_view_instance_get_default_view     (GalViewInstance   *instance);
+void             gal_view_instance_set_default_view     (GalViewInstance   *instance,
+							 const char        *id);
+
+EPopupMenu      *gal_view_instance_get_popup_menu       (GalViewInstance   *instance);
+void             gal_view_instance_free_popup_menu      (GalViewInstance   *instance,
+							 EPopupMenu        *menu);
 
 G_END_DECLS
-
 
 #endif /* _GAL_VIEW_INSTANCE_H_ */

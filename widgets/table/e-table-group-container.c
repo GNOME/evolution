@@ -56,7 +56,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_SELECTION_MODEL,
 	ARG_LENGTH_THRESHOLD,
-	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_UNIFORM_ROW_HEIGHT
 };
 
 typedef struct {
@@ -1027,7 +1027,7 @@ etgc_init (GtkObject *object)
 	container->uniform_row_height = FALSE;
 }
 
-E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);
+E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE)
 
 void
 e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *closure)

@@ -38,7 +38,7 @@ xmlNode *e_xml_get_child_by_name_by_lang             (const xmlNode *parent,
 /* lang_list set to NULL means use the current locale. */
 xmlNode *e_xml_get_child_by_name_by_lang_list        (const xmlNode *parent,
                                                       const gchar   *name,
-                                                      GList         *lang_list);
+                                                      const GList   *lang_list);
 xmlNode *e_xml_get_child_by_name_no_lang             (const xmlNode *parent,
                                                       const gchar   *name);
 

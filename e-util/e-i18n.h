@@ -35,7 +35,7 @@
 #ifndef __E_I18N_H__
 #define __E_I18N_H__
 
-#include <bonobo/bonobo-i18n.h>
+#include <libgnome/gnome-i18n.h>
 
 G_BEGIN_DECLS
 
@@ -43,7 +43,31 @@ G_BEGIN_DECLS
 	/* this function is defined in e-util.c */
 	extern char *e_gettext (const char *msgid);
 #    undef _
-#    define _(String)  e_gettext (String)
+#    ifdef GNOME_EXPLICIT_TRANSLATION_DOMAIN
+#        define _(String) dgettext (GNOME_EXPLICIT_TRANSLATION_DOMAIN, String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#        define E_I18N_DOMAIN GNOME_EXPLICIT_TRANSLATION_DOMAIN
+#    else
+#        define _(String) dgettext (PACKAGE, String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#        define E_I18N_DOMAIN PACKAGE
+#    endif
+#    ifdef gettext_noop
+#        define N_(String) gettext_noop (String)
+#    else
+#        define N_(String) (String)
+#    endif
+#else
+/* Stubs that do something close enough.  */
+#    define textdomain(String) (String)
+#    define gettext(String) (String)
+#    define dgettext(Domain,Message) (Message)
+#    define dcgettext(Domain,Message,Type) (Message)
+#    define bindtextdomain(Domain,Directory) (Domain)
+#    define _(String) (String)
+#    define N_(String) (String)
+/* No parentheses allowed here since that breaks string concatenation. */
+#    define E_I18N_DOMAIN ""
 #endif
 
 G_END_DECLS

@@ -49,7 +49,7 @@ enum {
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 	ARG_SELECTION_MODEL,
-	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_UNIFORM_ROW_HEIGHT
 };
 
 static void etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -633,4 +633,4 @@ etgl_init (GtkObject *object)
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
 }
 
-E_MAKE_TYPE (e_table_group_leaf, "ETableGroupLeaf", ETableGroupLeaf, etgl_class_init, etgl_init, PARENT_TYPE);
+E_MAKE_TYPE (e_table_group_leaf, "ETableGroupLeaf", ETableGroupLeaf, etgl_class_init, etgl_init, PARENT_TYPE)

@@ -35,7 +35,7 @@ static ESelectionModelClass *parent_class;
 enum {
 	ARG_0,
 	ARG_CURSOR_ROW,
-	ARG_CURSOR_COL,
+	ARG_CURSOR_COL
 };
 
 void
@@ -547,4 +547,4 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 }
 
 E_MAKE_TYPE(e_selection_model_array, "ESelectionModelArray", ESelectionModelArray,
-	    e_selection_model_array_class_init, e_selection_model_array_init, PARENT_TYPE);
+	    e_selection_model_array_class_init, e_selection_model_array_init, PARENT_TYPE)

@@ -26,7 +26,7 @@
 
 enum {
 	ARG_0,
-	ARG_APPEND_ROW,
+	ARG_APPEND_ROW
 };
 
 #define PARENT_TYPE e_table_memory_get_type ()
@@ -143,7 +143,7 @@ etmc_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_APPEND_ROW:
-		GTK_VALUE_POINTER(*arg) = etmc->append_row;
+		GTK_VALUE_POINTER(*arg) = (gpointer)etmc->append_row;
 		break;
 	}
 }
@@ -155,7 +155,7 @@ etmc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_APPEND_ROW:
-		etmc->append_row = GTK_VALUE_POINTER(*arg);
+		etmc->append_row = (ETableMemoryCalbacksAppendRowFn)GTK_VALUE_POINTER(*arg);
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

@@ -116,7 +116,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint     signals[LAST_SIGNAL] = { 0 };
+static guint    signals[LAST_SIGNAL] = { 0 };
 static ECell   *parent_class;
 
 static void 
@@ -149,7 +149,7 @@ e_cell_spin_button_class_init     (GtkObjectClass   *klass)
 	signals[STEP] =
 		gtk_signal_new ("step",
 				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (klass),
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ECellSpinButtonClass, step),
 				e_marshal_NONE__POINTER_INT_INT_INT,
 				GTK_TYPE_NONE,
@@ -667,5 +667,5 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 
 E_MAKE_TYPE (e_cell_spin_button, "ECellSpinButton", ECellSpinButton, 
 	     e_cell_spin_button_class_init, e_cell_spin_button_init, 
-	     PARENT_TYPE);
+	     PARENT_TYPE)
 

@@ -159,7 +159,7 @@ e_cell_init (GtkObject *object)
 {
 }
 
-E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
 
 /**
  * e_cell_event:
@@ -292,7 +292,8 @@ e_cell_print (ECellView *ecell_view, GnomePrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
-	ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
+	if (ECVIEW_EC_CLASS(ecell_view)->print)
+		ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
 }
 
 /**
@@ -487,4 +488,11 @@ e_cell_get_bg_color(ECellView *ecell_view, int row)
 		return ECVIEW_EC_CLASS(ecell_view)->get_bg_color (ecell_view, row);
 	else
 		return NULL;
+}
+
+void
+e_cell_style_set(ECellView *ecell_view, GtkStyle *previous_style)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->style_set)
+		ECVIEW_EC_CLASS(ecell_view)->style_set (ecell_view, previous_style);
 }

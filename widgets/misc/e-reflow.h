@@ -121,6 +121,7 @@ struct _EReflowClass
 	GnomeCanvasGroupClass parent_class;
 
 	int (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
+	void (*column_width_changed) (EReflow *reflow, double width);
 };
 
 /* 

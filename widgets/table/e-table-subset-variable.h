@@ -56,26 +56,27 @@ typedef struct {
 			       gint                  row);
 } ETableSubsetVariableClass;
 
-GtkType      e_table_subset_variable_get_type  (void);
-ETableModel *e_table_subset_variable_new       (ETableModel          *etm);
-ETableModel *e_table_subset_variable_construct (ETableSubsetVariable *etssv,
-						ETableModel          *source);
-void         e_table_subset_variable_add       (ETableSubsetVariable *ets,
-						gint                  row);
-void         e_table_subset_variable_add_array (ETableSubsetVariable *ets,
-						const gint           *array,
-						gint                  count);
-void         e_table_subset_variable_add_all   (ETableSubsetVariable *ets);
-gboolean     e_table_subset_variable_remove    (ETableSubsetVariable *ets,
-						gint                  row);
-void         e_table_subset_variable_increment (ETableSubsetVariable *ets,
-						gint                  position,
-						gint                  amount);
-void         e_table_subset_variable_decrement (ETableSubsetVariable *ets,
-						gint                  position,
-						gint                  amount);
-void         e_table_subset_variable_set_allocation (ETableSubsetVariable *ets,
-						     gint                  total);
+GtkType      e_table_subset_variable_get_type        (void);
+ETableModel *e_table_subset_variable_new             (ETableModel          *etm);
+ETableModel *e_table_subset_variable_construct       (ETableSubsetVariable *etssv,
+						      ETableModel          *source);
+void         e_table_subset_variable_add             (ETableSubsetVariable *ets,
+						      gint                  row);
+void         e_table_subset_variable_add_array       (ETableSubsetVariable *ets,
+						      const gint           *array,
+						      gint                  count);
+void         e_table_subset_variable_add_all         (ETableSubsetVariable *ets);
+gboolean     e_table_subset_variable_remove          (ETableSubsetVariable *ets,
+						      gint                  row);
+void         e_table_subset_variable_clear           (ETableSubsetVariable *ets);
+void         e_table_subset_variable_increment       (ETableSubsetVariable *ets,
+						      gint                  position,
+						      gint                  amount);
+void         e_table_subset_variable_decrement       (ETableSubsetVariable *ets,
+						      gint                  position,
+						      gint                  amount);
+void         e_table_subset_variable_set_allocation  (ETableSubsetVariable *ets,
+						      gint                  total);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -90,4 +90,4 @@ e_cell_float_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecn;
 }
 
-E_MAKE_TYPE(e_cell_float, "ECellFloat", ECellFloat, e_cell_float_class_init, e_cell_float_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_float, "ECellFloat", ECellFloat, e_cell_float_class_init, e_cell_float_init, PARENT_TYPE)

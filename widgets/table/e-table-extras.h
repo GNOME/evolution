@@ -42,32 +42,39 @@ typedef struct {
 	GHashTable *cells;
 	GHashTable *compares;
 	GHashTable *pixbufs;
+	GHashTable *searches;
 } ETableExtras;
 
 typedef struct {
 	GtkObjectClass parent_class;
 } ETableExtrasClass;
 
-GtkType       e_table_extras_get_type     (void);
-ETableExtras *e_table_extras_new          (void);
+GtkType           e_table_extras_get_type     (void);
+ETableExtras     *e_table_extras_new          (void);
 
-void          e_table_extras_add_cell     (ETableExtras *extras,
-					   char         *id,
-					   ECell        *cell);
-ECell        *e_table_extras_get_cell     (ETableExtras *extras,
-					   char         *id);
+void              e_table_extras_add_cell     (ETableExtras     *extras,
+					       char             *id,
+					       ECell            *cell);
+ECell            *e_table_extras_get_cell     (ETableExtras     *extras,
+					       char             *id);
 
-void          e_table_extras_add_compare  (ETableExtras *extras,
-					   char         *id,
-					   GCompareFunc  compare);
-GCompareFunc  e_table_extras_get_compare  (ETableExtras *extras,
-					   char         *id);
+void              e_table_extras_add_compare  (ETableExtras     *extras,
+					       char             *id,
+					       GCompareFunc      compare);
+GCompareFunc      e_table_extras_get_compare  (ETableExtras     *extras,
+					       char             *id);
 
-void          e_table_extras_add_pixbuf   (ETableExtras *extras,
-					   char         *id,
-					   GdkPixbuf    *pixbuf);
-GdkPixbuf    *e_table_extras_get_pixbuf   (ETableExtras *extras,
-					   char         *id);
+void              e_table_extras_add_search   (ETableExtras     *extras,
+					       char             *id,
+					       ETableSearchFunc  search);
+ETableSearchFunc  e_table_extras_get_search   (ETableExtras     *extras,
+					       char             *id);
+
+void              e_table_extras_add_pixbuf   (ETableExtras     *extras,
+					       char             *id,
+					       GdkPixbuf        *pixbuf);
+GdkPixbuf        *e_table_extras_get_pixbuf   (ETableExtras     *extras,
+					       char             *id);
 
 G_END_DECLS
 

@@ -130,7 +130,7 @@ etssv_class_init (GtkObjectClass *object_class)
 	klass->remove  = etssv_remove;
 }
 
-E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE)
 
 ETableModel *
 e_table_subset_variable_construct (ETableSubsetVariable *etssv,
@@ -200,6 +200,21 @@ e_table_subset_variable_remove    (ETableSubsetVariable *etssv,
 		return ETSSV_CLASS (etssv)->remove (etssv, row);
 	else
 		return FALSE;
+}
+
+void
+e_table_subset_variable_clear (ETableSubsetVariable *etssv)
+{
+	ETableModel *etm = E_TABLE_MODEL(etssv);
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+
+	e_table_model_pre_change (etm);
+	etss->n_map = 0;
+	g_free (etss->map_table);
+	etss->map_table = g_new (unsigned int, 1);
+	etssv->n_vals_allocated = 1;
+	
+	e_table_model_changed (etm);
 }
 
 void

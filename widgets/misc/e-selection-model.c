@@ -47,7 +47,7 @@ enum {
 	ARG_0,
 	ARG_SORTER,
 	ARG_SELECTION_MODE,
-	ARG_CURSOR_MODE,
+	ARG_CURSOR_MODE
 };
 
 inline static void
@@ -215,7 +215,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 }
 
 E_MAKE_TYPE(e_selection_model, "ESelectionModel", ESelectionModel,
-	    e_selection_model_class_init, e_selection_model_init, PARENT_TYPE);
+	    e_selection_model_class_init, e_selection_model_init, PARENT_TYPE)
 
 /** 
  * e_selection_model_is_row_selected

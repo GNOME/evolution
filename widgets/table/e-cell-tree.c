@@ -703,7 +703,7 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE)
 
 /**
  * e_cell_tree_construct:

@@ -42,7 +42,7 @@ static GnomeDialogClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_NAME,
-	ARG_FACTORY,
+	ARG_FACTORY
 };
 
 GtkType

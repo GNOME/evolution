@@ -30,6 +30,7 @@
 #include <string.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 
@@ -88,7 +89,7 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 static xmlNode *
 e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 						 const gchar *name,
-						 GList *lang_list,
+						 const GList *lang_list,
 						 gint *best_lang_score)
 {
 	xmlNodePtr best_node = NULL, node;
@@ -101,7 +102,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 		}
 		lang = xmlGetProp (node, "xml:lang");
 		if (lang != NULL) {
-			GList *l;
+			const GList *l;
 			gint i;
 
 			for (l = lang_list, i = 0;
@@ -133,7 +134,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 xmlNode *
 e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
 				      const gchar *name,
-				      GList *lang_list)
+				      const GList *lang_list)
 {
 	gint best_lang_score = INT_MAX;
 
@@ -341,15 +342,19 @@ void
 e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
 {
 	char buffer[E_ASCII_DTOSTR_BUF_SIZE];
+	char *format;
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
 	if (fabs (value) < 1e9 && fabs (value) > 1e-5) {
-		e_ascii_dtostr (buffer, sizeof (buffer), "%.17f", value);
+		format = g_strdup_printf ("%%.%df", DBL_DIG);
 	} else {
-		e_ascii_dtostr (buffer, sizeof (buffer), "%.17g", value);
+		format = g_strdup_printf ("%%.%dg", DBL_DIG);
 	}
+	e_ascii_dtostr (buffer, sizeof (buffer), format, value);
+	g_free (format);
+
 	xmlSetProp (parent, prop_name, buffer);
 }
 

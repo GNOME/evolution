@@ -68,12 +68,14 @@ typedef enum {
 	E_TEP_DELETE,
 	E_TEP_INSERT,
 
+	E_TEP_CAPS,
+	
 	E_TEP_COPY,
 	E_TEP_PASTE,
 	E_TEP_GET_SELECTION,
 	E_TEP_SET_SELECT_BY_WORD,
 	E_TEP_ACTIVATE,
-	
+
 	E_TEP_GRAB,
 	E_TEP_UNGRAB,
 
@@ -118,6 +120,12 @@ union _ETextEventProcessorEvent {
 	ETextEventProcessorEventKey key;
 	ETextEventProcessorEventMotion motion;
 };
+
+typedef enum _ETextEventProcessorCaps {
+	E_TEP_CAPS_UPPER,
+	E_TEP_CAPS_LOWER,
+	E_TEP_CAPS_TITLE
+} ETextEventProcessorCaps;
 
 G_END_DECLS
 

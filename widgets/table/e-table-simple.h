@@ -26,10 +26,9 @@
 #define _E_TABLE_SIMPLE_H_
 
 #include <gal/e-table/e-table-model.h>
+#include <libgnome/gnome-defs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+BEGIN_GNOME_DECLS
 
 #define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
 #define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
@@ -72,7 +71,7 @@ typedef struct {
 	ETableSimpleFreeValueFn       free_value;
 	ETableSimpleInitializeValueFn initialize_value;
 	ETableSimpleValueIsEmptyFn    value_is_empty;
-	ETableSimpleValueToStringFn   value_to_string;
+	ETableSimpleValueToStringFn   value_to_string; 
 	void *data;
 } ETableSimple;
 
@@ -80,29 +79,45 @@ typedef struct {
 	ETableModelClass parent_class;
 } ETableSimpleClass;
 
-GtkType      e_table_simple_get_type  (void);
+GtkType      e_table_simple_get_type                 (void);
+ETableModel *e_table_simple_new                      (ETableSimpleColumnCountFn      col_count,
+						      ETableSimpleRowCountFn         row_count,
+						      ETableSimpleAppendRowFn        append_row,
+						      ETableSimpleValueAtFn          value_at,
+						      ETableSimpleSetValueAtFn       set_value_at,
+						      ETableSimpleIsCellEditableFn   is_cell_editable,
+						      ETableSimpleHasSaveIdFn        has_save_id,
+						      ETableSimpleGetSaveIdFn        get_save_id,
+						      ETableSimpleDuplicateValueFn   duplicate_value,
+						      ETableSimpleFreeValueFn        free_value,
+						      ETableSimpleInitializeValueFn  initialize_value,
+						      ETableSimpleValueIsEmptyFn     value_is_empty,
+						      ETableSimpleValueToStringFn    value_to_string,
+						      void                          *data);
 
-ETableModel *e_table_simple_new       (ETableSimpleColumnCountFn      col_count,
-				       ETableSimpleRowCountFn         row_count,
-				       ETableSimpleAppendRowFn        append_row,
 
-				       ETableSimpleValueAtFn          value_at,
-				       ETableSimpleSetValueAtFn       set_value_at,
-				       ETableSimpleIsCellEditableFn   is_cell_editable,
+/* Helper functions for if your values are all just strings. */
+void        *e_table_simple_string_duplicate_value   (ETableModel                   *etm,
+						      int                            col,
+						      const void                    *val,
+						      void                          *data);
+void         e_table_simple_string_free_value        (ETableModel                   *etm,
+						      int                            col,
+						      void                          *val,
+						      void                          *data);
+void        *e_table_simple_string_initialize_value  (ETableModel                   *etm,
+						      int                            col,
+						      void                          *data);
+gboolean     e_table_simple_string_value_is_empty    (ETableModel                   *etm,
+						      int                            col,
+						      const void                    *val,
+						      void                          *data);
+char        *e_table_simple_string_value_to_string   (ETableModel                   *etm,
+						      int                            col,
+						      const void                    *val,
+						      void                          *data);
 
-				       ETableSimpleHasSaveIdFn        has_save_id,
-				       ETableSimpleGetSaveIdFn        get_save_id,
-
-				       ETableSimpleDuplicateValueFn   duplicate_value,
-				       ETableSimpleFreeValueFn        free_value,
-				       ETableSimpleInitializeValueFn  initialize_value,
-				       ETableSimpleValueIsEmptyFn     value_is_empty,
-				       ETableSimpleValueToStringFn    value_to_string,
-				       void                          *data);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_SIMPLE_H_ */
 

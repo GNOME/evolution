@@ -100,7 +100,7 @@ etsv_init (ETableSortedVariable *etsv)
 	etsv->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, PARENT_TYPE)
 
 static gboolean
 etsv_sort_idle(ETableSortedVariable *etsv)

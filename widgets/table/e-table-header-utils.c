@@ -27,12 +27,14 @@
 #include <config.h>
 #endif
 
+#include "e-table-header-utils.h"
+
 #include <string.h> /* strlen() */
 #include <glib.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkwindow.h>
 #include "e-table-defines.h"
-#include "e-table-header-utils.h"
+#include <gal/widgets/e-unicode.h>
 
 
 
@@ -227,6 +229,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int inner_x, inner_y;
 	int inner_width, inner_height;
 	GdkGC *gc;
+	char *text;
 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (ecol != NULL);
@@ -304,6 +307,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	/* Pixbuf or label */
 
+	text = e_utf8_to_gtk_string (widget, ecol->text);
+
 	if (ecol->is_pixbuf) {
 		int pwidth, pheight;
 		int clip_width, clip_height;
@@ -325,7 +330,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			int width;
 			int ypos;
 
-			gdk_string_extents (font, ecol->text, NULL, &rbearing, &width, NULL, NULL);
+			gdk_string_extents (font, text, NULL, &rbearing, &width, NULL, NULL);
 			if (rbearing < inner_width - (pwidth + 1)) {
 				xpos = inner_x + (inner_width - width - (pwidth + 1)) / 2;
 			}
@@ -334,7 +339,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 			e_table_draw_elided_string (drawable, font, gc,
 						    xpos + pwidth + 1, ypos,
-						    ecol->text, inner_width - (xpos - inner_x), FALSE);
+						    text, inner_width - (xpos - inner_x), FALSE);
 		}
 
 		pixmap = make_composite_pixmap (drawable, gc,
@@ -357,8 +362,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 		e_table_draw_elided_string (drawable, font, gc,
 					    inner_x, ypos,
-					    ecol->text, inner_width, TRUE);
+					    text, inner_width, TRUE);
 	}
+	g_free (text);
 }
 
 /* Computes the length of a string that needs to be trimmed for elision */

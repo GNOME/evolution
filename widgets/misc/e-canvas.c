@@ -24,6 +24,8 @@
 #include <gtk/gtksignal.h>
 #include "e-canvas.h"
 #include "gal/util/e-util.h"
+#include <X11/Xlib.h>
+#include <gtk/gtkmain.h>
 
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_destroy        (GtkObject        *object);
@@ -44,7 +46,14 @@ static gint e_canvas_focus_in       (GtkWidget        *widget,
 static gint e_canvas_focus_out      (GtkWidget        *widget,
 				     GdkEventFocus    *event);
 
+static void e_canvas_style_set      (GtkWidget        *widget,
+				     GtkStyle         *previous_style);
+
+static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
+
 static GnomeCanvasClass *parent_class = NULL;
+
+#define d(x)
 
 enum {
 	REFLOW,
@@ -85,24 +94,25 @@ e_canvas_class_init (ECanvasClass *klass)
 	GnomeCanvasClass *canvas_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass*) klass;
-	canvas_class = (GnomeCanvasClass *) klass;
-	widget_class = (GtkWidgetClass *) klass;
+	object_class                       = (GtkObjectClass*) klass;
+	canvas_class                       = (GnomeCanvasClass *) klass;
+	widget_class                       = (GtkWidgetClass *) klass;
 
-	parent_class = gtk_type_class (gnome_canvas_get_type ());
+	parent_class                       = gtk_type_class (gnome_canvas_get_type ());
 
-	object_class->destroy = e_canvas_destroy;
+	object_class->destroy              = e_canvas_destroy;
 
-	widget_class->key_press_event = e_canvas_key;
-	widget_class->key_release_event = e_canvas_key;
-	widget_class->button_press_event = e_canvas_button;
+	widget_class->key_press_event      = e_canvas_key;
+	widget_class->key_release_event    = e_canvas_key;
+	widget_class->button_press_event   = e_canvas_button;
 	widget_class->button_release_event = e_canvas_button;
-	widget_class->focus_in_event = e_canvas_focus_in;
-	widget_class->focus_out_event = e_canvas_focus_out;
-	widget_class->realize = e_canvas_realize;
-	widget_class->unrealize = e_canvas_unrealize;
+	widget_class->focus_in_event       = e_canvas_focus_in;
+	widget_class->focus_out_event      = e_canvas_focus_out;
+	widget_class->style_set            = e_canvas_style_set;
+	widget_class->realize              = e_canvas_realize;
+	widget_class->unrealize            = e_canvas_unrealize;
 
-	klass->reflow = NULL;
+	klass->reflow                      = NULL;
 
 	e_canvas_signals [REFLOW] =
 		gtk_signal_new ("reflow",
@@ -159,17 +169,6 @@ e_canvas_new ()
 }
 
 
-/* Returns whether the item is an inferior of or is equal to the parent. */
-static int
-is_descendant (GnomeCanvasItem *item, GnomeCanvasItem *parent)
-{
-	for (; item; item = item->parent)
-		if (item == parent)
-			return TRUE;
-
-	return FALSE;
-}
-
 /* Emits an event for an item in the canvas, be it the current item, grabbed
  * item, or focused item, as appropriate.
  */
@@ -182,10 +181,18 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	GnomeCanvasItem *parent;
 	guint mask;
 
-	/* Perform checks for grabbed items */
+	/* Choose where we send the event */
 
-	if (canvas->grabbed_item && !is_descendant (canvas->current_item, canvas->grabbed_item))
-		return FALSE;
+	item = canvas->current_item;
+
+	if (canvas->focused_item
+	    && ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE) || (event->type == GDK_FOCUS_CHANGE)))
+		item = canvas->focused_item;
+
+	if (canvas->grabbed_item)
+		item = canvas->grabbed_item;
+
+	/* Perform checks for grabbed items */
 
 	if (canvas->grabbed_item) {
 		switch (event->type) {
@@ -256,14 +263,6 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 		break;
 	}
 
-	/* Choose where we send the event */
-
-	item = canvas->current_item;
-
-	if (canvas->focused_item
-	    && ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE) || (event->type == GDK_FOCUS_CHANGE)))
-		item = canvas->focused_item;
-
 	/* The event is propagated up the hierarchy (for if someone connected to
 	 * a group instead of a leaf event), and emission is stopped if a
 	 * handler returns TRUE, just like for GtkWidget events.
@@ -278,7 +277,9 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 					 &ev,
 					 &finished);
 
+#ifndef NO_WARNINGS
 #warning FIXME - needs thought
+#endif
 #if 0
 		if (GTK_OBJECT_DESTROYED (item))
 			finished = TRUE;
@@ -367,6 +368,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 				       | GDK_BUTTON3_MASK
 				       | GDK_BUTTON4_MASK
 				       | GDK_BUTTON5_MASK);
+	d(g_print ("%s:%d: button_down = %s\n", __FUNCTION__, __LINE__, button_down ? "TRUE" : "FALSE"));
 	if (!button_down)
 		canvas->left_grabbed_item = FALSE;
 
@@ -504,6 +506,12 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 	retval = FALSE;
 
 	canvas = GNOME_CANVAS (widget);
+
+	d(g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
+		   event->button,
+		   event->type,
+		   canvas->grabbed_item,
+		   canvas->current_item));
 
         /* dispatch normally regardless of the event's window if an item has
            has a pointer grab in effect */
@@ -674,6 +682,32 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 }
 
 static void
+ec_style_set_recursive (GnomeCanvasItem *item, GtkStyle *previous_style)
+{
+	guint signal_id = gtk_signal_lookup ("style_set", GTK_OBJECT_TYPE (item));
+	if (signal_id >= 1) {
+		GSignalQuery query;
+		g_signal_query (signal_id, &query);
+		if (query.return_type == GTK_TYPE_NONE && query.n_params == 1 && query.param_types[0] == GTK_TYPE_STYLE) {
+			gtk_signal_emit (GTK_OBJECT (item), signal_id, previous_style);
+		}
+	}
+
+	if (GNOME_IS_CANVAS_GROUP (item) ) {
+		GList *items = GNOME_CANVAS_GROUP (item)->item_list;
+		for (; items; items = items->next)
+			ec_style_set_recursive (items->data, previous_style);
+	}
+}
+
+static void
+e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
+{
+	ec_style_set_recursive (GNOME_CANVAS_ITEM (gnome_canvas_root (GNOME_CANVAS (widget))), previous_style);
+}
+
+
+static void
 e_canvas_realize (GtkWidget *widget)
 {
 	gint width, height;
@@ -785,8 +819,9 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 
 	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func;
-		func = gtk_object_get_data (GTK_OBJECT (item),
-					    "ECanvasItem::reflow_callback");
+		func = (ECanvasItemReflowFunc)
+			gtk_object_get_data (GTK_OBJECT (item),
+					     "ECanvasItem::reflow_callback");
 		if (func)
 			func (item, flags);
 	}
@@ -902,7 +937,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	for (list = canvas->selection; list; list = g_list_next(list)) {
 		info = list->data;
 
-		func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+		func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
 		if (func)
 			func(info->item, flags, info->id);
 		g_message ("ECANVAS: free info (2): item %p, id %p",
@@ -923,7 +958,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	g_message ("ECANVAS: new info item %p, id %p", item, id);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
-	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
 
@@ -954,7 +989,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	canvas = E_CANVAS(item->canvas);
 
 	if (canvas->cursor) {
-		func = gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
+		func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
 		if (func)
 			func(canvas->cursor->item, flags, canvas->cursor->id);
 	}
@@ -969,11 +1004,11 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 
 		if (search->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
-			compare_func = gtk_object_get_data(GTK_OBJECT(search->item), "ECanvasItem::selection_compare_callback");
+			compare_func = (ECanvasItemSelectionCompareFunc)gtk_object_get_data(GTK_OBJECT(search->item), "ECanvasItem::selection_compare_callback");
 
 			if (compare_func(search->item, search->id, id, 0) == 0) {
 				canvas->cursor = search;
-				func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+				func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 				if (func)
 					func(item, flags, search->id);
 				return;
@@ -987,7 +1022,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	info->id = id;
 	g_message ("ECANVAS: new info (2): item %p, id %p", item, id);
 
-	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
 
@@ -1016,11 +1051,11 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 
 		if (info->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
-			compare_func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
+			compare_func = (ECanvasItemSelectionCompareFunc)gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
 
 			if (compare_func(info->item, info->id, id, 0) == 0) {
 				ECanvasItemSelectionFunc func;
-				func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+				func = (ECanvasItemSelectionFunc) gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
 				if (func)
 					func(info->item, flags, info->id);
 				canvas->selection = g_list_remove_link(canvas->selection, list);
@@ -1065,5 +1100,79 @@ void e_canvas_hide_tooltip  (ECanvas *canvas)
 	if (canvas->tooltip_window) {
 		gtk_widget_destroy (canvas->tooltip_window);
 		canvas->tooltip_window = NULL;
+	}
+}
+
+
+static gboolean
+grab_cancelled_check (gpointer data)
+{
+	ECanvas *canvas = data;
+
+	if (GNOME_CANVAS (canvas)->grabbed_item == NULL) {
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		return FALSE;
+	}
+
+	if (gtk_grab_get_current ()) {
+		gnome_canvas_item_ungrab(GNOME_CANVAS (canvas)->grabbed_item, canvas->grab_cancelled_time);
+		if (canvas->grab_cancelled_cb) {
+			canvas->grab_cancelled_cb (canvas,
+						   GNOME_CANVAS (canvas)->grabbed_item,
+						   canvas->grab_cancelled_data);
+		}
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+int
+e_canvas_item_grab (ECanvas *canvas,
+		    GnomeCanvasItem *item,
+		    guint event_mask,
+		    GdkCursor *cursor,
+		    guint32 etime,
+		    ECanvasItemGrabCancelled cancelled_cb,
+		    gpointer cancelled_data)
+{
+	if (gtk_grab_get_current ()) {
+		return AlreadyGrabbed;
+	} else {
+		int ret_val = gnome_canvas_item_grab (item, event_mask, cursor, etime);
+		if (ret_val == GrabSuccess) {
+			canvas->grab_cancelled_cb = cancelled_cb;
+			canvas->grab_cancelled_check_id =
+				g_timeout_add_full (G_PRIORITY_LOW,
+						    100,
+						    grab_cancelled_check,
+						    canvas,
+						    NULL);
+			canvas->grab_cancelled_time = etime;
+			canvas->grab_cancelled_data = cancelled_data;
+		}
+
+		return ret_val;
+	}
+}
+
+void
+e_canvas_item_ungrab (ECanvas *canvas,
+		      GnomeCanvasItem *item,
+		      guint32 etime)
+{
+	if (canvas->grab_cancelled_check_id) {
+		g_source_remove (canvas->grab_cancelled_check_id);
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		gnome_canvas_item_ungrab (item, etime);
 	}
 }

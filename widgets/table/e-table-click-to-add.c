@@ -43,7 +43,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint etcta_signals [LAST_SIGNAL] = { 0, };
+static guint etcta_signals [LAST_SIGNAL] = { 0 };
 
 #define PARENT_OBJECT_TYPE gnome_canvas_group_get_type ()
 
@@ -57,7 +57,7 @@ enum {
 	ARG_MODEL,
 	ARG_MESSAGE,
 	ARG_WIDTH,
-	ARG_HEIGHT,
+	ARG_HEIGHT
 };
 
 static void
@@ -320,7 +320,7 @@ finish_editing (ETableClickToAdd *etcta)
 						   "ETableHeader", etcta->eth,
 						   "ETableModel", etcta->one,
 						   "minimum_width", etcta->width,
-						   "horizontal_draw_grid", FALSE,
+						   "horizontal_draw_grid", TRUE,
 						   "vertical_draw_grid", TRUE,
 						   "selection_model", etcta->selection,
 						   "cursor_mode", E_CURSOR_SPREADSHEET,
@@ -365,7 +365,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "ETableHeader", etcta->eth,
 							   "ETableModel", etcta->one,
 							   "minimum_width", etcta->width,
-							   "horizontal_draw_grid", FALSE,
+							   "horizontal_draw_grid", TRUE,
 							   "vertical_draw_grid", TRUE,
 							   "selection_model", etcta->selection,
 							   "cursor_mode", E_CURSOR_SPREADSHEET,

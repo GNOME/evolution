@@ -55,11 +55,13 @@ typedef struct {
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
 	guint horizontal_scrolling : 1;
+	guint horizontal_resize : 1;
 	guint allow_grouping : 1;
 	GtkSelectionMode selection_mode;
 	ECursorMode cursor_mode;
 
 	char *click_to_add_message;
+	char *domain;
 } ETableSpecification;
 
 typedef struct {

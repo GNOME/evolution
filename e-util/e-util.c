@@ -37,6 +37,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <math.h>
 
 #if 0
 #include <libgnomevfs/gnome-vfs.h>
@@ -249,13 +252,22 @@ e_mkdir_hier(const char *path, mode_t mode)
 {
 	char *copy, *p;
 
-	p = copy = g_strdup (path);
+	if (path[0] == '/') {
+		p = copy = g_strdup (path);
+	} else {
+		gchar *current_dir = g_get_current_dir();
+		p = copy = g_concat_dir_and_file (current_dir, path);
+	}
+
 	do {
 		p = strchr (p + 1, '/');
 		if (p)
 			*p = '\0';
-		if (access (copy, F_OK) == -1) {
-			if (mkdir (copy, mode) == -1) {
+		if (mkdir (copy, mode) == -1) {
+			switch (errno) {
+			case EEXIST:
+				break;
+			default:
 				g_free (copy);
 				return -1;
 			}
@@ -315,7 +327,6 @@ e_read_uri(const char *uri)
 
 #include "e-marshal.h"
 #include "e-marshal.c"
-
 
 gchar**
 e_strsplit (const gchar *string,
@@ -394,6 +405,7 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 	return NULL;
 }
 
+/* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
 void
 e_filename_make_safe (gchar *string)
 {
@@ -479,10 +491,97 @@ e_format_number (gint number)
 	}
 }
 
+static gchar *
+do_format_number_as_float (double number)
+{
+	GList *iterator, *list = NULL;
+	struct lconv *locality;
+	gint char_length = 0;
+	gint group_count = 0;
+	guchar *grouping;
+	int last_count = 3;
+	int divider;
+	char *value;
+	char *value_iterator;
+	double fractional;
+
+	locality = localeconv();
+	grouping = locality->grouping;
+	while (number >= 1.0) {
+		char *group;
+		switch (*grouping) {
+		default:
+			last_count = *grouping;
+			grouping++;
+			/* Fall through */
+		case 0:
+			divider = epow10(last_count);
+			number /= divider;
+			fractional = modf (number, &number);
+			fractional *= divider;
+			fractional = floor (fractional);
+
+			if (number >= 1.0) {
+				group = g_strdup_printf("%0*d", last_count, (int) fractional);
+			} else {
+				group = g_strdup_printf("%d", (int) fractional);
+			}
+			break;
+		case CHAR_MAX:
+			divider = epow10(last_count);
+			number /= divider;
+			fractional = modf (number, &number);
+			fractional *= divider;
+			fractional = floor (fractional);
+
+			while (number >= 1.0) {
+				group = g_strdup_printf("%0*d", last_count, (int) fractional);
+
+				char_length += strlen(group);
+				list = g_list_prepend(list, group);
+				group_count ++;
+
+				divider = epow10(last_count);
+				number /= divider;
+				fractional = modf (number, &number);
+				fractional *= divider;
+				fractional = floor (fractional);
+			}
+
+			group = g_strdup_printf("%d", (int) fractional);
+			break;
+		}
+		char_length += strlen(group);
+		list = g_list_prepend(list, group);
+		group_count ++;
+	}
+
+	if (list) {
+		value = g_new(char, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
+
+		iterator = list;
+		value_iterator = value;
+
+		strcpy(value_iterator, iterator->data);
+		value_iterator += strlen(iterator->data);
+		for (iterator = iterator->next; iterator; iterator = iterator->next) {
+			strcpy(value_iterator, locality->thousands_sep);
+			value_iterator += strlen(locality->thousands_sep);
+
+			strcpy(value_iterator, iterator->data);
+			value_iterator += strlen(iterator->data);
+		}
+		e_free_string_list (list);
+		return value;
+	} else {
+		return g_strdup("0");
+	}
+}
+
 gchar *
 e_format_number_float (gfloat number)
 {
-	gint            int_part;
+	gfloat          int_part;
 	gint            fraction;
 	struct lconv   *locality;
 	gchar          *str_intpart;
@@ -492,8 +591,8 @@ e_format_number_float (gfloat number)
 
 	locality = localeconv();
 	
-	int_part = (int) number;
-	str_intpart = e_format_number (int_part);
+	int_part = floor (number);
+	str_intpart = do_format_number_as_float ((double) int_part);
 
 	if (!strcmp(locality->mon_decimal_point, "")) {
 		decimal_point = ".";
@@ -506,8 +605,7 @@ e_format_number_float (gfloat number)
 
 	if (fraction == 0) {
 		str_fraction = g_strdup ("00");
-	}
-	else {
+	} else {
 		str_fraction = g_strdup_printf ("%02d", fraction);
 	}
 
@@ -522,63 +620,11 @@ e_format_number_float (gfloat number)
 gboolean
 e_create_directory (gchar *directory)
 {
-	gchar *full_name;
-	gchar *position;
-	gchar *current_dir = g_get_current_dir();
-	struct stat info;
-	gboolean return_value = TRUE;
-
-	if (directory[0] == '/') {
-		full_name = g_malloc0 (strlen (directory) + 1);
-		strcpy (full_name, directory);
-	} else {
-		full_name = g_malloc0 (strlen (directory) + strlen (current_dir) + 2);
-		sprintf (full_name, "%s/%s", current_dir, directory);
-	}
-
-	if ((position = strrchr (full_name, '/')) == full_name) {
-		if (stat (full_name, &info)) {
-			switch (errno) {
-			case ENOENT:
-				if (mkdir (full_name, 0777)) {
-					switch (errno) {
-					default:
-						return_value = FALSE;
-						break;
-					}
-				}
-				break;
-			default:
-				return_value = FALSE;
-				break;
-			}
-		}
-	} else {
-		*position = 0;
-		e_create_directory (full_name);
-		*position = '/';
-		if (stat (full_name, &info)) {
-			switch (errno) {
-			case ENOENT:
-				if (mkdir (full_name, 0777)) {
-					switch (errno) {
-					default:
-						return_value = FALSE;
-						break;
-					}
-				}
-				break;
-			default:
-				return_value = FALSE;
-				break;
-			}
-		}
-	}
-
-	g_free (current_dir);
-	g_free (full_name);
-
-	return (return_value);
+	gint ret_val = e_mkdir_hier (directory, 0777);
+	if (ret_val == -1)
+		return FALSE;
+	else
+		return TRUE;
 }
 
 
@@ -1065,4 +1111,30 @@ e_gettext (const char *msgid)
 	}        
 
 	return dgettext (GETTEXT_PACKAGE, msgid);
+}
+
+gchar **
+e_strdupv (const gchar **str_array)
+{
+	if (str_array) {
+		gint i;
+		gchar **retval;
+
+		i = 0;
+		while (str_array[i])
+			i++;
+          
+		retval = g_new (gchar*, i + 1);
+
+		i = 0;
+		while (str_array[i]) {
+			retval[i] = g_strdup (str_array[i]);
+			i++;
+		}
+		retval[i] = NULL;
+
+		return retval;
+	} else {
+		return NULL;
+	}
 }

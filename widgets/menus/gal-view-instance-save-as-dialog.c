@@ -26,11 +26,12 @@
 #include "gal-view-instance-save-as-dialog.h"
 
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/util/e-i18n.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkentry.h>
 
 static GnomeDialogClass *parent_class = NULL;
 #define PARENT_TYPE gnome_dialog_get_type()
@@ -284,7 +285,7 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 {
 	GalView *view = gal_view_instance_get_current_view (dialog->instance);
 	GtkWidget *widget;
-	char *title;
+	const char *title;
 	int n;
 	const char *id = NULL;
 	switch (dialog->toggle) {

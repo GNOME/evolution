@@ -43,6 +43,10 @@
 #include <stdlib.h>
 #include "gal/util/e-iconv.h"
 
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #define d(x) x
 
 #define FONT_TESTING
@@ -51,7 +55,9 @@
 static gint e_canonical_decomposition (gunichar ch, gunichar * buf);
 static gunichar e_stripped_char (gunichar ch);
 
+#ifndef NO_WARNINGS
 #warning FIXME: this has not been ported fully yet - non ASCII people beware.
+#endif
 
 /*
  * This my favourite
@@ -106,7 +112,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 					npos++;
 				}
 				if (npos == nlen) {
-					return p;
+					return o;
 				}
 			}
 		}
@@ -154,7 +160,7 @@ e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 				npos++;
 			}
 			if (npos == nlen) {
-				return p;
+				return o;
 			}
 		}
 		o = p;

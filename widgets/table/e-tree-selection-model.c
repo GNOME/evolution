@@ -44,7 +44,7 @@ enum {
 	ARG_CURSOR_COL,
 	ARG_MODEL,
 	ARG_ETTA,
-	ARG_ETS,
+	ARG_ETS
 };
 
 typedef struct ETreeSelectionModelNode {
@@ -891,19 +891,23 @@ etsm_selected_count_recurse (ETreeSelectionModel *etsm,
 			etsm_selected_count_all_recurse(etsm, path, count);
 		return;
 	}
-	if (!selection_node->any_children_selected)
-		return;
 
 	if (selection_node->selected) {
 		(*count) ++;
 	}
 
+	if (!selection_node->any_children_selected)
+		return;
+
 	if (selection_node->children) {
 		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
 		for (i = 0; child && i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->children[i])
+			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
+				etsm_selected_count_all_recurse (etsm, child, count);
+			else if (selection_node->children[i])
 				etsm_selected_count_recurse (etsm, selection_node->children[i], child, count);
+				
 	}
 }
 
@@ -924,7 +928,7 @@ etsm_selected_count (ESelectionModel *selection)
 		ETreePath model_root;
 		model_root = e_tree_model_get_root(etsm->priv->model);
 		etsm_selected_count_recurse(etsm, etsm->priv->root, model_root, &count);
-		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(etsm->priv->model))) {
+		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(E_TREE_MODEL (etsm->priv->ets)))) {
 			count --;
 		}
 	}
@@ -956,10 +960,8 @@ etsm_select_all (ESelectionModel *selection)
 	etsm->priv->root->any_children_selected = TRUE;
 
 	e_tree_selection_model_node_fill_children(etsm, root, etsm->priv->root);
-	etsm->priv->root->all_children_selected_array = e_bit_array_new(etsm->priv->root->num_children);
-	etsm->priv->root->any_children_selected_array = e_bit_array_new(etsm->priv->root->num_children);
-	e_bit_array_select_all(etsm->priv->root->all_children_selected_array);
-	e_bit_array_select_all(etsm->priv->root->any_children_selected_array);
+	etsm->priv->root->all_children_selected_array = NULL;
+	etsm->priv->root->any_children_selected_array = NULL;
 
 	if (etsm->priv->cursor_col == -1)
 		etsm->priv->cursor_col = 0;
@@ -1247,7 +1249,9 @@ etsm_foreach_recurse (ETreeSelectionModel *etsm,
 		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
 		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
-			if (selection_node->children[i])
+			if (selection_node->all_children_selected_array && e_bit_array_value_at(selection_node->all_children_selected_array, i))
+				etsm_foreach_all_recurse(etsm, child, callback, closure);
+			else if (selection_node->children[i])
 				etsm_foreach_recurse (etsm, selection_node->children[i], child, callback, closure);
 	}
 }
@@ -1324,6 +1328,8 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 
 	priv->cursor_save_id                    = NULL;
 
+	priv->frozen_count                    = 0;
+
 
 	priv->tree_model_pre_change_id          = 0;
 	priv->tree_model_no_change_id         = 0;
@@ -1392,4 +1398,4 @@ e_tree_selection_model_new (void)
 }
 
 E_MAKE_TYPE(e_tree_selection_model, "ETreeSelectionModel", ETreeSelectionModel,
-	    e_tree_selection_model_class_init, e_tree_selection_model_init, PARENT_TYPE);
+	    e_tree_selection_model_class_init, e_tree_selection_model_init, PARENT_TYPE)

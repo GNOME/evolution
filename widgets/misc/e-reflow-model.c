@@ -32,7 +32,7 @@
 
 #define d(x)
 
-d(static gint depth = 0);
+d(static gint depth = 0;)
 
 
 static GtkObjectClass *e_reflow_model_parent_class;

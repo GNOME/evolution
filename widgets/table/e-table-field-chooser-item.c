@@ -66,7 +66,7 @@ enum {
 	ARG_HEADER,
 	ARG_DND_CODE,
 	ARG_WIDTH,
-	ARG_HEIGHT,
+	ARG_HEIGHT
 };
 
 static void
@@ -209,7 +209,9 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
+#ifndef NO_WARNINGS
 #warning Group Child bounds !?
+#endif
 #if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 #endif

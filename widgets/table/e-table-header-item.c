@@ -42,6 +42,7 @@
 #include "gal/util/e-marshal.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
+#include "gal/widgets/e-gui-utils.h"
 #include "e-table-header.h"
 #include "e-table-header-utils.h"
 #include "e-table-col-dnd.h"
@@ -100,7 +101,7 @@ enum {
 	ARG_TABLE_FONTSET,
 	ARG_SORT_INFO,
 	ARG_TABLE,
-	ARG_TREE,
+	ARG_TREE
 };
 
 enum {
@@ -214,7 +215,9 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 			item->y1 = c1.y;
 			item->x2 = c2.x;
 			item->y2 = c2.y;
+#ifndef NO_WARNINGS
 #warning FOO BAA
+#endif
 #if 0
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 #endif
@@ -683,7 +686,9 @@ static void
 context_destroyed (gpointer data)
 {
 	ETableHeaderItem *ethi = data;
+#ifndef NO_WARNINGS
 #warning FIXME
+#endif
 	/* if (!GTK_OBJECT_DESTROYED (ethi)) */
 	{
 		ethi->last_drop_x       = 0;
@@ -714,7 +719,7 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	gdk_drag_status (context, 0, time);
 
-	droptype = gdk_atom_name (GPOINTER_TO_INT (context->targets->data));
+	droptype = gdk_atom_name (context->targets->data);
 	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
 				      ethi->dnd_code);
 
@@ -1447,26 +1452,32 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 	}
 }
 
+static void
+free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
+{
+	g_free (info);
+}
+
 /* Bit 1 is always disabled. */
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
-	{ N_("Sort Ascending"),            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  NULL, 2},
-	{ N_("Sort Descending"),           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), NULL, 2},
-	{ N_("Unsort"),                    NULL, GTK_SIGNAL_FUNC(ethi_popup_unsort),          NULL, 0},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 0},
-	{ N_("Group By This Field"),       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     NULL, 16},
-	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, 128},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
-	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, 8},
-	{ N_("Add a Column..."),           NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, 0},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
-	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, 128},
-	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        NULL, 2},
-	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  NULL, 128},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
-	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  NULL, 4},
-	{ NULL, NULL, NULL, NULL, 0 }
+	E_POPUP_ITEM (N_("Sort Ascending"),            GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  2),
+	E_POPUP_ITEM (N_("Sort Descending"),           GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 2),
+	E_POPUP_ITEM (N_("Unsort"),                    GTK_SIGNAL_FUNC(ethi_popup_unsort),          0),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Group By This Field"),       GTK_SIGNAL_FUNC(ethi_popup_group_field),     16),
+	E_POPUP_ITEM (N_("Group By Box"),              GTK_SIGNAL_FUNC(ethi_popup_group_box),       128),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Remove This Column"),        GTK_SIGNAL_FUNC(ethi_popup_remove_column),   8),
+	E_POPUP_ITEM (N_("Add a Column..."),           GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   0),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Alignment"),                 GTK_SIGNAL_FUNC(ethi_popup_alignment),       128),
+	E_POPUP_ITEM (N_("Best Fit"),                  GTK_SIGNAL_FUNC(ethi_popup_best_fit),        2),
+	E_POPUP_ITEM (N_("Format Columns..."),         GTK_SIGNAL_FUNC(ethi_popup_format_columns),  128),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Customize Current View..."), GTK_SIGNAL_FUNC(ethi_popup_customize_view),  4),
+	E_POPUP_TERMINATOR
 };
 
 static void
@@ -1474,16 +1485,21 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
 	ETableCol *col;
+	GtkMenu *popup;
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
-	e_popup_menu_run (ethi_context_menu, (GdkEvent *) event,
-			  1 +
-			  (col->sortable ? 0 : 2) +
-			  ((ethi->table || ethi->tree) ? 0 : 4) + 
-			  ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-			  ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-			  128, info);
+
+	popup = e_popup_menu_create_with_domain (ethi_context_menu,
+						 1 +
+						 (col->sortable ? 0 : 2) +
+						 ((ethi->table || ethi->tree) ? 0 : 4) + 
+						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+						 128, info, E_I18N_DOMAIN);
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_popup_info), info);
+	e_popup_menu (popup, (GdkEvent *) event);
 }
 
 static void

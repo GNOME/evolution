@@ -22,13 +22,16 @@
  */
 
 #include <config.h>
+
+#include "gal-define-views-dialog.h"
+
 #include <libgnomeui/gnome-dialog.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtk.h>
-#include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
+#include <gal/util/e-i18n.h>
 
 static void gal_define_views_dialog_init		(GalDefineViewsDialog		 *card);
 static void gal_define_views_dialog_class_init	(GalDefineViewsDialogClass	 *klass);
@@ -42,7 +45,7 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_COLLECTION,
+	ARG_COLLECTION
 };
 
 typedef struct {
@@ -93,7 +96,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 }
 
 /* ETable creation */
-#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" selection-mode=\"single\">" \
+#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"

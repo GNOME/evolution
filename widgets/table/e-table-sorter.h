@@ -55,7 +55,10 @@ typedef struct {
 	int             table_model_changed_id;
 	int             table_model_row_changed_id;
 	int             table_model_cell_changed_id;
+	int             table_model_rows_inserted_id;
+	int             table_model_rows_deleted_id;
 	int             sort_info_changed_id;
+	int             group_info_changed_id;
 } ETableSorter;
 
 typedef struct {

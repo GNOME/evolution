@@ -45,6 +45,8 @@ free_strings (ETableColumnSpecification *etcs)
 	etcs->cell = NULL;
 	g_free(etcs->compare);
 	etcs->compare = NULL;
+	g_free(etcs->search);
+	etcs->search = NULL;
 }
 
 static void
@@ -79,10 +81,11 @@ etcs_init (ETableColumnSpecification *specification)
 	
 	specification->cell          = NULL;
 	specification->compare       = NULL;
+	specification->search        = NULL;
 	specification->priority      = 0;
 }
 
-E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, PARENT_TYPE)
 
 ETableColumnSpecification *
 e_table_column_specification_new (void)
@@ -107,8 +110,9 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 	etcs->resizable     = e_xml_get_bool_prop_by_name(node, "resizable");
 	etcs->disabled      = e_xml_get_bool_prop_by_name (node, "disabled");
 
-	etcs->cell          = e_xml_get_string_prop_by_name(node, "cell");
-	etcs->compare       = e_xml_get_string_prop_by_name(node, "compare");
+	etcs->cell          = e_xml_get_string_prop_by_name (node, "cell");
+	etcs->compare       = e_xml_get_string_prop_by_name (node, "compare");
+	etcs->search        = e_xml_get_string_prop_by_name (node, "search");
 	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, "priority", 0);
 
 	if (etcs->title == NULL)
@@ -136,6 +140,7 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 
 	e_xml_set_string_prop_by_name(node, "cell", specification->cell);
 	e_xml_set_string_prop_by_name(node, "compare", specification->compare);
+	e_xml_set_string_prop_by_name(node, "search", specification->search);
 	if (specification->priority != 0)
 		e_xml_set_integer_prop_by_name (node, "priority", specification->priority);
 

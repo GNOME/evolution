@@ -100,6 +100,7 @@ struct ETreeSortedPriv {
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
 	int          tree_model_node_deleted_id;
+	int          tree_model_node_request_collapse_id;
 
 	int          sort_info_changed_id;
 	int          sort_idle_id;
@@ -113,7 +114,7 @@ struct ETreeSortedPriv {
 enum {
 	ARG_0,
 
-	ARG_SORT_INFO,
+	ARG_SORT_INFO
 };
 
 static void ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets);
@@ -618,6 +619,8 @@ ets_destroy (GtkObject *object)
 				       priv->tree_model_node_removed_id);
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_node_deleted_id);
+		gtk_signal_disconnect (GTK_OBJECT (priv->source),
+				       priv->tree_model_node_request_collapse_id);
 
 		gtk_object_unref (GTK_OBJECT (priv->source));
 		priv->source = NULL;
@@ -630,6 +633,7 @@ ets_destroy (GtkObject *object)
 		priv->tree_model_node_inserted_id = 0;
 		priv->tree_model_node_removed_id = 0;
 		priv->tree_model_node_deleted_id = 0;
+		priv->tree_model_node_request_collapse_id = 0;
 	}
 
 	if (priv->sort_info) {
@@ -1172,6 +1176,15 @@ ets_proxy_node_deleted (ETreeModel *etm, ETreePath child, ETreeSorted *ets)
 }
 
 static void
+ets_proxy_node_request_collapse (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
+{
+	ETreeSortedPath *path = find_path(ets, node);
+	if (path) {
+		e_tree_model_node_request_collapse(E_TREE_MODEL(ets), path);
+	}
+}
+
+static void
 ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
 {
 	schedule_resort(ets, ets->priv->root, TRUE, TRUE);
@@ -1256,33 +1269,34 @@ e_tree_sorted_init (GtkObject *object)
 
 	ETreeSortedPriv *priv;
 
-	priv                                  = g_new0 (ETreeSortedPriv, 1);
-	ets->priv                             = priv;
+	priv                                      = g_new0 (ETreeSortedPriv, 1);
+	ets->priv                                 = priv;
 
-	priv->root                            = NULL;
-	priv->source                          = NULL;
+	priv->root                                = NULL;
+	priv->source                              = NULL;
 
-	priv->sort_info                       = NULL;
-	priv->full_header                     = NULL;
+	priv->sort_info                           = NULL;
+	priv->full_header                         = NULL;
 
-	priv->last_access                     = NULL;
+	priv->last_access                         = NULL;
 
-	priv->tree_model_pre_change_id        = 0;
-	priv->tree_model_no_change_id         = 0;
-	priv->tree_model_node_changed_id      = 0;
-	priv->tree_model_node_data_changed_id = 0;
-	priv->tree_model_node_col_changed_id  = 0;
-	priv->tree_model_node_inserted_id     = 0;
-	priv->tree_model_node_removed_id      = 0;
-	priv->tree_model_node_deleted_id      = 0;
+	priv->tree_model_pre_change_id            = 0;
+	priv->tree_model_no_change_id             = 0;
+	priv->tree_model_node_changed_id          = 0;
+	priv->tree_model_node_data_changed_id     = 0;
+	priv->tree_model_node_col_changed_id      = 0;
+	priv->tree_model_node_inserted_id         = 0;
+	priv->tree_model_node_removed_id          = 0;
+	priv->tree_model_node_deleted_id          = 0;
+	priv->tree_model_node_request_collapse_id = 0;
 
-	priv->sort_info_changed_id            = 0;
-	priv->sort_idle_id                    = 0;
-	priv->insert_idle_id                  = 0;
-	priv->insert_count                    = 0;
+	priv->sort_info_changed_id                = 0;
+	priv->sort_idle_id                        = 0;
+	priv->insert_idle_id                      = 0;
+	priv->insert_count                        = 0;
 
-	priv->in_resort_idle                  = 0;
-	priv->nested_resort_idle              = 0;
+	priv->in_resort_idle                      = 0;
+	priv->nested_resort_idle                  = 0;
 }
 
 E_MAKE_TYPE(e_tree_sorted, "ETreeSorted", ETreeSorted, e_tree_sorted_class_init, e_tree_sorted_init, PARENT_TYPE)
@@ -1296,33 +1310,38 @@ E_MAKE_TYPE(e_tree_sorted, "ETreeSorted", ETreeSorted, e_tree_sorted_class_init,
 void
 e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ets->priv->source      = source;
-	if (source)      gtk_object_ref(GTK_OBJECT(source));
+	ets->priv->source                              = source;
+	if (source)
+		gtk_object_ref(GTK_OBJECT(source));
 
-	ets->priv->full_header = full_header;
-	if (full_header) gtk_object_ref(GTK_OBJECT(full_header));
+	ets->priv->full_header                         = full_header;
+	if (full_header)
+		gtk_object_ref(GTK_OBJECT(full_header));
 
-	ets->priv->sort_info   = sort_info;
-	if (sort_info)   gtk_object_ref(GTK_OBJECT(sort_info));
+	ets->priv->sort_info                           = sort_info;
+	if (sort_info)
+		gtk_object_ref(GTK_OBJECT(sort_info));
 
-	ets->priv->tree_model_pre_change_id      = gtk_signal_connect (GTK_OBJECT (source), "pre_change",
-								       GTK_SIGNAL_FUNC (ets_proxy_pre_change), ets);
-	ets->priv->tree_model_no_change_id         = gtk_signal_connect (GTK_OBJECT (source), "no_change",
-									 GTK_SIGNAL_FUNC (ets_proxy_no_change), ets);
-	ets->priv->tree_model_node_changed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_changed",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_changed), ets);
-	ets->priv->tree_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (source), "node_data_changed",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_data_changed), ets);
-	ets->priv->tree_model_node_col_changed_id  = gtk_signal_connect (GTK_OBJECT (source), "node_col_changed",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_col_changed), ets);
-	ets->priv->tree_model_node_inserted_id     = gtk_signal_connect (GTK_OBJECT (source), "node_inserted",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_inserted), ets);
-	ets->priv->tree_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_removed",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_removed), ets);
-	ets->priv->tree_model_node_deleted_id      = gtk_signal_connect (GTK_OBJECT (source), "node_deleted",
-									 GTK_SIGNAL_FUNC (ets_proxy_node_deleted), ets);
+	ets->priv->tree_model_pre_change_id            = gtk_signal_connect (GTK_OBJECT (source), "pre_change",
+									     GTK_SIGNAL_FUNC (ets_proxy_pre_change), ets);
+	ets->priv->tree_model_no_change_id             = gtk_signal_connect (GTK_OBJECT (source), "no_change",
+									     GTK_SIGNAL_FUNC (ets_proxy_no_change), ets);
+	ets->priv->tree_model_node_changed_id          = gtk_signal_connect (GTK_OBJECT (source), "node_changed",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_changed), ets);
+	ets->priv->tree_model_node_data_changed_id     = gtk_signal_connect (GTK_OBJECT (source), "node_data_changed",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_data_changed), ets);
+	ets->priv->tree_model_node_col_changed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_col_changed",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_col_changed), ets);
+	ets->priv->tree_model_node_inserted_id         = gtk_signal_connect (GTK_OBJECT (source), "node_inserted",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_inserted), ets);
+	ets->priv->tree_model_node_removed_id          = gtk_signal_connect (GTK_OBJECT (source), "node_removed",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_removed), ets);
+	ets->priv->tree_model_node_deleted_id          = gtk_signal_connect (GTK_OBJECT (source), "node_deleted",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_deleted), ets);
+	ets->priv->tree_model_node_request_collapse_id = gtk_signal_connect (GTK_OBJECT (source), "node_request_collapse",
+									     GTK_SIGNAL_FUNC (ets_proxy_node_request_collapse), ets);
 
-	ets->priv->sort_info_changed_id            = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
+	ets->priv->sort_info_changed_id                = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
 									 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
 }
 

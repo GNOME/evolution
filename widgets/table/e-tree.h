@@ -69,6 +69,8 @@ typedef struct {
 	gint        (*click)              (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*key_press)          (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
+	gint        (*state_change)       (ETree *et);
+	gint        (*white_space_event)  (ETree *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETree	 *tree,
 					   GtkAdjustment *hadjustment,
@@ -180,6 +182,9 @@ void            e_tree_selected_row_foreach       (ETree                *e_tree,
 						   gpointer              closure);
 #ifdef E_TREE_USE_TREE_SELECTION
 void            e_tree_selected_path_foreach      (ETree                *e_tree,
+						   ETreeForeachFunc      callback,
+						   gpointer              closure);
+void            e_tree_path_foreach               (ETree                *e_tree,
 						   ETreeForeachFunc      callback,
 						   gpointer              closure);
 #endif

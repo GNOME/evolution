@@ -66,13 +66,15 @@ enum {
 enum {
 	E_CANVAS_ITEM_SELECTION_SELECT        = 1 << 0, /* TRUE = select.  FALSE = unselect. */
 	E_CANVAS_ITEM_SELECTION_CURSOR        = 1 << 1, /* TRUE = has become cursor.  FALSE = not cursor. */
-	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2,
+	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2
 };
 
 typedef struct {
 	GnomeCanvasItem *item;
 	gpointer         id;
 } ECanvasSelectionInfo;
+
+typedef void (*ECanvasItemGrabCancelled) (ECanvas *canvas, GnomeCanvasItem *item, gpointer data);
 
 struct _ECanvas
 {
@@ -91,6 +93,11 @@ struct _ECanvas
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
 #endif
+
+	ECanvasItemGrabCancelled grab_cancelled_cb;
+	guint grab_cancelled_check_id;
+	guint32 grab_cancelled_time;
+	gpointer grab_cancelled_data;
 };
 
 struct _ECanvasClass
@@ -100,30 +107,48 @@ struct _ECanvasClass
 };
 
 
-GtkType    e_canvas_get_type (void);
-GtkWidget *e_canvas_new      (void);
+GtkType    e_canvas_get_type                             (void);
+GtkWidget *e_canvas_new                                  (void);
 
 /* Used to send all of the keystroke events to a specific item as well as
  * GDK_FOCUS_CHANGE events.
  */
-void e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too);
+void       e_canvas_item_grab_focus                      (GnomeCanvasItem                 *item,
+							  gboolean                         widget_too);
+void       e_canvas_item_request_reflow                  (GnomeCanvasItem                 *item);
+void       e_canvas_item_request_parent_reflow           (GnomeCanvasItem                 *item);
+void       e_canvas_item_set_reflow_callback             (GnomeCanvasItem                 *item,
+							  ECanvasItemReflowFunc            func);
+void       e_canvas_item_set_selection_callback          (GnomeCanvasItem                 *item,
+							  ECanvasItemSelectionFunc         func);
+void       e_canvas_item_set_selection_compare_callback  (GnomeCanvasItem                 *item,
+							  ECanvasItemSelectionCompareFunc  func);
+void       e_canvas_item_set_cursor                      (GnomeCanvasItem                 *item,
+							  gpointer                         id);
+void       e_canvas_item_add_selection                   (GnomeCanvasItem                 *item,
+							  gpointer                         id);
+void       e_canvas_item_remove_selection                (GnomeCanvasItem                 *item,
+							  gpointer                         id);
 
-void e_canvas_item_request_reflow (GnomeCanvasItem *item);
-void e_canvas_item_request_parent_reflow (GnomeCanvasItem *item);
-void e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc func);
-
-void e_canvas_item_set_selection_callback (GnomeCanvasItem *item, ECanvasItemSelectionFunc func);
-void e_canvas_item_set_selection_compare_callback (GnomeCanvasItem *item, ECanvasItemSelectionCompareFunc func);
-
-void e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id);
-void e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id);
-void e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id);
+int        e_canvas_item_grab                            (ECanvas                         *canvas,
+							  GnomeCanvasItem                 *item,
+							  guint                            event_mask,
+							  GdkCursor                       *cursor,
+							  guint32                          etime,
+							  ECanvasItemGrabCancelled         cancelled,
+							  gpointer                         cancelled_data);
+void       e_canvas_item_ungrab                          (ECanvas                         *canvas,
+							  GnomeCanvasItem                 *item,
+							  guint32                          etime);
 
 /* Not implemented yet. */
-void e_canvas_item_set_cursor_end (GnomeCanvasItem *item, gpointer id);
-
-void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y);
-void e_canvas_hide_tooltip  (ECanvas *canvas);
+void       e_canvas_item_set_cursor_end                  (GnomeCanvasItem                 *item,
+							  gpointer                         id);
+void       e_canvas_popup_tooltip                        (ECanvas                         *canvas,
+							  GtkWidget                       *widget,
+							  int                              x,
+							  int                              y);
+void       e_canvas_hide_tooltip                         (ECanvas                         *canvas);
 
 #ifdef __cplusplus
 }

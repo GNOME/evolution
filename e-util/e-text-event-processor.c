@@ -36,7 +36,7 @@ static GtkObjectClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_ALLOW_NEWLINES,
+	ARG_ALLOW_NEWLINES
 };
 
 enum {

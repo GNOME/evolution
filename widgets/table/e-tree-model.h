@@ -27,10 +27,9 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkobject.h>
+#include <libgnome/gnome-defs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+BEGIN_GNOME_DECLS
 
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
@@ -63,53 +62,59 @@ struct ETreeModelClass {
 	ETreePath (*get_next)              (ETreeModel *etm, ETreePath node);
 	ETreePath (*get_prev)              (ETreeModel *etm, ETreePath node);
 
-	gboolean   (*is_root)              (ETreeModel *etm, ETreePath node);
-	gboolean   (*is_expandable)        (ETreeModel *etm, ETreePath node);
-	guint      (*get_children)         (ETreeModel *etm, ETreePath node, ETreePath **paths);
-	guint      (*depth)                (ETreeModel *etm, ETreePath node);
+	gboolean   (*is_root)               (ETreeModel *etm, ETreePath node);
+	gboolean   (*is_expandable)         (ETreeModel *etm, ETreePath node);
+	guint      (*get_children)          (ETreeModel *etm, ETreePath node, ETreePath **paths);
+	guint      (*depth)                 (ETreeModel *etm, ETreePath node);
 
-	GdkPixbuf *(*icon_at)              (ETreeModel *etm, ETreePath node);
+	GdkPixbuf *(*icon_at)               (ETreeModel *etm, ETreePath node);
 
-	gboolean   (*get_expanded_default) (ETreeModel *etm);
-	gint       (*column_count)         (ETreeModel *etm);
+	gboolean   (*get_expanded_default)  (ETreeModel *etm);
+	gint       (*column_count)          (ETreeModel *etm);
 
-	gboolean   (*has_save_id)          (ETreeModel *etm);
-	gchar     *(*get_save_id)          (ETreeModel *etm, ETreePath node);
+	gboolean   (*has_save_id)           (ETreeModel *etm);
+	gchar     *(*get_save_id)           (ETreeModel *etm, ETreePath node);
 
-	gboolean   (*has_get_node_by_id)   (ETreeModel *etm);
-	ETreePath  (*get_node_by_id)       (ETreeModel *etm, const char *save_id);
+	gboolean   (*has_get_node_by_id)    (ETreeModel *etm);
+	ETreePath  (*get_node_by_id)        (ETreeModel *etm, const char *save_id);
 
-	gboolean   (*has_change_pending)   (ETreeModel *etm);
+	gboolean   (*has_change_pending)    (ETreeModel *etm);
 
 	/*
 	 * ETable analogs
 	 */
-	void      *(*value_at)             (ETreeModel *etm, ETreePath node, int col);
-	void       (*set_value_at)         (ETreeModel *etm, ETreePath node, int col, const void *val);
-	gboolean   (*is_editable)          (ETreeModel *etm, ETreePath node, int col);
-
-	void      *(*duplicate_value)      (ETreeModel *etm, int col, const void *value);
-	void       (*free_value)           (ETreeModel *etm, int col, void *value);
-	void	  *(*initialize_value)     (ETreeModel *etm, int col);
-	gboolean   (*value_is_empty)       (ETreeModel *etm, int col, const void *value);
-	char      *(*value_to_string)      (ETreeModel *etm, int col, const void *value);
+	void      *(*value_at)              (ETreeModel *etm, ETreePath node, int col);
+	void       (*set_value_at)          (ETreeModel *etm, ETreePath node, int col, const void *val);
+	gboolean   (*is_editable)           (ETreeModel *etm, ETreePath node, int col);
+					    
+	void      *(*duplicate_value)       (ETreeModel *etm, int col, const void *value);
+	void       (*free_value)            (ETreeModel *etm, int col, void *value);
+	void	  *(*initialize_value)      (ETreeModel *etm, int col);
+	gboolean   (*value_is_empty)        (ETreeModel *etm, int col, const void *value);
+	char      *(*value_to_string)       (ETreeModel *etm, int col, const void *value);
 
 	/*
 	 * Signals
 	 */
-	/* During remove, the ETreePath of the child is removed from
-	 * the tree but is still valid.  At node_deleted, the
-	 * ETreePath is no longer valid.
+
+	/* During node_remove, the ETreePath of the child is removed
+	 * from the tree but is still a valid ETreePath.  At
+	 * node_deleted, the ETreePath is no longer valid.
 	 */
 
-	void       (*pre_change)           (ETreeModel *etm);
-	void       (*no_change)            (ETreeModel *etm);
-	void       (*node_changed)         (ETreeModel *etm, ETreePath node);
-	void       (*node_data_changed)    (ETreeModel *etm, ETreePath node);
-	void       (*node_col_changed)     (ETreeModel *etm, ETreePath node,   int col);
-	void       (*node_inserted)        (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
-	void       (*node_removed)         (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
-	void       (*node_deleted)         (ETreeModel *etm, ETreePath deleted_node);
+	void       (*pre_change)            (ETreeModel *etm);
+	void       (*no_change)             (ETreeModel *etm);
+	void       (*node_changed)          (ETreeModel *etm, ETreePath node);
+	void       (*node_data_changed)     (ETreeModel *etm, ETreePath node);
+	void       (*node_col_changed)      (ETreeModel *etm, ETreePath node,   int col);
+	void       (*node_inserted)         (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
+	void       (*node_removed)          (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
+	void       (*node_deleted)          (ETreeModel *etm, ETreePath deleted_node);
+
+	/* This signal requests that any viewers of the tree that
+	 * collapse and expand nodes collapse this node.
+	 */
+	void       (*node_request_collapse) (ETreeModel *etm, ETreePath node);
 };
 
 
@@ -212,9 +217,9 @@ void        e_tree_model_node_removed          (ETreeModel     *tree_model,
 						int             old_position);
 void        e_tree_model_node_deleted            (ETreeModel     *tree_model,
 						  ETreePath       deleted_node);
+void        e_tree_model_node_request_collapse   (ETreeModel     *tree_model,
+						  ETreePath       deleted_node);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+END_GNOME_DECLS
 
 #endif /* _E_TREE_MODEL_H */

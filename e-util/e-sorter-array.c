@@ -32,7 +32,7 @@
 
 /* The arguments we take */
 enum {
-	ARG_0,
+	ARG_0
 };
 
 #define PARENT_TYPE e_sorter_get_type()
@@ -289,4 +289,4 @@ esa_init (ESorterArray *esa)
 	esa->backsorted = NULL;
 }
 
-E_MAKE_TYPE(e_sorter_array, "ESorterArray", ESorterArray, esa_class_init, esa_init, PARENT_TYPE);
+E_MAKE_TYPE(e_sorter_array, "ESorterArray", ESorterArray, esa_class_init, esa_init, PARENT_TYPE)

@@ -113,6 +113,7 @@ typedef struct {
 	guint            gtk_grabbed : 1;
 
 	guint            queue_show_cursor : 1;
+	guint            grab_cancelled : 1;
 
 	int              frozen_count;
 
@@ -176,6 +177,7 @@ typedef struct {
 	gint        (*click)            (ETableItem *eti, int row, int col, GdkEvent *event);
 	gint        (*key_press)        (ETableItem *eti, int row, int col, GdkEvent *event);
 	gint        (*start_drag)       (ETableItem *eti, int row, int col, GdkEvent *event);
+	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
 } ETableItemClass;
 GtkType     e_table_item_get_type            (void);
 

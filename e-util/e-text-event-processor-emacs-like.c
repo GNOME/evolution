@@ -71,7 +71,7 @@ static const ETextEventProcessorCommand alt_keys[26] =
 {
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* a */
 	{ E_TEP_BACKWARD_WORD,      E_TEP_MOVE, 0, "" }, /* b */
-	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* c */
+	{ E_TEP_SELECTION, E_TEP_CAPS, E_TEP_CAPS_TITLE, "" },/* c */
 	{ E_TEP_FORWARD_WORD,       E_TEP_DELETE, 0, "" }, /* d */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* e */
 	{ E_TEP_FORWARD_WORD,       E_TEP_MOVE, 0, "" }, /* f */
@@ -80,7 +80,7 @@ static const ETextEventProcessorCommand alt_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* i */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* j */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* k */
-	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* l */
+	{ E_TEP_SELECTION, E_TEP_CAPS, E_TEP_CAPS_LOWER, "" },           /* l */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* m */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* n */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* o */
@@ -89,7 +89,7 @@ static const ETextEventProcessorCommand alt_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* r */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* s */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* t */
-	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* u */
+	{ E_TEP_SELECTION, E_TEP_CAPS, E_TEP_CAPS_UPPER, "" },           /* u */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* v */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* w */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* x */
