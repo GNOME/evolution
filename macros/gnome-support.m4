@@ -18,6 +18,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   struct argp foo;
   extern char *foo2;
   foo.argp_domain = foo2;],,LIBOBJS="$LIBOBJS argp-ba.o argp-eexst.o argp-fmtstream.o argp-fs-xinl.o argp-help.o argp-parse.o argp-pv.o argp-pvh.o argp-xinl.o")
+  # This header enables some optimizations inside argp.  
+  AC_CHECK_HEADERS(linewrap.h)
 
   AC_TRY_LINK([#include <errno.h>],[
     char *foo = program_invocation_short_name], [

@@ -1,3 +1,8 @@
+1998-03-12  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Add a check for <linewrap.h> -- this enables
+	some optimizations when compiling `argp'.
+
 Mon Mar  9 19:32:42 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome-support.m4: Build vsnprintf.o, not vsnprint.o.
