@@ -331,7 +331,7 @@ e_destination_is_valid (const EDestination *dest)
 
 	g_return_val_if_fail (E_IS_DESTINATION (dest), FALSE);
 
-	if (dest->priv->card != NULL)
+	if (e_destination_from_card (dest))
 		return TRUE;
 
 	email = e_destination_get_email (dest);

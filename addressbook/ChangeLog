@@ -1,5 +1,11 @@
 2001-09-17  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-destination.c (e_destination_is_valid): We want
+	to assume that a destination that comes from a card is
+	automatically valid, but the right way to check that is by calling
+	e_destination_from_card, not by checking if dest->priv->card !=
+	NULL.  (Fixed bug #10017)
+
 	* gui/component/select-names/e-select-names-completion.c
 	(match_name): Fixed a stupid bug was causing completion to fail
 	for contacts who have only one name.  (The classic example we all
