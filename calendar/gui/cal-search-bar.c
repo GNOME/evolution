@@ -39,7 +39,7 @@
 /* Menu items for the ESearchBar */
 static ESearchBarItem search_menu_items[] = {
 	E_FILTERBAR_RESET,
-	{ NULL, -1 }
+	{ NULL, -1, NULL }
 };
 
 /* IDs and option items for the ESearchBar */
@@ -51,11 +51,11 @@ enum {
 };
 
 static ESearchBarItem search_option_items[] = {
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS },
-	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS },
-	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS },
-	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS },
-	{ NULL, -1 }
+	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, NULL },
+	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, NULL },
+	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, NULL },
+	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, NULL },
+	{ NULL, -1, NULL }
 };
 
 /* Private part of the CalSearchBar structure */

@@ -612,7 +612,7 @@ set_prop (BonoboPropertyBag *bag,
 
 static ESearchBarItem addressbook_search_menu_items[] = {
 	E_FILTERBAR_RESET,
-	{ NULL, -1 },
+	{ NULL, -1, NULL },
 };
 
 static void
@@ -634,12 +634,12 @@ enum {
 };
 
 static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Any field contains"), ESB_ANY },
-	{ N_("Name contains"), ESB_FULL_NAME },
-	{ N_("Email contains"), ESB_EMAIL },
-	{ N_("Category contains"), ESB_CATEGORY },
-	{ N_("Advanced..."), ESB_ADVANCED },
-	{ NULL, -1 }
+	{ N_("Any field contains"), ESB_ANY, NULL },
+	{ N_("Name contains"), ESB_FULL_NAME, NULL },
+	{ N_("Email contains"), ESB_EMAIL, NULL },
+	{ N_("Category contains"), ESB_CATEGORY, NULL },
+	{ N_("Advanced..."), ESB_ADVANCED, NULL },
+	{ NULL, -1, NULL }
 };
 
 static void

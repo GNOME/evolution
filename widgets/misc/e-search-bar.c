@@ -5,8 +5,10 @@
  * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * Authors:
- *  Chris Lahey <clahey@ximian.com>
+ *  Chris Lahey      <clahey@ximian.com>
  *  Ettore Perazzoli <ettore@ximian.com>
+ *  Jon Trowbridge   <trow@ximian.com>
+
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -30,6 +32,7 @@
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmain.h>
 
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -56,6 +59,7 @@ static GtkHBoxClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_OPTION_CHOICE,
+	ARG_SUBOPTION_CHOICE,
 	ARG_TEXT,
 };
 
@@ -65,6 +69,11 @@ enum {
 static void
 emit_query_changed (ESearchBar *esb)
 {
+	if (esb->pending_change) {
+		gtk_idle_remove (esb->pending_change);
+		esb->pending_change = 0;
+	}
+
 	gtk_signal_emit (GTK_OBJECT (esb),
 			 esb_signals [QUERY_CHANGED]);
 }
@@ -91,19 +100,110 @@ menubar_activated_cb (GtkWidget *widget, ESearchBar *esb)
 }
 
 static void
-option_activated_cb (GtkWidget *widget, ESearchBar *esb)
+entry_activated_cb (GtkWidget *widget,
+		     ESearchBar *esb)
+{
+	emit_query_changed (esb);
+}
+
+static void
+subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
+{
+	gint id, subid;
+
+	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbItemId"));
+	subid = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbSubitemId"));
+
+	esb->option_choice = id;
+	esb->suboption_choice = subid;
+	emit_query_changed (esb);
+}
+
+static void
+activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems)
+{
+	if (subitems == NULL) {
+		/* This item uses the entry. */
+
+		if (esb->entry == NULL) {
+			esb->entry = gtk_entry_new();
+			gtk_object_ref (GTK_OBJECT (esb->entry));
+			gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
+					    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
+			gtk_widget_show(esb->entry);
+
+			esb->suboption_choice = 0;
+		}
+		
+		if (esb->suboption_choice >= 0) {
+
+			if (esb->suboption != NULL) {
+				gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->suboption);
+			}
+			
+			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
+		}
+
+		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
+
+		esb->suboption_choice = -1;
+
+	} else {
+
+		GtkWidget *menu;
+		GtkWidget *menu_item;
+		gint i;
+
+		if (esb->suboption == NULL) {
+			esb->suboption = gtk_option_menu_new ();
+			gtk_object_ref (GTK_OBJECT (esb->suboption));
+			gtk_widget_show (esb->suboption);
+		}
+
+		esb->suboption_menu = menu = gtk_menu_new ();
+		for (i = 0; subitems[i].id != -1; ++i) {
+			menu_item = gtk_menu_item_new_with_label (_(subitems[i].text));
+
+			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbItemId", GINT_TO_POINTER (item_id));
+			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbSubitemId", GINT_TO_POINTER (subitems[i].id));
+
+			gtk_signal_connect (GTK_OBJECT (menu_item),
+					    "activate",
+					    GTK_SIGNAL_FUNC (subitem_activated_cb),
+					    esb);
+
+			gtk_widget_show (menu_item);
+			gtk_menu_append (GTK_MENU (menu), menu_item);
+		}
+
+		gtk_option_menu_remove_menu (GTK_OPTION_MENU (esb->suboption));
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (esb->suboption), menu);
+
+		if (esb->entry != NULL) {
+			gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->entry);
+		}
+
+		gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
+	
+		esb->suboption_choice = 0;
+	}
+
+	if (esb->activate_button) {
+		gtk_widget_set_sensitive (esb->activate_button, subitems == NULL);
+	}
+}
+
+static void
+option_activated_cb (GtkWidget *widget,
+		     ESearchBar *esb)
 {
 	int id;
 
 	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbChoiceId"));
 
-	esb->option_choice = id;
-	emit_query_changed (esb);
-}
+	activate_by_subitems (esb, id, gtk_object_get_data (GTK_OBJECT (widget), "EsbChoiceSubitems"));
 
-static void
-entry_activated_cb (GtkWidget *widget, ESearchBar *esb)
-{
+	esb->option_choice = id;
 	emit_query_changed (esb);
 }
 
@@ -131,6 +231,42 @@ put_in_spacer_widget (GtkWidget *widget)
 	gtk_container_add (GTK_CONTAINER (holder), widget);
 
 	return holder;
+}
+
+static ESearchBarSubitem *
+copy_subitems (ESearchBarSubitem *subitems)
+{
+	gint i, N;
+	ESearchBarSubitem *copy;
+
+	if (subitems == NULL)
+		return NULL;
+
+	for (N=0; subitems[N].id != -1; ++N);
+	copy = g_new (ESearchBarSubitem, N+1);
+
+	for (i=0; i<N; ++i) {
+		copy[i].text = g_strdup (subitems[i].text);
+		copy[i].id = subitems[i].id;
+	}
+
+	copy[N].text = NULL;
+	copy[N].id = -1;
+
+	return copy;
+}
+
+static void
+free_subitems (ESearchBarSubitem *subitems)
+{
+	gint i;
+
+	if (subitems != NULL) {
+		for (i=0; subitems[i].id != -1; ++i) {
+			g_free (subitems[i].text);
+		}
+		g_free (subitems);
+	}
 }
 
 static void
@@ -211,6 +347,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	esb->option_menu = menu = gtk_menu_new ();
 	for (i = 0; items[i].id != -1; i++) {
 		GtkWidget *item;
+		ESearchBarSubitem *subitems = NULL;
 
 		if (items[i].text) {
 			char *str;
@@ -228,10 +365,22 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceId", GINT_TO_POINTER(items[i].id));
 
+		if (items[i].subitems != NULL) {
+			subitems = copy_subitems (items[i].subitems);
+			esb->subitem_garbage = g_list_prepend (esb->subitem_garbage, subitems);
+		}
+
+		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", subitems);
+
+		if (i == 0) {
+			activate_by_subitems (esb, items[i].id, subitems);
+		}
+
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (option_activated_cb),
 				    esb);
 	}
+
 	gtk_widget_show_all (menu);
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (esb->option), menu);
@@ -247,16 +396,6 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	gtk_widget_size_request (esb->option, &option_requisition);
 
 	gtk_container_set_border_width (GTK_CONTAINER (esb->dropdown), GTK_CONTAINER (esb->option)->border_width);
-}
-
-static void
-add_entry (ESearchBar *esb)
-{
-	esb->entry = gtk_entry_new ();
-	gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
-			    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
-	gtk_widget_show (esb->entry);
-	gtk_box_pack_start (GTK_BOX (esb), esb->entry, TRUE, TRUE, 0);
 }
 
 static void
@@ -319,6 +458,10 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_ENUM (*arg) = e_search_bar_get_option_choice (esb);
 		break;
 
+	case ARG_SUBOPTION_CHOICE:
+		GTK_VALUE_ENUM (*arg) = e_search_bar_get_suboption_choice (esb);
+		break;
+
 	case ARG_TEXT:
 		GTK_VALUE_STRING (*arg) = e_search_bar_get_text (esb);
 		break;
@@ -344,6 +487,15 @@ impl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), row);
 		emit_query_changed (esb);
 		break;
+
+	case ARG_SUBOPTION_CHOICE:
+		esb->suboption_choice = GTK_VALUE_ENUM (*arg);
+		row = find_id (esb->suboption_menu, esb->suboption_choice, "EsbSubitemId", NULL);
+		if (row == -1)
+			row = 0;
+		gtk_option_menu_set_history (GTK_OPTION_MENU (esb->suboption), row);
+		emit_query_changed (esb);
+		break;
 		
 	case ARG_TEXT:
 		e_utf8_gtk_editable_set_text (GTK_EDITABLE (esb->entry), GTK_VALUE_STRING (*arg));
@@ -362,15 +514,30 @@ impl_destroy (GtkObject *object)
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (object));
-	
+
+	/* Should we really be unrefing all of these widgets? */
 	gtk_object_unref (GTK_OBJECT (esb->dropdown));
 	gtk_object_unref (GTK_OBJECT (esb->option));
-	gtk_object_unref (GTK_OBJECT (esb->entry));
+
+	/* These two we do need to unref, because we explicitly hold
+	   references to them. */
+	if (esb->entry)
+		gtk_object_unref (GTK_OBJECT (esb->entry));
+	if (esb->suboption)
+		gtk_object_unref (GTK_OBJECT (esb->suboption));
 	
 	gtk_object_unref (GTK_OBJECT (esb->dropdown_holder));
 	gtk_object_unref (GTK_OBJECT (esb->option_menu));
 	gtk_object_unref (GTK_OBJECT (esb->dropdown_menu));
-	
+
+	g_list_foreach (esb->subitem_garbage, (GFunc) free_subitems, NULL);
+	g_list_free (esb->subitem_garbage);
+
+	if (esb->pending_change) {
+		gtk_idle_remove (esb->pending_change);
+		esb->pending_change = 0;
+	}
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -394,6 +561,8 @@ class_init (ESearchBarClass *klass)
 	
 	gtk_object_add_arg_type ("ESearchBar::option_choice", GTK_TYPE_ENUM,
 				 GTK_ARG_READWRITE, ARG_OPTION_CHOICE);
+	gtk_object_add_arg_type ("ESearchBar::suboption_choice", GTK_TYPE_ENUM,
+				 GTK_ARG_READWRITE, ARG_SUBOPTION_CHOICE);
 	gtk_object_add_arg_type ("ESearchBar::text", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_TEXT);
 	
@@ -424,10 +593,20 @@ init (ESearchBar *esb)
 	esb->entry         = NULL;
 	
 	esb->option_choice = 0;
+	esb->suboption_choice = 0;
 }
 
 
 /* Object construction.  */
+
+static gint
+idle_change_hack (gpointer ptr)
+{
+	ESearchBar *esb = E_SEARCH_BAR (ptr);
+	esb->pending_change = 0;
+	emit_query_changed (esb);
+	return FALSE;
+}
 
 void
 e_search_bar_construct (ESearchBar *search_bar,
@@ -440,14 +619,30 @@ e_search_bar_construct (ESearchBar *search_bar,
 	g_return_if_fail (option_items != NULL);
 	
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
-	
+
 	e_search_bar_set_menu (search_bar, menu_items);
-	
+
+	search_bar->entry_box = gtk_hbox_new (0, FALSE);
+
 	e_search_bar_set_option (search_bar, option_items);
-	
-	add_entry (search_bar);
-	
+
+	gtk_widget_show (search_bar->entry_box);
+	gtk_box_pack_start (GTK_BOX(search_bar), search_bar->entry_box, TRUE, TRUE, 0);
+
 	add_activate_button (search_bar);
+
+	/* 
+	 * If the default choice for the option menu has subitems, then we need to
+	 * activate the search immediately.  However, the developer won't have
+	 * connected to the changed signal until after the object is constructed,
+	 * so we can't emit here.  Thus we launch a one-shot idle function that will
+	 * emit the changed signal, so that the proper callback will get invoked.
+	 */
+	if (search_bar->suboption_choice >= 0) {
+		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
+
+		search_bar->pending_change = gtk_idle_add (idle_change_hack, search_bar);
+	}
 }
 
 void
@@ -548,13 +743,33 @@ e_search_bar_get_option_choice (ESearchBar *search_bar)
 }
 
 /**
+ * e_search_bar_get_suboption_choice:
+ * @search_bar: A search bar.
+ * 
+ * Queries the currently selected item in the suboptions menu of a search bar.
+ * 
+ * Return value: Identifier of the selected item in the suboptions menu.
+ * If the search bar currently contains an entry rather than a a suboption menu,
+ * a value less than zero is returned.
+ **/
+int
+e_search_bar_get_suboption_choice (ESearchBar *search_bar)
+{
+	g_return_val_if_fail (search_bar != NULL, -1);
+	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
+	
+	return search_bar->suboption_choice;
+}
+
+/**
  * e_search_bar_get_text:
  * @search_bar: A search bar.
  * 
  * Queries the text of the entry line in a search bar.
  * 
  * Return value: The text string that is in the entry line of the search bar.
- * This must be freed using g_free().
+ * This must be freed using g_free().  If a suboption menu is active instead
+ * of an entry, NULL is returned.
  **/
 char *
 e_search_bar_get_text (ESearchBar *search_bar)
@@ -562,5 +777,5 @@ e_search_bar_get_text (ESearchBar *search_bar)
 	g_return_val_if_fail (search_bar != NULL, NULL);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
 	
-	return e_utf8_gtk_editable_get_text (GTK_EDITABLE (search_bar->entry));
+	return search_bar->suboption_choice < 0 ? e_utf8_gtk_editable_get_text (GTK_EDITABLE (search_bar->entry)) : NULL;
 }

@@ -91,10 +91,10 @@ enum {
 	E_FILTERBAR_LAST_ID = -6,
 };
 
-#define E_FILTERBAR_SAVE { N_("Add to Saved Searches"), E_FILTERBAR_SAVE_ID }
-#define E_FILTERBAR_RESET { N_("Clear"), E_FILTERBAR_RESET_ID }
-#define E_FILTERBAR_EDIT { N_("Edit..."), E_FILTERBAR_EDIT_ID }
-#define E_FILTERBAR_ADVANCED { N_("Advanced..."), E_FILTERBAR_ADVANCED_ID }
+#define E_FILTERBAR_SAVE { N_("Add to Saved Searches"), E_FILTERBAR_SAVE_ID, NULL }
+#define E_FILTERBAR_RESET { N_("Clear"), E_FILTERBAR_RESET_ID, NULL }
+#define E_FILTERBAR_EDIT { N_("Edit..."), E_FILTERBAR_EDIT_ID, NULL }
+#define E_FILTERBAR_ADVANCED { N_("Advanced..."), E_FILTERBAR_ADVANCED_ID, NULL }
 
 #ifdef JUST_FOR_TRANSLATORS
 const char * strings[] = {

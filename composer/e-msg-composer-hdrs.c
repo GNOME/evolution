@@ -644,15 +644,14 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 	
 	if (destv) {
 		dest_str = e_destination_get_address_textv (destv);
+
+		g_message ("dest_str=[%s]", dest_str);
 		
 		/* dest_str has been utf8 encoded 2x by this point...not good */
 		
 		if (dest_str && *dest_str) {
 			addr = camel_internet_address_new ();
 			camel_address_unformat (CAMEL_ADDRESS (addr), dest_str);
-			
-			/* TODO: In here, we could cross-reference the names with an alias book
-			   or address book, it should be sufficient for unformat to do the parsing too */
 			
 			camel_mime_message_set_recipients (msg, type, addr);
 			

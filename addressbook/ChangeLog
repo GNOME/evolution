@@ -1,3 +1,8 @@
+2001-08-10  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/addressbook.c: Set the ESearchBarItem
+	subitems explicitly to NULL.
+
 2001-08-10  Anna Marie Dirks <anna@ximian.com>
 	 * gui/component/select-names/select-names.glade: did a little
 	packing-magic to get the two tables at bottom of this dialog
@@ -5,7 +10,6 @@
 
 	*gui/component/select-names/e-select-names.c: changed the title
 	of this dialog to "Select Contacts from Addressbook". 
-
 
 2001-08-09  Anna Marie Dirks <anna@ximian.com>
         * gui/component/select-names/select-names.glade: redesigned

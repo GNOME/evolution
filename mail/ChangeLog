@@ -1,3 +1,7 @@
+2001-08-10  Jon Trowbridge  <trow@ximian.com>
+
+	* folder-browser.c: Set our ESearchBarItems subitems to NULL.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (transfer_msg): Prepend the uri with evolution:

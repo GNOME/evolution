@@ -47,6 +47,12 @@ extern "C" {
 typedef struct {
 	char *text;
 	int id;
+} ESearchBarSubitem;
+	
+typedef struct {
+	char *text;
+	int id;
+	ESearchBarSubitem *subitems;
 } ESearchBarItem;
 
 typedef struct _ESearchBar       ESearchBar;
@@ -60,14 +66,21 @@ struct _ESearchBar
 	GtkWidget *dropdown;
 	GtkWidget *option;
 	GtkWidget *entry;
+	GtkWidget *suboption; /* an option menu for the choices associated with some options */
+	
 
 	/* PRIVATE */
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
 	GtkWidget *option_menu;
+	GtkWidget *suboption_menu;
 	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
+	GtkWidget *entry_box;
+	GList     *subitem_garbage;
+	guint      pending_change;
 
 	int        option_choice;
+	int        suboption_choice; /* < 0 if the entry widget is active */
 };
 
 struct _ESearchBarClass
@@ -95,8 +108,9 @@ GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 
 void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
-int        e_search_bar_get_option_choice (ESearchBar *search_bar);
-char      *e_search_bar_get_text          (ESearchBar *search_bar);
+int        e_search_bar_get_option_choice    (ESearchBar *search_bar);
+int        e_search_bar_get_suboption_choice (ESearchBar *search_bar);
+char      *e_search_bar_get_text             (ESearchBar *search_bar);
 
 #ifdef __cplusplus
 }

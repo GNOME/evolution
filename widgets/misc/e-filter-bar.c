@@ -97,6 +97,7 @@ rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 			
 			item.text = rule->name;
 			item.id = efb->menu_base + efb->menu_rules->len;
+			item.subitems = NULL;
 			
 			g_ptr_array_add (efb->menu_rules, rule);
 			
@@ -303,6 +304,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		/* and add ours */
 		item.id = 0;
 		item.text = NULL;
+		item.subitems = NULL;
 		g_array_append_vals (menu, &item, 1);
 		source = FILTER_SOURCE_INCOMING;
 	} else {
@@ -312,6 +314,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	while ((rule = rule_context_next_rule (efb->context, rule, source))) {
 		item.id = id++;
 		item.text = rule->name;
+		item.subitems = NULL;
 		g_array_append_vals (menu, &item, 1);
 		g_ptr_array_add (rules, rule);
 	}
@@ -324,6 +327,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	
 	item.id = -1;
 	item.text = NULL;
+	item.subitems = NULL;
 	g_array_append_vals (menu, &item, 1);
 	
 	return menu;
@@ -455,7 +459,7 @@ e_filter_bar_new (RuleContext *context, const char *systemrules, const char *use
 		  EFilterBarConfigRule config, void *data)
 {
 	EFilterBar *bar;
-	ESearchBarItem item = { NULL, -1 };
+	ESearchBarItem item = { NULL, -1, NULL };
 	
 	bar = gtk_type_new (e_filter_bar_get_type ());
 	

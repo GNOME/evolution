@@ -1,3 +1,17 @@
+2001-08-10  Jon Trowbridge  <trow@ximian.com>
+
+	* e-filter-bar.h: Set the subitems to NULL in the pre-defined
+	ESearchBarItems.
+
+	* e-filter-bar.c (rule_editor_clicked): Set the ESearchBarItem's
+	subitems to NULL.
+	(build_items): Set the ESearchBarItem's subitems to NULL.
+	(e_filter_bar_new): Set the ESearchBarItem's subitems to NULL.
+
+	* e-search-bar.c: Added support for subitems, so that a search
+	option can key off of another option menu rather than just an
+	entry.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-search-bar.c (impl_destroy): Don't forget to unref stuff here
