@@ -27,24 +27,23 @@
 #include "e-tree-selection-model.h"
 #include <gal/util/e-bit-array.h>
 #include <gal/util/e-sorter.h>
+#include <gal/util/e-i18n.h>
 #include <gal/util/e-util.h>
 #include <gdk/gdkkeysyms.h>
 #include <gal/e-table/e-tree-sorted.h>
 #include <gal/e-table/e-tree-table-adapter.h>
-
-#define ETSM_CLASS(e) ((ETreeSelectionModelClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE e_selection_model_get_type ()
 
 static ESelectionModelClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_CURSOR_ROW,
-	ARG_CURSOR_COL,
-	ARG_MODEL,
-	ARG_ETTA,
-	ARG_ETS
+	PROP_0,
+	PROP_CURSOR_ROW,
+	PROP_CURSOR_COL,
+	PROP_MODEL,
+	PROP_ETTA,
+	PROP_ETS
 };
 
 typedef struct ETreeSelectionModelNode {
@@ -629,7 +628,7 @@ drop_ets(ETreeSelectionModel *etsm)
 
 /* Virtual functions */
 static void
-etsm_destroy (GtkObject *object)
+etsm_dispose (GObject *object)
 {
 	ETreeSelectionModel *etsm;
 
@@ -649,65 +648,65 @@ etsm_destroy (GtkObject *object)
 		etsm->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
-etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (o);
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	switch (arg_id){
-	case ARG_CURSOR_ROW:
-		GTK_VALUE_INT(*arg) = etsm_cursor_row_real(etsm);
+	switch (prop_id){
+	case PROP_CURSOR_ROW:
+		g_value_set_int (value, etsm_cursor_row_real(etsm));
 		break;
 
-	case ARG_CURSOR_COL:
-		GTK_VALUE_INT(*arg) = etsm->priv->cursor_col;
+	case PROP_CURSOR_COL:
+		g_value_set_int (value, etsm->priv->cursor_col);
 		break;
 
-	case ARG_MODEL:
-		GTK_VALUE_OBJECT(*arg) = (GtkObject *) etsm->priv->model;
+	case PROP_MODEL:
+		g_value_set_object (value, etsm->priv->model);
 		break;
 
-	case ARG_ETTA:
-		GTK_VALUE_OBJECT(*arg) = (GtkObject *) etsm->priv->etta;
+	case PROP_ETTA:
+		g_value_set_object (value, etsm->priv->etta);
 		break;
 
-	case ARG_ETS:
-		GTK_VALUE_OBJECT(*arg) = (GtkObject *) etsm->priv->ets;
+	case PROP_ETS:
+		g_value_set_object (value, etsm->priv->ets);
 		break;
 	}
 }
 
 static void
-etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ESelectionModel *esm = E_SELECTION_MODEL (o);
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (o);
+	ESelectionModel *esm = E_SELECTION_MODEL (object);
+	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	switch (arg_id){
-	case ARG_CURSOR_ROW:
-		e_selection_model_do_something(esm, GTK_VALUE_INT(*arg), etsm->priv->cursor_col, 0);
+	switch (prop_id){
+	case PROP_CURSOR_ROW:
+		e_selection_model_do_something(esm, g_value_get_int (value), etsm->priv->cursor_col, 0);
 		break;
 
-	case ARG_CURSOR_COL:
-		e_selection_model_do_something(esm, etsm_cursor_row_real(etsm), GTK_VALUE_INT(*arg), 0);
+	case PROP_CURSOR_COL:
+		e_selection_model_do_something(esm, etsm_cursor_row_real(etsm), g_value_get_int(value), 0);
 		break;
 
-	case ARG_MODEL:
+	case PROP_MODEL:
 		drop_model(etsm);
-		add_model(etsm, (ETreeModel *) GTK_VALUE_OBJECT(*arg));
+		add_model(etsm, E_TREE_MODEL (g_value_get_object(value)));
 		break;
 
-	case ARG_ETTA:
-		etsm->priv->etta = (ETreeTableAdapter *) GTK_VALUE_OBJECT(*arg);
+	case PROP_ETTA:
+		etsm->priv->etta = E_TREE_TABLE_ADAPTER (g_value_get_object (value));
 		break;
 
-	case ARG_ETS:
+	case PROP_ETS:
 		drop_ets(etsm);
-		add_ets(etsm, (ETreeSorted *) GTK_VALUE_OBJECT(*arg));
+		add_ets(etsm, E_TREE_SORTED (g_value_get_object (value)));
 		break;
 	}
 }
@@ -1350,17 +1349,17 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 static void
 e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	parent_class = gtk_type_class (e_selection_model_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 	esm_class = E_SELECTION_MODEL_CLASS(klass);
 
-	object_class->destroy = etsm_destroy;
-	object_class->get_arg = etsm_get_arg;
-	object_class->set_arg = etsm_set_arg;
+	object_class->dispose = etsm_dispose;
+	object_class->get_property = etsm_get_property;
+	object_class->set_property = etsm_set_property;
 
 	esm_class->is_row_selected    = etsm_is_row_selected    ;
 	esm_class->foreach            = etsm_foreach            ;
@@ -1380,22 +1379,46 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	esm_class->move_selection_end = etsm_move_selection_end ;
 	esm_class->set_selection_end  = etsm_set_selection_end  ;
 
-	gtk_object_add_arg_type ("ETreeSelectionModel::cursor_row", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_CURSOR_ROW);
-	gtk_object_add_arg_type ("ETreeSelectionModel::cursor_col", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_CURSOR_COL);
-	gtk_object_add_arg_type ("ETreeSelectionModel::model", E_TREE_MODEL_TYPE,
-				 GTK_ARG_READWRITE, ARG_MODEL);
-	gtk_object_add_arg_type ("ETreeSelectionModel::etta", E_TREE_TABLE_ADAPTER_TYPE,
-				 GTK_ARG_READWRITE, ARG_ETTA);
-	gtk_object_add_arg_type ("ETreeSelectionModel::ets", E_TREE_SORTED_TYPE,
-				 GTK_ARG_READWRITE, ARG_ETS);
+	g_object_class_install_property (object_class, PROP_CURSOR_ROW, 
+					 g_param_spec_int ("cursor_row",
+							   _("Cursor Row"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CURSOR_COL, 
+					 g_param_spec_int ("cursor_col",
+							   _("Cursor Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_MODEL, 
+					 g_param_spec_object ("model",
+							      _("Model"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TREE_MODEL_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ETTA, 
+					 g_param_spec_object ("etta",
+							      _("ETTA"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TREE_TABLE_ADAPTER_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ETS, 
+					 g_param_spec_object ("ets",
+							      _("ETS"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TREE_SORTED_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 ESelectionModel *
 e_tree_selection_model_new (void)
 {
-	return gtk_type_new(e_tree_selection_model_get_type());
+	return g_object_new (E_TREE_SELECTION_MODEL_TYPE, NULL);
 }
 
 E_MAKE_TYPE(e_tree_selection_model, "ETreeSelectionModel", ETreeSelectionModel,

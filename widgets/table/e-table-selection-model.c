@@ -27,9 +27,8 @@
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
-
-#define ETSM_CLASS(e) ((ETableSelectionModelClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE e_selection_model_array_get_type ()
 
@@ -38,9 +37,9 @@ static ESelectionModelArray *parent_class;
 static gint etsm_get_row_count (ESelectionModelArray *esm);
 
 enum {
-	ARG_0,
-	ARG_MODEL,
-	ARG_HEADER
+	PROP_0,
+	PROP_MODEL,
+	PROP_HEADER
 };
 
 static void
@@ -66,7 +65,8 @@ free_hash(ETableSelectionModel *etsm)
 		g_hash_table_destroy(etsm->hash);
 		etsm->hash = NULL;
 	}
-	g_free(etsm->cursor_id);
+	if (etsm->cursor_id)
+		g_free(etsm->cursor_id);
 	etsm->cursor_id = NULL;
 }
 
@@ -81,9 +81,9 @@ model_pre_change (ETableModel *etm, ETableSelectionModel *etsm)
 		etsm->hash = g_hash_table_new(g_str_hash, g_str_equal);
 		e_selection_model_foreach(E_SELECTION_MODEL(etsm), save_to_hash, etsm);
 
-		gtk_object_get(GTK_OBJECT(etsm),
-			       "cursor_row", &cursor_row,
-			       NULL);
+		g_object_get(etsm,
+			     "cursor_row", &cursor_row,
+			     NULL);
 		g_free (etsm->cursor_id);
 		if (cursor_row != -1)
 			etsm->cursor_id = e_table_model_get_save_id(etm, cursor_row);
@@ -229,7 +229,7 @@ drop_model(ETableSelectionModel *etsm)
 }
 
 static void
-etsm_destroy (GtkObject *object)
+etsm_dispose (GObject *object)
 {
 	ETableSelectionModel *etsm;
 
@@ -242,37 +242,37 @@ etsm_destroy (GtkObject *object)
 	drop_model(etsm);
 	free_hash(etsm);
 
-	if (GTK_OBJECT_CLASS(parent_class)->destroy)
-		GTK_OBJECT_CLASS(parent_class)->destroy (object);
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static void
-etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (o);
+	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 
-	switch (arg_id){
-	case ARG_MODEL:
-		GTK_VALUE_POINTER (*arg) = GTK_OBJECT(etsm->model);
+	switch (prop_id){
+	case PROP_MODEL:
+		g_value_set_object (value, etsm->model);
 		break;
-	case ARG_HEADER:
-		GTK_VALUE_POINTER (*arg) = (GtkObject *)etsm->eth;
+	case PROP_HEADER:
+		g_value_set_object (value, etsm->eth);
 		break;
 	}
 }
 
 static void
-etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (o);
+	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 	
-	switch (arg_id){
-	case ARG_MODEL:
+	switch (prop_id){
+	case PROP_MODEL:
 		drop_model(etsm);
-		add_model(etsm, GTK_VALUE_POINTER (*arg) ? E_TABLE_MODEL(GTK_VALUE_POINTER (*arg)) : NULL);
+		add_model(etsm, g_value_get_object (value) ? E_TABLE_MODEL(g_value_get_object (value)) : NULL);
 		break;
-	case ARG_HEADER:
-		etsm->eth = (ETableHeader *)GTK_VALUE_POINTER (*arg);
+	case PROP_HEADER:
+		etsm->eth = E_TABLE_HEADER (g_value_get_object (value));
 		break;
 	}
 }
@@ -290,24 +290,33 @@ e_table_selection_model_init (ETableSelectionModel *selection)
 static void
 e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ESelectionModelArrayClass *esma_class;
 
-	parent_class             = gtk_type_class (PARENT_TYPE);
+	parent_class             = g_type_class_ref (PARENT_TYPE);
 
-	object_class             = GTK_OBJECT_CLASS(klass);
+	object_class             = G_OBJECT_CLASS(klass);
 	esma_class               = E_SELECTION_MODEL_ARRAY_CLASS(klass);
 
-	object_class->destroy    = etsm_destroy;
-	object_class->get_arg    = etsm_get_arg;
-	object_class->set_arg    = etsm_set_arg;
+	object_class->dispose      = etsm_dispose;
+	object_class->get_property = etsm_get_property;
+	object_class->set_property = etsm_set_property;
 
 	esma_class->get_row_count = etsm_get_row_count;
 
-	gtk_object_add_arg_type ("ETableSelectionModel::model", GTK_TYPE_POINTER,
-				 GTK_ARG_READWRITE, ARG_MODEL);
-	gtk_object_add_arg_type ("ETableSelectionModel::header", E_TABLE_HEADER_TYPE,
-				 GTK_ARG_READWRITE, ARG_HEADER);
+	g_object_class_install_property (object_class, PROP_MODEL, 
+					 g_param_spec_object ("model",
+							      _("Model"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_MODEL_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HEADER, 
+					 g_param_spec_object ("header",
+							      _("Header"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_HEADER_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
@@ -323,7 +332,7 @@ E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionMode
 ETableSelectionModel *
 e_table_selection_model_new (void)
 {
-	return gtk_type_new (e_table_selection_model_get_type ());
+	return g_object_new (E_TABLE_SELECTION_MODEL_TYPE, NULL);
 }
 
 static gint

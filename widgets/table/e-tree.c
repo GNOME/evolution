@@ -1404,23 +1404,23 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	e_tree->priv->sorter = e_sorter_new();
 
-	gtk_object_set (GTK_OBJECT (e_tree->priv->selection),
-			"sorter", e_tree->priv->sorter,
+	g_object_set (e_tree->priv->selection,
+		      "sorter", e_tree->priv->sorter,
 #ifdef E_TREE_USE_TREE_SELECTION
-			"model", e_tree->priv->model,
-			"ets", e_tree->priv->sorted,
-			"etta", e_tree->priv->etta,
+		      "model", e_tree->priv->model,
+		      "ets", e_tree->priv->sorted,
+		      "etta", e_tree->priv->etta,
 #else
-			"model", e_tree->priv->etta,
+		      "model", e_tree->priv->etta,
 #endif
-			"selection_mode", specification->selection_mode,
-			"cursor_mode", specification->cursor_mode,
-			NULL);
+		      "selection_mode", specification->selection_mode,
+		      "cursor_mode", specification->cursor_mode,
+		      NULL);
 
-	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_changed",
-			   GTK_SIGNAL_FUNC(et_selection_model_selection_changed), e_tree);
-	gtk_signal_connect(GTK_OBJECT(e_tree->priv->selection), "selection_row_changed",
-			   GTK_SIGNAL_FUNC(et_selection_model_selection_row_changed), e_tree);
+	g_signal_connect(e_tree->priv->selection, "selection_changed",
+			 G_CALLBACK (et_selection_model_selection_changed), e_tree);
+	g_signal_connect(e_tree->priv->selection, "selection_row_changed",
+			 G_CALLBACK (et_selection_model_selection_row_changed), e_tree);
 
 	if (!specification->no_headers) {
 		e_tree_setup_header (e_tree);

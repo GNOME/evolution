@@ -430,9 +430,9 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 
 	rows = e_table_model_row_count (et->model);
 
-	gtk_object_get(GTK_OBJECT(et->selection),
-		       "cursor_row", &cursor,
-		       NULL);
+	g_object_get(et->selection,
+		     "cursor_row", &cursor,
+		     NULL);
 
 	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col->col_idx, col->search, string))
 		return TRUE;
@@ -470,9 +470,9 @@ et_search_accept (ETableSearch *search, ETable *et)
 	if (col == NULL)
 		return;
 
-	gtk_object_get(GTK_OBJECT(et->selection),
-		       "cursor_row", &cursor,
-		       NULL);
+	g_object_get(et->selection,
+		     "cursor_row", &cursor,
+		     NULL);
 	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), cursor, col->col_idx, 0);
 }
 
@@ -1496,17 +1496,17 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	g_object_ref (e_table->sorter);
 	gtk_object_sink (GTK_OBJECT (e_table->sorter));
 
-	gtk_object_set (GTK_OBJECT (e_table->selection),
-			"model", etm,
-			"selection_mode", specification->selection_mode,
-			"cursor_mode", specification->cursor_mode,
-			"sorter", e_table->sorter,
-			"header", e_table->header,
-			NULL);
+	g_object_set (e_table->selection,
+		      "model", etm,
+		      "selection_mode", specification->selection_mode,
+		      "cursor_mode", specification->cursor_mode,
+		      "sorter", e_table->sorter,
+		      "header", e_table->header,
+		      NULL);
 
-	g_signal_connect(G_OBJECT(e_table->selection), "selection_changed",
+	g_signal_connect(e_table->selection, "selection_changed",
 			 G_CALLBACK (et_selection_model_selection_changed), e_table);
-	g_signal_connect(G_OBJECT(e_table->selection), "selection_row_changed",
+	g_signal_connect(e_table->selection, "selection_row_changed",
 			 G_CALLBACK (et_selection_model_selection_row_changed), e_table);
 
 	if (!specification->no_headers) {
@@ -1890,9 +1890,9 @@ e_table_set_cursor_row (ETable *e_table, int row)
 	g_return_if_fail(E_IS_TABLE(e_table));
 	g_return_if_fail(row >= 0);
 
-	gtk_object_set(GTK_OBJECT(e_table->selection),
-		       "cursor_row", row,
-		       NULL);
+	g_object_set(e_table->selection,
+		     "cursor_row", row,
+		     NULL);
 }
 
 /**
@@ -1911,9 +1911,9 @@ e_table_get_cursor_row (ETable *e_table)
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
-	gtk_object_get(GTK_OBJECT(e_table->selection),
-		       "cursor_row", &row,
-		       NULL);
+	g_object_get(e_table->selection,
+		     "cursor_row", &row,
+		     NULL);
 	return row;
 }
 
@@ -3152,14 +3152,14 @@ e_table_class_init (ETableClass *class)
 			      G_TYPE_UINT);
 	et_signals[TABLE_DRAG_DATA_DELETE] =
 		g_signal_new ("table_drag_data_delete",
-			      GTK_RUN_LAST,
-			      E_OBJECT_CLASS_TYPE (object_class),
-			      GTK_SIGNAL_OFFSET (ETableClass, table_drag_data_delete),
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableClass, table_drag_data_delete),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_INT_OBJECT,
-			      GTK_TYPE_NONE, 3,
-			      GTK_TYPE_INT,
-			      GTK_TYPE_INT,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
 			      GDK_TYPE_DRAG_CONTEXT);
 
 	et_signals[TABLE_DRAG_LEAVE] =

@@ -34,10 +34,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
-#define E_TABLE_CLICK_TO_ADD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
-#define E_TABLE_CLICK_TO_ADD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAddClass))
-#define E_IS_TABLE_CLICK_TO_ADD(o)       (GTK_CHECK_TYPE ((o), E_TABLE_CLICK_TO_ADD_TYPE))
-#define E_IS_TABLE_CLICK_TO_ADD_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_CLICK_TO_ADD_TYPE))
+#define E_TABLE_CLICK_TO_ADD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
+#define E_TABLE_CLICK_TO_ADD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAddClass))
+#define E_IS_TABLE_CLICK_TO_ADD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_CLICK_TO_ADD_TYPE))
+#define E_IS_TABLE_CLICK_TO_ADD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_CLICK_TO_ADD_TYPE))
 
 typedef struct {
 	GnomeCanvasGroup  parent;
@@ -68,7 +68,7 @@ typedef struct {
 	void (*cursor_change) (ETableClickToAdd *etcta, gint row, gint col);
 } ETableClickToAddClass;
 
-GtkType    e_table_click_to_add_get_type (void);
+GType      e_table_click_to_add_get_type (void);
 
 void       e_table_click_to_add_commit (ETableClickToAdd *etcta);
 

@@ -33,11 +33,11 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
 #include "gal/util/e-util.h"
@@ -428,17 +428,16 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 static void
 do_fields_config_dialog (ETableConfig *config)
 {
-	int button, running = 1;
+	int response, running = 1;
 
 	config->temp_state = e_table_state_duplicate (config->state);
 
 	setup_fields (config);
 
 	do {
-		button = gnome_dialog_run (GNOME_DIALOG(config->dialog_show_fields));
-		switch (button){
-			/* OK */
-		case 0:
+		response = gtk_dialog_run (GTK_DIALOG(config->dialog_show_fields));
+		switch (response){
+		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
 			config->state = config->temp_state;
 			config->temp_state = 0;
@@ -448,7 +447,7 @@ do_fields_config_dialog (ETableConfig *config)
 			break;
 
 			/* CANCEL */
-		case 1:
+		case GTK_RESPONSE_CANCEL:
 			g_object_unref (config->temp_state);
 			config->temp_state = 0;
 			running = 0;

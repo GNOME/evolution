@@ -34,10 +34,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
-#define E_TABLE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
-#define E_TABLE_SELECTION_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModelClass))
-#define E_IS_TABLE_SELECTION_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SELECTION_MODEL_TYPE))
-#define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
+#define E_TABLE_SELECTION_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
+#define E_TABLE_SELECTION_MODEL_CLASS(k)    (G_TYPE-CHECK_CLASS_CAST((k), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModelClass))
+#define E_IS_TABLE_SELECTION_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SELECTION_MODEL_TYPE))
+#define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
 
 typedef struct {
 	ESelectionModelArray base;
@@ -65,7 +65,7 @@ typedef struct {
 	ESelectionModelArrayClass parent_class;
 } ETableSelectionModelClass;
 
-GtkType               e_table_selection_model_get_type            (void);
+GType                 e_table_selection_model_get_type            (void);
 ETableSelectionModel *e_table_selection_model_new                 (void);
 
 #ifdef __cplusplus
