@@ -274,20 +274,6 @@ option_changed (ESearchBar *esb, void *data)
 	efb->setquery = FALSE;
 }
 
-static void clear_rules(EFilterBar *efb, GPtrArray *rules)
-{
-	int i;
-	FilterRule *rule;
-
-	/* clear out any data on old rules */
-	for (i=0;i<rules->len;i++) {
-		rule = rules->pdata[i];
-		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
-		gtk_object_unref((GtkObject *)rule);
-	}
-	g_ptr_array_set_size (rules, 0);
-}
-
 static GArray *
 build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrArray *rules)
 {
@@ -297,9 +283,15 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
 	ESearchBarItem item;
 	char *source;
+	GSList *gtksux = NULL;
 
-	clear_rules(efb, rules);
-	
+	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
+	   So this snot is to work around that shit fucked up situation */
+	for (i=0;i<rules->len;i++)
+		gtksux = g_slist_prepend(gtksux, rules->pdata[i]);
+
+	g_ptr_array_set_size(rules, 0);
+
 	/* find a unique starting point for the id's of our items */
 	for (i = 0; items[i].id != -1; i++) {
 		if (items[i].id >= id)
@@ -327,9 +319,28 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		item.text = rule->name;
 		item.subitems = NULL;
 		g_array_append_vals (menu, &item, 1);
-		gtk_object_ref((GtkObject *)rule);
-		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, efb);
+
+		if (g_slist_find(gtksux, rule) == NULL) {
+			gtk_object_ref((GtkObject *)rule);
+			gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, efb);
+		} else {
+			gtksux = g_slist_remove(gtksux, rule);
+		}
 		g_ptr_array_add (rules, rule);
+	}
+
+	/* anything elft in gtksux has gone away, and we need to unref/disconnect from it */
+	while (gtksux) {
+		GSList *next;
+
+		next = gtksux->next;
+		rule = gtksux->data;
+
+		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
+		gtk_object_unref((GtkObject *)rule);
+
+		g_slist_free_1(gtksux);
+		gtksux = next;
 	}
 	
 	/* always add on the advanced menu */
@@ -441,7 +452,7 @@ context_changed (RuleContext *context, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-	
+
 	generate_menu (esb, efb->default_items);
 }
 
@@ -450,7 +461,7 @@ context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 
-	gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
+	/*gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);*/
 }
 
 static void
@@ -484,6 +495,20 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 	}
+}
+
+static void clear_rules(EFilterBar *efb, GPtrArray *rules)
+{
+	int i;
+	FilterRule *rule;
+
+	/* clear out any data on old rules */
+	for (i=0;i<rules->len;i++) {
+		rule = rules->pdata[i];
+		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);
+		gtk_object_unref((GtkObject *)rule);
+	}
+	g_ptr_array_set_size (rules, 0);
 }
 
 static void
