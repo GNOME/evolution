@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -55,6 +54,7 @@
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-icon-factory.h"
+#include "widgets/misc/e-error.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -171,22 +171,15 @@ add_from_file (EMsgComposerAttachmentBar *bar,
 	       const char *disposition)
 {
 	EMsgComposerAttachment *attachment;
-	EMsgComposer *composer;
 	CamelException ex;
-	GtkWidget *dialog;
 	
 	camel_exception_init (&ex);
 	attachment = e_msg_composer_attachment_new (file_name, disposition, &ex);
 	if (attachment) {
 		add_common (bar, attachment);
 	} else {
-		composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-		dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
-						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-						"%s", camel_exception_get_description (&ex));
-		gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
+			    file_name, camel_exception_get_description(&ex), NULL);
 		camel_exception_clear (&ex);
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <error-list domain="mail-composer">
 
- <error id="attach" type="warning">
+ <error id="no-attach" type="error" modal="true">
   <_primary>You cannot attach the file `${0}' to this message.</_primary>
-  <_secondary>${0}</_secondary>
+  <_secondary>${1}</_secondary>
  </error>
 
  <error id="attach-notfile" type="warning">
@@ -23,6 +23,11 @@
   <button _label="Recover" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="no-autosave" type="error">
+  <_primary>Could not save to autosave file &quot;{0}&quot;.</_primary>
+  <_secondary>Error saving to autosave because &quot;{1}&quot;.</_secondary>
+ </error>
+
  <error id="exit-unsaved" modal="true" type="warning">
   <_title>Warning: Modified Message</_title>
   <_primary>Are you sure you want to discard the message, titled '{0}', you are composing?</_primary>
@@ -30,6 +35,21 @@
   <button _label="Discard Changes" response="GTK_RESPONSE_NO"/>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="Save Message" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="no-build-message" type="error" modal="true">
+  <_primary>Could not create message.</_primary>
+  <_secondary>Because &quot;${0}&quot;, you may need to select different mail options.</_secondary>
+ </error>
+
+ <error id="no-sig-file" type="warning" modal="true">
+  <_primary>Could not read signature file &quot;{0}&quot;.</_primary>
+  <_secondary>Because &quot;${1}&quot;.</_secondary>
+ </error>
+
+ <error id="all-accounts-deleted" type="warning" modal="true">
+  <_primary>All accounts have been removed.</_primary>
+  <_secondary>You need to configure an account before you can compose mail.</_secondary>
  </error>
 
 </error-list>

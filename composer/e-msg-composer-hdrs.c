@@ -51,6 +51,8 @@
 
 #include <gal/e-text/e-entry.h>
 
+#include "widgets/misc/e-error.h"
+
 #include <camel/camel.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
@@ -266,7 +268,7 @@ static void
 account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs *hdrs)
 {
 	struct _EMsgComposerHdrsPrivate *priv = hdrs->priv;
-	GtkWidget *item, *omenu, *toplevel, *dialog;
+	GtkWidget *item, *omenu, *toplevel;
 	EAccount *acnt;
 	GSList *node;
 	
@@ -302,10 +304,8 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 			toplevel = gtk_widget_get_toplevel ((GtkWidget *) hdrs);
 			gtk_widget_set_sensitive (toplevel, FALSE);
 			
-			dialog = gtk_message_dialog_new ((GtkWindow *) toplevel, GTK_DIALOG_MODAL |
-							 GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s",
-							 _("You need to configure an account before you can compose mail."));
+			/* FIXME: this should offer a 'configure account' button, can we do that? */
+			e_error_run((GtkWindow *)toplevel, "mail-composer:all-accounts-deleted", NULL);
 		}
 	}
 }

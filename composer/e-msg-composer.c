@@ -91,6 +91,7 @@
 #include "e-util/e-signature-list.h"
 #include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-expander.h"
+#include "widgets/misc/e-error.h"
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
@@ -786,14 +787,8 @@ skip_content:
 	camel_object_unref (new);
 	
 	if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
-		GtkWidget *dialog;
-
-		dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
-						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-						"%s", camel_exception_get_description (&ex));
-		gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
+		e_error_run((GtkWindow *)composer, "mail-composer:no-build-message",
+			    camel_exception_get_description(&ex), NULL);
 	}
 
 	camel_exception_clear (&ex);
@@ -822,17 +817,9 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	
 	fd = open (file_name, O_RDONLY);
 	if (fd == -1) {
-		if (warn) {
-			GtkWidget *dialog;
-			
-			dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
-							GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-							GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-							_("Error while reading file %s:\n%s"),
-							file_name, g_strerror (errno));
-			gtk_dialog_run(GTK_DIALOG(dialog));
-			gtk_widget_destroy(dialog);
-		}
+		if (warn)
+			e_error_run((GtkWindow *)composer, "mail-composer:no-sig-file",
+				    file_name, g_strerror(errno), NULL);
 		return g_strdup ("");
 	}
 	
@@ -1201,27 +1188,18 @@ save (EMsgComposer *composer, const char *default_filename)
 	/* check to see if we already have the file and that we can create it */
 	if ((fd = open (filename, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
 		int resp, errnosav = errno;
-		GtkWidget *dialog;
 		struct stat st;
 		
 		if (stat (filename, &st) == 0 && S_ISREG (st.st_mode)) {
-			dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
-							 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-							 _("File exists, overwrite?"));
-			resp = gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			if (resp != GTK_RESPONSE_YES) {
+			resp = e_error_run((GtkWindow *)composer, E_ERROR_ASK_FILE_EXISTS_OVERWRITE,
+					   filename, NULL);
+			if (resp != GTK_RESPONSE_OK) {
 				g_free (filename);
 				return;
 			}
 		} else {
-			dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
-							 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-							 _("Error saving file: %s"), g_strerror (errnosav));
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
+			e_error_run((GtkWindow *)composer, E_ERROR_NO_SAVE_FILE,
+				    filename, g_strerror(errnosav));
 			g_free (filename);
 			return;
 		}
@@ -1233,10 +1211,8 @@ save (EMsgComposer *composer, const char *default_filename)
 	Bonobo_PersistFile_save (composer->persist_file_interface, filename, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		char *tmp = g_path_get_basename (filename);
-		
-		e_notice (composer, GTK_MESSAGE_ERROR, _("Error saving file: %s"), tmp);
-		g_free(tmp);
+		e_error_run((GtkWindow *)composer, E_ERROR_NO_SAVE_FILE,
+			    filename, _("Unknown reason"));
 	} else {
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "saved", &ev);
 		e_msg_composer_unset_autosaved (composer);
@@ -1255,13 +1231,9 @@ load (EMsgComposer *composer, const char *file_name)
 	
 	Bonobo_PersistFile_load (composer->persist_file_interface, file_name, &ev);
 	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		char *tmp = g_path_get_basename(file_name);
-
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Error loading file: %s"), tmp);
-		g_free(tmp);
-	}
+	if (ev._major != CORBA_NO_EXCEPTION)
+		e_error_run((GtkWindow *)composer, E_ERROR_NO_LOAD_FILE,
+			    file_name, _("Unknown reason"), NULL);
 	
 	CORBA_exception_free (&ev);
 }
@@ -1296,39 +1268,26 @@ autosave_save_draft (EMsgComposer *composer)
 	file = composer->autosave_file;
 	
 	if (fd == -1) {
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Error accessing file: %s"), file);
+		/* This code is odd, the fd is opened elsewhere but a failure is ignored */
+		e_error_run((GtkWindow *)composer, "mail-composer:no-autosave",
+			    file, _("Could not open file"), NULL);
 		return FALSE;
 	}
 	
 	message = e_msg_composer_get_message_draft (composer);
 	
 	if (message == NULL) {
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Unable to retrieve message from editor"));
+		e_error_run((GtkWindow *)composer, "mail-composer:no-autosave",
+			    file, _("Unable to retrieve message from editor"), NULL);
 		return FALSE;
 	}
 	
-	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
+	if (lseek (fd, (off_t)0, SEEK_SET) == -1
+	    || ftruncate (fd, (off_t)0) == -1
+	    || (camelfd = dup(fd)) == -1) {
 		camel_object_unref (message);
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Unable to seek on file: %s\n%s"), file, g_strerror (errno));
-		return FALSE;
-	}
-	
-	if (ftruncate (fd, (off_t)0) == -1) {
-		camel_object_unref (message);
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Unable to truncate file: %s\n%s"), file, g_strerror (errno));
-		return FALSE;
-	}
-
-	/* dup the fd because we dont want camel to close it when done */
-	camelfd = dup(fd);
-	if (fd == -1) {
-		camel_object_unref (message);
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Unable to copy file descriptor: %s\n%s"), file, g_strerror (errno));
+		e_error_run((GtkWindow *)composer, "mail-composer:no-autosave",
+			    file, g_strerror(errno), NULL);
 		return FALSE;
 	}
 	
@@ -1336,9 +1295,8 @@ autosave_save_draft (EMsgComposer *composer)
 	stream = camel_stream_fs_new_with_fd (camelfd);
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1
 	    || camel_stream_close (CAMEL_STREAM (stream)) == -1) {
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
-		
+		e_error_run((GtkWindow *)composer, "mail-composer:no-autosave",
+			    file, g_strerror(errno), NULL);
 		success = FALSE;
 	} else {
 		CORBA_Environment ev;
@@ -1433,18 +1391,8 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	
 	closedir (dir);
 	
-	if (match != NULL) {
-		GtkWidget *dialog;
-
-		dialog = gtk_message_dialog_new (parent,
-						 GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-						 _("Ximian Evolution has found unsaved messages from a previous session.\n"
-						   "Would you like to try to recover them?"));
-		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-		load = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-		gtk_widget_destroy (dialog);
-	}
+	if (match != NULL)
+		load = e_error_run(parent, "mail-composer:recover-autosave", NULL) == GTK_RESPONSE_YES;
 	
 	while (match != NULL) {
 		GSList *next = match->next;
@@ -1588,7 +1536,6 @@ static void
 do_exit (EMsgComposer *composer)
 {
 	const char *subject;
-	GtkWidget *dialog;
 	int button;
 	
 	if (!e_msg_composer_is_dirty (composer) && !e_msg_composer_is_autosaved (composer)) {
@@ -1599,24 +1546,10 @@ do_exit (EMsgComposer *composer)
 	gdk_window_raise (GTK_WIDGET (composer)->window);
 	
 	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	
-	dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
-					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					 GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE,
-					 _("The message \"%s\" has not been sent.\n\n"
-					   "Do you wish to save your changes?"),
-					 subject && *subject ? subject : _("Untitled Message"));
-	
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				_("_Discard Changes"), GTK_RESPONSE_NO,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
-				NULL);
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-	button = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	
+
+	button = e_error_run((GtkWindow *)composer, "mail-composer:exit-unsaved",
+			     subject && subject[0] ? subject : _("Untitled Message"), NULL);
+
 	switch (button) {
 	case GTK_RESPONSE_YES:
 		/* Save */
