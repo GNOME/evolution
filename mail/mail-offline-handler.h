@@ -23,7 +23,7 @@
 #ifndef _MAIL_OFFLINE_HANDLER_H_
 #define _MAIL_OFFLINE_HANDLER_H_
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "Evolution.h"
 
 #ifdef __cplusplus
@@ -43,13 +43,13 @@ typedef struct _MailOfflineHandlerPrivate MailOfflineHandlerPrivate;
 typedef struct _MailOfflineHandlerClass   MailOfflineHandlerClass;
 
 struct _MailOfflineHandler {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	MailOfflineHandlerPrivate *priv;
 };
 
 struct _MailOfflineHandlerClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Offline__epv epv;
 };

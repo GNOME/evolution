@@ -1519,7 +1519,7 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 }
 
 /* MailConfig Bonobo object */
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
 /* For the bonobo object */
@@ -1527,11 +1527,11 @@ typedef struct _EvolutionMailConfig EvolutionMailConfig;
 typedef struct _EvolutionMailConfigClass EvolutionMailConfigClass;
 
 struct _EvolutionMailConfig {
-	BonoboXObject parent;
+	BonoboObject parent;
 };
 
 struct _EvolutionMailConfigClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_MailConfig__epv epv;
 };
@@ -1648,10 +1648,10 @@ evolution_mail_config_init (EvolutionMailConfig *config)
 {
 }
 
-BONOBO_X_TYPE_FUNC_FULL (EvolutionMailConfig,
-			 GNOME_Evolution_MailConfig,
-			 PARENT_TYPE,
-			 evolution_mail_config);
+BONOBO_TYPE_FUNC_FULL (EvolutionMailConfig,
+		       GNOME_Evolution_MailConfig,
+		       PARENT_TYPE,
+		       evolution_mail_config);
 
 static BonoboObject *
 evolution_mail_config_factory_fn (BonoboGenericFactory *factory,

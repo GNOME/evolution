@@ -1,3 +1,11 @@
+2003-01-13  Dan Winship  <danw@ximian.com>
+
+	* folder-info.c: s/BonoboXObject/BonoboObject/
+
+	* mail-config.c: Likewise
+
+	* mail-offline-handler.c: Likewise
+
 2003-01-13  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (mail_msg_check_error): hook onto destroy to remove

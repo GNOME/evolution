@@ -14,7 +14,7 @@
 
 #include <glib.h>
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-context.h>
@@ -31,7 +31,7 @@
 
 #define FOLDER_INFO_IID "OAFIID:GNOME_Evolution_FolderInfo_Factory"
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
 static GSList *folder_infos;
@@ -40,13 +40,13 @@ typedef struct _EvolutionFolderInfo EvolutionFolderInfo;
 typedef struct _EvolutionFolderInfoClass EvolutionFolderInfoClass;
 
 struct _EvolutionFolderInfo {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	BonoboPropertyBag *pb;
 };
 
 struct _EvolutionFolderInfoClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_FolderInfo__epv epv;
 };
@@ -182,10 +182,10 @@ evolution_folder_info_init (EvolutionFolderInfo *info)
 {
 }
 
-BONOBO_X_TYPE_FUNC_FULL (EvolutionFolderInfo,
-			 GNOME_Evolution_FolderInfo,
-			 PARENT_TYPE,
-			 evolution_folder_info);
+BONOBO_TYPE_FUNC_FULL (EvolutionFolderInfo,
+		       GNOME_Evolution_FolderInfo,
+		       PARENT_TYPE,
+		       evolution_folder_info);
 
 enum {
 	PROP_FOLDER_INFO_READY

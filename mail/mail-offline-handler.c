@@ -34,8 +34,8 @@
 
 #include <gal/util/e-util.h>
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _MailOfflineHandlerPrivate {
 	GHashTable *sync_table;
@@ -350,4 +350,4 @@ mail_offline_handler_new (void)
 	return new;
 }
 
-BONOBO_X_TYPE_FUNC_FULL (MailOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, mail_offline_handler);
+BONOBO_TYPE_FUNC_FULL (MailOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, mail_offline_handler);
