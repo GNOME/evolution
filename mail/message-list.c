@@ -1827,6 +1827,12 @@ void mail_do_regenerate_messagelist (MessageList *list, const gchar *search)
 {
 	regenerate_messagelist_input_t *input;
 
+	/* This gets called on empty folder-browsers by the bonobo ui
+	 * callback for threaded view.
+	 */
+	if (!list->folder)
+		return;
+
 	input = g_new (regenerate_messagelist_input_t, 1);
 	input->ml = list;
 	input->search = g_strdup (search);
