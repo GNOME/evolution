@@ -207,7 +207,7 @@ cal_backend_get_email_address (CalBackend *backend)
 GNOME_Evolution_Calendar_SchedulingInformation
 cal_backend_get_scheduling_information (CalBackend *backend)
 {
-	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE, FALSE};
+	GNOME_Evolution_Calendar_SchedulingInformation si = {FALSE, FALSE};
 	
 	g_return_val_if_fail (backend != NULL, si);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), si);

@@ -1,3 +1,20 @@
+2002-12-18  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-util.c (generate_absolute_triggers): skip omitted
+	alarm types
+	(add_alarm_occurrences_cb): ditto
+	(cal_util_generate_alarms_for_list): take/pass omit param
+	(cal_util_generate_alarms_for_comp): ditto
+
+	* cal-util/cal-util.h: update protos
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object):
+	add omit param
+	(cal_backend_file_get_alarms_in_range): ditto
+
+	* pcs/cal-backend.c (cal_backend_get_scheduling_information):
+	remove dead param
+
 2002-12-17  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.h: delete proto

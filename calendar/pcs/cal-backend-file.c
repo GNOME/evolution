@@ -1638,6 +1638,8 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend,
 	GSList *comp_alarms;
 	GSList *l;
 	int i;
+	CalAlarmAction omit[] = {-1};
+	
 	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
 
 	cbfile = CAL_BACKEND_FILE (backend);
@@ -1653,11 +1655,11 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend,
 	n_comp_alarms = 0;
 	comp_alarms = NULL;
 
-	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end,
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end, omit,
 							    &comp_alarms, resolve_tzid,
 							    priv->icalcomp,
 							    priv->default_zone);
-	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end,
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end, omit,
 							    &comp_alarms, resolve_tzid,
 							    priv->icalcomp,
 							    priv->default_zone);
@@ -1700,6 +1702,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	char *comp_str;
 	GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms;
 	CalComponentAlarms *alarms;
+	CalAlarmAction omit[] = {-1};
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1725,7 +1728,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	corba_alarms->calobj = CORBA_string_dup (comp_str);
 	g_free (comp_str);
 
-	alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, priv->icalcomp, priv->default_zone);
+	alarms = cal_util_generate_alarms_for_comp (comp, start, end, omit, resolve_tzid, priv->icalcomp, priv->default_zone);
 	if (alarms) {
 		cal_backend_util_fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
 		cal_component_alarms_free (alarms);
