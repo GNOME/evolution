@@ -1,3 +1,16 @@
+2003-07-29  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): add a CamelOperation for
+	overriding status handler.
+
+	* mail-send-recv.c (receive_update_got_store): Pass our own cancel
+	handle to get_folderinfo and mail_note_store.
+	(mail_send_receive, mail_receive_uri): Same for get_store.
+
+	* mail-ops.c (mail_get_store, mail_get_folderinfo): Add a
+	CamelOperation argument, for overriding the status handler.  Fixed
+	most calles to pass NULL to use the default.
+
 2003-08-01  Yuedong Du  <yuedong.du@sun.com>
 
 	* message-browser.c: (on_key_press): close mail message window

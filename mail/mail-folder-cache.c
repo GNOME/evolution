@@ -809,7 +809,7 @@ store_online_cb (CamelStore *store, void *data)
 
 	if (g_hash_table_lookup(stores, store) != NULL) {
 		/* re-use the cancel id.  we're already in the store update list too */
-		ud->id = mail_get_folderinfo(store, update_folders, ud);
+		ud->id = mail_get_folderinfo(store, NULL, update_folders, ud);
 	} else {
 		/* the store vanished, that means we were probably cancelled, or at any rate,
 		   need to clean ourselves up */
@@ -820,7 +820,7 @@ store_online_cb (CamelStore *store, void *data)
 }
 
 void
-mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
+mail_note_store(CamelStore *store, CamelOperation *op, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
 		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
@@ -887,7 +887,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		ud = g_malloc (sizeof (*ud));
 		ud->done = done;
 		ud->data = data;
-		ud->id = mail_get_folderinfo (store, update_folders, ud);
+		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
 
 		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
 	}

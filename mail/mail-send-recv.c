@@ -669,7 +669,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 		EvolutionStorage *storage = mail_lookup_storage (store);
 		
 		if (storage) {
-			mail_note_store(store, storage, CORBA_OBJECT_NIL, receive_update_done, info);
+			mail_note_store(store, info->cancel, storage, CORBA_OBJECT_NIL, receive_update_done, info);
 			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
 		} else {
 			/* If we get here, store must be an external
@@ -677,7 +677,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 			 * Do a get_folder_info just to force it to
 			 * update itself.
 			 */
-			mail_get_folderinfo(store, receive_update_got_folderinfo, info);
+			mail_get_folderinfo(store, info->cancel, receive_update_got_folderinfo, info);
 		}
 	} else {
 		receive_done ("", info);
@@ -733,8 +733,7 @@ GtkWidget *mail_send_receive (void)
 					receive_done, info);
 			break;
 		case SEND_UPDATE:
-			/* FIXME: error reporting? */
-			mail_get_store(info->uri, receive_update_got_store, info);
+			mail_get_store(info->uri, info->cancel, receive_update_got_store, info);
 			break;
 		default:
 			g_assert_not_reached ();
@@ -900,8 +899,7 @@ mail_receive_uri (const char *uri, int keep)
 				 receive_done, info);
 		break;
 	case SEND_UPDATE:
-		/* FIXME: error reporting? */
-		mail_get_store (info->uri, receive_update_got_store, info);
+		mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
 		break;
 	default:
 		g_assert_not_reached ();

@@ -1218,7 +1218,7 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	}
 
 	/* setup to record this store's changes */
-	mail_note_store((CamelStore *)global_local_store, NULL, local_corba_storage, NULL, NULL);
+	mail_note_store((CamelStore *)global_local_store, NULL, NULL, local_corba_storage, NULL, NULL);
 
 	local_storage_listener = evolution_storage_listener_new ();
 	corba_local_storage_listener = evolution_storage_listener_corba_objref (
