@@ -887,6 +887,21 @@ smtp.omniport.com:143
 	    </para>
 	  </listitem>
 	</orderedlist>
+<!-- I gotta finish this example -->
+	<example id="ldap-config-example">
+	  <title>LDAP Configuration</title>
+	  <para>
+	    Rich works at a large chip manufacturer.  He needs to
+	    access the company's LDAP server.  Their LDAP address is
+	    wemakechips.com.
+	  </para>
+	  <para>
+	    His Account Name would be: We Make Chips Employees
+	  </para>
+	  <para>
+	    His Server Name would be: ldap.wemakechips.com
+	  </para>
+	</example>
       </para>
     </sect2>
   </sect1>

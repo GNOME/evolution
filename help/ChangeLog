@@ -1,3 +1,7 @@
+2002-01-29  Kevin Breit  <mrproper@ximian.com>
+
+	* C/config-prefs.sgml: Started writing an LDAP config example
+
 2002-01-27  Kevin Breit  <mrproper@ximian.com>
 
 	* C/config-prefs.sgml: Added information regarding types of search scopes
