@@ -1,3 +1,10 @@
+1999-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* compiler-flags.m4 : Remove -Wpointer-arith.  It generates large
+	  numbers of warnings under glibc2.1.2 with a recent egcs release.
+	  The glibc maintainers have suggested removing this flag because it
+	  is useless.
+
 1999-09-01  Havoc Pennington  <hp@pobox.com>
 
 	* gnome-xml-check.m4: If you're going to AC_PATH_PROG then use the
