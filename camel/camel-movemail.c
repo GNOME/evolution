@@ -59,9 +59,15 @@ static void movemail_external (const char *source, const char *dest,
 			       CamelException *ex);
 #endif
 
-/* these could probably be exposed as a utility? (but only mbox needs it) */
-#if 0
+#ifdef HAVE_BROKEN_SPOOL
 static int camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter);
+static int camel_movemail_solaris (int oldsfd, int dfd, CamelException *ex);
+#else
+/* these could probably be exposed as a utility? (but only mbox needs it) */
+static int camel_movemail_copy_file(int sfd, int dfd, CamelException *ex);
+#endif
+
+#if 0
 static int camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes);
 #endif
 
@@ -86,8 +92,6 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 	int res = -1;
 	int sfd, dfd;
 	struct stat st;
-	int nread, nwrote;
-	char buf[BUFSIZ];
 
 	camel_exception_clear(ex);
 
@@ -103,7 +107,7 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Could not check mail file "
 						"%s: %s"), source,
-					      g_strerror (errno));
+					      strerror (errno));
 		}
 		return -1;
 	}
@@ -116,7 +120,7 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 	if (sfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not open mail file %s: %s"),
-				      source, g_strerror (errno));
+				      source, strerror (errno));
 		return -1;
 	}
 
@@ -125,7 +129,7 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not open temporary mail "
 					"file %s: %s"), dest,
-				      g_strerror (errno));
+				      strerror (errno));
 		close (sfd);
 		return -1;
 	}
@@ -138,49 +142,23 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 		return -1;
 	}
 
-	while (1) {
-		int written = 0;
-
-		nread = read (sfd, buf, sizeof (buf));
-		if (nread == 0)
-			break;
-		else if (nread == -1) {
-			if (errno == EINTR)
-				continue;
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Error reading mail file: %s"),
-					      g_strerror (errno));
-			break;
-		}
-
-		while (nread) {
-			nwrote = write (dfd, buf + written, nread);
-			if (nwrote == -1) {
-				if (errno == EINTR)
-					continue; /* continues inner loop */
-				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      _("Error writing "
-							"mail temp file: %s"),
-						      g_strerror (errno));
-				break;
-			}
-			written += nwrote;
-			nread -= nwrote;
-		}
-	}
+#ifdef HAVE_BROKEN_SPOOL
+	res = camel_movemail_solaris(sfd, dfd, ex);
+#else
+	res = camel_movemail_copy_file(sfd, dfd, ex);
+#endif
 
 	/* If no errors occurred copying the data, and we successfully
 	 * close the destination file, then truncate the source file.
 	 */
-	if (!camel_exception_is_set (ex)) {
+	if (res != -1) {
 		if (close (dfd) == 0) {
 			ftruncate (sfd, 0);
-			res = 0;
 		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to store mail in "
-						"temp file %s: %s"), dest,
-					      g_strerror (errno));
+					      _("Failed to store mail in temp file %s: %s"), dest,
+					      strerror(errno));
+			res = -1;
 		}
 	} else
 		close (dfd);
@@ -209,7 +187,7 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create pipe: %s"),
-				      g_strerror (errno));
+				      strerror (errno));
 		return;
 	}
 
@@ -221,7 +199,7 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not fork: %s"),
-				      g_strerror (errno));
+				      strerror (errno));
 		return;
 
 	case 0:
@@ -265,6 +243,46 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 }
 #endif
 
+#ifndef HAVE_BROKEN_SPOOL
+static int
+camel_movemail_copy_file(int sfd, int dfd, CamelException *ex)
+{
+	int nread, nwrote;
+	char buf[4096];
+
+	while (1) {
+		int written = 0;
+
+		nread = read (sfd, buf, sizeof (buf));
+		if (nread == 0)
+			break;
+		else if (nread == -1) {
+			if (errno == EINTR)
+				continue;
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Error reading mail file: %s"),
+					      strerror (errno));
+			return -1;
+		}
+
+		while (nread) {
+			nwrote = write (dfd, buf + written, nread);
+			if (nwrote == -1) {
+				if (errno == EINTR)
+					continue; /* continues inner loop */
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Error writing mail temp file: %s"),
+						      strerror (errno));
+				return -1;
+			}
+			written += nwrote;
+			nread -= nwrote;
+		}
+	}
+
+	return 0;
+}
+#endif
 
 #if 0
 static int
@@ -318,7 +336,7 @@ camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes)
 
 #define PRE_SIZE (32)
 
-#if 0
+#ifdef HAVE_BROKEN_SPOOL
 static int
 camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter)
 {
@@ -349,6 +367,8 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 		if (towrite == -1)
 			return -1;
 
+		printf("read %d unfiltered bytes\n", towrite);
+
                 /* check for 'end of file' */
                 if (towrite == 0) {
 			d(printf("end of file?\n"));
@@ -362,6 +382,8 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 						 &filterbuffer, &filterlen, &filterpre);
 			towrite = filterlen;
 		}
+
+		printf("writing %d filtered bytes\n", towrite);
 
 		do {
 			toread = write(tofd, filterbuffer, towrite);
@@ -428,13 +450,24 @@ solaris_header_write(int fd, struct _header_raw *header)
    we must convert it to a real mbox format.  Thankfully this is
    mostly pretty easy */
 static int
-camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
+camel_movemail_solaris (int oldsfd, int dfd, CamelException *ex)
 {
 	CamelMimeParser *mp;
 	char *buffer;
 	int len;
+	int sfd;
 	CamelMimeFilterFrom *ffrom;
 	int ret = 1;
+	char *from = NULL;
+
+	/* need to dup as the mime parser will close on finish */
+	sfd = dup(oldsfd);
+	if (sfd == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Error copying mail temp file: %s"),
+				      strerror (errno));
+		return -1;
+	}
 
 	mp = camel_mime_parser_new();
 	camel_mime_parser_scan_from(mp, TRUE);
@@ -443,6 +476,8 @@ camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
 	ffrom = camel_mime_filter_from_new();
 
 	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
+		g_assert(camel_mime_parser_from_line(mp));
+		from = g_strdup(camel_mime_parser_from_line(mp));
 		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM_END) {
 			const char *cl;
 			int length;
@@ -454,8 +489,12 @@ camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
 			start = camel_mime_parser_tell_start_from(mp);
 			body = camel_mime_parser_tell(mp);
 
+			if (write(dfd, from, strlen(from)) != strlen(from))
+				goto fail;
+
 			/* write out headers, but NOT content-length header */
-			solaris_header_write(dfd, camel_mime_parser_headers_raw(mp));
+			if (solaris_header_write(dfd, camel_mime_parser_headers_raw(mp)) == -1)
+				goto fail;
 
 			cl = camel_mime_parser_header(mp, "content-length", NULL);
 			if (cl == NULL) {
@@ -480,6 +519,7 @@ camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
 		} else {
 			g_error("Inalid parser state: %d", camel_mime_parser_state(mp));
 		}
+		g_free(from);
 	}
 
 	camel_object_unref((CamelObject *)mp);
@@ -488,10 +528,11 @@ camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
 	return ret;
 
 fail:
+	g_free(from);
+
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Error copying "
-			      "mail temp file: %s"),
-			      g_strerror (errno));
+			      _("Error copying mail temp file: %s"),
+			      strerror (errno));
 
 
 	camel_object_unref((CamelObject *)mp);
@@ -499,5 +540,5 @@ fail:
 
 	return -1;
 }
-#endif
+#endif /* HAVE_BROKEN_SPOOL */
 

@@ -36,11 +36,11 @@ static CamelObjectClass *parent_class = NULL;
 
 /* dummy implementations, for a NULL stream */
 static ssize_t   stream_read       (CamelStream *stream, char *buffer, size_t n) { return 0; }
-static ssize_t   stream_write      (CamelStream *stream, const char *buffer, size_t n) { return n; }
+static ssize_t   stream_write      (CamelStream *stream, const char *buffer, size_t n) { ((CamelStreamNull *)stream)->written += n; return n; }
 static int       stream_close      (CamelStream *stream) { return 0; }
 static int       stream_flush      (CamelStream *stream) { return 0; }
 static gboolean  stream_eos        (CamelStream *stream) { return TRUE; }
-static int       stream_reset      (CamelStream *stream) { return 0; }
+static int       stream_reset      (CamelStream *stream) { ((CamelStreamNull *)stream)->written = 0; return 0; }
 
 static void
 camel_stream_null_class_init (CamelStreamClass *camel_stream_null_class)

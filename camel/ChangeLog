@@ -1,3 +1,24 @@
+2001-07-11  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Create
+	the messageinfo itself, so we can properly set the size.
+
+	* camel-movemail.c (camel_movemail_solaris): Write out the from
+	line between each message.
+
+2001-07-10  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-summary.c (local_summary_add): Copy
+	the size across from the source message info if supplied.
+
+	* camel-stream-null.c: Added a 'written' member which keeps track
+	of how much has been written to the stream.
+
+	* camel-movemail.c (camel_movemail): If we have BROKEN_SPOOL
+	defined, then use the solaris movemail to quote from lines that
+	sendmail didn't.
+	(camel_movemail_solaris): Compile this in if BROKEN_SPOOL defined.
+
 2001-07-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (html_meta_param_list_decode): New function

@@ -629,7 +629,9 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	int i = 0;
 	struct stat st;
 	int status;
-	
+	CamelMessageInfo *info;
+	off_t last = 0;
+
 	fd = open (mbox, O_RDONLY);
 	if (fd == -1) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Unable to open spool folder"));
@@ -665,7 +667,10 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 			goto fail;
 		}
 		
-		status = camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, 
+		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
+		info->size = camel_mime_parser_tell(mp) - last;
+		last = camel_mime_parser_tell(mp);
+		status = camel_filter_driver_filter_message (driver, msg, info, NULL, NULL, source_url, 
 							     original_source_url ? original_source_url : source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex) || status == -1) {

@@ -870,6 +870,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 {
 	CamelMessageInfo *info;
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
+	CamelStreamNull *sn;
 
 	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_message(s, msg);
 
@@ -883,8 +884,10 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 	}
 
 	info->content = summary_build_content_info_message(s, info, (CamelMimePart *)msg);
-	/* FIXME: calculate the size as part of build_content_info_message */
-	/* info->size = ... */
+#if 0
+	sn = camel_stream_null_new();
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, sn);
+#endif
 
 	return info;
 }

@@ -393,6 +393,7 @@ local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMess
 			}
 
 			mi->flags = mi->flags | (info->flags & 0xffff);
+			mi->size = info->size;
 		}
 		mi->flags &= ~(CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED);
 		xev = camel_local_summary_encode_x_evolution(cls, mi);
