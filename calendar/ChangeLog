@@ -1,3 +1,7 @@
+2000-07-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* gui/Makefile.am: Added a few xpm files to the EXTRA DIST section
+
 2000-07-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_free_period_list): New function.

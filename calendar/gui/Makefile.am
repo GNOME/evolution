@@ -114,12 +114,16 @@ EXTRA_DIST =	 			\
 	$(OAF_GNORBA_EXTRAS)		\
 	$(glade_DATA)			\
 	bell.xpm			\
-	recur.xpm			\
-	jump.xpm			\
 	dayview.xpm			\
-	workweekview.xpm		\
-	weekview.xpm			\
+	jump.xpm			\
 	monthview.xpm			\
+	recur.xpm			\
+	task-assign-to.xpm		\
+	task-assigned.xpm		\
+	task-recurring.xpm		\
+	task.xpm			\
+	weekview.xpm			\
+	workweekview.xpm		\
 	yearview.xpm			\
 	calendar-control.gnorba		\
 	calendar-control.oafinfo
