@@ -401,12 +401,14 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalattach_unref (attach);
 
 	str = e_dialog_editable_get (dialog->palarm_args);
-	description.value = str;
-	description.altrep = NULL;
-
-	e_cal_component_alarm_set_description (alarm, &description);
+	if (str && *str) {
+		description.value = str;
+		description.altrep = NULL;
+		
+		e_cal_component_alarm_set_description (alarm, &description);
+	}
 	g_free (str);
-
+	
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
@@ -655,6 +657,113 @@ setup_select_names (Dialog *dialog)
 	return TRUE;
 }
 
+/* Callback used when the repeat toggle button is toggled.  We sensitize the
+ * repeat group options as appropriate.
+ */
+static void
+repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->repeat_group, active);
+}
+
+static void
+check_custom_sound (Dialog *dialog)
+{
+	char *str;
+	gboolean sens;
+	
+	str = e_dialog_editable_get (dialog->aalarm_attach);
+
+	sens = e_dialog_toggle_get (dialog->aalarm_sound) ? str && *str : TRUE;
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
+
+	g_free (str);
+}
+
+static void
+aalarm_sound_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->aalarm_group, active);
+	check_custom_sound (dialog);
+}
+
+static void
+aalarm_attach_changed_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	
+	check_custom_sound (dialog);
+}
+
+static void
+check_custom_message (Dialog *dialog)
+{
+	char *str;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
+	gboolean sens;
+	
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	sens = e_dialog_toggle_get (dialog->dalarm_message) ? str && *str : TRUE;
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
+
+	g_free (str);
+}
+
+static void
+dalarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->dalarm_group, active);
+	check_custom_message (dialog);
+}
+
+static void
+dalarm_description_changed_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	
+	check_custom_message (dialog);
+}
+
+static void
+check_custom_program (Dialog *dialog)
+{
+	char *str;
+	gboolean sens;
+	
+	str = e_dialog_editable_get (dialog->palarm_program);
+
+	sens = str && *str;
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
+}
+
+static void
+palarm_program_changed_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	
+	check_custom_program (dialog);
+}
+
 static void
 action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
@@ -671,42 +780,26 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	}
 	
 	gtk_notebook_set_page (GTK_NOTEBOOK (dialog->option_notebook), page);
-}
 
-/* Callback used when the repeat toggle button is toggled.  We sensitize the
- * repeat group options as appropriate.
- */
-static void
-repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
-{
-	Dialog *dialog = data;
-	gboolean active;
+	switch (action) {	
+	case E_CAL_COMPONENT_ALARM_AUDIO:
+		check_custom_sound (dialog);
+		break;
 
-	active = gtk_toggle_button_get_active (toggle);
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
+		check_custom_message (dialog);
+		break;
 
-	gtk_widget_set_sensitive (dialog->repeat_group, active);
-}
+	case E_CAL_COMPONENT_ALARM_EMAIL:
+		break;
 
-static void
-aalarm_sound_toggled_cb (GtkToggleButton *toggle, gpointer data)
-{
-	Dialog *dialog = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active (toggle);
-
-	gtk_widget_set_sensitive (dialog->aalarm_group, active);
-}
-
-static void
-dalarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
-{
-	Dialog *dialog = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active (toggle);
-
-	gtk_widget_set_sensitive (dialog->dalarm_group, active);
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+		check_custom_program (dialog);
+		break;
+	default:
+		g_assert_not_reached ();
+		return;
+	}
 }
 
 /* Hooks the widget signals */
@@ -714,6 +807,7 @@ static void
 init_widgets (Dialog *dialog)
 {
 	GtkWidget *menu;
+	GtkTextBuffer *text_buffer;
 	
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
 	g_signal_connect (menu, "selection_done",
@@ -723,10 +817,23 @@ init_widgets (Dialog *dialog)
 	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",
 			  G_CALLBACK (repeat_toggle_toggled_cb), dialog);
 
+	/* Handle custom sounds */
 	g_signal_connect (G_OBJECT (dialog->aalarm_sound), "toggled",
 			  G_CALLBACK (aalarm_sound_toggled_cb), dialog);
+	g_signal_connect (G_OBJECT (dialog->aalarm_attach), "changed",
+			  G_CALLBACK (aalarm_attach_changed_cb), dialog);
+
+	/* Handle custom messages */
 	g_signal_connect (G_OBJECT (dialog->dalarm_message), "toggled",
 			  G_CALLBACK (dalarm_message_toggled_cb), dialog);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	g_signal_connect (G_OBJECT (text_buffer), "changed",
+			  G_CALLBACK (dalarm_description_changed_cb), dialog);
+
+	/* Handle program */
+	g_signal_connect (G_OBJECT (dialog->palarm_program), "changed",
+			  G_CALLBACK (palarm_program_changed_cb), dialog);
+
 }
 
 gboolean

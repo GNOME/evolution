@@ -1,3 +1,19 @@
+2004-06-25  JP Rosevaer  <jpr@novell.com>
+
+	* gui/dialogs/alarm-dialog.c (palarm_widgets_to_alarm): the args
+	are optional, don't store them if they aren't there
+	(check_custom_sound): sensitize the ok button based on whether or
+	not there needs to be input
+	(check_custom_message): ditto
+	(check_custom_program): ditto
+	(dalarm_message_toggled_cb): check custom message
+	(dalarm_description_changed_cb): ditto
+	(aalarm_sound_toggled_cb): check custom sound
+	(aalarm_attach_changed_cb): ditto
+	(palarm_program_changed_cb): check custom program
+	(action_selection_done_cb): use above checks as appropriate
+	(init_widgets): listen for changed signals
+
 2004-06-25  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/event-page.c (event_page_finalize): free old_summary
