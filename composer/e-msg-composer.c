@@ -277,6 +277,26 @@ send_cb (GtkWidget *widget,
 }
 
 static void
+exit_dialog_cb (int reply, gpointer data)
+{
+	if (reply == 0)
+		gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+static void
+exit_cb (GtkWidget *widget, gpointer data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	GtkWindow *parent =
+		GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data),
+						     GTK_TYPE_WINDOW));
+
+	gnome_ok_cancel_dialog_parented ("Discard this message?",
+					 exit_dialog_cb, composer, parent);
+}
+	
+
+static void
 menu_view_attachments_activate_cb (GtkWidget *widget,
 				   gpointer data)
 {
@@ -383,7 +403,7 @@ static GnomeUIInfo file_tree[] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"),
 				send_cb, GNOME_STOCK_MENU_MAIL_SND),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_EXIT_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_EXIT_ITEM (exit_cb, NULL),
 	GNOMEUIINFO_END
 };
 

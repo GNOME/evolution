@@ -2,6 +2,7 @@
 
 	* e-msg-composer.c (e_msg_composer_set_headers): 
 	(e_msg_composer_set_body_text): new functions
+	(exit_cb): Connect "Exit" menu item finally.
 
 	* e-msg-composer-hdrs.c: const poisoning
 	(e_msg_composer_hdrs_set_subject): 
