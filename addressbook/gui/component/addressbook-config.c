@@ -33,8 +33,6 @@
 #include "evolution-config-control.h"
 #include <shell/e-folder-list.h>
 
-#include <e-util/e-html-utils.h>
-
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-table-scrolled.h>

@@ -1,3 +1,8 @@
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/component/addressbook-config.c: Don't #include
+	<e-util/e-html-utils.h>
+
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/search/e-addressbook-search-dialog.[ch]: GObject-ize this.
