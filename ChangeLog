@@ -1,3 +1,7 @@
+2003-11-17 JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: Install versioned package config files
+
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: make source selector flags/libs

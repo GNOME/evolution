@@ -2,10 +2,13 @@ changelogs =				\
 	ChangeLog			\
 	ChangeLog.pre-1-4
 
+%-$(BASE_VERSION).pc: %.pc
+	 mv $< $@
+
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = 			\
-	camel.pc			\
-	evolution-shell.pc
+pkgconfig_DATA = 				\
+	camel-$(BASE_VERSION).pc		\
+	evolution-shell-$(BASE_VERSION).pc
 
 EXTRA_DIST = 			\
 	AUTHORS			\
@@ -20,7 +23,7 @@ EXTRA_DIST = 			\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
-	$(pkgconfig_DATA:.pc=.pc.in)
+	$(pkgconfig_DATA:$(BASE_VERSION).pc=.pc.in)
 
 if ENABLE_SMIME
 SMIME_DIR=smime
