@@ -80,9 +80,12 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    IMAPv4 &mdash; Keeps the email on your server so you can
-		    access your email from any computer that supports IMAPv4 and
-		    have everything be the same.
+		    IMAPv4 &mdash; Keeps the email on your server so
+		    you can access your email from any computer that
+		    supports IMAPv4 and have everything be the
+		    same. For more information about how to use IMAP
+		    mail, see <xref
+		    linkend="usage-mail-subscriptions">.
 		  </para>
 		</listitem>
 		<listitem>
@@ -255,7 +258,6 @@
       </para>
     </note>     
 
-
       Ask your system administrator if you aren't sure which you use.
     </para>
 
@@ -393,7 +395,7 @@
 	  <term><guibutton>Calendar</guibutton></term>
 	  <listitem>
 	    <para>
-	      The Calendar can store your appointments and To do lists
+	      The Calendar can store your appointments and task lists
 	      for you.  Connected to a network, you can use it to keep
 	      a group of people on schedule and up to date.
 	    </para>
@@ -611,13 +613,10 @@
     <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
-        <application>Evolution</application> can also manage subfolders,
-	subfolders are folders inside of folders.  This works well if
-	you want to try to separate your home folders from your work
-	folders, or if you like to keep very organized.
+        <application>Evolution</application> lets you nest folders
+	inside of each other, so that you can have a detailed
+	organizational system.
       </para>
-
-    
 
        <note>
 	  <title>Folders Have Limits</title>
@@ -648,8 +647,6 @@
       dropping them.
     </para>
 
-    
-
 <!--
     <tip>
      <title>Context-Sensitive Help</title>
@@ -675,13 +672,12 @@
     <para>
       The <interface>menu bar</interface>'s contents will always
       provide all the possible actions for any given view of your
-      data.  That means that, depending on the context, menu bar items
-      will change.  If you're looking at your Inbox, most of the menu
-      items will relate to mail; some will relate to other components
-      of <application>Evolution</application> and some, especially
-      those in the <guimenu>File Menu</guimenu> will relate to the
+      data.  If you're looking at your Inbox, most of the menu items
+      will relate to mail; some will relate to other components of
+      <application>Evolution</application> and some, especially those
+      in the <guimenu>File Menu</guimenu> will relate to the
       application as a whole. 
-   </para>
+   </para> 
    <para>
       <variablelist>
         <varlistentry>
@@ -808,9 +804,12 @@
               linkend="imap">IMAP</glossterm>, <glossterm
               linkend="pop">POP3</glossterm>, local
               <systemitem><filename>mbox</filename></systemitem> and
-              <systemitem><filename>mh</filename></systemitem> files,
+              <systemitem><filename>mh</filename></systemitem> files.
+
+<!-- NOT FOR 1.0, but maybe later 
               and even NNTP messages (newsgroups), which aren't
               technically email.
+-->
             </para>
 	  </listitem>
 	  <listitem>
@@ -907,7 +906,7 @@
        bar</interface>.  By default, the calendar starts showing
        today's schedule on a ruled background.  At the upper right,
        there's a monthly calendar you can use to switch days.  Below
-       that, there's a <guilabel>TaskPad</guilabel>, where you can
+       that, there's a <guilabel>Task</guilabel> pad, where you can
        keep a list of tasks separate from your calendar appointments.
        The day view in the calendar looks like this:
 
@@ -938,11 +937,11 @@
 
       <para>
 	<inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
-	<guilabel>Todo List</guilabel>
+	<guilabel>Task List</guilabel>
       </para>
 
       <para>
-        The <guilabel>Todo List</guilabel> compliments the
+        The <guilabel>Task List</guilabel> compliments the
         <guilabel>Appointment List </guilabel> as it keeps track of
         tasks which don't have any time associated with them.  These
         may include "" or "Call Repairman".  </para>

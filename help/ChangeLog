@@ -1,3 +1,12 @@
+2001-08-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Removed NNTP docs. Improved IMAP docs. IMAP
+	still needs more work though.
+
+	* C/config-prefs.sgml: Removed NNTP docs.
+
+	* C/usage-mainwindow.sgml: s/todo/task list/, fix grammar/style.
+
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
 	* sgmldocs.make (omf_timestamp): Put in a $(srcdir) here for when
