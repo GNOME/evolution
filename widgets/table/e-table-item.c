@@ -36,6 +36,12 @@
 
 #define d(x)
 
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
+
 /* FIXME: Do an analysis of which cell functions are needed before
    realize and make sure that all of them are doable by all the cells
    and that all of the others are only done after realization. */
@@ -146,9 +152,45 @@ view_to_model_col(ETableItem *eti, int col)
 	return ecol ? ecol->col_idx : -1;
 }
 
+inline static void
+eti_grab (ETableItem *eti, guint32 time)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
+	if (eti->grabbed_count == 0) {
+		eti->gtk_grabbed = FALSE;
+		if (!gnome_canvas_item_grab(item,
+					    GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK
+					    | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
+					    NULL, time)) {
+			d(g_print ("%s: gtk_grab_add\n", __FUNCTION__));
+			gtk_grab_add (GTK_WIDGET (item->canvas));
+			eti->gtk_grabbed = TRUE;
+		}
+	}
+	eti->grabbed_count ++;
+}
+
+inline static void
+eti_ungrab (ETableItem *eti, guint32 time)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	d(g_print ("%s: time: %d\n", __FUNCTION__, time));
+	eti->grabbed_count --;
+	if (eti->grabbed_count == 0) {
+		if (eti->gtk_grabbed) {
+			d(g_print ("%s: gtk_grab_remove\n", __FUNCTION__));
+			gtk_grab_remove (GTK_WIDGET (item->canvas));
+		}
+		gnome_canvas_item_ungrab(item, time);
+	}
+}
+
 inline static gboolean
 eti_editing (ETableItem *eti)
 {
+	d(g_print("%s: %s\n", __FUNCTION__, (eti->editing_col == -1) ? "false":"true"));
+	
 	if (eti->editing_col == -1)
 		return FALSE;
 	else
@@ -910,7 +952,7 @@ eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 	eti_cancel_drag_due_to_model_change (eti);
 	eti_check_cursor_bounds (eti);
 	if (eti_editing (eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 }
 
 /*
@@ -1390,12 +1432,15 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->maybe_did_something       = TRUE;
 
-	eti->grabbed_col               = -1;
-	eti->grabbed_row               = -1;
+	eti->grabbed_count             = 0;
+	eti->gtk_grabbed               = 0;
 
 	eti->in_drag                   = 0;
 	eti->maybe_in_drag             = 0;
 	eti->grabbed                   = 0;
+
+	eti->grabbed_col               = -1;
+	eti->grabbed_row               = -1;
 
 	eti->cursor_on_screen          = FALSE;
  	eti->cursor_x1                 = -1;
@@ -1482,12 +1527,13 @@ eti_unrealize (GnomeCanvasItem *item)
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	if (eti->grabbed) {
-		gtk_grab_remove (GTK_WIDGET (item->canvas));
 		eti->grabbed = FALSE;
+		d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		eti_ungrab (eti, -1);
 	}
 
 	if (eti_editing (eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 
 	gdk_gc_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
@@ -1838,7 +1884,7 @@ find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row
 static void
 eti_cursor_move (ETableItem *eti, gint row, gint column)
 {
-	e_table_item_leave_edit (eti);
+	e_table_item_leave_edit_(eti);
 	e_table_item_focus (eti, view_to_model_col(eti, column), view_to_model_row(eti, row), 0);
 }
 
@@ -1940,13 +1986,15 @@ eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, 
 	ret_val = e_cell_event (ecell_view, event, model_col, view_col, row, flags, &actions);
 
 	if (actions & E_CELL_GRAB) {
-		gnome_canvas_item_grab(GNOME_CANVAS_ITEM(item), GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK, NULL, time);
+		d(g_print ("%s: eti_grab\n", __FUNCTION__));
+		eti_grab (item, time);
 		item->grabbed_col = view_col;
 		item->grabbed_row = row;
 	}
 
 	if (actions & E_CELL_UNGRAB) {
-		gnome_canvas_item_ungrab(GNOME_CANVAS_ITEM(item), time);
+		d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+		eti_ungrab (item, time);
 		item->grabbed_col = -1;
 		item->grabbed_row = -1;
 	}
@@ -1961,6 +2009,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	ETableItem *eti = E_TABLE_ITEM (item);
 	ECellView *ecell_view;
 	gint return_val = TRUE;
+#if d(!)0
+	gboolean leave = FALSE;
+#endif
 
 	switch (e->type){
 	case GDK_BUTTON_PRESS: {
@@ -1970,6 +2021,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 		gint new_cursor_row, new_cursor_col;
+
+		d(g_print("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
 		if (eti->tooltip->timer) {
 			gtk_timeout_remove (eti->tooltip->timer);
@@ -1987,7 +2040,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			if (!find_cell (eti, realx, realy, &col, &row, &x1, &y1)) {
 				if (eti_editing (eti))
-					e_table_item_leave_edit (eti);
+					e_table_item_leave_edit_(eti);
 				return TRUE;
 			}
 
@@ -2044,6 +2097,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 
 			if (e->button.button == 1) {
+				return_val = TRUE;
+
 				eti->maybe_in_drag = TRUE;
 				eti->drag_row      = new_cursor_row;
 				eti->drag_col      = new_cursor_col;
@@ -2051,13 +2106,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->drag_y        = realy;
 				eti->drag_state    = e->button.state;
 				eti->grabbed       = TRUE;
-				if (!gnome_canvas_item_grab(item,
-							    (1 << (4 + e->button.button)) | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, 
-							    NULL, e->button.time))
-					gtk_grab_add (GTK_WIDGET (item->canvas));
+				d(g_print ("%s: eti_grab\n", __FUNCTION__));
+				eti_grab (eti, e->button.time);
 			}
-
-			d(g_print("Single click\n"));
 
 			break;
 		case 3:
@@ -2087,9 +2138,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
+		d(g_print("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, e->button.button));
+
 		if (eti->grabbed) {
-			gtk_grab_remove (GTK_WIDGET (item->canvas));
-			gnome_canvas_item_ungrab(item, e->button.time);
+			d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+			eti_ungrab (eti, e->button.time);
 			eti->grabbed = FALSE;
 		}
 
@@ -2114,6 +2167,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case 2:
 
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+#if d(!)0
+			{
+				gboolean cell_found = find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1);
+				g_print("%s: find_cell(%f, %f) = %s(%d, %d, %f, %f)\n", __FUNCTION__, e->button.x, e->button.y,
+					cell_found?"true":"false", col, row, x1, y1);
+			}
+#endif
 
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
@@ -2123,7 +2183,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
+
+			d(g_print("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n"
+				  "eti_editing: %s, row:%d:%d, col:%d:%d\n", __FUNCTION__, e->button.button, __LINE__,
+				  eti_editing(eti)?"true":"false", cursor_row, view_to_model_row(eti, row), cursor_col, view_to_model_col(eti, col)));
+
 			if (eti_editing (eti) && cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
+
+				d(g_print("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", __FUNCTION__, e->button.button, __LINE__))
+;
 
 				ecell_view = eti->cell_views [col];
 
@@ -2136,7 +2204,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->button.time,
 							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
-			d(g_print ("Release\n"));
 			break;
 		case 3:
 			e_selection_model_right_click_up(E_SELECTION_MODEL (eti->selection));
@@ -2156,6 +2223,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #if 0
 		double x1, y1;
 #endif
+
+		d(g_print("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
+
 		if (e->button.button == 5 ||
 		    e->button.button == 4)
 			return FALSE;
@@ -2190,7 +2260,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (model_row != -1 && model_col != -1) {
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
 						 model_row, model_col, e);
-				d(g_print("Double click\n"));
 			}
 		}
 		break;
@@ -2257,6 +2326,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_PRESS: {
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
+
+		d(g_print("%s: GDK_KEY_PRESS received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
 
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
@@ -2366,7 +2437,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_ISO_Enter:
 		case GDK_3270_Enter:
 			if (eti_editing (eti)){
-				e_table_item_leave_edit (eti);
+				e_table_item_leave_edit_(eti);
 #if 0
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
@@ -2438,6 +2509,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
+		d(g_print("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
+
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
 			       "cursor_col", &cursor_col,
@@ -2456,23 +2529,28 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 
 	case GDK_LEAVE_NOTIFY:
+		d(leave = TRUE);
 	case GDK_ENTER_NOTIFY:
+		d(g_print("%s: %s received\n", __FUNCTION__, leave ? "GDK_LEAVE_NOTIFY" : "GDK_ENTER_NOTIFY"));
 		if (eti->tooltip->timer > 0)
 			gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
 		break;
 
 	case GDK_FOCUS_CHANGE:
+		d(g_print("%s: GDK_FOCUS_CHANGE received, %s\n", __FUNCTION__, e->focus_change.in ? "in": "out"));
 		if (! e->focus_change.in) {
 			if (eti_editing (eti))
-				e_table_item_leave_edit (eti);
+				e_table_item_leave_edit_(eti);
 		}
 
 	default:
 		return_val = FALSE;
 	}
+	d(g_print("%s: returning: %s\n", __FUNCTION__, return_val?"true":"false"));
+
 	return return_val;
-	}
+}
 
 static void
 eti_class_init (GtkObjectClass *object_class)
@@ -2685,7 +2763,7 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 	view_col = model_to_view_col(eti, col);
 	
 	if (view_row == -1 || view_col == -1) {
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 		return;
 	}
 
@@ -2699,7 +2777,7 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti), FALSE);
 	if (eti_editing(eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
 			 view_row);
 	eti->needs_redraw = TRUE;
@@ -2719,7 +2797,7 @@ eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *
 	view_col = model_to_view_col(eti, col);
 	
 	if (view_row == -1 || view_col == -1) {
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 		return;
 	}
 
@@ -2732,7 +2810,7 @@ eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *
 	}
 
 	if (eti_editing(eti))
-		e_table_item_leave_edit (eti);
+		e_table_item_leave_edit_(eti);
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_ACTIVATED],
 			 view_row);
 }
@@ -2763,8 +2841,10 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 	
+	d(g_print("%s: %d, %d, eti_editing() = %s\n", __FUNCTION__, col, row, eti_editing(eti)?"true":"false"));
+
 	if (eti_editing (eti))
-		e_table_item_leave_edit(eti);
+		e_table_item_leave_edit_(eti);
 
 	eti->editing_col = col;
 	eti->editing_row = row;
@@ -2773,7 +2853,7 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 }
 
 /** 
- * e_table_item_leave_edit
+ * e_table_item_leave_edit_
  * @eti: %ETableItem which will stop being edited
  *
  * This routine stops the given %ETableItem from editing.
@@ -2786,6 +2866,8 @@ e_table_item_leave_edit (ETableItem *eti)
 	
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	d(g_print("%s: eti_editing() = %s\n", __FUNCTION__, eti_editing(eti)?"true":"false"));
 
 	if (!eti_editing (eti))
 		return;

@@ -50,6 +50,13 @@
 #include "gal/util/e-text-event-processor-emacs-like.h"
 #include "e-table-tooltip.h"
 
+#define d(x)
+
+#if d(!)0
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
+#else
+#define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
+#endif
 
 #define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT((c))->klass))
 
@@ -335,7 +342,7 @@ static void
 ect_cancel_edit (ECellTextView *text_view)
 {
 	ect_stop_editing (text_view);
-	e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+	e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 }
 
 /*
@@ -771,8 +778,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	gint return_val = 0;
 	CurrentCell cell, *cellptr;
+	d(gboolean press = FALSE);
 
-	if (flags & !E_CELL_EDITING)
+	if (!(flags & E_CELL_EDITING))
 		return 0;
 
 	build_current_cell (&cell, text_view, model_col, view_col, row);
@@ -815,7 +823,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		if (edit_display) {
 			GdkEventKey key = event->key;
 			if (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return){
-				e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+				e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 			} else {
 				e_tep_event.key.time = key.time;
 				e_tep_event.key.state = key.state;
@@ -835,6 +843,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 #endif
 
 				_get_tep (edit);
+				edit->actions = 0;
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
 				*actions = edit->actions;
 				if (e_tep_event.key.string) g_free (e_tep_event.key.string);
@@ -844,7 +853,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
+		d(press = TRUE);
 	case GDK_BUTTON_RELEASE:
+		d(g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display) 
@@ -864,6 +875,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -886,6 +898,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -909,6 +922,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.motion.state = motion.state;
 			e_tep_event.motion.position = _get_position_from_xy (cellptr, motion.x, motion.y);
 			_get_tep (edit);
+			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			*actions = edit->actions;
@@ -2044,7 +2058,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		e_cell_text_view_get_selection (edit, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
-		e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+		e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 		break;
 	case E_TEP_SET_SELECT_BY_WORD:
 		edit->select_by_word = command->value;

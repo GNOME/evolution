@@ -82,6 +82,7 @@ typedef struct {
 	guint            maybe_did_something : 1;
 
 	guint            cursor_on_screen : 1;
+	guint            gtk_grabbed : 1;
 
 	int              cursor_x1;
 	int              cursor_y1;
@@ -121,6 +122,7 @@ typedef struct {
 	void            *edit_ctx;
 
 	int grabbed_col, grabbed_row;
+	int grabbed_count;
 
 	/*
 	 * Tooltip

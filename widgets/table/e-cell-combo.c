@@ -57,6 +57,7 @@
 #include <string.h> /* strcmp() */
 #include <gdk/gdkkeysyms.h>
 #include "gal/util/e-util.h"
+#include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
 #include "e-cell-combo.h"
 #include "e-cell-text.h"
