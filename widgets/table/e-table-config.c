@@ -492,7 +492,7 @@ create_global_store (ETableConfig *config)
 
 	global_store = e_table_memory_store_new (store_columns);
 	for (i = 0; config->source_spec->columns[i]; i++) {
-		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (global_store), i, (void **) &config->source_spec->columns[i]->title, NULL);
+		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (global_store), i, NULL, config->source_spec->columns[i]->title);
 	}
 }
 
