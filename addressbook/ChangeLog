@@ -1,3 +1,14 @@
+2001-01-29  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_config_source_label): #ifdef INCLUDE_FILE_SOURCE.
+	(table_add_elem): add help_text parameter and set up focus_in
+	events to display the help in the dialog's html area.
+	(focus_help): new function, calls put_html on the help text.
+	(addressbook_ldap_auth_item_new): add help texts.
+	(addressbook_source_item_new): add help texts.
+	(addressbook_source_dialog): add help texts.
+
 2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

@@ -10,11 +10,14 @@
 #include "addressbook-config.h"
 #include "addressbook-storage.h"
 
+/* #define INCLUDE_FILE_SOURCE */
+
 typedef struct _AddressbookSourceDialog AddressbookSourceDialog;
 typedef struct _AddressbookSourcePageItem  AddressbookSourcePageItem;
 typedef struct _LDAPAuthPageItem LDAPAuthPageItem;
 
 struct _AddressbookSourceDialog {
+	GtkWidget *html;
 	GtkWidget *dialog;
 	GtkWidget *vbox;
 	GtkWidget *name;
@@ -131,6 +134,7 @@ put_html (GtkHTML *html, char *text)
 	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 }
 
+#ifdef INCLUDE_FILE_SOURCE
 static const char *
 addressbook_config_source_label (AddressbookSourceType type)
 {
@@ -144,6 +148,7 @@ addressbook_config_source_label (AddressbookSourceType type)
 		return _("Unknown addressbook type");
 	}
 }
+#endif
 
 static const char *
 addressbook_config_auth_label (AddressbookLDAPAuthType type)
@@ -253,11 +258,26 @@ source_type_menuitem_activate (GtkWidget *item, gpointer data)
 	addressbook_source_edit_changed (item, sitem->dialog);	
 }
 
+typedef struct {
+	AddressbookSourceDialog *dialog;
+	char *help_text;
+} FocusHelpClosure;
+
+static gint
+focus_help (GtkWidget *widget, GdkEventFocus *event, FocusHelpClosure *closure)
+{
+	put_html (GTK_HTML(closure->dialog->html), closure->help_text);
+	return FALSE;
+}
+
 static GtkWidget *
 table_add_elem (AddressbookSourceDialog *dialog, GtkWidget *table, 
-		int row, const char *label_text)
+		int row,
+		const char *label_text,
+		const char *help_text)
 {
 	GtkWidget *label, *entry;
+	FocusHelpClosure *focus_closure;
 
 	label = gtk_label_new (label_text);
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 
@@ -271,6 +291,16 @@ table_add_elem (AddressbookSourceDialog *dialog, GtkWidget *table,
 	gtk_signal_connect (GTK_OBJECT (entry), "changed",
 			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
 
+	focus_closure = g_new0 (FocusHelpClosure, 1);
+	focus_closure->dialog = dialog;
+	focus_closure->help_text = help_text;
+
+	gtk_signal_connect_full (GTK_OBJECT (entry),
+				 "focus_in_event" /* XXX */,
+				 (GtkSignalFunc) focus_help, NULL,
+				 focus_closure,
+				 (GtkDestroyNotify) g_free,
+				 FALSE, FALSE);
 	return entry;
 }
 
@@ -306,7 +336,9 @@ addressbook_ldap_auth_item_new (AddressbookSourceDialog *dialog,
 		break;
 	case ADDRESSBOOK_LDAP_AUTH_SIMPLE:
 		table = gtk_table_new (2, 2, FALSE);
-		item->binddn = table_add_elem (dialog, table, row++, _("Bind DN:"));
+		item->binddn = table_add_elem (dialog, table, row++,
+					       _("Bind DN:"),
+					       _("FIXME Bind DN Help text here"));
 
 		item->remember_passwd = gtk_check_button_new_with_label (_("Remember this password"));
 
@@ -357,11 +389,17 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 
 		table = gtk_table_new (5, 2, FALSE);
 
-		item->host = table_add_elem (dialog, table, row++, _("Host:"));
-		item->port = table_add_elem (dialog, table, row++, _("Port:"));
+		item->host = table_add_elem (dialog, table, row++,
+					     _("Host:"),
+					     _("FIXME Host help text here."));
+		item->port = table_add_elem (dialog, table, row++,
+					     _("Port:"),
+					     _("FIXME Port help text here."));
 		gtk_editable_insert_text (GTK_EDITABLE (item->port), "389", 3, &position);
 
-		item->rootdn = table_add_elem (dialog, table, row++, _("Root DN:"));
+		item->rootdn = table_add_elem (dialog, table, row++,
+					       _("Root DN:"),
+					       _("FIXME Root DN help text here."));
 
 		item->scope_optionmenu = gtk_option_menu_new ();
 		menu = gtk_menu_new ();
@@ -452,7 +490,9 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 	}
 	case ADDRESSBOOK_SOURCE_FILE: {
 		table = gtk_table_new (2, 2, FALSE);
-		item->path = table_add_elem (dialog, table, row++, _("Path:"));
+		item->path = table_add_elem (dialog, table, row++,
+					     _("Path:"),
+					     _("FIXME Path Help text here"));
 
 		gtk_box_pack_start (GTK_BOX (item->vbox), table,
 				    TRUE, TRUE, 0);
@@ -579,13 +619,14 @@ addressbook_source_dialog_destroy (AddressbookSourceDialog *dialog)
 static AddressbookSourceDialog*
 addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 {
-	GtkWidget *html;
 	GtkWidget *table;
 	AddressbookSourceDialog *dialog = g_new0 (AddressbookSourceDialog, 1);
 	GtkWidget *vbox, *dialog_vbox;
+#ifdef INCLUDE_FILE_SOURCE
 	GtkWidget *menu;
-	GtkWidget *area;
 	AddressbookSourcePageItem *first_item = NULL;
+#endif
+	GtkWidget *area;
 	int i;
 	int row = 0;
 
@@ -606,15 +647,19 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 
 	vbox = gtk_vbox_new (FALSE, 0);
 
-	html = html_new (FALSE);
-	put_html (GTK_HTML (html),
+	dialog->html = html_new (FALSE);
+	put_html (GTK_HTML (dialog->html),
 		  _("Select the kind of addressbook you have, and enter "
 		    "the relevant information about it."));
 
 	table = gtk_table_new (2, 2, FALSE);
 
-	dialog->name = table_add_elem (dialog, table, row++, _("Name:"));
-	dialog->description = table_add_elem (dialog, table, row++, _("Description:"));
+	dialog->name = table_add_elem (dialog, table, row++,
+				       _("Name:"),
+				       _("FIXME Name help text here"));
+	dialog->description = table_add_elem (dialog, table, row++,
+					      _("Description:"),
+					      _("FIXME Description help text here"));
 
 	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
@@ -623,20 +668,31 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	dialog->notebook = gtk_notebook_new();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (dialog->notebook), FALSE);
 
+#ifdef INCLUDE_FILE_SOURCE
 	dialog->source_option = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
+#endif
 
-	for (i = 0; i < ADDRESSBOOK_SOURCE_LAST; i ++) {
+	for (i =
+#ifndef INCLUDE_FILE_SOURCE
+		     ADDRESSBOOK_SOURCE_LDAP;
+#else
+		     ADDRESSBOOK_SOURCE_FILE;
+#endif
+	     i < ADDRESSBOOK_SOURCE_LAST;
+	     i ++) {
 		AddressbookSourcePageItem *item;
 
 		item = addressbook_source_item_new (dialog, i);
 
 		dialog->source_pages = g_list_append (dialog->source_pages, item);
 
+#ifdef INCLUDE_FILE_SOURCE
 		item->item = gtk_menu_item_new_with_label (addressbook_config_source_label (i));
 		
 		if (!first_item)
 			first_item = item;
+#endif
 
 		gtk_notebook_append_page (GTK_NOTEBOOK (dialog->notebook),
 					  item->vbox, NULL);
@@ -645,23 +701,28 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (source_type_menuitem_activate),
 				    item);
 
+#ifdef INCLUDE_FILE_SOURCE
 		gtk_menu_append (GTK_MENU (menu), item->item);
+#endif
 		gtk_widget_show (item->item);
 	}
 
+#ifdef INCLUDE_FILE_SOURCE
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (dialog->source_option), menu);
 	source_type_menuitem_activate (first_item->item, first_item);
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->source_option), 0);
+#endif
 
-
-	gtk_box_pack_start (GTK_BOX (vbox), html->parent, 
+	gtk_box_pack_start (GTK_BOX (vbox), dialog->html->parent, 
 			    FALSE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (vbox), table,
 			    FALSE, FALSE, 0);
 
+#ifdef INCLUDE_FILE_SOURCE
 	gtk_box_pack_start (GTK_BOX (vbox), dialog->source_option,
 			    FALSE, FALSE, 0);
+#endif
 
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), vbox, FALSE, TRUE, 0);
 
