@@ -1,3 +1,5 @@
+== Version 1.0.5. ==
+
 2002-04-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Don't add `-lsocket' unconditionally to `LDFLAGS'.

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16\n"
-"POT-Creation-Date: 2002-04-18 17:29-0400\n"
+"POT-Creation-Date: 2002-05-06 14:32-0400\n"
 "PO-Revision-Date: 27.02.2002 13:00\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -621,7 +621,7 @@ msgstr "VKartapre %s"
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1554
 #: calendar/conduits/todo/todo-conduit.c:1138
-#: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+#: calendar/gui/alarm-notify/notify-main.c:173 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
@@ -946,7 +946,7 @@ msgid "_Server name:"
 msgstr "_Meno serveru:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
 msgid "Could not initialize gnome-vfs"
 msgstr "Nie je možné inicializovať gnome-vfs"
 
@@ -4705,15 +4705,15 @@ msgstr ""
 "\n"
 "Chcete tento program spustiť?"
 
-#: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
+#: calendar/gui/alarm-notify/notify-main.c:168 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
 msgstr "Nie je možné inicializovať GNOME"
 
-#: calendar/gui/alarm-notify/notify-main.c:181
+#: calendar/gui/alarm-notify/notify-main.c:183
 msgid "Could not create the alarm notify service"
 msgstr "Nie je možné vytvoriť službu upozorňovania"
 
-#: calendar/gui/alarm-notify/notify-main.c:186
+#: calendar/gui/alarm-notify/notify-main.c:188
 msgid "Could not create the alarm notify service factory"
 msgstr "Nie je možné vytvoriť vytváracie rozhranie pre službu upozorňovania"
 
@@ -8466,11 +8466,11 @@ msgstr "Priečinok `%s/%s' neexistuje."
 msgid "Spool mail file %s"
 msgstr "Lokálny poštový súbor %s"
 
-#: camel/providers/local/camel-spool-store.c:209
+#: camel/providers/local/camel-spool-store.c:208
 msgid "Spool folders cannot be renamed"
 msgstr "Lokálne priečinky nie je možné premenovať"
 
-#: camel/providers/local/camel-spool-store.c:217
+#: camel/providers/local/camel-spool-store.c:216
 msgid "Spool folders cannot be deleted"
 msgstr "Lokálne priečinky nie je možné odstrániť"
 

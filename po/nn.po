@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
-"POT-Creation-Date: 2002-04-18 17:29-0400\n"
+"POT-Creation-Date: 2002-05-06 14:32-0400\n"
 "PO-Revision-Date: 2002-01-30 06:10+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -619,7 +619,7 @@ msgstr "VKort for %s"
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1554
 #: calendar/conduits/todo/todo-conduit.c:1138
-#: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+#: calendar/gui/alarm-notify/notify-main.c:173 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
@@ -949,7 +949,7 @@ msgid "_Server name:"
 msgstr "_Tenarnamn:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
 msgid "Could not initialize gnome-vfs"
 msgstr "Klarte ikkje å initialisere gnome-vfs"
 
@@ -4706,12 +4706,12 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
+#: calendar/gui/alarm-notify/notify-main.c:168 calendar/gui/main.c:57
 #, fuzzy
 msgid "Could not initialize GNOME"
 msgstr "Kunne ikkje initiere Bonobo"
 
-#: calendar/gui/alarm-notify/notify-main.c:181
+#: calendar/gui/alarm-notify/notify-main.c:183
 #, fuzzy
 msgid "Could not create the alarm notify service"
 msgstr ""
@@ -4719,7 +4719,7 @@ msgstr ""
 "%1:\n"
 "%2"
 
-#: calendar/gui/alarm-notify/notify-main.c:186
+#: calendar/gui/alarm-notify/notify-main.c:188
 #, fuzzy
 msgid "Could not create the alarm notify service factory"
 msgstr ""
@@ -8574,12 +8574,12 @@ msgstr ""
 "Feil ved lesing a fil:\n"
 "%1"
 
-#: camel/providers/local/camel-spool-store.c:209
+#: camel/providers/local/camel-spool-store.c:208
 #, fuzzy
 msgid "Spool folders cannot be renamed"
 msgstr "Denne mappa kan ikkje fjernast."
 
-#: camel/providers/local/camel-spool-store.c:217
+#: camel/providers/local/camel-spool-store.c:216
 #, fuzzy
 msgid "Spool folders cannot be deleted"
 msgstr "Denne mappa kan ikkje slettast."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.4\n"
-"POT-Creation-Date: 2002-04-30 16:50+0300\n"
+"POT-Creation-Date: 2002-05-06 14:32-0400\n"
 "PO-Revision-Date: 2002-04-30 11:47GMT\n"
 "Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -620,7 +620,7 @@ msgstr "VCard за %s"
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1554
 #: calendar/conduits/todo/todo-conduit.c:1138
-#: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+#: calendar/gui/alarm-notify/notify-main.c:173 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
@@ -948,7 +948,7 @@ msgid "_Server name:"
 msgstr "Име на сървъра:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
 msgid "Could not initialize gnome-vfs"
 msgstr "Не мога да инициализирам gnome-vfs"
 
@@ -4704,15 +4704,15 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
+#: calendar/gui/alarm-notify/notify-main.c:168 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
 msgstr "Не мога да инициализирам GNOME"
 
-#: calendar/gui/alarm-notify/notify-main.c:181
+#: calendar/gui/alarm-notify/notify-main.c:183
 msgid "Could not create the alarm notify service"
 msgstr "Не мога да създам обслужване за алармено известяване"
 
-#: calendar/gui/alarm-notify/notify-main.c:186
+#: calendar/gui/alarm-notify/notify-main.c:188
 msgid "Could not create the alarm notify service factory"
 msgstr ""
 

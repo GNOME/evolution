@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-04-18 17:29-0400\n"
+"POT-Creation-Date: 2002-05-06 14:32-0400\n"
 "PO-Revision-Date: 2000-04-04 15:25+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -602,7 +602,7 @@ msgstr "vCard для %s"
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1554
 #: calendar/conduits/todo/todo-conduit.c:1138
-#: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
+#: calendar/gui/alarm-notify/notify-main.c:173 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
 msgid "Could not initialize Bonobo"
@@ -931,7 +931,7 @@ msgid "_Server name:"
 msgstr "Назва сервера:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
 msgid "Could not initialize gnome-vfs"
 msgstr "Не вдалось ╕н╕ц╕ал╕зувати gnome-vfs"
 
@@ -4792,15 +4792,15 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:57
+#: calendar/gui/alarm-notify/notify-main.c:168 calendar/gui/main.c:57
 msgid "Could not initialize GNOME"
 msgstr "Не вдалось ╕н╕ц╕ал╕зувати GNOME"
 
-#: calendar/gui/alarm-notify/notify-main.c:181
+#: calendar/gui/alarm-notify/notify-main.c:183
 msgid "Could not create the alarm notify service"
 msgstr "Не вдалося створити послугу спов╕щення"
 
-#: calendar/gui/alarm-notify/notify-main.c:186
+#: calendar/gui/alarm-notify/notify-main.c:188
 msgid "Could not create the alarm notify service factory"
 msgstr "Не вдалося створити фабрику послуги спов╕щення"
 
@@ -8603,11 +8603,11 @@ msgstr "Теки \"%s/%s\" не ╕сну╓."
 msgid "Spool mail file %s"
 msgstr "Накопичувальн╕й файл пошти %s"
 
-#: camel/providers/local/camel-spool-store.c:209
+#: camel/providers/local/camel-spool-store.c:208
 msgid "Spool folders cannot be renamed"
 msgstr "Накопичувальн╕ теки не можна перейменовувати"
 
-#: camel/providers/local/camel-spool-store.c:217
+#: camel/providers/local/camel-spool-store.c:216
 msgid "Spool folders cannot be deleted"
 msgstr "Накопичувальн╕ теки не можна видаляти"
 
