@@ -150,8 +150,10 @@ factory (BonoboGenericFactory *factory,
 {
 	static gboolean initialized = FALSE;
 
-	if (! initialized)
+	if (! initialized) {
 		initialize ();
+		initialized = TRUE;
+	}
 
 	if (strcmp (component_id, CALENDAR_COMPONENT_ID) == 0)
 		return calendar_component_get_object ();
