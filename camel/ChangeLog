@@ -1,3 +1,12 @@
+2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* broken-date-parser.c (get_tzone): Fixed to not get false
+	positives when the token is shorter than the actual timezone
+	string (but matches the first little bit of it).
+	(datetok): Modified to properly handle when the first char of a
+	token is a special char (such as a '-') that is also used as a
+	token delimiter.
+
 2002-11-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_read): Use the new

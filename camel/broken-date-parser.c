@@ -123,14 +123,18 @@ datetok (const char *date)
 	start = date;
 	while (*start) {
 		/* kill leading whitespace */
-		for ( ; *start && isspace ((int) *start); start++);
+		while (*start && isspace ((int) *start))
+			start++;
 		
-		mask = 0;
+		if (*start == '\0')
+			break;
+		
+		mask = datetok_table[*start];
 		
 		/* find the end of this token */
-		for (end = start; *end && !strchr ("-/,\t\r\n ", *end); end++) {
-			mask |= datetok_table[*end];
-		}
+		end = start + 1;
+		while (*end && !strchr ("-/,\t\r\n ", *end))
+			mask |= datetok_table[*end++];
 		
 		if (end != start) {
 			token = g_malloc (sizeof (struct _date_token));
@@ -277,22 +281,31 @@ get_time (const unsigned char *in, unsigned int inlen, int *hour, int *min, int 
 static int
 get_tzone (struct _date_token **token)
 {
-	int i;
+	const unsigned char *inptr, *inend;
+	unsigned int inlen;
+	int i, t;
 	
 	for (i = 0; *token && i < 2; *token = (*token)->next, i++) {
-		const unsigned char *inptr = (*token)->start;
-		unsigned int inlen = (*token)->len;
+		inptr = (*token)->start;
+		inlen = (*token)->len;
+		inend = inptr + inlen;
 		
 		if (*inptr == '+' || *inptr == '-') {
 			return decode_int (inptr, inlen);
 		} else {
-			int t;
-			
-			if (*inptr == '(')
+			if (*inptr == '(') {
 				inptr++;
+				if (*(inend - 1) == ')')
+					inlen -= 2;
+				else
+					inlen--;
+			}
 			
 			for (t = 0; t < 15; t++) {
-				unsigned int len = MIN (strlen (tz_offsets[t].name), inlen - 1);
+				unsigned int len = strlen (tz_offsets[t].name);
+				
+				if (len != inlen)
+					continue;
 				
 				if (!strncmp (inptr, tz_offsets[t].name, len))
 					return tz_offsets[t].offset;
