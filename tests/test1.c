@@ -94,8 +94,8 @@ main (int argc, char**argv)
 		gtk_object_unref (GTK_OBJECT (stream_wrapper));*/
 		
 		attachment_wrapper = CAMEL_DATA_WRAPPER (camel_simple_data_wrapper_new ());
-		camel_data_wrapper_set_input_stream (attachment_wrapper, 
-						     attachment_stream);
+		camel_data_wrapper_construct_from_stream (attachment_wrapper, 
+							  attachment_stream);
 		
 		attachment_part = camel_mime_body_part_new ();
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (attachment_part),

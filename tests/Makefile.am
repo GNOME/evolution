@@ -56,7 +56,6 @@ endif
 noinst_PROGRAMS =  	\
 	test1		\
 	test2		\
-	test3		\
 	test7		\
 	test10		\
 	test11		\
@@ -65,5 +64,6 @@ noinst_PROGRAMS =  	\
 	test-url	\
 	$(THREAD_RELATED_TESTS)
 
+#	test3		\
 #	test12		\
 #	test-formatter	

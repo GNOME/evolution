@@ -109,7 +109,7 @@ main (int argc, char**argv)
 	printf("creating parser to create message\n");
 	parser = camel_mime_parser_new();
 	camel_mime_parser_init_with_stream(parser, input_stream);
-	camel_data_wrapper_construct_from_parser(message, parser);
+	camel_mime_part_construct_from_parser(message, parser);
 
 	dump_message_content(message);
 

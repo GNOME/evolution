@@ -1,3 +1,15 @@
+2000-04-24  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test13.c (main): Fixed for method movements.
+
+	* tests/test3.c (main): Removed from build, data-wrapper-repository removed.
+
+2000-04-23  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test2.c (main): Changed to use construct_from_stream.
+
+	* tests/test1.c (main): Chagned to use construct_from_stream.
+
 2000-04-24  Matt Loper  <matt@helixcode.com>
 
 	* default_user/Makefile.am: new file.

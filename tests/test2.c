@@ -29,7 +29,7 @@ main (int argc, char**argv)
 	}
 
 
-	camel_data_wrapper_set_input_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 
 	camel_medium_get_content_object (CAMEL_MEDIUM (message));
 
