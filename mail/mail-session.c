@@ -342,8 +342,7 @@ do_user_message (struct _mail_msg *mm)
 		g_signal_connect (message_dialog, "response", G_CALLBACK (gtk_widget_destroy), message_dialog);
 		g_object_weak_ref ((GObject *) message_dialog, (GWeakNotify) user_message_destroy_notify, m);
 		gtk_widget_show ((GtkWidget *) message_dialog);
-		m->result = TRUE;
-		e_msgport_reply ((EMsg *)m);
+		mail_msg_free(m);
 	}
 }
 
@@ -354,13 +353,14 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	struct _user_message_msg *m, *r;
-	EMsgPort *user_message_reply;
+	EMsgPort *user_message_reply = NULL;
 	gboolean ret;
 
 	if (!mail_session->interactive)
 		return FALSE;
 
-	user_message_reply = e_msgport_new ();	
+	if (cancel)
+		user_message_reply = e_msgport_new ();	
 	m = mail_msg_new (&user_message_op, user_message_reply, sizeof (*m));
 	m->ismain = pthread_self() == mail_gui_thread;
 	m->type = type;
@@ -375,13 +375,16 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 		e_msgport_put(mail_gui_port2, (EMsg *)m);
 	}
 
-	e_msgport_wait(user_message_reply);
-	r = (struct _user_message_msg *)e_msgport_get(user_message_reply);
-	g_assert(m == r);
+	if (cancel) {
+		e_msgport_wait(user_message_reply);
+		r = (struct _user_message_msg *)e_msgport_get(user_message_reply);
+		g_assert(m == r);
 
-	ret = m->result;
-	mail_msg_free(m);
-	e_msgport_destroy(user_message_reply);
+		ret = m->result;
+		mail_msg_free(m);
+		e_msgport_destroy(user_message_reply);
+	} else
+		ret = TRUE;
 
 	return ret;
 }

@@ -1,3 +1,10 @@
+2005-02-04  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (alert_user, do_user_message): if we aren't
+	waiting for cancel, then don't worry about waiting on the reply
+	port, otherwise we could block when we don't need to, if there is
+	another window already up.
+
 2005-02-03  Jeffrey Stedfast  <fejj@novell.com>
 
 	* message-list.c (message_list_set_folder): Use
