@@ -37,10 +37,11 @@ typedef struct {
 	/*
 	 * Signals.
 	 */
-	void (* card_changed) (const char *id);
-	void (* card_removed) (const char *id);
-	void (* card_added)   (const char *id);
-	void (* link_status)  (gboolean connected);
+	void (* open_progress) (const char *msg, short percent);
+	void (* link_status)   (gboolean connected);
+	void (* card_changed)  (const char *id);
+	void (* card_removed)  (const char *id);
+	void (* card_added)    (const char *id);
 } EBookClass;
 
 /* Callbacks for asynchronous functions. */
@@ -49,51 +50,59 @@ typedef void (*EBookOpenProgressCallback)     (EBook          *book,
 					       const char     *status_message,
 					       short           percent,
 					       gpointer        closure);
-						     		      
-  
+
+
 /* Creating a new addressbook. */
-EBook   *e_book_new                (const char                *uri,
-				    EBookOpenProgressCallback  progress_cb,
-				    EBookCallback              open_response,
-				    gpointer                   closure);
-GtkType  e_book_get_type           (void);
+EBook    *e_book_new                (void);
+gboolean  e_book_load_uri           (EBook         *book,
+				     const char    *uri,
+				     EBookCallback  open_response,
+				     gpointer       closure);
+void      e_book_unload_uri         (EBook         *book);
 
 /* Fetching cards. */
-ECard   *e_book_get_card           (EBook                     *book,
-				    char                      *id);
-char    *e_book_get_vcard          (EBook                     *book,
-				    char                      *id);
+ECard    *e_book_get_card           (EBook         *book,
+				     const char    *id);
+char     *e_book_get_vcard          (EBook         *book,
+				     const char    *id);
 
 /* Deleting cards. */
-void     e_book_remove_card        (EBook                     *book,
-				    ECard                     *card,
-				    EBookCallback              cb,
-				    gpointer                   closure);
-void     e_book_remove_card_by_id  (EBook                     *book,
-				    char                      *id,
-				    EBookCallback              cb,
-				    gpointer                   closure);
+gboolean  e_book_remove_card        (EBook         *book,
+				     ECard         *card,
+				     EBookCallback  cb,
+				     gpointer       closure);
+gboolean  e_book_remove_card_by_id  (EBook         *book,
+				     const char    *id,
+				     EBookCallback  cb,
+				     gpointer       closure);
 
 /* Adding cards. */
-void     e_book_add_card           (EBook                     *book,
-				    ECard                     *card,
-				    EBookCallback              cb,
-				    gpointer                   closure);
-void     e_book_add_vcard          (EBook                     *book,
-				    char                      *vcard,
-				    char                      *id,
-				    EBookCallback              cb,
-				    gpointer                   closure);
+gboolean  e_book_add_card           (EBook         *book,
+				     ECard         *card,
+				     EBookCallback  cb,
+				     gpointer       closure);
+gboolean  e_book_add_vcard          (EBook         *book,
+				     const char    *vcard,
+				     EBookCallback  cb,
+				     gpointer       closure);
 
 /* Modifying cards. */
-void     e_book_commit_card        (EBook                     *book,
-				    ECard                     *card,
-				    EBookCallback              cb,
-				    gpointer                   closure);
-void     e_book_commit_vcard       (EBook                     *book,
-				    char                      *vcard,
-				    EBookCallback              cb,
-				    gpointer                   closure);
+gboolean  e_book_commit_card        (EBook         *book,
+				     ECard         *card,
+				     EBookCallback  cb,
+				     gpointer       closure);
+gboolean  e_book_commit_vcard       (EBook         *book,
+				     const char    *vcard,
+				     EBookCallback  cb,
+				     gpointer       closure);
+
+/* Checking to see if we're connected to the card repository. */
+gboolean  e_book_check_connection   (EBook         *book);
+
+/* Getting the name of the repository. */
+char     *e_book_get_name           (EBook         *book);
+
+GtkType   e_book_get_type           (void);
 
 #define E_BOOK_TYPE        (e_book_get_type ())
 #define E_BOOK(o)          (GTK_CHECK_CAST ((o), E_BOOK_TYPE, EBook))

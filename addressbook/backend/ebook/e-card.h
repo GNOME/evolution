@@ -1,51 +1,79 @@
 /*
- * Author:
+ * Authors:
+ *   Arturo Espinosa
  *   Nat Friedman (nat@helixcode.com)
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 1999 The Free Software Foundation
  */
 
 #ifndef __E_CARD_H__
 #define __E_CARD_H__
 
-#include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
-#include <ebook/e-card-fields.h>
+#include <time.h>
+#include <glib.h>
+#include <stdio.h>
+#include <e-card-types.h>
 
-BEGIN_GNOME_DECLS
+typedef struct _ECard ECard;
 
-typedef struct _ECardPrivate ECardPrivate;
+struct _ECard {
 
-typedef struct {
-	GtkObject     parent;
-	ECardPrivate *priv;
-} ECard;
+	char            *fname;         /* The full name.                   */
+	ECardName       *name;          /* The structured name.             */
 
-typedef struct {
-	GtkObjectClass parent;
-} ECardClass;
+	GList           *del_addrs;  	/* Delivery addresses (ECardAddr *) */
+	GList           *del_labels;    /* Delivery address labels
+					 * (ECardAddrLabel *)               */
+	GList           *phone;         /* Phone numbers (ECardPhone *)     */
+	GList           *email;         /* Email addresses (char *)         */
+	char            *url;	        /* The person's web page.           */
+	
+	ECardDate       *bday;	        /* The person's birthday.           */
 
-ECard    *e_card_new          (void);
-GtkType   e_card_get_type     (void);
+	ECardOrg        *org;	        /* The person's organization.       */
+	char            *title;	        /* The person's title w/in his org  */
+	char            *role;	        /* The person's role w/in his org   */
+	ECardPhoto      *logo;          /* This person's org's logo.        */
 
-char     *e_card_get_string   (ECard    *card,
-			       char     *field);
-void      e_card_set_string   (ECard    *card,
-			       char     *field,
-			       char     *value);
+	ECardPhoto      *photo;    	/* A photo of the person.           */
+	
+	ECard           *agent;         /* A person who sereves as this
+					   guy's agent/secretary/etc.       */
+	
 
-gboolean  e_card_get_boolean  (ECard    *card,
-			       char     *field);
-void      e_card_set_boolean  (ECard    *card,
-			       char     *field,
-			       gboolean  value);
+	char            *categories;    /* A list of the categories to which
+					   this card belongs.               */
+	
+	char            *comment;       /* An unstructured comment string.  */
 
-#define E_CARD_TYPE        (e_card_get_type ())
-#define E_CARD(o)          (GTK_CHECK_CAST ((o), E_CARD_TYPE, ECard))
-#define E_CARD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CARD_TYPE, ECardClass))
-#define E_IS_CARD(o)       (GTK_CHECK_TYPE ((o), E_CARD_TYPE))
-#define E_IS_CARD_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CARD_TYPE))
+	ECardSound      *sound;
+	
+	ECardKey        *key;	        /* The person's public key.         */
+	ECardTimeZone   *timezn;        /* The person's time zone.          */
+	ECardGeoPos     *geopos;        /* The person's long/lat.           */
 
-END_GNOME_DECLS
+	char            *mailer;        /* The user's mailer.               */
+
+	char            *uid;	        /* This card's unique identifier.   */
+	ECardRev        *rev;	        /* The time this card was last
+					   modified.                        */
+
+	CardList        xtension;
+};
+
+Card         *card_new (void);
+void          card_free (Card *crd);
+void          card_prop_free (CardProperty prop);
+CardProperty  card_prop_empty (void);
+int           card_check_prop (CardProperty prop);
+GList        *card_load (GList *crdlist, char *fname);
+void          card_save (Card *crd, FILE *fp);
+char         *card_to_vobj_string (Card *card);
+char         *card_to_string (Card *card);
+
+char *card_bday_str (CardBDay bday);
+char *card_timezn_str (CardTimeZone timezn);
+char *card_geopos_str (CardGeoPos geopos);
 
 #endif /* ! __E_CARD_H__ */

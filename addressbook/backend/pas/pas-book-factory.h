@@ -5,6 +5,8 @@
 #include <bonobo/gnome-object.h>
 #include <libgnome/gnome-defs.h>
 
+#include <pas-backend.h>
+
 #ifndef __PAS_BOOK_FACTORY_H__
 #define __PAS_BOOK_FACTORY_H__
 
@@ -21,14 +23,11 @@ typedef struct {
 	GnomeObjectClass parent_class;
 } PASBookFactoryClass;
 
-typedef void (*PASBookFactoryBackendFactory) (
-	PASBookFactory *factory, char *uri, Evolution_BookListener listener);
-
 PASBookFactory *pas_book_factory_new              (void);
 
 void            pas_book_factory_register_backend (PASBookFactory               *factory,
 						   const char                   *proto,
-						   PASBookFactoryBackendFactory  backend);
+						   PASBackendFactoryFn           backend_factory);
 
 void            pas_book_factory_activate         (PASBookFactory               *factory);
 

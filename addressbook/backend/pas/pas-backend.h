@@ -21,41 +21,38 @@
 #ifndef __PAS_BACKEND_H__
 #define __PAS_BACKEND_H__
 
+#include <libgnome/gnome-defs.h>
+#include <gtk/gtkobject.h>
+#include <addressbook.h>
+
+typedef struct _PASBackend        PASBackend;
 typedef struct _PASBackendPrivate PASBackendPrivate;
 
-typedef struct {
+#include <pas-book.h>
+
+struct _PASBackend {
 	GtkObject parent_object;
 	PASBackendPrivate *priv;
-} PASBackend;
+};
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	/* Virtual methods */
+	void (*load_uri) (PASBackend *backend, const char *uri);
+	void (*add_client) (PASBackend *backend, Evolution_BookListener listener);
+	void (*remove_client) (PASBackend *backend, PASBook *book);
 } PASBackendClass;
 
-PASBackend *pas_backend_new                (void);
+typedef PASBackend * (*PASBackendFactoryFn) (void);
+
+gboolean    pas_backend_construct          (PASBackend             *backend);
 void        pas_backend_load_uri           (PASBackend             *backend,
-					    char                   *uri);
+					    const char             *uri);
 void        pas_backend_add_client         (PASBackend             *backend,
 					    Evolution_BookListener  listener);
 void        pas_backend_remove_client      (PASBackend             *backend,
-					    Evolution_BookListener  listener);
-
-/* Synchronous operations. */
-char       *pas_backend_get_vcard          (PASBackend             *backend,
-					    PASBook                *book,
-					    char                   *id);
-
-/* Asynchronous operations. */
-void        pas_backend_queue_create_card  (PASBackend             *backend,
-					    PASBook                *book,
-					    char                   *vcard);
-void        pas_backend_queue_remove_card  (PASBackend             *backend,
-					    PASBook                *book,
-					    char                   *id);
-void        pas_backend_queue_modify_card  (PASBackend             *backend,
-					    PASBook                *book,
-					    char                   *id,
-					    char                   *vcard);
+					    PASBook                *book);
 
 GtkType     pas_backend_get_type           (void);
 

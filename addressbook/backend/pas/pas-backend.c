@@ -1,37 +1,32 @@
 /*
+ * Author:
+ *   Nat Friedman (nat@helixcode.com)
+ *
  * Copyright 2000, Helix Code, Inc.
  */
 
 #include <gtk/gtkobject.h>
 #include <pas-backend.h>
 
-typedef struct {
-	Evolution_BookListener listener;
-} PASClient;
+#define CLASS(o) PAS_BACKEND_CLASS (GTK_OBJECT (o)->klass)
 
-struct _PASBackendPrivate {
-	gboolean  book_loaded;
-	GList    *clients;
-	GList    *response_queue;
-};
-
-PASBackend *
-pas_backend_new (void)
+gboolean
+pas_backend_construct (PASBackend *backend)
 {
-	PASBackend *backend;
-
-	backend = gtk_type_new (pas_backend_get_type ());
-
-	return backend;
+	return TRUE;
 }
 
 void
 pas_backend_load_uri (PASBackend             *backend,
-		      char                   *uri)
+		      const char             *uri)
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (PAS_IS_BACKEND (backend));
 	g_return_if_fail (uri != NULL);
+
+	g_assert (CLASS (backend)->load_uri != NULL);
+
+	CLASS (backend)->load_uri (backend, uri);
 }
 
 /**
@@ -43,77 +38,32 @@ void
 pas_backend_add_client (PASBackend             *backend,
 			Evolution_BookListener  listener)
 {
-	PASClient *client;
-
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (PAS_IS_BACKEND (backend));
 	g_return_if_fail (listener != CORBA_OBJECT_NIL);
 
-	client = g_new0 (PASClient, 1);
+	g_assert (CLASS (backend)->add_client != NULL);
 
-	client->listener = listener;
-
-	if (backend->priv->book_loaded) {
-		
-	}
+	CLASS (backend)->add_client (backend, listener);
 }
-
 
 void
-pas_backend_remove_client (PASBackend             *backend,
-			   Evolution_BookListener  listener)
+pas_backend_remove_client (PASBackend *backend,
+			   PASBook    *book)
 {
-}
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (book    != NULL);
+	g_return_if_fail (PAS_IS_BOOK (book));
+	
+	g_assert (CLASS (backend)->remove_client != NULL);
 
-/* Synchronous operations. */
-char *
-pas_backend_get_vcard (PASBackend             *backend,
-		       PASBook                *book,
-		       char                   *id)
-{
-}
-
-/* Asynchronous operations. */
-
-/**
- * pas_backend_queue_remove_card:
- */
-void
-pas_backend_queue_create_card (PASBackend             *backend,
-			       PASBook                *book,
-			       char                   *vcard)
-{
-}
-
-/**
- * pas_backend_queue_remove_card:
- */
-void
-pas_backend_queue_remove_card (PASBackend             *backend,
-			       PASBook                *book,
-			       char                   *id)
-{
-}
-
-/**
- * pas_backend_queue_modify_card:
- */
-void
-pas_backend_queue_modify_card (PASBackend             *backend,
-			       PASBook                *book,
-			       char                   *id,
-			       char                   *vcard)
-{
+	CLASS (backend)->remove_client (backend, book);
 }
 
 static void
 pas_backend_init (PASBackend *backend)
 {
-	PASBackendPrivate *priv;
-	
-	priv              = g_new0 (PASBackendPrivate, 1);
-	priv->book_loaded = FALSE;
-	priv->clients     = NULL;
 }
 
 static void

@@ -1,3 +1,5 @@
+bin_PROGRAMS = test-card test-client
+
 corbadir = $(sysconfdir)/CORBA/servers
 
 CORBA_SOURCE =						\
@@ -39,7 +41,8 @@ lib_LTLIBRARIES = libebook.la
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	e-book-listener.c				\
-	e-book.c
+	e-book.c					\
+	e-card.c
 
 libebookincludedir = $(includedir)/backend
 
@@ -47,6 +50,30 @@ libebookinclude_HEADERS =				\
 	e-book.h					\
 	e-book-listener.h				\
 	e-card.h
+
+test_client_SOURCES =					\
+	test-client.c
+
+test_client_LDADD =					\
+	$(GTK_LIBS)					\
+	$(GNOME_LIBDIR)					\
+	$(GNOMEGNORBA_LIBS)				\
+	$(INTLLIBS)					\
+	-lbonobo					\
+	$(ebook_libs)					\
+	../libversit/libversit.la
+
+test_card_SOURCES =					\
+	test-card.c
+
+test_card_LDADD =					\
+	$(GTK_LIBS)					\
+	$(GNOME_LIBDIR)					\
+	$(GNOMEGNORBA_LIBS)				\
+	$(INTLLIBS)					\
+	-lbonobo					\
+	$(ebook_libs)					\
+	../libversit/libversit.la
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)

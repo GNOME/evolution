@@ -13,10 +13,11 @@ module Evolution {
 	typedef string CardId;
 
 	interface CardCursor {
+		long   get_length ();
+		string get_nth    (in long n);
 	};
 
 	interface Book : GNOME::Unknown {
-
 		/*
 		 * Fetching cards in the addresbook.
 		 */
@@ -31,16 +32,20 @@ module Evolution {
 		/*
 		 * Modifying cards in the addressbook.
 		 */
-		void modify_card (in CardId id, in string vcard);
+		void modify_card (in string vcard);
+
+		void check_connection ();
+
+		string get_name ();
 	};
 
 	interface BookListener : GNOME::Unknown {
 
 		enum CallStatus {
+			Success,
 			RepositoryOffline,
 			PermissionDenied,
-			CardNotFound,
-			ProtocolNotSupported
+			CardNotFound
 		};
 
 		void respond_create_card (in CallStatus status);
@@ -63,9 +68,16 @@ module Evolution {
 		 * being asked.
 		 */
 		void report_connection_status (in boolean connected);
+
+		void signal_card_added (in CardId id);
+		void signal_card_removed (in CardId id);
+		void signal_card_changed (in CardId id);
 	};
 
 	interface BookFactory : GNOME::Unknown {
-		void open_book (in string uri, in BookListener listener);
+		exception ProtocolNotSupported {};
+
+		void open_book (in string uri, in BookListener listener)
+			raises (ProtocolNotSupported);
 	};
 };

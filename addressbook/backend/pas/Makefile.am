@@ -1,3 +1,6 @@
+bin_PROGRAMS = wombat
+lib_LTLIBRARIES = libpas.la
+
 corbadir = $(sysconfdir)/CORBA/servers
 
 CORBA_SOURCE =						\
@@ -34,16 +37,36 @@ pas_libs = 						\
 	libpas.la 					\
 	$(gnome_libs)
 
-lib_LTLIBRARIES = libpas.la
 
 libpas_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
-	pas-book-factory.c
+	pas-book.c					\
+	pas-book-factory.c				\
+	pas-backend.c					\
+	pas-backend-file.c
 
 libpasincludedir = $(includedir)/backend
 
 libpasinclude_HEADERS =					\
-	pas-book-factory.h
+	pas-book.h					\
+	pas-book-factory.h				\
+	pas-backend.h					\
+	pas-backend-file.h
+
+wombat_SOURCES =					\
+	pas.c
+
+wombat_LDADD =						\
+	$(GTK_LIBS)					\
+	$(GNOME_LIBDIR)					\
+	$(GNOMEGNORBA_LIBS)				\
+	$(INTLLIBS)					\
+	-lbonobo					\
+	$(pas_libs)
+
+gnorbadir     = $(sysconfdir)/CORBA/servers
+gnorba_DATA   = wombat.gnorba
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
+EXTRA_DIST    = $(gnorba_DATA)

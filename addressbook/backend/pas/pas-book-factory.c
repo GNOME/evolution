@@ -6,16 +6,15 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <ctype.h>
+#include <libgnorba/gnorba.h>
 #include <addressbook.h>
 #include <pas-book-factory.h>
 
+#define PAS_BOOK_FACTORY_GOAD_ID "evolution:card-server"
+
 static GnomeObjectClass          *pas_book_factory_parent_class;
 POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;
-
-typedef struct {
-	Evolution_BookListener             listener;
-	Evolution_BookListener_CallStatus  status;
-} PASBookFactoryQueuedResponse;
 
 typedef struct {
 	char                              *uri;
@@ -23,26 +22,18 @@ typedef struct {
 } PASBookFactoryQueuedRequest;
 
 struct _PASBookFactoryPrivate {
+	gint        idle_id;
 	GHashTable *backends;
 	GHashTable *active_server_map;
-	GList      *queued_responses;
 	GList      *queued_requests;
 };
 
 static char *
 pas_book_factory_canonicalize_uri (const char *uri)
 {
-	char *canon;
-	char *p;
-
 	/* FIXME: What do I do here? */
 
-	canon = g_strdup (uri);
-
-	for (p = canon; *p != '\0'; p ++)
-		*p = toupper (*p);
-
-	return canon;
+	return g_strdup (uri);
 }
 
 static char *
@@ -70,14 +61,16 @@ pas_book_factory_extract_proto_from_uri (const char *uri)
  * @backend:
  */
 void
-pas_book_factory_register_backend (PASBookFactory               *factory,
-				   const char                   *proto,
-				   PASBookFactoryBackendFactory  backend)
+pas_book_factory_register_backend (PASBookFactory      *factory,
+				   const char          *proto,
+				   PASBackendFactoryFn  backend)
 {
 	g_return_if_fail (factory != NULL);
 	g_return_if_fail (PAS_IS_BOOK_FACTORY (factory));
 	g_return_if_fail (proto != NULL);
 	g_return_if_fail (backend != NULL);
+
+	
 
 	if (g_hash_table_lookup (factory->priv->backends, proto) != NULL) {
 		g_warning ("pas_book_factory_register_backend: "
@@ -88,13 +81,13 @@ pas_book_factory_register_backend (PASBookFactory               *factory,
 			     g_strdup (proto), backend);
 }
 
-static PASBookFactoryBackendFactory
+static PASBackendFactoryFn
 pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 					 const char     *uri)
 {
-	PASBookFactoryBackendFactory  backend;
-	char                         *proto;
-	char                         *canonical_uri;
+	PASBackendFactoryFn  backend;
+	char                *proto;
+	char                *canonical_uri;
 
 	g_assert (factory != NULL);
 	g_assert (PAS_IS_BOOK_FACTORY (factory));
@@ -118,63 +111,60 @@ pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 	return backend;
 }
 
+static PASBackend *
+pas_book_factory_launch_backend (PASBookFactory              *factory,
+				 PASBookFactoryQueuedRequest *request)
+{
+	PASBackendFactoryFn  backend_factory;
+	PASBackend          *backend;
+
+	backend_factory = pas_book_factory_lookup_backend_factory (
+		factory, request->uri);
+	g_assert (backend_factory != NULL);
+
+	backend = (backend_factory) ();
+	g_assert (backend != NULL);
+
+	g_hash_table_insert (factory->priv->active_server_map,
+			     g_strdup (request->uri),
+			     backend);
+
+	return backend;
+}
+
 static void
 pas_book_factory_process_request (PASBookFactory              *factory,
 				  PASBookFactoryQueuedRequest *request)
 {
+	PASBackend *backend;
+
 	request = factory->priv->queued_requests->data;
 
-	/*
-	 * Check to see if there is already a running backend for this
-	 * URI.
-	 */
-	
+	backend = g_hash_table_lookup (factory->priv->active_server_map, request->uri);
 
-	backend = pas_book_factory_lookup_backend_factory (
-		factory, request->uri);
-	g_assert (backend != NULL);
+	if (backend == NULL) {
 
-	(backend) (factory, request->uri, request->listener);
-}
+		backend = pas_book_factory_launch_backend (factory, request);
+		pas_backend_add_client (backend, request->listener);
+		pas_backend_load_uri (backend, request->uri);
+		g_free (request->uri);
 
-
-static void
-pas_book_factory_process_response (PASBookFactory               *factory,
-				   PASBookFactoryQueuedResponse *response)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	Evolution_BookListener_respond_open_book (
-		response->listener, response->status,
-		CORBA_OBJECT_NIL, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("PASBookFactory: Exception while sending "
-			   "response to BookListener!\n");
-
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
+		return;
 	}
 
-	CORBA_Object_release (response->listener, &ev);
+	g_free (request->uri);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("PASBookFactory: Exception releasing "
-			   "BookListener!\n");
-	}
-
-	CORBA_exception_free (&ev);
+	pas_backend_add_client (backend, request->listener);
 }
-
 
 static gboolean
-pas_book_factory_process_queues (PASBookFactory *factory)
+pas_book_factory_process_queue (PASBookFactory *factory)
 {
 	/* Process pending Book-creation requests. */
-	while (factory->priv->queued_requests != NULL) {
+	if (factory->priv->queued_requests != NULL) {
 		PASBookFactoryQueuedRequest  *request;
+
+		request = factory->priv->queued_requests->data;
 
 		pas_book_factory_process_request (factory, request);
 
@@ -184,49 +174,13 @@ pas_book_factory_process_queues (PASBookFactory *factory)
 		g_free (request);
 	}
 
-	/* Flush the outgoing error queue. */
-	while (factory->priv->queued_responses != NULL) {
-		PASBookFactoryQueuedResponse *response;
+	if (factory->priv->queued_requests == NULL) {
 
-		response = factory->priv->queued_responses->data;
-
-		pas_book_factory_process_response (factory, response);
-		factory->priv->queued_responses = g_list_remove (
-			factory->priv->queued_responses, response);
-
-		g_free (response);
+		factory->priv->idle_id = 0;
+		return FALSE;
 	}
 
 	return TRUE;
-}
-
-static void
-pas_book_factory_queue_response (PASBookFactory                    *factory,
-				 const Evolution_BookListener       listener,
-				 Evolution_BookListener_CallStatus  status)
-{
-	PASBookFactoryQueuedResponse *response;
-	Evolution_BookListener        listener_copy;
-	CORBA_Environment             ev;
-
-	CORBA_exception_init (&ev);
-
-	listener_copy = CORBA_Object_duplicate (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("PASBookFactory: Could not duplicate BookListener!\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	response           = g_new0 (PASBookFactoryQueuedResponse, 1);
-	response->listener = listener_copy;
-	response->status   = status;
-
-	factory->priv->queued_responses =
-		g_list_prepend (factory->priv->queued_responses, response);
 }
 
 static void
@@ -256,7 +210,13 @@ pas_book_factory_queue_request (PASBookFactory               *factory,
 
 	factory->priv->queued_requests =
 		g_list_prepend (factory->priv->queued_requests, request);
+
+	if (! factory->priv->idle_id) {
+		factory->priv->idle_id =
+			g_idle_add ((GSourceFunc) pas_book_factory_process_queue, factory);
+	}
 }
+
 
 static void
 impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
@@ -264,19 +224,18 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 				      const Evolution_BookListener  listener,
 				      CORBA_Environment            *ev)
 {
-	PASBookFactory               *factory =
+	PASBookFactory      *factory =
 		PAS_BOOK_FACTORY (gnome_object_from_servant (servant));
+	PASBackendFactoryFn  backend_factory;
 
-	PASBookFactoryBackendFactory  backend;
+	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
 
-	backend = pas_book_factory_lookup_backend_factory (factory, uri);
-
-	if (backend == NULL) {
+	if (backend_factory == NULL) {
 		g_warning ("PASBookFactory: No backend found for uri: %s\n", uri);
 
-		pas_book_factory_queue_response (
-			factory, listener,
-			Evolution_BookListener_ProtocolNotSupported);
+		CORBA_exception_set (
+			ev, CORBA_USER_EXCEPTION,
+			ex_Evolution_BookFactory_ProtocolNotSupported, NULL);
 
 		return;
 	}
@@ -284,7 +243,7 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 	pas_book_factory_queue_request (factory, uri, listener);
 }
 
-static PASBookFactory *
+static gboolean
 pas_book_factory_construct (PASBookFactory *factory)
 {
 	POA_Evolution_BookFactory  *servant;
@@ -304,7 +263,7 @@ pas_book_factory_construct (PASBookFactory *factory)
 		g_free (servant);
 		CORBA_exception_free (&ev);
 
-		return NULL;
+		return FALSE;
 	}
 
 	CORBA_exception_free (&ev);
@@ -313,12 +272,12 @@ pas_book_factory_construct (PASBookFactory *factory)
 	if (obj == CORBA_OBJECT_NIL) {
 		g_free (servant);
 
-		return NULL;
+		return FALSE;
 	}
 
 	gnome_object_construct (GNOME_OBJECT (factory), obj);
 
-	return factory;
+	return TRUE;
 }
 
 /**
@@ -328,21 +287,64 @@ PASBookFactory *
 pas_book_factory_new (void)
 {
 	PASBookFactory *factory;
-	PASBookFactory *retval;
 
-	factory = gtk_type_new (PAS_BOOK_FACTORY_TYPE);
+	factory = gtk_type_new (pas_book_factory_get_type ());
 
-	retval = pas_book_factory_construct (factory);
-
-	if (retval == NULL) {
-		g_warning ("pas_book_factoy_new: Could not construct PASBookFactory!\n");
+	if (! pas_book_factory_construct (factory)) {
+		g_warning ("pas_book_factory_new: Could not construct PASBookFactory!\n");
 		gtk_object_unref (GTK_OBJECT (factory));
 
 		return NULL;
 	}
 
-	return retval;
+	return factory;
 }
+
+/**
+ * pas_book_factory_activate:
+ */
+void
+pas_book_factory_activate (PASBookFactory *factory)
+{
+	CORBA_Environment  ev;
+	int                ret;
+
+	g_return_if_fail (factory != NULL);
+	g_return_if_fail (PAS_IS_BOOK_FACTORY (factory));
+
+	CORBA_exception_init (&ev);
+
+	ret = goad_server_register (
+		NULL,
+		gnome_object_corba_objref (GNOME_OBJECT (factory)),
+		PAS_BOOK_FACTORY_GOAD_ID, "server",
+		&ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("pas_book_factory_construct: Exception "
+			   "registering PASBookFactory!\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	if (ret == -1) {
+		g_message ("pas_book_factory_construct: Error "
+			   "registering PASBookFactory!\n");
+		return;
+	}
+
+	if (ret == -2) {
+		g_message ("pas_book_factory_construct: Another "
+			   "PASBookFactory is already running.\n");
+		return;
+		
+	}
+
+	return;
+}
+
 
 static void
 pas_book_factory_init (PASBookFactory *factory)
@@ -352,9 +354,6 @@ pas_book_factory_init (PASBookFactory *factory)
 	factory->priv->active_server_map = g_hash_table_new (g_str_hash, g_str_equal);
 	factory->priv->backends          = g_hash_table_new (g_str_hash, g_str_equal);
 	factory->priv->queued_requests   = NULL;
-	factory->priv->queued_responses  = NULL;
-
-	g_idle_add ((GSourceFunc) pas_book_factory_process_queues, factory);
 }
 
 static gboolean
@@ -400,19 +399,6 @@ pas_book_factory_destroy (GtkObject *object)
 	}
 	g_list_free (factory->priv->queued_requests);
 	factory->priv->queued_requests = NULL;
-
-	for (l = factory->priv->queued_responses; l != NULL; l = l->next) {
-		PASBookFactoryQueuedResponse *response = l->data;
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		CORBA_Object_release (response->listener, &ev);
-		CORBA_exception_free (&ev);
-
-		g_free (response);
-	}
-	g_list_free (factory->priv->queued_responses);
-	factory->priv->queued_responses = NULL;
 
 	g_hash_table_foreach_remove (factory->priv->active_server_map,
 				     pas_book_factory_remove_asm_entry,

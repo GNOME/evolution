@@ -1,0 +1,2 @@
+* Make sure open_book_progress does not use the EBook op queue; make
+  sure it works.
