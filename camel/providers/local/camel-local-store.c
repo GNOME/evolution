@@ -174,8 +174,8 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		if (slash)
 			*slash = '/';
 	} while (slash);
-
-	return NULL;
+	
+	return (CamelFolder *) 0xdeadbeef;
 }
 
 static CamelFolder *

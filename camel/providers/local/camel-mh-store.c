@@ -185,15 +185,15 @@ fail:
 		camel_object_unref(out);
 }
 
-static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
+static CamelFolder *
+get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	char *name;
 	struct stat st;
 
-	(void) ((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex);
-	if (camel_exception_is_set(ex))
+	if (!((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex))
 		return NULL;
-
+	
 	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 
 	if (stat(name, &st) == -1) {
