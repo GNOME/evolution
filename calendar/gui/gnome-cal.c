@@ -188,6 +188,7 @@ static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem   
 								GnomeCalendar    *gcal);
 static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
 
+static void add_alarms (const char *uri);
 static void update_query (GnomeCalendar *gcal);
 
 
@@ -1568,6 +1569,9 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		if (priv->zone) {
 			cal_client_set_default_timezone (client, priv->zone);
 		}
+
+		/* add the alarms for this client */
+		add_alarms (cal_client_get_uri (client));
 		break;
 
 	case CAL_CLIENT_OPEN_ERROR:
@@ -1923,8 +1927,6 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		return FALSE;
 	}
 
-	add_alarms (real_uri);
-
 	/* Open the appropriate Tasks folder to show in the TaskPad */
 
 	if (!uri) {
@@ -1946,9 +1948,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	g_free (real_uri);
 	e_uri_free (uri);
 
-	if (success)
-		add_alarms (cal_client_get_uri (priv->task_pad_client));
-	else {
+	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request");
 		return FALSE;
 	}
