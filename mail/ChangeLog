@@ -1,3 +1,9 @@
+2003-01-23  Rodney Dawes  <dobey@ximian.com>
+
+	* folder-browser.c (fb_resize_cb): Use button_release instead of
+	size_allocate, and get the position from the Paned widget to prevent
+	calling CORBA all the time for GConf stuff
+	
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (componentdir): Removed definition; this is now
