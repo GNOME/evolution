@@ -9,7 +9,8 @@ plugin_DATA = org-gnome-exchange-account-setup.eplug
 plugin_LTLIBRARIES = liborg-gnome-exchange-account-settings.la
 
 liborg_gnome_exchange_account_settings_la_SOURCES = 		\
-	exchange-account-setup.c
+	exchange-account-setup.c				\
+	exchange-ask-password.c
 
 liborg_gnome_exchange_account_settings_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la 			\

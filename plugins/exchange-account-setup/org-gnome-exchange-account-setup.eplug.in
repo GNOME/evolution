@@ -19,4 +19,25 @@
       	</group>
     </hook>
   </e-plugin>
+
+   <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.exchange-ask-password"
+    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
+    load-on-startup="true"
+    name="Exchange Password Dialog"
+    description="A pluign to read password once the user enters identity information">
+    <hook class="org.gnome.evolution.mail.config:1.0">
+        <group
+                target="account"
+                id="org.gnome.evolution.mail.config.accountDruid"
+                check="org_gnome_exchange_ask_password">
+
+                <item
+                        path="90.dummy"/>
+        </group>
+    </hook>
+  </e-plugin>
+ 
+
 </e-plugin-list>

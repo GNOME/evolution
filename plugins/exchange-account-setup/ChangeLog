@@ -1,3 +1,10 @@
 2005-01-09  Sushma Rai <rsushma@novell.com>
+	
+	* exchange-ask-password.c: Pops up password dialog and validates
+	user credentials once owa url and user name are entered.
+
+	* org-gnome-exchange-account-setup.eplug.in: Added page check plugin.
+
+2005-01-09  Sushma Rai <rsushma@novell.com>
 
 	* Intial ckeckin, Plugin for Exchange account specific settings
