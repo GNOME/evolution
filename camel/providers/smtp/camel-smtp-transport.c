@@ -436,24 +436,20 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	gchar *cmdbuf, *respbuf = NULL;
-	gchar localhost[MAXHOSTNAMELEN + MAXHOSTNAMELEN + 2];
-	gchar domainname[MAXHOSTNAMELEN];
+	struct sockaddr_in localaddr;
+   guint32 addrlen;
+   struct hostent *host;
 
-	/* get the localhost name */
-	memset(localhost, 0, sizeof(localhost));
-	gethostname (localhost, MAXHOSTNAMELEN);
-	memset(domainname, 0, sizeof(domainname));
-	getdomainname(domainname, MAXHOSTNAMELEN);
-	if (*domainname && strcmp(domainname, "(none)")) {
-		strcat(localhost, ".");
-		strcat(localhost, domainname);
-	}
+   /* get the local host name */
+   addrlen = sizeof(localaddr);
+   getsockname(sock, (struct sockaddr*)&localaddr, &addrlen);
+   host = gethostbyaddr((gchar *)&localaddr.sin_addr, sizeof(localaddr.sin_addr), AF_INET);
 
 	/* hiya server! how are you today? */
 	if (smtp_is_esmtp)
-		cmdbuf = g_strdup_printf ("EHLO %s\r\n", localhost);
+		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host->h_name);
 	else
-		cmdbuf = g_strdup_printf ("HELO %s\r\n", localhost);
+		cmdbuf = g_strdup_printf ("HELO %s\r\n", host->h_name);
 	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

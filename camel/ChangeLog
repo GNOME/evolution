@@ -1,3 +1,8 @@
+2000-05-11  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* providers/smtp/camel-smtp-transport.c: (smtp_helo): 
+	Updated to more closely comply with RFC 821 standards
+
 2000-05-11  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.c (write_to_stream): Unref the filter after
