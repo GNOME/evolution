@@ -1,3 +1,10 @@
+2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (pgp_mime_part_sign): Correcty set the mime type
+	for the multipart. Hmmm, still doesn't wrap correctly. NotZed?
+	Ideas?
+	(pgp_mime_part_encrypt): Here too.
+
 2001-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* mail-tools.c: Remove very old camel lock stuff.

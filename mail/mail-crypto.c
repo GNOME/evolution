@@ -207,9 +207,6 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	g_free (signature);
 	
 	/* construct the container multipart/signed */
-	multipart = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart/signed");
 	switch (hash) {
 	case PGP_HASH_TYPE_MD5:
 		hash_type = "pgp-md5";
@@ -221,9 +218,14 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 		g_assert_not_reached ();
 	}
 	
-	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
+	multipart = camel_multipart_new ();
+	
+	mime_type = header_content_type_new ("multipart", "signed");
 	header_content_type_set_param (mime_type, "micalg", hash_type);
 	header_content_type_set_param (mime_type, "protocol", "application/pgp-signature");
+	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (multipart), mime_type);
+	header_content_type_unref (mime_type);
+	
 	camel_multipart_set_boundary (multipart, NULL);
 	
 	/* add the parts to the multipart */
@@ -364,11 +366,13 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 	
 	/* construct the container multipart/signed */
 	multipart = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart/encrypted");
-	camel_multipart_set_boundary (multipart, NULL);
-	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
+	
+	mime_type = header_content_type_new ("multipart", "encrypted");
 	header_content_type_set_param (mime_type, "protocol", "application/pgp-encrypted");
+	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (multipart), mime_type);
+	header_content_type_unref (mime_type);
+	
+	camel_multipart_set_boundary (multipart, NULL);
 	
 	/* add the parts to the multipart */
 	camel_multipart_add_part (multipart, version_part);
