@@ -40,9 +40,9 @@ GByteArray *mail_format_get_data_wrapper_text (CamelDataWrapper *data,
 					       MailDisplay *mail_display);
 
 void mail_format_mime_message (CamelMimeMessage *mime_message,
-			       MailDisplay *md);
+			       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 void mail_format_raw_message (CamelMimeMessage *mime_message,
-			      MailDisplay *md);
+			      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 gboolean mail_content_loaded (CamelDataWrapper *wrapper,
 			      MailDisplay *display,
 			      gboolean redisplay,
@@ -51,7 +51,7 @@ gboolean mail_content_loaded (CamelDataWrapper *wrapper,
 
 typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
 				       const char *mime_type,
-				       MailDisplay *md);
+				       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 typedef struct {
 	gboolean generic;
 	OAF_ServerInfo *component;

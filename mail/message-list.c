@@ -138,7 +138,6 @@ static struct {
 	{ mail_new_xpm,		NULL },
 	{ mail_read_xpm,	NULL },
 	{ mail_replied_xpm,	NULL },
-	{ mail_need_reply_xpm,  NULL },
 /* FIXME: Replace these with pixmaps for multiple_read and multiple_unread */
     	{ mail_new_xpm,		NULL },
     	{ mail_read_xpm,	NULL },
@@ -152,6 +151,7 @@ static struct {
 	{ score_high_xpm,       NULL },
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
+	{ mail_need_reply_xpm,  NULL },
 	{ NULL,			NULL }
 };
 
@@ -540,6 +540,7 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -566,6 +567,7 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -591,6 +593,7 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -617,6 +620,7 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_NEED_REPLY:
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -645,6 +649,11 @@ static const char *status_map[] = {
 	N_("Multiple Messages"),
 };
 
+static const char *needs_reply_map[] = {
+	"",
+	N_("Needs Reply"),
+};
+
 static const char *score_map[] = {
 	N_("Lowest"),
 	N_("Lower"),
@@ -666,6 +675,10 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 		if (i > 4)
 			return g_strdup("");
 		return g_strdup(_(status_map[i]));
+
+	case COL_NEED_REPLY:
+		i = (unsigned int)value;
+		return g_strdup (_(needs_reply_map[i]));
 
 	case COL_SCORE:
 		i = (unsigned int)value + 3;
@@ -794,14 +807,12 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
 			if (subtree_unread(message_list, child))
-				return (void *)4;
+				return (void *)3;
 			else
-				return (void *)5;
+				return (void *)4;
 		}
 
-		if (msg_info->flags & CAMEL_MESSAGE_NEEDS_REPLY)
-			return GINT_TO_POINTER (3);
-		else if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
+		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
 			return GINT_TO_POINTER (1);
@@ -809,6 +820,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			return GINT_TO_POINTER (0);
 		break;
 	}
+	case COL_NEED_REPLY:
+		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_NEEDS_REPLY) != 0);
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
 	case COL_SCORE: {
@@ -966,31 +979,36 @@ message_list_create_extras (void)
 
 	extras = e_table_extras_new();
 	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [14].pixbuf);
-	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [7].pixbuf);
-	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [8].pixbuf);
+	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
+	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
+	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
+	e_table_extras_add_pixbuf(extras, "needsreply", states_pixmaps [15].pixbuf);
 	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
 	
-	for (i = 0; i < 6; i++)
+	for (i = 0; i < 5; i++)
 		images [i] = states_pixmaps [i].pixbuf;
 
-	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 6, images));
+	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 5, images));
 
 	for (i = 0; i < 2; i++)
-		images [i] = states_pixmaps [i + 6].pixbuf;
+		images [i] = states_pixmaps [i + 5].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
-	images [1] = states_pixmaps [8].pixbuf;
+	images [1] = states_pixmaps [7].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 
+	images [1] = states_pixmaps [15].pixbuf;
+	e_table_extras_add_cell(extras, "render_needs_reply", e_cell_toggle_new (0, 2, images));
+
 	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 8].pixbuf;
+		images[i] = states_pixmaps [i + 7].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
-	
+
+
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
@@ -2028,51 +2046,31 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	int flag;
 	CamelMessageInfo *info;
 
-	if (col == COL_MESSAGE_STATUS) {
-		guint32 msg_flags;
-
-		info = get_message_info (list, path);
-		if (info == NULL) {
-			return FALSE;
-		}
-
-		msg_flags = camel_folder_get_message_flags (list->folder, camel_message_info_uid (info));
-
-		if (msg_flags & CAMEL_MESSAGE_NEEDS_REPLY) {
-			flag = 0;
-		} else if (msg_flags & CAMEL_MESSAGE_SEEN) {
-			flag = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_NEEDS_REPLY;
-		} else {
-			flag = CAMEL_MESSAGE_SEEN;
-		}
-
-		camel_folder_set_message_flags (list->folder, camel_message_info_uid (info),
-						CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_NEEDS_REPLY, flag);
-
-		if (flag & CAMEL_MESSAGE_SEEN && list->seen_id) {
-			gtk_timeout_remove (list->seen_id);
-			list->seen_id = 0;
-		}
-
-		return TRUE;
-	}
-
-	if (col == COL_FLAGGED)
+	if (col == COL_MESSAGE_STATUS)
+		flag = CAMEL_MESSAGE_SEEN;
+	else if (col == COL_FLAGGED)
 		flag = CAMEL_MESSAGE_FLAGGED;
+	else if (col == COL_NEED_REPLY)
+		flag = CAMEL_MESSAGE_NEEDS_REPLY;
 	else
 		return FALSE;
-
+	
 	info = get_message_info (list, path);
 	if (info == NULL) {
 		return FALSE;
 	}
-
+	
 	/* If a message was marked as deleted and the user flags it as important, undelete it */
-	if (col == COL_FLAGGED && (info->flags & CAMEL_MESSAGE_DELETED))
+	if ((col == COL_FLAGGED || col == COL_NEED_REPLY) && (info->flags & CAMEL_MESSAGE_DELETED))
 		flag |= CAMEL_MESSAGE_DELETED;
 	
 	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);
-
+	
+	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
+		gtk_timeout_remove (list->seen_id);
+		list->seen_id = 0;
+	}
+	
 	return TRUE;
 }
 

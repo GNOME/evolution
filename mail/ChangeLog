@@ -1,3 +1,59 @@
+2001-12-11  Jon Trowbridge  <trow@ximian.com>
+
+	* message-list.etspec: Add ETable magic for our new "Needs Reply"
+	column.  (The next few entries are for bug #90)
+
+	* message-list.h: Add COL_NEED_REPLY.
+
+	* message-list.c: Move mail_need_reply_xpm to the end of
+	states_pixmaps.
+	(ml_duplicate_value): Handle COL_NEED_REPLY.
+	(ml_free_value): Handle COL_NEED_REPLY.
+	(ml_initialize_value): Handle COL_NEED_REPLY.
+	(ml_value_is_empty): Handle COL_NEED_REPLY.  Added
+	needs_reply_map[] array.
+	(ml_value_to_string): Handle COL_NEED_REPLY.
+	(ml_tree_value_at): Fix magic numbers, undoing my changes from the
+	otehr day.  Add handler for COL_NEED_REPLY.
+	(message_list_create_extras): Attach icons for COL_NEED_REPLY.
+	(on_click): Undo my previous changes to display need-reply status
+	in COL_MESSAGE_STATUS.  Add handing for COL_NEED_REPLY.
+
+	* mail.h: Change mail_format_mime_message, mail_format_raw_message
+	and the MailMimeHandlerFn typedef to take GtkHTML and
+	GtkHTMLStream args, as per our changes in mail-format.c.
+
+	* mail-format.c: Giant refactoring.  Remove the assumption
+	throughout that we will always want to render into the GtkHTML
+	object contained in the MailDisplay.  Instead, always pass in the
+	GtkHTML and GtkHTMLStream that we want to write to.  Also, ignore
+	theme work-arounds if the printing flag is set.  (This and what
+	follows fixes bug #82)
+
+	* mail-display.h: Remove GtkHTMLStream *stream from MailDisplay.
+	We don't need it anymore.
+
+	* mail-display.c (mail_display_render): Added.  Breaks the code
+	that renders the message into the GtkHTML object out of
+	mail_display_redisplay.
+	(mail_display_redisplay): Call mail_display_render.
+	(mail_display_init): Remove reference to ->stream.
+	(mail_display_new): Remove reference to ->stream.
+
+	* mail-callbacks.c (do_mail_print): Create a new GtkHTML to render
+	our printed version into (via the new function
+	mail_display_render.  Set the MailDisplay's printing flag to TRUE
+	before we render, and set it back to FALSE afterwards.
+	(do_mail_fetch_and_print): If the preview pane isn't open when we
+	try to print, fetch the message before printing.
+	(print_msg): Call do_mail_fetch_and_print.
+	(print_preview_msg): Call do_mail_fetch_and_print.
+
+	* folder-browser-ui.c: Remove "PrintMessage" and
+	"PrintPreviewMessage" from message_pane_enables... these now work
+	when the preview pane is closed.  Disable printing if multiple
+	messages are selected.
+
 2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (filter_folder_filter): Don't expunge when we sync

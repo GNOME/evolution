@@ -27,11 +27,11 @@ struct _MailDisplay {
 	
 	EScrollFrame *scroll;
 	GtkHTML *html;
-	GtkHTMLStream *stream;
+	/* GtkHTMLStream *stream; */
 	gint redisplay_counter;
 	gpointer last_active;
 	guint idle_id;
-	
+
 	char *charset;
 	
 	char *selection;
@@ -44,6 +44,8 @@ struct _MailDisplay {
 	GtkWidget *invisible;
 	
 	MailConfigDisplayStyle display_style;
+
+	guint printing : 1;
 };
 
 typedef struct {
@@ -54,6 +56,7 @@ GtkType        mail_display_get_type    (void);
 GtkWidget *    mail_display_new         (void);
 
 void           mail_display_queue_redisplay (MailDisplay *mail_display);
+void           mail_display_render (MailDisplay *mail_display, GtkHTML *html);
 void           mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll);
 void           mail_display_redisplay_when_loaded (MailDisplay *md,
 						   gconstpointer key,

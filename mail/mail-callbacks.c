@@ -2334,13 +2334,14 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 do_mail_print (FolderBrowser *fb, gboolean preview)
 {
+	GtkHTML *html;
 	GnomePrintContext *print_context;
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
 	GnomePrinter *printer = NULL;
 	int copies = 1;
 	int collate = FALSE;
-	
+
 	if (!preview) {
 		dialog = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Message"),
 								     GNOME_PRINT_DIALOG_COPIES));
@@ -2372,8 +2373,21 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	gnome_print_master_set_paper (print_master, gnome_paper_with_name (_("US-Letter")));
 	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
-	gtk_html_print_set_master (fb->mail_display->html, print_master);
-	gtk_html_print (fb->mail_display->html, print_context);
+
+	html = GTK_HTML (gtk_html_new ());
+	
+	/* Set our 'printing' flag to true and render.  This causes us
+	   to ignoring any adjustments we made to accomodate the
+	   user's theme. */
+	fb->mail_display->printing = TRUE;
+
+	mail_display_render (fb->mail_display, html);
+	gtk_html_print_set_master (html, print_master);
+	gtk_html_print (html, print_context);
+
+	fb->mail_display->printing = FALSE;
+
+	gtk_object_unref (GTK_OBJECT (html));
 	gnome_print_master_close (print_master);
 	
 	if (preview){
@@ -2394,6 +2408,69 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	gtk_object_unref (GTK_OBJECT (print_master));
 }
 
+/* This is pretty evil.  FolderBrowser's API should be extended to allow these sorts of
+   things to be done in a more natural way. */
+
+/* <evil_code> */
+
+struct blarg_this_sucks {
+	FolderBrowser *fb;
+	gboolean preview;
+};
+
+static void
+done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+{
+	struct blarg_this_sucks *blarg = data;
+	FolderBrowser *fb = blarg->fb;
+	gboolean preview = blarg->preview;
+	
+	g_free (blarg);
+
+	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
+
+	g_free (fb->loaded_uid);
+	fb->loaded_uid = fb->loading_uid;
+	fb->loading_uid = NULL;
+
+	do_mail_print (fb, preview);
+}
+
+/* Ack!  Most of this is copied from folder-browser.c */
+static void
+do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
+{
+	if (! fb->preview_shown) {
+		/* If the preview pane is closed, we have to do some
+		   extra magic to load the message. */
+		struct blarg_this_sucks *blarg = g_new (struct blarg_this_sucks, 1);
+
+		blarg->fb = fb;
+		blarg->preview = preview;
+
+		fb->loading_id = 0;
+	
+		/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
+		if (fb->loading_uid) {
+			g_free (fb->pending_uid);
+			fb->pending_uid = g_strdup (fb->new_uid);
+		} else {
+			if (fb->new_uid) {
+				fb->loading_uid = g_strdup (fb->new_uid);
+				mail_get_message (fb->folder, fb->loading_uid, done_message_selected, blarg, mail_thread_new);
+			} else {
+				mail_display_set_message (fb->mail_display, NULL);
+				g_free (blarg);
+			}
+		}
+
+	} else {
+		do_mail_print (fb, preview);
+	}
+}
+
+/* </evil_code> */
+
 void
 print_msg (GtkWidget *button, gpointer user_data)
 {
@@ -2402,7 +2479,7 @@ print_msg (GtkWidget *button, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	do_mail_print (fb, FALSE);
+	do_mail_fetch_and_print (fb, FALSE);
 }
 
 void
@@ -2413,7 +2490,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	do_mail_print (fb, TRUE);
+	do_mail_fetch_and_print (fb, TRUE);
 }
 
 /******************** Begin Subscription Dialog ***************************/

@@ -1346,6 +1346,33 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 	g_datalist_clear (&data);
 }
 
+void
+mail_display_render (MailDisplay *md, GtkHTML *html)
+{
+	GtkHTMLStream *stream;
+
+	g_return_if_fail (IS_MAIL_DISPLAY (md));
+	g_return_if_fail (GTK_IS_HTML (html));
+
+	stream = gtk_html_begin (html);
+	
+	mail_html_write (html, stream,
+			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
+			 "<html>\n"
+			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
+	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
+	
+	if (md->current_message) {
+		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
+			mail_format_raw_message (md->current_message, md, html, stream);
+		else
+			mail_format_mime_message (md->current_message, md, html, stream);
+	}
+	
+	mail_html_write (html, stream, "</body></html>\n");
+	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+}
+
 /**
  * mail_display_redisplay:
  * @mail_display: the mail display object
@@ -1363,25 +1390,12 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	md->redisplay_counter++;
 	/* printf ("md %p redisplay %d\n", md, md->redisplay_counter); */
 	
-	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-	
-	mail_html_write (md->html, md->stream, "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
-	mail_html_write (md->html, md->stream, "<body marginwidth=0 marginheight=0>\n");
-	
-	if (md->current_message) {
-		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
-			mail_format_raw_message (md->current_message, md);
-		else
-			mail_format_mime_message (md->current_message, md);
-	}
-	
-	mail_html_write (md->html, md->stream, "</body></html>\n");
-	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
-	md->stream = NULL;
+
+	mail_display_render (md, md->html);
 }
 
 
@@ -1459,7 +1473,6 @@ mail_display_init (GtkObject *object)
 	mail_display->scroll            = NULL;
 	mail_display->html              = NULL;
 	mail_display->redisplay_counter = 0;
-	mail_display->stream            = NULL;
 	mail_display->last_active       = NULL;
 	mail_display->idle_id           = 0;
 	mail_display->selection         = NULL;
@@ -1469,6 +1482,8 @@ mail_display_init (GtkObject *object)
 	mail_display->invisible         = gtk_invisible_new ();
 
 	mail_display->display_style     = mail_config_get_message_display_style ();
+
+	mail_display->printing          = FALSE;
 }
 
 static void
@@ -2100,7 +2115,6 @@ mail_display_new (void)
 
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
-	mail_display->stream = NULL;
 	mail_display->last_active = NULL;
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
