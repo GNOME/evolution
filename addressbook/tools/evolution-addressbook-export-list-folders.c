@@ -28,72 +28,72 @@
 #include <libbonobo.h>
 #include <libgnome/libgnome.h>
 
-#include <ebook/e-book.h>
-#include <ebook/e-book-util.h>
+#include <libebook/e-book.h>
 
 #include "evolution-addressbook-export.h"
-
-static void
-action_list_folders_get_cursor_cb (EBook * book, EBookStatus status, ECardCursor * cursor, ActionContext * p_actctx)
-{
-	FILE *outputfile;
-	long length;
-	const char *uri;
-	char *name;
-
-	uri = e_book_get_default_book_uri ();
-	length = e_card_cursor_get_length (cursor);
-
-	/*Fix me *
-	   can not get name, should be a bug of e-book.Anyway, should set a default name.
-	 */
-	/*name = e_book_get_name (book); */
-	name = g_strdup (_("Contacts"));
-
-	if (p_actctx->action_list_folders.output_file == NULL) {
-		printf ("\"%s\",\"%s\",%d\n", uri, name, (int) length);
-	} else {
-		/*output to a file */
-		if (!(outputfile = fopen (p_actctx->action_list_folders.output_file, "w"))) {
-			g_warning (_("Can not open file"));
-			exit (-1);
-		}
-		fprintf (outputfile, "\"%s\",\"%s\",%d\n", uri, name, (int) length);
-		fclose (outputfile);
-	}
-
-	g_free (name);
-	g_object_unref (G_OBJECT (book));
-	bonobo_main_quit ();
-}
-
-static void
-action_list_folders_open_cb (EBook * book, EBookStatus status, ActionContext * p_actctx)
-{
-	if (E_BOOK_STATUS_SUCCESS ==  status) {
-		e_book_get_cursor (book, "(contains \"full_name\" \"\")", 
-				   (EBookCursorCallback)action_list_folders_get_cursor_cb, p_actctx);
-	} else {
-		g_object_unref (G_OBJECT (book));
-		g_warning (_("Can not load URI"));
-		exit (-1);
-	}
-}
-
-static guint
-action_list_folders_run (ActionContext * p_actctx)
-{
-	EBook *book;
-	book = e_book_new ();
-
-	e_book_load_default_book (book, (EBookCallback)action_list_folders_open_cb, p_actctx);
-	return SUCCESS;
-}
 
 guint
 action_list_folders_init (ActionContext * p_actctx)
 {
-	g_idle_add ((GSourceFunc) action_list_folders_run, p_actctx);
+	ESourceList *addressbooks = NULL;
+	GSList *groups, *group;
+	FILE *outputfile = NULL;
+
+	if (!e_book_get_addressbooks (&addressbooks, NULL)) {
+		g_warning (_("Couldn't get list of addressbooks"));
+		exit (-1);
+	}
+
+	if (p_actctx->action_list_folders.output_file != NULL) {
+		if (!(outputfile = fopen (p_actctx->action_list_folders.output_file, "w"))) {
+			g_warning (_("Can not open file"));
+			exit (-1);
+		}
+	}
+
+	groups = e_source_list_peek_groups (addressbooks);
+	for (group = groups; group; group = group->next) {
+		ESourceGroup *g = group->data;
+		GSList *sources, *source;
+
+		sources = e_source_group_peek_sources (g);
+		for (source = sources; source; source = source->next) {
+			ESource *s = source->data;
+			EBook *book;
+			EBookQuery *query;
+			GList *contacts;
+			char *uri;
+			const char *name;
+
+			book = e_book_new (s, NULL);
+			if (!book
+			    || !e_book_open (book, TRUE, NULL)) {
+				g_warning (_("failed to open book"));
+				continue;
+			}
+
+			query = e_book_query_any_field_contains ("");
+			e_book_get_contacts (book, query, &contacts, NULL);
+			e_book_query_unref (query);
+
+			uri = e_source_get_uri (s);
+			name = e_source_peek_name (s);
+
+			if (outputfile)
+				fprintf (outputfile, "\"%s\",\"%s\",%d\n", uri, name, g_list_length (contacts));
+			else
+				printf ("\"%s\",\"%s\",%d\n", uri, name, g_list_length (contacts));
+
+			g_free (uri);
+			g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+			g_list_free (contacts);
+
+			g_object_unref (book);
+		}
+	}
+
+	if (outputfile)
+		fclose (outputfile);
 
 	return SUCCESS;
 }

@@ -28,7 +28,7 @@
 #include <bonobo/bonobo-main.h>
 #include <gnome.h>
 
-#include <ebook/e-book.h>
+#include <libebook/e-book.h>
 
 #include "evolution-addressbook-export.h"
 
@@ -154,9 +154,7 @@ main (int argc, char **argv)
 		exit (-1);
 	}
 
-	bonobo_main ();
-
 	/*FIXME:should free actctx's some char* field, such as output_file! but since the program will end, so that will not cause mem leak.  */
 
-	return 0;
+	exit (0);
 }
