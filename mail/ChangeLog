@@ -1,3 +1,12 @@
+2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-browser.c (message_browser_message_loaded): Fixed a
+	memory leak.
+	(message_browser_new): Added a comment as to why , after
+	reparenting, we do not unref the mail_display.
+	(message_browser_destroy): Don't call gtk_widget_destroy() on the
+	message_list here.
+
 2001-08-30  Peter Williams  <peterw@ximian.com>
 
 	* mail-ops.c (remove_folder_get): Instead of removing the folder

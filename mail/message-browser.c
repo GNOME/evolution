@@ -69,8 +69,6 @@ message_browser_destroy (GtkObject *object)
 	
 	gtk_object_unref (GTK_OBJECT (message_browser->fb));
 	
-	gtk_widget_destroy (GTK_WIDGET (message_browser));
-
 	if (GTK_OBJECT_CLASS (message_browser_parent_class)->destroy)
 		(GTK_OBJECT_CLASS (message_browser_parent_class)->destroy) (object);
 }
@@ -112,22 +110,21 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	char *subject = NULL;
 	char *title;
 	
-	g_warning ("got 'message_loaded' event");
-	
 	message = fb->mail_display->current_message;
 	
 	if (message)
 		subject = (char *) camel_mime_message_get_subject (message);
-
+	
 	if (subject != NULL)
 		subject = e_utf8_to_gtk_string (GTK_WIDGET (mb), subject);
 	else
-		subject = _("(No subject)");
-
+		subject = g_strdup (_("(No subject)"));
+	
 	title = g_strdup_printf (_("%s - Message"), subject);
+	g_free (subject);
 	
 	gtk_window_set_title (GTK_WINDOW (mb), title);
-
+	
 	g_free (title);
 }
 
@@ -136,16 +133,12 @@ message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
 	
-	g_warning ("got 'message_list_built' event");
-	
 	message_list_select_uid (ml, uid);
 }
 
 static void
 message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
 {
-	g_warning ("got 'folder_loaded' event for '%s'", uri);
-	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
 			    message_browser_message_list_built, mb);
 }
@@ -226,23 +219,27 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 		g_warning ("Failed to construct Bonobo window!");
 		return NULL;
 	}
-
+	
 	gtk_object_set_data_full (GTK_OBJECT (new), "uid", g_strdup (uid), g_free);
-
+	
 	fb = FOLDER_BROWSER (folder_browser_new (shell));
 	new->fb = fb;
-
+	
 	set_bonobo_ui (GTK_WIDGET (new), fb);
-
+	
 	/* some evil hackery action... */
 	vbox = gtk_vbox_new (TRUE, 0);
 	gtk_widget_ref (GTK_WIDGET (fb->mail_display));
 	gtk_widget_reparent (GTK_WIDGET (fb->mail_display), vbox);
+	/* Note: normally we'd unref the fb->mail_display now, except
+           that if we do then our refcounts will not be in
+           harmony... both the fb *and* the message-browser need to
+           own a ref on the mail_display. */
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (vbox);
-
-	gtk_signal_connect(GTK_OBJECT(new), "size_allocate", 
-			   GTK_SIGNAL_FUNC(message_browser_size_allocate_cb), NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (new), "size_allocate", 
+			    GTK_SIGNAL_FUNC (message_browser_size_allocate_cb), NULL);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (new), vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (fb->mail_display)->html));

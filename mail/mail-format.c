@@ -1838,10 +1838,10 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	camel_exception_free (ex);
 	
-	/* now display all the subparts *except* the signature (last part) */
+	/* now display all the subparts (there should be only 1) *except* the signature (last part) */
 	mp = CAMEL_MULTIPART (wrapper);
 	
-	nparts = camel_multipart_get_number (mp);	
+	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts - 1; i++) {
 		if (i != 0 && output)
 			mail_html_write (md->html, md->stream,
