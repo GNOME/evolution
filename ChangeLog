@@ -1,3 +1,7 @@
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* configure.in: bumped required GAL to 0.15.99.2.
+
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* acconfig.h: HAVE_KDE_APPLNK.
