@@ -1039,7 +1039,8 @@ ets_proxy_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 	if (path) {
 		if (!reposition_path(ets, path))
 			e_tree_model_node_data_changed(E_TREE_MODEL(ets), path);
-	}
+	} else
+		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
 
 static void
@@ -1053,7 +1054,8 @@ ets_proxy_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSorte
 			changed = reposition_path(ets, path);
 		if (!changed)
 			e_tree_model_node_col_changed(E_TREE_MODEL(ets), path, col);
-	}
+	} else
+		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
 
 static void

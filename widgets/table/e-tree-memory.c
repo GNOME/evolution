@@ -163,7 +163,8 @@ e_tree_memory_freeze(ETreeMemory *etmm)
 {
 	ETreeMemoryPriv *priv = etmm->priv;
 
-	e_tree_model_pre_change(E_TREE_MODEL(etmm));
+	if (priv->frozen == 0)
+		e_tree_model_pre_change(E_TREE_MODEL(etmm));
 
 	priv->frozen ++;
 }
