@@ -1,3 +1,14 @@
+2001-12-19  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(e_addressbook_reflow_adapter_right_click): Add cut/copy/paste to
+	right-click menu.
+
+	* gui/widgets/e-addressbook-view.c (table_right_click): Add
+	cut/copy/paste to right-click menu.  (Fixes bug #14528.)  Also,
+	disable some right-click options if our addressbook isn't
+	editable.
+
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (check_for_slow_setting): go slow and

@@ -556,6 +556,9 @@ create_minicard_view (EAddressbookView *view)
 	adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(e_addressbook_reflow_adapter_new (view->model));
 	minicard_view = e_minicard_view_widget_new(adapter);
 
+	/* A hack */
+	gtk_object_set_data (GTK_OBJECT (adapter), "view", view);
+
 	gtk_signal_connect(GTK_OBJECT(minicard_view), "selection_change",
 			   GTK_SIGNAL_FUNC(minicard_selection_change), view);
 
@@ -704,6 +707,43 @@ print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
 #endif
 
 static void
+copy (GtkWidget *widget, CardAndBook *card_and_book)
+{
+#if 0
+	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
+	gtk_object_ref (GTK_OBJECT (card_and_book->card));
+	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+#endif
+
+	e_addressbook_view_copy (card_and_book->view);
+	card_and_book_free (card_and_book);
+}
+
+static void
+paste (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_view_paste (card_and_book->view);
+	card_and_book_free (card_and_book);
+}
+
+static void
+cut (GtkWidget *widget, CardAndBook *card_and_book)
+{
+#if 0
+	/* copy */
+	card_and_book->view->clipboard_cards = g_list_append (NULL, card_and_book->card);
+	gtk_object_ref (GTK_OBJECT (card_and_book->card));
+	gtk_selection_owner_set (card_and_book->view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+
+	/* delete */
+	e_book_remove_card (card_and_book->book, card_and_book->card, NULL, NULL);
+#endif
+
+	e_addressbook_view_cut (card_and_book->view);
+	card_and_book_free (card_and_book);
+}
+
+static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->widget)))) {
@@ -722,6 +762,7 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 	card_and_book_free(card_and_book);
 }
 
+#define POPUP_READONLY_MASK 0x1
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
@@ -737,7 +778,10 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
-			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
+			{N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
+			{N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
+			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
 			{NULL, NULL, NULL, NULL, 0}
 		};
 
@@ -752,7 +796,9 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		gtk_object_ref(GTK_OBJECT(card_and_book->book));
 		gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
-		e_popup_menu_run (menu, event, 0, 0, card_and_book);
+		e_popup_menu_run (menu, event,
+				  e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
+				  0, card_and_book);
 		return TRUE;
 	} else
 		return FALSE;

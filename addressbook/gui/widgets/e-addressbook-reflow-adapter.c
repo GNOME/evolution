@@ -5,6 +5,7 @@
 
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
+#include "e-addressbook-view.h"
 #include "e-addressbook-util.h"
 
 #include <gal/util/e-i18n.h>
@@ -198,6 +199,28 @@ card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
 }
 
 static void
+copy (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookView *view = gtk_object_get_data (GTK_OBJECT (mns->adapter), "view");
+	e_addressbook_view_copy (view);
+}
+
+static void
+cut (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookView *view = gtk_object_get_data (GTK_OBJECT (mns->adapter), "view");
+	e_addressbook_view_copy (view);
+	e_addressbook_view_delete_selection (view);
+}
+
+static void
+paste (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookView *view = gtk_object_get_data (GTK_OBJECT (mns->adapter), "view");
+	e_addressbook_view_paste (view);
+}
+
+static void
 delete (GtkWidget *widget, ModelAndSelection *mns)
 {
 	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
@@ -272,6 +295,9 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
+			      {N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
+			      {N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
+			      {N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
 			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
 			      {NULL, NULL, NULL, 0}};
 
