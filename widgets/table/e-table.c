@@ -1101,7 +1101,7 @@ static gint
 table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	GnomeCanvas *canvas;
-	ECanvas *ecanvas;
+	ECanvas *ecanvas; 
 	ETable *etable;
 
 	gtk_widget_queue_draw (widget);
@@ -1110,7 +1110,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 
 	if (!event->in) {
 		gtk_im_context_focus_out(ecanvas->im_context);
-		return TRUE;
+		return FALSE;
 	} else {
 		gtk_im_context_focus_in(ecanvas->im_context);
 	}
@@ -1126,7 +1126,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
         	focus_first_etable_item (etable->group);
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean
