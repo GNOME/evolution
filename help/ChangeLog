@@ -1,3 +1,7 @@
+2001-07-24  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: Reworded a few questions.
+
 2001-07-23  Kevin Breit <battery841@mediaone.net>
 
 	* C/Makefile.am: Pulled instance of config-setupassist.sgml to make stuff build right.

@@ -24,11 +24,9 @@
 	<answer>
 	  <para>
              If your server uses standard open protocols like IMAP,
-             POP, and SMTP, you can use Evolution with it.  You can
-             share addresses with vCards and calendar items with iCal
-             appointments.  We hope to have support for the
-             proprietary segments of Exchange and Notes servers
-             eventually, but this will come after Evolution 1.0.
+             LDAP, POP, and SMTP, you can use Evolution with it.  You
+             can share addresses with vCards and calendar items with
+             iCal appointments.
 	  </para>
         </answer>
        </qandaentry>
@@ -279,7 +277,7 @@
       <qandaentry>
         <question>
           <para>
-             Will there be a server? How about a text-based or web-based front end?
+             Will there be an Evolution server? How about a text-based or web-based front end?
            </para>
         </question>
         <answer>
