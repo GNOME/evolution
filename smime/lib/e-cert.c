@@ -55,10 +55,16 @@
  *
  */
 
+#include <time.h>
+
+#include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+
 #include "e-cert.h"
 #include "e-cert-trust.h"
 #include "pk11func.h"
 #include "certdb.h"
+#include "hasht.h"
 
 struct _ECertPrivate {
 	CERTCertificate *cert;
@@ -66,7 +72,23 @@ struct _ECertPrivate {
 	/* pointers we cache since the nss implementation allocs the
 	   string */
 	char *org_name;
+	char *org_unit_name;
 	char *cn;
+
+	char *issuer_org_name;
+	char *issuer_org_unit_name;
+	char *issuer_cn;
+
+	PRTime issued_on;
+	PRTime expires_on;
+
+	char *issued_on_string;
+	char *expires_on_string;
+
+	char *serial_number;
+
+	char *sha1_fingerprint;
+	char *md5_fingerprint;
 
 	gboolean delete;
 };
@@ -84,8 +106,29 @@ e_cert_dispose (GObject *object)
 
 	if (ec->priv->org_name)
 		PORT_Free (ec->priv->org_name);
+	if (ec->priv->org_unit_name)
+		PORT_Free (ec->priv->org_unit_name);
 	if (ec->priv->cn)
 		PORT_Free (ec->priv->cn);
+
+	if (ec->priv->issuer_org_name)
+		PORT_Free (ec->priv->issuer_org_name);
+	if (ec->priv->issuer_org_unit_name)
+		PORT_Free (ec->priv->issuer_org_unit_name);
+	if (ec->priv->issuer_cn)
+		PORT_Free (ec->priv->issuer_cn);
+
+	if (ec->priv->issued_on_string)
+		PORT_Free (ec->priv->issued_on_string);
+	if (ec->priv->expires_on_string)
+		PORT_Free (ec->priv->expires_on_string);
+	if (ec->priv->serial_number)
+		PORT_Free (ec->priv->serial_number);
+
+	if (ec->priv->sha1_fingerprint)
+		PORT_Free (ec->priv->sha1_fingerprint);
+	if (ec->priv->md5_fingerprint)
+		PORT_Free (ec->priv->md5_fingerprint);
 
 	if (ec->priv->delete) {
 		printf ("attempting to delete cert marked for deletion\n");
@@ -154,8 +197,61 @@ static void
 e_cert_populate (ECert *cert)
 {
 	CERTCertificate *c = cert->priv->cert;
+	unsigned char fingerprint[20];
+	SECItem fpItem;
+
 	cert->priv->org_name = CERT_GetOrgName (&c->subject);
+	cert->priv->org_unit_name = CERT_GetOrgUnitName (&c->subject);
+
+	cert->priv->issuer_org_name = CERT_GetOrgName (&c->issuer);
+	cert->priv->issuer_org_unit_name = CERT_GetOrgUnitName (&c->issuer);
+
 	cert->priv->cn = CERT_GetCommonName (&c->subject);
+	cert->priv->issuer_cn = CERT_GetCommonName (&c->issuer);
+
+	if (SECSuccess == CERT_GetCertTimes (c, &cert->priv->issued_on, &cert->priv->expires_on)) {
+		PRExplodedTime explodedTime;
+		struct tm exploded_tm;
+		char buf[32];
+
+		PR_ExplodeTime (cert->priv->issued_on, PR_LocalTimeParameters, &explodedTime);
+		exploded_tm.tm_sec = explodedTime.tm_sec;
+		exploded_tm.tm_min = explodedTime.tm_min;
+		exploded_tm.tm_hour = explodedTime.tm_hour;
+		exploded_tm.tm_mday = explodedTime.tm_mday;
+		exploded_tm.tm_mon = explodedTime.tm_month;
+		exploded_tm.tm_year = explodedTime.tm_year - 1900;
+		e_utf8_strftime (buf, sizeof(buf), _("%d/%m/%Y"), &exploded_tm);
+		cert->priv->issued_on_string = g_strdup (buf);
+
+		PR_ExplodeTime (cert->priv->expires_on, PR_LocalTimeParameters, &explodedTime);
+		exploded_tm.tm_sec = explodedTime.tm_sec;
+		exploded_tm.tm_min = explodedTime.tm_min;
+		exploded_tm.tm_hour = explodedTime.tm_hour;
+		exploded_tm.tm_mday = explodedTime.tm_mday;
+		exploded_tm.tm_mon = explodedTime.tm_month;
+		exploded_tm.tm_year = explodedTime.tm_year - 1900;
+		e_utf8_strftime (buf, sizeof(buf), _("%d/%m/%Y"), &exploded_tm);
+		cert->priv->expires_on_string = g_strdup (buf);
+	}
+
+	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
+
+	memset(fingerprint, 0, sizeof fingerprint);
+	PK11_HashBuf(SEC_OID_SHA1, fingerprint, 
+		     cert->priv->cert->derCert.data,
+		     cert->priv->cert->derCert.len);
+	fpItem.data = fingerprint;
+	fpItem.len = SHA1_LENGTH;
+	cert->priv->sha1_fingerprint = CERT_Hexify (&fpItem, TRUE);
+
+	memset(fingerprint, 0, sizeof fingerprint);
+	PK11_HashBuf(SEC_OID_MD5, fingerprint, 
+		     cert->priv->cert->derCert.data,
+		     cert->priv->cert->derCert.len);
+	fpItem.data = fingerprint;
+	fpItem.len = MD5_LENGTH;
+	cert->priv->md5_fingerprint = CERT_Hexify (&fpItem, TRUE);
 }
 
 ECert*
@@ -230,6 +326,12 @@ e_cert_get_org      (ECert *cert)
 }
 
 const char*
+e_cert_get_org_unit (ECert *cert)
+{
+	return cert->priv->org_unit_name;
+}
+
+const char*
 e_cert_get_cn       (ECert *cert)
 {
 	return cert->priv->cn;
@@ -242,9 +344,69 @@ e_cert_get_issuer_name (ECert *cert)
 }
 
 const char*
+e_cert_get_issuer_cn (ECert *cert)
+{
+	return cert->priv->issuer_cn;
+}
+
+const char*
+e_cert_get_issuer_org (ECert *cert)
+{
+	return cert->priv->issuer_org_name;
+}
+
+const char*
+e_cert_get_issuer_org_unit (ECert *cert)
+{
+	return cert->priv->issuer_org_unit_name;
+}
+
+const char*
 e_cert_get_subject_name (ECert *cert)
 {
 	return cert->priv->cert->subjectName;
+}
+
+PRTime
+e_cert_get_issued_on_time  (ECert *cert)
+{
+	return cert->priv->issued_on;
+}
+
+const char*
+e_cert_get_issued_on (ECert *cert)
+{
+	return cert->priv->issued_on_string;
+}
+
+PRTime
+e_cert_get_expires_on_time  (ECert *cert)
+{
+	return cert->priv->expires_on;
+}
+
+const char*
+e_cert_get_expires_on (ECert *cert)
+{
+	return cert->priv->expires_on_string;
+}
+
+const char*
+e_cert_get_serial_number (ECert *cert)
+{
+	return cert->priv->serial_number;
+}
+
+const char*
+e_cert_get_sha1_fingerprint (ECert *cert)
+{
+	return cert->priv->sha1_fingerprint;
+}
+
+const char*
+e_cert_get_md5_fingerprint  (ECert *cert)
+{
+	return cert->priv->md5_fingerprint;
 }
 
 gboolean

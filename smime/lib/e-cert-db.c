@@ -68,7 +68,10 @@
 #include "nss.h"
 #include "pk11func.h"
 #include "certdb.h"
-#include <e-util/e-dialog-utils.h>
+#include "plstr.h"
+#include "prprf.h"
+#include "prmem.h"
+#include "e-util/e-dialog-utils.h"
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <fcntl.h>
@@ -249,7 +252,7 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	moduleID = NS_NSS_GET_LONG(keyItem.data);
 	slotID = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG]);
 
-	/8 build the issuer/SN structure*/
+	/* build the issuer/SN structure*/
 	issuerSN.serialNumber.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*2]);
 	issuerSN.derIssuer.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*3]);
 	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG*4];
@@ -312,21 +315,21 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 					      PR_Now(), PR_TRUE);
 	if (!certlist) {
 		/* XXX gerror */
-		/* XXX free any_cert */
+		CERT_DestroyCertificate(any_cert);
 		return NULL;
 	}
 
 	if (SECSuccess != CERT_FilterCertListByUsage(certlist, certUsageEmailRecipient, PR_FALSE)) {
 		/* XXX gerror */
-		/* XXX free any_cert */
-		/* XXX free certlist */
+		CERT_DestroyCertificate(any_cert);
+		/* XXX free certlist? */
 		return NULL;
 	}
   
 	if (CERT_LIST_END(CERT_LIST_HEAD(certlist), certlist)) {
 		/* XXX gerror */
-		/* XXX free any_cert */
-		/* XXX free certlist */
+		CERT_DestroyCertificate(any_cert);
+		/* XXX free certlist? */
 		return NULL;
 	}
 
@@ -665,11 +668,208 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	return rv;
 }
 
+static char *
+default_nickname (CERTCertificate *cert)
+{   
+	/*  nsNSSShutDownPreventionLock locker; */
+	char *username = NULL;
+	char *caname = NULL;
+	char *nickname = NULL;
+	char *tmp = NULL;
+	int count;
+	char *nickFmt=NULL, *nickFmtWithNum = NULL;
+	CERTCertificate *dummycert;
+	PK11SlotInfo *slot=NULL;
+	CK_OBJECT_HANDLE keyHandle;
+
+	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB();
+
+	username = CERT_GetCommonName(&cert->subject);
+	if ( username == NULL ) 
+		username = PL_strdup("");
+
+	if ( username == NULL ) 
+		goto loser;
+    
+	caname = CERT_GetOrgName(&cert->issuer);
+	if ( caname == NULL ) 
+		caname = PL_strdup("");
+  
+	if ( caname == NULL ) 
+		goto loser;
+  
+	count = 1;
+
+	nickFmt = "%1$s's %2$s ID";
+	nickFmtWithNum = "%1$s's %2$s ID #%3$d";
+
+	nickname = PR_smprintf(nickFmt, username, caname);
+	/*
+	 * We need to see if the private key exists on a token, if it does
+	 * then we need to check for nicknames that already exist on the smart
+	 * card.
+	 */
+	slot = PK11_KeyForCertExists(cert, &keyHandle, NULL);
+	if (slot == NULL) {
+		goto loser;
+	}
+	if (!PK11_IsInternal(slot)) {
+		tmp = PR_smprintf("%s:%s", PK11_GetTokenName(slot), nickname);
+		PR_Free(nickname);
+		nickname = tmp;
+		tmp = NULL;
+	}
+	tmp = nickname;
+	while ( 1 ) {	
+		if ( count > 1 ) {
+			nickname = PR_smprintf("%s #%d", tmp, count);
+		}
+  
+		if ( nickname == NULL ) 
+			goto loser;
+ 
+		if (PK11_IsInternal(slot)) {
+			/* look up the nickname to make sure it isn't in use already */
+			dummycert = CERT_FindCertByNickname(defaultcertdb, nickname);
+      
+		} else {
+			/*
+			 * Check the cert against others that already live on the smart 
+			 * card.
+			 */
+			dummycert = PK11_FindCertFromNickname(nickname, NULL);
+			if (dummycert != NULL) {
+				/*
+				 * Make sure the subject names are different.
+				 */ 
+				if (CERT_CompareName(&cert->subject, &dummycert->subject) == SECEqual) {
+					/*
+					 * There is another certificate with the same nickname and
+					 * the same subject name on the smart card, so let's use this
+					 * nickname.
+					 */
+					CERT_DestroyCertificate(dummycert);
+					dummycert = NULL;
+				}
+			}
+		}
+		if ( dummycert == NULL ) 
+			goto done;
+    
+		/* found a cert, destroy it and loop */
+		CERT_DestroyCertificate(dummycert);
+		if (tmp != nickname) PR_Free(nickname);
+		count++;
+	} /* end of while(1) */
+
+ loser:
+	if ( nickname ) {
+		PR_Free(nickname);
+	}
+	nickname = NULL;
+ done:
+	if ( caname ) {
+		PR_Free(caname);
+	}
+	if ( username )  {
+		PR_Free(username);
+	}
+	if (slot != NULL) {
+		PK11_FreeSlot(slot);
+		if (nickname != NULL) {
+			tmp = nickname;
+			nickname = strchr(tmp, ':');
+			if (nickname != NULL) {
+				nickname++;
+				nickname = PL_strdup(nickname);
+				PR_Free(tmp);
+				tmp = NULL;
+			} else {
+				nickname = tmp;
+				tmp = NULL;
+			}
+		}
+	}
+	PR_FREEIF(tmp);
+	return(nickname);
+}
+
 gboolean
 e_cert_db_import_user_cert (ECertDB *certdb,
 			    char *data, guint32 length,
 			    GError **error)
 {
+	/*  nsNSSShutDownPreventionLock locker;*/
+	PK11SlotInfo *slot;
+	char * nickname = NULL;
+	gboolean rv = FALSE;
+	int numCACerts;
+	SECItem *CACerts;
+	CERTDERCerts * collectArgs;
+	PRArenaPool *arena;
+	CERTCertificate * cert=NULL;
+
+	arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
+	if ( arena == NULL ) {
+		/* XXX g_error */
+		goto loser;
+	}
+
+	collectArgs = e_cert_db_get_certs_from_package (arena, data, length);
+	if (!collectArgs) {
+		/* XXX g_error */
+		goto loser;
+	}
+
+	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), collectArgs->rawCerts,
+				       (char *)NULL, PR_FALSE, PR_TRUE);
+	if (!cert) {
+		/* XXX g_error */
+		goto loser;
+	}
+
+	slot = PK11_KeyForCertExists(cert, NULL, NULL);
+	if ( slot == NULL ) {
+		/* XXX g_error */
+		goto loser;
+	}
+	PK11_FreeSlot(slot);
+
+	/* pick a nickname for the cert */
+	if (cert->nickname) {
+		/* sigh, we need a call to look up other certs with this subject and
+		 * identify nicknames from them. We can no longer walk down internal
+		 * database structures  rjr */
+		nickname = cert->nickname;
+	}
+	else {
+		nickname = default_nickname(cert);
+	}
+
+	/* user wants to import the cert */
+	slot = PK11_ImportCertForKey(cert, nickname, NULL);
+	if (!slot) {
+		/* XXX g_error */
+		goto loser;
+	}
+	PK11_FreeSlot(slot);
+	numCACerts = collectArgs->numcerts - 1;
+
+	if (numCACerts) {
+		CACerts = collectArgs->rawCerts+1;
+		if ( ! CERT_ImportCAChain(CACerts, numCACerts, certUsageUserCertImport) ) {
+			rv = TRUE;
+		}
+	}
+  
+ loser:
+	if (arena) {
+		PORT_FreeArena(arena, PR_FALSE);
+	}
+	if ( cert ) {
+		CERT_DestroyCertificate(cert);
+	}
+	return rv;
 }
 
 gboolean
@@ -677,6 +877,9 @@ e_cert_db_import_server_cert (ECertDB *certdb,
 			      char *data, guint32 length,
 			      GError **error)
 {
+	/* not c&p'ing this over at the moment, as we don't have a UI
+	   for server certs anyway */
+	return FALSE;
 }
 
 gboolean

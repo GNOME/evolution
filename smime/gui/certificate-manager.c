@@ -29,9 +29,11 @@
 #include <glade/glade.h>
 #include "evolution-config-control.h"
 #include "certificate-manager.h"
+#include "certificate-viewer.h"
 
 #include "e-cert.h"
 #include "e-cert-db.h"
+#include "e-pkcs12.h"
 
 #include "nss.h"
 #include <cms.h>
@@ -115,6 +117,26 @@ handle_selection_changed (GtkTreeSelection *selection,
 }
 
 static void
+import_your (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkWidget *filesel = gtk_file_selection_new (_("Select a cert to import..."));
+
+	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
+		const char *filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
+		EPKCS12 *pkcs12 = e_pkcs12_new ();
+
+		if (e_pkcs12_import_from_file (pkcs12, filename, NULL /* XXX */)) {
+			/* there's no telling how many certificates were added during the import,
+			   so we blow away the contact cert display and regenerate it. */
+			unload_certs (cfm, E_CERT_USER);
+			load_certs (cfm, E_CERT_USER, add_user_cert);
+		}
+	}
+
+	gtk_widget_destroy (filesel);
+}
+
+static void
 yourcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
 {
 	handle_selection_changed (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->yourcerts_treeview)),
@@ -170,7 +192,7 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 	g_signal_connect (selection, "changed", G_CALLBACK (yourcerts_selection_changed), cfm);
 
 	if (cfm->import_your_button) {
-		/* g_signal_connect */
+		g_signal_connect (cfm->import_your_button, "clicked", G_CALLBACK (import_your), cfm);
 	}
 
 	if (cfm->delete_your_button) {
@@ -187,6 +209,26 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 
 	if (cfm->backup_all_your_button) {
 		/* g_signal_connect */
+	}
+}
+
+static void
+view_contact (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->contactcerts_treeview)),
+					     NULL,
+					     &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_treemodel),
+				    &iter,
+				    3, &cert,
+				    -1);
+
+		if (cert)
+			certificate_viewer_show (cert);
 	}
 }
 
@@ -297,6 +339,9 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview));
 	g_signal_connect (selection, "changed", G_CALLBACK (contactcerts_selection_changed), cfm);
 
+	if (cfm->view_contact_button)
+		g_signal_connect (cfm->view_contact_button, "clicked", G_CALLBACK (view_contact), cfm);
+
 	if (cfm->import_contact_button)
 		g_signal_connect (cfm->import_contact_button, "clicked", G_CALLBACK (import_contact), cfm);
 
@@ -322,6 +367,26 @@ iter_string_compare (GtkTreeModel *model,
 			    -1);
 
 	return g_utf8_collate (string1, string2);
+}
+
+static void
+view_ca (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkTreeIter iter;
+	
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->authoritycerts_treeview)),
+					     NULL,
+					     &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (cfm->authoritycerts_treemodel),
+				    &iter,
+				    1, &cert,
+				    -1);
+
+		if (cert)
+			certificate_viewer_show (cert);
+	}
 }
 
 static void
@@ -420,6 +485,9 @@ initialize_authoritycerts_ui (CertificateManagerData *cfm)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->authoritycerts_treeview));
 	g_signal_connect (selection, "changed", G_CALLBACK (authoritycerts_selection_changed), cfm);
+
+	if (cfm->view_ca_button)
+		g_signal_connect (cfm->view_ca_button, "clicked", G_CALLBACK (view_ca), cfm);
 
 	if (cfm->import_ca_button)
 		g_signal_connect (cfm->import_ca_button, "clicked", G_CALLBACK (import_ca), cfm);

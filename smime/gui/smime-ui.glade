@@ -745,7 +745,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkLabel" id="fingerprints-sh1">
+		    <widget class="GtkLabel" id="fingerprints-sha1">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">&lt;Not Part of Certificate&gt;</property>

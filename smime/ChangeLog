@@ -1,3 +1,47 @@
+2003-11-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/certificate-viewer.[ch]: mostly implement a viewer for
+	certificates.
+	
+	* gui/smime-ui.glade: fingerprints-sh1 -> fingerprints-sha1.
+
+	* gui/certificate-manager.c (import_your): new function, use
+	e-pkcs12 to implement it.
+	(initialize_yourcerts_ui): hook up the import button.
+	(view_contact): new function, bring up the certificate viewer.
+	(initialize_contactcerts_ui): hook up the view button.
+	(view_ca): new function, bring up the certificate viewer.
+	(initialize_authoritycerts_ui): hook up the view button.
+
+	* gui/Makefile.am (libevolution_smime_la_SOURCES): add
+	certificate-viewer.[ch]
+
+	* lib/e-cert.c (e_cert_dispose): free all the new cached foo.
+	(e_cert_populate): populate all the new cached foo.
+	(e_cert_get_issuer_cn): new function.
+	(e_cert_get_issuer_org): same.
+	(e_cert_get_issuer_org_unit): same.
+	(e_cert_get_issued_on_time): same.
+	(e_cert_get_issued_on): same.
+	(e_cert_get_expires_on_time): same.
+	(e_cert_get_expires_on): same.
+	(e_cert_get_serial_number): same.
+	(e_cert_get_sha1_fingerprint): same.
+	(e_cert_get_md5_fingerprint): same.
+
+	* lib/e-cert.h: add prototypes for lots more accessors.
+	
+	* lib/e-cert-db.c (e_cert_db_find_cert_by_key): fix typo.
+	(e_cert_db_find_cert_by_email_address): call
+	CERT_DestroyCertificate to free the cert.
+	(default_nickname): new function.
+	(e_cert_db_import_user_cert): implement.
+	(e_cert_db_import_server_cert): add blurb.
+
+	* lib/e-pkcs12.[ch]: new files.
+
+	* lib/Makefile.am (libessmime_la_SOURCES): add e-pkcs12.[ch]
+
 2003-11-12  Not Zed  <NotZed@Ximian.com>
 
 	* gui/smime-ui.glade: added cert_selector widget to be placed

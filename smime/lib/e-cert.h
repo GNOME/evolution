@@ -73,9 +73,23 @@ gboolean             e_cert_get_raw_der       (ECert *cert, char **data, guint32
 const char*          e_cert_get_nickname      (ECert *cert);
 const char*          e_cert_get_email         (ECert *cert);
 const char*          e_cert_get_org           (ECert *cert);
+const char*          e_cert_get_org_unit      (ECert *cert);
 const char*          e_cert_get_cn            (ECert *cert);
 const char*          e_cert_get_subject_name  (ECert *cert);
-const char*          e_cert_get_issuer_name   (ECert *cert);
+
+const char*          e_cert_get_issuer_name     (ECert *cert);
+const char*          e_cert_get_issuer_cn       (ECert *cert);
+const char*          e_cert_get_issuer_org      (ECert *cert);
+const char*          e_cert_get_issuer_org_unit (ECert *cert);
+
+PRTime               e_cert_get_issued_on_time  (ECert *cert);
+const char*          e_cert_get_issued_on       (ECert *cert);
+PRTime               e_cert_get_expires_on_time (ECert *cert);
+const char*          e_cert_get_expires_on      (ECert *cert);
+
+const char*          e_cert_get_serial_number    (ECert *cert);
+const char*          e_cert_get_sha1_fingerprint (ECert *cert);
+const char*          e_cert_get_md5_fingerprint  (ECert *cert);
 
 gboolean             e_cert_mark_for_deletion (ECert *cert);
 

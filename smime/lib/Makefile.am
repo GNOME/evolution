@@ -25,4 +25,6 @@ libessmime_la_SOURCES = 	\
 	e-cert-trust.c		\
 	e-cert-trust.h		\
 	e-cert-db.c		\
-	e-cert-db.h
+	e-cert-db.h		\
+	e-pkcs12.c		\
+	e-pkcs12.h
