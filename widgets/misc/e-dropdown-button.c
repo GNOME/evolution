@@ -86,8 +86,6 @@ menu_deactivate_cb (GtkMenuShell *menu_shell,
 {
 	EDropdownButton *dropdown_button;
 
-	puts (__FUNCTION__);
-
 	dropdown_button = E_DROPDOWN_BUTTON (data);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dropdown_button), FALSE);
