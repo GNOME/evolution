@@ -215,7 +215,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			/* we don't care if it was filtered or not here because no matter
 			   what it's been copied to at least 1 folder - even if it's just
-			   the default */
+			   the default (assuming we didn't get an exception) */
 			if (!input->keep_on_server && !camel_exception_is_set (ex)) {
 				guint32 flags;
 				
@@ -429,6 +429,7 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		
 		gtk_object_unref (GTK_OBJECT (driver));
 		
+		/* FIXME: when we hide deleted msgs, we may want to not expunge? */
 		camel_folder_sync (input->source, TRUE, ex);
 		
 		camel_folder_thaw (input->source);
