@@ -31,6 +31,7 @@
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-week-view-main-item.h"
+#include "ea-calendar.h"
 
 static void e_week_view_main_item_class_init	(EWeekViewMainItemClass *class);
 static void e_week_view_main_item_init		(EWeekViewMainItem *wvmitem);
