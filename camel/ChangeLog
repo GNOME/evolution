@@ -1,3 +1,7 @@
+2000-10-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* camel-exceptions-list.def: Add newline to kill warnings.
+	
 2000-10-25  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Fix folder
