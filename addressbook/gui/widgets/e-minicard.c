@@ -803,7 +803,7 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 	if (!strncmp (string, "<?xml", 5)) {
 		EDestination *dest = e_destination_import (string);
 		if (dest != NULL) {
-			gchar *new_string = g_strdup (e_destination_get_address (dest));
+			gchar *new_string = g_strdup (e_destination_get_textrep (dest, TRUE));
 			g_free (string);
 			string = new_string;
 			g_object_unref (dest);
@@ -906,7 +906,7 @@ remodel( EMinicard *e_minicard )
 					if (!strncmp (string, "<?xml", 4)) {
 						EDestination *dest = e_destination_import (string);
 						if (dest != NULL) {
-							gchar *new_string = g_strdup (e_destination_get_address (dest));
+							gchar *new_string = g_strdup (e_destination_get_textrep (dest, TRUE));
 							g_free (string);
 							string = new_string;
 							g_object_unref (dest);

@@ -213,7 +213,7 @@ e_select_names_model_get_textification (ESelectNamesModel *model, const char *se
 		
 		while (iter) {
 			EDestination *dest = E_DESTINATION (iter->data);
-			strv[i] = (gchar *) e_destination_get_textrep (dest);
+			strv[i] = (gchar *) e_destination_get_textrep (dest, FALSE);
 			++i;
 			iter = g_list_next (iter);
 		}
@@ -393,7 +393,7 @@ e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 
 	dest = e_select_names_model_get_destination (model, index);
 	
-	return dest ? e_destination_get_textrep (dest) : "";
+	return dest ? e_destination_get_textrep (dest, FALSE) : "";
 }
 
 static void
@@ -483,7 +483,7 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 	g_return_if_fail (model->priv->data == NULL || (0 <= index && index < g_list_length (model->priv->data)));
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	
-	new_str = e_destination_get_textrep (dest);
+	new_str = e_destination_get_textrep (dest, FALSE);
 	new_strlen = new_str ? strlen (new_str) : 0;
 
 	if (model->priv->data == NULL) {
@@ -502,7 +502,7 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 			disconnect_destination (model, E_DESTINATION (node->data));
 			connect_destination (model, dest);
 
-			old_str = e_destination_get_textrep (E_DESTINATION (node->data));
+			old_str = e_destination_get_textrep (E_DESTINATION (node->data), FALSE);
 			old_strlen = old_str ? strlen (old_str) : 0;
 
 			g_object_unref (node->data);
@@ -649,7 +649,7 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index
 	iter = model->priv->data;
 	while (iter && i <= index) {
 		rp += len + (i > 0 ? seplen : 0);
-		str = e_destination_get_textrep (E_DESTINATION (iter->data));
+		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
 		len = str ? strlen (str) : 0;
 		++i;
 		iter = g_list_next (iter);
@@ -679,7 +679,7 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, 
 	iter = model->priv->data;
 
 	while (iter != NULL) {
-		str = e_destination_get_textrep (E_DESTINATION (iter->data));
+		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
 		len = str ? strlen (str) : 0;
 
 		if (sp <= pos && pos <= sp + len + adj) {

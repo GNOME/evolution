@@ -124,7 +124,7 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 		EDestination *dest = e_destination_import (value);
 		if (dest) {
 			/* XXX blech, we leak this */
-			value = g_strdup (e_destination_get_address (dest));
+			value = g_strdup (e_destination_get_textrep (dest, TRUE));
 			g_object_unref (dest);
 		}
 	}

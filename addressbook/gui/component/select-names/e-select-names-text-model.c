@@ -367,7 +367,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		if (text[i] == *text_model->sep && index >= 0) { /* Is this a quoted or an unquoted separator we are dealing with? */
 			const EDestination *dest = e_select_names_model_get_destination (source, index);
 			if (dest) {
-				const gchar *str = e_destination_get_textrep (dest);
+				const gchar *str = e_destination_get_textrep (dest, FALSE);
 				gint j;
 				if (out)
 					fprintf (out, "str=%s pos=%d\n", str, pos);

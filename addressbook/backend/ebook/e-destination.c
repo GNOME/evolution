@@ -263,7 +263,7 @@ e_destination_clear_card (EDestination *dest)
 		dest->priv->old_card_email_num = dest->priv->card_email_num;
 		
 		g_free (dest->priv->old_textrep);
-		dest->priv->old_textrep = g_strdup (e_destination_get_textrep (dest));
+		dest->priv->old_textrep = g_strdup (e_destination_get_textrep (dest, FALSE));
 	}
 	
 	g_free (dest->priv->book_uri);
@@ -837,7 +837,7 @@ e_destination_set_raw (EDestination *dest, const gchar *raw)
 }
 
 const gchar *
-e_destination_get_textrep (const EDestination *dest)
+e_destination_get_textrep (const EDestination *dest, gboolean include_email)
 {
 	const char *name, *email;
 	
@@ -849,7 +849,7 @@ e_destination_get_textrep (const EDestination *dest)
 	name  = e_destination_get_name (dest);
 	email = e_destination_get_email (dest);
 	
-	if (e_destination_from_card (dest) && name != NULL)
+	if (e_destination_from_card (dest) && name != NULL && (!include_email || !email || !*email))
 		return name;
 	
 	/* Make sure that our address gets quoted properly */
@@ -1005,7 +1005,7 @@ nickname_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GLis
 			   we do a name-only query on the textrep */
 			
 			e_book_name_and_email_query (book,
-						     e_destination_get_textrep (dest),
+						     e_destination_get_textrep (dest, FALSE),
 						     NULL,
 						     name_and_email_simple_query_cb,
 						     dest);
@@ -1022,7 +1022,7 @@ launch_cardify_query (EDestination *dest)
 	if (! e_destination_is_valid (dest)) {
 		/* If it doesn't look like an e-mail address, see if it is a nickname. */
 		e_book_nickname_query (dest->priv->cardify_book,
-				       e_destination_get_textrep (dest),
+				       e_destination_get_textrep (dest, FALSE),
 				       nickname_simple_query_cb,
 				       dest);
 
@@ -1058,7 +1058,7 @@ e_destination_reverting_is_a_good_idea (EDestination *dest)
 	if (dest->priv->old_textrep == NULL)
 		return FALSE;
 	
-	textrep = e_destination_get_textrep (dest);
+	textrep = e_destination_get_textrep (dest, FALSE);
 	
 	len = g_utf8_strlen (textrep, -1);
 	old_len = g_utf8_strlen (dest->priv->old_textrep, -1);

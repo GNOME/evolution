@@ -380,7 +380,7 @@ adapter_get_value (GtkTreeModel *tree_model,
 		EDestination *dest = e_destination_import (v);
 		if (dest) {
 			/* XXX blech, we leak this */
-			v = g_strdup (e_destination_get_address (dest));
+			v = g_strdup (e_destination_get_textrep (dest, TRUE));
 			g_object_unref (dest);
 		}
 	}

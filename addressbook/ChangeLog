@@ -1,3 +1,36 @@
+2003-03-23  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #32113 ]
+	* backend/ebook/e-destination.h: add include_email arg to
+	e_destination_get_textrep.
+
+	* backend/ebook/e-destination.c (e_destination_get_textrep): add
+	include_email arg.  if it's TRUE, and if there's an email address to
+	add
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(contact_list_value_at): use e_destination_get_textrep so we don't
+	display QP text, and pass TRUE for include_email.
+
+	* gui/widgets/e-minicard.c (add_field): same.
+	(remodel): same.
+
+	* gui/widgets/e-addressbook-treeview-adapter.c (adapter_get_value): same.
+
+	* gui/widgets/e-addressbook-table-adapter.c (addressbook_value_at): same.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): pass FALSE for
+	include_email.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_get_textification): pass FALSE for
+	include_email.
+	(e_select_names_model_get_string): same.
+	(e_select_names_model_replace): same.
+	(e_select_names_model_name_pos): same.
+	(e_select_names_model_text_pos): same.
+
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:

@@ -96,10 +96,10 @@ gint           e_destination_get_email_num      (const EDestination *);
 
 const gchar   *e_destination_get_name           (const EDestination *);  /* "Jane Smith" */
 const gchar   *e_destination_get_email          (const EDestination *);  /* "jane@assbarn.com" */
-const gchar   *e_destination_get_address        (const EDestination *);  /* "Jane Smith <jane@assbarn.com>" (or a comma-sep set of such for a list) */
+const gchar   *e_destination_get_address        (const EDestination *);;  /* "Jane Smith <jane@assbarn.com>" (or a comma-sep set of such for a list) */
 
 void           e_destination_set_raw            (EDestination *, const gchar *free_form_string);
-const gchar   *e_destination_get_textrep        (const EDestination *);  /* "Jane Smith" or "jane@assbarn.com" */
+const gchar   *e_destination_get_textrep        (const EDestination *, gboolean include_email);  /* "Jane Smith" or "jane@assbarn.com" */
 
 gboolean       e_destination_is_evolution_list   (const EDestination *);
 gboolean       e_destination_list_show_addresses (const EDestination *);

@@ -30,7 +30,7 @@ contact_list_value_at (ETableModel *etc, int col, int row)
 {
 	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
 
-	return (void *) e_destination_get_address (model->data[row]);
+	return (void *) e_destination_get_textrep (model->data[row], TRUE);
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
