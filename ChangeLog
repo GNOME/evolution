@@ -1,3 +1,9 @@
+2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Create CAMEL_CFLAGS and CAMEL_LIBS so that we
+	don't have to link in all sorts of unnecessary garbage from GNOME
+	that we don't need.
+
 2001-05-15  Chris Toshok  <toshok@ximian.com>
 
 	* tools/killev: add the importers.

@@ -403,6 +403,11 @@ BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnom
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)
 AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 
+CAMEL_CFLAGS="`gnome-config --cflags gal xml` $THREADS_CFLAGS"
+CAMEL_LIBS="`gnome-config --libs gal xml` $THREADS_LIBS"
+AC_SUBST(CAMEL_CFLAGS)
+AC_SUBST(CAMEL_LIBS)
+
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
