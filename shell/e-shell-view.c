@@ -1587,6 +1587,15 @@ shell_line_status_changed_cb (EShell *shell,
 
 	shell_view = E_SHELL_VIEW (data);
 	update_offline_toggle_status (shell_view);
+
+	if (new_status == E_SHELL_LINE_STATUS_OFFLINE)
+		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "0", NULL);
+	else
+		bonobo_ui_component_set_prop (shell_view->priv->ui_component,
+					      "/commands/SendReceive",
+					      "sensitive", "1", NULL);
 }
 
 static int

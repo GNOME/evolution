@@ -246,7 +246,6 @@ sort_idle_callback (void *data)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	static int i;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;

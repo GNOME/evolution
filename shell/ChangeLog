@@ -1,5 +1,13 @@
 2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (sort_idle_callback): Remove unused
+	variable.
+
+	* e-shell-view.c (shell_line_status_changed_cb): Make Send/Receive
+	insensitive when in offline mode.  [#27855]
+
+2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #28451.]
 
 	* e-storage-set-view.c: New member sort_idle_id in
