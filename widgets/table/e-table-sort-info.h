@@ -33,6 +33,8 @@ typedef struct {
 	guint frozen : 1;
 	guint sort_info_changed : 1;
 	guint group_info_changed : 1;
+
+	guint can_group : 1;
 } ETableSortInfo;
 
 typedef struct {
@@ -75,6 +77,9 @@ void              e_table_sort_info_load_from_node      (ETableSortInfo   *info,
 xmlNode          *e_table_sort_info_save_to_node        (ETableSortInfo   *info,
 							 xmlNode          *parent);
 ETableSortInfo   *e_table_sort_info_duplicate           (ETableSortInfo   *info);
+void              e_table_sort_info_set_can_group       (ETableSortInfo   *info,
+							 gboolean          can_group);
+gboolean          e_table_sort_info_get_can_group       (ETableSortInfo   *info);
 
 #ifdef __cplusplus
 }

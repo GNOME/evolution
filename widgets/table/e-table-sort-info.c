@@ -59,6 +59,7 @@ e_table_sort_info_init (ETableSortInfo *info)
 	info->frozen = 0;
 	info->sort_info_changed = 0;
 	info->group_info_changed = 0;
+	info->can_group = 1;
 }
 
 static void
@@ -179,7 +180,10 @@ e_table_sort_info_thaw               (ETableSortInfo *info)
 guint
 e_table_sort_info_grouping_get_count (ETableSortInfo *info)
 {
-	return info->group_count;
+	if (info->can_group)
+		return info->group_count;
+	else
+		return 0;
 }
 
 static void
@@ -219,7 +223,7 @@ e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
 ETableSortColumn
 e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n)
 {
-	if (n < info->group_count) {
+	if (info->can_group && n < info->group_count) {
 		return info->groupings[n];
 	} else {
 		ETableSortColumn fake = {0, 0};
@@ -450,5 +454,22 @@ e_table_sort_info_duplicate (ETableSortInfo *info)
 	new_info->sortings = g_new(ETableSortColumn, new_info->sort_count);
 	memmove(new_info->sortings, info->sortings, sizeof (ETableSortColumn) * new_info->sort_count);
 
+	new_info->can_group = info->can_group;
+
 	return new_info;
 }
+
+void
+e_table_sort_info_set_can_group       (ETableSortInfo   *info,
+				       gboolean          can_group)
+{
+	info->can_group = can_group;
+}
+
+gboolean
+e_table_sort_info_get_can_group       (ETableSortInfo   *info)
+{
+	return info->can_group;
+}
+
+

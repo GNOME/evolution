@@ -751,9 +751,10 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 	if (e_tree->priv->sort_info)
 		gtk_object_unref(GTK_OBJECT(e_tree->priv->sort_info));
 
-	if (state->sort_info)
+	if (state->sort_info) {
 		e_tree->priv->sort_info = e_table_sort_info_duplicate(state->sort_info);
-	else
+		e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
+	} else
 		e_tree->priv->sort_info = NULL;
 
 	if (e_tree->priv->header_item)
@@ -843,7 +844,8 @@ e_tree_get_state_object (ETree *e_tree)
 
 	state = e_table_state_new();
 	state->sort_info = e_tree->priv->sort_info;
-	gtk_object_ref(GTK_OBJECT(state->sort_info));
+	if (state->sort_info)
+		gtk_object_ref(GTK_OBJECT(state->sort_info));
 
 	state->col_count = e_table_header_count (e_tree->priv->header);
 	full_col_count = e_table_header_count (e_tree->priv->full_header);
@@ -968,6 +970,8 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	e_tree->priv->sort_info = state->sort_info;
 	gtk_object_ref (GTK_OBJECT (e_tree->priv->sort_info));
+
+	e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
 
 	gtk_object_set(GTK_OBJECT(e_tree->priv->header),
 		       "sort_info", e_tree->priv->sort_info,

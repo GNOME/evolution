@@ -1277,15 +1277,15 @@ static EPopupMenu ethi_context_menu [] = {
 	{ N_("Sort Descending"),           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), NULL, 2},
 	{ N_("Unsort"),                    NULL, GTK_SIGNAL_FUNC(ethi_popup_unsort),          NULL, 0},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 0},
-	{ N_("Group By This Field"),       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     NULL, 0},
-	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, 16},
+	{ N_("Group By This Field"),       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     NULL, 16},
+	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, 128},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
 	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, 8},
 	{ N_("Add a Column..."),           NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, 0},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
-	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, 16},
+	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, 128},
 	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        NULL, 2},
-	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  NULL, 16},
+	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  NULL, 128},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
 	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  NULL, 4},
 	{ NULL, NULL, NULL, NULL, 0 }
@@ -1304,7 +1304,8 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 			  (col->sortable ? 0 : 2) +
 			  (ethi->table ? 0 : 4) + 
 			  ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-			  16, info);
+			  ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+			  128, info);
 }
 
 static void

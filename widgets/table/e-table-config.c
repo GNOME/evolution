@@ -726,6 +726,12 @@ setup_gui (ETableConfig *config)
 	gtk_signal_connect (
 		GTK_OBJECT (config->dialog_toplevel), "apply",
 		GTK_SIGNAL_FUNC (dialog_apply), config);
+
+	if (!e_table_sort_info_get_can_group (config->state->sort_info)) {
+		GtkWidget *button = glade_xml_get_widget (gui, "button-group");
+		gtk_widget_hide (button);
+		gtk_widget_hide (config->group_label);
+	}
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
