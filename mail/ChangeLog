@@ -1,3 +1,10 @@
+2004-10-15  Not Zed  <NotZed@Ximian.com>
+
+	* em-composer-utils.c (create_new_composer):
+	(em_utils_compose_new_message, forward_non_attached): do noting if
+	the composer couldn't be created.  We get a popup from elsewhere
+	to let the user know.
+
 2004-10-14  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* mail-errors.xml : Remove Pango markup from groupwise 

@@ -630,7 +630,9 @@ create_new_composer (const char *subject, const char *fromuri)
 	EAccount *account = NULL;
 
 	composer = e_msg_composer_new ();
-	
+	if (composer == NULL)
+		return NULL;
+
 	if (fromuri)
 		account = mail_config_get_account_by_source_url(fromuri);
 
@@ -653,6 +655,8 @@ em_utils_compose_new_message (const char *fromuri)
 	GtkWidget *composer;
 
 	composer = (GtkWidget *) create_new_composer ("", fromuri);
+	if (composer == NULL)
+		return;
 
 	e_msg_composer_unset_changed ((EMsgComposer *)composer);
 	e_msg_composer_drop_editor_undo ((EMsgComposer *)composer);
@@ -828,8 +832,10 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 	EMsgComposer *composer;
 	
 	composer = create_new_composer (subject, fromuri);
+	if (composer == NULL)
+		return;
+
 	e_msg_composer_attach (composer, part);
-	
 	e_msg_composer_unset_changed (composer);
 	e_msg_composer_drop_editor_undo (composer);
 	
@@ -892,16 +898,16 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		if (text) {
 			composer = create_new_composer (subject, fromuri);
 
-			if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
-				e_msg_composer_add_message_attachments(composer, message, FALSE);
+			if (composer) {
+				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
+					e_msg_composer_add_message_attachments(composer, message, FALSE);
 
-			e_msg_composer_set_body_text (composer, text, len);
-						
-			e_msg_composer_unset_changed (composer);
-			e_msg_composer_drop_editor_undo (composer);
+				e_msg_composer_set_body_text (composer, text, len);
+				e_msg_composer_unset_changed (composer);
+				e_msg_composer_drop_editor_undo (composer);
 			
-			gtk_widget_show (GTK_WIDGET (composer));
-			
+				gtk_widget_show (GTK_WIDGET (composer));
+			}
 			g_free (text);
 		}
 		
