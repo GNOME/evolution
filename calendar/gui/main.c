@@ -44,10 +44,10 @@ static GList *start_views;
 static time_t from_t, to_t;
 
 /* If set, show events for the specified date and quit */
-static int show_events;
+/*static int show_events;*/
 
 /* If set, show todo items quit */
-static int show_todo;
+/*static int show_todo;*/
 
 /* If true, do not show our top level window */
 int startup_hidden = 0;
@@ -76,6 +76,8 @@ same_day (struct tm *a, struct tm *b)
 		a->tm_year == b->tm_year);
 }
 
+
+#if 0
 static void
 dump_events (void)
 {
@@ -134,8 +136,10 @@ dump_events (void)
 	/* calendar_destroy (cal); DELETE */
 	exit (0);
 }
+#endif /* 0 */
 
 
+#if 0
 static void
 dump_todo (void)
 {
@@ -178,6 +182,8 @@ dump_todo (void)
 	/* calendar_destroy (cal); DELETE */
 	exit (0);
 }
+#endif /* 0 */
+
 
 static void
 session_die (void)
@@ -269,13 +275,17 @@ parse_an_arg (poptContext ctx,
 		start_calendars = g_list_append (start_calendars, arg);
 		break;
 
+		/*
 	case TODO_KEY:
 		show_todo = 1;
 		break;
-		
+		*/
+
+		/*
 	case 'e':
 		show_events = 1;
 		break;
+		*/
 
 	case HIDDEN_KEY:
 		startup_hidden = 1;
@@ -339,11 +349,13 @@ main (int argc, char **argv)
 	
 	process_dates ();
 
+#       if 0
 	if (show_events)
 		dump_events ();
 
 	if (show_todo)
 		dump_todo ();
+#       endif /* 0 */
 	
 	client = gnome_master_client ();
 	if (client) {

@@ -92,8 +92,12 @@ void parse_color_spec (char *spec, int *r, int *g, int *b);
 /* Calls build_color_spec() for the color in the specified property number */
 char *color_spec_from_prop (ColorProp propnum);
 
-GnomeCalendar *new_calendar (char *full_name, char *calendar_file,
-			     char *geometry, char *page, gboolean hidden);
+GnomeCalendar *new_calendar (char *full_name,
+			     char *geometry,
+			     char *page,
+			     gboolean hidden);
+
+void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file);
 
 
 /*----------------------------------------------------------------------*/
@@ -124,7 +128,7 @@ void calendar_control_deactivate (BonoboControl *control);
 
 void quit_cmd (BonoboUIHandler *uih, void *user_data, const char *path);
 
-extern char *user_calendar_file;
+/*extern char *user_calendar_file;*/
 extern char *user_name;
 extern char *full_name;
 extern int debug_alarms;

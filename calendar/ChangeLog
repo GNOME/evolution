@@ -1,3 +1,14 @@
+2000-04-19  Seth Alves  <alves@hungry.com>
+
+	* gui/evolution-calendar-control.c (calendar_properties_init): create
+	a property bag for this control
+	(set_prop): callback for property sets
+	(get_prop): callback for proprety gets
+
+	* gui/calendar-commands.c (calendar_set_uri): new function,
+	called when the "calendar_uri" property is set on the calendar-
+	control's property bag.
+
 2000-04-18  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/Makefile.am (INCLUDES): Fix include path.

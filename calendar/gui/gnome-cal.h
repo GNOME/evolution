@@ -14,6 +14,7 @@
 #include <gtk/gtkcalendar.h>
 #include <libgnomeui/gnome-app.h>
 #include <cal-client/cal-client.h>
+#include <bonobo.h>
 
 BEGIN_GNOME_DECLS
 
@@ -27,6 +28,9 @@ typedef struct {
 	GnomeApp    gnome_app;
 	CalClient   *client;
 	time_t      current_display;
+
+        BonoboPropertyBag *properties;
+	BonoboControl *control;
 
 	GtkWidget   *notebook;
 	GtkWidget   *day_view;

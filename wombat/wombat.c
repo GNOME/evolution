@@ -136,6 +136,8 @@ main (int argc, char **argv)
 	setup_pcs    (argc, argv);
 	setup_config (argc, argv);
 
+	/*g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);*/
+
 	bonobo_main  ();
 
 	return 0;

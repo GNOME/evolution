@@ -150,9 +150,25 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		w = bonobo_widget_new_control ("control:addressbook", uih);
 		break;
 
-	case E_FOLDER_CALENDAR :
+	case E_FOLDER_CALENDAR : {
+		gchar *user_cal_file;
+		BonoboPropertyBagClient *pbc;
+		BonoboControlFrame *cf;
+
 		w = bonobo_widget_new_control ("control:calendar", uih);
+		cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
+		pbc = bonobo_control_frame_get_control_property_bag (cf);
+		/*pbc = bonobo_control_get_property_bag (w);*/
+
+		user_cal_file =
+			g_concat_dir_and_file (gnome_util_user_home (),
+					       ".gnome/user-cal.vcf");
+
+		bonobo_property_bag_client_set_value_string (pbc,
+							     "calendar_uri",
+							     user_cal_file);
 		break;
+	}
 
 	case E_FOLDER_TASKS :
 	case E_FOLDER_OTHER :		

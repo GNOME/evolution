@@ -32,9 +32,6 @@ char *user_name;
 /* The full user name from the Gecos field */
 char *full_name;
 
-/* The user's default calendar file */
-char *user_calendar_file;
-
 /* a gnome-config string prefix that can be used to access the calendar config info */
 char *calendar_settings;
 
@@ -288,7 +285,7 @@ goto_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	new_calendar (full_name, NULL, NULL, NULL, FALSE);
+	new_calendar (full_name, NULL, NULL, FALSE);
 }
 
 static void
@@ -342,7 +339,10 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 		ret = gnome_dialog_run (GNOME_DIALOG (error_dialog));
 	} else {
 		/* FIXME: find out who owns this calendar and use that name */
+#warning "fix me: find out who owns this calendar and use that name"
+		/*
 		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
+		*/
 		gtk_widget_destroy (GTK_WIDGET (fs));
 	}
 }
@@ -568,12 +568,12 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 
 
 GnomeCalendar *
-new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, gboolean hidden)
+new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
 {
 	GtkWidget   *toplevel;
 	char        title[128];
 	int         xpos, ypos, width, height;
-	gboolean    success;
+
 
 	/* i18n: This "%s%s" indicates possession. Languages where the order is
 	 * the inverse should translate it to "%2$s%1$s".
@@ -589,21 +589,6 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 
 	if (page)
 		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
-
-	printf ("calendar_file is '%s'\n", calendar_file?calendar_file:"NULL");
-	if (calendar_file && g_file_exists (calendar_file)) {
-		printf ("loading calendar\n");
-		success = gnome_calendar_load (GNOME_CALENDAR (toplevel),
-					       calendar_file);
-	}
-	else {
-		printf ("creating calendar\n");
-		success = gnome_calendar_create (GNOME_CALENDAR (toplevel),
-						 calendar_file);
-	}
-
-	printf ("load or create returned %d\n", success);
-
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
@@ -627,7 +612,28 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	return GNOME_CALENDAR (toplevel);
 }
 
+
+void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
+{
+	gboolean    success;
+
+	printf ("calendar_set_uri: calendar_file is '%s'\n",
+		calendar_file ? calendar_file : "NULL");
+
+	if (calendar_file && g_file_exists (calendar_file)) {
+		printf ("loading calendar\n");
+		success = gnome_calendar_load (gcal, calendar_file);
+	}
+	else {
+		printf ("creating calendar\n");
+		success = gnome_calendar_create (gcal, calendar_file);
+	}
+
+	printf ("    load or create returned %d\n", success);
+}
+
 
+
 
 
 /*
@@ -640,7 +646,7 @@ void init_calendar (void)
 	char *str;
 
 	init_username ();
-	user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");
+	/*user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");*/
 
 	gnome_config_push_prefix (calendar_settings);
 
