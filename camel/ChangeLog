@@ -1,3 +1,19 @@
+2003-05-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	This should finish fixing all variations of bug #42854, which,
+	funnily enough specified "copying" as the scenario for reproducing
+	this bug, but somehow I found/fixed it only for expunging for some
+	reason? I can't even guess as to how this happened. Oh well,
+	expunging needed fixing either way.
+
+	* providers/imap/camel-imap-folder.c (imap_transfer_online): Sort
+	the uids here too (just like I had fixed for expunge a week or so
+	ago).
+	(imap_transfer_resyncing): Sort them here too.
+	(imap_search_by_uids): Sort here too, even though I don't think it
+	is necessary. Can't hurt.
+	(imap_expunge_uids_offline): Might as well sort here too.
+
 2003-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.c (camel_object_bag_destroy): Lets try this

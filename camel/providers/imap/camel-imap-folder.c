@@ -823,12 +823,30 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
+static int
+uid_compar (const void *va, const void *vb)
+{
+	const char **sa = (const char **)va, **sb = (const char **)vb;
+	unsigned long a, b;
+
+	a = strtoul (*sa, NULL, 10);
+	b = strtoul (*sb, NULL, 10);
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
 static void
 imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
 	CamelFolderChangeInfo *changes;
 	int i;
-
+	
+	qsort (uids->pdata, uids->len, sizeof (void *), uid_compar);
+	
 	changes = camel_folder_change_info_new ();
 	
 	for (i = 0; i < uids->len; i++) {
@@ -845,22 +863,6 @@ imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException 
 
 	camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
 	camel_folder_change_info_free (changes);
-}
-
-static int
-uid_compar (const void *va, const void *vb)
-{
-	const char **sa = (const char **)va, **sb = (const char **)vb;
-	unsigned long a, b;
-
-	a = strtoul (*sa, NULL, 10);
-	b = strtoul (*sb, NULL, 10);
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
 }
 
 static void
@@ -1435,7 +1437,9 @@ imap_transfer_online (CamelFolder *source, GPtrArray *uids,
 		return;
 
 	count = camel_folder_summary_count (dest->summary);
-
+	
+	qsort (uids->pdata, uids->len, sizeof (void *), uid_compar);
+	
 	/* Now copy the messages */
 	do_copy (source, uids, dest, ex);
 	if (camel_exception_is_set (ex))
@@ -1469,7 +1473,9 @@ imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
 	const char *uid;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
-
+	
+	qsort (uids->pdata, uids->len, sizeof (void *), uid_compar);
+	
 	/* This is trickier than append_resyncing, because some of
 	 * the messages we are copying may have been copied or
 	 * appended into @source while we were offline, in which case
@@ -1565,7 +1571,9 @@ imap_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids
 
 	/* NOTE: could get away without the search lock by creating a new
 	   search object each time */
-
+	
+	qsort (uids->pdata, uids->len, sizeof (void *), uid_compar);
+	
 	summary = g_ptr_array_new();
 	for (i=0;i<uids->len;i++) {
 		CamelMessageInfo *info;
