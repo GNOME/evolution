@@ -719,77 +719,18 @@ _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_
 	
 }
 
-/* calls _parse_header_pair, but can be called 
-   in a g_hash_table_for_each */
-void 
-_parse_hash_table_pair (gpointer key, gpointer value, gpointer user_data)
-{
-	gchar *header_name = (gchar *)key;
-	gchar *header_value = (gchar *)value;
-	CamelMimePart *mime_part = (CamelMimePart *) user_data;
-	
-	
-	CAMEL_LOG_FULL_DEBUG ("\n--------- New Header ----------\n");
-	if  (header_name)
-		CAMEL_LOG_FULL_DEBUG ( "header name :%s\n", header_name);
-	if  (header_value)
-		CAMEL_LOG_FULL_DEBUG ( "header value :%s\n", header_value);
-	
-	camel_medium_add_header ( CAMEL_MEDIUM (mime_part), header_name, header_value);
-
-	CAMEL_LOG_FULL_DEBUG ( "--------- End -----------------\n"); 
-}
 
 void
 _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	GHashTable *header_table;
+
 	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
-	GMimeContentField *content_type;
-	gchar *mime_type;
-	GtkType content_object_type;
-	CamelDataWrapper *content_object;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Entering _construct_from_stream\n");
-	g_assert (stream);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream parsing headers\n");
-	/* parse all header lines */
-	header_table = get_header_table_from_stream (stream);
-	if (header_table) {
-		g_hash_table_foreach (header_table, _parse_hash_table_pair, (gpointer)mime_part);
-	}	
-	g_hash_table_destroy (header_table);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream headers parsed \n");
+	camel_mime_part_construct_headers_from_stream (mime_part, stream);
+	camel_mime_part_construct_content_from_stream (mime_part, stream);
 
-	/* now parse the content */
-	/* find its mime type */
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream parsing content\n");
-	content_type = camel_mime_part_get_content_type (mime_part);
-	mime_type = gmime_content_field_get_mime_type (content_type);
-	
-	if (!mime_type) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type field not found " 
-				      "using default \"text/plain\"\n");
-		mime_type = g_strdup ("text/plain");
-		camel_mime_part_set_content_type (mime_part, mime_type);
-	}
-	content_object_type = data_wrapper_repository_get_data_wrapper_type (mime_type);
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type object type used: %s\n", gtk_type_name (content_object_type));
-	g_free (mime_type);
-	content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
-	camel_data_wrapper_set_mime_type_field (content_object, camel_mime_part_get_content_type (mime_part));
-	camel_medium_set_content_object ( CAMEL_MEDIUM (mime_part), content_object);
-	camel_data_wrapper_construct_from_stream (content_object, stream);
-
-	/* the object is referenced in the set_content_object method, so unref it here */
-	gtk_object_unref (GTK_OBJECT (content_object));
-	
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content parsed\n");
-	
-	
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving _construct_from_stream\n");
+
 }
 
 

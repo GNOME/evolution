@@ -1,5 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* mime-utils.h : misc utilities for mime  */
+/* camel-mime-part-utils : Utility for mime parsing and so on */
+
 
 /* 
  *
@@ -21,42 +22,22 @@
  * USA
  */
 
-
-#ifndef GMIME_UTILS_H
-#define GMIME_UTILS_H 1
-
+#ifndef CAMEL_MIME_PART_UTILS_H
+#define CAMEL_MIME_PART_UTILS_H 1
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <glib.h>
-#include <stdio.h>
-#include <camel-stream.h>
-
-typedef struct 
-{
-	gchar *name;
-	gchar *value;	
-
-} Rfc822Header;
+#include "camel-mime-part.h"
 
 
-void gmime_write_header_pair_to_stream (CamelStream *stream, 
-					const gchar* name, 
-					const gchar *value);
+void camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part, 
+						    CamelStream *stream);
 
-void write_header_table_to_stream (CamelStream *stream, 
-				   GHashTable *header_table);
-
-void write_header_with_glist_to_stream (CamelStream *stream, 
-					const gchar *header_name, 
-					GList *header_values, 
-					const gchar *separator);
-
-GArray *get_header_array_from_stream (CamelStream *stream);
-gchar *gmime_read_line_from_stream (CamelStream *stream);
+void camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part, 
+						    CamelStream *stream);
 
 
 
@@ -64,4 +45,5 @@ gchar *gmime_read_line_from_stream (CamelStream *stream);
 }
 #endif /* __cplusplus */
 
-#endif /* GMIME_UTILS_H */
+#endif /*  CAMEL_MIME_PART_UTILS_H  */
+

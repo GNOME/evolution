@@ -93,11 +93,11 @@ write_header_with_glist_to_stream (CamelStream *stream, const gchar *header_name
 					else first = FALSE;
 					camel_stream_write (stream, current, strlen (current));
 				}
-				header_values = g_list_next(header_values);
+				header_values = g_list_next (header_values);
 			}
 			camel_stream_write (stream, "\n", 1);
 		}
-	CAMEL_LOG_FULL_DEBUG ( "write_header_with_glist_to_stream:: leaving\n");
+	CAMEL_LOG_FULL_DEBUG ("write_header_with_glist_to_stream:: leaving\n");
 	
 }	
 
@@ -109,16 +109,18 @@ write_header_with_glist_to_stream (CamelStream *stream, const gchar *header_name
 /* scanning functions  */
 
 static void
-_store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
+_store_header_pair_from_string (GArray *header_array, gchar *header_line)
 {
 	gchar dich_result;
 	gchar *header_name, *header_value;
-	gboolean key_exists;
-	gchar *old_header_name, *old_header_value;
-	
+	Rfc822Header header;
+
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Entering\n");
-	g_assert (header_table);
-	g_assert (header_line);
+
+	g_assert (header_array);
+	g_return_if_fail (header_line);
+
+
 	if (header_line) {
 		dich_result = string_dichotomy ( header_line, ':', 
 						   &header_name, &header_value,
@@ -137,12 +139,13 @@ _store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 		} else {
 			string_trim (header_value, " \t",
 				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
-			key_exists = g_hash_table_lookup_extended (header_table, header_name, &old_header_name, &old_header_name);
-			if (key_exists)
-				printf ("-------- Key %s already exists /n", header_name);
-			g_hash_table_insert (header_table, header_name, header_value);
+
+			header.name = header_name;
+			header.value = header_value;
+			g_array_append_val (header_array, header);
 		}
 	}
+
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Leaving\n");
 	
 }
@@ -150,26 +153,30 @@ _store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 
 	
 		
-GHashTable *
-get_header_table_from_stream (CamelStream *stream)
+GArray *
+get_header_array_from_stream (CamelStream *stream)
 {
 #warning Correct Lazy Implementation 
 	/* should not use GString. */
 	/* should read the header line by line */
 	/* and not char by char */
 	gchar next_char;
+	gint nb_char_read;
 
 	gboolean crlf = FALSE;
 	gboolean end_of_header_line = FALSE;
 	gboolean end_of_headers = FALSE;
 	gboolean end_of_file = FALSE;
+
 	GString *header_line=NULL;
 	gchar *str_header_line;
-	GHashTable *header_table;
-	gint nb_char_read;
+
+	GArray *header_array;
+
 
 	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Entering get_header_table_from_stream\n");
-	header_table = g_hash_table_new (g_str_hash, g_str_equal);
+	header_array = g_array_new (FALSE, FALSE, sizeof (Rfc822Header));
+
 	nb_char_read = camel_stream_read (stream, &next_char, 1);
 	do {
 		header_line = g_string_new ("");
@@ -211,14 +218,14 @@ get_header_table_from_stream (CamelStream *stream)
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) {
 			/*  str_header_line = g_strdup (header_line->str); */
-			_store_header_pair_from_string (header_table, header_line->str);			
+			_store_header_pair_from_string (header_array, header_line->str);			
 		}
 		g_string_free (header_line, FALSE);
 
 	} while ( (!end_of_headers) && (!end_of_file) );
 	
 	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Leaving get_header_table_from_stream\n");
-	return header_table;
+	return header_array;
 }
 		
 		

@@ -1,3 +1,18 @@
+1999-08-26  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-mime-part-utils.c: new file, groups
+	mime-part related utils. Meant to be used by providers
+	subclassing MimeMessage.
+	(camel_mime_part_construct_headers_from_stream): 
+	(camel_mime_part_construct_content_from_stream): 
+	no more useless temporary hash table. 
+
+	* camel/camel-mime-part.c (_construct_from_stream): calls
+	mime-part-utils functions now.
+
+	* camel/gmime-utils.c (_store_header_pair_from_string): 
+	do not use hash table to store header, use an array instead.
+
 1999-08-25  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c: now descend from CamelMedium.
