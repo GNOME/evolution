@@ -1,3 +1,8 @@
+2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_write_authenticity): Give the full path of
+	the wax-seal icons.
+
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
 	* component-factory.c (notify_listener): new function, to notify
