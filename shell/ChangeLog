@@ -1,5 +1,16 @@
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-activity-handler.c (e_activity_handler_operation_finished):
+	Argh, renamed from e_activity_client_operation_finished().
+	(e_activity_handler_operation_started): Don't unref the pixbuf.
+
+	* e-shell-window.c (setup_widgets): Hide the menu hint label.
+
+	* e-activity-handler.c (init): Init to next_activity_id to 1 so
+	callers can rely on it being nonzero.
+
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (struct _EShellPrivate): Remove member
 	activity_handler.
 	(setup_activity_interface): Remove.

@@ -74,8 +74,8 @@ void  e_activity_handler_operation_progressing  (EActivityHandler *activity_hand
 						 const char       *information,
 						 double            progress);
 
-void  e_activity_client_operation_finished  (EActivityHandler *activity_handler,
-					     guint             activity_id);
+void  e_activity_handler_operation_finished  (EActivityHandler *activity_handler,
+					      guint             activity_id);
 
 
 #ifdef __cplusplus

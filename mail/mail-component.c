@@ -40,6 +40,7 @@
 #include "em-folder-browser.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
+#include "em-migrate.h"
 
 #include "mail-config.h"
 #include "mail-component.h"
@@ -51,7 +52,7 @@
 #include "mail-send-recv.h"
 #include "mail-session.h"
 
-#include "em-migrate.h"
+#include "e-task-bar.h"
 
 #include <gtk/gtklabel.h>
 
@@ -78,6 +79,8 @@ struct _MailComponentPrivate {
 	char *base_directory;
 	
 	EMFolderTreeModel *model;
+
+	EActivityHandler *activity_handler;
 	
 	MailAsyncEvent *async_event;
 	GHashTable *store_hash; /* display_name by store */
@@ -264,7 +267,12 @@ static void
 impl_dispose (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
-	
+
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	if (priv->search_context != NULL) {
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
@@ -325,35 +333,33 @@ impl_createControls (PortableServer_Servant servant,
 	MailComponentPrivate *priv = mail_component->priv;
 	BonoboControl *tree_control;
 	BonoboControl *view_control;
+	BonoboControl *statusbar_control;
 	GtkWidget *tree_widget;
 	GtkWidget *view_widget;
+	GtkWidget *statusbar_widget;
 	
 	view_widget = em_folder_browser_new ();
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
 	
+	statusbar_widget = e_task_bar_new ();
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
+	gtk_widget_show (statusbar_widget);
 	
 	tree_control = bonobo_control_new (tree_widget);
 	view_control = bonobo_control_new (view_widget);
+	statusbar_control = bonobo_control_new (statusbar_widget);
 	
 	*corba_tree_control = CORBA_Object_duplicate (BONOBO_OBJREF (tree_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 	
 	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
-
-	/* FIXME temporary for testing.  */
-	{
-		GtkWidget *label = gtk_label_new ("Hey hey this is the mailer");
-		BonoboControl *control;
-
-		gtk_widget_show (label);
-		control = bonobo_control_new (label);
-		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
-	}
 }
 
 
@@ -443,6 +449,8 @@ mail_component_init (MailComponent *component)
 		abort ();
 	
 	priv->model = em_folder_tree_model_new ();
+
+	priv->activity_handler = e_activity_handler_new ();
 	
 	/* EPFIXME: Turn into an object?  */
 	mail_session_init (priv->base_directory);
@@ -516,6 +524,11 @@ mail_component_peek_search_context (MailComponent *component)
 	return component->priv->search_context;
 }
 
+EActivityHandler *
+mail_component_peek_activity_handler (MailComponent *component)
+{
+	return component->priv->activity_handler;
+}
 
 void
 mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)

@@ -145,6 +145,8 @@ activity_info_new (const char *component_id,
 static void
 activity_info_free (ActivityInfo *info)
 {
+	g_print ("activity_info_free %d ref count %d\n", info->id, G_OBJECT (info->icon_pixbuf)->ref_count);
+
 	g_free (info->component_id);
 
 	g_object_unref (info->icon_pixbuf);
@@ -267,7 +269,7 @@ init (EActivityHandler *activity_handler)
 	EActivityHandlerPrivate *priv;
 
 	priv = g_new (EActivityHandlerPrivate, 1);
-	priv->next_activity_id = 0;
+	priv->next_activity_id = 1;
 	priv->activity_infos   = NULL;
 	priv->task_bars        = NULL;
 
@@ -327,8 +329,6 @@ e_activity_handler_operation_started (EActivityHandler *activity_handler,
 					 task_widget_new_from_activity_info (activity_info));
 	}
 
-	g_object_unref (icon_pixbuf);
-
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);
 
 	return activity_id;
@@ -371,8 +371,8 @@ e_activity_handler_operation_progressing (EActivityHandler *activity_handler,
 }
 
 void
-e_activity_client_operation_finished (EActivityHandler *activity_handler,
-				      guint activity_id)
+e_activity_handler_operation_finished (EActivityHandler *activity_handler,
+				       guint activity_id)
 {
 	EActivityHandlerPrivate *priv = activity_handler->priv;
 	GList *p;
@@ -380,6 +380,10 @@ e_activity_client_operation_finished (EActivityHandler *activity_handler,
 	int order_number;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
+	if (p == NULL) {
+		g_warning ("e_activity_handler_operation_finished: Unknown activity %d\n", activity_id);
+		return;
+	}
 
 	activity_info_free ((ActivityInfo *) p->data);
 	priv->activity_infos = g_list_remove_link (priv->activity_infos, p);

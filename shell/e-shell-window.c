@@ -534,7 +534,7 @@ setup_status_bar (EShellWindow *window)
 	setup_statusbar_notebook (window);
 
 	ui_engine = bonobo_window_get_ui_engine (BONOBO_WINDOW (window));
- 
+
 	g_signal_connect (ui_engine, "add_hint", G_CALLBACK (ui_engine_add_hint_callback), window);
 	g_signal_connect (ui_engine, "remove_hint", G_CALLBACK (ui_engine_remove_hint_callback), window);
 }
@@ -585,6 +585,9 @@ setup_widgets (EShellWindow *window)
 	gtk_box_pack_start (GTK_BOX (contents_vbox), paned, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->status_bar, FALSE, TRUE, 0);
 	gtk_widget_show_all (contents_vbox);
+
+	/* We only display this when a menu item is actually selected.  */
+	gtk_widget_hide (priv->menu_hint_label);
 
 	bonobo_window_set_contents (BONOBO_WINDOW (window), contents_vbox);
 }

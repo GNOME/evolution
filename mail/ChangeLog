@@ -1,5 +1,19 @@
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-mt.c (struct _mail_msg_priv): Remove member "activity".
+	(mail_operation_status): Un-#if 0 the code.
+
+	* mail-component.c (struct _MailComponentPrivate): New member
+	activity_handler.
+	(mail_component_init): Initialize.
+	(impl_dispose): Unref.
+	(mail_component_peek_activity_handler): New.
+	(impl_createControls): Create an ETaskBar, attach it to the
+	ActivityHandler, and return it to the caller as the statusbar
+	control.
+
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-component.c (impl_createControls): Pass a label for the
 	status bar control for now.
 
