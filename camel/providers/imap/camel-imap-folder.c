@@ -285,11 +285,10 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-#if 0
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gint i, max;
 
-	/* uhhh...this is kinda unsafe so we'll leave it blocked out */
+	/* Set the flags on any messages that have changed this session */
 	if (imap_folder->summary) {
 		max = imap_folder->summary->len;
 		for (i = 0; i < max; i++) {
@@ -332,7 +331,6 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 			}
 		}
 	}
-#endif
 	
 	if (expunge)
 		imap_expunge (folder, ex);

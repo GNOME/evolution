@@ -4,6 +4,8 @@
 	IMAP code to work with CommunigatePro and MS Exchange (and any other
 	servers that send back a UID at the end of each FETCH inside of the main
 	body of the message part).
+	(imap_sync): Un-#if 0 the code that sets the flags on the IMAP server
+	for messages that have changed
 
 2000-07-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
