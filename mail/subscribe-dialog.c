@@ -15,8 +15,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-tree-simple.h>
@@ -584,8 +582,8 @@ populate_store_list (SubscribeDialog *sc)
 static void
 subscribe_dialog_gui_init (SubscribeDialog *sc)
 {
-	ECell *cells[2], *text;
 	ETableExtras *extras;
+	ECell *cell;
 	GdkPixbuf *toggles[2];
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
@@ -660,10 +658,6 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	extras = e_table_extras_new ();
 
-	cells[STORE_COL_NAME] = e_cell_text_new (E_TABLE_MODEL(sc->store_model), NULL, GTK_JUSTIFY_LEFT);
-
-	e_table_extras_add_cell (extras, "cell_text", cells[STORE_COL_NAME]);
-
 	sc->store_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->store_model),
 						 extras, STORE_ETABLE_SPEC, NULL);
 
@@ -694,28 +688,21 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
 	toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
 
-	text = e_cell_text_new (E_TABLE_MODEL(sc->folder_model), NULL, GTK_JUSTIFY_LEFT);
-	cells[FOLDER_COL_SUBSCRIBED] = e_cell_toggle_new (0, 2, toggles);
-	cells[FOLDER_COL_NAME] = e_cell_tree_new (E_TABLE_MODEL(sc->folder_model),
-						  NULL, NULL,
-						  TRUE, text);
-
 	extras = e_table_extras_new ();
 
-	cells[STORE_COL_NAME] = e_cell_text_new (E_TABLE_MODEL(sc->store_model), NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_text_new(NULL, GTK_JUSTIFY_LEFT);
 
-	e_table_extras_add_cell (extras, "cell_tree", cells[FOLDER_COL_NAME]);
-	e_table_extras_add_cell (extras, "cell_toggle", cells[FOLDER_COL_SUBSCRIBED]);
-	e_table_extras_add_pixbuf (extras, "subscribed-image", toggles[1]);
+	e_table_extras_add_cell (extras, "cell_text", cell);
+	e_table_extras_add_cell (extras, "cell_toggle", e_cell_toggle_new (0, 2, toggles));
+	e_table_extras_add_cell (extras, "cell_tree", e_cell_tree_new(NULL, NULL, TRUE, cell));
 
 	sc->folder_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->folder_model),
 						  extras, FOLDER_ETABLE_SPEC, NULL);
 
 	gtk_object_sink (GTK_OBJECT (extras));
-	
-	gtk_object_set (GTK_OBJECT (text),
-			"bold_column", FOLDER_COL_SUBSCRIBED,
-			NULL);
+	gdk_pixbuf_unref(toggles[0]);
+	gdk_pixbuf_unref(toggles[1]);
+
 	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED (sc->folder_etable)->table),
 			    "double_click", GTK_SIGNAL_FUNC (folder_toggle_cb),
 			    sc);

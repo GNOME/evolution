@@ -765,173 +765,73 @@ filter_date (const void *data)
 	return g_strdup (buf);
 }
 
-static void
-message_list_init_renderers (MessageList *message_list)
+static ETableExtras *
+message_list_create_extras (void)
 {
-	GdkPixbuf *images [7];
 	int i;
-	
-	g_assert (message_list);
-	g_assert (message_list->table_model);
-	
-	message_list->render_text = e_cell_text_new (
-		message_list->table_model,
-		NULL, GTK_JUSTIFY_LEFT);
-	
-	gtk_object_set (GTK_OBJECT (message_list->render_text),
-			"strikeout_column", COL_DELETED,
-			NULL);
-	gtk_object_set (GTK_OBJECT (message_list->render_text),
-			"bold_column", COL_UNREAD,
-			NULL);
-	gtk_object_set (GTK_OBJECT (message_list->render_text),
-			"color_column", COL_COLOUR,
-			NULL);
-	
-	message_list->render_date = e_cell_text_new (
-		message_list->table_model,
-		NULL, GTK_JUSTIFY_LEFT);
-	
-	gtk_object_set (GTK_OBJECT (message_list->render_date),
-			"text_filter", filter_date,
-			NULL);
-	gtk_object_set (GTK_OBJECT (message_list->render_date),
-			"strikeout_column", COL_DELETED,
-			NULL);
-	gtk_object_set (GTK_OBJECT (message_list->render_date),
-			"bold_column", COL_UNREAD,
-			NULL);
-	gtk_object_set (GTK_OBJECT (message_list->render_date),
-			"color_column", COL_COLOUR,
-			NULL);
-	
-	message_list->render_online_status = e_cell_checkbox_new ();
-	
-	/*
-	 * Message status
-	 */
+	GdkPixbuf *images [7];
+	ETableExtras *extras;
+	ECell *cell;
+
+	extras = e_table_extras_new();
+	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
+	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [10].pixbuf);
+	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [4].pixbuf);
+
+	e_table_extras_add_compare(extras, "address_compare", address_compare);
+	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
+
 	for (i = 0; i < 3; i++)
 		images [i] = states_pixmaps [i].pixbuf;
 	
-	message_list->render_message_status = e_cell_toggle_new (0, 3, images);
-	
-	/*
-	 * Attachment
-	 */
+	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 3, images));
+
 	for (i = 0; i < 2; i++)
 		images [i] = states_pixmaps [i + 3].pixbuf;
 	
-	message_list->render_attachment = e_cell_toggle_new (0, 2, images);
+	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
-	/*
-	 * FIXME: We need a real renderer here
-	 * Miguel has suggested perhaps using icons with thumbs up/down
-	 */
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 5].pixbuf;
 	
-	message_list->render_score = e_cell_toggle_new (0, 7, images);
+	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
 
-	/*
-	 * for tree view
-	 */
-	message_list->render_tree =
-		e_cell_tree_new (message_list->table_model,
-				 NULL, NULL, /* let the tree renderer default the pixmaps */
-				 TRUE, message_list->render_text);
-}
+	cell = e_cell_text_new (
+		NULL, GTK_JUSTIFY_LEFT);
+	
+	gtk_object_set (GTK_OBJECT (cell),
+			"text_filter", filter_date,
+			NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", COL_DELETED,
+			NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"bold_column", COL_UNREAD,
+			NULL);
+	gtk_object_set (GTK_OBJECT (cell),
+			"color_column", COL_COLOUR,
+			NULL);
+	e_table_extras_add_cell(extras, "render_date", cell);
 
-static void
-message_list_init_header (MessageList *message_list)
-{
-	int i;
-	
-	/*
-	 * FIXME:
-	 *
-	 * Use the font metric to compute this.
-	 */
-	
-	message_list->header_model = e_table_header_new ();
-	gtk_object_ref (GTK_OBJECT (message_list->header_model));
-	gtk_object_sink (GTK_OBJECT (message_list->header_model));
-	
-	message_list->table_cols [COL_MESSAGE_STATUS] =
-		e_table_col_new_with_pixbuf (
-			COL_MESSAGE_STATUS, states_pixmaps [0].pixbuf,
-			0.0, COL_CHECK_BOX_WIDTH,
-			message_list->render_message_status, 
-			g_int_compare, FALSE);
-	
-	gtk_object_set (GTK_OBJECT (message_list->table_cols[COL_MESSAGE_STATUS]),
-			"sortable", FALSE,
+	cell = e_cell_text_new (
+		NULL, GTK_JUSTIFY_LEFT);
+
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", COL_DELETED,
 			NULL);
-	
-	message_list->table_cols [COL_SCORE] =
-		e_table_col_new_with_pixbuf (
-			COL_SCORE, states_pixmaps [10].pixbuf,
-			0.0, COL_CHECK_BOX_WIDTH,
-			message_list->render_score,
-			g_int_compare, TRUE);
-	
-	message_list->table_cols [COL_ATTACHMENT] =
-		e_table_col_new_with_pixbuf (
-			COL_ATTACHMENT, states_pixmaps [4].pixbuf,
-			0.0, COL_ATTACH_WIDTH,
-			message_list->render_attachment,
-			g_int_compare, FALSE);
-	
-	gtk_object_set (GTK_OBJECT (message_list->table_cols[COL_ATTACHMENT]),
-			"sortable", FALSE,
+	gtk_object_set (GTK_OBJECT (cell),
+			"bold_column", COL_UNREAD,
 			NULL);
-	
-	message_list->table_cols [COL_FROM] =
-		e_table_col_new (
-			COL_FROM, _("From"),
-			COL_FROM_EXPANSION, COL_FROM_WIDTH_MIN,
-			message_list->render_text,
-			address_compare, TRUE);
-	
-	message_list->table_cols [COL_SUBJECT] =
-		e_table_col_new (
-			COL_SUBJECT, _("Subject"),
-			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
-			message_list->render_tree,
-			subject_compare, TRUE);
-	
-	message_list->table_cols [COL_SENT] =
-		e_table_col_new (
-			COL_SENT, _("Date"),
-			COL_SENT_EXPANSION, COL_SENT_WIDTH_MIN,
-			message_list->render_date,
-			g_int_compare, TRUE);
-	
-	message_list->table_cols [COL_RECEIVED] =
-		e_table_col_new (
-			COL_RECEIVED, _("Received"),
-			COL_RECEIVED_EXPANSION, COL_RECEIVED_WIDTH_MIN,
-			message_list->render_date,
-			g_int_compare, TRUE);
-	
-	message_list->table_cols [COL_TO] =
-		e_table_col_new (
-			COL_TO, _("To"),
-			COL_TO_EXPANSION, COL_TO_WIDTH_MIN,
-			message_list->render_text,
-			address_compare, TRUE);
-	
-	message_list->table_cols [COL_SIZE] =
-		e_table_col_new (
-			COL_SIZE, _("Size"),
-			COL_SIZE_EXPANSION, COL_SIZE_WIDTH_MIN,
-			message_list->render_text,
-			g_str_compare, TRUE);
-	
-	for (i = 0; i < COL_LAST; i++) {
-		gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
-		e_table_header_add_column (message_list->header_model,
-					   message_list->table_cols [i], i);
-	}
+	gtk_object_set (GTK_OBJECT (cell),
+			"color_column", COL_COLOUR,
+			NULL);
+	e_table_extras_add_cell(extras, "render_text", cell);
+
+	e_table_extras_add_cell(extras, "render_tree", 
+		e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
+				 TRUE, cell));
+
+	return extras;
 }
 
 static void
@@ -944,7 +844,7 @@ save_header_state(MessageList *ml)
 		return;
 
 	filename = folder_to_cachename(ml->folder, "et-header-");
-	e_table_scrolled_save_specification(E_TABLE_SCROLLED(ml->etable), filename);
+	e_table_scrolled_save_state(E_TABLE_SCROLLED(ml->etable), filename);
 	g_free(filename);
 }
 
@@ -952,16 +852,29 @@ static char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Message status, From, Subject, Sent Date */
-	return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
+	return g_strdup ("<ETableSpecification cursor-mode=\"line\">"
+			 "<ETableColumn model_col= \"0\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
+			 "<ETableColumn model_col= \"1\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"2\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
+			 "<ETableColumn model_col= \"3\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
+			 "<ETableColumn model_col= \"4\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"tree-string\" compare=\"subject_compare\"/>"
+			 "<ETableColumn model_col= \"5\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"6\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"7\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
+			 "<ETableColumn model_col= \"8\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
+			 "<ETableState> <column> 0 </column> <column> 3 </column>"
+			 "<column> 4 </column> <column> 5 </column>"
+			 "<grouping> </grouping> </ETableState>"
+			 "</ETableSpecification>");
 }
 
 static void
 message_list_setup_etable(MessageList *message_list)
 {
-	char *spec = "<ETableSpecification> <columns-shown> "
+	char *state = "<ETableState>"
 		"<column> 0 </column> <column> 7 </column>"
 		"<column> 4 </column> <column> 5 </column> "
-		"</columns-shown> <grouping> </grouping> </ETableSpecification>";
+		"<grouping> </grouping> </ETableState>";
 
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
@@ -972,7 +885,7 @@ message_list_setup_etable(MessageList *message_list)
 
 		path = folder_to_cachename(message_list->folder, "et-header-");
 		if (stat(path, &st) == 0 && st.st_size > 0 && S_ISREG(st.st_mode)) {
-			e_table_scrolled_load_specification(E_TABLE_SCROLLED(message_list->etable), path);
+			e_table_scrolled_load_state(E_TABLE_SCROLLED(message_list->etable), path);
 		} else {
 			/* I wonder if there's a better way to do this ...? */
 			name = camel_service_get_name((CAMEL_SERVICE(message_list->folder->parent_store)), TRUE);
@@ -980,7 +893,7 @@ message_list_setup_etable(MessageList *message_list)
 			if (strstr(name, "/Drafts") == 0
 			    || strstr(name, "/Outbox") == 0
 			    || strstr(name, "/Sent") == 0) {
-				e_table_scrolled_set_specification(E_TABLE_SCROLLED(message_list->etable), spec);
+				e_table_scrolled_set_state(E_TABLE_SCROLLED(message_list->etable), state);
 			}
 			g_free(name);
 		}
@@ -994,6 +907,7 @@ message_list_setup_etable(MessageList *message_list)
 static void
 message_list_init (GtkObject *object)
 {
+	ETableExtras *extras;
 	MessageList *message_list = MESSAGE_LIST (object);
 	char *spec;
 
@@ -1012,22 +926,19 @@ message_list_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (message_list->table_model), "destroy", 
 			    (GtkSignalFunc) nuke_uids, NULL);
 
-	message_list_init_renderers (message_list);
-	message_list_init_header (message_list);
-
 	/*
 	 * The etable
 	 */
 
 	spec = message_list_get_layout (message_list);
+	extras = message_list_create_extras();
 	message_list->etable = e_table_scrolled_new (
-		message_list->header_model, message_list->table_model, spec);
+		message_list->table_model, extras, spec, NULL);
 	g_free (spec);
+	gtk_object_sink(GTK_OBJECT(extras));
 
 	gtk_object_set(GTK_OBJECT(message_list->etable),
-		       "cursor_mode", E_TABLE_CURSOR_LINE,
 		       "drawfocus", FALSE,
-		       "drawgrid", FALSE,
 		       NULL);
 
 	/*
@@ -1066,7 +977,6 @@ static void
 message_list_destroy (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	int i;
 
 	if (message_list->folder) {
 		save_tree_state(message_list);
@@ -1074,17 +984,6 @@ message_list_destroy (GtkObject *object)
 	}
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
-	gtk_object_unref (GTK_OBJECT (message_list->header_model));
-	
-	/*
-	 * Renderers
-	 */
-	gtk_object_unref (GTK_OBJECT (message_list->render_text));
-	gtk_object_unref (GTK_OBJECT (message_list->render_online_status));
-	gtk_object_unref (GTK_OBJECT (message_list->render_message_status));
-	gtk_object_unref (GTK_OBJECT (message_list->render_score));
-	gtk_object_unref (GTK_OBJECT (message_list->render_attachment));
-	gtk_object_unref (GTK_OBJECT (message_list->render_tree));
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
 	
@@ -1093,9 +992,6 @@ message_list_destroy (GtkObject *object)
 				      free_key, NULL);
 		g_hash_table_destroy (message_list->uid_rowmap);
 	}
-	
-	for (i = 0; i < COL_LAST; i++)
-		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
 	
 	if (message_list->idle_id != 0)
 		g_source_remove(message_list->idle_id);

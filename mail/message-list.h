@@ -53,16 +53,6 @@ struct _MessageList {
 	FolderBrowser *parent_folder_browser;
 	
 	ETableModel  *table_model;
-	ETableHeader *header_model;
-	ETableCol    *table_cols [COL_LAST];
-	
-	ECell        *render_text;
-	ECell        *render_date;
-	ECell        *render_online_status;
-	ECell        *render_message_status;
-	ECell        *render_score;
-	ECell        *render_attachment;
-	ECell	     *render_tree;
 	
 	ETreePath    *tree_root; /* for tree view */
 	
