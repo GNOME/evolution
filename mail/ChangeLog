@@ -1,16 +1,20 @@
+2002-02-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (on_message_list_built): Connect to our own
+	message_list_built signal. Focus the list and select the first
+	unread message (or frst message depending). Fixes bug #3900.
+
 2002-02-20  Anna Marie Dirks  <anna@ximian.com>
 
 	* message-tag-editor.c (message_tag_editor_init): Gave the editor 
 	window a title and an icon.
 
-	
 2002-02-20  Anna Marie Dirks  <anna@ximian.com>
 
 	* message-tags.glade: Changed the policy for table2 so that it 
 	does not expand/fill. This was necessary to allow the message list 
 	as much growing room as possible. (And besides, there's no reason for
 	table2 to expand/fill; its child widgets can't change size. 
-
 
 2002-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
