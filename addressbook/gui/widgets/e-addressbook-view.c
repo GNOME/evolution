@@ -654,6 +654,7 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 				eav->source = NULL;
 			}
 		}
+		break;
 	case PROP_QUERY:
 #if 0 /* This code will mess up ldap a bit.  We need to think about the ramifications of this more. */
 		if ((g_value_get_string (value) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
