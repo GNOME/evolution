@@ -1,3 +1,16 @@
+2004-03-23  Alfred Peng <alfred.peng@sun.com>
+
+	* gui/dialogs/alarm-options.c (malarm_widgets_to_alarm): get
+	the mail alarm description message from "malarm_description"
+	instead of "dalarm_description".
+
+2004-03-23  Alfred Peng <alfred.peng@sun.com>
+
+	* gui/alarm-notify/alarm-queue.c (audio_notification): If there
+	is no attachment for a audio reminder, only a message window
+	shows up.
+	Get a beep sound even without attachment for audio reminder.
+
 2004-03-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-view.c (e_calendar_view_add_event): get the UID

@@ -1041,6 +1041,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	ECalComponent *comp;
 	ECalComponentAlarm *alarm;
 	icalattach *attach;
+	int	flag = 0;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -1058,11 +1059,14 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 		url = icalattach_get_url (attach);
 
-		if (url && *url && g_file_test (url, G_FILE_TEST_EXISTS))
+		if (url && *url && g_file_test (url, G_FILE_TEST_EXISTS)) {
+			flag = 1;
 			gnome_sound_play (url); /* this sucks */
-		else
-			gdk_beep ();
+		}
 	}
+
+	if (!flag)
+		gdk_beep ();
 
 	if (attach)
 		icalattach_unref (attach);

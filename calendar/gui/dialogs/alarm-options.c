@@ -649,7 +649,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	eab_destination_freev (destv);	
 
 	/* Description */
-	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
