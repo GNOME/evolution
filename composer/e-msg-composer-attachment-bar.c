@@ -730,7 +730,7 @@ get_default_charset (void)
 		charset = e_iconv_charset_name (buf);
 		g_free (buf);
 	} else
-		charset = e_iconv_locale_name ();
+		charset = e_iconv_locale_charset ();
 	
 	return charset;
 }
