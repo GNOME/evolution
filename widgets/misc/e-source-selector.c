@@ -67,7 +67,7 @@ typedef struct {
 enum {
 	SELECTION_CHANGED,
 	PRIMARY_SELECTION_CHANGED,
-	FILL_POPUP_MENU,
+	POPUP_EVENT,
 	NUM_SIGNALS
 };
 static unsigned int signals[NUM_SIGNALS] = { 0 };
@@ -579,10 +579,10 @@ static gboolean
 selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSelector *selector)
 {
 	ESourceSelectorPrivate *priv = selector->priv;
-	GtkWidget *menu;
 	GtkTreePath *path;
 	ESource *source = NULL;
-	
+	gboolean res = FALSE;
+
 	priv->toggled_last = FALSE;
 	
 	/* only process right-clicks */
@@ -596,7 +596,8 @@ selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSe
 		
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->tree_store), &iter, path)) {
 			gtk_tree_model_get (GTK_TREE_MODEL (priv->tree_store), &iter, 0, &data, -1);
-			
+
+			/* TODO: we could still emit a popup event for this and let the callee decide? */
 			if (E_IS_SOURCE_GROUP (data)) {
 				g_object_unref (data);
 				
@@ -607,19 +608,15 @@ selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSe
 		}
 	}
 
-	if (source) {
+	if (source)
 		e_source_selector_set_primary_selection (selector, source);
+
+	g_signal_emit(selector, signals[POPUP_EVENT], 0, source, event, &res);
+
+	if (source)
 		g_object_unref (source);
-	}
-	
-	/* create the menu */
-	menu = gtk_menu_new ();
-	g_signal_emit (G_OBJECT (selector), signals[FILL_POPUP_MENU], 0, GTK_MENU (menu));
 
-	/* popup the menu */
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
-
-	return TRUE;
+	return res;
 }
 
 /* GObject methods.  */
@@ -666,6 +663,15 @@ impl_finalize (GObject *object)
 
 
 /* Initialization.  */
+static gboolean
+ess_bool_accumulator(GSignalInvocationHint *ihint, GValue *out, const GValue *in, void *data)
+{
+	gboolean val = g_value_get_boolean(in);
+
+	g_value_set_boolean(out, val);
+
+	return !val;
+}
 
 static void
 class_init (ESourceSelectorClass *class)
@@ -694,14 +700,15 @@ class_init (ESourceSelectorClass *class)
 			      NULL, NULL,
 			      e_util_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	signals[FILL_POPUP_MENU] =
-		g_signal_new ("fill_popup_menu",
+	signals[POPUP_EVENT] =
+		g_signal_new ("popup_event",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ESourceSelectorClass, fill_popup_menu),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
+			      G_STRUCT_OFFSET (ESourceSelectorClass, popup_event),
+			      ess_bool_accumulator, NULL,
+			      e_util_marshal_BOOLEAN__OBJECT_BOXED,
+			      G_TYPE_BOOLEAN, 2, G_TYPE_OBJECT,
+			      GDK_TYPE_EVENT|G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void

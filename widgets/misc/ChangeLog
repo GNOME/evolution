@@ -1,3 +1,12 @@
+2004-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* e-util-marshal.list: added boolean object boxed.
+
+	* e-source-selector.c (class_init): add new 'popup event' signal,
+	to replace fill_popup_menu.
+	(selector_button_press_event): emit a POPUP_EVENT rather than a
+	FILL_POPUP_MENU.
+
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 
 	* e-multi-config-dialog.c (impl_response):
