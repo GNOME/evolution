@@ -273,10 +273,9 @@ impl_response (GtkDialog *dialog,
 		do_apply (multi_config_dialog);
 		break;
 	case GTK_RESPONSE_CLOSE:
+	default:
 		do_close (multi_config_dialog);
 		break;
-	default:
-		g_assert_not_reached ();
 	}
 }
 

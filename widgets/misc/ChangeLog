@@ -1,3 +1,9 @@
+2002-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* e-multi-config-dialog.c (impl_response): Removed the
+	g_assert_not_reached().  If you hit the close button on your
+	window it would abort, treat same as close.
+
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-clipped-label.[ch]: rework this to be faster and deal more
