@@ -3,6 +3,7 @@ lib_LIBRARIES = libversit.a
 
 libversit_a_SOURCES =	\
 	vcc.y		\
+	vcc.h		\
 	vobject.c	\
 	vobject.h	\
 	port.h		\

@@ -36,6 +36,7 @@ gnomecal_SOURCES = \
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\
+	main.h			\
 	popup-menu.c		\
 	popup-menu.h		\
 	prop.c			\
@@ -46,23 +47,6 @@ gnomecal_SOURCES = \
 	views.h			\
 	views.c
 	
-
-#gncal_SOURCES = \
-#	gncal.c			\
-#	gncal.h			\
-#	calcs.c			\
-#	calcs.h			\
-#	clist.c			\
-#	clist.h			\
-#	calendar.c		\
-#	calendar.h		\
-#	calobj.c		\
-#	calobj.h		\
-#	gncal-day-view.c	\
-#	gncal-day-view.h	\
-#	timeutil.c		\
-#	timeutil.h
-
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
@@ -77,7 +61,9 @@ gnomecal_LDADD = $(LINK_FLAGS)
 EXTRA_DIST = \
 	gncal.desktop	\
 	topic.dat	\
-	gnome-cal.html
+	gnome-cal.html	\
+	bell.xpm	\
+	recur.xpm
 
 
 Productivitydir = $(datadir)/apps/Productivity
