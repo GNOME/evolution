@@ -1,5 +1,12 @@
 2000-02-13  Matt Loper  <matt@helixcode.com>
 
+	* camel/camel-stream-fs.c (_init_with_name): Set stream_fs->fd to
+	-1 if we fail to load the file.
+	(camel_stream_fs_new_with_name): If stream_fs->fd is -1, return
+	NULL. These changes make it so that a CamelStreamFs won't be
+	created if you give it a bogus filename; they may be replaced once
+	exception handling is in place.
+
 	* tests/ui-tests/message-browser.c (handle_tree_item): Expand tree
 	items.
 	(mime_message_to_html): New function; translates a

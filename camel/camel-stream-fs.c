@@ -230,7 +230,11 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	}
 
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
-		if (v == -1) return;
+		if (v == -1) {
+			stream_fs->fd = -1;
+			return;
+		}
+	
 
 	fd = open (name, flags, 0600);
 	if (fd==-1) {
@@ -268,9 +272,12 @@ camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
 	CamelStreamFs *stream_fs;
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
 	CSFS_CLASS (stream_fs)->init_with_name (stream_fs, name, mode);
+	if (stream_fs->fd == -1) {
+		gtk_object_destroy (GTK_OBJECT (stream_fs));
+		return NULL;
+	}
 	
 	return CAMEL_STREAM (stream_fs);
-	
 }
  
 
