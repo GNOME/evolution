@@ -1,3 +1,8 @@
+2004-04-29  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: Update the prefs dialog pages
+	for the calendar and tasks components to be HIG compliant
+
 2004-04-29  JP Rosevear  <jpr@ximian.com>
 
 	* gui/tasks-component.h (tasks_component_peek_source_list): remove
