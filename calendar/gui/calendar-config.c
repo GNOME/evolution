@@ -171,10 +171,25 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
    you should assume UTC (though Evolution will show the timezone-setting
    dialog the next time a calendar or task folder is selected). */
 gchar *
-calendar_config_get_timezone		(void)
+calendar_config_get_timezone (void)
 {
-	/* FIXME Guard against NULL? */
 	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
+}
+
+icaltimezone *
+calendar_config_get_icaltimezone (void)
+{
+	char *location;
+	icaltimezone *zone = NULL;
+	
+	location = calendar_config_get_timezone ();
+	if (location)
+		zone = icaltimezone_get_builtin_timezone (location);
+
+	if (!zone)
+		zone = icaltimezone_get_utc_timezone ();
+	
+	return zone;
 }
 
 
@@ -988,15 +1003,14 @@ calendar_config_get_hide_completed_tasks_sexp (void)
 			   immediately, so we filter out all completed tasks.*/
 			sexp = g_strdup ("(not is-completed?)");
 		} else {
-			char *location, *isodate;
+			char *isodate;
 			icaltimezone *zone;
 			struct icaltimetype tt;
 			time_t t;
 
 			/* Get the current time, and subtract the appropriate
 			   number of days/hours/minutes. */
-			location = calendar_config_get_timezone ();
-			zone = icaltimezone_get_builtin_timezone (location);
+			zone = calendar_config_get_icaltimezone ();
 			tt = icaltime_current_time_with_zone (zone);
 
 			switch (units) {

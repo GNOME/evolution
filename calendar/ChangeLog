@@ -1,5 +1,14 @@
 2004-02-05  JP Rosevear <jpr@ximian.com>
 
+	* gui/calendar-config.h: add proto
+
+	* gui/calendar-config.c (calendar_config_get_icaltimezone): return
+	the icaltimezone based on the location and default to utc if we
+	can't find one
+	(calendar_config_get_hide_completed_tasks_sexp): use above
+
+2004-02-05  JP Rosevear <jpr@ximian.com>
+
 	* gui/dialogs/cal-prefs-dialog.c (set_color_picker): make failure
 	not so draconian - make the color black
 

@@ -80,6 +80,7 @@ guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc
 
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
+icaltimezone *calendar_config_get_icaltimezone (void);
 void	  calendar_config_set_timezone		(gchar	     *timezone);
 guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);
 
