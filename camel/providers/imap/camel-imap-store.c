@@ -143,6 +143,10 @@ camel_imap_store_finalize (CamelObject *object)
 	}
 	if (imap_store->namespace)
 		g_free (imap_store->namespace);
+	if (imap_store->base_url)
+		g_free (imap_store->base_url);
+	if (imap_store->storage_path)
+		g_free (imap_store->storage_path);
 	if (imap_store->current_folder)
 		camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 #ifdef ENABLE_THREADS
