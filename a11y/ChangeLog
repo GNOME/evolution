@@ -1,3 +1,10 @@
+2005-02-02  Harry Lu <harry.lu@sun.com>
+
+	Fix for 72088.
+
+	* calendar/ea-calendar.c: (gnome_calendar_a11y_init): force
+	loading some types so that we can use them.
+
 2005-02-01  Harry Lu <harry.lu@sun.com>
 
 	Fix for 71924, 71926, 71932 
