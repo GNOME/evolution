@@ -118,7 +118,7 @@ EXTRA_DIST =	 			\
 	jump.xpm			\
 	monthview.xpm			\
 	recur.xpm			\
-	task-assign-to.xpm		\
+	task-assigned-to.xpm		\
 	task-assigned.xpm		\
 	task-recurring.xpm		\
 	task.xpm			\
