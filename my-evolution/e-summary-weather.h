@@ -148,5 +148,6 @@ void e_summary_weather_reconfigure (ESummary *summary);
 void e_summary_weather_ctree_fill (GtkCTree *tree);
 const char *e_summary_weather_code_to_name (const char *code);
 void e_summary_weather_free (ESummary *summary);
+gboolean e_summary_weather_update (ESummary *summary);
 
 #endif

@@ -428,7 +428,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 			      (GnomeVFSAsyncReadCallback) read_callback, r);
 }
 
-static gboolean
+gboolean
 e_summary_rdf_update (ESummary *summary)
 {
 	GList *r;
@@ -440,6 +440,21 @@ e_summary_rdf_update (ESummary *summary)
 
 	for (r = summary->rdf->rdfs; r; r = r->next) {
 		RDF *rdf = r->data;
+
+		if (rdf->handle) {
+			gnome_vfs_async_cancel (rdf->handle);
+			rdf->handle = NULL;
+		}
+
+		if (rdf->buffer) {
+			g_free (rdf->buffer);
+			rdf->buffer = NULL;
+		}
+		
+		if (rdf->string) {
+			g_string_free (rdf->string, TRUE);
+			rdf->string = NULL;
+		}
 
 		gnome_vfs_async_open (&rdf->handle, rdf->uri, 
 				      GNOME_VFS_OPEN_READ,

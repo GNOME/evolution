@@ -364,7 +364,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 			      (GnomeVFSAsyncReadCallback) read_callback, w);
 }
 
-static gboolean
+gboolean
 e_summary_weather_update (ESummary *summary)
 {
 	GList *w;
@@ -378,6 +378,19 @@ e_summary_weather_update (ESummary *summary)
 	for (w = summary->weather->weathers; w; w = w->next) {
 		char *uri;
 		Weather *weather = w->data;
+
+		if (weather->handle != NULL) {
+			gnome_vfs_async_cancel (weather->handle);
+			weather->handle = NULL;
+		}
+		if (weather->string) {
+			g_string_free (weather->string, TRUE);
+			weather->string = NULL;
+		}
+		if (weather->buffer) {
+			g_free (weather->buffer);
+			weather->buffer = NULL;
+		}
 
 		uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", weather->location);
 

@@ -751,7 +751,13 @@ e_summary_reload (BonoboUIComponent *component,
 {
 	ESummary *summary = userdata;
 
-	e_summary_reconfigure (summary);
+	if (summary->rdf != NULL) {
+		e_summary_rdf_update (summary);
+	}
+
+	if (summary->weather != NULL) {
+		e_summary_weather_update (summary);
+	}
 }
 
 int 

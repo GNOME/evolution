@@ -32,5 +32,6 @@ char *e_summary_rdf_get_html (ESummary *summary);
 void e_summary_rdf_init (ESummary *summary);
 void e_summary_rdf_reconfigure (ESummary *summary);
 void e_summary_rdf_free (ESummary *summary);
+gboolean e_summary_rdf_update (ESummary *summary);
 
 #endif
