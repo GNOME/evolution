@@ -42,15 +42,14 @@ extern "C" {
 typedef enum {
 	CAMEL_DISCO_STORE_ONLINE,
 	CAMEL_DISCO_STORE_OFFLINE,
-#ifdef NOTYET
 	CAMEL_DISCO_STORE_RESYNCING
-#endif
 } CamelDiscoStoreStatus;
 
 struct _CamelDiscoStore {
 	CamelRemoteStore parent_object;	
 
 	CamelDiscoStoreStatus status;
+	CamelDiscoDiary *diary;
 };
 
 
@@ -61,6 +60,7 @@ typedef struct {
 						      CamelDiscoStoreStatus,
 						      CamelException *);
 	gboolean          (*can_work_offline)        (CamelDiscoStore *);
+
 
 	gboolean          (*connect_online)          (CamelService *,
 						      CamelException *);
@@ -80,15 +80,23 @@ typedef struct {
 						      const char *name,
 						      guint32 flags,
 						      CamelException *ex);
+	CamelFolder *     (*get_folder_resyncing)    (CamelStore *store,
+						      const char *name,
+						      guint32 flags,
+						      CamelException *ex);
 
-	CamelFolderInfo * (*get_folder_info_online)  (CamelStore *store,
-						      const char *top,
-						      guint32 flags,
-						      CamelException *ex);
-	CamelFolderInfo * (*get_folder_info_offline) (CamelStore *store,
-						      const char *top,
-						      guint32 flags,
-						      CamelException *ex);
+	CamelFolderInfo * (*get_folder_info_online)    (CamelStore *store,
+							const char *top,
+							guint32 flags,
+							CamelException *ex);
+	CamelFolderInfo * (*get_folder_info_offline)   (CamelStore *store,
+							const char *top,
+							guint32 flags,
+							CamelException *ex);
+	CamelFolderInfo * (*get_folder_info_resyncing) (CamelStore *store,
+							const char *top,
+							guint32 flags,
+							CamelException *ex);
 
 } CamelDiscoStoreClass;
 
@@ -102,6 +110,7 @@ void                  camel_disco_store_set_status       (CamelDiscoStore *,
 							  CamelDiscoStoreStatus,
 							  CamelException *);
 gboolean              camel_disco_store_can_work_offline (CamelDiscoStore *);
+
 
 /* Convenience functions */
 gboolean camel_disco_store_check_online (CamelDiscoStore *store, CamelException *ex);

@@ -45,33 +45,44 @@ struct _CamelDiscoFolder {
 typedef struct {
 	CamelFolderClass parent_class;
 
-	void   (*refresh_info_online) (CamelFolder *folder, CamelException *ex);
+	void (*refresh_info_online) (CamelFolder *folder, CamelException *ex);
 
-	void   (*sync_online)    (CamelFolder *folder, CamelException *ex);
-	void   (*sync_offline)   (CamelFolder *folder, CamelException *ex);
+	void (*sync_online)    (CamelFolder *folder, CamelException *ex);
+	void (*sync_offline)   (CamelFolder *folder, CamelException *ex);
+	void (*sync_resyncing) (CamelFolder *folder, CamelException *ex);
 
-	void   (*expunge_uids_online)    (CamelFolder *folder, GPtrArray *uids,
-					  CamelException *ex);
-	void   (*expunge_uids_offline)   (CamelFolder *folder, GPtrArray *uids,
-					  CamelException *ex);
+	void (*expunge_uids_online)    (CamelFolder *folder, GPtrArray *uids,
+					CamelException *ex);
+	void (*expunge_uids_offline)   (CamelFolder *folder, GPtrArray *uids,
+					CamelException *ex);
+	void (*expunge_uids_resyncing) (CamelFolder *folder, GPtrArray *uids,
+					CamelException *ex);
 
-	char * (*append_online)    (CamelFolder *folder,
-				    CamelMimeMessage *message,
-				    const CamelMessageInfo *info,
-				    CamelException *ex);
-	char * (*append_offline)   (CamelFolder *folder,
-				    CamelMimeMessage *message,
-				    const CamelMessageInfo *info,
-				    CamelException *ex);
+	void (*append_online)    (CamelFolder *folder,
+				  CamelMimeMessage *message,
+				  const CamelMessageInfo *info,
+				  CamelException *ex);
+	void (*append_offline)   (CamelFolder *folder,
+				  CamelMimeMessage *message,
+				  const CamelMessageInfo *info,
+				  CamelException *ex);
+	void (*append_resyncing) (CamelFolder *folder,
+				  CamelMimeMessage *message,
+				  const CamelMessageInfo *info,
+				  CamelException *ex);
 
 	void (*copy_online)    (CamelFolder *source, GPtrArray *uids,
 				CamelFolder *destination, CamelException *ex);
 	void (*copy_offline)   (CamelFolder *source, GPtrArray *uids,
 				CamelFolder *destination, CamelException *ex);
+	void (*copy_resyncing) (CamelFolder *source, GPtrArray *uids,
+				CamelFolder *destination, CamelException *ex);
 	
 	void (*move_online)    (CamelFolder *source, GPtrArray *uids,
 				CamelFolder *destination, CamelException *ex);
 	void (*move_offline)   (CamelFolder *source, GPtrArray *uids,
+				CamelFolder *destination, CamelException *ex);
+	void (*move_resyncing) (CamelFolder *source, GPtrArray *uids,
 				CamelFolder *destination, CamelException *ex);
 
 	void (*cache_message)       (CamelDiscoFolder *disco_folder,

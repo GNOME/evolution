@@ -1,3 +1,69 @@
+2001-05-29  Dan Winship  <danw@ximian.com>
+
+	* camel-disco-diary.c: Code for logging and replaying offline
+	operations.
+
+	* camel-disco-store.c (disco_construct): Set disco->status here
+	(where we can base it on the session's offline status) rather than
+	at init time.
+	(disco_connect): If we connect online and have a non-empty diary,
+	switch to RESYNCING mode and replay the diary to the server.
+	(disco_get_folder, disco_get_folder_info): Add _resyncing
+	variants.
+
+	* camel-disco-folder.c (disco_sync, disco_expunge_uids,
+	disco_append_message, disco_copy_messages_to,
+	disco_move_messages_to): Add _resyncing variants to switches.
+	(disco_expunge_uids, disco_append_message, disco_copy_messages_to,
+	disco_move_messages_to): Remove #ifdef'ed out diary code: let the
+	provider do it.
+	(disco_append_message): Redo the append methods to no longer
+	return the UID, since we're no longer doing the logging from here.
+
+	* providers/imap/camel-imap-store.c (imap_connect_online,
+	imap_connect_offline): Create a CamelDiscoDiary.
+	(imap_disconnect_offline): And free it.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	If RESYNCING, don't do any sort of checking that the remote folder
+	matches the summary, beyond making sure that the UIDVALIDITY is
+	correct.
+	(imap_rescan): Add a missing camel_folder_summary_info_free when
+	removing a UID from the summary.
+	(imap_expunge_uids_offline): Implement. Fairly simple.
+	(imap_expunge_uids_resyncing): Implement. If the store supports
+	UIDPLUS, we can just use imap_expunge_uids_online. If not, we need
+	to temporarily undelete any messages marked deleted on the server
+	that aren't supposed to get expunged.
+	(imap_append_offline): Implement, using cache and summary
+	operations, and triggering the folder_changed event by hand.
+	(imap_append_resyncing): Implement. Redo imap_append_online a bit
+	in the process to make them able to share more code.
+	(imap_copy_offline): Implement.
+	(imap_copy_online): Move parts of this out into a helper.
+	(imap_copy_resyncing): Implement. In most cases this is just like
+	imap_copy_online, but if you are copying a message that was itself
+	copied or appended into the folder, and the server doesn't do
+	UIDPLUS, it will be necessary to replace at least part of the copy
+	operation with one or more appends.
+
+	* providers/imap/camel-imap-command.c (imap_read_response): Don't
+	record the current folder in the response when in RESYNCING mode.
+	(This means that EXISTS and EXPUNGE responses won't be processed,
+	which is needed because the summary may not match the folder at
+	this point.)
+	(imap_read_response): On error, call
+	camel_imap_response_free_without_processing, not
+	camel_imap_response_free.
+
+	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Make
+	this work better when operating on UIDs that aren't in the summary.
+
+	* providers/imap/camel-imap-summary.c
+	(camel_imap_summary_add_offline): New routine used by
+	imap_append_offline and imap_copy_offline to create new summary
+	entries.
+
 2001-05-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_set_param): Use g_strcasecmp()

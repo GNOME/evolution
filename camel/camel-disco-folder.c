@@ -116,6 +116,10 @@ disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	case CAMEL_DISCO_STORE_OFFLINE:
 		CDF_CLASS (folder)->sync_offline (folder, ex);
 		break;
+
+	case CAMEL_DISCO_STORE_RESYNCING:
+		CDF_CLASS (folder)->sync_resyncing (folder, ex);
+		break;
 	}
 }
 
@@ -134,13 +138,10 @@ disco_expunge_uids (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 
 	case CAMEL_DISCO_STORE_OFFLINE:
 		CDF_CLASS (folder)->expunge_uids_offline (folder, uids, ex);
-#ifdef NOTYET
-		if (!camel_exception_is_set (ex)) {
-			camel_disco_diary_log (disco->diary,
-					       CAMEL_DISCO_DIARY_FOLDER_EXPUNGE,
-					       folder, uids);
-		}
-#endif
+		break;
+
+	case CAMEL_DISCO_STORE_RESYNCING:
+		CDF_CLASS (folder)->expunge_uids_resyncing (folder, uids, ex);
 		break;
 	}
 }
@@ -173,25 +174,20 @@ disco_append_message (CamelFolder *folder, CamelMimeMessage *message,
 		      const CamelMessageInfo *info, CamelException *ex)
 {
 	CamelDiscoStore *disco = CAMEL_DISCO_STORE (folder->parent_store);
-	char *uid;
 
 	switch (camel_disco_store_status (disco)) {
 	case CAMEL_DISCO_STORE_ONLINE:
-		uid = CDF_CLASS (folder)->append_online (folder, message, info, ex);
+		CDF_CLASS (folder)->append_online (folder, message, info, ex);
 		break;
 
 	case CAMEL_DISCO_STORE_OFFLINE:
-		uid = CDF_CLASS (folder)->append_offline (folder, message, info, ex);
-#ifdef NOTYET
-		if (uid) {
-			camel_disco_diary_log (disco->diary,
-					       CAMEL_DISCO_DIARY_FOLDER_APPEND,
-					       folder, uid);
-		}
-#endif
+		CDF_CLASS (folder)->append_offline (folder, message, info, ex);
+		break;
+
+	case CAMEL_DISCO_STORE_RESYNCING:
+		CDF_CLASS (folder)->append_resyncing (folder, message, info, ex);
 		break;
 	}
-	g_free (uid);
 }
 
 static void
@@ -207,13 +203,10 @@ disco_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 
 	case CAMEL_DISCO_STORE_OFFLINE:
 		CDF_CLASS (source)->copy_offline (source, uids, destination, ex);
-#ifdef NOTYET
-		if (!camel_exception_is_set (ex)) {
-			camel_disco_diary_log (disco->diary,
-					       CAMEL_DISCO_DIARY_FOLDER_COPY,
-					       source, destination, uids);
-		}
-#endif
+		break;
+
+	case CAMEL_DISCO_STORE_RESYNCING:
+		CDF_CLASS (source)->copy_resyncing (source, uids, destination, ex);
 		break;
 	}
 }
@@ -231,13 +224,10 @@ disco_move_messages_to (CamelFolder *source, GPtrArray *uids,
 
 	case CAMEL_DISCO_STORE_OFFLINE:
 		CDF_CLASS (source)->move_offline (source, uids, destination, ex);
-#ifdef NOTYET
-		if (!camel_exception_is_set (ex)) {
-			camel_disco_diary_log (disco->diary,
-					       CAMEL_DISCO_DIARY_FOLDER_MOVE,
-					       source, destination, uids);
-		}
-#endif
+		break;
+
+	case CAMEL_DISCO_STORE_RESYNCING:
+		CDF_CLASS (source)->move_resyncing (source, uids, destination, ex);
 		break;
 	}
 }
