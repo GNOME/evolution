@@ -1523,11 +1523,13 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 
 	priv->iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
 	priv->ical_comp = icalcompiter_deref (&priv->iter);
-	kind = icalcomponent_isa (priv->ical_comp);
-	if (kind != ICAL_VEVENT_COMPONENT
-	    && kind != ICAL_VTODO_COMPONENT
-	    && kind != ICAL_VFREEBUSY_COMPONENT)
-		priv->ical_comp = get_next (&priv->iter);
+	if (priv->ical_comp != NULL) {
+		kind = icalcomponent_isa (priv->ical_comp);
+		if (kind != ICAL_VEVENT_COMPONENT
+		    && kind != ICAL_VTODO_COMPONENT
+		    && kind != ICAL_VFREEBUSY_COMPONENT)
+			priv->ical_comp = get_next (&priv->iter);
+	}
 
 	if (priv->ical_comp == NULL) {
 		write_error_html (itip, _("The attachment has no viewable calendar items"));		

@@ -1,3 +1,9 @@
+2004-04-29  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-itip-control.c (e_itip_control_set_data): check we find
+	any usable components of the icalendar entry before dereferncing
+	it.  Fixes crash in #57264.
+
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-itip-control.c (object_requested_cb): dont shadow source
