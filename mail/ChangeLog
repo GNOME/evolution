@@ -1,3 +1,9 @@
+2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* GNOME_Evolution_Mail.oafinfo: Add Bonobo/ItemContainer as the
+	set of supported interfaces in GNOME_Evolution_Mail_Composer
+	component. 
+
 2001-01-11  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_field_to_stream): Translate the header name
