@@ -365,7 +365,7 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *vi
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	d(g_print("%s: view_id set to %s\n", __FUNCTION__, view_id));
+	d(g_print("%s: view_id set to %s\n", G_GNUC_FUNCTION, view_id));
 
 	if (instance->current_id && !strcmp (instance->current_id, view_id))
 		return;
@@ -483,12 +483,13 @@ add_popup_radio_item (EPopupMenu *menu_item,
 		      gpointer closure,
 		      gboolean value)
 {
-	const EPopupMenu menu_item_struct = 
+	EPopupMenu menu_item_struct = 
 		E_POPUP_RADIO_ITEM_CC (title,
 				       fn,
 				       closure,
 				       0,
-				       value);
+				       0);
+	menu_item_struct.is_active = value;
 
 	e_popup_menu_copy_1 (menu_item, &menu_item_struct);
 }
@@ -499,7 +500,7 @@ add_popup_menu_item (EPopupMenu *menu_item,
 		     GCallback fn,
 		     gpointer closure)
 {
-	const EPopupMenu menu_item_struct = 
+	EPopupMenu menu_item_struct = 
 		E_POPUP_ITEM_CC (title,
 				 fn,
 				 closure,
