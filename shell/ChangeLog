@@ -1,5 +1,10 @@
 2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (quit_box_new): Set the WMClass of the quit dialog to be
+	different from the default one in an attempt to fix #13441.
+
+2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (storage_result_from_component_result): New.
 	(async_xfer_folder_callback): Use it so we get the right error
 	message.
