@@ -441,7 +441,7 @@ if test "$msg_ldap" = yes; then
 		fi
 		AC_CHECK_LIB(ldap, ldap_open, [
 				if test $msg_ldap_linktype = "(static)"; then
-					LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS",
+					LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS"
 				else
 					LDAP_LIBS="-lldap $LDAP_LIBS"
 				fi],

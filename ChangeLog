@@ -1,3 +1,8 @@
+2001-08-14  Dan Winship  <danw@ximian.com>
+
+	* configure.in (LDAP_LIBS): Remove an obvious typo reported by
+	Miles
+
 2001-08-11  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* README: Be truthful about the versions of libs we need.
