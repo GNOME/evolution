@@ -21,6 +21,8 @@ module Evolution {
 
 		attribute string name;
 
+		typedef sequence<Folder> FolderList;
+
 		enum Result {
 			OK,
 			UNSUPPORTED_OPERATION,
@@ -39,6 +41,8 @@ module Evolution {
 			string path;
 		};
 
+		FolderList getFolderList ();
+		
 		void asyncCreateFolder (in string path,
 					in string type,
 					in string description,
@@ -95,6 +99,8 @@ module Evolution {
 		exception NotFound {};
 		exception AlreadyListening {};
 
+		typedef sequence<Storage> StorageList;
+		
 		enum MessageType {
 			STORAGE_CREATED,
 			STORAGE_DESTROYED
@@ -108,6 +114,8 @@ module Evolution {
 		StorageListener addStorage (in Storage storage,
 					    in string name)
 			raises (Exists);
+
+		StorageList getStorageList ();
 		
 		Storage getStorageByName (in string name)
 			raises (NotFound);

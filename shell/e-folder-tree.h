@@ -42,7 +42,9 @@ gboolean    e_folder_tree_add                (EFolderTree            *folder_tre
 					      void                   *data);
 gboolean    e_folder_tree_remove             (EFolderTree            *folder_tree,
 					      const char             *path);
-					    
+
+int         e_folder_tree_get_count          (EFolderTree            *folder_tree);
+
 void       *e_folder_tree_get_folder         (EFolderTree            *folder_tree,
 					      const char             *path);
 GList      *e_folder_tree_get_subfolders     (EFolderTree            *folder_tree,

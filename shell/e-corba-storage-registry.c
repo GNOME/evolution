@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include "e-local-storage.h"
 #include "e-corba-storage.h"
 #include "e-corba-storage-registry.h"
 #include "e-shell-constants.h"
@@ -128,6 +129,54 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 						     (E_CORBA_STORAGE (storage)), ev);
 
 	return listener_interface;
+}
+
+static GNOME_Evolution_StorageRegistry_StorageList *
+impl_StorageRegistry_getStorageList (PortableServer_Servant servant,
+				     CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ECorbaStorageRegistry *storage_registry;
+	ECorbaStorageRegistryPrivate *priv;
+	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
+	GList *sl, *l;
+	
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
+	priv = storage_registry->priv;
+
+	sl = e_storage_set_get_storage_list (priv->storage_set);
+	
+	storage_list = GNOME_Evolution_StorageRegistry_StorageList__alloc ();
+	storage_list->_maximum = g_list_length (sl);
+	storage_list->_length = 0;
+	storage_list->_buffer = CORBA_sequence_GNOME_Evolution_Storage_allocbuf (storage_list->_maximum);
+	for (l = sl; l != NULL; l = l->next) {
+		EStorage *storage;
+		GNOME_Evolution_Storage corba_storage;
+		CORBA_Environment ev2;
+		
+		CORBA_exception_init (&ev2);
+		
+		storage = l->data;
+		if (E_IS_LOCAL_STORAGE (storage)) {
+			corba_storage = e_local_storage_get_corba_interface (E_LOCAL_STORAGE (storage));
+		} else if (E_IS_CORBA_STORAGE (storage)) {
+			corba_storage = e_corba_storage_get_corba_objref (E_CORBA_STORAGE (storage));
+		} else {
+			continue;			
+		}
+		
+		corba_storage = CORBA_Object_duplicate (corba_storage, &ev2);
+		if (BONOBO_EX (&ev2)) {
+			CORBA_exception_free (&ev2);			
+			continue;
+		}		
+		storage_list->_buffer[storage_list->_length] = corba_storage;
+		storage_list->_length++;		
+	}
+	
+	return storage_list;	
 }
 
 static GNOME_Evolution_Storage
@@ -384,6 +433,7 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_StorageRegistry__epv, 1);
 	epv->addStorage          = impl_StorageRegistry_addStorage;
+	epv->getStorageList      = impl_StorageRegistry_getStorageList;
 	epv->getStorageByName    = impl_StorageRegistry_getStorageByName;
 	epv->removeStorageByName = impl_StorageRegistry_removeStorageByName;
 	epv->addListener         = impl_StorageRegistry_addListener;

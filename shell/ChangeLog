@@ -1,3 +1,24 @@
+2002-05-07  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-storage.c (get_folder_list_foreach): add every folder
+	to the sequence except the root folder
+	(impl_Storage_get_folder_list): implement corba method
+	(evolution_storage_get_epv): set new method implementation
+
+	* evolution-folder-selector-button.h: fix signal prototype
+
+	* e-folder-tree.h: new proto
+
+	* e-folder-tree.c (e_folder_tree_get_count): count nodes
+	(count_nodes): bump count foreach path
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getStorageList): implement idl method
+	(corba_class_init): set epv method
+
+	* Evolution-Storage.idl: add getStorageList and getFolderList
+	methods
+
 2002-05-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-test-component.c (create_new_folder_selector): Use the

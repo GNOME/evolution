@@ -315,6 +315,35 @@ e_folder_tree_remove (EFolderTree *folder_tree,
 	return TRUE;
 }
 
+static void
+count_nodes (EFolderTree *tree,
+	     const char *path,
+	     void *data,
+	     void *closure)
+{
+	int *count = closure;
+	
+	(*count)++;
+}
+
+/**
+ * e_folder_tree_get_count:
+ * @folder_tree: A pointer to an EFolderTree
+ * 
+ * Gets the number of folders in the tree
+ * 
+ * Return value: The number of folders in the tree
+ **/
+int
+e_folder_tree_get_count (EFolderTree *folder_tree)
+{
+	int count = 0;
+	
+	e_folder_tree_foreach (folder_tree, count_nodes, &count);
+	
+	return count;
+}
+					      
 /**
  * e_folder_tree_get_folder:
  * @folder_tree: A pointer to an EFolderTree

@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-exception.h>
 
 #include <gal/util/e-util.h>
 
@@ -247,6 +248,57 @@ impl_Storage__get_name (PortableServer_Servant servant,
 	priv = storage->priv;
 
 	return CORBA_string_dup (priv->name);
+}
+
+static void
+get_folder_list_foreach (EFolderTree *tree,
+			 const char *path,
+			 void *data,
+			 void *closure)
+{
+	const GNOME_Evolution_Folder *corba_folder;
+	GNOME_Evolution_Folder *new_corba_folder;
+	GNOME_Evolution_FolderList *folder_list;
+	
+	corba_folder = (GNOME_Evolution_Folder *) data;
+	folder_list = (GNOME_Evolution_FolderList *) closure;
+
+	/* The root folder has no data.  */
+	if (corba_folder == NULL)
+		return;
+
+	new_corba_folder = folder_list->_buffer + folder_list->_length;
+	new_corba_folder->displayName  = CORBA_string_dup (corba_folder->displayName);
+	new_corba_folder->description  = CORBA_string_dup (corba_folder->description);
+	new_corba_folder->type         = CORBA_string_dup (corba_folder->type);
+	new_corba_folder->physicalUri  = CORBA_string_dup (corba_folder->physicalUri);
+	new_corba_folder->evolutionUri = CORBA_string_dup (corba_folder->evolutionUri);
+	new_corba_folder->unreadCount  = corba_folder->unreadCount;
+	
+	folder_list->_length++;
+}
+
+static GNOME_Evolution_FolderList *
+impl_Storage_get_folder_list (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	EvolutionStoragePrivate *priv;
+	GNOME_Evolution_FolderList *folder_list;
+	
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+	priv = storage->priv;
+	
+	folder_list = GNOME_Evolution_FolderList__alloc ();
+	folder_list->_maximum = e_folder_tree_get_count (priv->folder_tree) - 1;
+	folder_list->_length = 0;
+	folder_list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (folder_list->_maximum);
+
+	e_folder_tree_foreach (priv->folder_tree, get_folder_list_foreach, folder_list);
+
+	return folder_list;
 }
 
 static void
@@ -603,6 +655,7 @@ evolution_storage_get_epv (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
 	epv->_get_name         = impl_Storage__get_name;
+	epv->getFolderList     = impl_Storage_get_folder_list;
 	epv->asyncCreateFolder = impl_Storage_async_create_folder;
 	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
 	epv->asyncXferFolder   = impl_Storage_async_xfer_folder;
