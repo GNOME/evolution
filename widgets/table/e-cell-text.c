@@ -484,6 +484,21 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 
 	if (width > 0)
 		pango_layout_set_width (layout, width * PANGO_SCALE);
+	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
+
+	while (pango_layout_get_line_count (layout) > 1) {
+		PangoLayoutLine *line = pango_layout_get_line (layout, 0);
+		gchar *line_text = g_strdup (pango_layout_get_text (layout));
+		gchar *last_char = g_utf8_prev_char (line_text + line->length - 1);
+		gchar *new_text;
+		while (*last_char == '.')
+			last_char = g_utf8_prev_char (last_char);
+		*last_char = '\0';
+		new_text = g_strconcat (line_text, " ...", NULL);
+		pango_layout_set_text (layout, new_text, g_utf8_strlen (new_text, -1));
+		g_free (line_text);
+		g_free (new_text);
+	}
 
 	switch (ect->justify) {
 	case GTK_JUSTIFY_RIGHT:
@@ -508,7 +523,7 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row,
 	PangoLayout *layout;
 	CellEdit *edit = text_view->edit;
 
-	if (edit && edit->model_col == model_col && edit->row == row) {
+	if (edit && edit->layout && edit->model_col == model_col && edit->row == row) {
 		g_object_ref (edit->layout);
 		if (width > 0)
 			pango_layout_set_width (edit->layout, width * PANGO_SCALE);
@@ -974,7 +989,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	char *temp;
 
-	edit = g_new (CellEdit, 1);
+	edit = g_new0 (CellEdit, 1);
 	text_view->edit = edit;
 
 	edit->view_col = -1;
@@ -1614,7 +1629,7 @@ get_position_from_xy (CellEdit *edit, gint x, gint y)
 	int index;
 	int trailing;
 	const char *text;
-	PangoLayout *layout = edit->layout;
+	PangoLayout *layout = generate_layout (edit->text_view, edit->model_col, edit->view_col, edit->row, edit->cell_width);
 	ECellTextView *text_view = edit->text_view;
 	ECellText *ect = (ECellText *) ((ECellView *)text_view)->ecell;
 
