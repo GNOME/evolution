@@ -2,6 +2,7 @@
 
 	* e-msg-composer.c (e_msg_composer_set_send_html): set the
 	FormatHTML property on the editor to let it know the mode.
+	(e_msg_composer_construct): set the property at construct time.
 
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 

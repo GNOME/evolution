@@ -1709,6 +1709,11 @@ e_msg_composer_construct (EMsgComposer *composer)
 	if (!composer->editor)
 		return;
 	
+	/* let the editor know which mode we are in */
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
+				    "FormatHTML", composer->send_html,
+				    NULL);
+
 	editor_server = BONOBO_OBJECT (bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)));
 	
 	composer->persist_file_interface
