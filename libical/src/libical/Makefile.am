@@ -1,9 +1,9 @@
 
-noinst_LTLIBRARIES = libical.la
+lib_LTLIBRARIES = libical.la
+
+CFLAGS=-g
 
 libical_la_SOURCES =		\
-	filelock.c		\
-	filelock.h		\
 	ical.h			\
 	icalcomponent.c		\
 	icalcomponent.h		\
@@ -12,7 +12,8 @@ libical_la_SOURCES =		\
 	icalerror.c		\
 	icalerror.h		\
 	icalirip.h		\
-	icalitip.l		\
+	icalitipy.y		\
+	icalitipl.l		\
 	icalmemory.c		\
 	icalmemory.h		\
 	icalparameter.c		\
@@ -30,11 +31,9 @@ libical_la_SOURCES =		\
 	icalvcal.h		\
 	locking.c		\
 	pvl.c			\
-	pvl.h			\
-	icalitip.y		\
-	icalitip.tab.c
+	pvl.h
 
-EXTRA_DIST = .gdbinit base64.c
+EXTRA_DIST = .gdbinit base64.c filelock.c filelock.h
 
-YFLAGS=-picalparser_yy
+YFLAGS=-picalparser_yy -d
 LFLAGS=-Picalparser_yy -olex.yy.c

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalitip.y,v 1.1.1.2 2000/02/21 13:19:26 alves Exp $
+  $Id: icalitipy.y,v 1.1 2000/02/26 13:39:37 alves Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalitip.l,v 1.2 2000/02/23 17:55:49 alves Exp $
+  $Id: icalitipl.l,v 1.1 2000/02/26 13:39:37 alves Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -28,7 +28,7 @@
 
 
   ======================================================================*/
-#include "icalitip.tab.h"
+#include "icalitipy.h"
 #include "icalparser.h"
 #include "icalenums.h"
 #include "icalmemory.h"

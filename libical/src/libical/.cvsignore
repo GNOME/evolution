@@ -1,7 +1,9 @@
 Makefile
-.deps
-icalitip.c
 Makefile.in
+icalitipy.c
+icalitipy.h
+icalitipl.c
 *.lo
 *.la
 .libs
+.deps
