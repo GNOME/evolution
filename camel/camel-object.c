@@ -529,6 +529,10 @@ camel_object_unref (CamelObject * obj)
 					     GINT_TO_POINTER (iter->parent));
 	}
 
+	/* ok, done with the type stuff, and our data pointers
+	 * won't go bad. */
+	camel_type_lock_down ();
+
 	parents = g_slist_reverse (parents);
 	head = parents;
 
@@ -561,6 +565,8 @@ camel_object_unref (CamelObject * obj)
 	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
 	/* Tuck away the pointer for use in a new object */
+
+	camel_type_lock_up ();
 
 	type_info->free_instances =
 		g_list_prepend (type_info->free_instances, obj);
