@@ -63,6 +63,7 @@ EBookViewListener         *e_book_view_listener_new            (void);
 int                        e_book_view_listener_check_pending  (EBookViewListener *listener);
 EBookViewListenerResponse *e_book_view_listener_pop_response   (EBookViewListener *listener);
 GtkType                    e_book_view_listener_get_type       (void);
+void                       e_book_view_listener_stop           (EBookViewListener *listener);
 
 POA_GNOME_Evolution_Addressbook_BookViewListener__epv *e_book_view_listener_get_epv (void);
 

@@ -208,6 +208,7 @@ e_book_view_destroy (GtkObject *object)
 		if (book_view->priv->responses_queued_id)
 			gtk_signal_disconnect(GTK_OBJECT(book_view->priv->listener),
 					      book_view->priv->responses_queued_id);
+		e_book_view_listener_stop (book_view->priv->listener);
 		bonobo_object_unref (BONOBO_OBJECT(book_view->priv->listener));
 	}
 

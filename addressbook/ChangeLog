@@ -1,5 +1,38 @@
 2001-04-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-book-view-listener.c,
+	backend/ebook/e-book-view-listener.h: Added the function
+	e_book_view_listener_stop to tell the book view listener to stop
+	sending signals.
+
+	* backend/ebook/e-book-view.c (e_book_view_destroy): Tell the
+	EBookViewListener to stop when we're destroyed.
+
+	* backend/pas/pas-backend-file.c (view_destroy,
+	pas_backend_file_process_get_book_view,
+	pas_backend_file_process_get_changes): Cleaned these up a bit
+	using bonobo_object_ref and bonobo_object_unref.
+	(pas_backend_file_process_get_book_view,
+	pas_backend_file_process_get_changes): bonobo_object_release_unref
+	the EBookListener here.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_get_book_view): Cleaned this up a bit
+	using bonobo_object_ref.  Make sure to unref the listener when
+	we're done with it.  Put the new book_view in the list before
+	telling the book_listener that it's ready.
+
+	* backend/pas/pas-book-view.c (pas_book_view_construct): Cleaned
+	this up a bit using bonobo_object_dup_ref.
+	(pas_book_view_destroy): Cleaned this up a bit using
+	bonobo_object_release_unref.
+
+	* backend/pas/pas-book.c (pas_book_queue_get_book_view,
+	pas_book_queue_get_changes): bonobo_object_dup_ref here instead of
+	just duplicating.
+
+2001-04-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-book-listener.c
 	(impl_BookListener_respond_get_cursor): Ref the cursor here when
 	we receive it.
