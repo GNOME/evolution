@@ -1,29 +1,7 @@
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+2001-04-08  JP Rosevear  <jpr@ximian.com>
 
-	* e-corba-utils.h: Remove #include <glib.h>
-	* e-dialog-widgets.c: Shuffle some headers.
-	* e-dialog-widgets.h: Remove #include <libgnomeui/gnome-propertybox.h>
-	* e-gtk-utils.c: #include <gtk/gtksignal.h>
-	* e-gtk-utils.h: Replace #include <gtk/gtk.h>
-	* e-gui-utils.c: Replace #include <gnome.h>
-	* e-html-utils.c: Shuffle headers.
-	* e-iterator.c: Replace #include <gtk/gtk.h>
-	* e-iterator.h: Replace #include <gtk/gtk.h>
-	* e-list-iterator.c: Remove #include <gtk/gtk.h>
-	* e-list-iterator.h: Replace #include <gtk/gtk.h>
-	* e-list.c: Remove #include <gtk/gtk.h>
-	* e-list.h: Replace #include <gtk/gtk.h>
-	* e-memory.c: #include <string.h> and <stdlib.h>
-	* e-msgport.c: Move around some includes. s/%d/%ld/g in a printf()
-	call to fix a warning.
-	* e-pilot-map.c: #include <string.h>. Replace #include <gnome.h>
-	* e-pilot-util.c: Remove #include <gnome.h>
-	* e-sexp.c: Remove #include <glib.h>
-	* e-sexp.h: Replace #include <gtk/gtk.h>
-	* e-time-utils.c: #include <string.h>
-	* md5-utils.c: Shuffle headers.
-	* test-ename-western-gtk.c: Replace #include <gnome.h>
-	* test-ename-western.c: Same here.
+	* Makefile.am: Setup up the conduit library building better so the
+	files get disted
 	
 2001-03-20  Radek Doulik  <rodo@ximian.com>
 

@@ -51,19 +51,21 @@ libeutil_la_LIBADD = $(UNICODE_LIBS)
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static
 
+pilot_sources = \
+	e-pilot-map.c	\
+	e-pilot-map.h	\
+	e-pilot-util.c	\
+	e-pilot-util.h
+
 if ENABLE_PILOT_CONDUITS
-pl_needed = e-pilot-util.c e-pilot-util.h
+pilot_compile = $(pilot_sources)
 else
-pl_needed = 
+pilot_compile = 
 endif
 
-libeconduit_la_SOURCES =		\
-	e-pilot-map.c			\
-	e-pilot-map.h			\
-	$(pl_needed)
+libeconduit_la_SOURCES = $(pilot_compile)
 
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = --all-static
 
-
-
+EXTRA_DIST = $(pilot_sources)
