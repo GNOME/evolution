@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-13 20:33+0100\n"
-"PO-Revision-Date: 2004-02-13 19:32+0100\n"
+"POT-Creation-Date: 2004-02-19 02:22+0100\n"
+"PO-Revision-Date: 2004-02-19 02:11+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -923,7 +923,7 @@ msgstr "Collaboration"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:2020
+#: addressbook/gui/contact-editor/e-contact-editor.c:2029
 msgid "Contact Editor"
 msgstr "Éditeur de contacts"
 
@@ -1017,9 +1017,9 @@ msgstr "Ca_tégories..."
 
 #. FIXME: need to disable for undeletable folders
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1255
-#: calendar/gui/e-cal-view.c:1286 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2111
+#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2194
 #: mail/em-folder-view.c:773 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2060,7 +2060,7 @@ msgid "AOL Instant Messenger"
 msgstr "Messagerie instantanée AOL"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:2844
+#: addressbook/gui/contact-editor/e-contact-editor.c:2853
 #: addressbook/gui/widgets/eab-contact-display.c:245
 #: addressbook/gui/widgets/eab-contact-display.c:259
 msgid "Jabber"
@@ -2075,7 +2075,7 @@ msgid "MSN Messenger"
 msgstr "Messagerie MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:2847
+#: addressbook/gui/contact-editor/e-contact-editor.c:2856
 #: addressbook/gui/widgets/eab-contact-display.c:241
 #: addressbook/gui/widgets/eab-contact-display.c:255
 msgid "ICQ"
@@ -2096,7 +2096,7 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:245
-#: addressbook/gui/contact-editor/e-contact-editor.c:2534
+#: addressbook/gui/contact-editor/e-contact-editor.c:2543
 msgid "Home"
 msgstr "Domicile"
 
@@ -2108,7 +2108,7 @@ msgid "Work"
 msgstr "Travail"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:253
-#: addressbook/gui/contact-editor/e-contact-editor.c:2535
+#: addressbook/gui/contact-editor/e-contact-editor.c:2544
 msgid "Other"
 msgstr "Autre"
 
@@ -2143,19 +2143,19 @@ msgstr "Modifié"
 msgid "Account Name"
 msgstr "Nom du compte"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1454
+#: addressbook/gui/contact-editor/e-contact-editor.c:1462
 msgid "Category editor not available."
 msgstr "Éditeur de catégorie non disponible."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1462
+#: addressbook/gui/contact-editor/e-contact-editor.c:1470
 msgid "This contact belongs to these categories:"
 msgstr "Ce contact appartient à ces catégories :"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1685
+#: addressbook/gui/contact-editor/e-contact-editor.c:1693
 msgid "Save Contact as VCard"
 msgstr "Enregistrer comme VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1725
+#: addressbook/gui/contact-editor/e-contact-editor.c:1733
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2163,7 +2163,7 @@ msgstr ""
 "Êtes-vous sûr de vouloir \n"
 "supprimer ces contacts ?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1728
+#: addressbook/gui/contact-editor/e-contact-editor.c:1736
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2171,29 +2171,29 @@ msgstr ""
 "Êtes-vous sûr de vouloir \n"
 "supprimer ce contact ?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2533
+#: addressbook/gui/contact-editor/e-contact-editor.c:2542
 msgid "Business"
 msgstr "Travail"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2843
+#: addressbook/gui/contact-editor/e-contact-editor.c:2852
 #: addressbook/gui/widgets/eab-contact-display.c:242
 #: addressbook/gui/widgets/eab-contact-display.c:256
 msgid "AIM"
 msgstr "AIM"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2845
+#: addressbook/gui/contact-editor/e-contact-editor.c:2854
 #: addressbook/gui/widgets/eab-contact-display.c:244
 #: addressbook/gui/widgets/eab-contact-display.c:258
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2846
+#: addressbook/gui/contact-editor/e-contact-editor.c:2855
 #: addressbook/gui/widgets/eab-contact-display.c:243
 #: addressbook/gui/widgets/eab-contact-display.c:257
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:3134
+#: addressbook/gui/contact-editor/e-contact-editor.c:3143
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Impossible de trouver un composant graphique pour un champ :  `%s'"
@@ -2369,11 +2369,11 @@ msgid "Is New List"
 msgstr "Est une nouvelle liste"
 
 #. Construct the app
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:247
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:248
 msgid "Contact List Editor"
 msgstr "Éditeur de liste de contacts"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:465
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:466
 msgid "Save List as VCard"
 msgstr "Enregistrer la liste comme VCard"
 
@@ -2573,7 +2573,7 @@ msgid "Paste"
 msgstr "Coller"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1075
-#: calendar/gui/e-cal-view.c:1224
+#: calendar/gui/e-cal-view.c:1269
 msgid "Current View"
 msgstr "Vue courante"
 
@@ -3435,7 +3435,7 @@ msgstr "Aucun nom de fichier spécifié"
 msgid "Unnamed List"
 msgstr "Liste de contacts sans nom"
 
-#: calendar/common/authentication.c:34 calendar/gui/itip-utils.c:1156
+#: calendar/common/authentication.c:37 calendar/gui/itip-utils.c:1156
 #: smime/gui/component.c:39
 msgid "Enter password"
 msgstr "Saisissez le mot de passe"
@@ -3561,26 +3561,24 @@ msgstr "Durée du report (minutes)"
 msgid "_Edit appointment"
 msgstr "_Éditer le rendez-vous"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:899 calendar/gui/e-cal-view.c:1237
-#: calendar/gui/e-cal-view.c:1302 calendar/gui/e-calendar-table.c:1037
-#: calendar/gui/e-calendar-table.c:1078 mail/em-folder-view.c:748
-#: ui/evolution-addressbook.xml.h:37
-msgid "_Open"
-msgstr "_Ouvrir"
-
-#: calendar/gui/alarm-notify/alarm-queue.c:901
-msgid "_Dismiss"
-msgstr "Faire _disparaître"
-
 #: calendar/gui/alarm-notify/alarm-queue.c:903
-msgid "Dismiss _All"
-msgstr "Faire disp_araître tout"
+#: ui/evolution-message-composer.xml.h:10
+msgid "Open"
+msgstr "Ouvrir"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:968
+#: calendar/gui/alarm-notify/alarm-queue.c:905
+msgid "Dismiss"
+msgstr "Faire disparaître"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:907
+msgid "Dismiss All"
+msgstr "Faire tout disparaître"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:972
 msgid "No description available."
 msgstr "Aucune description disponible."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:986
+#: calendar/gui/alarm-notify/alarm-queue.c:990
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3593,12 +3591,12 @@ msgstr ""
 "Débute à %s\n"
 "Fini à %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1078
-#: calendar/gui/alarm-notify/alarm-queue.c:1102
+#: calendar/gui/alarm-notify/alarm-queue.c:1082
+#: calendar/gui/alarm-notify/alarm-queue.c:1106
 msgid "Warning"
 msgstr "Avertissement"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1082
+#: calendar/gui/alarm-notify/alarm-queue.c:1086
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3611,7 +3609,7 @@ msgstr ""
 "un courrier. Evolution affichera une fenêtre\n"
 "d'avertissement classique à la place."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1108
+#: calendar/gui/alarm-notify/alarm-queue.c:1112
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3628,19 +3626,19 @@ msgstr ""
 "\n"
 "Voulez-vous vraiment lancer ce programme ?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1122
+#: calendar/gui/alarm-notify/alarm-queue.c:1126
 msgid "Do not ask me about this program again."
 msgstr "Ne plus me demander à propos de ce programme."
 
-#: calendar/gui/alarm-notify/notify-main.c:160
+#: calendar/gui/alarm-notify/notify-main.c:163
 msgid "Could not initialize Bonobo"
 msgstr "Impossible d'initialiser Bonobo"
 
-#: calendar/gui/alarm-notify/notify-main.c:163
+#: calendar/gui/alarm-notify/notify-main.c:166
 msgid "Could not initialize gnome-vfs"
 msgstr "Impossible d'initialiser gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:172
+#: calendar/gui/alarm-notify/notify-main.c:175
 msgid "Could not create the alarm notify service factory"
 msgstr "Impossible de créer la fabrique de services de notification d'alarme"
 
@@ -3795,7 +3793,7 @@ msgstr "Le commentaire contient"
 msgid "Unmatched"
 msgstr "Différent"
 
-#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1600
+#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1603
 msgid "Calendar"
 msgstr "Calendrier"
 
@@ -4675,7 +4673,7 @@ msgstr "Entrée de journal - %s"
 msgid "No summary"
 msgstr "Aucun résumé"
 
-#: calendar/gui/dialogs/comp-editor.c:1360 calendar/gui/e-cal-view.c:1038
+#: calendar/gui/dialogs/comp-editor.c:1360 calendar/gui/e-cal-view.c:1083
 #: calendar/gui/e-calendar-table.c:1190 composer/e-msg-composer.c:1144
 msgid "Save as..."
 msgstr "Enregistrer sous..."
@@ -5615,10 +5613,10 @@ msgstr "Non"
 #: calendar/gui/e-meeting-list-view.c:144
 #: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1664 camel/camel-gpg-context.c:1715
+#: camel/camel-gpg-context.c:1673 camel/camel-gpg-context.c:1724
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2094
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2097
 #: shell/e-component-registry.c:168 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Inconnu"
@@ -5631,32 +5629,32 @@ msgstr "Récurrant"
 msgid "Assigned"
 msgstr "Attribué"
 
-#: calendar/gui/e-cal-view.c:680 calendar/gui/e-calendar-table.c:698
+#: calendar/gui/e-cal-view.c:719 calendar/gui/e-calendar-table.c:698
 msgid "Deleting selected objects"
 msgstr "Supprimer les objets sélectionnés"
 
-#: calendar/gui/e-cal-view.c:780 calendar/gui/e-calendar-table.c:861
+#: calendar/gui/e-cal-view.c:820 calendar/gui/e-calendar-table.c:861
 msgid "Updating objects"
 msgstr "Mise à jour des objets"
 
-#: calendar/gui/e-cal-view.c:1209 calendar/gui/e-cal-view.c:1294
+#: calendar/gui/e-cal-view.c:1254 calendar/gui/e-cal-view.c:1339
 msgid "New _Appointment..."
 msgstr "Nouveau _RDV..."
 
-#: calendar/gui/e-cal-view.c:1210 calendar/gui/e-cal-view.c:1296
+#: calendar/gui/e-cal-view.c:1255 calendar/gui/e-cal-view.c:1341
 msgid "New All Day _Event"
 msgstr "Nouvel événement journée _entière"
 
-#: calendar/gui/e-cal-view.c:1211 calendar/gui/e-cal-view.c:1298
+#: calendar/gui/e-cal-view.c:1256 calendar/gui/e-cal-view.c:1343
 msgid "New Meeting"
 msgstr "Nouvelle réunion"
 
-#: calendar/gui/e-cal-view.c:1212 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1345
 msgid "New Task"
 msgstr "Nouvelle tâche"
 
-#: calendar/gui/e-cal-view.c:1216 calendar/gui/e-cal-view.c:1239
-#: calendar/gui/e-cal-view.c:1306 calendar/gui/e-calendar-table.c:1040
+#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1284
+#: calendar/gui/e-cal-view.c:1351 calendar/gui/e-calendar-table.c:1040
 #: calendar/gui/e-calendar-table.c:1082 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
@@ -5664,66 +5662,72 @@ msgstr "Nouvelle tâche"
 msgid "_Print..."
 msgstr "_Imprimer..."
 
-#: calendar/gui/e-cal-view.c:1220 calendar/gui/e-cal-view.c:1246
-#: calendar/gui/e-cal-view.c:1304 calendar/gui/e-calendar-table.c:1046
+#: calendar/gui/e-cal-view.c:1265 calendar/gui/e-cal-view.c:1291
+#: calendar/gui/e-cal-view.c:1349 calendar/gui/e-calendar-table.c:1046
 #: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "C_oller"
 
-#: calendar/gui/e-cal-view.c:1226 calendar/gui/e-cal-view.c:1290
+#: calendar/gui/e-cal-view.c:1271 calendar/gui/e-cal-view.c:1335
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Aller à _aujourd'hui"
 
-#: calendar/gui/e-cal-view.c:1227 calendar/gui/e-cal-view.c:1292
+#: calendar/gui/e-cal-view.c:1272 calendar/gui/e-cal-view.c:1337
 msgid "_Go to Date..."
 msgstr "A_ller à la date..."
 
-#: calendar/gui/e-cal-view.c:1231 ui/evolution-calendar.xml.h:40
+#: calendar/gui/e-cal-view.c:1276 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "_Publier l'information Libre/Occupé"
 
-#: calendar/gui/e-cal-view.c:1238 calendar/gui/e-cal-view.c:1308
+#: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
+#: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1078
+#: mail/em-folder-view.c:748 ui/evolution-addressbook.xml.h:37
+msgid "_Open"
+msgstr "_Ouvrir"
+
+#: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
-#: mail/em-folder-view.c:750 mail/em-popup.c:686 mail/em-popup.c:801
+#: mail/em-folder-view.c:750 mail/em-popup.c:689 mail/em-popup.c:804
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "Enregistrer _sous..."
 
-#: calendar/gui/e-cal-view.c:1244 calendar/gui/e-cal-view.c:1284
+#: calendar/gui/e-cal-view.c:1289 calendar/gui/e-cal-view.c:1329
 #: calendar/gui/e-calendar-table.c:1044 calendar/gui/e-calendar-table.c:1073
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Co_uper"
 
-#: calendar/gui/e-cal-view.c:1245 calendar/gui/e-cal-view.c:1282
+#: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2104 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2187 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
 msgstr "_Copier"
 
-#: calendar/gui/e-cal-view.c:1250
+#: calendar/gui/e-cal-view.c:1295
 msgid "_Schedule Meeting..."
 msgstr "Planifier une _réunion..."
 
-#: calendar/gui/e-cal-view.c:1251
+#: calendar/gui/e-cal-view.c:1296
 msgid "_Forward as iCalendar..."
 msgstr "_Faire suivre comme iCalendar..."
 
-#: calendar/gui/e-cal-view.c:1256 calendar/gui/e-cal-view.c:1287
+#: calendar/gui/e-cal-view.c:1301 calendar/gui/e-cal-view.c:1332
 msgid "Delete this _Occurrence"
 msgstr "Supprimer cette _occurrence"
 
-#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1288
+#: calendar/gui/e-cal-view.c:1302 calendar/gui/e-cal-view.c:1333
 msgid "Delete _All Occurrences"
 msgstr "Supprimer _toutes les occurrences"
 
-#: calendar/gui/e-cal-view.c:1310 ui/evolution.xml.h:33
+#: calendar/gui/e-cal-view.c:1355 ui/evolution.xml.h:33
 msgid "_Settings..."
 msgstr "_Paramétres..."
 
@@ -6558,7 +6562,7 @@ msgstr "Site internet :"
 msgid "Click to open %s"
 msgstr "Cliquez pour ouvrir %s"
 
-#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1910
+#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1928
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6568,7 +6572,7 @@ msgstr ""
 " %s"
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1931
+#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1949
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6609,12 +6613,22 @@ msgstr "Suppression des objets sélectionnés..."
 msgid "Expunging"
 msgstr "Nettoyage"
 
-#: calendar/gui/gnome-cal.c:1790
+#: calendar/gui/gnome-cal.c:1755
+#, c-format
+msgid "Loading tasks at %s"
+msgstr "Chargement des tâches à %s"
+
+#: calendar/gui/gnome-cal.c:1767
+#, c-format
+msgid "Loading appointments at %s"
+msgstr "Chargement des rendez-vous à %s"
+
+#: calendar/gui/gnome-cal.c:1808
 #, c-format
 msgid "Opening %s"
 msgstr "Ouverture de %s"
 
-#: calendar/gui/gnome-cal.c:1939
+#: calendar/gui/gnome-cal.c:1957
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6625,7 +6639,7 @@ msgstr ""
 "%s\n"
 "est tombé en panne."
 
-#: calendar/gui/gnome-cal.c:2794
+#: calendar/gui/gnome-cal.c:2812
 msgid "Purging"
 msgstr "Purger"
 
@@ -8874,7 +8888,7 @@ msgstr "Copie des messages"
 msgid "Filtering new message(s)"
 msgstr "Filtrage des nouveaux messages"
 
-#: camel/camel-gpg-context.c:709
+#: camel/camel-gpg-context.c:710
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8885,15 +8899,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:723
+#: camel/camel-gpg-context.c:724
 msgid "Failed to parse gpg userid hint."
 msgstr "L'analyse de l'indication ID d'utilisateur du GPG a échoué."
 
-#: camel/camel-gpg-context.c:747
+#: camel/camel-gpg-context.c:748
 msgid "Failed to parse gpg passphrase request."
 msgstr "L'analyse de la requête de mot de passe du GPG a échoué."
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:762
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8902,31 +8916,31 @@ msgstr ""
 "Vous avez besoin d'un mot de passe pour\n"
 "débloquer la clé de l'utilisateur : « %s »"
 
-#: camel/camel-gpg-context.c:778 camel/camel-gpg-context.c:1268
-#: camel/camel-gpg-context.c:1427 camel/camel-gpg-context.c:1507
-#: camel/camel-gpg-context.c:1614 mail/mail-send-recv.c:579
+#: camel/camel-gpg-context.c:779 camel/camel-gpg-context.c:1271
+#: camel/camel-gpg-context.c:1430 camel/camel-gpg-context.c:1516
+#: camel/camel-gpg-context.c:1623 mail/mail-send-recv.c:579
 msgid "Cancelled."
 msgstr "Annulé."
 
-#: camel/camel-gpg-context.c:796
+#: camel/camel-gpg-context.c:797
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 "Le déblocage de la clé secrète a échoué : 3 mauvais mots de passe saisis."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:803
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Réponse inattendue de GnuPG : %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:815
 msgid "No data provided"
 msgstr "Aucune donnée fournie"
 
-#: camel/camel-gpg-context.c:852
+#: camel/camel-gpg-context.c:855
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Le chiffrement a échoué : aucun destinataire valide spécifié."
 
-#: camel/camel-gpg-context.c:1129
+#: camel/camel-gpg-context.c:1132
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8937,34 +8951,34 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1134
+#: camel/camel-gpg-context.c:1137
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG %s a échoué : %s\n"
 
-#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:419
+#: camel/camel-gpg-context.c:1250 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Impossible de générer les données signées : %s."
 
-#: camel/camel-gpg-context.c:1261 camel/camel-gpg-context.c:1663
-#: camel/camel-gpg-context.c:1714
+#: camel/camel-gpg-context.c:1264 camel/camel-gpg-context.c:1672
+#: camel/camel-gpg-context.c:1723
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "L'exécution de GPG a échoué : %s"
 
-#: camel/camel-gpg-context.c:1285 camel/camel-gpg-context.c:1419
-#: camel/camel-gpg-context.c:1500 camel/camel-gpg-context.c:1523
-#: camel/camel-gpg-context.c:1607 camel/camel-gpg-context.c:1631
-#: camel/camel-gpg-context.c:1685 camel/camel-gpg-context.c:1736
+#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1422
+#: camel/camel-gpg-context.c:1509 camel/camel-gpg-context.c:1532
+#: camel/camel-gpg-context.c:1616 camel/camel-gpg-context.c:1640
+#: camel/camel-gpg-context.c:1694 camel/camel-gpg-context.c:1745
 msgid "Failed to execute gpg."
 msgstr "L'exécution de GPG a échoué."
 
-#: camel/camel-gpg-context.c:1304
+#: camel/camel-gpg-context.c:1307
 msgid "This is a digitally signed message part"
 msgstr "Ceci est une partie de message numériquement signée"
 
-#: camel/camel-gpg-context.c:1386 camel/camel-gpg-context.c:1395
+#: camel/camel-gpg-context.c:1389 camel/camel-gpg-context.c:1398
 #: camel/camel-smime-context.c:717 camel/camel-smime-context.c:728
 #: camel/camel-smime-context.c:735
 msgid "Cannot verify message signature: Incorrect message format"
@@ -8972,27 +8986,27 @@ msgstr ""
 "Impossible de vérifier la signature de ce message : format de message "
 "incorrect"
 
-#: camel/camel-gpg-context.c:1402
+#: camel/camel-gpg-context.c:1405
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
 "Impossible de vérifier la signature de ce message : impossible de créer le "
 "fichier temporaire : %s"
 
-#: camel/camel-gpg-context.c:1483
+#: camel/camel-gpg-context.c:1492
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Impossible de générer des données chiffrées : %s"
 
-#: camel/camel-gpg-context.c:1541
+#: camel/camel-gpg-context.c:1550
 msgid "This is a digitally encrypted message part"
 msgstr "Ceci est une partie de message numériquement signée"
 
-#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:990
+#: camel/camel-gpg-context.c:1647 camel/camel-smime-context.c:990
 msgid "Encrypted content"
 msgstr "Contenu chiffré"
 
-#: camel/camel-gpg-context.c:1642
+#: camel/camel-gpg-context.c:1651
 msgid "Unable to parse message content"
 msgstr "Impossible d'analyser le contenu du message"
 
@@ -9504,20 +9518,25 @@ msgstr "Signataire : %s <%s> : %s\n"
 msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Impossible d'obtenir le dossier : opération non valide sur ce stockage"
 
-#: camel/camel-store.c:284
+#: camel/camel-store.c:244
+#, c-format
+msgid "Cannot create folder `%s': folder exists"
+msgstr "Impossible de créer le dossier « %s » : le dossier existe"
+
+#: camel/camel-store.c:297
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Impossible de créer le dossier : opération non valide sur ce stockage"
 
-#: camel/camel-store.c:368 camel/camel-vee-store.c:342
+#: camel/camel-store.c:381 camel/camel-vee-store.c:351
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Impossible de supprimer le dossier : %s : opération non valide"
 
-#: camel/camel-store.c:766 mail/mail-ops.c:1129
+#: camel/camel-store.c:779 mail/mail-ops.c:1129
 msgid "Trash"
 msgstr "Corbeille"
 
-#: camel/camel-store.c:768 filter/libfilter-i18n.h:35 mail/mail-ops.c:1133
+#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1133
 #: ui/evolution-mail-message.xml.h:46
 msgid "Junk"
 msgstr "Spam"
@@ -9751,17 +9770,17 @@ msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr ""
 "Impossible de copier ou déplacer des messages vers des dossiers virtuels."
 
-#: camel/camel-vee-store.c:356
+#: camel/camel-vee-store.c:365
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "Impossible de supprimer le dossier : %s : dossier inexistant"
 
-#: camel/camel-vee-store.c:369
+#: camel/camel-vee-store.c:378
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
 msgstr "Impossible de renommer le dossier : %s : opération non valide"
 
-#: camel/camel-vee-store.c:377
+#: camel/camel-vee-store.c:386
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Impossible de renommer le dossier : %s : dossier inexistant"
@@ -9831,12 +9850,12 @@ msgstr "Défaut"
 #: camel/providers/imap/camel-imap-command.c:221
 #: camel/providers/imap/camel-imap-command.c:260
 #: camel/providers/imap/camel-imap-command.c:450
-#: camel/providers/imap/camel-imap-store.c:2827
+#: camel/providers/imap/camel-imap-store.c:2876
 msgid "Operation cancelled"
 msgstr "Opération annulée"
 
 #: camel/providers/imap/camel-imap-command.c:305
-#: camel/providers/imap/camel-imap-store.c:2830
+#: camel/providers/imap/camel-imap-store.c:2879
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Serveur déconnecté de manière inattendue : %s"
@@ -10089,24 +10108,32 @@ msgstr ""
 "\n"
 
 #: camel/providers/imap/camel-imap-store.c:1674
-#: camel/providers/imap/camel-imap-store.c:1816
+#: camel/providers/imap/camel-imap-store.c:1826
 #, c-format
 msgid "No such folder %s"
 msgstr "Aucun dossier de type « %s »."
 
-#: camel/providers/imap/camel-imap-store.c:2017
+#: camel/providers/imap/camel-imap-store.c:1767
+#: camel/providers/local/camel-maildir-store.c:137
+#: camel/providers/local/camel-mbox-store.c:198
+#: camel/providers/local/camel-mh-store.c:234
+#, c-format
+msgid "Cannot create folder `%s': folder exists."
+msgstr "Impossible de créer le dossier « %s » : le dossier existe."
+
+#: camel/providers/imap/camel-imap-store.c:2027
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 "Le nom de dossier « %s » n'est pas valide car il contient le caractère « %c »"
 
-#: camel/providers/imap/camel-imap-store.c:2029
+#: camel/providers/imap/camel-imap-store.c:2039
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Dossier parent inconnu : %s"
 
-#: camel/providers/imap/camel-imap-store.c:2065
+#: camel/providers/imap/camel-imap-store.c:2075
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Le dossier parent n'est pas autorisé à contenir des sous-dossiers."
 
@@ -10219,8 +10246,8 @@ msgstr ""
 "Mutt. "
 
 #: camel/providers/local/camel-local-store.c:138
-#: camel/providers/local/camel-local-store.c:227
-#: camel/providers/local/camel-mbox-store.c:335
+#: camel/providers/local/camel-local-store.c:215
+#: camel/providers/local/camel-mbox-store.c:341
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10232,55 +10259,55 @@ msgid "Store root %s is not a regular directory"
 msgstr "La racine de stockage %s n'est pas un répertoire habituel."
 
 #: camel/providers/local/camel-local-store.c:154
-#: camel/providers/local/camel-local-store.c:170
-#: camel/providers/local/camel-local-store.c:238
+#: camel/providers/local/camel-local-store.c:162
+#: camel/providers/local/camel-local-store.c:226
 #, c-format
 msgid "Cannot get folder: %s: %s"
 msgstr "Impossible d'obtenir le répertoire : %s : %s."
 
-#: camel/providers/local/camel-local-store.c:186
+#: camel/providers/local/camel-local-store.c:174
 msgid "Local stores do not have an inbox"
 msgstr "Le stockage local n'a pas de boîte de réception."
 
-#: camel/providers/local/camel-local-store.c:198
+#: camel/providers/local/camel-local-store.c:186
 #, c-format
 msgid "Local mail file %s"
 msgstr "Fichier de courrier local %s"
 
-#: camel/providers/local/camel-local-store.c:307
+#: camel/providers/local/camel-local-store.c:295
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
 msgstr "Impossible de renommer le dossier %s vers %s : %s."
 
-#: camel/providers/local/camel-local-store.c:372
+#: camel/providers/local/camel-local-store.c:360
 #, c-format
 msgid "Could not rename '%s': %s"
 msgstr "Impossible de renommer « %s » : %s."
 
-#: camel/providers/local/camel-local-store.c:397
-#: camel/providers/local/camel-mbox-store.c:264
+#: camel/providers/local/camel-local-store.c:385
+#: camel/providers/local/camel-mbox-store.c:270
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Impossible de supprimer le fichier de résumé de dossier « %s » : %s."
 
-#: camel/providers/local/camel-local-store.c:407
-#: camel/providers/local/camel-mbox-store.c:276
+#: camel/providers/local/camel-local-store.c:395
+#: camel/providers/local/camel-mbox-store.c:282
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Impossible de supprimer le fichier d'index de dossier « %s » : %s."
 
-#: camel/providers/local/camel-local-store.c:429
-#: camel/providers/local/camel-mbox-store.c:299
+#: camel/providers/local/camel-local-store.c:417
+#: camel/providers/local/camel-mbox-store.c:305
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Impossible de supprimer le meta fichier dossier « %s » : %s"
 
-#: camel/providers/local/camel-local-summary.c:398
+#: camel/providers/local/camel-local-summary.c:405
 #, c-format
 msgid "Could not save summary: %s: %s"
 msgstr "Impossible d'enregistrer le résumé : %s : %s."
 
-#: camel/providers/local/camel-local-summary.c:457
+#: camel/providers/local/camel-local-summary.c:464
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Impossible d'ajouter un message au résumé : raison inconnue."
 
@@ -10298,53 +10325,45 @@ msgstr "Impossible de joindre le message au dossier maildir : %s : %s."
 msgid "Invalid message contents"
 msgstr "Contenu de message non valide"
 
-#: camel/providers/local/camel-maildir-store.c:106
+#: camel/providers/local/camel-maildir-store.c:107
+#: camel/providers/local/camel-mbox-store.c:153
 #: camel/providers/local/camel-mh-store.c:202
-#: camel/providers/local/camel-spool-store.c:163
 #, c-format
-msgid ""
-"Could not open folder `%s':\n"
-"%s"
-msgstr ""
-"Impossible d'ouvrir le dossier « %s » :\n"
-"%s."
+msgid "Cannot get folder `%s': %s"
+msgstr "Impossible d'obtenir le dossier « %s » : %s"
 
-#: camel/providers/local/camel-maildir-store.c:110
+#: camel/providers/local/camel-maildir-store.c:111
 #: camel/providers/local/camel-mbox-store.c:161
 #: camel/providers/local/camel-mh-store.c:209
-#: camel/providers/local/camel-spool-store.c:167
 #, c-format
-msgid "Folder `%s' does not exist."
-msgstr "Le dossier « %s » n'existe pas."
+msgid "Cannot get folder `%s': folder does not exist."
+msgstr "Impossible d'obtenir le dossier « %s » : le dossier n'existe pas."
 
-#: camel/providers/local/camel-maildir-store.c:117
-#: camel/providers/local/camel-mh-store.c:216
-#: camel/providers/local/camel-spool-store.c:172
+#: camel/providers/local/camel-maildir-store.c:119
+#: camel/providers/local/camel-mbox-store.c:170
+#: camel/providers/local/camel-mbox-store.c:182
 #, c-format
-msgid ""
-"Could not create folder `%s':\n"
-"%s"
+msgid "Cannot create folder `%s': %s"
+msgstr "Impossible de créer le dossier « %s » : %s"
+
+#: camel/providers/local/camel-maildir-store.c:134
+#, c-format
+msgid "Cannot get folder `%s': not a maildir directory."
 msgstr ""
-"Impossible de créer le dossier « %s » :\n"
-"%s."
+"Impossible d'obtenir le dossier « %s » : n'est pas un répertoire maildir."
 
-#: camel/providers/local/camel-maildir-store.c:132
-#, c-format
-msgid "`%s' is not a maildir directory."
-msgstr "« %s » n'est pas un répertoire maildir."
-
-#: camel/providers/local/camel-maildir-store.c:167
-#: camel/providers/local/camel-maildir-store.c:205
-#: camel/providers/local/camel-mh-store.c:252
+#: camel/providers/local/camel-maildir-store.c:173
+#: camel/providers/local/camel-maildir-store.c:211
+#: camel/providers/local/camel-mh-store.c:258
 #, c-format
 msgid "Could not delete folder `%s': %s"
 msgstr "Impossible de supprimer le dossier « %s » : %s"
 
-#: camel/providers/local/camel-maildir-store.c:169
+#: camel/providers/local/camel-maildir-store.c:175
 msgid "not a maildir directory"
 msgstr "n'est pas un répertoire maildir"
 
-#: camel/providers/local/camel-maildir-store.c:335
+#: camel/providers/local/camel-maildir-store.c:382
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
 #, c-format
@@ -10366,9 +10385,9 @@ msgid "Checking for new messages"
 msgstr "Recherche de nouveaux messages"
 
 #: camel/providers/local/camel-maildir-summary.c:733
-#: camel/providers/local/camel-mbox-summary.c:337
-#: camel/providers/local/camel-mbox-summary.c:510
-#: camel/providers/local/camel-mbox-summary.c:601
+#: camel/providers/local/camel-mbox-summary.c:348
+#: camel/providers/local/camel-mbox-summary.c:521
+#: camel/providers/local/camel-mbox-summary.c:612
 #: camel/providers/local/camel-spool-summary.c:137
 msgid "Storing folder"
 msgstr "Stockage du dossier"
@@ -10412,42 +10431,16 @@ msgstr "Le dossier semble irrémédiablement corrompu."
 msgid "Message construction failed: Corrupt mailbox?"
 msgstr "Erreur construction message : boîte à lettres corrompue ?"
 
-#: camel/providers/local/camel-mbox-store.c:153
-#, c-format
-msgid ""
-"Could not open file `%s':\n"
-"%s"
-msgstr ""
-"Impossible d'ouvrir le fichier « %s » :\n"
-"%s."
-
-#: camel/providers/local/camel-mbox-store.c:170
-#, c-format
-msgid ""
-"Could not create directory `%s':\n"
-"%s"
-msgstr ""
-"Impossible de créer le répertoire « %s » :\n"
-"%s"
-
-#: camel/providers/local/camel-mbox-store.c:182
-#, c-format
-msgid ""
-"Could not create file `%s':\n"
-"%s"
-msgstr ""
-"Impossible de créer le fichier « %s » :\n"
-"%s."
-
 #: camel/providers/local/camel-mbox-store.c:192
-#: camel/providers/local/camel-mbox-store.c:235
 #, c-format
-msgid "`%s' is not a regular file."
-msgstr "« %s » n'est pas un fichier normal."
+msgid "Cannot get folder `%s': not a regular file."
+msgstr ""
+"Impossible d'obtenir le dossier « %s » : il ne s'agit pas d'un fichier "
+"normal."
 
-#: camel/providers/local/camel-mbox-store.c:216
-#: camel/providers/local/camel-mbox-store.c:227
-#: camel/providers/local/camel-mbox-store.c:250
+#: camel/providers/local/camel-mbox-store.c:222
+#: camel/providers/local/camel-mbox-store.c:233
+#: camel/providers/local/camel-mbox-store.c:256
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -10456,115 +10449,120 @@ msgstr ""
 "Impossible de supprimer le dossier « %s » :\n"
 "%s."
 
-#: camel/providers/local/camel-mbox-store.c:242
+#: camel/providers/local/camel-mbox-store.c:241
+#, c-format
+msgid "`%s' is not a regular file."
+msgstr "« %s » n'est pas un fichier normal."
+
+#: camel/providers/local/camel-mbox-store.c:248
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Le dossier « %s » n'est pas vide. Non supprimé."
 
-#: camel/providers/local/camel-mbox-store.c:341
+#: camel/providers/local/camel-mbox-store.c:347
 msgid "Cannot create a folder by this name."
 msgstr "Impossible de créer un dossier avec ce nom."
 
-#: camel/providers/local/camel-mbox-store.c:354
+#: camel/providers/local/camel-mbox-store.c:360
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Impossible de créer le répertoire « %s » : %s."
 
-#: camel/providers/local/camel-mbox-store.c:368
+#: camel/providers/local/camel-mbox-store.c:374
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Impossible de créer le dossier : %s : %s"
 
-#: camel/providers/local/camel-mbox-store.c:370
+#: camel/providers/local/camel-mbox-store.c:376
 msgid "Folder already exists"
 msgstr "Le répertoire existe déjà"
 
-#: camel/providers/local/camel-mbox-store.c:452
+#: camel/providers/local/camel-mbox-store.c:458
 msgid "The new folder name is illegal."
 msgstr "Le nouveau nom du dossier n'est pas valide."
 
-#: camel/providers/local/camel-mbox-store.c:465
+#: camel/providers/local/camel-mbox-store.c:471
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "Impossible de renommer « %s » : « %s » : %s"
 
-#: camel/providers/local/camel-mbox-store.c:540
+#: camel/providers/local/camel-mbox-store.c:546
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Impossible de renommer « %s » en %s : %s"
 
-#: camel/providers/local/camel-mbox-summary.c:343
+#: camel/providers/local/camel-mbox-summary.c:354
 #, c-format
 msgid "Could not open folder: %s: %s"
 msgstr "Impossible d'ouvrir le dossier : %s : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:391
+#: camel/providers/local/camel-mbox-summary.c:402
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr ""
 "Erreur fatale d'analyse du courrier prés de la position %ld dans le dossier %"
 "s."
 
-#: camel/providers/local/camel-mbox-summary.c:447
+#: camel/providers/local/camel-mbox-summary.c:458
 #, c-format
 msgid "Cannot check folder: %s: %s"
 msgstr "Impossible de vérifier le dossier : %s : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:515
-#: camel/providers/local/camel-mbox-summary.c:606
+#: camel/providers/local/camel-mbox-summary.c:526
+#: camel/providers/local/camel-mbox-summary.c:617
 #: camel/providers/local/camel-spool-summary.c:142
 #, c-format
 msgid "Could not open file: %s: %s"
 msgstr "Impossible d'ouvrir le fichier : %s : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:527
+#: camel/providers/local/camel-mbox-summary.c:538
 #: camel/providers/local/camel-spool-summary.c:162
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr "Ompossible d'ouvrir la boîte à lettres temporaire : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:540
-#: camel/providers/local/camel-mbox-summary.c:704
+#: camel/providers/local/camel-mbox-summary.c:551
+#: camel/providers/local/camel-mbox-summary.c:715
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Impossible de fermer le dossier source %s : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:549
+#: camel/providers/local/camel-mbox-summary.c:560
 #, c-format
 msgid "Could not close temp folder: %s"
 msgstr "Impossible de fermer le dossier temporaire : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:2066
+#: camel/providers/local/camel-mbox-summary.c:571 mail/em-folder-tree.c:2149
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Impossible de renommer le dossier : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:644
-#: camel/providers/local/camel-mbox-summary.c:652
-#: camel/providers/local/camel-mbox-summary.c:845
-#: camel/providers/local/camel-mbox-summary.c:853
+#: camel/providers/local/camel-mbox-summary.c:655
+#: camel/providers/local/camel-mbox-summary.c:663
+#: camel/providers/local/camel-mbox-summary.c:856
+#: camel/providers/local/camel-mbox-summary.c:864
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 "Le résumé et le dossier ne correspondent pas, même après une synchronisation."
 
-#: camel/providers/local/camel-mbox-summary.c:779
+#: camel/providers/local/camel-mbox-summary.c:790
 #: camel/providers/local/camel-spool-summary.c:334
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Erreur inconnue : %s"
 
-#: camel/providers/local/camel-mbox-summary.c:814
+#: camel/providers/local/camel-mbox-summary.c:825
 #, c-format
 msgid "Could not store folder: %s"
 msgstr "Impossible de stocker le dossier : %s."
 
-#: camel/providers/local/camel-mbox-summary.c:908
-#: camel/providers/local/camel-mbox-summary.c:934
+#: camel/providers/local/camel-mbox-summary.c:919
+#: camel/providers/local/camel-mbox-summary.c:945
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr "Erreur d'écriture dans la boite à lettres temporaire : %s"
 
-#: camel/providers/local/camel-mbox-summary.c:925
+#: camel/providers/local/camel-mbox-summary.c:936
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Échec d'écriture dans la boite à lettres temporaire : %s : %s"
@@ -10578,10 +10576,15 @@ msgstr "Ajout de message au dossier (format MH) annulé"
 msgid "Cannot append message to mh folder: %s: %s"
 msgstr "Impossible de joindre le message au dossier mh : %s : %s."
 
+#: camel/providers/local/camel-mh-store.c:217
+#, c-format
+msgid "Could not create folder `%s': %s"
+msgstr "Impossible de créer le dossier « %s » : %s"
+
 #: camel/providers/local/camel-mh-store.c:229
 #, c-format
-msgid "`%s' is not a directory."
-msgstr "« %s » n'est pas un répertoire."
+msgid "Cannot get folder `%s': not a directory."
+msgstr "Impossible d'obtenir le dossier « %s » : n'est pas un répertoire."
 
 #: camel/providers/local/camel-mh-summary.c:244
 #, c-format
@@ -10602,6 +10605,29 @@ msgstr "Le dossier spool « %s » n'est pas un fichier ou un répertoire norma
 #, c-format
 msgid "Folder `%s/%s' does not exist."
 msgstr "Le dossier « %s/%s » n'existe pas."
+
+#: camel/providers/local/camel-spool-store.c:163
+#, c-format
+msgid ""
+"Could not open folder `%s':\n"
+"%s"
+msgstr ""
+"Impossible d'ouvrir le dossier « %s » :\n"
+"%s."
+
+#: camel/providers/local/camel-spool-store.c:167
+#, c-format
+msgid "Folder `%s' does not exist."
+msgstr "Le dossier « %s » n'existe pas."
+
+#: camel/providers/local/camel-spool-store.c:172
+#, c-format
+msgid ""
+"Could not create folder `%s':\n"
+"%s"
+msgstr ""
+"Impossible de créer le dossier « %s » :\n"
+"%s."
 
 #: camel/providers/local/camel-spool-store.c:180
 #, c-format
@@ -10851,46 +10877,46 @@ msgstr ""
 "Impossible de supprimer un dossier dans un emplacement de nouvelles : "
 "désabonnez-vous à la place."
 
-#: camel/providers/nntp/camel-nntp-summary.c:229
+#: camel/providers/nntp/camel-nntp-summary.c:247
 #, c-format
 msgid "Connection error: %s"
 msgstr "Erreur de connexion : %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:240
+#: camel/providers/nntp/camel-nntp-summary.c:258
 #, c-format
 msgid "No such folder: %s"
 msgstr "Dossier non trouvé : %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:246
+#: camel/providers/nntp/camel-nntp-summary.c:264
 #, c-format
 msgid "Could not get group: %s"
 msgstr "Impossible d'obtenir le groupe : %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:311
+#: camel/providers/nntp/camel-nntp-summary.c:329
 msgid "Could not get messages: unspecificed error"
 msgstr "Impossible de recevoir les messages : erreur non spécifiée"
 
-#: camel/providers/nntp/camel-nntp-summary.c:356
+#: camel/providers/nntp/camel-nntp-summary.c:374
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "Échec de la commande NNTP : %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:416
-#: camel/providers/nntp/camel-nntp-summary.c:517
+#: camel/providers/nntp/camel-nntp-summary.c:434
+#: camel/providers/nntp/camel-nntp-summary.c:539
 #, c-format
 msgid "%s: Scanning new messages"
 msgstr "%s : examen des nouveaux messages"
 
-#: camel/providers/nntp/camel-nntp-summary.c:532
+#: camel/providers/nntp/camel-nntp-summary.c:554
 #, c-format
 msgid "Unknown server response: %s"
 msgstr "Réponse du serveur inconnue : %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:579
+#: camel/providers/nntp/camel-nntp-summary.c:601
 msgid "Use cancel"
 msgstr "Utilisez annuler"
 
-#: camel/providers/nntp/camel-nntp-summary.c:581
+#: camel/providers/nntp/camel-nntp-summary.c:603
 #, c-format
 msgid "Operation failed: %s"
 msgstr "Opération échouée : %s"
@@ -11375,7 +11401,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1473
+#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1476
 msgid "attachment"
 msgstr "pièce jointe"
 
@@ -12576,9 +12602,9 @@ msgstr "Afficheur de dossiers courrier d'Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Préférences de la messagerie d'Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:817
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:826
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1872
-#: mail/importers/pine-importer.c:459
+#: mail/importers/pine-importer.c:473
 msgid "Mail"
 msgstr "Courrier"
 
@@ -12596,7 +12622,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer ce compte ?"
 
 #: mail/em-account-prefs.c:241
 msgid "Don't delete"
-msgstr "De pas supprimer"
+msgstr "Ne pas supprimer"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:439
@@ -12628,11 +12654,11 @@ msgstr " [script]"
 msgid "Language(s)"
 msgstr "Langues"
 
-#: mail/em-composer-prefs.c:904
+#: mail/em-composer-prefs.c:900
 msgid "Add script signature"
 msgstr "Ajouter une signature script"
 
-#: mail/em-composer-prefs.c:924
+#: mail/em-composer-prefs.c:920
 msgid "Signature(s)"
 msgstr "Signatures"
 
@@ -12725,7 +12751,7 @@ msgstr "<cliquez ici pour sélectionner un dossier>"
 msgid "Create New Folder"
 msgstr "Créer un nouveau dossier"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1843
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1907
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Précisez où créer le dossier >"
@@ -12753,84 +12779,99 @@ msgstr "Boîte de réception"
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: mail/em-folder-tree.c:818
+#: mail/em-folder-tree.c:817
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
 "Impossible de déposer le ou les messages dans le stockage de haut niveau"
 
-#: mail/em-folder-tree.c:1721 mail/em-folder-tree.c:1808
+#: mail/em-folder-tree.c:1754
+#, c-format
+msgid "Cannot move folder `%s': illegal operation"
+msgstr "Impossible de déplacer le dossier « %s » : opération non valide"
+
+#: mail/em-folder-tree.c:1783 mail/em-folder-tree.c:1872
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1737 mail/em-folder-tree.c:1750
+#: mail/em-folder-tree.c:1799 mail/em-folder-tree.c:1812
 #: mail/em-folder-view.c:658 mail/em-folder-view.c:672
 msgid "Select folder"
 msgstr "Sélectionnez un dossier"
 
-#: mail/em-folder-tree.c:1843
+#: mail/em-folder-tree.c:1907
 msgid "Create folder"
 msgstr "Créer un dossier"
 
-#: mail/em-folder-tree.c:1962
+#: mail/em-folder-tree.c:2026
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Impossible de supprimer le dossier : %s"
 
-#: mail/em-folder-tree.c:1983
+#: mail/em-folder-tree.c:2051
+#, c-format
+msgid "Cannot delete local %s folder."
+msgstr "Impossible de supprimer le dossier local « %s »."
+
+#: mail/em-folder-tree.c:2057
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Réellement supprimer le dossier « %s » et tous ses sous-dossiers ?"
 
-#: mail/em-folder-tree.c:1993
+#: mail/em-folder-tree.c:2067
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Supprimer « %s »"
 
-#: mail/em-folder-tree.c:2027
+#: mail/em-folder-tree.c:2101
+#, c-format
+msgid "Cannot rename local %s folder."
+msgstr "Impossible de renommer le dossier local « %s »."
+
+#: mail/em-folder-tree.c:2110
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renommer le dossier « %s » en :"
 
-#: mail/em-folder-tree.c:2029
+#: mail/em-folder-tree.c:2112
 msgid "Rename Folder"
 msgstr "Renommer le dossier"
 
-#: mail/em-folder-tree.c:2053
+#: mail/em-folder-tree.c:2136
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr ""
 "Un dossier nommé « %s » existe déjà. Veuillez utiliser un nom différent."
 
-#: mail/em-folder-tree.c:2099 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2182 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "Afficha_ge"
 
-#: mail/em-folder-tree.c:2100
+#: mail/em-folder-tree.c:2183
 msgid "Open in _New Window"
 msgstr "Ouvrir dans une _nouvelle fenêtre"
 
-#: mail/em-folder-tree.c:2105
+#: mail/em-folder-tree.c:2188
 msgid "_Move"
 msgstr "_Déplacer"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2109
+#: mail/em-folder-tree.c:2192
 msgid "_New Folder..."
 msgstr "_Nouveau dossier..."
 
-#: mail/em-folder-tree.c:2112
+#: mail/em-folder-tree.c:2195
 msgid "_Rename"
 msgstr "_Renommer"
 
-#: mail/em-folder-tree.c:2115 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2198 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Propriétés..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:749 mail/em-popup.c:685
+#: mail/em-folder-view.c:749 mail/em-popup.c:688
 msgid "_Edit as New Message..."
 msgstr "_Éditer comme nouveau  message..."
 
@@ -12842,17 +12883,17 @@ msgstr "_Imprimer"
 msgid "_Reply to Sender"
 msgstr "_Répondre à l'expéditeur"
 
-#: mail/em-folder-view.c:755 mail/em-popup.c:805
+#: mail/em-folder-view.c:755 mail/em-popup.c:808
 #: ui/evolution-mail-message.xml.h:86
 msgid "Reply to _List"
 msgstr "Répondre à la _liste"
 
-#: mail/em-folder-view.c:756 mail/em-popup.c:806
+#: mail/em-folder-view.c:756 mail/em-popup.c:809
 #: ui/evolution-mail-message.xml.h:85
 msgid "Reply to _All"
 msgstr "Répondre à _tous"
 
-#: mail/em-folder-view.c:757 mail/em-popup.c:808
+#: mail/em-folder-view.c:757 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Forward"
 msgstr "_Faire suivre"
@@ -12982,11 +13023,11 @@ msgstr "Non signé"
 
 #: mail/em-format-html-display.c:639
 msgid ""
-"This message is not signed.  There is no guarantee the sender of the message "
-"is authentic."
+"This message is not signed. There is no guarantee that this message is "
+"authentic."
 msgstr ""
-"Ce message n'est pas signé. Il n'y a pas de garantie que l'expéditeur du "
-"message soit authentique."
+"Ce message n'est pas signé. Il n'y a aucune garantie que ce message soit "
+"authentique."
 
 #: mail/em-format-html-display.c:640 mail/em-format-html.c:563
 msgid "Valid signature"
@@ -12994,11 +13035,11 @@ msgstr "Signature valide"
 
 #: mail/em-format-html-display.c:640
 msgid ""
-"This message is signed and is valid, the sender of this message is very "
-"likely who they claim to be."
+"This message is signed and is valid meaning that it is very likely that this "
+"message is authentic."
 msgstr ""
-"Ce message est signé et valide, l'expéditeur de ce message est "
-"vraisemblablement celui qu'il prétend être."
+"Ce message est signé et valide, ce qui signifie que ce message est "
+"vraisemblablement authentique."
 
 #: mail/em-format-html-display.c:641 mail/em-format-html.c:564
 msgid "Invalid signature"
@@ -13084,23 +13125,23 @@ msgstr "_Voir le certificat"
 msgid "This certificate is not viewable"
 msgstr "Ce certificat n'est pas affichable"
 
-#: mail/em-format-html-display.c:976
+#: mail/em-format-html-display.c:974
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Complété le %B %d, %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:984
+#: mail/em-format-html-display.c:982
 msgid "Overdue:"
 msgstr "Retard :"
 
-#: mail/em-format-html-display.c:987
+#: mail/em-format-html-display.c:985
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "par %B %d, %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1057
+#: mail/em-format-html-display.c:1055
 msgid "_View Inline"
 msgstr "_Afficher dans le corps"
 
-#: mail/em-format-html-display.c:1058
+#: mail/em-format-html-display.c:1056
 msgid "_Hide"
 msgstr "_Masquer"
 
@@ -13249,36 +13290,36 @@ msgstr "La création du répertoire « %s » a échoué : %s"
 msgid "Failed to open store for `%s': %s"
 msgstr "L'ouverture du stockage « %s » a échoué : %s"
 
-#: mail/em-popup.c:695
+#: mail/em-popup.c:698
 msgid "Save As..."
 msgstr "Enregistrer sous..."
 
-#: mail/em-popup.c:713
+#: mail/em-popup.c:716
 #, c-format
 msgid "untitled_image.%s"
 msgstr "image_sanstitre.%s"
 
-#: mail/em-popup.c:802
+#: mail/em-popup.c:805
 msgid "Set as _Background"
 msgstr "Définir comme _arrière-plan"
 
-#: mail/em-popup.c:804
+#: mail/em-popup.c:807
 msgid "_Reply to sender"
 msgstr "_Répondre à l'expéditeur"
 
-#: mail/em-popup.c:852
+#: mail/em-popup.c:855
 msgid "_Open Link in Browser"
 msgstr "_Ouvrir un lien dans le navigateur"
 
-#: mail/em-popup.c:853
+#: mail/em-popup.c:856
 msgid "Se_nd message to..."
 msgstr "Envoyer un _message à..."
 
-#: mail/em-popup.c:854
+#: mail/em-popup.c:857
 msgid "_Add to Addressbook"
 msgstr "A_jouter dans le carnet d'adresses"
 
-#: mail/em-popup.c:960
+#: mail/em-popup.c:963
 #, c-format
 msgid "Open in %s..."
 msgstr "Ouvrir dans %s..."
@@ -13326,17 +13367,17 @@ msgstr "Filtres"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Message transféré --------"
 
-#: mail/em-utils.c:1136
+#: mail/em-utils.c:1139
 msgid "an unknown sender"
 msgstr "Un expéditeur inconnu"
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-utils.c:1146
+#: mail/em-utils.c:1149
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
 msgstr "Le %a, %d/%m/%Y à %H:%M %%+05d, %%s a écrit :"
 
-#: mail/em-utils.c:1423 mail/em-utils.c:1507 mail/em-utils.c:1516
+#: mail/em-utils.c:1426 mail/em-utils.c:1510 mail/em-utils.c:1519
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -13345,7 +13386,7 @@ msgstr ""
 "Impossible d'enregistrer dans « %s »\n"
 " %s"
 
-#: mail/em-utils.c:1428
+#: mail/em-utils.c:1431
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -13354,30 +13395,30 @@ msgstr ""
 "« %s » existe déjà.\n"
 "L'écraser ?"
 
-#: mail/em-utils.c:1471
+#: mail/em-utils.c:1474
 msgid "message"
 msgstr "message"
 
-#: mail/em-utils.c:1523
+#: mail/em-utils.c:1526
 #, c-format
 msgid "Error: '%s' exists and is not a regular file"
 msgstr "Erreur : « %s » existe et n'est pas un fichier normal"
 
-#: mail/em-utils.c:1577
+#: mail/em-utils.c:1580
 msgid "Save Message..."
 msgstr "Enregistrer le message..."
 
-#: mail/em-utils.c:1615
+#: mail/em-utils.c:1618
 msgid "Add address"
 msgstr "Ajouter adresse"
 
-#: mail/em-utils.c:2085
+#: mail/em-utils.c:2088
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Impossible de créer de répertoire temporaire : %s."
 
 #
-#: mail/em-utils.c:2403
+#: mail/em-utils.c:2406
 #, c-format
 msgid ""
 "This operation will permanently remove all deleted messages in the folder `%"
@@ -13392,7 +13433,7 @@ msgstr ""
 "Effacer réellement ces messages ?"
 
 #
-#: mail/em-utils.c:2429
+#: mail/em-utils.c:2432
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -13909,12 +13950,12 @@ msgid "Evolution is importing your old Elm mail"
 msgstr "Evolution importe vos anciens courriers Elm"
 
 #: mail/importers/elm-importer.c:89 mail/importers/netscape-importer.c:1220
-#: mail/importers/pine-importer.c:116
+#: mail/importers/pine-importer.c:117
 msgid "Importing..."
 msgstr "Importation..."
 
 #: mail/importers/elm-importer.c:91 mail/importers/netscape-importer.c:1222
-#: mail/importers/pine-importer.c:118
+#: mail/importers/pine-importer.c:119
 msgid "Please wait"
 msgstr "Veuillez patienter"
 
@@ -14029,19 +14070,19 @@ msgstr ""
 "Evolution a trouvé des fichiers de courrier Netscape.\n"
 "Voulez-vous les importer dans Evolution ?"
 
-#: mail/importers/pine-importer.c:115
+#: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
 msgstr "Evolution importe vos anciennes données Pine."
 
-#: mail/importers/pine-importer.c:299
+#: mail/importers/pine-importer.c:313
 msgid "Importing Pine data"
 msgstr "Importation des données de Pine"
 
-#: mail/importers/pine-importer.c:464
+#: mail/importers/pine-importer.c:478
 msgid "Addressbook"
 msgstr "Carnet d'adresses"
 
-#: mail/importers/pine-importer.c:483
+#: mail/importers/pine-importer.c:497
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
@@ -14049,7 +14090,7 @@ msgstr ""
 "Evolution a trouvé des fichiers de courrier Pine.\n"
 "Voulez-vous les importer dans Evolution ?"
 
-#: mail/importers/pine-importer.c:491
+#: mail/importers/pine-importer.c:505
 msgid "Pine"
 msgstr "Pine"
 
@@ -14866,7 +14907,7 @@ msgstr "_Utiliser les mêmes polices que dans les autres applications"
 msgid "description"
 msgstr "description"
 
-#: mail/mail-folder-cache.c:787
+#: mail/mail-folder-cache.c:796
 #, c-format
 msgid "Pinging %s"
 msgstr "Ping sur %s"
@@ -15724,7 +15765,7 @@ msgstr "Impossible d'exécuter l'importateur"
 msgid "_Import"
 msgstr "_Importer"
 
-#: shell/e-shell-offline-handler.c:596
+#: shell/e-shell-offline-handler.c:595
 msgid "Closing connections..."
 msgstr "Fermeture des connexions..."
 
@@ -17663,10 +17704,6 @@ msgstr "For_mat"
 #: ui/evolution-message-composer.xml.h:9
 msgid "HT_ML"
 msgstr "HT_ML"
-
-#: ui/evolution-message-composer.xml.h:10
-msgid "Open"
-msgstr "Ouvrir"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
