@@ -1,3 +1,23 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* tests/lib/messages.c (test_message_read_file): Fix an fd leak
+
+	* tests/lib/session.c, tests/lib/session.h: a CamelSession
+	subclass for the test programs.
+
+	* tests/lib/Makefile.am: include session.[ch]
+
+	* tests/folder/test*.c: Use a CamelTestSession from libcameltest
+	instead of cut+pasting everywhere.
+
+	* tests/misc/url.c (main): Update for a camel_url_new change at
+	some point.
+
+	* tests/*/.cvsignore: Add stuff.
+
+	* camel-mime-utils.c (rfc2047_encode_word): Fix a silly ==/!=
+	mixup.
+
 2001-05-26  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c: Add a "need_rescan" flag
