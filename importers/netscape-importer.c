@@ -30,6 +30,8 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <pwd.h>
+#include <ctype.h>
 #include <unistd.h>
 #include <dirent.h>
 
@@ -300,9 +302,49 @@ netscape_init_prefs (void)
 	return;
 }
 
+static char *
+get_user_fullname (void)
+{
+	char *uname, *gecos, *special;
+	struct passwd *pwd;
+
+	uname = getenv ("USER");
+	pwd = getpwnam (uname);
+
+	if (strcmp (pwd->pw_gecos, "") == 0) {
+		return g_strdup (uname);
+	}
+
+	special = strchr (pwd->pw_gecos, ',');
+	if (special == NULL) {
+		gecos = g_strdup (pwd->pw_gecos);
+	} else {
+		gecos = g_strndup (pwd->pw_gecos, special - pwd->pw_gecos);
+	}
+
+	special = strchr (gecos, '&');
+	if (special == NULL) {
+		return gecos;
+	} else {
+		char *capname, *expanded, *noamp;
+
+		capname = g_strdup (uname);
+		capname[0] = toupper ((int) capname[0]);
+		noamp = g_strndup (gecos, special - gecos - 1);
+		expanded = g_strconcat (noamp, capname, NULL);
+
+		g_free (noamp);
+		g_free (capname);
+		g_free (gecos);
+
+		return expanded;
+	}
+}
+
 static void
 netscape_import_accounts (NetscapeImporter *importer)
 {
+	char *username;
 	const char *nstr;
 	const char *imap;
 	GNOME_Evolution_MailConfig_Account account;
@@ -332,7 +374,13 @@ netscape_import_accounts (NetscapeImporter *importer)
 
 	/* Create identify structure */
 	nstr = netscape_get_string ("mail.identity.username");
-	id.name = CORBA_string_dup (nstr ? nstr : "John Doe");
+	if (nstr != NULL) {
+		username = g_strdup (nstr);
+	} else {
+		username = get_user_fullname ();
+	}
+
+	id.name = CORBA_string_dup (username);
 	nstr = netscape_get_string ("mail.identity.useremail");
 	id.address = CORBA_string_dup (nstr ? nstr : "");
 	nstr = netscape_get_string ("mail.identity.organization");
@@ -364,8 +412,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 	}
 
 	/* Create account */
-	nstr = netscape_get_string ("mail.identity.username");
-	account.name = CORBA_string_dup (nstr ? nstr : "");
+	account.name = CORBA_string_dup (username);
+	g_free (username);
 	account.id = id;
 	account.transport = transport;
 

@@ -1,3 +1,11 @@
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (netscape_import_accounts): If there is no 
+	username defined in the netscape file, work it out from the passwd
+	file.
+	(get_user_fullname): Work out the username from the passwd file, 
+	striping all the extra stuff and expanding the &
+
 2001-08-31  Iain Holmes  <iain@ximian.com>
 
 	* elm-importer.c (create_importer_gui): Add a messagebox.
