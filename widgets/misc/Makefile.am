@@ -50,19 +50,8 @@ libemiscwidgets_la_SOURCES =			\
 	e-url-entry.c				\
 	e-util-marshal.c
 
-# GLib marshalling cruft
-
-e-util-marshal.h: e-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.h ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
-
-e-util-marshal.c: e-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
-	&& mv e-util-marshal.tmp e-util-marshal.c ) \
-	|| ( rm -f e-util-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
+@EVO_MARSHAL_RULE@
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la
 

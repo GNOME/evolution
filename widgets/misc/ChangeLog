@@ -1,5 +1,7 @@
 2003-07-23  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am: use EVO_MARSHAL_RULE
+
 	* e-combo-button.c (create_empty_pixmap_widget): Create the pixbuf
 	from empty.xpm rather than just calling gdk_pixbuf_new(), which
 	doesn't actually initialize the pixel data.
