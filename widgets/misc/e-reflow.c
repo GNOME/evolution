@@ -334,6 +334,14 @@ item_removed (EReflowModel *model, int i, EReflow *reflow)
 	if (i < 0 || i >= reflow->count)
 		return;
 
+	if (reflow->items[i])
+		gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
+
+	memmove (reflow->heights + i, reflow->heights + i + 1, (reflow->count - i - 1) * sizeof (int));
+	memmove (reflow->items + i, reflow->items + i + 1, (reflow->count - i - 1) * sizeof (GnomeCanvasItem *));
+
+	reflow->count --;
+
 	sorted = e_sorter_model_to_sorted (E_SORTER (reflow->sorter), i);
 	for (c = reflow->column_count - 1; c >= 0; c--) {
 		int start_of_column = reflow->columns[c];
@@ -347,6 +355,10 @@ item_removed (EReflowModel *model, int i, EReflow *reflow)
 			break;
 		}
 	}
+
+	e_sorter_array_set_count (reflow->sorter, reflow->count);
+
+	e_selection_model_simple_delete_rows (E_SELECTION_MODEL_SIMPLE (reflow->selection), i, 1);
 }
 
 static void
