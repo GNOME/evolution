@@ -393,7 +393,23 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 static void
 emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type, const EMFormatHandler *handle)
 {
-	;
+	if (handle && em_format_is_inline(emf, part, handle)) {
+		char *text, *html;
+
+		camel_stream_write_string(stream,
+					  "<table border=1 cellspacing=0 cellpadding=0><tr><td><font size=-1>\n");
+
+		/* output some info about it */
+		text = em_format_describe_part(part, mime_type);
+		html = camel_text_to_html(text, ((EMFormatQuote *)emf)->text_html_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
+		camel_stream_write_string(stream, html);
+		g_free(html);
+		g_free(text);
+
+		camel_stream_write_string(stream, "</font></td></tr></table>");
+
+		handle->handler(emf, stream, part, handle);
+	}
 }
 
 #include <camel/camel-medium.h>

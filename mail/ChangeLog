@@ -1,5 +1,8 @@
 2004-03-23  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-quote.c (emfq_format_attachment): format inline(d)
+	parts automatically into the reply.  Part of #55702.
+
 	* em-utils.c (em_uri_from_camel): if we get an email uri passed in,
 	just pass it out again, without first going to camel to do it.
 
