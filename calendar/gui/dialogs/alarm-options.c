@@ -475,7 +475,7 @@ dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	 * we don't re-set the alarm's description */
 	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-	while (icalcomp) {
+	while (icalprop) {
 		const char *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
@@ -524,7 +524,7 @@ palarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	 * we don't re-set the alarm's description */
 	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-	while (icalcomp) {
+	while (icalprop) {
 		const char *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);

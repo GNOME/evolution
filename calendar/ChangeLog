@@ -1,3 +1,10 @@
+2002-10-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #31774
+
+	* gui/dialogs/alarm-options.c (dalarm_widgets_to_alarm,
+	palarm_widgets_to_alarm): use correct pointer in loop.
+
 2002-10-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c (setup_changes): cast the correct
