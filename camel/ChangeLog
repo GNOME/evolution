@@ -1,5 +1,9 @@
 2000-04-19  Dan Winship  <danw@helixcode.com>
 
+	* camel-simple-data-wrapper-stream.c
+	(camel_simple_data_wrapper_stream_get_type): This is a subtype of
+	CamelSeekableStream, not CamelStream.
+
 	* camel-seekable-substream.c: clean up a lot.
 	(eos): When testing for end-of-stream, reset the parent position
 	before testing if it is at end-of-stream, since either (a) it may

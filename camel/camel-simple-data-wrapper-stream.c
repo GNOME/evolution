@@ -259,7 +259,7 @@ camel_simple_data_wrapper_stream_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 
-		type = gtk_type_unique (camel_stream_get_type (), &info);
+		type = gtk_type_unique (camel_seekable_stream_get_type (), &info);
 	}
 
 	return type;
