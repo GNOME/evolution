@@ -447,7 +447,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	g_return_if_fail (source_index >= 0);
 	g_return_if_fail (target_index >= 0);
 	g_return_if_fail (source_index < eth->col_count);
-	g_return_if_fail (target_index < eth->col_count);
+	g_return_if_fail (target_index < eth->col_count + 1); /* Can be moved beyond the last item. */
 
 	if (source_index < target_index)
 		target_index --;

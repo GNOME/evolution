@@ -304,6 +304,31 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
 	return -1;
 }
 
+static int
+ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, int x)
+{
+	const int cols = e_table_header_count (ethi->eth);
+	int x1 = 0;
+	int col;
+
+	if (x < x1)
+		return -1;
+
+	x1 += ethi->group_indent_width;
+	
+	for (col = 0; col < cols; col++){
+		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
+
+		x1 += (ecol->width / 2);
+
+		if (x <= x1)
+			return col;
+
+		x1 += (ecol->width + 1) / 2;
+	}
+	return col;
+}
+
 static void
 ethi_remove_drop_marker (ETableHeaderItem *ethi)
 {
@@ -420,6 +445,24 @@ ethi_remove_destroy_marker (ETableHeaderItem *ethi)
 	ethi->remove_item = NULL;
 }
 
+#if 0
+static gboolean
+moved (ETableHeaderItem *ethi, guint col, guint model_col)
+{
+	if (col == -1)
+		return TRUE;
+	ecol = e_table_header_get_column (ethi->eth, col);
+	if (ecol->col_idx == model_col)
+		return FALSE;
+	if (col > 0) {
+		ecol = e_table_header_get_column (ethi->eth, col - 1);
+		if (ecol->col_idx == model_col)
+			return FALSE;
+	}
+	return TRUE;
+}
+#endif
+
 static gboolean
 ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		  gint x, gint y, guint time,
@@ -430,11 +473,12 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
 		
-		col = ethi_find_col_by_x (ethi, x);
+		col = ethi_find_col_by_x_nearest (ethi, x);
 		
 		if (col != -1){
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
+
 			ethi_add_drop_marker (ethi, col);
 			gdk_drag_status (context, context->suggested_action, time);
 		} else {
@@ -538,7 +582,7 @@ ethi_drag_drop (GtkWidget *canvas,
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
 		
-		col = ethi_find_col_by_x (ethi, x);
+		col = ethi_find_col_by_x_nearest (ethi, x);
 		
 		ethi_add_drop_marker (ethi, col);
 
