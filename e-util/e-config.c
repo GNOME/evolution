@@ -883,7 +883,7 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
 
 	if (emp->type == E_CONFIG_BOOK) {
 		w = gtk_dialog_new_with_buttons(title, parent, GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OK, GTK_RESPONSE_OK,
 						NULL);
 		g_signal_connect(w, "response", G_CALLBACK(ec_dialog_response), emp);

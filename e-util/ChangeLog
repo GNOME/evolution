@@ -1,5 +1,12 @@
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
+	Fixes #30992
+	
+	* e-config.c (e_config_create_window): use cancel rather than
+	close button
+
+2004-12-21  JP Rosevear  <jpr@novell.com>
+	
 	* e-account.c: convert to G_DEFINE_TYPE
 
 	* e-account-list.c: ditto
