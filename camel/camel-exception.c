@@ -160,9 +160,10 @@ camel_exception_set (CamelException *ex,
 
 	ex->id = id;
 
-	if (ex->desc)
-		g_free(ex->desc);
-	ex->desc = g_strdup(desc);
+	if (desc != ex->desc) {
+		g_free (ex->desc);
+		ex->desc = g_strdup (desc);
+	}
 
 	CAMEL_EXCEPTION_UNLOCK(exception);
 }
@@ -195,19 +196,21 @@ camel_exception_setv (CamelException *ex,
 		      ...)
 {
 	va_list args;
+	char *old;
 	
 	if (!ex)
 		return;
 
 	CAMEL_EXCEPTION_LOCK(exception);
 	
-	if (ex->desc)
-		g_free (ex->desc);
+	old = ex->desc;
 	
 	va_start(args, format);
 	ex->desc = g_strdup_vprintf (format, args);
 	va_end (args);
 
+	g_free (old);
+	
 	ex->id = id;
 
 	CAMEL_EXCEPTION_UNLOCK(exception);

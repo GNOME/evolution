@@ -261,10 +261,14 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	return;
 
 fail_write:
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Cannot append message to mbox file: %s: %s"),
-			      lf->folder_path, g_strerror (errno));
-
+	if (errno == EINTR)
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+				     _("Mail append cancelled"));
+	else
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot append message to mbox file: %s: %s"),
+				      lf->folder_path, g_strerror (errno));
+	
 	if (filter_stream)
 		camel_object_unref(CAMEL_OBJECT(filter_stream));
 

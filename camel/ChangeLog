@@ -1,5 +1,16 @@
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-exception.c (camel_exception_set): Make sure the new
+	description isn't the same as the old description pointer before
+	freeing the old one.
+	(camel_exception_setv): Don't free the old description until we
+	set the new one this way we can reuse the old description in the
+	new description.
+
+	* providers/local/camel-mbox-folder.c (mbox_append_message): If
+	errno == EINTR, then we got a user-cancel so set the exception
+	appropriately so that we don't make the user shit his pants.
+
 	* camel-filter-driver.c (do_copy): Add an optimization for when
 	destination folder is the same as the source folder.
 
