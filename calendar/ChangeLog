@@ -1,3 +1,8 @@
+1999-11-22  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit.c (pre_sync): Writes some warning
+ 	messages when pre_sync fails.
+
 1999-11-14  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am: Stupid misplaced endif cause gncal to depend on an

@@ -590,6 +590,7 @@ pre_sync(GnomePilotConduit *c,
 	ctxt->calendar = CORBA_OBJECT_NIL;
 	
 	if (start_calendar_server(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),GET_GCALCONTEXT(c)) != 0) {
+		WARN(_("Could not start gnomecal server"));
 		return -1;
 	}
   
@@ -599,6 +600,7 @@ pre_sync(GnomePilotConduit *c,
 
 	buf = (unsigned char*)g_malloc(0xffff);
 	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff))<0) {
+		WARN(_("Could not read pilot's Appoint application block"));
 		return -1;
 	}
 	unpack_AppointmentAppInfo(&(ctxt->ai),buf,l);
