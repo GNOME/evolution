@@ -23,6 +23,10 @@ Calendar:
 
   - Compilation fixes for latest Bonobo (Rodrigo)
 
+  - Fixed problem with exceptions to recurring events. (Damon)
+
+  - Fixed handling of UNTIL property in recurring events. (Damon)
+
 Summary:
 
   - Bugfixes (iain)
