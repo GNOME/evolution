@@ -1,0 +1,20 @@
+2003-05-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_get_default_charset_setting): Same as
+	the rest.
+	(setup_ui): We didn't even seem to be using the gconf client
+	here. Removed.
+	(e_msg_composer_load_config): Unref the gconf client after we're
+	finished.
+	(e_msg_composer_new): Same.
+	(e_msg_composer_new_post): Here too.
+	(e_msg_composer_set_view_from): And here.
+	(e_msg_composer_set_view_replyto): And here.
+	(e_msg_composer_set_view_cc): Here too.
+	(e_msg_composer_set_view_bcc): Again here.
+
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Same as below.
+	(e_msg_composer_hdrs_set_from_account): Here too.
+
+	* e-msg-composer-attachment-bar.c (get_default_charset): Unref the
+	gconf client.

@@ -308,6 +308,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	gconf = gconf_client_get_default ();
 	uid = gconf_client_get_string (gconf, "/apps/evolution/mail/default_account", NULL);
+	g_object_unref (gconf);
 	
 	/* Make list of account email addresses */
 	addresses = g_ptr_array_new ();
@@ -1009,10 +1010,11 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	
 	omenu = GTK_OPTION_MENU (e_msg_composer_hdrs_get_from_omenu (hdrs));
 	
-	gconf = gconf_client_get_default ();
-	
-	if (!account_name)
+	if (!account_name) {
+		gconf = gconf_client_get_default ();
 		uid = gconf_client_get_string (gconf, "/apps/evolution/mail/default_account", NULL);
+		g_object_unref (gconf);
+	}
 	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;

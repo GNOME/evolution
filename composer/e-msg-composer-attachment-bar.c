@@ -730,6 +730,7 @@ get_default_charset (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+	g_object_unref (gconf);
 	
 	if (buf != NULL) {
 		charset = e_iconv_charset_name (buf);

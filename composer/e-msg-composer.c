@@ -243,6 +243,8 @@ composer_get_default_charset_setting (void)
 	if (buf == NULL)
 		buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 	
+	g_object_unref (gconf);
+	
 	if (buf != NULL) {
 		charset = e_iconv_charset_name (buf);
 		g_free (buf);
@@ -2074,7 +2076,6 @@ setup_ui (EMsgComposer *composer)
 	BonoboUIContainer *container;
 	const char *default_charset;
 	gboolean hide_smime;
-	GConfClient *gconf;
 	
 	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
 	
@@ -2094,7 +2095,6 @@ setup_ui (EMsgComposer *composer)
 	
 	/* Populate the Charset Encoding menu and default it to whatever the user
 	   chose as his default charset in the mailer */
-	gconf = gconf_client_get_default ();
 	default_charset = composer_get_default_charset_setting ();
 	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit/EncodingPlaceholder",
 					     default_charset,
@@ -2731,6 +2731,8 @@ e_msg_composer_load_config (EMsgComposer *composer)
 		gconf, "/apps/evolution/mail/composer/view/Bcc", NULL);
 	composer->view_subject = gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/view/Subject", NULL);
+	
+	g_object_unref (gconf);
 }
 
 static int
@@ -2970,14 +2972,13 @@ create_composer (int visible_mask)
 				    "FormatHTML", TC_CORBA_boolean, composer->send_html,
 				    NULL);
 	
-
 	gconf = gconf_client_get_default ();
 	composer_settings_update (gconf, 0, NULL, composer);
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/composer", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	composer->notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/composer",
 						       composer_settings_update, composer, NULL, NULL);
 	g_object_unref (gconf);
-
+	
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
 	
 	/* FIXME: handle exceptions */
@@ -3081,6 +3082,7 @@ e_msg_composer_new (void)
 	
 	gconf = gconf_client_get_default ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	g_object_unref (gconf);
 	
 	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
 	if (new) {
@@ -3108,6 +3110,7 @@ e_msg_composer_new_post (void)
 	
 	gconf = gconf_client_get_default ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	g_object_unref (gconf);
 	
 	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
 	if (new) {
@@ -4608,6 +4611,7 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 	
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/From", view_from, NULL);
+	g_object_unref (gconf);
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
@@ -4655,6 +4659,7 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 	
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/ReplyTo", view_replyto, NULL);
+	g_object_unref (gconf);
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
@@ -4702,6 +4707,7 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 	
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, NULL);
+	g_object_unref (gconf);
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
@@ -4749,6 +4755,7 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 	
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, NULL);
+	g_object_unref (gconf);
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
