@@ -1398,7 +1398,7 @@ mail_display_destroy (GtkObject *object)
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 
-	gtk_widget_destroy (mail_display->invisible);
+	gtk_widget_unref (mail_display->invisible);
 
 	mail_display_parent_class->destroy (object);
 }

@@ -1,3 +1,8 @@
+2001-09-08  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (mail_display_destroy): Unref the invisible,
+	don't just destroy it.
+
 2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_write_authenticity): Give the full path of
