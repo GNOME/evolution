@@ -18,7 +18,7 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
 #: addressbook/backend/ebook/test-client-list.c:29
 #: addressbook/backend/ebook/test-client.c:54
-#: addressbook/conduit/address-conduit.c:1201
+#: addressbook/conduit/address-conduit.c:1215
 #: addressbook/demo/addressbook-factory.c:32
 #: addressbook/gui/component/addressbook-factory.c:59
 #: addressbook/gui/minicard/test-minicard-view.c:45
@@ -130,27 +130,27 @@ msgid ""
 "pilot list from the gnome-pilot daemon"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:128
-#: addressbook/conduit/address-conduit.c:142
+#: addressbook/conduit/address-conduit.c:127
+#: addressbook/conduit/address-conduit.c:141
 msgid "BLARG\n"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:459
+#: addressbook/conduit/address-conduit.c:471
 #, c-format
 msgid "Address holds %ld address entries"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:485
-#: addressbook/conduit/address-conduit.c:487
+#: addressbook/conduit/address-conduit.c:497
+#: addressbook/conduit/address-conduit.c:499
 msgid "Could not start addressbook server"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:500
-#: addressbook/conduit/address-conduit.c:503
+#: addressbook/conduit/address-conduit.c:512
+#: addressbook/conduit/address-conduit.c:515
 msgid "Could not read pilot's Address application block"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:841
+#: addressbook/conduit/address-conduit.c:853
 msgid "Error while communicating with address server"
 msgstr ""
 
@@ -502,7 +502,7 @@ msgstr "Indsæt en fil som bilag"
 #. Delete
 #: addressbook/contact-editor/e-contact-editor.c:852
 #: addressbook/demo/addressbook.c:84
-#: addressbook/gui/component/addressbook.c:424
+#: addressbook/gui/component/addressbook.c:443
 #: calendar/gui/e-calendar-table.c:375
 #: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:548
 #: mail/folder-browser-factory.c:50 mail/mail-config.glade.h:13
@@ -547,96 +547,96 @@ msgstr "Hjælp"
 msgid "See online help"
 msgstr "Se hjælp"
 
-#: addressbook/contact-editor/e-contact-editor.c:1320
+#: addressbook/contact-editor/e-contact-editor.c:1321
 msgid "Assistant"
 msgstr "Sekretær"
 
-#: addressbook/contact-editor/e-contact-editor.c:1321
-#: addressbook/contact-editor/e-contact-editor.c:1425
+#: addressbook/contact-editor/e-contact-editor.c:1322
+#: addressbook/contact-editor/e-contact-editor.c:1426
 msgid "Business"
 msgstr "Arbejde"
 
-#: addressbook/contact-editor/e-contact-editor.c:1322
+#: addressbook/contact-editor/e-contact-editor.c:1323
 msgid "Business 2"
 msgstr "Arbejde 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1323
+#: addressbook/contact-editor/e-contact-editor.c:1324
 msgid "Business Fax"
 msgstr "Firma fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1324
+#: addressbook/contact-editor/e-contact-editor.c:1325
 msgid "Callback"
 msgstr "Tilbagering"
 
-#: addressbook/contact-editor/e-contact-editor.c:1325
+#: addressbook/contact-editor/e-contact-editor.c:1326
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1326
+#: addressbook/contact-editor/e-contact-editor.c:1327
 msgid "Company"
 msgstr "Firma"
 
-#: addressbook/contact-editor/e-contact-editor.c:1327
-#: addressbook/contact-editor/e-contact-editor.c:1426
+#: addressbook/contact-editor/e-contact-editor.c:1328
+#: addressbook/contact-editor/e-contact-editor.c:1427
 msgid "Home"
 msgstr "Hjem"
 
-#: addressbook/contact-editor/e-contact-editor.c:1328
+#: addressbook/contact-editor/e-contact-editor.c:1329
 msgid "Home 2"
 msgstr "Hjem 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1329
+#: addressbook/contact-editor/e-contact-editor.c:1330
 msgid "Home Fax"
 msgstr "Hjemme fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1330
+#: addressbook/contact-editor/e-contact-editor.c:1331
 msgid "ISDN"
 msgstr "Isdn"
 
-#: addressbook/contact-editor/e-contact-editor.c:1331
+#: addressbook/contact-editor/e-contact-editor.c:1332
 msgid "Mobile"
 msgstr "_Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1332
-#: addressbook/contact-editor/e-contact-editor.c:1427
+#: addressbook/contact-editor/e-contact-editor.c:1333
+#: addressbook/contact-editor/e-contact-editor.c:1428
 #: mail/mail-config.glade.h:28
 msgid "Other"
 msgstr "Andet"
 
-#: addressbook/contact-editor/e-contact-editor.c:1333
+#: addressbook/contact-editor/e-contact-editor.c:1334
 msgid "Other Fax"
 msgstr "Anden fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1334
+#: addressbook/contact-editor/e-contact-editor.c:1335
 msgid "Pager"
 msgstr "Kalder"
 
-#: addressbook/contact-editor/e-contact-editor.c:1335
+#: addressbook/contact-editor/e-contact-editor.c:1336
 msgid "Primary"
 msgstr "Primær epost"
 
-#: addressbook/contact-editor/e-contact-editor.c:1336
+#: addressbook/contact-editor/e-contact-editor.c:1337
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1337
+#: addressbook/contact-editor/e-contact-editor.c:1338
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/contact-editor/e-contact-editor.c:1338
+#: addressbook/contact-editor/e-contact-editor.c:1339
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-#: addressbook/contact-editor/e-contact-editor.c:1382
+#: addressbook/contact-editor/e-contact-editor.c:1383
 msgid "Primary Email"
 msgstr "Primær epost"
 
-#: addressbook/contact-editor/e-contact-editor.c:1383
+#: addressbook/contact-editor/e-contact-editor.c:1384
 msgid "Email 2"
 msgstr "Sekundær epost"
 
-#: addressbook/contact-editor/e-contact-editor.c:1384
+#: addressbook/contact-editor/e-contact-editor.c:1385
 msgid "Email 3"
 msgstr "Tertiær epost"
 
@@ -856,66 +856,70 @@ msgstr ""
 "Esq.\n"
 
 #: addressbook/demo/addressbook.c:78
-#: addressbook/gui/component/addressbook.c:418
+#: addressbook/gui/component/addressbook.c:437
 #: calendar/gui/calendar-commands.c:511 notes/component-factory.c:27
 msgid "New"
 msgstr "Ny"
 
 #: addressbook/demo/addressbook.c:78
-#: addressbook/gui/component/addressbook.c:418
+#: addressbook/gui/component/addressbook.c:437
 msgid "Create a new contact"
 msgstr "Opret en ny kontakt"
 
 #: addressbook/demo/addressbook.c:82
-#: addressbook/gui/component/addressbook.c:422
+#: addressbook/gui/component/addressbook.c:441
 msgid "Find"
 msgstr "Find"
 
 #: addressbook/demo/addressbook.c:82
-#: addressbook/gui/component/addressbook.c:422
+#: addressbook/gui/component/addressbook.c:441
 msgid "Find a contact"
 msgstr "Find kontaktperson"
 
 #: addressbook/demo/addressbook.c:83
-#: addressbook/gui/component/addressbook.c:423
+#: addressbook/gui/component/addressbook.c:442
 #: calendar/gui/calendar-commands.c:516 mail/folder-browser-factory.c:48
 #: mail/mail-view.c:145
 msgid "Print"
 msgstr "Udskriv"
 
 #: addressbook/demo/addressbook.c:83
-#: addressbook/gui/component/addressbook.c:423
+#: addressbook/gui/component/addressbook.c:442
 msgid "Print contacts"
 msgstr "Udskriv kontakter"
 
 #: addressbook/demo/addressbook.c:84
-#: addressbook/gui/component/addressbook.c:424
+#: addressbook/gui/component/addressbook.c:443
 msgid "Delete a contact"
 msgstr "Fjern kontaktperson"
 
 #: addressbook/demo/addressbook.c:103
-#: addressbook/gui/component/addressbook.c:509
+#: addressbook/gui/component/addressbook.c:528
 msgid "_New Contact"
 msgstr "_Ny kontaktperson"
 
-#: addressbook/gui/component/addressbook.c:492
+#: addressbook/gui/component/addressbook.c:511
 msgid "_Print Contacts..."
 msgstr "_Udskriv kontakter"
 
-#: addressbook/gui/component/addressbook.c:502
-#: addressbook/gui/component/addressbook.c:972
+#: addressbook/gui/component/addressbook.c:521
+#: addressbook/gui/component/addressbook.c:1045
 msgid "As _Table"
 msgstr "Som _tabel"
 
-#: addressbook/gui/component/addressbook.c:517
+#: addressbook/gui/component/addressbook.c:536
 msgid "N_ew Directory Server"
 msgstr "N_y katalogtjener"
 
-#: addressbook/gui/component/addressbook.c:600
+#: addressbook/gui/component/addressbook.c:544
+msgid "_Search for contacts"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:626
 msgid "Unable to open addressbook"
 msgstr "Kunne ikke åbne adressebogen"
 
-#: addressbook/gui/component/addressbook.c:605
+#: addressbook/gui/component/addressbook.c:631
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -935,20 +939,20 @@ msgstr ""
 "er det nødvendigt at hente og installere OpenLDAP og\n"
 "rekompilere og installere evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:876
+#: addressbook/gui/component/addressbook.c:914
 #: addressbook/gui/minicard/e-minicard.c:332
 msgid "Save as VCard"
 msgstr "Gem som vCard"
 
-#: addressbook/gui/component/addressbook.c:943
+#: addressbook/gui/component/addressbook.c:1016
 msgid "* Click here to add a contact *"
 msgstr "* Klik her for at tilføje en kontakt *"
 
-#: addressbook/gui/component/addressbook.c:979
+#: addressbook/gui/component/addressbook.c:1052
 msgid "As _Minicards"
 msgstr "Som _minikort"
 
-#: addressbook/gui/component/addressbook.c:1030
+#: addressbook/gui/component/addressbook.c:1103
 msgid "The URI that the Folder Browser will display"
 msgstr "Uri'en som mappebladreren vil vise"
 
@@ -2132,7 +2136,7 @@ msgstr "Kø_r program:"
 msgid "Recurrence rule"
 msgstr "Regel for gentagelse"
 
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:875
+#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:877
 msgid "None"
 msgstr "Ingen"
 
@@ -3616,7 +3620,8 @@ msgstr ""
 msgid ""
 "Error loading filter information:\n"
 "%s"
-msgstr "Fejl ved indlæsning af filter information:\n"
+msgstr ""
+"Fejl ved indlæsning af filter information:\n"
 "%s"
 
 #: mail/mail-config-gui.c:431
@@ -3949,7 +3954,7 @@ msgid "Attach messages from \"%s\""
 msgstr "Vedhæft bilag fra '%s'"
 
 #: mail/mail-ops.c:1051
-#, , c-format
+#, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Videresender meddelelser '%s'"
 
@@ -4417,7 +4422,7 @@ msgstr "(Ingen mappe vist)"
 msgid "Folders"
 msgstr "Mapper"
 
-#: shell/e-shell-view.c:879
+#: shell/e-shell-view.c:881
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
@@ -4792,17 +4797,17 @@ msgstr "..."
 msgid "Group %i"
 msgstr "Gruppe %i"
 
-msgid "New appointment for _today..."
-msgstr "Ny af_tale for idag..."
+#~ msgid "New appointment for _today..."
+#~ msgstr "Ny af_tale for idag..."
 
-msgid "Create a new appointment for today"
-msgstr "Opret en ny aftale for idag"
+#~ msgid "Create a new appointment for today"
+#~ msgstr "Opret en ny aftale for idag"
 
-msgid "No GPG/PGP program available."
-msgstr "GPG/PGP-program ikke tilgængelig."
+#~ msgid "No GPG/PGP program available."
+#~ msgstr "GPG/PGP-program ikke tilgængelig."
 
-msgid "Currently pending operations:"
-msgstr "Nuværende udestående opgaver:"
+#~ msgid "Currently pending operations:"
+#~ msgstr "Nuværende udestående opgaver:"
 
-msgid "_Actions"
-msgstr "H_andlinger"
+#~ msgid "_Actions"
+#~ msgstr "H_andlinger"
