@@ -1,3 +1,24 @@
+2002-07-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-summary.c (clear_items): actually remove
+	the items from the pointer array too, so an error while loading
+	doesn't leave the memory summary corrupted.
+	(pas_backend_summary_load_header): bleah, load the num_items and
+	summary_mtime in the right order :) Also, set upgraded to TRUE if
+	we loaded a v1.0 summary.
+	(pas_backend_summary_open): make this return a gboolean, return
+	TRUE if the summary is already open (priv->fp != NULL).  return
+	FALSE in error conditions.
+	(pas_backend_summary_load): if summary_open returns FALSE, return
+	FALSE, also set the dirty flag to FALSE after we load, and if the
+	summary was upgraded write it out.
+	(pas_backend_summary_save): update the in memory mtime to that of
+	the file when we save.
+	(summary_flush_func): if we're not dirty, do nothing and return.
+	(pas_backend_summary_is_up_to_date): make sure we've opened the
+	summary.
+	(pas_backend_summary_get_summary_vcard): fix compiler warning.
+
 2002-07-10  Peter Williams  <peterw@ximian.com>
 
 	* backend/ebook/e-book-view-listener.h: Oops, missed this one.
