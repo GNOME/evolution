@@ -393,7 +393,7 @@ implemented with a stable UI yet, and are described wrong -->
 	    long time to download.
           </para>
 	</sect3>
-      <sect3 id="usage-mail-getnsend-send-to">
+        <sect3 id="usage-mail-getnsend-send-to">
 	<title>Choosing Recipients</title>
 	<para>
 	  If you have created address cards in the contact manager,

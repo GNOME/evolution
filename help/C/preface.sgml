@@ -9,14 +9,17 @@
     <sect1 id="what"> 
       <title>What is Evolution, and What Can It Do for Me?</title>
       <para>
-        The word "evolution" means "a process of improvement and
-        development."  The GNOME application
-        <application>Evolution</application> is meant to be a more
-        evolved <glossterm>groupware</glossterm> program, and an
-        integral part of the Internet-connected desktop.
+        Information is useless unless it's organized and accessible;
+        it's hardly even worth the name if you can't look at it and be
+        <emphasis>informed</emphasis>.
+        <application>Evolution</application>'s goal is to make the
+        tasks of storing, organizing, and retrieving information
+        easier, so you can work and cooperate with others.  That is,
+        it's a more evolved <glossterm>groupware</glossterm> program,
+        and an integral part of the Internet-connected desktop.
       </para>
       <para>
-        As part of the GNOME project,
+        Because it's part of the GNOME project,
         <application>Evolution</application> is free software.  The
         program and its source code are released under the terms of
         the GNU Public License (GPL), and the documentation falls
@@ -39,15 +42,14 @@
       </para>
 
       <para>
-        <application>Evolution</application> is a suite of tools to
-        help you work in a group.  You can use it to send, receive,
-        and organize email, manage address and other contact
-        information, and maintain a calendar.  It enables you to do
-        those things on one or several computers, connected directly
-        or over a network, for one person or for large groups.
+        <application>Evolution</application> can help you work in a
+        group, by handling email, address and other contact
+        information, and one or more calendars.  It can do that on one
+        or several computers, connected directly or over a network,
+        for one person or for large groups.
         <application>Evolution</application> can handle almost all
-        your communications tasks with the power and flexibility of
-        the GNOME desktop environment.
+        your communications and information management tasks with the
+        power and flexibility of the GNOME desktop environment.
       </para>
       <para>
         The developers of <application>Evolution</application> had
@@ -56,7 +58,7 @@
         <itemizedlist>
 	  <listitem>
 	    <para>
-              The application must be <emphasis>both powerful and easy
+             The application must be <emphasis>both powerful and easy
              to use</emphasis>. That means a familiar and intuitive
              interface that users could customize to their liking, and
              the development of shortcuts for complex tasks.
@@ -128,7 +130,7 @@
 
       <para>
         This book is divided into two parts, with several
-        appendicies. The first part is a <link linkend="usage">guided
+        appendices. The first part is a <link linkend="usage">guided
         tour</link>&mdash; it will explain how to use
         <application>Evolution</application>.  If you are new to
         <application>Evolution</application> or to groupware in
@@ -170,8 +172,8 @@
     <title>Quick Reference for Common Tasks</title>
     <para>
         You might want to get a copy of this section and tape it to
-        the wall next to your computer: they contain a very short
-        run-down of most of the things you'll want to do with
+        the wall next to your computer: it's a very short summary of
+        most of the things you'll want to do with
         <application>Evolution</application>, and pointers to the
         sections of the book where you'll find more in-depth
         description of those tasks.
