@@ -1,3 +1,8 @@
+2001-02-07  Iain Holmes  <iain@ximian.com>
+
+	* gui/calendar-summary.c (create_summary_view): Add a setter
+	for the property bag. Fixes the title bug.
+
 2001-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/event-editor-dialog.glade: Fix spacing

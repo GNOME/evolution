@@ -240,6 +240,39 @@ get_property (BonoboPropertyBag *bag,
 }
 
 static void
+set_property (BonoboPropertyBag *bag,
+	      const BonoboArg *arg,
+	      guint arg_id,
+	      CORBA_Environment *ev,
+	      gpointer user_data)
+{
+	CalSummary *summary = (CalSummary *) user_data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		if (summary->title)
+			g_free (summary->title);
+
+		summary->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_title",
+						      arg, NULL);
+		break;
+
+	case PROPERTY_ICON:
+		if (summary->icon)
+			g_free (summary->icon);
+		
+		summary->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_icon",
+						      arg, NULL);
+		break;
+		
+	default:
+		break;
+	}
+}
+
+static void
 component_destroyed (GtkObject *object,
 		     gpointer data)
 {
@@ -584,7 +617,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, view);
 
 	/* BonoboPropertyBag */
-	bag = bonobo_property_bag_new_full (get_property, NULL, 
+	bag = bonobo_property_bag_new_full (get_property, set_property, 
 					    event_source, summary);
 	bonobo_property_bag_add (bag, "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL, 
