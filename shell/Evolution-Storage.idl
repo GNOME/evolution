@@ -22,11 +22,16 @@ module Evolution {
 	interface StorageListener;
 
 	interface Storage : Bonobo::Unknown {
+		exception AlreadyListening {};
+		exception NotFound {};
+
 		attribute string name;
 
-		void add_listener (in StorageListener listener);
+		void add_listener (in StorageListener listener)
+			raises (AlreadyListening);
 
-		/* FIXME remove_listener? */
+		void remove_listener (in StorageListener listener)
+			raises (NotFound);
 	};
 
 	interface StorageListener {

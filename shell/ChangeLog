@@ -1,3 +1,21 @@
+2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-storage.c (find_listener_in_list): New helper
+	function.
+	(impl_Storage_remove_listener): New, implementation for
+	`Storage::remove_listener'.
+	(remove_listener): Helper function for
+	`impl_Storage_remove_listener'.
+	(evolution_storage_get_epv): Install the implementation for
+	`::remove_listener'.
+	(add_listener): Return a boolean indicating success or failure.
+	Reject multiple additions of the same listener.
+	(impl_Storage_add_listener): Updated accordingly: raise an
+	exception if `add_listener' fails.
+
+	* Evolution-Storage.idl: Added `Storage::remove_listener'.  Added
+	exception `AlreadyListening' for `::add_listener'.
+
 2000-09-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (popup_storage_set_view_button_clicked): Renamed

@@ -86,7 +86,30 @@ list_through_listener (EvolutionStorage *storage,
 			       listener);
 }
 
-static void
+static GList *
+find_listener_in_list (const Evolution_StorageListener listener,
+		       GList *list)
+{
+	CORBA_Environment ev;
+	GList *p;
+
+	CORBA_exception_init (&ev);
+
+	for (p = list; p != NULL; p = p->next) {
+		Evolution_StorageListener listener_item;
+
+		listener_item = (Evolution_StorageListener) p->data;
+
+		if (CORBA_Object_is_equivalent (listener_item, listener, &ev) && ev._major == CORBA_NO_EXCEPTION)
+			return p;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return NULL;
+}
+
+static gboolean
 add_listener (EvolutionStorage *storage,
 	      const Evolution_StorageListener listener)
 {
@@ -96,6 +119,9 @@ add_listener (EvolutionStorage *storage,
 
 	priv = storage->priv;
 
+	if (find_listener_in_list (listener, priv->corba_storage_listeners) != NULL)
+		return FALSE;
+
 	CORBA_exception_init (&ev);
 
 	listener_copy = CORBA_Object_duplicate (listener, &ev);
@@ -103,7 +129,10 @@ add_listener (EvolutionStorage *storage,
 		/* Panic.  */
 		g_warning ("EvolutionStorage -- Cannot duplicate listener.");
 		CORBA_exception_free (&ev);
-		return;
+
+		/* FIXME this will cause the ::add_listener implementation to
+                   incorrectly raise `AlreadyListening' */
+		return FALSE;
 	}
 
 	priv->corba_storage_listeners = g_list_prepend (priv->corba_storage_listeners,
@@ -112,6 +141,31 @@ add_listener (EvolutionStorage *storage,
 	list_through_listener (storage, listener_copy, &ev);
 
 	CORBA_exception_free (&ev);
+
+	return TRUE;
+}
+
+static gboolean
+remove_listener (EvolutionStorage *storage,
+		 const Evolution_StorageListener listener)
+{
+	EvolutionStoragePrivate *priv;
+	CORBA_Environment ev;
+	GList *p;
+
+	priv = storage->priv;
+
+	p = find_listener_in_list (listener, priv->corba_storage_listeners);
+	if (p == NULL)
+		return FALSE;
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release ((CORBA_Object) p->data, &ev);
+	CORBA_exception_free (&ev);
+
+	priv->corba_storage_listeners = g_list_remove_link (priv->corba_storage_listeners, p);
+
+	return TRUE;
 }
 
 
@@ -183,7 +237,23 @@ impl_Storage_add_listener (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
-	add_listener (storage, listener);
+	if (! add_listener (storage, listener))
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_Evolution_Storage_AlreadyListening, NULL);
+}
+
+static void
+impl_Storage_remove_listener (PortableServer_Servant servant,
+			      const Evolution_StorageListener listener,
+			      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	if (! remove_listener (storage, listener))
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_Evolution_Storage_NotFound, NULL);
 }
 
 
@@ -278,8 +348,9 @@ evolution_storage_get_epv (void)
 	POA_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_Evolution_Storage__epv, 1);
-	epv->_get_name    = impl_Storage__get_name;
-	epv->add_listener = impl_Storage_add_listener;
+	epv->_get_name       = impl_Storage__get_name;
+	epv->add_listener    = impl_Storage_add_listener;
+	epv->remove_listener = impl_Storage_remove_listener;
 
 	return epv;
 }
