@@ -159,7 +159,7 @@ libevolution_mail_la_LIBADD =					\
 	$(EVOLUTION_MAIL_LIBS)
 
 libevolution_mail_la_LDFLAGS =				\
-	-export-dynamic
+	-export-dynamic -avoid-version
 
 #evolution_mail_upgrade_SOURCES = upgrade-mailer.c
 #evolution_mail_upgrade_LDADD = 				\

@@ -1,5 +1,9 @@
 2003-01-14  Rodney Dawes  <dobey@ximian.com>
 
+	* Makefile.am: Make the component be unversioned as a shlib
+	
+2003-01-14  Rodney Dawes  <dobey@ximian.com>
+
 	* folder-browser.c: Use GtkPaned instead of EPaned
 	
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
