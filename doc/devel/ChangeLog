@@ -1,3 +1,9 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: setup for more auto-built stuff.
+
+	* build-eplugin-manual.pl: auto-build more stuff.
+
 2004-10-12  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-plugin-manual.xml: doc updates for new 'check' callback.

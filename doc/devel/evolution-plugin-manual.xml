@@ -16,7 +16,12 @@
 <!ENTITY em-popup-reference SYSTEM "em-popup.xml">
 <!ENTITY em-format-reference SYSTEM "em-format.xml">
 
+<!ENTITY em-popups SYSTEM "em-popups.xml">
+<!ENTITY em-menus SYSTEM "em-menus.xml">
+<!ENTITY em-configs SYSTEM "em-configs.xml">
 <!ENTITY em-events SYSTEM "em-events.xml">
+
+<!ENTITY ecal-popups SYSTEM "ecal-popups.xml">
 
 <!ENTITY es-events SYSTEM "es-events.xml">
 <!ENTITY es-menus SYSTEM "es-menus.xml">
@@ -1764,7 +1769,7 @@
 	    <colspec colnum="2" colname="value" colwidth="4*"/>
 	    <tbody>
 	      <row>
-		<entry>Name</entry>
+		<entry>Id</entry>
 		<entry>The hook point id.</entry>
 	      </row>
 	      <row>
@@ -1804,149 +1809,14 @@
 
 	<para>
 	  The mail popup menu class is
-	  <interfacename>com.ximian.evolution.mail.popup:1.0</interfacename>.
+	  <interfacename>org.gnome.evolution.mail.popup:1.0</interfacename>.
 	</para>
 	<para>
 	  The plugin callback data will be the target matching the plugin
 	  menu itself, and the callback returns no value.
 	</para>
 
-	<sect2>
-	  <title>Folder Tree Context Menu</title>
-	  <para>
-	    This is the context menu shown on the folder tree.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.ximian.mail.storageset.popup.select</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-popup-EMPopupTargetFolder">EMPopupTargetFolder</link>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Message List Context Menu</title>
-	  <para>
-	    This is the context menu shown on the message list.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.ximian.mail.folderview.popup.select</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-popup-EMPopupTargetSelect">EMPopupTargetSelect</link>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Inline URI Context Menu</title>
-	  <para>
-	    This is the context menu shown when clicking on inline URIs,
-	    including addresses or normal HTML links that are displayed inside
-	    the message view.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.ximian.mail.folderview.popup.uri</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry><link
-		      linkend="mail-hooks-popup-EMPopupTargetURI">EMPopupTargetURI</link></entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Inline Content and Attachment Context Menu</title>
-	  <para>
-	    This context menu is shown when right-clicking on inline images, or
-	    when clicking on the attachment expander button.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.ximian.mail.formathtmldisplay.popup.part</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry><link
-		      linkend="mail-hooks-popup-EMPopupTargetPart">EMPopupTargetPart</link></entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Composer Attachment Bar Context Menu</title>
-	  <para>
-	    This context menu is displayed when the user brings up a context
-	    menu on the attachment bar displayed in the composer.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.composer.attachmentBar</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry><link
-		      linkend="mail-hooks-popup-EMPopupTargetAttachments">EMPopupTargetAttachments</link></entry>
-		</row>
-		<row>
-		  <entry>Qualifiers</entry>
-		  <entry>
-		    <simplelist>
-		      <member><constant>one</constant> = <constant>EM_POPUP_ATTACHMENTS_ONE</constant></member>
-		      <member><constant>many</constant> = <constant>EM_POPUP_ATTACHMENTS_MANY</constant></member>
-		    </simplelist>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
+	&em-popups;
 
 	<sect2>
 	  <title>Internal popup menus</title>
@@ -2182,95 +2052,14 @@
 
 	<para>
 	  The mail popup menu class is
-	  <interfacename>com.ximian.evolution.mail.bonobomenu:1.0</interfacename>.
+	  <interfacename>org.gnome.evolution.mail.bonobomenu:1.0</interfacename>.
 	</para>
 	<para>
 	  The plugin callback data will be the target matching the plugin
 	  menu itself, and the callback returns no value.
 	</para>
 
-	<sect2>
-	  <title>Main Mail Menu</title>
-
-	  <para>
-	    This is the main mail view embedded in the &Evolution; Shell.
-	  </para>
-
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.browser</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-menu-EMMenuTargetSelect">EMMenuTargetSelect</link>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Standalone Message View Menu</title>
-
-	  <para>
-	    This is the popup mail-message view.
-	  </para>
-
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.messagebrowser</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-menu-EMMenuTargetSelect">EMMenuTargetSelect</link>,
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Composer Menu</title>
-	  <para>
-	    This is the mail message composer.  This is currently not implemented.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.composer</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>Undefined</entry>
-		</row>
-		<row>
-		  <entry>Qualifiers</entry>
-		  <entry>Undefined</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
+	&em-menus;
 
 	<sect2>
 	  <title>Mail Menu Targets</title>
@@ -2333,168 +2122,10 @@
 
 	<para>
 	  The mail config class is
-	  <interfacename>com.novell.evolution.mail.config:1.0</interfacename>.
+	  <interfacename>org.gnome.evolution.mail.config:1.0</interfacename>.
 	</para>
 
-	<sect2>
-	  <title>Account Editor Druid</title>
-	  <para>
-	    This is the GnomeDruid which is shown when you create a new mail account.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.config.accountDruid</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-config-EMConfigTargetAccount">EMConfigTargetAccount</link>
-		  </entry>
-		</row>
-		<row>
-		  <entry>Items</entry>
-		  <entry>Define some of the items available and where they fit
-		    in the gui</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Account Editor Window</title>
-	  <para>
-	    This is the editor notebook which is shown when you edit an
-	    existing mail account.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.config.accountEditor</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="API-struct--EMConfigTargetAccount">EMConfigTargetAccount</link>, plugin target is &quot;<constant>account</constant>&quot;.
-		  </entry>
-		</row>
-		<row>
-		  <entry>Items</entry>
-		  <entry>Define some of the items available and where they fit
-		    in the gui</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Composer Preferences</title>
-	  <para>
-	    This is the notebook of configuration items for the composer which
-	    are accessed via the main settings window under the Composer tab.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.composerPrefs</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-config-EMConfigTargetPrefs">EMConfigTargetPrefs</link>
-		  </entry>
-		</row>
-		<row>
-		  <entry>Items</entry>
-		  <entry>Define some of the items available and where they fit
-		    in the gui</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Mail Preferences</title>
-	  <para>
-	    This is the notebook of configuration items for the mailer which
-	    are accessed via the main settings window under the Mail Settings tab.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.prefs</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-config-EMConfigTargetPrefs">EMConfigTargetPrefs</link>
-		  </entry>
-		</row>
-		<row>
-		  <entry>Items</entry>
-		  <entry>Define some of the items available and where they fit
-		    in the gui</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-
-	<sect2>
-	  <title>Folder Properties</title>
-	  <para>
-	    This is the notebook of configuration items for a given mail folder
-	    which is accessed via the Folder Properties item in the main menu item or
-	    folder-tree context menu.
-	  </para>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><interfacename>com.novell.evolution.mail.folderConfig</interfacename></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="mail-hooks-config-EMConfigTargetFolder">EMConfigTargetFolder</link>
-		  </entry>
-		</row>
-		<row>
-		  <entry>Items</entry>
-		  <entry>Define some of the items available and where they fit
-		    in the gui</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
+	&em-configs;
 
 	<sect2>
 	  <title>Mail Config Targets</title>
@@ -2593,7 +2224,7 @@
 
 	<para>
 	  The mail event class is
-	  <interfacename>com.ximian.evolution.mail.events:1.0</interfacename>.
+	  <interfacename>org.gnome.evolution.mail.events:1.0</interfacename>.
 	</para>
 
 	&em-events;
@@ -2858,17 +2489,132 @@
 	Contacts Hooks
       </title>
       <para>
-	None defined.
+	Hooks available in the the contacts component.
       </para>
+
+      <sect1 id="contacts-hooks-popup">
+	<title>Popup menus</title>
+
+	<para>
+	  The contacts popup menu class is
+	  <interfacename>org.gnome.evolution.addressbook.popup:1.0</interfacename>.
+	</para>
+
+	<!-- TODO: define the entity once it exists 
+	&eab-popups; -->
+
+	<sect2>
+	  <title>Calendar Popup Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+      
+      <sect1 id="contacts-hooks-menu">
+	<title>Main menus</title>
+
+	<para>
+	  The addressbook menu class is
+	  <interfacename>org.gnome.evolution.addressbook.bonobomenu:1.0</interfacename>.
+	</para>
+
+	<!-- TODO: define the entity once it exists 
+	&eab-menus; -->
+
+	<sect2>
+	  <title>Contacts Menu Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+
+      <sect1 id="contacts-hooks-config">
+	<title>Config Windows and Druids</title>
+	<para>
+	  The addressbook config class is
+	  <interfacename>org.gnome.evolution.addressbook.config:1.0</interfacename>.
+	</para>
+	
+	<!-- TODO: define the entity once it exists
+	&eab-configs; -->
+	
+	<sect2>
+	  <title>Contacts Config Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+
+      <sect1 id="contacts-hooks-event">
+	<title>Events</title>
+
+	<para>
+	  None defined.
+	</para>
+      </sect1>
     </chapter>
 
     <chapter id="calendar-hooks">
       <title>
-	Calendar and Tasks Hooks
+	Calendar Hooks
       </title>
       <para>
-	None defined.
+	Hooks available in the the calendar component.
       </para>
+
+      <sect1 id="calendar-hooks-popup">
+	<title>Popup menus</title>
+
+	<para>
+	  The calendar popup menu class is
+	  <interfacename>org.gnome.evolution.calendar.popup:1.0</interfacename>.
+	</para>
+
+	&ecal-popups;
+
+	<sect2>
+	  <title>Calendar Popup Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+      
+      <sect1 id="calendar-hooks-menu">
+	<title>Main menus</title>
+
+	<para>
+	  The calendar menu class is
+	  <interfacename>org.gnome.evolution.calendar.bonobomenu:1.0</interfacename>.
+	</para>
+	
+	<!-- TODO: define the entity once it exists
+	&ecal-menus; -->
+
+	<sect2>
+	  <title>Calendar Menu Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+
+      <sect1 id="calendar-hooks-config">
+	<title>Config Windows and Druids</title>
+	<para>
+	  The calendar config class is
+	  <interfacename>org.gnome.evolution.calendar.config:1.0</interfacename>.
+	</para>
+
+	<!-- TODO: define the entity once it exists
+	&ecal-configs; -->
+	
+	<sect2>
+	  <title>Calendar Config Targets</title>
+	  <para>TBD</para>
+	</sect2>
+      </sect1>
+
+      <sect1 id="calendar-hooks-event">
+	<title>Events</title>
+
+	<para>
+	  None defined.
+	</para>
+      </sect1>
     </chapter>
 
     <chapter id="shell-hooks">

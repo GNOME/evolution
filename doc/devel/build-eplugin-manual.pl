@@ -51,76 +51,75 @@ foreach $out (keys %byref) {
 # Event reference
 #
 
-%events = ( 'em-events.xml' =>
-	    { 'files' => [ 'em-folder-view.c', 'em-composer-utils.c', 'mail-folder-cache.c' ],
-	      'module' => 'mail' },
-	    );
+# %events = ( 'em-events.xml' =>
+# 	    { 'files' => [ 'em-folder-view.c', 'em-composer-utils.c', 'mail-folder-cache.c' ],
+# 	      'module' => 'mail' },
+# 	    );
 
-foreach $out (keys %events) {
-    print "generating events doc $out\n";
-    %data = %{$events{$out}};
-    @files = @{$data{'files'}};
-    $module = $data{'module'};
-    open OUT,">$out";
-    foreach $file (@files) {
-	open IN,"<../../$module/$file";
-	while (<IN>) {
-	    if (m/\@Event: (.*)/) {
-		$title = $1;
-		$name = $1;
-		$target = "";
-		while (<IN>) {
-		    if (m/\@Title: (.*)/) {
-			$title = $1;
-		    } elsif (m/\@Target: (.*)/) {
-			$target = $1;
-		    } elsif (m/\* (.*)/) {
-			$desc.= $1."\n";
-		    }
-		    last if (m/\*\//);
-		}
-		if ($target eq "") {
-		    print "Warning: No target defined for event $name ($title)\n";
-		}
-		print OUT <<END;
-	<sect2>
-	  <title>$title</title>
-	  <informaltable>
-	    <tgroup cols="2">
-	      <colspec colnum="1" colname="field" colwidth="1*"/>
-	      <colspec colnum="2" colname="value" colwidth="4*"/>
-	      <tbody valign="top">
-		<row>
-		  <entry>Name</entry>
-		  <entry><constant>$name</constant></entry>
-		</row>
-		<row>
-		  <entry>Target</entry>
-		  <entry>
-		    <link
-		      linkend="$module-hooks-event-$target">$target</link>
-		  </entry>
-		</row>
-		<row>
-		  <entry>Description</entry>
-		  <entry>
-		  <simpara>
-		  $desc
-		  </simpara>
-		  </entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </informaltable>
-	</sect2>
-END
-	    }
-	}
-	close IN;
-    }
-    close OUT;
-
-}
+# foreach $out (keys %events) {
+#     print "generating events doc $out\n";
+#     %data = %{$events{$out}};
+#     @files = @{$data{'files'}};
+#     $module = $data{'module'};
+#     open OUT,">$out";
+#     foreach $file (@files) {
+# 	open IN,"<../../$module/$file";
+# 	while (<IN>) {
+# 	    if (m/\@Event: (.*)/) {
+# 		$title = $1;
+# 		$name = $1;
+# 		$target = "";
+# 		while (<IN>) {
+# 		    if (m/\@Title: (.*)/) {
+# 			$title = $1;
+# 		    } elsif (m/\@Target: (.*)/) {
+# 			$target = $1;
+# 		    } elsif (m/\* (.*)/) {
+# 			$desc.= $1."\n";
+# 		    }
+# 		    last if (m/\*\//);
+# 		}
+# 		if ($target eq "") {
+# 		    print "Warning: No target defined for event $name ($title)\n";
+# 		}
+# 		print OUT <<END;
+# 	<sect2>
+# 	  <title>$title</title>
+# 	  <informaltable>
+# 	    <tgroup cols="2">
+# 	      <colspec colnum="1" colname="field" colwidth="1*"/>
+# 	      <colspec colnum="2" colname="value" colwidth="4*"/>
+# 	      <tbody valign="top">
+# 		<row>
+# 		  <entry>Name</entry>
+# 		  <entry><constant>$name</constant></entry>
+# 		</row>
+# 		<row>
+# 		  <entry>Target</entry>
+# 		  <entry>
+# 		    <link
+# 		      linkend="$module-hooks-event-$target">$target</link>
+# 		  </entry>
+# 		</row>
+# 		<row>
+# 		  <entry>Description</entry>
+# 		  <entry>
+# 		  <simpara>
+# 		  $desc
+# 		  </simpara>
+# 		  </entry>
+# 		</row>
+# 	      </tbody>
+# 	    </tgroup>
+# 	  </informaltable>
+# 	</sect2>
+# END
+# 	    }
+# 	}
+# 	close IN;
+#     }
+#     close OUT;
+# }
 
 #
 # Generic table builder, still experimental.
@@ -131,13 +130,16 @@ sub buildxml {
     my $out = $_[1];
     my %data = %{$_[2]};
     my @files, $module;
+    my $line;
 
     print "generating doc $out for $type\n";
     @files = @{$data{'files'}};
     $module = $data{'module'};
     open OUT,">$out";
     foreach $file (@files) {
-	open IN,"<../../$module/$file";
+	my $line = 0;
+
+	open IN,"<../../$module/$file" || die ("Cannot open \"$module/$file\"");
 	while (<IN>) {
 	    if (m/\/\*\* \@$type: (.*)/) {
 		my $key = "";
@@ -148,6 +150,7 @@ sub buildxml {
 		my @blobs = ();
 
 		while (<IN>) {
+		    $line++;
 		    if (m/\@(.*): (.*)/) {
 			if ($val ne "") {
 			    $blob{$key} = $val;
@@ -176,6 +179,13 @@ sub buildxml {
 		print OUT<<END;
 	<sect2>
 	  <title>$title</title>
+END
+		if ($val ne "") {
+		    $val =~ s/[\n]+$//gos;
+		    $val =~ s/\n\n/\<\/simpara\>\n\<simpara\>/g;
+		    print OUT "<simpara>$val</simpara>\n";
+		}
+		print OUT <<END;
 	  <informaltable>
 	    <tgroup cols="2">
 	      <colspec colnum="1" colname="field" colwidth="1*"/>
@@ -192,17 +202,17 @@ END
 END
 }
 		print OUT <<END;
+		<row>
+		  <entry>Defined</entry>
+		  <entry>$module/$file:$line</entry>
+		</row>
 	      </tbody>
 	    </tgroup>
 	  </informaltable>
+	</sect2>
 END
-		if ($val ne "") {
-		    $val =~ s/[\n]+$//gos;
-		    $val =~ s/\n\n/\<\/simpara\>\n\<simpara\>/g;
-		    print OUT "<simpara>$val</simpara>\n";
-		}
-		print OUT "</sect2>\n";
 	    }
+	    $line++;
 	}
 	close IN;
     }
@@ -222,6 +232,26 @@ END
 	    { 'type' => 'Event',
 	      'files' => [ 'e-shell.c' ],
 	      'module' => 'shell' },
+	   'em-events.xml' =>
+	    { 'type' => 'Event',
+	      'files' => [ 'em-folder-view.c', 'em-composer-utils.c', 'mail-folder-cache.c' ],
+	      'module' => 'mail' },
+	   'em-popups.xml' =>
+	    { 'type' => 'HookPoint-EMPopup',
+	      'files' => [ 'em-folder-tree.c', 'em-folder-view.c', 'em-format-html-display.c', '../composer/e-msg-composer-attachment-bar.c' ],
+	      'module' => 'mail' },
+	   'ecal-popups.xml' =>
+	    { 'type' => 'HookPoint-ECalPopup',
+	      'files' => [ 'gui/e-calendar-view.c', 'gui/calendar-component.c', 'gui/e-calendar-view.c', 'gui/tasks-component.c' ],
+	      'module' => 'calendar' },
+	   'em-configs.xml' =>
+	    { 'type' => 'HookPoint-EMConfig',
+	      'files' => [ 'em-mailer-prefs.c', 'em-account-editor.c', 'em-folder-properties.c', 'em-composer-prefs.c' ],
+	      'module' => 'mail' },
+	   'em-menus.xml' =>
+	    { 'type' => 'HookPoint-EMMenu',
+	      'files' => [ 'em-folder-browser.c', 'em-message-browser.c' ],
+	      'module' => 'mail' },
 	    );
 
 foreach $out (keys %hooks) {
