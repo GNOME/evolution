@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
 "POT-Creation-Date: 2001-04-16 21:41-0400\n"
-"PO-Revision-Date: 2001-04-13 22:20-04:00\n"
+"PO-Revision-Date: 2001-04-17 22:35-04:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3136,7 +3136,7 @@ msgstr ""
 
 #: calendar/gui/weekday-picker.c:315 calendar/gui/weekday-picker.c:410
 msgid "SMTWTFS"
-msgstr "SMTWTFS"
+msgstr "SMTOTFL"
 
 #: camel/camel-filter-driver.c:534 camel/camel-filter-driver.c:543
 msgid "Syncing folders"
