@@ -1,3 +1,22 @@
+2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/ebook/Makefile.am: Install load-pine-addressbook and
+	load-gnomecard-addressbook into ${privdatadir}/tools.  Install
+	evolution-vcard-importer and evolution-ldif-importer into
+	${privlibexecdir}.
+
+	* backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in:
+	Removed.
+
+	* backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in:
+	Removed.
+
+	* backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:
+	New.  Specify an absolute path for the executable, using
+	@LIBEXECDIR@.
+	* backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in:
+	Likewise.
+
 2003-02-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

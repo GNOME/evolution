@@ -1,9 +1,13 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-bin_PROGRAMS =	evolution-vcard-importer 	\
-		evolution-ldif-importer		\
-		load-pine-addressbook		\
-		load-gnomecard-addressbook
+privlibexec_PROGRAMS =				\
+	evolution-vcard-importer		\
+	evolution-ldif-importer
+
+toolsdir = $(privdatadir)/tools
+tools_PROGRAMS =				\
+	load-pine-addressbook			\
+	load-gnomecard-addressbook
 
 # CORBA stuff
 
@@ -206,9 +210,13 @@ CLEANFILES    = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES) $(CORBA_SOURCE_C)
 
-server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in \
-		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in
-server_DATA = $(server_in_files:.server.in=.server)
+server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in.in \
+		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
+
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
+
 
 @INTLTOOL_SERVER_RULE@
 
