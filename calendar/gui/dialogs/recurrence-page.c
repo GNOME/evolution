@@ -900,7 +900,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      COMP_EDITOR_PAGE (rpage)->client);
+			      COMP_EDITOR_PAGE (rpage)->client, TRUE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 

@@ -23,6 +23,7 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <glib.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
@@ -401,6 +402,39 @@ item_destroyed_cb (GtkObject *object, gpointer data)
 	g_free (category);
 }
 
+/* Used from qsort() */
+static int
+compare_categories_cb (const void *a, const void *b)
+{
+	const char **ca, **cb;
+
+	ca = (const char **) a;
+	cb = (const char **) b;
+
+	/* FIXME: should use some utf8 strcoll() thingy */
+	return strcmp (*ca, *cb);
+}
+
+/* Creates a sorted array of categories based on the original one; does not
+ * duplicate the string values.
+ */
+static GPtrArray *
+sort_categories (GPtrArray *categories)
+{
+	GPtrArray *c;
+	int i;
+
+	c = g_ptr_array_new ();
+	g_ptr_array_set_size (c, categories->len);
+
+	for (i = 0; i < categories->len; i++)
+		c->pdata[i] = categories->pdata[i];
+
+	qsort (c->pdata, c->len, sizeof (gpointer), compare_categories_cb);
+
+	return c;
+}
+
 /**
  * cal_search_bar_set_categories:
  * @cal_search: A calendar search bar.
@@ -417,6 +451,7 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 	CalSearchBarPrivate *priv;
 	GtkMenu *menu;
 	GtkWidget *item;
+	GPtrArray *sorted;
 	int i;
 
 	g_return_if_fail (cal_search != NULL);
@@ -450,19 +485,21 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 
 	/* Categories items */
 
-	for (i = 0; i < categories->len; i++) {
+	sorted = sort_categories (categories);
+
+	for (i = 0; i < sorted->len; i++) {
 		char *str;
 
 		/* FIXME: Put the category icons here */
 
-		str = e_utf8_to_gtk_string (GTK_WIDGET (menu), categories->pdata[i]);
+		str = e_utf8_to_gtk_string (GTK_WIDGET (menu), sorted->pdata[i]);
 		if (!str)
 			continue;
 
 		item = gtk_menu_item_new_with_label (str);
 		g_free (str);
 
-		gtk_object_set_user_data (GTK_OBJECT (item), g_strdup (categories->pdata[i]));
+		gtk_object_set_user_data (GTK_OBJECT (item), g_strdup (sorted->pdata[i]));
 		gtk_signal_connect (GTK_OBJECT (item), "destroy",
 				    GTK_SIGNAL_FUNC (item_destroyed_cb),
 				    NULL);
@@ -470,6 +507,8 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 		gtk_menu_append (menu, item);
 		gtk_widget_show (item);
 	}
+
+	g_ptr_array_free (sorted, TRUE);
 
 	/* Set the new menu; the old one will be destroyed automatically */
 

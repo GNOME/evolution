@@ -28,6 +28,6 @@
 
 void tag_calendar_by_client (ECalendar *ecal, CalClient *client);
 void tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp,
-			   CalClient *client);
+			   CalClient *client, gboolean clear_first);
 
 #endif

@@ -36,6 +36,9 @@ struct _QueryListenerPrivate {
 	QueryListenerQueryDoneFn query_done_fn;
 	QueryListenerEvalErrorFn eval_error_fn;
 	gpointer fn_data;
+
+	/* Whether notification is desired */
+	gboolean notify : 1;
 };
 
 
@@ -105,6 +108,8 @@ query_listener_init (QueryListener *ql)
 	priv->query_done_fn = NULL;
 	priv->eval_error_fn = NULL;
 	priv->fn_data = NULL;
+
+	priv->notify = TRUE;
 }
 
 /* Destroy handler for the live search query listener */
@@ -125,6 +130,8 @@ query_listener_destroy (GtkObject *object)
 	priv->query_done_fn = NULL;
 	priv->eval_error_fn = NULL;
 	priv->fn_data = NULL;
+
+	priv->notify = FALSE;
 
 	g_free (priv);
 	ql->priv = NULL;
@@ -152,6 +159,9 @@ impl_notifyObjUpdated (PortableServer_Servant servant,
 	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
 	priv = ql->priv;
 
+	if (!priv->notify)
+		return;
+
 	g_assert (priv->obj_updated_fn != NULL);
 	(* priv->obj_updated_fn) (ql, uid, query_in_progress, n_scanned, total, priv->fn_data);
 }
@@ -167,6 +177,9 @@ impl_notifyObjRemoved (PortableServer_Servant servant,
 
 	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
 	priv = ql->priv;
+
+	if (!priv->notify)
+		return;
 
 	g_assert (priv->obj_removed_fn != NULL);
 	(* priv->obj_removed_fn) (ql, uid, priv->fn_data);
@@ -185,6 +198,9 @@ impl_notifyQueryDone (PortableServer_Servant servant,
 	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
 	priv = ql->priv;
 
+	if (!priv->notify)
+		return;
+
 	g_assert (priv->query_done_fn != NULL);
 	(* priv->query_done_fn) (ql, corba_status, error_str, priv->fn_data);
 }
@@ -200,6 +216,9 @@ impl_notifyEvalError (PortableServer_Servant servant,
 
 	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
 	priv = ql->priv;
+
+	if (!priv->notify)
+		return;
 
 	g_assert (priv->eval_error_fn != NULL);
 	(* priv->eval_error_fn) (ql, error_str, priv->fn_data);
@@ -278,4 +297,26 @@ query_listener_new (QueryListenerObjUpdatedFn obj_updated_fn,
 					 query_done_fn,
 					 eval_error_fn,
 					 fn_data);
+}
+
+/**
+ * query_listener_stop_notification:
+ * @ql: A query listener.
+ * 
+ * Informs a query listener that no further notification is desired.  The
+ * callbacks specified when the listener was created will no longer be invoked
+ * after this function is called.
+ **/
+void
+query_listener_stop_notification (QueryListener *ql)
+{
+	QueryListenerPrivate *priv;
+
+	g_return_if_fail (ql != NULL);
+	g_return_if_fail (IS_QUERY_LISTENER (ql));
+
+	priv = ql->priv;
+	g_return_if_fail (priv->notify != FALSE);
+
+	priv->notify = FALSE;
 }

@@ -565,6 +565,8 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->auto_scroll_timeout_id = 0;
 
+	day_view->default_category = NULL;
+
 	/* Create the large font. */
 	day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT);
 	if (!day_view->large_font)
@@ -896,8 +898,15 @@ e_day_view_destroy (GtkObject *object)
 		day_view->query = NULL;
 	}
 
-	if (day_view->large_font)
+	if (day_view->large_font) {
 		gdk_font_unref (day_view->large_font);
+		day_view->large_font = NULL;
+	}
+
+	if (day_view->default_category) {
+		g_free (day_view->default_category);
+		day_view->default_category = NULL;
+	}
 
 	gdk_cursor_destroy (day_view->normal_cursor);
 	gdk_cursor_destroy (day_view->move_cursor);
@@ -1562,7 +1571,7 @@ adjust_query_sexp (EDayView *day_view, const char *sexp)
 
 	/* If the dates have not been set yet, we just want an empty query. */
 	if (day_view->lower == 0 || day_view->upper == 0)
-		return g_strdup ("#f");
+		return NULL;
 
 	start = isodate_from_time_t (day_view->lower);
 	end = isodate_from_time_t (day_view->upper);
@@ -1585,6 +1594,7 @@ adjust_query_sexp (EDayView *day_view, const char *sexp)
 static void
 update_query (EDayView *day_view)
 {
+	CalQuery *old_query;
 	char *real_sexp;
 
 	e_day_view_free_events (day_view);
@@ -1595,13 +1605,19 @@ update_query (EDayView *day_view)
 	      && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
-	if (day_view->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->query), day_view);
-		gtk_object_unref (GTK_OBJECT (day_view->query));
+	old_query = day_view->query;
+	day_view->query = NULL;
+
+	if (old_query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), day_view);
+		gtk_object_unref (GTK_OBJECT (old_query));
 	}
 
 	g_assert (day_view->sexp != NULL);
+
 	real_sexp = adjust_query_sexp (day_view, day_view->sexp);
+	if (!real_sexp)
+		return; /* No time range is set, so don't start a query */
 
 	day_view->query = cal_client_get_query (day_view->client, real_sexp);
 	g_free (real_sexp);
@@ -1697,6 +1713,26 @@ e_day_view_set_query (EDayView *day_view, const char *sexp)
 	update_query (day_view);
 }
 
+
+/**
+ * e_day_view_set_default_category:
+ * @day_view: A day view.
+ * @category: Default category name or NULL for no category.
+ * 
+ * Sets the default category that will be used when creating new calendar
+ * components from the day view.
+ **/
+void
+e_day_view_set_default_category (EDayView *day_view, const char *category)
+{
+	g_return_if_fail (day_view != NULL);
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (day_view->default_category)
+		g_free (day_view->default_category);
+
+	day_view->default_category = g_strdup (category);
+}
 
 static gboolean
 e_day_view_update_event_cb (EDayView *day_view,
@@ -4932,6 +4968,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	*dt.value = icaltime_from_timet_with_zone (dtend, FALSE,
 						   day_view->zone);
 	cal_component_set_dtend (comp, &dt);
+
+	cal_component_set_categories (comp, day_view->default_category);
 
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.

@@ -89,6 +89,8 @@ QueryListener *query_listener_new (QueryListenerObjUpdatedFn obj_updated_fn,
 				   QueryListenerEvalErrorFn eval_error_fn,
 				   gpointer fn_data);
 
+void query_listener_stop_notification (QueryListener *ql);
+
 
 
 END_GNOME_DECLS

@@ -42,7 +42,7 @@ struct calendar_tag_closure {
  * Returns FALSE if the calendar has no dates shown.
  */
 static gboolean
-prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
+prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, gboolean clear_first)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -50,7 +50,8 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 	struct icaltimetype end_tt = icaltime_null_time ();
 	char *location;
 
-	e_calendar_item_clear_marks (ecal->calitem);
+	if (clear_first)
+		e_calendar_item_clear_marks (ecal->calitem);
 
 	if (!e_calendar_item_get_date_range (ecal->calitem,
 					     &start_year, &start_month,
@@ -127,7 +128,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
 		return;
 
-	if (!prepare_tag (ecal, &c))
+	if (!prepare_tag (ecal, &c, TRUE))
 		return;
 
 #if 0
@@ -142,12 +143,13 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
  * tag_calendar_by_comp:
  * @ecal: Calendar widget to tag.
  * @comp: A calendar component object.
+ * @clear_first: Whether the #ECalendar should be cleared of any marks first.
  * 
  * Tags an #ECalendar widget with any occurrences of a specific calendar
  * component that occur within the calendar's current time range.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client)
+tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gboolean clear_first)
 {
 	struct calendar_tag_closure c;
 
@@ -160,7 +162,7 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client)
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	if (!prepare_tag (ecal, &c))
+	if (!prepare_tag (ecal, &c, clear_first))
 		return;
 
 #if 0

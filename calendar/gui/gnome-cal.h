@@ -126,17 +126,6 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 						  gboolean	 initializing);
 
-void	   gnome_calendar_set_view_buttons	(GnomeCalendar	*gcal,
-						 GtkWidget	*day_button,
-						 GtkWidget	*work_week_button,
-						 GtkWidget	*week_button,
-						 GtkWidget	*month_button);
-
-/* This makes the appropriate radio button in the toolbar active.
-   It sets the ignore_view_button_clicks flag so the "clicked" signal handlers
-   just return without doing anything. */
-void	   gnome_calendar_update_view_buttons	(GnomeCalendar	*gcal);
-
 /* Get the current timezone. */
 icaltimezone *gnome_calendar_get_timezone	(GnomeCalendar	*gcal);
 

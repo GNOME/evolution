@@ -480,6 +480,9 @@ struct _EDayView
 	/* the invisible widget to manage the clipboard selections */
 	GtkWidget *invisible;
 	gchar *clipboard_selection;
+
+	/* The default category for new events */
+	char *default_category;
 };
 
 struct _EDayViewClass
@@ -499,6 +502,9 @@ void       e_day_view_set_cal_client		(EDayView	*day_view,
 
 void       e_day_view_set_query			(EDayView	*day_view,
 						 const char	*sexp);
+
+void       e_day_view_set_default_category	(EDayView	*day_view,
+						 const char	*category);
 
 /* This sets the selected time range. The EDayView will show the day or week
    corresponding to the start time. If the start_time & end_time are not equal

@@ -1,5 +1,80 @@
 2001-08-03  Federico Mena Quintero  <federico@ximian.com>
 
+	* cal-client/query-listener.c (query_listener_stop_notification):
+	New function; stops further notification from happening.  This is
+	needed since the listener is destroyed asynchronously from the
+	Wombat and the corresponding CalQuery may already have died.
+	(impl_notifyObjUpdated): Do not notify if requested.
+	(impl_notifyObjRemoved): Likewise.
+	(impl_notifyQueryDone): Likewise.
+	(impl_notifyEvalError): Likewise.
+
+	* cal-client/cal-query.c (cal_query_destroy): Use
+	query_listener_stop_notification().
+
+	* cal-client/cal-listener.c (cal_listener_destroy): Nullify the
+	pointers to the callback functions.
+
+	* gui/e-day-view.c (update_query): Commit our state of no longer
+	having a query before unrefing it.  We may reenter from the ORBit
+	main loop and we *really* want this information to be committed.
+
+	* gui/e-week-view.c (update_query): Likewise.
+
+	* gui/calendar-model.c (update_query): Likewise.
+
+	* gui/tag-calendar.c (tag_calendar_by_comp): Added a "clear_first"
+	argument that indicates whether the ECalendar should be cleared of
+	any marks first.
+
+	* gui/calendar-commands.c (calendar_control_activate): Removed
+	ifdefed-out view buttons code from the Gnomecal days.
+
+	* gui/gnome-cal.c (client_categories_changed_cb): Merge the
+	categories of the calendar and tasks clients so that we can
+	display the categories in both sets.
+	(gnome_calendar_construct): Connect to "categories_changed" on
+	both clients.
+	(gnome_calendar_on_date_navigator_selection_changed): Removed call
+	to gnome_calendar_update_view_buttons().
+	(gnome_calendar_update_view_buttons): Removed.  We cannot have
+	this until Bonobo supports radio toolbar items.
+	(gnome_calendar_set_view_buttons): Removed.
+	(gnome_calendar_dayjump): Do not use priv->day_button.
+	(GnomeCalendarPrivate): Removed the {day,work_week,week,month}_button 
+	fields.
+	(gnome_calendar_set_query): Start a retagging process of the date
+	navigator so that it reflects the current query.
+	(update_query): New function to restart a query for the date navigator.
+	(initial_load): Use update_query() instead of tagging the date
+	navigator directly.
+	(gnome_calendar_on_date_navigator_date_range_changed): Likewise.
+	(client_cal_opened_cb): Use update_query() instead of initial_load().
+	(initial_load): Removed.
+	(client_obj_updated_cb): Removed.
+	(client_obj_removed_cb): Removed.
+	(gnome_calendar_new_appointment_for): Set the default category of
+	the new component.
+	(search_bar_category_changed_cb): Set the default category for the
+	calendar views.
+
+	* gui/cal-search-bar.c (cal_search_bar_set_categories): Sort the
+	categories before creating the menu.
+
+	* gui/e-day-view.c (adjust_query_sexp): Return NULL instead of
+	"#f" if the time range is not set yet.
+	(update_query): Do not start a query if the time range is not set.
+	(e_day_view_set_default_category): New function.
+	(e_day_view_key_press): Set the default category on the new
+	component.
+
+	* gui/e-week-view.c (adjust_query_sexp): Analogous to the above.
+	(update_query): Analogous to the above.
+	(e_week_view_set_default_category): Analogous to the above.
+	(e_week_view_key_press): Analogous to the above.
+
+2001-08-03  Federico Mena Quintero  <federico@ximian.com>
+
 	Fixes bug #1407.
 
 	* gui/dialogs/cal-prefs-dialog.glade: Removed the alarm

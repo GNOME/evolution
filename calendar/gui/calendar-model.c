@@ -1897,6 +1897,7 @@ static void
 update_query (CalendarModel *model)
 {
 	CalendarModelPrivate *priv;
+	CalQuery *old_query;
 	char *real_sexp;
 
 	priv = model->priv;
@@ -1909,9 +1910,12 @@ update_query (CalendarModel *model)
 	      && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
-	if (priv->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), model);
-		gtk_object_unref (GTK_OBJECT (priv->query));
+	old_query = priv->query;
+	priv->query = NULL;
+
+	if (old_query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), model);
+		gtk_object_unref (GTK_OBJECT (old_query));
 	}
 
 	g_assert (priv->sexp != NULL);

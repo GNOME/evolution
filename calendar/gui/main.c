@@ -61,6 +61,8 @@ init_bonobo (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	free (malloc (8));
+
 	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain(PACKAGE);
 

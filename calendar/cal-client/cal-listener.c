@@ -115,6 +115,12 @@ cal_listener_destroy (GtkObject *object)
 	listener = CAL_LISTENER (object);
 	priv = listener->priv;
 
+	priv->cal_opened_fn = NULL;
+	priv->obj_updated_fn = NULL;
+	priv->obj_removed_fn = NULL;
+	priv->categories_changed_fn = NULL;
+	priv->fn_data = NULL;
+
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (priv->cal, &ev);
 

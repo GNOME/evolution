@@ -181,6 +181,7 @@ cal_query_destroy (GtkObject *object)
 	priv = query->priv;
 
 	/* The server unrefs the query listener, so we just NULL it out here */
+	query_listener_stop_notification (priv->ql);
 	priv->ql = NULL;
 
 	if (priv->corba_query != CORBA_OBJECT_NIL) {

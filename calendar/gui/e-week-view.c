@@ -297,6 +297,8 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->main_gc = NULL;
 
+	week_view->default_category = NULL;
+
 	/* Create the small font. */
 	week_view->use_small_font = TRUE;
 	week_view->small_font = gdk_font_load (E_WEEK_VIEW_SMALL_FONT);
@@ -463,8 +465,15 @@ e_week_view_destroy (GtkObject *object)
 		week_view->query = NULL;
 	}
 
-	if (week_view->small_font)
+	if (week_view->small_font) {
 		gdk_font_unref (week_view->small_font);
+		week_view->small_font = NULL;
+	}
+
+	if (week_view->default_category) {
+		g_free (week_view->default_category);
+		week_view->default_category = NULL;
+	}
 
 	gdk_cursor_destroy (week_view->normal_cursor);
 	gdk_cursor_destroy (week_view->move_cursor);
@@ -1056,7 +1065,7 @@ adjust_query_sexp (EWeekView *week_view, const char *sexp)
 
 	/* If the dates have not been set yet, we just want an empty query. */
 	if (!g_date_valid (&week_view->first_day_shown))
-		return g_strdup ("#f");
+		return NULL;
 
 	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
 
@@ -1080,6 +1089,7 @@ adjust_query_sexp (EWeekView *week_view, const char *sexp)
 static void
 update_query (EWeekView *week_view)
 {
+	CalQuery *old_query;
 	char *real_sexp;
 
 	e_week_view_free_events (week_view);
@@ -1089,13 +1099,19 @@ update_query (EWeekView *week_view)
 	      && cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
-	if (week_view->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->query), week_view);
-		gtk_object_unref (GTK_OBJECT (week_view->query));
+	old_query = week_view->query;
+	week_view->query = NULL;
+
+	if (old_query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), week_view);
+		gtk_object_unref (GTK_OBJECT (old_query));
 	}
 
 	g_assert (week_view->sexp != NULL);
+
 	real_sexp = adjust_query_sexp (week_view, week_view->sexp);
+	if (!real_sexp)
+		return; /* No time range is set, so don't start a query */
 
 	week_view->query = cal_client_get_query (week_view->client, real_sexp);
 	g_free (real_sexp);
@@ -1189,6 +1205,27 @@ e_week_view_set_query (EWeekView *week_view, const char *sexp)
 	week_view->sexp = g_strdup (sexp);
 
 	update_query (week_view);
+}
+
+
+/**
+ * e_week_view_set_default_category:
+ * @week_view: A week view.
+ * @category: Default category name or NULL for no category.
+ * 
+ * Sets the default category that will be used when creating new calendar
+ * components from the week view.
+ **/
+void
+e_week_view_set_default_category (EWeekView *week_view, const char *category)
+{
+	g_return_if_fail (week_view != NULL);
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->default_category)
+		g_free (week_view->default_category);
+
+	week_view->default_category = g_strdup (category);
 }
 
 
@@ -3090,6 +3127,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	*date.value = icaltime_from_timet_with_zone (dtend, FALSE,
 						     week_view->zone);
 	cal_component_set_dtend (comp, &date);
+
+	cal_component_set_categories (comp, week_view->default_category);
 
 	/* We add the event locally and start editing it. We don't send the
 	   new event to the server until the edit is finished.

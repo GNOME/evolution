@@ -513,22 +513,6 @@ calendar_control_activate (BonoboControl *control,
 	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
 
-#if 0
-	/* FIXME: Need to update this to use new Bonobo ui stuff somehow.
-	   Also need radio buttons really. */
-
-	/* Note that these indices should correspond with the button indices
-	   in the gnome_toolbar_view_buttons UIINFO struct. */
-	gnome_calendar_set_view_buttons (cal,
-					 gnome_toolbar_view_buttons[0].widget,
-					 gnome_toolbar_view_buttons[1].widget,
-					 gnome_toolbar_view_buttons[2].widget,
-					 gnome_toolbar_view_buttons[3].widget);
-
-	/* This makes the appropriate radio button in the toolbar active. */
-	gnome_calendar_update_view_buttons (cal);
-#endif
-
 	bonobo_ui_component_add_verb_list_with_data (uic, verbs, gcal);
 
 	bonobo_ui_component_freeze (uic, NULL);
