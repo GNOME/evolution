@@ -233,7 +233,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	GNOME_Evolution_Shell_selectUserFolder (corba_shell, listener_interface,
 						title, default_folder, &corba_type_name_list,
-						&ev);
+						"", &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);

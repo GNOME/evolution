@@ -253,6 +253,7 @@ e_shell_command_create_new_folder (EShell *shell,
 	/* FIXME: Should handle the result stuff.  */
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view),
 					     e_shell_view_get_current_path (shell_view),
+					     NULL /* Default type. Take it from parent */,
 					     NULL /* result_callback */,
 					     NULL /* result_callback_data */);
 }
@@ -316,7 +317,7 @@ e_shell_command_copy_folder (EShell *shell,
 								       _("Copy folder"),
 								       caption,
 								       uri,
-								       NULL);
+								       NULL, NULL);
 
 	g_free (caption);
 	g_free (uri);
@@ -363,7 +364,7 @@ e_shell_command_move_folder (EShell *shell,
 								       _("Move folder"),
 								       caption,
 								       uri,
-								       NULL);
+								       NULL, NULL);
 
 	g_free (caption);
 	g_free (uri);

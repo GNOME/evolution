@@ -78,7 +78,8 @@ module Evolution {
 		void selectUserFolder (in FolderSelectionListener listener,
 				       in string title,
 				       in string default_folder,
-				       in FolderTypeNameList possible_types)
+				       in FolderTypeNameList possible_types,
+				       in string default_type)
 			raises (NotReady, Busy);
 
 		/**

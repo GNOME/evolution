@@ -375,6 +375,7 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 			     const CORBA_char *title,
 			     const CORBA_char *default_folder,
 			     const GNOME_Evolution_Shell_FolderTypeNameList *corba_allowed_type_names,
+			     const CORBA_char *default_type,
 			     CORBA_Environment *ev)
 {
 	GtkWidget *folder_selection_dialog;
@@ -402,7 +403,8 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 								       title,
 								       NULL,
 								       default_folder,
-								       allowed_type_names);
+								       allowed_type_names,
+								       default_type);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
 	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",

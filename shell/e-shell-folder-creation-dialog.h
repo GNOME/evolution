@@ -43,6 +43,7 @@ typedef void (* EShellFolderCreationDialogCallback) (EShell *shell,
 void  e_shell_show_folder_creation_dialog  (EShell                             *shell,
 					    GtkWindow                          *parent,
 					    const char                         *default_parent_folder,
+					    const char                         *default_type,
 					    EShellFolderCreationDialogCallback  result_callback,
 					    void                               *result_callback_data);
 

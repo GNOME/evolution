@@ -549,7 +549,7 @@ static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
 {
 	ImportDialogFilePage *page;
-	GtkWidget *table, *label;
+	GtkWidget *table, *label, *widget;
 	int row = 0;
 
 	page = g_new0 (ImportDialogFilePage, 1);
@@ -586,9 +586,9 @@ importer_file_page_new (ImportData *data)
 	page->filetype = gtk_option_menu_new ();
 	page->menu = create_plugin_menu (data);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->filetype), page->menu);
-
 	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2, 
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
 	gtk_widget_show_all (table);
 
 	return page;
@@ -645,7 +645,7 @@ import_druid_finish (GnomeDruidPage *page,
 						      _("Select folder"),
 						      _("Select a destination folder for importing this data"),
 						      e_shell_view_get_current_uri (data->view),
-						      NULL);
+						      NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (folder), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected), data);

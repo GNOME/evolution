@@ -1,3 +1,36 @@
+2001-09-26  Iain Holmes  <iain@ximian.com>
+
+	* Evolution-Shell.idl: Added a default_type parameter for setting the
+	default folder creation type.
+
+	* e-shell-folder-commands.c (e_shell_command_create_new_folder): Add NULL
+	for default type.
+	(e_shell_command_move_folder): Add NULL for default type.
+
+	* e-shell-folder-creation-dialog.c (add_folder_types): Check for the
+	default_type instead of for mail.
+	(get_type_from_parent_path): Get the folder type from the parent folder
+	(e_shell_show_folder_creation_dialog): Get the default folder type
+	before creating the menu.
+
+	* e-shell-folder-creation-dialog.h: Update headers.
+
+	* e-shell-folder-selection-dialog.c (impl_clicked): Add default type.
+	(e_shell_folder_selection_dialog_construct): Add default type.
+	(e_shell_folder_selection_dialog_new): Add default type.
+
+	* e-shell-folder-selection-dialog.h: Update headers.
+
+	* e-shell-importer.c (import_druid_finish): Add NULL for default type.
+
+	* e-shell-view-menu.c (command_new_folder): Set NULL for default type.
+	(command_goto_folder): Set NULL for default type.
+
+	* e-shell.c (impl_Shell_selectUserFolder): Update for the new default
+	type.
+
+	* evolution-shell-client.c (user_select_folder): Add "" for default type
+
 2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c (DEFINE_UNIMPLEMENTED): Remove.

@@ -374,7 +374,8 @@ type_with_display_name_compare_func (const void *a, const void *b)
 static GList *
 add_folder_types (GtkWidget *dialog,
 		  GladeXML *gui,
-		  EShell *shell)
+		  EShell *shell,
+		  const char *default_type)
 {
 	EFolderTypeRegistry *folder_type_registry;
 	GtkWidget *folder_type_option_menu;
@@ -438,7 +439,7 @@ add_folder_types (GtkWidget *dialog,
 
 		gtk_object_set_data_full (GTK_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
 
-		if (strcmp (type->type, "mail") == 0)
+		if (strcmp (type->type, default_type ? default_type : "mail") == 0)
 			default_item = i;
 
 		i ++;
@@ -457,6 +458,28 @@ add_folder_types (GtkWidget *dialog,
 	return folder_types;
 }
 
+static const char *
+get_type_from_parent_path (EShell *shell,
+			   const char *path)
+{
+	EFolder *folder;
+	const char *folder_type;
+	EStorageSet *set;
+
+	set = e_shell_get_storage_set (shell);
+	folder = e_storage_set_get_folder (set, path);
+	if (folder == NULL) {
+		return NULL;
+	}
+
+	folder_type = e_folder_get_type_string (folder);
+	if (folder_type == NULL) {
+		return NULL;
+	} else {
+		return folder_type;
+	}
+}
+
 
 /* FIXME: Currently this is modal.  I think it's OK, but if people think it is
    not, we should change it to non-modal and make sure only one of these is
@@ -465,6 +488,7 @@ void
 e_shell_show_folder_creation_dialog (EShell *shell,
 				     GtkWindow *parent_window,
 				     const char *default_parent_folder,
+				     const char *default_type,
 				     EShellFolderCreationDialogCallback result_callback,
 				     void *result_callback_data)
 {
@@ -490,7 +514,14 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	setup_folder_name_entry (dialog, gui, shell);
 
 	storage_set_view = add_storage_set_view (dialog, gui, shell, default_parent_folder);
-	folder_types = add_folder_types (dialog, gui, shell);
+	if (default_type == NULL) {
+		char *dt;
+
+		dt = get_type_from_parent_path (shell, default_parent_folder);
+		folder_types = add_folder_types (dialog, gui, shell, dt);
+	} else {
+		folder_types = add_folder_types (dialog, gui, shell, default_type);
+	}
 
 	dialog_data = g_new (DialogData, 1);
 	dialog_data->dialog                  = dialog;
