@@ -216,7 +216,6 @@ set_errno (int code)
 		errno = EINTR;
 		break;
 	case PR_IO_PENDING_ERROR:
-	case PR_IO_TIMEOUT_ERROR:
 		errno = EAGAIN;
 		break;
 	case PR_WOULD_BLOCK_ERROR:
@@ -235,6 +234,7 @@ set_errno (int code)
 		errno = ECONNREFUSED;
 		break;
 	case PR_CONNECT_TIMEOUT_ERROR:
+	case PR_IO_TIMEOUT_ERROR:
 		errno = ETIMEDOUT;
 		break;
 	case PR_NOT_CONNECTED_ERROR:
@@ -617,7 +617,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
 				poll.out_flags = 0;
 				
-				timeout = PR_INTERVAL_MIN;
+				timeout = CONNECT_TIMEOUT;
 				
 				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
 					set_errno (PR_GetError ());

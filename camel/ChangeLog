@@ -1,3 +1,10 @@
+2002-06-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (set_errno): PR_IO_TIMEOUT_ERROR should
+	map to ETIMEDOUT and not EAGAIN.
+	(stream_connect): Reset the PR_Poll() timeout back to 2 minutes as
+	this wasn't the problem afterall.
+
 2002-06-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-parser.c (folder_scan_drop_step): Drop back to
