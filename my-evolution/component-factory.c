@@ -27,7 +27,7 @@
 static gint running_objects = 0;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "My Evolution", "evolution-today.png", FALSE, NULL, NULL },
+	{ "Summary", "evolution-today.png", FALSE, NULL, NULL },
 	{ NULL, NULL }
 };
 
@@ -48,7 +48,8 @@ create_view (EvolutionShellComponent *shell,
 	BonoboControl *control;
 
 
-	if (g_strcasecmp (folder_type, "My Evolution") != 0) {
+	g_print ("folder_type: %s\n", folder_type);
+	if (g_strcasecmp (folder_type, "Summary") != 0) {
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 	}
 

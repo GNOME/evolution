@@ -1,3 +1,11 @@
+2001-08-15  Iain Holmes  <iain@ximian.com>
+
+	* e-summary.c: s/My Evolution/Summary/
+
+	* e-summary-preferences.c: s/My Evolution/Summary/
+
+	* component-factory.c: s/My Evolution/Summary/
+
 2001-08-13  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-weather.c: Set the default weather stations to Boston (boo)

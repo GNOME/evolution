@@ -382,7 +382,7 @@ alarm_fn (gpointer alarm_id,
 	e_summary_reconfigure (summary);
 }
 	
-#define DEFAULT_HTML "<html><head><title>My Evolution</title></head><body bgcolor=\"#ffffff\">hello</body></html>" 
+#define DEFAULT_HTML "<html><head><title>Summary</title></head><body bgcolor=\"#ffffff\">hello</body></html>" 
 
 static void
 e_summary_init (ESummary *summary)
@@ -469,7 +469,7 @@ do_summary_print (ESummary *summary,
 	int collate = FALSE;
 
 	if (!preview) {
-		gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print My Evolution"), GNOME_PRINT_DIALOG_COPIES));
+		gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Summary"), GNOME_PRINT_DIALOG_COPIES));
 		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
 
 		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
@@ -515,7 +515,7 @@ do_summary_print (ESummary *summary,
 
 		if (result == -1) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("Printing of My Evolution failed"));
+				  _("Printing of Summary failed"));
 		}
 	}
 

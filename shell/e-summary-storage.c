@@ -75,7 +75,7 @@ impl_get_name (EStorage *storage)
 static const char *
 impl_get_display_name (EStorage *storage)
 {
-	return _("My Evolution");
+	return _("Summary");
 }
 
 
@@ -116,7 +116,7 @@ e_summary_storage_new (void)
 
 	storage = gtk_type_new (e_summary_storage_get_type ());
 
-	e_storage_construct (storage, "/", "My Evolution");
+	e_storage_construct (storage, "/", "Summary");
 
 	return storage;
 }

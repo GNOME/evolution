@@ -1363,13 +1363,14 @@ etree_icon_at (ETreeModel *etree,
 
 	path = (char*)e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
-	/* Storages, My Evolution is the only special case for now */
+	/* Storages, Summary (nee My Evolution) is the only special case for now */
+	g_print ("path: %s\n", path);
 	if (depth == 1 && !strcmp (path, "/summary")) { /* Storages */
 		
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 		
 		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-									"My Evolution", TRUE);
+									"Summary", TRUE);
 		return icon_pixbuf;
 	}
 	/* Folders */
@@ -1461,7 +1462,7 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 	}
 
 	if (col == 0)
-		return _("My Evolution");
+		return _("Summary");
 	else
 		return (void *) TRUE;
 }

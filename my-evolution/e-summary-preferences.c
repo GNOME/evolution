@@ -1400,7 +1400,7 @@ e_summary_configure (GtkWidget *widget,
 	g_return_if_fail (pd->xml != NULL);
 
 	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
-	gtk_window_set_title (GTK_WINDOW (pd->box), _("My Evolution Settings"));
+	gtk_window_set_title (GTK_WINDOW (pd->box), _("Summary Settings"));
 	if (make_property_dialog (pd) == FALSE) {
 		g_warning ("Missing some part of XML file");
 		free_property_dialog (pd);
