@@ -1,5 +1,9 @@
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (mail_generate_forward): Fix forwarding to work
+	for people other than me. :) [Although apparently it doesn't
+	really.]
+
 	* mail-ops.c (delete_msg): Add a quick hack to move the selection
 	down a row when you delete a message.
 

@@ -1426,7 +1426,7 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 	 * EMsgComposer will support attaching CamelMimeParts directly,
 	 * or something. FIXME.
 	 */
-	tmpfile = g_strdup ("/tmp/evolution-kludge-XXXX");
+	tmpfile = g_strdup ("/tmp/evolution-kludge-XXXXXX");
 #ifdef HAVE_MKSTEMP
 	fd = mkstemp (tmpfile);
 #else
