@@ -1,5 +1,44 @@
 2000-11-16  Not Zed  <NotZed@HelixCode.com>
 
+	* providers/local/camel-local-summary.c
+	(local_summary_encode_x_evolution): Check the uid string is all
+	digits before trying to write a 'standard' x-ev header.
+
+	* providers/local/camel-maildir-summary.c
+	(camel_maildir_summary_info_to_name): Convert an info into a
+	maildir name:info filename.
+	(camel_maildir_summary_name_to_info): Convert a name:info filename
+	into an info, and tell us if it didn't match it.
+	(message_info_new): When creating a new filename, gets its info
+	from the flags field.  Likewise if creating from an existing file,
+	extract the flags.
+	(maildir_summary_sync): Remove a small memleak.  Also, if our
+	flags and that requires a filename change, perform that here.
+	(message_info_new): Get the received date from the filename.
+	Also, dont overwirte the uid if we have one.
+	(maildir_summary_check): Sort the summary in received order before
+	completion.
+	(maildir_summary_next_uid_string): Test the name for collusions
+	before we give it out.  Retry, and if that fails, well, I guess we
+	collide :(
+
+	* providers/local/camel-mbox-folder.c (mbox_lock): Implement mbox
+	locking.
+	(mbox_unlock): And unlocking.
+	(mbox_append_message): Lock the folder for write before doing
+	anything.
+	(mbox_get_message): Lock the folder for read before doing
+	anything.
+
+	* providers/local/camel-local-folder.c (camel_local_folder_lock):
+	Implement something here.  We handle the recursive ability but
+	pass the locking to the folder itself.
+	(camel_local_folder_unlock): Likewise for unlocking.
+	(local_lock): Default - do nothing, return success.
+	(local_unlock): Same.
+	(local_sync): Changed slightly for locking api changes, and also,
+	only lock around the sync process itself.
+
 	* camel-lock.c: New file - utility functions for locking using
 	different strategies and/or for locking folders safely.
 

@@ -51,6 +51,8 @@ static CamelLocalFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
+static void mbox_unlock(CamelLocalFolder *lf);
 
 static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
@@ -73,19 +75,25 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	camel_folder_class->get_message = mbox_get_message;
 
 	lclass->create_summary = mbox_create_summary;
+	lclass->lock = mbox_lock;
+	lclass->unlock = mbox_unlock;
 }
 
 static void
 mbox_init(gpointer object, gpointer klass)
 {
-	/*CamelFolder *folder = object;
-	  CamelMboxFolder *mbox_folder = object;*/
+	/*CamelFolder *folder = object;*/
+	CamelMboxFolder *mbox_folder = object;
+
+	mbox_folder->lockfd = -1;
 }
 
 static void
 mbox_finalise(CamelObject * object)
 {
-	/*CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(object);*/
+	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)object;
+
+	g_assert(mbox_folder->lockfd == -1);
 }
 
 CamelType camel_mbox_folder_get_type(void)
@@ -124,6 +132,32 @@ static CamelLocalSummary *mbox_create_summary(const char *path, const char *fold
 	return (CamelLocalSummary *)camel_mbox_summary_new(path, folder, index);
 }
 
+static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
+{
+	CamelMboxFolder *mf = (CamelMboxFolder *)lf;
+
+	/* make sure we have matching unlocks for locks, camel-local-folder class should enforce this */
+	g_assert(mf->lockfd == -1);
+
+	mf->lockfd = open(lf->folder_path, O_RDWR, 0);
+	if (mf->lockfd == -1) {
+		camel_exception_setv(ex, 1, "Cannot create folder lock on %s: %s", lf->folder_path, strerror(errno));
+		return -1;
+	}
+
+	return camel_lock_folder(lf->folder_path, mf->lockfd, type, ex);
+}
+
+static void mbox_unlock(CamelLocalFolder *lf)
+{
+	CamelMboxFolder *mf = (CamelMboxFolder *)lf;
+
+	g_assert(mf->lockfd != -1);
+	camel_unlock_folder(lf->folder_path, mf->lockfd);
+	close(mf->lockfd);
+	mf->lockfd = -1;
+}
+
 static void
 mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex)
 {
@@ -136,27 +170,28 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	int fd;
 	struct stat st;
 
-	/* FIXME: Locking */
+	/* If we can't lock, dont do anything */
+	if (camel_local_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
+		return;
 
 	d(printf("Appending message\n"));
 
 	/* first, check the summary is correct (updates folder_size too) */
 	camel_local_summary_check(lf->summary, lf->changes, ex);
 	if (camel_exception_is_set(ex))
-		return;
+		goto fail;
 
 	/* add it to the summary/assign the uid, etc */
 	mi = camel_local_summary_add(lf->summary, message, info, lf->changes, ex);
-	if (camel_exception_is_set(ex)) {
-		return;
-	}
+	if (camel_exception_is_set(ex))
+		goto fail;
 
 	d(printf("Appending message: uid is %s\n", mi->uid));
 
 	output_stream = camel_stream_fs_new_with_name(lf->folder_path, O_WRONLY|O_APPEND, 0600);
 	if (output_stream == NULL) {
 		camel_exception_setv(ex, 1, _("Cannot open mailbox: %s: %s\n"), lf->folder_path, strerror(errno));
-		return;
+		goto fail;
 	}
 
 	/* we must write this to the non-filtered stream ... prepend a \n if not at the start of the file */
@@ -174,18 +209,21 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	if (camel_stream_close(filter_stream) == -1)
 		goto fail_write;
 
-	/* now we 'fudge' the summary  to tell it its uptodate, because its idea of uptodate has just changed */
-	/* the stat really shouldn't fail, we just wrote to it */
-	if (stat(lf->folder_path, &st) == 0) {
-		mbs->folder_size = st.st_size;
-		((CamelFolderSummary *)mbs)->time = st.st_mtime;
-	}
+	/* unlock as soon as we can */
+	camel_local_folder_unlock(lf);
 
 	/* filter stream ref's the output stream itself, so we need to unref it too */
 	camel_object_unref((CamelObject *)filter_from);
 	camel_object_unref((CamelObject *)filter_stream);
 	camel_object_unref((CamelObject *)output_stream);
 	g_free(fromline);
+
+	/* now we 'fudge' the summary  to tell it its uptodate, because its idea of uptodate has just changed */
+	/* the stat really shouldn't fail, we just wrote to it */
+	if (stat(lf->folder_path, &st) == 0) {
+		mbs->folder_size = st.st_size;
+		((CamelFolderSummary *)mbs)->time = st.st_mtime;
+	}
 
 	if (camel_folder_change_info_changed(lf->changes)) {
 		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
@@ -223,6 +261,10 @@ fail_write:
 		((CamelFolderSummary *)mbs)->time = st.st_mtime;
 	}
 
+fail:
+	/* make sure we unlock the folder - before we start triggering events into appland */
+	camel_local_folder_unlock(lf);
+
 	/* cascade the changes through, anyway, if there are any outstanding */
 	if (camel_folder_change_info_changed(lf->changes)) {
 		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
@@ -242,7 +284,9 @@ mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	
 	d(printf("Getting message %s\n", uid));
 
-	/* FIXME: mbox locking */
+	/* lock the folder first, burn if we can't */
+	if (camel_local_folder_lock(lf, CAMEL_LOCK_READ, ex) == -1)
+		return NULL;
 	
 retry:
 	/* get the message summary info */
@@ -251,6 +295,7 @@ retry:
 	if (info == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     _("Cannot get message: %s\n  %s"), uid, _("No such message"));
+		camel_local_folder_unlock(lf);
 		return NULL;
 	}
 
@@ -260,13 +305,15 @@ retry:
 	
 	/* we use an fd instead of a normal stream here - the reason is subtle, camel_mime_part will cache
 	   the whole message in memory if the stream is non-seekable (which it is when built from a parser
-	   with no stream).  This means we dont have to lock the mbox for the life of the message. */
+	   with no stream).  This means we dont have to lock the mbox for the life of the message, but only
+	   while it is being created. */
 
 	fd = open(lf->folder_path, O_RDONLY);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
 				     strerror(errno));
+		camel_local_folder_unlock(lf);
 		return NULL;
 	}
 
@@ -296,6 +343,7 @@ retry:
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
 				     _("The folder appears to be irrecoverably corrupted."));
 
+		camel_local_folder_unlock(lf);
 		return NULL;
 	}
 	
@@ -307,8 +355,12 @@ retry:
 				     _("Message construction failed: Corrupt mailbox?"));
 		camel_object_unref((CamelObject *)parser);
 		camel_object_unref((CamelObject *)message);
+		camel_local_folder_unlock(lf);
 		return NULL;
 	}
+
+	/* and unlock now we're finished with it */
+	camel_local_folder_unlock(lf);
 
 	camel_object_unref((CamelObject *)parser);
 	

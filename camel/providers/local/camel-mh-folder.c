@@ -127,7 +127,7 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 	CamelMessageInfo *mi;
 	char *name;
 
-	/* FIXME: probably needs additional locking */
+	/* FIXME: probably needs additional locking (although mh doesn't appear do do it) */
 
 	d(printf("Appending message\n"));
 

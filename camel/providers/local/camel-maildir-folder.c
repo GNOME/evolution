@@ -96,7 +96,7 @@ CamelType camel_maildir_folder_get_type(void)
 							   (CamelObjectInitFunc) maildir_init,
 							   (CamelObjectFinalizeFunc) maildir_finalize);
 	}
-
+ 
 	return camel_maildir_folder_type;
 }
 
@@ -127,8 +127,6 @@ static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * mess
 	CamelMessageInfo *mi;
 	CamelMaildirMessageInfo *mdi;
 	char *name, *dest;
-
-	/* FIXME: probably needs additional locking */
 
 	d(printf("Appending message\n"));
 
@@ -202,6 +200,7 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 
 	mdi = (CamelMaildirMessageInfo *)info;
 
+	/* what do we do if the message flags (and :info data) changes?  filename mismatch - need to recheck I guess */
 	name = g_strdup_printf("%s/cur/%s", lf->folder_path, mdi->filename);
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"),

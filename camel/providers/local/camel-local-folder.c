@@ -1,7 +1,5 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
-/* camel-local-folder.c : Abstract class for an email folder */
-
-/* 
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*-
+ * 
  * Authors: Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright (C) 1999, 2000 Helix Code Inc.
@@ -53,6 +51,8 @@ static CamelFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CLOCALS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
+static void local_unlock(CamelLocalFolder *lf);
 
 static void local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint local_get_message_count(CamelFolder *folder);
@@ -111,6 +111,9 @@ camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 	camel_folder_class->set_message_user_flag = local_set_message_user_flag;
 	camel_folder_class->get_message_user_tag = local_get_message_user_tag;
 	camel_folder_class->set_message_user_tag = local_set_message_user_tag;
+
+	camel_local_folder_class->lock = local_lock;
+	camel_local_folder_class->unlock = local_unlock;
 }
 
 static void
@@ -221,15 +224,45 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	return lf;
 }
 
-/* Have to work out how/when to lock */
-int camel_local_folder_lock(CamelLocalFolder *lf, CamelException *ex)
+/* lock the folder, may be called repeatedly (with matching unlock calls),
+   with type the same or less than the first call */
+int camel_local_folder_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
+{
+	if (lf->locked > 0) {
+		/* lets be anal here - its important the code knows what its doing */
+		g_assert(lf->locktype == type || lf->locktype == CAMEL_LOCK_WRITE);
+	} else {
+		if (CLOCALF_CLASS(lf)->lock(lf, type, ex) == -1)
+			return -1;
+		lf->locktype = type;
+	}
+
+	lf->locked++;
+
+	return 0;
+}
+
+/* unlock folder */
+int camel_local_folder_unlock(CamelLocalFolder *lf)
+{
+	g_assert(lf->locked>0);
+	lf->locked--;
+	if (lf->locked == 0)
+		CLOCALF_CLASS(lf)->unlock(lf);
+
+	return 0;
+}
+
+static int
+local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
 {
 	return 0;
 }
 
-int camel_local_folder_unlock(CamelLocalFolder *lf, CamelException *ex)
+static void
+local_unlock(CamelLocalFolder *lf)
 {
-	return 0;
+	/* nothing */
 }
 
 static void
@@ -239,17 +272,17 @@ local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	d(printf("local sync, expunge=%s\n", expunge?"true":"false"));
 
-	if (camel_local_folder_lock(lf, ex) == -1)
+	if (camel_local_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
 		return;
 
+	/* if sync fails, we'll pass it up on exit through ex */
 	camel_local_summary_sync(lf->summary, expunge, lf->changes, ex);
+	camel_local_folder_unlock(lf);
+
 	if (camel_folder_change_info_changed(lf->changes)) {
 		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", lf->changes);
 		camel_folder_change_info_clear(lf->changes);
 	}
-
-	if (camel_local_folder_unlock(lf, ex) == -1)
-		return;
 
 	/* force save of metadata */
 	if (lf->index)
@@ -266,186 +299,6 @@ local_expunge(CamelFolder *folder, CamelException *ex)
 	/* Just do a sync with expunge, serves the same purpose */
 	camel_folder_sync(folder, TRUE, ex);
 }
-
-#if 0
-static void
-local_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex)
-{
-	CamelLocalFolder *local_folder = CAMEL_LOCAL_FOLDER(folder);
-	CamelStream *output_stream = NULL, *filter_stream = NULL;
-	CamelMimeFilter *filter_from = NULL;
-	CamelMessageInfo *newinfo;
-	struct stat st;
-	off_t seek = -1;
-	char *xev;
-	guint32 uid;
-	char *fromline = NULL;
-
-	if (stat(local_folder->folder_path, &st) != 0)
-		goto fail;
-
-	output_stream = camel_stream_fs_new_with_name(local_folder->folder_file_path, O_WRONLY|O_APPEND, 0600);
-	if (output_stream == NULL)
-		goto fail;
-
-	seek = st.st_size;
-
-	/* assign a new x-evolution header/uid */
-	camel_medium_remove_header(CAMEL_MEDIUM(message), "X-Evolution");
-	uid = camel_folder_summary_next_uid(CAMEL_FOLDER_SUMMARY(local_folder->summary));
-	/* important that the header matches exactly 00000000-0000 */
-	xev = g_strdup_printf("%08x-%04x", uid, info ? info->flags & 0xFFFF : 0);
-	camel_medium_add_header(CAMEL_MEDIUM(message), "X-Evolution", xev);
-	g_free(xev);
-
-	/* we must write this to the non-filtered stream ... */
-	fromline = camel_local_summary_build_from(CAMEL_MIME_PART(message)->headers);
-	if (camel_stream_printf(output_stream, seek==0?"%s":"\n%s", fromline) == -1)
-		goto fail;
-
-	/* and write the content to the filtering stream, that translated '\nFrom' into '\n>From' */
-	filter_stream = (CamelStream *) camel_stream_filter_new_with_stream(output_stream);
-	filter_from = (CamelMimeFilter *) camel_mime_filter_from_new();
-	camel_stream_filter_add((CamelStreamFilter *) filter_stream, filter_from);
-	if (camel_data_wrapper_write_to_stream(CAMEL_DATA_WRAPPER(message), filter_stream) == -1)
-		goto fail;
-
-	if (camel_stream_close(filter_stream) == -1)
-		goto fail;
-
-	/* filter stream ref's the output stream itself, so we need to unref it too */
-	camel_object_unref(CAMEL_OBJECT(filter_from));
-	camel_object_unref(CAMEL_OBJECT(filter_stream));
-	camel_object_unref(CAMEL_OBJECT(output_stream));
-	g_free(fromline);
-
-	/* force a summary update - will only update from the new position, if it can */
-	if (camel_local_summary_update(local_folder->summary, seek==0?seek:seek+1, local_folder->changes) == 0) {
-		char uidstr[16];
-
-		sprintf(uidstr, "%u", uid);
-		newinfo = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(local_folder->summary), uidstr);
-
-		if (info && newinfo) {
-			CamelFlag *flag = info->user_flags;
-			CamelTag *tag = info->user_tags;
-
-			while (flag) {
-				camel_flag_set(&(newinfo->user_flags), flag->name, TRUE);
-				flag = flag->next;
-			}
-
-			while (tag) {
-				camel_tag_set(&(newinfo->user_tags), tag->name, tag->value);
-				tag = tag->next;
-			}
-		}
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", local_folder->changes);
-		camel_folder_change_info_clear(local_folder->changes);
-	}
-
-	return;
-
-      fail:
-	if (camel_exception_is_set(ex)) {
-		camel_exception_setv(ex, camel_exception_get_id(ex),
-				     _("Cannot append message to local file: %s"), camel_exception_get_description(ex));
-	} else {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot append message to local file: %s"), g_strerror(errno));
-	}
-	if (filter_stream) {
-		/*camel_stream_close (filter_stream); */
-		camel_object_unref(CAMEL_OBJECT(filter_stream));
-	}
-	if (output_stream)
-		camel_object_unref(CAMEL_OBJECT(output_stream));
-
-	if (filter_from)
-		camel_object_unref(CAMEL_OBJECT(filter_from));
-
-	g_free(fromline);
-
-	/* make sure the file isn't munged by us */
-	if (seek != -1) {
-		int fd = open(local_folder->folder_file_path, O_WRONLY, 0600);
-
-		if (fd != -1) {
-			ftruncate(fd, st.st_size);
-			close(fd);
-		}
-	}
-}
-
-static CamelMimeMessage *
-local_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
-{
-	CamelLocalFolder *local_folder = CAMEL_LOCAL_FOLDER(folder);
-	CamelStream *message_stream = NULL;
-	CamelMimeMessage *message = NULL;
-	CamelLocalMessageInfo *info;
-	CamelMimeParser *parser = NULL;
-	char *buffer;
-	int len;
-
-	/* get the message summary info */
-	info = (CamelLocalMessageInfo *) camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(local_folder->summary), uid);
-
-	if (info == NULL) {
-		errno = ENOENT;
-		goto fail;
-	}
-
-	/* if this has no content, its an error in the library */
-	g_assert(info->info.content);
-	g_assert(info->frompos != -1);
-
-	/* where we read from */
-	message_stream = camel_stream_fs_new_with_name(local_folder->folder_file_path, O_RDONLY, 0);
-	if (message_stream == NULL)
-		goto fail;
-
-	/* we use a parser to verify the message is correct, and in the correct position */
-	parser = camel_mime_parser_new();
-	camel_mime_parser_init_with_stream(parser, message_stream);
-	camel_object_unref(CAMEL_OBJECT(message_stream));
-	camel_mime_parser_scan_from(parser, TRUE);
-
-	camel_mime_parser_seek(parser, info->frompos, SEEK_SET);
-	if (camel_mime_parser_step(parser, &buffer, &len) != HSCAN_FROM) {
-		g_warning("File appears truncated");
-		goto fail;
-	}
-
-	if (camel_mime_parser_tell_start_from(parser) != info->frompos) {
-		/* TODO: This should probably perform a re-sync/etc, and try again? */
-		g_warning("Summary doesn't match the folder contents!  eek!\n"
-			  "  expecting offset %ld got %ld", (long int)info->frompos,
-			  (long int)camel_mime_parser_tell_start_from(parser));
-		errno = EINVAL;
-		goto fail;
-	}
-
-	message = camel_mime_message_new();
-	if (camel_mime_part_construct_from_parser(CAMEL_MIME_PART(message), parser) == -1) {
-		g_warning("Construction failed");
-		goto fail;
-	}
-	camel_object_unref(CAMEL_OBJECT(parser));
-
-	return message;
-
-      fail:
-	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s"), g_strerror(errno));
-
-	if (parser)
-		camel_object_unref(CAMEL_OBJECT(parser));
-	if (message)
-		camel_object_unref(CAMEL_OBJECT(message));
-
-	return NULL;
-}
-#endif
 
 /*
   The following functions all work off the summary, so the default operations provided

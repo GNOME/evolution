@@ -32,6 +32,7 @@ extern "C" {
 #include <camel/camel-folder-search.h>
 #include <libibex/ibex.h>
 #include "camel-local-summary.h"
+#include "camel-lock.h"
 
 /*  #include "camel-store.h" */
 
@@ -46,6 +47,7 @@ typedef struct {
 	guint32 flags;		/* open mode flags */
 
 	int locked;		/* lock counter */
+	CamelLockType locktype;	/* what type of lock we have */
 
 	char *base_path;	/* base path of the local folder */
 	char *folder_path;	/* the path to the folder itself */
@@ -67,10 +69,10 @@ typedef struct {
 	CamelLocalSummary *(*create_summary)(const char *path, const char *folder, ibex *index);
 
 	/* Lock the folder for my operations */
-	int (*lock)(CamelLocalFolder *);
+	int (*lock)(CamelLocalFolder *, CamelLockType type, CamelException *ex);
 
 	/* Unlock the folder for my operations */
-	int (*unlock)(CamelLocalFolder *);
+	void (*unlock)(CamelLocalFolder *);
 } CamelLocalFolderClass;
 
 
@@ -84,8 +86,8 @@ CamelType camel_local_folder_get_type(void);
 
 /* Lock the folder for internal use.  May be called repeatedly */
 /* UNIMPLEMENTED */
-int camel_local_folder_lock(CamelLocalFolder *lf, CamelException *ex);
-int camel_local_folder_unlock(CamelLocalFolder *lf, CamelException *ex);
+int camel_local_folder_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
+int camel_local_folder_unlock(CamelLocalFolder *lf);
 
 #ifdef __cplusplus
 }

@@ -290,12 +290,15 @@ local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo 
 	GString *val = g_string_new("");
 	CamelFlag *flag = mi->user_flags;
 	CamelTag *tag = mi->user_tags;
-	char *ret;
+	char *ret, *p;
 	guint32 uid;
 
 	/* FIXME: work out what to do with uid's that aren't stored here? */
 	/* FIXME: perhaps make that a mbox folder only issue?? */
-	if (sscanf(mi->uid, "%u", &uid) == 1) {
+	p = mi->uid;
+	while (*p && isdigit(*p))
+		p++;
+	if (*p == 0 && sscanf(mi->uid, "%u", &uid) == 1) {
 		g_string_sprintf(out, "%08x-%04x", uid, mi->flags & 0xffff);
 	} else {
 		g_string_sprintf(out, "%s-%04x", mi->uid, mi->flags & 0xffff);

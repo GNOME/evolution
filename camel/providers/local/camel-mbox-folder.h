@@ -39,6 +39,7 @@ extern "C" {
 typedef struct {
 	CamelLocalFolder parent_object;
 
+	int lockfd;		/* for when we have a lock on the folder */
 } CamelMboxFolder;
 
 typedef struct {

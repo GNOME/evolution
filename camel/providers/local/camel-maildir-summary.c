@@ -133,6 +133,71 @@ CamelMaildirSummary	*camel_maildir_summary_new	(const char *filename, const char
 	return o;
 }
 
+/* the 'standard' maildir flags.  should be defined in sorted order. */
+static struct {
+	char flag;
+	guint32 flagbit;
+} flagbits[] = {
+	{ 'F', CAMEL_MESSAGE_FLAGGED },
+	{ 'R', CAMEL_MESSAGE_ANSWERED },
+	{ 'S', CAMEL_MESSAGE_SEEN },
+	{ 'T', CAMEL_MESSAGE_DELETED },
+};
+
+/* convert the uid + flags into a unique:info maildir format */
+char *camel_maildir_summary_info_to_name(const CamelMessageInfo *info)
+{
+	char *p, *buf;
+	int i;
+
+	buf = alloca(strlen(info->uid) + strlen(":2,") +  (sizeof(flagbits)/sizeof(flagbits[0])) + 1);
+	p = buf + sprintf(buf, "%s:2,", info->uid);
+	for (i=0;i<sizeof(flagbits)/sizeof(flagbits[0]);i++) {
+		if (info->flags & flagbits[i].flagbit)
+			*p++ = flagbits[i].flag;
+	}
+	*p = 0;
+
+	return g_strdup(buf);
+}
+
+/* returns 0 if the info matches (or there was none), otherwise we changed it */
+int camel_maildir_summary_name_to_info(CamelMessageInfo *info, const char *name)
+{
+	char *p, c;
+	guint32 set = 0;	/* what we set */
+	/*guint32 all = 0;*/	/* all flags */
+	int i;
+
+	p = strstr(name, ":2,");
+	if (p) {
+		p+=3;
+		while ((c = *p++)) {
+			/* we could assume that the flags are in order, but its just as easy not to require */
+			for (i=0;i<sizeof(flagbits)/sizeof(flagbits[0]);i++) {
+				if (flagbits[i].flag == c && (info->flags & flagbits[i].flagbit) == 0) {
+					set |= flagbits[i].flagbit;
+				}
+				/*all |= flagbits[i].flagbit;*/
+			}
+		}
+
+		/* changed? */
+		/*if ((info->flags & all) != set) {*/
+		if ((info->flags & set) != set) {
+			/* ok, they did change, only add the new flags ('merge flags'?) */
+			/*info->flags &= all;  if we wanted to set only the new flags, which we probably dont */
+			info->flags |= set;
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+/* FIXME: We need to also provide an encode/decode X-Evolution function, as the default
+   is no good for us, and can screw up the uid info */
+
 static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
@@ -144,13 +209,41 @@ static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header
 	if (mi) {
 		mdi = (CamelMaildirMessageInfo *)mi;
 
-		mi->uid = camel_folder_summary_next_uid_string(s);
+		if (mi->uid == NULL) {
+			mi->uid = camel_folder_summary_next_uid_string(s);
+		}
 
-		/* should store some status info in the filename, but we wont (yet) (fixme) */
+		/* with maildir we know the real received date, from the filename */
+		mi->date_received = strtoul(mi->uid, NULL, 10);
+
 		if (mds->priv->current_file) {
+#if 0
+			char *p1, *p2, *p3;
+			unsigned long uid;
+#endif
+			/* if setting from a file, grab the flags from it */
 			mdi->filename = g_strdup(mds->priv->current_file);
+			camel_maildir_summary_name_to_info(mi, mdi->filename);
+
+#if 0
+			/* Actually, I dont think all this effort is worth it at all ... */
+
+			/* also, see if we can extract the next-id from tne name, and safe-if-fy ourselves against collisions */
+			/* we check for something.something_number.something */
+			p1 = strchr(mdi->filename, '.');
+			if (p1) {
+				p2 = strchr(p1+1, '.');
+				p3 = strchr(p1+1, '_');
+				if (p2 && p3 && p3<p2) {
+					uid = strtoul(p3+1, &p1, 10);
+					if (p1 == p2 && uid>0)
+						camel_folder_summary_set_uid(s, uid);
+				}
+			}
+#endif
 		} else {
-			mdi->filename = g_strdup_printf("%s:2,", mi->uid);
+			/* if creating a file, set its name from the flags we have */
+			mdi->filename = camel_maildir_summary_info_to_name(mi);
 		}
 	}
 
@@ -160,9 +253,10 @@ static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header
 static char *maildir_summary_next_uid_string(CamelFolderSummary *s)
 {
 	CamelMaildirSummary *mds = (CamelMaildirSummary *)s;
-	/*CamelLocalSummary *cls = (CamelLocalSummary *)s;*/
 
-	/* current_file is more a current_filename, so map the filename to a uid */
+	d(printf("next uid string called?\n"));
+
+	/* if we have a current file, then use that to get the uid */
 	if (mds->priv->current_file) {
 		char *cln;
 
@@ -172,8 +266,33 @@ static char *maildir_summary_next_uid_string(CamelFolderSummary *s)
 		else
 			return g_strdup(mds->priv->current_file);
 	} else {
-		/* we use time.pid_count.hostname */
+		/* the first would probably work, but just to be safe, check for collisions */
+#if 0
 		return g_strdup_printf("%ld.%d_%u.%s", time(0), getpid(), camel_folder_summary_next_uid(s), mds->priv->hostname);
+#else
+		CamelLocalSummary *cls = (CamelLocalSummary *)s;
+		char *name = NULL, *uid = NULL;
+		struct stat st;
+		int retry = 0;
+		guint32 nextuid = camel_folder_summary_next_uid(s);
+
+		/* we use time.pid_count.hostname */
+		do {
+			if (retry > 0) {
+				g_free(name);
+				g_free(uid);
+				sleep(2);
+			}
+			uid = g_strdup_printf("%ld.%d_%u.%s", time(0), getpid(), nextuid, mds->priv->hostname);
+			name = g_strdup_printf("%s/tmp/%s", cls->folder_path, uid);
+			retry++;
+		} while (stat(name, &st) == 0 && retry<3);
+
+		/* I dont know what we're supposed to do if it fails to find a unique name?? */
+
+		g_free(name);
+		return uid;
+#endif
 	}
 }
 
@@ -217,6 +336,21 @@ remove_summary(char *key, CamelMessageInfo *info, CamelLocalSummary *cls)
 	if (cls->index)
 		ibex_unindex(cls->index, info->uid);
 	camel_folder_summary_remove((CamelFolderSummary *)cls, info);
+}
+
+static int
+sort_receive_cmp(const void *ap, const void *bp)
+{
+	const CamelMessageInfo
+		*a = *((CamelMessageInfo **)ap),
+		*b = *((CamelMessageInfo **)bp);
+
+	if (a->date_received < b->date_received)
+		return -1;
+	else if (a->date_received > b->date_received)
+		return 1;
+
+	return 0;
 }
 
 static int
@@ -343,6 +477,9 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	g_free(new);
 	g_free(cur);
 
+	/* sort the summary based on receive time, since the directory order is not useful */
+	qsort(s->messages->pdata, s->messages->len, sizeof(CamelMessageInfo *), sort_receive_cmp);
+
 	/* FIXME: move this up a class? */
 
 	/* force a save of the index, just to make sure */
@@ -355,8 +492,7 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	return 0;
 }
 
-/* sync the summary with the ondisk files.
-   It doesnt store the state in the file, the summary only, == MUCH faster */
+/* sync the summary with the ondisk files. */
 static int
 maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changes, CamelException *ex)
 {
@@ -364,20 +500,19 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 	CamelMessageInfo *info;
 	CamelMaildirMessageInfo *mdi;
 	char *name;
+	struct stat st;
 
 	d(printf("summary_sync(expunge=%s)\n", expunge?"true":"false"));
 
 	if (cls->index) {
 		ibex_save(cls->index);
 	}
-	if (!expunge)
-		return 0;
 
 	count = camel_folder_summary_count((CamelFolderSummary *)cls);
 	for (i=count-1;i>=0;i--) {
 		info = camel_folder_summary_index((CamelFolderSummary *)cls, i);
-		if (info && info->flags & CAMEL_MESSAGE_DELETED) {
-			mdi = (CamelMaildirMessageInfo *)info;
+		mdi = (CamelMaildirMessageInfo *)info;
+		if (info && (info->flags & CAMEL_MESSAGE_DELETED) && expunge) {
 			name = g_strdup_printf("%s/cur/%s", cls->folder_path, mdi->filename);
 			d(printf("deleting %s\n", name));
 			if (unlink(name) == 0 || errno==ENOENT) {
@@ -389,6 +524,34 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 				camel_folder_change_info_remove_uid(changes, info->uid);
 				camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 			}
+			g_free(name);
+		} else if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)) {
+			char *newname = camel_maildir_summary_info_to_name(info);
+			char *dest;
+
+			/* do we care about additional metainfo stored inside the message? */
+			/* probably should all go in the filename? */
+
+			/* have our flags/ i.e. name changed? */
+			if (strcmp(newname, mdi->filename)) {
+				name = g_strdup_printf("%s/cur/%s", cls->folder_path, mdi->filename);
+				dest = g_strdup_printf("%s/cur/%s", cls->folder_path, newname);
+				rename(name, dest);
+				if (stat(dest, &st) == -1) {
+					/* we'll assume it didn't work, but dont change anything else */
+					g_free(newname);
+				} else {
+					g_free(mdi->filename);
+					mdi->filename = newname;
+				}
+				g_free(name);
+				g_free(dest);
+			} else {
+				g_free(newname);
+			}
+
+			/* strip FOLDER_MESSAGE_FLAGED, etc */
+			info->flags &= 0xffff;
 		}
 	}
 	return 0;
