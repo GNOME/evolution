@@ -4,7 +4,7 @@ INCLUDES =								\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(SOURCE_SEL_CFLAGS)
+	$(GNOME_FULL_CFLAGS)
 
 privlib_LTLIBRARIES =	\
 	libemiscwidgets.la
@@ -41,8 +41,6 @@ widgetsinclude_HEADERS =			\
 	e-map.h					\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
-	e-source-option-menu.h			\
-	e-source-selector.h			\
 	e-task-bar.h				\
 	e-task-widget.h				\
 	e-title-bar.h				\
@@ -72,8 +70,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-map.c					\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\
-	e-source-option-menu.c			\
-	e-source-selector.c			\
 	e-task-bar.c				\
 	e-task-widget.c				\
 	e-title-bar.c				\
@@ -90,7 +86,7 @@ errordir = $(privdatadir)/errors
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
-	$(SOURCE_SEL_LIBS)
+	$(GNOME_FULL_LIBS)
 
 noinst_LTLIBRARIES = libefilterbar.la
 
@@ -104,8 +100,6 @@ noinst_PROGRAMS = 			\
 	test-dropdown-button		\
 	test-error			\
 	test-multi-config-dialog 	\
-	test-source-option-menu		\
-	test-source-selector		\
 	test-title-bar
 
 # test-calendar
@@ -157,27 +151,6 @@ test_title_bar_LDADD = 		\
 	./libemiscwidgets.la	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_FULL_LIBS)
-
-# test-source-selector
-
-test_source_selector_SOURCES =			\
-	test-source-selector.c
-
-test_source_selector_LDADD =			\
-	$(top_builddir)/e-util/libeutil.la	\
-	./libemiscwidgets.la			\
-	$(SOURCE_SEL_LIBS)
-
-
-# test-source-option-menu
-
-test_source_option_menu_SOURCES =		\
-	test-source-option-menu.c
-
-test_source_option_menu_LDADD =			\
-	$(top_builddir)/e-util/libeutil.la	\
-	./libemiscwidgets.la			\
-	$(SOURCE_SEL_LIBS)
 
 test_error_SOURCES = 	\
 	test-error.c

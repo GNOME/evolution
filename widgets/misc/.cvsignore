@@ -12,6 +12,4 @@ test-dateedit
 test-dropdown-button
 test-error
 test-multi-config-dialog
-test-source-option-menu
-test-source-selector
 test-title-bar
