@@ -278,6 +278,7 @@ calendar/Makefile
 calendar/doc/Makefile
 calendar/doc/C/Makefile
 calendar/idl/Makefile
+calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
 filter/Makefile
