@@ -269,7 +269,7 @@ load_file_fn (EvolutionImporter *eimporter,
 
 		fullpath = e_path_to_physical (homedir, folderpath);
 		ex = camel_exception_new ();
-		importer->folder = mail_tool_uri_to_folder (fullpath, CAMEL_STORE_FOLDER_CREATE, ex);
+		importer->folder = mail_tool_uri_to_folder (fullpath, 0, ex);
 		g_free (homedir);
 	
 		if (camel_exception_is_set (ex) || importer->folder == NULL) {
@@ -300,7 +300,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	}
 
 	if (importer->folder == NULL && delayed == FALSE){
-		g_print ("Bad folder\n");
+		g_warning ("Bad folder\n");
 		goto fail;
 	}
 

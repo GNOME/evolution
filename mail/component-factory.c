@@ -182,7 +182,7 @@ create_folder_done (char *uri, CamelFolder *folder, void *data)
 	GNOME_Evolution_ShellComponentListener listener = data;
 	GNOME_Evolution_ShellComponentListener_Result result;
 	CORBA_Environment ev;
-	
+
 	if (folder) {
 		result = GNOME_Evolution_ShellComponentListener_OK;
 	} else {
