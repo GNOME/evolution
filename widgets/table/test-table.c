@@ -200,7 +200,8 @@ table_browser_test (void)
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
-			column_labels [i], 80, 20, cell_left_just,
+			column_labels [i], column_labels [i],
+			80, 20, cell_left_just,
 			g_str_equal, TRUE);
 
 		e_table_header_add_column (e_table_header, ecol, i);

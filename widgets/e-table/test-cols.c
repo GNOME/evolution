@@ -133,11 +133,12 @@ multi_cols_test (void)
 		g_free (images);
 	} 
 					       
-	col_0 = e_table_col_new ("A", 48, 48, cell_image_toggle, g_int_equal, TRUE);
+	col_0 = e_table_col_new ("id", "A", 48, 48, cell_image_toggle, g_int_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_0, 0);
-	
-	col_1 = e_table_col_new ("Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
+
+	col_1 = e_table_col_new ("item", "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
+
 
 	/*
 	 * GUI

@@ -118,10 +118,10 @@ check_test (void)
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 
 	cell_image_check = e_cell_checkbox_new (e_table_model);
-	col_0 = e_table_col_new ("", 18, 18, cell_image_check, g_int_equal, TRUE);
+	col_0 = e_table_col_new ("id", "", 18, 18, cell_image_check, g_int_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	
-	col_1 = e_table_col_new ("Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
+	col_1 = e_table_col_new ("item", "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
 
 	/*

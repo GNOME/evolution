@@ -1,3 +1,25 @@
+1999-12-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_unrealize): Removed change cursor
+	from here.
+
+	* e-cell-text.c (ect_draw): Memory leak fix.
+
+	* table-test.c (main): Enhance the demo to load sample.table
+	automatically, to get memprof working.
+
+	* e-table-header.c (eth_do_remove): Take an argument: do -remove.
+
+	* e-table-header.c (e_table_header_add_column): Sink ETableCol to
+	own the object.
+
+	* e-table-col.h: Made ETableCol a GtkObject to make reference
+	counting the lifecycle method for these objects.
+
+	* e-table-col.c (e_table_col_destroy): New API call.
+
+	* e-table-subset.c (e_table_subset_get_toplevel): New API call. 
+
 1999-11-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-cell-checkbox.c (e_cell_checkbox_new): This one derives from

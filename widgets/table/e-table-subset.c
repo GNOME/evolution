@@ -138,3 +138,14 @@ e_table_subset_new (ETableModel *source, const int nvals)
 	return (ETableModel *) etss;
 }
 
+ETableModel *
+e_table_subset_get_toplevel (ETableSubset *table)
+{
+	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SUBSET (table), NULL);
+
+	if (E_IS_TABLE_SUBSET (table->source))
+		return e_table_subset_get_toplevel (E_TABLE_SUBSET (table->source));
+	else
+		return table->subset;
+}

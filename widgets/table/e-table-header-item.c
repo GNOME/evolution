@@ -181,9 +181,6 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (ethi->gc);
 	ethi->gc = NULL;
 
-	gdk_cursor_destroy (ethi->change_cursor);
-	ethi->change_cursor = NULL;
-	
 	gdk_cursor_destroy (ethi->normal_cursor);
 	ethi->normal_cursor = NULL;
 

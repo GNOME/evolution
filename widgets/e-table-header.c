@@ -31,8 +31,9 @@ e_table_header_destroy (GtkObject *object)
 	/*
 	 * Destroy columns
 	 */
-	for (i = 0; i < cols; i++)
+	for (i = 0; i < cols; i++){
 		e_table_header_remove (eth, i);
+	}
 	
 	if (e_table_header_parent_class->destroy)
 		e_table_header_parent_class->destroy (object);
@@ -124,11 +125,19 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (tc != NULL);
+	g_return_if_fail (E_IS_TABLE_COL (tc));
 	g_return_if_fail (pos >= 0 && pos <= eth->col_count);
 
 	if (pos == -1)
 		pos = eth->col_count;
 	eth->columns = g_realloc (eth->columns, sizeof (ETableCol *) * (eth->col_count + 1));
+
+	/*
+	 * We are the primary owners of the column
+	 */
+	gtk_object_ref (GTK_OBJECT (tc));
+	gtk_object_sink (GTK_OBJECT (tc));
+	
 	eth_do_insert (eth, pos, tc);
 	eth->col_count++;
 	eth_update_offsets (eth);
@@ -255,8 +264,11 @@ e_table_header_total_width (ETableHeader *eth)
 }
 
 static void
-eth_do_remove (ETableHeader *eth, int idx)
+eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 {
+	if (do_unref)
+		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
+	
 	memcpy (&eth->columns [idx], &eth->columns [idx+1],
 		sizeof (ETableCol *) * eth->col_count - idx);
 	eth->col_count--;
@@ -275,7 +287,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	g_return_if_fail (target_index < eth->col_count);
 
 	old = eth->columns [source_index];
-	eth_do_remove (eth, source_index);
+	eth_do_remove (eth, source_index, FALSE);
 	eth_do_insert (eth, target_index, old);
 	eth_update_offsets (eth);
 	
@@ -290,7 +302,7 @@ e_table_header_remove (ETableHeader *eth, int idx)
 	g_return_if_fail (idx >= 0);
 	g_return_if_fail (idx < eth->col_count);
 
-	eth_do_remove (eth, idx);
+	eth_do_remove (eth, idx, TRUE);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 

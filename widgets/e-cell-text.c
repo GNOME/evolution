@@ -241,6 +241,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					px, y + font->descent - 1);
 			}
 		}
+		g_free (text_wc);
 	} else {
 		/*
 		 * Regular cell

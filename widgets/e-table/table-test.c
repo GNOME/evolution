@@ -7,6 +7,7 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 #include <gnome.h>
 
 int
@@ -14,8 +15,15 @@ main (int argc, char *argv [])
 {
 
 	if (isatty (0)){
-		printf ("you have to provide data on standard input\n");
-		exit (1);
+		int fd;
+		
+		close (0);
+		fd = open ("sample.table", O_RDONLY);
+		if (fd == -1){
+			fprintf (stderr, "Could not find sample.table, try feeding a table on stdin");
+			exit (1);
+		}
+		dup2 (fd, 0);
 	}
 	
 	gnome_init ("TableTest", "TableTest", argc, argv);
