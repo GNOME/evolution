@@ -862,7 +862,8 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 				 **/
 				
 				/* parse for supported AUTH types */
-				token = smtp_next_token (token);
+				token += 5;
+				
 				transport->authtypes = esmtp_get_authtypes (token);
 			}
 		}

@@ -1,3 +1,9 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Since the
+	AUTH token sometimes uses '=' instead of whitespace, don't use
+	smtp_token_next here.
+
 2002-02-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/pop3/camel-pop3-engine.c (get_capabilities): Duh, when
