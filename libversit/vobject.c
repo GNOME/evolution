@@ -1435,7 +1435,12 @@ DLLEXPORT(char*) fakeCString(const wchar_t *u)
 {
     char *s, *t;
     int len = uStrLen(u) + 1;
+
+    if (!u)
+	return strdup("");
+    
     t = s = (char*)malloc(len);
+
     while (*u) {
 	if (*u == (wchar_t)0x2028)
 	    *t = '\n';
