@@ -129,13 +129,15 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
                            the real folder size, then use a
                            message-set to optimise it */
 			/* TODO: This peeks a bunch of 'private'ish data */
+			int lastuid;
+			
 			if (s->summary->len < camel_folder_get_message_count(s->folder)/2) {
 				sorted = g_ptr_array_new();
 				g_ptr_array_set_size(sorted, s->summary->len);
 				for (i=0;i<s->summary->len;i++)
 					sorted->pdata[i] = (void *)camel_message_info_uid((CamelMessageInfo *)s->summary->pdata[i]);
 				qsort(sorted->pdata, sorted->len, sizeof(sorted->pdata[0]), cmp_uid);
-				set = imap_uid_array_to_set(s->folder->summary, sorted);
+				set = imap_uid_array_to_set(s->folder->summary, sorted, 0, -1, &lastuid);
 				response = camel_imap_command (store, s->folder, NULL,
 							       "UID SEARCH UID %s BODY \"%s\"",
 							       set, value);
