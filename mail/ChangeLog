@@ -3,6 +3,7 @@
 	* mail-vfolder.c (vfolder_create_storage): Connect to the
 	folder_remove signal on the storage.
 	(vfolder_remove): New function to remove a vfolder.
+	(vfolder_edit): Raise the window if it already exists.
 
 2001-08-02  Not Zed  <NotZed@Ximian.com>
 

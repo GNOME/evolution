@@ -422,18 +422,18 @@ vfolder_editor_destroy (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-vfolder_editor_clicked(GtkWidget *w, int button, void *data)
+vfolder_editor_clicked (GtkWidget *dialog, int button, void *data)
 {
 	if (button == 0) {
 		char *user;
 
-		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
-		rule_context_save((RuleContext *)context, user);
-		g_free(user);
-		vfolder_refresh();
+		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+		rule_context_save ((RuleContext *)context, user);
+		g_free (user);
+		vfolder_refresh ();
 	}
 	if (button != -1) {
-		gnome_dialog_close((GnomeDialog *)w);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	}
 }
 
@@ -441,7 +441,7 @@ void
 vfolder_edit (void)
 {
 	if (vfolder_editor) {
-		/* FIXME: raise the vfolder editor window? */
+		gdk_window_raise (GTK_WIDGET (vfolder_editor)->window);
 		return;
 	}
 	
