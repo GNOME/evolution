@@ -1,7 +1,7 @@
 2004-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment-bar.c (update): fallback to stock
-	attach if we can't ifnd the icon.
+	unknown if we can't ifnd the icon.  #56717.
 
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
