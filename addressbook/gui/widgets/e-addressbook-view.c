@@ -481,7 +481,7 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		
 		g_assert (E_IS_BOOK (book));
 
-		e_addressbook_show_contact_editor (book, card, view->editable);
+		e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
 	}
 }
 

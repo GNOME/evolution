@@ -37,6 +37,7 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 		N_("Repository offline"),
 		N_("Permission denied"),
 		N_("Card not found"),
+		N_("Card ID already exists"),
 		N_("Protocol not supported"),
 		N_("Canceled"),
 		N_("Other error")
@@ -53,11 +54,12 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 
 static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
-	    gpointer user_data)
+	       gpointer user_data)
 {
 	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
+	if (status != E_BOOK_STATUS_SUCCESS) {
 		e_addressbook_error_dialog (_("Error adding card"), status);
+	}
 }
 
 static void
@@ -65,97 +67,44 @@ card_modified_cb (EBook* book, EBookStatus status,
 		  gpointer user_data)
 {
 	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
+	if (status != E_BOOK_STATUS_SUCCESS) {
 		e_addressbook_error_dialog (_("Error modifying card"), status);
+	}
 }
 
 static void
-card_removed_cb (EBook* book, EBookStatus status,
+card_deleted_cb (EBook* book, EBookStatus status,
 		 gpointer user_data)
 {
 	g_print ("%s: %s(): a card was removed\n", __FILE__, __FUNCTION__);
-	if (status != E_BOOK_STATUS_SUCCESS)
+	if (status != E_BOOK_STATUS_SUCCESS) {
 		e_addressbook_error_dialog (_("Error removing card"), status);
+	}
 }
 
-/* Callback for the add_card signal from the contact editor */
-static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_card_merging_book_add_card (book, card, card_added_cb, NULL);
-}
-
-/* Callback for the commit_card signal from the contact editor */
-static void
-commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_card_merging_book_commit_card (book, card, card_modified_cb, NULL);
-}
-
-/* Callback for the delete_card signal from the contact editor */
-static void
-delete_card_cb (EContactEditor *ce, ECard *card, gpointer data)
-{
-	EBook *book;
-
-	book = E_BOOK (data);
-	e_book_remove_card (book, card, card_removed_cb, NULL);
-}
-
-/* Callback used when the contact editor is closed */
 static void
 editor_closed_cb (EContactEditor *ce, gpointer data)
 {
 	gtk_object_unref (GTK_OBJECT (ce));
 }
 
-typedef struct {
-  ECard *card;
-  gboolean editable;
-} SupportedFieldsClosure;
-
-static void
-supported_fields_cb (EBook *book, EBookStatus status,
-		     EList *fields, EContactEditor *ce)
-{
-	gtk_object_set (GTK_OBJECT (ce),
-			"writable_fields", fields,
-			NULL);
-
-	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-			    GTK_SIGNAL_FUNC (commit_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
-			    GTK_SIGNAL_FUNC (delete_card_cb), book);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-	e_contact_editor_show (ce);
-}
-
 EContactEditor *
 e_addressbook_show_contact_editor (EBook *book, ECard *card,
+				   gboolean is_new_card,
 				   gboolean editable)
 {
 	EContactEditor *ce;
-	gboolean new_card = FALSE;
 
-	if (card == NULL) {
-		new_card = TRUE;
-		card = e_card_new ("");
-	}
+	ce = e_contact_editor_new (book, card, is_new_card, editable);
 
-	ce = e_contact_editor_new (card, new_card, NULL,
-				   !editable);
-
-	e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, ce);
+	gtk_signal_connect (GTK_OBJECT (ce), "card_added",
+			    GTK_SIGNAL_FUNC (card_added_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (ce), "card_modified",
+			    GTK_SIGNAL_FUNC (card_modified_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (ce), "card_deleted",
+			    GTK_SIGNAL_FUNC (card_deleted_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
 	return ce;
 }

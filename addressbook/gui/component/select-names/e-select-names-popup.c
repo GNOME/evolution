@@ -41,6 +41,7 @@
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/contact-editor/e-contact-editor.h>
 #include <addressbook/contact-editor/e-contact-quick-add.h>
+#include "e-addressbook-util.h"
 #include "e-select-names-popup.h"
 
 typedef struct _PopupInfo PopupInfo;
@@ -93,23 +94,17 @@ popup_info_cleanup (GtkWidget *w, gpointer info)
 /* You are in a maze of twisty little callbacks, all alike... */
 
 static void
-found_fields_cb (EBook *book, EBookStatus status, EList *writable_fields, gpointer user_data)
-{
-	EDestination *dest = E_DESTINATION (user_data);
-	EContactEditor *ce;
-	ECard *card;
-
-	card = (ECard *) e_destination_get_card (dest);
-	ce = e_contact_editor_new (card, FALSE, writable_fields, FALSE);
-	e_contact_editor_raise (ce);
-	gtk_object_unref (GTK_OBJECT (dest));
-}
-
-static void
 edit_contact_info_have_book_cb (EBook *book, gpointer user_data)
 {
 	if (book) {
-		e_book_get_supported_fields (book, found_fields_cb, user_data);
+		EDestination *dest = E_DESTINATION (user_data);
+		EContactEditor *ce;
+		ECard *card;
+
+		card = (ECard *) e_destination_get_card (dest);
+		ce = e_addressbook_show_contact_editor (book, card, FALSE, TRUE);
+		e_contact_editor_raise (ce);
+		gtk_object_unref (GTK_OBJECT (dest));
 	}
 }
 

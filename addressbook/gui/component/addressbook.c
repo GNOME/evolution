@@ -64,7 +64,7 @@ new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 
 	g_assert (E_IS_BOOK (book));
 
-	e_addressbook_show_contact_editor (book, NULL, e_addressbook_view_can_create (view->view));
+	e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, e_addressbook_view_can_create(view->view));
 }
 
 static void

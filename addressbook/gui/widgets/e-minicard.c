@@ -538,7 +538,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 
 				if (book != NULL) {
-					e_minicard->editor = e_addressbook_show_contact_editor (book, e_minicard->card, e_minicard->editable);  
+					e_minicard->editor = e_addressbook_show_contact_editor (book, e_minicard->card,
+												FALSE, e_minicard->editable);  
 					gtk_object_ref (GTK_OBJECT (e_minicard->editor));
 
 					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",

@@ -28,6 +28,7 @@ static void
 unlink_model(EAddressbookTableAdapter *adapter)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+	int i;
 
 	gtk_signal_disconnect(GTK_OBJECT (priv->model),
 			      priv->create_card_id);
@@ -42,6 +43,14 @@ unlink_model(EAddressbookTableAdapter *adapter)
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
 	priv->model_changed_id = 0;
+
+	/* free up the existing mapping if there is one */
+	if (priv->simples) {
+		for (i = 0; i < priv->count; i ++)
+			gtk_object_unref (GTK_OBJECT (priv->simples[i]));
+		g_free (priv->simples);
+		priv->simples = NULL;
+	}
 
 	gtk_object_unref(GTK_OBJECT(priv->model));
 

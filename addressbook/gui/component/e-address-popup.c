@@ -214,18 +214,11 @@ e_address_popup_new (void)
 }
 
 static void
-found_fields_cb (EBook *book, EBookStatus status, EList *writable_fields, gpointer closure)
-{
-	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
-	EContactEditor *ce = e_contact_editor_new (pop->card, FALSE, writable_fields, FALSE);
-	e_contact_editor_raise (ce);
-	gtk_widget_destroy (GTK_WIDGET (pop));
-}
-
-static void
 edit_contact_info_cb (EAddressPopup *pop)
 {
-	e_book_get_supported_fields (common_book, found_fields_cb, pop);
+	EContactEditor *ce = e_addressbook_show_contact_editor (common_book, pop->card, FALSE, TRUE);
+	e_contact_editor_raise (ce);
+	gtk_widget_destroy (GTK_WIDGET (pop));
 }
 
 static void

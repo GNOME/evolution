@@ -263,7 +263,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			g_assert (E_IS_BOOK (book));
 
-			e_addressbook_show_contact_editor (book, NULL, editable);
+			e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
 		}
 		return TRUE;
 	default:

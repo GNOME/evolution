@@ -18,6 +18,7 @@
 
 #include <addressbook/contact-editor/e-contact-editor.h>
 #include "e-select-names-text-model.h"
+#include "e-addressbook-util.h"
 
 static FILE *out = NULL; /* stream for debugging spew */
 
@@ -714,7 +715,7 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 	g_return_if_fail (card);
 	
 	/* present read-only contact editor when someone double clicks from here */
-	contact_editor = e_contact_editor_new ((ECard *) card, FALSE, NULL, TRUE);
+	contact_editor = e_addressbook_show_contact_editor (NULL, card, FALSE, FALSE);
 	e_contact_editor_raise (contact_editor);
 }
 

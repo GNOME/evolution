@@ -1,5 +1,40 @@
 2001-06-19  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (table_double_click): track
+	change to e_addressbook_show_contact_editor signature.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_event): same.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): same.
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	add an entry for "Card ID already exists".
+	(e_addressbook_show_contact_editor): track the change to signal
+	names and e_contact_editor_new signature here.
+
+	* gui/widgets/e-addressbook-util.h: change
+	e_addressbook_show_contact_editor's signature to match
+	e_contact_editor_new more closely.
+
+	* gui/widgets/e-addressbook-table-adapter.c (unlink_model): free
+	up the simple mapping to plug a potentially sizeable memory leak.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): call
+	e_addressbook_show_contact_editor here.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(edit_contact_info_have_book_cb): remove the get_supported_fields
+	stuff, since the contact editor handles it for us now, and call
+	e_addressbook_show_contact_editor.
+
+	* gui/component/e-address-popup.c (edit_contact_info_cb): same.
+
+	* gui/component/addressbook.c (new_contact_cb): track change to
+	e_addressbook_show_contact_editor.
+
+2001-06-19  Chris Toshok  <toshok@ximian.com>
+
 	* contact-editor/e-contact-quick-add.c (ce_have_book): rename
 	ce_book_found_fields to this, remove the fetching of fields (the
 	contact editor code handles that now.), and change the add_card
