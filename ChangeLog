@@ -1,3 +1,8 @@
+1999-04-21  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/providers/MH/camel-mh-folder.c (camel_mh_folder_get_type): 
+	start test provider.
+
 1999-04-20  bertrand <Bertrand.Guiheneuf@inria.fr>
 	
 	* camel/camel-store.h: now CamelStore inherits from
