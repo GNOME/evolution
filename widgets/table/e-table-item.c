@@ -260,6 +260,8 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 	if (color_spec != NULL) {
 		if (gdk_color_parse (color_spec, &bg)) {
 			background = gdk_color_copy (&bg);
+			gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background,
+						  FALSE, TRUE);
 			allocated = TRUE;
 		}
 	}
@@ -273,7 +275,8 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 				allocated = TRUE;
 			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
-			gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+			gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background,
+						  FALSE, TRUE);
 		}
 	}
 	if (allocatedp)
