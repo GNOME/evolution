@@ -565,19 +565,11 @@ There are, however, some features which are not yet available:
 		       <listitem>
 			 <para>
 			   If you would like to use the Global Address
-			   List (GAL) maintained on your Exchange server,
-			   click the tab labelled <guilabel>Receiving
-			   Options</guilabel> and check the box labelled
+			   List (GAL) maintained on your Exchange
+			   server, check the box labelled
 			   <guilabel>Create a Global Address List
-			   folder</guilabel>.  The GAL is maintained by
-			   your system administrator and you cannot add,
-			   change, or remove items from it using Ximian
-			   Evolution. However, you can use it to invite
-			   people to meetings and to look up addresses and
-			   other information. In many organizations, the
-			   GAL is stored on a different server from email.
-			   If this is the case, you should also specify
-			   the directory server name here.
+			   folder</guilabel> and enter the name of
+			   your Active Directory server.
 			 </para>
 		       </listitem>
 		    </varlistentry>

@@ -314,8 +314,8 @@
 
 	  <listitem>
 	    <para>Exchange Server: If your active directory user name
-	    is different from your Exchange mail user name, check this
-	    box and enter your mail username here.
+	    is different from your Exchange mailbox name, check this
+	    box and enter your mailbox name here.
 	    </para>
 	  </listitem>
 
@@ -327,10 +327,8 @@
 
 	  <listitem>
 	    <para>
-              Active Directory Server Name: In most organizations, the
-	      Active Directory server will be different from the
-	      Exchange mail server.  Enter the Active Directory server
-	      name here.
+              Active Directory Server Name: Enter the Active Directory
+	      server name here.
             </para>
 	  </listitem>
 
@@ -478,9 +476,11 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username: The account name you use when you login
-	      to check your email.  Normally, this is the part of your
-	      email address before the '@' character.
+	      Username: The account name you use when you login to
+	      check your email.  Normally, this is the part of your
+	      email address before the '@' character. For Exchange
+	      servers, it is the username you would use to log in to a
+	      Windows workstation at your company.
 	    </para>
 	  </listitem>
 	  <listitem>
