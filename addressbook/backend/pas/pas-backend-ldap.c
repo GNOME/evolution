@@ -1552,7 +1552,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			match_str = g_strdup_printf("=*%s%s)",
 						    str, one_star ? "" : "*");
 
-			query_length = strlen (header);
+			query_length = strlen (header) + strlen (footer);
 
 			for (i = 0; i < num_prop_infos; i ++) {
 				query_length += 1 + strlen(prop_info[i].ldap_attr) + strlen (match_str);
@@ -1727,13 +1727,19 @@ pas_backend_ldap_build_query (gchar *query)
 	e_sexp_result_free(sexp, r);
 	e_sexp_unref (sexp);
 
-	if (list->next) {
-		g_warning ("conversion to ldap query string failed");
-		retval = NULL;
-		g_list_foreach (list, (GFunc)g_free, NULL);
+	if (list) {
+		if (list->next) {
+			g_warning ("conversion to ldap query string failed");
+			retval = NULL;
+			g_list_foreach (list, (GFunc)g_free, NULL);
+		}
+		else {
+			retval = list->data;
+		}
 	}
 	else {
-		retval = list->data;
+		g_warning ("conversion to ldap query string failed");
+		retval = NULL;
 	}
 
 	g_list_free (list);
