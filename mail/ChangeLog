@@ -1,5 +1,8 @@
 2004-02-25    <rodo@ximian.com>
 
+	* mail-session.c (main_get_filter_driver): set seen flag for junk
+	messages
+
 	* em-folder-view.c (emfv_popup_mark_junk): do not set DELETED
 
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
