@@ -25,11 +25,8 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-/* #include <ctype.h> */
 #include <errno.h>
 #include <gal/util/e-util.h>
 #include <camel/camel-mime-filter-from.h>
@@ -495,9 +492,8 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Remove the X-Evolution and X-Evolution-Source headers so we don't send our flags & other info too ;-) */
+	/* Remove the X-Evolution header so we don't send our flags too ;-) */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
 	
 	/* Get information about the account this was composed by. */
 	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
@@ -702,7 +698,7 @@ send_queue_send(struct _mail_msg *mm)
 		CamelMessageInfo *info;
 		int pc = (100 * i) / uids->len;
 		
-		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED)
@@ -721,9 +717,9 @@ send_queue_send(struct _mail_msg *mm)
 	}
 	
 	if (camel_exception_is_set (&mm->ex))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
 	else
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
 	
 	camel_folder_free_uids (m->queue, uids);
 	

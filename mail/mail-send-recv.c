@@ -20,19 +20,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config.h"
+#include "mail-send-recv.h"
 
 #include <stdio.h>
 #include <string.h>
-
-/* for the dialogue stuff */
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-window-icon.h>
 
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
@@ -48,7 +40,13 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
-#include "mail-send-recv.h"
+
+/* for the dialogue stuff */
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 #define d(x)
 
