@@ -1,3 +1,9 @@
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook.c (connect_master_list_changed,
+	make_suboptions): Changed how this list of categories gets
+	computed.  Fixes Ximian bugs #7707 and #7708.
+
 2001-11-15  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* printing/e-contact-print-envelope.c (ecpe_linelist_dimensions),
