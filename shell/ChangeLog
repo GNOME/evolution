@@ -1,3 +1,7 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (main): init epasswords.
+
 2004-08-01  Not Zed  <NotZed@Ximian.com>
  
  	* apps_evolution_shell.schemas.in.in: added last_version item.

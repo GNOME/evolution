@@ -27,6 +27,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
 #include "e-util/e-bconf-map.h"
+#include "e-util/e-passwords.h"
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
@@ -537,7 +538,8 @@ main (int argc, char **argv)
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
-	
+	e_passwords_init();
+
 	icon_list = e_icon_factory_get_icon_list ("stock_mail");
 	if (icon_list) {
 		gtk_window_set_default_icon_list (icon_list);
