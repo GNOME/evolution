@@ -888,7 +888,7 @@ e_format_number (gint number)
 	}
 
 	if (list) {
-		value = g_new(char, char_length + (group_count - 1) * strlen(locality->thousands_sep));
+		value = g_new(char, 1 + char_length + (group_count - 1) * strlen(locality->thousands_sep));
 
 		iterator = list;
 		value_iterator = value;
