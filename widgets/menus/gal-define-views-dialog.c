@@ -222,7 +222,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 		return;
 	}
 	gtk_widget_ref(widget);
-	gtk_widget_unparent(widget);
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
