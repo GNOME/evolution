@@ -1,3 +1,26 @@
+2003-09-17  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/ximian-vcard.h (XIMIAN_VCARD): quiet the compiler
+	warnings, and make the URL look like a real url, using http://..
+
+	* backend/pas/pas-backend-card-sexp.c (compare_email): reimplement
+	this in terms of EContact.
+	(compare_category): same.
+	(compare_arbitrary): nuke, since we don't do arbitrary data the
+	same way anymore.
+	(prop_info_table): enable mailer, spouse, and note.
+
+	* backend/ebook/e-vcard.h (EVC_MAILER): add
+	(EVC_CATEGORIES): add.
+
+	* backend/ebook/e-contact.c (field_info): add E_CONTACT_SPOUSE,
+	NOTE, MAILER, and some ifdefed CATEGORIES support.
+
+	* backend/ebook/e-contact.h: same.
+
+	* backend/ebook/e-book-query.c (e_book_query_to_string): quiet
+	compiler warning.
+
 2003-09-05  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/Makefile.am: Make libeselectnames.la
