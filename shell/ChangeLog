@@ -1,5 +1,9 @@
 2002-02-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-about-box.c: Add year 2002 to the copyright.
+
+2002-02-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (impl_destroy): Renamed from `destroy'.
 	(impl_right_click): Renamed from `right_click'.
 	(impl_cursor_activated): Renamed from `cursor_activated'.
