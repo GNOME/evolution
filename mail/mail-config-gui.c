@@ -184,7 +184,9 @@ static void config_do_query_authtypes (MailDialogServicePage *page, const char *
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
 static GtkWidget *html_new (gboolean white);
 static void put_html (GtkHTML *html, char *text);
+#if 0
 static void error_dialog (GtkWidget *parent_finder, const char *fmt, ...);
+#endif
 static GdkImlibImage *load_image (const char *name);
 static void service_page_menuitem_activate (GtkWidget *item, 
 					    MailDialogServicePage *page);
@@ -255,6 +257,7 @@ put_html (GtkHTML *html, char *text)
 }
 
 
+#if 0
 /* Standard Dialog Helpers */
 static void
 error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
@@ -274,7 +277,6 @@ error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 	g_free (msg);
 }
 
-#if 0
 static void
 info_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 {

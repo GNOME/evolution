@@ -1,3 +1,10 @@
+2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser.c, mail-config-gui.c, mail-ops.c: Fixed some
+	warnings.
+
+	* message-list.c: Added base ETableModel functions.
+
 2000-09-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Updated to pass a CamelMessageInfo

@@ -211,6 +211,157 @@ select_msg (MessageList *message_list, gint row)
 }
 
 
+/*
+ * SimpleTableModel::col_count
+ */
+static int
+ml_col_count (ETableModel *etm, void *data)
+{
+	return COL_LAST;
+}
+
+static void *
+ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		return (void *) value;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		return g_strdup (value);
+	default:
+		g_assert_not_reached ();
+	}
+	return NULL;
+}
+
+static void
+ml_free_value (ETableModel *etm, int col, void *value, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		break;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		g_free (value);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void *
+ml_initialize_value (ETableModel *etm, int col, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		return NULL;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		return g_strdup("");
+	default:
+		g_assert_not_reached ();
+	}
+
+	return NULL;
+}
+
+static gboolean
+ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		return value == NULL;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		return !(value && *(char *)value);
+	default:
+		g_assert_not_reached ();
+		return FALSE;
+	}
+}
+
+static char *
+ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
+{
+	switch (col){
+	case COL_MESSAGE_STATUS:
+		switch ((int) value) {
+		case 0:
+			return g_strdup("Unseen");
+			break;
+		case 1:
+			return g_strdup("Seen");
+			break;
+		case 2:
+			return g_strdup("Answered");
+			break;
+		default:
+			return g_strdup("");
+			break;
+		}
+		break;
+	case COL_ONLINE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+		return g_strdup_printf("%d", (int) value);
+	case COL_SENT:
+	case COL_RECEIVED:
+		return filter_date(value);
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		return g_strdup(value);
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
 static GdkPixbuf *
 ml_tree_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
 {
@@ -587,7 +738,13 @@ message_list_init (GtkObject *object)
 	char *spec;
 
 	message_list->table_model = (ETableModel *)
-		e_tree_simple_new (ml_tree_icon_at, ml_tree_value_at,
+		e_tree_simple_new (ml_col_count,
+				   ml_duplicate_value,
+				   ml_free_value,
+				   ml_initialize_value,
+				   ml_value_is_empty,
+				   ml_value_to_string,
+				   ml_tree_icon_at, ml_tree_value_at,
 				   ml_tree_set_value_at,
 				   ml_tree_is_cell_editable,
 				   message_list);

@@ -205,7 +205,7 @@ create_option_menu (char **menu_list, int item, void *data)
 	while (*menu_list){
 		GtkWidget *entry;
 
-		entry = e_utf8_gtk_menu_item_new_with_label ((GtkWidget *) menu, *menu_list);
+		entry = e_utf8_gtk_menu_item_new_with_label (GTK_MENU(menu), *menu_list);
 		gtk_widget_show (entry);
 		gtk_object_set_data((GtkObject *)entry, "search_option", (void *)i);
 		gtk_menu_append (GTK_MENU (menu), entry);

@@ -176,8 +176,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 				free_info = TRUE;
 			}
 			
-			filter_driver_run (filter, message, input->destination,
-					   info, FILTER_SOURCE_INCOMING,
+			filter_driver_run (filter, message, info,
+					   input->destination, FILTER_SOURCE_INCOMING,
 					   input->hook_func, input->hook_data,
 					   TRUE, ex);
 			
