@@ -1336,7 +1336,7 @@ stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)
 
 
 static void
-create_folders (EvolutionStorage *storage, CamelFolderInfo *fi)
+create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *fi)
 {
 	char *name, *path;
 	
@@ -1346,19 +1346,19 @@ create_folders (EvolutionStorage *storage, CamelFolderInfo *fi)
 	else
 		name = g_strdup (fi->name);
 	
-	path = g_strdup_printf ("/%s", fi->full_name);
+	path = g_strdup_printf ("%s/%s", prefix, fi->name);
 	evolution_storage_new_folder (storage, path, name,
 				      "mail", fi->url ? fi->url : "",
 				      fi->name, /* description */
 				      fi->unread_message_count > 0);
 	g_free (name);
-	g_free (path);
 	
 	if (fi->child)
-		create_folders (storage, fi->child);
+		create_folders (storage, path, fi->child);
+	g_free (path);
 	
 	if (fi->sibling)
-		create_folders (storage, fi->sibling);
+		create_folders (storage, prefix, fi->sibling);
 }
 
 void
@@ -1368,7 +1368,8 @@ folder_created (CamelStore *store, CamelFolderInfo *fi)
 	
 	if ((storage = mail_lookup_storage (store))) {
 		if (fi)
-			create_folders (storage, fi);
+			/* FIXME: this won't work. (the "prefix" is wrong) */
+			create_folders (storage, "", fi);
 		
 		gtk_object_unref (GTK_OBJECT (storage));
 	}
@@ -1386,7 +1387,7 @@ mail_storage_create_folder (EvolutionStorage *storage, CamelStore *store, CamelF
 	
 	if (storage) {
 		if (fi)
-			create_folders (storage, fi);
+			create_folders (storage, "", fi);
 		
 		if (unref)
 			gtk_object_unref (GTK_OBJECT (storage));

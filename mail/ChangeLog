@@ -1,3 +1,11 @@
+2001-02-20  Dan Winship  <danw@ximian.com>
+
+	* mail-vtrash.c (get_trash_get): Pass NULL, not "/" for @top.
+
+	* mail-callbacks.c (create_folders): Make this work with
+	CamelStores where the separator character isn't /. folder_created
+	and folder_deleted are still broken.
+
 2001-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vtrash.c: Include the camel-vee-store.h header from the

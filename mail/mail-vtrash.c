@@ -216,7 +216,7 @@ get_trash_get (struct _mail_msg *mm)
 			/* Create and add this new vTrash folder */
 			CamelFolderInfo *info;
 			
-			info = camel_store_get_folder_info (store, "/", TRUE, TRUE, TRUE, &mm->ex);
+			info = camel_store_get_folder_info (store, NULL, TRUE, TRUE, TRUE, &mm->ex);
 			populate_folder_urls (info, urls);
 			camel_store_free_folder_info (store, info);
 			
