@@ -1,3 +1,9 @@
+2004-01-23  Radek Doulik  <rodo@ximian.com>
+
+	* camel-folder.c (folder_changed): use check_junk_for_imap flag
+
+	* camel-session.c: add check_junk_for_imap flag
+
 2004-01-23  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (IMAP_SMALL_BODY_SIZE):

@@ -69,6 +69,7 @@ struct _CamelSession
 
 	CamelJunkPlugin *junk_plugin;
 	gboolean check_junk;
+	gboolean check_junk_for_imap;
 };
 
 #ifdef ENABLE_THREADS
@@ -184,8 +185,12 @@ CamelFilterDriver *camel_session_get_filter_driver  (CamelSession *session,
 						     const char *type,
 						     CamelException *ex);
 
-gboolean           camel_session_check_junk         (CamelSession *session);
-void               camel_session_set_check_junk     (CamelSession *session, gboolean check_junk);
+gboolean  camel_session_check_junk               (CamelSession *session);
+void      camel_session_set_check_junk           (CamelSession *session,
+						  gboolean      check_junk);
+gboolean  camel_session_check_junk_for_imap      (CamelSession *session);
+void      camel_session_set_check_junk_for_imap  (CamelSession *session,
+						  gboolean      check_junk_for_imap);
 
 #ifdef ENABLE_THREADS
 struct _CamelSessionThreadOps {
