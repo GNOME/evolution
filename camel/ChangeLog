@@ -1,8 +1,6 @@
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	Undid clahey's e_strstrcase because e_strstrcase DOES NOT EXIST 
-	in e-utils/e-utils.c nor anywhere else in Evolution - besides, 
-	Camel should remain independant of Evolution.
+	Chris forgot to add #include <e-util/e-util.h> to the source files
 	
 	* providers/imap/camel-imap-store.c (imap_connect): Fixed Peter's 
 	fix, we don't want to send a string to a %d.
