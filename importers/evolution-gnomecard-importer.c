@@ -30,41 +30,93 @@
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-control.h>
 
 #include <e-book.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+#include <importer/evolution-importer-listener.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_GnomeCard_Intelligent_ImporterFactory"
+#define VCARD_IMPORTER_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
 
-#define KEY "gnomecard-imported"
 typedef struct {
 	GNOME_Evolution_Importer importer;
 	EvolutionImporterListener *listener;
+
+	GtkWidget *addresses;
+	gboolean do_addresses;
+
+	GtkWidget *ask;
+	gboolean ask_again;
 } GnomeCardImporter;
 
-static gboolean
-gnomecard_can_import (EvolutionIntelligentImporter *ii,
-		      void *closure)
+static void
+gnomecard_store_settings (GnomeCardImporter *importer)
 {
-	char *evolution_dir;
-	char *gnomecard;
-	char *key;
-	gboolean result;
+	char *evolution_dir, *key;
 
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/importers/", evolution_dir);
+	key = g_strdup_printf ("=%s/config/Gnomecard-Importer=/settings/",
+			       evolution_dir);
 	g_free (evolution_dir);
 
 	gnome_config_push_prefix (key);
 	g_free (key);
 
-	if (gnome_config_get_bool (KEY) == TRUE) {
+	gnome_config_set_bool ("address", importer->do_addresses);
+
+	gnome_config_set_bool ("ask-again", importer->ask_again);
+	gnome_config_pop_prefix ();
+}
+
+static void
+gnomecard_restore_settings (GnomeCardImporter *importer)
+{
+	char *evolution_dir, *key;
+
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	key = g_strdup_printf ("=%s/config/Gnomecard-Importer=/settings/",
+			       evolution_dir);
+	g_free (evolution_dir);
+
+	gnome_config_push_prefix (key);
+	g_free (key);
+
+	importer->do_addresses = gnome_config_get_bool ("address=True");
+
+	importer->ask_again = gnome_config_get_bool ("ask-again=False");
+	gnome_config_pop_prefix ();
+}
+
+static gboolean
+gnomecard_can_import (EvolutionIntelligentImporter *ii,
+		      void *closure)
+{
+	GnomeCardImporter *importer = closure;
+	char *evolution_dir;
+	char *gnomecard;
+	char *key;
+	gboolean result, address;
+
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	key = g_strdup_printf ("=%s/config/Importers=/gnomecard-importers/", evolution_dir);
+	g_free (evolution_dir);
+
+	gnome_config_push_prefix (key);
+	g_free (key);
+
+	address = gnome_config_get_bool ("address-imported");
+	if (address == TRUE) {
 		gnome_config_pop_prefix ();
 		return FALSE;
 	}
 	gnome_config_pop_prefix ();
+
+	if (importer->ask_again == TRUE) {
+		return FALSE;
+	}
 
 	gnomecard = gnome_util_home_file ("GnomeCard.gcrd");
 	result = g_file_exists (gnomecard);
@@ -94,10 +146,6 @@ importer_cb (EvolutionImporterListener *listener,
 	     gboolean more_items,
 	     void *data)
 {
-	GnomeCardImporter *gci = (GnomeCardImporter *) data;
-	CORBA_Object objref;
-	CORBA_Environment ev;
-
 	if (result == EVOLUTION_IMPORTER_NOT_READY ||
 	    result == EVOLUTION_IMPORTER_BUSY) {
 		gtk_timeout_add (5000, importer_timeout_fn, data);
@@ -124,27 +172,98 @@ gnomecard_import (EvolutionIntelligentImporter *ii,
 
 	gnomecard = gnome_util_home_file ("GnomeCard.gcrd");
 
-	CORBA_exception_init (&ev);
-	result = GNOME_Evolution_Importer_loadFile (gci->importer, 
-						    gnomecard, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
-		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
-		CORBA_Object_release (gci->importer, &ev);
+	/* Reference our object so when the shell release_unrefs us
+	   we will still exist and not go byebye */
+	bonobo_object_ref (BONOBO_OBJECT (ii));
+
+	gnomecard_store_settings (gci);
+	if (gci->do_addresses == TRUE) {
+
+		CORBA_exception_init (&ev);
+		result = GNOME_Evolution_Importer_loadFile (gci->importer, 
+							    gnomecard, 
+							    "", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
+			g_warning ("Exception here: %s",
+				   CORBA_exception_id (&ev));
+			CORBA_Object_release (gci->importer, &ev);
+			CORBA_exception_free (&ev);
+			return;
+		}
+
+		gci->listener = evolution_importer_listener_new (importer_cb, 
+								 gci);
+		objref = bonobo_object_corba_objref (BONOBO_OBJECT (gci->listener));
+		GNOME_Evolution_Importer_processItem (gci->importer, objref, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception: %s", CORBA_exception_id (&ev));
+			return;
+		}
+
 		CORBA_exception_free (&ev);
-		return FALSE;
+
+		return;
+	} else {
+		bonobo_object_unref (BONOBO_OBJECT (ii));
+		return;
 	}
+}
 
-	gci->listener = evolution_importer_listener_new (importer_cb, gci);
-	objref = bonobo_object_corba_objref (BONOBO_OBJECT (gci->listener));
-	GNOME_Evolution_Importer_processItem (gci->importer, objref, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception: %s", CORBA_exception_id (&ev));
-		return FALSE;
-	}
+static void
+gnomecard_destroy_cb (GtkObject *object,
+		      GnomeCardImporter *importer)
+{
+	/* save the state of the checkboxes */
+	g_print ("\n---------Settings-------\n");
+	g_print ("Addressbook - %s\n", importer->do_addresses? "Yes" : "No");
 
-	CORBA_exception_free (&ev);
+	gnomecard_store_settings (importer);
+	gtk_main_quit ();
+}
 
-	return TRUE;
+/* Fun with aggregation */
+static void
+checkbox_toggle_cb (GtkToggleButton *tb,
+		    gboolean *do_item)
+{
+	*do_item = gtk_toggle_button_get_active (tb);
+}
+
+static BonoboControl *
+create_checkboxes_control (GnomeCardImporter *importer)
+{
+	GtkWidget *container, *vbox, *sep;
+	BonoboControl *control;
+
+	container = gtk_frame_new (_("Import"));
+	vbox = gtk_vbox_new (FALSE, 2);
+	gtk_container_set_border_width (GTK_CONTAINER (container), 2);
+	gtk_container_add (GTK_CONTAINER (container), vbox);
+
+	importer->addresses = gtk_check_button_new_with_label (_("Addressbook"));
+	gtk_signal_connect (GTK_OBJECT (importer->addresses), "toggled",
+			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
+			    &importer->do_addresses);
+
+	sep = gtk_hseparator_new ();
+
+	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
+	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
+			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
+			    &importer->ask_again);
+
+	gtk_box_pack_start (GTK_BOX (vbox), importer->addresses, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->addresses),
+				      importer->do_addresses);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask),
+				      importer->ask_again);
+
+	gtk_widget_show_all (container);
+	control = bonobo_control_new (container);
+	return control;
 }
 
 static BonoboObject *
@@ -155,8 +274,11 @@ factory_fn (BonoboGenericFactory *_factory,
 	GnomeCardImporter *gci;
 	char *message = N_("Evolution has found GnomeCard files.\n"
 			   "Would you like them to be imported into Evolution?");
+	CORBA_Environment ev;
+	BonoboControl *control;
 
 	gci = g_new (GnomeCardImporter, 1);
+	gnomecard_restore_settings (gci);
 
 	CORBA_exception_init (&ev);
 	gci->importer = oaf_activate_from_id (VCARD_IMPORTER_IID, 0, NULL, &ev);
@@ -174,7 +296,11 @@ factory_fn (BonoboGenericFactory *_factory,
 						       _(message), gci);
 	
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
+			    GTK_SIGNAL_FUNC (gnomecard_destroy_cb), gci);
+
+	control = create_checkboxes_control (gci);
+	bonobo_object_add_interface (BONOBO_OBJECT (importer),
+				     BONOBO_OBJECT (control));
 	
 	return BONOBO_OBJECT (importer);
 }

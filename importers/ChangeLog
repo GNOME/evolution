@@ -1,3 +1,12 @@
+2001-05-16  Iain Holmes  <iain@ximian.com>
+
+	* evolution-gnomecard-importer.c: Converted the old importer into an
+	intelligent importer that uses the VCard importer to do it's dirty work.
+
+	* Makefile.am: Create the gnomecard importer.
+
+	* GNOME_Evolution_GnomeCard_Intelligent_Importer.oaf.in: OAF file.
+
 2001-05-14  Iain Holmes  <iain@ximian.com>
 
 	* elm-importer.c (elm_store_settings): Store the elm settings.
