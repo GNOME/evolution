@@ -1,3 +1,9 @@
+2004-01-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-migrate.c (migrate_local_folders): use
+	e_folder_map_local_folders.
+	(find_addressbook_dirs): nuke.
+
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (init_collection): use

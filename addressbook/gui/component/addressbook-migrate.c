@@ -31,6 +31,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkprogressbar.h>
+#include <e-util/e-folder-map.h>
 
 static GtkWidget *window;
 static GtkLabel *label;
@@ -105,55 +106,6 @@ dialog_set_progress (double percent)
 	
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
-}
-
-static GList*
-find_addressbook_dirs (char *path, gboolean toplevel)
-{
-	char *db_path;
-	char *subfolder_path;
-	GList *list = NULL;
-
-	printf ("find_addressbook_dirs (%s)\n", path);
-
-	/* check if the present path is a db */
-	db_path = g_build_filename (path, "addressbook.db", NULL);
-	if (g_file_test (db_path, G_FILE_TEST_EXISTS))
-		list = g_list_append (list, g_strdup (path));
-	g_free (db_path);
-
-	/* recurse to subfolders */
-	if (toplevel)
-		subfolder_path = g_strdup (path);
-	else
-		subfolder_path = g_build_filename (path, "subfolders", NULL);
-	if (g_file_test (subfolder_path, G_FILE_TEST_IS_DIR)) {
-		GDir *dir = g_dir_open (subfolder_path, 0, NULL);
-
-		if (dir) {
-			const char *name;
-			while ((name = g_dir_read_name (dir))) {
-				if (strcmp (name, ".") && strcmp (name, "..")) {
-					char *p;
-					GList *sublist;
-
-					if (toplevel)
-						p = g_build_filename (path, name, NULL);
-					else
-						p = g_build_filename (path, "subfolders", name, NULL);
-
-					sublist = find_addressbook_dirs (p, FALSE);
-					g_free (p);
-					list = g_list_concat (list, sublist);
-				}
-			}
-			g_dir_close (dir);
-		}
-	}
-
-	g_free (subfolder_path);
-
-	return list;
 }
 
 static gboolean
@@ -458,11 +410,11 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 	char *old_path = NULL;
 	char *local_contact_folder = NULL;
 	char *source_name = NULL;
-	GList *dirs, *l;
+	GSList *dirs, *l;
 
 	old_path = g_strdup_printf ("%s/evolution/local", g_get_home_dir ());
 
-	dirs = find_addressbook_dirs (old_path, TRUE);
+	dirs = e_folder_map_local_folders (old_path, "contacts");
 
 	/* migrate the local addressbook first, to OnThisComputer/Personal */
 	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
@@ -487,8 +439,8 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 		g_free (source_name);
 	}
 
-	g_list_foreach (dirs, (GFunc)g_free, NULL);
-	g_list_free (dirs);
+	g_slist_foreach (dirs, (GFunc)g_free, NULL);
+	g_slist_free (dirs);
 	g_free (local_contact_folder);
 	g_free (old_path);
 
