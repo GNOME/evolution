@@ -15,7 +15,7 @@
 #include "addressbook.h"
 #include "pas-book-factory.h"
 
-#define PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
+#define DEFAULT_PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_GNOME_Evolution_Addressbook_BookFactory__vepv   pas_book_factory_vepv;
@@ -30,6 +30,9 @@ struct _PASBookFactoryPrivate {
 	GHashTable *backends;
 	GHashTable *active_server_map;
 	GList      *queued_requests;
+
+	/* OAFIID of the factory */
+	char *iid;
 
 	/* Whether the factory has been registered with OAF yet */
 	guint       registered : 1;
@@ -426,11 +429,12 @@ pas_book_factory_new (void)
  * pas_book_factory_activate:
  */
 gboolean
-pas_book_factory_activate (PASBookFactory *factory)
+pas_book_factory_activate (PASBookFactory *factory, const char *iid)
 {
 	PASBookFactoryPrivate *priv;
 	CORBA_Object obj;
 	OAF_RegistrationResult result;
+	char *tmp_iid;
 
 	g_return_val_if_fail (factory != NULL, FALSE);
 	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), FALSE);
@@ -439,27 +443,35 @@ pas_book_factory_activate (PASBookFactory *factory)
 
 	g_return_val_if_fail (!priv->registered, FALSE);
 
-	puts ("about to register addressbook");
+	/* if iid is NULL, use the default factory OAFIID */
+	if (iid)
+		tmp_iid = g_strdup (iid);
+	else
+		tmp_iid = g_strdup (DEFAULT_PAS_BOOK_FACTORY_OAF_ID);
 
 	obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
 
-	result = oaf_active_server_register (PAS_BOOK_FACTORY_OAF_ID, obj);
+	result = oaf_active_server_register (tmp_iid, obj);
 
 	switch (result) {
 	case OAF_REG_SUCCESS:
 		priv->registered = TRUE;
+		priv->iid = tmp_iid;
 		return TRUE;
 	case OAF_REG_NOT_LISTED:
 		g_message ("Error registering the PAS factory: not listed");
-		return FALSE;
+		break;
 	case OAF_REG_ALREADY_ACTIVE:
 		g_message ("Error registering the PAS factory: already active");
-		return FALSE;
+		break;
 	case OAF_REG_ERROR:
 	default:
 		g_message ("Error registering the PAS factory: generic error");
-		return FALSE;
+		break;
 	}
+
+	g_free (tmp_iid);
+	return FALSE;
 }
 
 static void
@@ -532,9 +544,11 @@ pas_book_factory_destroy (GtkObject *object)
 		CORBA_Object obj;
 
 		obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
-		oaf_active_server_unregister (PAS_BOOK_FACTORY_OAF_ID, obj);
+		oaf_active_server_unregister (factory->priv->iid, obj);
 		factory->priv->registered = FALSE;
 	}
+
+	g_free (factory->priv->iid);
 	
 	g_free (factory->priv);
 

@@ -1,3 +1,13 @@
+2001-09-26  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_destroy): use
+	priv->iid instead of the hardcoded string here.
+	(pas_book_factory_activate): parameterize the factory's iid, as in
+	the calendar server, and provide a default if iid == NULL.
+
+	* backend/pas/pas-book-factory.h: add iid parameter for
+	pas_book_factory_activate.
+
 2001-09-26  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_get_textrep): Use
