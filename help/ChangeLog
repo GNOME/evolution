@@ -1,6 +1,15 @@
+2003-02-04  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-authors.xml: thx to Baris, adjust phrasing in assorted
+	places. tiny fixes, basically.
+
+2003-01-30  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.xml: updates from Baris Cicek.
+
 2003-01-15  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-mainwindow.xml: s/gnome-help/ghelp/
+	* C/usage-mainwindow.xml:  Change links from  ghelp links to internal apx-fdl or apx-gpl
 
 	* es/evolution.sgml: s/gnome-help/ghelp
 

@@ -41,25 +41,29 @@
       (<email>mrproper@ximian.com</email>) Duncan Mak
       (<email>duncan@ximian.com</email>) and Ettore Perazzoli
       (<email>ettore@ximian.com</email>) with the help of the
-      application programmers and the GNOME Documentation Project.
-      Please file comments and suggestions for this manual as bugs in
+      application programmers and the GNOME Documentation
+      Project. Special thanks to Baris Cicek for proofreading.
+    </para>
+    <para>
+       Please file comments and suggestions for this manual as bugs in
       the Ximian bug tracking system. If you contributed to this
       project but do not see your name here, please contact Aaron
       Weber (<email>aaron@ximian.com</email>) and he'll list you.
     </para>
       <para>
-       Partial list of Translators:
+       Partial list of Documentation Translators (application
+       translated to 36 additional languages):
          <itemizedlist>
             <listitem><para>
-              Daniel Persson for .se
+              Daniel Persson for Swedish (.se)
             </para></listitem>
           
             <listitem><para>
-              Hector Garcia Alvarez for .es
+              Hector Garcia Alvarez for Spanish (.es)
             </para></listitem>
 
             <listitem><para>
-	    Kjartan Maraas for .no
+	    Kjartan Maraas for Norwegian (.no)
             </para></listitem>
            </itemizedlist>
 
