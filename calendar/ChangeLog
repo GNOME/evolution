@@ -1,3 +1,10 @@
+2005-01-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #64682
+	* gui/e-calendar-view.c: (transfer_item_to): Added an X-property
+	so that the backend could identify if the appointment is moved from
+	another calendar.
+
 2004-01-16  JP Rosevear  <jpr@novell.com>
  
  	Fixes #41624
