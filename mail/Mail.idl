@@ -9,12 +9,13 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 	
 	interface MessageList : Bonobo::Unknown {
 		
-		void select_message (in long message_number);
-		void open_message   (in long message_number);
+		void selectMessage (in long message_number);
+		void openMessage   (in long message_number);
 	};
 	
 	/*
@@ -24,7 +25,8 @@ module Evolution {
 	 * Bonobo Properties
 	 */
 	interface FolderBrowser : Bonobo::Unknown {
-		MessageList get_message_list ();
+		MessageList getMessageList ();
 	};
+};
 };
 

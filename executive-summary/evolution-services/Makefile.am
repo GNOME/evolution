@@ -31,8 +31,8 @@ IDLS = \
 	$(srcdir)/../idl/SummaryComponent.idl
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
-		-I$(srcdir) $(srcdir)/../idl/Executive-Summary.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
+		$(srcdir)/../idl/Executive-Summary.idl
 
 libevolution_services_la_SOURCES =		\
 	$(IDL_GENERATED)		\

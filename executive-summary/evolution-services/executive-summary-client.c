@@ -98,13 +98,13 @@ executive_summary_client_set_title (ExecutiveSummaryClient *client,
 				    int id,
 				    const char *title)
 {
-	Evolution_Summary summary;
+	GNOME_Evolution_Summary_ViewFrame summary;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	Evolution_Summary_set_title (summary, id, title, &ev);
+	GNOME_Evolution_Summary_ViewFrame_setTitle (summary, id, title, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error setting title to %s:%s", title, CORBA_exception_id (&ev));
@@ -118,13 +118,13 @@ executive_summary_client_set_icon (ExecutiveSummaryClient *client,
 				   int id,
 				   const char *icon)
 {
-	Evolution_Summary summary;
+	GNOME_Evolution_Summary_ViewFrame summary;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	Evolution_Summary_set_icon (summary, id, icon, &ev);
+	GNOME_Evolution_Summary_ViewFrame_setIcon (summary, id, icon, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error setting icon to %s:%s", icon, CORBA_exception_id (&ev));
@@ -137,13 +137,13 @@ void
 executive_summary_client_flash (ExecutiveSummaryClient *client,
 				int id)
 {
-	Evolution_Summary summary;
+	GNOME_Evolution_Summary_ViewFrame summary;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	Evolution_Summary_flash (summary, id, &ev);
+	GNOME_Evolution_Summary_ViewFrame_flash (summary, id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error flashing");
@@ -157,13 +157,13 @@ executive_summary_client_update (ExecutiveSummaryClient *client,
 				 int id,
 				 const char *html)
 {
-	Evolution_Summary summary;
+	GNOME_Evolution_Summary_ViewFrame summary;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	summary = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	Evolution_Summary_update_component (summary, id, html, &ev);
+	GNOME_Evolution_Summary_ViewFrame_updateComponent (summary, id, html, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error updating the component");
 	}

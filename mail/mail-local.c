@@ -457,7 +457,7 @@ local_reconfigure_folder(FolderBrowser *fb)
 typedef struct {
 	CamelStore parent_object;	
 
-	Evolution_LocalStorage corba_local_storage;
+	GNOME_Evolution_LocalStorage corba_local_storage;
 	EvolutionStorageListener *local_storage_listener;
 
 	char *local_path;
@@ -636,12 +636,12 @@ local_folder_changed (CamelObject *object, gpointer event_data,
 		if (unread > 0) {
 			display = g_strdup_printf ("%s (%d)",
 						   local_folder->name, unread);
-			Evolution_LocalStorage_update_folder (
+			GNOME_Evolution_LocalStorage_updateFolder (
 				local_folder->local_store->corba_local_storage,
 				local_folder->path, display, TRUE, &ev);
 			g_free (display);
 		} else {
-			Evolution_LocalStorage_update_folder (
+			GNOME_Evolution_LocalStorage_updateFolder (
 				local_folder->local_store->corba_local_storage,
 				local_folder->path, local_folder->name,
 				FALSE, &ev);
@@ -702,7 +702,7 @@ static const mail_operation_spec op_register_folder =
 static void
 local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 			     const char *path,
-			     const Evolution_Folder *folder,
+			     const GNOME_Evolution_Folder *folder,
 			     void *data)
 {
 	MailLocalStore *local_store = data;
@@ -789,7 +789,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 			    const char *evolution_path)
 {
 	MailLocalStore *local_store;
-	Evolution_StorageListener corba_local_storage_listener;
+	GNOME_Evolution_StorageListener corba_local_storage_listener;
 	CORBA_Environment ev;
 
 	/* Register with Camel to handle file: URLs */
@@ -841,7 +841,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 	local_store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 
 	CORBA_exception_init (&ev);
-	Evolution_Storage_add_listener (local_store->corba_local_storage,
+	GNOME_Evolution_Storage_addListener (local_store->corba_local_storage,
 					corba_local_storage_listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Cannot add a listener to the Local Storage.");

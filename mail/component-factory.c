@@ -77,7 +77,7 @@ create_view (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
 	GtkWidget *folder_browser_widget;
 
@@ -105,7 +105,7 @@ static void
 create_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
 	       const char *type,
-	       const Evolution_ShellComponentListener listener,
+	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
 	mail_do_create_folder (listener, physical_uri, type);
@@ -118,7 +118,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	GSList *sources;
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_Shell corba_shell;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
@@ -253,7 +253,7 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 
 static void
 add_storage (const char *uri, CamelService *store,
-	     Evolution_Shell corba_shell, CamelException *ex)
+	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
 {
 	EvolutionStorage *storage;
 	EvolutionStorageResult res;
@@ -282,7 +282,7 @@ add_storage (const char *uri, CamelService *store,
 }
 
 void
-mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
+mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
 {
 	CamelException ex;
 	MailConfigService *svc;

@@ -10,6 +10,7 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 	
 	interface Composer : Bonobo::Unknown {
@@ -20,7 +21,7 @@ module Evolution {
 		typedef sequence<Recipient> RecipientList;
 
 		/**
-		 * set_headers:
+		 * setHeaders:
 		 * @to: the "To" recipients
 		 * @cc: the "CC" recipients
 		 * @bcc: the "Bcc" recipients
@@ -30,31 +31,31 @@ module Evolution {
 		 * @bcc may be an empty list, and @subject may be an
 		 * empty string.
 		 **/
-		void set_headers (in RecipientList to, in RecipientList cc,
-				  in RecipientList bcc, in string subject);
+		void setHeaders (in RecipientList to, in RecipientList cc,
+				 in RecipientList bcc, in string subject);
 
 		/**
-		 * set_body_text:
+		 * setBodyText:
 		 * @body: the body
 		 *
 		 * Sets the text in the body of the composer to
 		 * the given UTF-8 plain text.
 		 **/
-		void set_body_text (in string body);
+		void setBodyText (in string body);
 
 		/**
-		 * attach_MIME:
+		 * attachMIME:
 		 * @data: the attachment data
 		 *
 		 * This adds an attachment to the composer. @data
 		 * should be a fully-formed MIME body part.
 		 **/
 		exception CouldNotParse {};
-		void attach_MIME (in string data)
+		void attachMIME (in string data)
 			raises (CouldNotParse);
 
 		/**
-		 * attach_data:
+		 * attachData:
 		 * @content_type: the Content-Type header
 		 * @filename: the suggested filename, or ""
 		 * @description: a description of the data, or ""
@@ -76,11 +77,11 @@ module Evolution {
 		 * all of the MIME headers yourself and use
 		 * add_attachment ().
 		 **/
-		void attach_data (in string content_type,
-				  in string filename,
-				  in string description,
-				  in boolean show_inline,
-				  in string data);
+		void attachData (in string content_type,
+				 in string filename,
+				 in string description,
+				 in boolean show_inline,
+				 in string data);
 
 
 		/**
@@ -91,4 +92,5 @@ module Evolution {
 		 **/
 		void show ();
 	};
+};
 };

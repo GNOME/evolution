@@ -61,13 +61,13 @@ struct _ECorbaStorageClass {
 
 GtkType   e_corba_storage_get_type   (void);
 void      e_corba_storage_construct  (ECorbaStorage           *corba_storage,
-				      const Evolution_Storage  storage_interface,
+				      const GNOME_Evolution_Storage  storage_interface,
 				      const char              *name);
-EStorage *e_corba_storage_new        (const Evolution_Storage  storage_interface,
+EStorage *e_corba_storage_new        (const GNOME_Evolution_Storage  storage_interface,
 				      const char              *name);
 
 /* FIXME: I don't like this call.  */
-const Evolution_StorageListener  e_corba_storage_get_StorageListener  (ECorbaStorage *corba_storage);
+const GNOME_Evolution_StorageListener  e_corba_storage_get_StorageListener  (ECorbaStorage *corba_storage);
 
 #ifdef __cplusplus
 }

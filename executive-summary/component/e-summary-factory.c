@@ -121,7 +121,7 @@ control_activate_cb (BonoboControl *control,
 	ESummary *summary;
 	BonoboUIComponent *ui_component;
 	Bonobo_ControlFrame control_frame;
-	Evolution_ShellView shell_view_interface;
+	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
 
 	ui_component = bonobo_control_get_ui_component (control);
@@ -269,7 +269,7 @@ e_summary_factory_embed_service_from_id (ESummary *esummary,
 
 BonoboControl *
 e_summary_factory_new_control (const char *uri,
-			       const Evolution_Shell shell)
+			       const GNOME_Evolution_Shell shell)
 {
   BonoboControl *control;
   GtkWidget *esummary;

@@ -38,12 +38,12 @@ static void (*postpone_cb) (EMsgComposer *, gpointer);
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_Composer__vepv Composer_vepv;
+static POA_GNOME_Evolution_Composer__vepv Composer_vepv;
 
 static GList *
-corba_recipientlist_to_glist (const Evolution_Composer_RecipientList *cl)
+corba_recipientlist_to_glist (const GNOME_Evolution_Composer_RecipientList *cl)
 {
-	Evolution_Composer_Recipient *recip;
+	GNOME_Evolution_Composer_Recipient *recip;
 	GList *gl = NULL;
 	char *str;
 	int i;
@@ -79,9 +79,9 @@ free_recipient_glist (GList *gl)
 
 static void
 impl_Composer_set_headers (PortableServer_Servant servant,
-			   const Evolution_Composer_RecipientList *to,
-			   const Evolution_Composer_RecipientList *cc,
-			   const Evolution_Composer_RecipientList *bcc,
+			   const GNOME_Evolution_Composer_RecipientList *to,
+			   const GNOME_Evolution_Composer_RecipientList *cc,
+			   const GNOME_Evolution_Composer_RecipientList *bcc,
 			   const CORBA_char *subject,
 			   CORBA_Environment *ev)
 {
@@ -140,7 +140,7 @@ impl_Composer_attach_MIME (PortableServer_Servant servant,
 
 	if (status == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Composer_CouldNotParse,
+				     ex_GNOME_Evolution_Composer_CouldNotParse,
 				     NULL);
 		return;
 	}
@@ -193,17 +193,17 @@ impl_Composer_show (PortableServer_Servant servant,
 	gtk_widget_show (GTK_WIDGET (composer->composer));
 }
 
-POA_Evolution_Composer__epv *
+POA_GNOME_Evolution_Composer__epv *
 evolution_composer_get_epv (void)
 {
-	POA_Evolution_Composer__epv *epv;
+	POA_GNOME_Evolution_Composer__epv *epv;
 
-	epv = g_new0 (POA_Evolution_Composer__epv, 1);
-	epv->set_headers = impl_Composer_set_headers;
-	epv->set_body_text = impl_Composer_set_body_text;
-	epv->attach_MIME = impl_Composer_attach_MIME;
-	epv->attach_data = impl_Composer_attach_data;
-	epv->show = impl_Composer_show;
+	epv = g_new0 (POA_GNOME_Evolution_Composer__epv, 1);
+	epv->setHeaders  = impl_Composer_set_headers;
+	epv->setBodyText = impl_Composer_set_body_text;
+	epv->attachMIME  = impl_Composer_attach_MIME;
+	epv->attachData  = impl_Composer_attach_data;
+	epv->show        = impl_Composer_show;
 
 	return epv;
 }
@@ -233,7 +233,7 @@ class_init (EvolutionComposerClass *klass)
 	parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	Composer_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	Composer_vepv.Evolution_Composer_epv = evolution_composer_get_epv ();
+	Composer_vepv.GNOME_Evolution_Composer_epv = evolution_composer_get_epv ();
 }
 
 static void
@@ -249,7 +249,7 @@ init (EvolutionComposer *composer)
 
 void
 evolution_composer_construct (EvolutionComposer *composer,
-			      Evolution_Composer corba_object)
+			      GNOME_Evolution_Composer corba_object)
 {
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (EVOLUTION_IS_COMPOSER (composer));
@@ -262,15 +262,15 @@ EvolutionComposer *
 evolution_composer_new (void)
 {
 	EvolutionComposer *new;
-	POA_Evolution_Composer *servant;
+	POA_GNOME_Evolution_Composer *servant;
 	CORBA_Environment ev;
-	Evolution_Composer corba_object;
+	GNOME_Evolution_Composer corba_object;
 
-	servant = (POA_Evolution_Composer *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Composer *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &Composer_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_Evolution_Composer__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Composer__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);

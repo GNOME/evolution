@@ -31,9 +31,9 @@ struct _ECardCursorClass {
 };
 
 /* Creating a new addressbook. */
-ECardCursor *e_card_cursor_new       (Evolution_CardCursor  corba_cursor);
+ECardCursor *e_card_cursor_new       (GNOME_Evolution_Addressbook_CardCursor  corba_cursor);
 ECardCursor *e_card_cursor_construct (ECardCursor          *cursor,
-				      Evolution_CardCursor  corba_cursor);
+				      GNOME_Evolution_Addressbook_CardCursor  corba_cursor);
 
 GtkType      e_card_cursor_get_type    (void);
 

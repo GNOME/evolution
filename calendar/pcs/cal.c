@@ -31,7 +31,7 @@ struct _CalPrivate {
 	CalBackend *backend;
 
 	/* Listener on the client we notify */
-	Evolution_Calendar_Listener listener;
+	GNOME_Evolution_Calendar_Listener listener;
 };
 
 
@@ -40,7 +40,7 @@ static void cal_class_init (CalClass *class);
 static void cal_init (Cal *cal);
 static void cal_destroy (GtkObject *object);
 
-static POA_Evolution_Calendar_Cal__vepv cal_vepv;
+static POA_GNOME_Evolution_Calendar_Cal__vepv cal_vepv;
 
 static BonoboObjectClass *parent_class;
 
@@ -83,7 +83,7 @@ static void
 init_cal_corba_class (void)
 {
 	cal_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	cal_vepv.Evolution_Calendar_Cal_epv = cal_get_epv ();
+	cal_vepv.GNOME_Evolution_Calendar_Cal_epv = cal_get_epv ();
 }
 
 /* Class initialization function for the calendar */
@@ -172,17 +172,17 @@ Cal_get_uri (PortableServer_Servant servant,
  * representation.
  */
 static CalObjType
-uncorba_obj_type (Evolution_Calendar_CalObjType type)
+uncorba_obj_type (GNOME_Evolution_Calendar_CalObjType type)
 {
-	return (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
-		| ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
-		| ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
+	return (((type & GNOME_Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
+		| ((type & GNOME_Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
+		| ((type & GNOME_Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
 }
 
 /* Cal::get_n_objects method */
 static CORBA_long
 Cal_get_n_objects (PortableServer_Servant servant,
-		   Evolution_Calendar_CalObjType type,
+		   GNOME_Evolution_Calendar_CalObjType type,
 		   CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -199,9 +199,9 @@ Cal_get_n_objects (PortableServer_Servant servant,
 }
 
 /* Cal::get_object method */
-static Evolution_Calendar_CalObj
+static GNOME_Evolution_Calendar_CalObj
 Cal_get_object (PortableServer_Servant servant,
-		const Evolution_Calendar_CalObjUID uid,
+		const GNOME_Evolution_Calendar_CalObjUID uid,
 		CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -221,25 +221,25 @@ Cal_get_object (PortableServer_Servant servant,
 		return calobj_copy;
 	} else {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_NotFound,
+				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
 				     NULL);
 		return NULL;
 	}
 }
 
-static Evolution_Calendar_CalObjUIDSeq *
+static GNOME_Evolution_Calendar_CalObjUIDSeq *
 build_uid_seq (GList *uids)
 {
-	Evolution_Calendar_CalObjUIDSeq *seq;
+	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
 	GList *l;
 	int n, i;
 
 	n = g_list_length (uids);
 
-	seq = Evolution_Calendar_CalObjUIDSeq__alloc ();
+	seq = GNOME_Evolution_Calendar_CalObjUIDSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
 	seq->_length = n;
-	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjUID_allocbuf (n);
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (n);
 
 	/* Fill the sequence */
 
@@ -254,15 +254,15 @@ build_uid_seq (GList *uids)
 }
 
 /* Cal::get_uids method */
-static Evolution_Calendar_CalObjUIDSeq *
+static GNOME_Evolution_Calendar_CalObjUIDSeq *
 Cal_get_uids (PortableServer_Servant servant,
-	      Evolution_Calendar_CalObjType type,
+	      GNOME_Evolution_Calendar_CalObjType type,
 	      CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	GList *uids;
-	Evolution_Calendar_CalObjUIDSeq *seq;
+	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
 	int t;
 
 	cal = CAL (bonobo_object_from_servant (servant));
@@ -278,24 +278,24 @@ Cal_get_uids (PortableServer_Servant servant,
 	return seq;
 }
 
-static Evolution_Calendar_CalObjChangeSeq *
+static GNOME_Evolution_Calendar_CalObjChangeSeq *
 build_change_seq (GList *changes)
 {
 	GList *l;
 	int n, i;
-	Evolution_Calendar_CalObjChangeSeq *seq;
+	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
 
 	n = g_list_length (changes);
 
-	seq = Evolution_Calendar_CalObjChangeSeq__alloc ();
+	seq = GNOME_Evolution_Calendar_CalObjChangeSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
 	seq->_length = n;
-	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjChange_allocbuf (n);
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjChange_allocbuf (n);
 
 	/* Fill the sequence */
 	for (i = 0, l = changes; l; i++, l = l->next) {
 		CalObjChange *c;
-		Evolution_Calendar_CalObjChange *corba_c;
+		GNOME_Evolution_Calendar_CalObjChange *corba_c;
 
 		c = l->data;
 		corba_c = &seq->_buffer[i];
@@ -308,16 +308,16 @@ build_change_seq (GList *changes)
 }
 
 /* Cal::get_changed_uids method */
-static Evolution_Calendar_CalObjChangeSeq *
+static GNOME_Evolution_Calendar_CalObjChangeSeq *
 Cal_get_changed_uids (PortableServer_Servant servant,
-		      Evolution_Calendar_CalObjType type,
-		      Evolution_Calendar_Time_t since,
+		      GNOME_Evolution_Calendar_CalObjType type,
+		      GNOME_Evolution_Calendar_Time_t since,
 		      CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	GList *changes;
-	Evolution_Calendar_CalObjChangeSeq *seq;
+	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
 	int t;
 	time_t s;
 
@@ -336,18 +336,18 @@ Cal_get_changed_uids (PortableServer_Servant servant,
 }
 
 /* Cal::get_objects_in_range method */
-static Evolution_Calendar_CalObjUIDSeq *
+static GNOME_Evolution_Calendar_CalObjUIDSeq *
 Cal_get_objects_in_range (PortableServer_Servant servant,
-			  Evolution_Calendar_CalObjType type,
-			  Evolution_Calendar_Time_t start,
-			  Evolution_Calendar_Time_t end,
+			  GNOME_Evolution_Calendar_CalObjType type,
+			  GNOME_Evolution_Calendar_Time_t start,
+			  GNOME_Evolution_Calendar_Time_t end,
 			  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	int t;
 	time_t t_start, t_end;
-	Evolution_Calendar_CalObjUIDSeq *seq;
+	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
 	GList *uids;
 
 	cal = CAL (bonobo_object_from_servant (servant));
@@ -359,7 +359,7 @@ Cal_get_objects_in_range (PortableServer_Servant servant,
 
 	if (t_start > t_end || t_start == -1 || t_end == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_InvalidRange,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
 				     NULL);
 		return NULL;
 	}
@@ -398,25 +398,25 @@ corba_alarm_type (enum AlarmType type)
 #endif
 
 /* Builds a CORBA sequence of alarm instances from a CalAlarmInstance list. */
-static Evolution_Calendar_CalAlarmInstanceSeq *
+static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
 build_alarm_instance_seq (GList *alarms)
 {
 	GList *l;
 	int n, i;
-	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
 
 	n = g_list_length (alarms);
 
-	seq = Evolution_Calendar_CalAlarmInstanceSeq__alloc ();
+	seq = GNOME_Evolution_Calendar_CalAlarmInstanceSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
 	seq->_length = n;
-	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalAlarmInstance_allocbuf (n);
+	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf (n);
 
 	/* Fill the sequence */
 
 	for (i = 0, l = alarms; l; i++, l = l->next) {
 		CalAlarmInstance *ai;
-		Evolution_Calendar_CalAlarmInstance *corba_ai;
+		GNOME_Evolution_Calendar_CalAlarmInstance *corba_ai;
 
 		ai = l->data;
 		corba_ai = &seq->_buffer[i];
@@ -433,16 +433,16 @@ build_alarm_instance_seq (GList *alarms)
 }
 
 /* Cal::get_alarms_in_range method */
-static Evolution_Calendar_CalAlarmInstanceSeq *
+static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
 Cal_get_alarms_in_range (PortableServer_Servant servant,
-			 Evolution_Calendar_Time_t start,
-			 Evolution_Calendar_Time_t end,
+			 GNOME_Evolution_Calendar_Time_t start,
+			 GNOME_Evolution_Calendar_Time_t end,
 			 CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
 	GList *alarms;
 
 	cal = CAL (bonobo_object_from_servant (servant));
@@ -453,7 +453,7 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 
 	if (t_start > t_end || t_start == -1 || t_end == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_InvalidRange,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
 				     NULL);
 		return NULL;
 	}
@@ -468,17 +468,17 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 }
 
 /* Cal::get_alarms_for_object method */
-static Evolution_Calendar_CalAlarmInstanceSeq *
+static GNOME_Evolution_Calendar_CalAlarmInstanceSeq *
 Cal_get_alarms_for_object (PortableServer_Servant servant,
-			   const Evolution_Calendar_CalObjUID uid,
-			   Evolution_Calendar_Time_t start,
-			   Evolution_Calendar_Time_t end,
+			   const GNOME_Evolution_Calendar_CalObjUID uid,
+			   GNOME_Evolution_Calendar_Time_t start,
+			   GNOME_Evolution_Calendar_Time_t end,
 			   CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq;
 	GList *alarms;
 	gboolean result;
 
@@ -490,7 +490,7 @@ Cal_get_alarms_for_object (PortableServer_Servant servant,
 
 	if (t_start > t_end || t_start == -1 || t_end == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_InvalidRange,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
 				     NULL);
 		return NULL;
 	}
@@ -498,7 +498,7 @@ Cal_get_alarms_for_object (PortableServer_Servant servant,
 	result = cal_backend_get_alarms_for_object (priv->backend, uid, t_start, t_end, &alarms);
 	if (!result) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_NotFound,
+				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
 				     NULL);
 		return NULL;
 	}
@@ -512,8 +512,8 @@ Cal_get_alarms_for_object (PortableServer_Servant servant,
 /* Cal::update_object method */
 static void
 Cal_update_object (PortableServer_Servant servant,
-		   const Evolution_Calendar_CalObjUID uid,
-		   const Evolution_Calendar_CalObj calobj,
+		   const GNOME_Evolution_Calendar_CalObjUID uid,
+		   const GNOME_Evolution_Calendar_CalObj calobj,
 		   CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -524,14 +524,14 @@ Cal_update_object (PortableServer_Servant servant,
 
 	if (!cal_backend_update_object (priv->backend, uid, calobj))
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_InvalidObject,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidObject,
 				     NULL);
 }
 
 /* Cal::remove_object method */
 static void
 Cal_remove_object (PortableServer_Servant servant,
-		   const Evolution_Calendar_CalObjUID uid,
+		   const GNOME_Evolution_Calendar_CalObjUID uid,
 		   CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -542,7 +542,7 @@ Cal_remove_object (PortableServer_Servant servant,
 
 	if (!cal_backend_remove_object (priv->backend, uid))
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_Cal_NotFound,
+				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
 				     NULL);
 }
 
@@ -554,22 +554,22 @@ Cal_remove_object (PortableServer_Servant servant,
  *
  * Return value: A newly-allocated EPV.
  **/
-POA_Evolution_Calendar_Cal__epv *
+POA_GNOME_Evolution_Calendar_Cal__epv *
 cal_get_epv (void)
 {
-	POA_Evolution_Calendar_Cal__epv *epv;
+	POA_GNOME_Evolution_Calendar_Cal__epv *epv;
 
-	epv = g_new0 (POA_Evolution_Calendar_Cal__epv, 1);
-	epv->_get_uri = Cal_get_uri;
-	epv->get_n_objects = Cal_get_n_objects;
-	epv->get_object = Cal_get_object;
-	epv->get_uids = Cal_get_uids;
-	epv->get_changed_uids = Cal_get_changed_uids;
-	epv->get_objects_in_range = Cal_get_objects_in_range;
-	epv->get_alarms_in_range = Cal_get_alarms_in_range;
-	epv->get_alarms_for_object = Cal_get_alarms_for_object;
-	epv->update_object = Cal_update_object;
-	epv->remove_object = Cal_remove_object;
+	epv = g_new0 (POA_GNOME_Evolution_Calendar_Cal__epv, 1);
+	epv->_get_uri     = Cal_get_uri;
+	epv->countObjects = Cal_get_n_objects;
+	epv->getObject    = Cal_get_object;
+	epv->getUIds      = Cal_get_uids;
+	epv->getChangedUIds     = Cal_get_changed_uids;
+	epv->getObjectsInRange  = Cal_get_objects_in_range;
+	epv->getAlarmsInRange   = Cal_get_alarms_in_range;
+	epv->getAlarmsForObject = Cal_get_alarms_for_object;
+	epv->updateObject = Cal_update_object;
+	epv->removeObject = Cal_remove_object;
 
 	return epv;
 }
@@ -591,9 +591,9 @@ cal_get_epv (void)
  **/
 Cal *
 cal_construct (Cal *cal,
-	       Evolution_Calendar_Cal corba_cal,
+	       GNOME_Evolution_Calendar_Cal corba_cal,
 	       CalBackend *backend,
-	       Evolution_Calendar_Listener listener)
+	       GNOME_Evolution_Calendar_Listener listener)
 {
 	CalPrivate *priv;
 	CORBA_Environment ev;
@@ -632,20 +632,20 @@ cal_construct (Cal *cal,
  * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
  * failure.
  **/
-Evolution_Calendar_Cal
+GNOME_Evolution_Calendar_Cal
 cal_corba_object_create (BonoboObject *object)
 {
-	POA_Evolution_Calendar_Cal *servant;
+	POA_GNOME_Evolution_Calendar_Cal *servant;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_Evolution_Calendar_Cal *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Calendar_Cal *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_Evolution_Calendar_Cal__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Calendar_Cal__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_corba_object_create(): could not init the servant");
 		g_free (servant);
@@ -654,7 +654,7 @@ cal_corba_object_create (BonoboObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (Evolution_Calendar_Cal) bonobo_object_activate_servant (object, servant);
+	return (GNOME_Evolution_Calendar_Cal) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -669,10 +669,10 @@ cal_corba_object_create (BonoboObject *object)
  * if its corresponding CORBA object could not be created.
  **/
 Cal *
-cal_new (CalBackend *backend, Evolution_Calendar_Listener listener)
+cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
 {
 	Cal *cal, *retval;
-	Evolution_Calendar_Cal corba_cal;
+	GNOME_Evolution_Calendar_Cal corba_cal;
 	CORBA_Environment ev;
 	gboolean ret;
 
@@ -725,7 +725,7 @@ cal_notify_update (Cal *cal, const char *uid)
 	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Listener_obj_updated (priv->listener, (char *) uid, &ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjUpdated (priv->listener, (char *) uid, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_update(): could not notify the listener "
@@ -756,7 +756,7 @@ cal_notify_remove (Cal *cal, const char *uid)
 	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Listener_obj_removed (priv->listener, (char *) uid, &ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjRemoved (priv->listener, (char *) uid, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_remove(): could not notify the listener "

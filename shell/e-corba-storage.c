@@ -42,21 +42,21 @@ typedef struct _StorageListenerServant StorageListenerServant;
 struct _ECorbaStoragePrivate {
 	char *name;
 
-	Evolution_Storage storage_interface;
+	GNOME_Evolution_Storage storage_interface;
 
 	/* The Evolution::StorageListener interface we expose.  */
 
-	Evolution_StorageListener storage_listener_interface;
+	GNOME_Evolution_StorageListener storage_listener_interface;
 	StorageListenerServant *storage_listener_servant;
 };
 
 
 /* Implementation of the CORBA Evolution::StorageListener interface.  */
 
-static POA_Evolution_StorageListener__vepv storage_listener_vepv;
+static POA_GNOME_Evolution_StorageListener__vepv storage_listener_vepv;
 
 struct _StorageListenerServant {
-	POA_Evolution_StorageListener servant;
+	POA_GNOME_Evolution_StorageListener servant;
 	EStorage *storage;
 };
 
@@ -95,7 +95,7 @@ impl_StorageListener_destroy (PortableServer_Servant servant,
 static void
 impl_StorageListener_new_folder (PortableServer_Servant servant,
 				 const CORBA_char *path,
-				 const Evolution_Folder *folder,
+				 const GNOME_Evolution_Folder *folder,
 				 CORBA_Environment *ev)
 {
 	StorageListenerServant *storage_listener_servant;
@@ -116,7 +116,7 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 		g_print ("Cannot register folder -- %s %s\n", path, folder->display_name);
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_Evolution_StorageListener_Exists,
+				     ex_GNOME_Evolution_StorageListener_Exists,
 				     NULL);
 		gtk_object_unref (GTK_OBJECT (e_folder));
 		return;
@@ -143,7 +143,7 @@ impl_StorageListener_update_folder (PortableServer_Servant servant,
 	if (e_folder == NULL) {
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_Evolution_StorageListener_NotFound,
+				     ex_GNOME_Evolution_StorageListener_NotFound,
 				     NULL);
 		return;
 	}
@@ -168,7 +168,7 @@ impl_StorageListener_removed_folder (PortableServer_Servant servant,
 	if (! e_storage_removed_folder (storage, path))
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_Evolution_StorageListener_NotFound,
+				     ex_GNOME_Evolution_StorageListener_NotFound,
 				     NULL);
 }
 
@@ -178,7 +178,7 @@ setup_storage_listener (ECorbaStorage *corba_storage)
 {
 	StorageListenerServant *servant;
 	ECorbaStoragePrivate *priv;
-	Evolution_StorageListener storage_listener_interface;
+	GNOME_Evolution_StorageListener storage_listener_interface;
 	CORBA_Environment ev;
 
 	priv = corba_storage->priv;
@@ -187,7 +187,7 @@ setup_storage_listener (ECorbaStorage *corba_storage)
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_StorageListener__init (servant, &ev);
+	POA_GNOME_Evolution_StorageListener__init (servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		goto error;
 
@@ -243,7 +243,7 @@ destroy (GtkObject *object)
 							      &ev);
 		PortableServer_POA_deactivate_object (bonobo_poa (), object_id, &ev);
 
-		POA_Evolution_StorageListener__fini (priv->storage_listener_servant, &ev);
+		POA_GNOME_Evolution_StorageListener__fini (priv->storage_listener_servant, &ev);
 		CORBA_free (object_id);
 	}
 
@@ -273,8 +273,8 @@ get_name (EStorage *storage)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_StorageListener__vepv *vepv;
-	POA_Evolution_StorageListener__epv *epv;
+	POA_GNOME_Evolution_StorageListener__vepv *vepv;
+	POA_GNOME_Evolution_StorageListener__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -282,14 +282,14 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_StorageListener__epv, 1);
-	epv->new_folder     = impl_StorageListener_new_folder;
-	epv->update_folder  = impl_StorageListener_update_folder;
-	epv->removed_folder = impl_StorageListener_removed_folder;
+	epv = g_new0 (POA_GNOME_Evolution_StorageListener__epv, 1);
+	epv->notifyFolderCreated = impl_StorageListener_new_folder;
+	epv->notifyFolderUpdated = impl_StorageListener_update_folder;
+	epv->notifyFolderRemoved = impl_StorageListener_removed_folder;
 
 	vepv = &storage_listener_vepv;
 	vepv->_base_epv                     = base_epv;
-	vepv->Evolution_StorageListener_epv = epv;
+	vepv->GNOME_Evolution_StorageListener_epv = epv;
 }
 
 static void
@@ -325,7 +325,7 @@ init (ECorbaStorage *corba_storage)
 /* FIXME: OK to have a boolean construct function?  */
 void
 e_corba_storage_construct (ECorbaStorage *corba_storage,
-			   const Evolution_Storage storage_interface,
+			   const GNOME_Evolution_Storage storage_interface,
 			   const char *name)
 {
 	ECorbaStoragePrivate *priv;
@@ -357,7 +357,7 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 }
 
 EStorage *
-e_corba_storage_new (const Evolution_Storage storage_interface,
+e_corba_storage_new (const GNOME_Evolution_Storage storage_interface,
 		     const char *name)
 {
 	EStorage *new;
@@ -373,7 +373,7 @@ e_corba_storage_new (const Evolution_Storage storage_interface,
 }
 
 
-const Evolution_StorageListener
+const GNOME_Evolution_StorageListener
 e_corba_storage_get_StorageListener (ECorbaStorage *corba_storage)
 {
 	g_return_val_if_fail (corba_storage != NULL, NULL);

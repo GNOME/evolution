@@ -16,7 +16,7 @@ CORBA_GENERATED =				\
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
+idl_flags = -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl

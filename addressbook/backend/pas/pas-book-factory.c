@@ -18,11 +18,11 @@
 #define PAS_BOOK_FACTORY_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
-POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;
+POA_GNOME_Evolution_Addressbook_BookFactory__vepv   pas_book_factory_vepv;
 
 typedef struct {
 	char                              *uri;
-	Evolution_BookListener             listener;
+	GNOME_Evolution_Addressbook_BookListener             listener;
 } PASBookFactoryQueuedRequest;
 
 struct _PASBookFactoryPrivate {
@@ -174,7 +174,7 @@ pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 
 static PASBackend *
 pas_book_factory_launch_backend (PASBookFactory              *factory,
-				 Evolution_BookListener       listener,
+				 GNOME_Evolution_Addressbook_BookListener       listener,
 				 const char                  *uri)
 {
 	PASBackendFactoryFn  backend_factory;
@@ -187,9 +187,9 @@ pas_book_factory_launch_backend (PASBookFactory              *factory,
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		Evolution_BookListener_respond_open_book (
+		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
 			listener,
-			Evolution_BookListener_ProtocolNotSupported,
+			GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported,
 			CORBA_OBJECT_NIL,
 			&ev);
 
@@ -206,9 +206,9 @@ pas_book_factory_launch_backend (PASBookFactory              *factory,
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		Evolution_BookListener_respond_open_book (
+		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
 			listener,
-			Evolution_BookListener_OtherError,
+			GNOME_Evolution_Addressbook_BookListener_OtherError,
 			CORBA_OBJECT_NIL,
 			&ev);
 
@@ -237,7 +237,7 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 {
 	PASBackend *backend;
 	char *uri;
-	Evolution_BookListener listener;
+	GNOME_Evolution_Addressbook_BookListener listener;
 	CORBA_Environment ev;
 
 	uri = request->uri;
@@ -305,10 +305,10 @@ pas_book_factory_process_queue (PASBookFactory *factory)
 static void
 pas_book_factory_queue_request (PASBookFactory               *factory,
 				const char                   *uri,
-				const Evolution_BookListener  listener)
+				const GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	PASBookFactoryQueuedRequest *request;
-	Evolution_BookListener       listener_copy;
+	GNOME_Evolution_Addressbook_BookListener       listener_copy;
 	CORBA_Environment            ev;
 
 	CORBA_exception_init (&ev);
@@ -338,9 +338,9 @@ pas_book_factory_queue_request (PASBookFactory               *factory,
 
 
 static void
-impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
+impl_GNOME_Evolution_Addressbook_BookFactory_openBook (PortableServer_Servant        servant,
 				      const CORBA_char             *uri,
-				      const Evolution_BookListener  listener,
+				      const GNOME_Evolution_Addressbook_BookListener  listener,
 				      CORBA_Environment            *ev)
 {
 	PASBookFactory      *factory =
@@ -350,9 +350,9 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
 
 	if (backend_factory == NULL) {
-		Evolution_BookListener_respond_open_book (
+		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
 			listener,
-			Evolution_BookListener_ProtocolNotSupported,
+			GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported,
 			CORBA_OBJECT_NIL,
 			ev);
 
@@ -365,19 +365,19 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 static gboolean
 pas_book_factory_construct (PASBookFactory *factory)
 {
-	POA_Evolution_BookFactory  *servant;
+	POA_GNOME_Evolution_Addressbook_BookFactory  *servant;
 	CORBA_Environment           ev;
 	CORBA_Object                obj;
 
 	g_assert (factory != NULL);
 	g_assert (PAS_IS_BOOK_FACTORY (factory));
 
-	servant = (POA_Evolution_BookFactory *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Addressbook_BookFactory *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_factory_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_BookFactory__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Addressbook_BookFactory__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -526,14 +526,14 @@ pas_book_factory_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (pas_book_factory_parent_class)->destroy (object);
 }
 
-static POA_Evolution_BookFactory__epv *
+static POA_GNOME_Evolution_Addressbook_BookFactory__epv *
 pas_book_factory_get_epv (void)
 {
-	POA_Evolution_BookFactory__epv *epv;
+	POA_GNOME_Evolution_Addressbook_BookFactory__epv *epv;
 
-	epv = g_new0 (POA_Evolution_BookFactory__epv, 1);
+	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookFactory__epv, 1);
 
-	epv->open_book = impl_Evolution_BookFactory_open_book;
+	epv->openBook = impl_GNOME_Evolution_Addressbook_BookFactory_openBook;
 
 	return epv;
 	
@@ -543,7 +543,7 @@ static void
 pas_book_factory_corba_class_init (void)
 {
 	pas_book_factory_vepv.Bonobo_Unknown_epv         = bonobo_object_get_epv ();
-	pas_book_factory_vepv.Evolution_BookFactory_epv = pas_book_factory_get_epv ();
+	pas_book_factory_vepv.GNOME_Evolution_Addressbook_BookFactory_epv = pas_book_factory_get_epv ();
 }
 
 static void

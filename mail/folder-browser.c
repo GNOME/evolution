@@ -739,7 +739,7 @@ my_folder_browser_init (GtkObject *object)
 }
 
 GtkWidget *
-folder_browser_new (const Evolution_Shell shell)
+folder_browser_new (const GNOME_Evolution_Shell shell)
 {
 	static int serial = 0;
 	CORBA_Environment ev;

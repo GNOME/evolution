@@ -45,8 +45,8 @@ extern char *evolution_dir;
 static GtkObjectClass *e_summary_parent_class;
 
 struct _ESummaryPrivate {
-	Evolution_Shell shell;
-	Evolution_ShellView shell_view_interface;
+	GNOME_Evolution_Shell shell;
+	GNOME_Evolution_ShellView shell_view_interface;
 
 	GtkWidget *html_scroller;
 	GtkWidget *html;
@@ -214,7 +214,7 @@ E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
 	     e_summary_init, PARENT_TYPE);
 
 GtkWidget *
-e_summary_new (const Evolution_Shell shell)
+e_summary_new (const GNOME_Evolution_Shell shell)
 {
 	ESummary *esummary;
 	ESummaryPrivate *priv;
@@ -546,7 +546,7 @@ e_summary_view_from_id (ESummary *esummary,
 
 void
 e_summary_set_shell_view_interface (ESummary *summary,
-				    Evolution_ShellView svi)
+				    GNOME_Evolution_ShellView svi)
 {
 	ESummaryPrivate *priv;
 
@@ -558,14 +558,14 @@ e_summary_set_shell_view_interface (ESummary *summary,
 	priv->shell_view_interface = svi;
 }
 
-/* Wrappers for Evolution_ShellView */
+/* Wrappers for GNOME_Evolution_ShellView */
 void
 e_summary_set_message (ESummary *esummary,
 		       const char *message,
 		       gboolean busy)
 {
 	ESummaryPrivate *priv;
-	Evolution_ShellView svi;
+	GNOME_Evolution_ShellView svi;
 	CORBA_Environment ev;
 
 	g_return_if_fail (esummary != NULL);
@@ -579,9 +579,9 @@ e_summary_set_message (ESummary *esummary,
 
 	CORBA_exception_init (&ev);
 	if (message != NULL)
-		Evolution_ShellView_set_message (svi, message, busy, &ev);
+		GNOME_Evolution_ShellView_setMessage (svi, message, busy, &ev);
 	else 
-		Evolution_ShellView_set_message (svi, "", busy, &ev);
+		GNOME_Evolution_ShellView_setMessage (svi, "", busy, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -589,7 +589,7 @@ void
 e_summary_unset_message (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
-	Evolution_ShellView svi;
+	GNOME_Evolution_ShellView svi;
 	CORBA_Environment ev;
 
 	g_return_if_fail (esummary != NULL);
@@ -602,7 +602,7 @@ e_summary_unset_message (ESummary *esummary)
 		return;
 
 	CORBA_exception_init (&ev);
-	Evolution_ShellView_unset_message (svi, &ev);
+	GNOME_Evolution_ShellView_unsetMessage (svi, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -611,7 +611,7 @@ e_summary_change_current_view (ESummary *esummary,
 			       const char *uri)
 {
 	ESummaryPrivate *priv;
-	Evolution_ShellView svi;
+	GNOME_Evolution_ShellView svi;
 	CORBA_Environment ev;
 
 	g_return_if_fail (esummary != NULL);
@@ -624,7 +624,7 @@ e_summary_change_current_view (ESummary *esummary,
 		return;
 
 	CORBA_exception_init (&ev);
-	Evolution_ShellView_change_current_view (svi, uri, &ev);
+	GNOME_Evolution_ShellView_changeCurrentView (svi, uri, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -633,7 +633,7 @@ e_summary_set_title (ESummary *esummary,
 		     const char *title)
 {
 	ESummaryPrivate *priv;
-	Evolution_ShellView svi;
+	GNOME_Evolution_ShellView svi;
 	CORBA_Environment ev;
 
 	g_return_if_fail (esummary != NULL);
@@ -646,7 +646,7 @@ e_summary_set_title (ESummary *esummary,
 		return;
 
 	CORBA_exception_init (&ev);
-	Evolution_ShellView_set_title (svi, title, &ev);
+	GNOME_Evolution_ShellView_setTitle (svi, title, &ev);
 	CORBA_exception_free (&ev);
 }
 

@@ -61,7 +61,7 @@ struct _EvolutionStorageListenerClass {
 	void (* destroyed)       (EvolutionStorageListener *storage_listener);
 	void (* new_folder)      (EvolutionStorageListener *storage_listener,
 				  const char *path,
-				  const Evolution_Folder *folder);
+				  const GNOME_Evolution_Folder *folder);
 	void (* update_folder)   (EvolutionStorageListener *storage_listener,
 				  const char *path,
 				  const char *display_name);
@@ -71,7 +71,7 @@ struct _EvolutionStorageListenerClass {
 
 
 struct _EvolutionStorageListenerServant {
-	POA_Evolution_StorageListener servant_placeholder;
+	POA_GNOME_Evolution_StorageListener servant_placeholder;
 	EvolutionStorageListener *gtk_object;
 };
 typedef struct _EvolutionStorageListenerServant EvolutionStorageListenerServant;
@@ -79,10 +79,10 @@ typedef struct _EvolutionStorageListenerServant EvolutionStorageListenerServant;
 
 GtkType                    evolution_storage_listener_get_type      (void);
 void                       evolution_storage_listener_construct     (EvolutionStorageListener  *listener,
-								     Evolution_StorageListener  corba_objref);
+								     GNOME_Evolution_StorageListener  corba_objref);
 EvolutionStorageListener  *evolution_storage_listener_new           (void);
 
-Evolution_StorageListener  evolution_storage_listener_corba_objref  (EvolutionStorageListener *listener);
+GNOME_Evolution_StorageListener  evolution_storage_listener_corba_objref  (EvolutionStorageListener *listener);
 
 #ifdef __cplusplus
 }

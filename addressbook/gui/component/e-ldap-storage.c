@@ -75,7 +75,7 @@ setup_ldap_storage (EvolutionShellComponent *shell_component,
 		    const char *evolution_homedir)
 {
 	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_Shell corba_shell;
 
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == CORBA_OBJECT_NIL) {

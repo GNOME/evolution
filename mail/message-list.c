@@ -82,7 +82,7 @@
 #define PARENT_TYPE (bonobo_object_get_type ())
 
 static BonoboObjectClass *message_list_parent_class;
-static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
+static POA_GNOME_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
@@ -1077,15 +1077,15 @@ MessageList_open_message (PortableServer_Servant _servant,
 	printf ("FIXME: open message method\n");
 }
 
-static POA_Evolution_MessageList__epv *
+static POA_GNOME_Evolution_MessageList__epv *
 evolution_message_list_get_epv (void)
 {
-	POA_Evolution_MessageList__epv *epv;
+	POA_GNOME_Evolution_MessageList__epv *epv;
 
-	epv = g_new0 (POA_Evolution_MessageList__epv, 1);
+	epv = g_new0 (POA_GNOME_Evolution_MessageList__epv, 1);
 
-	epv->select_message = MessageList_select_message;
-	epv->open_message   = MessageList_open_message;
+	epv->selectMessage = MessageList_select_message;
+	epv->openMessage   = MessageList_open_message;
 
 	return epv;
 }
@@ -1094,7 +1094,7 @@ static void
 message_list_corba_class_init (void)
 {
 	evolution_message_list_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	evolution_message_list_vepv.Evolution_MessageList_epv = evolution_message_list_get_epv ();
+	evolution_message_list_vepv.GNOME_Evolution_MessageList_epv = evolution_message_list_get_epv ();
 }
 
 /*
@@ -1123,22 +1123,22 @@ message_list_class_init (GtkObjectClass *object_class)
 }
 
 static void
-message_list_construct (MessageList *message_list, Evolution_MessageList corba_message_list)
+message_list_construct (MessageList *message_list, GNOME_Evolution_MessageList corba_message_list)
 {
 	bonobo_object_construct (BONOBO_OBJECT (message_list), corba_message_list);
 }
 
-static Evolution_MessageList
+static GNOME_Evolution_MessageList
 create_corba_message_list (BonoboObject *object)
 {
-	POA_Evolution_MessageList *servant;
+	POA_GNOME_Evolution_MessageList *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_MessageList *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_MessageList *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &evolution_message_list_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_Evolution_MessageList__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_MessageList__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION){
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -1146,13 +1146,13 @@ create_corba_message_list (BonoboObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (Evolution_MessageList) bonobo_object_activate_servant (object, servant);
+	return (GNOME_Evolution_MessageList) bonobo_object_activate_servant (object, servant);
 }
 
 BonoboObject *
 message_list_new (void)
 {
-	Evolution_MessageList corba_object;
+	GNOME_Evolution_MessageList corba_object;
 	MessageList *message_list;
 
 	message_list = gtk_type_new (message_list_get_type ());

@@ -10,7 +10,7 @@
 #include "pas-book.h"
 
 static BonoboObjectClass *pas_book_parent_class;
-POA_Evolution_Book__vepv pas_book_vepv;
+POA_GNOME_Evolution_Addressbook_Book__vepv pas_book_vepv;
 
 enum {
 	REQUESTS_QUEUED,
@@ -21,7 +21,7 @@ static guint pas_book_signals [LAST_SIGNAL];
 
 struct _PASBookPrivate {
 	PASBackend             *backend;
-	Evolution_BookListener  listener;
+	GNOME_Evolution_Addressbook_BookListener  listener;
 	PASBookGetVCardFn       get_vcard;
 	PASBookCanWriteFn       can_write;
 	PASBookCanWriteCardFn   can_write_card;
@@ -106,7 +106,7 @@ pas_book_queue_get_cursor (PASBook *book, const char *search)
 }
 
 static void
-pas_book_queue_get_book_view (PASBook *book, const Evolution_BookViewListener listener, const char *search)
+pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *search)
 {
 	PASRequest *req;
 	CORBA_Environment ev;
@@ -130,7 +130,7 @@ pas_book_queue_get_book_view (PASBook *book, const Evolution_BookViewListener li
 }
 
 static void
-pas_book_queue_get_changes (PASBook *book, const Evolution_BookViewListener listener, const char *change_id)
+pas_book_queue_get_changes (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *change_id)
 {
 	PASRequest *req;
 	CORBA_Environment ev;
@@ -165,9 +165,9 @@ pas_book_queue_check_connection (PASBook *book)
 }
 
 static CORBA_char *
-impl_Evolution_Book_get_vcard (PortableServer_Servant servant,
-			       const Evolution_CardId id,
-			       CORBA_Environment *ev)
+impl_GNOME_Evolution_Addressbook_Book_getVCard (PortableServer_Servant servant,
+						const GNOME_Evolution_Addressbook_CardId id,
+						CORBA_Environment *ev)
 {
 	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
 	char       *vcard;
@@ -181,7 +181,7 @@ impl_Evolution_Book_get_vcard (PortableServer_Servant servant,
 }
 
 static CORBA_boolean
-impl_Evolution_Book_can_write (PortableServer_Servant servant,
+impl_GNOME_Evolution_Addressbook_Book_isWriteable (PortableServer_Servant servant,
 			       CORBA_Environment *ev)
 {
 	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -193,9 +193,9 @@ impl_Evolution_Book_can_write (PortableServer_Servant servant,
 }
 
 static CORBA_boolean
-impl_Evolution_Book_can_write_card (PortableServer_Servant servant,
-				    const Evolution_CardId id,
-				    CORBA_Environment *ev)
+impl_GNOME_Evolution_Addressbook_Book_isCardWriteable (PortableServer_Servant servant,
+						       const GNOME_Evolution_Addressbook_CardId id,
+						       CORBA_Environment *ev)
 {
 	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
 	CORBA_boolean retval;
@@ -206,8 +206,8 @@ impl_Evolution_Book_can_write_card (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_create_card (PortableServer_Servant servant,
-				 const Evolution_VCard vcard,
+impl_GNOME_Evolution_Addressbook_Book_addCard (PortableServer_Servant servant,
+				 const GNOME_Evolution_Addressbook_VCard vcard,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -216,8 +216,8 @@ impl_Evolution_Book_create_card (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_remove_card (PortableServer_Servant servant,
-				 const Evolution_CardId id,
+impl_GNOME_Evolution_Addressbook_Book_removeCard (PortableServer_Servant servant,
+				 const GNOME_Evolution_Addressbook_CardId id,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -226,8 +226,8 @@ impl_Evolution_Book_remove_card (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_modify_card (PortableServer_Servant servant,
-				 const Evolution_VCard vcard,
+impl_GNOME_Evolution_Addressbook_Book_modifyCard (PortableServer_Servant servant,
+				 const GNOME_Evolution_Addressbook_VCard vcard,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -236,7 +236,7 @@ impl_Evolution_Book_modify_card (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_get_cursor (PortableServer_Servant servant,
+impl_GNOME_Evolution_Addressbook_Book_getCursor (PortableServer_Servant servant,
 				const CORBA_char *search,
 				CORBA_Environment *ev)
 {
@@ -246,8 +246,8 @@ impl_Evolution_Book_get_cursor (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_get_book_view (PortableServer_Servant servant,
-				   const Evolution_BookViewListener listener,
+impl_GNOME_Evolution_Addressbook_Book_getBookView (PortableServer_Servant servant,
+				   const GNOME_Evolution_Addressbook_BookViewListener listener,
 				   const CORBA_char *search,
 				   CORBA_Environment *ev)
 {
@@ -257,8 +257,8 @@ impl_Evolution_Book_get_book_view (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_get_changes (PortableServer_Servant servant,
-				 const Evolution_BookViewListener listener,
+impl_GNOME_Evolution_Addressbook_Book_getChanges (PortableServer_Servant servant,
+				 const GNOME_Evolution_Addressbook_BookViewListener listener,
 				 const CORBA_char *change_id,
 				 CORBA_Environment *ev)
 {
@@ -268,7 +268,7 @@ impl_Evolution_Book_get_changes (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Book_check_connection (PortableServer_Servant servant,
+impl_GNOME_Evolution_Addressbook_Book_checkConnection (PortableServer_Servant servant,
 				      CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -277,7 +277,7 @@ impl_Evolution_Book_check_connection (PortableServer_Servant servant,
 }
 
 static char *
-impl_Evolution_Book_get_static_capabilities (PortableServer_Servant servant,
+impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities (PortableServer_Servant servant,
 					     CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -305,7 +305,7 @@ pas_book_get_backend (PASBook *book)
 /**
  * pas_book_get_listener:
  */
-Evolution_BookListener
+GNOME_Evolution_Addressbook_BookListener
 pas_book_get_listener (PASBook *book)
 {
 	g_return_val_if_fail (book != NULL,       CORBA_OBJECT_NIL);
@@ -357,19 +357,19 @@ pas_book_pop_request (PASBook *book)
  */
 void
 pas_book_respond_open (PASBook                           *book,
-		       Evolution_BookListener_CallStatus  status)
+		       GNOME_Evolution_Addressbook_BookListener_CallStatus  status)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	if (status == Evolution_BookListener_Success) {
-		Evolution_BookListener_respond_open_book (
+	if (status == GNOME_Evolution_Addressbook_BookListener_Success) {
+		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
 			book->priv->listener, status,
 			bonobo_object_corba_objref (BONOBO_OBJECT (book)),
 			&ev);
 	} else {
-		Evolution_BookListener_respond_open_book (
+		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
 			book->priv->listener, status,
 			CORBA_OBJECT_NIL, &ev);
 	}
@@ -388,14 +388,14 @@ pas_book_respond_open (PASBook                           *book,
  */
 void
 pas_book_respond_create (PASBook                           *book,
-			 Evolution_BookListener_CallStatus  status,
+			 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 			 const char                        *id)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookListener_respond_create_card (
+	GNOME_Evolution_Addressbook_BookListener_notifyCardCreated (
 		book->priv->listener, status, (char *)id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -411,13 +411,13 @@ pas_book_respond_create (PASBook                           *book,
  */
 void
 pas_book_respond_remove (PASBook                           *book,
-			 Evolution_BookListener_CallStatus  status)
+			 GNOME_Evolution_Addressbook_BookListener_CallStatus  status)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookListener_respond_remove_card (
+	GNOME_Evolution_Addressbook_BookListener_notifyCardRemoved (
 		book->priv->listener, status, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -433,13 +433,13 @@ pas_book_respond_remove (PASBook                           *book,
  */
 void
 pas_book_respond_modify (PASBook                           *book,
-			 Evolution_BookListener_CallStatus  status)
+			 GNOME_Evolution_Addressbook_BookListener_CallStatus  status)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookListener_respond_modify_card (
+	GNOME_Evolution_Addressbook_BookListener_notifyCardModified (
 		book->priv->listener, status, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -455,7 +455,7 @@ pas_book_respond_modify (PASBook                           *book,
  */
 void
 pas_book_respond_get_cursor (PASBook                           *book,
-			     Evolution_BookListener_CallStatus  status,
+			     GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 			     PASCardCursor                     *cursor)
 {
 	CORBA_Environment ev;
@@ -465,7 +465,7 @@ pas_book_respond_get_cursor (PASBook                           *book,
 	
 	object = bonobo_object_corba_objref(BONOBO_OBJECT(cursor));
 
-	Evolution_BookListener_respond_get_cursor (
+	GNOME_Evolution_Addressbook_BookListener_notifyCursorRequested (
 		book->priv->listener, status, object, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -481,7 +481,7 @@ pas_book_respond_get_cursor (PASBook                           *book,
  */
 void
 pas_book_respond_get_book_view (PASBook                           *book,
-				Evolution_BookListener_CallStatus  status,
+				GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 				PASBookView                       *book_view)
 {
 	CORBA_Environment ev;
@@ -491,7 +491,7 @@ pas_book_respond_get_book_view (PASBook                           *book,
 	
 	object = bonobo_object_corba_objref(BONOBO_OBJECT(book_view));
 
-	Evolution_BookListener_respond_get_view (
+	GNOME_Evolution_Addressbook_BookListener_notifyViewRequested (
 		book->priv->listener, status, object, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -507,7 +507,7 @@ pas_book_respond_get_book_view (PASBook                           *book,
  */
 void
 pas_book_respond_get_changes (PASBook                           *book,
-			      Evolution_BookListener_CallStatus  status,
+			      GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 			      PASBookView                       *book_view)
 {
 	CORBA_Environment ev;
@@ -517,7 +517,7 @@ pas_book_respond_get_changes (PASBook                           *book,
 	
 	object = bonobo_object_corba_objref(BONOBO_OBJECT(book_view));
 
-	Evolution_BookListener_respond_get_changes (
+	GNOME_Evolution_Addressbook_BookListener_notifyChangesRequested (
 		book->priv->listener, status, object, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -539,7 +539,7 @@ pas_book_report_connection (PASBook  *book,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookListener_report_connection_status (
+	GNOME_Evolution_Addressbook_BookListener_notifyConnectionStatus (
 		book->priv->listener, (CORBA_boolean) connected, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -553,12 +553,12 @@ pas_book_report_connection (PASBook  *book,
 static gboolean
 pas_book_construct (PASBook                *book,
 		    PASBackend             *backend,
-		    Evolution_BookListener  listener,
+		    GNOME_Evolution_Addressbook_BookListener  listener,
 		    PASBookGetVCardFn       get_vcard,
 		    PASBookCanWriteFn       can_write,
 		    PASBookCanWriteCardFn   can_write_card)
 {
-	POA_Evolution_Book *servant;
+	POA_GNOME_Evolution_Addressbook_Book *servant;
 	CORBA_Environment   ev;
 	CORBA_Object        obj;
 
@@ -569,12 +569,12 @@ pas_book_construct (PASBook                *book,
 	g_assert (can_write != NULL);
 	g_assert (can_write_card != NULL);
 
-	servant = (POA_Evolution_Book *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Addressbook_Book *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_Book__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Addressbook_Book__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -615,7 +615,7 @@ pas_book_construct (PASBook                *book,
  */
 PASBook *
 pas_book_new (PASBackend             *backend,
-	      Evolution_BookListener  listener,
+	      GNOME_Evolution_Addressbook_BookListener  listener,
 	      PASBookGetVCardFn       get_vcard,
 	      PASBookCanWriteFn       can_write,
 	      PASBookCanWriteCardFn   can_write_card)
@@ -666,24 +666,24 @@ pas_book_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (pas_book_parent_class)->destroy (object);	
 }
 
-static POA_Evolution_Book__epv *
+static POA_GNOME_Evolution_Addressbook_Book__epv *
 pas_book_get_epv (void)
 {
-	POA_Evolution_Book__epv *epv;
+	POA_GNOME_Evolution_Addressbook_Book__epv *epv;
 
-	epv = g_new0 (POA_Evolution_Book__epv, 1);
+	epv = g_new0 (POA_GNOME_Evolution_Addressbook_Book__epv, 1);
 
-	epv->get_vcard               = impl_Evolution_Book_get_vcard;
-	epv->can_write               = impl_Evolution_Book_can_write;
-	epv->can_write_card          = impl_Evolution_Book_can_write_card;
-	epv->create_card             = impl_Evolution_Book_create_card;
-	epv->remove_card             = impl_Evolution_Book_remove_card;
-	epv->modify_card             = impl_Evolution_Book_modify_card;
-	epv->check_connection        = impl_Evolution_Book_check_connection;
-	epv->get_static_capabilities = impl_Evolution_Book_get_static_capabilities;
-	epv->get_cursor              = impl_Evolution_Book_get_cursor;
-	epv->get_book_view           = impl_Evolution_Book_get_book_view;
-	epv->get_changes             = impl_Evolution_Book_get_changes;
+	epv->getVCard              = impl_GNOME_Evolution_Addressbook_Book_getVCard;
+	epv->isWriteable           = impl_GNOME_Evolution_Addressbook_Book_isWriteable;
+	epv->isCardWriteable       = impl_GNOME_Evolution_Addressbook_Book_isCardWriteable;
+	epv->addCard               = impl_GNOME_Evolution_Addressbook_Book_addCard;
+	epv->removeCard            = impl_GNOME_Evolution_Addressbook_Book_removeCard;
+	epv->modifyCard            = impl_GNOME_Evolution_Addressbook_Book_modifyCard;
+	epv->checkConnection       = impl_GNOME_Evolution_Addressbook_Book_checkConnection;
+	epv->getStaticCapabilities = impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities;
+	epv->getCursor             = impl_GNOME_Evolution_Addressbook_Book_getCursor;
+	epv->getBookView           = impl_GNOME_Evolution_Addressbook_Book_getBookView;
+	epv->getChanges            = impl_GNOME_Evolution_Addressbook_Book_getChanges;
 
 	return epv;
 	
@@ -693,7 +693,7 @@ static void
 pas_book_corba_class_init (void)
 {
 	pas_book_vepv.Bonobo_Unknown_epv  = bonobo_object_get_epv ();
-	pas_book_vepv.Evolution_Book_epv = pas_book_get_epv ();
+	pas_book_vepv.GNOME_Evolution_Addressbook_Book_epv = pas_book_get_epv ();
 }
 
 static void

@@ -220,11 +220,11 @@ sub GenHeaders{
            # Find .glade.h files in POTFILES.in and generate
            # the files with help from the ui-extract.pl script
            #--------------------------------------------------
-           elsif ($_=~ /(.*)(\.glade)/o){
-              $filename = "../$1.glade";
-              $xmlfiles="perl \.\/ui-extract.pl --update $filename";
-              system($xmlfiles);  
-           }
+#           elsif ($_=~ /(.*)(\.glade)/o){
+#              $filename = "../$1.glade";
+#              $xmlfiles="perl \.\/ui-extract.pl --update $filename";
+#              system($xmlfiles);  
+#           }
        }
        close FILE;
 
@@ -291,10 +291,10 @@ sub GeneratePot{
 
            # Delete header files coming from glade files
            #--------------------------------------------
-           elsif ($_=~ /(.*)(\.glade)/o){
-               $filename = "../$1.glade.h";
-               unlink($filename);
-           }
+#           elsif ($_=~ /(.*)(\.glade)/o){
+#               $filename = "../$1.glade.h";
+#               unlink($filename);
+#           }
        }
        close FILE;
     }

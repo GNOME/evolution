@@ -60,7 +60,7 @@ create_view (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
   EvolutionShellClient *shell_client;
-  Evolution_Shell corba_shell;
+  GNOME_Evolution_Shell corba_shell;
   BonoboControl *control;
 
   if (g_strcasecmp (folder_type, "executive-summary") != 0)
@@ -84,7 +84,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
-  Evolution_Shell corba_shell;
+  GNOME_Evolution_Shell corba_shell;
 
   evolution_dir = g_strdup (evolution_homedir);
 

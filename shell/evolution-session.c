@@ -70,7 +70,7 @@ impl_destroy (GtkObject *object)
 /* CORBA interface implementation.  */
 
 static void
-impl_Evolution_Session_save_configuration (PortableServer_Servant servant,
+impl_GNOME_Evolution_Session_saveConfiguration (PortableServer_Servant servant,
 					   const CORBA_char *prefix,
 					   CORBA_Environment *ev)
 {
@@ -81,7 +81,7 @@ impl_Evolution_Session_save_configuration (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Session_load_configuration (PortableServer_Servant servant,
+impl_GNOME_Evolution_Session_loadConfiguration (PortableServer_Servant servant,
 					   const CORBA_char *prefix,
 					   CORBA_Environment *ev)
 {
@@ -94,13 +94,13 @@ impl_Evolution_Session_load_configuration (PortableServer_Servant servant,
 
 /* Initialization.  */
 
-static POA_Evolution_Session__vepv Evolution_Session_vepv;
+static POA_GNOME_Evolution_Session__vepv GNOME_Evolution_Session_vepv;
 
 static void
 corba_class_init (void)
 {
-	POA_Evolution_Session__vepv *vepv;
-	POA_Evolution_Session__epv *epv;
+	POA_GNOME_Evolution_Session__vepv *vepv;
+	POA_GNOME_Evolution_Session__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -108,14 +108,14 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_Session__epv, 1);
-	epv->save_configuration = impl_Evolution_Session_save_configuration;
-	epv->load_configuration = impl_Evolution_Session_load_configuration;
+	epv = g_new0 (POA_GNOME_Evolution_Session__epv, 1);
+	epv->saveConfiguration = impl_GNOME_Evolution_Session_saveConfiguration;
+	epv->loadConfiguration = impl_GNOME_Evolution_Session_loadConfiguration;
 
-	vepv = &Evolution_Session_vepv;
+	vepv = &GNOME_Evolution_Session_vepv;
 	vepv->_base_epv             = base_epv;
 	vepv->Bonobo_Unknown_epv    = bonobo_object_get_epv ();
-	vepv->Evolution_Session_epv = epv;
+	vepv->GNOME_Evolution_Session_epv = epv;
 }
 
 static void
@@ -161,18 +161,18 @@ init (EvolutionSession *session)
 }
 
 
-static Evolution_Session
+static GNOME_Evolution_Session
 create_corba_session (BonoboObject *object)
 {
-	POA_Evolution_Session *servant;
+	POA_GNOME_Evolution_Session *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_Session *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &Evolution_Session_vepv;
+	servant = (POA_GNOME_Evolution_Session *) g_new0 (BonoboObjectServant, 1);
+	servant->vepv = &GNOME_Evolution_Session_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_Session__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Session__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION){
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -180,7 +180,7 @@ create_corba_session (BonoboObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (Evolution_Session) bonobo_object_activate_servant (object, servant);
+	return (GNOME_Evolution_Session) bonobo_object_activate_servant (object, servant);
 }
 
 void
@@ -197,7 +197,7 @@ EvolutionSession *
 evolution_session_new (void)
 {
 	EvolutionSession *session;
-	Evolution_Session corba_session;
+	GNOME_Evolution_Session corba_session;
 
 	session = gtk_type_new (evolution_session_get_type ());
 

@@ -41,7 +41,7 @@ struct _EBookViewClass {
 };
 
 /* Creating a new addressbook. */
-EBookView         *e_book_view_new                    (Evolution_BookView corba_book_view, EBookViewListener *listener);
+EBookView         *e_book_view_new                    (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookViewListener *listener);
 
 GtkType            e_book_view_get_type               (void);
 void               e_book_view_get_book_view_listener (EBookView *book_view);

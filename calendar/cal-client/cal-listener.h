@@ -55,24 +55,24 @@ struct _CalListenerClass {
 	/* Notification signals */
 
 	void (* cal_loaded) (CalListener *listener,
-			     Evolution_Calendar_Listener_LoadStatus status,
-			     Evolution_Calendar_Cal cal);
-	void (* obj_updated) (CalListener *listener, const Evolution_Calendar_CalObjUID uid);
-	void (* obj_removed) (CalListener *listener, const Evolution_Calendar_CalObjUID uid);
+			     GNOME_Evolution_Calendar_Listener_LoadStatus status,
+			     GNOME_Evolution_Calendar_Cal cal);
+	void (* obj_updated) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
+	void (* obj_removed) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
 };
 
 GtkType cal_listener_get_type (void);
 
 CalListener *cal_listener_construct (CalListener *listener,
-				     Evolution_Calendar_Listener corba_listener);
+				     GNOME_Evolution_Calendar_Listener corba_listener);
 
-Evolution_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
+GNOME_Evolution_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
 
 CalListener *cal_listener_new (void);
 
-Evolution_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
+GNOME_Evolution_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
 
-POA_Evolution_Calendar_Listener__epv *cal_listener_get_epv (void);
+POA_GNOME_Evolution_Calendar_Listener__epv *cal_listener_get_epv (void);
 
 
 

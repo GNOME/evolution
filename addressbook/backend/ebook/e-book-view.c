@@ -20,7 +20,7 @@
 GtkObjectClass *e_book_view_parent_class;
 
 struct _EBookViewPrivate {
-	Evolution_BookView     corba_book_view;
+	GNOME_Evolution_Addressbook_BookView     corba_book_view;
 	
 	EBookViewListener     *listener;
 
@@ -125,7 +125,7 @@ e_book_view_check_listener_queue (EBookViewListener *listener, EBookView *book_v
 }
 
 static gboolean
-e_book_view_construct (EBookView *book_view, Evolution_BookView corba_book_view, EBookViewListener *listener)
+e_book_view_construct (EBookView *book_view, GNOME_Evolution_Addressbook_BookView corba_book_view, EBookViewListener *listener)
 {
 	CORBA_Environment  ev;
 	g_return_val_if_fail (book_view != NULL,     FALSE);
@@ -144,7 +144,7 @@ e_book_view_construct (EBookView *book_view, Evolution_BookView corba_book_view,
 		return FALSE;
 	}
 
-	Evolution_BookView_ref(book_view->priv->corba_book_view, &ev);
+	GNOME_Evolution_Addressbook_BookView_ref(book_view->priv->corba_book_view, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_view_construct: Exception reffing corba_book_view.\n");
@@ -177,7 +177,7 @@ e_book_view_construct (EBookView *book_view, Evolution_BookView corba_book_view,
  * e_book_view_new:
  */
 EBookView *
-e_book_view_new (Evolution_BookView corba_book_view, EBookViewListener *listener)
+e_book_view_new (GNOME_Evolution_Addressbook_BookView corba_book_view, EBookViewListener *listener)
 {
 	EBookView *book_view;
 
@@ -209,7 +209,7 @@ e_book_view_destroy (GtkObject *object)
 	if (book_view->priv->corba_book_view) {
 		CORBA_exception_init (&ev);
 
-		Evolution_BookView_unref(book_view->priv->corba_book_view, &ev);
+		GNOME_Evolution_Addressbook_BookView_unref(book_view->priv->corba_book_view, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("EBookView: Exception while unreffing BookView\n");
 			

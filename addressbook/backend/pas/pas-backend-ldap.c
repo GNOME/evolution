@@ -143,7 +143,7 @@ static void
 view_destroy(GtkObject *object, gpointer data)
 {
 	CORBA_Environment ev;
-	Evolution_Book    corba_book;
+	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
 	PASBackendLDAP    *bl;
 	GList             *list;
@@ -185,7 +185,7 @@ view_destroy(GtkObject *object, gpointer data)
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_unref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("view_destroy: Exception unreffing "
@@ -329,15 +329,15 @@ static int
 ldap_error_to_response (int ldap_error)
 {
 	if (ldap_error == LDAP_SUCCESS)
-		return Evolution_BookListener_Success;
+		return GNOME_Evolution_Addressbook_BookListener_Success;
 	else if (NAME_ERROR (ldap_error))
-		return Evolution_BookListener_CardNotFound;
+		return GNOME_Evolution_Addressbook_BookListener_CardNotFound;
 	else if (ldap_error == LDAP_INSUFFICIENT_ACCESS)
-		return Evolution_BookListener_PermissionDenied;
+		return GNOME_Evolution_Addressbook_BookListener_PermissionDenied;
 	else if (ldap_error == LDAP_SERVER_DOWN)
-		return Evolution_BookListener_RepositoryOffline;
+		return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
 	else
-		return Evolution_BookListener_OtherError;
+		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 }
 
 
@@ -757,14 +757,14 @@ static void
 cursor_destroy(GtkObject *object, gpointer data)
 {
 	CORBA_Environment ev;
-	Evolution_Book corba_book;
+	GNOME_Evolution_Addressbook_Book corba_book;
 	PASBackendLDAPCursorPrivate *cursor_data = (PASBackendLDAPCursorPrivate *) data;
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(cursor_data->book));
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_unref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("cursor_destroy: Exception unreffing "
@@ -831,7 +831,7 @@ get_cursor_handler (PASBackend *backend, LDAPOp *op)
 	CORBA_Environment ev;
 	int            ldap_error = 0;
 	PASCardCursor *cursor;
-	Evolution_Book corba_book;
+	GNOME_Evolution_Addressbook_Book corba_book;
 	PASBackendLDAPCursorPrivate *cursor_data;
 	PASBook *book = cursor_op->book;
 
@@ -845,7 +845,7 @@ get_cursor_handler (PASBackend *backend, LDAPOp *op)
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_ref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_cursor: Exception reffing "
@@ -1467,7 +1467,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	CORBA_Environment ev;
-	Evolution_Book    corba_book;
+	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBookView       *book_view;
 	PASBackendLDAPBookView *view;
 
@@ -1477,7 +1477,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_ref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
@@ -1493,8 +1493,8 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 
 	pas_book_respond_get_book_view (book,
 		(book_view != NULL
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound /* XXX */),
+		 ? GNOME_Evolution_Addressbook_BookListener_Success 
+		 : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
 		book_view);
 
 	view = g_new0(PASBackendLDAPBookView, 1);
@@ -1650,7 +1650,7 @@ pas_backend_ldap_get_uri (PASBackend *backend)
 
 static gboolean
 pas_backend_ldap_add_client (PASBackend             *backend,
-			     Evolution_BookListener  listener)
+			     GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	PASBackendLDAP *bl;
 	PASBook        *book;
@@ -1684,11 +1684,11 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 
 	if (bl->priv->connected) {
 		pas_book_respond_open (
-			book, Evolution_BookListener_Success);
+			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	} else {
 		/* Open the book. */
 		pas_book_respond_open (
-			book, Evolution_BookListener_Success);
+			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	}
 
 	return TRUE;

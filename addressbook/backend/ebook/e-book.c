@@ -29,10 +29,10 @@ typedef enum {
 } EBookLoadState;
 
 struct _EBookPrivate {
-	Evolution_BookFactory  book_factory;
+	GNOME_Evolution_Addressbook_BookFactory  book_factory;
 	EBookListener	      *listener;
 
-	Evolution_Book         corba_book;
+	GNOME_Evolution_Addressbook_Book         corba_book;
 
 	EBookLoadState         load_state;
 
@@ -160,7 +160,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 		((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
 
 	/*
-	 * Release the remote Evolution_Book in the PAS.
+	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
 	 */
 	CORBA_exception_init (&ev);
 
@@ -168,7 +168,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_cursor: Exception unref'ing "
-			   "remote Evolution_CardCursor interface!\n");
+			   "remote GNOME_Evolution_Addressbook_CardCursor interface!\n");
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
 	}
@@ -177,7 +177,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_cursor: Exception releasing "
-			   "remote Evolution_CardCursor interface!\n");
+			   "remote GNOME_Evolution_Addressbook_CardCursor interface!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -211,7 +211,7 @@ e_book_do_response_get_view (EBook                 *book,
 		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
 
 	/*
-	 * Release the remote Evolution_Book in the PAS.
+	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
 	 */
 	CORBA_exception_init (&ev);
 
@@ -219,7 +219,7 @@ e_book_do_response_get_view (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_view: Exception unref'ing "
-			   "remote Evolution_BookView interface!\n");
+			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
 	}
@@ -228,7 +228,7 @@ e_book_do_response_get_view (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_view: Exception releasing "
-			   "remote Evolution_BookView interface!\n");
+			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -255,7 +255,7 @@ e_book_do_response_get_changes (EBook                 *book,
 		return;
 	}
 
-	book_view = e_book_view_new(resp->book_view, op->listener);
+	book_view = e_book_view_new (resp->book_view, op->listener);
 	
 	if (op->cb)
 		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
@@ -419,7 +419,7 @@ e_book_load_uri (EBook                     *book,
 	 */
 	CORBA_exception_init (&ev);
 
-	Evolution_BookFactory_open_book (
+	GNOME_Evolution_Addressbook_BookFactory_openBook (
 		book->priv->book_factory, uri,
 		bonobo_object_corba_objref (BONOBO_OBJECT (book->priv->listener)),
 		&ev);
@@ -462,7 +462,7 @@ e_book_unload_uri (EBook *book)
 	}
 
 	/*
-	 * Release the remote Evolution_Book in the PAS.
+	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
 	 */
 	CORBA_exception_init (&ev);
 
@@ -470,7 +470,7 @@ e_book_unload_uri (EBook *book)
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_unload_uri: Exception unref'ing "
-			   "remote Evolution_Book interface!\n");
+			   "remote GNOME_Evolution_Addressbook_Book interface!\n");
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
 	}
@@ -504,7 +504,7 @@ e_book_get_static_capabilities (EBook *book)
 		return g_strdup("");
 	}
 
-	temp = Evolution_Book_get_static_capabilities(book->priv->corba_book, &ev);
+	temp = GNOME_Evolution_Addressbook_Book_getStaticCapabilities(book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_static_capabilities: Exception "
@@ -531,7 +531,7 @@ e_book_construct (EBook *book)
 	 * Connect to the Personal Addressbook Server.
 	 */
 
-	book->priv->book_factory = (Evolution_BookFactory)
+	book->priv->book_factory = (GNOME_Evolution_Addressbook_BookFactory)
 		oaf_activate_from_id (CARDSERVER_OAF_ID, 0, NULL, NULL);
 	if (book->priv->book_factory == CORBA_OBJECT_NIL) {
 		g_warning ("e_book_construct: Could not obtain a handle "
@@ -616,8 +616,8 @@ e_book_get_vcard (EBook       *book,
 
 	CORBA_exception_init (&ev);
 
-	vcard = Evolution_Book_get_vcard (book->priv->corba_book,
-					  (Evolution_CardId) id,
+	vcard = GNOME_Evolution_Addressbook_Book_getVCard (book->priv->corba_book,
+					  (GNOME_Evolution_Addressbook_CardId) id,
 					  &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -691,8 +691,8 @@ e_book_remove_card_by_id (EBook         *book,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Book_remove_card (
-		book->priv->corba_book, (const Evolution_CardId) id, &ev);
+	GNOME_Evolution_Addressbook_Book_removeCard (
+		book->priv->corba_book, (const GNOME_Evolution_Addressbook_CardId) id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_remove_card_by_id: CORBA exception "
@@ -769,8 +769,8 @@ e_book_add_vcard (EBook           *book,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Book_create_card (
-		book->priv->corba_book, (const Evolution_VCard) vcard, &ev);
+	GNOME_Evolution_Addressbook_Book_addCard (
+		book->priv->corba_book, (const GNOME_Evolution_Addressbook_VCard) vcard, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_add_vcard: Exception adding card to PAS!\n");
@@ -846,8 +846,8 @@ e_book_commit_vcard (EBook         *book,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Book_modify_card (
-		book->priv->corba_book, (const Evolution_VCard) vcard, &ev);
+	GNOME_Evolution_Addressbook_Book_modifyCard (
+		book->priv->corba_book, (const GNOME_Evolution_Addressbook_VCard) vcard, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_commit_vcard: Exception "
@@ -881,7 +881,7 @@ e_book_check_connection (EBook *book)
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Book_check_connection (book->priv->corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_checkConnection (book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_check_connection: Exception "
@@ -912,7 +912,7 @@ gboolean e_book_get_cursor       (EBook               *book,
 	
 	CORBA_exception_init (&ev);
 	
-	Evolution_Book_get_cursor (book->priv->corba_book, query, &ev);
+	GNOME_Evolution_Addressbook_Book_getCursor (book->priv->corba_book, query, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_all_cards: Exception "
@@ -948,7 +948,7 @@ gboolean e_book_get_book_view       (EBook                 *book,
 	
 	CORBA_exception_init (&ev);
 	
-	Evolution_Book_get_book_view (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), query, &ev);
+	GNOME_Evolution_Addressbook_Book_getBookView (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), query, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_book_view: Exception "
@@ -984,7 +984,7 @@ gboolean e_book_get_changes         (EBook                 *book,
 	
 	CORBA_exception_init (&ev);
 	
-	Evolution_Book_get_changes (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), changeid, &ev);
+	GNOME_Evolution_Addressbook_Book_getChanges (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), changeid, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_changes: Exception "
@@ -1020,7 +1020,7 @@ e_book_get_name (EBook *book)
 
 	CORBA_exception_init (&ev);
 
-	name = Evolution_Book_get_name (book->priv->corba_book, &ev);
+	name = GNOME_Evolution_Addressbook_Book_getName (book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_name: Exception getting name from PAS!\n");

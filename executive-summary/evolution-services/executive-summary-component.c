@@ -56,19 +56,19 @@ struct _ExecutiveSummaryComponentPrivate {
 };
 
 /* CORBA interface */
-static POA_Evolution_SummaryComponent__vepv SummaryComponent_vepv;
+static POA_GNOME_Evolution_Summary_Component__vepv SummaryComponent_vepv;
 
-static POA_Evolution_SummaryComponent *
+static POA_GNOME_Evolution_Summary_Component *
 create_servant (void)
 {
-	POA_Evolution_SummaryComponent *servant;
+	POA_GNOME_Evolution_Summary_Component *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_Evolution_SummaryComponent *)g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Summary_Component *)g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &SummaryComponent_vepv;
 	
 	CORBA_exception_init (&ev);
-	POA_Evolution_SummaryComponent__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Summary_Component__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -82,7 +82,7 @@ create_servant (void)
 
 #if 0
 static void
-impl_Evolution_SummaryComponent_supports (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_supports (PortableServer_Servant servant,
 					  CORBA_boolean *html,
 					  CORBA_boolean *bonobo,
 					  CORBA_Environment *ev)
@@ -101,15 +101,15 @@ impl_Evolution_SummaryComponent_supports (PortableServer_Servant servant,
 #endif
 
 static void
-impl_Evolution_SummaryComponent_set_owner (PortableServer_Servant servant,
-					   Evolution_Summary summary,
+impl_GNOME_Evolution_Summary_Component_set_owner (PortableServer_Servant servant,
+					   GNOME_Evolution_Summary_ViewFrame summary,
 					   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
 	ExecutiveSummaryClient *client;
-	Evolution_Summary summary_duplicate;
+	GNOME_Evolution_Summary_ViewFrame summary_duplicate;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
@@ -125,7 +125,7 @@ impl_Evolution_SummaryComponent_set_owner (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_SummaryComponent_unset_owner (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_unset_owner (PortableServer_Servant servant,
 					     CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -144,7 +144,7 @@ impl_Evolution_SummaryComponent_unset_owner (PortableServer_Servant servant,
 }
 
 static CORBA_long
-impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_create_view (PortableServer_Servant servant,
 					     CORBA_long id,
 					     Bonobo_Control *control,
 					     CORBA_char **html,
@@ -193,7 +193,7 @@ impl_Evolution_SummaryComponent_create_view (PortableServer_Servant servant,
 
 #if 0
 static CORBA_char *
-impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_create_html_view (PortableServer_Servant servant,
 						  CORBA_char **title,
 						  CORBA_char **icon,
 						  CORBA_Environment *ev)
@@ -225,7 +225,7 @@ impl_Evolution_SummaryComponent_create_html_view (PortableServer_Servant servant
 #endif	
 
 static void
-impl_Evolution_SummaryComponent_destroy_view (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_destroy_view (PortableServer_Servant servant,
 					      CORBA_long id,
 					      CORBA_Environment *ev)
 {
@@ -250,7 +250,7 @@ impl_Evolution_SummaryComponent_destroy_view (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_SummaryComponent_configure (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_Component_configure (PortableServer_Servant servant,
 					   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -296,8 +296,8 @@ executive_summary_component_destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_SummaryComponent__vepv *vepv;
-	POA_Evolution_SummaryComponent__epv *epv;
+	POA_GNOME_Evolution_Summary_Component__vepv *vepv;
+	POA_GNOME_Evolution_Summary_Component__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 	
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -305,17 +305,17 @@ corba_class_init (void)
 	base_epv->finalize = NULL;
 	base_epv->default_POA = NULL;
 	
-	epv = g_new0 (POA_Evolution_SummaryComponent__epv, 1);
-	epv->set_owner = impl_Evolution_SummaryComponent_set_owner;
-	epv->unset_owner = impl_Evolution_SummaryComponent_unset_owner;
-	epv->create_view = impl_Evolution_SummaryComponent_create_view;
-	epv->destroy_view = impl_Evolution_SummaryComponent_destroy_view;
-	epv->configure = impl_Evolution_SummaryComponent_configure;
+	epv = g_new0 (POA_GNOME_Evolution_Summary_Component__epv, 1);
+	epv->setOwner    = impl_GNOME_Evolution_Summary_Component_set_owner;
+	epv->unsetOwner  = impl_GNOME_Evolution_Summary_Component_unset_owner;
+	epv->createView  = impl_GNOME_Evolution_Summary_Component_create_view;
+	epv->destroyView = impl_GNOME_Evolution_Summary_Component_destroy_view;
+	epv->configure   = impl_GNOME_Evolution_Summary_Component_configure;
 	
 	vepv = &SummaryComponent_vepv;
 	vepv->_base_epv = base_epv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->Evolution_SummaryComponent_epv = epv;
+	vepv->GNOME_Evolution_Summary_Component_epv = epv;
 }
 
 static void
@@ -350,7 +350,7 @@ executive_summary_component_init (ExecutiveSummaryComponent *component)
 
 static void
 executive_summary_component_construct (ExecutiveSummaryComponent *component,
-				       Evolution_SummaryComponent corba_object,
+				       GNOME_Evolution_Summary_Component corba_object,
 				       EvolutionServicesCreateViewFn create_view,
 				       EvolutionServicesConfigureFn configure,
 				       void *closure)
@@ -376,8 +376,8 @@ executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
 				 void *closure)
 {
 	ExecutiveSummaryComponent *component;
-	POA_Evolution_SummaryComponent *servant;
-	Evolution_SummaryComponent corba_object;
+	POA_GNOME_Evolution_Summary_Component *servant;
+	GNOME_Evolution_Summary_Component corba_object;
 	
 	servant = create_servant ();
 	if (servant == NULL)

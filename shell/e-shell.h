@@ -66,7 +66,7 @@ struct _EShellClass {
 
 GtkType              e_shell_get_type                  (void);
 void                 e_shell_construct                 (EShell          *shell,
-							Evolution_Shell  corba_object,
+							GNOME_Evolution_Shell  corba_object,
 							const char      *local_directory,
 							gboolean         show_splash);
 

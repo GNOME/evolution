@@ -37,7 +37,7 @@
 static GtkObjectClass *parent_class = NULL;
 
 struct _EvolutionStorageSetViewListenerPrivate {
-	Evolution_StorageSetViewListener corba_listener;
+	GNOME_Evolution_StorageSetViewListener corba_listener;
 	EvolutionStorageSetViewListenerServant *servant;
 };
 
@@ -51,7 +51,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* Evolution::StorageSetViewListener implementation.  */
 
-static POA_Evolution_StorageSetViewListener__vepv my_Evolution_StorageSetViewListener_vepv;
+static POA_GNOME_Evolution_StorageSetViewListener__vepv my_GNOME_Evolution_StorageSetViewListener_vepv;
 
 static EvolutionStorageSetViewListener *
 gtk_object_from_servant (PortableServer_Servant servant)
@@ -63,7 +63,7 @@ gtk_object_from_servant (PortableServer_Servant servant)
 }
 
 static void
-impl_Evolution_StorageSetViewListener_folder_selected (PortableServer_Servant servant,
+impl_GNOME_Evolution_StorageSetViewListener_notifyFolderSelected (PortableServer_Servant servant,
 						       const CORBA_char *uri,
 						       CORBA_Environment *ev)
 {
@@ -75,7 +75,7 @@ impl_Evolution_StorageSetViewListener_folder_selected (PortableServer_Servant se
 }
 
 static void
-impl_Evolution_StorageSetViewListener_storage_selected (PortableServer_Servant servant,
+impl_GNOME_Evolution_StorageSetViewListener_notifyStorageSelected (PortableServer_Servant servant,
 							const CORBA_char *uri,
 							CORBA_Environment *ev)
 {
@@ -90,16 +90,16 @@ static EvolutionStorageSetViewListenerServant *
 create_servant (EvolutionStorageSetViewListener *listener)
 {
 	EvolutionStorageSetViewListenerServant *servant;
-	POA_Evolution_StorageSetViewListener *corba_servant;
+	POA_GNOME_Evolution_StorageSetViewListener *corba_servant;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
 	servant = g_new0 (EvolutionStorageSetViewListenerServant, 1);
-	corba_servant = (POA_Evolution_StorageSetViewListener *) servant;
+	corba_servant = (POA_GNOME_Evolution_StorageSetViewListener *) servant;
 
-	corba_servant->vepv = &my_Evolution_StorageSetViewListener_vepv;
-	POA_Evolution_StorageSetViewListener__init ((PortableServer_Servant) corba_servant, &ev);
+	corba_servant->vepv = &my_GNOME_Evolution_StorageSetViewListener_vepv;
+	POA_GNOME_Evolution_StorageSetViewListener__init ((PortableServer_Servant) corba_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -113,11 +113,11 @@ create_servant (EvolutionStorageSetViewListener *listener)
 	return servant;
 }
 
-static Evolution_StorageSetViewListener
+static GNOME_Evolution_StorageSetViewListener
 activate_servant (EvolutionStorageSetViewListener *listener,
-		  POA_Evolution_StorageSetViewListener *servant)
+		  POA_GNOME_Evolution_StorageSetViewListener *servant)
 {
-	Evolution_StorageSetViewListener corba_object;
+	GNOME_Evolution_StorageSetViewListener corba_object;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -159,7 +159,7 @@ impl_destroy (GtkObject *object)
 		PortableServer_POA_deactivate_object (bonobo_poa (), object_id, &ev);
 		CORBA_free (object_id);
 
-		POA_Evolution_StorageSetViewListener__fini (priv->servant, &ev);
+		POA_GNOME_Evolution_StorageSetViewListener__fini (priv->servant, &ev);
 	}
 
 	CORBA_exception_free (&ev);
@@ -174,8 +174,8 @@ impl_destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_StorageSetViewListener__vepv *vepv;
-	POA_Evolution_StorageSetViewListener__epv *epv;
+	POA_GNOME_Evolution_StorageSetViewListener__vepv *vepv;
+	POA_GNOME_Evolution_StorageSetViewListener__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -183,13 +183,13 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_StorageSetViewListener__epv, 1);
-	epv->folder_selected = impl_Evolution_StorageSetViewListener_folder_selected;
-	epv->storage_selected = impl_Evolution_StorageSetViewListener_storage_selected;
+	epv = g_new0 (POA_GNOME_Evolution_StorageSetViewListener__epv, 1);
+	epv->notifyFolderSelected  = impl_GNOME_Evolution_StorageSetViewListener_notifyFolderSelected;
+	epv->notifyStorageSelected = impl_GNOME_Evolution_StorageSetViewListener_notifyStorageSelected;
 
-	vepv = & my_Evolution_StorageSetViewListener_vepv;
+	vepv = & my_GNOME_Evolution_StorageSetViewListener_vepv;
 	vepv->_base_epv                            = base_epv;
-	vepv->Evolution_StorageSetViewListener_epv = epv;
+	vepv->GNOME_Evolution_StorageSetViewListener_epv = epv;
 }
 
 static void
@@ -237,7 +237,7 @@ init (EvolutionStorageSetViewListener *storage_set_view_listener)
 
 void
 evolution_storage_set_view_listener_construct (EvolutionStorageSetViewListener *listener,
-					       Evolution_StorageSetViewListener corba_listener)
+					       GNOME_Evolution_StorageSetViewListener corba_listener)
 {
 	EvolutionStorageSetViewListenerPrivate *priv;
 
@@ -259,20 +259,20 @@ evolution_storage_set_view_listener_new (void)
 {
 	EvolutionStorageSetViewListener *new;
 	EvolutionStorageSetViewListenerPrivate *priv;
-	Evolution_StorageSetViewListener corba_listener;
+	GNOME_Evolution_StorageSetViewListener corba_listener;
 
 	new = gtk_type_new (evolution_storage_set_view_listener_get_type ());
 	priv = new->priv;
 
 	priv->servant = create_servant (new);
-	corba_listener = activate_servant (new, (POA_Evolution_StorageSetViewListener *) priv->servant);
+	corba_listener = activate_servant (new, (POA_GNOME_Evolution_StorageSetViewListener *) priv->servant);
 
 	evolution_storage_set_view_listener_construct (new, corba_listener);
 
 	return new;
 }
 
-Evolution_StorageSetViewListener
+GNOME_Evolution_StorageSetViewListener
 evolution_storage_set_view_listener_corba_objref (EvolutionStorageSetViewListener *listener)
 {
 	EvolutionStorageSetViewListenerPrivate *priv;

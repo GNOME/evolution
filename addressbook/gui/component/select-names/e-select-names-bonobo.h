@@ -61,7 +61,7 @@ struct _ESelectNamesBonoboClass {
 
 GtkType             e_select_names_bonobo_get_type   (void);
 void                e_select_names_bonobo_construct  (ESelectNamesBonobo *select_names,
-						      Evolution_Addressbook_SelectNames corba_object);
+						      GNOME_Evolution_Addressbook_SelectNames corba_object);
 ESelectNamesBonobo *e_select_names_bonobo_new        (void);
 
 #ifdef __cplusplus

@@ -32,8 +32,8 @@ COMPOSER_GENERATED = \
 Composer-impl.o: Composer.h
 
 $(COMPOSER_GENERATED):
-	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
-		-I$(srcdir) $(top_srcdir)/composer/Composer.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
+		$(top_srcdir)/composer/Composer.idl
 
 evolution_executive_summary_SOURCES =		\
 	$(COMPOSER_GENERATED)		\

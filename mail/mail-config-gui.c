@@ -142,7 +142,7 @@ typedef struct
 
 typedef struct
 {
-	Evolution_Shell shell;
+	GNOME_Evolution_Shell shell;
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkWidget *druid;
@@ -156,7 +156,7 @@ typedef struct
 
 typedef struct
 {
-	Evolution_Shell shell;
+	GNOME_Evolution_Shell shell;
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkWidget *clistIdentities;
@@ -1570,7 +1570,7 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 }
 
 void
-mail_config_druid (Evolution_Shell shell)
+mail_config_druid (GNOME_Evolution_Shell shell)
 {
 	MailDruidDialog *dialog;
 	GnomeDruidPageStart *spage;
@@ -2019,7 +2019,7 @@ mail_config_close (GnomePropertyBox *property_box, MailDialog *dialog)
 }
 	
 void
-mail_config (Evolution_Shell shell)
+mail_config (GNOME_Evolution_Shell shell)
 {
 	MailDialog *dialog;
 	GladeXML *gui;

@@ -48,20 +48,20 @@ struct _ExecutiveSummaryClass {
 	BonoboObjectClass parent_class;
 
 	void (* update) (ExecutiveSummary *summary,
-			 const Evolution_SummaryComponent component,
+			 const GNOME_Evolution_Summary_Component component,
 			 const char *html);
 	void (* set_title) (ExecutiveSummary *summary,
-			    const Evolution_SummaryComponent component,
+			    const GNOME_Evolution_Summary_Component component,
 			    const char *title);
 	void (* set_icon) (ExecutiveSummary *summary,
-			   const Evolution_SummaryComponent component,
+			   const GNOME_Evolution_Summary_Component component,
 			   const char *icon);
 	void (* flash) (ExecutiveSummary *summary,
-			const Evolution_SummaryComponent component);
+			const GNOME_Evolution_Summary_Component component);
 };
 
 GtkType executive_summary_get_type (void);
 void executive_summary_construct (ExecutiveSummary *es,
-				  Evolution_Summary corba_object);
+				  GNOME_Evolution_Summary_ViewFrame corba_object);
 BonoboObject *executive_summary_new (void);
 #endif

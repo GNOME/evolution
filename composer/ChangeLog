@@ -1,3 +1,8 @@
+2000-11-10  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am ($(HTML_EDITOR_GENERATED)): rearrnace
+	includes.
+
 2000-11-10  Larry Ewing  <lewing@helixcode.com>
 
 	* e-msg-composer.c (build_message): set the HTML charset to utf-8

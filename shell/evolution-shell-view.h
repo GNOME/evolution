@@ -67,8 +67,8 @@ struct _EvolutionShellViewClass {
 
 
 GtkType             evolution_shell_view_get_type   (void);
-void                evolution_shell_view_construct  (EvolutionShellView  *shell_view,
-						     Evolution_ShellView  corba_object);
+void                evolution_shell_view_construct  (EvolutionShellView       *shell_view,
+						     GNOME_Evolution_ShellView corba_object);
 EvolutionShellView *evolution_shell_view_new        (void);
 
 #ifdef __cplusplus

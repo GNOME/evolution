@@ -143,14 +143,14 @@ static void
 cursor_destroy(GtkObject *object, gpointer data)
 {
 	CORBA_Environment ev;
-	Evolution_Book corba_book;
+	GNOME_Evolution_Addressbook_Book corba_book;
 	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(cursor_data->book));
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_unref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("cursor_destroy: Exception unreffing "
@@ -169,7 +169,7 @@ static void
 view_destroy(GtkObject *object, gpointer data)
 {
 	CORBA_Environment ev;
-	Evolution_Book    corba_book;
+	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
 	EIterator         *iterator;
@@ -188,7 +188,7 @@ view_destroy(GtkObject *object, gpointer data)
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_unref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("view_destroy: Exception unreffing "
@@ -713,7 +713,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 		
 		pas_book_respond_create (
 			book,
-			Evolution_BookListener_Success,
+			GNOME_Evolution_Addressbook_BookListener_Success,
 			id);
 		g_free(vcard);
 		g_free(id);
@@ -723,7 +723,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
                    think */
 		pas_book_respond_create (
 				 book,
-				 Evolution_BookListener_CardNotFound,
+				 GNOME_Evolution_Addressbook_BookListener_CardNotFound,
 				 "");
 	}
 
@@ -748,7 +748,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	if (0 != db_error) {
 		pas_book_respond_remove (
 				 book,
-				 Evolution_BookListener_CardNotFound);
+				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
 		g_free (req->id);
 		return;
 	}
@@ -757,7 +757,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	if (0 != db_error) {
 		pas_book_respond_remove (
 				 book,
-				 Evolution_BookListener_CardNotFound);
+				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
 		g_free (req->id);
 		return;
 	}
@@ -779,7 +779,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	
 	pas_book_respond_remove (
 				 book,
-				 Evolution_BookListener_Success);
+				 GNOME_Evolution_Addressbook_BookListener_Success);
 	
 	g_free (req->id);
 }
@@ -809,7 +809,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	if (0 != db_error) {
 		pas_book_respond_modify (
 				 book,
-				 Evolution_BookListener_CardNotFound);
+				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
 		g_free (req->id);
 		return;
 	}
@@ -849,12 +849,12 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 
 		pas_book_respond_modify (
 				 book,
-				 Evolution_BookListener_Success);
+				 GNOME_Evolution_Addressbook_BookListener_Success);
 	}
 	else {
 		pas_book_respond_modify (
 				 book,
-				 Evolution_BookListener_CardNotFound);
+				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
 	}
 
 	g_free(old_vcard_string);
@@ -913,7 +913,7 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 	int            db_error = 0;
 	PASBackendFileCursorPrivate *cursor_data;
 	PASCardCursor *cursor;
-	Evolution_Book corba_book;
+	GNOME_Evolution_Addressbook_Book corba_book;
 
 	cursor_data = g_new(PASBackendFileCursorPrivate, 1);
 	cursor_data->backend = backend;
@@ -925,7 +925,7 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_ref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_cursor: Exception reffing "
@@ -944,8 +944,8 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 	pas_book_respond_get_cursor (
 		book,
 		(db_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound),
+		 ? GNOME_Evolution_Addressbook_BookListener_Success 
+		 : GNOME_Evolution_Addressbook_BookListener_CardNotFound),
 		cursor);
 }
 
@@ -957,7 +957,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	CORBA_Environment ev;
 	PASBookView       *book_view;
-	Evolution_Book    corba_book;
+	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBackendFileBookView view;
 	PASBackendFileSearchContext ctx;
 	EIterator *iterator;
@@ -968,7 +968,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_ref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
@@ -984,8 +984,8 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	pas_book_respond_get_book_view (book,
 		   (book_view != NULL
-		    ? Evolution_BookListener_Success 
-		    : Evolution_BookListener_CardNotFound /* XXX */),
+		    ? GNOME_Evolution_Addressbook_BookListener_Success 
+		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
 	view.book_view = book_view;
@@ -1012,7 +1012,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	CORBA_Environment ev;
 	PASBookView       *book_view;
-	Evolution_Book    corba_book;
+	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBackendFileBookView view;
 	PASBackendFileChangeContext ctx;
 	EIterator *iterator;
@@ -1023,7 +1023,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 
 	CORBA_exception_init(&ev);
 
-	Evolution_Book_ref(corba_book, &ev);
+	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
@@ -1039,8 +1039,8 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 
 	pas_book_respond_get_changes (book,
 		   (book_view != NULL
-		    ? Evolution_BookListener_Success 
-		    : Evolution_BookListener_CardNotFound /* XXX */),
+		    ? GNOME_Evolution_Addressbook_BookListener_Success 
+		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
 	view.book_view = book_view;
@@ -1317,7 +1317,7 @@ pas_backend_file_get_uri (PASBackend *backend)
 
 static gboolean
 pas_backend_file_add_client (PASBackend             *backend,
-			     Evolution_BookListener  listener)
+			     GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	PASBackendFile *bf;
 	PASBook        *book;
@@ -1351,11 +1351,11 @@ pas_backend_file_add_client (PASBackend             *backend,
 
 	if (bf->priv->loaded) {
 		pas_book_respond_open (
-			book, Evolution_BookListener_Success);
+			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	} else {
 		/* Open the book. */
 		pas_book_respond_open (
-			book, Evolution_BookListener_Success);
+			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	}
 
 	return TRUE;

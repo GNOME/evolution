@@ -9,15 +9,16 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
-
+module Addressbook {
 	typedef string CardId;
 	typedef string VCard;
 	typedef sequence<VCard> VCardList;
 
 	interface CardCursor : Bonobo::Unknown {
-		long   get_length ();
-		string get_nth    (in long n);
+		long   count  ();
+		string getNth (in long n);
 	};
 
 	/* 
@@ -29,11 +30,11 @@ module Evolution {
 	 * changes (if it affects the set of viewed cards.)
 	 */
 	interface BookViewListener : Bonobo::Unknown {
-		void signal_card_added (in VCardList cards);
-		void signal_card_removed (in CardId id);
-		void signal_card_changed (in VCardList cards);
-		void signal_sequence_complete ();
-		void signal_status_message (in string message);
+		void notifyCardAdded        (in VCardList cards);
+		void notifyCardRemoved      (in CardId id);
+		void notifyCardChanged      (in VCardList cards);
+		void notifySequenceComplete ();
+		void notifyStatusMessage    (in string message);
 	};
 	
 	interface BookView : Bonobo::Unknown {
@@ -43,7 +44,7 @@ module Evolution {
 		/*
 		 * Fetching cards in the addresbook.
 		 */
-		VCard get_vcard (in CardId id);
+		VCard getVCard (in CardId id);
 
 		/*
 		 * Permissions.  the first form is general write
@@ -54,42 +55,42 @@ module Evolution {
 		 * return FALSE if the user doesn't have permission to
 		 * modify/remove that specific card.
 		 */
-		boolean can_write ();
-		boolean can_write_card (in CardId Id);
+		boolean isWriteable     ();
+		boolean isCardWriteable (in CardId Id);
 
 		/*
 		 * Adding and deleting cards in the book.
 		 */
-		void create_card (in VCard vcard);
-		void remove_card (in CardId Id);
+		void addCard    (in VCard vcard);
+		void removeCard (in CardId Id);
 	        
 		/*
 		 * Modifying cards in the addressbook.
 		 */
-		void modify_card (in VCard vcard);
+		void modifyCard (in VCard vcard);
 		
 		/*
-		 * These two functions return a cursor to the book
+		 * This function returns a cursor to the book
 		 * listener.  This is for people who want a snapshot
 		 * of the addressbook.  The syntax for the query
 		 * string is not yet defined.
 		 */
-		void get_cursor (in string query);
+		void getCursor (in string query);
 		
 		/*
 		 * These two functions return a book view to the book
 		 * listener.  This is for people who want a live view
 		 * of the addressbook.
 		 */
-		void get_book_view(in BookViewListener listener, in string query);
+		void getBookView (in BookViewListener listener, in string query);
 
-		void get_changes(in BookViewListener listener, in string change_id);
+		void getChanges  (in BookViewListener listener, in string change_id);
 
-		void check_connection ();
+		void checkConnection ();
 
-		string get_static_capabilities ();
+		string getStaticCapabilities ();
 
-		string get_name ();
+		string getName ();
 	};
 
 	interface BookListener : Bonobo::Unknown {
@@ -103,24 +104,24 @@ module Evolution {
 			OtherError
 		};
 
-		void respond_create_card (in CallStatus status, in CardId Id);
+		void notifyCardCreated  (in CallStatus status, in CardId Id);
 
-		void respond_remove_card (in CallStatus status);
+		void notifyCardRemoved  (in CallStatus status);
 
-		void respond_modify_card (in CallStatus status);
+		void notifyCardModified (in CallStatus status);
 		
-		void report_open_book_progress (in string status_message, in short percent);
+		void notifyOpenBookProgress (in string status_message, in short percent);
 
-		void respond_open_book (in CallStatus status, in Book book);
+		void notifyBookOpened       (in CallStatus status, in Book book);
 
-		void respond_get_cursor (in CallStatus status, in CardCursor cursor);
+		void notifyCursorRequested  (in CallStatus status, in CardCursor cursor);
 
-		void respond_get_view (in CallStatus status, in BookView view);
+		void notifyViewRequested    (in CallStatus status, in BookView view);
 
-		void respond_get_changes (in CallStatus status, in BookView view);
+		void notifyChangesRequested (in CallStatus status, in BookView view);
 
 		/**
-		 * report_connection_status:
+		 * notifyConnectionStatus:
 		 *
 		 * Used to report changes in the connection to the
 		 * contact repository.  This is often a response to a
@@ -128,13 +129,16 @@ module Evolution {
 		 * is free to report the connection status without
 		 * being asked.
 		 */
-		void report_connection_status (in boolean connected);
+		void notifyConnectionStatus (in boolean connected);
 	};
 
 	interface BookFactory : Bonobo::Unknown {
 		exception ProtocolNotSupported {};
 
-		void open_book (in string uri, in BookListener listener)
+		void openBook (in string uri, in BookListener listener)
 			raises (ProtocolNotSupported);
 	};
 };
+};
+};
+

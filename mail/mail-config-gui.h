@@ -25,7 +25,7 @@
 
 #include "shell/Evolution.h"
 
-void mail_config (Evolution_Shell shell);
-void mail_config_druid (Evolution_Shell shell);
+void mail_config (GNOME_Evolution_Shell shell);
+void mail_config_druid (GNOME_Evolution_Shell shell);
 
 #endif

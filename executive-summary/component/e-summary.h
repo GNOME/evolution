@@ -61,7 +61,7 @@ struct _ESummaryClass {
 };
 
 GtkType e_summary_get_type (void);
-GtkWidget *e_summary_new (const Evolution_Shell shell);
+GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
 int e_summary_rebuild_page (ESummary *esummary);
 void e_summary_add_html_service (ESummary *esummary,
 				 ExecutiveSummary *summary,
@@ -89,7 +89,7 @@ void e_summary_add_service (ESummary *esummary,
 ExecutiveSummaryComponentView * e_summary_view_from_id (ESummary *esummary,
 							int id);
 void e_summary_set_shell_view_interface (ESummary *summary,
-					 Evolution_ShellView svi);
+					 GNOME_Evolution_ShellView svi);
 void e_summary_set_message (ESummary *esummary,
 			    const char *message,
 			    gboolean busy);

@@ -50,10 +50,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_LocalStorage__vepv LocalStorage_vepv;
+static POA_GNOME_Evolution_LocalStorage__vepv LocalStorage_vepv;
 
 static void
-impl_Evolution_LocalStorage_update_folder (PortableServer_Servant servant,
+impl_GNOME_Evolution_LocalStorage_updateFolder (PortableServer_Servant servant,
 					   const CORBA_char *path,
 					   const CORBA_char *display_name,
 					   CORBA_boolean highlighted,
@@ -68,18 +68,18 @@ impl_Evolution_LocalStorage_update_folder (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (local_storage), signals[UPDATE_FOLDER], path, display_name, highlighted);
 }
 
-static POA_Evolution_LocalStorage *
+static POA_GNOME_Evolution_LocalStorage *
 create_servant (void)
 {
-	POA_Evolution_LocalStorage *servant;
+	POA_GNOME_Evolution_LocalStorage *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_LocalStorage *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_LocalStorage *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &LocalStorage_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_LocalStorage__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_LocalStorage__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -112,7 +112,7 @@ impl_destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_LocalStorage__vepv *vepv;
+	POA_GNOME_Evolution_LocalStorage__vepv *vepv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -122,8 +122,8 @@ corba_class_init (void)
 
 	vepv = &LocalStorage_vepv;
 	vepv->Bonobo_Unknown_epv         = bonobo_object_get_epv ();
-	vepv->Evolution_Storage_epv      = evolution_storage_get_epv ();
-	vepv->Evolution_LocalStorage_epv = evolution_local_storage_get_epv ();
+	vepv->GNOME_Evolution_Storage_epv      = evolution_storage_get_epv ();
+	vepv->GNOME_Evolution_LocalStorage_epv = evolution_local_storage_get_epv ();
 }
 
 static void
@@ -163,20 +163,20 @@ init (EvolutionLocalStorage *local_storage)
 }
 
 
-POA_Evolution_LocalStorage__epv *
+POA_GNOME_Evolution_LocalStorage__epv *
 evolution_local_storage_get_epv (void)
 {
-	POA_Evolution_LocalStorage__epv *epv;
+	POA_GNOME_Evolution_LocalStorage__epv *epv;
 
-	epv = g_new0 (POA_Evolution_LocalStorage__epv, 1);
-	epv->update_folder = impl_Evolution_LocalStorage_update_folder;
+	epv = g_new0 (POA_GNOME_Evolution_LocalStorage__epv, 1);
+	epv->updateFolder = impl_GNOME_Evolution_LocalStorage_updateFolder;
 
 	return epv;
 }
 
 void
 evolution_local_storage_construct (EvolutionLocalStorage *local_storage,
-				   Evolution_LocalStorage corba_object,
+				   GNOME_Evolution_LocalStorage corba_object,
 				   const char *name)
 {
 	g_return_if_fail (local_storage != NULL);
@@ -192,8 +192,8 @@ EvolutionLocalStorage *
 evolution_local_storage_new (const char *name)
 {
 	EvolutionLocalStorage *new;
-	POA_Evolution_LocalStorage *servant;
-	Evolution_LocalStorage corba_object;
+	POA_GNOME_Evolution_LocalStorage *servant;
+	GNOME_Evolution_LocalStorage corba_object;
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (name[0] != '\0', NULL);

@@ -10,6 +10,7 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 	interface LocalStorage : Evolution::Storage {
 		/**
@@ -22,8 +23,9 @@ module Evolution {
 		 * Set the name to display for the folder at the specified
 		 * @path.
 		 */
-		void update_folder (in string path,
-				    in string display_name,
-				    in boolean highlighted);
+		void updateFolder (in string path,
+				   in string display_name,
+				   in boolean highlighted);
 	};
+};
 };

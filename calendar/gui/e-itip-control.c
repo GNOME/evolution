@@ -235,10 +235,10 @@ static void
 send_itip_reply (EItipControlPrivate *priv)
 {
 	BonoboObjectClient *bonobo_server;
-	Evolution_Composer composer_server;
+	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
-	Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-	Evolution_Composer_Recipient *recipient;
+	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	GNOME_Evolution_Composer_Recipient *recipient;
 	CORBA_char *subject;
 	CalComponentText caltext;
 	CORBA_char *content_type, *filename, *description, *attach_data;
@@ -256,10 +256,10 @@ send_itip_reply (EItipControlPrivate *priv)
 
 	/* Now I have to make a CORBA sequence that represents a recipient list with
 	   one item, for the organizer. */
-	to_list = Evolution_Composer_RecipientList__alloc ();
+	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	to_list->_maximum = 1;
 	to_list->_length = 1; 
-	to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (1);
+	to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
 
 	recipient = &(to_list->_buffer[0]);
 	recipient->name = CORBA_string_alloc (0);  /* FIXME: we may want an actual name here. */
@@ -267,16 +267,16 @@ send_itip_reply (EItipControlPrivate *priv)
 	recipient->address = CORBA_string_alloc (strlen (priv->organizer));
 	strcpy (recipient->address, priv->organizer);
 
-	cc_list = Evolution_Composer_RecipientList__alloc ();
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = Evolution_Composer_RecipientList__alloc ();
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	bcc_list->_maximum = bcc_list->_length = 0;
 
 	cal_component_get_summary (priv->cal_comp, &caltext);
 	subject = CORBA_string_alloc (strlen (caltext.value));
 	strcpy (subject, caltext.value);
 	
-	Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 		CORBA_exception_free (&ev);
@@ -331,10 +331,10 @@ send_itip_reply (EItipControlPrivate *priv)
 
 	}
 	
-	Evolution_Composer_attach_data (composer_server, 
-					content_type, filename, description,
-					show_inline, attach_data,
-					&ev);
+	GNOME_Evolution_Composer_attachData (composer_server, 
+					     content_type, filename, description,
+					     show_inline, attach_data,
+					     &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
@@ -342,7 +342,7 @@ send_itip_reply (EItipControlPrivate *priv)
 		return;
 	}
 
-	Evolution_Composer_show (composer_server, &ev);
+	GNOME_Evolution_Composer_show (composer_server, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");

@@ -54,20 +54,20 @@ struct _ExecutiveSummaryPrivate {
 };
 
 /* CORBA interface implementation */
-static POA_Evolution_Summary__vepv Summary_vepv;
+static POA_GNOME_Evolution_Summary_ViewFrame__vepv Summary_vepv;
 
-static POA_Evolution_Summary *
+static POA_GNOME_Evolution_Summary_ViewFrame *
 create_servant (void)
 {
-	POA_Evolution_Summary *servant;
+	POA_GNOME_Evolution_Summary_ViewFrame *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_Summary *)g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Summary_ViewFrame *)g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &Summary_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_Summary__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Summary_ViewFrame__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -80,7 +80,7 @@ create_servant (void)
 }
 
 static void
-impl_Evolution_Summary_set_title (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_ViewFrame_setTitle (PortableServer_Servant servant,
 				  CORBA_long id,
 				  const CORBA_char *title,
 				  CORBA_Environment *ev)
@@ -96,7 +96,7 @@ impl_Evolution_Summary_set_title (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Summary_set_icon (PortableServer_Servant servant,
+impl_GNOME_Evolution_Summary_ViewFrame_setIcon (PortableServer_Servant servant,
 				 CORBA_long id,
 				 const CORBA_char *title,
 				 CORBA_Environment *ev)
@@ -112,9 +112,9 @@ impl_Evolution_Summary_set_icon (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Summary_flash (PortableServer_Servant servant,
-			      CORBA_long id,
-			      CORBA_Environment *ev)
+impl_GNOME_Evolution_Summary_ViewFrame_flash (PortableServer_Servant servant,
+					      CORBA_long id,
+					      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
@@ -126,10 +126,10 @@ impl_Evolution_Summary_flash (PortableServer_Servant servant,
 }
 
 static void
-impl_Evolution_Summary_update_component (PortableServer_Servant servant,
-					 CORBA_long id,
-					 CORBA_char *html,
-					 CORBA_Environment *ev)
+impl_GNOME_Evolution_Summary_ViewFrame_updateComponent (PortableServer_Servant servant,
+							const CORBA_long id,
+							const CORBA_char *html,
+							CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ExecutiveSummary *summary;
@@ -163,8 +163,8 @@ executive_summary_destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_Summary__vepv *vepv;
-	POA_Evolution_Summary__epv *epv;
+	POA_GNOME_Evolution_Summary_ViewFrame__vepv *vepv;
+	POA_GNOME_Evolution_Summary_ViewFrame__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 	
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -172,16 +172,16 @@ corba_class_init (void)
 	base_epv->finalize = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_Summary__epv, 1);
-	epv->set_title = impl_Evolution_Summary_set_title;
-	epv->set_icon = impl_Evolution_Summary_set_icon;
-	epv->flash = impl_Evolution_Summary_flash;
-	epv->update_component = impl_Evolution_Summary_update_component;
+	epv = g_new0 (POA_GNOME_Evolution_Summary_ViewFrame__epv, 1);
+	epv->setTitle        = impl_GNOME_Evolution_Summary_ViewFrame_setTitle;
+	epv->setIcon         = impl_GNOME_Evolution_Summary_ViewFrame_setIcon;
+	epv->flash           = impl_GNOME_Evolution_Summary_ViewFrame_flash;
+	epv->updateComponent = impl_GNOME_Evolution_Summary_ViewFrame_updateComponent;
 
 	vepv = &Summary_vepv;
 	vepv->_base_epv = base_epv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->Evolution_Summary_epv = epv;
+	vepv->GNOME_Evolution_Summary_ViewFrame_epv = epv;
 }
 
 static void
@@ -245,7 +245,7 @@ E_MAKE_TYPE (executive_summary, "ExecutiveSummary", ExecutiveSummary,
 
 void
 executive_summary_construct (ExecutiveSummary *es,
-			     Evolution_Summary corba_object)
+			     GNOME_Evolution_Summary_ViewFrame corba_object)
 {
 	bonobo_object_construct (BONOBO_OBJECT (es), corba_object);
 }
@@ -253,8 +253,8 @@ executive_summary_construct (ExecutiveSummary *es,
 BonoboObject *
 executive_summary_new (void)
 {
-	POA_Evolution_Summary *servant;
-	Evolution_Summary corba_object;
+	POA_GNOME_Evolution_Summary_ViewFrame *servant;
+	GNOME_Evolution_Summary_ViewFrame corba_object;
 	ExecutiveSummary *es;
 
 	servant = create_servant ();

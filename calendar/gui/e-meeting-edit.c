@@ -517,10 +517,10 @@ static void
 send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 {
 	BonoboObjectClient *bonobo_server;
-	Evolution_Composer composer_server;
+	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
-	Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-	Evolution_Composer_Recipient *recipient;
+	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	GNOME_Evolution_Composer_Recipient *recipient;
 	gchar *cell_text;
 	CORBA_char *subject;
 	gint cntr;
@@ -542,10 +542,10 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 
 	/* All right, now I have to convert my list of recipients into one of those
 	   CORBA sequences. */
-	to_list = Evolution_Composer_RecipientList__alloc ();
+	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	to_list->_maximum = priv->numentries;
 	to_list->_length = priv->numentries; 
-	to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (priv->numentries);
+	to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (priv->numentries);
 
 	for (cntr = 0; cntr < priv->numentries; cntr++) {
 		gtk_clist_get_text (GTK_CLIST (priv->attendee_list),
@@ -560,16 +560,16 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 		strcpy (recipient->address, cell_text);
 	}
 
-	cc_list = Evolution_Composer_RecipientList__alloc ();
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = Evolution_Composer_RecipientList__alloc ();
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	bcc_list->_maximum = bcc_list->_length = 0;
 
 	cal_component_get_summary (priv->comp, &caltext);
 	subject = CORBA_string_alloc (strlen (caltext.value));
 	strcpy (subject, caltext.value);
 
-	Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 		CORBA_exception_free (&ev);
@@ -635,7 +635,7 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 		fclose (fp);
 	}
 
-	Evolution_Composer_attach_data (composer_server, 
+	GNOME_Evolution_Composer_attachData (composer_server, 
 					content_type, filename, description,
 					show_inline, attach_data,
 					&ev);
@@ -646,7 +646,7 @@ send_calendar_info (itip_method_enum method, EMeetingEditorPrivate *priv)
 		return;
 	}
 	
-	Evolution_Composer_show (composer_server, &ev);
+	GNOME_Evolution_Composer_show (composer_server, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");

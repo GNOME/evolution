@@ -61,7 +61,7 @@ struct _EvolutionStorageSetViewListenerClass {
 
 
 struct _EvolutionStorageSetViewListenerServant {
-	POA_Evolution_StorageSetViewListener servant_placeholder;
+	POA_GNOME_Evolution_StorageSetViewListener servant_placeholder;
 	EvolutionStorageSetViewListener *gtk_object;
 };
 typedef struct _EvolutionStorageSetViewListenerServant EvolutionStorageSetViewListenerServant;
@@ -69,10 +69,10 @@ typedef struct _EvolutionStorageSetViewListenerServant EvolutionStorageSetViewLi
 
 GtkType                          evolution_storage_set_view_listener_get_type      (void);
 void                             evolution_storage_set_view_listener_construct     (EvolutionStorageSetViewListener  *listener,
-										    Evolution_StorageSetViewListener  corba_objref);
+										    GNOME_Evolution_StorageSetViewListener  corba_objref);
 EvolutionStorageSetViewListener *evolution_storage_set_view_listener_new           (void);
 
-Evolution_StorageSetViewListener evolution_storage_set_view_listener_corba_objref  (EvolutionStorageSetViewListener *listener);
+GNOME_Evolution_StorageSetViewListener evolution_storage_set_view_listener_corba_objref  (EvolutionStorageSetViewListener *listener);
 
 #ifdef __cplusplus
 }

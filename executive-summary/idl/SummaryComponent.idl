@@ -12,28 +12,30 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
-	interface Summary;
+module Summary {
+	interface ViewFrame;
 
-	interface SummaryComponent: Bonobo::Unknown {
+	interface Component: Bonobo::Unknown {
 
 		/**
-		 * set_owner:
+		 * setOwner:
 		 * @summary: A Summary object.
 		 *
 		 * Sets the owner of the component.
 		 */
-		void set_owner (in Summary owner);
+		void setOwner (in ViewFrame owner);
 
 		/**
-		 * unset_owner:
+		 * unsetOwner:
 		 *
 		 * Unsets the owner of the component.
 		 */
-		void unset_owner ();
+		void unsetOwner ();
 
 		/**
-		 * create_view:
+		 * createView:
 		 * @control: A Bonobo_Control
 		 * @html: HTML of the view.
 		 * @title: Title of the view.
@@ -42,19 +44,19 @@ module Evolution {
 		 * Creates a summary of the data that the component has.
 		 * Returns: The ID of the view.
 		 */
-		long create_view (in long id,
-				  out Bonobo::Control control,
-		                  out string html,
-				  out string title,
-			          out string icon);
+		long createView (in long id,
+				 out Bonobo::Control control,
+				 out string html,
+				 out string title,
+				 out string icon);
 
 		/**
-		 * destroy_view:
+		 * destroyView:
 		 * @id: ID of the view to be destroyed.
 		 *
 		 * Tells a service that a view has been destroyed.
 		 */
-		void destroy_view (in long id);
+		void destroyView (in long id);
 
 		/**
 		 * configure:
@@ -64,4 +66,6 @@ module Evolution {
 		void configure ();
 
 	};
+};
+};
 };

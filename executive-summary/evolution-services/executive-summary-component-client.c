@@ -128,8 +128,8 @@ void
 executive_summary_component_client_set_owner (ExecutiveSummaryComponentClient *client,
 					      ExecutiveSummary *summary)
 {
-	Evolution_SummaryComponent component;
-	Evolution_Summary corba_object;
+	GNOME_Evolution_Summary_Component component;
+	GNOME_Evolution_Summary_ViewFrame corba_object;
 	CORBA_Environment ev;
 
 	g_return_if_fail (client != NULL);
@@ -142,7 +142,7 @@ executive_summary_component_client_set_owner (ExecutiveSummaryComponentClient *c
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (summary));
 
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
-	Evolution_SummaryComponent_set_owner (component, corba_object, &ev);
+	GNOME_Evolution_Summary_Component_setOwner (component, corba_object, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error setting owner");
@@ -155,7 +155,7 @@ executive_summary_component_client_set_owner (ExecutiveSummaryComponentClient *c
 void
 executive_summary_component_client_unset_owner (ExecutiveSummaryComponentClient *client)
 {
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (client != NULL);
@@ -164,7 +164,7 @@ executive_summary_component_client_unset_owner (ExecutiveSummaryComponentClient 
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	
-	Evolution_SummaryComponent_unset_owner (component, &ev);
+	GNOME_Evolution_Summary_Component_unsetOwner (component, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error unsetting owner");
@@ -180,7 +180,7 @@ executive_summary_component_client_supports (ExecutiveSummaryComponentClient *cl
 					     gboolean *bonobo,
 					     gboolean *html)
 {
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (client != NULL);
@@ -189,7 +189,7 @@ executive_summary_component_client_supports (ExecutiveSummaryComponentClient *cl
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	Evolution_SummaryComponent_supports (component, bonobo, html, &ev);
+	GNOME_Evolution_Summary_Component_supports (component, bonobo, html, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error checking supports");
@@ -205,7 +205,7 @@ executive_summary_component_client_create_view (ExecutiveSummaryComponentClient 
 						int id)
 {
 	ExecutiveSummaryComponentView *view;
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	char *html, *title, *icon;
 	Bonobo_Control control;
 	BonoboControl *bc;
@@ -222,8 +222,8 @@ executive_summary_component_client_create_view (ExecutiveSummaryComponentClient 
 
 	/* Get all the details about the view */
 	g_print ("In %s\n", __FUNCTION__);
-	ret_id = Evolution_SummaryComponent_create_view (component, id, &control, 
-							 &html, &title, &icon, &ev);
+	ret_id = GNOME_Evolution_Summary_Component_createView (component, id, &control, 
+							       &html, &title, &icon, &ev);
 	g_print ("Out %s\n", __FUNCTION__);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating view");
@@ -254,7 +254,7 @@ executive_summary_component_client_create_html_view (ExecutiveSummaryComponentCl
 						     char **icon)
 {
 	CORBA_char *ret_html;
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (client != NULL, NULL);
@@ -264,7 +264,7 @@ executive_summary_component_client_create_html_view (ExecutiveSummaryComponentCl
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 
-	ret_html = Evolution_SummaryComponent_create_html_view (component, title, icon, &ev);
+	ret_html = GNOME_Evolution_Summary_Component_create_html_view (component, title, icon, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error creating HTML view");
@@ -281,7 +281,7 @@ executive_summary_component_client_create_html_view (ExecutiveSummaryComponentCl
 void
 executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client)
 {
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (client != NULL);
@@ -289,7 +289,7 @@ executive_summary_component_client_configure (ExecutiveSummaryComponentClient *c
 
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	Evolution_SummaryComponent_configure (component, &ev);
+	GNOME_Evolution_Summary_Component_configure (component, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error configuring service");
@@ -308,7 +308,7 @@ executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient
 						 ExecutiveSummaryComponentView *view) 
 {
 	int id;
-	Evolution_SummaryComponent component;
+	GNOME_Evolution_Summary_Component component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (client != NULL);
@@ -320,7 +320,7 @@ executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient
 
 	CORBA_exception_init (&ev);
 	component = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	Evolution_SummaryComponent_destroy_view (component, id, &ev);
+	GNOME_Evolution_Summary_Component_destroyView (component, id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Error destroying view #%d", id);

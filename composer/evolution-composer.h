@@ -53,11 +53,11 @@ struct _EvolutionComposerClass {
 	BonoboObjectClass parent_class;
 };
 
-POA_Evolution_Composer__epv *evolution_composer_get_epv            (void);
+POA_GNOME_Evolution_Composer__epv *evolution_composer_get_epv            (void);
 
 GtkType            evolution_composer_get_type     (void);
 void               evolution_composer_construct    (EvolutionComposer *,
-						    Evolution_Composer);
+						    GNOME_Evolution_Composer);
 EvolutionComposer *evolution_composer_new          (void);
 
 void               evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),

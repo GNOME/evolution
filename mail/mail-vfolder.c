@@ -131,7 +131,7 @@ void
 vfolder_create_storage(EvolutionShellComponent *shell_component)
 {
 	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *user, *system;
 

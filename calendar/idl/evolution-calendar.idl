@@ -12,6 +12,7 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 
 module Calendar {
@@ -93,45 +94,48 @@ module Calendar {
 		readonly attribute string uri;
 
 		/* Gets the number of objects of the specified types */
-		long get_n_objects (in CalObjType type);
+		long countObjects (in CalObjType type);
 
 		/* Gets an object based on its URI */
-		CalObj get_object (in CalObjUID uid)
+		CalObj getObject (in CalObjUID uid)
 			raises (NotFound);
 
 		/* Gets a list of UIDs based on object type */
-		CalObjUIDSeq get_uids (in CalObjType type);
+		CalObjUIDSeq getUIds (in CalObjType type);
 
-		/* Gets a list of UIDs that changed based on object type */
-		CalObjChangeSeq get_changed_uids (in CalObjType type, in Time_t since);
+		/* Gets a list of UIds that changed based on object type */
+		CalObjChangeSeq getChangedUIds (in CalObjType type, in Time_t since);
 
 		/* Gets a list of objects that occur or recur in the specified time range */
-		CalObjUIDSeq get_objects_in_range (in CalObjType type, 
-						   in Time_t start, in Time_t end)
+		CalObjUIDSeq getObjectsInRange (in CalObjType type, 
+						in Time_t start, in Time_t end)
 			raises (InvalidRange);
 
-		/* Gets the objects whose alarms trigger in the specified time
+		/*
+		 * Gets the objects whose alarms trigger in the specified time
 		 * range.
 		 */
-		CalAlarmInstanceSeq get_alarms_in_range (in Time_t start, in Time_t end)
+		CalAlarmInstanceSeq getAlarmsInRange (in Time_t start, in Time_t end)
 			raises (InvalidRange);
 
-		/* Gets the alarms for the specified object that trigger in the
+		/*
+		 * Gets the alarms for the specified object that trigger in the
 		 * specified time range.
 		 */
-		CalAlarmInstanceSeq get_alarms_for_object (in CalObjUID uid,
-							   in Time_t start, in Time_t end)
+		CalAlarmInstanceSeq getAlarmsForObject (in CalObjUID uid,
+							in Time_t start, in Time_t end)
 			raises (NotFound, InvalidRange);
 
 
-		/* Updates an object by adding it if it does not exist or by
+		/*
+		 * Updates an object by adding it if it does not exist or by
 		 * changing an existing one.
 		 */
-		void update_object (in CalObjUID uid, in CalObj calobj)
+		void updateObject (in CalObjUID uid, in CalObj calobj)
 			raises (InvalidObject);
 
 		/* Removes an object */
-		void remove_object (in CalObjUID uid)
+		void removeObject (in CalObjUID uid)
 			raises (NotFound);
 	};
 
@@ -150,13 +154,13 @@ module Calendar {
 		/* Called from a CalFactory when a calendar is initially loaded
 		 * or created.  The listener must remember the cal object.
 		 */
-		void cal_loaded (in LoadStatus status, in Cal cal);
+		void notifyCalLoaded (in LoadStatus status, in Cal cal);
 
 		/* Called from a Calendar when an object is added or changed */
-		void obj_updated (in CalObjUID uid);
+		void notifyObjUpdated (in CalObjUID uid);
 
 		/* Called from a Calendar when an object is removed */
-		void obj_removed (in CalObjUID uid);
+		void notifyObjRemoved (in CalObjUID uid);
 	};
 
 	/* A calendar factory, can load and create calendars */
@@ -173,6 +177,7 @@ module Calendar {
 	};
 };
 
+};
 };
 
 #endif

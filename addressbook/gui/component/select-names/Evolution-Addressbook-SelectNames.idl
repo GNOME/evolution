@@ -10,6 +10,7 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 module Addressbook {
 
@@ -24,14 +25,15 @@ module Addressbook {
 		exception DuplicateID {};
 		exception SectionNotFound {};
 
-		void add_section (in string id, in string title)
+		void addSection (in string id, in string title)
 			raises (DuplicateID);
 
-		Bonobo::Control get_entry_for_section (in string section_id)
+		Bonobo::Control getEntryBySection (in string section_id)
 			raises (SectionNotFound);
 
-		void activate_dialog (in string section_id);
+		void activateDialog (in string section_id);
 	};
 
+};
 };
 };

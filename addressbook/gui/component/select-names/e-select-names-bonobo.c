@@ -98,20 +98,20 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_Addressbook_SelectNames__vepv SelectNames_vepv;
+static POA_GNOME_Evolution_Addressbook_SelectNames__vepv SelectNames_vepv;
 
-static POA_Evolution_Addressbook_SelectNames *
+static POA_GNOME_Evolution_Addressbook_SelectNames *
 create_servant (void)
 {
-	POA_Evolution_Addressbook_SelectNames *servant;
+	POA_GNOME_Evolution_Addressbook_SelectNames *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_Addressbook_SelectNames *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Addressbook_SelectNames *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &SelectNames_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_Addressbook_SelectNames__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Addressbook_SelectNames__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -162,7 +162,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	if (entry_widget == NULL) {
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_Evolution_Addressbook_SelectNames_SectionNotFound,
+				     ex_GNOME_Evolution_Addressbook_SelectNames_SectionNotFound,
 				     NULL);
 		return CORBA_OBJECT_NIL;
 	}
@@ -216,8 +216,8 @@ impl_destroy (GtkObject *object)
 static void
 corba_class_init ()
 {
-	POA_Evolution_Addressbook_SelectNames__vepv *vepv;
-	POA_Evolution_Addressbook_SelectNames__epv *epv;
+	POA_GNOME_Evolution_Addressbook_SelectNames__vepv *vepv;
+	POA_GNOME_Evolution_Addressbook_SelectNames__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -225,14 +225,14 @@ corba_class_init ()
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_Addressbook_SelectNames__epv, 1);
-	epv->add_section           = impl_SelectNames_add_section;
-	epv->get_entry_for_section = impl_SelectNames_get_entry_for_section;
-	epv->activate_dialog       = impl_SelectNames_activate_dialog;
+	epv = g_new0 (POA_GNOME_Evolution_Addressbook_SelectNames__epv, 1);
+	epv->addSection        = impl_SelectNames_add_section;
+	epv->getEntryBySection = impl_SelectNames_get_entry_for_section;
+	epv->activateDialog    = impl_SelectNames_activate_dialog;
 
 	vepv = &SelectNames_vepv;
 	vepv->Bonobo_Unknown_epv                    = bonobo_object_get_epv ();
-	vepv->Evolution_Addressbook_SelectNames_epv = epv;
+	vepv->GNOME_Evolution_Addressbook_SelectNames_epv = epv;
 }
 
 static void
@@ -263,7 +263,7 @@ init (ESelectNamesBonobo *select_names)
 
 void
 e_select_names_bonobo_construct (ESelectNamesBonobo *select_names,
-				 Evolution_Addressbook_SelectNames corba_object)
+				 GNOME_Evolution_Addressbook_SelectNames corba_object)
 {
 	g_return_if_fail (select_names != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_BONOBO (select_names));
@@ -274,8 +274,8 @@ e_select_names_bonobo_construct (ESelectNamesBonobo *select_names,
 ESelectNamesBonobo *
 e_select_names_bonobo_new (void)
 {
-	POA_Evolution_Addressbook_SelectNames *servant;
-	Evolution_Addressbook_SelectNames corba_object;
+	POA_GNOME_Evolution_Addressbook_SelectNames *servant;
+	GNOME_Evolution_Addressbook_SelectNames corba_object;
 	ESelectNamesBonobo *select_names;
 
 	servant = create_servant ();

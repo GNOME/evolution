@@ -42,20 +42,20 @@ struct _ECorbaStorageRegistryPrivate {
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_StorageRegistry__vepv storage_registry_vepv;
+static POA_GNOME_Evolution_StorageRegistry__vepv storage_registry_vepv;
 
-static POA_Evolution_StorageRegistry *
+static POA_GNOME_Evolution_StorageRegistry *
 create_servant (void)
 {
-	POA_Evolution_StorageRegistry *servant;
+	POA_GNOME_Evolution_StorageRegistry *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_StorageRegistry *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_StorageRegistry *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &storage_registry_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_StorageRegistry__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_StorageRegistry__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -67,9 +67,9 @@ create_servant (void)
 	return servant;
 }
 
-static Evolution_StorageListener
+static GNOME_Evolution_StorageListener
 impl_StorageRegistry_register_storage (PortableServer_Servant servant,
-				       const Evolution_Storage storage_interface,
+				       const GNOME_Evolution_Storage storage_interface,
 				       const CORBA_char *name,
 				       CORBA_Environment *ev)
 {
@@ -77,7 +77,7 @@ impl_StorageRegistry_register_storage (PortableServer_Servant servant,
 	ECorbaStorageRegistry *storage_registry;
 	ECorbaStorageRegistryPrivate *priv;
 	EStorage *storage;
-	Evolution_StorageListener listener_interface;
+	GNOME_Evolution_StorageListener listener_interface;
 
 	g_print ("Shell: Registering storage -- %s\n", name);
 
@@ -90,7 +90,7 @@ impl_StorageRegistry_register_storage (PortableServer_Servant servant,
 	if (! e_storage_set_add_storage (priv->storage_set, storage)) {
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_Evolution_StorageRegistry_Exists,
+				     ex_GNOME_Evolution_StorageRegistry_Exists,
 				     NULL);
 		return CORBA_OBJECT_NIL;
 	}
@@ -120,7 +120,7 @@ impl_StorageRegistry_unregister_storage (PortableServer_Servant servant,
 	storage = e_storage_set_get_storage (priv->storage_set, name);
 	if (storage == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_StorageRegistry_NotFound,
+				     ex_GNOME_Evolution_StorageRegistry_NotFound,
 				     NULL);
 		return;
 	}
@@ -155,8 +155,8 @@ destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_StorageRegistry__vepv *vepv;
-	POA_Evolution_StorageRegistry__epv *epv;
+	POA_GNOME_Evolution_StorageRegistry__vepv *vepv;
+	POA_GNOME_Evolution_StorageRegistry__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -164,14 +164,14 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_StorageRegistry__epv, 1);
-	epv->register_storage   = impl_StorageRegistry_register_storage;
-	epv->unregister_storage = impl_StorageRegistry_unregister_storage;
+	epv = g_new0 (POA_GNOME_Evolution_StorageRegistry__epv, 1);
+	epv->addStorage          = impl_StorageRegistry_register_storage;
+	epv->removeStorageByName = impl_StorageRegistry_unregister_storage;
 
 	vepv = &storage_registry_vepv;
 	vepv->_base_epv                     = base_epv;
 	vepv->Bonobo_Unknown_epv            = bonobo_object_get_epv ();
-	vepv->Evolution_StorageRegistry_epv = epv;
+	vepv->GNOME_Evolution_StorageRegistry_epv = epv;
 }
 
 static void
@@ -201,7 +201,7 @@ init (ECorbaStorageRegistry *corba_storage_registry)
 
 void
 e_corba_storage_registry_construct (ECorbaStorageRegistry *corba_storage_registry,
-				    Evolution_StorageRegistry corba_object,
+				    GNOME_Evolution_StorageRegistry corba_object,
 				    EStorageSet *storage_set)
 {
 	ECorbaStorageRegistryPrivate *priv;
@@ -222,8 +222,8 @@ ECorbaStorageRegistry *
 e_corba_storage_registry_new (EStorageSet *storage_set)
 {
 	ECorbaStorageRegistry *corba_storage_registry;
-	POA_Evolution_StorageRegistry *servant;
-	Evolution_StorageRegistry corba_object;
+	POA_GNOME_Evolution_StorageRegistry *servant;
+	GNOME_Evolution_StorageRegistry corba_object;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);

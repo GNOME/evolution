@@ -27,7 +27,7 @@ struct  _FolderBrowser {
 	
 	BonoboPropertyBag *properties;
 	
-	Evolution_Shell shell;
+	GNOME_Evolution_Shell shell;
 	
 	/* This is a kludge for the toolbar problem. */
 	int serial;
@@ -65,7 +65,7 @@ struct fb_ondemand_closure {
 };
 
 GtkType    folder_browser_get_type             (void);
-GtkWidget *folder_browser_new                  (const Evolution_Shell  shell);
+GtkWidget *folder_browser_new                  (const GNOME_Evolution_Shell  shell);
 
 gboolean   folder_browser_set_uri              (FolderBrowser         *folder_browser,
 						const char            *uri);

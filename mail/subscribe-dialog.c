@@ -1155,7 +1155,7 @@ subscribe_dialog_init (GtkObject *object)
 }
 
 static void
-subscribe_dialog_construct (GtkObject *object, Evolution_Shell shell)
+subscribe_dialog_construct (GtkObject *object, GNOME_Evolution_Shell shell)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
 
@@ -1173,7 +1173,7 @@ subscribe_dialog_construct (GtkObject *object, Evolution_Shell shell)
 }
 
 GtkWidget *
-subscribe_dialog_new (Evolution_Shell shell)
+subscribe_dialog_new (GNOME_Evolution_Shell shell)
 {
 	SubscribeDialog *subscribe_dialog;
 

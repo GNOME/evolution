@@ -28,7 +28,7 @@
 /* Private part of the CalListener structure */
 struct _CalListenerPrivate {
 	/* The calendar this listener refers to */
-	Evolution_Calendar_Cal cal;
+	GNOME_Evolution_Calendar_Cal cal;
 };
 
 
@@ -47,7 +47,7 @@ static void cal_listener_destroy (GtkObject *object);
 
 static void marshal_cal_loaded (GtkObject *object, GtkSignalFunc func, gpointer data, GtkArg *args);
 
-static POA_Evolution_Calendar_Listener__vepv cal_listener_vepv;
+static POA_GNOME_Evolution_Calendar_Listener__vepv cal_listener_vepv;
 
 static guint cal_listener_signals[LAST_SIGNAL];
 
@@ -92,7 +92,7 @@ static void
 init_cal_listener_corba_class (void)
 {
 	cal_listener_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	cal_listener_vepv.Evolution_Calendar_Listener_epv = cal_listener_get_epv ();
+	cal_listener_vepv.GNOME_Evolution_Calendar_Listener_epv = cal_listener_get_epv ();
 }
 
 /* Class initialization function for the calendar listener */
@@ -212,14 +212,14 @@ marshal_cal_loaded (GtkObject *object, GtkSignalFunc func, gpointer data, GtkArg
 /* Listener::cal_loaded method */
 static void
 Listener_cal_loaded (PortableServer_Servant servant,
-		     Evolution_Calendar_Listener_LoadStatus status,
-		     Evolution_Calendar_Cal cal,
+		     GNOME_Evolution_Calendar_Listener_LoadStatus status,
+		     GNOME_Evolution_Calendar_Cal cal,
 		     CORBA_Environment *ev)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
 	CORBA_Environment aev;
-	Evolution_Calendar_Cal cal_copy;
+	GNOME_Evolution_Calendar_Cal cal_copy;
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
@@ -248,7 +248,7 @@ Listener_cal_loaded (PortableServer_Servant servant,
 /* Listener::obj_updated method */
 static void
 Listener_obj_updated (PortableServer_Servant servant,
-		      Evolution_Calendar_CalObjUID uid,
+		      GNOME_Evolution_Calendar_CalObjUID uid,
 		      CORBA_Environment *ev)
 {
 	CalListener *listener;
@@ -261,7 +261,7 @@ Listener_obj_updated (PortableServer_Servant servant,
 /* Listener::obj_removed method */
 static void
 Listener_obj_removed (PortableServer_Servant servant,
-		      Evolution_Calendar_CalObjUID uid,
+		      GNOME_Evolution_Calendar_CalObjUID uid,
 		      CORBA_Environment *ev)
 {
 	CalListener *listener;
@@ -279,15 +279,15 @@ Listener_obj_removed (PortableServer_Servant servant,
  *
  * Return value: A newly-allocated EPV.
  **/
-POA_Evolution_Calendar_Listener__epv *
+POA_GNOME_Evolution_Calendar_Listener__epv *
 cal_listener_get_epv (void)
 {
-	POA_Evolution_Calendar_Listener__epv *epv;
+	POA_GNOME_Evolution_Calendar_Listener__epv *epv;
 
-	epv = g_new0 (POA_Evolution_Calendar_Listener__epv, 1);
-	epv->cal_loaded = Listener_cal_loaded;
-	epv->obj_updated = Listener_obj_updated;
-	epv->obj_removed = Listener_obj_removed;
+	epv = g_new0 (POA_GNOME_Evolution_Calendar_Listener__epv, 1);
+	epv->notifyCalLoaded  = Listener_cal_loaded;
+	epv->notifyObjUpdated = Listener_obj_updated;
+	epv->notifyObjRemoved = Listener_obj_removed;
 	return epv;
 }
 
@@ -304,7 +304,7 @@ cal_listener_get_epv (void)
  * Return value: the same object as the @listener argument.
  **/
 CalListener *
-cal_listener_construct (CalListener *listener, Evolution_Calendar_Listener corba_listener)
+cal_listener_construct (CalListener *listener, GNOME_Evolution_Calendar_Listener corba_listener)
 {
 	g_return_val_if_fail (listener != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_LISTENER (listener), NULL);
@@ -323,20 +323,20 @@ cal_listener_construct (CalListener *listener, Evolution_Calendar_Listener corba
  * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
  * failure.
  **/
-Evolution_Calendar_Listener
+GNOME_Evolution_Calendar_Listener
 cal_listener_corba_object_create (BonoboObject *object)
 {
-	POA_Evolution_Calendar_Listener *servant;
+	POA_GNOME_Evolution_Calendar_Listener *servant;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL_LISTENER (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_Evolution_Calendar_Listener *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Calendar_Listener *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_listener_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_Evolution_Calendar_Listener__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Calendar_Listener__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -344,7 +344,7 @@ cal_listener_corba_object_create (BonoboObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (Evolution_Calendar_Listener) bonobo_object_activate_servant (object, servant);
+	return (GNOME_Evolution_Calendar_Listener) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -361,7 +361,7 @@ cal_listener_new (void)
 {
 	CalListener *listener;
 	CORBA_Environment ev;
-	Evolution_Calendar_Listener corba_listener;
+	GNOME_Evolution_Calendar_Listener corba_listener;
 	gboolean result;
 
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
@@ -390,7 +390,7 @@ cal_listener_new (void)
  * 
  * Return value: The calendar that the listener is watching.
  **/
-Evolution_Calendar_Cal
+GNOME_Evolution_Calendar_Cal
 cal_listener_get_calendar (CalListener *listener)
 {
 	CalListenerPrivate *priv;

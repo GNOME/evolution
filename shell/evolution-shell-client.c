@@ -43,12 +43,12 @@ static BonoboObjectClientClass *parent_class = NULL;
 /* Easy-to-use wrapper for Evolution::user_select_folder.  */
 
 static PortableServer_ServantBase__epv FolderSelectionListener_base_epv;
-static POA_Evolution_FolderSelectionListener__epv FolderSelectionListener_epv;
-static POA_Evolution_FolderSelectionListener__vepv FolderSelectionListener_vepv;
+static POA_GNOME_Evolution_FolderSelectionListener__epv FolderSelectionListener_epv;
+static POA_GNOME_Evolution_FolderSelectionListener__vepv FolderSelectionListener_vepv;
 static gboolean FolderSelectionListener_vtables_initialized = FALSE;
 
 struct _FolderSelectionListenerServant {
-	POA_Evolution_FolderSelectionListener servant;
+	POA_GNOME_Evolution_FolderSelectionListener servant;
 	char **uri_return;
 	char **physical_uri_return;
 };
@@ -97,21 +97,21 @@ init_FolderSelectionListener_vtables (void)
 	FolderSelectionListener_base_epv.finalize    = NULL;
 	FolderSelectionListener_base_epv.default_POA = NULL;
 
-	FolderSelectionListener_epv.selected = impl_FolderSelectionListener_selected;
-	FolderSelectionListener_epv.cancel = impl_FolderSelectionListener_cancel;
+	FolderSelectionListener_epv.notifySelected = impl_FolderSelectionListener_selected;
+	FolderSelectionListener_epv.notifyCanceled = impl_FolderSelectionListener_cancel;
 
 	FolderSelectionListener_vepv._base_epv                             = &FolderSelectionListener_base_epv;
-	FolderSelectionListener_vepv.Evolution_FolderSelectionListener_epv = &FolderSelectionListener_epv;
+	FolderSelectionListener_vepv.GNOME_Evolution_FolderSelectionListener_epv = &FolderSelectionListener_epv;
 		
 	FolderSelectionListener_vtables_initialized = TRUE;
 }
 
-static Evolution_FolderSelectionListener
+static GNOME_Evolution_FolderSelectionListener
 create_folder_selection_listener_interface (char **result,
 					    char **uri_return,
 					    char **physical_uri_return)
 {
-	Evolution_FolderSelectionListener corba_interface;
+	GNOME_Evolution_FolderSelectionListener corba_interface;
 	CORBA_Environment ev;
 	FolderSelectionListenerServant *servant;
 	PortableServer_Servant listener_servant;
@@ -128,7 +128,7 @@ create_folder_selection_listener_interface (char **result,
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_FolderSelectionListener__init (listener_servant, &ev);
+	POA_GNOME_Evolution_FolderSelectionListener__init (listener_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free(servant);
 		return CORBA_OBJECT_NIL;
@@ -167,10 +167,10 @@ user_select_folder (EvolutionShellClient *shell_client,
 		    char **uri_return,
 		    char **physical_uri_return)
 {
-	Evolution_FolderSelectionListener listener_interface;
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_FolderSelectionListener listener_interface;
+	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
-	Evolution_Shell_FolderTypeList corba_type_list;
+	GNOME_Evolution_Shell_FolderTypeList corba_type_list;
 	int num_possible_types;
 	char *result;
 
@@ -191,7 +191,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 	corba_type_list._maximum = num_possible_types;
 	corba_type_list._buffer  = (CORBA_char **) possible_types;
 
-	Evolution_Shell_user_select_folder (corba_shell, listener_interface,
+	GNOME_Evolution_Shell_selectUserFolder (corba_shell, listener_interface,
 					    title, default_folder, &corba_type_list,
 					    &ev);
 
@@ -264,7 +264,7 @@ init (EvolutionShellClient *shell_client)
  **/
 void
 evolution_shell_client_construct (EvolutionShellClient *shell_client,
-				  Evolution_Shell corba_shell)
+				  GNOME_Evolution_Shell corba_shell)
 {
 	g_return_if_fail (shell_client != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
@@ -282,7 +282,7 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
  * Return value: A pointer to the Evolution::Shell client BonoboObject.
  **/
 EvolutionShellClient *
-evolution_shell_client_new (Evolution_Shell corba_shell)
+evolution_shell_client_new (GNOME_Evolution_Shell corba_shell)
 {
 	EvolutionShellClient *shell_client;
 
@@ -339,11 +339,11 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
  * Return value: a pointer to the CORBA object implementing the local storage
  * in the shell associated with @shell_client.
  **/
-Evolution_LocalStorage
+GNOME_Evolution_LocalStorage
 evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
 {
-	Evolution_Shell corba_shell;
-	Evolution_LocalStorage corba_local_storage;
+	GNOME_Evolution_Shell corba_shell;
+	GNOME_Evolution_LocalStorage corba_local_storage;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
@@ -355,7 +355,7 @@ evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
 	if (corba_shell == CORBA_OBJECT_NIL)
 		return CORBA_OBJECT_NIL;
 
-	corba_local_storage = Evolution_Shell_get_local_storage (corba_shell, &ev);
+	corba_local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;

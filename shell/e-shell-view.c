@@ -580,19 +580,6 @@ destroy (GtkObject *object)
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-/* Unrealize handler */
-static void
-unrealize (GtkWidget *widget)
-{
-	/* We flush so that all the destroy window requests for foreign windows
-	 * get sent over the X wire.  Hopefully this will diminish the chance of
-	 * hitting the CORBA (sync) vs. Xlib (async) race conditions.  This is
-	 * not the complete fix, which should actually be put in Bonobo and
-	 * completed.  FIXME.
-	 */
-	gdk_flush ();
-}
-
 static  int
 delete_event (GtkWidget *widget,
 	      GdkEventAny *event)
@@ -850,8 +837,6 @@ e_shell_view_construct (EShellView *shell_view,
 	}		
 
 	window = GTK_OBJECT (view);
-	gtk_signal_connect_after (window, "unrealize",
-				  (GtkSignalFunc) unrealize, NULL);
 
 	gtk_signal_connect (window, "delete_event",
 			    (GtkSignalFunc) delete_event, NULL);
@@ -1185,7 +1170,7 @@ get_control_for_uri (EShellView *shell_view,
 	EFolder *folder;
 	EvolutionShellComponentClient *handler_client;
 	Bonobo_Control corba_control;
-	Evolution_ShellComponent handler;
+	GNOME_Evolution_ShellComponent handler;
 	const char *path;
 	const char *folder_type;
 	GtkWidget *control;
@@ -1225,7 +1210,7 @@ get_control_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = Evolution_ShellComponent_create_view (handler, e_folder_get_physical_uri (folder),
+	corba_control = GNOME_Evolution_ShellComponent_createView (handler, e_folder_get_physical_uri (folder),
 							      folder_type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

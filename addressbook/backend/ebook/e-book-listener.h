@@ -59,13 +59,13 @@ typedef struct {
 	EBookStatus             status;
 
 	/* For OpenBookResponse */
-	Evolution_Book          book;
+	GNOME_Evolution_Addressbook_Book          book;
 
 	/* For GetCursorResponse */
-	Evolution_CardCursor    cursor;
+	GNOME_Evolution_Addressbook_CardCursor    cursor;
 
 	/* For GetBookViewReponse */
-	Evolution_BookView      book_view;
+	GNOME_Evolution_Addressbook_BookView      book_view;
 
 	/* For OpenProgressEvent */
 	char                   *msg;
@@ -83,7 +83,7 @@ int                    e_book_listener_check_pending  (EBookListener *listener);
 EBookListenerResponse *e_book_listener_pop_response   (EBookListener *listener);
 GtkType                e_book_listener_get_type       (void);
 
-POA_Evolution_BookListener__epv *e_book_listener_get_epv (void);
+POA_GNOME_Evolution_Addressbook_BookListener__epv *e_book_listener_get_epv (void);
 
 #define E_BOOK_LISTENER_TYPE        (e_book_listener_get_type ())
 #define E_BOOK_LISTENER(o)          (GTK_CHECK_CAST ((o), E_BOOK_LISTENER_TYPE, EBookListener))

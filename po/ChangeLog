@@ -1,3 +1,9 @@
+2000-11-06  Michael Meeks  <michael@helixcode.com>
+
+	* update.pl (GenHeaders, GeneratePot): Kill abortive
+	glade file translation code. It can't cope with line
+	breaks in the node content!
+
 2000-11-10  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.

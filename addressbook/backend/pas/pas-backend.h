@@ -11,7 +11,7 @@
  *    add a new client to an existing PASBackend server.
  *
  * 2. A PASBook, when a client has requested an operation on the
- *    Evolution_Book interface.
+ *    GNOME_Evolution_Addressbook_Book interface.
  *
  * Author:
  *   Nat Friedman (nat@helixcode.com)
@@ -42,7 +42,7 @@ typedef struct {
 	/* Virtual methods */
 	gboolean (*load_uri) (PASBackend *backend, const char *uri);
 	const char *(* get_uri) (PASBackend *backend);
-	gboolean (*add_client) (PASBackend *backend, Evolution_BookListener listener);
+	gboolean (*add_client) (PASBackend *backend, GNOME_Evolution_Addressbook_BookListener listener);
 	void (*remove_client) (PASBackend *backend, PASBook *book);
         char *(*get_static_capabilities) (PASBackend *backend);
 
@@ -58,7 +58,7 @@ gboolean    pas_backend_load_uri                 (PASBackend             *backen
 const char *pas_backend_get_uri                  (PASBackend             *backend);
 
 gboolean    pas_backend_add_client               (PASBackend             *backend,
-						  Evolution_BookListener  listener);
+						  GNOME_Evolution_Addressbook_BookListener  listener);
 void        pas_backend_remove_client            (PASBackend             *backend,
 						  PASBook                *book);
 char       *pas_backend_get_static_capabilities  (PASBackend             *backend);

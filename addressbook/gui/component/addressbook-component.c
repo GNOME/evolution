@@ -90,7 +90,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
-		Evolution_Shell shell_interface,
+		GNOME_Evolution_Shell shell_interface,
 		gpointer user_data)
 {
 	owner_count --;

@@ -37,13 +37,13 @@ PASCardCursor *pas_card_cursor_new       (PASCardCursorLengthFunc  get_length,
 				          PASCardCursorNthFunc     get_nth,
 					  gpointer data);
 PASCardCursor *pas_card_cursor_construct (PASCardCursor           *cursor,
-					  Evolution_CardCursor     corba_cursor,
+					  GNOME_Evolution_Addressbook_CardCursor     corba_cursor,
 					  PASCardCursorLengthFunc  get_length,
 					  PASCardCursorNthFunc     get_nth,
 					  gpointer data);
 
 GtkType        pas_card_cursor_get_type  (void);
-POA_Evolution_CardCursor__epv *
+POA_GNOME_Evolution_Addressbook_CardCursor__epv *
                pas_card_cursor_get_epv   (void);
 
 /* Fetching cards. */

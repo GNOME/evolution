@@ -443,8 +443,8 @@ e_summary_url_mail_compose (ESummary *esummary,
 {
 	CORBA_Object composer;
 	CORBA_Environment ev;
-	Evolution_Composer_RecipientList *to, *cc, *bcc;
-	Evolution_Composer_Recipient *recipient;
+	GNOME_Evolution_Composer_RecipientList *to, *cc, *bcc;
+	GNOME_Evolution_Composer_Recipient *recipient;
 	char *address, *proto;
 	CORBA_char *subject;
 	
@@ -467,30 +467,30 @@ e_summary_url_mail_compose (ESummary *esummary,
 			address = (char *) url;
 	}
 
-	to = Evolution_Composer_RecipientList__alloc ();
+	to = GNOME_Evolution_Composer_RecipientList__alloc ();
 	to->_length = 1;
 	to->_maximum = 1;
-	to->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (to->_maximum);
+	to->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to->_maximum);
 	
 	recipient = to->_buffer;
 	recipient->name = CORBA_string_dup ("");
 	recipient->address = CORBA_string_dup (address?address:"");
 	
 	/* FIXME: Get these out of the URL */
-	cc = Evolution_Composer_RecipientList__alloc ();
+	cc = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc->_length = 0;
 	cc->_maximum = 0;
-	cc->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (cc->_maximum);
+	cc->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (cc->_maximum);
 	
-	bcc = Evolution_Composer_RecipientList__alloc ();
+	bcc = GNOME_Evolution_Composer_RecipientList__alloc ();
 	bcc->_length = 0;
 	bcc->_maximum = 0;
-	bcc->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (bcc->_maximum);
+	bcc->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc->_maximum);
 	
 	subject = CORBA_string_dup ("");
 	
 	CORBA_exception_init (&ev);
-	Evolution_Composer_set_headers (composer, to, cc, bcc, subject, &ev);
+	GNOME_Evolution_Composer_setHeaders (composer, to, cc, bcc, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		CORBA_free (to);
@@ -501,7 +501,7 @@ e_summary_url_mail_compose (ESummary *esummary,
 	CORBA_free (to);
 	
 	CORBA_exception_init (&ev);  
-	Evolution_Composer_show (composer, &ev);
+	GNOME_Evolution_Composer_show (composer, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		g_warning ("%s(%d): Error showing composer", __FUNCTION__, __LINE__);

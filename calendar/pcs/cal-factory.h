@@ -59,8 +59,8 @@ struct _CalFactoryClass {
 
 GtkType cal_factory_get_type (void);
 
-CalFactory *cal_factory_construct (CalFactory *factory, Evolution_Calendar_CalFactory corba_factory);
-Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
+CalFactory *cal_factory_construct (CalFactory *factory, GNOME_Evolution_Calendar_CalFactory corba_factory);
+GNOME_Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
 
 CalFactory *cal_factory_new (void);
 
@@ -68,7 +68,7 @@ void cal_factory_register_method (CalFactory *factory, const char *method, GtkTy
 
 int cal_factory_get_n_backends (CalFactory *factory);
 
-POA_Evolution_Calendar_CalFactory__epv *cal_factory_get_epv (void);
+POA_GNOME_Evolution_Calendar_CalFactory__epv *cal_factory_get_epv (void);
 
 
 

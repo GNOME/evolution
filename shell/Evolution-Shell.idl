@@ -10,6 +10,7 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 	interface ShellComponent;
 
@@ -20,7 +21,7 @@ module Evolution {
 		exception Busy {};
 
 		/**
-		 * get_component_for_type:
+		 * getComponentByType:
 		 * @type: name of a valid folder type
 		 *
 		 * Get the shell component associated with a specific folder type.
@@ -28,13 +29,13 @@ module Evolution {
 		 * Return value: the Evolution::ShellComponent interface for the component that
 		 * handles @type.
 		 */
-		ShellComponent get_component_for_type (in string type)
+		ShellComponent getComponentByType (in string type)
 			raises (NotFound);
 
 		typedef sequence<string> FolderTypeList;
 
 		/**
-		 * user_select_folder:
+		 * selectUserFolder:
 		 * @listener: a listener interface to report the answer of the user.
 		 * @title: title for the folder selector dialog
 		 * @default_folder: physical or `evolution:' URI for the folder that must be
@@ -46,14 +47,14 @@ module Evolution {
 		 * folder by using the "New..." button.  The dialog only lets the user choose
 		 * a folder whose type is listed in @possible_types.
 		 */
-		void user_select_folder (in FolderSelectionListener listener,
+		void selectUserFolder (in FolderSelectionListener listener,
 					 in string title,
 					 in string default_folder,
 					 in FolderTypeList possible_types)
 			raises (Busy);
 
 		/**
-		 * get_local_storage:
+		 * getLocalStorage:
 		 *
 		 * Get the interface to the local storage.
 		 *
@@ -62,21 +63,22 @@ module Evolution {
 		 *
 		 * Return value: the `Evolution::LocalStorage' interface for
 		 * the local storage.  */
-		LocalStorage get_local_storage ();
+		LocalStorage getLocalStorage ();
 
 		/**
-		 * create_storage_set_view:
+		 * createStorageSetView:
 		 *
 		 * Create a control for the storage set view.  This control
 		 * will also implement the `Evolution::StorageSetView' interface.
 		 *
 		 * Return value: the newly created control.
 		 */
-		Bonobo::Control create_storage_set_view ();
+		Bonobo::Control createStorageSetView ();
 	};
 
 	interface FolderSelectionListener {
-		void selected (in string uri, in string physical_uri);
-		void cancel ();
+		void notifySelected (in string uri, in string physical_uri);
+		void notifyCanceled ();
 	};
+};
 };

@@ -44,7 +44,7 @@
 #define SELECT_NAMES_OAFID "OAFIID:addressbook:select-names:39301deb-174b-40d1-8a6e-5edc300f7b61"
 
 struct _EMsgComposerHdrsPrivate {
-	Evolution_Addressbook_SelectNames corba_select_names;
+	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
 	/* Total number of headers that we have.  */
 	guint num_hdrs;
@@ -119,7 +119,7 @@ address_button_clicked_cb (GtkButton *button,
 	CORBA_exception_init (&ev);
 
 	/* FIXME: Section ID */
-	Evolution_Addressbook_SelectNames_activate_dialog (priv->corba_select_names, "", &ev);
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (priv->corba_select_names, "", &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -183,7 +183,7 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 			  const char *name)
 {
 	EMsgComposerHdrsPrivate *priv;
-	Evolution_Addressbook_SelectNames corba_select_names;
+	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 	Bonobo_Control corba_control;
 	GtkWidget *control_widget;
 	CORBA_Environment ev;
@@ -193,13 +193,13 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Addressbook_SelectNames_add_section (corba_select_names, name, name, &ev);
+	GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names, name, name, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
 
-	corba_control = Evolution_Addressbook_SelectNames_get_entry_for_section (corba_select_names, name, &ev);
+	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (corba_select_names, name, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);

@@ -12,7 +12,7 @@
 #include "e-card-cursor.h"
 
 struct _ECardCursorPrivate {
-	Evolution_CardCursor corba_cursor;
+	GNOME_Evolution_Addressbook_CardCursor corba_cursor;
 };
 
 /*
@@ -31,7 +31,7 @@ e_card_cursor_destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	Evolution_CardCursor_unref( cursor->priv->corba_cursor, &ev );
+	GNOME_Evolution_Addressbook_CardCursor_unref( cursor->priv->corba_cursor, &ev );
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("e_card_cursor_destroy: Exception unreffing "
@@ -71,7 +71,7 @@ e_card_cursor_get_length (ECardCursor *cursor)
 
 		CORBA_exception_init (&ev);
 
-		ret_val = Evolution_CardCursor_get_length(cursor->priv->corba_cursor, &ev);
+		ret_val = GNOME_Evolution_Addressbook_CardCursor_count (cursor->priv->corba_cursor, &ev);
 		
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning("e_card_cursor_get_length: Exception during "
@@ -107,7 +107,7 @@ e_card_cursor_get_nth (ECardCursor *cursor,
 
 		CORBA_exception_init (&en);
 
-		vcard = Evolution_CardCursor_get_nth(cursor->priv->corba_cursor, n, &en);
+		vcard = GNOME_Evolution_Addressbook_CardCursor_getNth(cursor->priv->corba_cursor, n, &en);
 		
 		if (en._major != CORBA_NO_EXCEPTION) {
 			g_warning("e_card_cursor_get_nth: Exception during "
@@ -169,16 +169,16 @@ e_card_cursor_get_type (void)
 /**
  * e_card_cursor_construct:
  * @cursor: an #ECardCursor object
- * @corba_cursor: an #Evolution_CardCursor
+ * @corba_cursor: an #GNOME_Evolution_Addressbook_CardCursor
  *
- * Wraps an #Evolution_CardCursor object inside the #ECardCursor
+ * Wraps an #GNOME_Evolution_Addressbook_CardCursor object inside the #ECardCursor
  * @cursor object.
  *
  * Returns: a new #ECardCursor on success, or %NULL on failure.
  */
 ECardCursor *
 e_card_cursor_construct (ECardCursor          *cursor,
-			 Evolution_CardCursor  corba_cursor)
+			 GNOME_Evolution_Addressbook_CardCursor  corba_cursor)
 {
 	CORBA_Environment      ev;
 	g_return_val_if_fail (cursor != NULL, NULL);
@@ -199,7 +199,7 @@ e_card_cursor_construct (ECardCursor          *cursor,
 		CORBA_exception_init (&ev);
 	}
 	
-	Evolution_CardCursor_ref(cursor->priv->corba_cursor, &ev);
+	GNOME_Evolution_Addressbook_CardCursor_ref(cursor->priv->corba_cursor, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("e_card_cursor_construct: Exception reffing "
@@ -216,15 +216,15 @@ e_card_cursor_construct (ECardCursor          *cursor,
 
 /**
  * e_card_cursor_new:
- * @cursor: the #Evolution_CardCursor to be wrapped
+ * @cursor: the #GNOME_Evolution_Addressbook_CardCursor to be wrapped
  *
- * Creates a new #ECardCursor, which wraps an #Evolution_CardCursor
+ * Creates a new #ECardCursor, which wraps an #GNOME_Evolution_Addressbook_CardCursor
  * object.
  *
  * Returns: a new #ECardCursor on success, or %NULL on failure.
  */
 ECardCursor *
-e_card_cursor_new (Evolution_CardCursor corba_cursor)
+e_card_cursor_new (GNOME_Evolution_Addressbook_CardCursor corba_cursor)
 {
 	ECardCursor *cursor;
 

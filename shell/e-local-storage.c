@@ -650,11 +650,11 @@ e_local_storage_get_base_path (ELocalStorage *local_storage)
 }
 
 
-const Evolution_LocalStorage
+const GNOME_Evolution_LocalStorage
 e_local_storage_get_corba_interface (ELocalStorage *local_storage)
 {
 	ELocalStoragePrivate *priv;
-	Evolution_LocalStorage corba_interface;
+	GNOME_Evolution_LocalStorage corba_interface;
 
 	g_return_val_if_fail (local_storage != NULL, NULL);
 	g_return_val_if_fail (E_IS_LOCAL_STORAGE (local_storage), NULL);

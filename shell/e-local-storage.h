@@ -66,7 +66,7 @@ EStorage                     *e_local_storage_open                 (EFolderTypeR
 								    const char          *base_path);
 const char                   *e_local_storage_get_base_path        (ELocalStorage       *storage);
 
-const Evolution_LocalStorage  e_local_storage_get_corba_interface  (ELocalStorage       *storage);
+const GNOME_Evolution_LocalStorage  e_local_storage_get_corba_interface  (ELocalStorage       *storage);
 
 #ifdef __cplusplus
 }

@@ -61,20 +61,20 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_ShellComponent__vepv ShellComponent_vepv;
+static POA_GNOME_Evolution_ShellComponent__vepv ShellComponent_vepv;
 
-static POA_Evolution_ShellComponent *
+static POA_GNOME_Evolution_ShellComponent *
 create_servant (void)
 {
-	POA_Evolution_ShellComponent *servant;
+	POA_GNOME_Evolution_ShellComponent *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_ShellComponent *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_ShellComponent *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &ShellComponent_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_ShellComponent__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_ShellComponent__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -86,14 +86,14 @@ create_servant (void)
 	return servant;
 }
 
-static Evolution_FolderTypeList *
+static GNOME_Evolution_FolderTypeList *
 impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 					  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	Evolution_FolderTypeList *folder_type_list;
+	GNOME_Evolution_FolderTypeList *folder_type_list;
 	unsigned int i;
 	GList *p;
 
@@ -101,13 +101,13 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	folder_type_list = Evolution_FolderTypeList__alloc ();
+	folder_type_list = GNOME_Evolution_FolderTypeList__alloc ();
 	folder_type_list->_length = g_list_length (priv->folder_types);
 	folder_type_list->_maximum = folder_type_list->_length;
-	folder_type_list->_buffer = CORBA_sequence_Evolution_FolderType_allocbuf (folder_type_list->_maximum);
+	folder_type_list->_buffer = CORBA_sequence_GNOME_Evolution_FolderType_allocbuf (folder_type_list->_maximum);
 
 	for (p = priv->folder_types, i = 0; p != NULL; p = p->next, i++) {
-		Evolution_FolderType *corba_folder_type;
+		GNOME_Evolution_FolderType *corba_folder_type;
 		EvolutionShellComponentFolderType *folder_type;
 
 		folder_type = (EvolutionShellComponentFolderType *) p->data;
@@ -122,14 +122,14 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 
 static void
 impl_ShellComponent_set_owner (PortableServer_Servant servant,
-			       const Evolution_Shell shell,
+			       const GNOME_Evolution_Shell shell,
 			       const CORBA_char *evolution_homedir,
 			       CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	Evolution_Shell shell_duplicate;
+	GNOME_Evolution_Shell shell_duplicate;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
@@ -137,7 +137,7 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 
 	if (priv->owner_client != NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_ShellComponent_AlreadyOwned, NULL);
+				     ex_GNOME_Evolution_ShellComponent_AlreadyOwned, NULL);
 		return;
 	}
 
@@ -163,7 +163,7 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 
 	if (priv->owner_client == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_ShellComponent_NotOwned, NULL);
+				     ex_GNOME_Evolution_ShellComponent_NotOwned, NULL);
 		return;
 	}
 
@@ -196,17 +196,17 @@ impl_ShellComponent_create_view (PortableServer_Servant servant,
 		switch (result) {
 		case EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE:
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-					     ex_Evolution_ShellComponent_UnsupportedType,
+					     ex_GNOME_Evolution_ShellComponent_UnsupportedType,
 					     NULL);
 			break;
 		case EVOLUTION_SHELL_COMPONENT_INTERNALERROR:
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-					     ex_Evolution_ShellComponent_InternalError,
+					     ex_GNOME_Evolution_ShellComponent_InternalError,
 					     NULL);
 			break;
 		default:
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-					     ex_Evolution_ShellComponent_NotFound,
+					     ex_GNOME_Evolution_ShellComponent_NotFound,
 					     NULL);
 		}
 
@@ -218,7 +218,7 @@ impl_ShellComponent_create_view (PortableServer_Servant servant,
 
 static void
 impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
-					 const Evolution_ShellComponentListener listener,
+					 const GNOME_Evolution_ShellComponentListener listener,
 					 const CORBA_char *physical_uri,
 					 const CORBA_char *type,
 					 CORBA_Environment *ev)
@@ -232,8 +232,8 @@ impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
 	priv = shell_component->priv;
 
 	if (priv->create_folder_fn == NULL) {
-		Evolution_ShellComponentListener_report_result (listener,
-								Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
 								ev);
 		return;
 	}
@@ -243,7 +243,7 @@ impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
 
 static void
 impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
-					 const Evolution_ShellComponentListener listener,
+					 const GNOME_Evolution_ShellComponentListener listener,
 					 const CORBA_char *physical_uri,
 					 CORBA_Environment *ev)
 {
@@ -256,8 +256,8 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 	priv = shell_component->priv;
 
 	if (priv->remove_folder_fn == NULL) {
-		Evolution_ShellComponentListener_report_result (listener,
-								Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
 								ev);
 		return;
 	}
@@ -337,8 +337,8 @@ destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_ShellComponent__vepv *vepv;
-	POA_Evolution_ShellComponent__epv *epv;
+	POA_GNOME_Evolution_ShellComponent__vepv *vepv;
+	POA_GNOME_Evolution_ShellComponent__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -346,19 +346,19 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_ShellComponent__epv, 1);
-	epv->_get_supported_types         = impl_ShellComponent__get_supported_types;
-	epv->set_owner                    = impl_ShellComponent_set_owner;
-	epv->unset_owner                  = impl_ShellComponent_unset_owner;
-	epv->create_view                  = impl_ShellComponent_create_view;
-	epv->async_create_folder          = impl_ShellComponent_async_create_folder;
-	epv->async_remove_folder          = impl_ShellComponent_async_remove_folder;
-	epv->populate_folder_context_menu = impl_ShellComponent_populate_folder_context_menu;
+	epv = g_new0 (POA_GNOME_Evolution_ShellComponent__epv, 1);
+	epv->_get_supported_types      = impl_ShellComponent__get_supported_types;
+	epv->setOwner                  = impl_ShellComponent_set_owner;
+	epv->unsetOwner                = impl_ShellComponent_unset_owner;
+	epv->createView                = impl_ShellComponent_create_view;
+	epv->addFolderAsync            = impl_ShellComponent_async_create_folder;
+	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
+	epv->populateFolderContextMenu = impl_ShellComponent_populate_folder_context_menu;
 
 	vepv = &ShellComponent_vepv;
 	vepv->_base_epv                    = base_epv;
 	vepv->Bonobo_Unknown_epv           = bonobo_object_get_epv ();
-	vepv->Evolution_ShellComponent_epv = epv;
+	vepv->GNOME_Evolution_ShellComponent_epv = epv;
 }
 
 static void
@@ -416,7 +416,7 @@ init (EvolutionShellComponent *shell_component)
 void
 evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     const EvolutionShellComponentFolderType folder_types[],
-				     Evolution_ShellComponent corba_object,
+				     GNOME_Evolution_ShellComponent corba_object,
 				     EvolutionShellComponentCreateViewFn create_view_fn,
 				     EvolutionShellComponentCreateFolderFn create_folder_fn,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
@@ -468,8 +468,8 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       void *closure)
 {
 	EvolutionShellComponent *new;
-	POA_Evolution_ShellComponent *servant;
-	Evolution_ShellComponent corba_object;
+	POA_GNOME_Evolution_ShellComponent *servant;
+	GNOME_Evolution_ShellComponent corba_object;
 
 	servant = create_servant ();
 	if (servant == NULL)

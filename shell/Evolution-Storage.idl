@@ -10,6 +10,7 @@
 
 #include <Bonobo.h>
 
+module GNOME {
 module Evolution {
 	struct Folder {
 		string type;
@@ -28,10 +29,10 @@ module Evolution {
 
 		attribute string name;
 
-		void add_listener (in StorageListener listener)
+		void addListener    (in StorageListener listener)
 			raises (AlreadyListening);
 
-		void remove_listener (in StorageListener listener)
+		void removeListener (in StorageListener listener)
 			raises (NotFound);
 	};
 
@@ -39,18 +40,20 @@ module Evolution {
 		exception Exists {};
 		exception NotFound {};
 
-		void destroyed ();
+		void notifyDestroyed ();
 
 		/* FIXME exceptions don't make much sense here...  */
 
-		void new_folder (in string path, in Folder folder)
+		void notifyFolderCreated (in string  path,
+					  in Folder  folder)
 			raises (Exists);
-
-		void update_folder (in string path, in string display_name,
-				    in boolean highlighted)
+		
+		void notifyFolderUpdated (in string  path,
+					  in string  display_name,
+					  in boolean highlighted)
 			raises (NotFound);
 
-		void removed_folder (in string path)
+		void notifyFolderRemoved (in string  path)
 			raises (NotFound);
 	};
 
@@ -58,10 +61,11 @@ module Evolution {
 		exception Exists {};
 		exception NotFound {};
 
-		StorageListener register_storage (in Storage storage, in string name)
+		StorageListener addStorage (in Storage storage, in string name)
 			raises (Exists);
 
-		void unregister_storage (in string name)
+		void removeStorageByName (in string name)
 			raises (NotFound);
 	};
+};
 };

@@ -14,7 +14,7 @@ idls =							\
 idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) $(srcdir)/../idl/addressbook.idl $(idl_flags)
+	$(ORBIT_IDL) -I $(srcdir) $(srcdir)/../idl/addressbook.idl $(idl_flags)
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(localedir)"\"        \

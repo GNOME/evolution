@@ -10,10 +10,11 @@
 
 #include <Bonoob.idl>
 
+module GNOME {
 module Evolution {
 	interface StorageSetViewListener {
-		void folder_selected (in string uri);
-		void storage_selected (in string uri);
+		void notifyFolderSelected  (in string uri);
+		void notifyStorageSelected (in string uri);
 	};
 
 	/* FIXME: Maybe we should have a generic Bonobo::Listener interface.  */
@@ -21,11 +22,13 @@ module Evolution {
 		exception AlreadyListening {};
 		exception NotFound {};
 
-		attribute boolean show_folders;
+		attribute boolean showFolders;
 
-		void add_listener (in StorageSetViewListener listener)
+		void addListener    (in StorageSetViewListener listener)
 			raises (AlreadyListening);
-		void remove_listener (in StorageSetViewListener listener)
+
+		void removeListener (in StorageSetViewListener listener)
 			raises (NotFound);
 	};
+};
 };

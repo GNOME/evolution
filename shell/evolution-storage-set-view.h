@@ -59,7 +59,7 @@ struct _EvolutionStorageSetViewClass {
 
 GtkType                  evolution_storage_set_view_get_type   (void);
 void                     evolution_storage_set_view_construct  (EvolutionStorageSetView  *storage_set_view,
-								Evolution_StorageSetView  corba_object,
+								GNOME_Evolution_StorageSetView  corba_object,
 								EStorageSetView          *storage_set_view_widget);
 EvolutionStorageSetView *evolution_storage_set_view_new        (EStorageSetView          *storage_set_view_widget);
 

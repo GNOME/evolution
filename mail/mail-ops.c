@@ -1734,7 +1734,7 @@ mail_do_load_folder (FolderBrowser *fb, const char *url)
 
 typedef struct create_folder_input_s
 {
-	Evolution_ShellComponentListener listener;
+	GNOME_Evolution_ShellComponentListener listener;
 	char *uri;
 	char *type;
 }
@@ -1742,7 +1742,7 @@ create_folder_input_t;
 
 typedef struct create_folder_data_s
 {
-	Evolution_ShellComponentListener_Result result;
+	GNOME_Evolution_ShellComponentListener_Result result;
 }
 create_folder_data_t;
 
@@ -1769,7 +1769,7 @@ do_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (strcmp (input->type, "mail") != 0)
 		data->result =
-			Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
+			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
 	else {
 		camel_url = g_strdup_printf ("mbox://%s", input->uri);
 		/* FIXME: supply a way to make indexes optional */
@@ -1780,10 +1780,10 @@ do_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 
 		if (!camel_exception_is_set (ex)) {
 			camel_object_unref (CAMEL_OBJECT (folder));
-			data->result = Evolution_ShellComponentListener_OK;
+			data->result = GNOME_Evolution_ShellComponentListener_OK;
 		} else {
 			data->result =
-				Evolution_ShellComponentListener_INVALID_URI;
+				GNOME_Evolution_ShellComponentListener_INVALID_URI;
 		}
 	}
 }
@@ -1798,7 +1798,7 @@ cleanup_create_folder (gpointer in_data, gpointer op_data,
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	Evolution_ShellComponentListener_report_result (input->listener,
+	GNOME_Evolution_ShellComponentListener_notifyResult (input->listener,
 							data->result, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -1821,7 +1821,7 @@ static const mail_operation_spec op_create_folder = {
 };
 
 void
-mail_do_create_folder (const Evolution_ShellComponentListener listener,
+mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 		       const char *uri, const char *type)
 {
 	CORBA_Environment ev;

@@ -71,7 +71,7 @@ pas_backend_get_uri (PASBackend *backend)
  */
 gboolean
 pas_backend_add_client (PASBackend             *backend,
-			Evolution_BookListener  listener)
+			GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);

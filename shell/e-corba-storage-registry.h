@@ -62,7 +62,7 @@ struct _ECorbaStorageRegistryClass {
 
 GtkType                e_corba_storage_registry_get_type   (void);
 void                   e_corba_storage_registry_construct  (ECorbaStorageRegistry     *corba_storage_registry,
-							    Evolution_StorageRegistry  corba_object,
+							    GNOME_Evolution_StorageRegistry  corba_object,
 							    EStorageSet               *storage_set);
 ECorbaStorageRegistry *e_corba_storage_registry_new        (EStorageSet               *storage_set);
 

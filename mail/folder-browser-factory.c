@@ -206,7 +206,7 @@ control_destroy_cb (BonoboControl *control,
 
 BonoboControl *
 folder_browser_factory_new_control (const char *uri,
-				    const Evolution_Shell shell)
+				    const GNOME_Evolution_Shell shell)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;

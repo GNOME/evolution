@@ -29,7 +29,7 @@ create_container (void)
 	gtk_widget_show (GTK_WIDGET (window));
 
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (BONOBO_WINDOW (window), container);
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (window));
 
 	control = bonobo_widget_new_control (
 		"OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45",

@@ -10,24 +10,26 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
-	interface Summary: Bonobo::Unknown {
+module Summary {
+	interface ViewFrame: Bonobo::Unknown {
 		exception NoSubWindow {};
 		
 		/**
-		 * set_title:
+		 * setTitle:
 		 * @component: The SummaryComponent whose window to set the title.
 		 * @title: The title.
 		 *
 		 * Sets the title of the subwindow that displays @component
 		 * to @title
 		 */
-		void set_title (in long id, 
-				in string title)
+		void setTitle (in long id, 
+			       in string title)
 			raises (NoSubWindow);
 
-		void set_icon (in long id,
-			       in string icon)
+		void setIcon (in long id,
+			      in string icon)
 			raises (NoSubWindow);
 
 		/**
@@ -40,15 +42,17 @@ module Evolution {
 			raises (NoSubWindow);
 
 		/**
-		 * update_html_component:
+		 * updateComponent:
 		 * @component: The SummaryComponent that owns a subwindow.
 		 * @html: The new html that defines a component.
 		 *
 		 * Requests that the html that displays @component is changed
 		 * to @html.
 		 */
-		void update_component (in long id,
-				       in string html)
+		void updateComponent (in long id,
+				      in string html)
 			raises (NoSubWindow);
 	};
+};
+};
 };

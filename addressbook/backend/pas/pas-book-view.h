@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * A wrapper object which exports the Evolution_Book CORBA interface
+ * A wrapper object which exports the GNOME_Evolution_Addressbook_Book CORBA interface
  * and which maintains a request queue.
  *
  * Author:
@@ -28,7 +28,7 @@ struct _PASBookView {
 struct _PASBookViewClass {
 	BonoboObjectClass parent_class;
 };
-PASBookView *pas_book_view_new                    (Evolution_BookViewListener  listener);
+PASBookView *pas_book_view_new                    (GNOME_Evolution_Addressbook_BookViewListener  listener);
 
 void         pas_book_view_notify_change          (PASBookView                *book_view,
 						   const GList                *cards);

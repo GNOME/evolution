@@ -64,7 +64,7 @@ int                        e_book_view_listener_check_pending  (EBookViewListene
 EBookViewListenerResponse *e_book_view_listener_pop_response   (EBookViewListener *listener);
 GtkType                    e_book_view_listener_get_type       (void);
 
-POA_Evolution_BookViewListener__epv *e_book_view_listener_get_epv (void);
+POA_GNOME_Evolution_Addressbook_BookViewListener__epv *e_book_view_listener_get_epv (void);
 
 #define E_BOOK_VIEW_LISTENER_TYPE        (e_book_view_listener_get_type ())
 #define E_BOOK_VIEW_LISTENER(o)          (GTK_CHECK_CAST ((o), E_BOOK_VIEW_LISTENER_TYPE, EBookViewListener))

@@ -41,7 +41,7 @@
 struct  _SubscribeDialog {
 	GtkObject parent;
 
-	Evolution_Shell           shell;
+	GNOME_Evolution_Shell           shell;
 
 	GtkWidget                *app;
 
@@ -72,6 +72,6 @@ typedef struct {
 } SubscribeDialogClass;
 
 GtkType    subscribe_dialog_get_type             (void);
-GtkWidget *subscribe_dialog_new                  (Evolution_Shell shell);
+GtkWidget *subscribe_dialog_new                  (GNOME_Evolution_Shell shell);
 
 #endif /* _SUBSCRIBE_DIALOG_H_ */

@@ -81,12 +81,12 @@ component_new (const char *id,
 static void
 component_free (Component *component)
 {
-	Evolution_ShellComponent corba_shell_component;
+	GNOME_Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
-	Evolution_ShellComponent_unset_owner (corba_shell_component, &ev);
+	GNOME_Evolution_ShellComponent_unsetOwner (corba_shell_component, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_warning ("Cannot unregister component -- %s", component->id);
 	else
@@ -131,9 +131,9 @@ register_component (EComponentRegistry *component_registry,
 		    const char *id)
 {
 	EComponentRegistryPrivate *priv;
-	Evolution_ShellComponent component_corba_interface;
-	Evolution_Shell shell_corba_interface;
-	Evolution_FolderTypeList *supported_types;
+	GNOME_Evolution_ShellComponent component_corba_interface;
+	GNOME_Evolution_Shell shell_corba_interface;
+	GNOME_Evolution_FolderTypeList *supported_types;
 	Component *component;
 	EvolutionShellComponentClient *client;
 	CORBA_Environment ev;
@@ -158,7 +158,7 @@ register_component (EComponentRegistry *component_registry,
 	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));
 
-	supported_types = Evolution_ShellComponent__get_supported_types (component_corba_interface, &ev);
+	supported_types = GNOME_Evolution_ShellComponent__get_supported_types (component_corba_interface, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
 		bonobo_object_unref (BONOBO_OBJECT (client));
 		CORBA_exception_free (&ev);
@@ -171,7 +171,7 @@ register_component (EComponentRegistry *component_registry,
 	g_hash_table_insert (priv->component_id_to_component, component->id, component);
 
 	for (i = 0; i < supported_types->_length; i++) {
-		const Evolution_FolderType *type;
+		const GNOME_Evolution_FolderType *type;
 
 		type = supported_types->_buffer + i;
 

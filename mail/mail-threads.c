@@ -1025,11 +1025,11 @@ block_release (block_info_t *info)
 
 /* FIXME FIXME FIXME This is a totally evil hack.  */
 
-static Evolution_ShellView
+static GNOME_Evolution_ShellView
 retrieve_shell_view_interface_from_control (BonoboControl *control)
 {
 	Bonobo_ControlFrame control_frame;
-	Evolution_ShellView shell_view_interface;
+	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
 
 	control_frame = bonobo_control_get_control_frame (control);
@@ -1062,7 +1062,7 @@ update_active_views (void)
 	controls = folder_browser_factory_get_control_list ();
 	for (p = controls; p != NULL; p = p->next) {
 		BonoboControl *control;
-		Evolution_ShellView shell_view_interface;
+		GNOME_Evolution_ShellView shell_view_interface;
 		CORBA_Environment ev;
 
 		control = BONOBO_CONTROL (p->data);
@@ -1076,15 +1076,15 @@ update_active_views (void)
 
 		if (shell_view_interface != CORBA_OBJECT_NIL) {
 			if (current_message == NULL && ! busy) {
-				Evolution_ShellView_unset_message (shell_view_interface, &ev);
+				GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
 			} else {
 				if (current_message == NULL)
-					Evolution_ShellView_set_message (shell_view_interface,
+					GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 									 "",
 									 busy,
 									 &ev);
 				else
-					Evolution_ShellView_set_message (shell_view_interface,
+					GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 									 current_message,
 									 busy,
 									 &ev);

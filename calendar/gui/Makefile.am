@@ -10,8 +10,8 @@ IDL_GENERATED =                 \
         Evolution-Composer-stubs.c
 
 $(IDL_GENERATED): $(IDLS) 
-	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
-                -I . $(srcdir)/../../composer/Evolution-Composer.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+                $(srcdir)/../../composer/Evolution-Composer.idl
 
 SUBDIRS = dialogs
 

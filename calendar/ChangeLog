@@ -1,3 +1,9 @@
+2000-11-10  Michael Meeks  <michael@helixcode.com>
+
+	* gui/Makefile.am ($(IDL_GENERATED)): sort include order.
+
+	* pcs/Makefile.am (idl_flags): ditto.
+
 2000-11-10  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c (for_each_modified): Inc the

@@ -96,14 +96,14 @@ static void
 folder_selection_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
 				      void *data)
 {
-	Evolution_FolderSelectionListener listener;
+	GNOME_Evolution_FolderSelectionListener listener;
 	CORBA_Environment ev;
 
 	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
 
 	CORBA_exception_init (&ev);
 
-	Evolution_FolderSelectionListener_cancel (listener, &ev);
+	GNOME_Evolution_FolderSelectionListener_notifyCanceled (listener, &ev);
 
 	CORBA_exception_free (&ev);
 
@@ -117,7 +117,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 {
 	CORBA_Environment ev;
 	EShell *shell;
-	Evolution_FolderSelectionListener listener;
+	GNOME_Evolution_FolderSelectionListener listener;
 	EStorageSet *storage_set;
 	EFolder *folder;
 	char *uri;
@@ -138,7 +138,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	else
 		physical_uri = e_folder_get_physical_uri (folder);
 
-	Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
+	GNOME_Evolution_FolderSelectionListener_notifySelected (listener, uri, physical_uri, &ev);
 	g_free (uri);
 
 	CORBA_exception_free (&ev);
@@ -149,20 +149,20 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_Shell__vepv shell_vepv;
+static POA_GNOME_Evolution_Shell__vepv shell_vepv;
 
-static POA_Evolution_Shell *
+static POA_GNOME_Evolution_Shell *
 create_servant (void)
 {
-	POA_Evolution_Shell *servant;
+	POA_GNOME_Evolution_Shell *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_Shell *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Shell *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &shell_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -174,7 +174,7 @@ create_servant (void)
 	return servant;
 }
 
-static Evolution_ShellComponent
+static GNOME_Evolution_ShellComponent
 impl_Shell_get_component_for_type (PortableServer_Servant servant,
 				   const CORBA_char *type,
 				   CORBA_Environment *ev)
@@ -182,7 +182,7 @@ impl_Shell_get_component_for_type (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionShellComponentClient *handler;
 	EFolderTypeRegistry *folder_type_registry;
-	Evolution_ShellComponent corba_component;
+	GNOME_Evolution_ShellComponent corba_component;
 	EShell *shell;
 
 	bonobo_object = bonobo_object_from_servant (servant);
@@ -192,7 +192,7 @@ impl_Shell_get_component_for_type (PortableServer_Servant servant,
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry, type);
 
 	if (handler == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_Evolution_Shell_NotFound, NULL);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_NotFound, NULL);
 		return CORBA_OBJECT_NIL;
 	}
 
@@ -206,9 +206,9 @@ static void
 corba_listener_destroy_notify (void *data)
 {
 	CORBA_Environment ev;
-	Evolution_FolderSelectionListener listener_interface;
+	GNOME_Evolution_FolderSelectionListener listener_interface;
 
-	listener_interface = (Evolution_FolderSelectionListener) data;
+	listener_interface = (GNOME_Evolution_FolderSelectionListener) data;
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (listener_interface, &ev);
@@ -217,15 +217,15 @@ corba_listener_destroy_notify (void *data)
 
 static void
 impl_Shell_user_select_folder (PortableServer_Servant servant,
-			       const Evolution_FolderSelectionListener listener,
+			       const GNOME_Evolution_FolderSelectionListener listener,
 			       const CORBA_char *title,
 			       const CORBA_char *default_folder,
-			       const Evolution_Shell_FolderTypeList *corba_allowed_types,
+			       const GNOME_Evolution_Shell_FolderTypeList *corba_allowed_types,
 			       CORBA_Environment *ev)
 {
 	GtkWidget *folder_selection_dialog;
 	BonoboObject *bonobo_object;
-	Evolution_FolderSelectionListener listener_duplicate;
+	GNOME_Evolution_FolderSelectionListener listener_duplicate;
 	EShell *shell;
 	const char **allowed_types;
 	int i;
@@ -255,13 +255,13 @@ impl_Shell_user_select_folder (PortableServer_Servant servant,
 	gtk_widget_show (folder_selection_dialog);
 }
 
-static Evolution_LocalStorage
+static GNOME_Evolution_LocalStorage
 impl_Shell_get_local_storage (PortableServer_Servant servant,
 			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
-	Evolution_LocalStorage local_storage_interface;
-	Evolution_LocalStorage copy_of_local_storage_interface;
+	GNOME_Evolution_LocalStorage local_storage_interface;
+	GNOME_Evolution_LocalStorage copy_of_local_storage_interface;
 	EShell *shell;
 	EShellPrivate *priv;
 
@@ -443,7 +443,7 @@ setup_components (EShell *shell,
 static void
 set_owner_on_components (EShell *shell)
 {
-	Evolution_Shell corba_shell;
+	GNOME_Evolution_Shell corba_shell;
 	EShellPrivate *priv;
 	const char *local_directory;
 	GList *id_list;
@@ -570,8 +570,8 @@ destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_Shell__vepv *vepv;
-	POA_Evolution_Shell__epv *epv;
+	POA_GNOME_Evolution_Shell__vepv *vepv;
+	POA_GNOME_Evolution_Shell__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -579,15 +579,15 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_Shell__epv, 1);
-	epv->get_component_for_type  = impl_Shell_get_component_for_type;
-	epv->user_select_folder      = impl_Shell_user_select_folder;
-	epv->get_local_storage       = impl_Shell_get_local_storage;
-	epv->create_storage_set_view = impl_Shell_create_storage_set_view;
+	epv = g_new0 (POA_GNOME_Evolution_Shell__epv, 1);
+	epv->getComponentByType   = impl_Shell_get_component_for_type;
+	epv->selectUserFolder     = impl_Shell_user_select_folder;
+	epv->getLocalStorage      = impl_Shell_get_local_storage;
+	epv->createStorageSetView = impl_Shell_create_storage_set_view;
 
 	vepv = &shell_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->Evolution_Shell_epv = epv;
+	vepv->GNOME_Evolution_Shell_epv = epv;
 }
 
 static void
@@ -647,7 +647,7 @@ init (EShell *shell)
  **/
 void
 e_shell_construct (EShell *shell,
-		   Evolution_Shell corba_object,
+		   GNOME_Evolution_Shell corba_object,
 		   const char *local_directory,
 		   gboolean show_splash)
 {
@@ -729,8 +729,8 @@ e_shell_new (const char *local_directory,
 {
 	EShell *new;
 	EShellPrivate *priv;
-	Evolution_Shell corba_object;
-	POA_Evolution_Shell *servant;
+	GNOME_Evolution_Shell corba_object;
+	POA_GNOME_Evolution_Shell *servant;
 
 	g_return_val_if_fail (local_directory != NULL, NULL);
 	g_return_val_if_fail (*local_directory != '\0', NULL);
@@ -903,7 +903,7 @@ save_settings_for_component (EShell *shell,
 			     EvolutionShellComponentClient *client)
 {
 	Bonobo_Unknown unknown_interface;
-	Evolution_Session session_interface;
+	GNOME_Evolution_Session session_interface;
 	CORBA_Environment ev;
 	char *prefix;
 	gboolean retval;
@@ -920,7 +920,7 @@ save_settings_for_component (EShell *shell,
 	}
 
 	prefix = g_strconcat ("/apps/Evolution/Shell/Components/", id, NULL);
-	Evolution_Session_save_configuration (session_interface, prefix, &ev);
+	GNOME_Evolution_Session_saveConfiguration (session_interface, prefix, &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION)
 		retval = TRUE;

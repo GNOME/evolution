@@ -45,7 +45,7 @@ struct _EvolutionShellComponentClientPrivate {
 	EvolutionShellComponentClientCallback callback;
 	void *callback_data;
 
-	Evolution_ShellComponentListener listener_interface;
+	GNOME_Evolution_ShellComponentListener listener_interface;
 	PortableServer_Servant listener_servant;
 };
 
@@ -63,17 +63,17 @@ corba_exception_to_result (const CORBA_Environment *ev)
 		return EVOLUTION_SHELL_COMPONENT_OK;
 
 	if (ev->_major == CORBA_USER_EXCEPTION) {
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_AlreadyOwned) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_AlreadyOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_ALREADYOWNED;
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_NotOwned) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_NOTOWNED;
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_NotFound) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotFound) == 0)
 			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_UnsupportedType) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_UnsupportedType) == 0)
 			return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_InternalError) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_InternalError) == 0)
 			return EVOLUTION_SHELL_COMPONENT_INTERNALERROR;
-		if (strcmp (ev->_repo_id, ex_Evolution_ShellComponent_Busy) == 0)
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_Busy) == 0)
 			return EVOLUTION_SHELL_COMPONENT_BUSY;
 
 		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
@@ -105,7 +105,7 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 
 	oid = PortableServer_POA_servant_to_id (bonobo_poa (), priv->listener_servant, &ev);
 	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
-	POA_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
+	POA_GNOME_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
 	CORBA_free (oid);
 
 	CORBA_Object_release (priv->listener_interface, &ev);
@@ -128,12 +128,12 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 /* CORBA listener interface implementation.  */
 
 static PortableServer_ServantBase__epv            ShellComponentListener_base_epv;
-static POA_Evolution_ShellComponentListener__epv  ShellComponentListener_epv;
-static POA_Evolution_ShellComponentListener__vepv ShellComponentListener_vepv;
+static POA_GNOME_Evolution_ShellComponentListener__epv  ShellComponentListener_epv;
+static POA_GNOME_Evolution_ShellComponentListener__vepv ShellComponentListener_vepv;
 static gboolean ShellComponentListener_vepv_initialized = FALSE;
 
 struct _ShellComponentListenerServant {
-	POA_Evolution_ShellComponentListener servant;
+	POA_GNOME_Evolution_ShellComponentListener servant;
 	EvolutionShellComponentClient *component_client;
 };
 typedef struct _ShellComponentListenerServant ShellComponentListenerServant;
@@ -148,22 +148,22 @@ component_client_from_ShellComponentListener_servant (PortableServer_Servant ser
 }
 
 static EvolutionShellComponentResult
-result_from_async_corba_result (Evolution_ShellComponentListener_Result async_corba_result)
+result_from_async_corba_result (GNOME_Evolution_ShellComponentListener_Result async_corba_result)
 {
 	switch (async_corba_result) {
-	case Evolution_ShellComponentListener_OK:
+	case GNOME_Evolution_ShellComponentListener_OK:
 		return EVOLUTION_SHELL_COMPONENT_OK;
-	case Evolution_ShellComponentListener_UNSUPPORTED_OPERATION:
+	case GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION:
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION;
-	case Evolution_ShellComponentListener_EXISTS:
+	case GNOME_Evolution_ShellComponentListener_EXISTS:
 		return EVOLUTION_SHELL_COMPONENT_EXISTS;
-	case Evolution_ShellComponentListener_INVALID_URI:
+	case GNOME_Evolution_ShellComponentListener_INVALID_URI:
 		return EVOLUTION_SHELL_COMPONENT_INVALIDURI;
-	case Evolution_ShellComponentListener_PERMISSION_DENIED:
+	case GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED:
 		return EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED;
-	case Evolution_ShellComponentListener_HAS_SUBFOLDERS:
+	case GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS:
 		return EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS;
-	case Evolution_ShellComponentListener_NO_SPACE:
+	case GNOME_Evolution_ShellComponentListener_NO_SPACE:
 		return EVOLUTION_SHELL_COMPONENT_NOSPACE;
 	default:
 		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
@@ -172,7 +172,7 @@ result_from_async_corba_result (Evolution_ShellComponentListener_Result async_co
 
 static void
 impl_ShellComponentListener_report_result (PortableServer_Servant servant,
-					   const Evolution_ShellComponentListener_Result result,
+					   const GNOME_Evolution_ShellComponentListener_Result result,
 					   CORBA_Environment *ev)
 {
 	EvolutionShellComponentClient *component_client;
@@ -188,10 +188,10 @@ ShellComponentListener_vepv_initialize (void)
 	ShellComponentListener_base_epv.finalize = NULL;
 	ShellComponentListener_base_epv.default_POA = NULL;
 
-	ShellComponentListener_epv.report_result = impl_ShellComponentListener_report_result;
+	ShellComponentListener_epv.notifyResult = impl_ShellComponentListener_report_result;
 
 	ShellComponentListener_vepv._base_epv = & ShellComponentListener_base_epv;
-	ShellComponentListener_vepv.Evolution_ShellComponentListener_epv = & ShellComponentListener_epv;
+	ShellComponentListener_vepv.GNOME_Evolution_ShellComponentListener_epv = & ShellComponentListener_epv;
 
 	ShellComponentListener_vepv_initialized = TRUE;
 }
@@ -222,7 +222,7 @@ create_listener_interface (EvolutionShellComponentClient *shell_component_client
 {
 	EvolutionShellComponentClientPrivate *priv;
 	PortableServer_Servant listener_servant;
-	Evolution_ShellComponentListener corba_interface;
+	GNOME_Evolution_ShellComponentListener corba_interface;
 	CORBA_Environment ev;
 
 	priv = shell_component_client->priv;
@@ -231,7 +231,7 @@ create_listener_interface (EvolutionShellComponentClient *shell_component_client
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_ShellComponentListener__init (listener_servant, &ev);
+	POA_GNOME_Evolution_ShellComponentListener__init (listener_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		free_ShellComponentListener_servant (listener_servant);
 		return;
@@ -349,7 +349,7 @@ evolution_shell_component_client_new (const char *id)
 
 EvolutionShellComponentResult
 evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell_component_client,
-					    Evolution_Shell shell,
+					    GNOME_Evolution_Shell shell,
 					    const char *evolution_homedir)
 {
 	EvolutionShellComponentResult result;
@@ -361,7 +361,7 @@ evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell
 
 	CORBA_exception_init (&ev);
 
-	Evolution_ShellComponent_set_owner (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
+	GNOME_Evolution_ShellComponent_setOwner (bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client)),
 					    shell, evolution_homedir, &ev);
 
 	result = corba_exception_to_result (&ev);
@@ -373,10 +373,10 @@ evolution_shell_component_client_set_owner (EvolutionShellComponentClient *shell
 
 EvolutionShellComponentResult
 evolution_shell_component_client_unset_owner (EvolutionShellComponentClient *shell_component_client,
-					      Evolution_Shell shell)
+					      GNOME_Evolution_Shell shell)
 {
 	EvolutionShellComponentResult result;
-	Evolution_ShellComponent corba_component;
+	GNOME_Evolution_ShellComponent corba_component;
 	CORBA_Environment ev;
 
 	RETURN_ERROR_IF_FAIL (shell_component_client != NULL);
@@ -387,7 +387,7 @@ evolution_shell_component_client_unset_owner (EvolutionShellComponentClient *she
 
 	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
 
-	Evolution_ShellComponent_unset_owner (corba_component, &ev);
+	GNOME_Evolution_ShellComponent_unsetOwner (corba_component, &ev);
 
 	result = corba_exception_to_result (&ev);
 
@@ -405,7 +405,7 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 {
 	EvolutionShellComponentResult result;
 	CORBA_Environment ev;
-	Evolution_ShellComponent corba_component;
+	GNOME_Evolution_ShellComponent corba_component;
 	Bonobo_Control corba_control;
 
 	RETURN_ERROR_IF_FAIL (shell_component_client != NULL);
@@ -419,7 +419,7 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 	CORBA_exception_init (&ev);
 
 	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
-	corba_control = Evolution_ShellComponent_create_view (corba_component, physical_uri, type_string, &ev);
+	corba_control = GNOME_Evolution_ShellComponent_createView (corba_component, physical_uri, type_string, &ev);
 
 	result = corba_exception_to_result (&ev);
 
@@ -449,7 +449,7 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 						      void *data)
 {
 	EvolutionShellComponentClientPrivate *priv;
-	Evolution_ShellComponent corba_shell_component;
+	GNOME_Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (shell_component_client != NULL);
@@ -474,10 +474,10 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 	priv->callback      = callback;
 	priv->callback_data = data;
 
-	Evolution_ShellComponent_async_create_folder (corba_shell_component,
-						      priv->listener_interface,
-						      physical_uri, type,
-						      &ev);
+	GNOME_Evolution_ShellComponent_addFolderAsync (corba_shell_component,
+						       priv->listener_interface,
+						       physical_uri, type,
+						       &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -499,7 +499,7 @@ evolution_shell_component_client_populate_folder_context_menu (EvolutionShellCom
 {
 	Bonobo_UIContainer corba_uih;
 	EvolutionShellComponentClientPrivate *priv;
-	Evolution_ShellComponent corba_shell_component;
+	GNOME_Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;
 
 	g_return_if_fail (shell_component_client != NULL);
@@ -514,7 +514,7 @@ evolution_shell_component_client_populate_folder_context_menu (EvolutionShellCom
 	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
 	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (uih));
 
-	Evolution_ShellComponent_populate_folder_context_menu (corba_shell_component,
+	GNOME_Evolution_ShellComponent_populateFolderContextMenu (corba_shell_component,
 							       corba_uih,
 							       physical_uri,
 							       type,

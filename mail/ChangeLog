@@ -1,3 +1,7 @@
+2000-11-10  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am ($(EVOLUTION_MAIL_CORBA_GENERATED)): sort include order.
+
 2000-11-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* subscribe-dialog.glade[.h]: New glade file for possibly using to

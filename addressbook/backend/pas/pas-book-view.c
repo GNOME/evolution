@@ -10,10 +10,10 @@
 #include "pas-book-view.h"
 
 static BonoboObjectClass *pas_book_view_parent_class;
-POA_Evolution_BookView__vepv pas_book_view_vepv;
+POA_GNOME_Evolution_Addressbook_BookView__vepv pas_book_view_vepv;
 
 struct _PASBookViewPrivate {
-	Evolution_BookViewListener  listener;
+	GNOME_Evolution_Addressbook_BookViewListener  listener;
 };
 
 /**
@@ -25,11 +25,11 @@ pas_book_view_notify_change (PASBookView                *book_view,
 {
 	CORBA_Environment ev;
 	gint i, length;
-	CORBA_sequence_Evolution_VCard card_sequence;
+	CORBA_sequence_GNOME_Evolution_Addressbook_VCard card_sequence;
 
 	length = g_list_length((GList *) cards);
 
-	card_sequence._buffer = CORBA_sequence_Evolution_VCard_allocbuf(length);
+	card_sequence._buffer = CORBA_sequence_GNOME_Evolution_Addressbook_VCard_allocbuf(length);
 	card_sequence._maximum = length;
 	card_sequence._length = length;
 
@@ -39,7 +39,7 @@ pas_book_view_notify_change (PASBookView                *book_view,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_signal_card_changed (
+	GNOME_Evolution_Addressbook_BookViewListener_notifyCardChanged (
 		book_view->priv->listener, &card_sequence, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -71,8 +71,8 @@ pas_book_view_notify_remove (PASBookView                *book_view,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_signal_card_removed (
-		book_view->priv->listener, (Evolution_CardId) id, &ev);
+	GNOME_Evolution_Addressbook_BookViewListener_notifyCardRemoved (
+		book_view->priv->listener, (GNOME_Evolution_Addressbook_CardId) id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_view_notify_remove: Exception signaling BookViewListener!\n");
@@ -90,11 +90,11 @@ pas_book_view_notify_add (PASBookView                *book_view,
 {
 	CORBA_Environment ev;
 	gint i, length;
-	CORBA_sequence_Evolution_VCard card_sequence;
+	CORBA_sequence_GNOME_Evolution_Addressbook_VCard card_sequence;
 
 	length = g_list_length((GList *)cards);
 
-	card_sequence._buffer = CORBA_sequence_Evolution_VCard_allocbuf(length);
+	card_sequence._buffer = CORBA_sequence_GNOME_Evolution_Addressbook_VCard_allocbuf(length);
 	card_sequence._maximum = length;
 	card_sequence._length = length;
 
@@ -104,7 +104,7 @@ pas_book_view_notify_add (PASBookView                *book_view,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_signal_card_added (
+	GNOME_Evolution_Addressbook_BookViewListener_notifyCardAdded (
 		book_view->priv->listener, &card_sequence, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -132,7 +132,7 @@ pas_book_view_notify_complete (PASBookView *book_view)
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_signal_sequence_complete (
+	GNOME_Evolution_Addressbook_BookViewListener_notifySequenceComplete (
 		book_view->priv->listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -150,7 +150,7 @@ pas_book_view_notify_status_message (PASBookView *book_view,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_signal_status_message (
+	GNOME_Evolution_Addressbook_BookViewListener_notifyStatusMessage (
 		book_view->priv->listener, message, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -162,9 +162,9 @@ pas_book_view_notify_status_message (PASBookView *book_view,
 
 static gboolean
 pas_book_view_construct (PASBookView                *book_view,
-			 Evolution_BookViewListener  listener)
+			 GNOME_Evolution_Addressbook_BookViewListener  listener)
 {
-	POA_Evolution_BookView *servant;
+	POA_GNOME_Evolution_Addressbook_BookView *servant;
 	CORBA_Environment   ev;
 	CORBA_Object        obj;
 
@@ -172,12 +172,12 @@ pas_book_view_construct (PASBookView                *book_view,
 	g_assert (PAS_IS_BOOK_VIEW (book_view));
 	g_assert (listener  != CORBA_OBJECT_NIL);
 
-	servant = (POA_Evolution_BookView *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_Addressbook_BookView *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_view_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_BookView__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_Addressbook_BookView__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -193,7 +193,7 @@ pas_book_view_construct (PASBookView                *book_view,
 		return FALSE;
 	}
 
-	Evolution_BookViewListener_ref (listener, &ev);
+	GNOME_Evolution_Addressbook_BookViewListener_ref (listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("Unable to ref listener object in pas-book-view.c\n");
 		CORBA_exception_free (&ev);
@@ -221,7 +221,7 @@ pas_book_view_construct (PASBookView                *book_view,
  * pas_book_view_new:
  */
 PASBookView *
-pas_book_view_new (Evolution_BookViewListener  listener)
+pas_book_view_new (GNOME_Evolution_Addressbook_BookViewListener  listener)
 {
 	PASBookView *book_view;
 
@@ -246,7 +246,7 @@ pas_book_view_destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	Evolution_BookViewListener_unref (book_view->priv->listener, &ev);
+	GNOME_Evolution_Addressbook_BookViewListener_unref (book_view->priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("Unable to unref listener object in pas-book-view.c\n");
 		CORBA_exception_free (&ev);
@@ -269,12 +269,12 @@ pas_book_view_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (pas_book_view_parent_class)->destroy (object);	
 }
 
-static POA_Evolution_BookView__epv *
+static POA_GNOME_Evolution_Addressbook_BookView__epv *
 pas_book_view_get_epv (void)
 {
-	POA_Evolution_BookView__epv *epv;
+	POA_GNOME_Evolution_Addressbook_BookView__epv *epv;
 
-	epv = g_new0 (POA_Evolution_BookView__epv, 1);
+	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookView__epv, 1);
 
 	return epv;
 	
@@ -284,7 +284,7 @@ static void
 pas_book_view_corba_class_init (void)
 {
 	pas_book_view_vepv.Bonobo_Unknown_epv     = bonobo_object_get_epv ();
-	pas_book_view_vepv.Evolution_BookView_epv = pas_book_view_get_epv ();
+	pas_book_view_vepv.GNOME_Evolution_Addressbook_BookView_epv = pas_book_view_get_epv ();
 }
 
 static void

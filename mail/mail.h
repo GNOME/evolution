@@ -64,6 +64,6 @@ GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMess
 
 /* component factory for lack of a better place */
 /*takes a GSList of MailConfigServices */
-void mail_load_storages (Evolution_Shell corba_shell, GSList *sources);
+void mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources);
 /* used in the subscribe dialog code */
 EvolutionStorage *mail_lookup_storage (CamelStore *store);

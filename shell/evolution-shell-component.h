@@ -81,11 +81,11 @@ typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateViewFn)
 typedef void (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent *shell_component,
 						        const char *physical_uri,
 						        const char *type,
-						        const Evolution_ShellComponentListener listener,
+						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
 typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent *shell_component,
 						        const char *physical_uri,
-						        const Evolution_ShellComponentListener listener,
+						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
 typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShellComponent *shell_component,
 								   BonoboUIComponent *uic,
@@ -120,7 +120,7 @@ struct _EvolutionShellComponentClass {
 GtkType                  evolution_shell_component_get_type   (void);
 void                     evolution_shell_component_construct  (EvolutionShellComponent                          *shell_component,
 							       const EvolutionShellComponentFolderType           folder_types[],
-							       Evolution_ShellComponent                          corba_object,
+							       GNOME_Evolution_ShellComponent                          corba_object,
 							       EvolutionShellComponentCreateViewFn               create_view_fn,
 							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,

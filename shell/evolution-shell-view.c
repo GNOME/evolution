@@ -52,19 +52,19 @@ static int signals[LAST_SIGNAL] = { 0 };
 
 /* CORBA interface implementation.  */
 
-static POA_Evolution_ShellView__vepv ShellView_vepv;
+static POA_GNOME_Evolution_ShellView__vepv ShellView_vepv;
 
-static POA_Evolution_ShellView *
+static POA_GNOME_Evolution_ShellView *
 create_servant (void)
 {
-	POA_Evolution_ShellView *servant;
+	POA_GNOME_Evolution_ShellView *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_ShellView *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_GNOME_Evolution_ShellView *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &ShellView_vepv;
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_ShellView__init ((PortableServer_Servant) servant, &ev);
+	POA_GNOME_Evolution_ShellView__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
@@ -142,8 +142,8 @@ destroy (GtkObject *object)
 static void
 corba_class_init (void)
 {
-	POA_Evolution_ShellView__vepv *vepv;
-	POA_Evolution_ShellView__epv *epv;
+	POA_GNOME_Evolution_ShellView__vepv *vepv;
+	POA_GNOME_Evolution_ShellView__epv *epv;
 	PortableServer_ServantBase__epv *base_epv;
 
 	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
@@ -151,16 +151,16 @@ corba_class_init (void)
 	base_epv->finalize    = NULL;
 	base_epv->default_POA = NULL;
 
-	epv = g_new0 (POA_Evolution_ShellView__epv, 1);
-	epv->set_message         = impl_ShellView_set_message;
-	epv->unset_message       = impl_ShellView_unset_message;
-	epv->change_current_view = impl_ShellView_change_current_view;
-	epv->set_title           = impl_ShellView_set_title;
+	epv = g_new0 (POA_GNOME_Evolution_ShellView__epv, 1);
+	epv->setMessage        = impl_ShellView_set_message;
+	epv->unsetMessage      = impl_ShellView_unset_message;
+	epv->changeCurrentView = impl_ShellView_change_current_view;
+	epv->setTitle          = impl_ShellView_set_title;
 
 	vepv = &ShellView_vepv;
 	vepv->_base_epv               = base_epv;
 	vepv->Bonobo_Unknown_epv      = bonobo_object_get_epv ();
-	vepv->Evolution_ShellView_epv = epv;
+	vepv->GNOME_Evolution_ShellView_epv = epv;
 }
 
 static void
@@ -235,7 +235,7 @@ init (EvolutionShellView *shell_view)
  **/
 void
 evolution_shell_view_construct (EvolutionShellView *shell_view,
-				Evolution_ShellView corba_object)
+				GNOME_Evolution_ShellView corba_object)
 {
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_VIEW (shell_view));
@@ -253,8 +253,8 @@ evolution_shell_view_construct (EvolutionShellView *shell_view,
 EvolutionShellView *
 evolution_shell_view_new (void)
 {
-	POA_Evolution_ShellView *servant;
-	Evolution_ShellView corba_object;
+	POA_GNOME_Evolution_ShellView *servant;
+	GNOME_Evolution_ShellView corba_object;
 	EvolutionShellView *new;
 
 	servant = create_servant ();

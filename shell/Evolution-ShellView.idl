@@ -10,11 +10,14 @@
 
 #include <Bonobo.idl>
 
+module GNOME {
 module Evolution {
 	interface ShellView : Bonobo::Unknown {
-		void set_message (in string message, in boolean busy);
-		void unset_message ();
-		void change_current_view (in string uri);
-		void set_title (in string title);
+		void setMessage        (in string message,
+					in boolean busy);
+		void unsetMessage      ();
+		void changeCurrentView (in string uri);
+		void setTitle          (in string title);
 	};
+};
 };

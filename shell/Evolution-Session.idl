@@ -10,30 +10,32 @@
 
 #include <Bonobo.h>
 
+module GNOME {
 module Evolution {
 
 	interface Session : Bonobo::Unknown {
 		exception Failed {};
 
 		/**
-		 * save_configuration:
+		 * saveConfiguration:
 		 * @prefix: A configuration path prefix.
 		 *
 		 * Save the current configuration at the specified @prefix.
 		 * The component can use any path starting by @prefix for its
 		 * keys.
 		 */
-		void save_configuration (in string prefix)
+		void saveConfiguration (in string prefix)
 			raises (Failed);
 
 		/**
-		 * load_configuration:
+		 * loadConfiguration:
 		 * @prefix: A configuration path prefix.
 		 *
 		 * Load the saved configuration at the specified @prefix.
 		 */
-		void load_configuration (in string prefix)
+		void loadConfiguration (in string prefix)
 			raises (Failed);
 	};
 	
+};
 };

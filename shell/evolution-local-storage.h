@@ -64,11 +64,11 @@ struct _EvolutionLocalStorageClass {
 };
 
 
-POA_Evolution_LocalStorage__epv *evolution_local_storage_get_epv    (void);
+POA_GNOME_Evolution_LocalStorage__epv *evolution_local_storage_get_epv    (void);
 
 GtkType                          evolution_local_storage_get_type   (void);
 void                             evolution_local_storage_construct  (EvolutionLocalStorage  *local_storage,
-								     Evolution_LocalStorage  corba_object,
+								     GNOME_Evolution_LocalStorage  corba_object,
 								     const char             *name);
 EvolutionLocalStorage           *evolution_local_storage_new        (const char             *name);
 

@@ -38,8 +38,8 @@ IDL_GENERATED = \
 Evolution-impl.o: Evolution.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		-I$(srcdir) $(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(srcdir)/Evolution.idl
 
 # Shell library
 
