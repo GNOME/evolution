@@ -1,3 +1,14 @@
+2001-03-13  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-attachment.c (update_mime_type): Use
+	gnome_vfs_mime_type_from_name rather than gnome_vfs_mime_info,
+	since the entered filename doesn't have to be a real file on disk.
+	Deal with it returning NULL too.	
+	(e_msg_composer_attachment_edit): Select the right item in the
+	inline/attachment menu.
+
+	* e-msg-composer-hdrs.c: s/Pair/EMsgComposerHdrPair/. Namespace!
+
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.h: Added view_replyto member.

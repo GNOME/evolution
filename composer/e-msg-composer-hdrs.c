@@ -55,7 +55,7 @@
 typedef struct {
 	GtkWidget *label;
 	GtkWidget *entry;
-} Pair;
+} EMsgComposerHdrPair;
 
 struct _EMsgComposerHdrsPrivate {
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
@@ -66,7 +66,7 @@ struct _EMsgComposerHdrsPrivate {
 	GSList *from_options;
 	
 	/* Standard headers.  */
-	Pair from, reply_to, to, cc, bcc, subject;
+	EMsgComposerHdrPair from, reply_to, to, cc, bcc, subject;
 };
 
 
@@ -292,11 +292,11 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 	return control_widget;
 }
 
-static Pair 
+static EMsgComposerHdrPair 
 header_new_recipient (EMsgComposerHdrs *hdrs, const gchar *name, const gchar *tip)
 {
 	EMsgComposerHdrsPrivate *priv;
-	Pair ret;
+	EMsgComposerHdrPair ret;
 	
 	priv = hdrs->priv;
 	
@@ -388,7 +388,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 }
 
 static void
-attach_couple (EMsgComposerHdrs *hdrs, Pair *pair, int line)
+attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 {
 	int pad;
 	
@@ -424,7 +424,7 @@ attach_headers (EMsgComposerHdrs *hdrs)
 }
 
 static void
-set_pair_visibility (EMsgComposerHdrs *h, Pair *pair, gboolean visible)
+set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, gboolean visible)
 {
 	if (visible){
 		gtk_widget_show (pair->label);

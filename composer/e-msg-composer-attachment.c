@@ -32,6 +32,7 @@
 #include <gnome.h>
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment.h"
@@ -253,10 +254,11 @@ update_mime_type (DialogData *data)
 		return;
 
 	file_name = e_utf8_gtk_entry_get_text (data->file_name_entry);
-	mime_type = e_msg_composer_guess_mime_type (file_name);
+	mime_type = gnome_vfs_mime_type_from_name_or_default (file_name, NULL);
 	g_free (file_name);
 
-	e_utf8_gtk_entry_set_text (data->mime_type_entry, mime_type);
+	if (mime_type)
+		e_utf8_gtk_entry_set_text (data->mime_type_entry, mime_type);
 }
 
 static void
@@ -432,6 +434,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	if (attachment != NULL) {
 		CamelContentType *content_type;
 		char *type;
+		const char *disposition;
 
 		set_entry (editor_gui, "file_name_entry",
 			   camel_mime_part_get_filename (attachment->body));
@@ -441,6 +444,12 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		type = header_content_type_simple (content_type);
 		set_entry (editor_gui, "mime_type_entry", type);
 		g_free (type);
+
+		disposition = camel_mime_part_get_disposition (attachment->body);
+		if (disposition && !g_strcasecmp (disposition, "inline"))
+			gtk_option_menu_set_history (dialog_data->disposition_option, 1);
+		else
+			gtk_option_menu_set_history (dialog_data->disposition_option, 0);
 	}
 
 	connect_widget (editor_gui, "ok_button", "clicked", ok_cb, dialog_data);
