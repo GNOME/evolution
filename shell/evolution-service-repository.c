@@ -5,7 +5,7 @@
 #include <gtk/gtkmarshal.h>
 #include "evolution-service-repository.h"
 
-/* Parent GTK object class */
+/* Parent class */
 static BonoboObjectClass *evolution_service_repository_parent_class;
 
 /**
