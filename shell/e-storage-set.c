@@ -131,7 +131,6 @@ storage_new_folder_cb (EStorage *storage,
 	storage_set = E_STORAGE_SET (data);
 
 	full_path = make_full_path (storage, path);
-	g_print ("EStorageSet: New folder -- %s\n", full_path);
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], full_path);
 	g_free (full_path);
 }

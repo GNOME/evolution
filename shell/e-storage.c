@@ -484,7 +484,6 @@ e_storage_new_folder (EStorage *storage,
 
 	g_hash_table_insert (priv->path_to_folder, folder->path, folder);
 
-	g_print ("EStorage: New folder -- %s\n", folder->path);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], folder->path);
 
 	g_free (full_path);

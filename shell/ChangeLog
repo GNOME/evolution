@@ -1,3 +1,10 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage.c (e_storage_new_folder): Removed debugging message.
+
+	* e-storage-set.c (storage_new_folder_cb): Removed debugging
+	message.
+
 2000-07-10  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-shell-view.c (unrealize): As a quasi-hack, do a gdk_flush()
