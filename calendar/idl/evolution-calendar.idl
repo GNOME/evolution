@@ -12,14 +12,12 @@
 #define _EVOLUTION_CALENDAR_IDL_
 
 #include <Bonobo.idl>
+#include <Evolution-DataServer-Calendar.idl>
 
 module GNOME {
 module Evolution {
 
 module Calendar {
-	/* A unique identifier for a calendar component */
-	typedef string CalObjUID;
-
 	/* Factory to centralize calendar component editor dialogs */
 	interface CompEditorFactory : Bonobo::Unknown {
 		exception InvalidURI {};
