@@ -1,3 +1,7 @@
+2002-12-10  JP Rosevear  <jpr@ximian.com>
+
+	* e-config-listener.c (e_config_listener_remove_dir): Fix warning
+
 2002-12-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.[ch] (e_config_listener_remove_dir): new function.

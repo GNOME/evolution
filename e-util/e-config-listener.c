@@ -555,7 +555,7 @@ e_config_listener_remove_dir (EConfigListener *cl, const char *dir)
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_removeDir (cl->priv->db, dir, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot remove config dir %s -- %s", key, BONOBO_EX_ID (&ev));
+		g_warning ("Cannot remove config dir %s -- %s", dir, BONOBO_EX_ID (&ev));
 	}
 
 	CORBA_exception_free (&ev);
