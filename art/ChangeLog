@@ -1,3 +1,7 @@
+2001-05-17  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (images_DATA): Install Jakub's new icons
+
 2001-05-16  Jakub Steiner <jimmac@ximian.com>
 
 	* mail-config-druid-48.png, mail-config-druid-identity.png,

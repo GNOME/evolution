@@ -51,6 +51,11 @@ images_DATA = \
 	hide_selected_messages.xpm	\
 	house.png           		\
 	malehead.png			\
+	mail-config-druid.png		\
+	mail-config-druid-identity.png	\
+	mail-config-druid-receive.png	\
+	mail-config-druid-send.png	\
+	mail-config-druid-account-name.png \
 	new_appointment.xpm		\
 	new_contact.xpm			\
 	new-message.xpm			\
