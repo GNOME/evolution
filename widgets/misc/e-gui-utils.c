@@ -27,27 +27,45 @@
 
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-messagebox.h>
+#include <gtk/gtkmessagedialog.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
+/* should probably just deprecate/remove this and have callers change
+   to using gtk_message_dialog_new */
 void
 e_notice (GtkWindow *window, const char *type, const char *format, ...)
 {
+	GtkMessageType gtk_type;
+
 	GtkWidget *dialog;
 	va_list args;
 	char *str;
 
+	if (!strcmp (type, GNOME_MESSAGE_BOX_INFO)
+	    || !strcmp (type, GNOME_MESSAGE_BOX_GENERIC))
+		gtk_type = GTK_MESSAGE_INFO;
+	else if (!strcmp (type, GNOME_MESSAGE_BOX_WARNING))
+		gtk_type = GTK_MESSAGE_WARNING;
+	else if (!strcmp (type, GNOME_MESSAGE_BOX_ERROR))
+		gtk_type = GTK_MESSAGE_ERROR;
+	else if (!strcmp (type, GNOME_MESSAGE_BOX_QUESTION))
+		gtk_type = GTK_MESSAGE_QUESTION;
+	else {
+		g_warning ("invalid dialog type '%s'", type);
+		gtk_type = GTK_MESSAGE_INFO;
+	}
+
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
-	dialog = gnome_message_box_new (str, type, GTK_STOCK_OK, NULL);
+	dialog = gtk_message_dialog_new (window, 0, gtk_type,
+					 GTK_BUTTONS_OK,
+					 str,
+					 NULL);
 	va_end (args);
 	g_free (str);
 	
-	if (window)
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), window);
-
-	gnome_dialog_run (GNOME_DIALOG (dialog));
+	gtk_dialog_run (GTK_DIALOG (dialog));
 }
 
 static void
