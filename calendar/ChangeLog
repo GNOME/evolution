@@ -1,3 +1,9 @@
+2001-10-22  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/tasks-control-factory.c (tasks_control_factory_fn): Put up a
+	warning dialog box if we failed to create the tasks control.
+	Fixes bug #13033.
+
 2001-10-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (set_date_label): write out the correct

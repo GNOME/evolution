@@ -23,12 +23,12 @@
  */
 
 #include <config.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
-
-#include <liboaf/liboaf.h>
-
 #include "tasks-control-factory.h"
 #include "tasks-control.h"
 
@@ -72,8 +72,9 @@ tasks_control_factory_fn		(BonoboGenericFactory	*Factory,
 
 	if (control)
 		return BONOBO_OBJECT (control);
-	else
+	else {
+		gnome_warning_dialog (_("Could not create the tasks view.  Please check your "
+					"ORBit and OAF setup."));
 		return NULL;
+	}
 }
-
-
