@@ -1,3 +1,8 @@
+2001-06-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* contact-editor/e-contact-editor.c (categories_clicked): Remove
+	references to ECategoryMasterListWombat.
+
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (remove_cb): Make
