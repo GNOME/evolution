@@ -26,6 +26,7 @@
 #define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
 
 #define XEV_PILOT_ID "X-EVOLUTION-PILOTID"
+#define XEV_PILOT_STATUS "X-EVOLUTION-PILOTSTATUS"
 #define XEV_ARBITRARY "X-EVOLUTION-ARBITRARY"
 
 /* Object argument IDs */
@@ -56,6 +57,7 @@ enum {
 	ARG_CATEGORIES,
 	ARG_CATEGORY_LIST,
 	ARG_PILOTID,
+	ARG_PILOTSTATUS,
 	ARG_ARBITRARY,
 	ARG_ID,
 };
@@ -99,6 +101,7 @@ static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_categories(ECard *card, VObject *object);
 static void parse_pilot_id(ECard *card, VObject *object);
+static void parse_pilot_status(ECard *card, VObject *object);
 static void parse_arbitrary(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
@@ -137,6 +140,7 @@ struct {
 	{ VCNoteProp,                parse_note },
 	{ "CATEGORIES",              parse_categories },
 	{ XEV_PILOT_ID,              parse_pilot_id },
+	{ XEV_PILOT_STATUS,          parse_pilot_status },
 	{ XEV_ARBITRARY,             parse_arbitrary },
 	{ VCUniqueStringProp,        parse_id }
 };
@@ -432,6 +436,13 @@ char
 		pilotid_str = g_strdup_printf ("%d", card->pilot_id);
 		addPropValue (vobj, XEV_PILOT_ID, pilotid_str);
 		g_free (pilotid_str);
+	}
+
+	if (card->pilot_status) {
+		gchar *pilotstatus_str;
+		pilotstatus_str = g_strdup_printf ("%d", card->pilot_status);
+		addPropValue (vobj, XEV_PILOT_STATUS, pilotstatus_str);
+		g_free (pilotstatus_str);
 	}
 
 	if (card->arbitrary) {
@@ -834,6 +845,16 @@ parse_pilot_id(ECard *card, VObject *vobj)
 	}
 }
 
+static void
+parse_pilot_status(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		card->pilot_status = atoi(str);
+		free(str);
+	}
+}
+
 typedef union ValueItem {
     const char *strs;
     const wchar_t *ustrs;
@@ -989,6 +1010,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CATEGORY_LIST);
 	gtk_object_add_arg_type ("ECard::pilot_id",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_PILOTID);
+	gtk_object_add_arg_type ("ECard::pilot_status",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_PILOTSTATUS);
 	gtk_object_add_arg_type ("ECard::arbitrary",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
 	gtk_object_add_arg_type ("ECard::id",
@@ -1418,6 +1441,9 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_PILOTID:
 		card->pilot_id = GTK_VALUE_INT(*arg);
 		break;
+	case ARG_PILOTSTATUS:
+		card->pilot_status = GTK_VALUE_INT(*arg);
+		break;
 	case ARG_ARBITRARY:
 		if (card->arbitrary)
 			gtk_object_unref(GTK_OBJECT(card->arbitrary));
@@ -1555,6 +1581,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_PILOTID:
 		GTK_VALUE_INT(*arg) = card->pilot_id;
 		break;
+	case ARG_PILOTSTATUS:
+		GTK_VALUE_INT(*arg) = card->pilot_status;
+		break;
 	case ARG_ARBITRARY:
 		if (!card->arbitrary)
 			card->arbitrary = e_list_new((EListCopyFunc) e_card_arbitrary_copy,
@@ -1605,6 +1634,7 @@ e_card_init (ECard *card)
 	card->note = NULL;
 	card->categories = NULL;
 	card->pilot_id = 0;
+	card->pilot_status = 0;
 	card->arbitrary = NULL;
 #if 0
 

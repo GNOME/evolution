@@ -31,8 +31,8 @@ void local_record_from_ecard (AddressbookLocalRecord *local, ECard *ecard);
 #endif
 #define G_LOG_DOMAIN "addressconduit" 
 
-#define DEBUG_CALCONDUIT 1
-/* #undef DEBUG_CALCONDUIT */
+/* #define SUPPORT_ARCHIVING 1 */
+#define DEBUG_ADDRESSBOOKCONDUIT 1
 
 #ifdef DEBUG_ADDRESSBOOKCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
@@ -178,29 +178,27 @@ void
 local_record_from_ecard(AddressbookLocalRecord *local,
 			ECard *ecard)
 {
+	guint32 current_status;
+
 	g_return_if_fail(local!=NULL);
 	g_return_if_fail(ecard!=NULL);
 
 	local->ecard = ecard;
 	local->local.ID = local->ecard->pilot_id;
-#if 0
-	LOG ("local->Id = %ld [%s], status = %d",
-		  local->local.ID,obj->summary,local->ical->pilot_status);
 
-	switch(local->ical->pilot_status) {
-	case ICAL_PILOT_SYNC_NONE: 
+	gtk_object_get (GTK_OBJECT(ecard), "pilot_status", &current_status);
+
+	switch(current_status) {
+	case E_CARD_PILOT_STATUS_NONE: 
 		local->local.attr = GnomePilotRecordNothing; 
 		break;
-	case ICAL_PILOT_SYNC_MOD: 
+	case E_CARD_PILOT_STATUS_MOD:
 		local->local.attr = GnomePilotRecordModified; 
 		break;
-	case ICAL_PILOT_SYNC_DEL: 
+	case E_CARD_PILOT_STATUS_DEL: 
 		local->local.attr = GnomePilotRecordDeleted; 
 		break;
 	}
-#endif
-
-	local->local.attr = GnomePilotRecordNothing;
 
 	/* Records without a pilot_id are new */
 	if(local->local.ID == 0) 
@@ -501,6 +499,7 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 	return 0;
 }
 
+#if SUPPORT_ARCHIVING
 /*
   Move to archive and set status to Nothing
  */
@@ -538,6 +537,45 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 }
 
 /*
+** Called when copying records to the pilot.
+**
+** XXX more here.
+*/
+static gint
+clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
+			    AddressbookLocalRecord *local,
+			    AddressbookConduitContext *ctxt)
+{
+	LOG ("entering clear_status_archive_local");
+
+	g_return_val_if_fail(local!=NULL,-1);
+
+        return -1;
+}
+
+/*
+** presumably used to set the archived flag on a local record.  not
+** actually used in the gnome-pilot source.
+*/
+static gint
+set_archived (GnomePilotConduitStandardAbs *conduit,
+	      AddressbookLocalRecord *local,
+	      gint archived,
+	      AddressbookConduitContext *ctxt)
+{
+	LOG ("entering set_archived");
+
+	g_return_val_if_fail(local!=NULL,-1);
+	g_assert(local->ecard!=NULL);
+
+	local->local.archived = archived;
+	update_address_entry_in_repository (conduit, local->ical, ctxt);
+        return 0;
+}
+
+#endif
+
+/*
 ** used when copying information from the pilot to the desktop.  if
 ** the archived flags and deleted flags are not set to true in the
 ** PilotRecord, this method is called.
@@ -555,23 +593,6 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	remote->attr = GnomePilotRecordNothing;
 
 	return update_record(conduit,remote,ctxt);
-}
-
-/*
-** Called when copying records to the pilot.
-**
-** XXX more here.
-*/
-static gint
-clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
-			    AddressbookLocalRecord *local,
-			    AddressbookConduitContext *ctxt)
-{
-	LOG ("entering clear_status_archive_local");
-
-	g_return_val_if_fail(local!=NULL,-1);
-
-        return -1;
 }
 
 /*
@@ -638,7 +659,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		  gint archived,
 		  AddressbookConduitContext *ctxt)
 {
-#ifdef DEBUG_CALCONDUIT
+#ifdef DEBUG_ADDRESSBOOKCONDUIT
 	{
 		gchar *tmp;
 		switch (flag) {
@@ -656,7 +677,9 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 	/* iterate until a record meets the criteria */
 	while(gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local)) {
 		if((*local)==NULL) break;
+#if SUPPORT_ARCHIVING
 		if(archived && ((*local)->local.archived==archived)) break;
+#endif
 		if(((*local)->local.attr == flag)) break;
 	}
 
@@ -673,11 +696,35 @@ static gint
 purge (GnomePilotConduitStandardAbs *conduit,
        AddressbookConduitContext *ctxt)
 {
-	LOG ("entering purge");
+	GList *it;
+	gint retval = 0;
 
-	/* HEST, gem posterne her */
+	for (it=ctxt->cards; it;) {
+		guint32 current_status;
 
-	return -1;
+		gtk_object_get (GTK_OBJECT (it->data), "pilot_status", &current_status);
+
+		if (current_status == E_CARD_PILOT_STATUS_DEL) {
+			EBookStatus remove_status;
+
+			e_book_remove_card (ctxt->ebook, it->data, status_cb, &remove_status);
+			gtk_main(); /* enter sub loop */
+
+			if (remove_status == E_BOOK_STATUS_SUCCESS) {
+				GList *l = it;
+				it = g_list_next (it);
+				gtk_object_unref (GTK_OBJECT (it->data));
+				ctxt->cards = g_list_remove_link(ctxt->cards, l);
+				g_list_free_1 (l);
+			}
+			else {
+				retval = -1;
+				it = g_list_next (it);
+			}
+		}
+	}
+
+	return retval;
 }
 
 
@@ -693,64 +740,38 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    gint status,
 	    AddressbookConduitContext *ctxt)
 {
-#if 0
-	gboolean success;
+	EBookStatus commit_status;
+	guint32 ecard_status;
+
 	LOG ("entering set_status(status=%d)",status);
 
 	g_return_val_if_fail(local!=NULL,-1);
-
-	g_assert(local->ical!=NULL);
+	g_assert(local->ecard!=NULL);
 	
 	local->local.attr = status;
 	switch(status) {
-	case GnomePilotRecordPending:
-	case GnomePilotRecordNothing:
-		local->ical->pilot_status = ICAL_PILOT_SYNC_NONE;
-		break;
 	case GnomePilotRecordDeleted:
+		ecard_status = E_CARD_PILOT_STATUS_DEL;
 		break;
 	case GnomePilotRecordNew:
 	case GnomePilotRecordModified:
-		local->ical->pilot_status = ICAL_PILOT_SYNC_MOD;
-		break;	  
+		ecard_status = E_CARD_PILOT_STATUS_MOD;
+		break;
+	default:
+		ecard_status = E_CARD_PILOT_STATUS_NONE;
+		break;
 	}
 	
-	if (status == GnomePilotRecordDeleted) {
-		success = cal_client_remove_object (ctxt->client, local->ical->uid);
-	} else {
-		success = cal_client_update_object (ctxt->client, local->ical);
-		cal_client_update_pilot_id (ctxt->client, local->ical->uid,
-					    local->local.ID,
-					    local->ical->pilot_status);
-	}
+	gtk_object_set (GTK_OBJECT (local->ecard), "pilot_status", ecard_status);
 
-	if (! success) {
+	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
+
+	gtk_main (); /* enter sub loop */
+
+	if (commit_status != E_BOOK_STATUS_SUCCESS) {
 		WARN (_("Error while communicating with address server"));
 	}
-#endif
-	
-        return 0;
-}
 
-/*
-** presumably used to set the archived flag on a local record.  not
-** actually used in the gnome-pilot source.
-*/
-static gint
-set_archived (GnomePilotConduitStandardAbs *conduit,
-	      AddressbookLocalRecord *local,
-	      gint archived,
-	      AddressbookConduitContext *ctxt)
-{
-#if 0
-	LOG ("entering set_archived");
-
-	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ecard!=NULL);
-
-	local->local.archived = archived;
-	update_address_entry_in_repository (conduit, local->ical, ctxt);
-#endif
         return 0;
 }
 
@@ -780,6 +801,8 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 
 	gtk_object_set (GTK_OBJECT(local->ecard), "pilot_id", local->local.ID);
 	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
+
+	gtk_main (); /* enter sub loop */
 
 	if (commit_status == E_BOOK_STATUS_SUCCESS) {
 		return 0;
@@ -966,19 +989,10 @@ delete_all (GnomePilotConduitStandardAbs *conduit,
 	GList *it;
 
 	for (it=ctxt->cards; it; it = g_list_next (it)) {
-		EBookStatus remove_status;
-		e_book_remove_card (ctxt->ebook, it->data, status_cb, &remove_status);
-		gtk_main (); /* enter sub main loop */
-
-		if (E_BOOK_STATUS_SUCCESS != remove_status)
-			WARN ("Failed to remove ecard");
-
-		gtk_object_unref (it->data);
+		gtk_object_set (GTK_OBJECT (it->data), "pilot_status", E_CARD_PILOT_STATUS_DEL);
 	}
 
-	g_list_free (ctxt->cards);
-	ctxt->cards = NULL;
-        return -1;
+        return 0;
 }
 
 
@@ -1005,15 +1019,17 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 
 	gtk_signal_connect (retval, "match_record", (GtkSignalFunc) match_record, ctxt);
 	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
+#ifdef SUPPORT_ARCHIVING
 	gtk_signal_connect (retval, "archive_local", (GtkSignalFunc) archive_local, ctxt);
 	gtk_signal_connect (retval, "archive_remote", (GtkSignalFunc) archive_remote, ctxt);
-	gtk_signal_connect (retval, "store_remote", (GtkSignalFunc) store_remote, ctxt);
+	gtk_signal_connect (retval, "set_archived", (GtkSignalFunc) set_archived, ctxt);
 	gtk_signal_connect (retval, "clear_status_archive_local", (GtkSignalFunc) clear_status_archive_local, ctxt);
+#endif
+	gtk_signal_connect (retval, "store_remote", (GtkSignalFunc) store_remote, ctxt);
 	gtk_signal_connect (retval, "iterate", (GtkSignalFunc) iterate, ctxt);
 	gtk_signal_connect (retval, "iterate_specific", (GtkSignalFunc) iterate_specific, ctxt);
 	gtk_signal_connect (retval, "purge", (GtkSignalFunc) purge, ctxt);
 	gtk_signal_connect (retval, "set_status", (GtkSignalFunc) set_status, ctxt);
-	gtk_signal_connect (retval, "set_archived", (GtkSignalFunc) set_archived, ctxt);
 	gtk_signal_connect (retval, "set_pilot_id", (GtkSignalFunc) set_pilot_id, ctxt);
 	gtk_signal_connect (retval, "compare", (GtkSignalFunc) compare, ctxt);
 	gtk_signal_connect (retval, "compare_backup", (GtkSignalFunc) compare_backup, ctxt);

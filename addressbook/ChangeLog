@@ -1,5 +1,23 @@
 2000-07-25  Chris Toshok  <toshok@helixcode.com>
 
+	* backend/ebook/e-card-types.h: add enum for e-card pilot status.
+
+	* conduit/address-conduit.c: #ifdef out all the archiving code with SUPPORT_ARCHIVING.
+	(purge): implement correctly - deleting ecards whose pilot status is DELETED.
+	(set_status): implement.
+	(set_pilot_id): add gtk_main call here to change commit_card into a synchronous
+	(delete_all): implement correctly - don't delete the records, just set their status to DELETED.
+	(local_record_from_ecard): get the current status from the ecard.
+
+	* backend/ebook/e-card.c (e_card_get_vcard): add vcard support for pilot status.
+	(parse_pilot_status): new function.
+	(e_card_class_init): add pilot status object arg.
+	(e_card_set_arg): add pilot status support.
+	(e_card_get_arg): same.
+	(e_card_init): initialize pilot_status to 0.
+
+2000-07-25  Chris Toshok  <toshok@helixcode.com>
+
 	* conduit/address-conduit.c: add comment headers to signals that
 	didn't have any.
 	

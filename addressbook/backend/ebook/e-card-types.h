@@ -86,4 +86,12 @@ typedef struct {
 	char *value;
 } ECardArbitrary;
 
+/* PILOT SYNC STATUS */
+
+enum {
+	E_CARD_PILOT_STATUS_NONE,
+	E_CARD_PILOT_STATUS_MOD,
+	E_CARD_PILOT_STATUS_DEL
+};
+
 #endif /* __E_CARD_TYPES_H__ */
