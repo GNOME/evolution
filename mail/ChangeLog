@@ -1,3 +1,8 @@
+2003-04-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (spell_set_ui): Protect against a NULL
+	strv result from parsing the language list string.
+
 2003-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #41142.

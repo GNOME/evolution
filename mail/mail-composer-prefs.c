@@ -492,16 +492,17 @@ spell_set_ui (MailComposerPrefs *prefs)
 	GtkTreeIter iter;
 	GHashTable *present;
 	gboolean go;
-	char **strv;
+	char **strv = NULL;
 	int i;
 
 	prefs->spell_active = FALSE;
 
 	/* setup the language list */
-	strv = g_strsplit (prefs->language_str, " ", 0);
 	present = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; strv[i]; i++)
-		g_hash_table_insert (present, strv[i], strv[i]);
+	if (prefs->language_str && (strv = g_strsplit (prefs->language_str, " ", 0))) {
+		for (i = 0; strv[i]; i++)
+			g_hash_table_insert (present, strv[i], strv[i]);
+	}
 	
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
 	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter); go;
@@ -513,7 +514,8 @@ spell_set_ui (MailComposerPrefs *prefs)
 	}
 	
 	g_hash_table_destroy (present);
-	g_strfreev (strv);
+	if (strv != NULL)
+		g_strfreev (strv);
 	
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour),
 				    prefs->spell_error_color.red,
