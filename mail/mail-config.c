@@ -2166,17 +2166,24 @@ check_cancelled (GnomeDialog *dialog, int button, gpointer data)
 gboolean
 mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes, GtkWindow *window)
 {
+	static GtkWidget *dialog = NULL;
 	gboolean ret = FALSE;
 	struct _check_msg *m;
+	GtkWidget *label;
 	int id;
-	GtkWidget *dialog, *label;
-
-	m = mail_msg_new(&check_service_op, NULL, sizeof(*m));
+	
+	if (dialog) {
+		gdk_window_raise (dialog->window);
+		*authtypes = NULL;
+		return FALSE;
+	}
+	
+	m = mail_msg_new (&check_service_op, NULL, sizeof(*m));
 	m->url = url;
 	m->type = type;
 	m->authtypes = authtypes;
 	m->success = &ret;
-
+	
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
 
@@ -2190,7 +2197,7 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+	gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show_all (dialog);
@@ -2198,7 +2205,8 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	mail_msg_wait(id);
 
 	gtk_widget_destroy (dialog);
-
+	dialog = NULL;
+	
 	return ret;
 }
 
