@@ -1,5 +1,44 @@
 2000-12-14  Federico Mena Quintero  <federico@helixcode.com>
 
+	Fixes bug #955.
+
+	* gui/weekday-picker.c (WeekdayPickerPrivate): Added a field for
+	the week_start_day, to be used in the same way as
+	calendar-config.h defines it.  Removed the week_starts_on_monday
+	flag.
+	(day_event_cb): Use the week_start_day.
+	(colorize_items): Likewise.
+	(configure_items): Likewise.
+	(weekday_picker_set_week_start_day): New function.
+	(weekday_picker_get_week_start_day): New function.
+	(weekday_picker_set_week_starts_on_monday): Removed function.
+	(weekday_picker_get_week_starts_on_monday): Removed function.
+
+	* gui/widget-util.[ch]: New files with utilities for creating or
+	configuring widgets.
+
+	* gui/widget-util.c (date_edit_new): New function to create an
+	EDateEdit configured with the calendar's preferences; moved over
+	from event-editor.c.
+
+	* gui/event-editor.c (make_recur_weekly_special): Use
+	weekday_picker_set_week_start_day() and the corresponding function
+	from calendar-config.h.
+	(init_widgets): Likewise.
+	(make_date_edit_with_time): Removed function.
+	(make_recur_ending_until_special): Use date_edit_new().
+	(make_date_edit): Likewise.
+
+	* gui/dialogs/task-editor.c (task_editor_create_date_edit): Likewise.
+
+	* gui/event-editor-dialog.glade: Removed references to
+	make_date_edit_with_time(); replace them with make_date_edit().
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	widget-util.[ch] to the list of sources.
+
+2000-12-14  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): Reset the widths
 	of the columns with pixbufs to the actual pixbufs' sizes; now
 	ETable properly computes its column widths so we do not need to

@@ -116,7 +116,9 @@ evolution_calendar_SOURCES =			\
 	tag-calendar.c				\
 	tag-calendar.h				\
 	weekday-picker.c			\
-	weekday-picker.h
+	weekday-picker.h			\
+	widget-util.c				\
+	widget-util.h
 
 evolution_calendar_LDADD =					\
 	$(top_builddir)/shell/libeshell.a			\

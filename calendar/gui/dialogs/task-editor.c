@@ -38,6 +38,7 @@
 #include <cal-client/cal-client.h>
 #include "task-editor.h"
 #include "../calendar-config.h"
+#include "../widget-util.h"
 
 
 typedef struct {
@@ -328,10 +329,9 @@ task_editor_create_date_edit (void)
 {
 	GtkWidget *dedit;
 
-	dedit = e_date_edit_new ();
-	/* FIXME: Set other options. */
-	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), calendar_config_get_day_start_hour (), calendar_config_get_day_end_hour ());
+	dedit = date_edit_new (TRUE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
+
 	return dedit;
 }
 

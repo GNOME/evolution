@@ -41,6 +41,9 @@ struct _WeekdayPickerPrivate {
 	/* Blocked days; these cannot be modified */
 	guint8 blocked_day_mask;
 
+	/* Day that defines the start of the week; 0 = Sunday, ..., 6 = Saturday */
+	int week_start_day;
+
 	/* Metrics */
 	int font_ascent, font_descent;
 	int max_letter_width;
@@ -48,9 +51,6 @@ struct _WeekdayPickerPrivate {
 	/* Components */
 	GnomeCanvasItem *boxes[7];
 	GnomeCanvasItem *labels[7];
-
-	/* Whether the week starts on Monday or Sunday */
-	guint week_starts_on_monday : 1;
 };
 
 
@@ -164,12 +164,9 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 
 	/* Turn on that day */
 
-	if (priv->week_starts_on_monday) {
-		if (i == 6)
-			i = 0;
-		else
-			i++;
-	}
+	i += priv->week_start_day;
+	if (i >= 7)
+		i -= 7;
 
 	if (priv->blocked_day_mask & (0x1 << i))
 		return TRUE;
@@ -268,65 +265,30 @@ colorize_items (WeekdayPicker *wp)
 	sel_fill = &GTK_WIDGET (wp)->style->bg[GTK_STATE_SELECTED];
 	sel_text_fill = &GTK_WIDGET (wp)->style->fg[GTK_STATE_SELECTED];
 
-	if (priv->week_starts_on_monday) {
+	for (i = 0; i < 7; i++) {
+		int day;
 		GdkColor *f, *t;
 
-		for (i = 1; i < 7; i++) {
-			if (priv->day_mask & (0x1 << i)) {
-				f = sel_fill;
-				t = sel_text_fill;
-			} else {
-				f = fill;
-				t = text_fill;
-			}
+		day = i + priv->week_start_day;
+		if (day >= 7)
+			day -= 7;
 
-			gnome_canvas_item_set (priv->boxes[i - 1],
-					       "fill_color_gdk", f,
-					       "outline_color_gdk", outline,
-					       NULL);
-
-			gnome_canvas_item_set (priv->labels[i - 1],
-					       "fill_color_gdk", t,
-					       NULL);
-		}
-
-		if (priv->day_mask & (0x1 << 0)) {
+		if (priv->day_mask & (0x1 << day)) {
 			f = sel_fill;
 			t = sel_text_fill;
 		} else {
 			f = fill;
 			t = text_fill;
 		}
-		
-		gnome_canvas_item_set (priv->boxes[6],
+
+		gnome_canvas_item_set (priv->boxes[i],
 				       "fill_color_gdk", f,
 				       "outline_color_gdk", outline,
 				       NULL);
 
-		gnome_canvas_item_set (priv->labels[6],
+		gnome_canvas_item_set (priv->labels[i],
 				       "fill_color_gdk", t,
 				       NULL);
-	} else {
-		GdkColor *f, *t;
-
-		for (i = 0; i < 7; i++) {
-			if (priv->day_mask & (0x1 << i)) {
-				f = sel_fill;
-				t = sel_text_fill;
-			} else {
-				f = fill;
-				t = text_fill;
-			}
-
-			gnome_canvas_item_set (priv->boxes[i],
-					       "fill_color_gdk", f,
-					       "outline_color_gdk", outline,
-					       NULL);
-
-			gnome_canvas_item_set (priv->labels[i],
-					       "fill_color_gdk", t,
-					       NULL);
-		}
 	}
 }
 
@@ -346,14 +308,15 @@ configure_items (WeekdayPicker *wp)
 	height = GTK_WIDGET (wp)->allocation.height;
 
 	box_width = (width - 1) / 7;
-
-	if (priv->week_starts_on_monday)
-		str = _("MTWTFSS");
-	else
-		str = _("SMTWTFS");
+	str = _("SMTWTFS");
 
 	for (i = 0; i < 7; i++) {
 		char *c;
+		int day;
+
+		day = i + priv->week_start_day;
+		if (day >= 7)
+			day -= 7;
 
 		gnome_canvas_item_set (priv->boxes[i],
 				       "x1", (double) (i * box_width),
@@ -363,7 +326,7 @@ configure_items (WeekdayPicker *wp)
 				       "width_pixels", 0,
 				       NULL);
 
-		c = g_strndup (str + i, 1);
+		c = g_strndup (str + day, 1);
 		gnome_canvas_item_set (priv->labels[i],
 				       "text", c,
 				       "font_gdk", GTK_WIDGET (wp)->style->font,
@@ -564,43 +527,45 @@ weekday_picker_get_blocked_days (WeekdayPicker *wp)
 }
 
 /**
- * weekday_picker_set_week_starts_on_monday:
+ * weekday_picker_set_week_start_day:
  * @wp: A weekday picker.
- * @on_monday: Whether weeks start on Monday.
+ * @week_start_day: Index of the day that defines the start of the week; 0 is
+ * Sunday, 1 is Monday, etc.
  * 
- * Sets whether a weekday picker should display weeks as starting on monday.
- * The default setting is to make Sunday the first day of the week.
+ * Sets the day that defines the start of the week for a weekday picker.
  **/
 void
-weekday_picker_set_week_starts_on_monday (WeekdayPicker *wp, gboolean on_monday)
+weekday_picker_set_week_start_day (WeekdayPicker *wp, int week_start_day)
 {
 	WeekdayPickerPrivate *priv;
 
 	g_return_if_fail (wp != NULL);
 	g_return_if_fail (IS_WEEKDAY_PICKER (wp));
+	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
 
 	priv = wp->priv;
-	priv->week_starts_on_monday = on_monday ? TRUE : FALSE;
+	priv->week_start_day = week_start_day;
 
 	configure_items (wp);
 }
 
 /**
- * weekday_picker_get_week_starts_on_monday:
+ * weekday_picker_get_week_start_day:
  * @wp: A weekday picker.
  * 
- * Queries whether a weekday picker is set to show weeks as starting on Monday.
+ * Queries the day that defines the start of the week in a weekday picker.
  * 
- * Return value: TRUE if weeks start on monday, FALSE if on Sunday.
+ * Return value: Index of the day that defines the start of the week.  See
+ * weekday_picker_set_week_start_day() to see how this is represented.
  **/
-gboolean
-weekday_picker_get_week_starts_on_monday (WeekdayPicker *wp)
+int
+weekday_picker_get_week_start_day (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
 
-	g_return_val_if_fail (wp != NULL, FALSE);
-	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), FALSE);
+	g_return_val_if_fail (wp != NULL, -1);
+	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), -1);
 
 	priv = wp->priv;
-	return priv->week_starts_on_monday;
+	return priv->week_start_day;
 }

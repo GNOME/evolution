@@ -37,6 +37,7 @@
 #include "calendar-config.h"
 #include "tag-calendar.h"
 #include "weekday-picker.h"
+#include "widget-util.h"
 
 
 
@@ -174,7 +175,6 @@ static GtkObjectClass *parent_class;
 extern int day_begin, day_end;
 extern char *user_name;
 extern int am_pm_flag;
-extern int week_starts_on_monday;
 
 
 static void append_exception (EventEditor *ee, time_t t);
@@ -416,7 +416,7 @@ make_recur_weekly_special (EventEditor *ee)
 
 	/* Set the weekdays */
 
-	weekday_picker_set_week_starts_on_monday (wp, week_starts_on_monday);
+	weekday_picker_set_week_start_day (wp, calendar_config_get_week_start_day ());
 	weekday_picker_set_days (wp, priv->recurrence_weekday_day_mask);
 	weekday_picker_set_blocked_days (wp, priv->recurrence_weekday_blocked_day_mask);
 
@@ -669,12 +669,10 @@ make_recur_ending_until_special (EventEditor *ee)
 
 	/* Create the widget */
 
-	priv->recurrence_ending_date_edit = e_date_edit_new ();
+	priv->recurrence_ending_date_edit = date_edit_new (TRUE, FALSE);
 	de = E_DATE_EDIT (priv->recurrence_ending_date_edit);
 
-	e_date_edit_set_show_time (de, FALSE);
 	gtk_container_add (GTK_CONTAINER (priv->recurrence_ending_special), GTK_WIDGET (de));
-
 	gtk_widget_show_all (GTK_WIDGET (de));
 
 	/* Set the value */
@@ -2030,7 +2028,7 @@ simple_recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 	r.freq = e_dialog_option_menu_get (priv->recurrence_interval_unit, recur_freq_map);
 	r.interval = e_dialog_spin_get_int (priv->recurrence_interval_value);
-	r.week_start = week_starts_on_monday ? ICAL_MONDAY_WEEKDAY : ICAL_SUNDAY_WEEKDAY;
+	r.week_start = ICAL_SUNDAY_WEEKDAY + calendar_config_get_week_start_day ();
 
 	/* Frequency-specific data */
 
@@ -3188,29 +3186,8 @@ recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 GtkWidget *
 make_date_edit (void)
 {
-	return date_edit_new (time (NULL), FALSE);
+	return date_edit_new (TRUE, TRUE);
 }
-
-
-GtkWidget *
-make_date_edit_with_time (void)
-{
-	return date_edit_new (time (NULL), TRUE);
-}
-
-
-GtkWidget *
-date_edit_new (time_t the_time, int show_time)
-{
-	GtkWidget *dedit;
-
-	dedit = e_date_edit_new ();
-	/* FIXME: Set other options. */
-	e_date_edit_set_show_time (E_DATE_EDIT (dedit), show_time);
-	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), calendar_config_get_day_start_hour (), calendar_config_get_day_end_hour ());
-	return dedit;
-}
-
 
 
 GtkWidget *
