@@ -3,11 +3,17 @@
   <contactserver>
       <name>Bigfoot</name>
       <description>Bigfoot</description>
-      <uri>ldap://ldap.bigfoot.com/</uri>
+      <host>ldap.bigfoot.com</host>
+      <port>389</port>
+      <rootdn></rootdn>
+      <scope>one</scope>
   </contactserver>
   <contactserver>
       <name>Netcenter</name>
       <description>Netcenter Member Directory</description>
-      <uri>ldap://memberdir.netscape.com/ou=member_directory,o=netcenter.com</uri>
+      <host>memberdir.netscape.com</host>
+      <port>389</port>
+      <rootdn>ou=member_directory,o=netcenter.com</rootdn>
+      <scope>one</scope>
   </contactserver>
 </contactservers>

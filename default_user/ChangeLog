@@ -1,3 +1,8 @@
+2000-07-06  Chris Toshok  <toshok@helixcode.com>
+
+	* ldapservers.xml: break up the uri into it's component pieces. -
+	don't store the uri in this file.
+
 2000-07-05  Chris Toshok  <toshok@helixcode.com>
 
 	* shortcuts.xml: remove the Internet Directories group.
