@@ -138,6 +138,9 @@ e_container_change_tab_order_callback(GtkContainer *container,
 
 	focus_child = container->focus_child;
 
+	if (focus_child == NULL)
+		return FALSE;
+
 	if (direction == GTK_DIR_TAB_BACKWARD) {
 		children = g_list_last(children);
 	}
