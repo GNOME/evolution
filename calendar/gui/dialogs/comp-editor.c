@@ -262,8 +262,12 @@ comp_editor_finalize (GObject *object)
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
 
-	g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-
+	if (priv->client) {
+		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+		g_object_unref (priv->client);
+		priv->client = NULL;
+	}
+	
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
@@ -274,6 +278,8 @@ comp_editor_finalize (GObject *object)
 		g_object_unref((priv->comp));
 		priv->comp = NULL;
 	}
+
+	bonobo_object_unref (priv->uic);
 
 	g_free (priv);
 	editor->priv = NULL;

@@ -1,5 +1,10 @@
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
+ 	* gui/dialogs/comp-editor.c (comp_editor_finalize): unref the
+ 	client and the ui component
+	
+2003-05-15  JP Rosevear  <jpr@ximian.com>
+ 
  	Fixes #41935
  	
  	* gui/e-week-view.c (e_week_view_init): listen for scroll events
