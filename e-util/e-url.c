@@ -53,14 +53,12 @@ e_url_shroud (const char *url)
 		++p;
 	}
 
-	if (first_colon && last_at) {
-		shrouded = g_strdup_printf ("%.*s*%s", first_colon - url + 1, url, last_at);
+	if (first_colon && last_at && first_colon < last_at) {
+		shrouded = g_strdup_printf ("%.*s%s", first_colon - url, url, last_at);
 	} else {
 		shrouded = g_strdup (url);
 	}
 
-	g_message ("shrouded [%s] to [%s]", url, shrouded);
-	
 	return shrouded;
 }
 
@@ -83,8 +81,6 @@ e_url_equal (const char *url1, const char *url2)
 
 	g_free (shroud1);
 	g_free (shroud2);
-
-	g_message ("[%s] and [%s] are%s equal", url1, url2, rv ? "" : " NOT");
 
 	return rv;
 }
