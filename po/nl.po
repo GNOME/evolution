@@ -40,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-26 11:57+0100\n"
-"PO-Revision-Date: 2005-03-04 23:44+0100\n"
+"POT-Creation-Date: 2005-04-04 19:46+0200\n"
+"PO-Revision-Date: 2005-04-04 23:30+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -4164,11 +4164,8 @@ msgstr "De takenlijst is niet aangemerkt voor offline gebruik"
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
-#, fuzzy
 msgid " Some features may not work correctly with your current server version "
-msgstr ""
-"Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-"
-"versie"
+msgstr " Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-versie "
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4365,12 +4362,12 @@ msgstr ""
 "Begint om %s\n"
 "Eindigt op %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1099
-#: calendar/gui/alarm-notify/alarm-queue.c:1123
+#: calendar/gui/alarm-notify/alarm-queue.c:1100
+#: calendar/gui/alarm-notify/alarm-queue.c:1124
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1103
+#: calendar/gui/alarm-notify/alarm-queue.c:1104
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4382,7 +4379,7 @@ msgstr ""
 "u dit ingesteld. Evolution zal in plaats daarvan een\n"
 "normaal dialoogvenster weergeven als herinnering."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1129
+#: calendar/gui/alarm-notify/alarm-queue.c:1130
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4399,7 +4396,7 @@ msgstr ""
 "\n"
 "Weet u zeker dat dit programma gestart moet worden?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1143
+#: calendar/gui/alarm-notify/alarm-queue.c:1144
 msgid "Do not ask me about this program again."
 msgstr "Dit bericht niet meer weergeven voor dit programma."
 
@@ -5058,7 +5055,7 @@ msgid "_Remove"
 msgstr "_Verwijderen"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2819
+#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2820
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Eigenschappen"
@@ -5586,13 +5583,15 @@ msgstr[1] "<b>%d</b> Bestanden bijgevoegd"
 
 #: calendar/gui/dialogs/comp-editor.c:900 composer/e-msg-composer.c:2339
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr "Bijl_agenbalk verbergen (sleep hier uw bijlagen naar toe)"
+msgstr "Bijl_agenbalk verbergen (sleep uw bijlagen hier naar toe)"
 
+# probleem met de _a is dat deze al voor de knop _Aan gebruikt wordt
+# de _b wordt gebruikt voor _Bestand
 #: calendar/gui/dialogs/comp-editor.c:903
 #: calendar/gui/dialogs/comp-editor.c:955 composer/e-msg-composer.c:2342
 #: composer/e-msg-composer.c:3487
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr "Bijl_agenbalk tonen (sleep hier uw bijlagen naar toe)"
+msgstr "Bijl_agenbalk tonen (sleep uw bijlagen hier naar toe)"
 
 #: calendar/gui/dialogs/comp-editor.c:979 composer/e-msg-composer.c:3509
 msgid "Attachment Button: Press space key to toggle attachment bar"
@@ -5826,7 +5825,7 @@ msgstr "_Gebeurtenis voor de hele dag"
 # Engels fout: extra spatie: Ad_vanced  send options
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "Ad_vanced  send options"
-msgstr "Ge_avanceerde verzend-opties"
+msgstr "Ge_avanceerde verzendopties"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 msgid "C_ustomize..."
@@ -6298,7 +6297,7 @@ msgstr "Kan taken in '%s' niet openen."
 
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ad_vanced send options"
-msgstr "Ge_avanceerde verzend-opties"
+msgstr "Ge_avanceerde verzendopties"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
@@ -6439,7 +6438,7 @@ msgstr "%s bij %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s voor een onbekend triggertype"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2609
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2612
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik hier om %s te openen"
@@ -6676,7 +6675,7 @@ msgstr "Geselecteerde taken als voltooid markeren"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1416
-#: mail/em-folder-tree.c:2815 mail/em-folder-view.c:994
+#: mail/em-folder-tree.c:2816 mail/em-folder-view.c:994
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -9629,6 +9628,7 @@ msgstr ""
 "op de geadresseerden-lijst van het bericht verschijnen."
 
 # verzenden/versturen
+# aan/naar
 #.
 #. * Post-To
 #.
@@ -10221,7 +10221,7 @@ msgstr "Kon de reguliere expressie \"{1}\" niet compileren."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
-#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:219
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:223
 msgid "Missing name."
 msgstr "Naam ontbreekt."
 
@@ -10974,43 +10974,43 @@ msgstr "Bezig met aanmaken map `%s'"
 msgid "Create folder"
 msgstr "Map aanmaken"
 
-#: mail/em-folder-tree.c:2721
+#: mail/em-folder-tree.c:2722
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "De \"%s\" map hernoemen naar:"
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2724
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: mail/em-folder-tree.c:2729
+#: mail/em-folder-tree.c:2730
 msgid "Folder names cannot contain '/'"
 msgstr "Mapnaam mag geen '/' bevatten"
 
-#: mail/em-folder-tree.c:2803 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2804 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "Beel_d"
 
-#: mail/em-folder-tree.c:2804
+#: mail/em-folder-tree.c:2805
 msgid "Open in _New Window"
 msgstr "In _nieuw venster openen"
 
-#: mail/em-folder-tree.c:2808
+#: mail/em-folder-tree.c:2809
 msgid "_Copy..."
 msgstr "_Kopiëren..."
 
-#: mail/em-folder-tree.c:2809
+#: mail/em-folder-tree.c:2810
 msgid "_Move..."
 msgstr "_Verplaatsen..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2813
+#: mail/em-folder-tree.c:2814
 msgid "_New Folder..."
 msgstr "_Nieuwe map..."
 
-#: mail/em-folder-tree.c:2816
+#: mail/em-folder-tree.c:2817
 msgid "_Rename..."
 msgstr "He_rnoemen..."
 
@@ -11113,31 +11113,31 @@ msgid "Filter on _Mailing List"
 msgstr "Filter op _mailinglijst"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1858 mail/em-folder-view.c:1902
+#: mail/em-folder-view.c:1861 mail/em-folder-view.c:1905
 msgid "Default"
 msgstr "Standaard"
 
-#: mail/em-folder-view.c:2001
+#: mail/em-folder-view.c:2004
 msgid "Print Message"
 msgstr "Bericht afdrukken"
 
-#: mail/em-folder-view.c:2331
+#: mail/em-folder-view.c:2334
 msgid "_Copy Link Location"
 msgstr "Verwijzing _kopiëren"
 
-#: mail/em-folder-view.c:2333
+#: mail/em-folder-view.c:2336
 msgid "Create _vFolder"
 msgstr "_vMap aanmaken"
 
-#: mail/em-folder-view.c:2334
+#: mail/em-folder-view.c:2337
 msgid "_From this Address"
 msgstr "Van dit _adres"
 
-#: mail/em-folder-view.c:2335
+#: mail/em-folder-view.c:2338
 msgid "_To this Address"
 msgstr "_Naar dit adres"
 
-#: mail/em-folder-view.c:2604
+#: mail/em-folder-view.c:2607
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik hier om mail te versturen naar %s"
@@ -13414,12 +13414,14 @@ msgid "Cannot rename or move system folder \"{0}\"."
 msgstr "Kan systeemmap \"{0}\" niet hernoemen of verplaatsen."
 
 #. mail:ask-delete-folder title
-#: mail/mail-errors.xml.h:127
+#. mail:ask-delete-vfolder title
+#: mail/mail-errors.xml.h:127 mail/mail-errors.xml.h:133
 msgid "Delete \"{0}\"?"
 msgstr "{0}\" verwijderen?"
 
 #. mail:ask-delete-folder primary
-#: mail/mail-errors.xml.h:129
+#. mail:ask-delete-vfolder primary
+#: mail/mail-errors.xml.h:129 mail/mail-errors.xml.h:135
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "De map \"{0}\" en alle submappen echt verwijderen?"
 
@@ -13434,141 +13436,141 @@ msgstr ""
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
-#: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
+#: mail/mail-errors.xml.h:137 mail/mail-errors.xml.h:141
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Kan map \"{0}\" niet hernoemen naar \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
-#: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
+#: mail/mail-errors.xml.h:139 mail/mail-errors.xml.h:201
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Een map genaamd \"{1}\" bestaat al. Gebruik een andere naam."
 
 # vanwege
 #. mail:no-rename-folder secondary
-#: mail/mail-errors.xml.h:139
+#: mail/mail-errors.xml.h:143
 msgid "Because \"{2}\"."
 msgstr "Doordat \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
-#: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
+#: mail/mail-errors.xml.h:145 mail/mail-errors.xml.h:149
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kan map \"{0}\" niet verplaatsen naar \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
-#: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
+#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
 msgid "Cannot open source \"{2}\"."
 msgstr "Kan bron \"{2}\" niet openen."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
-#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
+#: mail/mail-errors.xml.h:151 mail/mail-errors.xml.h:159
 msgid "Cannot open target \"{2}\"."
 msgstr "Kan doel \"{2}\" niet openen."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
-#: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
+#: mail/mail-errors.xml.h:153 mail/mail-errors.xml.h:157
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Kan map \"{0}\" niet naar \"{1}\" kopiëren."
 
 #. mail:no-create-folder-nostore primary
-#: mail/mail-errors.xml.h:157
+#: mail/mail-errors.xml.h:161
 msgid "Cannot create folder \"{0}\"."
 msgstr "Kan de map \"{0}\" niet aanmaken."
 
 #. mail:no-create-folder-nostore secondary
-#: mail/mail-errors.xml.h:159
+#: mail/mail-errors.xml.h:163
 msgid "Cannot open source \"{1}\""
 msgstr "Kan bron \"{1}\" niet openen"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
-#: mail/mail-errors.xml.h:161 mail/mail-errors.xml.h:165
+#: mail/mail-errors.xml.h:165 mail/mail-errors.xml.h:169
 msgid "Cannot save changes to account."
 msgstr "Kan de wijzigingen niet naar het account opslaan."
 
 #. mail:account-incomplete secondary
-#: mail/mail-errors.xml.h:163
+#: mail/mail-errors.xml.h:167
 msgid "You have not filled in all of the required information."
 msgstr "U heeft niet alle informatie ingevuld die nodig is."
 
 #. mail:account-notunique secondary
-#: mail/mail-errors.xml.h:167
+#: mail/mail-errors.xml.h:171
 msgid "You may not create two accounts with the same name."
 msgstr "U kunt niet meerdere accounts met dezelfde naam maken."
 
 #. mail:ask-delete-account title
-#: mail/mail-errors.xml.h:169
+#: mail/mail-errors.xml.h:173
 msgid "Delete account?"
 msgstr "Accoutn verwijderen?"
 
 #. mail:ask-delete-account primary
-#: mail/mail-errors.xml.h:171
+#: mail/mail-errors.xml.h:175
 msgid "Are you sure you want to delete this account?"
 msgstr "Weet u zeker dat u deze account wilt verwijderen?"
 
 # als
 #. mail:ask-delete-account secondary
-#: mail/mail-errors.xml.h:173
+#: mail/mail-errors.xml.h:177
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
 "Indien u verdergaat, zal de account-informatie definitief worden verwijderd."
 
-#: mail/mail-errors.xml.h:174
+#: mail/mail-errors.xml.h:178
 msgid "Don't delete"
 msgstr "Niet verwijderen"
 
 #. mail:no-save-signature primary
-#: mail/mail-errors.xml.h:176
+#: mail/mail-errors.xml.h:180
 msgid "Could not save signature file."
 msgstr "Kon handtekening-bestand niet opslaan."
 
 # vanwege
 #. mail:no-save-signature secondary
-#: mail/mail-errors.xml.h:178
+#: mail/mail-errors.xml.h:182
 msgid "Because \"{0}\"."
 msgstr "Doordat \"{0}\"."
 
 #. mail:signature-notscript primary
-#: mail/mail-errors.xml.h:180
+#: mail/mail-errors.xml.h:184
 msgid "Cannot set signature script \"{0}\"."
 msgstr "Kan handtekening-script \"{0}\" niet instellen."
 
 #. mail:signature-notscript secondary
-#: mail/mail-errors.xml.h:182
+#: mail/mail-errors.xml.h:186
 msgid "The script file must exist and be executable."
 msgstr "Het script bestabd moet bestaan en uitvoerbaar zijn."
 
 # Dit is de titel van het venster
 #. mail:ask-signature-changed title
-#: mail/mail-errors.xml.h:184
+#: mail/mail-errors.xml.h:188
 msgid "Discard changed?"
 msgstr "Wijzigingen verwerpen?"
 
 #. mail:ask-signature-changed primary
-#: mail/mail-errors.xml.h:186
+#: mail/mail-errors.xml.h:190
 msgid "Do you wish to save your changes?"
 msgstr "Wilt u de wijzingen opslaan?"
 
 #. mail:ask-signature-changed secondary
-#: mail/mail-errors.xml.h:188
+#: mail/mail-errors.xml.h:192
 msgid "This signature has been changed, but has not been saved."
 msgstr "Deze handtekening is gewijzigd, maar nog niet opgeslagen."
 
-#: mail/mail-errors.xml.h:189
+#: mail/mail-errors.xml.h:193
 msgid "_Discard changes"
 msgstr "_Veranderingen ongedaan maken"
 
 #. mail:vfolder-notexist primary
-#: mail/mail-errors.xml.h:191
+#: mail/mail-errors.xml.h:195
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
 msgstr "Kan vMap \"{0}\" niet bewerken omdat deze niet bestaat."
 
 #. mail:vfolder-notexist secondary
-#: mail/mail-errors.xml.h:193
+#: mail/mail-errors.xml.h:197
 msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
@@ -13577,17 +13579,17 @@ msgstr ""
 "editor om haar expliciet toe te voegen."
 
 #. mail:vfolder-notunique primary
-#: mail/mail-errors.xml.h:195
+#: mail/mail-errors.xml.h:199
 msgid "Cannot add vFolder \"{0}\"."
 msgstr "Kan vMap \"{0}\" niet toevoegen."
 
 #. mail:vfolder-updated primary
-#: mail/mail-errors.xml.h:199
+#: mail/mail-errors.xml.h:203
 msgid "vFolders automatically updated."
 msgstr "vMappen automatisch bijgewerkt."
 
 #. mail:vfolder-updated secondary
-#: mail/mail-errors.xml.h:201
+#: mail/mail-errors.xml.h:205
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13602,12 +13604,12 @@ msgstr ""
 "en zijn bijgewerkt."
 
 #. mail:filter-updated primary
-#: mail/mail-errors.xml.h:207
+#: mail/mail-errors.xml.h:211
 msgid "Mail filters automatically updated."
 msgstr "Mailfilters automatisch bijgewerkt."
 
 #. mail:filter-updated secondary
-#: mail/mail-errors.xml.h:209
+#: mail/mail-errors.xml.h:213
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13622,29 +13624,29 @@ msgstr ""
 "en zijn bijgewerkt."
 
 #. mail:no-folder primary
-#: mail/mail-errors.xml.h:215
+#: mail/mail-errors.xml.h:219
 msgid "Missing folder."
 msgstr "Ontbrekende map."
 
 # opgeven/aangeven/geven
 #. mail:no-folder secondary
-#: mail/mail-errors.xml.h:217
+#: mail/mail-errors.xml.h:221
 msgid "You must specify a folder."
 msgstr "U moet een map geven."
 
 #. mail:no-name-vfolder secondary
-#: mail/mail-errors.xml.h:221
+#: mail/mail-errors.xml.h:225
 msgid "You must name this vFolder."
 msgstr "U moet deze vfolder een naam geven."
 
 # gegeven/geselecteerd
 #. mail:vfolder-no-source primary
-#: mail/mail-errors.xml.h:223
+#: mail/mail-errors.xml.h:227
 msgid "No sources selected."
 msgstr "Geen bronnen geselecteerd."
 
 #. mail:vfolder-no-source secondary
-#: mail/mail-errors.xml.h:225
+#: mail/mail-errors.xml.h:229
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
@@ -13655,12 +13657,12 @@ msgstr ""
 "mappen te selecteren, alle mappen op afstand, of beide."
 
 #. mail:ask-migrate-existing primary
-#: mail/mail-errors.xml.h:229
+#: mail/mail-errors.xml.h:233
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problemen bij migreren van oude berichtenmap \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
-#: mail/mail-errors.xml.h:231
+#: mail/mail-errors.xml.h:235
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -13672,25 +13674,25 @@ msgstr ""
 "U kunt er voor kiezen deze map te negeren, te overschrijven of de inhoud bij "
 "te voegen, of om af te sluiten.\n"
 
-#: mail/mail-errors.xml.h:235
+#: mail/mail-errors.xml.h:239
 msgid "Ignore"
 msgstr "Negeren"
 
-#: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
+#: mail/mail-errors.xml.h:240 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "_Overschrijven"
 
-#: mail/mail-errors.xml.h:237
+#: mail/mail-errors.xml.h:241
 msgid "_Append"
 msgstr "_Bijvoegen"
 
 #. mail:no-load-license primary
-#: mail/mail-errors.xml.h:239
+#: mail/mail-errors.xml.h:243
 msgid "Unable to read license file."
 msgstr "Kon het licentiebestand niet lezen."
 
 #. mail:no-load-license secondary
-#: mail/mail-errors.xml.h:241
+#: mail/mail-errors.xml.h:245
 msgid ""
 "Cannot read the license file \"{0}\", due to an\n"
 "      installation problem.  You will not be able to use this provider "
@@ -13702,32 +13704,32 @@ msgstr ""
 "      u haar licentie kunt accepteren."
 
 #. mail:checking-service title
-#: mail/mail-errors.xml.h:245
+#: mail/mail-errors.xml.h:249
 msgid "Querying server"
 msgstr "Bevragen van de server"
 
 #. mail:checking-service primary
-#: mail/mail-errors.xml.h:247
+#: mail/mail-errors.xml.h:251
 msgid "Please wait."
 msgstr "Een ogenblik geduld."
 
 # bevraagd voor/gevraagd om
 #. mail:checking-service secondary
-#: mail/mail-errors.xml.h:249
+#: mail/mail-errors.xml.h:253
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "De server wordt gevraagd om een lijst met ondersteunde "
 "aanmeldingsmechanismen."
 
 #. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:251
+#: mail/mail-errors.xml.h:255
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
 msgstr "Kan geen verbinding krijgen met de GroupWise-server."
 
 #. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:254
+#: mail/mail-errors.xml.h:258
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
@@ -14411,7 +14413,7 @@ msgstr "Verzendopties bij groupwise-berichten tonen"
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
 msgid "Send Options"
-msgstr "Verzend-opties"
+msgstr "Verzendopties"
 
 #: plugins/itip-formatter/itip-formatter.c:704
 msgid "Unable to parse item"
@@ -16215,7 +16217,7 @@ msgid "dialog1"
 msgstr "dialoog1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: smime/lib/e-cert-db.c:612
+#: smime/lib/e-cert-db.c:650
 msgid "Certificate already exists"
 msgstr "Certificaat bestaat reeds"
 
