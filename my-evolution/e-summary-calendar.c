@@ -2,6 +2,7 @@
 /* e-summary-calendar.c
  *
  * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -29,6 +30,9 @@
 
 #include "e-summary-calendar.h"
 #include "e-summary.h"
+
+#include "e-util/e-config-listener.h"
+
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
@@ -47,6 +51,8 @@ struct _ESummaryCalendar {
 	gboolean wants24hr;
 
 	char *default_uri;
+
+	EConfigListener *config_listener;
 };
 
 const char *
@@ -506,36 +512,18 @@ locale_uses_24h_time_format (void)
 	return s[0] == '\0';
 }
 
-void
-e_summary_calendar_init (ESummary *summary)
+static void
+setup_calendar (ESummary *summary)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
 	ESummaryCalendar *calendar;
-	gboolean result;
 
-	g_return_if_fail (summary != NULL);
+	calendar = summary->calendar;
+	g_assert (calendar != NULL);
 
-	calendar = g_new (ESummaryCalendar, 1);
-	summary->calendar = calendar;
-	calendar->html = NULL;
-
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		g_warning ("Error getting Wombat. Using defaults");
-		return;
-	}
-
-	CORBA_exception_free (&ev);
+	if (calendar->client != NULL)
+		gtk_object_unref (GTK_OBJECT (calendar->client));
 
 	calendar->client = cal_client_new ();
-	if (calendar->client == NULL) {
-		bonobo_object_release_unref (db, NULL);
-		g_warning ("Error making the client");
-		return;
-	}
 
 	gtk_signal_connect (GTK_OBJECT (calendar->client), "cal-opened",
 			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
@@ -544,18 +532,58 @@ e_summary_calendar_init (ESummary *summary)
 	gtk_signal_connect (GTK_OBJECT (calendar->client), "obj-removed",
 			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
 
-	result = cal_client_open_default_calendar (calendar->client, FALSE);
-	if (result == FALSE) {
+	if (! cal_client_open_default_calendar (calendar->client, FALSE))
 		g_message ("Open calendar failed");
-	}
-	
+
+	calendar->wants24hr = e_config_listener_get_boolean_with_default (calendar->config_listener,
+									  "/Calendar/Display/Use24HourFormat",
+									  locale_uses_24h_time_format (), NULL);
+	calendar->default_uri = e_config_listener_get_string_with_default (calendar->config_listener,
+									   "/DefaultFolders/calendar_path",
+									   "evolution:/local/Calendar", NULL);
+}
+
+static void
+config_listener_key_changed_cb (EConfigListener *listener,
+				const char *key,
+				void *user_data)
+{
+	setup_calendar (E_SUMMARY (user_data));
+
+	generate_html (user_data);
+}
+
+static void
+setup_config_listener (ESummary *summary)
+{
+	ESummaryCalendar *calendar;
+
+	calendar = summary->calendar;
+	g_assert (calendar != NULL);
+
+	calendar->config_listener = e_config_listener_new ();
+
+	gtk_signal_connect (GTK_OBJECT (calendar->config_listener), "key_changed",
+			    GTK_SIGNAL_FUNC (config_listener_key_changed_cb), summary);
+
+	setup_calendar (summary);
+}
+
+void
+e_summary_calendar_init (ESummary *summary)
+{
+	ESummaryCalendar *calendar;
+
+	g_return_if_fail (summary != NULL);
+
+	calendar = g_new0 (ESummaryCalendar, 1);
+	summary->calendar = calendar;
+	calendar->html = NULL;
+
+	setup_config_listener (summary);
+	setup_calendar (summary);
+
 	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
-
-	calendar->wants24hr = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
-	calendar->default_uri = bonobo_config_get_string_with_default (db, "/DefaultFolders/calendar_path", "evolution:/local/Calendar", NULL);
-
-	g_print ("Default folder: %s\n", calendar->default_uri);
-	bonobo_object_release_unref (db, NULL);
 }
 
 void

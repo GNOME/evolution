@@ -584,7 +584,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day"), FALSE},
 	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review", FALSE},
 	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat", FALSE},
-	{"http://news.gnome.org/gnome-news/rdf", "GNotices", FALSE},
+	{"http://www.gnomedesktop.org/backend.php", "Footnotes - GNOME News", FALSE},
 	{"http://headlines.internet.com/internetnews/prod-news/news.rss", "Internet.com", FALSE},
 	{"http://www.hispalinux.es/backend.php", "HispaLinux", FALSE},
 	{"http://dot.kde.org/rdf", "KDE Dot News", FALSE},
@@ -1326,8 +1326,6 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 	list->_length = count;
 	list->_maximum = count;
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (count);
-
-/* 	CORBA_sequence_set_release (list->_buffer, TRUE); */
 
 	for (i = 0, l = global_preferences->display_folders; l; i++, l = l->next) {
 		ESummaryPrefsFolder *folder = l->data;

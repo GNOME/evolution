@@ -1,3 +1,31 @@
+2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c: Replace Gnotices with Footnotes.
+	[#31581]
+
+2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#31607 and #31616]
+
+	* e-summary-tasks.c: New member config_listener in ESummaryTasks.
+	(e_summary_tasks_free): Unref the config_listener.
+	(config_listener_key_changed_cb): New, callback for the
+	config_listener.
+	(setup_task_folder): New helper function to set up access to the
+	task folder.
+	(setup_config_listener): New.
+	(e_summary_tasks_init): Use setup_config_listener() and
+	setup_task_folder().
+
+	* e-summary-calendar: New member config_listener in
+	ESummaryCalendar.
+	(setup_config_listener): New.
+	(config_listener_key_changed_cb): New callback for the
+	config_listener.
+	(setup_calendar): New.
+	(e_summary_calendar_init): Use setup_config_listener() and
+	setup_calendar().
+
 2002-10-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-weather.c (e_summary_weather_reconfigure): NULL the

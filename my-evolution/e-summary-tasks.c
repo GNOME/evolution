@@ -2,6 +2,7 @@
 /* e-summary-tasks.c
  *
  * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -29,12 +30,17 @@
 
 #include "e-summary-tasks.h"
 #include "e-summary.h"
+
+#include "e-util/e-config-listener.h"
+
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
+#include <bonobo/bonobo-event-source.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo-conf/bonobo-config-database.h>
 #include <liboaf/liboaf.h>
 
@@ -46,6 +52,8 @@ struct _ESummaryTasks {
 	char *overdue_colour;
 
 	char *default_uri;
+
+	EConfigListener *config_listener;
 };
 
 const char *
@@ -440,47 +448,31 @@ e_summary_tasks_protocol (ESummary *summary,
 	bonobo_object_release_unref (factory, NULL);
 }
 
-void
-e_summary_tasks_init (ESummary *summary)
+static void
+setup_task_folder (ESummary *summary)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
 	ESummaryTasks *tasks;
-	gboolean result;
 
-	g_return_if_fail (summary != NULL);
+	tasks = summary->tasks;
+	g_assert (tasks != NULL);
+	g_assert (tasks->config_listener != NULL);
 
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Tasks cannot get database ");
-		db = CORBA_OBJECT_NIL;
-	}
-	CORBA_exception_free (&ev);
+	g_free (tasks->due_today_colour);
+	g_free (tasks->overdue_colour);
+	g_free (tasks->default_uri);
 	
-	tasks = g_new (ESummaryTasks, 1);
-	summary->tasks = tasks;
-	tasks->html = NULL;
+	tasks->due_today_colour = e_config_listener_get_string_with_default (tasks->config_listener,
+									     "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
+	tasks->overdue_colour = e_config_listener_get_string_with_default (tasks->config_listener,
+									   "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
 
-	/* Get some configuration values from the calendar */
-	if (db != CORBA_OBJECT_NIL) {
+	tasks->default_uri = e_config_listener_get_string_with_default (tasks->config_listener,
+									"/DefaultFolders/tasks_path",
+									NULL,
+									NULL);
 
-		CORBA_exception_init (&ev);
-		
-		tasks->due_today_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
-		tasks->overdue_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
-
-		tasks->default_uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_path", &ev);
-		if (BONOBO_EX (&ev)) {
-			tasks->default_uri = g_strdup ("evolution:/local/Tasks");
-		}
-		CORBA_exception_free (&ev);
-			
-		bonobo_object_release_unref (db, NULL);
-	} else {
-		tasks->due_today_colour = g_strdup ("blue");
-		tasks->overdue_colour = g_strdup ("red");
-	}
+	if (tasks->client != NULL)
+		gtk_object_unref (GTK_OBJECT (tasks->client));
 	
 	tasks->client = cal_client_new ();
 	if (tasks->client == NULL) {
@@ -495,10 +487,48 @@ e_summary_tasks_init (ESummary *summary)
 	gtk_signal_connect (GTK_OBJECT (tasks->client), "obj-removed",
 			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
 
-	result = cal_client_open_default_tasks (tasks->client, FALSE);
-	if (result == FALSE) {
+	if (! cal_client_open_default_tasks (tasks->client, FALSE))
 		g_message ("Open tasks failed");
-	}
+}
+
+static void
+config_listener_key_changed_cb (EConfigListener *config_listener,
+				const char *key,
+				void *user_data)
+{
+	setup_task_folder (E_SUMMARY (user_data));
+
+	generate_html (user_data);
+}
+
+static void
+setup_config_listener (ESummary *summary)
+{
+	ESummaryTasks *tasks;
+
+	tasks = summary->tasks;
+	g_assert (tasks != NULL);
+
+	tasks->config_listener = e_config_listener_new ();
+
+	gtk_signal_connect (GTK_OBJECT (tasks->config_listener), "key_changed",
+			    GTK_SIGNAL_FUNC (config_listener_key_changed_cb), summary);
+}
+
+void
+e_summary_tasks_init (ESummary *summary)
+{
+	ESummaryTasks *tasks;
+
+	g_return_if_fail (summary != NULL);
+
+	tasks = g_new0 (ESummaryTasks, 1);
+	tasks->config_listener = e_config_listener_new ();
+
+	summary->tasks = tasks;
+
+	setup_config_listener (summary);
+	setup_task_folder (summary);
 
 	e_summary_add_protocol_listener (summary, "tasks", e_summary_tasks_protocol, tasks);
 }
@@ -523,7 +553,9 @@ e_summary_tasks_free (ESummary *summary)
 	g_free (tasks->due_today_colour);
 	g_free (tasks->overdue_colour);
 	g_free (tasks->default_uri);
-	
+
+	gtk_object_unref (GTK_OBJECT (tasks->config_listener));
+
 	g_free (tasks);
 	summary->tasks = NULL;
 }
