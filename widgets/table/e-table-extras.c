@@ -120,6 +120,7 @@ e_table_extras_add_cell     (ETableExtras *extras,
 	ECell *old_cell;
 
 	if (g_hash_table_lookup_extended (extras->cells, id, (gpointer *)&old_key, (gpointer *)&old_cell)) {
+		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 		if (old_cell)
 			gtk_object_unref (GTK_OBJECT(old_cell));
@@ -148,6 +149,7 @@ e_table_extras_add_compare  (ETableExtras *extras,
 	GCompareFunc old_compare;
 
 	if (g_hash_table_lookup_extended (extras->cells, id, (gpointer *)&old_key, (gpointer *)&old_compare)) {
+		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 	}
 
@@ -170,6 +172,7 @@ e_table_extras_add_pixbuf     (ETableExtras *extras,
 	GdkPixbuf *old_pixbuf;
 
 	if (g_hash_table_lookup_extended (extras->pixbufs, id, (gpointer *)&old_key, (gpointer *)&old_pixbuf)) {
+		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 		if (old_pixbuf)
 			gdk_pixbuf_unref (old_pixbuf);
