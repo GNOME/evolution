@@ -461,9 +461,6 @@ make_table (GHashTable *data_model,
 					       value_to_string,
 					       
 					       data_model);
-	g_object_ref (td->etm);
-	gtk_object_sink (GTK_OBJECT (td->etm));
-	
 	etmm = E_TREE_MEMORY (td->etm);
 	e_tree_memory_set_expanded_default (etmm, TRUE);
 

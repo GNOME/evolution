@@ -1,3 +1,8 @@
+2002-12-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-shown.c (make_table): Do not ref/sink the ETreeMemory
+	object.
+
 2002-12-11  Kevin Breit  <mrproper@ximian.com>
 
 	* Locations: Removed Marquette from the listing, it is no longer listed by METAR.  This is per bug 29693.
