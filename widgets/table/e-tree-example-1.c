@@ -6,7 +6,6 @@
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-preview.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "gal/e-util/e-cursors.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
@@ -15,12 +14,6 @@
 #include "e-cell-checkbox.h"
 #include "e-table.h"
 #include "e-tree-simple.h"
-
-#include "art/tree-expanded.xpm"
-#include "art/tree-unexpanded.xpm"
-
-GdkPixbuf *tree_expanded_pixbuf;
-GdkPixbuf *tree_unexpanded_pixbuf;
 
 #define COLS 4
 
@@ -268,6 +261,14 @@ print_tree (GtkButton *button, gpointer data)
 	gnome_print_context_close (gpc);
 }
 
+static void
+save_state (GtkButton *button, gpointer data)
+{
+	ETreeModel *e_tree_model = E_TREE_MODEL (data);
+
+	e_tree_model_save_expanded_state (e_tree_model, "expanded_state");
+}
+
 /* We create a window containing our new tree. */
 static void
 create_tree (void)
@@ -294,6 +295,8 @@ create_tree (void)
 					  my_is_editable,
 					  NULL);
 
+	e_tree_model_load_expanded_state (e_tree_model, "expanded_state");
+
 	/* create a root node with 5 children */
 	root_node = e_tree_model_node_insert (e_tree_model, NULL,
 					      0,
@@ -302,13 +305,18 @@ create_tree (void)
 	e_tree_model_root_node_set_visible (e_tree_model, FALSE);
 
 	for (i = 0; i < 5; i++){
-		ETreePath *n = e_tree_model_node_insert (e_tree_model,
-							 root_node, 0,
-							 g_strdup("First level of children"));
+		char *id = g_strdup_printf ("First level child %d", i);
+		ETreePath *n = e_tree_model_node_insert_id (e_tree_model,
+							    root_node, 0,
+							    g_strdup("First level of children"),
+							    id);
+		g_free (id);
 		for (j = 0; j < 5; j ++) {
-			e_tree_model_node_insert (e_tree_model,
-						  n, 0,
-						  g_strdup("Second level of children"));
+			char *id = g_strdup_printf ("Second level child %d", j);
+			e_tree_model_node_insert_id (e_tree_model,
+						     n, 0,
+						     g_strdup("Second level of children"), id);
+			g_free (id);
 		}
 	}
 
@@ -339,7 +347,7 @@ create_tree (void)
 	 * text is displayed to the right of the tree pipes.
 	 */
 	cell_tree = e_cell_tree_new (E_TABLE_MODEL(e_tree_model),
-				     tree_expanded_pixbuf, tree_unexpanded_pixbuf,
+				     NULL, NULL, /* use the default pixbufs for open/closed */
 				     TRUE, cell_left_just);
 
 	/*
@@ -411,6 +419,10 @@ create_tree (void)
 	gtk_signal_connect (GTK_OBJECT (button), "clicked", print_tree, e_tree_model);
 	gtk_box_pack_end (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
+	button = gtk_button_new_with_label ("Save State");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", save_state, e_tree_model);
+	gtk_box_pack_end (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
 	gtk_container_add (GTK_CONTAINER (window), vbox);
 	
 	/* Size the initial window. */
@@ -428,22 +440,14 @@ int
 main (int argc, char *argv [])
 {
 	gnome_init ("TableExample", "TableExample", argc, argv);
-	e_cursors_init ();
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	/*
-	 * Create our pixbuf for expanding/unexpanding
-	 */
-	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
-	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
-	
 	create_tree ();
 	
 	gtk_main ();
 
-	e_cursors_shutdown ();
 	return 0;
 }
 

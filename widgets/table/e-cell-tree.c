@@ -31,6 +31,9 @@
 #include <ctype.h>
 #include <math.h>
 
+#include "tree-expanded.xpm"
+#include "tree-unexpanded.xpm"
+
 #define PARENT_TYPE e_cell_get_type ()
 
 typedef struct {
@@ -572,6 +575,9 @@ ect_destroy (GtkObject *object)
 	/* destroy our subcell */
 	gtk_object_destroy (GTK_OBJECT (ect->subcell));
 
+	gdk_pixbuf_unref (ect->open_pixbuf);
+	gdk_pixbuf_unref (ect->closed_pixbuf);
+
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
@@ -609,8 +615,15 @@ e_cell_tree_construct (ECellTree *ect,
 		       ECell *subcell)
 {		       
 	ect->subcell = subcell;
-	ect->open_pixbuf = open_pixbuf;
-	ect->closed_pixbuf = closed_pixbuf;
+	if (open_pixbuf)
+		ect->open_pixbuf = open_pixbuf;
+	else
+		ect->open_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **)tree_expanded_xpm);
+	if (closed_pixbuf)
+		ect->closed_pixbuf = closed_pixbuf;
+	else
+		ect->closed_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **)tree_unexpanded_xpm);
+
 	ect->draw_lines = draw_lines;
 }
 

@@ -438,9 +438,14 @@ E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, NUL
 void
 e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath *node)
 {
+	int row;
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 	
+	row = e_tree_model_row_of_node (tree_model, node);
+	if (row != -1)
+		e_table_model_row_changed (E_TABLE_MODEL (tree_model), row);
+
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_CHANGED]);
 }
@@ -450,8 +455,13 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 			    ETreePath *parent_node,
 			    ETreePath *inserted_node)
 {
+	int row;
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+
+	row = e_tree_model_row_of_node (tree_model, inserted_node);
+	if (row != -1)
+		e_table_model_row_inserted (E_TABLE_MODEL (tree_model), row);
 	
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_INSERTED],
@@ -461,8 +471,14 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 void
 e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETreePath *removed_node)
 {
+	int row;
+
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+
+	row = e_tree_model_row_of_node (tree_model, removed_node);
+	if (row != -1)
+		e_table_model_row_inserted (E_TABLE_MODEL (tree_model), row);
 	
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_REMOVED],
