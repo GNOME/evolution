@@ -1,3 +1,10 @@
+2003-03-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #39954
+	
+	* gui/dialogs/recurrence-page.c (make_recurrence_special):
+	Destroy would-be children of the container before the container.
+
 2003-03-28  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (meeting_page_init): init new members

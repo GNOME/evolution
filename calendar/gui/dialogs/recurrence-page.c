@@ -1217,15 +1217,15 @@ make_recurrence_special (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
+	if (priv->month_num_menu != NULL) {
+		gtk_widget_destroy (priv->month_num_menu);
+		priv->month_num_menu = NULL;
+	}
 	if (GTK_BIN (priv->special)->child != NULL) {
 		gtk_widget_destroy (GTK_BIN (priv->special)->child);
 
 		priv->weekday_picker = NULL;
 		priv->month_day_menu = NULL;
-	}
-	if (priv->month_num_menu != NULL) {
-		gtk_widget_destroy (priv->month_num_menu);
-		priv->month_num_menu = NULL;
 	}
 
 	frequency = e_dialog_option_menu_get (priv->interval_unit, freq_map);
