@@ -825,6 +825,9 @@ card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
+	gtk_widget_set_sensitive (ce->app, TRUE);
+	ce->in_async_call = FALSE;
+
 	e_card_set_id (ce->card, id);
 
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_ADDED],
@@ -851,6 +854,9 @@ card_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
+
+	gtk_widget_set_sensitive (ce->app, TRUE);
+	ce->in_async_call = FALSE;
 
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_MODIFIED],
 			 status, ce->card);
@@ -883,6 +889,9 @@ save_card (EContactEditor *ce, gboolean should_close)
 		gtk_object_ref (GTK_OBJECT (ecs->ce));
 
 		ecs->should_close = should_close;
+
+		gtk_widget_set_sensitive (ce->app, FALSE);
+		ce->in_async_call = TRUE;
 
 		if (ce->is_new_card)
 			e_card_merging_book_add_card (ce->book, ce->card, GTK_SIGNAL_FUNC(card_added_cb), ecs);
@@ -1013,6 +1022,9 @@ e_contact_editor_confirm_delete(GtkWindow *parent)
 static void
 card_deleted_cb (EBook *book, EBookStatus status, EContactEditor *ce)
 {
+	gtk_widget_set_sensitive (ce->app, TRUE);
+	ce->in_async_call = FALSE;
+
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_DELETED],
 			 status, ce->card);
 
@@ -1036,8 +1048,12 @@ delete_cb (GtkWidget *widget, gpointer data)
 		extract_info (ce);
 		e_card_simple_sync_card (simple);
 		
-		if (!ce->is_new_card && ce->book)
+		if (!ce->is_new_card && ce->book) {
+			gtk_widget_set_sensitive (ce->app, FALSE);
+			ce->in_async_call = TRUE;
+
 			e_book_remove_card (ce->book, card, GTK_SIGNAL_FUNC(card_deleted_cb), ce);
+		}
 	}
 
 	gtk_object_unref(GTK_OBJECT(card));
@@ -1137,6 +1153,10 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 
 	ce = E_CONTACT_EDITOR (data);
 
+	/* if we're saving, don't allow the dialog to close */
+	if (ce->in_async_call)
+		return TRUE;
+
 	if (!prompt_to_save_changes (ce))
 		return TRUE;
 
@@ -1217,6 +1237,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->card = NULL;
 	e_contact_editor->changed = FALSE;
+	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->editable = TRUE;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);

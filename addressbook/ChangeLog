@@ -1,3 +1,38 @@
+2001-11-03  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes Ximian bug #14410 ]
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	init in_async_call to FALSE.
+	(card_added_cb): turn the UI back on and set in_async_call to
+	FALSE.
+	(card_modified_cb): same.
+	(card_deleted_cb): same.
+	(save_card): turn off the UI by setting the dialog insensitive,
+	and set in_async_call to TRUE.
+	(delete_cb): same.
+	(app_delete_event_cb): if we're in an async call don't let the
+	window get deleted.
+
+	* gui/contact-editor/e-contact-editor.h (struct _EContactEditor):
+	add in_async_call flag for when we make a wombat call and need to
+	disable the UI.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_init): init in_async_call to FALSE.
+	(list_added_cb): turn the UI back on and set in_async_call to
+	FALSE.
+	(list_modified_cb): same.
+	(list_deleted_cb): same.
+	(save_card): turn off the UI by setting the dialog insensitive,
+	and set in_async_call to TRUE.
+	(delete_cb): same.
+	(app_delete_event_cb): if we're in an async call don't let the
+	window get deleted.
+
+	* gui/contact-list-editor/e-contact-list-editor.h (struct
+	_EContactListEditor): add in_async_call flag for when we make a
+	wombat call and need to disable the UI.
+
 2001-11-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c (e_card_simple_get): Check for

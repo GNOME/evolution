@@ -208,6 +208,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->card = NULL;
 	editor->changed = FALSE;
 	editor->editable = TRUE;
+	editor->in_async_call = FALSE;
 	editor->is_new_list = FALSE;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-list-editor.glade", NULL);
@@ -310,6 +311,9 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 
 	g_free (ecs);
 
+	gtk_widget_set_sensitive (cle->app, TRUE);
+	cle->in_async_call = FALSE;
+
 	e_card_set_id (cle->card, id);
 
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_ADDED],
@@ -333,6 +337,9 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 
 	g_free (ecs);
 
+	gtk_widget_set_sensitive (cle->app, TRUE);
+	cle->in_async_call = FALSE;
+
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_MODIFIED],
 			 status, cle->card);
 
@@ -352,6 +359,9 @@ save_card (EContactListEditor *cle, gboolean should_close)
 		
 		ecs->cle = cle;
 		ecs->should_close = should_close;
+
+		gtk_widget_set_sensitive (cle->app, FALSE);
+		cle->in_async_call = TRUE;
 
 		if (cle->is_new_list)
 			e_book_add_card (cle->book, cle->card, GTK_SIGNAL_FUNC(list_added_cb), ecs);
@@ -407,6 +417,9 @@ tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 static void
 list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 {
+	gtk_widget_set_sensitive (cle->app, TRUE);
+	cle->in_async_call = FALSE;
+
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_DELETED],
 			 status, cle->card);
 
@@ -427,8 +440,12 @@ delete_cb (GtkWidget *widget, gpointer data)
 
 		extract_info (cle);
 		
-		if (!cle->is_new_list)
+		if (!cle->is_new_list) {
+			gtk_widget_set_sensitive (cle->app, FALSE);
+			cle->in_async_call = TRUE;
+
 			e_book_remove_card (cle->book, card, GTK_SIGNAL_FUNC(list_deleted_cb), cle);
+		}
 	}
 
 	gtk_object_unref(GTK_OBJECT(card));
@@ -698,6 +715,10 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	EContactListEditor *ce;
 
 	ce = E_CONTACT_LIST_EDITOR (data);
+
+	/* if we're in an async call, don't allow the dialog to close */
+	if (ce->in_async_call)
+		return TRUE;
 
 	if (!prompt_to_save_changes (ce))
 		return TRUE;

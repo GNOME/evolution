@@ -75,6 +75,9 @@ struct _EContactListEditor
 
 	/* Whether the contact editor will accept modifications */
 	guint editable : 1;
+
+	/* Whether an async wombat call is in progress */
+	guint in_async_call : 1;
 };
 
 struct _EContactListEditorClass
