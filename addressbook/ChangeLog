@@ -1,3 +1,10 @@
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c: Added a #define for
+	"X-EVOLUTION-PILOTID".  Added a parse_pilot_id to read pilot id's
+	in properly from VCards.  Rearranged some field orders.  Added a
+	get_arg case for ARG_PILOTID.  Initialize pilot_id field to 0.
+
 2000-07-24  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/ebook/e-card.h: add pilot_id.
