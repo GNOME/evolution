@@ -1,4 +1,4 @@
 
-SUBDIRS=C zh_CN ja nl
+SUBDIRS=C zh_CN ja nl pt
 
 
