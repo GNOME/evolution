@@ -42,6 +42,8 @@ Mailer:
   - Properly encode the mailto: links we generate inside of displayed
     messages.  (Trow)
 
+  - Improve the signature editor. (iain)
+
 Calendar:
 
   - Backend improvements (JP, Rodrigo).
@@ -78,6 +80,23 @@ Pilot:
 
   - Miscellaneous other bug fixes.  (JP)
 
+Summary:
+
+  - Cache images instead of repeatedly reloading them (iain)
+
+  - Only redraw when the summary is visible (iain)
+
+  - Use the encoding specified in the RDF file (Takuo Kitame)
+
+  - Leak fixes (Larry)
+
+  - Show todays tasks works (iain)
+
+  - Make the preferences dialog nicer. (iain)
+
+Importers:
+
+  - Handle cases where the Netscape transport is nothing. (iain)
 
 Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
