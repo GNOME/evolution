@@ -539,7 +539,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 	} else {
 		tmp = basestr = camel_header_location_decode(tmp);
 	}
-	printf("content-base is '%s'\n", tmp?tmp:"<unset>");
+	d(printf("content-base is '%s'\n", tmp?tmp:"<unset>"));
 	if (tmp
 	    && (base = camel_url_new(tmp, NULL))) {
 		emf->base = base;

@@ -1,3 +1,18 @@
+2004-11-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69339.
+
+	* em-format-html.c (efh_format_do): after closing the base output
+	stream, re-loop if more jobs were queued.
+
+2004-11-19  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69339.
+
+	* em-format-html.c (efh_format_do): close the stream/html after we're
+	finished, since the multipart/related stuff may write more content
+	for orphaned attachments.
+
 2004-11-23  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69579.
