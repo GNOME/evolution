@@ -20,8 +20,8 @@ AC_DEFUN([AM_PATH_GNOME_PRINT],
   else
     AC_MSG_CHECKING(for GNOME-PRINT - version >= $min_version)
     if `$GNOME_CONFIG --libs print > /dev/null 2>&1`; then
-      rqmajor=`echo "$1" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
-      rqminor=`echo "$1" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
+      rqmajor=`echo "$min_version" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
+      rqminor=`echo "$min_version" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
       major=`$GNOME_CONFIG --modversion print | sed -e 's/gnome-print-//' | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
       minor=`$GNOME_CONFIG --modversion print | sed -e 's/gnome-print-//' | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
       if test "$major" -ge "$rqmajor"; then

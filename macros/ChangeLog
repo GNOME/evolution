@@ -1,3 +1,8 @@
+2001-07-24  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gnome-print-check.m4 (AM_PATH_GNOME_PRINT): 
+	Correct minimal version test
+
 2001-06-22  Eskil Heyn Olsen  <eskil@eskil.dk>
 
 	* gnome-pilot.m4:
