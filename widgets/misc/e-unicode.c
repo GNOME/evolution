@@ -13,7 +13,7 @@
 #include "e-unicode.h"
 #include "e-font.h"
 
-#undef FONT_TESTING
+#define FONT_TESTING
 
 void
 e_unicode_init (void)
@@ -89,7 +89,7 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 }
 
 gchar *
-e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
+e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
 #ifndef FONT_TESTING
 	/* test it out with iso-8859-1 */
@@ -97,7 +97,6 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 	static gboolean uinit = FALSE;
 	static gboolean uerror = FALSE;
 	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
-	const gchar *encoding;
 #else
 	unicode_iconv_t uiconv;
 #endif
@@ -112,6 +111,8 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 #endif
 
 	if (!string) return NULL;
+
+	g_return_val_if_fail (widget, NULL);
 
 #ifndef FONT_TESTING
 	if (!uinit) {
@@ -129,7 +130,7 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 	if (uiconv == (unicode_iconv_t) -1) return NULL;
 #endif
 
-	ibl = strlen (string);
+	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
 
@@ -141,7 +142,13 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 }
 
 gchar *
-e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
+e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
+{
+	return e_utf8_from_gtk_string_sized (widget, string, strlen (string));
+}
+
+gchar *
+e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
 #ifndef FONT_TESTING
 	/* test it out with iso-8859-1 */
@@ -161,6 +168,8 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 
 	if (!string) return NULL;
 
+	g_return_val_if_fail (widget, NULL);
+
 #ifndef FONT_TESTING
 	if (!uinit) {
 		e_unicode_init ();
@@ -177,7 +186,7 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 	if (uiconv == (unicode_iconv_t) -1) return NULL;
 #endif
 
-	ibl = strlen (string);
+	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
 
@@ -188,6 +197,11 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 	return new;
 }
 
+gchar *
+e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
+{
+	return e_utf8_to_gtk_string_sized (widget, string, strlen (string));
+}
 gchar *
 e_utf8_gtk_entry_get_text (GtkEntry *entry)
 {
@@ -212,6 +226,18 @@ e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint end)
 }
 
 void
+e_utf8_gtk_editable_insert_text (GtkEditable *editable, const gchar *text, gint length, gint *position)
+{
+	gchar *s;
+
+	s = e_utf8_to_gtk_string_sized ((GtkWidget *) editable, text, length);
+
+	gtk_editable_insert_text (editable, s, length, position);
+
+	g_free (s);
+}
+
+void
 e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
 {
 	gchar *s;
@@ -225,14 +251,14 @@ e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text)
 }
 
 GtkWidget *
-e_utf8_gtk_menu_item_new_with_label (const gchar *label)
+e_utf8_gtk_menu_item_new_with_label (GtkMenu *menu, const gchar *label)
 {
 	GtkWidget *w;
 	gchar *s;
 
 	if (!label) return NULL;
 
-	s = e_utf8_to_gtk_string (NULL, label);
+	s = e_utf8_to_gtk_string ((GtkWidget *) menu, label);
 	w = gtk_menu_item_new_with_label (s);
 
 	if (s) g_free (s);

@@ -741,7 +741,7 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 	for (; authtypes; authtypes = authtypes->next) {
 		authtype = authtypes->data;
 
-		item = e_utf8_gtk_menu_item_new_with_label (_(authtype->name));
+		item = gtk_menu_item_new_with_label (_(authtype->name));
 		if (!firstitem)
 			firstitem = item;
 		spitem->auth_items = g_list_append (spitem->auth_items, item);
@@ -1119,7 +1119,7 @@ service_page_new (const char *label_text, GSList *services)
 		gtk_notebook_append_page (GTK_NOTEBOOK (page->notebook), 
 					  spitem->vbox, NULL);
 
-		spitem->item = e_utf8_gtk_menu_item_new_with_label (_(mcs->provider->name));
+		spitem->item = gtk_menu_item_new_with_label (_(mcs->provider->name));
 		if (!first_item)
 			first_item = spitem->item;
 

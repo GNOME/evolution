@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include <e-util/e-unicode.h>
 #include "filter-filter.h"
 #include "filter-context.h"
 
@@ -272,6 +273,7 @@ get_rule_part_widget(FilterContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *p;
 	int index=0, current=0;
 	struct _part_data *data;
+	gchar *s;
 
 	data = g_malloc0(sizeof(*data));
 	data->fr = fr;
@@ -286,7 +288,9 @@ get_rule_part_widget(FilterContext *f, FilterPart *newpart, FilterRule *fr)
 
 	menu = (GtkMenu *)gtk_menu_new();
 	while ((part=filter_context_next_action(f, part))) {
-		item = (GtkMenuItem *)gtk_menu_item_new_with_label(part->title);
+		s = e_utf8_to_gtk_string ((GtkWidget *) menu, part->title);
+		item = (GtkMenuItem *)gtk_menu_item_new_with_label(s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "part", part);
 		gtk_signal_connect((GtkObject *)item, "activate", option_activate, data);
 		gtk_menu_append(menu, (GtkWidget *)item);

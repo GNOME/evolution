@@ -1,3 +1,9 @@
+2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* filter-editor.c, filter-filter.c, filter-folder.c, filter-option.c:
+	* filter-rule.c, score-editor.c, vfolder-editor.c, vfolder-rule.c:
+	More UTF-8 wrapping
+
 2000-09-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_run): Totally rewritten to filter

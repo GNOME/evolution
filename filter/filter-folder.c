@@ -178,6 +178,7 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 #ifdef SHELL
 	const char *allowed_types[] = { "mail", NULL };
 	char *def, *physical_uri, *evolution_uri;
+	gchar *s;
 
 	def = ff->uri ? ff->uri : "";
 
@@ -192,9 +193,10 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 		ff->uri = physical_uri;
 
 		g_free(ff->name);
-		ff->name = g_strdup(g_basename (evolution_uri));
-
-		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, ff->name);
+		ff->name = g_strdup (g_basename (evolution_uri));
+		s = e_utf8_to_gtk_string((GtkWidget *) button, ff->name);
+		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, s);
+		g_free (s);
 	} else {
 		g_free (physical_uri);
 	}
@@ -227,7 +229,9 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 		else
 			str = uri;
 		ff->name = g_strdup(str);
-		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, ff->name);
+		s = e_utf8_to_gtk_string ((GtkWidget *) button, ff->name);
+		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, s);
+		g_free (s);
 	case 1:
 		gnome_dialog_close(gd);
 	case -1:

@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include <e-util/e-unicode.h>
 #include "vfolder-editor.h"
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
@@ -156,8 +157,13 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
 	if (result == 0) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(rule->name);
+		GtkListItem *item;
 		GList *l = NULL;
+		gchar *s;
+
+		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, rule->name);
+		item = (GtkListItem *)gtk_list_item_new_with_label(rule->name);
+		g_free (s);
 
 		gtk_object_set_data((GtkObject *)item, "rule", rule);
 		gtk_widget_show((GtkWidget *)item);
@@ -192,7 +198,9 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 		pos = rule_context_get_rank_rule(data->f, data->current);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data(data->list->children, pos);
-			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), data->current->name);
+			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) item, data->current->name);
+			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), s);
+			g_free (s);
 		}
 	 }
 }
@@ -324,7 +332,10 @@ GtkWidget	*vfolder_editor_construct	(struct _VfolderContext *f)
 	data->list = (GtkList *)w;
 	l = NULL;
 	while ((rule = rule_context_next_rule((RuleContext *)f, rule))) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(rule->name);
+		GtkListItem *item;
+		gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, rule->name);
+		item = (GtkListItem *)gtk_list_item_new_with_label(s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "rule", rule);
 		gtk_widget_show((GtkWidget *)item);
 		l = g_list_append(l, item);

@@ -143,6 +143,14 @@ translate_encoding (const gchar *encoding)
 		g_hash_table_insert (eh, "iso8859-3", "iso-8859-3");
 		g_hash_table_insert (eh, "iso8859-4", "iso-8859-4");
 		g_hash_table_insert (eh, "iso8859-5", "iso-8859-5");
+		g_hash_table_insert (eh, "iso8859-6", "iso-8859-6");
+		g_hash_table_insert (eh, "iso8859-7", "iso-8859-7");
+		g_hash_table_insert (eh, "iso8859-8", "iso-8859-8");
+		g_hash_table_insert (eh, "iso8859-9", "iso-8859-9");
+		g_hash_table_insert (eh, "iso8859-10", "iso-8859-10");
+		g_hash_table_insert (eh, "iso8859-13", "iso-8859-13");
+		g_hash_table_insert (eh, "iso8859-14", "iso-8859-14");
+		g_hash_table_insert (eh, "iso8859-15", "iso-8859-15");
 		g_hash_table_insert (eh, "iso10646-1", "UCS2");
 	}
 
@@ -159,6 +167,7 @@ e_gdk_font_encoding (GdkFont *font)
 	Bool status;
 	char *name, *p;
 	const gchar *encoding;
+	gint i;
 
 	if (!font) return NULL;
 
@@ -183,7 +192,15 @@ e_gdk_font_encoding (GdkFont *font)
 
 	if (!status) return NULL;
 
-	name = gdk_atom_name (atom);
+	name = p = gdk_atom_name (atom);
+
+	for (i = 0; i < 13; i++) {
+		/* Skip hyphen */
+		while (*p && (*p != '-')) p++;
+		if (*p) p++;
+	}
+
+#if 0
 	p = strchr (name, '-'); /* Foundry */
 	p = strchr (p + 1, '-'); /* Family */
 	p = strchr (p + 1, '-'); /* Weight */
@@ -199,6 +216,11 @@ e_gdk_font_encoding (GdkFont *font)
 	p = strchr (p + 1, '-'); /* Charset */
 
 	encoding = translate_encoding (p + 1);
+#else
+	if (!*p) return NULL;
+
+	encoding = translate_encoding (p);
+#endif
 
 	g_free (name);
 
@@ -218,9 +240,7 @@ e_uiconv_from_gdk_font (GdkFont *font)
 
 	if (!enc) return (unicode_iconv_t) -1;
 
-	if (!uh) {
-		uh = g_hash_table_new (g_str_hash, g_str_equal);
-	}
+	if (!uh) uh = g_hash_table_new (g_str_hash, g_str_equal);
 
 	uiconv = g_hash_table_lookup (uh, enc);
 
@@ -246,9 +266,7 @@ e_uiconv_to_gdk_font (GdkFont *font)
 
 	if (!enc) return (unicode_iconv_t) -1;
 
-	if (!uh) {
-		uh = g_hash_table_new (g_str_hash, g_str_equal);
-	}
+	if (!uh) uh = g_hash_table_new (g_str_hash, g_str_equal);
 
 	uiconv = g_hash_table_lookup (uh, enc);
 
@@ -260,6 +278,7 @@ e_uiconv_to_gdk_font (GdkFont *font)
 
 	return uiconv;
 }
+
 
 
 

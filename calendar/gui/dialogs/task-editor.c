@@ -1252,6 +1252,9 @@ priority_index_to_value (TaskEditorPriority priority)
 	case PRIORITY_LOW:
 		retval = 7;
 		break;
+	default:
+		g_assert_not_reached ();
+		break;
 	}
 
 	return retval;

@@ -1,3 +1,13 @@
+2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-dialog-widgets.c (e_dialog_editable_get): Use UTF-8
+	(e_dialog_editable_set): Use UTF-8
+
+	* e-font.c (translate_encoding): More encodings
+	(e_gdk_font_encoding): Use experimental stuff
+
+	* e-unicode.* (e_utf8_gtk_editable_insert_text): New wrapper
+	
 2000-09-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-canvas.c (emit_event): Remove incorrect optimization.  Events

@@ -1,3 +1,10 @@
+2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* cal-client/Makefile.am: Added -lunicode
+
+	* gui/dialogs/task-editor.c: More UTF-8 wrappers
+	(priority_index_to_value): Kill warning, add assertion
+
 2000-09-06  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 

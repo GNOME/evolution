@@ -364,6 +364,7 @@ get_rule_part_widget(RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *p;
 	int index=0, current=0;
 	struct _part_data *data;
+	gchar *s;
 
 	data = g_malloc0(sizeof(*data));
 	data->fr = fr;
@@ -382,7 +383,9 @@ get_rule_part_widget(RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	menu = (GtkMenu *)gtk_menu_new();
 	/* sigh, this is a little ugly */
 	while ((part=rule_context_next_part(f, part))) {
-		item = (GtkMenuItem *)gtk_menu_item_new_with_label(part->title);
+		s = e_utf8_to_gtk_string ((GtkWidget *) menu, part->title);
+		item = (GtkMenuItem *)gtk_menu_item_new_with_label (s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "part", part);
 		gtk_signal_connect((GtkObject *)item, "activate", option_activate, data);
 		gtk_menu_append(menu, (GtkWidget *)item);

@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include <e-util/e-unicode.h>
 #include "filter-editor.h"
 #include "filter-context.h"
 #include "filter-filter.h"
@@ -158,9 +159,11 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
 	if (result == 0) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(((FilterRule *)rule)->name);
+		GtkListItem *item;
 		GList *l = NULL;
-
+		gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, ((FilterRule *)rule)->name);
+		item = (GtkListItem *)gtk_list_item_new_with_label (s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "rule", rule);
 		gtk_widget_show((GtkWidget *)item);
 		l = g_list_append(l, item);
@@ -196,7 +199,9 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 		pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data(data->list->children, pos);
-			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), data->current->name);
+			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) item, data->current->name);
+			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), s);
+			g_free (s);
 		}
 	 }
 }
@@ -319,6 +324,7 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 	d(printf("Checking for rules that are of type %d\n", source));
 	while ((rule = rule_context_next_rule (data->f, rule)) != NULL) {
 		GtkWidget *item;
+		gchar *s;
 
 		if (rule->source != source) {
 			d(printf("   skipping %s: %d != %d\n", rule->name, rule->source, source));
@@ -326,7 +332,9 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 		}
 
 		d(printf("   hit %s (%d)\n", rule->name, source));
-		item = gtk_list_item_new_with_label (rule->name);
+		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, rule->name);
+		item = gtk_list_item_new_with_label (s);
+		g_free (s);
 		gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
 		gtk_widget_show (GTK_WIDGET (item));
 		newitems = g_list_append (newitems, item);

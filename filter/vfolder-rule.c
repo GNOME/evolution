@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
+#include <e-util/e-unicode.h>
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
 #include "shell/evolution-shell-client.h"
@@ -263,6 +264,7 @@ static void source_add(GtkWidget *widget, struct _source_data *data)
 	char *def, *uri;
 	GtkListItem *item;
 	GList *l;
+	gchar *s;
 
 	def = "";
 	evolution_shell_client_user_select_folder (global_shell_client,
@@ -273,7 +275,9 @@ static void source_add(GtkWidget *widget, struct _source_data *data)
 		data->vr->sources = g_list_append(data->vr->sources, uri);
 
 		l = NULL;
-		item = (GtkListItem *)gtk_list_item_new_with_label(uri);
+		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, uri);
+		item = (GtkListItem *)gtk_list_item_new_with_label (s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "source", uri);
 		gtk_widget_show((GtkWidget *)item);
 		l = g_list_append(NULL, item);
@@ -340,7 +344,10 @@ static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 	l = NULL;
 	source = NULL;
 	while ((source = vfolder_rule_next_source(vr, source))) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(source);
+		GtkListItem *item;
+		gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, source);
+		item = (GtkListItem *)gtk_list_item_new_with_label (s);
+		g_free (s);
 		gtk_object_set_data((GtkObject *)item, "source", (void *)source);
 		gtk_widget_show((GtkWidget *)item);
 		l = g_list_append(l, item);

@@ -30,6 +30,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include "e-dialog-widgets.h"
+#include "e-unicode.h"
 
 
 
@@ -351,7 +352,7 @@ e_dialog_editable_set (GtkWidget *widget, const char *value)
 		gint pos;
 
 		pos = 0;
-		gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
+		e_utf8_gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
 	}
 }
 
@@ -369,7 +370,7 @@ e_dialog_editable_get (GtkWidget *widget)
 	g_return_val_if_fail (widget != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_EDITABLE (widget), NULL);
 
-	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+	return e_utf8_gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 }
 
 /**
