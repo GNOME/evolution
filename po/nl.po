@@ -19,13 +19,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-27 11:31+0200\n"
+"POT-Creation-Date: 2003-11-17 14:17+0100\n"
 "PO-Revision-Date: 2003-09-27 16:02+0200\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -404,7 +404,7 @@ msgstr "Organisatie"
 msgid "Role"
 msgstr "Rol"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
@@ -463,7 +463,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Kon bonobo niet initialiseren"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "Zoeken..."
 
@@ -496,11 +496,11 @@ msgstr "Kaart verwijderen van LDAP-server..."
 msgid "Modifying card from LDAP server..."
 msgstr "Kaart aanpassen op LDAP-server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr "LDAP zoekresultaten worden ingelezen..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 msgid "Error performing search"
 msgstr "Fout bij het zoeken"
 
@@ -2893,9 +2893,8 @@ msgstr "Protocol niet ondersteund"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:747 camel/camel-service.c:788
-#: camel/camel-service.c:878 camel/camel-service.c:921
-#: camel/providers/pop3/camel-pop3-store.c:443
+#: camel/camel-service.c:830 camel/camel-service.c:884
+#: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -3630,11 +3629,11 @@ msgstr "Kon actielijstgegevens niet uit de pilot lezen"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "Calendar and Tasks"
-msgstr "Kalender en Taken"
+msgstr "Kalender en taken"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Configureer uw tijdzone, kalender en taaklijst hier "
+msgstr "Configureer uw tijdzone, kalender en takenlijst hier "
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Evolution Calendar and Tasks"
@@ -3827,7 +3826,7 @@ msgstr "Map met afspraken en gebeurtenissen"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
+#: calendar/importers/icalendar-importer.c:647
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
@@ -3966,7 +3965,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
 #: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4543,7 +4542,7 @@ msgstr "Geen samenvatting"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1171
+#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1177
 msgid "Save as..."
 msgstr "Opslaan als..."
 
@@ -4924,7 +4923,7 @@ msgstr "dag"
 msgid "on the"
 msgstr "op de"
 
-#: calendar/gui/dialogs/recurrence-page.c:1357
+#: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr "gebeurtenissen"
 
@@ -5002,7 +5001,7 @@ msgstr ""
 "\n"
 "Wilt u de wijzingen opslaan?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1585
 msgid "_Discard Changes"
 msgstr "Veranderingen verwerpen"
 
@@ -5403,7 +5402,7 @@ msgstr "pm"
 
 #: calendar/gui/e-day-view.c:3694
 msgid "New _Appointment"
-msgstr "Nieuwe _Afspraak"
+msgstr "Nieuwe _afspraak"
 
 #: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3692
 msgid "New All Day _Event"
@@ -5424,16 +5423,16 @@ msgstr "Afdrukken..."
 #: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3708
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
-msgstr "Ga Naar _Vandaag"
+msgstr "Ga naar _vandaag"
 
 #: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3709
 msgid "_Go to Date..."
-msgstr "_Ga Naar Datum..."
+msgstr "_Ga naar datum..."
 
 #: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3713
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
-msgstr "_Publiceer Beschikbaarheidsinformatie"
+msgstr "Beschikbaarheidsinformatie publiceren"
 
 #: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3717
 #: ui/evolution.xml.h:60
@@ -5447,7 +5446,7 @@ msgstr "_Opslaan als..."
 
 #: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3736
 msgid "_Schedule Meeting..."
-msgstr "_Bijeenkomst Plannen..."
+msgstr "_Bijeenkomst plannen..."
 
 #: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3737
 msgid "_Forward as iCalendar..."
@@ -5455,15 +5454,15 @@ msgstr "_Doorsturen als iKalender"
 
 #: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3742
 msgid "Make this Occurrence _Movable"
-msgstr "Maak deze Gebeurtenis Verplaatsbaar"
+msgstr "Deze gebeurtenis verplaatsbaar maken"
 
 #: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3743
 msgid "Delete this _Occurrence"
-msgstr "Verwijder deze Gebeurtenis"
+msgstr "Deze gebeurtenis verwijderen"
 
 #: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3744
 msgid "Delete _All Occurrences"
-msgstr "Verwijder alle Gebeurtenissen"
+msgstr "Alle gebeurtenissen verwijderen"
 
 #: calendar/gui/e-itip-control.c:676
 msgid "Yes. (Complex Recurrence)"
@@ -5607,11 +5606,11 @@ msgstr "Geweigerd"
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -6218,11 +6217,11 @@ msgstr "Februari"
 
 #: calendar/gui/goto-dialog.glade.h:5
 msgid "Go To Date"
-msgstr "Ga Naar Datum"
+msgstr "Ga naar datum"
 
 #: calendar/gui/goto-dialog.glade.h:6
 msgid "Go To Today"
-msgstr "Ga Naar Vandaag"
+msgstr "Ga naar vandaag"
 
 #: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
@@ -6466,15 +6465,15 @@ msgstr "iKalender bestanden (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vKalender bestanden(.vcf)"
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:406
 msgid "Reminder!!"
 msgstr "Herinnering!!"
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:640
 msgid "Calendar Events"
 msgstr "Kalendergebeurtenissen"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:665
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6482,7 +6481,7 @@ msgstr ""
 "Evolution heeft Gnome kalender bestanden gevonden.\n"
 "Wilt u deze importeren in Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:672
 msgid "Gnome Calendar"
 msgstr "Gnome kalender"
 
@@ -8333,7 +8332,7 @@ msgstr "Verplaatsen van berichten"
 msgid "Copying messages"
 msgstr "Berichten worden gekopieerd"
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8344,15 +8343,15 @@ msgstr ""
 "\n"
 "%s "
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr "Interpretatie van de gpg userid hint is mislukt."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr "Fout tijdens het verwerken van de gpg wachtwoord aanvraag."
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8361,33 +8360,33 @@ msgstr ""
 "U heeft een wachtwoord nodig om de sleutel voor\n"
 "gebruiker \"%s\" te mogen gebruiken"
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Geannuleerd."
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 "Ontgrendelen van de geheime sleutel is mislukt: 3 onjuiste wachtzinnen "
 "gegeven."
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Onverwacht antwoord van GnuPG: %s"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 msgid "No data provided"
 msgstr "Geen data gegeven"
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr ""
 "Kan dit bericht niet versleutelen: er zijn geen geldige ontvangers opgegeven."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8398,25 +8397,25 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG %s mislukt: %s\n"
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Kon gpg niet starten: %s"
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 msgid "Failed to execute gpg."
 msgstr "Kon gpg niet starten."
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -8817,40 +8816,25 @@ msgstr "URL '%s' heeft een machinenaamcomponent nodig"
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' heeft een padcomponent nodig"
 
-#: camel/camel-service.c:752
+#: camel/camel-service.c:801
 #, c-format
 msgid "Resolving: %s"
 msgstr "Resolving \"%s\""
 
-#: camel/camel-service.c:786 camel/camel-service.c:919
+#: camel/camel-service.c:803
+msgid "Resolving address"
+msgstr "Opzoeken van adres"
+
+#: camel/camel-service.c:828
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Fout bij opzoeken naam: %s"
 
-#: camel/camel-service.c:807 camel/camel-service.c:940
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Opzoeken van host mislukt: kan geen thread aanmaken: %s"
-
-#: camel/camel-service.c:821
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Machine niet gevonden: %s machine niet gevonden"
-
-#: camel/camel-service.c:824
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Machine opzoeken faalde: %s onbekende reden"
-
-#: camel/camel-service.c:883
-msgid "Resolving address"
-msgstr "Opzoeken van adres"
-
-#: camel/camel-service.c:956
+#: camel/camel-service.c:860
 msgid "Host lookup failed: host not found"
 msgstr "Opzoeken mislukt: computer niet gevonden"
 
-#: camel/camel-service.c:959
+#: camel/camel-service.c:863
 msgid "Host lookup failed: unknown reason"
 msgstr "Opzoeken mislukt: onbekende fout"
 
@@ -9388,7 +9372,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-server %s ondersteunt het gevraagde aanmeldingstype %s niet"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Geen ondersteuning voor aanmeldingstype %s"
@@ -10273,36 +10257,36 @@ msgstr "Aanmelding is vereist"
 msgid "Welcome response error"
 msgstr "Fout in welkomstbericht"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Fout bij opzetten van beveiligde verbinding met SMTP-server %s: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 msgid "server does not appear to support SSL"
 msgstr "server lijkt geen SSL te ondersteunen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "STARTTLS-verzoek verlopen: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 msgid "STARTTLS response error"
 msgstr "Fout in STARTTLS antwoord"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:467
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP-server %s ondersteunt het gevraagde aanmeldingstype %s niet."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVoer het SMTP wachtwoord in voor %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:524
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10313,87 +10297,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Postaflevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan berichten niet versturen: afzender niet geldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Versturen van bericht"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 msgid "SMTP Greeting"
 msgstr "SMTP Begroeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:929
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Time-out tijdens HELO-verzoek: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:942
 msgid "HELO response error"
 msgstr "Fout bij HELO-respons"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 msgid "SMTP Authentication"
 msgstr "SMTP Aanmelding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "Error creating SASL authentication object."
 msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1052
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Time-out tijdens AUTH-verzoek: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr "AUTH verzoek faalde"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1122
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 msgid "Bad authentication response from server.\n"
 msgstr "Fout aanmeldingsantwoord van server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1147
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Time-out tijdens 'MAIL FROM'-verzoek: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1167
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 msgid "MAIL FROM response error"
 msgstr "Fout bij 'MAIL FROM'-respons"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1191
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Time-out tijdens 'RCPT TO'-verzoek: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Time-out tijdens DATA-verzoek: %s: bericht niet verstuurd"
@@ -10401,37 +10385,37 @@ msgstr "Time-out tijdens DATA-verzoek: %s: bericht niet verstuurd"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1272
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 msgid "DATA response error"
 msgstr "Fout bij DATA-respons"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Time-out tijdens het versturen van DATA: bericht afgebroken: %s: bericht "
 "niet verstuurd"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "DATA termination response error"
 msgstr "DATA terminatie foutmelding."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Time-out tijdens RSET-verzoek: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 msgid "RSET response error"
 msgstr "Fout bij RSET-respons"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Time-out tijdens QUIT-verzoek: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 msgid "QUIT response error"
 msgstr "Fout bij QUIT-respons"
 
@@ -10451,7 +10435,7 @@ msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:229
 msgid "attachment"
 msgstr "bijlage"
 
@@ -10568,16 +10552,15 @@ msgstr "Versturen naar:"
 msgid "Posting destination"
 msgstr "Doel van bericht"
 
-#: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
 msgstr "Bestand(en) bijvoegen"
 
-#: composer/e-msg-composer.c:542
+#: composer/e-msg-composer.c:548
 msgid "Could not create a PGP signature context"
 msgstr "Kon geen PGP handtekening-context maken"
 
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:827
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10586,30 +10569,30 @@ msgstr ""
 "Fout bij lezen bestand %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1184
+#: composer/e-msg-composer.c:1192
 msgid "File exists, overwrite?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
-#: composer/e-msg-composer.c:1202
+#: composer/e-msg-composer.c:1203 composer/e-msg-composer.c:1219
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fout bij opslaan bestand: %s"
 
-#: composer/e-msg-composer.c:1225
+#: composer/e-msg-composer.c:1242
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fout bij openen bestand: %s"
 
-#: composer/e-msg-composer.c:1263
+#: composer/e-msg-composer.c:1280
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fout bij benaderen bestand: %s"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1288
 msgid "Unable to retrieve message from editor"
 msgstr "Kon bericht niet van editor halen"
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1295
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10618,7 +10601,7 @@ msgstr ""
 "Niet in staat te zoeken op bestand: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1285
+#: composer/e-msg-composer.c:1302
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10627,7 +10610,7 @@ msgstr ""
 "Niet in staat om bestand: %s af te kappen\n"
 "%s"
 
-#: composer/e-msg-composer.c:1294
+#: composer/e-msg-composer.c:1311
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10636,7 +10619,7 @@ msgstr ""
 "Kan bestandsbeschrijving niet kopëren: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1303
+#: composer/e-msg-composer.c:1320
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10645,7 +10628,7 @@ msgstr ""
 "Fout bij automatisch opslaan bericht: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1400
+#: composer/e-msg-composer.c:1417
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10654,7 +10637,7 @@ msgstr ""
 "gevonden.\n"
 "Wilt u dat deze hersteld worden?"
 
-#: composer/e-msg-composer.c:1563
+#: composer/e-msg-composer.c:1580
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10665,28 +10648,28 @@ msgstr ""
 "\n"
 "Wilt u de wijzingen opslaan?"
 
-#: composer/e-msg-composer.c:1572
+#: composer/e-msg-composer.c:1589
 msgid "Warning: Modified Message"
 msgstr "Waarschuwing: Veranderd Bericht"
 
-#: composer/e-msg-composer.c:1604
+#: composer/e-msg-composer.c:1621
 msgid "Open file"
 msgstr "Bestand openen"
 
-#: composer/e-msg-composer.c:2028
+#: composer/e-msg-composer.c:2045
 msgid "Signature:"
 msgstr "Handtekening:"
 
-#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Automatisch gegenereerd"
 
-#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
-#: composer/e-msg-composer.c:2912
+#: composer/e-msg-composer.c:2261 composer/e-msg-composer.c:2928
+#: composer/e-msg-composer.c:2929
 msgid "Compose a message"
 msgstr "Nieuw bericht opstellen"
 
-#: composer/e-msg-composer.c:2943
+#: composer/e-msg-composer.c:2960
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10694,7 +10677,7 @@ msgstr ""
 "Kon het venster Opstellen niet aanmaken:\n"
 "Kan adresselectie niet activeren."
 
-#: composer/e-msg-composer.c:2971
+#: composer/e-msg-composer.c:2988
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10706,7 +10689,7 @@ msgstr ""
 "Controleer alstublieft de geïnstalleerde versie  van\n"
 "gtkhtml en libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:3038
+#: composer/e-msg-composer.c:3055
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10715,7 +10698,7 @@ msgstr ""
 "Niet in staat de HTML editor component te activeren."
 
 # # Het origineel heeft <b> in plaats van </b>
-#: composer/e-msg-composer.c:4073
+#: composer/e-msg-composer.c:4090
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10893,7 +10876,7 @@ msgstr ""
 "Er bestaat al een bestand met die naam.\n"
 "Overschrijven?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:202
 msgid "Overwrite file?"
 msgstr "Bestand overschrijven?"
 
@@ -11162,7 +11145,7 @@ msgstr "U moet deze filter een naam geven."
 
 #: filter/filter-rule.c:751
 msgid "Rule name: "
-msgstr "Regel naam: "
+msgstr "Regelnaam: "
 
 #: filter/filter-rule.c:755
 msgid "Untitled"
@@ -11194,15 +11177,15 @@ msgstr "uitgaand"
 
 #: filter/filter.glade.h:1
 msgid "Compare against"
-msgstr "Vergelijk met"
+msgstr "Vergelijken met"
 
 #: filter/filter.glade.h:2
 msgid "Edit Filters"
-msgstr "Filters Bewerken"
+msgstr "Filters bewerken"
 
 #: filter/filter.glade.h:3
 msgid "Edit VFolders"
-msgstr "Bewerk VMappen"
+msgstr "VMappen bewerken"
 
 #: filter/filter.glade.h:5
 msgid "Incoming"
@@ -11299,11 +11282,11 @@ msgstr "Score aanpassen"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
-msgstr "Geef Kleur"
+msgstr "Kleur toewijzen"
 
 #: filter/libfilter-i18n.h:4
 msgid "Assign Score"
-msgstr "Geef Score"
+msgstr "Score toewijzen"
 
 #: filter/libfilter-i18n.h:5
 msgid "Attachments"
@@ -11311,7 +11294,7 @@ msgstr "Bijlages"
 
 #: filter/libfilter-i18n.h:6
 msgid "Beep"
-msgstr "Piep"
+msgstr "Pieptoon"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
@@ -11423,7 +11406,7 @@ msgstr "Label"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
-msgstr "Mailinglijst"
+msgstr "Discussielijst"
 
 #: filter/libfilter-i18n.h:37
 msgid "Message Body"
@@ -11514,7 +11497,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:941
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Onderwerp"
@@ -11841,7 +11824,7 @@ msgstr "Er staan nog berichten in de wachtrij. Wilt u toch afsluiten?"
 
 #: mail/component-factory.c:1067
 msgid "New Mail Message"
-msgstr "Nieuw Bericht"
+msgstr "Nieuw bericht"
 
 #: mail/component-factory.c:1067
 msgid "_Mail Message"
@@ -11880,10 +11863,10 @@ msgstr "Eigenschappen voor \"%s\""
 msgid "Properties"
 msgstr "Eigenschappen"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
+#: mail/folder-browser.c:329 mail/mail-display.c:400 mail/mail-display.c:932
 #, c-format
 msgid "Could not create temporary directory: %s"
-msgstr "Kon tijdelijke directory niet maken: %s"
+msgstr "Kon tijdelijke map niet maken: %s"
 
 #: mail/folder-browser.c:804
 #, c-format
@@ -11931,7 +11914,7 @@ msgstr "_VMap van zoekopdracht maken..."
 
 #: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
-msgstr "VMap op _Onderwerp"
+msgstr "VMap op _onderwerp"
 
 #: mail/folder-browser.c:1761
 msgid "VFolder on Se_nder"
@@ -11939,15 +11922,15 @@ msgstr "VMap op afze_nder"
 
 #: mail/folder-browser.c:1762
 msgid "VFolder on _Recipients"
-msgstr "VMap op _Geadresseerden"
+msgstr "VMap op _geadresseerden"
 
 #: mail/folder-browser.c:1763
 msgid "VFolder on Mailing _List"
-msgstr "VMap op Mailing_Lijst"
+msgstr "VMap op Discussie_lijst"
 
 #: mail/folder-browser.c:1767
 msgid "Filter on Sub_ject"
-msgstr "Filter op Onderwerp"
+msgstr "Filter op onderwerp"
 
 #: mail/folder-browser.c:1768
 msgid "Filter on Sen_der"
@@ -11955,15 +11938,15 @@ msgstr "Filter op afzen_der"
 
 #: mail/folder-browser.c:1769
 msgid "Filter on Re_cipients"
-msgstr "Filter op Geadresseerden"
+msgstr "Filter op geadresseerden"
 
 #: mail/folder-browser.c:1770 mail/folder-browser.c:2094
 msgid "Filter on _Mailing List"
-msgstr "Filter op _Mailinglijst"
+msgstr "Filter op _discussielijst"
 
 #: mail/folder-browser.c:1788
 msgid "_Edit as New Message..."
-msgstr "B_ewerk als Nieuw Bericht..."
+msgstr "B_ewerken als nieuw bericht..."
 
 #: mail/folder-browser.c:1790
 msgid "_Print"
@@ -12078,7 +12061,7 @@ msgstr "Evolution Netscape mail-import"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:1
 msgid "Evolution Outlook Express 4 importer"
-msgstr "Evolution Outlook Express 4 importeerassistent"
+msgstr "Evolution Outlook Express 4 import"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:2
 msgid "Outlook Express 4 (.mbx)"
@@ -12106,8 +12089,8 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
-"Opmerking: Bij het converteren tussen mailbox formaten zal een fout,\n"
-"zoals te weinig diskruimte, wellicht niet automatisch herstelbaar zijn.\n"
+"Opmerking: Bij het converteren tussen mailboxformaten zal een fout,\n"
+"zoals te weinig schijfruimte, wellicht niet automatisch herstelbaar zijn.\n"
 "Wees voorzichtig met het gebruiken van deze optie."
 
 #: mail/local-config.glade.h:7
@@ -12124,7 +12107,7 @@ msgstr "mh"
 
 #: mail/mail-account-editor.c:102
 msgid "You have not filled in all of the required information."
-msgstr "U heeft niet alle informatie ingevuld die nodig is."
+msgstr "U heeft niet alle benodigde informatie ingevuld."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:146
@@ -12149,7 +12132,7 @@ msgstr "U kunt niet meerdere accounts met dezelfde naam maken."
 
 #: mail/mail-accounts.c:231
 msgid "Are you sure you want to delete this account?"
-msgstr "Weet u zeker dat u deze account wilt verwijderen?"
+msgstr "Weet u zeker dat u dit account wilt verwijderen?"
 
 #: mail/mail-accounts.c:239
 msgid "Don't delete"
@@ -12205,11 +12188,11 @@ msgstr "Post ophalen van %s"
 #: mail/mail-autofilter.c:271
 #, c-format
 msgid "%s mailing list"
-msgstr "%s mailinglijst"
+msgstr "%s discussielijst"
 
 #: mail/mail-autofilter.c:323
 msgid "Add Filter Rule"
-msgstr "Filterregel Toevoegen"
+msgstr "Filterregel toevoegen"
 
 #: mail/mail-autofilter.c:372
 msgid "The following filter rule(s):\n"
@@ -12298,7 +12281,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:318
 msgid "This message contains only Bcc recipients."
-msgstr "Dit bericht bevat alleen Bcc-ontvangers."
+msgstr "Dit bericht bevat alleen bcc-ontvangers."
 
 #: mail/mail-callbacks.c:323
 msgid ""
@@ -12320,7 +12303,7 @@ msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
-"Kan de drafts map voor die account niet openen.\n"
+"Kan de klad-map voor dit account niet openen.\n"
 "Wilt u gebruik maken van de standaardmap?"
 
 #: mail/mail-callbacks.c:1189
@@ -12333,11 +12316,11 @@ msgstr "Op %a %d-%m-%Y, om %H:%M schreef %%s:"
 
 #: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
-msgstr "Verplaats bericht(en) naar"
+msgstr "Bericht(en) verplaatsen naar"
 
 #: mail/mail-callbacks.c:1702 mail/message-browser.c:134
 msgid "Copy message(s) to"
-msgstr "Kopieer bericht(en) naar"
+msgstr "Bericht(en) kopiëren naar"
 
 #: mail/mail-callbacks.c:2344
 #, c-format
@@ -12350,7 +12333,7 @@ msgid ""
 "in the Drafts folder."
 msgstr ""
 "U kunt alleen berichten bewerken die opgeslagen zijn\n"
-"in de Kladmap."
+"in de kladmap."
 
 #: mail/mail-callbacks.c:2393
 msgid ""
@@ -12358,12 +12341,12 @@ msgid ""
 "in the Sent folder."
 msgstr ""
 "U kunt alleen berichten bewerken die opgeslagen zijn\n"
-"in de Kladmap."
+"in de kladmap."
 
 #: mail/mail-callbacks.c:2403
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
-msgstr "Weet u zeker dat alle %d berichten wilt herversturen?"
+msgstr "Weet u zeker dat alle %d berichten opnieuw wilt versturen?"
 
 #: mail/mail-callbacks.c:2424
 msgid "No Message Selected"
@@ -12464,11 +12447,11 @@ msgstr "Scripthandtekening toevoegen"
 msgid "Signature(s)"
 msgstr "Handtekening(en)"
 
-#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
 msgid "Identity"
 msgstr "Identiteit"
 
-#: mail/mail-config-druid.c:382
+#: mail/mail-config-druid.c:369
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12478,11 +12461,11 @@ msgstr ""
 "worden ingevuld, tenzij u wilt dat deze informatie wordt meegezonden bij de "
 "berichten die u verzendt."
 
-#: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
+#: mail/mail-config-druid.c:375 mail/mail-config-druid.c:382
 msgid "Receiving Mail"
 msgstr "E-mail ontvangen"
 
-#: mail/mail-config-druid.c:390
+#: mail/mail-config-druid.c:377
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
@@ -12491,15 +12474,15 @@ msgstr ""
 "niet weet wat voor servertype u gebruikt, neem dan contact op met uw "
 "systeembeheerder of met uw internet-provider."
 
-#: mail/mail-config-druid.c:397
+#: mail/mail-config-druid.c:384
 msgid "Please select among the following options"
 msgstr "Maak uw keuze uit de volgende mogelijkheden"
 
-#: mail/mail-config-druid.c:400
+#: mail/mail-config-druid.c:387
 msgid "Sending Mail"
 msgstr "Verzenden van e-mail"
 
-#: mail/mail-config-druid.c:402
+#: mail/mail-config-druid.c:389
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -12508,11 +12491,11 @@ msgstr ""
 "niet weet wat voor servertype u gebruikt, neem dan contact op met uw "
 "systeembeheerder of met uw internet-provider."
 
-#: mail/mail-config-druid.c:407 mail/mail-config.glade.h:10
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:10
 msgid "Account Management"
 msgstr "Accountbeheer"
 
-#: mail/mail-config-druid.c:409
+#: mail/mail-config-druid.c:396
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12613,7 +12596,7 @@ msgstr "Baltisch (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:25
 msgid "C_haracter set:"
-msgstr "_tekencodering:"
+msgstr "_Tekencodering:"
 
 #: mail/mail-config.glade.h:26
 msgid "C_olors"
@@ -12625,7 +12608,7 @@ msgstr "Spelling controleren terwijl ik _tik"
 
 #: mail/mail-config.glade.h:28
 msgid "Checking for New Mail"
-msgstr "Controleren voor Nieuwe Berichten"
+msgstr "Controleren op nieuwe Berichten"
 
 #: mail/mail-config.glade.h:29
 msgid "Color for _misspelled words:"
@@ -12633,7 +12616,7 @@ msgstr "Kleur voor _spelfouten:"
 
 #: mail/mail-config.glade.h:30
 msgid "Composing Messages"
-msgstr "Berichten Opstellen"
+msgstr "Berichten opstellen"
 
 #: mail/mail-config.glade.h:31
 msgid "Configuration"
@@ -12714,7 +12697,7 @@ msgstr "Evolution Account Assistent"
 
 #: mail/mail-config.glade.h:54
 msgid "Execute Command..."
-msgstr "Opdracht Uitvoeren..."
+msgstr "Opdracht uitvoeren..."
 
 #: mail/mail-config.glade.h:55
 msgid "Fi_xed -width:"
@@ -12730,7 +12713,7 @@ msgstr "Berichten opmaken met _HTML"
 
 #: mail/mail-config.glade.h:58
 msgid "Get Digital ID..."
-msgstr "Haal Digitaal ID op..."
+msgstr "Digitaal ID ophalen..."
 
 #: mail/mail-config.glade.h:59
 msgid "Highlight _quotations with"
@@ -12778,7 +12761,7 @@ msgstr "Berichtlettertype"
 
 #: mail/mail-config.glade.h:75
 msgid "New Mail Notification"
-msgstr "Nieuwe Mail Notificatie"
+msgstr "Melden van nieuwe post"
 
 #: mail/mail-config.glade.h:77
 msgid ""
@@ -12831,7 +12814,7 @@ msgstr "Geciteerd"
 
 #: mail/mail-config.glade.h:92
 msgid "Re_member this password"
-msgstr "Onthoud dit wachtwoord"
+msgstr "Wachtwoord _onthouden"
 
 #: mail/mail-config.glade.h:93
 msgid "Re_ply-To:"
@@ -12891,7 +12874,7 @@ msgstr "Verzonden _berichtenmap:"
 
 #: mail/mail-config.glade.h:109
 msgid "Sent and Draft Messages"
-msgstr "Verzonden en Klad Berichten"
+msgstr "Verzonden- en kladberichten"
 
 #: mail/mail-config.glade.h:110
 msgid "Ser_ver requires authentication"
@@ -12903,7 +12886,7 @@ msgstr "Serverconfiguratie"
 
 #: mail/mail-config.glade.h:112
 msgid "Server _Type: "
-msgstr "Server _Type: "
+msgstr "Server_type: "
 
 #: mail/mail-config.glade.h:113
 msgid "Specify _filename:"
@@ -12990,7 +12973,7 @@ msgstr "_Automatisch smileys invoegen"
 
 #: mail/mail-config.glade.h:137
 msgid "_Beep when new mail arrives"
-msgstr "Piepen bij binnenkomst van nieuwe e-mail"
+msgstr "Pieptoon bij binnenkomst van nieuwe e-mail"
 
 #: mail/mail-config.glade.h:138
 msgid "_Certificate ID:"
@@ -13138,7 +13121,7 @@ msgstr "Kon geen S/MIME envelope context maken"
 msgid "Could not create a S/MIME decode context."
 msgstr "Kon geen S/MIME decode context maken"
 
-#: mail/mail-display.c:196
+#: mail/mail-display.c:199
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13147,70 +13130,70 @@ msgstr ""
 "Het bestand '%s' bestaat al.\n"
 "Overschrijven?"
 
-#: mail/mail-display.c:339
+#: mail/mail-display.c:342
 msgid "Save Attachment"
 msgstr "Bijlage opslaan"
 
-#: mail/mail-display.c:412
+#: mail/mail-display.c:415
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Kon tijdelijke bestand '%s' niet maken: %s"
 
-#: mail/mail-display.c:484
+#: mail/mail-display.c:487
 msgid "Save Attachment..."
 msgstr "Bijlage opslaan..."
 
-#: mail/mail-display.c:485
+#: mail/mail-display.c:488
 msgid "View Inline"
 msgstr "In bericht weergeven"
 
-#: mail/mail-display.c:486
+#: mail/mail-display.c:489
 #, c-format
 msgid "Open in %s..."
 msgstr "Openen in %s..."
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:549
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "In bericht weergeven (via %s)"
 
-#: mail/mail-display.c:550
+#: mail/mail-display.c:553
 msgid "Hide"
 msgstr "Verbergen"
 
-#: mail/mail-display.c:570
+#: mail/mail-display.c:573
 msgid "External Viewer"
 msgstr "Externe weergave"
 
-#: mail/mail-display.c:1356
+#: mail/mail-display.c:1363
 msgid "Downloading images"
 msgstr "Afbeeldingen worden gedownload"
 
-#: mail/mail-display.c:1533
+#: mail/mail-display.c:1540
 msgid "Loading message content"
 msgstr "Laden van berichtinhoud"
 
-#: mail/mail-display.c:1880
+#: mail/mail-display.c:1887
 msgid "Overdue:"
 msgstr "Te laat:"
 
-#: mail/mail-display.c:1884
+#: mail/mail-display.c:1891
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "op %B %d, %Y, %l:%M %p"
+msgstr "op %d %B, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2248
 msgid "Open Link in Browser"
 msgstr "Verwijzing in browser openen"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2249
 msgid "Copy Link Location"
 msgstr "Verwijzing kopiëren"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2251
 msgid "Save Link as (FIXME)"
 msgstr "Verwijzing opslaan als (FIXME)"
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2253
 msgid "Save Image as..."
 msgstr "Afbeelding opslaan als..."
 
@@ -13219,92 +13202,92 @@ msgstr "Afbeelding opslaan als..."
 msgid "Pinging %s"
 msgstr "Controleren of %s actief is"
 
-#: mail/mail-format.c:668
+#: mail/mail-format.c:672
 #, c-format
 msgid "%s attachment"
 msgstr "%s bijlage"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
-#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
+#: mail/mail-format.c:714 mail/mail-format.c:1532 mail/mail-format.c:1601
+#: mail/mail-format.c:1721 mail/mail-format.c:1845 mail/mail-format.c:1870
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kon MIME bericht niet verwerken. Onbewerkte weergave."
 
-#: mail/mail-format.c:788 mail/message-list.etspec.h:2
+#: mail/mail-format.c:792 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:874
+#: mail/mail-format.c:878
 msgid "Bad Address"
 msgstr "Ongeldig e-mailadres"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:919 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Van"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:923
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Aan"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:933
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:938
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1640
+#: mail/mail-format.c:1644
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Dit bericht is digitaal ondertekend. Klik op het hangslotpictogram voor meer "
 "informatie."
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1672
 msgid "Could not create a PGP verfication context"
 msgstr "Kon geen PGP verificatieomgeving maken"
 
-#: mail/mail-format.c:1676
+#: mail/mail-format.c:1680
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Dit bericht is digitaal ondertekend en is authentiek."
 
-#: mail/mail-format.c:1683
+#: mail/mail-format.c:1687
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Dit bericht is digitaal ondertekend, maar er kan niet worden aangetoond dat "
 "het authentiek is."
 
-#: mail/mail-format.c:1947
+#: mail/mail-format.c:1951
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Verwijzing naar FTP site (%s)"
 
-#: mail/mail-format.c:1958
+#: mail/mail-format.c:1962
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Verwijzing naar lokaal bestand (%s) geldig bij site \"%s\""
 
-#: mail/mail-format.c:1961
+#: mail/mail-format.c:1965
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Verwijzing naar lokaal bestand (%s)"
 
-#: mail/mail-format.c:1988
+#: mail/mail-format.c:1992
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Verwijzing naar externe gegevens (%s)"
 
-#: mail/mail-format.c:1994
+#: mail/mail-format.c:1998
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
-#: mail/mail-format.c:1996
+#: mail/mail-format.c:2000
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte"
 
@@ -13552,33 +13535,33 @@ msgstr "Opnieuw verbinden met %s"
 msgid "(Untitled Message)"
 msgstr "(Naamloos Bericht)"
 
-#: mail/mail-search.c:236
+#: mail/mail-search.c:234
 msgid "Untitled Message"
 msgstr "Naamloos Bericht"
 
-#: mail/mail-search.c:238
+#: mail/mail-search.c:236
 msgid "Empty Message"
 msgstr "Leeg Bericht"
 
 # titel van dialoogvenster
-#: mail/mail-search.c:287
+#: mail/mail-search.c:283
 msgid "Find in Message"
 msgstr "Bericht doorzoeken"
 
-#: mail/mail-search.c:320
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr "Hoofdlettergevoelig"
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:317
 msgid "Search Forward"
 msgstr "Zoek doorgestuurde"
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:334
 msgid "Find:"
 msgstr "Zoek:"
 
 # Dit staat voor het aantal zoekresultaten
-#: mail/mail-search.c:346
+#: mail/mail-search.c:338
 msgid "Matches:"
 msgstr "Gevonden:"
 
@@ -13968,7 +13951,7 @@ msgstr "Evolution samenvattingseigenschappen"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 msgid "Summary Preferences"
-msgstr "Samenvatting instellingen"
+msgstr "Samenvatting"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
@@ -23781,7 +23764,7 @@ msgstr "Geen omschrijving"
 
 #: my-evolution/e-summary-mail.c:189
 msgid "Mail summary"
-msgstr "Samenvatting Post"
+msgstr "Post"
 
 #: my-evolution/e-summary-preferences.c:355
 msgid "Dictionary.com Word of the Day"
@@ -23825,15 +23808,15 @@ msgstr "blauw"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
-msgstr "(Geen Omschrijving)"
+msgstr "(Geen omschrijving)"
 
 #: my-evolution/e-summary-weather.c:73
 msgid "My Weather"
-msgstr "Mijn Weer"
+msgstr "Mijn weer"
 
 #: my-evolution/e-summary-weather.c:262
 msgid "There was an error downloading data for"
-msgstr "Er trad een fout op bij het downloaden van gegevens voor"
+msgstr "Er is een fout opgetreden bij het downloaden van gegevens voor"
 
 #: my-evolution/e-summary-weather.c:479 my-evolution/my-evolution.glade.h:16
 msgid "Weather"
@@ -23866,7 +23849,7 @@ msgstr "Samenvatting afdrukken"
 
 #: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
-msgstr "Afdrukken van Samenvatting mislukt"
+msgstr "Afdrukken van samenvatting mislukt"
 
 #: my-evolution/metar.c:30
 msgid " F"
@@ -25140,7 +25123,7 @@ msgstr "Evolution configuratie voor mapinstellingen"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:4
 msgid "Folder Settings"
-msgstr "Mapinstellingen"
+msgstr "Mappen"
 
 #: shell/e-activity-handler.c:164
 msgid "Show Details"
@@ -25664,7 +25647,7 @@ msgstr "Selecteer de map waar de snelkoppeling naar moet wijzen:"
 
 #: shell/e-shell-view-menu.c:769
 msgid "_Work Online"
-msgstr "Werk Online"
+msgstr "Online _werken"
 
 #: shell/e-shell-view-menu.c:782 ui/evolution.xml.h:65
 msgid "_Work Offline"
@@ -25672,7 +25655,7 @@ msgstr "Offline _werken"
 
 #: shell/e-shell-view-menu.c:795 ui/evolution.xml.h:39
 msgid "Work Offline"
-msgstr "Werk zonder netwerk"
+msgstr "Werken zonder netwerkverbinding"
 
 #: shell/e-shell-view.c:264
 msgid "(No folder displayed)"
@@ -25746,7 +25729,7 @@ msgstr "Configuratiedatabase niet gevonden"
 
 #: shell/e-shell.c:2075 shell/e-storage.c:568
 msgid "Generic error"
-msgstr "Generieke fout"
+msgstr "Algemene fout"
 
 #: shell/e-shortcuts-view.c:80
 msgid "Create New Shortcut Group"
@@ -25763,15 +25746,15 @@ msgstr "Wil u de groep \"%s\" echt verwijderen van de snelkoppelingsbalk?"
 
 #: shell/e-shortcuts-view.c:222
 msgid "Rename Shortcut Group"
-msgstr "Hernoem Snelkoppelingsgroep"
+msgstr "Snelkoppelingsgroep hernoemen"
 
 #: shell/e-shortcuts-view.c:223
 msgid "Rename selected shortcut group to:"
-msgstr "Hernoem deze snelkoppelingsgroep naar:"
+msgstr "Deze snelkoppelingsgroep hernoemen naar:"
 
 #: shell/e-shortcuts-view.c:255
 msgid "_Small Icons"
-msgstr "_Kleine Pictogrammen"
+msgstr "_Kleine pictogrammen"
 
 #: shell/e-shortcuts-view.c:256
 msgid "Show the shortcuts as small icons"
@@ -25779,7 +25762,7 @@ msgstr "Toont de snelkoppelingen als kleine pictogrammen"
 
 #: shell/e-shortcuts-view.c:258
 msgid "_Large Icons"
-msgstr "_Grote Pictogrammen"
+msgstr "_Grote pictogrammen"
 
 #: shell/e-shortcuts-view.c:259
 msgid "Show the shortcuts as large icons"
@@ -25791,7 +25774,7 @@ msgstr "Groep toe_voegen..."
 
 #: shell/e-shortcuts-view.c:271
 msgid "Create a new shortcut group"
-msgstr "Maakt een nieuwe snelkoppelingsgroep aan"
+msgstr "Nieuwe snelkoppelingsgroep aanmaken"
 
 #: shell/e-shortcuts-view.c:273
 msgid "_Remove this Group..."
@@ -25799,7 +25782,7 @@ msgstr "Deze groep _verwijderen..."
 
 #: shell/e-shortcuts-view.c:274
 msgid "Remove this shortcut group"
-msgstr "Verwijder deze snelkoppelingsgroep"
+msgstr "Deze snelkoppelingsgroep verwijderen"
 
 #: shell/e-shortcuts-view.c:276
 msgid "Re_name this Group..."
@@ -25807,23 +25790,23 @@ msgstr "Deze groep _hernoemen..."
 
 #: shell/e-shortcuts-view.c:277
 msgid "Rename this shortcut group"
-msgstr "Hernoem deze snelkoppelingsgroep"
+msgstr "Deze snelkoppelingsgroep hernoemen"
 
 #: shell/e-shortcuts-view.c:282
 msgid "_Hide the Shortcut Bar"
-msgstr "_Verberg de Snelkoppelingsbalk"
+msgstr "Snelkoppelingsbalk verbergen"
 
 #: shell/e-shortcuts-view.c:283
 msgid "Hide the shortcut bar"
-msgstr "Verberg de snelkoppelingenbalk"
+msgstr "De snelkoppelingenbalk verbergen"
 
 #: shell/e-shortcuts-view.c:288
 msgid "Create _Default Shortcuts"
-msgstr "_Standaard koppelingen maken"
+msgstr "_Standaardkoppelingen maken"
 
 #: shell/e-shortcuts-view.c:289
 msgid "Create Default Shortcuts"
-msgstr "Standaard koppelingen maken"
+msgstr "Standaardkoppelingen maken"
 
 #: shell/e-shortcuts-view.c:408
 msgid "Rename Shortcut"
@@ -25851,7 +25834,7 @@ msgstr "_Hernoemen"
 
 #: shell/e-shortcuts-view.c:427
 msgid "Rename this shortcut"
-msgstr "Hernoem deze snelkoppeling"
+msgstr "Deze snelkoppeling hernoemen"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Re_move"
@@ -25859,7 +25842,7 @@ msgstr "Verwijderen"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
-msgstr "Verwijder deze snelkoppeling van de snelkoppelingenbalk"
+msgstr "Deze snelkoppeling van de snelkoppelingenbalk verwijderen"
 
 #: shell/e-shortcuts.c:649
 msgid "Error saving shortcuts."
@@ -25891,7 +25874,7 @@ msgstr "I/O fout"
 
 #: shell/e-storage.c:576
 msgid "Not enough space to create the folder"
-msgstr "Niet genoeg ruimte vrij om de folder te maken"
+msgstr "Niet genoeg ruimte vrij om de map te maken"
 
 #: shell/e-storage.c:578
 msgid "The folder is not empty"
@@ -25899,7 +25882,7 @@ msgstr "De map is niet leeg"
 
 #: shell/e-storage.c:580
 msgid "The specified folder was not found"
-msgstr "De opgegeven folder is niet gevonden"
+msgstr "Kan de opgegeven map niet vinden"
 
 #: shell/e-storage.c:582
 msgid "Function not implemented in this storage"
@@ -25907,7 +25890,7 @@ msgstr "Functie niet geïmplementeerd voor deze opslag"
 
 #: shell/e-storage.c:586
 msgid "Operation not supported"
-msgstr "Operatie niet ondersteund"
+msgstr "Actie niet ondersteund"
 
 #: shell/e-storage.c:588
 msgid "The specified type is not supported in this storage"
@@ -25915,7 +25898,7 @@ msgstr "Het gespecificeerde type word niet ondersteund door deze opslag"
 
 #: shell/e-storage.c:590
 msgid "The specified folder cannot be modified or removed"
-msgstr "De opgegeven folder kan niet worden veranderd of verwijderd"
+msgstr "De opgegeven map kan niet worden veranderd of verwijderd"
 
 #: shell/e-storage.c:592
 msgid "Cannot make a folder a child of one of its descendants"
@@ -26495,7 +26478,7 @@ msgstr "Ga vooruit in de tijd"
 
 #: ui/evolution-calendar.xml.h:12
 msgid "Go to _Date"
-msgstr "Ga Naar Datum"
+msgstr "Ga naar _datum"
 
 #: ui/evolution-calendar.xml.h:14
 msgid "Go to a specific date"
@@ -26503,7 +26486,7 @@ msgstr "Ga naar een specifieke datum"
 
 #: ui/evolution-calendar.xml.h:15
 msgid "Go to today"
-msgstr "Ga Naar Vandaag"
+msgstr "Ga naar vandaag"
 
 #: ui/evolution-calendar.xml.h:16
 msgid "Month"
@@ -26881,7 +26864,7 @@ msgstr "Afzender aan adresboek _toevoegen"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "Filters _-toepassen"
+msgstr "Filters _toepassen"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Addressbook"
@@ -26889,24 +26872,25 @@ msgstr "Afzender aan adresboek toevoegen"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr "Pas filter regels toe op geselecteerde berichten"
+msgstr "Filterregels toepassen op geselecteerde berichten"
 
 # Alle geadresseerden van dit bericht antwoord geven
 #: ui/evolution-mail-message.xml.h:5
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "Stuur antwoord naar alle geadresseerden van dit bericht"
+msgstr "Antwoord sturen aan alle geadresseerden van dit bericht"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "Geef een antwoord voor de mailinglijst van het geselecteerde bericht"
+msgstr ""
+"Een antwoord geven voor de discussielijst van het geselecteerde bericht"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the sender of the selected message"
-msgstr "Beantwoord dit bericht"
+msgstr "Een antwoord opstellen voor het geselecteerde bericht"
 
 #: ui/evolution-mail-message.xml.h:9
 msgid "Copy selected messages to another folder"
-msgstr "Kopieer het bericht naar een andere map"
+msgstr "Het bericht naar een andere map kopiëren"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create _Virtual Folder From Message"
@@ -26914,35 +26898,35 @@ msgstr "_VMap van bericht maken"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages from this sender"
-msgstr "Maak een regel om de berichten van deze afzender te filteren"
+msgstr "Een regel maken om de berichten van deze afzender te filteren"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create a rule to filter messages to these recipients"
-msgstr "Maak een regel om de berichten van deze afzenders te filteren"
+msgstr "Een regelmaken om de berichten van deze afzenders te filteren"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Maak een regel om de berichten naar deze e-maillijst te filteren"
+msgstr "Een regel maken om de berichten naar deze e-maillijst te filteren"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages with this subject"
-msgstr "Maak een regel om de berichten met dit onderwerp te filteren"
+msgstr "Een regel maken om de berichten met dit onderwerp te filteren"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a virtual folder for these recipients"
-msgstr "Maak een Virtueele map voor deze ontvangers"
+msgstr "Een virtuele map maken voor deze ontvangers"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a virtual folder for this mailing list"
-msgstr "Maak een virtuele map voor deze e-maillijst"
+msgstr "Een virtuele map maken voor deze discussielijst"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for this sender"
-msgstr "Maak een virtuele map voor deze afzender"
+msgstr "Een virtuele map maken voor deze afzender"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this subject"
-msgstr "Maak een virtuele map voor dit onderwerp"
+msgstr "Een virtuele map maken voor dit onderwerp"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Decrease the text size"
@@ -26950,27 +26934,27 @@ msgstr "Tekst verkleinen"
 
 #: ui/evolution-mail-message.xml.h:21
 msgid "Display the next important message"
-msgstr "Toon het volgende belangrijke bericht"
+msgstr "Het volgende belangrijke bericht tonen"
 
 #: ui/evolution-mail-message.xml.h:22
 msgid "Display the next message"
-msgstr "Toon het volgende bericht"
+msgstr "Het volgende bericht tonen"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Display the next unread message"
-msgstr "Toon het volgende ongelezen bericht"
+msgstr "Het volgende ongelezen bericht tonen"
 
 #: ui/evolution-mail-message.xml.h:24
 msgid "Display the next unread thread"
-msgstr "Toon de volgende ongelezen discussieboom zien"
+msgstr "De volgende ongelezen discussieboom tonen"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the previous important message"
-msgstr "Toon het vorige belangrijke bericht"
+msgstr "Het vorige belangrijke bericht tonen"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the previous message"
-msgstr "Toon het vorige bericht"
+msgstr "Het vorige bericht tonen"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the previous unread message"
@@ -26982,19 +26966,19 @@ msgstr "D_oorsturen"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
-msgstr "Filter op Mailing_lijst..."
+msgstr "Filteren op discussie_lijst..."
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Filter on Se_nder..."
-msgstr "Filter op _Afzender..."
+msgstr "Filteren op _afzender..."
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Filter on _Recipients..."
-msgstr "Filter op _Geadresseerden..."
+msgstr "Filteren op _geadresseerden..."
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "Filter on _Subject..."
-msgstr "Filter op _Onderwerp..."
+msgstr "Filteren op _onderwerp..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Flag selected message(s) for follow-up"
@@ -27006,24 +26990,23 @@ msgstr "Antwoord..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Force images in HTML mail to be loaded"
-msgstr "Forceer het laden van plaatjes in HTML-berichten"
+msgstr "Plaatjes in HTML-berichten altijd laden"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
-"Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
+msgstr "Geselecteerde bericht doorsturen als inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Forward the selected message quoted like a reply"
-msgstr "Stuur het bericht geciteerd door alsof het een antwoord is"
+msgstr "Geselecteerde bericht geciteerd doorsturen alsof het een antwoord is"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Forward the selected message to someone"
-msgstr "Stuur het bericht door naar iemand"
+msgstr "Geselecteerde bericht doorsturen"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Stuur het bericht door naar iemand als bijlage"
+msgstr "Geselecteerde bericht doorsturen als bijlage"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
@@ -27031,7 +27014,7 @@ msgstr "Tekstweergave vergroten"
 
 #: ui/evolution-mail-message.xml.h:42
 msgid "Load _Images"
-msgstr "Toon _Afbeeldingen"
+msgstr "_Afbeeldingen tonen"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark as I_mportant"
@@ -27774,7 +27757,7 @@ msgstr "Verversen"
 
 #: ui/my-evolution.xml.h:5
 msgid "Reload the view"
-msgstr "Weegave Herladen"
+msgstr "Weegave herladen"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -27790,19 +27773,19 @@ msgstr "Telefoonlijst"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr "W_eekweergave"
+msgstr "W_eek"
 
 #: views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr "_Dagweergave"
+msgstr "_Dag"
 
 #: views/calendar/galview.xml.h:3
 msgid "_Month View"
-msgstr "_Maandweergave"
+msgstr "_Maand"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Work Week View"
-msgstr "_Werkweekweergave"
+msgstr "_Werkweek"
 
 #: views/mail/galview.xml.h:1
 msgid "As Sent Folder"
@@ -28072,6 +28055,15 @@ msgstr "Evolution kalender backend voor lokale bestanden"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adresboek backend voor lokale bestanden"
+
+#~ msgid "Host lookup failed: cannot create thread: %s"
+#~ msgstr "Opzoeken van host mislukt: kan geen thread aanmaken: %s"
+
+#~ msgid "Host lookup failed: %s: host not found"
+#~ msgstr "Machine niet gevonden: %s machine niet gevonden"
+
+#~ msgid "Host lookup failed: %s: unknown reason"
+#~ msgstr "Machine opzoeken faalde: %s onbekende reden"
 
 #~ msgid "Hey you, dunce. You need an account to send mail doncha know."
 #~ msgstr ""
