@@ -1511,6 +1511,10 @@ event_editor_construct (EventEditor *ee)
 
 	gtk_widget_show (priv->app);
 
+	/* Add focus to the summary entry*/
+
+	gtk_widget_grab_focus (GTK_OBJECT (priv->general_summary));
+
 	return ee;
 
  error:
