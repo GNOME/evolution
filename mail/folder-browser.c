@@ -614,7 +614,7 @@ selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 			message = camel_folder_get_message (source, uids->pdata[i], NULL);
 			g_free (uids->pdata[i]);
 			
-			if (message) {			
+			if (message) {
 				camel_stream_write (stream, "From - \n", 8);
 				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 				camel_object_unref (CAMEL_OBJECT (message));

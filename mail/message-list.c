@@ -902,9 +902,9 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
 			if (subtree_unread(message_list, child))
-				return (void *)3;
+				return GINT_TO_POINTER (4);
 			else
-				return (void *)4;
+				return GINT_TO_POINTER (3);
 		}
 		
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
@@ -1212,6 +1212,19 @@ save_tree_state(MessageList *ml)
 	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
 	e_tree_save_expanded_state(ml->tree, filename);
 	g_free(filename);
+}
+
+static void
+load_tree_state (MessageList *ml)
+{
+	char *filename;
+	
+	if (ml->folder == NULL || ml->tree == NULL)
+		return;
+	
+	filename = mail_config_folder_to_cachename (ml->folder, "et-expanded-");
+	e_tree_load_expanded_state (ml->tree, filename);
+	g_free (filename);
 }
 
 
@@ -2768,11 +2781,15 @@ regen_list_regened (struct _mail_msg *mm)
 		return;
 
 	if (m->dotree) {
+		save_tree_state (m->ml);
+		
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)
 			camel_folder_thread_messages_unref(m->ml->thread_tree);
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
+		
+		load_tree_state (m->ml);
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 

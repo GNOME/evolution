@@ -2055,7 +2055,7 @@ mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 		fb->seen_id = 0;
 	}
 	
-	flag_messages (fb, CAMEL_MESSAGE_SEEN, 0);
+	flag_messages (fb, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED, 0);
 }
 
 void

@@ -1,3 +1,20 @@
+2003-04-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mark_as_unseen): To be consistant with the
+	message-list envelope toggle, undelete the message when we unmark
+	the Seen flag here as well. Fixes bug #42118.
+
+2003-04-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (ml_tree_value_at): Fixed to return the correct
+	values (swapped) in order to fix bug #42120.
+
+2003-04-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (regen_list_regened): Save the tree state before
+	we tear down the tree and then load it back again. yay. Fixes bug
+	#42170 and #40074.
+
 2003-04-30  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #41748
