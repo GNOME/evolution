@@ -1,3 +1,8 @@
+2001-02-17  Lauris Kaplinski  <lauris@ximian.com>
+
+	* gnome-print-check.m4: Remove most of stuff here, but now
+	it at least WORKS
+
 2001-02-07  Kenneth Christiansen  <kenneth@gnu.org>
 
 	* autogen.sh: Added test for xml-i18n-tools if 
