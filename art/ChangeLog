@@ -1,3 +1,9 @@
+2001-08-07  Damon Chaplin  <damon@ximian.com>
+
+	* timezone-16.xpm: copied from the international category icon.
+	It would be better to have 2 different icons for these, but I had
+	to get rid of that square timezone icon!
+
 2001-08-07  Jakub Steiner <jimmac@ximian.com>
 
 	* evolution-trash-mini.png: scaled down Tuomas' trash icon.
