@@ -764,10 +764,7 @@ free_info(void *key, void *value, void *data)
 {
 	CamelFolderInfo *info = value;
 
-	g_free(info->url);
-	g_free(info->name);
-	g_free(info->full_name);
-	free(info);
+	camel_folder_info_free (info);
 }
 
 static void
@@ -837,6 +834,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 		info->full_name = g_strdup(path);
 		info->name = g_strdup(name);
 		info->unread_message_count = -1;
+		info->path = g_strdup (path);
 		g_hash_table_insert(mls->folder_infos, info->url, info);
 	}
 

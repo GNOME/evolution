@@ -1,11 +1,18 @@
+2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_store_add_folder): Set the folder info
+	path.
+
 2001-09-20    <NotZed@Ximian.com>
 
-	* mail-tools.c(mail_tool_uri_to_folder): Register vfolder sources here.
+	* mail-tools.c (mail_tool_uri_to_folder): Register vfolder sources
+	here.
 	
 	* folder-browser.c (got_folder): Dont register vfolder sources
 	here.
 
-	* mail-ops.c (mail_get_folder): Add thread parameter.  Fix callers.
+	* mail-ops.c (mail_get_folder): Add thread parameter.  Fix
+	callers.
 
 	* mail-vfolder.c (vfolder_setup): Use the 'slow' queue for setting
 	up vfolders.
@@ -17,8 +24,8 @@
 
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
-	* mail-display.c (mail_error_write): Add a <blockquote> to make the
-	error message look better.
+	* mail-display.c (mail_error_write): Add a <blockquote> to make
+	the error message look better.
 
 2001-09-20    <NotZed@Ximian.com>
 
@@ -45,7 +52,6 @@
 	(setup_folder): 
 	(real_note_folder): Key the folderinfo table on full_name, not
 	path.
-
 
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
