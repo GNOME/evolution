@@ -142,6 +142,8 @@ static GtkTargetEntry drop_types[] = {
 
 static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 
+static const char * emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
+
 
 /* The parent class.  */
 static BonoboWindowClass *parent_class = NULL;
@@ -3070,7 +3072,7 @@ create_composer (int visible_mask)
 	prepare_signatures_menu (composer);
 	setup_signatures_menu (composer);
 
-	from_changed_cb(composer->hdrs, composer);
+	from_changed_cb((EMsgComposerHdrs *)composer->hdrs, composer);
 
 	/* Editor component.  */
 	composer->editor = bonobo_widget_new_control (
@@ -3195,6 +3197,8 @@ create_composer (int visible_mask)
 		am = autosave_manager_new ();
 	
 	autosave_manager_register (am, composer);
+
+	composer->has_changed = FALSE;
 	
 	return composer;
 }
@@ -3806,13 +3810,29 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* Restore the format editing preference */
 	format = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
 	if (format) {
-		while (*format && isspace ((unsigned) *format))
+		char **flags;
+
+		while (*format && camel_mime_is_lwsp(*format))
 			format++;
-		
-		if (!strcasecmp (format, "text/html"))
-			e_msg_composer_set_send_html (new, TRUE);
-		else
-			e_msg_composer_set_send_html (new, FALSE);
+
+		flags = g_strsplit(format, ", ", 0);
+		for (i=0;flags[i];i++) {
+			printf("restoring draft flag '%s'\n", flags[i]);
+
+			if (g_ascii_strcasecmp(flags[i], "text/html") == 0)
+				e_msg_composer_set_send_html (new, TRUE);
+			else if (g_ascii_strcasecmp(flags[i], "text/plain") == 0)
+				e_msg_composer_set_send_html (new, FALSE);
+			else if (g_ascii_strcasecmp(flags[i], "pgp-sign") == 0)
+				e_msg_composer_set_pgp_sign(new, TRUE);
+			else if (g_ascii_strcasecmp(flags[i], "pgp-encrypt") == 0)
+				e_msg_composer_set_pgp_encrypt(new, TRUE);
+			else if (g_ascii_strcasecmp(flags[i], "smime-sign") == 0)
+				e_msg_composer_set_smime_sign(new, TRUE);
+			else if (g_ascii_strcasecmp(flags[i], "smime-encrypt") == 0)
+				e_msg_composer_set_smime_encrypt(new, TRUE);
+		}
+		g_strfreev(flags);
 	}
 	
 	/* Remove any other X-Evolution-* headers that may have been set */
@@ -4359,37 +4379,35 @@ e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_da
 	return build_message (composer, save_html_object_data);
 }
 
-
 CamelMimeMessage *
 e_msg_composer_get_message_draft (EMsgComposer *composer)
 {
 	CamelMimeMessage *msg;
 	EAccount *account;
+	gboolean old_flags[4];
 	gboolean old_send_html;
-	gboolean old_pgp_sign;
-	gboolean old_pgp_encrypt;
-	gboolean old_smime_sign;
-	gboolean old_smime_encrypt;
-	
+	GString *flags;
+	int i;
+
 	/* always save drafts as HTML to preserve formatting */
 	old_send_html = composer->send_html;
 	composer->send_html = TRUE;
-	old_pgp_sign = composer->pgp_sign;
+	old_flags[0] = composer->pgp_sign;
 	composer->pgp_sign = FALSE;
-	old_pgp_encrypt = composer->pgp_encrypt;
+	old_flags[1] = composer->pgp_encrypt;
 	composer->pgp_encrypt = FALSE;
-	old_smime_sign = composer->smime_sign;
+	old_flags[2] = composer->smime_sign;
 	composer->smime_sign = FALSE;
-	old_smime_encrypt = composer->smime_encrypt;
+	old_flags[3] = composer->smime_encrypt;
 	composer->smime_encrypt = FALSE;
 	
 	msg = e_msg_composer_get_message (composer, TRUE);
 	
 	composer->send_html = old_send_html;
-	composer->pgp_sign = old_pgp_sign;
-	composer->pgp_encrypt = old_pgp_encrypt;
-	composer->smime_sign = old_smime_sign;
-	composer->smime_encrypt = old_smime_encrypt;
+	composer->pgp_sign = old_flags[0];
+	composer->pgp_encrypt = old_flags[1];
+	composer->smime_sign = old_flags[2];
+	composer->smime_encrypt = old_flags[3];
 	
 	/* Attach account info to the draft. */
 	account = e_msg_composer_get_preferred_account (composer);
@@ -4399,8 +4417,20 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	/* build_message() set this to text/html since we set composer->send_html to
 	   TRUE before calling e_msg_composer_get_message() */
 	if (!composer->send_html)
-		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format", "text/plain");
-	
+		flags = g_string_new("text/plain");
+	else
+		flags = g_string_new("text/html");
+
+	/* This should probably only save the setting if it is
+	 * different from the from-account default? */
+	for (i=0;i<4;i++) {
+		if (old_flags[i])
+			g_string_append_printf(flags, ", %s", emc_draft_format_names[i]);
+	}
+
+	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format", flags->str);
+	g_string_free(flags, TRUE);
+
 	return msg;
 }
 
@@ -4571,6 +4601,7 @@ e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 		return;
 	
 	composer->pgp_sign = pgp_sign;
+	e_msg_composer_set_changed (composer);
 	
 	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPSign",
 				      "state", composer->pgp_sign ? "1" : "0", NULL);
@@ -4612,6 +4643,7 @@ e_msg_composer_set_pgp_encrypt (EMsgComposer *composer, gboolean pgp_encrypt)
 		return;
 	
 	composer->pgp_encrypt = pgp_encrypt;
+	e_msg_composer_set_changed (composer);
 	
 	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPEncrypt",
 				      "state", composer->pgp_encrypt ? "1" : "0", NULL);
@@ -4652,8 +4684,9 @@ e_msg_composer_set_smime_sign (EMsgComposer *composer, gboolean smime_sign)
 	if (!composer->smime_sign && !smime_sign)
 		return;
 	
-	composer->smime_sign = smime_sign;
-	
+	composer->smime_sign = smime_sign;	
+	e_msg_composer_set_changed (composer);
+
 	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySMimeSign",
 				      "state", composer->smime_sign ? "1" : "0", NULL);
 }
@@ -4694,6 +4727,7 @@ e_msg_composer_set_smime_encrypt (EMsgComposer *composer, gboolean smime_encrypt
 		return;
 	
 	composer->smime_encrypt = smime_encrypt;
+	e_msg_composer_set_changed (composer);
 	
 	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySMimeEncrypt",
 				      "state", composer->smime_encrypt ? "1" : "0", NULL);

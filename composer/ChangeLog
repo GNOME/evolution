@@ -1,3 +1,22 @@
+2004-01-14  Not Zed  <NotZed@Ximian.com>
+
+	** See Bug #20017.
+
+	* e-msg-composer.c (create_composer): set the composer to
+	unchanged after all setup, some setup (from_changed_cb) will mark
+	it changed.
+	(create_composer): remove a warning.
+
+	** See Bug #52794.
+	
+	(e_msg_composer_get_message_draft): save sign/encrypt settings to
+	X-Evolution-Format header.
+	(e_msg_composer_new_with_message): restore sign/encrypt settings
+	from X-Evolution-Format header.
+	(e_msg_composer_set_pgp_sign, e_msg_composer_set_pgp_encrypt)
+	(e_msg_composer_set_smime_sign, e_msg_composer_set_smime_encrypt):
+	Set composer changed if it did.
+
 2004-01-12  JP Rosevear  <jpr@ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_post_to): fix
