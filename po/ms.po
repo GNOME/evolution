@@ -16990,9 +16990,8 @@ msgid "Bug buddy could not be run."
 msgstr "Kawan pepijat tidak dapat dijalankan."
 
 #: shell/e-shell-window-commands.c:323
-#, fuzzy
 msgid "Groupware Suite"
-msgstr "Kumpulan"
+msgstr "Sut Groupware"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -17007,38 +17006,32 @@ msgid "Work Offline"
 msgstr "Bekerja Luar Talian"
 
 #: shell/e-shell-window.c:337
-#, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Ximian Evolution dalam talian sekarang.  Klik butang ini untuk bekerja luar "
+"Evolution dalam talian sekarang.  Klik butang ini untuk bekerja luar "
 "talian."
 
 #: shell/e-shell-window.c:344
-#, fuzzy
 msgid "Evolution is in the process of going offline."
-msgstr "Ximian Evolution adalah dalam proses menjadi luar talian."
+msgstr "Evolution adalah dalam proses menjadi luar talian."
 
 #: shell/e-shell-window.c:350
-#, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Ximian Evolution luar talian sekarang.  Klik butang ini untuk bekerja dalam "
+"Evolution luar talian sekarang.  Klik butang ini untuk bekerja dalam "
 "talian."
 
 #: shell/e-shell-window.c:637
-#, fuzzy, c-format
 msgid "Switch to %s"
-msgstr "Mel ke %s"
+msgstr "Bertukar ke %s"
 
 #: shell/e-shell.c:585
-#, fuzzy
 msgid "Uknown system error."
-msgstr "Ralat tak diketahui"
+msgstr "Ralat sistem tak diketahui."
 
 #: shell/e-shell.c:789 shell/e-shell.c:790
-#, fuzzy, c-format
 msgid "%ld KB"
-msgstr "%d %B"
+msgstr "%ld %KB"
 
 #: shell/e-shell.c:1210 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
@@ -17046,7 +17039,7 @@ msgstr "OK"
 
 #: shell/e-shell.c:1212
 msgid "Invalid arguments"
-msgstr "Argumen tak sah"
+msgstr "Hujah tak sah"
 
 #: shell/e-shell.c:1214
 msgid "Cannot register on OAF"
@@ -17066,7 +17059,7 @@ msgstr "Baru"
 
 #: shell/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
-msgstr "Pembantu Persediaan Evolution"
+msgstr "Pembantu Tetapan Evolution"
 
 #: shell/evolution-startup-wizard.glade.h:3
 msgid "Importing Files"
@@ -17089,10 +17082,10 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Selamat Datang ke Evolution. Beberapa skrin seterusnya akan membolehkan\n"
-"Evolution disambungkan ke akaun e-mel anda, dan mengimport\n"
+"Evolution disambungkan ke akaun emel anda, dan mengimport\n"
 "fail daripada aplikasi lain. \n"
 "\n"
-"Sila klik butang \"Sampaikan\" untuk meneruskan pengendalian. "
+"Sila klik butang \"Maju\" untuk meneruskan pengendalian. "
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -17104,22 +17097,19 @@ msgstr ""
 "Anda telah berjaya memasukkan semua maklumat\n"
 "yang diperlukan untuk menyediakan Evolution. \n"
 "\n"
-"Klik butang \"Guna\" untuk menyimpan seting anda. "
+"Klik butang \"Terap\" untuk menyimpan tetapan anda. "
 
 #: shell/evolution-test-component.c:140
-#, fuzzy
 msgid "New Test"
-msgstr "Tugas Baru"
+msgstr "Ujian Baru"
 
 #: shell/evolution-test-component.c:141
-#, fuzzy
 msgid "_Test"
-msgstr "Ujian"
+msgstr "_Uji"
 
 #: shell/evolution-test-component.c:142
-#, fuzzy
 msgid "Create a new test item"
-msgstr "Cipta tugas baru"
+msgstr "Cipta item ujian baru"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -17130,29 +17120,24 @@ msgid "Evolution Import Assistant"
 msgstr "Pembantu Import Evolution"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Import File"
-msgstr "Mengimport Fail"
+msgstr "Import Fail"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "Lokasi:"
+msgstr "Lokasi Import"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Pengimport"
+msgstr "Jenis Pengimport"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "Pilih pengimport"
+msgstr "Pilih Pengimport"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
-msgstr "Pilih fail"
+msgstr "Pilih satu Fail"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -17186,7 +17171,6 @@ msgstr "Evolution boleh mengimport data daripada fail berikut:"
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17205,8 +17189,8 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 "Hai.  Terima kasih kerana meluangkan masa untuk memuatturunkan keluaran "
-"pralihat\n"
-"set perisian kumpulan Ximian Evolution.\n"
+"prebiu\n"
+"set perisian kumpulan Evolution.\n"
 "\n"
 "Versi Ximian Evolution ini masih belum lengkap. Ia hampir siap\n"
 "tetapi beberapa cirinya masih belum siap atau tidak dapat berfungsi dengan "
@@ -17224,13 +17208,12 @@ msgstr ""
 "tidak sabar menunggu sumbangan anda!\n"
 
 #: shell/main.c:250
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 "Terima kasih\n"
-"Pasukan Ximian Evolution\n"
+"Pasukan Evolution\n"
 
 #: shell/main.c:257
 msgid "Don't tell me again"
@@ -17238,7 +17221,7 @@ msgstr "Jangan beritahu saya lagi"
 
 #: shell/main.c:462
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "Mulakan Evolution mengaktifkan komponen dinyatakan"
 
 #: shell/main.c:464
 msgid "Start in offline mode"
@@ -17253,9 +17236,8 @@ msgid "Forcibly shut down all evolution components"
 msgstr "Tamatkan semua komponen Evolution secara paksa"
 
 #: shell/main.c:473
-#, fuzzy
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "Peningkatan paksa fail konfigurasi daripada Evolution 1.0.x"
+msgstr "Peningkatan paksa fail daripada Evolution 1.4"
 
 #: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
@@ -17267,13 +17249,13 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
-"%s: --dalam talian dan --luar talian tidak dapat digunakan bersama.\n"
-"  Gunakan %s --bantuan untuk keterangan lanjut.\n"
+"%s: --online dan --offline tidak dapat digunakan bersama.\n"
+"  Gunakan %s --help untuk maklumat lanjut.\n"
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "Tak cukup ruang cakera untuk naiktaraf."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -17284,6 +17266,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"Penaiktarafan data dan tetapan anda memerlukan sehingga {0} ruang cakera, tetapi "
+"anda hanya ada {1} .\n"
+"\n"
+"Anda perlu menyediakan lebih ruang pada direktori rumah anda sebelum anda meneruskan."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -17291,6 +17277,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"Naiktaraf drpd versi terdahulu gagal:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -17300,17 +17288,19 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"Jika anda memilih untuk teruskan, anda tak mempunyai akses kepada data lama anda.\n"
 
 #: shell/shell-errors.xml.h:15
-#, fuzzy
 msgid "Continue"
-msgstr "Constantine"
+msgstr "Teruskan"
 
 #. shell:upgrade-remove-1-4 title
 #. shell:upgrade-remove-1-4 primary
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:19
 msgid "Delete old data from version {0}?"
-msgstr ""
+msgstr "Padam data lama drpd versi {0}?"
 
 #. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
@@ -17322,22 +17312,25 @@ msgid ""
 "then you may manually remove the contents of \"evolution\" at your "
 "convenience.\n"
 msgstr ""
-
+"Versi terdahulu evolution menyimpan datanya pada lokasi lain.\n"
+"\n"
+"Jika anda memilih untuk membuang data ini, keseluruhan kandungan direktori \"evolution\" "
+"akan dibuang secara kekal. JIka anda memilih untuk menyimpan data ini,"
+"anda boleh membuang kandungan \"evolution\" mengikut kehendak anda "
+".\n"
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Peringatan"
+msgstr "_Ingatkan Daku Kelak"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Kekalkan Data"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
 #: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
-#, fuzzy
 msgid "Really delete old data?"
-msgstr "Anda pasti ingin memadam folder \"%s\"?"
+msgstr "Benar-benar memadam data lama?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
@@ -17356,16 +17349,14 @@ msgstr ""
 #. shell:noshell title
 #. shell:noshell-reason title
 #: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
-#, fuzzy
 msgid "Cannot start Evolution"
-msgstr "Tidak dapat mencapai cangkerang Ximian Evolution."
+msgstr "Tidak dapat memulakan Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
-#, fuzzy
 msgid "Evolution can not start."
-msgstr "Pembantu Akaun Evolution"
+msgstr "Evolution tak dapat dimulakan."
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
@@ -17374,6 +17365,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"Konfigurasi sistem anda tak sepadan dengan konfigurasi Evolution anda.\n"
+"\n"
+"Klik bantuan untuk maklumat lanjut"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
@@ -17384,6 +17378,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"Konfigurasi sistem anda tak sepadan dengan konfigurasi Evolution anda.\n"
+"\n"
+"{0}\n"
+"\n"
+"Klik bantuan untuk maklumat lanjut"
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -17392,6 +17391,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Sijil '%s' adalah sijil CA.\n"
+"\n"
+"Edit tetapan kepercayaan:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
@@ -18408,7 +18410,7 @@ msgstr "_Langgan Folder..."
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Show message preview window"
-msgstr "Tunjukkan tetingkap pralihat mesej"
+msgstr "Papar tetingkap prebiu mesej"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -18416,7 +18418,7 @@ msgstr "Langgan atau batalkan langganan folder dalam pelayan jauh"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
-msgstr "Editor Folder _Maya..."
+msgstr "_Editor Folder Maya..."
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "_Filters..."
@@ -18424,7 +18426,7 @@ msgstr "_Penapis..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr "Ubah ciri-ciri folder ini"
+msgstr "Ubah ciri-ciri bagi folder ini"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
@@ -18444,7 +18446,7 @@ msgstr "Sembunyikan M_esej yang Dipilih"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "Sembunyikan _Mesej yang Dihapuskan"
+msgstr "Sembunyikan _Mesej yang Dipadam"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
@@ -18470,7 +18472,7 @@ msgstr "Tampal mesej daripada papan keratan"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Keluarkan secara kekal semua mesej yang dihapuskan daripada folder ini"
+msgstr "Keluarkan secara kekal semua mesej yang dipadam daripada folder ini"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
@@ -18490,11 +18492,11 @@ msgstr "Pilih semua mesej yang dapat dilihat"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "Tun_jukkan Mesej Tersembunyi"
+msgstr "_Papar Mesej Tersembunyi"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr "Tunjukkan mesej yang telah disembunyikan secara sementara"
+msgstr "Papar mesej yang telah disembunyikan secara sementara"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
@@ -18506,7 +18508,7 @@ msgstr "Sembunyikan secara sementara mesej yang dipilih"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Senarai Mesej yang Disambungkan"
+msgstr "Senarai Mesej Berbebenang"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
@@ -18518,10 +18520,9 @@ msgstr "_Songsangkan Pemilihan"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
-msgstr "_Senarai Mesej yang Disambungkan"
+msgstr "_Senarai Mesej Berbebenang"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Address Book"
 msgstr "Tam_bahkan Penghantar ke Buku Alamat"
 
@@ -18530,7 +18531,6 @@ msgid "A_pply Filters"
 msgstr "G_unakan Penapis"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Tambahkan Penghantar ke Buku Alamat"
 
@@ -18629,28 +18629,28 @@ msgstr "Paparkan mesej yang belum dibaca sebelumnya"
 #: ui/evolution-mail-message.xml.h:32
 #, fuzzy
 msgid "F_orward As..."
-msgstr "Sam_paikan"
+msgstr "Sam_paikan Sebagai..."
 
 #: ui/evolution-mail-message.xml.h:33
 #, fuzzy
 msgid "Filter _Junk"
-msgstr "Peraturan Penapis"
+msgstr "Tapis _Junk"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "Penapis bagi Senarai _Mel..."
+msgstr "Tapis pada  Kelompok _Mel..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "Penapis bagi Peng_hantar..."
+msgstr "Tapis pada Peng_hantar..."
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "Penapis bagi _Penerima.."
+msgstr "Tapis pada _Penerima.."
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "Penapis bagi _Tajuk.."
+msgstr "Tapis pada _Tajuk..."
 
 #: ui/evolution-mail-message.xml.h:38
 #, fuzzy
@@ -18687,7 +18687,7 @@ msgstr "Sampaikan mesej yang dipilih kepada seseorang sebagai lampiran"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr "Tambahkan saiz teks"
+msgstr "Besarkan saiz teks"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Load _Images"
@@ -18745,15 +18745,15 @@ msgstr "Alihkan mesej yang dipilih ke folder lain"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
-msgstr "Mesej _Penting Seterusnya"
+msgstr "Mesej _Penting Berikutnya"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Next _Thread"
-msgstr "Bebenang _Seterusnya"
+msgstr "Bebenang _Berikutnya"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
-msgstr "Mesej _Belum Dibaca Seterusnya"
+msgstr "Mesej _Belum Dibaca Berikutnya"
 
 #: ui/evolution-mail-message.xml.h:69
 #, fuzzy
@@ -18765,9 +18765,8 @@ msgid "Open the selected message in a new window"
 msgstr "Buka mesej yang dipilih dalam tetingkap baru"
 
 #: ui/evolution-mail-message.xml.h:71
-#, fuzzy
 msgid "Open the selected message in the composer for editing"
-msgstr "Buka mesej yang dipilih dalam penggubah untuk menghantarnya semula"
+msgstr "Buka mesej yang dipilih dalam penggubah untuk diedit"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
@@ -18775,7 +18774,7 @@ msgstr "Saiz As_al"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
-msgstr "Mesej Belum Dibaca Sebelumnya"
+msgstr "Mesej Belum Dibaca Terdahulu"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
@@ -18787,11 +18786,11 @@ msgstr "Kirimkan balasan bagi mesej dalam Folder Awam"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr "Mesej Penting Se_belumnya"
+msgstr "Mesej Penting _Terdahulu"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
-msgstr "Pralihat mesej yang akan dicetak"
+msgstr "Prebiu mesej yang akan dicetak"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
@@ -18799,11 +18798,11 @@ msgstr "Cetak mesej ini"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
-msgstr "Hantar _semula"
+msgstr "_Lencong"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "Hantar semula (lantun) mesej yang dipilih kepada seseorang"
+msgstr "Lencongkan (lantun) mesej yang dipilih kepada seseorang"
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
@@ -18827,39 +18826,39 @@ msgstr "Cari teks dalam badan mesej yang dipaparkan"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
-msgstr "Sediakan seting halaman bagi pencetak semasa anda"
+msgstr "Tetapkan halaman bagi pencetak semasa anda"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
-msgstr "Tunjukkan Sumber _E-mel"
+msgstr "Papar _Sumber Emel"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
-msgstr "Tunjukkan Pengepala _Penuh"
+msgstr "Papar Pengepala _Penuh"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Tunjukkan kursor berkelip-kelip dalam badan mesej yang dipaparkan"
+msgstr "Papar kursor berkelip-kelip dalam badan mesej yang dipaparkan"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
-msgstr "Tunjukkan mesej dalam gaya normal"
+msgstr "Papar mesej dalam gaya normal"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
-msgstr "Tunjukkan mesej dengan semua pengepala e-mel"
+msgstr "Papar mesej dengan semua pengepala e-mel"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr "Tunjukkan sumber e-mel mentah bagi mesej"
+msgstr "Papar sumber emel mentah bagi mesej"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
-msgstr "Saiz Te_ks"
+msgstr "Sai_z Teks"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr "Batalkan hapus mesej yang dipilih"
+msgstr "Nyah padam mesej yang dipilih"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
@@ -18875,7 +18874,7 @@ msgstr "VFolder bagi _Penerima..."
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
-msgstr "VFolder bagi _Tajuk"
+msgstr "VFolder bagi _Tajuk..."
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
@@ -18891,7 +18890,7 @@ msgstr "_Pergi Ke"
 
 #: ui/evolution-mail-message.xml.h:116
 msgid "_Inline"
-msgstr "_Dalam Talian"
+msgstr "_Dalaman"
 
 #: ui/evolution-mail-message.xml.h:117
 msgid "_Larger"
@@ -18903,7 +18902,7 @@ msgstr "_Paparan Mesej"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
-msgstr "_Mesej Seterusnya"
+msgstr "_Mesej Berikutnya"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
@@ -18915,11 +18914,11 @@ msgstr "_Buka Mesej"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
-msgstr "_Mesej Sebelumnya"
+msgstr "_Mesej Terdahulu"
 
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Quoted"
-msgstr "_Disebut"
+msgstr "_Dipetik"
 
 #: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:36
 msgid "_Tools"
@@ -18927,7 +18926,7 @@ msgstr "_Alatan"
 
 #: ui/evolution-mail-message.xml.h:130
 msgid "_Undelete"
-msgstr "_Batalkan hapus"
+msgstr "_Nyah Padam"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
@@ -18953,15 +18952,15 @@ msgstr "Tutup fail semasa"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
-msgstr "Hapuskan semua kecuali tandatangan"
+msgstr "Padam semua kecuali tandatangan"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Sulitkan mesej ini dengan PGP"
+msgstr "Enkripsikan mesej ini dengan PGP"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr "Sulitkan mesej ini dengan Sijil Penyulitan S/MIME anda"
+msgstr "Enkripsikan mesej ini dengan Sijil Pengenkripsian S/MIME anda"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
@@ -18977,7 +18976,7 @@ msgstr "Buka fail"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr "Penyulitan PGP"
+msgstr "Pengenkripsian PGP"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
@@ -18985,7 +18984,7 @@ msgstr "Tandatangan PGP"
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "S/MIME Encrypt"
-msgstr "Penyulitan S/MIME"
+msgstr "Pengenkripsian S/MIME"
 
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
@@ -19032,15 +19031,15 @@ msgstr "Hantarkan mesej ini"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
-msgstr "Tunjukkan / sembunyikan lampiran"
+msgstr "Papar / sembunyikan lampiran"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Show _attachments"
-msgstr "Tunjukkan _lampiran"
+msgstr "Papar _lampiran"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Show attachments"
-msgstr "Tunjukkan lampiran"
+msgstr "Papar lampiran"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
@@ -19052,29 +19051,27 @@ msgstr "Tandatangani mesej ini dengan Sijil Tandatangan S/MIME anda"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Toggle untuk melihat sama ada medan ST dipaparkan atau tidak"
+msgstr "Toggle untuk melihat sama ada medan BCC dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr "Toggle untuk melihat sama ada medan SK dipaparkan atau tidak"
+msgstr "Toggle untuk melihat sama ada medan CC dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Toggle untuk melihat sama ada pemilih Daripada dipaparkan atau tidak"
+msgstr "Togol untuk melihat sama ada pemilih Daripada dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Toggle untuk melihat sama ada medan Balas Kepada dipaparkan atau tidak"
+msgstr "Togol untuk melihat sama ada medan Hantar-Kepada dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Toggle untuk melihat sama ada medan Balas Kepada dipaparkan atau tidak"
+msgstr "Toggle untuk melihat sama ada medan Balas-Kepada dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Toggle untuk melihat sama ada medan SK dipaparkan atau tidak"
+msgstr "Togol untuk melihat sama ada medan Kepada dipaparkan atau tidak"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -19082,15 +19079,15 @@ msgstr "_Lampiran..."
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
-msgstr "_Medan St"
+msgstr "_Medan _Bcc"
 
 #: ui/evolution-message-composer.xml.h:40
 msgid "_Cc Field"
-msgstr "_Medan Sk"
+msgstr "_Medan _cc"
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Delete all"
-msgstr "_Hapuskan semua"
+msgstr "_Padam semua"
 
 #: ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
@@ -19099,29 +19096,27 @@ msgstr "_Dari Medan"
 #: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
-msgstr "_Sisipkan"
+msgstr "_Selit"
 
 #: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
 msgstr "_Buka..."
 
 #: ui/evolution-message-composer.xml.h:48
-#, fuzzy
 msgid "_Post-To Field"
-msgstr "_Medan Balas Kepada"
+msgstr "Medan _Hantar-Kepada"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
-msgstr "_Medan Balas Kepada"
+msgstr "Medan _Balas-Kepada"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
 msgstr "_Keselamatan"
 
 #: ui/evolution-message-composer.xml.h:52
-#, fuzzy
 msgid "_To Field"
-msgstr "_Dari Medan"
+msgstr "_Ke Medan"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -19213,26 +19208,23 @@ msgstr "Tampal tugas dari papan keratan"
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr "Pralihat senarai tugas yang akan dicetak"
+msgstr "Prrebiu senarai tugas yang akan dicetak"
 
 #: ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
 msgstr "Cetak senarai tugas"
 
 #: ui/evolution-tasks.xml.h:18
-#, fuzzy
 msgid "View the selected task"
-msgstr "Hapuskan tugas yang dipilih"
+msgstr "Lihat tugas yang dipilih"
 
 #: ui/evolution-tasks.xml.h:23
-#, fuzzy
 msgid "_Open Task"
-msgstr "_Tugas"
+msgstr "_Buka Tugas"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
-msgstr "Tentang Ximian Evolution"
+msgstr "Perihal Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
