@@ -174,32 +174,11 @@ load_all_folders (ELocalStorage *local_storage)
 	return e_path_find_folders (base_path, load_folder, local_storage);
 }
 
-static void
-notify_bonobo_listener (const Bonobo_Listener listener,
-			EStorageResult result,
-			const char *physical_path)
-{
-	CORBA_any any;
-	GNOME_Evolution_Storage_FolderResult folder_result;
-	CORBA_Environment ev;
-
-	folder_result.result = result;
-	folder_result.path = CORBA_string_dup (physical_path ? physical_path : "");
-	any._type = TC_GNOME_Evolution_Storage_FolderResult;
-	any._value = &folder_result;
-
-	CORBA_exception_init (&ev);
-	Bonobo_Listener_event (listener, "result",
-			       &any, &ev);
-	CORBA_exception_free (&ev);
-}
-
 
 /* Callbacks for the async methods invoked on the `Evolution::ShellComponent's.  */
 
 struct _AsyncCreateFolderCallbackData {
 	EStorage *storage;
-	Bonobo_Listener listener;
 
 	char *path;
 	char *display_name;
@@ -248,10 +227,6 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
-
-	if (callback_data->listener != CORBA_OBJECT_NIL)
-		notify_bonobo_listener (callback_data->listener, storage_result,
-					callback_data->physical_path);
 
 	if (callback_data->callback != NULL)
 		(* callback_data->callback) (callback_data->storage,
@@ -321,9 +296,8 @@ create_folder_directory (ELocalStorage *local_storage,
 	return E_STORAGE_OK;
 }
 
-static void
+static EStorageResult
 create_folder (ELocalStorage *local_storage,
-	       Bonobo_Listener listener,
 	       const char *path,
 	       const char *type,
 	       const char *description,
@@ -346,9 +320,7 @@ create_folder (ELocalStorage *local_storage,
 	if (component_client == NULL) {
 		if (callback != NULL)
 			(* callback) (storage, E_STORAGE_INVALIDTYPE, data);
-		if (listener != CORBA_OBJECT_NIL)
-			notify_bonobo_listener (listener, E_STORAGE_INVALIDTYPE, NULL);
-		return;
+		return E_STORAGE_INVALIDTYPE;
 	}
 	
 	g_assert (g_path_is_absolute (path));
@@ -358,10 +330,8 @@ create_folder (ELocalStorage *local_storage,
 		g_warning ("physical_path: %s", physical_path);
 		if (callback != NULL)
 			(* callback) (storage, result, data);
-		if (listener != CORBA_OBJECT_NIL)
-			notify_bonobo_listener (listener, result, physical_path);
 		g_free (physical_path);
-		return;
+		return result;
 	}
 	
 	folder_name = g_basename (path);
@@ -381,7 +351,6 @@ create_folder (ELocalStorage *local_storage,
 	callback_data->description   = g_strdup (description);
 	callback_data->physical_uri  = physical_uri;
 	callback_data->physical_path = physical_path;
-	callback_data->listener      = listener;
 	callback_data->callback      = callback;
 	callback_data->callback_data = data;
 
@@ -392,11 +361,12 @@ create_folder (ELocalStorage *local_storage,
 							      type,
 							      component_async_create_folder_callback,
 							      callback_data);
+
+	return result;
 }
 
 struct _AsyncRemoveFolderCallbackData {
 	EStorage *storage;
-	Bonobo_Listener listener;
 
 	char *path;
 	char *physical_path;
@@ -418,8 +388,7 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 	/* If result == HASSUBFOLDERS then recurse delete the subfolders dir? */
 
 	/* FIXME: Handle errors */
-	if (result == EVOLUTION_SHELL_COMPONENT_OK)
-	{
+	if (result == EVOLUTION_SHELL_COMPONENT_OK) {
 		ELocalStoragePrivate *priv;
 
 		priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
@@ -432,11 +401,6 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
-
-	if (callback_data->listener != CORBA_OBJECT_NIL)
-		notify_bonobo_listener (callback_data->listener,
-					storage_result,
-					callback_data->physical_path);
 
 	g_free (callback_data->path);
 	g_free (callback_data->physical_path);
@@ -492,7 +456,6 @@ remove_folder_directory (ELocalStorage *local_storage,
 
 static EStorageResult
 remove_folder (ELocalStorage *local_storage,
-	       Bonobo_Listener listener,
 	       const char *path,
 	       const char *physical_uri)
 {
@@ -513,11 +476,8 @@ remove_folder (ELocalStorage *local_storage,
 
 	component_client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry,
 									e_folder_get_type_string (folder));
-	if (component_client == NULL) {
-		if (listener != CORBA_OBJECT_NIL)
-			notify_bonobo_listener (listener, E_STORAGE_INVALIDTYPE, NULL);
+	if (component_client == NULL)
 		return E_STORAGE_INVALIDTYPE;
-	}
 
 	physical_path = e_path_to_physical (priv->base_path, path);
 
@@ -527,18 +487,13 @@ remove_folder (ELocalStorage *local_storage,
 	/* Recursively remove the subfolders */
 	subfolder_paths = e_storage_get_subfolder_paths (storage, path);
 
-	for (p = subfolder_paths; p; p = p->next) {
-		remove_folder (local_storage,
-			       listener,
-			       p->data,
-			       NULL);
-	}
+	for (p = subfolder_paths; p; p = p->next)
+		remove_folder (local_storage, p->data, NULL);
 
 	callback_data = g_new (AsyncRemoveFolderCallbackData, 1);
 	callback_data->storage       = E_STORAGE (local_storage);
 	callback_data->path          = g_strdup (path);
 	callback_data->physical_path = physical_path;
-	callback_data->listener      = listener;
 
 	bonobo_object_ref (BONOBO_OBJECT (component_client));
 
@@ -550,8 +505,6 @@ remove_folder (ELocalStorage *local_storage,
 	result = remove_folder_directory (E_LOCAL_STORAGE (local_storage), path);
 
 	if (result != E_STORAGE_OK) {
-		if (listener != CORBA_OBJECT_NIL)
-			notify_bonobo_listener (listener, result, physical_path);
 		g_free (physical_path);
 		return result;
 	}
@@ -613,7 +566,7 @@ impl_async_create_folder (EStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (storage);
 
-	create_folder (local_storage, NULL, path, type, description, callback, data);
+	create_folder (local_storage, path, type, description, callback, data);
 }
 
 
@@ -630,12 +583,10 @@ impl_async_remove_folder (EStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (storage);
 
-	result = remove_folder (local_storage, NULL, path, NULL);
+	result = remove_folder (local_storage, path, NULL);
 
 	if (callback != NULL)
-		(* callback) (E_STORAGE (local_storage),
-			      result,
-			      data);
+		(* callback) (E_STORAGE (local_storage), result, data);
 }
 
 
@@ -888,9 +839,8 @@ impl_async_xfer_folder (EStorage *storage,
 
 
 /* Callbacks for the `Evolution::LocalStorage' interface we are exposing to the outside world.  */
-static void
+static int
 bonobo_interface_create_folder_cb (EvolutionStorage *storage,
-				   const Bonobo_Listener listener,
 				   const char *path,
 				   const char *type,
 				   const char *description,
@@ -901,12 +851,11 @@ bonobo_interface_create_folder_cb (EvolutionStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (data);
 
-	create_folder (local_storage, listener, path, type, description, NULL, NULL);
+	return create_folder (local_storage, path, type, description, NULL, NULL);
 }
 
-static void
+static int
 bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
-				   const Bonobo_Listener listener,
 				   const char *path,
 				   const char *physical_uri,
 				   void *data)
@@ -915,7 +864,7 @@ bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
 
 	local_storage = E_LOCAL_STORAGE (data);
 
-	remove_folder (local_storage, listener, path, physical_uri);
+	return remove_folder (local_storage, path, physical_uri);
 }
 
 static void
@@ -936,6 +885,8 @@ bonobo_interface_update_folder_cb (EvolutionLocalStorage *bonobo_local_storage,
 
 	e_folder_set_name (folder, display_name);
 	e_folder_set_highlighted (folder, highlighted);
+
+	return;
 }
 
 

@@ -1,3 +1,23 @@
+2001-06-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c: Removed member `BonoboListener' from
+	`AsyncCreateFolderCallbackData' and
+	`AsyncRemoveFolderCallbackData'.
+	(bonobo_interface_remove_folder_cb) : Return the value from
+	`create_folder()'.
+	(bonobo_interface_remove_folder_cb): Return the value from
+	`remove_folder()'.
+	(notify_bonobo_listener): Removed.
+	(component_async_create_folder_callback): Don't notify the
+	listener here.
+	(component_async_remove_folder_callback): Ditto.
+	(create_folder): Removed @listener arg.  Not here either.  Return
+	a valid E_STORAGE error code instead.  Also, don't set the
+	`listener' field in `callback_data'.
+	(remove_folder): Likewise.
+	(bonobo_interface_create_folder_cb): Remove @listener arg.
+	(bonobo_interface_remove_folder_cb): Likewise.
+
 2001-06-25  jacob berkman  <jacob@ximian.com>
 
 	* e-shell-view.c: (set_folder_timeout): display a selected uri in
