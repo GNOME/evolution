@@ -185,26 +185,16 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 		
 		if (account) {
-#if 0
-			GtkWidget *parent;
+			EMAccountEditor *emae;
 
-			parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
-			parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-			
-			prefs->editor = (GtkWidget *) mail_account_editor_new (account, (GtkWindow *) parent, prefs);
-			
-			g_object_weak_ref ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
-			gtk_widget_show (prefs->editor);
-			g_object_ref (prefs);
-#endif
-			/* test foo */
-			{
-				EMAccountEditor *emae;
+			emae = em_account_editor_new(account, EMAE_NOTEBOOK);
+			prefs->editor = emae->editor;
 
-				emae = em_account_editor_new(account, EMAE_NOTEBOOK);
-				gtk_widget_show(emae->editor);
-			}
-
+			gtk_window_set_transient_for((GtkWindow *)prefs->editor, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
+			g_object_ref(prefs);
+			/* rather nasty hack to reload the accounts, it should just listen to the e-account-list */
+			g_object_weak_ref((GObject *)prefs->editor, (GWeakNotify) account_edit_finished, prefs);
+			gtk_widget_show(emae->editor);
 		}
 	} else {
 		gdk_window_raise (prefs->editor->window);

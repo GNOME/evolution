@@ -1,3 +1,10 @@
+2005-01-28  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71520.
+	
+	* em-account-prefs.c (account_edit_clicked): repeat the nasty hack
+	from account_edit, to refresh the list after edit.
+
 2005-01-27  Not Zed  <NotZed@Ximian.com>
 
 	* See bug #69815.
