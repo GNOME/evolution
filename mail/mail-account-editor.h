@@ -53,7 +53,7 @@ struct _MailAccountEditor {
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
 	
-	GtkWidget *source_type;
+	GtkWidget *source_type;       /* this is generic because we don't know the widget-type */
 	GtkEntry *source_host;
 	GtkEntry *source_user;
 	GtkEntry *source_passwd;
@@ -62,7 +62,7 @@ struct _MailAccountEditor {
 	GtkOptionMenu *source_auth;
 	GtkCheckButton *source_ssl;
 	
-	GtkOptionMenu *transport_type;
+	GtkWidget *transport_type;    /* Same here... */
 	GtkEntry *transport_host;
 	GtkOptionMenu *transport_auth;
 	GtkCheckButton *transport_ssl;

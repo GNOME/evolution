@@ -183,7 +183,16 @@ apply_changes (MailAccountEditor *editor)
 	/* transport */
 	transport_url = g_new0 (CamelURL, 1);
 	
-	transport_url->protocol = g_strdup (editor->transport->protocol);
+	if (editor->transport) {
+		transport_url->protocol = g_strdup (editor->transport->protocol);
+	} else {
+		/* workaround for anna's dialog */
+		CamelURL *url;
+		
+		url = camel_url_new (account->transport->url, NULL);
+		transport_url->protocol = g_strdup (url->protocol);
+		camel_url_free (url);
+	}
 	
 	str = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
 	transport_url->authmech = str && *str ? g_strdup (str) : NULL;
@@ -229,7 +238,7 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* check to make sure the transport works */
-	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
+	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
 		/* set the new transport url */
 		g_free (account->transport->url);
 		account->transport->url = camel_url_to_string (transport_url, FALSE);
@@ -257,8 +266,25 @@ ok_clicked (GtkWidget *widget, gpointer data)
 {
 	MailAccountEditor *editor = data;
 	
-	if (apply_changes (editor))
+	if (apply_changes (editor)) {
 		gtk_widget_destroy (GTK_WIDGET (editor));
+	} else {
+		GtkWidget *mbox;
+		
+		mbox = gnome_message_box_new (_("One or more of your servers are not configured correctly.\n"
+						"Do you wish to save anyway?"),
+					      GNOME_MESSAGE_BOX_WARNING,
+					      GNOME_STOCK_BUTTON_YES,
+					      GNOME_STOCK_BUTTON_NO, NULL);
+		
+		gnome_dialog_set_default (GNOME_DIALOG (mbox), 1);
+		gtk_widget_grab_focus (GTK_WIDGET (GNOME_DIALOG (mbox)->buttons->data));
+		
+		gnome_dialog_set_parent (GNOME_DIALOG (mbox), GTK_WINDOW (editor));
+		
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (mbox)) == 0)
+			gtk_widget_destroy (GTK_WIDGET (editor));
+	}
 }
 
 static void
@@ -459,7 +485,7 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 	guint i = 0, history = 0;
 	
 	menu = gtk_menu_new ();
-	gtk_option_menu_remove_menu (editor->transport_auth);
+	gtk_option_menu_remove_menu (GTK_OPTION_MENU (editor->transport_auth));
 	
 	providers = camel_session_list_providers (session, TRUE);
 	l = providers;
@@ -495,11 +521,11 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 		l = l->next;
 	}
 	
-	gtk_option_menu_set_menu (editor->transport_type, menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (editor->transport_type), menu);
 	
 	if (xport) {
 		gtk_signal_emit_by_name (GTK_OBJECT (xport), "activate", editor);
-		gtk_option_menu_set_history (editor->transport_type, history);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (editor->transport_type), history);
 	}
 }
 
@@ -591,18 +617,18 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 static void
 construct (MailAccountEditor *editor, const MailConfigAccount *account)
 {
+	GtkWidget *toplevel, *entry;
 	GladeXML *gui;
-	GtkWidget *notebook, *entry;
 	CamelURL *url;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "mail-account-editor");
 	editor->gui = gui;
 	
 	/* get our toplevel widget */
-	notebook = glade_xml_get_widget (gui, "toplevel");
+	toplevel = glade_xml_get_widget (gui, "toplevel");
 	
 	/* reparent */
-	gtk_widget_reparent (notebook, GNOME_DIALOG (editor)->vbox);
+	gtk_widget_reparent (toplevel, GNOME_DIALOG (editor)->vbox);
 	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
@@ -626,9 +652,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	
 	/* General */
 	editor->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
-	/* Anna's dialog doesn't have a way to edit the Account name... */
-	if (editor->account_name)
-		gtk_entry_set_text (editor->account_name, account->name);
+	gtk_entry_set_text (editor->account_name, account->name);
 	gtk_signal_connect (GTK_OBJECT (editor->account_name), "changed", entry_changed, editor);
 	editor->name = GTK_ENTRY (glade_xml_get_widget (gui, "txtName"));
 	gtk_entry_set_text (editor->name, account->id->name);
@@ -673,8 +697,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
 	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
-	if (editor->source_ssl)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
 	source_check (editor, url);
@@ -688,7 +711,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	else
 		url = NULL;
 	
-	editor->transport_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));
+	editor->transport_type = glade_xml_get_widget (gui, "omenuTransportType");
 	editor->transport_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHost"));
 	gtk_entry_set_text (editor->transport_host, url && url->host ? url->host : "");
 	if (url && url->port) {
@@ -699,9 +722,13 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	}
 	editor->transport_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuth"));
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
-	if (editor->transport_ssl)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
-	transport_type_init (editor, url);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
+	if (GTK_IS_OPTION_MENU (editor->transport_type))
+		transport_type_init (editor, url);
+	else
+		gtk_label_set_text (GTK_LABEL (editor->transport_type),
+				    url && url->protocol ? url->protocol : _("None"));
+	
 	if (url)
 		camel_url_free (url);
 	

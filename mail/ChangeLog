@@ -1,5 +1,18 @@
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (construct): Anna's dialog now supports
+	SSL so we can get rid of the ssl-support checks. Also work around
+	the fact that Anna's dialog doesn't have an optionmenu for the
+	transport type, it's a label instead.
+	(transport_type_init): Cast the transport_type widget to a
+	GtkOptionMenu where appropriate as the widget that stores it is
+	now generic.
+	(apply_changes): Modify code to work with anna's dialog...*sigh*
+	(ok_clicked): Alert the user that one or more servers failed to
+	validate and allow him to continue anyway.
+
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-config.c (mail_config_set_pgp_path): New config function to
 	set the path to the pgp binary.
 	(mail_config_get_pgp_path): Gee I wonder...

@@ -44,46 +44,6 @@ gchar *s = N_("Congratulations, your mail configuration is complete.\n"
               "using Evolution. \n"
               "\n"
               "Click \"Finish\" to save your settings.");
-gchar *s = N_("Account Properties");
-gchar *s = N_("Mail Account");
-gchar *s = N_("Type the name by which you would like to refer to these servers. For example: \"Work\" or \"Home\".");
-gchar *s = N_("User Information");
-gchar *s = N_("Select signature file");
-gchar *s = N_("Name:");
-gchar *s = N_("E-Mail Address:");
-gchar *s = N_("Reply-To:");
-gchar *s = N_("Organization:");
-gchar *s = N_("Signature:");
-gchar *s = N_("General");
-gchar *s = N_("Incoming Mail Server");
-gchar *s = N_("Save password");
-gchar *s = N_("Plain Text\n"
-              "Kerberos\n"
-              "CRAM-MD5\n"
-              "DIGEST-MD5\n"
-              "");
-gchar *s = N_("This server requires a secure connection (SSL)");
-gchar *s = N_("Username:");
-gchar *s = N_("Password:");
-gchar *s = N_("Authentication:");
-gchar *s = N_("Hostname:");
-gchar *s = N_("Type:");
-gchar *s = N_("Outgoing Mail Server");
-gchar *s = N_("None\n"
-              "CRAM-MD5\n"
-              "");
-gchar *s = N_("Sendmail\n"
-              "SMTP\n"
-              "");
-gchar *s = N_("This server requires a secure connection (SSL)");
-gchar *s = N_("Type:");
-gchar *s = N_("Hostname:");
-gchar *s = N_("Authentication:");
-gchar *s = N_("Servers");
-gchar *s = N_("Miscellaneous");
-gchar *s = N_("Path:");
-gchar *s = N_("Keep mail on server");
-gchar *s = N_("Advanced");
 gchar *s = N_("Evolution Mail Configuration");
 gchar *s = N_("Account");
 gchar *s = N_("Type");
@@ -97,3 +57,38 @@ gchar *s = N_("Add");
 gchar *s = N_("Edit");
 gchar *s = N_("Delete");
 gchar *s = N_("News");
+gchar *s = N_("Edit Mail Configuration Settings");
+gchar *s = N_("Account and Identity");
+gchar *s = N_("Account name:");
+gchar *s = N_("Full name:");
+gchar *s = N_("Email address:");
+gchar *s = N_("Add Optional Fields...");
+gchar *s = N_("Receiving Mail");
+gchar *s = N_("Server type:");
+gchar *s = N_("Server:");
+gchar *s = N_("Username:");
+gchar *s = N_("Path:");
+gchar *s = N_("Authentication:");
+gchar *s = N_("Password:");
+gchar *s = N_("Kerberos \n"
+              "Plain-text Password\n"
+              "");
+gchar *s = N_("IMAP");
+gchar *s = N_("Use SSL");
+gchar *s = N_("Leave mesages on server");
+gchar *s = N_("Save password");
+gchar *s = N_("Sending Mail");
+gchar *s = N_("Server:");
+gchar *s = N_("Server type:");
+gchar *s = N_("Authentication:");
+gchar *s = N_("Kerberos \n"
+              "Plain-text Password\n"
+              "");
+gchar *s = N_("SMTP");
+gchar *s = N_("Use SSL");
+gchar *s = N_("Additional Identity Fields");
+gchar *s = N_("Optional Information");
+gchar *s = N_("Organization:");
+gchar *s = N_("Signature file:");
+gchar *s = N_("Browse...");
+gchar *s = N_("Reply-to:");
