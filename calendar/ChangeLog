@@ -1,3 +1,13 @@
+2003-04-16  JP Rosevear  <jpr@ximian.com>
+ 
+	Fixes #41230
+ 	
+ 	* gui/e-itip-control.c (show_current): make sure to pass TRUE for
+ 	tasks
+ 	(start_calendar_server): make sure we don't gtk_main_quit if we
+ 	haven't gtk_main'ed
+ 	(start_calendar_server_cb): ditto
+
 2003-04-15  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #39735 and 40257

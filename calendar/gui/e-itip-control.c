@@ -139,32 +139,36 @@ start_calendar_server_cb (CalClient *cal_client,
 			  CalClientOpenStatus status,
 			  gpointer data)
 {
-	gboolean *success = data;
-
+	int *success = data;
+	int orig = *success;
+	
 	if (status == CAL_CLIENT_OPEN_SUCCESS)
-		*success = TRUE;
+		*success = 1;
 	else
-		*success = FALSE;
+		*success = 0;
 
-	gtk_main_quit (); /* end the sub event loop */
+	if (orig != -1)
+		gtk_main_quit (); /* end the sub event loop */
 }
 
 static CalClient *
 start_calendar_server (EItipControl *itip, char *uri)
 {
 	CalClient *client;
-	gboolean success = FALSE;
+	int success = -1;
 
 	client = cal_client_new ();
 
 	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
 
- 	if (!cal_client_open_calendar (client, uri, TRUE))
+	if (!cal_client_open_calendar (client, uri, TRUE))
  		goto error;
 	
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
- 	if (!itip->priv->destroyed) {
+ 	if (success == -1 && !itip->priv->destroyed) {
+		success = 0;
+		
  		gtk_signal_connect (GTK_OBJECT (itip), "destroy",
  				    gtk_main_quit, NULL);
 	
@@ -174,7 +178,7 @@ start_calendar_server (EItipControl *itip, char *uri)
  					       gtk_main_quit, NULL);
  	}
 
-	if (success)
+	if (success == 1)
 		return client;
 
 error:
@@ -1594,7 +1598,7 @@ show_current (EItipControl *itip)
 		break;
 	case CAL_COMPONENT_TODO:
 		if (!priv->task_clients)
-			priv->task_clients = get_servers (itip, global_shell_client, tasks_types, FALSE);
+			priv->task_clients = get_servers (itip, global_shell_client, tasks_types, TRUE);
 		show_current_todo (itip);
 		break;
 	case CAL_COMPONENT_FREEBUSY:
