@@ -1,3 +1,9 @@
+2004-10-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-summary.c (imap4_summary_fetch_all):
+	Removed an already-fixed FIXME comment.
+	(imap4_summary_fetch_flags): Same.
+
 2004-10-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_try_authenticate):

@@ -927,10 +927,6 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	
 	engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	
-	/* FIXME: would be a nice optimisation if we could size the
-	 * 'added' array here rather than possibly having to grow it
-	 * one element at a time (in the common case) in the
-	 * untagged_fetch_all() callback */
 	total = last ? (last - first) + 1 : (imap4_summary->exists - first) + 1;
 	fetch = g_new (struct imap4_fetch_all_t, 1);
 	fetch->uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -973,10 +969,6 @@ imap4_summary_fetch_flags (CamelFolderSummary *summary, guint32 first, guint32 l
 	
 	engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	
-	/* FIXME: would be a nice optimisation if we could size the
-	 * 'added' array here rather than possibly having to grow it
-	 * one element at a time (in the common case) in the
-	 * untagged_fetch_all() callback */
 	total = (last - first) + 1;
 	fetch = g_new (struct imap4_fetch_all_t, 1);
 	fetch->uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
