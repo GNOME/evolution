@@ -173,7 +173,9 @@ xml_encode(FilterRule * fr)
 	}
 
 	if (fr->source) {
-		xmlSetProp(node, "source", "incoming");
+		xmlSetProp (node, "source", fr->source);
+	} else {
+		xmlSetProp (node, "source", "incoming");
 	}
 
 	if (fr->name) {
@@ -247,6 +249,8 @@ xml_decode(FilterRule * fr, xmlNodePtr node, RuleContext * f)
 	source = xmlGetProp(node, "source");
 	if (source) {
 		fr->source = source;
+	} else {
+		fr->source = g_strdup ("incoming");
 	}
 
 	work = node->childs;

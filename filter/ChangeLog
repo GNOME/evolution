@@ -1,3 +1,10 @@
+2000-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-rule.c (xml_encode): If the source wasn't set, default to
+	"incoming".
+	(xml_decode): If the source wasn't set in the xml file, default it
+	to "incoming".
+
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter.glade: Fixed these widgets to resize properly.
