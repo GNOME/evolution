@@ -72,7 +72,7 @@ create_editor (EMsgComposer *composer)
 	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih));
 
 	/* FIXME: Hardcoded value sucks!  */
-	control = bonobo_widget_new_control ("control:html-editor", corba_uih);
+	control = bonobo_widget_new_control ("control:html-editor", NULL /*corba_uih*/);
 	if (control == NULL) {
 		g_warning ("Cannot get the `control:html-editor' component.");
 		return NULL;
@@ -336,7 +336,7 @@ create_menubar (EMsgComposer *composer)
 
 	bonobo_ui_handler_create_menubar (uih);
 
-	list = bonobo_ui_handler_menu_parse_uiinfo_list (menubar_info);
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (menubar_info, composer);
 	bonobo_ui_handler_menu_add_list (uih, "/", list);
 }
 
