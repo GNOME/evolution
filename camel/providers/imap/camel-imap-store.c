@@ -1118,6 +1118,8 @@ create_folder (CamelStore *store, const char *parent_name,
 	g_free (full_name);
 	
 	if (response) {
+		CamelFolderInfo *parent, *fi;
+		
 		camel_imap_response_free (imap_store, response);
 		
 		/* We have to do this in case we are creating a
@@ -1136,7 +1138,9 @@ create_folder (CamelStore *store, const char *parent_name,
 			goto exception;
 		}
 		
-		for (i = 1; pathnames[i]; i++) {
+		root = parent = folders->pdata[i];
+		
+		for (i = 1; parent && pathnames[i]; i++) {
 			full_name = imap_concat (imap_store, parent_name, pathnames[i]);
 			g_free (pathnames[i]);
 			
@@ -1149,12 +1153,15 @@ create_folder (CamelStore *store, const char *parent_name,
 			
 			if (folders->len != i + 1)
 				break;
+			
+			fi = folders->pdata[i];
+			camel_folder_info_build_path (fi, imap_store->dir_sep);
+			parent->child = fi;
+			fi->parent = parent;
+			parent = fi;
 		}
 		
 		g_free (pathnames);
-		
-		root = camel_folder_info_build (folders, camel_url_get_param (CAMEL_SERVICE (store)->url, "namespace"),
-						imap_store->dir_sep, TRUE);
 		
 		g_ptr_array_free (folders, TRUE);
 	}

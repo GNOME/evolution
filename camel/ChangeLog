@@ -1,3 +1,10 @@
+2001-09-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (create_folder): Go back to
+	not using camel_folder_info_build() here because this seems to
+	break folder creation (returning nodes from the root path when it
+	shouldn't be?).
+
 2001-09-21    <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_get_folder_info): Force a refresh of
