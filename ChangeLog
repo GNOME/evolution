@@ -1,3 +1,7 @@
+2000-06-02  Jesus Bravo Alvarez  <jba@pobox.com>
+
+	* configure.in: Added pt (Portuguese) to ALL_LINGUAS
+
 2000-06-02  Dan Winship  <danw@helixcode.com>
 
 	* README: Update dependencies. Rewrite the GOAD vs OAF thing some
