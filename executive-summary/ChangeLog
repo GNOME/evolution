@@ -1,3 +1,8 @@
+2001-01-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* component/e-summary-url.c: Change the callbacks in this file to
+	match the callback function types.  Fixes warnings.
+
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component/component-factory.c (factory_fn): Pass NULL as the

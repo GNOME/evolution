@@ -216,7 +216,7 @@ void
 camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			    CamelException *ex)
 {
-	unsigned long exists, val, uid;
+	unsigned long exists = 0, val, uid;
 	CamelMessageInfo *info;
 	int i, count;
 	char *resp;

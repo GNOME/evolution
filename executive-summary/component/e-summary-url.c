@@ -102,8 +102,9 @@ typedef struct _DownloadInfo DownloadInfo;
 static void
 close_callback (GnomeVFSAsyncHandle *handle,
 		GnomeVFSResult result,
-		DownloadInfo *info)
+		gpointer data)
 {
+	DownloadInfo *info = data;
 	if (info->error) {
 		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
 	} else {
@@ -121,8 +122,9 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	       gpointer buffer,
 	       GnomeVFSFileSize bytes_requested,
 	       GnomeVFSFileSize bytes_read,
-	       DownloadInfo *info)
+	       gpointer data)
 {
+	DownloadInfo *info = data;
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
 		g_warning ("Read error");
 		info->error = TRUE;
