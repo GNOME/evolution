@@ -1472,6 +1472,7 @@ remove_folder_get (struct _mail_msg *mm)
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *uids;
+	gchar *full_name;
 	int i;
 	
 	m->removed = FALSE;
@@ -1481,6 +1482,7 @@ remove_folder_get (struct _mail_msg *mm)
 	store = camel_folder_get_parent_store (folder);
 	if (!store)
 		return;
+	camel_object_ref (CAMEL_OBJECT (store));
 
 	/* Delete every message in this folder, then expunge it */
 	uids = camel_folder_get_uids (folder);
@@ -1489,8 +1491,13 @@ remove_folder_get (struct _mail_msg *mm)
 	camel_folder_sync (folder, TRUE, &mm->ex);
 	camel_folder_free_uids (folder, uids);
 
+	/* close the folder */
+	full_name = g_strdup (camel_folder_get_full_name (folder));
+	camel_object_unref (CAMEL_OBJECT (folder));
+
 	/* Then delete the folder from the store */
-	camel_store_delete_folder (store, camel_folder_get_full_name (folder), &mm->ex);
+	camel_store_delete_folder (store, full_name, &mm->ex);
+	g_free (full_name);
 	m->removed = !camel_exception_is_set (&mm->ex);
 	camel_object_unref (CAMEL_OBJECT (store));
 

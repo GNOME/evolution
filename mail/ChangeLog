@@ -1,5 +1,11 @@
 2001-08-24  Peter Williams  <peterw@ximian.com>
 
+	* mail-ops.c (remove_folder_get): Save the folder's full_name, unref it,
+	and *then* unref the store, so that the folder has been closed before
+	it gets deleted.
+
+2001-08-24  Peter Williams  <peterw@ximian.com>
+
 	* mail-config.c (add_shortcut_entry): Instead of using the length
 	of the shortcuts list as the index for the shortcut, use -1, which
 	means "last".
