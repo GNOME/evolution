@@ -1978,7 +1978,11 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 
 				if (url && !g_strncasecmp (url, "mailto:", 7)) {
 					PopupInfo *pop;
-					gchar *url_decoded = g_strdup (url);
+					gchar *url_decoded;
+
+					url_decoded = gtk_html_get_url_object_relative (GTK_HTML (widget),
+											point->object,
+											url);
 					camel_url_decode (url_decoded);
 
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
@@ -2005,7 +2009,10 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 						hide_mask |= MASK_SRC;
 
 					g_free (gtk_object_get_data (GTK_OBJECT (mail_display), "current_src_uri"));
-					gtk_object_set_data (GTK_OBJECT (mail_display), "current_src_uri", g_strdup (src));
+					gtk_object_set_data (GTK_OBJECT (mail_display), "current_src_uri", 
+							     gtk_html_get_url_object_relative (GTK_HTML (widget),
+											       point->object,
+											       src));
 					
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, hide_mask, mail_display);
 

@@ -1704,7 +1704,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		g_free (uids->pdata[i]);
 	g_ptr_array_free (uids, TRUE);
 	
-	/* generate the "Filter on Mailing List menu item name */
+	/* generate the "Filter on Mailing List" menu item name */
 	if (mlist == NULL) {
 		enable_mask |= IS_MAILING_LIST;
 		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on _Mailing List"));
