@@ -648,44 +648,54 @@ get_summary_uid_numeric (CamelFolderSummary *summary, int index)
 	return uid;
 }
 
+/* the max number of chars that an unsigned 32-bit int can be is 10 chars plus 1 for a possible : */
+#define UID_SET_FULL(setlen, maxlen) (maxlen > 0 ? setlen + 11 >= maxlen : FALSE)
+
 /**
  * imap_uid_array_to_set:
  * @summary: summary for the folder the UIDs come from
  * @uids: a (sorted) array of UIDs
+ * @uid: uid index to start at
+ * @maxlen: max length of the set string (or -1 for infinite)
+ * @lastuid: index offset of the last uid used
  *
- * Creates an IMAP "set" covering the listed UIDs and not covering
- * any UIDs that are in @summary but not in @uids. It doesn't
- * actually require that all (or any) of the UIDs be in @summary.
+ * Creates an IMAP "set" up to @maxlen bytes long, covering the listed
+ * UIDs starting at index @uid and not covering any UIDs that are in
+ * @summary but not in @uids. It doesn't actually require that all (or
+ * any) of the UIDs be in @summary.
+ *
+ * After calling, @lastuid will be set the index of the first uid
+ * *not* included in the returned set string.
  * 
  * Return value: the set, which the caller must free with g_free()
  **/
 char *
-imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
+imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids, int uid, ssize_t maxlen, int *lastuid)
 {
-	int ui, si, scount;
 	unsigned long last_uid, next_summary_uid, this_uid;
 	gboolean range = FALSE;
+	int si, scount;
 	GString *gset;
 	char *set;
 	
-	g_return_val_if_fail (uids->len > 0, NULL);
+	g_return_val_if_fail (uids->len > uid, NULL);
 	
-	gset = g_string_new (uids->pdata[0]);
-	last_uid = strtoul (uids->pdata[0], NULL, 10);
+	gset = g_string_new (uids->pdata[uid]);
+	last_uid = strtoul (uids->pdata[uid], NULL, 10);
 	next_summary_uid = 0;
 	scount = camel_folder_summary_count (summary);
 	
-	for (ui = 1, si = 0; ui < uids->len; ui++) {
+	for (uid++, si = 0; uid < uids->len && !UID_SET_FULL (gset->len, maxlen); uid++) {
 		/* Find the next UID in the summary after the one we
 		 * just wrote out.
 		 */
-		for (; last_uid >= next_summary_uid && si < scount; si++)
+		for ( ; last_uid >= next_summary_uid && si < scount; si++)
 			next_summary_uid = get_summary_uid_numeric (summary, si);
 		if (last_uid >= next_summary_uid)
 			next_summary_uid = (unsigned long) -1;
 		
 		/* Now get the next UID from @uids */
-		this_uid = strtoul (uids->pdata[ui], NULL, 10);
+		this_uid = strtoul (uids->pdata[uid], NULL, 10);
 		if (this_uid == next_summary_uid || this_uid == last_uid + 1)
 			range = TRUE;
 		else {
@@ -701,6 +711,8 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 	
 	if (range)
 		g_string_sprintfa (gset, ":%lu", last_uid);
+	
+	*lastuid = uid;
 	
 	set = gset->str;
 	g_string_free (gset, FALSE);

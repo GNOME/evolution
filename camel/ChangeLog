@@ -1,3 +1,20 @@
+2002-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
+	Updated to use the new imap_uid_array_to_set() interface.
+	(imap_expunge_uids_resyncing): Same.
+	(do_copy): Here too.
+	(imap_update_summary): Added a FIXME comment to rewrite allowing
+	for a uid-set limitation.
+	(get_matching): Copy some of the logic over from
+	imap_uid_adday_to_set() to limit the length of the uid-set string.
+	(imap_sync_online): Added a comment to explain what is going on
+	with get_matching() since the behavior has changed slightly.
+
+	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set):
+	Modify the interface so that we can limit the size of the uid set
+	string returned.
+
 2002-01-14  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-search.c (imap_body_contains):

@@ -64,6 +64,9 @@
 #include "camel-stream.h"
 #include "string-utils.h"
 
+#define UID_SET_LIMIT  (-1)
+
+
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(o)))
 static CamelDiscoFolderClass *disco_folder_class = NULL;
 
@@ -567,11 +570,14 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	g_array_free (removed, TRUE);
 }
 
+/* the max number of chars that an unsigned 32-bit int can be is 10 chars plus 1 for a possible : */
+#define UID_SET_FULL(setlen, maxlen) (maxlen > 0 ? setlen + 11 >= maxlen : FALSE)
+
 /* Find all messages in @folder with flags matching @flags and @mask.
  * If no messages match, returns %NULL. Otherwise, returns an array of
  * CamelMessageInfo and sets *@set to a message set corresponding the
- * UIDs of the matched messages. The caller must free the infos, the
- * array, and the set string.
+ * UIDs of the matched messages (up to @UID_SET_LIMIT bytes). The
+ * caller must free the infos, the array, and the set string.
  */
 static GPtrArray *
 get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
@@ -580,12 +586,12 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 	CamelMessageInfo *info;
 	int i, max, range;
 	GString *gset;
-
+	
 	matches = g_ptr_array_new ();
 	gset = g_string_new ("");
 	max = camel_folder_summary_count (folder->summary);
 	range = -1;
-	for (i = 0; i < max; i++) {
+	for (i = 0; i < max && !UID_SET_FULL (gset->len, UID_SET_LIMIT); i++) {
 		info = camel_folder_summary_index (folder->summary, i);
 		if (!info)
 			continue;
@@ -600,7 +606,7 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 			}
 			continue;
 		}
-
+		
 		g_ptr_array_add (matches, info);
 		if (range != -1)
 			continue;
@@ -609,11 +615,12 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 			g_string_append_c (gset, ',');
 		g_string_sprintfa (gset, "%s", camel_message_info_uid (info));
 	}
+	
 	if (range != -1 && range != max - 1) {
 		info = matches->pdata[matches->len - 1];
 		g_string_sprintfa (gset, ":%s", camel_message_info_uid (info));
 	}
-
+	
 	if (matches->len) {
 		*set = gset->str;
 		g_string_free (gset, FALSE);
@@ -659,14 +666,19 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		}
 		
 		/* Note: Cyrus is broken and will not accept an
-                   empty-set of flags so... if this is true then we
-                   want to unset the previously set flags.*/
+		   empty-set of flags so... if this is true then we
+		   want to unset the previously set flags.*/
 		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
 		
 		/* FIXME: since we don't know the previously set
-                   flags, if unset is TRUE then just unset all the flags? */
+		   flags, if unset is TRUE then just unset all the flags? */
 		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
 		
+		/* Note: get_matching() uses UID_SET_LIMIT to limit
+		   the size of the uid-set string. We don't have to
+		   loop here to flush all the matching uids because
+		   they will be scooped up later by our parent loop (I
+		   think?). -- Jeff */
 		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
 					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
 		camel_folder_summary_info_free (folder->summary, info);
@@ -731,29 +743,32 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
+	int uid = 0;
 	char *set;
 	
-	set = imap_uid_array_to_set (folder->summary, uids);
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	response = camel_imap_command (store, folder, ex,
-				       "UID STORE %s +FLAGS.SILENT \\Deleted",
-				       set);
-	if (response)
-		camel_imap_response_free (store, response);
-	if (camel_exception_is_set (ex)) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		g_free (set);
-		return;
-	}
-	
-	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
+	while (uid < uids->len) {
+		set = imap_uid_array_to_set (folder->summary, uids, uid, UID_SET_LIMIT, &uid);
+		CAMEL_IMAP_STORE_LOCK (store, command_lock);
 		response = camel_imap_command (store, folder, ex,
-					       "UID EXPUNGE %s", set);
-	} else
-		response = camel_imap_command (store, folder, ex, "EXPUNGE");
-	if (response)
-		camel_imap_response_free (store, response);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+					       "UID STORE %s +FLAGS.SILENT \\Deleted",
+					       set);
+		if (response)
+			camel_imap_response_free (store, response);
+		if (camel_exception_is_set (ex)) {
+			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+			g_free (set);
+			return;
+		}
+		
+		if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
+			response = camel_imap_command (store, folder, ex,
+						       "UID EXPUNGE %s", set);
+		} else
+			response = camel_imap_command (store, folder, ex, "EXPUNGE");
+		if (response)
+			camel_imap_response_free (store, response);
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	}
 }
 
 static int
@@ -776,20 +791,21 @@ static void
 imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
+	GPtrArray *keep_uids, *mark_uids;
 	CamelImapResponse *response;
-	char *result, *keep_uidset, *mark_uidset;
+	char *result;
 
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		imap_expunge_uids_online (folder, uids, ex);
 		return;
 	}
-
+	
 	/* If we don't have UID EXPUNGE we need to avoid expunging any
 	 * of the wrong messages. So we search for deleted messages,
 	 * and any that aren't in our to-expunge list get temporarily
 	 * marked un-deleted.
 	 */
-
+	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	response = camel_imap_command (store, folder, ex, "UID SEARCH DELETED");
 	if (!response) {
@@ -801,100 +817,125 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return;
 	}
-
-	keep_uidset = mark_uidset = NULL;
+	
 	if (result[8] == ' ') {
-		GPtrArray *keep_uids, *mark_uids;
 		char *uid, *lasts = NULL;
 		unsigned long euid, kuid;
 		int ei, ki;
-
+		
 		keep_uids = g_ptr_array_new ();
 		mark_uids = g_ptr_array_new ();
-
+		
 		/* Parse SEARCH response */
 		for (uid = strtok_r (result + 9, " ", &lasts); uid; uid = strtok_r (NULL, " ", &lasts))
 			g_ptr_array_add (keep_uids, uid);
 		qsort (keep_uids->pdata, keep_uids->len,
 		       sizeof (void *), uid_compar);
-
+		
 		/* Fill in "mark_uids", empty out "keep_uids" as needed */
 		for (ei = ki = 0; ei < uids->len; ei++) {
 			euid = strtoul (uids->pdata[ei], NULL, 10);
-
+			
 			for (kuid = 0; ki < keep_uids->len; ki++) {
 				kuid = strtoul (keep_uids->pdata[ki], NULL, 10);
-
+				
 				if (kuid >= euid)
 					break;
 			}
-
+			
 			if (euid == kuid)
 				g_ptr_array_remove_index (keep_uids, ki);
 			else
 				g_ptr_array_add (mark_uids, uids->pdata[ei]);
 		}
-
-		if (keep_uids->len)
-			keep_uidset = imap_uid_array_to_set (folder->summary, keep_uids);
-		g_ptr_array_free (keep_uids, TRUE);
-
-		if (mark_uids->len)
-			mark_uidset = imap_uid_array_to_set (folder->summary, mark_uids);
-		g_ptr_array_free (mark_uids, TRUE);
 	} else {
 		/* Empty SEARCH result, meaning nothing is marked deleted
 		 * on server.
 		 */
-		mark_uidset = imap_uid_array_to_set (folder->summary, uids);
+		
+		keep_uids = NULL;
+		mark_uids = NULL;
 	}
+	
 	g_free (result);
-
+	
 	/* Unmark messages to be kept */
-	if (keep_uidset) {
-		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s -FLAGS.SILENT \\Deleted",
-					       keep_uidset);
-		if (!response) {
-			g_free (keep_uidset);
-			g_free (mark_uidset);
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-			return;
+	if (keep_uids) {
+		char *uidset;
+		int uid = 0;
+		
+		while (uid < keep_uids->len) {
+			uidset = imap_uid_array_to_set (folder->summary, keep_uids, uid, UID_SET_LIMIT, &uid);
+			
+			response = camel_imap_command (store, folder, ex,
+						       "UID STORE %s -FLAGS.SILENT \\Deleted",
+						       uidset);
+			
+			g_free (uidset);
+			
+			if (!response) {
+				g_ptr_array_free (keep_uids, TRUE);
+				g_ptr_array_free (mark_uids, TRUE);
+				CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+				return;
+			}
+			camel_imap_response_free (store, response);
 		}
-		camel_imap_response_free (store, response);
 	}
-
+	
 	/* Mark any messages that still need to be marked */
-	if (mark_uidset) {
-		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s +FLAGS.SILENT \\Deleted",
-					       mark_uidset);
-		g_free (mark_uidset);
-		if (!response) {
-			g_free (keep_uidset);
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-			return;
+	if (mark_uids) {
+		char *uidset;
+		int uid = 0;
+		
+		while (uid < mark_uids->len) {
+			uidset = imap_uid_array_to_set (folder->summary, mark_uids, uid, UID_SET_LIMIT, &uid);
+			
+			response = camel_imap_command (store, folder, ex,
+						       "UID STORE %s +FLAGS.SILENT \\Deleted",
+						       uidset);
+			
+			g_free (uidset);
+			
+			if (!response) {
+				g_ptr_array_free (keep_uids, TRUE);
+				g_ptr_array_free (mark_uids, TRUE);
+				CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+				return;
+			}
+			camel_imap_response_free (store, response);
 		}
-		camel_imap_response_free (store, response);
+		
+		g_ptr_array_free (mark_uids, TRUE);
 	}
-
+	
 	/* Do the actual expunging */
 	response = camel_imap_command (store, folder, ex, "EXPUNGE");
 	if (response)
 		camel_imap_response_free (store, response);
-
+	
 	/* And fix the remaining messages if we mangled them */
-	if (keep_uidset) {
-		/* Don't pass ex if it's already been set */
-		response = camel_imap_command (store, folder,
-					       camel_exception_is_set (ex) ? NULL : ex,
-					       "UID STORE %s +FLAGS.SILENT \\Deleted",
-					       keep_uidset);
-		g_free (keep_uidset);
-		if (response)
-			camel_imap_response_free (store, response);
+	if (keep_uids) {
+		char *uidset;
+		int uid = 0;
+		
+		while (uid < keep_uids->len) {
+			uidset = imap_uid_array_to_set (folder->summary, keep_uids, uid, UID_SET_LIMIT, &uid);
+			
+			/* Don't pass ex if it's already been set */
+			response = camel_imap_command (store, folder,
+						       camel_exception_is_set (ex) ? NULL : ex,
+						       "UID STORE %s +FLAGS.SILENT \\Deleted",
+						       uidset);
+			
+			g_free (uidset);
+			if (response)
+				camel_imap_response_free (store, response);
+		}
+		
+		g_ptr_array_free (keep_uids, TRUE);
 	}
-
+	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
@@ -1188,16 +1229,22 @@ do_copy (CamelFolder *source, GPtrArray *uids,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
-	char *set;
-
-	set = imap_uid_array_to_set (source->summary, uids);
-	response = camel_imap_command (store, source, ex, "UID COPY %s %F",
-				       set, destination->full_name);
-	if (response && (store->capabilities & IMAP_CAPABILITY_UIDPLUS))
-		handle_copyuid (response, source, destination);
-
-	camel_imap_response_free (store, response);
-	g_free (set);
+	char *uidset;
+	int uid = 0;
+	
+	while (uid < uids->len && !camel_exception_is_set (ex)) {
+		uidset = imap_uid_array_to_set (source->summary, uids, uid, UID_SET_LIMIT, &uid);
+		
+		response = camel_imap_command (store, source, ex, "UID COPY %s %F",
+					       uidset, destination->full_name);
+		
+		g_free (uidset);
+		
+		if (response && (store->capabilities & IMAP_CAPABILITY_UIDPLUS))
+			handle_copyuid (response, source, destination);
+		
+		camel_imap_response_free (store, response);
+	}
 }
 
 static void
@@ -1802,18 +1849,20 @@ imap_update_summary (CamelFolder *folder, int exists,
 	
 	/* And fetch them */
 	if (needheaders->len) {
-		char *set;
+		char *uidset;
+		int uid = 0;
 		
 		/* FIXME: sort needheaders */
-		set = imap_uid_array_to_set (folder->summary, needheaders);
+		/* FIXME: modify code to allow for uidset limit */
+		uidset = imap_uid_array_to_set (folder->summary, needheaders, uid, -1, &uid);
 		g_ptr_array_free (needheaders, TRUE);
 		if (!camel_imap_command_start (store, folder, ex,
 					       "UID FETCH %s BODY.PEEK[%s]",
-					       set, header_spec)) {
-			g_free (set);
+					       uidset, header_spec)) {
+			g_free (uidset);
 			goto lose;
 		}
-		g_free (set);
+		g_free (uidset);
 		
 		camel_operation_start (NULL, _("Fetching summary information for new messages"));
 		while ((type = camel_imap_command_response (store, &resp, ex))
