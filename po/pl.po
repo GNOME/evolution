@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-12 22:35+0100\n"
+"POT-Creation-Date: 2001-12-17 15:38+0100\n"
 "PO-Revision-Date: 2001-12-12 22:48+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1378,10 +1378,12 @@ msgid "Afghanistan"
 msgstr "Afganistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Albania"
 msgstr "Albania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Algeria"
 msgstr "Algieria"
 
@@ -1410,6 +1412,7 @@ msgid "Antigua And Barbuda"
 msgstr "Antigua i Barbuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Argentina"
 msgstr "Argentyna"
 
@@ -1422,10 +1425,12 @@ msgid "Aruba"
 msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Australia"
 msgstr "Australia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Austria"
 msgstr "Austria"
 
@@ -1434,10 +1439,12 @@ msgid "Azerbaijan"
 msgstr "Azerbejd¿an"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Bahamas"
 msgstr "Bahamy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Bahrain"
 msgstr "Bahrain"
 
@@ -1454,10 +1461,12 @@ msgid "Belarus"
 msgstr "Bia³ogu¶"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Belgium"
 msgstr "Belgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Belize"
 msgstr "Belize"
 
@@ -1474,6 +1483,7 @@ msgid "Bhutan"
 msgstr "Bhutan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Bolivia"
 msgstr "Boliwia"
 
@@ -1490,6 +1500,7 @@ msgid "Bouvet Island"
 msgstr "Wyspa Bouveta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Brazil"
 msgstr "Brazylia"
 
@@ -1506,6 +1517,7 @@ msgid "Brunei Darussalam"
 msgstr "Su³tanat Brunei"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Bulgaria"
 msgstr "Bu³garia"
 
@@ -1526,6 +1538,7 @@ msgid "Cameroon"
 msgstr "Kamerun"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Canada"
 msgstr "Kanada"
 
@@ -1534,6 +1547,7 @@ msgid "Cape Verde"
 msgstr "Wyspy Zielonego Przyl±dka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Cayman Islands"
 msgstr "Kajmany"
 
@@ -1550,6 +1564,7 @@ msgid "Check Address"
 msgstr "Sprawd¼ adres"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Chile"
 msgstr "Chile"
 
@@ -1558,6 +1573,7 @@ msgid "China"
 msgstr "Chiny"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Christmas Island"
 msgstr "Wyspa Bo¿ego Narodzenia"
 
@@ -1566,6 +1582,7 @@ msgid "Cocos (Keeling) Islands"
 msgstr "Wyspy Kokosowe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Colombia"
 msgstr "Columbia"
 
@@ -1583,6 +1600,7 @@ msgid "Cook Islands"
 msgstr "Wyspy Cooka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Costa Rica"
 msgstr "Kostaryka"
 
@@ -1595,22 +1613,27 @@ msgid "Countr_y:"
 msgstr "_Kraj:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Croatia"
 msgstr "Chorwacja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Cuba"
 msgstr "Kuba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Cyprus"
 msgstr "Cypr"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Czech Republic"
 msgstr "Republika Czeska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Denmark"
 msgstr "Dania"
 
@@ -1623,6 +1646,7 @@ msgid "Dominica"
 msgstr "Dominika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Dominican Republic"
 msgstr "Republika Dominikany"
 
@@ -1631,14 +1655,17 @@ msgid "East Timor"
 msgstr "Wschodni Timor"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Ecuador"
 msgstr "Ekwador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Egypt"
 msgstr "Egipt"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "El Salvador"
 msgstr "Salwador"
 
@@ -1651,6 +1678,7 @@ msgid "Eritrea"
 msgstr "Erytrea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Estonia"
 msgstr "Estonia"
 
@@ -1671,10 +1699,12 @@ msgid "Fiji"
 msgstr "Fid¿i"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Finland"
 msgstr "Finlandia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "France"
 msgstr "Francja"
 
@@ -1699,10 +1729,12 @@ msgid "Gambia"
 msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Georgia"
 msgstr "Georgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Germany"
 msgstr "Niemcy"
 
@@ -1711,10 +1743,12 @@ msgid "Ghana"
 msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Greece"
 msgstr "Grecja"
 
@@ -1735,6 +1769,7 @@ msgid "Guam"
 msgstr "Guam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Guatemala"
 msgstr "Gwatemala"
 
@@ -1751,6 +1786,7 @@ msgid "Guyana"
 msgstr "Gujana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Haiti"
 msgstr "Haiti"
 
@@ -1763,22 +1799,27 @@ msgid "Holy See"
 msgstr "Watykan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Honduras"
 msgstr "Hinduras"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Hungary"
 msgstr "Wêgry"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Iceland"
 msgstr "Islandia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "India"
 msgstr "Indie"
 
@@ -1787,6 +1828,7 @@ msgid "Indonesia"
 msgstr "Indonezja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Ireland"
 msgstr "Irlandia"
 
@@ -1795,18 +1837,22 @@ msgid "Israel"
 msgstr "Izrael"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Italy"
 msgstr "W³ochy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Jamaica"
 msgstr "Jamajka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Japan"
 msgstr "Japonia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Jordan"
 msgstr "Jordania"
 
@@ -1823,6 +1869,7 @@ msgid "Kiribati"
 msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Kuwait"
 msgstr "Kuwejt"
 
@@ -1835,10 +1882,12 @@ msgid "Laos"
 msgstr "Laos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Latvia"
 msgstr "Litwa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Lebanon"
 msgstr "Libia"
 
@@ -1847,6 +1896,7 @@ msgid "Lesotho"
 msgstr "Lesotho"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Liberia"
 msgstr "Liberia"
 
@@ -1855,10 +1905,12 @@ msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Lithuania"
 msgstr "£otwa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Luxembourg"
 msgstr "Luksemburg"
 
@@ -1891,6 +1943,7 @@ msgid "Mali"
 msgstr "Mali"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Malta"
 msgstr "Malta"
 
@@ -1915,6 +1968,7 @@ msgid "Mayotte"
 msgstr "Majotta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Mexico"
 msgstr "Meksyk"
 
@@ -1935,6 +1989,7 @@ msgid "Montserrat"
 msgstr "Montserrat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Morocco"
 msgstr "Maroko"
 
@@ -1959,6 +2014,7 @@ msgid "Nepal"
 msgstr "Nepal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Netherlands"
 msgstr "Holandia"
 
@@ -1971,10 +2027,12 @@ msgid "New Caledonia"
 msgstr "Nowa Kaledonia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "New Zealand"
 msgstr "Nowa Zelandia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Nicaragua"
 msgstr "Nikaragua"
 
@@ -1991,6 +2049,7 @@ msgid "Niue"
 msgstr "Niue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Norfolk Island"
 msgstr "Wyspa Norfolk"
 
@@ -2000,14 +2059,17 @@ msgid "Northern Mariana Islands"
 msgstr "Pó³nocne Mariany"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Norway"
 msgstr "Norwegia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Oman"
 msgstr "Oman"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Pakistan"
 msgstr "Pakistan"
 
@@ -2020,6 +2082,7 @@ msgid "Palestinian Territory"
 msgstr "Autonomia Palestyñska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Panama"
 msgstr "Panama"
 
@@ -2028,10 +2091,12 @@ msgid "Papua New Guinea"
 msgstr "Papua Nowa Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Paraguay"
 msgstr "Paragwaj"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Peru"
 msgstr "Peru"
 
@@ -2044,18 +2109,22 @@ msgid "Pitcairn"
 msgstr "Pitcairn"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Poland"
 msgstr "Polska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Portugal"
 msgstr "Portugalia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Qatar"
 msgstr "Katar"
 
@@ -2072,6 +2141,7 @@ msgid "Reunion"
 msgstr "Reunion"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Romania"
 msgstr "Rumunia"
 
@@ -2109,6 +2179,7 @@ msgid "Sao Tome And Principe"
 msgstr "Sao Tome"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Saudi Arabia"
 msgstr "Arabia Saudyjska"
 
@@ -2125,14 +2196,17 @@ msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Singapore"
 msgstr "Singapur"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Slovakia"
 msgstr "S³owacja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Slovenia"
 msgstr "S³owenia"
 
@@ -2145,6 +2219,7 @@ msgid "Somalia"
 msgstr "Somalia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "South Africa"
 msgstr "Po³udniowa Afryka"
 
@@ -2153,6 +2228,7 @@ msgid "South Georgia And The South Sandwich Islands"
 msgstr "Po³udniowa Georgia i Sandwich Po³udniowy"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Spain"
 msgstr "Hiszpania"
 
@@ -2173,6 +2249,7 @@ msgid "Sudan"
 msgstr "Sudan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Suriname"
 msgstr "Surinam"
 
@@ -2185,14 +2262,17 @@ msgid "Swaziland"
 msgstr "Suazi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Sweden"
 msgstr "Szwecja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Switzerland"
 msgstr "Szwajcaria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Taiwan"
 msgstr "Taiwan"
 
@@ -2225,6 +2305,7 @@ msgid "Tunisia"
 msgstr "Tunezja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Turkey"
 msgstr "Turcja"
 
@@ -2257,6 +2338,7 @@ msgid "United Arab Emirates"
 msgstr "Zjednoczone Emiraty Arabskie"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "United Kingdom"
 msgstr "Zjednoczone Królestwo"
 
@@ -2265,6 +2347,7 @@ msgid "United Republic Of Tanzania"
 msgstr "Zjednoczona REpublika Tanzanii"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "United States"
 msgstr "Stany Zjednoczone"
 
@@ -2273,6 +2356,7 @@ msgid "United States Minor Outlying Islands"
 msgstr "Oddalone drobne wyspy Stanów Zjednoczonych"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Uruguay"
 msgstr "Urugwaj"
 
@@ -2285,10 +2369,12 @@ msgid "Vanuatu"
 msgstr "Vanuatu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Venezuela"
 msgstr "Wenezuela"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Viet Nam"
 msgstr "Wietnam"
 
@@ -2301,10 +2387,12 @@ msgid "Western Sahara"
 msgstr "Zachodnia Sachara"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Yemen"
 msgstr "Jemen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Yugoslavia"
 msgstr "Jugos³awia"
 
@@ -2835,6 +2923,7 @@ msgid "Orientation"
 msgstr "U³o¿enie"
 
 #: addressbook/printing/e-contact-print.glade.h:1
+#: my-evolution/Locations.h:1
 msgid "Page"
 msgstr "Strona"
 
@@ -10261,6 +10350,10 @@ msgstr "%d %B, %k:%M"
 msgid "%l:%M %d %B"
 msgstr "%d %B, %l:%M"
 
+#: my-evolution/e-summary-calendar.c:1
+msgid "No description"
+msgstr "Brak opisu"
+
 #: my-evolution/e-summary-mail.c:1
 msgid "Mail summary"
 msgstr "Zestawienie poczty"
@@ -10336,6 +10429,10 @@ msgstr "Regiony"
 msgid "%A, %B %e %Y"
 msgstr "%A, %e %B, %Y"
 
+#: my-evolution/e-summary.c:1
+msgid "Please wait..."
+msgstr "Poczekaj chwilê..."
+
 #: my-evolution/e-summary.c:1 ui/my-evolution.xml.h:1
 msgid "Print Summary"
 msgstr "Wydrukuj"
@@ -10349,11 +10446,11 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Komponent zestawienia wykonawczego nie móg³ zainicjowaæ Bonobo.\n"
 
 #: my-evolution/metar.c:1
-msgid "°F"
+msgid " F"
 msgstr "°F"
 
 #: my-evolution/metar.c:1
-msgid "°C"
+msgid " C"
 msgstr "°C"
 
 #: my-evolution/metar.c:1
@@ -10780,7 +10877,7 @@ msgid "Freezing ice pellets"
 msgstr "Utrzymuj±ce siê kulki lodowe"
 
 #. HAIL
-#: my-evolution/metar.c:1
+#: my-evolution/Locations.h:1 my-evolution/metar.c:1
 msgid "Hail"
 msgstr "Grad"
 
@@ -14293,3 +14390,11261 @@ msgstr "init_corba(): nie mo¿na zainicjowaæ GNOME"
 #: wombat/wombat.c:1
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nie mo¿na zainicjowaæ Bonobo"
+
+#: my-evolution/Locations.h:1
+msgid "Aarhus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abakan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abbotsford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aberdeen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abilene"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abingdon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abu Dhabi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Abu Dhabi - Bateen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Acajutla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Acapulco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Acarigua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Adak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Adana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Adana/Incirlik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Adelaide"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Adrar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aeroparque"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aeropuerto del Norte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Afonsos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Africa"
+msgstr "Afryka"
+
+#: my-evolution/Locations.h:1
+msgid "Afyon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Agen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aguascaliantes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ahmadabad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ahwaz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ainsworth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Air Force"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ajaccio/Campo dell'Oro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Akeno Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Akita Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Akron"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Akrotiri"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alabama"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Al Ahsa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Al Ain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alamogordo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alamosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alaska"
+msgstr "Alaska"
+
+#: my-evolution/Locations.h:1
+msgid "Al Baha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Albany"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Albenga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alberta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alborg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Albuquerque"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alderney"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alesund"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alexandria"
+msgstr "Aleksandria"
+
+#: my-evolution/Locations.h:1
+msgid "Alexandria-Esler"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alexandria/Nouzha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alexandroupolis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alghero"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Algona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alicante"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alice"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alice Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Al-Jouf"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Allentown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alliance"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Almeria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alpena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Al Qaysumah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Altamira"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Altoona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Alturas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Altus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amami Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amapala"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amarillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amasya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ambler"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amelia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amendola"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ames"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amritsar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Amsterdam"
+msgstr "Amsterdam"
+
+#: my-evolution/Locations.h:1
+msgid "Anadyr"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anaktuvuk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anapa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anchorage"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anchorage - Elmendorf AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ancona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Andahuayla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anderson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Andoya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Andravida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Andrews AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Angleton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aniak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ankara/Esenboga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ankara/Etimesgut"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Annaba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ann Arbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Annette"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Anniston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Antalya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Antartica"
+msgstr "Antarktyka"
+
+#: my-evolution/Locations.h:1
+msgid "Antigo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Antigua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Antigua and Barbuda"
+msgstr "Antigua i Barbuda"
+
+#: my-evolution/Locations.h:1
+msgid "Antofagasta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Antwerpen/Deurne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aomori Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Apalachicola"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Appleton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aquadilla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aracaju"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Araxos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arcata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ardmore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arequipa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arica"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arizona"
+msgstr "Arizona"
+
+#: my-evolution/Locations.h:1
+msgid "Arkansas"
+msgstr "Arkansas"
+
+#: my-evolution/Locations.h:1
+msgid "Arkhangelsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Arlington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Artigas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asahikawa Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asahikawa Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ashburnam"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asheville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ashfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ashiya Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ashland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asia"
+msgstr "Azja"
+
+#: my-evolution/Locations.h:1
+msgid "Aspen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asswan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Astoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Astrakhan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asturias"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Asuncion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Athens"
+msgstr "Ateny"
+
+#: my-evolution/Locations.h:1
+msgid "Athinai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Atlanta"
+msgstr "Atlanta"
+
+#: my-evolution/Locations.h:1
+msgid "Atlantic"
+msgstr "Atlantyk"
+
+#: my-evolution/Locations.h:1
+msgid "Atlantic City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Atsugi US NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Auburn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Auckland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Augsburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Augusta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Aurora"
+msgstr "Aurora"
+
+#: my-evolution/Locations.h:1
+msgid "Austin"
+msgstr "Austin"
+
+#: my-evolution/Locations.h:1
+msgid "Australasia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Avalon"
+msgstr "Avalon"
+
+#: my-evolution/Locations.h:1
+msgid "Aviano"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ayacucho"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bage"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bagotville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bahia Blanca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bahias de Huatulco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Baker City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bakersfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bale-Mulhouse"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Balikesir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Balikesir/Bandirma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ball Mountain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Baltimore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Baltimore-Glen Burnie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Banak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bandarabbass"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bangor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Baracoa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barbers Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barcelona"
+msgstr "Barcelona"
+
+#: my-evolution/Locations.h:1
+msgid "Bardufoss"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bar Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bari"
+msgstr "Bari"
+
+#: my-evolution/Locations.h:1
+msgid "Bariloche"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barinas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barking Sand"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barksdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barnaul"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barquisimeto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barranquilla/Ernestocortissoz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barrow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Barter Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bartlesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bartow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bastia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Batesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Batman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Baton Rouge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Battle Creek"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Battle Mountain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bauru"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bayamo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bayreuth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beatrice"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beaufort"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beaumont"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beaumont-Port Arthur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beauvais-Tille"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beauvechain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beckley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bedford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beijing"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beirut"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beja"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belem"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belfast/Aldergrove"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belfast/Harbour"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belgorod"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belleville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bellingham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belmar-Farmingdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belo Horizonte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Belo Horizonte Apt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bemidji"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Benbecula"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Benina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Benton Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bentonville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beograd"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bergamo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bergen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bergstrom AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Berlevag"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Berlin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Berlin-Tegel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Berlin-Tempelhof"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bern"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bethel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bethlehem Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bettles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Beverly"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Biarritz-Bayonne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bicycle Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Biggin Hill"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Big Piney"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Big River Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bilbao"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Billings"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Billund"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Binghamton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Birmingham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bisha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bishop"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bismark"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Blackpool"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Blagoveschensk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Blanding"
+msgstr ""
+
+# [cyba] Nie mam pewno¶ci, ale jest zatoka Cooka, cie¶nina, góry, wiêc chyba...
+#: my-evolution/Locations.h:1
+msgid "Block Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bloemfontein J. B. M. Hertzog "
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bloomington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Blue Canyon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bluefield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bluefields"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Blythe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boa Vista"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bocas del Toro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bodo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bogota/Eldorado"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boise"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bologna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bolzano"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bombay/Santacruz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bordeaux"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Borger"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bornholm"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boscombe Down"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bosnia-Herzegovina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Boulmer"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bourges"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bournemouth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bowling Green"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bozeman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bradford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bradshaw Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brainerd"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brasilia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brasschaat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bratislava"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bratsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Braunschweig"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bremen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bremerton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brest"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bridgeport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brindisi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brisbane"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bristol"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "British Columbia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brno"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Broadus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Broken Bow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bronnoysund"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brookings"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brooksville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Broome"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brownsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brunswick"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Brussels-National Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bryansk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bryce Canyon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bucaramanga/Palonegro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bucuresti"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bucuresti-Otopeni"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Budapest"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Buffalo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bullfrog"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burbank"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burgas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burlington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burnet"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burns"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Bursa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Burwell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Butte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caen-Carpiquet"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cagliari"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cairns"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cairo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Calabozo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Calcutta/Dum Dum"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caldwell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Calgary"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cali/Alfonso Bonillaaragon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caliente"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "California"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Calvi-Ste-Catherine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Camaguey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Camarillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cambridge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cameron"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Camiri"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Campeche"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Campinas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Campo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Campo Grande"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Camp Stanley/H-207"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canaan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Fuerteventura"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Gran Canaria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Hierro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Lanzarote"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/La Palma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Tenerife Norte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canarias/Tenerife Sur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Canberra"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cancun"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cannes-Mandelieu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cantwell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Girardeau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Hatteras"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Lisburne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Newenham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Romanzoff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cape Town D. F. Malan "
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Capitan Corbeta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Capo Mele"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caracas La Carlota"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caracas Maiquetia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caravelas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Carbondale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cardiff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Caribou"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Carlisle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Carlsbad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Carroll"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cartagena/Rafael Nunez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Casa Granda"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cascade"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Casper"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Catacamas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Catania"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cayo Largo del Sur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cazaux"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cecil NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cedar City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cedar Rapids"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Central and South America"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cervia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chacarita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chadron"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Challis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chamberlain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chambery"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Champaign"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chandalar Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chandler"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chania"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chanute"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chariton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Charleroi-Brussels South"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Charles City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Charleston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Charlotte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Charlottesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chatham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chattanooga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cheboksary"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cheju"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chelyabinsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chengdu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cherbourg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cherry Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chetumal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cheyenne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chiang Kai Shek"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chia Tung"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chiayi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chicago-DuPage"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chicago-Lakefront"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chicago-Midway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chicago-O'Hare"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chichijima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chiclayo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chico"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chicopee Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chievres"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chihhang"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chihuahua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Childress"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "China Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chinandega"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chinmem/Shatou"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chino"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chippewa County"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chitose Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chitose ASDF"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chofu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Choluteca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chongju Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Christchurch"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Chulitna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Churchill"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Churchill Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cincinnati"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Circle City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ciudad Bolivar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ciudad del Carmen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ciudad Juarez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ciudad Obregon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ciudad Victoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clarinda"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clarion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clarksburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clayton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clayton Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clermont-Ferrand"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cleveland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cleveland/Cuyahoga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cleveland-Lakefront"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clinton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Clovis-Cannon AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cobija"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cochabamba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cocoa Beach"
+msgstr ""
+
+# [cyba] Nie mam pewno¶ci, ale jest zatoka Cooka, cie¶nina, góry, wiêc chyba...
+#: my-evolution/Locations.h:1
+msgid "Cocos Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cody"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Coeur d'Alene"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cold Bay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "College Station"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colmar-Meyenheim"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colonia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colorado"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colorado Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbia-McEntire"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbus-Fort Benning"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbus-Gahanna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbus-OSU"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Columbus-W Point-Starkville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Colville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Comodoro Rivadavia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Comox"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Conceicao Do Araguaia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Concepcion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Concord"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Concordia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Connaught"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Connecticut"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Conroe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Constantine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Copper Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cordoba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cordova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cork"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Coro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corpus Christi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corpus Christi NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corrientes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corsicana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cortez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Corumba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cotulla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Council Bluffs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Coventry"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Covington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cozumel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Craig"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cranfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Crescent City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Creston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Crestview"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cross City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Crossville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Crotone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cuba Awrs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cuernavaca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cuiaba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Culdrose"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Culiacan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cumana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cumberland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Curitiba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Curitiba Apt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Custer"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cut Bank"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Cuzco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dagali"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Daggett"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dalhart"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dalian"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dallas-Addison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dallas-Fort Worth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dallas-Love Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dallas-Redbird"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Da Nang"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Danbury"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Danville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dar-El-Beida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Davenport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "David"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dawadmi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dayton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Daytona Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dayton-Fairborn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dayton-South Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dead Horse"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Deauville-Saint-Gatien"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Decatur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Decimomannu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Decorah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Deelen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dekalb/Peachtree"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Delaware"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Del Bajio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Del Rio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Delta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Deming"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Den Helder/De Kooy"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denver"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denver-Aurora"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denver-Broomfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Denver-Cherry Knolls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Desert Rock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Des Moines"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Destin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Detroit"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Detroit Lakes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Detroit-Taylor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Detroit/Ypsilanti"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Devils Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Devils Lake (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dhahran"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dickinson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dijon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dillingham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dillon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dinard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "District of Columbia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Diyarbakir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dobbiaco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dodge City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Doha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dole"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dongsha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dongshi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Don Torcuato"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dortmund-Wickede"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dothan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Douglas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dover"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dresden-Klotzsche"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Drummond"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dubai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dubbo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dublin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Du Bois"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dubrovnik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dubuque"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dugway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Duluth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dundee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Durango"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Durango Awrs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Durazno"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Durban Louis Botha "
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dusseldorf"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dutch Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Dyersburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eagle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eagle Range"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "East London"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "East Midlands"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "East St Louis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eau Claire"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Edinburgh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Edmonton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Edmonton/Villeneuve"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eduardo Gomes International"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Edwards AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Egilsstadir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eglin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eglington/Londonderry"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eindhoven"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ekofisk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elazig"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "El Centro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "El Dorado"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elefsis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elfin Cove"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elizabeth City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elk City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elkhart"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elkins"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elko"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elmira"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "El Monte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "El Paso"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "El Salvador Int."
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Elsenborn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ely"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Emmonak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Emporia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Enid"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Enid/Woodring"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Enosburg Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ephrata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ercan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Erie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Erzurum"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Esbjerg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Escanaba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Esfahan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eskisehir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Estherville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eugene"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Eureka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Europe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Evanston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Evansville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Everett"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Evergreen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Evreux-Fauville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Exeter"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ezeiza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fagernes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fairbanks"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fairchild"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fairfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fairmont"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fallon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Falls City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Falmouth-Otis AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Farbanks/Eielson AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fargo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Farmingdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Farmington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Farmville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Faro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fayetteville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Feng Nin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fergus Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fernando De Noronha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ferrara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Figari"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Findlay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Firenze"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fitchburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Flagstaff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Flint"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Flippin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Florence"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Florennes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Flores"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Florianopolis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Florida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Floro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fond Du Lac"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Forde/Bringeland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Forli"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Formosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fortaleza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Belvoir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Benning"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Bragg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Campbell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Carson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Collins"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Collins/Lovel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Dodge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Drum"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Eustis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Greely/Allen AAF"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Huachuca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Knox"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Lauderdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Lauderdale (International)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Leonard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Lewis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Madison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Meade"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Myers (Page Field)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Myers (Southwest Florida International)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Polk-Leesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Riley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Sill"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Smith"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Stewart"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Stockton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Wayne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Worth-Alliance"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Worth-Meacham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fort Worth NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fourchon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Foz Do Iguacu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frankfort"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frankfurt/Main"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Franklin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fredericton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Freeport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frenchville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fresno"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fresno-Chandler"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Friday Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Friedrichshafen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frigg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frontone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Frosinone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fryeburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fujairah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fuji Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fukue Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fukui Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fukuoka Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Fullerton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Funchal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "FYR Macedonia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gadsden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gage"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gainesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galax-Hillsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galbraith Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galeao"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galesburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gallup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Galveston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gambell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gander"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Garden City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gary"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gassim"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gatineau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gaziantep"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gdansk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Geneve"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Genova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "George Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Georgetown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ghardaia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ghedi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gifu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gila Bend"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gillette"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gilze-Rijen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gioia del Colle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Girona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gizan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Glasgow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Glendive"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Glens Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goiania"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goldsboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goodland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goose Bay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goteborg (Landvetter)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Goteborg (Save)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Granada"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Canyon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Cayman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Forks"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Isle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Junction"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Marais"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grand Rapids"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grandview"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grangeville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grants"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Graz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Great Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Greeley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Green Bay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Green River"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Greensboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Greenville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Greenville-Spartanburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Greenwood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grenoble-Saint-Geoirs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Griffiss AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Groningen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Grosseto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Groton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guadalajara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guadalupe Pass"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guanare"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guangzhou"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guantanamo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guarany"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guaratingueta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guarulhos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guayaquil/Simon Bolivar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guaymas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guernsey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guidonia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gulfport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gulkana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gullfax C"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gunnison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gunnison (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guriat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Gustavus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Guymon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Habana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hachijojima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hachinohe Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hafr Al-Batin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hagerstown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hailey-Sun Valley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Haines"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hakodate Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Halifax"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hamamatsu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hamburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hamburg-Finkenwerder"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hamilton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hammerfest"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hampton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hanamaki Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hancock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hangzhou"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hanksville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hannover"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ha Noi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harbor Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harlingen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harlowton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harrisburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harrison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Harstad/Narvik/Evenes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hartford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hassi-Messaoud"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hastings"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Haugesund"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Havre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hawaii"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hawthorne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hayden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hayes River"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hays"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hayward"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Healy River"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Helena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Helsinki"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Henderson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hengchun"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hermosillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hibbing"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hickory"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hill City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hillsboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hilo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hinesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hiroshima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hobart"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hobbs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ho Chi Minh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hodeidah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hof"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hoffman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hofu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hohenems"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Holguin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Homer"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Homestead AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hondo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Honningsvag"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Honolulu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hoonah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hoquiam"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hot Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houghton Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houlton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houston-Bush"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houston-Clover"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houston-Ellington Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houston-Hobby"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Houston-Hooks"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Howard AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hsinchu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Huanuco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Huehuetenango"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hulien"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Humberside"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Huntington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Huntsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hurlburt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Huron"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hutchinson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hyakuri Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hyannis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hyderabad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Hyeres-Le Palyvestre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iasi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ibiza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ichikawa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Idaho"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Idaho Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iguazu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iki Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ilan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iliamna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Illinois"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Imperial"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Imperial (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Imperial Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "In Amenas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Indiana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Indianapolis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Indian Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Innsbruck"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "International Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Intracoastal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Inverness"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Inyokern"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iowa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iowa City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iqaluit"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iquique/Diego Arac"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iquitos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iraklion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iran, Islamic Republic of"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iron Mountain"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ironwood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iruma Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Islamabad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Isle of Man"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Islip"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Istanbul"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Itaituba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ithaca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iwakuni MCAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Iwojima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ixtapa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Izmir/Adnan Menderes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Izmir/Cigli"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Izmit"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Izumo Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jackson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jacksonville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jacksonville-Craig Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jacksonville NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jaffrey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jamestown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Janesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jan Smuts"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jeddah King Abdul Aziz International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jefferson City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jerez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jersey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jinotega"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Johan A. Pengel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Johnstown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jonesboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jonkoping"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Joplin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Juanjui"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Juan Santamaria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Juigalpa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Jujuy"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Juliaca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Junction"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Juneau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kadena Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kagoshima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kahului"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kailua-Kona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kalamata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kalamazoo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kalispell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kamigoto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kaneohe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kangshan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kanoya Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kansai International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kansas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kansas City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kansas City-Gladstone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kaohsiung"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Karachi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Karup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kassel-Calden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kasumigaura Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kasuminome Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Katowice"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kavala"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kayseri"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kazan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kearney"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Keene"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kefallinia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Keflavik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kenai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kenosha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kentucky"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Keokuk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kerkira"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kerman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ketchikan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Key West"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Key West NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Khabarovsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Khamis Mushait"
+msgstr ""
+
+# [cyba] Nie mam pewno¶ci, ale jest zatoka Cooka, cie¶nina, góry, wiêc chyba...
+#: my-evolution/Locations.h:1
+msgid "Kikai Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Killeen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Killeen-Ft Hood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Killeen-Gray AAF"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "King Khaled International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kingman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "King Salmon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kingston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kingsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kinloss"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kinston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kirkenes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kirksville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kiruna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kisarazu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kishineu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kitakyushu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Klagenfurt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Klamath Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Klawock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kleine Brogel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kliningrad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Knoxville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Knoxville-Downtown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kobenhavn/Kastrup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kobenhavn/Roskilde"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kochi Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kodiak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kogalniceanu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kogalym"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Koksijde"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kolding/Vandrup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Koln/Bonn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Komatsu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Komatsujima Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Konya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Korea, Democratic People's Republic of"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Korea, Republic of"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kotzebue"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kozani"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Krakow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Krasnodar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Krasnoyarsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kristiansand/Kjevik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kristiansund/Kvernberget"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kumamoto Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kunming"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Kushiro Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Ceiba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Laconia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Coruna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Crosse"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Esperanza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lafayette"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Grande"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lahaina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lahore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lajes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Junta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lake Charles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lake Hood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lakehurst"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lakeland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lake Tahoe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lakeview"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lamar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Mesa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lamezia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lamoni"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lampedusa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lanai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lancaster"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lander"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Langebaanweg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Langley AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lannion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lansing"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lanzhou"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Paz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Paz/Alto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Laramie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Laredo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Larnaka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Romana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Las Americas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Las Tunas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Las Vegas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Latina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Latrobe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Laughlin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Laurel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "La Verne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lawrence"
+msgstr ""
+
+# FIXME (cyba): skrót klawiszowy
+#: my-evolution/Locations.h:1
+msgid "Lawton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leadville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Learmouth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lecce"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leeds and Bradford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leesburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leeuwarden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Le Havre-Octeville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leipzig-Schkeuditz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leknes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Le Mans"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Le Marine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lemmon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lemoore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leticia/Vasquez Cobo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Le Touquet"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Leuchars"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lewisburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lewiston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lewistown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lexington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Liberal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Libya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lichtenburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lidgerwood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Liege"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lihue"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lille-Lesquin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lima-Callao"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Limnos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Limoges"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Limon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lincoln"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Linz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lisboa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lista"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Litchfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Little Rock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Little Rock AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Livermore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Liverpool"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Livingston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ljubljana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Logan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lolland Falster"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lompoc"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "London"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "London/City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "London/Gatwick"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "London/Heathrow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "London/Stansted"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Londrina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lone Rock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Long Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Longview"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lorient-Lann-Bihoue"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Los Alamos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Los Angeles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Los Mochis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lossiemouth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Louisville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Louisville-Standiford Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lousiana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lovelock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lubbock"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lubeck-Blankensee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lufkin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lugano"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Luqa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Luton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Luxeuil"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Luxor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lynchburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lyneham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lyon-Bron"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Lyon-Satolas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maastricht"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Macae"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Macapa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maceio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Macon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Madinah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Madison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Madras/Minambakkam"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Madrid (Barajas)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Madrid (Cuatro Vientos)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Magadan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Magdalena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Makhachkala"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Makkah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Makung"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Malad City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Malaga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Malatya"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maldonado/Punta Est"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Malmo/Sturup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mammoth Lakes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Managua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manassas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manaus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manchester"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mangilsan Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manhattan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manisa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manistee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manitoba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manitowoc"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mankato"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mansfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Manzanillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maraba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maracaibo-La Chinita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maracay-B.A.Sucre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marathon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mar Del Plata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Margarita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marianna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marib"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maribor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marietta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marino di Ravenna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marion-Wytheville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marquette"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marseille-Provence"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marseilles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marshall"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marshalltown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marshfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marthas Vineyard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Martinsburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Martinsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Maryland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marysville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Marysville-Beale AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mashhad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Masirah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mason City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Massachusetts"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Massena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Matamoros"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Matsumoto Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Matsushima Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Matsuyama Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mattoon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mayaguez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mayport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mazatlan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mazu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McAlester"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McAllen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McCall"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McCarthy"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McClellan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McComb"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McCook"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "McGrath"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mc Gregor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Meacham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Medford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Medicine Lodge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mehamn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mekoryuk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Melbourne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Melfa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Melilla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Memambetsu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Memphis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Memphis-NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mendoza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mene Grande"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Menominee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Menorca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Merced"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Merida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Meridian"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Meridian-Lauderdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Merril Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mersa Matruh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mesa-Falcon Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Metabaru Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Metz-Frescaty"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mexicali"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miami"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miami-Kendall"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miami-Opa Locka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Michigan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Middle East"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Middleton Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Middletown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Midland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miho Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milano/Linate"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milano/Malpensa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miles City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Millinocket"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Millville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milwaukee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Milwaukee-Timmerman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minamitorishima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minatitlan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minchumina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mineralnye Vody"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mineral Wells"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minneapolis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minneapolis [2]"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minneapolis [3]"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minnesota"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minocqua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minot"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Minot AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Misawa Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mississippi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Missoula"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Missouri"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mitchell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mitilini"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miyakejima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Miyazaki Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mobile Downtown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mobile Regional Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mobridge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Modesto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mo I Rana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mojave"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Molde"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moldova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moline-Quad Cities"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Molokai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mombetsu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monchengladbach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monclova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moncton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monpellier-Mediterrannee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monroe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montague"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mont-de-Marsan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Argentario"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Bisbino"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Calamita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Cimone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montego Bay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Malanotte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monterey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monterrey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Scuro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monte Terminillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montevideo/Carrasco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montgomery"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montgomery-Maxwell AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Monticello"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montpelier"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montreal Dorval"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montreal Mirabel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montreal Saint-Hubert"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montrose"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Montrose (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Morelia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Morgantown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moriarty"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Morristown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moscow Domodedovo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moscow Sheremetyevo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moses Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mosinee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mosjoen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Moultrie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mountain Home"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mountain View"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mount Clemens"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mount Holly"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mount Shasta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mount Vernon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mount Wilson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mt Washington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mugla/Dalaman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Muir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mullan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mullen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Munchen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Muncie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Munster/Osnabruck"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Murcia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Murmansk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Muscatine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Muscle Shoals"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Muskegon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Mykonos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Myrtle Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nabesna/Devil Mt."
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nacogdoches"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nagasaki Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nagoya Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nagpur Sonegaon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Naha Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Najran"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nakashibetsu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nalchik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Namsos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nancy-Essey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nancy-Ochey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nankishirahama Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nanning"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nantes Adlantique"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nantucket"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Napa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Naples"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Napoli"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Narvik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nasa Shuttle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nashua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nashville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nassau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Natal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Natchez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nawabshah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nebraska"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Needles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nenana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Neuquen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nevada"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newark"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Bedford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Bern"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Braunfels"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Brunswick"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newburgh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newcastle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Delhi/Palam"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newfoundland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Hampshire"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Haven"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Iberia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Jersey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Mexico"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Orleans"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Orleans-Lakefront"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Orleans NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newport News"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Port Richey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New River"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New Tokyo International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Newton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New York"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New York-JFK Arpt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "New York-La Guardia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Niagara Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nice-Cote d'Azur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Niigata Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nimes-Garons"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nipawin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nizhny Novgorod"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "N Las Vegas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "N Myrtle Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nogales"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nome"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Norfolk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Norfolk NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Norrkoping"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Adams"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Bend"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Carolina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Conway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Dakota"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Northeast Philadelphia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Kingstown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "North Platte"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Northway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Northwest Territories"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Norwich"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Norwood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Notodden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Novara/Cameri"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nova Scotia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Novosibirsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nueva Gerona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nueva Ocotepeque"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nuevo Laredo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nurnberg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Nyutabaru Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oahu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oak Harbor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oakland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oaxaca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oberpfaffenhofen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Obihiro Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ocala"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oceanside"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Odense"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oelwen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ogden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ogden-Hill AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ogdensburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ohio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ohrid"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oita Airport"
+msgstr ""
+
+# [cyba] Nie mam pewno¶ci, ale jest zatoka Cooka, cie¶nina, góry, wiêc chyba...
+#: my-evolution/Locations.h:1
+msgid "Ojika Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Okayama Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oki Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Okinoerabu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oklahoma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oklahoma City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oklahoma City-Bethany"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oklahoma City-Midwest City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Okushiri Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Olathe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Olathe/Ind."
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Olbia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Olympia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Omaha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Omaha-Bellevue"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Omak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ominato Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Omsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "O'Neill"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ontario"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oostende"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oran"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oran/Es Senia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orange"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orange City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ord-Sharp"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oregon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orenburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orlando"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orlando (Orlando International)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Orsta-Volda"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oruro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Osaka International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Osan Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oscoda"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oseberg A"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oshima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oshkosh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oslo/Gardenmoen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ostrava"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ottawa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ottumwa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Owensboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Owyhee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oxford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Oxnard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ozark"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ozuki Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paderborn-Haxterberg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Padova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paducah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paekado"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paengnyongdo Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paganella"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pa Kuei/Bakuai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palacios"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palermo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palma de Mallorca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palmdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palmer"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palm Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Palo Alto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pamplona"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Panama City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pantelleria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Papa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paphos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paris"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paris/Charles De Gaulle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paris/Le Bourget"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paris/Orly"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Parkersburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pasco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paso De Los Libres"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paso Robles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Passo dei Giovi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Passo della Cisa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Passo Resia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Passo Rolle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Patna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Patterson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Patuxent River"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pau/Pyrenees"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paxson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Paysandu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Payson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pellston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pelotas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pendleton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pennsylvania"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Penn Yan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pensacola"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pensacola NAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "People's Republic of China"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Peoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pequot Lakes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pereira/Matecana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Perm"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Perpignan-Rivesaltes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Perry-Foley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Perth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Perugia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pescara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Petersburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Petropavlovsk-Kamchatsky"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Petrozavodsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Philadelphia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Philip"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Philipsburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Phillips"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Phoenix"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Phoenix-Deer Valley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Phoenix-Goodyear"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Phoenix-Luke AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Piacenza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pian Rosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Piedras Negras"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pierre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pietersburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pikeville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pine Bluff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pingtung North"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pingtung South"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pirassununga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pisa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pisco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pittsburgh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pittsburgh-West Mifflin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Plattsburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Plovdiv"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Plymouth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pocatello"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pocos De Caldas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Podgorica"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Podgorica Titograd"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pohang Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Point Hope"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Point Lay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Point Mugu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Point Piedras Blanca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poitiers"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pompano Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ponca City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ponce"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ponta Pora"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pontiac"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pope AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poplar Bluff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poprad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Alexander"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Alsworth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Angeles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port-Au-Prince"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Elizabeth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porterville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Hardy"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Hedland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Heiden"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Portland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porto Alegre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porto Alegre Apt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Portoroz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porto Santo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Porto Velho"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Port Said"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Portsmouth"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Posadas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Potosi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poughkeepsie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pownal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poza Rica"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Poznan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Praha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pratica di Mare"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Prescott"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Presidente Prudente"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Presque Isle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Prestwick"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pretoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Preveza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Price-Carbon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pristina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Providence"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Provincetown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Provo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pskov"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pucallpa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pudahuel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puebla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pueblo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Barrios"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Cabezas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Escondido"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Lempira"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Limon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Maldonado"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Montt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Plata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Suarez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puerto Vallarta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pula"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pullman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Punta Arenas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Punta Cana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Punta Gorda"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Puntilla Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pusan/Kimhae"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pyongtaek Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Pyongyang"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quantico"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quebec"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quebec City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Queretaro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quillayute"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quimper"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quincy"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Quito/Mariscal Sucre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rabat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Raduzhny"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rafha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Raleigh-Durham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Randolph AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rapid City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rapid City-Ellsworth AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ras Al Khaimah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rawlins"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reading"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rebun Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Recife"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Red Bluff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Redding"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Redig"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Redmond"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Red Oak"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Redwood Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reggio Calabria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Regina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reims-Champagne"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rennes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reno"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Renton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Resistencia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reus"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reyes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reykjavik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Reynosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rhinelander"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rhode Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riberalta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Richmond"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rickenbacker"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rieti"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rifle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rijeka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rimini"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rio De Janeiro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rio Gallegos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rio Grande"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rioja"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rio / Jacarepagua"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rionegro/J.M.Cordova"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rishiri Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rivas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rivera"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riverside"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riverside/March AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riverton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rivolto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Riyadh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roanoke"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roatan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Robore"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rochester"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rockford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rockland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rockport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rock Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rocky Mount"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rodos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rogers"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roma/Ciampino"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roma/Fiumicino"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roma/Urbe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rome-Russell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ronchi de' Legionari"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ronneby"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roosevelt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roros"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rorvik/Ryum"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rosario"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roseburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roseglen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rost"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rostov-Na-Donu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Roswell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rotterdam"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rouen-Valle de Seine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ruidoso-Sierra Blanca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rurrenabaque"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Russell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Russia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rutland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rygge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Rzeszow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saarbrucken"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sabine Pass"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sacramento"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sacramento-Woodland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Safford-Municipal Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saginaw"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint Anthony"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint-Brieuc-Armor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint-Dizier-Robinson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint-Etienne-Boutheon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint Mary's"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint Mawgan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint-Nazaire-Montoir"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saint Paul"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saiq"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salalah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salem"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salida"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salida-Harriet"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salinas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salisbury"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salmon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salmon (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saltillo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salt Lake City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salt point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salvador"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Salzburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Samara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Samos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Samsun"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sana'A"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Andres Isla/Sesquicentenario"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Angelo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Antonio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Antonio Del Tachira"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Antonio-Kelly AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Antonio-Stinson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Carlos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sandane"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sandberg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sanderson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego-Brown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego-Miramar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego-Montgomery"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego-North Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Diego-Santee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sandnessjoen/Stokka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sand Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Fernando De Apure"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sanford"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Francisco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sangju"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Ignacio De Velasco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Joaquin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Jose"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Jose De Chiquitos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Jose del Cabo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Jose-Santa Clara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Juan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sankt-Peterburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sanliurfa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Luis Obispo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Luis Potosi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Miguel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Nicholas Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Salvador"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "San Sebastian"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Ana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Barbara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Cruz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Fe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Maria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Marta/Simon Bolivar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Monica"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santander"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santarem"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Rosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santa Rosa de Copan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santiago"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santiago de Cuba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santiago Del Estero"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santorini"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Santos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sao Jose Dos Campo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sao Luiz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sao Paulo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sapporo Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sarajevo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saranac Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sarasota"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saratov"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sarzana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saskatchewan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Saskatoon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sauce Viejo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sault Ste Marie"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Savannah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Savannah-Hunter AAF"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sawyer AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sayun"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Scatsta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Schaffen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Schenectady"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Scilly Isles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Scottsbluff"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Scottsdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Scranton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seattle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seattle-Boeing"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sedalia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seeb"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Selanik"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sendai Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seoul E Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seoul/Kimp'O International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seoul/Yongdungp'O Rokaf Wc"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sept-Iles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seul Choix Pt"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sevilla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Seward"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sexton Summit"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shanghai"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shannon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sharjah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sharm El Sheikhintl"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sharurah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shawbury"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shearwater"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sheboygan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sheldon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shelter Cove"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shelton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shenandoah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sheridan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sherman-Denison"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shimofusa Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shingle Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shiraz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shishmaref"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shizuhama Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shoreham"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Show Low"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shreveport Downtown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Shreveport Regional"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sidney"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sigonella"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Siloam Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Silver City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sindal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sioux City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sioux Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sitka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sivas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sivrihisar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skagway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skiathos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skien/Geiteryggen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skive"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skopje"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Skwentna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Slana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Smithers"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Smyrna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Snowshoe Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sochi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Socorro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Socotra"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Soda Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sofia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sogndal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Soldotna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Somerset"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sonderborg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Songmu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sorkjosen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Southampton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "South Bend"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "South Carolina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "South Dakota"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Southend"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "South Marsh Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "South Timbalier"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sparrevohn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Spencer"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Spickard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Split"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Spokane"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Spokane-Parkwater"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Springbok"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Springfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stampede Pass"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "State College"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stauning"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Staunton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stavanger/Sola"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Staverton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stavropol"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Cloud"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Steamboat Springs"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stephenville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St. George"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stillwater"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St. John's"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Johnsbury"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Joseph"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Louis"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Louis-Spirit"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stockholm (Arlanda)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stockholm (Bromma)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stockton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stokmarknes/Skagen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stord/Sorstokken"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Storm Lake"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stornoway"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Paul"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Petersburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Petersburg / Clearwater"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Strasbourg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Strevell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "St Simon's Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stumpy Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sturgeon Bay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Stuttgart"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sucre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sumburgh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sumter"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sumter (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sundsvall-Harnosand"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sungshan/Taipei"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Superior"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sutton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Suwon Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Svalbard"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Svolvaer/Helle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Swift Current"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Sydney"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Syktyvkar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Syracuse"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Szczecin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Szombathely"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tabatinga"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tabriz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tabuk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tachikawa Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tacna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tacoma"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tacoma-Lakewood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tacuarembo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taegu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taegu Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taejon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tahoe Valley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taichung"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taif"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tainan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taiyuan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taiz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tajima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Takamatsu Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Talara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Talinn"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Talkeetna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tallahassee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tamanrasset"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tamanrasset/Aguenna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tampa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tampa-Macdill AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tampere"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tampico"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tanana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tanegashima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taoyuan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tapachula"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taranto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tarbes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tarija"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tarvisio"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tatalina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tateyama Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Taunton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tebessa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tees-Side"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tegucigalpa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tehran-Mehrabad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tela"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Temple"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tennessee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tepic"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Teresina"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Terre Haute"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Terrell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Teterboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Texarkana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Texas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "The Dalles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thessaloniki"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thief River Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thiruvananthapuram"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thisted"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thompson Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Thumrait"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tianjin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tijuana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Timisoara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tin City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tirana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tiree"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tirgu Mures"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tiruchchirapalli"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Titusville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tivat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tlemcen Zenata"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tobias Bolanos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tocumen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Togiak Village"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokachi GSDF"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokunoshima Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokushima Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokyo Heliport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokyo International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tokyo New International Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toledo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toluca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tonopah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Topeka"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Topeka-Forbes Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Torino/Bric Della Croce"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Torino/Caselle"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toronto"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Torp"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Torrance"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Torreon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tottori Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toulouse"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toul-Rosieres"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tours-St-Symphorien"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toussus-Le Noble"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Townsville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Toyama Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trabzon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trapani"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Traverse City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trelew"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trenton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trevico"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Treviso/Istrana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Treviso/S.Angelo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trieste"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trinidad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tripoli"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tromso/Langnes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Trondheim/Vaernes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Troutdale"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Troyes/Barberey"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Truckee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Truth or Consequences"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tsuiki Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tsushima Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tucson"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tucson-Davis AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tucuman"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tucumcari"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tucurui"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tulancingo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tulcea"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tulsa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tupelo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Turaif"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Turin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Turku"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tuscaloosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tuxtla Gutierrez"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Twenthe"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Twentynine Palms"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Twin Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tyler"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tyndall AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Tyumen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Uberaba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ufa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ukiah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ulan-Ude"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ulsan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ulyanovsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Umea"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Umiat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Unalakleet"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "United Arab Emirates "
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Unst"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Upington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Uruapan"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Uruguaiana"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Urumqi"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Utah"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Utica"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Utrecht/Soesterberg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Utsunomiya Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vadso"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vaerlose"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vagar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valdez 2"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valdosta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valdosta-Moody AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valencia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valentine"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valera*"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valkenburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valley"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valparaiso"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Valparaiso-Eglin AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Van"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vancouver"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vandel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vandenberg AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vandenberg Range"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Van Nuys"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Varadero"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Varanasi/Babatpur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Varna"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vasteras"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vaxjo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Venezia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Venice"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Veracruz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vermillion"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vermont"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vernal"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vero Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vicenza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vichy-Charmeil"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vichy-Rolla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vicksburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Victoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vigo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vilhena"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Villacoublay"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Villafranca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Villahermosa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Villamontes"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Villa Reynolds"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vilnius"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Virginia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Virginia Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Virginia Tech Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Viru-Viru"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Visalia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Visby"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Viterbo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vitoria"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vladikavkaz"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vladivostok"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vlieland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Vojens/Skrydstrup"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Volgograd"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Volkel"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Volk Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Voronezh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Voslau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waco"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wadi Al Dawasser Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wainwright"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wakefield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wakkanai Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Walla Walla"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wallops Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Walnut Ridge"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Warner Robins"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Warroad"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Warszawa"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Washington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Washington/Dulles"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waterbury"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waterloo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Watertown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waterville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waukesha"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wausau"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waycross"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Waynesboro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Webster City"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wejh"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wellington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wenatchee"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wendover"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Atlanta"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Burke"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Westerland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Westfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Westhampton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Palm Beach"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Virginia"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Yellowstone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "West Yellowstone (2)"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wheeling"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Whidbey Island"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Whitefield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "White Plains"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "White Sulphur"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Whittier"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wichita"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wichita Falls"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wichita-Jabara"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wichita-McConnell AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wick"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wien"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wildwood"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wilkes - Barre"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Williams Field"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Williamsport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Williston"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Willoughby"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Willow Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wilmington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winchester"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Windsor"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Windsor Locks"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wink"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winnemucca"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winnipeg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winslow"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winston-Salem"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winter Haven"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Winter Park"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wiscasset"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wisconsin"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wisconsin Rapids"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wise"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Woensdrecht"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wolf Point"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Woong Cheon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wooster"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Worcester"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Worland"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Worthington"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wrangell"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wrightstown / Mcguire AFB"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wuchia Observatory"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Wyoming"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Xiamen"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yacuiba"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yakima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yakushima"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yakutat"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yakutsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yamagata Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yamaguchi Ube Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yankton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yao Airport"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yechon Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yekaterinburg"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yellowknife"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yellowstone"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yenbo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yeoju Range"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yeonpyeungdo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yeovilton"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yokosuka Fwf"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yokota Ab"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yongsan/H-208 Hp"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yoro"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yosu"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Youngstown"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Ypsilanti"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yukon"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yuma MCAS"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yurimaguas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Yuzhno-Sakhalinsk"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zacatecas"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zadar"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zagreb"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zakinthos"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zama Airfield"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zanesville"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zaragoza"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zell Am See"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zuni Pueblo"
+msgstr ""
+
+#: my-evolution/Locations.h:1
+msgid "Zurich"
+msgstr ""
+
+#.
+#. * These are the timezone names from the Olson timezone data.
+#. * We only place them here so gettext picks them up for translation.
+#. * Don't include in any C files.
+#.
+#: calendar/zones.h:1
+msgid "Africa/Abidjan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Accra"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Addis_Ababa"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Algiers"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Asmera"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Bamako"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Bangui"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Banjul"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Bissau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Blantyre"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Brazzaville"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Bujumbura"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Cairo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Casablanca"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Ceuta"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Conakry"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Dakar"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Dar_es_Salaam"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Djibouti"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Douala"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/El_Aaiun"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Freetown"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Gaborone"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Harare"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Johannesburg"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Kampala"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Khartoum"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Kigali"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Kinshasa"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Lagos"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Libreville"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Lome"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Luanda"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Lubumbashi"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Lusaka"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Malabo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Maputo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Maseru"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Mbabane"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Mogadishu"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Monrovia"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Nairobi"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Ndjamena"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Niamey"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Nouakchott"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Ouagadougou"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Porto-Novo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Sao_Tome"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Timbuktu"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Tripoli"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Tunis"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Africa/Windhoek"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Adak"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Anchorage"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Anguilla"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Antigua"
+msgstr "Ameryka/Antigua"
+
+#: calendar/zones.h:1
+msgid "America/Araguaina"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Aruba"
+msgstr "Ameryka/Aruba"
+
+#: calendar/zones.h:1
+msgid "America/Asuncion"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Barbados"
+msgstr "Ameryka/Barbados"
+
+#: calendar/zones.h:1
+msgid "America/Belem"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Belize"
+msgstr "Ameryka/Belize"
+
+#: calendar/zones.h:1
+msgid "America/Boa_Vista"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Bogota"
+msgstr "Ameryka/Bogota"
+
+#: calendar/zones.h:1
+msgid "America/Boise"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Buenos_Aires"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cambridge_Bay"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cancun"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Caracas"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Catamarca"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cayenne"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cayman"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Chicago"
+msgstr "Ameryka/Chicago"
+
+#: calendar/zones.h:1
+msgid "America/Chihuahua"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cordoba"
+msgstr "Ameryka/Cordoba"
+
+#: calendar/zones.h:1
+msgid "America/Costa_Rica"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Cuiaba"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Curacao"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Danmarkshavn"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Dawson"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Dawson_Creek"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Denver"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Detroit"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Dominica"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Edmonton"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Eirunepe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/El_Salvador"
+msgstr "Ameryka/El_Salwador"
+
+#: calendar/zones.h:1
+msgid "America/Fortaleza"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Glace_Bay"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Godthab"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Goose_Bay"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Grand_Turk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Grenada"
+msgstr "Ameryka/Grenada"
+
+#: calendar/zones.h:1
+msgid "America/Guadeloupe"
+msgstr "Ameryka/Gwadelupa"
+
+#: calendar/zones.h:1
+msgid "America/Guatemala"
+msgstr "Ameryka/Gwatemala"
+
+#: calendar/zones.h:1
+msgid "America/Guayaquil"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Guyana"
+msgstr "Ameryka/Gujana"
+
+#: calendar/zones.h:1
+msgid "America/Halifax"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Havana"
+msgstr "Ameryka/Hawana"
+
+#: calendar/zones.h:1
+msgid "America/Hermosillo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Indiana/Indianapolis"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Indiana/Knox"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Indiana/Marengo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Indiana/Vevay"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Indianapolis"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Inuvik"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Iqaluit"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Jamaica"
+msgstr "Ameryka/Jamajka"
+
+#: calendar/zones.h:1
+msgid "America/Jujuy"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Juneau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Kentucky/Louisville"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Kentucky/Monticello"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/La_Paz"
+msgstr "Ameryka/La_Paz"
+
+#: calendar/zones.h:1
+msgid "America/Lima"
+msgstr "Ameryka/Lima"
+
+#: calendar/zones.h:1
+msgid "America/Los_Angeles"
+msgstr "Ameryka/Los_Angeles"
+
+#: calendar/zones.h:1
+msgid "America/Louisville"
+msgstr "Ameryka/Louisville"
+
+#: calendar/zones.h:1
+msgid "America/Maceio"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Managua"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Manaus"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Martinique"
+msgstr "Ameryka/Martynika"
+
+#: calendar/zones.h:1
+msgid "America/Mazatlan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Mendoza"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Menominee"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Merida"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Mexico_City"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Miquelon"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Monterrey"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Montevideo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Montreal"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Montserrat"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Nassau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/New_York"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Nipigon"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Nome"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Noronha"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/North_Dakota/Center"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Panama"
+msgstr "Ameryka/Panama"
+
+#: calendar/zones.h:1
+msgid "America/Pangnirtung"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Paramaribo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Phoenix"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Port-au-Prince"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Port_of_Spain"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Porto_Velho"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Puerto_Rico"
+msgstr "Ameryka/Puerto_Rico"
+
+#: calendar/zones.h:1
+msgid "America/Rainy_River"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Rankin_Inlet"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Recife"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Regina"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Rio_Branco"
+msgstr "Ameryka/Rio_Branco"
+
+#: calendar/zones.h:1
+msgid "America/Rosario"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Santiago"
+msgstr "Ameryka/Santiago"
+
+#: calendar/zones.h:1
+msgid "America/Santo_Domingo"
+msgstr "Ameryka/Santo_Domingo"
+
+#: calendar/zones.h:1
+msgid "America/Sao_Paulo"
+msgstr "Ameryka/Sao_Paulo"
+
+#: calendar/zones.h:1
+msgid "America/Scoresbysund"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Shiprock"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/St_Johns"
+msgstr "Ameryka/St_Johns"
+
+#: calendar/zones.h:1
+msgid "America/St_Kitts"
+msgstr "Ameryka/St_Kitts"
+
+#: calendar/zones.h:1
+msgid "America/St_Lucia"
+msgstr "Ameryka/St_Lucia"
+
+#: calendar/zones.h:1
+msgid "America/St_Thomas"
+msgstr "Ameryka/St_Thomas"
+
+#: calendar/zones.h:1
+msgid "America/St_Vincent"
+msgstr "Ameryka/St_Vincent"
+
+#: calendar/zones.h:1
+msgid "America/Swift_Current"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Tegucigalpa"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Thule"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Thunder_Bay"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Tijuana"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Tortola"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Vancouver"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Whitehorse"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Winnipeg"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Yakutat"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "America/Yellowknife"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Casey"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Davis"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/DumontDUrville"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Mawson"
+msgstr "Antarktyka/Mawson"
+
+#: calendar/zones.h:1
+msgid "Antarctica/McMurdo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Palmer"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/South_Pole"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Syowa"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Antarctica/Vostok"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Arctic/Longyearbyen"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Aden"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Almaty"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Amman"
+msgstr "Azja/Amman"
+
+#: calendar/zones.h:1
+msgid "Asia/Anadyr"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Aqtau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Aqtobe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Ashgabat"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Baghdad"
+msgstr "Azja/Bagdad"
+
+#: calendar/zones.h:1
+msgid "Asia/Bahrain"
+msgstr "Azja/Bahrain"
+
+#: calendar/zones.h:1
+msgid "Asia/Baku"
+msgstr "Azja/Baku"
+
+#: calendar/zones.h:1
+msgid "Asia/Bangkok"
+msgstr "Azja/Bangkok"
+
+#: calendar/zones.h:1
+msgid "Asia/Beirut"
+msgstr "Azja/Bejrut"
+
+#: calendar/zones.h:1
+msgid "Asia/Bishkek"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Brunei"
+msgstr "Azja/Brunei"
+
+#: calendar/zones.h:1
+msgid "Asia/Calcutta"
+msgstr "Azja/Kalkuta"
+
+#: calendar/zones.h:1
+msgid "Asia/Choibalsan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Chongqing"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Colombo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Damascus"
+msgstr "Azja/Damaszek"
+
+#: calendar/zones.h:1
+msgid "Asia/Dhaka"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Dili"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Dubai"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Dushanbe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Gaza"
+msgstr "Azja/Gaza"
+
+#: calendar/zones.h:1
+msgid "Asia/Harbin"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Hong_Kong"
+msgstr "Azja/Hong_Kong"
+
+#: calendar/zones.h:1
+msgid "Asia/Hovd"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Irkutsk"
+msgstr "Azja/Irkuck"
+
+#: calendar/zones.h:1
+msgid "Asia/Istanbul"
+msgstr "Azja/Istambu³"
+
+#: calendar/zones.h:1
+msgid "Asia/Jakarta"
+msgstr "Azja/Jakarta"
+
+#: calendar/zones.h:1
+msgid "Asia/Jayapura"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Jerusalem"
+msgstr "Azja/Jerozolima"
+
+#: calendar/zones.h:1
+msgid "Asia/Kabul"
+msgstr "Azja/Kabul"
+
+#: calendar/zones.h:1
+msgid "Asia/Kamchatka"
+msgstr "Azja/Kamczatka"
+
+#: calendar/zones.h:1
+msgid "Asia/Karachi"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Kashgar"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Katmandu"
+msgstr "Azja/Katmandu"
+
+#: calendar/zones.h:1
+msgid "Asia/Krasnoyarsk"
+msgstr "Azja/Krasnojarsk"
+
+#: calendar/zones.h:1
+msgid "Asia/Kuala_Lumpur"
+msgstr "Azja/Kuala_Lumpur"
+
+#: calendar/zones.h:1
+msgid "Asia/Kuching"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Kuwait"
+msgstr "Azja/Kuwejt"
+
+#: calendar/zones.h:1
+msgid "Asia/Macao"
+msgstr "Azja/Makao"
+
+#: calendar/zones.h:1
+msgid "Asia/Magadan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Manila"
+msgstr "Azja/Manila"
+
+#: calendar/zones.h:1
+msgid "Asia/Muscat"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Nicosia"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Novosibirsk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Omsk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Phnom_Penh"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Pontianak"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Pyongyang"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Qatar"
+msgstr "Azja/Katar"
+
+#: calendar/zones.h:1
+msgid "Asia/Rangoon"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Riyadh"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Saigon"
+msgstr "Azja/Saigon"
+
+#: calendar/zones.h:1
+msgid "Asia/Sakhalin"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Samarkand"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Seoul"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Shanghai"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Singapore"
+msgstr "Azja/Singapur"
+
+#: calendar/zones.h:1
+msgid "Asia/Taipei"
+msgstr "Azja/Taipei"
+
+#: calendar/zones.h:1
+msgid "Asia/Tashkent"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Tbilisi"
+msgstr "Azja/Tbilisi"
+
+#: calendar/zones.h:1
+msgid "Asia/Tehran"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Thimphu"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Tokyo"
+msgstr "Azja/Tokjo"
+
+#: calendar/zones.h:1
+msgid "Asia/Ujung_Pandang"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Ulaanbaatar"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Urumqi"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Vientiane"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Vladivostok"
+msgstr "Azja/W³adywostok"
+
+#: calendar/zones.h:1
+msgid "Asia/Yakutsk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Yekaterinburg"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Asia/Yerevan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/Azores"
+msgstr "Atlantyk/Azory"
+
+#: calendar/zones.h:1
+msgid "Atlantic/Bermuda"
+msgstr "Atlantyk/Bermudy"
+
+#: calendar/zones.h:1
+msgid "Atlantic/Canary"
+msgstr "Atlantyk/Kanary"
+
+#: calendar/zones.h:1
+msgid "Atlantic/Cape_Verde"
+msgstr "Atlantyk/Cape_Verde"
+
+#: calendar/zones.h:1
+msgid "Atlantic/Faeroe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/Jan_Mayen"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/Madeira"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/Reykjavik"
+msgstr "Atlantyl/Rejkjawik"
+
+#: calendar/zones.h:1
+msgid "Atlantic/South_Georgia"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/St_Helena"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Atlantic/Stanley"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Adelaide"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Brisbane"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Broken_Hill"
+msgstr "Australia/Broken_Hill"
+
+#: calendar/zones.h:1
+msgid "Australia/Darwin"
+msgstr "Australia/Darwin"
+
+#: calendar/zones.h:1
+msgid "Australia/Hobart"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Lindeman"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Lord_Howe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Melbourne"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Perth"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Australia/Sydney"
+msgstr "Australia/Sydney"
+
+#: calendar/zones.h:1
+msgid "Europe/Amsterdam"
+msgstr "Europa/Amsterdam"
+
+#: calendar/zones.h:1
+msgid "Europe/Andorra"
+msgstr "Europa/Andora"
+
+#: calendar/zones.h:1
+msgid "Europe/Athens"
+msgstr "Europa/Ateny"
+
+#: calendar/zones.h:1
+msgid "Europe/Belfast"
+msgstr "Europa/Belfast"
+
+#: calendar/zones.h:1
+msgid "Europe/Belgrade"
+msgstr "Europa/Belgrad"
+
+#: calendar/zones.h:1
+msgid "Europe/Berlin"
+msgstr "Europa/Berlin"
+
+#: calendar/zones.h:1
+msgid "Europe/Bratislava"
+msgstr "Europa/Bratys³awa"
+
+#: calendar/zones.h:1
+msgid "Europe/Brussels"
+msgstr "Europa/Bruksela"
+
+#: calendar/zones.h:1
+msgid "Europe/Bucharest"
+msgstr "Europa/Bukareszt"
+
+#: calendar/zones.h:1
+msgid "Europe/Budapest"
+msgstr "Europa/Budapeszt"
+
+#: calendar/zones.h:1
+msgid "Europe/Chisinau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Copenhagen"
+msgstr "Europa/Kopenhaga"
+
+#: calendar/zones.h:1
+msgid "Europe/Dublin"
+msgstr "Europa/Dublin"
+
+#: calendar/zones.h:1
+msgid "Europe/Gibraltar"
+msgstr "Europa/Gibraltar"
+
+#: calendar/zones.h:1
+msgid "Europe/Helsinki"
+msgstr "Europa/Helsinki"
+
+#: calendar/zones.h:1
+msgid "Europe/Istanbul"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Kaliningrad"
+msgstr "Europa/Kaliningrad"
+
+#: calendar/zones.h:1
+msgid "Europe/Kiev"
+msgstr "Europa/Kijów"
+
+#: calendar/zones.h:1
+msgid "Europe/Lisbon"
+msgstr "Europa/Lisbona"
+
+#: calendar/zones.h:1
+msgid "Europe/Ljubljana"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/London"
+msgstr "Europa/Londyn"
+
+#: calendar/zones.h:1
+msgid "Europe/Luxembourg"
+msgstr "Europa/Luksemburg"
+
+#: calendar/zones.h:1
+msgid "Europe/Madrid"
+msgstr "Europa/Madryt"
+
+#: calendar/zones.h:1
+msgid "Europe/Malta"
+msgstr "Europa/Malta"
+
+#: calendar/zones.h:1
+msgid "Europe/Minsk"
+msgstr "Europa/Miñsk"
+
+#: calendar/zones.h:1
+msgid "Europe/Monaco"
+msgstr "Europa/Monako"
+
+#: calendar/zones.h:1
+msgid "Europe/Moscow"
+msgstr "Europa/Moskwa"
+
+#: calendar/zones.h:1
+msgid "Europe/Nicosia"
+msgstr "Europa/Nikozja"
+
+#: calendar/zones.h:1
+msgid "Europe/Oslo"
+msgstr "Europa/Oslo"
+
+#: calendar/zones.h:1
+msgid "Europe/Paris"
+msgstr "Europa/Pary¿"
+
+#: calendar/zones.h:1
+msgid "Europe/Prague"
+msgstr "Europa/Praga"
+
+#: calendar/zones.h:1
+msgid "Europe/Riga"
+msgstr "Europa/Ryga"
+
+#: calendar/zones.h:1
+msgid "Europe/Rome"
+msgstr "Europa/Rzym"
+
+#: calendar/zones.h:1
+msgid "Europe/Samara"
+msgstr "Europa/Samara"
+
+#: calendar/zones.h:1
+msgid "Europe/San_Marino"
+msgstr "Europa/San_Marino"
+
+#: calendar/zones.h:1
+msgid "Europe/Sarajevo"
+msgstr "Europa/Sarajewo"
+
+#: calendar/zones.h:1
+msgid "Europe/Simferopol"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Skopje"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Sofia"
+msgstr "Europa/Sofia"
+
+#: calendar/zones.h:1
+msgid "Europe/Stockholm"
+msgstr "Europa/Sztokholm"
+
+#: calendar/zones.h:1
+msgid "Europe/Tallinn"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Tirane"
+msgstr "Europa/Tirana"
+
+#: calendar/zones.h:1
+msgid "Europe/Uzhgorod"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Vaduz"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Vatican"
+msgstr "Europa/Watykan"
+
+#: calendar/zones.h:1
+msgid "Europe/Vienna"
+msgstr "Europa/Wiedeñ"
+
+#: calendar/zones.h:1
+msgid "Europe/Vilnius"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Warsaw"
+msgstr "Europa/Warszawa"
+
+#: calendar/zones.h:1
+msgid "Europe/Zagreb"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Zaporozhye"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Europe/Zurich"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Antananarivo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Chagos"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Christmas"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Cocos"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Comoro"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Kerguelen"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Mahe"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Maldives"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Mauritius"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Mayotte"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Indian/Reunion"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Apia"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Auckland"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Chatham"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Easter"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Efate"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Enderbury"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Fakaofo"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Fiji"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Funafuti"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Galapagos"
+msgstr "Pacyfik/Galapagos"
+
+#: calendar/zones.h:1
+msgid "Pacific/Gambier"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Guadalcanal"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Guam"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Honolulu"
+msgstr "Pacyfik/Honolulu"
+
+#: calendar/zones.h:1
+msgid "Pacific/Johnston"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Kiritimati"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Kosrae"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Kwajalein"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Majuro"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Marquesas"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Midway"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Nauru"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Niue"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Norfolk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Noumea"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Pago_Pago"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Palau"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Pitcairn"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Ponape"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Port_Moresby"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Rarotonga"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Saipan"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Tahiti"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Tarawa"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Tongatapu"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Truk"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Wake"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Wallis"
+msgstr ""
+
+#: calendar/zones.h:1
+msgid "Pacific/Yap"
+msgstr ""
