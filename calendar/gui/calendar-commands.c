@@ -62,6 +62,14 @@ static GList *all_calendars = NULL;
 /* We have one global preferences dialog. */
 static CalPrefsDialog *preferences_dialog = NULL;
 
+/* Focusing information for the calendar view.  We have to keep track of this
+ * ourselves because with Bonobo controls, we may get unpaired focus_out events.
+ */
+typedef struct {
+	guint calendar_focused : 1;
+	guint taskpad_focused : 1;
+} FocusData;
+
 /* Callback for the new appointment command */
 static void
 new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
@@ -280,7 +288,7 @@ settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-cut_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+cut_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -291,7 +299,7 @@ cut_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
-copy_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+copy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -303,7 +311,7 @@ copy_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
-paste_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+paste_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -315,14 +323,14 @@ paste_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
-delete_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+delete_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
 	gcal = GNOME_CALENDAR (data);
 
 	set_clock_cursor (gcal);
-	gnome_calendar_delete_event (gcal);
+	gnome_calendar_delete_selection (gcal);
 	set_normal_cursor (gcal);
 }
 
@@ -504,11 +512,13 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 	CORBA_exception_free (&ev);
 }
 
-/* Sensitizes the UI Component menu/toolbar commands based on the number of
- * selected events. (This will always be 0 or 1 currently.)
+/* Sensitizes the UI Component menu/toolbar calendar commands based on the
+ * number of selected events. (This will always be 0 or 1 currently.)  If enable
+ * is FALSE, all will be disabled.  Otherwise, the currently-selected number of
+ * events will be used.
  */
 static void
-sensitize_commands (GnomeCalendar *gcal, BonoboControl *control)
+sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboolean enable)
 {
 	BonoboUIComponent *uic;
 	int n_selected;
@@ -516,29 +526,131 @@ sensitize_commands (GnomeCalendar *gcal, BonoboControl *control)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	n_selected = gnome_calendar_get_num_events_selected (gcal);
+	n_selected = enable ? gnome_calendar_get_num_events_selected (gcal) : 0;
 
-	bonobo_ui_component_set_prop (uic, "/commands/CutEvent", "sensitive",
+	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/CopyEvent", "sensitive",
+	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/DeleteEvent", "sensitive",
+	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
+				      enable ? "1" : "0",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+}
+
+/* Sensitizes the UI Component menu/toolbar tasks commands based on the number
+ * of selected tasks.  If enable is FALSE, all will be disabled.  Otherwise, the
+ * currently-selected number of tasks will be used.
+ */
+static void
+sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolean enable)
+{
+	BonoboUIComponent *uic;
+	int n_selected;
+	
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
+
+	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
+
+	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
+				      enable ? "1" : "0",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 }
 
 /* Callback used when the selection in the calendar views changes */
 static void
-selection_changed_cb (GnomeCalendar *gcal, gpointer data)
+gcal_calendar_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
 {
 	BonoboControl *control;
 
 	control = BONOBO_CONTROL (data);
 
-	sensitize_commands (gcal, control);
+	sensitize_calendar_commands (gcal, control, TRUE);
 }
+
+/* Callback used when the selection in the taskpad changes */
+static void
+gcal_taskpad_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
+{
+	BonoboControl *control;
+
+	control = BONOBO_CONTROL (data);
+
+	sensitize_taskpad_commands (gcal, control, TRUE);
+}
+
+/* Callback used when the focus changes for a calendar view */
+static void
+gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
+{
+	BonoboControl *control;
+	FocusData *focus;
+
+	control = BONOBO_CONTROL (data);
+
+	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	g_assert (focus != NULL);
+
+	if (in) {
+		gtk_signal_connect (GTK_OBJECT (gcal), "calendar_selection_changed",
+				    GTK_SIGNAL_FUNC (gcal_calendar_selection_changed_cb), control);
+		sensitize_calendar_commands (gcal, control, TRUE);
+		focus->calendar_focused = TRUE;
+	} else if (focus->calendar_focused) {
+		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
+					       GTK_SIGNAL_FUNC (gcal_calendar_selection_changed_cb),
+					       control);
+		sensitize_calendar_commands (gcal, control, FALSE);
+		focus->calendar_focused = FALSE;
+	}
+}
+
+/* Callback used when the taskpad focus changes */
+static void
+gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
+{
+	BonoboControl *control;
+	FocusData *focus;
+
+	control = BONOBO_CONTROL (data);
+
+	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	g_assert (focus != NULL);
+
+	if (in) {
+		gtk_signal_connect (GTK_OBJECT (gcal), "taskpad_selection_changed",
+				    GTK_SIGNAL_FUNC (gcal_taskpad_selection_changed_cb), control);
+		sensitize_taskpad_commands (gcal, control, TRUE);
+		focus->taskpad_focused = TRUE;
+	} else if (focus->taskpad_focused) {
+		/* With Bonobo controls, we may get unpaired focus_out events.
+		 * That is why we have to keep track of this ourselves instead
+		 * of blindly assumming that we are getting this event because
+		 * the taskpad was in fact focused.
+		 */
+		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
+					       GTK_SIGNAL_FUNC (gcal_taskpad_selection_changed_cb),
+					       control);
+		sensitize_taskpad_commands (gcal, control, FALSE);
+		focus->taskpad_focused = FALSE;
+	}
+
+}
+
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
@@ -550,10 +662,10 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("CalendarSettings", settings_cmd),
 
-	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
-	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),
-	BONOBO_UI_VERB ("PasteEvent", paste_event_cmd),
-	BONOBO_UI_VERB ("DeleteEvent", delete_event_cmd),
+	BONOBO_UI_VERB ("Cut", cut_cmd),
+	BONOBO_UI_VERB ("Copy", copy_cmd),
+	BONOBO_UI_VERB ("Paste", paste_cmd),
+	BONOBO_UI_VERB ("Delete", delete_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
@@ -574,10 +686,10 @@ static EPixmap pixmaps [] =
 {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	              "new_appointment.xpm"),
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	              "new_task-16.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/CutEvent",		      "16_cut.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/CopyEvent",		      "16_copy.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/PasteEvent",		      "16_paste.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/DeleteEvent",		      "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/Cut",			      "16_cut.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/Copy",			      "16_copy.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/Paste",			      "16_paste.png"),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/Delete",			      "evolution-trash-mini.png"),
 	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
@@ -607,6 +719,7 @@ calendar_control_activate (BonoboControl *control,
 {
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
+	FocusData *focus;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -627,10 +740,13 @@ calendar_control_activate (BonoboControl *control,
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
-	gtk_signal_connect (GTK_OBJECT (gcal), "selection_changed",
-			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
+	gtk_signal_connect (GTK_OBJECT (gcal), "calendar_focus_change",
+			    GTK_SIGNAL_FUNC (gcal_calendar_focus_change_cb), control);
+	gtk_signal_connect (GTK_OBJECT (gcal), "taskpad_focus_change",
+			    GTK_SIGNAL_FUNC (gcal_taskpad_focus_change_cb), control);
 
-	sensitize_commands (gcal, control);
+	sensitize_calendar_commands (gcal, control, FALSE);
+	sensitize_taskpad_commands (gcal, control, FALSE);
 
 	bonobo_ui_component_thaw (uic, NULL);
 
@@ -642,17 +758,30 @@ calendar_control_activate (BonoboControl *control,
 #endif
 
 	calendar_set_folder_bar_label (gcal, control);
+
+	focus = g_new (FocusData, 1);
+	focus->calendar_focused = FALSE;
+	focus->taskpad_focused = FALSE;
+
+	gtk_object_set_data (GTK_OBJECT (control), "focus_data", focus);
 }
 
 void
 calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 {
+	FocusData *focus;
+
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	focus = gtk_object_get_data (GTK_OBJECT (control), "focus_data");
+	g_assert (focus != NULL);
+
+	gtk_object_remove_data (GTK_OBJECT (control), "focus_data");
+	g_free (focus);
+
 	gnome_calendar_discard_view_menus (gcal);
 
-	/* Stop monitoring the "selection_changed" signal */
 	gtk_signal_disconnect_by_data (GTK_OBJECT (gcal), control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);

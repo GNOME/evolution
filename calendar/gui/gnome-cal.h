@@ -68,7 +68,12 @@ struct _GnomeCalendarClass {
 
 	/* Notification signals */
 	void (* dates_shown_changed)    (GnomeCalendar *gcal);
-	void (* selection_changed)	(GnomeCalendar *gcal);
+
+	void (* calendar_selection_changed) (GnomeCalendar *gcal);
+	void (* taskpad_selection_changed) (GnomeCalendar *gcal);
+
+	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
+	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
 };
 
 
@@ -135,6 +140,9 @@ gboolean   gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
 
+/* Returns the number of selected tasks */
+gint       gnome_calendar_get_num_tasks_selected (GnomeCalendar *gcal);
+
 /* Tells the calendar to reload all config settings. initializing should be
    TRUE when we are setting the config settings for the first time. */
 void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,
@@ -149,7 +157,7 @@ void       gnome_calendar_cut_clipboard         (GnomeCalendar  *gcal);
 void       gnome_calendar_copy_clipboard        (GnomeCalendar  *gcal);
 void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
 
-void       gnome_calendar_delete_event		(GnomeCalendar  *gcal);
+void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
 
 
 

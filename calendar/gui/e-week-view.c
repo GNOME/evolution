@@ -3293,10 +3293,10 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	   character. */
 	if (event->keyval == GDK_Return) {
 		initial_text = NULL;
-	} else if ((event->keyval < 0x20)
-		   || (event->keyval > 0xFF)
+	} else if (((event->keyval >= 0x20) && (event->keyval <= 0xFF)
+		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 		   || (event->length == 0)
-		   || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK))) {
+		   || (event->keyval == GDK_Tab)) {
 		return FALSE;
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);

@@ -1,3 +1,37 @@
+2001-10-31  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix bug #13723.
+
+	* gui/gnome-cal.h (GnomeCalendarClass): New signals
+	"calendar_focus_change", "taskpad_focus_change", and
+	"taskpad_selection_changed".  Renamed "selection_changed" to
+	"calendar_selection_changed".
+
+	* gui/gnome-cal.c (gnome_calendar_get_num_tasks_selected): New
+	function.
+	(setup_widgets): Connect to the focus event signals of the task
+	pad and the calendar view widgets.
+	(gnome_calendar_delete_selection): Renamed from
+	gnome_calendar_delete_event().
+	(gnome_calendar_cut_clipboard): Handle the current focus location.
+	(gnome_calendar_copy_clipboard): Likewise.
+	(gnome_calendar_paste_clipboard): Likewise.
+	(gnome_calendar_delete_selection): Likewise.
+	(table_selection_change_cb): New callback.
+
+	* gui/calendar-commands.c (sensitize_calendar_commands): Take in
+	whether we should unconditionally disable everything.
+	(sensitize_taskpad_commands): Analogous function to the above.
+	(gcal_calendar_focus_change_cb): New callback, used for calendar
+	views.
+	(gcal_taskpad_focus_change_cb): New callback, used for the
+	taskpad.
+
+	* gui/e-day-view.c (e_day_view_key_press): Use a better test for
+	keys that should start editing.  Fixes bug #6447.
+
+	* gui/e-week-view.c (e_week_view_key_press): Likewise.
+
 2001-10-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/calendar-model.c: Make the pre_changes and changes match
