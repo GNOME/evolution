@@ -1,3 +1,10 @@
+2000-12-07  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c (post_sync): Ugly hack for syncing
+	until pcs can be altered (longer term)
+
+	* conduits/todo/todo-conduit.c (post_sync): ditto
+	
 2000-12-07  Chris Toshok  <toshok@helixcode.com>
 
 	* cal-client/Makefile.am (client_test_LDADD): add

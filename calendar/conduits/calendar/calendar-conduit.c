@@ -786,7 +786,8 @@ post_sync (GnomePilotConduit *conduit,
 	   GnomePilotDBInfo *dbi,
 	   ECalConduitContext *ctxt)
 {
-	gchar *filename;
+	GList *changed;
+	gchar *filename, *change_id;
 	
 	LOG ("post_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
 	LOG ("---------------------------------------------------------\n");
@@ -795,6 +796,13 @@ post_sync (GnomePilotConduit *conduit,
 	e_pilot_map_write (filename, ctxt->map);
 	g_free (filename);
 	
+	/* FIX ME ugly hack - our changes musn't count, this does introduce
+	 * a race condition if anyone changes a record elsewhere during sycnc
+         */
+	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
+	changed = cal_client_get_changes (ctxt->client, CALOBJ_TYPE_EVENT, change_id);
+	cal_client_change_list_free (changed);
+
 	return 0;
 }
 
