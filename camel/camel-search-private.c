@@ -495,7 +495,7 @@ camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 	return truth;
 }
 
-static __inline__ guint32
+static inline guint32
 camel_utf8_getc(const unsigned char **ptr)
 {
 	register unsigned char *p = (unsigned char *)*ptr;

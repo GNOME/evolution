@@ -1,5 +1,12 @@
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-text-index.c (camel_utf8_next): Same as below.
+
+	* camel-search-private.c (camel_utf8_getc): Updated since not all
+	platforms/compiles support __inline__.
+
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-part.c (camel_mime_part_get_encoding): Get rid of the
 	const return - it mismatches the prototype and we don't need it
 	anyway. Fixes bug #39173.

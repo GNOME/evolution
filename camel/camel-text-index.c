@@ -1384,7 +1384,7 @@ text_index_name_add_word(CamelIndexName *idn, const char *word)
    Because it doesn't hang/loop forever on bad data
    Used to clean up utf8 before it gets further */
 
-static __inline__ guint32
+static inline guint32
 camel_utf8_next(const unsigned char **ptr, const unsigned char *ptrend)
 {
 	register unsigned char *p = (unsigned char *)*ptr;
