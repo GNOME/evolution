@@ -1,3 +1,11 @@
+2004-06-22  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	rename widgets to be consistent with those else where
+	(e_meeting_time_selector_set_read_only): cast properly
+	(e_meeting_time_selector_on_invite_others_button_expose): remove,
+	the widget sensitization is taken care of elsewhere
+
 2004-06-22  Larry Ewing  <lewing@ximian.com>
 
 	Fixes #59824

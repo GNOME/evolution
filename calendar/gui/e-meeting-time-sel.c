@@ -143,9 +143,6 @@ static void e_meeting_time_selector_on_zoomed_out_toggled (GtkWidget *button,
 							   EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_working_hours_toggled (GtkWidget *button,
 							      EMeetingTimeSelector *mts);
-static gboolean e_meeting_time_selector_on_invite_others_button_expose (GtkWidget *button,
-									GdkEventExpose *event,
-									EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_invite_others_button_clicked (GtkWidget *button,
 								     EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
@@ -416,7 +413,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	mts->add_attendees_button = gtk_button_new_with_label ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child),
-					  _("Add attendees from addressbook"));
+					  _("Con_tacts..."));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child));
 	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->add_attendees_button);
@@ -424,8 +421,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (mts->add_attendees_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_clicked), mts);
-	g_signal_connect (mts->add_attendees_button, "expose-event",
-			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_expose), mts);
 
 	mts->options_button = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (hbox), mts->options_button, TRUE, TRUE, 6);
@@ -592,7 +587,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	label = gtk_label_new ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
-					  _("Meeting _start time:"));
+					  _("_Start time:"));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label,
@@ -612,7 +607,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	label = gtk_label_new ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
-					  _("Meeting _end time:"));
+					  _("_End time:"));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label,
@@ -1268,7 +1263,7 @@ e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts, gboolean read_
 {
 	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR (mts));
 
-	gtk_widget_set_sensitive (mts->list_view, !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->list_view), !read_only);
 	gtk_widget_set_sensitive (mts->display_main, !read_only);
 	gtk_widget_set_sensitive (mts->add_attendees_button, !read_only);
 	gtk_widget_set_sensitive (mts->autopick_down_button, !read_only);
@@ -1363,18 +1358,6 @@ e_meeting_time_selector_dump_date (GDate *date)
 }
 
 #endif /* E_MEETING_TIME_SELECTOR_DEBUG */
-
-
-static gboolean
-e_meeting_time_selector_on_invite_others_button_expose (GtkWidget *button,
-							GdkEventExpose *event,
-							EMeetingTimeSelector *mts)
-{
-	gboolean click_to_add = TRUE;
-	
-	gtk_widget_set_sensitive (button, click_to_add);
-	return FALSE;
-}
 
 static void
 e_meeting_time_selector_on_invite_others_button_clicked (GtkWidget *button,
