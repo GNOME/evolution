@@ -134,7 +134,7 @@ finalize (GtkObject *object)
 
 	camel_exception_init (&ex);
 	pop3_disconnect (CAMEL_SERVICE (object), &ex);
-	camel_exception_free (&ex);
+	camel_exception_clear (&ex);
 }
 
 
@@ -289,19 +289,30 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 
 	if (status != CAMEL_POP3_OK ) {
-		status = camel_pop3_command(store, NULL, "USER %s",
-					    service->url->user);
-		if (status == CAMEL_POP3_OK) {
-			status = camel_pop3_command(store, NULL,
-						    "PASS %s", pass);
-		}
-	}
+		char *msg;
 
-	if (status != CAMEL_POP3_OK) {
-		camel_exception_set (ex,
-				     CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     "Unable to authenticate to POP server.");
-		return FALSE;
+		status = camel_pop3_command(store, &msg, "USER %s",
+					    service->url->user);
+		if (status != CAMEL_POP3_OK) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      "Unable to connect to POP "
+					      "server. Error sending username:"
+					      " %s", msg ? msg : "(Unknown)");
+			g_free (msg);
+			g_free (pass);
+			return FALSE;
+		}
+
+		status = camel_pop3_command(store, &msg, "PASS %s", pass);
+		if (status != CAMEL_POP3_OK) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      "Unable to authenticate to POP "
+					      "server. Error sending password:"
+					      " %s", msg ? msg : "(Unknown)");
+			g_free (msg);
+			g_free (pass);
+			return FALSE;
+		}
 	}
 
 	g_free (pass);
