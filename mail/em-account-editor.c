@@ -1959,6 +1959,10 @@ section:
 			if (depw)
 				depl = g_slist_prepend(depl, w);
 			row++;
+			/* HACK: keep_on_server is stored in the e-account, but is displayed as a properly on the uri,
+			   make sure they track/match here */
+			if (!strcmp(entries[i].name, "keep_on_server"))
+				emae_account_toggle_widget(emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 			break;
 		case CAMEL_PROVIDER_CONF_ENTRY:
 			l = g_object_new(gtk_label_get_type(), "label", entries[i].text, "xalign", 0.0, NULL);

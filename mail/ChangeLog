@@ -1,3 +1,11 @@
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71967
+
+	* em-account-editor.c (emae_receive_options_extra_item): make sure
+	we track the keep_on_server setting in the e-account, not just the
+	url (hack).
+
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* mail-session.c:
