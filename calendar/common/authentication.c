@@ -30,10 +30,15 @@ static char *
 auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_data)
 {
 	gboolean remember;
+	char *password;
 
-	return e_passwords_ask_password (_("Enter password"), "Calendar", key, prompt, TRUE,
-					 E_PASSWORDS_REMEMBER_FOREVER, &remember,
-					 NULL);
+	password = e_passwords_get_password ("Calendar", key);
+	if (!password)
+		password = e_passwords_ask_password (_("Enter password"), "Calendar", key, prompt, TRUE,
+						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+						     NULL);
+
+	return password;
 }
 
 ECal *
