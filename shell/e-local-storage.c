@@ -36,6 +36,7 @@
 
 #define _POSIX_SOURCE /* Yuck.  */
 #include <dirent.h>
+#undef _POSIX_SOURCE
 
 #include <errno.h>
 #include <string.h>
