@@ -120,6 +120,7 @@ unmark_month_item (GnomeMonthItem *mitem)
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
 			       "day_font", NORMAL_DAY_FONT,
 			       NULL);
+
 }
 
 /* Frees the prelight information in the month item when it is destroyed */
