@@ -1,3 +1,11 @@
+2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):
+	default_account is now a string value, not an int.
+	(create_from_optionmenu): Same.
+	(header_new_recipient): Use g_signal_connect_data() instead of the
+	now deprecated gtk_signal_connect_full().
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: clean up

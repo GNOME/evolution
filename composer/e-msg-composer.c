@@ -72,6 +72,8 @@
 
 #include <libgnomevfs/gnome-vfs.h>
 
+#include <gtkhtml/htmlselection.h>
+
 #include <glade/glade.h>
 
 #include <gal/widgets/e-gui-utils.h>

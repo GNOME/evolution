@@ -301,13 +301,13 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	GConfClient *gconf;
 	EAccount *account;
 	EIterator *iter;
-	int index;
+	char *uid;
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
 	
 	gconf = gconf_client_get_default ();
-	index = gconf_client_get_int (gconf, "/apps/evolution/mail/default_account", NULL);
+	uid = gconf_client_get_string (gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	/* Make list of account email addresses */
 	addresses = g_ptr_array_new ();
@@ -356,7 +356,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			g_object_set_data ((GObject *) item, "account", account);
 			g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
 			
-			if (i == index) {
+			if (uid && !strcmp (account->uid, uid)) {
 				first = item;
 				history = i;
 			}
@@ -372,6 +372,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		e_iterator_next (iter);
 	}
 	
+	g_free (uid);
 	g_object_unref (iter);
 	
 	g_ptr_array_free (addresses, TRUE);
@@ -468,17 +469,15 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 	
 	ret.label = gtk_button_new_with_label (name);
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
-	gtk_signal_connect_full (
-		GTK_OBJECT (ret.label), "clicked",
-		G_CALLBACK (address_button_clicked_cb), NULL,
-		e_msg_composer_hdrs_and_string_create(hdrs, name),
-		(GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
-		FALSE, FALSE);
+	g_signal_connect_data (ret.label, "clicked",
+			       G_CALLBACK (address_button_clicked_cb),
+			       e_msg_composer_hdrs_and_string_create (hdrs, name),
+			       (GClosureNotify) e_msg_composer_hdrs_and_string_free,
+			       0);
 	
-	gtk_tooltips_set_tip (
-		hdrs->priv->tooltips, ret.label,
-		_("Click here for the address book"),
-		NULL);
+	gtk_tooltips_set_tip (hdrs->priv->tooltips, ret.label,
+			      _("Click here for the address book"),
+			      NULL);
 	
 	ret.entry = create_addressbook_entry (hdrs, name);
 	
@@ -1010,7 +1009,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	GtkOptionMenu *omenu;
 	GConfClient *gconf;
 	GtkWidget *item;
-	int index = -1;
+	char *uid = NULL;
 	GSList *l;
 	int i = 0;
 	
@@ -1021,7 +1020,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	gconf = gconf_client_get_default ();
 	
 	if (!account_name)
-		index = gconf_client_get_int (gconf, "/apps/evolution/mail/default_account", NULL);
+		uid = gconf_client_get_string (gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
@@ -1035,13 +1034,15 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 				/* set the correct optionlist item */
 				gtk_option_menu_set_history (omenu, i);
 				g_signal_emit_by_name (item, "activate", hdrs);
+				g_free (uid);
 				
 				return;
 			}
-		} else if (i == index) {
+		} else if (uid && !strcmp (account->uid, uid)) {
 			/* set the default optionlist item */
 			gtk_option_menu_set_history (omenu, i);
 			g_signal_emit_by_name (item, "activate", hdrs);
+			g_free (uid);
 			
 			return;
 		}
@@ -1049,6 +1050,8 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		l = l->next;
 		i++;
 	}
+	
+	g_free (uid);
 }
 
 void
