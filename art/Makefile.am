@@ -19,6 +19,7 @@ images_DATA = \
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\
+	delete_message.xpm		\
 	envelope.png        		\
 	evolution-calendar-mini.png 	\
 	evolution-calendar.png 		\
@@ -34,6 +35,9 @@ images_DATA = \
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
 	globe.png           		\
+	hide_deleted_messages.xpm	\
+	hide_read_messages.xpm		\
+	hide_selected_messages.xpm	\
 	house.png           		\
 	malehead.png			\
 	new_contact.xpm			\
@@ -47,7 +51,9 @@ images_DATA = \
 	service-right-disabled.png	\
 	service-up.png			\
 	service-up-disabled.png		\
-	splash.png
+	show_all_messages.xpm		\
+	splash.png			\
+	undelete_message.xpm
 
 buttonsdir = $(datadir)/images/evolution/buttons
 buttons_DATA = 				\
