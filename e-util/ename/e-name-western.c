@@ -538,8 +538,10 @@ e_name_western_get_suffix_at_str_end (char *str)
 
 		word = e_name_western_get_preceding_word (str, p - str);
 		nextp = p - strlen (word);
-		if (nextp == str)
+		if (nextp == str) {
+			g_free (word);
 			break;
+		}
 		nextp = g_utf8_prev_char (nextp);
 		
 		e_name_western_cleanup_string (& word);
