@@ -1,3 +1,8 @@
+2001-09-12  Larry Ewing  <lewing@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): free
+	the source url in the nonfailure case.
+
 2001-09-12    <NotZed@Ximian.com>
 
 	* camel-folder-search.h: Change the 'not' virtual method from an

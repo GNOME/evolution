@@ -701,6 +701,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
+	g_free (source_url);
 	return 0;
 	
 fail:
