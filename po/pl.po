@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-31 09:07+0200\n"
+"POT-Creation-Date: 2003-08-01 01:48+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -21523,87 +21523,79 @@ msgstr ""
 
 #: my-evolution/Locations.h:1843
 msgid "Rabat"
-msgstr ""
+msgstr "Rabat"
 
 #: my-evolution/Locations.h:1844
 msgid "Raduzhny"
-msgstr ""
+msgstr "Raduźnyj"
 
 #: my-evolution/Locations.h:1845
 msgid "Rafha"
-msgstr ""
+msgstr "Rafha"
 
 #: my-evolution/Locations.h:1846
 msgid "Raleigh-Durham"
-msgstr ""
+msgstr "Raleigh-Durham"
 
 #: my-evolution/Locations.h:1847
 msgid "Randolph AFB"
-msgstr ""
+msgstr "Randolph AFB"
 
 #: my-evolution/Locations.h:1848
-#, fuzzy
 msgid "Rapid City"
-msgstr "Z odpowiedzią do"
+msgstr "Rapid City"
 
 #: my-evolution/Locations.h:1849
 msgid "Rapid City-Ellsworth AFB"
-msgstr ""
+msgstr "Rapid City-Ellsworth AFB"
 
 #: my-evolution/Locations.h:1850
 msgid "Ras Al Khaimah"
-msgstr ""
+msgstr "Ras Al Khaimah"
 
 #: my-evolution/Locations.h:1851
-#, fuzzy
 msgid "Rawlins"
-msgstr "Deszcz"
+msgstr "Rawlins"
 
 #: my-evolution/Locations.h:1852
-#, fuzzy
 msgid "Reading"
-msgstr "Nagłówki"
+msgstr "Reading"
 
 #: my-evolution/Locations.h:1853
-#, fuzzy
 msgid "Rebun Island"
-msgstr "Wyspa Bouveta"
+msgstr "Wyspa Rebun"
 
 #: my-evolution/Locations.h:1854
-#, fuzzy
 msgid "Recife"
-msgstr "Odebrany"
+msgstr "Recife"
 
 #: my-evolution/Locations.h:1855
 msgid "Red Bluff"
-msgstr ""
+msgstr "Red Bluff"
 
 #: my-evolution/Locations.h:1856
-#, fuzzy
 msgid "Redding"
-msgstr "Nagłówki"
+msgstr "Redding"
 
 #: my-evolution/Locations.h:1857
-#, fuzzy
 msgid "Redig"
-msgstr "Przeczytany"
+msgstr "Reding"
 
 #: my-evolution/Locations.h:1858
-#, fuzzy
 msgid "Redmond"
-msgstr "Przypominanie"
+msgstr "Redmond"
 
 #: my-evolution/Locations.h:1859
 msgid "Red Oak"
-msgstr ""
+msgstr "Red Oak"
 
 #: my-evolution/Locations.h:1860
 msgid "Redwood Falls"
-msgstr ""
+msgstr "Redwood Falls"
 
 #: my-evolution/Locations.h:1861
 msgid "Reggio Calabria"
-msgstr ""
+msgstr "Reggio di Calabria"
 
 #: my-evolution/Locations.h:1862
 msgid "Regina"
@@ -21611,88 +21603,75 @@ msgstr "Regina"
 
 #: my-evolution/Locations.h:1863
 msgid "Reims-Champagne"
-msgstr ""
+msgstr "Reims-Szampania"
 
 #: my-evolution/Locations.h:1864
-#, fuzzy
 msgid "Rennes"
-msgstr "Przypominanie"
+msgstr "Rennes"
 
 #: my-evolution/Locations.h:1865
 msgid "Reno"
 msgstr "Reno"
 
 #: my-evolution/Locations.h:1866
-#, fuzzy
 msgid "Renton"
-msgstr "Reunion"
+msgstr "Renton"
 
 #: my-evolution/Locations.h:1867
 msgid "Resistencia"
-msgstr ""
+msgstr "Resistencia"
 
 #: my-evolution/Locations.h:1868
-#, fuzzy
 msgid "Reus"
-msgstr "Reguły"
+msgstr "Reus"
 
 #: my-evolution/Locations.h:1869
-#, fuzzy
 msgid "Reyes"
-msgstr "Odśwież"
+msgstr "Reyes"
 
 #: my-evolution/Locations.h:1870
 msgid "Reykjavik"
-msgstr ""
+msgstr "Rejkiawik"
 
 #: my-evolution/Locations.h:1871
-#, fuzzy
 msgid "Reynosa"
-msgstr "Odśwież"
+msgstr "Reynosa"
 
 #: my-evolution/Locations.h:1872
-#, fuzzy
 msgid "Rhinelander"
-msgstr "Finlandia"
+msgstr "Rhinelander"
 
 #: my-evolution/Locations.h:1873
-#, fuzzy
 msgid "Rhode Island"
-msgstr "Wyspy Faroe"
+msgstr "Rhode Island"
 
 #: my-evolution/Locations.h:1874
-#, fuzzy
 msgid "Riberalta"
-msgstr "Gibraltar"
+msgstr "Riberalta"
 
 #: my-evolution/Locations.h:1875
 msgid "Richmond"
 msgstr "Richmond"
 
 #: my-evolution/Locations.h:1876
-#, fuzzy
 msgid "Rickenbacker"
-msgstr "Przydomek"
+msgstr "Rickenbacker"
 
 #: my-evolution/Locations.h:1877
-#, fuzzy
 msgid "Rieti"
-msgstr "Haiti"
+msgstr "Rieti"
 
 #: my-evolution/Locations.h:1878
-#, fuzzy
 msgid "Rifle"
-msgstr "Rola"
+msgstr "Rifle"
 
 #: my-evolution/Locations.h:1879
-#, fuzzy
 msgid "Rijeka"
-msgstr "Przeczytany"
+msgstr "Rijeka"
 
 #: my-evolution/Locations.h:1880
-#, fuzzy
 msgid "Rimini"
-msgstr "Rumunia"
+msgstr "Rimini"
 
 #: my-evolution/Locations.h:1881
 msgid "Rio De Janeiro"
@@ -21700,75 +21679,67 @@ msgstr "Rio De Janeiro"
 
 #: my-evolution/Locations.h:1882
 msgid "Rio Gallegos"
-msgstr ""
+msgstr "Rio Gallegos"
 
 #: my-evolution/Locations.h:1883
 msgid "Rio Grande"
-msgstr ""
+msgstr "Rio Grande"
 
 #: my-evolution/Locations.h:1884
-#, fuzzy
 msgid "Rioja"
-msgstr "Radio"
+msgstr "La Rioja"
 
 #: my-evolution/Locations.h:1885
-#, fuzzy
 msgid "Rio / Jacarepagua"
-msgstr "Nikaragua"
+msgstr "Rio / Jacarepagua"
 
 #: my-evolution/Locations.h:1886
 msgid "Rionegro/J.M.Cordova"
-msgstr ""
+msgstr "Rio Negro/J.M.Cordova"
 
 #: my-evolution/Locations.h:1887
-#, fuzzy
 msgid "Rishiri Island"
-msgstr "Wyspa Bożego Narodzenia"
+msgstr "Wyspa Rishiri"
 
 #: my-evolution/Locations.h:1888
 msgid "Rivas"
-msgstr ""
+msgstr "Rivas"
 
 #: my-evolution/Locations.h:1889
-#, fuzzy
 msgid "Rivera"
-msgstr "Liberia"
+msgstr "Rivera"
 
 #: my-evolution/Locations.h:1890
 msgid "Riverside"
-msgstr ""
+msgstr "Riverside"
 
 #: my-evolution/Locations.h:1891
 msgid "Riverside/March AFB"
-msgstr ""
+msgstr "Riverside/March AFB"
 
 #: my-evolution/Locations.h:1892
 msgid "Riverton"
-msgstr ""
+msgstr "Riverton"
 
 #: my-evolution/Locations.h:1893
-#, fuzzy
 msgid "Rivne"
-msgstr "Deszcz"
+msgstr "Rivne"
 
 #: my-evolution/Locations.h:1894
-#, fuzzy
 msgid "Rivolto"
-msgstr "Evolution"
+msgstr "Rivolto"
 
 #: my-evolution/Locations.h:1895
-#, fuzzy
 msgid "Riyadh"
-msgstr "Przeczytany"
+msgstr "Rijad"
 
 #: my-evolution/Locations.h:1896
 msgid "Roanoke"
-msgstr ""
+msgstr "Roanoke"
 
 #: my-evolution/Locations.h:1897
-#, fuzzy
 msgid "Roatan"
-msgstr "Chorwacja"
+msgstr "Roatan"
 
 #: my-evolution/Locations.h:1898
 msgid "Robore"
@@ -21788,29 +21759,27 @@ msgstr "Rockland"
 
 #: my-evolution/Locations.h:1902
 msgid "Rockport"
-msgstr ""
+msgstr "Rockport"
 
 #: my-evolution/Locations.h:1903
 msgid "Rock Springs"
-msgstr ""
+msgstr "Rock Springs"
 
 #: my-evolution/Locations.h:1904
 msgid "Rocky Mount"
-msgstr ""
+msgstr "Rocky Mount"
 
 #: my-evolution/Locations.h:1905
 msgid "Rodos"
 msgstr "Rodos"
 
 #: my-evolution/Locations.h:1906
-#, fuzzy
 msgid "Rogers"
-msgstr "Odśwież"
+msgstr "Rogers"
 
 #: my-evolution/Locations.h:1907
-#, fuzzy
 msgid "Roma/Ciampino"
-msgstr "Rumunia"
+msgstr "Rzym/Ciampino"
 
 #: my-evolution/Locations.h:1908
 msgid "Roma/Fiumicino"
@@ -21826,43 +21795,39 @@ msgstr "Rzym-Russell"
 
 #: my-evolution/Locations.h:1912
 msgid "Ronchi de' Legionari"
-msgstr ""
+msgstr "Ronchi de' Legionari"
 
 #: my-evolution/Locations.h:1913
 msgid "Ronneby"
-msgstr ""
+msgstr "Ronneby"
 
 #: my-evolution/Locations.h:1914
 msgid "Roosevelt"
-msgstr ""
+msgstr "Roosevelt"
 
 #: my-evolution/Locations.h:1915
-#, fuzzy
 msgid "Roros"
-msgstr "Pomieszczenie"
+msgstr "Roros"
 
 #: my-evolution/Locations.h:1916
 msgid "Rorvik/Ryum"
-msgstr ""
+msgstr "Rorvik/Ryum"
 
 #: my-evolution/Locations.h:1917
-#, fuzzy
 msgid "Rosario"
-msgstr "Radio"
+msgstr "Rosario"
 
 #: my-evolution/Locations.h:1918
 msgid "Roseburg"
-msgstr ""
+msgstr "Roseburg"
 
 #: my-evolution/Locations.h:1919
-#, fuzzy
 msgid "Roseglen"
-msgstr "Rola"
+msgstr "Roseglen"
 
 #: my-evolution/Locations.h:1920
-#, fuzzy
 msgid "Rost"
-msgstr "Najniższy"
+msgstr "Rost"
 
 #: my-evolution/Locations.h:1921
 msgid "Rostov-Na-Donu"
@@ -21878,30 +21843,27 @@ msgstr "Rotterdam"
 
 #: my-evolution/Locations.h:1924
 msgid "Rouen-Valle de Seine"
-msgstr ""
+msgstr "Rouen-Valle de Seine"
 
 #: my-evolution/Locations.h:1925
 msgid "Ruidoso-Sierra Blanca"
-msgstr ""
+msgstr "Ruidoso-Sierra Blanca"
 
 #: my-evolution/Locations.h:1926
-#, fuzzy
 msgid "Rurrenabaque"
-msgstr "Powtarzalność"
+msgstr "Rurrenabaque"
 
 #: my-evolution/Locations.h:1927
 msgid "Russell"
-msgstr ""
+msgstr "Russell"
 
 #: my-evolution/Locations.h:1928
-#, fuzzy
 msgid "Russia"
-msgstr "Austria"
+msgstr "Rosja"
 
 #: my-evolution/Locations.h:1929
-#, fuzzy
 msgid "Rutland"
-msgstr "Bhutan"
+msgstr "Rutland"
 
 #: my-evolution/Locations.h:1930
 msgid "Rygge"
@@ -21913,140 +21875,127 @@ msgstr "Rzeszów"
 
 #: my-evolution/Locations.h:1932
 msgid "Saarbrucken"
-msgstr ""
+msgstr "Saarbrucken"
 
 #: my-evolution/Locations.h:1933
 msgid "Sabine Pass"
-msgstr ""
+msgstr "Sabine Pass"
 
 #: my-evolution/Locations.h:1934
 msgid "Sacramento"
-msgstr "Sakramento"
+msgstr "Sacramento"
 
 #: my-evolution/Locations.h:1935
 msgid "Sacramento-Woodland"
-msgstr ""
+msgstr "Sacramento-Woodland"
 
 #: my-evolution/Locations.h:1936
 msgid "Safford-Municipal Airport"
-msgstr ""
+msgstr "Safford Lotnisko Miejskie"
 
 #: my-evolution/Locations.h:1937
-#, fuzzy
 msgid "Saginaw"
-msgstr "Hiszpania"
+msgstr "Saginaw"
 
 #: my-evolution/Locations.h:1938
 msgid "Saint Anthony"
-msgstr ""
+msgstr "Saint Anthony"
 
 #: my-evolution/Locations.h:1939
 msgid "Saint-Brieuc-Armor"
-msgstr ""
+msgstr "Saint-Brieuc-Armor"
 
 #: my-evolution/Locations.h:1940
 msgid "Saint-Dizier-Robinson"
-msgstr ""
+msgstr "Saint-Dizier-Robinson"
 
 #: my-evolution/Locations.h:1941
 msgid "Saint-Etienne-Boutheon"
-msgstr ""
+msgstr "Saint-Etienne-Boutheon"
 
 #: my-evolution/Locations.h:1942
-#, fuzzy
 msgid "Saint Mary's"
-msgstr "San Marino"
+msgstr "Saint Mary's"
 
 #: my-evolution/Locations.h:1943
-#, fuzzy
 msgid "Saint Mawgan"
-msgstr "San Marino"
+msgstr "Saint Mawgan"
 
 #: my-evolution/Locations.h:1944
 msgid "Saint-Nazaire-Montoir"
-msgstr ""
+msgstr "Saint-Nazaire-Montoir"
 
 #: my-evolution/Locations.h:1945
-#, fuzzy
 msgid "Saint Paul"
-msgstr "Saint Lucia"
+msgstr "Saint Paul"
 
 #: my-evolution/Locations.h:1946
-#, fuzzy
 msgid "Saiq"
-msgstr "So"
+msgstr "Saiq"
 
 #: my-evolution/Locations.h:1947
-#, fuzzy
 msgid "Salalah"
-msgstr "Nawałnica"
+msgstr "Salalah"
 
 #: my-evolution/Locations.h:1948
 msgid "Salem"
 msgstr "Salem"
 
 #: my-evolution/Locations.h:1949
-#, fuzzy
 msgid "Salida"
-msgstr "Somalia"
+msgstr "Salida"
 
 #: my-evolution/Locations.h:1950
 msgid "Salida-Harriet"
-msgstr ""
+msgstr "Salida-Harriet"
 
 #: my-evolution/Locations.h:1951
-#, fuzzy
 msgid "Salina"
-msgstr "Somalia"
+msgstr "Salina"
 
 #: my-evolution/Locations.h:1952
-#, fuzzy
 msgid "Salinas"
-msgstr "Somalia"
+msgstr "Salinas"
 
 #: my-evolution/Locations.h:1953
 msgid "Salisbury"
-msgstr ""
+msgstr "Salisbury"
 
 #: my-evolution/Locations.h:1954
-#, fuzzy
 msgid "Salmon"
-msgstr "Samoa"
+msgstr "Salmon"
 
 #: my-evolution/Locations.h:1955
 msgid "Salmon (2)"
-msgstr ""
+msgstr "Salmon (2)"
 
 #: my-evolution/Locations.h:1956
-#, fuzzy
 msgid "Salta"
-msgstr "Malta"
+msgstr "Salta"
 
 #: my-evolution/Locations.h:1957
 msgid "Saltillo"
-msgstr ""
+msgstr "Saltillo"
 
 #: my-evolution/Locations.h:1958
 msgid "Salt Lake City"
-msgstr ""
+msgstr "Salt Lake City"
 
 #: my-evolution/Locations.h:1959
-#, fuzzy
 msgid "Salto"
-msgstr "Zatrzymaj"
+msgstr "Salto"
 
 #: my-evolution/Locations.h:1960
 msgid "Salt point"
-msgstr ""
+msgstr "Salt point"
 
 #: my-evolution/Locations.h:1961
-#, fuzzy
 msgid "Salvador"
-msgstr "Salwador"
+msgstr "Salvador"
 
 #: my-evolution/Locations.h:1962
 msgid "Salzburg"
-msgstr ""
+msgstr "Salzburg"
 
 #: my-evolution/Locations.h:1963
 msgid "Samara"
@@ -22057,97 +22006,88 @@ msgid "Samos"
 msgstr "Samos"
 
 #: my-evolution/Locations.h:1965
-#, fuzzy
 msgid "Samsun"
-msgstr "Piasek"
+msgstr "Samsun"
 
 #: my-evolution/Locations.h:1966
-#, fuzzy
 msgid "Sana'A"
-msgstr "Piasek"
+msgstr "Sana"
 
 #: my-evolution/Locations.h:1967
 msgid "San Andres Isla/Sesquicentenario"
-msgstr ""
+msgstr "San Andres Isla/Sesquicentenario"
 
 #: my-evolution/Locations.h:1968
-#, fuzzy
 msgid "San Angelo"
-msgstr "San Marino"
+msgstr "San Angelo"
 
 #: my-evolution/Locations.h:1969
 msgid "San Antonio"
-msgstr ""
+msgstr "San Antonio"
 
 #: my-evolution/Locations.h:1970
 msgid "San Antonio Del Tachira"
-msgstr ""
+msgstr "San Antonio Del Tachira"
 
 #: my-evolution/Locations.h:1971
 msgid "San Antonio-Kelly AFB"
-msgstr ""
+msgstr "San Antonio-Kelly AFB"
 
 #: my-evolution/Locations.h:1972
 msgid "San Antonio-Stinson"
-msgstr ""
+msgstr "San Antonio-Stinson"
 
 #: my-evolution/Locations.h:1973
-#, fuzzy
 msgid "San Carlos"
-msgstr "San Marino"
+msgstr "San Carlos"
 
 #: my-evolution/Locations.h:1974
-#, fuzzy
 msgid "Sandane"
-msgstr "Piasek"
+msgstr "Sandane"
 
 #: my-evolution/Locations.h:1975
-#, fuzzy
 msgid "Sandberg"
-msgstr "Nadawca"
+msgstr "Sandberg"
 
 #: my-evolution/Locations.h:1976
-#, fuzzy
 msgid "Sanderson"
-msgstr "Burza piaskowa"
+msgstr "Sanderson"
 
 #: my-evolution/Locations.h:1977
-#, fuzzy
 msgid "San Diego"
-msgstr "San Marino"
+msgstr "San Diego"
 
 #: my-evolution/Locations.h:1978
 msgid "San Diego-Brown"
-msgstr ""
+msgstr "San Diego-Brown"
 
 #: my-evolution/Locations.h:1979
 msgid "San Diego-Miramar"
-msgstr ""
+msgstr "San Diego-Miramar"
 
 #: my-evolution/Locations.h:1980
 msgid "San Diego-Montgomery"
-msgstr ""
+msgstr "San Diego-Montgomery"
 
 #: my-evolution/Locations.h:1981
 msgid "San Diego-North Island"
-msgstr ""
+msgstr "San Diego-North Island"
 
 #: my-evolution/Locations.h:1982
 msgid "San Diego-Santee"
-msgstr ""
+msgstr "San Diego-Santee"
 
 #: my-evolution/Locations.h:1983
 msgid "Sandnessjoen/Stokka"
-msgstr ""
+msgstr "Sandnessjoen/Stokka"
 
 #: my-evolution/Locations.h:1984
-#, fuzzy
 msgid "Sand Point"
-msgstr "_Zwykła czcionka:"
+msgstr "Sand Point"
 
 #: my-evolution/Locations.h:1985
 msgid "San Fernando De Apure"
-msgstr ""
+msgstr "San Fernando De Apure"
 
 #: my-evolution/Locations.h:1986
 msgid "Sanford"
@@ -22158,35 +22098,32 @@ msgid "San Francisco"
 msgstr "San Francisco"
 
 #: my-evolution/Locations.h:1988
-#, fuzzy
 msgid "Sangju"
-msgstr "Cieniowanie"
+msgstr "Sangju"
 
 #: my-evolution/Locations.h:1989
 msgid "San Ignacio De Velasco"
-msgstr ""
+msgstr "San Ignacio De Velasco"
 
 #: my-evolution/Locations.h:1990
-#, fuzzy
 msgid "San Joaquin"
-msgstr "San Marino"
+msgstr "San Joaquin"
 
 #: my-evolution/Locations.h:1991
-#, fuzzy
 msgid "San Jose"
-msgstr "Zapisz i zamknij"
+msgstr "San Jose"
 
 #: my-evolution/Locations.h:1992
 msgid "San Jose De Chiquitos"
-msgstr ""
+msgstr "San Jose De Chiquitos"
 
 #: my-evolution/Locations.h:1993
 msgid "San Jose del Cabo"
-msgstr ""
+msgstr "San Jose del Cabo"
 
 #: my-evolution/Locations.h:1994
 msgid "San Jose-Santa Clara"
-msgstr ""
+msgstr "San Jose-Santa Clara"
 
 #: my-evolution/Locations.h:1995
 msgid "San Juan"
@@ -22194,30 +22131,28 @@ msgstr "San Juan"
 
 #: my-evolution/Locations.h:1996
 msgid "Sankt-Peterburg"
-msgstr ""
+msgstr "Sankt Petersburg"
 
 #: my-evolution/Locations.h:1997
-#, fuzzy
 msgid "Sanliurfa"
-msgstr "Somalia"
+msgstr "Sanliurfa"
 
 #: my-evolution/Locations.h:1998
 msgid "San Luis Obispo"
-msgstr ""
+msgstr "San Luis Obispo"
 
 #: my-evolution/Locations.h:1999
 msgid "San Luis Potosi"
-msgstr ""
+msgstr "San Luis Potosi"
 
 #: my-evolution/Locations.h:2000
-#, fuzzy
 msgid "San Miguel"
-msgstr "San Marino"
+msgstr "San Miguel"
 
+# Jakaś wysepka należąca do US Navy
 #: my-evolution/Locations.h:2001
-#, fuzzy
 msgid "San Nicholas Island"
-msgstr "Wyspa Norfolk"
+msgstr "San Nicholas Island"
 
 #: my-evolution/Locations.h:2002
 msgid "San Salvador"
@@ -22229,11 +22164,11 @@ msgstr "San Sebastian"
 
 #: my-evolution/Locations.h:2004
 msgid "Santa Ana"
-msgstr ""
+msgstr "Santa Ana"
 
 #: my-evolution/Locations.h:2005
 msgid "Santa Barbara"
-msgstr ""
+msgstr "Santa Barbara"
 
 #: my-evolution/Locations.h:2006
 msgid "Santa Cruz"
@@ -22244,36 +22179,32 @@ msgid "Santa Fe"
 msgstr "Santa Fe"
 
 #: my-evolution/Locations.h:2008
-#, fuzzy
 msgid "Santa Maria"
-msgstr "San Marino"
+msgstr "Santa Maria"
 
 #: my-evolution/Locations.h:2009
 msgid "Santa Marta/Simon Bolivar"
-msgstr ""
+msgstr "Santa Marta/Simon Bolivar"
 
 #: my-evolution/Locations.h:2010
-#, fuzzy
 msgid "Santa Monica"
-msgstr "Saint Lucia"
+msgstr "Santa Monica"
 
 #: my-evolution/Locations.h:2011
-#, fuzzy
 msgid "Santander"
-msgstr "Nadawca"
+msgstr "Santander"
 
 #: my-evolution/Locations.h:2012
-#, fuzzy
 msgid "Santarem"
-msgstr "Burza piaskowa"
+msgstr "Santarem"
 
 #: my-evolution/Locations.h:2013
 msgid "Santa Rosa"
-msgstr ""
+msgstr "Santa Rosa"
 
 #: my-evolution/Locations.h:2014
 msgid "Santa Rosa de Copan"
-msgstr ""
+msgstr "Santa Rosa de Copan"
 
 #: my-evolution/Locations.h:2015
 msgid "Santiago"
@@ -22281,38 +22212,35 @@ msgstr "Santiago"
 
 #: my-evolution/Locations.h:2016
 msgid "Santiago de Cuba"
-msgstr ""
+msgstr "Santiago de Cuba"
 
 #: my-evolution/Locations.h:2017
 msgid "Santiago Del Estero"
-msgstr ""
+msgstr "Santiago Del Estero"
 
 #: my-evolution/Locations.h:2018
-#, fuzzy
 msgid "Santorini"
-msgstr "Burza piaskowa"
+msgstr "Santorini"
 
 #: my-evolution/Locations.h:2019
-#, fuzzy
 msgid "Santos"
-msgstr "Burza piaskowa"
+msgstr "Santos"
 
 #: my-evolution/Locations.h:2020
 msgid "Sao Jose Dos Campo"
-msgstr ""
+msgstr "Sao Jose Dos Campo"
 
 #: my-evolution/Locations.h:2021
-#, fuzzy
 msgid "Sao Luiz"
-msgstr "Saint Lucia"
+msgstr "Sao Luis"
 
 #: my-evolution/Locations.h:2022
 msgid "Sao Paulo"
-msgstr ""
+msgstr "Sao Paulo"
 
 #: my-evolution/Locations.h:2023
 msgid "Sapporo Ab"
-msgstr ""
+msgstr "Sapporo Ab"
 
 #: my-evolution/Locations.h:2024
 msgid "Sarajevo"
@@ -22320,37 +22248,35 @@ msgstr "Sarajewo"
 
 #: my-evolution/Locations.h:2025
 msgid "Saranac Lake"
-msgstr ""
+msgstr "Saranac Lake"
 
 #: my-evolution/Locations.h:2026
-#, fuzzy
 msgid "Sarasota"
-msgstr "Samoa"
+msgstr "Sarasota"
 
 #: my-evolution/Locations.h:2027
 msgid "Saratov"
-msgstr ""
+msgstr "Saratów"
 
 #: my-evolution/Locations.h:2028
-#, fuzzy
 msgid "Sarzana"
-msgstr "Sri Lanka"
+msgstr "Sarzana"
 
 #: my-evolution/Locations.h:2029
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Saskatchewan"
 
 #: my-evolution/Locations.h:2030
 msgid "Saskatoon"
-msgstr ""
+msgstr "Saskatoon"
 
 #: my-evolution/Locations.h:2031
 msgid "Sauce Viejo"
-msgstr ""
+msgstr "Sauce Viejo"
 
 #: my-evolution/Locations.h:2033
 msgid "Sault Ste Marie"
-msgstr ""
+msgstr "Sault Ste Marie"
 
 #: my-evolution/Locations.h:2034
 msgid "Savannah"
@@ -22358,75 +22284,67 @@ msgstr "Savannah"
 
 #: my-evolution/Locations.h:2035
 msgid "Savannah-Hunter AAF"
-msgstr ""
+msgstr "Savannah-Hunter AAF"
 
 #: my-evolution/Locations.h:2036
 msgid "Sawyer AFB"
-msgstr ""
+msgstr "Sawyer AFB"
 
 #: my-evolution/Locations.h:2037
-#, fuzzy
 msgid "Sayun"
-msgstr "Piasek"
+msgstr "Sayun"
 
 #: my-evolution/Locations.h:2038
-#, fuzzy
 msgid "Scatsta"
-msgstr "Stan"
+msgstr "Scatsta"
 
 #: my-evolution/Locations.h:2039
 msgid "Schaffen"
-msgstr ""
+msgstr "Schaffen"
 
 #: my-evolution/Locations.h:2040
-#, fuzzy
 msgid "Schenectady"
-msgstr "Wybrano"
+msgstr "Schenectady"
 
 #: my-evolution/Locations.h:2041
 msgid "Scilly Isles"
-msgstr ""
+msgstr "Wyspy Scilly"
 
 #: my-evolution/Locations.h:2042
 msgid "Scottsbluff"
-msgstr ""
+msgstr "Scottsbluff"
 
 #: my-evolution/Locations.h:2043
 msgid "Scottsdale"
-msgstr ""
+msgstr "Scottsdale"
 
 #: my-evolution/Locations.h:2044
-#, fuzzy
 msgid "Scranton"
-msgstr "Organizacja"
+msgstr "Scranton"
 
 #: my-evolution/Locations.h:2045
 msgid "Seattle"
 msgstr "Seattle"
 
 #: my-evolution/Locations.h:2046
-#, fuzzy
 msgid "Seattle-Boeing"
-msgstr "Ustawienia"
+msgstr "Seattle-Boeing"
 
 #: my-evolution/Locations.h:2047
-#, fuzzy
 msgid "Sedalia"
-msgstr "Somalia"
+msgstr "Sedalia"
 
 #: my-evolution/Locations.h:2048
-#, fuzzy
 msgid "Seeb"
-msgstr "Widziany"
+msgstr "Seeb"
 
 #: my-evolution/Locations.h:2049
 msgid "Selanik"
-msgstr ""
+msgstr "Selanik"
 
 #: my-evolution/Locations.h:2050
-#, fuzzy
 msgid "Sendai Airport"
-msgstr "Rozpoczynanie importowania"
+msgstr "Sendai Lotnisko"
 
 #: my-evolution/Locations.h:2051
 msgid "Seoul E Ab"
@@ -22438,281 +22356,252 @@ msgstr "Seul/Międzynarodowy Port Lotn. Kimp'O"
 
 #: my-evolution/Locations.h:2053
 msgid "Seoul/Yongdungp'O Rokaf Wc"
-msgstr ""
+msgstr "Seul/Yongdungp'O Rokaf Wc"
 
 #: my-evolution/Locations.h:2054
 msgid "Sept-Iles"
-msgstr ""
+msgstr "Sept-Iles"
 
+# Kolejna dziwaczna nazwa, wiadomo - USA
 #: my-evolution/Locations.h:2055
 msgid "Seul Choix Pt"
-msgstr ""
+msgstr "Seul Choix Pt"
 
 #: my-evolution/Locations.h:2056
 msgid "Sevilla"
 msgstr "Sewilla"
 
 #: my-evolution/Locations.h:2057
-#, fuzzy
 msgid "Seward"
-msgstr "Prześlij"
+msgstr "Seward"
 
 #: my-evolution/Locations.h:2058
 msgid "Sexton Summit"
-msgstr ""
+msgstr "Sexton Summit"
 
 #: my-evolution/Locations.h:2059
-#, fuzzy
 msgid "Shanghai"
-msgstr "Cieniowanie"
+msgstr "Szanghaj"
 
 #: my-evolution/Locations.h:2060
-#, fuzzy
 msgid "Shannon"
-msgstr "Wyświetlane"
+msgstr "Sionna"
 
 #: my-evolution/Locations.h:2061
 msgid "Sharjah"
-msgstr ""
+msgstr "Szardża"
 
 #: my-evolution/Locations.h:2062
 msgid "Sharm El Sheikhintl"
-msgstr ""
+msgstr "Sharm El Sheikhintl"
 
 #: my-evolution/Locations.h:2063
-#, fuzzy
 msgid "Sharurah"
-msgstr "Sobota"
+msgstr "Sharurah"
 
 #: my-evolution/Locations.h:2064
-#, fuzzy
 msgid "Shawbury"
-msgstr "Sobota"
+msgstr "Shawbury"
 
 #: my-evolution/Locations.h:2065
-#, fuzzy
 msgid "Shearwater"
-msgstr "Data rozpoczęcia"
+msgstr "Shearwater"
 
 #: my-evolution/Locations.h:2066
 msgid "Sheboygan"
-msgstr ""
+msgstr "Sheboygan"
 
 #: my-evolution/Locations.h:2067
-#, fuzzy
 msgid "Sheldon"
-msgstr "Wyświetlane"
+msgstr "Sheldon"
 
 #: my-evolution/Locations.h:2068
 msgid "Shelter Cove"
-msgstr ""
+msgstr "Shelter Cove"
 
 #: my-evolution/Locations.h:2069
-#, fuzzy
 msgid "Shelton"
-msgstr "_Wybór:"
+msgstr "Shelton"
 
 #: my-evolution/Locations.h:2070
 msgid "Shenandoah"
-msgstr ""
+msgstr "Shenandoah"
 
 #: my-evolution/Locations.h:2071
-#, fuzzy
 msgid "Sheridan"
-msgstr "Sudan"
+msgstr "Sheridan"
 
 #: my-evolution/Locations.h:2072
 msgid "Sherman-Denison"
-msgstr ""
+msgstr "Sherman-Denison"
 
 #: my-evolution/Locations.h:2073
 msgid "Shimofusa Ab"
-msgstr ""
+msgstr "Shimofusa Ab"
 
 #: my-evolution/Locations.h:2074
 msgid "Shingle Point"
-msgstr ""
+msgstr "Shingle Point"
 
 #: my-evolution/Locations.h:2075
-#, fuzzy
 msgid "Shiraz"
-msgstr "Rozmiar"
+msgstr "Sziraz"
 
 #: my-evolution/Locations.h:2076
 msgid "Shishmaref"
-msgstr ""
+msgstr "Shishmaref"
 
 #: my-evolution/Locations.h:2077
 msgid "Shizuhama Ab"
-msgstr ""
+msgstr "Shizuhama Ab"
 
 #: my-evolution/Locations.h:2078
-#, fuzzy
 msgid "Shoreham"
-msgstr "Punkty"
+msgstr "Shoreham"
 
 #: my-evolution/Locations.h:2079
-#, fuzzy
 msgid "Show Low"
-msgstr "Słaby śnieg"
+msgstr "Show Low"
 
 #: my-evolution/Locations.h:2080
 msgid "Shreveport Downtown"
-msgstr ""
+msgstr "Shreveport Downtown"
 
 #: my-evolution/Locations.h:2081
 msgid "Shreveport Regional"
-msgstr ""
+msgstr "Shreveport Regional"
 
 #: my-evolution/Locations.h:2082
-#, fuzzy
 msgid "Sidney"
-msgstr "Rozmiar"
+msgstr "Sidney"
 
 #: my-evolution/Locations.h:2083
 msgid "Sigonella"
-msgstr ""
+msgstr "Sigonella"
 
 #: my-evolution/Locations.h:2084
 msgid "Siloam Springs"
-msgstr ""
+msgstr "Siloam Springs"
 
 #: my-evolution/Locations.h:2085
-#, fuzzy
 msgid "Silver City"
-msgstr "_Bezpieczeństwo"
+msgstr "Silver City"
 
 #: my-evolution/Locations.h:2086
-#, fuzzy
 msgid "Sindal"
-msgstr "Sendmail"
+msgstr "Sindal"
 
 #: my-evolution/Locations.h:2088
 msgid "Sioux City"
-msgstr ""
+msgstr "Sioux City"
 
 #: my-evolution/Locations.h:2089
 msgid "Sioux Falls"
-msgstr ""
+msgstr "Sioux Falls"
 
 #: my-evolution/Locations.h:2090
 msgid "Sitka"
-msgstr ""
+msgstr "Sitka"
 
 #: my-evolution/Locations.h:2091
 msgid "Sivas"
-msgstr ""
+msgstr "Sivas"
 
 #: my-evolution/Locations.h:2092
 msgid "Sivrihisar"
-msgstr ""
+msgstr "Sivrihisar"
 
 #: my-evolution/Locations.h:2093
 msgid "Skagway"
-msgstr ""
+msgstr "Skagway"
 
 #: my-evolution/Locations.h:2094
 msgid "Skiathos"
-msgstr ""
+msgstr "Skiathos"
 
 #: my-evolution/Locations.h:2095
 msgid "Skien/Geiteryggen"
-msgstr ""
+msgstr "Skien/Geiteryggen"
 
 #: my-evolution/Locations.h:2096
-#, fuzzy
 msgid "Skive"
-msgstr "Zapisz"
+msgstr "Skive"
 
 #: my-evolution/Locations.h:2097
-#, fuzzy
 msgid "Skopje"
-msgstr "Zatrzymaj"
+msgstr "Skopie"
 
 #: my-evolution/Locations.h:2098
-#, fuzzy
 msgid "Skwentna"
-msgstr "Wysłane"
+msgstr "Skwentna"
 
 #: my-evolution/Locations.h:2099
-#, fuzzy
 msgid "Slana"
-msgstr "Piasek"
+msgstr "Slana"
 
 #: my-evolution/Locations.h:2102
-#, fuzzy
 msgid "Smithers"
-msgstr "Krótkotrwała mżawka"
+msgstr "Smithers"
 
 #: my-evolution/Locations.h:2103
 msgid "Smyrna"
-msgstr ""
+msgstr "Smyrna"
 
 #: my-evolution/Locations.h:2104
-#, fuzzy
 msgid "Snowshoe Lake"
-msgstr "Krótkotrwały śnieg"
+msgstr "Snowshoe Lake"
 
 #: my-evolution/Locations.h:2105
-#, fuzzy
 msgid "Sochi"
-msgstr "Południe"
+msgstr "Sochi"
 
 #: my-evolution/Locations.h:2106
-#, fuzzy
 msgid "Socorro"
-msgstr "Punkty"
+msgstr "Socorro"
 
 #: my-evolution/Locations.h:2107
-#, fuzzy
 msgid "Socotra"
-msgstr "Punkty"
+msgstr "Socotra"
 
 #: my-evolution/Locations.h:2108
-#, fuzzy
 msgid "Soda Springs"
-msgstr "Ziarna śniegu"
+msgstr "Soda Springs"
 
 #: my-evolution/Locations.h:2109
 msgid "Sofia"
 msgstr "Sofia"
 
 #: my-evolution/Locations.h:2110
-#, fuzzy
 msgid "Sogndal"
-msgstr "Sendmail"
+msgstr "Sogndal"
 
 #: my-evolution/Locations.h:2111
-#, fuzzy
 msgid "Soldotna"
-msgstr "Słowenia"
+msgstr "Soldotna"
 
 #: my-evolution/Locations.h:2112
-#, fuzzy
 msgid "Somerset"
-msgstr "Krótkotrwała mżawka"
+msgstr "Somerset"
 
 #: my-evolution/Locations.h:2113
-#, fuzzy
 msgid "Sonderborg"
-msgstr "Nadawca"
+msgstr "Sonderborg"
 
 #: my-evolution/Locations.h:2114
 msgid "Songmu Ab"
-msgstr ""
+msgstr "Songmu Ab"
 
 #: my-evolution/Locations.h:2115
 msgid "Sorkjosen"
-msgstr ""
+msgstr "Sorkjosen"
 
 #: my-evolution/Locations.h:2117
 msgid "Southampton"
 msgstr "Southampton"
 
 #: my-evolution/Locations.h:2118
-#, fuzzy
 msgid "South Bend"
-msgstr "Południe"
+msgstr "South Bend"
 
 #: my-evolution/Locations.h:2119
 msgid "South Carolina"
@@ -22726,45 +22615,44 @@ msgstr "Południowa Dakota"
 msgid "Southend"
 msgstr "Southend"
 
+# To taki bagnisty kawałek półwyspu 
+# z jakimś parkiem przyrodniczym
+# w zatoce Chesapeake
 #: my-evolution/Locations.h:2122
-#, fuzzy
 msgid "South Marsh Island"
-msgstr "Wyspy Marshalla"
+msgstr "South Marsh Island"
 
 #: my-evolution/Locations.h:2123
 msgid "South Timbalier"
-msgstr ""
+msgstr "Południowy Timbalier"
 
 #: my-evolution/Locations.h:2125
 msgid "Sparrevohn"
-msgstr ""
+msgstr "Sparrevohn"
 
 #: my-evolution/Locations.h:2126
-#, fuzzy
 msgid "Spencer"
-msgstr "Nadawca"
+msgstr "Spencer"
 
 #: my-evolution/Locations.h:2127
-#, fuzzy
 msgid "Spickard"
-msgstr "_Porzuć"
+msgstr "Spickard"
 
 #: my-evolution/Locations.h:2128
 msgid "Split"
 msgstr "Split"
 
 #: my-evolution/Locations.h:2129
-#, fuzzy
 msgid "Spokane"
-msgstr "Dym"
+msgstr "Spokane"
 
 #: my-evolution/Locations.h:2130
 msgid "Spokane-Parkwater"
-msgstr ""
+msgstr "Spokane-Parkwater"
 
 #: my-evolution/Locations.h:2131
 msgid "Springbok"
-msgstr ""
+msgstr "Springbok"
 
 #: my-evolution/Locations.h:2132
 msgid "Springfield"
@@ -22772,79 +22660,71 @@ msgstr "Springfield"
 
 #: my-evolution/Locations.h:2133
 msgid "Stampede Pass"
-msgstr ""
+msgstr "Stampede Pass"
 
 #: my-evolution/Locations.h:2134
-#, fuzzy
 msgid "State College"
-msgstr "Data zakończenia:"
+msgstr "State College"
 
 #: my-evolution/Locations.h:2135
-#, fuzzy
 msgid "Stauning"
-msgstr "Początek:"
+msgstr "Stauning"
 
 #: my-evolution/Locations.h:2136
 msgid "Staunton"
-msgstr ""
+msgstr "Staunton"
 
 #: my-evolution/Locations.h:2137
 msgid "Stavanger/Sola"
-msgstr ""
+msgstr "Stavanger/Sola"
 
 #: my-evolution/Locations.h:2138
-#, fuzzy
 msgid "Staverton"
-msgstr "Początek:"
+msgstr "Staverton"
 
 #: my-evolution/Locations.h:2139
-#, fuzzy
 msgid "Stavropol"
-msgstr "Zatrzymaj"
+msgstr "Togliatti"
 
 #: my-evolution/Locations.h:2140
 msgid "St Cloud"
-msgstr ""
+msgstr "St Cloud"
 
 #: my-evolution/Locations.h:2141
 msgid "Steamboat Springs"
-msgstr ""
+msgstr "Steamboat Springs"
 
 #: my-evolution/Locations.h:2142
-#, fuzzy
 msgid "Stephenville"
-msgstr "Seszele"
+msgstr "Stephenville"
 
 #: my-evolution/Locations.h:2143
-#, fuzzy
 msgid "St. George"
-msgstr "Święta Helena"
+msgstr "St. George"
 
 #: my-evolution/Locations.h:2144
 msgid "Stillwater"
-msgstr ""
+msgstr "Stillwater"
 
 #: my-evolution/Locations.h:2145
 msgid "St. John's"
-msgstr ""
+msgstr "St. John's"
 
 #: my-evolution/Locations.h:2146
 msgid "St Johnsbury"
-msgstr ""
+msgstr "St Johnsbury"
 
 #: my-evolution/Locations.h:2147
-#, fuzzy
 msgid "St Joseph"
-msgstr "Zatrzymaj"
+msgstr "St Joseph"
 
 #: my-evolution/Locations.h:2148
-#, fuzzy
 msgid "St Louis"
-msgstr "Saint Lucia"
+msgstr "St Louis"
 
 #: my-evolution/Locations.h:2149
 msgid "St Louis-Spirit"
-msgstr ""
+msgstr "St Louis-Spirit"
 
 #: my-evolution/Locations.h:2150
 msgid "Stockholm (Arlanda)"
@@ -22856,30 +22736,27 @@ msgstr "Sztokholm (Bromma)"
 
 #: my-evolution/Locations.h:2152
 msgid "Stockton"
-msgstr ""
+msgstr "Stockton"
 
 #: my-evolution/Locations.h:2153
 msgid "Stokmarknes/Skagen"
-msgstr ""
+msgstr "Stokmarknes/Skagen"
 
 #: my-evolution/Locations.h:2154
 msgid "Stord/Sorstokken"
-msgstr ""
+msgstr "Stord/Sorstokken"
 
 #: my-evolution/Locations.h:2155
-#, fuzzy
 msgid "Storm Lake"
-msgstr "Sri Lanka"
+msgstr "Storm Lake"
 
 #: my-evolution/Locations.h:2156
-#, fuzzy
 msgid "Stornoway"
-msgstr "Norwegia"
+msgstr "Stornoway"
 
 #: my-evolution/Locations.h:2157
-#, fuzzy
 msgid "St Paul"
-msgstr "Stan"
+msgstr "Stornoway"
 
 #: my-evolution/Locations.h:2158
 msgid "St Petersburg"
@@ -22887,7 +22764,7 @@ msgstr "St Petersburg"
 
 #: my-evolution/Locations.h:2159
 msgid "St Petersburg / Clearwater"
-msgstr ""
+msgstr "St Petersburg / Clearwater"
 
 #: my-evolution/Locations.h:2160
 msgid "Strasbourg"
@@ -22895,77 +22772,71 @@ msgstr "Sztrasburg"
 
 #: my-evolution/Locations.h:2161
 msgid "Strevell"
-msgstr ""
+msgstr "Strevell"
 
 #: my-evolution/Locations.h:2162
-#, fuzzy
 msgid "St Simon's Island"
-msgstr "Wyspy Salomona"
+msgstr "St Simon's Island"
 
 #: my-evolution/Locations.h:2163
 msgid "Stumpy Point"
-msgstr ""
+msgstr "Stumpy Point"
 
 #: my-evolution/Locations.h:2164
-#, fuzzy
 msgid "Sturgeon Bay"
-msgstr "Sobota"
+msgstr "Sturgeon Bay"
 
 #: my-evolution/Locations.h:2165
 msgid "Stuttgart"
 msgstr "Sztutgart"
 
 #: my-evolution/Locations.h:2166
-#, fuzzy
 msgid "Sucre"
-msgstr "Punkty"
+msgstr "Sucre"
 
 #: my-evolution/Locations.h:2167
-#, fuzzy
 msgid "Sumburgh"
-msgstr "Luksemburg"
+msgstr "Sumburgh"
 
 #: my-evolution/Locations.h:2168
-#, fuzzy
 msgid "Sumter"
-msgstr "Zestawienie"
+msgstr "Sumter"
 
 #: my-evolution/Locations.h:2169
 msgid "Sumter (2)"
-msgstr ""
+msgstr "Sumter (2)"
 
 #: my-evolution/Locations.h:2170
 msgid "Sundsvall-Harnosand"
-msgstr ""
+msgstr "Sundsvall-Harnosand"
 
 #: my-evolution/Locations.h:2171
 msgid "Sungshan/Taipei"
-msgstr ""
+msgstr "Sungshan/Taipei"
 
 #: my-evolution/Locations.h:2172
 msgid "Superior"
 msgstr "Superior"
 
 #: my-evolution/Locations.h:2174
-#, fuzzy
 msgid "Sutton"
-msgstr "Zatrzymaj"
+msgstr "Sutton"
 
 #: my-evolution/Locations.h:2175
 msgid "Suwon Ab"
-msgstr ""
+msgstr "Suwon Ab"
 
 #: my-evolution/Locations.h:2176
 msgid "Svalbard"
-msgstr ""
+msgstr "Svalbard"
 
 #: my-evolution/Locations.h:2177
 msgid "Svolvaer/Helle"
-msgstr ""
+msgstr "Svolvaer/Helle"
 
 #: my-evolution/Locations.h:2179
 msgid "Swift Current"
-msgstr ""
+msgstr "Swift Current"
 
 #: my-evolution/Locations.h:2181
 msgid "Sydney"
@@ -22973,7 +22844,7 @@ msgstr "Sydney"
 
 #: my-evolution/Locations.h:2182
 msgid "Syktyvkar"
-msgstr ""
+msgstr "Syktywkar"
 
 #: my-evolution/Locations.h:2183
 msgid "Sympheropol"
@@ -22989,7 +22860,7 @@ msgstr "Szczecin"
 
 #: my-evolution/Locations.h:2186
 msgid "Szombathely"
-msgstr ""
+msgstr "Szombathely"
 
 #: my-evolution/Locations.h:2187
 msgid "Tabatinga"
