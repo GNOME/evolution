@@ -1,5 +1,9 @@
 2004-05-24  Chris Toshok  <toshok@ximian.com>
 
+	* Makefile.am (SUBDIRS): add tools back to the build.
+
+2004-05-24  Chris Toshok  <toshok@ximian.com>
+
 	* tools/Makefile.am: fix this for current build foo.
 
 	* tools/evolution-addressbook-export-list-folders.c,
