@@ -107,7 +107,7 @@ and -devel packages for each library.
    GNOME CVS (0.8.2 is too old)
 
  - gnome-xml - 1.8.10 or later in the 1.0 series, but not from the 2.0
-   series (If you get this from GNOME CVS, use the tag "LIB_XML_1_X".)
+   series (If you get this from GNOME CVS, use the tag "LIB_XML_1_BRANCH".)
    (*)
 
  - gnome-print - 0.25 or later (*)

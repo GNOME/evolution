@@ -1,3 +1,8 @@
+2001-04-06  Not Zed  <NotZed@Ximian.com>
+
+	* README (gnome-xml): Fixed the branch name to LIB_XML_1_BRANCH
+	rather than LIB_XML_1_X.
+	
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* README (SSL): Remind users that they will currently have to copy
