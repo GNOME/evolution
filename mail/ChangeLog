@@ -1,3 +1,22 @@
+2004-09-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-config.glade: Revert the use of gtkfilechooser for Path
+	selection because otherwise users won't be able to select
+	directory pathnames. Fixes bug #64974.
+
+2004-09-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #63377 and prevention of similar cases.
+
+	* em-format.c (emf_finalise): Free the default_charset.
+	(emf_format_clone): Clone the default_charset - this prevents the
+	particular crash described in bug #63377.
+
+	* em-utils.c (em_utils_message_to_html): If source is NULL, set
+	our own default charset (from the user's gconf key) on the
+	formatter to make sure there's always a source charset for
+	conversion to UTF-8.
+
 2004-08-30  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (emft_popup_delete_folder): Set the store and

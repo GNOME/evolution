@@ -137,6 +137,7 @@ emf_finalise(GObject *o)
 	em_format_clear_headers(emf);
 	camel_cipher_validity_free(emf->valid);
 	g_free(emf->charset);
+	g_free (emf->default_charset);
 	g_string_free(emf->part_id, TRUE);
 
 	/* FIXME: check pending jobs */
@@ -595,7 +596,9 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 			emf->mode = emfsource->mode;
 			g_free(emf->charset);
 			emf->charset = g_strdup(emfsource->charset);
-
+			g_free (emf->default_charset);
+			emf->default_charset = g_strdup (emfsource->default_charset);
+			
 			em_format_clear_headers(emf);
 			for (h = (struct _EMFormatHeader *)emfsource->header_list.head; h->next; h = h->next)
 				em_format_add_header(emf, h->name, h->flags);
