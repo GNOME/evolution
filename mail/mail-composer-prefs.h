@@ -78,7 +78,7 @@ struct _MailComposerPrefs {
 	struct _GtkHTMLPropmanager *pman;
 	GtkToggleButton *spell_check;
 	GnomeColorPicker *colour;
-	GtkCList *language;
+	GtkTreeView *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;
 	char *language_str;
@@ -99,7 +99,7 @@ struct _MailComposerPrefs {
 	GtkCList *keybindings;
 	
 	/* Signatures */
-	GtkCList *sig_clist;
+	GtkTreeView *sig_clist;
 	GtkButton *sig_add;
 	GtkButton *sig_edit;
 	GtkButton *sig_delete;

@@ -84,8 +84,9 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 		data->apply = (ApplyFunc) mail_composer_prefs_apply;
 #warning "font prefs"
 /* & see below */
-#if 0
+#define MAIL_FONT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
 	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
+#if 0
 		prefs = mail_font_prefs_new ();
 		data->apply = (ApplyFunc) mail_font_prefs_apply;
 #endif
@@ -106,8 +107,8 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 		MAIL_PREFERENCES (prefs)->control = control;
 	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
 		MAIL_COMPOSER_PREFS (prefs)->control = control;
-#if 0
 	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
+#if 0
 		MAIL_FONT_PREFS (prefs)->control = control;
 #endif
 	} else {

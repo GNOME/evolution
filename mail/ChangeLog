@@ -1,3 +1,36 @@
+2002-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): language
+	is a treeview now.  Not sure what to do with it yet, but get rid
+	of one warning anyway.
+	(mail_composer_prefs_construct): Same for sig_clist, but setup
+	model.
+	(sig_fill_clist): Change to use a gtktreeview instead of a clist.
+	(sig_selection_changed): New method to handle signature selection
+	changes with the new widgets.
+	(sig_delete): clist -> treeview.
+	(mail_composer_prefs_new_signature): Same.
+	(sig_edit): ditto.
+	(sig_current_sig): removed.
+	(sig_row_unselect): Removed.
+	(sig_row_select): Removed, now redundant.
+	(spell_select_lang): Removed, redundant.
+	(spell_set_ui_language): New implementation using list model more
+	effectively.
+	(spell_get_language_str): Same here.
+	(spell_set_ui_language): Removed this too, merged into
+	spell_set_ui, it was just wasting stack space.
+	(spell_language_selection_changed): renemd from
+	spell_language_select_row, converted to gtktreeview, etc.
+	(spell_language_unselect_row): Removed.
+	(spell_language_enable): Redone to use tree model.
+	(spell_language_button_press): Removed, i dont think this is
+	needed anymore.
+	(spell_setup): dont hook onto redundant signals.
+
+	* mail-config-factory.c (config_control_factory_cb): ignore
+	mail-font-prefs in a different way (so we dont assert)
+
 2002-12-09  Chris Toshok  <toshok@ximian.com>
 
 	* mail-session.c (pass_response): pass "Mail" to e_passwords_*.
