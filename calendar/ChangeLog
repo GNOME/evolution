@@ -1,3 +1,8 @@
+2005-02-03  Rodney Dawes  <dobey@novell.com>
+
+	* calendar-errors.xml.h: Update to include new strings from the
+	calendar-errors.xml file
+
 2005-02-03  Li Yuan  <li.yuan@sun.com>
 
 	* gui/dialogs/task-details-page.c: (get_widgets):

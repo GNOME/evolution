@@ -130,3 +130,9 @@ char *s = N_("Are you sure you want to send the task without a summary?");
 /* calendar:prompt-send-no-subject-task secondary */
 char *s = N_("Adding a meaningful Summary to your task will give your recipients an idea of what your task is about.");
 char *s = N_("_Send");
+/* calendar:server-version title */
+char *s = N_("Server Version");
+/* calendar:server-version primary */
+char *s = N_("Your server needs to be updated");
+/* calendar:server-version secondary */
+char *s = N_(" Some features may not work properly with the current server version");
