@@ -19,7 +19,6 @@
 #include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
-#include <bonobo/bonobo-ui-util.h>
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,
@@ -65,57 +64,3 @@ GtkWidget *e_create_image_widget(gchar *name,
 	} else
 		return NULL;
 }
-
-static GSList *inited_arrays=NULL;
-
-static void
-free_pixmaps (void)
-{
-	int i;
-	GSList *li;
-
-	for (li = inited_arrays; li != NULL; li = li->next) {
-		EPixmap *pixcache = li->data;
-		for (i = 0; pixcache [i].path; i++)
-			g_free (pixcache [i].pixbuf);
-	}
-	
-	g_slist_free(inited_arrays);
-}
-
-void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
-{
-	static int done_init = 0;
-	int i;
-
-	if (!done_init) {
-		g_atexit (free_pixmaps);
-		done_init = 1;
-	}
-
-	if (g_slist_find(inited_arrays, pixcache) == NULL)
-		inited_arrays = g_slist_prepend (inited_arrays, pixcache);
-
-	for (i = 0; pixcache [i].path; i++) {
-		if (!pixcache [i].pixbuf) {
-			char *path;
-			GdkPixbuf *pixbuf;
-
-			path = g_concat_dir_and_file (EVOLUTION_IMAGES,
-						      pixcache [i].fname);
-			
-			pixbuf = gdk_pixbuf_new_from_file (path);
-			if (pixbuf == NULL) {
-				g_warning ("Cannot load image -- %s", path);
-			} else {
-				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
-				gdk_pixbuf_unref (pixbuf);
-			}
-			
-			g_free (path);
-		}
-		bonobo_ui_component_set_prop (uic, pixcache [i].path, "pixname",
-					      pixcache [i].pixbuf, NULL);
-	}
-}
-
