@@ -53,6 +53,7 @@
 #include <e-util/e-dialog-utils.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
+#include "dialogs/cancel-comp.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "cal-util/timeutil.h"
@@ -3225,7 +3226,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
+			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						week_view->client, NULL);
 		} else {
@@ -3439,7 +3440,19 @@ enum {
 	 * in another window and we want to disable the event
 	 * from being edited twice
 	 */
-	MASK_EDITING  = 8
+	MASK_EDITING  = 8,
+
+	/*
+	 * This is used to when an event is already a meeting and
+	 * we want to disable the schedule meeting command
+	 */
+	MASK_MEETING  = 16,
+
+	/*
+	 * To disable cut and copy for meetings the user is not the
+	 * organizer of
+	 */
+	MASK_MEETING_ORGANIZER = 32
 };
 
 static EPopupMenu main_items [] = {
@@ -3477,24 +3490,24 @@ static EPopupMenu main_items [] = {
 
 static EPopupMenu child_items [] = {
 	E_POPUP_ITEM (N_("_Open"), e_week_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), e_week_view_on_save_as, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), e_week_view_on_print_event, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), e_week_view_on_save_as, MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), e_week_view_on_print_event, MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("C_ut"), e_week_view_on_cut, MASK_EDITING | MASK_EDITABLE),
-	E_POPUP_ITEM (N_("_Copy"), e_week_view_on_copy, MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("C_ut"), e_week_view_on_cut, MASK_EDITING | MASK_EDITABLE | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Copy"), e_week_view_on_copy, MASK_EDITING | MASK_MEETING_ORGANIZER),
 	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_week_view_on_meeting, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_week_view_on_forward, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_week_view_on_meeting, MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_week_view_on_forward, MASK_EDITING),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Delete this Appointment"), e_week_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Delete"), e_week_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
 	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING),
 	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_week_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING),
 	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_week_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING),
@@ -3544,10 +3557,18 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		context_menu = child_items;
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_num);
+
 		if (cal_component_has_recurrences (event->comp))
 			hide_mask |= MASK_SINGLE;
 		else
 			hide_mask |= MASK_RECURRING;
+
+		if (cal_component_has_organizer (event->comp)) {
+			disable_mask |= MASK_MEETING;
+
+			if (!itip_organizer_is_user (event->comp))
+				disable_mask |= MASK_MEETING_ORGANIZER;
+		}
 	}
 
 	if (being_edited)
@@ -3900,6 +3921,10 @@ e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 				     GTK_WIDGET (week_view))) {
 		const char *uid;
 
+		if (itip_organizer_is_user (event->comp) 
+		    && cancel_component_dialog (event->comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
+
 		cal_component_get_uid (event->comp, &uid);
 
 		/* We don't check the return value; FALSE can mean the object
@@ -3955,6 +3980,10 @@ e_week_view_on_cut (GtkWidget *widget, gpointer data)
  	event = &g_array_index (week_view->events, EWeekViewEvent,
  				week_view->popup_event_num);
  
+	if (itip_organizer_is_user (event->comp) 
+	    && cancel_component_dialog (event->comp, TRUE))
+		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
+
  	cal_component_get_uid (event->comp, &uid);
  	cal_client_remove_object (week_view->client, uid);
 }
@@ -4284,6 +4313,9 @@ selection_received (GtkWidget *invisible,
 		cal_component_set_uid (comp, (const char *) uid);
 
 		cal_client_update_object (week_view->client, comp);
+
+		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, week_view->client, NULL);
 
 		g_free (uid);
 		gtk_object_unref (GTK_OBJECT (comp));

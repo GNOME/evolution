@@ -42,30 +42,40 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-cancel_component_dialog (CalComponent *comp)
+cancel_component_dialog (CalComponent *comp, gboolean deleting)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
 	char *str;
 
-	str = _("The meeting status has changed. Send an updated version?");
-
 	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		str = g_strdup_printf (_("Are you sure you want to cancel "
-					 "and delete this meeting?"));
+		if (deleting)
+			str = g_strdup_printf (_("The event being deleted is a meeting, "
+						 "would you like to send a cancellation notice?"));
+		else
+			str = g_strdup_printf (_("Are you sure you want to cancel "
+						 "and delete this meeting?"));
 		break;
 
 	case CAL_COMPONENT_TODO:
-		str = g_strdup_printf (_("Are you sure you want to cancel "
-					 "and delete this task?"));
+		if (deleting)
+			str = g_strdup_printf (_("The task being deleted is assigned, "
+						 "would you like to send a cancellation notice?"));
+		else
+			str = g_strdup_printf (_("Are you sure you want to cancel "
+						 "and delete this task?"));
 		break;
 
 	case CAL_COMPONENT_JOURNAL:
-		str = g_strdup_printf (_("Are you sure you want to cancel "
-					 "and delete this journal entry?"));
+		if (deleting)
+			str = g_strdup_printf (_("The journal entry being deleted is published, "
+						 "would you like to send a cancellation notice?"));
+		else
+			str = g_strdup_printf (_("Are you sure you want to cancel "
+						 "and delete this journal entry?"));
 		break;
 
 	default:

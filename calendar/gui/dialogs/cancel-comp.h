@@ -24,6 +24,6 @@
 #include <glib.h>
 #include <cal-util/cal-component.h>
 
-gboolean cancel_component_dialog (CalComponent *comp);
+gboolean cancel_component_dialog (CalComponent *comp, gboolean deleting);
 
 #endif

@@ -47,6 +47,7 @@
 #include "delete-comp.h"
 #include "send-comp.h"
 #include "changed-comp.h"
+#include "cancel-comp.h"
 #include "comp-editor.h"
 
 
@@ -379,7 +380,7 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
- 	if (send && send_component_dialog (priv->comp, priv->existing_org)) {
+ 	if (send && send_component_dialog (priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp))
  			comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
@@ -1232,8 +1233,13 @@ delete_cmd (GtkWidget *widget, gpointer data)
 
 	vtype = cal_component_get_vtype (priv->comp);
 
-	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor)))
+	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
+		if (itip_organizer_is_user (priv->comp) 
+		    && cancel_component_dialog (priv->comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
+
 		delete_comp (editor);
+	}
 }
 
 static void

@@ -53,6 +53,7 @@
 #include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
+#include "dialogs/cancel-comp.h"
 #include "print.h"
 #include "comp-util.h"
 #include "itip-utils.h"
@@ -1077,6 +1078,7 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->reminder_mask, NULL, bell_xpm);
 	day_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->recurrence_mask, NULL, recur_xpm);
 	day_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->timezone_mask, NULL, timezone_16_xpm);
+	day_view->meeting_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->meeting_mask, NULL, timezone_16_xpm);
 
 
 
@@ -3542,7 +3544,19 @@ enum {
 	 * in another window and we want to disable the event
 	 * from being edited twice
 	 */
-	MASK_EDITING  = 8
+	MASK_EDITING  = 8,
+
+	/*
+	 * This is used to when an event is already a meeting and
+	 * we want to disable the schedule meeting command
+	 */
+	MASK_MEETING  = 16,
+
+	/*
+	 * To disable cut and copy for meetings the user is not the
+	 * organizer of
+	 */
+	MASK_MEETING_ORGANIZER = 32
 };
 
 static EPopupMenu main_items [] = {
@@ -3592,27 +3606,27 @@ static EPopupMenu main_items [] = {
 static EPopupMenu child_items [] = {
 
 	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("C_ut"), e_day_view_on_cut, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Copy"), e_day_view_on_copy, 0),
+	E_POPUP_ITEM (N_("C_ut"), e_day_view_on_cut, MASK_EDITABLE | MASK_EDITING | MASK_MEETING_ORGANIZER),
+	E_POPUP_ITEM (N_("_Copy"), e_day_view_on_copy, MASK_EDITING | MASK_MEETING_ORGANIZER),
 	E_POPUP_ITEM (N_("_Paste"), e_day_view_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITING),
 	
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Delete"), e_day_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_day_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_day_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_day_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_day_view_on_unrecur_appointment, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_day_view_on_delete_occurrence, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_day_view_on_delete_appointment, MASK_EDITABLE | MASK_RECURRING | MASK_EDITING),
 
 	E_POPUP_TERMINATOR
 };
@@ -3673,11 +3687,18 @@ e_day_view_on_event_right_click (EDayView *day_view,
 			hide_mask |= MASK_SINGLE;
 		else
 			hide_mask |= MASK_RECURRING;
+
+		if (cal_component_has_organizer (event->comp)) {
+			disable_mask |= MASK_MEETING;
+
+			if (!itip_organizer_is_user (event->comp))
+				disable_mask |= MASK_MEETING_ORGANIZER;
+		}
 	}
 
 	if (being_edited)
 		disable_mask |= MASK_EDITING;
-
+	
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 	
@@ -4013,6 +4034,10 @@ e_day_view_delete_event_internal (EDayView *day_view, EDayViewEvent *event)
 				     GTK_WIDGET (day_view))) {
 		const char *uid;
 
+		if (itip_organizer_is_user (event->comp) 
+		    && cancel_component_dialog (event->comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, day_view->client, NULL);
+
 		cal_component_get_uid (event->comp, &uid);
 
 		/* We don't check the return value; FALSE can mean the object
@@ -4087,6 +4112,10 @@ e_day_view_on_cut (GtkWidget *widget, gpointer data)
 		return;
 
 	e_day_view_on_copy (widget, data);
+
+	if (itip_organizer_is_user (event->comp) 
+	    && cancel_component_dialog (event->comp, TRUE))
+		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, day_view->client, NULL);
 
 	cal_component_get_uid (event->comp, &uid);
 	cal_client_remove_object (day_view->client, uid);
@@ -4713,7 +4742,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
@@ -4774,7 +4803,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
-		if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+		if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -5090,6 +5119,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
+		if (cal_component_has_organizer (comp))
+			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);
 		for (elem = categories_list; elem; elem = elem->next) {
@@ -5236,6 +5267,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			if (cal_component_has_recurrences (comp))
 				num_icons++;
 			if (event->different_timezone)
+				num_icons++;
+			if (cal_component_has_organizer (comp))
 				num_icons++;
 
 			cal_component_get_categories_list (comp, &categories_list);
@@ -6133,7 +6166,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		cal_component_set_summary (event->comp, &summary);
 
 		if (cal_client_update_object (day_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
-			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp, FALSE))
+			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						day_view->client, NULL);
 		} else {
@@ -7183,7 +7216,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
 							day_view->client, NULL);
 			} else {
@@ -7297,7 +7330,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 			if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
-				if (cal_component_has_attendees (comp) && send_component_dialog (comp, FALSE))
+				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
 							day_view->client, NULL);
 			} else {
@@ -7488,6 +7521,9 @@ selection_received (GtkWidget *invisible,
 		free (uid);
 
 		cal_client_update_object (day_view->client, comp);
+
+		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 
 		gtk_object_unref (GTK_OBJECT (comp));
 	}

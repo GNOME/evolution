@@ -845,21 +845,9 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
-		
-		cal_component_get_organizer (comp, &organizer);
-		if (organizer.value != NULL) {
-			GList *l;
-			const char *text = itip_strip_mailto (organizer.value);
-			
-			for (l = priv->addresses; l != NULL; l = l->next) {
-				ia = l->data;
-				
-				if (!strcmp (text, ia->address)) {
-					retval = 3;
-					goto cleanup;
-				}
-			}
-		}		
+
+		if (itip_organizer_is_user (comp))
+			return GINT_TO_POINTER (3);
 		
 		cal_component_get_attendee_list (comp, &attendees);
 		for (sl = attendees; sl != NULL; sl = sl->next) {

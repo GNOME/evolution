@@ -1,3 +1,48 @@
+2002-07-17    <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_value_at): use util
+	function to see if the user is the organizer
+
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): add
+	deleting proto to indicate whether cancelling or deleting is the
+	primary operation
+
+	* gui/dialogs/cancel-comp.h: update proto
+
+	* gui/dialogs/comp-editor.c (delete_cmd): offer to cancel
+
+	* gui/dialogs/task-editor.c (cancel_task_cmd): call
+	cancel_component_dialog with new param
+
+	* gui/dialogs/event-editor.c (cancel_meeting_cmd): ditto
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): only update
+	request if user is organizer
+	(e_week_view_show_popup_menu): disable the meeting and meeting
+	organizer mask if appropriate
+	(e_week_view_delete_event_internal): offer to cancel the meeting
+	(e_week_view_on_cut): ditto
+	(selection_received): send request if its a meeting
+
+	* gui/e-day-view.h: add meeting icon/mask
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): disable the
+	meeting and meeting organizer mask if appropriate
+	(e_day_view_delete_event_internal): offer to cancel meeting
+	(e_day_view_on_cut): ditto
+	(e_day_view_finish_long_event_resize): only update request if user
+	is organizer
+	(e_day_view_reshape_long_event): add meeting icon to count
+	(e_day_view_reshape_day_event): ditto
+	(e_day_view_on_top_canvas_drag_data_received): only update request
+	if user is organizer
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+	(selection_received): offer to send meeting info
+
+	* gui/e-day-view-main-item.c
+	(e_day_view_main_item_draw_day_event): draw meeting icon if
+	appropriate (using dummy icon atm)
+
 2002-07-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #8001
