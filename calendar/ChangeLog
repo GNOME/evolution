@@ -1,4 +1,13 @@
+1998-04-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-week-view.[ch]: New week view composite widget.  This
+	provides a full week view (7 day views plus busy time display --
+	the latter is currently unimplemented).
+
 1998-04-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-day-view.c: New day view widget.  It is intended to be a
+	child widget of the week view composite widget.
 
 	* calendar.c (calendar_get_objects_in_range):
 	(calendar_get_events_in_range): 

@@ -5,8 +5,10 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx>
  */
 
+#include <gtk/gtksignal.h>
 #include "gncal-day-view.h"
 #include "timeutil.h"
+#include "view-utils.h"
 
 
 #define TEXT_BORDER 2
@@ -15,6 +17,7 @@
 
 static void gncal_day_view_class_init   (GncalDayViewClass *class);
 static void gncal_day_view_init         (GncalDayView      *dview);
+static void gncal_day_view_destroy      (GtkObject         *object);
 static void gncal_day_view_realize      (GtkWidget         *widget);
 static void gncal_day_view_size_request (GtkWidget         *widget,
 					 GtkRequisition    *requisition);
@@ -58,6 +61,8 @@ gncal_day_view_class_init (GncalDayViewClass *class)
 
 	parent_class = gtk_type_class (gtk_widget_get_type ());
 
+	object_class->destroy = gncal_day_view_destroy;
+
 	widget_class->realize = gncal_day_view_realize;
 	widget_class->size_request = gncal_day_view_size_request;
 	widget_class->expose_event = gncal_day_view_expose;
@@ -71,22 +76,40 @@ gncal_day_view_init (GncalDayView *dview)
 	dview->calendar = NULL;
 
 	dview->lower = 0;
-	dview->upper = 24;
-	dview->use_am_pm = TRUE;
+	dview->upper = 0;
 }
 
-GtkWidget *
-gncal_day_view_new (Calendar *calendar)
+static void
+gncal_day_view_destroy (GtkObject *object)
 {
 	GncalDayView *dview;
 
-#if 0
-	g_assert (calendar != NULL);
-#endif
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_VIEW (object));
 
+	dview = GNCAL_DAY_VIEW (object);
+
+	if (dview->day_str)
+		g_free (dview->day_str);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+GtkWidget *
+gncal_day_view_new (Calendar *calendar, time_t lower, time_t upper)
+{
+	GncalDayView *dview;
+#if 0
+	g_return_val_if_fail (calendar != NULL, NULL);
+#endif
 	dview = gtk_type_new (gncal_day_view_get_type ());
 
 	dview->calendar = calendar;
+	dview->lower = lower;
+	dview->upper = upper;
+
+	gncal_day_view_update (dview);
 
 	return GTK_WIDGET (dview);
 }
@@ -121,29 +144,7 @@ gncal_day_view_realize (GtkWidget *widget)
 
 	widget->style = gtk_style_attach (widget->style, widget->window);
 
-	gtk_style_set_background (widget->style, widget->window, GTK_STATE_SELECTED);
-}
-
-static int
-calc_labels_width (GncalDayView *dview)
-{
-	int width, max_width;
-	GdkFont *font;
-	char *buf;
-	int i;
-
-	font = GTK_WIDGET (dview)->style->font;
-
-	max_width = 0;
-
-	for (i = 0; i < 24; i++) {
-		buf = format_simple_hour (i, dview->use_am_pm);
-		width = gdk_string_width (font, buf);
-		if (width > max_width)
-			max_width = width;
-	}
-
-	return width;
+	gdk_window_set_background (widget->window, &widget->style->bg[GTK_STATE_PRELIGHT]);
 }
 
 static void
@@ -157,13 +158,18 @@ gncal_day_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	dview = GNCAL_DAY_VIEW (widget);
 
-	requisition->width = 2 * widget->style->klass->xthickness + 4 * TEXT_BORDER + MIN_INFO_WIDTH;
-	requisition->height = 2 * widget->style->klass->xthickness;
+	/* border and min width */
 
-	requisition->width += calc_labels_width (dview);
-	requisition->height += ((dview->upper - dview->lower)
-				* (widget->style->font->ascent + widget->style->font->descent
-				   + 2 * TEXT_BORDER));
+	requisition->width = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + MIN_INFO_WIDTH;
+	requisition->height = 2 * (widget->style->klass->ythickness + TEXT_BORDER);
+
+	/* division line */
+
+	requisition->height += 2 * TEXT_BORDER + widget->style->klass->ythickness;
+
+	/* title and at least one line of text */
+
+	requisition->height += 2 * (widget->style->font->ascent + widget->style->font->descent);
 }
 
 static gint
@@ -171,9 +177,9 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 {
 	GncalDayView *dview;
 	int x1, y1, width, height;
-	int division_x;
-	int row_height;
-	int i;
+	GdkRectangle rect, dest;
+	GdkFont *font;
+	int str_width;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_DAY_VIEW (widget), FALSE);
@@ -187,11 +193,13 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 	x1 = widget->style->klass->xthickness;
 	y1 = widget->style->klass->ythickness;
 	width = widget->allocation.width - 2 * x1;
-	height = widget->allocation.width - 2 * y1;
+	height = widget->allocation.height - 2 * y1;
 
 	/* Clear and paint frame shadow */
 
-	gdk_window_clear_area (widget->window, event->area.x, event->area.y, event->area.width, event->area.height);
+	gdk_window_clear_area (widget->window,
+			       event->area.x, event->area.y,
+			       event->area.width, event->area.height);
 
 	gtk_draw_shadow (widget->style, widget->window,
 			 GTK_STATE_NORMAL, GTK_SHADOW_IN,
@@ -199,56 +207,101 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 			 widget->allocation.width,
 			 widget->allocation.height);
 
-	/* Divisions */
+	/* Clear and paint title */
 
-	division_x = x1 + 2 * TEXT_BORDER + calc_labels_width (dview);
+	font = widget->style->font;
 
-	gdk_draw_line (widget->window,
-		       widget->style->black_gc,
-		       division_x, y1,
-		       division_x, y1 + height - 1);
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = width;
+	rect.height = 2 * TEXT_BORDER + font->ascent + font->descent;
 
-	row_height = height / (dview->upper - dview->lower);
+	if (gdk_rectangle_intersect (&rect, &event->area, &dest)) {
+		gdk_draw_rectangle (widget->window,
+				    widget->style->bg_gc[GTK_STATE_NORMAL],
+				    TRUE,
+				    dest.x, dest.y,
+				    dest.width, dest.height);
 
-	for (i = 0; i < (dview->upper - dview->lower - 1); i++)
-		gdk_draw_line (widget->window,
-			       widget->style->black_gc,
-			       x1,
-			       y1 + (i + 1) * row_height,
-			       x1 + width - 1,
-			       y1 + (i + 1) * row_height);
+		dest = rect;
+
+		dest.x += TEXT_BORDER;
+		dest.y += TEXT_BORDER;
+		dest.width -= 2 * TEXT_BORDER;
+		dest.height -= 2 * TEXT_BORDER;
+
+		gdk_gc_set_clip_rectangle (widget->style->fg_gc[GTK_STATE_NORMAL], &dest);
+
+		str_width = gdk_string_width (font, dview->day_str);
+		
+		gdk_draw_string (widget->window,
+				 font,
+				 widget->style->fg_gc[GTK_STATE_NORMAL],
+				 dest.x + (dest.width - str_width) / 2,
+				 dest.y + font->ascent,
+				 dview->day_str);
+
+		gdk_gc_set_clip_rectangle (widget->style->fg_gc[GTK_STATE_NORMAL], NULL);
+	}
+
+	/* Division line */
+
+	gtk_draw_hline (widget->style,
+			widget->window,
+			GTK_STATE_NORMAL,
+			rect.x,
+			rect.x + rect.width - 1,
+			rect.y + rect.height);
+
+	/* Text */
+
+	rect.x = x1 + TEXT_BORDER;
+	rect.y = y1 + 3 * TEXT_BORDER + font->ascent + font->descent + widget->style->klass->ythickness;
+	rect.width = width - 2 * TEXT_BORDER;
+	rect.height = height - (rect.y - y1) - TEXT_BORDER;
+
+	if (gdk_rectangle_intersect (&rect, &event->area, &dest))
+		view_utils_draw_events (widget,
+					widget->window,
+					widget->style->fg_gc[GTK_STATE_NORMAL],
+					&rect,
+ 					VIEW_UTILS_DRAW_END | VIEW_UTILS_DRAW_SPLIT,
+					dview->calendar,
+					dview->lower,
+					dview->upper);
 
 	return FALSE;
 }
 
 void
-gncal_day_view_set_bounds (GncalDayView *dview, int lower, int upper)
+gncal_day_view_update (GncalDayView *dview)
 {
+	struct tm tm;
+	char buf[256];
+
 	g_return_if_fail (dview != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
 
-	lower = CLAMP (lower, 0, 23);
-	upper = CLAMP (upper, lower + 1, 24);
+	if (dview->day_str)
+		g_free (dview->day_str);
+
+	tm = *localtime_r (&dview->lower);
+	strftime (buf, 256, "%A %d", &tm);
+	dview->day_str = g_strdup (buf);
+
+	gtk_widget_draw (GTK_WIDGET (dview), NULL);
+}
+
+void
+gncal_day_view_set_bounds (GncalDayView *dview, time_t lower, time_t upper)
+{
+	g_return_if_fail (dview != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
 
 	if ((lower != dview->lower) || (upper != dview->upper)) {
 		dview->lower = lower;
 		dview->upper = upper;
 
-		gtk_widget_queue_resize (GTK_WIDGET (dview));
-	}
-}
-
-void
-gncal_day_view_set_format (GncalDayView *dview, int use_am_pm)
-{
-	g_return_if_fail (dview != NULL);
-	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
-
-	use_am_pm = use_am_pm ? TRUE : FALSE;
-
-	if (use_am_pm != dview->use_am_pm) {
-		dview->use_am_pm = use_am_pm;
-
-		gtk_widget_queue_resize (GTK_WIDGET (dview));
+		gncal_day_view_update (dview);
 	}
 }

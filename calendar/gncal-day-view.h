@@ -28,11 +28,12 @@ typedef struct _GncalDayViewClass GncalDayViewClass;
 struct _GncalDayView {
 	GtkWidget widget;
 
-	Calendar *calendar;     /* the calendar we are associated to */
+	Calendar *calendar;	/* the calendar we are associated to */
 
-	int lower;              /* lower and upper hours of the day to display */
-	int upper;
-	int use_am_pm;		/* use am/pm (TRUE) or 24-hour format (FALSE) */
+	time_t lower;		/* lower and upper times to display */
+	time_t upper;
+
+	char *day_str;          /* what day is it? */
 };
 
 struct _GncalDayViewClass {
@@ -40,11 +41,11 @@ struct _GncalDayViewClass {
 };
 
 
-guint      gncal_day_view_get_type   (void);
-GtkWidget *gncal_day_view_new        (Calendar *calendar);
+guint      gncal_day_view_get_type     (void);
+GtkWidget *gncal_day_view_new          (Calendar *calendar, time_t lower, time_t upper);
 
-void       gncal_day_view_set_bounds (GncalDayView *dview, int lower, int upper);
-void       gncal_day_view_set_format (GncalDayView *dview, int use_am_pm);
+void       gncal_day_view_update       (GncalDayView *dview);
+void       gncal_day_view_set_bounds   (GncalDayView *dview, time_t lower, time_t upper);
 
 
 END_GNOME_DECLS
