@@ -1,3 +1,18 @@
+2000-04-14  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-folder.c (_exists): always return TRUE
+	for now.  we need to check the server response to make sure the
+	group exists.
+	(_get_message_by_uid): make sure to account for the \n we add to
+	the string after every line.
+
+	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): function
+	to get the headers using the XOVER command.
+	(get_HEAD_headers): function to get the headers using the HEAD
+	command on each message. slooooooow.
+	(camel_nntp_get_headers): make this function use either XOVER or HEAD
+	versions depending on whether or not the server extension is present.
+
 2000-04-14  Dan Winship  <danw@helixcode.com>
 
 	* camel-formatter.[ch]: This didn't belong in Camel. Move to mail/

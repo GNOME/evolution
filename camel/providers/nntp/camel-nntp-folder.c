@@ -252,6 +252,9 @@ _check_get_or_maybe_generate_summary_file (CamelNNTPFolder *nntp_folder,
 		summ->nb_message = summ->message_info->len;
 
 		folder->summary = CAMEL_FOLDER_SUMMARY (summ);
+
+		camel_nntp_summary_save (summ, 
+					 nntp_folder->summary_file_path, ex);
 	}
 }
 
@@ -322,6 +325,7 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 static gboolean
 _exists (CamelFolder *folder, CamelException *ex)
 {
+#if 0
 	CamelNNTPFolder *nntp_folder;
 	struct stat stat_buf;
 	gint stat_error;
@@ -351,6 +355,8 @@ _exists (CamelFolder *folder, CamelException *ex)
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::exists\n");
 	return exists;
+#endif
+	return TRUE;
 }
 
 
@@ -386,6 +392,7 @@ _create (CamelFolder *folder, CamelException *ex)
 static gboolean
 _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
+#if 0
 	gboolean folder_already_exists;
 
 	g_assert(folder != NULL);
@@ -406,7 +413,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	   It should delete the messages in the folder
 	   and recurse the operation to subfolders */
 	parent_class->delete (folder, recurse, ex);
-
+#endif
 	return TRUE;
 }
 
@@ -683,7 +690,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		char *line = camel_stream_buffer_read_line ( CAMEL_STREAM_BUFFER ( nntp_istream ));
 		int line_length = strlen ( line );
 
-		if (*line == '.') {
+		if (!strcmp(line, ".")) {
 			done = TRUE;
 			g_free (line);
 		}
@@ -694,7 +701,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 			}
 			strcat(buf, line);
 			strcat(buf, "\n");
-			buf_len += strlen(line);
+			buf_len += strlen(line) + 1;
 			g_free (line);
 		}
 	}
