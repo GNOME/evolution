@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-08-16 12:18+0000\n"
-"PO-Revision-Date: 2000-08-16 12:18+00:00\n"
+"POT-Creation-Date: 2000-08-17 22:11+0000\n"
+"PO-Revision-Date: 2000-08-17 22:13+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -602,7 +602,7 @@ msgstr "Мобильный"
 
 #: addressbook/contact-editor/e-contact-editor.c:1332
 #: addressbook/contact-editor/e-contact-editor.c:1427
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:28
 msgid "Other"
 msgstr "Другой"
 
@@ -1672,7 +1672,7 @@ msgstr "Итог не доступен."
 msgid "Close"
 msgstr "Закрыть"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1070
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1086
 msgid "Snooze"
 msgstr "Короткий сон"
 
@@ -2611,13 +2611,13 @@ msgstr "Секунды"
 msgid "Second"
 msgstr "Секунда"
 
-#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1078
-#: calendar/gui/gnome-cal.c:1134
+#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1094
+#: calendar/gui/gnome-cal.c:1150
 msgid "Reminder of your appointment at "
 msgstr "Напоминание о вашей встрече в "
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1083 calendar/gui/gnome-cal.c:1138
+#: calendar/gui/gnome-cal.c:1099 calendar/gui/gnome-cal.c:1154
 msgid "Ok"
 msgstr "Ок"
 
@@ -3511,7 +3511,7 @@ msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
 
-#: mail/mail-config-gui.c:430
+#: mail/mail-config-gui.c:431
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -3521,55 +3521,55 @@ msgstr ""
 "почты. Вы можете также, дополнительно, ввести название вашей организации и "
 "название файла, в котором хранится ваша подпись."
 
-#: mail/mail-config-gui.c:443
+#: mail/mail-config-gui.c:444
 msgid "Full name:"
 msgstr "Полное имя:"
 
-#: mail/mail-config-gui.c:467
+#: mail/mail-config-gui.c:468
 msgid "Email address:"
 msgstr "Эл.адрес:"
 
-#: mail/mail-config-gui.c:482
+#: mail/mail-config-gui.c:483
 msgid "Organization:"
 msgstr "Организация:"
 
-#: mail/mail-config-gui.c:493
+#: mail/mail-config-gui.c:494
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
-#: mail/mail-config-gui.c:498 mail/mail-config.glade.h:10
+#: mail/mail-config-gui.c:499 mail/mail-config.glade.h:10
 msgid "Signature File"
 msgstr "Файл подписи"
 
-#: mail/mail-config-gui.c:897
+#: mail/mail-config-gui.c:898
 msgid "Server:"
 msgstr "Сервер:"
 
-#: mail/mail-config-gui.c:903
+#: mail/mail-config-gui.c:904
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mail/mail-config-gui.c:909
+#: mail/mail-config-gui.c:910
 msgid "Path:"
 msgstr "Путь:"
 
-#: mail/mail-config-gui.c:917
+#: mail/mail-config-gui.c:918
 msgid "Authentication:"
 msgstr "Идентификация:"
 
-#: mail/mail-config-gui.c:929
+#: mail/mail-config-gui.c:930
 msgid "Detect supported types..."
 msgstr "Определить поддерживаемые типы..."
 
-#: mail/mail-config-gui.c:952
+#: mail/mail-config-gui.c:953
 msgid "Don't delete messages from server"
 msgstr "Не удалять сообщения с сервера"
 
-#: mail/mail-config-gui.c:964
+#: mail/mail-config-gui.c:965
 msgid "Test Settings"
 msgstr "Установки теста"
 
-#: mail/mail-config-gui.c:1094 mail/mail-config-gui.c:1142
+#: mail/mail-config-gui.c:1095 mail/mail-config-gui.c:1143
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -3583,7 +3583,7 @@ msgstr ""
 "Если сервер требует идентификации, то щелкните на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1118
+#: mail/mail-config-gui.c:1119
 msgid ""
 "Select the kind of news server you have, and enter the relevant information "
 "about it.\n"
@@ -3597,31 +3597,31 @@ msgstr ""
 "Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1192
+#: mail/mail-config-gui.c:1193
 msgid "Edit Identity"
 msgstr "Правка именования"
 
-#: mail/mail-config-gui.c:1194
+#: mail/mail-config-gui.c:1195
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config-gui.c:1288
+#: mail/mail-config-gui.c:1289
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config-gui.c:1290
+#: mail/mail-config-gui.c:1291
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config-gui.c:1387
+#: mail/mail-config-gui.c:1388
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config-gui.c:1389
+#: mail/mail-config-gui.c:1390
 msgid "Add News Server"
 msgstr "Добавить сервер новостей"
 
-#: mail/mail-config-gui.c:2217
+#: mail/mail-config-gui.c:2239
 msgid "The connection was successful!"
 msgstr "Соединение было успешным!"
 
@@ -3666,6 +3666,10 @@ msgstr "Источники новостей"
 #: mail/mail-config.glade.h:26
 msgid "Send messages in HTML format"
 msgstr "Отправить почту в формате HTML"
+
+#: mail/mail-config.glade.h:27
+msgid "Mark message as seen [ms]: "
+msgstr "Отметить сообщение как просмотренное [мс]:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3910,30 +3914,30 @@ msgstr "Показать UID сообщения \"%s\""
 msgid "Clear message display"
 msgstr "Очистить отображение сообщения"
 
-#: mail/mail-ops.c:1671
+#: mail/mail-ops.c:1679
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Открытие сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:1674
+#: mail/mail-ops.c:1682
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Открыть сообщения из \"%s\""
 
-#: mail/mail-ops.c:1786
+#: mail/mail-ops.c:1794
 msgid "Loading Draftbox"
 msgstr "Загрузка ящика черновиков"
 
-#: mail/mail-ops.c:1788
+#: mail/mail-ops.c:1796
 msgid "Load Draftbox"
 msgstr "Загрузить ящик черновиков"
 
-#: mail/mail-ops.c:1856
+#: mail/mail-ops.c:1864
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Просмотр сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:1859
+#: mail/mail-ops.c:1867
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Просмотреть сообщения из  \"%s\""
