@@ -42,6 +42,7 @@ evolution_mail_SOURCES =		\
 	folder-browser.c		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
+	mail-autofilter.c		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-gui.c		\
