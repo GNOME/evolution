@@ -78,6 +78,8 @@ wombat_lookup_db (CORBA_Environment *ev)
 		db = bonobo_get_object (DB_URL, 
 					"IDL:Bonobo/ConfigDatabase:1.0", ev);
 
+	bonobo_object_dup_ref (db, ev);
+
 	return db;
 }
 

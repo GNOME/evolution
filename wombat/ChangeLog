@@ -1,3 +1,7 @@
+2001-04-03  Dietmar Maurer  <dietmar@ximian.com>
+
+	* wombat-moniker.c (wombat_lookup_db): fix ref. counting problem
+
 2001-03-27  Dietmar Maurer  <dietmar@ximian.com>
 
 	* wombat-moniker.c (wombat_moniker_resolve): we can now resolve to
