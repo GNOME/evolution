@@ -1,5 +1,16 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	[#34371]
+
+	* e-shell-shared-folder-picker-dialog.c
+	(folder_name_entry_changed_callback): New callback to set the
+	sensitivity of the OK button according to whether the folder name
+	entry is empty or not.
+	(show_dialog): Connect here.  Pop up an error message if no user
+	is selected.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (impl_finalize): Use
 	bonobo_activation_unregister_active_server() instead of
 	bonobo_activatino_active_server_unregister().

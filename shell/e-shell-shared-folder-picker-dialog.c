@@ -162,6 +162,19 @@ server_option_menu_item_activate_callback (GtkMenuItem *menu_item,
 }
 
 static void
+folder_name_entry_changed_callback (GtkEditable *editable,
+				    void *data)
+{
+	GtkDialog *dialog = GTK_DIALOG (data);
+	const char *folder_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
+
+	if (*folder_name_text == '\0')
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
+	else
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
+}
+
+static void
 setup_server_option_menu (EShell *shell,
 			  GladeXML *glade_xml,
 			  char **storage_name_return)
@@ -218,6 +231,7 @@ show_dialog (EShell *shell,
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
+	char *user_email_address;
 	int response;
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
@@ -234,20 +248,40 @@ show_dialog (EShell *shell,
 	dialog = glade_xml_get_widget (glade_xml, "dialog");
 	g_assert (dialog != NULL);
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_CANCEL) {
-		g_free (*storage_name_return);
-		*storage_name_return = NULL;
-		gtk_widget_destroy (dialog);
-		bonobo_object_release_unref (corba_iface, NULL);
-		return FALSE;
+	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+
+	/* Connect the callback to set the OK button insensitive when there is
+	   no text in the folder_name_entry.  Notice that we put a value there
+	   by default so the OK button is sensitive by default.  */
+	g_signal_connect (folder_name_entry, "changed",
+			  G_CALLBACK (folder_name_entry_changed_callback), dialog);
+
+	while (TRUE) {
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		if (response == GTK_RESPONSE_CANCEL) {
+			g_free (*storage_name_return);
+			*storage_name_return = NULL;
+			gtk_widget_destroy (dialog);
+			bonobo_object_release_unref (corba_iface, NULL);
+			return FALSE;
+		}
+
+		bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
+					    "addresses", TC_CORBA_string, &user_email_address,
+					    NULL);
+
+		if (user_email_address != NULL && *user_email_address != '\0')
+			break;
+
+		g_free (user_email_address);
+
+		/* It would be nice to insensitivize the OK button appropriately
+		   instead of doing this, but unfortunately we can't do this for the
+		   Bonobo control.  */
+		e_notice (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR, _("Please select a user."));
 	}
 
-	bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
-				    "addresses", TC_CORBA_string, user_email_address_return,
-				    NULL);
-
-	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+	*user_email_address_return = user_email_address;
 	*folder_name_return = g_strdup (gtk_entry_get_text (GTK_ENTRY (folder_name_entry)));
 
 	gtk_widget_destroy (dialog);
@@ -489,9 +523,9 @@ void
 e_shell_show_shared_folder_picker_dialog (EShell *shell,
 					  EShellView *parent)
 {
-	char *user_email_address;
-	char *storage_name;
-	char *folder_name;
+	char *user_email_address = NULL;
+	char *storage_name = NULL;
+	char *folder_name = NULL;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
