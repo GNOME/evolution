@@ -1,3 +1,26 @@
+2004-02-03  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/eab-contact-display.c (on_url_requested): remove
+	some spew, and add an evo-icon: handler, for things in evolution's
+	imagedir.
+	(render_address): hack up the html.
+	(render_name_value): new function, just render a name/value/icon.
+	(render_attribute): split out most of this function into
+	render_name_value.  this just checks to see if the EContact
+	attribute has something in it before passing it along.
+	(render_contact_list): split this out from
+	eab_contact_display_render_normal.
+	(start_block): new function, insert a row of height 20 with a
+	header.
+	(end_block): new function, insert a row of height 20.
+	(render_contact): split this out from
+	eab_contact_display_render_normal, and prettify the contact
+	display.
+	(eab_contact_display_render_normal): call render_contact and
+	render_contact_list.
+	(eab_contact_display_new): create a scrolled window and add the
+	GtkHTML to it so we actually have scrollbars.
+
 2004-02-03  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/Makefile.am (INCLUDES): add
