@@ -939,28 +939,17 @@ message_list_setup_etable(MessageList *message_list)
 		char *path;
 		struct stat st;
 		
-		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			e_table_scrolled_load_state (E_TABLE_SCROLLED (message_list->etable), path);
+		path = mail_config_folder_to_cachename(message_list->folder, "et-header-");
+		if (path && stat(path, &st) == 0 && st.st_size > 0 && S_ISREG(st.st_mode)) {
+			e_table_scrolled_load_state(E_TABLE_SCROLLED (message_list->etable), path);
 		} else {
 			/* I wonder if there's a better way to do this ...? */
-			name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
+			name = camel_service_get_name(CAMEL_SERVICE(message_list->folder->parent_store), TRUE);
 			printf ("folder name is '%s'\n", name);
 			if (strstr (name, "/Drafts") != NULL
 			    || strstr (name, "/Outbox") != NULL
 			    || strstr (name, "/Sent") != NULL) {
-				ETableExtras *extras;
-				char *spec;
-				
-				if (message_list->etable)
-					gtk_object_destroy (GTK_OBJECT (message_list->etable));
-				
-				spec = message_list_get_layout (message_list);
-				extras = message_list_create_extras ();
-				message_list->etable = e_table_scrolled_new (message_list->table_model,
-									     extras, spec, state);
-				gtk_object_sink (GTK_OBJECT (extras));
-				g_free (spec);
+				e_table_scrolled_set_state(E_TABLE_SCROLLED(message_list->etable), state);
 			}
 		}
 		g_free (path);

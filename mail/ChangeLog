@@ -1,3 +1,15 @@
+2000-10-16  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_setup_etable): Uh, fixed jeff's
+	wrong fix for setting the speficiation (the function changed to
+	set_state(), as can be seen in the e_table-scrolled_load_state()
+	call only 2 lines above).
+
+2000-10-13  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_setup_etable): oops, chose the
+	wrong thing to cut out after a merge conflict.
+
 2000-10-15  Chris Toshok  <toshok@helixcode.com>
 
 	* message-list.c (subtree_unread): ETreePath != GNode now, use
