@@ -1996,6 +1996,7 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	View *view;
 	GtkWidget *socket;
+	GtkWidget *control;
 	int page_num;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
@@ -2005,25 +2006,25 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 
 	/* Get the control, remove it from our hash of controls */
 	view = g_hash_table_lookup (priv->uri_to_view, uri);
-	if (view != NULL) {
-		view_destroy (view);
-		g_hash_table_remove (priv->uri_to_view, uri);
-	} else {
+	if (view == NULL)
 		return FALSE;
-	}
+
+	control = view->control;
+	view_destroy (view);
+	g_hash_table_remove (priv->uri_to_view, uri);
 
 	/* Get the socket, remove it from our list of sockets */
-	socket = find_socket (GTK_CONTAINER (view->control));
+	socket = find_socket (GTK_CONTAINER (control));
 	priv->sockets = g_list_remove (priv->sockets, socket);
 
 	/* Remove the notebook page */
-	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
 	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
 
 	/* Destroy things, socket first because otherwise shell will
            think the control crashed */
 	gtk_widget_destroy (socket);
-	gtk_widget_destroy (view->control);
+	gtk_widget_destroy (control);
 
 	return TRUE;
 }

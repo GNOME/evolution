@@ -1,5 +1,11 @@
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_remove_control_for_uri): Ooops.
+	Save the pointer to the control for use after the view struct is
+	freed.
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: New struct `View'.  Replace `uri_to_control' in
 	`EShellViewPrivate' with `uri_to_view'.
 	(view_new): New.
