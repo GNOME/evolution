@@ -1,3 +1,9 @@
+2004-06-03  Dan Winship  <danw@novell.com>
+
+	* e-icon-factory.c (load_icon): If the icon_name is an abolute
+	path, just load it.
+	(e_icon_factory_get_icon): Update the docs to reflect that
+
 2004-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* e-fsutils.c (e_fsutils_avail): use statvfs if available.  Should

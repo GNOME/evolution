@@ -91,7 +91,11 @@ load_icon (const char *icon_name, int size, int scale)
 	GdkPixbuf *pixbuf, *unscaled = NULL;
 	char *filename = NULL;
 	
-	filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, size, NULL, NULL);
+	if (icon_name[0] == '/')
+		filename = g_strdup (icon_name);
+	else
+		filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, size, NULL, NULL);
+
 	if (!filename || !(unscaled = gdk_pixbuf_new_from_file (filename, NULL))) {
 		if (scale) {
 			struct dirent *dent;
@@ -253,11 +257,12 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
  * @icon_size: size of the icon (one of the E_ICON_SIZE_* enum values)
  *
  * Returns the specified icon of the requested size (may perform
- * scaling to achieve this) for the user's current icon theme. If the
- * icon cannot be found, it falls back to loading the requested icon
- * from Evolution's icon set installed from the art/ srcdir. If even
- * that fails to find the requested icon, then a "broken-image" icon
- * is returned.
+ * scaling to achieve this). If @icon_name is a full path, that file
+ * is used directly. Otherwise it is looked up in the user's current
+ * icon theme. If the icon cannot be found in the icon theme, it falls
+ * back to loading the requested icon from Evolution's icon set
+ * installed from the art/ srcdir. If even that fails to find the
+ * requested icon, then a "broken-image" icon is returned.
  **/
 GdkPixbuf *
 e_icon_factory_get_icon (const char *icon_name, int icon_size)
