@@ -123,22 +123,15 @@ gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar
 void
 gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStream *stream)
 {
-	struct _header_param *p;
+	char *txt;
 
-	if (!content_field) return;
+	if (!content_field)
+		return;
 
-	g_assert (stream);
-	if (content_field->content_type) {
-		camel_stream_write_strings (stream, "Content-Type: ", content_field->content_type->type?content_field->content_type->type:"text",
-					    "/", content_field->content_type->subtype?content_field->content_type->subtype:"plain", NULL);
-
-		/* print all parameters */
-		p = content_field->content_type->params;
-		while (p) {
-			camel_stream_write_strings (stream, ";\n    ",  p->name, "= \"", p->value, "\"", NULL);
-			p = p->next;
-		}
-		camel_stream_write_string (stream, "\n");
+	txt = header_content_type_format(content_field->content_type);
+	if (txt) {
+		camel_stream_write_strings (stream, "Content-Type: ", txt, "\n", NULL);
+		g_free(txt);
 	}
 }
 

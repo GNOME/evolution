@@ -69,8 +69,6 @@ struct _CamelMimePart
 	gchar *content_MD5;
 	GList *content_languages;
 	CamelMimePartEncodingType encoding;
-	gchar *filename;
-	GList *header_lines;
 	
 	GByteArray *temp_message_buffer;
 	GMimeContentField *content_type;
@@ -84,29 +82,6 @@ typedef struct {
 	CamelMediumClass parent_class;
 	
 	/* Virtual methods */	
-	void  (*set_description) (CamelMimePart *mime_part, const gchar *description);
-	const gchar * (*get_description) (CamelMimePart *mime_part);
-	void  (*set_disposition) (CamelMimePart *mime_part, const gchar *disposition);
-	const gchar * (*get_disposition) (CamelMimePart *mime_part);
-	void  (*set_filename) (CamelMimePart *mime_part, gchar *filename);
-	const gchar * (*get_filename) (CamelMimePart *mime_part);
-	void  (*set_content_id) (CamelMimePart *mime_part, gchar *content_id);
-	const gchar * (*get_content_id) (CamelMimePart *mime_part);
-	void  (*set_content_MD5) (CamelMimePart *mime_part, gchar *content_MD5);
-	const gchar * (*get_content_MD5) (CamelMimePart *mime_part);
-	void  (*set_encoding) (CamelMimePart *mime_part, CamelMimePartEncodingType type);
-	const CamelMimePartEncodingType (*get_encoding) (CamelMimePart *mime_part);
-	void  (*set_content_languages) (CamelMimePart *mime_part, GList *content_languages);
-	const GList * (*get_content_languages) (CamelMimePart *mime_part);
-	void  (*set_header_lines) (CamelMimePart *mime_part, GList *header_lines);
-	const GList * (*get_header_lines) (CamelMimePart *mime_part);
-
-	void  (*set_content_type) (CamelMimePart *mime_part, const gchar *content_type);
-	GMimeContentField * (*get_content_type) (CamelMimePart *mime_part);
-	
-	gboolean (*parse_header_pair) (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-	
-
 } CamelMimePartClass;
 
 
@@ -116,30 +91,32 @@ GtkType camel_mime_part_get_type (void);
 
 
 /* public methods */
-void	  camel_mime_part_set_description		(CamelMimePart *mime_part,	
-							 const gchar *description);
+void	         camel_mime_part_set_description	(CamelMimePart *mime_part, const gchar *description);
 const     gchar *camel_mime_part_get_description	(CamelMimePart *mime_part);
-void	  camel_mime_part_set_disposition		(CamelMimePart *mime_part, 
-							 const gchar *disposition);
-const     gchar *camel_mime_part_get_disposition	(CamelMimePart *mime_part);
-void	  camel_mime_part_set_filename			(CamelMimePart *mime_part, 
-							 gchar *filename);
-const	  gchar *camel_mime_part_get_filename		(CamelMimePart *mime_part);
-const	  gchar *camel_mime_part_get_content_id		(CamelMimePart *mime_part);
-const	  gchar *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
-void	  camel_mime_part_set_encoding			(CamelMimePart *mime_part, 
-							 CamelMimePartEncodingType type);
-CamelMimePartEncodingType camel_mime_part_get_encoding	(CamelMimePart *mime_part);
-void	  camel_mime_part_set_content_languages		(CamelMimePart *mime_part, 
-							 GList *content_languages);
-const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
-void	  camel_mime_part_set_header_lines		(CamelMimePart *mime_part, 
-							 GList *header_lines);
-const	  GList *camel_mime_part_get_header_lines	(CamelMimePart *mime_part);
 
+void	         camel_mime_part_set_disposition	(CamelMimePart *mime_part, const gchar *disposition);
+const     gchar *camel_mime_part_get_disposition	(CamelMimePart *mime_part);
+
+void	         camel_mime_part_set_filename		(CamelMimePart *mime_part, gchar *filename);
+const	  gchar *camel_mime_part_get_filename		(CamelMimePart *mime_part);
+
+void             camel_mime_part_set_content_id		(CamelMimePart *mime_part, const char *contentid);
+const	  gchar *camel_mime_part_get_content_id		(CamelMimePart *mime_part);
+
+void		 camel_mime_part_set_content_MD5	(CamelMimePart *mime_part, const char *);
+const	  gchar *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
+
+void	         camel_mime_part_set_encoding		(CamelMimePart *mime_part, CamelMimePartEncodingType type);
+CamelMimePartEncodingType camel_mime_part_get_encoding	(CamelMimePart *mime_part);
+
+void	 	 camel_mime_part_set_content_languages	(CamelMimePart *mime_part, GList *content_languages);
+const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
+
+/* FIXME: what about content-type parameters?   what about major/minor parts? */
+void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, gchar *content_type);
 GMimeContentField *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
 
-const     gchar *camel_mime_part_encoding_to_string	(CamelMimePartEncodingType encoding);
+const     gchar *         camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
 CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);
 
 /* utility functions */

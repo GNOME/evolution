@@ -3,8 +3,8 @@
 
 /* 
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors:  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *	     Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -239,7 +239,29 @@ camel_recipient_table_remove (CamelRecipientTable *recipient_table,
 	}
 }
 
+void
+camel_recipient_table_remove_type (CamelRecipientTable *recipient_table,
+				   const gchar *recipient_type)
+{
+	GList *l, *n;
+	gchar *old_recipient_type;
+	
+	/* if the recipient type section does not exist, do nothing */
+	if (! g_hash_table_lookup_extended (recipient_table->recipient_hash_table, 
+					    recipient_type, 
+					    (gpointer)&(old_recipient_type),
+					    (void *)&l))
+		return;
 
+	g_hash_table_remove(recipient_table->recipient_hash_table, old_recipient_type);
+	g_free(old_recipient_type);
+	n = l;
+	while (l) {
+		g_free(l->data);
+		l = l->next;
+	}
+	g_list_free(n);
+}
 
 /**
  * camel_recipient_table_get: Get the recipients corresponding to a recipient type.

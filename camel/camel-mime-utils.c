@@ -542,11 +542,13 @@ quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *savestat
   this is for the "Q" encoding of international words,
   which is slightly different than plain quoted-printable
 */
-int
-quoted_decode(unsigned char *in, int len, unsigned char *out)
+static int
+quoted_decode(const unsigned char *in, int len, unsigned char *out)
 {
-	register unsigned char *inptr, *outptr;
-	unsigned char *inend, c, c1;
+	register const unsigned char *inptr;
+	register unsigned char *outptr;
+	unsigned const char *inend;
+	unsigned char c, c1;
 	int ret = 0;
 
 	inend = in+len;
@@ -619,22 +621,12 @@ header_decode_lwsp(const char **in)
 	*in = inptr;
 }
 
-char *
-g_strdup_len(const char *start, int len)
-{
-	char *d = g_malloc(len+1);
-	memcpy(d, start, len);
-	d[len] = 0;
-	return d;
-}
-
-
 /* decode rfc 2047 encoded string segment */
-char *
-rfc2047_decode_word(char *in, int len)
+static char *
+rfc2047_decode_word(const char *in, int len)
 {
-	char *inptr = in+2;
-	char *inend = in+len-2;
+	const char *inptr = in+2;
+	const char *inend = in+len-2;
 	char *encname;
 	int tmplen;
 	int ret;
@@ -668,7 +660,7 @@ rfc2047_decode_word(char *in, int len)
 		case 'B': {
 			int state=0;
 			unsigned int save=0;
-			inlen = base64_decode_step(inptr+2, tmplen, decword, &state, &save);
+			inlen = base64_decode_step((char *)inptr+2, tmplen, decword, &state, &save);
 			/* if state != 0 then error? */
 			break;
 		}
@@ -704,15 +696,9 @@ rfc2047_decode_word(char *in, int len)
 	return decoded;
 }
 
-char *
-decode_coded_string(char *in)
-{
-	return rfc2047_decode_word(in, strlen(in));
-}
-
 /* grrr, glib should have this ! */
-GString *
-g_string_append_len(GString *st, char *s, int l)
+static GString *
+g_string_append_len(GString *st, const char *s, int l)
 {
 	char *tmp;
 
@@ -723,12 +709,12 @@ g_string_append_len(GString *st, char *s, int l)
 }
 
 /* decodes a simple text, rfc822 */
-char *
-header_decode_text(char *in, int inlen)
+static char *
+header_decode_text(const char *in, int inlen)
 {
 	GString *out;
-	char *inptr = in;
-	char *inend = in+inlen;
+	const char *inptr = in;
+	const char *inend = in+inlen;
 	char *encstart, *encend;
 	char *decword;
 
@@ -748,9 +734,9 @@ header_decode_text(char *in, int inlen)
 	}
 	g_string_append_len(out, inptr, inend-inptr);
 
-	inptr = out->str;
+	encstart = out->str;
 	g_string_free(out, FALSE);
-	return inptr;
+	return encstart;
 }
 
 char *
@@ -764,8 +750,8 @@ header_decode_string(const char *in)
 
 /* these are all internal parser functions */
 
-char *
-header_decode_token(const char **in)
+static char *
+decode_token(const char **in)
 {
 	const char *inptr = *in;
 	const char *start;
@@ -776,10 +762,19 @@ header_decode_token(const char **in)
 		inptr++;
 	if (inptr>start) {
 		*in = inptr;
-		return g_strdup_len(start, inptr-start);
+		return g_strndup(start, inptr-start);
 	} else {
 		return NULL;
 	}
+}
+
+char *
+header_token_decode(const char *in)
+{
+	if (in == NULL)
+		return NULL;
+
+	return decode_token(&in);
 }
 
 /*
@@ -832,7 +827,7 @@ header_decode_atom(const char **in)
 		inptr++;
 	*in = inptr;
 	if (inptr > start)
-		return g_strdup_len(start, inptr-start);
+		return g_strndup(start, inptr-start);
 	else
 		return NULL;
 }
@@ -864,7 +859,7 @@ header_decode_value(const char **in)
 	} else if (is_ttoken(*inptr)) {
 		d(printf("decoding token\n"));
 		/* this may not have the right specials for all params? */
-		return header_decode_token(in);
+		return decode_token(in);
 	}
 	return NULL;
 }
@@ -891,7 +886,7 @@ header_decode_param(const char **in, char **paramp, char **valuep)
 	const char *inptr = *in;
 	char *param, *value=NULL;
 
-	param = header_decode_token(&inptr);
+	param = decode_token(&inptr);
 	header_decode_lwsp(&inptr);
 	if (*inptr == '=') {
 		inptr++;
@@ -911,7 +906,7 @@ header_decode_param(const char **in, char **paramp, char **valuep)
 }
 
 char *
-header_param(struct _header_param *p, char *name)
+header_param(struct _header_param *p, const char *name)
 {
 	while (p && strcasecmp(p->name, name) != 0)
 		p = p->next;
@@ -929,11 +924,20 @@ header_set_param(struct _header_param **l, const char *name, const char *value)
 		pn = p->next;
 		if (!strcasecmp(pn->name, name)) {
 			g_free(pn->value);
-			pn->value = g_strdup(value);
-			return pn;
+			if (value) {
+				pn->value = g_strdup(value);
+				return pn;
+			} else {
+				p->next = pn->next;
+				g_free(pn);
+				return NULL;
+			}
 		}
 		p = pn;
 	}
+
+	if (value == NULL)
+		return NULL;
 
 	pn = g_malloc(sizeof(*pn));
 	pn->next = 0;
@@ -972,6 +976,8 @@ void header_content_type_set_param(struct _header_content_type *t, const char *n
 int
 header_content_type_is(struct _header_content_type *ct, const char *type, const char *subtype)
 {
+	printf("type = %s / %s\n", type, subtype);
+
 	/* no type == text/plain or text/"*" */
 	if (ct==NULL) {
 		return (!strcasecmp(type, "text")
@@ -979,9 +985,11 @@ header_content_type_is(struct _header_content_type *ct, const char *type, const 
 			    || !strcasecmp(subtype, "*")));
 	}
 
-	return ((!strcasecmp(ct->type, type)
-		 && (!strcasecmp(ct->subtype, subtype)
-		     || !strcasecmp("*", subtype))));
+	return (ct->type != NULL
+		&& (!strcasecmp(ct->type, type)
+		    && ((ct->subtype != NULL
+			 && !strcasecmp(ct->subtype, subtype))
+			|| !strcasecmp("*", subtype))));
 }
 
 void
@@ -1003,8 +1011,8 @@ header_content_type_new(const char *type, const char *subtype)
 {
 	struct _header_content_type *t = g_malloc(sizeof(*t));
 
-	t->type = type;
-	t->subtype = subtype;
+	t->type = g_strdup(type);
+	t->subtype = g_strdup(subtype);
 	t->params = NULL;
 	t->refcount = 1;
 	return t;
@@ -1332,6 +1340,8 @@ header_to_decode(const char *in)
 
 	d(printf("decoding To: '%s'\n", in));
 
+#warning header_to_decode needs to return some structure
+
 	if (in == NULL)
 		return NULL;
 
@@ -1362,6 +1372,8 @@ header_mime_decode(const char *in)
 
 	d(printf("decoding MIME-Version: '%s'\n", in));
 
+#warning header_mime_decode needs to return the version
+
 	if (in == NULL)
 		return NULL;
 
@@ -1380,7 +1392,7 @@ header_mime_decode(const char *in)
 	d(printf("major = %d, minor = %d\n", major, minor));
 }
 
-struct _header_param *
+static struct _header_param *
 header_param_list_decode(const char **in)
 {
 	const char *inptr = *in;
@@ -1411,6 +1423,23 @@ header_param_list_decode(const char **in)
 	return head;
 }
 
+static void
+header_param_list_format_append(GString *out, struct _header_param *p)
+{
+	int len = out->len;
+	while (p) {
+		int here = out->len;
+		if (len+strlen(p->name)+strlen(p->value)>60) {
+			g_string_append(out, "\n\t");
+			len = 0;
+		}
+		/* FIXME: format the value properly */
+		g_string_sprintfa(out, " ; %s=\"%s\"", p->name, p->value);
+		len += (out->len - here);
+		p = p->next;
+	}
+}
+
 struct _header_content_type *
 header_content_type_decode(const char *in)
 {
@@ -1421,12 +1450,12 @@ header_content_type_decode(const char *in)
 	if (in==NULL)
 		return NULL;
 
-	type = header_decode_token(&inptr);
+	type = decode_token(&inptr);
 	header_decode_lwsp(&inptr);
 	if (type) {
 		if  (*inptr == '/') {
 			inptr++;
-			subtype = header_decode_token(&inptr);
+			subtype = decode_token(&inptr);
 		}
 		if (subtype == NULL && (!strcasecmp(type, "text"))) {
 			g_warning("text type with no subtype, resorting to text/plain: %s", in);
@@ -1467,10 +1496,39 @@ header_content_type_dump(struct _header_content_type *ct)
 }
 
 char *
+header_content_type_format(struct _header_content_type *ct)
+{
+	GString *out;
+	char *ret;
+
+	if (ct==NULL)
+		return NULL;
+
+	out = g_string_new("");
+	if (ct->type == NULL) {
+		g_string_sprintfa(out, "text/plain");
+		g_warning("Content-Type with no main type");
+	} else if (ct->subtype == NULL) {
+		g_warning("Content-Type with no sub type: %s", ct->type);
+		if (!strcasecmp(ct->type, "multipart"))
+			g_string_sprintfa(out, "%s/mixed", ct->type);
+		else
+			g_string_sprintfa(out, "%s", ct->type);
+	} else {
+		g_string_sprintfa(out, "%s/%s", ct->type, ct->subtype);
+	}
+	header_param_list_format_append(out, ct->params);
+
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;
+}
+
+char *
 header_content_encoding_decode(const char *in)
 {
 	if (in)
-		return header_decode_token(&in);
+		return decode_token(&in);
 	return NULL;
 }
 
@@ -1484,7 +1542,7 @@ CamelMimeDisposition *header_disposition_decode(const char *in)
 
 	d = g_malloc(sizeof(*d));
 	d->refcount = 1;
-	d->disposition = header_decode_token(&inptr);
+	d->disposition = decode_token(&inptr);
 	if (d->disposition == NULL)
 		g_warning("Empty disposition type");
 	d->params = header_param_list_decode(&inptr);
@@ -1507,6 +1565,26 @@ void header_disposition_unref(CamelMimeDisposition *d)
 			d->refcount--;
 		}
 	}
+}
+
+char *header_disposition_format(CamelMimeDisposition *d)
+{
+	GString *out;
+	char *ret;
+
+	if (d==NULL)
+		return NULL;
+
+	out = g_string_new("");
+	if (d->disposition)
+		g_string_append(out, d->disposition);
+	else
+		g_string_append(out, "attachment");
+	header_param_list_format_append(out, d->params);
+
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;
 }
 
 /* hrm, is there a library for this shit? */
@@ -1583,7 +1661,7 @@ header_decode_date(const char *in, int *saveoffset)
 
 	header_decode_lwsp(&inptr);
 	if (!isdigit(*inptr)) {
-		char *day = header_decode_token(&inptr);
+		char *day = decode_token(&inptr);
 		/* we dont really care about the day, its only for display */
 		if (day) {
 			d(printf("got day: %s\n", day));
@@ -1596,7 +1674,7 @@ header_decode_date(const char *in, int *saveoffset)
 		}
 	}
 	tm.tm_mday = header_decode_int(&inptr);
-	monthname = header_decode_token(&inptr);
+	monthname = decode_token(&inptr);
 	if (monthname) {
 		for (i=0;i<sizeof(tz_months)/sizeof(tz_months[0]);i++) {
 			if (!strcasecmp(tz_months[i], monthname)) {
@@ -1632,7 +1710,7 @@ header_decode_date(const char *in, int *saveoffset)
 		offset = header_decode_int(&inptr);
 		d(printf("abs offset = %d\n", offset));
 	} else {
-		char *tz = header_decode_token(&inptr);
+		char *tz = decode_token(&inptr);
 
 		if (tz) {
 			for (i=0;i<sizeof(tz_offsets)/sizeof(tz_offsets[0]);i++) {
@@ -1790,6 +1868,20 @@ header_raw_find(struct _header_raw **list, const char *name, int *offset)
 		return l->value;
 	} else
 		return NULL;
+}
+
+const char *
+header_raw_find_next(struct _header_raw **list, const char *name, int *offset, const char *last)
+{
+	struct _header_raw *l;
+
+	if (last == NULL || name == NULL)
+		return NULL;
+
+	l = *list;
+	while (l && l->value != last)
+		l = l->next;
+	return header_raw_find(&l, name, offset);
 }
 
 static void

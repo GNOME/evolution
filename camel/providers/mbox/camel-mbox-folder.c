@@ -860,6 +860,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	/* init other fields? */
 	message->folder = folder;
+	gtk_object_ref((GtkObject *)folder);
 	message->message_uid = g_strdup(uid);
 
 	return message;

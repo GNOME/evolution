@@ -3,8 +3,8 @@
 
 /*
  *
- * Author :
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ * 	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -40,6 +40,7 @@ static CamelDataWrapperClass *parent_class = NULL;
 
 static void add_header (CamelMedium *medium, const gchar *header_name,
 			const gchar *header_value);
+static void set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
 static void remove_header (CamelMedium *medium, const gchar *header_name);
 static const gchar *get_header (CamelMedium *medium, const gchar *header_name);
 
@@ -61,6 +62,7 @@ camel_medium_class_init (CamelMediumClass *camel_medium_class)
 
 	/* virtual method definition */
 	camel_medium_class->add_header = add_header;
+	camel_medium_class->set_header = set_header;
 	camel_medium_class->remove_header = remove_header;
 	camel_medium_class->get_header = get_header;
 
@@ -75,8 +77,7 @@ camel_medium_init (gpointer object, gpointer klass)
 {
 	CamelMedium *camel_medium = CAMEL_MEDIUM (object);
 
-	camel_medium->headers = g_hash_table_new (g_strcase_hash,
-						  g_strcase_equal);
+	camel_medium->headers = NULL;
 	camel_medium->content = NULL;
 }
 
@@ -105,23 +106,12 @@ camel_medium_get_type (void)
 	return camel_medium_type;
 }
 
-
-static void
-free_header (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
-	g_free (value);
-}
-
 static void
 finalize (GtkObject *object)
 {
 	CamelMedium *medium = CAMEL_MEDIUM (object);
 
-	if (medium->headers) {
-		g_hash_table_foreach (medium->headers, free_header, NULL);
-		g_hash_table_destroy (medium->headers);
-	}
+	header_raw_clear(&medium->headers);
 
 	if (medium->content)
 		gtk_object_unref (GTK_OBJECT (medium->content));
@@ -129,24 +119,11 @@ finalize (GtkObject *object)
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-
-
 static void
 add_header (CamelMedium *medium, const gchar *header_name,
 	    const gchar *header_value)
 {
-	gpointer old_name;
-	gpointer old_value;
-
-	/* FIXME: This only allows each header to occur once. */
-	if (g_hash_table_lookup_extended (medium->headers, header_name,
-					  &old_name, &old_value)) {
-		g_hash_table_remove (medium->headers, old_name);
-		g_free (old_name);
-		g_free (old_value);
-	}
-	g_hash_table_insert (medium->headers, g_strdup (header_name),
-			     g_strdup (header_value));
+	header_raw_append(&medium->headers, header_name, header_value, -1);
 }
 
 /**
@@ -159,7 +136,7 @@ add_header (CamelMedium *medium, const gchar *header_name,
  *
  * FIXME: Where does it add it? We need to be able to prepend and
  * append headers, and also be able to insert them relative to other
- * headers.
+ * headers.   No we dont, order isn't important! Z
  **/
 void
 camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
@@ -172,20 +149,35 @@ camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
 	CM_CLASS (medium)->add_header (medium, header_name, header_value);
 }
 
+static void
+set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value)
+{
+	header_raw_replace(&medium->headers, header_name, header_value, -1);
+}
+
+/**
+ * camel_medium_set_header:
+ * @medium: a CamelMedium
+ * @header_name: name of the header
+ * @header_value: value of the header
+ *
+ * Sets the value of a header.  Any other occurances of the header
+ * will be removed.
+ **/
+void
+camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value)
+{
+	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+	g_return_if_fail (header_name != NULL);
+	g_return_if_fail (header_value != NULL);
+
+	CM_CLASS (medium)->add_header (medium, header_name, header_value);
+}
 
 static void
 remove_header (CamelMedium *medium, const gchar *header_name)
 {
-	gpointer old_name;
-	gpointer old_value;
-
-	/* FIXME: This only allows each header to occur once. */
-	if (g_hash_table_lookup_extended (medium->headers, header_name,
-					  &old_name, &old_value)) {
-		g_hash_table_remove (medium->headers, header_name);
-		g_free (old_name);
-		g_free (old_value);
-	}
+	header_raw_remove(&medium->headers, header_name);
 }
 
 /**
@@ -193,10 +185,8 @@ remove_header (CamelMedium *medium, const gchar *header_name)
  * @medium: a medium
  * @header_name: the name of the header
  *
- * Removes the named header from the medium.
- *
- * FIXME: If there are multiple occurrences of the header, which
- * gets/get removed?
+ * Removes the named header from the medium.  All occurances of the
+ * header are removed.
  **/
 void
 camel_medium_remove_header (CamelMedium *medium, const gchar *header_name)
@@ -211,11 +201,7 @@ camel_medium_remove_header (CamelMedium *medium, const gchar *header_name)
 static const gchar *
 get_header (CamelMedium *medium, const gchar *header_name)
 {
-	gchar *header_value;
-
-	header_value = (gchar *)g_hash_table_lookup (medium->headers,
-						     header_name);
-	return header_value;
+	return header_raw_find(&medium->headers, header_name, NULL);
 }
 
 /**

@@ -613,6 +613,8 @@ retry:
 						goto header_done;
 					}
 
+					if (s->outptr[0] == '\n' && s->outptr>s->outbuf)
+						s->outptr--;
 					s->outptr[0] = 0;
 
 					d(printf("header %.10s at %d\n", s->outbuf, s->header_start));
@@ -674,6 +676,8 @@ header_truncated:
 		memcpy(s->outptr, start, headerlen);
 		s->outptr += headerlen;
 	}
+	if (s->outptr[0] == '\n' && s->outptr>s->outbuf)
+		s->outptr--;
 	s->outptr[0] = 0;
 
 	if (s->header_start == -1)

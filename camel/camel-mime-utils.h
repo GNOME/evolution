@@ -52,6 +52,12 @@ typedef struct _CamelMimeDisposition {
 	unsigned int refcount;
 } CamelMimeDisposition;
 
+/* structured header prameters */
+char *header_param(struct _header_param *p, const char *name);
+struct _header_param *header_set_param(struct _header_param **l, const char *name, const char *value);
+void header_param_list_free(struct _header_param *p);
+
+/* Content-Type header */
 struct _header_content_type *header_content_type_new(const char *type, const char *subtype);
 struct _header_content_type *header_content_type_decode(const char *in);
 void header_content_type_unref(struct _header_content_type *ct);
@@ -59,27 +65,31 @@ void header_content_type_ref(struct _header_content_type *ct);
 const char *header_content_type_param(struct _header_content_type *t, const char *name);
 void header_content_type_set_param(struct _header_content_type *t, const char *name, const char *value);
 int header_content_type_is(struct _header_content_type *ct, const char *type, const char *subtype);
+char *header_content_type_format(struct _header_content_type *ct);
 
-char *header_param(struct _header_param *p, char *name);
-struct _header_param *header_set_param(struct _header_param **l, const char *name, const char *value);
+/* DEBUGGING function */
+void header_content_type_dump(struct _header_content_type *ct);
 
+/* Content-Disposition header */
 CamelMimeDisposition *header_disposition_decode(const char *in);
 void header_disposition_ref(CamelMimeDisposition *);
 void header_disposition_unref(CamelMimeDisposition *);
+char *header_disposition_format(CamelMimeDisposition *d);
 
 /* decode the contents of a content-encoding header */
 char *header_content_encoding_decode(const char *in);
 
-/* working with lists of headers */
+/* raw headers */
 void header_raw_append(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_append_parse(struct _header_raw **list, const char *header, int offset);
 const char *header_raw_find(struct _header_raw **list, const char *name, int *ofset);
+const char *header_raw_find_next(struct _header_raw **list, const char *name, int *ofset, const char *last);
 void header_raw_replace(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_remove(struct _header_raw **list, const char *name);
 void header_raw_clear(struct _header_raw **list);
 
-/* raw header parsing functions */
-char *header_decode_token(const char **in);
+/* decode a header which is a simple token */
+char *header_token_decode(const char *in);
 
 /* decode a string type, like a subject line */
 char *header_decode_string(const char *in);

@@ -72,8 +72,10 @@ static GList *_get_flag_list (CamelMimeMessage *mime_message);
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
 static void _finalize (GtkObject *object);
+static void add_header (CamelMedium *medium, const char *header_name, const char *header_value);
+static void set_header (CamelMedium *medium, const char *header_name, const char *header_value);
+static void remove_header (CamelMedium *medium, const char *header_name);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
@@ -97,8 +99,9 @@ static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
-	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
+	/*CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);*/
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_mime_message_class);
+	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_message_class);
 	
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 	_init_header_name_table();
@@ -130,7 +133,10 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
-	camel_mime_part_class->parse_header_pair = _parse_header_pair;
+
+	camel_medium_class->add_header = add_header;
+	camel_medium_class->set_header = set_header;
+	camel_medium_class->remove_header = remove_header;
 	
 	gtk_object_class->finalize = _finalize;
 }
@@ -223,7 +229,10 @@ _set_field (CamelMimeMessage *mime_message, gchar *name, const gchar *value, gch
 {
 	if (variable) {
 		g_free (*variable);
-		*variable = g_strdup (value);
+		if (value)
+			*variable = g_strdup (value);
+		else
+			*variable = NULL;
 	}
 }
 
@@ -579,6 +588,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 
+#warning each header should be stored in the raw headers
 	WHPT (stream, "From", mm->from);
 	WHPT (stream, "Reply-To", mm->reply_to);
 	_write_recipients_to_stream (mm, stream);
@@ -595,11 +605,13 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 /*******************************/
 /* mime message header parsing */
 
+/* FIXME: This is totally totally broken */
 static void
-_set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_type, gchar *recipients_string)
+_set_recipient_list_from_string (CamelMimeMessage *message, const char *recipient_type, const char *recipients_string)
 {
 	GList *recipients_list;
 
+#warning need to parse receipient lists properly - <feddy>BROKEN!!!</feddy>
 	recipients_list = string_split (
 					recipients_string, ',', "\t ",
 					STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
@@ -608,54 +620,69 @@ _set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_typ
 	
 }
 
+/* FIXME: check format of fields. */
 static gboolean
-_parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value)
+process_header(CamelMedium *medium, const char *header_name, const char *header_value)
 {
 	CamelHeaderType header_type;
-	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (mime_part);
-	gboolean header_handled = FALSE;
-	
-	
+	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (medium);
+
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
-		
 	case HEADER_FROM:
 		camel_mime_message_set_from (message, header_value);
-		header_handled = TRUE;
 		break;
-		
 	case HEADER_REPLY_TO:
 		camel_mime_message_set_reply_to (message, header_value);
-		header_handled = TRUE;
 		break;
-		
 	case HEADER_SUBJECT:
 		camel_mime_message_set_subject (message, header_value);
-		header_handled = TRUE;
 		break;
-		
 	case HEADER_TO:
-		_set_recipient_list_from_string (message, "To", header_value);
-		header_handled = TRUE;
+		if (header_value)
+			_set_recipient_list_from_string (message, "To", header_value);
+		else
+			camel_recipient_table_remove_type (message->recipients, "To");
 		break;
-		
 	case HEADER_CC:
-		_set_recipient_list_from_string (message, "Cc", header_value);
-		header_handled = TRUE;
+		if (header_value)
+			_set_recipient_list_from_string (message, "Cc", header_value);
+		else
+			camel_recipient_table_remove_type (message->recipients, "Cc");
 		break;
-		
 	case HEADER_BCC:
-		_set_recipient_list_from_string (message, "Bcc", header_value);
-		header_handled = TRUE;
+		if (header_value)
+			_set_recipient_list_from_string (message, "Bcc", header_value);
+		else
+			camel_recipient_table_remove_type (message->recipients, "Bcc");
 		break;
-		
-		
+	default:
+		return FALSE;
 	}
-	if (header_handled) {
-		return TRUE;
-	} else
-		return parent_class->parse_header_pair (mime_part, header_name, header_value);
-	
-	
+	return TRUE;
+}
+
+static void
+set_header(CamelMedium *medium, const char *header_name, const char *header_value)
+{
+	process_header(medium, header_name, header_value);
+	parent_class->parent_class.set_header (medium, header_name, header_value);
+}
+
+static void
+add_header(CamelMedium *medium, const char *header_name, const char *header_value)
+{
+	/* if we process it, then it must be forced unique as well ... */
+	if (process_header(medium, header_name, header_value))
+		parent_class->parent_class.set_header (medium, header_name, header_value);
+	else
+		parent_class->parent_class.add_header (medium, header_name, header_value);
+}
+
+static void
+remove_header(CamelMedium *medium, const char *header_name)
+{
+	process_header(medium, header_name, NULL);
+	parent_class->parent_class.remove_header (medium, header_name);
 }
 

@@ -343,7 +343,7 @@ body_part_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int star
 
 static char *strdup_trim(const char *s)
 {
-	char *end;
+	const char *end;
 
 	if (s == NULL)
 		return NULL;
@@ -353,8 +353,7 @@ static char *strdup_trim(const char *s)
 	end = s+strlen(s)-1;
 	while (end>s && isspace(*end))
 	       end--;
-	end = g_strndup(s, end-s+1);
-	return end;
+	return g_strndup(s, end-s+1);
 }
 
 static CamelMboxMessageInfo *
@@ -549,7 +548,7 @@ header_evolution_decode(const char *in, unsigned int *uid, unsigned int *flags)
 {
 	char *header;
 	if (in
-	    && (header = header_decode_token(&in))) {
+	    && (header = header_token_decode(in))) {
 		if (strlen(header) == strlen("00000000-0000")
 		    && sscanf(header, "%08x-%04x", uid, flags) == 2) {
 			g_free(header);
@@ -583,11 +582,13 @@ safe_write(int fd, char *buffer, size_t towrite)
 static int
 header_write(int fd, struct _header_raw *header, unsigned int uid, unsigned int flags)
 {
-	struct iovec iv[3];
+	struct iovec iv[4];
 	int outlen = 0;
 
 	iv[1].iov_base = ":";
 	iv[1].iov_len = 1;
+	iv[3].iov_base = "\n";
+	iv[3].iov_len = 1;
 
 	while (header) {
 		if (strcasecmp(header->name, "x-evolution")) {
@@ -599,7 +600,7 @@ header_write(int fd, struct _header_raw *header, unsigned int uid, unsigned int 
 			iv[2].iov_len = strlen(header->value);
 
 			do {
-				len = writev(fd, iv, 3);
+				len = writev(fd, iv, 4);
 			} while (len == -1 && errno == EINTR);
 
 			if (len == -1)
@@ -1250,8 +1251,8 @@ guint32 camel_mbox_summary_next_uid(CamelMboxSummary *s)
 
 guint32 camel_mbox_summary_set_uid(CamelMboxSummary *s, guint32 uid)
 {
-	if (s->nextuid < uid) {
-		s->nextuid = uid;
+	if (s->nextuid <= uid) {
+		s->nextuid = uid+1;
 		summary_header_save(s);
 	}
 	return s->nextuid;

@@ -3,8 +3,8 @@
 
 /*
  *
- * Author :
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors:  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *	     Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -35,8 +35,9 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-data-wrapper.h"
+#include <camel/camel-types.h>
+#include <camel/camel-data-wrapper.h>
+#include <camel/camel-mime-utils.h>
 
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())
 #define CAMEL_MEDIUM(obj)     (GTK_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
@@ -48,7 +49,7 @@ struct _CamelMedium
 {
 	CamelDataWrapper parent_object;
 
-	GHashTable *headers;
+	struct _header_raw *headers;
 
 	/* The content of the medium, as opposed to our parent
 	 * CamelDataWrapper, which wraps both the headers and the
@@ -64,15 +65,13 @@ typedef struct {
 	CamelDataWrapperClass parent_class;
 
 	/* Virtual methods */
-	void  (*add_header) (CamelMedium *medium, const gchar *header_name,
-			     const gchar *header_value);
+	void  (*add_header) (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+	void  (*set_header) (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
 	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
-	const gchar * (*get_header) (CamelMedium *medium,
-				     const gchar *header_name);
+	const gchar * (*get_header) (CamelMedium *medium,  const gchar *header_name);
 
 	CamelDataWrapper * (*get_content_object) (CamelMedium *medium);
-	void (*set_content_object) (CamelMedium *medium,
-				    CamelDataWrapper *content);
+	void (*set_content_object) (CamelMedium *medium, CamelDataWrapper *content);
 
 } CamelMediumClass;
 
@@ -83,12 +82,10 @@ GtkType camel_medium_get_type (void);
 
 
 /* public methods */
-void camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
-			      const gchar *header_value);
-void camel_medium_remove_header (CamelMedium *medium,
-				 const gchar *header_name);
-const gchar *camel_medium_get_header (CamelMedium *medium,
-				      const gchar *header_name);
+void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+void camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+void camel_medium_remove_header (CamelMedium *medium, const gchar *header_name);
+const gchar *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
 
 
 CamelDataWrapper *camel_medium_get_content_object (CamelMedium *medium);

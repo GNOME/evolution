@@ -1,3 +1,136 @@
+2000-04-22  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): Ref
+	the folder after setting it in the new message.
+
+	* camel-mime-part.c (my_set_content_object): Have the headers
+	follow the content-type change here too.
+	(my_write_to_stream): Dont write content-type here, automatically
+	stored in the headers ...
+	(my_write_to_stream): Use header_disposition_format() to format
+	the content-disposition header.
+	(my_write_to_stream): Removed old code, all headers are now stored
+	in the camel-medium level, always.  Need to do the same with
+	camel-mime-message i suppose ...
+
+	* camel-mime-utils.c (header_content_type_is): Handle empty types.
+
+	* gmime-content-field.c (gmime_content_field_write_to_stream): Use
+	header_content_type_format() to format it.
+
+2000-04-21  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.h: Add prototype for header_param_list_free.
+
+	* camel-recipient.c: New function to remove all the types of a
+	recipient list.  I think this whole object needs a major review.
+
+	* camel-mime-message.c (camel_mime_message_class_init): Removed
+	parse_header_pair override, override add_header instead.
+	(_parse_header_pair): Renamed to add_header.
+	(remove_header): Add this method, to make sure we keep upto date
+	with removed headers too.
+	(_set_field): If given a NULL value, clear it out.
+	(_set_recipient_list_from_string): Constify.
+	(set_header): Override set_header from camel_medium.
+	(process_header): Local function to handle set/add/remove of each
+	header we know about.
+
+	* camel-mime-part.c (camel_mime_part_class_init): Removed
+	parse_header_pair setup.
+	(my_parse_header_pair): Moved into add_header(), removed.
+	(my_set_disposition): Allow a NULL disposition to clear it.
+	(my_set_content_id): Allow NULL content id to clear it.
+	(remove_header): Track removed headers.
+	(my_set_description): Allow NULL description to clear it.
+	(my_set_content_MD5): Make sure we copy the md5 value, and allow a
+	NULL value to reset it.
+	(my_set_filename): Copy the filename.
+	(my_set_header_lines): Removed.  Nothing uses it, it doesn't
+	actually serve any purpose.
+	(camel_mime_part_set_header_lines): Ditto.
+	(my_get_header_lines): Ditto.
+	(camel_mime_part_get_header_lines): Ditto.
+	(camel_mime_part_class_init): Remove *_header_lines setup.
+	(camel_mime_part_init): Remove header_lines init.
+	(my_finalize): Remove header_lines finalise.
+	(my_write_to_stream): Write the headers here.  This is just WRONG,
+	camel_medium should be doing this.
+	(my_get_output_stream): Kill a warning.
+	(camel_mime_part_encoding_to_string): Ditto.
+	(camel_mime_part_set_description): Unvirtualiase, use add_header()
+	to do the processing.
+	(my_set_description): Removed.
+	(set_disposition): Renamed from my_set_disposition.
+	(camel_mime_part_get_description): Get the descriptionf rom the
+	get_header method.
+	(my_get_description): Removed.
+	(my_set_filename): Removed.
+	(camel_mime_part_get_filename): Get the parameter from the
+	disposition.
+	(camel_mime_part_encoding_from_string): Handle NULL string.
+	(camel_mime_part_init): Remove reference to filename.
+	(my_finalize): Dont free filename.
+
+	* camel-mime-part.h (CamelMimePartClass): Removed
+	parse_header_pair() method, it doesn't add anything that
+	add_header() can't be used for.
+	(CamelMimePartClass): Remove *_header_lines methods.
+	(struct _CamelMimePart): Remove header_lines list.
+	(struct _CamelMimePart): Removed filename attribute.
+
+	* camel-medium.c (camel_medium_init): Init headers to null, not a
+	hashtable.
+	(add_header): Append the headers as a list.
+	(remove_header): Remove headers as a list.
+	(get_header): Likewise for lookup.
+	(free_header): Removed, no longer needed.
+	(finalize): Free headers using header_raw_clear().
+	(camel_medium_set_header): New function, to reset and override all
+	values of a header with a new value.
+
+	* camel-medium.h (struct _CamelMedium): Changed to use a
+	header_raw struct rather than a hash table, to store headers
+	(many headers can occur multiple times).
+
+	* camel-mime-utils.c (header_raw_find_next): New function, allows
+	you to find multi-valued header fields.
+	(header_disposition_format): New function to format/create
+	content-disposition header string.
+	(header_param_list_format_append): Function to format parameter
+	lists into a GString.
+	(header_content_type_format): Function to format content-type into
+	a usable format.
+	(header_set_param): allow NULL value to remove the parameter.
+	(decode_token): Renamed from header_decode_token.
+	(header_decode_token): New interface for external use.
+	(quoted_decode): Made static to kill annoying warnings.
+	(g_strdup_len): Killed, replaced with calls to g_strndup().
+	(rfc2047_decode_word): Made static to kill warnings.
+	(decode_coded_string): Terminated.
+	(g_string_append_len): Made static to kill warnings.
+	(header_decode_text): Made static to kill warnings.
+	(header_decode_text): Constify.
+	(rfc2047_decode_word): Constify.
+	(header_param): Constify.
+	(header_content_type_new): Copy the type/subtype strings.
+	(header_param_list_decode): Made static.
+	(header_param_list_format_append): Made static.
+	(quoted_decode): Constify.
+	(g_string_append_len): Constify.
+	(header_token_decode): New function to decode a single token.
+
+	* providers/mbox/camel-mbox-summary.c (header_write): Append a
+	trailing \n when writing headers.
+	(strdup_trim): Killed a warning.
+	(camel_mbox_summary_set_uid): Make sure the next uid is at least 1
+	higher than any existing one.
+	(header_evolution_decode): Use header_token_decode to get the
+	token.
+
+	* camel-mime-parser.c (folder_scan_header): Strip the trailing \n
+	of the end of all header lines.
+
 2000-04-20  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-utils.[ch]: Removed.

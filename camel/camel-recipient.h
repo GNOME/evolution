@@ -70,7 +70,8 @@ void camel_recipient_table_add_list (CamelRecipientTable *recipient_table,
 void camel_recipient_table_remove (CamelRecipientTable *recipient_table,
 				   const gchar *recipient_type,
 				   const gchar *recipient);
-
+void camel_recipient_table_remove_type (CamelRecipientTable *recipient_table,
+					const gchar *recipient_type);
 const GList *camel_recipient_table_get (CamelRecipientTable *recipient_table,
 					const gchar *recipient_type);
 
