@@ -1051,8 +1051,6 @@ tree_drag_motion (ETree *tree,
 	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
-	e_tree_drag_highlight (tree, row, -1);
-
 	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
 
 	component_client = get_component_at_node (storage_set_view, path);
@@ -1089,6 +1087,8 @@ tree_drag_motion (ETree *tree,
 	}
 
 	CORBA_exception_free (&ev);
+
+	e_tree_drag_highlight (tree, row, -1);
 
 	gdk_drag_status (context, convert_corba_drag_action_to_gdk (suggested_action), time);
 

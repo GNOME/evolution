@@ -1,5 +1,12 @@
 2001-09-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #4962, "Highlighting is left after a drag".]
+
+	* e-storage-set-view.c (tree_drag_motion): Only highlight when
+	moving over allowed targets.
+
+2001-09-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-title-bar.c (unrealize): Only
 	gtk_widget_destroy() the icon_widget if it's not NULL.
 
