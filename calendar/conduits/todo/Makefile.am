@@ -3,7 +3,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
-	$(BONOBO_GNOME_CFLAGS)			\
+	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
 # ToDo Capplet
@@ -30,9 +30,6 @@ e_todo_conduits_LTLIBRARIES = libetodo_conduit.la
 
 libetodo_conduit_la_SOURCES = todo-conduit.c
 
-libetodo_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
-
 libetodo_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
@@ -40,6 +37,7 @@ libetodo_conduit_la_LIBADD = 					\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(BONOBO_VFS_GNOME_LIBS)					\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
+	$(UNICODE_LIBS)							\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 

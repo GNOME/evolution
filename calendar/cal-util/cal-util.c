@@ -51,6 +51,31 @@ cal_obj_instance_list_free (GList *list)
 }
 
 /**
+ * cal_obj_change_list_free:
+ * @list: List of #CalObjChange structures.
+ * 
+ * Frees a list of #CalObjChange structures.
+ **/
+void
+cal_obj_change_list_free (GList *list)
+{
+	CalObjChange *c;
+	GList *l;
+
+	for (l = list; l; l = l->next) {
+		c = l->data;
+
+		g_assert (c != NULL);
+		g_assert (c->uid != NULL);
+
+		g_free (c->uid);
+		g_free (c);
+	}
+
+	g_list_free (list);
+}
+
+/**
  * cal_alarm_instance_list_free:
  * @list: List of #CalAlarmInstance structures.
  * 

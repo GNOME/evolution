@@ -26,6 +26,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <cal-util/cal-util.h>
+#include <cal-util/cal-component.h>
 #include "calendar/pcs/evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
@@ -49,6 +50,10 @@ typedef enum {
 
 struct _CalBackend {
 	GtkObject object;
+
+	GnomeVFSURI *uri;
+	GSList *entries;
+	guint timer;
 };
 
 struct _CalBackendClass {
@@ -65,6 +70,7 @@ struct _CalBackendClass {
 
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
+	CalObjType(* get_type_by_uid) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
 	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
@@ -94,6 +100,8 @@ int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
+
+GList *cal_backend_get_changed_uids (CalBackend *backend, CalObjType type, time_t since);
 
 GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);

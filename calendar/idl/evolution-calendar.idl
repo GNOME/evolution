@@ -33,6 +33,11 @@ module Calendar {
 	const CalObjType TYPE_JOURNAL = 1 << 2;
 	const CalObjType TYPE_ANY     = 0x07;
 
+	/* Types of object changes made */
+	typedef long CalObjChangeType;
+	const CalObjChangeType UPDATED = 1 << 0;
+	const CalObjChangeType REMOVED = 1 << 1;
+	
 	/* Types of alarms */
 	enum AlarmType {
 		MAIL,
@@ -61,6 +66,12 @@ module Calendar {
 
 	typedef sequence<CalObjInstance> CalObjInstanceSeq;
 
+	/* An object change */
+	struct CalObjChange {
+		CalObjUID uid;
+		CalObjChangeType type;
+	};
+
 	/* An alarm trigger instance */
 	struct CalAlarmInstance {
 		CalObjUID uid;
@@ -70,6 +81,8 @@ module Calendar {
 	};
 
 	typedef sequence<CalAlarmInstance> CalAlarmInstanceSeq;
+
+	typedef sequence<CalObjChange> CalObjChangeSeq;
 
 	interface Listener;
 
@@ -91,6 +104,9 @@ module Calendar {
 
 		/* Gets a list of UIDs based on object type */
 		CalObjUIDSeq get_uids (in CalObjType type);
+
+		/* Gets a list of UIDs that changed based on object type */
+		CalObjChangeSeq get_changed_uids (in CalObjType type, in Time_t since);
 
 		/* Gets a list of objects that occur or recur in the specified time range */
 		CalObjUIDSeq get_objects_in_range (in CalObjType type, 

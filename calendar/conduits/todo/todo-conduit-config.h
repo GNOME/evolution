@@ -33,16 +33,16 @@
 typedef struct _EToDoConduitCfg EToDoConduitCfg;
 struct _EToDoConduitCfg {
 	gboolean open_secret;
-	guint32 pilotId;
+	guint32 pilot_id;
 	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
 };
 
 static void 
-todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilotId) 
+todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id) 
 {
 	gchar prefix[256];
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
-		    pilotId);
+		    pilot_id);
 	
 	*c = g_new0 (EToDoConduitCfg,1);
 	g_assert (*c != NULL);
@@ -54,7 +54,7 @@ todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilotId)
 	(*c)->sync_type = GnomePilotConduitSyncTypeCustom; 
 	gnome_config_pop_prefix ();
 	
-	(*c)->pilotId = pilotId;
+	(*c)->pilot_id = pilot_id;
 }
 
 /* Saves the configuration data. */
@@ -64,7 +64,7 @@ todoconduit_save_configuration (EToDoConduitCfg *c)
 	gchar prefix[256];
 
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
-		    c->pilotId);
+		    c->pilot_id);
 
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("open_secret", c->open_secret);
@@ -85,7 +85,7 @@ todoconduit_dupe_configuration (EToDoConduitCfg *c)
 	retval = g_new0 (EToDoConduitCfg, 1);
 	retval->sync_type = c->sync_type;
 	retval->open_secret = c->open_secret;
-	retval->pilotId = c->pilotId;
+	retval->pilot_id = c->pilot_id;
 
 	return retval;
 }

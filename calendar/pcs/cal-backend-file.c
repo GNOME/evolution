@@ -77,6 +77,7 @@ static void cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
+static CalObjType cal_backend_file_get_type_by_uid (CalBackend *backend, const char *uid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 						     time_t start, time_t end);
@@ -150,6 +151,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->create = cal_backend_file_create;
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
+	backend_class->get_type_by_uid = cal_backend_file_get_type_by_uid;
 	backend_class->get_uids = cal_backend_file_get_uids;
 	backend_class->get_objects_in_range = cal_backend_file_get_objects_in_range;
 	backend_class->get_alarms_in_range = cal_backend_file_get_alarms_in_range;
@@ -789,6 +791,34 @@ cal_backend_file_get_object (CalBackend *backend, const char *uid)
 		return NULL;
 
 	return cal_component_get_as_string (comp);
+}
+
+static CalObjType
+cal_backend_file_get_type_by_uid (CalBackend *backend, const char *uid)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+	CalComponent *comp;
+	CalComponentVType type;
+	
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	comp = lookup_component (cbfile, uid);
+	if (!comp)
+		return CAL_COMPONENT_NO_TYPE;
+	
+	type = cal_component_get_vtype (comp);
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		return CALOBJ_TYPE_EVENT;
+	case CAL_COMPONENT_TODO:
+		return CALOBJ_TYPE_TODO;
+	case CAL_COMPONENT_JOURNAL:
+		return CALOBJ_TYPE_JOURNAL;
+	default:
+		return CAL_COMPONENT_NO_TYPE;
+	}
 }
 
 /* Builds a list of UIDs from a list of CalComponent objects */

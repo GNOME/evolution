@@ -54,16 +54,28 @@ struct _EToDoLocalRecord {
 /* This is the context for all the GnomeCal conduit methods. */
 typedef struct _EToDoConduitContext EToDoConduitContext;
 struct _EToDoConduitContext {
-	struct ToDoAppInfo ai;
 	EToDoConduitCfg *cfg;
-	CalClient *client;
 
+	struct ToDoAppInfo ai;
+
+	CalClient *client;
+	char *calendar_file;
 	gboolean calendar_load_tried;
 	gboolean calendar_load_success;
 
-	char *calendar_file;
+	GList *uids;
+	
+	GList *added;
+	GList *modified;
+	GList *deleted;
+
+	GHashTable *map;
 };
 
 #endif __TODO_CONDUIT_H__ 
+
+
+
+
 
 

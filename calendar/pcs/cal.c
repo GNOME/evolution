@@ -278,6 +278,63 @@ Cal_get_uids (PortableServer_Servant servant,
 	return seq;
 }
 
+static Evolution_Calendar_CalObjChangeSeq *
+build_change_seq (GList *changes)
+{
+	GList *l;
+	int n, i;
+	Evolution_Calendar_CalObjChangeSeq *seq;
+
+	n = g_list_length (changes);
+
+	seq = Evolution_Calendar_CalObjChangeSeq__alloc ();
+	CORBA_sequence_set_release (seq, TRUE);
+	seq->_length = n;
+	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjChange_allocbuf (n);
+
+	/* Fill the sequence */
+	for (i = 0, l = changes; l; i++, l = l->next) {
+		CalObjChange *c;
+		Evolution_Calendar_CalObjChange *corba_c;
+
+		c = l->data;
+		corba_c = &seq->_buffer[i];
+
+		corba_c->uid = CORBA_string_dup (c->uid);
+		corba_c->type = c->type;
+	}
+
+	return seq;
+}
+
+/* Cal::get_changed_uids method */
+static Evolution_Calendar_CalObjChangeSeq *
+Cal_get_changed_uids (PortableServer_Servant servant,
+		      Evolution_Calendar_CalObjType type,
+		      Evolution_Calendar_Time_t since,
+		      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	GList *changes;
+	Evolution_Calendar_CalObjChangeSeq *seq;
+	int t;
+	time_t s;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	t = uncorba_obj_type (type);
+	s = (time_t) since;
+	
+	changes = cal_backend_get_changed_uids (priv->backend, t, s);
+	seq = build_change_seq (changes);
+
+	cal_obj_change_list_free (changes);
+
+	return seq;
+}
+
 /* Cal::get_objects_in_range method */
 static Evolution_Calendar_CalObjUIDSeq *
 Cal_get_objects_in_range (PortableServer_Servant servant,
@@ -558,6 +615,7 @@ cal_get_epv (void)
 	epv->get_n_objects = Cal_get_n_objects;
 	epv->get_object = Cal_get_object;
 	epv->get_uids = Cal_get_uids;
+	epv->get_changed_uids = Cal_get_changed_uids;
 	epv->get_objects_in_range = Cal_get_objects_in_range;
 	epv->get_alarms_in_range = Cal_get_alarms_in_range;
 	epv->get_alarms_for_object = Cal_get_alarms_for_object;

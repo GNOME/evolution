@@ -1,3 +1,4 @@
+
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar client
  *
@@ -798,6 +799,75 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	CORBA_free (seq);
 
 	return uids;
+}
+
+/* Builds a GList of CalObjChange structures from the CORBA sequence */
+static GList *
+build_change_list (Evolution_Calendar_CalObjChangeSeq *seq)
+{
+	GList *list;
+	int i;
+
+	/* Create the list in reverse order */
+	list = NULL;
+	for (i = 0; i < seq->_length; i++) {
+		Evolution_Calendar_CalObjChange *corba_coc;
+		CalObjChange *coc;
+
+		corba_coc = &seq->_buffer[i];
+		coc = g_new (CalObjChange, 1);
+
+		coc->uid = g_strdup (corba_coc->uid);
+		coc->type = corba_coc->type;
+
+		list = g_list_prepend (list, coc);
+	}
+
+	list = g_list_reverse (list);
+	return list;
+}
+
+/**
+ * cal_client_get_changed_uids:
+ * @client: A calendar client.
+ * @type: Bitmask with types of objects to return.
+ *
+ * Queries a calendar for a list of unique identifiers corresponding to calendar
+ * objects whose type matches one of the types specified in the @type flags.
+ *
+ * Return value: A list of strings that are the sought UIDs.
+ **/
+GList *
+cal_client_get_changed_uids (CalClient *client, CalObjType type, time_t since)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalObjChangeSeq *seq;
+	int t;
+	GList *changes;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+
+	t = corba_obj_type (type);
+	CORBA_exception_init (&ev);
+
+	seq = Evolution_Calendar_Cal_get_changed_uids (priv->cal, t, since, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_changed_uids(): could not get the list of changes");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	changes = build_change_list (seq);
+	CORBA_free (seq);
+
+	return changes;
 }
 
 /* FIXME: Not used? */

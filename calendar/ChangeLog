@@ -1,3 +1,81 @@
+2000-09-19  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c (check_for_slow_setting): Add some
+	other cases where a slow sync is in order
+	(pre_sync): Pre load the uids, the map and the add/mod/del lists
+	(match_record): Use the map hash to match records
+	(iterate): Iterate using the pre-loaded uid list
+	(iterate_specific): Iterate using the add/mod/del lists
+	(purge): Delete all entries in the del list
+	(set_status): Set status by adding to an appropriate list
+	(set_pilot_id): Set pilot_id by updating map hash
+
+	* conduits/todo/todo-conduit.h: Add lists for added, modified and
+	deleted objects
+
+	* conduits/todo/todo-conduit.c (map_name): Get the pilot_id->uid map
+	file name
+	(map_sax_start_element): SAX handler to extract a pilot_id->uid 
+	mapping
+	(map_sax_parse): Parse the given file and build a pilot_id->uid hash
+	(map_write_foreach): Write out individual mapping elements 
+	(map_write): Write out the pilot_id->uid mapping
+	(start_calendar_server_cb): Rename from gnome_calendar_load_cb
+
+	* conduits/todo/todo-conduit-config.h: Rename pilotID to pilot_id
+
+	* conduits/todo/e-todo.conduit.in: A little renaming
+
+	* conduits/todo/Makefile.am: Fix build slightly
+
+	* pcs/cal.c (build_change_seq): Build a corba sequence out of a list
+	of CalObjChanges
+	(Cal_get_objects_in_range): Implement new corba function
+
+	* pcs/cal-backend.c (cal_backend_init): Intiliaze to NULL
+	(cal_backend_load): Track the uri so we can write the log file
+	to the same place
+	(cal_backend_log_name): Figure out the log filename/path based on
+	the calendar uri
+	(cal_backend_set_node_timet): Set an xml node property value from
+	a time_t
+	(cal_backend_log_entry): Adds a log entry to list waiting to be written
+	out
+	(cal_backend_log_sync): Syncs the log entries to disk
+	(cal_backend_log_sax_start_element): SAX callback for reading in
+	log entries
+	(cal_backend_log_sax_end_element): ditto
+	(cal_backend_log_sax_parse): Main SAX parser call to parse the log
+	file looking for particular log entries and creating a CalObjChange 
+	hash with the last change for each object
+	(cal_backend_get_log_entries): Returns a hash of objects of a given 
+	type changed since the given time
+	(cal_backend_update_object): Add appropriate log entries
+	(cal_backend_remove_object): ditto
+	(cal_backend_get_changed_uids): Implement new idl interface call
+	(cal_backend_foreach_changed): Convert CalObjChange hash into a list
+
+	* pcs/cal-backend-imc.[hc]: Remove crufty files
+	
+	* pcs/cal-backend-file.c (cal_backend_file_get_type_by_uid): New
+	function that returns the CalObjType for a uid.
+
+	* cal-client/cal-client.h: Update prototypes.
+
+	* cal-client/cal-client.c (build_change_list): Build a list
+	of CalObjChange items from a corba sequence.
+	(cal_client_get_changed_uids): New accessor method for the
+	similarly named addition to the idl file.
+
+	* cal-util/cal-util.h: Update prototypes and add CalObjChangeType
+	enum.
+
+	* cal-util/cal-util.c (cal_obj_change_list_free): New utility
+	method to free a list of CalObjChange objects.
+
+	* idl/evolution-calendar.idl: Add get_changed_uids method
+	and associated types.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and

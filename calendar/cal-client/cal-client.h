@@ -101,6 +101,7 @@ void cal_client_update_pilot_id (CalClient *client, char *uid,
 				 unsigned long pilot_status);
 
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
+GList *cal_client_get_changed_uids (CalClient *client, CalObjType type, time_t since);
 
 GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
 					time_t start, time_t end);

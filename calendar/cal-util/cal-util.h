@@ -41,6 +41,19 @@ typedef struct {
 
 void cal_obj_instance_list_free (GList *list);
 
+typedef enum {
+	CALOBJ_UPDATED = 1 << 0,
+	CALOBJ_REMOVED = 1 << 1
+} CalObjChangeType;
+
+typedef struct 
+{
+	char *uid;
+	CalObjChangeType type;
+} CalObjChange;
+
+void cal_obj_change_list_free (GList *list);
+
 /* Instance of an alarm trigger */
 typedef struct {
 	char *uid;			/* UID of object */
@@ -66,3 +79,4 @@ void cal_obj_uid_list_free (GList *list);
 END_GNOME_DECLS
 
 #endif
+
