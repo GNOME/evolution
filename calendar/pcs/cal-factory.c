@@ -229,6 +229,7 @@ lookup_calendar (CalFactory *factory, GnomeVFSURI *uri)
 static void
 load_calendar (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
 {
+	/* FIXME */
 }
 
 /* Adds a listener to a calendar */
