@@ -1,3 +1,7 @@
+2005-02-07  JP Rosevear  <jpr@novell.com>
+
+	* apps_evolution_shell.schemas.in.in: clean up descriptions
+	
 2005-02-01  JP Rosevear  <jpr@novell.com>
 
 	* e-shell-window-commands.c: add to about box

@@ -9,7 +9,8 @@
       <owner>evolution</owner>
       <type>string</type>
       <locale name="C">
-        <short>Evolution configuration version</short>
+        <short>Configuration version</short>
+        <long>The configuration version of Evolution, with major/minor/configuration level</long>
       </locale>
     </schema>
 
@@ -21,7 +22,8 @@
       <owner>evolution</owner>
       <type>string</type>
       <locale name="C">
-        <short>Last upgraded Evolution configuration version</short>
+        <short>Last upgraded configuration version</short>
+        <long>The last upgraded configuration version of Evolution, with major/minor/configuration level</long>
       </locale>
     </schema>
 
@@ -34,11 +36,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether to skip the development warning dialog</short>
-	<long>
-	  If set to true, the warning dialog in development versions
-	  of Evolution is not displayed.
-	</long>
+        <short>Skip development warning dialog</short>
+	<long>Whether the warning dialog in development versions of Evolution is skipped.</long>
       </locale>
     </schema>
 
@@ -51,10 +50,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Whether Evolution should start up in offline mode</short>
-	<long>
-	  If set to true, Evolution will start up in offline mode
-	  instead of online mode.
+        <short>Start in offline mode</short>
+	<long> Whether Evolution will start up in offline mode instead of online mode.
 	</long>
       </locale>
     </schema>
@@ -81,6 +78,7 @@
       <default>640</default>
       <locale name="C">
         <short>Default window width</short>
+        <long>The default width for the main window, in pixels.</long>
       </locale>
     </schema>
 
@@ -92,6 +90,7 @@
       <default>480</default>
       <locale name="C">
         <short>Default window height</short>
+        <long>The default height for the main window, in pixels.</long>
       </locale>
     </schema>
 
@@ -102,8 +101,8 @@
       <type>bool</type>
       <default>TRUE</default>
       <locale name="C">
-        <short>Buttons are visible</short>
-        <long>Whether the buttons should be visible.</long>
+        <short>Window buttons are visible</short>
+        <long>Whether the window buttons should be visible.</long>
       </locale>
     </schema>
 
@@ -114,8 +113,8 @@
       <type>string</type>
       <default>toolbar</default>
       <locale name="C">
-        <short>Button style</short>
-        <long>The style of the displayed buttons.  Can be text, icons, both, toolbar.  If toolbar is set, the style of the toolbar is followed as determined by the GNOME setting.</long>
+        <short>Window button style</short>
+        <long>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buutons is determined by the GNOME toolbar setting.</long>
       </locale>
     </schema>
 
@@ -139,6 +138,7 @@
       <default>mail</default>
       <locale name="C">
         <short>ID or alias of the component to be shown by default at start-up.</short>
+        <long>ID or alias of the component to be shown by default at start-up.</long>
       </locale>
     </schema>
 
@@ -151,7 +151,8 @@
       <type>int</type>
       <default>200</default>
       <locale name="C">
-        <short>Default width of the folder bar pane</short>
+        <short>Default sidebar width</short>
+        <long>The default width for the sidebar, in pixels.</long>
       </locale>
     </schema>
 
