@@ -12478,7 +12478,7 @@ msgstr "그림 내려받는 중"
 
 #: mail/mail-display.c:1454
 msgid "Loading message content"
-msgstr "메시지 내용을 읽어드림"
+msgstr "메시지 내용을 읽어 들임"
 
 #: mail/mail-display.c:1756
 msgid "Overdue:"
