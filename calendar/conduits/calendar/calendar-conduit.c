@@ -655,6 +655,33 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	} else {
 		cal_component_set_rrule_list (comp, NULL);		
 	}
+
+	/* Alarm information */
+	if (appt.alarm) {
+		CalComponentAlarm *alarm;
+		CalAlarmTrigger trig;
+		
+		alarm = cal_component_alarm_new ();
+		cal_component_add_alarm (comp, alarm);
+
+		memset (&trig, 0, sizeof (trig));
+		trig.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+		trig.u.rel_duration.is_neg = 1;
+		switch (appt.advanceUnits) {	
+		case advMinutes:
+			trig.u.rel_duration.minutes = appt.advance;
+			break;
+		case advHours:
+			trig.u.rel_duration.hours = appt.advance;
+			break;
+		case advDays:
+			trig.u.rel_duration.days = appt.advance;
+			break;
+		}
+		cal_component_alarm_set_trigger (alarm, trig);
+
+		cal_component_alarm_set_action (alarm, CAL_ALARM_AUDIO);
+	}
 	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 

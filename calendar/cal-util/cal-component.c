@@ -688,6 +688,17 @@ add_alarm (CalComponent *comp, icalcomponent *alarm, const char *auid)
 	return auid;
 }
 
+static void
+remove_alarm (CalComponent *comp, const char *auid) 
+{
+	CalComponentPrivate *priv;
+	
+	priv = comp->priv;
+	
+	g_hash_table_remove (priv->alarm_uid_hash, auid);
+}
+
+
 /* Scans an alarm subcomponent, adds an UID extension property to it (so that we
  * can reference alarms by unique IDs), and adds its mapping to the component.  */
 static void
@@ -3442,6 +3453,66 @@ cal_component_has_alarms (CalComponent *comp)
 	return g_hash_table_size (priv->alarm_uid_hash) != 0;
 }
 
+void 
+cal_component_add_alarm (CalComponent *comp, CalComponentAlarm *alarm)
+{
+	CalComponentPrivate *priv;
+	
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (alarm != NULL);
+	
+	priv = comp->priv;
+	
+	alarm->parent = comp;
+	add_alarm (comp, alarm->icalcomp, icalproperty_get_x (alarm->uid));
+	icalcomponent_add_component (priv->icalcomp, alarm->icalcomp);
+}
+
+void 
+cal_component_remove_alarm (CalComponent *comp, const char *auid)
+{
+	CalComponentPrivate *priv;
+	icalcompiter iter;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (auid != NULL);
+
+	priv = comp->priv;
+
+	for (iter = icalcomponent_begin_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
+	     icalcompiter_deref (&iter) != NULL;
+	     icalcompiter_next (&iter)) {
+		icalproperty *prop;
+		icalcomponent *subcomp;
+
+		subcomp = icalcompiter_deref (&iter);
+		for (prop = icalcomponent_get_first_property (subcomp, ICAL_X_PROPERTY);
+		     prop;
+		     prop = icalcomponent_get_next_property (subcomp, ICAL_X_PROPERTY)) {
+			const char *xname;
+			const char *alarm_uid;
+			
+			xname = icalproperty_get_x_name (prop);
+			g_assert (xname != NULL);
+
+			if (strcmp (xname, EVOLUTION_ALARM_UID_PROPERTY) == 0) {
+				alarm_uid = alarm_uid_from_prop (prop);
+				if (strcmp (alarm_uid, auid) == 0) {
+					remove_alarm (comp, auid);
+					icalcomponent_remove_component (priv->icalcomp, subcomp);
+					icalcomponent_free (subcomp);
+					break;
+				}
+				
+				return;
+			}
+		}
+	}
+}
+
+
 /* Scans an icalproperty from a calendar component and adds its mapping to our
  * own alarm structure.
  */
@@ -3574,30 +3645,6 @@ cal_component_get_alarm (CalComponent *comp, const char *auid)
 }
 
 /**
- * cal_component_alarm_free:
- * @alarm: A calendar alarm.
- *
- * Frees an alarm structure.
- **/
-void
-cal_component_alarm_free (CalComponentAlarm *alarm)
-{
-	g_return_if_fail (alarm != NULL);
-
-	g_assert (alarm->icalcomp != NULL);
-
-	if (icalcomponent_get_parent (alarm->icalcomp) != NULL)
-		icalcomponent_free (alarm->icalcomp);
-
-	alarm->icalcomp = NULL;
-
-	alarm->parent = NULL;
-	alarm->action = NULL;
-
-	g_free (alarm);
-}
-
-/**
  * cal_component_alarms_free:
  * @alarms: Component alarms structure.
  * 
@@ -3623,6 +3670,30 @@ cal_component_alarms_free (CalComponentAlarms *alarms)
 
 	g_slist_free (alarms->alarms);
 	g_free (alarms);
+}
+
+/**
+ * cal_component_alarm_new:
+  * 
+ * 
+ * 
+ * Return value: a new alarm component
+ **/
+CalComponentAlarm *
+cal_component_alarm_new (void)
+{
+	CalComponentAlarm *alarm = g_new0 (CalComponentAlarm, 1);
+	char *new_auid ;
+
+	alarm->icalcomp = icalcomponent_new (ICAL_VALARM_COMPONENT);
+
+	new_auid = cal_component_gen_uid ();
+	alarm->uid = icalproperty_new_x (new_auid);
+	icalproperty_set_x_name (alarm->uid, EVOLUTION_ALARM_UID_PROPERTY);
+	icalcomponent_add_property (alarm->icalcomp, alarm->uid);
+	g_free (new_auid);
+	
+	return alarm;
 }
 
 /**
@@ -3844,12 +3915,14 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 	switch (trigger.type) {
 	case CAL_ALARM_TRIGGER_RELATIVE_START:
 		t.duration = trigger.u.rel_duration;
+		t.time.is_date = -1;
 		value_type = ICAL_DURATION_VALUE;
 		related = ICAL_RELATED_START;
 		break;
 
 	case CAL_ALARM_TRIGGER_RELATIVE_END:
 		t.duration = trigger.u.rel_duration;
+		t.time.is_date = -1;
 		value_type = ICAL_DURATION_VALUE;
 		related = ICAL_RELATED_END;
 		break;
@@ -3889,6 +3962,46 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 			icalproperty_add_parameter (alarm->trigger, param);
 		}
 	}
+}
+
+/**
+ * cal_component_alarm_free:
+ * @alarm: A calendar alarm.
+ *
+ * Frees an alarm structure.
+ **/
+void
+cal_component_alarm_free (CalComponentAlarm *alarm)
+{
+	g_return_if_fail (alarm != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (icalcomponent_get_parent (alarm->icalcomp) != NULL)
+		icalcomponent_free (alarm->icalcomp);
+
+	alarm->icalcomp = NULL;
+
+	alarm->parent = NULL;
+	alarm->action = NULL;
+
+	g_free (alarm);
+}
+
+
+/* Returns TRUE if both strings match, i.e. they are both NULL or the
+   strings are equal. */
+static gboolean
+cal_component_strings_match	(const gchar	*string1,
+				 const gchar	*string2)
+{
+	if (string1 == NULL || string2 == NULL)
+		return (string1 == string2) ? TRUE : FALSE;
+
+	if (!strcmp (string1, string2))
+		return TRUE;
+
+	return FALSE;
 }
 
 
@@ -3946,20 +4059,5 @@ cal_component_event_dates_match	(CalComponent *comp1,
 	return TRUE;
 }
 
-
-/* Returns TRUE if both strings match, i.e. they are both NULL or the
-   strings are equal. */
-static gboolean
-cal_component_strings_match	(const gchar	*string1,
-				 const gchar	*string2)
-{
-	if (string1 == NULL || string2 == NULL)
-		return (string1 == string2) ? TRUE : FALSE;
-
-	if (!strcmp (string1, string2))
-		return TRUE;
-
-	return FALSE;
-}
 
 

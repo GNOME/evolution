@@ -1,3 +1,128 @@
+<USER_FUNCTION>
+<NAME>CalRecurInstanceFn</NAME>
+<RETURNS>gboolean </RETURNS>
+CalComponent *comp,
+					 time_t        instance_start,
+					 time_t        instance_end,
+					 gpointer      data
+</USER_FUNCTION>
+<FUNCTION>
+<NAME>cal_recur_generate_instances</NAME>
+<RETURNS>void 	</RETURNS>
+CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
+</FUNCTION>
+<TYPEDEF>
+<NAME>CalObjInstance</NAME>
+typedef struct {
+	char *uid;			/* UID of the object */
+	time_t start;			/* Start time of instance */
+	time_t end;			/* End time of instance */
+} CalObjInstance;
+</TYPEDEF>
+<FUNCTION>
+<NAME>cal_obj_instance_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<ENUM>
+<NAME>CalObjType</NAME>
+typedef enum {
+	CALOBJ_TYPE_EVENT   = 1 << 0,
+	CALOBJ_TYPE_TODO    = 1 << 1,
+	CALOBJ_TYPE_JOURNAL = 1 << 2,
+	CALOBJ_TYPE_ANY     = 0x07
+} CalObjType;
+</ENUM>
+<FUNCTION>
+<NAME>cal_obj_uid_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<FUNCTION>
+<NAME>isodate_from_time_t</NAME>
+<RETURNS>char    *</RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_minutes</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int minutes
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_day</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int days
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_week</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int weeks
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_month</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int months
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_year</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int years
+</FUNCTION>
+<FUNCTION>
+<NAME>time_days_in_month</NAME>
+<RETURNS>int  </RETURNS>
+int year, int month
+</FUNCTION>
+<FUNCTION>
+<NAME>time_from_day</NAME>
+<RETURNS>time_t  </RETURNS>
+int year, int month, int day
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>print_time_t</NAME>
+<RETURNS>void  </RETURNS>
+time_t t
+</FUNCTION>
 <MACRO>
 <NAME>CAL_COMPONENT_TYPE</NAME>
 #define CAL_COMPONENT_TYPE            (cal_component_get_type ())
@@ -594,6 +719,16 @@ typedef struct {
 CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_add_alarm</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, CalComponentAlarm *alarm
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_remove_alarm</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, const char *auid
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_alarm_uids</NAME>
 <RETURNS>GList  *</RETURNS>
 CalComponent *comp
@@ -604,14 +739,14 @@ CalComponent *comp
 CalComponent *comp, const char *auid
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_component_alarm_free</NAME>
-<RETURNS>void  </RETURNS>
-CalComponentAlarm *alarm
-</FUNCTION>
-<FUNCTION>
 <NAME>cal_component_alarms_free</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentAlarms *alarms
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_new</NAME>
+<RETURNS>CalComponentAlarm  *</RETURNS>
+void
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_alarm_get_uid</NAME>
@@ -638,128 +773,8 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
 </FUNCTION>
-<USER_FUNCTION>
-<NAME>CalRecurInstanceFn</NAME>
-<RETURNS>gboolean </RETURNS>
-CalComponent *comp,
-					 time_t        instance_start,
-					 time_t        instance_end,
-					 gpointer      data
-</USER_FUNCTION>
 <FUNCTION>
-<NAME>cal_recur_generate_instances</NAME>
-<RETURNS>void 	</RETURNS>
-CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
-</FUNCTION>
-<TYPEDEF>
-<NAME>CalObjInstance</NAME>
-typedef struct {
-	char *uid;			/* UID of the object */
-	time_t start;			/* Start time of instance */
-	time_t end;			/* End time of instance */
-} CalObjInstance;
-</TYPEDEF>
-<FUNCTION>
-<NAME>cal_obj_instance_list_free</NAME>
+<NAME>cal_component_alarm_free</NAME>
 <RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<ENUM>
-<NAME>CalObjType</NAME>
-typedef enum {
-	CALOBJ_TYPE_EVENT   = 1 << 0,
-	CALOBJ_TYPE_TODO    = 1 << 1,
-	CALOBJ_TYPE_JOURNAL = 1 << 2,
-	CALOBJ_TYPE_ANY     = 0x07
-} CalObjType;
-</ENUM>
-<FUNCTION>
-<NAME>cal_obj_uid_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<FUNCTION>
-<NAME>isodate_from_time_t</NAME>
-<RETURNS>char    *</RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_minutes</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int minutes
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_day</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int days
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_week</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int weeks
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_month</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int months
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_year</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int years
-</FUNCTION>
-<FUNCTION>
-<NAME>time_days_in_month</NAME>
-<RETURNS>int  </RETURNS>
-int year, int month
-</FUNCTION>
-<FUNCTION>
-<NAME>time_from_day</NAME>
-<RETURNS>time_t  </RETURNS>
-int year, int month, int day
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>print_time_t</NAME>
-<RETURNS>void  </RETURNS>
-time_t t
+CalComponentAlarm *alarm
 </FUNCTION>

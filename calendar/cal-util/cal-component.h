@@ -327,12 +327,16 @@ typedef struct {
 } CalAlarmTrigger;
 
 gboolean cal_component_has_alarms (CalComponent *comp);
+void cal_component_add_alarm (CalComponent *comp, CalComponentAlarm *alarm);
+void cal_component_remove_alarm (CalComponent *comp, const char *auid);
+
 GList *cal_component_get_alarm_uids (CalComponent *comp);
 CalComponentAlarm *cal_component_get_alarm (CalComponent *comp, const char *auid);
 
-void cal_component_alarm_free (CalComponentAlarm *alarm);
-
 void cal_component_alarms_free (CalComponentAlarms *alarms);
+
+/* CalComponentAlarms */
+CalComponentAlarm *cal_component_alarm_new (void);
 
 const char *cal_component_alarm_get_uid (CalComponentAlarm *alarm);
 
@@ -341,6 +345,8 @@ void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction ac
 
 void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
 void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
+
+void cal_component_alarm_free (CalComponentAlarm *alarm);
 
 
 

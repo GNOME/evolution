@@ -1,3 +1,22 @@
+2001-01-19  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-component.c (cal_component_alarm_new): create a new 
+	cal component alarm
+	(cal_component_add_alarm): add alarm to the cal component
+	(cal_component_remove_alarm): remove alarm from the cal component
+	(remove_alarm): remove alarm from hash
+
+	* cal-util/cal-component.h: new protos
+
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): 
+	add alarm information, still needs to be hacked to replace an already
+	existing alarm.  questions abound about the heuristic for doing this.
+
+2001-01-17  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor.c (dialog_to_comp_object): Properly set categories
+	to NULL if there are none
+	
 2001-01-18  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/tasks-migrate.[ch]: New files with a simple sequence to

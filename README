@@ -105,7 +105,7 @@ and -devel packages for each library.
 
  - gdk-pixbuf - 0.8.0 or later (*)
 
- - ORBit - 0.5.5 or later (*) (If you get this from GNOME CVS, use the
+ - ORBit - 0.5.6 or later (*) (If you get this from GNOME CVS, use the
    tag "orbit-stable-0-5".)
 
  - oaf - 0.6.0 or later (If you get this from GNOME CVS, use the tag
@@ -115,7 +115,7 @@ and -devel packages for each library.
    *** "--disable-more-warnings" when configure, or it may fail to
    *** build.
 
- - gnome-vfs - 0.3 or later
+ - gnome-vfs - 0.4.2 or later
 
    *** If you are using gnome-vfs from CVS, you should use the flag
    *** "--disable-more-warnings" when configuring, or it may fail to
@@ -132,7 +132,7 @@ and -devel packages for each library.
 
  - gconf - 0.6 or later
 
- - gal (GNOME Application Library) - 0.4 or later
+ - gal (GNOME Application Library) - 0.4.99.4 or later
 
  - gtkhtml - 0.8 or later
 
