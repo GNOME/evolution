@@ -242,6 +242,7 @@ my-evolution/metar.c
 my-evolution/my-evolution.glade
 shell/GNOME_Evolution_Shell.oaf.in
 shell/e-activity-handler.c
+shell/e-local-storage.c
 shell/e-setup.c
 shell/e-shell-folder-commands.c
 shell/e-shell-folder-creation-dialog.c
