@@ -152,15 +152,13 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
 	if (emfq->credits)
-		camel_stream_printf(stream, "%s", emfq->credits);
+		camel_stream_printf(stream, "%s<br>\n", emfq->credits);
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_printf(stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->\n"
 				    "<blockquote type=cite>\n"
 				    "<font color=\"#%06x\">\n",
 				    emfq->citation_colour & 0xffffff);
-	else
-		camel_stream_write (stream, "\n", 1);
 	
 	if (emfq->flags & EM_FORMAT_QUOTE_HEADERS) {
 		camel_stream_printf(stream, "<b>To: </b> Header goes here<br>");
@@ -214,8 +212,8 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type(part);
-	if (camel_content_type_is (type, "text", "plain")
-	    && (format = camel_content_type_param (type, "format"))
+	if (camel_content_type_is(type, "text", "plain")
+	    && (format = camel_content_type_param(type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	
