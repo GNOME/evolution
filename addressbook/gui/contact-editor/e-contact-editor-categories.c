@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <e-contact-editor-categories.h>
+#include <e-table-scrolled.h>
 #include <e-table.h>
 #include <e-table-simple.h>
 #include <e-cell-text.h>
@@ -292,7 +293,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 			       g_str_compare, TRUE);
 	e_table_header_add_column (header, col, 1);
 
-	e_table = e_table_new (header, categories->model, INITIAL_SPEC);
+	e_table = e_table_scrolled_new (header, categories->model, INITIAL_SPEC);
 
 	gtk_object_sink(GTK_OBJECT(categories->model));
 	

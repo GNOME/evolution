@@ -1,5 +1,15 @@
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/addressbook.c,
+	gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Switched from ETable
+	to ETableScrolled.
+
+	* addressbook/gui/minicard/e-minicard.c: Don't display mailer or
+	"name or org" fields.
+
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
 	Added a field that gives the name if it exists and the company
 	name otherwise.

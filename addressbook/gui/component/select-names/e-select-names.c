@@ -23,7 +23,6 @@
 #include <gnome.h>
 #include "e-select-names.h"
 #include <e-table-simple.h>
-#include <e-table.h>
 #include <e-cell-text.h>
 #include <addressbook/gui/component/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
@@ -156,7 +155,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 	g_free(uri);
 	g_free(filename);
-	table = e_table_new (header, model, SPEC);
+	table = e_table_scrolled_new (header, model, SPEC);
 
 	gtk_object_set(GTK_OBJECT(table),
 		       "cursor_mode", E_TABLE_CURSOR_LINE,
@@ -167,7 +166,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 }
 
 static void
-set_current_selection(ETable *table, int row, ESelectNames *names)
+set_current_selection(ETableScrolled *table, int row, ESelectNames *names)
 {
 	names->currently_selected = row;
 }
@@ -200,7 +199,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	
 	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
 
-	e_select_names->table = E_TABLE(glade_xml_get_widget(gui, "table-source"));
+	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
 
 	e_select_names->currently_selected = -1;
@@ -299,7 +298,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 }
 
 static void
-remove_address(ETable *table, int row, ESelectNamesChild *child)
+remove_address(ETableScrolled *table, int row, ESelectNamesChild *child)
 {
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
 	e_iterator_reset(iterator);
@@ -358,7 +357,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 							    g_str_compare, TRUE), -1);
 	e_table_header_add_column (header, e_table_col_new (1, "Email", 1.0, 20, cell_left_just,
 							    g_str_compare, TRUE), -1);
-	etable = e_table_new (header, model, SPEC2);
+	etable = e_table_scrolled_new (header, model, SPEC2);
 	
 	gtk_signal_connect(GTK_OBJECT(etable), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);

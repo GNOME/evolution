@@ -25,6 +25,7 @@
 #include <glade/glade.h>
 #include <e-util/e-list.h>
 #include <widgets/e-table/e-table.h>
+#include <widgets/e-table/e-table-scrolled.h>
 #include "e-select-names-model.h"
 
 #ifdef __cplusplus
@@ -58,7 +59,7 @@ struct _ESelectNames
 	
 	GHashTable *children; /* Of type char * to ESelectNamesChild */
 	int child_count;
-	ETable *table;
+	ETableScrolled *table;
 	ETableModel *model;
 	int currently_selected;
 };

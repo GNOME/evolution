@@ -304,7 +304,7 @@ delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 static void
 e_contact_print_destroy(GnomeDialog *dialog, gpointer data)
 {
-	ETable *table = gtk_object_get_data(GTK_OBJECT(dialog), "table");
+	ETableScrolled *table = gtk_object_get_data(GTK_OBJECT(dialog), "table");
 	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
 	gtk_object_unref(GTK_OBJECT(printable));
 	gtk_object_unref(GTK_OBJECT(table));
@@ -389,7 +389,7 @@ print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 						       NULL, NULL, NULL);
 		
-		printable = e_table_get_printable(E_TABLE(view->table));
+		printable = e_table_scrolled_get_printable(E_TABLE_SCROLLED(view->table));
 
 		gtk_object_ref(GTK_OBJECT(view->table));
 
@@ -893,8 +893,7 @@ create_minicard_view (AddressbookView *view, char *initial_query)
 					 0, 0,
 					 100, 100 );
 
-	scrollframe = e_scroll_frame_new (gtk_layout_get_hadjustment (GTK_LAYOUT (view->canvas)),
-					  gtk_layout_get_vadjustment (GTK_LAYOUT (view->canvas)));
+	scrollframe = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_NEVER);
@@ -947,7 +946,7 @@ teardown_table_view (AddressbookView *view)
 }
 
 static void
-table_double_click(ETable *table, gint row, AddressbookView *view)
+table_double_click(ETableScrolled *table, gint row, AddressbookView *view)
 {
 	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
 	EBook *book;
@@ -978,7 +977,7 @@ save_as (GtkWidget *widget, ECard *card)
 }
 
 static gint
-table_right_click(ETable *table, gint row, gint col, GdkEvent *event, AddressbookView *view)
+table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, AddressbookView *view)
 {
 	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
 	EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
@@ -1033,7 +1032,7 @@ create_table_view (AddressbookView *view, char *initial_query)
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	view->table = e_table_new (e_table_header, E_TABLE_MODEL(view->model), SPEC);
+	view->table = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(view->model), SPEC);
 
 	gtk_signal_connect(GTK_OBJECT(view->table), "double_click",
 			   GTK_SIGNAL_FUNC(table_double_click), view);
@@ -1046,7 +1045,7 @@ create_table_view (AddressbookView *view, char *initial_query)
 
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
 
-	gtk_widget_show_all( GTK_WIDGET(view->table) );
+	gtk_widget_show( GTK_WIDGET(view->table) );
 }
 
 static void
