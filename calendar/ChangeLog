@@ -1,3 +1,14 @@
+2003-04-07  Not Zed  <NotZed@Ximian.com>
+ 
+ 	Fixes #40252
+ 
+ 	* conduits/todo/todo-conduit.c: Same as below.
+ 
+ 	* conduits/calendar/calendar-conduit.c: Change the LOG macro to a
+ 	single arg macro which copies its arg.  Fix all callers.  Change
+ 	WARN and INFO to simply g_warning/g_message.  Init G_LOG_DOMAIN
+ 	before including anything.
+	
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Clean up server names

@@ -23,6 +23,8 @@
 
 #include <config.h>
 
+#define G_LOG_DOMAIN "ecalconduit"
+
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -43,22 +45,18 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
 #define CONDUIT_VERSION "0.1.6"
-#ifdef G_LOG_DOMAIN
-#undef G_LOG_DOMAIN
-#endif
-#define G_LOG_DOMAIN "ecalconduit"
 
 #define DEBUG_CALCONDUIT 1
 /* #undef DEBUG_CALCONDUIT */
 
 #ifdef DEBUG_CALCONDUIT
-#define LOG(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
+#define LOG(x) x
 #else
-#define LOG(e...)
+#define LOG(x)
 #endif 
 
-#define WARN(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, e)
-#define INFO(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
+#define WARN g_warning
+#define INFO g_message
 
 #define PILOT_MAX_ADVANCE 99
 
@@ -1305,7 +1303,7 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 
 	/* Or if the URI's don't match */
 	uri = cal_client_get_uri (ctxt->client);
-	LOG("  Current URI %s (%s)\n", uri, ctxt->cfg->last_uri ? ctxt->cfg->last_uri : "<NONE>");
+	LOG (g_message ( "  Current URI %s (%s)\n", uri, ctxt->cfg->last_uri ? ctxt->cfg->last_uri : "<NONE>" ));
 	if (ctxt->cfg->last_uri != NULL && strcmp (ctxt->cfg->last_uri, uri)) {
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 		e_pilot_map_clear (ctxt->map);
@@ -1313,9 +1311,9 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 	
 	if (gnome_pilot_conduit_standard_get_slow (conduit)) {
 		ctxt->map->write_touched_only = TRUE;
-		LOG ("    doing slow sync\n");
+		LOG (g_message ( "    doing slow sync\n" ));
 	} else {
-		LOG ("    doing fast sync\n");
+		LOG (g_message ( "    doing fast sync\n" ));
 	}
 }
 
@@ -1334,8 +1332,8 @@ pre_sync (GnomePilotConduit *conduit,
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
-	LOG ("---------------------------------------------------------\n");
-	LOG ("pre_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
+	LOG (g_message ( "---------------------------------------------------------\n" ));
+	LOG (g_message ( "pre_sync: Calendar Conduit v.%s", CONDUIT_VERSION ));
 
 	ctxt->dbi = dbi;	
 	ctxt->client = NULL;
@@ -1350,7 +1348,7 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->timezone = get_default_timezone ();
 	if (ctxt->timezone == NULL)
 		return -1;
-	LOG ("  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone));
+	LOG (g_message ( "  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone) ));
 	
 	/* Set the default timezone on the backend. */
 	if (ctxt->timezone)
@@ -1464,7 +1462,7 @@ post_sync (GnomePilotConduit *conduit,
 	GList *changed;
 	gchar *filename, *change_id;
 	
-	LOG ("post_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
+	LOG (g_message ( "post_sync: Calendar Conduit v.%s", CONDUIT_VERSION ));
 
 	g_free (ctxt->cfg->last_uri);
 	ctxt->cfg->last_uri = g_strdup (cal_client_get_uri (ctxt->client));
@@ -1482,7 +1480,7 @@ post_sync (GnomePilotConduit *conduit,
 	cal_client_change_list_free (changed);
 	g_free (change_id);
 	
-	LOG ("---------------------------------------------------------\n");
+	LOG (g_message ( "---------------------------------------------------------\n" ));
 
 	return 0;
 }
@@ -1495,7 +1493,7 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 {
 	const char *uid;
 
-	LOG ("set_pilot_id: setting to %d\n", ID);
+	LOG (g_message ( "set_pilot_id: setting to %d\n", ID ));
 	
 	cal_component_get_uid (local->comp, &uid);
 	e_pilot_map_insert (ctxt->map, ID, uid, FALSE);
@@ -1510,7 +1508,7 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 {
 	const char *uid;
 	
-	LOG ("set_status_cleared: clearing status\n");
+	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 	
 	cal_component_get_uid (local->comp, &uid);
 	g_hash_table_remove (ctxt->changed_hash, uid);
@@ -1529,13 +1527,13 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 
 	if (*local == NULL) {
-		LOG ("beginning for_each");
+		LOG (g_message ( "beginning for_each" ));
 
 		uids = ctxt->uids;
 		count = 0;
 		
 		if (uids != NULL) {
-			LOG ("iterating over %d records", g_list_length (uids));
+			LOG (g_message ( "iterating over %d records", g_list_length (uids) ));
 
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_uid (*local, uids->data, ctxt);
@@ -1543,7 +1541,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 
 			iterator = uids;
 		} else {
-			LOG ("no events");
+			LOG (g_message ( "no events" ));
 			(*local) = NULL;
 			return 0;
 		}
@@ -1556,7 +1554,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			local_record_from_uid (*local, iterator->data, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
-			LOG ("for_each ending");
+			LOG (g_message ( "for_each ending" ));
 
 			/* Tell the pilot the iteration is over */
 			*local = NULL;
@@ -1579,13 +1577,13 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 
 	if (*local == NULL) {
-		LOG ("for_each_modified beginning\n");
+		LOG (g_message ( "for_each_modified beginning\n" ));
 		
 		iterator = ctxt->changed;
 		
 		count = 0;
 	
-		LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
+		LOG (g_message ( "iterating over %d records", g_hash_table_size (ctxt->changed_hash) ));
 		
 		iterator = next_changed_item (ctxt, iterator);
 		if (iterator != NULL) {
@@ -1595,7 +1593,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			local_record_from_comp (*local, ccc->comp, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
-			LOG ("no events");
+			LOG (g_message ( "no events" ));
 
 			*local = NULL;
 		}
@@ -1609,7 +1607,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 			local_record_from_comp (*local, ccc->comp, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
-			LOG ("for_each_modified ending");
+			LOG (g_message ( "for_each_modified ending" ));
 
 			/* Signal the iteration is over */
 			*local = NULL;
@@ -1629,8 +1627,8 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	GnomePilotRecord local_pilot;
 	int retval = 0;
 
-	LOG ("compare: local=%s remote=%s...\n",
-		print_local (local), print_remote (remote));
+	LOG (g_message ("compare: local=%s remote=%s...\n",
+			print_local (local), print_remote (remote)));
 
 	g_return_val_if_fail (local!=NULL,-1);
 	g_return_val_if_fail (remote!=NULL,-1);
@@ -1642,9 +1640,9 @@ compare (GnomePilotConduitSyncAbs *conduit,
 		retval = 1;
 
 	if (retval == 0)
-		LOG ("    equal");
+		LOG (g_message ( "    equal" ));
 	else
-		LOG ("    not equal");
+		LOG (g_message ( "    not equal" ));
 	
 	return retval;
 }
@@ -1660,7 +1658,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	
 	g_return_val_if_fail (remote != NULL, -1);
 
-	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
+	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
 	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone);
 
@@ -1689,8 +1687,8 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	
 	g_return_val_if_fail (remote != NULL, -1);
 
-	LOG ("replace_record: replace %s with %s\n",
-	     print_local (local), print_remote (remote));
+	LOG (g_message ("replace_record: replace %s with %s\n",
+			print_local (local), print_remote (remote)));
 
 	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone);
 	g_object_unref (local->comp);
@@ -1712,7 +1710,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 
 	cal_component_get_uid (local->comp, &uid);
 
-	LOG ("delete_record: deleting %s\n", uid);
+	LOG (g_message ( "delete_record: deleting %s\n", uid ));
 
 	e_pilot_map_remove_by_uid (ctxt->map, uid);
 	cal_client_remove_object (ctxt->client, uid);
@@ -1731,7 +1729,7 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 	
 	g_return_val_if_fail (local != NULL, -1);
 
-	LOG ("archive_record: %s\n", archive ? "yes" : "no");
+	LOG (g_message ( "archive_record: %s\n", archive ? "yes" : "no" ));
 
 	cal_component_get_uid (local->comp, &uid);
 	e_pilot_map_insert (ctxt->map, local->local.ID, uid, archive);
@@ -1747,8 +1745,8 @@ match (GnomePilotConduitSyncAbs *conduit,
 {
 	const char *uid;
 	
-	LOG ("match: looking for local copy of %s\n",
-	     print_remote (remote));	
+	LOG (g_message ("match: looking for local copy of %s\n",
+			print_remote (remote)));	
 	
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
@@ -1759,7 +1757,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	if (!uid)
 		return 0;
 
-	LOG ("  matched\n");
+	LOG (g_message ( "  matched\n" ));
 	
 	*local = g_new0 (ECalLocalRecord, 1);
 	local_record_from_uid (*local, uid, ctxt);
@@ -1772,7 +1770,7 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 	    ECalLocalRecord *local,
 	    ECalConduitContext *ctxt)
 {
-	LOG ("free_match: freeing\n");
+	LOG (g_message ( "free_match: freeing\n" ));
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -1787,7 +1785,7 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 	 GnomePilotRecord *remote,
 	 ECalConduitContext *ctxt)
 {
-	LOG ("prepare: encoding local %s\n", print_local (local));
+	LOG (g_message ( "prepare: encoding local %s\n", print_local (local) ));
 
 	*remote = local_record_to_pilot_record (local, ctxt);
 
@@ -1809,7 +1807,7 @@ create_settings_window (GnomePilotConduit *conduit,
 			GtkWidget *parent,
 			ECalConduitContext *ctxt)
 {
-	LOG ("create_settings_window");
+	LOG (g_message ( "create_settings_window" ));
 
 	ctxt->ps = e_pilot_settings_new ();
 	ctxt->gui = e_cal_gui_new (E_PILOT_SETTINGS (ctxt->ps));
@@ -1824,7 +1822,7 @@ create_settings_window (GnomePilotConduit *conduit,
 static void
 display_settings (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 {
-	LOG ("display_settings");
+	LOG (g_message ( "display_settings" ));
 	
 	fill_widgets (ctxt);
 }
@@ -1832,7 +1830,7 @@ display_settings (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 static void
 save_settings    (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 {
-	LOG ("save_settings");
+	LOG (g_message ( "save_settings" ));
 
 	ctxt->new_cfg->secret =
 		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
@@ -1844,7 +1842,7 @@ save_settings    (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 static void
 revert_settings  (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 {
-	LOG ("revert_settings");
+	LOG (g_message ( "revert_settings" ));
 
 	calconduit_save_configuration (ctxt->cfg);
 	calconduit_destroy_configuration (ctxt->new_cfg);
@@ -1857,7 +1855,7 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	GtkObject *retval;
 	ECalConduitContext *ctxt;
 
-	LOG ("in calendar's conduit_get_gpilot_conduit\n");
+	LOG (g_message ( "in calendar's conduit_get_gpilot_conduit\n" ));
 
 	retval = gnome_pilot_conduit_sync_abs_new ("DatebookDB", 0x64617465);
 	g_assert (retval != NULL);
