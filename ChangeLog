@@ -1,3 +1,30 @@
+2002-04-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/cde_app_root/Makefile.am: New.
+	* data/cde_app_root/dt/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/appmanager/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/appmanager/C/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Evolution: New.
+	* data/cde_app_root/dt/appconfig/icons/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Evolution.l.pm: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Evolution.m.pm: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Evolution.t.pm: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Ximian.l.pm: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Ximian.m.pm: New.
+	* data/cde_app_root/dt/appconfig/icons/C/Ximian.t.pm: New.
+	* data/cde_app_root/dt/appconfig/types/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/types/C/Makefile.am: New.
+	* data/cde_app_root/dt/appconfig/types/C/Ximian.dt.in: New.
+
+	* configure.in: Add a `--with-cde-path' option.  Check for
+	dtappintegrate in that path.  Define HAVE_DTAPPINTEGRATE and
+	GNOME_PREFIX.  Also, generate
+	data/cde_app_root/dt/appconfig/types/C/Ximian.dt.in and
+	shell/evolution-nognome.
+
 2002-04-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Change VERSION to 1.0.4.99.

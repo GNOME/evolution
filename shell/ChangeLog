@@ -1,3 +1,9 @@
+2002-04-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-nognome.in: New script to run Evolution under a
+	non-GNOME session when using a non-default GNOME prefix and a
+	non-default Evolution prefix.
+
 2002-04-22  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-storage.c (evolution_storage_update_folder,

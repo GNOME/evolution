@@ -223,7 +223,8 @@ EXTRA_DIST = 					\
 	$(oaf_in_files)				\
 	$(oaf_DATA)				\
 	$(etspec_DATA)				\
-	GNOME_Evolution_TestComponent.oaf
+	GNOME_Evolution_TestComponent.oaf	\
+	evolution-nognome.in
 
 # Purify support
 
@@ -245,3 +246,9 @@ BUILT_SOURCES = $(IDL_GENERATED)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
+
+if HAVE_DTAPPINTEGRATE
+
+bin_SCRIPTS = evolution-nognome
+
+endif
