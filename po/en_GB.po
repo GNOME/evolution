@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "POT-Creation-Date: 2004-06-03 11:14-0400\n"
-"PO-Revision-Date: 2004-05-25 19:22-0400\n"
+"PO-Revision-Date: 2004-06-06 12:27-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -411,11 +411,10 @@ msgid "Email address"
 msgstr "Email address"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
 msgstr ""
-"Evolution will use this email address to authenticate you with the server"
+"Evolution will use this email address to authenticate you with the server."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -437,9 +436,8 @@ msgid "Only locations within starting point"
 msgstr "Only locations within starting point"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
-msgstr "Search base:"
+msgstr "Search _base:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search base only"
@@ -454,17 +452,14 @@ msgid "Search scope:"
 msgstr "Search scope:"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
 msgstr ""
 "Selecting this option means that Evolution will only connect to your LDAP "
-"server if\n"
-"your LDAP server supports SSL or TLS."
+"server if your LDAP server supports SSL or TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a insecure environment. For example, if you and your LDAP server "
@@ -472,25 +467,19 @@ msgid ""
 "because your connection is already secure."
 msgstr ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
-"you are in a \n"
-"insecure environment. For example, if you and your LDAP server are behind a "
-"firewall\n"
-"at work, then Evolution doesn't need to use SSL/TLS because your connection "
-"is already\n"
-"secure."
+"you are in a insecure environment. For example, if you and your LDAP server "
+"are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
+"because your connection is already secure."
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
 msgstr ""
 "Selecting this option means that your server does not support either SSL or "
-"TLS.  This \n"
-"means that your connection will be insecure, and that you will be vulnerable "
-"to security\n"
-"exploits. "
+"TLS.  This means that your connection will be insecure, and that you will be "
+"vulnerable to security exploits. "
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
@@ -501,19 +490,16 @@ msgid "Supported Search Bases"
 msgstr "Supported Search Bases"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
-#, fuzzy
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
 "The search base is the distinguished name (DN)  of the entry where your "
-"searches will \n"
-"begin. If you leave this blank, the search will begin at the root of the "
-"directory tree."
+"searches will begin. If you leave this blank, the search will begin at the "
+"root of the directory tree."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
@@ -521,11 +507,9 @@ msgid ""
 "one level beneath your base."
 msgstr ""
 "The search scope defines how deep you would like the search to extend down "
-"the \n"
-"directory tree. A search scope of \"sub\" will include all entries below "
-"your search base.\n"
-"A search scope of \"one\" will only include the entries one level beneath "
-"your base.\n"
+"the directory tree. A search scope of \"sub\" will include all entries below "
+"your search base. A search scope of \"one\" will only include the entries "
+"one level beneath your base."
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -536,13 +520,11 @@ msgstr ""
 "\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:39
-#, fuzzy
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
-"This is the maximum number of entries to download. Setting this number to "
-"be \n"
+"This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
@@ -556,26 +538,22 @@ msgstr ""
 "server."
 
 #: addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
 "This is the name for this server that will appear in your Evolution folder "
-"list.\n"
-"It is for display purposes only. "
+"list. It is for display purposes only. "
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#, fuzzy
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
-"This is the port on the LDAP server that Evolution will try to connect to. "
-"A \n"
-"list of standard ports has been provided. Ask your system administrator\n"
-"what port you should specify."
+"This is the port on the LDAP server that Evolution will try to connect to. A "
+"list of standard ports has been provided. Ask your system administrator what "
+"port you should specify."
 
 #: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Timeout:"
@@ -607,18 +585,16 @@ msgid "_Email address:"
 msgstr "_Email address:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Find Possible Search Bases"
+msgstr "_Find Possible Search Bases"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Log in method:"
 msgstr "_Log in method:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "_Log in:"
-msgstr "Login"
+msgstr "_Log in:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
@@ -630,18 +606,16 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: addressbook/gui/component/ldap-config.glade.h:55
-#, fuzzy
 msgid "_Search scope:"
-msgstr "Search scope:"
+msgstr "_Search scope:"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Server:"
 msgstr "_Server:"
 
 #: addressbook/gui/component/ldap-config.glade.h:57
-#, fuzzy
 msgid "_Timeout:"
-msgstr "Timeout:"
+msgstr "_Timeout:"
 
 #: addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
@@ -863,9 +837,8 @@ msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "Office:"
-msgstr "_Office:"
+msgstr "Office:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "PO Box:"
@@ -880,9 +853,8 @@ msgid "Profession:"
 msgstr "Profession:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "Spouse:"
-msgstr "S_pouse:"
+msgstr "Spouse:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "State/Province:"
@@ -894,16 +866,15 @@ msgstr "Title:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
-msgstr ""
+msgstr "Video Chat:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
 msgstr "Wants to receive HTML mail"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "Web Log:"
-msgstr "Web Page:"
+msgstr "Web Log:"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
@@ -4735,9 +4706,8 @@ msgid "Add A_ttendee"
 msgstr "Add A_ttendee"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "Add attendees from addressbook."
-msgstr "Add Sender to Address_book"
+msgstr "Add attendees from addressbook."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-itip-control.glade.h:9
@@ -6117,28 +6087,24 @@ msgid "No Information"
 msgstr "No Information"
 
 #: calendar/gui/e-meeting-time-sel.c:417
-#, fuzzy
 msgid "Add attendees from addressbook"
-msgstr "Add Sender to Address_book"
+msgstr "Add attendees from addressbook"
 
 #: calendar/gui/e-meeting-time-sel.c:440
 msgid "_Options"
 msgstr "_Options"
 
 #: calendar/gui/e-meeting-time-sel.c:457
-#, fuzzy
 msgid "Show _only working hours"
-msgstr "Show _Only Working Hours"
+msgstr "Show _only working hours"
 
 #: calendar/gui/e-meeting-time-sel.c:467
-#, fuzzy
 msgid "Show _zoomed out"
-msgstr "Show _Zoomed Out"
+msgstr "Show _zoomed out"
 
 #: calendar/gui/e-meeting-time-sel.c:482
-#, fuzzy
 msgid "_Update free/busy"
-msgstr "_Update Free/Busy"
+msgstr "_Update free/busy"
 
 #: calendar/gui/e-meeting-time-sel.c:497
 msgid "_<<"
@@ -6153,24 +6119,20 @@ msgid ">_>"
 msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:547
-#, fuzzy
 msgid "_All people and resources"
-msgstr "_All People and Resources"
+msgstr "_All people and resources"
 
 #: calendar/gui/e-meeting-time-sel.c:556
-#, fuzzy
 msgid "All _people and one resource"
-msgstr "All _People and One Resource"
+msgstr "All _people and one resource"
 
 #: calendar/gui/e-meeting-time-sel.c:565
-#, fuzzy
 msgid "_Required people"
-msgstr "_Required People"
+msgstr "_Required people"
 
 #: calendar/gui/e-meeting-time-sel.c:574
-#, fuzzy
 msgid "Required people and _one resource"
-msgstr "Required People and _One Resource"
+msgstr "Required people and _one resource"
 
 #: calendar/gui/e-meeting-time-sel.c:593
 msgid "Meeting _start time:"
@@ -10846,9 +10808,9 @@ msgstr "Internal error: uid in invalid format: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:331
 #: camel/providers/nntp/camel-nntp-folder.c:373
 #: camel/providers/nntp/camel-nntp-folder.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "Operation failed: %s"
+msgstr "Posting failed: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
@@ -10965,19 +10927,17 @@ msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr "You cannot remove a folder in a News store: unsubscribe instead."
 
 #: camel/providers/nntp/camel-nntp-store.c:1118
-#, fuzzy
 msgid "Authentication requested but not username provided"
-msgstr "Authentication required"
+msgstr "Authentication requested but not username provided"
 
 #: camel/providers/nntp/camel-nntp-store.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr "Cannot authenticate to IMAP server %s using %s"
+msgstr "Cannot authenticate to server: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1262
-#, fuzzy
 msgid "Not connected."
-msgstr "No contacts"
+msgstr "Not connected."
 
 #: camel/providers/nntp/camel-nntp-store.c:1311
 #, c-format
@@ -10991,14 +10951,14 @@ msgid "%s: Scanning new messages"
 msgstr "%s: Scanning new messages"
 
 #: camel/providers/nntp/camel-nntp-summary.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Unexpected response from IMAP server: %s"
+msgstr "Unexpected server response from xover: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Unexpected response from GnuPG: %s"
+msgstr "Unexpected server response from head: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:368
 msgid "Use cancel"
@@ -11699,9 +11659,8 @@ msgstr "Attach file(s)"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "You cannot attach the file `${0}' to this message."
+msgstr "You cannot attach the file `{0}' to this message."
 
 #. mail-composer:no-attach secondary
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
@@ -11710,9 +11669,8 @@ msgstr "{1}"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
-#, fuzzy
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "The file `${0}' is not a regular file and cannot be sent in a message."
+msgstr "The file `{0}' is not a regular file and cannot be sent in a message."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -11805,9 +11763,8 @@ msgstr "Could not create message."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "Because \"${0}\", you may need to select different mail options."
+msgstr "Because \"{0}\", you may need to select different mail options."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:36
@@ -15818,7 +15775,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Toolbar is visible"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
@@ -15826,7 +15783,7 @@ msgstr "Whether Evolution should start up in offline mode"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "Whether the toolbar should be visible."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
@@ -15949,9 +15906,8 @@ msgid "Automatic"
 msgstr "Automatic"
 
 #: shell/e-shell-importer.c:626
-#, fuzzy
 msgid "F_ilename:"
-msgstr "File name:"
+msgstr "F_ilename:"
 
 #: shell/e-shell-importer.c:631
 msgid "Select a file"
@@ -16080,9 +16036,8 @@ msgid "Bug buddy could not be run."
 msgstr "Bug buddy could not be run."
 
 #: shell/e-shell-window-commands.c:323
-#, fuzzy
 msgid "Groupware Suite"
-msgstr "Groupwise"
+msgstr "Groupware Suite"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16590,7 +16545,7 @@ msgstr "Contact Certificates"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Do not trust the authenticity of this certificate"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -16601,9 +16556,8 @@ msgid "Edit"
 msgstr "Edit"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Email Certificate Authority"
+msgstr "Email Certificate Trust Settings"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16647,7 +16601,7 @@ msgstr "SSL Server Certificate"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Trust the authenticity of this certificate"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
@@ -16685,7 +16639,7 @@ msgstr "Your Certificates"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Edit CA Trust"
 
 #: smime/lib/e-cert.c:238 smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
@@ -16693,14 +16647,12 @@ msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
-msgstr "Signing"
+msgstr "Sign"
 
 #: smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
-msgstr "Encrypted"
+msgstr "Encrypt"
 
 #: smime/lib/e-cert.c:530
 msgid "Version"
@@ -18206,18 +18158,16 @@ msgid "_Open Task"
 msgstr "_Open Task"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
-msgstr "About Evolution"
+msgstr "About Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
 msgstr "Change Evolution's settings"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Change the properties of this folder"
+msgstr "Change the visibility of the toolbar"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -18228,9 +18178,8 @@ msgid "E_xit"
 msgstr "E_xit"
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Ximian Evolution _FAQ"
+msgstr "Evolution _FAQ"
 
 #: ui/evolution.xml.h:9
 msgid "Exit the program"
@@ -18269,9 +18218,8 @@ msgid "Set up Pilot configuration"
 msgstr "Set up Pilot configuration"
 
 #: ui/evolution.xml.h:19
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "Show information about Ximian Evolution"
+msgstr "Show information about Evolution"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
@@ -18286,18 +18234,16 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Submit a bug report using Bug Buddy"
 
 #: ui/evolution.xml.h:23
-#, fuzzy
 msgid "T_oolbar"
-msgstr "Main toolbar"
+msgstr "T_oolbar"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
 msgstr "Toggle whether we are working offline."
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "_About Evolution..."
-msgstr "About Evolution"
+msgstr "_About Evolution..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
