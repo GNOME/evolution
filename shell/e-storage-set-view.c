@@ -1356,8 +1356,14 @@ etree_icon_at (ETreeModel *etree,
 	if (depth == 1) {
 		EStorage *storage;
 		const char *storage_type;
+		GList *subfolder_paths;
 
 		storage = e_storage_set_get_storage (storage_set, path + 1);
+		subfolder_paths = e_storage_get_subfolder_paths (storage, "/");
+		if (subfolder_paths != NULL) {
+			e_free_string_list (subfolder_paths);
+			return NULL;
+		}
 
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 		storage_type = e_storage_get_toplevel_node_type (storage);
