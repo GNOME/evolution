@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
 #define PARENT_TYPE e_cell_text_get_type ()
 
@@ -26,8 +27,9 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	char buf[26];
 	gboolean done = FALSE;
 
-	if (date == 0)
-		return g_strdup (_("?"));
+	if (date == 0) {
+		return e_utf8_from_locale_string (_("?"));
+	}
 
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
@@ -75,8 +77,8 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	ctime_r (&date, buf);
 #endif
 #endif
-
-	return g_strdup (buf);
+	
+	return e_utf8_from_locale_string (buf);
 }
 
 static void
