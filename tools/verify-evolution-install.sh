@@ -45,7 +45,7 @@ check_config() {
     eval $1=\${$1-$2}
 
     eval val=\$$1
-    if which $val </dev/null 1>/dev/null 2>&1 ; then
+    if type $val </dev/null 1>/dev/null 2>&1 ; then
 	:
     else
 	problem="Cannot find $2 or it ($val) is not executable"
@@ -406,7 +406,7 @@ versionparse3 "`$OAF_CONFIG --version`" "0.4.0" "oaf"
 check_bin oafd
 
 OAF_CLIENT=${OAF_CLIENT-oaf-client}
-if which $OAF_CLIENT </dev/null >/dev/null 2>&1 ; then
+if type $OAF_CLIENT </dev/null >/dev/null 2>&1 ; then
     :
 else
     problem="oaf-client couldn't be found"
