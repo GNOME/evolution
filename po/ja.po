@@ -1215,9 +1215,8 @@ msgid "_Department:"
 msgstr "担当部署(_D):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "_Free/Busy Information:"
-msgstr "必須情報"
+msgstr "空き/多忙 情報(_F):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Full Name..."
@@ -1264,13 +1263,12 @@ msgid "_Web page address:"
 msgstr "ウェブページのURL(_W):"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
-"本当にこのアカウントを削除\n"
-"してもよろしいですか?"
+"本当にこの連絡先を\n"
+"削除してもよろしいですか?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -2889,9 +2887,8 @@ msgid "Factory to centralize calendar component editor dialogs"
 msgstr "Evolution カレンダコンポーネントのためのファクトリ"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:9
-#, fuzzy
 msgid "Factory to create a component editor factory"
-msgstr "Evolution カレンダコンポーネントのためのファクトリ"
+msgstr "Evolution コンポーネントエディタを作成するためのファクトリ"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -5619,9 +5616,8 @@ msgid "Operation cancelled"
 msgstr "操作はキャンセルしました"
 
 #: camel/camel-remote-store.c:489
-#, fuzzy, c-format
 msgid "Server unexpectedly disconnected: %s"
-msgstr "サーバは突然切断しました"
+msgstr "サーバは予期しない切断をしました: %s"
 
 #: camel/camel-sasl-anonymous.c:33
 msgid "Anonymous"
@@ -6454,34 +6450,30 @@ msgid "Cannot append message to spool file: %s: %s"
 msgstr "mbox ファイルにメッセージを追加出来ません: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:133
-#, fuzzy, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
-msgstr "`%s' は通常のファイルではありません"
+msgstr "スプール`%s' は存在しないか通常のファイルではありません"
 
 #: camel/providers/local/camel-spool-store.c:159
-#, fuzzy, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "フォルダ `%s' は存在しません"
+msgstr "フォルダ `%s/%s' は存在しません"
 
 #: camel/providers/local/camel-spool-store.c:181
-#, fuzzy, c-format
 msgid "Spool mail file %s"
-msgstr "ローカルメールファイル %s"
+msgstr "スプールメールファイル %s"
 
 #: camel/providers/local/camel-spool-store.c:227
 msgid "Spool folders cannot be renamed"
-msgstr ""
+msgstr "スプールフォルダはリネームできません"
 
 #: camel/providers/local/camel-spool-store.c:235
 msgid "Spool folders cannot be deleted"
-msgstr ""
+msgstr "スプールフォルダは削除できません"
 
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-spool-summary.c:379
-#, fuzzy
 msgid "Summarising folder"
-msgstr "フォルダをサマライズ中"
+msgstr "フォルダのサマリを作成中"
 
 #: camel/providers/local/camel-spool-summary.c:384
 #, fuzzy, c-format
@@ -6515,9 +6507,8 @@ msgid ""
 msgstr ""
 
 #: camel/providers/local/camel-spool-summary.c:941
-#, fuzzy, c-format
 msgid "Could not file: %s: %s"
-msgstr "%s をロード出来ませんでした: %s"
+msgstr "ファイル出来ませんでした: %s: %s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:45
 #, c-format
@@ -6601,14 +6592,12 @@ msgid "Could not open folder: message listing was incomplete."
 msgstr "フォルダを開けませんでした: メッセージリストは未完成です"
 
 #: camel/providers/pop3/camel-pop3-folder.c:259
-#, fuzzy
 msgid "Expunging deleted messages"
-msgstr "選択されたメッセージを印刷します"
+msgstr "削除されたメッセージを消去します"
 
 #: camel/providers/pop3/camel-pop3-folder.c:335
-#, c-format
 msgid "Could not fetch message: %s"
-msgstr "メッセージを取り出すことが出来ませんでした: %s"
+msgstr "メッセージを取得出来ませんでした: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:351
 #, c-format
@@ -6727,9 +6716,8 @@ msgid "No such folder `%s'."
 msgstr "そのようなフォルダ `%s' はありません"
 
 #: camel/providers/pop3/camel-pop3-store.c:567
-#, fuzzy, c-format
 msgid "Unexpected response from POP server: %s"
-msgstr "IMAP サーバから予期しない応答がありました: %s"
+msgstr "POPサーバから予期しない応答がありました: %s"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:37
 #: mail/mail-config.glade.h:72
@@ -7162,11 +7150,11 @@ msgid "Attach a file"
 msgstr "ファイルを添付します"
 
 #: composer/e-msg-composer.c:676
-#, fuzzy, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
-msgstr "ファイルのロード中にエラー: %s"
+msgstr "ファイルの読み込み中にエラー: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:858
 msgid "Save as..."
@@ -7204,45 +7192,40 @@ msgid "Error accessing file: %s"
 msgstr "ファイルのアクセス中にエラー: %s"
 
 #: composer/e-msg-composer.c:1044
-#, fuzzy
 msgid "Unable to retrieve message from editor"
-msgstr "POP サーバ %s からメッセージを取得出来ませんでした: %s"
+msgstr "エディタからメッセージを取得出来ませんでした"
 
 #: composer/e-msg-composer.c:1050
-#, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
-"出力ファイルを作成出来ません: %s\n"
-" %s"
+"ファイルを走査できません: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1056
-#, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
-"出力ファイルを作成出来ません: %s\n"
-" %s"
+"ファイルを切り詰めることが出来ません: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1065
-#, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr ""
-"ファイルの保存中にエラー: %s:\n"
+"メッセージの自動保存中にエラー: %s\n"
 " %s"
 
 #: composer/e-msg-composer.c:1165
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Evolution は Pine メールファイルを発見しました\n"
-"Evolution へインポートしてもよろしいですか?"
+"Evolution は 前回のセッションで保存されていないファイルを発見しました。\n"
+"これらをリカバリしてみますか?"
 
 #: composer/e-msg-composer.c:1313
 msgid ""
@@ -8014,9 +7997,8 @@ msgid "Mail configuration interface"
 msgstr "メール設定のインターフェース"
 
 #: mail/component-factory.c:96
-#, fuzzy
 msgid "Folder containing mail"
-msgstr "メーリングリストの仮想フォルダ"
+msgstr "メールを含むフォルダ"
 
 #: mail/component-factory.c:97
 msgid "Mail storage folder (internal)"
@@ -8032,16 +8014,15 @@ msgstr "仮想ごみ箱フォルダ"
 
 #: mail/component-factory.c:114
 msgid "This folder cannot contain messages."
-msgstr ""
+msgstr "このフォルダにはメッセージはありません。"
 
 #: mail/component-factory.c:356
 msgid "Properties..."
 msgstr "プロパティ..."
 
 #: mail/component-factory.c:356
-#, fuzzy
 msgid "Change this folder's properties"
-msgstr "ファイルのプロパティを修正します"
+msgstr "このフォルダのプロパティを変更"
 
 #: mail/component-factory.c:790
 msgid "New Mail Message"
@@ -8176,9 +8157,8 @@ msgid "Mark as U_nread"
 msgstr "未読としてマーク(_N)"
 
 #: mail/folder-browser.c:1360
-#, fuzzy
 msgid "Mark as _Important"
-msgstr "重要"
+msgstr "重要としてマーク(_I)"
 
 #: mail/folder-browser.c:1362
 #, fuzzy
@@ -8198,9 +8178,8 @@ msgid "_Undelete"
 msgstr "削除取消(_U)"
 
 #: mail/folder-browser.c:1378
-#, fuzzy
 msgid "Add Sender to Address Book"
-msgstr "アドレス帳に追加"
+msgstr "送信者をアドレス帳に追加"
 
 #: mail/folder-browser.c:1383
 msgid "Apply Filters"
@@ -8229,9 +8208,8 @@ msgid "VFolder on Mailing List (%s)"
 msgstr "メーリングリストの仮想フォルダ (%s)"
 
 #: mail/folder-info.c:64
-#, fuzzy
 msgid "Getting Folder Information"
-msgstr "付加情報"
+msgstr "フォルダ情報の取得"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Factory to import mbox into Evolution"
@@ -8289,9 +8267,8 @@ msgstr "必要な情報のすべてを埋めていません"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
-#, fuzzy
 msgid "Evolution News Editor"
-msgstr "Evolution アカウントエディタ"
+msgstr "Evolution ニュースエディタ"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:163
@@ -8299,29 +8276,26 @@ msgid "Evolution Account Editor"
 msgstr "Evolution アカウントエディタ"
 
 #: mail/mail-account-gui.c:945
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "PGP 署名コンテキストを作成出来ませんでした"
+msgstr "署名ファイルを保存出来ませんでした"
 
 #: mail/mail-account-gui.c:1022
-#, fuzzy
 msgid "Save signature"
-msgstr "署名ファイル:"
+msgstr "署名を保存"
 
 #: mail/mail-account-gui.c:1028
-#, fuzzy
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"このメッセージは送信していません\n"
+"この署名は変更されていますが、保存されていません。\n"
 "\n"
 "変更を保存しますか?"
 
 #: mail/mail-account-gui.c:1611
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "同じ名前のアカウントを2つ作成できません。"
 
 #: mail/mail-accounts.c:144
 msgid " (default)"
@@ -8344,9 +8318,8 @@ msgid "Don't delete"
 msgstr "削除しない"
 
 #: mail/mail-accounts.c:285
-#, fuzzy
 msgid "Really delete account?"
-msgstr "デフォルトアカウントを作る"
+msgstr "本当にアカウントを削除しますか?"
 
 #: mail/mail-accounts.c:511 mail/mail-accounts.c:515
 msgid "Are you sure you want to delete this news account?"
@@ -8354,9 +8327,8 @@ msgstr "本当に news アカウントを削除してもよろしいですか?"
 
 #. give our dialog an Close button and title
 #: mail/mail-accounts.c:757 mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Mail Settings"
-msgstr "メール設定(_M)..."
+msgstr "メール設定"
 
 #: mail/mail-autofilter.c:70
 #, c-format
@@ -8452,9 +8424,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-callbacks.c:419
-#, fuzzy
 msgid "This message contains invalid recipients:"
-msgstr "メッセージを送信出来ません: 受信者が定義されていません"
+msgstr "このメッセージは不適切な受信者を含んでいます:"
 
 #: mail/mail-callbacks.c:453
 msgid "You must specify recipients in order to send this message."
@@ -8529,10 +8500,14 @@ msgid ""
 "\n"
 "Really erase these messages?"
 msgstr ""
+"この操作は削除にマークされているすべてのメッセージを消去します。操作を続行"
+"すると、これらのメッセージを元に戻せなくなります。\n"
+"\n"
+"本当にこれらのメッセージを消去しますか?"
 
 #: mail/mail-callbacks.c:1871
 msgid "Do not ask me again."
-msgstr "二度と尋ねない"
+msgstr "二度と質問しない"
 
 #: mail/mail-callbacks.c:1976
 #, c-format
@@ -8571,19 +8546,17 @@ msgstr ""
 "ありません"
 
 #: mail/mail-config-druid.c:137
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"以下にメールサーバついての情報を入力してください．もしあなたの使うサーバの\n"
-"種類が何かを知らないならばシステム管理者かインターネットプロバイダと\n"
-"連絡をとってみてください"
+"以下にメールサーバついての情報を入力してください．もしよく分からなければ"
+"システム管理者かインターネットプロバイダに相談してみてください。"
 
 #: mail/mail-config-druid.c:139
 msgid "Please select among the following options"
-msgstr ""
+msgstr "次のオプションから選択してください"
 
 #: mail/mail-config-druid.c:141
 #, fuzzy
@@ -9715,7 +9688,7 @@ msgstr "表示オプション"
 
 #: mail/subscribe-dialog.glade.h:4
 msgid "Folders whose names begin with:"
-msgstr ""
+msgstr "フォルダ名の先頭:"
 
 #: mail/subscribe-dialog.glade.h:5
 msgid "Manage Subscriptions"
@@ -9723,7 +9696,7 @@ msgstr "購読管理"
 
 #: mail/subscribe-dialog.glade.h:6
 msgid "Show _folders from server: "
-msgstr ""
+msgstr "サーバのフォルダを表示: "
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
@@ -9739,7 +9712,7 @@ msgstr "実行サマリのための Evolution コンポーネント"
 
 #: my-evolution/component-factory.c:30
 msgid "Folder containing the Evolution Summary"
-msgstr ""
+msgstr "Evolutionサマリーを含むフォルダ"
 
 #: my-evolution/component-factory.c:139
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -9805,7 +9778,7 @@ msgstr "RDF のダウンロード中にエラー"
 
 #: my-evolution/e-summary-rdf.c:487
 msgid "News Feed"
-msgstr "ニュース"
+msgstr "ニュースフィード"
 
 #: my-evolution/e-summary-tasks.c:216
 msgid "No tasks"
@@ -9841,7 +9814,7 @@ msgstr "サマリを印刷"
 
 #: my-evolution/e-summary.c:558
 msgid "Printing of Summary failed"
-msgstr ""
+msgstr "サマリの印刷に失敗しました"
 
 #: my-evolution/main.c:52
 #, fuzzy
@@ -10385,18 +10358,16 @@ msgstr ""
 
 #. PRECIPITATION
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Unknown precipitation"
-msgstr "未知の認証状態です"
+msgstr "不明な降水"
 
 #: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
 msgstr ""
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Light precipitation"
-msgstr "引用を強調する"
+msgstr "軽い降水"
 
 #: my-evolution/metar.c:108
 msgid "Moderate precipitation"
@@ -10442,9 +10413,8 @@ msgstr "打合せの案内"
 
 #. MIST
 #: my-evolution/metar.c:109
-#, fuzzy
 msgid "Mist"
-msgstr "Miss"
+msgstr ""
 
 #: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
@@ -11080,9 +11050,8 @@ msgid "Ma_x number of items shown:"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:9
-#, fuzzy
 msgid "News Feed Settings"
-msgstr "設定"
+msgstr "ニュースフィード設定"
 
 #: my-evolution/my-evolution.glade.h:10
 msgid "One mont_h"
@@ -11150,9 +11119,8 @@ msgid "_Mail"
 msgstr "メール (_M)"
 
 #: my-evolution/my-evolution.glade.h:26
-#, fuzzy
 msgid "_News Feeds"
-msgstr "設定"
+msgstr "ニュースフィード(_N)"
 
 #: my-evolution/my-evolution.glade.h:27
 msgid "_One day"
@@ -11304,7 +11272,6 @@ msgid "Move folder"
 msgstr "フォルダの移動"
 
 #: shell/e-shell-folder-commands.c:367
-#, fuzzy, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
@@ -11319,9 +11286,8 @@ msgstr "フォルダを削除します '%s'"
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:393
-#, fuzzy, c-format
 msgid "Are you sure you want to remove the '%s' folder?"
-msgstr "本当にタスク `%s' を削除してもよろしいですか?"
+msgstr "本当にフォルダ '%s' を削除してもよろしいですか?"
 
 #. Popup a dialog asking what the user would like to rename
 #. the folder to
@@ -12512,9 +12478,8 @@ msgid "_Send / Receive"
 msgstr "送受信(_S)"
 
 #: ui/evolution-mail-global.xml.h:24
-#, fuzzy
 msgid "_Subscribe to Folders..."
-msgstr "フォルダ \"%s\" を購読中"
+msgstr "フォルダで購読..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -12526,12 +12491,11 @@ msgstr "選択されたメッセージをコピー"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
-msgstr "切取り"
+msgstr "切り取り(_T)"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Cut selected messages"
-msgstr "選択されたメッセージを印刷します"
+msgstr "選択されたメッセージの切り取り"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -12542,7 +12506,6 @@ msgid "Hide _Deleted Messages"
 msgstr "削除されたメッセージを隠す(_D)"
 
 #: ui/evolution-mail-list.xml.h:7
-#, fuzzy
 msgid "Hide _Read Messages"
 msgstr "既読メッセージを隠す(_R)"
 
@@ -12589,9 +12552,8 @@ msgid "Select all visible messages"
 msgstr "すべてのメッセージを選択します"
 
 #: ui/evolution-mail-list.xml.h:18
-#, fuzzy
 msgid "Sh_ow Hidden Messages"
-msgstr "既読メッセージを隠す(_R)"
+msgstr "隠したメッセージを表示(_O)"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
