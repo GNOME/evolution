@@ -443,6 +443,8 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
 		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, FALSE, FALSE, 0);
+	
+	gtk_object_set_data (GTK_OBJECT (data->container), "part", newpart);
 }
 
 static GtkWidget *
@@ -508,35 +510,48 @@ struct _rule_data {
 static void
 less_parts (GtkWidget *button, struct _rule_data *data)
 {
-	GList *l;
 	FilterPart *part;
-	GtkWidget *w;
+	GtkWidget *rule;
 	
-	l = data->fr->parts;
-	if (g_list_length (l) < 2)
+	if (g_list_length (data->fr->parts) < 2)
 		return;
 	
-	/* remove the last one from the list */
-	l = g_list_last (l);
-	part = l->data;
+	rule = gtk_object_get_data (GTK_OBJECT (button), "rule");
+	part = gtk_object_get_data (GTK_OBJECT (rule), "part");
+	
+	/* remove the part from the list */
 	filter_rule_remove_part (data->fr, part);
 	gtk_object_unref (GTK_OBJECT (part));
 	
 	/* and from the display */
-	l = g_list_last (GTK_BOX (data->parts)->children);
-	w = ((GtkBoxChild *) l->data)->widget;
-	gtk_container_remove (GTK_CONTAINER (data->parts), w);
+	gtk_container_remove (GTK_CONTAINER (data->parts), rule);
+	gtk_container_remove (GTK_CONTAINER (data->parts), button);
+}
+
+static void
+attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row)
+{
+	GtkWidget *remove;
+	GtkWidget *pixmap;
 	
-	/* if there's only 1 criterion, we can't remove anymore so set insensitive */
-	if (g_list_length (data->fr->parts) <= 1)
-		gtk_widget_set_sensitive (button, FALSE);
+	gtk_table_attach (GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
+			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	
+	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_REMOVE);
+	remove = gnome_pixmap_button (pixmap, _("Remove"));
+	gtk_object_set_data (GTK_OBJECT (remove), "rule", rule);
+	gtk_object_set_data (GTK_OBJECT (rule), "part", part);
+	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
+	gtk_signal_connect (GTK_OBJECT (remove), "clicked", less_parts, data);
+	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
+			  0, 0, 0, 0);
+	gtk_widget_show (remove);
 }
 
 static void
 more_parts (GtkWidget *button, struct _rule_data *data)
 {
 	FilterPart *new;
-	GtkWidget *w;
 	
 	/* first make sure that the last part is ok */
 	if (data->fr->parts) {
@@ -552,16 +567,16 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	/* create a new rule entry, use the first type of rule */
 	new = rule_context_next_part (data->f, NULL);
 	if (new) {
+		GtkWidget *w;
+		int rows;
+		
 		new = filter_part_clone (new);
 		filter_rule_add_part (data->fr, new);
 		w = get_rule_part_widget (data->f, new, data->fr);
-		gtk_box_pack_start (GTK_BOX (data->parts), w, FALSE, FALSE, 0);
-	}
-	
-	/* set the "Remove criterion" button sensitive */
-	if (g_list_length (data->fr->parts) > 1) {
-		w = gtk_object_get_data (GTK_OBJECT (button), "remove");
-		gtk_widget_set_sensitive (w, TRUE);
+		
+		rows = GTK_TABLE (data->parts)->nrows;
+		gtk_table_resize (GTK_TABLE (data->parts), rows + 1, 2);
+		attach_rule (w, data, new, rows);
 	}
 }
 
@@ -583,7 +598,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *vbox, *parts, *inframe;
 	GtkWidget *hbox;
-	GtkWidget *add, *remove, *pixmap;
+	GtkWidget *add, *pixmap;
 	GtkWidget *w;
 	GtkWidget *menu, *item, *omenu;
 	GtkWidget *frame;
@@ -594,6 +609,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	GList *l;
 	FilterPart *part;
 	struct _rule_data *data;
+	gint rows, i = 0;
 	
 	/* this stuff should probably be a table, but the
 	   rule parts need to be a vbox */
@@ -623,8 +639,9 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	inframe = gtk_vbox_new (FALSE, 3);
 	gtk_container_add (GTK_CONTAINER (frame), inframe);
 	
-	/* this is the parts list, it should probably be inside a scrolling list */
-	parts = gtk_vbox_new (FALSE, 3);
+	/* this is the parts table, it should probably be inside a scrolling list */
+	rows = g_list_length (fr->parts);
+	parts = gtk_table_new (rows, 2, FALSE);
 	
 	/* data for the parts part of the display */
 	data = g_malloc0 (sizeof (*data));
@@ -661,17 +678,6 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_signal_connect (GTK_OBJECT (add), "clicked", more_parts, data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
-	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_REMOVE);
-	remove = gnome_pixmap_button (pixmap, _("Remove criterion"));
-	gtk_object_set_data (GTK_OBJECT (add), "remove", remove);
-	gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);
-	gtk_signal_connect (GTK_OBJECT (remove), "clicked", less_parts, data);
-	gtk_box_pack_start (GTK_BOX (hbox), remove, FALSE, FALSE, 3);
-	
-	/* if we only have 1 criterion, then we can't remove any more so disable this */
-	if (g_list_length (fr->parts) <= 1)
-		gtk_widget_set_sensitive (remove, FALSE);
-	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	
@@ -680,8 +686,9 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	l = fr->parts;
 	while (l) {
 		part = l->data;
+		d(printf ("adding rule %s\n", part->title));
 		w = get_rule_part_widget (f, part, fr);
-		gtk_box_pack_start (GTK_BOX (parts), w, FALSE, FALSE, 3);
+		attach_rule (w, data, part, i++);
 		l = g_list_next (l);
 	}
 	
