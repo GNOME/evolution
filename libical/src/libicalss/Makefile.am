@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.22 2003/10/21 18:28:20 ettore Exp $
+#  $Id: Makefile.am,v 1.23 2003/11/05 19:26:41 jpr Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -52,7 +52,7 @@ cxx_lib=
 cxx_headers=
 endif
 
-privlib_LTLIBRARIES = libicalss-evolution.la $(cxx_lib)
+noinst_LTLIBRARIES = libicalss-evolution.la $(cxx_lib)
 
 INCLUDES =			\
 	-I$(top_srcdir)/src	\
@@ -94,7 +94,7 @@ libicalss_evolution_la_SOURCES =		\
 	$(BDB_SOURCEFILES)	\
 	$(libicalss_evolution_la_DEVSOURCES)
 
-libicalssincludedir = $(privincludedir)/libical
+libicalssincludedir = $(includedir)/evolution-data-server-1.0/libical
 
 COMBINEDHEADERS = \
         $(srcdir)/icalgauge.h \

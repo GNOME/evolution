@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.42 2003/10/23 14:42:45 danw Exp $
+#  $Id: Makefile.am,v 1.43 2003/11/05 19:26:40 jpr Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -34,7 +34,7 @@ cxx_lib=
 cxx_headers=
 endif
 
-privlib_LTLIBRARIES = libical-evolution.la $(cxx_lib)
+noinst_LTLIBRARIES = libical-evolution.la $(cxx_lib)
 
 AM_CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
@@ -113,7 +113,7 @@ libical_evolution_cxx_la_SOURCES =	\
 	icptrholder.h
 endif
 
-libical_evolutionincludedir = $(privincludedir)/libical
+libical_evolutionincludedir = $(includedir)/evolution-data-server-1.0/libical
 
 libical_evolutioninclude_HEADERS = \
 	ical.h			\
