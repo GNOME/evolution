@@ -22,9 +22,9 @@ figs = \
 	figures/print-preview.png		\
 	figures/replymsg.png			\
 	figures/vfolder-createrule-fig.png
-docname=evolution-guide
+docname = evolution
 lang = C
-omffile=evolution-C.omf
+omffile = evolution-C.omf
 sgml_ents =	\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\

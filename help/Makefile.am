@@ -1,1 +1,1 @@
-SUBDIRS = C devel no
+SUBDIRS = C no

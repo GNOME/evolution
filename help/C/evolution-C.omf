@@ -9,6 +9,6 @@
     </subject>
     <format mime="text/sgml"/>
     <identifier url="evolution.sgml"/>
-    <language code="C" />
+    <language code="C"/>
   </resource>
 </omf>
