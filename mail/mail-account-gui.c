@@ -82,9 +82,9 @@ struct {
 	char *label;
 	char *value;
 } ssl_options[] = {
-	{ N_("SSL encryption"), "always"        },
+	{ N_("No encryption"),  "never"         },
 	{ N_("TLS encryption"), "when-possible" },
-	{ N_("No encryption"),  "never"         }
+	{ N_("SSL encryption"), "always"        }
 };
 
 static int num_ssl_options = sizeof (ssl_options) / sizeof (ssl_options[0]);
@@ -1473,7 +1473,7 @@ construct_ssl_menu (MailAccountGuiService *service)
 	gtk_option_menu_remove_menu (service->use_ssl);
 	gtk_option_menu_set_menu (service->use_ssl, menu);
 	
-	gtk_option_menu_set_history (service->use_ssl, i - 1);
+	gtk_option_menu_set_history (service->use_ssl, 0);
 	g_signal_emit_by_name (item, "activate", service);
 }
 

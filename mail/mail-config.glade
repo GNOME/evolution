@@ -1230,7 +1230,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Mailbox location</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">True</property>
+				  <property name="use_filechooser">False</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="source_path">
@@ -1353,7 +1353,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="GtkLabel" id="lblSourceUseSSL">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">_Use Secure Connection (SSL):</property>
+				  <property name="label" translatable="yes">_Use Secure Connection:</property>
 				  <property name="use_underline">True</property>
 				  <property name="use_markup">False</property>
 				  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -1385,7 +1385,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget10">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Always</property>
+					  <property name="label" translatable="yes">No encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>
@@ -1393,7 +1393,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget11">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Whenever Possible</property>
+					  <property name="label" translatable="yes">TLS encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>
@@ -1401,7 +1401,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkMenuItem" id="convertwidget12">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Never</property>
+					  <property name="label" translatable="yes">SSL encryption</property>
 					  <property name="use_underline">True</property>
 					</widget>
 				      </child>
@@ -2315,7 +2315,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <child>
 				    <widget class="GtkLabel" id="lblTransportUseSSL">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">_Use Secure Connection (SSL):</property>
+				      <property name="label" translatable="yes">_Use Secure Connection:</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -2347,7 +2347,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <child>
 					    <widget class="GtkMenuItem" id="convertwidget20">
 					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Always</property>
+					      <property name="label" translatable="yes">No encryption</property>
 					      <property name="use_underline">True</property>
 					    </widget>
 					  </child>
@@ -2355,7 +2355,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <child>
 					    <widget class="GtkMenuItem" id="convertwidget21">
 					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Whenever Possible</property>
+					      <property name="label" translatable="yes">TLS encryption</property>
 					      <property name="use_underline">True</property>
 					    </widget>
 					  </child>
@@ -2363,7 +2363,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <child>
 					    <widget class="GtkMenuItem" id="convertwidget22">
 					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Never</property>
+					      <property name="label" translatable="yes">SSL encryption</property>
 					      <property name="use_underline">True</property>
 					    </widget>
 					  </child>
@@ -5229,7 +5229,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Execute Command...</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">True</property>
+				  <property name="use_filechooser">False</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="txtNotifyPlaySound">
@@ -8325,7 +8325,7 @@ for display purposes only. </property>
 		      <property name="max_saved">10</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
-		      <property name="use_filechooser">True</property>
+		      <property name="use_filechooser">False</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">
