@@ -82,12 +82,7 @@ struct _EStorageClass {
 	void (* new_folder)     (EStorage *storage, const char *path);
 	void (* updated_folder) (EStorage *storage, const char *path);
 	void (* removed_folder) (EStorage *storage, const char *path);
-
-	/* FIXME: This should NOT be a signal.  */
-	void (* async_open_folder) (EStorage *storage,
-				    const char *path,
-				    EStorageDiscoveryCallback callback,
-				    void *data);
+	void (* close_folder)   (EStorage *storage, const char *path);
 
 	/* Virtual methods.  */
 
@@ -114,6 +109,11 @@ struct _EStorageClass {
 					       const char *destination_path,
 					       const gboolean remove_source,
 					       EStorageResultCallback callback,
+					       void *data);
+
+	void         (* async_open_folder)    (EStorage *storage,
+					       const char *path,
+					       EStorageDiscoveryCallback callback,
 					       void *data);
 
 	gboolean     (* supports_shared_folders)       (EStorage *storage);
@@ -194,8 +194,7 @@ void        e_storage_async_remove_shared_folder    (EStorage                 *s
 char *e_storage_get_path_for_physical_uri  (EStorage   *storage,
 					    const char *physical_uri);
 
-/* FIXME: Need to rename these.  */
-
+/* Protected.  C++ anyone?  */
 gboolean e_storage_new_folder             (EStorage   *storage,
 					   const char *path,
 					   EFolder    *folder);

@@ -220,6 +220,7 @@ e_folder_new (const char *name,
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (type != NULL, NULL);
+	g_return_val_if_fail (description != NULL, NULL);
 
 	folder = g_object_new (E_TYPE_FOLDER, NULL);
 

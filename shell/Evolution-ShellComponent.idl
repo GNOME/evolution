@@ -97,7 +97,7 @@ module Evolution {
 		/* Send debugging output to the file specified.  */
 		void debug (in string log_path);
 
-		/* Create a view for the specified @physical URI.  FIXME */
+		/* Create a view for the specified @physical URI.  */
 		Bonobo::Control createView (in string physical_uri,
 					    in string type,
 					    in string view_info)
