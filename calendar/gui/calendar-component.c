@@ -355,7 +355,7 @@ calendar_component_init (CalendarComponent *component)
 		ESource *source;
 		char *base_uri, *new_dir;
 
-		/* create the source group */
+		/* create the local source group */
 		base_uri = g_build_filename (g_get_home_dir (),
 					     "/.evolution/calendar/local/OnThisComputer/",
 					     NULL);
@@ -381,6 +381,10 @@ calendar_component_init (CalendarComponent *component)
 		}
 
 		g_free (base_uri);
+
+		/* create the remote source group */
+		group = e_source_group_new (_("On The Web"), "webcal://");
+		e_source_list_add_group (priv->source_list, group, -1);
 	}
 
 	component->priv = priv;

@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
@@ -32,15 +33,69 @@
 #include <glade/glade.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-source-list.h>
+#include <e-util/e-url.h>
 #include "new-calendar.h"
+
+static gchar *
+print_uri_noproto (EUri *uri)
+{
+	gchar *uri_noproto;
+
+	if (uri->port != 0)
+		uri_noproto = g_strdup_printf (
+			"%s%s%s%s%s%s%s:%d%s%s%s",
+			uri->user ? uri->user : "",
+			uri->authmech ? ";auth=" : "",
+			uri->authmech ? uri->authmech : "",
+			uri->passwd ? ":" : "",
+			uri->passwd ? uri->passwd : "",
+			uri->user ? "@" : "",
+			uri->host ? uri->host : "",
+			uri->port,
+			uri->path ? uri->path : "",
+			uri->query ? "?" : "",
+			uri->query ? uri->query : "");
+	else
+		uri_noproto = g_strdup_printf (
+                        "%s%s%s%s%s%s%s%s%s%s",
+                        uri->user ? uri->user : "",
+                        uri->authmech ? ";auth=" : "",
+                        uri->authmech ? uri->authmech : "",
+                        uri->passwd ? ":" : "",
+                        uri->passwd ? uri->passwd : "",
+                        uri->user ? "@" : "",
+                        uri->host ? uri->host : "",
+                        uri->path ? uri->path : "",
+                        uri->query ? "?" : "",
+                        uri->query ? uri->query : "");
+
+	return uri_noproto;
+}
+
+static gboolean
+group_is_remote (ESourceGroup *group)
+{
+	EUri     *uri;
+	gboolean  is_remote = FALSE;
+
+	uri = e_uri_new (e_source_group_peek_base_uri (group));
+	if (!uri)
+		return FALSE;
+
+	if (uri->protocol && strcmp (uri->protocol, "file"))
+		is_remote = TRUE;
+
+	e_uri_free (uri);
+	return is_remote;
+}
 
 static gboolean
 create_new_source_with_group (GtkWindow *parent,
 			      ESourceGroup *group,
-			      const char *source_name)
+			      const char *source_name,
+			      const char *source_location)
 {
 	ESource *source;
-	char *new_dir;
 
 	if (e_source_group_peek_source_by_name (group, source_name)) {
 		e_notice (parent, GTK_MESSAGE_ERROR,
@@ -49,21 +104,82 @@ create_new_source_with_group (GtkWindow *parent,
 		return FALSE;
 	}
 
-	/* create the new source */
-	new_dir = g_build_filename (e_source_group_peek_base_uri (group),
-				    source_name, NULL);
-	if (e_mkdir_hier (new_dir, 0700)) {
+	if (group_is_remote (group)) {
+		EUri  *uri;
+		gchar *relative_uri;
+		char  *cache_dir;
+
+		/* Remote source */
+
+		if (!source_location || !strlen (source_location)) {
+			e_notice (parent, GTK_MESSAGE_ERROR,
+				  _("The group '%s' is remote. You must specify a location "
+				    "to get the calendar from"),
+				  e_source_group_peek_name (group));
+			return FALSE;
+		}
+
+		uri = e_uri_new (source_location);
+		if (!uri) {
+			e_notice (parent, GTK_MESSAGE_ERROR,
+				  _("The source location '%s' is not well-formed."),
+				  source_location);
+			return FALSE;
+		}
+
+		/* Make sure we're in agreement with the protocol. Note that EUri sets it
+		 * to 'file' if none was specified in the input URI. We don't want to
+		 * silently translate an explicit file:// into http:// though. */
+		if (uri->protocol &&
+		    strcmp (uri->protocol, "http") &&
+		    strcmp (uri->protocol, "webcal")) {
+			e_uri_free (uri);
+			e_notice (parent, GTK_MESSAGE_ERROR,
+				  _("The source location '%s' is not a webcal source."),
+				  source_location);
+			return FALSE;
+		}
+
+		/* Our relative_uri is everything but protocol, which is supplied by parent group */
+		relative_uri = print_uri_noproto (uri);
+		e_uri_free (uri);
+
+		/* Set up cache dir */
+		cache_dir = g_build_filename (g_get_home_dir (),
+					      "/.evolution/calendar/webcal/",
+					      source_name, NULL);
+		if (e_mkdir_hier (cache_dir, 0700)) {
+			g_free (relative_uri);
+			g_free (cache_dir);
+			e_notice (parent, GTK_MESSAGE_ERROR,
+				  _("Could not create cache for new calendar"));
+			return FALSE;
+		}
+
+		/* Create source */
+		source = e_source_new (source_name, relative_uri);
+
+		g_free (relative_uri);
+		g_free (cache_dir);
+	} else {
+		char *new_dir;
+
+		/* Local source */
+
+		new_dir = g_build_filename (e_source_group_peek_base_uri (group),
+					    source_name, NULL);
+		if (e_mkdir_hier (new_dir, 0700)) {
+			g_free (new_dir);
+			e_notice (parent, GTK_MESSAGE_ERROR,
+				  _("Could not create directory for new calendar"));
+			return FALSE;
+		}
+
+		source = e_source_new (source_name, source_name);
 		g_free (new_dir);
-		e_notice (parent, GTK_MESSAGE_ERROR,
-			  _("Could not create directory for new calendar"));
-		return FALSE;
 	}
 
-	source = e_source_new (source_name, source_name);
 	e_source_group_add_source (group, source, -1);
-
-	g_free (new_dir);
-
 	return TRUE;
 }
 
@@ -75,7 +191,7 @@ create_new_source_with_group (GtkWindow *parent,
 gboolean
 new_calendar_dialog (GtkWindow *parent)
 {
-	GtkWidget *dialog, *cal_group, *cal_name;
+	GtkWidget *dialog, *cal_group, *cal_name, *cal_location;
 	GladeXML *xml;
 	ESourceList *source_list;
 	GConfClient *gconf_client;
@@ -92,6 +208,7 @@ new_calendar_dialog (GtkWindow *parent)
 	dialog = glade_xml_get_widget (xml, "new-calendar-dialog");
 	cal_group = glade_xml_get_widget (xml, "calendar-group");
 	cal_name = glade_xml_get_widget (xml, "calendar-name");
+	cal_location = glade_xml_get_widget (xml, "calendar-location");
 
 	/* set up widgets */
 	gconf_client = gconf_client_get_default ();
@@ -120,14 +237,17 @@ new_calendar_dialog (GtkWindow *parent)
 	/* run the dialog */
 	do {
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-			char *name;
+			const char *name;
+			const char *location;
 
 			name = gtk_entry_get_text (GTK_ENTRY (cal_name));
+			location = gtk_entry_get_text (GTK_ENTRY (cal_location));
 			sl = g_slist_nth (groups, gtk_option_menu_get_history (GTK_OPTION_MENU (cal_group)));
 			if (sl) {
 				if (create_new_source_with_group (GTK_WINDOW (dialog),
 								  sl->data,
-								  name))
+								  name,
+								  location))
 					retry = FALSE;
 			} else {
 				e_notice (dialog, GTK_MESSAGE_ERROR,

@@ -38,7 +38,7 @@ $(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
 pcsincludedir = $(privincludedir)/pcs
 
 privlib_LTLIBRARIES = libpcs.la
-noinst_LTLIBRARIES = libpcsfile.la
+noinst_LTLIBRARIES = libpcsfile.la libpcshttp.la
 
 pcsinclude_HEADERS = 		\
 	$(CORBA_GENERATED_H)	\
@@ -75,6 +75,13 @@ libpcsfile_la_SOURCES =		\
 	cal-backend-file.h
 
 libpcsfile_la_LIBADD =		\
+	libpcs.la
+
+libpcshttp_la_SOURCES =		\
+	cal-backend-http.c	\
+	cal-backend-http.h
+
+libpcshttp_la_LIBADD =		\
 	libpcs.la
 
 BUILT_SOURCES = $(CORBA_GENERATED)

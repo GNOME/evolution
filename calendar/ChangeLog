@@ -1,3 +1,19 @@
+2003-10-31  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-component.c (calendar_component_init): Add the webcal
+	source group.
+
+	* gui/dialogs/new-calendar.c (print_uri_noproto): Implement.
+	(group_is_remote): Implement.
+	(create_new_source_with_group): Implement webcal case.
+	(new_calendar_dialog): Get optional location from dialog.
+
+	* gui/dialogs/new-calendar.glade: Add location entry.
+
+	* pcs/Makefile.am: Build http backend.
+
+	* pcs/cal-backend-http.[ch]: Add skeleton based on cal-backend-file.
+
 2003-10-31  Dan Winship  <danw@ximian.com>
 
 	* cal-util/cal-util.h: Add CAL_STATIC_CAPABILITY_NO_THISANDFUTURE
