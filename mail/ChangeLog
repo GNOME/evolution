@@ -1,3 +1,8 @@
+2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-mt.c (do_user_message): Always make the Cancel button the
+	last one.
+
 2001-09-27    <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (real_note_folder): No such event finalized!
@@ -79,8 +84,6 @@
 	* component-factory.c (component_factory_init): warn and exit if
 	oaf_active_server_register returns OAF_REG_ALREADY_ACTIVE.
 
->>>>>>> 1.1748
->>>>>>> 1.1752
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Oops, translate the fake account

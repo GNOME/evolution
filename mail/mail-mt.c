@@ -653,18 +653,24 @@ static void
 do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
+	int dialog_result;
 	GtkWidget *dialog;
 	
 	dialog = gnome_message_box_new (m->prompt, m->type,
-					m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : GNOME_STOCK_BUTTON_OK,
-					m->allow_cancel ? GNOME_STOCK_BUTTON_OK: NULL,
+					GNOME_STOCK_BUTTON_OK,
+					m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : NULL,
 					NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
 	gtk_window_set_policy (GTK_WINDOW (dialog), TRUE, TRUE, TRUE);
 	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
-	m->result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) != 0;
+	dialog_result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+	if (dialog_result == -1 || dialog_result == 1)
+		m->result = FALSE;
+	else
+		m->result = TRUE;
 }
 
 struct _mail_msg_op user_message_op = {
