@@ -119,7 +119,9 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 			if (*ptr == '/') {
 				if (url && url->path) {
 					fprintf (stderr, "namespace = %s\n", url->path + 1);
-					ptr += strlen (url->path) + 1;
+					ptr += strlen (url->path);
+					if (*ptr == '/')
+						ptr++;
 				}
 
 				if (*ptr == '/')

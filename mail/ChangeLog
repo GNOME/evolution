@@ -1,3 +1,8 @@
+2000-06-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (error_dialog): va_start() returns void, don't
+	assign it's retval to a variable.
+
 2000-06-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* main.c (main): Call `GDK_THREADS_ENTER()' and

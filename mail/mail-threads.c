@@ -576,9 +576,9 @@ static void *dispatch_func( void *data )
 	msg.message = clur->prettyname;
 	write( WRITER, &msg, sizeof( msg ) );
 
-	GDK_THREADS_ENTER ();
+	/*GDK_THREADS_ENTER ();*/
 	(clur->callback)( clur->data );
-	GDK_THREADS_LEAVE ();
+	/*GDK_THREADS_LEAVE ();*/
 
 	msg.type = FINISHED;
 	msg.func = clur->cleanup; /* NULL is ok */

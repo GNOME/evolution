@@ -163,7 +163,7 @@ error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 
 	parent = gtk_widget_get_ancestor (parent_finder, GTK_TYPE_WINDOW);
 
-	ap = va_start (ap, fmt);
+	va_start (ap, fmt);
 	msg = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
