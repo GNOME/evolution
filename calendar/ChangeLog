@@ -1,3 +1,15 @@
+2004-09-24  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #66344
+ 
+ 	* gui/e-cal-model-calendar.c (get_dtend): check for existence of
+ 	property and null time instead of sending through bad data
+ 
+ 	* gui/e-cal-model.c (get_dtstart): ditto
+ 
+ 	* gui/e-cal-model-tasks.c (get_completed): ditto
+ 	(get_due): ditto
+
 2004-09-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #63513

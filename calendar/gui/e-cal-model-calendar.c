@@ -112,20 +112,26 @@ ecmc_column_count (ETableModel *etm)
 }
 
 static ECellDateEditValue *
-get_dtend (ECalModel *model, ECalModelComponent *comp_data)
+get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 {
 	struct icaltimetype tt_end;
 
 	if (!comp_data->dtend) {
+		icalproperty *prop;
 		icaltimezone *zone;
 		gboolean got_zone = FALSE;
 
-		tt_end = icalcomponent_get_dtend (comp_data->icalcomp);
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_end = icalproperty_get_dtend (prop);
+
 		if (icaltime_get_tzid (tt_end)
 		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL))
 			got_zone = TRUE;
 
-		if ((e_cal_model_get_flags (model) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		if ((e_cal_model_get_flags (E_CAL_MODEL (model)) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
 		    (e_cal_util_component_has_recurrences (comp_data->icalcomp))) {
 			if (got_zone)
 				tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date, zone);
@@ -133,7 +139,7 @@ get_dtend (ECalModel *model, ECalModelComponent *comp_data)
 				tt_end = icaltime_from_timet (comp_data->instance_end, tt_end.is_date);
 		}
 
-		if (!icaltime_is_valid_time (tt_end))
+		if (!icaltime_is_valid_time (tt_end) || icaltime_is_null_time (tt_end))
 			return NULL;
 
 		comp_data->dtend = g_new0 (ECellDateEditValue, 1);

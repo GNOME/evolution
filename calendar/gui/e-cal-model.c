@@ -401,10 +401,16 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 	priv = model->priv;
 
 	if (!comp_data->dtstart) {
+		icalproperty *prop;
 		icaltimezone *zone;
 		gboolean got_zone = FALSE;
 
-		tt_start = icalcomponent_get_dtstart (comp_data->icalcomp);
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_start = icalproperty_get_dtstart (prop);
+
 		if (icaltime_get_tzid (tt_start)
 		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL))
 			got_zone = TRUE;
@@ -417,7 +423,7 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 				tt_start = icaltime_from_timet (comp_data->instance_start, tt_start.is_date);
 		}
 
-		if (!icaltime_is_valid_time (tt_start))
+		if (!icaltime_is_valid_time (tt_start) || icaltime_is_null_time (tt_start))
 			return NULL;
 
 		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
