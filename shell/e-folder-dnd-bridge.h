@@ -40,6 +40,11 @@ gboolean  e_folder_dnd_bridge_motion         (GtkWidget        *widget,
 					      unsigned int      time,
 					      EStorageSet      *storage_set,
 					      const char       *path);
+gboolean  e_folder_dnd_bridge_drop           (GtkWidget        *widget,
+					      GdkDragContext   *context,
+					      unsigned int      time,
+					      EStorageSet      *storage_set,
+					      const char       *path);
 void      e_folder_dnd_bridge_data_received  (GtkWidget        *widget,
 					      GdkDragContext   *context,
 					      GtkSelectionData *selection_data,

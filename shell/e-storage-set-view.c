@@ -958,15 +958,22 @@ impl_tree_drag_drop (ETree *etree,
 		     int y,
 		     unsigned int time)
 {
-	e_tree_drag_unhighlight (etree);
-	if (context->targets != NULL) {
-		gtk_drag_get_data (GTK_WIDGET (etree), context,
-				   GPOINTER_TO_INT (context->targets->data),
-				   time);
-		return TRUE;
-	}
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	const char *folder_path;
 
-	return FALSE;
+	storage_set_view = E_STORAGE_SET_VIEW (etree);
+	priv = storage_set_view->priv;
+
+	e_tree_drag_unhighlight (etree);
+
+	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
+						   e_tree_node_at_row (E_TREE (storage_set_view), row));
+	if (folder_path == NULL)
+		return FALSE;
+
+	return e_folder_dnd_bridge_drop (GTK_WIDGET (etree), context, time,
+					 priv->storage_set, folder_path);
 }
 
 static void

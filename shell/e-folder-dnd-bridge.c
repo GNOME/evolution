@@ -54,6 +54,8 @@ folder_xfer_callback (EStorageSet *storage_set,
 }
 
 
+/* Utility functions.  */
+
 static GNOME_Evolution_ShellComponentDnd_ActionSet
 convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 {
@@ -134,7 +136,8 @@ get_component_at_path (EStorageSet *storage_set,
 static const char *
 find_matching_target_for_drag_context (EStorageSet *storage_set,
 				       const char *path,
-				       GdkDragContext *drag_context)
+				       GdkDragContext *drag_context,
+				       GdkAtom *atom_return)
 {
 	EFolderTypeRegistry *folder_type_registry;
 	EFolder *folder;
@@ -150,17 +153,16 @@ find_matching_target_for_drag_context (EStorageSet *storage_set,
 	accepted_types = e_folder_type_registry_get_accepted_dnd_types_for_type (folder_type_registry,
 										 e_folder_get_type_string (folder));
 
-	/* FIXME?  We might make this more efficient.  Currently it takes `n *
-	   m' string compares, where `n' is the number of targets in the
-	   @drag_context, and `m' is the number of supported types in
-	   @folder.  */
-
 	for (p = drag_context->targets; p != NULL; p = p->next) {
 		char *possible_type;
 
-		possible_type = gdk_atom_name ((GdkAtom) p->data);
+		possible_type = gdk_atom_name (GPOINTER_TO_INT (p->data));
 		if (strcmp (possible_type, E_FOLDER_DND_PATH_TARGET_TYPE) == 0) {
 			g_free (possible_type);
+
+			if (atom_return != NULL)
+				*atom_return = GPOINTER_TO_INT (p->data);
+
 			return E_FOLDER_DND_PATH_TARGET_TYPE;
 		}
 
@@ -170,12 +172,19 @@ find_matching_target_for_drag_context (EStorageSet *storage_set,
 			accepted_type = (const char *) q->data;
 			if (strcmp (possible_type, accepted_type) == 0) {
 				g_free (possible_type);
+
+				if (atom_return != NULL)
+					*atom_return = GPOINTER_TO_INT (p->data);
+
 				return accepted_type;
 			}
 		}
 
 		g_free (possible_type);
 	}
+
+	if (atom_return != NULL)
+		*atom_return = 0;
 
 	return NULL;
 }
@@ -233,6 +242,8 @@ handle_evolution_path_drag_motion (EStorageSet *storage_set,
 }
 
 
+/* Bridge for the DnD motion event.  */
+
 gboolean
 e_folder_dnd_bridge_motion  (GtkWidget *widget,
 			     GdkDragContext *context,
@@ -254,7 +265,7 @@ e_folder_dnd_bridge_motion  (GtkWidget *widget,
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), FALSE);
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	dnd_type = find_matching_target_for_drag_context (storage_set, path, context);
+	dnd_type = find_matching_target_for_drag_context (storage_set, path, context, NULL);
 	if (dnd_type == NULL)
 		return FALSE;
 
@@ -293,6 +304,37 @@ e_folder_dnd_bridge_motion  (GtkWidget *widget,
 	gdk_drag_status (context, convert_corba_drag_action_to_gdk (suggested_action), time);
 	return TRUE;
 }
+
+
+/* Bridge for the drop event.  */
+
+gboolean
+e_folder_dnd_bridge_drop (GtkWidget *widget,
+			  GdkDragContext *context,
+			  unsigned int time,
+			  EStorageSet *storage_set,
+			  const char *path)
+{
+	GdkAtom atom;
+
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
+	g_return_val_if_fail (context != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+
+	if (context->targets == NULL)
+		return FALSE;
+
+	if (find_matching_target_for_drag_context (storage_set, path, context, &atom) == NULL)
+		return FALSE;
+
+	gtk_drag_get_data (widget, context, atom, time);
+
+	return FALSE;
+}
+
+
+/* Bridge for the data_received event.  */
 
 static gboolean
 handle_data_received_path (GdkDragContext *context,
@@ -419,6 +461,7 @@ e_folder_dnd_bridge_data_received (GtkWidget *widget,
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (strcmp (target_type, E_FOLDER_DND_PATH_TARGET_TYPE) != 0) {
+		g_print ("drop data received -- target_type %s\n", target_type);
 		handled = handle_data_received_non_path (context, selection_data, storage_set,
 							 path, target_type);
 	} else {
