@@ -1,3 +1,8 @@
+2001-09-28  Dan Winship  <danw@ximian.com>
+
+	* mail-mt.c (pass_got): Don't call
+	mail_config_service_set_save_passwd if we didn't find a service.
+
 2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-config.c (add_shortcut_entry): Just add the shortcut to the

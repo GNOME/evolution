@@ -472,7 +472,8 @@ pass_got (char *string, void *data)
 					service = mca->transport;
 			}
 			
-			mail_config_service_set_save_passwd (service, remember);
+			if (service)
+				mail_config_service_set_save_passwd (service, remember);
 			
 			if (mca) {
 				mail_config_service_set_save_passwd (service, remember);
