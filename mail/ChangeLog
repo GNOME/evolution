@@ -1,3 +1,9 @@
+2000-08-11  JP Rosevear  <jpr@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Move menu items
+	that affect a single message together, ditto with ones that
+	affect multiple messages, put a separator in.
+
 2000-08-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-format.c, mail-tools.h, message-list.c: Fixed a warning.
