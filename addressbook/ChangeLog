@@ -1,3 +1,10 @@
+2002-09-05  Anna Dirks  <anna@ximian.com>
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in : Changed the 
+	description of the Directory Servers page of the settings dialog 
+	to be a little less wordy {This page can be used to configure blah--> 
+	Configure blah.}
+
+
 2002-09-04  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes #29904 ]
