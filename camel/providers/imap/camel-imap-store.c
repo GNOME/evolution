@@ -22,9 +22,8 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -855,7 +854,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	if (!selectable) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      _("%s is not a selectable folder"),
+				      "%s is not a selectable folder",
 				      folder_name);
 		g_free (short_name);
 		return NULL;
@@ -885,7 +884,7 @@ static char *
 imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
 	int len;
-	
+
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
 		return g_strdup_printf ("%s%s", prefix, suffix);
@@ -944,15 +943,8 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 		fi->name = g_strdup (name);
 	else
 		fi->name = g_strdup (dir);
-	if (!(flags & IMAP_LIST_FLAG_NOSELECT)) {
-		CamelURL *url;
-		
-		url = camel_url_new (imap_store->base_url, NULL);
-		g_free (url->path);
-		url->path = g_strdup_printf ("/%s", dir);
-		fi->url = camel_url_to_string (url, 0);
-		camel_url_free (url);
-	}
+	if (!(flags & IMAP_LIST_FLAG_NOSELECT))
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, dir);
 	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
 		fi->unread_message_count = -1;
 
@@ -1075,15 +1067,11 @@ get_folders_offline (CamelImapStore *imap_store, GPtrArray *folders,
 		     CamelException *ex)
 {
 	CamelFolderInfo *fi;
-	CamelURL *url;
 	int i;
 
 	i = folders->len;
 	g_hash_table_foreach (imap_store->subscribed_folders,
 			      add_folder, folders);
-	
-	url = camel_url_new (imap_store->base_url, NULL);
-	
 	while (i < folders->len) {
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup (folders->pdata[i]);
@@ -1092,16 +1080,11 @@ get_folders_offline (CamelImapStore *imap_store, GPtrArray *folders,
 			fi->name = g_strdup (fi->name + 1);
 		else
 			fi->name = g_strdup (fi->full_name);
-		
-		g_free (url->path);
-		url->path = g_strdup_printf ("/%s", fi->full_name);
-		fi->url = camel_url_to_string (url, 0);
-		
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url,
+					   fi->full_name);
 		fi->unread_message_count = -1;
 		folders->pdata[i++] = fi;
 	}
-	
-	camel_url_free (url);
 }
 
 static void
@@ -1190,21 +1173,12 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		}
 	}
 	if (need_inbox) {
-		CamelURL *url;
-		char *uri;
-		
-		url = camel_url_new (imap_store->base_url, NULL);
-		g_free (url->path);
-		url->path = g_strdup ("/INBOX");
-		uri = camel_url_to_string (url, 0);
-		camel_url_free (url);
-		
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup ("INBOX");
 		fi->name = g_strdup ("INBOX");
-		fi->url = uri;
+		fi->url = g_strdup_printf ("%s/INBOX", imap_store->base_url);
 		fi->unread_message_count = -1;
-		
+
 		g_ptr_array_add (folders, fi);
 	}
 
