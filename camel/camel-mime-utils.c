@@ -2929,6 +2929,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 {
 	register const unsigned char *inptr = in;
 	unsigned char *outbuf = NULL;
+	const unsigned char *inend;
 	iconv_t cd = (iconv_t) -1;
 	const char *charset;
 	char *outstr;
@@ -2985,14 +2986,15 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	if (cd == (iconv_t) -1) {
 		charset = "UTF-8";
 		inptr = in;
+		inend = inptr + strlen (in);
 	} else {
 		size_t inleft, outleft;
 		const char *inbuf;
 		char *outptr;
 		
 		inleft = (inptr - in);
-		outleft = inleft * 6 + 16 + 1;
-		outptr = outbuf = alloca (outleft);
+		outleft = inleft * 6 + 20;
+		outptr = outbuf = g_malloc (outleft);
 		inbuf = in;
 		
 		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
@@ -3003,16 +3005,15 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		
 		e_iconv_close (cd);
 		
-		*outptr = '\0';
-		
 		inptr = outbuf;
+		inend = outptr;
 	}
 	
 	/* FIXME: set the 'language' as well, assuming we can get that info...? */
 	out = g_string_new ("");
 	g_string_sprintfa (out, "%s''", charset);
 	
-	while (inptr && *inptr) {
+	while (inptr < inend) {
 		unsigned char c = *inptr++;
 		
 		/* FIXME: make sure that '\'', '*', and ';' are also encoded */

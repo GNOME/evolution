@@ -2415,8 +2415,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 	CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 	if (!stream) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not find message body in FETCH "
-					"response."));
+				      _("Could not find message body in FETCH response."));
 	} else {
 		camel_object_ref (CAMEL_OBJECT (stream));
 		g_datalist_clear (&fetch_data);

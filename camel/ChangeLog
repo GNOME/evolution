@@ -1,5 +1,12 @@
 2002-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_encode_param): Oops - outbuf pointed
+	to alloca'd memory but we were g_free'ing it after using
+	it. Instead use g_malloc for this outbuf buffer since it may be
+	kinda large. Also don't depend on a single byte to nul-terminate
+	the outbuf buffer so as to be safe with charsets such as UCS2 and
+	UCS4, instead keep a pointer to the end of the buffer.
+
 	* providers/imap/camel-imap-folder.c (parse_fetch_response): Only
 	add the stream to the gdatalist if it is non-NULL.
 
