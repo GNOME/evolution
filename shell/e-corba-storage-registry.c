@@ -108,7 +108,8 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 	ECorbaStorageRegistryPrivate *priv;
 	EStorage *storage;
 	GNOME_Evolution_StorageListener listener_interface;
-
+	GSList *iter;
+	
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
@@ -125,6 +126,16 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 
 	gtk_object_unref (GTK_OBJECT (storage));
 
+
+       /* FIXME: if we remove a listener while looping through the list we can
+        * crash. Yay CORBA reentrancy. */
+	g_print ("Added name: %s\n", name);
+	for (iter = priv->listeners; iter; iter = iter->next) {
+		listener_notify (iter->data,
+				 GNOME_Evolution_StorageRegistry_STORAGE_CREATED,
+				 name);
+	}
+	
 	listener_interface = CORBA_Object_duplicate (e_corba_storage_get_StorageListener
 						     (E_CORBA_STORAGE (storage)), ev);
 
