@@ -1,3 +1,7 @@
+2003-09-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* conduits/todo/Makefile.am: removed libwombat reference.
+
 2003-09-15  Harry Lu  <harry.lu@sun.com>
 
 	* gui/apps_evolution_calendar.schemas: change last_notification_time's
