@@ -37,7 +37,6 @@ fill_in_server_info (ELDAPServerDialog *dialog)
 	ELDAPServer *ldap_server = dialog->server;
 	GtkEditable *editable;
 	int position;
-	char buf[128];
 
 	/* the name */
 	position = 0;
@@ -59,10 +58,9 @@ fill_in_server_info (ELDAPServerDialog *dialog)
 
 	/* the server port */
 	position = 0;
-	g_snprintf (buf, sizeof(buf), "%d", ldap_server->port);
 	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "port-entry"));
 	gtk_editable_delete_text (editable, 0, -1);
-	gtk_editable_insert_text (editable, buf, strlen (buf), &position);
+	gtk_editable_insert_text (editable, ldap_server->port, strlen (ldap_server->port), &position);
 
 	/* the root dn */
 	position = 0;
@@ -109,9 +107,10 @@ extract_server_info (ELDAPServerDialog *dialog)
 	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "port-entry"));
 	port = gtk_editable_get_chars(editable, 0, -1);
 	if (port && *port) {
-		ldap_server->port = atoi(port);
+		if (ldap_server->port)
+			g_free (ldap_server->port);
+		ldap_server->port = port;
 	}
-	g_free(port);
 
 	/* the root dn */
 	editable = GTK_EDITABLE(glade_xml_get_widget(dialog->gui, "root-dn-entry"));

@@ -1,3 +1,20 @@
+2000-07-06  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/e-ldap-storage.h: add scope to ELDAPServer, and
+	make port a string.
+
+	* gui/component/e-ldap-storage.c (load_ldap_data): don't load a
+	uri, load all the bits and pieces and build up the uri when
+	creating the folder, according to the openldap url format.
+	(ldap_server_foreach): store out each of the individual uri
+	pieces.
+	(e_ldap_storage_remove_server): free the new fields.
+	(get_string_value): if the text is empty, return the empty string
+	instead of NULL.
+
+	* gui/component/e-ldap-server-dialog.c (extract_server_info): port is a string now.
+	(fill_in_server_info): port is a string now.
+
 2000-07-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c: Changed "FIXME: Save and

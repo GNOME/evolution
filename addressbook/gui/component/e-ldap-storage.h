@@ -30,9 +30,10 @@ typedef struct {
 	char *name;
 	char *description;
 	char *host;
-	int port;
+	char *port;
 	char *rootdn;
-	char *uri;
+	char *scope;
+	char *uri; /* filled in from the above */
 } ELDAPServer;
 
 void setup_ldap_storage (EvolutionShellComponent *shell_component);

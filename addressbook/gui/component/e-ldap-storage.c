@@ -28,7 +28,9 @@
      <contactserver>
            <name>LDAP Server</name>
 	   <description>This is my company address book.</description>
-	   <uri>ldap://ldap.somewhere.net/</uri>
+	   <host>ldap.server.com</host>
+	   <port>389</port>
+	   <rootdn></rootdn>
      </contactserver>
    </contactservers>
 
@@ -106,8 +108,8 @@ get_string_value (xmlNode *node,
 		return NULL;
 
 	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
-	if (p == NULL)
-		return NULL;
+	if (p == NULL) /* there's no text between the tags, return the empty string */
+		return g_strdup("");
 
 	xml_string = xmlNodeListGetString (node->doc, p, 1);
 	retval = g_strdup ((char *) xml_string);
@@ -147,8 +149,12 @@ load_ldap_data (EvolutionStorage *storage,
 		server = g_new (ELDAPServer, 1);
 
 		server->name = get_string_value (child, "name");
-		server->uri = get_string_value (child, "uri");
 		server->description = get_string_value (child, "description");
+		server->port = get_string_value (child, "port");
+		server->host = get_string_value (child, "host");
+		server->rootdn = get_string_value (child, "rootdn");
+		server->scope = get_string_value (child, "scope");
+		server->uri = g_strdup_printf ("ldap://%s:%s/%s??%s", server->host, server->port, server->rootdn, server->scope);
 
 		path = g_strdup_printf ("/%s", server->name);
 		evolution_storage_new_folder (storage, path, "contacts", server->uri, server->description);
@@ -168,20 +174,24 @@ ldap_server_foreach(gpointer key, gpointer value, gpointer user_data)
 {
 	ELDAPServer *server = (ELDAPServer*)value;
 	xmlNode *root = (xmlNode*)user_data;
-	xmlNode *server_root = xmlNewDocNode (root, NULL,
-					      (xmlChar *) "contactserver", NULL);
+	xmlNode *server_root = xmlNewNode (NULL,
+					   (xmlChar *) "contactserver");
 
 	xmlAddChild (root, server_root);
 
 	xmlNewChild (server_root, NULL, (xmlChar *) "name",
 		     (xmlChar *) server->name);
+	xmlNewChild (server_root, NULL, (xmlChar *) "description",
+		     (xmlChar *) server->description);
 
-	xmlNewChild (server_root, NULL, (xmlChar *) "uri",
-		     (xmlChar *) server->uri);
-
-	if (server->description)
-		xmlNewChild (server_root, NULL, (xmlChar *) "description",
-			     (xmlChar *) server->description);
+	xmlNewChild (server_root, NULL, (xmlChar *) "port",
+		     (xmlChar *) server->port);
+	xmlNewChild (server_root, NULL, (xmlChar *) "host",
+		     (xmlChar *) server->port);
+	xmlNewChild (server_root, NULL, (xmlChar *) "rootdn",
+		     (xmlChar *) server->port);
+	xmlNewChild (server_root, NULL, (xmlChar *) "scope",
+		     (xmlChar *) server->scope);
 }
 
 static gboolean
@@ -227,4 +237,30 @@ e_ldap_storage_add_server (ELDAPServer *server)
 void
 e_ldap_storage_remove_server (char *name)
 {
+	char *path;
+	ELDAPServer *server;
+
+	/* remove it from our hashtable */
+	server = (ELDAPServer*)g_hash_table_lookup (servers, name);
+	g_hash_table_remove (servers, name);
+
+	g_free (server->name);
+	g_free (server->description);
+	g_free (server->host);
+	g_free (server->port);
+	g_free (server->rootdn);
+	g_free (server->scope);
+	g_free (server->uri);
+
+	g_free (server);
+
+	/* and then from the ui */
+	path = g_strdup_printf ("/%s", name);
+	evolution_storage_removed_folder (storage, path);
+
+	g_free (path);
+
+	path = g_strdup_printf ("%s/evolution/" LDAPSERVER_XML, g_get_home_dir());
+	save_ldap_data (path);
+	g_free (path);
 }
