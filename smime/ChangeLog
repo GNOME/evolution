@@ -1,3 +1,8 @@
+2004-01-07  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cert-selector.c (ecs_find_current): check certlist !=
+	NULL, CERT_LIST_EMPTY dereferences it.  Bug #52457.
+
 2004-01-05  Chris Toshok  <toshok@ximian.com>
 
 	* lib/e-cert-db.c (e_cert_db_login_to_slot): oops, remove

@@ -69,7 +69,7 @@ ecs_find_current(ECertSelector *ecs)
 	CERTCertListNode *node;
 	int n;
 
-	if (CERT_LIST_EMPTY(p->certlist))
+	if (p->certlist == NULL || CERT_LIST_EMPTY(p->certlist))
 		return NULL;
 
 	n = gtk_option_menu_get_history((GtkOptionMenu *)p->menu);
