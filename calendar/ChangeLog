@@ -1,3 +1,8 @@
+2000-07-12  Michael Meeks  <michael@helixcode.com>
+
+	* gui/print.c (titled_box, print_text, print_month_small),
+	(bound_text): GnomeFont update.
+
 2000-07-12  Seth Alves  <alves@hungry.com>
 
 	* conduits/calendar/calendar-conduit.c: fixed various problems
