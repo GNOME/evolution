@@ -1,3 +1,14 @@
+Version 0.5.1, 2000-09-15
+-------------------------
+
+Shell:
+
+  - The shell now installs the `Sent' folder at startup if it doesn't
+    exist yet.  (Ettore)
+
+  - If a component crashes unexpectedly, the shell displays a dialog
+    box informing the user of that.  (Ettore)
+
 Version 0.5, "Salamander", 2000-09-13
 -------------------------------------
 
