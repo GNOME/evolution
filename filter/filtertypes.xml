@@ -16,6 +16,18 @@
         (match-all (not (header-contains "From" ${sender})))
      </code>
     </option>
+    <option value="is">
+     <title>is</title>
+     <code>
+        (match-all (header-matches "From" ${sender}))
+     </code>
+    </option>
+    <option value="is not">
+     <title>is not</title>
+     <code>
+        (match-all (not (header-matches "From" ${sender})))
+     </code>
+    </option>
     <option value="starts with">
      <title>starts with</title>
      <code>
@@ -72,6 +84,21 @@
 	(match-all (not (or
                (header-contains "To" ${recipient})
 	       (header-contains "Cc" ${recipient}))))
+     </code>
+    </option>
+    <option value="is">
+     <title>is</title>
+     <code>
+	(match-all (or (header-matches "To" ${recipient})
+	    	       (header-matches "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="is not">
+     <title>is not</title>
+     <code>
+	(match-all (not (or
+               (header-matches "To" ${recipient})
+	       (header-matches "Cc" ${recipient}))))
      </code>
     </option>
     <option value="starts with">

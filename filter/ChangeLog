@@ -1,5 +1,11 @@
 2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filtertypes.xml: Reverted my previous change, I fixed the filter
+	code to handle this the way danw said to handle it in bug #5886
+	now.
+
+2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* filtertypes.xml: Removed the "is" and "is not" rules from the
 	xml file for address matching because users are easily confused.
 
