@@ -346,6 +346,7 @@ cal_prefs_dialog_create_time_edit (void)
 
 	dedit = e_date_edit_new ();
 
+	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dedit), calendar_config_get_24_hour_format ());
 	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 0, 24);
 	e_date_edit_set_show_date (E_DATE_EDIT (dedit), FALSE);
 

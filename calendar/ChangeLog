@@ -1,3 +1,15 @@
+2002-10-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.c
+	(cal_prefs_dialog_create_time_edit): set the 24 hour format
+	initially
+
+2002-10-08  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/e-week-view.c: remove pilot settings from contextual menu
+
+	* gui/e-day-view.c: ditto
+
 2002-10-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #31774

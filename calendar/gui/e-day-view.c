@@ -364,8 +364,6 @@ static void e_day_view_on_publish (GtkWidget *widget,
 				   gpointer data);
 static void e_day_view_on_settings (GtkWidget *widget,
 				    gpointer data);
-static void e_day_view_on_pilot_settings (GtkWidget *widget,
-					  gpointer data);
 static void e_day_view_on_delete_occurrence (GtkWidget *widget,
 					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
@@ -3739,10 +3737,8 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Configure..."),
+	E_POPUP_ITEM (N_("_Settings..."),
 	  e_day_view_on_settings, 0),
-	E_POPUP_ITEM (N_("_Configure Pilot..."),
-	  e_day_view_on_pilot_settings, 0),
 
 	E_POPUP_TERMINATOR
 };
@@ -4121,29 +4117,6 @@ e_day_view_on_settings (GtkWidget *widget, gpointer data)
 	day_view = E_DAY_VIEW (data);
 
 	control_util_show_settings (day_view->calendar);
-}
-
-static void
-e_day_view_on_pilot_settings (GtkWidget *widget, gpointer data)
-{
-        char *args[] = {
-                "gpilotd-control-applet",
-                NULL
-        };
-        int pid;
-
-        args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
-        if (!args[0]) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("The GNOME Pilot tools do not appear to be installed on this system."));
-		return;
-        }
-
-        pid = gnome_execute_async (NULL, 4, args);
-        if (pid == -1)
-                e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("Error executing %s."), args[0]);
-
-        g_free (args[0]);
 }
 
 static void
