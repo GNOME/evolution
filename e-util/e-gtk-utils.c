@@ -27,6 +27,11 @@
 #endif
 
 #include <gtk/gtksignal.h>
+
+#include <gdk/gdkx.h>
+
+#include <X11/Xlib.h>
+
 #include "e-gtk-utils.h"
 
 
@@ -106,56 +111,36 @@ e_gtk_signal_connect_full_while_alive (GtkObject *object,
 							GTK_SIGNAL_FUNC (alive_disconnecter), info);
 }
 
-/**
- * gtk_radio_button_get_nth_selected:
- * @button: A GtkRadioButton
- *
- * Returns an int indicating which button in the radio group is
- * toggled active.  NOTE: radio group item numbering starts at zero.
- **/
-int
-gtk_radio_button_get_nth_selected (GtkRadioButton *button)
+
+/* BackingStore support.  */
+
+static void
+widget_realize_callback_for_backing_store (GtkWidget *widget,
+					   void *data)
 {
-	GSList *l;
-	int i, c;
+	XSetWindowAttributes attributes;
 
-	g_return_val_if_fail (button != NULL, 0);
-	g_return_val_if_fail (GTK_IS_RADIO_BUTTON (button), 0);
-	
-	c = g_slist_length (button->group);
-
-	for (i = 0, l = button->group; l; l = l->next, i++) {
-		GtkRadioButton *tmp = l->data;
-
-		if (GTK_TOGGLE_BUTTON (tmp)->active)
-			return c - i - 1;
-	}
-
-	return 0;
+	attributes.backing_store = Always;
+	XChangeWindowAttributes (GDK_WINDOW_XDISPLAY (widget->window),
+				 GDK_WINDOW_XWINDOW (widget->window),
+				 CWBackingStore, &attributes);
 }
 
 /**
- * gtk_radio_button_select_nth:
- * @button: A GtkRadioButton
- * @n: Which button to select from the group
+ * e_make_widget_backing_stored:
+ * @widget: A GtkWidget
+ * 
+ * Make sure that the window for @widget has the BackingStore attribute set to
+ * Always when realized.  This will allow the widget to be refreshed by the X
+ * server even if the application is currently not responding to X events (this
+ * is e.g. very useful for the splash screen).
  *
- * Select the Nth item of a radio group.  NOTE: radio group items
- * start numbering from zero
+ * Notice that this will not work 100% in all cases as the server might not
+ * support that or just refuse to do so.
  **/
 void
-gtk_radio_button_select_nth (GtkRadioButton *button, int n)
+e_make_widget_backing_stored  (GtkWidget *widget)
 {
-	GSList *l;
-	int len;
-
-	g_return_if_fail (button != NULL);
-	g_return_if_fail (GTK_IS_RADIO_BUTTON (button));	
-		
-	len = g_slist_length (button->group);
-
-	if ((n <= len) && (n > 0)) {
-		l = g_slist_nth (button->group, len - n - 1);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), TRUE);
-	}
-	       
+	gtk_signal_connect (GTK_OBJECT (widget), "realize",
+			    GTK_SIGNAL_FUNC (widget_realize_callback_for_backing_store), NULL);
 }

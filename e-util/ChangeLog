@@ -1,3 +1,9 @@
+2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-gtk-utils.c (gtk_radio_button_get_nth_selected): Removed.
+	(gtk_radio_button_select_nth): Removed.
+	(e_make_widget_backing_stored): New.
+
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-mktemp.c (e_mktemp_cleanup): Make sure the dir pointer is

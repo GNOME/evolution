@@ -37,9 +37,6 @@ void  e_gtk_signal_connect_full_while_alive  (GtkObject          *object,
 					      gboolean            after,
 					      GtkObject          *alive_object);
 
-
-/* GtkRadioButton API extensions */
-void gtk_radio_button_select_nth       (GtkRadioButton *button, int n);
-int  gtk_radio_button_get_nth_selected (GtkRadioButton *button);
+void  e_make_widget_backing_stored  (GtkWidget *widget);
 
 #endif
