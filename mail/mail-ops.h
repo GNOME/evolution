@@ -58,6 +58,9 @@ void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 int mail_get_folder(const char *uri,
 		    void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
 
+int mail_get_trash (const char *uri,
+		    void (*done) (char *store_uri, CamelFolder *folder, void *data), void *data);
+
 /* and for a store */
 int mail_get_store(const char *uri,
 		   void (*done) (char *uri, CamelStore *store, void *data), void *data);

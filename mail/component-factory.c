@@ -54,6 +54,7 @@
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
 CamelFolder *sent_folder = NULL;     /* this one should be configurable? */
+CamelFolder *trash_folder = NULL;
 char *evolution_dir;
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
@@ -112,7 +113,7 @@ create_view (EvolutionShellComponent *shell_component,
 }
 
 static void
-do_create_folder(char *uri, CamelFolder *folder, void *data)
+do_create_folder (char *uri, CamelFolder *folder, void *data)
 {
 	GNOME_Evolution_ShellComponentListener listener = data;
 	CORBA_Environment ev;
@@ -140,11 +141,12 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_Environment ev;
 
 	CORBA_exception_init(&ev);
-	if (!strcmp(type, "mail")) {
+	if (!strcmp (type, "mail")) {
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
-		mail_create_folder(uri, do_create_folder, CORBA_Object_duplicate(listener, &ev));
+		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
 	} else {
-		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
 	CORBA_exception_free(&ev);
 }
@@ -158,13 +160,14 @@ static struct {
 	{ "Sent", &sent_folder },
 };
 
-static void got_folder(char *uri, CamelFolder *folder, void *data)
+static void
+got_folder (char *uri, CamelFolder *folder, void *data)
 {
 	CamelFolder **fp = data;
-
+	
 	if (folder) {
 		*fp = folder;
-		camel_object_ref((CamelObject *)folder);
+		camel_object_ref (CAMEL_OBJECT (folder));
 	}
 }
 
@@ -210,10 +213,14 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
 		g_free (uri);
 	}
-
+	
+	/*mail_msg_wait (mail_get_trash ("file:/", got_folder, &trash_folder));*/
+	mail_do_setup_trash (_("Trash"), "file:/", &trash_folder);
+	mail_operation_wait_for_finish ();
+	
 	mail_session_enable_interaction (TRUE);
-
-	mail_autoreceive_setup();
+	
+	mail_autoreceive_setup ();
 }
 
 static void

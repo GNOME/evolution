@@ -197,10 +197,17 @@ CamelType mail_local_store_get_type (void);
 
 static void local_folder_changed_proxy (CamelObject *folder, gpointer event_data, gpointer user_data);
 
-static char *get_name(CamelService *service, gboolean brief);
-static CamelFolder *get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
-static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
-static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
+static char *get_name (CamelService *service, gboolean brief);
+
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
+				guint32 flags, CamelException *ex);
+static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
+					 gboolean fast, gboolean recursive,
+					 gboolean subscribed_only, CamelException *ex);
+static void delete_folder (CamelStore *store, const char *folder_name,
+			   CamelException *ex);
+static void rename_folder (CamelStore *store, const char *old_name,
+			   const char *new_name, CamelException *ex);
 
 static CamelStoreClass *local_parent_class;
 
@@ -220,6 +227,8 @@ mail_local_store_class_init (MailLocalStoreClass *mail_local_store_class)
 	camel_store_class->compare_folder_name = NULL;
 
 	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_folder_info = get_folder_info;
+	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
 
@@ -319,6 +328,42 @@ get_folder (CamelStore *store, const char *folder_name,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "No such folder %s", folder_name);
 	}
 	return folder;
+}
+
+static void
+populate_folders (gpointer key, gpointer data, gpointer user_data)
+{
+	GPtrArray *folders = user_data;
+	MailLocalFolder *folder;
+	CamelFolderInfo *fi;
+	
+	folder = data;
+	
+	fi = g_new0 (CamelFolderInfo, 1);
+	fi->full_name = g_strdup (folder->path);
+	fi->name = g_strdup (folder->name);
+	fi->url = g_strdup (folder->uri);
+	fi->unread_message_count = -1;
+	
+	g_ptr_array_add (folders, fi);
+}
+
+static CamelFolderInfo *
+get_folder_info (CamelStore *store, const char *top,
+		 gboolean fast, gboolean recursive,
+		 gboolean subscribed_only, CamelException *ex)
+{
+	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
+	CamelFolderInfo *fi = NULL;
+	GPtrArray *folders;
+	
+	folders = g_ptr_array_new ();
+	g_hash_table_foreach (local_store->folders, populate_folders, folders);
+	
+	fi = camel_folder_info_build (folders, top, '/', TRUE);
+	g_ptr_array_free (folders, TRUE);
+	
+	return fi;
 }
 
 static void

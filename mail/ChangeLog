@@ -1,3 +1,18 @@
+2001-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (owner_set_cb): Setup the Trash folder.
+
+	* mail-ops.c (create_trash_vfolder): Do better error handling.
+	(populate_folder_urls): Oops, helps to strdup the url into the
+	array if we plan on freeing the data.
+	(mail_get_trash): New async function that may eventually replace
+	mail_do_setup_trash().
+	(do_setup_trash): Do better error handling.
+
+	* mail-local.c (mail_local_store_class_init): Override
+	get_folder_info.
+	(get_folder_info): Implement.
+
 2001-02-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* mail-local.c (do_reconfigure_folder): Fix some uninitialized
