@@ -465,6 +465,10 @@ message_list_init_header (MessageList *message_list)
 			message_list->render_message_status, 
 			g_int_compare, FALSE);
 
+	gtk_object_set(GTK_OBJECT(message_list->table_cols[COL_MESSAGE_STATUS]),
+		       "sortable", FALSE,
+		       NULL);
+
 	message_list->table_cols [COL_PRIORITY] =
 		e_table_col_new (
 			COL_PRIORITY, _("Priority"),
@@ -478,6 +482,10 @@ message_list_init_header (MessageList *message_list)
 			0.0, COL_ICON_WIDTH,
 			message_list->render_attachment,
 			g_int_compare, FALSE);
+
+	gtk_object_set(GTK_OBJECT(message_list->table_cols[COL_ATTACHMENT]),
+		       "sortable", FALSE,
+		       NULL);
 
 	message_list->table_cols [COL_FROM] =
 		e_table_col_new (

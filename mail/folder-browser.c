@@ -88,7 +88,7 @@ mail_uri_to_folder (const char *name)
 
 		if (store) {
 			CamelURL *url = CAMEL_SERVICE (store)->url;
-			char *tree_name, *folder_name, *dir_sep;
+			char *folder_name;
 
 			/*dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;*/
 

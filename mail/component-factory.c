@@ -269,7 +269,7 @@ real_create_imap_storage (gpointer user_data)
 {	
 	CamelException *ex;
 	EvolutionStorage *storage;
-	char *p, *source, *dir_sep;
+	char *p, *source;
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *lsub;
