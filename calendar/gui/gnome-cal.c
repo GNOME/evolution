@@ -3,7 +3,8 @@
  * GnomeCalendar widget
  * Copyright (C) 1998 the Free Software Foundation
  *
- * Author: Miguel de Icaza (miguel@kernel.org)
+ * Authors: Miguel de Icaza (miguel@kernel.org)
+ *          Federico Mena-Quintero <federico@helixcode.com>
  */
 
 #include <config.h>

@@ -56,20 +56,17 @@ static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
 
-static void calendar_model_freeze (ETableModel *etm);
-static void calendar_model_thaw (ETableModel *etm);
-
 static ETableModelClass *parent_class;
 
 
 
 /**
  * calendar_model_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the #CalendarModel class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the #CalendarModel class.
  **/
 GtkType
@@ -115,11 +112,9 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->set_value_at = calendar_model_set_value_at;
 	etm_class->is_cell_editable = calendar_model_is_cell_editable;
 	etm_class->duplicate_value = calendar_model_duplicate_value;
-#if 0
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
-#endif
 }
 
 /* Object initialization function for the calendar table model */
@@ -310,7 +305,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 /* Replaces a string */
 static void
-set_string (char **dest, char *value)
+set_string (char **dest, const char *value)
 {
 	if (*dest)
 		g_free (*dest);
@@ -323,28 +318,28 @@ set_string (char **dest, char *value)
 
 /* Replaces a time_t value */
 static void
-set_time_t (time_t *dest, time_t *value)
+set_time_t (time_t *dest, const time_t *value)
 {
 	*dest = *value;
 }
 
 /* Replaces a geo value */
 static void
-set_geo (iCalGeo *dest, iCalGeo *value)
+set_geo (iCalGeo *dest, const iCalGeo *value)
 {
 	*dest = *value;
 }
 
 /* Replaces a person value */
 static void
-set_person (iCalPerson *dest, iCalPerson *value)
+set_person (iCalPerson **dest, const iCalPerson *value)
 {
 	/* FIXME */
 }
 
 /* Sets an int value */
 static void
-set_int (int *dest, int *value)
+set_int (int *dest, const int *value)
 {
 	*dest = *value;
 }
@@ -368,7 +363,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 
 	switch (col) {
 	case ICAL_OBJECT_FIELD_COMMENT:
-		set_string (&ico->comment);
+		set_string (&ico->comment, value);
 		break;
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
@@ -400,7 +395,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		break;
 
 	case ICAL_OBJECT_FIELD_LAST_MOD:
-		set_time (&ico->last_mod, value);
+		set_time_t (&ico->last_mod, value);
 		break;
 
 	case ICAL_OBJECT_FIELD_LOCATION:
@@ -450,8 +445,8 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
-	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, FALSE);
+	g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);
 
 	switch (col) {
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
@@ -462,52 +457,331 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	}
 }
 
+/* Duplicates a string value */
+static char *
+dup_string (const char *value)
+{
+	return g_strdup (value);
+}
+
+/* Duplicates a time_t value */
+static time_t *
+dup_time_t (const time_t *value)
+{
+	time_t *t;
+
+	t = g_new (time_t, 1);
+	*t = *value;
+	return t;
+}
+
+/* Duplicates a geo value */
+static iCalGeo *
+dup_geo (const iCalGeo *value)
+{
+	iCalGeo *geo;
+
+	geo = g_new (iCalGeo, 1);
+	*geo = *value;
+	return geo;
+}
+
+/* Duplicates a person value */
+static iCalPerson *
+dup_person (const iCalPerson *value)
+{
+	/* FIXME */
+	return NULL;
+}
+
+/* Duplicates an int value */
+static int *
+dup_int (const int *value)
+{
+	int *v;
+
+	v = g_new (int, 1);
+	*v = *value;
+	return v;
+}
+
 /* duplicate_value handler for the calendar table model */
 static void *
 calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 {
-	CalendarModel *model;
-	CalendarModelPrivate *priv;
-
-	model = CALENDAR_MODEL (etm);
-	priv = model->priv;
-
 	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
 
 	switch (col) {
 	case ICAL_OBJECT_FIELD_COMMENT:
+		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_CREATED:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_DESCRIPTION:
+		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_DTSTAMP:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_DTSTART:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_DTEND:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_GEO:
+		return dup_geo (value);
 
 	case ICAL_OBJECT_FIELD_LAST_MOD:
+		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_LOCATION:
+		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_ORGANIZER:
+		return dup_person (value);
 
 	case ICAL_OBJECT_FIELD_PERCENT:
+		return dup_int (value);
 
 	case ICAL_OBJECT_FIELD_PRIORITY:
+		return dup_int (value);
 
 	case ICAL_OBJECT_FIELD_SUMMARY:
+		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_URL:
+		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+		return (void *) value;
 
 	default:
+		g_message ("calendar_model_duplicate_value(): Requested invalid column %d", col);
+		return NULL;
+	}
+}
+
+/* free_value handler for the calendar table model */
+static void
+calendar_model_free_value (ETableModel *etm, int col, void *value)
+{
+	g_return_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS);
+	g_return_if_fail (value != NULL);
+
+	/* FIXME: this requires special handling for iCalPerson */
+	g_free (value);
+}
+
+/* Initializes a string value */
+static char *
+init_string (void)
+{
+	return g_strdup ("");
+}
+
+/* Initializes a time_t value */
+static time_t *
+init_time_t (void)
+{
+	time_t *t;
+
+	t = g_new (time_t, 1);
+	*t = -1;
+	return t;
+}
+
+/* Initializes a geo value */
+static iCalGeo *
+init_geo (void)
+{
+	iCalGeo *geo;
+
+	geo = g_new (iCalGeo, 1);
+	geo->valid = FALSE;
+	geo->latitude = 0.0;
+	geo->longitude = 0.0;
+	return geo;
+}
+
+/* Initializes a person value */
+static iCalPerson *
+init_person (void)
+{
+	/* FIXME */
+	return NULL;
+}
+
+/* Initializes an int value */
+static int *
+init_int (void)
+{
+	int *v;
+
+	v = g_new (int, 1);
+	*v = 0;
+	return v;
+}
+
+/* initialize_value handler for the calendar table model */
+static void *
+calendar_model_initialize_value (ETableModel *etm, int col)
+{
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+
+	switch (col) {
+	case ICAL_OBJECT_FIELD_COMMENT:
+		return init_string ();
+
+	case ICAL_OBJECT_FIELD_COMPLETED:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_CREATED:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_DESCRIPTION:
+		return init_string ();
+
+	case ICAL_OBJECT_FIELD_DTSTAMP:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_DTSTART:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_DTEND:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_GEO:
+		return init_geo ();
+
+	case ICAL_OBJECT_FIELD_LAST_MOD:
+		return init_time_t ();
+
+	case ICAL_OBJECT_FIELD_LOCATION:
+		return init_string ();
+
+	case ICAL_OBJECT_FIELD_ORGANIZER:
+		return init_person ();
+
+	case ICAL_OBJECT_FIELD_PERCENT:
+		return init_int ();
+
+	case ICAL_OBJECT_FIELD_PRIORITY:
+		return init_int ();
+
+	case ICAL_OBJECT_FIELD_SUMMARY:
+		return init_string ();
+
+	case ICAL_OBJECT_FIELD_URL:
+		return init_string ();
+
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+		return NULL; /* "false" */
+
+	default:
+		g_message ("calendar_model_initialize_value(): Requested invalid column %d", col);
+		return NULL;
+	}
+}
+
+/* Returns whether a string is empty */
+static gboolean
+string_is_empty (const char *str)
+{
+	return !(str && *str);
+}
+
+/* Returns whether a time_t is empty */
+static gboolean
+time_t_is_empty (const time_t *t)
+{
+	return (*t == -1);
+}
+
+/* Returns whether a geo is empty */
+static gboolean
+geo_is_empty (const iCalGeo *geo)
+{
+	return !geo->valid;
+}
+
+/* Returns whether a person is empty */
+static gboolean
+person_is_empty (const iCalPerson *person)
+{
+	/* FIXME */
+	return TRUE;
+}
+
+/* Returns whether an int is empty */
+static gboolean
+int_is_empty (const int *value)
+{
+	return FALSE;
+}
+
+/* value_is_empty handler for the calendar model */
+static gboolean
+calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
+{
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, TRUE);
+
+	switch (col) {
+	case ICAL_OBJECT_FIELD_COMMENT:
+		return string_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_COMPLETED:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_CREATED:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_DESCRIPTION:
+		return string_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_DTSTAMP:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_DTSTART:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_DTEND:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_GEO:
+		return geo_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_LAST_MOD:
+		return time_t_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_LOCATION:
+		return string_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_ORGANIZER:
+		return person_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_PERCENT:
+		return int_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_PRIORITY:
+		return int_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_SUMMARY:
+		return string_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_URL:
+		return string_is_empty (value);
+
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+		return FALSE;
+
+	default:
+		g_message ("calendar_model_value_is_empty(): Requested invalid column %d", col);
+		return TRUE;
 	}
 }
 
@@ -515,10 +789,10 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 
 /**
  * calendar_model_new:
- * 
+ *
  * Creates a new calendar model.  It must be told about the calendar client
  * interface object it will monitor with calendar_model_set_cal_client().
- * 
+ *
  * Return value: A newly-created calendar model.
  **/
 CalendarModel *
@@ -734,7 +1008,7 @@ load_objects (CalendarModel *model)
  * @model: A calendar model.
  * @client: A calendar client interface object.
  * @type: Type of objects to present.
- * 
+ *
  * Sets the calendar client interface object that a calendar model will monitor.
  * It also sets the types of objects this model will present to an #ETable.
  **/

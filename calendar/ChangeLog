@@ -1,3 +1,10 @@
+2000-06-26  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (calendar_model_duplicate_value):
+	Implement.
+	(calendar_model_initialize_value): Implement.
+	(calendar_model_value_is_empty): Implement.
+
 2000-06-21  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_reshape_long_event): set event before
