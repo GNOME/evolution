@@ -347,10 +347,10 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 {
 	char *category = "";
 	const char *search = "";
-	char *query;
-	char *q_array[4];
+	EBookQuery *query;
+	EBookQuery *q_array[4];
+	char *query_str;
 	int i;
-	GString *s = g_string_new ("");
 
 	if (e_select_names->categories) {
 		category = e_categories_master_list_option_menu_get_category (E_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories));
@@ -359,34 +359,29 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->select_entry));
 	}
 
-	e_sexp_encode_string (s, search);
-
 	i = 0;
-	q_array[i++] = "(contains \"email\" \"\")";
+	q_array[i++] = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_CONTAINS, "");
 	if (category && *category)
-		q_array[i++] = g_strdup_printf ("(is \"category\" \"%s\")", category);
+		q_array[i++] = e_book_query_field_test (E_CONTACT_CATEGORY_LIST, E_BOOK_QUERY_IS, category);
 	if (search && *search)
-		q_array[i++] = g_strdup_printf ("(or (beginswith \"email\" %s) "
-						"    (beginswith \"full_name\" %s) "
-						"    (beginswith \"nickname\" %s)"
-						"    (beginswith \"file_as\" %s))",
-						s->str, s->str, s->str, s->str);
-	q_array[i++] = NULL;
-	if (i > 2) {
-		char *temp = g_strjoinv (" ", q_array);
-		query = g_strdup_printf ("(and %s)", temp);
-		g_free (temp);
-	} else {
-		query = g_strdup (q_array[0]);
+		q_array[i++] = e_book_query_orv (e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_BEGINS_WITH, search),
+						 e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_BEGINS_WITH, search),
+						 e_book_query_field_test (E_CONTACT_NICKNAME, E_BOOK_QUERY_BEGINS_WITH, search),
+						 e_book_query_field_test (E_CONTACT_FILE_AS, E_BOOK_QUERY_BEGINS_WITH, search),
+						 NULL);
+	if (i > 1) {
+		query = e_book_query_and (i, q_array, TRUE);
 	}
+	else {
+		query = q_array[0];
+	}
+	query_str = e_book_query_to_string (query);
+	printf ("query_str = %s\n", query_str);
 	g_object_set (e_select_names->model,
-		      "query", query,
+		      "query", query_str,
 		      NULL);
-	for (i = 1; q_array[i]; i++) {
-		g_free (q_array[i]);
-	}
-	g_free (query);
-	g_string_free (s, TRUE);
+	g_free (query_str);
+	e_book_query_unref (query);
 }
 
 static void
