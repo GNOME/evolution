@@ -286,10 +286,10 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 
 	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
-		int pc = (camel_mime_parser_tell(mp)+1) * 100/size;
-
-		camel_operation_progress(NULL, pc);
-
+		off_t pc = camel_mime_parser_tell_start_from (mp) + 1;
+		
+		camel_operation_progress (NULL, (int) (((float) pc / size) * 100));
+		
 		info = camel_folder_summary_add_from_parser(s, mp);
 		if (info == NULL) {
 			camel_exception_setv(ex, 1, _("Fatal mail parser error near position %ld in folder %s"),
@@ -526,7 +526,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 	count = camel_folder_summary_count(s);
 	for (i = 0; i < count; i++) {
-		int pc = (i+1)*100/count;
+		int pc = (i + 1) * 100 / count;
 
 		camel_operation_progress(NULL, pc);
 
