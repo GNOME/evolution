@@ -124,6 +124,34 @@ camel_gpg_context_finalise (CamelObject *object)
 }
 
 
+/**
+ * camel_gpg_context_new:
+ * @session: session
+ * @path: path to gpg binary
+ *
+ * Creates a new gpg cipher context object.
+ *
+ * Returns a new gpg cipher context object.
+ **/
+CamelCipherContext *
+camel_gpg_context_new (CamelSession *session, const char *path)
+{
+	CamelCipherContext *cipher;
+	CamelGpgContext *ctx;
+	
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (path != NULL, NULL);
+	
+	ctx = (CamelGpgContext *) camel_object_new (camel_gpg_context_get_type ());
+	ctx->path = g_strdup (path);
+	
+	cipher = (CamelCipherContext *) ctx;
+	cipher->session = session;
+	camel_object_ref (session);
+	
+	return cipher;
+}
+
 static const char *
 gpg_hash_to_id (CamelCipherContext *context, CamelCipherHash hash)
 {
