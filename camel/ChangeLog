@@ -1,3 +1,9 @@
+2000-02-22  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-search.c: Dont compile by default.
+
+	* providers/mbox/Makefile.am: Fuck off the filter code.
+
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel-stream-b64.c (read_decode__static): 
@@ -60,7 +66,6 @@
 
 	* camel-seekable-substream.c (_reemit_parent_signal): 
 	emit "data_available" when parent stream emits it. 
-
 
 
 2000-02-21  NotZed  <NotZed@HelixCode.com>

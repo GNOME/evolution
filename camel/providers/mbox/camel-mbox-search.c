@@ -37,6 +37,8 @@
 #include "camel-mbox-folder.h"
 
 #include "camel-mbox-search.h"
+/* #define HAVE_FILTER */
+#ifdef HAVE_FILTER
 #include "filter-sexp.h"
 
 #define HAVE_IBEX
@@ -321,3 +323,13 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 
 	return matches;
 }
+
+#else /* HAVE_FILTER */
+
+GList *
+camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+{
+	return NULL;
+}
+
+#endif /*! HAVE_FILTER */
