@@ -1,3 +1,9 @@
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* camel-stream-process.c (do_exec_command): remove dthe clearenv
+	stuff, not sure why its there.  s/setenv/putenv/ for portability.
+	See Bug #51767.
+
 2003-12-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_rfc2184_param): Revert the

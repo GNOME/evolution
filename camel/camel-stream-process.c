@@ -33,6 +33,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -224,18 +225,8 @@ do_exec_command (int fd, const char *command, char **env)
 	
 	/* Set up child's environment. We _add_ to it, don't use execle, 
 	   because otherwise we'd destroy stuff like SSH_AUTH_SOCK etc. */
-	for ( ; env && *env; env++) {
-		char *eq = strchr (*env, '=');
-		
-		if (!eq) {
-			unsetenv (*env);
-			continue;
-		}
-		
-		*eq++ = '\0';
-		
-		setenv (*env, eq, 1);
-	}
+	for ( ; env && *env; env++)
+		putenv(*env);
 	
 	execl ("/bin/sh", "/bin/sh", "-c", command, NULL);
 	
