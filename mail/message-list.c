@@ -2181,7 +2181,9 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	ETreeModel *etm = ml->model;
 	ETreePath *top;
 	char *saveuid = NULL;
-
+#ifdef BROKEN_ETREE
+	GPtrArray *selected;
+#endif
 #ifdef TIMEIT
 	struct timeval start, end;
 	unsigned long diff;
@@ -2208,7 +2210,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 #ifndef BROKEN_ETREE
 	if (top == NULL || changes == NULL) {
 #else
-		GPtrArray *selected = message_list_get_selected(ml);
+		selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
@@ -2507,7 +2509,9 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	ETreePath node;
 	char *saveuid = NULL;
 	int i;
-
+#ifdef BROKEN_ETREE
+	GPtrArray *selected;
+#endif
 #ifdef TIMEIT
 	struct timeval start, end;
 	unsigned long diff;
@@ -2524,7 +2528,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 		build_flat_diff(ml, changes);
 	} else {
 #else
-		GPtrArray *selected = message_list_get_selected(ml);
+		selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
