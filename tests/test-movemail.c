@@ -48,7 +48,6 @@ int main (int argc, char **argv)
 		fprintf (stderr, "Usage: test-movemail [--delete] url\n");
 		exit (1);
 	}
-	e_setup_base_dir ();
 	session = camel_session_new (auth_callback);
 
 	ex = camel_exception_new ();
