@@ -306,6 +306,30 @@ camel_operation_cancel (CamelOperation *cc)
 }
 
 /**
+ * camel_operation_uncancel:
+ * @cc: operation context
+ * 
+ * Uncancel a cancelled operation.  If @cc is NULL then the current
+ * operation is uncancelled.
+ *
+ * This is useful, if e.g. you need to do some cleaning up where a
+ * cancellation lying around in the same thread will abort any
+ * processing.
+ **/
+void
+camel_operation_uncancel(CamelOperation *cc)
+{
+	if (cc == NULL)
+		cc = (CamelOperation *)pthread_getspecific(operation_key);
+
+	if (cc) {
+		LOCK();
+		cc->flags &= ~CAMEL_OPERATION_CANCELLED;
+		UNLOCK();
+	}
+}
+
+/**
  * camel_operation_register:
  * @cc: operation context
  * 

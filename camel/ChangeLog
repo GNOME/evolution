@@ -1,5 +1,8 @@
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
+	* camel-operation.c (camel_operation_uncancel): attempt at
+	uncancelling a cancelled operation.
+
 	* camel-stream-filter.c (do_write, do_write): fun dun diddley un
 	fun.  Since we're writing a const buffer, we need to copy it
 	first.  See #54937.

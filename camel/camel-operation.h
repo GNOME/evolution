@@ -46,6 +46,7 @@ void camel_operation_mute(CamelOperation *cc);
 void camel_operation_ref(CamelOperation *cc);
 void camel_operation_unref(CamelOperation *cc);
 void camel_operation_cancel(CamelOperation *cc);
+void camel_operation_uncancel(CamelOperation *cc);
 /* subthread functions */
 CamelOperation *camel_operation_register(CamelOperation *cc);
 void camel_operation_unregister (CamelOperation *cc);
