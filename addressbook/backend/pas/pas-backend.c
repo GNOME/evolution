@@ -58,7 +58,6 @@ pas_backend_get_uri (PASBackend *backend)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
-	g_return_val_if_fail (backend->priv->loaded, NULL);
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_uri != NULL);
 

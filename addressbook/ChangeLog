@@ -1,5 +1,23 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (control_activate_cb): try to load
+	the uri again if it failed previously.
+	(book_open_cb): set failed_to_load based on the response.
+	(set_prop): initialize failed_to_load to FALSE before we kick off
+	the first load.
+
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_process_request): if the load_uri fails, remove
+	it from the hashtable and free it, so we'll try to load it again
+	from scratch the next time it's requested instead of serving up a
+	backend that doesn't function.
+
+	* backend/pas/pas-backend.c (pas_backend_get_uri): we need to be
+	able to get the uri from backends that aren't loaded (so we can
+	remove them from the hashtable.)
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (query_ldap_root_dse): doh, fix
 	build error.
 

@@ -302,6 +302,8 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 
 			CORBA_exception_free (&ev);
 			
+			backend_last_client_gone_cb (backend, factory);
+
 			goto out;
 		}
 

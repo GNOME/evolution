@@ -83,6 +83,7 @@ typedef struct {
 	char *uri;
 	char *passwd;
 	gboolean ignore_search_changes;
+	gboolean failed_to_load;
 } AddressbookView;
 
 static void addressbook_view_ref (AddressbookView *);
@@ -90,6 +91,8 @@ static void addressbook_view_unref (AddressbookView *);
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
 				      AddressbookSource *source, EBookCallback cb, gpointer closure);
+
+static void book_open_cb (EBook *book, EBookStatus status, gpointer closure);
 
 static void
 save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
@@ -394,13 +397,27 @@ control_activate_cb (BonoboControl *control,
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
-	
-	if (activate) {
 
+	if (activate) {
 		control_activate (control, uic, view);
 		if (activate && view->view && view->view->model)
 			e_addressbook_model_force_folder_bar_message (view->view->model);
 
+		/* if the book failed to load, we kick off another
+		   load here */
+
+		if (view->failed_to_load && view->uri) {
+			EBook *book;
+			char *uri_data;
+
+			book = e_book_new ();
+			uri_data = e_book_expand_uri (view->uri);
+
+			if (! addressbook_load_uri (book, uri_data, book_open_cb, view))
+				printf ("error calling load_uri!\n");
+
+			g_free(uri_data);
+		}
 	} else {
 		bonobo_ui_component_unset_container (uic, NULL);
 		e_addressbook_view_discard_menus (view->view);
@@ -478,6 +495,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	AddressbookView *view = closure;
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
+		view->failed_to_load = FALSE;
+
 		g_object_set(view->view,
 			     "book", book,
 			     NULL);
@@ -487,6 +506,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		GtkWidget *warning_dialog;
 		GtkWidget *href = NULL;
 		AddressbookSource *source = NULL;
+
+		view->failed_to_load = TRUE;
 
 		if (!strncmp (view->uri, "file:", 5)) {
 			label_string = 
@@ -543,6 +564,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		gtk_widget_show_all (warning_dialog);
 	}
+
+	g_object_unref (book);
 }
 
 static void
@@ -766,6 +789,8 @@ set_prop (BonoboPropertyBag *bag,
 		} else {
 			book = e_book_new ();
 		}
+
+		view->failed_to_load = FALSE;
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
