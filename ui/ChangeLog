@@ -1,3 +1,7 @@
+2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Renamed `WorkOffLine' to `WorkOffline'.
+
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Added Next/Previous toolbar buttons.

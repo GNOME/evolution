@@ -92,7 +92,7 @@
 
 			<separator/>
 
-	                <menuitem name="WorkOffLine" verb=""
+	                <menuitem name="WorkOffline" verb=""
 	                _label="Work Offline"
 			pixtype="pixbuf"/>
 	      
