@@ -1737,7 +1737,7 @@ e_contact_editor_confirm_delete (GtkWindow *parent)
 					    "to delete this contact?"));
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_DELETE, GTK_RESPONSE_ACCEPT,
 				NULL);
 
