@@ -1,3 +1,14 @@
+2000-10-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filtertypes.xml: Readded Source url stuff.
+
+	* filter-element.c (filter_element_new_type_name): Added url stuff
+	back in.
+
+	* filter-url.[c,h]: Back from the dead...
+
+	* Makefile.am: Re-added filter-url.[c,h].
+
 2000-10-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Added option menu items to allow searching

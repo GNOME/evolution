@@ -14,6 +14,7 @@ char *s = N_("Move to Folder");
 char *s = N_("Priority");
 char *s = N_("Recipients");
 char *s = N_("Sender");
+char *s = N_("Source");
 char *s = N_("Specific header");
 char *s = N_("Stop Processing");
 char *s = N_("Subject");

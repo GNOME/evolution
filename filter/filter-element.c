@@ -29,6 +29,7 @@
 #include "filter-datespec.h"
 #include "filter-score.h"
 #include "filter-folder.h"
+#include "filter-url.h"
 
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
@@ -251,6 +252,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_datespec_new ();
 	} else if (!strcmp (type, "score")) {
 		return (FilterElement *)filter_score_new ();
+	} else if (!strcmp (type, "url")) {
+		return (FilterElement *)filter_url_new ();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;

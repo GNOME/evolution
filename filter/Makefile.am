@@ -52,6 +52,8 @@ libfilter_la_SOURCES =				\
 	filter-rule.h				\
 	filter-score.c				\
 	filter-score.h				\
+	filter-url.c				\
+	filter-url.h				\
 	rule-context.c				\
 	rule-context.h				\
 	score-context.c				\
