@@ -9843,14 +9843,13 @@ msgid "New VFolder"
 msgstr "Нова в╕ртуальна тека"
 
 #: mail/message-browser.c:121
-#, fuzzy
 msgid "(No subject)"
-msgstr "Fwd: (без теми)"
+msgstr "(Без теми)"
 
 #: mail/message-browser.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Message"
-msgstr "Пов╕домлення"
+msgstr "пов╕домлення - %s"
 
 #: mail/message-list.c:640
 msgid "Unseen"
@@ -9875,24 +9874,20 @@ msgid "Multiple Messages"
 msgstr "Надрукувати пов╕домлення"
 
 #: mail/message-list.c:648
-#, fuzzy
 msgid "Lowest"
-msgstr "Низький"
+msgstr "Найнижче"
 
 #: mail/message-list.c:649
-#, fuzzy
 msgid "Lower"
-msgstr "Низький"
+msgstr "Нижче"
 
 #: mail/message-list.c:653
-#, fuzzy
 msgid "Higher"
-msgstr "Високий"
+msgstr "Вище"
 
 #: mail/message-list.c:654
-#, fuzzy
 msgid "Highest"
-msgstr "Високий"
+msgstr "Найвище"
 
 #: mail/message-list.c:904
 msgid "?"
@@ -10020,9 +10015,8 @@ msgid "Appointments"
 msgstr "Зустр╕ч╕"
 
 #: my-evolution/e-summary-calendar.c:327
-#, fuzzy
 msgid "No appointments"
-msgstr "Показати зустр╕ч╕"
+msgstr "Нема╓ зустр╕чей"
 
 #: my-evolution/e-summary-calendar.c:364
 #, fuzzy
@@ -10074,9 +10068,8 @@ msgstr "Зведення м╕стить"
 
 #: my-evolution/e-summary-rdf.c:297 my-evolution/e-summary-rdf.c:382
 #: my-evolution/e-summary-rdf.c:415
-#, fuzzy
 msgid "Error downloading RDF"
-msgstr "<b>Помилка завантаження календаря</b>"
+msgstr "Помилка завантаження RDF"
 
 #: my-evolution/e-summary-rdf.c:507
 #, fuzzy
@@ -10084,27 +10077,24 @@ msgid "News Feed"
 msgstr "Нова тека"
 
 #: my-evolution/e-summary-tasks.c:236
-#, fuzzy
 msgid "No tasks"
-msgstr "Показати завдання"
+msgstr "Нема╓ завдань"
 
 #: my-evolution/e-summary-tasks.c:275
-#, fuzzy
 msgid "(No Description)"
-msgstr "Опис:"
+msgstr "(Без опису)"
 
 #: my-evolution/e-summary-weather.c:72
 msgid "My Weather"
-msgstr ""
+msgstr "Моя погода"
 
 #: my-evolution/e-summary-weather.c:349
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
 msgstr ""
 
 #: my-evolution/e-summary-weather.c:539
-#, fuzzy
 msgid "Weather"
-msgstr "╤нша"
+msgstr "Погода"
 
 #. translators: Put here a list of codes for locations you want to
 #. see in My Evolution by default. You can find the list of all
@@ -10115,14 +10105,12 @@ msgid "KBOS:EGAA:RJTT"
 msgstr ""
 
 #: my-evolution/e-summary-weather.c:691
-#, fuzzy
 msgid "Regions"
-msgstr "Розд╕ли:"
+msgstr "Ре╜╕они"
 
 #: my-evolution/e-summary.c:187
-#, fuzzy
 msgid "%A, %B %e %Y"
-msgstr "%A, %d %B %Y"
+msgstr "%A, %e %B %Y"
 
 #: my-evolution/e-summary.c:568 ui/my-evolution.xml.h:3
 #, fuzzy
@@ -10140,9 +10128,8 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "init_bonobo(): не вдалось ╕н╕ц╕ал╕зувати Bonobo"
 
 #: my-evolution/metar.c:44
-#, fuzzy
 msgid "Clear sky"
-msgstr "Очистити"
+msgstr "Безхмарно"
 
 #: my-evolution/metar.c:45
 msgid "Broken clouds"
@@ -10169,76 +10156,68 @@ msgid "Variable"
 msgstr ""
 
 #: my-evolution/metar.c:64
-#, fuzzy
 msgid "North"
-msgstr "Прим╕тки"
+msgstr "П╕вн╕ч"
 
 #: my-evolution/metar.c:64
 msgid "North - NorthEast"
-msgstr ""
+msgstr "П╕вн╕ч - п╕вн╕чний сх╕д"
 
 #: my-evolution/metar.c:64
-#, fuzzy
 msgid "Northeast"
-msgstr "Нотатки:"
+msgstr "П╕вн╕чний сх╕д"
 
 #: my-evolution/metar.c:64
 msgid "East - NorthEast"
-msgstr ""
+msgstr "Сх╕д - п╕вн╕чний сх╕д"
 
 #: my-evolution/metar.c:65
-#, fuzzy
 msgid "East"
-msgstr "Вийти"
+msgstr "Сх╕д"
 
 #: my-evolution/metar.c:65
 msgid "East - Southeast"
-msgstr ""
+msgstr "Сх╕д - п╕вденний сх╕д"
 
 #: my-evolution/metar.c:65
-#, fuzzy
 msgid "Southeast"
-msgstr "Джерела"
+msgstr "П╕вденний сх╕д"
 
 #: my-evolution/metar.c:65
 msgid "South - Southeast"
-msgstr ""
+msgstr "П╕вдень - п╕вденний зах╕д"
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "South"
-msgstr "м╕сяць"
+msgstr "П╕вдень"
 
 #: my-evolution/metar.c:66
 msgid "South - Southwest"
-msgstr ""
+msgstr "П╕вдень - п╕вденний зах╕д"
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "Southwest"
-msgstr "Низький"
+msgstr "П╕вденний зах╕д"
 
 #: my-evolution/metar.c:66
 msgid "West - Southwest"
-msgstr ""
+msgstr "Зах╕д - п╕вденний зах╕д"
 
 #: my-evolution/metar.c:67
-#, fuzzy
 msgid "West"
-msgstr "Тест"
+msgstr "Зах╕д"
 
 #: my-evolution/metar.c:67
 msgid "West - Northwest"
-msgstr ""
+msgstr "Зах╕д - п╕вн╕чний зах╕д"
 
 #: my-evolution/metar.c:67
-#, fuzzy
 msgid "Northwest"
-msgstr "Низький"
+msgstr "П╕вн╕чний зах╕д"
 
 #: my-evolution/metar.c:67
 msgid "North - Northwest"
-msgstr ""
+msgstr "П╕вн╕ч - п╕вн╕чний зах╕д"
 
 #. NONE                         VICINITY                             LIGHT                      MODERATE                      HEAVY                      SHALLOW                      PATCHES                         PARTIAL                      THUNDERSTORM                    BLOWING                      SHOWERS                         DRIFTING                      FREEZING
 #. ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
@@ -12055,9 +12034,8 @@ msgid "Open the folder linked to this shortcut in a new window"
 msgstr "В╕дкрити поточне пов╕домлення у новому в╕кн╕"
 
 #: shell/e-shortcuts-view.c:390
-#, fuzzy
 msgid "_Rename"
-msgstr "Назва правила: "
+msgstr "Перейменувати"
 
 #: shell/e-shortcuts-view.c:390
 #, fuzzy
@@ -12147,7 +12125,7 @@ msgstr ""
 #: shell/e-task-widget.c:192
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: shell/e-task-widget.c:197
 #, fuzzy
@@ -12155,32 +12133,28 @@ msgid "%s (%d%% complete)"
 msgstr "% завершення:"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "Active connections"
-msgstr "Будь-яке поле м╕стить"
+msgstr "Активн╕ з'╓днання"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
 msgstr ""
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
-#, fuzzy
 msgid "Host"
-msgstr "Комп'ютер:"
+msgstr "Комп'ютер"
 
 #: shell/glade/e-active-connection-dialog.glade.h:4
 msgid "The following connections are currently active:"
 msgstr ""
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
-#, fuzzy
 msgid "Folder name:"
-msgstr "Назва файлу:"
+msgstr "Назва теки:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-#, fuzzy
 msgid "Folder type:"
-msgstr "Теки"
+msgstr "Тип теки:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 #, fuzzy
@@ -12192,9 +12166,8 @@ msgid "First Run Setup Assistant"
 msgstr ""
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
-#, fuzzy
 msgid "Importing Data"
-msgstr "╤мпортування"
+msgstr "╤мпортування даних"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
 #, fuzzy
@@ -12202,11 +12175,8 @@ msgid "Setup Assistant"
 msgstr "Пом╕чник"
 
 #: shell/glade/evolution-startup-wizard.glade.h:9
-#, fuzzy
 msgid "Timezone "
-msgstr ""
-"\n"
-"Часовий пояс: "
+msgstr "Часовий пояс "
 
 #: shell/glade/evolution-startup-wizard.glade.h:10
 msgid ""
@@ -12602,9 +12572,8 @@ msgid "Close"
 msgstr "Закрити"
 
 #: ui/evolution-comp-editor.xml.h:3
-#, fuzzy
 msgid "Close this item"
-msgstr "Стерти цей елемент"
+msgstr "Закрити цей елемент"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -12743,9 +12712,8 @@ msgid "Customise My Evolution"
 msgstr "%s - Evolution %s"
 
 #: ui/evolution-mail-global.xml.h:1
-#, fuzzy
 msgid "Cancel"
-msgstr "В╕дм╕нено"
+msgstr "В╕дм╕нити"
 
 #: ui/evolution-mail-global.xml.h:2
 #, fuzzy
@@ -13619,18 +13587,16 @@ msgid "Obtain the latest task information"
 msgstr ""
 
 #: ui/evolution-task-editor.xml.h:8
-#, fuzzy
 msgid "Re_fresh Task"
-msgstr "Оновити список"
+msgstr "Оновити завдання"
 
 #: ui/evolution-tasks.xml.h:2
 msgid "Configure the task view's settings"
-msgstr ""
+msgstr "Налаштувати в╕дображення завдання"
 
 #: ui/evolution-tasks.xml.h:4
-#, fuzzy
 msgid "Copy selected task"
-msgstr "В╕дкрити завдання"
+msgstr "Скоп╕ювати вибране завдання"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Cut selected task"
@@ -13641,14 +13607,12 @@ msgid "Delete selected tasks"
 msgstr "Стерти вибран╕ завдання"
 
 #: ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Paste task from the clipboard"
-msgstr "Вставити буфер обм╕ну"
+msgstr "Вставити завдання з буферу обм╕ну"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Tasks Settings..."
-msgstr "Установки пошти..."
+msgstr "Установки завдань..."
 
 #: ui/evolution-tasks.xml.h:18
 msgid "_Task"
@@ -13659,14 +13623,12 @@ msgid "About Ximian Evolution..."
 msgstr "Про Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
-#, fuzzy
 msgid "Add to _Shortcut Bar"
-msgstr "Панель ярлик╕в"
+msgstr "Додати до панел╕ ярлик╕в"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the name of this folder"
-msgstr "Зм╕нити властивост╕ ц╕╓╖ теки"
+msgstr "Зм╕нити назву ц╕╓╖ теки"
 
 #: ui/evolution.xml.h:6
 msgid "Copy this folder"
@@ -13709,23 +13671,20 @@ msgid "Import data from other programs"
 msgstr ""
 
 #: ui/evolution.xml.h:17
-#, fuzzy
 msgid "Move this folder to another place"
-msgstr "Перенести пов╕домлення у нову теку"
+msgstr "Перенести цю теку в ╕нше м╕сце"
 
 #: ui/evolution.xml.h:18
 msgid "Open in New Window"
 msgstr "В╕дкрити у новому в╕кн╕"
 
 #: ui/evolution.xml.h:20
-#, fuzzy
 msgid "Open this folder in an other window"
-msgstr "В╕дкрити поточне пов╕домлення у новому в╕кн╕"
+msgstr "В╕дкрити цю теку в новому в╕кн╕"
 
 #: ui/evolution.xml.h:21
-#, fuzzy
 msgid "Show information about Ximian Evolution"
-msgstr "Показати ╕нформац╕ю про Evolution"
+msgstr "Показати ╕нформац╕ю про Ximian Evolution"
 
 #: ui/evolution.xml.h:22
 msgid "Submit Bug Report"
@@ -13736,14 +13695,12 @@ msgid "Submit _Bug Report"
 msgstr "В╕д╕слати зв╕т про помилку"
 
 #: ui/evolution.xml.h:24
-#, fuzzy
 msgid "Submit a bug report using Bug Buddy"
-msgstr "В╕д╕слати зв╕т про помилку використовуючи Bug Buddy"
+msgstr "В╕д╕слати зв╕т про помилку за допомогою Bug Buddy"
 
 #: ui/evolution.xml.h:25
-#, fuzzy
 msgid "Toggle"
-msgstr "Моб╕льний"
+msgstr "Перемикнути"
 
 #: ui/evolution.xml.h:26
 msgid "Toggle whether to show the folder bar"
@@ -13764,19 +13721,16 @@ msgid "View the selected folder"
 msgstr "Показати вибрану теки"
 
 #: ui/evolution.xml.h:31
-#, fuzzy
 msgid "Ximian Evolution _FAQ"
-msgstr "Evolution"
+msgstr "Част╕ запитання щодо Ximian Evolution"
 
 #: ui/evolution.xml.h:32
-#, fuzzy
 msgid "_About Ximian Evolution..."
-msgstr "Про Evolution..."
+msgstr "Про Ximian Evolution..."
 
 #: ui/evolution.xml.h:34
-#, fuzzy
 msgid "_Copy..."
-msgstr "Скоп╕ювати"
+msgstr "Скоп╕ювати..."
 
 #: ui/evolution.xml.h:38
 msgid "_Folder Bar"
@@ -13791,9 +13745,8 @@ msgid "_Import..."
 msgstr "╤мпорт..."
 
 #: ui/evolution.xml.h:42
-#, fuzzy
 msgid "_Move..."
-msgstr "Перенести"
+msgstr "Перенести..."
 
 #: ui/evolution.xml.h:43
 msgid "_New"
@@ -13804,14 +13757,12 @@ msgid "_New Folder"
 msgstr "Нова тека"
 
 #: ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Pilot Settings..."
-msgstr "Установки пошти..."
+msgstr "Установки п╕лота..."
 
 #: ui/evolution.xml.h:46
-#, fuzzy
 msgid "_Rename..."
-msgstr "В╕дкрити..."
+msgstr "Перейменувати..."
 
 #: ui/evolution.xml.h:47
 #, fuzzy
@@ -13937,12 +13888,9 @@ msgid "Today"
 msgstr "сьогодн╕"
 
 #: widgets/misc/e-cell-date-edit.c:738
-#, fuzzy, c-format
+#, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
-"Дату потр╕бно вводити у такому формат╕: \n"
-"\n"
-"%s"
+msgstr "Час ма╓ бути у такому формат╕: %s"
 
 #: widgets/misc/e-charset-picker.c:59
 msgid "Baltic"
@@ -14088,105 +14036,3 @@ msgstr "init_corba(): не вдалось ╕н╕ц╕ал╕зувати GNOME"
 #: wombat/wombat.c:201
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): не вдалось ╕н╕ц╕ал╕зувати Bonobo"
-
-#, fuzzy
-#~ msgid "Other Contacts"
-#~ msgstr "Контакт"
-
-#, fuzzy
-#~ msgid "(none)"
-#~ msgstr "(Без назви)"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr "Ви впевнен╕, що хочете стерти завдання"
-
-#, fuzzy
-#~ msgid "Click here to add an attendee"
-#~ msgstr "* Клацн╕ть тут щоб додати контакт *"
-
-#, fuzzy
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "Нема╓ ╕нформац╕╖"
-
-#, fuzzy
-#~ msgid "<b>Description:</b> %s"
-#~ msgstr "Опис:"
-
-#, fuzzy
-#~ msgid "Unsupported operation: search by uids: for %s"
-#~ msgstr ""
-#~ "Помилка у ре╜улярному вираз╕ \"%s\":\n"
-#~ "%s"
-
-#, fuzzy
-#~ msgid "Cannot attach file %s: %s"
-#~ msgstr "Не вдалося отримати теку: %s: %s"
-
-#, fuzzy
-#~ msgid "Cannot attach file %s: not a regular file"
-#~ msgstr "\"%s\" не ╓ звичайним файлом."
-
-#, fuzzy
-#~ msgid "Cannot connect to store: %s"
-#~ msgstr "Створити новий календар"
-
-#, fuzzy
-#~ msgid "Account %d"
-#~ msgstr "Електронна адреса м╕стить"
-
-#, fuzzy
-#~ msgid "%s: Inbox"
-#~ msgstr "mbox"
-
-#, fuzzy
-#~ msgid "Bcc"
-#~ msgstr "Bcc:"
-
-#, fuzzy
-#~ msgid "Cannot copy a folder `%s' to itself"
-#~ msgstr ""
-#~ "Неможливо скоп╕ювати файли в\n"
-#~ "\"%s\"."
-
-#, fuzzy
-#~ msgid "Trash"
-#~ msgstr "Завдання"
-
-#, fuzzy
-#~ msgid "VFolders"
-#~ msgstr "Теки"
-
-#, fuzzy
-#~ msgid "knots"
-#~ msgstr "Шрифти"
-
-#, fuzzy
-#~ msgid "inHg"
-#~ msgstr "Перенесення"
-
-#, fuzzy
-#~ msgid "miles"
-#~ msgstr "Ф╕льтри"
-
-#, fuzzy
-#~ msgid "kilometers"
-#~ msgstr "Ф╕льтри"
-
-#, fuzzy
-#~ msgid "Outbox"
-#~ msgstr "mbox"
-
-#, fuzzy
-#~ msgid "Local Folders"
-#~ msgstr "В╕ртуальн╕ теки"
-
-#, fuzzy
-#~ msgid "Add to Saved Searches"
-#~ msgstr "Зберегти пошук"
-
-#, fuzzy
-#~ msgid "Clear"
-#~ msgstr "Календар"
