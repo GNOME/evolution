@@ -134,7 +134,9 @@ static void
 message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
-	
+
+	gtk_signal_disconnect_by_func (GTK_OBJECT (ml), message_browser_message_list_built, mb);
+
 	message_list_select_uid (ml, uid);
 }
 

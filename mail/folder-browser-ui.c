@@ -455,13 +455,20 @@ static gboolean
 fbui_sensitize_timeout (gpointer data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
-	GSList *iter;
+	GSList *iter, *list;
 	struct sensitize_data *sd;
 	int i;
 
+	list = fb->sensitize_changes;
+	fb->sensitize_changes = NULL;
+	iter = list;
+	fb->sensitize_timeout_id = 0;
+
+	gtk_object_ref((GtkObject *)fb);
+
 	/*bonobo_ui_component_freeze (uic, NULL);*/
 
-	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
+	for (; iter; iter = iter->next) {
 		sd = (struct sensitize_data *) iter->data;
 		for (i=0;sd->items[i];i++) {
 			if (fb->uicomp)
@@ -470,9 +477,9 @@ fbui_sensitize_timeout (gpointer data)
 		g_free(sd);
 	}
 
-	g_slist_free (fb->sensitize_changes);
-	fb->sensitize_changes = NULL;
-	fb->sensitize_timeout_id = 0;
+	g_slist_free (list);
+	gtk_object_unref((GtkObject *)fb);
+
 	return FALSE;
 }
 

@@ -69,7 +69,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 
-#define d(x)
+#define d(x) 
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -895,6 +895,16 @@ void
 folder_browser_set_ui_component (FolderBrowser *fb, BonoboUIComponent *uicomp)
 {
 	g_return_if_fail (IS_FOLDER_BROWSER (fb));
+
+	if (fb->sensitize_timeout_id) {
+		g_source_remove (fb->sensitize_timeout_id);
+		fb->sensitize_timeout_id = 0;
+	}
+
+	if (fb->sensitise_state) {
+		g_hash_table_destroy(fb->sensitise_state);
+		fb->sensitise_state = NULL;
+	}
 	
 	if (fb->uicomp)
 		bonobo_object_unref (BONOBO_OBJECT (fb->uicomp));
@@ -1920,7 +1930,7 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 static gboolean
 do_message_selected (FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
+	d(printf ("%p: selecting uid %s (delayed)\n", fb, fb->new_uid ? fb->new_uid : "NONE"));
 	
 	fb->loading_id = 0;
 	
@@ -1944,7 +1954,7 @@ do_message_selected (FolderBrowser *fb)
 static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (direct)\n", uid ? uid : "NONE"));
+	d(printf ("%p: selecting uid %s (direct)\n", fb, uid ? uid : "NONE"));
 	
 	if (fb->loading_id != 0)
 		gtk_timeout_remove (fb->loading_id);

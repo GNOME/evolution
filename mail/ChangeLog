@@ -1,3 +1,22 @@
+2001-11-02    <NotZed@Ximian.com>
+
+	* message-browser.c (message_browser_message_list_built):
+	Disconnect from the message_list_built function so we dont do it
+	every time the list is rebuilt.
+
+	* mail-callbacks.c (composer_send_cb): Disable autosave when we're
+	sending mail.
+	(composer_sent_cb): Re-enable autosave.
+
+	* folder-browser-ui.c (fbui_sensitize_timeout): Make sure we reset
+	any data we're using on the folderbrowser before doing anything
+	'cause things could vanish while we're doing it, and also
+	ref/unref the folderbrowser so it doesn't vanish while w'ere
+	working.
+
+	* folder-browser.c (folder_browser_set_ui_component): If we are
+	changing the ui comp, remove any pending timeouts.  For #13719.
+
 2001-11-01  Larry Ewing  <lewing@ximian.com>
 
 	* folder-browser.c (folder_browser_copy): fix cut & paste from the
