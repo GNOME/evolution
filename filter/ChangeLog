@@ -1,3 +1,12 @@
+2000-06-30  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* filter-xml.c (filter_load_optionset_file): Check for failure
+	when loading the filter doc.
+
+	* filter-driver.c (filter_driver_set_rules): Ditto.
+
+	* filter-editor.c (filter_editor_set_rule_files): Ditto.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-arg-types.c: Replaced `global_shell_interface' with

@@ -555,6 +555,10 @@ GList *filter_load_optionset_file(const char *name, GList *rules)
 	GList *options;
 
 	doc = xmlParseFile(name);
+	if( doc == NULL ) {
+		g_warning( "Couldn't load option file %s!", name );
+		return NULL;
+	}
 	options = filter_load_optionset(doc, rules);
 	xmlFreeDoc(doc);
 

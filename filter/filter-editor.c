@@ -370,8 +370,15 @@ filter_editor_set_rule_files(FilterEditor *e, const char *systemrules, const cha
 	xmlDocPtr doc, out, optionset, filteroptions;
 
 	doc = xmlParseFile(systemrules);
-	rules = filter_load_ruleset(doc);
-	options2 = filter_load_optionset(doc, rules);
+	if( doc == NULL ) {
+		g_warning( "Couldn't load system rules file %s", systemrules );
+		rules = NULL;
+		options2 = NULL;
+	} else {
+		rules = filter_load_ruleset(doc);
+		options2 = filter_load_optionset(doc, rules);
+	}
+
 	out = xmlParseFile(userrules);
 	if (out)
 		options = filter_load_optionset(out, rules);

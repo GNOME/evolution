@@ -206,7 +206,11 @@ int filter_driver_set_rules(FilterDriver *d, const char *description, const char
 	p->rules = filter_load_ruleset(desc);
 
 	filt = xmlParseFile(filter);
-	p->options = filter_load_optionset(filt, p->rules);
+	if( filt == NULL ) {
+		g_warning( "Couldn't load filter file %s!", filter );
+		p->options = NULL;
+	} else
+		p->options = filter_load_optionset(filt, p->rules);
 
 #warning "Zucchi: is this safe? Doesn't seem to cause problems..."
 	filter_load_ruleset_free (p->rules);
