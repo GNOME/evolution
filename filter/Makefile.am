@@ -9,29 +9,8 @@ INCLUDES = 					\
 	-DG_LOG_DOMAIN=\"filter\"
 ##
 
-noinst_PROGRAMS =				\
-	filter-driver
-
 noinst_LTLIBRARIES =				\
 	libfilter.la
-
-##
-
-filter_driver_SOURCES = 			\
-	filter-driver.c
-
-filter_driver_LDADD = 				\
-	libfilter.la				\
-	../camel/libcamel.la			\
-	../e-util/libeutil.la			\
-	../libibex/libibex.la			\
-	$(GNOME_LIBDIR)				\
-	$(GNOMEUI_LIBS)				\
-	$(INTLLIBS)				\
-	$(PTHREAD_LIB)				\
-	$(EXTRA_GNOME_LIBS)
-
-##
 
 libfilter_la_SOURCES =				\
 	filter-arg-types.c			\
@@ -45,6 +24,8 @@ libfilter_la_SOURCES =				\
 	filter-druid.c				\
 	filter-druid.h				\
 	filter-editor.c				\
-	filter-editor.h
+	filter-editor.h				\
+	filter-driver.c				\
+	filter-driver.h
 
 EXTRA_DIST = blank.xpm check.xpm
