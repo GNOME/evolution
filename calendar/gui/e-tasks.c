@@ -52,9 +52,11 @@
 
 /* Private part of the GnomeCalendar structure */
 struct _ETasksPrivate {
-	/* The calendar client object we monitor */
-	ECal   *client;
-	ECalView    *query;
+	/* The task lists for display */
+	GHashTable *clients;
+	GList *clients_list;
+
+	ECalView *query;
 	
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
@@ -425,7 +427,8 @@ set_timezone (ETasks *tasks)
 	ETasksPrivate *priv;
 	char *location;
 	icaltimezone *zone;
-
+	GList *l;
+	
 	priv = tasks->priv;
 	
 	location = calendar_config_get_timezone ();
@@ -435,9 +438,13 @@ set_timezone (ETasks *tasks)
 	if (!zone)
 		zone = icaltimezone_get_utc_timezone ();
 
-	if (e_cal_get_load_state (priv->client) == E_CAL_LOAD_LOADED)
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (priv->client, zone, NULL);
+	for (l = priv->clients_list; l != NULL; l = l->next) {
+		ECal *client = l->data;
+		
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			/* FIXME Error checking */
+			e_cal_set_default_timezone (client, zone, NULL);
+	}
 }
 
 static void
@@ -572,7 +579,7 @@ e_tasks_init (ETasks *tasks)
 	setup_config (tasks);
 	setup_widgets (tasks);
 
-	priv->client = NULL;
+	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);	
 	priv->query = NULL;
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
@@ -649,12 +656,16 @@ e_tasks_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
-		
-		if (priv->client) {
-			g_object_unref (priv->client);
-			priv->client = NULL;
+
+		/* disconnect from signals on all the clients */
+		for (l = priv->clients_list; l != NULL; l = l->next) {
+			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, tasks);
 		}
-		
+
+		g_hash_table_destroy (priv->clients);
+		g_list_free (priv->clients_list);
+
 		if (priv->current_uid) {
 			g_free (priv->current_uid);
 			priv->current_uid = NULL;
@@ -691,6 +702,7 @@ gboolean
 e_tasks_open			(ETasks		*tasks,
 				 char		*file)
 {
+#if 0
 	ETasksPrivate *priv;
 	char *message;
 	EUri *uri;
@@ -747,7 +759,7 @@ e_tasks_open			(ETasks		*tasks,
 
 	g_free (real_uri);
 	e_uri_free (uri);
-
+#endif
 	return TRUE;
 }
 
@@ -864,22 +876,131 @@ e_tasks_new_task			(ETasks		*tasks)
 	TaskEditor *tedit;
 	ECalComponent *comp;
 	const char *category;
-
+	ECal *ecal;
+	
 	g_return_if_fail (E_IS_TASKS (tasks));
 
 	priv = tasks->priv;
 
-	tedit = task_editor_new (priv->client);
-
-	comp = cal_comp_task_new_with_defaults (priv->client);
+	/* FIXME What to do about no default client */
+	ecal = e_tasks_get_default_client (tasks);
+	if (!ecal)
+		return;
+	
+	comp = cal_comp_task_new_with_defaults (ecal);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	e_cal_component_set_categories (comp, category);
 
+	tedit = task_editor_new (ecal);
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	g_object_unref (comp);
 
 	comp_editor_focus (COMP_EDITOR (tedit));
+}
+
+gboolean
+e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
+{
+	ETasksPrivate *priv;
+	ECal *client;
+	ECalModel *model;
+	
+	g_return_val_if_fail (tasks != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
+	g_return_val_if_fail (str_uri != NULL, FALSE);
+
+	priv = tasks->priv;
+
+	client = g_hash_table_lookup (priv->clients, str_uri);
+	if (client)
+		return TRUE;
+	
+	client = e_cal_new (str_uri, CALOBJ_TYPE_TODO);
+	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
+	priv->clients_list = g_list_prepend (priv->clients_list, client);
+	
+	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
+	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
+//	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
+
+	if (!e_cal_open (client, FALSE, NULL)) {
+		g_hash_table_remove (priv->clients, str_uri);
+		priv->clients_list = g_list_prepend (priv->clients_list, client);
+		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, tasks);	
+
+		return FALSE;
+	}
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	e_cal_model_add_client (model, client);
+
+	return TRUE;
+}
+
+gboolean
+e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri)
+{
+	ETasksPrivate *priv;
+	ECal *client;
+	ECalModel *model;
+
+	g_return_val_if_fail (tasks != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
+	g_return_val_if_fail (str_uri != NULL, FALSE);
+
+	priv = tasks->priv;
+
+	client = g_hash_table_lookup (priv->clients, str_uri);
+	if (!client)
+		return TRUE;
+
+	g_hash_table_remove (priv->clients, str_uri);
+	priv->clients_list = g_list_remove (priv->clients_list, client);
+	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, tasks);	
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	e_cal_model_remove_client (model, client);
+
+	return TRUE;
+}
+
+gboolean
+e_tasks_set_default_uri (ETasks *tasks, const char *str_uri)
+{
+	ETasksPrivate *priv;
+	ECal *ecal;
+	ECalModel *model;
+	
+	g_return_val_if_fail (tasks != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
+	g_return_val_if_fail (str_uri != NULL, FALSE);
+
+	priv = tasks->priv;
+	
+	ecal = g_hash_table_lookup (priv->clients, str_uri);
+	if (!ecal)
+		return FALSE;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	e_cal_model_set_default_client (model, ecal);	
+
+	return TRUE;
+}
+
+ECal *
+e_tasks_get_default_client (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	
+	g_return_val_if_fail (tasks != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
+
+	priv = tasks->priv;
+
+	return e_cal_model_get_default_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view)));	
 }
 
 /**
@@ -940,33 +1061,42 @@ e_tasks_delete_completed (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	char *sexp;
-	GList *objects, *l;
+	GList *l;
 	
 	g_return_if_fail (tasks != NULL);
 	g_return_if_fail (E_IS_TASKS (tasks));
 
 	priv = tasks->priv;
 
-	/* FIXME Confirm expunge */
+	sexp = g_strdup ("(is-completed?)");
 
 	set_status_message (tasks, _("Expunging"));
 	
-	sexp = g_strdup ("(is-completed?)");
-	if (!e_cal_get_object_list (priv->client, sexp, &objects, NULL)) {
-		set_status_message (tasks, NULL);
-		g_free (sexp);
-		g_warning (G_STRLOC ": Could not get the objects");
-
-		return;
-	}
-	g_free (sexp);
-	
-	for (l = objects; l; l = l->next) {
-		/* FIXME Better error handling */
-		e_cal_remove_object (priv->client, icalcomponent_get_uid (l->data), NULL);
+	/* FIXME Confirm expunge */
+	for (l = priv->clients_list; l != NULL; l = l->next) {
+		ECal *client = l->data;
+		GList *objects, *m;
+		gboolean read_only = TRUE;
+		
+		e_cal_is_read_only (client, &read_only, NULL);
+		if (!read_only)
+			continue;
+		
+		if (!e_cal_get_object_list (client, sexp, &objects, NULL)) {
+			g_warning (G_STRLOC ": Could not get the objects");
+			
+			continue;
+		}
+		
+		for (m = objects; m; m = m->next) {
+			/* FIXME Better error handling */
+			e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
+		}
 	}
 
 	set_status_message (tasks, NULL);
+
+	g_free (sexp);
 }
 
 /* Callback used from the view collection when we need to display a new view */
@@ -1041,7 +1171,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 		gal_view_collection_load (collection);
 	}
 
-	priv->view_instance = gal_view_instance_new (collection, e_cal_get_uri (priv->client));
+	priv->view_instance = gal_view_instance_new (collection, e_cal_get_uri (e_tasks_get_default_client (tasks)));
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);

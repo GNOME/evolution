@@ -70,14 +70,12 @@
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
-	/*
-	 * The Calendar Folder.
-	 */
-
+	/* The calendars for display */
 	GHashTable *clients;
 	GList *clients_list;
 	
 	/* Set of categories from the calendar client */
+	/* FIXME are we getting all the categories? */
 	GPtrArray *cal_categories;
 
 	/*
@@ -2217,6 +2215,7 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), gcal);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
+	/* FIXME Do this async? */
 	if (!e_cal_open (client, FALSE, NULL)) {
 		g_hash_table_remove (priv->clients, str_uri);
 		priv->clients_list = g_list_prepend (priv->clients_list, client);
@@ -2256,6 +2255,7 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	ECal *client;
 	int i;
 
+	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (str_uri != NULL, FALSE);
 
@@ -2284,15 +2284,6 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
 }
 
 /**
- * gnome_calendar_set_default_uri
- * @gcal: A calendar view.
- * @client: The client to use as default.
- *
- * Set the default client on the given calendar view. The default calendar will
- * be used as the default when creating events in the view.
- */
-
-/**
  * gnome_calendar_set_default_uri:
  * @gcal: A calendar view
  * @uri: The uri to use as default
@@ -2305,17 +2296,19 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
  * otherwise
  **/
 gboolean
-gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *uri)
+gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *str_uri)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 	int i;
 
+	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
+	g_return_val_if_fail (str_uri != NULL, FALSE);
 
 	priv = gcal->priv;
 	
-	client = g_hash_table_lookup (priv->clients, uri);
+	client = g_hash_table_lookup (priv->clients, str_uri);
 	if (!client)
 		return FALSE;
 	
@@ -2902,7 +2895,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 	/* FIXME Confirm expunge */
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
-		GList *objects, *l;
+		GList *objects, *m;
 		gboolean read_only = TRUE;
 		
 		e_cal_is_read_only (client, &read_only, NULL);
@@ -2915,12 +2908,12 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			continue;
 		}
 		
-		for (l = objects; l; l = l->next) {
+		for (m = objects; m; m = m->next) {
 			ECalComponent *comp;
 			gboolean remove = TRUE;
 
 			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data));
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
 			
 			e_cal_recur_generate_instances (comp, older_than, -1,
 						      (ECalRecurInstanceFn) check_instance_cb,
@@ -2930,7 +2923,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 			/* FIXME Better error handling */
 			if (remove)
-				e_cal_remove_object (client, icalcomponent_get_uid (l->data), NULL);
+				e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
 			
 			g_object_unref (comp);
 		}

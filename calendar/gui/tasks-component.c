@@ -28,12 +28,18 @@
 #include <string.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
+#include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
 #include "e-cal-model.h"
 #include "e-tasks.h"
 #include "tasks-component.h"
 #include "tasks-control.h"
+#include "e-comp-editor-registry.h"
+#include "migration.h"
+#include "comp-util.h"
+#include "dialogs/comp-editor.h"
+#include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
 
 
@@ -44,12 +50,17 @@
 
 static BonoboObjectClass *parent_class = NULL;
 
+/* Tasks should have their own registry */
+extern ECompEditorRegistry *comp_editor_registry;
+
 struct _TasksComponentPrivate {
 	char *config_directory;
 	GConfClient *gconf_client;
+
 	ESourceList *source_list;
 	GSList *source_selection;
-	GtkWidget *tasks;
+
+	ETasks *tasks;
 };
 
 /* Utility functions.  */
@@ -57,39 +68,18 @@ struct _TasksComponentPrivate {
 static void
 add_uri_for_source (ESource *source, ETasks *tasks)
 {
-	ECal *client;
-	ECalModel *model;
-	GError *error = NULL;
 	char *uri = e_source_get_uri (source);
 
-	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-	client = e_cal_model_get_client_for_uri (model, uri);
-	if (!client) {
-		client = e_cal_new (uri, CALOBJ_TYPE_TODO);
-		if (e_cal_open (client, FALSE, &error)) {
-			e_cal_model_add_client (model, client);
-		} else {
-			g_warning (G_STRLOC ": Could not open tasks at %s: %s", uri, error->message);
-			g_error_free (error);
-			g_object_unref (client);
-		}
-	}
-
+	e_tasks_add_todo_uri (tasks, uri);
 	g_free (uri);
 }
 
 static void
 remove_uri_for_source (ESource *source, ETasks *tasks)
 {
-	ECal *client;
-	ECalModel *model;
 	char *uri = e_source_get_uri (source);
 
-	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-	client = e_cal_model_get_client_for_uri (model, uri);
-	if (client)
-		e_cal_model_remove_client (model, client);
-
+	e_tasks_remove_todo_uri (tasks, uri);
 	g_free (uri);
 }
 
@@ -133,6 +123,17 @@ update_uris_for_selection (ESourceSelector *selector, TasksComponent *component)
 
 	e_source_selector_free_selection (priv->source_selection);
 	priv->source_selection = selection;
+}
+
+/* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
+static ECalComponent *
+get_default_task (ECal *ecal)
+{
+	ECalComponent *comp;
+	
+	comp = cal_comp_task_new_with_defaults (ecal);
+
+	return comp;
 }
 
 /* Callbacks.  */
@@ -246,8 +247,22 @@ impl_createControls (PortableServer_Servant servant,
 	sidebar_control = bonobo_control_new (selector_scrolled_window);
 
 	/* create the tasks view */
-	view_control = tasks_control_new ();
-	priv->tasks = bonobo_control_get_widget (view_control);
+	priv->tasks = E_TASKS (e_tasks_new ());
+	if (!priv->tasks) {
+		g_warning (G_STRLOC ": could not create the control!");
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+		return;
+	}
+	
+	gtk_widget_show (GTK_WIDGET (priv->tasks));
+
+ 	view_control = bonobo_control_new (GTK_WIDGET (priv->tasks));
+	if (!view_control) {
+		g_warning (G_STRLOC ": could not create the control!");
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+		return;
+	}
+
 	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->tasks);
 
 	g_signal_connect_object (selector, "selection_changed",
@@ -290,9 +305,34 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
-	/* FIXME: fill me in */
+	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
+	TasksComponentPrivate *priv;
+	ECal *ecal;
+	ECalComponent *comp;
+	TaskEditor *editor;
+	
+	priv = tasks_component->priv;
+	
+	ecal = e_tasks_get_default_client (E_TASKS (priv->tasks));
+	if (!ecal) {
+		/* FIXME We should display a gui dialog or something */
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+		g_warning (G_STRLOC ": No default client");
+	}
+		
+	editor = task_editor_new (ecal);
+	
+	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
+		comp = get_default_task (ecal);
+	} else {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+		return;
+	}	
 
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	comp_editor_focus (COMP_EDITOR (editor));
+
+	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
 }
 
 /* Initialization */

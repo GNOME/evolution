@@ -1355,8 +1355,8 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 
 	/* remove all objects belonging to this client */
 	e_table_model_pre_change (E_TABLE_MODEL (model));
-	for (i = 0; i < model->priv->objects->len; i++) {
-		ECalModelComponent *comp_data = (ECalModelComponent *) g_ptr_array_index (model->priv->objects, i);
+	for (i = model->priv->objects->len; i > 0; i--) {
+		ECalModelComponent *comp_data = (ECalModelComponent *) g_ptr_array_index (model->priv->objects, i - 1);
 
 		g_assert (comp_data != NULL);
 

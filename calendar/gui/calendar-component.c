@@ -64,6 +64,7 @@ struct _CalendarComponentPrivate {
 	guint selected_not;	
 };
 
+/* FIXME This should be gnome cal likely */
 extern ECompEditorRegistry *comp_editor_registry;
 
 /* Utility functions.  */

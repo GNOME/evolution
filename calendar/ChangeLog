@@ -1,5 +1,38 @@
 2003-11-16  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (add_uri_for_source): add it via e-tasks
+	(remove_uri_for_source): remove it via e-tasks
+	(get_default_task): provide a default for editing
+	(impl_createControls): create the control directly
+	(impl_requestCreateItem): implement
+
+	* gui/gnome-cal.c (gnome_calendar_purge): don't let the two list
+	iterators clobber each other
+
+	* gui/e-tasks.h: add protos
+
+	* gui/e-tasks.c (e_tasks_destroy): free the client list and the
+	hash, disconnect signals
+	(e_tasks_new_task): use the default client
+	(e_tasks_add_todo_uri): add a uri
+	(e_tasks_remove_todo_uri): remove a uri
+	(e_tasks_set_default_uri): set default uri
+	(e_tasks_get_default_client): get default client
+	(e_tasks_delete_completed): expunge from all clients
+	(e_tasks_setup_view_menus): use default client uri
+
+	* gui/e-tasks.c (set_timezone): set the timezone for all clients
+	(e_tasks_init): set up the clients has table
+
+	* gui/e-calendar-table.etspec: yank some useless display columns
+
+	* gui/e-cal-model.c (remove_client): remove objects in reverse
+	order so we don't clobber ourselves
+
+	* gui/calendar-component.c: add FIXME
+
+2003-11-16  JP Rosevear <jpr@ximian.com>
+
 	* gui/calendar-component.c (get_default_event): set up a event to
 	be edited
 	(impl_requestCreateItem): implement
