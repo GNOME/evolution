@@ -1,5 +1,9 @@
 2000-10-29  Dan Winship  <danw@helixcode.com>
 
+	* mail-tools.c (mail_tool_uri_to_folder): Simplify this a lot by
+	making IMAP and NNTP use the same code, now that the IMAP
+	namespace doesn't need special magic handling.
+
 	* message-list.c (mail_do_regenerate_messagelist): Don't try to
 	regenerate the message list if there is no folder. (The Bonobo UI
 	code will call this as the callback for the "Threaded View"

@@ -492,58 +492,17 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 
 	if (!strncmp (uri, "vfolder:", 8)) {
 		folder = vfolder_uri_to_folder (uri, ex);
-	} else if (!strncmp (uri, "imap:", 5)) {
-		char *service, *ptr;
-		
-		service = g_strdup_printf ("%s/", uri);
-		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
-		ptr++;
-		*ptr = '\0';
-		
+	} else if (!strncmp (uri, "imap:", 5) || !strncmp (uri, "nntp:", 5)) {
 		mail_tool_camel_lock_up ();
-		store = camel_session_get_store (session, service, ex);
-		g_free (service);
-		if (store) {
-			CamelURL *url = CAMEL_SERVICE (store)->url;
-			char *folder_uri;
-			
-			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++);
-			if (*ptr == '/') {
-				if (url && url->path) {
-					ptr += strlen (url->path);
-					printf ("ptr = %s\n", ptr);
-					if (*ptr == '/')
-						ptr++;
-				}
-				
-				if (*ptr == '/')
-					ptr++;
-				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
-				
-				folder_uri = g_strdup (ptr);				
-				folder = camel_store_get_folder (store, folder_uri, CAMEL_STORE_FOLDER_CREATE, ex);
-				g_free (folder_uri);
-			}
-		}
-		
-		mail_tool_camel_lock_down ();
-
-	} else if (!strncmp (uri, "nntp:", 5)) {
-		mail_tool_camel_lock_up();
 		store = camel_session_get_store (session, uri, ex);
 		if (store) {
-			const char *folder_path, *ptr;
+			char *ptr;
 
 			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++);
-			if (*ptr == '/') {
-				ptr++;
-				folder_path = ptr;
-				folder = camel_store_get_folder (store, folder_path, 0, ex);
-			}
+			if (*ptr == '/')
+				folder = camel_store_get_folder (store, ptr + 1, CAMEL_STORE_FOLDER_CREATE, ex);
 		}
-
-		mail_tool_camel_lock_down();
-
+		mail_tool_camel_lock_down ();
 	} else if (!strncmp (uri, "file:", 5)) {
 		folder = mail_tool_local_uri_to_folder (uri, ex);
 	} else {
