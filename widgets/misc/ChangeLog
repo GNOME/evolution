@@ -1,3 +1,8 @@
+2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (rule_editor_destroyed): When the dialog gets
+	closed, always make sure the entry widget becomes sensitive again.
+
 2001-07-16  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #2901.
