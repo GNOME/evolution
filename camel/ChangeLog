@@ -1,5 +1,19 @@
 2001-03-27  Dan Winship  <danw@ximian.com>
 
+	* camel-sasl.c (camel_sasl_authtype_list): add an argument to say
+	whether or not you want "PLAIN" in the list (so you don't end up
+	with "Password" twice in the config dialog).
+
+	* providers/imap/camel-imap-provider.c (camel_provider_module_init): 
+	* providers/imap/camel-imap-store.c (query_auth_types): We don't
+	want PLAIN.
+
+	* providers/smtp/camel-smtp-provider.c (camel_provider_module_init): 
+	* providers/smtp/camel-smtp-transport.c (query_auth_types): But we
+	do.
+
+2001-03-27  Dan Winship  <danw@ximian.com>
+
 	* camel-provider.h: Add an "extra_conf" field to CamelProvider
 	with structures and defines and stuff, for providers to specify
 	additional configuration options that they want. Also add a

@@ -488,7 +488,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 	if (!smtp_connect (service, ex))
 		return NULL;
 	
-	types = camel_sasl_authtype_list ();
+	types = camel_sasl_authtype_list (TRUE);
 	for (t = types; t; t = next) {
 		authtype = t->data;
 		next = t->next;

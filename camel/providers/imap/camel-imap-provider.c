@@ -90,7 +90,7 @@ camel_provider_module_init (CamelSession *session)
 		camel_imap_store_get_type ();
 	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
 	imap_provider.authtypes = g_list_concat (camel_remote_store_authtype_list (),
-						 camel_sasl_authtype_list ());
+						 camel_sasl_authtype_list (FALSE));
 	imap_provider.authtypes = g_list_prepend (imap_provider.authtypes,
 						  &camel_imap_password_authtype);
 

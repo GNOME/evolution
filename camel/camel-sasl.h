@@ -67,7 +67,7 @@ gboolean    camel_sasl_authenticated    (CamelSasl *sasl);
 /* utility functions */
 CamelSasl  *camel_sasl_new              (const char *service_name, const char *mechanism, CamelService *service);
 
-GList                *camel_sasl_authtype_list (void);
+GList                *camel_sasl_authtype_list (gboolean include_plain);
 CamelServiceAuthType *camel_sasl_authtype      (const char *mechanism);
 
 #ifdef __cplusplus

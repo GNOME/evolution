@@ -321,7 +321,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 	if (camel_exception_is_set (ex))
 		return types;
 
-	sasl_types = camel_sasl_authtype_list ();
+	sasl_types = camel_sasl_authtype_list (FALSE);
 	for (t = sasl_types; t; t = next) {
 		authtype = t->data;
 		next = t->next;

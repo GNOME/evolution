@@ -201,25 +201,23 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 
 /**
  * camel_sasl_authtype_list:
+ * @include_plain: whether or not to include the PLAIN mechanism
  *
  * Return value: a GList of SASL-supported authtypes. The caller must
  * free the list, but not the contents.
  **/
 GList *
-camel_sasl_authtype_list (void)
+camel_sasl_authtype_list (gboolean include_plain)
 {
 	GList *types = NULL;
-
-	/* We don't do PLAIN here, because it's considered to be
-	 * normal password authentication, just behind SSL.
-	 */
 
 	types = g_list_prepend (types, &camel_sasl_cram_md5_authtype);
 	types = g_list_prepend (types, &camel_sasl_digest_md5_authtype);
 #ifdef HAVE_KRB4
 	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
 #endif
-	types = g_list_prepend (types, &camel_sasl_plain_authtype);
+	if (include_plain)
+		types = g_list_prepend (types, &camel_sasl_plain_authtype);
 
 	return types;
 }
