@@ -2200,7 +2200,7 @@ e_shell_prepare_for_quit (EShell *shell)
 		while (result == (GNOME_Evolution_ShellComponentListener_Result) -1)
 			gtk_main_iteration ();
 
-		if (result != GNOME_Evolution_ShellComponentListener_OK) {
+		if (result == GNOME_Evolution_ShellComponentListener_CANCEL) {
 			retval = FALSE;
 			goto end;
 		}

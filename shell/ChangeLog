@@ -1,3 +1,14 @@
+2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (e_shell_prepare_for_quit): Only refuse quitting if
+	the result is CANCEL.  This way we allow quitting if one of the
+	components has crashed or something else otherwise goes wrong.
+	Fixes #25093.
+
+	* evolution-shell-component-client.c
+	(result_from_async_corba_result): Handle
+	GNOME_Evolution_ShellComponentListener_CANCEL.
+
 2002-05-21  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-corba-storage.c (async_open_folder_idle): Do async_open_folder

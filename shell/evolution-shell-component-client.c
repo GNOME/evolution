@@ -159,6 +159,8 @@ result_from_async_corba_result (GNOME_Evolution_ShellComponentListener_Result as
 	switch (async_corba_result) {
 	case GNOME_Evolution_ShellComponentListener_OK:
 		return EVOLUTION_SHELL_COMPONENT_OK;
+	case GNOME_Evolution_ShellComponentListener_CANCEL:
+		return EVOLUTION_SHELL_COMPONENT_CANCEL;
 	case GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION:
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION;
 	case GNOME_Evolution_ShellComponentListener_EXISTS:
