@@ -1363,7 +1363,7 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 	} else {
 		len -= 32;
 		ret = g_malloc(len+1);
-		if (fread(ret, len, 1, in) != 1) {
+		if (len > 0 && fread(ret, len, 1, in) != 1) {
 			g_free(ret);
 			*str = NULL;
 			return -1;
