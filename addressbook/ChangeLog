@@ -1,3 +1,8 @@
+2004-02-08  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                
+        * gui/widgets/e-addressbook-view.c (delete) : pass contact
+        as an argument instead of contact id to e_book_async_remove_contact
+
 2004-02-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (create_groups): don't

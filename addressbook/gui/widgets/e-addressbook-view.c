@@ -941,7 +941,7 @@ delete (GtkWidget *widget, ContactAndBook *contact_and_book)
 				/* Remove the card. */
 				/* XXX no callback specified... ugh */
 				e_book_async_remove_contact (book,
-							     e_contact_get_const (contact, E_CONTACT_UID),
+							     contact,
 							     NULL,
 							     NULL);
 			}
