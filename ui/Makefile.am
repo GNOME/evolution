@@ -9,7 +9,7 @@ XML_FILES =				\
 	evolution-mail.xml		\
 	evolution-message-composer.xml	\
 	evolution-subscribe.xml		\
-	evolution-task-editor-dialog.xml\
+	evolution-task-editor.xml	\
 	evolution-tasks.xml		\
 	my-evolution.xml
 
