@@ -57,6 +57,8 @@ static GHashTable *emfh_types;
 static void *emfh_parent_class;
 #define emfh ((EMFormatHook *)eph)
 
+#define d(x)
+
 static const EPluginHookTargetKey emfh_flag_map[] = {
 	{ "inline", EM_FORMAT_HANDLER_INLINE },
 	{ "inline_disposition", EM_FORMAT_HANDLER_INLINE_DISPOSITION },
@@ -99,7 +101,7 @@ emfh_construct_item(EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
 {
 	struct _EMFormatHookItem *item;
 
-	printf("  loading group item\n");
+	d(printf("  loading group item\n"));
 	item = g_malloc0(sizeof(*item));
 
 	item->handler.mime_type = e_plugin_xml_prop(root, "mime_type");
@@ -112,11 +114,11 @@ emfh_construct_item(EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
 	if (item->handler.mime_type == NULL || item->format == NULL)
 		goto error;
 
-	printf("   type='%s' format='%s'\n", item->handler.mime_type, item->format);
+	d(printf("   type='%s' format='%s'\n", item->handler.mime_type, item->format));
 
 	return item;
 error:
-	printf("error!\n");
+	d(printf("error!\n"));
 	emfh_free_item(item);
 	return NULL;
 }
@@ -127,7 +129,7 @@ emfh_construct_group(EPluginHook *eph, xmlNodePtr root)
 	struct _EMFormatHookGroup *group;
 	xmlNodePtr node;
 
-	printf(" loading group\n");
+	d(printf(" loading group\n"));
 	group = g_malloc0(sizeof(*group));
 
 	group->id = e_plugin_xml_prop(root, "id");
@@ -157,7 +159,7 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 
-	printf("loading format hook\n");
+	d(printf("loading format hook\n"));
 
 	if (((EPluginHookClass *)emfh_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
@@ -263,7 +265,7 @@ void em_format_hook_register_type(GType type)
 	if (emfh_types == NULL)
 		emfh_types = g_hash_table_new(g_str_hash, g_str_equal);
 
-	printf("registering formatter type '%s'\n", g_type_name(type));
+	d(printf("registering formatter type '%s'\n", g_type_name(type)));
 
 	klass = g_type_class_ref(type);
 	g_hash_table_insert(emfh_types, (void *)g_type_name(type), klass);
