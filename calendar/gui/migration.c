@@ -463,6 +463,7 @@ static void
 create_task_sources (TasksComponent *component,
 		     ESourceList   *source_list,
 		     ESourceGroup **on_this_computer,
+		     ESourceGroup **on_the_web,
 		     ESource **personal_source)
 {
 	GSList *groups;
@@ -470,6 +471,7 @@ create_task_sources (TasksComponent *component,
 	char *base_uri, *base_uri_proto;
 
 	*on_this_computer = NULL;
+	*on_the_web = NULL;
 	*personal_source = NULL;
 	
 	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
@@ -489,6 +491,8 @@ create_task_sources (TasksComponent *component,
 
 			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
+			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
+				*on_the_web = g_object_ref (group);
 		}
 	}
 
@@ -518,6 +522,14 @@ create_task_sources (TasksComponent *component,
 		e_source_group_add_source (*on_this_computer, source, -1);
 
 		*personal_source = source;
+	}
+
+	if (!*on_the_web) {
+		/* Create the Webcal source group */
+		group = e_source_group_new (_("On The Web"), WEBCAL_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_the_web = group;
 	}
 
 	g_free (base_uri_proto);
@@ -642,13 +654,14 @@ gboolean
 migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 {
 	ESourceGroup *on_this_computer = NULL;
+	ESourceGroup *on_the_web = NULL;
 	ESource *personal_source = NULL;
 	gboolean retval = TRUE;
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
-	create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer, &personal_source);
+	create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer, &on_the_web, &personal_source);
 	
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
@@ -717,6 +730,8 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 
 	if (on_this_computer)
 		g_object_unref (on_this_computer);
+	if (on_the_web)
+		g_object_unref (on_the_web);
 	if (personal_source)
 		g_object_unref (personal_source);
 	
