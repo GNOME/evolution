@@ -686,14 +686,6 @@ e_contact_list_editor_raise (EContactListEditor *editor)
 	gdk_window_raise (GTK_WIDGET (editor->app)->window);
 }
 
-#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" selection-mode=\"single\"> \
- <ETableColumn model_col= \"0\" _title=\"Contact\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\" /> \
-	<ETableState>                   			       \
-		<column source=\"0\"/>     			       \
-	        <grouping> </grouping>				       \
-	</ETableState>                  			       \
-</ETableSpecification>"
-
 GtkWidget *
 e_contact_list_editor_create_table(gchar *name,
 				   gchar *string1, gchar *string2,
@@ -710,7 +702,10 @@ e_contact_list_editor_create_table(gchar *name,
 
 	model = e_contact_list_model_new ();
 
-	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
+	table = e_table_scrolled_new_from_spec_file (model,
+				      NULL,
+				      EVOLUTION_ETSPECDIR "/e-contact-list-editor.etspec",
+				      NULL);
 
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
 

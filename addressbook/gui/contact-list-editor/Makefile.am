@@ -7,6 +7,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_builddir)/shell			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"	\
@@ -30,4 +31,8 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 					\
 	contact-list-editor.glade
 
-EXTRA_DIST = $(glade_DATA)
+etspecdir   = $(datadir)/evolution/etspec
+etspec_DATA = e-contact-list-editor.etspec
+
+EXTRA_DIST = $(glade_DATA)	\
+	$(etspec_DATA)

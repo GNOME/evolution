@@ -15,6 +15,7 @@ INCLUDES =							\
 	-I$(top_builddir)/addressbook/backend			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
@@ -74,10 +75,14 @@ glade_DATA = ldap-config.glade
 
 iconsdir = $(datadir)/images/evolution
 
+etspecdir = $(datadir)/evolution/etspec
+etspec_DATA = addressbook-config.etspec
+
 EXTRA_DIST = 				\
 	$(glade_DATA)			\
 	$(oaf_DATA)			\
-	$(oaf_in_files)
+	$(oaf_in_files)			\
+	$(etspec_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -114,22 +114,6 @@ e_select_names_class_init (ESelectNamesClass *klass)
 	object_class->destroy = e_select_names_destroy;
 }
 
-#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"%d\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\" search=\"string\"/> \
-	<ETableState>                   			       \
-		<column source=\"0\"/>     			       \
-	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
-	</ETableState>                  			       \
-</ETableSpecification>"
-
-#define SPEC2 "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\" search=\"string\"/> \
-	<ETableState>                   			       \
-		<column source=\"0\"/>     			       \
-        	<grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
-	</ETableState>                  			       \
-</ETableSpecification>"
-
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
 GtkWidget *e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2);
 
@@ -332,9 +316,10 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 				       esn_free_duped_key_fn,
 				       model);
 
-	spec = g_strdup_printf(SPEC, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
-	table = e_table_scrolled_new (without, NULL, spec, NULL);
-	g_free(spec);
+	table = e_table_scrolled_new_from_spec_file (without,
+						     NULL,
+						     EVOLUTION_ETSPECDIR "/e-select-names.etspec",
+						     NULL);
 
 	gtk_object_set_data(GTK_OBJECT(table), "adapter", adapter);
 	gtk_object_set_data(GTK_OBJECT(table), "without", without);

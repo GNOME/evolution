@@ -1,3 +1,19 @@
+2002-10-10  Kjartan Maraas  <kmaraas@gnome.org>
+
+	[ Fix #7094, #7064, #7095, #31944, #31945 ]
+	* gui/component/Makefile.am: Hook up new etspec file.
+	* gui/component/addressbook-config.c: Remove ETable spec.
+	* gui/component/addressbook-config.etspec: New file.
+	* gui/component/ldap-config.glade: Fix typo.
+	* gui/component/select-names/e-select-names.c: Remove inline spec.
+	* gui/component/select-names/e-select-names.etspec: New file.
+	* gui/contact-list-editor/Makefile.am: Hook up etspec.
+	* gui/contact-list-editor/e-contact-list-editor.c: Remove inline spec.
+	* gui/contact-list-editor/e-contact-list-editor.etspec: New file.
+	* gui/widgets/Makefile.am: Hook up new spec.
+	* gui/widgets/e-addressbook-view.c: Remove inline spec.
+	* gui/widgets/e-addressbook-view.etspec: New file.
+
 2002-10-02  Chris Toshok  <toshok@ximian.com>
 
 	[ Fix #28392 ]

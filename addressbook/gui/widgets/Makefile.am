@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-minicard\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
 	-I$(top_srcdir)					\
@@ -129,5 +130,10 @@ libeminicard_a_SOURCES =			\
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = 
 
+etspecdir  = $(datadir)/evolution/etspec
+etspec_DATA= e-addressbook-view.etspec
+
 EXTRA_DIST = 			\
-	$(glade_DATA)
+	$(glade_DATA)		\
+	$(etspec_DATA)
+	

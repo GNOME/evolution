@@ -1593,17 +1593,6 @@ static ETableMemoryStoreColumnInfo sources_table_columns[] = {
 	E_TABLE_MEMORY_STORE_TERMINATOR
 };
 
-#define SOURCES_TABLE_SPEC \
-"<ETableSpecification cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"0\" _title=\"Account Name\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"1\" _title=\"Server Name\"  expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableState> \
-    <column source=\"0\"/> \
-    <column source=\"1\"/> \
-    <grouping></grouping> \
-  </ETableState> \
-</ETableSpecification>"
-
 GtkWidget*
 addressbook_dialog_create_sources_table (char *name, char *string1, char *string2, int num1, int num2)
 {
@@ -1612,7 +1601,10 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 
 	model = e_table_memory_store_new (sources_table_columns);
 
-	table = e_table_scrolled_new (model, NULL, SOURCES_TABLE_SPEC, NULL);
+	table = e_table_scrolled_new_from_spec_file (model,
+						     NULL,
+						     EVOLUTION_ETSPECDIR "/addressbook-config.etspec",
+						     NULL);
 
 	gtk_object_set_data (GTK_OBJECT (table), "model", model);
 

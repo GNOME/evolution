@@ -39,6 +39,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
@@ -72,13 +73,15 @@ libeselectnames_la_SOURCES = 			\
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = select-names.glade
 
-
+etspecdir   = $(datadir)/evolution/etspec
+etspec_DATA = e-select-names.etspec
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_in_files)		\
 	$(oaf_DATA)		\
-	$(idl_DATA)
+	$(idl_DATA)		\
+	$(etspec_DATA)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
