@@ -740,7 +740,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
 	
 	default_account = mail_config_get_default_account_num ();
-
+	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
 	while (l) {

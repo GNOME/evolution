@@ -1888,12 +1888,16 @@ hdrs_changed_cb (EMsgComposerHdrs *hdrs,
 }
 
 static void
-from_changed_cb (EMsgComposerHdrs *hdrs,
-		 void *data)
+from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 {
 	EMsgComposer *composer;
 	
 	composer = E_MSG_COMPOSER (data);
+	
+	if (hdrs->account) {
+		e_msg_composer_set_pgp_sign (composer, hdrs->account->pgp_always_sign);
+		e_msg_composer_set_smime_sign (composer, hdrs->account->smime_always_sign);
+	}
 	
 	e_msg_composer_show_sig_file (composer);
 }
