@@ -284,6 +284,8 @@ update_view (ETasks *tasks)
 		g_free (real_sexp);
 	} else
 		e_cal_model_set_search_query (model, priv->sexp);
+
+	e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
 }
 
 static gboolean

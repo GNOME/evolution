@@ -1,5 +1,13 @@
 2005-02-04  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-tasks.c (update_view): clear the component preview when we
+	update the view.
+
+	* gui/e-cal-model.c (set_instance_times): use the correct timezone.
+	Removed commented code.
+
+2005-02-04  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #71265
 
 	* gui/e-week-view.c (e_week_view_remove_event_cb):

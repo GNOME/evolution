@@ -102,5 +102,3 @@ send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *c
 	else
 		return FALSE;
 }
-
-

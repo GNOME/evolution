@@ -1303,20 +1303,19 @@ set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 
 	if (zone) {
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time, zone);
+			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time,
+										 start_time.zone ? start_time.zone : zone);
 
 			comp_data->instance_end = comp_data->instance_start +
 				(icaltime_as_timet_with_zone (end_time, end_time.zone ? end_time.zone : zone) -
 				 icaltime_as_timet_with_zone (start_time, start_time.zone ? start_time.zone : zone));
 		} else {
 			if (start_time.zone) {
-				//icaltimezone_convert_time (&start_time, start_time.zone, zone);
 				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, start_time.zone);
 			} else
 				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
 			if (end_time.zone) {
-				//icaltimezone_convert_time (&end_time, end_time.zone, zone);
 				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, end_time.zone);
 			} else
 				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
