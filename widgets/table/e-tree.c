@@ -372,11 +372,9 @@ static gint
 item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 {
 	int return_val = 0;
-	ETreePath path = e_tree_table_adapter_node_at_row(et->etta, row);
 	GdkEventKey *key = (GdkEventKey *) event;
 	GdkEventButton click;
-
-	path = e_tree_sorted_view_to_model_path(et->sorted, path);
+	ETreePath path;
 
 	switch (key->keyval) {
 	case GDK_Page_Down:
@@ -416,7 +414,17 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 				 (GdkEvent *) &click);
 		return_val = 1;
 		break;
+	case '=':
+		path = e_tree_table_adapter_node_at_row(et->etta, row);
+		e_tree_table_adapter_node_set_expanded (et->etta, path, TRUE);
+		break;
+	case '-':
+		path = e_tree_table_adapter_node_at_row(et->etta, row);
+		e_tree_table_adapter_node_set_expanded (et->etta, path, FALSE);
+		break;
 	default:
+		path = e_tree_table_adapter_node_at_row(et->etta, row);
+		path = e_tree_sorted_view_to_model_path(et->sorted, path);
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [KEY_PRESS],
 				 row, path, col, event, &return_val);
