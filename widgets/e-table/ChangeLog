@@ -1,3 +1,10 @@
+2000-04-15  Matt Loper  <matt@helixcode.com>
+
+	* e-table.c (et_xml_to_header): sanity-check our parameters.
+	(et_grouping_xml_to_sort_info): same.
+	(et_real_construct): Bail if we couldn't get the children we
+	wanted.
+
 2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c, e-table-item.h: Added a row height cache.

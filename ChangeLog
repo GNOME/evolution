@@ -1,3 +1,13 @@
+2000-04-15  Matt Loper  <matt@helixcode.com>
+
+	* addressbook/gui/component/addressbook.c
+	(search_entry_activated): New function. Gets called when the quick
+	search entry is called on to perform a search.
+	(make_quick_search_widget): New function; returns a "quick search"
+	widget.
+	(control_activate): During the construction of the toolbar, a
+	"quick search" widget is included.
+
 2000-04-14  Chris Toshok  <toshok@helixcode.com>
 
 	* tests/.cvsignore: add test12

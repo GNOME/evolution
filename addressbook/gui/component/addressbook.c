@@ -167,19 +167,64 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), find_contact_cb, GNOME_STOCK_PIXMAP_SEARCH),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), do_nothing_cb, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), delete_contact_cb, GNOME_STOCK_PIXMAP_TRASH),
-
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END
 };
 
+static void
+search_entry_activated (GtkWidget* widget, EMinicardView* minicard_view)
+{
+	char* search_word = gtk_entry_get_text(GTK_ENTRY(widget));
+	char* search_query;
+
+	if (search_word && strlen (search_word))
+		search_query = g_strdup_printf (
+			"(contains \"full_name\" \"%s\")",
+			search_word);
+	else
+		search_query = g_strdup (
+			"(contains \"full_name\" \"\")");		
+	
+	gtk_object_set (GTK_OBJECT(minicard_view), "query",
+			search_query, NULL);
+	g_free (search_query);
+}
+
+static GtkWidget*
+make_quick_search_widget (GtkSignalFunc start_search_func,
+			  gpointer user_data_for_search)
+{
+	GtkWidget *search_vbox = gtk_vbox_new (FALSE, 0);
+	GtkWidget *search_entry = gtk_entry_new ();
+
+	if (start_search_func) 
+	{
+		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
+				    (GtkSignalFunc) search_entry_activated,
+				    user_data_for_search);
+	}
+	
+	/* add the search entry to the our search_vbox */
+	gtk_box_pack_start (GTK_BOX (search_vbox), search_entry,
+			    FALSE, TRUE, 3);	
+	gtk_box_pack_start (GTK_BOX (search_vbox),
+			    gtk_label_new("Quick Search"),
+			    FALSE, TRUE, 0);
+
+	return search_vbox;
+}
 
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih, EMinicardView *minicard_view)
+control_activate (BonoboControl *control, BonoboUIHandler *uih,
+		  EMinicardView *minicard_view)
 {
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar;
 	BonoboControl *toolbar_control;
-	
+	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+	GtkWidget *quick_search_widget;
+
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 
@@ -187,7 +232,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih, EMinicardView *m
 					 N_("_New Contact"),       
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, new_contact_cb, (gpointer)minicard_view);
+					 0, 0, new_contact_cb,
+					 (gpointer)minicard_view);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
@@ -196,9 +242,20 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih, EMinicardView *m
 					  gnome_toolbar, 
 					  NULL, minicard_view);
 	
-	gtk_widget_show_all (toolbar);
+	gtk_box_pack_start (GTK_BOX (hbox), toolbar, FALSE, TRUE, 0);
 
-	toolbar_control = bonobo_control_new (toolbar);
+
+	/* add the search_vbox to the hbox which will be our toolbar */
+	quick_search_widget = make_quick_search_widget (
+		search_entry_activated, minicard_view);
+	
+	gtk_box_pack_start (GTK_BOX (hbox),
+			    quick_search_widget,
+			    FALSE, TRUE, 0);
+	
+	gtk_widget_show_all (hbox);
+	
+	toolbar_control = bonobo_control_new (hbox);
 	bonobo_ui_handler_dock_add (
 		uih, "/Toolbar",
 		bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
@@ -256,7 +313,9 @@ ebook_create (AddressbookView *view)
 	}
 	
 
-	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, view)) {
+
+	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, view))
+	{
 		printf ("error calling load_uri!\n");
 	}
 

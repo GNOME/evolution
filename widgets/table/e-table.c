@@ -706,6 +706,10 @@ et_xml_to_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumn
 	ETableHeader *nh;
 	xmlNode *column;
 	const int max_cols = e_table_header_count (full_header);
+
+	g_return_val_if_fail (e_table, NULL);
+	g_return_val_if_fail (full_header, NULL);
+	g_return_val_if_fail (xmlColumns, NULL);
 	
 	nh = e_table_header_new ();
 
@@ -725,6 +729,10 @@ static void
 et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
 {
 	int i;
+
+	g_return_if_fail (table!=NULL);
+	g_return_if_fail (grouping!=NULL);	
+	
 	table->sort_info = e_table_sort_info_new ();
 	
 	gtk_object_ref (GTK_OBJECT (table->sort_info));
@@ -771,8 +779,13 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gtk_object_ref (GTK_OBJECT (etm));
 
 	xmlRoot = xmlDocGetRootElement (xmlSpec);
+	
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
 	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
+	
+	/* TODO: unref the etm and full_header, if these things fail? */
+	g_return_if_fail (xmlColumns);
+	g_return_if_fail (xmlGrouping);
 	
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
