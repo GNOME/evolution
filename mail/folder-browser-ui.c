@@ -195,9 +195,9 @@ struct _UINode {
 
 struct _UINode default_ui_nodes[] = {
 	{ "ViewLoadImages",  IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ViewFullHeaders", IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "ViewNormal",      IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "ViewSource",      IS_ANY_FOLDER | SELECTION_ANYTHING },
+	{ "ViewFullHeaders", IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
+	{ "ViewNormal",      IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
+	{ "ViewSource",      IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
 	
 	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE },
 	
