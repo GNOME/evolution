@@ -215,7 +215,7 @@ dialog_response_cb (GtkWidget *widget, int button, MailSearch *ms)
 		}
 		
 		g_free (search_text);
-	} else if (button == GTK_RESPONSE_CANCEL) {
+	} else if (button == GTK_RESPONSE_CLOSE) {
 		gtk_widget_destroy (widget);
 	}
 }
@@ -281,11 +281,10 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	
 	gtk_window_set_title ((GtkWindow *) ms, _("Find in Message"));
 	
-	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	
 	button = gtk_button_new_from_stock (GTK_STOCK_FIND);
 	gtk_button_set_label ((GtkButton *) button, _("Search"));
 	gtk_dialog_add_action_widget ((GtkDialog*) ms, button, GTK_RESPONSE_ACCEPT);
+	gtk_dialog_add_button ((GtkDialog *) ms, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 	gtk_dialog_set_default_response ((GtkDialog *) ms, GTK_RESPONSE_ACCEPT);
 	
 	ms->search_forward = TRUE;
