@@ -1,3 +1,12 @@
+2000-03-05  Matt Loper  <matt.loper@splashtech.com>
+
+	* tests/ui-tests/message-browser.c: Commenting added.
+	(on_url_data_requested): renamed from "on_url_requested", to
+	reflect that a stream of data is what's actually being asked for.
+	(hydrate_persist_stream_from_gstring): New function.
+	(camel_stream_to_gstring): New function.
+	(on_object_requested): Cleaned up.
+
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util/e-xml-utils.c, e-util/e-xml-utils.h: Added

@@ -34,6 +34,7 @@
 /* corba/bonobo stuff */
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
+#include <bonobo/bonobo-stream-memory.h>
 
 static void
 print_usage_and_quit()
@@ -305,21 +306,24 @@ on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 	g_free (message);
 }
 
-
+/*
+ * As a page is being loaded, gtkhtml will come across a few types of
+ * tags that it understands (like <img src="foo">). In these cases, it
+ * will simply ask us to stream the data to it.
+ */
 static void
-on_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStreamHandle handle, gpointer data)
+on_url_data_requested (GtkHTML *html, const gchar *url, GtkHTMLStreamHandle handle, gpointer data)
 {
 	CamelStream *stream;
-	gchar tmp_buffer[4096];
-	gint nb_bytes_read;
 	
 	printf ("url _%s_ (%p) requested\n", url, url);
 
 	if (sscanf (url, "camel://%p", &stream) == 1)
-	{
-		
+	{		
+		gchar tmp_buffer[4096];
 		do {
-	  
+			gint nb_bytes_read;
+
 			/* read next chunk of text */
 			nb_bytes_read = camel_stream_read (stream,
 							   tmp_buffer,
@@ -339,126 +343,156 @@ on_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStreamHandle handle, g
 }
 
 
-static void
-on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
+static gboolean
+hydrate_persist_stream_from_gstring (Bonobo_PersistStream persist_stream,
+				     GString* gstr)
 {
-	gchar *class_id;
-	gchar *uid;
-	GtkWidget *bonobo_embedable;
-
-	CamelStream *stream;
-	gchar tmp_buffer[4097];
-	gint nb_bytes_read;
-
-	GString *tmp_gstring = NULL;
-	BonoboStream *mem_stream;
-
 	CORBA_Environment ev;
-	BonoboObjectClient *server;
-	Bonobo_PersistStream persist;
+	BonoboStream* mem_stream =
+		bonobo_stream_mem_create (gstr->str, gstr->len, TRUE);
+        /*
+	 * If the component doesn't support
+	 * PersistStream, then we destroy the
+	 * stream we created and bail.
+	 */
+	if (persist_stream == CORBA_OBJECT_NIL) {
+		gnome_warning_dialog (_("The component now claims that it "
+					"doesn't support PersistStream!"));
+		bonobo_object_unref (BONOBO_OBJECT (mem_stream));
+		return FALSE;
+	}
+				
+	CORBA_exception_init (&ev);
+
+	/*
+	 * Load the file into the component using PersistStream.
+	 */
+	Bonobo_PersistStream_load (persist_stream,
+				   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream)),
+				   &ev);
+
+	bonobo_object_unref (BONOBO_OBJECT (mem_stream));
+				
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		gnome_warning_dialog (_("An exception occured while trying "
+					"to load data into the component with "
+					"PersistStream"));
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	CORBA_exception_free (&ev);
+	return TRUE;
+}
+
+static GString*
+camel_stream_to_gstring (CamelStream* stream)
+{
+	gchar tmp_buffer[4097];
+	GString *tmp_gstring = g_string_new ("");
+
+	do { /* read next chunk of text */
+			
+		gint nb_bytes_read;
+			
+		nb_bytes_read = camel_stream_read (stream,
+						   tmp_buffer,
+						   4096);
+		tmp_buffer [nb_bytes_read] = '\0';
+
+                /* If there's any text, append it to the gstring */
+		if (nb_bytes_read > 0) {
+			tmp_gstring = g_string_append (tmp_gstring, tmp_buffer);
+		}
+			
+	} while (!camel_stream_eos (stream));
+
+	return tmp_gstring;
+}
 
 
+/*
+ * As a page is loaded, when gtkhtml comes across <object> tags, this
+ * callback is invoked. The GtkHTMLEmbedded param is a GtkContainer;
+ * our job in this function is to simply add a child widget to it.
+ */
+static void
+on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *unused)
+{
+	CamelStream *stream;
+	GString *camel_stream_gstr;
 
-	uid = gtk_html_embedded_get_parameter (eb, "uid");
-	class_id = eb->classid;
+	GtkWidget *bonobo_embeddable;
+	BonoboObjectClient* server;
+	Bonobo_PersistStream persist;	
+	CORBA_Environment ev;
+	gchar *uid = gtk_html_embedded_get_parameter (eb, "uid");
 
-	
-	printf ("object requested : %s\n", class_id);
+	/* Both the classid (which specifies which bonobo object to
+         * fire up) and the uid (which tells us where to find data to
+         * persist from) must be available; if one of them isn't,
+         * print an error and bail. */
+	if (!uid || !eb->classid) {
+		printf ("on_object_requested: couldn't find %s%s%s\n",
+			uid?"a uid":"",
+			(!uid && !eb->classid)?" or ":"",
+			eb->classid?"a classid":"");
+		return;
+	}
+	printf ("object requested : %s\n", eb->classid);
      	printf ("UID = %s\n", uid);
 
-
-	if (sscanf (uid, "camel://%p", &stream) == 1) {
-
-		bonobo_embedable = bonobo_widget_new_subdoc  (class_id, NULL);
-
-
-		server = bonobo_widget_get_server (BONOBO_WIDGET (bonobo_embedable));
-
-		if (!server) {
-			printf ("Couldn't get the server for the bonobo embedable\n");
-			return;
-		}
-
-		/* if the component supports persistant streams, 
-		 * then we are going to create a mem stream */
-		if (bonobo_object_client_has_interface (server,
-							"IDL:Bonobo/PersistStream:1.0", 
-							NULL)) {
-			
-			printf ("the bonobo object supports PersistStream. Good\n");
-			tmp_gstring = g_string_new ("");
-
-			do {
-				
-			/* read next chunk of text */
-				nb_bytes_read = camel_stream_read (stream,
-								   tmp_buffer,
-								   4096);
-				tmp_buffer [nb_bytes_read] = '\0';
-				
-				/* If there's any text, append it to the gstring */
-				if (nb_bytes_read > 0) {
-					tmp_gstring = g_string_append (tmp_gstring, tmp_buffer);
-				}
-				
-				
-			} while (!camel_stream_eos (stream));
-		
-			printf ("After reading the stream, the temporary buffer has %d elements\n", tmp_gstring->len);
-
-			if (tmp_gstring->len) {
-				mem_stream = bonobo_stream_mem_create (tmp_gstring->str,tmp_gstring->len , TRUE);
-				
-				persist = bonobo_object_client_query_interface (server,
-										"IDL:Bonobo/PersistStream:1.0",
-										NULL);
-				
-				/*
-				 * If the component doesn't support PersistStream (and it
-				 * really ought to -- we query it to see if it supports
-				 * PersistStream before we even give the user the option of
-				 * loading data into it with PersistStream), then we destroy
-				 * the stream we created and bail.
-				 */
-				if (persist == CORBA_OBJECT_NIL) {
-					gnome_warning_dialog (_("The component now claims that it "
-								"doesn't support PersistStream!"));
-					bonobo_object_unref (BONOBO_OBJECT (mem_stream));
-					return;
-				}
-				
-				CORBA_exception_init (&ev);
-				
-				/*
-				 * Load the file into the component using PersistStream.
-				 */
-				Bonobo_PersistStream_load (persist,
-							   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream)),
-							   &ev);
-				
-				if (ev._major != CORBA_NO_EXCEPTION) {
-					gnome_warning_dialog (_("An exception occured while trying "
-								"to load data into the component with "
-								"PersistStream"));
-				}
-				
-				/*
-				 * Now we destroy the PersistStream object.
-				 */
-				Bonobo_Unknown_unref (persist, &ev);
-				CORBA_Object_release (persist, &ev);
-				
-				CORBA_exception_free (&ev);
-
-				
-				gtk_widget_show (bonobo_embedable);
-
-				gtk_container_add (GTK_CONTAINER(eb), bonobo_embedable);
-
-			}
-		}
+	/* Try to get a server with goadid specified by eb->classid */
+	bonobo_embeddable = bonobo_widget_new_subdoc  (eb->classid, NULL);
+	server = bonobo_widget_get_server (BONOBO_WIDGET (bonobo_embeddable));
+	if (!server) {
+		printf ("Couldn't get the server for the bonobo embeddable\n");
+		return;
 	}
+
+	/* The UID should be a pointer to a CamelStream */
+	if (sscanf (uid, "camel://%p", &stream) != 1) {
+		printf ("Couldn't get a pointer from url \"%s\"\n", uid);
+		gtk_object_unref (GTK_OBJECT (bonobo_embeddable));
+		
+		return;
+	}
+
+	/* Try to get a PersistStream interface from the server;
+	   if it doesn't support that interface, bail. */
+	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
+		server,
+		"IDL:Bonobo/PersistStream:1.0",
+		NULL);
+
+	if (persist == CORBA_OBJECT_NIL) {
+		gchar* msg = g_strdup_printf (
+			_("The %s component doesn't support PersistStream!\n"),
+			uid);
+		
+		gnome_warning_dialog (msg);
+		gtk_object_unref (GTK_OBJECT (bonobo_embeddable));
+		
+		return;
+	}
+
+	/* Hydrate the PersistStream from the CamelStream */
+	camel_stream_gstr = camel_stream_to_gstring (stream);	
+	printf ("on_object_requested: The CamelStream has %d elements\n",
+		camel_stream_gstr->len);
+	hydrate_persist_stream_from_gstring (persist, camel_stream_gstr);
 	
+	/* Give our new window to the container */
+	gtk_widget_show (bonobo_embeddable);
+	gtk_container_add (GTK_CONTAINER(eb), bonobo_embeddable);
+	
+	/* Destroy the PersistStream object.*/
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (persist, &ev);
+	CORBA_Object_release (persist, &ev);
+	CORBA_exception_free (&ev);				
+
+	g_string_free (camel_stream_gstr, FALSE);
 }
 
 
@@ -485,7 +519,7 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
 
 		gtk_signal_connect (GTK_OBJECT (html_widget),
 				    "url_requested",
-				    GTK_SIGNAL_FUNC (on_url_requested),
+				    GTK_SIGNAL_FUNC (on_url_data_requested),
 				    NULL);		
 		gtk_signal_connect (GTK_OBJECT (html_widget), 
 				    "object_requested",
