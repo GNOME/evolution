@@ -36,6 +36,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkdnd.h>
+#include <gtk/gtkinvisible.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
@@ -3178,6 +3179,11 @@ enum {
 };
 
 static EPopupMenu main_items [] = {
+	{ N_("Paste"), NULL,
+	  e_day_view_on_paste, NULL, 0 },
+
+	{ "", NULL, NULL, NULL, 0 },
+
 	{ N_("New Appointment"), NULL,
 	  e_day_view_on_new_appointment, NULL, 0 },
 	{ N_("New All Day Event"), NULL,
@@ -3203,7 +3209,7 @@ static EPopupMenu child_items [] = {
 	{ N_("Copy"), NULL,
 	  e_day_view_on_copy, NULL, 0 },
 	{ N_("Paste"), NULL,
-	  e_day_view_on_paste, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_day_view_on_paste, NULL, 0 },
 	{ N_("Schedule Meeting"), NULL,
 	  e_day_view_on_schedule_meet, NULL, MASK_EDITING },
 
@@ -6512,13 +6518,40 @@ selection_clear_event (GtkWidget *invisible,
 	}
 }
 
-static void selection_received (GtkWidget *invisible,
-				GtkSelectionData *selection_data,
-				guint time,
-				EDayView *day_view)
+static void
+selection_received (GtkWidget *invisible,
+		    GtkSelectionData *selection_data,
+		    guint time,
+		    EDayView *day_view)
 {
+	char *comp_str;
+	icalcomponent *icalcomp;
+	time_t dtstart, dtend;
+	struct icaltimetype itime;
+	CalComponent *comp;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
 	if (selection_data->length < 0 ||
 	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
 		return;
+	}
+
+	comp_str = (char *) selection_data->data;
+	icalcomp = icalparser_parse_string ((const char *) comp_str);
+	if (icalcomp) {
+		e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
+
+		itime = icaltime_from_timet (dtstart, TRUE);
+		icalcomponent_set_dtstart (icalcomp, itime);
+
+		itime = icaltime_from_timet (dtend, TRUE);
+		icalcomponent_set_dtend (icalcomp, itime);
+
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomp);
+		cal_client_update_object (day_view->client, comp);
+
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 }
