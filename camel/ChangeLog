@@ -1,3 +1,10 @@
+2003-12-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #51478.
+
+	* camel-gpg-context.c (gpg_ctx_free): handle the context being
+	NULL, and exit silently.
+
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-process.c (camel_process_fork): Start at fd = 3.

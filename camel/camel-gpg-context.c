@@ -386,7 +386,10 @@ static void
 gpg_ctx_free (struct _GpgCtx *gpg)
 {
 	int i;
-	
+
+	if (gpg == NULL)
+		return;
+
 	if (gpg->session)
 		camel_object_unref (gpg->session);
 	
