@@ -25,4 +25,4 @@ libevolution_calendarprivate_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libevolution_calendarprivate_la_LDFLAGS = -avoid-version -module
+libevolution_calendarprivate_la_LDFLAGS = -avoid-version
