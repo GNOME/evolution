@@ -583,16 +583,17 @@ subtree_unread(MessageList *ml, ETreePath *node)
 	char *uid;
 
 	while (node) {
+		ETreePath *child;
 		uid = e_tree_model_node_get_data((ETreeModel *)ml->table_model, node);
 		if (strncmp (uid, "uid:", 4) == 0) {
 			info = camel_folder_get_message_info(ml->folder, uid+4);
 			if (!(info->flags & CAMEL_MESSAGE_SEEN))
 				return TRUE;
 		}
-		if (node->children)
-			if (subtree_unread(ml, node->children))
+		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->table_model), node)))
+			if (subtree_unread(ml, child))
 				return TRUE;
-		node = node->next;
+		node = e_tree_model_node_get_next (E_TREE_MODEL (ml->table_model), node);
 	}
 	return FALSE;
 }
@@ -719,7 +720,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	case COL_UNREAD:
 		/* this value should probably be cached, as it could take a bit
 		   of processing to evaluate all the time */
-		return (void *)subtree_unread(message_list, path->children);
+		return (void *)subtree_unread(message_list,
+					      e_tree_model_node_get_first_child(etm, path));
 	case COL_MESSAGE_STATUS:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -1207,7 +1209,8 @@ save_node_state(MessageList *ml, FILE *out, ETreePath *node)
 	const CamelMessageInfo *info;
 
 	while (node) {
-		if (node->children
+		ETreePath *child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->table_model), node);
+		if (child
 		    && !e_tree_model_node_is_expanded((ETreeModel *)ml->table_model, node)) {
 			data = e_tree_model_node_get_data((ETreeModel *)ml->table_model, node);
 			if (data) {
@@ -1221,10 +1224,10 @@ save_node_state(MessageList *ml, FILE *out, ETreePath *node)
 				}
 			}
 		}
-		if (node->children) {
-			save_node_state(ml, out, node->children);
+		if (child) {
+			save_node_state(ml, out, child);
 		}
-		node = node->next;
+		node = e_tree_model_node_get_next (E_TREE_MODEL (ml->table_model), node);
 	}
 }
 
@@ -1259,14 +1262,16 @@ save_tree_state(MessageList *ml)
 {
 	char *filename;
 	ETreePath *node;
+	ETreePath *child;
 	FILE *out;
 
 	filename = mail_config_folder_to_cachename(ml->folder, "treestate-");
 	out = fopen(filename, "w");
 	if (out) {
 		node = e_tree_model_get_root((ETreeModel *)ml->table_model);
-		if (node && node->children) {
-			save_node_state(ml, out, node->children);
+		child = e_tree_model_node_get_first_child ((ETreeModel *)ml->table_model, node);
+		if (node && child) {
+			save_node_state(ml, out, child);
 		}
 		fclose(out);
 	}
@@ -1338,9 +1343,9 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 }
 
 static gboolean
-nuke_uids_cb (GNode *node, gpointer data)
+nuke_uids_cb (ETreeModel *model, ETreePath *node, gpointer data)
 {
-	g_free (e_tree_model_node_get_data (E_TREE_MODEL (data), node));
+	g_free (e_tree_model_node_get_data (model, node));
 	return FALSE;
 }
 
@@ -1349,9 +1354,7 @@ nuke_uids (GtkObject *o)
 {
 	ETreeModel *etm = E_TREE_MODEL (o);
 
-	g_node_traverse (etm->root, G_IN_ORDER, 
-			 G_TRAVERSE_ALL, -1, 
-			 nuke_uids_cb, etm);
+	e_tree_model_node_traverse (etm, etm->root, nuke_uids_cb, NULL);
 }
 
 static void
