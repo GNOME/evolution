@@ -529,7 +529,9 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	ESExpResult *r;
 	GList *options;
 	GString *s, *a;
-	GList *all, *m;
+	GPtrArray *all;
+	GList *m;
+	int i;
 
 #warning "This must be made mega-robust"
 	p->source = source;
@@ -587,10 +589,9 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 	/* apply the default of copying to an inbox, if we are given one, and make sure
 	   we delete everything as well */
-	all = camel_folder_get_uid_list(p->source, p->ex);
-	m = all;
-	while (m) {
-		char *uid = m->data, *procuid;
+	all = camel_folder_get_uids(p->source, p->ex);
+	for (i = 0; i < all->len; i++) {
+		char *uid = all->pdata[i], *procuid;
 		CamelMimeMessage *mm;
 
 		procuid = g_hash_table_lookup(p->processed, uid);
@@ -598,7 +599,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 			if (inbox) {
 				printf("Applying default rule to message %s\n", uid);
 
-				mm = camel_folder_get_message_by_uid(p->source, m->data, p->ex);
+				mm = camel_folder_get_message_by_uid(p->source, all->pdata[i], p->ex);
 				camel_folder_append_message(inbox, mm, p->ex);
 				camel_mime_message_set_flags(mm, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 				gtk_object_unref((GtkObject *)mm);
@@ -606,9 +607,8 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		} else {
 			camel_folder_delete_message_by_uid(p->source, uid, p->ex);
 		}
-		m = m->next;
 	}
-	g_list_free(all);
+	camel_folder_free_uids(p->source, all);
 
 	g_hash_table_destroy(p->processed);
 	g_hash_table_destroy(p->terminated);
