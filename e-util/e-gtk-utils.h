@@ -26,15 +26,21 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtkradiobutton.h>
 
-void  e_gtk_signal_connect_full_while_alive  (GtkObject          *object,
-					      const char         *name,
-					      GtkSignalFunc       func,
-					      GtkCallbackMarshal  marshal,
-					      void               *data,
-					      GtkDestroyNotify    destroy_func,
-					      gboolean            object_signal,
-					      gboolean            after,
-					      GtkObject          *alive_object);
+void  e_signal_connect_while_alive (void *object,
+				    const char *name,
+				    GCallback callback,
+				    void *data,
+				    void *alive_instance);
+
+void  e_signal_connect_full_while_alive  (void               *instance,
+					  const char         *name,
+					  GtkSignalFunc       func,
+					  GtkCallbackMarshal  marshal,
+					  void               *data,
+					  GtkDestroyNotify    destroy_func,
+					  gboolean            object_signal,
+					  gboolean            after,
+					  void               *alive_instance);
 
 void  e_make_widget_backing_stored  (GtkWidget *widget);
 
