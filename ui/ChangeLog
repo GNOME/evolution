@@ -1,3 +1,8 @@
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
+	* evolution-mail-global.xml: we want to insert at the place holder
+	spot
+
 2003-11-30  Yuedong Du  <yuedong.du@sun.com>
 
 	* evolution-mail-list.xml: change shortcut of 'invert selection' from

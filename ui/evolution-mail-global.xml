@@ -51,13 +51,13 @@
       <placeholder name="MailListView"/>
     </submenu>
 
-    <submenu name="EditPlaceholder">
+    <placeholder name="EditPlaceholder">
       <submenu name="Edit">
         <placeholder name="MailListEdit"/>
         <placeholder name="MailMessageEdit"/>
         <placeholder name="MailListEditFlags"/>
       </submenu>
-    </submenu>
+    </placeholder>
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
