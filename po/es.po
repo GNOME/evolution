@@ -801,6 +801,7 @@ msgstr "Dirección de correo:"
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
+"Evolution usará esta dirección de correo para autenticarte contra el servidor"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -2189,7 +2190,7 @@ msgstr "Turquía"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turkmenistan"
-msgstr ""
+msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:216
 msgid "Turks And Caicos Islands"
@@ -2229,7 +2230,7 @@ msgstr "Estados Unidos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "United States Minor Outlying Islands"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 msgid "Uruguay"
@@ -2391,7 +2392,7 @@ msgstr "editor-de-listas-de-contactos"
 #. Construct the app
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:229
 msgid "Contact List Editor"
-msgstr "Editor de Lastas de Contactos"
+msgstr "Editor de listas de contactos"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2400,7 +2401,7 @@ msgstr "Añadir de todos modos"
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid "Duplicate Contact Detected"
-msgstr "Detectado un Contacto Duplicado"
+msgstr "Detectado un contacto duplicado"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "New Contact:"
@@ -2408,7 +2409,7 @@ msgstr "Nuevo contacto:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
 msgid "Original Contact:"
-msgstr "Contacto Original:"
+msgstr "Contacto original:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
 msgid ""
@@ -2424,11 +2425,11 @@ msgstr "Cambiar de todos modos"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Changed Contact:"
-msgstr "Contactos Modificados:"
+msgstr "Contactos modificados:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Conflicting Contact:"
-msgstr "Contactos Conflictivos:"
+msgstr "Contactos conflictivos:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:5
 msgid ""
@@ -2479,7 +2480,7 @@ msgstr "Abrir"
 #: addressbook/gui/widgets/e-addressbook-view.c:754
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
-msgstr "Reenviar Contacto"
+msgstr "Reenviar contacto"
 
 #
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
@@ -2583,7 +2584,7 @@ msgstr "Error eliminando tarjeta"
 #. also be placed at the begining ot the string
 #: addressbook/gui/widgets/e-addressbook-view.c:399
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,ñ,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #. Translators: put here a list of characters that correspond to buttons
 #. in addressbook. You may use any character to separate labels but it
@@ -2591,7 +2592,7 @@ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 #. Use lower case letters if possible.
 #: addressbook/gui/widgets/e-addressbook-view.c:404
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,ñ,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:867
 msgid "* Click here to add a contact *"
@@ -2599,15 +2600,15 @@ msgstr "* Pulse aquí para añadir un contacto *"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:871
 msgid "Primary Phone"
-msgstr "Teléfono Principal"
+msgstr "Teléfono principal"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:872
 msgid "Assistant Phone"
-msgstr "Teléfono del Asistente"
+msgstr "Teléfono del asistente"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:873
 msgid "Business Phone"
-msgstr "Teléfono del Trabajo"
+msgstr "Teléfono del trabajo"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:874
 msgid "Callback Phone"
@@ -9757,6 +9758,10 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
+"La(s) siguiente(s) carpeta(s) virtual(es):\n"
+"%sUsaban la carpeta borrada:\n"
+"    '%s'\n"
+"Y han sido actualizadas."
 
 #: mail/mail-vfolder.c:638
 msgid "VFolders"
@@ -11563,7 +11568,7 @@ msgstr "(Sin título)"
 
 #: shell/e-shell-importer.c:141
 msgid "Choose the type of importer to run"
-msgstr ""
+msgstr "Elija el tipo de importador a ejecutar"
 
 #: shell/e-shell-importer.c:144
 msgid ""
