@@ -1,0 +1,21 @@
+<Root>
+  <commands>
+    <cmd name="EPBRBackup" _label="Backup Settings..."
+      _tip="Backup and restore Evolution data and settings"
+      pixtype="pixmap"/>
+
+    <cmd name="EPBRRestore" _label="Restore Settings..."
+      _tip="Backup and restore Evolution data and settings"
+      pixtype="pixmap"/>
+
+  </commands>
+
+  <menu>
+    <submenu name="File">
+      <placeholder name="FileOps">
+	  <menuitem name="EPBRBackup" verb=""/>
+	  <menuitem name="EPBRRestore" verb=""/>
+      </placeholder>
+   </submenu>
+  </menu>
+</Root>
