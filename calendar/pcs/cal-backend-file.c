@@ -182,20 +182,6 @@ free_cal_component (gpointer key, gpointer value, gpointer data)
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
-/* For hashing pilot id's */
-/* FIX ME, these are not unique */
-static guint
-cbf_pilot_hash (gconstpointer v)
-{
-	return *(const guint*) v;
-}
-
-static gint
-cbf_pilot_equal (gconstpointer v1, gconstpointer v2)
-{
-	return *((const unsigned long*) v1) == *((const unsigned long*) v2);
-}
-
 /* Saves the calendar data */
 static void
 save (CalBackendFile *cbfile)
@@ -204,20 +190,36 @@ save (CalBackendFile *cbfile)
 	GnomeVFSHandle *handle = NULL;
 	GnomeVFSResult result;
 	GnomeVFSFileSize out;
-	GnomeVFSURI *backup_uri;
+	gchar *tmp;
 	char *buf;
 	
 	priv = cbfile->priv;
 	g_assert (priv->uri != NULL);
 	g_assert (priv->icalcomp != NULL);
 
-	/* Make a backup copy of the file */
-	backup_uri = gnome_vfs_uri_append_file_name (priv->uri, "~");
-	result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
-	gnome_vfs_uri_unref (backup_uri);
+	/* Make a backup copy of the file if it exists */
+	if (gnome_vfs_uri_exists (priv->uri)) {
+		tmp = gnome_vfs_uri_to_string (priv->uri, GNOME_VFS_URI_HIDE_NONE);
+		if (tmp) {
+			GnomeVFSURI *backup_uri;
+			gchar *backup_uristr;
+			
+			backup_uristr = g_strconcat (tmp, "~", NULL);
+			backup_uri = gnome_vfs_uri_new (backup_uristr);
+			
+			result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
+			gnome_vfs_uri_unref (backup_uri);
+			
+			g_free (tmp);
+			g_free (backup_uristr);
+		}
+	} else {
+		result = GNOME_VFS_OK;
+	}
+	
 
-//	if (result != GNOME_VFS_OK)
-//		goto error;
+	if (result != GNOME_VFS_OK)
+		goto error;
 	
 	/* Now write the new file out */
 	result = gnome_vfs_create_uri (&handle, priv->uri, 
@@ -642,9 +644,11 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	g_return_val_if_fail (priv->icalcomp == NULL, CAL_BACKEND_LOAD_ERROR);
 	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
 
-	/* FIXME: this looks rather bad; maybe we should check for local files
-	 * and fail if they are remote.
-	 */
+	if (!gnome_vfs_uri_is_local (uri))
+		return CAL_BACKEND_LOAD_ERROR;
+
+	if (!gnome_vfs_uri_exists (uri))
+		return CAL_BACKEND_LOAD_ERROR;;
 
 	str_uri = gnome_vfs_uri_to_string (uri,
 					   (GNOME_VFS_URI_HIDE_USER_NAME
@@ -654,7 +658,6 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
 	/* Load! */
-
 	file = fopen (str_uri, "r");
 	g_free (str_uri);
 
@@ -683,12 +686,13 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	priv->icalcomp = icalcomp;
 
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-/*	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal); */
 	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 	scan_vcalendar (cbfile);
 
 	/* Clean up */
-
+	if (priv->uri)
+		gnome_vfs_uri_unref (uri);
+	
 	gnome_vfs_uri_ref (uri);
 	priv->uri = uri;
 
@@ -730,13 +734,13 @@ cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri)
 
 	g_assert (priv->comp_uid_hash == NULL);
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-/*	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal); */
 	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 
-	/* Done */
-
+	/* Clean up */
+	if (priv->uri)
+		gnome_vfs_uri_unref (priv->uri);
+	
 	gnome_vfs_uri_ref (uri);
-
 	priv->uri = uri;
 
 	mark_dirty (cbfile);

@@ -1,5 +1,24 @@
 2000-09-19  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal-backend.c (cal_backend_set_uri): New utility function
+	(cal_backend_load): use above
+	(cal_backend_create): use above
+	(cal_backend_log_name): Take a uri instead of a backend param
+
+	* pcs/cal-backend-file.c: Get rid of useless hash functions
+	(cal_backend_file_load): Check to make sure path exists and is
+	local
+	(cal_backend_file_load): Unref the current uri if there is one
+	(cal_backend_file_create): ditto
+
+	* pcs/cal-backend.c (cal_backend_last_client_gone): Sync before 
+	shooting ourselves in the foot
+
+	* pcs/cal-backend-file.c (save): Fully implement backing up the
+	calendar before writing out the new entry.
+	
+2000-09-19  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/todo-conduit.c (check_for_slow_setting): Add some
 	other cases where a slow sync is in order
 	(pre_sync): Pre load the uids, the map and the add/mod/del lists

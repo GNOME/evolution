@@ -135,6 +135,23 @@ cal_backend_get_uri (CalBackend *backend)
 	return (* CLASS (backend)->get_uri) (backend);
 }
 
+static void
+cal_backend_set_uri (CalBackend *backend, GnomeVFSURI *uri)
+{
+	if (backend->uri)
+		gnome_vfs_uri_unref (backend->uri);
+
+	if (backend->timer)
+		gtk_timeout_remove (backend->timer);
+
+
+	gnome_vfs_uri_ref (uri);
+	backend->uri = uri;
+	backend->timer = gtk_timeout_add (60000, 
+					  (GtkFunction)cal_backend_log_sync, 
+					  backend);
+}
+
 /**
  * cal_backend_add_cal:
  * @backend: A calendar backend.
@@ -177,20 +194,9 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 
 	/* Remember the URI for saving the log file in the same dir and add
 	 * a timeout handler so for saving pending entries sometimes */
-	if (backend->uri)
-		gnome_vfs_uri_unref (backend->uri);
-
-	if (backend->timer)
-		gtk_timeout_remove (backend->timer);
-
-	if (result == CAL_BACKEND_LOAD_SUCCESS) {
-		backend->uri = uri;
-		gnome_vfs_uri_ref (uri);
-		backend->timer = gtk_timeout_add (60000, 
-						  (GtkFunction)cal_backend_log_sync, 
-						  backend);
-	}
-
+	if (result == CAL_BACKEND_LOAD_SUCCESS)
+		cal_backend_set_uri (backend, uri);
+	
 	return result;
 }
 
@@ -210,6 +216,10 @@ cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
 
 	g_assert (CLASS (backend)->create != NULL);
 	(* CLASS (backend)->create) (backend, uri);
+
+	/* Remember the URI for saving the log file in the same dir and add
+	 * a timeout handler so for saving pending entries sometimes */
+	cal_backend_set_uri (backend, uri);
 }
 
 /**
@@ -435,11 +445,11 @@ typedef struct {
 } CalBackendParseState;
 
 static gchar *
-cal_backend_log_name (CalBackend *backend)
+cal_backend_log_name (GnomeVFSURI *uri)
 {	
 	gchar *path, *filename;
 	
-	path = gnome_vfs_uri_extract_dirname (backend->uri);
+	path = gnome_vfs_uri_extract_dirname (uri);
 	filename = g_strdup_printf ("%slog.xml", path);
 	g_free (path);
 
@@ -489,11 +499,13 @@ cal_backend_log_sync (CalBackend *backend)
 	int ret;
 	time_t start_time = (time_t) - 1;
 
+	g_return_val_if_fail (backend->uri != NULL, FALSE);
+	
 	if (backend->entries == NULL)
 		return TRUE;
 	
-	filename = cal_backend_log_name (backend);
-
+	filename = cal_backend_log_name (backend->uri);
+	
 	doc = xmlParseFile (filename);
 	if (doc == NULL) {
 		/* Create the document */
@@ -632,8 +644,10 @@ cal_backend_log_sax_parse (CalBackend *backend, xmlSAXHandler *handler,
 	int ret = 0;
 	xmlParserCtxtPtr ctxt;
 	char *filename;
+
+	g_return_val_if_fail (backend->uri != NULL, -1);
 	
-	filename = cal_backend_log_name (backend);
+	filename = cal_backend_log_name (backend->uri);
 
 	if (!g_file_exists (filename))
 		return 0;
@@ -763,9 +777,9 @@ cal_backend_last_client_gone (CalBackend *backend)
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
-
 	cal_backend_log_sync (backend);
+
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
 }
 
 
