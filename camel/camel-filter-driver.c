@@ -898,6 +898,8 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
 	
+	if (freeinfo)
+		camel_message_info_free (info);
 	return 0;
 	
 error:	

@@ -186,9 +186,10 @@ void mail_msg_check_error(void *msg)
 	if (m->ops->describe_msg)
 		what = m->ops->describe_msg(m, FALSE);
 
-	if (what)
+	if (what) {
 		text = g_strdup_printf(_("Error while '%s':\n%s"), what, camel_exception_get_description(&m->ex));
-	else
+		g_free (what);
+	} else
 		text = g_strdup_printf(_("Error while performing operation:\n%s"), camel_exception_get_description(&m->ex));
 
 	gd = (GnomeDialog *)gnome_error_dialog(text);

@@ -1,3 +1,8 @@
+2001-04-17  Dan Winship  <danw@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): Fix
+	a memory leak in the error case.
+
 2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-summary.c (summary_rebuild): Don't we
