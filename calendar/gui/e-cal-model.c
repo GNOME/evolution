@@ -1896,15 +1896,9 @@ e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
 	n = e_table_model_row_count (E_TABLE_MODEL (model));
 	for (i = 0; i < n; i ++) {
 		ECalModelComponent *comp_data = e_cal_model_get_component_at (model, i);
-		ECalComponent *comp = e_cal_component_new ();
 
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 		mdata.comp_data = comp_data;
 		mdata.cb_data = cb_data;
-		e_cal_recur_generate_instances (comp, start, end,
-						cb, &mdata,
-						e_cal_resolve_tzid_cb, comp_data->client,
-						e_cal_model_get_timezone (model));
-		g_object_unref (comp);
+		e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
 	}
 }

@@ -2916,11 +2916,10 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
 			
-			e_cal_recur_generate_instances (comp, older_than, -1,
-						      (ECalRecurInstanceFn) check_instance_cb,
-						      &remove,
-						      (ECalRecurResolveTimezoneFn) e_cal_resolve_tzid_cb,
-						      client, priv->zone);
+			e_cal_generate_instances_for_object (client, m->data,
+							     older_than, -1,
+							     (ECalRecurInstanceFn) check_instance_cb,
+							     &remove);
 
 			/* FIXME Better error handling */
 			if (remove)

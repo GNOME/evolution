@@ -392,12 +392,10 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 
 	add_event_data.week_view = week_view;
 	add_event_data.comp_data = comp_data;
-	e_cal_recur_generate_instances (comp,
-				      week_view->day_starts[0],
-				      week_view->day_starts[num_days],
-				      e_week_view_add_event, &add_event_data,
-				      e_cal_resolve_tzid_cb, comp_data->client,
-				      e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp,
+					     week_view->day_starts[0],
+					     week_view->day_starts[num_days],
+					     e_week_view_add_event, &add_event_data);
 
 	g_object_unref (comp);
 }

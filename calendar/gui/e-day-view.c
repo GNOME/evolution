@@ -573,11 +573,9 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 	/* Add the occurrences of the event */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;
-	e_cal_recur_generate_instances (comp, day_view->lower,
-					day_view->upper,
-					e_day_view_add_event, &add_event_data,
-					e_cal_resolve_tzid_cb, comp_data->client,
-					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, day_view->lower,
+					     day_view->upper,
+					     e_day_view_add_event, &add_event_data);
 
 	g_object_unref (comp);
 }
