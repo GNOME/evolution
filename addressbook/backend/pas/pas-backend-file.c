@@ -221,7 +221,6 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	  DB             *db = bf->priv->file_db;
 	  int            db_error;
 	  DBT  id_dbt, vcard_dbt;
-	  char *id;
   
 	  cursor_data->elements = NULL;
 
@@ -229,16 +228,13 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 
 	  while (db_error == 0) {
 
-		  id = g_strndup(id_dbt.data, id_dbt.size);
-
 		  /* don't include the version in the list of cards */
-		  if (!strcmp (id, PAS_BACKEND_FILE_VERSION_NAME)) {
-			  g_free(id);
-		  }
-		  else {
-			  g_free(id);
-			  cursor_data->elements = g_list_append(cursor_data->elements, g_strndup(vcard_dbt.data,
-												 vcard_dbt.size));
+		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME)
+		      || strncmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME, id_dbt.size)) {
+
+			  cursor_data->elements = g_list_append(cursor_data->elements,
+								g_strndup(vcard_dbt.data,
+									  vcard_dbt.size));
 		  }
 
 		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
