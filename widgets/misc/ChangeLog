@@ -1,5 +1,17 @@
 2004-01-20  JP Rosevear <jpr@ximian.com>
 
+	* e-source-selector.c (find_source_iter): provide parent iter
+	in/out arg
+	(test_collapse_row_callback): use priv shortcut
+	(e_source_selector_select_source): pass parent iter
+	(e_source_selector_unselect_source): ditto
+	(e_source_selector_peek_primary_selection): return the right thing
+	if the primary selection is currently hidden
+	(e_source_selector_set_primary_selection): set the primary
+	selection properly if the source node is currently hidden
+
+2004-01-20  JP Rosevear <jpr@ximian.com>
+
 	* e-source-selector.c (clear_saved_primary_selection): util
 	routine to clear the row reference to the saved primary selection
 	(find_source_iter): unref the model data retrieved
