@@ -1,3 +1,8 @@
+2000-08-04  Peter Williams  <peterw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder): Prevent a coredump
+	when get_folder()ing from a store with dir_sep = NULL.
+
 2000-08-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_set_message_flags): 

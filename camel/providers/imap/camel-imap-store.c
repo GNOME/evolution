@@ -579,7 +579,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	
 	dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;
 
-	if (!strcmp (folder_name, dir_sep))
+	if (dir_sep && !strcmp (folder_name, dir_sep))
 		folder_path = g_strdup (url->path + 1);
 	else
 		folder_path = g_strdup (folder_name);
