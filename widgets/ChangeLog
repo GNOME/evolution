@@ -1,3 +1,7 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* menus/gal-view-menus.c: Fix headers.
+	
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): Don't print the xml tree
