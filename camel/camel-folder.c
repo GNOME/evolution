@@ -886,6 +886,9 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
  * This copies a message from one folder to another. If the @source and
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message().
+ *
+ * FIXME: This call should be deprecated, as append_message() can determine
+ * this information for itself.
  **/
 void
 camel_folder_copy_message_to (CamelFolder *source, const char *uid,
@@ -894,6 +897,8 @@ camel_folder_copy_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uid != NULL);
+
+	g_warning("CamelFolder.copy_message_to() is a deprecated api");
 
 	if (source->parent_store == dest->parent_store) {
 		return CF_CLASS (source)->copy_message_to (source, uid,
@@ -934,6 +939,9 @@ move_message_to (CamelFolder *source, const char *uid,
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message() followed by
  * camel_folder_delete_message().
+ *
+ * FIXME: This call should be depracated, since append_message() can
+ * determine this from the message itself.
  **/
 void
 camel_folder_move_message_to (CamelFolder *source, const char *uid,
@@ -942,6 +950,8 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uid != NULL);
+
+	g_warning("CamelFolder.move_message_to() is a deprecated api");
 
 	if (source->parent_store == dest->parent_store) {
 		return CF_CLASS (source)->move_message_to (source, uid,

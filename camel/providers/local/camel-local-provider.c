@@ -66,8 +66,6 @@ static CamelProvider maildir_provider = {
 
 void camel_provider_module_init(CamelSession * session)
 {
-	printf("Initialising local providers\n");
-
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type();
 	mh_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
 	camel_session_register_provider(session, &mh_provider);

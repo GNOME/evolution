@@ -33,7 +33,7 @@
 
 #include <ctype.h>
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #define CAMEL_MAILDIR_SUMMARY_VERSION (0x2000)
 
@@ -102,6 +102,9 @@ camel_maildir_summary_init (CamelMaildirSummary *o)
 	o->priv = g_malloc0(sizeof(*o->priv));
 	/* set unique file version */
 	s->version += CAMEL_MAILDIR_SUMMARY_VERSION;
+
+	s->message_info_size = sizeof(CamelMaildirMessageInfo);
+	s->content_info_size = sizeof(CamelMaildirMessageContentInfo);
 
 	if (gethostname(hostname, 256) == 0) {
 		o->priv->hostname = g_strdup(hostname);

@@ -27,6 +27,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <dirent.h>
+
 #include "camel-maildir-store.h"
 #include "camel-maildir-folder.h"
 #include "camel-exception.h"
@@ -47,7 +49,7 @@ static void camel_maildir_store_class_init(CamelObjectClass * camel_maildir_stor
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS(camel_maildir_store_class);
 	/*CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_maildir_store_class);*/
 
-	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_folder_get_type());
+	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_local_store_get_type());
 
 	/* virtual method overload, use defaults for most */
 	camel_store_class->get_folder = get_folder;
@@ -85,6 +87,10 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	struct stat st;
 	CamelFolder *folder = NULL;
 
+	(void) ((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex);
+	if (camel_exception_is_set(ex))
+		return NULL;
+
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
@@ -99,8 +105,6 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 					     _("Folder `%s' does not exist."), folder_name);
 		} else {
-			printf("creating ...\n");
-
 			if (mkdir(name, 0700) != 0
 			    || mkdir(tmp, 0700) != 0
 			    || mkdir(cur, 0700) != 0
@@ -113,7 +117,6 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 				rmdir(new);
 				rmdir(name);
 			} else {
-				printf("created ok?\n");
 				folder = camel_maildir_folder_new(store, folder_name, flags, ex);
 			}
 		}
@@ -138,23 +141,62 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)
 {
 	char *name, *tmp, *cur, *new;
+	struct stat st;
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
 	new = g_strdup_printf("%s/new", name);
 
-	/* remove subdirs first - will fail if not empty */
-	if ((rmdir(tmp) == -1 && errno != ENOENT)
-	    || (rmdir(new) == -1 && errno != ENOENT)
-	    || (rmdir(cur) == -1 && errno != ENOENT)
-	    || (rmdir(name) == -1  && errno != ENOENT)) {
+	if (stat(name, &st) == -1 || !S_ISDIR(st.st_mode)
+	    || stat(tmp, &st) == -1 || !S_ISDIR(st.st_mode)
+	    || stat(cur, &st) == -1 || !S_ISDIR(st.st_mode)
+	    || stat(new, &st) == -1 || !S_ISDIR(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not delete folder `%s': %s"),
-				     folder_name, strerror(errno));
+				     folder_name, errno?strerror(errno):_("not a maildir directory"));
 	} else {
-		/* and remove metadata */
-		((CamelStoreClass *)parent_class)->delete_folder(store, folder_name, ex);
+		int err = 0;
+
+		/* remove subdirs first - will fail if not empty */
+		if (rmdir(cur) == -1 || rmdir(new) == -1) {
+			err = errno;
+		} else {
+			DIR *dir;
+			struct dirent *d;
+
+			/* for tmp (only), its contents is irrelevant */
+			dir = opendir(tmp);
+			if (dir) {
+				while ( (d=readdir(dir)) ) {
+					char *name = d->d_name, *file;
+
+					if (!strcmp(name, ".") || !strcmp(name, ".."))
+						continue;
+					file = g_strdup_printf("%s/%s", tmp, name);
+					unlink(file);
+					g_free(file);
+				}
+				closedir(dir);
+			}
+			if (rmdir(tmp) == -1 || rmdir(name) == -1)
+				err = errno;
+		}
+
+		if (err != 0) {
+			/* easier just to mkdir all (and let them fail), than remember what we got to */
+			mkdir(name, 0700);
+			mkdir(cur, 0700);
+			mkdir(new, 0700);
+			mkdir(tmp, 0700);
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Could not delete folder `%s': %s"),
+					     folder_name, strerror(err));
+		} else {
+			/* and remove metadata */
+			((CamelStoreClass *)parent_class)->delete_folder(store, folder_name, ex);
+		}
 	}
 
 	g_free(name);

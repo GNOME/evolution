@@ -47,7 +47,7 @@ static void camel_mh_store_class_init(CamelObjectClass * camel_mh_store_class)
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS(camel_mh_store_class);
 	/*CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_mh_store_class);*/
 
-	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_folder_get_type());
+	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_local_store_get_type());
 
 	/* virtual method overload, use defaults for most */
 	camel_store_class->get_folder = get_folder;
@@ -84,6 +84,10 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	char *name;
 	struct stat st;
 
+	(void) ((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex);
+	if (camel_exception_is_set(ex))
+		return NULL;
+
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
 	if (stat(name, &st) == -1) {
@@ -100,8 +104,6 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 			g_free (name);
 			return NULL;
 		}
-		printf("creating ...\n");
-
 		if (mkdir(name, 0700) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Could not create folder `%s':\n%s"),
@@ -109,8 +111,6 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 			g_free (name);
 			return NULL;
 		}
-		printf("created ok?\n");
-
 	} else if (!S_ISDIR(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("`%s' is not a directory."), name);
@@ -128,7 +128,7 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 
 	/* remove folder directory - will fail if not empty */
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
-	if (rmdir(name) == -1  && errno != ENOENT) {
+	if (rmdir(name) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not delete folder `%s': %s"),
 				     folder_name, strerror(errno));

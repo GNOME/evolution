@@ -47,7 +47,7 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_mbox_store_class);
 
-	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_folder_get_type());
+	parent_class = (CamelLocalStoreClass *)camel_type_get_global_classfuncs(camel_local_store_get_type());
 	
 	/* virtual method overload */
 	camel_store_class->get_folder = get_folder;
@@ -86,6 +86,10 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 {
 	char *name;
 	struct stat st;
+
+	(void) ((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex);
+	if (camel_exception_is_set(ex))
+		return NULL;
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
@@ -137,12 +141,6 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 
 	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path, folder_name);
 	if (stat (name, &st) == -1) {
-		if (errno == ENOENT) {
-			/* file doesn't exist - it's kinda like deleting it ;-) */
-			g_free (name);
-			return;
-		}
-
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not delete folder `%s':\n%s"),
 				      folder_name, g_strerror (errno));

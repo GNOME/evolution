@@ -40,9 +40,9 @@
 #include "camel-mime-message.h"
 #include "camel-exception.h"
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
-static CamelFolderClass *parent_class = NULL;
+static CamelLocalFolderClass *parent_class = NULL;
 
 /* Returns the class for a CamelMaildirFolder */
 #define CMAILDIRF_CLASS(so) CAMEL_MAILDIR_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
@@ -61,7 +61,7 @@ static void camel_maildir_folder_class_init(CamelObjectClass * camel_maildir_fol
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_maildir_folder_class);
 	CamelLocalFolderClass *lclass = (CamelLocalFolderClass *)camel_maildir_folder_class;
 
-	parent_class = CAMEL_FOLDER_CLASS (camel_type_get_global_classfuncs(camel_folder_get_type()));
+	parent_class = CAMEL_LOCAL_FOLDER_CLASS (camel_type_get_global_classfuncs(camel_local_folder_get_type()));
 
 	/* virtual method definition */
 

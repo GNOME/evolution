@@ -33,11 +33,16 @@
 #include "camel-exception.h"
 #include "camel-url.h"
 
+#define d(x)
+
 /* Returns the class for a CamelLocalStore */
 #define CLOCALS_CLASS(so) CAMEL_LOCAL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static char *get_name(CamelService *service, gboolean brief);
+static char *get_root_folder_name (CamelStore *store, CamelException *ex);
+static char *get_default_folder_name (CamelStore *store, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name(CamelStore *store, const char *folder_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
@@ -55,6 +60,9 @@ camel_local_store_class_init (CamelLocalStoreClass *camel_local_store_class)
 	
 	/* virtual method overload */
 	camel_service_class->get_name = get_name;
+	camel_store_class->get_folder = get_folder;
+	camel_store_class->get_root_folder_name = get_root_folder_name;
+	camel_store_class->get_default_folder_name = get_default_folder_name;
 	camel_store_class->get_folder_name = get_folder_name;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
@@ -99,6 +107,73 @@ camel_local_store_get_toplevel_dir (CamelLocalStore *store)
 	return url->path;
 }
 
+static CamelFolder *
+get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
+{
+	struct stat st;
+	char *path = ((CamelService *)store)->url->path;
+	char *sub, *slash;
+
+	if (path[0] != '/') {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Store root %s is not an absolute path"), path);
+		return NULL;
+	}
+
+	if (stat(path, &st) == 0) {
+		if (!S_ISDIR(st.st_mode)) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					     _("Store root %s is not a regular directory"), path);
+		}
+		return NULL;
+	}
+
+	if (errno != ENOENT
+	    || (flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Cannot get folder: %s: %s"), path, strerror(errno));
+		return NULL;
+	}
+
+	/* need to create the dir heirarchy */
+	sub = alloca(strlen(path)+1);
+	strcpy(sub, path);
+	slash = sub;
+	do {
+		slash = strchr(slash+1, '/');
+		if (slash)
+			*slash = 0;
+		if (stat(sub, &st) == -1) {
+			if (errno != ENOENT
+			    || mkdir(sub, 0700) == -1) {
+				camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+						     _("Cannot get folder: %s: %s"), path, strerror(errno));
+				return NULL;
+			}
+		}
+		if (slash)
+			*slash = '/';
+	} while (slash);
+
+	return NULL;
+}
+
+static char *
+get_root_folder_name(CamelStore *store, CamelException *ex)
+{
+	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+			    _("Local stores do not have a root folder"));
+	return NULL;
+}
+
+static char *
+get_default_folder_name(CamelStore *store, CamelException *ex)
+{
+	camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+			    _("Local stores do not have a default folder"));
+	return NULL;
+}
+
 static char *
 get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 {
@@ -134,25 +209,49 @@ get_folder_info (CamelStore *store, const char *top,
 	return NULL;
 }
 
-static int xrename(const char *oldp, const char *newp, const char *prefix, const char *suffix, CamelException *ex)
+static int xrename(const char *oldp, const char *newp, const char *prefix, const char *suffix, int missingok, CamelException *ex)
 {
 	struct stat st;
 	char *old = g_strconcat(prefix, oldp, suffix, 0);
 	char *new = g_strconcat(prefix, newp, suffix, 0);
 	int ret = -1;
+	int err = 0;
 
-	printf("renaming %s%s to %s%s\n", oldp, suffix, newp, suffix);
+	d(printf("renaming %s%s to %s%s\n", oldp, suffix, newp, suffix));
 
-	/* FIXME: this has races ... */
-	if (!(stat(new, &st) == -1 && errno==ENOENT)) {
+	if (stat(old, &st) == -1) {
+		if (missingok && errno == ENOENT) {
+			ret = 0;
+		} else {
+			err = errno;
+			ret = -1;
+		}
+	} else if (S_ISDIR(st.st_mode)) { /* use rename for dirs */
+		if (rename(old, new) == 0
+		    || stat(new, &st) == 0) {
+			ret = 0;
+		} else {
+			err = errno;
+			ret = -1;
+		}
+	} else if (link(old, new) == 0 /* and link for files */
+		   || (stat(new, &st) == 0 && st.st_nlink == 2)) {
+		if (unlink(old) == 0) {
+			ret = 0;
+		} else {
+			err = errno;
+			unlink(new);
+			ret = -1;
+		}
+	} else {
+		err = errno;
+		ret = -1;
+	}
+
+	if (ret == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not rename folder %s to %s: destination exists"),
-				     old, new);
-	} else if (rename(old, new) == 0 || errno==ENOENT) {
-		ret = 0;
-	} else if (stat(old, &st) == -1 && errno==ENOENT && stat(new, &st) == 0) {
-		/* for nfs, check if the rename worked anyway ... */
-		ret = 0;
+				     _("Could not rename folder %s to %s: %s"),
+				     old, new, strerror(err));
 	}
 
 	g_free(old);
@@ -167,16 +266,16 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 	char *path = CAMEL_SERVICE (store)->url->path;
 
 	/* try to rollback failures, has obvious races */
-	if (xrename(old, new, path, ".ibex", ex)) {
+	if (xrename(old, new, path, ".ibex", TRUE, ex)) {
 		return;
 	}
-	if (xrename(old, new, path, ".ev-summary", ex)) {
-		xrename(new, old, path, ".ibex", ex);
+	if (xrename(old, new, path, ".ev-summary", TRUE, ex)) {
+		xrename(new, old, path, ".ibex", TRUE, ex);
 		return;
 	}
-	if (xrename(old, new, path, "", ex)) {
-		xrename(new, old, path, ".ev-summary", ex);
-		xrename(new, old, path, ".ibex", ex);
+	if (xrename(old, new, path, "", FALSE, ex)) {
+		xrename(new, old, path, ".ev-summary", TRUE, ex);
+		xrename(new, old, path, ".ibex", TRUE, ex);
 	}
 }
 

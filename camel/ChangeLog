@@ -1,3 +1,69 @@
+2000-11-28  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/local/camel-maildir-summary.c
+	(camel_maildir_summary_init): Set the info size's properly, oops!
+
+	* tests/lib/folders.[ch]: Folder testing helpers.
+
+	* tests/folder/test2.c: Test basic message ops on folders.
+
+	* tests/folder/test1.c (main): Test basic folder ops on (local)
+	stores.
+
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): Removed some debug.
+
+	* providers/local/camel-maildir-folder.c
+	(camel_maildir_folder_class_init): fix parent class.
+
+	* providers/local/camel-mh-folder.c (camel_mh_folder_class_init):
+	Fix parent class (damn cut & paste).
+
+	* providers/local/camel-maildir-store.c (get_folder): Call parent
+	impl.
+	(camel_maildir_store_class_init): Fix parent class setup.
+	(delete_folder): Check the folder exists before trying to delete
+	it.
+	(delete_folder): Try and make the delete operation atomic/rollback
+	failures.  e.g. if one directory isn't empty, then create the
+	other empty ones back.  Also clear the tmp directory fully first.
+
+	* providers/local/camel-mbox-store.c (get_folder): Call parent
+	impl.
+	(camel_mbox_store_class_init): parent class is camel_local_store,
+	not camel_folder, oops.
+	(delete_folder): Return an error if it doesn't exist, rather than
+	covering it up.
+
+	* providers/local/camel-mh-store.c (get_folder): Call parent impl.
+	(camel_mh_store_class_init): fix parent class setup.
+	(delete_folder): Error if it doesn't exist now.
+
+	* camel-folder.c (camel_folder_move_message_to):
+	(camel_folder_copy_message_to): Added warnings as these functions
+	are going to be removed later.
+
+	* camel-store.c (camel_store_get_root_folder): Fix for an early
+	api change.  We want CAMEL_STORE_FOLDER_CREATE, not TRUE, since
+	its a flag.
+	(camel_store_get_default_folder): And here too.
+
+	* providers/local/camel-local-store.c (xrename): Handle renaming
+	folders differently to renaming files.
+	(get_default_folder_name): local stores dont have a default
+	folder, so make it so.  Or at least, it doesn't seem to make sense
+	to have one.
+	(get_root_folder_name): Same for root.
+	(get_folder): Added parent implementation, that makes sure the
+	service path exists, if we are creating a new folder (but doesn't
+	create the folder).
+
+2000-11-27  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/local/camel-local-store.c (xrename): Fixed races.  Use
+	link/unlink, rather than rename, to properly detect overwriting
+	another file.  And allow some files to be missing.
+
 2000-11-28  Radek Doulik  <rodo@helixcode.com>
 
 	* providers/local/camel-local-summary.c

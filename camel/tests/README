@@ -2,6 +2,10 @@
 This directory is to contain regression tests that should be run
 before committing anything to camel.
 
+In each subdirectory of tests there is a README containing a
+one-line description of each test file.  This README must be kept
+uptodate.
+
 To write a new test: copy an existing one and replace the contents.
 
 See camel-test.h for a number of functions and macros which setup and

@@ -354,7 +354,7 @@ camel_store_get_root_folder (CamelStore *store, CamelException *ex)
 
 	name = CS_CLASS (store)->get_root_folder_name (store, ex);
 	if (name) {
-		folder = get_folder_internal (store, name, TRUE, ex);
+		folder = get_folder_internal (store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		g_free (name);
 	}
 	return folder;
@@ -377,7 +377,7 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 
 	name = CS_CLASS (store)->get_default_folder_name (store, ex);
 	if (name) {
-		folder = get_folder_internal (store, name, TRUE, ex);
+		folder = get_folder_internal (store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		g_free (name);
 	}
 	return folder;

@@ -1,3 +1,4 @@
 
 SUBDIRS = lib \
-	message
+	message folder
+

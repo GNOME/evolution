@@ -168,7 +168,7 @@ camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, 
 	return ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->decode_x_evolution(cls, xev, info);
 }
 
-#define DOSTATS
+/*#define DOSTATS*/
 #ifdef DOSTATS
 struct _stat_info {
 	int mitotal;
