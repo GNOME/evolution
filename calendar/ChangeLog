@@ -1,5 +1,12 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-week-view.c (e_week_view_on_schedule_meet): new routine to
+	throw up the meeting schedule dialog
+	(e_week_view_show_popup_menu): add schedule meeting to the
+	contextual menu where appropriate
+
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* gui/event-editor.c: Remove assorted menu/bonobo stuff
 
 	* gui/dialogs/task-editor.c: Remove assorted menu/bonobo stuff
