@@ -1,5 +1,10 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_for_current_uri): Don't allow translators
+	to translate "Ximian Evolution".
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-component-registry.c (wait_for_corba_object_to_die): New
 	helper function.
 	(e_component_registry_restart_component): Use it.

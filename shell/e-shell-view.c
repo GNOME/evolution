@@ -1592,9 +1592,9 @@ update_for_current_uri (EShellView *shell_view)
 		title = g_strdup (folder_name);
 
 	if (SUB_VERSION[0] == '\0')
-		utf8_window_title = g_strdup_printf (_("%s - Ximian Evolution %s"), title, VERSION);
+		utf8_window_title = g_strdup_printf ("%s - Ximian Evolution %s", title, VERSION);
 	else
-		utf8_window_title = g_strdup_printf (_("%s - Ximian Evolution %s [%s]"), title, VERSION, SUB_VERSION);
+		utf8_window_title = g_strdup_printf ("%s - Ximian Evolution %s [%s]", title, VERSION, SUB_VERSION);
 
 	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
 	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
