@@ -498,7 +498,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	int n_selected;
 	GtkWidget *view;
 	ECal *e_cal;
-	gboolean read_only = FALSE, has_recurrences;
+	gboolean selected_read_only = FALSE, default_read_only = FALSE, has_recurrences;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -512,35 +512,37 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	n_selected = enable ? g_list_length (list) : 0;
 
 	event = (ECalendarViewEvent *) list ? list->data : NULL;
-	if (event) {
-		e_cal_is_read_only (event->comp_data->client, &read_only, NULL);
-	} else {
-		e_cal = e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal));
-		if (e_cal)
-			e_cal_is_read_only (e_cal, &read_only, NULL);
-		else
-			read_only = TRUE;
-	}
+	if (event)
+		e_cal_is_read_only (event->comp_data->client, &selected_read_only, NULL);
+	else
+		selected_read_only = TRUE;
+
+	/* retrieve read-onlyness of the default client */
+	e_cal = e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal));
+	if (e_cal)
+		e_cal_is_read_only (e_cal, &default_read_only, NULL);
+	else
+		default_read_only = TRUE;
 
 	bonobo_ui_component_set_prop (uic, "/commands/EventOpen", "sensitive",
 				      n_selected != 1 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
+				      n_selected == 0 || selected_read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
-				      enable && !read_only ? "1" : "0",
+				      default_read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
+				      n_selected == 0 || selected_read_only ? "0" : "1",
 				      NULL);
 
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
-	if (n_selected > 0 && !read_only) {
+	if (n_selected > 0 && !selected_read_only) {
 		if (list) {
 			event = (ECalendarViewEvent *) list->data;
 			if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
@@ -752,8 +754,8 @@ calendar_control_activate (BonoboControl *control,
 	g_signal_connect (gcal, "taskpad_focus_change",
 			  G_CALLBACK (gcal_taskpad_focus_change_cb), control);
 
-	calendar_control_sensitize_calendar_commands (control, gcal, FALSE);
-	sensitize_taskpad_commands (gcal, control, FALSE);
+	calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
+	sensitize_taskpad_commands (gcal, control, TRUE);
 
 	bonobo_ui_component_thaw (uic, NULL);
 

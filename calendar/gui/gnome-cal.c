@@ -1767,7 +1767,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			/* add client to the views */
 			for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 				ECalModel *model;
-		
+	
 				model = e_calendar_view_get_model (priv->views[i]);
 				e_cal_model_add_client (model, ecal);
 			}
