@@ -2420,6 +2420,64 @@ mail_config_get_default_transport (void)
 	return NULL;
 }
 
+void
+mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new)
+{
+	MailConfigAccount *ac;
+	const GSList *l;
+	int work = 0;
+
+	l = mail_config_get_accounts();
+	while (l) {
+		ac = l->data;
+		if (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, old)) {
+			g_free(ac->sent_folder_uri);
+			ac->sent_folder_uri = g_strdup(new);
+			work = 1;
+		}
+		if (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, old)) {
+			g_free(ac->drafts_folder_uri);
+			ac->drafts_folder_uri = g_strdup(new);
+			work = 1;
+		}
+		l = l->next;
+	}
+
+	/* nasty ... */
+	if (work)
+		mail_config_write();
+}
+
+void
+mail_config_uri_deleted(GCompareFunc uri_cmp, const char *uri)
+{
+	MailConfigAccount *ac;
+	const GSList *l;
+	int work = 0;
+	/* assumes these can't be removed ... */
+	extern char *default_sent_folder_uri, *default_drafts_folder_uri;
+
+	l = mail_config_get_accounts();
+	while (l) {
+		ac = l->data;
+		if (ac->sent_folder_uri && uri_cmp(ac->sent_folder_uri, uri)) {
+			g_free(ac->sent_folder_uri);
+			ac->sent_folder_uri = g_strdup(default_sent_folder_uri);
+			work = 1;
+		}
+		if (ac->drafts_folder_uri && uri_cmp(ac->drafts_folder_uri, uri)) {
+			g_free(ac->drafts_folder_uri);
+			ac->drafts_folder_uri = g_strdup(default_drafts_folder_uri);
+			work = 1;
+		}
+		l = l->next;
+	}
+
+	/* nasty again */
+	if (work)
+		mail_config_write();
+}
+
 GSList *
 mail_config_get_sources (void)
 {

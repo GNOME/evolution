@@ -45,6 +45,7 @@
 /* For notifications of changes */
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
+#include "mail-config.h"
 
 #define w(x) 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
@@ -156,6 +157,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 			if (up->delete) {
 				mail_vfolder_delete_uri(up->store, up->uri);
 				mail_filter_delete_uri(up->store, up->uri);
+				mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->uri);
 			} else
 				mail_vfolder_add_uri(up->store, up->uri, TRUE);
 		} else {
@@ -173,6 +175,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 				d(printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri));
 				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
 				mail_filter_rename_uri(up->store, up->olduri, up->uri);
+				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->olduri, up->uri);
 			}
 				
 			if (up->name == NULL) {

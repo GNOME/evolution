@@ -1,3 +1,15 @@
+2002-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (real_flush_updates): Propagate name changes
+	or removes to the mail config.  #15951.  Doesn't enitrely work for
+	local folders, because they are never renamed only removed and
+	added thanks to the shell's api.
+
+	* mail-config.c (mail_config_uri_renamed): If a store folder is
+	renamed, this checks for any config that needs updating, so far
+	sent and drafts folders.
+	(mail_config_uri_deleted): Same, for deleted folders.
+
 2002-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_encrypted): Commit a fix that I
