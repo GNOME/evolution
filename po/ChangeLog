@@ -1,3 +1,8 @@
+2000-07-10  Federico Mena Quintero  <federico@helixcode.com>
+
+	* POTFILES.in: Removed several calendar/gui files that are no
+	longer there.
+
 2000-07-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* POTFILES.in: Removed calendar/gui/evolution-calendar-control.c

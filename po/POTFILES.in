@@ -12,8 +12,6 @@ addressbook/gui/minicard/e-minicard.c
 addressbook/printing/e-contact-print.glade.h
 calendar/cal-util/timeutil.c
 calendar/gui/calendar-commands.c
-calendar/gui/calendar-conduit-control-applet.c
-calendar/gui/calendar-conduit.c
 calendar/gui/calendar-pilot-sync.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-notify-dialog.c
@@ -32,7 +30,6 @@ calendar/gui/main.c
 calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/prop.c
-calendar/gui/todo-conduit-control-applet.c
 composer/e-msg-composer-address-dialog.c
 composer/e-msg-composer-address-dialog.glade.h
 composer/e-msg-composer-attachment-bar.c
