@@ -1,3 +1,10 @@
+2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_key_press): Oops, set the
+	dtstart/dtend on the component before adding it.
+	(e_day_view_on_editing_stopped): No need to check for an UID.
+	Update the summary properly.
+
 2000-08-30  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view.c: Make sure the is_utc flag is always 

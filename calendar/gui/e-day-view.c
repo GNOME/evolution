@@ -4074,6 +4074,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	guint keyval;
 	gboolean stop_emission;
 	time_t dtstart, dtend;
+	CalComponentDateTime dt;
+	struct icaltimetype itt;
 	const char *uid;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -4156,12 +4158,21 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		initial_text = event->string;
 	}
 
-	/* Add a new event covering the selected range.
-	   Note that user_name is a global variable. */
+	/* Add a new event covering the selected range */
+
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
+
+	dt.value = &itt;
+	dt.tzid = NULL;
+
+	*dt.value = icaltime_from_timet (dtstart, FALSE, FALSE);
+	cal_component_set_dtstart (comp, &dt);
+
+	*dt.value = icaltime_from_timet (dtend, FALSE, FALSE);
+	cal_component_set_dtend (comp, &dt);
 
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
@@ -4611,7 +4622,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	EDayViewEvent *event;
 	gchar *text = NULL;
 	CalComponentText summary;
-	const char *uid;
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
@@ -4622,11 +4632,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	/* If no item is being edited, just return. */
 	if (day == -1)
 		return;
-
-#if 0
-	g_print ("In e_day_view_on_editing_stopped Day:%i Event:%i\n",
-		 day, event_num);
-#endif
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		editing_long_event = TRUE;
@@ -4649,11 +4654,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
 
-	/* Check that the event is still valid. */
-	cal_component_get_uid (event->comp, &uid);
-	if (!uid)
-		return;
-
 	gtk_object_get (GTK_OBJECT (event->canvas_item),
 			"text", &text,
 			NULL);
@@ -4668,8 +4668,14 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		return;
 	}
 
-	cal_component_set_summary (event->comp, &summary);
-	g_free (text);
+	if (text) {
+		summary.value = text;
+		summary.altrep = NULL;
+		cal_component_set_summary (event->comp, &summary);
+
+		g_free (text);
+	} else
+		cal_component_set_summary (event->comp, NULL);
 
 	if (!cal_client_update_object (day_view->client, event->comp))
 		g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
