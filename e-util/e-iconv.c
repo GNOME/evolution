@@ -136,7 +136,7 @@ struct {
 	{ "5601",           "EUC-KR"     },
 	{ "big5-0",         "BIG5"       },
 	{ "big5.eten-0",    "BIG5"       },
-	{ "big5hkscs-0",    "BIG5HKCS"   },
+	{ "big5hkscs-0",    "BIG5HKSCS"  },
 	{ "gb2312-0",       "gb2312"     },
 	{ "gb2312.1980-0",  "gb2312"     },
 	{ "gb-2312",        "gb2312"     },
@@ -575,7 +575,7 @@ static struct {
 	char *lang;
 } cjkr_lang_map[] = {
 	{ "Big5",        "zh" },
-	{ "BIG5HKCS",    "zh" },
+	{ "BIG5HKSCS",   "zh" },
 	{ "gb2312",      "zh" },
 	{ "gb18030",     "zh" },
 	{ "gbk",         "zh" },
