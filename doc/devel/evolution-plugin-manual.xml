@@ -408,6 +408,7 @@
 <?xml version="1.0">
 <e-plugin-list>
   <e-plugin
+    id="unique id"
     type="loader type"
     domain="translation domain" ?
     name="plugin name"
@@ -421,6 +422,16 @@
   </e-plugin> +
 </e-plugin-list>]]></programlisting>
 	  <variablelist>
+	    <varlistentry>
+	      <term><parameter>id</parameter></term>
+	      <listitem>
+		<simpara>
+		  A unique string identifying this plugin.  By convention this
+		  will follow the java-like class namespace system.
+		  e.g. <constant>com.ximian.evolution.test-plugin</constant>
+		</simpara>
+	      </listitem>
+	    </varlistentry>
 	    <varlistentry>
 	      <term><parameter>type</parameter></term>
 	      <listitem>
@@ -493,8 +504,17 @@
 	    linkend="API-struct--EPluginLib">EPluginLib</link> implements a
 	  concrete EPlugin type which loads GNU shared libraries via the
 	  GModule api.  It simply resolves symbols directly from the loaded
-	  shared object and invokes them with the same arguments as the
-	  <link linkend="API-e-plugin-invoke">e_plugin_invoke</link> method.
+	  shared object and invokes them expecting a function signature of
+	  <type>EPluginLibFunc</type>.
+	</para>
+	<para>
+	  To manage plugin lifecycle, the function
+	  <function>e_plugin_lib_enable</function>
+	  will be invoked which allows the plugin to initialise itself.  Its
+	  signature should match <type>EPluginLibEnableFunc</type>, and it will
+	  be called with <parameter>enable=1</parameter>.  If the enable
+	  function returns non-zero it is assumed to have failed intialisation
+	  and will not be invoked further.
 	</para>
 
 	<sect2 id="plugin-loaders-lib-definition">
@@ -1170,7 +1190,7 @@
 	  </para>
 	  <programlisting>
 	    <![CDATA[
-<hook class="com.ximian.evolution.mail.bonoboMenu:1.0">
+<hook class="com.ximian.evolution.mail.config:1.0">
  <group
   id="window id"
   target="targettype"
@@ -1183,60 +1203,110 @@
   /> *
  </menu> *
 </hook>]]></programlisting>
-	  <para>
-	    <emphasis>Need to define group tag</emphasis>
-	  </para>
-	  <variablelist>
-	    <varlistentry>
-	      <term><parameter>type</parameter></term>
-	      <listitem>
-		<simpara>
-		  The menu item type.  The type maps directly to the
-		  corresponding EConfigItem types.  Only one of
-		  <parameter>book</parameter> and <parameter>druid</parameter>
-		  may be supplied for the entire configuration page, and this
-		  will usually already be defined by the application.
-		</simpara>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><parameter>path</parameter></term>
-	      <listitem>
-		<simpara>
-		  The path to the configuration item in question.  This is a
-		  simple string that when sorted using an ASCII sort will place
-		  the items in the right order.  That is, sections before items
-		  before pages before the root object.
-		</simpara>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><parameter>label</parameter></term>
-	      <listitem>
-		<simpara>
-		  The textual label of this item.  This may only be supplied
-		  for the section and page types.  For sections it will be the
-		  section frame text.  For pages this will be the druid page
-		  title or the notebook tab text.  If a
-		  <parameter>factory</parameter>is supplied then this value is
-		  not used.  This will be translated based on the plugin
-		  translation domain.
-		</simpara>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><parameter>factory</parameter></term>
-	      <listitem>
-		<simpara>
-		  If supplied, the factory method used to create the GtkWidget
-		  elements for this configuration item.  Factories may be
-		  supplied for any of the item types.  If no
-		  <parameter>label</parameter> is set then the
-		  <parameter>factory</parameter> must be set.
-		</simpara>
-	      </listitem>
-	    </varlistentry>
-	  </variablelist>
+
+	  <sect3>
+	    <title>Group Element Properties</title>
+
+	    <variablelist>
+	      <varlistentry>
+		<term><parameter>id</parameter></term>
+		<listitem>
+		  <simpara>
+		    The name of the configuration window to which this hook
+		    applies.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>target</parameter></term>
+		<listitem>
+		  <simpara>
+		    The type of target this configuration window applies too.
+		    This will normally be tied directly to the specific
+		    configuration window itself.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>commit</parameter></term>
+		<listitem>
+		  <simpara>
+		    A callback which will be invoked to commit the
+		    configuration data, if the configuration page isn't an
+		    instant-apply one.  This callback can write any
+		    configuration changes to permanent storage.  It is not used
+		    for instant-apply windows.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>abort</parameter></term>
+		<listitem>
+		  <simpara>
+		    A callback which will be invoked to abort the configuration
+		    process.  This callback is called when the
+		    <guibutton>Cancel</guibutton> button is pressed on stateful
+		    configuration windows.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </sect3>
+	  <sect3>
+	    <title>Item Element Properties</title>
+
+	    <variablelist>
+	      <varlistentry>
+		<term><parameter>type</parameter></term>
+		<listitem>
+		  <simpara>
+		    The menu item type.  The type maps directly to the
+		    corresponding EConfigItem types.  Only one of
+		    <parameter>book</parameter> and <parameter>druid</parameter>
+		    may be supplied for the entire configuration page, and this
+		    will usually already be defined by the application.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>path</parameter></term>
+		<listitem>
+		  <simpara>
+		    The path to the configuration item in question.  This is a
+		    simple string that when sorted using an ASCII sort will place
+		    the items in the right order.  That is, sections before items
+		    before pages before the root object.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>label</parameter></term>
+		<listitem>
+		  <simpara>
+		    The textual label of this item.  This may only be supplied
+		    for the section and page types.  For sections it will be the
+		    section frame text.  For pages this will be the druid page
+		    title or the notebook tab text.  If a
+		    <parameter>factory</parameter>is supplied then this value is
+		    not used.  This will be translated based on the plugin
+		    translation domain.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+		<term><parameter>factory</parameter></term>
+		<listitem>
+		  <simpara>
+		    If supplied, the factory method used to create the GtkWidget
+		    elements for this configuration item.  Factories may be
+		    supplied for any of the item types.  If no
+		    <parameter>label</parameter> is set then the
+		    <parameter>factory</parameter> must be set.
+		  </simpara>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+	  </sect3>
 	</sect2>
 	<sect2>
 	  <title>Generating Configuration Pages</title>
