@@ -1,3 +1,8 @@
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (view_destroy_cb): Restore the shell reffing/unreffing
+	here.
+
 2001-08-13  Peter Williams  <peterw@ximian.com>
 
 	* e-corba-shortcuts.c (shortcut_list_to_corba): Don't cause an abort
