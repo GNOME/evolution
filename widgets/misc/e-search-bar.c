@@ -73,6 +73,9 @@ enum {
 
 /* Forward decls.  */
 
+static int find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget);
+static void activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems);
+
 static void emit_search_activated (ESearchBar *esb);
 static void emit_query_changed (ESearchBar *esb);
 
@@ -103,8 +106,18 @@ verb_name_from_id (int id)
 static void
 clear_search (ESearchBar *esb)
 {
+	int item_row;
+	GtkWidget *widget;
+	ESearchBarSubitem *subitems;
+
 	e_search_bar_set_text (esb, "");
 	e_search_bar_set_item_id (esb, 0);
+
+	item_row = find_id (esb->option_menu, 0, "EsbChoiceId", &widget);
+
+	subitems = g_object_get_data (G_OBJECT (widget), "EsbChoiceSubitems");
+	activate_by_subitems (esb, 0, subitems);
+
 	emit_search_activated (esb);
 }
 
