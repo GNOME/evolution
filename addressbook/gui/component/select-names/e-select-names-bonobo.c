@@ -265,13 +265,18 @@ static void
 manager_ok_cb (ESelectNamesManager *manager, gpointer closure)
 {
 	ESelectNamesBonobo *select_names = E_SELECT_NAMES_BONOBO (closure);
+	BonoboArg *arg;
+
+	arg = bonobo_arg_new (BONOBO_ARG_NULL);
 
 	bonobo_event_source_notify_listeners_full (select_names->priv->event_source,
 						   "GNOME/Evolution",
 						   "ok",
 						   "dialog",
-						   NULL,
+						   arg,
 						   NULL);
+
+	bonobo_arg_release (arg);
 }
 
 static Bonobo_Control

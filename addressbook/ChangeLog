@@ -1,5 +1,10 @@
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
+	* gui/component/select-names/e-select-names-bonobo.c
+	(manager_ok_cb): send a null bonobo arg to prevent explosion
+
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/widgets/e-addressbook-view.c: correct include typo
 
 2001-10-29  Jon Trowbridge  <trow@ximian.com.
