@@ -457,7 +457,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 	static const char *multiple_disables[] = {
 		/* actions that work on exactly 1 message */
 		"MessageReplyAll", "MessageReplyList", "MessageReplySender", "MessageResend", 
-		"MessageForwardInline", "MessageForwardQuoted", 
+		"MessageForwardInline", "MessageForwardQuoted", "MessageSearch",
 
 		"ToolsFilterMailingList", "ToolsFilterRecipient", "ToolsFilterSender",
 		"ToolsFilterSubject", "ToolsVFolderMailingList", "ToolsVFolderRecipient", 

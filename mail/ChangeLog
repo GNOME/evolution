@@ -1,5 +1,8 @@
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_set_selection_state): Disable
+	"Search Message" when more or less than exactly one message is selected.
+
 	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully 
 	getting the path, use a CamelURL so that escaping is handled. Silly
 	me. -- See below --
