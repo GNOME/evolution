@@ -1583,7 +1583,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		return handle_multipart_mixed (part, mime_type, md);
 	}
 	
-	if (camel_exception_is_set (ex)) {
+	if (!valid) {
 		camel_exception_free (ex);
 		return handle_multipart_mixed (part, mime_type, md);
 	}

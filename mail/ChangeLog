@@ -1,6 +1,9 @@
 2001-05-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (try_inline_pgp_sig): Fix to work properly.
+	(handle_multipart_signed): Fixed a bug that caused some
+	multipart/signed messages to be handled by the multipart_mixed
+	handler.
 
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
