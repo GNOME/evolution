@@ -114,6 +114,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_object_class->setv = store_setv;
 	camel_object_class->getv = store_getv;
 	
+	camel_object_class_add_event(camel_object_class, "folder_opened", NULL);
 	camel_object_class_add_event(camel_object_class, "folder_created", NULL);
 	camel_object_class_add_event(camel_object_class, "folder_deleted", NULL);
 	camel_object_class_add_event(camel_object_class, "folder_renamed", NULL);
@@ -279,6 +280,9 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 			else
 				camel_object_bag_abort(store->folders, folder_name);
 		}
+
+		if (folder)
+			camel_object_trigger_event(store, "folder_opened", folder);
 	}
 
 	return folder;

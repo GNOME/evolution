@@ -1,3 +1,12 @@
+2004-05-22  Not Zed  <NotZed@Ximian.com>
+
+	** Another unread count bug, #58814.
+
+	* camel-store.c (camel_store_class_init): added a folder_opened
+	event.
+	(camel_store_get_folder): emit a folder_opened event whenever we
+	[re] open the physical folder.
+
 2004-05-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Added a
