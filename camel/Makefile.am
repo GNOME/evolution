@@ -24,6 +24,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-part-utils.c			\
 	camel-multipart.c			\
 	camel-provider.c			\
+	camel-recipient.c			\
 	camel-service.c				\
 	camel-session.c				\
 	camel-store.c				\
@@ -52,6 +53,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-part-utils.h			\
 	camel-multipart.h			\
 	camel-provider.h			\
+	camel-recipient.h			\
 	camel-service.h				\
 	camel-session.h				\
 	camel-store.h				\

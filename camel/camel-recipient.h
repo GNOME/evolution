@@ -35,10 +35,10 @@ extern "C" {
 
 
 typedef struct {
-	GHashTable *recipient_table;
+	GHashTable *recipient_hash_table;
 	gint ref_count;
 
-} CamelRecipient;
+} CamelRecipientTable;
 
 
 

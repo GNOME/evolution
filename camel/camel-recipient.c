@@ -24,6 +24,7 @@
 
 #include "glib.h"
 #include "hash-table-utils.h"
+#include "camel-recipient.h"
 
 
 CamelRecipientTable *
@@ -32,7 +33,7 @@ camel_recipient_new ()
 	CamelRecipientTable *recipient_table;
 
 	recipient_table = g_new0 (CamelRecipientTable, 1);
-	recipient_table->recipient_table = g_hash_table_new (g_strcase_cmp, g_strcase_hash);
+	recipient_table->recipient_hash_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	recipient_table->ref_count = 1;
 	return recipient_table;
 }
@@ -51,11 +52,11 @@ static void
 _free_recipient_list (gpointer key, gpointer value, gpointer user_data)
 {
 	GList *recipient_list = (GList *)value;
-	gchar *recipient_name = (gchar *key);
+	gchar *recipient_name = (gchar *)key;
 
 	while (recipient_list) {
 		g_free (recipient_list->data);
-		recipient_list = recipient_list->next
+		recipient_list = recipient_list->next;
 	}
 
 	g_free (recipient_name);
@@ -68,8 +69,8 @@ camel_recipient_free (CamelRecipientTable *recipient_table)
 	g_return_if_fail (recipient_table);
 
 	/* free each recipient list */
-	g_hash_table_foreach (recipient_table->recipient_table, _free_recipient_list);
-	g_hash_table_destroy (recipient_table->recipient_table);
+	g_hash_table_foreach (recipient_table->recipient_hash_table, _free_recipient_list, NULL);
+	g_hash_table_destroy (recipient_table->recipient_hash_table);
 }
 
 
@@ -96,7 +97,7 @@ camel_recipient_add (CamelRecipientTable *recipient_table,
 	GList *existent_list;
 	
 	/* see if there is already a list for this recipient type */
-	existent_list = (GList *)g_hash_table_lookup (recipient_table->recipient_table, recipient_type);
+	existent_list = (GList *)g_hash_table_lookup (recipient_table->recipient_hash_table, recipient_type);
 	
 	
 	/* append the new recipient to the recipient list
@@ -105,8 +106,53 @@ camel_recipient_add (CamelRecipientTable *recipient_table,
 	recipients_list = g_list_append (existent_list, (gpointer)recipient);
 	
 	if (!existent_list) /* if there was no recipient of this type create the section */
-		g_hash_table_insert (mime_message->recipients, recipient_type, recipients_list);
+		g_hash_table_insert (recipient_table->recipient_hash_table, recipient_type, recipients_list);
 	else 
 		g_free (recipient_type);
 
+}
+
+
+
+
+static void
+camel_recipient_remove (CamelRecipientTable *recipient_table,
+			const gchar *recipient_type,
+			const gchar *recipient) 
+{
+	GList *recipients_list;
+	GList *new_recipients_list;
+	GList *old_element;
+	gchar *old_recipient_type;
+	
+	/* if the recipient type section does not exist, do nothing */
+	if (! g_hash_table_lookup_extended (recipient_table->recipient_hash_table, 
+					    recipient_type, 
+					    (gpointer)&(old_recipient_type),
+					    (gpointer)&(recipients_list)) 
+	    ) return;
+	
+	/* look for the recipient to remove */
+	/* g_list_find_custom does use "const" for recipient, is it a mistake ? */
+	old_element = g_list_find_custom (recipients_list, recipient, g_strcase_equal);
+	if (old_element) {
+		/* if recipient exists, remove it */
+		new_recipients_list =  g_list_remove_link (recipients_list, old_element);
+		
+		/* if glist head has changed, fix up hash table */
+		if (new_recipients_list != recipients_list)
+			g_hash_table_insert (recipient_table->recipient_hash_table, old_recipient_type, new_recipients_list);
+		
+		g_free( (gchar *)(old_element->data));
+		g_list_free_1 (old_element);
+	}
+}
+
+
+
+const GList *
+camel_recipient_get (CamelRecipientTable *recipient_table,
+		      const gchar *recipient_type)
+{
+	return (const GList *)g_hash_table_lookup (recipient_table->recipient_hash_table, recipient_type);
 }

@@ -1,3 +1,10 @@
+1999-08-30  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-recipient.c (camel_recipient_get): 
+	(camel_recipient_remove): 
+	(camel_recipient_add): 
+	new func. More work on new independant recipient code. 
+
 1999-08-29  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* MAINTAINERS: updated my e-mail address. 
