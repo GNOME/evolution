@@ -1,4 +1,11 @@
-2000-09-14  Ettore Perazzoli  <ettore@helixcode.com>
+2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-setup.c (setup_sent_folder): New function to set up the `Sent'
+	folder.  This shouldn't be done here, but well, at least now users
+	can get the `Sent' folder.
+	(e_setup): Call it.
+
+2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c: New member `sockets.
 	(init): Init to NULL.
