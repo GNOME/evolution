@@ -55,12 +55,18 @@ static void e_cell_date_edit_set_arg		(GtkObject	*o,
 						 guint		 arg_id);
 
 static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
-						 GdkEvent	*event);
+						 GdkEvent	*event,
+						 int             row,
+						 int             view_col);
 static void e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde);
 static void e_cell_date_edit_select_matching_time(ECellDateEdit	*ecde,
 						  char		*time);
-static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde);
+static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
+						 int             row,
+						 int             view_col);
 static void e_cell_date_edit_get_popup_pos	(ECellDateEdit	*ecde,
+						 int             row,
+						 int             view_col,
 						 gint		*x,
 						 gint		*y,
 						 gint		*height,
@@ -413,12 +419,14 @@ e_cell_date_edit_set_arg		(GtkObject	*o,
 
 static gint
 e_cell_date_edit_do_popup		(ECellPopup	*ecp,
-					 GdkEvent	*event)
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
 	guint32 time;
 
-	e_cell_date_edit_show_popup (ecde);
+	e_cell_date_edit_show_popup (ecde, row, view_col);
 	e_cell_date_edit_set_popup_values (ecde);
 
 	if (event->type == GDK_BUTTON_PRESS) {
@@ -510,7 +518,9 @@ e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 
 
 static void
-e_cell_date_edit_show_popup		(ECellDateEdit	*ecde)
+e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
+					 int             row,
+					 int             view_col)
 {
 	gint x, y, width, height, old_width, old_height;
 
@@ -521,7 +531,7 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde)
 	old_width = ecde->popup_window->allocation.width;
 	old_height  = ecde->popup_window->allocation.height;
 
-	e_cell_date_edit_get_popup_pos (ecde, &x, &y, &height, &width);
+	e_cell_date_edit_get_popup_pos (ecde, row, view_col, &x, &y, &height, &width);
 
 	gtk_widget_set_uposition (ecde->popup_window, x, y);
 	gtk_widget_set_usize (ecde->popup_window, width, height);
@@ -539,6 +549,8 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde)
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
 e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
+					 int             row,
+					 int             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -553,12 +565,12 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
   
 	gdk_window_get_origin (canvas->window, x, y);
 
-	x1 = e_table_header_col_diff (eti->header, 0, eti->editing_col + 1);
-	y1 = e_table_item_row_diff (eti, 0, eti->editing_row + 1);
-	column_width = e_table_header_col_diff (eti->header, eti->editing_col,
-						eti->editing_col + 1);
-	row_height = e_table_item_row_diff (eti, eti->editing_row,
-					    eti->editing_row + 1);
+	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
+	y1 = e_table_item_row_diff (eti, 0, row + 1);
+	column_width = e_table_header_col_diff (eti->header, view_col,
+						view_col + 1);
+	row_height = e_table_item_row_diff (eti, row,
+					    row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
 	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),

@@ -1,3 +1,8 @@
+2001-10-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): Adapt to
+	the new ECellPopup signature.
+
 2001-10-29  Damon Chaplin  <damon@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_signal_emission_idle_cb): ref
