@@ -36,6 +36,8 @@ gnomecal_SOURCES = \
 	gnome-cal.c		\
 	gnome-cal.h		\
 	goto.c			\
+	layout.c		\
+	layout.h		\
 	main.c			\
 	main.h			\
 	mark.c			\

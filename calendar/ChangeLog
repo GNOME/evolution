@@ -1,3 +1,12 @@
+1998-10-07  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* layout.[ch]: New files that abstract the event layout code from
+	gncal-full-day.c into something useful for other parts of the
+	program.  Now all event layout is done here.
+
+	* Makefile.am (gnomecal_SOURCES): Added layout.[ch] to the list of
+	sources.
+
 1998-10-07  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
 
 	* main.c (main): Replaced the 'gnome_client_new_default' call with
