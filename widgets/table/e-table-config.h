@@ -7,6 +7,8 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/gtk-combo-text.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_CONFIG_TYPE        (e_table_config_get_type ())
 #define E_TABLE_CONFIG(o)          (GTK_CHECK_CAST ((o), E_TABLE_CONFIG_TYPE, ETableConfig))
 #define E_TABLE_CONFIG_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_CONFIG_TYPE, ETableConfigClass))
@@ -70,5 +72,7 @@ ETableConfig *e_table_config_construct (ETableConfig        *etco,
 					ETableSpecification *spec,
 					ETableState         *state);
 void          e_table_config_raise     (ETableConfig        *config);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_CONFIG_H */

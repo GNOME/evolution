@@ -8,6 +8,8 @@
 
 #include <gal/e-table/e-cell-text.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_CELL_SIZE_TYPE        (e_cell_size_get_type ())
 #define E_CELL_SIZE(o)          (GTK_CHECK_CAST ((o), E_CELL_SIZE_TYPE, ECellSize))
 #define E_CELL_SIZE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_SIZE_TYPE, ECellSizeClass))
@@ -24,5 +26,7 @@ typedef struct {
 
 GtkType    e_cell_size_get_type (void);
 ECell     *e_cell_size_new      (const char *fontname, GtkJustification justify);
+
+END_GNOME_DECLS
 
 #endif /* _E_CELL_SIZE_H_ */

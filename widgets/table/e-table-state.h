@@ -6,6 +6,11 @@
 #include <gnome-xml/tree.h>
 #include <gal/e-table/e-table-sort-info.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
 #define E_TABLE_STATE_TYPE        (e_table_state_get_type ())
 #define E_TABLE_STATE(o)          (GTK_CHECK_CAST ((o), E_TABLE_STATE_TYPE, ETableState))
 #define E_TABLE_STATE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_STATE_TYPE, ETableStateClass))
@@ -41,5 +46,9 @@ char        *e_table_state_save_to_string    (ETableState   *state);
 xmlNode     *e_table_state_save_to_node      (ETableState   *state,
 					      xmlNode       *parent);
 ETableState *e_table_state_duplicate         (ETableState   *state);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_STATE_H_ */

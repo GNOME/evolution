@@ -5,6 +5,11 @@
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
 #define E_TABLE_COLUMN_SPECIFICATION_TYPE        (e_table_column_specification_get_type ())
 #define E_TABLE_COLUMN_SPECIFICATION(o)          (GTK_CHECK_CAST ((o), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecification))
 #define E_TABLE_COLUMN_SPECIFICATION_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecificationClass))
@@ -37,5 +42,9 @@ void                       e_table_column_specification_load_from_node  (ETableC
 									 const xmlNode             *node);
 xmlNode                   *e_table_column_specification_save_to_node    (ETableColumnSpecification *state,
 									 xmlNode                   *parent);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_COLUMN_SPECIFICATION_H_ */

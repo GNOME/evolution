@@ -7,6 +7,10 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-col.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 typedef struct _ETableHeader ETableHeader;
 
 #define E_TABLE_HEADER_TYPE        (e_table_header_get_type ())
@@ -81,6 +85,10 @@ GList        *e_table_header_get_selected_indexes   (ETableHeader *eth);
 
 void          e_table_header_update_horizontal      (ETableHeader *eth);
 
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_HEADER_H_ */
 

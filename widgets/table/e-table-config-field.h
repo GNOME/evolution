@@ -6,6 +6,8 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-specification.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_CONFIG_FIELD_TYPE        (e_table_config_field_get_type ())
 #define E_TABLE_CONFIG_FIELD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CONFIG_FIELD_TYPE, ETableConfigField))
 #define E_TABLE_CONFIG_FIELD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_CONFIG_FIELD_TYPE, ETableConfigFieldClass))
@@ -39,5 +41,7 @@ ETableConfigField *e_table_config_field_construct (ETableConfigField   *field,
 						   ETableSpecification *spec,
 						   ETableSortInfo      *sort_info,
 						   gboolean             grouping);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_CONFIG_FIELD_H_ */

@@ -25,6 +25,11 @@
 #define E_TABLE_HEADER_UTILS_H
 
 #include <gal/e-table/e-table-col.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 double  e_table_header_compute_height  (ETableCol      *ecol,
 					GtkStyle       *style,
 					GdkFont        *font);
@@ -53,5 +58,8 @@ void    e_table_draw_elided_string     (GdkDrawable    *drawable,
 					gboolean        center);
 				 
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

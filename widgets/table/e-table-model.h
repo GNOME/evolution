@@ -4,6 +4,10 @@
 
 #include <gtk/gtkobject.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_MODEL_TYPE        (e_table_model_get_type ())
 #define E_TABLE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_MODEL_TYPE, ETableModel))
 #define E_TABLE_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_MODEL_TYPE, ETableModelClass))
@@ -91,5 +95,9 @@ void        e_table_model_row_changed      (ETableModel *e_table_model, int row)
 void        e_table_model_cell_changed     (ETableModel *e_table_model, int col, int row);
 void        e_table_model_row_inserted     (ETableModel *e_table_model, int row);
 void        e_table_model_row_deleted      (ETableModel *e_table_model, int row);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_MODEL_H_ */

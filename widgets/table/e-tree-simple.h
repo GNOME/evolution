@@ -6,6 +6,10 @@
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-table-simple.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TREE_SIMPLE_TYPE        (e_tree_simple_get_type ())
 #define E_TREE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SIMPLE_TYPE, ETreeSimple))
 #define E_TREE_SIMPLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
@@ -55,5 +59,9 @@ ETreeModel *e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 				ETreeSimpleSetValueAtFn       set_value_at,
 				ETreeSimpleIsEditableFn       is_editable,
 				gpointer                      model_data);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TREE_SIMPLE_H_ */

@@ -7,6 +7,8 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-tooltip.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_CELL_TYPE        (e_cell_get_type ())
 #define E_CELL(o)          (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
 #define E_CELL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TYPE, ECellClass))
@@ -105,5 +107,7 @@ int        e_cell_height    (ECellView *ecell_view, int model_col, int view_col,
 
 void      *e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row);
 void       e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
+
+END_GNOME_DECLS
 
 #endif /* _E_CELL_H_ */

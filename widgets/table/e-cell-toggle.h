@@ -5,6 +5,8 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-cell.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_CELL_TOGGLE_TYPE        (e_cell_toggle_get_type ())
 #define E_CELL_TOGGLE(o)          (GTK_CHECK_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))
 #define E_CELL_TOGGLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TOGGLE_TYPE, ECellToggleClass))
@@ -29,6 +31,8 @@ GtkType    e_cell_toggle_get_type  (void);
 ECell     *e_cell_toggle_new       (int border, int n_states, GdkPixbuf **images);
 void       e_cell_toggle_construct (ECellToggle *etog, int border,
 				    int n_states, GdkPixbuf **images);
+
+END_GNOME_DECLS
 
 #endif /* _E_CELL_TOGGLE_H_ */
 

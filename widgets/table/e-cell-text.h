@@ -27,6 +27,8 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
 #define E_CELL_TEXT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TEXT_TYPE, ECellTextClass))
@@ -70,6 +72,8 @@ typedef struct {
 GtkType    e_cell_text_get_type (void);
 ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
 ECell     *e_cell_text_construct(ECellText *cell, const char *fontname, GtkJustification justify);
+
+END_GNOME_DECLS
 
 #endif /* _E_CELL_TEXT_H_ */
 

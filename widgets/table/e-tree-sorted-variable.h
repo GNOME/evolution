@@ -8,6 +8,8 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-header.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TREE_SORTED_VARIABLE_TYPE        (e_tree_sorted_variable_get_type ())
 #define E_TREE_SORTED_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariable))
 #define E_TREE_SORTED_VARIABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariableClass))
@@ -55,5 +57,6 @@ void         e_tree_sorted_variable_decrement       (ETreeSortedVariable *ets,
 						     gint                 amount);
 void         e_tree_sorted_variable_set_allocation  (ETreeSortedVariable *ets,
 						     gint                 total);
+END_GNOME_DECLS
 
 #endif /* _E_TREE_SORTED_VARIABLE_H_ */

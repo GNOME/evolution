@@ -6,6 +6,8 @@
 #include <gnome-xml/tree.h>
 #include <gal/e-table/e-table-header.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_FIELD_CHOOSER_ITEM_TYPE        (e_table_field_chooser_item_get_type ())
 #define E_TABLE_FIELD_CHOOSER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_FIELD_CHOOSER_ITEM_TYPE, ETableFieldChooserItem))
 #define E_TABLE_FIELD_CHOOSER_ITEM_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_FIELD_CHOOSER_ITEM_TYPE, ETableFieldChooserItemClass))
@@ -42,5 +44,7 @@ typedef struct {
 } ETableFieldChooserItemClass;
 
 GtkType    e_table_field_chooser_item_get_type (void);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_FIELD_CHOOSER_ITEM_H_ */

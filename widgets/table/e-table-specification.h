@@ -8,6 +8,10 @@
 #include <gal/e-table/e-table-column-specification.h>
 #include <gal/e-table/e-table-defines.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SPECIFICATION_TYPE        (e_table_specification_get_type ())
 #define E_TABLE_SPECIFICATION(o)          (GTK_CHECK_CAST ((o), E_TABLE_SPECIFICATION_TYPE, ETableSpecification))
 #define E_TABLE_SPECIFICATION_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SPECIFICATION_TYPE, ETableSpecificationClass))
@@ -51,5 +55,9 @@ char                *e_table_specification_save_to_string    (ETableSpecificatio
 xmlNode             *e_table_specification_save_to_node      (ETableSpecification *specification,
 							      xmlDoc              *doc);
 ETableSpecification *e_table_specification_duplicate         (ETableSpecification *spec);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_SPECIFICATION_H_ */

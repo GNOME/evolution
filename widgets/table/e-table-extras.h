@@ -6,6 +6,8 @@
 #include <gal/e-table/e-cell.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_EXTRAS_TYPE        (e_table_extras_get_type ())
 #define E_TABLE_EXTRAS(o)          (GTK_CHECK_CAST ((o), E_TABLE_EXTRAS_TYPE, ETableExtras))
 #define E_TABLE_EXTRAS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
@@ -44,5 +46,7 @@ void          e_table_extras_add_pixbuf   (ETableExtras *extras,
 					   GdkPixbuf    *pixbuf);
 GdkPixbuf    *e_table_extras_get_pixbuf   (ETableExtras *extras,
 					   char         *id);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_EXTRAS_H_ */

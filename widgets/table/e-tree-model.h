@@ -5,6 +5,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-table-model.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
 #define E_TREE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
 #define E_TREE_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_MODEL_TYPE, ETreeModelClass))
@@ -132,5 +137,9 @@ ETreePath* e_tree_model_node_insert_id      (ETreeModel *tree_model, ETreePath *
 void       e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data);
 
 void       e_tree_model_show_node (ETreeModel *etm, ETreePath* node);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TREE_MODEL_H */

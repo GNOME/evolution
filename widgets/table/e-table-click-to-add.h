@@ -9,6 +9,8 @@
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-table-selection-model.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
 #define E_TABLE_CLICK_TO_ADD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
 #define E_TABLE_CLICK_TO_ADD_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAddClass))
@@ -47,5 +49,7 @@ typedef struct {
 GtkType    e_table_click_to_add_get_type (void);
 
 void       e_table_click_to_add_commit (ETableClickToAdd *etcta);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_CLICK_TO_ADD_H_ */

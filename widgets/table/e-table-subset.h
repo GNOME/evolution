@@ -5,6 +5,10 @@
 #include <gtk/gtkobject.h>
 #include <gal/e-table/e-table-model.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SUBSET_TYPE        (e_table_subset_get_type ())
 #define E_TABLE_SUBSET(o)          (GTK_CHECK_CAST ((o), E_TABLE_SUBSET_TYPE, ETableSubset))
 #define E_TABLE_SUBSET_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SUBSET_TYPE, ETableSubsetClass))
@@ -35,6 +39,10 @@ ETableModel *e_table_subset_new       (ETableModel *etm, int n_vals);
 ETableModel *e_table_subset_construct (ETableSubset *ets, ETableModel *source, int nvals);
 
 ETableModel *e_table_subset_get_toplevel (ETableSubset *table_model);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_SUBSET_H_ */
 

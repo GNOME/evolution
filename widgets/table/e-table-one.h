@@ -4,6 +4,11 @@
 
 #include <gal/e-table/e-table-model.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
 #define E_TABLE_ONE_TYPE        (e_table_one_get_type ())
 #define E_TABLE_ONE(o)          (GTK_CHECK_CAST ((o), E_TABLE_ONE_TYPE, ETableOne))
 #define E_TABLE_ONE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_ONE_TYPE, ETableOneClass))
@@ -25,6 +30,10 @@ GtkType e_table_one_get_type (void);
 
 ETableModel *e_table_one_new (ETableModel *source);
 void         e_table_one_commit (ETableOne *one);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_ONE_H_ */
 

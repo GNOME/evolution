@@ -10,6 +10,8 @@
 #include <gal/e-table/e-table-tooltip.h>
 #include <gal/widgets/e-printable.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
 #define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
 #define E_TABLE_ITEM_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_ITEM_TYPE, ETableItemClass))
@@ -138,5 +140,7 @@ void        e_table_item_compute_location    (ETableItem        *eti,
 					      int               *row,
 					      int               *col);
 
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_ITEM_H_ */

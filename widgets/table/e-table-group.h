@@ -10,6 +10,8 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-printable.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
 #define E_TABLE_GROUP_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_GROUP_TYPE, ETableGroupClass))
@@ -132,5 +134,7 @@ typedef void (*ETableGroupLeafFn) (void *e_table_item, void *closure);
 void          e_table_group_apply_to_leafs    (ETableGroup       *etg,
 					       ETableGroupLeafFn  fn,
 					       void              *closure);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_GROUP_H_ */

@@ -7,6 +7,8 @@
 #include <gal/e-table/e-table-sorted-variable.h>
 #include <gal/e-table/e-table-item.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
 #define E_TABLE_GROUP_LEAF(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))
 #define E_TABLE_GROUP_LEAF_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeafClass))
@@ -47,6 +49,8 @@ ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 					   ETableSortInfo *sort_info);
 GtkType      e_table_group_leaf_get_type  (void);
 
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_GROUP_LEAF_H_ */
 

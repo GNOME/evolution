@@ -8,6 +8,8 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-header.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_SORTER_TYPE        (e_table_sorter_get_type ())
 #define E_TABLE_SORTER(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTER_TYPE, ETableSorter))
 #define E_TABLE_SORTER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SORTER_TYPE, ETableSorterClass))
@@ -44,5 +46,7 @@ gint          e_table_sorter_model_to_sorted (ETableSorter *sorter, int row);
 gint          e_table_sorter_sorted_to_model (ETableSorter *sorter, int row);
 
 gboolean      e_table_sorter_needs_sorting   (ETableSorter *sorter);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_SORTER_H_ */

@@ -10,6 +10,8 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_CELL_TREE_TYPE        (e_cell_tree_get_type ())
 #define E_CELL_TREE(o)          (GTK_CHECK_CAST ((o), E_CELL_TREE_TYPE, ECellTree))
 #define E_CELL_TREE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TREE_TYPE, ECellTreeClass))
@@ -41,6 +43,9 @@ void       e_cell_tree_construct (ECellTree *ect,
 				  GdkPixbuf *closed_pixbuf,
 				  gboolean draw_lines,
 				  ECell *subcell);
+
+
+END_GNOME_DECLS
 
 #endif /* _E_CELL_TREE_H_ */
 

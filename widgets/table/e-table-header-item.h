@@ -8,6 +8,8 @@
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
 
+BEGIN_GNOME_DECLS
+
 #define E_TABLE_HEADER_ITEM_TYPE        (e_table_header_item_get_type ())
 #define E_TABLE_HEADER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))
 #define E_TABLE_HEADER_ITEM_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItemClass))
@@ -75,5 +77,7 @@ typedef struct {
 } ETableHeaderItemClass;
 
 GtkType    e_table_header_item_get_type (void);
+
+END_GNOME_DECLS
 
 #endif /* _E_TABLE_HEADER_ITEM_H_ */

@@ -5,6 +5,10 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-cell.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_COL_TYPE        (e_table_col_get_type ())
 #define E_TABLE_COL(o)          (GTK_CHECK_CAST ((o), E_TABLE_COL_TYPE, ETableCol))
 #define E_TABLE_COL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_COL_TYPE, ETableColClass))
@@ -56,6 +60,11 @@ ETableCol     *e_table_col_new_with_pixbuf (int col_idx, const char *text,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);
 void           e_table_col_destroy         (ETableCol *etc);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 
 #endif /* _E_TABLE_COL_H_ */

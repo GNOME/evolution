@@ -7,6 +7,10 @@
 #include <gal/e-table/e-table-defines.h>
 #include <gal/e-table/e-table-sorter.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
 #define E_TABLE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
 #define E_TABLE_SELECTION_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModelClass))
@@ -74,5 +78,10 @@ void                  e_table_selection_model_select_all          (ETableSelecti
 void                  e_table_selection_model_invert_selection    (ETableSelectionModel *selection);
 
 ETableSelectionModel *e_table_selection_model_new                 (void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 
 #endif /* _E_TABLE_SELECTION_MODEL_H_ */

@@ -4,6 +4,8 @@
 
 #include <libgnomeui/gnome-canvas.h>
 
+BEGIN_GNOME_DECLS
+
 typedef struct {
 	GtkWidget *window;
 	gint timer;
@@ -13,5 +15,7 @@ typedef struct {
 	int cx, cy;
 	GnomeCanvasItem *eti;
 } ETableTooltip;
+
+END_GNOME_DECLS
 
 #endif

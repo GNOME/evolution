@@ -5,6 +5,10 @@
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SORT_INFO_TYPE        (e_table_sort_info_get_type ())
 #define E_TABLE_SORT_INFO(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORT_INFO_TYPE, ETableSortInfo))
 #define E_TABLE_SORT_INFO_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SORT_INFO_TYPE, ETableSortInfoClass))
@@ -71,5 +75,9 @@ void              e_table_sort_info_load_from_node      (ETableSortInfo   *info,
 xmlNode          *e_table_sort_info_save_to_node        (ETableSortInfo   *info,
 							 xmlNode          *parent);
 ETableSortInfo   *e_table_sort_info_duplicate           (ETableSortInfo   *info);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_SORT_INFO_H_ */

@@ -4,6 +4,10 @@
 
 #include <gal/e-table/e-table-model.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
 #define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
 #define E_TABLE_SIMPLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
@@ -56,6 +60,10 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleValueIsEmptyFn value_is_empty,
 				 ETableSimpleValueToStringFn value_to_string,
 				 void *data);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _E_TABLE_SIMPLE_H_ */
 

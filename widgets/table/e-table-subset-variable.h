@@ -5,6 +5,10 @@
 #include <gtk/gtkobject.h>
 #include <gal/e-table/e-table-subset.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define E_TABLE_SUBSET_VARIABLE_TYPE        (e_table_subset_variable_get_type ())
 #define E_TABLE_SUBSET_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariable))
 #define E_TABLE_SUBSET_VARIABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariableClass))
@@ -44,5 +48,10 @@ void         e_table_subset_variable_decrement (ETableSubsetVariable *ets,
 						gint                  amount);
 void         e_table_subset_variable_set_allocation (ETableSubsetVariable *ets,
 						     gint                  total);
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+
 #endif /* _E_TABLE_SUBSET_VARIABLE_H_ */
 
