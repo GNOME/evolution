@@ -91,6 +91,9 @@ addressbook_dispose(GObject *object)
 		g_free (adapter->priv);
 		adapter->priv = NULL;
 	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */

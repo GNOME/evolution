@@ -111,7 +111,13 @@ void
 e_contact_print_style_editor_destroy (GtkObject *object)
 {
 	EContactPrintStyleEditor *e_contact_print_style_editor = E_CONTACT_PRINT_STYLE_EDITOR(object);
-	g_object_unref(e_contact_print_style_editor->gui);
+
+	if (e_contact_print_style_editor->gui != NULL) {
+		g_object_unref(e_contact_print_style_editor->gui);
+		e_contact_print_style_editor->gui = NULL;
+	}
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 GtkWidget*

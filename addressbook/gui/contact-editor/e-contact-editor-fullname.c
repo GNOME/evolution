@@ -145,6 +145,9 @@ e_contact_editor_fullname_dispose (GObject *object)
 		e_card_name_unref(e_contact_editor_fullname->name);
 		e_contact_editor_fullname->name = NULL;
 	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 GtkWidget*

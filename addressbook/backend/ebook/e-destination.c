@@ -110,6 +110,9 @@ e_destination_dispose (GObject *obj)
 		g_free (dest->priv);
 		dest->priv = NULL;
 	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (obj);
 }
 
 static void

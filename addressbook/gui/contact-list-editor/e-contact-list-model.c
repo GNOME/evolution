@@ -85,13 +85,18 @@ contact_list_model_destroy (GtkObject *o)
 	EContactListModel *model = E_CONTACT_LIST_MODEL (o);
 	int i;
 
-	for (i = 0; i < model->data_count; i ++) {
-		g_object_unref (model->data[i]);
+	if (model->data != NULL) {
+		for (i = 0; i < model->data_count; i ++) {
+			g_object_unref (model->data[i]);
+		}
+		g_free (model->data);
+		model->data = NULL;
 	}
-	g_free (model->data);
 
 	model->data_count = 0;
 	model->data_alloc = 0;
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (o);
 }
 
 static void

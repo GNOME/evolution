@@ -89,6 +89,9 @@ addressbook_destroy(GtkObject *object)
 	unlink_model(adapter);
 
 	g_free (adapter->priv);
+	adapter->priv = NULL;
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 #if 0

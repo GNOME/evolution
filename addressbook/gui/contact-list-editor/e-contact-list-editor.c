@@ -311,7 +311,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 static void
 e_contact_list_editor_dispose (GObject *object)
 {
-	/* XXX need to call parent dispose */
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 typedef struct {

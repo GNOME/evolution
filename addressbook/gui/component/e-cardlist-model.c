@@ -18,16 +18,24 @@
 
 #define PARENT_TYPE e_table_model_get_type()
 
+static GObjectClass *parent_class = NULL;
+
 static void
 e_cardlist_model_dispose(GObject *object)
 {
 	ECardlistModel *model = E_CARDLIST_MODEL(object);
 	int i;
 
-	for ( i = 0; i < model->data_count; i++ ) {
-		g_object_unref(model->data[i]);
+	if (model->data != NULL) {
+		for ( i = 0; i < model->data_count; i++ ) {
+			g_object_unref(model->data[i]);
+		}
+		g_free(model->data);
+		model->data = NULL;
 	}
-	g_free(model->data);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -157,6 +165,8 @@ static void
 e_cardlist_model_class_init (GObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
+
+	parent_class = g_type_class_peek_parent (object_class);
 	
 	object_class->dispose = e_cardlist_model_dispose;
 
