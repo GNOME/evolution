@@ -1,3 +1,9 @@
+2000-04-01  Matt Loper  <matt@helixcode.com>
+
+	* tests/.cvsignore: Added test-movemail.
+
+	* art/.cvsignore: New file.
+
 2000-03-31  Dan Winship  <danw@helixcode.com>
 
 	* shell/e-shortcut.c (e_shortcut_bar_view_new, shell_icon_cb):

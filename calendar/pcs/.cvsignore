@@ -8,3 +8,4 @@ evolution-calendar.h
 tlacuache
 .libs
 *.la
+*.lo

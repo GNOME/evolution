@@ -1,3 +1,7 @@
+2000-04-01  Matt Loper  <matt@helixcode.com>
+
+	* .cvsignore: Added evolution.pot.
+
 2000-03-27  Federico Mena Quintero  <federico@helixcode.com>
 
 	* POTFILES.in: Removed the calendar files for now.

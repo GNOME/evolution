@@ -1,3 +1,7 @@
+2000-04-01  Matt Loper  <matt@helixcode.com>
+
+	* pcs/.cvsignore: Added *.lo.
+
 2000-03-30  Seth Alves  <alves@hungry.com>
 
 	* Makefile.am (SUBDIRS): readded the gui directory
