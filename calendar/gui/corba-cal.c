@@ -123,12 +123,7 @@ calendar_object_find_by_pilot (GnomeCalendar *cal, int pilot_id)
 	
 	g_return_val_if_fail (cal != NULL, NULL);
 
-	uids = cal_client_get_uids (cal->calc,
-				    CALOBJ_TYPE_EVENT |
-				    CALOBJ_TYPE_TODO |
-				    CALOBJ_TYPE_JOURNAL |
-				    CALOBJ_TYPE_OTHER |
-				    CALOBJ_TYPE_ANY);
+	uids = cal_client_get_uids (cal->calc, CALOBJ_TYPE_ANY);
 	for (l = uids; l; l = l->next){
 		char *obj_string = cal_client_get_object (cal->calc, l->data);
 		iCalObject *obj = string_to_ical_object (obj_string);

@@ -220,7 +220,10 @@ Cal_get_uids (PortableServer_Servant servant,
 	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
 	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
 	     | ((type & Evolution_Calendar_TYPE_OTHER) ? CALOBJ_TYPE_OTHER : 0)
-	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0));
+	     /*
+	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
+	     */
+	     );
 
 	uids = cal_backend_get_uids (priv->backend, t);
 	n = g_list_length (uids);

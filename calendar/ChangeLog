@@ -1,5 +1,16 @@
 2000-04-19  Seth Alves  <alves@hungry.com>
 
+	* gui/gncal-todo.c (gncal_todo_update): fixed code to populate
+	the todo clist
+
+	* cal-client/cal-client.c (cal_client_get_uids): don't check
+	type again CALOBJ_TYPE_ANY since it will always match.
+	(cal_client_get_uids): same (re: CALOBJ_TYPE_ANY)
+
+	* pcs/cal-backend.c (build_uids_list): same (re: CALOBJ_TYPE_ANY)
+
+	* pcs/cal.c (Cal_get_uids): same (re: CALOBJ_TYPE_ANY)
+
 	* pcs/cal-backend.c (remove_object): don't call save from here
 	because in all cases the caller of remove_object calls save
 

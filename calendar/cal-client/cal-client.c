@@ -612,7 +612,10 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
 	     | ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0)
 	     | ((type & CALOBJ_TYPE_OTHER) ? Evolution_Calendar_TYPE_OTHER : 0)
-	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0));
+	     /*
+	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0)
+	     */
+	     );
 
 	CORBA_exception_init (&ev);
 

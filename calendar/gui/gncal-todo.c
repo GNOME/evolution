@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* To-do widget for gncal
  *
  * Copyright (C) 1998 The Free Software Foundation
@@ -518,7 +519,6 @@ gncal_todo_new (GnomeCalendar *calendar)
 	return GTK_WIDGET (todo);
 }
 
-#if 0
 static char *
 convert_time_t_to_char (time_t t)
 {
@@ -530,10 +530,8 @@ convert_time_t_to_char (time_t t)
 
 	return g_strdup (buf);
 }
-#endif /* 0 */
 
 
-#if 0
 enum todo_styles {
 	TODO_STYLE_OVERDUE,
 	TODO_STYLE_DUE_TODAY,
@@ -576,10 +574,8 @@ make_todo_style(GncalTodo *todo, todo_status style_type)
 	style->base[GTK_STATE_NORMAL] = style_color;
 	return style;
 }
-#endif /* 0 */
 
 
-#if 0
 static
 todo_status todo_item_due_status(time_t *todo_due_time) {
 	struct tm due_tm_time;
@@ -606,7 +602,6 @@ todo_status todo_item_due_status(time_t *todo_due_time) {
 	
 	return TODO_ITEM_DSTATUS_NOT_DUE_YET;
 }
-#endif /* 0 */
 
 
 enum todo_remaining_time_form {
@@ -618,7 +613,7 @@ enum todo_remaining_time_form {
 };
 typedef enum todo_remaining_time_form todo_remaining_time_form;
 
-#if 0
+
 static void
 insert_in_clist (GncalTodo *todo, iCalObject *ico)
 {
@@ -799,12 +794,15 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	/* keep the list in order */
 	gtk_clist_sort (todo->clist); 
 }
-#endif /* 0 */
+
 
 void
 gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 {
 	GSList *current_list;
+
+	CalObjFindStatus st;
+	GList *l, *uids;
 
 	g_return_if_fail (todo != NULL);
 	g_return_if_fail (GNCAL_IS_TODO (todo));
@@ -861,30 +859,21 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 
 	gtk_clist_clear (todo->clist);
 
-#if 0
-	/* FIXME: this is broken; it should fetch TODO objects, and it should
-	 * use ical_object_find_in_string().
-	 */
-	{
-	  /* DELETE
-	     for (list = todo->calendar->cal->todo; list; list = list->next)
-		insert_in_clist (todo, list->data);
-	  */
 
-		GList *l, *uids;
-		uids = cal_client_get_uids (todo->calendar->client,
-					    CALOBJ_TYPE_EVENT);
-		for (l = uids; l; l = l->next){
-			char *obj_string =
-				cal_client_get_object (todo->calendar->client,
-						       l->data);
-			iCalObject *obj = string_to_ical_object (obj_string);
-			insert_in_clist (todo, obj);
-			g_free (l->data);
-		}
-		g_list_free (uids);
+	uids = cal_client_get_uids (todo->calendar->client,
+				    CALOBJ_TYPE_TODO);
+	for (l = uids; l; l = l->next){
+		char *uid = l->data;
+		char *obj_string =
+			cal_client_get_object (todo->calendar->client, uid);
+		iCalObject *obj = NULL;
+			
+		st = ical_object_find_in_string (uid, obj_string, &obj);
+
+		insert_in_clist (todo, obj);
+		g_free (uid);
 	}
-#endif
+	g_list_free (uids);
 
 	/* if we are autoresizing then do it now */
 	if(todo_list_autoresize && todo->clist->rows != 0) 
@@ -892,8 +881,10 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 
 	gtk_clist_thaw (todo->clist);
 	
-	gtk_widget_set_sensitive (todo->edit_button, (todo->clist->selection != NULL));
-	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->selection != NULL));
+	gtk_widget_set_sensitive (todo->edit_button,
+				  (todo->clist->selection != NULL));
+	gtk_widget_set_sensitive (todo->delete_button,
+				  (todo->clist->selection != NULL));
 	todo_list_redraw_in_progess = 0;
 }
 

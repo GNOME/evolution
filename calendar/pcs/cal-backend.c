@@ -860,9 +860,11 @@ build_uids_list (gpointer key, gpointer value, gpointer data)
 
 	store = FALSE;
 
+	/*
 	if (c->type & CALOBJ_TYPE_ANY)
 		store = TRUE;
-	else if (ico->type == ICAL_EVENT)
+	else */
+	if (ico->type == ICAL_EVENT)
 		store = (c->type & CALOBJ_TYPE_EVENT) ? TRUE : FALSE;
 	else if (ico->type == ICAL_TODO)
 		store = (c->type & CALOBJ_TYPE_TODO) ? TRUE : FALSE;
