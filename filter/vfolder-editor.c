@@ -226,7 +226,7 @@ rule_edit (GtkWidget *widget, struct _editor_data *data)
 static void
 rule_delete (GtkWidget *widget, struct _editor_data *data)
 {
-	int pos;
+	int pos, len;
 	GList *l;
 	GtkListItem *item;
 	
@@ -242,6 +242,11 @@ rule_delete (GtkWidget *widget, struct _editor_data *data)
 		
 		gtk_object_unref (GTK_OBJECT (data->current));
 		data->current = NULL;
+		
+		/* select the item in the same position or 1-up */
+		len = g_list_length (data->list->children);
+		pos = pos >= len ? len - 1: pos;
+		gtk_list_select_item (data->list, pos);
 	}
 	
 	set_sensitive (data);

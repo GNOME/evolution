@@ -1,3 +1,9 @@
+2000-12-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* vfolder-editor.c (rule_delete): Autoselect the rule that ends up
+	in the same position (or the one above it if the list is shorter
+	than the position).
+
 2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-rule.c (get_widget): Don't highlight the title if it's
