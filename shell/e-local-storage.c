@@ -843,6 +843,12 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 
 	item = (XferItem *) xfer_data->current_folder_item->data;
 
+	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
+		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage), result, xfer_data->callback_data);
+		async_xfer_folder_complete (xfer_data);
+		return;
+	}
+
 	source_folder = e_storage_get_folder (E_STORAGE (xfer_data->local_storage), item->source_path);
 	destination_folder = e_local_folder_new (e_folder_get_name (source_folder),
 						 e_folder_get_type_string (source_folder),
@@ -859,6 +865,8 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 
 	xfer_data->current_folder_item = xfer_data->current_folder_item->next;
 	if (xfer_data->current_folder_item == NULL) {
+		(* xfer_data->callback) (E_STORAGE (xfer_data->local_storage),
+					 EVOLUTION_SHELL_COMPONENT_OK, xfer_data->callback_data);
 		async_xfer_folder_complete (xfer_data);
 		return;
 	}
