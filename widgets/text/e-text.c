@@ -1279,23 +1279,18 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		
 		if (text->draw_borders){
 
-			if (text->editing) {
-				thisx += 1;
-				thisy += 1;
-				thiswidth -= 2;
-				thisheight -= 2;
-			}
-
 			gtk_paint_shadow (widget->style, drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 					  NULL, widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
 		
+#if 1
 			if (text->editing) {
-				thisx -= 1;
-				thisy -= 1;
-				thiswidth += 2;
-				thisheight += 2;
+				thisx += 1;
+				thisy += 1;
+				thiswidth -= 2;
+				thisheight -= 2;
+
 				/*
 				 * Chris: I am here "filling in" for the additions
 				 * and substractions done in the previous if (text->editing).
@@ -1305,8 +1300,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 */
 				gtk_paint_focus (widget->style, drawable, GTK_STATE_NORMAL,
 						 NULL, widget, "entry",
-						 thisx, thisy, thiswidth - 1, thisheight - 1);
+						 thisx, thisy, thiswidth, thisheight);
 			}
+#endif
 		}
 
 		if (text->draw_background) {
@@ -2063,11 +2059,17 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
 				start_editing (text);
+				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
 					text->timeout_id = 0;
+				}
+				if (text->show_cursor || text->draw_borders) {
+					text->show_cursor = FALSE;
+					text->needs_redraw = 1;
+					gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 				}
 			}
 			if ( text->line_wrap )
@@ -2112,8 +2114,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			return ret;
 		}
-		else
-			return 0;
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
