@@ -1,5 +1,6 @@
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
+	* executive-summary/.cvsignore: 
 	* calendar/cal-util/.cvsignore: 
 	* calendar/cal-client/.cvsignore: added *-undocumented.txt
 

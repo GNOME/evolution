@@ -6,6 +6,7 @@ Makefile.in
 *.stamp
 *-scan.c
 *-unused.txt
+*-undocumented.txt
 *-decl-list.txt
 sgml
 
