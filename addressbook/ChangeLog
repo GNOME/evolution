@@ -1,3 +1,17 @@
+2004-06-30  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_dispose): disconnect source/target_editable
+	signal ids.
+	(e_contact_editor_set_property): disconnect/connect editable
+	signals.
+	(writable_changed): new function - we need this since writable
+	status is generally communicated asynchronously with the async
+	interface.
+
+	* gui/contact-editor/e-contact-editor.h (struct _EContactEditor):
+	add source/target_editable_id slots.
+
 2004-06-29  Rodney Dawes  <dobey@novell.com>
 
 	* tools/Makefile.am (bin_PROGRAMS): Change to privlibexec_PROGRAMS

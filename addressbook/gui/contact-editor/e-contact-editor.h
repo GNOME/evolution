@@ -96,6 +96,10 @@ struct _EContactEditor
 	/* ID for async load_source call */
 	guint  load_source_id;
 	EBook *load_book;
+
+	/* signal ids for "writable_status" */
+	int source_editable_id;
+	int target_editable_id;
 };
 
 struct _EContactEditorClass

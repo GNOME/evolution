@@ -2999,11 +2999,13 @@ e_contact_editor_dispose (GObject *object)
 	}
 	
 	if (e_contact_editor->source_book) {
+		g_signal_handler_disconnect (e_contact_editor->source_book, e_contact_editor->source_editable_id);
 		g_object_unref(e_contact_editor->source_book);
 		e_contact_editor->source_book = NULL;
 	}
 
 	if (e_contact_editor->target_book) {
+		g_signal_handler_disconnect (e_contact_editor->target_book, e_contact_editor->target_editable_id);
 		g_object_unref(e_contact_editor->target_book);
 		e_contact_editor->target_book = NULL;
 	}
@@ -3079,6 +3081,28 @@ e_contact_editor_new (EBook *book,
 }
 
 static void
+writable_changed (EBook *book, gboolean writable, EContactEditor *ce)
+{
+	int new_source_editable, new_target_editable;
+	gboolean changed = FALSE;
+
+	new_source_editable = e_book_is_writable (ce->source_book);
+	new_target_editable = e_book_is_writable (ce->target_book);
+
+	if (ce->source_editable != new_source_editable)
+		changed = TRUE;
+
+	if (ce->target_editable != new_target_editable)
+		changed = TRUE;
+
+	ce->source_editable = new_source_editable;
+	ce->target_editable = new_target_editable;
+
+	if (changed)
+		sensitize_all (ce);
+}
+
+static void
 e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	EContactEditor *editor;
@@ -3090,11 +3114,15 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		gboolean writable;
 		gboolean changed = FALSE;
 
-		if (editor->source_book)
+		if (editor->source_book) {
+			g_signal_handler_disconnect (editor->source_book, editor->source_editable_id);
 			g_object_unref(editor->source_book);
+		}
 		editor->source_book = E_BOOK (g_value_get_object (value));
 		g_object_ref (editor->source_book);
-
+		editor->source_editable_id = g_signal_connect (editor->source_book, "writable_status",
+							       G_CALLBACK (writable_changed), editor);
+ 
 		if (!editor->target_book) {
 			editor->target_book = editor->source_book;
 			g_object_ref (editor->target_book);
@@ -3122,10 +3150,14 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	}
 
 	case PROP_TARGET_BOOK: {
-		if (editor->target_book)
+		if (editor->target_book) {
+			g_signal_handler_disconnect (editor->target_book, editor->target_editable_id);
 			g_object_unref(editor->target_book);
+		}
 		editor->target_book = E_BOOK (g_value_get_object (value));
 		g_object_ref (editor->target_book);
+		editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
+							       G_CALLBACK (writable_changed), editor);
 
 		e_book_async_get_supported_fields (editor->target_book,
 						   (EBookEListCallback) supported_fields_cb, editor);
