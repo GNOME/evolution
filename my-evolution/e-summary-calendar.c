@@ -51,6 +51,7 @@ struct _ESummaryCalendar {
 	char *default_uri;
 
 	GConfClient *gconf_client;
+	int gconf_value_changed_handler_id;
 
 	int cal_open_reload_timeout_id;
 	int reload_count;
@@ -570,8 +571,9 @@ setup_gconf_client (ESummary *summary)
 
 	calendar->gconf_client = gconf_client_get_default ();
 
-	g_signal_connect (calendar->gconf_client, "value_changed",
-			  G_CALLBACK (gconf_client_value_changed_cb), summary);
+	calendar->gconf_value_changed_handler_id
+		= g_signal_connect (calendar->gconf_client, "value_changed",
+				    G_CALLBACK (gconf_client_value_changed_cb), summary);
 
 	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/calendar", FALSE, NULL);
 	gconf_client_add_dir (calendar->gconf_client, "/apps/evolution/shell/default_folders", FALSE, NULL);
@@ -619,7 +621,10 @@ e_summary_calendar_free (ESummary *summary)
 	g_object_unref (calendar->client);
 	g_free (calendar->html);
 	g_free (calendar->default_uri);
-	
+
+	if (calendar->gconf_value_changed_handler_id != 0)
+		g_signal_handler_disconnect (calendar->gconf_client,
+					     calendar->gconf_value_changed_handler_id);
 	g_object_unref (calendar->gconf_client);
 
 	g_free (calendar);

@@ -55,6 +55,7 @@ struct _ESummaryTasks {
 	char *default_uri;
 
 	GConfClient *gconf_client;
+	int gconf_value_changed_handler_id;
 
 	int cal_open_reload_timeout_id;
 	int reload_count;
@@ -330,8 +331,6 @@ generate_html (gpointer data)
 					   NULL);
 		return FALSE;
 	} else {
-		char *s;
-
 		uids = cal_list_sort (uids, sort_uids, tasks->client);
 		string = g_string_new (NULL);
 		g_string_sprintf (string, "<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
@@ -533,8 +532,9 @@ setup_gconf_client (ESummary *summary)
 	gconf_client_add_dir (tasks->gconf_client, "/apps/evolution/calendar/tasks/colors", FALSE, NULL);
 	gconf_client_add_dir (tasks->gconf_client, "/apps/evolution/shell/default_folders", FALSE, NULL);
 
-	g_signal_connect (tasks->gconf_client, "value_changed",
-			  G_CALLBACK (gconf_client_value_changed_cb), summary);
+	tasks->gconf_value_changed_handler_id
+		= g_signal_connect (tasks->gconf_client, "value_changed",
+				    G_CALLBACK (gconf_client_value_changed_cb), summary);
 }
 
 void
@@ -580,6 +580,9 @@ e_summary_tasks_free (ESummary *summary)
 	g_free (tasks->overdue_colour);
 	g_free (tasks->default_uri);
 
+	if (tasks->gconf_value_changed_handler_id != 0)
+		g_signal_handler_disconnect (tasks->gconf_client,
+					     tasks->gconf_value_changed_handler_id);
 	g_object_unref (tasks->gconf_client);
 
 	g_free (tasks);

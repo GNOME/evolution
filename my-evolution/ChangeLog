@@ -1,3 +1,15 @@
+2003-05-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-tasks.c: New member gconf_value_changed_handler_id in
+	ESummaryTasks.
+	(setup_gconf_client): Set it to the ID of the signal connection.
+
+	* e-summary-calendar.c: New member gconf_value_changed_handler_id
+	in ESummaryCalendar.
+	(setup_gconf_client): Set it to the ID of the signal connection.
+
+	* e-summary-tasks.c (generate_html): Remove unused variable.
+
 2003-05-19  Anna Marie Dirks  <anna@ximian.com>
 
 	* e-summary-preferences.c: This patch HIG-ifies the "New News Feed" 
