@@ -8501,7 +8501,7 @@ msgstr "en ukjent avsender"
 
 #: mail/mail-callbacks.c:784
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Den %a, %Y-%m-%d kl. %H:%M skrev %%s:"
+msgstr "%a, %Y-%m-%d kl. %H:%M skrev %%s:"
 
 #: mail/mail-callbacks.c:1162
 msgid "Move message(s) to"
