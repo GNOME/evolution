@@ -176,6 +176,11 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	result = NULL;
 
+	if (uri_return != NULL)
+		*uri_return = NULL;
+	if (physical_uri_return != NULL)
+		*physical_uri_return = NULL;
+
 	listener_interface = create_folder_selection_listener_interface (&result, uri_return, 
 									 physical_uri_return);
 	if (listener_interface == CORBA_OBJECT_NIL)
@@ -192,17 +197,11 @@ user_select_folder (EvolutionShellClient *shell_client,
 	corba_type_list._buffer  = (CORBA_char **) possible_types;
 
 	GNOME_Evolution_Shell_selectUserFolder (corba_shell, listener_interface,
-					    title, default_folder, &corba_type_list,
-					    &ev);
+						title, default_folder, &corba_type_list,
+						&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
-
-		if (uri_return != NULL)
-			*uri_return = NULL;
-		if (physical_uri_return != NULL)
-			*physical_uri_return = NULL;
-
 		return;
 	}
 

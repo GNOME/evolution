@@ -1,3 +1,9 @@
+2000-12-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-shell-client.c (user_select_folder): Make sure the
+	`*uri_return' and `*physical_uri_return' are always initialized on
+	return, as that's what the caller expects.
+
 2000-12-23  Jason Leach  <jasonleach@usa.net>
 
 	* e-shell-view-menu.c (command_run_bugbuddy): Fix a crash when the
