@@ -2541,6 +2541,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 	GDate start_date, end_date, new_start_date, new_end_date;
 	gint days_shown, new_days_shown;
 	gboolean starts_on_week_start_day;
+	struct icaltimetype tt;
 
 	priv = gcal->priv;
 
@@ -2567,6 +2568,15 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 	if (g_date_weekday (&new_start_date) % 7 == calendar_config_get_week_start_day ())
 		starts_on_week_start_day = TRUE;
 
+	/* Update selection to be in the new time range */
+	tt = icaltime_null_time ();
+	tt.year = g_date_year (&new_start_date);
+	tt.month  = g_date_month (&new_start_date);
+	tt.day = g_date_day (&new_start_date);
+	priv->selection_start_time = icaltime_as_timet_with_zone (tt, priv->zone);
+	icaltime_adjust (&tt, 1, 0, 0, 0);
+	priv->selection_end_time = icaltime_as_timet_with_zone (tt, priv->zone);
+
 	/* Switch views as appropriate, and change the number of days or weeks
 	   shown. */
 	if (new_days_shown > 9) {
@@ -2583,31 +2593,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 		set_view (gcal, GNOME_CAL_WEEK_VIEW, TRUE, FALSE);
 		gnome_calendar_update_date_navigator (gcal);
 		gnome_calendar_notify_dates_shown_changed (gcal);
-	} else {
-		gint start_year, start_month, start_day;
-		gint end_year, end_month, end_day;
-		struct icaltimetype tt;
-
-		start_year = g_date_year (&new_start_date);
-		start_month = g_date_month (&new_start_date);
-		start_day = g_date_day (&new_start_date);
-		end_year = g_date_year (&new_end_date);
-		end_month = g_date_month (&new_end_date);
-		end_day = g_date_day (&new_end_date);
-
-		tt = icaltime_null_time ();
-		tt.year = start_year;
-		tt.month  = start_month;
-		tt.day = start_day;
-		priv->selection_start_time = icaltime_as_timet_with_zone (tt, priv->zone);
-
-		tt = icaltime_null_time ();
-		tt.year = end_year;
-		tt.month  = end_month;
-		tt.day = end_day;
-		icaltime_adjust (&tt, 1, 0, 0, 0);
-		priv->selection_end_time = icaltime_as_timet_with_zone (tt, priv->zone);
-		
+	} else {		
 		e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), new_days_shown);
 		
 		if (new_days_shown == 5 && priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW)
