@@ -1,3 +1,57 @@
+2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-component-registry.c (component_free): Invoke `::unset_owner'
+	on the component before releasing it.
+
+	* evolution-shell-component.c (class_init): Install the
+	"owner_set" signal.
+	(impl_ShellComponent_unset_owner): New function, implementation of
+	`ShellComponent::unset_owner'.
+	(corba_class_init): Install it.
+
+	* evolution-shell-component.h: New signal "owner_unset".
+
+	* Evolution-ShellComponent.idl: New method `ShellComponent::
+	unset_owner'.
+
+	* e-shell.c (e_shell_quit): Destroy all the views explicitly.
+
+	* e-shell-view-menu.c: Changed `Show shortcut bar' and `Show
+	folder tree' items into toggle items.
+	(shortcut_bar_mode_changed_cb): New callback to update the status
+	of the "show shortcut bar" toggle item when the shortcut bar is
+	hidden/shown in the view.
+	(folder_bar_mode_changed_cb): Likewise for the folder bar.
+	(e_shell_view_menu_setup): Connect these to the corresponding
+	signals on the shell.
+
+	* e-shell-view.c: New members `shortcut_bar_mode' and
+	`folder_bar_mode' in `EShellViewPrivate'.
+	(init): Initialize `shortcut_bar_mode' and `folder_bar_mode' to
+	`E_SHELL_VIEW_SUBWINDOW_HIDDEN'.
+	(class_init): Add the new signals.
+	(e_shell_view_set_shortcut_bar_mode): Renamed from
+	`e_shell_view_show_shortcuts'.  Emit "shortcut_bar_mode_changed"
+	and update the `shortcut_bar_mode' member.
+	(e_shell_view_set_folder_bar_mode): Renamed from
+	`e_shell_view_show_folders'.  Emit "folder_bar_mode_changed" and
+	update the `folder_bar_mode' member.
+
+	* e-shell-view.h: New signals "shortcut_bar_mode_changed",
+	"folder_bar_mode_changed".
+
+	* e-shell-view.c (setup_menus): Removed.
+	(e_shell_view_construct): Use `e_shell_view_menu_setup' instead.
+	(e_shell_view_get_bonobo_ui_handler): New function.
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): New.
+
+	* e-shell.c (impl_Shell_get_component_for_type): New function,
+	implementation of `Evolution::Shell::get_component_for_type'.
+	(corba_class_init): Install it into the EPV.
+
+	* Evolution-Shell.idl: Added method `get_component_for_type'.
+
 2000-05-30  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts.c: New members `dirty', `save_idle_id' in

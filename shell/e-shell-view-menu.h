@@ -26,8 +26,10 @@
 #ifndef E_SHELL_VIEW_MENU_H
 #define E_SHELL_VIEW_MENU_H
 
-#include <gnome.h>
+#include <bonobo/bonobo-ui-handler.h>
 
-extern GnomeUIInfo e_shell_view_menu[];
+#include "e-shell-view.h"
+
+void e_shell_view_menu_setup (EShellView *shell_view);
 
 #endif

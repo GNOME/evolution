@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkobject.h>
-#include <gtk/gtktypeutils.h>
+#include <gnome.h>
 
 #include "Evolution.h"
 
@@ -112,11 +111,31 @@ create_servant (void)
 	return servant;
 }
 
-static void
-impl_Shell_dummy_method (PortableServer_Servant servant,
-			 CORBA_Environment *ev)
+static Evolution_ShellComponent
+impl_Shell_get_component_for_type (PortableServer_Servant servant,
+				   const CORBA_char *type,
+				   CORBA_Environment *ev)
 {
-	g_print ("Evolution::Shell::dummy_method invoked!\n");
+	BonoboObject *bonobo_object;
+	BonoboObjectClient *handler;
+	EFolderTypeRegistry *folder_type_registry;
+	Evolution_ShellComponent corba_component;
+	EShell *shell;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+	folder_type_registry = shell->priv->folder_type_registry;
+
+	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry, type);
+
+	if (handler == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_Evolution_Shell_NotFound, NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (handler));
+	Bonobo_Unknown_ref (corba_component, ev);
+	return CORBA_Object_duplicate (corba_component, ev);
 }
 
 
@@ -273,7 +292,7 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_Evolution_Shell__epv, 1);
-	epv->dummy_method = impl_Shell_dummy_method;
+	epv->get_component_for_type = impl_Shell_get_component_for_type;
 
 	vepv = &shell_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
@@ -451,10 +470,38 @@ e_shell_get_folder_type_registry (EShell *shell)
 void
 e_shell_quit (EShell *shell)
 {
+	EShellPrivate *priv;
+	GList *p;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	bonobo_object_unref (BONOBO_OBJECT (shell));
+	priv = shell->priv;
+
+	for (p = priv->views; p != NULL; p = p->next) {
+		EShellView *shell_view;
+
+		shell_view = E_SHELL_VIEW (p->data);
+		gtk_signal_disconnect_by_func (GTK_OBJECT (shell_view),
+					       GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+		gtk_widget_destroy (GTK_WIDGET (shell_view));
+	}
+
+	g_list_free (priv->views);
+	priv->views = NULL;
+
+	gtk_object_unref (GTK_OBJECT (priv->storage_set));
+	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
+	gtk_object_unref (GTK_OBJECT (priv->component_registry));
+
+	priv->storage_set = NULL;
+	priv->shortcuts = NULL;
+	priv->folder_type_registry = NULL;
+	priv->component_registry = NULL;
+
+	/* FIXME Unref does not work here.  Probably somewhere we are leaking a _ref().  */
+	bonobo_object_destroy (BONOBO_OBJECT (shell));
 }
 
 

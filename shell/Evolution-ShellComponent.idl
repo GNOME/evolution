@@ -28,6 +28,10 @@ module Evolution {
 		void set_owner (in Shell shell)
 			raises (AlreadyOwned);
 
+		exception NotOwned {};
+		void unset_owner ()
+			raises (NotOwned);
+
 		exception NotFound {};
 		Bonobo::Control create_view (in string physical_uri)
 			raises (NotFound);

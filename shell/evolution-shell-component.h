@@ -68,8 +68,9 @@ struct _EvolutionShellComponentClass {
 
 	/* Signals.  */
 
-	void (* owner_set) (EvolutionShellComponent *shell_component,
-			    Evolution_Shell shell_interface);
+	void (* owner_set)   (EvolutionShellComponent *shell_component,
+			      Evolution_Shell shell_interface);
+	void (* owner_unset) (EvolutionShellComponent *shell_component);
 };
 
 

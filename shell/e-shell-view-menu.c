@@ -30,6 +30,50 @@
 #include "e-shell-view-menu.h"
 
 
+/* EShellView callbacks.  */
+
+static void
+shortcut_bar_mode_changed_cb (EShellView *shell_view,
+			      EShellViewSubwindowMode new_mode,
+			      void *data)
+{
+	BonoboUIHandler *uih;
+	const char *path;
+	gboolean toggle_state;
+
+	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
+		toggle_state = FALSE;
+	else
+		toggle_state = TRUE;
+
+	path = (const char *) data;
+	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
+
+	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
+}
+
+static void
+folder_bar_mode_changed_cb (EShellView *shell_view,
+			    EShellViewSubwindowMode new_mode,
+			    void *data)
+{
+	BonoboUIHandler *uih;
+	const char *path;
+	gboolean toggle_state;
+
+	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
+		toggle_state = FALSE;
+	else
+		toggle_state = TRUE;
+
+	path = (const char *) data;
+	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
+
+	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
+}
+
+
+/* Command callbacks.  */
 static void
 command_quit (GtkWidget *widget,
 	      gpointer data)
@@ -123,33 +167,51 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 }
 
 static void
-command_show_treeview (GtkWidget* widget, gpointer data)
+command_toggle_folder_bar (BonoboUIHandler *uih,
+			   void *data,
+			   const char *path)
 {
-	EShellView* shell_view;
+	EShellView *shell_view;
+	EShellViewSubwindowMode mode;
+	gboolean show;
 
-	g_assert (E_IS_SHELL_VIEW (data));
+	puts (path);
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_view_show_folders (shell_view, TRUE);	
+
+	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	if (show)
+		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
+	else
+		mode = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
+
+	e_shell_view_set_folder_bar_mode (shell_view, mode);
 }
 
 static void
-command_show_shortcut_bar (GtkWidget* widget, gpointer data)
+command_toggle_shortcut_bar (BonoboUIHandler *uih,
+			     void *data,
+			     const char *path)
 {
-	EShellView* shell_view;
-
-	g_assert (E_IS_SHELL_VIEW (data));
+	EShellView *shell_view;
+	EShellViewSubwindowMode mode;
+	gboolean show;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_view_show_shortcuts (shell_view, TRUE);	
+
+	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	g_print ("%s -- %d\n", path, show);
+
+	if (show)
+		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
+	else
+		mode = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
+
+	e_shell_view_set_shortcut_bar_mode (shell_view, mode);
 }
-
-
 
 
 /* Unimplemented commands.  */
-
-
 
 #define DEFINE_UNIMPLEMENTED(func)					\
 static void								\
@@ -262,11 +324,11 @@ static GnomeUIInfo menu_edit [] = {
 };
 
 static GnomeUIInfo menu_view [] = {
-	{ GNOME_APP_UI_ITEM, N_("Show _Shortcut Bar"),
-	  N_("Shows the shortcut bar"), command_show_shortcut_bar, NULL,
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Show _shortcut bar"),
+	  N_("Show the shortcut bar"), command_toggle_shortcut_bar, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Show _Treeview"),
-	  N_("Shows the tree view"), command_show_treeview, NULL,
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Show _folder bar"),
+	  N_("Show the folder bar"), command_toggle_folder_bar, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },		
 	GNOMEUIINFO_END
 };
@@ -290,7 +352,7 @@ static GnomeUIInfo menu_help [] = {
 
 /* Menu bar.  */
 
-GnomeUIInfo e_shell_view_menu [] = {
+static GnomeUIInfo menu [] = {
 	GNOMEUIINFO_MENU_FILE_TREE (menu_file),
 	GNOMEUIINFO_MENU_EDIT_TREE (menu_edit),
 	GNOMEUIINFO_MENU_VIEW_TREE (menu_view),
@@ -305,3 +367,27 @@ GnomeUIInfo e_shell_view_menu [] = {
 
 	GNOMEUIINFO_END
 };
+
+
+void
+e_shell_view_menu_setup (EShellView *shell_view)
+{
+	BonoboUIHandlerMenuItem *list;
+	BonoboUIHandler *uih;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
+
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (menu, shell_view);
+	bonobo_ui_handler_menu_add_list (uih, "/", list);
+	bonobo_ui_handler_menu_free_list (list);
+
+	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
+			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
+			    "");
+	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
+			    GTK_SIGNAL_FUNC (folder_bar_mode_changed_cb),
+			    "");
+}

@@ -11,8 +11,12 @@
 #include <Bonobo.idl>
 
 module Evolution {
+	interface ShellComponent;
+
 	interface Shell : Bonobo::Unknown {
-		/* Nothing for now.  */
-		void dummy_method ();
+		exception NotFound {};
+
+		ShellComponent get_component_for_type (in string type)
+			raises (NotFound);
 	};
 };

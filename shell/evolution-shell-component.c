@@ -47,6 +47,7 @@ struct _EvolutionShellComponentPrivate {
 
 enum {
 	OWNER_SET,
+	OWNER_UNSET,
 	LAST_SIGNAL
 };
 
@@ -139,6 +140,30 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->corba_owner);
 }
 
+static void
+impl_ShellComponent_unset_owner (PortableServer_Servant servant,
+				 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	if (priv->corba_owner == CORBA_OBJECT_NIL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_ShellComponent_NotOwned, NULL);
+		return;
+	}
+
+	Bonobo_Unknown_unref (priv->corba_owner, ev);
+	CORBA_Object_release (priv->corba_owner, ev);
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+}
+
 static Bonobo_Control
 impl_ShellComponent_create_view (PortableServer_Servant servant,
 				 const CORBA_char *physical_uri,
@@ -221,6 +246,7 @@ corba_class_init (void)
 	epv = g_new0 (POA_Evolution_ShellComponent__epv, 1);
 	epv->_get_supported_types = impl_ShellComponent__get_supported_types;
 	epv->set_owner            = impl_ShellComponent_set_owner;
+	epv->unset_owner          = impl_ShellComponent_unset_owner;
 	epv->create_view          = impl_ShellComponent_create_view;
 
 	vepv = &ShellComponent_vepv;
@@ -237,13 +263,22 @@ class_init (EvolutionShellComponentClass *klass)
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
-	signals[OWNER_SET] = gtk_signal_new ("owner_set",
-					     GTK_RUN_FIRST,
-					     object_class->type,
-					     GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_set),
-					     gtk_marshal_NONE__POINTER,
-					     GTK_TYPE_NONE, 1,
-					     GTK_TYPE_POINTER);
+	signals[OWNER_SET]
+		= gtk_signal_new ("owner_set",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_set),
+				  gtk_marshal_NONE__POINTER,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_POINTER);
+
+	signals[OWNER_UNSET]
+		= gtk_signal_new ("owner_set",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_unset),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 

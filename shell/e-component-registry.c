@@ -79,7 +79,20 @@ component_new (const char *id,
 static void
 component_free (Component *component)
 {
+	Evolution_ShellComponent corba_shell_component;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
+	Evolution_ShellComponent_unset_owner (corba_shell_component, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("Cannot unregister component -- %s", component->id);
+	else
+		g_print ("Component unregistered successfully -- %s\n", component->id);
+	CORBA_exception_free (&ev);
+
 	g_free (component->id);
+
 	bonobo_object_unref (BONOBO_OBJECT (component->client));
 
 	e_free_string_list (component->folder_type_names);

@@ -28,7 +28,8 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <libgnomeui/gnome-app.h>
+#include <bonobo/bonobo-ui-handler.h>
 
 #include "e-shell.h"
 
@@ -48,13 +49,12 @@ typedef struct _EShellView        EShellView;
 typedef struct _EShellViewPrivate EShellViewPrivate;
 typedef struct _EShellViewClass   EShellViewClass;
 
-enum _EShellViewShowFoldersMode {
-	E_SHELL_VIEW_SHOW_FOLDERS_HIDDEN,
-	E_SHELL_VIEW_SHOW_FOLDERS_TRANSIENT,
-	E_SHELL_VIEW_SHOW_FOLDERS_STICKY
+enum _EShellViewSubwindowMode {
+	E_SHELL_VIEW_SUBWINDOW_HIDDEN,
+	E_SHELL_VIEW_SUBWINDOW_TRANSIENT,
+	E_SHELL_VIEW_SUBWINDOW_STICKY
 };
-typedef enum _EShellViewShowFoldersMode EShellViewShowFoldersMode;
-
+typedef enum _EShellViewSubwindowMode EShellViewSubwindowMode;
 
 struct _EShellView {
 	GnomeApp parent;
@@ -64,23 +64,28 @@ struct _EShellView {
 
 struct _EShellViewClass {
 	GnomeAppClass parent_class;
+
+	/* Signals.  */
+	void (* shortcut_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode new_mode);
+	void (* folder_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode mode);
 };
 
 
-GtkType    e_shell_view_get_type     (void);
-void       e_shell_view_construct    (EShellView *shell_view,
-				      EShell     *shell);
-GtkWidget *e_shell_view_new          (EShell     *shell);
+GtkType          e_shell_view_get_type               (void);
+void             e_shell_view_construct              (EShellView              *shell_view,
+						      EShell                  *shell);
+GtkWidget       *e_shell_view_new                    (EShell                  *shell);
 
-gboolean   e_shell_view_display_uri  (EShellView *shell_view,
-				      const char *uri);
+gboolean         e_shell_view_display_uri            (EShellView              *shell_view,
+						      const char              *uri);
 
-void  e_shell_view_show_shortcuts  (EShellView *shell_view,
-				    gboolean    show);
-void  e_shell_view_show_folders    (EShellView *shell_view,
-				    gboolean    show);
+void             e_shell_view_set_shortcut_bar_mode  (EShellView              *shell_view,
+						      EShellViewSubwindowMode  mode);
+void             e_shell_view_set_folder_bar_mode    (EShellView              *shell_view,
+						      EShellViewSubwindowMode  mode);
 
-EShell    *e_shell_view_get_shell    (EShellView *shell_view);
+EShell          *e_shell_view_get_shell              (EShellView              *shell_view);
+BonoboUIHandler *e_shell_view_get_bonobo_ui_handler  (EShellView              *shell_view);
 
 #ifdef __cplusplus
 }
