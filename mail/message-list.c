@@ -1308,7 +1308,7 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 	while (c) {
 		if (c->message) {
 			id = g_strdup_printf("uid:%s", c->message->uid);
-			g_hash_table_insert(ml->uid_rowmap, g_strdup (c->message->uid), GINT_TO_POINTER ((*row)++));
+			g_hash_table_insert(ml->uid_rowmap, g_strdup (c->message->uid), GINT_TO_POINTER (*row));
 			if (c->child) {
 				if (c->message && c->message->message_id)
 					expanded = !g_hash_table_lookup(expanded_nodes, c->message->message_id) != 0;
@@ -1322,6 +1322,7 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 			}
 		}
 		node = e_tree_model_node_insert(tree, parent, 0, id);
+		(*row) ++;
 		if (c->child) {
 			/* by default, open all trees */
 			if (expanded)

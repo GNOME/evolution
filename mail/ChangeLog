@@ -1,5 +1,11 @@
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
+	* message-list.c: Fixed a possible error in row numberings.  This
+	needs to be changed quite a bit anyway, but this should make
+	things slightly nicer in some cases.
+
+2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
+
 	* folder-browser.c: Made the top of the folder browser a little
 	prettier.
 
