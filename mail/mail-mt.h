@@ -77,6 +77,7 @@ extern EMsgPort *mail_gui_reply_port;
 /* some globally available threads */
 extern EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
 extern EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
+extern EThread *mail_thread_queued_slow;	/* for operations that can (or should) be queued, but take a long time */
 
 /* The main thread. */
 extern pthread_t mail_gui_thread;

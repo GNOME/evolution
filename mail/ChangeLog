@@ -1,3 +1,20 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* mail-tools.c(mail_tool_uri_to_folder): Register vfolder sources here.
+	
+	* folder-browser.c (got_folder): Dont register vfolder sources
+	here.
+
+	* mail-ops.c (mail_get_folder): Add thread parameter.  Fix callers.
+
+	* mail-vfolder.c (vfolder_setup): Use the 'slow' queue for setting
+	up vfolders.
+
+	* mail-mt.c (mail_msg_init): Limit the maximum number of threads
+	on the 'new' thread to 10.
+	(mail_msg_init): Create a new queue 'slow' for doing slow
+	operations.
+
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
 	* mail-display.c (mail_error_write): Add a <blockquote> to make the

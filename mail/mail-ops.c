@@ -1313,18 +1313,18 @@ static struct _mail_msg_op get_folder_op = {
 };
 
 int
-mail_get_folder (const char *uri, void (*done) (char *uri, CamelFolder *folder, void *data), void *data)
+mail_get_folder (const char *uri, void (*done)(char *uri, CamelFolder *folder, void *data), void *data, EThread *thread)
 {
 	struct _get_folder_msg *m;
 	int id;
 	
-	m = mail_msg_new (&get_folder_op, NULL, sizeof (*m));
+	m = mail_msg_new(&get_folder_op, NULL, sizeof(*m));
 	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;
 	
 	id = m->msg.seq;
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	e_thread_put(thread, (EMsg *)m);
 	return id;
 }
 

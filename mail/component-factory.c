@@ -207,7 +207,7 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_init (&ev);
 	
 	if (!strcmp (type, "mail")) {
-		mail_get_folder (physical_uri, create_folder_done, CORBA_Object_duplicate (listener, &ev));
+		mail_get_folder(physical_uri, create_folder_done, CORBA_Object_duplicate (listener, &ev), mail_thread_new);
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
@@ -665,7 +665,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
 		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-		mail_msg_wait (mail_get_folder (*standard_folders[i].uri, got_folder, standard_folders[i].folder));
+		mail_msg_wait(mail_get_folder(*standard_folders[i].uri, got_folder, standard_folders[i].folder, mail_thread_new));
 	}
 	
 	mail_session_enable_interaction (TRUE);

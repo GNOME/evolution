@@ -760,7 +760,6 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 				 folder_browser_is_drafts (fb) ||
 				 folder_browser_is_sent (fb) ||
 				 folder_browser_is_outbox (fb));
-	vfolder_register_source (folder);
 
 	camel_object_hook_event(CAMEL_OBJECT(fb->folder), "folder_changed",
 				folder_changed, fb);
@@ -1948,7 +1947,7 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 
 	folder_browser->uri = g_strdup (uri);
 	gtk_object_ref (GTK_OBJECT (folder_browser));
-	mail_get_folder (folder_browser->uri, got_folder, folder_browser);
+	mail_get_folder(folder_browser->uri, got_folder, folder_browser, mail_thread_new);
 
 	return GTK_WIDGET (folder_browser);
 }

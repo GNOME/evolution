@@ -852,7 +852,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 
 		/* this is just so the folder is opened at least once to setup the folder
 		   counts etc in the display.  Joy eh?   The result is discarded. */
-		mail_get_folder(uri, NULL, NULL);
+		mail_get_folder(uri, NULL, NULL, mail_thread_queued_slow);
 	}
 }
 

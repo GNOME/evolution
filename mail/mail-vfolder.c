@@ -133,12 +133,22 @@ struct _setup_msg {
 	GList *sources_folder;
 };
 
+static char *
+vfolder_setup_desc(struct _mail_msg *mm, int done)
+{
+	struct _setup_msg *m = (struct _setup_msg *)mm;
+
+	return g_strdup_printf(_("Setting up vfolder: %s"), m->folder->full_name);
+}
+
 static void
 vfolder_setup_do(struct _mail_msg *mm)
 {
 	struct _setup_msg *m = (struct _setup_msg *)mm;
 	GList *l, *list = NULL;
 	CamelFolder *folder;
+
+	printf("Setting up vfolder: %s\n", m->folder->full_name);
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
@@ -204,7 +214,7 @@ vfolder_setup_free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op vfolder_setup_op = {
-	NULL,
+	vfolder_setup_desc,
 	vfolder_setup_do,
 	vfolder_setup_done,
 	vfolder_setup_free,
@@ -224,7 +234,7 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 	m->sources_folder = sources_folder;
 	
 	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 
 	return id;
 }

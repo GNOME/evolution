@@ -244,6 +244,7 @@ static GIOChannel	*mail_gui_reply_channel;
 
 /* a couple of global threads available */
 EThread *mail_thread_queued;	/* for operations that can (or should) be queued */
+EThread *mail_thread_queued_slow;	/* for operations that can (or should) be queued, but take a long time */
 EThread *mail_thread_new;	/* for operations that should run in a new thread each time */
 
 static gboolean
@@ -344,6 +345,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 
 static void mail_msg_cleanup(void)
 {
+	e_thread_destroy(mail_thread_queued_slow);
 	e_thread_destroy(mail_thread_queued);
 	e_thread_destroy(mail_thread_new);
 
@@ -368,10 +370,16 @@ void mail_msg_init(void)
 	e_thread_set_msg_received(mail_thread_queued, mail_msg_received, 0);
 	e_thread_set_reply_port(mail_thread_queued, mail_gui_reply_port);
 
+	mail_thread_queued_slow = e_thread_new(E_THREAD_QUEUE);
+	e_thread_set_msg_destroy(mail_thread_queued_slow, mail_msg_destroy, 0);
+	e_thread_set_msg_received(mail_thread_queued_slow, mail_msg_received, 0);
+	e_thread_set_reply_port(mail_thread_queued_slow, mail_gui_reply_port);
+
 	mail_thread_new = e_thread_new(E_THREAD_NEW);
 	e_thread_set_msg_destroy(mail_thread_new, mail_msg_destroy, 0);
 	e_thread_set_msg_received(mail_thread_new, mail_msg_received, 0);
 	e_thread_set_reply_port(mail_thread_new, mail_gui_reply_port);
+	e_thread_set_queue_limit(mail_thread_new, 10);
 
 	mail_msg_active = g_hash_table_new(NULL, NULL);
 	mail_gui_thread = pthread_self();

@@ -366,6 +366,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			folder = NULL;
 		}
 	} else {
+		vfolder_register_source(folder);
 		mail_note_folder(folder, NULL);
 	}
 	
