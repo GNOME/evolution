@@ -1,5 +1,10 @@
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-multi-config-dialog.c (init): Use GObject functions instead of
+	GtkObject throughout.
+
+2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-multi-config-dialog.c (impl_destroy): Removed.
 	(impl_finalize): New.
 	(class_init): Override GObject::finalize, not GtkObject::destroy.

@@ -376,32 +376,30 @@ init (EMultiConfigDialog *multi_config_dialog)
 	vbox = e_cell_vbox_new ();
 
 	pixbuf = e_cell_pixbuf_new();
-	gtk_object_set (GTK_OBJECT (pixbuf),
-			"focused_column", 2,
-			"selected_column", 3,
-			"unselected_column", 4,
-			NULL);
+	g_object_set (G_OBJECT (pixbuf),
+		      "focused_column", 2,
+		      "selected_column", 3,
+		      "unselected_column", 4,
+		      NULL);
 	e_cell_vbox_append (E_CELL_VBOX (vbox), pixbuf, 1);
-	gtk_object_unref (GTK_OBJECT (pixbuf));
+	g_object_unref (pixbuf);
 
 	text = e_cell_text_new (NULL, GTK_JUSTIFY_CENTER);
 	e_cell_vbox_append (E_CELL_VBOX (vbox), text, 0);
-	gtk_object_unref (GTK_OBJECT (text));
+	g_object_unref (text);
 
 	extras = e_table_extras_new ();
 	e_table_extras_add_cell (extras, "vbox", vbox);
 
 	list_e_table = e_table_scrolled_new (list_e_table_model, extras, list_e_table_spec, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))),
-			    "cursor_change", GTK_SIGNAL_FUNC (table_cursor_change_callback),
-			    multi_config_dialog);
+	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table)),
+			  "cursor_change", G_CALLBACK (table_cursor_change_callback), multi_config_dialog);
 
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))->table_canvas),
-			    "realize", GTK_SIGNAL_FUNC (canvas_realize),
-			    multi_config_dialog);
+	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))->table_canvas,
+			  "realize", G_CALLBACK (canvas_realize), multi_config_dialog);
 
-	gtk_object_unref (GTK_OBJECT (extras));
+	g_object_unref (extras);
 
 	gtk_box_pack_start (GTK_BOX (hbox), list_e_table, FALSE, TRUE, 0);
 
@@ -492,8 +490,7 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 	if (! e_config_page_is_applied (page_widget))
 		priv->num_unapplied ++;
 
-	gtk_signal_connect (GTK_OBJECT (page_widget), "changed",
-			    GTK_SIGNAL_FUNC (page_changed_callback), dialog);
+	g_signal_connect (page_widget, "changed", G_CALLBACK (page_changed_callback), dialog);
 
 	update_buttons (dialog);
 }
