@@ -1,5 +1,11 @@
 2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (etree_get_save_id): If we have no
+	associated StorageSet yet, just return "root".  [This can happen
+	when this function is called at construction time.]
+
+2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Evolution-ShellComponentDnd.idl: StudlyCapsify struct members to
 	match the new IDL naming standards.
 	* e-storage-set-view.c: Updated accordingly.
