@@ -1,3 +1,9 @@
+2000-09-05  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser.c (fb_resize_cb): Remove the "+ 90" here since it
+	seems to break things for me, and it's not commented anyway and
+	there's no excuse for adding 90 to a number with no explanation.
+
 2000-09-05  Peter Williams  <peterw@helixcode.com>
 
 	* folder-browser.c (folder_browser_destroy): Don't free the shell;

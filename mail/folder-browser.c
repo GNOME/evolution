@@ -476,5 +476,5 @@ E_MAKE_TYPE (folder_browser, "FolderBrowser", FolderBrowser, folder_browser_clas
 
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a)
 {
-	mail_config_set_paned_size (a->height + 90);
+	mail_config_set_paned_size (a->height);
 }
