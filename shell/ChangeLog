@@ -1,3 +1,11 @@
+2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size): Increase the width
+	slightly.
+
+	* e-shell-view-menu.c: Set "settings.png" as the icon for
+	/menu/Tools/Settings.
+
 2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#31303]

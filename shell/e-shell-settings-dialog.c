@@ -60,7 +60,7 @@ set_dialog_size (EShellSettingsDialog *dialog)
 	int width, height;
 
 	font = GTK_WIDGET (dialog)->style->font;
-	width = gdk_string_width (font, "M") * 66;
+	width = gdk_string_width (font, "M") * 72;
 	height = (font->ascent + font->descent) * 35;
 
 	gtk_widget_set_usize (GTK_WIDGET (dialog), width, height);
