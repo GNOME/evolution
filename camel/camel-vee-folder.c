@@ -56,7 +56,7 @@ static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void vee_expunge (CamelFolder *folder, CamelException *ex);
 
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static void vee_move_message_to(CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex);
+static void vee_move_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
 
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
@@ -119,7 +119,7 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->expunge = vee_expunge;
 
 	folder_class->get_message = vee_get_message;
-	folder_class->move_message_to = vee_move_message_to;
+	folder_class->move_messages_to = vee_move_messages_to;
 
 	folder_class->search_by_expression = vee_search_by_expression;
 
@@ -471,19 +471,28 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 }
 
 static void
-vee_move_message_to(CamelFolder *folder, const char *uid, CamelFolder *dest, CamelException *ex)
+vee_move_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
 	CamelVeeMessageInfo *mi;
-
-	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
-	if (mi) {
-		/* noop if it we're moving from the same vfolder (uh, which should't happen but who knows) */
-		if (folder != mi->folder) {
-			camel_folder_move_message_to(mi->folder, camel_message_info_uid(mi) + 8, dest, ex);
+	int i;
+	
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
+		mi = (CamelVeeMessageInfo *) camel_folder_summary_uid (folder->summary, uids->pdata[i]);
+		if (mi) {
+			/* noop if it we're moving from the same vfolder (uh, which should't happen but who knows) */
+			if (folder != mi->folder) {
+				GPtrArray *uids;
+				
+				uids = g_ptr_array_new ();
+				g_ptr_array_add (uids, (char *) (camel_message_info_uid (mi) + 8));
+				camel_folder_move_messages_to (mi->folder, uids, dest, ex);
+				g_ptr_array_free (uids, TRUE);
+			}
+			camel_folder_summary_info_free (folder->summary, (CamelMessageInfo *)mi);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+					      _("No such message: %s"), uids->pdata[i]);
 		}
-		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
-	} else {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("No such message: %s"), uid);
 	}
 }
 

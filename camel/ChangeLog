@@ -1,3 +1,35 @@
+2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (init_trash): Use camel_vtrash_folder_new() to
+	create the vtrash folder now.
+
+	* camel-vtrash-folder.[c,h]: New subclass of CamelVeeFolder for
+	our vTrash folders.
+
+	* camel-folder.c (camel_folder_copy_messages_to): Don't watch for
+	vtrash folders anymore.
+	(camel_folder_move_messages_to): Same.
+
+	* camel-vee-folder.c (camel_vee_folder_class_init): Update.
+	(vee_move_messages_to): Rewrite to use the new move API.
+
+	* camel-filter-driver.c (do_copy): Updated to reflect
+	copy_message_to changes. Create a temporary uid array and use
+	that.
+	(do_move): Same.
+	(camel_filter_driver_filter_message): And again, here...
+
+	* providers/imap/camel-imap-folder.c (imap_copy_messages_to):
+	Update to the new API.
+	(imap_move_messages_to): Same.
+	(get_uid_set): New function to create a `set' string based on an
+	array of UIDs for use with imap_copy_messages_to.
+
+	* camel-folder.c (camel_folder_copy_messages_to): Replaces
+	camel_folder_copy_message_to
+	(camel_folder_move_message_to): Replaces
+	camel_folder_move_message_to.
+
 2001-03-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_get_folder): Added folder_created event
@@ -10,7 +42,7 @@
 	(vee_sync): Always rebuild folder on sync, even when not expunge.
 	(folder_changed): If not autoupdating, make sure we remove any
 	removed entries.
-	(vee_folder_build_folder): 
+	(vee_folder_build_folder):
 	(vee_folder_remove_folder): NOP if we're called on
 	folder_unmatched.
 	(vee_search_by_expression): Only search each folder once.  Should

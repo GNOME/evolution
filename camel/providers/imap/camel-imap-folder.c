@@ -79,10 +79,10 @@ static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid
 					   CamelException *ex);
 static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 				 const CamelMessageInfo *info, CamelException *ex);
-static void imap_copy_message_to (CamelFolder *source, const char *uid,
-				  CamelFolder *destination, CamelException *ex);
-static void imap_move_message_to (CamelFolder *source, const char *uid,
-				  CamelFolder *destination, CamelException *ex);
+static void imap_copy_messages_to (CamelFolder *source, GPtrArray *uids,
+				   CamelFolder *destination, CamelException *ex);
+static void imap_move_messages_to (CamelFolder *source, GPtrArray *uids,
+				   CamelFolder *destination, CamelException *ex);
 
 /* searching */
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
@@ -107,8 +107,8 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->append_message = imap_append_message;
-	camel_folder_class->copy_message_to = imap_copy_message_to;
-	camel_folder_class->move_message_to = imap_move_message_to;
+	camel_folder_class->copy_messages_to = imap_copy_messages_to;
+	camel_folder_class->move_messages_to = imap_move_messages_to;
 	
 	camel_folder_class->search_by_expression = imap_search_by_expression;
 	camel_folder_class->search_free = imap_search_free;
@@ -685,72 +685,89 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	camel_imap_response_free (response);
 }
 
+static char *
+get_uid_set (GPtrArray *uids)
+{
+	/* Note: the only thing that might be good to do here is to
+           not use atoi() and use strtoul() or something */
+	int i, last_uid, this_uid;
+	gboolean range = FALSE;
+	GString *gset;
+	char *set;
+	
+	gset = g_string_new (uids->pdata[0]);
+	last_uid = atoi (uids->pdata[0]);
+	for (i = 1; i < uids->len; i++) {
+		this_uid = atoi (uids->pdata[i]);
+		if (this_uid != last_uid + 1) {
+			if (range) {
+				g_string_sprintfa (gset, ":%d", last_uid);
+				range = FALSE;
+			}
+			
+			g_string_sprintfa (gset, ",%d", this_uid);
+		} else {
+			range = TRUE;
+		}
+		
+		last_uid = this_uid;
+	}
+	
+	if (range)
+		g_string_sprintfa (gset, ":%d", this_uid);
+	
+	set = gset->str;
+	g_string_free (gset, FALSE);
+	
+	return set;
+}
+
 static void
-imap_copy_message_to (CamelFolder *source, const char *uid,
-		      CamelFolder *destination, CamelException *ex)
+imap_copy_messages_to (CamelFolder *source, GPtrArray *uids,
+		       CamelFolder *destination, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
-	CamelMessageInfo *mi;
-
+	char *set;
+	
 	if (!camel_imap_store_check_online (store, ex))
 		return;
-
-	mi = camel_folder_summary_uid (source->summary, uid);
-	g_return_if_fail (mi != NULL);
-
+	
 	/* Sync message flags if needed. */
-	if (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
-		char *flaglist;
-
-		flaglist = imap_create_flag_list (mi->flags);
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
-		response = camel_imap_command (store, source, ex,
-					       "UID STORE %s FLAGS.SILENT %s",
-					       camel_message_info_uid (mi),
-					       flaglist);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		g_free (flaglist);
-		if (camel_exception_is_set (ex)) {
-			camel_folder_summary_info_free (source->summary, mi);
-			return;
-		}
-		camel_imap_response_free (response);
-
-		mi->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-		((CamelImapMessageInfo *)mi)->server_flags =
-			mi->flags & CAMEL_IMAP_SERVER_FLAGS;
-	}
-	camel_folder_summary_info_free (source->summary, mi);
-
+	imap_sync (source, FALSE, ex);
 	if (camel_exception_is_set (ex))
 		return;
-
-	/* Now copy it */
+	
+	/* Now copy the messages */
 	CAMEL_IMAP_STORE_LOCK(store, command_lock);
+	set = get_uid_set (uids);
 	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
-				       uid, destination->full_name);
+				       set, destination->full_name);
+	
+	camel_imap_response_free (response);
+	g_free (set);
 	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
-
+	
 	if (camel_exception_is_set (ex))
 		return;
-
-	camel_imap_response_free (response);
-
+	
 	/* Force the destination folder to notice its new messages. */
 	response = camel_imap_command (store, destination, NULL, "NOOP");
 	camel_imap_response_free (response);
- }
+}
 
 static void
-imap_move_message_to (CamelFolder *source, const char *uid,
-		      CamelFolder *destination, CamelException *ex)
+imap_move_messages_to (CamelFolder *source, GPtrArray *uids,
+		       CamelFolder *destination, CamelException *ex)
 {
-	imap_copy_message_to (source, uid, destination, ex);
+	int i;
+	
+	imap_copy_messages_to (source, uids, destination, ex);
 	if (camel_exception_is_set (ex))
 		return;
-
-	camel_folder_delete_message (source, uid);
+	
+	for (i = 0; i < uids->len; i++)
+		camel_folder_delete_message (source, uids->pdata[i]);
 }
 
 static GPtrArray *

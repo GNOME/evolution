@@ -31,8 +31,7 @@
 
 #include "camel-store.h"
 #include "camel-folder.h"
-#include "camel-vee-store.h"
-#include "camel-vee-folder.h"
+#include "camel-vtrash-folder.h"
 #include "camel-exception.h"
 
 #include "camel-private.h"
@@ -377,13 +376,7 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 static void
 init_trash (CamelStore *store)
 {
-	char *name;
-	
-	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", _("Trash"));
-	
-	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO|CAMEL_STORE_FOLDER_PRIVATE);
-	
-	g_free (name);
+	store->vtrash = camel_vtrash_folder_new (store, _("Trash"));
 	
 	if (store->vtrash) {
 		/* attach to the finalise event of the vtrash */

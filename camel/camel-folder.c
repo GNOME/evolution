@@ -28,7 +28,6 @@
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-store.h"
-#include "camel-vee-folder.h"
 #include "camel-mime-message.h"
 #include "string-utils.h"
 #include "e-util/e-memory.h"
@@ -95,15 +94,15 @@ static GPtrArray      *search_by_expression  (CamelFolder *folder,
 static void            search_free           (CamelFolder * folder, 
 					      GPtrArray * result);
 
-static void            copy_message_to       (CamelFolder *source,
-					      const char *uid,
-					      CamelFolder *dest,
-					      CamelException *ex);
+static void            copy_messages_to       (CamelFolder *source,
+					       GPtrArray *uids,
+					       CamelFolder *dest,
+					       CamelException *ex);
 
-static void            move_message_to       (CamelFolder *source,
-					      const char *uid,
-					      CamelFolder *dest,
-					      CamelException *ex);
+static void            move_messages_to       (CamelFolder *source,
+					       GPtrArray *uids,
+					       CamelFolder *dest,
+					       CamelException *ex);
 
 static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
@@ -148,8 +147,8 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->ref_message_info = ref_message_info;
 	camel_folder_class->free_message_info = free_message_info;
-	camel_folder_class->copy_message_to = copy_message_to;
-	camel_folder_class->move_message_to = move_message_to;
+	camel_folder_class->copy_messages_to = copy_messages_to;
+	camel_folder_class->move_messages_to = move_messages_to;
 	camel_folder_class->freeze = freeze;
 	camel_folder_class->thaw = thaw;
 
@@ -1114,59 +1113,40 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	}
 }
 
-/* Note: this gets used by camel_folder_copy_message_to and camel_folder_move_message_to */
-static CamelFolder *
-get_the_vtrash (CamelFolder *source, CamelFolder *dest)
+static void
+copy_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
-	/* Find the vtrash folder given the source and destination folders.
-	   We don't want to return the 'vtrash'->parent_store->vtrash
-           because it won't exist */
-	if (source->parent_store->vtrash)
-		return source->parent_store->vtrash;
-	else if (dest->parent_store->vtrash)
-		return dest->parent_store->vtrash;
+	int i;
 	
-	/* either this store doesn't implement vtrash or src
-	   and dest are both vtrash folders */
-	return NULL;
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++)
+		copy_message_to (source, uids->pdata[i], dest, ex);
 }
 
 /**
- * camel_folder_copy_message_to:
+ * camel_folder_copy_messages_to:
  * @source: source folder
- * @uid: UID of message in @source
+ * @uids: message UIDs in @source
  * @dest: destination folder
  * @ex: a CamelException
  *
- * This copies a message from one folder to another. If the @source and
+ * This copies messages from one folder to another. If the @source and
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message().
  **/
 void
-camel_folder_copy_message_to (CamelFolder *source, const char *uid,
-			      CamelFolder *dest, CamelException *ex)
+camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
+			       CamelFolder *dest, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
-	g_return_if_fail (uid != NULL);
+	g_return_if_fail (uids != NULL);
 	
 	CAMEL_FOLDER_LOCK(source, lock);
 	
-	if (source->parent_store == dest->parent_store) {
-		CamelFolder *vtrash;
-		
-		vtrash = get_the_vtrash (source, dest);
-		
-		if (source == vtrash || dest == vtrash) {
-			/* don't allow the user to copy to or from the vtrash folder */
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("You cannot copy a message to or from "
-						"this trash folder."));
-		} else {
-			CF_CLASS (source)->copy_message_to (source, uid, dest, ex);
-		}
-	} else
-		copy_message_to (source, uid, dest, ex);
+	if (source->parent_store == dest->parent_store)
+		CF_CLASS (source)->copy_messages_to (source, uids, dest, ex);
+	else
+		copy_messages_to (source, uids, dest, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }
@@ -1208,10 +1188,19 @@ move_message_to (CamelFolder *source, const char *uid,
 	}
 }
 
+static void
+move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
+{
+	int i;
+	
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++)
+		move_message_to (source, uids->pdata[i], dest, ex);
+}
+
 /**
- * camel_folder_move_message_to:
+ * camel_folder_move_messages_to:
  * @source: source folder
- * @uid: UID of message in @source
+ * @uids: message UIDs in @source
  * @dest: destination folder
  * @ex: a CamelException
  *
@@ -1221,12 +1210,12 @@ move_message_to (CamelFolder *source, const char *uid,
  * camel_folder_delete_message().
  **/
 void
-camel_folder_move_message_to (CamelFolder *source, const char *uid,
+camel_folder_move_messages_to (CamelFolder *source, GPtrArray *uids,
 			      CamelFolder *dest, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
-	g_return_if_fail (uid != NULL);
+	g_return_if_fail (uids != NULL);
 	
 	if (source == dest) {
 		/* source and destination folders are the same, nothing to do. */
@@ -1235,43 +1224,10 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 	
 	CAMEL_FOLDER_LOCK(source, lock);
 	
-	if (source->parent_store == dest->parent_store) {
-		CamelFolder *vtrash;
-		
-		vtrash = get_the_vtrash (source, dest);
-		
-		if (source == vtrash || dest == vtrash) {
-			/* Note: We know that it isn't possible that both the source
-			   AND dest folders are the vtrash because otherwise we would
-			   have kicked out above. */
-			CamelFolder *real;
-			
-			real = camel_vee_folder_get_message_folder (CAMEL_VEE_FOLDER (vtrash), uid);
-			
-			if (source == vtrash && dest == real) {
-				/* Just undelete the original message */
-				CF_CLASS (dest)->set_message_flags (dest, uid, CAMEL_MESSAGE_DELETED, 0);
-			} else if (dest == vtrash) {
-				/* Just delete the original message */
-				CF_CLASS (source)->set_message_flags (source, uid, CAMEL_MESSAGE_DELETED,
-								      CAMEL_MESSAGE_DELETED);
-			} else if (real) {
-				/* This means that the user is trying to move the message
-				   from the vTrash to a folder other than the original. */
-				CF_CLASS (real)->move_message_to (real, uid, dest, ex);
-			} else {
-				g_assert_not_reached ();
-			}
-			
-			if (real)
-				camel_object_unref (CAMEL_OBJECT (real));
-		} else {
-			/* don't have to worry about vtrash folders, yay */
-			CF_CLASS (source)->move_message_to (source, uid, dest, ex);
-		}
-	} else {
-		move_message_to (source, uid, dest, ex);
-	}
+	if (source->parent_store == dest->parent_store)
+		CF_CLASS (source)->move_messages_to (source, uids, dest, ex);
+	else
+		move_messages_to (source, uids, dest, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }

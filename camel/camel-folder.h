@@ -140,15 +140,15 @@ typedef struct {
 	void (*ref_message_info) (CamelFolder *, CamelMessageInfo *);
 	void (*free_message_info) (CamelFolder *, CamelMessageInfo *);
 
-	void (*copy_message_to) (CamelFolder *source,
-				 const char *uid,
-				 CamelFolder *destination,
-				 CamelException *ex);
+	void (*copy_messages_to) (CamelFolder *source,
+				  GPtrArray *uids,
+				  CamelFolder *destination,
+				  CamelException *ex);
 	
-	void (*move_message_to) (CamelFolder *source,
-				 const char *uid,
-				 CamelFolder *destination,
-				 CamelException *ex);
+	void (*move_messages_to) (CamelFolder *source,
+				  GPtrArray *uids,
+				  CamelFolder *destination,
+				  CamelException *ex);
 
 	void (*freeze) (CamelFolder *folder);
 	void (*thaw)   (CamelFolder *folder);
@@ -255,15 +255,15 @@ CamelMessageInfo *camel_folder_get_message_info		(CamelFolder *folder, const cha
 void		  camel_folder_free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 void		  camel_folder_ref_message_info		(CamelFolder *folder, CamelMessageInfo *info);
 
-void               camel_folder_copy_message_to       (CamelFolder *source,
-						       const char *uid,
-						       CamelFolder *dest,
-						       CamelException *ex);
+void               camel_folder_copy_messages_to       (CamelFolder *source,
+							GPtrArray *uids,
+							CamelFolder *dest,
+							CamelException *ex);
 
-void               camel_folder_move_message_to       (CamelFolder *source,
-						       const char *uid,
-						       CamelFolder *dest,
-						       CamelException *ex);
+void               camel_folder_move_messages_to       (CamelFolder *source,
+							GPtrArray *uids,
+							CamelFolder *dest,
+							CamelException *ex);
 
 /* stop/restart getting events */
 void               camel_folder_freeze                (CamelFolder *folder);

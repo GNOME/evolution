@@ -82,6 +82,7 @@ libcamel_la_SOURCES = 				\
 	camel-url.c				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
+	camel-vtrash-folder.c			\
 	camel-charset-map.c			\
 	camel.c					\
 	gstring-util.c				\
@@ -152,6 +153,7 @@ libcamelinclude_HEADERS =			\
 	camel-url.h				\
 	camel-vee-folder.h			\
 	camel-vee-store.h			\
+	camel-vtrash-folder.h			\
 	camel.h					\
 	gstring-util.h				\
 	hash-table-utils.h			\
