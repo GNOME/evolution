@@ -1,3 +1,10 @@
+2004-08-13  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* configure.in:
+	Add option to specify location of kerberos 4/5 libraries and
+	headers directories.
+	Needed for 64bits support.
+
 2004-08-13  Rodney Dawes  <dobey@novell.com>
 
 	* configure.in: Add value and description fields to AC_DEFINE calls
