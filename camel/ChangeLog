@@ -1,3 +1,23 @@
+2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (camel_tcp_stream_ssl_new): Updated
+	to use the new API from a fe commits ago for the NSS stream. This
+	is just to make it compile, but does not update the behaviour to
+	act like the NSS stream. Note that people shouldn't be using
+	OpenSSL anyway.
+	(camel_tcp_stream_ssl_new_raw): Same.
+
+	* camel-process.[c,h]: New source file containing convenience
+	functions for process creation/termination mainly for use with
+	Pipe filters but should be usable for anything we want.
+
+	* camel-io.[c,h]: New source files implementing read/write system
+	calls with proper error checking and cancellation
+	(ie. StreamFs::read/write and CamelTcpStreamRaw::read/write). No
+	sense duplicating the same code over and over. Now I can use this
+	same code easily in other i/o code (such as Pipe filters and gpg
+	code?).
+
 2003-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_unsubscribe_folder): Do similar
