@@ -1,3 +1,8 @@
+2000-05-07  Mathieu Lacage <mathieu@gnu.org>
+
+	* e-msg-composer.c (create_editor): remove FIXME and hardcoded 
+	string. You can write mails with OAF now.
+	
 2000-05-07  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (build_message): unref content, etc. after

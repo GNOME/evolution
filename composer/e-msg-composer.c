@@ -49,6 +49,13 @@
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 
+#ifdef USING_OAF
+#define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
+#else
+#define HTML_EDITOR_CONTROL_ID "control:html-editor"
+#endif
+
+
 
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 500
@@ -70,11 +77,10 @@ create_editor (EMsgComposer *composer)
 {
 	GtkWidget *control;
 
-	/* FIXME: Hardcoded value sucks!  */
-	control = bonobo_widget_new_control ("control:html-editor",
+	control = bonobo_widget_new_control ((HTML_EDITOR_CONTROL_ID,
 					     bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih)));
 	if (control == NULL) {
-		g_warning ("Cannot get the `control:html-editor' component.");
+		g_error ("Cannot get `%s'.", HTML_EDITOR_CONTROL_ID);
 		return NULL;
 	}
 
