@@ -299,7 +299,7 @@ BonoboUIVerb verbs [] = {
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/ContactNew", "evolution-contacts-mini.png"),
 	E_PIXMAP ("/menu/File/Print/ContactsPrint", "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/ContactPrintPreview", "print-preview.xpm"),
+	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "print-preview.xpm"),
 	E_PIXMAP ("/menu/Tools/Component/AddressbookConfig", "configure_16_addressbook.xpm"),
 
 	E_PIXMAP ("/Toolbar/ContactViewAll", "all_contacts.xpm"),
