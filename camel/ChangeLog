@@ -1,3 +1,12 @@
+2004-03-29  Radek Doulik  <rodo@ximian.com>
+
+	* camel-mime-filter-tohtml.c (html_convert): close pre tag in case
+	we just flush. I am not sure if it's still worth to check for
+	inlen == 0 and handle it specially, but didn't want to make too
+	big changes.
+
+	Fixes #55817
+
 2004-03-29  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_counts): use

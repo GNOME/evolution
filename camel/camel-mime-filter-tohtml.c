@@ -230,9 +230,21 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 	int depth;
 
 	if (inlen == 0) {
-		*out = in;
-		*outlen = 0;
-		*outprespace = 0;
+		if (html->pre_open) {
+			/* close the pre-tag */
+			outend = filter->outbuf + filter->outsize;
+			outptr = check_size (filter, filter->outbuf, &outend, 10);
+			outptr = g_stpcpy (outptr, "</pre>");
+			html->pre_open = FALSE;
+
+			*out = filter->outbuf;
+			*outlen = outptr - filter->outbuf;
+			*outprespace = filter->outpre;
+		} else {
+			*out = in;
+			*outlen = 0;
+			*outprespace = 0;
+		}
 
 		return;
 	}
