@@ -350,8 +350,8 @@ static void
 imap_expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	gchar *result;
-	gint status;
+	gchar *node, *result;
+	gint i, status;
 
 	g_return_if_fail (folder != NULL);
 
@@ -370,13 +370,68 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		g_free (result);
 		return;
 	}
+
+	/* determine which messages were successfully expunged */
+	node = result;
+	for (i = 0; node; i++) {
+		if (*node == '*') {
+			char *word;
+			
+			word = imap_next_word (node);
+			
+			if (!strncmp (word, "NO", 2)) {
+				/* Something failed, probably a Read-Only mailbox? */
+				CamelService *service = CAMEL_SERVICE (folder->parent_store);
+				char *reason, *ep;
+				
+				word = imap_next_word (word);
+				for (ep = word; *ep && *ep != '\n'; ep++);
+				reason = g_strndup (word, (gint)(ep - word) + 1);
+				
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+						      "Could not EXPUNGE from IMAP server %s: %s.",
+						      service->url->host, reason ? reason :
+						      "Unknown error");
+				
+				g_free (reason);
+				break;
+			}
+			
+			/* else we have a message id? */
+			if (*word >= '0' && *word <= '9') {
+				int id;
+				
+				id = atoi (word);
+
+				d(fprintf (stderr, "Expunging message %d from the summary\n", id + i));
+				
+				if (id < imap_folder->summary->len) {
+					CamelMessageInfo *info;
+					
+					info = (CamelMessageInfo *) imap_folder->summary->pdata[id];
+					
+					/* remove from the lookup table and summary */
+					g_hash_table_remove (imap_folder->summary_hash, info->uid);
+					g_ptr_array_remove_index (imap_folder->summary, id);
+				} else {
+					/* Hopefully this should never happen */
+					d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
+				}
+			} else {
+				/* Huh? */
+				d(fprintf (stderr, "imap expunge-warning: unexpected token: '%s'\n", word));
+			}
+		} else {
+			break;
+		}
+		
+		for ( ; *node && *node != '\n'; node++);
+	}
 	
 	g_free (result);
 
-	/* FIXME: maybe remove the appropriate messages from the summary
-	   so we don't need to refetch the entire summary? */
-	imap_folder_summary_free (imap_folder);
-
+	/*imap_folder_summary_free (imap_folder);*/
+	
 	camel_imap_folder_changed (folder, -1, ex);
 }
 
@@ -387,24 +442,24 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	gchar *result, *msg_count, *folder_path, *dir_sep;
 	gint status, count = 0;
-
+	
 	g_return_val_if_fail (folder != NULL, 0);
 	g_return_val_if_fail (folder->can_hold_messages, 0);
-
+	
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
-
+	
 	if (CAMEL_IMAP_STORE (store)->has_status_capability)
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), folder,
 						      &result, "STATUS %s (MESSAGES)", folder_path);
 	else
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), folder,
 						      &result, "EXAMINE %s", folder_path);
-
+	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -417,7 +472,7 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 		return 0;
 	}
 	g_free (folder_path);
-
+	
 	/* parse out the message count */
 	if (result && *result == '*') {
 		if (CAMEL_IMAP_STORE (store)->has_status_capability) {
@@ -429,19 +484,19 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 				count = atoi (msg_count);
 			}
 		} else {
-			/* should come in the form: "* <count> EXIST" */
-			if ((msg_count = strstr (result, "EXIST")) != NULL) {
+			/* should come in the form: "* <count> EXISTS" */
+			if ((msg_count = strstr (result, "EXISTS")) != NULL) {
 				for ( ; msg_count > result && *msg_count != '*'; msg_count--);
 				
 				msg_count = imap_next_word (msg_count);
-
+				
 				/* we should now be pointing to the message count */
 				count = atoi (msg_count);
 			}
 		}
 	}
 	g_free (result);
-
+	
 	return count;
 }
 
@@ -449,7 +504,7 @@ static gint
 imap_get_message_count (CamelFolder *folder)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-
+	
 	if (imap_folder->summary)
 		return imap_folder->summary->len;
 	else
@@ -1424,18 +1479,20 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 {
 	d(fprintf (stderr, "camel_imap_folder_changed: recent = %d\n", recent));
 	
+	g_return_if_fail (recent);
+	
 	if (recent > 0) {
 		CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 		CamelMessageInfo *info;
 		gint i, j, last;
-
+		
 		if (!imap_folder->summary) {
 			imap_folder->summary = g_ptr_array_new ();
 			imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		}
-
+		
 		last = imap_folder->summary->len + 1;
-
+		
 		for (i = last, j = 0; j < recent; i++, j++) {
 			info = imap_get_message_info_internal (folder, i);
 			if (info) {
@@ -1443,14 +1500,11 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 				g_hash_table_insert (imap_folder->summary_hash, info->uid, info);
 			} else {
 				/* our hack failed so now we need to do it the old fashioned way */
-				imap_get_summary_internal (folder, ex);
+				/*imap_get_summary_internal (folder, ex);*/
 				d(fprintf (stderr, "*** we tried to get message %d but failed\n", i));
-				break;
+				/*break;*/
 			}
 		}
-	} else {
-		/* We either expunged messages or something... */
-		imap_get_summary_internal (folder, ex);
 	}
 	
 	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);

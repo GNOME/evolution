@@ -651,9 +651,8 @@ camel_imap_status (char *cmdid, char *respbuf)
 	char *retcode;
 	
 	if (respbuf) {
-		retcode = strstr (respbuf, cmdid);
-		if (retcode) {
-			retcode += strlen (cmdid) + 1;
+		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+			retcode = imap_next_token (respbuf);
 			
 			if (!strncmp (retcode, "OK", 2))
 				return CAMEL_IMAP_OK;
@@ -902,16 +901,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 			recent = 0;
 		
 		if (*respbuf == '*' && (ptr = strstr (respbuf, "RECENT"))) {
-			char *rcnt, *ercnt;
+			char *rcnt;
 			
 			d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
 			/* Make sure it's in the form: "* %d RECENT" */
-			rcnt = respbuf + 2;
-			if (*rcnt > '0' || *rcnt < '9') {
-				for (ercnt = rcnt; ercnt < ptr && *ercnt != ' '; ercnt++);
-				if (ercnt + 1 == ptr)
-					recent = atoi (rcnt);
-			}
+			rcnt = imap_next_word (respbuf);
+			if (*rcnt >= '0' || *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
+				recent = atoi (rcnt);
 		}
 	}
 	
@@ -943,7 +939,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		*p = '\0';
 	} else {
 		if (status != CAMEL_IMAP_FAIL && respbuf)
-		        *ret = g_strdup (strchr (respbuf, ' ' + 1));
+		        *ret = g_strdup (imap_next_word (respbuf));
 		else
 			*ret = NULL;
 	}

@@ -1,5 +1,20 @@
 2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-store.c (camel_imap_status): Cleaned
+	up a bit, now uses imap_next_word()
+	(camel_imap_command_extended): Now uses imap_next_word(). When
+	checking for RECENT, allow the first digit of the recent-count
+	be between 0 and 9 inclusive instead of exclusive.
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Optimized.
+	No longer will it need to reload the summary as it now instead
+	removes the appropriate message summaries from the cache.
+	(camel_imap_folder_changed): If recent == 0 then return. If 
+	recent < 0 then just emit the folder_changed signal, don't reload
+	summaries.
+
+2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c
 	(imap_get_message_count_internal): Get message count when STATUS
 	is not available.
