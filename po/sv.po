@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.183.2.10 2003/08/27 22:25:59 menthos Exp $
+# $Id: sv.po,v 1.183.2.11 2003/09/08 21:33:08 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-08-28 00:22+0200\n"
-"PO-Revision-Date: 2003-08-28 00:25+0200\n"
+"POT-Creation-Date: 2003-09-08 23:30+0200\n"
+"PO-Revision-Date: 2003-09-08 23:32+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -396,7 +396,7 @@ msgstr "Organisationsenhet"
 msgid "Role"
 msgstr "Roll"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "E-postprogram"
 
@@ -3978,7 +3978,7 @@ msgstr ""
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Ingen"
 
@@ -5608,7 +5608,7 @@ msgstr "Avböjt"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Okänd"
 
@@ -6039,7 +6039,7 @@ msgstr "%a %Y-%m-%d"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
@@ -8300,11 +8300,11 @@ msgstr ""
 "Fel vid körning av sökuttrycket: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(matcha-alla) kräver ett ensamt booleskt resultat"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Utför fråga på okänt huvud: %s"
@@ -10980,13 +10980,13 @@ msgstr "%H.%M.%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%H.%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H.%M"
 
@@ -11512,7 +11512,7 @@ msgstr "börjar med"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Ämne"
@@ -11879,7 +11879,7 @@ msgstr "Egenskaper för \"%s\""
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunde inte skapa temporär katalog: %s"
@@ -13132,70 +13132,70 @@ msgstr ""
 "Filen \"%s\" finns redan.\n"
 "Ska den skrivas över?"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Spara bilaga"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Kunde inte skapa temporär fil \"%s\": %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Spara bilaga..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "Visa inuti"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Visa inuti (med %s)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Dölj"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Hämtar bilder"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "Skulle ha utförts:"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "den %d %B %Y %k.%M"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2243
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2246
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2248
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -13204,90 +13204,90 @@ msgstr "Spara bild som..."
 msgid "Pinging %s"
 msgstr "Pingar %s"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
+#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Felaktig adress"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Från"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Till"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1625
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Detta meddelande är digitalt signerat. Klicka på låsikonen för mer "
 "information."
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1653
 msgid "Could not create a PGP verfication context"
 msgstr "Kunde inte skapa ett PGP-verifieringssammanhang"
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1661
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1668
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1932
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1943
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1946
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1973
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1979
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1981
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -23800,6 +23800,10 @@ msgid "No tasks"
 msgstr "Inga uppgifter"
 
 #: my-evolution/e-summary-tasks.c:364
+msgid "blue"
+msgstr "blå"
+
+#: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
 msgstr "(Ingen beskrivning)"
 
@@ -28018,6 +28022,9 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
+
+#~ msgid "Blue"
+#~ msgstr "Blå"
 
 #~ msgid "S_earch Message..."
 #~ msgstr "_Sök meddelande..."
