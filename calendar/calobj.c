@@ -483,12 +483,19 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->dtstart = 0;
 
 	/* dtend */
-	if (has (o, VCDTendProp)){
-		ical->dtend = time_from_isodate (str_val (vo));
-		free (the_str);
-	} else
-		ical->dtend = 0;
-
+	ical->dtend = 0;	/* default value */
+	if (ical->type == ICAL_EVENT){
+		if (has (o, VCDTendProp)){
+			ical->dtend = time_from_isodate (str_val (vo));
+			free (the_str);
+		} 
+	} else if (ical->type == ICAL_TODO){
+		if (has (o, VCDueProp)){
+			ical->dtend = time_from_isodate (str_val (vo));
+			free (the_str);
+		} 
+	}
+	
 	/* dcreated */
 	if (has (o, VCDCreatedProp)){
 		ical->created = time_from_isodate (str_val (vo));
@@ -775,7 +782,11 @@ ical_object_to_vobject (iCalObject *ical)
 	addPropValue (o, VCDTstartProp, isodate_from_time_t (ical->dtstart));
 
 	/* dtend */
-	addPropValue (o, VCDTendProp, isodate_from_time_t (ical->dtend));
+	if (ical->type == ICAL_EVENT){
+		addPropValue (o, VCDTendProp, isodate_from_time_t (ical->dtend));
+	} else if (ical->type == ICAL_TODO){
+		addPropValue (o, VCDueProp, isodate_from_time_t (ical->dtend));
+	}
 
 	/* dcreated */
 	addPropValue (o, VCDCreatedProp, isodate_from_time_t (ical->created));

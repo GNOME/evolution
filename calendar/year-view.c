@@ -206,7 +206,7 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 	
 	year_begin = time_year_begin (yview->year);
 	year_end   = time_year_end   (yview->year);
-	
+
 	l = calendar_get_events_in_range (yview->gcal->cal, year_begin, year_end);
 	for (; l; l = l->next){
 		CalendarObject *co = l->data;
