@@ -127,6 +127,7 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
+	Evolution_Shell shell_duplicate;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
@@ -138,11 +139,12 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 		return;
 	}
 
-	priv->owner_client = evolution_shell_client_new (shell);
+	shell_duplicate = CORBA_Object_duplicate (shell, ev);
 
-	g_print ("%s -- %p\n", __FUNCTION__, shell);
-
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client);
+	if (ev->_major == CORBA_NO_EXCEPTION) {
+		priv->owner_client = evolution_shell_client_new (shell_duplicate);
+		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client);
+	}
 }
 
 static void

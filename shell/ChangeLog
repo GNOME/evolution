@@ -1,5 +1,10 @@
 2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-component.c (impl_ShellComponent_set_owner):
+	Duplicate the object before storing it, you doofus.
+
+2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-shell-component.c (impl_ShellComponent_unset_owner):
 	NULL the owner_client.
 
