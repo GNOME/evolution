@@ -1,3 +1,9 @@
+2004-06-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_rename_folder): add any parents of the
+	new name before we actually do the rename so the rename has
+	somewhere to go to.  #60775.
+
 2004-06-28  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c (maildir_folder_getv):

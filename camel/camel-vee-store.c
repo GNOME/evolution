@@ -378,7 +378,8 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 static void
 vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
-	CamelFolder *folder;
+	CamelFolder *folder, *oldfolder;
+	char *p, *name;
 
 	d(printf("vee rename folder '%s' '%s'\n", old, new));
 
@@ -389,11 +390,32 @@ vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelExce
 	}
 
 	/* See if it exists, for vfolders, all folders are in the folders hash */
-	folder = camel_object_bag_get(store->folders, old);
-	if (folder == NULL) {
+	oldfolder = camel_object_bag_get(store->folders, old);
+	if (oldfolder == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Cannot rename folder: %s: No such folder"), old);
-	} else {
-		camel_object_unref(folder);
+		return;
 	}
+
+	/* Check that new parents exist, if not, create dummy ones */
+	name = alloca(strlen(new)+1);
+	strcpy(name, new);
+	p = name;
+	while ( (p = strchr(p, '/'))) {
+		*p = 0;
+
+		folder = camel_object_bag_reserve(store->folders, name);
+		if (folder == NULL) {
+			/* create a dummy vFolder for this, makes get_folder_info simpler */
+			folder = camel_vee_folder_new(store, name, ((CamelVeeFolder *)oldfolder)->flags);
+			camel_object_bag_add(store->folders, name, folder);
+			change_folder(store, name, CHANGE_ADD|CHANGE_NOSELECT, 0);
+			/* FIXME: this sort of leaks folder, nobody owns a ref to it but us */
+		} else {
+			camel_object_unref(folder);
+		}
+		*p++='/';
+	}
+
+	camel_object_unref(oldfolder);
 }
