@@ -272,17 +272,17 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		initialised = TRUE;
 	}
 	
-	gtk_tree_model_get (model, iter, COL_STRING_FOLDER_PATH, &path,
+	gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &path,
 			    COL_BOOL_IS_STORE, &is_store, -1);
 	
 	if (!is_store && path != NULL) {
-		if (!strcasecmp (path, "/Inbox"))
+		if (!g_ascii_strcasecmp (path, "Inbox"))
 			pixbuf = folder_icons[FOLDER_ICON_INBOX];
-		else if (!strcasecmp (path, "/Outbox"))
+		else if (!g_ascii_strcasecmp (path, "Outbox"))
 			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
-		else if (*path == '/' && !strcasecmp (path + 1, CAMEL_VTRASH_NAME))
+		else if (!strcmp (path, CAMEL_VTRASH_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
-		else if (*path == '/' && !strcasecmp (path + 1, CAMEL_VJUNK_NAME))
+		else if (!strcmp(path, CAMEL_VJUNK_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_JUNK];
 		else
 			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
@@ -546,7 +546,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 	camel_object_unref (store);
 	
 	if (p != NULL) {
-		if (!(row = g_hash_table_lookup (si->path_hash, p)))
+		if (!(row = g_hash_table_lookup (si->full_hash, p)))
 			return;
 	} else
 		row = si->row;
@@ -565,19 +565,19 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 	char *path, *key;
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, iter,
-			    COL_STRING_FOLDER_PATH, &path,
+			    COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    -1);
 	
 	si = g_hash_table_lookup (model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s%s", account->uid, path);
+	        key = g_strdup_printf ("%s/%s", account->uid, path);
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */
-		key = g_strdup_printf ("vfolder%s", path);
+		key = g_strdup_printf ("vfolder/%s", path);
 	} else {
 		/* local store */
-		key = g_strdup_printf ("local%s", path);
+		key = g_strdup_printf ("local/%s", path);
 	}
 	
 	if (em_folder_tree_model_get_expanded (model, key)) {
@@ -630,12 +630,11 @@ tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreePath *src_path;
-	const char *full_name;
 	gboolean is_store;
 	CamelStore *store;
 	CamelException ex;
 	GtkTreeIter iter;
-	char *path;
+	char *full_name;
 	
 	if (!priv->drag_row || (src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
@@ -645,13 +644,11 @@ tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *
 
 	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
 			   COL_POINTER_CAMEL_STORE, &store,
-			   COL_STRING_FOLDER_PATH, &path,
+			   COL_STRING_FULL_NAME, &full_name,
 			   COL_BOOL_IS_STORE, &is_store, -1);
 	
 	if (is_store)
 		goto fail;
-	
-	full_name = path[0] == '/' ? path + 1 : path;
 	
 	camel_exception_init(&ex);
 	camel_store_delete_folder(store, full_name, &ex);
@@ -666,12 +663,11 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreePath *src_path;
-	const char *full_name;
 	CamelFolder *folder;
 	CamelStore *store;
 	CamelException ex;
 	GtkTreeIter iter;
-	char *path, *uri;
+	char *full_name, *uri;
 	
 	if (!priv->drag_row || !(src_path = gtk_tree_row_reference_get_path(priv->drag_row)))
 		return;
@@ -681,14 +677,12 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 	
 	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
 			   COL_POINTER_CAMEL_STORE, &store,
-			   COL_STRING_FOLDER_PATH, &path,
+			   COL_STRING_FULL_NAME, &full_name,
 			   COL_STRING_URI, &uri, -1);
 	
 	/* make sure user isn't trying to drag on a placeholder row */
-	if (path == NULL)
+	if (full_name == NULL)
 		goto fail;
-	
-	full_name = path[0] == '/' ? path + 1 : path;
 	
 	camel_exception_init(&ex);
 	
@@ -968,14 +962,11 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *dest_path;
 	struct _DragDataReceivedAsync *m;
-	const char *full_name;
 	CamelStore *store;
 	GtkTreeIter iter;
-	char *path;
+	char *full_name;
 	int i;
 
-	printf("drag data received, action %d\n", context->action);
-	
 	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &dest_path, &pos))
 		return;
 	
@@ -992,16 +983,14 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	
 	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
 			   COL_POINTER_CAMEL_STORE, &store,
-			   COL_STRING_FOLDER_PATH, &path, -1);
+			   COL_STRING_FULL_NAME, &full_name, -1);
 	
 	/* make sure user isn't try to drop on a placeholder row */
-	if (path == NULL) {
+	if (full_name == NULL) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		return;
 	}
 
-	full_name = path[0] == '/' ? path + 1 : path;
-	
 	m = mail_msg_new (&emft_drop_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
 	m->context = context;
 	g_object_ref(context);
@@ -1067,7 +1056,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		return GDK_NONE;
 	
 	gtk_tree_model_get((GtkTreeModel *)p->model, &iter, COL_BOOL_IS_STORE, &is_store,
-			   COL_STRING_FOLDER_PATH, &folder_path,
+			   COL_STRING_FULL_NAME, &folder_path,
 			   COL_POINTER_CAMEL_STORE, &dstore,
 			   COL_STRING_URI, &uri, -1);
 	
@@ -1077,8 +1066,6 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 	
 	/* Check for special destinations */
 	if (uri && folder_path) {
-		folder_path = folder_path[0] == '/' ? folder_path + 1 : folder_path;
-		
 #if 0
 		/* only allow copying/moving folders (not messages) into the local Outbox */
 		if (dstore == local && !strcmp (folder_path, "Outbox")) {
@@ -1503,7 +1490,7 @@ get_selected_uris_path_iterate (GtkTreeModel *model, GtkTreePath *treepath, GtkT
 	GList **list = (GList **) data;
 	char *path;
 	
-	gtk_tree_model_get (model, iter, COL_STRING_FOLDER_PATH, &path, -1);
+	gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &path, -1);
 	*list = g_list_append (*list, g_strdup (path));
 }
 
@@ -1692,19 +1679,19 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 	char *path, *key;
 	
 	gtk_tree_model_get ((GtkTreeModel *) priv->model, iter,
-			    COL_STRING_FOLDER_PATH, &path,
+			    COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    -1);
 	
 	si = g_hash_table_lookup (priv->model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s%s", account->uid, path);
+	        key = g_strdup_printf ("%s/%s", account->uid, path);
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */
-		key = g_strdup_printf ("vfolder%s", path);
+		key = g_strdup_printf ("vfolder/%s", path);
 	} else {
 		/* local store */
-		key = g_strdup_printf ("local%s", path);
+		key = g_strdup_printf ("local/%s", path);
 	}
 	
 	em_folder_tree_model_set_expanded (priv->model, key, expanded);
@@ -1718,14 +1705,13 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	struct _EMFolderTreeGetFolderInfo *m;
 	GtkTreeModel *model;
 	CamelStore *store;
-	const char *top;
 	gboolean load;
 	char *path;
 	
 	model = gtk_tree_view_get_model (treeview);
 	
 	gtk_tree_model_get (model, root,
-			    COL_STRING_FOLDER_PATH, &path,
+			    COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_BOOL_LOAD_SUBDIRS, &load,
 			    -1);
@@ -1737,18 +1723,13 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 		return;
 	}
 	
-	if (!path || !strcmp (path, "/"))
-		top = NULL;
-	else
-		top = path + 1;
-	
 	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
 	m->root = gtk_tree_row_reference_new (model, tree_path);
 	camel_object_ref (store);
 	m->store = store;
 	m->emft = emft;
 	g_object_ref(emft);
-	m->top = g_strdup (top);
+	m->top = g_strdup (path);
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = NULL;
 	
@@ -1779,7 +1760,7 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	if (!gtk_tree_model_get_iter (model, &iter, tree_path))
 		return;
 	
-	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
+	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 	
 	g_free (priv->selected_uri);
@@ -2329,16 +2310,14 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 }
 
 static void
-emft_popup_delete_folders (CamelStore *store, const char *path, CamelException *ex)
+emft_popup_delete_folders (CamelStore *store, const char *full_name, CamelException *ex)
 {
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
-	const char *full_name;
 	CamelFolderInfo *fi;
 	
 	if (camel_store_supports_subscriptions (store))
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
-	full_name = path[0] == '/' ? path + 1 : path;
 	fi = camel_store_get_folder_info (store, full_name, flags, ex);
 	if (camel_exception_is_set (ex))
 		return;
@@ -2392,7 +2371,7 @@ emft_popup_delete_response (GtkWidget *dialog, guint response, EMFolderTree *emf
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return;
 	
-	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
+	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_POINTER_CAMEL_STORE, &store, -1);
 	
 	camel_exception_init (&ex);
@@ -2413,18 +2392,16 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkWidget *dialog;
-	const char *full_name;
-	char *path;
+	char *full_name;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return;
 	
-	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, COL_STRING_FOLDER_PATH, &path, -1);
+	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, COL_STRING_FULL_NAME, &full_name, -1);
 	
 	local = mail_component_peek_local_store (NULL);
 	
-	full_name = path[0] == '/' ? path + 1 : path;
 	if (store == local && is_special_local_folder (full_name)) {
 		e_error_run(NULL, "mail:no-delete-spethal-folder", full_name, NULL);
 		return;
@@ -2440,9 +2417,9 @@ static void
 emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	char *prompt, *folder_path, *name, *new_name, *uri;
+	char *prompt, *full_name, *name, *new_name, *uri;
 	GtkTreeSelection *selection;
-	const char *full_name, *p;
+	const char *p;
 	CamelStore *local, *store;
 	gboolean done = FALSE;
 	GtkTreeModel *model;
@@ -2455,12 +2432,10 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return;
 	
-	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &folder_path,
+	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &full_name,
 			    COL_STRING_DISPLAY_NAME, &name,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, -1);
-	
-	full_name = folder_path[0] == '/' ? folder_path + 1 : folder_path;
 	
 	/* don't allow user to rename one of the special local folders */
 	if (store == local && is_special_local_folder (full_name)) {
@@ -2571,7 +2546,6 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 {
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
-	const char *folder_name;
 	EMPopupTarget *target;
 	GtkTreePath *tree_path;
 	GtkTreeModel *model;
@@ -2580,7 +2554,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	guint32 info_flags = 0;
 	guint32 flags = 0;
 	gboolean isstore;
-	char *uri, *path;
+	char *uri, *full_name;
 	GtkMenu *menu;
 	EMPopup *emp;
 	int i;
@@ -2608,10 +2582,10 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 		return FALSE;
 	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
-			    COL_STRING_URI, &uri, COL_STRING_FOLDER_PATH, &path,
+			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
 			    COL_BOOL_IS_STORE, &isstore, -1);
 	
-	if (path == NULL)
+	if (full_name == NULL)
 		return FALSE;
 	
 	if (isstore)
@@ -2621,14 +2595,12 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	
 	local = mail_component_peek_local_store (NULL);
 	
-	folder_name = path[0] == '/' ? path + 1 : path;
-	
 	/* don't allow deletion of special local folders */
-	if (!(store == local && is_special_local_folder (folder_name)))
+	if (!(store == local && is_special_local_folder (full_name)))
 		flags |= EM_POPUP_FOLDER_DELETE;
 	
 	/* hack for vTrash/vJunk */
-	if (!strcmp (folder_name, CAMEL_VTRASH_NAME) || !strcmp (folder_name, CAMEL_VJUNK_NAME))
+	if (!strcmp (full_name, CAMEL_VTRASH_NAME) || !strcmp (full_name, CAMEL_VJUNK_NAME))
 		info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
 	
 	/* handle right-click by opening a context menu */
@@ -2671,7 +2643,7 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return;
 	
-	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
+	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 	
 	g_free (priv->selected_uri);
@@ -2695,7 +2667,6 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	GtkTreePath *tree_path;
 	CamelStore *store;
 	CamelException ex;
-	const char *top;
 	char *path, *p;
 	CamelURL *url;
 	
@@ -2720,17 +2691,16 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	}
 	
 	if (((CamelService *) store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-		path = g_strdup_printf ("/%s", url->fragment ? url->fragment : "");
+		path = url->fragment;
 	else
-		path = g_strdup (url->path ? url->path : "/");
-	
-	top = path[0] == '/' ? path + 1 : path;
+		path = url->path && url->path[0]=='/' ? url->path+1:url->path;
+	path = g_strdup(path?path:"");
 	camel_url_free (url);
 	
-	if (!strcmp (path, "/"))
+	if (path[0] == 0)
 		row = si->row;
 	
-	if (row || (row = g_hash_table_lookup (si->path_hash, path))) {
+	if (row || (row = g_hash_table_lookup (si->full_hash, path))) {
 		/* the folder-info node has already been loaded */
 		tree_path = gtk_tree_row_reference_get_path (row);
 		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
@@ -2749,36 +2719,33 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		if (*p == '/') {
 			*p = '\0';
 			
-			if ((row = g_hash_table_lookup (si->path_hash, path)))
+			if ((row = g_hash_table_lookup (si->full_hash, path)))
 				break;
 		}
 		
 		p--;
 	}
 	
-	if (row == NULL) {
-		/* none of the folders of the desired store have been loaded yet */
-		row = si->row;
-		top = NULL;
-	}
-	
 	/* FIXME: this gets all the subfolders of our first loaded
 	 * parent folder - ideally we'd only get what we needed, but
 	 * it's probably not worth the effort */
 	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
-	m->root = gtk_tree_row_reference_copy (row);
 	m->store = store;
 	m->emft = emft;
 	g_object_ref(emft);
-	m->top = top ? g_strdup (top) : NULL;
+	if (row) {
+		m->top = path;
+		m->root = gtk_tree_row_reference_copy(row);
+	} else {
+		g_free(path);
+		m->root = gtk_tree_row_reference_copy(si->row);
+	}
+
 	m->flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = g_strdup (uri);
 	
-	g_free (path);
-	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
-
 
 const char *
 em_folder_tree_get_selected_uri (EMFolderTree *emft)

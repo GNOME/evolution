@@ -1,3 +1,12 @@
+2004-05-26  Not Zed  <NotZed@Ximian.com>
+
+	* importers/evolution-mbox-importer.c (create_control_fn): set the
+	default selection to inbox.
+
+	* importers/evolution-outlook-importer.c (folder_selected)
+	(create_control_fn): copied from mbox importer.  fixes a crash &
+	lets you choose the target folder.
+
 2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail-errors.xml: a few fixes.
@@ -8,6 +17,20 @@
 	message). Fixes bug #58826.
 
 2004-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mc_add_local_store_done): removed, now
+	redundant.
+
+	* em-folder-tree.c (em_folder_tree_set_selected): fix for path changes.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_unread_count):
+	change to use full name rather than path name.
+
+	* em-folder-tree-model.h: renamed path_hash to full_hash.
+
+	* em-folder-tree-model.c (folder_subscribed): dont use
+	g_path_get_dirname here, it is os dependent, we want / always.
+	(full_hash_free): rename from path_hash free.
 
 	* em-folder-view.c (emfv_popup_menu[]): disable add sender to
 	addressbook bar if it is also disabled.  #58955.

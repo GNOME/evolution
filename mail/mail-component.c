@@ -182,23 +182,9 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 }
 
 static void
-mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	/*MailComponent *mc = data;*/
-	int i;
-
-#if 0
-	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
-		if (mc_default_folders[i].folder)
-			mail_note_folder(mc_default_folders[i].folder);
-	}
-#endif
-}
-
-static void
 mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
 {
-	mc_add_store(mc, store, name, mc_add_local_store_done);
+	mc_add_store(mc, store, name, NULL);
 	camel_object_unref(store);
 	g_object_unref(mc);
 }
@@ -331,7 +317,7 @@ mc_startup(MailComponent *mc)
 static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
 {
-	if ((flags & CAMEL_FOLDER_NOSELECT) || !path || !strcmp (path, "/"))
+	if ((flags & CAMEL_FOLDER_NOSELECT) || !path || !strcmp (path, ""))
 		em_folder_view_set_folder (view, NULL, NULL);
 	else
 		em_folder_view_set_folder_uri (view, uri);

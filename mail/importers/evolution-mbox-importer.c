@@ -111,13 +111,14 @@ create_control_fn(EvolutionImporter *importer, Bonobo_Control *control, void *da
 {
 	GtkWidget *hbox, *w;
 	
-	hbox = gtk_hbox_new(FALSE, FALSE);
+	hbox = gtk_hbox_new(FALSE, 0);
 
 	w = gtk_label_new(_("Destination folder:"));
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
 	w = em_folder_selection_button_new(_("Select folder"), _("Select folder to import into"));
-	/* set selection to Inbox? */
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)w,
+						 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_INBOX));
 	g_signal_connect(w, "selected", G_CALLBACK(folder_selected), data);
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
 

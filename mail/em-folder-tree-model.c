@@ -238,7 +238,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 }
 
 static void
-path_hash_free (gpointer key, gpointer value, gpointer user_data)
+full_hash_free (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
 	gtk_tree_row_reference_free (value);
@@ -256,7 +256,7 @@ store_info_free (struct _EMFolderTreeModelStoreInfo *si)
 	g_free (si->display_name);
 	camel_object_unref (si->store);
 	gtk_tree_row_reference_free (si->row);
-	g_hash_table_foreach (si->path_hash, path_hash_free, NULL);
+	g_hash_table_foreach (si->full_hash, full_hash_free, NULL);
 	g_free (si);
 }
 
@@ -430,7 +430,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	gtk_tree_path_free (path);
 	
 	g_hash_table_insert (model->uri_hash, g_strdup (fi->uri), uri_row);
-	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
+	g_hash_table_insert (si->full_hash, g_strdup (fi->full_name), path_row);
 	
 	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
@@ -454,7 +454,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	gtk_tree_store_set ((GtkTreeStore *) model, iter,
 			    COL_STRING_DISPLAY_NAME, fi->name,
 			    COL_POINTER_CAMEL_STORE, si->store,
-			    COL_STRING_FOLDER_PATH, fi->path,
+			    COL_STRING_FULL_NAME, fi->full_name,
 			    COL_STRING_URI, fi->uri,
 			    COL_UINT_UNREAD, unread,
 			    COL_UINT_FLAGS, fi->flags,
@@ -468,7 +468,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		gtk_tree_store_set ((GtkTreeStore *) model, &sub,
 				    COL_STRING_DISPLAY_NAME, _("Loading..."),
 				    COL_POINTER_CAMEL_STORE, NULL,
-				    COL_STRING_FOLDER_PATH, NULL,
+				    COL_STRING_FULL_NAME, NULL,
 				    COL_BOOL_LOAD_SUBDIRS, FALSE,
 				    COL_BOOL_IS_STORE, FALSE,
 				    COL_STRING_URI, NULL,
@@ -515,26 +515,25 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 	GtkTreeIter parent, iter;
 	GtkTreePath *path;
 	gboolean load;
-	char *dirname;
-	
+	char *dirname, *p;
+
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		goto done;
 	
 	/* make sure we don't already know about it? */
-	if (g_hash_table_lookup (si->path_hash, fi->path))
+	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		goto done;
 	
 	/* get our parent folder's path */
-	if (!(dirname = g_path_get_dirname (fi->path)))
-		goto done;
-	
-	if (!strcmp (dirname, "/")) {
+	dirname = alloca(strlen(fi->full_name)+1);
+	strcpy(dirname, fi->full_name);
+	p = strrchr(dirname, '/');
+	if (p == NULL) {
 		/* user subscribed to a toplevel folder */
 		row = si->row;
-		g_free (dirname);
 	} else {
-		row = g_hash_table_lookup (si->path_hash, dirname);
-		g_free (dirname);
+		*p = 0;
+		row = g_hash_table_lookup (si->full_hash, dirname);
 		
 		/* if row is NULL, don't bother adding to the tree,
 		 * when the user expands enough nodes - it will be
@@ -560,8 +559,8 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &parent);
 	
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
-	
-	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->path, fi->uri);
+
+	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->full_name, fi->uri);
 	
  done:
 	
@@ -590,7 +589,7 @@ folder_unsubscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		goto done;
 	
-	if (!(row = g_hash_table_lookup (si->path_hash, fi->path)))
+	if (!(row = g_hash_table_lookup (si->full_hash, fi->full_name)))
 		goto done;
 	
 	path = gtk_tree_row_reference_get_path (row);
@@ -621,7 +620,7 @@ static void
 folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
 	CamelFolderInfo *fi;
-	
+
 	/* we only want created events to do more work if we don't support subscriptions */
 	if (camel_store_supports_subscriptions (store))
 		return;
@@ -657,12 +656,8 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		goto done;
 	
-	parent = g_strdup_printf ("/%s", info->old_base);
-	if (!(row = g_hash_table_lookup (si->path_hash, parent))) {
-		g_free (parent);
+	if (!(row = g_hash_table_lookup (si->full_hash, info->old_base)))
 		goto done;
-	}
-	g_free (parent);
 	
 	path = gtk_tree_row_reference_get_path (row);
 	if (!(gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))) {
@@ -672,15 +667,15 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	
 	em_folder_tree_model_remove_folders (model, si, &iter);
 	
-	parent = g_strdup (info->new->path);
+	parent = g_strdup(info->new->full_name);
 	p = strrchr(parent, '/');
-	g_assert(p);
-	*p = 0;
-	if (parent == p) {
+	if (p)
+		*p = 0;
+	if (p == NULL || parent == p) {
 		/* renamed to a toplevel folder on the store */
 		path = gtk_tree_row_reference_get_path (si->row);
 	} else {
-		if (!(row = g_hash_table_lookup (si->path_hash, parent))) {
+		if (!(row = g_hash_table_lookup (si->full_hash, parent))) {
 			/* NOTE: this should never happen, but I
 			 * suppose if it does in reality, we can add
 			 * code here to add the missing nodes to the
@@ -753,7 +748,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter,
 			    COL_STRING_DISPLAY_NAME, display_name,
 			    COL_POINTER_CAMEL_STORE, store,
-			    COL_STRING_FOLDER_PATH, "/",
+			    COL_STRING_FULL_NAME, "",
 			    COL_BOOL_LOAD_SUBDIRS, TRUE,
 			    COL_BOOL_IS_STORE, TRUE,
 			    COL_STRING_URI, uri, -1);
@@ -767,7 +762,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	si->store = store;
 	si->account = account;
 	si->row = row;
-	si->path_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	si->full_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (model->store_hash, store, si);
 	g_hash_table_insert (model->account_hash, account, si);
 	
@@ -777,7 +772,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	gtk_tree_store_set ((GtkTreeStore *) model, &iter,
 			    COL_STRING_DISPLAY_NAME, _("Loading..."),
 			    COL_POINTER_CAMEL_STORE, NULL,
-			    COL_STRING_FOLDER_PATH, NULL,
+			    COL_STRING_FULL_NAME, NULL,
 			    COL_BOOL_LOAD_SUBDIRS, FALSE,
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_STRING_URI, NULL,
@@ -850,11 +845,11 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 	}
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, toplevel, COL_STRING_URI, &uri,
-			    COL_STRING_FOLDER_PATH, &folder_path,
+			    COL_STRING_FULL_NAME, &folder_path,
 			    COL_BOOL_IS_STORE, &is_store, -1);
 	
-	if (folder_path && (row = g_hash_table_lookup (si->path_hash, folder_path))) {
-		g_hash_table_remove (si->path_hash, folder_path);
+	if (folder_path && (row = g_hash_table_lookup (si->full_hash, folder_path))) {
+		g_hash_table_remove (si->full_hash, folder_path);
 		gtk_tree_row_reference_free (row);
 	}
 	
@@ -929,7 +924,7 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 	if (p[-1] == '/')
 		p[-1] = '\0';
 	p = NULL;
-	
+
 	do {
 		if ((p = strchr (name, '/')))
 			*p = '\0';
@@ -947,7 +942,7 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 		
 		name = p ? p + 1 : NULL;
 	} while (name && node);
-	
+
 	return FALSE;
 }
 
@@ -1061,7 +1056,7 @@ em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFu
 }
 
 void
-em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread)
+em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *full, int unread)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -1070,9 +1065,9 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (path != NULL);
+	g_return_if_fail (full != NULL);
 
-	u(printf("set unread count %p '%s' %d\n", store, path, unread));
+	u(printf("set unread count %p '%s' %d\n", store, full, unread));
 
 	if (unread < 0)
 		unread = 0;
@@ -1082,7 +1077,7 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 		return;
 	}
 	
-	if (!(row = g_hash_table_lookup (si->path_hash, path))) {
+	if (!(row = g_hash_table_lookup (si->full_hash, full))) {
 		u(printf("  can't find row\n"));
 		return;
 	}

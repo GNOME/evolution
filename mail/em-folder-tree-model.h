@@ -52,7 +52,7 @@ typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 enum {
 	COL_STRING_DISPLAY_NAME,  /* string that appears in the tree */
 	COL_POINTER_CAMEL_STORE,  /* CamelStore object */
-	COL_STRING_FOLDER_PATH,   /* if node is a folder, the full path of the folder */
+	COL_STRING_FULL_NAME,   /* if node is a folder, the full path name of the folder, no leading / */
 	COL_STRING_URI,           /* the uri to get the store or folder object */
 	COL_UINT_UNREAD,          /* unread count */
 	COL_UINT_FLAGS,		/* FolderInfo.flags */
@@ -68,7 +68,7 @@ enum {
 struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
-	GHashTable *path_hash;  /* maps CamelFolderInfo::path's to GtkTreeRowReferences */
+	GHashTable *full_hash;  /* maps CamelFolderInfo::full_name's to GtkTreeRowReferences */
 	EAccount *account;
 	
 	char *display_name;

@@ -66,7 +66,6 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
 
-	char *path;		/* shell path */
 	char *full_name;	/* full name of folder/folderinfo */
 	char *uri;		/* uri of folder */
 	
@@ -86,9 +85,9 @@ struct _folder_update {
 	unsigned int unsub:1;   /* unsubcribing? */
 	unsigned int new:1;     /* new mail arrived? */
 
-	char *path;
+	char *full_name;
 	char *uri;
-	char *oldpath;
+	char *oldfull;
 	char *olduri;
 
 	int unread;
@@ -134,11 +133,11 @@ static int count_trash = FALSE;
 static void
 free_update(struct _folder_update *up)
 {
-	g_free(up->path);
+	g_free(up->full_name);
 	g_free(up->uri);
 	if (up->store)
 		camel_object_unref(up->store);
-	g_free(up->oldpath);
+	g_free(up->oldfull);
 	g_free(up->olduri);
 	g_free(up);
 }
@@ -221,7 +220,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 		}
 		
 		/* update unread counts */
-		em_folder_tree_model_set_unread_count (model, up->store, up->path, up->unread);
+		em_folder_tree_model_set_unread_count (model, up->store, up->full_name, up->unread);
 		
 		/* new mail notification */
 		if (notify_type == -1) {
@@ -277,7 +276,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		up->delete = delete;
 		up->unsub = unsub;
 		up->store = mfi->store_info->store;
-		up->path = g_strdup (mfi->path);
+		up->full_name = g_strdup (mfi->full_name);
 		camel_object_ref(up->store);
 		up->uri = g_strdup(mfi->uri);
 
@@ -289,7 +288,6 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 static void
 free_folder_info(struct _folder_info *mfi)
 {
-	g_free(mfi->path);
 	g_free(mfi->full_name);
 	g_free(mfi->uri);
 	g_free(mfi);
@@ -356,7 +354,7 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 		return;
 
 	up = g_malloc0(sizeof(*up));
-	up->path = g_strdup(mfi->path);
+	up->full_name = g_strdup(mfi->full_name);
 	up->unread = unread;
 	up->new = new ? 1 : 0;
 	up->store = mfi->store_info->store;
@@ -377,7 +375,6 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 	} else {
 		/*d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));*/
 		mfi = g_malloc0(sizeof(*mfi));
-		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
@@ -387,7 +384,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
 
 		up = g_malloc0(sizeof(*up));
-		up->path = g_strdup(mfi->path);
+		up->full_name = g_strdup(mfi->full_name);
 		up->uri = g_strdup(fi->uri);
 		up->unread = (fi->unread==-1)?0:fi->unread;
 		up->store = si->store;
@@ -581,14 +578,12 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	if (mfi) {
 		d(printf("Found old folder '%s' renaming to '%s'\n", mfi->full_name, fi->full_name));
 
-		up->oldpath = mfi->path;
+		up->oldfull = mfi->full_name;
 		up->olduri = mfi->uri;
 
 		/* Its a rename op */
 		g_hash_table_remove(si->folders, mfi->full_name);
 		g_hash_table_remove(si->folders, mfi->uri);
-		g_free(mfi->full_name);
-		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
 		mfi->flags = fi->flags;
@@ -599,7 +594,6 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		d(printf("Rename found a new folder? old '%s' new '%s'\n", old, fi->full_name));
 		/* Its a new op */
 		mfi = g_malloc0(sizeof(*mfi));
-		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->uri);
 		mfi->store_info = si;
@@ -611,7 +605,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 
 	g_free(old);
 
-	up->path = g_strdup(mfi->path);
+	up->full_name = g_strdup(mfi->full_name);
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread==-1?0:fi->unread;
 	up->store = si->store;
@@ -649,7 +643,7 @@ folder_cmp(const void *ap, const void *bp)
 	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];
 	const CamelFolderInfo *b = ((CamelFolderInfo **)bp)[0];
 
-	return strcmp(a->path, b->path);
+	return strcmp(a->full_name, b->full_name);
 }
 
 static void
