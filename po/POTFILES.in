@@ -1,6 +1,12 @@
+addressbook/contact-editor/e-contact-editor-strings.h
+addressbook/contact-editor/fullname-strings.h
+addressbook/gui/component/ldap-server-dialog.glade.h
+addressbook/printing/e-contact-print.glade.h
 composer/e-msg-composer-address-dialog.c
+composer/e-msg-composer-address-dialog.glade.h
 composer/e-msg-composer-attachment-bar.c
 composer/e-msg-composer-attachment.c
+composer/e-msg-composer-attachment.glade.h
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 e-util/e-setup.c
@@ -13,3 +19,5 @@ shell/e-folder.c
 shell/e-shell-view-menu.c
 shell/e-shell.c
 shell/main.c
+widgets/e-table/e-table-config.glade.h
+widgets/e-table/e-table-group.glade.h

@@ -1,3 +1,10 @@
+2000-05-13  Valek Filippov  <frob@df.ru>
+
+	* gui/component/ldap-server-dialog.glade: save translatable strings
+	* gui/component/ldap-server-dialog.glade.h: file with strings
+	* printing/e-contact-print.glade: save translatable strings
+	* printing/e-contact-print.glade.h: file with strings
+		
 2000-05-11  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): Now that we

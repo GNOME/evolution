@@ -21,7 +21,8 @@
   <handler_header_file>callbacks.h</handler_header_file>
   <support_source_file>support.c</support_source_file>
   <support_header_file>support.h</support_header_file>
-  <translatable_strings_file></translatable_strings_file>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>e-msg-composer-address-dialog.glade.h</translatable_strings_file>
 </project>
 
 <widget>
