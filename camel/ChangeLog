@@ -1,3 +1,8 @@
+2004-02-19  Chris Toshok  <toshok@ximian.com>
+
+	* camel-smime-context.c: wrap this file with #ifdef ENABLE_SMIME
+	instead of #ifdef HAVE_NSS.
+
 2004-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-store.c (get_folder): Add sanity

@@ -30,7 +30,7 @@
 #include <config.h>
 #endif
 
-#ifdef HAVE_NSS
+#ifdef ENABLE_SMIME
 
 #include "nss.h"
 #include <cms.h>
@@ -1077,4 +1077,4 @@ camel_smime_context_get_type(void)
 	return type;
 }
 
-#endif /* HAVE_NSS */
+#endif /* ENABLE_SMIME */
