@@ -1,3 +1,13 @@
+2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (double_click_cb): Renamed
+	from `dbl_click_cb'.
+	(check_folder_type): Don't pop up an error dialog anymore.
+	(check_folder_type_valid): Renamed from check_folder_type().
+	(folder_selected_cb): Make the OK button sensitive only if the
+	type of the selected folder is in the list of valid types;
+	otherwise, make it insensitive.  [#848]
+
 2002-07-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-shell-importer.c (start_import): removed check for local folders,

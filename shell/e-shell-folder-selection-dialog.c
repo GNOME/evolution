@@ -62,8 +62,10 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/* Utility functions.  */
+
 static gboolean
-check_folder_type (EShellFolderSelectionDialog *folder_selection_dialog)
+check_folder_type_valid (EShellFolderSelectionDialog *folder_selection_dialog)
 {
 	EShellFolderSelectionDialogPrivate *priv;
 	const char *selected_path;
@@ -93,11 +95,33 @@ check_folder_type (EShellFolderSelectionDialog *folder_selection_dialog)
 			return TRUE;
 	}
 
-	e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR,
-		  _("The type of the selected folder is not valid for\n"
-		    "the requested operation."));
-
 	return FALSE;
+}
+
+static void
+set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
+		    const char *default_uri)
+{
+	EShellFolderSelectionDialogPrivate *priv;
+	char *default_path;
+
+	g_assert (default_uri != NULL);
+
+	priv = shell_folder_selection_dialog->priv;
+
+	if (strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+		/* `evolution:' URI.  */
+		default_path = g_strdup (default_uri + E_SHELL_URI_PREFIX_LEN);
+	} else {
+		/* Physical URI.  */
+		default_path = e_storage_set_get_path_for_physical_uri (priv->storage_set,
+									default_uri);
+	}
+
+	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
+					       default_path);
+
+	g_free (default_path);
 }
 
 
@@ -165,30 +189,6 @@ impl_destroy (GtkObject *object)
 }
 
 
-/* ETable callback */
-static void
-dbl_click_cb (EStorageSetView *essv,
-	      int row,
-	      ETreePath path,
-	      int col,
-	      GdkEvent *event,
-	      EShellFolderSelectionDialog *folder_selection_dialog)
-{
-	EShellFolderSelectionDialogPrivate *priv;
-
-	g_return_if_fail (folder_selection_dialog != NULL);
-
-	priv = folder_selection_dialog->priv;
-	if (check_folder_type (folder_selection_dialog)) {
-		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
-				 signals[FOLDER_SELECTED],
-				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-	}
-
-	gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
-}
-
-
 /* GnomeDialog methods.  */
 
 static void
@@ -206,7 +206,7 @@ impl_clicked (GnomeDialog *dialog,
 
 	switch (button_number) {
 	case 0:			/* OK */
-		if (check_folder_type (folder_selection_dialog)) {
+		if (check_folder_type_valid (folder_selection_dialog)) {
 			gtk_signal_emit (GTK_OBJECT (folder_selection_dialog), signals[FOLDER_SELECTED],
 					 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
 			gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -291,44 +291,46 @@ init (EShellFolderSelectionDialog *shell_folder_selection_dialog)
 }
 
 
-static void
-set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
-		    const char *default_uri)
-{
-	EShellFolderSelectionDialogPrivate *priv;
-	char *default_path;
-
-	g_assert (default_uri != NULL);
-
-	priv = shell_folder_selection_dialog->priv;
-
-	if (strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
-		/* `evolution:' URI.  */
-		default_path = g_strdup (default_uri + E_SHELL_URI_PREFIX_LEN);
-	} else {
-		/* Physical URI.  */
-		default_path = e_storage_set_get_path_for_physical_uri (priv->storage_set,
-									default_uri);
-	}
-
-	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
-					       default_path);
-
-	g_free (default_path);
-}
+/* ETable callbacks.  */
 
 static void
 folder_selected_cb (EStorageSetView *storage_set_view,
 		    const char *path,
 		    void *data)
 {
-	GnomeDialog *dialog;
+	EShellFolderSelectionDialog *dialog;
 
-	dialog = GNOME_DIALOG (data);
+	dialog = E_SHELL_FOLDER_SELECTION_DIALOG (data);
 
-	gnome_dialog_set_sensitive (dialog, 0, TRUE);
+	if (check_folder_type_valid (dialog))
+		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, TRUE);
+	else
+		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
 }
 
+static void
+double_click_cb (EStorageSetView *essv,
+		 int row,
+		 ETreePath path,
+		 int col,
+		 GdkEvent *event,
+		 EShellFolderSelectionDialog *folder_selection_dialog)
+{
+	EShellFolderSelectionDialogPrivate *priv;
+
+	g_return_if_fail (folder_selection_dialog != NULL);
+
+	priv = folder_selection_dialog->priv;
+	if (check_folder_type_valid (folder_selection_dialog)) {
+		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
+				 signals[FOLDER_SELECTED],
+				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
+	}
+
+	gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
+}
+
+
 /**
  * e_shell_folder_selection_dialog_construct:
  * @folder_selection_dialog: A folder selection dialog widget
@@ -411,7 +413,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	g_free (filename);
 
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "double_click",
-			    GTK_SIGNAL_FUNC (dbl_click_cb),
+			    GTK_SIGNAL_FUNC (double_click_cb),
 			    folder_selection_dialog);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb),
