@@ -158,13 +158,14 @@ camel_imap_folder_get_type (void)
 	static CamelType camel_imap_folder_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_imap_folder_type == CAMEL_INVALID_TYPE)	{
-		camel_imap_folder_type = camel_type_register (CAMEL_FOLDER_TYPE, "CamelImapFolder",
-							      sizeof (CamelImapFolder),
-							      sizeof (CamelImapFolderClass),
-							      (CamelObjectClassInitFunc) camel_imap_folder_class_init,
-							      NULL,
-							      (CamelObjectInitFunc) camel_imap_folder_init,
-							      (CamelObjectFinalizeFunc) imap_finalize);
+		camel_imap_folder_type =
+			camel_type_register (CAMEL_FOLDER_TYPE, "CamelImapFolder",
+					     sizeof (CamelImapFolder),
+					     sizeof (CamelImapFolderClass),
+					     (CamelObjectClassInitFunc) camel_imap_folder_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_imap_folder_init,
+					     (CamelObjectFinalizeFunc) imap_finalize);
 	}
 	
 	return camel_imap_folder_type;
@@ -744,6 +745,8 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
+#if 0
+	/* this is the old code, the new code hasn't been tested */
 	if (url && url->path) {
 		if (!strcmp (folder->full_name, url->path + 1))
 			namespace = g_strdup (url->path + 1);
@@ -751,6 +754,27 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 			namespace = g_strdup (url->path + 1); /* FIXME: erm...not sure */
 		else
 			namespace = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
+	} else {
+		namespace = g_strdup (folder->full_name);
+	}
+#endif
+	
+	if (url && url->path) {
+		char *path = url->path + 1;
+		
+		if (*path) {
+			if (!strcmp (folder->full_name, path))
+				namespace = g_strdup (path);
+			else if (!strcmp (folder->full_name, "INBOX"))
+				namespace = g_strdup (path); /* FIXME: erm...not sure */
+			else
+				namespace = g_strdup_printf ("%s%s%s", path, dir_sep, folder->full_name);
+		} else {
+			if (!strcmp (folder->full_name, "/"))
+				namespace = g_strdup ("");
+			else
+				namespace = g_strdup (folder->full_name);
+		}
 	} else {
 		namespace = g_strdup (folder->full_name);
 	}

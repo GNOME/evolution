@@ -1,3 +1,10 @@
+2000-08-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_subfolder_names_internal): If the url path is "/" and
+	the folder path is "/", just LIST "" "*" (this should fix some
+	cyrus imapd problems)
+
 2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* camel-folder-summary.c (summary_build_content_info):
