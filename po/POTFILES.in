@@ -336,7 +336,6 @@ mail/subscribe-dialog.glade
 shell/apps_evolution_shell.schemas.in.in
 shell/e-component-registry.c
 shell/e-config-upgrade.c
-shell/e-shell-about-box.c
 shell/e-shell.c
 shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
