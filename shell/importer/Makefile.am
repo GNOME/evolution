@@ -4,6 +4,7 @@ INCLUDES =					\
 	-I$(top_builddir)/shell			\
 	-I$(includedir)				\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(BONOBO_GNOME_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\" 	\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"
 
