@@ -1736,27 +1736,211 @@ header_decode_int(const char **in)
 	return v;
 }
 
-static int
-header_decode_param(const char **in, char **paramp, char **valuep)
+#define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
+
+static char *
+hex_decode (const char *in, int len)
+{
+	const guchar *inend = (const guchar *) in + len;
+	guchar *inptr, *outptr;
+	char *outbuf;
+	
+	outptr = outbuf = g_malloc (len);
+	
+	inptr = (guchar *) in;
+	while (inptr < inend) {
+		if (*inptr == '%') {
+			if (isxdigit (inptr[1]) && isxdigit (inptr[2])) {
+				*outptr++ = HEXVAL (inptr[1]) * 16 + HEXVAL (inptr[2]);
+				inptr += 3;
+			} else
+				*outptr++ = *inptr++;
+		} else
+			*outptr++ = *inptr++;
+	}
+	
+	*outptr = '\0';
+	
+	return outbuf;
+}
+
+/* an rfc2184 encoded string looks something like:
+ * us-ascii'en'This%20is%20even%20more%20
+ */
+
+static char *
+rfc2184_decode (const char *in, int len)
+{
+	const char *inptr = in;
+	const char *inend = in + len;
+	char *decoded = NULL;
+	char *encoding;
+	
+	inptr = memchr (inptr, '\'', len);
+	if (!inptr)
+		return NULL;
+	
+	encoding = g_strndup (in, inptr - in);
+	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);
+	if (!inptr) {
+		g_free (encoding);
+		return NULL;
+	}
+	
+	inptr++;
+	if (inptr < inend) {
+		char *decword, *inbuf, *outbase, *outbuf;
+		int inlen, outlen;
+		iconv_t ic;
+		
+		inbuf = decword = hex_decode (inptr, inend - inptr);
+		inlen = strlen (inbuf);
+		
+		outlen = inlen * 6 + 16;
+		outbuf = outbase = g_malloc (outlen);
+		
+		ic = iconv_open ("UTF-8", encoding);
+		if (ic != (iconv_t) -1) {
+			int ret;
+			
+			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			if (ret >= 0) {
+				iconv (ic, NULL, 0, &outbuf, &outlen);
+				*outbuf = '\0';
+				g_free (decoded);
+				decoded = outbase;
+			}
+			
+			iconv_close (ic);
+		} else {
+			decoded = decword;
+		}
+	}
+	
+	return decoded;
+}
+
+/* This function is basically the same as decode_token()
+ * except that it will not accept *'s which have a special
+ * meaning for rfc2184 params */
+static char *
+decode_param_token (const char **in)
 {
 	const char *inptr = *in;
-	char *param, *value=NULL;
+	const char *start;
+	
+	header_decode_lwsp (&inptr);
+	start = inptr;
+	while (is_ttoken (*inptr) && *inptr != '*')
+		inptr++;
+	if (inptr > start) {
+		*in = inptr;
+		return g_strndup (start, inptr-start);
+	} else {
+		return NULL;
+	}
+}
 
-	param = decode_token(&inptr);
-	header_decode_lwsp(&inptr);
+static gboolean
+header_decode_rfc2184_param (const char **in, char **paramp, int *part, gboolean *value_is_encoded)
+{
+	gboolean is_rfc2184 = FALSE;
+	const char *inptr = *in;
+	char *param;
+	
+	param = decode_param_token (&inptr);
+	header_decode_lwsp (&inptr);
+	
+	if (*inptr == '*') {
+		is_rfc2184 = TRUE;
+		inptr++;
+		header_decode_lwsp (&inptr);
+		if (*inptr == '=') {
+			/* form := param*=value */
+			if (value_is_encoded)
+				*value_is_encoded = TRUE;
+		} else {
+			/* form := param*#=value or param*#*=value */
+			*part = header_decode_int (&inptr);
+			header_decode_lwsp (&inptr);
+			if (*inptr == '*') {
+				/* form := param*#*=value */
+				if (value_is_encoded)
+					*value_is_encoded = TRUE;
+				inptr++;
+				header_decode_lwsp (&inptr);
+			}
+		}
+	}
+	
+	if (paramp)
+		*paramp = param;
+	
+	if (param)
+		*in = inptr;
+	
+	return is_rfc2184;
+}
+
+static int
+header_decode_param(const char **in, char **paramp, char **valuep, int *is_rfc2184_param)
+{
+	gboolean is_rfc2184_encoded = FALSE;
+	gboolean is_rfc2184 = FALSE;
+	const char *inptr = *in;
+	char *param, *value = NULL;
+	int rfc2184_part = -1;
+	
+	*is_rfc2184_param = FALSE;
+	
+	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &rfc2184_part,
+						  &is_rfc2184_encoded);
+	
 	if (*inptr == '=') {
 		inptr++;
-		value = header_decode_value(&inptr);
+		value = header_decode_value (&inptr);
+		if (is_rfc2184) {
+			/* We have ourselves an rfc2184 parameter */
+			
+			if (rfc2184_part == -1) {
+				/* rfc2184 allows the value to be broken into
+				 * multiple parts - this isn't one of them so
+				 * it is safe to decode it.
+				 */
+				char *val;
+				
+				val = rfc2184_decode (value, strlen (value));
+				g_free (value);
+				value = val;
+			} else {
+				/* Since we are expecting to find the rest of
+				 * this paramter value later, let our caller know.
+				 */
+				*is_rfc2184_param = TRUE;
+			}
+		} else if (value && !strcmp (value, "=?")) {
+			/* We have a broken param value that is rfc2047 encoded.
+			 * Since both Outlook and Netscape/Mozilla do this, we
+			 * should handle this case.
+			 */
+			char *val;
+			
+			val = rfc2047_decode_word (value, strlen (value));
+			if (val) {
+				g_free (value);
+				value = val;
+			}
+		}
 	}
-
+	
 	if (param && value) {
 		*paramp = param;
 		*valuep = value;
 		*in = inptr;
 		return 0;
 	} else {
-		g_free(param);
-		g_free(value);
+		g_free (param);
+		g_free (value);
 		return 1;
 	}
 }
@@ -2425,28 +2609,73 @@ header_decode_param_list(const char **in)
 {
 	const char *inptr = *in;
 	struct _header_param *head = NULL, *tail = NULL;
-
-	header_decode_lwsp(&inptr);
+	gboolean last_was_rfc2184 = FALSE;
+	gboolean is_rfc2184 = FALSE;
+	
+	header_decode_lwsp (&inptr);
+	
 	while (*inptr == ';') {
 		char *param, *value;
 		struct _header_param *p;
-
+		
 		inptr++;
 		/* invalid format? */
-		if (header_decode_param(&inptr, &param, &value) != 0)
+		if (header_decode_param (&inptr, &param, &value, &is_rfc2184) != 0)
 			break;
-
-		p = g_malloc(sizeof(*p));
-		p->name = param;
-		p->value = value;
-		p->next = NULL;
-		if (head == NULL)
-			head = p;
-		if (tail)
-			tail->next = p;
-		tail = p;
-		header_decode_lwsp(&inptr);
+		
+		if (is_rfc2184 && tail && !g_strcasecmp (param, tail->name)) {
+			/* rfc2184 allows a parameter to be broken into multiple parts
+			 * and it looks like we've found one. Append this value to the
+			 * last value.
+			 */
+			GString *gvalue;
+			
+			gvalue = g_string_new (tail->value);
+			g_string_append (gvalue, value);
+			g_free (tail->value);
+			g_free (value);
+			
+			tail->value = gvalue->str;
+			g_string_free (gvalue, FALSE);
+		} else {
+			if (last_was_rfc2184) {
+				/* We've finished gathering the values for the last param
+				 * so it is now safe to decode it.
+				 */
+				char *val;
+				
+				val = rfc2184_decode (tail->value, strlen (tail->value));
+				g_free (tail->value);
+				tail->value = val;
+			}
+			
+			p = g_malloc (sizeof (struct _header_param));
+			p->name = param;
+			p->value = value;
+			p->next = NULL;
+			if (head == NULL)
+				head = p;
+			if (tail)
+				tail->next = p;
+			tail = p;
+		}
+		
+		last_was_rfc2184 = is_rfc2184;
+		
+		header_decode_lwsp (&inptr);
 	}
+	
+	if (last_was_rfc2184) {
+		/* We've finished gathering the values for the last param
+		 * so it is now safe to decode it.
+		 */
+		char *val;
+		
+		val = rfc2184_decode (tail->value, strlen (tail->value));
+		g_free (tail->value);
+		tail->value = val;
+	}
+	
 	*in = inptr;
 	return head;
 }
@@ -2460,31 +2689,115 @@ header_param_list_decode(const char *in)
 	return header_decode_param_list(&in);
 }
 
+/* FIXME: I wrote this in a quick & dirty fasion - it may not be 100% correct */
+static char *
+header_encode_param (const unsigned char *in, gboolean *encoded)
+{
+	const unsigned char *inptr = in;
+	char *outstr, *charset;
+	int encoding;
+	GString *out;
+	
+	*encoded = FALSE;
+	
+	g_return_val_if_fail (g_utf8_validate (in, -1, NULL), NULL);
+	
+	if (in == NULL)
+		return NULL;
+	
+	/* do a quick us-ascii check (the common case?) */
+	while (*inptr) {
+		if (*inptr > 127)
+			break;
+		inptr++;
+	}
+	
+	if (*inptr == '\0')
+		return g_strdup (in);
+	
+	out = g_string_new ("");
+	inptr = in;
+	encoding = 0;
+	while (inptr && *inptr) {
+		gunichar c;
+		const char *newinptr;
+		
+		newinptr = g_utf8_next_char (inptr);
+		c = g_utf8_get_char (inptr);
+		if (newinptr == NULL || !g_unichar_validate (c)) {
+			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
+				     (inptr-in), inptr[0], in));
+			inptr++;
+			continue;
+		}
+		
+		if (c > 127 && c < 256) {
+			encoding = MAX (encoding, 1);
+			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
+		} else if (c >= 256) {
+			encoding = MAX (encoding, 2);
+			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
+		} else if (is_lwsp (c) || camel_mime_special_table[c] & IS_ESAFE) {
+			g_string_sprintfa (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
+		} else {
+			g_string_append_c (out, c);
+		}
+		
+		inptr = newinptr;
+	}
+	
+	switch (encoding) {
+	default:
+		g_string_prepend (out, "iso-8859-1''");
+		break;
+	case 2:
+		charset = g_strdup_printf ("%s''", camel_charset_best (in, inptr - in));
+		g_string_prepend (out, charset);
+		g_free (charset);
+		break;
+	}
+	
+	outstr = out->str;
+	g_string_free (out, FALSE);
+	*encoded = TRUE;
+	
+	return outstr;
+}
+
 void
 header_param_list_format_append(GString *out, struct _header_param *p)
 {
 	int len = out->len;
-	char *ch;
-
+	
 	while (p) {
+		gboolean encoded = FALSE;
+		char *value, *ch = NULL;
 		int here = out->len;
-		if (len+strlen(p->name)+strlen(p->value)>60) {
-			out = g_string_append(out, ";\n\t");
+		
+		value = header_encode_param (p->value, &encoded);
+		
+		if (!encoded) {
+			for (ch = value; *ch; ch++) {
+				if (is_tspecial (*ch) || is_lwsp (*ch))
+					break;
+			}
+		}
+		
+		if (len + strlen (p->name) + strlen (value) > 60) {
+			out = g_string_append (out, ";\n\t");
 			len = 0;
 		} else
 			out = g_string_append (out, "; ");
 		
-		g_string_sprintfa(out, "%s=", p->name);
-
-		for (ch = p->value; *ch; ch++) {
-			if (is_tspecial (*ch) || is_lwsp (*ch))
-				break;
-		}
-		if (!*ch)
-			g_string_append(out, p->value);
+		g_string_sprintfa (out, "%s%s=", p->name, encoded ? "*" : "");
+		
+		if (!ch || !*ch)
+			g_string_append (out, value);
 		else
-			quote_word(out, TRUE, p->value, strlen(p->value));
-
+			quote_word (out, TRUE, value, strlen (value));
+		
+		g_free (value);
+		
 		len += (out->len - here);
 		p = p->next;
 	}

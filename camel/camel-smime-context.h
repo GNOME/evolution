@@ -42,6 +42,7 @@ typedef struct _CamelSMimeContext {
 	
 	struct _CamelSMimeContextPrivate *priv;
 	
+	char *encryption_key;
 } CamelSMimeContext;
 
 typedef struct _CamelSMimeContextClass {

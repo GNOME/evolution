@@ -1,5 +1,7 @@
 2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-smime-context.c: Numerous fixes to get it to compile.
+
 	* camel.h: Added camel-cipher-context.h, camel-cms-context.h,
 	camel-smime-context.h, and camel-smime-utils.h
 

@@ -32,9 +32,15 @@
 #include "camel-stream-filter.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
+#include "camel-mime-part.h"
+#include "camel-multipart.h"
 
 #include "nss.h"
 #include <cms.h>
+#include <cert.h>
+#include <certdb.h>
+#include <pkcs11.h>
+#include <smime.h>
 
 #include <gtk/gtk.h> /* for _() macro */
 
@@ -64,7 +70,7 @@ static CamelMimeMessage *smime_envelope  (CamelCMSContext *ctx, CamelMimeMessage
 static CamelMimeMessage *smime_decode    (CamelCMSContext *ctx, CamelMimeMessage *message,
 					  CamelCMSValidityInfo **info, CamelException *ex);
 
-static CamelCipherContextClass *parent_class;
+static CamelCMSContextClass *parent_class;
 
 static void
 camel_smime_context_init (CamelSMimeContext *context)
@@ -89,11 +95,11 @@ camel_smime_context_class_init (CamelSMimeContextClass *camel_smime_context_clas
 	
 	parent_class = CAMEL_CMS_CONTEXT_CLASS (camel_type_get_global_classfuncs (camel_cms_context_get_type ()));
 	
-	camel_cms_context_class->sign = cms_sign;
-	camel_cms_context_class->certsonly = cms_certsonly;
-	camel_cms_context_class->encrypt = cms_encrypt;
-	camel_cms_context_class->envelope = cms_envelope;
-	camel_cms_context_class->decode = cms_decode;
+	camel_cms_context_class->sign = smime_sign;
+	camel_cms_context_class->certsonly = smime_certsonly;
+	camel_cms_context_class->encrypt = smime_encrypt;
+	camel_cms_context_class->envelope = smime_envelope;
+	camel_cms_context_class->decode = smime_decode;
 }
 
 CamelType
@@ -198,7 +204,7 @@ signed_data (CamelSMimeContext *ctx, const char *userid, gboolean signing_time,
 		return NULL;
 	}
 	
-	if ((cert = CERT_FindCertByNickname (ctx->priv->certdb, userid)) == NULL) {
+	if ((cert = CERT_FindCertByNickname (ctx->priv->certdb, (char *) userid)) == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("The signature certificate for \"%s\" does not exist."),
 				      userid);
@@ -386,17 +392,17 @@ smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
 
 
 static NSSCMSMessage *
-certsonly_data (CamelSMimeContext *ctx, const char *userid, GByteArray *recipients, CamelException *ex)
+certsonly_data (CamelSMimeContext *ctx, const char *userid, GPtrArray *recipients, CamelException *ex)
 {
 	NSSCMSMessage *cmsg = NULL;
 	NSSCMSContentInfo *cinfo;
 	NSSCMSSignedData *sigd;
 	CERTCertificate **rcerts;
-	int i;
+	int i = 0;
 	
 	/* find the signer's and the recipients' certs */
 	rcerts = g_new (CERTCertificate *, recipients->len + 2);
-	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, userid);
+	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, (char *) userid);
 	if (!rcerts[0]) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to find certificate for \"%s\"."),
@@ -424,7 +430,7 @@ certsonly_data (CamelSMimeContext *ctx, const char *userid, GByteArray *recipien
 	
 	/* add the recipient cert chain */
 	for (i = 0; i < recipients->len; i++) {
-		NSS_CMSSignedData_AddCertChain (sigd, certs[i]);
+		NSS_CMSSignedData_AddCertChain (sigd, rcerts[i]);
 	}
 	
 	cinfo = NSS_CMSMessage_GetContentInfo (cmsg);
@@ -452,6 +458,7 @@ smime_certsonly (CamelCMSContext *ctx, CamelMimeMessage *message,
 		 CamelException *ex)
 {
 	CamelMimeMessage *mesg = NULL;
+	struct _GetPasswdData *data;
 	NSSCMSMessage *cmsg = NULL;
 	PLArenaPool *arena;
 	NSSCMSEncoderContext *ecx;
@@ -512,7 +519,7 @@ enveloped_data (CamelSMimeContext *ctx, const char *userid, GPtrArray *recipient
 	
 	/* find the recipient certs by email address or nickname */
 	rcerts = g_new (CERTCertificate *, recipients->len + 2);
-	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, userid);
+	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, (char *) userid);
 	if (!rcerts[0]) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to find certificate for \"%s\"."),
@@ -574,6 +581,7 @@ smime_envelope (CamelCMSContext *ctx, CamelMimeMessage *message,
 		CamelException *ex)
 {
 	CamelMimeMessage *mesg = NULL;
+	struct _GetPasswdData *data;
 	NSSCMSMessage *cmsg = NULL;
 	PLArenaPool *arena;
 	NSSCMSEncoderContext *ecx;
@@ -622,8 +630,8 @@ smime_envelope (CamelCMSContext *ctx, CamelMimeMessage *message,
 
 
 struct _BulkKey {
-	PK11KeySym *bulkkey;
-	SECOidTag bulkkeytag;
+	PK11SymKey *bulkkey;
+	SECOidTag bulkalgtag;
 	int keysize;
 };
 
@@ -754,8 +762,8 @@ smime_encrypt (CamelCMSContext *ctx, CamelMimeMessage *message,
 
 
 static NSSCMSMessage *
-decode (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
-	CamelCMSValidityInfo **info, CamelExcepton *ex)
+decode_data (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
+	     CamelCMSValidityInfo **info, CamelException *ex)
 {
 	NSSCMSDecoderContext *dcx;
 	struct _GetPasswdData *data;
@@ -765,17 +773,14 @@ decode (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
 	NSSCMSSignedData *sigd = NULL;
 	NSSCMSEnvelopedData *envd;
 	NSSCMSEncryptedData *encd;
-	SECAlgorithmID **digestalgs;
 	int nlevels, i, nsigners, j;
 	char *signercn;
 	NSSCMSSignerInfo *si;
 	SECOidTag typetag;
-	SECItem **digests;
-	PLArenaPool *arena;
-	SECItem *item, sitem = { 0, 0, 0 };
+	SECItem *item;
 	
 	data = g_new (struct _GetPasswdData, 1);
-	data->session = ctx->session;
+	data->session = CAMEL_CMS_CONTEXT (ctx)->session;
 	data->userid = NULL;
 	data->ex = ex;
 	
@@ -783,7 +788,7 @@ decode (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
 				    NULL, NULL,
 				    smime_get_password, data,
 				    decode_key_cb,
-				    decodeOptions->bulkkey);
+				    NULL);
 	
 	NSS_CMSDecoder_Update (dcx, input->data, input->len);
 	
@@ -861,7 +866,7 @@ decode (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
 								    certUsageEmailSigner);
 				
 				if (signers) {
-					signers->signeercn = g_strdup (signercn);
+					signers->signercn = g_strdup (signercn);
 					signers->status = g_strdup (
 						NSS_CMSUtil_VerificationStatusToString (
 							NSS_CMSSignerInfo_GetVerificationStatus (si)));
@@ -918,7 +923,7 @@ smime_decode (CamelCMSContext *ctx, CamelMimeMessage *message,
 	buf = CAMEL_STREAM_MEM (stream)->buffer;
 	
 	ostream = camel_stream_mem_new ();
-	cmsg = decode (CAMEL_SMIME_CONTEXT (ctx), buf, ostream, info, ex);
+	cmsg = decode_data (CAMEL_SMIME_CONTEXT (ctx), buf, ostream, info, ex);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	if (!cmsg) {
 		camel_object_unref (CAMEL_OBJECT (ostream));
