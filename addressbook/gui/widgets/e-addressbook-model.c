@@ -550,8 +550,13 @@ eab_model_set_property (GObject *object, guint prop_id, const GValue *value, GPa
 		}
 		model->book = E_BOOK(g_value_get_object (value));
 		if (model->book) {
-			if (!model->editable_set)
+			if (!model->editable_set) {
 				model->editable = e_book_is_writable (model->book);
+
+				g_signal_emit (model,
+					       eab_model_signals [WRITABLE_STATUS], 0,
+					       model->editable);
+			}
 			model->first_get_view = TRUE;
 			g_object_ref (model->book);
 			get_view (model);

@@ -31,7 +31,9 @@
 #include "new-addressbook.h"
 
 #include "widgets/misc/e-source-selector.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
 
+#include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkmenu.h>
@@ -40,6 +42,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <gconf/gconf-client.h>
+#include <gal/util/e-util.h>
 
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -48,6 +51,7 @@ static BonoboObjectClass *parent_class = NULL;
 struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
 	ESourceList *source_list;
+	GtkWidget *source_selector;
 };
 
 
@@ -141,6 +145,8 @@ impl_createControls (PortableServer_Servant servant,
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_widget_show (selector);
 
+	addressbook_component->priv->source_selector = selector;
+
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
@@ -197,9 +203,50 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
-	/* FIXME: fill me in */
+	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
+	AddressbookComponentPrivate *priv;
+	EBook *book;
+	EContact *contact = e_contact_new ();
+	ESource *selected_source;
+	gchar *uri;
 
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+	priv = addressbook_component->priv;
+
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selected_source) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
+		return;
+	}
+
+	uri = e_source_get_uri (selected_source);
+	if (!uri) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
+		return;
+	}
+
+	book = e_book_new ();
+	if (!e_book_load_uri (book, uri, TRUE, NULL)) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
+		g_object_unref (book);
+		g_free (uri);
+		return;
+	}
+
+	contact = e_contact_new ();
+
+	if (!item_type_name) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+	} else if (!strcmp (item_type_name, "contact")) {
+		eab_show_contact_editor (book, contact, TRUE, TRUE);
+	} else if (!strcmp (item_type_name, "contact_list")) {
+		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+	} else {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+	}
+
+	g_object_unref (book);
+	g_object_unref (contact);
+	g_free (uri);
 }
 
 
@@ -209,6 +256,11 @@ static void
 impl_dispose (GObject *object)
 {
 	AddressbookComponentPrivate *priv = ADDRESSBOOK_COMPONENT (object)->priv;
+
+	if (priv->source_selector != NULL) {
+		g_object_unref (priv->source_selector);
+		priv->source_selector = NULL;
+	}
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -256,6 +308,7 @@ static void
 addressbook_component_init (AddressbookComponent *component)
 {
 	AddressbookComponentPrivate *priv;
+	GSList *groups;
 
 	priv = g_new0 (AddressbookComponentPrivate, 1);
 
@@ -265,6 +318,45 @@ addressbook_component_init (AddressbookComponent *component)
 
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/addressbook/sources");
+
+	/* Create default addressbooks if there are no groups */
+	groups = e_source_list_peek_groups (priv->source_list);
+	if (!groups) {
+		ESourceGroup *group;
+		ESource *source;
+		char *base_uri, *base_uri_proto, *new_dir;
+
+		/* create the local source group */
+		base_uri = g_build_filename (g_get_home_dir (),
+					     "/.evolution/addressbook/local/OnThisComputer/",
+					     NULL);
+
+		base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+
+		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		e_source_list_add_group (priv->source_list, group, -1);
+
+		g_free (base_uri_proto);
+
+		/* FIXME: Migrate addressbooks from older setup? */
+
+		/* Create default addressbooks */
+		new_dir = g_build_filename (base_uri, "Personal/", NULL);
+		if (!e_mkdir_hier (new_dir, 0700)) {
+			source = e_source_new (_("Personal"), "Personal");
+			e_source_group_add_source (group, source, -1);
+		}
+		g_free (new_dir);
+
+		new_dir = g_build_filename (base_uri, "Work/", NULL);
+		if (!e_mkdir_hier (new_dir, 0700)) {
+			source = e_source_new (_("Work"), "Work");
+			e_source_group_add_source (group, source, -1);
+		}
+		g_free (new_dir);
+
+		g_free (base_uri);
+	}
 
 	component->priv = priv;
 }

@@ -1,3 +1,15 @@
+2003-11-17  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-component.c (impl_createControls): Store
+	a ref to the source selector.
+	(impl_requestCreateItem): Implement.
+	(impl_dispose): Unref the source selector.
+	(addressbook_component_init): Set up default sources.
+
+	* gui/widgets/e-addressbook-model.c (eab_model_set_property): If
+	the 'book' property is set, and editability changes, emit a signal
+	to that effect.
+
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/new-addressbook.c: include e-source from e-d-s
