@@ -1,5 +1,12 @@
 2002-05-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (sig_new_text): Update the code to actually
+	work.
+	(sig_new_html): Same.
+
+	* mail-composer-prefs.c (mail_composer_prefs_new_signature): Allow
+	'prefs' to be NULL.
+
 	* folder-browser.c (on_right_click): Fix the filter_menu static
 	array to use the E_POPUP_MENU_CC macros since we plan on using
 	custom closures for this.

@@ -270,14 +270,17 @@ mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html)
 	
 	sig = mail_config_signature_add (html);
 	
-	name[0] = sig->name;
-	name[1] = sig->random ? _("yes") : _("no");
-	row = gtk_clist_append (GTK_CLIST (prefs->sig_clist), name);
-	gtk_clist_set_row_data (GTK_CLIST (prefs->sig_clist), row, sig);
-	gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
-	/*gtk_widget_grab_focus (prefs->sig_name);*/
+	if (prefs) {
+		name[0] = sig->name;
+		name[1] = sig->random ? _("yes") : _("no");
+		row = gtk_clist_append (GTK_CLIST (prefs->sig_clist), name);
+		gtk_clist_set_row_data (GTK_CLIST (prefs->sig_clist), row, sig);
+		gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
+		/*gtk_widget_grab_focus (prefs->sig_name);*/
+	}
 	
-	sig_edit (NULL, prefs);
+	if (sig->filename && *sig->filename)
+		mail_signature_editor (sig);
 	
 	return sig;
 }
