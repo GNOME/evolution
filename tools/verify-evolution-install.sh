@@ -59,14 +59,39 @@ environment variable $1 to its location"
 check_prefix() {
     #othercfg=$1
     #othername=$2
+    #strict=$3
 
     eval otherpfx=\`\$$1 --prefix\`
-    if test x"$otherpfx" != x"$gl_prefix" ; then
-	problem="gnome-libs and $2 do not share the same prefix"
-	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
-	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
-	srcsolution="Re-run 'configure' in $2's source directory with the flag '--prefix=$gl_prefix."
-	problem
+    if test x"$3" = xstrict ; then
+	if test x"$otherpfx" != x"$gl_prefix" ; then
+	    problem="gnome-libs and $2 do not share the same prefix"
+	    rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
+	    debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
+	    srcsolution="Re-run 'configure' in $2's source directory with the flag '--prefix=$gl_prefix."
+	    problem
+	fi
+    else
+	IFSbak="$IFS"
+	ok="$GNOME_PATH:$gl_prefix"
+	IFS=":"
+	passed=no
+
+	for e in $ok; do
+	    if test x"$e" != x -a $otherpfx = $e ; then
+		passed=yes;
+	    fi
+	done
+
+	IFS="$IFSbak"
+
+	if test x"$passed" = xno ; then
+	    problem="$2 is not in GNOME_PATH or the same prefix as gnome-libs"
+	    rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
+	    debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
+	    srcsolution="Re-run 'configure' in $2\'s source directory with the flag \'--prefix=$gl_prefix\'."
+	    comment="Try exporting an environment variable \'GNOME_PATH\' with the prefix of $2."
+	    problem
+	fi
     fi
 }
 
@@ -339,8 +364,13 @@ check_bin oafd
 check_config GCONF_CONFIG gconf-config GConf
 check_prefix GCONF_CONFIG GConf
 versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
-check_oafinfo gconfd GConf
-check_bin gconfd
+if test x`which gconfd-1` != x ; then
+    check_oafinfo gconfd-1 GConf
+    check_bin gconfd-1
+else
+    check_oafinfo gconfd GConf
+    check_bin gconfd
+fi
 check_no_gnorba "`$GCONF_CONFIG --libs`" GConf
 
 #gnome vfs
@@ -353,21 +383,10 @@ check_no_gnorba "`$GNOME_CONFIG --libs print`" gnome-print
 
 #bonobo
 check_module2 bonobo bonobo "0.15"
+check_prefix "GNOME_CONFIG bonobo" bonobo strict
 check_oafinfo audio-ulaw bonobo
 check_bin bonobo-audio-ulaw bonobo
 check_no_gnorba "`$GNOME_CONFIG --libs bonobo`" bonobo
-
-bn_libs=`$GNOME_CONFIG --libs bonobo`
-
-ping=`echo $bn_libs |grep 'oaf'`
-
-if test x"$ping" = x ; then
-    problem="Bonobo was not compiled with oaf enabled."
-    rpmsolution="Reinstall the packages 'bonobo' and 'bonobo-devel'."
-    debsolution="Reinstall Bonobo and its development libraries." #FIXME
-    srcsolution="Re-run 'configure' in Bonobo's source directory with the flag '--enable-oaf=yes'."
-    problem
-fi
 
 #gtkhtml
 check_module2 gtkhtml GtkHTML "0.5"
