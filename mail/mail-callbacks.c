@@ -766,6 +766,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	time_t date;
+	const int max_subject_length = 1024;
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
@@ -879,9 +880,13 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		subject = g_strdup ("");
 	else {
 		if (!g_strncasecmp (subject, "Re: ", 4))
-			subject = g_strdup (subject);
-		else
-			subject = g_strdup_printf ("Re: %s", subject);
+			subject = g_strndup (subject, max_subject_length);
+		else {
+			if (strlen (subject) < max_subject_length)
+				subject = g_strdup_printf ("Re: %s", subject);
+			else
+				subject = g_strdup_printf ("Re: %.*s...", max_subject_length, subject);
+		}
 	}
 
 	tov = e_destination_list_to_vector (to);

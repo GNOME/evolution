@@ -206,11 +206,16 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
 	const char *subject;
 	char *fwd_subj;
+	const int max_subject_length = 1024;
 	
 	subject = camel_mime_message_get_subject(msg);
 	
 	if (subject && *subject) {
-		fwd_subj = g_strdup_printf ("[Fwd: %s]", subject);
+		/* Truncate insanely long subjects */
+		if (strlen (subject) < max_subject_length)
+			fwd_subj = g_strdup_printf ("[Fwd: %s]", subject);
+		else
+			fwd_subj = g_strdup_printf ("[Fwd: %.*s...]", max_subject_length, subject);
 	} else {
 		const CamelInternetAddress *from;
 		char *fromstr;
