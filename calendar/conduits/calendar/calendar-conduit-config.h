@@ -110,7 +110,7 @@ calconduit_destroy_configuration (ECalConduitCfg **c)
 }
 #endif
 
-#endif __CAL_CONDUIT_CONFIG_H__ 
+#endif /* __CAL_CONDUIT_CONFIG_H__ */
 
 
 

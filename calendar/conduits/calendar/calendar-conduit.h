@@ -72,7 +72,7 @@ struct _ECalConduitContext {
 	EPilotMap *map;
 };
 
-#endif __CALENDAR_CONDUIT_H__ 
+#endif /* __CALENDAR_CONDUIT_H__ */
 
 
 

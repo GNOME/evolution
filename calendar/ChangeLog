@@ -1,3 +1,14 @@
+2001-08-08  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit-config.h: fix pre-processor
+	macros
+
+	* conduits/calendar/calendar-conduit.h: ditto
+
+	* conduits/todo/todo-conduit-config.h: fix pre-processor macros
+
+	* conduits/todo/todo-conduit.h: ditto
+
 2001-08-07  Federico Mena Quintero  <federico@ximian.com>
 
 	* cal-client/cal-listener.c (cal_listener_stop_notification): New
@@ -27,7 +38,7 @@
 2001-08-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): Make calendar.ics the
-	suggested name
+	suggested name when attaching the ical object
 
 2001-08-06  Damon Chaplin  <damon@ximian.com>
 

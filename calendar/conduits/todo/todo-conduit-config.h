@@ -110,7 +110,7 @@ todoconduit_destroy_configuration (EToDoConduitCfg **c)
 }
 #endif
 
-#endif __TODO_CONDUIT_CONFIG_H__ 
+#endif /* __TODO_CONDUIT_CONFIG_H__ */
 
 
 

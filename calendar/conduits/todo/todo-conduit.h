@@ -71,7 +71,7 @@ struct _EToDoConduitContext {
 	EPilotMap *map;
 };
 
-#endif __TODO_CONDUIT_H__ 
+#endif /* __TODO_CONDUIT_H__ */
 
 
 
