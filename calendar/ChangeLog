@@ -1,5 +1,10 @@
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 
+	* cal-client/cal-client.c (get_default_uri): guard against empty
+	uri as well
+
+2003-04-04  JP Rosevear  <jpr@ximian.com>
+	
 	Fixes #40722
 	
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_destroy):

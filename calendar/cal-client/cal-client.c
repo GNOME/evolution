@@ -975,7 +975,7 @@ get_default_uri (gboolean tasks)
 		uri = e_config_listener_get_string (db, "/apps/evolution/shell/default_folders/calendar_uri");
 	g_object_unref (G_OBJECT (db));
 
-	if (!uri)
+	if (!uri || *uri == '\0')
 		uri = get_fall_back_uri (tasks);
 	else
 		uri = cal_util_expand_uri (uri, tasks);
