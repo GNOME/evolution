@@ -435,7 +435,6 @@ get_alarm_string (CalComponentAlarm *alarm)
 		char *location;
 		struct tm tm;
 		char buf[256];
-		char *date;
 
 		/* Absolute triggers come in UTC, so convert them to the local timezone */
 
@@ -450,7 +449,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
 					     FALSE, FALSE, buf, sizeof (buf));
 
-		date = g_strdup_printf (_("%s at %s"), base, buf);
+		str = g_strdup_printf (_("%s at %s"), base, buf);
 
 		break; }
 
