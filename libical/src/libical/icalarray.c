@@ -6,7 +6,7 @@
   $Id$
   $Locker$
     
- (C) COPYRIGHT 2001, Ximian, Inc.
+ (C) Copyright 2001, Ximian, Inc.
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of either: 
