@@ -1,5 +1,10 @@
 2000-07-18  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/minicard/e-minicard-control.c: Added "text/vCard" to the
+	list of mime types we support.
+
+2000-07-18  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/minicard/Makefile.am: Added
 	gui/minicard/e-minicard-control.c,
 	gui/minicard/e-minicard-control.h,

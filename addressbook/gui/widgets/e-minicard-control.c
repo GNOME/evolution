@@ -140,6 +140,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	GtkWidget *minicard = data;
 
 	if (*type && g_strcasecmp (type, "text/plain") != 0 && 
+	    g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
@@ -176,6 +177,7 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	int                  length;
 
 	if (*type && g_strcasecmp (type, "text/plain") != 0 && 
+	    g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
@@ -240,7 +242,7 @@ static Bonobo_Persist_ContentTypeList *
 pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 			   CORBA_Environment *ev)
 {
-	return bonobo_persist_generate_content_types (2, "text/plain", "text/x-vCard");
+	return bonobo_persist_generate_content_types (3, "text/plain", "text/vCard", "text/x-vCard");
 }
 
 static BonoboObject *
