@@ -1,15 +1,15 @@
 # evolution fr.po
-# Copyright (C) 2000-2001 Free Software Foundation, Inc.
+# Copyright (C) 2000-2002 Free Software Foundation, Inc.
 # Vincent Renardias <vincent@debian.org>, 2000.
-# Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2001
+# Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2002
 # Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>, 2001
 # Frederic Riss <frederic.riss@laposte.net>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.0\n"
-"POT-Creation-Date: 2001-12-18 17:59-0500\n"
-"PO-Revision-Date: 2001-11-25 00:11+0100\n"
+"POT-Creation-Date: 2002-01-04 09:28+0100\n"
+"PO-Revision-Date: 2002-01-04 09:28+0100\n"
 "Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -10093,7 +10093,7 @@ msgstr "Début importation :"
 
 #: importers/netscape-importer.c:963
 msgid "Settings"
-msgstr "_Réglages"
+msgstr "Réglages"
 
 #: importers/netscape-importer.c:984
 msgid ""
@@ -11231,27 +11231,27 @@ msgstr "Chemin binaire _PGP"
 
 #: mail/mail-config.glade.h:112
 msgid "_Path:"
-msgstr "Chemin :"
+msgstr "_Chemin :"
 
 #: mail/mail-config.glade.h:113
 msgid "_Remember this password"
-msgstr "Se souvenir du mot de passe"
+msgstr "Se _souvenir du mot de passe"
 
 #: mail/mail-config.glade.h:114
 msgid "_Send mail in HTML format by default."
-msgstr "Envoyer par défaut le courrier au format HTML"
+msgstr "_Envoyer par défaut le courrier au format HTML"
 
 #: mail/mail-config.glade.h:115
 msgid "_Server Type: "
-msgstr "Type de serveur : "
+msgstr "Type de _serveur : "
 
 #: mail/mail-config.glade.h:116
 msgid "_Signature file:"
-msgstr "Fichier de signature :"
+msgstr "Fichier de _signature :"
 
 #: mail/mail-config.glade.h:117
 msgid "_Username:"
-msgstr "Nom d'utilisateur :"
+msgstr "Nom d'_utilisateur :"
 
 #: mail/mail-config.glade.h:118
 msgid "_every"
@@ -11259,11 +11259,11 @@ msgstr "_toutes les"
 
 #: mail/mail-config.glade.h:119
 msgid "description"
-msgstr "description :"
+msgstr "description"
 
 #: mail/mail-config.glade.h:121
 msgid "newswindow1"
-msgstr "fenêtre de nouvelles 1"
+msgstr "newswindow1"
 
 #: mail/mail-config.glade.h:122
 msgid "placeholder"
@@ -11382,7 +11382,7 @@ msgstr "De"
 
 #: mail/mail-format.c:889
 msgid "Reply-To"
-msgstr "Répondre- À :"
+msgstr "Répondre-À"
 
 #: mail/mail-format.c:893 mail/message-list.etspec.h:10
 msgid "To"
@@ -11390,7 +11390,7 @@ msgstr "À"
 
 #: mail/mail-format.c:897
 msgid "Cc"
-msgstr "Cc :"
+msgstr "Cc"
 
 #: mail/mail-format.c:901
 msgid "Bcc"
@@ -11762,16 +11762,16 @@ msgstr "Saisissez le mot de passe pour %s"
 msgid "Enter Password"
 msgstr "Saisissez le mot de passe"
 
-#: mail/mail-tools.c:255
+#: mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Message suivi - %s"
 
-#: mail/mail-tools.c:259
+#: mail/mail-tools.c:260
 msgid "Forwarded message"
 msgstr "Message suivi"
 
-#: mail/mail-tools.c:393
+#: mail/mail-tools.c:394
 msgid "Forwarded Message"
 msgstr "Message suivi"
 
@@ -11885,7 +11885,7 @@ msgstr "%a %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2341
 msgid "Generating message list"
 msgstr "Generation de la liste des messages"
 
@@ -11895,7 +11895,7 @@ msgstr "Marqué"
 
 #: mail/message-list.etspec.h:4
 msgid "Received"
-msgstr "Réçu"
+msgstr "Reçu"
 
 #: mail/message-list.etspec.h:7
 msgid "Size"
@@ -12035,7 +12035,7 @@ msgstr "Nom :"
 
 #: my-evolution/e-summary-preferences.c:1503
 msgid "Summary Settings"
-msgstr "_Réglages résumé"
+msgstr "Réglages résumé"
 
 #: my-evolution/e-summary-rdf.c:296 my-evolution/e-summary-rdf.c:381
 #: my-evolution/e-summary-rdf.c:415
@@ -25110,7 +25110,7 @@ msgstr ""
 "permettront de connecter Evolution à vos comptes de messagerie,\n"
 "et d'importer les fichiers provenant d'autres applications.\n"
 "\n"
-"Veuiller cliquer sur le bouton « Suivant » pour continuer."
+"Veuillez cliquer sur le bouton « Suivant » pour continuer."
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
 msgid ""
