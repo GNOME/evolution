@@ -1,5 +1,8 @@
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
+	* mail-config.c (mail_config_write): Change html_signature stuff over
+	to bonobo-config -- someone forgot to do this.
+
 	* mail-folder-cache.c (dm): Gave up and got rid of dm. Just replaced it
 	with d(g_message()) and set G_LOG_DOMAIN.
 

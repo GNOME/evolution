@@ -376,10 +376,11 @@ config_read (void)
 		id->signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_html_signature_%d", i);
-		id->html_signature = gnome_config_get_string (path);
+		id->html_signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_has_html_signature_%d", i);
-		id->has_html_signature = gnome_config_get_bool_with_default (path, FALSE);
+		id->has_html_signature = bonobo_config_get_boolean_with_default (
+			config->db, path, FALSE, NULL);
 		g_free (path);
 
 		/* get the source */
@@ -645,10 +646,10 @@ mail_config_write (void)
 					  account->id->signature, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_html_signature_%d", i);
-		gnome_config_set_string (path, account->id->html_signature);
+		bonobo_config_set_string (config->db, path, account->id->html_signature, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_has_html_signature_%d", i);
-		gnome_config_set_bool (path, account->id->has_html_signature);
+		bonobo_config_set_boolean (config->db, path, account->id->has_html_signature, NULL);
 		g_free (path);
 		
 		/* source info */
