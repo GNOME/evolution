@@ -24861,15 +24861,15 @@ msgstr "Imposta i parametri della pagina per la stampante corrente"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Email _Source"
-msgstr "Mostra _Sorgente dell'Email"
+msgstr "Mostra Testo _Sorgente"
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Show Full _Headers"
-msgstr "Mostra_Headers completi"
+msgstr "Mostra _Header Completi"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show message in the normal style"
-msgstr "Mostra messaggio in stile normale"
+msgstr "Mostra il messaggio nello stile normale"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show message with all email headers"
