@@ -2914,6 +2914,19 @@ cancel_editing (EWeekView *week_view)
 	e_week_view_stop_editing_event (week_view);
 }
 
+/* Callback used when a component is destroyed.  Expects the closure data to be
+ * a pointer to a boolean; will set it to TRUE.
+ */
+static void
+comp_destroy_cb (GtkObject *object, gpointer data)
+{
+	gboolean *destroyed;
+
+	destroyed = data;
+	*destroyed = TRUE;
+}
+
+
 static gboolean
 e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				GdkEvent *gdkevent,
@@ -2966,11 +2979,27 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return FALSE;
 
 		if (gdkevent->button.button == 3) {
+			EWeekViewEvent *e;
+			gboolean destroyed;
+			int id;
+
+			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+			destroyed = FALSE;
+			id = gtk_signal_connect (GTK_OBJECT (e->comp), "destroy",
+						 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+
 			if (!GTK_WIDGET_HAS_FOCUS (week_view))
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
-			e_week_view_show_popup_menu (week_view,
-						     (GdkEventButton*) gdkevent,
-						     event_num);
+
+			if (!destroyed) {
+				gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
+
+				e_week_view_show_popup_menu (week_view,
+							     (GdkEventButton*) gdkevent,
+							     event_num);
+			}
+
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
 						      "button_press_event");
 			return TRUE;

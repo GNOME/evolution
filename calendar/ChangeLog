@@ -1,3 +1,19 @@
+2001-11-13  Federico Mena Quintero  <federico@ximian.com>
+
+	(committed to CVS by Damon)
+	Fixes bug #15137.
+	
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): Do not try
+	to operate on the event if it gets deleted while stopping the
+	edition.
+	(e_day_view_on_event_double_click): Likewise.
+	(e_day_view_on_long_event_button_press): Likewise.
+	(e_day_view_on_event_button_press): Likewise.
+	(e_day_view_on_long_event_click): Likewise.
+	(e_day_view_on_event_click): Likewise.
+
+	* gui/e-week-view.c (e_week_view_on_text_item_event): Likewise.
+
 2001-11-14  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (pre_sync): remove silly
