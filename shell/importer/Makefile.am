@@ -28,12 +28,15 @@ libevolution_importerincludedir = $(includedir)/evolution/importer
 libevolution_importer_la_SOURCES = 	\
 	$(IDL_GENERATED)		\
 	evolution-importer-client.c	\
+	evolution-importer-listener.c	\
 	evolution-importer.c		\
 	importer.c			\
 	importer.h
 
 libevolution_importerinclude_HEADERS = 	\
+	GNOME_Evolution_Importer.h	\
 	evolution-importer-client.h	\
+	evolution-importer-listener.h	\
 	evolution-importer.h
 
 libevolution_importer_la_LIBADD =	\

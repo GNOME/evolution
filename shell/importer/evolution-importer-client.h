@@ -26,6 +26,7 @@
 
 #include <bonobo/bonobo-object-client.h>
 #include <importer/evolution-importer.h>
+#include <importer/evolution-importer-listener.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,23 +41,15 @@ extern "C" {
 
 
 typedef struct _EvolutionImporterClient EvolutionImporterClient;
-typedef struct _EvolutionImporterClientPrivate EvolutionImporterClientPrivate;
 typedef struct _EvolutionImporterClientClass EvolutionImporterClientClass;
 
 struct _EvolutionImporterClient {
   BonoboObjectClient parent;
-
-  EvolutionImporterClientPrivate *private;
 };
 
 struct _EvolutionImporterClientClass {
   BonoboObjectClientClass parent_class;
 };
-
-typedef void (* EvolutionImporterClientCallback) (EvolutionImporterClient *client,
-						  EvolutionImporterResult result,
-						  gboolean more_items,
-						  void *data);
 
 GtkType evolution_importer_client_get_type (void);
 
@@ -68,8 +61,7 @@ gboolean evolution_importer_client_support_format (EvolutionImporterClient *clie
 gboolean evolution_importer_client_load_file (EvolutionImporterClient *client,
 					      const char *filename);
 void evolution_importer_client_process_item (EvolutionImporterClient *client,
-					     EvolutionImporterClientCallback callback,
-					     void *closure);
+					     EvolutionImporterListener *listener);
 const char *evolution_importer_client_get_error (EvolutionImporterClient *client);
 
 #ifdef __cplusplus

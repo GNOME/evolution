@@ -125,6 +125,7 @@ put_html (GtkHTML *html,
 /* Data to be passed around */
 typedef struct _ImporterComponentData {
 	EvolutionImporterClient *client;
+	EvolutionImporterListener *listener;
 	char *filename;
 
 	GnomeDialog *dialog;
@@ -138,7 +139,7 @@ typedef struct _ImporterComponentData {
 
 static gboolean importer_timeout_fn (gpointer data);
 static void
-import_cb (EvolutionImporterClient *client,
+import_cb (EvolutionImporterListener *listener,
 	   EvolutionImporterResult result,
 	   gboolean more_items,
 	   void *data)
@@ -166,7 +167,13 @@ import_cb (EvolutionImporterClient *client,
 			return;
 		}
 		
+		if (result == EVOLUTION_IMPORTER_BUSY) {
+			gtk_timeout_add (5000, importer_timeout_fn, data);
+			return;
+		}
+
 		if (more_items) {
+			g_warning ("Processing...\n");
 			label = g_strdup_printf (_("Importing %s\nImporting item %d."),
 						 icd->filename, ++(icd->item));
 			gtk_label_set_text (GTK_LABEL (icd->contents), label);
@@ -174,14 +181,16 @@ import_cb (EvolutionImporterClient *client,
 			while (gtk_events_pending ())
 				gtk_main_iteration ();
 			
-			evolution_importer_client_process_item (client, import_cb, data);
+			g_idle_add_full (G_PRIORITY_LOW, importer_timeout_fn, 
+					 data, NULL);
 			return;
 		}
 	}
 	
 	g_free (icd->filename);
 	if (!icd->destroyed)
-		gtk_object_unref (GTK_OBJECT (icd->dialog));
+		gtk_object_destroy (GTK_OBJECT (icd->dialog));
+	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
 	bonobo_object_unref (BONOBO_OBJECT (icd->client));
 	g_free (icd);
 }
@@ -192,6 +201,7 @@ importer_timeout_fn (gpointer data)
 	ImporterComponentData *icd = (ImporterComponentData *) data;
 	char *label;
 
+	g_warning ("Idle called");
 	label = g_strdup_printf (_("Importing %s\nImporting item %d."),
 				 icd->filename, icd->item);
 	gtk_label_set_text (GTK_LABEL (icd->contents), label);
@@ -199,7 +209,7 @@ importer_timeout_fn (gpointer data)
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
-	evolution_importer_client_process_item (icd->client, import_cb, data);
+	evolution_importer_client_process_item (icd->client, icd->listener);
 	return FALSE;
 }
 
@@ -342,8 +352,9 @@ start_import (const char *filename,
 	g_free (label);
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
-	
-	evolution_importer_client_process_item (icd->client, import_cb, icd);
+
+	icd->listener = evolution_importer_listener_new (import_cb, icd);
+	evolution_importer_client_process_item (icd->client, icd->listener);
 }
 
 static void
