@@ -69,8 +69,8 @@ struct _CamelMimeMessage
 	
 	/* other fields */
 	GHashTable *flags; /* boolean values */
-	/* gboolean expunged;
-	   Will be enabled if proves necessary in the future */
+	gboolean expunged;
+	
 	guint message_number; /* set by folder object when retrieving message */
 	CamelFolder *folder;
 	CamelSession *session;

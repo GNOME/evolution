@@ -128,12 +128,22 @@ static void
 _finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
+	GList *message_node;
+
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
 
 	if (camel_folder->name) g_free (camel_folder->name);
 	if (camel_folder->full_name) g_free (camel_folder->full_name);
 	if (camel_folder->permanent_flags) g_free (camel_folder->permanent_flags);
-
+	if (camel_folder->message_list) {
+		/* unref all messages got from the folder */
+		message_node = camel_folder->message_list;
+		while (message_node) {
+			gtk_object_unref (GTK_OBJECT (message_node->data));
+			g_list_next (message_node);
+		}
+		g_list_free (camel_folder->message_list);
+	}
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
@@ -745,10 +755,10 @@ _expunge (CamelFolder *folder)
 
 
 /**
- * camel_folder_expunge: physically delete messages marked as DELETED
+ * camel_folder_expunge: physically delete messages marked as "DELETED"
  * @folder: the folder
  * 
- * Delete messages which have been marked as deleted. 
+ * Delete messages which have been marked as  "DELETED"
  * 
  * 
  * Return value: list of expunged message objects.
@@ -761,10 +771,10 @@ camel_folder_expunge (CamelFolder *folder)
 
 
 
-
 static CamelMimeMessage *
 _get_message (CamelFolder *folder, gint number)
 {
+	
 	return NULL;
 }
 
@@ -783,7 +793,19 @@ _get_message (CamelFolder *folder, gint number)
 CamelMimeMessage *
 camel_folder_get_message (CamelFolder *folder, gint number)
 {
-	return CF_CLASS (folder)->get_message (folder, number);
+	CamelMimeMessage *new_message;
+	new_message = CF_CLASS (folder)->get_message (folder, number);
+
+
+	/* now put the new message in the list of messages got from
+	 * this folder. If people show concerns about this code being
+	 * here, we will let the providers do it by themself */
+	if (!new_message) return NULL;
+	/* if the message has not been already put in 
+	 * this folder message list, put it in */
+	if (!g_list_find (folder->message_list, new_message))
+	    folder->message_list = g_list_append (folder->message_list, new_message);
+	return new_message;
 }
 
 

@@ -71,6 +71,8 @@ struct _CamelFolder
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
 
+	GList *message_list;
+
 };
 
 

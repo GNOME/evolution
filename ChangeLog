@@ -1,7 +1,21 @@
 1999-08-13  bertrand  <Bertrand.Guiheneuf@aful.org>
 
-	* camel/camel-folder.c (_get_parmanent_flag_list): 
-	(camel_folder_get_parmanent_flag_list): 
+	* camel/camel-folder.h (struct _CamelFolder): 
+	New field (message_list) which will hold a 
+	reference on each message obtained by the folder,
+	which is necessary in order for the caching procedure
+	to work (Getting the same message from a folder twice
+	will return the same CamelMimeMessage object).
+	
+	* camel/camel-folder.c (camel_folder_get_message): 
+	When the store retreives a message put it in its
+	message list.
+	(_finalize): free message list.
+
+	* ChangeLog: fix typo (parmanent)
+
+	* camel/camel-folder.c (_get_permanent_flag_list): 
+	(camel_folder_get_permanent_flag_list): 
 	new method, returns the list of permanent
 	flags supported by the folder.
 
