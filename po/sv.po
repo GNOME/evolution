@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5\n"
-"POT-Creation-Date: 2000-09-26 02:13+0200\n"
-"PO-Revision-Date: 2000-09-26 02:18+0200\n"
+"POT-Creation-Date: 2000-09-27 01:36+0200\n"
+"PO-Revision-Date: 2000-09-27 02:08+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit.c:1673
 #: calendar/conduits/todo/todo-conduit.c:1173 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
-msgstr "Kunde inte initiera bonobo"
+msgstr "Kunde inte initiera Bonobo"
 
 #. This array must be in the same order as enumerations
 #. in GnomePilotConduitSyncType as they are used as index.
@@ -150,7 +150,7 @@ msgstr "Kunde inte starta adressboksservern"
 #: addressbook/conduit/address-conduit.c:512
 #: addressbook/conduit/address-conduit.c:515
 msgid "Could not read pilot's Address application block"
-msgstr "Kunde inte läsa Pilot:ens adressprogramblock"
+msgstr "Kunde inte läsa pilotens adressprogramblock"
 
 #: addressbook/conduit/address-conduit.c:853
 msgid "Error while communicating with address server"
@@ -171,98 +171,98 @@ msgstr "Element(en) tillhör dessa kategorier:"
 
 #: addressbook/contact-editor/categories-strings.h:9
 msgid "Available Categories:"
-msgstr "Tillgänliga kategorier:"
+msgstr "Tillgängliga kategorier:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1220
+#: addressbook/contact-editor/e-contact-editor.c:1218
 msgid "Assistant"
 msgstr "Assistent"
 
-#: addressbook/contact-editor/e-contact-editor.c:1221
-#: addressbook/contact-editor/e-contact-editor.c:1325
+#: addressbook/contact-editor/e-contact-editor.c:1219
+#: addressbook/contact-editor/e-contact-editor.c:1323
 msgid "Business"
 msgstr "Företag"
 
-#: addressbook/contact-editor/e-contact-editor.c:1222
+#: addressbook/contact-editor/e-contact-editor.c:1220
 msgid "Business 2"
 msgstr "Företag 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1223
+#: addressbook/contact-editor/e-contact-editor.c:1221
 msgid "Business Fax"
 msgstr "Företagsfax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:1222
 msgid "Callback"
 msgstr "Senareuppringning"
 
-#: addressbook/contact-editor/e-contact-editor.c:1225
+#: addressbook/contact-editor/e-contact-editor.c:1223
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1226
+#: addressbook/contact-editor/e-contact-editor.c:1224
 msgid "Company"
 msgstr "Företag"
 
-#: addressbook/contact-editor/e-contact-editor.c:1227
-#: addressbook/contact-editor/e-contact-editor.c:1326
+#: addressbook/contact-editor/e-contact-editor.c:1225
+#: addressbook/contact-editor/e-contact-editor.c:1324
 msgid "Home"
 msgstr "Hem"
 
-#: addressbook/contact-editor/e-contact-editor.c:1228
+#: addressbook/contact-editor/e-contact-editor.c:1226
 msgid "Home 2"
 msgstr "Hem 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1229
+#: addressbook/contact-editor/e-contact-editor.c:1227
 msgid "Home Fax"
 msgstr "Fax hem"
 
-#: addressbook/contact-editor/e-contact-editor.c:1230
+#: addressbook/contact-editor/e-contact-editor.c:1228
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1231
+#: addressbook/contact-editor/e-contact-editor.c:1229
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1232
-#: addressbook/contact-editor/e-contact-editor.c:1327
+#: addressbook/contact-editor/e-contact-editor.c:1230
+#: addressbook/contact-editor/e-contact-editor.c:1325
 #: mail/mail-config.glade.h:28
 msgid "Other"
 msgstr "Annat"
 
-#: addressbook/contact-editor/e-contact-editor.c:1233
+#: addressbook/contact-editor/e-contact-editor.c:1231
 msgid "Other Fax"
 msgstr "Annan fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1234
+#: addressbook/contact-editor/e-contact-editor.c:1232
 msgid "Pager"
 msgstr "Personsökare"
 
-#: addressbook/contact-editor/e-contact-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:1233
 msgid "Primary"
 msgstr "Primär"
 
-#: addressbook/contact-editor/e-contact-editor.c:1236
+#: addressbook/contact-editor/e-contact-editor.c:1234
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1237
+#: addressbook/contact-editor/e-contact-editor.c:1235
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/contact-editor/e-contact-editor.c:1238
+#: addressbook/contact-editor/e-contact-editor.c:1236
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
-#: addressbook/contact-editor/e-contact-editor.c:1282
+#: addressbook/contact-editor/e-contact-editor.c:1280
 msgid "Primary Email"
 msgstr "Primär e-post"
 
-#: addressbook/contact-editor/e-contact-editor.c:1283
+#: addressbook/contact-editor/e-contact-editor.c:1281
 msgid "Email 2"
 msgstr "E-post 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1284
+#: addressbook/contact-editor/e-contact-editor.c:1282
 msgid "Email 3"
 msgstr "E-post 3"
 
@@ -763,7 +763,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Det finns inga föremål att visa i denna vy\n"
+"Det finns inga objekt att visa i denna vy\n"
 "\n"
 "Dubbelklicka här för att skapa en ny kontakt."
 
@@ -949,7 +949,7 @@ msgstr "Sidfot:"
 
 #: addressbook/printing/e-contact-print.glade.h:55
 msgid "Reverse on even pages"
-msgstr "Vänd vid jämna sidor"
+msgstr "Vänd jämna sidor"
 
 #: addressbook/printing/e-contact-print.glade.h:56
 msgid "Header/Footer"
@@ -1050,15 +1050,15 @@ msgstr "Aktuella dagens nummer:"
 
 #: calendar/gui/calendar-commands.c:66
 msgid "To-Do item that is not yet due:"
-msgstr "Att-göra-föremål som inte är aktuellt än:"
+msgstr "Att-göra-objekt som inte är aktuellt än:"
 
 #: calendar/gui/calendar-commands.c:67
 msgid "To-Do item that is due today:"
-msgstr "Att-göra-föremål som ska utföras idag:"
+msgstr "Att-göra-objekt som ska utföras idag:"
 
 #: calendar/gui/calendar-commands.c:68
 msgid "To-Do item that is overdue:"
-msgstr "Att-göra-föremål som skulle ha utförts:"
+msgstr "Att-göra-objekt som skulle ha utförts:"
 
 #: calendar/gui/calendar-commands.c:370
 msgid "File not found"
@@ -1066,11 +1066,11 @@ msgstr "Filen hittades inte"
 
 #: calendar/gui/calendar-commands.c:394
 msgid "Open calendar"
-msgstr "Öppna kalendern"
+msgstr "Öppna kalender"
 
 #: calendar/gui/calendar-commands.c:433
 msgid "Save calendar"
-msgstr "Spara kalendern"
+msgstr "Spara kalender"
 
 #: calendar/gui/calendar-commands.c:464
 msgid "Day"
@@ -1194,7 +1194,7 @@ msgstr "Alarm på %A %d %b %Y %H:%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:190
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
-msgstr "Notifiering om ditt möte på %A %d %b %Y %H:%M"
+msgstr "Avisering om ditt möte på %A %d %b %Y %H:%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:201
 msgid "No summary available."
@@ -1304,7 +1304,7 @@ msgstr "FIXME: Markera som _oläst"
 
 #: calendar/gui/dialogs/task-editor.c:495 calendar/gui/event-editor.c:1221
 msgid "_Object"
-msgstr "_Föremål"
+msgstr "_Objekt"
 
 #: calendar/gui/dialogs/task-editor.c:500
 #: calendar/gui/dialogs/task-editor.c:508 calendar/gui/event-editor.c:1226
@@ -1365,7 +1365,7 @@ msgstr "FIXME: _Element..."
 
 #: calendar/gui/dialogs/task-editor.c:536 calendar/gui/event-editor.c:1262
 msgid "FIXME: _Object..."
-msgstr "FIXME: _Föremål..."
+msgstr "FIXME: _Objekt..."
 
 #: calendar/gui/dialogs/task-editor.c:541 calendar/gui/event-editor.c:1267
 msgid "FIXME: _Font..."
@@ -1377,11 +1377,11 @@ msgstr "FIXME: _Stycke..."
 
 #: calendar/gui/dialogs/task-editor.c:549 calendar/gui/event-editor.c:1275
 msgid "FIXME: Desi_gn This Form"
-msgstr "FIXME: Desi_gna det här formuläret"
+msgstr "FIXME: _Utforma det här formuläret"
 
 #: calendar/gui/dialogs/task-editor.c:550 calendar/gui/event-editor.c:1276
 msgid "FIXME: D_esign a Form..."
-msgstr "FIXME: D_esigna ett formulär..."
+msgstr "FIXME: Utf_orma ett formulär..."
 
 #: calendar/gui/dialogs/task-editor.c:552 calendar/gui/event-editor.c:1278
 msgid "FIXME: Publish _Form..."
@@ -1462,7 +1462,7 @@ msgstr "_Verktyg"
 
 #: calendar/gui/dialogs/task-editor.c:598 calendar/gui/event-editor.c:1320
 msgid "Actio_ns"
-msgstr "Hä_ndelser"
+msgstr "_Åtgärder"
 
 #: calendar/gui/dialogs/task-editor.c:624 calendar/gui/event-editor.c:1345
 msgid "Save and Close"
@@ -1478,7 +1478,7 @@ msgstr "FIXME: Skriv ut..."
 
 #: calendar/gui/dialogs/task-editor.c:630 calendar/gui/event-editor.c:1363
 msgid "Print this item"
-msgstr "Skriv ut detta föremål"
+msgstr "Skriv ut detta objekt"
 
 #: calendar/gui/dialogs/task-editor.c:633 calendar/gui/event-editor.c:1368
 msgid "FIXME: Insert File..."
@@ -1486,7 +1486,7 @@ msgstr "FIXME: Infoga fil..."
 
 #: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1369
 msgid "Insert a file as an attachment"
-msgstr "Infoga en fil som en bilaga"
+msgstr "Infoga en fil som bilaga"
 
 #: calendar/gui/dialogs/task-editor.c:639
 msgid "FIXME: Assign Task..."
@@ -1514,7 +1514,7 @@ msgstr "FIXME: Föregående"
 
 #: calendar/gui/dialogs/task-editor.c:650 calendar/gui/event-editor.c:1380
 msgid "Go to the previous item"
-msgstr "Gå till det föregående föremålet"
+msgstr "Gå till det föregående objektet"
 
 #: calendar/gui/dialogs/task-editor.c:653 calendar/gui/event-editor.c:1382
 msgid "FIXME: Next"
@@ -1522,7 +1522,7 @@ msgstr "FIXME: Nästa"
 
 #: calendar/gui/dialogs/task-editor.c:654 calendar/gui/event-editor.c:1383
 msgid "Go to the next item"
-msgstr "Gå till nästa föremål"
+msgstr "Gå till nästa objekt"
 
 #: calendar/gui/dialogs/task-editor.c:657 calendar/gui/event-editor.c:1385
 msgid "FIXME: Help"
@@ -2282,11 +2282,11 @@ msgstr "sen"
 
 #: calendar/gui/gncal-todo.c:139
 msgid "Create to-do item"
-msgstr "Skapa att-göra-föremål"
+msgstr "Skapa att-göra-objekt"
 
 #: calendar/gui/gncal-todo.c:139
 msgid "Edit to-do item"
-msgstr "Redigera att-göra-föremål"
+msgstr "Redigera att-göra-objekt"
 
 #: calendar/gui/gncal-todo.c:175
 msgid "Summary:"
@@ -2302,7 +2302,7 @@ msgstr "Prioritet:"
 
 #: calendar/gui/gncal-todo.c:219
 msgid "Item Comments:"
-msgstr "Föremålskommentarer:"
+msgstr "Objektkommentarer:"
 
 #: calendar/gui/gnome-cal.c:697 calendar/gui/gnome-cal.c:1435
 #: calendar/gui/gnome-cal.c:1491
@@ -2506,7 +2506,7 @@ msgstr "Lö"
 
 #: calendar/gui/print.c:951
 msgid "TODO Items"
-msgstr "ATT GÖRA-föremål"
+msgstr "ATT-GÖRA-objekt"
 
 #. Day
 #: calendar/gui/print.c:1052
@@ -2637,15 +2637,15 @@ msgstr "Stilalternativ för att-göra-listan"
 
 #: calendar/gui/prop.c:648
 msgid "Highlight overdue items"
-msgstr "Markera föremål som skulle ha utförts"
+msgstr "Markera objekt som skulle ha utförts"
 
 #: calendar/gui/prop.c:651
 msgid "Highlight not yet due items"
-msgstr "Markera föremål som inte är aktuella än"
+msgstr "Markera objekt som inte är aktuella än"
 
 #: calendar/gui/prop.c:654
 msgid "Highlight items due today"
-msgstr "Markera föremål som ska ha utförts idag"
+msgstr "Markera objekt som ska ha utförts idag"
 
 #: calendar/gui/prop.c:684
 msgid "To Do List Properties"
@@ -2691,7 +2691,7 @@ msgstr "Klipp ut"
 
 #: composer/e-msg-composer-address-dialog.c:187
 msgid "Cut selected item into clipboard"
-msgstr "Klipp ut markerat föremål till urklipp"
+msgstr "Klipp ut markerat objekt till urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:190
 msgid "Copy"
@@ -2699,7 +2699,7 @@ msgstr "Kopiera"
 
 #: composer/e-msg-composer-address-dialog.c:191
 msgid "Copy selected item into clipboard"
-msgstr "Kopiera markerat föremål till urklipp"
+msgstr "Kopiera markerat objekt till urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:194
 #: composer/e-msg-composer-address-dialog.c:202
@@ -2709,7 +2709,7 @@ msgstr "Klistra in"
 #: composer/e-msg-composer-address-dialog.c:195
 #: composer/e-msg-composer-address-dialog.c:203
 msgid "Paste item from clipboard"
-msgstr "Klistra in föremål från urklipp"
+msgstr "Klistra in objekt från urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:529
 msgid "Select recipients' addresses"
@@ -2797,13 +2797,14 @@ msgstr "%.1fG"
 msgid "Add attachment"
 msgstr "Lägg till bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:366 shell/e-shortcuts-view.c:261
+#: composer/e-msg-composer-attachment-bar.c:366 shell/e-shortcuts-view.c:237
+#: shell/e-shortcuts-view.c:354
 msgid "Remove"
 msgstr "Ta bort"
 
 #: composer/e-msg-composer-attachment-bar.c:367
 msgid "Remove selected items from the attachment list"
-msgstr "Ta bort markerade föremål från bifogningslistan"
+msgstr "Ta bort markerade objekt från bifogningslistan"
 
 #: composer/e-msg-composer-attachment-bar.c:398
 msgid "Add attachment..."
@@ -3370,7 +3371,7 @@ msgstr "Autentisering:"
 
 #: mail/mail-config-gui.c:988
 msgid "Detect supported types..."
-msgstr "Detektera de typer som stöds..."
+msgstr "Detektera vilka typer som stöds..."
 
 #: mail/mail-config-gui.c:1015
 msgid "Don't delete messages from server"
@@ -3391,7 +3392,7 @@ msgstr ""
 "Välj den typ av e-postserver som du har och ange den relevanta informationen "
 "om den.\n"
 "\n"
-"Om servern kräver autentisering kan du klicka på knappen \"Detektera de "
+"Om servern kräver autentisering kan du klicka på knappen \"Detektera vilka "
 "typer som stöds...\" när du har angett den andra informationen."
 
 #: mail/mail-config-gui.c:1183
@@ -4221,31 +4222,68 @@ msgstr "Evolution - %s"
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan inte lägga upp lokal plats för sparande -- %s"
 
-#: shell/e-shortcuts-view.c:163
-msgid "_Small icons"
+#: shell/e-shortcuts-view.c:122
+msgid "Create new shortcut group"
+msgstr "Skapa en ny genvägsgrupp"
+
+#: shell/e-shortcuts-view.c:125
+msgid "Group name:"
+msgstr "Gruppnamn:"
+
+#: shell/e-shortcuts-view.c:232
+#, c-format
+msgid ""
+"Do you really want to remove group\n"
+"`%s' from the shortcut bar?"
+msgstr ""
+"Vill du verkligen ta bort gruppen\n"
+"\"%s\" från genvägsraden?"
+
+#: shell/e-shortcuts-view.c:237
+msgid "Don't remove"
+msgstr "Ta inte bort"
+
+#: shell/e-shortcuts-view.c:248
+msgid "_Small Icons"
 msgstr "_Små ikoner"
 
-#: shell/e-shortcuts-view.c:164
+#: shell/e-shortcuts-view.c:249
 msgid "Show the shortcuts as small icons"
 msgstr "Visa genvägarna som små ikoner"
 
-#: shell/e-shortcuts-view.c:166
-msgid "_Large icons"
+#: shell/e-shortcuts-view.c:251
+msgid "_Large Icons"
 msgstr "S_tora ikoner"
 
-#: shell/e-shortcuts-view.c:167
+#: shell/e-shortcuts-view.c:252
 msgid "Show the shortcuts as large icons"
 msgstr "Visa genvägarna som stora ikoner"
 
-#: shell/e-shortcuts-view.c:258
+#: shell/e-shortcuts-view.c:263
+msgid "_New Group..."
+msgstr "_Ny grupp..."
+
+#: shell/e-shortcuts-view.c:264
+msgid "Create a new shortcut group"
+msgstr "Skapa en ny genvägsgrupp"
+
+#: shell/e-shortcuts-view.c:266
+msgid "_Remove This Group..."
+msgstr "Ta bo_rt denna grupp..."
+
+#: shell/e-shortcuts-view.c:267
+msgid "Remove this shortcut group"
+msgstr "Ta bort denna genvägsgrupp"
+
+#: shell/e-shortcuts-view.c:351
 msgid "Activate"
 msgstr "Aktivera"
 
-#: shell/e-shortcuts-view.c:258
+#: shell/e-shortcuts-view.c:351
 msgid "Activate this shortcut"
 msgstr "Aktivera denna genväg"
 
-#: shell/e-shortcuts-view.c:261
+#: shell/e-shortcuts-view.c:354
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Ta bort denna genväg från genvägsraden"
 
