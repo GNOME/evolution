@@ -43,6 +43,10 @@
 
 #include <glade/glade.h>
 
+#include <gconf/gconf.h>
+
+#include <gal/widgets/e-cursors.h>
+
 #include "component-factory.h"
 
 

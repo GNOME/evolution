@@ -49,10 +49,8 @@ set_value (ECellView *view,
 	ECell *ecell = view->ecell;
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell);
 
-	if (value >= toggle->n_states) {
-		g_print ("Value 2: %d\n", value);
+	if (value >= toggle->n_states)
 		value = 1;
-	}
 
 	e_table_model_set_value_at (view->e_table_model,
 				    model_col, row, GINT_TO_POINTER (value));

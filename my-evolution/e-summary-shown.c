@@ -238,27 +238,6 @@ is_location_in_shown (ESummaryShown *shown,
 	return FALSE;
 }
 
-static ESummaryShownModelEntry *
-find_entry_from_location (ESummaryShown *shown,
-			  const char *location)
-{
-	GSList *p;
-
-	for (p = shown->priv->shown->contents; p; p = p->next) {
-		ESummaryShownModelEntry *entry = p->data;
-
-		if (entry->location == NULL) {
-			continue;
-		}
-               
-		if (strcmp ((char *) entry->location, location) == 0) {
-			return entry;
-		}
-	}
-
-	return NULL;
-}
-
 struct _CountData {
 	ESummaryShown *shown;
 	GList *selected_list;
@@ -369,7 +348,6 @@ maybe_move_to_shown (ETreePath path,
 	new_entry->showable = entry->showable;
 	new_entry->ref_count = 0;
 
-	g_print ("Added %s\n", entry->name);
 	*list = g_list_prepend (*list, new_entry);
 }
 

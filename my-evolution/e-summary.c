@@ -98,7 +98,8 @@ struct _ESummaryPrivate {
 	gpointer alarm;
 
 	gboolean frozen;
-	gboolean redraw_pending;
+
+	int queued_draw_idle_id;
 };
 
 typedef struct _ProtocolListener {
@@ -134,7 +135,12 @@ destroy (GtkObject *object)
 		gtk_timeout_remove (priv->pending_reload_tag);
 		priv->pending_reload_tag = 0;
 	}
-		
+
+	if (priv->queued_draw_idle_id != 0) {
+		g_source_remove (priv->queued_draw_idle_id);
+		priv->queued_draw_idle_id = 0;
+	}
+
 	if (summary->mail) {
 		e_summary_mail_free (summary);
 	}
@@ -165,28 +171,17 @@ destroy (GtkObject *object)
 	e_summary_parent_class->destroy (object);
 }
 
-void
-e_summary_draw (ESummary *summary)
+static gboolean
+draw_idle_cb (void *data)
 {
+	ESummary *summary;
 	GString *string;
 	GtkHTMLStream *stream;
 	char *html;
 	char date[256], *date_utf;
 	time_t t;
 
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (summary));
-
-	if (summary->mail == NULL || summary->calendar == NULL
-	    || summary->rdf == NULL || summary->weather == NULL 
-	    || summary->tasks == NULL) {
-		return;
-	}
-
-	if (summary->priv->frozen == TRUE) {
-		summary->priv->redraw_pending = TRUE;
-		return;
-	}
+	summary = E_SUMMARY (data);
 
 	string = g_string_new (HTML_1);
 	t = time (NULL);
@@ -237,6 +232,28 @@ e_summary_draw (ESummary *summary)
 	gtk_html_end (GTK_HTML (summary->priv->html), stream, GTK_HTML_STREAM_OK);
 
 	g_string_free (string, TRUE);
+
+	summary->priv->queued_draw_idle_id = 0;
+
+	return FALSE;
+}
+
+void
+e_summary_draw (ESummary *summary)
+{
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	if (summary->mail == NULL || summary->calendar == NULL
+	    || summary->rdf == NULL || summary->weather == NULL 
+	    || summary->tasks == NULL) {
+		return;
+	}
+
+	if (summary->priv->queued_draw_idle_id != 0)
+		return;
+
+	summary->priv->queued_draw_idle_id = g_idle_add (draw_idle_cb, summary);
 }
 
 void
@@ -473,7 +490,6 @@ e_summary_init (ESummary *summary)
 	priv = summary->priv;
 
 	priv->frozen = TRUE;
-	priv->redraw_pending = FALSE;
 	priv->pending_reload_tag = 0;
 
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
@@ -495,10 +511,6 @@ e_summary_init (ESummary *summary)
 			    GTK_SIGNAL_FUNC (e_summary_url_requested), summary);
 	gtk_signal_connect (GTK_OBJECT (priv->html), "link-clicked",
 			    GTK_SIGNAL_FUNC (e_summary_url_clicked), summary);
-#if 0
-	gtk_signal_connect (GTK_OBJECT (priv->html), "on-url",
-			    GTK_SIGNAL_FUNC (e_summary_on_url), summary);
-#endif
 
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
 	gtk_widget_show_all (priv->html_scroller);
@@ -535,6 +547,8 @@ e_summary_init (ESummary *summary)
 	}
 
 	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
+
+	priv->queued_draw_idle_id = 0;
 }
 
 E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
@@ -772,13 +786,17 @@ e_summary_reload_timeout (gpointer closure)
 {
 	ESummary *summary = closure;
 
-	if (summary->rdf != NULL) {
+	if (summary->rdf != NULL)
 		e_summary_rdf_update (summary);
-	}
 
-	if (summary->weather != NULL) {
+	if (summary->weather != NULL)
 		e_summary_weather_update (summary);
-	}
+
+	if (summary->calendar != NULL)
+		e_summary_calendar_reconfigure (summary);
+
+	if (summary->tasks != NULL)
+		e_summary_tasks_reconfigure (summary);
 
 	summary->priv->pending_reload_tag = 0;
 
@@ -828,7 +846,6 @@ e_summary_count_connections (ESummary *summary)
 		count += c->count (summary, c->closure);
 	}
 
-	g_print ("Count: %d", count);
 	return count;
 }
 
@@ -872,11 +889,9 @@ e_summary_set_online (ESummary *summary,
 		c->callback_closure = closure;
 
 		c->set_online (summary, progress, online, c->closure);
-		g_print ("Setting %s\n", online ? "online" : "offline");
 
-		if (callback != NULL) {
+		if (callback != NULL)
 			callback (summary, closure);
-		}
 	}
 }
 
@@ -907,33 +922,4 @@ e_summary_remove_online_connection (ESummary *summary,
 
 	summary->priv->connections = g_list_remove_link (summary->priv->connections, p);
 	g_list_free (p);
-}
-
-void
-e_summary_freeze (ESummary *summary)
-{
-	g_return_if_fail (IS_E_SUMMARY (summary));
-	g_return_if_fail (summary->priv != NULL);
-
-	if (summary->priv->frozen == TRUE) {
-		return;
-	}
-
-	summary->priv->frozen = TRUE;
-}
-
-void
-e_summary_thaw (ESummary *summary)
-{
-	g_return_if_fail (IS_E_SUMMARY (summary));
-	g_return_if_fail (summary->priv != NULL);
-
-	if (summary->priv->frozen == FALSE) {
-		return;
-	}
-
-	summary->priv->frozen = FALSE;
-	if (summary->priv->redraw_pending) {
-		e_summary_draw (summary);
-	}
 }

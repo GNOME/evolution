@@ -1,3 +1,82 @@
+2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-cell-tri.c (set_value): Removed debugging message.
+
+	* e-summary-factory.c (control_activate): Removed the call to
+	e_summary_thaw().
+	(control_deactivate): Removed the call to e_summary_freeze().
+
+	* e-summary-mail.c (folder_gen_html): Removed debugging message.
+	(insert_path_recur): Likewise.
+	(add_storage_to_table): Likewise.
+	(folder_info_pb_changed): Likewise.
+	(lazy_register_storages): Likewise.
+
+	* e-summary-weather.c: #include "e-summary-preferences.h".
+	(e_summary_weather_update): Removed debugging message.
+
+	* e-summary-offline-handler.c: #include <gtk/gtksignal.h>.
+
+	* main.c: #include <gconf/gconf.h> and <gal/widgets/e-cursors.h>.
+
+	* e-summary-preferences.c (free_rdf_info): Removed unused
+	function.
+	(find_name_for_url): Likewise.
+	(mail_etable_item_changed_cb): Likewise.
+	(maybe_add_to_shown): Likewise.
+	(get_folders_from_view): Removed debugging messages.
+
+	* e-summary-rdf.c (tree_walk): Removed debugging message.
+	(e_summary_rdf_update): Likewise.
+
+	* e-summary-shown.c (find_entry_from_location): Removed unused
+	function.
+	(maybe_move_to_shown): Removed debugging message.
+
+	* e-summary-tasks.c: New members cal_open_reload_timeout_id and
+	reload_count in ESummaryTasks.
+	(generate_html): Return if the load_state of the cal_client is not
+	CAL_CLIENT_LOAD_LOADED.
+	(cal_open_reload_timeout): New; timeout function for attempting to
+	reload the calendar if the first attempt failed.
+	(cal_opened_cb): If the load failed, register
+	cal_open_reload_timeout to try again after one second.
+	(setup_task_folder): If there is a pending timeout callback
+	[cal_open_reload_timeout_id nonzero], remove it.
+	(e_summary_tasks_init): Call setup_task_folder().
+	(e_summary_tasks_free): If there is a pending timeout callback
+	[cal_open_reload_timeout_id nonzero], remove it.
+
+	* e-summary-calendar.c: New members cal_open_reload_timeout_id and
+	reload_count in ESummaryCalendar.
+	(e_cal_comp_util_compare_event_timezones): Renamed to
+	compare_event_timezones() and made static.
+	(generate_html): Return if the load_state of the cal_client is not
+	CAL_CLIENT_LOAD_LOADED.  Call e_summary_draw() before returning.
+	(cal_open_reload_timeout): New; timeout function for attempting to
+	reload the calendar if the first attempt failed.
+	(cal_opened_cb): Return if the load_state of the cal_client is not
+	CAL_CLIENT_LOAD_LOADED.
+	(e_summary_calendar_reconfigure): Call setup_calendar() so that,
+	if the default folder has changed, it gets reloaded.
+	(setup_calendar): If there is a pending timeout callback
+	[cal_open_reload_timeout_id nonzero], remove it.
+	(e_summary_calendar_free): Likewise.
+
+	* e-summary.c: New member queue_draw_idle_id in ESummaryPrivate.
+	Removed member redraw_pending.
+	(destroy): If queue_draw_idle_id is nonzero, remove the
+	corresponding glib mainloop source.
+	(draw_idle_cb): New function to regenerate the HTML in the idle
+	loop; moved all the code from e_summary_draw() in here.
+	(e_summary_draw): Set up draw_idle_cb as an idle callback.
+	(e_summary_init): Initialize queued_draw_idle_id.
+	(e_summary_reload_timeout): Call e_summary_calendar_reconfigure()
+	and e_summary_tasks_reconfigure().  Removed debugging message.
+	(e_summary_set_online): Removed debugging message.
+	(e_summary_freeze): Removed.
+	(e_summary_thaw): Removed.
+
 2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-preferences.c: Replace Gnotices with Footnotes.

@@ -44,6 +44,8 @@
 #include <bonobo-conf/bonobo-config-database.h>
 #include <liboaf/liboaf.h>
 
+#define MAX_RELOAD_TRIES 10
+
 struct _ESummaryTasks {
 	CalClient *client;
 
@@ -54,6 +56,9 @@ struct _ESummaryTasks {
 	char *default_uri;
 
 	EConfigListener *config_listener;
+
+	int cal_open_reload_timeout_id;
+	int reload_count;
 };
 
 const char *
@@ -295,6 +300,9 @@ generate_html (gpointer data)
 	char *tmp;
 	time_t t;
 
+	if (cal_client_get_load_state (tasks->client) != CAL_CLIENT_LOAD_LOADED)
+		return FALSE;
+
 	/* Set the default timezone on the server. */
 	if (summary->tz) {
 		cal_client_set_default_timezone (tasks->client,
@@ -325,7 +333,6 @@ generate_html (gpointer data)
 		g_free (s1);
 		g_free (s2);
 
-/*  		e_summary_draw (summary); */
 		return FALSE;
 	} else {
 		char *s;
@@ -390,7 +397,23 @@ generate_html (gpointer data)
 	tasks->html = string->str;
 	g_string_free (string, FALSE);
 
-/*  	e_summary_draw (summary); */
+  	e_summary_draw (summary);
+	return FALSE;
+}
+
+static gboolean
+cal_open_reload_timeout (void *data)
+{
+	ESummary *summary = (ESummary *) data;
+
+	summary->tasks->cal_open_reload_timeout_id = 0;
+
+	if (++ summary->tasks->reload_count >= MAX_RELOAD_TRIES) {
+		summary->tasks->reload_count = 0;
+		return FALSE;
+	}
+
+	cal_client_open_default_tasks (summary->tasks->client, FALSE);
 	return FALSE;
 }
 
@@ -399,12 +422,14 @@ cal_opened_cb (CalClient *client,
 	       CalClientOpenStatus status,
 	       ESummary *summary)
 {
-	if (status == CAL_CLIENT_OPEN_SUCCESS) {
+	if (status == CAL_CLIENT_OPEN_SUCCESS)
 		g_idle_add (generate_html, summary);
-	} else {
-		/* Need to work out what to do if there's an error */
-	}
+	else
+		summary->tasks->cal_open_reload_timeout_id = g_timeout_add (1000,
+									    cal_open_reload_timeout,
+									    summary);
 }
+
 static void
 obj_changed_cb (CalClient *client,
 		const char *uid,
@@ -456,6 +481,12 @@ setup_task_folder (ESummary *summary)
 	tasks = summary->tasks;
 	g_assert (tasks != NULL);
 	g_assert (tasks->config_listener != NULL);
+
+	if (tasks->cal_open_reload_timeout_id != 0) {
+		g_source_remove (tasks->cal_open_reload_timeout_id);
+		tasks->cal_open_reload_timeout_id = 0;
+		tasks->reload_count = 0;
+	}
 
 	g_free (tasks->due_today_colour);
 	g_free (tasks->overdue_colour);
@@ -536,6 +567,7 @@ e_summary_tasks_init (ESummary *summary)
 void
 e_summary_tasks_reconfigure (ESummary *summary)
 {
+	setup_task_folder (summary);
 	generate_html (summary);
 }
 
@@ -548,6 +580,10 @@ e_summary_tasks_free (ESummary *summary)
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	tasks = summary->tasks;
+
+	if (tasks->cal_open_reload_timeout_id != 0)
+		g_source_remove (tasks->cal_open_reload_timeout_id);
+
 	gtk_object_unref (GTK_OBJECT (tasks->client));
 	g_free (tasks->html);
 	g_free (tasks->due_today_colour);

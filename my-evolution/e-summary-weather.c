@@ -37,6 +37,7 @@
 #include "e-summary.h"
 #include "e-summary-shown.h"
 #include "e-summary-weather.h"
+#include "e-summary-preferences.h"
 #include "weather.h"
 #include "metar.h"
 
@@ -320,7 +321,6 @@ e_summary_weather_update (ESummary *summary)
 
 		uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", weather->location);
 		context = soup_context_get (uri);
-		g_print ("Updating %s\n", uri);
 		if (context == NULL) {
 			g_warning ("Invalid URL: %s", uri);
 			soup_context_unref (context);

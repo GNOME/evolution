@@ -609,35 +609,6 @@ static struct _RDFInfo rdfs[] = {
 };
 
 static void
-free_rdf_info (struct _RDFInfo *info)
-{
-	g_free (info->url);
-	g_free (info->name);
-	g_free (info);
-}
-
-static const char *
-find_name_for_url (PropertyData *pd,
-		   const char *url)
-{
-	GList *p;
-
-	for (p = pd->rdf->known; p; p = p->next) {
-		struct _RDFInfo *info = p->data;
-		
-		if (info == NULL || info->url == NULL) {
-			continue;
-		}
-
-		if (strcmp (url, info->url) == 0) {
-			return info->name;
-		}
-	}
-
-	return url;
-}
-
-static void
 save_known_rdfs (GList *rdfs)
 {
 	FILE *handle;
@@ -936,16 +907,6 @@ rdf_limit_value_changed_cb (GtkAdjustment *adj,
 {
 	global_preferences->limit = (int) adj->value;
 	evolution_config_control_changed (pd->config_control);
-}
-
-static void
-mail_etable_item_changed_cb (ESummaryTable *est,
-			     ETreePath path,
-			     PropertyData *pd)
-{
-	if (pd->config_control != NULL) {
-		evolution_config_control_changed (pd->config_control);
-	}
 }
 
 static void
@@ -1288,22 +1249,6 @@ free_property_dialog (PropertyData *pd)
 	g_free (pd);
 }
 
-static void
-maybe_add_to_shown (gpointer key,
-		    gpointer value,
-		    gpointer data)
-{
-	ESummaryTableModelEntry *item;
-	GList **list;
-
-	item = (ESummaryTableModelEntry *) value;
-	list = (GList **) data;
-
-	if (item->shown == TRUE) {
-		*list = g_list_prepend (*list, g_strdup (item->location));
-	}
-}
-
 
 /* Prototypes to shut gcc up */
 GtkWidget *e_summary_preferences_make_mail_table (PropertyData *pd);
@@ -1457,8 +1402,6 @@ get_folders_from_view (GtkWidget *view)
 		f = g_new (ESummaryPrefsFolder, 1);
 		f->evolution_uri = g_strdup (folder.evolutionUri);
 		f->physical_uri = g_strdup (folder.physicalUri);
-		g_print ("Physical: %s\n", folder.physicalUri);
-		g_print ("Evolution: %s\n----\n", folder.evolutionUri);
 		out_list = g_list_append (out_list, f);
 	}
 	

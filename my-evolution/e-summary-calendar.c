@@ -44,6 +44,8 @@
 
 #include <ical.h>
 
+#define MAX_RELOAD_TRIES 10
+
 struct _ESummaryCalendar {
 	CalClient *client;
 
@@ -53,6 +55,9 @@ struct _ESummaryCalendar {
 	char *default_uri;
 
 	EConfigListener *config_listener;
+
+	int cal_open_reload_timeout_id;
+	int reload_count;
 };
 
 const char *
@@ -89,10 +94,10 @@ cal_component_compare_tzid (const char *tzid1, const char *tzid2)
         return retval;
 }
 
-gboolean
-e_cal_comp_util_compare_event_timezones (CalComponent *comp,
-					 CalClient *client,
-					 icaltimezone *zone)
+static gboolean
+compare_event_timezones (CalComponent *comp,
+			 CalClient *client,
+			 icaltimezone *zone)
 {
 	CalClientGetStatus status;
 	CalComponentDateTime start_datetime, end_datetime;
@@ -335,6 +340,9 @@ generate_html (gpointer data)
 	char *tmp;
 	time_t t, begin, end, f;
 
+	if (cal_client_get_load_state (calendar->client) != CAL_CLIENT_LOAD_LOADED)
+		return FALSE;
+
 	/* Set the default timezone on the server. */
 	if (summary->tz) {
 		cal_client_set_default_timezone (calendar->client,
@@ -379,7 +387,7 @@ generate_html (gpointer data)
 		g_free (s1);
 		g_free (s2);
 
-/*  		e_summary_draw (summary); */
+ 		e_summary_draw (summary);
 		return FALSE;
 	} else {
 		GPtrArray *uidarray;
@@ -414,9 +422,9 @@ generate_html (gpointer data)
 
 			if (cal_component_has_alarms (event->comp)) {
 				img = "es-appointments.png";
-			} else if (e_cal_comp_util_compare_event_timezones (event->comp,
-									    calendar->client,
-									    summary->tz) == FALSE) {
+			} else if (compare_event_timezones (event->comp,
+							    calendar->client,
+							    summary->tz) == FALSE) {
 				img = "timezone-16.xpm";
 			} else {
 				img = "new_appointment.xpm";
@@ -444,7 +452,23 @@ generate_html (gpointer data)
 	calendar->html = string->str;
 	g_string_free (string, FALSE);
 
-/*  	e_summary_draw (summary); */
+ 	e_summary_draw (summary);
+	return FALSE;
+}
+
+static gboolean
+cal_open_reload_timeout (void *data)
+{
+	ESummary *summary = (ESummary *) data;
+
+	summary->calendar->cal_open_reload_timeout_id = 0;
+
+	if (++ summary->calendar->reload_count >= MAX_RELOAD_TRIES) {
+		summary->calendar->reload_count = 0;
+		return FALSE;
+	}
+
+	cal_client_open_default_calendar (summary->calendar->client, FALSE);
 	return FALSE;
 }
 
@@ -456,9 +480,12 @@ cal_opened_cb (CalClient *client,
 	if (status == CAL_CLIENT_OPEN_SUCCESS) {
 		g_idle_add (generate_html, summary);
 	} else {
-		/* Need to work out what to do if there's an error */
+		summary->calendar->cal_open_reload_timeout_id = g_timeout_add (1000,
+									       cal_open_reload_timeout,
+									       summary);
 	}
 }
+
 static void
 obj_changed_cb (CalClient *client,
 		const char *uid,
@@ -520,6 +547,12 @@ setup_calendar (ESummary *summary)
 	calendar = summary->calendar;
 	g_assert (calendar != NULL);
 
+	if (calendar->cal_open_reload_timeout_id != 0) {
+		g_source_remove (calendar->cal_open_reload_timeout_id);
+		calendar->cal_open_reload_timeout_id = 0;
+		calendar->reload_count = 0;
+	}
+
 	if (calendar->client != NULL)
 		gtk_object_unref (GTK_OBJECT (calendar->client));
 
@@ -549,7 +582,6 @@ config_listener_key_changed_cb (EConfigListener *listener,
 				void *user_data)
 {
 	setup_calendar (E_SUMMARY (user_data));
-
 	generate_html (user_data);
 }
 
@@ -589,6 +621,7 @@ e_summary_calendar_init (ESummary *summary)
 void
 e_summary_calendar_reconfigure (ESummary *summary)
 {
+	setup_calendar (summary);
 	generate_html (summary);
 }
 
@@ -601,6 +634,10 @@ e_summary_calendar_free (ESummary *summary)
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	calendar = summary->calendar;
+
+	if (calendar->cal_open_reload_timeout_id != 0)
+		g_source_remove (calendar->cal_open_reload_timeout_id);
+
 	gtk_object_unref (GTK_OBJECT (calendar->client));
 	g_free (calendar->html);
 	g_free (calendar->default_uri);

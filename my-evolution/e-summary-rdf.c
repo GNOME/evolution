@@ -232,7 +232,6 @@ tree_walk (xmlNodePtr root,
 			}
 			if (strcasecmp (walk->name, "image") == 0) {
 				image = walk;
-				g_print ("Image\n");
 			}
 			if (strcasecmp (walk->name, "item") == 0 && items < 16) {
 				item[items++] = walk;
@@ -370,7 +369,6 @@ e_summary_rdf_update (ESummary *summary)
 		}
 
 		context = soup_context_get (rdf->uri);
-		g_print ("Updating %s\n", rdf->uri);
 		if (context == NULL) {
 			g_warning ("Invalid URL: %s", rdf->uri);
 			soup_context_unref (context);

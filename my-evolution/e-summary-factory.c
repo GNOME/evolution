@@ -69,7 +69,6 @@ control_activate (BonoboControl *control,
   	e_pixmaps_update (ui_component, pixmaps); 
 
 	bonobo_ui_component_thaw (ui_component, NULL);
-	e_summary_thaw (summary);
 }
 
 static void
@@ -78,7 +77,6 @@ control_deactivate (BonoboControl *control,
 		    ESummary *summary)
 {
 	bonobo_ui_component_unset_container (ui_component);
-	e_summary_freeze (summary);
 }
 
 static void

@@ -130,7 +130,6 @@ folder_gen_html (ESummary *summary,
 	pretty_name = make_pretty_foldername (summary, folder->path);
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
 			       folder->uri, pretty_name, folder->unread, folder->count);
-	g_print ("%s\n", folder->uri);
 	g_string_append (string, str);
 	g_free (pretty_name);
 	g_free (str);
@@ -159,7 +158,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	for (p = folder_store->shown; p; p = p->next) {
 		ESummaryMailFolder *mail_folder = p->data;
 
-		folder_gen_html (summary, p->data, string);
+		folder_gen_html (summary, mail_folder, string);
 	}
 
 	g_string_append (string, "</table></dd></dl>");
@@ -644,8 +643,6 @@ insert_path_recur (ESummaryTable *est,
 				/* FIXME: Not sure I like this, but... */
 				si->toplevel = g_strdup (path);
 			}
-
-			g_print ("Generated toplevel as %s\n", si->toplevel);
 		}
 		
 		if (strcmp (si->toplevel, path) == 0) {
@@ -715,11 +712,9 @@ add_storage_to_table (ESummaryTable *est,
 	path_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	si->folders = g_list_sort (si->folders, str_compare); 
 
-	g_print ("Adding %s\n", si->name);
 	for (p = si->folders; p; p = p->next) {
 		ESummaryMailFolder *folder = p->data;
 
-		g_print ("folder->path: %s\n", folder->path);
 		insert_path_recur (est, si, path_hash, folder->path);
 	}
 
@@ -819,7 +814,6 @@ folder_info_pb_changed (BonoboListener *listener,
 			CORBA_Environment *ev,
 			gpointer data)
 {
-	g_print ("Changed: %s\n", name);
 	e_summary_folder_register_storages (folder_store->shell); 
 }
 
@@ -849,7 +843,6 @@ lazy_register_storages (void)
 							       "folder-info-ready",
 							       NULL);
 	if (ready == TRUE) {
-		g_print ("We're ready\n");
 		/* Register storages */
 		e_summary_folder_register_storages (folder_store->shell); 
 		return;
@@ -879,8 +872,6 @@ lazy_register_storages (void)
 		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return;
 	}
-
-	g_print ("Ready\n");
 }
 
 gboolean

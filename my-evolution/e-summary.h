@@ -108,7 +108,6 @@ struct _ESummary {
 	GtkVBox parent;
 
 	ESummaryPrefs *preferences;
-/*  	ESummaryPrefs *old_prefs; */
 
 	ESummaryMail *mail;
 	ESummaryCalendar *calendar;
