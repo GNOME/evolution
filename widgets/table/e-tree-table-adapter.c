@@ -437,8 +437,10 @@ etta_value_at (ETableModel *etm, int col, int row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
+#if 0
 	etta->priv->last_access = row;
 	d(g_print("g) Setting last_access to %d\n", row));
+#endif
 
 	switch (col) {
 	case -1:

@@ -124,13 +124,17 @@ ets_insert_idle(ETreeSorted *ets)
 
 /* Helper functions */
 
+#define CHECK_AROUND_LAST_ACCESS
+
 static inline ETreeSortedPath *
 check_last_access (ETreeSorted *ets, ETreePath corresponding)
 {
+#ifdef CHECK_AROUND_LAST_ACCESS
 	ETreeSortedPath *parent;
 	int end;
 	int start;
 	int i;
+#endif
 
 	if (ets->priv->last_access == NULL)
 		return NULL;
@@ -140,6 +144,7 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 		return ets->priv->last_access;
 	}
 
+#ifdef CHECK_AROUND_LAST_ACCESS
 	parent = ets->priv->last_access->parent;
 	if (parent && parent->children) {
 		i = ets->priv->last_access->position;
@@ -160,6 +165,7 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 			}
 		}
 	}
+#endif
 	return NULL;
 }
 
