@@ -62,9 +62,6 @@ summary_sources =				\
 	my-evolution-html.h			\
 	weather.h
 
-summary_exe_sources = \
-	main.c
-
 summary_libs =				 				\
 	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a		\
 	$(top_builddir)/shell/libeshell.la				\
@@ -77,28 +74,11 @@ summary_libs =				 				\
 	$(top_builddir)/libwombat/libwombat.la				\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
-if ENABLE_SHLIB_COMPONENTS
-
-lib_LTLIBRARIES = libevolution-executive-summary.la
-
-libevolution_executive_summary_la_SOURCES = \
-	$(summary_sources)
-
-libevolution_executive_summary_la_LIBADD = \
-	$(summary_libs)
-
-else
-
-libexec_PROGRAMS = evolution-executive-summary
-
-evolution_executive_summary_SOURCES =		\
-	$(summary_sources)			\
-	$(summary_exe_sources)
-
-evolution_executive_summary_LDADD =		\
-	$(summary_libs)
-
-endif
+componentdir = $(prefix)/evolution/components
+component_LTLIBRARIES = libevolution-executive-summary.la
+libevolution_executive_summary_la_SOURCES = $(summary_sources)
+libevolution_executive_summary_la_LIBADD = $(summary_libs)
+libevolution_executive_summary_la_LDFLAGS = -module -avoid-version 
 
 Locationdir = $(datadir)/evolution
 Location_DATA = Locations
@@ -111,7 +91,7 @@ server_in_files = GNOME_Evolution_Summary.server.in.in
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
@@ -137,7 +117,6 @@ install-data-local:
 
 EXTRA_DIST = 				\
 	$(summary_sources)		\
-	$(summary_exe_sources)		\
 	$(server_in_files)		\
 	$(server_DATA)			\
 	$(Location_DATA)		\

@@ -42,7 +42,10 @@
 
 #include "component-factory.h"
 
-#define COMPONENT_ID "OAFIID:GNOME_Evolution_Summary_ShellComponent"
+#define FACTORY_ID             "OAFIID:GNOME_Evolution_Summary_ComponentFactory"
+
+#define COMPONENT_ID           "OAFIID:GNOME_Evolution_Summary_ShellComponent"
+#define PREFERENCES_CONTROL_ID "OAFIID:GNOME_Evolution_Summary_ConfigControl"
 
 static gint running_objects = 0;
 static ESummaryPrefs *global_preferences = NULL;
@@ -101,7 +104,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	corba_shell = evolution_shell_client_corba_objref (shell_client);
 	
 	e_summary_folder_init_folder_store (corba_shell);
-	e_summary_preferences_register_config_control_factory (corba_shell);
+	e_summary_preferences_init_control (corba_shell);
 }
 
 static void
@@ -112,7 +115,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 }
 
 static BonoboObject *
-create_component (void)
+create_shell_component (void)
 {
 	EvolutionShellComponent *shell_component;
 	ESummaryOfflineHandler *offline_handler;
@@ -141,23 +144,20 @@ create_component (void)
 	return BONOBO_OBJECT (shell_component);
 }
 
-/* Factory for the out-of-proc case.  */
-void
-component_factory_init (void)
+static BonoboObject *
+factory (BonoboGenericFactory *this,
+	 const char *object_id,
+	 void *data)
 {
-	Bonobo_RegistrationResult result;
-	BonoboObject *shell_component;
+	if (strcmp (object_id, COMPONENT_ID) == 0)
+		return create_shell_component ();
 
-	shell_component = create_component ();
+	if (strcmp (object_id, PREFERENCES_CONTROL_ID) == 0)
+		return e_summary_preferences_create_control ();
 
-	result = bonobo_activation_active_server_register (COMPONENT_ID,
-							   bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));
+	g_warning (FACTORY_ID ": Don't know anything about %s", object_id);
 
-	if (result != Bonobo_ACTIVATION_REG_SUCCESS)
-		g_error ("Cannot register Evolution Summary component factory.");
+	return NULL;
 }
 
-#if 0
-/* Factory for the shlib case.  */
-BONOBO_OAF_SHLIB_FACTORY (COMPONENT_FACTORY_ID, "Evolution Summary component", create_component, NULL)
-#endif
+BONOBO_ACTIVATION_SHLIB_FACTORY (FACTORY_ID, "Evolution Summary component", factory, NULL)

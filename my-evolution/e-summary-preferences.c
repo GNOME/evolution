@@ -55,8 +55,6 @@
 
 #include "evolution-config-control.h"
 
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
-
 static ESummaryPrefs *global_preferences = NULL;
 static GNOME_Evolution_Shell global_shell = NULL;
 
@@ -1229,10 +1227,8 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 	free_property_dialog (pd);
 }
 
-static BonoboObject *
-factory_fn (BonoboGenericFactory *generic_factory,
-	    const char *id,
-	    void *data)
+BonoboObject *
+e_summary_preferences_create_control (void)
 {
 	PropertyData *pd;
 	GtkWidget *widget;
@@ -1263,13 +1259,9 @@ factory_fn (BonoboGenericFactory *generic_factory,
 	return BONOBO_OBJECT (pd->config_control);
 }
 
-gboolean
-e_summary_preferences_register_config_control_factory (GNOME_Evolution_Shell corba_shell)
+/* FIXME this kinda sucks.  */
+void
+e_summary_preferences_init_control (GNOME_Evolution_Shell corba_shell)
 {
-	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, NULL) == NULL)
-		return FALSE;
-
 	global_shell = corba_shell;
-	
-	return TRUE;
 }

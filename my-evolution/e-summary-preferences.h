@@ -33,7 +33,7 @@ ESummaryPrefs *e_summary_preferences_copy     (ESummaryPrefs *prefs);
 ESummaryPrefs *e_summary_preferences_init     (void);
 ESummaryPrefs *e_summary_preferences_get_global (void);
 
-gboolean  e_summary_preferences_register_config_control_factory  (GNOME_Evolution_Shell shell);
-
+BonoboObject *e_summary_preferences_create_control  (void);
+void          e_summary_preferences_init_control    (GNOME_Evolution_Shell shell);
 
 #endif

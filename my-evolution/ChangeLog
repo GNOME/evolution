@@ -1,3 +1,21 @@
+2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Summary.server.in.in: Updated to be a shared
+	library.
+
+	* main.c: Removed.
+
+	* Makefile.am: Update to compile as a shared library.
+
+	* component-factory.c: Changed to be a shared library factory, for
+	both the ShellComponent and the ConfigControl objects.
+
+	* e-summary-preferences.c
+	(e_summary_preferences_init_config_control): Renamed from
+	e_summary_preferences_register_config_control_factory.
+	(e_summary_preferences_create_control): Renamed from factory_fn
+	and removed all args.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-summary-shown.c (e_summary_shown_init): GNOME_STOCK_*NEXT/PREV ->

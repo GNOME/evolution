@@ -1,8 +1,17 @@
 <oaf_info>
 
+  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ComponentFactory"
+	      type="shlib"
+	      location="@COMPONENTDIR@/libevolution-executive-summary.so">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:Bonobo/GenericFactory:1.0"/>
+    </oaf_attribute>
+  </oaf_server>
+
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponent"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-executive-summary">
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Summary_ComponentFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
@@ -18,21 +27,9 @@
 
   </oaf_server>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-executive-summary">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Factory for Evolution Summary's configuration control."/>
-  </oaf_server>
-
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Summary_ConfigControlFactory">
+	      location="OAFIID:GNOME_Evolution_Summary_ComponentFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
