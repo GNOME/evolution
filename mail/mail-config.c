@@ -504,6 +504,7 @@ config_read (void)
 		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
 			n = g_new0 (MailConfigService, 1);		
 			n->url = r;
+			n->enabled = TRUE;
 			config->news = g_slist_append (config->news, n);
 		} 
 		

@@ -1,20 +1,28 @@
-2001-11-21  Jeffrey Stedfast  <fejj@ximian.com>
+2001-11-25  Not Zed  <NotZed@Ximian.com>
 
-	* message-list.c: Reverted my hide_save_state patch.
+	* mail-config.c (config_read): Enable news accounts that exist
+	always, since no gui for it.
 
 2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_select): 'n' shouldn't wrap if 'p'
 	doesn't.
 
-2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* message-list.c (message_list_hide_clear): Save hide state.
-	(message_list_hide_uids): Save hide state.
-	(message_list_hide_add): Save hide state.
-
 	* mail-format.c (format_mime_part): Make sure the mime-type is
 	non-NULL before passing it off to mail_lookup_handler().
+
+2001-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-ui.c: Disable search if no message
+	loaded/viewed.  Also for #14348.
+
+	* folder-browser.c: Disable "Add sender to addressbook" if we dont
+	have a message loaded (it wont work).  For #14348.
+
+2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (load_content_loaded): Make sure the mail-display
+	object is still "alive" before accessing any of it's data.
 
 2001-11-14  Zbigniew Chyla  <cyba@gnome.pl>
 

@@ -1116,7 +1116,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 
 struct _load_content_msg {
 	struct _mail_msg msg;
-
+	
 	MailDisplay *display;
 	
 	GtkHTMLStream *handle;
@@ -1146,10 +1146,10 @@ try_part_urls (struct _load_content_msg *m)
 {
 	GHashTable *urls;
 	CamelMedium *medium;
-
+	
 	urls = g_datalist_get_data (m->display->data, "part_urls");
 	g_return_val_if_fail (urls != NULL, FALSE);
-
+	
 	/* See if it refers to a MIME part (cid: or http:) */
 	medium = g_hash_table_lookup (urls, m->url);
 	if (medium) {
@@ -1167,11 +1167,11 @@ try_part_urls (struct _load_content_msg *m)
 		html_stream = mail_stream_gtkhtml_new (m->display->html, m->handle);
 		camel_data_wrapper_write_to_stream (data, html_stream);
 		camel_object_unref (CAMEL_OBJECT (html_stream));
-
+		
 		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
 		return TRUE;
 	}
-
+	
 	return FALSE;
 }
 
@@ -1180,10 +1180,10 @@ try_data_urls (struct _load_content_msg *m)
 {
 	GHashTable *urls;
 	GByteArray *ba;
-
+	
 	urls = g_datalist_get_data (m->display->data, "data_urls");
 	ba   = g_hash_table_lookup (urls, m->url);
-
+	
 	printf ("url: %s data: %p len: %d\n", m->url, ba, ba ? ba->len : -1);
 	if (ba) {
 		if (ba->len) {
@@ -1193,7 +1193,7 @@ try_data_urls (struct _load_content_msg *m)
 		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
 		return TRUE;
 	}
-
+	
 	return FALSE;
 }
 
@@ -1201,7 +1201,10 @@ static void
 load_content_loaded (struct _mail_msg *mm)
 {
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-
+	
+	if (GTK_OBJECT_DESTROYED (m->display))
+		return;
+	
 	if (m->display->current_message == m->message) {
 		if (m->handle) {
 			printf ("handle: %p orig: %d actual: %d\n", m->handle,
@@ -1220,7 +1223,7 @@ static void
 load_content_free (struct _mail_msg *mm)
 {
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-
+	
 	g_free (m->url);
 	gtk_object_unref (GTK_OBJECT (m->display));
 	camel_object_unref (CAMEL_OBJECT (m->message));
@@ -1243,7 +1246,7 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 {
 	struct _load_content_msg *m;
 	GHashTable *loading;
-
+	
 	loading = g_datalist_get_data (md->data, "loading");
 	if (loading) {
 		if (g_hash_table_lookup (loading, key))
@@ -1254,18 +1257,18 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 					  (GDestroyNotify)g_hash_table_destroy);
 	}
 	g_hash_table_insert (loading, (gpointer)key, GINT_TO_POINTER (1));
-
+	
 	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
 	m->display = md;
+	gtk_object_ref (GTK_OBJECT (m->display));
 	m->handle = handle;
 	m->url = g_strdup (url);
 	m->redisplay_counter = md->redisplay_counter;
-	gtk_object_ref (GTK_OBJECT (m->display));
 	m->message = md->current_message;
 	camel_object_ref (CAMEL_OBJECT (m->message));
 	m->callback = callback;
 	m->data = data;
-
+	
 	e_thread_put (mail_thread_queued, (EMsg *)m);
 	return;
 }
@@ -1469,7 +1472,8 @@ mail_display_destroy (GtkObject *object)
 
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
-
+	mail_display->data = NULL;
+	
 	if (mail_display->idle_id)
 		gtk_timeout_remove(mail_display->idle_id);
 
