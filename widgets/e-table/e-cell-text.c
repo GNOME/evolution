@@ -777,14 +777,18 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}		
 		if (edit_display) {
 			GdkEventKey key = event->key;
-			e_tep_event.key.time = key.time;
-			e_tep_event.key.state = key.state;
-			e_tep_event.key.keyval = key.keyval;
-			e_tep_event.key.length = key.length;
-			e_tep_event.key.string = key.string;
-			_get_tep(edit);
-			return e_text_event_processor_handle_event (edit->tep,
-								    &e_tep_event);
+			if ( key.keyval == GDK_KP_Enter || key.keyval == GDK_Return ) {
+				e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+			} else {
+				e_tep_event.key.time = key.time;
+				e_tep_event.key.state = key.state;
+				e_tep_event.key.keyval = key.keyval;
+				e_tep_event.key.length = key.length;
+				e_tep_event.key.string = key.string;
+				_get_tep(edit);
+				return e_text_event_processor_handle_event (edit->tep,
+									    &e_tep_event);
+			}
 		}
 
 		else
