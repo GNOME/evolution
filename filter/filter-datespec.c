@@ -678,7 +678,6 @@ static void
 cal_day_selected (GtkCalendar *cal, gpointer user_data)
 {
 	FilterDatespec *fds = (FilterDatespec *)user_data;
-	extern int daylight;
 	struct tm seltime;
 
 	seltime.tm_sec = 0;
@@ -687,7 +686,7 @@ cal_day_selected (GtkCalendar *cal, gpointer user_data)
 	seltime.tm_mday = cal->selected_day;
 	seltime.tm_mon = cal->month;
 	seltime.tm_year = cal->year - 1900;
-	seltime.tm_isdst = daylight;
+	seltime.tm_isdst = -1;
 
 	fds->value = mktime (&seltime);
 }
