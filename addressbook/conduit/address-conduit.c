@@ -322,7 +322,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 	LOG ("local_record_to_pilot_record\n");
 
 	p.ID = local->local.ID;
-	p.category = 0;
+	p.category = local->local.category;
 	p.attr = local->local.attr;
 	p.archived = local->local.archived;
 	p.secret = local->local.secret;
@@ -355,15 +355,20 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 	local->addr = g_new0 (struct Address, 1);
 
-	/* Handle the fields we don't sync by making sure we don't overwrite them */
+	/* Handle the fields and category we don't sync by making sure
+         * we don't overwrite them 
+	 */
 	if (local->local.ID != 0) {
 		char record[0xffff];
-
+		int cat = 0;
+		
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket, 
 					ctxt->dbi->db_handle,
 					local->local.ID, &record, 
-					NULL, NULL, NULL, NULL) > 0)
+					NULL, NULL, NULL, &cat) > 0) {
+			local->local.category = cat;			
 			unpack_Address (local->addr, record, 0xffff);
+		}
 	}
 
 	if (ecard->name) {

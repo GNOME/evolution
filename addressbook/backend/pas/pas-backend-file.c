@@ -349,7 +349,7 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	if (db_error == DB_NOTFOUND) {
 		char *id = id_dbt.data;
 		
-		ctx->del_ids = g_list_append (ctx->del_ids, strdup (id));
+		ctx->del_ids = g_list_append (ctx->del_ids, g_strdup (id));
 	}
 }
 
@@ -409,12 +409,14 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 				case E_DBHASH_STATUS_SAME:
 					break;
 				case E_DBHASH_STATUS_NOT_FOUND:
-					ctx->add_cards = g_list_append (ctx->add_cards, strdup(vcard_string));
-					ctx->add_ids = g_list_append (ctx->add_ids, strdup(id));
+					ctx->add_cards = g_list_append (ctx->add_cards, 
+									g_strdup(vcard_string));
+					ctx->add_ids = g_list_append (ctx->add_ids, g_strdup(id));
 					break;
 				case E_DBHASH_STATUS_DIFFERENT:
-					ctx->mod_cards = g_list_append (ctx->mod_cards, strdup(vcard_string));
-					ctx->mod_ids = g_list_append (ctx->mod_ids, strdup(id));
+					ctx->mod_cards = g_list_append (ctx->mod_cards, 
+									g_strdup(vcard_string));
+					ctx->mod_ids = g_list_append (ctx->mod_ids, g_strdup(id));
 					break;
 				}
 			}
@@ -425,25 +427,6 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	}
 
    	e_dbhash_foreach_key (ehash, (EDbHashFunc)pas_backend_file_changes_foreach_key, view->change_context);
-
-	/* Update the hash */
-	for (i = ctx->add_ids, v = ctx->add_cards; i != NULL; i = i->next, v = v->next){
-		char *id = i->data;
-		char *vcard = v->data;
-		e_dbhash_add (ehash, id, vcard);
-	}	
-	for (i = ctx->mod_ids, v = ctx->mod_cards; i != NULL; i = i->next, v = v->next){
-		char *id = i->data;
-		char *vcard = v->data;
-		e_dbhash_add (ehash, id, vcard);
-	}	
-	for (i = ctx->del_ids; i != NULL; i = i->next){
-		char *id = i->data;
-		e_dbhash_remove (ehash, id);
-	}
-
-  	e_dbhash_write (ehash);
-  	e_dbhash_destroy (ehash);
 
 	/* Send the changes */
 	if (db_error != DB_NOTFOUND) {
@@ -462,6 +445,38 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		
 		pas_book_view_notify_complete (view->book_view);
 	}
+
+	/* Update the hash */
+	for (i = ctx->add_ids, v = ctx->add_cards; i != NULL; i = i->next, v = v->next){
+		char *id = i->data;
+		char *vcard = v->data;
+
+		e_dbhash_add (ehash, id, vcard);
+		e_dbhash_write (ehash);
+
+		g_free (i->data);
+		g_free (v->data);		
+	}	
+	for (i = ctx->mod_ids, v = ctx->mod_cards; i != NULL; i = i->next, v = v->next){
+		char *id = i->data;
+		char *vcard = v->data;
+
+		e_dbhash_add (ehash, id, vcard);
+		e_dbhash_write (ehash);
+
+		g_free (i->data);
+		g_free (v->data);		
+	}	
+	for (i = ctx->del_ids; i != NULL; i = i->next){
+		char *id = i->data;
+
+		e_dbhash_remove (ehash, id);
+		e_dbhash_write (ehash);
+
+		g_free (i->data);
+	}
+
+  	e_dbhash_destroy (ehash);
 }
 
 static char *

@@ -1,8 +1,29 @@
-2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+2001-09-28  JP Rosevear  <jpr@ximian.com>
 
-	* gui/component/addressbook.c: Update the paths,
-	/menu/ComponentToolsPlaceholder/Tools/ ->
-	/menu/Tools/ComponentPlaceholder/.
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_changes_foreach_key): g_strdup
+	(pas_backend_file_changes): ditto, make sure to free all data and
+	do a hash write after each add/remove
+
+	* conduit/address-conduit.c (local_record_to_pilot_record): use
+	the local record category
+	(local_record_from_ecard): ndle the fields and category we don't
+	sync by making sure we don't overwrite them
+
+2001-09-27  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_construct): do an oaf query to
+	get a list of all objects implementing our BookFactory interface,
+	instead of just activating the one IID.  this should really be a
+	global list, not a per EBook.
+	(e_book_load_uri): start the iteration over our list of
+	BookFactory's.
+	(e_book_load_uri_from_factory): try and load the uri.
+	(e_book_load_uri_open_cb): callback function for the
+	BookFactory_openBook call - if it succeeds, call the user's
+	callback.  otherwise step to the next factory.
+	(e_book_load_uri_step): go to the next factory in our list, and
+	error out if there are no more.
 
 2001-09-27  JP Rosevear  <jpr@ximian.com>
 
