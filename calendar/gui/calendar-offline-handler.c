@@ -152,12 +152,11 @@ backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data
 
 	if (status != CAL_CLIENT_OPEN_SUCCESS) {
 		update_offline (offline_handler);
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (client);
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_set_mode", 
-			    backend_cal_set_mode, offline_handler);
+	g_signal_connect (client, "cal_set_mode", G_CALLBACK (backend_cal_set_mode), offline_handler);
 	cal_client_set_mode (client, CAL_MODE_LOCAL);
 }
 
@@ -170,12 +169,11 @@ backend_go_offline (gpointer data, gpointer user_data)
 	gboolean success;
 	
 	client = cal_client_new ();
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
-			    backend_cal_opened, offline_handler);
+	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened), offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
 		update_offline (offline_handler);
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (client);
 		return;		
 	}	
 }
@@ -211,10 +209,10 @@ impl_goOnline (PortableServer_Servant servant,
 	priv = offline_handler->priv;
 }
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GtkObject *object)
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;
@@ -228,12 +226,22 @@ impl_destroy (GtkObject *object)
 		CORBA_exception_init (&ev);
 		CORBA_Object_release (priv->listener_interface, &ev);
 		CORBA_exception_free (&ev);
+
+		priv->listener_interface = CORBA_OBJECT_NIL;
 	}
 
-	g_free (priv);
+}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+static void
+impl_finalize (GtkObject *object)
+{
+	CalendarOfflineHandler *offline_handler;
+	CalendarOfflineHandlerPrivate *priv;
+
+	offline_handler = CALENDAR_OFFLINE_HANDLER (object);
+	priv = offline_handler->priv;
+
+	g_free (priv);
 }
 
 /* GTK+ type initialization.  */
@@ -241,11 +249,12 @@ impl_destroy (GtkObject *object)
 static void
 calendar_offline_handler_class_init (CalendarOfflineHandlerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Offline__epv *epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	epv = & klass->epv;
 	epv->_get_isOffline    = impl__get_isOffline;
@@ -274,7 +283,7 @@ calendar_offline_handler_new (void)
 {
 	CalendarOfflineHandler *new;
 
-	new = gtk_type_new (calendar_offline_handler_get_type ());
+	new = g_object_new (calendar_offline_handler_get_type (), NULL);
 	
 	return new;
 }

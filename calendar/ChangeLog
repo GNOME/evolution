@@ -1,3 +1,17 @@
+2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-offline-handler.c
+	(calendar_offline_handler_class_init): GObjectified.
+	(impl_finalize): Finalize impl.
+	(impl_dispose): Dispose impl.
+	(calendar_offline_handler_new): Use g_object_new().
+	(backend_cal_opened): use g_signal_connect() instead of
+	gtk_signal_connect().
+	(backend_go_offline): Likewise.
+	(backend_cal_opened): g_object_unref() instead of
+	gtk_object_unref().
+	(backend_go_offline): Likewise.
+
 2002-11-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/evolution-calendar-importer.h: use GLib macros.
