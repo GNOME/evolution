@@ -1,5 +1,14 @@
 2002-01-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card-compare.c (name_synonyms): Added a couple
+	of names here.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_get_nth_obj): Removed an unused
+	variable.
+
+2002-01-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c,
 	gui/widgets/e-addressbook-view.h (create_alphabet): Use toggle
 	buttons here.  Fixes Ximian bug #10734.
