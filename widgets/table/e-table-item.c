@@ -770,6 +770,9 @@ eti_show_cursor (ETableItem *eti, int delay)
 {
 	int cursor_row;
 	
+	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
+		return;
+	
 	gtk_object_get(GTK_OBJECT(eti->selection),
 		       "cursor_row", &cursor_row,
 		       NULL);
@@ -786,6 +789,12 @@ eti_show_cursor (ETableItem *eti, int delay)
 static void
 eti_check_cursor_on_screen (ETableItem *eti)
 {
+	if (eti->cursor_x1 == -1 ||
+	    eti->cursor_y1 == -1 ||
+	    eti->cursor_x2 == -1 ||
+	    eti->cursor_y2 == -1)
+		return;
+
 	eti->cursor_on_screen = e_canvas_item_area_shown (GNOME_CANVAS_ITEM(eti),
 							  eti->cursor_x1,
 							  eti->cursor_y1,
@@ -800,6 +809,9 @@ eti_check_cursor_bounds (ETableItem *eti)
 {
 	int x1, y1, x2, y2;
 	int cursor_row;
+
+	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
+		return;
 	
 	gtk_object_get(GTK_OBJECT(eti->selection),
 		       "cursor_row", &cursor_row,
