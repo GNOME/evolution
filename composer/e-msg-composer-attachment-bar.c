@@ -527,6 +527,54 @@ destroy (GtkObject *object)
 
 /* GtkWidget methods.  */
 
+
+static void
+popup_menu_placement_callback(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+{
+	EMsgComposerAttachmentBar *bar;
+	GnomeIconList *icon_list;
+	GList *selection;
+	GnomeCanvasPixbuf *image;
+
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (user_data);
+	icon_list = GNOME_ICON_LIST (user_data);
+
+	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
+
+	selection = gnome_icon_list_get_selection (icon_list);
+	if (selection == NULL)
+		return;
+
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	if (image == NULL)
+		return;
+
+	/* Put menu to the center of icon. */
+	*x += (gint)(image->item.x1 + image->item.x2)/2;
+	*y += (gint)(image->item.y1 + image->item.y2)/2;
+
+}
+
+static gboolean 
+popup_menu_event (GtkWidget *widget)
+{
+	EMsgComposerAttachmentBar *bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
+	GnomeIconList *icon_list = GNOME_ICON_LIST (widget);
+	GList *selection = gnome_icon_list_get_selection (icon_list);
+	GtkMenu *menu;
+
+	if (selection==NULL)
+		menu = get_context_menu (bar);
+	else
+		menu = get_icon_context_menu (bar);
+
+	gnome_popup_menu_do_popup (menu, popup_menu_placement_callback, 
+				   (gpointer)widget, NULL, (gpointer)widget, NULL);
+
+	return TRUE;
+}
+
+
 static gint
 button_press_event (GtkWidget *widget,
 		    GdkEventButton *event)
@@ -572,6 +620,8 @@ class_init (EMsgComposerAttachmentBarClass *klass)
 	object_class->destroy = destroy;
 	
 	widget_class->button_press_event = button_press_event;
+	widget_class->popup_menu = popup_menu_event;
+
 	
 	/* Setup signals.  */
 	

@@ -1,3 +1,14 @@
+2002-07-14  Maxx Cao  <maxx.cao@sun.com>
+
+	** For bug #45826
+
+	* e-msg-composer-attachment-bar.c (class_init): connect the 
+	"popup_menu" signal, so that S-F10 keybinding will work.
+	(popup_menu_event): funcion added to handle "popup_menu" (S-F10 key).
+	(popup_menu_placement_callback): function added to place the popup 
+	menu to the center of attachment icon, in case it is activated by 
+	keyboard.
+	
 2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Updated to
