@@ -667,6 +667,8 @@ impl_destroy (GtkObject *object)
 		priv->dialog_gui = NULL;
 	}
 
+	g_free (priv);
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

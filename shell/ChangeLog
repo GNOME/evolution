@@ -1,3 +1,39 @@
+2001-09-09  Dan Winship  <danw@ximian.com>
+
+	Purify run. All small leaks.
+	
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Free the
+	folder_command_data when destroying the dialog.
+
+	* e-local-storage.c (remove_folder): Free physical_uri if we
+	allocated it.
+
+	* e-shortcuts-view.c (pop_up_right_click_menu_for_group): Unref
+	the popup menu, don't destroy it.
+	(destroy_group_cb): Free the question string.
+	(rename_group_cb): Free the new_name.
+
+	* e-shell-importer.c (create_plugin_menu): Free the list of
+	importers.
+	(get_iid_for_filetype): Likewise.
+	(import_druid_finish): #ifdef out some g_strdups that are only
+	used by other #ifdef'ed-out code.
+
+	* e-shell-view.c: Make sure the keys in the uri_to_view hash get
+	freed.
+
+	* e-shell-folder-title-bar.c (set_title_bar_label_style): Unref
+	the style after setting it on the widget.
+
+	* e-shell-offline-handler.c (impl_destroy): free priv.
+
+	* e-storage-set-view.c (tree_drag_data_received): Make sure
+	target_type always gets freed.
+
+	* e-shell-folder-creation-dialog.c (add_folder_types): Don't leak
+	the type names.
+
 2001-09-07  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-startup-wizard.c (prepare_importer_page): New design.

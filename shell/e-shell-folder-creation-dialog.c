@@ -409,7 +409,7 @@ add_folder_types (GtkWidget *dialog,
 		TypeWithDisplayName *new;
 
 		new = g_new (TypeWithDisplayName, 1);
-		new->type = g_strdup ((const char *) p->data);
+		new->type = p->data;
 		new->display_name = e_folder_type_registry_get_display_name_for_type (folder_type_registry, new->type);
 
 		types_with_display_names = g_list_prepend (types_with_display_names, new);
@@ -434,7 +434,7 @@ add_folder_types (GtkWidget *dialog,
 		gtk_widget_show (menu_item);
 		gtk_menu_append (GTK_MENU (menu), menu_item);
 
-		gtk_object_set_data (GTK_OBJECT (menu_item), "folder_type", (void *) type->type);
+		gtk_object_set_data_full (GTK_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
 
 		if (strcmp (type->type, "mail") == 0)
 			default_item = i;

@@ -312,6 +312,7 @@ get_iid_for_filetype (const char *filename)
 		bonobo_object_release_unref (importer, &ev2);
 		CORBA_exception_free (&ev2);
 	}
+	CORBA_free (info_list);
 
 	if (len == 1) {
 		ret_iid = can_handle->data;
@@ -530,6 +531,7 @@ create_plugin_menu (ImportData *data)
 					  g_strdup (info->iid), g_free);
 		gtk_menu_append (GTK_MENU (menu), item);
 	}
+	CORBA_free (info_list);
 
 	return menu;
 }
@@ -629,11 +631,13 @@ import_druid_finish (GnomeDruidPage *page,
 		     ImportData *data)
 {
 	GtkWidget *folder;
+#if 0
 	char *filename;
 	char *iid;
 
 	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
 	iid = g_strdup (data->choosen_iid);
+#endif
 
 	folder = e_shell_folder_selection_dialog_new (data->shell, 
 						      _("Select folder"),

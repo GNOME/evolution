@@ -534,7 +534,7 @@ remove_folder (ELocalStorage *local_storage,
 	AsyncRemoveFolderCallbackData *callback_data;
 	EvolutionShellComponentClient *component_client;
 	EFolder *folder;
-	char *physical_path;
+	char *physical_path, *physical_uri_mem = NULL;
 	GList *subfolder_paths;
 	GList *p;
 
@@ -554,7 +554,7 @@ remove_folder (ELocalStorage *local_storage,
 	physical_path = e_path_to_physical (priv->base_path, path);
 
 	if (!physical_uri)
-		physical_uri = g_strconcat ("file://", physical_path, NULL);
+		physical_uri = physical_uri_mem = g_strconcat ("file://", physical_path, NULL);
 
 	/* Recursively remove the subfolders */
 	subfolder_paths = e_storage_get_subfolder_paths (storage, path);
@@ -574,6 +574,7 @@ remove_folder (ELocalStorage *local_storage,
 							      e_folder_get_type_string (folder),
 							      component_async_remove_folder_callback,
 							      callback_data);
+	g_free (physical_uri_mem);
 
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }

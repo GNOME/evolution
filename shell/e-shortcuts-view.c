@@ -181,6 +181,7 @@ destroy_group_cb (GtkWidget *widget,
 					     _("Remove"), _("Don't remove"), NULL);
 	gnome_dialog_set_parent (GNOME_DIALOG (message_box),
 				 GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))));
+	g_free (question);
 
 	if (gnome_dialog_run_and_close (GNOME_DIALOG (message_box)) != 0)
 		return;
@@ -196,7 +197,7 @@ rename_group_cb (GtkWidget *widget,
 	EShortcuts *shortcuts;
 	EShortcutsView *shortcuts_view;
 	const char *old_name;
-	const char *new_name;
+	char *new_name;
 	int group;
 
 	menu_data = (RightClickMenuData *) data;
@@ -216,6 +217,7 @@ rename_group_cb (GtkWidget *widget,
 	/* Remember the group and flip back to it */
 	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
 	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
+	g_free (new_name);
 	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group, FALSE);
 }
 
@@ -282,7 +284,7 @@ pop_up_right_click_menu_for_group (EShortcutsView *shortcuts_view,
 	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data);
 
 	g_free (menu_data);
-	gtk_widget_destroy (popup_menu);
+	gtk_widget_unref (popup_menu);
 }
 
 

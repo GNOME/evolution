@@ -1002,6 +1002,8 @@ hash_forall_destroy_view (void *name,
 	gtk_widget_destroy (view->control);
 
 	view_destroy (view);
+
+	g_free (name);
 }
 
 static void
@@ -1687,14 +1689,10 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
 
-	/* Strdup here as the string will be freed when the socket is destroyed. */
- 	copy_of_uri = g_strdup (uri);
-
-	view = g_hash_table_lookup (priv->uri_to_view, uri);
-
-	if (view == NULL) {
+	if (!g_hash_table_lookup_extended (priv->uri_to_view, uri,
+					   (gpointer *)&copy_of_uri,
+					   (gpointer *)&view)) {
 		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
-		g_free (copy_of_uri);
 		return;
 	}
 
@@ -1704,6 +1702,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	view_destroy (view);
 	g_hash_table_remove (priv->uri_to_view, uri);
+	g_free (copy_of_uri);
 
 	path = get_storage_set_path_from_uri (uri);
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
@@ -1736,7 +1735,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	e_shell_component_maybe_crashed (priv->shell, uri, folder_type, shell_view);
 
-	/* We were actively viewing the component that just crashed, so flip to the Inbox */
+	/* We were actively viewing the component that just crashed, so flip to the default URI */
 	if (viewing_closed_uri)
 		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 
@@ -1890,7 +1889,6 @@ show_existing_view (EShellView *shell_view,
 		/* Out with the old.  */
 		gtk_container_remove (GTK_CONTAINER (parent), view->control);
 		view_destroy (view);
-		g_hash_table_remove (priv->uri_to_view, uri);
 
 		/* In with the new.  */
 		view = get_view_for_uri (shell_view, uri);
@@ -1898,7 +1896,12 @@ show_existing_view (EShellView *shell_view,
 			return FALSE;
 
 		gtk_container_add (GTK_CONTAINER (parent), view->control);
-		g_hash_table_insert (priv->uri_to_view, g_strdup (uri), view);
+
+		/* The old (destroyed) view is already in the hash table,
+		 * and g_hash_table_insert will re-use its old (strdup'ed)
+		 * key rather than the one we pass here.
+		 */
+		g_hash_table_insert (priv->uri_to_view, (char *)uri, view);
 
 		/* Show.  */
 		gtk_widget_show (view->control);
@@ -2015,6 +2018,7 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	GtkWidget *control;
 	int page_num;
 	int destroy_connection_id;
+	char *old_key;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2022,8 +2026,9 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	/* Get the control, remove it from our hash of controls */
-	view = g_hash_table_lookup (priv->uri_to_view, uri);
-	if (view == NULL) {
+	if (!g_hash_table_lookup_extended (priv->uri_to_view, uri,
+					   (gpointer *)&old_key,
+					   (gpointer *)&view)) {
 		g_message ("Trying to remove view for non-existing URI -- %s", uri);
 		return FALSE;
 	}
@@ -2031,6 +2036,7 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	control = view->control;
 	view_destroy (view);
 	g_hash_table_remove (priv->uri_to_view, uri);
+	g_free (old_key);
 
 	/* Get the socket, remove it from our list of sockets */
 	socket = find_socket (GTK_CONTAINER (control));

@@ -1147,16 +1147,17 @@ tree_drag_data_received (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	target_type = gdk_atom_name (selection_data->target);
-
 	if (selection_data->data == NULL && selection_data->length == -1)
 		return;
+
+	target_type = gdk_atom_name (selection_data->target);
 
 	if (strcmp (target_type, EVOLUTION_PATH_TARGET_TYPE) == 0) {
 		const char *source_path;
 		const char *destination_folder_path;
 		char *destination_path;
 
+		g_free (target_type);
 		source_path = (const char *) selection_data->data;
 		/* (Basic sanity checks.)  */
 		if (source_path == NULL || source_path[0] != G_DIR_SEPARATOR || source_path[1] == '\0')
@@ -1239,11 +1240,10 @@ tree_drag_data_received (ETree *etree,
 
 			}
 		}
+		g_free (target_type);
 	}
 
 	gtk_drag_finish (context, handled, FALSE, time);
-
-	g_free (target_type);
 }
 
 static gboolean

@@ -187,6 +187,7 @@ set_title_bar_label_style (GtkWidget *widget)
 	rc_style->fg[GTK_STATE_NORMAL].blue = 0xffff;
 
 	gtk_widget_modify_style (widget, rc_style);
+	gtk_rc_style_unref (rc_style);
 }
 
 
