@@ -1,5 +1,11 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-dialog.c, subscribe-dialog.h: add a
+	storage-set-view-listener, and add a little printf saying what
+	storage was selected.
+	
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* subscribe-dialog.c (subscribe_dialog_gui_init): get
 	Evolution::StorageSetView interface on our storage set view
 	control, and set "show_folders" to FALSE.

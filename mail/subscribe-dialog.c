@@ -377,6 +377,15 @@ etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data
 
 
 
+static void
+storage_selected_cb (EvolutionStorageSetViewListener *listener,
+		     const char *uri)
+{
+	printf ("user selected storage '%s'\n", uri);
+}
+
+
+
 #define EXAMPLE_DESCR "And the beast shall come forth surrounded by a roiling cloud of vengeance.\n" \
 "  The house of the unbelievers shall be razed and they shall be scorched to the\n" \
 "          earth. Their tags shall blink until the end of days. \n" \
@@ -437,6 +446,18 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	sc->storage_set_view_widget = bonobo_widget_new_control_from_objref (sc->storage_set_control,
 									     container);
+
+
+	/* we also want a listener so we can tell when storages are selected */
+	sc->listener = evolution_storage_set_view_listener_new ();
+
+	gtk_signal_connect (GTK_OBJECT(sc->listener),
+			    "storage_selected",
+			    storage_selected_cb, sc);
+
+	Evolution_StorageSetView_add_listener (sc->storage_set_view,
+					       evolution_storage_set_view_listener_corba_objref (sc->listener),
+					       &ev);
 
 	sc->table = gtk_table_new (1, 2, FALSE);
 

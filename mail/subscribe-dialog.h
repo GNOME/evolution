@@ -11,7 +11,7 @@
 #include <bonobo/bonobo-ui-compat.h>
 #include <bonobo/bonobo-property-bag.h>
 #include "shell/Evolution.h"
-
+#include "shell/evolution-storage-set-view-listener.h"
 
 #define SUBSCRIBE_DIALOG_TYPE        (subscribe_dialog_get_type ())
 #define SUBSCRIBE_DIALOG(o)          (GTK_CHECK_CAST ((o), SUBSCRIBE_DIALOG_TYPE, SubscribeDialog))
@@ -25,7 +25,8 @@ struct  _SubscribeDialog {
 	Evolution_Shell           shell;
 	Bonobo_Control            storage_set_control;
 	Evolution_StorageSetView  storage_set_view;
-	
+	EvolutionStorageSetViewListener *listener;
+
 	BonoboUIHandler          *uih;
 
 	GtkWidget                *app;
