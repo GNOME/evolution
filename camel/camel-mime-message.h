@@ -104,6 +104,7 @@ GtkType camel_mime_message_get_type (void);
 
 
 /* public methods */
+CamelMimeMessage *camel_mime_message_new_with_session (CamelSession *session);
 
 void set_received_date (CamelMimeMessage *mime_message, GString *received_date);
 GString *get_received_date (CamelMimeMessage *mime_message);

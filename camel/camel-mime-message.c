@@ -143,6 +143,17 @@ camel_mime_message_get_type (void)
 
 
 
+CamelMimeMessage *
+camel_mime_message_new_with_session (CamelSession *session) 
+{
+	CamelMimeMessage *mime_message;
+	mime_message = gtk_type_new (CAMEL_MIME_MESSAGE_TYPE);
+	mime_message->session = session;
+	return mime_message;
+}
+
+
+
 
 /* two utils func */
 

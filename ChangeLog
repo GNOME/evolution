@@ -1,3 +1,9 @@
+1999-05-19  root  <guiheneu@linoleum.inria.fr>
+
+	* camel/camel-mime-message.c (camel_mime_message_new_with_session): 
+	new func. Creates a message with the session field set
+	up correctly.
+
 1999-05-18  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* tests/test1.c (main): tests
