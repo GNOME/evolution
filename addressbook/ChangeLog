@@ -1,3 +1,20 @@
+2002-09-25  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-component.c (folder_types): Rename
+	"ldap-contacts" to "contacts/ldap" and add "contacts/public".
+	(IS_CONTACT_TYPE): update for new types.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Use "contacts/*" for selector_types.
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_transfer_cards):
+	Likewise.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: add
+	"evolution:config_item:type" = "contacts/ldap" to the LDAP sources
+	control so it comes up by default when you open Preferences in an
+	LDAP folder.
+
 2002-09-23  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-table-adapter.c (addressbook_destroy):

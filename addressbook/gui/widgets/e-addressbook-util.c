@@ -331,7 +331,7 @@ extern EvolutionShellClient *global_shell_client;
 void
 e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
 {
-	const char *allowed_types[] = { "contacts", NULL };
+	const char *allowed_types[] = { "contacts/*", NULL };
 	GNOME_Evolution_Folder *folder;
 	static char *last_uri = NULL;
 	CardCopyProcess *process;

@@ -72,12 +72,14 @@ static char *accepted_dnd_types[] = {
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png", N_("Contacts"), N_("Folder containing contact information"),
 	  TRUE, accepted_dnd_types, NULL },
-	{ "ldap-contacts", "ldap.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
+	{ "contacts/ldap", "ldap.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
+	  FALSE, accepted_dnd_types, NULL },
+	{ "contacts/public", "evolution-contacts.png", N_("Public Contacts"), N_("Public folder containing contact information"),
 	  FALSE, accepted_dnd_types, NULL },
 	{ NULL }
 };
 
-#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "ldap-contacts") == 0)
+#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "contacts/ldap") == 0 || g_strcasecmp((x), "contacts/public"))
 
 /* EvolutionShellComponent methods and signals.  */
 

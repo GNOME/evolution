@@ -491,7 +491,7 @@ e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *button;
-	const char *selector_types[] = { "contacts", "ldap-contacts", NULL };
+	const char *selector_types[] = { "contacts/*", NULL };
 	char *filename;
 	char *uri;
 	char *contacts_uri, *contacts_path;
