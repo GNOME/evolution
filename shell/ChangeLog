@@ -1,3 +1,12 @@
+2003-04-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41916
+
+	* evolution-storage.c (get_folder_list_foreach): removed comment which
+	does not apply any more.
+	(impl_Storage__get_folderList): set sequence's maximum number of items
+	to e_folder_tree_get_count as is.
+
 2003-04-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	Patch from Sanshao Jiang <alex.jiang@sun.com>.

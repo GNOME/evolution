@@ -312,7 +312,6 @@ get_folder_list_foreach (EFolderTree *tree,
 	corba_folder = (GNOME_Evolution_Folder *) data;
 	folder_list = (GNOME_Evolution_FolderList *) closure;
 
-	/* The root folder has no data.  */
 	if (corba_folder == NULL)
 		return;
 
@@ -343,7 +342,7 @@ impl_Storage__get_folderList (PortableServer_Servant servant,
 	priv = storage->priv;
 	
 	folder_list = GNOME_Evolution_FolderList__alloc ();
-	folder_list->_maximum = e_folder_tree_get_count (priv->folder_tree) - 1;
+	folder_list->_maximum = e_folder_tree_get_count (priv->folder_tree);
 	folder_list->_length = 0;
 	folder_list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (folder_list->_maximum);
 
