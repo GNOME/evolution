@@ -3,12 +3,12 @@
 # Softcatalà <info@softcatala.org>, 2000.
 #
 # Traducció per Softcatalà <linux@softcatala.org>
-# Traductor: Víctor Nieto <vnie2025@alu-etsetb.upc.es>
+# Traductor original: Víctor Nieto <vnie2025@alu-etsetb.upc.es>
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2000-10-28 17:44+0200\n"
-"PO-Revision-Date: 2000-10-28 15:02+0200\n"
+"POT-Creation-Date: 2000-11-01 03:03+0100\n"
+"PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,87 +34,89 @@ msgstr "No s'ha pogut inicialitzar el Bonobo"
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:77
 #: calendar/conduits/todo/todo-conduit-control-applet.c:77
 msgid "Disabled"
-msgstr ""
+msgstr "Inhabilitat"
 
 #: addressbook/conduit/address-conduit-control-applet.c:78
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:78
 #: calendar/conduits/todo/todo-conduit-control-applet.c:78
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronitza"
 
 #: addressbook/conduit/address-conduit-control-applet.c:79
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
 #: calendar/conduits/todo/todo-conduit-control-applet.c:79
 msgid "Copy From Pilot"
-msgstr ""
+msgstr "Copia des del Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:80
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
 #: calendar/conduits/todo/todo-conduit-control-applet.c:80
 msgid "Copy To Pilot"
-msgstr ""
+msgstr "Copia al Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:81
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
 #: calendar/conduits/todo/todo-conduit-control-applet.c:81
 msgid "Merge From Pilot"
-msgstr ""
+msgstr "Fusiona des del Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:82
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
 #: calendar/conduits/todo/todo-conduit-control-applet.c:82
 msgid "Merge To Pilot"
-msgstr ""
+msgstr "Fusiona cap al Pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:121
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
 #: calendar/conduits/todo/todo-conduit-control-applet.c:121
 msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr ""
+msgstr "JP Rosevear <jpr@helixcode.com>"
 
 #: addressbook/conduit/address-conduit-control-applet.c:122
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
 #: calendar/conduits/todo/todo-conduit-control-applet.c:122
 msgid "Original Author:"
-msgstr ""
+msgstr "Autor original:"
 
 #: addressbook/conduit/address-conduit-control-applet.c:123
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
 #: calendar/conduits/todo/todo-conduit-control-applet.c:123
 msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr ""
+msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
 
 #: addressbook/conduit/address-conduit-control-applet.c:127
 msgid "Evolution Addressbook Conduit"
-msgstr ""
+msgstr "Conducte de la llibreta d'adreces de l'Evolution"
 
 #: addressbook/conduit/address-conduit-control-applet.c:128
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
 #: calendar/conduits/todo/todo-conduit-control-applet.c:128
 msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr ""
+msgstr "(C) 1998-2000 la Free Software Foundation i Helix Code"
 
 #: addressbook/conduit/address-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution addressbook conduit.\n"
 msgstr ""
+"Utilitat de configuració per al conducte de la llibreta d'adreces de "
+"l'Evolution\n"
 
 #: addressbook/conduit/address-conduit-control-applet.c:131
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:131
 #: calendar/conduits/todo/todo-conduit-control-applet.c:131
 msgid "gnome-unknown.xpm"
-msgstr ""
+msgstr "gnome-unknown.xpm"
 
 #: addressbook/conduit/address-conduit-control-applet.c:162
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:162
 #: calendar/conduits/todo/todo-conduit-control-applet.c:162
 msgid "Synchronize Action"
-msgstr ""
+msgstr "Sincronitza l'acció"
 
 #: addressbook/conduit/address-conduit-control-applet.c:214
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:215
 #: calendar/conduits/todo/todo-conduit-control-applet.c:214
 msgid "Conduit state"
-msgstr ""
+msgstr "Estat del conducte"
 
 #: addressbook/conduit/address-conduit-control-applet.c:266
 #: addressbook/conduit/address-conduit-control-applet.c:279
@@ -126,12 +128,14 @@ msgid ""
 "No pilot configured, please choose the\n"
 "'Pilot Link Properties' capplet first."
 msgstr ""
+"No s'ha configurat cap Pilot, escolliu primer el\n"
+"capplet 'Pilot Link Properties'."
 
 #: addressbook/conduit/address-conduit-control-applet.c:285
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:286
 #: calendar/conduits/todo/todo-conduit-control-applet.c:285
 msgid "Not connected to the gnome-pilot daemon"
-msgstr ""
+msgstr "Sense connexió al dimoni gnome-pilot"
 
 #: addressbook/conduit/address-conduit-control-applet.c:290
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
@@ -140,29 +144,30 @@ msgid ""
 "An error occured when trying to fetch\n"
 "pilot list from the gnome-pilot daemon"
 msgstr ""
+"S'ha produït un error en intentar recollir\n"
+"la llista del Pilot del dimoni gnome-pilot"
 
 #: addressbook/conduit/address-conduit.c:194
 #: addressbook/conduit/address-conduit.c:208
 msgid "BLARG\n"
-msgstr ""
+msgstr "BLARG\n"
 
 #: addressbook/conduit/address-conduit.c:638
 #: calendar/conduits/calendar/calendar-conduit.c:622
 #: calendar/conduits/todo/todo-conduit.c:495
 msgid "Could not start wombat server"
-msgstr ""
+msgstr "No s'ha pogut iniciar el servidor wombat"
 
 #: addressbook/conduit/address-conduit.c:639
 #: calendar/conduits/calendar/calendar-conduit.c:623
 #: calendar/conduits/todo/todo-conduit.c:496
-#, fuzzy
 msgid "Could not start wombat"
-msgstr "No s'ha pogut inicialitzar el Bonobo"
+msgstr "No s'ha pogut iniciar el wombat"
 
 #: addressbook/conduit/address-conduit.c:665
 #: addressbook/conduit/address-conduit.c:668
 msgid "Could not read pilot's Address application block"
-msgstr ""
+msgstr "No s'ha pogut llegir el bloc d'aplicació d'adreça del Pilot"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -284,11 +289,12 @@ msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
+"Esteu segur que voleu\n"
+"suprimir aquest contacte?"
 
 #: addressbook/contact-editor/e-contact-editor-confirm-delete.glade.h:9
-#, fuzzy
 msgid "Delete Contact?"
-msgstr "Suprimeix un contacte"
+msgstr "Voleu suprimir el contacte?"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -442,52 +448,48 @@ msgstr "Detalls"
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/contact-editor/fulladdr.glade.h:7
-#, fuzzy
 msgid "Check Address"
-msgstr "Adreça"
+msgstr "Comprova l'adreça"
 
 #: addressbook/contact-editor/fulladdr.glade.h:8
 msgid "_Address:"
 msgstr "_Adreça:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:9
-#, fuzzy
 msgid "_City:"
-msgstr "_Data de naixement:"
+msgstr "_Població:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:10
 msgid "_PO Box:"
-msgstr ""
+msgstr "_Apartat de correus:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:11
-#, fuzzy
 msgid "Address _2:"
-msgstr "Adreça:"
+msgstr "Adreça _2:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:12
 msgid "_State/Province:"
-msgstr ""
+msgstr "_Comarca:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:13
 msgid "USA"
-msgstr ""
+msgstr "EUA"
 
 #: addressbook/contact-editor/fulladdr.glade.h:14
 msgid "Canada"
-msgstr ""
+msgstr "Canadà"
 
 #: addressbook/contact-editor/fulladdr.glade.h:15
-#, fuzzy
 msgid "Finland"
-msgstr "Cerca"
+msgstr "Finlàndia"
 
 #: addressbook/contact-editor/fulladdr.glade.h:16
 msgid "_ZIP Code:"
-msgstr ""
+msgstr "_Codi postal:"
 
 #: addressbook/contact-editor/fulladdr.glade.h:17
 msgid "Countr_y:"
-msgstr ""
+msgstr "Paí_s:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -593,7 +595,7 @@ msgstr "L'URI que mostrarà el navegador de carpetes"
 
 #: addressbook/gui/component/e-ldap-storage.c:88
 msgid "External Directories"
-msgstr ""
+msgstr "Directoris externs"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -627,23 +629,20 @@ msgstr "Nom:"
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-#, fuzzy
 msgid "Select Names"
-msgstr "Nom de l'estil:"
+msgstr "Seleccioneu els noms"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "Find..."
-msgstr "Cerca"
+msgstr "Cerca..."
 
 #: addressbook/gui/component/select-names/select-names.glade.h:9
 msgid "Select name from List:"
-msgstr ""
+msgstr "Seleccioneu un nom de la llista:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:10
-#, fuzzy
 msgid "Message Recipients"
-msgstr "Llista de destinataris:"
+msgstr "Destinataris del missatge"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -769,9 +768,8 @@ msgid "Save as VCard"
 msgstr "Desa com a VCard"
 
 #: addressbook/gui/widgets/e-minicard-control.c:278
-#, fuzzy
 msgid "Save in addressbook"
-msgstr "No es pot obrir la llibreta d'adreces"
+msgstr "Desa a la llibreta d'adreces"
 
 #: addressbook/gui/widgets/e-minicard-view.c:111
 msgid ""
@@ -789,9 +787,8 @@ msgstr ""
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
 #: mail/folder-browser.c:494
-#, fuzzy
 msgid "Search"
-msgstr "Cerca..."
+msgstr "Cerca"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -983,37 +980,37 @@ msgid "pm"
 msgstr "pm"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
-#, fuzzy
 msgid "Evolution Calendar Conduit"
-msgstr "Barra de _dreceres de l'Evolution"
+msgstr "Conducte de l'agenda de l'Evolution"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr ""
+msgstr "Utilitat de configuració per al conducte de l'agenda de l'Evolution.\n"
 
 #: calendar/conduits/calendar/calendar-conduit.c:578
 #: calendar/conduits/todo/todo-conduit.c:451
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "Error en comunicar-se amb el servidor d'agenda"
 
 #: calendar/conduits/calendar/calendar-conduit.c:676
 #: calendar/conduits/calendar/calendar-conduit.c:679
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "No s'ha pogut llegir el bloc d'aplicació d'agenda del Pilot"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:127
-#, fuzzy
 msgid "Evolution ToDo Conduit"
-msgstr "Barra de _dreceres de l'Evolution"
+msgstr "Conducte de les coses per fer de l'Evolution"
 
 #: calendar/conduits/todo/todo-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr ""
+"Utilitat de configuració per al conducte de les coses per fer de "
+"l'Evolution.\n"
 
 #: calendar/conduits/todo/todo-conduit.c:549
 #: calendar/conduits/todo/todo-conduit.c:552
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "No s'ha pogut llegir el bloc d'aplicació de coses per fer del Pilot"
 
 #: calendar/gui/calendar-commands.c:60
 msgid "Outline:"
@@ -1089,49 +1086,45 @@ msgstr "%a %d/%m/%Y %I:%M:%S %p"
 #: calendar/gui/calendar-model.c:344
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
 msgid "Public"
-msgstr ""
+msgstr "Públic"
 
 #: calendar/gui/calendar-model.c:347
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:24
-#, fuzzy
 msgid "Private"
-msgstr "Imprimeix"
+msgstr "Privat"
 
 #: calendar/gui/calendar-model.c:350
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:25
 msgid "Confidential"
-msgstr ""
+msgstr "Confidencial"
 
 #: calendar/gui/calendar-model.c:353 calendar/gui/calendar-model.c:521
-#, fuzzy
 msgid "Unknown"
-msgstr "Error desconegut"
+msgstr "Desconegut"
 
 #: calendar/gui/calendar-model.c:441
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: calendar/gui/calendar-model.c:441
-#, fuzzy
 msgid "S"
-msgstr "Dg"
+msgstr "S"
 
 #: calendar/gui/calendar-model.c:443
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: calendar/gui/calendar-model.c:443
-#, fuzzy
 msgid "W"
-msgstr "Dc"
+msgstr "O"
 
 #: calendar/gui/calendar-model.c:515
 msgid "Transparent"
-msgstr ""
+msgstr "Transparent"
 
 #: calendar/gui/calendar-model.c:518
 msgid "Opaque"
-msgstr ""
+msgstr "Opac"
 
 #: calendar/gui/calendar-model.c:734
 #, c-format
@@ -1140,6 +1133,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"La data s'ha d'introduir amb el format: \n"
+"\n"
+"%s"
 
 #. strptime format for a date.
 #: calendar/gui/calendar-model.c:835 calendar/gui/calendar-model.c:883
@@ -1177,14 +1173,17 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"La posició geogràfica s'ha d'introduir amb el format: \n"
+"\n"
+"45.436845,125.862501"
 
 #: calendar/gui/calendar-model.c:1023
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "El valor de percentatge ha d'estar entre 0 i 100, ambdós inclosos"
 
 #: calendar/gui/calendar-model.c:1063
 msgid "The priority must be between 1 and 9, inclusive"
-msgstr ""
+msgstr "La prioritat ha d'estar entre 1 i 9, ambdós inclosos"
 
 #: calendar/gui/control-factory.c:126
 msgid "The URI that the calendar will display"
@@ -1199,9 +1198,8 @@ msgid "Notification about your appointment on %A %b %d %Y %H:%M"
 msgstr "Notificació sobre la vostra cita el %A %d de %b de %Y, a les %H:%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:201
-#, fuzzy
 msgid "No summary available."
-msgstr "Sense resum"
+msgstr "No hi ha cap resum disponible."
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1231,14 +1229,12 @@ msgstr "Durada de l'snooze (minuts)"
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-#, fuzzy
 msgid "Calendar Preferences"
-msgstr "Preferències"
+msgstr "Preferències de l'agenda"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "Work week"
-msgstr "Setmana"
+msgstr "Setmana de treball"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 #: calendar/gui/gnome-month-item.c:737
@@ -1278,7 +1274,7 @@ msgstr "dg."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "First day of week:"
-msgstr ""
+msgstr "primer dia de la setmana:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/event-editor-dialog.glade.h:45 calendar/gui/prop.c:354
@@ -1317,87 +1313,75 @@ msgstr "Diumenge"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid "Start of day:"
-msgstr ""
+msgstr "Inici del dia:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "End of day:"
-msgstr ""
+msgstr "Final del dia:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-#, fuzzy
 msgid "Display options"
-msgstr "Opcions d'estil de la llista de coses per fer:"
+msgstr "Opcions de visualització"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#, fuzzy
 msgid "Time divisions:"
-msgstr "%02i divisions de minut"
+msgstr "Divisions de temps:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Time format:"
 msgstr "Format de l'hora:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Show appointment end times"
-msgstr "Cita - %s"
+msgstr "Mostra les hores d'acabament de les cites"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Compress weekends"
-msgstr ""
+msgstr "Comprimeix els caps de setmana"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#, fuzzy
 msgid "12 hour (am/pm)"
-msgstr "12 hores (AM/PM)"
+msgstr "12 hores (am/pm)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#, fuzzy
 msgid "24 hour"
 msgstr "24 hores"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#, fuzzy
 msgid "60 minutes"
-msgstr "minut"
+msgstr "60 minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#, fuzzy
 msgid "30 minutes"
-msgstr "minut"
+msgstr "30 minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-#, fuzzy
 msgid "15 minutes"
-msgstr "minut"
+msgstr "15 minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
 msgid "10 minutes"
-msgstr "minut"
+msgstr "10 minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "05 minutes"
-msgstr "minut"
+msgstr "05 minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Date navigator options"
-msgstr ""
+msgstr "Opcions del navegador de dates"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "Show week numbers"
-msgstr "Mostra 1 setmana"
+msgstr "Mostra els números de les setmanes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "Calendar"
-msgstr "Nova a_genda"
+msgstr "Agenda"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Show"
-msgstr ""
+msgstr "Mostra"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42 calendar/gui/prop.c:610
 msgid "Due Date"
@@ -1413,23 +1397,20 @@ msgid "Priority"
 msgstr "Prioritat"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "Highlight"
-msgstr "Dia ressaltat:"
+msgstr "Ressalta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "Overdue Items"
-msgstr "Ressalta els elements endarrerits"
+msgstr "Elements vençuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "Items Due Today"
-msgstr "Ressalta els elemts que vencen avui"
+msgstr "Elemts que vencen avui"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "Items Not Yet Due"
-msgstr ""
+msgstr "Elements que encara no han vençut"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49 calendar/gui/prop.c:528
 msgid "Colors"
@@ -1439,23 +1420,23 @@ msgstr "Colors"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "Pick a color"
-msgstr ""
+msgstr "Agafa un color"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "Items Not Yet Due:"
-msgstr ""
+msgstr "Elements que encara no han vençut:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "Items Due Today:"
-msgstr ""
+msgstr "Elements que vencen avui:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "Overdue Items:"
-msgstr ""
+msgstr "Elements que ja han vençut:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "TaskPad"
-msgstr ""
+msgstr "TaskPad"
 
 #. populate default frame/box
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57 calendar/gui/prop.c:842
@@ -1463,51 +1444,45 @@ msgid "Defaults"
 msgstr "Valors predeterminats"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#, fuzzy
 msgid "Remind me of all appointments"
-msgstr "Recordatori de la vostra cita a "
+msgstr "Recorda'm totes les cites"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "minutes before they occur."
-msgstr ""
+msgstr "minuts abans que es produeixin."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
-#, fuzzy
 msgid "Visual Alarms"
-msgstr "Alarmes"
+msgstr "Alarmes visuals"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "Beep when alarm windows appear."
-msgstr ""
+msgstr "Fes un so quan aparegui una finestra d'alarma."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
-#, fuzzy
 msgid "Audio Alarms"
-msgstr "Alarmes"
+msgstr "Alarmes acústiques"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
-#, fuzzy
 msgid "Alarms timeout after"
-msgstr "Les alarmes acústiques s'apaguen després de"
+msgstr "Les alarmes es desactiven després de"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
-#, fuzzy
 msgid "seconds."
-msgstr " segons"
+msgstr "segons."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
-#, fuzzy
 msgid "Enable snoozing for"
-msgstr "Habilita l'snoozing per a "
+msgstr "Habilita l'snoozing per a"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:67
 msgid "Reminders"
-msgstr ""
+msgstr "Recordatoris"
 
 #: calendar/gui/dialogs/task-editor.c:657
 msgid "Edit Task"
-msgstr ""
+msgstr "Edita la tasca"
 
 #: calendar/gui/dialogs/task-editor.c:663 calendar/gui/event-editor.c:303
 msgid "No summary"
@@ -1535,71 +1510,63 @@ msgstr "Entrada al diari - %s"
 #.
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:7
 msgid "task-editor-dialog"
-msgstr ""
+msgstr "task-editor-dialog"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:8
-#, fuzzy
 msgid "S_ummary"
-msgstr "Resum"
+msgstr "R_esum"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:9
 msgid "Sta_rt Date:"
-msgstr ""
+msgstr "Data d'ini_ci:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Due Date:"
-msgstr "Data de venciment:"
+msgstr "_Data de venciment:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:11
 msgid "% Comp_lete:"
-msgstr ""
+msgstr "% comp_let:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:12
-#, fuzzy
 msgid "_Status:"
-msgstr "_Cònjuge:"
+msgstr "_Estat:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
 msgid "Not Started"
-msgstr ""
+msgstr "No iniciat"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:14
 msgid "In Progress"
-msgstr ""
+msgstr "En procés"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:15
-#, fuzzy
 msgid "Completed"
-msgstr "Redacta"
+msgstr "Completat"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:16
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancel·lat"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:17
-#, fuzzy
 msgid "_Priority:"
-msgstr "Prioritat:"
+msgstr "_Prioritat:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:18
-#, fuzzy
 msgid "High"
-msgstr "Alçada:"
+msgstr "Alta"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:19
-#, fuzzy
 msgid "Normal"
-msgstr "Format"
+msgstr "Normal"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:20
-#, fuzzy
 msgid "Low"
-msgstr "ara"
+msgstr "Baixa"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:21
 msgid "C_lassification:"
-msgstr ""
+msgstr "C_lassificació:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22 shell/e-shell-view.c:989
 #: widgets/misc/e-dateedit.c:337 widgets/misc/e-dateedit.c:709
@@ -1608,40 +1575,36 @@ msgid "None"
 msgstr "Cap"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:26
-#, fuzzy
 msgid "_Contacts..."
-msgstr "C_ontactes..."
+msgstr "_Contactes..."
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:28
-#, fuzzy
 msgid "Task"
-msgstr "Tasca - %s"
+msgstr "Tasca"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:29
-#, fuzzy
 msgid "Date Completed:"
-msgstr "Comentaris sobre l'element:"
+msgstr "Data completa:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:30
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: calendar/gui/e-calendar-table.c:294
-#, fuzzy
 msgid "Open..."
 msgstr "_Obre..."
 
 #: calendar/gui/e-calendar-table.c:295
 msgid "Open the task"
-msgstr ""
+msgstr "Obre la tasca"
 
 #: calendar/gui/e-calendar-table.c:297
 msgid "Mark Complete"
-msgstr ""
+msgstr "Marca com a completa"
 
 #: calendar/gui/e-calendar-table.c:298
 msgid "Mark the task complete"
-msgstr ""
+msgstr "Marca la tasca com a completa"
 
 #: calendar/gui/e-calendar-table.c:300
 #: calendar/gui/event-editor-dialog.glade.h:73 filter/filter.glade.h:14
@@ -1654,9 +1617,8 @@ msgid "Delete"
 msgstr "Suprimeix"
 
 #: calendar/gui/e-calendar-table.c:301
-#, fuzzy
 msgid "Delete the task"
-msgstr "Suprimeix aquest element"
+msgstr "Suprimeix la tasca"
 
 #: calendar/gui/e-day-view-time-item.c:406
 #, c-format
@@ -1667,24 +1629,22 @@ msgstr "%02i divisions de minut"
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1172
 #: calendar/gui/e-week-view-main-item.c:325
-#, fuzzy
 msgid "%A %d %B"
-msgstr "%a, %d de %b de %Y"
+msgstr "%A, %d de %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1186
 #: calendar/gui/e-week-view-main-item.c:334
-#, fuzzy
 msgid "%a %d %b"
-msgstr "%a, %d de %b de %Y"
+msgstr "%a %d %b"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1199
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
-msgstr ""
+msgstr "%d %b"
 
 #: calendar/gui/e-day-view.c:2634 calendar/gui/e-day-view.c:2641
 #: calendar/gui/e-day-view.c:2650 calendar/gui/e-week-view.c:2932
@@ -1718,21 +1678,19 @@ msgstr "Suprimeix-ne totes les aparicions"
 #. change the specifiers or add anything.
 #: calendar/gui/e-week-view-main-item.c:342
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: calendar/gui/event-editor.c:297
 msgid "Edit Appointment"
 msgstr "Edita una cita"
 
 #: calendar/gui/event-editor.c:342
-#, fuzzy
 msgid "on"
-msgstr "dl."
+msgstr "el"
 
 #: calendar/gui/event-editor.c:470
-#, fuzzy
 msgid "ocurrences"
-msgstr "Preferències"
+msgstr "aparicions"
 
 #: calendar/gui/event-editor.c:2371 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
@@ -1758,49 +1716,44 @@ msgstr "%a, %d de %b de %Y"
 #.
 #: calendar/gui/event-editor-dialog.glade.h:7
 msgid "event-editor-dialog"
-msgstr ""
+msgstr "event-editor-dialog"
 
 #: calendar/gui/event-editor-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:56
-#, fuzzy
 msgid "Su_mmary:"
-msgstr "Resum:"
+msgstr "Resu_m:"
 
 #: calendar/gui/event-editor-dialog.glade.h:9
-#, fuzzy
 msgid "Time"
-msgstr "Temps restant"
+msgstr "Temps"
 
 #: calendar/gui/event-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Start time:"
-msgstr "Hora d'_inici de la reunió:"
+msgstr "Hora d'_inici:"
 
 #: calendar/gui/event-editor-dialog.glade.h:11
-#, fuzzy
 msgid "_End time:"
-msgstr "Hora de _finalització de la reunió:"
+msgstr "Hora de _finalització:"
 
 #: calendar/gui/event-editor-dialog.glade.h:12
 msgid "A_ll day event"
-msgstr ""
+msgstr "Esdeveniment per a _tot el dia"
 
 #: calendar/gui/event-editor-dialog.glade.h:13
 msgid "Classification"
-msgstr ""
+msgstr "Classificació"
 
 #: calendar/gui/event-editor-dialog.glade.h:14
 msgid "Pu_blic"
-msgstr ""
+msgstr "Pú_blic"
 
 #: calendar/gui/event-editor-dialog.glade.h:15
-#, fuzzy
 msgid "Pri_vate"
-msgstr "Activa"
+msgstr "Pri_vat"
 
 #: calendar/gui/event-editor-dialog.glade.h:16
 msgid "_Confidential"
-msgstr ""
+msgstr "_Confidencial"
 
 #: calendar/gui/event-editor-dialog.glade.h:18
 #: calendar/gui/event-editor-dialog.glade.h:21
@@ -1824,44 +1777,41 @@ msgid "Days"
 msgstr "Dies"
 
 #: calendar/gui/event-editor-dialog.glade.h:30
-#, fuzzy
 msgid "_Display"
-msgstr "Visualizació de l'hora"
+msgstr "_Visualització"
 
 #: calendar/gui/event-editor-dialog.glade.h:31
 msgid "_Program"
-msgstr ""
+msgstr "_Programa"
 
 #: calendar/gui/event-editor-dialog.glade.h:32
-#, fuzzy
 msgid "_Mail"
-msgstr "_Mòbil"
+msgstr "_Correu"
 
 #: calendar/gui/event-editor-dialog.glade.h:33
 msgid "Mail _to:"
-msgstr ""
+msgstr "Envia per correu _a:"
 
 #: calendar/gui/event-editor-dialog.glade.h:34
 msgid "_Run program:"
-msgstr ""
+msgstr "_Executa el programa:"
 
 #: calendar/gui/event-editor-dialog.glade.h:35
-#, fuzzy
 msgid "_Audio"
-msgstr "_Afegeix"
+msgstr "_Àudio"
 
 #: calendar/gui/event-editor-dialog.glade.h:36
 msgid "Reminder"
-msgstr ""
+msgstr "Recordatori"
 
 #: calendar/gui/event-editor-dialog.glade.h:37
 #: calendar/gui/event-editor-dialog.glade.h:38
 msgid "Recur on the"
-msgstr ""
+msgstr "Repeteix-ho el dia"
 
 #: calendar/gui/event-editor-dialog.glade.h:39
 msgid "th day of the month"
-msgstr ""
+msgstr "del mes"
 
 #: calendar/gui/event-editor-dialog.glade.h:40 calendar/gui/print.c:288
 msgid "1st"
@@ -1886,91 +1836,77 @@ msgstr "5"
 #: calendar/gui/event-editor-dialog.glade.h:52
 #: calendar/gui/event-editor-dialog.glade.h:62
 msgid "Every"
-msgstr ""
+msgstr "Cada"
 
 #: calendar/gui/event-editor-dialog.glade.h:53
 #: calendar/gui/event-editor-dialog.glade.h:65
-#, fuzzy
 msgid "month(s)"
-msgstr "mes"
+msgstr "mes(os)"
 
 #: calendar/gui/event-editor-dialog.glade.h:54
 #: calendar/gui/event-editor-dialog.glade.h:78
-#, fuzzy
 msgid "Recurrence"
-msgstr "FIXME: Recurrència..."
+msgstr "Recurrència"
 
 #: calendar/gui/event-editor-dialog.glade.h:55
-#, fuzzy
 msgid "Appointment Basics"
-msgstr "Cites:"
+msgstr "Temes fonamentals sobre les cites"
 
 #: calendar/gui/event-editor-dialog.glade.h:57
 msgid "_Starting date:"
-msgstr ""
+msgstr "Data d'_inici:"
 
 #: calendar/gui/event-editor-dialog.glade.h:58
-#, fuzzy
 msgid "Recurrence Rule"
-msgstr "Configura les regles de recurrència"
+msgstr "Regla de recurrència"
 
 #: calendar/gui/event-editor-dialog.glade.h:59
-#, fuzzy
 msgid "No recurrence"
-msgstr "Configura les regles de recurrència"
+msgstr "Sense recurrència"
 
 #: calendar/gui/event-editor-dialog.glade.h:60
-#, fuzzy
 msgid "Simple recurrence"
-msgstr "Configura les regles de recurrència"
+msgstr "Recurrència simple"
 
 #: calendar/gui/event-editor-dialog.glade.h:61
-#, fuzzy
 msgid "Custom recurrence"
-msgstr "Configura les regles de recurrència"
+msgstr "Recurrència personalitzada"
 
 #: calendar/gui/event-editor-dialog.glade.h:63
-#, fuzzy
 msgid "day(s)"
-msgstr "dia"
+msgstr "dia(es)"
 
 #: calendar/gui/event-editor-dialog.glade.h:64
-#, fuzzy
 msgid "week(s)"
-msgstr "setmana"
+msgstr "setmana(es)"
 
 #: calendar/gui/event-editor-dialog.glade.h:66
-#, fuzzy
 msgid "year(s)"
-msgstr "any"
+msgstr "any(s)"
 
 #: calendar/gui/event-editor-dialog.glade.h:67
-#, fuzzy
 msgid "for"
-msgstr "quart"
+msgstr "per a"
 
 #: calendar/gui/event-editor-dialog.glade.h:68
 msgid "until"
-msgstr ""
+msgstr "fins a"
 
 #: calendar/gui/event-editor-dialog.glade.h:69
 msgid "forever"
-msgstr ""
+msgstr "per sempre"
 
 #: calendar/gui/event-editor-dialog.glade.h:70
-#, fuzzy
 msgid "Exceptions"
-msgstr "Opcions"
+msgstr "Excepcions"
 
 #: calendar/gui/event-editor-dialog.glade.h:72
-#, fuzzy
 msgid "Modify"
-msgstr "Dilluns"
+msgstr "Modifica"
 
 #: calendar/gui/event-editor-dialog.glade.h:74
-#, fuzzy
 msgid "label21"
-msgstr "etiqueta1"
+msgstr "etiqueta21"
 
 #: calendar/gui/event-editor-dialog.glade.h:75
 msgid ""
@@ -1980,6 +1916,11 @@ msgid ""
 "However, the appointment will recur at the appropriate time and will be "
 "displayed properly in the calendar views."
 msgstr ""
+"Aquesta cita té regles de recurrència personalitzades que l'Evolution no pot "
+"editar.\n"
+"\n"
+"No obstant això, la cita recurrirà en el moment oportú i es visualitzarà "
+"correctament en les vistes de l'agenda."
 
 #: calendar/gui/getdate.y:391
 msgid "january"
@@ -2227,17 +2168,17 @@ msgstr "Recordatori de la vostra cita a "
 #: calendar/gui/gnome-cal.c:1144
 #, c-format
 msgid "Could not load the calendar in `%s'"
-msgstr ""
+msgstr "No s'ha pogut carregar l'agenda en `%s'"
 
 #: calendar/gui/gnome-cal.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create a calendar in `%s'"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear una agenda a `%s'"
 
 #: calendar/gui/gnome-cal.c:1166
 #, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr ""
+msgstr "El mètode necessari per carregar `%s' no està suportat"
 
 #. Idea: we need Snooze option :-)
 #: calendar/gui/gnome-cal.c:1471 calendar/gui/gnome-cal.c:1526
@@ -2400,40 +2341,36 @@ msgid "Sa"
 msgstr "Ds"
 
 #: calendar/gui/print.c:936
-#, fuzzy
 msgid "Tasks"
-msgstr "Tasca - %s"
+msgstr "Tasques"
 
 #. Day
 #: calendar/gui/print.c:1066
 msgid "Current day (%a %b %d %Y)"
-msgstr "Dia actual (%a, %d de %b de %Y)"
+msgstr "Avui (%a, %d de %b de %Y)"
 
 #: calendar/gui/print.c:1080 calendar/gui/print.c:1084
-#, fuzzy
 msgid "%a %b %d"
-msgstr "%a, %d de %b de %Y"
+msgstr "%a, %d de %b"
 
 #: calendar/gui/print.c:1081
-#, fuzzy
 msgid "%a %d %Y"
-msgstr "%a, %d de %b de %Y"
+msgstr "%a %d %Y"
 
 #: calendar/gui/print.c:1092
-#, fuzzy, c-format
+#, c-format
 msgid "Current week (%s - %s)"
-msgstr "Setmana actual (%s %s %d - %s %d %d)"
+msgstr "Aquesta setmana (%s - %s)"
 
 #. Month
 #: calendar/gui/print.c:1100
-#, fuzzy
 msgid "Current month (%b %Y)"
-msgstr "Mes en curs (%a %Y)"
+msgstr "Aquest mes (%b %Y)"
 
 #. Year
 #: calendar/gui/print.c:1107
 msgid "Current year (%Y)"
-msgstr "Any en curs(%Y)"
+msgstr "Enguany (%Y)"
 
 #: calendar/gui/print.c:1144
 msgid "Print Calendar"
@@ -2445,7 +2382,7 @@ msgstr "Previsualització d'impressió"
 
 #: calendar/gui/prop.c:336
 msgid "Time display"
-msgstr "Visualizació de l'hora"
+msgstr "Visualització de l'hora"
 
 #. Time format
 #: calendar/gui/prop.c:340
@@ -2554,161 +2491,162 @@ msgstr "Habilita l'snoozing per a "
 #: camel/camel-movemail.c:96
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr ""
+msgstr "No s'ha pogut comprovar el fitxer de correu %s: %s"
 
 #: camel/camel-movemail.c:133 camel/camel-movemail.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear el fitxer de blocatge per a %s: %s"
 
 #: camel/camel-movemail.c:143
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr ""
+msgstr "No s'ha pogut obrir el fitxer de correu %s: %s"
 
 #: camel/camel-movemail.c:153
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
+msgstr "No s'ha pogut obrir el fitxer temporal de correu %s: %s"
 
 #: camel/camel-movemail.c:194
 #, c-format
 msgid "Could not test lock file for %s: %s"
-msgstr ""
+msgstr "No s'ha pogut comprovar el fitxer de blocatge per a %s: %s"
 
 #: camel/camel-movemail.c:214
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr ""
+"S'ha excedit el temps màxim en intentar recuperar el fitxer de blocatge en "
+"%s. Torneu-ho a provar més tard."
 
 #: camel/camel-movemail.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading mail file: %s"
-msgstr "Error en carregar el fitxer: %s"
+msgstr "Error en llegir el fitxer de correu: %s"
 
 #: camel/camel-movemail.c:251
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing mail temp file: %s"
-msgstr "Error en desar el fitxer: %s"
+msgstr "Error en escriure el fitxer temporal de correu: %s"
 
 #: camel/camel-movemail.c:269
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr ""
+msgstr "No s'ha pogut emmagatzemar el correu en el fitxer temporal %s: %s"
 
 #: camel/camel-movemail.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe: %s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear el conducte: %s"
 
 #: camel/camel-movemail.c:313
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "No s'ha pogut bifurcar: %s"
 
 #: camel/camel-movemail.c:351
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "El programa Movemail ha fallat: %s"
 
 #: camel/camel-movemail.c:352
-#, fuzzy
 msgid "(Unknown error)"
-msgstr "Error desconegut"
+msgstr "(Error desconegut)"
 
 #: camel/camel-provider.c:133
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "No s'ha pogut carregar %s: %s"
 
 #: camel/camel-provider.c:141
 #, c-format
 msgid "Could not load %s: No initialization code in module."
 msgstr ""
+"No s'ha pogut carregar %s: el mòdul no conté cap codi d'inicialització."
 
 #: camel/camel-remote-store.c:185
 #, c-format
 msgid "%s server %s"
-msgstr ""
+msgstr "Servidor %s %s"
 
 #: camel/camel-remote-store.c:189
 #, c-format
 msgid "%s service for %s on %s"
-msgstr ""
+msgstr "Servei %s per a %s en %s"
 
 #: camel/camel-remote-store.c:230
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
-msgstr ""
+msgstr "No s'ha pogut connectar a %s (port %d): %s"
 
 #: camel/camel-remote-store.c:231 camel/providers/imap/camel-imap-store.c:190
 msgid "(unknown host)"
-msgstr ""
+msgstr "(ordinador central desconegut)"
 
 #: camel/camel-service.c:119
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr ""
+msgstr "L'URL '%s' necessita un component de nom d'usuari"
 
 #: camel/camel-service.c:128
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr ""
+msgstr "L'URL '%s' necessita un component d'ordinador central"
 
 #: camel/camel-service.c:137
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr ""
+msgstr "L'URL '%s' necessita un component de camí"
 
 #: camel/camel-service.c:516
 #, c-format
 msgid "No such host %s."
-msgstr ""
+msgstr "L'ordinador central %s no existeix."
 
 #: camel/camel-service.c:519
 #, c-format
 msgid "Temporarily unable to look up hostname %s."
-msgstr ""
+msgstr "Temporalment no es pot cercar el nom d'ordinador central %s."
 
 #: camel/camel-session.c:271
 #, c-format
 msgid "No provider available for protocol `%s'"
-msgstr ""
+msgstr "No hi ha cap proveïdor disponible per al protocol `%s'"
 
 #: camel/camel-session.c:359
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
-"No es pot crear el directori\n"
-"%s\n"
-"Error: %s"
+"No s'ha pogut crear el directori %s:\n"
+"%s"
 
 #: camel/camel-url.c:77
 #, c-format
 msgid "URL string `%s' contains no protocol"
-msgstr ""
+msgstr "La cadena d'URL `%s' no conté cap protocol"
 
 #: camel/camel-url.c:92
 #, c-format
 msgid "URL string `%s' contains an invalid protocol"
-msgstr ""
+msgstr "La cadena d'URL `%s' conté un protocol incorrecte"
 
 #: camel/camel-url.c:153
 #, c-format
 msgid "Port number in URL `%s' is non-numeric"
-msgstr ""
+msgstr "El número de port de l'URL `%s' no és numèric"
 
 #: camel/providers/imap/camel-imap-command.c:220
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr ""
+msgstr "Resposta inesperada del servidor IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:228
 #, c-format
 msgid "IMAP command failed: %s"
-msgstr ""
+msgstr "L'ordre IMAP ha fallat: %s"
 
 #: camel/providers/imap/camel-imap-command.c:229 shell/e-storage.c:340
 msgid "Unknown error"
@@ -2717,50 +2655,51 @@ msgstr "Error desconegut"
 #: camel/providers/imap/camel-imap-command.c:370
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr ""
+msgstr "La resposta del servidor IMAP no contenia la informació %s"
 
 #: camel/providers/imap/camel-imap-command.c:406
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr ""
+msgstr "Resposta D'acord inesperada del servidor IMAP: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:219
 #, c-format
 msgid "Could not load summary for %s"
-msgstr ""
+msgstr "No s'ha pogut carregar el resum per a %s"
 
 #: camel/providers/imap/camel-imap-folder.c:578
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "No s'ha pogut trobar el cos del missatge en la resposta al FETCH."
 
 #: camel/providers/imap/camel-imap-provider.c:39
 msgid "IMAPv4"
-msgstr ""
+msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:41
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "Per llegir i emmagatzemar correu en servidors IMAP."
 
 #: camel/providers/imap/camel-imap-store.c:161
 #: camel/providers/nntp/camel-nntp-store.c:292
 #: camel/providers/pop3/camel-pop3-store.c:150
-#, fuzzy
 msgid "Password"
-msgstr "Oblida les _contrasenyes"
+msgstr "Contrasenya"
 
 #: camel/providers/imap/camel-imap-store.c:163
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
+"Aquesta opció es connectarà al servidor IMAP mitjançant una contrasenya de "
+"text net."
 
 #: camel/providers/imap/camel-imap-store.c:188
 #, c-format
 msgid "Could not connect to IMAP server on %s."
-msgstr ""
+msgstr "No s'ha pogut connectar al servidor IMAP en %s."
 
 #: camel/providers/imap/camel-imap-store.c:252
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr ""
+msgstr "%sSi us plau, introduïu la contrasenya IMAP per a %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:274
 #, c-format
@@ -2769,69 +2708,72 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"No es pot autenticar davant del servidor IMAP.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/imap/camel-imap-store.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create directory %s: %s"
-msgstr ""
-"No es pot crear el directori\n"
-"%s\n"
-"Error: %s"
+msgstr "No s'ha pogut crear el directori %s: %s"
 
 #. FIXME: right error code
 #: camel/providers/mbox/camel-mbox-folder.c:220
-#, fuzzy
 msgid "Could not create summary"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear el resum"
 
 #: camel/providers/mbox/camel-mbox-folder.c:383
 #: camel/providers/mbox/camel-mbox-folder.c:386
 #, c-format
 msgid "Cannot append message to mbox file: %s"
-msgstr ""
+msgstr "No es pot afegir el missatge al fitxer mbox: %s"
 
 #: camel/providers/mbox/camel-mbox-folder.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message: %s"
-msgstr "No es pot configurar l'emmagatzemament local -- %s"
+msgstr "No es pot recuperar el missatge: %s"
 
 #: camel/providers/mbox/camel-mbox-provider.c:34
 msgid "UNIX mbox-format mail files"
-msgstr ""
+msgstr "Fitxers de correu en format mbox d'UNIX"
 
 #: camel/providers/mbox/camel-mbox-provider.c:36
 msgid ""
 "For reading mail delivered by the local system, and for storing mail on "
 "local disk."
 msgstr ""
+"Per llegir el correu lliurat al sistema local i per emmagatzemar correu en "
+"el disc local."
 
 #: camel/providers/mbox/camel-mbox-store.c:121
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
-"No es poden copiar els fitxers a\n"
-"`%s'."
+"No s'ha pogut obrir el fitxer `%s':\n"
+"%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:128
 #: camel/providers/mh/camel-mh-store.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s' does not exist."
-msgstr "Aquest fitxer no existeix."
+msgstr "La carpeta `%s' no existeix."
 
 #: camel/providers/mbox/camel-mbox-store.c:137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create file `%s':\n"
 "%s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr ""
+"No s'ha pogut crear el fitxer `%s':\n"
+"%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:146
 #: camel/providers/mbox/camel-mbox-store.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a regular file."
-msgstr "Aquest fitxer no és habitual."
+msgstr "`%s' no és un fitxer habitual."
 
 #: camel/providers/mbox/camel-mbox-store.c:172
 #: camel/providers/mbox/camel-mbox-store.c:208
@@ -2840,105 +2782,106 @@ msgid ""
 "Could not delete folder `%s':\n"
 "%s"
 msgstr ""
+"No s'ha pogut suprimir la carpeta `%s':\n"
+"%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:187
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr ""
+msgstr "La carpeta `%s' no és buida. No s'ha suprimit."
 
 #: camel/providers/mbox/camel-mbox-store.c:225
 #, c-format
 msgid "Could not rename folder %s to %s: destination exists"
 msgstr ""
+"No s'ha pogut canviar el nom de la carpeta %s a %s: el nom de destí ja "
+"existeix"
 
 #: camel/providers/mbox/camel-mbox-store.c:263
 msgid "Mbox folders may not be nested."
-msgstr ""
+msgstr "Les carpetes Mbox no es poden imbricar."
 
 #: camel/providers/mbox/camel-mbox-store.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "Local mail file %s"
-msgstr "Error en desar el fitxer: %s"
+msgstr "Fitxer de correu local %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:650
 #, c-format
 msgid "Could not open summary %s"
-msgstr ""
+msgstr "No s'ha pogut obrir el resum %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:671
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr ""
+msgstr "No es pot obrir la bústia de correu temporal: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:715
 msgid "Summary mismatch, aborting sync"
-msgstr ""
+msgstr "Incongruència del resum, s'està interrompent la sincronització"
 
 #: camel/providers/mbox/camel-mbox-summary.c:735
 msgid "Summary mismatch, X-Evolution header missing"
-msgstr ""
+msgstr "Incongruència del resum, manca la capçalera de l'X-Evolution"
 
 #: camel/providers/mbox/camel-mbox-summary.c:757
 #, c-format
 msgid "Error writing to temp mailbox: %s"
-msgstr ""
+msgstr "Error en escriure a la bústia de correu temporal: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:770
 #: camel/providers/mbox/camel-mbox-summary.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy data to output file: %s"
-msgstr ""
-"No es poden copiar els fitxers a\n"
-"`%s'."
+msgstr "No es poden copiar les dades al fitxer de sortida: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:813
 #, c-format
 msgid "Could not close source folder %s: %s"
-msgstr ""
+msgstr "No s'ha pogut tancar la carpeta font %s: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:822
-#, fuzzy, c-format
+#, c-format
 msgid "Could not close temp folder: %s"
-msgstr ""
-"No es pot crear la carpeta indicada:\n"
-"%s"
+msgstr "No es pot tancar la carpeta temporal: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder: %s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut canviar el nom de la carpeta: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown error: %s"
-msgstr "Error desconegut"
+msgstr "Error desconegut: %s"
 
 #. FIXME: right error code
 #: camel/providers/mh/camel-mh-folder.c:211
-#, fuzzy
 msgid "Could not load or create summary"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut carregar o crear el resum"
 
 #: camel/providers/mh/camel-mh-folder.c:330
 #: camel/providers/mh/camel-mh-folder.c:333
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to mh folder: %s"
-msgstr "Mou un missatge a una nova carpeta"
+msgstr "No es pot afegir cap missatge a la carpeta mh: %s"
 
 #: camel/providers/mh/camel-mh-folder.c:399
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s\n"
 "  %s"
-msgstr "No es pot configurar l'emmagatzemament local -- %s"
+msgstr ""
+"No es pot recuperar el missatge: %s\n"
+"  %s"
 
 #: camel/providers/mh/camel-mh-provider.c:34
 msgid "UNIX MH-format mail directories"
-msgstr ""
+msgstr "Directoris de correu en format MH d'UNIX"
 
 #: camel/providers/mh/camel-mh-provider.c:36
 msgid "For storing local mail in MH-like mail directories"
-msgstr ""
+msgstr "Per emmagatzemar correu local en directoris de correu de tipus MH"
 
 #: camel/providers/mh/camel-mh-store.c:115
 #, c-format
@@ -2946,141 +2889,152 @@ msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
+"No s'ha pogut obrir la carpeta `%s':\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr ""
+"No s'ha pogut crear la carpeta `%s':\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:139
 #, c-format
 msgid "`%s' is not a directory."
-msgstr ""
+msgstr "`%s' no és un directori."
 
 #: camel/providers/mh/camel-mh-store.c:158
 #: camel/providers/mh/camel-mh-store.c:171
 #, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr ""
+msgstr "No s'ha pogut suprimir la carpeta `%s': %s"
 
 #: camel/providers/mh/camel-mh-store.c:189
 #: camel/providers/mh/camel-mh-store.c:193
 #, c-format
 msgid "Could not rename folder `%s': %s"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la carpeta `%s': %s"
 
 #: camel/providers/mh/camel-mh-store.c:197
 #, c-format
 msgid "Could not rename folder `%s': %s exists"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la carpeta `%s': %s existeix"
 
 #: camel/providers/mh/camel-mh-store.c:205
 msgid "MH folders may not be nested."
-msgstr ""
+msgstr "Les carpetes MH no es poden imbricar."
 
 #: camel/providers/mh/camel-mh-store.c:217
 #, c-format
 msgid "Local mail directory %s"
-msgstr ""
+msgstr "Directori de correu local %s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:41
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr ""
+msgstr "Si us plau, introduïu la contrasenya NNTP per a %s@%s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:62
 msgid "Server rejected username"
-msgstr ""
+msgstr "El servidor ha rebutjat el nom d'usuari"
 
 #: camel/providers/nntp/camel-nntp-auth.c:68
 msgid "Failed to send username to server"
-msgstr ""
+msgstr "No s'ha pogut enviar el nom d'usuari al servidor"
 
 #: camel/providers/nntp/camel-nntp-auth.c:77
 msgid "Server rejected username/password"
-msgstr ""
+msgstr "El servidor ha rebutjat el nom d'usuari/la contrasenya"
 
 #: camel/providers/nntp/camel-nntp-folder.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Message %s not found."
-msgstr "No s'ha trobat el fitxer"
+msgstr "No s'ha trobat el missatge %s."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
-msgstr ""
+msgstr "No s'ha pogut aconseguir la llista de grups del servidor"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:93
 #: camel/providers/nntp/camel-nntp-grouplist.c:102
 #, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr ""
+msgstr "No es pot carregar el fitxer de llista de grups per a %s: %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:151
 #, c-format
 msgid "Unable to save grouplist file for %s: %s"
-msgstr ""
+msgstr "No es pot desar el fitxer de llista de grups per a %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:38
 msgid "USENET news"
-msgstr ""
+msgstr "Notícies d'USENET"
 
 #: camel/providers/nntp/camel-nntp-provider.c:40
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
+msgstr "Proveïdor per llegir i publicar als grups de notícies d'USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:226
 #, c-format
 msgid "Could not open directory for news server: %s"
-msgstr ""
+msgstr "No s'ha pogut obrir el directori per al servidor de notícies: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:287
 #, c-format
 msgid "USENET News via %s"
-msgstr ""
+msgstr "Notícies d'USENET mitjançant %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:294
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
+"Aquesta opció us autentica al servidor NNTP mitjançant una contrasenya en "
+"text net"
 
 #: camel/providers/nntp/camel-nntp-store.c:333
 #: camel/providers/nntp/camel-nntp-store.c:499
 #, c-format
 msgid "Unable to open or create .newsrc file for %s: %s"
-msgstr ""
+msgstr "No es pot obrir o crear el fitxer .newsrc per a %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:177
 msgid "Could not open folder: message listing was incomplete."
-msgstr ""
+msgstr "No s'ha pogut obrir la carpeta: la llista de missatges era incompleta."
 
 #: camel/providers/pop3/camel-pop3-folder.c:271
 #, c-format
 msgid "No message with uid %s"
-msgstr ""
+msgstr "No hi ha cap missatge amb l'uid %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:285
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
-msgstr ""
+msgstr "No s'ha pogut recuperar el missatge %s del servidor POP: %s"
 
 #: camel/providers/pop3/camel-pop3-provider.c:34
 msgid "POP"
-msgstr ""
+msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:36
 msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
 msgstr ""
+"Per connectar als servidors POP. El protocol POP també es pot utilitzar per "
+"recuperar correu des de determinats proveïdors de correu web i sistemes "
+"propietaris de correu."
 
 #: camel/providers/pop3/camel-pop3-store.c:152
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
+"Aquesta opció us connectarà al sevidor POP mitjançant una contrasenya en "
+"text net. És l'única suportada per molts servidors POP."
 
 #: camel/providers/pop3/camel-pop3-store.c:162
 msgid ""
@@ -3088,26 +3042,31 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
+"Aquesta opció us connectarà al servidor POP utilitzant una contrasenya "
+"xifrada mitjançant el protocol APOP. Això no funcionarà per a tots els "
+"usuaris, fins i tot en servidors que diuen que ho suporten."
 
 #: camel/providers/pop3/camel-pop3-store.c:174
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
+"Això us connectarà al servidor POP i utilitzarà el Kerberos 4 per "
+"autenticar-vos-hi."
 
 #: camel/providers/pop3/camel-pop3-store.c:219
 #, c-format
 msgid "Could not authenticate to KPOP server: %s"
-msgstr ""
+msgstr "No se us ha pogut autenticar al servidor KPOP: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:337
 #, c-format
 msgid "Could not connect to POP server on %s."
-msgstr ""
+msgstr "No s'ha pogut connectar al servidor POP en %s."
 
 #: camel/providers/pop3/camel-pop3-store.c:391
 #, c-format
 msgid "%sPlease enter the POP3 password for %s@%s"
-msgstr ""
+msgstr "%sSi us plau, introduïu la contrasenya POP3 per a %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:410
 #, c-format
@@ -3115,18 +3074,21 @@ msgid ""
 "Unable to connect to POP server.\n"
 "Error sending username: %s"
 msgstr ""
+"No es pot connectar al servidor POP.\n"
+"Error en enviar el nom d'usuari: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:413
 #: camel/providers/pop3/camel-pop3-store.c:450
-#, fuzzy
 msgid "(Unknown)"
-msgstr "Error desconegut"
+msgstr "(Desconegut)"
 
 #: camel/providers/pop3/camel-pop3-store.c:440
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
 msgstr ""
+"No es pot connectar al servidor POP.\n"
+"No hi ha suport per al mecanisme d'autenticació sol·licitat."
 
 #: camel/providers/pop3/camel-pop3-store.c:448
 #, c-format
@@ -3134,73 +3096,78 @@ msgid ""
 "Unable to connect to POP server.\n"
 "Error sending password: %s"
 msgstr ""
+"No es pot connectar al servidor POP.\n"
+"Error en enviar la contrasenya: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:554
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "La carpeta `%s' no existeix."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#, fuzzy
 msgid "Sendmail"
-msgstr "Envia"
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
+"Per lliurar correu transferint-lo al programa \"sendmail\" en el sistema "
+"local."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr ""
+"No s'ha pogut crear el conducte al sendmail: %s: no s'ha enviat el correu"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:122
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "No s'ha pogut bifurcar el sendmail: %s: no s'ha enviat el correu"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Could not send message: %s"
-msgstr "Redacta un missatge"
+msgstr "No s'ha pogut enviar el missatge: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:161
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "El sendmail ha acabat amb el senyal %s: no s'ha enviat el correu."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:168
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:173
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "El sendmail ha acabat amb l'estat %d: no s'ha enviat el correu."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:220
-#, fuzzy
 msgid "sendmail"
-msgstr "Recupera el correu"
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:222
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "Lliurament de correu mitjançant el programa sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr ""
+"Per al lliurament de correu mitjançant la connexió a un concentrador de "
+"correu utilitzant SMTP."
 
 #: camel/providers/vee/camel-vee-provider.c:30
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "Proveïdor de correu de la carpeta virtual"
 
 #: camel/providers/vee/camel-vee-provider.c:32
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "Per llegir correu com a consulta d'un altre joc de carpetes"
 
 #: composer/e-msg-composer-attachment-bar.c:85
 msgid "1 byte"
@@ -3228,9 +3195,8 @@ msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:299 mail/mail-display.c:118
-#, fuzzy
 msgid "attachment"
-msgstr "Afegeix una adjunció"
+msgstr "adjunció"
 
 #: composer/e-msg-composer-attachment-bar.c:395
 msgid "Attach a file"
@@ -3272,18 +3238,16 @@ msgid "File name:"
 msgstr "Nom del fitxer:"
 
 #: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:295
-#, fuzzy
 msgid "From:"
-msgstr "De"
+msgstr "De:"
 
 #: composer/e-msg-composer-hdrs.c:243
 msgid "Click here for the address book"
 msgstr "Feu clic aquí per a la llibreta d'adreces"
 
 #: composer/e-msg-composer-hdrs.c:296
-#, fuzzy
 msgid "Enter the identity you wish to send this message from"
-msgstr "Entreu els destinataris del missatge"
+msgstr "Introduïu la identitat amb la qual voleu enviar aquest missatge"
 
 #: composer/e-msg-composer-hdrs.c:300
 msgid "To:"
@@ -3291,7 +3255,7 @@ msgstr "Per a:"
 
 #: composer/e-msg-composer-hdrs.c:301
 msgid "Enter the recipients of the message"
-msgstr "Entreu els destinataris del missatge"
+msgstr "Introduïu els destinataris del missatge"
 
 #: composer/e-msg-composer-hdrs.c:305
 msgid "Cc:"
@@ -3327,6 +3291,8 @@ msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
+"No s'ha pogut obrir el fitxer de signatura %s:\n"
+"%s"
 
 #: composer/e-msg-composer.c:406
 msgid "Save as..."
@@ -3343,19 +3309,17 @@ msgid "Error loading file: %s"
 msgstr "Error en carregar el fitxer: %s"
 
 #: composer/e-msg-composer.c:459
-#, fuzzy
 msgid "Saving changes to message..."
-msgstr "Desa un missatge"
+msgstr "S'estan desant els canvis al missatge..."
 
 #: composer/e-msg-composer.c:461
-#, fuzzy
 msgid "Save changes to message..."
-msgstr "Desa un missatge"
+msgstr "Desa els canvis al missatge..."
 
 #: composer/e-msg-composer.c:502
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
-msgstr ""
+msgstr "Error en desar la redacció a 'Esborranys': %s"
 
 #: composer/e-msg-composer.c:546 shell/e-shell-view-menu.c:167
 msgid "Evolution"
@@ -3367,6 +3331,9 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
+"Aquest missatge no s'ha enviat.\n"
+"\n"
+"Voleu desar-ne els canvis?"
 
 #: composer/e-msg-composer.c:574
 msgid "Open file"
@@ -3405,44 +3372,36 @@ msgid "Compose a message"
 msgstr "Redacta un missatge"
 
 #: composer/e-msg-composer.c:1210
-#, fuzzy
 msgid "Could not create composer window."
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear la finestra del redactor."
 
 #: filter/filter-datespec.c:61
-#, fuzzy
 msgid "years"
-msgstr "any"
+msgstr "anys"
 
 #: filter/filter-datespec.c:62
-#, fuzzy
 msgid "months"
-msgstr "mes"
+msgstr "mesos"
 
 #: filter/filter-datespec.c:63
-#, fuzzy
 msgid "weeks"
-msgstr "setmana"
+msgstr "setmanes"
 
 #: filter/filter-datespec.c:64
-#, fuzzy
 msgid "days"
-msgstr "dia"
+msgstr "dies"
 
 #: filter/filter-datespec.c:65
-#, fuzzy
 msgid "hours"
-msgstr "hora"
+msgstr "hores"
 
 #: filter/filter-datespec.c:66
-#, fuzzy
 msgid "minutes"
-msgstr "minut"
+msgstr "minuts"
 
 #: filter/filter-datespec.c:67
-#, fuzzy
 msgid "seconds"
-msgstr " segons"
+msgstr "segons"
 
 #: filter/filter-datespec.c:232
 msgid ""
@@ -3450,12 +3409,17 @@ msgid ""
 "whatever the time is when the filter is run\n"
 "or vfolder is opened."
 msgstr ""
+"La data del missatge es compararà amb l'hora,\n"
+"sigui quina sigui, en què s'executi el filtre\n"
+"o s'obri la vfolder."
 
 #: filter/filter-datespec.c:254
 msgid ""
 "The message's date will be compared against\n"
 "the time that you specify here."
 msgstr ""
+"La data del missatge es compararà amb l'hora\n"
+"que indiqueu aquí."
 
 #: filter/filter-datespec.c:293
 msgid ""
@@ -3463,39 +3427,40 @@ msgid ""
 "a time relative to when the filter is run;\n"
 "\"a week ago\", for example."
 msgstr ""
+"La data del missatge es compararà amb una hora\n"
+"relativa a quan s'executi el filtre;\n"
+"\"fa una setmana\", per exemple."
 
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:328
-#, fuzzy
 msgid "the current time"
-msgstr "Vés al present"
+msgstr "l'hora actual"
 
 #: filter/filter-datespec.c:328
 msgid "a time you specify"
-msgstr ""
+msgstr "una hora que indiqueu"
 
 #: filter/filter-datespec.c:329
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "una hora relativa a l'actual"
 
 #. The label
 #: filter/filter-datespec.c:387
 msgid "Compare against"
-msgstr ""
+msgstr "Compara-la amb"
 
 #: filter/filter-datespec.c:661
-#, fuzzy
 msgid "<click here to select a date>"
-msgstr "* Feu clic aquí per afegir un contacte *"
+msgstr "<feu clic aquí per seleccionar una data>"
 
 #: filter/filter-editor.c:159 mail/mail-autofilter.c:287
 #: mail/mail-autofilter.c:336
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "Afegeix una regla de filtre"
 
 #: filter/filter-editor.c:207
 msgid "Edit Filter Rule"
-msgstr ""
+msgstr "Edita una regla de filtre"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3503,377 +3468,342 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: filter/filter-editor.c:404 filter/filter.glade.h:7
-#, fuzzy
 msgid "Edit Filters"
-msgstr "Filtre"
+msgstr "Filtres d'edició"
 
 #. and now for the action area
 #: filter/filter-filter.c:401
-#, fuzzy
 msgid "Then"
-msgstr "Dj"
+msgstr "Aleshores"
 
 #: filter/filter-filter.c:414
-#, fuzzy
 msgid "Add action"
-msgstr "Accio_ns"
+msgstr "Afegeix una acció"
 
 #: filter/filter-filter.c:420
-#, fuzzy
 msgid "Remove action"
-msgstr "Elimina"
+msgstr "Elimina una acció"
 
 #: filter/filter-folder.c:186 filter/vfolder-rule.c:271
-#, fuzzy
 msgid "Select Folder"
-msgstr "_Carpeta"
+msgstr "Seleccioneu una carpeta"
 
 #: filter/filter-folder.c:209
 msgid "Enter folder URI"
-msgstr ""
+msgstr "Introduïu l'URI de la carpeta"
 
 #: filter/filter-folder.c:254
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<feu clic aquí per seleccionar una carpeta>"
 
 #: filter/filter-part.c:420
 msgid "Test"
-msgstr ""
+msgstr "Comprova"
 
 #: filter/filter-rule.c:509
-#, fuzzy
 msgid "Rule name: "
-msgstr "Nom del fitxer:"
+msgstr "Nom de la regla: "
 
 #: filter/filter-rule.c:513
-#, fuzzy
 msgid "Untitled"
-msgstr "(Sense títol)"
+msgstr "Sense títol"
 
 #: filter/filter-rule.c:527
-#, fuzzy
 msgid "If"
-msgstr "f"
+msgstr "Si"
 
 #: filter/filter-rule.c:544
 msgid "Execute actions"
-msgstr ""
+msgstr "Executa les accions"
 
 #: filter/filter-rule.c:548
 msgid "if all criteria are met"
-msgstr ""
+msgstr "si es compleixen tots els criteris"
 
 #: filter/filter-rule.c:553
 msgid "if any criteria are met"
-msgstr ""
+msgstr "si es compleix qualsevol criteri"
 
 #: filter/filter-rule.c:564
 msgid "Add criterion"
-msgstr ""
+msgstr "Afegeix un criteri"
 
 #: filter/filter-rule.c:570
 msgid "Remove criterion"
-msgstr ""
+msgstr "Elimina un criteri"
 
 #: filter/filter.glade.h:8
 msgid ""
 "Incoming\n"
 "Outgoing\n"
 msgstr ""
+"Entrant\n"
+"Sortint\n"
 
 #: filter/filter.glade.h:11
-#, fuzzy
 msgid "Filter Rules"
-msgstr "Filtre"
+msgstr "Regles del filtre"
 
 #: filter/filter.glade.h:13 filter/filter.glade.h:18
 #: mail/mail-config.glade.h:12 mail/mail-config.glade.h:17
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "Edit"
-msgstr "_Edita"
+msgstr "Edita"
 
 #: filter/filter.glade.h:15
-#, fuzzy
 msgid "Edit VFolders"
-msgstr "Carpetes"
+msgstr "Edita les VFolders"
 
 #: filter/filter.glade.h:16
-#, fuzzy
 msgid "Virtual Folders"
-msgstr "Carpetes"
+msgstr "Carpetes virtuals"
 
 #: filter/filter.glade.h:20 filter/filter.glade.h:23
-#, fuzzy
 msgid "vFolder Sources"
-msgstr "Afegeix una font"
+msgstr "Fonts de la vFolder"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
 msgid "Assign Colour"
-msgstr ""
+msgstr "Assigna un color"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Score"
-msgstr ""
+msgstr "Assigna una puntuació"
 
 #: filter/libfilter-i18n.h:4
-#, fuzzy
 msgid "Copy to Folder"
-msgstr "FIXME: Cop_ia a la carpeta..."
+msgstr "Copia a la carpeta"
 
 #: filter/libfilter-i18n.h:5
-#, fuzzy
 msgid "Date received"
-msgstr "Rebut"
+msgstr "Data de recepció"
 
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Date sent"
-msgstr "Data"
+msgstr "Data d'enviament"
 
 #: filter/libfilter-i18n.h:8
-#, fuzzy
 msgid "Expression"
-msgstr "_Professió:"
+msgstr "Expressió"
 
 #: filter/libfilter-i18n.h:9
-#, fuzzy
 msgid "Forward to Address"
-msgstr "Reenvia aquest missatge"
+msgstr "Reenvia-ho a l'adreça"
 
 #: filter/libfilter-i18n.h:10
-#, fuzzy
 msgid "Message Body"
-msgstr "Mou el(s) missage(s) cap a"
+msgstr "Cos del missatge"
 
 #: filter/libfilter-i18n.h:11
 msgid "Message was received"
-msgstr ""
+msgstr "S'ha rebut el missatge"
 
 #: filter/libfilter-i18n.h:12
-#, fuzzy
 msgid "Message was sent"
-msgstr "_Marca tots els missatges visualitzats"
+msgstr "S'ha enviat el missatge"
 
 #: filter/libfilter-i18n.h:13
-#, fuzzy
 msgid "Move to Folder"
-msgstr "FIXME: _Mou a la carpeta..."
+msgstr "Mou a la carpeta"
 
 #: filter/libfilter-i18n.h:15
-#, fuzzy
 msgid "Recipients"
-msgstr "Llista de destinataris:"
+msgstr "Destinataris"
 
 #: filter/libfilter-i18n.h:16
-#, fuzzy
 msgid "Sender"
-msgstr "Envia"
+msgstr "Remitent"
 
 #: filter/libfilter-i18n.h:17
-#, fuzzy
 msgid "Source"
-msgstr "Afegeix una font"
+msgstr "Font"
 
 #: filter/libfilter-i18n.h:18
 msgid "Specific header"
-msgstr ""
+msgstr "Especifiqueu la capçalera"
 
 #: filter/libfilter-i18n.h:19
 msgid "Stop Processing"
-msgstr ""
+msgstr "Atura el processament"
 
 #: filter/libfilter-i18n.h:20
 msgid "Subject"
 msgstr "Assumpte"
 
 #: filter/libfilter-i18n.h:21
-#, fuzzy
 msgid "after"
-msgstr "Data"
+msgstr "després de"
 
 #: filter/libfilter-i18n.h:22
 msgid "before"
-msgstr ""
+msgstr "abans de"
 
 #: filter/libfilter-i18n.h:23
-#, fuzzy
 msgid "contains"
-msgstr "Accio_ns"
+msgstr "conté"
 
 #: filter/libfilter-i18n.h:24
 msgid "does not contain"
-msgstr ""
+msgstr "no conté"
 
 #: filter/libfilter-i18n.h:25
 msgid "does not end with"
-msgstr ""
+msgstr "no acaba amb "
 
 #: filter/libfilter-i18n.h:26
-#, fuzzy
 msgid "does not exist"
-msgstr "Aquest fitxer no existeix."
+msgstr "no existeix"
 
 #: filter/libfilter-i18n.h:27
 msgid "does not match regex"
-msgstr ""
+msgstr "no coincideix amb la regex"
 
 #: filter/libfilter-i18n.h:28
 msgid "does not start with"
-msgstr ""
+msgstr "no comença per"
 
 #: filter/libfilter-i18n.h:29
 msgid "ends with"
-msgstr ""
+msgstr "acaba amb"
 
 #: filter/libfilter-i18n.h:30
-#, fuzzy
 msgid "exists"
-msgstr "Següent"
+msgstr "existeix"
 
 #: filter/libfilter-i18n.h:31
 msgid "is greater than"
-msgstr ""
+msgstr "és més gran que"
 
 #: filter/libfilter-i18n.h:32
 msgid "is less than"
-msgstr ""
+msgstr "és més petit que"
 
 #: filter/libfilter-i18n.h:33
 msgid "is not"
-msgstr ""
+msgstr "no és"
 
 #: filter/libfilter-i18n.h:34
-#, fuzzy
 msgid "is"
-msgstr "i"
+msgstr "és"
 
 #: filter/libfilter-i18n.h:35
 msgid "matches regex"
-msgstr ""
+msgstr "coincideix amb la regex"
 
 #: filter/libfilter-i18n.h:36
-#, fuzzy
 msgid "on or after"
-msgstr "Vés a una data"
+msgstr "el o després del"
 
 #: filter/libfilter-i18n.h:37
 msgid "on or before"
-msgstr ""
+msgstr "el o abans del"
 
 #: filter/libfilter-i18n.h:38
 msgid "starts with"
-msgstr ""
+msgstr "comença per"
 
 #: filter/libfilter-i18n.h:39
 msgid "was after"
-msgstr ""
+msgstr "ha estat després de"
 
 #: filter/libfilter-i18n.h:40
 msgid "was before"
-msgstr ""
+msgstr "ha estat abans de"
 
 #: filter/score-editor.c:127
-#, fuzzy
 msgid "Add Rule"
-msgstr "Afegeix una font"
+msgstr "Afegeix una regla"
 
 #: filter/score-editor.c:166
-#, fuzzy
 msgid "Edit Score Rule"
-msgstr "Edita la font"
+msgstr "Edita la regla de puntuació"
 
 #: filter/score-rule.c:192 filter/score-rule.c:194
-#, fuzzy
 msgid "Score"
-msgstr "Ordenació"
+msgstr "Puntuació"
 
 #: filter/vfolder-editor.c:155
 msgid "Add VFolder Rule"
-msgstr ""
+msgstr "Afegeix una regla de la VFolder"
 
 #: filter/vfolder-editor.c:204
 msgid "Edit VFolder Rule"
-msgstr ""
+msgstr "Edita una regla de la VFolder"
 
 #: mail/component-factory.c:230
 msgid "Cannot initialize Evolution's mail component."
 msgstr "No es pot inicialitzar el component de correu de l'Evolution."
 
 #: mail/component-factory.c:236
-#, fuzzy
 msgid "Cannot initialize Evolution's mail summary component."
-msgstr "No es pot inicialitzar el component de correu de l'Evolution."
+msgstr ""
+"No es pot inicialitzar el component de resum del correu de l'Evolution."
 
 #: mail/component-factory.c:241
-#, fuzzy
 msgid "Cannot initialize Evolution's mail storage hash."
-msgstr "No es pot inicialitzar el component de correu de l'Evolution."
+msgstr ""
+"No es pot inicialitzar el hash d'emmagatzematge de correu de l'Evolution."
 
 #: mail/component-factory.c:323
 #, c-format
 msgid "Bad storage URL (no server): %s"
-msgstr ""
+msgstr "URL d'emmagatzemament incorrecte (cap servidor): %s"
 
 #: mail/component-factory.c:342
 msgid "Cannot register storage with shell"
-msgstr ""
+msgstr "No es pot registrar l'emmagatzemament amb l'intèrpret d'ordres"
 
 #: mail/folder-browser.c:137
 msgid "Body or subject contains"
-msgstr ""
+msgstr "El cos o l'assumpte contenen"
 
 #: mail/folder-browser.c:138
 msgid "Body contains"
-msgstr ""
+msgstr "El cos conté"
 
 #: mail/folder-browser.c:139
-#, fuzzy
 msgid "Subject contains"
-msgstr "Assumpte"
+msgstr "L'assumpte conté"
 
 #: mail/folder-browser.c:140
 msgid "Body does not contain"
-msgstr ""
+msgstr "El cos no conté"
 
 #: mail/folder-browser.c:141
 msgid "Subject does not contain"
-msgstr ""
+msgstr "L'assumpte no conté"
 
 #: mail/folder-browser.c:142
 msgid "Custom search"
-msgstr ""
+msgstr "Cerca personalitzada"
 
 #: mail/folder-browser.c:314
-#, fuzzy
 msgid "Custom"
-msgstr "Retalla"
+msgstr "Personalitzat"
 
 #: mail/folder-browser.c:492
-#, fuzzy
 msgid "Full Search"
-msgstr "Cerca..."
+msgstr "Cerca completa"
 
 #: mail/folder-browser.c:497
-#, fuzzy
 msgid "Save"
-msgstr "Ds"
+msgstr "Desa"
 
 #: mail/mail-autofilter.c:76
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "Correu per a %s"
 
 #: mail/mail-autofilter.c:230
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "Correu de %s"
 
 #: mail/mail-autofilter.c:332
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "Llista de correu %s"
 
 #: mail/mail-callbacks.c:73
 msgid ""
@@ -3882,30 +3812,38 @@ msgid ""
 "receive or compose mail.\n"
 "Would you like to configure it now?"
 msgstr ""
+"No heu configurat el client de correu.\n"
+"Cal que ho feu abans de poder enviar,\n"
+"rebre o redactar correu.\n"
+"El voleu configurar ara?"
 
 #: mail/mail-callbacks.c:113
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
 msgstr ""
+"Cal que configureu una identitat\n"
+"abans de poder redactar correu."
 
 #: mail/mail-callbacks.c:127
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
 msgstr ""
+"Cal que configureu un transport de correu\n"
+"abans de poder redactar correu."
 
 #: mail/mail-callbacks.c:163 mail/mail-callbacks.c:175
 msgid "You have no mail sources configured"
-msgstr ""
+msgstr "No teniu configurada cap font de correu"
 
 #: mail/mail-callbacks.c:212
 msgid "You have not set a mail transport method"
-msgstr ""
+msgstr "No heu definit cap mètode de transport de correu"
 
 #: mail/mail-callbacks.c:221
 msgid "You have no Outbox configured"
-msgstr ""
+msgstr "No teniu configurada cap bústia de sortida"
 
 #: mail/mail-callbacks.c:245
 msgid ""
@@ -3917,38 +3855,40 @@ msgstr ""
 
 #: mail/mail-callbacks.c:290
 msgid "You must specify recipients in order to send this message."
-msgstr ""
+msgstr "Cal que indiqueu els destinataris per poder enviar aquest missatge."
 
 #: mail/mail-callbacks.c:532
 msgid "Move message(s) to"
-msgstr "Mou el(s) missage(s) cap a"
+msgstr "Mou el(s) missatge(s) cap a"
 
 #: mail/mail-callbacks.c:534
-#, fuzzy
 msgid "Copy message(s) to"
-msgstr "Mou el(s) missage(s) cap a"
+msgstr "Copia el(s) missatge(s) a"
 
 #: mail/mail-callbacks.c:649
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
+"Només podeu editar els missatges que s'hagin desat\n"
+"a la carpeta Esborranys."
 
 #: mail/mail-callbacks.c:748
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
-msgstr "Error en carregar el fitxer: %s"
+msgstr ""
+"Error en carregar la informació del filtre:\n"
+"%s"
 
 #: mail/mail-callbacks.c:793 mail/message-list.c:1574
-#, fuzzy
 msgid "Print Message"
-msgstr "Envia el missatge"
+msgstr "Imprimeix el missatge"
 
 #: mail/mail-callbacks.c:840
 msgid "Printing of message failed"
-msgstr ""
+msgstr "Ha fallat la impressió del missatge"
 
 #: mail/mail-config-gui.c:432
 msgid ""
@@ -4001,18 +3941,16 @@ msgid "Detect supported types..."
 msgstr "Detecta els tipus suportats..."
 
 #: mail/mail-config-gui.c:968
-#, fuzzy
 msgid "Don't delete messages from server"
-msgstr "Abandona el redactor de missatges"
+msgstr "No suprimeixis els missatges del servidor"
 
 #: mail/mail-config-gui.c:980
 msgid "Test Settings"
 msgstr "Paràmetres de prova"
 
 #: mail/mail-config-gui.c:1107
-#, fuzzy
 msgid "Mail source type:"
-msgstr "Font del paper:"
+msgstr "Tipus de font del correu:"
 
 #: mail/mail-config-gui.c:1112 mail/mail-config-gui.c:1160
 msgid ""
@@ -4029,9 +3967,8 @@ msgstr ""
 "tipus suportats...\" després d'introduir l'altra informació."
 
 #: mail/mail-config-gui.c:1131
-#, fuzzy
 msgid "News source type:"
-msgstr "Nou tipus de telèfon"
+msgstr "Tipus de font de notícies:"
 
 #: mail/mail-config-gui.c:1136
 msgid ""
@@ -4048,7 +3985,7 @@ msgstr ""
 
 #: mail/mail-config-gui.c:1155
 msgid "Mail transport type:"
-msgstr ""
+msgstr "Tipus de transport de correu:"
 
 #: mail/mail-config-gui.c:1210
 msgid "Add Identity"
@@ -4075,28 +4012,28 @@ msgid "Edit News Server"
 msgstr "Edita el servidor de notícies"
 
 #: mail/mail-config-gui.c:2233
-#, fuzzy, c-format
+#, c-format
 msgid "Testing \"%s\""
-msgstr "Paràmetres de prova"
+msgstr "S'està comprovant \"%s\""
 
 #: mail/mail-config-gui.c:2235
 #, c-format
 msgid "Test connection to \"%s\""
-msgstr ""
+msgstr "Connexió de prova a \"%s\""
 
 #: mail/mail-config-gui.c:2277
 msgid "The connection was successful!"
-msgstr ""
+msgstr "La connexió ha tingut èxit!"
 
 #: mail/mail-config-gui.c:2327
 #, c-format
 msgid "Querying authorization capabilities of \"%s\""
-msgstr ""
+msgstr "Possibilitats d'autorització de consultes de \"%s\""
 
 #: mail/mail-config-gui.c:2329
 #, c-format
 msgid "Query authorization at \"%s\""
-msgstr ""
+msgstr "Autorització de consultes a \"%s\""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4105,9 +4042,8 @@ msgstr ""
 #.
 #: mail/mail-config-druid.glade.h:7 mail/mail-config-druid.glade.h:8
 #: mail/mail-config-druid.glade.h:16
-#, fuzzy
 msgid "Mail Configuration"
-msgstr "Configuració del _correu ..."
+msgstr "Configuració del correu"
 
 #: mail/mail-config-druid.glade.h:9
 msgid ""
@@ -4116,26 +4052,30 @@ msgid ""
 "settings, you can start sending and receiving email\n"
 "right away. Click Next to continue."
 msgstr ""
+"Benvingut a l'assistent de configuració de l'Evolution!\n"
+"Faciliteu certes informacions sobre els vostres paràmetres\n"
+"de correu electrònic i podreu començar immediatament a enviar\n"
+"i rebre correu. Feu clic a Següent per continuar."
 
 #: mail/mail-config-druid.glade.h:13
-#, fuzzy
 msgid "Identity"
-msgstr "Afegeix una identitat"
+msgstr "Identitat"
 
 #: mail/mail-config-druid.glade.h:14
-#, fuzzy
 msgid "Mail Source"
-msgstr "Edita la font"
+msgstr "Font del correu"
 
 #: mail/mail-config-druid.glade.h:15 mail/mail-config.glade.h:20
 msgid "Mail Transport"
-msgstr ""
+msgstr "Transport de correu"
 
 #: mail/mail-config-druid.glade.h:17
 msgid ""
 "Your email configuration is now complete.\n"
 "Click \"Finish\" to save your new settings"
 msgstr ""
+"Ja teniu enllestida la configuració del correu.\n"
+"Feu clic a \"Finalitza\" per desar els nous paràmetres"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4143,91 +4083,84 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: mail/mail-config.glade.h:7 mail/mail-config.glade.h:14
-#, fuzzy
 msgid "Identities"
-msgstr "Afegeix una identitat"
+msgstr "Identitats"
 
 #: mail/mail-config.glade.h:8
 msgid "Address"
 msgstr "Adreça"
 
 #: mail/mail-config.glade.h:9
-#, fuzzy
 msgid "Organization"
-msgstr "Organització:"
+msgstr "Organització"
 
 #: mail/mail-config.glade.h:15
-#, fuzzy
 msgid "Sources"
-msgstr "Afegeix una font"
+msgstr "Fonts"
 
 #: mail/mail-config.glade.h:19
-#, fuzzy
 msgid "Mail Sources"
-msgstr "Edita la font"
+msgstr "Fonts del correu"
 
 #: mail/mail-config.glade.h:21
-#, fuzzy
 msgid "News Servers"
-msgstr "Afegeix un servidor de notícies"
+msgstr "Servidors de notícies"
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "News Sources"
-msgstr "Afegeix una font"
+msgstr "Fonts de notícies"
 
 #: mail/mail-config.glade.h:26
-#, fuzzy
 msgid "Send messages in HTML format"
-msgstr "Envia el correu en format HTML"
+msgstr "Envia els missatges en format HTML"
 
 #: mail/mail-config.glade.h:27
-#, fuzzy
 msgid "Mark message as seen [ms]: "
-msgstr "_Marca tots els missatges visualitzats"
+msgstr "Marca el missatge com a vist [ms]: "
 
 #: mail/mail-crypto.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't create pipe to %s: %s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'ha pogut crear el conducte a %s: %s"
 
 #: mail/mail-crypto.c:164
 #, c-format
 msgid "Could not execute %s: %s\n"
-msgstr ""
+msgstr "No es pot executar %s: %s\n"
 
 #: mail/mail-crypto.c:168
 #, c-format
 msgid "Cannot fork %s: %s"
-msgstr ""
+msgstr "No es pot bifurcar %s: %s"
 
 #: mail/mail-crypto.c:345 mail/mail-crypto.c:441 mail/mail-crypto.c:604
 msgid "Please enter your PGP/GPG passphrase."
-msgstr ""
+msgstr "Si us plau, introduïu la vostra contrasenya PGP/GPG."
 
 #: mail/mail-crypto.c:349 mail/mail-crypto.c:445 mail/mail-crypto.c:609
 msgid "No password provided."
-msgstr ""
+msgstr "No s'ha indicat cap contrasenya."
 
 #: mail/mail-crypto.c:355 mail/mail-crypto.c:451 mail/mail-crypto.c:615
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "No s'ha pogut crear cap conducte a GPG/PGP: %s"
 
 #: mail/mail-crypto.c:600
 msgid "No GPG/PGP program available."
-msgstr ""
+msgstr "No hi ha cap programa GPG/PGP disponible."
 
 #: mail/mail-display.c:68
 msgid "Overwrite file?"
-msgstr ""
+msgstr "Voleu sobreescriure el fitxer?"
 
 #: mail/mail-display.c:72
-#, fuzzy
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
-msgstr "Ja existeix una carpeta amb el mateix nom"
+msgstr ""
+"Ja existeix una fitxer amb aquest nom.\n"
+"El voleu sobreescriure?"
 
 #: mail/mail-display.c:86
 #, c-format
@@ -4235,80 +4168,74 @@ msgid ""
 "Could not open file %s:\n"
 "%s"
 msgstr ""
+"No s'ha pogut obrir el fitxer %s:\n"
+"%s"
 
 #: mail/mail-display.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write data: %s"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'han pogut escriure les dades: %s"
 
 #: mail/mail-display.c:194
-#, fuzzy
 msgid "Save Attachment"
-msgstr "FIXME: Desa les adjun_cions..."
+msgstr "Desa l'adjunció"
 
 #: mail/mail-display.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary directory: %s"
-msgstr ""
-"No es pot crear el directori\n"
-"%s\n"
-"Error: %s"
+msgstr "No s'ha pogut crear el directori temporal: %s"
 
 #: mail/mail-display.c:276
-#, fuzzy
 msgid "Save to Disk..."
-msgstr "Anomena i desa..."
+msgstr "Desa al disc..."
 
 #: mail/mail-display.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "Open in %s..."
-msgstr "_Obre..."
+msgstr "Obre a %s..."
 
 #: mail/mail-display.c:280
 msgid "View Inline"
-msgstr ""
+msgstr "Visualitza en línia"
 
 #: mail/mail-display.c:304
 msgid "External Viewer"
-msgstr ""
+msgstr "Visualitzador extern"
 
 #: mail/mail-display.c:327
 #, c-format
 msgid "View Inline (via %s)"
-msgstr ""
+msgstr "Visualitza en línia (mitjançant %s)"
 
 #: mail/mail-display.c:331
-#, fuzzy
 msgid "Hide"
-msgstr "Capçalera"
+msgstr "Amaga"
 
 #: mail/mail-local.c:279
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "S'està convertint la carpeta \"%s\" al format \"%s\""
 
 #: mail/mail-local.c:283
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "Canvia la carpeta \"%s\" al format \"%s\""
 
 #: mail/mail-local.c:327
 msgid "Closing current folder"
-msgstr ""
+msgstr "S'està tancant la carpeta actual"
 
 #: mail/mail-local.c:359
 msgid "Renaming old folder and opening"
-msgstr ""
+msgstr "S'està canviant el nom de la carpeta antiga i obrint-la"
 
 #: mail/mail-local.c:380
-#, fuzzy
 msgid "Creating new folder"
-msgstr "Crea una carpeta nova"
+msgstr "Creació d'una nova carpeta"
 
 #: mail/mail-local.c:395
-#, fuzzy
 msgid "Copying messages"
-msgstr "Redacta un missatge"
+msgstr "Còpia de missatges"
 
 #: mail/mail-local.c:407
 #, c-format
@@ -4316,284 +4243,286 @@ msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
 "open this folder anymore: %s"
 msgstr ""
+"No es pot desar la informació meta de la carpeta; probablement\n"
+"no la podreu tornar a obrir: %s"
 
 #: mail/mail-local.c:443
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
+"Si ja no podeu obrir aquesta bústia de correu\n"
+"potser us caldrà reparar-la manualment."
 
 #. This is how we could do to display extra information about the
 #. folder.
 #: mail/mail-local-storage.c:97
 msgid " (XXX unread)"
-msgstr ""
+msgstr " (XXX no llegits)"
 
 #: mail/mail-ops.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "Fetching email from %s"
-msgstr "S'està recollint el correu"
+msgstr "S'està recollint el correu des de %s"
 
 #: mail/mail-ops.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Fetch email from %s"
-msgstr "S'està recollint el correu"
+msgstr "Recull el correu des de %s"
 
 #: mail/mail-ops.c:110
 #, c-format
 msgid "Retrieving messages : %s"
-msgstr ""
+msgstr "S'estan recuperant els missatges : %s"
 
 #: mail/mail-ops.c:253
 #, c-format
 msgid "There is no new mail at %s."
-msgstr ""
+msgstr "No hi ha nou correu a %s."
 
 #: mail/mail-ops.c:308
 msgid "Filtering email on demand"
-msgstr ""
+msgstr "S'està filtrant el correu sota demanda"
 
 #: mail/mail-ops.c:310
 msgid "Filter email on demand"
-msgstr ""
+msgstr "Filtra el correu sota demanda"
 
 #: mail/mail-ops.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Sending \"%s\""
-msgstr "Encapçalaments"
+msgstr "S'està enviant \"%s\""
 
 #: mail/mail-ops.c:446
 msgid "Sending a message without a subject"
-msgstr ""
+msgstr "S'està enviant el missatge sense cap asuumpte"
 
 #: mail/mail-ops.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Send \"%s\""
-msgstr "Segons"
+msgstr "Envia \"%s\""
 
 #: mail/mail-ops.c:452
-#, fuzzy
 msgid "Send a message without a subject"
-msgstr "Desa el missatge amb un altre nom"
+msgstr "Envia un missatge sense assumpte"
 
 #: mail/mail-ops.c:623
 msgid "Sending queue"
-msgstr ""
+msgstr "S'està enviant la cua"
 
 #: mail/mail-ops.c:625
 msgid "Send queue"
-msgstr ""
+msgstr "Envia la cua"
 
 #: mail/mail-ops.c:761 mail/mail-ops.c:768
 #, c-format
 msgid "Appending \"%s\""
-msgstr ""
+msgstr "S'està afegint \"%s\""
 
 #: mail/mail-ops.c:765 mail/mail-ops.c:771
 msgid "Appending a message without a subject"
-msgstr ""
+msgstr "S'està afegint un missatge sense cap assumpte"
 
 #: mail/mail-ops.c:843
 #, c-format
 msgid "Expunging \"%s\""
-msgstr ""
+msgstr "S'està esborrant \"%s\""
 
 #: mail/mail-ops.c:845
-#, fuzzy, c-format
+#, c-format
 msgid "Expunge \"%s\""
-msgstr "_Esborra"
+msgstr "Esborra \"%s\""
 
 #: mail/mail-ops.c:904
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "S'estan movent els missatges des de \"%s\" cap a \"%s\""
 
 #: mail/mail-ops.c:906
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "S'estan copiant els missatges des de \"%s\" cap a \"%s\""
 
 #: mail/mail-ops.c:909
-#, fuzzy, c-format
+#, c-format
 msgid "Move messages from \"%s\" into \"%s\""
-msgstr "Mou el(s) missage(s) cap a"
+msgstr "Mou els missatges des de \"%s\" cap a \"%s\""
 
 #: mail/mail-ops.c:911
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "Copia els missatges des de \"%s\" cap a \"%s\""
 
 #: mail/mail-ops.c:942
-#, fuzzy
 msgid "Moving"
-msgstr "dl."
+msgstr "S'està movent"
 
 #: mail/mail-ops.c:945
-#, fuzzy
 msgid "Copying"
-msgstr "Copia"
+msgstr "S'està copiant"
 
 #: mail/mail-ops.c:965
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
-msgstr ""
+msgstr "%s missatge %d de %d (uid \"%s\")"
 
 #: mail/mail-ops.c:1044
-#, fuzzy, c-format
+#, c-format
 msgid "Marking messages in folder \"%s\""
-msgstr "Mou un missatge a una nova carpeta"
+msgstr "S'estan marcant els missatges de la carpeta \"%s\""
 
 #: mail/mail-ops.c:1047
-#, fuzzy, c-format
+#, c-format
 msgid "Mark messages in folder \"%s\""
-msgstr "Mou un missatge a una nova carpeta"
+msgstr "Marca els missatges de la carpeta \"%s\""
 
 #: mail/mail-ops.c:1078
 #, c-format
 msgid "Marking message %d of %d"
-msgstr ""
+msgstr "S'està marcant el missatge %d de %d"
 
 #: mail/mail-ops.c:1198
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr ""
+msgstr "S'estan escanejant les carpetes de \"%s\""
 
 #: mail/mail-ops.c:1201
 #, c-format
 msgid "Scan folders in \"%s\""
-msgstr ""
+msgstr "Escaneja les carpetes de \"%s\""
 
 #: mail/mail-ops.c:1272 mail/subscribe-dialog.c:194
-#, fuzzy
 msgid "(No description)"
-msgstr "Descripció:"
+msgstr "(Sense descripció)"
 
 #: mail/mail-ops.c:1332
 #, c-format
 msgid "Attaching messages from folder \"%s\""
-msgstr ""
+msgstr "S'estan adjuntant els missatges de la carpeta \"%s\""
 
 #: mail/mail-ops.c:1335
-#, fuzzy, c-format
+#, c-format
 msgid "Attach messages from \"%s\""
-msgstr "Abandona el redactor de missatges"
+msgstr "Adjunta els missatges des de \"%s\""
 
 #: mail/mail-ops.c:1438
-#, fuzzy, c-format
+#, c-format
 msgid "Forwarding messages \"%s\""
-msgstr "Reenvia aquest missatge"
+msgstr "S'estan reenviant els missatges \"%s\""
 
 #: mail/mail-ops.c:1443
 msgid "Forwarding a message without a subject"
-msgstr ""
+msgstr "S'està reenviant un missatge sense cap assumpte"
 
 #: mail/mail-ops.c:1446
-#, fuzzy, c-format
+#, c-format
 msgid "Forward message \"%s\""
-msgstr "Reenvia aquest missatge"
+msgstr "Reenvia el missatge \"%s\""
 
 #: mail/mail-ops.c:1451
 msgid "Forward a message without a subject"
-msgstr ""
+msgstr "Reenvia un missatge sense cap assumpte"
 
 #: mail/mail-ops.c:1488
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
-msgstr ""
+msgstr "S'està recuperant el missatge número %d de %d (uid \"%s\")"
 
 #: mail/mail-ops.c:1505
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
+"No s'ha pogut generar la part mime del missatge en generar el missatge "
+"reenviat."
 
 #: mail/mail-ops.c:1591
-#, fuzzy, c-format
+#, c-format
 msgid "Loading \"%s\""
-msgstr "Encapçalaments"
+msgstr "S'està carregant \"%s\""
 
 #: mail/mail-ops.c:1593
 #, c-format
 msgid "Load \"%s\""
-msgstr ""
+msgstr "Carrega \"%s\""
 
 #: mail/mail-ops.c:1695
 #, c-format
 msgid "Creating \"%s\""
-msgstr ""
+msgstr "S'està creant \"%s\""
 
 #: mail/mail-ops.c:1697
 #, c-format
 msgid "Create \"%s\""
-msgstr ""
+msgstr "Crea \"%s\""
 
 #: mail/mail-ops.c:1745
 msgid "Exception while reporting result to shell component listener."
 msgstr ""
+"Excepció en informar del resultat a l'escoltador de components de "
+"l'intèrpret d'ordres."
 
 #: mail/mail-ops.c:1791
 #, c-format
 msgid "Synchronizing \"%s\""
-msgstr ""
+msgstr "S'està sincronitzant \"%s\""
 
 #: mail/mail-ops.c:1793
 #, c-format
 msgid "Synchronize \"%s\""
-msgstr ""
+msgstr "Sincronitza \"%s\""
 
 #: mail/mail-ops.c:1856
 #, c-format
 msgid "Displaying message UID \"%s\""
-msgstr ""
+msgstr "S'està visualitzant l'UID del missatge \"%s\""
 
 #: mail/mail-ops.c:1859
-#, fuzzy
 msgid "Clearing message display"
-msgstr "Visualizació de l'hora"
+msgstr "S'està esborrant la visualització del missatge"
 
 #: mail/mail-ops.c:1862
 #, c-format
 msgid "Display message UID \"%s\""
-msgstr ""
+msgstr "Visualitza l'UID del missatge \"%s\""
 
 #: mail/mail-ops.c:1865
-#, fuzzy
 msgid "Clear message display"
-msgstr "Colors per a la visualització"
+msgstr "Esborra la visualització del missatge"
 
 #: mail/mail-ops.c:1974
 #, c-format
 msgid "Opening messages from folder \"%s\""
-msgstr ""
+msgstr "S'estan obrint els missatges des de la carpeta \"%s\""
 
 #: mail/mail-ops.c:1977
 #, c-format
 msgid "Open messages from \"%s\""
-msgstr ""
+msgstr "Obre els missatges des de \"%s\""
 
 #: mail/mail-ops.c:2081
 #, c-format
 msgid "Loading %s Folder"
-msgstr ""
+msgstr "S'està carregant la carpeta %s"
 
 #: mail/mail-ops.c:2083
 #, c-format
 msgid "Load %s Folder"
-msgstr ""
+msgstr "Carrega la carpeta %s"
 
 #: mail/mail-ops.c:2150
 #, c-format
 msgid "Viewing messages from folder \"%s\""
-msgstr ""
+msgstr "S'estan visualitzant els missatges des de la carpeta \"%s\""
 
 #: mail/mail-ops.c:2153
 #, c-format
 msgid "View messages from \"%s\""
-msgstr ""
+msgstr "Visualitza els missatges des de \"%s\""
 
 #: mail/mail-ops.c:2179
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
-msgstr ""
+msgstr "S'està recuperant el missatge %d de %d (uid \"%s\")"
 
 #: mail/mail-threads.c:299
 #, c-format
@@ -4601,6 +4530,8 @@ msgid ""
 "Error while preparing to %s:\n"
 "%s"
 msgstr ""
+"Error en preparar-se per a %s:\n"
+"%s"
 
 #: mail/mail-threads.c:648
 #, c-format
@@ -4608,6 +4539,8 @@ msgid ""
 "Error while `%s':\n"
 "%s"
 msgstr ""
+"Error en `%s':\n"
+"%s"
 
 #: mail/mail-threads.c:701
 msgid "Incomplete message written on pipe!"
@@ -4632,60 +4565,61 @@ msgstr "Consulta cancel·lada per l'usuari."
 #: mail/mail-tools.c:210
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
-msgstr ""
+msgstr "No s'ha pogut crear la mbox temporal `%s': %s"
 
 #. Get all uids of source
 #: mail/mail-tools.c:264
 #, c-format
 msgid "Examining %s"
-msgstr ""
+msgstr "S'està examinant %s"
 
 #: mail/mail-tools.c:294
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
 msgstr ""
+"No s'ha pogut llegir el fitxer de la memòria cau UID \"%s\". És possible que "
+"rebeu missatges duplicats."
 
 #. Info
 #: mail/mail-tools.c:315
 #, c-format
 msgid "Retrieving message %d of %d"
-msgstr ""
+msgstr "S'està recuperant el missatge %d de %d"
 
 #. Append it to dest
 #: mail/mail-tools.c:328
 #, c-format
 msgid "Writing message %d of %d"
-msgstr ""
+msgstr "S'està escrivint el missatge %d de %d"
 
 #: mail/mail-tools.c:357
 #, c-format
 msgid "Saving changes to %s"
-msgstr ""
+msgstr "S'estan desant els canvis a %s"
 
 #: mail/mail-tools.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "[%s] (forwarded message)"
-msgstr "Reenvia aquest missatge"
+msgstr "[%s] (missatge reenviat)"
 
 #: mail/mail-tools.c:400
 msgid "Fwd: (no subject)"
-msgstr ""
+msgstr "Re: (sense assumpte)"
 
 #: mail/mail-tools.c:437
-#, fuzzy, c-format
+#, c-format
 msgid "Forwarded message - %s"
-msgstr "Reenvia aquest missatge"
+msgstr "Missatge reenviat - %s"
 
 #: mail/mail-tools.c:439
-#, fuzzy
 msgid "Forwarded message (no subject)"
-msgstr "Reenvia aquest missatge"
+msgstr "Missatge reenviat (sense assumpte)"
 
 #: mail/mail-tools.c:551
 #, c-format
 msgid "Don't know protocol to open URI `%s'"
-msgstr ""
+msgstr "No es coneix cap protocol per obrir l'URI '%s'"
 
 #: mail/mail-tools.c:580
 #, c-format
@@ -4693,16 +4627,16 @@ msgid ""
 "Cannot open location `%s':\n"
 "%s"
 msgstr ""
+"No es pot obrir la ubicació `%s':\n"
+"%s"
 
 #: mail/mail-vfolder.c:147
-#, fuzzy
 msgid "VFolders"
-msgstr "Carpetes"
+msgstr "VFolders"
 
 #: mail/mail-vfolder.c:292
-#, fuzzy
 msgid "New VFolder"
-msgstr "_Carpeta"
+msgstr "Nova VFolder"
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
@@ -4744,98 +4678,89 @@ msgid "Delete this message"
 msgstr "Suprimeix aquest missatge"
 
 #: mail/message-list.c:518
-#, fuzzy
 msgid "Unseen"
-msgstr "setè"
+msgstr "No vist"
 
 #: mail/message-list.c:521
-#, fuzzy
 msgid "Seen"
-msgstr "Envia"
+msgstr "Vist"
 
 #: mail/message-list.c:524
 msgid "Answered"
-msgstr ""
+msgstr "Respost"
 
 #: mail/message-list.c:1572
 msgid "Open in New Window"
-msgstr ""
+msgstr "Obre'l en una nova finestra"
 
 #: mail/message-list.c:1573
-#, fuzzy
 msgid "Edit Message"
-msgstr "Envia el missatge"
+msgstr "Edita el missatge"
 
 #: mail/message-list.c:1576
-#, fuzzy
 msgid "Reply to Sender"
-msgstr "Respon a tots"
+msgstr "Respon al remitent"
 
 #: mail/message-list.c:1578
-#, fuzzy
 msgid "Forward Message"
-msgstr "Reenvia aquest missatge"
+msgstr "Reenvia el missatge"
 
 #: mail/message-list.c:1580
-#, fuzzy
 msgid "Delete Message"
-msgstr "Suprimeix aquest missatge"
+msgstr "Suprimeix el missatge"
 
 #: mail/message-list.c:1581
-#, fuzzy
 msgid "Move Message"
-msgstr "Desa un missatge"
+msgstr "Mou el missatge"
 
 #: mail/message-list.c:1582
-#, fuzzy
 msgid "Copy Message"
-msgstr "Redacta un missatge"
+msgstr "Copia el missatge"
 
 #: mail/message-list.c:1584
 msgid "VFolder on Subject"
-msgstr ""
+msgstr "VFolder sobre l'assumpte"
 
 #: mail/message-list.c:1585
 msgid "VFolder on Sender"
-msgstr ""
+msgstr "VFolder sobre el remitent"
 
 #: mail/message-list.c:1586
 msgid "VFolder on Recipients"
-msgstr ""
+msgstr "VFolder sobre els destinataris"
 
 #: mail/message-list.c:1588
 msgid "Filter on Subject"
-msgstr ""
+msgstr "Filtre sobre l'assumpte"
 
 #: mail/message-list.c:1589
-#, fuzzy
 msgid "Filter on Sender"
-msgstr "No s'ha trobat el fitxer"
+msgstr "Filtre sobre el remitent"
 
 #: mail/message-list.c:1590
 msgid "Filter on Recipients"
-msgstr ""
+msgstr "Filtre sobre els destinataris"
 
 #: mail/message-list.c:1591 mail/message-list.c:1614
 msgid "Filter on Mailing List"
-msgstr ""
+msgstr "Filtre sobre la llista de correu"
 
 #: mail/message-list.c:1616
 #, c-format
 msgid "Filter on Mailing List (%s)"
-msgstr ""
+msgstr "Filtre sobre la llista de correu (%s)"
 
 #: mail/message-list.c:1734
 msgid "Rebuilding message view"
-msgstr ""
+msgstr "S'està reconstruint la visualització del missatge"
 
 #: mail/message-list.c:1736
 msgid "Rebuild message view"
-msgstr ""
+msgstr "Reconstrueix la visualització del missatge"
 
 #: mail/subscribe-dialog.c:132
 msgid "Display folders containing:"
-msgstr ""
+msgstr "Visualitza les carpetes que continguin:"
 
 #: shell/e-setup.c:106 shell/e-setup.c:175
 msgid "Evolution installation"
@@ -4846,18 +4771,18 @@ msgid ""
 "This new version of Evolution needs to install additional files\n"
 "into your personal Evolution directory"
 msgstr ""
+"Aquesta nova versió de l'Evolution necessita instal·lar fitxers addicionals\n"
+"al directori personal on teniu l'Evolution"
 
 #: shell/e-setup.c:111
-#, fuzzy
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr ""
-"Si us plau, feu clic a \"D'acord\" per instal·lar els fitxers d'usuari\n"
-"de l''Evolution a"
+"Si us plau, feu clic a \"D'acord\" per instal·lar els fitxers, o a "
+"\"Cancel·la\" per sortir."
 
 #: shell/e-setup.c:152
-#, fuzzy
 msgid "Could not update files correctly"
-msgstr "No s'ha pogut crear el quadre de diàleg."
+msgstr "No s'han pogut actualitzar correctament els fitxers"
 
 #: shell/e-setup.c:156 shell/e-setup.c:216
 msgid "Evolution files successfully installed."
@@ -4894,26 +4819,26 @@ msgstr ""
 "`%s'."
 
 #: shell/e-setup.c:237
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
 "Please move it in order to allow installation\n"
 "of the Evolution user files."
 msgstr ""
 "El fitxer `%s' no és un directori.\n"
-"Si us plau elimineu-lo per permetre la instal·lació\n"
+"Si us plau, moveu-lo per permetre la instal·lació\n"
 "dels fitxers d'usuari de l'Evolution."
 
 #: shell/e-setup.c:249
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
 "Evolution directory.  Please move it in order\n"
 "to allow installation of the Evolution user files."
 msgstr ""
-"El fitxer `%s' no és un directori.\n"
-"Si us plau elimineu-lo per permetre la instal·lació\n"
-"dels fitxers d'usuari de l'Evolution."
+"El directori `%s' existeix, però no és el directori\n"
+"de l'Evolution. Si us plau, moveu-lo per permetre\n"
+"la instal·lació dels fitxers d'usuari de l'Evolution."
 
 #: shell/e-shell-folder-creation-dialog.c:82
 #, c-format
@@ -4997,6 +4922,8 @@ msgid ""
 "Ooops!  The view for `%s' has died unexpectedly.  :-(\n"
 "This probably means that the %s component has crashed."
 msgstr ""
+"Ep!  La visualització de `%s' s'ha mort inesperadament.  :-(\n"
+"Això segurament vol dir que el component %s ha petat."
 
 #: shell/e-shell.c:336
 #, c-format
@@ -5004,14 +4931,12 @@ msgid "Cannot set up local storage -- %s"
 msgstr "No es pot configurar l'emmagatzemament local -- %s"
 
 #: shell/e-shortcuts-view.c:122
-#, fuzzy
 msgid "Create new shortcut group"
-msgstr "Crea un nou contacte"
+msgstr "Crea un nou grup de dreceres"
 
 #: shell/e-shortcuts-view.c:125
-#, fuzzy
 msgid "Group name:"
-msgstr "Nom complet:"
+msgstr "Nom del grup:"
 
 #: shell/e-shortcuts-view.c:234
 #, c-format
@@ -5019,13 +4944,14 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"Esteu segur que voleu eliminar el grup\n"
+"`%s' de la barra de dreceres?"
 
 #: shell/e-shortcuts-view.c:239
 msgid "Don't remove"
-msgstr ""
+msgstr "No l'eliminis"
 
 #: shell/e-shortcuts-view.c:250
-#, fuzzy
 msgid "_Small Icons"
 msgstr "Icones _petites"
 
@@ -5034,7 +4960,6 @@ msgid "Show the shortcuts as small icons"
 msgstr "Mostra les dreceres com a icones petites"
 
 #: shell/e-shortcuts-view.c:253
-#, fuzzy
 msgid "_Large Icons"
 msgstr "Icones _grans"
 
@@ -5043,23 +4968,20 @@ msgid "Show the shortcuts as large icons"
 msgstr "Mostra les dreceres com a icones grans"
 
 #: shell/e-shortcuts-view.c:265
-#, fuzzy
 msgid "_New Group..."
-msgstr "Nou..."
+msgstr "_Nou grup..."
 
 #: shell/e-shortcuts-view.c:266
-#, fuzzy
 msgid "Create a new shortcut group"
-msgstr "Crea un nou contacte"
+msgstr "Crea un nou grup de dreceres"
 
 #: shell/e-shortcuts-view.c:268
 msgid "_Remove This Group..."
-msgstr ""
+msgstr "_Elimina aquest grup..."
 
 #: shell/e-shortcuts-view.c:269
-#, fuzzy
 msgid "Remove this shortcut group"
-msgstr "Elimina aquesta drecera de la barra de dreceres"
+msgstr "Elimina aquest grup de dreceres"
 
 #: shell/e-shortcuts-view.c:353
 msgid "Activate"
@@ -5130,9 +5052,8 @@ msgid "_View"
 msgstr "_Visualitza"
 
 #: shell/e-storage-set-view.c:223
-#, fuzzy
 msgid "View the selected folder"
-msgstr "Imprimeix el missatge seleccionat"
+msgstr "Visualitza la carpeta seleccionada"
 
 #: shell/main.c:68
 msgid ""
@@ -5234,35 +5155,31 @@ msgstr "Imprimeix els contactes"
 
 #: ui/evolution-addressbook.h:18
 msgid "Stop"
-msgstr ""
+msgstr "Atura"
 
 #: ui/evolution-addressbook.h:19
-#, fuzzy
 msgid "Stop Loading"
-msgstr "Ombrejat"
+msgstr "Atura la càrrega"
 
 #: ui/evolution-addressbook.h:20
-#, fuzzy
 msgid "View All"
-msgstr "_Visualitza"
+msgstr "Visualitza'ls tots"
 
 #: ui/evolution-addressbook.h:21
-#, fuzzy
 msgid "View all contacts"
-msgstr "Cerca un contacte"
+msgstr "Visualitza tots els contactes"
 
 #: ui/evolution-addressbook.h:22
 msgid "_New Contact"
 msgstr "Contacte _nou"
 
 #: ui/evolution-addressbook.h:23
-#, fuzzy
 msgid "_Print Contacts..."
-msgstr "Imprimeix els contactes"
+msgstr "_Imprimeix els contactes..."
 
 #: ui/evolution-addressbook.h:24
 msgid "_Search for contacts"
-msgstr ""
+msgstr "_Cerca contactes"
 
 #: ui/evolution-addressbook.h:25
 msgid "_Tools"
@@ -5280,14 +5197,12 @@ msgid "5 Days"
 msgstr "5 dies"
 
 #: ui/evolution-calendar.h:10
-#, fuzzy
 msgid "Alter preferences"
-msgstr "Preferències"
+msgstr "Modifica les preferències"
 
 #: ui/evolution-calendar.h:11
-#, fuzzy
 msgid "Calendar Preferences..."
-msgstr "Preferències"
+msgstr "Preferències de l'agenda..."
 
 #: ui/evolution-calendar.h:12
 msgid "Create a new appointment"
@@ -5346,9 +5261,8 @@ msgid "Print this calendar"
 msgstr "Imprimeix aquest agenda"
 
 #: ui/evolution-calendar.h:28
-#, fuzzy
 msgid "Save calendar As something else"
-msgstr "Anomena i desa l'agenda"
+msgstr "Deixa l'agenda com a alguna altra cosa"
 
 #: ui/evolution-calendar.h:29
 msgid "Show 1 day"
@@ -5364,7 +5278,7 @@ msgstr "Mostra 1 setmana"
 
 #: ui/evolution-calendar.h:32
 msgid "Show the working week"
-msgstr "Mostra la setmana en curs"
+msgstr "Mostra la setmana de treball"
 
 #: ui/evolution-calendar.h:33 widgets/misc/e-dateedit.c:331
 msgid "Today"
@@ -5383,24 +5297,20 @@ msgid "_New appointment..."
 msgstr "_Nova cita..."
 
 #: ui/evolution-calendar.h:37
-#, fuzzy
 msgid "_Open"
-msgstr "_Obre..."
+msgstr "_Obre"
 
 #: ui/evolution-calendar.h:38
-#, fuzzy
 msgid "_Open Calendar"
-msgstr "Obre una a_genda"
+msgstr "_Obre una agenda"
 
 #: ui/evolution-calendar.h:39
-#, fuzzy
 msgid "_Print this calendar"
-msgstr "Imprimeix aquest agenda"
+msgstr "_Imprimeix aquest agenda"
 
 #: ui/evolution-calendar.h:40
-#, fuzzy
 msgid "_Save Calendar As"
-msgstr "Anomena i desa l'agenda"
+msgstr "_Anomena i desa l'agenda"
 
 #.
 #. *  This file is autogenerated from evolution-contact-editor.xml, do not edit
@@ -5415,28 +5325,24 @@ msgid "_File"
 msgstr "_Fitxer"
 
 #: ui/evolution-contact-editor.h:10
-#, fuzzy
 msgid "_Save"
-msgstr "_Desa..."
+msgstr "_Desa"
 
 #: ui/evolution-contact-editor.h:11
-#, fuzzy
 msgid "Save _As"
-msgstr "Anomena i desa..."
+msgstr "_Anomena i desa"
 
 #: ui/evolution-contact-editor.h:13
-#, fuzzy
 msgid "_Print"
-msgstr "Imprimeix"
+msgstr "_Imprimeix"
 
 #: ui/evolution-contact-editor.h:15
 msgid "Save and Close"
 msgstr "Desa i tanca"
 
 #: ui/evolution-contact-editor.h:16
-#, fuzzy
 msgid "Save the contact and close the dialog box"
-msgstr "Desa la cita i tanca el quadre de diàleg"
+msgstr "Desa el contacte i tanca el quadre de diàleg"
 
 #: ui/evolution-contact-editor.h:17
 msgid "Print..."
@@ -5470,49 +5376,44 @@ msgid "Copy"
 msgstr "Copia"
 
 #: ui/evolution-mail.h:12
-#, fuzzy
 msgid "Copy message to a new folder"
-msgstr "Mou un missatge a una nova carpeta"
+msgstr "Copia el missatge a una nova carpeta"
 
 #: ui/evolution-mail.h:15 ui/evolution-subscribe.h:11
-#, fuzzy
 msgid "F_older"
-msgstr "_Carpeta"
+msgstr "C_arpeta"
 
 #: ui/evolution-mail.h:16
 msgid "Fi_lter on Sender"
-msgstr ""
+msgstr "Fi_ltre sobre el remitent"
 
 #: ui/evolution-mail.h:17
 msgid "Filter on Rec_ipients"
-msgstr ""
+msgstr "Filtre sobre els dest_inataris"
 
 #: ui/evolution-mail.h:18
 msgid "Forget _Passwords"
 msgstr "Oblida les _contrasenyes"
 
 #: ui/evolution-mail.h:21
-#, fuzzy
 msgid "Get Mail"
 msgstr "Recupera el correu"
 
 #: ui/evolution-mail.h:22
-#, fuzzy
 msgid "Mail _Filters..."
 msgstr "_Filtres de correu ..."
 
 #: ui/evolution-mail.h:23
 msgid "Manage Subscriptions..."
-msgstr ""
+msgstr "Gestiona les subscripcions..."
 
 #: ui/evolution-mail.h:24
 msgid "Mar_k As Read"
-msgstr ""
+msgstr "Mar_ca'l com a llegit"
 
 #: ui/evolution-mail.h:25
-#, fuzzy
 msgid "Mark As U_nread"
-msgstr "FIXME: Marca com a per _llegir"
+msgstr "Marca'l com a per _llegir"
 
 #: ui/evolution-mail.h:26
 msgid "Move"
@@ -5524,72 +5425,63 @@ msgstr "Mou un missatge a una nova carpeta"
 
 #: ui/evolution-mail.h:28
 msgid "Previews the message to be printed"
-msgstr ""
+msgstr "Previsualitza el missatge que s'ha d'imprimir"
 
 #: ui/evolution-mail.h:30
-#, fuzzy
 msgid "Print Preview of message..."
-msgstr "Previsualització d'impressió"
+msgstr "Previsualització d'impressió del missatge..."
 
 #: ui/evolution-mail.h:31
 msgid "Print message to the printer"
-msgstr ""
+msgstr "Imprimeix el missatge a la impressora"
 
 #: ui/evolution-mail.h:32
-#, fuzzy
 msgid "Print message..."
-msgstr "Imprimeix..."
+msgstr "Imprimeix el missatge..."
 
 #: ui/evolution-mail.h:36
-#, fuzzy
 msgid "Reply to _All"
-msgstr "Respon a tots"
+msgstr "Respon a _tots"
 
 #: ui/evolution-mail.h:37
-#, fuzzy
 msgid "Reply to _Sender"
-msgstr "Respon a tots"
+msgstr "Respon al _remitent"
 
 #: ui/evolution-mail.h:40 ui/evolution-subscribe.h:15
-#, fuzzy
 msgid "Select _All"
-msgstr "Respon a tots"
+msgstr "Selecciona'ls _tots"
 
 #: ui/evolution-mail.h:41
 msgid "Send queued mail and retrieve new mail"
-msgstr ""
+msgstr "Envia el correu de la cua i recupera'n el nou"
 
 #: ui/evolution-mail.h:42
-#, fuzzy
 msgid "Threaded Message list"
-msgstr "_Llista de missatges en cadena"
+msgstr "Llista de missatges en cadena"
 
 #: ui/evolution-mail.h:43
 msgid "VFolder on Se_nder"
-msgstr ""
+msgstr "VFolder sobre el remite_nt"
 
 #: ui/evolution-mail.h:44
 msgid "VFolder on _Recipients"
-msgstr ""
+msgstr "VFolder sobre els destinata_ris"
 
 #: ui/evolution-mail.h:45
-#, fuzzy
 msgid "_Apply Filters"
-msgstr "Filtre"
+msgstr "_Aplica els filtres"
 
 #: ui/evolution-mail.h:46
 msgid "_Configure Folder"
-msgstr ""
+msgstr "_Configura la carpeta"
 
 #: ui/evolution-mail.h:47
-#, fuzzy
 msgid "_Copy to Folder"
-msgstr "_Vés a la carpeta..."
+msgstr "_Copia a la carpeta"
 
 #: ui/evolution-mail.h:49
-#, fuzzy
 msgid "_Edit Message"
-msgstr "Envia el missatge"
+msgstr "_Edita el missatge"
 
 #: ui/evolution-mail.h:50
 msgid "_Expunge"
@@ -5597,53 +5489,47 @@ msgstr "_Esborra"
 
 #: ui/evolution-mail.h:51
 msgid "_Filter on Subject"
-msgstr ""
+msgstr "_Filtre sobre l'assumpte"
 
 #: ui/evolution-mail.h:52
-#, fuzzy
 msgid "_Forward"
-msgstr "Reenvia"
+msgstr "_Reenvia"
 
 #: ui/evolution-mail.h:53 ui/evolution-subscribe.h:20
 msgid "_Invert Selection"
-msgstr ""
+msgstr "_Inverteix la selecció"
 
 #: ui/evolution-mail.h:54
-#, fuzzy
 msgid "_Mail Configuration..."
-msgstr "Configuració del _correu ..."
+msgstr "Configuració del _correu..."
 
 #: ui/evolution-mail.h:55
-#, fuzzy
 msgid "_Message"
-msgstr "Desa un missatge"
+msgstr "_Missatge"
 
 #: ui/evolution-mail.h:56
-#, fuzzy
 msgid "_Move to Folder"
-msgstr "FIXME: _Mou a la carpeta..."
+msgstr "_Mou a la carpeta"
 
 #: ui/evolution-mail.h:57
 msgid "_Open in New Window"
-msgstr ""
+msgstr "_Obre'l en una nova finestra"
 
 #: ui/evolution-mail.h:58
-#, fuzzy
 msgid "_Print Message"
-msgstr "Envia el missatge"
+msgstr "_Imprimeix el missatge"
 
 #: ui/evolution-mail.h:59
 msgid "_Threaded"
-msgstr ""
+msgstr "_En cadena"
 
 #: ui/evolution-mail.h:60
 msgid "_VFolder on Subject"
-msgstr ""
+msgstr "_VFolder sobre l'assumpte"
 
 #: ui/evolution-mail.h:61
-#, fuzzy
 msgid "_Virtual Folder Editor..."
-msgstr "Editor _vFolder ..."
+msgstr "Editor de carpetes _virtuals..."
 
 #.
 #. *  This file is autogenerated from evolution-subscribe.xml, do not edit
@@ -5654,27 +5540,27 @@ msgstr "Editor _vFolder ..."
 #.
 #: ui/evolution-subscribe.h:9
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "Afegeix una carpeta a la llista de carpetes a què estic subscrit"
 
 #: ui/evolution-subscribe.h:12
 msgid "Refresh List"
-msgstr ""
+msgstr "Refresca la llista"
 
 #: ui/evolution-subscribe.h:13
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "Refresca la llista de carpetes"
 
 #: ui/evolution-subscribe.h:14
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "Elimina la carpeta de la llista de carpetes a què estic subscrit"
 
 #: ui/evolution-subscribe.h:16
 msgid "Subscribe"
-msgstr ""
+msgstr "Subscriu-me"
 
 #: ui/evolution-subscribe.h:17
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Cancel·la la subscripció"
 
 #: ui/evolution-subscribe.h:18 ui/evolution.h:28
 msgid "_Edit"
@@ -5696,9 +5582,8 @@ msgid "Display a different folder"
 msgstr "Mostra una altra carpeta"
 
 #: ui/evolution.h:11
-#, fuzzy
 msgid "E_xit"
-msgstr "S_urt..."
+msgstr "S_urt"
 
 #: ui/evolution.h:12
 msgid "Evolution bar _shortcut"
@@ -5706,10 +5591,9 @@ msgstr "Barra de _dreceres de l'Evolution"
 
 #: ui/evolution.h:13
 msgid "Exit the program"
-msgstr ""
+msgstr "Surt del programa"
 
 #: ui/evolution.h:14
-#, fuzzy
 msgid "Getting _Started"
 msgstr "Per _començar"
 
@@ -5718,41 +5602,34 @@ msgid "Show information about Evolution"
 msgstr "Mostra informació referent a l'Evolution"
 
 #: ui/evolution.h:16
-#, fuzzy
 msgid "Show the _Folder Bar"
-msgstr "Mostra la barra de carpetes"
+msgstr "Mostra la barra de _carpetes"
 
 #: ui/evolution.h:17
-#, fuzzy
 msgid "Show the _Shortcut Bar"
-msgstr "Mostra la barra de dreceres"
+msgstr "Mostra la barra de _dreceres"
 
 #: ui/evolution.h:18
 msgid "Submit bug report using Bug Buddy"
 msgstr "Envia un informe d'error mitjançant el Bug Buddy"
 
 #: ui/evolution.h:19
-#, fuzzy
 msgid "Toggle whether to show the folder bar"
-msgstr "Mostra la barra de carpetes"
+msgstr "Commuta la visualització o no de la barra de carpetes"
 
 #: ui/evolution.h:20
-#, fuzzy
 msgid "Toggle whether to show the shortcut bar"
-msgstr "Mostra la barra de dreceres"
+msgstr "Commuta la visualització o no de la barra de dreceres"
 
 #: ui/evolution.h:21
-#, fuzzy
 msgid "Using the C_ontact Manager"
 msgstr "Utilització del gestor de c_ontactes"
 
 #: ui/evolution.h:22
-#, fuzzy
 msgid "Using the _Calendar"
 msgstr "Utilització de l'_agenda"
 
 #: ui/evolution.h:23
-#, fuzzy
 msgid "Using the _Mailer"
 msgstr "Utilització del _gestor de correu"
 
@@ -5769,7 +5646,6 @@ msgid "_Contact (FIXME)"
 msgstr "_Contacte (FIXME)"
 
 #: ui/evolution.h:27
-#, fuzzy
 msgid "_Create New Folder..."
 msgstr "_Crea una carpeta nova..."
 
@@ -5778,7 +5654,6 @@ msgid "_Folder"
 msgstr "_Carpeta"
 
 #: ui/evolution.h:31
-#, fuzzy
 msgid "_Go to Folder..."
 msgstr "_Vés a la carpeta..."
 
@@ -5787,21 +5662,18 @@ msgid "_Help"
 msgstr "_Ajuda"
 
 #: ui/evolution.h:33
-#, fuzzy
 msgid "_Index"
-msgstr "_Insereix"
+msgstr "_Índex"
 
 #: ui/evolution.h:34
 msgid "_Mail message (FIXME)"
 msgstr "Missatge de _correu (FIXME)"
 
 #: ui/evolution.h:36
-#, fuzzy
 msgid "_Settings"
-msgstr "Paràmetres de prova"
+msgstr "_Paràmetres"
 
 #: ui/evolution.h:37
-#, fuzzy
 msgid "_Submit Bug Report"
 msgstr "_Envia un informe d'error"
 
@@ -5889,43 +5761,41 @@ msgstr "Tots els assistents"
 #. %B = full month name, %d = month day, %Y = full year.
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:463
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:2468
-#, fuzzy
 msgid "%A, %B %d, %Y"
-msgstr "%a, %d de %b de %Y"
+msgstr "%A, %d de %B de %Y"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:415
 msgid "MTWTFSS"
-msgstr ""
+msgstr "DDDDDDD"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1039 widgets/misc/e-calendar-item.c:2670
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: widgets/misc/e-clipped-label.c:106
 msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-dateedit.c:325
-#, fuzzy
 msgid "Now"
-msgstr "Nou"
+msgstr "Ara"
 
 #. This is a strptime() format. %H = hour (0-23), %M = minute.
 #: widgets/misc/e-dateedit.c:641 widgets/misc/e-dateedit.c:731
 #: widgets/misc/e-dateedit.c:768 widgets/misc/e-dateedit.c:813
 #: widgets/misc/e-dateedit.c:1127
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: widgets/misc/e-dateedit.c:644 widgets/misc/e-dateedit.c:734
 #: widgets/misc/e-dateedit.c:771 widgets/misc/e-dateedit.c:816
 #: widgets/misc/e-dateedit.c:1130
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
