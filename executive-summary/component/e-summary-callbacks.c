@@ -123,7 +123,7 @@ embed_service (GtkWidget *widget,
 					NULL};
 	char *obj_id;
 	
-	obj_id = bonobo_selector_select_id ("Select a service",
+	obj_id = bonobo_selector_select_id (_("Select a service"),
 					    (const char **) required_interfaces);
 	if (obj_id == NULL)
 		return;

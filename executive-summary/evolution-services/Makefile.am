@@ -9,7 +9,6 @@ INCLUDES = \
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_VFS_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\

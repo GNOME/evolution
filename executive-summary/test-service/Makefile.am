@@ -5,7 +5,8 @@ INCLUDES = \
 	-I$(top_srcdir)			\
 	-I$(top_srcdir)/executive-summary	\
 	$(EXTRA_GNOME_CFLAGS)		\
-	$(BONOBO_HTML_GNOME_CFLAGS)
+	$(BONOBO_HTML_GNOME_CFLAGS)	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
 
 test_service_SOURCES = 			\
 	main.c
