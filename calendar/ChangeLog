@@ -1,5 +1,10 @@
 2004-04-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/notify-main.c (main): removed useless call to set
+	the POA after construction.
+
+2004-04-05  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #56316
 
 	* gui/dialogs/comp-editor-page.[ch]: added "fill_timezones" virtual

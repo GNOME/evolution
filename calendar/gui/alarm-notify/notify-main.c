@@ -174,7 +174,6 @@ main (int argc, char **argv)
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 
-	g_object_set (G_OBJECT (factory), "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL), NULL);
 	init_session ();
 
 	g_idle_add ((GSourceFunc) load_calendars, NULL);
