@@ -740,15 +740,15 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 		url = NULL;
 	
 	hostname_label = glade_xml_get_widget (gui->xml, "source_host_label");
-	gtk_label_parse_uline (GTK_LABEL (hostname_label), _("_Host:"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (hostname_label), _("_Host:"));
 	hostname = glade_xml_get_widget (gui->xml, "source_host");
 	
 	username_label = glade_xml_get_widget (gui->xml, "source_user_label");
-	gtk_label_parse_uline (GTK_LABEL (username_label), _("User_name:"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (username_label), _("User_name:"));
 	username = glade_xml_get_widget (gui->xml, "source_user");
 	
 	path_label = glade_xml_get_widget (gui->xml, "source_path_label");
-	gtk_label_parse_uline (GTK_LABEL (path_label), _("_Path:"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (path_label), _("_Path:"));
 	path = glade_xml_get_widget (gui->xml, "source_path");
 	
 	main_vbox = glade_xml_get_widget (gui->xml, "extra_vbox");
@@ -826,11 +826,11 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				GtkWidget *label;
 				
 				if (!strcmp (entries[i].name, "username")) {
-					gtk_label_parse_uline (GTK_LABEL (username_label), entries[i].text);
+					gtk_label_set_text_with_mnemonic (GTK_LABEL (username_label), entries[i].text);
 				} else if (!strcmp (entries[i].name, "hostname")) {
-					gtk_label_parse_uline (GTK_LABEL (hostname_label), entries[i].text);
+					gtk_label_set_text_with_mnemonic (GTK_LABEL (hostname_label), entries[i].text);
 				} else if (!strcmp (entries[i].name, "path")) {
-					gtk_label_parse_uline (GTK_LABEL (path_label), entries[i].text);
+					gtk_label_set_text_with_mnemonic (GTK_LABEL (path_label), entries[i].text);
 				} else {
 					/* make a new label */
 					label = gtk_label_new (entries[i].text);
@@ -863,15 +863,15 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			const char *text;
 			
 			if (!strcmp (entries[i].name, "username")) {
-				gtk_label_parse_uline (GTK_LABEL (username_label), entries[i].text);
+				gtk_label_set_text_with_mnemonic (GTK_LABEL (username_label), entries[i].text);
 				label = username_label;
 				entry = username;
 			} else if (!strcmp (entries[i].name, "hostname")) {
-				gtk_label_parse_uline (GTK_LABEL (hostname_label), entries[i].text);
+				gtk_label_set_text_with_mnemonic (GTK_LABEL (hostname_label), entries[i].text);
 				label = hostname_label;
 				entry = hostname;
 			} else if (!strcmp (entries[i].name, "path")) {
-				gtk_label_parse_uline (GTK_LABEL (path_label), entries[i].text);
+				gtk_label_set_text_with_mnemonic (GTK_LABEL (path_label), entries[i].text);
 				label = path_label;
 				entry = path;
 			} else {
@@ -1594,7 +1594,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 				hstore = si;
 			}
 			
-			if (source_proto && !g_strcasecmp (provider->protocol, source_proto)) {
+			if (source_proto && !strcasecmp (provider->protocol, source_proto)) {
 				fstore = item;
 				hstore = si;
 			}
@@ -1621,7 +1621,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 				htransport = ti;
 			}
 			
-			if (transport_proto && !g_strcasecmp (provider->protocol, transport_proto)) {
+			if (transport_proto && !strcasecmp (provider->protocol, transport_proto)) {
 				ftransport = item;
 				htransport = ti;
 			}

@@ -1,3 +1,21 @@
+2003-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-searching-tokenizer.c: #include <stdio.h>
+
+	* mail-config-factory.c: #include <string.h>
+
+	* mail-config-druid.c (identity_prepare): Use
+	gtk_editable_select_region() since gtk_entry_select_region() has
+	been deprecated.
+	(construct): Use gtk_window_set_resizable() instead of
+	gtk_window_set_policy().
+	(wizard_free): account_destroy() is no longer around, use
+	g_object_unref() instead. (how did this even compile before?)
+
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): Use
+	gtk_label_set_text_with_mnemonic() instead of
+	gtk_label_parse_uline() as the latter has been deprecated.
+
 2003-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* importers/netscape-importer.c: Removed unused variables.

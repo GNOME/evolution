@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "mail-accounts.h"
 #include "mail-preferences.h"
 #include "mail-composer-prefs.h"
@@ -93,7 +95,7 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	}
 	
 	data->prefs = prefs;
-	g_object_ref((prefs));
+	g_object_ref (prefs);
 	
 	gtk_widget_show_all (prefs);
 	

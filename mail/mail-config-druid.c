@@ -258,7 +258,7 @@ identity_prepare (EvolutionWizard *wizard, gpointer data)
 	if (!name) {
 		name = g_get_real_name ();
 		gtk_entry_set_text (gui->gui->full_name, name ? name : "");
-		gtk_entry_select_region (gui->gui->full_name, 0, -1);
+		gtk_editable_select_region (GTK_EDITABLE (gui->gui->full_name), 0, -1);
 	}
 	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->full_name));
 	identity_changed (NULL, data);
@@ -643,7 +643,7 @@ construct (MailConfigDruid *druid)
 
 	/* set window title */
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Assistant"));
-	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (druid), TRUE);
 	gtk_window_set_modal (GTK_WINDOW (druid), FALSE);
 	g_object_set (G_OBJECT (druid), "type", GTK_WINDOW_TOPLEVEL, NULL);
 
@@ -996,7 +996,7 @@ wizard_free (MailConfigWizard *wizard)
 		mail_account_gui_destroy (wizard->gui);
 	
 	if (wizard->account)
-		account_destroy (wizard->account);
+		g_object_unref (wizard->account);
 	
 	g_free (wizard);
 }
