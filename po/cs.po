@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-11 14:30-0400\n"
-"PO-Revision-Date: 2003-04-11 08:41+0200\n"
+"POT-Creation-Date: 2003-04-12 11:38+0200\n"
+"PO-Revision-Date: 2003-04-12 17:52+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -855,7 +855,9 @@ msgstr "  Zo_brazit podporované základny "
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-options.glade.h:1
-#: calendar/gui/dialogs/event-page.glade.h:1 mail/mail-config.glade.h:6
+#: calendar/gui/dialogs/event-page.glade.h:1
+#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
+#: mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "*"
 msgstr "*"
@@ -1214,8 +1216,8 @@ msgstr "Kdykoliv je možné"
 #: addressbook/gui/component/ldap-config.glade.h:86
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
+#: calendar/gui/dialogs/alarm-page.glade.h:9 mail/mail-config.glade.h:135
+#: shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "_Přidat"
 
@@ -1227,7 +1229,7 @@ msgstr "_Zobrazit jméno:"
 msgid "_Download limit:"
 msgstr "_Omezení stahování:"
 
-#: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6
@@ -1446,11 +1448,10 @@ msgstr "Chce dostávat poštu v _HTML formátu"
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
-#: filter/filter.glade.h:15 mail/folder-browser.c:1783
-#: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
-#: ui/evolution-addressbook.xml.h:32 ui/evolution-calendar.xml.h:27
-#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:16
-#: ui/evolution.xml.h:46
+#: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
+#: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
+#: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
+#: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:46
 msgid "_Delete"
 msgstr "_Smazat"
 
@@ -2735,7 +2736,7 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "_Skrýt adresy při posílání e-mailu do tohoto seznamu"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
-#: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:17
+#: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "_Remove"
 msgstr "_Odstranit"
 
@@ -4083,7 +4084,7 @@ msgstr "Komu poslat:"
 msgid "With these arguments:"
 msgstr "S těmito parametry:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:20
+#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
 msgid "days"
 msgstr "den/dny/dnů"
 
@@ -4096,11 +4097,11 @@ msgstr "dialog1"
 msgid "extra times every"
 msgstr "krát navíc každé"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:21
+#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
 msgid "hours"
 msgstr "hodinu/-y"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:22
+#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "minut(-u,-y)"
 
@@ -4974,7 +4975,7 @@ msgstr "Datum splnění je chybné"
 
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1105
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:44
 msgid "Description:"
 msgstr "Popis:"
 
@@ -5080,57 +5081,46 @@ msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: calendar/gui/e-calendar-table.c:415
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:416
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:417
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:418
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:419
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:420
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:421
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:422
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:423
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:424
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:425
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -10352,19 +10342,19 @@ msgstr "Nelze přiložit soubor %s: %s"
 msgid "Cannot attach file %s: not a regular file"
 msgstr "Nelze přiložit soubor %s: není to normální soubor"
 
-#: composer/e-msg-composer-attachment.glade.h:1
-msgid "Attachment properties"
+#: composer/e-msg-composer-attachment.glade.h:2
+msgid "Attachment Properties"
 msgstr "Vlastnosti přílohy"
 
-#: composer/e-msg-composer-attachment.glade.h:3
+#: composer/e-msg-composer-attachment.glade.h:4
 msgid "File name:"
 msgstr "Jméno souboru:"
 
-#: composer/e-msg-composer-attachment.glade.h:4
+#: composer/e-msg-composer-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "Typ MIME:"
 
-#: composer/e-msg-composer-attachment.glade.h:5
+#: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:66
 msgid "Suggest automatic display of attachment"
 msgstr "Navrhnout automatické zobrazovaní příloh"
@@ -11041,23 +11031,23 @@ msgstr "Bez názvu"
 msgid "If"
 msgstr "Pokud"
 
-#: filter/filter-rule.c:790
+#: filter/filter-rule.c:791
 msgid "Execute actions"
 msgstr "Provést akce"
 
-#: filter/filter-rule.c:794
+#: filter/filter-rule.c:795
 msgid "if all criteria are met"
 msgstr "pokud souhlasí všechna kritéria"
 
-#: filter/filter-rule.c:799
+#: filter/filter-rule.c:800
 msgid "if any criteria are met"
 msgstr "pokud souhlasí některá kritéria"
 
-#: filter/filter-rule.c:894
+#: filter/filter-rule.c:895
 msgid "incoming"
 msgstr "příchozí"
 
-#: filter/filter-rule.c:894
+#: filter/filter-rule.c:895
 msgid "outgoing"
 msgstr "odchozí"
 
@@ -11109,55 +11099,55 @@ msgstr ""
 msgid "Virtual Folders"
 msgstr "Virtuální složky"
 
-#: filter/filter.glade.h:18
+#: filter/filter.glade.h:15
 msgid "a time relative to the current time"
 msgstr "s časem vztahujícím se k současnému času"
 
-#: filter/filter.glade.h:19
+#: filter/filter.glade.h:16
 msgid "ago"
 msgstr "nazpět"
 
-#: filter/filter.glade.h:23
+#: filter/filter.glade.h:20
 msgid "months"
 msgstr "měsíce/-ů"
 
-#: filter/filter.glade.h:24 mail/mail-config.glade.h:182
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:182
 msgid "seconds"
 msgstr "vteřině(-ách)"
 
-#: filter/filter.glade.h:25
+#: filter/filter.glade.h:22
 msgid "specific folders only"
 msgstr "pouze zvláštní složky"
 
-#: filter/filter.glade.h:26
+#: filter/filter.glade.h:23
 msgid "the current time"
 msgstr "se současným časem"
 
-#: filter/filter.glade.h:27
+#: filter/filter.glade.h:24
 msgid "the time you specify"
 msgstr "s časem, který určíte"
 
-#: filter/filter.glade.h:28
+#: filter/filter.glade.h:25
 msgid "vFolder Sources"
 msgstr "Zdroje v-složky"
 
-#: filter/filter.glade.h:29
+#: filter/filter.glade.h:26
 msgid "weeks"
 msgstr "týdny/-ů"
 
-#: filter/filter.glade.h:30
+#: filter/filter.glade.h:27
 msgid "with all active remote folders"
 msgstr "pro všechny aktivní vzdálené složky"
 
-#: filter/filter.glade.h:31
+#: filter/filter.glade.h:28
 msgid "with all local and active remote folders"
 msgstr "pro všechny lokální a aktivní vzdálené složky"
 
-#: filter/filter.glade.h:32
+#: filter/filter.glade.h:29
 msgid "with all local folders"
 msgstr "pro všechny lokální složky"
 
-#: filter/filter.glade.h:33
+#: filter/filter.glade.h:30
 msgid "years"
 msgstr "roky/let"
 
@@ -11384,8 +11374,7 @@ msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
 #: filter/libfilter-i18n.h:60 mail/mail-format.c:908
-#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
-#: mail/message-tags.glade.h:4
+#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:307
 msgid "Subject"
 msgstr "Předmět"
 
@@ -11393,7 +11382,7 @@ msgstr "Předmět"
 msgid "Unset Status"
 msgstr "Odnastavit stav"
 
-#: filter/rule-context.c:661 filter/rule-editor.c:241 filter/rule-editor.c:325
+#: filter/rule-context.c:661 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:915
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
@@ -11407,11 +11396,11 @@ msgstr "Pravidla"
 msgid "Add Rule"
 msgstr "Přidat pravidlo"
 
-#: filter/rule-editor.c:372
+#: filter/rule-editor.c:373
 msgid "Edit Rule"
 msgstr "Upravit pravidlo"
 
-#: filter/rule-editor.c:689
+#: filter/rule-editor.c:691
 msgid "Rule name"
 msgstr "Název pravidla"
 
@@ -13124,7 +13113,7 @@ msgid "Bad Address"
 msgstr "Špatná adresa"
 
 #: mail/mail-format.c:886 mail/message-list.etspec.h:7
-#: mail/message-tag-followup.c:301 mail/message-tags.glade.h:3
+#: mail/message-tag-followup.c:303
 msgid "From"
 msgstr "Od"
 
@@ -13728,15 +13717,15 @@ msgstr "Odpovědět všem"
 msgid "Review"
 msgstr "Posoudit"
 
-#: mail/message-tag-followup.c:283 mail/message-tags.glade.h:2
+#: mail/message-tag-followup.c:283 mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "Označit jako Follow Up"
 
-#: mail/message-tags.glade.h:1
+#: mail/message-tags.glade.h:2
 msgid "C_ompleted"
 msgstr "D_okončeno"
 
-#: mail/message-tags.glade.h:5
+#: mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -13744,15 +13733,11 @@ msgstr ""
 "Zprávy, které jste vybral pro follow-up jsou označeny níže.\n"
 "Vyberte prosím akci pro follow-up z menu \"Značka\"."
 
-#: mail/message-tags.glade.h:7
-msgid "_Clear Flag"
-msgstr "Vymazat _značku"
-
-#: mail/message-tags.glade.h:8
+#: mail/message-tags.glade.h:6
 msgid "_Due by:"
 msgstr "Termín _dokončení:"
 
-#: mail/message-tags.glade.h:9
+#: mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "_Značka:"
 
@@ -27782,12 +27767,12 @@ msgstr "Kódování znaků"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-filter-bar.c:183
+#: widgets/misc/e-filter-bar.c:185
 msgid "Search Editor"
 msgstr "Editor vyhledávání"
 
 #. FIXME: get the toplevel window...
-#: widgets/misc/e-filter-bar.c:204
+#: widgets/misc/e-filter-bar.c:206
 msgid "Save Search"
 msgstr "Uložit vyhledávání"
 
@@ -27863,6 +27848,9 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
+
+#~ msgid "_Clear Flag"
+#~ msgstr "Vymazat _značku"
 
 #~ msgid "_Contacts..."
 #~ msgstr "_Kontakty..."
