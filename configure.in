@@ -443,6 +443,8 @@ if test "$msg_ldap" = yes; then
 	fi
 
 	AC_CHECK_LIB(resolv, res_query, LDAP_LIBS="-lresolv")
+	AC_CHECK_LIB(socket, bind, LDAP_LIBS="$LDAP_LIBS -lsocket")
+	AC_CHECK_LIB(nsl, gethostbyaddr, LDAP_LIBS="$LDAP_LIBS -lnsl")
 	AC_CHECK_LIB(lber, ber_get_tag, [
 		if test "$msg_ldap_linktype" = "(static)"; then
 			LDAP_LIBS="$with_openldap/lib/liblber.a $LDAP_LIBS"
