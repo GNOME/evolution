@@ -1,3 +1,7 @@
+1999-01-19  Tomas Ogren  <stric@ing.umu.se>
+
+	* main.c: do gtk_widget_realize on the toplevel window..
+
 1999-01-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-day-panel.c (gncal_day_panel_new): Make the little

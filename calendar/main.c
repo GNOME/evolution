@@ -525,6 +525,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
+	gtk_widget_realize (toplevel);
 	gtk_widget_show (toplevel);
 }
 
