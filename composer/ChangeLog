@@ -1,3 +1,10 @@
+2003-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (signature_cb): mail_config_get_signature_list
+	now returns a GSList.
+	(setup_signatures_menu): Same.
+	(set_signature_gui): Here too.
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (do_exit): Make dialog HIG compliant
