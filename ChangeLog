@@ -1,3 +1,7 @@
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (SUBDIRS): add addressbook.
+
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add some more addressbook paths.

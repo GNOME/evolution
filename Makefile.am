@@ -32,6 +32,7 @@ SUBDIRS =			\
 	camel			\
 	filter			\
 	libwombat		\
+	addressbook		\
 	calendar		\
         art                     \
 	ui			\
