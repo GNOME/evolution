@@ -1,5 +1,10 @@
 2001-06-30  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/e-week-view-event-item.c
+	(e_week_view_event_item_button_press): Only set the
+	pressed_event_num and pressed_span_num if button 1 was pressed.
+	Fix up return values a bit.  This fixes bug #3780.
+
 	* gui/gnome-cal.c
 	(gnome_calendar_on_date_navigator_selection_changed): Doh, the
 	call for the day view was supposed to be

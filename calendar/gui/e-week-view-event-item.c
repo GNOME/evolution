@@ -716,10 +716,10 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	if (pos == E_WEEK_VIEW_POS_NONE)
 		return FALSE;
 
-	week_view->pressed_event_num = wveitem->event_num;
-	week_view->pressed_span_num = wveitem->span_num;
-
 	if (bevent->button.button == 1) {
+		week_view->pressed_event_num = wveitem->event_num;
+		week_view->pressed_span_num = wveitem->span_num;
+
 		/* Ignore clicks on the event while editing. */
 		if (E_TEXT (span->text_item)->editing)
 			return FALSE;
@@ -731,6 +731,8 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 
 		/* FIXME: Remember the day offset from the start of the event.
 		 */
+
+		return TRUE;
 	} else if (bevent->button.button == 3) {
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -739,9 +741,11 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 					     wveitem->event_num);
 		gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
 					      "button_press_event");
+
+		return TRUE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 
