@@ -1,5 +1,19 @@
 2003-03-28  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/e-day-view.c (comp_destroy_cb)
+	(e_day_view_on_long_event_button_press)
+	(e_day_view_on_event_button_press)
+	(e_day_view_on_long_event_click)
+	(e_day_view_on_event_click)
+	(e_day_view_on_event_double_click)
+	(e_day_view_on_delete_appointment): Hold weak references to the
+	CalComponent instead of connecting to the "destroy" signal.
+
+	* gui/e-week-view.c (comp_destroy_cb)
+	(e_week_view_on_text_item_event): Ditto.
+
+2003-03-28  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes #39954
 	
 	* gui/dialogs/recurrence-page.c (make_recurrence_special):

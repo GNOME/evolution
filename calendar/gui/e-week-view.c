@@ -3014,7 +3014,7 @@ cancel_editing (EWeekView *week_view)
  * a pointer to a boolean; will set it to TRUE.
  */
 static void
-comp_destroy_cb (GtkObject *object, gpointer data)
+comp_destroy_cb (gpointer data, GObject *deadbeef)
 {
 	gboolean *destroyed;
 
@@ -3077,19 +3077,17 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		if (gdkevent->button.button == 3) {
 			EWeekViewEvent *e;
 			gboolean destroyed;
-			int id;
 
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
 			destroyed = FALSE;
-			id = g_signal_connect (e->comp, "destroy",
-					       G_CALLBACK (comp_destroy_cb), &destroyed);
+			g_object_weak_ref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 
 			if (!GTK_WIDGET_HAS_FOCUS (week_view))
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 			if (!destroyed) {
-				g_signal_handler_disconnect (e->comp, id);
+				g_object_weak_unref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 	
 				e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);
 

@@ -3219,7 +3219,7 @@ e_day_view_on_time_canvas_button_press (GtkWidget      *widget,
  * a pointer to a boolean; will set it to TRUE.
  */
 static void
-comp_destroy_cb (GtkObject *object, gpointer data)
+comp_destroy_cb (gpointer data, GObject *deadbeef)
 {
 	gboolean *destroyed;
 
@@ -3252,18 +3252,16 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 	} else if (event->button == 3) {
 		EDayViewEvent *e;
 		gboolean destroyed;
-		guint id;
 
 		e = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 		destroyed = FALSE;
-		id = g_signal_connect (e->comp, "destroy",
-				       G_CALLBACK (comp_destroy_cb), &destroyed);
+		g_object_weak_ref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (!destroyed) {
-			g_signal_handler_disconnect (e->comp, id);
+			g_object_weak_unref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 
 			e_day_view_set_selected_time_range_in_top_visible (day_view, e->start, e->end);
 			
@@ -3303,19 +3301,17 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 	} else if (event->button == 3) {
 		EDayViewEvent *e;
 		gboolean destroyed;
-		guint id;
 
 		e = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 
 		destroyed = FALSE;
-		id = g_signal_connect (e->comp, "destroy",
-				       G_CALLBACK (comp_destroy_cb), &destroyed);
+		g_object_weak_ref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (!destroyed) {
-			g_signal_handler_disconnect (e->comp, id);
+			g_object_weak_unref ((GObject *) e->comp, comp_destroy_cb, &destroyed);
 
 			e_day_view_set_selected_time_range_visible (day_view, e->start, e->end);
 	
@@ -3353,7 +3349,6 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
 		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
 		gboolean destroyed;
-		guint id;
 
 		if (!e_day_view_find_long_event_days (event,
 						      day_view->days_shown,
@@ -3362,8 +3357,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 			return;
 
 		destroyed = FALSE;
-		id = g_signal_connect (event->comp, "destroy",
-				       G_CALLBACK (comp_destroy_cb), &destroyed);
+		g_object_weak_ref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
@@ -3373,7 +3367,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		if (destroyed)
 			return;
 
-		g_signal_handler_disconnect (event->comp, id);
+		g_object_weak_unref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->top_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
@@ -3439,11 +3433,9 @@ e_day_view_on_event_click (EDayView *day_view,
 	    && (pos == E_DAY_VIEW_POS_TOP_EDGE
 		|| pos == E_DAY_VIEW_POS_BOTTOM_EDGE)) {
 		gboolean destroyed;
-		guint id;
 
 		destroyed = FALSE;
-		id = g_signal_connect (event->comp, "destroy",
-				       G_CALLBACK (comp_destroy_cb), &destroyed);
+		g_object_weak_ref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
@@ -3453,7 +3445,7 @@ e_day_view_on_event_click (EDayView *day_view,
 		if (destroyed)
 			return;
 
-		g_signal_handler_disconnect (event->comp, id);
+		g_object_weak_unref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->main_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
@@ -3589,7 +3581,6 @@ e_day_view_on_event_double_click (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gboolean destroyed;
-	guint id;
 
 	if (day == -1)
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -3599,13 +3590,12 @@ e_day_view_on_event_double_click (EDayView *day_view,
 					event_num);
 
 	destroyed = FALSE;
-	id = g_signal_connect (event->comp, "destroy",
-			       G_CALLBACK (comp_destroy_cb), &destroyed);
+	g_object_weak_ref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 	e_day_view_stop_editing_event (day_view);
 
 	if (!destroyed) {
-		g_signal_handler_disconnect (event->comp, id);
+		g_object_weak_unref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		if (day_view->calendar)
 			gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
@@ -4139,7 +4129,6 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	gboolean destroyed;
-	guint id;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -4148,13 +4137,13 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		return;
 
 	destroyed = FALSE;
-	id = g_signal_connect (event->comp, "destroy", G_CALLBACK (comp_destroy_cb), &destroyed);
+	g_object_weak_ref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 	if (day_view->editing_event_day >= 0)
 		e_day_view_stop_editing_event (day_view);
 
 	if (!destroyed) {
-		g_signal_handler_disconnect (event->comp, id);
+		g_object_weak_unref ((GObject *) event->comp, comp_destroy_cb, &destroyed);
 
 		e_day_view_delete_event_internal (day_view, event);
 	}
