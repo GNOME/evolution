@@ -757,7 +757,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	
 	for (i = 0; i < uids->len; i++) {
 		int pc = (100 * i)/uids->len;
-
+		
 		report_status (driver, CAMEL_FILTER_STATUS_START, pc, _("Getting message %d of %d"), i+1,
 			       uids->len);
 		
@@ -779,7 +779,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
-
+		
 		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed at message %d of %d"),
 				       i+1, uids->len);
@@ -789,19 +789,20 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		
 		if (remove)
 			camel_folder_set_message_flags (folder, uids->pdata[i],
-							CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
+							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
-
+	
 	if (freeuids)
 		camel_folder_free_uids (folder, uids);
 	
 	if (p->defaultfolder) {
-		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
+		report_status (driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
 		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	}
-
+	
 	if (i == uids->len)
 		report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
@@ -844,7 +845,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	struct _filter_rule *node;
 	gboolean freeinfo = FALSE;
 	gboolean filtered = FALSE;
-
+	
 	if (info == NULL) {
 		struct _header_raw *h = CAMEL_MIME_PART (message)->headers;
 		
@@ -863,41 +864,44 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
-
+	
 	if (original_source_url && camel_mime_message_get_source (message) == NULL)
 		camel_mime_message_set_source (message, original_source_url);
 	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {
-		d(fprintf (stderr, "applying rule %s\n action %s\n", node->match, node->action));
+		d(fprintf (stderr, "applying rule %s\naction %s\n", node->match, node->action));
 		
-		if (camel_filter_search_match(p->message, p->info, 
-					      original_source_url ? original_source_url : source_url,
-					      node->match, p->ex)) {
+		if (camel_filter_search_match (p->message, p->info, 
+					       original_source_url ? original_source_url : source_url,
+					       node->match, p->ex)) {
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
 			
 			/* perform necessary filtering actions */
 			e_sexp_input_text (p->eval, node->action, strlen (node->action));
 			if (e_sexp_parse (p->eval) == -1) {
-				camel_exception_setv(ex, 1, _("Error parsing filter: %s: %s"), e_sexp_error(p->eval), node->action);
+				camel_exception_setv (ex, 1, _("Error parsing filter: %s: %s"),
+						      e_sexp_error (p->eval), node->action);
 				goto error;
 			}
 			r = e_sexp_eval (p->eval);
 			if (r == NULL) {
-				camel_exception_setv(ex, 1, _("Error executing filter: %s: %s"), e_sexp_error(p->eval), node->action);
+				camel_exception_setv (ex, 1, _("Error executing filter: %s: %s"),
+						      e_sexp_error (p->eval), node->action);
 				goto error;
 			}
 			e_sexp_result_free (p->eval, r);
 			if (p->terminated)
 				break;
 		}
+		
 		node = node->next;
 	}
 	
 	/* *Now* we can set the DELETED flag... */
 	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED | CAMEL_MESSAGE_SEEN;
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	
 	/* Logic: if !Moved and there exists a default folder... */
 	if (!(p->copied && p->deleted) && p->defaultfolder) {
@@ -906,7 +910,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 			GPtrArray *uids;
-				
+			
 			uids = g_ptr_array_new ();
 			g_ptr_array_add (uids, (char *) p->uid);
 			camel_folder_copy_messages_to (p->source, uids, p->defaultfolder, p->ex);
@@ -917,6 +921,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	
 	if (freeinfo)
 		camel_message_info_free (info);
+	
 	return 0;
 	
 error:	

@@ -688,7 +688,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			int error;
-
+			
 			error = respbuf ? atoi (respbuf) : 0;
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -949,7 +949,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 				      get_smtp_error_string (error));
 		return FALSE;
 	}
-
+	
 	g_free (respbuf);
 	respbuf = NULL;
 	

@@ -1,3 +1,9 @@
+2001-06-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-search.c (get_source): g_strdup() the message
+	source here or we will have problems later when we go to free the
+	result ;-)
+
 2001-06-25  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (try_auth): Fix this: IMAP
