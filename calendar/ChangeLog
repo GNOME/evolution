@@ -4,6 +4,9 @@
 	* gui/calendar-component.c (delete_calendar_cb):
 	don't require client to be loaded in order to remove the source
 
+	* gui/migration.c (create_task_sources, migrate_tasks): create
+	On The Web source group for tasks.
+
 2004-03-29  Hari Prasad Nadig  <hp@ndeepak.info>
 
 	* gui/goto-dialog.glade: Naming issue, Go to Date -> Select Date,
