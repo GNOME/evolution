@@ -1,5 +1,11 @@
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card-simple.c (file_as_get_style,
+	file_as_set_style): Use the actual ECardName in the ECard instead
+	of parsing the full_name here.
+
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h
 	(e_card_simple_set_name): New function to set the ECardName on
 	this card and fix the file_as if necessary.

@@ -939,19 +939,17 @@ file_as_get_style (ECardSimple *simple)
 {
 	char *filestring = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FILE_AS);
 	char *trystring;
-	char *full_name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
 	char *company = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
 	ECardName *name = NULL;
 	int i;
 	int style;
 	style = 0;
-	if (!full_name)
-		full_name = g_strdup("");
 	if (!company)
 		company = g_strdup("");
 	if (filestring) {
-
-		name = e_card_name_from_string(full_name);
+		gtk_object_get (GTK_OBJECT (simple->card),
+				"name", &name,
+				NULL);
 		
 		if (!name) {
 			goto end;
@@ -972,9 +970,7 @@ file_as_get_style (ECardSimple *simple)
  end:
 		
 	g_free(filestring);
-	g_free(full_name);
 	g_free(company);
-	e_card_name_unref(name);
 	
 	return style;
 }
@@ -984,23 +980,20 @@ file_as_set_style(ECardSimple *simple, int style)
 {
 	if (style != -1) {
 		char *string;
-		char *full_name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
 		char *company = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
 		ECardName *name;
-		
-		if (!full_name)
-			full_name = g_strdup("");
+
 		if (!company)
 			company = g_strdup("");
-		name = e_card_name_from_string(full_name);
+		gtk_object_get (GTK_OBJECT (simple->card),
+				"name", &name,
+				NULL);
 		if (name) {
 			string = name_to_style(name, company, style);
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, string);
 			g_free(string);
 		}
-		g_free(full_name);
 		g_free(company);
-		e_card_name_unref(name);
 	}
 }
 
