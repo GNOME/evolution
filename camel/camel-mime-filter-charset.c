@@ -26,6 +26,7 @@
 
 #include "camel-mime-filter-charset.h"
 
+#define d(x)
 
 static void camel_mime_filter_charset_class_init (CamelMimeFilterCharsetClass *klass);
 static void camel_mime_filter_charset_init       (CamelMimeFilterCharset *obj);
@@ -101,6 +102,9 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	outbuf = mf->outbuf;
 	outlen = mf->outsize;
 
+	/* temporary fix to find another bug somewhere */
+	d(memset(outbuf, 0, outlen));
+
 	if (inlen>0) {
 		converted = unicode_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 		if (converted == -1) {
@@ -121,6 +125,15 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	if (converted == -1) {
 		g_warning("Conversion failed to complete: %s", strerror(errno));
 	}
+
+	/* debugging assertion - check for NUL's in output */
+	d({
+		int i;
+		
+		for (i=0;i<(mf->outsize - outlen);i++) {
+			g_assert(mf->outbuf[i]);
+		}
+	});
 
 	*out = mf->outbuf;
 	*outlenptr = mf->outsize - outlen;

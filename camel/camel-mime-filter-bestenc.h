@@ -36,7 +36,9 @@ enum _CamelBestencRequired {
 	CAMEL_BESTENC_GET_CHARSET = 1<<1,
 
 	/* do we treat 'lf' as if it were crlf? */
-	CAMEL_BESTENC_LF_IS_CRLF = 1<<8
+	CAMEL_BESTENC_LF_IS_CRLF = 1<<8,
+	/* do we not allow "From " to appear at the start of a line in any part? */
+	CAMEL_BESTENC_NO_FROM = 1<<9,
 };
 typedef enum _CamelBestencRequired CamelBestencRequired;
 
@@ -58,6 +60,12 @@ struct _CamelMimeFilterBestenc {
 
 	unsigned int lastc;	/* the last character read */
 	int crlfnoorder;	/* if crlf's occured where they shouldn't have */
+
+	int startofline;	/* are we at the start of a new line? */
+
+	int fromcount;
+	char fromsave[6];	/* save a few characters if we found an \nF near the end of the buffer */
+	int hadfrom;		/* did we encounter a "\nFrom " in the data? */
 
 	unsigned int countline;	/* current count of characters on a given line */
 	unsigned int maxline;	/* max length of any line */

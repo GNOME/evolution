@@ -20,6 +20,8 @@
 
 #include "camel-mime-filter-bestenc.h"
 
+#include <string.h>
+
 static void camel_mime_filter_bestenc_class_init (CamelMimeFilterBestencClass *klass);
 static void camel_mime_filter_bestenc_init       (CamelMimeFilter *obj);
 
@@ -54,6 +56,10 @@ reset(CamelMimeFilter *mf)
 	f->total = 0;
 	f->lastc = ~0;
 	f->crlfnoorder = FALSE;
+	f->fromcount = 0;
+	f->hadfrom = FALSE;
+	f->startofline = TRUE;
+
 	camel_charset_init(&f->charset);
 }
 
@@ -63,7 +69,8 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	CamelMimeFilterBestenc *f = (CamelMimeFilterBestenc *)mf;
 	register unsigned char *p, *pend;
 
-	f->total += len;
+	if (len == 0)
+		goto donothing;
 
 	if (f->flags & CAMEL_BESTENC_GET_ENCODING) {
 		register unsigned int /* hopefully reg's are assinged in the order they appear? */
@@ -72,6 +79,21 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			countline=f->countline,
 			count0=f->count0,
 			count8 = f->count8;
+
+		/* Check ^From  lines first call, or have the start of a new line waiting? */
+		if ((f->flags & CAMEL_BESTENC_NO_FROM) && !f->hadfrom
+		    && (f->fromcount > 0 || f->startofline)) {
+			if (f->fromcount + len >=5) {
+				memcpy(&f->fromsave[f->fromcount], in, 5-f->fromcount);
+				f->hadfrom = strncmp(f->fromsave, "From ", 5) == 0;
+				f->fromcount = 0;
+			} else {
+				memcpy(&f->fromsave[f->fromcount], in, len);
+				f->fromcount += len;
+			}
+		}
+
+		f->startofline = FALSE;
 
 		/* See rfc2045 section 2 for definitions of 7bit/8bit/binary */
 		p = in;
@@ -98,6 +120,18 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 					if (countline > f->maxline)
 						f->maxline = countline;
 					countline = 0;
+
+					/* Check for "^From " lines */
+					if ((f->flags & CAMEL_BESTENC_NO_FROM) && !f->hadfrom) {
+						if (pend-p >= 5) {
+							f->hadfrom = strncmp(p, "From ", 5) == 0;
+						} else if (pend-p == 0) {
+							f->startofline = TRUE;
+						} else {
+							f->fromcount = pend-p;
+							memcpy(f->fromsave, p, pend-p);
+						}
+					}
 				} else {
 					f->crlfnoorder = TRUE;
 				}
@@ -112,9 +146,12 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		f->lastc = lastc;
 	}
 
+	f->total += len;
+
 	if (f->flags & CAMEL_BESTENC_GET_CHARSET)
 		camel_charset_step(&f->charset, in, len);
 
+donothing:
 	*out = in;
 	*outlen = len;
 	*outprespace = prespace;
@@ -186,6 +223,12 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 	printf("maxline = %d, crlfnoorder = %s\n", f->maxline, f->crlfnoorder?"TRUE":"FALSE");
 	printf(" %d%% require encoding?\n", (f->count0+f->count8)*100 / f->total);
 #endif
+
+	/* if we're not allowed to have From lines and we had one, use an encoding
+	   that will never let it show.  Unfortunately only base64 can at present,
+	   although qp could be modified to allow it too */
+	if ((f->flags & CAMEL_BESTENC_NO_FROM) && f->hadfrom)
+		return CAMEL_MIME_PART_ENCODING_BASE64;
 
 	/* if we need to encode, see how we do it */
 	if (required == CAMEL_BESTENC_BINARY)

@@ -22,7 +22,7 @@
 #include "camel-stream-filter.h"
 
 #define d(x)
-#include <stdio.h>
+/*#include <stdio.h>*/
 
 struct _filter {
 	struct _filter *next;

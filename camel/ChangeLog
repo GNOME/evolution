@@ -1,3 +1,51 @@
+2000-11-08  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-message.c (find_best_encoding): Keep track of the
+	caller bestenc flags that make sense.
+	
+	* camel-mime-filter-bestenc.c (filter): Added code to detect when
+	we have "^From " lines in the sequence of text.
+	(camel_mime_filter_bestenc_get_best_encoding): Added a new flag
+	CAMEL_BESTENC_NO_FROM: if set, it will not allow any lines
+	matching "^From " to appear in the output - currently forcing
+	base64 encoding to achieve this.
+
+	* camel-mime-parser.c (folder_scan_step): Call
+	camel_mime-filter_complete() once we're done, rather than
+	filter_filter().
+	(folder_scan_content): Some fixes for state changing; so that when
+	we do find another boundary it is properly flagged.  Since we
+	strip the last \n off all data, we must take that into account
+	too.  Sigh.  Fixes a rather nasty set of bugs where multipart
+	messages could start including following messages as parts, etc.
+	(struct _header_scan_stack): Added new parameter,
+	boundarylenfinal, which holds the length of the final boundary, if
+	it is different (e.g. for From lines, whihc aren't)
+	(folder_scan_step): Setup teh boundarylenfinal value when creating
+	a new boundary.
+	(folder_scan_content): Hmm, if we hit the end-of-buffer sentinal,
+	reset the scanner back to leave 'atleast' chars in the buffer
+	still, dump that content, and retry again.  Stops us losing a
+	check for a boundary on some data we haven't really looked at yet!
+	(folder_scan_content): Use boundarylenfinal to calculate
+	'atleast'.
+	(folder_scan_header): And here too.
+	(folder_boundary_check): Use the atleast value directly, dont
+	truncate it.  Use the boundarylen/boundarylenfinal values directly
+	too.
+	(struct _header_scan_stack): Add an atleast parameter to cache the
+	atleast info.
+	(folder_push_part): Determine/set 'atleast', every time we add a
+	new part.
+	(folder_scan_header): Get the cached atleast info from the current
+	part.
+	(folder_scan_content): And here too.
+	(folder_scan_header): Fix a problem where a part starting with
+	" text" would be interpreted as a followon header wrongly.
+
+	* camel-mime-filter-charset.c (complete): Add some assertions to
+	find a bug.
+
 2000-11-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* camel-service.c (get_name): Strdup the "???" string you return,

@@ -583,7 +583,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 	CamelMimeFilterBestenc *bestenc;
 	int idb, idc = -1;
 	gboolean istext;
-	unsigned int flags;
+	unsigned int flags, callerflags;
 	CamelMimePartEncodingType encoding;
 	CamelDataWrapper *content;
 
@@ -591,7 +591,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 	   not have to read the whole lot into memory - although i have a feeling
 	   it would make things a fair bit simpler to do so ... */
 
-	printf("starting to check part\n");
+	d(printf("starting to check part\n"));
 
 	content = camel_medium_get_content_object((CamelMedium *)part);
 	if (content == NULL) {
@@ -610,6 +610,9 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 
 	/* when building the message, any encoded parts are translated already */
 	flags |= CAMEL_BESTENC_LF_IS_CRLF;
+	/* and get any flags the caller passed in */
+	callerflags = (required & CAMEL_BESTENC_NO_FROM);
+	flags |= callerflags;
 
 	/* first a null stream, so any filtering is thrown away; we only want the sideeffects */
 	null = (CamelStream *)camel_stream_null_new();
@@ -628,7 +631,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 
 	bestenc = camel_mime_filter_bestenc_new(flags);
 	idb = camel_stream_filter_add(filter, (CamelMimeFilter *)bestenc);
-	printf("writing to checking stream\n");
+	d(printf("writing to checking stream\n"));
 	camel_data_wrapper_write_to_stream(content, (CamelStream *)filter);
 	camel_stream_filter_remove(filter, idb);
 	if (idc != -1) {
@@ -640,13 +643,13 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 	if (istext)
 		charsetin = camel_mime_filter_bestenc_get_best_charset(bestenc);
 
-	printf("charsetin = %s\n", charsetin);
+	d(printf("charsetin = %s\n", charsetin));
 
 	/* if we have US-ASCII, or we're not doing text, we dont need to bother with the rest */
 	if (charsetin != NULL && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {
 		charset = g_strdup(charsetin);
 
-		printf("have charset, trying conversion/etc\n");
+		d(printf("have charset, trying conversion/etc\n"));
 
 		/* now the 'bestenc' can has told us what the best encoding is, we can use that to create
 		   a charset conversion filter as well, and then re-add the bestenc to filter the
@@ -663,7 +666,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 			/* otherwise, try another pass, converting to the real charset */
 
 			camel_mime_filter_reset((CamelMimeFilter *)bestenc);
-			camel_mime_filter_bestenc_set_flags(bestenc, CAMEL_BESTENC_GET_ENCODING|CAMEL_BESTENC_LF_IS_CRLF);
+			camel_mime_filter_bestenc_set_flags(bestenc, CAMEL_BESTENC_GET_ENCODING|CAMEL_BESTENC_LF_IS_CRLF|callerflags);
 
 			camel_stream_filter_add(filter, (CamelMimeFilter *)charenc);
 			camel_stream_filter_add(filter, (CamelMimeFilter *)bestenc);
@@ -681,7 +684,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 	camel_object_unref((CamelObject *)bestenc);
 	camel_object_unref((CamelObject *)null);
 
-	printf("done, best encoding = %d\n", encoding);
+	d(printf("done, best encoding = %d\n", encoding));
 
 	if (charsetp)
 		*charsetp = charset;
@@ -719,7 +722,7 @@ best_encoding(CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 				gmime_content_field_set_parameter(part->content_type, "charset", charset?charset:"us-ascii");
 				newct = header_content_type_format(part->content_type->content_type);
 				if (newct) {
-					printf("Setting content-type to %s\n", newct);
+					d(printf("Setting content-type to %s\n", newct));
 
 					camel_mime_part_set_content_type(part, newct);
 					g_free(newct);
