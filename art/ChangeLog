@@ -1,3 +1,7 @@
+2002-04-17  Dan Winship  <danw@ximian.com>
+
+	* monkey-16.png: Replace with an antialiased version
+
 2002-04-10  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (images_DATA), folder-settings.png: Add. (Copied
