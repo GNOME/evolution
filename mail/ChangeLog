@@ -1,3 +1,8 @@
+2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Oops,
+	don't free memory that we don't own.
+
 2001-09-20  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (evolution_mail_config_factory_init): No need to
@@ -9,8 +14,8 @@
 	* mail-callbacks.c (mail_generate_reply): Truncate extremely long
 	subjects. (inspired by bug #9158)
 
-	* mail-tools.c (mail_tool_generate_forward_subject): Truncate extremely long
-	subjects. (bug #9158)
+	* mail-tools.c (mail_tool_generate_forward_subject): Truncate
+	extremely long subjects. (bug #9158)
 
 2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -22,7 +27,8 @@
 
 2001-09-12  Iain Holmes  <iain@ximian.com>
 
-	* importers/evolution-mbox-importer.c (load_file_fn): Fix memory leak.
+	* importers/evolution-mbox-importer.c (load_file_fn): Fix memory
+	leak.
 
 2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -217,11 +217,11 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 			      "do not want HTML-formatted mail:\n"));
 	for (i = 0; recipients[i] != NULL; ++i) {
 		if (!e_destination_get_html_mail_pref (recipients[i])) {
-			char *buf, *name;
+			const char *name;
+			char *buf;
 			
 			name = e_destination_get_textrep (recipients[i]);
 			buf = e_utf8_to_locale_string (name);
-			g_free (name);
 			
 			g_string_sprintfa (str, "     %s\n", buf);
 			g_free (buf);
