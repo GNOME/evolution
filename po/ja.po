@@ -1,13 +1,13 @@
 # evolution ja.po
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Akira TAGOH <tagoh@gnome.gr.jp>, 2000.
+# Copyright (C) 2000-2001 Free Software Foundation, Inc.
+# Akira TAGOH <tagoh@gnome.gr.jp>, 2000-2001.
 #
-#: camel/providers/smtp/camel-smtp-transport.c:285
+#: camel/providers/smtp/camel-smtp-transport.c:343
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20010111\n"
-"POT-Creation-Date: 2001-01-17 18:47-0500\n"
-"PO-Revision-Date: 2001-01-11 09:22+0900\n"
+"Project-Id-Version: evolution CVS-20010118\n"
+"POT-Creation-Date: 2001-01-18 22:50-0500\n"
+"PO-Revision-Date: 2001-01-19 08:38-0500\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -15,50 +15,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: executive-summary/component/component-factory.c:152
-#, fuzzy
 msgid "Cannot initialize Evolution's Executive Summary component."
-msgstr "Evolution メールコンポーネントの初期化が出来ません"
-
-#: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
-#: addressbook/backend/ebook/load-pine-addressbook.c:17
-#: addressbook/backend/ebook/test-client-list.c:18
-#: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:1090
-#: addressbook/gui/component/addressbook-factory.c:38
-#: addressbook/gui/widgets/test-minicard-view.c:45
-#: calendar/conduits/calendar/calendar-conduit.c:1150
-#: calendar/conduits/todo/todo-conduit.c:965 calendar/gui/main.c:55
-msgid "Could not initialize Bonobo"
-msgstr "Bonobo の初期化が出来ませんでした"
-
-#: addressbook/gui/widgets/test-minicard-view.c:100
-msgid "Reflow Test"
-msgstr ""
-
-#: addressbook/gui/widgets/test-minicard-view.c:101
-#, fuzzy
-msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright 1999, 2000 Helix Code, Inc."
-
-#: addressbook/gui/widgets/test-minicard-view.c:103
-msgid "This should test the reflow canvas item"
-msgstr ""
-
-#: camel/providers/local/camel-mbox-provider.c:34
-#, fuzzy
-msgid "UNIX mbox-format mail files"
-msgstr "UNIX mbox 形式のメールファイル (CamelLocal バージョン)"
-
-#: camel/providers/local/camel-mbox-provider.c:36
-msgid ""
-"For reading mail delivered by the local system, and for storing mail on "
-"local disk."
-msgstr ""
+msgstr "Evolution 実行サマリーコンポーネントの初期化が出来ません"
 
 #: camel/providers/vee/camel-vee-folder.c:604
-#, fuzzy, c-format
+#, c-format
 msgid "No such message: %s"
-msgstr "そのようなメッセージはありません"
+msgstr "そのようなメッセージはありません: %s"
 
 #: executive-summary/component/e-summary-callbacks.c:267
 msgid ""
@@ -67,83 +30,88 @@ msgid ""
 "\n"
 "Just leave it blank for the default"
 msgstr ""
+"実行サマリーの背景毎に別々のHTMLページを選択することが出来ます\n"
+"\n"
+"デフォルトは空白です"
 
 #: executive-summary/component/e-summary-url.c:61
 #: executive-summary/component/e-summary-url.c:66
 #: executive-summary/component/e-summary-url.c:73
 #, c-format
 msgid "Open %s with the default GNOME application"
-msgstr ""
+msgstr "デフォルトのGNOMEアプリケーションで %s を開く"
 
 #: executive-summary/component/e-summary-url.c:62
 #, c-format
 msgid "Open %s with the default GNOME web browser"
-msgstr ""
+msgstr "デフォルトのGNOMEウェブブラウザで %s を開く"
 
 #: executive-summary/component/e-summary-url.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Send an email to %s"
-msgstr "%s からメールを取得中"
+msgstr "%s からメールを送信"
 
 #: executive-summary/component/e-summary-url.c:64
 #, c-format
 msgid "Change the view to %s"
-msgstr ""
+msgstr "%s へビューを変更"
 
 #: executive-summary/component/e-summary-url.c:65
 #, c-format
 msgid "Run %s"
-msgstr ""
+msgstr "%s を実行"
 
 #: executive-summary/component/e-summary-url.c:67
 #, c-format
 msgid "Close %s"
-msgstr ""
+msgstr "%s を閉じる"
 
 #: executive-summary/component/e-summary-url.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s to the left"
-msgstr "フォルダへ移動"
+msgstr "左へ %s を移動"
 
 #: executive-summary/component/e-summary-url.c:69
 #, c-format
 msgid "Move %s to the right"
-msgstr ""
+msgstr "右へ %s を移動"
 
 #: executive-summary/component/e-summary-url.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s into the previous row"
-msgstr "前のアイテムへ移動します"
+msgstr "前の列の中へ %s を移動"
 
 #: executive-summary/component/e-summary-url.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s into the next row"
-msgstr "次のアイテムへ移動します"
+msgstr "次の列の中へ %s を移動"
 
 #: executive-summary/component/e-summary-url.c:72
 #, c-format
 msgid "Configure %s"
-msgstr ""
+msgstr "%s の設定"
 
 #: executive-summary/component/e-summary.c:919
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot open the HTML file:\n"
 "%s"
 msgstr ""
-"ファイル %s を開くことが出来ませんでした:\n"
+"HTML ファイルを開くことが出来ません:\n"
 "%s"
 
 #: executive-summary/component/e-summary.c:933
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error reading data:\n"
 "%s"
-msgstr "メールファイルの読み込み中にエラー: %s"
+msgstr ""
+"データ詠み込み中にエラー:\n"
+"%s"
 
 #: executive-summary/component/e-summary.c:951
 msgid "File does not have a place for the services.\n"
-msgstr ""
+msgstr "ファイルはサービスの場所を持っていません\n"
 
 #: executive-summary/component/main.c:59
 msgid ""
@@ -151,42 +119,23 @@ msgid ""
 "If there was a warning message about the RootPOA, it probably means\n"
 "you compiled Bonobo against GOAD instead of OAF."
 msgstr ""
+"実行サマリーコンポーネントは Bonobo を初期化出来ませんでした\n"
+"もし RootPOA についての警告メッセージがあるなら，たぶん OAF の代わりに\n"
+"GOAD を使ってコンパイルしたことを意味します"
 
 #: executive-summary/test-service/rdf-summary.c:443
 #: executive-summary/test-service/rdf-summary.c:479
 #: executive-summary/test-service/rdf-summary.c:524
-#, fuzzy
 msgid "Error"
-msgstr "エラーはありません"
+msgstr "エラー"
 
 #: mail/mail-config.c:799
 msgid "Connecting to server"
-msgstr ""
+msgstr "サーバへ接続中"
 
 #: mail/mail-config.c:801
-#, fuzzy
 msgid "Connect to server"
-msgstr "%s の POP サーバへ接続出来ませんでした"
-
-#: notes/component-factory.c:27
-#, fuzzy
-msgid "New"
-msgstr "新規..."
-
-#: notes/component-factory.c:27
-#, fuzzy
-msgid "Create a new note"
-msgstr "新規ショートカットグループを作成します"
-
-#: notes/component-factory.c:152
-#, fuzzy
-msgid "Cannot initialize Evolution's notes component."
-msgstr "Evolution メールコンポーネントの初期化が出来ません"
-
-#: notes/main.c:30
-#, fuzzy
-msgid "Notes Component: Could not initialize bonobo"
-msgstr "Bonobo の初期化が出来ませんでした"
+msgstr "サーバへ接続"
 
 #: addressbook/backend/ebook/e-card.c:3049
 msgid "Card: "
@@ -457,6 +406,17 @@ msgid ""
 msgstr ""
 "\n"
 "公開鍵: "
+
+#: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
+#: addressbook/backend/ebook/load-pine-addressbook.c:17
+#: addressbook/backend/ebook/test-client-list.c:18
+#: addressbook/backend/ebook/test-client.c:29
+#: addressbook/conduit/address-conduit.c:1090
+#: addressbook/gui/component/addressbook-factory.c:38
+#: calendar/conduits/calendar/calendar-conduit.c:1150
+#: calendar/conduits/todo/todo-conduit.c:965 calendar/gui/main.c:55
+msgid "Could not initialize Bonobo"
+msgstr "Bonobo の初期化が出来ませんでした"
 
 #. This array must be in the same order as enumerations
 #. in GnomePilotConduitSyncType as they are used as index.
@@ -1095,60 +1055,50 @@ msgid "Save as VCard"
 msgstr "VCard で保存"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:565
-#, fuzzy
 msgid "Name"
-msgstr "名前:"
+msgstr "名前"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:566
-#, fuzzy
 msgid "Email"
-msgstr "メール2"
+msgstr "メール"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:570
 msgid "Organization"
-msgstr ""
+msgstr "組織"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:582
 msgid "Web Site"
-msgstr ""
+msgstr "ウェブサイト"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:583
-#, fuzzy
 msgid "Department"
-msgstr "担当部署(_D):"
+msgstr "担当部署"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:584
-#, fuzzy
 msgid "Office"
-msgstr "事務所(_O):"
+msgstr "事務所"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:585
-#, fuzzy
 msgid "Title"
-msgstr "敬称(前つけ)(_T):"
+msgstr "敬称(前つけ)"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:586
-#, fuzzy
 msgid "Profession"
-msgstr "専門職(_P):"
+msgstr "専門職"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:587
-#, fuzzy
 msgid "Manager"
-msgstr "ポケベル"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:589
-#, fuzzy
 msgid "Nickname"
-msgstr "ニックネーム(_N):"
+msgstr "ニックネーム"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:590
-#, fuzzy
 msgid "Spouse"
-msgstr "配偶者(_S):"
+msgstr "配偶者"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:591
-#, fuzzy
 msgid "Note"
 msgstr "ノート"
 
@@ -1207,21 +1157,6 @@ msgid "Could not read pilot's ToDo application block"
 msgstr ""
 "パイロットの ToDo アプリケーションブロックを読み込むことが出来ませんでした"
 
-#: calendar/gui/alarm-notify.c:585 calendar/gui/alarm-notify.c:884
-#: calendar/gui/alarm-notify.c:940
-msgid "Reminder of your appointment at "
-msgstr "あなたの約束の催促 "
-
-#: calendar/gui/alarm-notify.c:876
-msgid "Snooze"
-msgstr ""
-
-#. Idea: we need Snooze option :-)
-#: calendar/gui/alarm-notify.c:889 calendar/gui/alarm-notify.c:944
-#: mail/mail-search-dialogue.c:104
-msgid "Ok"
-msgstr "Ok"
-
 #: calendar/gui/calendar-commands.c:245
 msgid "File not found"
 msgstr "ファイルが見つかりません"
@@ -1272,6 +1207,7 @@ msgid "Confidential"
 msgstr "機密"
 
 #: calendar/gui/calendar-model.c:383 calendar/gui/calendar-model.c:551
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Unknown"
 msgstr "未知"
 
@@ -1455,71 +1391,61 @@ msgstr "タスク - %s"
 msgid "Journal entry - %s"
 msgstr "仕訳記入 - %s"
 
-#: calendar/gui/dialogs/task-editor.c:1293 calendar/gui/event-editor.c:3270
+#: calendar/gui/dialogs/task-editor.c:1293 calendar/gui/event-editor.c:3268
 msgid "Do you want to save changes?"
 msgstr "変更を保存したいですか?"
 
 #: calendar/gui/e-calendar-table.c:154
-#, fuzzy
 msgid "Categories"
-msgstr ""
-"\n"
-"業務分野: "
+msgstr "カテゴリ"
 
 #: calendar/gui/e-calendar-table.c:155
 msgid "Classification"
-msgstr ""
+msgstr "分類"
 
 #: calendar/gui/e-calendar-table.c:156
 msgid "Completion Date"
-msgstr ""
+msgstr "完了日"
 
 #: calendar/gui/e-calendar-table.c:157
 msgid "End Date"
-msgstr ""
+msgstr "終了日"
 
 #: calendar/gui/e-calendar-table.c:158
-#, fuzzy
 msgid "Start Date"
-msgstr ""
-"\n"
-"誕生日: "
+msgstr "開始日"
 
 #: calendar/gui/e-calendar-table.c:159
 msgid "Due Date"
-msgstr ""
+msgstr "期日"
 
 #: calendar/gui/e-calendar-table.c:160
 msgid "Geographical Position"
-msgstr ""
+msgstr "緯度経度"
 
 #: calendar/gui/e-calendar-table.c:161
-#, fuzzy
 msgid "Precent complete"
-msgstr "完了したタスクをマークします"
+msgstr ""
 
 #: calendar/gui/e-calendar-table.c:162
-#, fuzzy
 msgid "Priority"
-msgstr "プライマリ"
+msgstr "優先度"
 
 #: calendar/gui/e-calendar-table.c:163
-#, fuzzy
 msgid "Summary"
-msgstr "サマリーなし"
+msgstr "サマリー"
 
 #: calendar/gui/e-calendar-table.c:164
-#, fuzzy
 msgid "Transparency"
-msgstr "透明"
+msgstr ""
 
 #: calendar/gui/e-calendar-table.c:165
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: calendar/gui/e-calendar-table.c:166
 msgid "Alarms"
-msgstr ""
+msgstr "アラーム"
 
 #: calendar/gui/e-calendar-table.c:397
 msgid "Open..."
@@ -1614,14 +1540,11 @@ msgstr "すべての出来事を削除"
 #: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:457
 #: calendar/gui/e-tasks.c:492
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: calendar/gui/e-tasks.c:146
-#, fuzzy
 msgid "Category:"
-msgstr ""
-"\n"
-"業務分野: "
+msgstr "カテゴリ:"
 
 #: calendar/gui/e-tasks.c:285
 #, c-format
@@ -1696,51 +1619,20 @@ msgstr "出来事"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "この約束は Evolution が編集出来ない再発を含んでいます"
 
-#: calendar/gui/event-editor.c:3093 calendar/gui/print.c:1090
+#: calendar/gui/event-editor.c:3091 calendar/gui/print.c:1090
 #: calendar/gui/print.c:1092 calendar/gui/print.c:1093
 msgid "%a %b %d %Y"
 msgstr "%Y/%b/%d (%a)"
 
 #: calendar/gui/gnome-cal.c:696
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in `%s'"
-msgstr ""
-"フォルダ `%s' を開くことが出来ませんでした:\n"
-"%s"
+msgstr "`%s' のフォルダを開くことが出来ませんでした"
 
 #: calendar/gui/gnome-cal.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to open `%s' is not supported"
-msgstr "'%s' を読み込むことを要求されるメソッドはサポートしていません"
-
-#. Initialize by default to three-letter day names
-#: calendar/gui/gnome-month-item.c:736
-msgid "Sun"
-msgstr "日"
-
-#: calendar/gui/gnome-month-item.c:737
-msgid "Mon"
-msgstr "月"
-
-#: calendar/gui/gnome-month-item.c:738
-msgid "Tue"
-msgstr "火"
-
-#: calendar/gui/gnome-month-item.c:739
-msgid "Wed"
-msgstr "水"
-
-#: calendar/gui/gnome-month-item.c:740
-msgid "Thu"
-msgstr "木"
-
-#: calendar/gui/gnome-month-item.c:741
-msgid "Fri"
-msgstr "金"
-
-#: calendar/gui/gnome-month-item.c:742
-msgid "Sat"
-msgstr "土"
+msgstr "'%s' を開くことを要求されるメソッドはサポートしていません"
 
 #: calendar/gui/main.c:50
 msgid "Could not initialize GNOME"
@@ -1934,7 +1826,7 @@ msgstr "今年 (%Y)"
 msgid "Print Calendar"
 msgstr "カレンダの印刷"
 
-#: calendar/gui/print.c:1314 mail/mail-callbacks.c:1068
+#: calendar/gui/print.c:1314 mail/mail-callbacks.c:1092
 msgid "Print Preview"
 msgstr "印刷プレビュー"
 
@@ -2045,10 +1937,10 @@ msgstr ""
 
 #: camel/camel-remote-store.c:318
 msgid "Connection cancelled"
-msgstr ""
+msgstr "接続はキャンセルしました"
 
 #: camel/camel-remote-store.c:321 camel/camel-remote-store.c:334
-#: camel/providers/smtp/camel-smtp-transport.c:160
+#: camel/providers/smtp/camel-smtp-transport.c:214
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "%s (ポート %d) へ接続出来ませんでした: %s"
@@ -2060,9 +1952,8 @@ msgstr "(未知のホスト)"
 #: camel/camel-remote-store.c:426 camel/camel-remote-store.c:488
 #: camel/camel-remote-store.c:556
 #: camel/providers/imap/camel-imap-command.c:289
-#, fuzzy
 msgid "Operation cancelled"
-msgstr "カレンダを開く"
+msgstr "操作はキャンセルしました"
 
 #: camel/camel-service.c:137
 #, c-format
@@ -2213,9 +2104,8 @@ msgid "Could not create directory %s: %s"
 msgstr "ディレクトリ %s を作成出来ませんでした: %s"
 
 #: camel/providers/local/camel-local-provider.c:36
-#, fuzzy
 msgid "MH-format mail directories"
-msgstr "UNIX MH 形式のメールディレクトリ (CamelLocal バージョン)"
+msgstr "MH 形式のメールディレクトリ"
 
 #: camel/providers/local/camel-local-provider.c:37
 msgid "For storing local mail in MH-like mail directories"
@@ -2223,16 +2113,15 @@ msgstr "MHライクなメールディレクトリにローカルメールを保存します"
 
 #: camel/providers/local/camel-local-provider.c:47
 msgid "Standard Unix mailbox file"
-msgstr ""
+msgstr "標準的な UNIX の mailbox ファイル"
 
 #: camel/providers/local/camel-local-provider.c:48
 msgid "For storing local mail in standard mbox format"
 msgstr "標準 mbox 型式でローカルメールを保存します"
 
 #: camel/providers/local/camel-local-provider.c:58
-#, fuzzy
 msgid "Qmail maildir-format mail files"
-msgstr "UNIX qmail maildir型式のメールファイル (CamelLocal バージョン)"
+msgstr "qmail maildir型式のメールファイル"
 
 #: camel/providers/local/camel-local-provider.c:59
 msgid "For storing local mail in qmail maildir directories"
@@ -2386,7 +2275,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-folder.c:366
 msgid "The folder appears to be irrecoverably corrupted."
-msgstr ""
+msgstr "フォルダで回復不能なエラーが発生したようです"
 
 #: camel/providers/local/camel-mbox-folder.c:379
 msgid "Message construction failed: Corrupt mailbox?"
@@ -2729,16 +2618,96 @@ msgstr "sendmail 経由でメールを配信"
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr "SMTPを使ってリモートメールハブに接続することでメールを配信します"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:141
+msgid "Syntax error, command unrecognized"
+msgstr "構文解析エラー, コマンドではありません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:143
+msgid "Syntax error in parameters or arguments"
+msgstr "パラメータあるいは引数に構文解析エラー"
+
+#: camel/providers/smtp/camel-smtp-transport.c:145
+msgid "Command not implemented"
+msgstr "コマンドは実装されていません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:147
+msgid "Command parameter not implemented"
+msgstr "コマンドパラメータは実装されていません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:149
+msgid "System status, or system help reply"
+msgstr "システムステータスあるいはシステムヘルプ応答"
+
+#: camel/providers/smtp/camel-smtp-transport.c:151
+msgid "Help message"
+msgstr "ヘルプメッセージ"
+
+#: camel/providers/smtp/camel-smtp-transport.c:153
+msgid "Service ready"
+msgstr "サービスは利用できます"
+
+#: camel/providers/smtp/camel-smtp-transport.c:155
+msgid "Service closing transmission channel"
+msgstr "サービスは送信チャンネルを閉じています"
+
+#: camel/providers/smtp/camel-smtp-transport.c:157
+msgid "Service not available, closing transmission channel"
+msgstr "サービスは利用できません, 送信チャンネルを閉じています"
+
+#: camel/providers/smtp/camel-smtp-transport.c:159
+msgid "Requested mail action okay, completed"
+msgstr "要求されたメールの動作はOK, 完了しました"
+
+#: camel/providers/smtp/camel-smtp-transport.c:161
+msgid "User not local; will forward to <forward-path>"
+msgstr "ユーザはローカルではありません; <forward-path> へ転送します"
+
+#: camel/providers/smtp/camel-smtp-transport.c:163
+msgid "Requested mail action not taken: mailbox unavailable"
+msgstr "要求されたメールの動作は完了しません: メールボックスは利用できません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:165
+msgid "Requested action not taken: mailbox unavailable"
+msgstr "要求された動作は完了しません: メールボックスは利用できません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:167
+msgid "Requested action aborted: error in processing"
+msgstr "要求された動作を中断しました: 処理中にエラー"
+
+#: camel/providers/smtp/camel-smtp-transport.c:169
+msgid "User not local; please try <forward-path>"
+msgstr "ユーザはローカルではありません; <forward-path> を試してください"
+
+#: camel/providers/smtp/camel-smtp-transport.c:171
+msgid "Requested action not taken: insufficient system storage"
+msgstr "要求された動作は完了しません: システムの保存領域が足りません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:173
+msgid "Requested mail action aborted: exceeded storage allocation"
+msgstr "要求されたメールの動作を中断しました: 領域割り当てを越えました"
+
+#: camel/providers/smtp/camel-smtp-transport.c:175
+msgid "Requested action not taken: mailbox name not allowed"
+msgstr "要求された動作は完了しません: メールボックス名は認められません"
+
+#: camel/providers/smtp/camel-smtp-transport.c:177
+msgid "Start mail input; end with <CRLF>.<CRLF>"
+msgstr "メールの入力を開始します; <CRLF>.<CRLF> で終了します"
+
+#: camel/providers/smtp/camel-smtp-transport.c:179
+msgid "Transaction failed"
+msgstr "処理は失敗しました"
+
+#: camel/providers/smtp/camel-smtp-transport.c:243
 #, c-format
 msgid "Welcome response error: %s: possibly non-fatal"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:279
+#: camel/providers/smtp/camel-smtp-transport.c:337
 msgid "No authentication required"
 msgstr "認証の必要なし"
 
-#: camel/providers/smtp/camel-smtp-transport.c:281
+#: camel/providers/smtp/camel-smtp-transport.c:339
 msgid ""
 "This option will connect to the SMTP server without using any kind of "
 "authentication. This should be fine for connecting to most SMTP servers."
@@ -2746,107 +2715,107 @@ msgstr ""
 "このオプションは一種の認証を使わずに SMTP サーバを接続します. "
 "これはたいていの SMTP サーバへ接続しても構わないはずです"
 
-#: camel/providers/smtp/camel-smtp-transport.c:290
-#: camel/providers/smtp/camel-smtp-transport.c:295
+#: camel/providers/smtp/camel-smtp-transport.c:348
+#: camel/providers/smtp/camel-smtp-transport.c:353
 msgid "CRAM-MD5"
 msgstr "CRAM-MD5"
 
-#: camel/providers/smtp/camel-smtp-transport.c:292
+#: camel/providers/smtp/camel-smtp-transport.c:350
 msgid ""
 "This option will connect to the SMTP server using CRAM-MD5 authentication."
 msgstr "このオプションは CRAM-MD5 認証を使って SMTP サーバへ接続します"
 
-#: camel/providers/smtp/camel-smtp-transport.c:320
+#: camel/providers/smtp/camel-smtp-transport.c:378
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP サーバ %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:322
+#: camel/providers/smtp/camel-smtp-transport.c:380
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "%s 経由で SMTP メールを配信します"
 
-#: camel/providers/smtp/camel-smtp-transport.c:347
+#: camel/providers/smtp/camel-smtp-transport.c:405
 msgid "Cannot send message: sender address not defined."
 msgstr "メッセージを送信出来ません: 送信者のアドレスが定義されていません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:354
+#: camel/providers/smtp/camel-smtp-transport.c:412
 msgid "Cannot send message: sender address not valid."
 msgstr "メッセージを送信出来ません: 送信者のアドレスが正しくありません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:368
+#: camel/providers/smtp/camel-smtp-transport.c:426
 msgid "Cannot send message: no recipients defined."
 msgstr "メッセージを送信出来ません: 受信者が定義されていません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:462
+#: camel/providers/smtp/camel-smtp-transport.c:520
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "HELO 要求のタイムアウト: %s: 致命的ではありません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:478
+#: camel/providers/smtp/camel-smtp-transport.c:539
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "HELO レスポンスエラー: %s: 致命的ではありません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:517
+#: camel/providers/smtp/camel-smtp-transport.c:578
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM 要求のタイムアウト: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:597
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "MAIL FROM レスポンスエラー: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:558
+#: camel/providers/smtp/camel-smtp-transport.c:622
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO 要求のタイムアウト: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:574
-#, fuzzy
-msgid "RCPT TO response error: mail not sent"
+#: camel/providers/smtp/camel-smtp-transport.c:641
+#, c-format
+msgid "RCPT TO response error: %s: mail not sent"
 msgstr "RCPT TO レスポンスエラー: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:604
+#: camel/providers/smtp/camel-smtp-transport.c:672
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA 要求のタイムアウト: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:620
+#: camel/providers/smtp/camel-smtp-transport.c:691
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "DATA レスポンスエラー: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:635
-#: camel/providers/smtp/camel-smtp-transport.c:653
+#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:724
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "DATA 送信のタイムアウト: メッセージの終了: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:669
+#: camel/providers/smtp/camel-smtp-transport.c:743
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr ""
 "DATA レスポンスエラー: メッセージの終了: %s: メールは送信しませんでした"
 
-#: camel/providers/smtp/camel-smtp-transport.c:693
+#: camel/providers/smtp/camel-smtp-transport.c:767
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET 要求のタイムアウト: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:786
 #, c-format
 msgid "RSET response error: %s"
 msgstr "RSET レスポンスエラー: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:732
+#: camel/providers/smtp/camel-smtp-transport.c:809
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "QUIT 要求のタイムアウト: %s: 致命的ではありません"
 
-#: camel/providers/smtp/camel-smtp-transport.c:748
+#: camel/providers/smtp/camel-smtp-transport.c:828
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "QUIT レスポンスエラー: %s: 致命的ではありません"
@@ -2909,40 +2878,40 @@ msgstr "添付の追加..."
 msgid "Attach a file to the message"
 msgstr "メッセージへファイルを添付します"
 
-#: composer/e-msg-composer-hdrs.c:147 composer/e-msg-composer-hdrs.c:312
+#: composer/e-msg-composer-hdrs.c:148 composer/e-msg-composer-hdrs.c:323
 #: mail/mail-format.c:624
 msgid "From:"
-msgstr "送信者:"
+msgstr "差出人:"
 
-#: composer/e-msg-composer-hdrs.c:257
+#: composer/e-msg-composer-hdrs.c:267
 msgid "Click here for the address book"
 msgstr "アドレス帳のためにここでクリック"
 
-#: composer/e-msg-composer-hdrs.c:313
+#: composer/e-msg-composer-hdrs.c:324
 msgid "Enter the identity you wish to send this message from"
 msgstr "このメッセージを送信したい身元を入力します"
 
-#: composer/e-msg-composer-hdrs.c:317 mail/mail-format.c:628
+#: composer/e-msg-composer-hdrs.c:328 mail/mail-format.c:628
 msgid "To:"
-msgstr "受信者:"
+msgstr "宛先:"
 
-#: composer/e-msg-composer-hdrs.c:318
+#: composer/e-msg-composer-hdrs.c:329
 msgid "Enter the recipients of the message"
 msgstr "メッセージの受取人を入力します"
 
-#: composer/e-msg-composer-hdrs.c:322 mail/mail-format.c:630
+#: composer/e-msg-composer-hdrs.c:333 mail/mail-format.c:630
 msgid "Cc:"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:323
+#: composer/e-msg-composer-hdrs.c:334
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "メッセージのカーボンコピーを受信するアドレスを入力します"
 
-#: composer/e-msg-composer-hdrs.c:328
+#: composer/e-msg-composer-hdrs.c:339
 msgid "Bcc:"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:329
+#: composer/e-msg-composer-hdrs.c:340
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -2950,13 +2919,13 @@ msgstr ""
 "メッセージの受取人リストの中に現れないで, "
 "メッセージのカーボンコピーを受信するアドレスを入力します"
 
-#: composer/e-msg-composer-hdrs.c:335 mail/mail-format.c:632
+#: composer/e-msg-composer-hdrs.c:346 mail/mail-format.c:632
 msgid "Subject:"
-msgstr ""
+msgstr "件名:"
 
-#: composer/e-msg-composer-hdrs.c:336
+#: composer/e-msg-composer-hdrs.c:347
 msgid "Enter the subject of the mail"
-msgstr "メールの表題を入力します"
+msgstr "メールの件名を入力します"
 
 #: composer/e-msg-composer.c:430
 #, c-format
@@ -3040,11 +3009,11 @@ msgstr ""
 msgid "An error occurred while reading the file."
 msgstr "ファイル読込中の間にエラーは発生しました"
 
-#: composer/e-msg-composer.c:1362
+#: composer/e-msg-composer.c:1158 composer/e-msg-composer.c:1379
 msgid "Compose a message"
 msgstr "メッセージを作成します"
 
-#: composer/e-msg-composer.c:1439
+#: composer/e-msg-composer.c:1458
 msgid "Could not create composer window."
 msgstr "メール作成ウィンドウを作成出来ませんでした"
 
@@ -3189,15 +3158,15 @@ msgid "Edit Filters"
 msgstr "フィルタを編集"
 
 #. and now for the action area
-#: filter/filter-filter.c:401
+#: filter/filter-filter.c:403
 msgid "Then"
 msgstr "その結果"
 
-#: filter/filter-filter.c:414
+#: filter/filter-filter.c:416
 msgid "Add action"
 msgstr "動作を追加"
 
-#: filter/filter-filter.c:420
+#: filter/filter-filter.c:422
 msgid "Remove action"
 msgstr "動作を削除"
 
@@ -3233,7 +3202,7 @@ msgstr ""
 #: filter/filter-message-search.c:380 filter/filter-message-search.c:448
 #, c-format
 msgid "Failed to perform regex search on message header: %s"
-msgstr ""
+msgstr "メッセージヘッダで正規表現での検索の実行に失敗しました: %s"
 
 #: filter/filter-part.c:467
 msgid "Test"
@@ -3283,7 +3252,7 @@ msgstr "重要"
 
 #: filter/filter-system-flag.c:67
 msgid "Read"
-msgstr ""
+msgstr "既読"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
@@ -3373,7 +3342,7 @@ msgstr "処理停止"
 
 #: filter/libfilter-i18n.h:24 mail/message-list.c:1110
 msgid "Subject"
-msgstr "表題"
+msgstr "件名"
 
 #: filter/libfilter-i18n.h:25
 msgid "after"
@@ -3477,16 +3446,15 @@ msgstr "Evolution メールコンポーネントの初期化が出来ません"
 
 #: mail/component-factory.c:320
 msgid "Cannot register storage with shell"
-msgstr ""
+msgstr "シェルでストレージを登録出来ません"
 
 #: mail/folder-browser.c:225
-#, fuzzy
 msgid "Store search as vFolder"
-msgstr "フォルダを選択"
+msgstr ""
 
 #: mail/folder-browser.c:238
 msgid "Body or subject contains"
-msgstr "本体または表題が次のものを含む"
+msgstr "本体または件名が次のものを含む"
 
 #: mail/folder-browser.c:239
 msgid "Body contains"
@@ -3494,7 +3462,7 @@ msgstr "本体が次のものを含む"
 
 #: mail/folder-browser.c:240
 msgid "Subject contains"
-msgstr "表題が次のものを含む"
+msgstr "件名が次のものを含む"
 
 #: mail/folder-browser.c:241
 msgid "Body does not contain"
@@ -3502,11 +3470,11 @@ msgstr "本体が次のものを含まない"
 
 #: mail/folder-browser.c:242
 msgid "Subject does not contain"
-msgstr "表題が次のものを含まない"
+msgstr "件名が次のものを含まない"
 
 #: mail/folder-browser.c:645
 msgid "VFolder on Subject"
-msgstr "表題の仮想フォルダ"
+msgstr "件名の仮想フォルダ"
 
 #: mail/folder-browser.c:646
 msgid "VFolder on Sender"
@@ -3518,7 +3486,7 @@ msgstr "受信者の仮想フォルダ"
 
 #: mail/folder-browser.c:649
 msgid "Filter on Subject"
-msgstr "表題のフィルタ"
+msgstr "件名のフィルタ"
 
 #: mail/folder-browser.c:650
 msgid "Filter on Sender"
@@ -3610,7 +3578,7 @@ msgstr "ノート"
 
 #: mail/mail-accounts.c:115
 msgid " (default)"
-msgstr ""
+msgstr "(デフォルト)"
 
 #. give our dialog an OK button and title
 #: mail/mail-accounts.c:347
@@ -3622,6 +3590,8 @@ msgid ""
 "One or more of your servers are not configured correctly.\n"
 "Do you wish to save anyway?"
 msgstr ""
+"多くのサーバは正しく設定されていません\n"
+"どうしても保存したいですか?"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:634
@@ -3636,7 +3606,7 @@ msgstr "%s へメール"
 #: mail/mail-autofilter.c:214
 #, c-format
 msgid "Subject is %s"
-msgstr "表題は %s です"
+msgstr "件名は %s です"
 
 #: mail/mail-autofilter.c:230
 #, c-format
@@ -3689,15 +3659,12 @@ msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
-"このメッセージは表題がありません\n"
+"このメッセージは件名がありません\n"
 "本当に送信しますか?"
 
 #: mail/mail-callbacks.c:345
-#, fuzzy
 msgid "You must configure an account before you can send this email."
-msgstr ""
-"あなたはメールを作成する前に身元の\n"
-"設定をする必要があります"
+msgstr "このメールを送信する前にアカウントを設定しなければなりません"
 
 #: mail/mail-callbacks.c:365
 msgid "You must specify recipients in order to send this message."
@@ -3743,7 +3710,7 @@ msgstr "メッセージを別名で保存..."
 msgid "Save Messages As..."
 msgstr "メッセージを別名で保存..."
 
-#: mail/mail-callbacks.c:979
+#: mail/mail-callbacks.c:1003
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3752,11 +3719,11 @@ msgstr ""
 "フィルタ情報のロード中にエラー:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1028
+#: mail/mail-callbacks.c:1052
 msgid "Print Message"
 msgstr "メッセージを印刷"
 
-#: mail/mail-callbacks.c:1075
+#: mail/mail-callbacks.c:1099
 msgid "Printing of message failed"
 msgstr "メッセージの印刷に失敗しました"
 
@@ -3766,6 +3733,8 @@ msgid ""
 "Failed to verify the incoming mail configuration.\n"
 "You may experience problems retrieving your mail from %s"
 msgstr ""
+"入力のメール設定の確認に失敗しました\n"
+"%s からあなたのメールを取得中に問題を発見した可能性があります"
 
 #: mail/mail-config-druid.c:629
 #, c-format
@@ -3773,6 +3742,8 @@ msgid ""
 "Failed to verify the outgoing mail configuration.\n"
 "You may experience problems sending your mail using %s"
 msgstr ""
+"出力のメール設定の確認に失敗しました\n"
+"%s を使ってあなたのメールを送信中に問題を発見した可能性があります"
 
 #. set window title
 #: mail/mail-config-druid.c:949
@@ -3835,7 +3806,7 @@ msgstr "%s を添付"
 
 #: mail/mail-format.c:626
 msgid "Reply-To:"
-msgstr ""
+msgstr "返信先:"
 
 #: mail/mail-format.c:856
 msgid "Encrypted message not displayed"
@@ -4009,7 +3980,7 @@ msgstr "\"%s\" を追加中"
 
 #: mail/mail-ops.c:823 mail/mail-ops.c:829
 msgid "Appending a message without a subject"
-msgstr "表題なしのメッセージを付加"
+msgstr "件名なしのメッセージを付加"
 
 #: mail/mail-ops.c:912
 #, c-format
@@ -4122,6 +4093,10 @@ msgstr ""
 " %s"
 
 #: mail/mail-search-dialogue.c:104
+msgid "Ok"
+msgstr "Ok"
+
+#: mail/mail-search-dialogue.c:104
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -4205,7 +4180,7 @@ msgstr "[%s] (メッセージを転送)"
 
 #: mail/mail-tools.c:391
 msgid "Fwd: (no subject)"
-msgstr "Fwd: (表題なし)"
+msgstr "Fwd: (件名なし)"
 
 #: mail/mail-tools.c:427
 #, c-format
@@ -4214,7 +4189,7 @@ msgstr "メッセージを転送しました - %s"
 
 #: mail/mail-tools.c:429
 msgid "Forwarded message (no subject)"
-msgstr "メッセージを転送しました (表題なし)"
+msgstr "メッセージを転送しました (件名なし)"
 
 #: mail/mail-tools.c:530
 #, c-format
@@ -4300,7 +4275,7 @@ msgstr "昨日の %p %l:%M"
 
 #: mail/message-list.c:1001
 msgid "%a %l:%M %p"
-msgstr "%p %I:%M (%a)"
+msgstr "%p %l:%M (%a)"
 
 #: mail/message-list.c:1009
 msgid "%b %d %l:%M %p"
@@ -4315,43 +4290,38 @@ msgid "Flagged"
 msgstr ""
 
 #: mail/message-list.c:1109
-#, fuzzy
 msgid "Attachment"
 msgstr "添付"
 
 #: mail/message-list.c:1110
-#, fuzzy
 msgid "From"
-msgstr "送信者:"
+msgstr "差出人"
 
 #: mail/message-list.c:1110
-#, fuzzy
 msgid "Date"
-msgstr "後"
+msgstr "日付"
 
 #: mail/message-list.c:1110
-#, fuzzy
 msgid "Received"
-msgstr "受信日"
+msgstr ""
 
 #: mail/message-list.c:1111
-#, fuzzy
 msgid "To"
-msgstr "受信者:"
+msgstr "宛先"
 
 #: mail/message-list.c:1111
 msgid "Size"
-msgstr ""
+msgstr "サイズ"
 
 #: mail/openpgp-utils.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter your %s passphrase for %s"
-msgstr "あなたの %s パスフレーズ%s%sを入力してください"
+msgstr "あなたの %s パスフレーズ ( %s 用) を入力してください"
 
 #: mail/openpgp-utils.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter your %s passphrase"
-msgstr "あなたの %s パスフレーズ%s%sを入力してください"
+msgstr "あなたの %s パスフレーズを入力してください"
 
 #: mail/openpgp-utils.c:435 mail/openpgp-utils.c:538 mail/openpgp-utils.c:742
 #: mail/openpgp-utils.c:891 mail/openpgp-utils.c:1048
@@ -4379,28 +4349,26 @@ msgid "Couldn't create temp file: %s"
 msgstr "作業ファイルを作成することが出来ませんでした: %s"
 
 #: mail/subscribe-dialog.c:62 shell/e-storage-set-view.c:44
-#, fuzzy
 msgid "Folder"
 msgstr "フォルダ"
 
 #: mail/subscribe-dialog.c:63
-#, fuzzy
 msgid "Store"
 msgstr "記録"
 
 #: mail/subscribe-dialog.c:145
 msgid "Display folders starting with:"
-msgstr ""
+msgstr "表示するフォルダを開始する:"
 
 #: mail/subscribe-dialog.c:178
 #, c-format
 msgid "Getting store for \"%s\""
-msgstr ""
+msgstr "\"%s\" の記録を取得中"
 
 #: mail/subscribe-dialog.c:181
 #, c-format
 msgid "Get store for \"%s\""
-msgstr ""
+msgstr "\"%s\" の記録を取得"
 
 #: mail/subscribe-dialog.c:289
 #, c-format
@@ -4539,9 +4507,8 @@ msgid "Bug buddy could not be run."
 msgstr "Bug buddy は実行できませんでした"
 
 #: shell/e-shell-view-menu.c:172
-#, fuzzy
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-msgstr "Copyright 1999, 2000 Helix Code, Inc."
+msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-view-menu.c:174
 msgid ""
@@ -4568,14 +4535,14 @@ msgid "Folders"
 msgstr "フォルダ"
 
 #: shell/e-shell-view.c:1098
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution %s"
-msgstr "Evolution - %s"
+msgstr "%s - Evolution - %s"
 
 #: shell/e-shell-view.c:1100
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Evolution %s [%s]"
-msgstr "Evolution - %s"
+msgstr "%s - Evolution %s [%s]"
 
 #: shell/e-shell.c:372
 #, c-format
@@ -4646,12 +4613,11 @@ msgstr "このショートカットグループを削除します"
 
 #: shell/e-shortcuts-view.c:289
 msgid "_Hide the Shortcut Bar"
-msgstr ""
+msgstr "ショートカットバーを隠す(_H)"
 
 #: shell/e-shortcuts-view.c:290
-#, fuzzy
 msgid "Hide the shortcut bar"
-msgstr "このショートカットをアクティブにします"
+msgstr "ショートカットバーを隠します"
 
 #: shell/e-shortcuts-view.c:374
 msgid "Activate"
@@ -4726,7 +4692,6 @@ msgid "The specified type is not supported in this storage"
 msgstr "指定された種別はこの記憶装置ではサポートされていません"
 
 #: shell/main.c:74
-#, fuzzy
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -4750,7 +4715,7 @@ msgstr ""
 "やあ，Evolution グループウェアスイートのこの preview release の\n"
 "ダウンロードに時間を割いてくれてありがとう\n"
 "\n"
-"最後の一ヶ月半の間，我々の焦点は Evolution を有用にすることに\n"
+"過去のリリースからの間，我々の焦点は Evolution を有用にすることに\n"
 "ついてでした．Evolution 開発者の多くはフルタイムで彼らのメール\n"
 "を読むために今 Evolution を使っています．あなたも出来ました．\n"
 "(必ずバックアップを保持してください)\n"
@@ -5130,7 +5095,7 @@ msgid "MTWTFSS"
 msgstr "MTWTFSS"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: widgets/misc/e-calendar-item.c:1053 widgets/misc/e-calendar-item.c:2734
+#: widgets/misc/e-calendar-item.c:1053 widgets/misc/e-calendar-item.c:2736
 msgid "%B %Y"
 msgstr "%Y %B"
 
@@ -5166,48 +5131,3 @@ msgstr "検索(_c)"
 #, c-format
 msgid "Group %i"
 msgstr "グループ %i"
-
-#~ msgid "<b>Error loading calendar:<br>Calendar in use."
-#~ msgstr "<b>カレンダをロード中にエラー:<br>カレンダは使用中です"
-
-#~ msgid "Could not create a tasks file in `%s'"
-#~ msgstr "'%s' のタスクファイルを作成することが出来ませんでした"
-
-#~ msgid "Could not load the calendar in `%s'"
-#~ msgstr "'%s' のカレンダを読み込むことが出来ませんでした"
-
-#~ msgid "Could not create a calendar in `%s'"
-#~ msgstr "'%s' のカレンダを作成することが出来ませんでした"
-
-#~ msgid "Server disconnected."
-#~ msgstr "サーバとの接続は切断されました"
-
-#~ msgid "Save"
-#~ msgstr "保存"
-
-#~ msgid "Show all hidden"
-#~ msgstr "すべての非表示を表示"
-
-#~ msgid "Hide read"
-#~ msgstr "既読を隠す"
-
-#~ msgid "Hide deleted"
-#~ msgstr "削除を隠す"
-
-#~ msgid "Hide Subject"
-#~ msgstr "表題を隠す"
-
-#~ msgid "Hide from Sender"
-#~ msgstr "次の送信者を隠す"
-
-#~ msgid "Hide Messages"
-#~ msgstr "メッセージを隠す"
-
-#~ msgid "Hide Subject \"%s\""
-#~ msgstr "表題 \"%s\" を隠す"
-
-#~ msgid "Hide from Sender <%s>"
-#~ msgstr "送信者 <%s> からを隠す"
-
-#~ msgid "You have no mail sources configured"
-#~ msgstr "メールソースの設定がありません"
