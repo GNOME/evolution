@@ -1,3 +1,8 @@
+2004-01-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-tcp-stream-raw.c (socket_connect): check the right return
+	of the socket call, dont set fd to the value of the -1 check!
+
 2003-12-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-raw.c (socket_connect): Save errno and check

@@ -305,7 +305,7 @@ socket_connect (struct hostent *h, int port)
 	}
 #endif
 	
-	if ((fd = socket (h->h_addrtype, SOCK_STREAM, 0) == -1))
+	if ((fd = socket (h->h_addrtype, SOCK_STREAM, 0)) == -1)
 		return -1;
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
