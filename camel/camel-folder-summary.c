@@ -2050,7 +2050,14 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		/* check content type for indexing, then read body */
 		ct = camel_mime_parser_content_type(mp);
 		/* update attachments flag as we go */
-		if (!camel_content_type_is(ct, "text", "*"))
+		if (camel_content_type_is(ct, "application", "pgp-signature")
+#ifdef ENABLE_SMIME
+		    || camel_content_type_is(ct, "application", "x-pkcs7-signature")
+		    || camel_content_type_is(ct, "application", "pkcs7-signature")
+#endif
+			)
+			/* TODO: set secured bit */;
+		else if (!camel_content_type_is(ct, "text", "*"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
 		if (p->index && camel_content_type_is(ct, "text", "*")) {
@@ -2178,6 +2185,7 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 	int parts, i;
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
 	CamelMessageContentInfo *info = NULL, *child;
+	CamelContentType *ct;
 
 	if (s->build_content)
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new_from_message(s, object);
@@ -2191,10 +2199,18 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 	   add a reference, probably need fixing for multithreading */
 
 	/* check for attachments */
-	if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "*")) {
-		if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "mixed"))
+	ct = ((CamelDataWrapper *)containee)->mime_type;
+	if (camel_content_type_is(ct, "multipart", "*")) {
+		if (camel_content_type_is(ct, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
-	} else if (!camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*"))
+	} else if (camel_content_type_is(ct, "application", "pgp-signature")
+#ifdef ENABLE_SMIME
+		    || camel_content_type_is(ct, "application", "x-pkcs7-signature")
+		    || camel_content_type_is(ct, "application", "pkcs7-signature")
+#endif
+		) {
+		/* TODO: signed bit */;
+	} else if (!camel_content_type_is(ct, "text", "*"))
 		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
 	/* using the object types is more accurate than using the mime/types */
@@ -2217,11 +2233,11 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 			my_list_append((struct _node **)&info->childs, (struct _node *)child);
 		}
 	} else if (p->filter_stream
-		   && camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		   && camel_content_type_is(ct, "text", "*")) {
 		int html_id = -1, idx_id = -1;
 
 		/* pre-attach html filter if required, otherwise just index filter */
-		if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "html")) {
+		if (camel_content_type_is(ct, "text", "html")) {
 			if (p->filter_html == NULL)
 				p->filter_html = camel_mime_filter_html_new();
 			else

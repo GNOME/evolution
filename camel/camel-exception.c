@@ -34,7 +34,8 @@
 
 #include "camel-debug.h"
 
-#define w(x)
+/* dont turn this off */
+#define w(x) x
 
 /* i dont know why gthread_mutex stuff even exists, this is easier */
 
