@@ -1,3 +1,10 @@
+2001-11-04  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c: Use ordering of the pilot's phone
+	label list to find fields we sync in order to avoid strcmp'ing the
+	pilot's labels rendering phone syncing usable only for english
+	language pilots
+
 2001-11-03  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes Ximian bug #14410 ]
