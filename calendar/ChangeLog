@@ -1,5 +1,10 @@
 1998-11-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* eventedit.c (ee_classification_widgets): Doh.  Fixed stupid bug
+	where the classification buttons were not being set correctly.
+	(ee_store_general_values_to_ical): Take into account the fact that
+	radio group lists are stored in reverse order of insertion.
+
 	* gncal-todo.c (gncal_todo_init): Use a scrolled window to put the
 	clist into.
 

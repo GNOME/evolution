@@ -404,11 +404,11 @@ ee_classification_widgets (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (hbox), rpriv, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), rconf, FALSE, FALSE, 0);
 
-	if (strcmp (ee->ical->class, class_names[0]))
+	if (strcmp (ee->ical->class, class_names[0]) == 0)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (rpub), TRUE);
-	else if (strcmp (ee->ical->class, class_names[1]))
+	else if (strcmp (ee->ical->class, class_names[1]) == 0)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (rpriv), TRUE);
-	else if (strcmp (ee->ical->class, class_names[2]))
+	else if (strcmp (ee->ical->class, class_names[2]) == 0)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (rconf), TRUE);
 
 	ee->general_radios = rpub;
@@ -478,11 +478,12 @@ ee_store_general_values_to_ical (EventEditor *ee)
 	ee_store_alarm (&ical->palarm, ALARM_PROGRAM);
 	ee_store_alarm (&ical->malarm, ALARM_MAIL);
 
-	for (idx = 0; list; list = list->next) {
+	for (idx = 2; list; list = list->next) {
 		if (GTK_TOGGLE_BUTTON (list->data)->active)
 			break;
-		idx++;
+		idx--; /* The group is stored in reverse order of insertion */
 	}
+
 	g_free (ical->class);
 	ical->class = g_strdup (class_names [idx]);
 }
