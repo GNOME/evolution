@@ -1025,6 +1025,12 @@ line_splitter (ETextModel *model, EFont *font, EFontStyle style,
 		++line_count;
 
 	}
+
+	if (line_count == 0) {
+		if (split_cb)
+			split_cb (0, text, strlen (text), user_data);
+		line_count ++;
+	}
 	
 	return line_count;
 }
