@@ -280,6 +280,10 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 {
 	EShellWindowPrivate *priv = window->priv;
 	GConfClient *gconf_client = gconf_client_get_default ();
+	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
+	EComponentInfo *info = e_component_registry_peek_info (registry,
+							       component_view->component_id);
+	char *title;
 
 	if (component_view->sidebar_widget == NULL) {
 		init_view (window, component_view);
@@ -293,6 +297,13 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), component_view->notebook_page_num);
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), component_view->notebook_page_num);
 	}
+
+	title = g_strdup_printf ("Evolution - %s", info->button_label);
+	gtk_window_set_title (GTK_WINDOW (window), title);
+	g_free (title);
+
+	if (info->button_icon)
+		gtk_window_set_icon (GTK_WINDOW (window), info->button_icon);
 
 	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
 				 (component_view->component_alias != NULL
@@ -372,7 +383,7 @@ sidebar_button_selected_callback (ESidebar *sidebar,
 				  EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
-	ComponentView *component_view;
+	ComponentView *component_view = NULL;
 	GSList *p;
 
 	for (p = priv->component_views; p != NULL; p = p->next) {

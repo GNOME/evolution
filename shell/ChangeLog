@@ -1,3 +1,13 @@
+2004-04-27  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-window.c (sidebar_button_selected_callback): init the
+	view to NULL
+
+2004-04-27  William Jon McCann  <mccann@jhu.edu>
+
+	* e-shell-window.c (switch_view): set window title and icon when changing
+	component view.
+
 2004-04-23  JP Rosevear <jpr@ximian.com>
 
 	* e-shell-window.c (e_shell_window_show_settings): if there is a
