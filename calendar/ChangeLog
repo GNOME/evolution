@@ -1,5 +1,12 @@
 2001-10-23  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_table_vadjustment_changed): adjust the
+	display canvas when the table scrolls
+	(e_meeting_time_selector_construct): listen for table scrolling
+
+2001-10-23  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-meeting-model.c (build_etable): no longer set the
 	scrollbar policy here
 

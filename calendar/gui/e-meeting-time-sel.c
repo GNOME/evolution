@@ -118,6 +118,8 @@ static void e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustme
 							 EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
 							 EMeetingTimeSelector *mts);
+static void e_meeting_time_selector_table_vadjustment_changed (GtkAdjustment *adjustment,
+							       EMeetingTimeSelector *mts);
 
 static void e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 							EMeetingTimeSelector *mts);
@@ -674,11 +676,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->stipple = gdk_bitmap_create_from_data (NULL, (gchar*)stipple_bits,
 						    8, 8);
 
-	/* Connect handlers to the adjustments in the main canvas, so we can
-	   scroll the other 2 canvases. */
+	/* Connect handlers to the adjustments  scroll the other items. */
 	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->hadjustment), "value_changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_hadjustment_changed), mts);
 	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->vadjustment), "value_changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_vadjustment_changed), mts);
 	gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (mts->display_main)->vadjustment), "changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_vadjustment_changed), mts);
+
+	gtk_signal_connect (GTK_OBJECT (e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable))), "value_changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_table_vadjustment_changed), mts);
+	gtk_signal_connect (GTK_OBJECT (e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable))), "changed", GTK_SIGNAL_FUNC (e_meeting_time_selector_table_vadjustment_changed), mts);
 
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
@@ -936,6 +940,19 @@ e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
 	GtkAdjustment *adj;
 
 	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (mts->etable));
+	if (adj->value != adjustment->value) {
+		adj->value = adjustment->value;
+		gtk_adjustment_value_changed (adj);
+	}
+}
+
+static void
+e_meeting_time_selector_table_vadjustment_changed (GtkAdjustment *adjustment,
+						   EMeetingTimeSelector *mts)
+{
+	GtkAdjustment *adj;
+
+	adj = GTK_LAYOUT (mts->display_main)->vadjustment;
 	if (adj->value != adjustment->value) {
 		adj->value = adjustment->value;
 		gtk_adjustment_value_changed (adj);
