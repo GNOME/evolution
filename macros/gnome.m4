@@ -1,18 +1,16 @@
 dnl
-dnl GNOME_INIT_HOOK (script-if-gnome-enabled, failflag)
+dnl GNOME_INIT_HOOK (script-if-gnome-enabled, [failflag], [additional-inits])
 dnl
 dnl if failflag is "fail" then GNOME_INIT_HOOK will abort if gnomeConf.sh
 dnl is not found. 
 dnl
 
-AC_DEFUN([GNOME_INIT_HOOK],
-[	
+AC_DEFUN([GNOME_INIT_HOOK],[
 	AC_SUBST(GNOME_LIBS)
 	AC_SUBST(GNOMEUI_LIBS)
 	AC_SUBST(GNOMEGNORBA_LIBS)
 	AC_SUBST(GTKXMHTML_LIBS)
 	AC_SUBST(ZVT_LIBS)
-	AC_SUBST(GNOME_APPLET_LIBS)
 	AC_SUBST(GNOME_LIBDIR)
 	AC_SUBST(GNOME_INCLUDEDIR)
 
@@ -61,7 +59,6 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	        GNOMEGNORBA_LIBS="`$GNOME_CONFIG --libs-only-l gnorba gnomeui`"
 	        GTKXMHTML_LIBS="`$GNOME_CONFIG --libs-only-l gtkxmhtml`"
 		ZVT_LIBS="`$GNOME_CONFIG --libs-only-l zvt`"
-	        GNOME_APPLET_LIBS="`$GNOME_CONFIG --libs-only-l applets`"
 	        GNOME_LIBDIR="`$GNOME_CONFIG --libs-only-L gnorba gnomeui`"
 	        GNOME_INCLUDEDIR="`$GNOME_CONFIG --cflags gnorba gnomeui`"
                 $1
@@ -97,8 +94,30 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	      fi
             fi
 	fi
+
+	if test -n "$3"; then
+	  for i in $3; do
+	    AC_MSG_CHECKING(extra library $i)
+	    case $i in 
+	      applets)
+		AC_SUBST(GNOME_APPLETS_LIBS)
+		GNOME_APPLETS_LIBS=`$GNOME_CONFIG --libs-only-l applets`
+		AC_MSG_RESULT($GNOME_APPLETS_LIBS);;
+	      capplet)
+		AC_SUBST(GNOME_CAPPLET_LIBS)
+		GNOME_CAPPLET_LIBS=`$GNOME_CONFIG --libs-only-l capplet`
+		AC_MSG_RESULT($GNOME_CAPPLET_LIBS);;
+	      *)
+		AC_MSG_RESULT(unknown library)
+	    esac
+	  done
+	fi
 ])
 
+dnl
+dnl GNOME_INIT ([additional-inits])
+dnl
+
 AC_DEFUN([GNOME_INIT],[
-	GNOME_INIT_HOOK([],fail)
+	GNOME_INIT_HOOK([],fail,$1)
 ])

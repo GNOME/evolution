@@ -1,3 +1,11 @@
+1999-03-09  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome.m4 (GNOME_INIT): Add a new paramater, which is passed to
+	GNOME_INIT_HOOK. 
+	(GNOME_INIT_HOOK): New parameter "additional inits".  This is a
+	list like "applets capplet", and the corresponding
+	GNOME_APPLETS_LIBS and GNOME_CAPPLETS_LIBS are defined.
+
 1998-03-01  Mark Crichton <crichton@gimp.org>
 
 	* gnome-objc-checks : Added HAVE_GNOME_OBJC conditional
