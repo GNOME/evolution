@@ -1,0 +1,22 @@
+CamelException
+CamelProvider
+CamelThreadProxy
+GtkObject
+ + CamelDataWrapper
+ | + CamelMedium
+ | |  + CamelMimePart
+ | |     + CamelMimeBodyPart
+ | |     + CamelMimeMessage
+ | + CamelMultipart
+ | + CamelSimpleDataWrapper
+ + CamelFolder
+ |  + CamelFolderPtProxy
+ + CamelFolderSummary
+ + CamelService
+ |  + CamelStore
+ + CamelSession
+ + CamelStream
+ |  + CamelStreamFs
+ |  + CamelStreamBufferedFs
+ |  + CamelStreamMem
+ + CamelThreadProxy
