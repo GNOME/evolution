@@ -139,8 +139,10 @@ do
 	test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
-	echo "Running libtoolize..."
-	libtoolize --force --copy
+	if test -z "$NO_LIBTOOLIZE" ; then 
+	  echo "Running libtoolize..."
+	  libtoolize --force --copy
+	fi
       fi
       echo "Running aclocal $aclocalinclude ..."
       aclocal $aclocalinclude

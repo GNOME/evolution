@@ -1,3 +1,7 @@
+2000-02-22  Martin Baulig  <martin@home-of-linux.org>
+
+	* autogen.sh: Don't run libtoolize when `NO_LIBTOOLIZE' is set.
+
 2000-02-09  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* autogen.sh: Fix GNUism introduced in the previous fix.
