@@ -411,7 +411,7 @@ fi
 if test x${with_krb4:=no} != xno; then
 	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
-	CFLAGS="-I$with_krb4/include"
+	CFLAGS="-I$with_krb4/include -I$with_krb4/include/kerberosIV"
 	LDFLAGS="-L$with_krb4/lib"
 	AC_CHECK_LIB(krb, krb_mk_req,
 	[
