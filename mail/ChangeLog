@@ -1,3 +1,13 @@
+2000-05-08  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (save_data_cb):
+	(on_url_requested): Update for CamelStream CamelException changes.
+
+	* mail-format.c: Pass NULL for a CamelException in a bunch of
+	places... the user will see that the data is not being displayed,
+	and there's not a lot we can do, and none of these things should
+	be failing anyway. Maybe fix this later.
+
 2000-05-07  NotZed  <NotZed@HelixCode.com>
 
 	* message-list.c (ml_value_at): Size moved to message info, rather

@@ -418,7 +418,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
 
-	camel_data_wrapper_write_to_stream (data, memstream);
+	camel_data_wrapper_write_to_stream (data, memstream, NULL);
 	text = g_malloc (ba->len + 1);
 	memcpy (text, ba->data, ba->len);
 	text[ba->len] = '\0';
@@ -485,14 +485,14 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 
 	/* Get the output stream of the data wrapper. */
 	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
-	camel_stream_reset (wrapper_output_stream);
+	camel_stream_reset (wrapper_output_stream, NULL);
 	buffer = camel_stream_buffer_new (wrapper_output_stream,
 					  CAMEL_STREAM_BUFFER_READ);
 
 	do {
 		/* Read next chunk of text. */
 		line = camel_stream_buffer_read_line (
-			CAMEL_STREAM_BUFFER (buffer));
+			CAMEL_STREAM_BUFFER (buffer), NULL);
 		if (!line)
 			break;
 
@@ -593,7 +593,7 @@ handle_text_enriched (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (wrapper, memstream);
+	camel_data_wrapper_write_to_stream (wrapper, memstream, NULL);
 	g_byte_array_append (ba, "", 1);
 
 	p = ba->data;
@@ -688,12 +688,12 @@ handle_text_html (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	/* Get the output stream of the data wrapper. */
 	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
-	camel_stream_reset (wrapper_output_stream);
+	camel_stream_reset (wrapper_output_stream, NULL);
 
 	do {
 		/* Read next chunk of text. */
 		nb_bytes_read = camel_stream_read (wrapper_output_stream,
-						   tmp_buffer, 4096);
+						   tmp_buffer, 4096, NULL);
 
 		/* If there's any text, write it to the stream */
 		if (nb_bytes_read > 0) {
@@ -1057,7 +1057,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	/* Write the data to a CamelStreamMem... */
 	ba = g_byte_array_new ();
 	cstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (wrapper, cstream);
+	camel_data_wrapper_write_to_stream (wrapper, cstream, NULL);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
@@ -1350,8 +1350,8 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 
 	stream = camel_stream_fs_new_with_fd (fd);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message),
-					    stream);
-	camel_stream_flush (stream);
+					    stream, NULL);
+	camel_stream_flush (stream, NULL);
 	gtk_object_unref (GTK_OBJECT (stream));
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
