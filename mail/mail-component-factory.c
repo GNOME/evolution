@@ -20,17 +20,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include "em-utils.h"
+#include "em-composer-utils.h"
 #include "evolution-composer.h"
 #include "mail-component.h"
 #include "em-account-prefs.h"
-#include "em-composer-prefs.h"
 #include "em-mailer-prefs.h"
+#include "em-composer-prefs.h"
 
 #include "mail-config-druid.h"
 #include "mail-config-factory.h"

@@ -20,15 +20,10 @@
  *
  */
 
-
 #ifndef __MESSAGE_TAG_FOLLOWUP_H__
 #define __MESSAGE_TAG_FOLLOWUP_H__
 
-#include <gtk/gtk.h>
 #include <mail/message-tag-editor.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-folder-summary.h>
-#include <widgets/misc/e-dateedit.h>
 #include <time.h>
 
 #ifdef __cplusplus
@@ -49,13 +44,13 @@ typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
 struct _MessageTagFollowUp {
 	MessageTagEditor parent;
 	
-	GtkTreeView *message_list;
+	struct _GtkTreeView *message_list;
 	
-	GtkCombo *combo;
+	struct _GtkCombo *combo;
 	
-	EDateEdit *target_date;
-	GtkToggleButton *completed;
-	GtkButton *clear;
+	struct _EDateEdit *target_date;
+	struct _GtkToggleButton *completed;
+	struct _GtkButton *clear;
 	
 	time_t completed_date;
 };

@@ -45,6 +45,19 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkstock.h>
+
+#include <libgnomeui/gnome-file-entry.h>
+#include <libgnomeui/gnome-color-picker.h>
+
+#include <gtkhtml/gtkhtml.h>
 
 #include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-error.h"
@@ -52,7 +65,7 @@
 #include <e-util/e-icon-factory.h>
 
 #include "mail-config.h"
-
+#include "mail-signature-editor.h"
 
 #define d(x)
 

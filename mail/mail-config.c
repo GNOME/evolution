@@ -25,12 +25,17 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <pwd.h>
-#include <ctype.h>
 #include <sys/wait.h>
 #include <signal.h>
 #include <errno.h>
+
 #include <string.h>
+#include <ctype.h>
 
 #include <glib.h>
 #include <gtk/gtkdialog.h>
@@ -53,6 +58,12 @@
 #include <e-util/e-passwords.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>
+
+#include <camel/camel-service.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-stream-filter.h>
 
 #include "mail-component.h"
 #include "mail-session.h"

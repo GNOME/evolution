@@ -1,3 +1,25 @@
+2004-05-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (receive_update_done): removed.
+
+	* em-mailer-prefs.h:
+	* message-tag-followup.h:
+	* mail-config-druid.h:
+	* mail-tools.h: clean up & use forward decls.  Fix users with
+	busted includes.
+
+	* em-composer-utils.c (em_utils_compose_new_message)
+	(em_utils_compose_new_message_with_mailto)
+	(em_utils_post_to_folder, em_utils_post_to_url)
+	(em_utils_edit_message, em_utils_edit_messages)
+	(em_utils_forward_attached, em_utils_forward_inline)
+	(em_utils_forward_quoted, em_utils_forward_message)
+	(em_utils_forward_messages, em_utils_redirect_message)
+	(em_utils_redirect_message_by_uid) :
+	(em_utils_reply_to_message, em_utils_reply_to_message_by_uid)
+	(em_utils_post_reply_to_message_by_uid): Moved these here from
+	em-utils.c.
+
 2004-04-30  Priit Laes  <amd@tt.ee>
 
 	* mail-config.glade: fix typo. #53466.

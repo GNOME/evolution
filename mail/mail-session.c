@@ -19,7 +19,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -40,7 +39,9 @@
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
 
+#include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include "camel/camel-filter-driver.h"
+
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
 #include "mail-component.h"

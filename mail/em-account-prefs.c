@@ -28,6 +28,9 @@
 
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtkcellrenderertext.h>
 
 #include "mail-component.h"
 #include "mail-config.h"

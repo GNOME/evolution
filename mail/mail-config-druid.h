@@ -28,19 +28,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <camel.h>
-#include <glade/glade.h>
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <bonobo/bonobo-listener.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
-#include "shell/Evolution.h"
-#include "mail-account-gui.h"
+#include <glib.h>
 
-typedef GtkWindow MailConfigDruid;
+typedef struct _GtkWindow MailConfigDruid;
 
 MailConfigDruid *mail_config_druid_new (void);
 
@@ -58,8 +48,7 @@ char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
 gboolean mail_config_druid_get_save_transport_password (MailConfigDruid *druid);
 gboolean mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid);
 
-
-BonoboObject *evolution_mail_config_wizard_new (void);
+struct _BonoboObject *evolution_mail_config_wizard_new (void);
 
 #ifdef __cplusplus
 }

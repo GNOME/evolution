@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -28,6 +27,7 @@
 #include <string.h>
 
 #include "em-mailer-prefs.h"
+#include "em-format.h"
 
 #include <gal/util/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
@@ -35,8 +35,25 @@
 #include "widgets/misc/e-charset-picker.h"
 #include <bonobo/bonobo-generic-factory.h>
 
-#include "mail-config.h"
+#include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-font-picker.h>
+#include <libgnomeui/gnome-file-entry.h>
 
+#include <glade/glade.h>
+
+#include <gconf/gconf-client.h>
+
+#include <gtk/gtkentry.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmenuitem.h>
+
+#include "mail-config.h"
 
 static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);

@@ -46,6 +46,7 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-session.h"
+#include "mail-account-gui.h"
 
 #include <evolution-wizard.h>
 #include <e-util/e-account.h>
@@ -76,9 +77,6 @@ typedef struct {
 	CamelProvider *last_source;
 	MailConfigWizardPage page;
 } MailConfigWizard;
-
-
-
 
 static void
 config_wizard_set_buttons_sensitive (MailConfigWizard *mcw,

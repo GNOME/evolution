@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifndef __EM_MAILER_PREFS_H__
 #define __EM_MAILER_PREFS_H__
 
@@ -29,17 +28,22 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gtk/gtk.h>
-#include <glade/glade.h>
-#include <gconf/gconf-client.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
-
-#include "evolution-config-control.h"
-#include "em-format.h"
-
+#include <gtk/gtkvbox.h>
 #include <shell/Evolution.h>
+
+struct _ESignature;
+struct _GtkToggleButton;
+struct _GtkOptionMenu;
+struct _GdkPixbuf;
+struct _GtkWidget;
+struct _GladeXML;
+struct _GnomeColorPicker;
+struct _GnomeFileEntry;
+struct _GnomeFontPicker;
+struct _GConfClient;
+struct _GtkButton;
+struct _GtkTreeView;
+struct _GtkWindow;
 
 #define EM_MAILER_PREFS_TYPE        (em_mailer_prefs_get_type ())
 #define EM_MAILER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_MAILER_PREFS_TYPE, EMMailerPrefs))
@@ -62,61 +66,61 @@ struct _EMMailerPrefs {
 	
 	GNOME_Evolution_Shell shell;
 	
-	GladeXML *gui;
-	GConfClient *gconf;
+	struct _GladeXML *gui;
+	struct _GConfClient *gconf;
 	
 	/* General tab */
 	
 	/* Message Display */
-	GtkToggleButton *timeout_toggle;
-	GtkSpinButton *timeout;
-	GtkOptionMenu *charset;
-	GtkToggleButton *citation_highlight;
-	GnomeColorPicker *citation_color;
+	struct _GtkToggleButton *timeout_toggle;
+	struct _GtkSpinButton *timeout;
+	struct _GtkOptionMenu *charset;
+	struct _GtkToggleButton *citation_highlight;
+	struct _GnomeColorPicker *citation_color;
 	
 	/* Deleting Mail */
-	GtkToggleButton *empty_trash;
-	GtkOptionMenu *empty_trash_days;
-	GtkToggleButton *confirm_expunge;
+	struct _GtkToggleButton *empty_trash;
+	struct _GtkOptionMenu *empty_trash_days;
+	struct _GtkToggleButton *confirm_expunge;
 	
 	/* New Mail Notification */
-	GtkToggleButton *notify_not;
-	GtkToggleButton *notify_beep;
-	GtkToggleButton *notify_play_sound;
-	GnomeFileEntry *notify_sound_file;
+	struct _GtkToggleButton *notify_not;
+	struct _GtkToggleButton *notify_beep;
+	struct _GtkToggleButton *notify_play_sound;
+	struct _GnomeFileEntry *notify_sound_file;
 	
 	/* HTML Mail tab */
-	GnomeFontPicker *font_variable;
-	GnomeFontPicker *font_fixed;
-	GtkToggleButton *font_share;
+	struct _GnomeFontPicker *font_variable;
+	struct _GnomeFontPicker *font_fixed;
+	struct _GtkToggleButton *font_share;
 	
 	/* Loading Images */
-	GtkToggleButton *images_always;
-	GtkToggleButton *images_sometimes;
-	GtkToggleButton *images_never;
+	struct _GtkToggleButton *images_always;
+	struct _GtkToggleButton *images_sometimes;
+	struct _GtkToggleButton *images_never;
 	
-	GtkToggleButton *show_animated;
-	GtkToggleButton *autodetect_links;
-	GtkToggleButton *prompt_unwanted_html;
+	struct _GtkToggleButton *show_animated;
+	struct _GtkToggleButton *autodetect_links;
+	struct _GtkToggleButton *prompt_unwanted_html;
 
 	/* Labels and Colours tab */
 	struct {
-		GtkEntry *name;
-		GnomeColorPicker *color;
+		struct _GtkEntry *name;
+		struct _GnomeColorPicker *color;
 	} labels[5];
-	GtkButton *restore_labels;
+	struct _GtkButton *restore_labels;
 
 	/* Headers tab */
-	GtkButton *add_header;
-	GtkButton *remove_header;
-	GtkEntry *entry_header;
-	GtkTreeView *header_list;
-	GtkListStore *header_list_store;
+	struct _GtkButton *add_header;
+	struct _GtkButton *remove_header;
+	struct _GtkEntry *entry_header;
+	struct _GtkTreeView *header_list;
+	struct _GtkListStore *header_list_store;
 
 	/* Junk prefs */
-	GtkToggleButton *check_incoming;
-	GtkToggleButton *sa_local_tests_only;
-	GtkToggleButton *sa_use_daemon;
+	struct _GtkToggleButton *check_incoming;
+	struct _GtkToggleButton *sa_local_tests_only;
+	struct _GtkToggleButton *sa_use_daemon;
 };
 
 struct _EMMailerPrefsClass {
@@ -126,10 +130,9 @@ struct _EMMailerPrefsClass {
 	
 };
 
-
 GtkType em_mailer_prefs_get_type (void);
 
-GtkWidget *em_mailer_prefs_new (void);
+struct _GtkWidget *em_mailer_prefs_new (void);
 
 EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const char *xml);
 char *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);

@@ -636,13 +636,6 @@ receive_done (char *uri, void *data)
 	free_send_info(NULL, info, NULL);
 }
 
-/* same for updating */
-static void
-receive_update_done(CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	receive_done("", data);
-}
-
 /* although we dont do anythign smart here yet, there is no need for this interface to
    be available to anyone else.
    This can also be used to hook into which folders are being updated, and occasionally

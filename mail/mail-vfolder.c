@@ -41,7 +41,6 @@
 #include "e-util/e-account-list.h"
 #include "widgets/misc/e-error.h"
 
-#include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
 #include "camel/camel-vee-store.h"
 #include "camel/camel-vtrash-folder.h"

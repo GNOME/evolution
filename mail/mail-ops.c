@@ -28,15 +28,26 @@
 #include <config.h>
 #endif
 
-/* #include <ctype.h> */
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #include <string.h>
 #include <errno.h>
 #include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
+
 #include <camel/camel-mime-filter-from.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-disco-folder.h>
+#include <camel/camel-disco-store.h>
 #include <camel/camel-operation.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
+#include <camel/camel-transport.h>
+
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-tools.h"

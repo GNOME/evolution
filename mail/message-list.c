@@ -26,6 +26,10 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <string.h>
 #include <ctype.h>
 
@@ -51,6 +55,7 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
+#include <camel/camel-vee-folder.h>
 #include <e-util/e-memory.h>
 
 #include "filter/filter-label.h"

@@ -31,11 +31,11 @@
 #include <gtk/gtkvpaned.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <gtkhtml/gtkhtml.h>
-
 #include <libgnome/gnome-url.h>
 
 #include <libgnomeprintui/gnome-print-dialog.h>
+
+#include <gconf/gconf-client.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
@@ -67,6 +67,7 @@
 #include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
+#include "em-composer-utils.h"
 #include "em-marshal.h"
 
 #include <gtkhtml/gtkhtml.h>

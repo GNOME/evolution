@@ -45,6 +45,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-store.h>
+#include <camel/camel-mime-message.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>

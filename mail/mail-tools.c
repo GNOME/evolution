@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <ctype.h>
@@ -35,9 +37,9 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <camel/camel.h>
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-file-utils.h>
+#include <camel/camel-movemail.h>
 
 #include <filter/vfolder-rule.h>
 #include <filter/vfolder-context.h>

@@ -31,8 +31,18 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
+
+#include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktextbuffer.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkhbox.h>
 
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>

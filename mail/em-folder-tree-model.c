@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 #include <libxml/parser.h>
 
@@ -50,6 +51,8 @@
 #include "mail-folder-cache.h"
 
 #include "em-utils.h"
+
+#include <camel/camel-folder.h>
 
 #include "em-marshal.h"
 #include "em-folder-tree-model.h"

@@ -21,10 +21,13 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include <string.h>
 
@@ -78,6 +81,7 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "em-utils.h"
+#include "em-composer-utils.h"
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
 #include "em-folder-browser.h"

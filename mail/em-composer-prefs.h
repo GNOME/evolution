@@ -29,19 +29,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gtk/gtk.h>
-#include <glade/glade.h>
-#include <gtkhtml/gtkhtml.h>
-
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <gconf/gconf-client.h>
-
-#include "mail-signature-editor.h"
-
-#include "evolution-config-control.h"
-
-#include <shell/Evolution.h>
+#include <glib.h>
+#include <gtk/gtkvbox.h>
 #include "Spell.h"
 
 #define EM_COMPOSER_PREFS_TYPE        (em_composer_prefs_get_type ())
@@ -54,50 +43,60 @@ typedef struct _EMComposerPrefs EMComposerPrefs;
 typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 
 struct _ESignature;
+struct _GtkToggleButton;
+struct _GtkOptionMenu;
+struct _GdkPixbuf;
+struct _GtkWidget;
+struct _GladeXML;
+struct _GnomeColorPicker;
+struct _GConfClient;
+struct _GtkButton;
+struct _GtkTreeView;
+struct _GtkWindow;
 
 struct _EMComposerPrefs {
 	GtkVBox parent_object;
 	
-	GConfClient *gconf;
+	struct _GConfClient *gconf;
 	
-	GladeXML *gui;
+	struct _GladeXML *gui;
 	
 	/* General tab */
 	
 	/* Default Behavior */
-	GtkToggleButton *send_html;
-	GtkToggleButton *auto_smileys;
-	GtkToggleButton *prompt_empty_subject;
-	GtkToggleButton *prompt_bcc_only;
-	GtkOptionMenu *charset;
+	struct _GtkToggleButton *send_html;
+	struct _GtkToggleButton *auto_smileys;
+	struct _GtkToggleButton *prompt_empty_subject;
+	struct _GtkToggleButton *prompt_bcc_only;
+	struct _GtkOptionMenu *charset;
 	
-	GtkToggleButton *spell_check;
-	GnomeColorPicker *colour;
-	GtkTreeView *language;
+	struct _GtkToggleButton *spell_check;
+	struct _GnomeColorPicker *colour;
+	struct _GtkTreeView *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;
 	
-	GdkPixbuf *enabled_pixbuf;
-	GtkWidget *spell_able_button;
+	struct _GdkPixbuf *enabled_pixbuf;
+	struct _GtkWidget *spell_able_button;
 	
 	/* Forwards and Replies */
-	GtkOptionMenu *forward_style;
-	GtkOptionMenu *reply_style;
+	struct _GtkOptionMenu *forward_style;
+	struct _GtkOptionMenu *reply_style;
 	
 	/* Keyboard Shortcuts */
-	GtkOptionMenu *shortcuts_type;
+	struct _GtkOptionMenu *shortcuts_type;
 	
 	/* Signatures */
-	GtkTreeView *sig_list;
+	struct _GtkTreeView *sig_list;
 	GHashTable *sig_hash;
-	GtkButton *sig_add;
-	GtkButton *sig_add_script;
-	GtkButton *sig_edit;
-	GtkButton *sig_delete;
-	GtkHTML *sig_preview;
+	struct _GtkButton *sig_add;
+	struct _GtkButton *sig_add_script;
+	struct _GtkButton *sig_edit;
+	struct _GtkButton *sig_delete;
+	struct _GtkHTML *sig_preview;
 	
-	GladeXML *sig_script_gui;
-	GtkWidget *sig_script_dialog;
+	struct _GladeXML *sig_script_gui;
+	struct _GtkWidget *sig_script_dialog;
 	
 	guint sig_added_id;
 	guint sig_removed_id;
@@ -111,12 +110,11 @@ struct _EMComposerPrefsClass {
 	
 };
 
-
 GType em_composer_prefs_get_type (void);
 
-GtkWidget *em_composer_prefs_new (void);
+struct _GtkWidget *em_composer_prefs_new (void);
 
-void em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
+void em_composer_prefs_new_signature (struct _GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
 #define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION

@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -46,6 +45,7 @@
 #include "e-util/e-msgport.h"
 #include <e-util/e-icon-factory.h>
 #include "em-utils.h"
+#include "em-composer-utils.h"
 
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>

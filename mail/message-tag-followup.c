@@ -36,7 +36,17 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtklist.h>
 #define GTK_ENABLE_DEPRECATED
-#endif /* GTK_DISABLE_DEPRECATED */
+#else
+#include <gtk/gtkcombo.h>
+#include <gtk/gtklist.h>
+#endif /* !GTK_DISABLE_DEPRECATED */
+
+#include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcellrenderertext.h>
 
 #include <glade/glade.h>
 
@@ -48,6 +58,7 @@
 #include "message-tag-followup.h"
 #include "mail-config.h"
 #include <e-util/e-icon-factory.h>
+#include "widgets/misc/e-dateedit.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);

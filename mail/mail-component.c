@@ -37,6 +37,7 @@
 
 #include "em-popup.h"
 #include "em-utils.h"
+#include "em-composer-utils.h"
 #include "em-format.h"
 #include "em-folder-tree.h"
 #include "em-folder-browser.h"

@@ -41,8 +41,7 @@
 #include "mail-autofilter.h"
 #include "mail-component.h"
 #include "em-utils.h"
-
-#include "camel/camel.h"
+#include "widgets/misc/e-error.h"
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-rule.h"

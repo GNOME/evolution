@@ -29,6 +29,11 @@
 #include <string.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 #include <gmodule.h>
 #include <libgnome/gnome-util.h>
 #include <camel/camel-folder.h>
@@ -36,6 +41,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-exception.h>
+#include <camel/camel-stream-mem.h>
 #include <e-util/e-path.h>
 
 #include "mail/mail-mt.h"
