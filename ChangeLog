@@ -1,3 +1,7 @@
+2003-12-07  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: update version reliance
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* tools/Makefile.am: Remove hard coded disable deprecated flags
