@@ -1,10 +1,11 @@
-evolution-launch-composer
+.deps
+.libs
 Evolution-Composer*
 Makefile
 Makefile.in
 evolution-addressbook-abuse
 evolution-addressbook-clean
-evolution-addressbook-import
 evolution-addressbook-export
-.deps
-.libs
+evolution-addressbook-import
+evolution-launch-composer
+killev
