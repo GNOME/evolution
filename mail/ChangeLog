@@ -1,3 +1,7 @@
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* mail-display.c: Fixed some warnings.
+
 2000-09-11  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c, mail-format.c: Another big rewrite of this
