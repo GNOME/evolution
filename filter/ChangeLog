@@ -1,3 +1,7 @@
+2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Add new action to execute a shell command.
+
 2001-12-09  Jon Trowbridge  <trow@ximian.com>
 
 	* vfoldertypes.xml: Add "Needs Reply" option to different status
