@@ -1,5 +1,9 @@
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
+	* mail-config.[ch]: Moved all references to the Bonobo stuff into the .c file
+
+2001-05-08  Iain Holmes  <iain@ximian.com>
+
 	* mail-callbacks.c (filter_edit): Set the title of the dialog.
 
 	* GNOME_Evolution_Mail.oaf.in: Add a reference for the MailConfig

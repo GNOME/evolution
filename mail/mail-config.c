@@ -1147,6 +1147,20 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 #define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
+/* For the bonobo object */
+typedef struct _EvolutionMailConfig EvolutionMailConfig;
+typedef struct _EvolutionMailConfigClass EvolutionMailConfigClass;
+
+struct _EvolutionMailConfig {
+	BonoboXObject parent;
+};
+
+struct _EvolutionMailConfigClass {
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_MailConfig__epv epv;
+};
+
 static void
 impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 					    const GNOME_Evolution_MailConfig_Account *account,
