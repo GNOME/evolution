@@ -942,14 +942,14 @@ uri_to_evname (const char *uri, const char *prefix)
 	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *safe;
 	char *tmp;
-
+	
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/mail/%s%s.xml", base_directory, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/mail/%s%s", base_directory, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -964,8 +964,8 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	char *cachenames[] = { "config/hidestate-", 
 			       "config/et-expanded-", 
 			       "config/et-header-", 
-			       "*views/mail/current_view-",
-			       "*views/mail/custom_view-",
+			       "*views/current_view-",
+			       "*views/custom_view-",
 			       NULL };
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
@@ -1059,13 +1059,15 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
-	char *url, *filename;
+	char *url, *basename, *filename;
+	const char *evolution_dir;
+	
+	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
 	
 	url = mail_config_folder_to_safe_url (folder);
-	filename = g_strdup_printf ("%s/config/%s%s",
-				    mail_component_peek_base_directory (mail_component_peek ()),
-				    prefix,
-				    url);
+	basename = g_strdup_printf ("%s%s", prefix, url);
+	filename = g_build_filename (evolution_dir, "mail", "config", basename, NULL);
+	g_free (basename);
 	g_free (url);
 	
 	return filename;

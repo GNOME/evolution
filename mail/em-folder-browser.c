@@ -129,6 +129,9 @@ static ESearchBarItem emfb_search_items[] = {
 	{ NULL, -1, NULL }
 };
 
+static GalViewCollection *collection = NULL;
+
+
 static EMFolderViewClass *emfb_parent;
 
 /* Needed since the paned wont take the position its given otherwise ... */
@@ -756,6 +759,112 @@ emfb_list_built(MessageList *ml, EMFolderBrowser *emfb)
 				    MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
 }
 
+
+static void
+emfb_list_display_view (GalViewInstance *instance, GalView *view, EMFolderBrowser *emfb)
+{
+	if (GAL_IS_VIEW_ETABLE (view))
+		gal_view_etable_attach_tree (GAL_VIEW_ETABLE (view), emfb->view.list->tree);
+}
+
+static void
+collection_init (void)
+{
+	ETableSpecification *spec;
+	GalViewFactory *factory;
+	const char *evolution_dir;
+	char *dir;
+	
+	if (collection != NULL)
+		return;
+	
+	collection = gal_view_collection_new ();
+	
+	gal_view_collection_set_title (collection, _("Mail"));
+	
+	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+	dir = g_build_filename (evolution_dir, "mail", "views", NULL);
+	gal_view_collection_set_storage_directories (collection, EVOLUTION_GALVIEWSDIR "/mail/", dir);
+	g_free (dir);
+	
+	spec = e_table_specification_new ();
+	e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+	
+	factory = gal_view_factory_etable_new (spec);
+	g_object_unref (spec);
+	gal_view_collection_add_factory (collection, factory);
+	g_object_unref (factory);
+	
+	gal_view_collection_load (collection);
+}
+
+static void
+emfb_create_view_instance (EMFolderBrowser *emfb, CamelFolder *folder, const char *uri)
+{
+	struct _EMFolderBrowserPrivate *priv = emfb->priv;
+	gboolean outgoing;
+	char *id;
+	
+	collection_init ();
+	
+	if (priv->view_instance) {
+		g_object_unref (priv->view_instance);
+		priv->view_instance = NULL;
+	}
+	
+	if (folder == NULL) {
+		folder = emfb->view.folder;
+		uri = emfb->view.folder_uri;
+	}
+	
+	outgoing = em_utils_folder_is_drafts (folder, uri)
+		|| em_utils_folder_is_sent (folder, uri)
+		|| em_utils_folder_is_outbox (folder, uri);
+	
+	/* TODO: should this go through mail-config api? */
+	id = mail_config_folder_to_safe_url (folder);
+	priv->view_instance = gal_view_instance_new (collection, id);
+	g_free (id);
+	
+	if (outgoing)
+		gal_view_instance_set_default_view (priv->view_instance, "As_Sent_Folder");
+	
+	gal_view_instance_load (priv->view_instance);
+	
+	if (!gal_view_instance_exists (priv->view_instance)) {
+		struct stat st;
+		char *path;
+		
+		path = mail_config_folder_to_cachename (folder, "et-header-");
+		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+			ETableSpecification *spec;
+			ETableState *state;
+			GalView *view;
+			
+			spec = e_table_specification_new ();
+			e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+			view = gal_view_etable_new (spec, "");
+			g_object_unref (spec);
+			
+			state = e_table_state_new ();
+			e_table_state_load_from_file (state, path);
+			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
+			g_object_unref (state);
+			
+			gal_view_instance_set_custom_view (priv->view_instance, view);
+			g_object_unref (view);
+		}
+		
+		g_free (path);
+	}
+	
+	if (priv->view_menus)
+		gal_view_menus_set_instance (priv->view_menus, priv->view_instance);
+	
+	g_signal_connect (priv->view_instance, "display_view", G_CALLBACK (emfb_list_display_view), emfb);	
+	emfb_list_display_view (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), emfb);
+}
+
 static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
@@ -764,10 +873,10 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	   defaults */
 	if (folder) {
 		char *sstate;
-
+		
 		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview")))
 			em_folder_browser_show_preview((EMFolderBrowser *)emfv, sstate[0] != '0');
-
+		
 		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list")))
 			message_list_set_threaded(emfv->list, sstate[0] != '0');
 		
@@ -776,8 +885,10 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			((EMFolderBrowser *)emfv)->priv->list_built_id =
 				g_signal_connect(emfv->list, "message_list_built", G_CALLBACK(emfb_list_built), emfv);
 #endif
+		
+		emfb_create_view_instance ((EMFolderBrowser *) emfv, folder, uri);
 	}
-
+	
 	emfb_parent->set_folder(emfv, folder, uri);
 }
 
@@ -785,88 +896,17 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
    need to become BonoboUIComponent aware ... */
 
 static void
-emfb_list_display_view(GalViewInstance *instance, GalView *view, EMFolderBrowser *emfb)
-{
-	if (GAL_IS_VIEW_ETABLE(view))
-		gal_view_etable_attach_tree(GAL_VIEW_ETABLE(view), emfb->view.list->tree);
-}
-
-static void
 emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic)
 {
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
-	static GalViewCollection *collection = NULL;
-	char *id;
-	gboolean outgoing;
 	
 	g_assert(p->view_instance == NULL);
 	g_assert(p->view_menus == NULL);
 	
-	outgoing = em_utils_folder_is_drafts(emfb->view.folder, emfb->view.folder_uri)
-		|| em_utils_folder_is_sent(emfb->view.folder, emfb->view.folder_uri)
-		|| em_utils_folder_is_outbox(emfb->view.folder, emfb->view.folder_uri);
+	collection_init ();
 	
-	if (collection == NULL) {
-		ETableSpecification *spec;
-		char *dir;
-		GalViewFactory *factory;
-		
-		collection = gal_view_collection_new();
-		
-		gal_view_collection_set_title(collection, _("Mail"));
-		
-		dir = g_build_filename(g_get_home_dir(), "/evolution/views/mail/", NULL);
-		gal_view_collection_set_storage_directories(collection, EVOLUTION_GALVIEWSDIR "/mail/", dir);
-		g_free(dir);
-		
-		spec = e_table_specification_new();
-		e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-		
-		factory = gal_view_factory_etable_new(spec);
-		g_object_unref(spec);
-		gal_view_collection_add_factory(collection, factory);
-		g_object_unref(factory);
-		
-		gal_view_collection_load(collection);
-	}
-
-	/* TODO: should this go through mail-config api? */
-	id = mail_config_folder_to_safe_url(emfb->view.folder);
-	p->view_instance = gal_view_instance_new(collection, id);
-	g_free(id);
-	
-	if (outgoing)
-		gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
-	
-	if (!gal_view_instance_exists(p->view_instance)) {
-		char *path;
-		struct stat st;
-		
-		gal_view_instance_load(p->view_instance);
-		
-		path = mail_config_folder_to_cachename(emfb->view.folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			ETableSpecification *spec;
-			ETableState *state;
-			GalView *view;
-			
-			spec = e_table_specification_new();
-			e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
-			view = gal_view_etable_new(spec, "");
-			g_object_unref(spec);
-			
-			state = e_table_state_new();
-			e_table_state_load_from_file(state, path);
-			gal_view_etable_set_state(GAL_VIEW_ETABLE (view), state);
-			g_object_unref(state);
-			
-			gal_view_instance_set_custom_view(p->view_instance, view);
-			g_object_unref(view);
-		}
-		g_free(path);
-	}
-	
-	p->view_menus = gal_view_menus_new(p->view_instance);
+	emfb_create_view_instance (emfb, emfb->view.folder, emfb->view.folder_uri);
+	p->view_menus = gal_view_menus_new (p->view_instance);
 	gal_view_menus_apply(p->view_menus, uic, NULL);
 	
 	/* Due to CORBA reentrancy, the view could be gone now. */

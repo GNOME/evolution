@@ -1,5 +1,17 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (uri_to_evname): Updated to add use mail subdirs.
+	(mail_config_uri_renamed): Updated cachenames[]
+	(mail_config_folder_to_cachename): Fixed to use the correct path.
+
+	* em-folder-browser.c (emfb_create_view_menus): Updated the
+	galview path to point to the evo-1.5 location.
+	(emfb_set_folder): Update the galview view_instance.
+	(emfb_create_view_instance): Split out from
+	emfb_create_view_menus()
+	(emfb_create_view_menus): Reduced code, call
+	emfb_create_view_instance().
+
 	* em-folder-selector.c (emfs_create_name_activate): Emit the OK
 	response, not the CREATE_NEW response. Also,
 	g_signal_emit_by_name() does not take a GQuark detail argument, so
