@@ -606,18 +606,27 @@ conf_changed_callback (GConfClient *client,
 
 /* Evolution::Component CORBA methods.  */
 
-static CORBA_boolean
+static void
 impl_upgradeFromVersion (PortableServer_Servant servant,
 			 CORBA_short major,
 			 CORBA_short minor,
 			 CORBA_short revision,
 			 CORBA_Environment *ev)
 {
+	GError *err = NULL;
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 
-	migrate_calendars (calendar_component, major, minor, revision);
+	if (!migrate_calendars (calendar_component, major, minor, revision, &err)) {
+		GNOME_Evolution_Component_UpgradeFailed *failedex;
 
-	return CORBA_TRUE;
+		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
+		failedex->what = CORBA_string_dup(_("Failed upgrading calendars."));
+		failedex->why = CORBA_string_dup(err->message);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
+	}
+
+	if (err)
+		g_error_free(err);
 }
 
 static gboolean

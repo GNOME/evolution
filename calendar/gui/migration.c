@@ -669,11 +669,11 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 }
 
 gboolean
-migrate_calendars (CalendarComponent *component, int major, int minor, int revision)
+migrate_calendars (CalendarComponent *component, int major, int minor, int revision, GError **err)
 {
 	ESourceGroup *on_this_computer = NULL, *on_the_web = NULL, *contacts = NULL;
 	ESource *personal_source = NULL;
-	gboolean retval = TRUE;
+	gboolean retval = FALSE;
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
@@ -704,8 +704,9 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			xmlFreeDoc(config_doc);
 
 			if (res != 0) {
-				g_warning("Could not move config from bonobo-conf to gconf");
-				return FALSE;
+				/* FIXME: set proper domain/code */
+				g_set_error(err, 0, 0, _("Unable to migrate old settings from evolution/config.xmldb"));
+				goto fail;
 			}
 		}
 
@@ -731,8 +732,12 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 
 				source_name = get_source_name (on_this_computer, (char*)l->data);
 
-				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT))
-					retval = FALSE;
+				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT)) {
+					/* FIXME: domain/code */
+					g_set_error(err, 0, 0, _("Unable to migrate calendar `%s'"), source_name);
+					g_free(source_name);
+					goto fail;
+				}
 				
 				g_free (source_name);
 			}
@@ -781,7 +786,8 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 	}
 
 	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
-
+	retval = TRUE;
+fail:
 	if (on_this_computer)
 		g_object_unref (on_this_computer);
 	if (on_the_web)
@@ -795,12 +801,12 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 }
 
 gboolean
-migrate_tasks (TasksComponent *component, int major, int minor, int revision)
+migrate_tasks (TasksComponent *component, int major, int minor, int revision, GError **err)
 {
 	ESourceGroup *on_this_computer = NULL;
 	ESourceGroup *on_the_web = NULL;
 	ESource *personal_source = NULL;
-	gboolean retval = TRUE;
+	gboolean retval = FALSE;
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
@@ -831,8 +837,8 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			xmlFreeDoc(config_doc);
 
 			if (res != 0) {
-				g_warning("Could not move config from bonobo-conf to gconf");
-				return FALSE;
+				g_set_error(err, 0, 0, _("Unable to migrate old settings from evolution/config.xmldb"));
+				goto fail;
 			}
 		}
 
@@ -858,8 +864,12 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 
 				source_name = get_source_name (on_this_computer, (char*)l->data);
 
-				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO))
-					retval = FALSE;
+				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO)) {
+					/* FIXME: domain/code */
+					g_set_error(err, 0, 0, _("Unable to migrate tasks `%s'"), source_name);
+					g_free(source_name);
+					goto fail;
+				}
 				
 				g_free (source_name);
 			}
@@ -882,7 +892,8 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 	}
 
 	e_source_list_sync (tasks_component_peek_source_list (component), NULL);
-
+	retval = TRUE;
+fail:
 	if (on_this_computer)
 		g_object_unref (on_this_computer);
 	if (on_the_web)

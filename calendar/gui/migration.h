@@ -27,7 +27,9 @@
 #include "calendar-component.h"
 #include "tasks-component.h"
 
-gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision);
-gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision);
+struct _GError;
+
+gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision, struct _GError **err);
+gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision, struct _GError **err);
 
 #endif
