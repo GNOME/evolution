@@ -1,3 +1,9 @@
+2002-09-18  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-command.c
+	(camel_imap_command_response): If we get an ALERT, pass it to the
+	user.  An rfc2060 MUST, and bug #22496.
+
 2002-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (parse_fetch_response):

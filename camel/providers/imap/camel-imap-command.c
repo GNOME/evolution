@@ -42,6 +42,7 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-private.h>
 #include <camel/camel-utf8.h>
+#include <camel/camel-session.h>
 
 #define d(x) x
 
@@ -318,6 +319,15 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 		respbuf = imap_read_untagged (store, respbuf, ex);
 		if (!respbuf)
 			type = CAMEL_IMAP_RESPONSE_ERROR;
+		else if (!g_strncasecmp(respbuf, "* OK [ALERT]", 12)) {
+			char *msg;
+
+			/* for imap ALERT codes, account user@host */
+			msg = g_strdup_printf(_("Alert from IMAP server %s@%s:\n%s"),
+					      ((CamelService *)store)->url->user, ((CamelService *)store)->url->host, respbuf+12);
+			camel_session_alert_user(((CamelService *)store)->session, CAMEL_SESSION_ALERT_WARNING, msg, FALSE);
+			g_free(msg);
+		}
 		
 		break;
 	case '+':
