@@ -4,7 +4,8 @@
 	ContactsSendContactToOther, and ContactsSendMessageToContact verbs
 	here.
 
-	* gui/widgets/e-addressbook-view.c (e_addressbook_view_save_as,
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h (e_addressbook_view_save_as,
 	e_addressbook_view_send, e_addressbook_view_send_to): New
 	functions to allow outside users to cause the addressbook to save,
 	send, or send a message to its selection.
