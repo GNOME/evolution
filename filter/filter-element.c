@@ -32,7 +32,6 @@
 #include "filter-code.h"
 #include "filter-colour.h"
 #include "filter-datespec.h"
-#include "filter-score.h"
 #include "filter-int.h"
 #include "filter-folder.h"
 #include "filter-source.h"
