@@ -344,6 +344,12 @@
 		  <para>
 		    Mailing List - Filter based on the mailing list it came from.
 		  </para>
+		  <note>
+		    <title>How Does Filterint on Mailing Lists Work?</title>
+		    <para>
+		      Filtering on mailing lists uses the domain part (@ximian.com) of the address and the user part (the part before the @).  However, if you wish to exclude the domain section from being filtered, simply don't put anything after the user.
+		    </para>
+		  </note>
 		</listitem>
 		
 		<listitem>

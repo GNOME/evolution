@@ -872,8 +872,46 @@ the workaround described in the note below.
       </para>
 
       <para>
-        FIXME: Insert picture of the Summary and labels here.
+<figure>
+	<title>The Evolution Summary</title>
+
+<screenshot>
+<graphic  format="png" fileref="figures/summary" srccredit="Kevin Breit">
+</screenshot>
+</figure>
       </para>
+
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="png"></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
+</para>
+<para>
+Shows you the latest weather updates from hundreds of cities around the world.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>News Feeds</guilabel>
+</para>
+<para>
+Displays up to the minute news from your favorite websites.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Mail Summary</guilabel>
+</para>
+<para>
+Shows you how many email messages you have in your selected folders, waiting to be read.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="png"></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
+</para>
+<para>
+Shows you your calendar.
+</para>
+<para>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="png"></imageobject></inlinemediaobject> <guilabel>Tasks</guilabel>
+</para>
+<para>
+Shows your pending tasks
+</para>
+
 
       <para>
         To add additional services to your Summary, or to edit the
