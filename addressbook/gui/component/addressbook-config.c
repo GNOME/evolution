@@ -707,6 +707,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	dialog = glade_xml_get_widget (sdialog->gui, "supported-bases-dialog");
 
 	supported_bases_table = glade_xml_get_widget (sdialog->gui, "supported-bases-table");
+	gtk_widget_show (supported_bases_table);
 	selection_model = e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(supported_bases_table)));
 	model = g_object_get_data (G_OBJECT (supported_bases_table), "model");
 
@@ -1089,7 +1090,7 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
-	gtk_widget_show (sdialog->window);
+	gtk_widget_show_all (sdialog->window);
 
 	return sdialog;
 }

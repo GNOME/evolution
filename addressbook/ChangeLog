@@ -1,3 +1,10 @@
+2002-11-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c (query_for_supported_bases):
+	show the etable.
+	(addressbook_add_server_druid): show_all before returning the
+	dialog, so the druid shows up.
+
 2002-11-23  Chris Toshok  <toshok@ximian.com>
 
 	[ roll forward from the 1.2 branch.  fixes #25540, part of #29630,
