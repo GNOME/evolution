@@ -39,10 +39,10 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#define ETABLE_SPEC "<ETableSpecification no-headers=\"1\" cursor-mode=\"line\" draw-grid=\"true\"> \
+#define ETABLE_SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"true\"> \
   <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"tree-string\" compare=\"string\"/> \
 	<ETableState>                   			       \
-		<column> 0 </column>     			       \
+		<column source=\"0\"/>     			       \
 	        <grouping></grouping>                                  \
 	</ETableState>                  			       \
 </ETableSpecification>"

@@ -1,5 +1,9 @@
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-storage-set-view.c: Fixed the spec on this.
+
+2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-storage-set-view.c: Changed this to use the built in cells.
 
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
