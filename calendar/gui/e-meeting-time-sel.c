@@ -444,7 +444,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_add_accelerator (mts->options_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK, 0);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
@@ -521,7 +521,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	g_signal_connect (mts->autopick_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_button_clicked), mts);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
