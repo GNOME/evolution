@@ -1,3 +1,8 @@
+2001-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (attachment_header): Convert the htmlinfo into
+	utf8. Fixes bug #11966.
+
 2001-10-08  Dan Winship  <danw@frotz.mysterion.org>
 
 	* component-factory.c (create_view): For mailstorage folders,

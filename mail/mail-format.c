@@ -608,9 +608,8 @@ mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md)
 static void
 attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md)
 {
+	char *htmlinfo, *html, *fmt;
 	const char *info;
-	char *htmlinfo;
-	char *fmt;
 	
 	/* Start the table, create the pop-up object. */
 	mail_html_write (md->html, md->stream,
@@ -623,12 +622,14 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md)
 	
 	/* Write the MIME type */
 	info = gnome_vfs_mime_get_value (mime_type, "description");
-	htmlinfo = e_text_to_html (info ? info : mime_type, 0);
+	html = e_text_to_html (info ? info : mime_type, 0);
+	htmlinfo = e_utf8_from_locale_string (html);
+	g_free (html);
 	fmt = e_utf8_from_locale_string (_("%s attachment"));
 	mail_html_write (md->html, md->stream, fmt, htmlinfo);
-	g_free (fmt);
 	g_free (htmlinfo);
-	
+	g_free (fmt);
+		
 	/* Write the name, if we have it. */
 	info = camel_mime_part_get_filename (part);
 	if (info) {
