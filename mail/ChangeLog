@@ -1,3 +1,19 @@
+2004-02-18  JP Rosevear  <jpr@ximian.com>
+
+	* importers/elm-importer.c (elm_store_settings): unref gconf
+	client
+	(elm_restore_settings): ditto
+	(elm_can_import): ditto
+	(elm_create_structure): ditto
+	
+	* importers/pine-importer.c (pine_store_settings): ditto
+	(pine_restore_settings): ditto
+	(pine_create_structure): ditto
+
+	* importers/netscape-importer.c (netscape_store_settings): ditto
+	(netscape_restore_settings): ditto
+	(netscape_create_structure): ditto
+
 2004-02-16  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: remove disable deprecated flags

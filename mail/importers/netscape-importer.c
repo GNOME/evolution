@@ -1256,6 +1256,7 @@ netscape_store_settings (NsImporter *importer)
 	gconf_client_set_bool(gconf, "/apps/evolution/importer/netscape/mail", importer->do_mail, NULL);
 	gconf_client_set_bool(gconf, "/apps/evolution/importer/netscape/settings", importer->do_settings, NULL);
 	gconf_client_set_bool(gconf, "/apps/evolution/importer/netscape/filters", importer->do_filters, NULL);
+	g_object_unref (gconf);
 }
 
 static void
@@ -1266,6 +1267,7 @@ netscape_restore_settings (NsImporter *importer)
 	importer->do_mail = gconf_client_get_bool(gconf, "/apps/evolution/importer/netscape/mail", NULL);
 	importer->do_settings = gconf_client_get_bool(gconf, "/apps/evolution/importer/netscape/settings", NULL);
 	importer->do_filters = gconf_client_get_bool(gconf, "/apps/evolution/importer/netscape/filters", NULL);
+	g_object_unref (gconf);
 }
 
 static const char *
@@ -2027,6 +2029,7 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (ii));
+	g_object_unref (gconf);
 }
 
 static void

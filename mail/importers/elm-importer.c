@@ -121,6 +121,7 @@ elm_store_settings (ElmImporter *importer)
 
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/importer/elm/mail", importer->do_mail, NULL);
+	g_object_unref (gconf);
 }
 
 static void
@@ -129,6 +130,7 @@ elm_restore_settings (ElmImporter *importer)
 	GConfClient *gconf = gconf_client_get_default ();
 
 	importer->do_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/elm/mail", NULL);
+	g_object_unref (gconf);
 }
 
 static void
@@ -295,6 +297,7 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	GConfClient *gconf = gconf_client_get_default();
 
 	mail = gconf_client_get_bool(gconf, "/apps/evolution/importer/elm/mail-imported", NULL);
+	g_object_unref (gconf);
 	if (mail)
 		return FALSE;
 	
@@ -469,6 +472,7 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 		}
 
 		gconf_client_set_bool(gconf, "/apps/evolution/importer/elm/mail-imported", TRUE, NULL);
+		g_object_unref (gconf);
 		
 		maildir = elm_get_rc_value ("maildir");
 		if (maildir == NULL) {

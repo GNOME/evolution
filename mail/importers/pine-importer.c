@@ -131,6 +131,7 @@ pine_store_settings (PineImporter *importer)
 
 	gconf_client_set_bool (gconf, "/apps/evolution/importer/pine/mail", importer->do_mail, NULL);
 	gconf_client_set_bool (gconf, "/apps/evolution/importer/pine/address", importer->do_address, NULL);
+	g_object_unref (gconf);
 }
 
 static void
@@ -140,6 +141,7 @@ pine_restore_settings (PineImporter *importer)
 
 	importer->do_mail = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/mail", NULL);
 	importer->do_address = gconf_client_get_bool (gconf, "/apps/evolution/importer/pine/address", NULL);
+	g_object_unref (gconf);
 }
 
 static void
@@ -536,6 +538,7 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 		bonobo_object_unref (BONOBO_OBJECT (ii));
 	}
 	bonobo_object_unref (BONOBO_OBJECT (ii));
+	g_object_unref (gconf);
 }
 
 static void
