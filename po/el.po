@@ -24,7 +24,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2003-06-22 09:56+0300\n"
+"POT-Creation-Date: 2003-06-25 13:24-0400\n"
 "PO-Revision-Date: 2003-06-22 09:44+0300\n"
 "Last-Translator: Kostas Papadimas <pkst@gmx.net>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -1015,7 +1015,7 @@ msgstr "Βάθος ανα_ζήτησης:"
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1696
+#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1712
 #: calendar/gui/e-week-view.c:1256
 msgid "Searching"
 msgstr "Γίνεται αναζήτηση"
@@ -1487,8 +1487,8 @@ msgid "_Categories..."
 msgstr "_Κατηγορίες..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
-#: calendar/gui/e-day-view.c:3739 calendar/gui/e-week-view.c:3631
+#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3631
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -1538,7 +1538,7 @@ msgstr "_Διεύθυνση Ιστοσελίδας:"
 #: addressbook/gui/widgets/e-addressbook-model.c:318
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
 #: addressbook/gui/widgets/e-minicard-label.c:164
-#: addressbook/gui/widgets/e-minicard-view-widget.c:119
+#: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
 #: addressbook/gui/widgets/e-minicard.c:183
 msgid "Editable"
@@ -2570,7 +2570,7 @@ msgstr "Ζιμπάμπουε"
 #: addressbook/gui/widgets/e-addressbook-model.c:304
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
 #: addressbook/gui/widgets/e-addressbook-view.c:180
-#: addressbook/gui/widgets/e-minicard-view-widget.c:105
+#: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
 msgid "Book"
 msgstr "Βιβλίο"
@@ -2626,7 +2626,7 @@ msgstr ""
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2375
+#: addressbook/gui/contact-editor/e-contact-editor.c:2376
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Δε βρέθηκε συστατικό για το πεδίο: `%s'"
@@ -2867,7 +2867,7 @@ msgstr "%d κάρτες"
 #: addressbook/gui/widgets/e-addressbook-model.c:311
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
 #: addressbook/gui/widgets/e-addressbook-view.c:187
-#: addressbook/gui/widgets/e-minicard-view-widget.c:112
+#: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
 msgid "Query"
 msgstr "Ερώτημα"
@@ -2924,9 +2924,9 @@ msgstr "Δεν υποστηρίζεται το πρωτόκολλο"
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2309
-#: camel/camel-service.c:744 camel/camel-service.c:783
-#: camel/camel-service.c:870 camel/camel-service.c:911
+#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
+#: camel/camel-service.c:745 camel/camel-service.c:785
+#: camel/camel-service.c:875 camel/camel-service.c:917
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -3073,7 +3073,7 @@ msgstr "Προώθηση Επαφής"
 msgid "Send Message to Contact"
 msgstr "Αποστολή Μηνύματος στη Επαφή"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:898 calendar/gui/print.c:2441
+#: addressbook/gui/widgets/e-addressbook-view.c:898 calendar/gui/print.c:2439
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
@@ -3116,7 +3116,7 @@ msgid "Delete"
 msgstr "Διαγραφή"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3699 calendar/gui/e-week-view.c:3596
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3596
 msgid "Current View"
 msgstr "Τρέχουσα Προβολή"
 
@@ -3256,7 +3256,7 @@ msgstr "Μοντέλο Κειμένου"
 msgid "Max field name length"
 msgstr "Μέγιστο μάκρος ονόματος πεδίου"
 
-#: addressbook/gui/widgets/e-minicard-view-widget.c:126
+#: addressbook/gui/widgets/e-minicard-view-widget.c:127
 msgid "Column Width"
 msgstr "Πλάτος στήλης"
 
@@ -3491,153 +3491,153 @@ msgstr "_Γραμματοσειρά..."
 msgid "Untitled appointment"
 msgstr "Ραντεβού χωρίς τίτλο"
 
-#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:477
 msgid "1st"
 msgstr "1η"
 
-#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:477
 msgid "2nd"
 msgstr "2η"
 
-#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:477
 msgid "3rd"
 msgstr "3η"
 
-#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:477
 msgid "4th"
 msgstr "4η"
 
-#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
 msgid "5th"
 msgstr "5η"
 
-#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:478
 msgid "6th"
 msgstr "6η"
 
-#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:478
 msgid "7th"
 msgstr "7η"
 
-#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:478
 msgid "8th"
 msgstr "8η"
 
-#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:478
 msgid "9th"
 msgstr "9η"
 
-#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
 msgid "10th"
 msgstr "10η"
 
-#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:479
 msgid "11th"
 msgstr "11η"
 
-#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:479
 msgid "12th"
 msgstr "12η"
 
-#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:479
 msgid "13th"
 msgstr "13η"
 
-#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:479
 msgid "14th"
 msgstr "14η"
 
-#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
 msgid "15th"
 msgstr "15η"
 
-#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:480
 msgid "16th"
 msgstr "16η"
 
-#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:480
 msgid "17th"
 msgstr "17η"
 
-#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:480
 msgid "18th"
 msgstr "18η"
 
-#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:480
 msgid "19th"
 msgstr "19η"
 
-#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
 msgid "20th"
 msgstr "20η"
 
-#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:481
 msgid "21st"
 msgstr "21η"
 
-#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:481
 msgid "22nd"
 msgstr "22η"
 
-#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:481
 msgid "23rd"
 msgstr "23η"
 
-#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:481
 msgid "24th"
 msgstr "24η"
 
-#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
 msgid "25th"
 msgstr "25η"
 
-#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:482
 msgid "26th"
 msgstr "26η"
 
-#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:482
 msgid "27th"
 msgstr "27η"
 
-#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:482
 msgid "28th"
 msgstr "28η"
 
-#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:482
 msgid "29th"
 msgstr "29η"
 
-#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
 msgid "30th"
 msgstr "30η"
 
-#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:485
+#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:483
 msgid "31st"
 msgstr "31η"
 
 #: calendar/cal-util/cal-util.c:550 calendar/cal-util/cal-util.c:572
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:393 mail/message-list.c:753
+#: calendar/gui/e-calendar-table.c:401 mail/message-list.c:753
 msgid "High"
 msgstr "Υψηλή"
 
 #: calendar/cal-util/cal-util.c:552 calendar/cal-util/cal-util.c:574
 #: calendar/gui/calendar-model.c:1709
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:394 mail/message-list.c:752
+#: calendar/gui/e-calendar-table.c:402 mail/message-list.c:752
 msgid "Normal"
 msgstr "Κανονική"
 
 #: calendar/cal-util/cal-util.c:554 calendar/cal-util/cal-util.c:576
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:395 mail/message-list.c:751
+#: calendar/gui/e-calendar-table.c:403 mail/message-list.c:751
 msgid "Low"
 msgstr "Χαμηλή"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:570
 #: calendar/gui/dialogs/task-details-page.glade.h:13
-#: calendar/gui/e-calendar-table.c:396
+#: calendar/gui/e-calendar-table.c:404
 msgid "Undefined"
 msgstr "Αόριστο"
 
@@ -3817,7 +3817,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
-#: calendar/gui/e-day-view.c:1422 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/e-day-view.c:1438 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%d %a %b"
 
@@ -3835,7 +3835,7 @@ msgstr "%d %B %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:447
-#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1511
+#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -3866,7 +3866,7 @@ msgid "Public folder containing appointments and events"
 msgstr "Δημόσιος φάκελος που περιέχει ραντεβού και γεγονότα"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
-#: calendar/gui/print.c:1791 calendar/gui/tasks-control.c:503
+#: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:504
 #: calendar/importers/icalendar-importer.c:644
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
@@ -3935,16 +3935,16 @@ msgid "Create a new all-day appointment"
 msgstr "Δημιουργία ένος νέου all-day ραντεβού"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
-#: calendar/gui/e-calendar-table.c:372
+#: calendar/gui/e-calendar-table.c:380
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #: calendar/gui/calendar-model.c:408 calendar/gui/calendar-model.c:966
-#: calendar/gui/e-calendar-table.c:373
+#: calendar/gui/e-calendar-table.c:381
 msgid "Confidential"
 msgstr "Εμπιστευτικό"
 
-#: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:371
+#: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:379
 msgid "Public"
 msgstr "Δημόσιο"
 
@@ -3965,11 +3965,11 @@ msgid "W"
 msgstr "Δ"
 
 #: calendar/gui/calendar-model.c:590 calendar/gui/calendar-model.c:1134
-#: calendar/gui/e-calendar-table.c:445
+#: calendar/gui/e-calendar-table.c:453
 msgid "Free"
 msgstr "Διαθέσιμη"
 
-#: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:446
+#: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
 #: shell/evolution-shell-component.c:1204
 msgid "Busy"
@@ -3977,20 +3977,20 @@ msgstr "Απασχολημένη"
 
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:466 calendar/gui/print.c:2300
+#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
 msgid "Not Started"
 msgstr "Δεν έχει ξεκινήσει"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:467 calendar/gui/print.c:2303
+#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
 msgid "In Progress"
 msgstr "Σε εξέλιξη"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:294
-#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2306
+#: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
 msgid "Completed"
 msgstr "Ολοκληρώθηκε"
 
@@ -4520,23 +4520,23 @@ msgstr "%s  Δεν έχετε κάνει αλλαγές. Να ανανεωθεί
 msgid "Validation error: %s"
 msgstr "Άγνωστο πιστοποίησης: %s"
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2218
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
 msgid " to "
 msgstr " με "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2222
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
 msgid " (Completed "
 msgstr "(Ολοκληρωμένο"
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2224
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
 msgid "Completed "
 msgstr "Ολοκληρωμένο "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2229
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
 msgid " (Due "
 msgstr "(Λήξη"
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2231
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
 msgid "Due "
 msgstr "Λήξη "
 
@@ -4557,43 +4557,48 @@ msgid "Could not update object"
 msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
 #: calendar/gui/dialogs/comp-editor.c:793
+#: calendar/gui/dialogs/comp-editor.c:830
 msgid "Edit Appointment"
 msgstr "Επεξεργασία Ραντεβού"
 
 #: calendar/gui/dialogs/comp-editor.c:798
+#: calendar/gui/dialogs/comp-editor.c:835
 #, c-format
 msgid "Appointment - %s"
 msgstr "Ραντεβού - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:801
+#: calendar/gui/dialogs/comp-editor.c:838
 #, c-format
 msgid "Task - %s"
 msgstr "Εργασία - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:804
+#: calendar/gui/dialogs/comp-editor.c:841
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Ημερολογιακή καταχώριση - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:815
+#: calendar/gui/dialogs/comp-editor.c:851
 msgid "No summary"
 msgstr "Χωρίς περίληψη"
 
-#: calendar/gui/dialogs/comp-editor.c:1233
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3977
+#: calendar/gui/dialogs/comp-editor.c:1281
+#: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
 #: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
 msgid "Save as..."
 msgstr "Αποθήκευση ως..."
 
-#: calendar/gui/dialogs/comp-editor.c:1334
-#: calendar/gui/dialogs/comp-editor.c:1358
 #: calendar/gui/dialogs/comp-editor.c:1382
+#: calendar/gui/dialogs/comp-editor.c:1406
+#: calendar/gui/dialogs/comp-editor.c:1432
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Οι αλλαγές που έγιναν σε αυτό το αντικείμενο μπορεί να απορριφθούν αν "
 "καταφθάσει μια ενημέρωση"
 
-#: calendar/gui/dialogs/comp-editor.c:1409
+#: calendar/gui/dialogs/comp-editor.c:1459
 msgid "Unable to obtain current version!"
 msgstr "Δεν ήταν δυνατό να αποκτηθεί η τρέχουσα έκδοση!"
 
@@ -4707,7 +4712,7 @@ msgstr "Εξουσιοδότηση Σε:"
 msgid "Enter Delegate"
 msgstr "Εισαγωγή Αντιπροσώπου"
 
-#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2255
+#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
 msgid "Appointment"
 msgstr "Ραντεβού"
 
@@ -5226,66 +5231,66 @@ msgstr "%s στις %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s για άγνωστο τύπο ενεργοποίησης"
 
-#: calendar/gui/e-calendar-table.c:415
+#: calendar/gui/e-calendar-table.c:423
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:416
+#: calendar/gui/e-calendar-table.c:424
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:417
+#: calendar/gui/e-calendar-table.c:425
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:418
+#: calendar/gui/e-calendar-table.c:426
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:419
+#: calendar/gui/e-calendar-table.c:427
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:420
+#: calendar/gui/e-calendar-table.c:428
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:421
+#: calendar/gui/e-calendar-table.c:429
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:422
+#: calendar/gui/e-calendar-table.c:430
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:423
+#: calendar/gui/e-calendar-table.c:431
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:424
+#: calendar/gui/e-calendar-table.c:432
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:425
+#: calendar/gui/e-calendar-table.c:433
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:717 calendar/gui/e-day-view.c:2851
+#: calendar/gui/e-calendar-table.c:726 calendar/gui/e-day-view.c:2867
 #: calendar/gui/e-week-view.c:1933
 msgid "Deleting selected objects"
 msgstr "Διαγραφή επιλεγμένων αντικειμένων"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3721
+#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
 #: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Άνοιγμα"
 
-#: calendar/gui/e-calendar-table.c:950
+#: calendar/gui/e-calendar-table.c:959
 msgid "_Save as..."
 msgstr "Αποθήκευ_ση ως..."
 
-#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3723
+#: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
 #: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
@@ -5293,53 +5298,53 @@ msgstr "Αποθήκευ_ση ως..."
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
-#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3728
+#: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
 #: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Αποκοπή"
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3729
+#: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
 #: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "Αντι_γραφή"
 
-#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3694
-#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3592
 #: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "Επι_κόλληση"
 
-#: calendar/gui/e-calendar-table.c:961
+#: calendar/gui/e-calendar-table.c:970
 msgid "_Assign Task"
 msgstr "_Ανάθεση Εργασίας"
 
-#: calendar/gui/e-calendar-table.c:962
+#: calendar/gui/e-calendar-table.c:971
 msgid "_Forward as iCalendar"
 msgstr "Προώ_θηση ως i_Calendar"
 
-#: calendar/gui/e-calendar-table.c:963
+#: calendar/gui/e-calendar-table.c:972
 msgid "_Mark as Complete"
 msgstr "_Σημείωση ως Ολοκληρωμένο"
 
-#: calendar/gui/e-calendar-table.c:964
+#: calendar/gui/e-calendar-table.c:973
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Σημείωση επιλεγμένων εργασιών ως ολοκληρωμένες"
 
-#: calendar/gui/e-calendar-table.c:969
+#: calendar/gui/e-calendar-table.c:978
 msgid "_Delete Selected Tasks"
 msgstr "_Διαγραφή Επιλεγμένων Εργασιών"
 
-#: calendar/gui/e-calendar-table.c:1236 calendar/gui/e-day-view.c:7701
+#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7929
 #: calendar/gui/e-week-view.c:4335
 msgid "Updating objects"
 msgstr "Αναβάθμιση Αντικειμένων"
 
-#: calendar/gui/e-calendar-table.c:1319
+#: calendar/gui/e-calendar-table.c:1348
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Κλικ εδώ για προσθήκη εργασίας"
@@ -5417,91 +5422,91 @@ msgstr "%02i τμήματα λεπτών"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1405
-#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1527
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1421
+#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1438
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1454
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:620 calendar/gui/e-week-view.c:350
-#: calendar/gui/print.c:811
+#: calendar/gui/e-day-view.c:636 calendar/gui/e-week-view.c:350
+#: calendar/gui/print.c:809
 msgid "am"
 msgstr "πμ"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:623 calendar/gui/e-week-view.c:353
-#: calendar/gui/print.c:813
+#: calendar/gui/e-day-view.c:639 calendar/gui/e-week-view.c:353
+#: calendar/gui/print.c:811
 msgid "pm"
 msgstr "μμ"
 
-#: calendar/gui/e-day-view.c:3678
+#: calendar/gui/e-day-view.c:3694
 msgid "New _Appointment"
 msgstr "Νέο Ρ_ραντεβού"
 
-#: calendar/gui/e-day-view.c:3680 calendar/gui/e-week-view.c:3582
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3582
 msgid "New All Day _Event"
 msgstr "Νέο _Γεγονός Ολόκληρης της Ημέρας"
 
-#: calendar/gui/e-day-view.c:3682 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3583
 msgid "New Meeting"
 msgstr "Νέα Συνάντηση"
 
-#: calendar/gui/e-day-view.c:3684 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
 msgid "New Task"
 msgstr "Νέα Εργασία"
 
-#: calendar/gui/e-day-view.c:3689 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3705 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Εκτύπωση..."
 
-#: calendar/gui/e-day-view.c:3701 calendar/gui/e-week-view.c:3598
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3598
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Μετάβαση στο _Σήμερα"
 
-#: calendar/gui/e-day-view.c:3703 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3599
 msgid "_Go to Date..."
 msgstr "_Μετάβαση στην Ημερομηνία..."
 
-#: calendar/gui/e-day-view.c:3708 calendar/gui/e-week-view.c:3603
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "Δημο_σίευση πληροφοριών Διαθεσιμότητας"
 
-#: calendar/gui/e-day-view.c:3713 calendar/gui/e-week-view.c:3607
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3607
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "_Ρυθμίσεις..."
 
-#: calendar/gui/e-day-view.c:3722 calendar/gui/e-week-view.c:3614
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3614
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Αποθήκευση _ως..."
 
-#: calendar/gui/e-day-view.c:3734 calendar/gui/e-week-view.c:3626
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3626
 msgid "_Schedule Meeting..."
 msgstr "Προγραμματισμός _Συνάντησης..."
 
-#: calendar/gui/e-day-view.c:3735 calendar/gui/e-week-view.c:3627
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3627
 msgid "_Forward as iCalendar..."
 msgstr "Προώ_θηση ως iCalendar"
 
-#: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3632
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3632
 msgid "Make this Occurrence _Movable"
 msgstr "Να γίνει αυτή η Εμφάνιση _Μετακινήσιμη"
 
-#: calendar/gui/e-day-view.c:3741 calendar/gui/e-week-view.c:3633
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3633
 msgid "Delete this _Occurrence"
 msgstr "Διαγραφή αυτής της _Εμφάνισης"
 
-#: calendar/gui/e-day-view.c:3742 calendar/gui/e-week-view.c:3634
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3634
 msgid "Delete _All Occurrences"
 msgstr "Διαγραφή Ό_λων των Εμφανίσεων"
 
@@ -6160,7 +6165,7 @@ msgstr "Χρόνος _περάτωσης συνάντησης:"
 msgid "Opening tasks at %s"
 msgstr "Άνοιγμα ενεργειών στο %s"
 
-#: calendar/gui/e-tasks.c:389 calendar/gui/tasks-control.c:200
+#: calendar/gui/e-tasks.c:389 calendar/gui/tasks-control.c:201
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Αδύνατη η φόρτωση ενεργειών στο `%s'"
@@ -6358,119 +6363,119 @@ msgstr "Πληροφορίες iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Πρέπει να είστε παρευρισκόμενος για αυτό το γεγονός."
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Su"
 msgstr "Κυ"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Mo"
 msgstr "Δε"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Tu"
 msgstr "Τρ"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "We"
 msgstr "Τε"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Th"
 msgstr "Πε"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Fr"
 msgstr "Πα"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Sa"
 msgstr "Σα"
 
 #. Day
-#: calendar/gui/print.c:1877
+#: calendar/gui/print.c:1875
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Επιλεγμένη ημέρα (%a %d %b %Y)"
 
-#: calendar/gui/print.c:1902 calendar/gui/print.c:1906
+#: calendar/gui/print.c:1900 calendar/gui/print.c:1904
 msgid "%a %b %d"
 msgstr "%a %d %b"
 
-#: calendar/gui/print.c:1903
+#: calendar/gui/print.c:1901
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: calendar/gui/print.c:1907 calendar/gui/print.c:1909
-#: calendar/gui/print.c:1910
+#: calendar/gui/print.c:1905 calendar/gui/print.c:1907
+#: calendar/gui/print.c:1908
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/print.c:1914
+#: calendar/gui/print.c:1912
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Επιλεγμένη εβδομάδα (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1922
+#: calendar/gui/print.c:1920
 msgid "Selected month (%b %Y)"
 msgstr "Επιλεγμένος μήνας (%b %Y)"
 
 #. Year
-#: calendar/gui/print.c:1929
+#: calendar/gui/print.c:1927
 msgid "Selected year (%Y)"
 msgstr "Επιλεγμένο έτος (%Y)"
 
-#: calendar/gui/print.c:2257
+#: calendar/gui/print.c:2255
 msgid "Task"
 msgstr "Εργασία"
 
-#: calendar/gui/print.c:2316
+#: calendar/gui/print.c:2314
 #, c-format
 msgid "Status: %s"
 msgstr "_Κατάσταση: %s"
 
-#: calendar/gui/print.c:2333
+#: calendar/gui/print.c:2331
 #, c-format
 msgid "Priority: %s"
 msgstr "Προτεραιότητα: %s"
 
-#: calendar/gui/print.c:2345
+#: calendar/gui/print.c:2343
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "%i Ολοκληρωμένο"
 
-#: calendar/gui/print.c:2357
+#: calendar/gui/print.c:2355
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2371
+#: calendar/gui/print.c:2369
 #, c-format
 msgid "Categories: %s"
 msgstr "Κατηγορίες: %s"
 
-#: calendar/gui/print.c:2382
+#: calendar/gui/print.c:2380
 msgid "Contacts: "
 msgstr "Επαφές: "
 
-#: calendar/gui/print.c:2520 calendar/gui/print.c:2606
-#: calendar/gui/tasks-control.c:571 mail/mail-callbacks.c:2947
+#: calendar/gui/print.c:2518 calendar/gui/print.c:2604
+#: calendar/gui/tasks-control.c:581 mail/mail-callbacks.c:2948
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "Προεπισκόπηση Εκτύπωσης"
 
-#: calendar/gui/print.c:2554
+#: calendar/gui/print.c:2552
 msgid "Print Item"
 msgstr "Εκτύπωση Στοιχείου"
 
-#: calendar/gui/print.c:2627
+#: calendar/gui/print.c:2625
 msgid "Print Setup"
 msgstr "Ρυθμίσεις Εκτύπωσης"
 
-#: calendar/gui/tasks-control.c:151
+#: calendar/gui/tasks-control.c:152
 msgid "The URI of the tasks folder to display"
 msgstr "Το URI του φακέλου ενεργειών προς εμφάνιση"
 
-#: calendar/gui/tasks-control.c:464
+#: calendar/gui/tasks-control.c:465
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -6483,11 +6488,11 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι για την διαγραφή των μηνυμάτων;"
 
-#: calendar/gui/tasks-control.c:467
+#: calendar/gui/tasks-control.c:468
 msgid "Do not ask me again."
 msgstr "Να μην ξαναγίνει η ερώτηση."
 
-#: calendar/gui/tasks-control.c:600
+#: calendar/gui/tasks-control.c:610
 msgid "Print Tasks"
 msgstr "Εργασίες Εκτύπωσης"
 
@@ -8872,40 +8877,40 @@ msgstr "URL '%s' χρειάζεται ένα στοιχείο συστήματο
 msgid "URL '%s' needs a path component"
 msgstr "Η ηλεκτρονική διεύθυνση '%s' χρειάζεται ένα συστατικό θέσης"
 
-#: camel/camel-service.c:748
+#: camel/camel-service.c:750
 #, c-format
 msgid "Resolving: %s"
 msgstr "Ανάλυση: %s"
 
-#: camel/camel-service.c:781 camel/camel-service.c:909
+#: camel/camel-service.c:783 camel/camel-service.c:915
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Αποτυχία στην αναζήτηση ονόματος: %s"
 
-#: camel/camel-service.c:802
+#: camel/camel-service.c:804
 #, fuzzy, c-format
 msgid "Host lookup failed: cannot create thread: %s"
 msgstr "Αποτυχία συσχέτισης εξυπηρετητή: άγνωστος λόγος"
 
-#: camel/camel-service.c:816
+#: camel/camel-service.c:818
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Αποτυχία συσχέτισης εξυπηρετητή: %s: εξυπηρετητής δεν βρέθηκε"
 
-#: camel/camel-service.c:819
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Αποτυχία συσχέτισης εξυπηρετητή: %s: άγνωστος λόγος"
 
-#: camel/camel-service.c:874
+#: camel/camel-service.c:880
 msgid "Resolving address"
 msgstr "Ανάλυση διεύθυνσης"
 
-#: camel/camel-service.c:943
+#: camel/camel-service.c:949
 msgid "Host lookup failed: host not found"
 msgstr "Αποτυχία συσχέτισης εξυπηρετητή: εξυπηρετητής δεν βρέθηκε"
 
-#: camel/camel-service.c:946
+#: camel/camel-service.c:952
 msgid "Host lookup failed: unknown reason"
 msgstr "Αποτυχία συσχέτισης εξυπηρετητή: άγνωστος λόγος"
 
@@ -11206,31 +11211,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1404
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
 msgid "Important"
 msgstr "Σημαντικό"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1405
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
 msgid "Work"
 msgstr "Εργασία"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1406
+#: shell/e-config-upgrade.c:1413
 msgid "Personal"
 msgstr "Προσωπικό"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1407
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
 msgid "To Do"
 msgstr "Πρός Τακτοποίηση"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1408
+#: shell/e-config-upgrade.c:1415
 msgid "Later"
 msgstr "Αργότερα"
 
@@ -12424,11 +12429,11 @@ msgstr "ένας άγνωστος αποστολέας"
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "Στις %d/%b/%Y, ημέρα %A και ώρα %H:%M, ο/η %%s έγραψε:"
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:123
+#: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Μετακίνηση μηνύματος(ων) στο"
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:125
+#: mail/mail-callbacks.c:1702 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Αντιγραφή μηνύματος(ων) στο"
 
@@ -12523,18 +12528,18 @@ msgstr "Σελίδα %d από %d"
 msgid "Print Message"
 msgstr "Εκτύπωση Μηνύματος"
 
-#: mail/mail-callbacks.c:2953
+#: mail/mail-callbacks.c:2954
 msgid "Printing of message failed"
 msgstr "Απέτυχε η εκτύπωση του μηνύματος"
 
-#: mail/mail-callbacks.c:3146
+#: mail/mail-callbacks.c:3147
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
 "Είστε βέβαιοι ότι θέλετε να ανοίξετε και τα %d μηνύματα σε άλλα παράθυρα;"
 
 #: mail/mail-composer-prefs.c:226 mail/mail-composer-prefs.c:349
-#: mail/mail-config.c:1370
+#: mail/mail-config.c:1376
 msgid "Unnamed"
 msgstr "Χωρίς Τίτλο"
 
@@ -12623,11 +12628,11 @@ msgstr ""
 "ταχυδρομείου Evolution. Παρακαλώ εισάγετε ένα όνομα στο παρακάτω κενό.Το "
 "όνομα είναι μόνο για να προβάλει τον λογαριασμό."
 
-#: mail/mail-config.c:1074
+#: mail/mail-config.c:1080
 msgid "Checking Service"
 msgstr "Γίνεται Έλεγχος Υπηρεσίας"
 
-#: mail/mail-config.c:1152 mail/mail-config.c:1156
+#: mail/mail-config.c:1158 mail/mail-config.c:1162
 msgid "Connecting to server..."
 msgstr "Σύνδεση στον διακομιστή..."
 
@@ -13817,11 +13822,11 @@ msgstr "Προσπάθεια επεξεργασίας εφακέλου '%s' πο
 msgid "New VFolder"
 msgstr "Νέος ΕΦάκελος"
 
-#: mail/message-browser.c:224
+#: mail/message-browser.c:233
 msgid "(No subject)"
 msgstr "(Χωρίς Θέμα)"
 
-#: mail/message-browser.c:226
+#: mail/message-browser.c:235
 #, c-format
 msgid "%s - Message"
 msgstr "%s - Μήνυμα"

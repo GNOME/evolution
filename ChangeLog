@@ -1,3 +1,11 @@
+== Version 1.4.1 ==
+
+2003-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Depend on GtkHTML 3.0.6, gal 1.99.8.
+
+	* README: Update
+
 2003-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/Makefile.am: Added implicity rule to subst @BASE_VERSION@

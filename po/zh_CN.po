@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-18 03:58+0200\n"
+"POT-Creation-Date: 2003-06-25 13:24-0400\n"
 "PO-Revision-Date: 2003-06-18 13:21+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -979,8 +979,8 @@ msgstr "搜索范围(_E)："
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1687
-#: calendar/gui/e-week-view.c:1252
+#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1712
+#: calendar/gui/e-week-view.c:1256
 msgid "Searching"
 msgstr "搜索"
 
@@ -1415,8 +1415,8 @@ msgid "_Categories..."
 msgstr "类别(_C)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
-#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3616
+#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3631
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -1466,7 +1466,7 @@ msgstr "网页地址(_W)："
 #: addressbook/gui/widgets/e-addressbook-model.c:318
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
 #: addressbook/gui/widgets/e-minicard-label.c:164
-#: addressbook/gui/widgets/e-minicard-view-widget.c:119
+#: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
 #: addressbook/gui/widgets/e-minicard.c:183
 msgid "Editable"
@@ -2499,7 +2499,7 @@ msgstr "津巴布韦"
 #: addressbook/gui/widgets/e-addressbook-model.c:304
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
 #: addressbook/gui/widgets/e-addressbook-view.c:180
-#: addressbook/gui/widgets/e-minicard-view-widget.c:105
+#: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
 msgid "Book"
 msgstr "名簿"
@@ -2551,7 +2551,7 @@ msgstr "您确定要删除此联系人吗？"
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2375
+#: addressbook/gui/contact-editor/e-contact-editor.c:2376
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "无法为域找到构件：“%s”"
@@ -2791,7 +2791,7 @@ msgstr "%d 张卡片"
 #: addressbook/gui/widgets/e-addressbook-model.c:311
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
 #: addressbook/gui/widgets/e-addressbook-view.c:187
-#: addressbook/gui/widgets/e-minicard-view-widget.c:112
+#: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
 msgid "Query"
 msgstr "查询"
@@ -2848,9 +2848,9 @@ msgstr "不支持的协议"
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2309
-#: camel/camel-service.c:737 camel/camel-service.c:780
-#: camel/camel-service.c:850 camel/camel-service.c:894
+#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
+#: camel/camel-service.c:745 camel/camel-service.c:785
+#: camel/camel-service.c:875 camel/camel-service.c:917
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -2997,7 +2997,7 @@ msgstr "转发联系人"
 msgid "Send Message to Contact"
 msgstr "给联系人发邮件"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:898 calendar/gui/print.c:2441
+#: addressbook/gui/widgets/e-addressbook-view.c:898 calendar/gui/print.c:2439
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
@@ -3040,7 +3040,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3690 calendar/gui/e-week-view.c:3581
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3596
 msgid "Current View"
 msgstr "当前视图"
 
@@ -3188,7 +3188,7 @@ msgstr "文字模型"
 msgid "Max field name length"
 msgstr "最大域名长度"
 
-#: addressbook/gui/widgets/e-minicard-view-widget.c:126
+#: addressbook/gui/widgets/e-minicard-view-widget.c:127
 msgid "Column Width"
 msgstr "列宽"
 
@@ -3423,153 +3423,153 @@ msgstr "字体(_F)..."
 msgid "Untitled appointment"
 msgstr "无标题约会"
 
-#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:477
 msgid "1st"
 msgstr "1日"
 
-#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:477
 msgid "2nd"
 msgstr "2日"
 
-#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:477
 msgid "3rd"
 msgstr "3日"
 
-#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:477
 msgid "4th"
 msgstr "4日"
 
-#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:479
+#: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
 msgid "5th"
 msgstr "5日"
 
-#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:478
 msgid "6th"
 msgstr "6日"
 
-#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:478
 msgid "7th"
 msgstr "7日"
 
-#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:478
 msgid "8th"
 msgstr "8日"
 
-#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:478
 msgid "9th"
 msgstr "9日"
 
-#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:480
+#: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
 msgid "10th"
 msgstr "10日"
 
-#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:479
 msgid "11th"
 msgstr "11日"
 
-#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:479
 msgid "12th"
 msgstr "12日"
 
-#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:479
 msgid "13th"
 msgstr "13日"
 
-#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:479
 msgid "14th"
 msgstr "14日"
 
-#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:481
+#: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
 msgid "15th"
 msgstr "15日"
 
-#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:480
 msgid "16th"
 msgstr "16日"
 
-#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:480
 msgid "17th"
 msgstr "17日"
 
-#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:480
 msgid "18th"
 msgstr "18八日"
 
-#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:480
 msgid "19th"
 msgstr "19日"
 
-#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:482
+#: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
 msgid "20th"
 msgstr "20日"
 
-#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:481
 msgid "21st"
 msgstr "21日"
 
-#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:481
 msgid "22nd"
 msgstr "22日"
 
-#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:481
 msgid "23rd"
 msgstr "23日"
 
-#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:481
 msgid "24th"
 msgstr "24日"
 
-#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:483
+#: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
 msgid "25th"
 msgstr "25日"
 
-#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:482
 msgid "26th"
 msgstr "二十六日"
 
-#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:482
 msgid "27th"
 msgstr "27日"
 
-#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:482
 msgid "28th"
 msgstr "28日"
 
-#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:482
 msgid "29th"
 msgstr "29日"
 
-#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:484
+#: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
 msgid "30th"
 msgstr "30日"
 
-#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:485
+#: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:483
 msgid "31st"
 msgstr "31日"
 
 #: calendar/cal-util/cal-util.c:550 calendar/cal-util/cal-util.c:572
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:393 mail/message-list.c:753
+#: calendar/gui/e-calendar-table.c:401 mail/message-list.c:753
 msgid "High"
 msgstr "高"
 
 #: calendar/cal-util/cal-util.c:552 calendar/cal-util/cal-util.c:574
 #: calendar/gui/calendar-model.c:1709
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:394 mail/message-list.c:752
+#: calendar/gui/e-calendar-table.c:402 mail/message-list.c:752
 msgid "Normal"
 msgstr "中"
 
 #: calendar/cal-util/cal-util.c:554 calendar/cal-util/cal-util.c:576
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:395 mail/message-list.c:751
+#: calendar/gui/e-calendar-table.c:403 mail/message-list.c:751
 msgid "Low"
 msgstr "低"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:570
 #: calendar/gui/dialogs/task-details-page.glade.h:13
-#: calendar/gui/e-calendar-table.c:396
+#: calendar/gui/e-calendar-table.c:404
 msgid "Undefined"
 msgstr "未定义"
 
@@ -3746,7 +3746,7 @@ msgstr "%Y年%-m月%-d日%A"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
-#: calendar/gui/e-day-view.c:1413 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/e-day-view.c:1438 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%-m月%-d日%A"
 
@@ -3764,7 +3764,7 @@ msgstr "%Y年%-m月%-d日"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:447
-#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1511
+#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
 msgid "%d %B"
 msgstr "%-m月%-d日"
 
@@ -3793,7 +3793,7 @@ msgid "Public folder containing appointments and events"
 msgstr "含有约会和事件的公共文件夹"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
-#: calendar/gui/print.c:1791 calendar/gui/tasks-control.c:503
+#: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:504
 #: calendar/importers/icalendar-importer.c:644
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
@@ -3862,16 +3862,16 @@ msgid "Create a new all-day appointment"
 msgstr "创建一个新的全天约会创建新约会"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/calendar-model.c:964
-#: calendar/gui/e-calendar-table.c:372
+#: calendar/gui/e-calendar-table.c:380
 msgid "Private"
 msgstr "保密"
 
 #: calendar/gui/calendar-model.c:408 calendar/gui/calendar-model.c:966
-#: calendar/gui/e-calendar-table.c:373
+#: calendar/gui/e-calendar-table.c:381
 msgid "Confidential"
 msgstr "机密"
 
-#: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:371
+#: calendar/gui/calendar-model.c:411 calendar/gui/e-calendar-table.c:379
 msgid "Public"
 msgstr "公开"
 
@@ -3892,11 +3892,11 @@ msgid "W"
 msgstr "西"
 
 #: calendar/gui/calendar-model.c:590 calendar/gui/calendar-model.c:1134
-#: calendar/gui/e-calendar-table.c:445
+#: calendar/gui/e-calendar-table.c:453
 msgid "Free"
 msgstr "空闲"
 
-#: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:446
+#: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
 #: shell/evolution-shell-component.c:1204
 msgid "Busy"
@@ -3904,20 +3904,20 @@ msgstr "繁忙"
 
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:466 calendar/gui/print.c:2300
+#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
 msgid "Not Started"
 msgstr "尚未开始"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:467 calendar/gui/print.c:2303
+#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
 msgid "In Progress"
 msgstr "正在进行中"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:294
-#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2306
+#: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
 msgid "Completed"
 msgstr "已完成"
 
@@ -4435,23 +4435,23 @@ msgstr "%s  您还没有进行修改，更新编辑器吗？"
 msgid "Validation error: %s"
 msgstr "校验错误：%s"
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2218
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
 msgid " to "
 msgstr " 到 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2222
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
 msgid " (Completed "
 msgstr " (完成 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2224
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
 msgid "Completed "
 msgstr "已完成 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2229
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
 msgid " (Due "
 msgstr " (预定 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2231
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
 msgid "Due "
 msgstr "预定 "
 
@@ -4472,41 +4472,46 @@ msgid "Could not update object"
 msgstr "无法更新对象"
 
 #: calendar/gui/dialogs/comp-editor.c:793
+#: calendar/gui/dialogs/comp-editor.c:830
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
 #: calendar/gui/dialogs/comp-editor.c:798
+#: calendar/gui/dialogs/comp-editor.c:835
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:801
+#: calendar/gui/dialogs/comp-editor.c:838
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:804
+#: calendar/gui/dialogs/comp-editor.c:841
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:815
+#: calendar/gui/dialogs/comp-editor.c:851
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1233
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3948
-#: calendar/gui/e-week-view.c:3817 composer/e-msg-composer.c:1164
+#: calendar/gui/dialogs/comp-editor.c:1281
+#: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
+#: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
 msgid "Save as..."
 msgstr "另存为..."
 
-#: calendar/gui/dialogs/comp-editor.c:1334
-#: calendar/gui/dialogs/comp-editor.c:1358
 #: calendar/gui/dialogs/comp-editor.c:1382
+#: calendar/gui/dialogs/comp-editor.c:1406
+#: calendar/gui/dialogs/comp-editor.c:1432
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1409
+#: calendar/gui/dialogs/comp-editor.c:1459
 msgid "Unable to obtain current version!"
 msgstr "无法获取当前版本！"
 
@@ -4612,7 +4617,7 @@ msgstr "授权给："
 msgid "Enter Delegate"
 msgstr "输入代表"
 
-#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2255
+#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
 msgid "Appointment"
 msgstr "约会"
 
@@ -5121,120 +5126,120 @@ msgstr "在 %2$s 时 %1$s"
 msgid "%s for an unknown trigger type"
 msgstr "%s 为未知触发类型"
 
-#: calendar/gui/e-calendar-table.c:415
+#: calendar/gui/e-calendar-table.c:423
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:416
+#: calendar/gui/e-calendar-table.c:424
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:417
+#: calendar/gui/e-calendar-table.c:425
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:418
+#: calendar/gui/e-calendar-table.c:426
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:419
+#: calendar/gui/e-calendar-table.c:427
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:420
+#: calendar/gui/e-calendar-table.c:428
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:421
+#: calendar/gui/e-calendar-table.c:429
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:422
+#: calendar/gui/e-calendar-table.c:430
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:423
+#: calendar/gui/e-calendar-table.c:431
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:424
+#: calendar/gui/e-calendar-table.c:432
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:425
+#: calendar/gui/e-calendar-table.c:433
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:717 calendar/gui/e-day-view.c:2842
-#: calendar/gui/e-week-view.c:1929
+#: calendar/gui/e-calendar-table.c:726 calendar/gui/e-day-view.c:2867
+#: calendar/gui/e-week-view.c:1933
 msgid "Deleting selected objects"
 msgstr "删除选中的对象"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3712
-#: calendar/gui/e-week-view.c:3598 mail/folder-browser.c:1763
+#: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
+#: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: calendar/gui/e-calendar-table.c:950
+#: calendar/gui/e-calendar-table.c:959
 msgid "_Save as..."
 msgstr "另存为(_S)..."
 
-#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3714
-#: calendar/gui/e-week-view.c:3573 calendar/gui/e-week-view.c:3600
+#: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
+#: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "打印(_P)..."
 
-#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3719
-#: calendar/gui/e-week-view.c:3605 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
+#: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "剪切(_U)"
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3720
-#: calendar/gui/e-week-view.c:3606 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
+#: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3685
-#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3577
-#: calendar/gui/e-week-view.c:3607 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
-#: calendar/gui/e-calendar-table.c:961
+#: calendar/gui/e-calendar-table.c:970
 msgid "_Assign Task"
 msgstr "委派任务(_A)"
 
-#: calendar/gui/e-calendar-table.c:962
+#: calendar/gui/e-calendar-table.c:971
 msgid "_Forward as iCalendar"
 msgstr "作为 iCalendar 转发(_F)"
 
-#: calendar/gui/e-calendar-table.c:963
+#: calendar/gui/e-calendar-table.c:972
 msgid "_Mark as Complete"
 msgstr "标记为完成(_M)"
 
-#: calendar/gui/e-calendar-table.c:964
+#: calendar/gui/e-calendar-table.c:973
 msgid "_Mark Selected Tasks as Complete"
 msgstr "把任务标记为完成(_M)"
 
-#: calendar/gui/e-calendar-table.c:969
+#: calendar/gui/e-calendar-table.c:978
 msgid "_Delete Selected Tasks"
 msgstr "删除选定的任务(_D)"
 
-#: calendar/gui/e-calendar-table.c:1236 calendar/gui/e-day-view.c:7662
-#: calendar/gui/e-week-view.c:4312
+#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7929
+#: calendar/gui/e-week-view.c:4335
 msgid "Updating objects"
 msgstr "更新对象"
 
-#: calendar/gui/e-calendar-table.c:1319
+#: calendar/gui/e-calendar-table.c:1348
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "点击以添加任务"
@@ -5312,91 +5317,91 @@ msgstr "%02i 分钟分割"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1396
-#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1527
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1421
+#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
 msgid "%A %d %B"
 msgstr "%B%-d日%A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1429
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1454
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%B%-d日"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:611 calendar/gui/e-week-view.c:346
-#: calendar/gui/print.c:811
+#: calendar/gui/e-day-view.c:636 calendar/gui/e-week-view.c:350
+#: calendar/gui/print.c:809
 msgid "am"
 msgstr "上午"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:349
-#: calendar/gui/print.c:813
+#: calendar/gui/e-day-view.c:639 calendar/gui/e-week-view.c:353
+#: calendar/gui/print.c:811
 msgid "pm"
 msgstr "下午"
 
-#: calendar/gui/e-day-view.c:3669
+#: calendar/gui/e-day-view.c:3694
 msgid "New _Appointment"
 msgstr "新建约会(_A)"
 
-#: calendar/gui/e-day-view.c:3671 calendar/gui/e-week-view.c:3567
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3582
 msgid "New All Day _Event"
 msgstr "新建全天事件(_E)"
 
-#: calendar/gui/e-day-view.c:3673 calendar/gui/e-week-view.c:3568
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3583
 msgid "New Meeting"
 msgstr "新会议"
 
-#: calendar/gui/e-day-view.c:3675 calendar/gui/e-week-view.c:3569
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
 msgid "New Task"
 msgstr "新建任务"
 
-#: calendar/gui/e-day-view.c:3680 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3705 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "打印..."
 
-#: calendar/gui/e-day-view.c:3692 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3598
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "转到今天(_T)"
 
-#: calendar/gui/e-day-view.c:3694 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3599
 msgid "_Go to Date..."
 msgstr "转到日期(_G)..."
 
-#: calendar/gui/e-day-view.c:3699 calendar/gui/e-week-view.c:3588
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "发布忙闲信息(_P)"
 
-#: calendar/gui/e-day-view.c:3704 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3607
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "设置(_S)..."
 
-#: calendar/gui/e-day-view.c:3713 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3614
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "另存为(_S)..."
 
-#: calendar/gui/e-day-view.c:3725 calendar/gui/e-week-view.c:3611
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3626
 msgid "_Schedule Meeting..."
 msgstr "调度会议(_S)..."
 
-#: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3612
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3627
 msgid "_Forward as iCalendar..."
 msgstr "作为 iCalendar 转发(_F)..."
 
-#: calendar/gui/e-day-view.c:3731 calendar/gui/e-week-view.c:3617
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3632
 msgid "Make this Occurrence _Movable"
 msgstr "使此次出现可移动(_M)"
 
-#: calendar/gui/e-day-view.c:3732 calendar/gui/e-week-view.c:3618
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3633
 msgid "Delete this _Occurrence"
 msgstr "删除此次出现(_O)"
 
-#: calendar/gui/e-day-view.c:3733 calendar/gui/e-week-view.c:3619
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3634
 msgid "Delete _All Occurrences"
 msgstr "删除所有出现(_A)"
 
@@ -5545,7 +5550,6 @@ msgstr "拒绝"
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:953 widgets/misc/e-charset-picker.c:60
-#: widgets/misc/e-charset-picker.c:546
 msgid "Unknown"
 msgstr "未知"
 
@@ -6043,7 +6047,7 @@ msgstr "会议结束时间(_E)："
 msgid "Opening tasks at %s"
 msgstr "在 %s 打开任务"
 
-#: calendar/gui/e-tasks.c:389 calendar/gui/tasks-control.c:200
+#: calendar/gui/e-tasks.c:389 calendar/gui/tasks-control.c:201
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "无法从“%s”中装入任务"
@@ -6079,7 +6083,7 @@ msgstr "正在删除选中的对象..."
 msgid "Expunging"
 msgstr "正在销毁"
 
-#: calendar/gui/e-week-view.c:3566
+#: calendar/gui/e-week-view.c:3581
 msgid "New _Appointment..."
 msgstr "新建约会(_A)..."
 
@@ -6237,119 +6241,119 @@ msgstr "iCalendar 信息"
 msgid "You must be an attendee of the event."
 msgstr "您必须是事件的参与者。"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Su"
 msgstr "日"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Mo"
 msgstr "一"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "Tu"
 msgstr "二"
 
-#: calendar/gui/print.c:549
+#: calendar/gui/print.c:547
 msgid "We"
 msgstr "三"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Th"
 msgstr "四"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Fr"
 msgstr "五"
 
-#: calendar/gui/print.c:550
+#: calendar/gui/print.c:548
 msgid "Sa"
 msgstr "六"
 
 #. Day
-#: calendar/gui/print.c:1877
+#: calendar/gui/print.c:1875
 msgid "Selected day (%a %b %d %Y)"
 msgstr "选中的日期 (%Y年%-m月%-d日%A)"
 
-#: calendar/gui/print.c:1902 calendar/gui/print.c:1906
+#: calendar/gui/print.c:1900 calendar/gui/print.c:1904
 msgid "%a %b %d"
 msgstr "%-m月%-d日%A"
 
-#: calendar/gui/print.c:1903
+#: calendar/gui/print.c:1901
 msgid "%a %d %Y"
 msgstr "%Y年%-d日%A"
 
-#: calendar/gui/print.c:1907 calendar/gui/print.c:1909
-#: calendar/gui/print.c:1910
+#: calendar/gui/print.c:1905 calendar/gui/print.c:1907
+#: calendar/gui/print.c:1908
 msgid "%a %b %d %Y"
 msgstr "%Y年%-m月%-d日%A"
 
-#: calendar/gui/print.c:1914
+#: calendar/gui/print.c:1912
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "选中的周(%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1922
+#: calendar/gui/print.c:1920
 msgid "Selected month (%b %Y)"
 msgstr "选中的月(%Y年%-m月)"
 
 #. Year
-#: calendar/gui/print.c:1929
+#: calendar/gui/print.c:1927
 msgid "Selected year (%Y)"
 msgstr "选中的年 (%Y年)"
 
-#: calendar/gui/print.c:2257
+#: calendar/gui/print.c:2255
 msgid "Task"
 msgstr "任务"
 
-#: calendar/gui/print.c:2316
+#: calendar/gui/print.c:2314
 #, c-format
 msgid "Status: %s"
 msgstr "状态：%s"
 
-#: calendar/gui/print.c:2333
+#: calendar/gui/print.c:2331
 #, c-format
 msgid "Priority: %s"
 msgstr "优先级：%s"
 
-#: calendar/gui/print.c:2345
+#: calendar/gui/print.c:2343
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "完成率：%i"
 
-#: calendar/gui/print.c:2357
+#: calendar/gui/print.c:2355
 #, c-format
 msgid "URL: %s"
 msgstr "URL：%s"
 
-#: calendar/gui/print.c:2371
+#: calendar/gui/print.c:2369
 #, c-format
 msgid "Categories: %s"
 msgstr "类别：%s"
 
-#: calendar/gui/print.c:2382
+#: calendar/gui/print.c:2380
 msgid "Contacts: "
 msgstr "联系人："
 
-#: calendar/gui/print.c:2520 calendar/gui/print.c:2606
-#: calendar/gui/tasks-control.c:571 mail/mail-callbacks.c:2947
-#: my-evolution/e-summary.c:651
+#: calendar/gui/print.c:2518 calendar/gui/print.c:2604
+#: calendar/gui/tasks-control.c:581 mail/mail-callbacks.c:2948
+#: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "打印预览"
 
-#: calendar/gui/print.c:2554
+#: calendar/gui/print.c:2552
 msgid "Print Item"
 msgstr "打印项"
 
-#: calendar/gui/print.c:2627
+#: calendar/gui/print.c:2625
 msgid "Print Setup"
 msgstr "打印设置"
 
-#: calendar/gui/tasks-control.c:151
+#: calendar/gui/tasks-control.c:152
 msgid "The URI of the tasks folder to display"
 msgstr "要显示的任务文件夹的 URI"
 
-#: calendar/gui/tasks-control.c:464
+#: calendar/gui/tasks-control.c:465
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -6360,11 +6364,11 @@ msgstr ""
 "\n"
 "确实删除这些任务吗？"
 
-#: calendar/gui/tasks-control.c:467
+#: calendar/gui/tasks-control.c:468
 msgid "Do not ask me again."
 msgstr "不要再次询问。"
 
-#: calendar/gui/tasks-control.c:600
+#: calendar/gui/tasks-control.c:610
 msgid "Print Tasks"
 msgstr "打印任务"
 
@@ -8710,35 +8714,40 @@ msgstr "URL“%s”需要主机组件"
 msgid "URL '%s' needs a path component"
 msgstr "URL “%s” 需要路径组件"
 
-#: camel/camel-service.c:741
+#: camel/camel-service.c:750
 #, c-format
 msgid "Resolving: %s"
 msgstr "正在解析：%s"
 
-#: camel/camel-service.c:774 camel/camel-service.c:889
+#: camel/camel-service.c:783 camel/camel-service.c:915
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "域名查阅失败：%s"
 
-#: camel/camel-service.c:801
+#: camel/camel-service.c:804
+#, fuzzy, c-format
+msgid "Host lookup failed: cannot create thread: %s"
+msgstr "主机寻找失败：未知的原因"
+
+#: camel/camel-service.c:818
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "主机寻找失败：%s：没有找到主机"
 
-#: camel/camel-service.c:804
+#: camel/camel-service.c:821
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "主机寻找失败：%s：未知的原因"
 
-#: camel/camel-service.c:854
+#: camel/camel-service.c:880
 msgid "Resolving address"
 msgstr "正在解析地址"
 
-#: camel/camel-service.c:917
+#: camel/camel-service.c:949
 msgid "Host lookup failed: host not found"
 msgstr "主机寻找失败：没有找到主机"
 
-#: camel/camel-service.c:920
+#: camel/camel-service.c:952
 msgid "Host lookup failed: unknown reason"
 msgstr "主机寻找失败：未知的原因"
 
@@ -10981,31 +10990,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
-#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1404
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1411
 msgid "Important"
 msgstr "重要"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
-#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1405
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1412
 msgid "Work"
 msgstr "工作"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
-#: shell/e-config-upgrade.c:1406
+#: shell/e-config-upgrade.c:1413
 msgid "Personal"
 msgstr "个人"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:68
-#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1407
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1414
 msgid "To Do"
 msgstr "待办"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:69 mail/mail-config.glade.h:66
-#: shell/e-config-upgrade.c:1408
+#: shell/e-config-upgrade.c:1415
 msgid "Later"
 msgstr "稍候"
 
@@ -12168,11 +12177,11 @@ msgstr "未知的发件人"
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "在%Y年%-m月%-d日的%-H:%M，%%s写道："
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:123
+#: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "将消息移动到"
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:125
+#: mail/mail-callbacks.c:1702 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "将消息复制到"
 
@@ -12266,17 +12275,17 @@ msgstr "第 %d 页，共 %d 页"
 msgid "Print Message"
 msgstr "打印消息"
 
-#: mail/mail-callbacks.c:2953
+#: mail/mail-callbacks.c:2954
 msgid "Printing of message failed"
 msgstr "打印消息失败"
 
-#: mail/mail-callbacks.c:3146
+#: mail/mail-callbacks.c:3147
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "您真的想要在单独的窗口中打开所有 %d 封邮件？"
 
 #: mail/mail-composer-prefs.c:226 mail/mail-composer-prefs.c:349
-#: mail/mail-config.c:1370
+#: mail/mail-config.c:1376
 msgid "Unnamed"
 msgstr "未命名"
 
@@ -12356,11 +12365,11 @@ msgstr ""
 "您即将完成邮件配置的过程了。您提供的用于收件服务器和发送方式将被组合在一起，"
 "成为 Evolution 的邮件帐户。请在下面输入此帐户的名称。此名称只会用作显示。"
 
-#: mail/mail-config.c:1074
+#: mail/mail-config.c:1080
 msgid "Checking Service"
 msgstr "检查服务"
 
-#: mail/mail-config.c:1152 mail/mail-config.c:1156
+#: mail/mail-config.c:1158 mail/mail-config.c:1162
 msgid "Connecting to server..."
 msgstr "正在连接服务器..."
 
@@ -13523,11 +13532,11 @@ msgstr "试图编辑并不存在的虚拟文件夹“%s”。"
 msgid "New VFolder"
 msgstr "新建虚拟文件夹"
 
-#: mail/message-browser.c:224
+#: mail/message-browser.c:233
 msgid "(No subject)"
 msgstr "(没有主题)"
 
-#: mail/message-browser.c:226
+#: mail/message-browser.c:235
 #, c-format
 msgid "%s - Message"
 msgstr "%s - 邮件"
@@ -13592,7 +13601,7 @@ msgstr "%-m月%-d日 %-H:%M"
 msgid "%b %d %Y"
 msgstr "%Y年%-m月%-d日"
 
-#: mail/message-list.c:2646
+#: mail/message-list.c:2649
 msgid "Generating message list"
 msgstr "正在生成邮件列表"
 
@@ -24677,7 +24686,7 @@ msgstr "请稍候..."
 msgid "Print Summary"
 msgstr "打印概要"
 
-#: my-evolution/e-summary.c:657
+#: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
 msgstr "打印概要失败"
 
@@ -26373,7 +26382,7 @@ msgstr "无法找到指定的共享文件夹。"
 
 #: shell/e-shell-user-creatable-items-handler.c:586
 #: shell/e-shell-user-creatable-items-handler.c:642
-#: widgets/misc/e-charset-picker.c:106
+#: widgets/misc/e-charset-picker.c:109
 msgid "New"
 msgstr "新建"
 
@@ -28698,36 +28707,38 @@ msgstr "Unicode"
 msgid "Western European"
 msgstr "西欧"
 
-#: widgets/misc/e-charset-picker.c:88
+#: widgets/misc/e-charset-picker.c:88 widgets/misc/e-charset-picker.c:89
+#: widgets/misc/e-charset-picker.c:90
 msgid "Traditional"
 msgstr "繁体"
 
-#: widgets/misc/e-charset-picker.c:89 widgets/misc/e-charset-picker.c:90
+#: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
+#: widgets/misc/e-charset-picker.c:93 widgets/misc/e-charset-picker.c:94
 msgid "Simplified"
 msgstr "简体"
 
-#: widgets/misc/e-charset-picker.c:94
+#: widgets/misc/e-charset-picker.c:97
 msgid "Ukrainian"
 msgstr "乌克兰语"
 
-#: widgets/misc/e-charset-picker.c:97
+#: widgets/misc/e-charset-picker.c:100
 msgid "Visual"
 msgstr "可视"
 
-#: widgets/misc/e-charset-picker.c:185
+#: widgets/misc/e-charset-picker.c:168
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "未知的字符集：%s"
 
-#: widgets/misc/e-charset-picker.c:230 widgets/misc/e-charset-picker.c:459
+#: widgets/misc/e-charset-picker.c:213 widgets/misc/e-charset-picker.c:442
 msgid "Character Encoding"
 msgstr "字符编码"
 
-#: widgets/misc/e-charset-picker.c:239
+#: widgets/misc/e-charset-picker.c:222
 msgid "Enter the character set to use"
 msgstr "输入要使用的字符集"
 
-#: widgets/misc/e-charset-picker.c:335
+#: widgets/misc/e-charset-picker.c:318
 msgid "Other..."
 msgstr "其它..."
 
@@ -28816,4 +28827,3 @@ msgstr "Evolution 日历本地文件后端"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution 地址簿本地文件后端"
-

@@ -76,7 +76,7 @@ dependencies should be compiled in the order they are listed here):
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml
 
-	* gal 1.99.2 or later
+	* gal 1.99.8 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gal
 
@@ -86,7 +86,7 @@ dependencies should be compiled in the order they are listed here):
 	  later one, to compile Evolution.  Please check the "Building
 	  Berkeley DB" section below for more information.
 
-   	     ftp://ftp.ximian.com/pub/ximian-evolution-beta/source/
+   	     ftp://ftp.ximian.com/pub/source/evolution
 
 	* [Optional] Mozilla NSPR/NSS libraries
 
