@@ -426,7 +426,7 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 			camel_object_unref((CamelObject *)sub);
 			
 			/* undo the freeze state that Unmatched has imposed on this source folder */
-			for (i = 0; i < p->freeze_count; i++)
+			for (i = 0; i < up->freeze_count; i++)
 				camel_folder_thaw (sub);
 		}
 	} else if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
@@ -435,7 +435,7 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 			camel_object_unref((CamelObject *)sub);
 			
 			/* undo the freeze state that Unmatched has imposed on this source folder */
-			for (i = 0; i < p->freeze_count; i++)
+			for (i = 0; i < up->freeze_count; i++)
 				camel_folder_thaw (sub);
 		}
 		if (g_list_find(up->folders, sub) == NULL) {

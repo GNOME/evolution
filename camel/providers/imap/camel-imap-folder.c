@@ -488,7 +488,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
-			camel_imap_folder_selected (folder, response, NULL);
+			camel_imap_folder_selected (folder, response, ex);
 			camel_imap_response_free (imap_store, response);
 		}
 		return;
@@ -715,6 +715,7 @@ get_matching (CamelFolder *folder, guint32 flags, guint32 mask, char **set)
 		g_string_free (gset, FALSE);
 		return matches;
 	} else {
+		*set = NULL
 		g_string_free (gset, TRUE);
 		g_ptr_array_free (matches, TRUE);
 		return NULL;
@@ -760,11 +761,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		   empty-set of flags so... if this is true then we
 		   want to unset the previously set flags.*/
 		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
-		
-		/* FIXME: since we don't know the previously set flags,
-		   if unset is TRUE then just unset all the flags? */
-		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
-		
+				
 		/* Note: get_matching() uses UID_SET_LIMIT to limit
 		   the size of the uid-set string. We don't have to
 		   loop here to flush all the matching uids because
@@ -773,7 +770,13 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
 					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
 		camel_folder_summary_info_free (folder->summary, info);
+		if (matches == NULL)
+			continue;
 		
+		/* FIXME: since we don't know the previously set flags,
+		   if unset is TRUE then just unset all the flags? */
+		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
+
 		/* Note: to `unset' flags, use -FLAGS.SILENT (<flag list>) */
 		response = camel_imap_command (store, folder, &local_ex,
 					       "UID STORE %s %sFLAGS.SILENT %s",

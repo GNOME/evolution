@@ -1458,6 +1458,8 @@ freeze (CamelFolder *folder)
 {
 	CAMEL_FOLDER_LOCK(folder, change_lock);
 
+	g_assert(folder->priv->frozen >= 0);
+
 	folder->priv->frozen++;
 
 	d(printf ("freeze(%p '%s') = %d\n", folder, folder->full_name, folder->priv->frozen));
@@ -1487,6 +1489,8 @@ thaw (CamelFolder * folder)
 	CamelFolderChangeInfo *info = NULL;
 
 	CAMEL_FOLDER_LOCK(folder, change_lock);
+
+	g_assert(folder->priv->frozen > 0);
 
 	folder->priv->frozen--;
 

@@ -1,3 +1,32 @@
+2002-10-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_matching): Set *set to
+	NULL if we dont get any matches.
+	(imap_sync_online): If we get no matches, skip any work, also
+	reorder some code to make it easier to skip.  See #31031.
+
+	* providers/imap/camel-imap-store.c
+	(imap_check_folder_still_extant): Default to "TRUE", if the list
+	command failed, it probably means a server problem, assume the
+	worst.  This makes imap_refresh_info not clear the exception and
+	crash.  Fixes crash of #31000.
+
+2002-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Make
+	sure we pass the exception to imap_folder_selected(), otherwise
+	failures can be lost.  See bug #31000.
+
+2002-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (thaw): Add an assertion that the frozen count>0.
+	(freeze): Same for >= 0.
+
+	* camel-vee-folder.c (camel_vee_folder_remove_folder): Use the
+	unmatched freeze_count when thawing folders removed from
+	unmatched, rather than the folder's freeze_count.  Might be
+	related to #27391.
+
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (decode_internaldate): Use

@@ -944,24 +944,16 @@ imap_check_folder_still_extant (CamelImapStore *imap_store, const char *full_nam
 				       full_name);
 
 	if (response) {
-		gboolean stillthere = FALSE;
-
-		if (response->untagged->len)
-			stillthere = TRUE;
+		gboolean stillthere = response->untagged->len != 0;
 
 		camel_imap_response_free_without_processing (imap_store, response);
 
-		if (stillthere)
-			return TRUE;
+		return stillthere;
 	}
 
-	/* either LIST command was rejected or it gave no results,
-	 * we can be sure that the folder is gone. */
-
-	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-			     _("The folder %s no longer exists"),
-			     full_name);
-	return FALSE;
+	/* if the command was rejected, there must be some other error,
+	   assume it worked so we dont blow away the folder unecessarily */
+	return TRUE;
 }
 
 static void
@@ -1008,7 +1000,6 @@ imap_store_refresh_folders (CamelImapStore *store, CamelException *ex)
 			camel_object_unref((CamelObject *)folder);
 			imap_folder_effectively_unsubscribed (store, namedup, ex);
 			imap_forget_folder (store, namedup, ex);
-			camel_exception_clear (ex);
 			g_free (namedup);
 		} else
 			camel_object_unref((CamelObject *)folder);
