@@ -1,5 +1,9 @@
 2001-05-02  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Fix
+	this up... it was losing count in some cases and giving a more
+	verbose answer than it needed to.
+
 	* providers/pop3/camel-pop3-store.c: Rescue the KPOP code from bit
 	rot.
 

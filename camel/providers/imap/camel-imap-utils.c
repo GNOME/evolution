@@ -599,29 +599,23 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 
 	gset = g_string_new (uids->pdata[0]);
 	last_uid = strtoul (uids->pdata[0], NULL, 10);
+	next_summary_uid = 0;
 	scount = camel_folder_summary_count (summary);
 
 	for (ui = 1, si = 0; ui < uids->len; ui++) {
-		/* Find the next UID in the summary */
-		for (; si < scount; si++) {
+		/* Find the next UID in the summary after the one we
+		 * just wrote out.
+		 */
+		for (; last_uid >= next_summary_uid && si < scount; si++)
 			next_summary_uid = get_summary_uid_numeric (summary, si);
-			if (next_summary_uid == last_uid)
-				break;
-		}
-		if (++si < scount)
-			next_summary_uid = get_summary_uid_numeric (summary, si);
-		else
+		if (last_uid >= next_summary_uid)
 			next_summary_uid = (unsigned long) -1;
 
 		/* Now get the next UID from @uids */
 		this_uid = strtoul (uids->pdata[ui], NULL, 10);
-		if (this_uid == next_summary_uid) {
+		if (this_uid == next_summary_uid)
 			range = TRUE;
-			if (++si < scount)
-				next_summary_uid = get_summary_uid_numeric (summary, si);
-			else
-				next_summary_uid = (unsigned long) -1;
-		} else {
+		else {
 			if (range) {
 				g_string_sprintfa (gset, ":%lu", last_uid);
 				range = FALSE;
