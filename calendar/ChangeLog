@@ -1,6 +1,11 @@
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/e-week-view-event-item.c (e_day_view_top_draw_long_event):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
+	Use CalComponent instead of iCalObject.  #if some alarm stuff
+	
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/e-day-view-top-item.c (e_day_view_top_draw_long_event):
 	Use CalComponent instead of iCalObject.  #if some alarm stuff
 
 2000-08-21  JP Rosevear  <jpr@helixcode.com>

@@ -445,7 +445,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
 	GtkStyle *style;
 	GdkGC *gc;
-	iCalObject *ico;
+	CalComponent *comp;
 	gint num_icons, icon_x, icon_y, icon_x_inc, icon_y_inc;
 	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon;
@@ -546,15 +546,18 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	icon_x = item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_ICON_X_PAD;
 	icon_y = item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD;
-	ico = event->ico;
+	comp = event->comp;
 
+#if 0
 	if (ico->dalarm.enabled || ico->malarm.enabled
 	    || ico->palarm.enabled || ico->aalarm.enabled) {
 		draw_reminder_icon = TRUE;
 		num_icons++;
 	}
+#endif
 
-	if (ico->recur) {
+	if (cal_component_has_rrules (comp)
+	    || cal_component_has_rdates (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
