@@ -104,7 +104,7 @@ test_calendar_SOURCES = 	\
 
 test_calendar_LDADD = 						\
 	./libemiscwidgets.la					\
-	../../e-util/libeutil.la				\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(GNOME_FULL_LIBS)
 
 # test-dateedit
@@ -114,7 +114,7 @@ test_dateedit_SOURCES = 	\
 
 test_dateedit_LDADD = 			\
 	./libemiscwidgets.la		\
-	../../e-util/libeutil.la	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_FULL_LIBS)
 
 # test-dropdown-button
@@ -124,6 +124,7 @@ test_dropdown_button_SOURCES = 	\
 
 test_dropdown_button_LDADD =	\
 	./libemiscwidgets.la	\
+	$(top_builddir)/e-util/libeutil.la  \
 	$(GNOME_FULL_LIBS)
 
 # test-multi-config-dialog
@@ -133,6 +134,7 @@ test_multi_config_dialog_SOURCES = 	\
 
 test_multi_config_dialog_LDADD = 	\
 	./libemiscwidgets.la		\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_FULL_LIBS)
 
 # test-title-bar
@@ -142,6 +144,7 @@ test_title_bar_SOURCES = 	\
 
 test_title_bar_LDADD = 		\
 	./libemiscwidgets.la	\
+	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_FULL_LIBS)
 
 # test-source-selector
@@ -150,7 +153,7 @@ test_source_selector_SOURCES =			\
 	test-source-selector.c
 
 test_source_selector_LDADD =			\
-	../../e-util/libeutil.la		\
+	$(top_builddir)/e-util/libeutil.la	\
 	./libemiscwidgets.la			\
 	$(SOURCE_SEL_LIBS)
 
@@ -161,7 +164,7 @@ test_source_option_menu_SOURCES =		\
 	test-source-option-menu.c
 
 test_source_option_menu_LDADD =			\
-	../../e-util/libeutil.la		\
+	$(top_builddir)/e-util/libeutil.la	\
 	./libemiscwidgets.la			\
 	$(SOURCE_SEL_LIBS)
 
