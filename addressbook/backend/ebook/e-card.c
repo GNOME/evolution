@@ -411,8 +411,12 @@ char
 	if (card->fburl)
 		addPropValue(vobj, "FBURL", card->fburl);
 	
-	if (card->note)
-		addPropValue(vobj, VCNoteProp, card->note);
+	if (card->note) {
+		VObject *noteprop;
+
+		noteprop = addPropValue(vobj, VCNoteProp, card->note);
+		addProp(noteprop, VCQuotedPrintableProp);
+	}
 
 	if (card->categories) {
 		EIterator *iterator;

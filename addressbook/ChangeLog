@@ -1,3 +1,14 @@
+2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c (e_card_get_vcard): Make the Note field
+	be quoted printable.
+
+2001-01-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): This should be a close button,
+	not a cancel button.
+
 2001-02-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c

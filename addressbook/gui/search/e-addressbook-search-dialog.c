@@ -125,7 +125,6 @@ button_press (GtkWidget *widget, int button, EAddressbookSearchDialog *dialog)
 	char *query;
 
 	if (button == 0) {
-		gtk_widget_show(dialog->scrolled_window);
 		query = get_query(dialog);
 		gtk_object_set(GTK_OBJECT(dialog->view),
 			       "query", query,
@@ -149,7 +148,7 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 
 	gnome_dialog_append_buttons(dialog,
 				    _("Search"),
-				    GNOME_STOCK_BUTTON_CANCEL, NULL);
+				    GNOME_STOCK_BUTTON_CLOSE, NULL);
 	
 	gnome_dialog_set_default(dialog, 0);
 
@@ -163,6 +162,8 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	e_scroll_frame_set_policy(E_SCROLL_FRAME(view->scrolled_window),
 				  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
 	gtk_container_add(GTK_CONTAINER(view->scrolled_window), view->view);
+	
+	gtk_widget_show(view->scrolled_window);
 	
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->scrolled_window, TRUE, TRUE, 0);
 }
