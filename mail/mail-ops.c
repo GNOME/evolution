@@ -180,7 +180,6 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			filter_driver_run (filter, message, info,
 					   input->destination, FILTER_SOURCE_INCOMING,
-					   input->hook_func, input->hook_data,
 					   TRUE, ex);
 			
 			if (free_info)
@@ -347,6 +346,9 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		int i;
 		
 		uids = camel_folder_get_uids (input->source);
+		
+		camel_folder_freeze (input->source);
+		
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
 			CamelMessageInfo *info;
@@ -366,7 +368,7 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			
 			filtered = filter_driver_run (input->driver, message, info, NULL,
-						      FILTER_SOURCE_DEMAND, NULL, NULL, TRUE, ex);
+						      FILTER_SOURCE_DEMAND, TRUE, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
@@ -385,6 +387,9 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		}
 		
 		camel_folder_sync (input->source, TRUE, ex);
+		
+		camel_folder_thaw (input->source);
+		
 		camel_folder_free_uids (input->source, uids);
 		
 		data->empty = FALSE;

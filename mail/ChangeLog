@@ -1,5 +1,12 @@
 2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-ops.c (do_fetch_mail): Updated to not send hook/unhook data
+	to filter_driver_run as it no longer takes those args.
+	(do_filter_ondemand): Same. Also wrap filtering in freeze/thaw to
+	prevent signals from being queued up
+
+2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-ops.c (do_fetch_mail): Freeze the default folder before
 	filtering and thaw it afterward to prevent a ton of
 	"folder_changed" signals from being queued.
