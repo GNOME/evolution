@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2003-05-21 13:52-0400\n"
-"PO-Revision-Date: 2003-05-12 21:59+0200\n"
+"POT-Creation-Date: 2003-05-22 14:26+0200\n"
+"PO-Revision-Date: 2003-05-22 14:38+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -920,9 +920,8 @@ msgid "Edit LDAP Server"
 msgstr "Rediger LDAP-tjener"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid "Email address:"
-msgstr "E-post _adresse:"
+msgstr "E-postadresse:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
@@ -1330,14 +1329,12 @@ msgid "_Folder:"
 msgstr "_Mappe:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "Arbeid"
+msgstr "A_rbeid:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "A_ddress..."
-msgstr "Ad_resse..."
+msgstr "A_dresse..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "A_ssistant's name:"
@@ -1352,9 +1349,8 @@ msgid "Birthda_y:"
 msgstr "F_ødselsdag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Faks på arbeid"
+msgstr "Fa_ks på arbeid:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1380,7 +1376,6 @@ msgid "F_ree/Busy URL:"
 msgstr "L_edig/opptatt URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "File a_s:"
 msgstr "Lagre _som:"
 
@@ -1415,9 +1410,8 @@ msgid "P_rofession:"
 msgstr "Y_rke:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Primary _email:"
-msgstr "Primær e-post"
+msgstr "Primær _e-post:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "S_pouse:"
@@ -1432,14 +1426,12 @@ msgid "_Add"
 msgstr "_Legg til"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Business:"
-msgstr "Arbeid"
+msgstr "Ar_beid:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Categories..."
-msgstr "Kate_gorier..."
+msgstr "_Kategorier..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
@@ -1451,23 +1443,20 @@ msgid "_Delete"
 msgstr "_Slett"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Home:"
-msgstr "Hjemme"
+msgstr "_Hjemme:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
 msgstr "_Jobbtittel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Manager's name:"
 msgstr "_Leders navn:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Mobile:"
-msgstr "Mobil"
+msgstr "_Mobil:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
@@ -1482,9 +1471,8 @@ msgid "_Public Calendar URL:"
 msgstr "_Offentlig kalender-URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_This is the mailing address"
-msgstr "Dette er _postadressen"
+msgstr "De_tte er postadressen"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -2595,19 +2583,16 @@ msgid "Contact Quick-Add"
 msgstr "Hurtigkontakt"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
-#, fuzzy
 msgid "_Edit Full"
-msgstr "Rediger alt"
+msgstr "R_ediger alt"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
 msgstr "_Fullt navn:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-#, fuzzy
 msgid "E-_mail:"
-msgstr "E-post"
+msgstr "E-_post"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, c-format
@@ -2641,7 +2626,6 @@ msgid "Address _2:"
 msgstr "Adresse _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#, fuzzy
 msgid "Ci_ty:"
 msgstr "_By:"
 
@@ -2742,14 +2726,12 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "_Skjul adresser når du sender e-post til listen"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "_List name:"
-msgstr "Listenavn:"
+msgstr "_Listenavn:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "Skriv en e-post adresse eller dra en kontakt inn i feltet under:"
+msgstr "_Skriv en e-post adresse eller dra en kontakt inn i feltet under:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
@@ -4980,13 +4962,12 @@ msgid "year(s)"
 msgstr "år"
 
 #: calendar/gui/dialogs/save-comp.c:54
-#, fuzzy
 msgid ""
 "This event has been changed, but has not been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Denne signaturen er endret, men har ikke blitt lagret..\n"
+"Denne hendelsen er endret, men har ikke blitt lagret..\n"
 "\n"
 "Vil du lagre endringene?"
 
@@ -4995,9 +4976,8 @@ msgid "_Discard Changes"
 msgstr "_Forkast endringer"
 
 #: calendar/gui/dialogs/save-comp.c:63
-#, fuzzy
 msgid "Save Event"
-msgstr "Hendlelser i kalenderen"
+msgstr "Lagre hendelse"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
@@ -10727,6 +10707,9 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>Du er nå registrert som «Ute av kontoret». </b>\n"
+"\n"
+"Ønsker du å endre status til «Inne»?"
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
@@ -10742,6 +10725,8 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>Meldingen spesifisert under vil sendes automatisk til alle som sender deg\n"
+"e-post mens du er borte fra kontoret.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
@@ -11680,24 +11665,20 @@ msgid "Evolution Mail composer"
 msgstr "Evolution e-postredigering"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Mail composer configuration control"
-msgstr "Evolution e-post-konfigurasjon"
+msgstr "Konfigurasjonskontroll for Evolution e-postredigering"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
-#, fuzzy
 msgid "Evolution Mail configuration interface"
-msgstr "Grensesnitt for e-post-konfigurasjon"
+msgstr "Konfigurasjonsgrensesnitt for Evolution e-post"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
-#, fuzzy
 msgid "Evolution Mail folder viewer"
-msgstr "Evolution komponent for e-post mappevisning."
+msgstr "Komponent for mappevisning for Evolution e-post"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12
-#, fuzzy
 msgid "Evolution Mail preferences control"
-msgstr "Evolution kalender-komponent"
+msgstr "Brukervalg-kontroll for Evolution e-post"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
@@ -13362,9 +13343,9 @@ msgid "Expunging folder"
 msgstr "Tømmer mappe"
 
 #: mail/mail-ops.c:1642
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Importerer %s som %s"
+msgstr "Tømmer søppel i «%s»"
 
 #: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:480
 #: shell/e-local-storage.c:1151
@@ -13847,9 +13828,8 @@ msgid "Evolution Summary component"
 msgstr "Komponent for Evolution sammendrag"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Summary configuration control"
-msgstr "Factory for konfigurasjonskontroll for Evolution sammendrag."
+msgstr "Konfigurasjonkontroll for Evolution sammendrag"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 msgid "Summary Preferences"
@@ -23677,14 +23657,12 @@ msgid "Quotes of the Day"
 msgstr "Dagens sitat"
 
 #: my-evolution/e-summary-preferences.c:565
-#, fuzzy
 msgid "New News Feed"
-msgstr "Nyhetstjenester"
+msgstr "Ny nyhetstjeneste"
 
 #: my-evolution/e-summary-preferences.c:581
-#, fuzzy
 msgid "_URL:"
-msgstr "URL:"
+msgstr "_URL:"
 
 #: my-evolution/e-summary-rdf.c:315
 msgid "Error downloading RDF"
@@ -24933,9 +24911,8 @@ msgid "News Feed Settings"
 msgstr "Innstillinger for nyhetstjeneste"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "News Feeds"
-msgstr "_Nyhetstjenester"
+msgstr "Nyhetstjenester"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "One mont_h"
@@ -24954,9 +24931,8 @@ msgid "Refresh _time (seconds):"
 msgstr "Oppda_teringstid (sekunder):"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "Schedule"
-msgstr "_Sett av tid"
+msgstr ""
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
@@ -24979,9 +24955,8 @@ msgid "Weather Settings"
 msgstr "Innstillinger for vær"
 
 #: my-evolution/my-evolution.glade.h:18
-#, fuzzy
 msgid "_Delete Feed"
-msgstr "Slettet"
+msgstr "_Slett tjeneste"
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "_Fahrenheit"
@@ -24992,21 +24967,18 @@ msgid "_Five days"
 msgstr "_Fem dager"
 
 #: my-evolution/my-evolution.glade.h:21
-#, fuzzy
 msgid "_Max number of items shown:"
-msgstr "Ma_ksimalt antall oppføringer som vises:"
+msgstr "_Maksimalt antall oppføringer som vises:"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_New Feed"
-msgstr "_Nyhetstjenester"
+msgstr "_Ny tjeneste"
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_One day"
 msgstr "_En dag"
 
 #: my-evolution/my-evolution.glade.h:24
-#, fuzzy
 msgid "_Show full path for folders"
 msgstr "V_is full sti for mapper"
 
@@ -25019,9 +24991,8 @@ msgid "Evolution Shell"
 msgstr "Evolution skall"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:3
-#, fuzzy
 msgid "Evolution folder settings configuration control"
-msgstr "Factory for konfigurasjonskontroll for Evolution sammendrag."
+msgstr "Konfigurasjonskontroll for mappeinnstillinger i Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:4
 msgid "Folder Settings"
@@ -27685,7 +27656,6 @@ msgid "Time Zones"
 msgstr "Tidssoner"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
-#, fuzzy
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -27696,9 +27666,8 @@ msgstr ""
 "Bru høyre musknapp til å zoome ut."
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "_Selection:"
-msgstr "Utvalg:"
+msgstr "_Utvalg:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
@@ -27910,61 +27879,3 @@ msgstr "Evolution kalender-komponent"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adressebok minikort visning"
-
-#~ msgid "Email Address:"
-#~ msgstr "E-post adresse:"
-
-#~ msgid "Check Full Name"
-#~ msgstr "Sjekk fullt navn:"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Legg til likevel"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Endre likevel"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Konfigurer skrifter for Evolution her"
-
-#, fuzzy
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Evolution e-post-konfigurasjon"
-
-#~ msgid "Font Preferences"
-#~ msgstr "Brukervalg for skrift"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "Finn _lenker automatisk"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "Snarvei_type:"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Legg til news-tjener"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Skriv inn URL for nyhetsstedet du vil legge til"
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Legg til nyh_etstjeneste"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Slett nyhetstrøm"
-
-#~ msgid "_Mail"
-#~ msgstr "_E-post"
-
-#~ msgid "_Weather"
-#~ msgstr "_Vær"
-
-#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
-#~ msgstr "Tvungen oppgradering av konfigurasjonsfilene fra Evolution 1.0.x"
