@@ -1,3 +1,8 @@
+2001-06-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-calendar.xml: added cut/copy/paste entries to the main
+	menu
+
 2001-06-27  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-message-composer.xml: remove FIXME from
