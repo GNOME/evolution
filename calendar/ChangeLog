@@ -1,3 +1,13 @@
+2001-06-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/tasks-control.c (tasks_control_cut_cmd): call
+	e_calendar_table_cut_clipboard with the correct object
+
+	(tasks_control_copy_cmd): ditto
+
+	(sensitize_commands): sensitize clipboard commands based on the
+	number of selected tasks
+
 2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-table.[ch] (e_calendar_table_cut_clipboard),

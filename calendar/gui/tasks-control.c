@@ -206,6 +206,12 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/TasksCopy", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
@@ -318,7 +324,7 @@ tasks_control_cut_cmd                   (BonoboUIComponent      *uic,
 
 	tasks = E_TASKS (data);
 	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_cut_clipboard (tasks);
+	e_calendar_table_cut_clipboard (cal_table);
 }
 
 static void
@@ -331,7 +337,7 @@ tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
 
 	tasks = E_TASKS (data);
 	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_copy_clipboard (tasks);
+	e_calendar_table_copy_clipboard (cal_table);
 }
 
 static void
