@@ -473,6 +473,8 @@ intelligent_importer_init (void)
 		gnome_config_set_bool ("Dontaskagain", TRUE);
 		gnome_config_pop_prefix ();
 
+		gnome_config_sync ();
+		gnome_config_drop_all ();
 		g_print ("Not asking again");
 		free_importer_dialog (d);
 		break;

@@ -1,3 +1,8 @@
+2001-07-11  Iain Holmes  <iain@ximian.com>
+
+	* importers/intelligent.c (intelligent_importer_init): Sync the config
+	so that the Don't Ask Again gets saved.
+
 2001-07-11  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* importers/intelligent.c: Mark a string for translation.
