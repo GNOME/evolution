@@ -1,3 +1,9 @@
+2001-10-04    <NotZed@Ximian.com>
+
+	* component-factory.c (storage_remove_folder): Do the url
+	fragment/path -> folder name hack.  Removing vfolders from shell
+	works now?
+
 2001-10-03    <NotZed@Ximian.com>
 
 	* mail-send-recv.c (build_dialogue): Only build destination data
