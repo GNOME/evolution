@@ -812,8 +812,6 @@ motion_notify_event (GtkWidget *widget,
 	GdkDragAction actions;
 	GdkDragContext *context;
 
-	puts (__FUNCTION__);
-
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
 
@@ -842,6 +840,8 @@ motion_notify_event (GtkWidget *widget,
 				      target_list, actions,
 				      1, (GdkEvent *) event);
 	gtk_drag_set_icon_default (context);
+
+	gtk_target_list_unref (target_list);
 
 	return FALSE;
 }
