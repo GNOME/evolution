@@ -53,11 +53,10 @@ main (int argc, char *argv [])
 
 	glade_gnome_init ();
 
-	mail_config_init ();
-	
 	session_init ();
 	e_cursors_init ();
 
+	mail_config_init ();
 	component_factory_init ();
 
 #ifdef USE_BROKEN_THREADS

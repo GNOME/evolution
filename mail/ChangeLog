@@ -1,3 +1,8 @@
+2000-08-08  Dan Winship  <danw@helixcode.com>
+
+	* main.c (main): Move mail_config_init after session_init, since
+	it depends on evolution_dir being set.
+
 2000-08-08  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-ops.c (check_configured): Use config accessors
