@@ -46,6 +46,7 @@
 #include "comp-util.h"
 #include "e-calendar-table-config.h"
 #include "misc.h"
+#include "tasks-component.h"
 #include "e-tasks.h"
 #include "common/authentication.h"
 
@@ -1107,7 +1108,9 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Tasks"));
 
-		dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
+		dir = g_build_filename (tasks_component_peek_base_directory (tasks_component_peek ()), 
+					"tasks", "views", NULL);		
+		g_message ("Using %s", dir);
 		gal_view_collection_set_storage_directories (collection,
 							     EVOLUTION_GALVIEWSDIR "/tasks/",
 							     dir);

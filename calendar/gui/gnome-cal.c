@@ -1015,7 +1015,8 @@ setup_widgets (GnomeCalendar *gcal)
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
 
 	/* The List View. */
-	filename = g_strdup_printf (".evolution/config/CalListView");
+	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+				     "CalListView", NULL);
 	priv->list_view = e_cal_list_view_new (filename);
 	g_free (filename);
 
@@ -1606,7 +1607,8 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Calendar"));
 
- 		path = gnome_util_prepend_user_home ("/evolution/views/calendar/");
+		path = g_build_filename (calendar_component_peek_base_directory (calendar_component_peek ()), 
+					 "calendar", "views", NULL);
 		gal_view_collection_set_storage_directories (collection,
 							     EVOLUTION_GALVIEWSDIR "/calendar/",
 							     path);

@@ -1,3 +1,15 @@
+2004-01-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (setup_widgets): use the calendar component
+	config dir
+	(gnome_calendar_setup_view_menus): use the calendar component base
+	dir for the view storage
+
+	* gui/e-tasks.c (e_tasks_setup_view_menus): use the task component
+	base dir for the view storage
+
+	Fixes #53133
+	
 2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_add_todo_source): check return value
