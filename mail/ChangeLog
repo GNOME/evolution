@@ -1,3 +1,15 @@
+2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (wizard_finish_cb): Do not add the account
+	here as this is taken care of in mail_account_gui_save() since it
+	has to be able to set the default account.
+
+	* mail-config.c (mail_config_set_default_account): Don't allow the
+	index to become invalid.
+
+	* mail-account-gui.c (mail_account_gui_save): Add the account
+	before setting it as the default.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_set_shell_view): Update the

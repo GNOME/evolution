@@ -1373,16 +1373,16 @@ const MailConfigAccount *
 mail_config_get_default_account (void)
 {
 	MailConfigAccount *account;
-
+	
 	if (config == NULL) {
 		mail_config_init ();
 	}
-
+	
 	if (!config->accounts)
 		return NULL;
 	
 	account = g_slist_nth_data (config->accounts,
-				   config->default_account);
+				    config->default_account);
 	
 	/* Looks like we have no default, so make the first account
            the default */
@@ -1624,7 +1624,7 @@ void
 mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
-
+	
 	if (account->source && account->source->url)
 		new_source_created (account);
 }
@@ -1720,12 +1720,14 @@ mail_config_set_default_account_num (gint new_default)
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
-	int position;
-
-	position = g_slist_index (config->accounts, (void*)account);
-
-	config->default_account = position;
-
+	int index;
+	
+	index = g_slist_index (config->accounts, (void *) account);
+	if (index == -1)
+		return;
+	
+	config->default_account = index;
+	
 	return;
 }
 
@@ -1958,15 +1960,15 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	MailConfigAccount *mail_account;
 	MailConfigService *mail_service;
 	MailConfigIdentity *mail_id;
-
+	
 	if (mail_config_get_account_by_name (account->name)) {
 		/* FIXME: we need an exception. */
 		return;
 	}
-
+	
 	mail_account = g_new0 (MailConfigAccount, 1);
 	mail_account->name = g_strdup (account->name);
-
+	
 	/* Copy ID */
 	id = account->id;
 	mail_id = g_new0 (MailConfigIdentity, 1);
@@ -1976,9 +1978,9 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_id->signature = g_strdup (id.signature);
 	mail_id->html_signature = g_strdup (id.html_signature);
 	mail_id->has_html_signature = id.has_html_signature;
-
+	
 	mail_account->id = mail_id;
-
+	
 	/* Copy source */
 	source = account->source;
 	mail_service = g_new0 (MailConfigService, 1);
@@ -1994,7 +1996,7 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_service->enabled = source.enabled;
 	
 	mail_account->source = mail_service;
-
+	
 	/* Copy transport */
 	transport = account->transport;
 	mail_service = g_new0 (MailConfigService, 1);
@@ -2004,9 +2006,9 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_service->auto_check_time = transport.auto_check_time;
 	mail_service->save_passwd = transport.save_passwd;
 	mail_service->enabled = transport.enabled;
-
+	
 	mail_account->transport = mail_service;
-
+	
 	/* Add new account */
 	mail_config_add_account (mail_account);
 }

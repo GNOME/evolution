@@ -1615,9 +1615,6 @@ mail_account_gui_save (MailAccountGui *gui)
 	g_free (account->name);
 	account->name = new_name;
 	
-	if (gtk_toggle_button_get_active (gui->default_account))
-		mail_config_set_default_account (account);
-	
 	/* construct the identity */
 	identity_destroy (account->id);
 	account->id = g_new0 (MailConfigIdentity, 1);
@@ -1659,6 +1656,10 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
+	
+	mail_config_add_account (account);
+	if (gtk_toggle_button_get_active (gui->default_account))
+		mail_config_set_default_account (account);
 	
 	mail_autoreceive_setup_account (account->source);
 	

@@ -816,19 +816,15 @@ wizard_finish_cb (EvolutionWizard *wizard,
 		  MailConfigWizard *w)
 {
 	MailAccountGui *gui = w->gui;
-
+	
 	/* Save the settings for that account */
 	if (mail_account_gui_save (gui) == FALSE)
 		/* problem. Um, how to keep the druid alive? */
 		return;
-
-	/* Add the account to our list (do it early because future
-           steps might want to access config->accounts) */
-	mail_config_add_account (gui->account);
-
+	
 	if (gui->account->source)
 		gui->account->source->enabled = TRUE;
-
+	
 	/* Write out the config info */
 	mail_config_write ();
 	mail_account_gui_destroy (gui);

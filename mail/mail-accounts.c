@@ -117,20 +117,19 @@ mail_accounts_dialog_finalise (GtkObject *obj)
 static void
 load_accounts (MailAccountsDialog *dialog)
 {
-	const MailConfigAccount *account;
+	const MailConfigAccount *account, *default_account;
 	const GSList *node = dialog->accounts;
 	int i = 0;
-	int default_account;
-
+	
 	gtk_clist_freeze (dialog->mail_accounts);
 	
 	gtk_clist_clear (dialog->mail_accounts);
 	
-	default_account = mail_config_get_default_account_num ();
-
+	default_account = mail_config_get_default_account ();
+	
 	while (node) {
 		CamelURL *url;
-		gchar *text[3];
+		char *text[3];
 		
 		account = node->data;
 		
@@ -142,7 +141,7 @@ load_accounts (MailAccountsDialog *dialog)
 		text[0] = "";
 		text[1] = e_utf8_to_gtk_string (GTK_WIDGET (dialog->mail_accounts), account->name);
 		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
-					   (i == default_account) ? _(" (default)") : "");
+					   (account == default_account) ? _(" (default)") : "");
 		
 		if (url)
 			camel_url_free (url);
@@ -155,7 +154,7 @@ load_accounts (MailAccountsDialog *dialog)
 			gtk_clist_set_pixmap (dialog->mail_accounts, i, 0, 
 					      dialog->mark_pixmap, 
 					      dialog->mark_bitmap);
-
+		
 		/* set the account on the row */
 		gtk_clist_set_row_data (dialog->mail_accounts, i, (gpointer) account);
 		
@@ -164,7 +163,7 @@ load_accounts (MailAccountsDialog *dialog)
 	}
 	
 	gtk_clist_thaw (dialog->mail_accounts);
-
+	
 	/* 
 	 * The selection gets cleared when we rebuild the clist, but no
 	 * unselect event is emitted.  So we simulate it here.
@@ -180,7 +179,7 @@ mail_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpoi
 {
 	MailAccountsDialog *dialog = data;
 	MailConfigAccount *account = gtk_clist_get_row_data (clist, row);
-
+	
 	dialog->accounts_row = row;
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), TRUE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), TRUE);
