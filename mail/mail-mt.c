@@ -257,7 +257,7 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
-		mail_msg_free(m);
+		mail_msg_destroy(m);
 	}
 
 	return TRUE;
