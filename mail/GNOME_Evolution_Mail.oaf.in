@@ -193,6 +193,8 @@
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="mail-accounts-settings.png"/>
     
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-10"/>
+    
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Mail Accounts."/>
 
@@ -216,6 +218,8 @@
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="mail-config-druid.png"/>
     
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-9"/>
+    
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Mailer."/>
 
@@ -238,6 +242,8 @@
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="composer-settings.png"/>
+    
+    <oaf_attribute name="evolution:config_item:priority" type="string" value="-8"/>
     
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Message Composer."/>
