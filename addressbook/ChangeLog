@@ -1,5 +1,10 @@
 2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
 
+	* rever last commit , it is supposed to for offline 
+	branch not to HEAD 
+
+2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
+
 	* gui/widgets/eab-gui-util.c (eab_load_error_dialog) : 
 	added message which gets prompted when user tries 
 	to access a book which is not available in offline mode
