@@ -1,3 +1,13 @@
+2000-03-31  Dan Winship  <danw@helixcode.com>
+
+	* gmime-content-field.c
+	(gmime_content_field_construct_from_string):
+	* data-wrapper-repository.c
+	(data_wrapper_repository_get_data_wrapper_type):
+	* camel-simple-data-wrapper.c (my_write_to_stream):
+	* camel-mime-part.c (my_set_input_stream):
+	remove debugging printf()s that no longer seem useful.
+
 2000-03-31  Matt Loper  <matt@helixcode.com>
 
 	* camel-formatter.c (text_to_html): Added "convert_newlines_to_br"

@@ -108,13 +108,10 @@ data_wrapper_repository_get_data_wrapper_type (const gchar *mime_type)
 	gchar *old_mime_type;
 	GtkType gtk_type;
 
-	printf("looking up type '%s'\n", mime_type);
-
 	/* find if the complete mime type exists */
 	exists = g_hash_table_lookup_extended (_repository.mime_links, (gpointer)mime_type,
 						       (gpointer)&old_mime_type, (gpointer)&gtk_type);
 	if (exists) { /* the complete mime type exists, return it */
-		printf( "exists!\n");
 		return gtk_type;
 	} else { 
 		/* the complete mime type association does not exists */
@@ -125,7 +122,8 @@ data_wrapper_repository_get_data_wrapper_type (const gchar *mime_type)
 		
 		if (exists) /* the main mime type association exists */
 			return gtk_type;
-		else return camel_simple_data_wrapper_get_type();
+		else
+			return camel_simple_data_wrapper_get_type();
 	}
 
 			

@@ -211,8 +211,6 @@ folder_browser_new (void)
 	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
-
-	printf ("Widget started\n");
 	return GTK_WIDGET (folder_browser);
 }
 

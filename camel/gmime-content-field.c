@@ -370,7 +370,6 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 			if (i != first) param_value = g_strndup (string+first, i-first);
 			else param_value = g_strdup ("");
 			CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, Found mime parameter \"%s\"=\"%s\"\n", param_name, param_value);
-			printf( "GMimeContentField::construct_from_string, Found mime parameter \"%s\"=\"%s\"\n", param_name, param_value);
 			string_trim (param_value, " \t\"", STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 			gmime_content_field_set_parameter (content_field, param_name, param_value);
 			g_free (param_name);

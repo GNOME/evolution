@@ -870,7 +870,6 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	
 	/* set the input stream for the content object */
 	content_stream_inf_bound = camel_seekable_stream_get_current_position (seekable_stream);
-	printf ("Current position = %d\n", content_stream_inf_bound);
 	
 	if (mime_part->content_input_stream)
 		gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));

@@ -85,7 +85,6 @@ select_msg (MessageList *message_list, gint row)
 		
 		g_ptr_array_free (msg_info_array, TRUE);
 
-		printf ("Message = %p\n", message);
 		if (message)
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
 						  CAMEL_MEDIUM (message));
@@ -430,7 +429,6 @@ message_list_init (GtkObject *object)
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
-	printf ("headers intialized\n");
 
 	/*
 	 * The etable
@@ -650,7 +648,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 	
-	printf ("Modelo cambio!\n");
 	e_table_model_changed (message_list->table_model);
 
 	select_msg (message_list, 0);
@@ -677,11 +674,7 @@ on_row_selection_cmd (ETable *table,
 
 	message_list = MESSAGE_LIST (user_data);
 
-	if ( selected ) {
-		g_print ("Row %d selected\n", row);
+	if ( selected )
 		select_msg (message_list, row);
-	} else {
-		g_print ("Row %d unselected\n", row);
-	}
 }
 

@@ -140,13 +140,10 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	g_assert (stream);
 	
 	array = simple_data_wrapper->byte_array;
-	if ( array && array->len) {
-		printf ("In simple data wrapper::write_to_stream, there is an array\n");
+	if ( array && array->len)
 		camel_stream_write (stream, (gchar *)array->data, array->len);
-	} else { 
-		printf ("In simple data wrapper::write_to_stream, there is no array\n");
+	else
 		parent_class->write_to_stream (data_wrapper, stream);
-	}
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving my_write_to_stream\n");
 }
 
