@@ -365,7 +365,6 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_FOCUS_CHANGE: {
 		GdkEventFocus *focus_event = (GdkEventFocus *) event;
-		GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 
 		e_minicard_label->has_focus = focus_event->in;
 		set_colors (e_minicard_label);
@@ -483,6 +482,10 @@ e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
 	gnome_canvas_item_set( e_minicard_label->rect,
 			       "x2", (double) e_minicard_label->width - 1,
 			       "y2", (double) e_minicard_label->height - 1,
+			       NULL );
+
+	gnome_canvas_item_set( e_minicard_label->fieldname,
+			       "clip_height", (double) e_minicard_label->height - 3,
 			       NULL );
 
 	if (e_minicard_label->max_field_name_length != -1 && ((e_minicard_label->width / 2) - 4 > e_minicard_label->max_field_name_length))

@@ -1,3 +1,11 @@
+2003-05-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_reflow): set
+	the clip_height on reflow so the name of the field is as high as
+	the field's value.  makes it possible to click anywhere to the
+	left of a tall field (like an address) and have it select the
+	field.  Fixes #42625.
+
 2003-05-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (address_mailing_changed):
