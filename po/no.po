@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.4\n"
-"POT-Creation-Date: 2000-09-19 22:20+0200\n"
-"PO-Revision-Date: 2000-09-19 23:00+02:00\n"
+"POT-Creation-Date: 2000-09-21 15:09+0200\n"
+"PO-Revision-Date: 2000-09-21 15:10+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,13 +14,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
-#: addressbook/backend/ebook/load-pine-addressbook.c:16
+#: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
 #: addressbook/conduit/address-conduit.c:1215
 #: addressbook/gui/component/addressbook-factory.c:38
 #: calendar/conduits/calendar/calendar-conduit.c:1673
-#: calendar/conduits/todo/todo-conduit.c:1196 calendar/gui/main.c:55
+#: calendar/conduits/todo/todo-conduit.c:1173 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initialisere Bonobo"
 
@@ -171,468 +171,96 @@ msgstr "Oppføring(er) hører til disse kategoriene:"
 msgid "Available Categories:"
 msgstr "Tilgjengelige kategorier:"
 
-#: addressbook/contact-editor/e-contact-editor.c:706
-#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1155
-msgid "FIXME: _Appointment"
-msgstr "_Avtale"
-
-#: addressbook/contact-editor/e-contact-editor.c:707
-#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1156
-msgid "FIXME: Meeting Re_quest"
-msgstr "Møteforesp_ørsel"
-
-#: addressbook/contact-editor/e-contact-editor.c:709
-#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1158
-msgid "FIXME: _Mail Message"
-msgstr "Send _melding"
-
-#: addressbook/contact-editor/e-contact-editor.c:710
-#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1159
-msgid "FIXME: _Contact"
-msgstr "_Kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:711
-#: calendar/gui/dialogs/task-editor.c:427
-#: calendar/gui/dialogs/task-editor.c:434 calendar/gui/event-editor.c:1160
-msgid "FIXME: _Task"
-msgstr "_Oppgave"
-
-#: addressbook/contact-editor/e-contact-editor.c:712
-#: calendar/gui/dialogs/task-editor.c:428
-#: calendar/gui/dialogs/task-editor.c:435 calendar/gui/event-editor.c:1161
-msgid "FIXME: Task _Request"
-msgstr "Oppgavefo_respørsel"
-
-#: addressbook/contact-editor/e-contact-editor.c:713
-#: calendar/gui/dialogs/task-editor.c:436 calendar/gui/event-editor.c:1162
-msgid "FIXME: _Journal Entry"
-msgstr "_Journaloppføring"
-
-#: addressbook/contact-editor/e-contact-editor.c:714
-#: calendar/gui/dialogs/task-editor.c:437 calendar/gui/event-editor.c:1163
-msgid "FIXME: _Note"
-msgstr "_Notis"
-
-#: addressbook/contact-editor/e-contact-editor.c:716
-#: addressbook/contact-editor/e-contact-editor.c:821
-#: calendar/gui/dialogs/task-editor.c:439
-#: calendar/gui/dialogs/task-editor.c:547 calendar/gui/event-editor.c:1165
-#: calendar/gui/event-editor.c:1273
-msgid "FIXME: Ch_oose Form..."
-msgstr "Velg skjema..."
-
-#: addressbook/contact-editor/e-contact-editor.c:721
-#: calendar/gui/dialogs/task-editor.c:444 calendar/gui/event-editor.c:1170
-msgid "FIXME: _Memo Style"
-msgstr "_Notis-stil"
-
-#: addressbook/contact-editor/e-contact-editor.c:723
-#: calendar/gui/dialogs/task-editor.c:446 calendar/gui/event-editor.c:1172
-msgid "FIXME: Define Print _Styles..."
-msgstr "Definér utskriftstiler..."
-
-#: addressbook/contact-editor/e-contact-editor.c:730
-#: calendar/gui/dialogs/task-editor.c:453 calendar/gui/event-editor.c:1179
-msgid "FIXME: S_end"
-msgstr "_Send"
-
-#: addressbook/contact-editor/e-contact-editor.c:734
-#: calendar/gui/dialogs/task-editor.c:457 calendar/gui/event-editor.c:1183
-msgid "FIXME: Save Attac_hments..."
-msgstr "Lagre vedlegg..."
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: addressbook/contact-editor/e-contact-editor.c:736
-#: calendar/gui/dialogs/task-editor.c:459 calendar/gui/event-editor.c:1185
-msgid "_Delete"
-msgstr "_Slett"
-
-#: addressbook/contact-editor/e-contact-editor.c:737
-#: calendar/gui/dialogs/task-editor.c:461 calendar/gui/event-editor.c:1187
-msgid "FIXME: _Move to Folder..."
-msgstr "_Flytt til mappe..."
-
-#: addressbook/contact-editor/e-contact-editor.c:738
-#: calendar/gui/dialogs/task-editor.c:462 calendar/gui/event-editor.c:1188
-msgid "FIXME: Cop_y to Folder..."
-msgstr "Kopiér til mappe..."
-
-#: addressbook/contact-editor/e-contact-editor.c:740
-#: calendar/gui/dialogs/task-editor.c:464 calendar/gui/event-editor.c:1190
-msgid "Page Set_up"
-msgstr "Sideoppsett"
-
-#: addressbook/contact-editor/e-contact-editor.c:741
-#: calendar/gui/dialogs/task-editor.c:465 calendar/gui/event-editor.c:1191
-msgid "FIXME: Print Pre_view"
-msgstr "Forhåndsvisning av utskrift"
-
-#: addressbook/contact-editor/e-contact-editor.c:762
-#: calendar/gui/dialogs/task-editor.c:486 calendar/gui/event-editor.c:1212
-msgid "FIXME: Paste _Special..."
-msgstr "Lim inn _spesial..."
-
-#: addressbook/contact-editor/e-contact-editor.c:767
-#: calendar/gui/dialogs/task-editor.c:491 calendar/gui/event-editor.c:1217
-msgid "FIXME: Mark as U_nread"
-msgstr "Merk som ulest"
-
-#: addressbook/contact-editor/e-contact-editor.c:771
-#: calendar/gui/dialogs/task-editor.c:495 calendar/gui/event-editor.c:1221
-msgid "_Object"
-msgstr "_Objekt"
-
-#: addressbook/contact-editor/e-contact-editor.c:776
-#: addressbook/contact-editor/e-contact-editor.c:783
-#: calendar/gui/dialogs/task-editor.c:500
-#: calendar/gui/dialogs/task-editor.c:508 calendar/gui/event-editor.c:1226
-#: calendar/gui/event-editor.c:1233
-msgid "FIXME: _Item"
-msgstr "_Oppføring"
-
-#: addressbook/contact-editor/e-contact-editor.c:777
-#: addressbook/contact-editor/e-contact-editor.c:784
-#: calendar/gui/dialogs/task-editor.c:501
-#: calendar/gui/dialogs/task-editor.c:509 calendar/gui/event-editor.c:1227
-#: calendar/gui/event-editor.c:1234
-msgid "FIXME: _Unread Item"
-msgstr "_Ulest oppføring"
-
-#: addressbook/contact-editor/e-contact-editor.c:778
-#: calendar/gui/dialogs/task-editor.c:503 calendar/gui/event-editor.c:1228
-msgid "FIXME: Fi_rst Item in Folder"
-msgstr "Fø_rste oppføring i mappe"
-
-#: addressbook/contact-editor/e-contact-editor.c:785
-#: calendar/gui/dialogs/task-editor.c:511 calendar/gui/event-editor.c:1235
-msgid "FIXME: _Last Item in Folder"
-msgstr "_Siste oppføring i mappe"
-
-#: addressbook/contact-editor/e-contact-editor.c:790
-#: calendar/gui/dialogs/task-editor.c:516 calendar/gui/event-editor.c:1240
-msgid "FIXME: _Standard"
-msgstr "_Standard"
-
-#: addressbook/contact-editor/e-contact-editor.c:792
-#: calendar/gui/dialogs/task-editor.c:518 calendar/gui/event-editor.c:1242
-msgid "FIXME: __Formatting"
-msgstr "_Formatering"
-
-#: addressbook/contact-editor/e-contact-editor.c:795
-#: calendar/gui/dialogs/task-editor.c:521 calendar/gui/event-editor.c:1245
-msgid "FIXME: _Customize..."
-msgstr "_Tilpass..."
-
-#: addressbook/contact-editor/e-contact-editor.c:800
-#: calendar/gui/dialogs/task-editor.c:526 calendar/gui/event-editor.c:1250
-msgid "Pre_vious"
-msgstr "Forri_ge"
-
-#: addressbook/contact-editor/e-contact-editor.c:801
-#: calendar/gui/dialogs/task-editor.c:527 calendar/gui/event-editor.c:1251
-msgid "Ne_xt"
-msgstr "Nes_te"
-
-#: addressbook/contact-editor/e-contact-editor.c:803
-#: calendar/gui/dialogs/task-editor.c:529 calendar/gui/event-editor.c:1255
-msgid "_Toolbars"
-msgstr "Verk_tøylinjer"
-
-#: addressbook/contact-editor/e-contact-editor.c:808
-#: calendar/gui/dialogs/task-editor.c:534 calendar/gui/event-editor.c:1260
-msgid "FIXME: _File..."
-msgstr "_Fil..."
-
-#: addressbook/contact-editor/e-contact-editor.c:809
-#: calendar/gui/dialogs/task-editor.c:535 calendar/gui/event-editor.c:1261
-msgid "FIXME: It_em..."
-msgstr "Opp_føring"
-
-#: addressbook/contact-editor/e-contact-editor.c:810
-#: calendar/gui/dialogs/task-editor.c:536 calendar/gui/event-editor.c:1262
-msgid "FIXME: _Object..."
-msgstr "_Objekt..."
-
-#: addressbook/contact-editor/e-contact-editor.c:815
-#: calendar/gui/dialogs/task-editor.c:541 calendar/gui/event-editor.c:1267
-msgid "FIXME: _Font..."
-msgstr "FIXME: Skri_fttyper..."
-
-#: addressbook/contact-editor/e-contact-editor.c:816
-#: calendar/gui/dialogs/task-editor.c:542 calendar/gui/event-editor.c:1268
-msgid "FIXME: _Paragraph..."
-msgstr "_Avsnitt..."
-
-#: addressbook/contact-editor/e-contact-editor.c:823
-#: calendar/gui/dialogs/task-editor.c:549 calendar/gui/event-editor.c:1275
-msgid "FIXME: Desi_gn This Form"
-msgstr "_Utform dette skjemaet"
-
-#: addressbook/contact-editor/e-contact-editor.c:824
-#: calendar/gui/dialogs/task-editor.c:550 calendar/gui/event-editor.c:1276
-msgid "FIXME: D_esign a Form..."
-msgstr "U_tform et skjema..."
-
-#: addressbook/contact-editor/e-contact-editor.c:826
-#: calendar/gui/dialogs/task-editor.c:552 calendar/gui/event-editor.c:1278
-msgid "FIXME: Publish _Form..."
-msgstr "Publisér skjema..."
-
-#: addressbook/contact-editor/e-contact-editor.c:827
-#: calendar/gui/dialogs/task-editor.c:553 calendar/gui/event-editor.c:1279
-msgid "FIXME: Pu_blish Form As..."
-msgstr "Pu_blisér skjema som..."
-
-#: addressbook/contact-editor/e-contact-editor.c:829
-#: calendar/gui/dialogs/task-editor.c:555 calendar/gui/event-editor.c:1281
-msgid "FIXME: Script _Debugger"
-msgstr "Feilsøking i skript"
-
-#: addressbook/contact-editor/e-contact-editor.c:834
-#: calendar/gui/dialogs/task-editor.c:560 calendar/gui/event-editor.c:1286
-msgid "FIXME: _Spelling..."
-msgstr "_Stavekontroll..."
-
-#: addressbook/contact-editor/e-contact-editor.c:836
-#: calendar/gui/dialogs/task-editor.c:565 calendar/gui/event-editor.c:1291
-msgid "_Forms"
-msgstr "Sk_jemaer"
-
-#: addressbook/contact-editor/e-contact-editor.c:841
-msgid "FIXME: _New Contact"
-msgstr "_Ny kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:842
-msgid "FIXME: New _Contact from Same Company"
-msgstr "Ny _kontakt fra samme firma"
-
-#: addressbook/contact-editor/e-contact-editor.c:844
-msgid "FIXME: New _Letter to Contact"
-msgstr "Nytt brev ti_l kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:845
-msgid "FIXME: New _Message to Contact"
-msgstr "Ny _melding til kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:846
-msgid "FIXME: New Meetin_g with Contact"
-msgstr "Nytt m_øte med kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:847
-msgid "FIXME: _Plan a Meeting..."
-msgstr "_Planlegg et møte..."
-
-#: addressbook/contact-editor/e-contact-editor.c:848
-msgid "FIXME: New _Task for Contact"
-msgstr "Ny opp_gave for kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:849
-msgid "FIXME: New _Journal Entry for Contact"
-msgstr "Ny _journaloppføring for kontakt"
-
-#: addressbook/contact-editor/e-contact-editor.c:851
-msgid "FIXME: _Flag for Follow Up..."
-msgstr "Merk _for oppfølging..."
-
-#: addressbook/contact-editor/e-contact-editor.c:852
-msgid "FIXME: _Display Map of Address"
-msgstr "_Vis kart med adresse"
-
-#: addressbook/contact-editor/e-contact-editor.c:853
-msgid "FIXME: _Open Web Page"
-msgstr "_Åpne webside"
-
-#: addressbook/contact-editor/e-contact-editor.c:855
-msgid "FIXME: Forward as _vCard"
-msgstr "Videresend som _vCard"
-
-#: addressbook/contact-editor/e-contact-editor.c:856
-#: calendar/gui/dialogs/task-editor.c:582 calendar/gui/event-editor.c:1304
-msgid "FIXME: For_ward"
-msgstr "_Videresend"
-
-#: addressbook/contact-editor/e-contact-editor.c:868
-#: calendar/gui/dialogs/task-editor.c:595 calendar/gui/event-editor.c:1317
-msgid "_Insert"
-msgstr "Sett _inn"
-
-#: addressbook/contact-editor/e-contact-editor.c:869
-#: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1318
-#: composer/e-msg-composer.c:1005
-msgid "F_ormat"
-msgstr "F_ormat"
-
-#: addressbook/contact-editor/e-contact-editor.c:870
-#: calendar/gui/dialogs/task-editor.c:597 calendar/gui/event-editor.c:1319
-msgid "_Tools"
-msgstr "_Verktøy"
-
-#: addressbook/contact-editor/e-contact-editor.c:871
-#: calendar/gui/dialogs/task-editor.c:598 calendar/gui/event-editor.c:1320
-msgid "Actio_ns"
-msgstr "Ha_ndlinger"
-
-#: addressbook/contact-editor/e-contact-editor.c:902
-#: calendar/gui/dialogs/task-editor.c:624 calendar/gui/event-editor.c:1345
-msgid "Save and Close"
-msgstr "Lagre og lukk"
-
-#: addressbook/contact-editor/e-contact-editor.c:903
-msgid "Save the appointment and close the dialog box"
-msgstr "Lagre avtalen og lukk dialogboksen"
-
-#: addressbook/contact-editor/e-contact-editor.c:907
-msgid "Print..."
-msgstr "Skriv ut..."
-
-#: addressbook/contact-editor/e-contact-editor.c:908
-#: calendar/gui/dialogs/task-editor.c:630 calendar/gui/event-editor.c:1363
-msgid "Print this item"
-msgstr "Skriv ut denne oppføringen"
-
-#: addressbook/contact-editor/e-contact-editor.c:911
-#: calendar/gui/dialogs/task-editor.c:633 calendar/gui/event-editor.c:1368
-msgid "FIXME: Insert File..."
-msgstr "Sett inn fil..."
-
-#: addressbook/contact-editor/e-contact-editor.c:912
-#: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1369
-msgid "Insert a file as an attachment"
-msgstr "Sett inn en fil som vedlegg"
-
-#: addressbook/contact-editor/e-contact-editor.c:915
-#: calendar/gui/dialogs/task-editor.c:644 calendar/gui/e-calendar-table.c:324
-#: calendar/gui/event-editor-dialog.glade.h:92
-#: calendar/gui/event-editor.c:1350 mail/mail-config.glade.h:13
-#: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
-#: mail/mail-view.c:163
-msgid "Delete"
-msgstr "Slett"
-
-#: addressbook/contact-editor/e-contact-editor.c:916
-msgid "Delete this item"
-msgstr "Slett denne oppføringen"
-
-#: addressbook/contact-editor/e-contact-editor.c:920
-#: calendar/gui/dialogs/task-editor.c:649 calendar/gui/event-editor.c:1379
-msgid "FIXME: Previous"
-msgstr "Forrige"
-
-#: addressbook/contact-editor/e-contact-editor.c:921
-#: calendar/gui/dialogs/task-editor.c:650 calendar/gui/event-editor.c:1380
-msgid "Go to the previous item"
-msgstr "Gå til forrige oppføring"
-
-#: addressbook/contact-editor/e-contact-editor.c:923
-#: calendar/gui/dialogs/task-editor.c:653 calendar/gui/event-editor.c:1382
-msgid "FIXME: Next"
-msgstr "Neste"
-
-#: addressbook/contact-editor/e-contact-editor.c:924
-#: calendar/gui/dialogs/task-editor.c:654 calendar/gui/event-editor.c:1383
-msgid "Go to the next item"
-msgstr "Gå til neste oppføring"
-
-#: addressbook/contact-editor/e-contact-editor.c:927
-#: calendar/gui/dialogs/task-editor.c:657 calendar/gui/event-editor.c:1385
-msgid "FIXME: Help"
-msgstr "Hjelp"
-
-#: addressbook/contact-editor/e-contact-editor.c:928
-#: calendar/gui/dialogs/task-editor.c:658 calendar/gui/event-editor.c:1386
-msgid "See online help"
-msgstr "Se hjelp"
-
-#: addressbook/contact-editor/e-contact-editor.c:1419
+#: addressbook/contact-editor/e-contact-editor.c:1226
 msgid "Assistant"
 msgstr "Assistent"
 
-#: addressbook/contact-editor/e-contact-editor.c:1420
-#: addressbook/contact-editor/e-contact-editor.c:1524
+#: addressbook/contact-editor/e-contact-editor.c:1227
+#: addressbook/contact-editor/e-contact-editor.c:1331
 msgid "Business"
 msgstr "Arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1421
+#: addressbook/contact-editor/e-contact-editor.c:1228
 msgid "Business 2"
 msgstr "Arbeid 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1422
+#: addressbook/contact-editor/e-contact-editor.c:1229
 msgid "Business Fax"
 msgstr "Faks på arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1423
+#: addressbook/contact-editor/e-contact-editor.c:1230
 msgid "Callback"
 msgstr "Tilbakering"
 
-#: addressbook/contact-editor/e-contact-editor.c:1424
+#: addressbook/contact-editor/e-contact-editor.c:1231
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1425
+#: addressbook/contact-editor/e-contact-editor.c:1232
 msgid "Company"
 msgstr "Firma"
 
-#: addressbook/contact-editor/e-contact-editor.c:1426
-#: addressbook/contact-editor/e-contact-editor.c:1525
+#: addressbook/contact-editor/e-contact-editor.c:1233
+#: addressbook/contact-editor/e-contact-editor.c:1332
 msgid "Home"
 msgstr "Hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1427
+#: addressbook/contact-editor/e-contact-editor.c:1234
 msgid "Home 2"
 msgstr "Hjemme 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1428
+#: addressbook/contact-editor/e-contact-editor.c:1235
 msgid "Home Fax"
 msgstr "Faks hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1429
+#: addressbook/contact-editor/e-contact-editor.c:1236
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1430
+#: addressbook/contact-editor/e-contact-editor.c:1237
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1431
-#: addressbook/contact-editor/e-contact-editor.c:1526
+#: addressbook/contact-editor/e-contact-editor.c:1238
+#: addressbook/contact-editor/e-contact-editor.c:1333
 #: mail/mail-config.glade.h:28
 msgid "Other"
 msgstr "Annet"
 
-#: addressbook/contact-editor/e-contact-editor.c:1432
+#: addressbook/contact-editor/e-contact-editor.c:1239
 msgid "Other Fax"
 msgstr "Annen faks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1433
+#: addressbook/contact-editor/e-contact-editor.c:1240
 msgid "Pager"
 msgstr "Personsøker"
 
-#: addressbook/contact-editor/e-contact-editor.c:1434
+#: addressbook/contact-editor/e-contact-editor.c:1241
 msgid "Primary"
 msgstr "Primær"
 
-#: addressbook/contact-editor/e-contact-editor.c:1435
+#: addressbook/contact-editor/e-contact-editor.c:1242
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1436
+#: addressbook/contact-editor/e-contact-editor.c:1243
 msgid "Telex"
 msgstr "Teleks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1437
+#: addressbook/contact-editor/e-contact-editor.c:1244
 msgid "TTY/TDD"
 msgstr "TTY/TTD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
-#: addressbook/contact-editor/e-contact-editor.c:1481
+#: addressbook/contact-editor/e-contact-editor.c:1288
 msgid "Primary Email"
 msgstr "Primær e-post"
 
-#: addressbook/contact-editor/e-contact-editor.c:1482
+#: addressbook/contact-editor/e-contact-editor.c:1289
 msgid "Email 2"
 msgstr "E-post 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1483
+#: addressbook/contact-editor/e-contact-editor.c:1290
 msgid "Email 3"
 msgstr "E-post 3"
 
@@ -661,6 +289,11 @@ msgstr "Slett kontakt?"
 #: addressbook/contact-editor/e-contact-editor-strings.h:7
 msgid "_Add"
 msgstr "_Legg til"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:8
+#: calendar/gui/dialogs/task-editor.c:459 calendar/gui/event-editor.c:1185
+msgid "_Delete"
+msgstr "_Slett"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
 msgid "Phone Types"
@@ -996,7 +629,7 @@ msgstr "Meldingsmottakere:"
 msgid "Save as VCard"
 msgstr "Lagre som VCard"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:542
+#: addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "* Click here to add a contact *"
 msgstr "* Klikk her for å legge til en kontakt *"
 
@@ -1342,15 +975,12 @@ msgstr "Konfigurasjonsverktøy for kalenderkomponenten.\n"
 
 #: calendar/conduits/calendar/calendar-conduit.c:398
 #: calendar/conduits/calendar/calendar-conduit.c:1111
-#: calendar/conduits/todo/todo-conduit.c:428
-#: calendar/conduits/todo/todo-conduit.c:922
+#: calendar/conduits/todo/todo-conduit.c:554
 msgid "Error while communicating with calendar server"
 msgstr "Feil under kommunikasjon med kalendertjeneren"
 
 #: calendar/conduits/calendar/calendar-conduit.c:778
 #: calendar/conduits/calendar/calendar-conduit.c:780
-#: calendar/conduits/todo/todo-conduit.c:627
-#: calendar/conduits/todo/todo-conduit.c:629
 msgid "Could not start gnomecal server"
 msgstr "Kunne ikke starte gnomecal-tjeneren"
 
@@ -1379,8 +1009,16 @@ msgstr "© 1998-2000 the Free Software Foundation og Helix Code"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurasjonsverktøy for evolutions oppgavelistekomponent.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:650
-#: calendar/conduits/todo/todo-conduit.c:653
+#: calendar/conduits/todo/todo-conduit.c:599
+msgid "Could not start wombat server"
+msgstr "Kunne ikke starte wombat tjener"
+
+#: calendar/conduits/todo/todo-conduit.c:600
+msgid "Could not start wombat"
+msgstr "Kunne ikke starte wombat"
+
+#: calendar/conduits/todo/todo-conduit.c:658
+#: calendar/conduits/todo/todo-conduit.c:661
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunne ikke lese pilotens applikasjonsblokk for oppgaveliste"
 
@@ -1591,10 +1229,182 @@ msgstr "Rediger avtale:"
 msgid "Snooze time (minutes)"
 msgstr "Utsett-tid (minutter)"
 
+#: calendar/gui/dialogs/task-editor.c:427
+#: calendar/gui/dialogs/task-editor.c:434 calendar/gui/event-editor.c:1160
+msgid "FIXME: _Task"
+msgstr "_Oppgave"
+
+#: calendar/gui/dialogs/task-editor.c:428
+#: calendar/gui/dialogs/task-editor.c:435 calendar/gui/event-editor.c:1161
+msgid "FIXME: Task _Request"
+msgstr "Oppgavefo_respørsel"
+
+#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1158
+msgid "FIXME: _Mail Message"
+msgstr "Send _melding"
+
+#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1155
+msgid "FIXME: _Appointment"
+msgstr "_Avtale"
+
+#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1156
+msgid "FIXME: Meeting Re_quest"
+msgstr "Møteforesp_ørsel"
+
+#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1159
+msgid "FIXME: _Contact"
+msgstr "_Kontakt"
+
+#: calendar/gui/dialogs/task-editor.c:436 calendar/gui/event-editor.c:1162
+msgid "FIXME: _Journal Entry"
+msgstr "_Journaloppføring"
+
+#: calendar/gui/dialogs/task-editor.c:437 calendar/gui/event-editor.c:1163
+msgid "FIXME: _Note"
+msgstr "_Notis"
+
+#: calendar/gui/dialogs/task-editor.c:439
+#: calendar/gui/dialogs/task-editor.c:547 calendar/gui/event-editor.c:1165
+#: calendar/gui/event-editor.c:1273
+msgid "FIXME: Ch_oose Form..."
+msgstr "Velg skjema..."
+
+#: calendar/gui/dialogs/task-editor.c:444 calendar/gui/event-editor.c:1170
+msgid "FIXME: _Memo Style"
+msgstr "_Notis-stil"
+
+#: calendar/gui/dialogs/task-editor.c:446 calendar/gui/event-editor.c:1172
+msgid "FIXME: Define Print _Styles..."
+msgstr "Definér utskriftstiler..."
+
+#: calendar/gui/dialogs/task-editor.c:453 calendar/gui/event-editor.c:1179
+msgid "FIXME: S_end"
+msgstr "_Send"
+
+#: calendar/gui/dialogs/task-editor.c:457 calendar/gui/event-editor.c:1183
+msgid "FIXME: Save Attac_hments..."
+msgstr "Lagre vedlegg..."
+
+#: calendar/gui/dialogs/task-editor.c:461 calendar/gui/event-editor.c:1187
+msgid "FIXME: _Move to Folder..."
+msgstr "_Flytt til mappe..."
+
+#: calendar/gui/dialogs/task-editor.c:462 calendar/gui/event-editor.c:1188
+msgid "FIXME: Cop_y to Folder..."
+msgstr "Kopiér til mappe..."
+
+#: calendar/gui/dialogs/task-editor.c:464 calendar/gui/event-editor.c:1190
+msgid "Page Set_up"
+msgstr "Sideoppsett"
+
+#: calendar/gui/dialogs/task-editor.c:465 calendar/gui/event-editor.c:1191
+msgid "FIXME: Print Pre_view"
+msgstr "Forhåndsvisning av utskrift"
+
+#: calendar/gui/dialogs/task-editor.c:486 calendar/gui/event-editor.c:1212
+msgid "FIXME: Paste _Special..."
+msgstr "Lim inn _spesial..."
+
+#: calendar/gui/dialogs/task-editor.c:491 calendar/gui/event-editor.c:1217
+msgid "FIXME: Mark as U_nread"
+msgstr "Merk som ulest"
+
+#: calendar/gui/dialogs/task-editor.c:495 calendar/gui/event-editor.c:1221
+msgid "_Object"
+msgstr "_Objekt"
+
+#: calendar/gui/dialogs/task-editor.c:500
+#: calendar/gui/dialogs/task-editor.c:508 calendar/gui/event-editor.c:1226
+#: calendar/gui/event-editor.c:1233
+msgid "FIXME: _Item"
+msgstr "_Oppføring"
+
+#: calendar/gui/dialogs/task-editor.c:501
+#: calendar/gui/dialogs/task-editor.c:509 calendar/gui/event-editor.c:1227
+#: calendar/gui/event-editor.c:1234
+msgid "FIXME: _Unread Item"
+msgstr "_Ulest oppføring"
+
 #: calendar/gui/dialogs/task-editor.c:502
 #: calendar/gui/dialogs/task-editor.c:510
 msgid "FIXME: In_complete Task"
 msgstr "U_komplett oppgave"
+
+#: calendar/gui/dialogs/task-editor.c:503 calendar/gui/event-editor.c:1228
+msgid "FIXME: Fi_rst Item in Folder"
+msgstr "Fø_rste oppføring i mappe"
+
+#: calendar/gui/dialogs/task-editor.c:511 calendar/gui/event-editor.c:1235
+msgid "FIXME: _Last Item in Folder"
+msgstr "_Siste oppføring i mappe"
+
+#: calendar/gui/dialogs/task-editor.c:516 calendar/gui/event-editor.c:1240
+msgid "FIXME: _Standard"
+msgstr "_Standard"
+
+#: calendar/gui/dialogs/task-editor.c:518 calendar/gui/event-editor.c:1242
+msgid "FIXME: __Formatting"
+msgstr "_Formatering"
+
+#: calendar/gui/dialogs/task-editor.c:521 calendar/gui/event-editor.c:1245
+msgid "FIXME: _Customize..."
+msgstr "_Tilpass..."
+
+#: calendar/gui/dialogs/task-editor.c:526 calendar/gui/event-editor.c:1250
+msgid "Pre_vious"
+msgstr "Forri_ge"
+
+#: calendar/gui/dialogs/task-editor.c:527 calendar/gui/event-editor.c:1251
+msgid "Ne_xt"
+msgstr "Nes_te"
+
+#: calendar/gui/dialogs/task-editor.c:529 calendar/gui/event-editor.c:1255
+msgid "_Toolbars"
+msgstr "Verk_tøylinjer"
+
+#: calendar/gui/dialogs/task-editor.c:534 calendar/gui/event-editor.c:1260
+msgid "FIXME: _File..."
+msgstr "_Fil..."
+
+#: calendar/gui/dialogs/task-editor.c:535 calendar/gui/event-editor.c:1261
+msgid "FIXME: It_em..."
+msgstr "Opp_føring"
+
+#: calendar/gui/dialogs/task-editor.c:536 calendar/gui/event-editor.c:1262
+msgid "FIXME: _Object..."
+msgstr "_Objekt..."
+
+#: calendar/gui/dialogs/task-editor.c:541 calendar/gui/event-editor.c:1267
+msgid "FIXME: _Font..."
+msgstr "FIXME: Skri_fttyper..."
+
+#: calendar/gui/dialogs/task-editor.c:542 calendar/gui/event-editor.c:1268
+msgid "FIXME: _Paragraph..."
+msgstr "_Avsnitt..."
+
+#: calendar/gui/dialogs/task-editor.c:549 calendar/gui/event-editor.c:1275
+msgid "FIXME: Desi_gn This Form"
+msgstr "_Utform dette skjemaet"
+
+#: calendar/gui/dialogs/task-editor.c:550 calendar/gui/event-editor.c:1276
+msgid "FIXME: D_esign a Form..."
+msgstr "U_tform et skjema..."
+
+#: calendar/gui/dialogs/task-editor.c:552 calendar/gui/event-editor.c:1278
+msgid "FIXME: Publish _Form..."
+msgstr "Publisér skjema..."
+
+#: calendar/gui/dialogs/task-editor.c:553 calendar/gui/event-editor.c:1279
+msgid "FIXME: Pu_blish Form As..."
+msgstr "Pu_blisér skjema som..."
+
+#: calendar/gui/dialogs/task-editor.c:555 calendar/gui/event-editor.c:1281
+msgid "FIXME: Script _Debugger"
+msgstr "Feilsøking i skript"
+
+#: calendar/gui/dialogs/task-editor.c:560 calendar/gui/event-editor.c:1286
+msgid "FIXME: _Spelling..."
+msgstr "_Stavekontroll..."
 
 #: calendar/gui/dialogs/task-editor.c:562 calendar/gui/event-editor.c:1288
 msgid "FIXME: Chec_k Names"
@@ -1603,6 +1413,10 @@ msgstr "Sjek_k navn"
 #: calendar/gui/dialogs/task-editor.c:563 calendar/gui/event-editor.c:1289
 msgid "FIXME: Address _Book..."
 msgstr "Addresse_bok..."
+
+#: calendar/gui/dialogs/task-editor.c:565 calendar/gui/event-editor.c:1291
+msgid "_Forms"
+msgstr "Sk_jemaer"
 
 #: calendar/gui/dialogs/task-editor.c:570
 msgid "FIXME: _New Task"
@@ -1636,6 +1450,31 @@ msgstr "Sva_r"
 msgid "FIXME: Reply to A_ll"
 msgstr "Svar til a_lle"
 
+#: calendar/gui/dialogs/task-editor.c:582 calendar/gui/event-editor.c:1304
+msgid "FIXME: For_ward"
+msgstr "_Videresend"
+
+#: calendar/gui/dialogs/task-editor.c:595 calendar/gui/event-editor.c:1317
+msgid "_Insert"
+msgstr "Sett _inn"
+
+#: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1318
+#: composer/e-msg-composer.c:1005
+msgid "F_ormat"
+msgstr "F_ormat"
+
+#: calendar/gui/dialogs/task-editor.c:597 calendar/gui/event-editor.c:1319
+msgid "_Tools"
+msgstr "_Verktøy"
+
+#: calendar/gui/dialogs/task-editor.c:598 calendar/gui/event-editor.c:1320
+msgid "Actio_ns"
+msgstr "Ha_ndlinger"
+
+#: calendar/gui/dialogs/task-editor.c:624 calendar/gui/event-editor.c:1345
+msgid "Save and Close"
+msgstr "Lagre og lukk"
+
 #: calendar/gui/dialogs/task-editor.c:625
 msgid "Save the task and close the dialog box"
 msgstr "Lagre oppgaven og lukk dialogboksen"
@@ -1643,6 +1482,18 @@ msgstr "Lagre oppgaven og lukk dialogboksen"
 #: calendar/gui/dialogs/task-editor.c:629 calendar/gui/event-editor.c:1362
 msgid "FIXME: Print..."
 msgstr "Skriv ut..."
+
+#: calendar/gui/dialogs/task-editor.c:630 calendar/gui/event-editor.c:1363
+msgid "Print this item"
+msgstr "Skriv ut denne oppføringen"
+
+#: calendar/gui/dialogs/task-editor.c:633 calendar/gui/event-editor.c:1368
+msgid "FIXME: Insert File..."
+msgstr "Sett inn fil..."
+
+#: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1369
+msgid "Insert a file as an attachment"
+msgstr "Sett inn en fil som vedlegg"
 
 #: calendar/gui/dialogs/task-editor.c:639
 msgid "FIXME: Assign Task..."
@@ -1652,9 +1503,41 @@ msgstr "Tildel oppgave..."
 msgid "Assign the task to someone"
 msgstr "Tildel oppgaven til noen"
 
+#: calendar/gui/dialogs/task-editor.c:644 calendar/gui/e-calendar-table.c:324
+#: calendar/gui/event-editor-dialog.glade.h:92
+#: calendar/gui/event-editor.c:1350 mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
+#: mail/mail-view.c:163
+msgid "Delete"
+msgstr "Slett"
+
 #: calendar/gui/dialogs/task-editor.c:645
 msgid "Delete this task"
 msgstr "Slett denne oppgaven"
+
+#: calendar/gui/dialogs/task-editor.c:649 calendar/gui/event-editor.c:1379
+msgid "FIXME: Previous"
+msgstr "Forrige"
+
+#: calendar/gui/dialogs/task-editor.c:650 calendar/gui/event-editor.c:1380
+msgid "Go to the previous item"
+msgstr "Gå til forrige oppføring"
+
+#: calendar/gui/dialogs/task-editor.c:653 calendar/gui/event-editor.c:1382
+msgid "FIXME: Next"
+msgstr "Neste"
+
+#: calendar/gui/dialogs/task-editor.c:654 calendar/gui/event-editor.c:1383
+msgid "Go to the next item"
+msgstr "Gå til neste oppføring"
+
+#: calendar/gui/dialogs/task-editor.c:657 calendar/gui/event-editor.c:1385
+msgid "FIXME: Help"
+msgstr "Hjelp"
+
+#: calendar/gui/dialogs/task-editor.c:658 calendar/gui/event-editor.c:1386
+msgid "See online help"
+msgstr "Se hjelp"
 
 #: calendar/gui/dialogs/task-editor.c:913
 msgid "Edit Task"
