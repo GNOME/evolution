@@ -1,3 +1,9 @@
+2003-12-02  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/Makefile.am: Version the schemas
+	* gui/component/apps_evolution_addressbook.schemas: Removed
+	* gui/component/apps_evolution_addressbook.schemas.in.in: Added
+
 2003-12-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (set_status_message): Call

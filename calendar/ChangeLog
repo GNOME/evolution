@@ -1,3 +1,9 @@
+2003-12-02  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/Makefile.am: Version the schemas
+	* gui/apps_evolution_calendar.schemas: Removed
+	* gui/apps_evolution_calendar.schemas.in.in: Added
+
 2003-12-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): added

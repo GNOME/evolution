@@ -232,7 +232,12 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_DATA = apps_evolution_calendar.schemas
+schema_in_files = apps_evolution_calendar.schemas.in.in
+schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
+%-$(BASE_VERSION).schemas.in: %.schemas.in.in
+	cp $< $@
+
+@INTLTOOL_SCHEMAS_RULE@
 
 EXTRA_DIST =	 			\
 	e-calendar-marshal.list		\

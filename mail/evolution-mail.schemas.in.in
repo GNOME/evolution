@@ -540,20 +540,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/prompts/empty_trash</key>
-      <applyto>/apps/evolution/mail/prompts/empty_trash</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Prompt when user empties the trash</short>
-         <long>
-          Do we prompt the user when he or she tries to empty the trash.
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/mail/prompts/only_bcc</key>
       <applyto>/apps/evolution/mail/prompts/only_bcc</applyto>
       <owner>evolution-mail</owner>

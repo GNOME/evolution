@@ -1,3 +1,9 @@
+2003-12-02  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Version the schemas
+	* apps_evolution_shell.schemas: Removed
+	* apps_evolution_shell.schemas.in.in: Added
+
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-activity-handler.c (e_activity_handler_operation_finished):

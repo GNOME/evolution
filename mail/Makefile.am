@@ -233,7 +233,12 @@ endif
 # GConf
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_DATA = evolution-mail.schemas
+schema_in_files = evolution-mail.schemas.in.in
+schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
+%-$(BASE_VERSION).schemas.in: %.schemas.in.in
+	cp $< $@
+
+@INTLTOOL_SCHEMAS_RULE@
 
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
