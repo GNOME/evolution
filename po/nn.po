@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-29 17:30+0000\n"
-"PO-Revision-Date: 2004-08-29 18:21+0000\n"
+"PO-Revision-Date: 2004-08-29 19:22+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -281,7 +281,7 @@ msgstr "Evolution adressebok-komponent"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr ""
+msgstr "Evolution S/Mime styring av sertifikathandsaming"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -2074,9 +2074,8 @@ msgstr "Teneste"
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
 #: calendar/gui/e-cal-list-view.etspec.h:3
-#, fuzzy
 msgid "Location"
-msgstr "Plassering"
+msgstr "Stad"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:134
 msgid "Username"
@@ -2298,9 +2297,8 @@ msgid "_IM Service:"
 msgstr "_Lynmeldingsteneste:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
-#, fuzzy
 msgid "_Location:"
-msgstr "_Adresse:"
+msgstr "_Stad:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
@@ -2807,12 +2805,12 @@ msgstr "Har markør"
 #: addressbook/gui/widgets/eab-contact-display.c:133
 #: addressbook/gui/widgets/eab-contact-display.c:196
 msgid "(map)"
-msgstr ""
+msgstr "(kart)"
 
 #: addressbook/gui/widgets/eab-contact-display.c:143
 #: addressbook/gui/widgets/eab-contact-display.c:209
 msgid "map"
-msgstr ""
+msgstr "kart"
 
 #: addressbook/gui/widgets/eab-contact-display.c:261
 #: addressbook/gui/widgets/eab-contact-display.c:528
@@ -2825,9 +2823,8 @@ msgid "E-mail"
 msgstr "E-post"
 
 #: addressbook/gui/widgets/eab-contact-display.c:348
-#, fuzzy
 msgid "Position"
-msgstr "Posisjon"
+msgstr "Stilling"
 
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Video Conferencing"
@@ -3028,7 +3025,7 @@ msgstr "Motoren til denne adresseboka nekta å utføra denne spørjinga."
 
 #: addressbook/gui/widgets/eab-gui-util.c:148
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "Spørjinga avslutta ikkje vellukka."
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
 msgid "Error adding list"
@@ -3756,7 +3753,7 @@ msgstr "Vil du senda denne oppgåva til deltakarane?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "Invitasjonar vil verta sendte til alle deltakarane per e-post, og gje dei høve til å godta denne oppgåva."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
@@ -3916,11 +3913,11 @@ msgstr "Opna"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:905
 msgid "Dismiss"
-msgstr ""
+msgstr "Avvis"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:907
 msgid "Dismiss All"
-msgstr ""
+msgstr "Avvis alle"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:972
 msgid "No description available."
@@ -4027,7 +4024,7 @@ msgstr "Kor store tidsrom som vert viste i arbeidsdag- og arbeidsvekeframsyninga
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Liste over adresser til ledig/oppteken-offeltleggjering"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -4131,7 +4128,7 @@ msgstr "Merknad inneheld"
 
 #: calendar/gui/cal-search-bar.c:53
 msgid "Location contains"
-msgstr ""
+msgstr "Stad inneheld"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
@@ -4215,7 +4212,6 @@ msgstr "%d. %a %b %Y"
 
 #: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
 #: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
-#, fuzzy
 msgid "%d %b %Y"
 msgstr "%d. %B %Y"
 
@@ -4387,7 +4383,7 @@ msgstr "Send ein e-post"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
-msgstr ""
+msgstr "_Argument:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
@@ -5091,9 +5087,8 @@ msgid "Confidential"
 msgstr "Konfidensiell"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Locat_ion:"
-msgstr "Plassering:"
+msgstr "_Stad:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
@@ -5386,11 +5381,11 @@ msgstr "Kvar"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "This appointment rec_urs"
-msgstr ""
+msgstr "_Denne avtalen gjentek seg"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
-msgstr "for"
+msgstr "i"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "forever"
@@ -5554,11 +5549,11 @@ msgstr "<b>Ledig/oppteken-k_alenderar</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
-msgstr ""
+msgstr "<b>Utgjevingsfrekvens</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "<b>Publishing _Location</b>"
-msgstr ""
+msgstr "<b>_Adresse til kalender</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
@@ -5570,7 +5565,7 @@ msgstr "_Dagleg"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "_Manual"
-msgstr ""
+msgstr "_Manuell"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "_Password:"
@@ -5976,7 +5971,7 @@ msgstr "Flyttar meldingar"
 
 #: calendar/gui/e-calendar-view.c:1178
 msgid "Copying items"
-msgstr ""
+msgstr "Kopierer element"
 
 #: calendar/gui/e-calendar-view.c:1403 calendar/gui/e-calendar-view.c:1492
 msgid "New _Appointment..."
@@ -6108,7 +6103,7 @@ msgstr "pm"
 
 #: calendar/gui/e-itip-control.c:780
 msgid "Yes. (Complex Recurrence)"
-msgstr ""
+msgstr "Ja. (Komplisert gjentaking.)"
 
 #: calendar/gui/e-itip-control.c:791
 #, c-format
@@ -6178,7 +6173,7 @@ msgstr "Startar"
 
 #: calendar/gui/e-itip-control.c:894
 msgid "Ends"
-msgstr ""
+msgstr "Sluttar"
 
 #: calendar/gui/e-itip-control.c:928
 msgid "Due"
@@ -6208,9 +6203,8 @@ msgstr ""
 "under."
 
 #: calendar/gui/e-itip-control.c:1137
-#, fuzzy
 msgid "Location:"
-msgstr "Plassering:"
+msgstr "Stad:"
 
 #: calendar/gui/e-itip-control.c:1156 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
@@ -6860,6 +6854,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Plasseringa til og hierarkiet i Evolution-oppgåvemappene har endra seg sidan "
+"Evolution 1.x.\n"
+"\n"
+"Ha tolmod medan Evolution overfører mappene dine ..."
 
 #: calendar/gui/migration.c:154
 msgid ""
@@ -6868,6 +6866,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Plasseringa til og hierarkiet i Evolution-kalendermappene har endra seg sidan "
+"Evolution 1.x.\n"
+"\n"
+"Ha tolmod medan Evolution overfører mappene dine ..."
 
 #: calendar/gui/migration.c:380
 msgid "Birthdays & Anniversaries"
@@ -13816,6 +13818,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Plasseringa til og hierarkiet i Evolution-postboksmappene har endra seg sidan "
+"Evolution 1.x.\n"
+"\n"
+"Ha tolmod medan Evolution overfører mappene dine ..."
 
 #: mail/em-migrate.c:1602
 #, fuzzy, c-format
@@ -17293,7 +17299,6 @@ msgstr "Verkeleg sletta gamle data?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
-#, fuzzy
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17356,27 +17361,29 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"Sertifikatet «%s» er eit CA-sertifikat.\n"
+"\n"
+"Rediger tillitsinnstillingar:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
+msgstr "Sidan du stolar på sertifiseringsinstansen som utferda dette sertifikatet, så stolar du automatisk på at dette sertifikatet er autentisk med mindre du seier noko anna her"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
+msgstr "Sidan du ikkje stolar på sertifiseringsinstansen som utferda dette sertifikatet, så trur du automatisk at dette sertifikatet ikkje er autentisk med mindre du seier noko anna her"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
 #: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
-#, fuzzy
 msgid "Select a cert to import..."
-msgstr "Vel importerar"
+msgstr "Vel eit sertifikat å importera ..."
 
 #: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
 #: smime/gui/certificate-manager.c:690
@@ -17457,73 +17464,61 @@ msgstr "Sertifikatet er trukke tilbake"
 
 #: smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "<b>Sertifikathierarki</b>"
 
 #: smime/gui/smime-ui.glade.h:4
-#, fuzzy
 msgid "<b>Field Value</b>"
-msgstr "Send"
+msgstr "<b>Feltverdi</b>"
 
 #: smime/gui/smime-ui.glade.h:5
-#, fuzzy
 msgid "<b>Fingerprints</b>"
 msgstr "<b>Fingeravtrykk</b>"
 
 #: smime/gui/smime-ui.glade.h:6
-#, fuzzy
 msgid "<b>Issued By</b>"
 msgstr "<b>Utferda av</b>"
 
 #: smime/gui/smime-ui.glade.h:7
-#, fuzzy
 msgid "<b>Issued To</b>"
 msgstr "<b>Utferda til</b>"
 
 #: smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>Dette sertifikatet er stadfesta til desse bruksområda:</b>"
 
 #: smime/gui/smime-ui.glade.h:9
-#, fuzzy
 msgid "<b>Validity</b>"
-msgstr "<b>Status:</b>"
+msgstr "<b>Gyldig tidsrom</b>"
 
 #: smime/gui/smime-ui.glade.h:10
-#, fuzzy
 msgid "Authorities"
 msgstr "Sertifiseringsinstansar"
 
 #: smime/gui/smime-ui.glade.h:11
-#, fuzzy
 msgid "Backup"
-msgstr "Reservekopi"
+msgstr "Tryggleikskopi"
 
 #: smime/gui/smime-ui.glade.h:12
-#, fuzzy
 msgid "Backup All"
-msgstr "Ta reservekopi av alle"
+msgstr "Ta tryggleikskopi av alle"
 
 #: smime/gui/smime-ui.glade.h:13
-#, fuzzy
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr "Før du vel å stola på instansen, bør du undersøkja sertifikatet og praksisen hans."
+msgstr "Før du vel å stola på denne sertifiseringsinstansen til noko formål, bør du undersøkja sertifikatet og praksisen hans (dersom mogleg)."
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
-#, fuzzy
 msgid "Certificate"
 msgstr "Sertifikat"
 
 #: smime/gui/smime-ui.glade.h:15
-#, fuzzy
 msgid "Certificate Authority Trust"
-msgstr "Sertifikatet kan ikkje stolast på"
+msgstr "Tillit til sertifiseringsinstans"
 
 #: smime/gui/smime-ui.glade.h:16
-#, fuzzy
 msgid "Certificate details"
-msgstr "_Sertifikat-ID:"
+msgstr "Sertifikat-detaljar"
 
 #: smime/gui/smime-ui.glade.h:17
 #, fuzzy
@@ -17533,256 +17528,220 @@ msgstr "Vanleg namn (CN)"
 #: smime/gui/smime-ui.glade.h:18
 #, fuzzy
 msgid "Contact Certificates"
-msgstr "_Sertifikat-ID:"
+msgstr "Kontaktsertifikat"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Ikkje stol på at sertifikatet er autentisk"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
-msgstr ""
+msgstr "Tøysevindauge"
 
 #: smime/gui/smime-ui.glade.h:22
-#, fuzzy
 msgid "Edit"
 msgstr "Rediger"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Kan ikkje verifisera sertifikat."
+msgstr "Tillitsinnstillingar for e-post-sertifikat"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
-msgstr ""
+msgstr "E-post-mottakar-sertifikat"
 
 #: smime/gui/smime-ui.glade.h:25
-#, fuzzy
 msgid "Email Signer Certificate"
-msgstr "Kan ikkje verifisera sertifikat."
+msgstr "E-post-signeringssertifikat"
 
 #: smime/gui/smime-ui.glade.h:26
-#, fuzzy
 msgid "Expires On"
-msgstr "Utgår"
+msgstr "Går ut på dato den"
 
 #: smime/gui/smime-ui.glade.h:29
-#, fuzzy
 msgid "Issued On"
 msgstr "Utferda den"
 
 #: smime/gui/smime-ui.glade.h:30
-#, fuzzy
 msgid "MD5 Fingerprint"
 msgstr "MD5-fingeravtrykk"
 
 #: smime/gui/smime-ui.glade.h:31
-#, fuzzy
 msgid "Organization (O)"
 msgstr "Organisasjon (O)"
 
 #: smime/gui/smime-ui.glade.h:32
-#, fuzzy
 msgid "Organizational Unit (OU)"
 msgstr "Organisasjonseining (OU)"
 
 #: smime/gui/smime-ui.glade.h:33
-#, fuzzy
 msgid "SHA1 Fingerprint"
 msgstr "SHA1-fingeravtrykk"
 
 #: smime/gui/smime-ui.glade.h:34 smime/lib/e-cert.c:818
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "SSL-klientsertifikat"
 
 #: smime/gui/smime-ui.glade.h:35 smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "SSL-tenarsertifikat"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Stol på at sertifikatet er autentisk"
 
 #: smime/gui/smime-ui.glade.h:38
-#, fuzzy
 msgid "Trust this CA to identify email users."
-msgstr "Stol på denne CA-en for identifisering av e-postbrukarar"
+msgstr "Stol på denne sertifiseringsinstansen ved identifisering av e-postbrukarar."
 
 #: smime/gui/smime-ui.glade.h:39
-#, fuzzy
 msgid "Trust this CA to identify software developers."
-msgstr "Stol på denne CA-en for identifisering av programutviklarar"
+msgstr "Stol på denne sertifiserinsinstansen ved identifisering av programutviklarar."
 
 #: smime/gui/smime-ui.glade.h:40
-#, fuzzy
 msgid "Trust this CA to identify web sites."
-msgstr "Stol på denne CA-en for identifisering av nettstader"
+msgstr "Stol på denne sertifiserinsinstansen ved identifisering av nettstader."
 
 #: smime/gui/smime-ui.glade.h:41
-#, fuzzy
 msgid "View"
 msgstr "Vis"
 
 #: smime/gui/smime-ui.glade.h:42
-#, fuzzy
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Du har sertifikat frå desse organisasjonane som identifiserer deg:"
+msgstr "Du har sertifikat som identifiserer deg frå desse organisasjonane:"
 
 #: smime/gui/smime-ui.glade.h:43
-#, fuzzy
 msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "Du har sertifikat som identifiserer desse sertifiseringsinstansane:"
 
 #: smime/gui/smime-ui.glade.h:44
-#, fuzzy
 msgid "You have certificates on file that identify these people:"
-msgstr "Du har lagra sertifikat som identifiserer følgjande personar:"
+msgstr "Du har sertifikat som identifiserer følgjande personar:"
 
 #: smime/gui/smime-ui.glade.h:45
-#, fuzzy
 msgid "Your Certificates"
-msgstr "Dine sertifikat"
+msgstr "Sertifikata dine"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "R_ediger tillit til sertifiseringsinstans"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
-#, fuzzy
 msgid "Certificate already exists"
-msgstr "Kort-id eksisterar allereide"
+msgstr "Sertifikatet finst frå før"
 
 #: smime/lib/e-cert.c:238 smime/lib/e-cert.c:248
-#, fuzzy
 msgid "%d/%m/%Y"
 msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
-msgstr "Skilt"
+msgstr "Signer"
 
 #: smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
 msgstr "Krypter"
 
 #: smime/lib/e-cert.c:530
-#, fuzzy
 msgid "Version"
 msgstr "Versjon"
 
 #: smime/lib/e-cert.c:545
-#, fuzzy
 msgid "Version 1"
-msgstr "Vermillion"
+msgstr "Versjon 1"
 
 #: smime/lib/e-cert.c:548
-#, fuzzy
 msgid "Version 2"
-msgstr "Vermillion"
+msgstr "Versjon 2"
 
 #: smime/lib/e-cert.c:551
-#, fuzzy
 msgid "Version 3"
-msgstr "Vermillion"
+msgstr "Versjon 3"
 
 #: smime/lib/e-cert.c:633
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD2 med RSA-kryptering"
 
 #: smime/lib/e-cert.c:636
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD5 med RSA-kryptering"
 
 #: smime/lib/e-cert.c:639
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 SHA-1 med RSA-kryptering"
 
 #: smime/lib/e-cert.c:642
-#, fuzzy
 msgid "C"
 msgstr "C"
 
 #: smime/lib/e-cert.c:645
-#, fuzzy
 msgid "CN"
-msgstr "N"
+msgstr "CN"
 
 #: smime/lib/e-cert.c:648
 msgid "OU"
-msgstr ""
+msgstr "OU"
 
 #: smime/lib/e-cert.c:651
-#, fuzzy
 msgid "O"
 msgstr "O"
 
 #: smime/lib/e-cert.c:654
-#, fuzzy
 msgid "L"
 msgstr "L"
 
 #: smime/lib/e-cert.c:657
-#, fuzzy
 msgid "DN"
-msgstr "N"
+msgstr "DN"
 
 #: smime/lib/e-cert.c:660
+#, fuzzy
 msgid "DC"
-msgstr ""
+msgstr "DC"
 
 #: smime/lib/e-cert.c:663
-#, fuzzy
 msgid "ST"
-msgstr "SMTP"
+msgstr "ST"
 
 #: smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 RSA-kryptering"
 
 #: smime/lib/e-cert.c:669
-#, fuzzy
 msgid "Certificate Key Usage"
-msgstr "_Sertifikat-ID:"
+msgstr "Bruk av sertifikatnøkkel"
 
 #: smime/lib/e-cert.c:672
-#, fuzzy
 msgid "Netscape Certificate Type"
-msgstr "_Sertifikat-ID:"
+msgstr "Netscape-sertifikattype"
 
 #: smime/lib/e-cert.c:675
-#, fuzzy
 msgid "Certificate Authority Key Identifier"
-msgstr "Sertifikatet kan ikkje stolast på"
+msgstr "Nøkkelidentifisering for sertifiseringsinstans"
 
 #: smime/lib/e-cert.c:678
-#, fuzzy
 msgid "UID"
 msgstr "UID"
 
 #: smime/lib/e-cert.c:687
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "Objektidentifisering (%s)"
 
 #: smime/lib/e-cert.c:738
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "Algoritmeidentifisering"
 
 #: smime/lib/e-cert.c:746
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "Algoritmeparameterar"
 
 #: smime/lib/e-cert.c:768
 #, fuzzy
 msgid "Subject Public Key Info"
 msgstr ""
-"\n"
-"Offentleg nøkkel: "
 
 #: smime/lib/e-cert.c:773
 msgid "Subject Public Key Algorithm"
@@ -17794,113 +17753,97 @@ msgid "Subject's Public Key"
 msgstr "Emne er %s"
 
 #: smime/lib/e-cert.c:809 smime/lib/e-cert.c:858
-#, fuzzy
 msgid "Error: Unable to process extension"
-msgstr "Kan ikkje laga 'spool'-katalog"
+msgstr "Feil: Kan ikkje prosessera utviding"
 
 #: smime/lib/e-cert.c:830 smime/lib/e-cert.c:842
 msgid "Object Signer"
-msgstr ""
+msgstr "Objektsignerar"
 
 #: smime/lib/e-cert.c:834
-#, fuzzy
 msgid "SSL Certificate Authority"
-msgstr "Sertifikatet kan ikkje stolast på"
+msgstr "SSL sertifiseringsinstans"
 
 #: smime/lib/e-cert.c:838
-#, fuzzy
 msgid "Email Certificate Authority"
-msgstr "Kan ikkje verifisera sertifikat."
+msgstr "E-post-sertifiseringsinstans"
 
 #: smime/lib/e-cert.c:866
-#, fuzzy
 msgid "Signing"
-msgstr "Stauning"
+msgstr "Signering"
 
 #: smime/lib/e-cert.c:870
-#, fuzzy
 msgid "Non-repudiation"
-msgstr "Ingen informasjon"
+msgstr ""
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
-msgstr ""
+msgstr "\t"
 
 #: smime/lib/e-cert.c:878
-#, fuzzy
 msgid "Data Encipherment"
-msgstr "vedlegg"
+msgstr ""
 
 #: smime/lib/e-cert.c:882
 msgid "Key Agreement"
 msgstr ""
 
 #: smime/lib/e-cert.c:886
-#, fuzzy
 msgid "Certificate Signer"
-msgstr "_Sertifikat-ID:"
+msgstr "Sertifikatsignerar"
 
 #: smime/lib/e-cert.c:890
 msgid "CRL Signer"
 msgstr ""
 
 #: smime/lib/e-cert.c:938
-#, fuzzy
 msgid "Critical"
 msgstr "Kritisk"
 
 #: smime/lib/e-cert.c:940 smime/lib/e-cert.c:943
-#, fuzzy
 msgid "Not Critical"
-msgstr "North Carolina"
+msgstr "Ikkje kritisk"
 
 #: smime/lib/e-cert.c:964
-#, fuzzy
 msgid "Extensions"
 msgstr "Utvidingar"
 
 #: smime/lib/e-cert.c:1035
-#, fuzzy, c-format
+#, c-format
 msgid "%s = %s"
-msgstr "%s %s"
+msgstr "%s = %s"
 
 #: smime/lib/e-cert.c:1091 smime/lib/e-cert.c:1211
-#, fuzzy
 msgid "Certificate Signature Algorithm"
-msgstr "Signaturfil:"
+msgstr "Sertifikatsigneringsalgoritme"
 
 #: smime/lib/e-cert.c:1100
-#, fuzzy
 msgid "Issuer"
 msgstr "Utferdar"
 
 #: smime/lib/e-cert.c:1154
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "Utferdar sin unike ID"
 
 #: smime/lib/e-cert.c:1173
-#, fuzzy
 msgid "Subject Unique ID"
-msgstr "Emne er %s"
+msgstr ""
 
 #: smime/lib/e-cert.c:1216
-#, fuzzy
 msgid "Certificate Signature Value"
-msgstr "Signaturfil:"
+msgstr "t"
 
 #: smime/lib/e-pkcs12.c:263
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "PKCS12 filpassord"
 
 #: smime/lib/e-pkcs12.c:263
-#, fuzzy
 msgid "Enter password for PKCS12 file:"
-msgstr "Tast inn passord for %s"
+msgstr "Skriv inn passord til PKCS12-fil:"
 
 #: smime/lib/e-pkcs12.c:362
-#, fuzzy
 msgid "Imported Certificate"
-msgstr "_Sertifikat-ID:"
+msgstr "Importert sertifikat"
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
@@ -18010,9 +17953,8 @@ msgid "Send selected contacts to another person."
 msgstr "Send dei valde kontaktane til ein annan person"
 
 #: ui/evolution-addressbook.xml.h:26
-#, fuzzy
 msgid "Show contact preview window"
-msgstr "Vis meldings-førehandsvisingsvindauge"
+msgstr "Vis kontakt-førehandsvisingsvindauge"
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -18045,14 +17987,12 @@ msgid "_Move to Folder..."
 msgstr "Flytt til _mappe ..."
 
 #: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
-#, fuzzy
 msgid "_Preview Pane"
-msgstr "Førehandsvis i"
+msgstr "_Førehandsvisingsramme"
 
 #: ui/evolution-addressbook.xml.h:41
-#, fuzzy
 msgid "_Save as VCard..."
-msgstr "Lagra _som VCard"
+msgstr "Lagra _som VCard ..."
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
@@ -18068,21 +18008,19 @@ msgstr "Dag"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Delete All Occurrences"
-msgstr ""
+msgstr "Slett alle oppføringar"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Delete the appointment"
 msgstr "Slett avtalen"
 
 #: ui/evolution-calendar.xml.h:8
-#, fuzzy
 msgid "Delete this Occurrence"
-msgstr "Slett denne førekomsten?"
+msgstr "Slett denne oppføringa"
 
 #: ui/evolution-calendar.xml.h:9
-#, fuzzy
 msgid "Delete this occurrence"
-msgstr "Slett denne førekomsten?"
+msgstr "Slett denne oppføringa"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go To"
@@ -18133,19 +18071,16 @@ msgid "Purge old appointments and meetings"
 msgstr "Fjern gamle avtalar og møter"
 
 #: ui/evolution-calendar.xml.h:25
-#, fuzzy
 msgid "Select _Date"
-msgstr "Vel ei fil"
+msgstr "Vel _dato"
 
 #: ui/evolution-calendar.xml.h:27
-#, fuzzy
 msgid "Select a specific date"
-msgstr "Gå til spesifisert dato"
+msgstr "Vel ein dato"
 
 #: ui/evolution-calendar.xml.h:28
-#, fuzzy
 msgid "Select today"
-msgstr "Vel mappe"
+msgstr "Vel i dag"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show as list"
@@ -18173,9 +18108,8 @@ msgid "Today"
 msgstr "I dag"
 
 #: ui/evolution-calendar.xml.h:35
-#, fuzzy
 msgid "View the current appointment"
-msgstr "Vis den valde kontakten"
+msgstr "Vis den noverande avtalen"
 
 #: ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -18186,9 +18120,8 @@ msgid "Work Week"
 msgstr "Arbeidsveke"
 
 #: ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Open Appointment"
-msgstr "A_vtale"
+msgstr "_Opna avtale"
 
 #: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -18394,7 +18327,7 @@ msgstr "Fjern alle sletta meldingar frå alle mapper"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
-msgstr ""
+msgstr "Skriv n_y melding"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
@@ -18421,18 +18354,16 @@ msgid "_Filters..."
 msgstr "_Filter ..."
 
 #: ui/evolution-mail-list.xml.h:1
-#, fuzzy
 msgid "Change the properties of this folder"
-msgstr "Endra namnet på spelarane"
+msgstr "Endra eigenskapane til denne mappa"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
 msgstr "Kopier dei merka meldingane til utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Lim inn melding i klippebordet"
+msgstr "Klipp ut merka meldingar til utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
@@ -18476,7 +18407,7 @@ msgstr "Vel _tråd"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "Vel alle og berre dei meldingane som ikkje alt er merka"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
