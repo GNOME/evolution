@@ -1,3 +1,10 @@
+2004-10-18  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68006.
+
+	* em-folder-view.c (emfv_init): dont ref/sink the invisible.
+	(emfv_destroy): just destroy it here.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67408.
