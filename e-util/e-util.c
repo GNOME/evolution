@@ -418,13 +418,20 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 void
 e_filename_make_safe (gchar *string)
 {
-	gchar *p;
+	gchar *p, *ts;
+	gunichar c;
 	
 	g_return_if_fail (string != NULL);
-	
-	for (p = string; *p; p++) {
-		if (!isprint ((unsigned char)*p) || strchr (" /'\"`&();|<>$%{}!", *p))
-			*p = '_';
+	p = string;
+
+	while(p && *p) {
+		c = g_utf8_get_char (p);
+		ts = p;
+		p = g_utf8_next_char (p);
+		if (!g_unichar_isprint(c) || ( c < 0xff && strchr (" /'\"`&();|<>$%{}!", c&0xff ))) {
+			while (ts<p) 	
+				*ts++ = '_';
+		}
 	}
 }
 
