@@ -1,3 +1,7 @@
+2004-02-25    <rodo@ximian.com>
+
+	* em-folder-view.c (emfv_popup_mark_junk): do not set DELETED
+
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (construct): Removed Apply button. As

@@ -572,8 +572,8 @@ emfv_popup_mark_junk (GtkWidget *w, EMFolderView *emfv)
 		char *uid = uids->pdata[i];
 		
 		if (camel_folder_set_message_flags(emfv->folder, uid,
-						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK,
-						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_JUNK)) {
+						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK,
+						   CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK)) {
 			g_ptr_array_add(uidsjunk, g_strdup(uid));
 		}
 	}
