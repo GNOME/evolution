@@ -804,6 +804,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (path != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (g_path_is_absolute (path), EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+	g_return_val_if_fail (display_name != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (type != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (physical_uri != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 
