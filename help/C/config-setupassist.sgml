@@ -74,8 +74,8 @@
         <variablelist>
 
           <varlistentry>
-               <term> <guilabel>Name:</guilabel> </term> <listitem>
-	  <para>Your full name. </para></listitem>
+               <term> <guilabel>Full Name:</guilabel> </term> <listitem>
+	  <para>Your name. </para></listitem>
          </varlistentry>
 
        <varlistentry>
@@ -110,14 +110,14 @@
        </varlistentry>
 
        <varlistentry>
-           <term> <guilabel>Mail source type:</guilabel></term>
+           <term> <guilabel>Receiving Email</guilabel></term>
 	  <listitem>
 	    <para>
               <application>Evolution</application> supports several
               mail sources: <glossterm linkend="pop">POP</glossterm> and
-              <glossterm linkend="imap">IMAP</glossterm> servers, and UNIX-style
+              <glossterm linkend="imap">IMAP</glossterm> servers, UNIX-style
               <systemitem><filename>mbox</filename></systemitem> and
-              <systemitem><filename>mh</filename></systemitem> files.
+              <systemitem><filename>Qmail maildir-format</filename></systemitem> files.
               POP servers retrieve your mail and store it on your
               local system so you can refer to it even when not
               connected to a network; <glossterm>IMAP</glossterm>
@@ -127,7 +127,8 @@
               files are used by your computer for internal mail, and
               may be useful if you want to switch from another email
               client such as <application>Spruce</application> or
-              <application>Netscape Communicator</application>.  Ask
+              <application>Netscape Communicator</application>.  Qmail files
+	      maybe useful if you use qmail to retrieve your mail.  Ask
               your system administrator which you should use, or keep
               guessing until one works.  You may use multiple sources
               if you wish; see <xref
@@ -144,30 +145,16 @@
 	  </varlistentry>
           
        <varlistentry>
-          <term> <guilabel>Server:</guilabel></term>
+          <term> <guilabel>Sending Email</guilabel></term>
 	  <listitem>
 	    <para>
-              This should be the name of the server where you get
-              incoming mail.  It may (or may not) be the same as the
-              server where you send your outgoing mail.
+              This should be the name of the server where you send 
+              mail.  It may (or may not) be the same as the
+              server where you get your incoming mail.
             </para>
 	  </listitem>
 	</varlistentry>
 
-     <varlistentry>
-	  <term><guilabel>Username:</guilabel></term>
-	<listitem>
-             <para>
-              Enter the username for your mail server account, if you
-              have one. In almost all cases, this is the part of your email
-              address before the @ character, and
-              <application>Evolution</application> has selected that
-              value as the default.  If you have a different username,
-              you can enter it here.
-            </para>
-	  </listitem>
-      </varlistentry>
-     
        <varlistentry>
             <term><guilabel>Authentication:</guilabel></term> 
 	    <listitem>
@@ -177,18 +164,19 @@
               find out which authentication protocols your network
               allows.
             </para>
+	    <para>
+	      In the <guilabel>Username:</guilabel> input box, type your
+	      username for your email account (the part before the @).
+	    </para>
 	  </listitem>
        </varlistentry>
 
       <varlistentry> 
-         <term><guilabel>Mail Transport:</guilabel></term>
+         <term><guilabel>Account Management</guilabel></term>
 	  <listitem>
 	    <para>
-              This is the mail sending protocol you will want to use.
-              <application>Evolution</application> supports both
-              <glossterm linkend="smtp">SMTP</glossterm> and
-              <application>sendmail</application>; SMTP is by far the
-              more common.
+	      This is where you put the name of this email account.  It
+	      could be "Home" or "Work".
             </para>
 	  </listitem>
       </varlistentry>
