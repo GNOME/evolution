@@ -1,3 +1,10 @@
+2003-01-01  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #34883 ]
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect):
+	perform an anonymous bind as the first thing after opening the
+	connection.
+
 2002-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #34897 ]
