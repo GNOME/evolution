@@ -1959,6 +1959,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
 						     g_strdup (ROOT_NODE_NAME));
+	add_node_to_hash (storage_set_view, ROOT_NODE_NAME, priv->root_node);
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -2084,6 +2085,7 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 	/* now re-add the root node */
 	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
 						     g_strdup (ROOT_NODE_NAME));
+	add_node_to_hash (storage_set_view, ROOT_NODE_NAME, priv->root_node);
 
 	/* then reinsert the storages after setting the "show_folders"
 	   flag.  insert_storages will call insert_folders if

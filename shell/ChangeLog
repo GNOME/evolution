@@ -1,3 +1,12 @@
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch from Richard Boulton <richard@tartarus.org> to fix #8497,
+	"Warning when shutting view: RootNode not found".]
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Add the
+	root node to the hash.
+	(e_storage_set_view_set_show_folders): Likewise.
+
 2001-08-30  Peter Williams  <peterw@ximian.com>
 
 	* e-local-storage.c (async_xfer_folder_complete): Remove the folder from
