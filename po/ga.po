@@ -1,17 +1,20 @@
 # Locales (language & country names) translations for Irish
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Alastair McKinstry <mckinstry@computer.org>, 2001.
-#
+# David O'Callaghan <david.ocallaghan@cs.tcd.ie>, 2003.Alastair McKinstry <mckinstry@computer.org>, 2003.
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: locales 0.01\n"
-"POT-Creation-Date: 2003-09-15 14:36-0400\n"
-"PO-Revision-Date: 2002-01-25 14:00-0000\n"
-"Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
-"Language-Team: Irish <ga@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-02 19:19+0100\n"
+"PO-Revision-Date: 2003-11-02 21:56+0000\n"
+"Last-Translator: David O'Callaghan <david.ocallaghan@cs.tcd.ie>\n"
+"Language-Team: Irish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 #, fuzzy
@@ -73,7 +76,7 @@ msgstr "Tos."
 #: addressbook/gui/contact-editor/e-contact-editor.c:1737
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
-msgstr ""
+msgstr "Cúntóir"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
@@ -85,7 +88,7 @@ msgstr "Gnó"
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 msgid "Bus"
-msgstr "GN"
+msgstr "Gnó"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1741
@@ -121,7 +124,7 @@ msgstr "Eag."
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/e-contact-editor.c:1748
 msgid "Mobile"
-msgstr "Gúthan Póca"
+msgstr "Guthán Póca"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
 #: addressbook/gui/contact-editor/e-contact-editor.c:1742
@@ -296,7 +299,7 @@ msgstr "Nota"
 #: addressbook/backend/ebook/e-card-simple.c:98
 #: addressbook/backend/ebook/e-card.c:1443
 msgid "Calendar URI"
-msgstr "Feilire URI"
+msgstr "Féilire URI"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "CALUri"
@@ -312,14 +315,13 @@ msgid "FBUrl"
 msgstr "FBUrl"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
-#, fuzzy
 msgid "Default server calendar"
-msgstr "Sábháil Feilire"
+msgstr "Féilire freastalaí loicthe"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 #, fuzzy
 msgid "icsCalendar"
-msgstr "Feilire"
+msgstr "Féilire"
 
 #: addressbook/backend/ebook/e-card-simple.c:101
 #: addressbook/backend/ebook/e-card.c:1430
@@ -332,7 +334,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:102
 msgid "Birth Date"
-msgstr "Data Breithe"
+msgstr "Dáta Breithe"
 
 #: addressbook/backend/ebook/e-card-simple.c:105
 #: addressbook/backend/ebook/e-card.c:1478
@@ -345,9 +347,8 @@ msgid "Family Name"
 msgstr "Ainm Chlainn"
 
 #: addressbook/backend/ebook/e-card-simple.c:335
-#, fuzzy
 msgid "ECard"
-msgstr "Car"
+msgstr "RCarta"
 
 #: addressbook/backend/ebook/e-card-simple.c:842
 #, c-format
@@ -368,14 +369,12 @@ msgstr "Ainm Fhada"
 
 #: addressbook/backend/ebook/e-card.c:1326
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#, fuzzy
 msgid "Address"
-msgstr "_Seoladh:"
+msgstr "Seoladh"
 
 #: addressbook/backend/ebook/e-card.c:1333
-#, fuzzy
 msgid "Address Label"
-msgstr "Cartaí Sheoladh"
+msgstr "Lipéad Sheoladh"
 
 #: addressbook/backend/ebook/e-card.c:1340
 #, fuzzy
@@ -383,9 +382,8 @@ msgid "Phone"
 msgstr "Críochnaithe"
 
 #: addressbook/backend/ebook/e-card.c:1354
-#, fuzzy
 msgid "Birth date"
-msgstr "Data Breithe"
+msgstr "Dáta Breithe"
 
 #: addressbook/backend/ebook/e-card.c:1360
 #: calendar/gui/e-calendar-table.etspec.h:19
@@ -403,7 +401,7 @@ msgstr "Eagrú"
 msgid "Role"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
 #, fuzzy
 msgid "Mailer"
 msgstr "Post"
@@ -414,9 +412,8 @@ msgid "Free/Busy URL"
 msgstr "Freagrair"
 
 #: addressbook/backend/ebook/e-card.c:1457
-#, fuzzy
 msgid "ICS Calendar"
-msgstr "Feilire"
+msgstr "Féilire ICS"
 
 #: addressbook/backend/ebook/e-card.c:1471
 #, fuzzy
@@ -424,9 +421,8 @@ msgid "Related Contacts"
 msgstr "Dealaigh Tadhall?"
 
 #: addressbook/backend/ebook/e-card.c:1485
-#, fuzzy
 msgid "Category List"
-msgstr "_Saghas:"
+msgstr "Liosta Catagóire"
 
 #: addressbook/backend/ebook/e-card.c:1492
 msgid "Wants HTML"
@@ -437,9 +433,8 @@ msgid "Wants HTML set"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:1506
-#, fuzzy
 msgid "List"
-msgstr "líosta"
+msgstr "Liosta"
 
 #: addressbook/backend/ebook/e-card.c:1513
 #, fuzzy
@@ -447,14 +442,12 @@ msgid "List Show Addresses"
 msgstr "Seoladh Eile"
 
 #: addressbook/backend/ebook/e-card.c:1520
-#, fuzzy
 msgid "Arbitrary"
-msgstr "Tosaíocht"
+msgstr "Ar Togradh"
 
 #: addressbook/backend/ebook/e-card.c:1527
-#, fuzzy
 msgid "ID"
-msgstr "I"
+msgstr "CA"
 
 #: addressbook/backend/ebook/e-card.c:1534
 #, fuzzy
@@ -487,9 +480,8 @@ msgid "Using Distinguished Name (DN)"
 msgstr ""
 
 #: addressbook/backend/pas/pas-backend-ldap.c:602
-#, fuzzy
 msgid "Using Email Address"
-msgstr "Seoladh Rpost:"
+msgstr "Le Seoladh Rpost:"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:748
 #, fuzzy
@@ -518,9 +510,8 @@ msgid "Error performing search"
 msgstr ""
 
 #: addressbook/conduit/address-conduit.c:294
-#, fuzzy
 msgid "Default Sync Address:"
-msgstr "Seoladh Rpost:"
+msgstr "Seoladh Shionc. Loicthe:"
 
 #: addressbook/conduit/address-conduit.c:537
 msgid "Cursor could not be loaded\n"
@@ -556,9 +547,8 @@ msgid "Directory Servers"
 msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Addressbook"
-msgstr "Eagar Leabhar Sheoladh"
+msgstr "Leabhar Sheoladh Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Evolution Addressbook LDAP Configuration Control"
@@ -586,7 +576,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:625
+#: addressbook/gui/component/addressbook-component.c:628
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -605,40 +595,36 @@ msgid "LDAP server containing contact information"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:80
-#, fuzzy
 msgid "Public Contacts"
-msgstr "Tadhallaí"
+msgstr "Tadhallaí Phoiblí"
 
 #: addressbook/gui/component/addressbook-component.c:80
 msgid "Public folder containing contact information"
 msgstr ""
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
 msgstr "Tadhall Nua"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "_Contact"
 msgstr "_Tadhall"
 
-#: addressbook/gui/component/addressbook-component.c:580
-#, fuzzy
-msgid "Create a new contact"
-msgstr "Scríos an sceal seo"
-
 #: addressbook/gui/component/addressbook-component.c:583
+msgid "Create a new contact"
+msgstr "Cruthaigh tadhall nua"
+
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact List"
 msgstr "Líosta Tadhall Nua"
 
-#: addressbook/gui/component/addressbook-component.c:583
-#, fuzzy
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "Contact _List"
-msgstr "Liost Tadhall"
+msgstr "_Liosta Tadhaill"
 
-#: addressbook/gui/component/addressbook-component.c:584
-#, fuzzy
+#: addressbook/gui/component/addressbook-component.c:587
 msgid "Create a new contact list"
-msgstr "Scríos an sceal seo"
+msgstr "Cruthaigh liosta tadhaill nua"
 
 #: addressbook/gui/component/addressbook-config.c:206
 msgid "Failed to connect to LDAP server"
@@ -669,9 +655,8 @@ msgid "Server did not respond with valid schema information"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:1637
-#, fuzzy
 msgid "Account Name"
-msgstr "Ainm _Chuntas:"
+msgstr "Ainm Chuntas"
 
 #: addressbook/gui/component/addressbook-config.c:1639
 msgid "Server Name"
@@ -754,7 +739,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:798
 msgid "Advanced..."
-msgstr ""
+msgstr "Ardmód..."
 
 #: addressbook/gui/component/addressbook.c:955
 msgid ""
@@ -874,20 +859,19 @@ msgstr ""
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
-#, fuzzy
 msgid "1:00"
-msgstr "100%"
+msgstr "1:00"
 
 #: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
-msgstr ""
+msgstr "2:30"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
-msgstr ""
+msgstr "3268"
 
 #: addressbook/gui/component/ldap-config.glade.h:8
 msgid "389"
@@ -895,11 +879,11 @@ msgstr "389"
 
 #: addressbook/gui/component/ldap-config.glade.h:9
 msgid "5:00"
-msgstr ""
+msgstr "5:00"
 
 #: addressbook/gui/component/ldap-config.glade.h:10
 msgid "636"
-msgstr ""
+msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
 #, fuzzy
@@ -917,14 +901,12 @@ msgstr ""
 # aa 
 #: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:62
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "Always"
-msgstr "Afáiris"
+msgstr "i gCónaí"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
-#, fuzzy
 msgid "Anonymously"
-msgstr "Gan anim"
+msgstr "Gan ainm"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
 msgid ""
@@ -936,23 +918,20 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid "Connecting"
-msgstr "_Tadhall"
+msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Distinguished _name:"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-#, fuzzy
 msgid "Edit LDAP Server"
-msgstr "Freastalaí LDAP"
+msgstr "Eagar Freastalaí LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid "Email address:"
-msgstr "_Seoladh RPost:"
+msgstr "Seoladh Rphost:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
@@ -964,9 +943,8 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:25
-#, fuzzy
 msgid "Finished"
-msgstr "Cuardaigh:"
+msgstr "Críochnaithe"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
@@ -1183,9 +1161,8 @@ msgid "Whenever Possible"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:83
-#, fuzzy
 msgid "_Display name:"
-msgstr "_Taispeaín"
+msgstr "Ainm _taispeáint:"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid "_Download limit:"
@@ -1224,9 +1201,8 @@ msgid "_Timeout (minutes):"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:91
-#, fuzzy
 msgid "cards"
-msgstr "Gan cartaí"
+msgstr "cartaí"
 
 #: addressbook/gui/component/ldap-config.glade.h:92
 #, fuzzy
@@ -1253,7 +1229,7 @@ msgstr "Scríos Gach Rud"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:450
+#: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "Scríos"
 
@@ -1292,9 +1268,8 @@ msgid "Find contact in"
 msgstr ""
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "Find"
-msgstr "Cuardaigh:"
+msgstr "Faigh"
 
 # FIXME SP?
 #: addressbook/gui/component/select-names/select-names.glade.h:3
@@ -1326,33 +1301,28 @@ msgid "_Folder:"
 msgstr "_Fillteaín:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "_Gnó"
+msgstr " _Gnó:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "A_ddress..."
 msgstr "S_eoladh..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "A_ssistant's name:"
-msgstr "Ainm Chúntóir:"
+msgstr "_Ainm Chúntóir:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "Anni_versary:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "Birthda_y:"
-msgstr "_Breithlá:"
+msgstr "Brei_thlá:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Facs Ghnó"
+msgstr "Fa_cs Ghnó:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1365,9 +1335,8 @@ msgid "Contact Editor"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#, fuzzy
 msgid "D_epartment:"
-msgstr "_Rang:"
+msgstr "_Roinn:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: calendar/gui/dialogs/task-editor.c:199
@@ -1379,12 +1348,10 @@ msgid "F_ree/Busy URL:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "File a_s:"
-msgstr "Sábháil _Mar:"
+msgstr "Comhdaigh _mar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
-#, fuzzy
 msgid "Full _Name..."
 msgstr "Ainm _Fhada..."
 
@@ -1418,7 +1385,6 @@ msgid "Primary _email:"
 msgstr "Fón Thósaiocht"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#, fuzzy
 msgid "S_pouse:"
 msgstr "_Céile:"
 
@@ -1431,16 +1397,12 @@ msgid "_Add"
 msgstr "_Suimigh"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Business:"
-msgstr "_Gnó"
+msgstr "_Gnó:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Categories..."
-msgstr ""
-"\n"
-"Aicmí:"
+msgstr "_Catagóire..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
@@ -1453,9 +1415,8 @@ msgid "_Delete"
 msgstr "_Dealaigh"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Home:"
-msgstr "_Baile"
+msgstr "_Baile:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
@@ -1467,9 +1428,8 @@ msgid "_Manager's name:"
 msgstr "Ainm _Bainisteoir:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Mobile:"
-msgstr "Fón _Póca"
+msgstr "Fón _Póca:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
@@ -2747,17 +2707,15 @@ msgstr "An tSiombáib"
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
-#, fuzzy
 msgid "Book"
-msgstr "Críochnaithe"
+msgstr "Leabhar"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:163
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:149
 #: addressbook/gui/widgets/e-minicard-widget.c:93
 #: addressbook/gui/widgets/e-minicard.c:190
-#, fuzzy
 msgid "Card"
-msgstr "Car"
+msgstr "Carta"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:170
 #, fuzzy
@@ -2770,9 +2728,8 @@ msgstr ""
 
 # FR
 #: addressbook/gui/contact-editor/e-contact-editor.c:191
-#, fuzzy
 msgid "Changed"
-msgstr "An Fhrainc"
+msgstr "Athraithe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:827
 msgid "Category editor not available."
@@ -2818,23 +2775,17 @@ msgid "_Edit Full"
 msgstr "Eagar Ainm Fhada"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
 msgstr "Ainm _Fhada:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-#, fuzzy
 msgid "E-_mail:"
-msgstr ""
-"\n"
-"R-phost:"
+msgstr "R-_phost:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving %s: %s"
-msgstr ""
-"Earraidh ag sábhháil scéalaí do: %s\n"
-" %s"
+msgstr "Earráid ag sábhháil %s: %s"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/contact-editor/e-contact-save-as.c:103
@@ -2861,7 +2812,6 @@ msgid "Address _2:"
 msgstr "Seoladh _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#, fuzzy
 msgid "Ci_ty:"
 msgstr "_Cathair:"
 
@@ -2870,9 +2820,8 @@ msgid "Countr_y:"
 msgstr "_Tír:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
-#, fuzzy
 msgid "Full Address"
-msgstr "_Seoladh:"
+msgstr "Seoladh"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
@@ -2991,9 +2940,8 @@ msgid "Save List as VCard"
 msgstr "Sábháil mar VCard"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Tadhallaí"
+msgstr "Tadhall"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
@@ -3032,7 +2980,7 @@ msgstr ""
 #: addressbook/gui/search/e-addressbook-search-dialog.c:117
 #: widgets/misc/e-filter-bar.c:148
 msgid "Advanced Search"
-msgstr ""
+msgstr "Cuardach Ardmód"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:156
 msgid "No cards"
@@ -3040,7 +2988,7 @@ msgstr "Gan cartaí"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:159
 msgid "1 card"
-msgstr "1 card"
+msgstr "1 carta"
 
 # FIXME : Grammar ? 
 #: addressbook/gui/widgets/e-addressbook-model.c:162
@@ -3054,18 +3002,16 @@ msgstr "%d cartaí"
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
-#, fuzzy
 msgid "Query"
-msgstr "An Ghearmáin"
+msgstr "Ceist"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:457
 msgid "Error getting book view"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:403
-#, fuzzy
 msgid "Model"
-msgstr "Gúthan Póca"
+msgstr "Samhail"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:148
 #: addressbook/gui/widgets/e-addressbook-util.c:105
@@ -3112,9 +3058,8 @@ msgstr ""
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:747 camel/camel-service.c:788
-#: camel/camel-service.c:878 camel/camel-service.c:921
-#: camel/providers/pop3/camel-pop3-store.c:443
+#: camel/camel-service.c:830 camel/camel-service.c:884
+#: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "Ceangailte"
@@ -3147,9 +3092,8 @@ msgid "Do you want to save changes?"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:77
-#, fuzzy
 msgid "_Discard"
-msgstr "Priontáil carta"
+msgstr "_Caith uait"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:96
 msgid "Error adding list"
@@ -3181,24 +3125,20 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:328
-#, fuzzy
 msgid "Move card to"
-msgstr "Gan cartaí"
+msgstr "Bog carta go"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:330
-#, fuzzy
 msgid "Copy card to"
-msgstr "Gan cartaí"
+msgstr "Cóip carta go"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:333
-#, fuzzy
 msgid "Move cards to"
-msgstr "Gan cartaí"
+msgstr "Bog cartaí go"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:335
-#, fuzzy
 msgid "Copy cards to"
-msgstr "Gan cartaí"
+msgstr "Cóip cartaí go"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:517
 msgid "Multiple VCards"
@@ -3230,9 +3170,8 @@ msgid "Save as VCard"
 msgstr "Sábháil mar VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:886
-#, fuzzy
 msgid "New Contact..."
-msgstr "Tadhall Nua"
+msgstr "Tadhall Nua..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:887
 #, fuzzy
@@ -3240,9 +3179,8 @@ msgid "New Contact List..."
 msgstr "Líosta Tadhall Nua"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:890
-#, fuzzy
 msgid "Go to Folder..."
-msgstr "_Cóip do Fillteán..."
+msgstr "Téigh go dtí Fillteán..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:891
 #, fuzzy
@@ -3286,14 +3224,12 @@ msgid "Print Envelope"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:908
-#, fuzzy
 msgid "Copy to folder..."
-msgstr "_Cóip do Fillteán..."
+msgstr "Cóip do Fillteán..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:909
-#, fuzzy
 msgid "Move to folder..."
-msgstr "Sábháil 'san _fillteán"
+msgstr "Bog go fillteán..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:912
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
@@ -3311,7 +3247,7 @@ msgstr "Cóip"
 msgid "Paste"
 msgstr "Greamaigh"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3320,9 +3256,8 @@ msgstr "Dealaigh"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:919
 #: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3706
-#, fuzzy
 msgid "Current View"
-msgstr "Radharc Carta"
+msgstr "Radharc Reatha"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3358,7 +3293,7 @@ msgstr "Fón Chúntóir"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Address"
-msgstr "Seoladh sa GhN"
+msgstr "Seoladh Ghnó"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Business Phone"
@@ -3415,7 +3350,7 @@ msgstr "agus %d cartaí eile."
 
 #: addressbook/gui/widgets/e-minicard-control.c:206
 msgid "and one other card."
-msgstr "agus aon card eile."
+msgstr "agus aon carta eile."
 
 #: addressbook/gui/widgets/e-minicard-control.c:318
 msgid "Save in addressbook"
@@ -3423,15 +3358,13 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-minicard-label.c:115
 #: addressbook/gui/widgets/e-minicard.c:146
-#, fuzzy
 msgid "Width"
-msgstr "Leitheid:"
+msgstr "Leitheid"
 
 #: addressbook/gui/widgets/e-minicard-label.c:122
 #: addressbook/gui/widgets/e-minicard.c:153
-#, fuzzy
 msgid "Height"
-msgstr "Airde:"
+msgstr "Airde"
 
 #: addressbook/gui/widgets/e-minicard-label.c:129
 #: addressbook/gui/widgets/e-minicard.c:161
@@ -3440,14 +3373,12 @@ msgstr ""
 
 # FI
 #: addressbook/gui/widgets/e-minicard-label.c:136
-#, fuzzy
 msgid "Field"
-msgstr "An Fhionlainn"
+msgstr "Réimse"
 
 #: addressbook/gui/widgets/e-minicard-label.c:143
-#, fuzzy
 msgid "Field Name"
-msgstr "Ainm Chlainn"
+msgstr "Ainm Réimse"
 
 #: addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
@@ -3459,9 +3390,8 @@ msgstr ""
 
 # CO
 #: addressbook/gui/widgets/e-minicard-view-widget.c:127
-#, fuzzy
 msgid "Column Width"
-msgstr "An Cholóim"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard-view.c:141
 msgid ""
@@ -3480,9 +3410,8 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/widgets/e-minicard-view.c:457
-#, fuzzy
 msgid "Adapter"
-msgstr "Bainisteoir"
+msgstr "Adaptar"
 
 #: addressbook/gui/widgets/e-minicard.c:169
 #, fuzzy
@@ -3518,11 +3447,11 @@ msgstr "Priontáil carta"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr "Tahoma 10pt."
+msgstr "Tahoma 10 pt."
 
 #: addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr "Tahoma 8pt."
+msgstr "Tahoma 8 pt."
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
@@ -3530,7 +3459,7 @@ msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "Corp"
 
 #: addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
@@ -3691,127 +3620,127 @@ msgstr ""
 
 #: calendar/cal-util/cal-recur.c:3985 calendar/gui/print.c:477
 msgid "1st"
-msgstr ""
+msgstr "1ú"
 
 #: calendar/cal-util/cal-recur.c:3986 calendar/gui/print.c:477
 msgid "2nd"
-msgstr ""
+msgstr "2ú"
 
 #: calendar/cal-util/cal-recur.c:3987 calendar/gui/print.c:477
 msgid "3rd"
-msgstr ""
+msgstr "3ú"
 
 #: calendar/cal-util/cal-recur.c:3988 calendar/gui/print.c:477
 msgid "4th"
-msgstr ""
+msgstr "4ú"
 
 #: calendar/cal-util/cal-recur.c:3989 calendar/gui/print.c:477
 msgid "5th"
-msgstr ""
+msgstr "5ú"
 
 #: calendar/cal-util/cal-recur.c:3990 calendar/gui/print.c:478
 msgid "6th"
-msgstr ""
+msgstr "6ú"
 
 #: calendar/cal-util/cal-recur.c:3991 calendar/gui/print.c:478
 msgid "7th"
-msgstr ""
+msgstr "7ú"
 
 #: calendar/cal-util/cal-recur.c:3992 calendar/gui/print.c:478
 msgid "8th"
-msgstr ""
+msgstr "8ú"
 
 #: calendar/cal-util/cal-recur.c:3993 calendar/gui/print.c:478
 msgid "9th"
-msgstr ""
+msgstr "9ú"
 
 #: calendar/cal-util/cal-recur.c:3994 calendar/gui/print.c:478
 msgid "10th"
-msgstr ""
+msgstr "10ú"
 
 #: calendar/cal-util/cal-recur.c:3995 calendar/gui/print.c:479
 msgid "11th"
-msgstr ""
+msgstr "11ú"
 
 #: calendar/cal-util/cal-recur.c:3996 calendar/gui/print.c:479
 msgid "12th"
-msgstr ""
+msgstr "12ú"
 
 #: calendar/cal-util/cal-recur.c:3997 calendar/gui/print.c:479
 msgid "13th"
-msgstr ""
+msgstr "13ú"
 
 #: calendar/cal-util/cal-recur.c:3998 calendar/gui/print.c:479
 msgid "14th"
-msgstr ""
+msgstr "14ú"
 
 #: calendar/cal-util/cal-recur.c:3999 calendar/gui/print.c:479
 msgid "15th"
-msgstr ""
+msgstr "15ú"
 
 #: calendar/cal-util/cal-recur.c:4000 calendar/gui/print.c:480
 msgid "16th"
-msgstr ""
+msgstr "16ú"
 
 #: calendar/cal-util/cal-recur.c:4001 calendar/gui/print.c:480
 msgid "17th"
-msgstr ""
+msgstr "17ú"
 
 #: calendar/cal-util/cal-recur.c:4002 calendar/gui/print.c:480
 msgid "18th"
-msgstr ""
+msgstr "18ú"
 
 #: calendar/cal-util/cal-recur.c:4003 calendar/gui/print.c:480
 msgid "19th"
-msgstr ""
+msgstr "19ú"
 
 #: calendar/cal-util/cal-recur.c:4004 calendar/gui/print.c:480
 msgid "20th"
-msgstr ""
+msgstr "20ú"
 
 #: calendar/cal-util/cal-recur.c:4005 calendar/gui/print.c:481
 msgid "21st"
-msgstr ""
+msgstr "21ú"
 
 #: calendar/cal-util/cal-recur.c:4006 calendar/gui/print.c:481
 msgid "22nd"
-msgstr ""
+msgstr "22ú"
 
 #: calendar/cal-util/cal-recur.c:4007 calendar/gui/print.c:481
 msgid "23rd"
-msgstr ""
+msgstr "23ú"
 
 #: calendar/cal-util/cal-recur.c:4008 calendar/gui/print.c:481
 msgid "24th"
-msgstr ""
+msgstr "24ú"
 
 #: calendar/cal-util/cal-recur.c:4009 calendar/gui/print.c:481
 msgid "25th"
-msgstr ""
+msgstr "25ú"
 
 #: calendar/cal-util/cal-recur.c:4010 calendar/gui/print.c:482
 msgid "26th"
-msgstr ""
+msgstr "26ú"
 
 #: calendar/cal-util/cal-recur.c:4011 calendar/gui/print.c:482
 msgid "27th"
-msgstr ""
+msgstr "27ú"
 
 #: calendar/cal-util/cal-recur.c:4012 calendar/gui/print.c:482
 msgid "28th"
-msgstr ""
+msgstr "28ú"
 
 #: calendar/cal-util/cal-recur.c:4013 calendar/gui/print.c:482
 msgid "29th"
-msgstr ""
+msgstr "29ú"
 
 #: calendar/cal-util/cal-recur.c:4014 calendar/gui/print.c:482
 msgid "30th"
-msgstr ""
+msgstr "30ú"
 
 #: calendar/cal-util/cal-recur.c:4015 calendar/gui/print.c:483
 msgid "31st"
-msgstr ""
+msgstr "31ú"
 
 #: calendar/cal-util/cal-util.c:550 calendar/cal-util/cal-util.c:572
 #: calendar/gui/dialogs/task-details-page.glade.h:6
@@ -3854,9 +3783,8 @@ msgid "Could not read pilot's Calendar application block"
 msgstr ""
 
 #: calendar/conduits/todo/todo-conduit.c:206
-#, fuzzy
 msgid "Default Priority:"
-msgstr "Tosaíocht"
+msgstr "Tosaíocht Loicthe:"
 
 #: calendar/conduits/todo/todo-conduit.c:954
 #: calendar/conduits/todo/todo-conduit.c:957
@@ -3866,7 +3794,7 @@ msgstr ""
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 #, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Configure your timezone, Calendar and Task List here "
@@ -3875,7 +3803,7 @@ msgstr ""
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 #, fuzzy
 msgid "Evolution Calendar and Tasks"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 #, fuzzy
@@ -3915,18 +3843,16 @@ msgid "Starting:"
 msgstr "Álbachtaí"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
-#, fuzzy
 msgid "Ending:"
-msgstr "Rabhadh"
+msgstr "Ag Críochnach:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
 msgstr "am neamhbhailí"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:272
-#, fuzzy
 msgid "Evolution Alarm"
-msgstr "Evolution "
+msgstr "Aláram Evolution"
 
 # ##
 # ## Languages (ISO 639 code in brackets)
@@ -4020,7 +3946,7 @@ msgstr "%A, %e %B %Y"
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
 #: calendar/gui/e-day-view.c:1440 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
-msgstr "aa %d %b"
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:424 calendar/gui/calendar-commands.c:429
 #: calendar/gui/calendar-commands.c:431
@@ -4050,7 +3976,7 @@ msgstr ""
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
-msgstr "Feilire"
+msgstr "Féilire"
 
 #: calendar/gui/calendar-component.c:71
 msgid "Folder containing appointments and events"
@@ -4059,7 +3985,7 @@ msgstr ""
 #: calendar/gui/calendar-component.c:75
 #, fuzzy
 msgid "Public Calendar"
-msgstr "Priontáil Feilire"
+msgstr "Priontáil Féilire"
 
 #: calendar/gui/calendar-component.c:76
 msgid "Public folder containing appointments and events"
@@ -4089,19 +4015,16 @@ msgid "Public folder containing to-do items"
 msgstr ""
 
 #: calendar/gui/calendar-component.c:732
-#, fuzzy
 msgid "New appointment"
-msgstr "Coinne Nua"
+msgstr "Coinne nua"
 
 #: calendar/gui/calendar-component.c:732
-#, fuzzy
 msgid "_Appointment"
-msgstr "Coinne"
+msgstr "_Coinne"
 
 #: calendar/gui/calendar-component.c:733
-#, fuzzy
 msgid "Create a new appointment"
-msgstr "Cruthaigh Coinne _Nua"
+msgstr "Cruthaigh coinne nua"
 
 #: calendar/gui/calendar-component.c:737
 #, fuzzy
@@ -4109,9 +4032,8 @@ msgid "New meeting"
 msgstr "Bealach Nuachtáin"
 
 #: calendar/gui/calendar-component.c:737
-#, fuzzy
 msgid "M_eeting"
-msgstr "Álbachtaí"
+msgstr "_Cruinniú"
 
 #: calendar/gui/calendar-component.c:738
 #, fuzzy
@@ -4119,18 +4041,16 @@ msgid "Create a new meeting request"
 msgstr "Scríos an sceal seo"
 
 #: calendar/gui/calendar-component.c:742
-#, fuzzy
 msgid "New task"
-msgstr "Teasc Nua"
+msgstr "Teasc nua"
 
 #: calendar/gui/calendar-component.c:742
 msgid "_Task"
 msgstr "_Teasc"
 
 #: calendar/gui/calendar-component.c:743
-#, fuzzy
 msgid "Create a new task"
-msgstr "Cruthaigh _Teasc Nua"
+msgstr "Cruthaigh teasc nua"
 
 #: calendar/gui/calendar-component.c:747
 #, fuzzy
@@ -4216,7 +4136,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
 #: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4407,11 +4327,11 @@ msgstr "_Roghanna..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "after"
-msgstr ""
+msgstr "tar éis"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "before"
-msgstr "riomh"
+msgstr "roimh"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
@@ -4436,29 +4356,28 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
-msgstr "05 noimeaíd"
+msgstr "05 noiméaid"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
-msgstr "10 noimeáid"
+msgstr "10 noiméaid"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "15 minutes"
-msgstr "15 noimeáid"
+msgstr "15 noiméaid"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "30 minutes"
-msgstr "30 noimeáid"
+msgstr "30 noiméaid"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "60 minutes"
-msgstr "60 noimeáid"
+msgstr "60 noiméaid"
 
 # DZ
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
-#, fuzzy
 msgid "Alerts"
-msgstr "An Ailgéir"
+msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Calendar and Tasks Settings"
@@ -4649,9 +4568,8 @@ msgid "_Wed"
 msgstr "_Cea"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
-#, fuzzy
 msgid "before every appointment"
-msgstr "Scríos an sceal seo"
+msgstr "roimh gach coinne"
 
 #: calendar/gui/dialogs/cancel-comp.c:58
 msgid ""
@@ -4800,7 +4718,7 @@ msgstr "Gan coimriú"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1171
+#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1177
 msgid "Save as..."
 msgstr "Sánbháil le..."
 
@@ -4989,9 +4907,8 @@ msgid "F_ree"
 msgstr "_Saor"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
-#, fuzzy
 msgid "L_ocation:"
-msgstr "Fillteán _Nua"
+msgstr "Á_it:"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:7
@@ -5084,7 +5001,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Stádas"
@@ -5141,9 +5058,8 @@ msgid "on"
 msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:980
-#, fuzzy
 msgid "first"
-msgstr "líosta"
+msgstr "céad"
 
 #: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
@@ -5165,9 +5081,8 @@ msgid "last"
 msgstr "líosta"
 
 #: calendar/gui/dialogs/recurrence-page.c:1007
-#, fuzzy
 msgid "Other Date"
-msgstr "Facs Eile"
+msgstr "Dáta Eile"
 
 #: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
@@ -5254,14 +5169,14 @@ msgid ""
 "Do you wish to save your changes?"
 msgstr ""
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1585
 msgid "_Discard Changes"
 msgstr ""
 
 #: calendar/gui/dialogs/save-comp.c:63
 #, fuzzy
 msgid "Save Event"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
@@ -5282,7 +5197,7 @@ msgstr ""
 #: calendar/gui/dialogs/task-details-page.c:401
 #, fuzzy
 msgid "Completed date is wrong"
-msgstr "Críochnaithe "
+msgstr "Dáta Críochnaithe "
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
@@ -5353,7 +5268,7 @@ msgstr "%d la(e)"
 
 #: calendar/gui/e-alarm-list.c:400
 msgid "1 day"
-msgstr " 1 lá"
+msgstr "1 lá"
 
 #: calendar/gui/e-alarm-list.c:405
 #, c-format
@@ -5367,11 +5282,11 @@ msgstr "1 seachtain"
 #: calendar/gui/e-alarm-list.c:413
 #, c-format
 msgid "%d hours"
-msgstr " %d uaireanta"
+msgstr "%d (h)(n-)uaire"
 
 #: calendar/gui/e-alarm-list.c:416
 msgid "1 hour"
-msgstr " 1 uair"
+msgstr "1 uair"
 
 #: calendar/gui/e-alarm-list.c:421
 #, c-format
@@ -5380,7 +5295,7 @@ msgstr " %d noimeáid"
 
 #: calendar/gui/e-alarm-list.c:424
 msgid "1 minute"
-msgstr " 1 noimeád"
+msgstr "1 noiméad"
 
 #: calendar/gui/e-alarm-list.c:429
 #, c-format
@@ -5389,7 +5304,7 @@ msgstr "%d soicínd"
 
 #: calendar/gui/e-alarm-list.c:432
 msgid "1 second"
-msgstr " 1 soicínd"
+msgstr "1 soicind"
 
 #: calendar/gui/e-alarm-list.c:469
 msgid "Send an email"
@@ -5496,9 +5411,8 @@ msgid "_Open"
 msgstr "_Oscáil"
 
 #: calendar/gui/e-calendar-table.c:959
-#, fuzzy
 msgid "_Save as..."
-msgstr "Sánbháil le..."
+msgstr "_Sábháil mar..."
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
 #: calendar/gui/e-week-view.c:3698 calendar/gui/e-week-view.c:3725
@@ -5572,12 +5486,11 @@ msgstr ""
 # ##     in iso-639.def from glibc
 # aa 
 #: calendar/gui/e-calendar-table.etspec.h:3
-#, fuzzy
 msgid "Alarms"
-msgstr "Afáiris"
+msgstr ""
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr ""
 
@@ -5720,7 +5633,7 @@ msgstr "Ag Fanacht..."
 #: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3737
 #, fuzzy
 msgid "_Forward as iCalendar..."
-msgstr "Ag Lódáil feilire..."
+msgstr "Ag Lódáil féilire..."
 
 #: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3742
 msgid "Make this Occurrence _Movable"
@@ -5739,33 +5652,31 @@ msgid "Yes. (Complex Recurrence)"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:688
-#, fuzzy
 msgid "Every day"
-msgstr "Gach"
+msgstr "Gach lá"
 
 #: calendar/gui/e-itip-control.c:690
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d days"
-msgstr "%d la(e)"
+msgstr "Gach %d lá"
 
 #: calendar/gui/e-itip-control.c:696
-#, fuzzy
 msgid "Every week"
-msgstr "Gach"
+msgstr "Gach seachtain"
 
 #: calendar/gui/e-itip-control.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks"
-msgstr " %d seachtain"
+msgstr "Gach %d seachtain"
 
 #: calendar/gui/e-itip-control.c:701
 msgid "Every week on "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:703
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks on "
-msgstr " %d seachtain"
+msgstr "Gach %d seachtain dé "
 
 #: calendar/gui/e-itip-control.c:711
 msgid " and "
@@ -5782,9 +5693,8 @@ msgid "The %s %s of "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:736
-#, fuzzy
 msgid "every month"
-msgstr "Aon _mhí"
+msgstr "gach mí"
 
 #: calendar/gui/e-itip-control.c:741
 #, c-format
@@ -5792,9 +5702,8 @@ msgid "every %d months"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:747
-#, fuzzy
 msgid "Every year"
-msgstr "Gach"
+msgstr "Gach bliain"
 
 #: calendar/gui/e-itip-control.c:749
 #, c-format
@@ -5815,14 +5724,12 @@ msgid "<b>Starts:</b> "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:803
-#, fuzzy
 msgid "<b>Ends:</b> "
-msgstr "Eolas"
+msgstr "<b>Ag Críochnú:</b> "
 
 #: calendar/gui/e-itip-control.c:823
-#, fuzzy
 msgid "<b>Completed:</b> "
-msgstr "Críochnaithe "
+msgstr "<b>Críochnaithe:</b> "
 
 #: calendar/gui/e-itip-control.c:833
 msgid "<b>Due:</b> "
@@ -5837,13 +5744,12 @@ msgstr "eolas fheilire"
 #: calendar/gui/e-itip-control.c:885
 #, fuzzy
 msgid "iCalendar Error"
-msgstr "Feilire"
+msgstr "Féilire"
 
 #: calendar/gui/e-itip-control.c:954 calendar/gui/e-itip-control.c:970
 #: calendar/gui/e-itip-control.c:981 calendar/gui/e-itip-control.c:998
-#, fuzzy
 msgid "An unknown person"
-msgstr "iEarraidh gan Aithne"
+msgstr "Duine anaithnid"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1005
@@ -5857,14 +5763,12 @@ msgid "<i>None</i>"
 msgstr "<i>Ar bith</i>"
 
 #: calendar/gui/e-itip-control.c:1031
-#, fuzzy
 msgid "Location:"
-msgstr "Fillteán _Nua"
+msgstr "Áit:"
 
 #: calendar/gui/e-itip-control.c:1045
-#, fuzzy
 msgid "Status:"
-msgstr "_Stádas:"
+msgstr "Stádas:"
 
 #: calendar/gui/e-itip-control.c:1050 calendar/gui/e-meeting-model.c:286
 #: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:801
@@ -5889,16 +5793,15 @@ msgstr ""
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Gan Aithne"
 
 #: calendar/gui/e-itip-control.c:1117 calendar/gui/e-itip-control.c:1145
 #: calendar/gui/e-itip-control.c:1171 calendar/gui/e-itip-control.c:1184
 #: calendar/gui/e-itip-control.c:1197 calendar/gui/e-itip-control.c:1210
-#, fuzzy
 msgid "Choose an action:"
-msgstr "Fillteán _Nua"
+msgstr "Roghnaigh gníomh:"
 
 #: calendar/gui/e-itip-control.c:1118
 #, fuzzy
@@ -5913,18 +5816,16 @@ msgid "OK"
 msgstr "Ceart go Leor"
 
 #: calendar/gui/e-itip-control.c:1146
-#, fuzzy
 msgid "Accept"
-msgstr "Cuntas"
+msgstr "Glac Leis"
 
 #: calendar/gui/e-itip-control.c:1147
 msgid "Tentatively accept"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1148
-#, fuzzy
 msgid "Decline"
-msgstr "Dealaigh"
+msgstr "Diúltaigh Dó"
 
 #: calendar/gui/e-itip-control.c:1172
 #, fuzzy
@@ -5942,11 +5843,11 @@ msgstr "Eolas Theasc"
 
 # FR
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
-#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
-#, fuzzy
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:781 shell/evolution-shell-component.c:1185
+#: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: calendar/gui/e-itip-control.c:1292
 #, c-format
@@ -5954,9 +5855,8 @@ msgid "<b>%s</b> has published meeting information."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1293
-#, fuzzy
 msgid "Meeting Information"
-msgstr "eolas fheilire"
+msgstr "Eolas cruinniú"
 
 #: calendar/gui/e-itip-control.c:1298
 #, c-format
@@ -5998,9 +5898,8 @@ msgid "<b>%s</b> has replied to a meeting request."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1319
-#, fuzzy
 msgid "Meeting Reply"
-msgstr "Freagrair"
+msgstr "Freagra Cruinniú"
 
 #: calendar/gui/e-itip-control.c:1326
 #, c-format
@@ -6087,7 +5986,7 @@ msgstr "Eolas Theasc"
 #: calendar/gui/e-itip-control.c:1402
 #, fuzzy
 msgid "Bad Task Message"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/gui/e-itip-control.c:1421
 #, c-format
@@ -6222,7 +6121,7 @@ msgstr "--do--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
@@ -6236,7 +6135,7 @@ msgstr "Liongáilis"
 
 #: calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
-msgstr "Ag Lódáil feilire..."
+msgstr "Ag Lódáil féilire..."
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
@@ -6253,7 +6152,7 @@ msgstr ""
 # FIXME (Plural)
 #: calendar/gui/e-meeting-model.c:79
 msgid "Chair Persons"
-msgstr "Cathlaoirlaig"
+msgstr "Cathlaoirlaigh"
 
 #: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1639
 msgid "Required Participants"
@@ -6264,9 +6163,8 @@ msgid "Optional Participants"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:82
-#, fuzzy
 msgid "Resources"
-msgstr "Goireas"
+msgstr "Acmhainn"
 
 # IN 
 #: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
@@ -6292,9 +6190,8 @@ msgstr "Seomra"
 # th
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 #: calendar/gui/e-meeting-model.c:771
-#, fuzzy
 msgid "Chair"
-msgstr "Téalainnis"
+msgstr "Cathaoir"
 
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
 #: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:772
@@ -6382,7 +6279,7 @@ msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:522
 msgid "_Autopick"
-msgstr ""
+msgstr "_Uathpioc"
 
 #: calendar/gui/e-meeting-time-sel.c:537
 msgid ">_>"
@@ -6434,13 +6331,13 @@ msgid "You don't have permission to open the folder in `%s'"
 msgstr "Teíp ag fork: %s"
 
 #: calendar/gui/e-tasks.c:486 calendar/gui/gnome-cal.c:1918
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
-"Earraidh ag sábhháil scéalaí do: %s\n"
-" %s"
+" Earráid le %s:\n"
+"  %s"
 
 #: calendar/gui/e-tasks.c:557
 msgid "Completing tasks..."
@@ -6499,7 +6396,7 @@ msgstr ""
 #: calendar/gui/gnome-cal.c:2178
 #, fuzzy, c-format
 msgid "Opening calendar at %s"
-msgstr "Oscáil Feilire"
+msgstr "Oscáil Féilire"
 
 #: calendar/gui/gnome-cal.c:2218
 #, fuzzy
@@ -6512,9 +6409,8 @@ msgstr "Aibreáin"
 
 # AT
 #: calendar/gui/goto-dialog.glade.h:2
-#, fuzzy
 msgid "August"
-msgstr "An Ostair"
+msgstr "Lúnasa"
 
 #: calendar/gui/goto-dialog.glade.h:3
 msgid "December"
@@ -6600,9 +6496,8 @@ msgid "Free/Busy information"
 msgstr "Eolas"
 
 #: calendar/gui/itip-utils.c:399
-#, fuzzy
 msgid "Calendar information"
-msgstr "eolas fheilire"
+msgstr "Eolas fhéilire"
 
 #: calendar/gui/itip-utils.c:435
 #, fuzzy
@@ -6722,18 +6617,13 @@ msgid "URL: %s"
 msgstr "URL:"
 
 #: calendar/gui/print.c:2369
-#, fuzzy, c-format
+#, c-format
 msgid "Categories: %s"
-msgstr ""
-"\n"
-"Aicmí:"
+msgstr "Catagóire: %s"
 
 #: calendar/gui/print.c:2380
-#, fuzzy
 msgid "Contacts: "
-msgstr ""
-"\n"
-"Trácht:"
+msgstr "Tadhallaí: "
 
 #: calendar/gui/print.c:2518 calendar/gui/print.c:2604
 #: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2948
@@ -6791,7 +6681,7 @@ msgstr "Evolution "
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
 #, fuzzy
 msgid "iCalendar files (.ics)"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
 msgid "vCalendar files (.vcf)"
@@ -6804,7 +6694,7 @@ msgstr ""
 #: calendar/importers/icalendar-importer.c:637
 #, fuzzy
 msgid "Calendar Events"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: calendar/importers/icalendar-importer.c:662
 msgid ""
@@ -6815,7 +6705,7 @@ msgstr ""
 #: calendar/importers/icalendar-importer.c:669
 #, fuzzy
 msgid "Gnome Calendar"
-msgstr "Feilire"
+msgstr "Féilire"
 
 #: calendar/pcs/cal-backend-file.c:316
 msgid "Can't save calendar data: Malformed URI."
@@ -7161,9 +7051,8 @@ msgstr ""
 
 # NI 
 #: calendar/zones.h:63
-#, fuzzy
 msgid "America/Araguaina"
-msgstr "Nicaragua"
+msgstr ""
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
@@ -7239,9 +7128,8 @@ msgstr ""
 
 # CR
 #: calendar/zones.h:82
-#, fuzzy
 msgid "America/Costa_Rica"
-msgstr "Cósta Rice"
+msgstr "Meiriceá/Cósta_Rice"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
@@ -7285,9 +7173,8 @@ msgstr ""
 
 # SV
 #: calendar/zones.h:93
-#, fuzzy
 msgid "America/El_Salvador"
-msgstr "An tSalvadóir"
+msgstr "Meiriceá/An tSalvadóir"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
@@ -7319,9 +7206,8 @@ msgstr ""
 
 # GT
 #: calendar/zones.h:101
-#, fuzzy
 msgid "America/Guatemala"
-msgstr "Guatamala"
+msgstr "Meiriceá/Guatamala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
@@ -7329,9 +7215,8 @@ msgstr ""
 
 # GY
 #: calendar/zones.h:103
-#, fuzzy
 msgid "America/Guyana"
-msgstr "An Ghuáin"
+msgstr "Meiriceá/An Ghuáin"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
@@ -7375,9 +7260,8 @@ msgstr ""
 
 # JM
 #: calendar/zones.h:114
-#, fuzzy
 msgid "America/Jamaica"
-msgstr "Iamáice"
+msgstr "Meiriceá/Iamáice"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
@@ -7757,9 +7641,8 @@ msgstr ""
 
 # CO
 #: calendar/zones.h:205
-#, fuzzy
 msgid "Asia/Colombo"
-msgstr "An Cholóim"
+msgstr ""
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
@@ -7851,9 +7734,8 @@ msgstr ""
 
 # KW
 #: calendar/zones.h:228
-#, fuzzy
 msgid "Asia/Kuwait"
-msgstr "Cuáit"
+msgstr "An Áise/Cuáit"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
@@ -7893,9 +7775,8 @@ msgstr ""
 
 # AT
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "An Ostair"
+msgstr ""
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
@@ -7947,9 +7828,8 @@ msgstr ""
 
 # SG
 #: calendar/zones.h:251
-#, fuzzy
 msgid "Asia/Singapore"
-msgstr "Singeapór"
+msgstr "An Áise/Singeapór"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
@@ -8101,15 +7981,13 @@ msgstr "An Astráil"
 
 # AU
 #: calendar/zones.h:285
-#, fuzzy
 msgid "Australia/Perth"
-msgstr "An Astráil"
+msgstr ""
 
 # AU
 #: calendar/zones.h:286
-#, fuzzy
 msgid "Australia/Sydney"
-msgstr "An Astráil"
+msgstr ""
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
@@ -8120,9 +7998,8 @@ msgid "Europe/Andorra"
 msgstr ""
 
 #: calendar/zones.h:289
-#, fuzzy
 msgid "Europe/Athens"
-msgstr "Álbactaí"
+msgstr ""
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
@@ -8198,9 +8075,8 @@ msgstr ""
 
 # LU
 #: calendar/zones.h:308
-#, fuzzy
 msgid "Europe/Luxembourg"
-msgstr "Lucsamburg"
+msgstr "An Eoraip/Lucsamburg"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
@@ -8216,9 +8092,8 @@ msgstr ""
 
 # MC
 #: calendar/zones.h:312
-#, fuzzy
 msgid "Europe/Monaco"
-msgstr "Monacó"
+msgstr "An Eoraip/Monacó"
 
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
@@ -8233,9 +8108,8 @@ msgid "Europe/Oslo"
 msgstr ""
 
 #: calendar/zones.h:316
-#, fuzzy
 msgid "Europe/Paris"
-msgstr "Álbactaí"
+msgstr "An Eoraip/Páras"
 
 #: calendar/zones.h:317
 msgid "Europe/Prague"
@@ -8712,9 +8586,8 @@ msgid "Unsupported operation: search by uids: for %s"
 msgstr ""
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Moving messages"
-msgstr "Post an sceál seo"
+msgstr "Ag bogadh scéaltaí"
 
 #: camel/camel-folder.c:1319
 #, fuzzy
@@ -8746,7 +8619,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Ceangailte."
 
@@ -8815,9 +8688,9 @@ msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr ""
 
 #: camel/camel-lock-client.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Could not lock '%s'"
-msgstr "Teíp ag fork: %s"
+msgstr "Níorbh fhéidir '%s' a glasáil"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
@@ -8931,7 +8804,7 @@ msgstr ""
 
 #: camel/camel-sasl-anonymous.c:33
 msgid "Anonymous"
-msgstr "Gan anim"
+msgstr "Gan ainm"
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "This option will connect to the server using an anonymous login."
@@ -9162,41 +9035,26 @@ msgstr ""
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:752
+#: camel/camel-service.c:801
 #, c-format
 msgid "Resolving: %s"
 msgstr ""
 
-#: camel/camel-service.c:786 camel/camel-service.c:919
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr ""
-
-#: camel/camel-service.c:807 camel/camel-service.c:940
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr ""
-
-#: camel/camel-service.c:821
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr ""
-
-#: camel/camel-service.c:824
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
-
-#: camel/camel-service.c:883
+#: camel/camel-service.c:803
 #, fuzzy
 msgid "Resolving address"
 msgstr "Ag dealaigh fillteán %s"
 
-#: camel/camel-service.c:956
+#: camel/camel-service.c:828
+#, c-format
+msgid "Failure in name lookup: %s"
+msgstr ""
+
+#: camel/camel-service.c:860
 msgid "Host lookup failed: host not found"
 msgstr ""
 
-#: camel/camel-service.c:959
+#: camel/camel-service.c:863
 msgid "Host lookup failed: unknown reason"
 msgstr ""
 
@@ -9401,7 +9259,7 @@ msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:705 camel/camel-tcp-stream-ssl.c:829
 msgid "BAD"
-msgstr ""
+msgstr "OLC"
 
 #: camel/camel-tcp-stream-openssl.c:707
 #, c-format
@@ -10057,9 +9915,9 @@ msgstr "Teíp ag fork: %s"
 #: camel/providers/local/camel-mbox-summary.c:515
 #: camel/providers/local/camel-mbox-summary.c:606
 #: camel/providers/local/camel-spool-summary.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
-msgstr "Teíp ag fork: %s"
+msgstr "Níorbh fhéidir an comhad %s a n-oscailt: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:527
 #: camel/providers/local/camel-spool-summary.c:162
@@ -10229,9 +10087,9 @@ msgid "No such folder: %s"
 msgstr "Post an sceál seo"
 
 #: camel/providers/nntp/camel-nntp-summary.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Teíp ag fork: %s"
+msgstr "Ní raibh an grúpa ar fáil: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
 #, c-format
@@ -10265,9 +10123,9 @@ msgid "Retrieving POP summary"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:429
-#: camel/providers/pop3/camel-pop3-folder.c:490
-#: camel/providers/pop3/camel-pop3-folder.c:508
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
 #, fuzzy
 msgid "User cancelled"
 msgstr "Ceangailte"
@@ -10282,27 +10140,27 @@ msgstr "Teíp ag fork: %s"
 msgid "Expunging deleted messages"
 msgstr "Scríos an sceal seo"
 
-#: camel/providers/pop3/camel-pop3-folder.c:403
+#: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
 msgstr ""
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:410
+#: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-folder.c:432
-#: camel/providers/pop3/camel-pop3-folder.c:493
-#: camel/providers/pop3/camel-pop3-folder.c:500
-#: camel/providers/pop3/camel-pop3-folder.c:511
-#, fuzzy, c-format
+#: camel/providers/pop3/camel-pop3-folder.c:433
+#: camel/providers/pop3/camel-pop3-folder.c:494
+#: camel/providers/pop3/camel-pop3-folder.c:501
+#: camel/providers/pop3/camel-pop3-folder.c:512
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr "Post an sceál seo"
+msgstr "Níl an scéal %s ar fáil: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:500
+#: camel/providers/pop3/camel-pop3-folder.c:501
 #, fuzzy
 msgid "Unknown reason"
 msgstr "iEarraidh gan Aithne"
@@ -10637,58 +10495,58 @@ msgstr ""
 msgid "SMTP Greeting"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:927
+#: camel/providers/smtp/camel-smtp-transport.c:929
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:949
+#: camel/providers/smtp/camel-smtp-transport.c:951
 #, fuzzy
 msgid "HELO response error"
 msgstr "Earraidh Eile"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1015
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1021
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1050
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1059
+#: camel/providers/smtp/camel-smtp-transport.c:1061
 msgid "AUTH request failed."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:1122
 msgid "Bad authentication response from server.\n"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1147
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1165
+#: camel/providers/smtp/camel-smtp-transport.c:1167
 msgid "MAIL FROM response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1189
+#: camel/providers/smtp/camel-smtp-transport.c:1191
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1211
+#: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1250
+#: camel/providers/smtp/camel-smtp-transport.c:1252
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr ""
@@ -10696,75 +10554,75 @@ msgstr ""
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1270
+#: camel/providers/smtp/camel-smtp-transport.c:1272
 msgid "DATA response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1311
-#: camel/providers/smtp/camel-smtp-transport.c:1334
+#: camel/providers/smtp/camel-smtp-transport.c:1313
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1354
+#: camel/providers/smtp/camel-smtp-transport.c:1356
 msgid "DATA termination response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1377
+#: camel/providers/smtp/camel-smtp-transport.c:1379
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1397
+#: camel/providers/smtp/camel-smtp-transport.c:1399
 msgid "RSET response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1420
+#: camel/providers/smtp/camel-smtp-transport.c:1422
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1440
+#: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr ""
 
 #: composer/e-msg-composer-attachment-bar.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fK"
-msgstr "%.1fK"
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fM"
-msgstr "%.1fM"
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fG"
-msgstr "%.1fG"
+msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:229
 msgid "attachment"
-msgstr "iatán"
+msgstr "ceangaltáin"
 
-#: composer/e-msg-composer-attachment-bar.c:451
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:481
+#: composer/e-msg-composer-attachment-bar.c:495
 msgid "Add attachment..."
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:482
+#: composer/e-msg-composer-attachment-bar.c:496
 msgid "Attach a file to the message"
-msgstr ""
+msgstr "Ceangal comhad ar an scéal"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Teíp ag fork: %s"
+msgstr "Ní féidir an comhad %s a cheangail: %s"
 
 #: composer/e-msg-composer-attachment.c:176
 #, c-format
@@ -10772,15 +10630,13 @@ msgid "Cannot attach file %s: not a regular file"
 msgstr ""
 
 #: composer/e-msg-composer-attachment.glade.h:2
-#, fuzzy
 msgid "Attachment Properties"
-msgstr "Álbactaí"
+msgstr "Álbactaí Cheangaltáin"
 
 # vi
 #: composer/e-msg-composer-attachment.glade.h:4
-#, fuzzy
 msgid "File name:"
-msgstr "Bhítneaimis"
+msgstr "Ainm chomhaid:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
 msgid "MIME type:"
@@ -10823,7 +10679,7 @@ msgstr "Ó:"
 #.
 #: composer/e-msg-composer-hdrs.c:526
 msgid "Subject:"
-msgstr "Abair:"
+msgstr "Ábhar:"
 
 #: composer/e-msg-composer-hdrs.c:535
 msgid "To:"
@@ -10864,69 +10720,68 @@ msgstr "_Poirt:"
 msgid "Posting destination"
 msgstr "(Gan Tuarascail)"
 
-#: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
 #, fuzzy
 msgid "Attach file(s)"
 msgstr "_Iatán"
 
-#: composer/e-msg-composer.c:542
+#: composer/e-msg-composer.c:548
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "Teíp ag fork: %s"
 
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:827
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1184
+#: composer/e-msg-composer.c:1192
 msgid "File exists, overwrite?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1202
+#: composer/e-msg-composer.c:1203 composer/e-msg-composer.c:1219
 #, c-format
 msgid "Error saving file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1225
+#: composer/e-msg-composer.c:1242
 #, c-format
 msgid "Error loading file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1263
+#: composer/e-msg-composer.c:1280
 #, c-format
 msgid "Error accessing file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1288
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1295
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1285
+#: composer/e-msg-composer.c:1302
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1294
+#: composer/e-msg-composer.c:1311
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1303
+#: composer/e-msg-composer.c:1320
 #, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10935,13 +10790,13 @@ msgstr ""
 "Earraidh ag sábhháil scéalaí do: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1400
+#: composer/e-msg-composer.c:1417
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1563
+#: composer/e-msg-composer.c:1580
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10949,36 +10804,36 @@ msgid ""
 "Do you wish to save your changes?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1572
+#: composer/e-msg-composer.c:1589
 msgid "Warning: Modified Message"
 msgstr ""
 
-#: composer/e-msg-composer.c:1604
+#: composer/e-msg-composer.c:1621
 msgid "Open file"
 msgstr "Oscáil Comhad"
 
 # SG
-#: composer/e-msg-composer.c:2028
+#: composer/e-msg-composer.c:2045
 #, fuzzy
 msgid "Signature:"
 msgstr "Singeapór"
 
-#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
-msgstr ""
+msgstr "Uathcruthach"
 
-#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
-#: composer/e-msg-composer.c:2912
+#: composer/e-msg-composer.c:2261 composer/e-msg-composer.c:2928
+#: composer/e-msg-composer.c:2929
 msgid "Compose a message"
 msgstr ""
 
-#: composer/e-msg-composer.c:2943
+#: composer/e-msg-composer.c:2960
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2971
+#: composer/e-msg-composer.c:2988
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10986,13 +10841,13 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 
-#: composer/e-msg-composer.c:3038
+#: composer/e-msg-composer.c:3055
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr ""
 
-#: composer/e-msg-composer.c:4073
+#: composer/e-msg-composer.c:4090
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11012,7 +10867,7 @@ msgstr "carta sheoladh"
 
 #: data/evolution.keys.in.h:2
 msgid "calendar information"
-msgstr "eolas fheilire"
+msgstr "eolas fhéilire"
 
 #: default_user/searches.xml.h:1
 msgid "Body contains"
@@ -11068,9 +10923,8 @@ msgid "<b>Out of Office Message:</b>"
 msgstr "As an Oifig"
 
 #: designs/OOA/ooa.glade.h:5
-#, fuzzy
 msgid "<b>Status:</b>"
-msgstr "_Stádas:"
+msgstr "<b>Stádas:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -11097,22 +10951,20 @@ msgid "Out of Office Assistant"
 msgstr "As an Oifig"
 
 #: designs/OOA/ooa.glade.h:13
-#, fuzzy
 msgid "Yes, Change Status"
-msgstr "Stádas"
+msgstr "Tá, Athraigh Stádas"
 
 #: designs/read_receipts/read.glade.h:1
 msgid "      "
-msgstr ""
+msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
 msgstr ""
 
 #: designs/read_receipts/read.glade.h:3
-#, fuzzy
 msgid "<b>Sending Email:</b>"
-msgstr "Post ríomhphost"
+msgstr ""
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -11158,7 +11010,7 @@ msgid ""
 "Overwrite it?"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:202
 msgid "Overwrite file?"
 msgstr ""
 
@@ -11196,56 +11048,48 @@ msgstr ""
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:195
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr "%a %d/%m/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:200
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %d/%m/%Y"
+msgstr "%a·%d/%m/%Y·%H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:211
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%d/%m/%Y·%I:%M:%S·%p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:215
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%d/%m/%Y·%H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:220
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr "%d/%m/%Y·%I:%M·%p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:225
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%d/%m/%Y·%H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:230
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr "%d/%m/%Y·%I·%p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:235
-#, fuzzy
 msgid "%m/%d/%Y %H"
-msgstr "%d/%m/%Y"
+msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
@@ -11276,74 +11120,68 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:65
-#, fuzzy
 msgid "1 second ago"
-msgstr " 1 soicínd"
+msgstr "1 soicind ó shin"
 
 #: filter/filter-datespec.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "%d seconds ago"
-msgstr "%d soicínd"
+msgstr "%d soicind ó shin"
 
 #: filter/filter-datespec.c:66
-#, fuzzy
 msgid "1 minute ago"
-msgstr " 1 noimeád"
+msgstr "1 noiméad ó shin"
 
 #: filter/filter-datespec.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%d minutes ago"
-msgstr " %d noimeáid"
+msgstr " %d noiméaid ó shin"
 
 #: filter/filter-datespec.c:67
-#, fuzzy
 msgid "1 hour ago"
-msgstr " 1 uair"
+msgstr "1 uair ó shin"
 
 #: filter/filter-datespec.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "%d hours ago"
-msgstr " %d uaireanta"
+msgstr "%d (h)(n-)uaire ó shin"
 
 #: filter/filter-datespec.c:68
-#, fuzzy
 msgid "1 day ago"
-msgstr " 1 lá"
+msgstr "1 lá ó shin"
 
 #: filter/filter-datespec.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "%d days ago"
-msgstr "%d la(e)"
+msgstr "%d lá ó shin"
 
 #: filter/filter-datespec.c:69
-#, fuzzy
 msgid "1 week ago"
-msgstr "1 seachtain"
+msgstr "1 seachtain ó shin"
 
 #: filter/filter-datespec.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "%d weeks ago"
-msgstr " %d seachtain"
+msgstr "%d seachtain ó shin"
 
 #: filter/filter-datespec.c:70
-#, fuzzy
 msgid "1 month ago"
-msgstr "mí"
+msgstr "1 mí ó shin"
 
 #: filter/filter-datespec.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "%d months ago"
-msgstr " %d noimeáid"
+msgstr "%d mí ó shin"
 
 #: filter/filter-datespec.c:71
 msgid "1 year ago"
-msgstr ""
+msgstr "1 bliain ó shin"
 
 # FIXME : Grammar ? 
 #: filter/filter-datespec.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "%d years ago"
-msgstr "%d cartaí"
+msgstr "%d bliain ó shin"
 
 #: filter/filter-datespec.c:176
 #, fuzzy
@@ -11360,9 +11198,8 @@ msgstr "anois"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:285
-#, fuzzy
 msgid "%d-%b-%Y"
-msgstr "%a %d %b %Y"
+msgstr "%d-%b-%Y"
 
 #: filter/filter-datespec.c:406
 #, fuzzy
@@ -11384,9 +11221,8 @@ msgid "File '%s' does not exist or is not a regular file."
 msgstr "Níl aon Eolaire `%s' ann."
 
 #: filter/filter-file.c:299
-#, fuzzy
 msgid "Choose a file"
-msgstr "Fillteán _Nua"
+msgstr "Roghnaigh comhad"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
@@ -11412,7 +11248,7 @@ msgid ""
 msgstr ""
 
 # IR
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr ""
@@ -11420,9 +11256,8 @@ msgstr ""
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:66
 #: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1455
-#, fuzzy
 msgid "Work"
-msgstr "Ag Obair"
+msgstr "Obair"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:67 mail/mail-config.glade.h:84
@@ -11561,9 +11396,8 @@ msgstr ""
 
 # el 
 #: filter/filter.glade.h:26
-#, fuzzy
 msgid "weeks"
-msgstr "seachtin"
+msgstr "seachtanna"
 
 #: filter/filter.glade.h:27
 msgid "with all active remote folders"
@@ -11596,234 +11430,233 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "Ceangaltáin"
 
 # BE
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "An Bheilg"
+msgstr ""
 
 #: filter/libfilter-i18n.h:7
-msgid "Copy to Folder"
+msgid "contains"
 msgstr ""
 
 #: filter/libfilter-i18n.h:8
+msgid "Copy to Folder"
+msgstr ""
+
+#: filter/libfilter-i18n.h:9
 msgid "Date received"
 msgstr ""
 
 # mt
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:10
 msgid "Date sent"
 msgstr ""
 
-#: filter/libfilter-i18n.h:11
-msgid "Deleted"
-msgstr "Scríoste"
-
 #: filter/libfilter-i18n.h:12
-msgid "Do Not Exist"
-msgstr ""
+msgid "Deleted"
+msgstr "Scrioste"
 
 #: filter/libfilter-i18n.h:13
-msgid "Draft"
-msgstr ""
-
-#: filter/libfilter-i18n.h:14
-msgid "Exist"
-msgstr ""
-
-#: filter/libfilter-i18n.h:15
-msgid "Expression"
-msgstr ""
-
-#: filter/libfilter-i18n.h:16
-msgid "Follow Up"
-msgstr ""
-
-# PE
-#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
-#, fuzzy
-msgid "Label"
-msgstr "_Larger"
-
-#: filter/libfilter-i18n.h:19
-msgid "Mailing list"
-msgstr ""
-
-#: filter/libfilter-i18n.h:20
-msgid "Message Body"
-msgstr ""
-
-#: filter/libfilter-i18n.h:21
-msgid "Message Header"
-msgstr ""
-
-#: filter/libfilter-i18n.h:22
-msgid "Move to Folder"
-msgstr ""
-
-#: filter/libfilter-i18n.h:23
-msgid "Pipe Message to Shell Command"
-msgstr ""
-
-# PL
-#: filter/libfilter-i18n.h:24
-#, fuzzy
-msgid "Play Sound"
-msgstr "An Pholainn"
-
-#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
-msgid "Read"
-msgstr ""
-
-#: filter/libfilter-i18n.h:26
-msgid "Recipients"
-msgstr ""
-
-#: filter/libfilter-i18n.h:27
-msgid "Regex Match"
-msgstr ""
-
-#: filter/libfilter-i18n.h:28
-msgid "Replied to"
-msgstr ""
-
-# Avoid; either use KR or KP
-#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
-#: mail/message-list.etspec.h:10
-msgid "Score"
-msgstr "Scór"
-
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
-msgid "Sender"
-msgstr ""
-
-#: filter/libfilter-i18n.h:31
-msgid "Set Status"
-msgstr ""
-
-#: filter/libfilter-i18n.h:32
-#, fuzzy
-msgid "Shell Command"
-msgstr "Teoranta"
-
-#: filter/libfilter-i18n.h:33
-msgid "Size (kB)"
-msgstr "Méid (kB)"
-
-#: filter/libfilter-i18n.h:34
-msgid "Source Account"
-msgstr ""
-
-#: filter/libfilter-i18n.h:35
-msgid "Specific header"
-msgstr ""
-
-#: filter/libfilter-i18n.h:37
-msgid "Stop Processing"
-msgstr ""
-
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
-#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
-msgid "Subject"
-msgstr "Abair"
-
-# US
-#: filter/libfilter-i18n.h:39
-#, fuzzy
-msgid "Unset Status"
-msgstr "Stáit Aontaithe Mheiriceá"
-
-#: filter/libfilter-i18n.h:40
-msgid "contains"
-msgstr ""
-
-#: filter/libfilter-i18n.h:41
 msgid "does not contain"
 msgstr ""
 
-#: filter/libfilter-i18n.h:42
+#: filter/libfilter-i18n.h:14
 msgid "does not end with"
 msgstr ""
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:15
 msgid "does not exist"
 msgstr ""
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:16
 msgid "does not return"
 msgstr ""
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:17
 msgid "does not sound like"
 msgstr ""
 
-#: filter/libfilter-i18n.h:46
+#: filter/libfilter-i18n.h:18
 msgid "does not start with"
 msgstr ""
 
-#: filter/libfilter-i18n.h:47
+#: filter/libfilter-i18n.h:19
+msgid "Do Not Exist"
+msgstr ""
+
+#: filter/libfilter-i18n.h:20
+msgid "Draft"
+msgstr ""
+
+#: filter/libfilter-i18n.h:21
 msgid "ends with"
 msgstr ""
 
-#: filter/libfilter-i18n.h:48
+#: filter/libfilter-i18n.h:22
+msgid "Exist"
+msgstr ""
+
+#: filter/libfilter-i18n.h:23
 msgid "exists"
 msgstr ""
 
-#: filter/libfilter-i18n.h:49
-msgid "is Flagged"
+#: filter/libfilter-i18n.h:24
+msgid "Expression"
 msgstr ""
 
-#: filter/libfilter-i18n.h:50
+#: filter/libfilter-i18n.h:25
+msgid "Follow Up"
+msgstr ""
+
+#: filter/libfilter-i18n.h:27
+msgid "is"
+msgstr ""
+
+#: filter/libfilter-i18n.h:28
 msgid "is after"
 msgstr ""
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:29
 #, fuzzy
 msgid "is before"
 msgstr "riomh"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:30
+msgid "is Flagged"
+msgstr ""
+
+#: filter/libfilter-i18n.h:31
 msgid "is greater than"
 msgstr ""
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:32
 msgid "is less than"
 msgstr ""
 
-#: filter/libfilter-i18n.h:54
-msgid "is not Flagged"
-msgstr ""
-
-#: filter/libfilter-i18n.h:55
+#: filter/libfilter-i18n.h:33
 msgid "is not"
 msgstr ""
 
-#: filter/libfilter-i18n.h:56
-msgid "is"
+#: filter/libfilter-i18n.h:34
+msgid "is not Flagged"
 msgstr ""
 
-#: filter/libfilter-i18n.h:57
-msgid "returns greater than"
+# PE
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
+#, fuzzy
+msgid "Label"
+msgstr "_Larger"
+
+#: filter/libfilter-i18n.h:36
+msgid "Mailing list"
 msgstr ""
 
-#: filter/libfilter-i18n.h:58
-msgid "returns less than"
+#: filter/libfilter-i18n.h:37
+msgid "Message Body"
 msgstr ""
 
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:38
+msgid "Message Header"
+msgstr ""
+
+#: filter/libfilter-i18n.h:39
+msgid "Move to Folder"
+msgstr ""
+
+#: filter/libfilter-i18n.h:40
+msgid "Pipe Message to Shell Command"
+msgstr ""
+
+# PL
+#: filter/libfilter-i18n.h:41
+#, fuzzy
+msgid "Play Sound"
+msgstr "An Pholainn"
+
+#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+msgid "Read"
+msgstr ""
+
+#: filter/libfilter-i18n.h:43
+msgid "Recipients"
+msgstr ""
+
+#: filter/libfilter-i18n.h:44
+msgid "Regex Match"
+msgstr ""
+
+#: filter/libfilter-i18n.h:45
+msgid "Replied to"
+msgstr ""
+
+#: filter/libfilter-i18n.h:46
 #, fuzzy
 msgid "returns"
 msgstr "GN"
 
-#: filter/libfilter-i18n.h:60
+#: filter/libfilter-i18n.h:47
+msgid "returns greater than"
+msgstr ""
+
+#: filter/libfilter-i18n.h:48
+msgid "returns less than"
+msgstr ""
+
+# Avoid; either use KR or KP
+#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: mail/message-list.etspec.h:10
+msgid "Score"
+msgstr "Scór"
+
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+msgid "Sender"
+msgstr ""
+
+#: filter/libfilter-i18n.h:51
+msgid "Set Status"
+msgstr ""
+
+#: filter/libfilter-i18n.h:52
+#, fuzzy
+msgid "Shell Command"
+msgstr "Teoranta"
+
+#: filter/libfilter-i18n.h:53
+msgid "Size (kB)"
+msgstr "Méid (kB)"
+
+#: filter/libfilter-i18n.h:54
 msgid "sounds like"
 msgstr ""
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:55
+msgid "Source Account"
+msgstr ""
+
+#: filter/libfilter-i18n.h:56
+msgid "Specific header"
+msgstr ""
+
+#: filter/libfilter-i18n.h:57
 msgid "starts with"
 msgstr ""
+
+#: filter/libfilter-i18n.h:59
+msgid "Stop Processing"
+msgstr ""
+
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:941
+#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
+msgid "Subject"
+msgstr "Ábhar"
+
+# US
+#: filter/libfilter-i18n.h:61
+#, fuzzy
+msgid "Unset Status"
+msgstr "Stáit Aontaithe Mheiriceá"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -11863,9 +11696,8 @@ msgid "You need to to specify at least one folder as a source."
 msgstr ""
 
 #: filter/vfolder-rule.c:531
-#, fuzzy
 msgid "VFolder source"
-msgstr "Fillteáin"
+msgstr "Foinse FFillteáin"
 
 #: importers/elm-importer.c:95 mail/importers/elm-importer.c:105
 msgid "Evolution is importing your old Elm mail"
@@ -12016,7 +11848,7 @@ msgstr "Pine"
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 #, fuzzy
 msgid "Composer Preferences"
-msgstr "Roghanna Feilire"
+msgstr "Roghanna Féilire"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
@@ -12032,9 +11864,8 @@ msgid "Configure your email accounts here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Mail"
-msgstr "Evolution"
+msgstr "Post Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
@@ -12077,7 +11908,7 @@ msgstr "Cuntasaí"
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:69
 #, fuzzy
 msgid "Mail Preferences"
-msgstr "Roghanna Feilire"
+msgstr "Roghanna Féilire"
 
 #: mail/component-factory.c:117
 msgid "Folder containing mail"
@@ -12135,9 +11966,8 @@ msgid "_Mail Message"
 msgstr "_Scéal Ríomhphost"
 
 #: mail/component-factory.c:1068
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Cruthaigh Scéal _Nua"
+msgstr "Cruthaigh scéal phost nua"
 
 #: mail/component-factory.c:1076
 #, fuzzy
@@ -12155,9 +11985,8 @@ msgid "Post a new mail message"
 msgstr "Teachaireacht Post Nua"
 
 #: mail/component-factory.c:1369
-#, fuzzy
 msgid "Connecting..."
-msgstr "Ag Cealaigh..."
+msgstr ""
 
 #: mail/component-factory.c:1380
 msgid "Cannot register storage with shell"
@@ -12172,7 +12001,7 @@ msgstr "Albachtaí do \"%s\""
 msgid "Properties"
 msgstr "Álbactaí"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
+#: mail/folder-browser.c:329 mail/mail-display.c:400 mail/mail-display.c:932
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr ""
@@ -12219,9 +12048,8 @@ msgid "%d total"
 msgstr "%d íomlán"
 
 #: mail/folder-browser.c:1206
-#, fuzzy
 msgid "Create _Virtual Folder From Search..."
-msgstr "Fillteán _Nua"
+msgstr "Cruthaigh Fillteán _Fhíorúil ó Cuardach..."
 
 #: mail/folder-browser.c:1760
 msgid "VFolder on _Subject"
@@ -12278,7 +12106,7 @@ msgstr "Freagrair do _Gach rud"
 
 #: mail/folder-browser.c:1797
 msgid "_Forward"
-msgstr "_Sheoladh Chuig duine"
+msgstr "_Seol ar aghaidh"
 
 #: mail/folder-browser.c:1801
 msgid "Follo_w Up..."
@@ -12317,9 +12145,8 @@ msgid "U_ndelete"
 msgstr "_Athdealaigh"
 
 #: mail/folder-browser.c:1819
-#, fuzzy
 msgid "Mo_ve to Folder..."
-msgstr "Sábháil 'san _fillteán"
+msgstr "_Bog go Fillteán..."
 
 #: mail/folder-browser.c:1820 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
@@ -12337,7 +12164,7 @@ msgstr ""
 #: mail/folder-browser.c:1836
 #, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr "Teachtaireacht Feilire"
+msgstr "Teachtaireacht Féilire"
 
 #: mail/folder-browser.c:2095
 msgid "VFolder on M_ailing List"
@@ -12474,9 +12301,8 @@ msgstr "Chumasach"
 
 #. translators: default account indicator
 #: mail/mail-accounts.c:433
-#, fuzzy
 msgid "[Default]"
-msgstr "Gnáth"
+msgstr "[Gnáth]"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
@@ -12486,9 +12312,8 @@ msgid "Enabled"
 msgstr ""
 
 #: mail/mail-accounts.c:487 mail/mail-accounts.etspec.h:1
-#, fuzzy
 msgid "Account name"
-msgstr "Ainm _Chuntas:"
+msgstr "Ainm chuntas"
 
 #: mail/mail-accounts.c:489 mail/mail-accounts.etspec.h:3
 #, fuzzy
@@ -12496,14 +12321,14 @@ msgid "Protocol"
 msgstr "Portráid"
 
 #: mail/mail-autofilter.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
 msgstr "Post do %s"
 
 #: mail/mail-autofilter.c:238
 #, c-format
 msgid "Subject is %s"
-msgstr "Abair is %s"
+msgstr "Tá an t-ábhar %s"
 
 #: mail/mail-autofilter.c:254
 #, c-format
@@ -12612,7 +12437,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:1193
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Am %a, %Y-%m-%d ag %H:%M, scríobh %%s:"
+msgstr "Dé %a, %Y-%m-%d ag %H:%M, scríobh %%s:"
 
 #: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
@@ -12649,11 +12474,13 @@ msgid "No Message Selected"
 msgstr ""
 
 #: mail/mail-callbacks.c:2465
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot save to `%s'\n"
 " %s"
-msgstr "Teíp ag fork: %s"
+msgstr ""
+" Ní féidir sábháil go `%s'\n"
+"  %s"
 
 #: mail/mail-callbacks.c:2470
 #, c-format
@@ -12737,48 +12564,48 @@ msgstr ""
 msgid "Signature(s)"
 msgstr "_Stádas:"
 
-#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
 msgid "Identity"
 msgstr ""
 
-#: mail/mail-config-druid.c:382
+#: mail/mail-config-druid.c:369
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
 
-#: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
+#: mail/mail-config-druid.c:375 mail/mail-config-druid.c:382
 #, fuzzy
 msgid "Receiving Mail"
 msgstr "_Dealaigh gach rud"
 
-#: mail/mail-config-druid.c:390
+#: mail/mail-config-druid.c:377
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
 
-#: mail/mail-config-druid.c:397
+#: mail/mail-config-druid.c:384
 msgid "Please select among the following options"
 msgstr ""
 
-#: mail/mail-config-druid.c:400
+#: mail/mail-config-druid.c:387
 #, fuzzy
 msgid "Sending Mail"
 msgstr "Post ríomhphost"
 
-#: mail/mail-config-druid.c:402
+#: mail/mail-config-druid.c:389
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
 
-#: mail/mail-config-druid.c:407 mail/mail-config.glade.h:10
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:10
 msgid "Account Management"
 msgstr "Bainisteoireacht Chuntas"
 
-#: mail/mail-config-druid.c:409
+#: mail/mail-config-druid.c:396
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12812,9 +12639,8 @@ msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:8
-#, fuzzy
 msgid "Account Editor"
-msgstr "Cuntas %d"
+msgstr "Eagarthóir Chuntas"
 
 #: mail/mail-config.glade.h:9
 msgid "Account Information"
@@ -12855,7 +12681,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "Ceangaltán"
 
 #: mail/mail-config.glade.h:22
 msgid "Authentication"
@@ -12875,9 +12701,8 @@ msgid "C_haracter set:"
 msgstr "Earraidh gan aithne: %s"
 
 #: mail/mail-config.glade.h:26
-#, fuzzy
 msgid "C_olors"
-msgstr "_Dún"
+msgstr "_Dathanna"
 
 #: mail/mail-config.glade.h:27
 msgid "Check spelling while I _type"
@@ -12892,9 +12717,8 @@ msgid "Color for _misspelled words:"
 msgstr ""
 
 #: mail/mail-config.glade.h:30
-#, fuzzy
 msgid "Composing Messages"
-msgstr "Cruthaigh Scéal _Nua"
+msgstr "Ag Cruthach Scéaltaí"
 
 #: mail/mail-config.glade.h:31
 msgid "Configuration"
@@ -12915,18 +12739,16 @@ msgid "De_fault"
 msgstr "_Gnáth"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Tosaíocht"
+msgstr "Iompar Loicthe"
 
 #: mail/mail-config.glade.h:41
 msgid "Default character _encoding:"
 msgstr ""
 
 #: mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Deleting Mail"
-msgstr "_Dealaigh gach rud"
+msgstr "Ag Scrios Post"
 
 #: mail/mail-config.glade.h:44
 msgid "Digital IDs..."
@@ -12954,14 +12776,12 @@ msgid "E_nable"
 msgstr "_Cumasach"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Email Accounts"
-msgstr "Cuntasaí"
+msgstr "Cuntasaí Rphoist"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Email _address:"
-msgstr "_Seoladh RPost:"
+msgstr "_Seoladh Rphost:"
 
 #: mail/mail-config.glade.h:52
 msgid "Empty _trash folders on exit"
@@ -13267,14 +13087,12 @@ msgid "_Confirm when expunging a folder"
 msgstr ""
 
 #: mail/mail-config.glade.h:140
-#, fuzzy
 msgid "_Default signature:"
-msgstr "Gnáth"
+msgstr "Síniú _gnáth:"
 
 #: mail/mail-config.glade.h:141
-#, fuzzy
 msgid "_Defaults"
-msgstr "Gnáth"
+msgstr ""
 
 #: mail/mail-config.glade.h:142
 msgid "_Do not notify me when new mail arrives"
@@ -13291,9 +13109,8 @@ msgid "_Forward style:"
 msgstr "Sheoladh Chuig duine"
 
 #: mail/mail-config.glade.h:146
-#, fuzzy
 msgid "_Full name:"
-msgstr "Ainm _Fhada:"
+msgstr "Ainm _fhada:"
 
 #: mail/mail-config.glade.h:148
 #, fuzzy
@@ -13385,9 +13202,8 @@ msgid "_Use the same fonts as other applications"
 msgstr ""
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "color"
-msgstr " dath"
+msgstr "dath"
 
 #: mail/mail-config.glade.h:172
 msgid "description"
@@ -13413,171 +13229,170 @@ msgstr ""
 msgid "Could not create a S/MIME decode context."
 msgstr ""
 
-#: mail/mail-display.c:196
+#: mail/mail-display.c:199
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
 
-#: mail/mail-display.c:339
+#: mail/mail-display.c:342
 msgid "Save Attachment"
 msgstr ""
 
-#: mail/mail-display.c:412
+#: mail/mail-display.c:415
 #, fuzzy, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Teíp ag fork: %s"
 
-#: mail/mail-display.c:484
+#: mail/mail-display.c:487
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "_Iatán"
 
-#: mail/mail-display.c:485
+#: mail/mail-display.c:488
 msgid "View Inline"
 msgstr ""
 
-#: mail/mail-display.c:486
+#: mail/mail-display.c:489
 #, c-format
 msgid "Open in %s..."
 msgstr "Oscáil san %s..."
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:549
 #, c-format
 msgid "View Inline (via %s)"
 msgstr ""
 
-#: mail/mail-display.c:550
+#: mail/mail-display.c:553
 msgid "Hide"
 msgstr ""
 
-#: mail/mail-display.c:570
+#: mail/mail-display.c:573
 msgid "External Viewer"
 msgstr ""
 
-#: mail/mail-display.c:1356
+#: mail/mail-display.c:1363
 #, fuzzy
 msgid "Downloading images"
 msgstr "Post an sceál seo"
 
-#: mail/mail-display.c:1533
+#: mail/mail-display.c:1540
 msgid "Loading message content"
 msgstr ""
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1887
 msgid "Overdue:"
 msgstr ""
 
-#: mail/mail-display.c:1879
-#, fuzzy
+#: mail/mail-display.c:1891
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "mar %B %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2248
 msgid "Open Link in Browser"
 msgstr ""
 
-#: mail/mail-display.c:2237
+#: mail/mail-display.c:2249
 msgid "Copy Link Location"
 msgstr ""
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2251
 msgid "Save Link as (FIXME)"
 msgstr ""
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2253
 msgid "Save Image as..."
 msgstr "Sábháil Iomha le..."
 
-#: mail/mail-folder-cache.c:745
+#: mail/mail-folder-cache.c:746
 #, fuzzy, c-format
 msgid "Pinging %s"
 msgstr "Ag Oscailt '%s'"
 
-#: mail/mail-format.c:668
+#: mail/mail-format.c:672
 #, c-format
 msgid "%s attachment"
 msgstr ""
 
-#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
-#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
+#: mail/mail-format.c:714 mail/mail-format.c:1532 mail/mail-format.c:1601
+#: mail/mail-format.c:1721 mail/mail-format.c:1845 mail/mail-format.c:1870
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 
-#: mail/mail-format.c:788 mail/message-list.etspec.h:2
+#: mail/mail-format.c:792 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Dáta"
 
-#: mail/mail-format.c:874
+#: mail/mail-format.c:878
 msgid "Bad Address"
 msgstr "Droch Seoladh"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:919 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Ó"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:923
 msgid "Reply-To"
 msgstr "Freagrair-Do"
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Do"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:933
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:938
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1640
+#: mail/mail-format.c:1644
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1672
 #, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Teíp ag fork: %s"
 
-#: mail/mail-format.c:1676
+#: mail/mail-format.c:1680
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1683
+#: mail/mail-format.c:1687
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1947
+#: mail/mail-format.c:1951
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1958
+#: mail/mail-format.c:1962
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1961
+#: mail/mail-format.c:1965
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1988
+#: mail/mail-format.c:1992
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1994
+#: mail/mail-format.c:1998
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:1996
+#: mail/mail-format.c:2000
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -13689,7 +13504,7 @@ msgstr "_Post sceál"
 
 #: mail/mail-ops.c:774
 msgid "Complete."
-msgstr "Críochnaithe.`"
+msgstr "Críochnaithe."
 
 #: mail/mail-ops.c:868
 msgid "Saving message to folder"
@@ -13816,31 +13631,31 @@ msgid "(Untitled Message)"
 msgstr "(Scéal gan tideál)"
 
 # US
-#: mail/mail-search.c:236
+#: mail/mail-search.c:234
 msgid "Untitled Message"
 msgstr "Scéal Gan Tidéal"
 
-#: mail/mail-search.c:238
+#: mail/mail-search.c:236
 msgid "Empty Message"
 msgstr "Sceál Fólamh"
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:283
 msgid "Find in Message"
 msgstr ""
 
-#: mail/mail-search.c:320
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr ""
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:317
 msgid "Search Forward"
 msgstr ""
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:334
 msgid "Find:"
 msgstr "Cuardaigh:"
 
-#: mail/mail-search.c:346
+#: mail/mail-search.c:338
 msgid "Matches:"
 msgstr ""
 
@@ -13868,15 +13683,14 @@ msgid "Send & Receive Mail"
 msgstr ""
 
 #: mail/mail-send-recv.c:309
-#, fuzzy
 msgid "Cancel _All"
-msgstr "Cealaigh gach rud"
+msgstr "Cealaigh _Gach Uile"
 
-#: mail/mail-send-recv.c:391
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr ""
 
-#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr "Ag Fanacht..."
 
@@ -13924,9 +13738,8 @@ msgstr ""
 
 # SG
 #: mail/mail-signature-editor.c:382
-#, fuzzy
 msgid "Edit signature"
-msgstr "Singeapór"
+msgstr "Eagar síniú"
 
 #: mail/mail-signature-editor.c:422
 msgid "Enter a name for this signature."
@@ -13973,9 +13786,8 @@ msgid "VFolders"
 msgstr ""
 
 #: mail/mail-vfolder.c:835
-#, fuzzy
 msgid "vFolders"
-msgstr "Fillteáin"
+msgstr "fFillteáin"
 
 #: mail/mail-vfolder.c:874
 msgid "Edit VFolder"
@@ -13992,7 +13804,7 @@ msgstr "Fillteán _Nua"
 
 #: mail/message-browser.c:233
 msgid "(No subject)"
-msgstr "(Gan abair)"
+msgstr "(Gan ábhar)"
 
 #: mail/message-browser.c:235
 #, c-format
@@ -14068,9 +13880,8 @@ msgid "Due By"
 msgstr ""
 
 #: mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Flag Status"
-msgstr "Stádas"
+msgstr "Stádas Bhratach"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
@@ -14094,9 +13905,8 @@ msgid "Size"
 msgstr "Méid"
 
 #: mail/message-tag-followup.c:62
-#, fuzzy
 msgid "Call"
-msgstr "Post"
+msgstr ""
 
 #: mail/message-tag-followup.c:63
 #, fuzzy
@@ -14140,9 +13950,8 @@ msgid "Flag to Follow Up"
 msgstr ""
 
 #: mail/message-tags.glade.h:2
-#, fuzzy
 msgid "C_ompleted"
-msgstr "Críochnaithe"
+msgstr "Crí_ochnaithe"
 
 #: mail/message-tags.glade.h:4
 msgid ""
@@ -14155,9 +13964,8 @@ msgid "_Due by:"
 msgstr ""
 
 #: mail/message-tags.glade.h:7
-#, fuzzy
 msgid "_Flag:"
-msgstr "Ainm Chomad:"
+msgstr "_Bratach:"
 
 #: mail/subscribe-dialog.c:230
 #, c-format
@@ -14242,7 +14050,7 @@ msgstr "Alairm Evolution"
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 #, fuzzy
 msgid "Summary Preferences"
-msgstr "Roghanna Feilire"
+msgstr "Roghanna Féilire"
 
 # ##
 # ## Languages (ISO 639 code in brackets)
@@ -14250,15 +14058,13 @@ msgstr "Roghanna Feilire"
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:1
-#, fuzzy
 msgid "Aarhus"
-msgstr "Afáiris"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:2
-#, fuzzy
 msgid "Abakan"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
@@ -14273,9 +14079,8 @@ msgid "Abha"
 msgstr ""
 
 #: my-evolution/Locations.h:6
-#, fuzzy
 msgid "Abilene"
-msgstr "Fón Phóca"
+msgstr ""
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
@@ -14299,9 +14104,8 @@ msgstr ""
 
 # NI 
 #: my-evolution/Locations.h:12
-#, fuzzy
 msgid "Acarigua"
-msgstr "Nicaragua"
+msgstr ""
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
@@ -14309,9 +14113,8 @@ msgstr ""
 
 # AL
 #: my-evolution/Locations.h:14
-#, fuzzy
 msgid "Adana"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:15
 msgid "Adana/Incirlik"
@@ -14323,9 +14126,8 @@ msgstr ""
 
 # SE
 #: my-evolution/Locations.h:17
-#, fuzzy
 msgid "Aden"
-msgstr "An tSualainn"
+msgstr ""
 
 #: my-evolution/Locations.h:18
 msgid "Adrar"
@@ -14340,15 +14142,13 @@ msgid "Aeropuerto del Norte"
 msgstr ""
 
 #: my-evolution/Locations.h:21
-#, fuzzy
 msgid "Afonsos"
-msgstr "Gan anim"
+msgstr ""
 
 # AQ
 #: my-evolution/Locations.h:22
-#, fuzzy
 msgid "Africa"
-msgstr "an tAntartasch"
+msgstr "An Afraic"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
@@ -14360,9 +14160,8 @@ msgstr ""
 
 # AU
 #: my-evolution/Locations.h:25
-#, fuzzy
 msgid "Aguascaliantes"
-msgstr "An Astráil"
+msgstr ""
 
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
@@ -14402,9 +14201,8 @@ msgstr ""
 
 # AL
 #: my-evolution/Locations.h:35
-#, fuzzy
 msgid "Alabama"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:36
 msgid "Al Ahsa"
@@ -14424,9 +14222,8 @@ msgstr ""
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:39
-#, fuzzy
 msgid "Alamosa"
-msgstr "Afáiris"
+msgstr ""
 
 # ##
 # ## Languages (ISO 639 code in brackets)
@@ -14434,9 +14231,8 @@ msgstr "Afáiris"
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:40
-#, fuzzy
 msgid "Alaska"
-msgstr "Afáiris"
+msgstr ""
 
 #: my-evolution/Locations.h:41
 msgid "Al Baha"
@@ -14444,21 +14240,18 @@ msgstr ""
 
 # AL
 #: my-evolution/Locations.h:43
-#, fuzzy
 msgid "Albany"
-msgstr "An Albáin"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:44
-#, fuzzy
 msgid "Albenga"
-msgstr "An Albáin"
+msgstr ""
 
 # DZ
 #: my-evolution/Locations.h:45
-#, fuzzy
 msgid "Alberta"
-msgstr "An Ailgéir"
+msgstr ""
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
@@ -14469,20 +14262,17 @@ msgid "Albuquerque"
 msgstr ""
 
 #: my-evolution/Locations.h:48
-#, fuzzy
 msgid "Alderney"
-msgstr "Ainm Fillteán:"
+msgstr ""
 
 #: my-evolution/Locations.h:49
-#, fuzzy
 msgid "Alesund"
-msgstr "Post"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:50
-#, fuzzy
 msgid "Alexandria"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
@@ -14498,15 +14288,13 @@ msgstr ""
 
 # DZ
 #: my-evolution/Locations.h:55
-#, fuzzy
 msgid "Alghero"
-msgstr "An Ailgéir"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:56
-#, fuzzy
 msgid "Algona"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:57
 msgid "Alicante"
@@ -14538,21 +14326,18 @@ msgstr ""
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:63
-#, fuzzy
 msgid "Alma"
-msgstr "Afáiris"
+msgstr ""
 
 # DZ
 #: my-evolution/Locations.h:64
-#, fuzzy
 msgid "Almeria"
-msgstr "An Ailgéir"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:65
-#, fuzzy
 msgid "Alpena"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:66
 msgid "Al Qaysumah"
@@ -14560,15 +14345,13 @@ msgstr ""
 
 # MT
 #: my-evolution/Locations.h:67
-#, fuzzy
 msgid "Alta"
-msgstr "Málta"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:68
-#, fuzzy
 msgid "Altamira"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:69
 msgid "Alton"
@@ -14584,9 +14367,8 @@ msgstr ""
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:71
-#, fuzzy
 msgid "Alturas"
-msgstr "Afáiris"
+msgstr ""
 
 #: my-evolution/Locations.h:72
 msgid "Altus"
@@ -14602,33 +14384,29 @@ msgstr ""
 
 # ta
 #: my-evolution/Locations.h:75
-#, fuzzy
 msgid "Amarillo"
-msgstr "Rpost"
+msgstr ""
 
 #: my-evolution/Locations.h:76
 msgid "Amasya"
 msgstr ""
 
 #: my-evolution/Locations.h:77
-#, fuzzy
 msgid "Ambler"
-msgstr "Ball"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:78
-#, fuzzy
 msgid "Amelia"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:79
 msgid "Amendola"
 msgstr ""
 
 #: my-evolution/Locations.h:80
-#, fuzzy
 msgid "Ames"
-msgstr "míle"
+msgstr ""
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
@@ -14636,9 +14414,8 @@ msgstr ""
 
 # AT
 #: my-evolution/Locations.h:82
-#, fuzzy
 msgid "Amsterdam"
-msgstr "An Ostair"
+msgstr ""
 
 #: my-evolution/Locations.h:83
 msgid "Anadyr"
@@ -14650,9 +14427,8 @@ msgstr ""
 
 # JP
 #: my-evolution/Locations.h:85
-#, fuzzy
 msgid "Anapa"
-msgstr "An tSeapáin"
+msgstr ""
 
 #: my-evolution/Locations.h:86
 msgid "Anchorage"
@@ -14663,9 +14439,8 @@ msgid "Anchorage - Elmendorf AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:88
-#, fuzzy
 msgid "Ancona"
-msgstr "Cuntas"
+msgstr ""
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
@@ -14676,15 +14451,13 @@ msgid "Anderson"
 msgstr ""
 
 #: my-evolution/Locations.h:91
-#, fuzzy
 msgid "Andoya"
-msgstr "Ceallaigh"
+msgstr ""
 
 # IN 
 #: my-evolution/Locations.h:92
-#, fuzzy
 msgid "Andravida"
-msgstr "Pearsanta"
+msgstr ""
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
@@ -14696,9 +14469,8 @@ msgstr ""
 
 # AL
 #: my-evolution/Locations.h:95
-#, fuzzy
 msgid "Aniak"
-msgstr "An Albáin"
+msgstr ""
 
 #: my-evolution/Locations.h:96
 msgid "Ankara/Esenboga"
@@ -14725,15 +14497,13 @@ msgstr ""
 # ##
 # AF
 #: my-evolution/Locations.h:101
-#, fuzzy
 msgid "Anniston"
-msgstr "An afganastáin"
+msgstr ""
 
 # IT
 #: my-evolution/Locations.h:102
-#, fuzzy
 msgid "Antalya"
-msgstr "An Iodáil"
+msgstr ""
 
 # AQ
 #: my-evolution/Locations.h:103
@@ -14758,9 +14528,8 @@ msgstr ""
 # ##
 # AF
 #: my-evolution/Locations.h:107
-#, fuzzy
 msgid "Antofagasta"
-msgstr "An afganastáin"
+msgstr ""
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
@@ -14796,9 +14565,8 @@ msgstr ""
 # ##     in iso-639.def from glibc
 # aa 
 #: my-evolution/Locations.h:115
-#, fuzzy
 msgid "Arar"
-msgstr "Afáiris"
+msgstr ""
 
 #: my-evolution/Locations.h:116
 msgid "Araxos"
@@ -14806,9 +14574,8 @@ msgstr ""
 
 # AQ
 #: my-evolution/Locations.h:117
-#, fuzzy
 msgid "Arcata"
-msgstr "an tAntartasch"
+msgstr ""
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
@@ -14820,9 +14587,8 @@ msgstr ""
 
 # AT
 #: my-evolution/Locations.h:121
-#, fuzzy
 msgid "Arica"
-msgstr "An Ostair"
+msgstr ""
 
 #: my-evolution/Locations.h:122
 msgid "Arizona"
@@ -14837,9 +14603,8 @@ msgid "Arkhangelsk"
 msgstr ""
 
 #: my-evolution/Locations.h:125
-#, fuzzy
 msgid "Arlington"
-msgstr "Treoshuíomh"
+msgstr ""
 
 #: my-evolution/Locations.h:126
 msgid "Artigas"
@@ -14871,48 +14636,40 @@ msgstr ""
 
 # TH
 #: my-evolution/Locations.h:133
-#, fuzzy
 msgid "Ashland"
-msgstr "An Téalainn"
+msgstr ""
 
 # AT
 #: my-evolution/Locations.h:134
-#, fuzzy
 msgid "Asia"
-msgstr "An Ostair"
+msgstr "An Áise"
 
 #: my-evolution/Locations.h:135
-#, fuzzy
 msgid "Aspen"
-msgstr "Oscáil"
+msgstr ""
 
 #: my-evolution/Locations.h:136
-#, fuzzy
 msgid "Asswan"
-msgstr "Cnt."
+msgstr ""
 
 # AT
 #: my-evolution/Locations.h:137
-#, fuzzy
 msgid "Astoria"
-msgstr "An Ostair"
+msgstr ""
 
 # AU
 #: my-evolution/Locations.h:138
-#, fuzzy
 msgid "Astrakhan"
-msgstr "An Astráil"
+msgstr ""
 
 # AT
 #: my-evolution/Locations.h:139
-#, fuzzy
 msgid "Asturias"
-msgstr "An Ostair"
+msgstr ""
 
 #: my-evolution/Locations.h:140
-#, fuzzy
 msgid "Asuncion"
-msgstr "Údarú"
+msgstr ""
 
 #: my-evolution/Locations.h:141
 msgid "Athens"
@@ -14920,21 +14677,18 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:142
-#, fuzzy
 msgid "Athinai"
-msgstr "An tSín"
+msgstr ""
 
 # AL
 #: my-evolution/Locations.h:143
-#, fuzzy
 msgid "Atlanta"
-msgstr "An Albáin"
+msgstr ""
 
 # AQ
 #: my-evolution/Locations.h:144
-#, fuzzy
 msgid "Atlantic"
-msgstr "an tAntartasch"
+msgstr "Atlantach"
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
@@ -14950,9 +14704,8 @@ msgstr ""
 
 # IS
 #: my-evolution/Locations.h:148
-#, fuzzy
 msgid "Auckland"
-msgstr "An Íoslainn"
+msgstr ""
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
@@ -14960,27 +14713,23 @@ msgstr ""
 
 # AT
 #: my-evolution/Locations.h:150
-#, fuzzy
 msgid "Augusta"
-msgstr "An Ostair"
+msgstr ""
 
 # AT
 #: my-evolution/Locations.h:151
-#, fuzzy
 msgid "Aurora"
-msgstr "An Ostair"
+msgstr ""
 
 # AT
 #: my-evolution/Locations.h:152
-#, fuzzy
 msgid "Austin"
-msgstr "An Ostair"
+msgstr ""
 
 # AU
 #: my-evolution/Locations.h:153
-#, fuzzy
 msgid "Australasia"
-msgstr "An Astráil"
+msgstr ""
 
 #: my-evolution/Locations.h:156
 msgid "Avalon"
@@ -14995,9 +14744,8 @@ msgid "Ayacucho"
 msgstr ""
 
 #: my-evolution/Locations.h:159
-#, fuzzy
 msgid "Bage"
-msgstr "Bún"
+msgstr ""
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
@@ -15037,9 +14785,8 @@ msgstr ""
 
 # bn 
 #: my-evolution/Locations.h:171
-#, fuzzy
 msgid "Baltimore"
-msgstr "Beangálaí"
+msgstr ""
 
 #: my-evolution/Locations.h:172
 msgid "Baltimore-Glen Burnie"
@@ -15047,18 +14794,16 @@ msgstr ""
 
 # GH
 #: my-evolution/Locations.h:173
-#, fuzzy
 msgid "Banak"
-msgstr "Gána"
+msgstr ""
 
 #: my-evolution/Locations.h:174
 msgid "Bandarabbass"
 msgstr ""
 
 #: my-evolution/Locations.h:175
-#, fuzzy
 msgid "Bangor"
-msgstr "Bainisteoir"
+msgstr ""
 
 #: my-evolution/Locations.h:176
 msgid "Baracoa"
@@ -15082,9 +14827,8 @@ msgstr ""
 
 # BG
 #: my-evolution/Locations.h:181
-#, fuzzy
 msgid "Bari"
-msgstr "An Bhulgáir"
+msgstr ""
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
@@ -15092,18 +14836,16 @@ msgstr ""
 
 # BG
 #: my-evolution/Locations.h:183
-#, fuzzy
 msgid "Barinas"
-msgstr "An Bhulgáir"
+msgstr ""
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
 msgstr ""
 
 #: my-evolution/Locations.h:185
-#, fuzzy
 msgid "Barksdale"
-msgstr "Bún"
+msgstr ""
 
 # BR
 #: my-evolution/Locations.h:186
@@ -15125,9 +14867,8 @@ msgstr ""
 
 # EI
 #: my-evolution/Locations.h:190
-#, fuzzy
 msgid "Barter Island"
-msgstr "Éire"
+msgstr ""
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
@@ -15138,9 +14879,8 @@ msgid "Bartow"
 msgstr ""
 
 #: my-evolution/Locations.h:193
-#, fuzzy
 msgid "Bastia"
-msgstr "Gnáth"
+msgstr ""
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
@@ -15164,9 +14904,8 @@ msgstr ""
 
 # na 
 #: my-evolution/Locations.h:199
-#, fuzzy
 msgid "Bauru"
-msgstr "Nárúis"
+msgstr ""
 
 #: my-evolution/Locations.h:200
 msgid "Bayamo"
@@ -15178,18 +14917,16 @@ msgstr ""
 
 # bn 
 #: my-evolution/Locations.h:202
-#, fuzzy
 msgid "Beatrice"
-msgstr "Beangálaí"
+msgstr ""
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
 msgstr ""
 
 #: my-evolution/Locations.h:204
-#, fuzzy
 msgid "Beaumont"
-msgstr "mí"
+msgstr ""
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
@@ -15200,18 +14937,16 @@ msgid "Beauvais-Tille"
 msgstr ""
 
 #: my-evolution/Locations.h:207
-#, fuzzy
 msgid "Beauvechain"
-msgstr "Cuardaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:208
 msgid "Beckley"
 msgstr ""
 
 #: my-evolution/Locations.h:209
-#, fuzzy
 msgid "Bedford"
-msgstr "riomh"
+msgstr ""
 
 #: my-evolution/Locations.h:210
 msgid "Beijing"
@@ -15219,9 +14954,8 @@ msgstr ""
 
 # BE
 #: my-evolution/Locations.h:211
-#, fuzzy
 msgid "Beirut"
-msgstr "An Bheilg"
+msgstr ""
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
@@ -15289,9 +15023,8 @@ msgstr ""
 
 # IS
 #: my-evolution/Locations.h:229
-#, fuzzy
 msgid "Beograd"
-msgstr "An Íoslainn"
+msgstr ""
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
@@ -15311,9 +15044,8 @@ msgstr ""
 
 # BE
 #: my-evolution/Locations.h:234
-#, fuzzy
 msgid "Berlin"
-msgstr "An Bheilg"
+msgstr ""
 
 #: my-evolution/Locations.h:235
 msgid "Berlin-Tegel"
@@ -15328,9 +15060,8 @@ msgid "Bern"
 msgstr ""
 
 #: my-evolution/Locations.h:238
-#, fuzzy
 msgid "Bethel"
-msgstr "Aimsir"
+msgstr ""
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
@@ -15341,9 +15072,8 @@ msgid "Bettles"
 msgstr ""
 
 #: my-evolution/Locations.h:241
-#, fuzzy
 msgid "Beverly"
-msgstr "_gach"
+msgstr ""
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
@@ -15359,9 +15089,8 @@ msgstr ""
 
 # PS
 #: my-evolution/Locations.h:245
-#, fuzzy
 msgid "Big Piney"
-msgstr "Pine"
+msgstr ""
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
@@ -15457,9 +15186,8 @@ msgid "Bogota/Eldorado"
 msgstr ""
 
 #: my-evolution/Locations.h:269
-#, fuzzy
 msgid "Boise"
-msgstr "Bún"
+msgstr ""
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
@@ -15467,18 +15195,16 @@ msgstr ""
 
 # PL
 #: my-evolution/Locations.h:272
-#, fuzzy
 msgid "Bolzano"
-msgstr "An Pholainn"
+msgstr ""
 
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
 msgstr ""
 
 #: my-evolution/Locations.h:274
-#, fuzzy
 msgid "Boone"
-msgstr "Críochnaithe"
+msgstr ""
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
@@ -15503,9 +15229,8 @@ msgid "Bosnia-Herzegovina"
 msgstr ""
 
 #: my-evolution/Locations.h:280
-#, fuzzy
 msgid "Boston"
-msgstr "Bun:"
+msgstr ""
 
 #: my-evolution/Locations.h:281
 #, fuzzy
@@ -15571,18 +15296,16 @@ msgstr ""
 
 # YE
 #: my-evolution/Locations.h:295
-#, fuzzy
 msgid "Bremen"
-msgstr "Éimin"
+msgstr ""
 
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
 msgstr ""
 
 #: my-evolution/Locations.h:297
-#, fuzzy
 msgid "Brest"
-msgstr "Iarthair"
+msgstr ""
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
@@ -15598,9 +15321,8 @@ msgstr ""
 
 # BR
 #: my-evolution/Locations.h:301
-#, fuzzy
 msgid "Bristol"
-msgstr "An Bhrasaíl"
+msgstr ""
 
 #: my-evolution/Locations.h:302
 msgid "British Columbia"
@@ -15611,9 +15333,8 @@ msgid "Brno"
 msgstr ""
 
 #: my-evolution/Locations.h:304
-#, fuzzy
 msgid "Broadus"
-msgstr "GN"
+msgstr ""
 
 #: my-evolution/Locations.h:305
 msgid "Broken Bow"
@@ -15624,18 +15345,16 @@ msgid "Bronnoysund"
 msgstr ""
 
 #: my-evolution/Locations.h:307
-#, fuzzy
 msgid "Brookings"
-msgstr "Ag Obair"
+msgstr ""
 
 #: my-evolution/Locations.h:308
 msgid "Brooksville"
 msgstr ""
 
 #: my-evolution/Locations.h:309
-#, fuzzy
 msgid "Broome"
-msgstr "Bun:"
+msgstr ""
 
 #: my-evolution/Locations.h:310
 msgid "Brownsville"
@@ -15686,15 +15405,13 @@ msgid "Burbank"
 msgstr ""
 
 #: my-evolution/Locations.h:323
-#, fuzzy
 msgid "Burgas"
-msgstr "GN"
+msgstr ""
 
 # TR
 #: my-evolution/Locations.h:324
-#, fuzzy
 msgid "Burley"
-msgstr "An Tuirc"
+msgstr ""
 
 #: my-evolution/Locations.h:325
 msgid "Burlington"
@@ -15702,19 +15419,16 @@ msgstr ""
 
 # GN
 #: my-evolution/Locations.h:326
-#, fuzzy
 msgid "Burnet"
-msgstr "An Ghuine"
+msgstr ""
 
 #: my-evolution/Locations.h:327
-#, fuzzy
 msgid "Burns"
-msgstr "GN"
+msgstr ""
 
 #: my-evolution/Locations.h:328
-#, fuzzy
 msgid "Bursa"
-msgstr "GN"
+msgstr ""
 
 #: my-evolution/Locations.h:329
 msgid "Burwell"
@@ -15729,21 +15443,18 @@ msgid "Caen-Carpiquet"
 msgstr ""
 
 #: my-evolution/Locations.h:332
-#, fuzzy
 msgid "Cagliari"
-msgstr "Feilire"
+msgstr ""
 
 # th
 #: my-evolution/Locations.h:333
-#, fuzzy
 msgid "Cairns"
-msgstr "Téalainnis"
+msgstr ""
 
 # th
 #: my-evolution/Locations.h:334
-#, fuzzy
 msgid "Cairo"
-msgstr "Téalainnis"
+msgstr ""
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
@@ -15758,18 +15469,16 @@ msgid "Caldwell"
 msgstr ""
 
 #: my-evolution/Locations.h:338
-#, fuzzy
 msgid "Calgary"
-msgstr "Glan"
+msgstr ""
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
 msgstr ""
 
 #: my-evolution/Locations.h:340
-#, fuzzy
 msgid "Caliente"
-msgstr "Feilire"
+msgstr ""
 
 #: my-evolution/Locations.h:341
 msgid "California"
@@ -15781,9 +15490,8 @@ msgstr ""
 
 # PY
 #: my-evolution/Locations.h:343
-#, fuzzy
 msgid "Camaguey"
-msgstr "Paraguay"
+msgstr ""
 
 #: my-evolution/Locations.h:344
 msgid "Camarillo"
@@ -15795,15 +15503,13 @@ msgstr ""
 
 # CM
 #: my-evolution/Locations.h:346
-#, fuzzy
 msgid "Cameron"
 msgstr "Camarún"
 
 # th
 #: my-evolution/Locations.h:347
-#, fuzzy
 msgid "Camiri"
-msgstr "Téalainnis"
+msgstr ""
 
 #: my-evolution/Locations.h:348
 msgid "Campeche"
@@ -15811,14 +15517,12 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:349
-#, fuzzy
 msgid "Campinas"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:350
-#, fuzzy
 msgid "Campo"
-msgstr "Teor."
+msgstr ""
 
 #: my-evolution/Locations.h:351
 msgid "Campo Grande"
@@ -15830,9 +15534,8 @@ msgstr ""
 
 # CA
 #: my-evolution/Locations.h:353
-#, fuzzy
 msgid "Canaan"
-msgstr "Ceanada"
+msgstr ""
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
@@ -15868,9 +15571,8 @@ msgstr ""
 
 # FR
 #: my-evolution/Locations.h:363
-#, fuzzy
 msgid "Cancun"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: my-evolution/Locations.h:364
 msgid "Cannes-Mandelieu"
@@ -15878,9 +15580,8 @@ msgstr ""
 
 # FR
 #: my-evolution/Locations.h:365
-#, fuzzy
 msgid "Cantwell"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: my-evolution/Locations.h:366
 msgid "Cape Girardeau"
@@ -15923,38 +15624,32 @@ msgid "Caracas Maiquetia"
 msgstr ""
 
 #: my-evolution/Locations.h:376
-#, fuzzy
 msgid "Caravelas"
-msgstr "Cealaigh Teasc"
+msgstr ""
 
 #: my-evolution/Locations.h:377
-#, fuzzy
 msgid "Carbondale"
-msgstr "Fón Char"
+msgstr ""
 
 #: my-evolution/Locations.h:378
-#, fuzzy
 msgid "Cardiff"
-msgstr "Radharc Carta"
+msgstr ""
 
 #: my-evolution/Locations.h:379
-#, fuzzy
 msgid "Caribou"
-msgstr "Car"
+msgstr ""
 
 #: my-evolution/Locations.h:380
-#, fuzzy
 msgid "Carlisle"
-msgstr "Luaineach"
+msgstr ""
 
 #: my-evolution/Locations.h:381
 msgid "Carlsbad"
 msgstr ""
 
 #: my-evolution/Locations.h:382
-#, fuzzy
 msgid "Carroll"
-msgstr "Car"
+msgstr ""
 
 #: my-evolution/Locations.h:383
 msgid "Cartagena/Rafael Nunez"
@@ -15966,14 +15661,12 @@ msgstr ""
 
 # CA
 #: my-evolution/Locations.h:385
-#, fuzzy
 msgid "Cascade"
-msgstr "Ceanada"
+msgstr ""
 
 #: my-evolution/Locations.h:386
-#, fuzzy
 msgid "Casper"
-msgstr "Páipéir"
+msgstr ""
 
 #: my-evolution/Locations.h:387
 msgid "Catacamas"
@@ -15981,9 +15674,8 @@ msgstr ""
 
 # CA
 #: my-evolution/Locations.h:388
-#, fuzzy
 msgid "Catania"
-msgstr "Ceanada"
+msgstr ""
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
@@ -15998,9 +15690,8 @@ msgid "Cecil NAS"
 msgstr ""
 
 #: my-evolution/Locations.h:393
-#, fuzzy
 msgid "Cedar City"
-msgstr "Geal"
+msgstr ""
 
 #: my-evolution/Locations.h:394
 msgid "Cedar Rapids"
@@ -16012,9 +15703,8 @@ msgstr ""
 
 # DZ
 #: my-evolution/Locations.h:396
-#, fuzzy
 msgid "Cervia"
-msgstr "An Ailgéir"
+msgstr ""
 
 #: my-evolution/Locations.h:397
 msgid "Chacarita"
@@ -16022,60 +15712,50 @@ msgstr ""
 
 # th
 #: my-evolution/Locations.h:398
-#, fuzzy
 msgid "Chadron"
-msgstr "Téalainnis"
+msgstr ""
 
 # th
 #: my-evolution/Locations.h:399
-#, fuzzy
 msgid "Challis"
-msgstr "Téalainnis"
+msgstr ""
 
 # CM
 #: my-evolution/Locations.h:400
-#, fuzzy
 msgid "Chamberlain"
-msgstr "Camarún"
+msgstr ""
 
 # CM
 #: my-evolution/Locations.h:401
-#, fuzzy
 msgid "Chambery"
-msgstr "Camarún"
+msgstr ""
 
 #: my-evolution/Locations.h:402
-#, fuzzy
 msgid "Champaign"
-msgstr "Teoranta"
+msgstr ""
 
 #: my-evolution/Locations.h:403
-#, fuzzy
 msgid "Chandalar Lake"
-msgstr "Teachtaireacht Feilire"
+msgstr ""
 
 #: my-evolution/Locations.h:404
-#, fuzzy
 msgid "Chandler"
-msgstr "Feilire"
+msgstr ""
 
 # CH
 #: my-evolution/Locations.h:405
-#, fuzzy
 msgid "Chania"
-msgstr "An tSín"
+msgstr ""
 
 # FR
 #: my-evolution/Locations.h:406
-#, fuzzy
 msgid "Chanute"
-msgstr "An Fhrainc"
+msgstr ""
 
 # CM
 #: my-evolution/Locations.h:407
-#, fuzzy
 msgid "Chariton"
-msgstr "Camarún"
+msgstr ""
 
 #: my-evolution/Locations.h:408
 msgid "Charleroi-Brussels South"
@@ -16087,9 +15767,8 @@ msgstr ""
 
 # FIXME (Plural)
 #: my-evolution/Locations.h:410
-#, fuzzy
 msgid "Charleston"
-msgstr "Cathlaoirlaig"
+msgstr ""
 
 #: my-evolution/Locations.h:411
 msgid "Charlotte"
@@ -16113,9 +15792,8 @@ msgstr ""
 
 # CL
 #: my-evolution/Locations.h:416
-#, fuzzy
 msgid "Cheju"
-msgstr "An tSile"
+msgstr ""
 
 #: my-evolution/Locations.h:417
 msgid "Chelyabinsk"
@@ -16127,14 +15805,12 @@ msgstr ""
 
 # LU
 #: my-evolution/Locations.h:419
-#, fuzzy
 msgid "Cherbourg"
-msgstr "Lucsamburg"
+msgstr ""
 
 #: my-evolution/Locations.h:420
-#, fuzzy
 msgid "Cherry Point"
-msgstr "Fón Eile"
+msgstr ""
 
 #: my-evolution/Locations.h:421
 msgid "Chetumal"
@@ -16154,9 +15830,8 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:425
-#, fuzzy
 msgid "Chiayi"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
@@ -16180,15 +15855,13 @@ msgstr ""
 
 # CL
 #: my-evolution/Locations.h:431
-#, fuzzy
 msgid "Chiclayo"
-msgstr "An tSile"
+msgstr ""
 
 # th
 #: my-evolution/Locations.h:432
-#, fuzzy
 msgid "Chico"
-msgstr "Téalainnis"
+msgstr ""
 
 #: my-evolution/Locations.h:433
 msgid "Chicopee Falls"
@@ -16196,15 +15869,13 @@ msgstr ""
 
 # zh
 #: my-evolution/Locations.h:434
-#, fuzzy
 msgid "Chievres"
-msgstr "Sínis"
+msgstr ""
 
 # CH
 #: my-evolution/Locations.h:435
-#, fuzzy
 msgid "Chihhang"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:436
 msgid "Chihuahua"
@@ -16212,21 +15883,18 @@ msgstr ""
 
 # CL
 #: my-evolution/Locations.h:437
-#, fuzzy
 msgid "Childress"
-msgstr "An tSile"
+msgstr ""
 
 # CH
 #: my-evolution/Locations.h:439
-#, fuzzy
 msgid "China Lake"
-msgstr "An tSín"
+msgstr ""
 
 # CH
 #: my-evolution/Locations.h:440
-#, fuzzy
 msgid "Chinandega"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:441
 msgid "Chinmem/Shatou"
@@ -16234,9 +15902,8 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:442
-#, fuzzy
 msgid "Chino"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:443
 msgid "Chippewa County"
@@ -16244,9 +15911,8 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:444
-#, fuzzy
 msgid "Chita"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:445
 msgid "Chitose Ab"
@@ -16274,9 +15940,8 @@ msgstr ""
 
 # CH
 #: my-evolution/Locations.h:452
-#, fuzzy
 msgid "Chulitna"
-msgstr "An tSín"
+msgstr ""
 
 #: my-evolution/Locations.h:453
 msgid "Churchill"
@@ -16316,14 +15981,12 @@ msgstr ""
 
 # CA
 #: my-evolution/Locations.h:462
-#, fuzzy
 msgid "Clarinda"
-msgstr "Ceanada"
+msgstr ""
 
 #: my-evolution/Locations.h:463
-#, fuzzy
 msgid "Clarion"
-msgstr "Glan"
+msgstr ""
 
 #: my-evolution/Locations.h:464
 msgid "Clarksburg"
@@ -16343,9 +16006,8 @@ msgstr ""
 
 # GL
 #: my-evolution/Locations.h:468
-#, fuzzy
 msgid "Cleveland"
-msgstr "An Ghraonlainn"
+msgstr ""
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
@@ -16365,9 +16027,8 @@ msgstr ""
 
 # CO
 #: my-evolution/Locations.h:473
-#, fuzzy
 msgid "Cobija"
-msgstr "An Cholóim"
+msgstr ""
 
 #: my-evolution/Locations.h:474
 msgid "Cochabamba"
@@ -16382,24 +16043,21 @@ msgid "Cocos Island"
 msgstr ""
 
 #: my-evolution/Locations.h:477
-#, fuzzy
 msgid "Cody"
-msgstr "Cóip"
+msgstr ""
 
 #: my-evolution/Locations.h:478
 msgid "Coeur d'Alene"
 msgstr ""
 
 #: my-evolution/Locations.h:479
-#, fuzzy
 msgid "Cold Bay"
-msgstr "Inniú"
+msgstr ""
 
 # CO
 #: my-evolution/Locations.h:480
-#, fuzzy
 msgid "Colima"
-msgstr "An Cholóim"
+msgstr ""
 
 #: my-evolution/Locations.h:481
 msgid "College Station"
@@ -16411,15 +16069,13 @@ msgstr ""
 
 # CO
 #: my-evolution/Locations.h:484
-#, fuzzy
 msgid "Colonia"
-msgstr "An Cholóim"
+msgstr ""
 
 # CO
 #: my-evolution/Locations.h:485
-#, fuzzy
 msgid "Colorado"
-msgstr "An Cholóim"
+msgstr ""
 
 #: my-evolution/Locations.h:486
 msgid "Colorado Springs"
@@ -16427,9 +16083,8 @@ msgstr ""
 
 # CO
 #: my-evolution/Locations.h:487
-#, fuzzy
 msgid "Columbia"
-msgstr "An Cholóim"
+msgstr ""
 
 #: my-evolution/Locations.h:488
 msgid "Columbia-McEntire"
@@ -16437,9 +16092,8 @@ msgstr ""
 
 # CO
 #: my-evolution/Locations.h:489
-#, fuzzy
 msgid "Columbus"
-msgstr "An Cholóim"
+msgstr ""
 
 #: my-evolution/Locations.h:490
 msgid "Columbus-Fort Benning"
@@ -16459,18 +16113,16 @@ msgstr ""
 
 # CL
 #: my-evolution/Locations.h:494
-#, fuzzy
 msgid "Colville"
-msgstr "An tSile"
+msgstr ""
 
 #: my-evolution/Locations.h:495
 msgid "Comodoro Rivadavia"
 msgstr ""
 
 #: my-evolution/Locations.h:496
-#, fuzzy
 msgid "Comox"
-msgstr "mbox"
+msgstr ""
 
 #: my-evolution/Locations.h:497
 msgid "Conceicao Do Araguaia"
@@ -16482,9 +16134,8 @@ msgstr ""
 
 # CG
 #: my-evolution/Locations.h:499
-#, fuzzy
 msgid "Concord"
-msgstr "An Congó"
+msgstr ""
 
 #: my-evolution/Locations.h:500
 msgid "Concordia"
@@ -16495,20 +16146,17 @@ msgid "Connaught"
 msgstr ""
 
 #: my-evolution/Locations.h:502
-#, fuzzy
 msgid "Connecticut"
-msgstr "_Tadhall"
+msgstr ""
 
 # CG
 #: my-evolution/Locations.h:503
-#, fuzzy
 msgid "Conroe"
-msgstr "An Congó"
+msgstr ""
 
 #: my-evolution/Locations.h:504
-#, fuzzy
 msgid "Constantine"
-msgstr "_Tadhall"
+msgstr ""
 
 #: my-evolution/Locations.h:505
 msgid "Copper Harbor"
@@ -16516,15 +16164,13 @@ msgstr ""
 
 # CO
 #: my-evolution/Locations.h:506
-#, fuzzy
 msgid "Cordoba"
-msgstr "An Cholóim"
+msgstr ""
 
 # JO
 #: my-evolution/Locations.h:507
-#, fuzzy
 msgid "Cordova"
-msgstr "An Iordáin"
+msgstr ""
 
 #: my-evolution/Locations.h:508
 msgid "Cork"
@@ -16532,9 +16178,8 @@ msgstr ""
 
 # CG
 #: my-evolution/Locations.h:509
-#, fuzzy
 msgid "Coro"
-msgstr "An Congó"
+msgstr ""
 
 #: my-evolution/Locations.h:510
 msgid "Corona"
@@ -16554,20 +16199,17 @@ msgstr ""
 
 # CR
 #: my-evolution/Locations.h:514
-#, fuzzy
 msgid "Corsicana"
-msgstr "Cósta Rice"
+msgstr ""
 
 #: my-evolution/Locations.h:515
-#, fuzzy
 msgid "Cortez"
-msgstr "Nota"
+msgstr ""
 
 # CU
 #: my-evolution/Locations.h:516
-#, fuzzy
 msgid "Corumba"
-msgstr "Cúba"
+msgstr ""
 
 #: my-evolution/Locations.h:518
 msgid "Cotulla"
@@ -16578,15 +16220,13 @@ msgid "Council Bluffs"
 msgstr ""
 
 #: my-evolution/Locations.h:520
-#, fuzzy
 msgid "Coventry"
-msgstr "_Tír:"
+msgstr ""
 
 # CG
 #: my-evolution/Locations.h:521
-#, fuzzy
 msgid "Covington"
-msgstr "An Congó"
+msgstr ""
 
 #: my-evolution/Locations.h:522
 msgid "Cozumel"
@@ -16594,29 +16234,25 @@ msgstr ""
 
 # th
 #: my-evolution/Locations.h:523
-#, fuzzy
 msgid "Craig"
-msgstr "Téalainnis"
+msgstr ""
 
 # FR
 #: my-evolution/Locations.h:524
-#, fuzzy
 msgid "Cranfield"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: my-evolution/Locations.h:525
 msgid "Crescent City"
 msgstr ""
 
 #: my-evolution/Locations.h:526
-#, fuzzy
 msgid "Creston"
-msgstr "Freagra"
+msgstr ""
 
 #: my-evolution/Locations.h:527
-#, fuzzy
 msgid "Crestview"
-msgstr "Reamhthaispeáintas"
+msgstr ""
 
 #: my-evolution/Locations.h:529
 msgid "Cross City"
@@ -16628,15 +16264,13 @@ msgstr ""
 
 # CM
 #: my-evolution/Locations.h:531
-#, fuzzy
 msgid "Crotone"
-msgstr "Camarún"
+msgstr ""
 
 # CU
 #: my-evolution/Locations.h:533
-#, fuzzy
 msgid "Cuba Awrs"
-msgstr "Cúba"
+msgstr ""
 
 #: my-evolution/Locations.h:534
 msgid "Cuernavaca"
@@ -16644,14 +16278,12 @@ msgstr ""
 
 # CU
 #: my-evolution/Locations.h:535
-#, fuzzy
 msgid "Cuiaba"
-msgstr "Cúba"
+msgstr ""
 
 #: my-evolution/Locations.h:536
-#, fuzzy
 msgid "Culdrose"
-msgstr "Dún"
+msgstr ""
 
 #: my-evolution/Locations.h:537
 msgid "Culiacan"
@@ -16659,9 +16291,8 @@ msgstr ""
 
 # GY
 #: my-evolution/Locations.h:538
-#, fuzzy
 msgid "Cumana"
-msgstr "An Ghuáin"
+msgstr ""
 
 #: my-evolution/Locations.h:539
 msgid "Cumberland"
@@ -16669,18 +16300,16 @@ msgstr ""
 
 # CU
 #: my-evolution/Locations.h:540
-#, fuzzy
 msgid "Curitiba"
-msgstr "Cúba"
+msgstr ""
 
 #: my-evolution/Locations.h:541
 msgid "Curitiba Apt"
 msgstr ""
 
 #: my-evolution/Locations.h:542
-#, fuzzy
 msgid "Custer"
-msgstr "Gearr"
+msgstr ""
 
 #: my-evolution/Locations.h:543
 msgid "Cut Bank"
@@ -16692,9 +16321,8 @@ msgstr ""
 
 # ML
 #: my-evolution/Locations.h:547
-#, fuzzy
 msgid "Dagali"
-msgstr "Mali"
+msgstr ""
 
 #: my-evolution/Locations.h:548
 msgid "Daggett"
@@ -16705,9 +16333,8 @@ msgid "Dalhart"
 msgstr ""
 
 #: my-evolution/Locations.h:550
-#, fuzzy
 msgid "Dalian"
-msgstr "Dealaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:551
 msgid "Dallas-Addison"
@@ -16730,9 +16357,8 @@ msgid "Da Nang"
 msgstr ""
 
 #: my-evolution/Locations.h:556
-#, fuzzy
 msgid "Danbury"
-msgstr "Éanair"
+msgstr ""
 
 #: my-evolution/Locations.h:557
 msgid "Danville"
@@ -16755,9 +16381,8 @@ msgid "Dawadmi"
 msgstr ""
 
 #: my-evolution/Locations.h:562
-#, fuzzy
 msgid "Dayton"
-msgstr "La"
+msgstr ""
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -16792,9 +16417,8 @@ msgid "Decorah"
 msgstr ""
 
 #: my-evolution/Locations.h:571
-#, fuzzy
 msgid "Deelen"
-msgstr "Dealaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:572
 msgid "Dekalb/Peachtree"
@@ -16813,14 +16437,12 @@ msgid "Del Rio"
 msgstr ""
 
 #: my-evolution/Locations.h:576
-#, fuzzy
 msgid "Delta"
-msgstr "Dealaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:577
-#, fuzzy
 msgid "Deming"
-msgstr "Dealaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:578
 msgid "Den Helder/De Kooy"
@@ -16832,14 +16454,12 @@ msgstr ""
 
 # LB
 #: my-evolution/Locations.h:581
-#, fuzzy
 msgid "Denton"
-msgstr "An Liobáin"
+msgstr ""
 
 #: my-evolution/Locations.h:582
-#, fuzzy
 msgid "Denver"
-msgstr "_gach"
+msgstr ""
 
 #: my-evolution/Locations.h:583
 msgid "Denver-Aurora"
@@ -16858,14 +16478,12 @@ msgid "Desert Rock"
 msgstr ""
 
 #: my-evolution/Locations.h:587
-#, fuzzy
 msgid "Des Moines"
-msgstr "Guthán sa Baile"
+msgstr ""
 
 #: my-evolution/Locations.h:588
-#, fuzzy
 msgid "Destin"
-msgstr "Freagra"
+msgstr ""
 
 #: my-evolution/Locations.h:589
 msgid "Detroit"
@@ -16900,23 +16518,20 @@ msgid "Dickinson"
 msgstr ""
 
 #: my-evolution/Locations.h:597
-#, fuzzy
 msgid "Dijon"
-msgstr "Críochnaithe"
+msgstr ""
 
 #: my-evolution/Locations.h:598
 msgid "Dillingham"
 msgstr ""
 
 #: my-evolution/Locations.h:599
-#, fuzzy
 msgid "Dillon"
-msgstr "Críochnaithe"
+msgstr ""
 
 #: my-evolution/Locations.h:600
-#, fuzzy
 msgid "Dinard"
-msgstr "Priontáil carta"
+msgstr ""
 
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
@@ -16969,18 +16584,16 @@ msgid "Dortmund-Wickede"
 msgstr ""
 
 #: my-evolution/Locations.h:614
-#, fuzzy
 msgid "Dothan"
-msgstr "Críochnaithe"
+msgstr ""
 
 #: my-evolution/Locations.h:615
 msgid "Douglas"
 msgstr ""
 
 #: my-evolution/Locations.h:616
-#, fuzzy
 msgid "Dover"
-msgstr "Bog"
+msgstr ""
 
 #: my-evolution/Locations.h:617
 msgid "Dresden-Klotzsche"
@@ -16992,18 +16605,16 @@ msgstr ""
 
 # CU
 #: my-evolution/Locations.h:619
-#, fuzzy
 msgid "Dubai"
-msgstr "Cúba"
+msgstr ""
 
 #: my-evolution/Locations.h:620
 msgid "Dubbo"
 msgstr ""
 
 #: my-evolution/Locations.h:621
-#, fuzzy
 msgid "Dublin"
-msgstr "Dealaigh"
+msgstr "Baile Átha Cliath"
 
 #: my-evolution/Locations.h:622
 msgid "Du Bois"
@@ -17018,19 +16629,16 @@ msgid "Dubuque"
 msgstr ""
 
 #: my-evolution/Locations.h:625
-#, fuzzy
 msgid "Dugway"
-msgstr "La"
+msgstr ""
 
 #: my-evolution/Locations.h:626
-#, fuzzy
 msgid "Duluth"
-msgstr "Gnáth"
+msgstr ""
 
 #: my-evolution/Locations.h:627
-#, fuzzy
 msgid "Dundee"
-msgstr "Críochnaithe"
+msgstr ""
 
 #: my-evolution/Locations.h:628
 msgid "Durango"
@@ -17061,9 +16669,8 @@ msgid "Dyersburg"
 msgstr ""
 
 #: my-evolution/Locations.h:635
-#, fuzzy
 msgid "Eagle"
-msgstr "Chumasach"
+msgstr ""
 
 #: my-evolution/Locations.h:636
 msgid "Eagle Range"
@@ -17090,9 +16697,8 @@ msgid "Edinburgh"
 msgstr ""
 
 #: my-evolution/Locations.h:643
-#, fuzzy
 msgid "Edmonton"
-msgstr "mí"
+msgstr ""
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
@@ -17136,9 +16742,8 @@ msgstr ""
 
 # SV
 #: my-evolution/Locations.h:655
-#, fuzzy
 msgid "El Dorado"
-msgstr "An tSalvadóir"
+msgstr ""
 
 #: my-evolution/Locations.h:656
 msgid "Elefsis"
@@ -17161,23 +16766,20 @@ msgid "Elkhart"
 msgstr ""
 
 #: my-evolution/Locations.h:661
-#, fuzzy
 msgid "Elkins"
-msgstr "líosta"
+msgstr ""
 
 #: my-evolution/Locations.h:662
 msgid "Elko"
 msgstr ""
 
 #: my-evolution/Locations.h:663
-#, fuzzy
 msgid "Elmira"
-msgstr "Elm"
+msgstr ""
 
 #: my-evolution/Locations.h:664
-#, fuzzy
 msgid "El Monte"
-msgstr "Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:665
 msgid "El Paso"
@@ -17185,18 +16787,16 @@ msgstr ""
 
 # SV
 #: my-evolution/Locations.h:667
-#, fuzzy
 msgid "El Salvador Int."
-msgstr "An tSalvadóir"
+msgstr "An tSalvadóir Idirn."
 
 #: my-evolution/Locations.h:668
 msgid "Elsenborn"
 msgstr ""
 
 #: my-evolution/Locations.h:669
-#, fuzzy
 msgid "Ely"
-msgstr "Elm"
+msgstr ""
 
 #: my-evolution/Locations.h:670
 msgid "Emmonak"
@@ -17211,9 +16811,8 @@ msgid "Enid"
 msgstr ""
 
 #: my-evolution/Locations.h:673
-#, fuzzy
 msgid "Enid/Woodring"
-msgstr "Ag Obair"
+msgstr ""
 
 #: my-evolution/Locations.h:674
 msgid "Enosburg Falls"
@@ -17257,9 +16856,8 @@ msgstr ""
 
 # GN
 #: my-evolution/Locations.h:685
-#, fuzzy
 msgid "Eugene"
-msgstr "An Ghuine"
+msgstr ""
 
 #: my-evolution/Locations.h:686
 msgid "Eureka"
@@ -17278,9 +16876,8 @@ msgid "Evansville"
 msgstr ""
 
 #: my-evolution/Locations.h:690
-#, fuzzy
 msgid "Everett"
-msgstr "Gach"
+msgstr ""
 
 #: my-evolution/Locations.h:691
 msgid "Evergreen"
@@ -17291,18 +16888,16 @@ msgid "Evreux-Fauville"
 msgstr ""
 
 #: my-evolution/Locations.h:693
-#, fuzzy
 msgid "Exeter"
-msgstr "Aimsir"
+msgstr ""
 
 #: my-evolution/Locations.h:694
 msgid "Ezeiza"
 msgstr ""
 
 #: my-evolution/Locations.h:695
-#, fuzzy
 msgid "Fagernes"
-msgstr "Pager"
+msgstr ""
 
 #: my-evolution/Locations.h:696
 msgid "Fairbanks"
@@ -17317,9 +16912,8 @@ msgid "Fairfield"
 msgstr ""
 
 #: my-evolution/Locations.h:699
-#, fuzzy
 msgid "Fairmont"
-msgstr "Chlófhoireanna"
+msgstr ""
 
 #: my-evolution/Locations.h:700
 msgid "Fallon"
@@ -17338,28 +16932,24 @@ msgid "Farbanks/Eielson AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:704
-#, fuzzy
 msgid "Fargo"
-msgstr "Ó"
+msgstr ""
 
 #: my-evolution/Locations.h:705
-#, fuzzy
 msgid "Farmingdale"
-msgstr "Luaineach"
+msgstr ""
 
 #: my-evolution/Locations.h:706
 msgid "Farmington"
 msgstr ""
 
 #: my-evolution/Locations.h:707
-#, fuzzy
 msgid "Farmville"
-msgstr "Ainm Chlainn"
+msgstr ""
 
 #: my-evolution/Locations.h:708
-#, fuzzy
 msgid "Faro"
-msgstr "Ó"
+msgstr ""
 
 #: my-evolution/Locations.h:709
 msgid "Fayetteville"
@@ -17378,25 +16968,21 @@ msgid "Fernando De Noronha"
 msgstr ""
 
 #: my-evolution/Locations.h:713
-#, fuzzy
 msgid "Ferrara"
-msgstr "Feabhra"
+msgstr ""
 
 # NG
 #: my-evolution/Locations.h:714
-#, fuzzy
 msgid "Figari"
-msgstr "An Nigéir"
+msgstr ""
 
 #: my-evolution/Locations.h:715
-#, fuzzy
 msgid "Findlay"
-msgstr "Aoine"
+msgstr ""
 
 #: my-evolution/Locations.h:717
-#, fuzzy
 msgid "Firenze"
-msgstr "Saor"
+msgstr ""
 
 #: my-evolution/Locations.h:718
 msgid "Fitchburg"
@@ -17407,45 +16993,38 @@ msgid "Flagstaff"
 msgstr ""
 
 #: my-evolution/Locations.h:720
-#, fuzzy
 msgid "Flint"
-msgstr "líosta"
+msgstr ""
 
 # PH FIXME
 #: my-evolution/Locations.h:721
-#, fuzzy
 msgid "Flippin"
-msgstr "Na hOileáin"
+msgstr ""
 
 # FR
 #: my-evolution/Locations.h:722
-#, fuzzy
 msgid "Florence"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: my-evolution/Locations.h:723
-#, fuzzy
 msgid "Florennes"
-msgstr "Saor"
+msgstr ""
 
 #: my-evolution/Locations.h:724
-#, fuzzy
 msgid "Flores"
-msgstr "Sábháil Mar"
+msgstr ""
 
 #: my-evolution/Locations.h:725
 msgid "Florianopolis"
 msgstr ""
 
 #: my-evolution/Locations.h:726
-#, fuzzy
 msgid "Florida"
-msgstr "Aoine"
+msgstr ""
 
 #: my-evolution/Locations.h:727
-#, fuzzy
 msgid "Floro"
-msgstr "Ó"
+msgstr ""
 
 #: my-evolution/Locations.h:728
 msgid "Fond Du Lac"
@@ -17458,14 +17037,12 @@ msgid "Forde/Bringeland"
 msgstr "An Fhionlainn"
 
 #: my-evolution/Locations.h:730
-#, fuzzy
 msgid "Forli"
-msgstr "_Aoi"
+msgstr ""
 
 #: my-evolution/Locations.h:731
-#, fuzzy
 msgid "Formosa"
-msgstr "_Formáid"
+msgstr ""
 
 #: my-evolution/Locations.h:732
 msgid "Fortaleza"
@@ -17533,9 +17110,8 @@ msgstr ""
 
 # NO
 #: my-evolution/Locations.h:748
-#, fuzzy
 msgid "Fort Leonard"
-msgstr "Sheoladh"
+msgstr ""
 
 #: my-evolution/Locations.h:749
 msgid "Fort Lewis"
@@ -17546,9 +17122,8 @@ msgid "Fort Madison"
 msgstr ""
 
 #: my-evolution/Locations.h:751
-#, fuzzy
 msgid "Fort Meade"
-msgstr "Sheoladh Chuig duine"
+msgstr ""
 
 #: my-evolution/Locations.h:752
 msgid "Fort Myers (Page Field)"
@@ -17576,9 +17151,8 @@ msgstr ""
 
 # NO
 #: my-evolution/Locations.h:758
-#, fuzzy
 msgid "Fort Stewart"
-msgstr "Sheoladh"
+msgstr ""
 
 #: my-evolution/Locations.h:759
 msgid "Fort Stockton"
@@ -17637,37 +17211,32 @@ msgid "Frenchville"
 msgstr ""
 
 #: my-evolution/Locations.h:773
-#, fuzzy
 msgid "Fresno"
-msgstr "Ó"
+msgstr ""
 
 #: my-evolution/Locations.h:774
 msgid "Fresno-Chandler"
 msgstr ""
 
 #: my-evolution/Locations.h:775
-#, fuzzy
 msgid "Friday Harbor"
-msgstr "Aoine"
+msgstr ""
 
 #: my-evolution/Locations.h:776
 msgid "Friedrichshafen"
 msgstr ""
 
 #: my-evolution/Locations.h:777
-#, fuzzy
 msgid "Frigg"
-msgstr "_Aoi"
+msgstr ""
 
 #: my-evolution/Locations.h:778
-#, fuzzy
 msgid "Frontone"
-msgstr "Chlófhoireanna"
+msgstr ""
 
 #: my-evolution/Locations.h:779
-#, fuzzy
 msgid "Frosinone"
-msgstr "Dearbhú"
+msgstr ""
 
 #: my-evolution/Locations.h:780
 #, fuzzy
@@ -17711,9 +17280,8 @@ msgid "Gadsden"
 msgstr ""
 
 #: my-evolution/Locations.h:790
-#, fuzzy
 msgid "Gage"
-msgstr "Leathanach"
+msgstr ""
 
 #: my-evolution/Locations.h:791
 #, fuzzy
@@ -17734,9 +17302,8 @@ msgstr ""
 
 # GH
 #: my-evolution/Locations.h:795
-#, fuzzy
 msgid "Galena"
-msgstr "Gána"
+msgstr ""
 
 #: my-evolution/Locations.h:796
 msgid "Galesburg"
@@ -17755,9 +17322,8 @@ msgid "Gambell"
 msgstr ""
 
 #: my-evolution/Locations.h:800
-#, fuzzy
 msgid "Gander"
-msgstr "Bainisteoir"
+msgstr ""
 
 #: my-evolution/Locations.h:801
 msgid "Garden City"
@@ -17783,20 +17349,17 @@ msgstr ""
 
 # tg
 #: my-evolution/Locations.h:806
-#, fuzzy
 msgid "Gdansk"
-msgstr "Táidsícis"
+msgstr ""
 
 # GR
 #: my-evolution/Locations.h:807
-#, fuzzy
 msgid "Geneve"
-msgstr "An Ghréig"
+msgstr ""
 
 #: my-evolution/Locations.h:808
-#, fuzzy
 msgid "Genova"
-msgstr "Gnáth"
+msgstr ""
 
 #: my-evolution/Locations.h:809
 msgid "George Airport"
@@ -17808,9 +17371,8 @@ msgstr ""
 
 # GH
 #: my-evolution/Locations.h:813
-#, fuzzy
 msgid "Ghardaia"
-msgstr "Gána"
+msgstr ""
 
 #: my-evolution/Locations.h:814
 msgid "Ghedi"
@@ -17822,9 +17384,8 @@ msgstr ""
 
 # FI
 #: my-evolution/Locations.h:817
-#, fuzzy
 msgid "Gila Bend"
-msgstr "An Fhionlainn"
+msgstr ""
 
 #: my-evolution/Locations.h:818
 msgid "Gillette"
@@ -17840,9 +17401,8 @@ msgstr ""
 
 # GN
 #: my-evolution/Locations.h:821
-#, fuzzy
 msgid "Girona"
-msgstr "An Ghuine"
+msgstr ""
 
 # GH
 #: my-evolution/Locations.h:822
@@ -17892,9 +17452,8 @@ msgstr ""
 
 # CA
 #: my-evolution/Locations.h:832
-#, fuzzy
 msgid "Granada"
-msgstr "Ceanada"
+msgstr ""
 
 #: my-evolution/Locations.h:833
 msgid "Grand Canyon"
@@ -17910,9 +17469,8 @@ msgstr ""
 
 # GL
 #: my-evolution/Locations.h:836
-#, fuzzy
 msgid "Grand Island"
-msgstr "An Ghraonlainn"
+msgstr ""
 
 #: my-evolution/Locations.h:837
 msgid "Grand Isle"
@@ -20129,31 +19687,26 @@ msgid "McAlester"
 msgstr ""
 
 #: my-evolution/Locations.h:1352
-#, fuzzy
 msgid "McAllen"
-msgstr "Gach Rud"
+msgstr ""
 
 #: my-evolution/Locations.h:1353
-#, fuzzy
 msgid "McCall"
-msgstr "Post"
+msgstr ""
 
 # mr
 #: my-evolution/Locations.h:1354
-#, fuzzy
 msgid "McCarthy"
-msgstr "Marataí"
+msgstr ""
 
 # IS
 #: my-evolution/Locations.h:1355
-#, fuzzy
 msgid "McClellan"
-msgstr "An Íoslainn"
+msgstr ""
 
 #: my-evolution/Locations.h:1356
-#, fuzzy
 msgid "McComb"
-msgstr "Teor."
+msgstr ""
 
 #: my-evolution/Locations.h:1357
 msgid "McCook"
@@ -20174,9 +19727,8 @@ msgid "Meacham"
 msgstr "Marataí"
 
 #: my-evolution/Locations.h:1361
-#, fuzzy
 msgid "Medford"
-msgstr "riomh"
+msgstr ""
 
 #: my-evolution/Locations.h:1362
 msgid "Medicine Lodge"
@@ -20197,9 +19749,8 @@ msgstr ""
 
 # MT
 #: my-evolution/Locations.h:1366
-#, fuzzy
 msgid "Melfa"
-msgstr "Málta"
+msgstr ""
 
 #: my-evolution/Locations.h:1367
 msgid "Melilla"
@@ -20218,9 +19769,8 @@ msgid "Memphis-NAS"
 msgstr ""
 
 #: my-evolution/Locations.h:1371
-#, fuzzy
 msgid "Mendoza"
-msgstr "Luain"
+msgstr ""
 
 #: my-evolution/Locations.h:1372
 msgid "Mene Grande"
@@ -20239,9 +19789,8 @@ msgid "Merced"
 msgstr ""
 
 #: my-evolution/Locations.h:1376
-#, fuzzy
 msgid "Merida"
-msgstr "Aoine"
+msgstr ""
 
 #: my-evolution/Locations.h:1377
 msgid "Meridian"
@@ -20273,14 +19822,12 @@ msgstr ""
 
 # MX
 #: my-evolution/Locations.h:1384
-#, fuzzy
 msgid "Mexicali"
-msgstr "Meicsiceo"
+msgstr ""
 
 #: my-evolution/Locations.h:1386
-#, fuzzy
 msgid "Miami"
-msgstr "Post"
+msgstr ""
 
 #: my-evolution/Locations.h:1387
 msgid "Miami-Kendall"
@@ -20295,24 +19842,21 @@ msgid "Michigan"
 msgstr ""
 
 #: my-evolution/Locations.h:1390
-#, fuzzy
 msgid "Middle East"
-msgstr "_Méan:"
+msgstr "An Meánoirthear"
 
 #: my-evolution/Locations.h:1391
 msgid "Middleton Island"
 msgstr ""
 
 #: my-evolution/Locations.h:1392
-#, fuzzy
 msgid "Middletown"
-msgstr "_Méan:"
+msgstr ""
 
 # FI
 #: my-evolution/Locations.h:1393
-#, fuzzy
 msgid "Midland"
-msgstr "An Fhionlainn"
+msgstr ""
 
 #: my-evolution/Locations.h:1394
 msgid "Miho Ab"
@@ -20327,9 +19871,8 @@ msgid "Milano/Malpensa"
 msgstr ""
 
 #: my-evolution/Locations.h:1397
-#, fuzzy
 msgid "Miles City"
-msgstr "Cinéal Comhad:"
+msgstr ""
 
 #: my-evolution/Locations.h:1398
 msgid "Milford"
@@ -20344,9 +19887,8 @@ msgid "Millville"
 msgstr ""
 
 #: my-evolution/Locations.h:1401
-#, fuzzy
 msgid "Milton"
-msgstr "Post do %s"
+msgstr ""
 
 #: my-evolution/Locations.h:1402
 msgid "Milwaukee"
@@ -20366,9 +19908,8 @@ msgstr ""
 
 # fr 
 #: my-evolution/Locations.h:1406
-#, fuzzy
 msgid "Minchumina"
-msgstr "Fraincis"
+msgstr ""
 
 #: my-evolution/Locations.h:1407
 msgid "Mineralnye Vody"
@@ -20391,18 +19932,16 @@ msgid "Minneapolis [3]"
 msgstr ""
 
 #: my-evolution/Locations.h:1412
-#, fuzzy
 msgid "Minnesota"
-msgstr "Noimeaíd"
+msgstr ""
 
 #: my-evolution/Locations.h:1413
 msgid "Minocqua"
 msgstr ""
 
 #: my-evolution/Locations.h:1414
-#, fuzzy
 msgid "Minot"
-msgstr "Noimeaíd"
+msgstr ""
 
 #: my-evolution/Locations.h:1415
 msgid "Minot AFB"
@@ -20441,23 +19980,20 @@ msgid "Miyazaki Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1424
-#, fuzzy
 msgid "Moa"
-msgstr "Lu"
+msgstr ""
 
 #: my-evolution/Locations.h:1425
-#, fuzzy
 msgid "Mobile Downtown"
-msgstr "Fón Phóca"
+msgstr ""
 
 #: my-evolution/Locations.h:1426
 msgid "Mobile Regional Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1427
-#, fuzzy
 msgid "Mobridge"
-msgstr "Gúthan Póca"
+msgstr ""
 
 #: my-evolution/Locations.h:1428
 msgid "Modesto"
@@ -20468,19 +20004,16 @@ msgid "Mo I Rana"
 msgstr ""
 
 #: my-evolution/Locations.h:1430
-#, fuzzy
 msgid "Mojave"
-msgstr "Bog"
+msgstr ""
 
 #: my-evolution/Locations.h:1431
-#, fuzzy
 msgid "Molde"
-msgstr "Gúthan Póca"
+msgstr ""
 
 #: my-evolution/Locations.h:1432
-#, fuzzy
 msgid "Moldova"
-msgstr "Luain"
+msgstr ""
 
 #: my-evolution/Locations.h:1433
 msgid "Moline-Quad Cities"
@@ -20488,9 +20021,8 @@ msgstr ""
 
 # MW
 #: my-evolution/Locations.h:1434
-#, fuzzy
 msgid "Molokai"
-msgstr "Malawi"
+msgstr ""
 
 #: my-evolution/Locations.h:1435
 msgid "Mombetsu Airport"
@@ -20502,20 +20034,17 @@ msgstr ""
 
 # MC
 #: my-evolution/Locations.h:1437
-#, fuzzy
 msgid "Monclova"
-msgstr "Monacó"
+msgstr ""
 
 # MC
 #: my-evolution/Locations.h:1438
-#, fuzzy
 msgid "Moncton"
-msgstr "Monacó"
+msgstr ""
 
 #: my-evolution/Locations.h:1439
-#, fuzzy
 msgid "Monida"
-msgstr "Luain"
+msgstr ""
 
 #: my-evolution/Locations.h:1440
 msgid "Monpellier-Mediterrannee"
@@ -20523,19 +20052,16 @@ msgstr ""
 
 # MC
 #: my-evolution/Locations.h:1441
-#, fuzzy
 msgid "Monroe"
-msgstr "Monacó"
+msgstr ""
 
 #: my-evolution/Locations.h:1442
-#, fuzzy
 msgid "Montague"
-msgstr "Bainisteoir"
+msgstr ""
 
 #: my-evolution/Locations.h:1443
-#, fuzzy
 msgid "Montana"
-msgstr "Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:1444
 msgid "Mont-de-Marsan"
@@ -20554,29 +20080,25 @@ msgid "Monte Calamita"
 msgstr ""
 
 #: my-evolution/Locations.h:1448
-#, fuzzy
 msgid "Monte Cimone"
-msgstr "Radharc Mí"
+msgstr ""
 
 # MN
 #: my-evolution/Locations.h:1449
-#, fuzzy
 msgid "Montego Bay"
-msgstr "An Mhóngóil"
+msgstr ""
 
 #: my-evolution/Locations.h:1450
 msgid "Monte Malanotte"
 msgstr ""
 
 #: my-evolution/Locations.h:1451
-#, fuzzy
 msgid "Monterey"
-msgstr "Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:1452
-#, fuzzy
 msgid "Monterrey"
-msgstr "Idirbhríste"
+msgstr ""
 
 #: my-evolution/Locations.h:1453
 msgid "Monte Scuro"
@@ -20600,14 +20122,12 @@ msgstr ""
 
 # MC
 #: my-evolution/Locations.h:1458
-#, fuzzy
 msgid "Monticello"
-msgstr "Monacó"
+msgstr ""
 
 #: my-evolution/Locations.h:1459
-#, fuzzy
 msgid "Montpelier"
-msgstr "Radharc Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:1460
 msgid "Montreal Dorval"
@@ -20622,9 +20142,8 @@ msgid "Montreal Saint-Hubert"
 msgstr ""
 
 #: my-evolution/Locations.h:1463
-#, fuzzy
 msgid "Montrose"
-msgstr "Chlófhoireanna"
+msgstr ""
 
 #: my-evolution/Locations.h:1464
 msgid "Montrose (2)"
@@ -20632,19 +20151,16 @@ msgstr ""
 
 # MN
 #: my-evolution/Locations.h:1465
-#, fuzzy
 msgid "Morelia"
-msgstr "An Mhóngóil"
+msgstr ""
 
 #: my-evolution/Locations.h:1466
-#, fuzzy
 msgid "Morgantown"
-msgstr "Eagrú"
+msgstr ""
 
 #: my-evolution/Locations.h:1467
-#, fuzzy
 msgid "Moriarty"
-msgstr "Tosaíocht"
+msgstr ""
 
 #: my-evolution/Locations.h:1469
 msgid "Morristown"
@@ -20663,9 +20179,8 @@ msgid "Moses Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:1473
-#, fuzzy
 msgid "Mosinee"
-msgstr "Gúthan Póca"
+msgstr ""
 
 #: my-evolution/Locations.h:1474
 msgid "Mosjoen"
@@ -20680,9 +20195,8 @@ msgid "Mountain Home"
 msgstr ""
 
 #: my-evolution/Locations.h:1477
-#, fuzzy
 msgid "Mountain View"
-msgstr "Radharc Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:1478
 msgid "Mount Clemens"
@@ -20697,9 +20211,8 @@ msgid "Mount Shasta"
 msgstr ""
 
 #: my-evolution/Locations.h:1481
-#, fuzzy
 msgid "Mount Vernon"
-msgstr "Radharc Mí"
+msgstr ""
 
 #: my-evolution/Locations.h:1482
 msgid "Mount Wilson"
@@ -21945,7 +21458,7 @@ msgstr "An Pholainn"
 #: my-evolution/Locations.h:1771
 #, fuzzy
 msgid "Port Alexander"
-msgstr "Priontáil Feilire"
+msgstr "Priontáil Féilire"
 
 #: my-evolution/Locations.h:1772
 msgid "Port Alsworth"
@@ -22201,7 +21714,7 @@ msgstr ""
 #: my-evolution/Locations.h:1828
 #, fuzzy
 msgid "Punta Cana"
-msgstr "Priontáil Feilire"
+msgstr "Priontáil Féilire"
 
 #: my-evolution/Locations.h:1829
 msgid "Punta Gorda"
@@ -22229,9 +21742,8 @@ msgid "Quantico"
 msgstr "Freagra"
 
 #: my-evolution/Locations.h:1836
-#, fuzzy
 msgid "Quebec"
-msgstr "Abair"
+msgstr ""
 
 #: my-evolution/Locations.h:1837
 msgid "Quebec City"
@@ -24460,9 +23972,8 @@ msgid "Valdosta-Moody AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2358
-#, fuzzy
 msgid "Valencia"
-msgstr "Feilire"
+msgstr ""
 
 #: my-evolution/Locations.h:2359
 msgid "Valentine"
@@ -24489,9 +24000,8 @@ msgid "Valparaiso-Eglin AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2365
-#, fuzzy
 msgid "Van"
-msgstr "Bain."
+msgstr ""
 
 #: my-evolution/Locations.h:2366
 msgid "Vancouver"
@@ -24499,9 +24009,8 @@ msgstr ""
 
 # FR
 #: my-evolution/Locations.h:2367
-#, fuzzy
 msgid "Vandel"
-msgstr "An Fhrainc"
+msgstr ""
 
 #: my-evolution/Locations.h:2368
 msgid "Vandenberg AFB"
@@ -24516,9 +24025,8 @@ msgid "Van Nuys"
 msgstr ""
 
 #: my-evolution/Locations.h:2371
-#, fuzzy
 msgid "Varadero"
-msgstr "Luaineach"
+msgstr ""
 
 #: my-evolution/Locations.h:2372
 msgid "Varanasi/Babatpur"
@@ -24530,9 +24038,8 @@ msgid "Varna"
 msgstr "Luaineach"
 
 #: my-evolution/Locations.h:2374
-#, fuzzy
 msgid "Vasteras"
-msgstr "Greamaigh"
+msgstr ""
 
 #: my-evolution/Locations.h:2375
 msgid "Vaxjo"
@@ -24540,14 +24047,12 @@ msgstr ""
 
 # VE
 #: my-evolution/Locations.h:2376
-#, fuzzy
 msgid "Venezia"
-msgstr "Veiniséala"
+msgstr ""
 
 #: my-evolution/Locations.h:2378
-#, fuzzy
 msgid "Venice"
-msgstr "Uincód"
+msgstr ""
 
 #: my-evolution/Locations.h:2379
 msgid "Veracruz"
@@ -24558,14 +24063,12 @@ msgid "Vermillion"
 msgstr ""
 
 #: my-evolution/Locations.h:2381
-#, fuzzy
 msgid "Vermont"
-msgstr "mí"
+msgstr ""
 
 #: my-evolution/Locations.h:2382
-#, fuzzy
 msgid "Vernal"
-msgstr "Gnáth"
+msgstr ""
 
 #: my-evolution/Locations.h:2383
 msgid "Vero Beach"
@@ -24573,9 +24076,8 @@ msgstr ""
 
 # VE
 #: my-evolution/Locations.h:2384
-#, fuzzy
 msgid "Vicenza"
-msgstr "Veiniséala"
+msgstr ""
 
 #: my-evolution/Locations.h:2385
 msgid "Vichy-Charmeil"
@@ -24598,9 +24100,8 @@ msgid "Vigo"
 msgstr ""
 
 #: my-evolution/Locations.h:2391
-#, fuzzy
 msgid "Vilhena"
-msgstr "Ainm Chomad:"
+msgstr ""
 
 #: my-evolution/Locations.h:2392
 msgid "Villacoublay"
@@ -24670,9 +24171,8 @@ msgstr ""
 
 # EI
 #: my-evolution/Locations.h:2408
-#, fuzzy
 msgid "Vlieland"
-msgstr "Éire"
+msgstr ""
 
 #: my-evolution/Locations.h:2409
 msgid "Vojens/Skrydstrup"
@@ -24700,9 +24200,8 @@ msgstr ""
 
 # MC
 #: my-evolution/Locations.h:2415
-#, fuzzy
 msgid "Waco"
-msgstr "Monacó"
+msgstr ""
 
 #: my-evolution/Locations.h:2416
 msgid "Wadi Al Dawasser Airport"
@@ -24754,9 +24253,8 @@ msgid "Washington/Dulles"
 msgstr ""
 
 #: my-evolution/Locations.h:2428
-#, fuzzy
 msgid "Waterbury"
-msgstr "Aimsir"
+msgstr ""
 
 #: my-evolution/Locations.h:2429
 #, fuzzy
@@ -24794,9 +24292,8 @@ msgid "Webster City"
 msgstr "Idirlíon"
 
 #: my-evolution/Locations.h:2437
-#, fuzzy
 msgid "Wejh"
-msgstr "Ce"
+msgstr ""
 
 #: my-evolution/Locations.h:2438
 msgid "Wellington"
@@ -24891,14 +24388,12 @@ msgid "Wichita-McConnell AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2460
-#, fuzzy
 msgid "Wick"
-msgstr "L.ainm."
+msgstr ""
 
 #: my-evolution/Locations.h:2461
-#, fuzzy
 msgid "Wien"
-msgstr "Ce"
+msgstr "Vín"
 
 #: my-evolution/Locations.h:2462
 msgid "Wildwood"
@@ -24917,9 +24412,8 @@ msgid "Williamsport"
 msgstr ""
 
 #: my-evolution/Locations.h:2466
-#, fuzzy
 msgid "Williston"
-msgstr "líosta"
+msgstr ""
 
 #: my-evolution/Locations.h:2467
 msgid "Willoughby"
@@ -24958,9 +24452,8 @@ msgid "Winnipeg"
 msgstr ""
 
 #: my-evolution/Locations.h:2476
-#, fuzzy
 msgid "Winslow"
-msgstr "anois"
+msgstr ""
 
 #: my-evolution/Locations.h:2477
 msgid "Winston-Salem"
@@ -24971,27 +24464,24 @@ msgid "Winter Haven"
 msgstr ""
 
 #: my-evolution/Locations.h:2479
-#, fuzzy
 msgid "Winter Park"
-msgstr "Pasfhocal, le do thoil"
+msgstr ""
 
 #: my-evolution/Locations.h:2480
 msgid "Wiscasset"
 msgstr ""
 
 #: my-evolution/Locations.h:2481
-#, fuzzy
 msgid "Wisconsin"
-msgstr "soicind"
+msgstr ""
 
 #: my-evolution/Locations.h:2482
 msgid "Wisconsin Rapids"
 msgstr ""
 
 #: my-evolution/Locations.h:2483
-#, fuzzy
 msgid "Wise"
-msgstr "Ce"
+msgstr ""
 
 #: my-evolution/Locations.h:2484
 msgid "Woensdrecht"
@@ -25006,25 +24496,21 @@ msgid "Woong Cheon"
 msgstr ""
 
 #: my-evolution/Locations.h:2487
-#, fuzzy
 msgid "Wooster"
-msgstr "Scríobhóir"
+msgstr ""
 
 #: my-evolution/Locations.h:2488
-#, fuzzy
 msgid "Worcester"
-msgstr "Aimsir"
+msgstr ""
 
 # PL
 #: my-evolution/Locations.h:2489
-#, fuzzy
 msgid "Worland"
-msgstr "An Pholainn"
+msgstr ""
 
 #: my-evolution/Locations.h:2490
-#, fuzzy
 msgid "Worthington"
-msgstr "Ag Obair"
+msgstr ""
 
 #: my-evolution/Locations.h:2491
 msgid "Wrangell"
@@ -25039,14 +24525,12 @@ msgid "Wuchia Observatory"
 msgstr ""
 
 #: my-evolution/Locations.h:2494
-#, fuzzy
 msgid "Wyoming"
-msgstr "Ag Obair"
+msgstr ""
 
 #: my-evolution/Locations.h:2495
-#, fuzzy
 msgid "Xiamen"
-msgstr "Am"
+msgstr ""
 
 #: my-evolution/Locations.h:2496
 msgid "Yacuiba"
@@ -25101,9 +24585,8 @@ msgid "Yellowstone"
 msgstr ""
 
 #: my-evolution/Locations.h:2510
-#, fuzzy
 msgid "Yenbo"
-msgstr "Imbosca"
+msgstr ""
 
 #: my-evolution/Locations.h:2511
 msgid "Yeoju Range"
@@ -25166,14 +24649,12 @@ msgid "Zacatecas"
 msgstr ""
 
 #: my-evolution/Locations.h:2527
-#, fuzzy
 msgid "Zadar"
-msgstr "Feilire"
+msgstr ""
 
 #: my-evolution/Locations.h:2528
-#, fuzzy
 msgid "Zagreb"
-msgstr "Leathanach"
+msgstr ""
 
 #: my-evolution/Locations.h:2529
 msgid "Zakinthos"
@@ -25184,15 +24665,13 @@ msgid "Zama Airfield"
 msgstr ""
 
 #: my-evolution/Locations.h:2531
-#, fuzzy
 msgid "Zanesville"
-msgstr "Ceangailte"
+msgstr ""
 
 # PY
 #: my-evolution/Locations.h:2532
-#, fuzzy
 msgid "Zaragoza"
-msgstr "Paraguay"
+msgstr ""
 
 #: my-evolution/Locations.h:2533
 msgid "Zell Am See"
@@ -25204,9 +24683,8 @@ msgstr ""
 
 # tr
 #: my-evolution/Locations.h:2535
-#, fuzzy
 msgid "Zurich"
-msgstr "Tuircis"
+msgstr ""
 
 #: my-evolution/component-factory.c:56
 msgid "Folder containing the Evolution Summary"
@@ -25267,9 +24745,8 @@ msgid "News Feed"
 msgstr "Bealach Nuachtáin"
 
 #: my-evolution/e-summary-shown.c:496
-#, fuzzy
 msgid "All"
-msgstr "Gach Rud"
+msgstr "Gach Uile"
 
 # SE
 #: my-evolution/e-summary-shown.c:521 my-evolution/e-summary-table.c:58
@@ -25283,7 +24760,7 @@ msgstr "Gan Teascanna"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "blue"
-msgstr ""
+msgstr "gorm"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
@@ -25327,14 +24804,12 @@ msgid "Printing of Summary failed"
 msgstr ""
 
 #: my-evolution/metar.c:30
-#, fuzzy
 msgid " F"
-msgstr ", "
+msgstr " F"
 
 #: my-evolution/metar.c:30
-#, fuzzy
 msgid " C"
-msgstr ", "
+msgstr " C"
 
 # MC
 #: my-evolution/metar.c:34
@@ -26570,18 +26045,16 @@ msgid "Weather Settings"
 msgstr "Albachtaí Phoist"
 
 #: my-evolution/my-evolution.glade.h:18
-#, fuzzy
 msgid "_Delete Feed"
-msgstr "Scríoste"
+msgstr "_Scrios Fotha"
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "_Fahrenheit"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:20
-#, fuzzy
 msgid "_Five days"
-msgstr "Aoine"
+msgstr "_Cúig lá"
 
 #: my-evolution/my-evolution.glade.h:21
 msgid "_Max number of items shown:"
@@ -26606,11 +26079,8 @@ msgid "Configure special folders and offline folder behavior here"
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell"
 msgstr ""
-"Go raibh maith agat\n"
-"An Fhoireann Evolution\n"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:3
 msgid "Evolution folder settings configuration control"
@@ -26642,9 +26112,8 @@ msgid "\"%s\" in \"%s\""
 msgstr "Oscáil san %s..."
 
 #: shell/e-folder-list.c:338
-#, fuzzy
 msgid "Add a Folder"
-msgstr "Fillteán _Nua"
+msgstr "Cuir Fillteán Leis"
 
 # DE
 #: shell/e-local-storage.c:179
@@ -26716,9 +26185,8 @@ msgid "Select Default Folder"
 msgstr "_Fillteáin Speisíalta"
 
 #: shell/e-shell-config-folder-settings.c:70
-#, fuzzy
 msgid "Default Folders"
-msgstr "_Fillteáin Speisíalta"
+msgstr "Fillteáin Gnáth"
 
 #: shell/e-shell-config-folder-settings.c:73
 #, fuzzy
@@ -26731,14 +26199,14 @@ msgid "Autocompletion Folders"
 msgstr "_Fillteán"
 
 #: shell/e-shell-folder-commands.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy folder: %s"
-msgstr "Teíp ag fork: %s"
+msgstr "Ní féidir cóip a dhéanamh don fillteán: %s"
 
 #: shell/e-shell-folder-commands.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move folder: %s"
-msgstr "Ag oscailt an t-eolaire %s"
+msgstr "Ní féidir an fillteán a bhogadh: %s"
 
 #: shell/e-shell-folder-commands.c:188
 msgid "Cannot move a folder over itself."
@@ -26758,7 +26226,6 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:323
-#, fuzzy
 msgid "Copy Folder"
 msgstr "Cóip Fillteán"
 
@@ -26768,9 +26235,8 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:367
-#, fuzzy
 msgid "Move Folder"
-msgstr "Sábháil 'san _fillteán"
+msgstr "Bog Fillteán"
 
 #: shell/e-shell-folder-commands.c:391
 #, c-format
@@ -26836,9 +26302,8 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:318
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Fillteán _Nua"
+msgstr "Cruthaigh Fillteán Nua"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
@@ -26888,9 +26353,8 @@ msgstr ""
 
 #: shell/e-shell-importer.c:465 shell/e-shell-importer.c:482
 #: shell/e-shell-importer.c:524
-#, fuzzy
 msgid "Evolution Error"
-msgstr "Evolution "
+msgstr "Earráid Evolution"
 
 #: shell/e-shell-importer.c:481
 #, c-format
@@ -26929,7 +26393,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:594
 msgid "Automatic"
-msgstr ""
+msgstr "Uathoibríoch"
 
 #: shell/e-shell-importer.c:643
 msgid "Filename:"
@@ -27038,6 +26502,20 @@ msgstr "Teíp ag fork: %s"
 msgid "Cannot find the specified shared folder."
 msgstr ""
 
+#: shell/e-shell-startup-wizard.c:771
+msgid ""
+"If you quit the Evolution Setup Assistant now, all of the information that "
+"you have entered will be forgotten. You will need to run this assistant "
+"again before using Evolution.\n"
+"\n"
+"Do you want to quit using the Assistant now?"
+msgstr ""
+
+#: shell/e-shell-startup-wizard.c:782
+#, fuzzy
+msgid "Quit Assistant"
+msgstr "Cúntóir"
+
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
 #: widgets/misc/e-charset-picker.c:109
@@ -27082,9 +26560,8 @@ msgid "Bug buddy could not be run."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:247
-#, fuzzy
 msgid "About Ximian Evolution"
-msgstr "Faoi Evolution..."
+msgstr "Faoi Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:502
 msgid "Go to folder..."
@@ -27095,9 +26572,8 @@ msgid "Select the folder that you want to open"
 msgstr ""
 
 #: shell/e-shell-view-menu.c:617
-#, fuzzy
 msgid "Create New Shortcut"
-msgstr "Scríos an sceal seo"
+msgstr "Cruthaigh Aicearra Nua"
 
 #: shell/e-shell-view-menu.c:618
 msgid "Select the folder you want the shortcut to point to:"
@@ -27105,7 +26581,7 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:769
 msgid "_Work Online"
-msgstr "Sheoladh Chuig duine"
+msgstr ""
 
 #: shell/e-shell-view-menu.c:782 ui/evolution.xml.h:65
 msgid "_Work Offline"
@@ -27218,9 +26694,8 @@ msgid "Show the shortcuts as large icons"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:270
-#, fuzzy
 msgid "_Add Group..."
-msgstr "Grupa _Nua..."
+msgstr "_Cuir Grúpa Leis..."
 
 #: shell/e-shortcuts-view.c:271
 msgid "Create a new shortcut group"
@@ -27253,14 +26728,12 @@ msgid "Hide the shortcut bar"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:288
-#, fuzzy
 msgid "Create _Default Shortcuts"
-msgstr "Scríos an sceal seo"
+msgstr "Cruthaigh Aicearraí _Loicthe"
 
 #: shell/e-shortcuts-view.c:289
-#, fuzzy
 msgid "Create Default Shortcuts"
-msgstr "Scríos an sceal seo"
+msgstr "Cruthaigh Aicearraí Loicthe"
 
 #: shell/e-shortcuts-view.c:408
 #, fuzzy
@@ -27477,9 +26950,8 @@ msgid "Test type"
 msgstr "Cinéal Comhad:"
 
 #: shell/evolution-test-component.c:703
-#, fuzzy
 msgid "Evolution Test Component"
-msgstr "Alairm Evolution"
+msgstr "Comhpháirt Trialach Evolution"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 #, fuzzy
@@ -27495,16 +26967,12 @@ msgid "The following connections are currently active:"
 msgstr ""
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Feilire"
+msgstr "Fé_ilire:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr ""
-"\n"
-"Trácht:"
+msgstr "_Tadhallaí"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
 #, fuzzy
@@ -27518,14 +26986,12 @@ msgid "_Tasks:"
 msgstr "Teascanna"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-#, fuzzy
 msgid "Folder _name:"
-msgstr "Ainm Fillteán:"
+msgstr "Ai_nm Fillteán:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#, fuzzy
 msgid "Folder _type:"
-msgstr "Saghas Fillteán:"
+msgstr "_Saghas fillteán:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -27537,14 +27003,12 @@ msgid "Open Other User's Folder"
 msgstr "Fillteán _Nua"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Cuntas"
+msgstr "_Cuntas:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
-msgstr "Ainm Fillteán:"
+msgstr "Ainm _Fillteán:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
 #, fuzzy
@@ -27673,11 +27137,8 @@ msgid "Don't tell me again"
 msgstr ""
 
 #: shell/main.c:401
-#, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr ""
-"Go raibh maith agat\n"
-"An Fhoireann Evolution\n"
 
 #: shell/main.c:410
 #, c-format
@@ -27740,9 +27201,8 @@ msgid "The filename to display in the mail."
 msgstr ""
 
 #: tools/evolution-launch-composer.c:327
-#, fuzzy
 msgid "Description of the attachment."
-msgstr "_Coinne"
+msgstr "Cur síos an cheangaltáin"
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
@@ -27756,9 +27216,9 @@ msgstr ""
 #. * found, so just bail completely.
 #.
 #: tools/killev.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Teíp ag fork: %s"
+msgstr "Níorbh fhéidir '%s' a chur i gcrích: %s\n"
 
 #: tools/killev.c:78
 #, c-format
@@ -27775,9 +27235,8 @@ msgid "Copy the selection"
 msgstr ""
 
 #: ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Copy to Folder..."
-msgstr "_Cóip do Fillteán..."
+msgstr "Cóip do Fillteán..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -27789,14 +27248,12 @@ msgid "Delete selected contacts"
 msgstr "Scríos an tadhallaí seo"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Fillteán _Nua"
+msgstr "Bog Tadhall(aí) go Fillteán Eile"
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "Move to Folder..."
-msgstr "Sábháil 'san _fillteán"
+msgstr "Bog go Fillteán..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
@@ -27863,7 +27320,7 @@ msgstr ""
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:42
 msgid "_Actions"
-msgstr ""
+msgstr "_Gníomhartha"
 
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
@@ -27892,26 +27349,23 @@ msgstr "_Post sceál do Tadhall..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr "La"
+msgstr "Lá"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Delete All Occurrences"
 msgstr ""
 
 #: ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete the appointment"
-msgstr "Scríos an sceal seo"
+msgstr "Scrios an coinne seo"
 
 #: ui/evolution-calendar.xml.h:7
-#, fuzzy
 msgid "Delete this Occurrence"
-msgstr "Scríos an líosta seo"
+msgstr "Scríos an Tarlú seo"
 
 #: ui/evolution-calendar.xml.h:8
-#, fuzzy
 msgid "Delete this occurrence"
-msgstr "Scríos an líosta seo"
+msgstr "Scríos an tarlú seo"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Go To"
@@ -27948,7 +27402,7 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Print this calendar"
-msgstr "Priontáil an feilire seo"
+msgstr "Priontáil an féilire seo"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Publish Free/Busy information for this calendar"
@@ -28689,9 +28143,8 @@ msgid "_Attached"
 msgstr "_Iatán"
 
 #: ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "_Copy to Folder"
-msgstr "_Fillteán"
+msgstr "_Cóip go Fillteán"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
@@ -28723,9 +28176,8 @@ msgid "_Message Display"
 msgstr "_Post sceál"
 
 #: ui/evolution-mail-message.xml.h:103
-#, fuzzy
 msgid "_Move to Folder"
-msgstr "Sábháil 'san _fillteán"
+msgstr "_Bog go Fillteán"
 
 #: ui/evolution-mail-message.xml.h:104
 #, fuzzy
@@ -28781,11 +28233,11 @@ msgstr "_Radharc"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr ""
+msgstr "Ceangal"
 
 #: ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "Ceangal comhad"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
 msgid "Close the current file"
@@ -28922,7 +28374,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "_Attachment..."
-msgstr "_Iatán"
+msgstr "_Ceangaltán..."
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "_Bcc Field"
@@ -29060,7 +28512,7 @@ msgstr "Clodaigh teachtairecht seo"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
-msgstr "Faoi Evolution..."
+msgstr "Faoi Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
@@ -29088,9 +28540,8 @@ msgid "Create a new folder"
 msgstr ""
 
 #: ui/evolution.xml.h:10
-#, fuzzy
 msgid "Create a new shortcut"
-msgstr "Scríos an sceal seo"
+msgstr "Cruthaigh aicearra nua"
 
 #: ui/evolution.xml.h:11
 msgid "Create a new window displaying this folder"
@@ -29217,9 +28668,8 @@ msgid "_Folder Bar"
 msgstr ""
 
 #: ui/evolution.xml.h:49
-#, fuzzy
 msgid "_Folder..."
-msgstr "_Fillteán"
+msgstr "_Fillteán..."
 
 #: ui/evolution.xml.h:50
 msgid "_Go to Folder..."
@@ -29293,9 +28743,8 @@ msgid "By _Company"
 msgstr "_Teoranta:"
 
 #: views/addressbook/galview.xml.h:2
-#, fuzzy
 msgid "_Address Cards"
-msgstr "Cartaí Sheoladh"
+msgstr "C_artaí Sheoladh"
 
 #: views/addressbook/galview.xml.h:3
 #, fuzzy
@@ -29308,24 +28757,20 @@ msgid "W_eek View"
 msgstr "Radharc Seachtain"
 
 #: views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "_Day View"
-msgstr "Radharc Lá"
+msgstr "Radharc _Lá"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_Month View"
-msgstr "Radharc Mí"
+msgstr "Radharc _Mí"
 
 #: views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "_Work Week View"
-msgstr "Radharc Seachtain"
+msgstr "Radharc Seachtain _Oibre"
 
 #: views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As Sent Folder"
-msgstr "Fillteán _Nua"
+msgstr "Mar Fillteán Seolta"
 
 #: views/mail/galview.xml.h:2
 msgid "By Follow Up Flag"
@@ -29392,9 +28837,8 @@ msgstr ""
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:349
-#, fuzzy
 msgid "Custom View"
-msgstr "Radharc Carta"
+msgstr "Sainradharc"
 
 #: widgets/menus/gal-view-menus.c:358
 #, fuzzy
@@ -29435,9 +28879,8 @@ msgstr ""
 
 # bn 
 #: widgets/misc/e-charset-picker.c:61
-#, fuzzy
 msgid "Baltic"
-msgstr "Beangálaí"
+msgstr ""
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Central European"
@@ -29546,9 +28989,8 @@ msgid "_Edit Saved Searches..."
 msgstr "Sábháil 'san _fillteán"
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
-msgstr "_Iatán"
+msgstr "_Ardmód..."
 
 #: widgets/misc/e-messagebox.c:154
 msgid "Information"
@@ -29568,16 +29010,15 @@ msgstr "Sceál"
 
 #: widgets/misc/e-search-bar.c:531
 msgid "_Search"
-msgstr "C_uardaigh..."
+msgstr "C_uardaigh"
 
 #: widgets/misc/e-search-bar.c:537
 msgid "_Find Now"
 msgstr ""
 
 #: widgets/misc/e-search-bar.c:538
-#, fuzzy
 msgid "_Clear"
-msgstr "Glan"
+msgstr "_Folmhaigh"
 
 #: widgets/misc/e-search-bar.c:836
 msgid "Item ID"
@@ -29614,7 +29055,9 @@ msgid "Evolution Addressbook local file backend"
 msgstr ""
 
 #~ msgid "Save As..."
-#~ msgstr "Sábháil le..."
+#~ msgstr ""
+#~ "SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡bhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il "
+#~ "le..."
 
 #~ msgid "Search"
 #~ msgstr "Cuardaigh"
@@ -29640,7 +29083,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Delete news feed"
-#~ msgstr "Scríoste"
+#~ msgstr "ScrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­oste"
 
 #~ msgid "_Mail"
 #~ msgstr "_Post"
@@ -29657,7 +29100,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "S_elect server: "
-#~ msgstr "Fillteán _Nua"
+#~ msgstr "FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n _Nua"
 
 #, fuzzy
 #~ msgid "Add"
@@ -29666,14 +29109,14 @@ msgstr ""
 # SG
 #, fuzzy
 #~ msgid "_Signature editor"
-#~ msgstr "Singeapór"
+#~ msgstr "SingeapÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³r"
 
 #, fuzzy
 #~ msgid "Create _New Folder..."
-#~ msgstr "Fillteán _Nua"
+#~ msgstr "FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n _Nua"
 
 #~ msgid "_Contacts..."
-#~ msgstr "_Tadhallaí..."
+#~ msgstr "_TadhallaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­..."
 
 #, fuzzy
 #~ msgid "1234"
@@ -29685,7 +29128,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "<- _Remove"
-#~ msgstr "_Scríos"
+#~ msgstr "_ScrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­os"
 
 #, fuzzy
 #~ msgid "<< Fewer Options"
@@ -29702,19 +29145,19 @@ msgstr ""
 # CH
 #, fuzzy
 #~ msgid "Mappings"
-#~ msgstr "An tSín"
+#~ msgstr "An tSÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n"
 
 #, fuzzy
 #~ msgid "R_estore Defaults"
-#~ msgstr "Gnáth"
+#~ msgstr "GnÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡th"
 
 #, fuzzy
 #~ msgid "Re_store Defaults"
-#~ msgstr "Gnáth"
+#~ msgstr "GnÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡th"
 
 #, fuzzy
 #~ msgid "Select"
-#~ msgstr "Tóg Gach Rud"
+#~ msgstr "TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³g Gach Rud"
 
 #, fuzzy
 #~ msgid "_Add ->"
@@ -29727,7 +29170,7 @@ msgstr ""
 # aa 
 #, fuzzy
 #~ msgid "_Always"
-#~ msgstr "Afáiris"
+#~ msgstr "AfÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡iris"
 
 #, fuzzy
 #~ msgid "_Delete Mapping"
@@ -29747,7 +29190,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "_Restore Defaults"
-#~ msgstr "Gnáth"
+#~ msgstr "GnÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡th"
 
 #, fuzzy
 #~ msgid "account-druid"
@@ -29755,28 +29198,30 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "C_ontacts..."
-#~ msgstr "_Tadhallaí..."
+#~ msgstr "_TadhallaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­..."
 
 #~ msgid "Phone Types"
-#~ msgstr "Cinéal  Fóin"
+#~ msgstr ""
+#~ "CinÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©al  "
+#~ "FÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³in"
 
 #~ msgid "Delete Contact?"
 #~ msgstr "Dealaigh Tadhall?"
 
 #, fuzzy
 #~ msgid "Display Cards?"
-#~ msgstr "Taispeaín"
+#~ msgstr "TaispeaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n"
 
 #, fuzzy
 #~ msgid "Display Cards"
-#~ msgstr "Taispeaín"
+#~ msgstr "TaispeaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n"
 
 #~ msgid "Could not initialize GNOME"
-#~ msgstr "Téip ag tosnaithe GNOME"
+#~ msgstr "TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©ip ag tosnaithe GNOME"
 
 #, fuzzy
 #~ msgid "st"
-#~ msgstr "líosta"
+#~ msgstr "lÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­osta"
 
 #, fuzzy
 #~ msgid "nd"
@@ -29788,10 +29233,10 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Could not activate Bonobo"
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #~ msgid "Print Calendar"
-#~ msgstr "Priontáil Feilire"
+#~ msgstr "PriontÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il Feilire"
 
 #~ msgid "Warning!"
 #~ msgstr "Rabhadh!"
@@ -29805,7 +29250,8 @@ msgstr ""
 # ug
 #, fuzzy
 #~ msgid "hour"
-#~ msgstr "Úíghur"
+#~ msgstr ""
+#~ "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ghur"
 
 #~ msgid "week"
 #~ msgstr "seachtain"
@@ -29815,7 +29261,10 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Warning: Unsent Messages"
-#~ msgstr "Ag Sábháil scealta"
+#~ msgstr ""
+#~ "Ag "
+#~ "SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡bhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il "
+#~ "scealta"
 
 #, fuzzy
 #~ msgid "Cannot initialize the Evolution mail component."
@@ -29823,12 +29272,12 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Go to next folder with unread messages?"
-#~ msgstr "Scríos an sceal seo"
+#~ msgstr "ScrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­os an sceal seo"
 
 # SG
 #, fuzzy
 #~ msgid "Add Signature"
-#~ msgstr "Singeapór"
+#~ msgstr "SingeapÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³r"
 
 #, fuzzy
 #~ msgid "Account %d"
@@ -29839,47 +29288,47 @@ msgstr ""
 #~ msgstr "Luaineach"
 
 #~ msgid "All folders"
-#~ msgstr "Gach Fillteáin"
+#~ msgstr "Gach FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in"
 
 #, fuzzy
 #~ msgid "Apri file"
-#~ msgstr "Aibreáin"
+#~ msgstr "AibreÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in"
 
 #, fuzzy
 #~ msgid "Salve file"
-#~ msgstr "Tóg Comhad"
+#~ msgstr "TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³g Comhad"
 
 #, fuzzy
 #~ msgid ""
 #~ "Evolution could not create directory\n"
 #~ "%s:\n"
 #~ "%s"
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #~ msgid "New..."
 #~ msgstr "Nua..."
 
 #~ msgid "Host"
-#~ msgstr "Óst"
+#~ msgstr "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂst"
 
 #~ msgid "Output File"
 #~ msgstr "Comhad Aschur"
 
 #, fuzzy
 #~ msgid "Pilot Con_duit Settings..."
-#~ msgstr "Albachtaí Phoist"
+#~ msgstr "AlbachtaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ Phoist"
 
 #, fuzzy
 #~ msgid "Set up Pilot conduit configuration"
-#~ msgstr "Socrú Post"
+#~ msgstr "SocrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº Post"
 
 #, fuzzy
 #~ msgid "_Configure..."
-#~ msgstr "Socraigh Fillteáin..."
+#~ msgstr "Socraigh FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in..."
 
 #, fuzzy
 #~ msgid "_Configure Pilot..."
-#~ msgstr "Socraigh Fillteáin..."
+#~ msgstr "Socraigh FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in..."
 
 #, fuzzy
 #~ msgid "en"
@@ -29892,25 +29341,26 @@ msgstr ""
 # FIXME SP?
 #, fuzzy
 #~ msgid "Select PGP program"
-#~ msgstr "Tóg Ainmhí:"
+#~ msgstr ""
+#~ "TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³g AinmhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­:"
 
 # SG
 #, fuzzy
 #~ msgid "Signature #1"
-#~ msgstr "Singeapór"
+#~ msgstr "SingeapÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³r"
 
 # SG
 #, fuzzy
 #~ msgid "Signature #2"
-#~ msgstr "Singeapór"
+#~ msgstr "SingeapÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³r"
 
 #, fuzzy
 #~ msgid "Copy selected messages"
-#~ msgstr "Scríos an sceal seo"
+#~ msgstr "ScrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­os an sceal seo"
 
 #, fuzzy
 #~ msgid "&lt;- _Remove"
-#~ msgstr "_Scríos"
+#~ msgstr "_ScrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­os"
 
 #, fuzzy
 #~ msgid "_Add -&gt;"
@@ -29928,7 +29378,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Could not parse query string"
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #, fuzzy
 #~ msgid "Meeting begins: <b>"
@@ -29936,7 +29386,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Task begins: <b>"
-#~ msgstr "Críochnaithe.`"
+#~ msgstr "CrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ochnaithe.`"
 
 #, fuzzy
 #~ msgid "Free/Busy info begins: <b>"
@@ -29956,24 +29406,24 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Task Completed: <b>"
-#~ msgstr "Críochnaithe.`"
+#~ msgstr "CrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ochnaithe.`"
 
 #, fuzzy
 #~ msgid "Task Due: <b>"
-#~ msgstr "Críochnaithe.`"
+#~ msgstr "CrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ochnaithe.`"
 
 #, fuzzy
 #~ msgid "Set as default"
-#~ msgstr " (gnáth)"
+#~ msgstr " (gnÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡th)"
 
 # SG
 #, fuzzy
 #~ msgid "Signature hint"
-#~ msgstr "Singeapór"
+#~ msgstr "SingeapÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³r"
 
 #, fuzzy
 #~ msgid "Hide signature hint"
-#~ msgstr "Tóg Comhad"
+#~ msgstr "TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³g Comhad"
 
 #, fuzzy
 #~ msgid "_Browse..."
@@ -29984,11 +29434,11 @@ msgstr ""
 #~ msgstr "Earraidh I/A"
 
 #~ msgid "NNTP Server:"
-#~ msgstr "Freatalaí NNTP:"
+#~ msgstr "FreatalaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ NNTP:"
 
 #, fuzzy
 #~ msgid "News Servers"
-#~ msgstr "Fillteán _Nua"
+#~ msgstr "FillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n _Nua"
 
 #, fuzzy
 #~ msgid "View messages..."
@@ -29996,20 +29446,22 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Send the message later"
-#~ msgstr "Post an sceál seo"
+#~ msgstr "Post an sceÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡l seo"
 
 #, fuzzy
 #~ msgid "_Pilot Settings..."
-#~ msgstr "Albachtaí Phoist"
+#~ msgstr "AlbachtaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ Phoist"
 
 #~ msgid "_End of day:"
-#~ msgstr "_Deireadh an Lá:"
+#~ msgstr "_Deireadh an LÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡:"
 
 #~ msgid "%s server %s"
-#~ msgstr "%s freastalaí %s"
+#~ msgstr "%s freastalaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ %s"
 
 #~ msgid "(unknown host)"
-#~ msgstr "(óst gan aithne)"
+#~ msgstr ""
+#~ "(ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³st gan "
+#~ "aithne)"
 
 #, fuzzy
 #~ msgid "No such message: %s"
@@ -30018,12 +29470,15 @@ msgstr ""
 #, fuzzy
 #~ msgid "Cannot append message to spool file: %s: %s"
 #~ msgstr ""
-#~ "Earraidh ag sábhháil scéalaí do: %s\n"
+#~ "Earraidh ag "
+#~ "sÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡bhhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il "
+#~ "scÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©alaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ "
+#~ "do: %s\n"
 #~ " %s"
 
 #, fuzzy
 #~ msgid "Could not file: %s: %s"
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #, fuzzy
 #~ msgid "Random"
@@ -30050,15 +29505,15 @@ msgstr ""
 # BG
 #, fuzzy
 #~ msgid "Dari"
-#~ msgstr "An Bhulgáir"
+#~ msgstr "An BhulgÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ir"
 
 #, fuzzy
 #~ msgid "Hulu"
-#~ msgstr "Gnáth"
+#~ msgstr "GnÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡th"
 
 #, fuzzy
 #~ msgid "Same as text"
-#~ msgstr "Taispeáin"
+#~ msgstr "TaispeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in"
 
 #, fuzzy
 #~ msgid "_Language:"
@@ -30069,11 +29524,11 @@ msgstr ""
 #~ msgstr "Raidio"
 
 #~ msgid "Copying"
-#~ msgstr "Ag Cóip"
+#~ msgstr "Ag CÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³ip"
 
 #, fuzzy
 #~ msgid "Signature name:"
-#~ msgstr "Ainm Stíl:"
+#~ msgstr "Ainm StÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­l:"
 
 #, fuzzy
 #~ msgid "Riga"
@@ -30083,28 +29538,28 @@ msgstr ""
 #~ msgstr "Suim Leabhar Seoladh"
 
 #~ msgid "Base"
-#~ msgstr "Bún"
+#~ msgstr "BÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂºn"
 
 #~ msgid "_Other"
 #~ msgstr "_Eile"
 
 #, fuzzy
 #~ msgid "Could not encrypt data: invalid user key: \"%s\"."
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #, fuzzy
 #~ msgid "Could not encrypt: encoding failed."
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #, fuzzy
 #~ msgid "Send an email to %s"
-#~ msgstr "Post ríomhphost"
+#~ msgstr "Post rÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­omhphost"
 
 #~ msgid "Run %s"
-#~ msgstr "Deán %s"
+#~ msgstr "DeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n %s"
 
 #~ msgid "Close %s"
-#~ msgstr "Dún %s"
+#~ msgstr "DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂºn %s"
 
 #, fuzzy
 #~ msgid "page"
@@ -30118,11 +29573,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "RDF Summary"
-#~ msgstr "Coimriú"
+#~ msgstr "CoimriÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº"
 
 #, fuzzy
 #~ msgid "Test service"
-#~ msgstr "Suimigh Seirbhís"
+#~ msgstr "Suimigh SeirbhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­s"
 
 #, fuzzy
 #~ msgid "Update now"
@@ -30133,13 +29588,13 @@ msgstr ""
 #~ msgstr "Data"
 
 #~ msgid "Mailbox Format"
-#~ msgstr "Formóid Boscaphoist"
+#~ msgstr "FormÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³id Boscaphoist"
 
 #~ msgid "%s: Inbox"
 #~ msgstr "%s: Inbosca"
 
 #~ msgid "Display"
-#~ msgstr "Taispeaín"
+#~ msgstr "TaispeaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­n"
 
 #~ msgid "Edit..."
 #~ msgstr "Eagar..."
@@ -30152,17 +29607,18 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "_Server type: "
-#~ msgstr "_Cineal Freastalaí:"
+#~ msgstr "_Cineal FreastalaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­:"
 
 #~ msgid "seconds."
 #~ msgstr "soicind."
 
 #, fuzzy
 #~ msgid "Mail Summary"
-#~ msgstr "Coimriú phoist"
+#~ msgstr "CoimriÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº phoist"
 
 #~ msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-#~ msgstr "Cóipcheart 1999, 2000, 2001 Ximian, Inc."
+#~ msgstr ""
+#~ "CÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³ipcheart 1999, 2000, 2001 Ximian, Inc."
 
 #~ msgid "(No name)"
 #~ msgstr "(gan ainm)"
@@ -30182,13 +29638,13 @@ msgstr ""
 #~ msgstr "_Coinne..."
 
 #~ msgid "_Calendar Settings..."
-#~ msgstr "_Albachtaí Feilire..."
+#~ msgstr "_AlbachtaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ Feilire..."
 
 #~ msgid "_Task..."
 #~ msgstr "_Teasc..."
 
 #~ msgid "Show All"
-#~ msgstr "Taispeán gach Rud"
+#~ msgstr "TaispeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n gach Rud"
 
 #~ msgid "Sear_ch"
 #~ msgstr "_Cuardaigh"
@@ -30236,7 +29692,7 @@ msgstr ""
 #~ "  Street:      "
 #~ msgstr ""
 #~ "\n"
-#~ "  Sráid:       "
+#~ "  SrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡id:       "
 
 #~ msgid ""
 #~ "\n"
@@ -30257,28 +29713,28 @@ msgstr ""
 #~ "  Postal Code: "
 #~ msgstr ""
 #~ "\n"
-#~ "  Cód Phoist: "
+#~ "  CÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³d Phoist: "
 
 #~ msgid ""
 #~ "\n"
 #~ "  Country:     "
 #~ msgstr ""
 #~ "\n"
-#~ "  Tír:         "
+#~ "  TÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­r:         "
 
 #~ msgid ""
 #~ "\n"
 #~ "Telephones:\n"
 #~ msgstr ""
 #~ "\n"
-#~ "Telefóin:\n"
+#~ "TelefÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³in:\n"
 
 #~ msgid ""
 #~ "\n"
 #~ "Telephone:"
 #~ msgstr ""
 #~ "\n"
-#~ "Telefón:"
+#~ "TelefÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n:"
 
 #~ msgid ""
 #~ "\n"
@@ -30292,7 +29748,7 @@ msgstr ""
 #~ "Time Zone: "
 #~ msgstr ""
 #~ "\n"
-#~ "Am Críos: "
+#~ "Am CrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­os: "
 
 #~ msgid ""
 #~ "\n"
@@ -30306,14 +29762,14 @@ msgstr ""
 #~ "Comment: "
 #~ msgstr ""
 #~ "\n"
-#~ "Trácht:"
+#~ "TrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡cht:"
 
 #~ msgid ""
 #~ "\n"
 #~ "Public Key: "
 #~ msgstr ""
 #~ "\n"
-#~ "Eochair Poiblí: "
+#~ "Eochair PoiblÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­: "
 
 #~ msgid "New _Contact"
 #~ msgstr "_Tadhall Nua"
@@ -30327,11 +29783,11 @@ msgstr ""
 #~ msgid "New _Mail Message"
 #~ msgstr "Teachtaireacht _Post Nua"
 
-#~ msgid "°F"
-#~ msgstr "°F"
+#~ msgid "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°F"
+#~ msgstr "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°F"
 
-#~ msgid "°C"
-#~ msgstr "°C"
+#~ msgid "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°C"
+#~ msgstr "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°C"
 
 #, fuzzy
 #~ msgid "%s at an unknown time"
@@ -30342,11 +29798,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Encrypted message"
-#~ msgstr "Post an sceál seo"
+#~ msgstr "Post an sceÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡l seo"
 
 #, fuzzy
 #~ msgid "Cannot copy a folder `%s' to itself"
-#~ msgstr "Teíp ag fork: %s"
+#~ msgstr "TeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­p ag fork: %s"
 
 #~ msgid "%s - Ximian Evolution %s"
 #~ msgstr "%s - Ximian Evolution %s"
@@ -30370,7 +29826,7 @@ msgstr ""
 #~ msgstr "SASL"
 
 #~ msgid "Root DN:"
-#~ msgstr "Príomh DN:"
+#~ msgstr "PrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­omh DN:"
 
 #~ msgid "URI"
 #~ msgstr "URI"
@@ -30457,16 +29913,16 @@ msgstr ""
 #~ msgstr "%H:%M%n"
 
 #~ msgid "Background:"
-#~ msgstr "Dúlra:"
+#~ msgstr "DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂºlra:"
 
 #~ msgid "View All"
-#~ msgstr "Taidpeáin Gach Rud"
+#~ msgstr "TaidpeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡in Gach Rud"
 
 #~ msgid "_Day"
-#~ msgstr "_Lá"
+#~ msgstr "_LÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡"
 
 #~ msgid "_Open Calendar"
-#~ msgstr "_Oscáil Feilire"
+#~ msgstr "_OscÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il Feilire"
 
 #~ msgid "About..."
 #~ msgstr "Faoi..."
@@ -30478,20 +29934,22 @@ msgstr ""
 #~ msgstr "G_lan"
 
 #~ msgid "Close this appointment"
-#~ msgstr "Dún an coinne seo"
+#~ msgstr "DÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂºn an coinne seo"
 
 #~ msgid "Pre_vious"
 #~ msgstr "_Riomh"
 
 #~ msgid "Print S_etup..."
-#~ msgstr "Socraigh Priontáil..."
+#~ msgstr "Socraigh PriontÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il..."
 
 #, fuzzy
 #~ msgid "_Mail Message (FIXME)"
-#~ msgstr "_Post sceál"
+#~ msgstr "_Post sceÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡l"
 
 #~ msgid "_Move to Folder... (FIXME)"
-#~ msgstr "Sábháil 'san _fillteán"
+#~ msgstr ""
+#~ "SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡bhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il "
+#~ "'san _fillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n"
 
 #~ msgid "_Note (FIXME)"
 #~ msgstr "_Nota"
@@ -30506,7 +29964,9 @@ msgstr ""
 #~ msgstr "_Freagrair"
 
 #~ msgid "Save in _folder... (FIXME)"
-#~ msgstr "Sábháil 'san _fillteán..."
+#~ msgstr ""
+#~ "SÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡bhÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡il "
+#~ "'san _fillteÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡n..."
 
 #~ msgid "_Appointment (FIXME)"
 #~ msgstr "_Coinne"
@@ -30516,10 +29976,12 @@ msgstr ""
 #~ "Mailer: "
 #~ msgstr ""
 #~ "\n"
-#~ "Postóir:"
+#~ "PostÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³ir:"
 
 #~ msgid "New Contact _List"
-#~ msgstr "_Líosta Tadhall Nua"
+#~ msgstr ""
+#~ "_LÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­osta "
+#~ "Tadhall Nua"
 
 #~ msgid "Co_ntacts:"
-#~ msgstr "Tadhallaí"
+#~ msgstr "TadhallaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­"
