@@ -186,7 +186,7 @@
      <title>The GNOME Calendar</title>
     <screenshot>
      <screeninfo>The GNOME Calendar</screeninfo>
-      <Graphic Format="gif" Fileref="calday" srccredit="dcm">
+      <Graphic Format="gif" Fileref="images/calday" srccredit="dcm">
       </graphic>
     </screenshot>
     </figure>
@@ -203,7 +203,7 @@
     <title>The GNOME Calendar Preferences</title>
    <screenshot>
     <screeninfo>The GNOME Calendar Preferences.</screeninfo>
-    <Graphic Format="gif" Fileref="./figs/cal-props" srccredit="dcm">
+    <Graphic Format="gif" Fileref="images/cal-props" srccredit="dcm">
     </graphic>
    </screenshot>
    </figure>
@@ -270,7 +270,7 @@
      <title>The Day View</title>
       <screenshot>
        <screeninfo>The Day View</screeninfo>
-       <Graphic Format="gif" Fileref="./figs/calday" srccredit="dcm">
+       <Graphic Format="gif" Fileref="images/calday" srccredit="dcm">
        </graphic>
       </screenshot>
     </figure>
@@ -322,7 +322,7 @@
      <title>The Week View</title>
       <screenshot>
        <screeninfo>The Week View</screeninfo>
-       <Graphic Format="gif" Fileref="./figs/calweek" srccredit="dcm">
+       <Graphic Format="gif" Fileref="images/calweek" srccredit="dcm">
        </graphic>
       </screenshot>
     </figure>
@@ -358,7 +358,7 @@
      <title>The Month View</title>
       <screenshot>
        <screeninfo>The Month View</screeninfo>
-       <Graphic Format="gif" Fileref="./figs/calmonth" srccredit="dcm">
+       <Graphic Format="gif" Fileref="images/calmonth" srccredit="dcm">
        </graphic>
       </screenshot>
     </figure>
@@ -385,7 +385,7 @@
      <title>The Year View</title>
       <screenshot>
        <screeninfo>The Year View</screeninfo>
-       <Graphic Format="gif" Fileref="./figs/calyear" srccredit="dcm">
+       <Graphic Format="gif" Fileref="images/calyear" srccredit="dcm">
        </graphic>
       </screenshot>
     </figure>
