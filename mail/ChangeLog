@@ -1,3 +1,10 @@
+2002-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Made sure
+	account->id->address is not NULL before adding it to the hash
+	table. This is to prevent bug #29877 from crashing, although it is
+	still an invalid error condition.
+
 2002-09-04  Dan Winship  <danw@ximian.com>
 
 	* folder-info.c (get_prop): Remove the "Get!" printf.

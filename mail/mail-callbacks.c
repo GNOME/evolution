@@ -1012,7 +1012,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	l = accounts;
 	while (l) {
 		account = l->data;
-		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		if (account->id->address)
+			g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
 		l = l->next;
 	}
 	
