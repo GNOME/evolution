@@ -1,5 +1,8 @@
 2004-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): Fixed up
+	a bit to look nicer and make it closer to HIG compliant.
+
 	* em-folder-tree.c (emft_drop_folder): We need to recursively copy
 	the dragged folder tree over to the drop location, not just the
 	parent folder. We also need to subscribe to the newly created

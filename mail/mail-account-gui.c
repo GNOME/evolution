@@ -783,7 +783,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	GtkWidget *hostname, *username, *path;
 	GtkTable *main_table, *cur_table;
 	CamelProviderConfEntry *entries;
-	GList *children, *child;
+	GList *child, *next;
 	char *name;
 	int i, rows;
 	
@@ -807,29 +807,37 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	/* Remove the contents of the extra_table except for the
 	 * mailcheck_frame.
 	 */
-	main_table = (GtkTable *)glade_xml_get_widget (gui->xml, "extra_table");
+	main_table = (GtkTable *) glade_xml_get_widget (gui->xml, "extra_table");
+	gtk_container_set_border_width ((GtkContainer *) main_table, 12);
+	gtk_table_set_row_spacings (main_table, 6);
+	gtk_table_set_col_spacings (main_table, 8);
 	mailcheck_frame = glade_xml_get_widget (gui->xml, "extra_mailcheck_frame");
-	children = gtk_container_get_children (GTK_CONTAINER (main_table));
-	for (child = children; child; child = child->next) {
-		if (child->data != (gpointer)mailcheck_frame) {
-			gtk_container_remove (GTK_CONTAINER (main_table),
-					      child->data);
-		}
+	child = gtk_container_get_children (GTK_CONTAINER (main_table));
+	while (child != NULL) {
+		next = child->next;
+		if (child->data != (gpointer) mailcheck_frame)
+			gtk_container_remove (GTK_CONTAINER (main_table), child->data);
+		g_list_free_1 (child);
+		child = next;
 	}
-	g_list_free (children);
+	
 	gtk_table_resize (main_table, 1, 2);
 	
 	/* Remove any additional mailcheck items. */
-	cur_table = (GtkTable *)glade_xml_get_widget (gui->xml, "extra_mailcheck_table");
+	cur_table = (GtkTable *) glade_xml_get_widget (gui->xml, "extra_mailcheck_table");
+	gtk_container_set_border_width ((GtkContainer *) cur_table, 12);
+	gtk_table_set_row_spacings (cur_table, 6);
+	gtk_table_set_col_spacings (cur_table, 8);
 	mailcheck_hbox = glade_xml_get_widget (gui->xml, "extra_mailcheck_hbox");
-	children = gtk_container_get_children (GTK_CONTAINER (cur_table));
-	for (child = children; child; child = child->next) {
-		if (child->data != (gpointer)mailcheck_hbox) {
-			gtk_container_remove (GTK_CONTAINER (cur_table),
-					      child->data);
-		}
+	child = gtk_container_get_children (GTK_CONTAINER (cur_table));
+	while (child != NULL) {
+		next = child->next;
+		if (child->data != (gpointer) mailcheck_hbox)
+			gtk_container_remove (GTK_CONTAINER (cur_table), child->data);
+		g_list_free_1 (child);
+		child = next;
 	}
-	g_list_free (children);
+	
 	gtk_table_resize (cur_table, 1, 2);
 
 	if (!gui->source.provider) {
@@ -853,29 +861,45 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	rows = main_table->nrows;
 	for (i = 0; ; i++) {
 		GtkWidget *enable_widget = NULL;
-
+		
 		switch (entries[i].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
 		{
-			GtkWidget *frame;
+			GtkWidget *frame, *label;
+			char *markup;
 			
-			if (entries[i].name && !strcmp (entries[i].name, "mailcheck"))
-				cur_table = (GtkTable *)glade_xml_get_widget (gui->xml, "extra_mailcheck_table");
-			else {
-				frame = gtk_frame_new (entries[i].text);
-				gtk_container_set_border_width (GTK_CONTAINER (frame), 3);
-				gtk_table_attach (main_table, frame, 0, 2,
-						  rows, rows + 1,
-						  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
-				cur_table = (GtkTable *)gtk_table_new (0, 2, FALSE);
-				rows = 0;
-				gtk_table_set_row_spacings (cur_table, 4);
-				gtk_table_set_col_spacings (cur_table, 8);
-				gtk_container_set_border_width (GTK_CONTAINER (cur_table), 3);
-
-				gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (cur_table));
+			if (entries[i].name && !strcmp (entries[i].name, "mailcheck")) {
+				cur_table = (GtkTable *) glade_xml_get_widget (gui->xml, "extra_mailcheck_table");
+				rows = cur_table->nrows;
+				break;
 			}
+			
+			markup = g_strdup_printf ("<span weight=\"bold\">%s</span>", entries[i].text);
+			label = gtk_label_new (NULL);
+			gtk_label_set_markup ((GtkLabel *) label, markup);
+			gtk_label_set_justify ((GtkLabel *) label, GTK_JUSTIFY_LEFT);
+			gtk_label_set_use_markup ((GtkLabel *) label, TRUE);
+			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+			gtk_widget_show (label);
+			g_free (markup);
+			
+			cur_table = (GtkTable *) gtk_table_new (0, 2, FALSE);
+			gtk_container_set_border_width ((GtkContainer *) cur_table, 12);
+			gtk_table_set_row_spacings (cur_table, 6);
+			gtk_table_set_col_spacings (cur_table, 8);
+			gtk_widget_show ((GtkWidget *) cur_table);
+			
+			frame = gtk_vbox_new (FALSE, 0);
+			gtk_box_pack_start ((GtkBox *) frame, label, FALSE, FALSE, 0);
+			gtk_box_pack_start ((GtkBox *) frame, (GtkWidget *) cur_table, FALSE, FALSE, 0);
+			gtk_widget_show (frame);
+			
+			gtk_table_attach (main_table, frame, 0, 2,
+					  rows, rows + 1,
+					  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			
+			rows = 0;
+			
 			break;
 		}
 		case CAMEL_PROVIDER_CONF_SECTION_END:
@@ -919,14 +943,14 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			else
 				active = atoi (entries[i].value);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), active);
-
+			
 			gtk_table_attach (cur_table, checkbox, 0, 2, rows, rows + 1,
 					  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 			rows++;
 			g_hash_table_insert (gui->extra_config, entries[i].name, checkbox);
 			if (entries[i].depname)
 				setup_toggle (checkbox, entries[i].depname, gui);
-
+			
 			enable_widget = checkbox;
 			break;
 		}
@@ -960,7 +984,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 						  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 				rows++;
 			}
-
+			
 			if (url)
 				text = camel_url_get_param (url, entries[i].name);
 			else
@@ -973,9 +997,9 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				setup_toggle (entry, entries[i].depname, gui);
 				setup_toggle (label, entries[i].depname, gui);
 			}
-
+			
 			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
-
+			
 			enable_widget = entry;
 			break;
 		}
@@ -1040,7 +1064,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				setup_toggle (spin, entries[i].depname, gui);
 				setup_toggle (label, entries[i].depname, gui);
 			}
-
+			
 			enable_widget = hbox;
 			break;
 		}
@@ -1048,7 +1072,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 		case CAMEL_PROVIDER_CONF_END:
 			goto done;
 		}
-
+		
 		if (enable_widget)
 			gtk_widget_set_sensitive(enable_widget, e_account_writable_option(gui->account, gui->source.provider->protocol, entries[i].name));
 	}
