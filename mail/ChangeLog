@@ -1,5 +1,14 @@
 2000-10-10  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-dialog.c (folder_toggle_cb): umm.. duh :) only
+	subscribe if it's not subscribed, and vice versa.
+	(subscribe_folder_foreach): make sure to call
+	e_tree_model_node_changed.
+	(unsubscribe_folder_foreach): make sure to call
+	e_tree_model_node_changed.
+
+2000-10-10  Chris Toshok  <toshok@helixcode.com>
+
 	* mail-ops.c (setup_scan_subfolders): add a ref to input->storage
 	here so that the ref/unref pattern more closely matches other
 	mail-ops.  also, this keeps the storage from being freed when we

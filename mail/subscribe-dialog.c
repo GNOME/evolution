@@ -198,8 +198,10 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 	printf ("subscribe: row %d, node_data %p\n", model_row,
 		e_tree_model_node_get_data (sc->folder_model, node));
 
-	if (!camel_store_folder_subscribed (sc->store, info->name))
+	if (!camel_store_folder_subscribed (sc->store, info->name)) {
 		subscribe_folder_info (sc, info);
+		e_tree_model_node_changed (sc->folder_model, node);	
+	}
 }
 
 static void
@@ -221,8 +223,10 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 	printf ("unsubscribe: row %d, node_data %p\n", model_row,
 		e_tree_model_node_get_data (sc->folder_model, node));
 
-	if (camel_store_folder_subscribed (sc->store, info->name))
+	if (camel_store_folder_subscribed (sc->store, info->name)) {
 		unsubscribe_folder_info (sc, info);
+		e_tree_model_node_changed (sc->folder_model, node);
+	}
 }
 
 
@@ -518,9 +522,9 @@ folder_toggle_cb (ETable *table,
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
 	if (camel_store_folder_subscribed (sc->store, info->name))
-		subscribe_folder_info (sc, info);
-	else
 		unsubscribe_folder_info (sc, info);
+	else
+		subscribe_folder_info (sc, info);
 
 	e_tree_model_node_changed (sc->folder_model, node);
 }
