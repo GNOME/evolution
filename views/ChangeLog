@@ -1,7 +1,0 @@
-2001-03-01  Christopher James Lahey  <clahey@ximian.com>
-
-	* .cvsignore, Makefile.am, mail/.cvsignore,
-	mail/By_Sender.galview, mail/By_Subject.galview, mail/Makefile.am,
-	mail/galview.xml, tasks/.cvsignore, tasks/Makefile.am,
-	tasks/Tasks.galview, tasks/With_Category.galview,
-	tasks/galview.xml: Builtin View menus for tasks and mail.
