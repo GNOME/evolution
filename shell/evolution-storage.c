@@ -374,7 +374,6 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 	EvolutionStoragePrivate *priv;
 	EvolutionStorage *storage;
 	GList *p;
-	CORBA_Environment ev;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
