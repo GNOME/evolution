@@ -392,6 +392,7 @@ control_deactivate (BonoboControl *control,
 	g_free (toolbar_name);
 
 	remove_ondemand_hooks (fb, uih);
+	mail_do_sync_folder (fb->folder);
 }
 
 static void

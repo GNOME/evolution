@@ -1,3 +1,8 @@
+2000-09-12  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c (control_deactivate): sync the folder
+	on deactivate.
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* message-list.c (on_right_click): Also display the name of the
