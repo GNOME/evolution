@@ -355,14 +355,6 @@ book_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-passwd_cb (gchar *string, gpointer data)
-{
-	AddressbookView *view = (AddressbookView*)data;
-
-	view->passwd = g_strdup (string);
-}
-
-static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	AddressbookView *view = closure;

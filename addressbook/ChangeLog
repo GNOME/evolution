@@ -1,3 +1,7 @@
+2001-08-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c: remove passwd_cb.
+
 2001-08-09  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-text-model.c
