@@ -267,8 +267,8 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 		if (pos != -1) {
-			item = g_list_nth_data (((GtkList *)re->list)->children, pos);
-			string = e_utf8_to_gtk_string (GTK_WIDGET (item), re->current->name);
+			item = g_list_nth_data (GTK_LIST (re->list)->children, pos);
+			string = e_utf8_to_gtk_string (GTK_WIDGET (item), re->edit->name);
 			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), string);
 			g_free (string);
 			
