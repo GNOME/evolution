@@ -33,6 +33,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
+#include <gal/util/e-util.h>
 #include "e-util/e-html-utils.h"
 #include "mail.h"
 #include "mail-config.h"
@@ -567,13 +568,10 @@ mail_config_add_news (MailConfigService *news)
 char *
 mail_config_folder_to_cachename(CamelFolder *folder, const char *prefix)
 {
-	char *url, *p, *filename;
-
+	char *url, *filename;
+	
 	url = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, FALSE);
-	for (p = url; *p; p++) {
-		if (!isprint((unsigned char)*p) || strchr(" /'\"`&();|<>${}!", *p))
-			*p = '_';
-	}
+	e_str_make_safe (url);
 	
 	filename = g_strdup_printf("%s/config/%s%s", evolution_dir, prefix, url);
 	g_free(url);

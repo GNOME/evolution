@@ -123,13 +123,11 @@ make_safe_filename (const char *prefix, CamelMimePart *part)
 		safe = g_strdup_printf ("%s%s", prefix, p);
 	else
 		safe = g_strdup_printf ("%s/%s", prefix, name);
-
-	for (p = strrchr (safe, '/') + 1; *p; p++) {
-		if (!isascii ((unsigned char)*p) ||
-		    strchr (" /'\"`&();|<>${}!", *p))
-			*p = '_';
-	}
-
+	
+	p = strrchr (safe, '/') + 1;
+	if (p)
+		e_str_make_safe (p);
+	
 	return safe;
 }
 

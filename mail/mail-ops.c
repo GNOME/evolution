@@ -326,17 +326,10 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
 
-	if (data->empty && !camel_exception_is_set (ex)) {
-		GtkWidget *dialog;
-		gchar *str;
-
-		str = g_strdup_printf (_("There is no new mail at %s."),
-				       input->source_url);
-		dialog = gnome_ok_dialog (str);
-		g_free (str);
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	}
-
+	if (data->empty && !camel_exception_is_set (ex))
+		mail_op_set_message (_("There is no new mail at %s."),
+				     input->source_url);
+	
 	if (data->update_infos) {
 		int i;
 

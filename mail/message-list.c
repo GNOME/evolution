@@ -390,14 +390,30 @@ message_list_drag_data_get (ETable             *table,
 	MessageList *mlist = (MessageList *) user_data;
 	const CamelMessageInfo *minfo = get_message_info (mlist, row);
 	GPtrArray *uids = NULL;
-	char *dirname = "/tmp/ev-XXXXXXXXXX";
-	char *filename;
+	char *tmpl, *tmpdir, *filename, *subject, *p;
 	
 	switch (info) {
 	case DND_TARGET_LIST_TYPE_URI:
 		/* drag & drop into nautilus */
-		mktemp (dirname);
-		filename = g_strdup_printf ("%s/%s.eml", dirname, camel_message_info_subject(minfo));
+		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
+#ifdef HAVE_MKDTEMP
+		tmpdir = mkdtemp (tmpl);
+#else
+		tmpdir = mktemp (tmpl);
+		if (tmpdir) {
+			if (mkdir (tmpdir, S_IRWXU) == -1)
+				tmpdir = NULL;
+		}
+#endif
+		if (!tmpdir) {
+			g_free (tmpl);
+			return;
+		}
+		
+		subject = g_strdup (camel_message_info_subject (minfo));
+		e_str_make_safe (subject);
+		filename = g_strdup_printf ("%s/%s.eml", tmpdir, subject);
+		g_free (subject);
 		
 		uids = g_ptr_array_new ();
 		g_ptr_array_add (uids, g_strdup (mlist->cursor_uid));
@@ -407,6 +423,7 @@ message_list_drag_data_get (ETable             *table,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					(guchar *) filename, strlen (filename));
 		
+		g_free (tmpl);
 		g_free (filename);
 		break;
 	default:
