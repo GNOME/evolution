@@ -1,3 +1,7 @@
+1998-10-12  Martin Baulig  <martin@home-of-linux.org>
+
+	* compiler-flags.m4 (warnCFLAGS): Added `-Wno-unused'.
+
 1998-10-11  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4 (libgtop_postinstall): Use `:' instead
