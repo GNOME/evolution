@@ -529,10 +529,13 @@ e_select_names_completion_destroy (GtkObject *object)
 {
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
 
-	gtk_object_unref (GTK_OBJECT (comp->priv->model));
-	gtk_object_unref (GTK_OBJECT (comp->priv->book));
+	if (comp->priv->model)
+		gtk_object_unref (GTK_OBJECT (comp->priv->model));
 
-	if (GTK_OBJECT (comp->priv->book_view)) {
+	if (comp->priv->book)
+		gtk_object_unref (GTK_OBJECT (comp->priv->book));
+
+	if (comp->priv->book_view) {
 		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->card_added_id);
 		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->seq_complete_id);
 		gtk_object_unref (GTK_OBJECT (comp->priv->book_view));

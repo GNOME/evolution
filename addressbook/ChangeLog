@@ -1,4 +1,23 @@
 2001-03-01  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): Oops, we do need to be able to write to
+	"text" after all (for things like Reply-to: to work properly).
+	Fixed.
+	(impl_SelectNames_get_entry_for_section): Made "text" a writeable
+	property again.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): Increment pos so that
+	we don't reverse strings when length > 1 (a particularly amusing
+	bug).
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_destroy): Check for NULL before calling
+	gtk_object_unref (GTK_OBJECT (---)), to get rid of annoying error
+	messages.
+
+2001-03-01  Jon Trowbridge  <trow@ximian.com>
 	
 	* gui/component/select-names/e-select-names-completion.c: I am an
 	idiot.

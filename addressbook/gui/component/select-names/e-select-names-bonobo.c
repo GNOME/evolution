@@ -33,6 +33,7 @@
 #include "Evolution-Addressbook-SelectNames.h"
 
 #include <gal/util/e-util.h>
+#include <gal/e-text/e-entry.h>
 #include "e-select-names-manager.h"
 
 #include "e-select-names-bonobo.h"
@@ -91,6 +92,10 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 	widget = GTK_WIDGET (user_data);
 
 	switch (arg_id) {
+
+	case ENTRY_PROPERTY_ID_TEXT:
+		e_entry_set_text (E_ENTRY (widget), BONOBO_ARG_GET_STRING (arg));
+		break;
 
 	case ENTRY_PROPERTY_ID_ENTRY_CHANGED:
 		gtk_object_set_data (GTK_OBJECT (widget), "entry_property_id_changed", GUINT_TO_POINTER (1));
@@ -190,7 +195,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	property_bag = bonobo_property_bag_new (entry_get_property_fn, entry_set_property_fn, entry_widget);
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
 				 BONOBO_ARG_STRING, NULL, NULL,
-				 BONOBO_PROPERTY_READABLE);
+				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
 	bonobo_property_bag_add (property_bag, "entry_changed", ENTRY_PROPERTY_ID_ENTRY_CHANGED,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_WRITEABLE);

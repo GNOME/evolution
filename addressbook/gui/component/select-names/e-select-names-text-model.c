@@ -408,11 +408,12 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					repos.pos = pos;
 					repos.len = this_length;
 					e_text_model_reposition (model, e_repos_insert_shift, &repos);
+
+					pos += this_length;
 				}
 
 				g_free (new_str);
 			}
-					 
 		}
 	}
 
