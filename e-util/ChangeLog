@@ -1,3 +1,7 @@
+2000-07-10  Dan Winship  <danw@helixcode.com>
+
+	* e-html-utils.c: Fix warnings.
+
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-list.c, e-list.h: Added e_list_duplicate.

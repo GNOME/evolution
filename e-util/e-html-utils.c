@@ -62,9 +62,9 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 }
 
 static char *
-url_extract (const char **text, gboolean check)
+url_extract (const unsigned char **text, gboolean check)
 {
-	const char *end = *text, *p;
+	const unsigned char *end = *text, *p;
 	char *out;
 
 	while (*end && !isspace (*end) && *end != '"')
@@ -215,7 +215,8 @@ e_text_to_html (const char *input, unsigned int flags)
 
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
-				if (cur == input || *(cur + 1) == ' ') {
+				if (cur == (const unsigned char *)input ||
+				    *(cur + 1) == ' ') {
 					strcpy (out, "&nbsp;");
 					out += 6;
 					break;
