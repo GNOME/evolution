@@ -1,3 +1,18 @@
+2001-09-27    <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (real_note_folder): No such event finalized!
+	Its finalize.
+	(mail_note_store): "
+
+	Fixed dan's comment a bit, info != NULL for folder_created, info==
+	NULL for changed.
+	
+2001-09-26    <NotZed@Ximian.com>
+
+	* mail-local.c (mlf_set_message_flags): Proxy the
+	set_message_flags call too.  Doesn't fix the 'local folder counts
+	dont update' problem, but its more correct.
+
 2001-09-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (mail_session_remember_password): Perform a
@@ -65,6 +80,7 @@
 	oaf_active_server_register returns OAF_REG_ALREADY_ACTIVE.
 
 >>>>>>> 1.1748
+>>>>>>> 1.1752
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_read): Oops, translate the fake account

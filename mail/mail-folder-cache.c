@@ -84,13 +84,13 @@ static GHashTable *stores;
  * folders it checks, but it can also return -1 for a folder, meaning
  * it didn't check, and so you should stick with your previous answer.
  *
- * update_1folder is called from three places: with info == NULL when
- * the folder is created, with info == NULL when a changed event is
- * emitted, or with info != NULL when doing a get_folder_info. So if
- * info is NULL, camel_folder_unread_message_count is correct, and
- * if it's not NULL and its unread_message_count isn't -1, then it's
- * correct.
- */
+ * update_1folder is called from three places: with info != NULL when
+ * the folder is created (or get_folder_info), with info == NULL when
+ * a folder changed event is emitted.
+ *
+ * So if info is NULL, camel_folder_unread_message_count is correct,
+ * and if it's not NULL and its unread_message_count isn't -1, then
+ * it's correct.  */
 
 static void
 update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
@@ -227,7 +227,7 @@ real_note_folder(CamelFolder *folder, void *event_data, void *data)
 
 	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "finalized", folder_finalised, mfi);
+	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 
 	camel_object_unref((CamelObject *)folder);
 }
@@ -375,7 +375,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_hook_event((CamelObject *)store, "finalized", store_finalised, NULL);
+		camel_object_hook_event((CamelObject *)store, "finalize", store_finalised, NULL);
 	}
 
 	UNLOCK(info_lock);

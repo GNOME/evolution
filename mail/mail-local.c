@@ -338,6 +338,21 @@ mlf_search_free(CamelFolder *folder, GPtrArray *result)
 }
 
 static void
+mlf_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
+{
+	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER(folder);
+	CamelFolder *f;
+
+	LOCAL_FOLDER_LOCK(mlf);
+	f = mlf->real_folder;
+	camel_object_ref((CamelObject *)f);
+	LOCAL_FOLDER_UNLOCK(mlf);
+
+	camel_folder_set_message_flags(mlf->real_folder, uid, flags, set);
+	camel_object_unref((CamelObject *)f);
+}
+
+static void
 mlf_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value)
 {
 	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER(folder);
@@ -461,6 +476,7 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 	camel_folder_class->search_free = mlf_search_free;
 
 	camel_folder_class->search_by_expression = mlf_search_by_expression;
+	camel_folder_class->set_message_flags = mlf_set_message_flags;
 	camel_folder_class->set_message_user_flag = mlf_set_message_user_flag;
 	camel_folder_class->set_message_user_tag = mlf_set_message_user_tag;
 }
