@@ -1065,8 +1065,6 @@ void
 e_cal_model_set_default_client (ECalModel *model, ECal *client)
 {
 	ECalModelPrivate *priv;
-	GList *l;
-	gboolean found = FALSE;
 	
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_CAL_MODEL (model));
