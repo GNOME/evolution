@@ -696,7 +696,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	if (!p->deleted && !p->copied && p->defaultfolder) {
+	if (p->defaultfolder && !p->deleted) {
 		/* copy it to the default inbox */
 		report_status (driver, FILTER_STATUS_ACTION, "Copy to default folder");
 		mail_tool_camel_lock_up ();
