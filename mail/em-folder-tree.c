@@ -732,7 +732,7 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 	m->store = store;
 	m->emft = emft;
 	m->top = g_strdup (top);
-	m->flags = 0;
+	m->flags = CAMEL_STORE_FOLDER_INFO_FAST;
 	m->select_uri = NULL;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
@@ -1648,7 +1648,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	m->store = store;
 	m->emft = emft;
 	m->top = top ? g_strdup (top) : NULL;
-	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	m->flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = g_strdup (uri);
 	
 	g_free (path);

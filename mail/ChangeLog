@@ -1,5 +1,16 @@
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_set_selected): Add INFO_FAST
+	here as we don't need it to get unread counts.
+	(tree_row_expanded): Here too.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	Check CAMEL_FOLDER_NOCHILDREN.
+
+2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #51045
+
 	* mail-folder-cache.c (real_flush_updates): Update the unread
 	count in the model if the folder got new mail.
 
