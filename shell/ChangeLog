@@ -1,3 +1,14 @@
+2003-09-05  Yuedong Du  <yuedong.du@sun.com>
+
+	* e-shell-importer.c: (importer_file_page_new),
+	(importer_type_page_new), (show_import_wizard): Use 
+	gtk_label_new_with_mnemonic() to replace gtk_label_new(). Use
+	gtk_label_set_mnemonic_widget() to set up label<-> entry
+	relationship. Change gtk_button_set_label() to 
+	gtk_button_set_use_underline() and gtk_button_set_label(). Change 
+	gtk_radio_button_new_with_label_from_widget() to 
+	gtk_radio_button_new_with_mnemonic_from_widget(). fix bug #47867
+
 2003-07-24  Yuedong Du  <yuedong.du@sun.com>
 
 	* e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
