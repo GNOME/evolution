@@ -1226,8 +1226,26 @@ icaltimezone_get_display_name		(icaltimezone	*zone)
 	display_name = icaltimezone_get_location (zone);
 	if (!display_name)
 		display_name = icaltimezone_get_tznames (zone);
-	if (!display_name)
+	if (!display_name) {
 		display_name = icaltimezone_get_tzid (zone);
+		/* Outlook will strip out X-LIC-LOCATION property and so all
+		   we get back in the iTIP replies is the TZID. So we see if
+		   this is one of our TZIDs and if so we jump to the city name
+		   at the end of it. */
+		if (display_name
+		    && !strncmp (display_name, TZID_PREFIX, TZID_PREFIX_LEN)) {
+		    /* Get the location, which is after the 3rd '/' char. */
+		    char *p;
+		    int num_slashes = 0;
+		    for (p = display_name; *p; p++) {
+			if (*p == '/') {
+			    num_slashes++;
+			    if (num_slashes == 3)
+				return p + 1;
+			}
+		    }
+		}
+	}
 
 	return display_name;
 }
