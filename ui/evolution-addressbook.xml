@@ -48,7 +48,7 @@
       
 			<placeholder name="Print">
 
-			    <menuitem name="ContactPrintPreview" verb=""
+			    <menuitem name="ContactsPrintPreview" verb=""
 			      _label="Print Preview"
 			      _tip="Previews the message to be printed"
 			      pixtype="pixbuf"/>

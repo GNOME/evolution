@@ -1,3 +1,8 @@
+2001-05-31  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: change Print Preview's name to
+	ContactsPrintPreview.
+
 2001-05-30  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: add commands/menu items for
