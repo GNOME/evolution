@@ -1000,7 +1000,8 @@ static gboolean do_message_selected(FolderBrowser *fb);
 void
 folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show_message_preview)
 {
-	if (folder_browser->preview_shown == show_message_preview)
+	if (folder_browser->preview_shown == show_message_preview
+	    || folder_browser->message_list == NULL)
 		return;
 
 	folder_browser->preview_shown = show_message_preview;
@@ -1101,6 +1102,9 @@ static void
 folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
 	char *search_word;
+
+	if (fb->message_list == NULL)
+		return;
 	
 	d(printf("query changed\n"));
 	
@@ -1124,7 +1128,8 @@ folder_browser_toggle_preview (BonoboUIComponent           *component,
 {
 	FolderBrowser *fb = user_data;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
+	if (type != Bonobo_UIComponent_STATE_CHANGED
+	    || fb->message_list == NULL)
 		return;
 	
 	mail_config_set_show_preview (fb->uri, atoi (state));
@@ -1140,7 +1145,8 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 {
 	FolderBrowser *fb = user_data;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
+	if (type != Bonobo_UIComponent_STATE_CHANGED
+	    || fb->message_list == NULL)
 		return;
 	
 	mail_config_set_thread_list (fb->uri, atoi (state));
@@ -1156,7 +1162,8 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 {
 	FolderBrowser *fb = user_data;
 
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
+	if (type != Bonobo_UIComponent_STATE_CHANGED
+	    || fb->message_list == NULL)
 		return;
 
 	if (!(fb->folder && (fb->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
@@ -1175,7 +1182,9 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 	FolderBrowser *fb = user_data;
 	int i;
 
-	if (type != Bonobo_UIComponent_STATE_CHANGED || atoi(state) == 0)
+	if (type != Bonobo_UIComponent_STATE_CHANGED
+	    || atoi(state) == 0
+	    || fb->message_list == NULL)
 		return;
 
 	for (i = 0; i < MAIL_CONFIG_DISPLAY_MAX; i++) {
@@ -1200,7 +1209,8 @@ folder_browser_charset_changed (BonoboUIComponent           *component,
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	const char *charset;
 	
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
+	if (type != Bonobo_UIComponent_STATE_CHANGED
+	    || fb->message_list == NULL)
 		return;
 	
 	if (atoi (state)) {

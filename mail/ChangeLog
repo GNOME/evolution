@@ -30,6 +30,14 @@
 	(folder_changed_main): Remove old async event handling stuff.
 	(FOLDER_BROWSER_LOCK/UNLOCK): Removed.
 	(FolderBrowserPrivate): Removed too, sigh.
+	(folder_browser_set_message_preview): Return do nothing if we're
+	destroyed (message_list == NULL).
+	(folder_browser_search_query_changed): "
+	(folder_browser_toggle_preview): "
+	(folder_browser_toggle_threads): "
+	(folder_browser_toggle_hide_deleted): "
+	(folder_browser_set_message_display_style): "
+	(folder_browser_charset_changed): "   All for #12613.
 
 	* mail-mt.c (mail_async_event_new, mail_async_event_emit,
 	mail_async_event_destroy): New functions to handle async events.
