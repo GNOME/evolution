@@ -521,6 +521,7 @@ attempt_upgrade (EShell *shell)
 {
 	GConfClient *gconf_client;
 	int major = 0, minor = 0, revision = 0;
+	char *version_string;
 
 	gconf_client = gconf_client_get_default ();
 
@@ -531,8 +532,10 @@ attempt_upgrade (EShell *shell)
 			    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
 			  major, minor, revision);
 
-	gconf_client_set_string (gconf_client, "/apps/evolution/version", VERSION, NULL);
+	version_string = g_strdup_printf ("%s.%s", BASE_VERSION, UPGRADE_REVISION);
+	gconf_client_set_string (gconf_client, "/apps/evolution/version", version_string, NULL);
 	g_object_unref (gconf_client);
+	g_free (version_string);
 }
 
 /**
@@ -659,7 +662,9 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	sscanf (VERSION, "%u.%u.%u", &current_major, &current_minor, &current_revision);
+	sscanf (BASE_VERSION, "%u.%u", &current_major, &current_minor);
+
+	current_revision = atoi (UPGRADE_REVISION);
 
 	if (! (current_major > major
 	       || (current_major == major && current_minor > minor)
@@ -682,8 +687,8 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 		if (BONOBO_EX (&ev)) {
 			char *exception_text;
 
-			// Ignore components that do not implement this version, it might just mean that they don't need an
-			// upgrade path.
+			/* Ignore components that do not implement this version, it might just mean that they don't need an
+			   upgrade path. */
 			if (strcmp (ev._id, ex_CORBA_NO_IMPLEMENT) == 0) {
 				CORBA_exception_free (&ev);
 				continue;
@@ -1008,8 +1013,8 @@ e_shell_send_receive (EShell *shell)
 
 		GNOME_Evolution_Component_sendAndReceive (info->iface, &ev);
 
-		// Ignore errors, the components can decide to not implement
-		// this interface.
+		/* Ignore errors, the components can decide to not implement
+		   this interface. */
 
 		CORBA_exception_free (&ev);
 	}

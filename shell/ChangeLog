@@ -1,3 +1,11 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell.c (e_shell_attempt_upgrade): use BASE_VERSION to supply
+	the major/minor version, and use UPGRADE_REVISION for the
+	revision.
+	(attempt_upgrade): store the key based on BASE_VERSION and
+	UPGRADE_REVISION.
+
 2004-04-09  Dan Winship  <danw@ximian.com>
 
 	* e-user-creatable-items-handler.c: Change this a lot. Now each
