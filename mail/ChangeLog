@@ -1,3 +1,10 @@
+2004-01-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-message-browser.c (emmb_set_message): Protect against a NULL
+	message-info. Afaik, this can only happen if the message has since
+	been removed? Might be a larger problem here... Anyways, fixes the
+	crash in bug #52297.
+
 2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (folder_renamed_cb): Clone the

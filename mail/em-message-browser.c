@@ -174,9 +174,10 @@ emmb_set_message(EMFolderView *emfv, const char *uid)
 	
 	emmb_parent->set_message(emfv, uid);
 	
-	info = camel_folder_get_message_info (emfv->folder, uid);
-	gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
-	camel_folder_free_message_info (emfv->folder, info);
+	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
+		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
+		camel_folder_free_message_info (emfv->folder, info);
+	}
 	
 	/* Well we don't know if it got displayed (yet) ... but whatever ... */
 	camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
