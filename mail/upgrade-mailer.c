@@ -616,7 +616,8 @@ shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const cha
 		g_free (url);
 		
 		if (new) {
-			name = g_strdup (new + strlen (si->base_url) + 1);
+			name = new + strlen (si->base_url) + 1;
+			name = hex_decode (name, strlen (name));
 			g_free (new);
 			
 			return name;
