@@ -137,6 +137,7 @@ enum {
 	DND_TYPE_TEXT_URI_LIST,
 	DND_TYPE_NETSCAPE_URL,
 	DND_TYPE_TEXT_VCARD,
+	DND_TYPE_TEXT_CALENDAR
 };
 
 static GtkTargetEntry drop_types[] = {
@@ -144,6 +145,7 @@ static GtkTargetEntry drop_types[] = {
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
 	{ "_NETSCAPE_URL", 0, DND_TYPE_NETSCAPE_URL },
 	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
+	{ "text/calendar", 0, DND_TYPE_TEXT_CALENDAR }
 };
 
 static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -2733,6 +2735,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
+	char *content_type;
 	int i;
 	
 	switch (info) {
@@ -2778,10 +2781,14 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		g_free (urls);
 		break;
 	case DND_TYPE_TEXT_VCARD:
-		d(printf ("dropping a text/x-vcard\n"));
+	case DND_TYPE_TEXT_CALENDAR:
+		content_type = gdk_atom_name (selection->type);
+		printf ("dropping a %s\n", content_type);
+		
 		mime_part = camel_mime_part_new ();
 		camel_mime_part_set_content (mime_part, selection->data,
-					     selection->length, "text/x-vcard");
+					     selection->length, content_type);
+		
 		camel_mime_part_set_disposition (mime_part, "inline");
 		
 		e_msg_composer_attachment_bar_attach_mime_part
@@ -2789,6 +2796,9 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 			 mime_part);
 		
 		camel_object_unref (mime_part);
+		g_free (content_type);
+
+		break;
 	default:
 		d(printf ("dropping an unknown\n"));
 		break;

@@ -1,3 +1,8 @@
+2004-04-13  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (drag_data_received): accept text/calendar
+	drops.
+
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients_from_destv):
