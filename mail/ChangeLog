@@ -1,5 +1,8 @@
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (pixbuf_gen_idle): If we fail to load the pixbuf,
+	don't use it (stops some g_warnings).
+
 	Part of a fix for bug #39809
 
 	* mail-vfolder.c (vfolder_edit): Don't add the cancel button here.

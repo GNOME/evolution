@@ -688,6 +688,23 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	} else
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (pbl->loader);
 	
+	if (pixbuf == NULL) {
+		/* pixbuf is non-existant */
+		if (pbl->mstream)
+			camel_object_unref (pbl->mstream);
+		
+		if (pbl->loader) {
+			gdk_pixbuf_loader_close (pbl->loader, NULL);
+			g_object_unref (pbl->loader);
+		}
+		
+		g_free (pbl->type);
+		g_free (pbl->cid);
+		g_free (pbl);
+		
+		return FALSE;
+	}
+	
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
 	
