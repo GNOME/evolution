@@ -4,7 +4,6 @@
 /* 
  * Authors:
  *  Dan Winship <danw@ximian.com>
- *  Tiago Antào <tiagoantao@bigfoot.com>
  *  Jeffrey Stedfast <fejj@ximian.com>
  *
  * Copyright 1999-2001 Ximian, Inc. (www.ximian.com)
@@ -41,6 +40,8 @@
 
 static void copy_param (GQuark key_id, gpointer data, gpointer user_data);
 static void output_param (GQuark key_id, gpointer data, gpointer user_data);
+
+static void append_url_encoded (GString *str, const char *in, const char *extra_enc_chars);
 
 /**
  * camel_url_new_with_base:
@@ -304,7 +305,7 @@ char *
 camel_url_to_string (CamelURL *url, guint32 flags)
 {
 	GString *str;
-	char *enc, *return_result;
+	char *return_result;
 	
 	/* IF YOU CHANGE ANYTHING IN THIS FUNCTION, RUN
 	 * tests/misc/url AFTERWARD.
@@ -318,47 +319,35 @@ camel_url_to_string (CamelURL *url, guint32 flags)
 	if (url->host) {
 		g_string_append (str, "//");
 		if (url->user) {
-			enc = camel_url_encode (url->user, TRUE, ":;@/");
-			g_string_append (str, enc);
-			g_free (enc);
+			append_url_encoded (str, url->user, ":;@/");
+			if (url->authmech && *url->authmech) {
+				g_string_append (str, ";auth=");
+				append_url_encoded (str, url->authmech, ":@/");
+			}
+			if (url->passwd && !(flags & CAMEL_URL_HIDE_PASSWORD)) {
+				g_string_append_c (str, ':');
+				append_url_encoded (str, url->passwd, "@/");
+			}
+			g_string_append_c (str, '@');
 		}
-		if (url->authmech && *url->authmech) {
-			enc = camel_url_encode (url->authmech, TRUE, ":@/");
-			g_string_append_printf (str, ";auth=%s", enc);
-			g_free (enc);
-		}
-		if (url->passwd && !(flags & CAMEL_URL_HIDE_PASSWORD)) {
-			enc = camel_url_encode (url->passwd, TRUE, "@/");
-			g_string_append_printf (str, ":%s", enc);
-			g_free (enc);
-		}
-		if (url->host) {
-			enc = camel_url_encode (url->host, TRUE, ":/");
-			g_string_append_printf (str, "%s%s", url->user ? "@" : "", enc);
-			g_free (enc);
-		}
+		append_url_encoded (str, url->host, ":/");
 		if (url->port)
 			g_string_append_printf (str, ":%d", url->port);
 		if (!url->path && (url->params || url->query || url->fragment))
 			g_string_append_c (str, '/');
 	}
 	
-	if (url->path) {
-		enc = camel_url_encode (url->path, FALSE, ";?#");
-		g_string_append_printf (str, "%s", enc);
-		g_free (enc);
-	}
+	if (url->path)
+		append_url_encoded (str, url->path, ";?");
 	if (url->params && !(flags & CAMEL_URL_HIDE_PARAMS))
 		g_datalist_foreach (&url->params, output_param, str);
 	if (url->query) {
-		enc = camel_url_encode (url->query, FALSE, "#");
-		g_string_append_printf (str, "?%s", enc);
-		g_free (enc);
+		g_string_append_c (str, '?');
+		append_url_encoded (str, url->query, NULL);
 	}
 	if (url->fragment) {
-		enc = camel_url_encode (url->fragment, FALSE, NULL);
-		g_string_append_printf (str, "#%s", enc);
-		g_free (enc);
+		g_string_append_c (str, '#');
+		append_url_encoded (str, url->fragment, NULL);
 	}
 	
 	return_result = str->str;
@@ -371,15 +360,12 @@ static void
 output_param (GQuark key_id, gpointer data, gpointer user_data)
 {
 	GString *str = user_data;
-	char *enc;
-	
-	enc = camel_url_encode (g_quark_to_string (key_id), FALSE, "?#");
-	g_string_append_printf (str, ";%s", enc);
-	g_free (enc);
+
+	g_string_append_c (str, ';');
+	append_url_encoded (str, g_quark_to_string (key_id), "?=");
 	if (*(char *)data) {
-		enc = camel_url_encode (data, FALSE, "?#");
-		g_string_append_printf (str, "=%s", enc);
-		g_free (enc);
+		g_string_append_c (str, '=');
+		append_url_encoded (str, data, "?");
 	}
 }
 
@@ -443,41 +429,62 @@ camel_url_get_param (CamelURL *url, const char *name)
 	return g_datalist_get_data (&url->params, name);
 }
 
+/* From RFC 2396 2.4.3, the characters that should always be encoded */
+static const char url_encoded_char[] = {
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  /* 0x00 - 0x0f */
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  /* 0x10 - 0x1f */
+	1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  /*  ' ' - '/'  */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0,  /*  '0' - '?'  */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  /*  '@' - 'O'  */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0,  /*  'P' - '_'  */
+	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  /*  '`' - 'o'  */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1,  /*  'p' - 0x7f */
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+};
+
+static void
+append_url_encoded (GString *str, const char *in, const char *extra_enc_chars)
+{
+	const unsigned char *s = (const unsigned char *)in;
+
+	while (*s) {
+		if (url_encoded_char[*s] ||
+		    (extra_enc_chars && strchr (extra_enc_chars, *s)))
+			g_string_append_printf (str, "%%%02x", (int)*s++);
+		else
+			g_string_append_c (str, *s++);
+	}
+}
 
 /**
  * camel_url_encode:
  * @part: a URL part
- * @escape_unsafe: whether or not to %-escape "unsafe" characters.
- * ("%#<>{}|\^~[]`)
- * @escape_extra: additional characters to escape.
+ * @escape_extra: additional characters beyond " \"%#<>{}|\^[]`"
+ * to escape (or %NULL)
  *
  * This %-encodes the given URL part and returns the escaped version
  * in allocated memory, which the caller must free when it is done.
  **/
 char *
-camel_url_encode (const char *part, gboolean escape_unsafe,
-		  const char *escape_extra)
+camel_url_encode (const char *part, const char *escape_extra)
 {
-	char *work, *p;
+	GString *str;
+	char *encoded;
 
-	/* worst case scenario = 3 times the initial */
-	p = work = g_malloc (3 * strlen (part) + 1);
+	str = g_string_new (NULL);
+	append_url_encoded (str, part, escape_extra);
+	encoded = str->str;
+	g_string_free (str, FALSE);
 
-	while (*part) {
-		if (((guchar) *part >= 127) || ((guchar) *part <= ' ') ||
-		    (escape_unsafe && strchr ("\"%#<>{}|\\^~[]`", *part)) ||
-		    (escape_extra && strchr (escape_extra, *part))) {
-			sprintf (p, "%%%.02hX", (guchar) *part++);
-			p += 3;
-		} else
-			*p++ = *part++;
-	}
-	*p = '\0';
-
-	return work;
+	return encoded;
 }
-
-#define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
 
 /**
  * camel_url_decode:
@@ -490,21 +497,20 @@ camel_url_encode (const char *part, gboolean escape_unsafe,
 void
 camel_url_decode (char *part)
 {
-	guchar *s, *d;
+	unsigned char *s, *d;
 
-	s = d = (guchar *)part;
-	while (*s) {
-		if (*s == '%') {
-			if (isxdigit (s[1]) && isxdigit (s[2])) {
-				*d++ = HEXVAL (s[1]) * 16 + HEXVAL (s[2]);
-				s += 3;
-			} else
-				*d++ = *s++;
+#define XDIGIT(c) ((c) <= '9' ? (c) - '0' : ((c) & 0x4F) - 'A' + 10)
+
+	s = d = (unsigned char *)part;
+	do {
+		if (*s == '%' && s[1] && s[2]) {
+			*d++ = (XDIGIT (s[1]) << 4) + XDIGIT (s[2]);
+			s += 2;
 		} else
-			*d++ = *s++;
-	}
-	*d = '\0';
+			*d++ = *s;
+	} while (*s++);
 }
+
 
 guint
 camel_url_hash (const void *v)

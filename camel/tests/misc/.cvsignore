@@ -9,4 +9,6 @@ Makefile.in
 *.bbg
 *.da
 *.gcov
+split
 url
+utf7

@@ -328,5 +328,5 @@ camel_file_util_safe_filename(const char *name)
 	if (name == NULL)
 		return NULL;
 	
-	return camel_url_encode(name, TRUE, "/?()'*");
+	return camel_url_encode(name, "/?()'*");
 }

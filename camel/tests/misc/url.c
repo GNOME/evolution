@@ -52,7 +52,22 @@ struct {
 	{ "g/./h", "http://a/b/c/g/h" },
 	{ "g/../h", "http://a/b/c/h" },
 	{ "http:g", "http:g" },
-	{ "http:", "http:" }
+	{ "http:", "http:" },
+
+	/* (not from rfc 1808) */
+	{ "sendmail:", "sendmail:" },
+	{ "mbox:/var/mail/user", "mbox:/var/mail/user" },
+	{ "pop://user@host", "pop://user@host" },
+	{ "pop://user@host:99", "pop://user@host:99" },
+	{ "pop://user:password@host", "pop://user:password@host" },
+	{ "pop://user:password@host:99", "pop://user:password@host:99" },
+	{ "pop://user;auth=APOP@host", "pop://user;auth=APOP@host" },
+	{ "pop://user@host/;keep_on_server", "pop://user@host/;keep_on_server" },
+	{ "pop://user@host/;keep_on_server=1", "pop://user@host/;keep_on_server=1" },
+	{ "pop://us%65r@host", "pop://user@host" },
+	{ "pop://us%40r@host", "pop://us%40r@host" },
+	{ "pop://us%3ar@host", "pop://us%3ar@host" },
+	{ "pop://us%2fr@host", "pop://us%2fr@host" }
 };
 int num_tests = sizeof (tests) / sizeof (tests[0]);
 
@@ -66,7 +81,7 @@ main (int argc, char **argv)
 
 	camel_test_init (argc, argv);
 
-	camel_test_start ("RFC1808 relative URL parsing");
+	camel_test_start ("URL parsing");
 
 	camel_test_push ("base URL parsing");
 	camel_exception_init (&ex);

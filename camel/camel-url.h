@@ -59,8 +59,7 @@ CamelURL *camel_url_new (const char *url_string, CamelException *ex);
 char *camel_url_to_string (CamelURL *url, guint32 flags);
 void camel_url_free (CamelURL *url);
 
-char *camel_url_encode (const char *part, gboolean escape_unsafe,
-			const char *escape_extra);
+char *camel_url_encode (const char *part, const char *escape_extra);
 void camel_url_decode (char *part);
 
 /* for editing url's */

@@ -1,3 +1,19 @@
+2003-03-27  Dan Winship  <danw@ximian.com>
+
+	* camel-url.c (append_url_encoded): Like camel_url_encode, but
+	works directly on an existing GString.
+	(camel_url_to_string, output_param): Use it.
+	(camel_url_encode): Likewise. Remove "escape_unsafe" arg since the
+	"unsafe" chars are the ones that should *always* be escaped, and
+	the places we were passing FALSE were wrong.
+	(camel_url_decode): replace with a new version
+
+	* camel-file-utils.c (camel_file_util_safe_filename): Remove extra
+	arg to camel_url_encode.
+
+	* tests/misc/url.c (main): Add tests of basic URL parsing and
+	unparsing
+
 2003-03-28  Not Zed  <NotZed@Ximian.com>
 
 	*
