@@ -70,7 +70,8 @@ enum {
 	ARG_TEXT_WIDTH,
 	ARG_TEXT_HEIGHT,
 	ARG_USE_ELLIPSIS,
-	ARG_ELLIPSIS
+	ARG_ELLIPSIS,
+	ARG_STRIKEOUT_COLUMN,
 };
 
 
@@ -550,6 +551,16 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						    1,
 						    height);
 			}
+			if (ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row)) {
+				gdk_draw_rectangle (drawable,
+						    text_view->gc,
+						    TRUE,
+						    xpos + x1, ypos + y1 - (font->ascent / 2),
+						    gdk_text_width (font, 
+								    lines->text,
+								    lines->length),
+						    1);
+			}
 			ypos += height;
 			lines ++;
 		}
@@ -596,6 +607,16 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       ypos + y1,
 					       lines->text,
 					       lines->length);
+			}
+			if (ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row)) {
+				gdk_draw_rectangle (drawable,
+						    text_view->gc,
+						    TRUE,
+						    xpos + x1, ypos + y1 - (font->ascent / 2),
+						    gdk_text_width (font, 
+								    lines->text,
+								    lines->length),
+						    1);
 			}
 			ypos += height;
 			lines++;
@@ -1055,6 +1076,44 @@ ect_destroy (GtkObject *object)
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
+/* Set_arg handler for the text item */
+static void
+ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ECellText *text;
+
+	text = E_CELL_TEXT (object);
+
+	switch (arg_id) {
+	case ARG_STRIKEOUT_COLUMN:
+		if (text->strikeout_column != GTK_VALUE_INT (*arg)) {
+			text->strikeout_column = GTK_VALUE_INT (*arg);
+		}
+		break;
+
+	default:
+		return;
+	}
+}
+
+/* Get_arg handler for the text item */
+static void
+ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ECellText *text;
+
+	text = E_CELL_TEXT (object);
+
+	switch (arg_id) {
+	case ARG_STRIKEOUT_COLUMN:
+		GTK_VALUE_INT (*arg) = text->strikeout_column;
+		break;
+
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
+	}
+}
 
 static void
 e_cell_text_class_init (GtkObjectClass *object_class)
@@ -1073,13 +1132,25 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
 
+	object_class->get_arg = ect_get_arg;
+	object_class->set_arg = ect_set_arg;
+
 	parent_class = gtk_type_class (PARENT_TYPE);
+
+	gtk_object_add_arg_type ("ECellText::strikeout_column",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_STRIKEOUT_COLUMN);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
-E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, NULL, PARENT_TYPE);
+static void
+e_cell_text_init (ECellText *ect)
+{
+	ect->strikeout_column = -1;
+}
+
+E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
 
 ECell *
 e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justify)

@@ -47,6 +47,8 @@ typedef struct {
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
+	
+	int strikeout_column;
 } ECellText;
 
 typedef struct {
