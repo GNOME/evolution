@@ -1,3 +1,8 @@
+2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* POTFILES.in: Add some files that were missing, remove some test
+	programs that don't need i18n, sort.
+
 2003-09-10 Marco Ciampa <ciampix@libero.it>
 	
 	* it.po: Updated italian translation.
