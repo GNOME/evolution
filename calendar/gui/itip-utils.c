@@ -323,12 +323,6 @@ comp_subject (CalComponent *comp)
 }
 
 static CORBA_char *
-comp_body (CalComponent *comp) 
-{
-	return CORBA_string_dup ("");
-}
-
-static CORBA_char *
 comp_content_type (CalComponentItipMethod method)
 {
 	char tmp[256];	
@@ -679,7 +673,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
-	CORBA_char *body = NULL, *subject = NULL, *content_type = NULL;
+	CORBA_char *subject = NULL, *content_type = NULL;
 	CORBA_char *filename = NULL, *description = NULL;
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
 	CORBA_boolean show_inline;
@@ -716,9 +710,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 		goto cleanup;
 	}
 
-	/* Body of the message */
-	body = comp_body (comp);
-	
 	/* Content type, suggested file name, description */
 	content_type = comp_content_type (method);
 	filename = comp_filename (comp);	
@@ -767,8 +758,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 
 	if (subject != NULL)
 		CORBA_free (subject);
-	if (body != NULL)
-		CORBA_free (body);
 	if (content_type != NULL)
 		CORBA_free (content_type);
 	if (filename != NULL)
