@@ -432,7 +432,7 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, CardAndView
 }
 
 static void
-table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
+table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
 	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
 		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
