@@ -22,5 +22,8 @@ libfilter.la: $(LIBFILTEROBJS)
 %.lo: %.c
 	$(LIBTOOL) --mode compile $(CC) $(CFLAGS) -c -o $@ $<
 
+install: 
+	echo "install not yet implemented"
+
 clean:
 	-rm -rf *.o *.lo core .libs
