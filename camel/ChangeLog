@@ -1,3 +1,7 @@
+2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-file-utils.h: #include <sys/types.h> for off_t.
+
 2001-04-26  Dan Winship  <danw@ximian.com>
 
 	* camel-file-utils.c: New file, with the int, string, time_t, and

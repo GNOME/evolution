@@ -34,6 +34,7 @@ extern "C" {
 
 #include <glib.h>
 #include <stdio.h>
+#include <sys/types.h>
 #include <time.h>
 
 int camel_file_util_encode_fixed_int32 (FILE *out, gint32);
