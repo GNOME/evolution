@@ -768,8 +768,9 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = NULL;
 		} else {
+			/* NOTE: not all users want this, so we need a preference for it perhaps? see bug #52887 */
 			/* FIXME: if the 1st message in the list is unread, this will actually select the second unread msg */
-			message_list_select (ml, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
+			/*message_list_select (ml, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);*/
 		}
 	}
 }

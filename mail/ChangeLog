@@ -1,5 +1,10 @@
 2004-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-browser.c (emfb_list_built): Don't select the first
+	unread mesg in the case where no mesg was previously
+	selected. Fixes bug #52887 until we are able to add a user
+	preference (for 2.2?).
+
 	* em-migrate.c (cp): Only abort the copy if the dest folder both
 	exists and contains data. Fixes bug #52880.
 	(em_migrate): Abort if config.xmldb cannot be loaded. Fixes bug
