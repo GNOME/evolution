@@ -1,3 +1,7 @@
+2000-12-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Updated the required version of gal.
+
 2000-12-07  Radek Doulik  <rodo@helixcode.com>
 
 	* configure.in (GTKHTML_LIBS): renamed HTMLEditor.idl to
