@@ -1,5 +1,7 @@
 1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
 
+	* Makefile.am (EXTRA_DIST): Add `autogen.sh'.
+
 	* gnome-objc-checks.m4 (GNOME_INIT_OBJC): Solaris /bin/sh doesn't
 	understand `test -e'.
 
