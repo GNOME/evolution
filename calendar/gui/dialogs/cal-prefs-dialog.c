@@ -263,7 +263,9 @@ get_widgets (DialogData *data)
 	data->timezone = GW ("timezone");
 	data->week_start_day = GW ("first_day_of_week");
 	data->start_of_day = GW ("start_of_day");
+	gtk_widget_show (data->start_of_day);
 	data->end_of_day = GW ("end_of_day");
+	gtk_widget_show (data->end_of_day);
 	data->use_12_hour = GW ("use_12_hour");
 	data->use_24_hour = GW ("use_24_hour");
 	data->time_divisions = GW ("time_divisions");

@@ -1,3 +1,8 @@
+2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.c (get_widgets): Show start/end-of-day
+	widgets.
+	
 2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* cal-client/cal-client.c (cal_client_is_read_only): Don't warn
