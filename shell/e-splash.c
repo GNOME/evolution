@@ -370,7 +370,11 @@ e_splash_new (void)
 	GdkPixbuf *splash_image_pixbuf;
 
 	splash_image_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/splash.png", NULL);
-	g_return_val_if_fail (splash_image_pixbuf != NULL, NULL);
+
+	if (splash_image_pixbuf == NULL) {
+		g_warning("Cannot find splash image: %s", EVOLUTION_IMAGES "/splash.png");
+		return NULL;
+	}
 
 	new = g_object_new (e_splash_get_type (), NULL);
 	e_splash_construct (new, splash_image_pixbuf);

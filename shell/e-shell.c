@@ -1252,7 +1252,7 @@ e_shell_construct (EShell *shell,
 		   gboolean show_splash,
 		   EShellStartupLineMode startup_line_mode)
 {
-	GtkWidget *splash;
+	GtkWidget *splash = NULL;
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
 	gchar *shortcut_path;
@@ -1303,24 +1303,19 @@ e_shell_construct (EShell *shell,
 	if (bonobo_activation_active_server_register (iid, corba_object) != Bonobo_ACTIVATION_REG_SUCCESS)
 		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 
-	if (! show_splash) {
-		splash = NULL;
-	} else {
-		splash = e_splash_new ();
+	if (show_splash
+	    && (splash = e_splash_new ())) {
 		g_signal_connect (splash, "delete_event",
 				  G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 		gtk_widget_show (splash);
 	}
-	
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
 	priv->user_creatable_items_handler = e_shell_user_creatable_items_handler_new ();
 	
-	if (show_splash)
-		setup_components (shell, E_SPLASH (splash));
-	else
-		setup_components (shell, NULL);
+	setup_components (shell, (ESplash *)splash);
 	
 	/* Set up the shortcuts.  */
 	
@@ -1347,9 +1342,9 @@ e_shell_construct (EShell *shell,
 	
 	/* Now that we have a local storage and all the interfaces set up, we
 	   can tell the components we are here.  */
-	set_owner_on_components (shell, E_SPLASH (splash));
+	set_owner_on_components (shell, (ESplash *)splash);
 	
-	if (show_splash)
+	if (splash)
 		gtk_widget_destroy (splash);
 	
 	if (e_shell_startup_wizard_create () == FALSE) {

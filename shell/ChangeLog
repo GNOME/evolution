@@ -1,5 +1,13 @@
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
+	[#39467]
+	
+	* e-shell.c (e_shell_construct): Change the splash logic slightly,
+	so that if we can't create the splash, we dont try and cast/use
+	it.
+	* e-splash.c (e_splash_new): dont use a g_return* for what could
+	be a valid (tho incorrect) runtime condition.
+
 	[#40590]
 
 	* e-config-upgrade.c (identity_map[]): Move the signature stuff to
