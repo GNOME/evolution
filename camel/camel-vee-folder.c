@@ -612,13 +612,13 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 			break;
 		}
 
-		if (expunge && vee_folder_build_folder(vf, f, ex) == -1)
+		if (vee_folder_build_folder(vf, f, ex) == -1)
 			break;
 
 		node = node->next;
 	}
 
-	if (expunge && node == NULL) {
+	if (node == NULL) {
 		CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 		g_list_free(p->folders_changed);
 		p->folders_changed = NULL;

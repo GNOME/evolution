@@ -1188,7 +1188,7 @@ void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
  **/
 void camel_folder_summary_remove_range(CamelFolderSummary *s, int start, int end)
 {
-	if (end <= start+1)
+	if (end < start)
 		return;
 
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
