@@ -1,3 +1,8 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: make sure the marshal header and source are in the
+	source list
+
 2003-10-31  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-source.c (e_source_get_uri): Don't compress trailing slashes in

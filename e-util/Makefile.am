@@ -54,6 +54,7 @@ eutilinclude_HEADERS = 				\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
+	$(MARSHAL_GENERATED)			\
 	$(eutilinclude_HEADERS)			\
 	e-account-list.c			\
 	e-account.c				\
@@ -87,7 +88,6 @@ libeutil_la_SOURCES =				\
 	e-trie.c				\
 	e-uid.c					\
 	e-url.c					\
-	e-util-marshal.c			\
 	e-xml-hash-utils.c			\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
