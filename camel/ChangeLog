@@ -1,5 +1,9 @@
 2000-05-08  NotZed  <NotZed@HelixCode.com>
 
+	* camel-mime-message.c (process_header): Format From and Reply-To
+	to at least a decoded string.  Should probably store them as an
+	camelinternetaddress.
+
 	* Merged NEW_SUMMARY branch back to trunk, and resolved conflicts.
 	
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_update):

@@ -561,6 +561,22 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 }
 
+static char *
+format_address(const char *text)
+{
+	struct _header_address *addr;
+	char *ret;
+
+	addr = header_address_decode(text);
+	if (addr) {
+		ret = header_address_list_format(addr);
+		header_address_list_clear(&addr);
+	} else {
+		ret = g_strdup(text);
+	}
+	return ret;
+}
+
 /* FIXME: check format of fields. */
 static gboolean
 process_header(CamelMedium *medium, const char *header_name, const char *header_value)
@@ -572,12 +588,12 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
 	case HEADER_FROM:
-		g_free(message->from); /* FIXME: parse the from line into something useful */
-		message->from = g_strdup(header_value);
+		g_free(message->from);
+		message->from = format_address(header_value);
 		break;
 	case HEADER_REPLY_TO:
-		g_free(message->reply_to); /* FIXME: parse the from line into something useful */
-		message->reply_to = g_strdup(header_value);
+		g_free(message->reply_to);
+		message->reply_to = format_address(header_value);
 		break;
 	case HEADER_SUBJECT:
 		g_free(message->subject);
