@@ -74,7 +74,6 @@ enum {
 /* CamelFolderInfo flags */
 #define CAMEL_IMAP_FOLDER_MARKED	     (1<<16)
 #define CAMEL_IMAP_FOLDER_UNMARKED	     (1<<17)
-#define CAMEL_IMAP_FOLDER_NOCHILDREN	     (1<<18)
 
 
 typedef enum {

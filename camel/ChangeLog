@@ -1,3 +1,12 @@
+2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.h: Add a CAMEL_FOLDER_NOCHILDREN flag.
+
+	* providers/imap/camel-imap-store.c (get_folders): Same as below.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	s/CAMEL_IMAP_FOLDER_NOCHILDREN/CAMEL_FOLDER_NOCHILDREN/
+
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* camel-smime-context.c (sm_verify): also check

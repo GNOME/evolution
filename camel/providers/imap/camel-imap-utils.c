@@ -339,7 +339,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 			else if (!strncasecmp (word, "\\HasChildren", len))
 				*flags |= CAMEL_FOLDER_CHILDREN;
 			else if (!strncasecmp (word, "\\HasNoChildren", len))
-				*flags |= CAMEL_IMAP_FOLDER_NOCHILDREN;
+				*flags |= CAMEL_FOLDER_NOCHILDREN;
 		}
 		
 		word += len;

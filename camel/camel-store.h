@@ -64,8 +64,10 @@ typedef struct _CamelFolderInfo {
 #define CAMEL_FOLDER_NOINFERIORS (1<<1)
 /* a folder which has children (not yet fully implemented) */
 #define CAMEL_FOLDER_CHILDREN (1<<2)
+/* a folder which does not have any children (not yet fully implemented) */
+#define CAMEL_FOLDER_NOCHILDREN (1<<3)
 /* a folder which is subscribed */
-#define CAMEL_FOLDER_SUBSCRIBED (1<<3)
+#define CAMEL_FOLDER_SUBSCRIBED (1<<4)
 
 /* Structure of rename event's event_data */
 typedef struct _CamelRenameInfo {

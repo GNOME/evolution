@@ -2507,11 +2507,11 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
                             or can't have children, no need to go further - a bit ugly */
 			if ( top == imap_store->namespace
 			     && (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0
-			     && (fi->flags & (CAMEL_FOLDER_CHILDREN|CAMEL_IMAP_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) != 0) {
+			     && (fi->flags & (CAMEL_FOLDER_CHILDREN|CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) != 0) {
 				/* do nothing */
 			}
 				/* Otherwise, if this has (or might have) children, scan it */
-			else if ( (fi->flags & (CAMEL_IMAP_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) == 0
+			else if ( (fi->flags & (CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) == 0
 				  || (fi->flags & CAMEL_FOLDER_CHILDREN) != 0) {
 				char *n, *real;
 
