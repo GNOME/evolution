@@ -71,6 +71,18 @@ struct _PixbufLoader {
 };
 static GHashTable *thumbnail_cache = NULL;
 
+/* Drag & Drop types */
+#define TEXT_URI_LIST_TYPE       "text/uri-list"
+
+enum DndTargetType {
+	DND_TARGET_TYPE_TEXT_URI_LIST,
+};
+
+static GtkTargetEntry drag_types[] = {
+	{ TEXT_URI_LIST_TYPE, 0, DND_TARGET_TYPE_TEXT_URI_LIST },
+};
+
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -357,7 +369,7 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	CamelMimePart *part;
 	MailMimeHandler *handler;
 	int mask = 0, i, nitems;
-
+	
 #ifdef USE_OLD_DISPLAY_STYLE
 	if (event->button != 3) {
 		gtk_propagate_event (GTK_WIDGET (user_data),
@@ -365,27 +377,27 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 		return TRUE;
 	}
 #endif
-
+	
 	if (event->button != 1 && event->button != 3) {
 		gtk_propagate_event (GTK_WIDGET (user_data),
 				     (GdkEvent *)event);
 		return TRUE;
 	}
-
+	
 	/* Stop the signal, since we don't want the button's class method to
 	   mess up our popup. */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
-
+	
 	part = gtk_object_get_data (GTK_OBJECT (widget), "CamelMimePart");
 	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (widget),
 							    "mime_type"));
-
+	
 	if (handler && handler->applications)
 		nitems = g_list_length (handler->applications) + 2;
 	else
 		nitems = 3;
 	menu = g_new0 (EPopupMenu, nitems + 1);
-
+	
 	/* Save item */
 	memcpy (&menu[0], &save_item, sizeof (menu[0]));
 	menu[0].name = _(menu[0].name);
@@ -774,6 +786,68 @@ save_url (MailDisplay *md, const char *url)
 	return NULL;
 }
 
+static void
+drag_data_get_cb (GtkWidget *widget,
+		  GdkDragContext *drag_context,
+		  GtkSelectionData *selection_data,
+		  guint info,
+		  guint time,
+		  gpointer user_data)
+{
+	CamelMimePart *part = user_data;
+	const char *filename, *tmpdir;
+	char *uri_list;
+	
+	switch (info) {
+	case DND_TARGET_TYPE_TEXT_URI_LIST:
+		tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
+		if (!tmpdir) {
+			char *msg;
+			
+			msg = g_strdup_printf (_("Could not create temporary directory: %s"),
+					       g_strerror (errno));
+			gnome_error_dialog (msg);
+			g_free (msg);
+		}
+		
+		filename = camel_mime_part_get_filename (part);
+		if (!filename)
+			filename = _("Unknown");
+		
+		uri_list = g_strdup_printf ("file://%s/%s", tmpdir, filename);
+		
+		if (!write_data_to_file (part, uri_list + 7, TRUE)) {
+			g_free (uri_list);
+			return;
+		}
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					uri_list, strlen (uri_list));
+		
+		gtk_object_set_data_full (GTK_OBJECT (widget), "uri-list", uri_list, g_free);
+		
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+drag_data_delete_cb (GtkWidget *widget,
+		     GdkDragContext *drag_context,
+		     gpointer user_data)
+{
+	CamelMimePart *part = user_data;
+	char *uri_list;
+	
+	uri_list = gtk_object_get_data (GTK_OBJECT (widget), "uri-list");
+	if (uri_list) {
+		gtk_object_set_data (GTK_OBJECT (widget), "uri-list", NULL);
+		unlink (uri_list + 7);
+		g_free (uri_list);
+	}
+}
+
 static gboolean
 do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 		      CamelMimePart *part, MailDisplay *md)
@@ -781,11 +855,11 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	GtkWidget *button, *mainbox, *hbox, *arrow, *popup;
 	MailMimeHandler *handler;
 	struct _PixbufLoader *pbl;
-
+	
 	pbl = g_new0 (struct _PixbufLoader, 1);
 	if (g_strncasecmp (eb->type, "image/", 6) == 0) {
 		CamelDataWrapper *content;
-
+		
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		if (!camel_data_wrapper_is_offline (content)) {
 			pbl->mstream = camel_stream_mem_new ();
@@ -800,21 +874,30 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	pbl->eb = eb;
 	pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb), "destroy",
 					      embeddable_destroy_cb, pbl);
-
+	
 	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
 			 pbl, NULL);
-
+	
 	mainbox = gtk_hbox_new (FALSE, 0);
-
+	
 	button = gtk_button_new ();
 	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
-
+	
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (button_press), part);
-
+	
+	/* Drag & Drop */
+	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
+			     drag_types, num_drag_types,
+			     GDK_ACTION_MOVE);
+	gtk_signal_connect (GTK_OBJECT (button), "drag-data-get",
+			    drag_data_get_cb, part);
+	gtk_signal_connect (GTK_OBJECT (button), "drag-data-delete",
+			    drag_data_delete_cb, part);
+	
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
-
+	
 	if (mail_part_is_displayed_inline (part, md))
 		arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
 	else
@@ -822,32 +905,32 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_box_pack_start (GTK_BOX (hbox), arrow, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), pbl->pixmap, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (button), hbox);
-
+	
 	popup = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (popup),
 			   gtk_arrow_new (GTK_ARROW_DOWN,
 					  GTK_SHADOW_ETCHED_IN));
-
+	
 	gtk_object_set_data (GTK_OBJECT (popup), "MailDisplay", md);
 	gtk_object_set_data (GTK_OBJECT (popup), "CamelMimePart", part);
 	gtk_object_set_data_full (GTK_OBJECT (popup), "mime_type",
 				  g_strdup (eb->type), (GDestroyNotify)g_free);
-
+	
 	gtk_signal_connect (GTK_OBJECT (popup), "button_press_event",
 			    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
-
+	
 	gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
 	gtk_widget_show_all (mainbox);
-
+	
 	handler = mail_lookup_handler (eb->type);
 	if (handler && handler->builtin)
 		gtk_widget_set_sensitive (button, TRUE);
 	else
 		gtk_widget_set_sensitive (button, FALSE);
-
+	
 	gtk_container_add (GTK_CONTAINER (eb), mainbox);
-
+	
 	return TRUE;
 }
 

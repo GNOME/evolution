@@ -304,6 +304,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			for (i = 0; i < uids->len; i++)
 				g_free (uids->pdata[i]);
 			g_ptr_array_free (uids, TRUE);
+			g_free (msg);
 			return;
 		}
 		
@@ -313,7 +314,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		if (uids->len == 1) {
 			filename = camel_mime_message_get_subject (message);
 			if (!filename)
-				filename = "Unknown";
+				filename = _("Unknown");
 		} else
 			filename = "mbox";
 		

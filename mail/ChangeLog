@@ -1,5 +1,10 @@
 2002-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (drag_data_get_cb): Implement.
+	(drag_data_delete_cb): Implement.
+	(do_attachment_header): Setup Drag & Drop. This implements
+	bugzilla bug #1066.
+
 	* folder-browser-ui.c: Set the followup icon to use the new flag
 	icon rather than the exclamation mark icon.
 
