@@ -15,6 +15,10 @@
 	anything given get_folder_info.
 
 	* camel-remote-store.c:
+	* providers/local/camel-local-store.c:
+	* providers/local/camel-mbox-store.c:
+	* providers/local/camel-mh-store.c:
+	* providers/local/camel-maildir-store.c:
 	* providers/nntp/camel-nntp-store.c:
 	* providers/pop3/camel-pop3-store.c:
 	* providers/vee/camel-vee-store.c: Minor updates for CamelStore
@@ -33,10 +37,8 @@
 	camel_object_new and camel_service_construct to replace
 	camel_service_new.
 
-	* providers/local/camel-local-store.c: Update for CamelStore
-	changes
-	(construct): Append a '/' to the URL path if it doesn't end with
-	one
+	* providers/local/camel-local-store.c (construct): Append a '/' to
+	the URL path if it doesn't end with one
 
 2001-01-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
