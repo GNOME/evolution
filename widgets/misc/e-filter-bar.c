@@ -236,12 +236,14 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		break;
 	default:
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
+#if d(!)0
 			GString *out = g_string_new ("");
-			d(printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name));
-			filter_rule_build_code (efb->menu_rules->pdata[id - efb->menu_base], out);
-			d(printf("query: '%s'\n", out->str));
-			g_string_free (out, TRUE);
 			
+			printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name);
+			filter_rule_build_code (efb->menu_rules->pdata[id - efb->menu_base], out);
+			printf("query: '%s'\n", out->str);
+			g_string_free (out, TRUE);
+#endif
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
 			efb->setquery = TRUE;
 			
@@ -273,7 +275,7 @@ option_changed (ESearchBar *esb, void *data)
 	default:
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {
 			efb->current_query = (FilterRule *)efb->option_rules->pdata[id - efb->option_base];
-			if (efb->config) {
+			if (efb->config && efb->current_query) {
 				g_object_get (G_OBJECT (esb), "text", &query, NULL);
 				efb->config (efb, efb->current_query, id, query, efb->config_data);
 				g_free (query);
@@ -563,28 +565,29 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		xmlNodePtr root, node;
 		xmlDocPtr doc;
 		
-		text = e_search_bar_get_text ((ESearchBar *) efb);
 		item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
-		subitem_id = e_search_bar_get_subitem_id ((ESearchBar *) efb);
 		
 		doc = xmlNewDoc ("1.0");
 		root = xmlNewDocNode (doc, NULL, "state", NULL);
 		xmlDocSetRootElement (doc, root);
 		
-		/* save the search-bar state */
-		node = xmlNewChild (root, NULL, "search-bar", NULL);
-		xmlSetProp (node, "text", text ? text : "");
-		sprintf (buf, "%d", item_id);
-		xmlSetProp (node, "item_id", buf);
-		sprintf (buf, "%d", subitem_id);
-		xmlSetProp (node, "subitem_id", buf);
-		g_free (text);
-		
-		/* save the filter-bar state */
-		node = xmlNewChild (root, NULL, "filter-bar", NULL);
-		xmlSetProp (node, "setquery", efb->setquery ? "true" : "false");
-		if (efb->current_query)
+		if (item_id == E_FILTERBAR_ADVANCED_ID) {
+			/* advanced query, save the filterbar state */
+			node = xmlNewChild (root, NULL, "filter-bar", NULL);
 			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));
+		} else {
+			/* simple query, save the searchbar state */
+			text = e_search_bar_get_text ((ESearchBar *) efb);
+			subitem_id = e_search_bar_get_subitem_id ((ESearchBar *) efb);
+			
+			node = xmlNewChild (root, NULL, "search-bar", NULL);
+			xmlSetProp (node, "text", text ? text : "");
+			sprintf (buf, "%d", item_id);
+			xmlSetProp (node, "item_id", buf);
+			sprintf (buf, "%d", subitem_id);
+			xmlSetProp (node, "subitem_id", buf);
+			g_free (text);
+		}
 		
 		xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
 		xmlFreeDoc (doc);
@@ -620,22 +623,6 @@ xml_get_prop_int (xmlNodePtr node, const char *prop)
 	return ret;
 }
 
-static gboolean
-xml_get_prop_bool (xmlNodePtr node, const char *prop)
-{
-	gboolean bool;
-	char *buf;
-	
-	if ((buf = xmlGetProp (node, prop))) {
-		bool = !strcmp (buf, "true");
-		xmlFree (buf);
-	} else {
-		bool = FALSE;
-	}
-	
-	return bool;
-}
-
 static void
 set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
@@ -656,37 +643,28 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 				return;
 			}
 			
-			/* always need to restore the filter-bar state first */
 			node = root->children;
 			while (node != NULL) {
 				if (!strcmp (node->name, "filter-bar")) {
 					FilterRule *rule = NULL;
-					
-					efb->setquery = xml_get_prop_bool (node, "setquery");
 					
 					if ((node = node->children)) {
 						rule = filter_rule_new ();
 						if (filter_rule_xml_decode (rule, node, efb->context) != 0) {
 							g_object_unref (rule);
 							rule = NULL;
+						} else {
+							g_object_set_data_full (object, "rule", rule, (GDestroyNotify) g_object_unref);
 						}
 					}
 					
-					if (efb->current_query)
-						g_object_unref (efb->current_query);
-					
 					efb->current_query = rule;
 					
+					efb->setquery = TRUE;
+					e_search_bar_set_item_id ((ESearchBar *) efb, E_FILTERBAR_ADVANCED_ID);
+					
 					break;
-				}
-				
-				node = node->next;
-			}
-			
-			/* now we can restore the search-bar state */
-			node = root->children;
-			while (node != NULL) {
-				if (!strcmp (node->name, "search-bar")) {
+				} else if (!strcmp (node->name, "search-bar")) {
 					int subitem_id, item_id;
 					char *text;
 					
@@ -712,7 +690,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 			
 			xmlFreeDoc (doc);
 		} else {
-			/* set default state? */
+			/* set default state */
 			e_search_bar_set_text ((ESearchBar *) efb, "");
 			e_search_bar_set_item_id ((ESearchBar *) efb, 0);
 		}

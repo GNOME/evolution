@@ -1,3 +1,19 @@
+2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (get_property): Only save the search-bar state OR
+	the filter-bar state - decided based on what the search is. If the
+	search is an advanced search, then save the filter-bar state,
+	otherwise save the search-bar state.
+	(set_property): Only need to restore the first state we find
+	(filter-bar vs search-bar). If we are restoring filter-bar state,
+	set efb->setquery to TRUE and then set the item_id to
+	E_FILTERBAR_ADVANCED_ID.
+
+2004-01-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (option_changed): Don't call efb->config() if the
+	current_query is NULL.
+
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-search-bar.c (impl_get_property): Same.
