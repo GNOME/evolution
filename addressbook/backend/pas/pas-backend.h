@@ -39,20 +39,27 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
-	void (*load_uri) (PASBackend *backend, const char *uri);
-	void (*add_client) (PASBackend *backend, Evolution_BookListener listener);
+	gboolean (*load_uri) (PASBackend *backend, const char *uri);
+	const char *(* get_uri) (PASBackend *backend);
+	gboolean (*add_client) (PASBackend *backend, Evolution_BookListener listener);
 	void (*remove_client) (PASBackend *backend, PASBook *book);
+
+	/* Notification signals */
+	void (* last_client_gone) (PASBackend *backend);
 } PASBackendClass;
 
 typedef PASBackend * (*PASBackendFactoryFn) (void);
 
 gboolean    pas_backend_construct          (PASBackend             *backend);
-void        pas_backend_load_uri           (PASBackend             *backend,
+gboolean    pas_backend_load_uri           (PASBackend             *backend,
 					    const char             *uri);
-void        pas_backend_add_client         (PASBackend             *backend,
+const char *pas_backend_get_uri            (PASBackend             *backend);
+gboolean    pas_backend_add_client         (PASBackend             *backend,
 					    Evolution_BookListener  listener);
 void        pas_backend_remove_client      (PASBackend             *backend,
 					    PASBook                *book);
+
+void        pas_backend_last_client_gone   (PASBackend             *backend);
 
 GtkType     pas_backend_get_type           (void);
 

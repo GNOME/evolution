@@ -29,6 +29,7 @@ typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
 typedef struct _PASBackendLDAPBookView PASBackendLDAPBookView;
 
 struct _PASBackendLDAPPrivate {
+	char     *uri;
 	gboolean connected;
 	GList    *clients;
 	LDAP     *ldap;
@@ -842,11 +843,11 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 }
 
 static void
-pas_backend_ldap_book_destroy_cb (PASBook *book)
+pas_backend_ldap_book_destroy_cb (PASBook *book, gpointer data)
 {
 	PASBackendLDAP *backend;
 
-	backend = PAS_BACKEND_LDAP (pas_book_get_backend (book));
+	backend = PAS_BACKEND_LDAP (data);
 
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
 }
@@ -863,7 +864,7 @@ pas_backend_ldap_get_vcard (PASBook *book, const char *id)
 
 	/* XXX use ldap_search */
 
-	if (LDAP_SUCCESS == ldap_error) {
+	if (ldap_error == LDAP_SUCCESS) {
 		/* success */
 		return g_strdup ("");
 	}
@@ -872,7 +873,7 @@ pas_backend_ldap_get_vcard (PASBook *book, const char *id)
 	}
 }
 
-static void
+static gboolean
 pas_backend_ldap_load_uri (PASBackend             *backend,
 			   const char             *uri)
 {
@@ -883,7 +884,8 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 	g_assert (bl->priv->connected == FALSE);
 
 	ldap_error = ldap_url_parse ((char*)uri, &lud);
-	if (LDAP_SUCCESS == ldap_error) {
+	if (ldap_error == LDAP_SUCCESS) {
+		bl->priv->uri = g_strdup (uri);
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
@@ -891,14 +893,32 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 		ldap_free_urldesc(lud);
 
 		pas_backend_ldap_ensure_connected(bl);
-	}
-	else {
-		g_warning ("pas_backend_ldap_load_uri failed for '%s' (error %s)\n",
-			   uri, ldap_err2string(ldap_error));
+		return TRUE;
+	} else {
+		GList *l;
+
+		for (l = bl->priv->clients; l; l = l->next) {
+			PASBook *book;
+
+			book = PAS_BOOK (l->data);
+			pas_book_respond_open (book, Evolution_BookListener_OtherError);
+		}
+
+		return FALSE;
 	}
 }
 
-static void
+/* Get_uri handler for the addressbook LDAP backend */
+static const char *
+pas_backend_ldap_get_uri (PASBackend *backend)
+{
+	PASBackendLDAP *bl;
+
+	bl = PAS_BACKEND_LDAP (backend);
+	return bl->priv->uri;
+}
+
+static gboolean
 pas_backend_ldap_add_client (PASBackend             *backend,
 			     Evolution_BookListener  listener)
 {
@@ -914,10 +934,15 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		backend, listener,
 		pas_backend_ldap_get_vcard);
 
-	g_assert (book != NULL);
+	if (!book) {
+		if (!bl->priv->clients)
+			pas_backend_last_client_gone (backend);
+
+		return FALSE;
+	}
 
 	gtk_signal_connect (GTK_OBJECT (book), "destroy",
-		    pas_backend_ldap_book_destroy_cb, NULL);
+		    pas_backend_ldap_book_destroy_cb, backend);
 
 	gtk_signal_connect (GTK_OBJECT (book), "requests_queued",
 		    pas_backend_ldap_process_client_requests, NULL);
@@ -933,18 +958,46 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		pas_book_respond_open (
 			book, Evolution_BookListener_Success);
 	}
+
+	return TRUE;
 }
 
 static void
 pas_backend_ldap_remove_client (PASBackend             *backend,
 				PASBook                *book)
 {
+	PASBackendLDAP *bl;
+	GList *l;
+	PASBook *lbook;
+
 	g_return_if_fail (backend != NULL);
-	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (PAS_IS_BACKEND_LDAP (backend));
 	g_return_if_fail (book != NULL);
 	g_return_if_fail (PAS_IS_BOOK (book));
 
-	g_warning ("pas_backend_ldap_remove_client: Unimplemented!\n");
+	bl = PAS_BACKEND_LDAP (backend);
+
+	/* Find the book in the list of clients */
+
+	for (l = bl->priv->clients, l; l = l->next) {
+		lbook = PAS_BOOK (l->data);
+
+		if (lbook == book)
+			break;
+	}
+
+	g_assert (l != NULL);
+
+	/* Disconnect */
+
+	bl->priv->clients = g_list_remove_link (bl->priv->clients, l);
+	g_list_free_1 (l);
+
+	/* When all clients go away, notify the parent factory about it so that
+	 * it may decide whether to kill the backend or not.
+	 */
+	if (!bl->priv->clients)
+		pas_backend_last_client_gone (backend);
 }
 
 static gboolean
@@ -983,6 +1036,15 @@ pas_backend_ldap_new (void)
 static void
 pas_backend_ldap_destroy (GtkObject *object)
 {
+	PASBackendLDAP *bl;
+
+	bl = PAS_BACKEND_LDAP (object);
+
+	if (bl->priv->uri) {
+		g_free (bl->priv->uri);
+		bl->priv->uri = NULL;
+	}
+
 	GTK_OBJECT_CLASS (pas_backend_ldap_parent_class)->destroy (object);	
 }
 
@@ -998,6 +1060,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 
 	/* Set the virtual methods. */
 	parent_class->load_uri      = pas_backend_ldap_load_uri;
+	parent_class->get_uri       = pas_backend_ldap_get_uri;
 	parent_class->add_client    = pas_backend_ldap_add_client;
 	parent_class->remove_client = pas_backend_ldap_remove_client;
 

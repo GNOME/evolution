@@ -80,7 +80,9 @@ module Evolution {
 			Success,
 			RepositoryOffline,
 			PermissionDenied,
-			CardNotFound
+			CardNotFound,
+			ProtocolNotSupported,
+			OtherError
 		};
 
 		void respond_create_card (in CallStatus status, in CardId Id);

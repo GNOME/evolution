@@ -21,6 +21,10 @@ typedef struct {
 
 typedef struct {
 	BonoboObjectClass parent_class;
+
+	/* Notification signals */
+
+	void (* last_book_gone) (PASBookFactory *factory);
 } PASBookFactoryClass;
 
 PASBookFactory *pas_book_factory_new              (void);
@@ -28,6 +32,8 @@ PASBookFactory *pas_book_factory_new              (void);
 void            pas_book_factory_register_backend (PASBookFactory               *factory,
 						   const char                   *proto,
 						   PASBackendFactoryFn           backend_factory);
+
+int             pas_book_factory_get_n_backends   (PASBookFactory               *factory);
 
 void            pas_book_factory_activate         (PASBookFactory               *factory);
 

@@ -1,3 +1,80 @@
+2000-04-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* backend/ebook/e-book-types.h (EBookStatus): Added new status
+	values for the IDL stuff.
+
+	* backend/pas/pas-book-factory.h (PASBookFactoryClass): New
+	"last_book_gone" signal.
+
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_launch_backend): Better error handling.
+	(pas_book_factory_process_queue): Let
+	pas_book_factory_process_request() free the request.
+	(pas_book_factory_process_request): Free the request here.
+	Perform better error handling.
+	(free_active_server_map_entry): Free an active server map entry;
+	free the URI key and unref the backend value.  This function was
+	renamed; the old one was trying to CORBA_Object_unref() a GTK+
+	object!
+	(remove_backends_entry): Free a backend table entry; free the URI
+	key.
+	(backend_last_client_gone_cb): Remove the backend from the active
+	server map and emit the "last_book_gone" signal if appropriate.
+	(pas_book_factory_get_n_backends): New function to query the
+	number of running backends in an addressbook factory.
+
+	* backend/idl/addressbook.idl (BookListener::CallStatus): Added a
+	ProtocolNotSupported code.  This is for when the addressbook
+	factory cannot find a provider for the requested URI.
+
+	* backend/pas/pas-backend.h (PASBackendClass): New
+	"last_client_gone" signal.
+	(PASBackendClass): New get_uri virtual method.
+
+	* backend/pas/pas-backend.c (pas_backend_load_uri): Return a
+	gboolean success code.
+	(pas_backend_add_client): Return a gboolean success code.
+	(pas_backend_last_client_gone): New function used by backend
+	implementations to notify upwards when the backend's last client
+	is destroyed.
+	(pas_backend_get_uri): New function to get the URI of a backend.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_add_client):
+	Pass the backend as the closure data to the "destroy" handler of
+	the book.  We cannot call pas_book_get_backend() in the callback
+	since the book's private data has already been destroyed when the
+	callback is invoked.  Alternatively, we could move the private
+	data destruction step to the book's ::finalize() method.
+	(pas_backend_file_book_destroy_cb): Get the backend from the
+	callback's data, not from the book.
+	(pas_backend_file_remove_client): Remove the book from the list of
+	clients.  When all clients go away, call
+	pas_backend_last_client_gone().
+	(PASBackendFilePrivate): Added an uri field.
+	(pas_backend_file_get_uri): Implement the get_uri method.
+	(pas_backend_file_load_uri): Return a gboolean success code.
+	Also, store the URI in the private structure.
+	(pas_backend_file_add_client): Return a gboolean success code.
+	Also, call pas_backend_last_client_gone() if appropriate.
+	(pas_backend_file_destroy): Free the bf->priv->uri.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
+	Pass the backend as the closure data to the "destroy" handler of
+	the book.  See above for rationale.
+	(pas_backend_ldap_book_destroy_cb): Get the backend from the
+	callback's data.
+	(pas_backend_ldap_remove_client): Remove the book from the list of
+	clients.  When all clients go away, call
+	pas_backend_last_client_gone().
+	(pas_backend_ldap_load_uri): Return a gboolean success code.
+	(pas_backend_ldap_add_client): Return a gboolean success code.
+	Also, call pas_backend_last_client_gone() if appropriate.
+	(PASBackendLDAPPrivate): New uri field.
+	(pas_backend_ldap_get_uri): Implement the get_uri method.
+	(pas_backend_ldap_load_uri): Store the uri in the private
+	structure.
+	(pas_backend_ldap_destroy): Free the bl->priv->uri.
+
 2000-04-30  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/Makefile.am (evolution_addressbook_SOURCES): added

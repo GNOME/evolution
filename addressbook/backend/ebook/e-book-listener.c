@@ -357,6 +357,10 @@ e_book_listener_convert_status (const Evolution_BookListener_CallStatus status)
 		return E_BOOK_STATUS_PERMISSION_DENIED;
 	case Evolution_BookListener_CardNotFound:
 		return E_BOOK_STATUS_CARD_NOT_FOUND;
+	case Evolution_BookListener_ProtocolNotSupported:
+		return E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED;
+	case Evolution_BookListener_OtherError:
+		return E_BOOK_STATUS_OTHER_ERROR;
 	default:
 		g_warning ("e_book_listener_convert_status: Unknown status "
 			   "from card server: %d\n", (int) status);

@@ -33,6 +33,7 @@ typedef struct _PASBackendFileSearchContext PASBackendFileSearchContext;
 struct _PASBackendFilePrivate {
 	GList    *clients;
 	gboolean  loaded;
+	char     *uri;
 	DB       *file_db;
 	GList    *book_views;
 };
@@ -825,11 +826,11 @@ pas_backend_file_process_client_requests (PASBook *book)
 }
 
 static void
-pas_backend_file_book_destroy_cb (PASBook *book)
+pas_backend_file_book_destroy_cb (PASBook *book, gpointer data)
 {
 	PASBackendFile *backend;
 
-	backend = PAS_BACKEND_FILE (pas_book_get_backend (book));
+	backend = PAS_BACKEND_FILE (data);
 
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
 }
@@ -924,7 +925,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 	return ret_val;
 }
 
-static void
+static gboolean
 pas_backend_file_load_uri (PASBackend             *backend,
 			   const char             *uri)
 {
@@ -937,18 +938,45 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
 
+	g_free (filename);
+
 	if (bf->priv->file_db != NULL) {
 		if (pas_backend_file_maybe_upgrade_db (bf))
 			bf->priv->loaded = TRUE;
 		/* XXX what if we fail to upgrade it? */
-	}
-	else
-		g_warning ("pas_backend_file_load_uri failed for '%s'\n", filename);
 
-	g_free (filename);
+		bf->priv->uri = g_strdup (uri);
+	} else {
+		GList *l;
+
+		for (l = bf->priv->clients; l; l = l->next) {
+			PASBook *book;
+
+			book = PAS_BOOK (l->data);
+			pas_book_respond_open (book, Evolution_BookListener_OtherError);
+		}
+
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
-static void
+/* Get_uri handler for the addressbook file backend */
+static const char *
+pas_backend_file_get_uri (PASBackend *backend)
+{
+	PASBackendFile *bf;
+
+	bf = PAS_BACKEND_FILE (backend);
+
+	g_return_val_if_fail (bf->priv->loaded, NULL);
+	g_assert (bf->priv->uri != NULL);
+
+	return bf->priv->uri;
+}
+
+static gboolean
 pas_backend_file_add_client (PASBackend             *backend,
 			     Evolution_BookListener  listener)
 {
@@ -964,10 +992,15 @@ pas_backend_file_add_client (PASBackend             *backend,
 		backend, listener,
 		pas_backend_file_get_vcard);
 
-	g_assert (book != NULL);
+	if (!book) {
+		if (!bf->priv->clients)
+			pas_backend_last_client_gone (backend);
+
+		return FALSE;
+	}
 
 	gtk_signal_connect (GTK_OBJECT (book), "destroy",
-		    pas_backend_file_book_destroy_cb, NULL);
+			    pas_backend_file_book_destroy_cb, backend);
 
 	gtk_signal_connect (GTK_OBJECT (book), "requests_queued",
 		    pas_backend_file_process_client_requests, NULL);
@@ -983,18 +1016,46 @@ pas_backend_file_add_client (PASBackend             *backend,
 		pas_book_respond_open (
 			book, Evolution_BookListener_Success);
 	}
+
+	return TRUE;
 }
 
 static void
 pas_backend_file_remove_client (PASBackend             *backend,
 				PASBook                *book)
 {
+	PASBackendFile *bf;
+	GList *l;
+	PASBook *lbook;
+
 	g_return_if_fail (backend != NULL);
-	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (PAS_IS_BACKEND_FILE (backend));
 	g_return_if_fail (book != NULL);
 	g_return_if_fail (PAS_IS_BOOK (book));
 
-	g_warning ("pas_backend_file_remove_client: Unimplemented!\n");
+	bf = PAS_BACKEND_FILE (backend);
+
+	/* Find the book in the list of clients */
+
+	for (l = bf->priv->clients; l; l = l->next) {
+		lbook = PAS_BOOK (l->data);
+
+		if (lbook == book)
+			break;
+	}
+
+	g_assert (l != NULL);
+
+	/* Disconnect */
+
+	bf->priv->clients = g_list_remove_link (bf->priv->clients, l);
+	g_list_free_1 (l);
+
+	/* When all clients go away, notify the parent factory about it so that
+	 * it may decide whether to kill the backend or not.
+	 */
+	if (!bf->priv->clients)
+		pas_backend_last_client_gone (backend);
 }
 
 static gboolean
@@ -1031,6 +1092,15 @@ pas_backend_file_new (void)
 static void
 pas_backend_file_destroy (GtkObject *object)
 {
+	PASBackendFile *bf;
+
+	bf = PAS_BACKEND_FILE (object);
+
+	if (bf->priv->uri) {
+		g_free (bf->priv->uri);
+		bf->priv->uri = NULL;
+	}
+
 	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
 }
 
@@ -1046,6 +1116,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 
 	/* Set the virtual methods. */
 	parent_class->load_uri      = pas_backend_file_load_uri;
+	parent_class->get_uri       = pas_backend_file_get_uri;
 	parent_class->add_client    = pas_backend_file_add_client;
 	parent_class->remove_client = pas_backend_file_remove_client;
 

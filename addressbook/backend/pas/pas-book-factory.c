@@ -35,6 +35,14 @@ struct _PASBookFactoryPrivate {
 	GList      *queued_requests;
 };
 
+/* Signal IDs */
+enum {
+	LAST_BOOK_GONE,
+	LAST_SIGNAL
+};
+
+static guint factory_signals[LAST_SIGNAL];
+
 static char *
 pas_book_factory_canonicalize_uri (const char *uri)
 {
@@ -77,8 +85,6 @@ pas_book_factory_register_backend (PASBookFactory      *factory,
 	g_return_if_fail (proto != NULL);
 	g_return_if_fail (backend != NULL);
 
-	
-
 	if (g_hash_table_lookup (factory->priv->backends, proto) != NULL) {
 		g_warning ("pas_book_factory_register_backend: "
 			   "Proto \"%s\" already registered!\n", proto);
@@ -88,11 +94,62 @@ pas_book_factory_register_backend (PASBookFactory      *factory,
 			     g_strdup (proto), backend);
 }
 
+/**
+ * pas_book_factory_get_n_backends:
+ * @factory: An addressbook factory.
+ * 
+ * Queries the number of running addressbook backends in an addressbook factory.
+ * 
+ * Return value: Number of running backends.
+ **/
+int
+pas_book_factory_get_n_backends (PASBookFactory *factory)
+{
+	g_return_val_if_fail (factory != NULL, -1);
+	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), -1);
+
+	return g_hash_table_size (factory->priv->active_server_map);
+}
+
+/* Callback used when a backend loses its last connected client */
+static void
+backend_last_client_gone_cb (PASBackend *backend, gpointer data)
+{
+	PASBookFactory *factory;
+	const char *uri;
+	gpointer orig_key;
+	gboolean result;
+	char *orig_uri;
+
+	factory = PAS_BOOK_FACTORY (data);
+
+	/* Remove the backend from the active server map */
+
+	uri = pas_backend_get_uri (backend);
+	g_assert (uri != NULL);
+
+	result = g_hash_table_lookup_extended (factory->priv->active_server_map, uri,
+					       &orig_key, NULL);
+	g_assert (result != FALSE);
+
+	orig_uri = orig_key;
+
+	g_hash_table_remove (factory->priv->active_server_map, orig_uri);
+	g_free (orig_uri);
+
+	gtk_object_unref (GTK_OBJECT (backend));
+
+	/* Notify upstream if there are no more backends */
+
+	if (g_hash_table_size (factory->priv->active_server_map) == 0)
+		gtk_signal_emit (GTK_OBJECT (factory), factory_signals[LAST_BOOK_GONE]);
+}
+
 static PASBackendFactoryFn
 pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 					 const char     *uri)
 {
-	PASBackendFactoryFn  backend;
+	PASBackendFactoryFn  backend_fn;
 	char                *proto;
 	char                *canonical_uri;
 
@@ -110,31 +167,69 @@ pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 		return NULL;
 	}
 
-	backend = g_hash_table_lookup (factory->priv->backends, proto);
+	backend_fn = g_hash_table_lookup (factory->priv->backends, proto);
 
 	g_free (proto); 
 	g_free (canonical_uri);
 
-	return backend;
+	return backend_fn;
 }
 
 static PASBackend *
 pas_book_factory_launch_backend (PASBookFactory              *factory,
-				 PASBookFactoryQueuedRequest *request)
+				 Evolution_BookListener       listener,
+				 const char                  *uri)
 {
 	PASBackendFactoryFn  backend_factory;
 	PASBackend          *backend;
 
 	backend_factory = pas_book_factory_lookup_backend_factory (
-		factory, request->uri);
-	g_assert (backend_factory != NULL);
+		factory, uri);
 
-	backend = (backend_factory) ();
-	g_assert (backend != NULL);
+	if (!backend_factory) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		Evolution_BookListener_respond_open_book (
+			listener,
+			Evolution_BookListener_ProtocolNotSupported,
+			CORBA_OBJECT_NIL,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_factory_launch_backend(): could not notify "
+				   "the listener");
+
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	backend = (* backend_factory) ();
+	if (!backend) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		Evolution_BookListener_respond_open_book (
+			listener,
+			Evolution_BookListener_OtherError,
+			CORBA_OBJECT_NIL,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_factory_launch_backend(): could not notify "
+				   "the listener");
+
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
 
 	g_hash_table_insert (factory->priv->active_server_map,
-			     g_strdup (request->uri),
+			     g_strdup (uri),
 			     backend);
+
+	gtk_signal_connect (GTK_OBJECT (backend), "last_client_gone",
+			    backend_last_client_gone_cb,
+			    factory);
 
 	return backend;
 }
@@ -144,24 +239,43 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 				  PASBookFactoryQueuedRequest *request)
 {
 	PASBackend *backend;
+	char *uri;
+	Evolution_BookListener listener;
+	CORBA_Environment ev;
 
-	request = factory->priv->queued_requests->data;
+	uri = request->uri;
+	listener = request->listener;
+	g_free (request);
 
-	backend = g_hash_table_lookup (factory->priv->active_server_map, request->uri);
+	/* Look up the backend and create one if needed */
 
-	if (backend == NULL) {
+	backend = g_hash_table_lookup (factory->priv->active_server_map, uri);
 
-		backend = pas_book_factory_launch_backend (factory, request);
-		pas_backend_add_client (backend, request->listener);
-		pas_backend_load_uri (backend, request->uri);
-		g_free (request->uri);
+	if (!backend) {
+		backend = pas_book_factory_launch_backend (factory, listener, uri);
+		if (!backend)
+			goto out;
 
-		return;
+		if (!pas_backend_add_client (backend, listener))
+			goto out;
+
+		pas_backend_load_uri (backend, uri);
+
+		goto out;
 	}
 
-	g_free (request->uri);
+	pas_backend_add_client (backend, listener);
 
-	pas_backend_add_client (backend, request->listener);
+ out:
+	g_free (uri);
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("pas_book_factory_process_request(): could not release the listener");
+
+	CORBA_exception_free (&ev);
 }
 
 static gboolean
@@ -170,15 +284,16 @@ pas_book_factory_process_queue (PASBookFactory *factory)
 	/* Process pending Book-creation requests. */
 	if (factory->priv->queued_requests != NULL) {
 		PASBookFactoryQueuedRequest  *request;
+		GList *l;
 
-		request = factory->priv->queued_requests->data;
+		l = factory->priv->queued_requests;
+		request = l->data;
 
 		pas_book_factory_process_request (factory, request);
 
-		factory->priv->queued_requests = g_list_remove (
-			factory->priv->queued_requests, request);
-
-		g_free (request);
+		factory->priv->queued_requests = g_list_remove_link (
+			factory->priv->queued_requests, l);
+		g_list_free_1 (l);
 	}
 
 	if (factory->priv->queued_requests == NULL) {
@@ -343,7 +458,6 @@ register_factory (CORBA_Object obj)
 	int ret;
 
 	CORBA_exception_init (&ev);
-
 	ret = goad_server_register (NULL, obj, PAS_BOOK_FACTORY_GOAD_ID, "server", &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -394,27 +508,26 @@ pas_book_factory_init (PASBookFactory *factory)
 	factory->priv->queued_requests   = NULL;
 }
 
-static gboolean
-pas_book_factory_remove_asm_entry (gpointer key, gpointer value,
-				   gpointer data)
+static void
+free_active_server_map_entry (gpointer key, gpointer value, gpointer data)
 {
-	CORBA_Environment ev;
+	char *uri;
+	PASBackend *backend;
 
-	g_free (key);
+	uri = key;
+	g_free (uri);
 
-	CORBA_exception_init (&ev);
-	CORBA_Object_release ((CORBA_Object) value, &ev);
-	CORBA_exception_free (&ev);
-
-	return TRUE;
+	backend = PAS_BACKEND (value);
+	gtk_object_unref (GTK_OBJECT (backend));
 }
 
-static gboolean
-pas_book_factory_remove_backend_entry (gpointer key, gpointer value,
-				       gpointer data)
+static void
+remove_backends_entry (gpointer key, gpointer value, gpointer data)
 {
-	g_free (key);
-	return TRUE;
+	char *uri;
+
+	uri = key;
+	g_free (uri);
 }
 
 static void
@@ -438,15 +551,17 @@ pas_book_factory_destroy (GtkObject *object)
 	g_list_free (factory->priv->queued_requests);
 	factory->priv->queued_requests = NULL;
 
-	g_hash_table_foreach_remove (factory->priv->active_server_map,
-				     pas_book_factory_remove_asm_entry,
-				     NULL);
+	g_hash_table_foreach (factory->priv->active_server_map,
+			      free_active_server_map_entry,
+			      NULL);
 	g_hash_table_destroy (factory->priv->active_server_map);
+	factory->priv->active_server_map = NULL;
 
-	g_hash_table_foreach_remove (factory->priv->backends,
-				     pas_book_factory_remove_backend_entry,
-				     NULL);
+	g_hash_table_foreach (factory->priv->backends,
+			      remove_backends_entry,
+			      NULL);
 	g_hash_table_destroy (factory->priv->backends);
+	factory->priv->backends = NULL;
 	
 	g_free (factory->priv);
 
@@ -479,6 +594,16 @@ pas_book_factory_class_init (PASBookFactoryClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
 	pas_book_factory_parent_class = gtk_type_class (bonobo_object_get_type ());
+
+	factory_signals[LAST_BOOK_GONE] =
+		gtk_signal_new ("last_book_gone",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (PASBookFactoryClass, last_book_gone),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, factory_signals, LAST_SIGNAL);
 
 	object_class->destroy = pas_book_factory_destroy;
 
