@@ -49,6 +49,11 @@ char *s = N_("Are you sure you want to permanently remove all the deleted messag
 /* mail:ask-empty-trash secondary */
 char *s = N_("If you continue, you will not be able to recover these messages.");
 char *s = N_("_Empty Trash");
+/* mail:ask-open-many primary */
+char *s = N_("Are you sure you want to open {0} messages at once?");
+/* mail:ask-open-many secondary */
+char *s = N_("Opening too many messages at once may take a long time.");
+char *s = N_("_Open Messages");
 /* mail:exit-unsaved primary */
 char *s = N_("You have unsent messages, do you wish to quit anyway?");
 /* mail:exit-unsaved secondary */

@@ -368,15 +368,26 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	int i = 0;
 	
 	uids = message_list_get_selected(emfv->list);
-	
+
+	if (uids->len >= 10) {
+		char *num = g_strdup_printf("%d", uids->len);
+		int doit;
+
+		doit = em_utils_prompt_user((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emfv),
+					    "/apps/evolution/mail/prompts/open_many",
+					    "mail:ask-open-many", num, NULL);
+		g_free(num);
+		if (!doit) {
+			message_list_free_uids(emfv->list, uids);
+			return 0;
+		}
+	}
+
 	if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
-		em_utils_edit_messages (emfv->folder, uids, TRUE);
+		em_utils_edit_messages(emfv->folder, uids, TRUE);
 	} else {
 		/* TODO: have an em_utils_open_messages call? */
-		
-		/* FIXME: 'are you sure' for > 10 messages; is this even necessary? */
-		
 		for (i=0; i<uids->len; i++) {
 			EMMessageBrowser *emmb;
 

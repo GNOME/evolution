@@ -1,3 +1,14 @@
+2005-01-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #55831.
+
+	* evolution-mail.schemas.in.in: added open_many prompt key.
+
+	* mail-errors.xml: added ask-open-many
+
+	* em-folder-view.c (em_folder_view_open_selected): put back the
+	'you're opening too many are you sure' thing.
+
 2005-01-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-properties.c (emfp_get_folder_item): Increment i each

@@ -69,6 +69,13 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   <button label="_Empty Trash" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="ask-open-many" type="warning" default="GTK_RESPONSE_CANCEL">
+  <primary>Are you sure you want to open {0} messages at once?</primary>
+  <secondary>Opening too many messages at once may take a long time.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button label="_Open Messages" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_NO">
   <primary>You have unsent messages, do you wish to quit anyway?</primary>
   <secondary>If you quit, these messages will not be sent until Evolution is started again.</secondary>

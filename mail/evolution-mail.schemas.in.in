@@ -646,6 +646,21 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/open_many</key>
+      <applyto>/apps/evolution/mail/prompts/open_many</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt when user tries to open 10 or more messages at once</short>
+         <long>
+	  If a user tries to open 10 or more messages at one time, ask the user
+	  if they really want to do it.
+         </long>
+      </locale>
+    </schema>
+
     <!-- Trash settings -->
 
     <schema>
