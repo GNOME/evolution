@@ -77,6 +77,9 @@ static GList* cal_backend_db_get_objects_in_range (CalBackend *backend,
                                                    CalObjType type,
                                                    time_t start,
                                                    time_t end);
+static GList *cal_backend_db_get_free_busy (CalBackend *backend,
+					    time_t start,
+					    time_t end);
 static GNOME_Evolution_Calendar_CalObjChangeSeq *cal_backend_db_get_changes (
 	CalBackend *backend, CalObjType type, const char *change_id);
 
@@ -157,6 +160,7 @@ cal_backend_db_class_init (CalBackendDBClass *klass)
 	backend_class->get_type_by_uid = cal_backend_db_get_type_by_uid;
 	backend_class->get_uids = cal_backend_db_get_uids;
 	backend_class->get_objects_in_range = cal_backend_db_get_objects_in_range;
+	backend_class->get_free_busy = cal_backend_db_get_free_busy;
 	backend_class->get_changes = cal_backend_db_get_changes;
 	backend_class->get_alarms_in_range = cal_backend_db_get_alarms_in_range;
 	backend_class->get_alarms_for_object = cal_backend_db_get_alarms_for_object;
@@ -932,6 +936,13 @@ cal_backend_db_get_objects_in_range (CalBackend *backend,
 	}
 	
 	return list;
+}
+
+/* get_free_busy handler for the DB backend */
+static GList *
+cal_backend_db_get_free_busy (CalBackend *backend, time_t start, time_t end)
+{
+	return NULL;
 }
 
 /* get_changes handler for the DB backend */

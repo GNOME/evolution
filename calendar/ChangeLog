@@ -1,3 +1,19 @@
+2001-06-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added getFreeBusy method
+
+	* pcs/cal.c (impl_Cal_get_free_busy): implementation of the new
+	getFreeBusy added method
+	
+	* pcs/cal-backend.[ch]: added new virtual method to the CalBackend
+	class (get_free_busy)
+
+	* pcs/cal-backend-db.c (cal_backend_db_get_free_busy): new function,
+	not implemented yet
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): new funtion,
+	not implemented yet
+
 2001-06-20  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-config.[hc]:
@@ -18,6 +34,12 @@
 	* gui/dialogs/e-timezone-dialog.c (e_timezone_dialog_add_timezones): 
 	set the "None" item string before adding it to the combo, to stop the
 	combo putting "None" in the entry initially.
+
+2001-06-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-table.[ch]: added cut/copy/paste support. It works
+	with single selections (a single component selected) and with
+	multiple ones (several components selected)
 
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 

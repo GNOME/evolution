@@ -83,6 +83,10 @@ struct _ECalendarTable
 
 	/* The ECell used to view & edit dates. */
 	ECellDateEdit *dates_cell;
+
+	/* The invisible widget used for cut/copy/paste */
+	GtkWidget *invisible;
+	gchar *clipboard_selection;
 };
 
 struct _ECalendarTableClass

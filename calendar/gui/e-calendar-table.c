@@ -32,6 +32,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gnome.h>
+#include <gtk/gtkinvisible.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
@@ -67,6 +68,12 @@ static gint e_calendar_table_on_right_click	(ETable		*table,
 						 ECalendarTable *cal_table);
 static void e_calendar_table_on_open_task	(GtkWidget	*menuitem,
 						 gpointer	 data);
+static void e_calendar_table_on_cut             (GtkWidget      *menuitem,
+						 gpointer        data);
+static void e_calendar_table_on_copy            (GtkWidget      *menuitem,
+						 gpointer        data);
+static void e_calendar_table_on_paste           (GtkWidget      *menuitem,
+						 gpointer        data);
 static gint e_calendar_table_on_key_press	(ETable		*table,
 						 gint		 row,
 						 gint		 col,
@@ -85,6 +92,21 @@ static void e_calendar_table_on_rows_deleted	(ETableModel	*model,
 						 int		 count,
 						 ECalendarTable	*cal_table);
 
+static void selection_clear_event               (GtkWidget *invisible,
+						 GdkEventSelection *event,
+						 ECalendarTable *cal_table);
+static void selection_received                  (GtkWidget *invisible,
+						 GtkSelectionData *selection_data,
+						 guint time,
+						 ECalendarTable *cal_table);
+static void selection_get                       (GtkWidget *invisible,
+						 GtkSelectionData *selection_data,
+						 guint info,
+						 guint time_stamp,
+						 ECalendarTable *cal_table);
+static void invisible_destroyed                 (GtkWidget *invisible,
+						 ECalendarTable *cal_table);
+
 
 /* The icons to represent the task. */
 #define E_CALENDAR_MODEL_NUM_ICONS	4
@@ -94,6 +116,7 @@ static char** icon_xpm_data[E_CALENDAR_MODEL_NUM_ICONS] = {
 static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 
 static GtkTableClass *parent_class;
+static GdkAtom clipboard_atom = GDK_NONE;
 
 
 GtkType
@@ -143,6 +166,10 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 	widget_class->focus_out_event	= e_calendar_table_focus_out;
 	widget_class->key_press_event	= e_calendar_table_key_press;
 #endif
+
+	/* clipboard atom */
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 #ifdef JUST_FOR_TRANSLATORS
@@ -463,6 +490,30 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_signal_connect (GTK_OBJECT (e_table), "key_press",
 			    GTK_SIGNAL_FUNC (e_calendar_table_on_key_press),
 			    cal_table);
+
+	/* Set up the invisible widget for the clipboard selections */
+	cal_table->invisible = gtk_invisible_new ();
+	gtk_selection_add_target (cal_table->invisible,
+				  clipboard_atom,
+				  GDK_SELECTION_TYPE_STRING,
+				  0);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    (gpointer) cal_table);
+	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (invisible_destroyed),
+			    (gpointer) cal_table);
+	cal_table->clipboard_selection = NULL;
 }
 
 
@@ -513,6 +564,11 @@ e_calendar_table_destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (cal_table->subset_model));
 	cal_table->subset_model = NULL;
+
+	if (cal_table->invisible)
+		gtk_widget_destroy (cal_table->invisible);
+	if (cal_table->clipboard_selection)
+		g_free (cal_table->clipboard_selection);
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -735,6 +791,9 @@ delete_cb (GtkWidget *menuitem, gpointer data)
 
 static GnomeUIInfo tasks_popup_one[] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Edit this task"), NULL, e_calendar_table_on_open_task),
+	GNOMEUIINFO_ITEM_NONE (N_("Cut"), NULL, e_calendar_table_on_cut),
+	GNOMEUIINFO_ITEM_NONE (N_("Copy"), NULL, e_calendar_table_on_copy),
+	GNOMEUIINFO_ITEM_NONE (N_("Paste"), NULL, e_calendar_table_on_paste),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("Mark as complete"), NULL, mark_as_complete_cb),
 	GNOMEUIINFO_ITEM_NONE (N_("Delete this task"), NULL, delete_cb),
@@ -742,6 +801,10 @@ static GnomeUIInfo tasks_popup_one[] = {
 };
 
 static GnomeUIInfo tasks_popup_many[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("Cut"), NULL, e_calendar_table_on_cut),
+	GNOMEUIINFO_ITEM_NONE (N_("Copy"), NULL, e_calendar_table_on_copy),
+	GNOMEUIINFO_ITEM_NONE (N_("Paste"), NULL, e_calendar_table_on_paste),
+	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("Mark tasks as complete"), NULL, mark_as_complete_cb),
 	GNOMEUIINFO_ITEM_NONE (N_("Delete selected tasks"), NULL, delete_cb),
 	GNOMEUIINFO_END
@@ -785,6 +848,84 @@ e_calendar_table_on_open_task (GtkWidget *menuitem,
 	open_task (cal_table, comp);
 }
 
+static void
+e_calendar_table_on_cut (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	e_calendar_table_on_copy (menuitem, data);
+	delete_selected_components (cal_table);
+}
+
+static void
+copy_row_cb (int model_row, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalComponent *comp;
+	gchar *comp_str;
+	icalcomponent *new_comp;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	comp = calendar_model_get_component (cal_table->model, model_row);
+	if (!comp)
+		return;
+
+
+	if (cal_table->clipboard_selection) {
+		//new_comp = icalparser_parse_string (cal_table->clipboard_selection);
+		//if (!new_comp)
+		//	return;
+
+		//icalcomponent_add_component (new_comp,
+		//			     cal_component_get_icalcomponent (comp));
+		//g_free (cal_table->clipboard_selection);
+	}
+	else {
+		new_comp = icalparser_parse_string (
+			icalcomponent_as_ical_string (cal_component_get_icalcomponent (comp)));
+		if (!new_comp)
+			return;
+	}
+
+	comp_str = icalcomponent_as_ical_string (new_comp);
+	cal_table->clipboard_selection = g_strdup (comp_str);
+
+	free (comp_str);
+	icalcomponent_free (new_comp);
+}
+
+static void
+e_calendar_table_on_copy (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+	ETable *etable;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	if (cal_table->clipboard_selection) {
+		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
+	}
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
+
+	gtk_selection_owner_set (cal_table->invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+static void
+e_calendar_table_on_paste (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table = E_CALENDAR_TABLE (data);
+
+	gtk_selection_convert (cal_table->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
+}
 
 static gint
 e_calendar_table_on_key_press (ETable *table,
@@ -968,4 +1109,78 @@ const gchar *
 e_calendar_table_get_spec (void)
 {
 	return E_CALENDAR_TABLE_SPEC;
+}
+
+static void
+invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)
+{
+	cal_table->invisible = NULL;
+}
+
+static void
+selection_get (GtkWidget *invisible,
+	       GtkSelectionData *selection_data,
+	       guint info,
+	       guint time_stamp,
+	       ECalendarTable *cal_table)
+{
+	if (cal_table->clipboard_selection != NULL) {
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8,
+					cal_table->clipboard_selection,
+					strlen (cal_table->clipboard_selection));
+	}
+}
+
+static void
+selection_clear_event (GtkWidget *invisible,
+		       GdkEventSelection *event,
+		       ECalendarTable *cal_table)
+{
+	if (cal_table->clipboard_selection != NULL) {
+		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
+	}
+}
+
+static void
+selection_received (GtkWidget *invisible,
+		    GtkSelectionData *selection_data,
+		    guint time,
+		    ECalendarTable *cal_table)
+{
+	char *comp_str;
+	icalcomponent *icalcomp;
+
+	if (selection_data->length < 0 ||
+	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
+		return;
+	}
+
+	comp_str = (char *) selection_data->data;
+	icalcomp = icalparser_parse_string ((const char *) comp_str);
+	if (icalcomp) {
+		icalcomponent *tmp_comp;
+		char *uid;
+
+		/* there can be various components */
+		tmp_comp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+		while (tmp_comp != NULL) {
+			CalComponent *comp;
+
+			comp = cal_component_new ();
+			cal_component_set_icalcomponent (comp, icalcomp);
+			uid = cal_component_gen_uid ();
+			cal_component_set_uid (comp, (const char *) uid);
+			free (uid);
+
+			tmp_comp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
+
+			cal_client_update_object (
+				calendar_model_get_cal_client (cal_table->model),
+				comp);
+			gtk_object_unref (GTK_OBJECT (comp));
+		}
+	}
 }

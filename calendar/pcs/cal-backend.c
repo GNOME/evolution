@@ -134,11 +134,13 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_uri = NULL;
 	class->add_cal = NULL;
 	class->open = NULL;
+	class->is_loaded = NULL;
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
 	class->get_type_by_uid = NULL;
 	class->get_uids = NULL;
 	class->get_objects_in_range = NULL;
+	class->get_free_busy = NULL;
 	class->get_changes = NULL;
 	class->get_alarms_in_range = NULL;
 	class->get_alarms_for_object = NULL;
@@ -323,6 +325,30 @@ cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 
 	g_assert (CLASS (backend)->get_objects_in_range != NULL);
 	return (* CLASS (backend)->get_objects_in_range) (backend, type, start, end);
+}
+
+/**
+ * cal_backend_get_free_busy:
+ * @backend: A calendar backend.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * 
+ * Builds a list of unique identifiers corresponding to free/busy calendar
+ * objects of the that occur or recur within the specified time range.
+ * 
+ * Return value: A list of UID strings.  The list should be freed using the
+ * cal_obj_uid_list_free() function.
+ **/
+GList *
+cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	g_assert (CLASS (backend)->get_free_busy != NULL);
+	return (* CLASS (backend)->get_free_busy) (backend, start, end);
 }
 
 /**

@@ -227,6 +227,40 @@ impl_Cal_get_objects_in_range (PortableServer_Servant servant,
 	return seq;
 }
 
+/* Cal::get_free_busy method */
+static GNOME_Evolution_Calendar_CalObjUIDSeq *
+impl_Cal_get_free_busy (PortableServer_Servant servant,
+			GNOME_Evolution_Calendar_Time_t start,
+			GNOME_Evolution_Calendar_Time_t end,
+			CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	time_t t_start, t_end;
+	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
+	GList *uids;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	t_start = (time_t) start;
+	t_end = (time_t) end;
+
+	if (t_start > t_end || t_start == -1 || t_end == -1) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
+				     NULL);
+		return NULL;
+	}
+
+	uids = cal_backend_get_free_busy (priv->backend, t_start, t_end);
+	seq = build_uid_seq (uids);
+
+	cal_obj_uid_list_free (uids);
+
+	return seq;
+}
+
 /* Cal::get_alarms_in_range method */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
 impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
@@ -503,6 +537,7 @@ cal_class_init (CalClass *klass)
 	epv->getUIDs = impl_Cal_get_uids;
 	epv->getChanges = impl_Cal_get_changes;
 	epv->getObjectsInRange = impl_Cal_get_objects_in_range;
+	epv->getFreeBusy = impl_Cal_get_free_busy;
 	epv->getAlarmsInRange = impl_Cal_get_alarms_in_range;
 	epv->getAlarmsForObject = impl_Cal_get_alarms_for_object;
 	epv->updateObject = impl_Cal_update_object;
