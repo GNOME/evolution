@@ -199,9 +199,9 @@ etree_set_expanded_recurse (ETreeModel *etm, ETreePath* node, gboolean expanded)
 static ETreePath *
 etree_node_at_row (ETreeModel *etree, int row)
 {
-	GNode *node = g_array_index (etree->row_array, GNode*, row);
+	g_return_val_if_fail (row < etree->row_array->len, NULL);
 
-	return node;
+	return g_array_index (etree->row_array, GNode*, row);
 }
 
 
