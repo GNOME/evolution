@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-04-02 13:07+0300\n"
-"PO-Revision-Date: 2003-04-02 05:21--500\n"
+"PO-Revision-Date: 2003-04-02 07:17--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -998,7 +998,7 @@ msgstr "Вибрано:"
 #: addressbook/gui/component/ldap-config.glade.h:37
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if\n"
 "your LDAP server supports SSL or TLS."
-msgstr "Вибір цього парамиетру означатиме, що Evolution з'єднуватиметься з сервером LDAP лише, якщо\n"
+msgstr "Вибір цього параметру означатиме, що Evolution з'єднуватиметься з сервером LDAP лише, якщо\n"
 "він підтримує SSL або TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:39
@@ -20474,7 +20474,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1713
 msgid "People's Republic of China"
-msgstr ""
+msgstr "Китайська Народна Республіка"
 
 #: my-evolution/Locations.h:1714
 msgid "Peoria"
@@ -21686,7 +21686,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2022
 msgid "Sao Paulo"
-msgstr ""
+msgstr "Сан-Паулу"
 
 #: my-evolution/Locations.h:2023
 msgid "Sapporo Ab"
@@ -22344,7 +22344,7 @@ msgstr "Сіракузи"
 
 #: my-evolution/Locations.h:2185
 msgid "Szczecin"
-msgstr ""
+msgstr "Щецін"
 
 #: my-evolution/Locations.h:2186
 msgid "Szombathely"
@@ -22690,7 +22690,7 @@ msgstr "Різдвяний острів"
 
 #: my-evolution/Locations.h:2266
 msgid "Tokushima Ab"
-msgstr ""
+msgstr "Токушіма-Аб"
 
 #: my-evolution/Locations.h:2267
 msgid "Tokyo Heliport"
@@ -23673,7 +23673,7 @@ msgstr "Єкатєрінбурґ"
 
 #: my-evolution/Locations.h:2507
 msgid "Yellowknife"
-msgstr ""
+msgstr "Єллоунайф"
 
 #: my-evolution/Locations.h:2508
 msgid "Yellowstone"
