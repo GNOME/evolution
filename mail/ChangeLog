@@ -1,7 +1,8 @@
 2001-10-18  Dan Winship  <danw@ximian.com>
 
-	* mail-mt.c (mail_call_main): Use va_copy to make this compile on
-	ppc again.
+	* mail-mt.c (mail_call_main): Use G_VA_COPY to make this compile
+	on ppc again.
+	(do_call): Here too.	
 
 2001-10-17    <NotZed@Ximian.com>
 

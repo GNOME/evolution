@@ -866,7 +866,9 @@ do_call(struct _mail_msg *mm)
 	struct _call_msg *m = (struct _call_msg *)mm;
 	void *p1, *p2, *p3, *p4, *p5;
 	int i1;
-	va_list ap = m->ap;
+	va_list ap;
+
+	G_VA_COPY(ap, m->ap);
 
 	switch(m->type) {
 	case MAIL_CALL_p_p:
@@ -926,7 +928,7 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
 	m = mail_msg_new(&mail_call_op, reply, sizeof(*m));
 	m->type = type;
 	m->func = func;
-	va_copy(m->ap, ap);
+	G_VA_COPY(m->ap, ap);
 
 	if (!ismain) {
 		e_msgport_put(mail_gui_port, (EMsg *)m);
