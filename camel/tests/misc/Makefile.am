@@ -18,10 +18,11 @@ LDADD = \
 
 check_PROGRAMS =  	\
 	url		\
+	url-scan	\
 	utf7		\
 	split
 
-TESTS = url utf7 split
+TESTS = url utf7 split url-scan
 
 
 

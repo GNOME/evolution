@@ -1,3 +1,20 @@
+2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/misc/url-scan.c: New test suite for url scanning.
+
+	* camel-url-scanner.c: Added single/double quotes to url_braces[]
+	in case the user is quoting the url.
+	(camel_url_web_end): Add "-;:" to list of punctuation to strip off
+	the end of urls. Also fixed to handle user@domain's
+	(camel_url_addrspec_start): Strip open brace characters from the
+	beginning of the addr.
+	(camel_url_web_start): Make sure "www" wasn't part of something
+	not a url (like "Ewww.Gross") by check that pos[-1] is either an
+	open brace or whitespace.
+	(camel_url_addrspec_end): Don't allow toplevel domain addr-specs
+	(if we encounter something that looks like it is a toplevel domain
+	addr, it is more likely to be bogus than correct).
+
 2004-02-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #53091.
