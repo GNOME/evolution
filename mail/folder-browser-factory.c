@@ -62,6 +62,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubj", vfolder_subject),
 	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSndr", vfolder_sender),

@@ -547,6 +547,19 @@ copy_msg (GtkWidget *widget, gpointer user_data)
 }
 
 void
+apply_filters (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	
+	mail_do_filter_ondemand (fb->folder, uids);
+}
+
+void
 select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
@@ -882,15 +895,4 @@ void
 edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         edit_msg (NULL, user_data);
-}
-
-void
-run_filter_ondemand (BonoboUIComponent *uih, gpointer user_data, const char *path)
-{
-	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) user_data;
-	
-	if (oc->fb->folder == NULL)
-		return;
-	
-	mail_do_filter_ondemand (oc->fb->filter_context, oc->fb->folder, oc->fb->folder);
 }

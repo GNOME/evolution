@@ -82,6 +82,7 @@ void reply_to_all       (GtkWidget *widget, gpointer user_data);
 void delete_msg         (GtkWidget *widget, gpointer user_data);
 void move_msg           (GtkWidget *widget, gpointer user_data);
 void copy_msg           (GtkWidget *widget, gpointer user_data);
+void apply_filters      (GtkWidget *widget, gpointer user_data);
 void print_msg          (GtkWidget *widget, gpointer user_data);
 void print_preview_msg  (GtkWidget *widget, gpointer user_data);
 void edit_msg           (GtkWidget *widget, gpointer user_data);
@@ -107,8 +108,6 @@ void composer_postpone_cb (EMsgComposer *composer, gpointer data);
 
 void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);
-
-void run_filter_ondemand (BonoboUIComponent *uih, gpointer user_data, const char *path);
 
 /* mail view */
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);

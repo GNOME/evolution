@@ -55,15 +55,15 @@ describe_fetch_mail (gpointer in_data, gboolean gerund)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	char *name;
-
+	
 	/*source = camel_session_get_store (session, input->source_url, NULL);
 	 *if (source) {
 	 *	name = camel_service_get_name (CAMEL_SERVICE (source), FALSE);
 	 *	camel_object_unref (CAMEL_OBJECT (source));
 	 *} else
 	 */
-		name = input->source_url;
-
+	name = input->source_url;
+	
 	if (gerund)
 		return g_strdup_printf (_("Fetching email from %s"), name);
 	else
@@ -75,7 +75,7 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
-
+	
 	data->empty = FALSE;
 	if (input->destination)
 		camel_object_ref (CAMEL_OBJECT (input->destination));
@@ -87,14 +87,14 @@ mail_load_evolution_rule_context ()
 	gchar *userrules;
 	gchar *systemrules;
 	FilterContext *fc;
-
+	
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	fc = filter_context_new ();
 	rule_context_load ((RuleContext *)fc, systemrules, userrules);
 	g_free (userrules);
 	g_free (systemrules);
-
+	
 	return fc;
 }
 
@@ -119,7 +119,7 @@ mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const 
 
 	/* use the 'standard' logging function, data is already the fd */
 	if (data)
-		filter_driver_status_log(driver, status, desc, msg, data);
+		filter_driver_status_log (driver, status, desc, msg, data);
 }
 
 static void
@@ -139,7 +139,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			camel_folder_refresh_info (folder, ex);
 			camel_object_unref (CAMEL_OBJECT (folder));
 		}
-
+		
 		data->empty = FALSE;
 		return;
 	}
@@ -170,10 +170,10 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	if (!strncmp (input->source_url, "mbox:", 5)) {
 		char *path = mail_tool_do_movemail (input->source_url, ex);
-
+		
 		if (path && !camel_exception_is_set (ex)) {
 			filter_driver_filter_mbox (filter, path, FILTER_SOURCE_INCOMING, ex);
-
+			
 			/* ok?  zap the output file */
 			if (!camel_exception_is_set (ex)) {
 				unlink (path);
@@ -296,11 +296,9 @@ mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 /* why do we have this separate code, it is basically a copy of the code above,
    should be consolidated */
 
-typedef struct filter_ondemand_input_s
-{
-	FilterContext *context;
+typedef struct filter_ondemand_input_s {
 	CamelFolder *source;
-	CamelFolder *destination;
+	GPtrArray *uids;
 } filter_ondemand_input_t;
 
 static gchar *
@@ -316,12 +314,8 @@ static void
 setup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
-
-	gtk_object_ref (GTK_OBJECT (input->context));
-	if (input->source)
-		camel_object_ref (CAMEL_OBJECT (input->source));
-	if (input->destination)
-		camel_object_ref (CAMEL_OBJECT (input->destination));
+	
+	camel_object_ref (CAMEL_OBJECT (input->source));
 }
 
 static void
@@ -329,42 +323,52 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
 	FilterDriver *driver;
-	GPtrArray *uids, *new_uids;
-	char *filename;
+	FilterContext *context;
 	FILE *logfile = NULL;
 	int i;
 	
 	mail_tool_camel_lock_up ();
 	if (camel_folder_get_message_count (input->source) == 0) {
-		mail_tool_camel_lock_down();
+		mail_tool_camel_lock_down ();
 		return;
 	}
-
-	/* setup filter driver */
-	driver = filter_driver_new (input->context, mail_tool_filter_get_folder_func, NULL);
-	/* -- we want no default destination this time */
+	
+	/* create the filter context */
+	context = mail_load_evolution_rule_context ();
+	
+	if (((RuleContext *)context)->error) {
+		gtk_object_unref (GTK_OBJECT (context));
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Cannot apply filters: failed to load filter rules.");
+		
+		mail_tool_camel_lock_down ();
+		return;
+	}
+	
+	/* setup filter driver - no default destination */
+	driver = filter_driver_new (context, mail_tool_filter_get_folder_func, NULL);
+	
 	if (TRUE /* perform_logging */) {
+		char *filename;
+		
 		filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
 		logfile = fopen (filename, "a+");
 		g_free (filename);
 	}
 	
-	filter_driver_set_status_func(driver, mail_op_report_status, logfile);
-	/* build the uid list - all uid's not deleted already */
-	uids = camel_folder_get_uids (input->source);
-	new_uids = g_ptr_array_new ();
-	for (i = 0; i < uids->len; i++) {
-		const CamelMessageInfo *info = camel_folder_get_message_info(input->source, uids->pdata[i]);
-		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
-			g_ptr_array_add(new_uids, uids->pdata[i]);
-		}
+	filter_driver_set_status_func (driver, mail_op_report_status, logfile);
+	
+	for (i = 0; i < input->uids->len; i++) {
+		CamelMimeMessage *message;
+		CamelMessageInfo *info;
+		
+		message = camel_folder_get_message (input->source, input->uids->pdata[i], ex);
+		info = (CamelMessageInfo *) camel_folder_get_message_info (input->source, input->uids->pdata[i]);
+		
+		/* filter the message - use "incoming" rules since we don't want special "demand" filters? */
+		filter_driver_filter_message (driver, message, info, "", FILTER_SOURCE_INCOMING, ex);
 	}
-	
-	/* run the filter */
-	filter_driver_filter_folder (driver, input->source, FILTER_SOURCE_DEMAND, new_uids, TRUE, ex);
-	
-	camel_folder_free_uids (input->source, uids);
-	g_ptr_array_free(new_uids, TRUE);
 	
 	if (logfile)
 		fclose (logfile);
@@ -377,15 +381,14 @@ static void
 cleanup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
+	int i;
 	
 	if (input->source)
 		camel_object_unref (CAMEL_OBJECT (input->source));
 	
-	if (input->destination)
-		camel_object_unref (CAMEL_OBJECT (input->destination));
-	
-	if (input->context)
-		gtk_object_unref (GTK_OBJECT (input->context));
+	for (i = 0; i < input->uids->len; i++)
+		g_free (input->uids->pdata[i]);
+	g_ptr_array_free (input->uids, TRUE);
 }
 
 static const mail_operation_spec op_filter_ondemand = {
@@ -397,18 +400,15 @@ static const mail_operation_spec op_filter_ondemand = {
 };
 
 void
-mail_do_filter_ondemand (FilterContext *context, CamelFolder *source, CamelFolder *destination)
+mail_do_filter_ondemand (CamelFolder *source, GPtrArray *uids)
 {
 	filter_ondemand_input_t *input;
 	
-	g_return_if_fail (IS_FILTER_CONTEXT (context));	
 	g_return_if_fail (source == NULL || CAMEL_IS_FOLDER (source));
-	g_return_if_fail (destination == NULL || CAMEL_IS_FOLDER (destination));
-
+	
 	input = g_new (filter_ondemand_input_t, 1);
-	input->context = context;
 	input->source = source;
-	input->destination = destination;
+	input->uids = uids;
 	
 	mail_operation_queue (&op_filter_ondemand, input, TRUE);
 }
@@ -419,7 +419,7 @@ typedef struct send_mail_input_s
 {
 	gchar *xport_uri;
 	CamelMimeMessage *message;
-
+	
 	/* If done_folder != NULL, will add done_flags to
 	 * the flags of the message done_uid in done_folder. */
 
@@ -475,7 +475,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	CamelMessageInfo *info;
 	CamelTransport *xport;
 	FilterContext *context;
-	char *x_mailer, *user, *system;
+	char *x_mailer;
 	
 	mail_tool_camel_lock_up ();
 	x_mailer = g_strdup_printf ("Evolution %s (Developer Preview)", VERSION);
@@ -516,12 +516,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	info->flags = CAMEL_MESSAGE_SEEN;
 	
 	/* setup filter driver */
-	context = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load ((RuleContext *)context, system, user);
-	g_free (user);
-	g_free (system);
+	context = mail_load_evolution_rule_context ();
 	
 	if (!((RuleContext *)context)->error) {
 		FilterDriver *driver;
@@ -538,6 +533,8 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		}
 		
 		filter_driver_filter_message (driver, input->message, info, "", FILTER_SOURCE_OUTGOING, ex);
+		
+		gtk_object_unref (GTK_OBJECT (driver));
 		
 		if (logfile)
 			fclose (logfile);

@@ -32,8 +32,9 @@
 void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 			 CamelFolder *destination,
 			 gpointer hook_func, gpointer hook_data);
-void mail_do_filter_ondemand (FilterContext *context, CamelFolder *source,
-			      CamelFolder *destination);
+
+void mail_do_filter_ondemand (CamelFolder *source, GPtrArray *uids);
+
 void mail_do_send_mail (const char *xport_uri,
 			CamelMimeMessage *message,
 			CamelFolder *done_folder,
