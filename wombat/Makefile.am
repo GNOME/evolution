@@ -69,8 +69,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 
 idl_DATA = Evolution-Wombat.idl
 
-EXTRA_DIST = $(server_DATA) $(server_in_files) $(idl_DATA) \
-	     GNOME_Evolution_WombatLDAP.server.in GNOME_Evolution_WombatNOLDAP.server.in
+EXTRA_DIST = $(server_DATA) $(server_in_files) $(idl_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
