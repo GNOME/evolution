@@ -1,8 +1,14 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_set_selected): Need to prepend
+	a "/" to path if the path is the url fragment. Also fixed to
+	select the store node if path == "/".
+
 	* em-folder-selector.c (em_folder_selector_get_selected_uri):
 	Fixed a FIXME by using the CamelProvider url flags to determine if
 	the url used url->fragment or url->path as the folder path.
+	(em_folder_selector_get_selected_path): Don't allow path strings
+	to start with "//".
 
 2003-12-03  JP Rosevear <jpr@ximian.com>
 

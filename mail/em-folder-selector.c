@@ -332,10 +332,16 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 	}
 	
 	if (path && emfs->name_entry) {
+		const char *name;
 		char *newpath;
 		
-		path = newpath = g_strdup_printf ("%s/%s", path, gtk_entry_get_text (emfs->name_entry));
-		emfs->selected_path = newpath;
+		name = gtk_entry_get_text (emfs->name_entry);
+		if (strcmp (path, "/") != 0)
+			newpath = g_strdup_printf ("%s/%s", path, name);
+		else
+			newpath = g_strdup_printf ("/%s", name);
+		
+		path = emfs->selected_path = newpath;
 	}
 	
 	return path;

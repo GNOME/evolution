@@ -1043,7 +1043,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 		parent = namebuf;
 	}
 	
-	d(printf ("creating folder name='%s' path='%s'\n", name, path));
+	d(printf ("creating folder parent='%s' name='%s' path='%s'\n", parent, name, path));
 	
 	camel_store_create_folder (si->store, parent, name, &ex);
 	if (camel_exception_is_set (&ex)) {
@@ -1562,11 +1562,12 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	struct _EMFolderTreeModelStoreInfo *si;
 	struct _EMFolderTreeGetFolderInfo *m;
 	struct _EMFolderTreePrivate *priv;
+	GtkTreeRowReference *row = NULL;
 	GtkTreeSelection *selection;
-	GtkTreeRowReference *row;
 	GtkTreePath *tree_path;
 	CamelStore *store;
 	CamelException ex;
+	const char *top;
 	char *path, *p;
 	CamelURL *url;
 	
@@ -1590,20 +1591,30 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		return;
 	}
 	
-	path = url->fragment ? url->fragment : url->path;
-	if ((row = g_hash_table_lookup (si->path_hash, path))) {
+	if (((CamelService *) store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+		path = g_strdup_printf ("/%s", url->fragment ? url->fragment : "");
+	else
+		path = g_strdup (url->path ? url->path : "/");
+	
+	top = path[0] == '/' ? path + 1 : path;
+	camel_url_free (url);
+	
+	if (!strcmp (path, "/"))
+		row = si->row;
+	
+	if (row || (row = g_hash_table_lookup (si->path_hash, path))) {
 		/* the folder-info node has already been loaded */
-		selection = gtk_tree_view_get_selection (priv->treeview);
 		tree_path = gtk_tree_row_reference_get_path (row);
 		gtk_tree_view_expand_to_path (priv->treeview, tree_path);
+		selection = gtk_tree_view_get_selection (priv->treeview);
 		gtk_tree_selection_select_path (selection, tree_path);
 		gtk_tree_path_free (tree_path);
 		camel_object_unref (store);
-		camel_url_free (url);
+		g_free (path);
 		return;
 	}
 	
-	/* look for the first of our parent folders that has already been loaeed */
+	/* look for the first of our parent folders that has already been loaded */
 	p = path + strlen (path);
 	while (p > path) {
 		if (*p == '/') {
@@ -1619,10 +1630,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	if (row == NULL) {
 		/* none of the folders of the desired store have been loaded yet */
 		row = si->row;
-		path = NULL;
-	} else {
-		if (path[0] == '/')
-			path++;
+		top = NULL;
 	}
 	
 	/* FIXME: this gets all the subfolders of our first loaded
@@ -1632,13 +1640,13 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	m->root = gtk_tree_row_reference_copy (row);
 	m->store = store;
 	m->emft = emft;
-	m->top = path ? g_strdup (path) : NULL;
+	m->top = top ? g_strdup (top) : NULL;
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 	m->select_uri = g_strdup (uri);
 	
-	e_thread_put (mail_thread_new, (EMsg *) m);
+	g_free (path);
 	
-	camel_url_free (url);
+	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
 
