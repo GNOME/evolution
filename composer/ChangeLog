@@ -1,3 +1,11 @@
+2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (update): Don't
+	gtk_object_destroy() the pixbuf loader, unref it instead.
+
+	* e-msg-composer-hdrs.c (destroy): Don't forget to free the
+	private structure.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Automake 1.5 fixes pointed out by Richard Boulton

@@ -517,6 +517,8 @@ destroy (GtkObject *object)
 	}
 	g_slist_free (priv->from_options);
 	
+	g_free (priv);
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -963,7 +965,7 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	EDestination **cc_destv;
 	EDestination **bcc_destv;
 	EDestination **recip_destv;
-	gint i, j, N;
+	gint i, j, n;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
@@ -971,16 +973,16 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
 	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
 
-	N = 0;
+	n = 0;
 
-	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++N);
-	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++N);
-	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++N);
+	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++n);
+	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++n);
+	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++n);
 
-	if (N == 0)
+	if (n == 0)
 		return NULL;
 
-	recip_destv = g_new (EDestination *, N+1);
+	recip_destv = g_new (EDestination *, n+1);
 
 	j = 0;
 
@@ -991,7 +993,7 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++j)
 		recip_destv[j] = bcc_destv[i];
 
-	g_assert (j == N);
+	g_assert (j == n);
 	recip_destv[j] = NULL;
 
 	g_free (to_destv);

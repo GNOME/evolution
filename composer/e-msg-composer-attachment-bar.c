@@ -324,7 +324,7 @@ update (EMsgComposerAttachmentBar *bar)
 			
 			/* Destroy everything */
 			gdk_pixbuf_loader_close (loader);
-			gtk_object_destroy (GTK_OBJECT (loader));
+			gtk_object_unref (GTK_OBJECT (loader));
 			camel_stream_close (mstream);
 		}
 		

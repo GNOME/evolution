@@ -2631,10 +2631,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 			Bcc = g_list_append (Bcc, dest);
 		}
 	}
-
+	
 	Bccv = e_destination_list_to_vector (Bcc);
 	g_list_free (Bcc);
-
 	
 	/* Restore the Account preference */
 	account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
@@ -2645,7 +2644,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	}
 	
 	e_msg_composer_set_headers (new, account_name, Tov, Ccv, Bccv, subject);
-
+	
 	e_destination_freev (Tov);
 	e_destination_freev (Ccv);
 	e_destination_freev (Bccv);
@@ -2712,7 +2711,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 			g_free (text);
 		}
 	}
-
+	
 	return new;
 }
 
