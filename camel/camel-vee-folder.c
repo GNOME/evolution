@@ -1333,8 +1333,10 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 			vinfo = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, vuid);
 			if (vinfo == NULL)
 				g_ptr_array_add(newchanged, (char *)uid);
-			else
+			else {
 				camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)vinfo);
+				folder_changed_change_uid(sub, uid, hash, vf);
+			}
 		}
 		changed = newchanged;
 	}
