@@ -120,7 +120,7 @@ e_address_western_remove_blank_lines (gchar *lines[], gint *linecntr)
 static gboolean
 e_address_western_is_po_box (gchar *line)
 {
-	gboolean retval;
+	gboolean retval = FALSE;
 
 	/* In which phase of processing are we? */
 	enum State { FIRSTCHAR, SECONDCHAR, WHITESPACE } state;
@@ -299,10 +299,10 @@ e_address_western_extract_postal_code (gchar *line)
 
 
 
-void
+static void
 e_address_western_extract_street (gchar *line, gchar **street, gchar **extended)
 {
-	gchar *split = NULL;
+        const gchar *split = NULL;
 	gint cntr;
 
 	for (cntr = 0; extended_keywords[cntr] != NULL; cntr++) {
@@ -334,7 +334,9 @@ e_address_western_parse (const gchar *in_address)
 	gboolean found_po_box, found_postal;
 
 	EAddressWestern *eaw;
+#if 0
 	gint start, end;  /* To be used to classify address lines. */
+#endif
 
 	if (in_address == NULL)
 		return NULL;
