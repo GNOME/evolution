@@ -93,6 +93,7 @@ images_DATA = \
 	im-login.png \
 	im-logout.png \
 	im-msn.png \
+	im-nov.png \
 	im-na.png \
 	im-notauthorized.png \
 	im-occupied.png \

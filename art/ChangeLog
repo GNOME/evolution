@@ -1,3 +1,7 @@
+2004-02-25 Sivaiah Nallagatla <snallagatla@novell.com>
+	* Makefile.am : added im-nov.png (icon for Groupwise im)
+	to images_DATA
+
 2004-02-03  Jakub Steiner <jimmac@ximian.com>
 
 	* im-jabber.png: 16x16 jabber
