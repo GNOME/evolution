@@ -68,7 +68,6 @@ gchar *s = N_("Type:");
 gchar *s = N_("Hostname:");
 gchar *s = N_("Username:");
 gchar *s = N_("Password:");
-gchar *s = N_("IMAP");
 gchar *s = N_("Authentication:");
 gchar *s = N_("Outgoing Mail Server");
 gchar *s = N_("This server requires a secure connection (SSL)");

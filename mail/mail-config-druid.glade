@@ -19,7 +19,7 @@
 
 <widget>
   <class>GtkWindow</class>
-  <name>mail-config-window</name>
+  <name>mail-config-druid</name>
   <visible>False</visible>
   <title>Mail Configuration Druid</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
@@ -1414,7 +1414,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 
 <widget>
   <class>GnomeDialog</class>
-  <name>account-properties-dialog</name>
+  <name>mail-account-editor</name>
   <visible>False</visible>
   <title>Account Properties</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
@@ -2018,7 +2018,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>chkIncomingSSL</name>
+	    <name>chkSourceSSL</name>
 	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
 	    <label>This server requires a secure connection (SSL)</label>
@@ -2042,7 +2042,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>omenuIncomingAuth</name>
+	    <name>omenuSourceAuth</name>
 	    <can_focus>True</can_focus>
 	    <items>Plain Text
 Kerberos
@@ -2172,12 +2172,12 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>txtServerType</name>
+	    <name>txtSourceType</name>
 	    <can_focus>True</can_focus>
 	    <editable>False</editable>
 	    <text_visible>True</text_visible>
 	    <text_max_length>0</text_max_length>
-	    <text>IMAP</text>
+	    <text></text>
 	    <child>
 	      <left_attach>3</left_attach>
 	      <right_attach>10</right_attach>
@@ -2196,7 +2196,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>txtIncomingServer</name>
+	    <name>txtSourceHost</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2220,7 +2220,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>txtUsername</name>
+	    <name>txtSourceUsername</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -2244,7 +2244,7 @@ DIGEST-MD5
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>txtPassword</name>
+	    <name>txtSourcePassword</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>

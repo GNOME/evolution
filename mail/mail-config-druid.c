@@ -429,6 +429,8 @@ auth_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
 	
+	gtk_object_set_data (GTK_OBJECT (druid), "source_authmech", authtype->authproto);
+	
 	if (authtype->need_password)
 		sensitive = TRUE;
 	else
@@ -877,16 +879,18 @@ char *
 mail_config_druid_get_source_url (MailConfigDruid *druid)
 {
 	char *source_url, *host, *pport;
+	const CamelProvider *provider;
 	CamelURL *url;
 	int port;
 	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
+	provider = druid->source_provider;
+	
 	url = g_new0 (CamelURL, 1);
-	/* FIXME: get the real protocol */
-	url->protocol = g_strdup ("pop3");
+	url->protocol = g_strdup (provider->protocol);
 	url->user = g_strdup (gtk_entry_get_text (druid->incoming_username));
-	url->authmech = g_strdup (druid->authmech);
+	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (druid), "source_authmech"));
 	url->passwd = g_strdup (gtk_entry_get_text (druid->password));
 	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
 	if (host && (pport = strchr (host, ':'))) {
@@ -927,14 +931,16 @@ char *
 mail_config_druid_get_transport_url (MailConfigDruid *druid)
 {
 	char *transport_url, *host, *pport;
+	const CamelProvider *provider;
 	CamelURL *url;
 	int port;
 	
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
+	provider = druid->transport_provider;
+	
 	url = g_new0 (CamelURL, 1);
-	/* FIXME: get the real protocol */
-	url->protocol = g_strdup ("smtp");
+	url->protocol = g_strdup (provider->protocol);
 	host = g_strdup (gtk_entry_get_text (druid->outgoing_hostname));
 	if (host && (pport = strchr (host, ':'))) {
 		port = atoi (pport + 1);

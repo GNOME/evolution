@@ -1,5 +1,13 @@
 2001-01-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-account-editor.[c,h]: New source files to provide an
+	account editor widget.
+
+	* mail-config-druid.c (auth_type_changed): Set the authproto on
+	the druid so we can look it up later.
+
+2001-01-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-accounts.c (mail_add): Since the druid now handles adding
 	the new account to the config, we'll just connect to the destroy
 	event and show the druid.
