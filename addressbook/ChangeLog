@@ -1,3 +1,8 @@
+2003-11-07  Dan Winship  <danw@ximian.com>
+
+	* util/Makefile.am (INCLUDES): Remove some includes of directories
+	that don't exist any more
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* gui/contact-editor/Makefile.am: don't include the c marshaller
