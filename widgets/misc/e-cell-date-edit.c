@@ -37,6 +37,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-item.h>
+#include <gal/e-table/e-cell-text.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
@@ -437,6 +438,7 @@ static void
 e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
@@ -448,8 +450,8 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	char buffer[64];
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	cell_text = e_table_model_value_at (ecv->e_table_model,
-					    ecol->col_idx, ecp->popup_row);
+	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
+					  ecol->col_idx, ecp->popup_row);
 
 	status = e_time_parse_date_and_time (cell_text, &date_tm);
 
@@ -472,6 +474,8 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 
 		e_cell_date_edit_select_matching_time (ecde, buffer);
 	}
+
+	e_cell_text_free_text (ecell_text, cell_text);
 }
 
 
@@ -822,6 +826,7 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 					 char		*text)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
+	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
@@ -829,15 +834,17 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 
 	/* Compare the new text with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	old_text = e_table_model_value_at (ecv->e_table_model,
-					   ecol->col_idx, ecp->popup_row);
+
+	old_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
+					 ecol->col_idx, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
 	if (strcmp (old_text, text)) {
-		e_table_model_set_value_at (ecv->e_table_model,
-					    ecol->col_idx, ecp->popup_row,
-					    text);
+		e_cell_text_set_value (ecell_text, ecv->e_table_model,
+				       ecol->col_idx, ecp->popup_row, text);
 	}
+
+	e_cell_text_free_text (ecell_text, old_text);
 }
 
 
