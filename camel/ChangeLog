@@ -1,5 +1,8 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Update for
+	using CamelTcpStreams and also for using SSL.
+
 	* providers/smtp/libcamelsmtp.urls: defined "ssmtp"
 
 	* providers/smtp/camel-smtp-provider.c: Defined the Secure SMTP

@@ -35,7 +35,8 @@ extern "C" {
 #ifdef HAVE_NSS
 #include <camel/camel-tcp-stream.h>
 #include <camel/camel-service.h>
-#include <nspr.h>
+#include <mozilla/nspr.h>
+#include <mozilla/prnetdb.h>
 
 #define CAMEL_TCP_STREAM_SSL_TYPE     (camel_tcp_stream_ssl_get_type ())
 #define CAMEL_TCP_STREAM_SSL(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TCP_STREAM_SSL_TYPE, CamelTcpStreamSSL))

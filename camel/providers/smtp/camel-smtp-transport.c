@@ -45,7 +45,11 @@
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
 #include "camel-stream-buffer.h"
-#include "camel-stream-fs.h"
+#include "camel-tcp-stream.h"
+#include "camel-tcp-stream-raw.h"
+#ifdef HAVE_NSS
+#include "camel-tcp-stream-ssl.h"
+#endif
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
@@ -201,11 +205,12 @@ static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
-	gchar *pass = NULL, *respbuf = NULL;
+	CamelStream *tcp_stream;
+	gchar *respbuf = NULL;
+	gboolean use_ssl = FALSE;
 	struct hostent *h;
-	struct sockaddr_in sin;
 	guint32 addrlen;
-	gint fd;
+	int port, ret;
 	
 	if (!service_class->connect (service, ex))
 		return FALSE;
@@ -219,30 +224,53 @@ smtp_connect (CamelService *service, CamelException *ex)
 	transport->authtypes = NULL;
 	CAMEL_TRANSPORT (transport)->supports_8bit = FALSE;
 	
-	sin.sin_family = h->h_addrtype;
-	sin.sin_port = htons (service->url->port ? service->url->port : SMTP_PORT);
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+	port = service->url->port ? service->url->port : SMTP_PORT;
 	
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
+#ifdef HAVE_NSS
+	if (!g_strcasecmp (service->url->protocol, "ssmtp")) {
+		use_ssl = TRUE;
+		port = service->url->port ? service->url->port : 465;
+		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+	} else {
+		tcp_stream = camel_tcp_stream_raw_new ();
+	}
+#else
+	tcp_stream = camel_tcp_stream_raw_new ();
+#endif /* HAVE_NSS */
+	
+	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not connect to %s (port %d): %s"),
-				      service->url->host,
-				      service->url->port ? service->url->port : SMTP_PORT,
-				      strerror (errno));
-		if (fd > -1)
-			close (fd);
-		g_free (pass);
+				      service->url->host, port,
+				      g_strerror (errno));
+		
 		return FALSE;
 	}
 	
 	/* get the localaddr - needed later by smtp_helo */
 	addrlen = sizeof (transport->localaddr);
-	getsockname (fd, (struct sockaddr*)&transport->localaddr, &addrlen);
+#ifdef HAVE_NSS
+	if (use_ssl) {
+		PRNetAddr addr;
+		char hname[1024];
+		
+		PR_GetSockName (CAMEL_TCP_STREAM_SSL (tcp_stream)->sockfd, &addr);
+		memset (hname, 0, sizeof (hname));
+		PR_NetAddrToString (&addr, hname, 1023);
+		
+		inet_aton (hname, (struct in_addr *)&transport->localaddr.sin_addr);
+	} else {
+		getsockname (CAMEL_TCP_STREAM_RAW (tcp_stream)->sockfd,
+			     (struct sockaddr *)&transport->localaddr, &addrlen);
+	}
+#else
+	getsockname (CAMEL_TCP_STREAM_RAW (tcp_stream)->sockfd,
+		     (struct sockaddr *)&transport->localaddr, &addrlen);
+#endif /* HAVE_NSS */
 	
-	transport->ostream = camel_stream_fs_new_with_fd (fd);
-	transport->istream = camel_stream_buffer_new (transport->ostream, 
-						      CAMEL_STREAM_BUFFER_READ);
+	transport->ostream = tcp_stream;
+	transport->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
 	
 	/* Read the greeting, note whether the server is ESMTP or not. */
 	do {
