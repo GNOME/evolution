@@ -326,9 +326,6 @@ main( int argc, char *argv[] )
 			    NULL,
 			    0, NULL);
 
-	/* put all code to set things up in here */
-	conduit = gpilotd_conduit_mgmt_new("calendar_conduit");
-
 	/* get pilot name from gpilotd */
 	/* 1. initialize the gpilotd connection */
 	if (gpilotd_init(&argc,argv)!=0) {
@@ -348,6 +345,7 @@ main( int argc, char *argv[] )
 	if(!pilotId) return -1;
 
 	/* put all code to set things up in here */
+	conduit = gpilotd_conduit_mgmt_new("calendar_conduit",pilotId);
 	gcalconduit_load_configuration(&origState,pilotId);
 	gpilotd_conduit_mgmt_get_sync_type(conduit,pilotId,&origState->sync_type);
 

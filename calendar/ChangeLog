@@ -1,3 +1,9 @@
+2000-01-08  Vadim Strizhevsky  <vadim@optonline.net>
+
+	* calendar-conduit-control-applet.c: Added pilotID argument to 
+	gpilotd_conduit_mgmt_new.
+
+
 2000-01-05  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* GnomeCal.idl: Added an argument to get_number_of_objects, so you 
