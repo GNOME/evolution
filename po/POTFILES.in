@@ -14,6 +14,9 @@ addressbook/contact-editor/fulladdr.glade
 addressbook/contact-editor/fullname-strings.h
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
+addressbook/gui/component/addressbook-storage.c
+addressbook/gui/component/addressbook-config.c
+addressbook/gui/component/addressbook-config.glade
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/gui/widgets/alphabet.glade
