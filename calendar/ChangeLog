@@ -1,5 +1,16 @@
 2000-06-01  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/gnome-cal.c (editor_closed_cb): Handler for the
+	"editor_closed" signal of the event editor; we just destroy it
+	then.
+
+	* gui/event-editor.c (app_delete_event_cb): Callback used when the
+	dialog is closed.  Release the iCalObject here instead of the
+	event editor's destroy handler, and emit the new "editor_closed"
+	signal.
+
+2000-06-01  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor-dialog.glade: Change of plans.  The toplevel
 	GnomeApp is now generated with Glade instead of being created in
 	the program code.  Otherwise we can't migrate the accelerators to

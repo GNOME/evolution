@@ -53,6 +53,7 @@ struct _EventEditorClass {
 	/* Notification signals */
 
 	void (* ical_object_released) (EventEditor *ee, const char *uid);
+	void (* editor_closed) (EventEditor *ee);
 };
 
 

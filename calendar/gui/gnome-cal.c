@@ -1327,6 +1327,13 @@ ical_object_released_cb (EventEditor *ee, const char *uid, gpointer data)
 	g_free (orig_uid);
 }
 
+/* Callback used when an event editor dialog is closed */
+static void
+editor_closed_cb (EventEditor *ee, gpointer data)
+{
+	gtk_object_unref (GTK_OBJECT (ee));
+}
+
 void
 gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 {
@@ -1352,6 +1359,9 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 		g_hash_table_insert (gcal->object_editor_hash, g_strdup (ico->uid), ee);
 		gtk_signal_connect (GTK_OBJECT (ee), "ical_object_released",
 				    GTK_SIGNAL_FUNC (ical_object_released_cb), gcal);
+
+		gtk_signal_connect (GTK_OBJECT (ee), "editor_closed",
+				    GTK_SIGNAL_FUNC (editor_closed_cb), gcal);
 
 		event_editor_set_ical_object (EVENT_EDITOR (ee), ico);
 	}

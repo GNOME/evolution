@@ -118,6 +118,7 @@ typedef struct {
 /* Signal IDs */
 enum {
 	ICAL_OBJECT_RELEASED,
+	EDITOR_CLOSED,
 	LAST_SIGNAL
 };
 
@@ -199,6 +200,14 @@ event_editor_class_init (EventEditorClass *class)
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
+	event_editor_signals[EDITOR_CLOSED] =
+		gtk_signal_new ("editor_closed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EventEditorClass, editor_closed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, event_editor_signals, LAST_SIGNAL);
 
 	object_class->destroy = event_editor_destroy;
@@ -227,21 +236,25 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
-	if (priv->ico) {
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
-				 priv->ico->uid);
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
-	}
-
 	if (priv->uih) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->uih));
 		priv->uih = NULL;
 	}
 
 	if (priv->app) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->app), ee);
 		gtk_widget_destroy (priv->app);
 		priv->app = NULL;
+	}
+
+	if (priv->ico) {
+		/* We do not emit the "ical_object_released" signal here.  If
+		 * the user cloased the dialog box, then it has already been
+		 * released.  If the application just destroyed the event
+		 * editor, then it had better clean up after itself.
+		 */
+		ical_object_unref (priv->ico);
+		priv->ico = NULL;
 	}
 
 	if (priv->xml) {
@@ -495,19 +508,6 @@ free_exception_clist_data (GtkCList *clist)
 	gtk_clist_clear (clist);
 }
 
-/* Callback used when the exception date GtkCList is destroyed */
-static void
-exception_clist_destroyed (GtkObject *object, gpointer data)
-{
-	EventEditor *ee;
-	EventEditorPrivate *priv;
-
-	ee = EVENT_EDITOR (data);
-	priv = ee->priv;
-
-	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
-}
-
 /* Hooks the widget signals */
 static void
 init_widgets (EventEditor *ee)
@@ -563,11 +563,6 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
-
-	/* Exception list */
-
-	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exceptions_list), "destroy",
-			    GTK_SIGNAL_FUNC (exception_clist_destroyed), ee);
 }
 
 /* Fills the widgets with default values */
@@ -1061,6 +1056,33 @@ create_toolbar (EventEditor *ee)
 	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
 }
 
+/* Callback used when the dialog box is destroyed */
+static gint
+app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+
+	gtk_widget_destroy (priv->app);
+	priv->app = NULL;
+
+	if (priv->ico) {
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
+				 priv->ico->uid);
+		ical_object_unref (priv->ico);
+		priv->ico = NULL;
+	}
+
+	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[EDITOR_CLOSED]);
+
+	return TRUE;
+}
+
 /**
  * event_editor_construct:
  * @ee: An event editor.
@@ -1108,6 +1130,11 @@ event_editor_construct (EventEditor *ee)
 
 	create_menu (ee);
 	create_toolbar (ee);
+
+	/* Hook to destruction of the dialog */
+
+	gtk_signal_connect (GTK_OBJECT (priv->app), "delete_event",
+			    GTK_SIGNAL_FUNC (app_delete_event_cb), ee);
 
 	/* Show the dialog */
 
