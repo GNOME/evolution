@@ -1,5 +1,19 @@
 2001-08-17  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (view_destroy): unref our
+	card_sexp.
+	(create_card_handler): make sure to set the id of the vcard so it
+	gets properly transmitted back to the BookView, and notify all
+	matching BookViews to add the created card.
+	(remove_card_handler): notify all matching BookViews to remove the
+	card.
+	(modify_card_handler): notify all matching BookViews to modify the
+	card.
+	(pas_backend_ldap_process_get_book_view): init card_sexp based on
+	the view's search.
+
+2001-08-17  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_book_view_copy): use card_sexp.
 	(pas_backend_file_book_view_free): same.

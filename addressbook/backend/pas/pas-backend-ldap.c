@@ -37,6 +37,7 @@
 #include <ebook/e-card-simple.h>
 
 #include "pas-backend-ldap.h"
+#include "pas-backend-card-sexp.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
@@ -96,6 +97,7 @@ struct _PASBackendLDAPBookView {
 	PASBookView           *book_view;
 	PASBackendLDAPPrivate *blpriv;
 	gchar                 *search;
+	PASBackendCardSExp    *card_sexp;
 	int                   search_idle;
 	int                   search_msgid;
 	LDAPOp                *search_op;
@@ -260,6 +262,7 @@ view_destroy(GtkObject *object, gpointer data)
 				}
 			}
 			g_free (view->search);
+			gtk_object_unref (GTK_OBJECT (view->card_sexp));
 			g_free (view);
 			bl->priv->book_views = g_list_remove_link(bl->priv->book_views, list);
 			g_list_free_1(list);
@@ -409,6 +412,34 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		blpriv->connected = FALSE;
 	}
 
+}
+
+static ECardSimple *
+search_for_dn (PASBackendLDAP *bl, const char *dn)
+{
+	LDAP *ldap = bl->priv->ldap;
+	LDAPMessage    *res, *e;
+	ECardSimple *result = NULL;
+
+	if (ldap_search_s (ldap,
+			   dn,
+			   LDAP_SCOPE_BASE,
+			   "(objectclass=*)",
+			   NULL, 0, &res) != -1) {
+		e = ldap_first_entry (ldap, res);
+		while (NULL != e) {
+			if (!strcmp (ldap_get_dn (ldap, e), dn)) {
+				printf ("found it\n");
+				result = build_card_from_entry (ldap, e);
+				break;
+			}
+			e = ldap_next_entry (ldap, e);
+		}
+
+		ldap_msgfree(res);
+	}
+
+	return result;
 }
 
 static void
@@ -756,6 +787,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	new_card = e_card_simple_new (new_ecard);
 
 	dn = create_dn_from_ecard (new_card, bl->priv->ldap_rootdn);
+	e_card_simple_set_id (new_card, dn); /* for the notification code below */
 
 	ldap = bl->priv->ldap;
 
@@ -833,8 +865,30 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	if (op->view)
 		pas_book_view_notify_status_message (op->view, "");
 
-	if (ldap_error != LDAP_SUCCESS)
+	if (ldap_error == LDAP_SUCCESS) {
+		/* the card was created, let's let the views know about it */
+		GList *l;
+		for (l = bl->priv->book_views; l; l = l->next) {
+			CORBA_Environment ev;
+			gboolean match;
+			PASBackendLDAPBookView *view = l->data; 
+					
+			CORBA_exception_init(&ev);
+
+			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+			match = pas_backend_card_sexp_match_vcard (view->card_sexp,
+								   e_card_simple_get_vcard (new_card));
+			if (match)
+				pas_book_view_notify_add_1 (view->book_view, e_card_simple_get_vcard (new_card));
+			pas_book_view_notify_complete (view->book_view);
+
+			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+		}
+	}
+	else {
 		ldap_perror (ldap, "ldap_add_s");
+	}
 
 	/* and clean up */
 	free_mods (mod_array);
@@ -897,12 +951,42 @@ remove_card_handler (PASBackend *backend, LDAPOp *op)
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	int response;
 	int ldap_error;
+	ECardSimple *simple;
 
-	ldap_error = ldap_delete_s (bl->priv->ldap, remove_op->id);
-	if (ldap_error != LDAP_SUCCESS)
-		ldap_perror (bl->priv->ldap, "ldap_delete_s");
+	simple = search_for_dn (bl, remove_op->id);
 
-	response = ldap_error_to_response (ldap_error);
+	if (simple) {
+		ldap_error = ldap_delete_s (bl->priv->ldap, remove_op->id);
+
+		if (ldap_error == LDAP_SUCCESS) {
+			/* the card was removed, let's let the views know about it */
+			GList *l;
+			for (l = bl->priv->book_views; l; l = l->next) {
+				CORBA_Environment ev;
+				gboolean match;
+				PASBackendLDAPBookView *view = l->data; 
+					
+				CORBA_exception_init(&ev);
+
+				bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+				match = pas_backend_card_sexp_match_vcard (view->card_sexp,
+									   e_card_simple_get_vcard (simple));
+				if (match)
+					pas_book_view_notify_remove (view->book_view, remove_op->id);
+				pas_book_view_notify_complete (view->book_view);
+
+				bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+			}
+		}
+		else {
+			ldap_perror (bl->priv->ldap, "ldap_delete_s");
+		}
+
+		response = ldap_error_to_response (ldap_error);
+	}
+	else
+		response = GNOME_Evolution_Addressbook_BookListener_CardNotFound;
 
 	pas_book_respond_remove (remove_op->op.book,
 				 response);
@@ -949,34 +1033,6 @@ typedef struct {
 	char *vcard;
 } LDAPModifyOp;
 
-static ECardSimple *
-search_for_dn (PASBackendLDAP *bl, const char *dn)
-{
-	LDAP *ldap = bl->priv->ldap;
-	LDAPMessage    *res, *e;
-	ECardSimple *result = NULL;
-
-	if (ldap_search_s (ldap,
-			   dn,
-			   LDAP_SCOPE_BASE,
-			   "(objectclass=*)",
-			   NULL, 0, &res) != -1) {
-		e = ldap_first_entry (ldap, res);
-		while (NULL != e) {
-			if (!strcmp (ldap_get_dn (ldap, e), dn)) {
-				printf ("found it\n");
-				result = build_card_from_entry (ldap, e);
-				break;
-			}
-			e = ldap_next_entry (ldap, e);
-		}
-
-		ldap_msgfree(res);
-	}
-
-	return result;
-}
-
 static gboolean
 modify_card_handler (PASBackend *backend, LDAPOp *op)
 {
@@ -1009,8 +1065,37 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 			/* actually perform the ldap modify */
 			ldap_error = ldap_modify_ext_s (ldap, id, ldap_mods, NULL, NULL);
-			if (ldap_error != LDAP_SUCCESS)
+			if (ldap_error == LDAP_SUCCESS) {
+
+				/* the card was modified, let's let the views know about it */
+				GList *l;
+				for (l = bl->priv->book_views; l; l = l->next) {
+					CORBA_Environment ev;
+					gboolean old_match, new_match;
+					PASBackendLDAPBookView *view = l->data; 
+					
+					CORBA_exception_init(&ev);
+
+					bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+					old_match = pas_backend_card_sexp_match_vcard (view->card_sexp,
+										       e_card_simple_get_vcard (current_card));
+					new_match = pas_backend_card_sexp_match_vcard (view->card_sexp,
+										       modify_op->vcard);
+					if (old_match && new_match)
+						pas_book_view_notify_change_1 (view->book_view, modify_op->vcard);
+					else if (new_match)
+						pas_book_view_notify_add_1 (view->book_view, modify_op->vcard);
+					else /* if (old_match) */
+						pas_book_view_notify_remove (view->book_view, e_card_simple_get_id (new_card));
+					pas_book_view_notify_complete (view->book_view);
+
+					bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+				}
+			}
+			else {
 				ldap_perror (ldap, "ldap_modify_s");
+			}
 		}
 		else {
 			g_print ("modify list empty.  no modification sent\n");
@@ -2041,6 +2126,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 	view = g_new0(PASBackendLDAPBookView, 1);
 	view->book_view = book_view;
 	view->search = g_strdup(req->search);
+	view->card_sexp = pas_backend_card_sexp_new (view->search);
 	view->blpriv = bl->priv;
 
 	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
