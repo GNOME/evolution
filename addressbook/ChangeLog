@@ -12,6 +12,12 @@
 	* gui/component/addressbook-migrate.c (migrate_contacts): Change
 	the "POSTAL" address in 1.4 to "OTHER" in 1.5.
 
+2004-06-04  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-model.c
+	(name_and_email_simple_query_cb): only resolve destinations
+	against persons, not contact lists.
+	
 2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-migrate.c
