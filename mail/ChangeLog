@@ -1,5 +1,10 @@
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* mail-ops.c (create_message_composer): New.
+	(compose_msg): Use it.
+	(send_to_url): Likewise.
+	(forward_msg): Likewise.
+
 	* folder-browser-factory.c (control_activate): Use `_()' instead
 	of `N_()'.
 

@@ -1,5 +1,29 @@
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-msg-composer.c (menu_format_html_cb): New callback for the
+	"Send HTML" menu toggle item.
+	(create_menubar_format): New.
+	(create_menubar): Call it.
+	(create_menubar_options): Removed.
+	(init): Initialize `send_html' and `attachment_bar_visible' to
+	FALSE.
+	(get_signature): Add `void' to the declaration.  This is C, not
+	C++.
+	(menu_file_close_cb): Renamed from `exit_cb'.
+	(menu_file_send_cb): Renamed from `send_cb'.
+	(menu_file_save_as_cb): Renamed from `save_as_cb'.
+	(menu_file_save_cb): Renamed from `save_cb'.
+	(menu_file_open_cb): Renamed from `open_cb'.
+	(menu_file_add_attachment_cb): Renamed from `add_attachment_cb'.
+	(menu_file_insert_file_cb): Renamed from `insert_file_cb'.
+	(e_msg_composer_set_send_html): New.
+	(build_message): Use the `send_html' flag instead of peeking the
+	`msg_format' gnome-config value directly.
+
+	* e-msg-composer.h: New member `send_html' in `EMsgComposer'.
+
+2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-msg-composer.c: Changed to use BonoboUIHandler stuff directly
 	instead of translating from GnomeUIInfo.
 	(create_menubar_file): New.

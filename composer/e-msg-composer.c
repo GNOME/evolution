@@ -60,7 +60,7 @@
 #define HTML_EDITOR_CONTROL_ID "control:html-editor"
 #endif
 
-
+
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 500
 
@@ -74,6 +74,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GnomeAppClass *parent_class = NULL;
 
+
 static GtkWidget *
 create_editor (EMsgComposer *composer)
 {
@@ -207,20 +208,15 @@ build_message (EMsgComposer *composer)
 	CamelMimePart *part;
 	char *html = NULL, *plain = NULL, *fmt = NULL;
 	int i;
-	char *string;
 	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
-	char *path;
 
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
 
-	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
-	string = gnome_config_get_string (path);
-	g_free (path);
-	if (string) {
-		if (!strcasecmp(string, "plain"))
-			type = MSG_FORMAT_PLAIN;
-	}
+	if (composer->send_html)
+		type = MSG_FORMAT_ALTERNATIVE;
+	else
+		type = MSG_FORMAT_PLAIN;
 
 	new = camel_mime_message_new ();
 
@@ -310,7 +306,7 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-get_signature ()
+get_signature (void)
 {
 	char *path, *sigfile, *rawsig;
 	static char *htmlsig = NULL;
@@ -501,12 +497,12 @@ do_exit (EMsgComposer *composer)
 }
 
 
-/* Message composer window callbacks.  */
+/* Menu callbacks.  */
 
 static void
-open_cb (BonoboUIHandler *uih,
-	 void *data,
-	 const char *path)
+menu_file_open_cb (BonoboUIHandler *uih,
+		   void *data,
+		   const char *path)
 {
 	EMsgComposer *composer;
 	char *file_name;
@@ -523,9 +519,9 @@ open_cb (BonoboUIHandler *uih,
 }
 
 static void
-save_cb (BonoboUIHandler *uih,
-	 void *data,
-	 const char *path)
+menu_file_save_cb (BonoboUIHandler *uih,
+		   void *data,
+		   const char *path)
 {
 	EMsgComposer *composer;
 	CORBA_char *file_name;
@@ -548,9 +544,9 @@ save_cb (BonoboUIHandler *uih,
 }
 
 static void
-save_as_cb (BonoboUIHandler *uih,
-	    void *data,
-	    const char *path)
+menu_file_save_as_cb (BonoboUIHandler *uih,
+		      void *data,
+		      const char *path)
 {
 	EMsgComposer *composer;
 
@@ -560,18 +556,18 @@ save_as_cb (BonoboUIHandler *uih,
 }
 
 static void
-send_cb (BonoboUIHandler *uih,
-	 void *data,
-	 const char *path)
+menu_file_send_cb (BonoboUIHandler *uih,
+		   void *data,
+		   const char *path)
 {
 	/* FIXME: We should really write this to Outbox in the future? */
 	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
 }
 
 static void
-exit_cb (BonoboUIHandler *uih,
-	 void *data,
-	 const char *path)
+menu_file_close_cb (BonoboUIHandler *uih,
+		    void *data,
+		    const char *path)
 {
 	EMsgComposer *composer;
 
@@ -579,6 +575,20 @@ exit_cb (BonoboUIHandler *uih,
 	do_exit (composer);
 }
 	
+static void
+menu_file_add_attachment_cb (BonoboUIHandler *uih,
+			     void *data,
+			     const char *path)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+
+	e_msg_composer_attachment_bar_attach
+		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+		 NULL);
+}
+
 static void
 menu_view_attachments_activate_cb (BonoboUIHandler *uih,
 				   void *data,
@@ -588,20 +598,6 @@ menu_view_attachments_activate_cb (BonoboUIHandler *uih,
 
 	state = bonobo_ui_handler_menu_get_toggle_state (uih, path);
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (data), state);
-}
-
-static void
-add_attachment_cb (BonoboUIHandler *uih,
-		   void *data,
-		   const char *path)
-{
-	EMsgComposer *composer;
-
-	composer = E_MSG_COMPOSER (data);
-
-	e_msg_composer_attachment_bar_attach
-		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 NULL);
 }
 
 static void
@@ -751,7 +747,7 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 }
 
 static void
-insert_file_cb (BonoboUIHandler *uih,
+menu_file_insert_file_cb (BonoboUIHandler *uih,
 		void *data,
 		const char *path)
 {
@@ -773,21 +769,24 @@ insert_file_cb (BonoboUIHandler *uih,
 }
 
 static void
-attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
-			   void *data)
+menu_format_html_cb (BonoboUIHandler *uih,
+		     void *data,
+		     const char *path)
 {
 	EMsgComposer *composer;
-	
+	gboolean new_state;
+
 	composer = E_MSG_COMPOSER (data);
 
-	if (e_msg_composer_attachment_bar_get_num_attachments (bar) > 0)
-		e_msg_composer_show_attachments (composer, TRUE);
-	else
-		e_msg_composer_show_attachments (composer, FALSE);
+	new_state = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	if ((new_state && composer->send_html) || (! new_state && ! composer->send_html))
+		return;
+
+	e_msg_composer_set_send_html (composer, new_state);
 }
 
 
-/* Menu bar implementation.  */
+/* Menu bar creation.  */
 
 static void
 create_menubar_file (EMsgComposer *composer,
@@ -806,7 +805,7 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_OPEN,
 					 0, 0,
-					 open_cb, composer);
+					 menu_file_open_cb, composer);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save",
 					 _("_Save..."),
@@ -815,7 +814,7 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_SAVE,
 					 0, 0,
-					 save_cb, composer);
+					 menu_file_save_cb, composer);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save as",
 					 _("_Save as..."),
@@ -824,7 +823,7 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_SAVE_AS,
 					 0, 0,
-					 save_as_cb, composer);
+					 menu_file_save_as_cb, composer);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save in folder",
 					 _("Save in _folder..."),
@@ -842,7 +841,7 @@ create_menubar_file (EMsgComposer *composer,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0,
-					 insert_file_cb, composer);
+					 menu_file_insert_file_cb, composer);
 
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator2", -1);
 
@@ -853,7 +852,7 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_MAIL_SND,
 					 0, 0,
-					 send_cb, composer);
+					 menu_file_send_cb, composer);
 
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator3", -1);
 
@@ -864,7 +863,7 @@ create_menubar_file (EMsgComposer *composer,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_CLOSE,
 					 0, 0,
-					 exit_cb, composer);
+					 menu_file_close_cb, composer);
 }
 
 static void
@@ -876,6 +875,26 @@ create_menubar_edit (EMsgComposer *composer,
 					    NULL, -1,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
+}
+
+static void
+create_menubar_format (EMsgComposer *composer,
+		       BonoboUIHandler *uih)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/Format",
+					    _("_Format"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+
+	bonobo_ui_handler_menu_new_toggleitem (uih, "/Format/HTML",
+					       _("HTML"),
+					       _("Send the mail in HTML format"),
+					       -1,
+					       0, 0,
+					       menu_format_html_cb, composer);
+
+	bonobo_ui_handler_menu_set_toggle_state (uih, "/Format/HTML", composer->send_html);
 }
 
 static void
@@ -897,17 +916,6 @@ create_menubar_view (EMsgComposer *composer,
 }
 
 static void
-create_menubar_options (EMsgComposer *composer,
-			BonoboUIHandler *uih)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/Options",
-					    _("_Options"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-}
-
-static void
 create_menubar (EMsgComposer *composer)
 {
 	BonoboUIHandler *uih;
@@ -915,10 +923,10 @@ create_menubar (EMsgComposer *composer)
 	uih = composer->uih;
 	bonobo_ui_handler_create_menubar (uih);
 
-	create_menubar_file    (composer, uih);
-	create_menubar_edit    (composer, uih);
-	create_menubar_view    (composer, uih);
-	create_menubar_options (composer, uih);
+	create_menubar_file   (composer, uih);
+	create_menubar_edit   (composer, uih);
+	create_menubar_format (composer, uih);
+	create_menubar_view   (composer, uih);
 }
 
 
@@ -940,7 +948,7 @@ create_toolbar (EMsgComposer *composer)
 					    BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					    GNOME_STOCK_PIXMAP_MAIL_SND,
 					    0, 0,
-					    send_cb, composer);
+					    menu_file_send_cb, composer);
 
 	bonobo_ui_handler_toolbar_new_item (uih,
 					    "/Toolbar/Attach",
@@ -950,7 +958,24 @@ create_toolbar (EMsgComposer *composer)
 					    BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					    GNOME_STOCK_PIXMAP_ATTACH,
 					    0, 0,
-					    add_attachment_cb, composer);
+					    menu_file_add_attachment_cb, composer);
+}
+
+
+/* Miscellaneous callbacks.  */
+
+static void
+attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
+			   void *data)
+{
+	EMsgComposer *composer;
+	
+	composer = E_MSG_COMPOSER (data);
+
+	if (e_msg_composer_attachment_bar_get_num_attachments (bar) > 0)
+		e_msg_composer_show_attachments (composer, TRUE);
+	else
+		e_msg_composer_show_attachments (composer, FALSE);
 }
 
 
@@ -1068,8 +1093,12 @@ init (EMsgComposer *composer)
 
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
+
+	composer->attachment_bar_visible   = FALSE;
+	composer->send_html                = FALSE;
 }
 
+
 GtkType
 e_msg_composer_get_type (void)
 {
@@ -1437,4 +1466,45 @@ e_msg_composer_get_message (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	return build_message (composer);
+}
+
+
+/**
+ * e_msg_composer_set_send_html:
+ * @composer: A message composer widget
+ * @send_html: Whether the composer should have the "Send HTML" flag set
+ * 
+ * Set the status of the "Send HTML" toggle item.  The user can override it.
+ **/
+void
+e_msg_composer_set_send_html (EMsgComposer *composer,
+			      gboolean send_html)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (composer->send_html && send_html)
+		return;
+	if (! composer->send_html && ! send_html)
+		return;
+
+	composer->send_html = send_html;
+	bonobo_ui_handler_menu_set_toggle_state (composer->uih, "/Format/HTML", send_html);
+}
+
+/**
+ * e_msg_composer_get_send_html:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "Send HTML mail" flag.
+ * 
+ * Return value: The status of the "Send HTML mail" flag.
+ **/
+gboolean
+e_msg_composer_get_send_html (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->send_html;
 }

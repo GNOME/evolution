@@ -568,6 +568,37 @@ free_psd (GtkWidget *composer, gpointer user_data)
 	g_free (psd);
 }
 
+static GtkWidget *
+create_msg_composer (const char *url)
+{
+	GtkWidget *composer_widget;
+	gboolean send_html;
+	char *path;
+	char *string;
+
+	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
+	string = gnome_config_get_string (path);
+	g_free (path);
+
+	if (string == NULL) {
+		send_html = FALSE;
+	} else {
+		if (!strcasecmp(string, "plain"))
+			send_html = FALSE;
+		else
+			send_html = TRUE;
+	}
+
+	if (url != NULL)
+		composer_widget = e_msg_composer_new_from_url (url);
+	else
+		composer_widget = e_msg_composer_new ();
+
+	e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), send_html);
+
+	return composer_widget;
+}
+
 void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
@@ -576,7 +607,7 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 	if (!check_configured ())
 		return;
 
-	composer = e_msg_composer_new ();
+	composer = create_msg_composer (NULL);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
@@ -592,7 +623,7 @@ send_to_url (const char *url)
 	if (!check_configured ())
 		return;
 
-	composer = e_msg_composer_new_from_url (url);
+	composer = create_msg_composer (url);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
@@ -681,7 +712,7 @@ forward_msg (GtkWidget *button, gpointer user_data)
 	if (!check_configured () || !cursor_msg)
 		return;
 
-	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	composer = E_MSG_COMPOSER (create_msg_composer (NULL));
 	message_list_foreach (fb->message_list, attach_msg, composer);
 
 	from = camel_mime_message_get_from (cursor_msg);

@@ -65,6 +65,7 @@ struct _EMsgComposer {
 	Bonobo_PersistStream persist_stream_interface;
 
 	gboolean attachment_bar_visible : 1;
+	gboolean send_html : 1;
 };
 
 struct _EMsgComposerClass {
@@ -97,6 +98,10 @@ void              e_msg_composer_attach            (EMsgComposer *composer,
 						    CamelMimePart *attachment);
 
 CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
+
+void              e_msg_composer_set_send_html     (EMsgComposer *composer,
+						    gboolean send_html);
+gboolean          e_msg_composer_get_send_html     (EMsgComposer *composer);
 
 #ifdef __cplusplus
 }
