@@ -954,7 +954,7 @@ rfc2047_decode_word(const char *in, int len)
 			memcpy (encname, in + 2, tmplen);
 			encname[tmplen] = '\0';
 			
-			charset = camel_charset_get_iconv_friendly_name (encname);
+			charset = camel_charset_to_iconv (encname);
 			
 			inbuf = decword;
 			
@@ -1811,7 +1811,7 @@ rfc2184_decode (const char *in, int len)
 		return NULL;
 	
 	encoding = g_strndup (in, inptr - in);
-	charset = camel_charset_get_iconv_friendly_name (encoding);
+	charset = camel_charset_to_iconv (encoding);
 	g_free (encoding);
 	
 	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);

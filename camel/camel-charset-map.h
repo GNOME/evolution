@@ -39,6 +39,6 @@ const char *camel_charset_best(const char *in, int len);
 
 const char *camel_charset_locale_name (void);
 
-const char *camel_charset_get_iconv_friendly_name (const char *name);
+const char *camel_charset_to_iconv (const char *name);
 
 #endif /* ! _CAMEL_CHARSET_MAP_H */

@@ -1,3 +1,9 @@
+2001-07-20  Not Zed  <NotZed@Ximian.com>
+
+	* camel-charset-map.c (camel_charset_get_iconv_friendly_name):
+	renamed to camel_charset_to_iconv() to make it just a little more
+	consistent and not so long & fixed callers.
+
 2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-charset.c

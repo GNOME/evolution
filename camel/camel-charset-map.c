@@ -228,7 +228,7 @@ struct {
 	{ "iso8859-1",      "iso-8859-1" },
 	/* the above mostly serves as an example for iso-style charsets,
 	   but we have code that will populate the iso-*'s if/when they
-	   show up in camel_charset_map_get_iconv_friendly_name() so I'm
+	   show up in camel_charset_map_to_iconv() so I'm
 	   not going to bother putting them all in here... */
 	{ "windows-cp1251", "cp1251"     },
 	{ "windows-1251",   "cp1251"     },
@@ -386,7 +386,7 @@ camel_charset_locale_name (void)
 }
 
 const char *
-camel_charset_get_iconv_friendly_name (const char *name)
+camel_charset_to_iconv (const char *name)
 {
 	const char *charset;
 	
@@ -415,7 +415,7 @@ camel_charset_get_iconv_friendly_name (const char *name)
 	}
 	ICONV_CHARSETS_UNLOCK ();
 	
-	g_warning ("camel_charset_get_iconv_friendly_name (\"%s\") => \"%s\"", name, charset);
+	g_warning ("camel_charset_to_iconv (\"%s\") => \"%s\"", name, charset);
 	
 	return charset;
 }

@@ -104,7 +104,7 @@ check_html_charset (CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 			    && (ct = header_content_type_decode(val))) {
 				charset = header_content_type_param(ct, "charset");
 				if (charset)
-					charset = camel_charset_get_iconv_friendly_name (charset);
+					charset = camel_charset_to_iconv (charset);
 				header_content_type_unref(ct);
 			}
 			break;

@@ -231,8 +231,8 @@ camel_mime_filter_charset_new_convert (const char *from_charset, const char *to_
 {
 	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET (camel_object_new (camel_mime_filter_charset_get_type ()));
 	
-	from_charset = camel_charset_get_iconv_friendly_name (from_charset);
-	to_charset = camel_charset_get_iconv_friendly_name (to_charset);
+	from_charset = camel_charset_to_iconv (from_charset);
+	to_charset = camel_charset_to_iconv (to_charset);
 	
 	new->ic = iconv_open (to_charset, from_charset);
 	if (new->ic == (iconv_t) -1) {
