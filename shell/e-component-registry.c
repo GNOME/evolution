@@ -106,6 +106,10 @@ static gboolean
 register_type (EComponentRegistry *component_registry,
 	       const char *name,
 	       const char *icon_name,
+	       int num_exported_dnd_types,
+	       const char **exported_dnd_types,
+	       int num_accepted_dnd_types,
+	       const char **accepted_dnd_types,
 	       Component *handler)
 {
 	EComponentRegistryPrivate *priv;
@@ -116,7 +120,12 @@ register_type (EComponentRegistry *component_registry,
 	folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
 	g_assert (folder_type_registry != NULL);
 
-	if (! e_folder_type_registry_register_type (folder_type_registry, name, icon_name)) {
+	if (! e_folder_type_registry_register_type (folder_type_registry,
+						    name, icon_name,
+						    num_exported_dnd_types,
+						    exported_dnd_types,
+						    num_accepted_dnd_types,
+						    accepted_dnd_types)) {
 		g_warning ("Trying to register duplicate folder type -- %s", name);
 		return FALSE;
 	}
@@ -175,7 +184,13 @@ register_component (EComponentRegistry *component_registry,
 
 		type = supported_types->_buffer + i;
 
-		if (! register_type (component_registry, type->name, type->icon_name, component)) {
+		if (! register_type (component_registry,
+				     type->name, type->icon_name,
+				     type->exported_dnd_types._length,
+				     (const char **) type->exported_dnd_types._buffer,
+				     type->accepted_dnd_types._length,
+				     (const char **) type->accepted_dnd_types._buffer,
+				     component)) {
 			g_warning ("Cannot register type `%s' for component %s",
 				   type->name, component->id);
 		} else {

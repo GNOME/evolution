@@ -98,6 +98,10 @@ typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShel
 struct _EvolutionShellComponentFolderType {
 	char *name;
 	char *icon_name;
+
+	/* The following are NULL-terminated arrays.  */
+	char **accepted_dnd_types;
+	char **exported_dnd_types;
 };
 typedef struct _EvolutionShellComponentFolderType EvolutionShellComponentFolderType;
 

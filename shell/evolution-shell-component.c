@@ -61,6 +61,63 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/* Helper functions.  */
+
+/* Notice that, if passed a NULL pointer, this string will construct a
+   zero-element NULL-terminated string array instead of returning NULL itself
+   (i.e. it will return a pointer to a single g_malloc()ed NULL pointer).  */
+static char **
+duplicate_null_terminated_string_array (char *array[])
+{
+	char **new;
+	int count;
+	int i;
+
+	if (array == NULL) {
+		count = 0;
+	} else {
+		for (count = 0; array[count] != NULL; count++)
+			;
+	}
+
+	new = g_new (char *, count + 1);
+
+	for (i = 0; i < count; i++)
+		new[i] = g_strdup (array[i]);
+	new[count] = NULL;
+
+	return new;
+}
+
+/* The following will create a CORBA sequence of strings from the specified
+ * NULL-terminated array, without duplicating the strings.  */
+static void
+fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_string *corba_sequence,
+						       char **array)
+{
+	int count;
+	int i;
+
+	g_assert (corba_sequence != NULL);
+	g_assert (array != NULL);
+
+	/* We won't be reallocating the strings, so we don't want them to be
+	   freed when the sequence is freed.  */
+	CORBA_sequence_set_release (corba_sequence, FALSE);
+
+	count = 0;
+	while (array[count] != NULL)
+		count++;
+
+	corba_sequence->_maximum = count;
+	corba_sequence->_length = count;
+	corba_sequence->_buffer = CORBA_sequence_CORBA_string_allocbuf (count);
+
+	for (i = 0; i < count; i++)
+		corba_sequence->_buffer[i] = (CORBA_char *) array[i];
+}
+
+
 /* CORBA interface implementation.  */
 
 static GNOME_Evolution_FolderTypeList *
@@ -93,6 +150,11 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 		corba_folder_type = folder_type_list->_buffer + i;
 		corba_folder_type->name      = CORBA_string_dup (folder_type->name);
 		corba_folder_type->icon_name = CORBA_string_dup (folder_type->icon_name);
+
+		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->accepted_dnd_types,
+								       folder_type->accepted_dnd_types);
+		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->exported_dnd_types,
+								       folder_type->exported_dnd_types);
 	}
 
 	return folder_type_list;
@@ -333,6 +395,9 @@ destroy (GtkObject *object)
 
 		g_free (folder_type->name);
 		g_free (folder_type->icon_name);
+		g_strfreev (folder_type->exported_dnd_types);
+		g_strfreev (folder_type->accepted_dnd_types);
+
 		g_free (folder_type);
 	}
 	g_list_free (priv->folder_types);
@@ -439,8 +504,10 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 			continue;
 
 		new = g_new (EvolutionShellComponentFolderType, 1);
-		new->name      = g_strdup (folder_types[i].name);
-		new->icon_name = g_strdup (folder_types[i].icon_name);
+		new->name               = g_strdup (folder_types[i].name);
+		new->icon_name          = g_strdup (folder_types[i].icon_name);
+		new->accepted_dnd_types = duplicate_null_terminated_string_array (folder_types[i].accepted_dnd_types);
+		new->exported_dnd_types = duplicate_null_terminated_string_array (folder_types[i].exported_dnd_types);
 
 		priv->folder_types = g_list_prepend (priv->folder_types, new);
 	}

@@ -42,6 +42,9 @@ struct _FolderType {
 	char *name;
 	char *icon_name;
 
+	GList *exported_dnd_types; /* char * */
+	GList *accepted_dnd_types; /* char * */
+
 	EvolutionShellComponentClient *handler;
 
 	/* The icon, standard (48x48) and mini (16x16) versions.  */
@@ -59,16 +62,34 @@ struct _EFolderTypeRegistryPrivate {
 
 static FolderType *
 folder_type_new (const char *name,
-		 const char *icon_name)
+		 const char *icon_name,
+		 int num_exported_dnd_types,
+		 const char **exported_dnd_types,
+		 int num_accepted_dnd_types,
+		 const char **accepted_dnd_types)
 {
 	FolderType *new;
 	char *icon_path;
+	int i;
 
 	new = g_new (FolderType, 1);
 
 	new->name      = g_strdup (name);
 	new->icon_name = g_strdup (icon_name);
-	new->handler   = NULL;
+
+	new->exported_dnd_types = NULL;
+	for (i = 0; i < num_exported_dnd_types; i++)
+		new->exported_dnd_types = g_list_prepend (new->exported_dnd_types,
+							  g_strdup (exported_dnd_types[i]));
+	new->exported_dnd_types = g_list_reverse (new->exported_dnd_types);
+
+	new->accepted_dnd_types = NULL;
+	for (i = 0; i < num_accepted_dnd_types; i++)
+		new->accepted_dnd_types = g_list_prepend (new->accepted_dnd_types,
+							  g_strdup (accepted_dnd_types[i]));
+	new->accepted_dnd_types = g_list_reverse (new->accepted_dnd_types);
+
+	new->handler = NULL;
 
 	icon_path = e_shell_get_icon_path (icon_name, FALSE);
 	if (icon_path == NULL)
@@ -124,7 +145,11 @@ get_folder_type (EFolderTypeRegistry *folder_type_registry,
 static gboolean
 register_folder_type (EFolderTypeRegistry *folder_type_registry,
 		      const char *name,
-		      const char *icon_name)
+		      const char *icon_name,
+		      int num_exported_dnd_types,
+		      const char **exported_dnd_types,
+		      int num_accepted_dnd_types,
+		      const char **accepted_dnd_types)
 {
 	EFolderTypeRegistryPrivate *priv;
 	FolderType *folder_type;
@@ -135,7 +160,9 @@ register_folder_type (EFolderTypeRegistry *folder_type_registry,
 	if (get_folder_type (folder_type_registry, name) != NULL)
 		return FALSE;
 
-	folder_type = folder_type_new (name, icon_name);
+	folder_type = folder_type_new (name, icon_name,
+				       num_exported_dnd_types, exported_dnd_types,
+				       num_accepted_dnd_types, accepted_dnd_types);
 	g_hash_table_insert (priv->name_to_type, folder_type->name, folder_type);
 
 	return TRUE;
@@ -247,14 +274,20 @@ e_folder_type_registry_new (void)
 gboolean
 e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 				      const char *type_name,
-				      const char *icon_name)
+				      const char *icon_name,
+				      int num_exported_dnd_types,
+				      const char **exported_dnd_types,
+				      int num_accepted_dnd_types,
+				      const char **accepted_dnd_types)
 {
 	g_return_val_if_fail (folder_type_registry != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), FALSE);
 	g_return_val_if_fail (type_name != NULL, FALSE);
 	g_return_val_if_fail (icon_name != NULL, FALSE);
 
-	return register_folder_type (folder_type_registry, type_name, icon_name);
+	return register_folder_type (folder_type_registry, type_name, icon_name,
+				     num_exported_dnd_types, exported_dnd_types,
+				     num_accepted_dnd_types, accepted_dnd_types);
 }
 
 gboolean
@@ -360,6 +393,45 @@ e_folder_type_registry_get_handler_for_type (EFolderTypeRegistry *folder_type_re
 	}
 
 	return folder_type->handler;
+}
+
+
+GList *
+e_folder_type_registry_get_exported_dnd_types_for_type (EFolderTypeRegistry *folder_type_registry,
+							const char *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
+	g_return_val_if_fail (type_name != NULL, NULL);
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_registry_get_exported_dnd_types_for_type() -- Unknown type `%s'", type_name);
+		return NULL;
+	}
+
+	return folder_type->exported_dnd_types;
+}
+
+GList *
+e_folder_type_registry_get_accepted_dnd_types_for_type (EFolderTypeRegistry *folder_type_registry,
+							const char *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
+	g_return_val_if_fail (type_name != NULL, NULL);
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_registry_get_accepted_dnd_types_for_type() -- Unknown type `%s'", type_name);
+		return NULL;
+	}
+
+	return folder_type->accepted_dnd_types;
 }
 
 

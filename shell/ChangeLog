@@ -1,3 +1,54 @@
+2001-03-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-component-registry.c (register_type): New args
+	@num_exported_dnd_types, @exported_dnd_types,
+	@num_accepted_dnd_types, @accepted_dnd_types.  Pass them to
+	`e_folder_type_registry_register_type()'.
+	(register_component): Updated accordingly, getting the values from
+	the CORBA `GNOME::Evolution::FolderType' struct.
+
+	* e-folder-type-registry.c: New members `accepted_dnd_types' and
+	`exported_dnd_types' in `struct _FolderType'.
+	(e_folder_type_registry_register_type): New args
+	@num_accepted_dnd_types, @accepted_dnd_types,
+	@num_exported_dnd_types, @exported_dnd_types.
+	(register_folder_type): Likewise.
+	(folder_type_new): Likewise.  Use them to initialize
+	`accepted_dnd_types' and `exported_dnd_types' in the newly created
+	`FolderType' struct.
+	(e_folder_type_registry_get_accepted_dnd_types_for_type): New.
+	(e_folder_type_registry_get_exported_dnd_types_for_type): New.
+
+	* e-storage-set-view.c: New #defined constant `DRAG_RESISTANCE'.
+	New members `drag_x', `drag_y', `drag_column', `drag_row' in
+	`EStorageSetViewPrivate'.
+	(init): Initialize them.
+	(button_press_event): New function, overriding for the
+	`::button_press_event' method.
+	(motion_notify_event): New function, overriding for the
+	`::motion_notify_event' method.
+	(class_init): Install them.
+
+	* evolution-shell-component.c
+	(duplicate_null_terminated_string_array): New helper function.
+	(evolution_shell_component_construct): Copy the values for
+	`accepted_dnd_types' and `exported_dnd_types' from the original
+	folder type list using it.
+	(destroy): Free the `exported_dnd_types' and `accepted_dnd_types'
+	members too.
+	(fill_corba_sequence_from_null_terminated_string_array): New
+	helper function.
+	(impl_ShellComponent__get_supported_types): Also set the
+	`exported_dnd_types' and `accepted_dnd_types' values in the folder
+	type elements we return.
+
+	* evolution-shell-component.h: Added `accepted_dnd_types' and
+	`exported_dnd_types' members to `EvolutionShellComponentFolderType'.
+
+	* Evolution-ShellComponent.idl: Renamed `accepted_dnd_mime_types'
+	to `accepted_dnd_types' and `exported_dnd_mime_types' to
+	`exported_dnd_types'.  These are not necessarily MIME types.
+
 2001-03-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c: Override cursor_activated signal instead

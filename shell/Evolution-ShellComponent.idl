@@ -18,8 +18,8 @@ module Evolution {
 		string name;
 		string icon_name;
 
-		sequence<string> accepted_dnd_mime_types;
-		sequence<string> exported_dnd_mime_types;
+		sequence<string> accepted_dnd_types;
+		sequence<string> exported_dnd_types;
 	};
 
 	typedef sequence<FolderType> FolderTypeList;

@@ -45,6 +45,10 @@ static char *list [] = {
 };
 #endif
 
+#define DRAG_RESISTANCE 3	/* FIXME hardcoded in ETable to this value as
+				 * well, and there is no way for us to use the
+				 * same value as it's not exported.  */
+
 #define ETABLE_SPEC "<ETableSpecification no-headers=\"true\" selection-mode=\"single\" cursor-mode=\"line\" draw-grid=\"true\" horizontal-scrolling=\"true\"> \
   <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"render_tree\" compare=\"string\"/> \
 	<ETableState>                   			       \
@@ -71,6 +75,9 @@ struct _EStorageSetViewPrivate {
 	const char *selected_row_path;
 
 	gboolean show_folders;
+
+	int drag_x, drag_y;
+	int drag_column, drag_row;
 };
 
 
@@ -253,6 +260,100 @@ marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING (GtkObject *object,
 
 
 /* DnD selection setup stuff.  */
+
+/* This will create an array of GtkTargetEntries from the specified list of DND
+   types.  The type name will *not* be allocated in the list, as this is
+   supposed to be used only temporarily to set up the cell as a drag source.  */
+static GtkTargetEntry *
+create_target_entries_from_dnd_type_list (GList *dnd_types,
+					  int *num_entries_return)
+{
+	GtkTargetEntry *entries;
+	GList *p;
+	int num_entries;
+	int i;
+
+	if (dnd_types == NULL)
+		return NULL;
+
+	num_entries = g_list_length (dnd_types);
+	if (num_entries == 0)
+		return NULL;
+
+	entries = g_new (GtkTargetEntry, num_entries);
+
+	for (p = dnd_types, i = 0; p != NULL; p = p->next, i++) {
+		const char *dnd_type;
+
+		g_assert (i < num_entries);
+
+		dnd_type = (const char *) p->data;
+
+		entries[i].target = (char *) dnd_type;
+		entries[i].flags  = 0;
+		entries[i].info   = i;
+	}
+
+	*num_entries_return = num_entries;
+	return entries;
+}
+
+static void
+free_target_entries (GtkTargetEntry *entries)
+{
+	g_assert (entries != NULL);
+
+	/* The target names are not strdup()ed so a simple free will do.  */
+	g_free (entries);
+}
+
+static GtkTargetList *
+create_target_list_for_row (EStorageSetView *storage_set_view,
+			    int row)
+{
+	EStorageSetViewPrivate *priv;
+	GtkTargetList *target_list;
+	EFolderTypeRegistry *folder_type_registry;
+	ETreePath *folder_node_path;
+	EFolder *folder;
+	const char *folder_path;
+	const char *folder_type;
+	GList *exported_dnd_types;
+	GtkTargetEntry *target_entries;
+	int num_target_entries;
+
+	priv = storage_set_view->priv;
+
+	target_list = gtk_target_list_new (NULL, 0);
+
+	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
+
+	folder_node_path = e_tree_model_node_at_row (priv->etree_model, row);
+	g_assert (folder_node_path != NULL);
+
+	folder_path = e_tree_model_node_get_data (priv->etree_model, folder_node_path);
+	g_assert (folder_path != NULL);
+
+	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
+	g_assert (folder != NULL);
+
+	folder_type = e_folder_get_type_string (folder);
+
+	exported_dnd_types = e_folder_type_registry_get_exported_dnd_types_for_type (folder_type_registry,
+										     folder_type);
+	if (exported_dnd_types == NULL)
+		return NULL;
+
+	target_entries = create_target_entries_from_dnd_type_list (exported_dnd_types,
+								   &num_target_entries);
+	g_assert (target_entries != NULL);
+
+	target_list = gtk_target_list_new (target_entries, num_target_entries);
+
+	free_target_entries (target_entries);
+
+	return NULL;
+}
 
 static void
 set_uri_list_selection (EStorageSetView *storage_set_view,
@@ -439,7 +540,87 @@ destroy (GtkObject *object)
 }
 
 
-/* ETable methods */
+/* GtkWidget methods.  */
+
+static int
+button_press_event (GtkWidget *widget,
+		    GdkEventButton *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	ETable *table;
+	int row, column;
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	table = E_TABLE (widget);
+
+	/* FIXME correct? */
+	if (GTK_WIDGET_CLASS (parent_class)->button_press_event != NULL)
+		(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
+
+	if (event->button != 1)
+		return FALSE;
+
+	e_table_get_cell_at (table, event->x, event->y, &row, &column);
+
+	g_print ("e-storage-set-view.c::button_press_event() -- row %d column %d\n", row, column);
+
+	priv->drag_x = event->x;
+	priv->drag_y = event->y;
+	priv->drag_column = column;
+	priv->drag_row = row;
+
+	/* FIXME correct? */
+	return TRUE;
+}
+
+static int
+motion_notify_event (GtkWidget *widget,
+		     GdkEventMotion *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	ETable *table;
+	GtkTargetList *target_list;
+	GdkDragAction actions;
+	GdkDragContext *context;
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	table = E_TABLE (widget);
+
+	/* FIXME correct? */
+	if (GTK_WIDGET_CLASS (parent_class)->motion_notify_event != NULL)
+		(* GTK_WIDGET_CLASS (parent_class)->motion_notify_event) (widget, event);
+
+	/* FIXME correct? */
+	if (! (event->state & GDK_BUTTON1_MASK))
+		return FALSE;
+
+	if (ABS (priv->drag_x - event->x) < DRAG_RESISTANCE
+	    && ABS (priv->drag_y - event->y) < DRAG_RESISTANCE)
+		return FALSE;
+
+	target_list = create_target_list_for_row (storage_set_view, priv->drag_row);
+	if (target_list == NULL)
+		return FALSE;
+
+	actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
+
+	context = e_table_drag_begin (table,
+				      priv->drag_row, priv->drag_column,
+				      target_list, actions,
+				      1, (GdkEvent *) event);
+	gtk_drag_set_icon_default (context);
+
+	return FALSE;
+}
+
+
+/* ETable methods.  */
 
 static void
 table_drag_begin (ETable *etable,
@@ -870,12 +1051,17 @@ static void
 class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	ETableClass *etable_class;
 
 	parent_class = gtk_type_class (e_table_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->button_press_event  = button_press_event;
+	widget_class->motion_notify_event = motion_notify_event;
 
 	etable_class = E_TABLE_CLASS (klass);
 	etable_class->right_click              = right_click;
@@ -936,6 +1122,10 @@ init (EStorageSetView *storage_set_view)
 	priv->type_name_to_pixbuf = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->selected_row_path   = NULL;
 	priv->show_folders        = TRUE;
+	priv->drag_x              = 0;
+	priv->drag_y              = 0;
+	priv->drag_column         = 0;
+	priv->drag_row            = 0;
 
 	storage_set_view->priv = priv;
 }
@@ -1117,6 +1307,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			   ETABLE_SPEC, NULL);
 	gtk_object_unref (GTK_OBJECT (extras));
 
+#if 0
 	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
 				 source_drag_types, num_source_drag_types,
 				 GDK_ACTION_MOVE | GDK_ACTION_COPY);
@@ -1124,6 +1315,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	e_table_drag_dest_set (E_TABLE (storage_set_view), GTK_DEST_DEFAULT_ALL,
 			       source_drag_types, num_source_drag_types,
 			       GDK_ACTION_MOVE | GDK_ACTION_COPY);
+#endif
 
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
