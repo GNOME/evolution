@@ -1,3 +1,8 @@
+2004-01-20 Sivaiah Nallagatla   <snallagatla@novell.com>
+
+	* printing/e-contact-print.c (e_contact_print_response): do not 
+	try to unref when query is NULL
+
 2004 -01-20 Sivaiah Nallagatla  <snallagatla@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c (edit_im_clicked) : do not call

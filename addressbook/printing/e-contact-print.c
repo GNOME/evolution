@@ -988,7 +988,10 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			e_free_object_list (contact_list);
 		else
 			g_object_unref(contact);
-		e_book_query_unref (query);
+				
+		if (query) 
+		        e_book_query_unref (query);
+
 		gtk_widget_destroy (dialog);
 		g_free(style);
 		g_free(ctxt);
