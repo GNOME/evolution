@@ -575,24 +575,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 	return CORBA_TRUE;
 }
 
-static void
-init_calendar_publishing (CalendarComponent *calendar_component)
-{
-	guint idle_id = 0;
-	CalendarComponentPrivate *priv;
-	
-	priv = calendar_component->priv;
-	
-	gconf_client_add_dir (priv->gconf_client, CALENDAR_CONFIG_PUBLISH, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	priv->gconf_notify_id
-		= gconf_client_notify_add (priv->gconf_client, CALENDAR_CONFIG_PUBLISH,
-					   (GConfClientNotifyFunc) conf_changed_callback, NULL,
-					   NULL, NULL);
-	
-	idle_id = g_idle_add ((GSourceFunc) init_calendar_publishing_cb, GINT_TO_POINTER (idle_id));
-}
-
 static gboolean
 selector_tree_drag_drop (GtkWidget *widget, 
 			 GdkDragContext *context, 
@@ -874,9 +856,6 @@ impl_createControls (PortableServer_Servant servant,
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
 	gtk_widget_show (statusbar_widget);
 	statusbar_control = bonobo_control_new (statusbar_widget);
-
-	/* Initialize Calendar Publishing */
-	init_calendar_publishing (calendar_component);
 	
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
@@ -1215,5 +1194,25 @@ calendar_component_peek_activity_handler (CalendarComponent *component)
 	return component->priv->activity_handler;
 }
 
+void
+calendar_component_init_publishing (void)
+{
+	guint idle_id = 0;
+	CalendarComponent *calendar_component;
+	CalendarComponentPrivate *priv;
+	
+	calendar_component = calendar_component_peek ();
+	
+	priv = calendar_component->priv;
+	
+	gconf_client_add_dir (priv->gconf_client, CALENDAR_CONFIG_PUBLISH, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	priv->gconf_notify_id
+		= gconf_client_notify_add (priv->gconf_client, CALENDAR_CONFIG_PUBLISH,
+					   (GConfClientNotifyFunc) conf_changed_callback, NULL,
+					   NULL, NULL);
+	
+	idle_id = g_idle_add ((GSourceFunc) init_calendar_publishing_cb, GINT_TO_POINTER (idle_id));
+}
 
 BONOBO_TYPE_FUNC_FULL (CalendarComponent, GNOME_Evolution_Component, PARENT_TYPE, calendar_component)

@@ -66,5 +66,7 @@ ESourceList      *calendar_component_peek_source_list       (CalendarComponent *
 ESourceSelector  *calendar_component_peek_source_selector   (CalendarComponent *component);
 EActivityHandler *calendar_component_peek_activity_handler  (CalendarComponent *component);
 
+void calendar_component_init_publishing (void);
+
 
 #endif /* _CALENDAR_COMPONENT_H_ */

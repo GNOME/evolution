@@ -140,6 +140,9 @@ initialize (void)
 #endif
 
 	launch_alarm_daemon ();
+	
+	/* Initialize Calendar Publishing */
+	calendar_component_init_publishing ();
 }
 
 

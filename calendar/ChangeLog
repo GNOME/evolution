@@ -1,3 +1,16 @@
+2004-04-15  Gary Ekker  <gekker@novell.com>
+
+	* gui/calendar-component.h: move the calendar publishing initialization
+	from createControls to main.c
+
+	* gui/calendar-component.c: (create_controls): Ditto
+
+	* gui/main.c: (initialize): Ditto
+
+	* gui/dialogs/cal-prefs-dialog.c: (url_list_changed): remove a gfree
+	that was freeing a before it should have been. Also removed cruft from 
+	a previous attempt to fix the crash.
+
 2004-04-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/select-source-dialog.c (select_source_dialog): added some
@@ -36,6 +49,7 @@
 	could be NULL if the source was deleted rather than unchecked
 	(update_primary_task_selection): look at the task source list
 
+>>>>>>> 1.2252
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
 	Fixes #56553

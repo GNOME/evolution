@@ -363,8 +363,6 @@ url_list_changed (DialogData *dialog_data)
 		if ((xml = e_pub_uri_to_xml (url)))
 			url_list = g_slist_append (url_list, xml);
 		
-		g_free (url);
-		
 		valid = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter);
 	}
 	
@@ -586,12 +584,6 @@ init_widgets (DialogData *dialog_data)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) dialog_data->url_list, TRUE);
 	
-	
-	g_signal_connect (gtk_tree_view_get_selection (dialog_data->url_list),
-			  "changed", 
-			  G_CALLBACK (cal_prefs_dialog_url_list_change), 
-			  dialog_data);
-	
 	g_signal_connect (dialog_data->url_list, "row-activated",
 			 G_CALLBACK (cal_prefs_dialog_url_list_double_click),
 			 dialog_data);
@@ -641,7 +633,6 @@ cal_prefs_dialog_url_add_clicked (GtkWidget *button, DialogData *dialog_data)
 					   -1);
 			
 			url_list_changed (dialog_data);
-			show_fb_config (dialog_data);
 			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
@@ -687,7 +678,6 @@ cal_prefs_dialog_url_edit_clicked (GtkWidget *button, DialogData *dialog_data)
 					   -1);
 			
 			url_list_changed (dialog_data);
-			show_fb_config (dialog_data);
 			
 			if (!GTK_WIDGET_SENSITIVE ((GtkWidget *) dialog_data->url_remove)) {
 				selection = gtk_tree_view_get_selection ((GtkTreeView *) dialog_data->url_list);
@@ -760,7 +750,6 @@ cal_prefs_dialog_url_remove_clicked (GtkWidget *button, DialogData *dialog_data)
 		}
 		g_free (url);
 		url_list_changed (dialog_data);
-		show_fb_config (dialog_data);
 	}
 }
 
@@ -789,7 +778,6 @@ cal_prefs_dialog_url_enable_clicked (GtkWidget *button, DialogData *dialog_data)
 				      url->enabled ? _("Disable") : _("Enable"));
 		
 		url_list_changed (dialog_data);
-		show_fb_config (dialog_data);
 	}
 }
  
@@ -823,7 +811,6 @@ cal_prefs_dialog_url_list_enable_toggled (GtkCellRendererToggle *renderer,
 					      url->enabled ? _("Disable") : _("Enable"));
 		
 		url_list_changed (dialog_data);
-		show_fb_config (dialog_data);
 	}
 
 	gtk_tree_path_free (path);
