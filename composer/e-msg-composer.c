@@ -614,23 +614,23 @@ build_message (EMsgComposer *composer)
 #endif /* HAVE_NSS */
 	
 	return new;
-
+	
  exception:
-
+	
 	if (part != CAMEL_MIME_PART (new))
 		camel_object_unref (CAMEL_OBJECT (part));
-
+	
 	camel_object_unref (CAMEL_OBJECT (new));
-
+	
 	if (camel_exception_is_set (&ex)) {
 		GtkWidget *dialog;
-
+		
 		dialog = gnome_error_dialog_parented (camel_exception_get_description (&ex),
 						      GTK_WINDOW (composer));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		camel_exception_clear (&ex);
 	}
-
+	
 	return NULL;
 }
 
@@ -641,18 +641,18 @@ read_file_content (gint fd)
 	gchar buf[4096];
 	gint n;
 	gchar *body;
-
+	
 	g_return_val_if_fail (fd > 0, NULL);
-
+	
 	contents = g_byte_array_new ();
 	while ((n = read (fd, buf, 4096)) > 0) {
 		g_byte_array_append (contents, buf, n);
 	}
 	g_byte_array_append (contents, "\0", 1);
-
+	
 	body = (n < 0) ? NULL : (gchar *)contents->data;
 	g_byte_array_free (contents, (n < 0));
-
+	
 	return body;
 }
 
@@ -2555,12 +2555,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		const char *name, *addr;
 		
 		if (camel_internet_address_get (to, i, &name, &addr)) {
-			CamelInternetAddress *cia;
-			
-			cia = camel_internet_address_new ();
-			camel_internet_address_add (cia, name, addr);
-			To = g_list_append (To, camel_address_encode (CAMEL_ADDRESS (cia)));
-			camel_object_unref (CAMEL_OBJECT (cia));
+			To = g_list_append (To, camel_internet_address_format_address (name, addr));
 		}
 	}
 	
@@ -2569,12 +2564,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		const char *name, *addr;
 		
 		if (camel_internet_address_get (cc, i, &name, &addr)) {
-			CamelInternetAddress *cia;
-			
-			cia = camel_internet_address_new ();
-			camel_internet_address_add (cia, name, addr);
-			Cc = g_list_append (Cc, camel_address_encode (CAMEL_ADDRESS (cia)));
-			camel_object_unref (CAMEL_OBJECT (cia));
+			Cc = g_list_append (Cc, camel_internet_address_format_address (name, addr));
 		}
 	}
 	
@@ -2583,12 +2573,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		const char *name, *addr;
 		
 		if (camel_internet_address_get (bcc, i, &name, &addr)) {
-			CamelInternetAddress *cia;
-			
-			cia = camel_internet_address_new ();
-			camel_internet_address_add (cia, name, addr);
-			Bcc = g_list_append (Bcc, camel_address_encode (CAMEL_ADDRESS (cia)));
-			camel_object_unref (CAMEL_OBJECT (cia));
+			Bcc = g_list_append (Bcc, camel_internet_address_format_address (name, addr));
 		}
 	}
 	

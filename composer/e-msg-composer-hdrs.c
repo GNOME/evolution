@@ -735,9 +735,9 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
-
+	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
 	while (l) {
@@ -770,13 +770,14 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 				    "text", reply_to, NULL);
 }
 
+/* FIXME: these shouldn't take GLists, they should take CamelInternetAddress's */
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    const GList *to_list)
 {
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	set_entry (BONOBO_WIDGET (hdrs->priv->to.entry), to_list);
 }
 
@@ -786,7 +787,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 {
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	set_entry (BONOBO_WIDGET (hdrs->priv->cc.entry), cc_list);
 }
 
@@ -796,7 +797,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 {
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	set_entry (BONOBO_WIDGET (hdrs->priv->bcc.entry), bcc_list);
 }
 
@@ -807,7 +808,7 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
-
+	
 	gtk_object_set (GTK_OBJECT (hdrs->priv->subject.entry),
 			"text", subject,
 			NULL);
