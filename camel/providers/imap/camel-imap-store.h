@@ -32,6 +32,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include "camel-imap-types.h"
 #include "camel-remote-store.h"
 
 #define CAMEL_IMAP_STORE_TYPE     (camel_imap_store_get_type ())
@@ -54,7 +55,7 @@ typedef enum {
 #define IMAP_CAPABILITY_UIDPLUS			(1 << 6)
 #define IMAP_CAPABILITY_LITERALPLUS		(1 << 7)
 
-typedef struct {
+struct _CamelImapStore {
 	CamelRemoteStore parent_object;	
 	struct _CamelImapStorePrivate *priv;
 
@@ -71,7 +72,7 @@ typedef struct {
 
 	GHashTable *subscribed_folders;
 	gboolean useful_lsub;
-} CamelImapStore;
+};
 
 
 typedef struct {

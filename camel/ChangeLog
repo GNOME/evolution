@@ -1,5 +1,20 @@
 2001-01-10  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-types.h: New header to prevent
+	recursive #include problems
+
+	* providers/imap/*.h: Replace some #includes with #include
+	"camel-imap-types.h", remove typedefs that were moved to
+	camel-imap-types.h
+
+	* providers/imap/*.c: Add #includes to make up for #includes
+	removed from .h files
+
+	* providers/imap/Makefile.am (libcamelimapinclude_HEADERS): Add
+	camel-imap-types.h
+
+2001-01-10  Dan Winship  <danw@helixcode.com>
+
 	* camel-store.c (camel_store_sync): New class function, parallel
 	to camel_folder_sync. (The default implementation just calls
 	camel_folder_sync on each cached folder.)

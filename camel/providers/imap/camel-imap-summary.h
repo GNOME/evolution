@@ -24,6 +24,7 @@
 #ifndef _CAMEL_IMAP_SUMMARY_H
 #define _CAMEL_IMAP_SUMMARY_H
 
+#include "camel-imap-types.h"
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-exception.h>
 
@@ -31,7 +32,6 @@
 #define CAMEL_IMAP_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_imap_summary_get_type (), CamelImapSummaryClass)
 #define CAMEL_IS_IMAP_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_imap_summary_get_type ())
 
-typedef struct _CamelImapSummary      CamelImapSummary;
 typedef struct _CamelImapSummaryClass CamelImapSummaryClass;
 
 typedef struct _CamelImapMessageContentInfo {

@@ -34,7 +34,6 @@
 #define CAMEL_IS_IMAP_SEARCH(obj)      CAMEL_CHECK_TYPE (obj, camel_imap_search_get_type ())
 
 typedef struct _CamelImapSearchClass CamelImapSearchClass;
-typedef struct _CamelImapSearch CamelImapSearch;
 
 struct _CamelImapSearch {
 	CamelFolderSearch parent;

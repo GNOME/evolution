@@ -33,12 +33,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-imap-store.h"
+#include "camel-imap-types.h"
+#include <glib.h>
 
-typedef struct {
+struct _CamelImapResponse {
 	GPtrArray *untagged;
 	char *status;
-} CamelImapResponse;
+};
 
 CamelImapResponse *camel_imap_command              (CamelImapStore *store,
 						    CamelFolder *folder,

@@ -34,6 +34,7 @@
 #include "camel-imap-command.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-folder.h"
+#include "camel-imap-store.h"
 #include <camel/camel-exception.h>
 
 static char *imap_read_untagged (CamelImapStore *store, char *line,

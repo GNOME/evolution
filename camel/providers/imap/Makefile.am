@@ -37,6 +37,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-search.h			\
 	camel-imap-store.h			\
 	camel-imap-summary.h			\
+	camel-imap-types.h			\
 	camel-imap-utils.h
 
 libcamelimap_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0

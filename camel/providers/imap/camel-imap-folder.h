@@ -33,6 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include "camel-imap-types.h"
 #include "camel-folder.h"
 #include <camel/camel-folder-search.h>
 
@@ -41,13 +42,13 @@ extern "C" {
 #define CAMEL_IMAP_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolderClass))
 #define CAMEL_IS_IMAP_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_IMAP_FOLDER_TYPE))
 
-typedef struct {
+struct _CamelImapFolder {
 	CamelFolder parent_object;
 
 	struct _CamelImapFolderPrivate *priv;
 
 	CamelFolderSearch *search;
-} CamelImapFolder;
+};
 
 
 typedef struct {

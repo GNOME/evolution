@@ -30,6 +30,7 @@
 
 #include "camel-imap-command.h"
 #include "camel-imap-folder.h"
+#include "camel-imap-store.h"
 #include "camel-imap-search.h"
 #include "camel-imap-private.h"
 
