@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -48,10 +49,6 @@ static void filter_element_class_init	(FilterElementClass *class);
 static void filter_element_init	(FilterElement *gspaper);
 static void filter_element_finalise	(GtkObject *obj);
 
-#define _PRIVATE(x) (((FilterElement *)(x))->priv)
-struct _FilterElementPrivate {
-};
-
 static GtkObjectClass *parent_class;
 
 enum {
@@ -60,10 +57,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-guint
+GtkType
 filter_element_get_type (void)
 {
-	static guint type = 0;
+	static GtkType type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
@@ -106,7 +103,7 @@ filter_element_class_init (FilterElementClass *class)
 static void
 filter_element_init (FilterElement *o)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	;
 }
 
 static void

@@ -35,7 +35,6 @@ typedef struct _FilterElementClass	FilterElementClass;
 
 struct _FilterElement {
 	GtkObject parent;
-	struct _FilterElementPrivate *priv;
 
 	char *name;
 	gpointer data;
@@ -63,7 +62,7 @@ struct _FilterElementClass {
 	/* signals */
 };
 
-guint		filter_element_get_type	(void);
+GtkType		filter_element_get_type	(void);
 FilterElement	*filter_element_new	(void);
 
 FilterElement	*filter_element_new_type_name	(const char *type);

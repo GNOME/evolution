@@ -1,3 +1,12 @@
+2002-07-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-int.c (xml_decode): Use fs->type in xmlGetProp since we
+	already free'd 'type'. Fixes bug #28113.
+
+	* filter-element.c: Removed the empty private struct.
+
+	* filter-int.c: Removed the empty private struct.
+
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-int.[c,h]: Use GtkType (I only changed this one because I

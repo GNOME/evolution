@@ -38,16 +38,11 @@ static xmlNodePtr xml_encode (FilterElement *fe);
 static int xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp (FilterElement *, GString *);
+static void format_sexp (FilterElement *fe, GString *out);
 
 static void filter_int_class_init (FilterIntClass *class);
 static void filter_int_init (FilterInt *gspaper);
 static void filter_int_finalise (GtkObject *obj);
-
-#define _PRIVATE(x) (((FilterInt *)(x))->priv)
-
-struct _FilterIntPrivate {
-};
 
 static FilterElementClass *parent_class;
 
@@ -109,7 +104,6 @@ filter_int_init (FilterInt *o)
 {
 	o->min = 0;
 	o->max = G_MAXINT;
-	o->priv = g_malloc0 (sizeof (*o->priv));
 }
 
 static void
@@ -207,8 +201,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	g_free(fs->type);
 	fs->type = g_strdup(type);
 	xmlFree(type);
-
-	intval = xmlGetProp (node, type?type:"integer");
+	
+	intval = xmlGetProp (node, fs->type ? fs->type : "integer");
 	if (intval) {
 		d(printf ("Value = %s\n", intval));
 		fs->val = atoi (intval);

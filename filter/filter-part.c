@@ -394,7 +394,7 @@ filter_part_build_code (FilterPart *ff, GString *out)
 		fe = l->data;
 		filter_element_build_code (fe, out, ff);
 		l = g_list_next (l);
-	}	
+	}
 }
 
 /**
