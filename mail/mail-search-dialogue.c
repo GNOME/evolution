@@ -81,11 +81,8 @@ mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 	FilterPart *part;
 	GtkDialog *dialogue = GTK_DIALOG (o);
 	
-	g_object_set(dialogue,
-		     "allow_shrink", FALSE,
-		     "allow_grow", TRUE,
-		     "default_width", 500,
-		     "default_height", 400, NULL);
+	gtk_window_set_default_size ((GtkWindow *) dialogue, 400, 350);
+	gtk_window_set_resizable ((GtkWindow *) dialogue, TRUE);
 	
 	o->context = rule_context_new ();
 	rule_context_add_part_set (o->context, "partset", filter_part_get_type (),
