@@ -22,7 +22,11 @@ figs = \
 	figures/print-preview.png		\
 	figures/replymsg.png			\
 	figures/vfolder-createrule-fig.png	\
-	figures/schedule.png
+	figures/schedule.png			\
+	figures/exchange-identity.png		\
+	figures/exchange-receive.png		\
+	figures/exchange-receive-options.png
+
 
 docname = evolution
 lang = C

@@ -1,4 +1,4 @@
-  <chapter id="usage-exchange">
+ <chapter id="usage-exchange">
     <title>The Ximian Connector for Microsoft Exchange</title>
     <para>
     The Ximian Connector for Microsoft Exchange allows Ximian
@@ -313,111 +313,293 @@ There are, however, some features which are not available:
 	</menuchoice>
 	from any mail view. 
      </para>
-      <para>
-	If you would like to create a new account for your Exchange
-	server, click the <guibutton>Add</guibutton> button in the
-	accounts list. The account creation assistant will guide you
-	through the process, which is described in <xref
-	linkend="usage-mainwindow-starting">.
-      </para>
+      <sect3 id="config-exchange-new-account">
+	<title>Creating a New Exchange Account</title>
+	
 
-      <para>
-        If you have an existing email account, and want to convert it
-	to use for Exchange, select the account you want to convert
-	and click the <guibutton>Edit</guibutton> button. You'll want
-	to change settings in the following tabs of the account
-	dialog:
-      </para>
-      <variablelist>
-	<varlistentry>
-	  <term>Identity</term>
+	<para>
+	  If you would like to create a new account for your Exchange
+	  server, click the <guibutton>Add</guibutton> button in the
+	  accounts list. The account creation assistant will guide you
+	  through the process, which is also described in <xref
+	  linkend="usage-mainwindow-starting">. If you're not sure
+	  about any of the information you need, just ask your system
+	  administrator.
+        </para>
+	<variablelist>
+	  <varlistentry>
+	    <term>Identity</term>
 	  <listitem>
-	  <para>
-             If your email address will change because you are moving
-             to a new server, then change it in this tab. Otherwise,
-             move to the next tab.
-          </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>Receiving Mail</term>
-	  <listitem>
-	    <para>
-	      Select <guilabel>Microsoft Exchange</guilabel> as your
-	      server type. Enter your name of your server next to
-	      <guilabel>Host</guilabel>, and the user name for your
-	      account next to <guilabel>Username</guilabel>. If your
-	      server supports SSL (Secure Socket Layer) encryption, it
-	      you can check the <guilabel>Use SSL</guilabel> box to
-	      take advantage of more secure data transfers.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>Receiving Options</term>
+	      <para>Enter your name and email address. If you wish,
+	      you may add your organization and the location of your
+	      signature file. Only your name and email address are
+	      required.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Receiving Mail</term>
 	  <listitem>
 	      <para>
-	        Here, tab, you'll find some additional settings:
-                <variablelist>
-                 <varlistentry>
-                  <term>Checking for New Mail</term>
-                   <listitem>
-                     <para>
-                        Select whether you would like to check for
-                        mail automatically, and if so, how often.
+                In this step, you'll enter information about the way
+                you check mail:
+                 <orderedlist>
+		  <listitem>
+		    <para>
+                      First, select <guilabel>Microsoft
+                      Exchange</guilabel> as your server type.
+                   </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+                     Enter the name of your Exchange email
+                     server, and the username with which you log in
+                     (normally, this is the part of your email address
+                     before the @).
+                   </para>
+		  </listitem>
+		    <listitem>
+		    <para>
+                      If you wish, select the box labelled
+                      <guilabel>Use secure connection
+                      (SSL)</guilabel>, to take advantage of a more
+                      secure connection method. If your server
+                      supports it, it is generally recommended to use
+                      SSL.
+                   </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+                      Some servers support multiple authentication
+                      methods.  If your system administrator has asked
+                      that you use one in particular, select it now.
+                      Otherwise, just use
+                      <guilabel>Password</guilabel>.
+                    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+                       If you would like
+                       <application>Evolution</application> to
+                       remember your password, check the box labelled
+                       <guilabel>Remember this password</guilabel>.
                      </para>
-                   </listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term>Exchange Server</term>
-                   <listitem>
-                     <para>
-                       If your Exchange server requires you to use a
-                       different mailbox name from the name you use to
-                       log in, select the second check-box and enter
-                       the mailbox name.  Check with your system
-                       administrator to be sure.
-                     </para>
-                   </listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term>Active Directory</term>
-                   <listitem>
-                     <para>
-                       If you would like to use the Global Address
-	               List (GAL) maintained on your Exchange server,
-	               click the tab labelled <guilabel>Receiving
-	               Options</guilabel> and check the box labelled
-	               <guilabel>Create a Global Address List
-	               folder</guilabel>.  The GAL is maintained by
-	               your system administrator and you cannot add,
-	               change, or remove items from it using Ximian
-	               Evolution. However, you can use it to invite
-	               people to meetings and to look up addresses and
-	               other information. In many organizations, the
-	               GAL is stored on a different server from email.
-	               If this is the case, you should also specify
-	               the directory server name here.
-                     </para>
-                   </listitem>
-		</varlistentry>
-	      </variablelist>
-            </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>Sending Mail</term>
+		  </listitem>
+		</orderedlist>
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Receiving Mail, Step Two</term>
 	  <listitem>
-	    <para>
-	      If you will use your Exchange server to send as well as
-	      receive mail, select <guilabel>Microsoft
-	      Exchange</guilabel> as your server type, and enter the
-	      server name as the <guilabel>Host</guilabel>. 
-	    </para>
-	  </listitem>
-	</varlistentry>
-      </variablelist>
-      <para>
+	      <para>There are a few additional options in this step:
+               <orderedlist>
+		  <listitem>
+		    <para>
+                       Checking for New Mail: If you would like to
+                       check for new mail automatically, click the
+                       checkbox and enter an interval in minutes.
+                     </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+                      Exchange Server: If your exchange server stores
+                      your folders under a different name from your
+                      login username, select the checkbox and enter
+                      the name your server uses for your mail storage.
+                     </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+                     Active Directory: If you would like to use the
+    			   Global Address List (GAL) maintained on
+    			   your Exchange server, check the box
+    			   labelled <guilabel>Create a Global Address
+    			   List folder</guilabel>.  The GAL is
+    			   maintained by your system administrator and
+    			   you cannot add, change, or remove items
+    			   from it using Ximian Evolution. However,
+    			   you can use it to invite people to meetings
+    			   and to look up addresses and other
+    			   information. In many organizations, the GAL
+    			   is stored on a different server from email.
+    			   If this is the case, you should also
+    			   specify the directory server name here.  To
+			   avoid strain on the server, the maximum
+			   number of responses to any Active Directory
+			   query has been set to 500. If you would
+			   like to change that, you may do so here as
+			   well.
+                     </para>
+		  </listitem>
+		</orderedlist>
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Sending Mail</term>
+	  <listitem>
+	      <para>Select <guilabel>Microsoft Exchange</guilabel> as
+	      your email sending method. There is nothing else to do
+	      in this step.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Account Management</term>
+	  <listitem>
+	      <para>Enter a name that you will use to remember this
+	      account.  "Exchange Account" is a good suggestion. Note
+	      that you cannot have two accounts with the same name.
+	      If you'd like to make this your default account for
+	      sending email, check the <guilabel>Make this my default
+	      account</guilabel> box.</para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+	<para>
+          You're done.  Click <guibutton>Finish</guibutton> and
+          <guibutton>OK</guibutton>, then quit
+          <application>Evolution</application> and start it again. Now
+          you're ready to get to work on the Exchange server.
+        </para>
+
+	<figure>
+        <title>Creating an Exchange Account, Step One: Identity</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step One: Identity</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/exchange-identity" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
+	<figure>
+        <title>Creating an Exchange Account, Step Two: Receiving Mail</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step Two: Receiving Mail</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/exchange-receive" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
+	<figure>
+        <title>Creating an Exchange Account, Step Three: Mail Options</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step Three: Mail Options</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/exchange-receive-options" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
+
+      </sect3>
+
+      <sect3 id="config-exchange-existing-account">
+	<title>Changing an Existing Account to Work with Exchange</title>
+	  <para>
+	    If you have an existing email account, and want to convert it
+	    to use for Exchange, select the account you want to convert
+	    and click the <guibutton>Edit</guibutton> button. You'll want
+	    to change settings in the following tabs of the account
+	    dialog:
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Identity</term>
+	      <listitem>
+	      <para>
+		 If your email address will change because you are moving
+		 to a new server, then change it in this tab. Otherwise,
+		 move to the next tab.
+	      </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Receiving Mail</term>
+	      <listitem>
+		<para>
+		  Select <guilabel>Microsoft Exchange</guilabel> as your
+		  server type. Enter your name of your server next to
+		  <guilabel>Host</guilabel>, and the user name for your
+		  account next to <guilabel>Username</guilabel>. If your
+		  server supports SSL (Secure Socket Layer) encryption, it
+		  you can check the <guilabel>Use SSL</guilabel> box to
+		  take advantage of more secure data transfers.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Receiving Options</term>
+	      <listitem>
+		  <para>
+		    Here, tab, you'll find some additional settings:
+		    <variablelist>
+		     <varlistentry>
+		      <term>Checking for New Mail</term>
+		       <listitem>
+			 <para>
+			    Select whether you would like to check for
+			    mail automatically, and if so, how often.
+			 </para>
+		       </listitem>
+		    </varlistentry>
+		    <varlistentry>
+		      <term>Exchange Server</term>
+		       <listitem>
+			 <para>
+			   If your Exchange server requires you to use a
+			   different mailbox name from the name you use to
+			   log in, select the second check-box and enter
+			   the mailbox name.  Check with your system
+			   administrator to be sure.
+			 </para>
+		       </listitem>
+		    </varlistentry>
+		    <varlistentry>
+		      <term>Active Directory</term>
+		       <listitem>
+			 <para>
+			   If you would like to use the Global Address
+			   List (GAL) maintained on your Exchange server,
+			   click the tab labelled <guilabel>Receiving
+			   Options</guilabel> and check the box labelled
+			   <guilabel>Create a Global Address List
+			   folder</guilabel>.  The GAL is maintained by
+			   your system administrator and you cannot add,
+			   change, or remove items from it using Ximian
+			   Evolution. However, you can use it to invite
+			   people to meetings and to look up addresses and
+			   other information. In many organizations, the
+			   GAL is stored on a different server from email.
+			   If this is the case, you should also specify
+			   the directory server name here.
+			 </para>
+		       </listitem>
+		    </varlistentry>
+		  </variablelist>
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Sending Mail</term>
+	      <listitem>
+		<para>
+		  If you will use your Exchange server to send as well as
+		  receive mail, select <guilabel>Microsoft
+		  Exchange</guilabel> as your server type, and enter the
+		  server name as the <guilabel>Host</guilabel>. 
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	<para>
+
         Once you have made those changes, click the
         <guibutton>OK</guibutton> button.
       </para>
@@ -427,7 +609,7 @@ There are, however, some features which are not available:
           configuration are not active until you have restarted the
           application.
        </para>
-      
+      </sect3>      
     </sect2>
   </sect1>
   
