@@ -776,10 +776,15 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		g_source_remove(e_tree->priv->reflow_idle_id);
 	tree_canvas_reflow_idle(e_tree);
 
-	if (path)
-		e_tree_get_cell_geometry (e_tree, e_tree_row_of_node(e_tree, path), 0, &x, &y, &w, &h);
-	else
-		y = h = 0;
+	x = y = w = h = 0;
+	if (path) {
+		int row = e_tree_row_of_node(e_tree, path);
+		int col = 0;
+
+		if (row >= 0)
+			e_table_item_get_cell_geometry (E_TABLE_ITEM (e_tree->priv->item),
+							&row, &col, &x, &y, &w, &h);
+	}
 
  	if (y < adj->value || y + h > adj->value + adj->page_size)
 		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
