@@ -1,3 +1,8 @@
+2000-06-29  Peter Williams  <peter@beta.newton.cx>
+
+	* e-shell.c (e_shell_restore_from_settings): Check for the 
+	insanely invalid NumberOfViews = 0 case.
+
 2000-06-29  Peter Williams  <peter@helixcode.com>
 
 	* e-shell.c (e_shell_construct): Ref the various E-things that

@@ -644,7 +644,9 @@ e_shell_restore_from_settings (EShell *shell)
 		gconf_error_destroy (err);
 		return FALSE;
 	}
-
+	if (num_views == 0)
+		return FALSE;
+	
 	retval = TRUE;
 
 	for (i = 0; i < num_views; i++) {
