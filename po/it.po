@@ -5450,7 +5450,7 @@ msgstr "Voce nell'agenda - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:703
 msgid "No summary"
-msgstr "Niente indice"
+msgstr "Nessuna descrizione"
 
 #: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1908
 #: mail/mail-display.c:102
@@ -6035,7 +6035,7 @@ msgstr "Inizio"
 #: my-evolution/component-factory.c:44 shell/e-shortcuts.c:1049
 #: shell/e-storage-set-view.c:1483 shell/e-summary-storage.c:79
 msgid "Summary"
-msgstr "Indice"
+msgstr "Sommario"
 
 #: calendar/gui/e-calendar-table.etspec.h:17
 msgid "Task sort"
@@ -7137,9 +7137,7 @@ msgstr "contiene? prevede che l'argomento 2 sia una stringa"
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
-msgstr ""
-"contiene? prevede che l'argomento 1 sia \"qualsiasi\", \"indice\", "
-"\"descrizione\""
+msgstr "contiene? prevede che l'argomento 1 sia \"qualsiasi\", \"sommario\", \"descrizione\""
 
 #: calendar/pcs/query.c:733
 msgid "has-categories? expects at least 1 argument"
@@ -7929,7 +7927,7 @@ msgstr "Impossibile creare la directory %s: %s"
 #: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
-msgstr "Impossibile caricare l'indice per %s"
+msgstr "Impossibile caricare il sommario di %s"
 
 #: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
@@ -8126,7 +8124,7 @@ msgstr "Impossibile rinominare la cartella %s con %s: %s"
 #: camel/providers/local/camel-local-store.c:374
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
-msgstr "Impossibile cancellare l'indice della cartella `%s': %s"
+msgstr "Impossibile cancellare il sommario della cartella `%s': %s"
 
 #: camel/providers/local/camel-local-store.c:384
 #, c-format
@@ -8372,7 +8370,7 @@ msgstr "Impossibile creare una mbox temporanea: %s"
 #: camel/providers/local/camel-spool-summary.c:978
 #: camel/providers/local/camel-spool-summary.c:986
 msgid "Summary and folder mismatch, even after a sync"
-msgstr "Indice e cartella non corrispondono, nemmeno dopo una sincronizzazione"
+msgstr "Sommario e cartella non corrispondono, nemmeno dopo una sincronizzazione"
 
 #: camel/providers/local/camel-mbox-summary.c:595
 #: camel/providers/local/camel-spool-summary.c:749
@@ -10250,7 +10248,7 @@ msgstr "Filtra sulla Mailng List"
 
 #: mail/folder-browser.c:1629
 msgid "VFolder on Mailing List"
-msgstr "Cartella virtuale sulla Mailng List"
+msgstr "Cartella Virtuale sulla Mailng List"
 
 #: mail/folder-browser.c:1631
 #, c-format
@@ -11076,7 +11074,7 @@ msgstr "Salva il _Log dei filtri in:"
 
 #: mail/mail-config.glade.h:107
 msgid "_Mark messages as Read after"
-msgstr "Segna i _messaggi come Letti dopo"
+msgstr "Segna i _messaggi come letti dopo"
 
 #: mail/mail-config.glade.h:108
 msgid "_Name:"
@@ -24200,7 +24198,7 @@ msgstr "Anteprime del calendario da stampare"
 
 #: ui/evolution-calendar.xml.h:25 ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
-msgstr "_Anteprima di stampa"
+msgstr "_Anteprima di Stampa"
 
 #: ui/evolution-calendar.xml.h:26
 msgid "Print this calendar"
@@ -24315,7 +24313,7 @@ msgstr "Stampa _Busta..."
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:21
 msgid "Save _As..."
-msgstr "Salva _come..."
+msgstr "Salva _Come..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
@@ -24530,7 +24528,7 @@ msgstr "Seleziona _Tutto"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr "Seleziona _Thread"
+msgstr "Seleziona _Discussione"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
@@ -24538,7 +24536,7 @@ msgstr "Seleziona tutti e soli i messaggi che non sono al momento selezionati"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Seleziona tutti i messaggi dello stesso thread di quello selezionato"
+msgstr "Seleziona tutti i messaggi della discussione a cui appartiene il messaggio selezionato"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -24562,11 +24560,11 @@ msgstr "Nascondi temporaneamente i messaggi selezionati"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Thread"
+msgstr "Lista per Discussioni"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr "_Elimina per sempre"
+msgstr "_Elimina per Sempre"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
@@ -24582,7 +24580,7 @@ msgstr "_Proprietà"
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
-msgstr "Lista Come _Thread"
+msgstr "Raggruppa per _Discussioni"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "Apply filter rules to the selected messages"
@@ -24658,7 +24656,7 @@ msgstr "Mostra il prossimo messaggio non letto"
 
 #: ui/evolution-mail-message.xml.h:22
 msgid "Display the next unread thread"
-msgstr "Mostra il prossimo thread non letto"
+msgstr "Mostra la prossima discussione non letta"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Display the previous important message"
@@ -24786,7 +24784,7 @@ msgstr "Messaggio Successivo"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Next Thread"
-msgstr "Thread Successivo "
+msgstr "Discussione Successiva"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Next Unread Message"
@@ -24891,15 +24889,15 @@ msgstr "Annulla la cancellazione del messaggio selezionato"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "VFolder on Mailing _List..."
-msgstr "Cartella virtuale sulla Mailng _List..."
+msgstr "Cartella Virtuale sulla Mailing _List..."
 
 #: ui/evolution-mail-message.xml.h:88
 msgid "VFolder on Se_nder..."
-msgstr "Cartella virtuale sul _Mittente..."
+msgstr "Cartella Virtuale sul _Mittente..."
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "VFolder on _Recipients..."
-msgstr "Cartella virtuale sui _Destinatari..."
+msgstr "Cartella Virtuale sui _Destinatari..."
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "VFolder on _Subject..."
@@ -24927,7 +24925,7 @@ msgstr "Più _Grande"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Message Display"
-msgstr "_Mostra Messaggio"
+msgstr "Visualizzazione _Messaggio"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Move to Folder"
@@ -25347,7 +25345,7 @@ msgstr "Barra delle _Cartelle"
 
 #: ui/evolution.xml.h:39
 msgid "_Go to Folder..."
-msgstr "_Vai alla Cartella..."
+msgstr "_Visualizza Cartella..."
 
 #: ui/evolution.xml.h:41
 msgid "_Import..."
@@ -25562,7 +25560,7 @@ msgstr "Altro..."
 
 #: widgets/misc/e-charset-picker.c:395
 msgid "Character Encoding"
-msgstr "Codifica dei caratteri"
+msgstr "Codifica dei Caratteri"
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
