@@ -1,3 +1,12 @@
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/Makefile.am: Added e-entry.c and e-entry.h.
+
+	* widgets/e-text/e-entry.c, widgets/e-text/e-entry.h: New files to
+	be a widget containing a text item.
+
+	* widgets/e-text/e-text.c: Fixed some spacing.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* notes/component-factory.c (owner_set_cb): Get an

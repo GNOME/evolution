@@ -209,8 +209,8 @@ e_text_class_init (ETextClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-
 	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
+
 
 	gtk_object_add_arg_type ("EText::model",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_MODEL);  

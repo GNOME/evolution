@@ -7,6 +7,8 @@ noinst_LIBRARIES =				\
 	libetext.a
 
 libetext_a_SOURCES = 		\
+	e-entry.c				\
+	e-entry.h				\
 	e-text-event-processor-emacs-like.c	\
 	e-text-event-processor-emacs-like.h	\
 	e-text-event-processor-types.h		\
