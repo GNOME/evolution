@@ -12040,7 +12040,7 @@ msgstr "Standaard"
 
 #: mail/folder-info.c:70
 msgid "Getting Folder Information"
-msgstr "ophoudenMapinformatie wordt opgezocht"
+msgstr "Mapinformatie wordt opgezocht"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
 msgid "Evolution Elm importer"
