@@ -144,8 +144,9 @@ void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 			 const char *type, gboolean notify,
 			 CamelOperation *cancel);
 
-/* convenience function for above */
+/* convenience functions for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
+void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
 
 /* Work Offline */
 void mail_prep_offline(const char *uri, CamelOperation *cancel,

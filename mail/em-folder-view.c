@@ -722,6 +722,14 @@ emfv_popup_apply_filters(GtkWidget *w, EMFolderView *emfv)
 	mail_filter_on_demand(emfv->folder, uids);
 }
 
+static void
+emfv_popup_filter_junk(GtkWidget *w, EMFolderView *emfv)
+{
+	GPtrArray *uids = message_list_get_selected(emfv->list);
+
+	mail_filter_junk(emfv->folder, uids);
+}
+
 /* filter callbacks, this will eventually be a wizard, see
    filter_type_current/vfolder_type_current for implementation */
 
@@ -768,8 +776,8 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM,  "30.emfv.01", N_("Mark as _Unread"), G_CALLBACK(emfv_popup_mark_unread), NULL, "mail-new.xpm", EM_POPUP_SELECT_MARK_UNREAD },
 	{ EM_POPUP_ITEM, "30.emfv.02", N_("Mark as _Important"), G_CALLBACK(emfv_popup_mark_important), NULL, "priority-high.xpm", EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ EM_POPUP_ITEM, "30.emfv.03", N_("_Mark as Unimportant"), G_CALLBACK(emfv_popup_mark_unimportant), NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ EM_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), G_CALLBACK(emfv_popup_mark_junk), NULL, NULL, EM_POPUP_SELECT_MARK_JUNK },
-	{ EM_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), G_CALLBACK(emfv_popup_mark_nojunk), NULL, NULL, EM_POPUP_SELECT_MARK_NOJUNK },
+	{ EM_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), G_CALLBACK(emfv_popup_mark_junk), NULL, "stock-junk-16.png", EM_POPUP_SELECT_MARK_JUNK },
+	{ EM_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), G_CALLBACK(emfv_popup_mark_nojunk), NULL, "stock-notjunk-16.png", EM_POPUP_SELECT_MARK_NOJUNK },
 	
 	{ EM_POPUP_BAR, "40.emfv" },
 	{ EM_POPUP_ITEM, "40.emfv.00", N_("_Delete"), G_CALLBACK(emfv_popup_delete), NULL, "evolution-trash-mini.png", EM_POPUP_SELECT_DELETE },
@@ -788,7 +796,8 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "70.emfv.00", N_("Add Sender to Address_book"), G_CALLBACK(emfv_popup_add_sender), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_ADD_SENDER },
 
 	{ EM_POPUP_BAR, "80.emfv" },	
-	{ EM_POPUP_ITEM, "80.emfv.00", N_("Appl_y Filters"), G_CALLBACK(emfv_popup_apply_filters) },
+	{ EM_POPUP_ITEM, "80.emfv.00", N_("Appl_y Filters"), G_CALLBACK(emfv_popup_apply_filters), NULL, "apply-filters-16.xpm" },
+	{ EM_POPUP_ITEM, "80.emfv.01", N_("F_ilter Junk"), G_CALLBACK(emfv_popup_filter_junk), NULL, "stock-junk-16.png" },
 
 	{ EM_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ EM_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
@@ -906,6 +915,7 @@ from(BonoboUIComponent *uid, void *data, const char *path)	\
 
 EMFV_MAP_CALLBACK(emfv_add_sender_addressbook, emfv_popup_add_sender)
 EMFV_MAP_CALLBACK(emfv_message_apply_filters, emfv_popup_apply_filters)
+EMFV_MAP_CALLBACK(emfv_message_filter_junk, emfv_popup_filter_junk)
 EMFV_MAP_CALLBACK(emfv_message_copy, emfv_popup_copy)
 EMFV_MAP_CALLBACK(emfv_message_move, emfv_popup_move)
 EMFV_MAP_CALLBACK(emfv_message_forward, emfv_popup_forward)
@@ -1323,6 +1333,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("AddSenderToAddressbook", emfv_add_sender_addressbook),
 
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", emfv_message_apply_filters),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterJunk", emfv_message_filter_junk),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", emfv_message_copy),
 	BONOBO_UI_UNSAFE_VERB ("MessageDelete", emfv_message_delete),
 	BONOBO_UI_UNSAFE_VERB ("MessageForward", emfv_message_forward),
@@ -1388,11 +1399,14 @@ static EPixmap emfv_message_pixmaps[] = {
 	E_PIXMAP ("/commands/MessageReplySender", "reply.xpm"),
 	E_PIXMAP ("/commands/MessageForward", "forward.xpm"),
 	E_PIXMAP ("/commands/MessageApplyFilters", "apply-filters-16.xpm"),
+	E_PIXMAP ("/commands/MessageFilterJunk", "stock-junk-16.png"),
 	E_PIXMAP ("/commands/MessageSearch", "search-16.png"),
 	E_PIXMAP ("/commands/MessageSaveAs", "save-as-16.png"),
 	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-read.xpm"),
 	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-new.xpm"),
 	E_PIXMAP ("/commands/MessageMarkAsImportant", "priority-high.xpm"),
+	E_PIXMAP ("/commands/MessageMarkAsJunk", "stock-junk-16.png"),
+	E_PIXMAP ("/commands/MessageMarkAsNotJunk", "stock-notjunk-16.png"),
 	E_PIXMAP ("/commands/MessageFollowUpFlag", "flag-for-followup-16.png"),
 	
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "buttons/reply.png"),
@@ -1429,6 +1443,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "AddSenderToAddressbook",   EM_POPUP_SELECT_ADD_SENDER },
 
 	{ "MessageApplyFilters",      EM_POPUP_SELECT_MANY },
+	{ "MessageFilterJunk",        EM_POPUP_SELECT_MANY },
 	{ "MessageCopy",              EM_POPUP_SELECT_MANY },
 	{ "MessageDelete",            EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_DELETE },
 	{ "MessageForward",           EM_POPUP_SELECT_MANY },

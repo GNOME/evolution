@@ -1,3 +1,13 @@
+2004-03-08  Radek Doulik  <rodo@ximian.com>
+
+	* mail-ops.c (mail_filter_junk): new method, filter folder with
+	FILTER_SOURCE_JUNKTEST type filter
+
+	* em-folder-view.c: added Filter Junk command and junk icons to
+	menus, added apply filters icon to popup menu
+	(emfv_popup_filter_junk): new helper method, calls
+	mail_filter_junk
+
 2004-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html-display.c (em_format_html_display_search): Don't

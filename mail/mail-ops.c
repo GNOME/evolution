@@ -207,11 +207,17 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
-/* convenience function for it */
+/* convenience functions for it */
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
 	mail_filter_folder (folder, uids, FILTER_SOURCE_DEMAND, FALSE, NULL);
+}
+
+void
+mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
+{
+	mail_filter_folder (folder, uids, FILTER_SOURCE_JUNKTEST, FALSE, NULL);
 }
 
 /* ********************************************************************** */
