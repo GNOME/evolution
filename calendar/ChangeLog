@@ -1,3 +1,14 @@
+2004-01-11  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c: Fix copyright notice, its copyright
+	Novell not our hackers
+
+	* gui/tasks-component.h: ditto
+	
+	* gui/calendar-component.c: ditto
+
+	* gui/calendar-component.h: ditto
+
 2004-01-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (open_ecal): cast the views to E_CALENDAR_VIEW,
