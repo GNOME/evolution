@@ -6,7 +6,7 @@ cflags_set=${CFLAGS+set}
 
 EVOLUTION_MAJOR_VERSION=0
 EVOLUTION_MINOR_VERSION=0
-EVOLUTION_MICRO_VERSION=3
+EVOLUTION_MICRO_VERSION=4
 VERSION=$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
 PACKAGE=evolution
 
@@ -572,6 +572,7 @@ calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/dialogs/Makefile
+executive-summary/Makefile
 filter/Makefile
 notes/Makefile
 wombat/Makefile
