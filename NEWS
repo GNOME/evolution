@@ -34,11 +34,12 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Mail
 
     #5529  -- Omit signature when quoting.  (Jeff)
-    #15966 -- Visual bug in moving a message to a folder.  (Mike)
+    #15966 -- Visual bug in moving a message to a folder.  (Michael)
     #28735 -- Reply to list isn't looking in Cc: for recipients.
               (Jeff)
-    #30045 -- Possible man-in-the-middle attack when using SSL.
-              (Michael)
+    #30045 -- Possible man-in-the-middle attack when using SSL -
+              assuming that the forged certificate had an identical 
+              md5sum of the real certificate.  (Michael)
     #31456 -- Evolution doesn't see certain IMAP mailboxes.
               (Michael)
     #31647 -- Subscribe dialog is broken.  (Michael)
