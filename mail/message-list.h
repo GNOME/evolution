@@ -158,6 +158,8 @@ void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
 void	       message_list_set_hidedeleted(MessageList *ml, gboolean hidedeleted);
 void	       message_list_set_search(MessageList *ml, const char *search);
 
+void           message_list_save_state (MessageList *ml);
+
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
 #define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
 

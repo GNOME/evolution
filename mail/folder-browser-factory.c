@@ -132,6 +132,9 @@ control_deactivate (BonoboControl     *control,
 	if (fb->folder)
 		mail_sync_folder (fb->folder, NULL, NULL);
 	
+	if (fb->message_list)
+		message_list_save_state (fb->message_list);
+	
 	folder_browser_set_ui_component (fb, NULL);
 	folder_browser_set_shell_view (fb, CORBA_OBJECT_NIL);
 

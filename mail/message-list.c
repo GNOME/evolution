@@ -1207,6 +1207,14 @@ save_tree_state(MessageList *ml)
 	g_free(filename);
 }
 
+
+void
+message_list_save_state (MessageList *ml)
+{
+	save_tree_state (ml);
+	hide_save_state (ml);
+}
+
 static void
 message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 {

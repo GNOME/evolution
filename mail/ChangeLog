@@ -1,5 +1,15 @@
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #40074.
+
+	* folder-browser-factory.c (control_deactivate): Save message-list
+	state.
+
+	* message-list.c (message_list_save_state): Save the various
+	states.
+
+2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes for bug #39870
 
 	* message-browser.c (transfer_msg_done): Close the
