@@ -29,6 +29,7 @@
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <widgets/misc/e-dateedit.h>
+#include <e-util/e-icon-factory.h>
 
 #include "event-page.h"
 #include "alarm-page.h"
@@ -69,7 +70,7 @@ static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, 
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "stock_people", 24),
+	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "stock_people", E_ICON_SIZE_LARGE_TOOLBAR),
 	E_PIXMAP_END
 };
 

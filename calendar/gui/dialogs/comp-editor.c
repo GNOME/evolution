@@ -122,18 +122,18 @@ static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/menu/File/FileSave",			"stock_save",          16),
-	E_PIXMAP ("/menu/File/FileSaveAndClose",		"stock_save",          16),
-	E_PIXMAP ("/menu/File/FileSaveAs",			"stock_save_as",       16),
+	E_PIXMAP ("/menu/File/FileSave",			"stock_save",          E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileSaveAndClose",		"stock_save",          E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileSaveAs",			"stock_save_as",       E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/menu/File/FileDelete",			"stock_delete",        16),
+	E_PIXMAP ("/menu/File/FileDelete",			"stock_delete",        E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/menu/File/FilePrint",			"stock_print",         16),
-	E_PIXMAP ("/menu/File/FilePrintPreview",		"stock_print-preview", 16),
+	E_PIXMAP ("/menu/File/FilePrint",			"stock_print",         E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FilePrintPreview",		"stock_print-preview", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "stock_save",          24),
-	E_PIXMAP ("/Toolbar/FilePrint",			        "stock_print",         24),
-	E_PIXMAP ("/Toolbar/FileDelete",			"stock_delete",        24),
+	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "stock_save",          E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FilePrint",			        "stock_print",         E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/FileDelete",			"stock_delete",        E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };
