@@ -38,12 +38,6 @@ module Evolution {
 	interface Importer : Bonobo::Unknown {
 
 		/**
-		 * Busy: Raised if the Importer object is in the middle of
-		 * processing an item;
-		 */
-		exception Busy {};
-
-		/**
 		 * processItem:
 		 * @listener: The ImporterListener that will be notified of the
 		 * progress.
@@ -52,7 +46,6 @@ module Evolution {
 		 *
 		 */
 		oneway void processItem (in ImporterListener listener)
-			raises (Busy);
 
 		/**
 		 * getError:
