@@ -5,6 +5,9 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <config.h>
+#include <libgnome/gnome-defs.h>
+
+BEGIN_GNOME_DECLS
 
 #ifdef USING_GNOME_PRINT_0_20
 #define gnome_font_get_size(f) ((f)->size)
@@ -49,6 +52,8 @@ gint e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[]);
 
 gint g_unichar_to_utf8 (gint c, gchar *outbuf);
 guint32 gdk_keyval_to_unicode (guint keysym);
+
+BEGIN_GNOME_DECLS
 
 #endif
 
