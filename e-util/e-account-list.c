@@ -420,6 +420,9 @@ e_account_list_find(EAccountList *accounts, e_account_find_t type, const char *k
 	/* this could use a callback for more flexibility ...
 	   ... but this makes the common cases easier */
 
+	if (!key)
+		return NULL;
+	
 	for (it = e_list_get_iterator ((EList *)accounts);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
