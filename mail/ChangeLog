@@ -1,3 +1,10 @@
+2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_filter_ondemand): Updated to check the boolean
+	return code from fulter_driver_run to find out whether or not the
+	message was filtered so that it can decide whether or not to
+	delete the message from the source folder or not.
+
 2000-09-07 Jesse Pavel <jpavel@helixcode.com>
 
 	* mail-format.c (mail_generate_reply) Changed the behavior of

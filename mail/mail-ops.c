@@ -164,13 +164,15 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			mail_tool_camel_lock_up ();
 			message = camel_folder_get_message (folder, uids->pdata[i], ex);
-			fprintf (stderr, "about to run the filter\n");
 			filter_driver_run (filter, message, input->destination,
 					   FILTER_SOURCE_INCOMING,
 					   input->hook_func, input->hook_data,
 					   TRUE, ex);
 			mail_tool_camel_lock_down ();
 			
+			/* we don't care if it was filtered or not here because no matter
+			   what it's been copied to at least 1 folder - even if it's just
+			   the default */
 			if (!input->keep_on_server && !camel_exception_is_set (ex)) {
 				guint32 flags;
 				
@@ -323,18 +325,27 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		uids = camel_folder_get_uids (input->source);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
+			gboolean filtered;
 			
 			message = camel_folder_get_message (input->source, uids->pdata[i], ex);
-			filter_driver_run (input->driver, message, input->destination,
-					   FILTER_SOURCE_DEMAND, NULL, NULL, TRUE, ex);
+			filtered = filter_driver_run (input->driver, message, NULL,
+						      FILTER_SOURCE_DEMAND, NULL, NULL, TRUE, ex);
 			
-			/* FIXME: should we delete the message from the source mailbox? */
+			if (filtered) {
+				/* we can delete this since it's been filtered */
+				guint32 flags;
+				
+				flags = camel_folder_get_message_flags (input->source, uids->pdata[i]);
+				camel_folder_set_message_flags (input->source, uids->pdata[i],
+								CAMEL_MESSAGE_DELETED,
+								~flags);
+			}
 			
 			camel_object_unref (CAMEL_OBJECT (message));
-			g_free (uids->pdata[i]);
 		}
 		
-		g_ptr_array_free (uids, TRUE);
+		camel_folder_sync (input->source, TRUE, ex);
+		camel_folder_free_uids (input->source, uids);
 		
 		data->empty = FALSE;
 	}
