@@ -1319,17 +1319,21 @@ cursor_activated (ETree *tree,
 	priv = storage_set_view->priv;
 
 	g_free (priv->selected_row_path);
-	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
+	if (path) {
+		priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 
-	if (e_tree_model_node_depth (priv->etree_model, path) >= 2) {
-		/* it was a folder */
-		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-				 priv->selected_row_path);
-	} else {
-		/* it was a storage */
-		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
-				 priv->selected_row_path + 1);
+		if (e_tree_model_node_depth (priv->etree_model, path) >= 2) {
+			/* it was a folder */
+			gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+					 priv->selected_row_path);
+		} else {
+			/* it was a storage */
+			gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
+					 priv->selected_row_path + 1);
+		}
 	}
+	else
+		priv->selected_row_path = NULL;
 }
 
 
@@ -1650,6 +1654,7 @@ updated_folder_cb (EStorageSet *storage_set,
 	etree = priv->etree_model;
 
 	node = lookup_node_in_hash (storage_set_view, path);
+	e_tree_model_pre_change (etree);
 	e_tree_model_node_data_changed (etree, node);
 }
 
@@ -1811,6 +1816,7 @@ folder_changed_cb (EFolder *folder,
 		return;
 	}
 
+	e_tree_model_pre_change (priv->etree_model);
 	e_tree_model_node_data_changed (priv->etree_model, node);
 }
 

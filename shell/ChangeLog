@@ -1,3 +1,10 @@
+2001-10-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (cursor_activated): Don't do operations on
+	a NULL path.
+	(updated_folder_cb, folder_changed_cb): Send pre_change signal
+	here.
+
 2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (handle_evolution_path_drag_motion): If the
