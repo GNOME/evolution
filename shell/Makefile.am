@@ -113,7 +113,8 @@ evolution_LDADD =						\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(BONOBO_GNOME_LIBS)
+	$(BONOBO_GNOME_LIBS)					\
+	$(UNICODE_LIBS)
 
 # Purify support
 

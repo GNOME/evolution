@@ -1,3 +1,8 @@
+2000-08-20  arik devens  <arik@helixcode.com>
+
+	* Makefile.am (evolution_LDADD): Added UNICODE_LIBS to link in the
+	new e-text stuff.
+
 2000-08-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-shell-folder-title-bar.c: Fixed a warning.
