@@ -1,3 +1,8 @@
+1999-11-11  Russell Steinthal  <rms39@columbia.edu>
+
+	* calendar.c (calendar_day_change): Add call to
+	calendar_init_alarms() to schedule another day change alarm.
+	
 1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c: Enabled debug output. Sets a g_log_domain,

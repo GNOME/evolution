@@ -528,7 +528,8 @@ calendar_day_change (time_t time, CalendarAlarm *which, void *closure)
 	Calendar *cal = closure;
 	
 	calendar_set_day ();
-
+	calendar_init_alarms (cal);
+	
 	for (events = cal->events; events; events = events->next){
 		iCalObject *obj = events->data;
 
