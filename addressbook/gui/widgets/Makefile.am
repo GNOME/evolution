@@ -17,6 +17,10 @@ noinst_LIBRARIES =				\
 	libeminicard.a
 
 libeminicard_a_SOURCES =			\
+	e-addressbook-reflow-adapter.c		\
+	e-addressbook-reflow-adapter.h		\
+	e-addressbook-table-adapter.c		\
+	e-addressbook-table-adapter.h		\
 	e-addressbook-model.c			\
 	e-addressbook-model.h			\
 	e-addressbook-view.c			\
@@ -27,8 +31,6 @@ libeminicard_a_SOURCES =			\
 	e-minicard-label.h			\
 	e-minicard-view-widget.c		\
 	e-minicard-view-widget.h		\
-	e-minicard-view-model.c			\
-	e-minicard-view-model.h			\
 	e-minicard-view.c			\
 	e-minicard-view.h			\
 	e-minicard-widget.c			\

@@ -22,11 +22,11 @@
 #define __E_MINICARD_VIEW_H__
 
 #include "e-minicard.h"
-#include "e-minicard-view-model.h"
 
 #include <gal/widgets/e-reflow.h>
 #include <gal/widgets/e-selection-model-simple.h>
 #include "addressbook/backend/ebook/e-book.h"
+#include "e-addressbook-reflow-adapter.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,7 +66,7 @@ struct _EMinicardView
 {
 	EReflow parent;
 
-	EMinicardViewModel *model;
+	EAddressbookReflowAdapter *adapter;
 	
 	/* item specific fields */
 
@@ -83,11 +83,6 @@ struct _EMinicardView
 struct _EMinicardViewClass
 {
 	EReflowClass parent_class;
-
-	/*
-	 * Signals
-	 */
-	void (*status_message) (EMinicardView *mini_view, const gchar *message);
 };
 
 GtkType    e_minicard_view_get_type (void);
@@ -96,7 +91,6 @@ void       e_minicard_view_remove_selection (EMinicardView *view,
 					     gpointer       closure);
 void       e_minicard_view_jump_to_letter   (EMinicardView *view,
 					     char           letter);
-void       e_minicard_view_stop             (EMinicardView *view);
 
 #ifdef __cplusplus
 }

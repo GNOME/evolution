@@ -47,6 +47,8 @@ struct _EMinicardViewWidget
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *emv;
 
+	EAddressbookReflowAdapter *adapter;
+
 	EBook *book;
 	char *query;
 	guint editable : 1;
@@ -55,11 +57,6 @@ struct _EMinicardViewWidget
 struct _EMinicardViewWidgetClass
 {
 	ECanvasClass parent_class;
-
-	/*
-	 * Signals
-	 */
-	void (*status_message) (EMinicardView *mini_view, const gchar *message);
 };
 
 GtkType    e_minicard_view_widget_get_type (void);
@@ -68,9 +65,7 @@ void       e_minicard_view_widget_remove_selection (EMinicardViewWidget *view,
 						    gpointer       closure);
 void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 						    char           letter);
-void       e_minicard_view_widget_stop             (EMinicardViewWidget *view);						    
-
-GtkWidget *e_minicard_view_widget_new (void);
+GtkWidget *e_minicard_view_widget_new              (EAddressbookReflowAdapter *adapter);
 
 #ifdef __cplusplus
 }

@@ -14,8 +14,8 @@
 #include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
 
-#define PARENT_TYPE e_table_model_get_type()
-ETableModelClass *parent_class;
+#define PARENT_TYPE gtk_object_get_type()
+GtkObjectClass *parent_class;
 
 /*
  * EAddressbookModel callbacks
@@ -34,6 +34,10 @@ enum {
 
 enum {
 	STATUS_MESSAGE,
+	CARD_ADDED,
+	CARD_REMOVED,
+	CARD_CHANGED,
+	MODEL_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -88,129 +92,28 @@ addressbook_destroy(GtkObject *object)
 	g_free(model->data);
 }
 
-/* This function returns the number of columns in our ETableModel. */
-static int
-addressbook_col_count (ETableModel *etc)
-{
-	return COLS;
-}
-
-/* This function returns the number of rows in our ETableModel. */
-static int
-addressbook_row_count (ETableModel *etc)
-{
-	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
-	return addressbook->data_count;
-}
-
-/* This function returns the value at a particular point in our ETableModel. */
-static void *
-addressbook_value_at (ETableModel *etc, int col, int row)
-{
-	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
-	const char *value;
-	if ( col >= COLS || row >= addressbook->data_count )
-		return NULL;
-
-	value = e_card_simple_get_const(addressbook->data[row], 
-					col);
-	return (void *)(value ? value : "");
-}
-
-/* This function sets the value at a particular point in our ETableModel. */
-static void
-addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
-{
-	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
-	ECard *card;
-	if (addressbook->editable) {
-		if ( col >= COLS|| row >= addressbook->data_count )
-			return;
-		e_card_simple_set(addressbook->data[row],
-				  col,
-				  val);
-		gtk_object_get(GTK_OBJECT(addressbook->data[row]),
-			       "card", &card,
-			       NULL);
-		e_book_commit_card(addressbook->book, card, NULL, NULL);
-		
-		e_table_model_cell_changed(etc, col, row);
-	}
-}
-
-/* This function returns whether a particular cell is editable. */
-static gboolean
-addressbook_is_cell_editable (ETableModel *etc, int col, int row)
-{
-	return E_ADDRESSBOOK_MODEL(etc)->editable && col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING;
-}
-
-static void
-addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
-{
-	ECard *card;
-	ECardSimple *simple;
-	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etm);
-	int col;
-
-	card = e_card_new("");
-	simple = e_card_simple_new(card);
-
-	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; col++) {
-		const void *val = e_table_model_value_at(source, col, row);
-		e_card_simple_set(simple,
-				  col,
-				  val);
-	}
-	e_card_simple_sync_card(simple);
-	e_book_add_card(addressbook->book, card, NULL, NULL);
-	gtk_object_unref(GTK_OBJECT(simple));
-	gtk_object_unref(GTK_OBJECT(card));
-}
-
-/* This function duplicates the value passed to it. */
-static void *
-addressbook_duplicate_value (ETableModel *etc, int col, const void *value)
-{
-	return g_strdup(value);
-}
-
-/* This function frees the value passed to it. */
-static void
-addressbook_free_value (ETableModel *etc, int col, void *value)
-{
-	g_free(value);
-}
-
-static void *
-addressbook_initialize_value (ETableModel *etc, int col)
-{
-	return g_strdup("");
-}
-
-static gboolean
-addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
-{
-	return !(value && *(char *)value);
-}
-
-static char *
-addressbook_value_to_string (ETableModel *etc, int col, const void *value)
-{
-	return g_strdup(value);
-}
-
 static void
 create_card(EBookView *book_view,
 	    const GList *cards,
 	    EAddressbookModel *model)
 {
-	model->data = g_realloc(model->data, (model->data_count + g_list_length((GList *)cards)) * sizeof(ECard *));
-	e_table_model_pre_change(E_TABLE_MODEL(model));
-	for ( ; cards; cards = cards->next) {
-		model->data[model->data_count++] = e_card_simple_new (E_CARD(cards->data));
-		e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
+	int old_count = model->data_count;
+	int length = g_list_length ((GList *)cards);
+
+	if (model->data_count + length > model->allocated_count) {
+		while (model->data_count + length > model->allocated_count)
+			model->allocated_count += 256;
+		model->data = g_renew(ECard *, model->data, model->allocated_count);
 	}
+
+	for ( ; cards; cards = cards->next) {
+		model->data[model->data_count++] = cards->data;
+		gtk_object_ref (cards->data);
+	}
+
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [CARD_ADDED],
+			 old_count, model->data_count - old_count);
 }
 
 static void
@@ -219,12 +122,14 @@ remove_card(EBookView *book_view,
 	    EAddressbookModel *model)
 {
 	int i;
-	e_table_model_pre_change(E_TABLE_MODEL(model));
+
 	for ( i = 0; i < model->data_count; i++) {
-		if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
+		if ( !strcmp(e_card_get_id(model->data[i]), id) ) {
 			gtk_object_unref(GTK_OBJECT(model->data[i]));
 			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
-			e_table_model_row_deleted(E_TABLE_MODEL(model), i);
+			gtk_signal_emit (GTK_OBJECT (model),
+					 e_addressbook_model_signals [CARD_REMOVED],
+					 i);
 		}
 	}
 }
@@ -237,11 +142,13 @@ modify_card(EBookView *book_view,
 	for ( ; cards; cards = cards->next) {
 		int i;
 		for ( i = 0; i < model->data_count; i++) {
-			if ( !strcmp(e_card_simple_get_id(model->data[i]), e_card_get_id(E_CARD(cards->data))) ) {
+			if ( !strcmp(e_card_get_id(model->data[i]), e_card_get_id(E_CARD(cards->data))) ) {
 				gtk_object_unref(GTK_OBJECT(model->data[i]));
-				model->data[i] = e_card_simple_new(E_CARD(cards->data));
+				model->data[i] = e_card_duplicate(E_CARD(cards->data));
 				gtk_object_ref(GTK_OBJECT(model->data[i]));
-				e_table_model_row_changed(E_TABLE_MODEL(model), i);
+				gtk_signal_emit (GTK_OBJECT (model),
+						 e_addressbook_model_signals [CARD_CHANGED],
+						 i);
 				break;
 			}
 		}
@@ -261,8 +168,6 @@ status_message (EBookView *book_view,
 static void
 e_addressbook_model_class_init (GtkObjectClass *object_class)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
-
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = addressbook_destroy;
@@ -284,19 +189,39 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
+	e_addressbook_model_signals [CARD_ADDED] =
+		gtk_signal_new ("card_added",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, card_added),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	e_addressbook_model_signals [CARD_REMOVED] =
+		gtk_signal_new ("card_removed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, card_removed),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	e_addressbook_model_signals [CARD_CHANGED] =
+		gtk_signal_new ("card_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, card_changed),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	e_addressbook_model_signals [MODEL_CHANGED] =
+		gtk_signal_new ("model_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, model_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, e_addressbook_model_signals, LAST_SIGNAL);
-	
-	model_class->column_count = addressbook_col_count;
-	model_class->row_count = addressbook_row_count;
-	model_class->value_at = addressbook_value_at;
-	model_class->set_value_at = addressbook_set_value_at;
-	model_class->is_cell_editable = addressbook_is_cell_editable;
-	model_class->append_row = addressbook_append_row;
-	model_class->duplicate_value = addressbook_duplicate_value;
-	model_class->free_value = addressbook_free_value;
-	model_class->initialize_value = addressbook_initialize_value;
-	model_class->value_is_empty = addressbook_value_is_empty;
-	model_class->value_to_string = addressbook_value_to_string;
 }
 
 static void
@@ -313,6 +238,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->status_message_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
+	model->allocated_count = 0;
 	model->editable = FALSE;
 	model->first_get_view = TRUE;
 }
@@ -347,11 +273,12 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
 	}
 
-	e_table_model_pre_change(E_TABLE_MODEL(model));
 	g_free(model->data);
 	model->data = NULL;
 	model->data_count = 0;
-	e_table_model_changed(E_TABLE_MODEL(model));
+	model->allocated_count = 0;
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [MODEL_CHANGED]);
 }
 
 static gboolean
@@ -380,10 +307,8 @@ e_addressbook_model_get_card(EAddressbookModel *model,
 {
 	if (model->data && row < model->data_count) {
 		ECard *card;
-		gtk_object_get(GTK_OBJECT(model->data[row]),
-			       "card", &card,
-			       NULL);
-		gtk_object_ref(GTK_OBJECT(card));
+		card = e_card_duplicate (model->data[row]);
+		gtk_object_ref (GTK_OBJECT (card));
 		return card;
 	}
 	return NULL;
@@ -466,17 +391,41 @@ e_addressbook_model_get_type (void)
 	return type;
 }
 
-ETableModel *
+EAddressbookModel*
 e_addressbook_model_new (void)
 {
 	EAddressbookModel *et;
 
 	et = gtk_type_new (e_addressbook_model_get_type ());
 	
-	return E_TABLE_MODEL(et);
+	return et;
 }
 
 void   e_addressbook_model_stop    (EAddressbookModel *model)
 {
 	remove_book_view(model);
+}
+
+int
+e_addressbook_model_card_count (EAddressbookModel *model)
+{
+	return model->data_count;
+}
+
+ECard *
+e_addressbook_model_card_at (EAddressbookModel *model, int index)
+{
+	return model->data[index];
+}
+
+gboolean
+e_addressbook_model_editable (EAddressbookModel *model)
+{
+	return model->editable;
+}
+
+EBook *
+e_addressbook_model_get_ebook (EAddressbookModel *model)
+{
+	return model->book;
 }

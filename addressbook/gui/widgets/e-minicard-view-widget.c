@@ -47,14 +47,6 @@ enum {
 	ARG_EDITABLE
 };
 
-enum {
-	STATUS_MESSAGE,
-	LAST_SIGNAL
-};
-
-static guint e_minicard_view_widget_signals [LAST_SIGNAL] = {0, };
-
-
 GtkType
 e_minicard_view_widget_get_type (void)
 {
@@ -100,16 +92,6 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
 
-	e_minicard_view_widget_signals [STATUS_MESSAGE] =
-		gtk_signal_new ("status_message",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, status_message),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-
-	gtk_object_class_add_signals (object_class, e_minicard_view_widget_signals, LAST_SIGNAL);
-
 	object_class->set_arg       = e_minicard_view_widget_set_arg;
 	object_class->get_arg       = e_minicard_view_widget_get_arg;
 	object_class->destroy       = e_minicard_view_widget_destroy;
@@ -132,9 +114,13 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 }
 
 GtkWidget *
-e_minicard_view_widget_new (void)
+e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 {
-	return GTK_WIDGET (gtk_type_new (e_minicard_view_widget_get_type ()));
+	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (gtk_type_new (e_minicard_view_widget_get_type ()));
+
+	widget->adapter = adapter;
+
+	return GTK_WIDGET (widget);
 }
 
 static void
@@ -212,16 +198,6 @@ e_minicard_view_widget_destroy (GtkObject *object)
 }
 
 static void
-status_message (EMinicardView *mini_view,
-		char* status,
-		EMinicardViewWidget *view)
-{
-	gtk_signal_emit (GTK_OBJECT (view),
-			 e_minicard_view_widget_signals [STATUS_MESSAGE],
-			 status);
-}
-
-static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
@@ -243,15 +219,8 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"minimum_width", (double) 100,
 		NULL );
 
-	gtk_signal_connect(GTK_OBJECT(view->emv),
-			   "status_message",
-			   GTK_SIGNAL_FUNC(status_message),
-			   view);
-
 	gtk_object_set(GTK_OBJECT(view->emv),
-		       "book", view->book,
-		       "query", view->query,
-		       "editable", view->editable,
+		       "adapter", view->adapter,
 		       NULL);
 
 	if (GTK_WIDGET_CLASS(parent_class)->realize)
@@ -320,10 +289,4 @@ void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 {
 	if (view->emv)
 		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(view->emv), letter);
-}
-
-void
-e_minicard_view_widget_stop(EMinicardViewWidget *view)
-{
-	e_minicard_view_stop(E_MINICARD_VIEW(view->emv));
 }

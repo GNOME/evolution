@@ -47,6 +47,8 @@
 
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
+#include "e-addressbook-table-adapter.h"
+#include "e-addressbook-reflow-adapter.h"
 #include "e-minicard-view-widget.h"
 #include "e-contact-save-as.h"
 
@@ -58,6 +60,8 @@ static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_addressbook_view_destroy (GtkObject *object);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
+
+static void status_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
 
 static GtkTableClass *parent_class = NULL;
 
@@ -145,6 +149,13 @@ e_addressbook_view_init (EAddressbookView *eav)
 {
 	eav->view_type = E_ADDRESSBOOK_VIEW_NONE;
 
+	eav->model = e_addressbook_model_new ();
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "status_message",
+			    GTK_SIGNAL_FUNC (status_message),
+			    eav);
+
 	eav->editable = FALSE;
 	eav->book = NULL;
 	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
@@ -177,10 +188,9 @@ static void
 book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
 {
 	eav->editable = writable;
-	if (eav->object)
-		gtk_object_set (GTK_OBJECT (eav->object),
-				"editable", eav->editable,
-				NULL);
+	gtk_object_set (GTK_OBJECT (eav->model),
+			"editable", eav->editable,
+			NULL);
 }
 
 static void
@@ -202,11 +212,10 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		else
 			eav->book = NULL;
-		if (eav->object)
-			gtk_object_set(GTK_OBJECT(eav->object),
-				       "book", eav->book,
-				       "editable", eav->editable,
-				       NULL);
+		gtk_object_set(GTK_OBJECT(eav->model),
+			       "book", eav->book,
+			       "editable", eav->editable,
+			       NULL);
 
 		break;
 	case ARG_QUERY:
@@ -214,10 +223,9 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		eav->query = g_strdup(GTK_VALUE_STRING(*arg));
 		if (!eav->query)
 			eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
-		if (eav->object)
-			gtk_object_set(GTK_OBJECT(eav->object),
-				       "query", eav->query,
-				       NULL);
+		gtk_object_set(GTK_OBJECT(eav->model),
+			       "query", eav->query,
+			       NULL);
 		break;
 	case ARG_TYPE:
 		change_view_type(eav, GTK_VALUE_ENUM(*arg));
@@ -319,13 +327,15 @@ create_minicard_view (EAddressbookView *view)
 	GtkWidget *alphabet;
 	GtkWidget *minicard_view;
 	GtkWidget *minicard_hbox;
+	EAddressbookReflowAdapter *adapter;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	minicard_hbox = gtk_hbox_new(FALSE, 0);
 
-	minicard_view = e_minicard_view_widget_new();
+	adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(e_addressbook_reflow_adapter_new (view->model));
+	minicard_view = e_minicard_view_widget_new(adapter);
 
 	view->object = GTK_OBJECT(minicard_view);
 	view->widget = minicard_hbox;
@@ -358,6 +368,8 @@ create_minicard_view (EAddressbookView *view)
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
+
+	e_reflow_model_changed (E_REFLOW_MODEL (adapter));
 }
 
 
@@ -441,8 +453,8 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, CardAndView
 static void
 table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
-	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
-		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
+	if (E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
+		EAddressbookModel *model = view->model;
 		ECard *card = e_addressbook_model_get_card(model, row);
 		EBook *book;
 		CardAndView *card_and_view;
@@ -489,7 +501,7 @@ get_card_list_1(gint model_row,
 	list = card_and_book->closure;
 	view = card_and_book->view;
 
-	card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->object), model_row);
+	card = e_addressbook_model_get_card(view->model, model_row);
 	*list = g_list_prepend(*list, card);
 }
 
@@ -565,8 +577,8 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
-	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
-		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
+	if (E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
+		EAddressbookModel *model = view->model;
 		CardAndBook *card_and_book;
 
 		EPopupMenu menu[] = {
@@ -610,14 +622,14 @@ table_drag_data_get (ETable             *table,
 
 	printf ("table_drag_data_get (row %d, col %d)\n", row, col);
 
-	if (!E_IS_ADDRESSBOOK_MODEL(view->object))
+	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object))
 		return;
 
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD: {
 		char *value;
 
-		value = e_card_simple_get_vcard(E_ADDRESSBOOK_MODEL(view->object)->data[row]);
+		value = e_card_get_vcard(view->model->data[row]);
 
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
@@ -737,20 +749,20 @@ static char *list [] = {
 static void
 create_table_view (EAddressbookView *view)
 {
-	ETableModel *model;
+	ETableModel *adapter;
 	ECardSimple *simple;
 	GtkWidget *table;
 	
 	simple = e_card_simple_new(NULL);
 
-	model = e_addressbook_model_new();
+	adapter = e_addressbook_table_adapter_new(view->model);
 
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
-	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
+	table = e_table_scrolled_new (adapter, NULL, SPEC, NULL);
 
-	view->object = GTK_OBJECT(model);
+	view->object = GTK_OBJECT(adapter);
 	view->widget = table;
 
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "double_click",
@@ -804,17 +816,6 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 	}
 
 	view->view_type = view_type;
-
-	gtk_signal_connect (view->object,
-			    "status_message",
-			    GTK_SIGNAL_FUNC (status_message),
-			    view);
-
-	gtk_object_set(view->object,
-		       "query", view->query,
-		       "book", view->book,
-		       "editable", view->editable,
-		       NULL);
 }
 
 static void
@@ -950,7 +951,7 @@ e_addressbook_view_print(EAddressbookView *view)
 		EBook *book;
 		GtkWidget *print;
 
-		gtk_object_get (view->object,
+		gtk_object_get (GTK_OBJECT(view->model),
 				"query", &query,
 				"book", &book,
 				NULL);
@@ -1006,14 +1007,5 @@ e_addressbook_view_show_all(EAddressbookView *view)
 void
 e_addressbook_view_stop(EAddressbookView *view)
 {
-	switch(view->view_type) {
- 	case E_ADDRESSBOOK_VIEW_MINICARD:
-		e_minicard_view_widget_stop(E_MINICARD_VIEW_WIDGET (view->object));
-		break;
-	case E_ADDRESSBOOK_VIEW_TABLE:
-		e_addressbook_model_stop(E_ADDRESSBOOK_MODEL (view->object));
-		break;
-	case E_ADDRESSBOOK_VIEW_NONE:
-		break;
-	}
+	e_addressbook_model_stop (view->model);
 }

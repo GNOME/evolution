@@ -23,6 +23,7 @@
 
 #include <gtk/gtktable.h>
 #include <bonobo/bonobo-ui-component.h>
+#include "e-addressbook-model.h"
 #include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
@@ -60,6 +61,8 @@ struct _EAddressbookView
 	
 	/* item specific fields */
 	EAddressbookViewType view_type;
+
+	EAddressbookModel   *model;
 
 	EBook *book;
 	char  *query;
