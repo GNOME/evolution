@@ -1167,17 +1167,15 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 					goto find_colour;
 				}
 			} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
-				/* FIXME: extract from the xpm somehow. */
+				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
 			} else if ((due_by && *due_by) && !(completed && *completed)) {
 				time_t now = time (NULL);
 				time_t target_date;
 				
 				target_date = camel_header_decode_date (due_by, NULL);
-				if (now >= target_date) {
-					/* FIXME: extract from the xpm somehow. */
+				if (now >= target_date)
 					colour = "#A7453E";
-				}
 			}
 		}
 		return (void *) colour;
@@ -2538,7 +2536,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		
 		while (l) {
 			struct _mail_msg *mm = l->data;
-
+			
 			if (mm->cancel)
 				camel_operation_cancel(mm->cancel);
 			l = l->next;
@@ -2564,7 +2562,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	if (message_list->folder_uri != uri) {
 		g_free(message_list->folder_uri);
 		message_list->folder_uri = g_strdup(uri);
-		message_list->folder = folder;
 	}
 	
 	if (message_list->cursor_uid) {
@@ -2574,6 +2571,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	}
 	
 	if (folder) {
+		camel_object_ref (folder);
+		message_list->folder = folder;
+		
 		/* Setup the strikeout effect for non-trash folders */
 		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
 			ECell *cell;
@@ -2601,8 +2601,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 					 folder_changed, message_list);
 		camel_object_hook_event (folder, "message_changed",
 					 message_changed, message_list);
-		
-		camel_object_ref (folder);
 		
 		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
@@ -3098,6 +3096,9 @@ regen_list_regen (struct _mail_msg *mm)
 	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
 	CamelMessageInfo *info;
 	int i;
+	
+	if (m->folder != m->ml->folder)
+		return;
 	
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {

@@ -1,3 +1,11 @@
+2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_set_folder): Move
+	'message_list->folder = folder;' out of the uri compare if-block
+	and move it into the if-block that tests that folder != NULL.
+	(regen_list_regen): Abort if the regen folder is not the same as
+	the ml->folder.
+
 2004-01-16  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (storeinfo_find_folder_info): change this to
@@ -26,10 +34,6 @@
 
 	* em-migrate.c (emm_setup_initial): initial implementation of
 	startup setup.
-	(cp): Fix the test, we want exists AND size>0, not exists OR
-	size>0.
-	(cp): Fix the open, we can't use O_EXCL with empty, but present
-	files.  Another hack fix for #52880.
 
 	** See bug #52896.
 
