@@ -1,5 +1,8 @@
 2001-12-05  Aaron Weber  <aaron@ximian.com>
 
+	* C/usage-calendar.sgml: added "meeting-announce" note ("Simple
+	meeting announcements").
+
 	* C/config-prefs.sgml: Additional links to other portions of the
 	document.
 

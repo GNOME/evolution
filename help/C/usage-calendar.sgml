@@ -264,6 +264,22 @@
 	attendee will be sent an email with the appointment
 	information and gives them the option to respond.
       </para>
+
+      <note id="meeting-announce">
+       <title>Simple Announcements</title>
+        <para>
+           If you don't need to collect attendance information when
+           you're scheduling an event, and would rather just announce
+           it, select
+           <menuchoice><guimenu>Actions</guimenu><guimenuitem>Forward
+           as iCalendar</guimenuitem></menuchoice>.  That will open a
+           new email message with the event notification attached as
+           an announcement.  Recipients will be able to add the event
+           to their calendars with one click, but won't automatically
+           send you email about whether they'll attend.
+        </para>
+     </note>
+
       <para>
 	To schedule a meeting:
 	<orderedlist numeration="arabic">
