@@ -1,6 +1,12 @@
+2002-12-15  Christian Neumair  <chris@gnome-de.org>
+
+	* POTFILES.in: Added missing files.
+	* de.po: Updated German translation.
+
 2002-12-09  Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
-	* es.po: Updated Spanish translation by Fco. Javier Fernandez <serrador@arrakis.es>
+	* es.po: Updated Spanish translation by Fco. Javier Fernandez
+	<serrador@arrakis.es>.
 
 2002-12-03  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
