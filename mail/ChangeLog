@@ -1,3 +1,7 @@
+2005-02-15  Radek Doulik  <rodo@novell.com>
+
+	* em-junk-filter.c: use camel_debug
+
 2005-02-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72266

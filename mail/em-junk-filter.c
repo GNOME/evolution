@@ -36,6 +36,7 @@
 #include <signal.h>
 #include <time.h>
 
+#include <camel/camel-debug.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
@@ -48,7 +49,7 @@
 
 #include <gconf/gconf-client.h>
 
-#define d(x) x
+#define d(x) (camel_debug("junk")?(x):0)
 
 static pthread_mutex_t em_junk_sa_init_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -118,16 +119,16 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 	char *program;
 	pid_t pid;
 	
-#if d(!)0
-	{
+
+	if (camel_debug_start ("junk")) {
 		int i;
 		
 		printf ("pipe_to_sa ");
 		for (i = 0; argv[i]; i++)
 			printf ("%s ", argv[i]);
 		printf ("\n");
+		camel_debug_end ();
 	}
-#endif
 
 	program = g_find_program_in_path (argv [0]);
 	if (program == NULL) {
