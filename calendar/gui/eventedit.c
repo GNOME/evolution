@@ -1482,3 +1482,36 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	
 	return retval;
 }
+
+void
+event_editor_new_whole_day (GnomeCalendar *owner, time_t day)
+{
+	struct tm tm;
+	iCalObject *ico;
+	GtkWidget *ee;
+
+	g_return_if_fail (owner != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (owner));
+
+	ico = ical_new ("", user_name, "");
+	ico->new = TRUE;
+
+	tm = *localtime (&day);
+
+	/* Set the start time of the event to the beginning of the day */
+
+	tm.tm_hour = day_begin;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	ico->dtstart = mktime (&tm);
+
+	/* Set the end time of the event to the end of the day */
+
+	tm.tm_hour = day_end;
+	ico->dtend = mktime (&tm);
+
+	/* Launch the event editor */
+
+	ee = event_editor_new (owner, ico);
+	gtk_widget_show (ee);
+}

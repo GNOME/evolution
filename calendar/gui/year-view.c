@@ -178,37 +178,12 @@ static void
 new_appointment (GtkWidget *widget, gpointer data)
 {
 	YearView *yv;
-	GtkWidget *ee;
 	time_t *t;
-	struct tm tm;
-	iCalObject *ico;
 
 	yv = YEAR_VIEW (data);
-
-	/* Get the time data from the menu item */
-
 	t = gtk_object_get_data (GTK_OBJECT (widget), "time_data");
-	tm = *localtime (t);
 
-	ico = ical_new ("", user_name, "");
-	ico->new = TRUE;
-
-	/* Set the start time of the event to the beginning of the day */
-
-	tm.tm_hour = day_begin;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	ico->dtstart = mktime (&tm);
-
-	/* Set the end time of the event to the end of the day */
-
-	tm.tm_hour = day_end;
-	ico->dtend = mktime (&tm);
-
-	/* Launch the event editor */
-
-	ee = event_editor_new (yv->calendar, ico);
-	gtk_widget_show (ee);
+	event_editor_new_whole_day (yv->calendar, *t);
 }
 
 /* Convenience functions to jump to a view and set the time */
@@ -252,13 +227,13 @@ jump_to_month (GtkWidget *widget, gpointer data)
 
 /* Information for the year view's popup menu */
 static GnomeUIInfo yv_popup_menu[] = {
-	GNOMEUIINFO_ITEM_STOCK ("_New appointment in this day...", NULL, new_appointment, GNOME_STOCK_MENU_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("_New appointment in this day..."), NULL, new_appointment, GNOME_STOCK_MENU_NEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK ("Jump to this _day", NULL, jump_to_day, GNOME_STOCK_MENU_JUMP_TO),
-	GNOMEUIINFO_ITEM_STOCK ("Jump to this _week", NULL, jump_to_week, GNOME_STOCK_MENU_JUMP_TO),
-	GNOMEUIINFO_ITEM_STOCK ("Jump to this _month", NULL, jump_to_month, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _day"), NULL, jump_to_day, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _week"), NULL, jump_to_week, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _month"), NULL, jump_to_month, GNOME_STOCK_MENU_JUMP_TO),
 	GNOMEUIINFO_END
 };
 

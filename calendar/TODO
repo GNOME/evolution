@@ -1,7 +1,11 @@
 BUGS:
 
 - Recurrence end date is wrong.  An event that repeats daily will not
-  be included in the ending date of the recurrence (off-by-one error?).
+  be included in the ending date of the recurrence (off-by-one
+  error?).
+
+- X-fields (extensions) are stripped from a vCal file when it is
+  saved.  They should be preserved.
 
 Year view:
 
@@ -9,8 +13,6 @@ Year view:
   first time.
 
 Month view:
-
-- Display little boxes for the appointments of each day.
 
 - Popup menu like in the year view.
 

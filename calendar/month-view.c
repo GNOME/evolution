@@ -7,10 +7,12 @@
 
 #include <config.h>
 #include <libgnomeui/gnome-canvas-text.h>
+#include "eventedit.h"
 #include "layout.h"
 #include "month-view.h"
 #include "main.h"
 #include "mark.h"
+#include "quick-view.h"
 #include "timeutil.h"
 
 
@@ -69,6 +71,184 @@ month_view_class_init (MonthViewClass *class)
 
 	widget_class->size_request = month_view_size_request;
 	widget_class->size_allocate = month_view_size_allocate;
+}
+
+/* Creates the quick view when a day is clicked in the month view */
+static void
+do_quick_view_popup (MonthView *mv, GdkEventButton *event, int day)
+{
+	time_t day_begin_time, day_end_time;
+	GList *list;
+	GtkWidget *qv;
+	char date_str[256];
+
+	day_begin_time = time_from_day (mv->year, mv->month, day);
+	day_end_time = time_day_end (day_begin_time);
+
+	list = calendar_get_events_in_range (mv->calendar->cal, day_begin_time, day_end_time);
+
+	strftime (date_str, sizeof (date_str), "%a %b %d %Y", localtime (&day_begin_time));
+	qv = quick_view_new (mv->calendar, date_str, list);
+
+	quick_view_do_popup (QUICK_VIEW (qv), event);
+
+	gtk_widget_destroy (qv);
+	calendar_destroy_event_list (list);
+}
+
+/* Callback used to destroy the popup menu when the month view is destroyed */
+static void
+destroy_menu (GtkWidget *widget, gpointer data)
+{
+	gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+/* Creates a new appointment in the current day */
+static void
+new_appointment (GtkWidget *widget, gpointer data)
+{
+	MonthView *mv;
+	time_t *t;
+
+	mv = MONTH_VIEW (data);
+	t = gtk_object_get_data (GTK_OBJECT (widget), "time_data");
+
+	event_editor_new_whole_day (mv->calendar, *t);
+}
+
+/* Convenience functions to jump to a view and set the time */
+static void
+do_jump (GtkWidget *widget, gpointer data, char *view_name)
+{
+	MonthView *mv;
+	time_t *t;
+
+	mv = MONTH_VIEW (data);
+
+	/* Get the time data from the menu item */
+
+	t = gtk_object_get_data (GTK_OBJECT (widget), "time_data");
+
+	/* Set the view and time */
+
+	gnome_calendar_set_view (mv->calendar, view_name);
+	gnome_calendar_goto (mv->calendar, *t);
+}
+
+/* The following three callbacks set the view in the calendar and change the time */
+
+static void
+jump_to_day (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "dayview");
+}
+
+static void
+jump_to_week (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "weekview");
+}
+
+static void
+jump_to_year (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "yearview");
+}
+
+static GnomeUIInfo mv_popup_menu[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("_New appointment in this day..."), NULL, new_appointment, GNOME_STOCK_MENU_NEW),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _day"), NULL, jump_to_day, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _week"), NULL, jump_to_week, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Jump to this _year"), NULL, jump_to_year, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_END
+};
+
+/* Creates the popup menu for the month view if it does not yet exist, and attaches it to the month
+ * view object so that it can be destroyed when appropriate.
+ */
+static GtkWidget *
+get_popup_menu (MonthView *mv)
+{
+	GtkWidget *menu;
+
+	menu = gtk_object_get_data (GTK_OBJECT (mv), "popup_menu");
+	
+	if (!menu) {
+		menu = gnome_popup_menu_new (mv_popup_menu);
+		gtk_object_set_data (GTK_OBJECT (mv), "popup_menu", menu);
+		gtk_signal_connect (GTK_OBJECT (mv), "destroy",
+				    (GtkSignalFunc) destroy_menu,
+				    menu);
+	}
+
+	return menu;
+}
+
+/* Pops up the menu for the month view. */
+static void
+do_popup_menu (MonthView *mv, GdkEventButton *event, int day)
+{
+	GtkWidget *menu;
+	static time_t t;
+
+	menu = get_popup_menu (mv);
+
+	/* Enable or disable items as appropriate */
+
+	gtk_widget_set_sensitive (mv_popup_menu[0].widget, day != 0);
+	gtk_widget_set_sensitive (mv_popup_menu[2].widget, day != 0);
+	gtk_widget_set_sensitive (mv_popup_menu[3].widget, day != 0);
+
+	if (day == 0)
+		day = 1;
+
+	/* Store the time for the menu item callbacks to use */
+
+	t = time_from_day (mv->year, mv->month, day);
+
+	gtk_object_set_data (GTK_OBJECT (mv_popup_menu[0].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (mv_popup_menu[2].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (mv_popup_menu[3].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (mv_popup_menu[4].widget), "time_data", &t);
+
+	gnome_popup_menu_do_popup (menu, NULL, NULL, event, mv);
+}
+
+/* Event handler for day groups.  When mouse button 1 is pressed, it will pop up a quick view with
+ * the events in that day.  When mouse button 3 is pressed, it will pop up a menu.
+ */
+static gint
+day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	MonthView *mv;
+	int child_num;
+	int day;
+
+	mv = MONTH_VIEW (data);
+
+	child_num = gnome_month_item_child2num (GNOME_MONTH_ITEM (mv->mitem), item);
+	day = gnome_month_item_num2day (GNOME_MONTH_ITEM (mv->mitem), child_num);
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if ((event->button.button == 1) && (day != 0)) {
+			do_quick_view_popup (mv, (GdkEventButton *) event, day);
+			return TRUE;
+		} else if (event->button.button == 3) {
+			do_popup_menu (mv, (GdkEventButton *) event, day);
+			return TRUE;
+		}
+
+		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
 }
 
 /* Returns the index of the specified arrow in the array of arrows */
@@ -188,6 +368,9 @@ arrow_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
+		if (event->button.button != 1)
+			break;
+
 		do_arrow_click (mv, item);
 		return TRUE;
 
@@ -251,7 +434,8 @@ month_view_init (MonthView *mv)
 			       NULL);
 
 	/* Arrows and text items.  The arrows start hidden by default; they will be shown as
-	 * appropriate by the item adjustment code.
+	 * appropriate by the item adjustment code.  Also, connect to the event signal of the
+	 * day groups so that we can pop up the quick view when appropriate.
 	 */
 
 	points = gnome_canvas_points_new (3);
@@ -259,6 +443,9 @@ month_view_init (MonthView *mv)
 	for (i = 0; i < 42; i++) {
 		day_group = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
 							i + GNOME_MONTH_ITEM_DAY_GROUP);
+		gtk_signal_connect (GTK_OBJECT (day_group), "event",
+				    (GtkSignalFunc) day_event,
+				    mv);
 
 		/* Up arrow */
 

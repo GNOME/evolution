@@ -71,6 +71,12 @@ typedef struct {
 guint      event_editor_get_type (void);
 GtkWidget *event_editor_new      (GnomeCalendar *owner, iCalObject *);
 
+/* Convenience function to create and show a new event editor for an event that goes from day_begin
+ * to day_end of the specified day.
+ */
+void event_editor_new_whole_day (GnomeCalendar *owner, time_t day);
+ 
+
 
 END_GNOME_DECLS
 

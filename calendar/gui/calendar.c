@@ -201,6 +201,11 @@ calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompar
 		}
 	}
 
+	/* Put the list in increasing order if no sort function was specified */
+
+	if (!sort_func)
+		new_events = g_list_reverse (new_events);
+
 	return new_events;
 }
 

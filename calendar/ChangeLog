@@ -1,3 +1,20 @@
+1998-10-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* month-view.c: Changed a lot of stuff not to use the layout code
+	-- the month view's days are too small to display layout
+	usefully.  Now they display a little list of the events in each
+	day.  We also have a popup menu for the days in the month view.
+
+	* calendar.c (calendar_get_objects_in_range): Reverse the list so
+	that it is returned in increasing order.
+
+	* eventedit.c (event_editor_new_whole_day): New public function to
+	create an event for the complete span of day_begin to day_end.
+
+	* year-view.c (new_appointment): Use event_editor_new_whole_day().
+
+	* year-view.c (yv_popup_menu): Mark strings for i18n.
+
 1998-10-12  Ji Lee <g@ucsd.edu>
 
 	* eventedit.c (ee_store_recur_rule_to_ical): The interval was
