@@ -571,6 +571,8 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 {
 	BonoboUIComponent *uic;
 	int n_selected;
+	ECalendarTable *task_pad;
+	ECalModel *model;
 	ECal *e_cal;
 	gboolean read_only = TRUE;
 	
@@ -578,7 +580,10 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
-	e_cal = gnome_calendar_get_task_pad_e_cal (gcal);
+	task_pad = gnome_calendar_get_task_pad (gcal);
+	model = e_calendar_table_get_model (task_pad);
+	e_cal = e_cal_model_get_default_client (model);
+	
 	if (e_cal)
 		e_cal_is_read_only (e_cal, &read_only, NULL);
 	else

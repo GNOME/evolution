@@ -361,6 +361,9 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			&& memcmp (&ic_dur, &ic_oneday, sizeof(ic_dur)) == 0)
 			all_day_event = TRUE;
 		break;
+	default:
+		g_assert_not_reached ();
+		return;
 	}
 	
 	if (in_top_canvas)

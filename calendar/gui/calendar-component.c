@@ -76,8 +76,12 @@ struct _CalendarComponentPrivate {
 
 	GConfClient *gconf_client;
 	int gconf_notify_id;
+
 	ESourceList *source_list;
 	GSList *source_selection;
+
+	ESourceList *task_source_list;
+	GSList *task_source_selection;
 	
 	GnomeCalendar *calendar;
 	GtkWidget *source_selector;
@@ -140,13 +144,13 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			gnome_calendar_remove_event_source (priv->calendar, old_selected_source);
+			gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, old_selected_source);
 	}
 
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		if (gnome_calendar_add_event_source (priv->calendar, selected_source))
+		if (gnome_calendar_add_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source))
 			uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
 	}
 	
@@ -171,7 +175,7 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 		return;
 
 	/* Set the default */
-	gnome_calendar_set_default_source (priv->calendar, source);
+	gnome_calendar_set_default_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, source);
 
 	/* Make sure we are embedded first */
 	calendar_control_sensitize_calendar_commands (priv->view_control, priv->calendar, TRUE);
@@ -218,6 +222,43 @@ update_selection (CalendarComponent *calendar_component)
 }
 
 static void
+update_task_selection (CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	GSList *uids_selected, *l;
+
+	priv = calendar_component->priv;
+
+	/* Get the selection in gconf */
+	uids_selected = calendar_config_get_tasks_selected ();
+
+	/* Remove any that aren't there any more */
+	for (l = priv->task_source_selection; l; l = l->next) {
+		char *uid = l->data;
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
+		if (!is_in_uids (uids_selected, source))
+			gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source);
+		
+		g_free (uid);
+	}
+	g_slist_free (priv->task_source_selection);
+
+	/* Make sure the whole selection is there */
+	for (l = uids_selected; l; l = l->next) {
+		char *uid = l->data;
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (priv->task_source_list, uid);
+		if (!gnome_calendar_add_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source))
+			/* FIXME do something */;
+	}
+
+	priv->task_source_selection = uids_selected;
+}
+
+static void
 update_primary_selection (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
@@ -240,6 +281,25 @@ update_primary_selection (CalendarComponent *calendar_component)
 		if (source)
 			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	}
+}
+
+static void
+update_primary_task_selection (CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	ESource *source = NULL;
+	char *uid;
+
+	priv = calendar_component->priv;
+
+	uid = calendar_config_get_primary_tasks ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+	}
+	
+	if (source)
+		gnome_calendar_set_default_source (priv->calendar, E_CAL_SOURCE_TYPE_TODO, source);
 }
 
 /* Callbacks.  */
@@ -324,7 +384,7 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 			if (e_cal_remove (cal, NULL)) {
 				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
 									  selected_source)) {
-					gnome_calendar_remove_event_source (priv->calendar, selected_source);
+					gnome_calendar_remove_source (priv->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source);
 					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
 									   selected_source);
 				}
@@ -407,6 +467,19 @@ static void
 config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	update_primary_selection (data);
+}
+
+static void
+config_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_task_selection (data);
+}
+
+
+static void
+config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_primary_task_selection (data);
 }
 
 static gboolean
@@ -810,14 +883,24 @@ impl_createControls (PortableServer_Servant servant,
 	/* Load the selection from the last run */
 	update_selection (calendar_component);	
 	update_primary_selection (calendar_component);
-
-	/* If it gets fiddled with update */
+	update_task_selection (calendar_component);
+	update_primary_task_selection (calendar_component);
+	
+	/* If the selection changes elsewhere, update it */
 	not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
 								   calendar_component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
 								 calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	not = calendar_config_add_notification_tasks_selected (config_tasks_selection_changed_cb, 
+							       calendar_component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	not = calendar_config_add_notification_primary_tasks (config_primary_tasks_selection_changed_cb, 
+							      calendar_component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* Return the controls */
@@ -1046,8 +1129,11 @@ calendar_component_init (CalendarComponent *component)
 	 * calendar_component_peek_gconf_client().  */
 	priv->gconf_client = gconf_client_get_default ();
 
+	/* FIXME Use ecal convenience functions */
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/calendar/sources");
+	priv->task_source_list = e_source_list_new_for_gconf (priv->gconf_client,
+							 "/apps/evolution/tasks/sources");
 
 	priv->activity_handler = e_activity_handler_new ();
 

@@ -1809,7 +1809,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	task_pad = gnome_calendar_get_task_pad (gcal);
 	table = e_calendar_table_get_table (task_pad);
 	model = e_calendar_table_get_model (task_pad);
-	client = gnome_calendar_get_task_pad_e_cal (gcal);
+	client = e_cal_model_get_default_client (model);
 
 	font_summary = get_font_for_size (10, GNOME_FONT_BOOK, FALSE);
 

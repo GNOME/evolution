@@ -1,5 +1,54 @@
 2004-03-26  JP Rosevear <jpr@ximian.com>
 
+	Fixes #55648
+	
+	* gui/print.c (print_todo_details): get the default from the model
+
+	* gui/gnome-cal.h: remove and update protos
+
+	* gui/gnome-cal.c (update_query): the clients and client_list
+	members are now arrays of source types
+	(setup_widgets): default the query to everything for tasks, cast
+	the config items
+	(gnome_calendar_init): init all the client hashs
+	(gnome_calendar_destroy): clean them up, clean up all categories
+	(client_cal_opened_cb): handle based on source type
+	(append_category_cb): don't track the size in the closure
+	(client_categories_changed_cb): do all the merging here
+	(backend_died_cb): handle based on source type
+	(gnome_calendar_construct): we don't special case the task stuff
+	any more
+	(gnome_calendar_get_default_client): return the default of the
+	current view
+	(gnome_calendar_add_source): take a source type argument and
+	append accordingly
+	(gnome_calendar_remove_source): similar, but remove accordingly
+	(gnome_calendar_set_default_source): take a source type argument and
+	set the default accordingly
+	(gnome_calendar_new_task): use the default of the task model
+
+	* gui/e-calendar-view.c (e_calendar_view_add_event): kill warning
+
+	* gui/calendar-component.c (update_uris_for_selection): pass
+	source type when adding/removing
+	(update_uri_for_primary_selection): ditto
+	(update_task_selection): make sure we show the correct list of
+	tasks
+	(update_primary_task_selection): make sure we track the primary
+	task correctly
+	(delete_calendar_cb): pass source type when removing
+	(config_primary_selection_changed_cb): config listener callback
+	for tasks
+	(config_tasks_selection_changed_cb): ditto
+	(impl_createControls): load the initial task selection, listen for
+	changes
+	(calendar_component_init): get the source lists
+
+	* gui/calendar-commands.c (sensitize_taskpad_commands): get the
+	task pad and then the default client from that
+
+2004-03-26  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-cal-model.c (find_client_data): finds the client data for
 	a client
 	(cal_opened_cb): update the query

@@ -106,11 +106,10 @@ ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
-ECal *gnome_calendar_get_task_pad_e_cal(GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_add_event_source      (GnomeCalendar *gcal, ESource *source);
-gboolean   gnome_calendar_remove_event_source   (GnomeCalendar *gcal, ESource *source);
-gboolean   gnome_calendar_set_default_source    (GnomeCalendar *gcal, ESource *source);
+gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
+gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
+gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
 void       gnome_calendar_previous         	(GnomeCalendar *gcal);
