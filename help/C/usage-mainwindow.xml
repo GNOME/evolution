@@ -595,14 +595,12 @@
            <varlistentry>
 	    <term>VCard (.vcf, .gcrd):</term>
 	    <listitem>
-	      <para>
-	         The address book format used by the GNOME, KDE, and
+	      <para>The contact format used by the GNOME, KDE, and
 	         many other contact management applications. You
 	         should be able to export to VCard format from any
-                address book application. Failing that, export to CSV
+                 address book or contact application. Failing that, export to CSV
                 format and use the <command>csv2vcard</command>
-              utility before importing.
-	      </para>
+              utility before importing.</para>
 	    </listitem>
 	  </varlistentry>
 
@@ -662,9 +660,9 @@
           elsewhere if you want.
         </para>
 	<para>
-          For mail, that's <filename>mbox</filename>, for calendar,
-          <filename>iCal</filename>, and for the address book, vCards
-          in a <filename>.db3</filename> database.
+          For mail, that's <filename>mbox</filename>, for the calendar,
+          <filename>iCal</filename>, and for the contacts, a database that
+	    exports to vCards.
         </para>
       </tip>
     </para>
@@ -889,7 +887,7 @@ standard mbox file format, which
         is a list of folders for the current Evolution tool.
     </para>
     <para>
-      The folder list organizes your mail, calendars, address books,
+      The folder list organizes your mail, calendars, contact lists,
       and task lists in a tree, similar to a <glossterm linkend="filetree">file
       tree</glossterm>.  Most people will find one to four 
       folders at the base of the tree, depending on the tool and their
@@ -904,7 +902,7 @@ standard mbox file format, which
     <para>
        If you get large volumes of mail, you'll want more folders than
        just your Inbox; you can also create multiple calendar, task,
-      or address book folders. 
+      or contacts folders. 
     </para>
     <para>
       To create a new folder:
@@ -1246,9 +1244,9 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
 
     </sect2>
     <sect2 id="basics-contacts">
-      <title>Introducing the Address Book</title>
+      <title>Introducing the Contacts Tool</title>
       <para>
-        The Ximian Evolution address book
+        The Ximian Evolution contacts tool
         can handle all of the functions of an address book, phone
         book, or Rolodex.  Of course, it's a lot easier to update
         Evolution than it is to change an actual paper book. Ximian
@@ -1258,15 +1256,15 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
       <para>
         Another advantage of the Ximian Evolution
-        address book is its integration with the rest of the
+        contacts tool is its integration with the rest of the
         application.  For example, you can right-click on an email
         address in Evolution mail to create a contact entry instantly.
       </para>
       <para>
-        To open your address book, click on
-        <guilabel>Contacts</guilabel> in the shortcut bar.  <xref
+        To use the contacts tool, click the
+        <guilabel>Contacts</guilabel> button in the shortcut bar.  <xref
         linkend="usage-contact-fig"/> shows the address book in all its
-        organizational glory.  By default, the address book shows all
+        organizational glory.  By default, the display shows all
         your contacts in alphabetical order, in a <glossterm
         linkend="minicard">minicard</glossterm> view.  You can select
         other views from the <guimenu>View</guimenu> menu, and adjust
@@ -1274,7 +1272,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
         column dividers.
       </para>
       <para>
-        The address book looks like this:
+        The contacts tool looks like this:
 
       <figure id="usage-contact-fig">
 	<title>Ximian Evolution Contact Interface</title>
@@ -1292,7 +1290,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
 
       <para>
-        The largest section of the address book lists your
+        The largest section of the contacts display shows a list of individual
         contacts. You can also search through the contacts in the same way
         that you search email folders, with the search tool on the
         right side of the toolbar.

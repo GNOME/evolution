@@ -457,8 +457,7 @@
 	   button. There, click the <guilabel>HTML
            Mail</guilabel> tab and select one of the items there:
            <guilabel>Never load images off the net</guilabel>,
-           <guilabel>Load images if sender is in address
-           book</guilabel>, or <guilabel>Always load images off the
+           <guilabel>Load images in mail from contacts</guilabel>, or <guilabel>Always load images off the
            net.</guilabel>
       </para>
       <note id="http-proxy">
@@ -520,6 +519,7 @@
       Once you have written your message, press
       <guilabel>Send</guilabel>.
     </para>
+
 
     <sect2 id="usage-mail-getnsend-send-charsets">
       <title>Unicode, ASCII, and Non-Latin Alphabets</title>
@@ -756,7 +756,7 @@
 
          <para>
            If you frequently write email to the same groups of people,
-           you can create address lists in the Contact Manager, and
+           you can create address lists in the contacts tool, and
            then send them mail as though they had a single address.
            To learn how to do that, read <xref
            linkend="usage-contact-organize-group-list"/>.
@@ -797,22 +797,30 @@
         <sect3 id="usage-mail-getnsend-send-to">
 	      <title>Choosing Recipients Quickly</title>
 	      <para>
-		If you have created address cards in the contact manager,
+		If you have created address cards in the contacts tool,
           you can also enter nicknames or other portions of address
           data, and Evolution will offer a
           drop down list of possible address completions from your
-          address book.  If you enter a name or nickname that can go
+          contacts.  If you enter a name or nickname that can go
           with more than one card, Evolution will open a dialog box to
           ask you which person you meant. 
 
           </para>
+
+	<para>
+	 If Evolution does not complete addresses automatically, select
+	  <menuchoice><guimenu>Tools</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+          and click the <guilabel>Autocompletion</guilabel>
+          button. There, select the groups of contacts you want to use
+          for address autocompletion in the mailer.
+       </para>
 
           <para>
             Alternately, you can click on the
             <guilabel>To:</guilabel>, <guilabel>Cc:</guilabel>, or
             <guilabel>Bcc:</guilabel> buttons to get a list &mdash;
             potentially a very long one &mdash; of the email addresses
-            in your contact manager.  Select addresses and click on
+            in your contacts.  Select addresses and click on
             the arrows to move them into the appropriate address
             columns.
           </para>

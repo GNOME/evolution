@@ -6,10 +6,10 @@
   <title>Working with Your Contacts</title>
       <para>
         This chapter will show you how to use the
-        Evolution address book to organize
+        Evolution contacts tool to organize
         any amount of contact information, share addresses over a
         network, and several ways to save time with everyday tasks. To
-        learn about configuring the address book, see <xref
+        learn about configuring the contacts tool, see <xref
         linkend="config-prefs-contact"/>. You can import contacts from
         other contact management tools with the Import tool by
         selecting
@@ -18,7 +18,7 @@
       </para>
 
     <para>
-       The toolbar for the address book is quite simple.
+       The toolbar for the contacts tool has the following items:
        <itemizedlist>
 	<listitem><para>
 	  Click <guilabel>New Contact</guilabel> to create a new card, or double-click 
@@ -26,8 +26,9 @@
 	</para></listitem>
 
 	<listitem><para>
-           Click <guilabel>New List</guilabel> to create a new card, or double-click 
-           in a blank space in the contact list. 
+           Click <guilabel>New List</guilabel> to create a new
+        contacts list, which is a convenient handle for a group of
+        other contact cards.
 	</para></listitem>
 
 	<listitem><para> The <guiicon>printer</guiicon> icon sends one
@@ -47,6 +48,14 @@
        more than a few people listed, you'll want some way of finding
        them more quickly, which is why there's a search feature.
     </para>
+
+    <para>
+      When you click on a card, the bottom portion of the page will
+      show more detailed information about the contact. There is also
+      a <guilabel>Map</guilabel> button, which you can click to bring
+      up a web page with a map of the contact's main postal address.
+    </para>
+
 
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>
@@ -320,15 +329,16 @@
   </sect1>
 
   <sect1 id="usage-contact-organize">
-    <title>Organizing your Address Book</title>
+    <title>Organizing your Contacts</title>
     <para>
-       Organizing your address book is a lot like organizing your
-       mail.  You can have folders and searches the same way you can
-       with mail, but the address book does not allow Virtual Folders.  It
-       does, however, allow each card to fall under several
-       categories, and allow you to create your own categories.  To
-       learn about categories, read <xref
-       linkend="usage-contact-organize-group-category"/>.
+      Just as you can search mail, you can search contacts, although the
+      contacts tool does not use folders or virtual folders. You can,
+      however, create several contact groups, which are basically
+      the same thing as folders or or individual address books.
+      Contact groups may be on your own computer or on the
+      network. Within a given contact group, you can have several
+      categories of contacts. To learn about categories, read <xref
+      linkend="usage-contact-organize-group-category" />.
     </para>
 
 <!-- UNIMPLEMENTED FEATURE
@@ -343,45 +353,25 @@
 -->
 
     <sect2 id="usage-contact-organize-group">
-      <title>Groups of contacts</title>
-      <para>
-         Evolution offers two ways for you
-         to organize your cards.  The first way is to use folders;
-         this works the same way mail folders do.  For more
-         flexibility, you can also mark contacts as elements of
-         different categories.  To better integrate with email tools,
-         you can also create lists of contacts that you can send mail
-         to as a single person.
-      </para>
-
-      <sect3 id="usage-contact-organize-group-folder">
-	<title>Grouping with Folders</title>
+ 	<title>Contact Groups</title>
 	<para>
-	   The simplest way to group address cards is to use folders.
-	   By default, cards start in the
-	   <guilabel>Contacts</guilabel> folder.  If you've read <xref
+           The simplest way to organize contacts is to create
+          additional groups of contacts.  If you've read <xref
 	   linkend="usage-mainwindow"/> then you already know that you
-	   can create a new folder by selecting 
-           <menuchoice>
-           <guimenu>File</guimenu>
-	   <guisubmenu>New</guisubmenu>
-	   <guimenuitem>Folder</guimenuitem>
-           </menuchoice>
-           and that you can put new folders anywhere you like. Just
-	   like with mail, cards must be in a card folder, and no card
-	   can be in two places at once.  If you want more
-	   flexibility, try <xref
-	   linkend="usage-contact-organize-group-category"/>.
+	   can create a new folder by right-clicking in the shortcut
+        bar and choosing <guilabel>New Contact Group</guilabel>. For
+        contact groups on your computer, you only need a name. For
+        contacts on the network, you will need to provide more
+        information about the contacts server you are trying to access.
 	 </para>
 	<para>
-          To put a card into a folder, just drag it there from the
-          folder view.  Remember that contact cards can only go in
-          contact folders, just like mail can only go in mail folders,
-          and calendars in calendar folders.
+          To move a card from one group to another, just drag it there
+          from the main display of contacts. Note that you will not be
+          able to change the contents of most network contact groups.
          </para>
-      </sect3>
+      </sect2>
       
-      <sect3 id="usage-contact-organize-group-category">
+      <sect2 id="usage-contact-organize-group-category">
 	<title>Grouping with Categories</title>
 	<para>
            The other way to group cards is to mark them as belonging
@@ -412,12 +402,18 @@
          </para>
        -->
 
-      </sect3>
+      </sect2>
 
-      <sect3 id="usage-contact-organize-group-list">
+      <sect2 id="usage-contact-organize-group-list">
 	<title>Creating a List of Contacts</title>
 	<para>
-           To create a list of contacts:
+          A contact list is a set of contacts with a single nickname
+          that you create. When you send email to the nickname, it is sent to
+          every member of the list. This differs from a network
+          mailing list in that it exists only on your computer as a
+          convenience to you, rather than as an actual email address
+          managed by a mailing list application on a server. To
+          create a list of contacts:
 
          <orderedlist numeration="arabic">
 	    <listitem>
@@ -473,28 +469,26 @@
            To mail the list, open a new email and type the name you
            chose for the list. Ximian Evolution will address the
            message to the entire list when you send it. You can also
-           right-click on the list's address card in the address book
+           right-click on the list's address card in the contacts tool
            and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
         <para>
            Ximian Evolution cannot store contact lists on Exchange
            servers.
         </para>
-
-      </sect3>
     </sect2>
   </sect1>
   
   <sect1 id="usage-contact-sharing">
-    <title>LDAP: Shared Address Books on a Network</title>
+    <title>LDAP: Shared Contact Groups on a Network</title>
 
     <para>
       The <glossterm linkend="ldap">LDAP</glossterm> protocol was
       created to let users share contact information over a network by
-      sharing access to a central address book.  LDAP allows a company
-      to maintain a shared set of contact information for a company or
-      department.  Many companies keep a common LDAP address book for
-      all their employees or for client contacts.
+      sharing access to a central directory.  LDAP allows a company
+    to maintain a shared set of contact information.  Many companies
+    keep a common LDAP address book for all their employees or for
+    client contacts.
     </para>
 
     <para>
@@ -521,19 +515,21 @@
 	    <para>
               To prevent excess network traffic,
               Evolution will not normally
-              load the contents of LDAP folders immediately upon
+              load data from the LDAP server immediately upon
               opening.  You must click <guilabel>Display
-              All</guilabel> before LDAP folder cards will be loaded
+              All</guilabel> before contacts will be loaded
               from the network. You can change this behavior in the
               <interface>Contact Preferences</interface> window.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-              You cannot add, delete, or alter cards on the LDAP
-              server. If you need to change information there, you
-              will need to speak to your system administrator
-	    </para>
+	      Depending on your server settings, you may not be able to edit
+	      all the fields in a contact stored on an LDAP server. Some
+  	      servers prohibit some or all changes, and others use a smaller
+	    set of fields than Evolution allows. Check with your system
+	    administrator if you need different settings.
+            </para>
 	  </listitem>
 	</itemizedlist>
     </para>
@@ -553,7 +549,7 @@
       As noted before, when you get information about a person in
       the mail or in a calendar entry, you can add it to an address
       card.  To do so, right click on any email address or email
-      message, and select <guimenuitem>Add Sender to Address Book</guimenuitem> from the menu that appears.
+      message, and select <guimenuitem>Add Sender to Contacts</guimenuitem> from the menu that appears.
        Evolution can also add cards from a
       hand-held device during HotSync operation.  For more
       information about that, see <xref linkend="usage-sync"/>.
@@ -562,19 +558,14 @@
   
 <!-- Unimplemented features:
       <para>
-         You can also use the address book to print postal addresses
+         You can also use the contacts tool to print postal addresses
 	 on mailing labels.  Future versions of
 	 Evolution will allow you to you
 	 export a group of cards to a spreadsheet, database, or word
 	 processor so you can print address labels or prepare large
 	 mailings.
-      </para>
-  <para>
-    Need a map or directions? Click <guilabel>MapIt</guilabel> from
-  within the address book, and Evolution
-  will map the address for you online.
-  </para>
-  -->
+      </para> -->
+
 </chapter> 
 
 

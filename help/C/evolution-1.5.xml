@@ -33,7 +33,7 @@ entity names correspond.  APX is for appendix.  -->
 
 <!-- STYLE RULES:
 * Use "guilabel" instead of "guibutton" everywhere.
-* "Address Book" is two words, used instead of "Contacts" where possible.
+* "Address Book" is two words, but it's better to use "Contacts", Contact, or Contact List
 * The "application" tag is not used around "Evolution."
 * Filenames use  command tags so they appear in the same font as commands 
 * There is one bar and it is the Shortcut Bar. The folder bar is dead. -->

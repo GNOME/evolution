@@ -50,21 +50,6 @@
 	    </listitem>
 	  </varlistentry>
 -->
-	  <varlistentry>
-	    <term>Create a new Shortcut in the Evolution Bar:</term>
-	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>File</guimenu>
-		  <guisubmenu>New</guisubmenu>
-		  <guimenuitem>Shortcut</guimenuitem> </menuchoice> or 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>S</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
 
 	  <varlistentry>
 	    <term>Create a new email message:</term>

@@ -437,7 +437,7 @@ smtp.omniport.com:143
       <para>
         There are three sets of folder options. In the first,
         <guilabel>Default Folders</guilabel>, select which folders will be
-        your usual mail, address book, calendar, and tasks
+        your usual mail, contacts, calendar, and tasks
         folders. When you save a contact or appointment attached to an
         email, it will be stored in your default contact or calendar
         folder.
@@ -567,7 +567,7 @@ smtp.omniport.com:143
              patterns to confirm "live" addresses and invade your
              privacy. You may elect never to load images
              automatically, to load images only if the sender is in
-             your address book, or always load images.
+             your contacts, or always load images.
            </para>
            <para>
              If you have chosen not to load images automatically, you
@@ -593,7 +593,7 @@ smtp.omniport.com:143
            <para>
              Some people do not like HTML mail, and you can set
              Evolution to warn you. This warning will appear only
-             when you send HTML mail to people in your address book
+             when you send HTML mail to people in your contacts 
              who are listed as disliking HTML.
            </para>
          </listitem>
@@ -900,41 +900,41 @@ smtp.omniport.com:143
   <sect1 id="config-prefs-contact">
     <title>Directory Servers</title>
     <para>
-        Address book settings are limited to the usage and
+        Contacts settings are limited to the usage and
         configuration of directory servers (LDAP and
       Exchange). To learn how to set autocompletion options, see <xref
       linkend="config-prefs-folders" />.
-      Other address book controls are available in the address book
-      window itself.
+      Other contacts controls are available in the contacts tool.
     </para>
       
       <para>
-        To add a new address book, either local or remote, do the following:
+        To add a new group of contacts, either local or remote, do the following:
     </para>
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-              Open the address book by clicking the
+              Go to the contacts tool by clicking the
               <guilabel>Contacts</guilabel> button.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-              Right-click on the list of address books and select <guimenuitem>New Address</guimenuitem>
+              Right-click on the shortcut bar's list of contact groups,
+              and select <guimenuitem>New Contact Group</guimenuitem>.
 	    </para>
 	  </listitem>
           <listitem>
             <para>
-            Select a name and group for the address book. The name is
-              for display only. </para>
+              Select a name and location for the contact group. The name
+              is for display only. </para>
 
             </listitem>
 
             <listitem>
               <para>
-                Click <guilabel>Forward</guilabel>.  If the address book is stored locally,
-              in the <guilabel>On This Computer</guilabel> group, then
-              you don't have to provide any more information. Click
+                Click <guilabel>Forward</guilabel>.  If the contact
+              group is stored locally, then you don't have to
+              provide any more information. Click
               <guilabel>OK</guilabel> and you are done.
               </para>
             </listitem>
@@ -951,7 +951,7 @@ smtp.omniport.com:143
                   <term><guilabel>Server name</guilabel></term>
 		  <listitem>
 		    <para>
-		      Address of the server where the address book is located.
+		      Internet address of the contact server you'll be using.
 		    </para>
 		  </listitem>
 		</varlistentry>

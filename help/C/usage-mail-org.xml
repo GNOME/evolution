@@ -61,7 +61,7 @@
             <term>LDAP Data Interchange Format (LDIF):</term>
             <listitem>
               <para>
-                A standard data format for address book cards.
+                A standard data format for contact cards.
               </para>
             </listitem>
           </varlistentry>
@@ -331,8 +331,8 @@
     <sect1 id="usage-mail-organize-folders">
       <title>Getting Organized with Folders</title>
       <para>
-	Ximian Evolution keeps mail, as well as
-	address cards and calendars, in folders.  You start out with a
+      Ximian Evolution, like most other mail systems, stores mail in
+        folders.  You start out with a
 	few mail folders, such as <guilabel>Inbox</guilabel>,
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
 	but you can create as many as you like.  Create new folders by
