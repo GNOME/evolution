@@ -74,8 +74,12 @@ enum {
 	CAMEL_IMAP4_CAPABILITY_LITERALPLUS      = (1 << 5),
 	CAMEL_IMAP4_CAPABILITY_LOGINDISABLED    = (1 << 6),
 	CAMEL_IMAP4_CAPABILITY_STARTTLS         = (1 << 7),
-	CAMEL_IMAP4_CAPABILITY_useful_lsub      = (1 << 8),
-	CAMEL_IMAP4_CAPABILITY_utf8_search      = (1 << 9),
+	CAMEL_IMAP4_CAPABILITY_IDLE             = (1 << 8),
+	CAMEL_IMAP4_CAPABILITY_QUOTA            = (1 << 9),
+	CAMEL_IMAP4_CAPABILITY_ACL              = (1 << 10),
+	CAMEL_IMAP4_CAPABILITY_MULTIAPPEND      = (1 << 11),
+	CAMEL_IMAP4_CAPABILITY_useful_lsub      = (1 << 12),
+	CAMEL_IMAP4_CAPABILITY_utf8_search      = (1 << 13),
 };
 
 typedef enum {
@@ -215,6 +219,7 @@ void camel_imap4_engine_handle_untagged (CamelIMAP4Engine *engine, CamelExceptio
 int camel_imap4_engine_next_token (CamelIMAP4Engine *engine, struct _camel_imap4_token_t *token, CamelException *ex);
 int camel_imap4_engine_line (CamelIMAP4Engine *engine, unsigned char **line, size_t *len, CamelException *ex);
 int camel_imap4_engine_literal (CamelIMAP4Engine *engine, unsigned char **literal, size_t *len, CamelException *ex);
+int camel_imap4_engine_nstring (CamelIMAP4Engine *engine, unsigned char **nstring, CamelException *ex);
 int camel_imap4_engine_eat_line (CamelIMAP4Engine *engine, CamelException *ex);
 
 

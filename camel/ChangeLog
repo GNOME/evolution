@@ -1,3 +1,10 @@
+2004-11-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-engine.c: Added much in-line
+	documentation.
+	(engine_parse_capability): Use g_ascii_str[n]casecmp().
+	(camel_imap4_engine_nstring): New convenience function.
+
 2004-11-02  Not Zed  <NotZed@Ximian.com>
 
 	* camel-object.c (camel_object_hook_event): check interfaces for
