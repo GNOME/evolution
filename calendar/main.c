@@ -398,52 +398,68 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static GnomeUIInfo gnome_cal_file_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("_New calendar"), NULL, new_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 'n', GDK_CONTROL_MASK, NULL },
-	{ GNOME_APP_UI_ITEM, N_("_Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN, 'o', GDK_CONTROL_MASK, NULL },
-	{ GNOME_APP_UI_ITEM, N_("_Save calendar"), NULL, save_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, 's', GDK_CONTROL_MASK, NULL },
-	{ GNOME_APP_UI_ITEM, N_("Save calendar _as..."), NULL, save_as_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE_AS, 0, 0, NULL },
+        GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
+				  N_("Create a new calendar"),
+				  new_calendar_cmd, NULL),
+
+	{ GNOME_APP_UI_ITEM, N_("_Open calendar..."),
+	  N_("Open a saved calendar"), open_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN,
+	  GNOME_KEY_NAME_OPEN, GNOME_KEY_MOD_OPEN, NULL },
+
+	{ GNOME_APP_UI_ITEM, N_("_Save calendar"),
+	  N_("Save the current calendar"), save_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE,
+	  GNOME_KEY_NAME_SAVE, GNOME_KEY_MOD_SAVE, NULL },
+
+	{ GNOME_APP_UI_ITEM, N_("Save calendar _as..."),
+	  N_("Save the current calendar with a different name"),
+	  save_as_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE_AS,
+	  GNOME_KEY_NAME_SAVE_AS, GNOME_KEY_MOD_SAVE_AS, NULL },
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("P_references..."), NULL, properties_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PREF, 0, 0, NULL },
+	{ GNOME_APP_UI_ITEM, N_("_Close calendar..."),
+	  N_("Close the current calendar"), close_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CLOSE,
+	  GNOME_KEY_NAME_CLOSE, GNOME_KEY_MOD_CLOSE, NULL },
 
-	GNOMEUIINFO_SEPARATOR,
-
-	{ GNOME_APP_UI_ITEM, N_("_Close this calendar"), NULL, close_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CLOSE, 'w', GDK_CONTROL_MASK, NULL },
-	{ GNOME_APP_UI_ITEM, N_("E_xit"), NULL, quit_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT, 'q', GDK_CONTROL_MASK, NULL },
+	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
 
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("_New appointment..."), NULL, display_objedit, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_New appointment..."),
+	  N_("Create a new appointment"), display_objedit, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
-	{ GNOME_APP_UI_ITEM, N_("New appointment for _today..."), NULL, display_objedit_today, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("New appointment for _today..."),
+	  N_("Create a new appointment for today"),
+	  display_objedit_today, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_help_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("_About Gnomecal..."), NULL, about_calendar_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT, 0, 0, NULL },
-
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_HELP ("cal"),
+
+	GNOMEUIINFO_MENU_ABOUT_ITEM(about_calendar_cmd, NULL),
+
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo gnome_cal_settings_menu [] = {
+        GNOMEUIINFO_MENU_PREFERENCES_ITEM(properties_cmd, NULL),
+
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo gnome_cal_menu [] = {
-	GNOMEUIINFO_SUBTREE (N_("_File"), &gnome_cal_file_menu),
-	GNOMEUIINFO_SUBTREE (N_("_Edit"), &gnome_cal_edit_menu),
-	GNOMEUIINFO_SUBTREE (N_("_Help"), &gnome_cal_help_menu),
+        GNOMEUIINFO_MENU_FILE_TREE(gnome_cal_file_menu),
+	GNOMEUIINFO_MENU_EDIT_TREE(gnome_cal_edit_menu),
+	GNOMEUIINFO_MENU_SETTINGS_TREE(gnome_cal_settings_menu),
+	GNOMEUIINFO_MENU_HELP_TREE(gnome_cal_help_menu),
 	GNOMEUIINFO_END
 };
 
@@ -468,6 +484,16 @@ setup_menu (GtkWidget *gcal)
 {
 	gnome_app_create_menus_with_data (GNOME_APP (gcal), gnome_cal_menu, gcal);
 	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
+	gnome_app_install_menu_hints(GNOME_APP(gcal), gnome_cal_menu);
+}
+
+static void
+setup_appbar (GtkWidget *gcal)
+{
+        GnomeAppBar *appbar;
+	
+        appbar = gnome_appbar_new(FALSE, TRUE, GNOME_PREFERENCES_USER);
+	gnome_app_set_statusbar(GNOME_APP (gcal), GTK_WIDGET(appbar));
 }
 
 static gint
@@ -495,7 +521,9 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 		if (width != -1)
 			gtk_widget_set_usize (toplevel, width, height);
 	}
+	setup_appbar (toplevel);
 	setup_menu (toplevel);
+
 
 	if (page)
 		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);

@@ -1,3 +1,11 @@
+1999-01-08  Nat Friedman  <nat@nat.org>
+
+	* main.c (setup_appbar): New function to create the status bar.
+	(setup_menu): Install menu hints.
+
+	Menu items updated to match the standards.  New Settings menu
+ 	created.
+
 1998-12-30  Jeff Garzik  <jgarzik@pobox.com>
 
 	* gncal/calendar.c, gncal/gnome-cal.c, gncal/main.c,
