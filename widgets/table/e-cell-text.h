@@ -27,6 +27,9 @@
 #include <libgnomeui/gnome-canvas.h>
 #include "e-cell.h"
 
+/* Should return a malloced object. */
+typedef char *(*ECellTextFilter) (void *);
+
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
 #define E_CELL_TEXT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_TEXT_TYPE, ECellTextClass))
@@ -50,6 +53,8 @@ typedef struct {
 	
 	int strikeout_column;
 	int bold_column;
+
+	ECellTextFilter *filter;
 } ECellText;
 
 typedef struct {

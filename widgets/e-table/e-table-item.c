@@ -1410,7 +1410,7 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableItem::has_cursor", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_HAS_CURSOR);
-	gtk_object_add_arg_type ("ETableItem::has_cursor", GTK_TYPE_INT,
+	gtk_object_add_arg_type ("ETableItem::cursor_row", GTK_TYPE_INT,
 				 GTK_ARG_READABLE, ARG_CURSOR_ROW);
 
 	eti_signals [ROW_SELECTION] =
