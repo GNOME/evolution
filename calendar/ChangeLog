@@ -1,3 +1,7 @@
+2000-10-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/weekday-picker.[ch]: New widget to pick weekdays.
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c: upd.
