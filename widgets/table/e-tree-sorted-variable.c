@@ -24,13 +24,10 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-tree-sorted-variable.h"
 
 #define d(x)
-
-#define PARENT_TYPE E_TREE_MODEL_TYPE
 
 #define INCREMENT_AMOUNT 100
 
@@ -58,13 +55,13 @@ static void etsv_add                      (ETreeSortedVariable *etsv, gint      
 static void etsv_add_all                  (ETreeSortedVariable *etsv);
 
 static void
-etsv_destroy (GtkObject *object)
+etsv_dispose (GObject *object)
 {
 	ETreeSortedVariable *etsv = E_TREE_SORTED_VARIABLE (object);
 
 	if (etsv->table_model_changed_id)
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etsv->table_model_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+				             etsv->table_model_changed_id);
 	etsv->table_model_changed_id = 0;
 
 #if 0
@@ -77,8 +74,8 @@ etsv_destroy (GtkObject *object)
 	etsv->table_model_cell_changed_id = 0;
 #endif
 	if (etsv->sort_info_changed_id)
-		gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
-				       etsv->sort_info_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etsv->sort_info),
+				             etsv->sort_info_changed_id);
 	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id)
@@ -90,24 +87,24 @@ etsv_destroy (GtkObject *object)
 	etsv->insert_idle_id = 0;
 
 	if (etsv->sort_info)
-		gtk_object_unref(GTK_OBJECT(etsv->sort_info));
+		g_object_unref(etsv->sort_info);
 	etsv->sort_info = NULL;
 
 	if (etsv->full_header)
-		gtk_object_unref(GTK_OBJECT(etsv->full_header));
+		g_object_unref(etsv->full_header);
 	etsv->full_header = NULL;
 
-	GTK_OBJECT_CLASS (etsv_parent_class)->destroy (object);
+	G_OBJECT_CLASS (etsv_parent_class)->dispose (object);
 }
 
 static void
-etsv_class_init (GtkObjectClass *object_class)
+etsv_class_init (GObjectClass *object_class)
 {
 	ETreeSortedVariableClass *etsv_class = E_TREE_MODEL_CLASS(object_class);
 
-	etsv_parent_class = gtk_type_class (PARENT_TYPE);
+	etsv_parent_class = g_type_class_peek_parent (object_class);
 
-	object_class->destroy = etsv_destroy;
+	object_class->dispose = etsv_dispose;
 
 	etsv_class->add = etsv_add;
 	etsv_class->add_all = etsv_add_all;
@@ -128,16 +125,16 @@ etsv_init (ETreeSortedVariable *etsv)
 	etsv->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_tree_sorted_variable, "ETreeSortedVariable", ETreeSortedVariable, etsv_class_init, etsv_init, PARENT_TYPE)
+E_MAKE_TYPE(e_tree_sorted_variable, "ETreeSortedVariable", ETreeSortedVariable, etsv_class_init, etsv_init, E_TREE_MODEL_TYPE)
 
 static gboolean
 etsv_sort_idle(ETreeSortedVariable *etsv)
 {
-	gtk_object_ref(GTK_OBJECT(etsv));
+	g_object_ref(etsv);
 	etsv_sort(etsv);
 	etsv->sort_idle_id = 0;
 	etsv->insert_count = 0;
-	gtk_object_unref(GTK_OBJECT(etsv));
+	g_object_unref(etsv);
 	return FALSE;
 }
 
@@ -157,25 +154,25 @@ e_tree_sorted_variable_new (ETreeModel *source, ETableHeader *full_header, ETabl
 	ETreeSortedVariable *etsv = E_TABLE_SUBSET_VARIABLE (etsv);
 
 	if (e_table_subset_variable_construct (etsv, source) == NULL){
-		gtk_object_unref (GTK_OBJECT (etsv));
+		g_object_unref (etsv);
 		return NULL;
 	}
 
 	etsv->sort_info = sort_info;
-	gtk_object_ref(GTK_OBJECT(etsv->sort_info));
+	g_object_ref(etsv->sort_info);
 	etsv->full_header = full_header;
-	gtk_object_ref(GTK_OBJECT(etsv->full_header));
+	g_object_ref(etsv->full_header);
 
-	etsv->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
-							   GTK_SIGNAL_FUNC (etsv_proxy_model_changed), etsv);
+	etsv->table_model_changed_id = g_signal_connect (G_OBJECT (source), "model_changed",
+							 G_CALLBACK (etsv_proxy_model_changed), etsv);
 #if 0
 	etsv->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
 							       GTK_SIGNAL_FUNC (etsv_proxy_model_row_changed), etsv);
 	etsv->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
 								GTK_SIGNAL_FUNC (etsv_proxy_model_cell_changed), etsv);
 #endif
-	etsv->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
-							 GTK_SIGNAL_FUNC (etsv_sort_info_changed), etsv);
+	etsv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+						       G_CALLBACK (etsv_sort_info_changed), etsv);
 
 	return E_TABLE_MODEL(etsv);
 }

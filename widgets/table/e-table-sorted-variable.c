@@ -23,15 +23,12 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include <string.h>
 #include "gal/util/e-util.h"
 #include "e-table-sorted-variable.h"
 #include "e-table-sorting-utils.h"
 
 #define d(x)
-
-#define PARENT_TYPE E_TABLE_SUBSET_VARIABLE_TYPE
 
 #define INCREMENT_AMOUNT 100
 
@@ -46,13 +43,13 @@ static void etsv_add                      (ETableSubsetVariable *etssv, gint    
 static void etsv_add_all                  (ETableSubsetVariable *etssv);
 
 static void
-etsv_destroy (GtkObject *object)
+etsv_dispose (GObject *object)
 {
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (object);
 
 	if (etsv->sort_info_changed_id)
-		gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
-				       etsv->sort_info_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etsv->sort_info),
+				             etsv->sort_info_changed_id);
 	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id) {
@@ -65,24 +62,24 @@ etsv_destroy (GtkObject *object)
 	}
 
 	if (etsv->sort_info)
-		gtk_object_unref(GTK_OBJECT(etsv->sort_info));
+		g_object_unref(etsv->sort_info);
 	etsv->sort_info = NULL;
 
 	if (etsv->full_header)
-		gtk_object_unref(GTK_OBJECT(etsv->full_header));
+		g_object_unref(etsv->full_header);
 	etsv->full_header = NULL;
 
-	GTK_OBJECT_CLASS (etsv_parent_class)->destroy (object);
+	G_OBJECT_CLASS (etsv_parent_class)->dispose (object);
 }
 
 static void
-etsv_class_init (GtkObjectClass *object_class)
+etsv_class_init (GObjectClass *object_class)
 {
 	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS(object_class);
 
-	etsv_parent_class = gtk_type_class (PARENT_TYPE);
+	etsv_parent_class = g_type_class_peek_parent (object_class);
 
-	object_class->destroy = etsv_destroy;
+	object_class->dispose = etsv_dispose;
 
 	etssv_class->add = etsv_add;
 	etssv_class->add_all = etsv_add_all;
@@ -100,16 +97,16 @@ etsv_init (ETableSortedVariable *etsv)
 	etsv->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, E_TABLE_SUBSET_VARIABLE_TYPE)
 
 static gboolean
 etsv_sort_idle(ETableSortedVariable *etsv)
 {
-	gtk_object_ref(GTK_OBJECT(etsv));
+	g_object_ref(etsv);
 	etsv_sort(etsv);
 	etsv->sort_idle_id = 0;
 	etsv->insert_count = 0;
-	gtk_object_unref(GTK_OBJECT(etsv));
+	g_object_unref(etsv);
 	return FALSE;
 }
 
@@ -188,21 +185,21 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 ETableModel *
 e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSortedVariable *etsv = gtk_type_new (E_TABLE_SORTED_VARIABLE_TYPE);
+	ETableSortedVariable *etsv = g_object_new (E_TABLE_SORTED_VARIABLE_TYPE, NULL);
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE (etsv);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL){
-		gtk_object_unref (GTK_OBJECT (etsv));
+		g_object_unref (etsv);
 		return NULL;
 	}
 
 	etsv->sort_info = sort_info;
-	gtk_object_ref(GTK_OBJECT(etsv->sort_info));
+	g_object_ref(etsv->sort_info);
 	etsv->full_header = full_header;
-	gtk_object_ref(GTK_OBJECT(etsv->full_header));
+	g_object_ref(etsv->full_header);
 
-	etsv->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
-							 GTK_SIGNAL_FUNC (etsv_sort_info_changed), etsv);
+	etsv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+						       G_CALLBACK (etsv_sort_info_changed), etsv);
 
 	return E_TABLE_MODEL(etsv);
 }

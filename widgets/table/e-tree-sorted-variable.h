@@ -24,7 +24,7 @@
 #ifndef _E_TREE_SORTED_VARIABLE_H_
 #define _E_TREE_SORTED_VARIABLE_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gal/e-tree/e-tree-model.h>
 #include <gal/e-table/e-table-subset-variable.h>
 #include <gal/e-table/e-table-sort-info.h>
@@ -33,10 +33,11 @@
 G_BEGIN_DECLS
 
 #define E_TREE_SORTED_VARIABLE_TYPE        (e_tree_sorted_variable_get_type ())
-#define E_TREE_SORTED_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariable))
-#define E_TREE_SORTED_VARIABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariableClass))
-#define E_IS_TREE_SORTED_VARIABLE(o)       (GTK_CHECK_TYPE ((o), E_TREE_SORTED_VARIABLE_TYPE))
-#define E_IS_TREE_SORTED_VARIABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_SORTED_VARIABLE_TYPE))
+#define E_TREE_SORTED_VARIABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariable))
+#define E_TREE_SORTED_VARIABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariableClass))
+#define E_IS_TREE_SORTED_VARIABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_SORTED_VARIABLE_TYPE))
+#define E_IS_TREE_SORTED_VARIABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SORTED_VARIABLE_TYPE))
+#define E_TREE_SORTED_VARIABLE_GET_CLASS(o) (G_TYPE_CHECK_CLASS_CAST((o), E_TREE_SORTED_VARIABLE_TYPE, ETreeSortedVariableClass))
 
 typedef struct {
 	ETreeModel base;
@@ -59,7 +60,7 @@ typedef struct {
 	ETreeModelClass parent_class;
 } ETreeSortedVariableClass;
 
-GtkType      e_tree_sorted_variable_get_type        (void);
+GType        e_tree_sorted_variable_get_type        (void);
 ETableModel *e_tree_sorted_variable_new             (ETreeModel          *etm,
 						     ETableHeader        *header,
 						     ETableSortInfo      *sort_info);
