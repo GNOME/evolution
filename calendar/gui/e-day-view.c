@@ -654,6 +654,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->resize_long_event_rect_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type(),
+				       "width_pixels", 1,
 				       NULL);
 	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
 
@@ -729,12 +730,14 @@ e_day_view_init (EDayView *day_view)
 	day_view->resize_rect_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type(),
+				       "width_pixels", 1,
 				       NULL);
 	gnome_canvas_item_hide (day_view->resize_rect_item);
 
 	day_view->resize_bar_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type(),
+				       "width_pixels", 1,
 				       NULL);
 	gnome_canvas_item_hide (day_view->resize_bar_item);
 

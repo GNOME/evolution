@@ -1,3 +1,8 @@
+2003-01-14  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_init): Work around canvas crashes
+	by ensuring rectangles have an initial width.
+
 2003-01-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/config-control-factory.h: Removed.
