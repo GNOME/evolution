@@ -43,13 +43,14 @@
 
 #include "mail.h"
 #include "mail-tools.h"
+#include "mail-threads.h"
 #include "camel/camel.h"
 
 #include "art/empty.xpm"
 #include "art/mark.xpm"
 
 
-#define DEFAULT_STORE_TABLE_WIDTH         150
+#define DEFAULT_STORE_TABLE_WIDTH         200
 #define DEFAULT_WIDTH                     500
 #define DEFAULT_HEIGHT                    300
 
@@ -86,6 +87,8 @@ enum {
 
 static GtkObjectClass *subscribe_dialog_parent_class;
 
+static void build_tree (SubscribeDialog *sc, CamelStore *store);
+
 static void
 set_pixmap (BonoboUIComponent *component,
 	    const char        *xml_path,
@@ -118,33 +121,112 @@ static GtkWidget*
 make_folder_search_widget (GtkSignalFunc start_search_func,
 			   gpointer user_data_for_search)
 {
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data_for_search);
 	GtkWidget *search_hbox = gtk_hbox_new (FALSE, 0);
-	GtkWidget *search_entry = gtk_entry_new ();
+
+	sc->search_entry = gtk_entry_new ();
 
 	if (start_search_func) {
-		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
+		gtk_signal_connect (GTK_OBJECT (sc->search_entry), "activate",
 				    start_search_func,
 				    user_data_for_search);
 	}
 	
 	/* add the search entry to the our search_vbox */
 	gtk_box_pack_start (GTK_BOX (search_hbox),
-			    gtk_label_new(_("Display folders containing:")),
+			    gtk_label_new(_("Display folders starting with:")),
 			    FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (search_hbox), search_entry,
+	gtk_box_pack_start (GTK_BOX (search_hbox), sc->search_entry,
 			    FALSE, TRUE, 3);
 
 	return search_hbox;
 }
 
 
+/* Our async operations */
 
-static gboolean
-folder_info_subscribed (SubscribeDialog *sc, CamelFolderInfo *info)
+typedef void (*SubscribeGetStoreCallback)(SubscribeDialog *sc, CamelStore *store, gpointer cb_data);
+typedef void (*SubscribeFolderCallback)(SubscribeDialog *sc, gboolean success, gpointer cb_data);
+
+/* ** GET STORE ******************************************************* */
+
+typedef struct get_store_input_s {
+	SubscribeDialog *sc;
+	gchar *url;
+	SubscribeGetStoreCallback cb;
+	gpointer cb_data;
+} get_store_input_t;
+
+typedef struct get_store_data_s {
+	CamelStore *store;
+} get_store_data_t;
+
+static gchar *
+describe_get_store (gpointer in_data, gboolean gerund)
 {
-	return camel_store_folder_subscribed (sc->store, info->full_name);
+	get_store_input_t *input = (get_store_input_t *) in_data;
+
+	if (gerund) {
+		return g_strdup_printf (_("Getting store for \"%s\""), input->url);
+	}
+	else {
+		return g_strdup_printf (_("Get store for \"%s\""), input->url);
+	}
 }
 
+static void
+setup_get_store (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+}
+
+static void
+do_get_store (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	get_store_input_t *input = (get_store_input_t *)in_data;
+	get_store_data_t *data = (get_store_data_t*)op_data;
+
+	mail_tool_camel_lock_up ();
+	data->store = camel_session_get_store (session, input->url, ex);
+	mail_tool_camel_lock_down ();
+
+	if (camel_exception_is_set (ex))
+		data->store = NULL;
+}
+
+static void
+cleanup_get_store (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	get_store_input_t *input = (get_store_input_t *)in_data;
+	get_store_data_t *data = (get_store_data_t*)op_data;
+
+	input->cb (input->sc, data->store, input->cb_data);
+
+	g_free (input->url);
+}
+
+static const mail_operation_spec op_get_store = {
+        describe_get_store,
+        sizeof (get_store_data_t),
+        setup_get_store,
+        do_get_store,
+        cleanup_get_store
+};
+
+static void
+subscribe_do_get_store (SubscribeDialog *sc, const char *url, SubscribeGetStoreCallback cb, gpointer cb_data)
+{
+	get_store_input_t *input;
+
+        input = g_new (get_store_input_t, 1);
+	input->sc = sc;
+	input->url = g_strdup (url);
+	input->cb = cb;
+	input->cb_data = cb_data;
+
+        mail_operation_queue (&op_get_store, input, TRUE);
+}
+
+/* ** SUBSCRIBE FOLDER ******************************************************* */
 /* Given a CamelFolderInfo, construct the corresponding
  * EvolutionStorage path to it.
  */
@@ -172,50 +254,246 @@ storage_tree_path (CamelFolderInfo *info)
 	return path;
 }
 
-static void
-subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
-{
+typedef struct subscribe_folder_input_s {
+	SubscribeDialog *sc;
+	CamelStore *store;
+	CamelFolderInfo *info;
+	SubscribeFolderCallback cb;
+	gpointer cb_data;
+} subscribe_folder_input_t;
+
+typedef struct subscribe_folder_data_s {
 	char *path;
-	CamelException ex;
+	char *name;
+	char *url;
+} subscribe_folder_data_t;
 
-	/* folders without urls cannot be subscribed to */
-	if (info->url == NULL)
-		return;
+static gchar *
+describe_subscribe_folder (gpointer in_data, gboolean gerund)
+{
+	subscribe_folder_input_t *input = (subscribe_folder_input_t *) in_data;
 
-	camel_exception_init (&ex);
-	camel_store_subscribe_folder (sc->store, info->full_name, &ex);
-
-	if (!camel_exception_is_set (&ex)) {
-		path = storage_tree_path (info);
-		evolution_storage_new_folder (sc->storage,
-					      path,
-					      info->name, "mail",
-					      info->url,
-					      _("(No description)") /* XXX */);
-		g_free (path);
-	} else
-		camel_exception_clear (&ex);
+	if (gerund)
+		return g_strdup_printf
+			(_("Subscribing to folder \"%s\""),
+			 input->info->name);
+	else
+		return g_strdup_printf (_("Subscribe to folder \"%s\""),
+					input->info->name);
 }
 
 static void
-unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
+setup_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-	char *path;
-	CamelException ex;
+	subscribe_folder_input_t *input = (subscribe_folder_input_t *) in_data;
+	subscribe_folder_data_t *data = (subscribe_folder_data_t *) op_data;
 
+	data->path = storage_tree_path (input->info);
+	data->name = g_strdup (input->info->name);
+	data->url = g_strdup (input->info->url);
+
+	camel_object_ref (CAMEL_OBJECT (input->store));
+	gtk_object_ref (GTK_OBJECT (input->sc));
+}
+
+static void
+do_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	subscribe_folder_input_t *input = (subscribe_folder_input_t *) in_data;
+	subscribe_folder_data_t *data = (subscribe_folder_data_t *) op_data;
+
+	mail_tool_camel_lock_up ();
+	camel_store_subscribe_folder (input->store, data->name, ex);
+	mail_tool_camel_lock_down ();
+}
+
+static void
+cleanup_subscribe_folder (gpointer in_data, gpointer op_data,
+			  CamelException *ex)
+{
+	subscribe_folder_input_t *input = (subscribe_folder_input_t *) in_data;
+	subscribe_folder_data_t *data = (subscribe_folder_data_t *) op_data;
+
+	if (!camel_exception_is_set (ex))
+		evolution_storage_new_folder (input->sc->storage,
+					      data->path,
+					      data->name, "mail",
+					      data->url,
+					      _("(No description)") /* XXX */);
+
+	if (input->cb)
+		input->cb (input->sc, !camel_exception_is_set(ex), input->cb_data);
+
+	g_free (data->path);
+	g_free (data->name);
+	g_free (data->url);
+
+	camel_object_unref (CAMEL_OBJECT (input->store));
+	gtk_object_unref (GTK_OBJECT (input->sc));
+}
+
+static const mail_operation_spec op_subscribe_folder = {
+	describe_subscribe_folder,
+	sizeof (subscribe_folder_data_t),
+	setup_subscribe_folder,
+	do_subscribe_folder,
+	cleanup_subscribe_folder
+};
+
+static void
+subscribe_do_subscribe_folder (SubscribeDialog *sc, CamelStore *store, CamelFolderInfo *info,
+			       SubscribeFolderCallback cb, gpointer cb_data)
+{
+	subscribe_folder_input_t *input;
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (info);
+
+	input = g_new (subscribe_folder_input_t, 1);
+	input->sc = sc;
+	input->store = store;
+	input->info = info;
+	input->cb = cb;
+	input->cb_data = cb_data;
+
+	mail_operation_queue (&op_subscribe_folder, input, TRUE);
+}
+
+/* ** UNSUBSCRIBE FOLDER ******************************************************* */
+
+typedef struct unsubscribe_folder_input_s {
+	SubscribeDialog *sc;
+	CamelStore *store;
+	CamelFolderInfo *info;
+	SubscribeFolderCallback cb;
+	gpointer cb_data;
+} unsubscribe_folder_input_t;
+
+typedef struct unsubscribe_folder_data_s {
+	char *name;
+	char *path;
+} unsubscribe_folder_data_t;
+
+static gchar *
+describe_unsubscribe_folder (gpointer in_data, gboolean gerund)
+{
+	unsubscribe_folder_input_t *input = (unsubscribe_folder_input_t *) in_data;
+
+	if (gerund)
+		return g_strdup_printf
+			(_("Unsubscribing to folder \"%s\""),
+			 input->info->name);
+	else
+		return g_strdup_printf (_("Unsubscribe to folder \"%s\""),
+					input->info->name);
+}
+
+static void
+setup_unsubscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	unsubscribe_folder_input_t *input = (unsubscribe_folder_input_t *) in_data;
+	unsubscribe_folder_data_t *data = (unsubscribe_folder_data_t *) op_data;
+
+	data->name = g_strdup (input->info->name);
+	data->path = storage_tree_path (input->info);
+
+	camel_object_ref (CAMEL_OBJECT (input->store));
+	gtk_object_ref (GTK_OBJECT (input->sc));
+}
+
+static void
+do_unsubscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	unsubscribe_folder_input_t *input = (unsubscribe_folder_input_t *) in_data;
+	unsubscribe_folder_data_t *data = (unsubscribe_folder_data_t *) op_data;
+
+	mail_tool_camel_lock_up ();
+	camel_store_unsubscribe_folder (input->store, data->name, ex);
+	mail_tool_camel_lock_down ();
+}
+
+static void
+cleanup_unsubscribe_folder (gpointer in_data, gpointer op_data,
+			    CamelException *ex)
+{
+	unsubscribe_folder_input_t *input = (unsubscribe_folder_input_t *) in_data;
+	unsubscribe_folder_data_t *data = (unsubscribe_folder_data_t *) op_data;
+
+	if (!camel_exception_is_set (ex))
+		evolution_storage_removed_folder (input->sc->storage, data->path);
+
+	if (input->cb)
+		input->cb (input->sc, !camel_exception_is_set(ex), input->cb_data);
+
+	g_free (data->path);
+	g_free (data->name);
+
+	camel_object_unref (CAMEL_OBJECT (input->store));
+	gtk_object_unref (GTK_OBJECT (input->sc));
+}
+
+static const mail_operation_spec op_unsubscribe_folder = {
+	describe_unsubscribe_folder,
+	sizeof (unsubscribe_folder_data_t),
+	setup_unsubscribe_folder,
+	do_unsubscribe_folder,
+	cleanup_unsubscribe_folder
+};
+
+static void
+subscribe_do_unsubscribe_folder (SubscribeDialog *sc, CamelStore *store, CamelFolderInfo *info,
+				 SubscribeFolderCallback cb, gpointer cb_data)
+{
+	unsubscribe_folder_input_t *input;
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (info);
+
+	input = g_new (unsubscribe_folder_input_t, 1);
+	input->sc = sc;
+	input->store = store;
+	input->info = info;
+	input->cb = cb;
+	input->cb_data = cb_data;
+
+	mail_operation_queue (&op_unsubscribe_folder, input, TRUE);
+}
+
+
+
+static gboolean
+folder_info_subscribed (SubscribeDialog *sc, CamelFolderInfo *info)
+{
+	return camel_store_folder_subscribed (sc->store, info->full_name);
+}
+
+static void
+node_changed_cb (SubscribeDialog *sc, gboolean changed, gpointer data)
+{
+	ETreePath *node = data;
+
+	if (changed)
+		e_tree_model_node_changed (sc->folder_model, node);
+}
+
+static void
+subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info, ETreePath *node)
+{
 	/* folders without urls cannot be subscribed to */
 	if (info->url == NULL)
 		return;
 
-	camel_exception_init (&ex);
-	camel_store_unsubscribe_folder (sc->store, info->full_name, &ex);
+	subscribe_do_subscribe_folder (sc, sc->store, info, node_changed_cb, node);
+}
 
-	if (!camel_exception_is_set (&ex)) {
-		path = storage_tree_path (info);
-		evolution_storage_removed_folder (sc->storage, path);
-		g_free (path);
-	} else
-		camel_exception_clear (&ex);
+static void
+unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info, ETreePath *node)
+{
+	/* folders without urls cannot be subscribed to */
+	if (info->url == NULL)
+		return;
+
+	subscribe_do_unsubscribe_folder (sc, sc->store, info, node_changed_cb, node);
 }
 
 static void
@@ -254,10 +532,8 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, model_row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	if (!folder_info_subscribed (sc, info)) {
-		subscribe_folder_info (sc, info);
-		e_tree_model_node_changed (sc->folder_model, node);	
-	}
+	if (!folder_info_subscribed (sc, info))
+		subscribe_folder_info (sc, info, node);
 }
 
 static void
@@ -276,10 +552,8 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, model_row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	if (folder_info_subscribed(sc, info)) {
-		unsubscribe_folder_info (sc, info);
-		e_tree_model_node_changed (sc->folder_model, node);
-	}
+	if (folder_info_subscribed(sc, info))
+		unsubscribe_folder_info (sc, info, node);
 }
 
 
@@ -295,17 +569,33 @@ unsubscribe_folders (GtkWidget *widget, gpointer user_data)
 static void
 subscribe_refresh_list (GtkWidget *widget, gpointer user_data)
 {
-	printf ("subscribe_refresh_list\n");
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
+
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->search_entry), "");
+	if (sc->search_top) {
+		g_free (sc->search_top);
+		sc->search_top = NULL;
+	}
+	if (sc->store)
+		build_tree (sc, sc->store);
 }
 
 static void
 subscribe_search (GtkWidget *widget, gpointer user_data)
 {
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 	char* search_pattern = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
 
-	printf ("subscribe_search (%s)\n", search_pattern);
+	if (sc->search_top) {
+		g_free (sc->search_top);
+		sc->search_top = NULL;
+	}
 
-	g_free (search_pattern);
+	if (search_pattern && *search_pattern)
+		sc->search_top = search_pattern;
+
+	if (sc->store)
+		build_tree (sc, sc->store);
 }
 
 
@@ -433,9 +723,9 @@ folder_etree_value_at (ETreeModel *etree, ETreePath *path, int col, void *model_
 	else /* FOLDER_COL_SUBSCRIBED */ {
 		/* folders without urls cannot be subscribed to */
 		if (info->url == NULL)
-			return 0; /* empty */
+			return GINT_TO_POINTER(0); /* empty */
 		else if (!folder_info_subscribed(dialog, info))
-			return 0; /* XXX unchecked */
+			return GINT_TO_POINTER(0); /* XXX unchecked */
 		else
 			return GUINT_TO_POINTER (1); /* checked */
 	}
@@ -536,15 +826,10 @@ build_etree_from_folder_info (SubscribeDialog *sc, ETreePath *parent, CamelFolde
 	}
 }
 
-
 static void
-storage_selected_cb (ETable *table,
-		     int row,
-		     gpointer data)
+build_tree (SubscribeDialog *sc, CamelStore *store)
 {
 	CamelException *ex = camel_exception_new();
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
-	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
 
 	/* free up the existing CamelFolderInfo* if there is any */
 	if (sc->folder_info)
@@ -554,7 +839,7 @@ storage_selected_cb (ETable *table,
 
 	sc->store = store;
 	sc->storage = mail_lookup_storage (CAMEL_SERVICE (sc->store));
-	sc->folder_info = camel_store_get_folder_info (sc->store, NULL, TRUE, TRUE, FALSE, ex);
+	sc->folder_info = camel_store_get_folder_info (sc->store, sc->search_top, TRUE, TRUE, FALSE, ex);
 
 	if (camel_exception_is_set (ex)) {
 		printf ("camel_store_get_folder_info failed\n");
@@ -572,6 +857,17 @@ storage_selected_cb (ETable *table,
 	camel_exception_free (ex);
 }
 
+static void
+storage_selected_cb (ETable *table,
+		     int row,
+		     gpointer data)
+{
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
+	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
+
+	build_tree (sc, store);
+}
+
 
 
 static void
@@ -584,9 +880,9 @@ folder_toggle_cb (ETable *table,
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
 	if (folder_info_subscribed(sc, info))
-		unsubscribe_folder_info (sc, info);
+		unsubscribe_folder_info (sc, info, node);
 	else
-		subscribe_folder_info (sc, info);
+		subscribe_folder_info (sc, info, node);
 
 	e_tree_model_node_changed (sc->folder_model, node);
 }
@@ -617,24 +913,24 @@ static BonoboUIVerb verbs [] = {
 };
 
 static void
-populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
+store_cb (SubscribeDialog *sc, CamelStore *store, gpointer data)
 {
-	CamelException *ex = camel_exception_new();
-	CamelStore *store = camel_session_get_store (session, service->url, ex);
-
-	if (!store) {
-		camel_exception_free (ex);
+	if (!store)
 		return;
-	}
 
 	if (camel_store_supports_subscriptions (store)) {
-		sc->store_list = g_list_append (sc->store_list, store);
+		sc->store_list = g_list_prepend (sc->store_list, store);
+		e_table_model_row_inserted (sc->store_model, 0);
 	}
 	else {
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
+}
 
-	camel_exception_free (ex);
+static void
+populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
+{
+	subscribe_do_get_store (sc, service->url, store_cb, NULL);
 }
 
 static void
@@ -755,6 +1051,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 						    0, NULL);
 
 	e_tree_model_root_node_set_visible (sc->folder_model, FALSE);
+	e_tree_model_set_expanded_default (sc->folder_model, TRUE);
 
 	toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
 	toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
@@ -834,6 +1131,10 @@ subscribe_dialog_destroy (GtkObject *object)
 	if (sc->storage)
 		gtk_object_unref (GTK_OBJECT (sc->storage));
 
+	/* free our search */
+	if (sc->search_top)
+		g_free (sc->search_top);
+
 	subscribe_dialog_parent_class->destroy (object);
 }
 
@@ -863,6 +1164,7 @@ subscribe_dialog_construct (GtkObject *object, Evolution_Shell shell)
 	sc->storage = NULL;
 	sc->folder_info = NULL;
 	sc->store_list = NULL;
+	sc->search_top = NULL;
 
 	subscribe_dialog_gui_init (sc);
 }

@@ -61,6 +61,9 @@ struct  _SubscribeDialog {
 	CamelFolderInfo          *folder_info;
 
 	GList                    *store_list;
+
+	GtkWidget                *search_entry;
+	char                     *search_top;
 };
 
 

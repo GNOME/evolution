@@ -1,3 +1,18 @@
+2000-11-01  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-dialog.h: add fields search_entry and search_top.
+
+	* subscribe-dialog.c: add mail-ops.c style async operations for
+	getting the store (to remove deadlock in the case where a auth
+	dialog is dismissed at startup and then the subscribe dialog is
+	brought up), and subscribing/unsubscribing to folders.  One case
+	remains, that is getting the list of all folders.
+	(subscribe_search): flesh out this function
+	(build_tree): use the search_top field so we can search for
+	groups/folders.
+	(subscribe_dialog_destroy): free search_top.
+	(subscribe_dialog_construct): init search_top.
+
 2000-10-30  Iain Holmes  <iain@helixcode.com>
 
 	* mail-summary.c (generate_folder_summaries): Fix spelling :)
