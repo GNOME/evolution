@@ -1,0 +1,49 @@
+<chapter id="usage-notes">
+  <title>Notas de Evolution</title>
+  <abstract>
+    <title> Una Vista General de las Notas de Evolution</title>
+    <para>
+      En la edad oscura antes de que el correo electrónico fuera inventado,
+      habia pequeños trozos de papel que la gente usaba para guardar
+      información que se necesitaba durante poco tiempo. A estos trozos de
+      papel se les llamó notas.  Ahora, las notas son casi una parte
+      necesaria de nuestras vidas, aunque ahora en formato electrónico.
+      Tiene sentido, entonces, que <application>Evolution</application>
+      eventualmente tenga una función de notas.
+      <application>Evolution</application> le ayuda a tomar notas de la
+      siguientes formas:
+     <itemizedlist>
+       <listitem>
+         <para>
+           Apunte números de teléfono, notas de la escuela, tome notas de
+	   mensajes telefónicos, o incluso escriba poesía.
+         </para>
+       </listitem>
+       <listitem>
+         <para>
+           Un código de colores para las notas pra poder organizarlas, o
+           simplemente para que tengan una apariencia bonita.
+         </para>
+       </listitem>
+       <listitem>
+         <para>
+           Convierta una nota en un mensaje electrónico o en un archivo de texto.
+         </para>
+       </listitem>
+       <listitem>
+         <para>
+           Escriba <glossterm>Haiku</glossterm>
+         </para>
+       </listitem>
+     </itemizedlist>
+   </para>
+   <para>
+     Puede comenzar a escribir notas pulsando sobre
+     <guibutton>Notas</guibutton> en la barra de atajos.  Naturalmente,
+     todavia no está ahí. Pero cuando esté, le llevara al editor.
+   </para>
+  </abstract>
+</chapter>
+
+
+
