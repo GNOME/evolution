@@ -12,6 +12,15 @@
 	operation, and also check to see if the subfolder is still there
 	before doing any fancy work (incase it got removed while we were
 	waiting to execute).
+	(folder_changed_change_uid): Use alloca for vuid, and not
+	sprintf(".lengths")
+	(vee_search_by_expression): Dont use sprintf for vuid.
+	(vee_search_by_uids): "
+	(vee_folder_add_info): "
+	(folder_changed_remove_uid): "
+	(folder_changed_change): "
+	(folder_changed_change_uid): Also check folder_unmatched for
+	changed uid's so we properly update/propagate unmatched changes.
 
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
