@@ -95,7 +95,7 @@ commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 	EBook *book;
 
 	book = E_BOOK (data);
-	e_book_commit_card (book, card, card_modified_cb, NULL);
+	e_card_merging_book_commit_card (book, card, card_modified_cb, NULL);
 }
 
 /* Callback for the delete_card signal from the contact editor */

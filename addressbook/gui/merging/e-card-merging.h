@@ -17,10 +17,14 @@
 
 BEGIN_GNOME_DECLS
 
-gboolean  e_card_merging_book_add_card  (EBook                 *book,
-					 ECard                 *card,
-					 EBookIdCallback        cb,
-					 gpointer               closure);
+gboolean  e_card_merging_book_add_card     (EBook           *book,
+					    ECard           *card,
+					    EBookIdCallback  cb,
+					    gpointer         closure);
+gboolean  e_card_merging_book_commit_card  (EBook           *book,
+					    ECard           *card,
+					    EBookCallback    cb,
+					    gpointer         closure);
 
 END_GNOME_DECLS
 

@@ -1,5 +1,22 @@
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/merging/Makefile.am (glade_DATA): Added
+	e-card-merging-book-commit-duplicate-detected.glade here.
+
+	* gui/merging/e-card-merging-book-commit-duplicate-detected.glade:
+	Added this file.  The GUI for asking whether to commit a modified
+	card.
+
+	* gui/merging/e-card-merging.c, gui/merging/e-card-merging.h
+	(e_card_merging_book_commit_card): Added this function.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_set_value_at), gui/widgets/e-addressbook-util.c
+	(commit_card_cb), gui/widgets/e-minicard.c (e_minicard_event): Use
+	e_card_merging_book_commit_card instead of e_book_commit_card here.
+
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
 	Made e_card_simple_get_id return const char *.
 

@@ -16,7 +16,8 @@ libecardmerging_a_SOURCES =			\
 
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = e-card-duplicate-detected.glade
+glade_DATA = 	e-card-duplicate-detected.glade	\
+		e-card-merging-book-commit-duplicate-detected.glade
 
 EXTRA_DIST = 			\
 	 $(glade_DATA)

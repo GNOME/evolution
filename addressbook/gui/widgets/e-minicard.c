@@ -37,6 +37,7 @@
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
+#include "e-card-merging.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
@@ -479,10 +480,10 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					if (book) {
 					
 						/* Add the card in the contact editor to our ebook */
-						e_book_commit_card (book,
-								    e_minicard->card,
-								    card_modified_cb,
-								    NULL);
+						e_card_merging_book_commit_card (book,
+										 e_minicard->card,
+										 card_modified_cb,
+										 NULL);
 					} else {
 						remodel(e_minicard);
 						e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_minicard));

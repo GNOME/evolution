@@ -17,23 +17,50 @@
 #include <gtk/gtksignal.h>
 #include "addressbook/gui/widgets/e-minicard-widget.h"
 
+typedef enum {
+	E_CARD_MERGING_ADD,
+	E_CARD_MERGING_COMMIT
+} ECardMergingOpType;
+
 typedef struct {
+	ECardMergingOpType op;
 	EBook *book;
 	ECard *card;
-	EBookIdCallback cb;
+	EBookIdCallback id_cb;
+	EBookCallback   cb;
 	gpointer closure;
 } ECardMergingLookup;
+
+static void
+doit (ECardMergingLookup *lookup)
+{
+	if (lookup->op == E_CARD_MERGING_ADD)
+		e_book_add_card (lookup->book, lookup->card, lookup->id_cb, lookup->closure);
+	else if (lookup->op == E_CARD_MERGING_COMMIT)
+		e_book_commit_card (lookup->book, lookup->card, lookup->cb, lookup->closure);
+}
+
+static void
+cancelit (ECardMergingLookup *lookup)
+{
+	if (lookup->op == E_CARD_MERGING_ADD) {
+		if (lookup->id_cb)
+			lookup->id_cb (lookup->book, E_BOOK_STATUS_CANCELLED, NULL, lookup->closure);
+	} else if (lookup->op == E_CARD_MERGING_COMMIT) {
+		if (lookup->cb)
+			lookup->cb (lookup->book, E_BOOK_STATUS_CANCELLED, lookup->closure);
+	}
+}
 
 static void
 clicked (GnomeDialog *dialog, int button, ECardMergingLookup *lookup)
 {
 	switch (button) {
 	case 0:
-		e_book_add_card (lookup->book, lookup->card, lookup->cb, lookup->closure);
+		doit (lookup);
 		break;
 	case 1:
-		if (lookup->cb)
-			lookup->cb (lookup->book, E_BOOK_STATUS_CANCELLED, NULL, lookup->closure);
+		cancelit (lookup);
 		break;
 	}
 	g_free (lookup);
@@ -45,11 +72,22 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 {
 	ECardMergingLookup *lookup = closure;
 	if (type == E_CARD_MATCH_NONE) {
-		e_book_add_card (lookup->book, card, lookup->cb, lookup->closure);
+		doit (lookup);
 		g_free (lookup);
 	} else {
-		GladeXML *ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-duplicate-detected.glade", NULL);
+		GladeXML *ui;
+		
 		GtkWidget *widget;
+
+		if (lookup->op == E_CARD_MERGING_ADD)
+			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-duplicate-detected.glade", NULL);
+		else if (lookup->op == E_CARD_MERGING_COMMIT)
+			ui = glade_xml_new (EVOLUTION_GLADEDIR "/e-card-merging-book-commit-duplicate-detected.glade", NULL);
+		else {
+			doit (lookup);
+			g_free (lookup);
+			return;
+		}
 
 		widget = glade_xml_get_widget (ui, "custom-old-card");
 		gtk_object_set (GTK_OBJECT (widget),
@@ -77,12 +115,38 @@ e_card_merging_book_add_card (EBook           *book,
 	ECardMergingLookup *lookup;
 	lookup = g_new (ECardMergingLookup, 1);
 
+	lookup->op = E_CARD_MERGING_ADD;
+	lookup->book = book;
+	lookup->card = card;
+	lookup->id_cb = cb;
+	lookup->closure = closure;
+
+	e_card_locate_match_full (book, card, NULL, match_query_callback, lookup);
+	return TRUE;
+}
+
+gboolean
+e_card_merging_book_commit_card (EBook                 *book,
+				 ECard                 *card,
+				 EBookCallback          cb,
+				 gpointer               closure)
+{
+	ECardMergingLookup *lookup;
+	GList *avoid;
+	lookup = g_new (ECardMergingLookup, 1);
+
+	lookup->op = E_CARD_MERGING_COMMIT;
 	lookup->book = book;
 	lookup->card = card;
 	lookup->cb = cb;
 	lookup->closure = closure;
 
-	e_card_locate_match_full (book, card, NULL, match_query_callback, lookup);
+	avoid = g_list_append (NULL, card);
+
+	e_card_locate_match_full (book, card, avoid, match_query_callback, lookup);
+
+	g_list_free (avoid);
+
 	return TRUE;
 }
 
