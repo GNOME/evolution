@@ -1,3 +1,9 @@
+2001-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (on_cursor_activated_idle): Check that the
+	cursor_uid is non-NULL before emitting a "message_selected"
+	signal. Fixes bug #6015.
+
 2001-10-16  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (e_searching_tokenizer_begin): Always
