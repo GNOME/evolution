@@ -651,6 +651,92 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
 
+struct _save_draft_info {
+	EMsgComposer *composer;
+	int quit;
+};
+
+static void
+save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+{
+	struct _save_draft_info *sdi = data;
+	
+	if (ok && sdi->quit)
+		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
+	else
+		gtk_object_unref (GTK_OBJECT (sdi->composer));
+	
+	g_free (info);
+	g_free (sdi);
+}
+
+static void
+use_default_drafts_cb (int reply, gpointer data)
+{
+	extern CamelFolder *drafts_folder;
+	CamelFolder **folder = data;
+	
+	if (reply == 0)
+		*folder = drafts_folder;
+}
+
+static void
+save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
+{
+	CamelFolder **save = data;
+	
+	if (folder) {
+		*save = folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
+}
+
+void
+composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
+{
+	extern char *default_drafts_folder_uri;
+	extern CamelFolder *drafts_folder;
+	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
+	const MailConfigAccount *account;
+	struct _save_draft_info *sdi;
+	CamelFolder *folder = NULL;
+	
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account && account->drafts_folder_uri &&
+	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+		int id;
+		
+		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_thread_new);
+		mail_msg_wait (id);
+		
+		if (!folder) {
+			GtkWidget *dialog;
+			
+			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
+								    "Would you like to use the default drafts folder?"),
+								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			if (!folder)
+				return;
+		}
+	} else
+		folder = drafts_folder;
+	
+	msg = e_msg_composer_get_message_draft (composer);
+	
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
+	
+	sdi = g_malloc (sizeof (struct _save_draft_info));
+	sdi->composer = composer;
+	gtk_object_ref (GTK_OBJECT (composer));
+	sdi->quit = quit;
+	
+	mail_append_mail (folder, msg, info, save_draft_done, sdi);
+	camel_object_unref (CAMEL_OBJECT (msg));
+}
+
 static GtkWidget *
 create_msg_composer (const char *url)
 {
@@ -689,6 +775,8 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	
 	gtk_widget_show (composer);
 }
@@ -712,7 +800,9 @@ send_to_url (const char *url)
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+	
 	gtk_widget_show (composer);
 }	
 
@@ -1035,6 +1125,8 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (free_psd), psd);
 	
@@ -1126,6 +1218,8 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
 		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
 	} else {
 		g_warning ("Could not create composer");
@@ -1740,6 +1834,11 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 					    composer_send_cb, NULL);
 			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 					    composer_postpone_cb, NULL);
+			
+			/* FIXME: we want to pass data to this callback so
+                           we can remove the old draft when they save again */
+			gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+					    composer_save_draft_cb, NULL);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}

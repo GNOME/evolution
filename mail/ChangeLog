@@ -1,5 +1,11 @@
 2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (compose_msg): Connect to the save-draft signal.
+	(send_to_url): Here too.
+	(mail_reply): And here...
+	(forward_get_composer): Same.
+	(do_edit_messages): And finally here.
+
 	* mail-format.c (try_inline_pgp):
 	(try_inline_pgp_sig): Start reiplementing The Right Way and not
 	danw's fucking half-assed kludge that doesn't work.

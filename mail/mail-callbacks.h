@@ -119,6 +119,7 @@ void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const ch
 
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
+void composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data);
 
 void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline);
 
