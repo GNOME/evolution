@@ -85,24 +85,25 @@ static GtkWidget *
 get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 {
   	GtkWidget *w = NULL;
-	EFolderType e_folder_type;
-	BonoboControlFrame *control_frame = NULL;
-	BonoboObjectClient *server;
-	EShell *shell_model;
 	Evolution_Shell corba_shell = CORBA_OBJECT_NIL;
 	CORBA_Environment ev;
+	EShell *shell_model = eshell_view->eshell;
 
-	
-	shell_model = eshell_view->eshell;
-	if (shell_model)
-		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_model));
-	else 
-		g_warning ("The shell Bonobo object does not have an associated CORBA object\n");
-	
+	/* This type could be E_FOLDER_MAIL, E_FOLDER_CONTACTS, etc */
+	EFolderType e_folder_type;
 
-	/* get the folder type */
+	g_assert (efolder);
+	g_assert (eshell_view);
+	
 	e_folder_type = e_folder_get_folder_type (efolder);
-
+	
+	if (shell_model)
+		corba_shell = bonobo_object_corba_objref (
+			BONOBO_OBJECT (shell_model));
+	else 
+		g_warning ("The shell Bonobo object does not have "
+			   "an associated CORBA object\n");
+	
 	/* initialize the corba environment */
 	CORBA_exception_init (&ev);
 
@@ -111,65 +112,57 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 	switch (e_folder_type) {
 
 	case E_FOLDER_MAIL :
-		{
-			Evolution_ServiceRepository corba_sr;
-
-			w = bonobo_widget_new_control ("control:evolution-mail",
-						       uih);
-			server = bonobo_widget_get_server (BONOBO_WIDGET (w));
-			
-			corba_sr = (Evolution_ServiceRepository) 
-				bonobo_object_client_query_interface (server,
-								      "IDL:Evolution/ServiceRepository:1.0",
-								      NULL);
-			if (corba_sr != CORBA_OBJECT_NIL) {
-				Evolution_ServiceRepository_set_shell (corba_sr, corba_shell, &ev);
-			} else {
-				g_warning ("The bonobo component for the mail doesn't seem to implement the "
-					   "Evolution::ServiceRepository interface\n");
-			}
-		}
+		w = bonobo_widget_new_control ("control:evolution-mail", uih);
 		break;
 
 	case E_FOLDER_CONTACTS :
-		{
-#if 0
-			Evolution_ServiceRepository corba_sr;
-#endif
-
-			w = bonobo_widget_new_control ("control:addressbook",
-						       uih);
-#if 0
-			server = bonobo_widget_get_server (BONOBO_WIDGET (w));
-			
-			corba_sr = (Evolution_ServiceRepository) 
-				bonobo_object_client_query_interface (server,
-								      "IDL:Evolution/ServiceRepository:1.0",
-								      NULL);
-			if (corba_sr != CORBA_OBJECT_NIL) {
-				Evolution_ServiceRepository_set_shell (corba_sr, corba_shell, &ev);
-			} else {
-				g_warning ("The bonobo component for the mail doesn't seem to implement the "
-					   "Evolution::ServiceRepository interface\n");
-			}
-#endif
-		}
+		w = bonobo_widget_new_control ("control:addressbook", uih);
 		break;
- 
-	default : 
-		printf ("No bonobo component associated to %s\n", 
-			e_folder_get_description (efolder));
-	}
-  	
-	if (!control_frame)
-		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
-	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
-	bonobo_control_frame_control_activate (control_frame);
 
-	if (w)	gtk_widget_show (w);
+	case E_FOLDER_CALENDAR :
+	case E_FOLDER_TASKS :
+	case E_FOLDER_OTHER :		
+	default : 
+		printf ("%s: %s: No bonobo component associated with %s\n",
+			__FILE__,
+			__FUNCTION__,
+			e_folder_get_description (efolder));
+		return NULL;
+	}
+
+	if (w)
+	{
+		Evolution_ServiceRepository corba_sr;
+		BonoboObjectClient *server =
+			bonobo_widget_get_server (BONOBO_WIDGET (w));
+		BonoboControlFrame *control_frame =
+			bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
+
+		bonobo_control_frame_set_autoactivate (control_frame, FALSE);
+		bonobo_control_frame_control_activate (control_frame);
+
+		/* Does this control have the "ServiceRepository" interface? */
+		corba_sr = (Evolution_ServiceRepository) 
+			bonobo_object_client_query_interface (
+				server,
+				"IDL:Evolution/ServiceRepository:1.0",
+				NULL);
+
+		/* If it does, pass our shell interface to it */
+		if (corba_sr != CORBA_OBJECT_NIL) {
+			Evolution_ServiceRepository_set_shell (corba_sr,
+							       corba_shell,
+							       &ev);
+		} else {
+			g_warning ("The bonobo component for the mail doesn't "
+				   "seem to implement the "
+				   "Evolution::ServiceRepository interface\n");
+		}
+	
+		gtk_widget_show (w);
+	}
 	
 	return w;
-
 }
 
 
@@ -180,6 +173,9 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 	GtkWidget *notebook = eshell_view->priv->notebook;
 	GtkWidget *folder_view = g_hash_table_lookup (
 		eshell_view->priv->folder_views, efolder);
+
+	g_assert (eshell_view);
+	g_assert (efolder);
 
 	/* if we found a notebook page in our hash, that represents
 	   this efolder, switch to it */
@@ -221,6 +217,9 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 {
 	EShellView *eshell_view;
 
+	g_return_val_if_fail (eshell != NULL, NULL);
+	g_return_val_if_fail (efolder != NULL, NULL);	
+	
 	eshell_view = gtk_type_new (e_shell_view_get_type ());
 
 	eshell_view->priv = g_new (EShellViewPrivate, 1);

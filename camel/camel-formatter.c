@@ -102,6 +102,7 @@ struct _CamelFormatterPrivate {
 static void
 debug (const gchar *format, ...)
 {
+#if 0
 	va_list args;
 	gchar *string;
 	
@@ -115,6 +116,7 @@ debug (const gchar *format, ...)
 	fflush (stdout);
 	
 	g_free (string);
+#endif
 }
 
 static void
@@ -152,7 +154,7 @@ void camel_formatter_wrapper_to_html (CamelFormatter* formatter,
 				 data_wrapper->mime_type->type,
 				 data_wrapper->mime_type->subtype);
 
-	g_print ("camel_formatter_wrapper_to_html: entered\n");
+	debug ("camel_formatter_wrapper_to_html: entered\n");
 	g_assert (formatter && data_wrapper && stream_out);
 
 	/* give the root CamelDataWrapper and the stream to the formatter */
@@ -194,7 +196,7 @@ camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 				      CamelStream* header_stream,
 				      CamelStream* body_stream)
 {
-	g_print ("camel_formatter_mime_message_to_html: entered\n");
+	debug ("camel_formatter_mime_message_to_html: entered\n");
 
 	g_assert (formatter != NULL);
 	g_assert (CAMEL_IS_FORMATTER (formatter));

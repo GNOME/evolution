@@ -1,3 +1,8 @@
+2000-03-22  Matt Loper  <matt@helixcode.com>
+
+	* camel-formatter.c (debug): Disabled some useless debug
+	messaging.
+
 2000-03-21  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3: some initial bits of the POP3 provider, to

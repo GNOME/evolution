@@ -1,3 +1,12 @@
+2000-03-22  Matt Loper  <matt@helixcode.com>
+
+	* shell/main.c (evolution_boot): gtk_signal_connect'ed "destroy"
+	to gtk_main_quit, so that the shell dies when you want it to.
+
+	* shell/e-shell-view.c (get_view): Reorganized, and added
+	assertions.
+	(e_shell_view_set_view): Added assertions.
+
 2000-03-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Changed gnome_canvas_item_grab_focus to

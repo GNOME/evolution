@@ -73,7 +73,10 @@ evolution_boot (void)
 		e_shell_view_new (eshell,
 				  eshell->default_folders.inbox,
 				  TRUE));
-
+	gtk_signal_connect (GTK_OBJECT (e_shell_view), "destroy",
+			    GTK_SIGNAL_FUNC(gtk_main_quit),
+			    NULL);
+	
 	gtk_widget_show (GTK_WIDGET (e_shell_view));
 }
 
