@@ -24,6 +24,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder-summary.c			\
 	camel-folder.c				\
 	camel-internet-address.c		\
+	camel-lock.c				\
 	camel-medium.c				\
 	camel-mime-filter-bestenc.c		\
 	camel-mime-filter-basic.c		\
@@ -77,6 +78,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder-summary.h			\
 	camel-folder.h				\
 	camel-internet-address.h		\
+	camel-lock.h				\
 	camel-medium.h				\
 	camel-mime-filter-bestenc.h		\
 	camel-mime-filter-basic.h		\

@@ -1,5 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* 
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Author: Michael Zucchi <notzed@helixcode.com>
  *
@@ -21,10 +20,8 @@
  * USA
  */
 
-
 #ifndef CAMEL_LOCAL_FOLDER_H
 #define CAMEL_LOCAL_FOLDER_H 1
-
 
 #ifdef __cplusplus
 extern "C" {

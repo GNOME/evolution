@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#include <alloca.h>
 
 #include "camel-movemail.h"
 #include "camel-exception.h"
@@ -590,3 +591,4 @@ fail:
 	return -1;
 }
 #endif
+

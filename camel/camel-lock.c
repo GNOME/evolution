@@ -22,16 +22,20 @@
 
 #include <config.h>
 
-/* need configure checks here */
+/* need configure checks or some configurable thingy here */
 #define USE_DOT
 #define USE_FCNTL
 #define USE_FLOCK
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
 #include <alloca.h>
-#include <string.h>
+#include <time.h>
 
 #ifdef USE_DOT
 #include <sys/types.h>
@@ -51,7 +55,7 @@
 #include "camel-lock.h"
 
 /* dunno where this fucking thing is got from */
-/*#define _(x) (x)*/
+#define _(x) (x)
 
 #define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
 
@@ -71,7 +75,7 @@ camel_lock_dot(const char *path, CamelException *ex)
 #ifdef USE_DOT
 	char *locktmp, *lock;
 	int retry = 0;
-	int fdtmp, fd;
+	int fdtmp;
 	struct stat st;
 
 	/* TODO: Is there a reliable way to refresh the lock, if we're still busy with it?
@@ -133,7 +137,7 @@ camel_lock_dot(const char *path, CamelException *ex)
 		/* check for stale lock, kill it */
 		if (stat(lock, &st) == 0) {
 			time_t now = time(0);
-			d(printf("There is an existing lock %d seconds old\n", now-st.st_ctime));
+			d(printf("There is an existing lock %ld seconds old\n", now-st.st_ctime));
 			if (st.st_ctime < now - CAMEL_LOCK_DOT_STALE) {
 				d(printf("Removing it now\n"));
 				unlink(lock);

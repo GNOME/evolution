@@ -77,7 +77,7 @@ void                      camel_exception_xfer          (CamelException *ex_dst,
 
 /* exception content retrieval */
 ExceptionId               camel_exception_get_id        (CamelException *ex);
-const gchar *             camel_exception_get_description (CamelException *ex);
+const char *             camel_exception_get_description (CamelException *ex);
 
 #define camel_exception_is_set(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 
