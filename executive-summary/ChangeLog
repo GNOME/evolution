@@ -1,3 +1,12 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* component/e-summary-factory.c: #include
+	"evolution-shell-component-utils.h" rather than "e-gui-utils.h"
+	for e_pixmaps_update.
+
+	* component/Makefile.am (evolution_executive_summary_LDADD): Use
+	libeshell.la, not libeshell.a (Did Peter forget to commit this?)
+
 2001-05-25  Peter Williams  <peterw@ximian.com>
 
 	* component/Makefile.am: Reference libeshell.la instead of libeshell.a.

@@ -36,7 +36,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/util/e-util.h>
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 
 #include "e-summary-factory.h"
 
