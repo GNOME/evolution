@@ -252,11 +252,17 @@ etspec_DATA = \
 
 @XML_I18N_MERGE_OAF_RULE@
 
+icons = 			\
+	check-empty.xpm		\
+	check-filled.xpm	\
+	check-missing.xpm
+
 EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(oaf_in_files)				\
 	$(oaf_DATA)				\
 	$(etspec_DATA)				\
+	$(icons)				\
 	GNOME_Evolution_TestComponent.oaf
 
 # Purify support

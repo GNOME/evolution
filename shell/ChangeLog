@@ -1,5 +1,26 @@
 2002-05-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* Makefile.am: Added check-empty.xpm, check-filled.xpm, and
+	check-missing.xpm.
+
+	* check-empty.xpm, check-filled.xpm, check-missing.xpm: New xpms.
+	Copied from gal.  check-missing.xpm is simply a transparent xpm of
+	the correct size.
+
+	* e-storage-set-view.c (etree_value_at): When getting, check if
+	the path doesn't have a check box and return 2 in that case.
+	(etree_set_value_at): Check if the path doesn't have a check box
+	and don't change it in that case.  Also, just invert the value
+	here instead of paying attention to the set value passed in.
+	(class_init): Initialize the checks GdkPixbufs.
+	(e_storage_set_view_construct): Create the "optional_checkbox"
+	cell.
+
+	* e-storage-set-view.etspec: Changed the cell for the checkbox
+	column to "optional_checkbox".
+
+2002-05-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* evolution-storage.c (evolution_storage_new_folder): Compute the
 	evolutionUri here and pass it in.
 

@@ -39,11 +39,19 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
-#include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-tree.h>
 #include <gal/unicode/gunicode.h>
 
 #include <libgnome/gnome-util.h>
+
+#include "check-empty.xpm"
+#include "check-filled.xpm"
+#include "check-missing.xpm"
+
+
+static GdkPixbuf *checks [3];
 
 
 /*#define DEBUG_XML*/
@@ -1144,6 +1152,12 @@ etree_get_node_by_id (ETreeModel *etm,
 	return g_hash_table_lookup (storage_set_view->priv->path_to_etree_node, save_id);
 }
 
+static gboolean
+has_checkbox (EStorageSetView *storage_set_view, ETreePath tree_path)
+{
+	return TRUE;
+}
+
 static void *
 etree_value_at (ETreeModel *etree,
 		ETreePath tree_path,
@@ -1194,10 +1208,12 @@ etree_value_at (ETreeModel *etree,
 			return GINT_TO_POINTER (FALSE);
 		return GINT_TO_POINTER (e_folder_get_highlighted (folder));
 	case 2: /* checkbox */
+		if (!has_checkbox (storage_set_view, tree_path))
+			return GINT_TO_POINTER (2);
 		if (priv->checkboxes == NULL)
-			return GINT_TO_POINTER (FALSE);
-		return GINT_TO_POINTER(!!g_hash_table_lookup (priv->checkboxes,
-							      path));
+			return GINT_TO_POINTER (0);
+		return GINT_TO_POINTER(g_hash_table_lookup (priv->checkboxes,
+							    path) ? 1 : 0);
 	default:
 		return NULL;
 	}
@@ -1236,44 +1252,34 @@ etree_set_value_at (ETreeModel *etree,
 	char *path;
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
+	char *old_path;
 
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
 	priv = storage_set_view->priv;
 
 	switch (col) {
 	case 2: /* checkbox */
+		if (!has_checkbox (storage_set_view, tree_path))
+			return;
+
+		e_tree_model_pre_change (etree);
+
 		value = GPOINTER_TO_INT (val);
 		path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
-		e_tree_model_pre_change (etree);
-		if (value) {
-			if (!priv->checkboxes) {
-				priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
-			} else {
-				if (g_hash_table_lookup (priv->checkboxes, path)) {
-					e_tree_model_no_change (etree);
-					return;
-				}
-			}
+		if (!priv->checkboxes) {
+			priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
+		}
 
+		old_path = g_hash_table_lookup (priv->checkboxes, path);
+
+		if (old_path) {
+			g_hash_table_remove (priv->checkboxes, path);
+			g_free (old_path);
+		} else {
 			path = g_strdup (path);
 			g_hash_table_insert (priv->checkboxes, path, path);
-		} else {
-			char *temp;
-
-			if (!priv->checkboxes) {
-				e_tree_model_no_change (etree);
-				return;
-			} else {
-				if (!g_hash_table_lookup (priv->checkboxes, path)) {
-					e_tree_model_no_change (etree);
-					return;
-				}
-			}
-
-			temp = g_hash_table_lookup (priv->checkboxes, path);
-			g_hash_table_remove (priv->checkboxes, path);
-			g_free (temp);
 		}
+
 		e_tree_model_node_col_changed (etree, tree_path, col);
 		gtk_signal_emit (GTK_OBJECT (storage_set_view),
 				 signals[CHECKBOXES_CHANGED]);
@@ -1599,6 +1605,10 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
+	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
+	checks [2] = gdk_pixbuf_new_from_xpm_data (check_missing_xpm);
 }
 
 static void
@@ -1819,6 +1829,9 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	gtk_object_set (GTK_OBJECT (cell), "bold_column", 1, NULL);
 	e_table_extras_add_cell (extras, "render_tree",
 				 e_cell_tree_new (NULL, NULL, TRUE, cell));
+
+	e_table_extras_add_cell (extras, "optional_checkbox",
+				 e_cell_toggle_new (2, 3, checks));
 
 	e_tree_construct_from_spec_file (E_TREE (storage_set_view), priv->etree_model, extras,
 					 EVOLUTION_ETSPECDIR "/e-storage-set-view.etspec", NULL);
