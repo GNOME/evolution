@@ -780,7 +780,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 		if (*c == store->dir_sep || strchr ("#%*", *c)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 					      _("The folder name \"%s\" is invalid because "
-						"it containes the character \"%c\""),
+						"it contains the character \"%c\""),
 					      folder_name, *c);
 			return NULL;
 		}
