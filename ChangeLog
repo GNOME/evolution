@@ -1,3 +1,7 @@
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* NEWS: Added 0.5 changes for ETable and Addressbook.
+
 2000-09-07  Dan Winship  <danw@helixcode.com>
 
 	* README: Add a mention of the verify-evolution-install.sh script

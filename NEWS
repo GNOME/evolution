@@ -1,6 +1,10 @@
 Version 0.5, "insert-code-name-here", insert-date-here
 ------------------------------------------------------
 
+Shell:
+
+  - Switched to using ETree (Chris Toshok, Ettore)
+
 Calendar:
 
   - Uses only the new iCalendar standard internally; this means future
@@ -9,6 +13,28 @@ Calendar:
   - New ultra-cool date range selector, aka little calendar (Damon).
 
   - Plenty of internal refactoring (JP, Damon, Federico).
+
+Addressbook:
+
+  - New advanced search dialog. (Michael Zucchi, Chris Lahey)
+
+  - Added parsing of addresses. (Jesse Pavel)
+
+  - Converted most of addressbook to UTF8. (Lauris)
+
+ETable:
+
+  - ETree fixes. (Chris Toshok)
+
+  - Lots of small usability fixes. (Chris Lahey)
+
+  - Lots of grouping bug fixes.  Specifically, fixed crashes when
+    grouping in trees and made ETable not go crazy when you change
+    data and the table is grouped. (Chris Lahey)
+
+  - Improved table printing when grouped. (Chris Lahey)
+
+  - Converted most of ETable to UTF8. (Lauris)
 
 Version 0.4, "Alewife", 2000-08-14
 ----------------------------------
