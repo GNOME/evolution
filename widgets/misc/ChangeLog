@@ -1,3 +1,26 @@
+2000-11-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dateedit.h (EDateEditClass): Removed the "time_changed"
+	signal, since it was never being emitted in the first place.  Time
+	values *are* both date and time together anyways, so whenever one
+	changes we should notify about the whole date/time value being
+	changed.
+	Renamed the remaining "date_changed" signal to just "changed".
+
+	* e-dateedit.c (e_date_edit_class_init): Do not create the
+	"time_changed" signal; rename the other one to "changed".
+	(set_time): Moved the core functionality from
+	e_date_edit_set_time() to here.  This function just sets the
+	widgets' values without emitting any signals.
+	(e_date_edit_set_time): Emit the "changed" signal unconditionally.
+	This is to be consistent with the rest of the GTK+ widgets, and it
+	actually makes writing client code easier.
+	(e_date_edit_new): Use set_time().
+	(on_date_popup_now_button_clicked): Do not emit the signal here.
+	(on_date_popup_none_button_clicked): Likewise.
+	(e_date_edit_set_time_of_day): Emit the signal, since we do not
+	call e_date_edit_set_time().
+
 2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-calendar-item.c: #include <string.h> to get rid of warning.

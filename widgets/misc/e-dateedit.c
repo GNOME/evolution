@@ -76,8 +76,7 @@ struct _EDateEditPrivate {
 };
 
 enum {
-	DATE_CHANGED,
-	TIME_CHANGED,
+	CHANGED,
 	LAST_SIGNAL
 };
 
@@ -163,19 +162,11 @@ e_date_edit_class_init (EDateEditClass *class)
 
 	parent_class = gtk_type_class (gtk_hbox_get_type ());
 
-	date_edit_signals [TIME_CHANGED] =
-		gtk_signal_new ("time_changed",
+	date_edit_signals [CHANGED] =
+		gtk_signal_new ("changed",
 				GTK_RUN_FIRST, object_class->type,
 				GTK_SIGNAL_OFFSET (EDateEditClass,
-						   time_changed),
-				gtk_signal_default_marshaller,
-				GTK_TYPE_NONE, 0);
-	
-	date_edit_signals [DATE_CHANGED] =
-		gtk_signal_new ("date_changed",
-				GTK_RUN_FIRST, object_class->type,
-				GTK_SIGNAL_OFFSET (EDateEditClass,
-						   date_changed),
+						   changed),
 				gtk_signal_default_marshaller,
 				GTK_TYPE_NONE, 0);
 	
@@ -186,8 +177,7 @@ e_date_edit_class_init (EDateEditClass *class)
 
 	object_class->destroy = e_date_edit_destroy;
 
-	class->date_changed = NULL;
-	class->time_changed = NULL;
+	class->changed = NULL;
 }
 
 
@@ -206,6 +196,50 @@ e_date_edit_init (EDateEdit *dedit)
 	priv->upper_hour = 24;
 }
 
+/* Sets the displayed date and time from a time_t value; does not emit any
+ * signals.
+ */
+static void
+set_time (EDateEdit *dedit, time_t the_time)
+{
+	EDateEditPrivate *priv;
+	struct tm *mytm;
+	char buffer[40], *format;
+
+	priv = dedit->_priv;
+
+	if (the_time == -1) {
+		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
+		disable_time_combo (dedit);
+		return;
+	}
+
+	enable_time_combo (dedit);
+
+	if (the_time == 0)
+		the_time = time (NULL);
+
+	mytm = localtime (&the_time);
+
+	/* Set the date */
+
+	/* This is a strftime() format for a short date. %m = month, %d = day
+	   of month, %Y = year (all digits). */
+	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), mytm);
+	gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
+
+	/* Set the time */
+	if (priv->use_24_hour_format)
+		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
+		format = _("%H:%M");
+	else
+		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+		format = _("%I:%M %p");
+
+	strftime (buffer, sizeof (buffer), format, mytm);
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
+			    buffer);
+}
 
 /**
  * e_date_edit_new:
@@ -223,7 +257,7 @@ e_date_edit_new (void)
 	dedit = gtk_type_new (e_date_edit_get_type ());
 
 	create_children (dedit);
-	e_date_edit_set_time (dedit, 0);
+	set_time (dedit, 0);
 
 	return GTK_WIDGET (dedit);
 }
@@ -482,7 +516,7 @@ on_date_popup_date_selected (ECalendarItem *calitem, EDateEdit *dedit)
 
 	enable_time_combo (dedit);
 
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [DATE_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
 	hide_date_popup (dedit);
 }
 
@@ -492,7 +526,6 @@ on_date_popup_now_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
 {
 	e_date_edit_set_time (dedit, time (NULL));
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [DATE_CHANGED]);
 	hide_date_popup (dedit);
 }
 
@@ -514,7 +547,7 @@ on_date_popup_today_button_clicked	(GtkWidget	*button,
 
 	enable_time_combo (dedit);
 
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [DATE_CHANGED]);
+	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
 	hide_date_popup (dedit);
 }
 
@@ -524,7 +557,6 @@ on_date_popup_none_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
 {
 	e_date_edit_set_time (dedit, -1);
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [DATE_CHANGED]);
 	hide_date_popup (dedit);
 }
 
@@ -697,45 +729,11 @@ e_date_edit_parse_date (EDateEdit *dedit,
 void
 e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
 {
-	EDateEditPrivate *priv;
-	struct tm *mytm;
-	char buffer[40], *format;
-
+	g_return_if_fail (dedit != NULL);
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	priv = dedit->_priv;
-
-	if (the_time == -1) {
-		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
-		disable_time_combo (dedit);
-		return;
-	}
-
-	enable_time_combo (dedit);
-
-	if (the_time == 0)
-		the_time = time (NULL);
-
-	mytm = localtime (&the_time);
-
-	/* Set the date */
-
-	/* This is a strftime() format for a short date. %m = month, %d = day
-	   of month, %Y = year (all digits). */
-	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), mytm);
-	gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
-
-	/* Set the time */
-	if (priv->use_24_hour_format)
-		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-		format = _("%H:%M");
-	else
-		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-		format = _("%I:%M %p");
-
-	strftime (buffer, sizeof (buffer), format, mytm);
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
-			    buffer);
+	set_time (dedit, the_time);
+	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals[CHANGED]);
 }
 
 
@@ -818,6 +816,8 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 	strftime (buffer, sizeof (buffer), format, &mytm);
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
 			    buffer);
+
+	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
 }
 
 

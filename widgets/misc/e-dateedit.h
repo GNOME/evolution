@@ -60,8 +60,7 @@ struct _EDateEdit {
 struct _EDateEditClass {
 	GtkHBoxClass parent_class;
 
-	void (*date_changed) (EDateEdit *dedit);
-	void (*time_changed) (EDateEdit *dedit);
+	void (* changed) (EDateEdit *dedit);
 };
 
 guint      e_date_edit_get_type			(void);
