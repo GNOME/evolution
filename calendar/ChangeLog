@@ -1,3 +1,8 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): Changed
+	append_row to just send the information to the model.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/calendar-commands.c: Header preparations for changes
