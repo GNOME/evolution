@@ -1098,20 +1098,21 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 
 	if (event->type == GDK_BUTTON_PRESS) {
 		if (event->button == 3) {
+			HTMLEngine *e;
 			HTMLPoint *point;
 			const gchar *email;
 			const gchar *name;
 			const gchar *link;
 
-			point = html_engine_get_point_at (GTK_HTML (widget)->engine, event->x, event->y, FALSE);
+			e     = GTK_HTML (widget)->engine;
+			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
 			if (point) {
 				email = (const gchar *) html_object_get_data (point->object, "email");
 				if (email) {
 					name = (const gchar *) html_object_get_data (point->object, "name");
 					g_print ("address: %s name: %s\n", email, name);
 					e_popup_menu_run (address_menu, (GdkEvent *) event, 0, 0, mail_display);
-				} else if ((link = html_engine_get_link_at (GTK_HTML (widget)->engine,
-									    event->x, event->y))) {
+				} else if ((link = html_object_get_url (point->object))) {
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
 				}
 				html_point_destroy (point);
@@ -1137,18 +1138,21 @@ set_underline (HTMLEngine *e, HTMLObject *o, gboolean underline)
 static void
 update_active (GtkWidget *widget, gint x, gint y, MailDisplay *mail_display)
 {
+	HTMLEngine *e;
 	HTMLPoint *point;
 	const gchar *email;
 
-	point = html_engine_get_point_at (GTK_HTML (widget)->engine, x, y, FALSE);
+	e = GTK_HTML (widget)->engine;
+
+	point = html_engine_get_point_at (e, x + e->x_offset, y + e->y_offset, FALSE);
 	if (mail_display->last_active && (!point || mail_display->last_active != point->object)) {
-		set_underline (GTK_HTML (widget)->engine, HTML_OBJECT (mail_display->last_active), FALSE);
+		set_underline (e, HTML_OBJECT (mail_display->last_active), FALSE);
 		mail_display->last_active = NULL;
 	}
 	if (point) {
 		email = (const gchar *) html_object_get_data (point->object, "email");
 		if (email && html_object_is_text (point->object)) {
-			set_underline (GTK_HTML (widget)->engine, point->object, TRUE);
+			set_underline (e, point->object, TRUE);
 			mail_display->last_active = point->object;
 		}
 		html_point_destroy (point);

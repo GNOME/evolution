@@ -14,6 +14,8 @@
 	(html_enter_notify_event): take care of enter event
 	(update_active): helper function, extracted from
 	html_motion_notify_event
+	(update_active): move to absolute coordinates
+	(html_button_press_event): ditto
 
 	* mail-format.c (write_address): revert back to raw HTML text,
 	store name and email to Text objects, workaround gtkhtml tables
