@@ -1,9 +1,34 @@
 2001-10-22    <NotZed@Ximian.com>
 
+	* camel-filter-search.c, camel-folder-search.c (check_header): Use
+	search_type_mlist for mailing list searches.
+
+	* camel.c (camel_init): call camel-mime-utils-init func.
+
+	* camel-mime-utils.c: Changed mail mail_list_magic to include a
+	domain part, also pre-compile all the patterns.  They are all
+	backward compatible except List-Id: which now uses the
+	mail-address-like <list-name.host.name> part rather than the
+	plain-text part (which might've been blank anyway).
+	(camel_mime_utils_init): Initialisation function to setup any
+	static data required by camel-mime-utils at run-time.  We now
+	setup the base64/charset class tables here, so it doesn't need to
+	be done statically.
+	(camel_mime_special_table, camel_mime_base64_rank): No longer
+	statically initialise these.
+	(main): Removed + the tests at the end of the file.
+	(header_raw_check_mailing_list): Dont compile regex's here,
+	already compiled in utils_init.  Use the regex patterns to remove
+	leading <'s from addresses.  Also, if there is a domain part
+	matched, add that after a '@' is added.
+
 	* camel-search-private.c (camel_search_header_match): Match check
 	against all addresses in a multiple address match.  Should fix
 	#13051.
 	(camel_search_header_match): Oops, missing i=0.
+	(camel_search_header_match): Added SEARCH_TYPE_MLIST for mlist
+	search types.  It ignores the domain part if either (but not both)
+	of the values dont have it.
 
 2001-10-22  Dan Winship  <danw@ximian.com>
 

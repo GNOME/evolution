@@ -88,52 +88,10 @@ static unsigned char tohex[16] = {
 	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
 };
 
-static unsigned short camel_mime_special_table[256] = {
-	  5,  5,  5,  5,  5,  5,  5,  5,  5,231,  7,  5,  5, 39,  5,  5,
-	  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,
-	242,448, 76,192,192,192,192,192, 76, 76,448,448, 76,448, 72,324,
-	448,448,448,448,448,448,448,448,448,448, 76, 76, 76,  4, 76, 68,
-	 76,448,448,448,448,448,448,448,448,448,448,448,448,448,448,448,
-	448,448,448,448,448,448,448,448,448,448,448,108,236,108,192, 64,
-	192,448,448,448,448,448,448,448,448,448,448,448,448,448,448,448,
-	448,448,448,448,448,448,448,448,448,448,448,192,192,192,192,  5,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-};
+static unsigned short camel_mime_special_table[256];
+static unsigned char camel_mime_base64_rank[256];
 
-static unsigned char camel_mime_base64_rank[256] = {
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255, 62,255,255,255, 63,
-	 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,255,255,255,  0,255,255,
-	255,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-	 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,255,255,255,255,255,
-	255, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-	 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-	255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
-};
-
-/*
-  if any of these change, then the tables above should be regenerated
-  by compiling this with -DBUILD_TABLE, and running.
-
-  gcc -DCLEAN_DATE -o buildtable -I.. `gnome-config --cflags --libs gal` -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
-  ./buildtable
-
-*/
+/* Flags bits set in the mime_special table, use the is_*() mactos to access them normally */
 enum {
 	IS_CTRL		= 1<<0,
 	IS_LWSP		= 1<<1,
@@ -158,9 +116,7 @@ enum {
 #define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
 #define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
 
-/* only needs to be run to rebuild the tables above */
-#ifdef BUILD_TABLE
-
+/* Used by table initialisation code for special characters */
 #define CHARS_LWSP " \t\n\r"
 #define CHARS_TSPECIAL "()<>@,;:\\\"/[]?="
 #define CHARS_SPECIAL "()<>@,;:\\\".[]"
@@ -235,7 +191,7 @@ header_decode_init(void)
 	header_init_bits(IS_PSAFE, 0, 0, CHARS_PSPECIAL);
 }
 
-void
+static void
 base64_init(void)
 {
 	int i;
@@ -246,46 +202,6 @@ base64_init(void)
 	}
 	camel_mime_base64_rank['='] = 0;
 }
-
-int main(int argc, char **argv)
-{
-	int i;
-	void run_test(void);
-
-	header_decode_init();
-	base64_init();
-
-	printf("static unsigned short camel_mime_special_table[256] = {\n\t");
-	for (i=0;i<256;i++) {
-		printf("%3d,", camel_mime_special_table[i]);
-		if ((i&15) == 15) {
-			printf("\n");
-			if (i!=255) {
-				printf("\t");
-			}
-		}
-	}
-	printf("};\n");
-
-	printf("static unsigned char camel_mime_base64_rank[256] = {\n\t");
-	for (i=0;i<256;i++) {
-		printf("%3d,", camel_mime_base64_rank[i]);
-		if ((i&15) == 15) {
-			printf("\n");
-			if (i!=255) {
-				printf("\t");
-			}
-		}
-	}
-	printf("};\n");
-
-	run_test();
-
-	return 0;
-}
-
-#endif
-
 
 /* call this when finished encoding everything, to
    flush off the last little bit */
@@ -3714,18 +3630,19 @@ header_msgid_generate (void)
 static struct {
 	char *name;
 	char *pattern;
+	regex_t regex;
 } mail_list_magic[] = {
 	/* Sender: owner-gnome-hackers@gnome.org */
 	/* Sender: owner-gnome-hacekrs */
-	{ "Sender", " *owner-([^@]+)@?([^ \n\t\r>]*)" },
+	{ "Sender", " *owner-([^@]+)@?([^ @\n\t\r>]*)" },
 	/* Sender: gnome-hackers-owner@gnome.org */
 	/* Sender: gnome-hackers-owner */
-	{ "Sender", " *([^@]+)-owner@?(([^ \n\t\r>]*)" },
+	{ "Sender", " *([^@]+)-owner@?([^ @\n\t\r>]*)" },
 	/* Sender: owner-gnome-hackers@gnome.org */
 	/* Sender: <owner-gnome-hackers@gnome.org> */
 	/* Sender: owner-gnome-hackers */
 	/* Sender: <owner-gnome-hackers> */
-	{ "Return-Path", " <?owner-([^@]+)@?([^ \n\t\r>]*)" },
+	{ "Return-Path", " <?owner-([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-BeenThere: gnome-hackers@gnome.org */
 	/* X-BeenThere: gnome-hackers */
 	{ "X-BeenThere", " *([^@]+)@?([^ \n\t\r>]*)" },
@@ -3734,53 +3651,56 @@ static struct {
 	{ "Delivered-To", " *mailing list ([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-Mailing-List: <gnome-hackers@gnome.org> arcive/latest/100 */
 	/* X-Mailing-List: gnome-hackers@gnome.org */
-	{ "X-Mailing-List", " <?*([^@]+)@?([^ \n\t\r>]*)" },
+	/* X-Mailing-List: gnome-hackers */
+	/* X-Mailing-List: <gnome-hackers> */
+	{ "X-Mailing-List", " <?*([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-Loop: gnome-hackers@gnome.org */
 	{ "X-Loop", " *([^@]+)@?([^ \n\t\r>]*)" },
-	{ "List-Id", " *([^<]+)" },
-	{ "List-Post", " *<mailto:([^@]+)" },
-	{ "Mailing-List", " *list ([^@]+)" },
-	{ "Originator", " *([^@]+)" },
+	/* List-Id: GNOME stuff <gnome-hackers.gnome.org> */
+	/* List-Id: <gnome-hackers.gnome.org> */
+	/* List-Id: <gnome-hackers> */
+	/* This old one wasn't very useful: { "List-Id", " *([^<]+)" },*/
+	{ "List-Id", "[^<]*<([^\\.>]+)\\.?([^ \n\t\r>]*)" },
+	/* List-Post: <mailto:gnome-hackers@gnome.org> */
+	/* List-Post: <mailto:gnome-hackers> */
+	{ "List-Post", " *<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
+	/* Mailing-List: list gnome-hackers@gnome.org; contact gnome-hackers-owner@gnome.org */
+	{ "Mailing-List", " *list ([^@]+)@?([^ \n\t\r>;])*" },
+	/* Originator: gnome-hackers@gnome.org */
+	{ "Originator", " *([^@]+)@?([^ \n\t\r>]*)" },
+	/* X-List: gnome-hackers */
+	/* X-List: gnome-hackers@gnome.org */
+	{ "X-List", " *([^@]+)@?([^ \n\t\r>]*)" },	
 };
 
 char *
 header_raw_check_mailing_list(struct _header_raw **list)
 {
 	const char *v;
-	regex_t pattern;
-	regmatch_t match[2];
-	int i, errcode;
+	regmatch_t match[3];
+	int i;
 	
 	for (i = 0; i < sizeof (mail_list_magic) / sizeof (mail_list_magic[0]); i++) {
-		if ((errcode = regcomp (&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE)) != 0) {
-			char *errstr;
-			size_t len;
-			
-			len = regerror (errcode, &pattern, NULL, 0);
-			errstr = g_malloc0 (len + 1);
-			regerror (errcode, &pattern, errstr, len);
-			regfree (&pattern);
-			
-			g_warning ("Internal error, compiling regex failed: %s: %s",
-				   mail_list_magic[i].pattern, errstr);
-			g_free (errstr);
-			
-			continue;
-		}
-		
 		v = header_raw_find (list, mail_list_magic[i].name, NULL);
-		if (v != NULL && regexec (&pattern, v, 2, match, 0) == 0 && match[1].rm_so != -1) {
-			const char *mlist, *mlend;
-			
-			regfree (&pattern);
-			mlist = v + match[1].rm_so;
-			mlend = v + match[1].rm_eo;
-			if (*mlist == '<')
-				mlist++;
-			
-			return g_strndup (mlist, mlend - mlist);
+		if (v != NULL && regexec (&mail_list_magic[i].regex, v, 3, match, 0) == 0 && match[1].rm_so != -1) {
+			char *list;
+			int len1, len2;
+
+			len1 = match[1].rm_eo - match[1].rm_so;
+			len2 = match[2].rm_eo - match[2].rm_so;
+
+			list = g_malloc(len1+len2+2);
+			memcpy(list, v + match[1].rm_so, len1);
+			if (len2) {
+				list[len1] = '@';
+				memcpy(list+len1+1, v+match[2].rm_so, len2);
+				list[len1+len2+1]=0;
+			} else {
+				list[len1] = 0;
+			}
+
+			return list;
 		}
-		regfree (&pattern);
 	}
 
 	return NULL;
@@ -4178,89 +4098,32 @@ header_unfold(const char *in)
 	return out;
 }
 
-#ifdef BUILD_TABLE
-
-/* for debugging tests */
-/* should also have some regression tests somewhere */
-
-void test_phrase(const char *in)
+void
+camel_mime_utils_init(void)
 {
-	printf("'%s' -> '%s'\n", in, header_encode_phrase(in));
-}
+	const char *v;
+	int i, errcode, regex_compilation_failed=0;
 
-void test_fold(const char *in)
-{
-	printf("'%s'\n ->\n '%s'\n", in, header_fold(in));
-}
+	/* Init tables */
+	header_decode_init();
+	base64_init();
 
-void run_test(void)
-{
-	char *to = "gnome hacker dudes: license-discuss@opensource.org,
-        \"Richard M. Stallman\" <rms@gnu.org>,
-        Barry Chester <barry_che@antdiv.gov.au>,
-        Michael Zucchi <zucchi.michael(this (is a nested) comment)@zedzone.mmc.com.au>,
-        Miguel de Icaza <miguel@gnome.org>;,
-	zucchi@zedzone.mmc.com.au, \"Foo bar\" <zed@zedzone>,
-	<frob@frobzone>";
-
-#if 0
-	header_to_decode(to);
-
-	header_mime_decode("1.0", 0, 0);
-	header_mime_decode("1.3 (produced by metasend V1.0)", 0, 0);
-	header_mime_decode("(produced by metasend V1.0) 5.2", 0, 0);
-	header_mime_decode("7(produced by metasend 1.0) . (produced by helix/send/1.0) 9 . 5", 0, 0);
-	header_mime_decode("3.", 0, 0);
-	header_mime_decode(".", 0, 0);
-	header_mime_decode(".5", 0, 0);
-	header_mime_decode("c.d", 0, 0);
-	header_mime_decode("", 0, 0);
-
-	header_msgid_decode(" <\"L3x2i1.0.Nm5.Xd-Wu\"@lists.redhat.com>");
-	header_msgid_decode("<200001180446.PAA02065@beaker.htb.com.au>");
-#endif
-
-	test_fold("Header: This is a long header that should be folded properly at the right place, or so i hope.  I should probably set the fold value to something lower for testing");
-	test_fold("Header: nowletstryfoldingsomethingthatistoolongtofold,iwonderwhatitshoulddointsteadtofoldit?hmm,iguessicanjusttruncateitatsomepointortrytorefoldthepreviousstuff(yuck)tofit");
-	test_phrase("Michael Zucchi (NotZed)");
-	test_phrase("Zucchi, ( \\ NotZed \\ ) Michael");
-	{
-		int ic;
-		char *outbuf, *inbuf, buffer[256];
-		int inlen, outlen;
-
-		outlen = 256;
-		inbuf = "Dra¾en Kaèar";
-		inlen = strlen(inbuf);
-		outbuf = buffer;
-		ic = iconv_open("UTF-8", "ISO-8859-1");
-		iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
-		test_phrase(buffer);
-
-		outlen = 256;
-		inbuf = "This is an encoded phrase Tomasz K³oczko";
-		inlen = strlen(inbuf);
-		outbuf = buffer;
-		ic = iconv_open("UTF-8", "ISO-8859-2");
-		iconv(ic, &inbuf, &inlen, &outbuf, &outlen);
-		test_phrase(buffer);
-
+	/* precompile regex's for speed at runtime */
+	for (i = 0; i < sizeof(mail_list_magic) / sizeof(mail_list_magic[0]); i++) {
+		errcode = regcomp(&mail_list_magic[i].regex, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE);
+		if (errcode != 0) {
+			char *errstr;
+			size_t len;
+		
+			len = regerror(errcode, &mail_list_magic[i].regex, NULL, 0);
+			errstr = g_malloc0(len + 1);
+			regerror(errcode, &mail_list_magic[i].regex, errstr, len);
+		
+			g_warning("Internal error, compiling regex failed: %s: %s", mail_list_magic[i].pattern, errstr);
+			g_free(errstr);
+			regex_compilation_failed++;
+		}
 	}
 
-	{
-		char *str = "Blah blah\n\t = ? =? ?= This is a TEST For quoted-printable-encoding-encoding-of
-	long lines, and lines that end in spaces                                                                       
-	and line sthat end in tabs 						
-	And lines that just end.";
-
-		char encoded[256];
-		int state=-1,save=0;
-		int len;
-
-		len = quoted_encode_step(str, strlen(str), encoded, &state, &save);
-		len += quoted_encode_close("", 0, encoded+len, &state, &save);
-		printf("encoded = '%.*s'\n", len, encoded);
-	}
+	g_assert(regex_compilation_failed == 0);
 }
-
-#endif /* BUILD_TABLE */

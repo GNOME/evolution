@@ -398,7 +398,7 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	const char *name, *addr;
 	int truth = FALSE, i;
 	CamelInternetAddress *cia;
-	char *v;
+	char *v, *vdom, *mdom;
 
 	while (*value && isspace (*value))
 		value++;
@@ -409,6 +409,25 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 		truth = header_match(v, match, how);
 		g_free(v);
 		break;
+	case CAMEL_SEARCH_TYPE_MLIST:
+		/* Special mailing list old-version domain hack
+		   If one of the mailing list names doesn't have an @ in it, its old-style, so
+		   only match against the pre-domain part, which should be common */
+
+		vdom = strchr(value, '@');
+		mdom = strchr(match, '@');
+		if (mdom == NULL && vdom != NULL) {
+			v = alloca(vdom-value+1);
+			memcpy(v, value, vdom-value);
+			v[vdom-value] = 0;
+			value = (char *)v;
+		} else if (mdom != NULL && vdom == NULL) {
+			v = alloca(mdom-match+1);
+			memcpy(v, match, mdom-match);
+			v[mdom-match] = 0;
+			match = (char *)v;
+		}
+		/* Falls through */
 	case CAMEL_SEARCH_TYPE_ASIS:
 		truth = header_match(value, match, how);
 		break;

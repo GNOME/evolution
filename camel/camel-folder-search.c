@@ -633,6 +633,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			type = CAMEL_SEARCH_TYPE_ADDRESS;
 		} else if (!strcasecmp(headername, "x-camel-mlist")) {
 			header = camel_message_info_mlist(search->current);
+			type = CAMEL_SEARCH_TYPE_MLIST;
 		} else {
 			e_sexp_resultv_free(f, argc, argv);
 			e_sexp_fatal_error(f, _("Performing query on unknown header: %s"), headername);

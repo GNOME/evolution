@@ -34,6 +34,10 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #include <gal/util/e-iconv.h>
 
 #include "e-util/e-sexp.h"
@@ -123,7 +127,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 
 		if (strcasecmp(name, "x-camel-mlist") == 0) {
 			header = camel_message_info_mlist(fms->info);
-			type = CAMEL_SEARCH_TYPE_ASIS;
+			type = CAMEL_SEARCH_TYPE_MLIST;
 		} else {
 			header = camel_medium_get_header(CAMEL_MEDIUM(fms->message), argv[0]->value.string);
 			if (strcasecmp("to", name) == 0 || strcasecmp("cc", name) == 0 || strcasecmp("from", name) == 0)
@@ -138,8 +142,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 		if (header) {
 			for (i=1; i<argc && !matched; i++) {
 				if (argv[i]->type == ESEXP_RES_STRING)
-					matched = camel_search_header_match(header, argv[i]->value.string,
-									    how, type, charset);
+					matched = camel_search_header_match(header, argv[i]->value.string, how, type, charset);
 			}
 		}
 	}

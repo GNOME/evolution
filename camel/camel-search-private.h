@@ -42,6 +42,7 @@ typedef enum {
 	CAMEL_SEARCH_TYPE_ENCODED,
 	CAMEL_SEARCH_TYPE_ADDRESS,
 	CAMEL_SEARCH_TYPE_ADDRESS_ENCODED,
+	CAMEL_SEARCH_TYPE_MLIST, /* its a mailing list pseudo-header */
 } camel_search_t;
 
 /* builds a regex that represents a string search */

@@ -80,6 +80,9 @@ struct _header_address {
 	unsigned int refcount;
 };
 
+/* MUST be called before everything else */
+void camel_mime_utils_init(void);
+
 /* Address lists */
 struct _header_address *header_address_new(void);
 struct _header_address *header_address_new_name(const char *name, const char *addr);

@@ -37,7 +37,7 @@
 #endif /* HAVE_NSS */
 
 #include "camel.h"
-#include "camel-charset-map.h"
+#include "camel-mime-utils.h"
 
 gboolean camel_verbose_debug = FALSE;
 
@@ -64,7 +64,9 @@ camel_init (const char *configdir, gboolean nss_init)
 	
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
-	
+
+	camel_mime_utils_init();
+
 #ifdef HAVE_NSS
 	if (nss_init) {
 		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
