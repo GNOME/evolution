@@ -1,3 +1,13 @@
+2003-04-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41671
+
+	* gui/alarm-notify/notify-main.c (main): added calls to gnome_sound_init
+	and gnome_sound_shutdown.
+
+	* gui/alarm-notify/alarm-queue.c (audio_notification): check that the
+	sound file exists, and gdk_beep if not.
+
 2003-04-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes part of #41148, #41216 and #41235

@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-init.h>
+#include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-client.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
@@ -174,6 +175,8 @@ main (int argc, char **argv)
 
 	glade_init ();
 
+	gnome_sound_init ("localhost");
+
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
@@ -193,6 +196,7 @@ main (int argc, char **argv)
 	alarm_queue_done ();
 	alarm_done ();
 
+	gnome_sound_shutdown ();
 	gnome_vfs_shutdown ();
 
 	return 0;
