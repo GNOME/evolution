@@ -489,11 +489,22 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 
 	/* Output timezone after time, e.g. " America/New_York". */
 	if (zone) {
+		/* Note that this returns UTF-8, since all iCalendar data is
+		   UTF-8. But it probably is not translated. */
 		display_name = icaltimezone_get_display_name (zone);
-		/* These are ASCII strings, so should be OK as UTF-8.*/
-		if (display_name) {
+		if (display_name && *display_name) {
 			strcat (buffer, " ");
-			strcat (buffer, display_name);
+
+			/* We check if it is one of our builtin timezone names,
+			   in which case we call gettext to translate it, and
+			   we need to convert to UTF-8. If it isn't a builtin
+			   timezone name, we use it as-is, as it is already
+			   UTF-8. */
+			if (icaltimezone_get_builtin_timezone (display_name)) {
+				strcat (buffer, U_(display_name));
+			} else {
+				strcat (buffer, display_name);
+			}
 		}
 	}
 

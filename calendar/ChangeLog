@@ -1,3 +1,10 @@
+2002-01-11  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-timezone-entry.c: 
+	* gui/e-itip-control.c (write_label_piece): 
+	* gui/calendar-config.c (on_timezone_set): translate timezone names
+	when displayed. Fixes bug #6544.
+
 2002-01-03  JP Rosevear  <jpr@ximian.com>
 
 	* gui/tasks-control.c (tasks_control_complete_cmd): new verb
