@@ -222,6 +222,7 @@ gal_a11y_e_cell_construct (AtkObject  *object,
 	a11y->model_col = model_col;
 	a11y->view_col  = view_col;
 	a11y->row       = row;
+	ATK_OBJECT (a11y) ->role	= ATK_ROLE_TABLE_CELL;
 
 #if 0
 	if (parent)

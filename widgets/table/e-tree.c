@@ -53,6 +53,7 @@
 
 #include "e-tree.h"
 #include "gal/util/e-marshal.h"
+#include "gal/a11y/e-table/gal-a11y-e-tree-factory.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -2154,6 +2155,15 @@ e_tree_get_table_adapter (ETree *et)
 	return et->priv->etta;
 }
 
+ETableItem *
+e_tree_get_item(ETree * et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return et->priv->item;
+}
+
 
 struct _ETreeDragSourceSite
 {
@@ -3308,6 +3318,10 @@ e_tree_class_init (ETreeClass *class)
 					     G_MAXINT,
 					     10,
 					     G_PARAM_READABLE));
+
+	atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TREE_TYPE,
+					gal_a11y_e_tree_factory_get_type ());
 
 }
 

@@ -35,6 +35,7 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-tree-table-adapter.h>
+#include <gal/e-table/e-table-item.h>
 
 #define E_TREE_USE_TREE_SELECTION
 
@@ -303,6 +304,7 @@ gboolean        e_tree_find_next                  (ETree                *et,
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
 
+ETableItem *	e_tree_get_item(ETree * et);
 
 G_END_DECLS
 

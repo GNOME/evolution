@@ -46,6 +46,7 @@
 #include "gal/util/e-i18n.h"
 #include <string.h>
 #include <stdlib.h>
+#include <atk/atk.h>
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -3068,6 +3069,11 @@ eti_class_init (GObjectClass *object_class)
 			      NULL, NULL,
 			      e_marshal_NONE__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
+
+        atk_registry_set_factory_type (atk_get_default_registry (),
+				       E_TABLE_ITEM_TYPE,
+				       gal_a11y_e_table_item_factory_get_type ());
+
 }
 
 E_MAKE_TYPE (e_table_item,
