@@ -40,11 +40,6 @@ static CamelFolder *vee_get_trash  (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 
-struct _CamelVeeStorePrivate {
-};
-
-#define _PRIVATE(o) (((CamelVeeStore *)(o))->priv)
-
 static void camel_vee_store_class_init (CamelVeeStoreClass *klass);
 static void camel_vee_store_init       (CamelVeeStore *obj);
 static void camel_vee_store_finalise   (CamelObject *obj);
@@ -90,21 +85,16 @@ camel_vee_store_class_init (CamelVeeStoreClass *klass)
 static void
 camel_vee_store_init (CamelVeeStore *obj)
 {
-	struct _CamelVeeStorePrivate *p;
 	CamelStore *store = (CamelStore *)obj;
 
 	/* we dont want a vtrash on this one */
 	store->flags &= ~(CAMEL_STORE_VTRASH);	
-
-	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 }
 
 static void
 camel_vee_store_finalise (CamelObject *obj)
 {
-	CamelVeeStore *vs = (CamelVeeStore *)obj;
-
-	g_free(vs->priv);
+	;
 }
 
 /**

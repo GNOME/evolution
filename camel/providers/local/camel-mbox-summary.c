@@ -46,11 +46,6 @@
 
 #define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
 
-struct _CamelMboxSummaryPrivate {
-};
-
-#define _PRIVATE(o) (((CamelMboxSummary *)(o))->priv)
-
 static int summary_header_load (CamelFolderSummary *, FILE *);
 static int summary_header_save (CamelFolderSummary *, FILE *);
 
@@ -132,11 +127,8 @@ camel_mbox_summary_class_init(CamelMboxSummaryClass *klass)
 static void
 camel_mbox_summary_init(CamelMboxSummary *obj)
 {
-	struct _CamelMboxSummaryPrivate *p;
 	struct _CamelFolderSummary *s = (CamelFolderSummary *)obj;
-
-	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
-
+	
 	/* subclasses need to set the right instance data sizes */
 	s->message_info_size = sizeof(CamelMboxMessageInfo);
 	s->content_info_size = sizeof(CamelMboxMessageContentInfo);

@@ -1,3 +1,24 @@
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bug #39168
+
+	* providers/local/camel-spool-summary.c: Get rid of the empty
+	private struct.
+
+	* providers/local/camel-mbox-summary.c: Get rid of the empty
+	private struct.
+
+	* camel-vee-store.c: Get rid of the empty private struct.
+
+	* camel-mime-filter-from.c: Get rid of the empty private struct.
+
+2003-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Add a CRLF filter to the output stream to
+	convert any CRLF sequences into plain old line-feeds to work
+	around a bug in some local transport programs.
+
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.h: s/class/klass in one place so that the header is

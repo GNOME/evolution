@@ -19,15 +19,15 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include "camel-mime-filter-from.h"
 
 #define d(x)
-
-struct _CamelMimeFilterFromPrivate {
-};
-
-#define _PRIVATE(o) (((CamelMimeFilterFrom *)(o))->priv)
 
 static void camel_mime_filter_from_class_init (CamelMimeFilterFromClass *klass);
 static void camel_mime_filter_from_init       (CamelMimeFilterFrom *obj);
@@ -165,10 +165,7 @@ camel_mime_filter_from_class_init (CamelMimeFilterFromClass *klass)
 static void
 camel_mime_filter_from_init (CamelMimeFilterFrom *obj)
 {
-	struct _CamelMimeFilterFromPrivate *p;
-
-	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
-	obj->midline = FALSE;
+	;
 }
 
 /**

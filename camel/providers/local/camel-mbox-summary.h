@@ -46,8 +46,6 @@ typedef struct _CamelMboxMessageInfo {
 struct _CamelMboxSummary {
 	CamelLocalSummary parent;
 
-	struct _CamelMboxSummaryPrivate *priv;
-
 	CamelFolderChangeInfo *changes;	/* used to build change sets */
 
 	size_t folder_size;	/* size of the mbox file, last sync */

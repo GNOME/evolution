@@ -44,7 +44,6 @@ typedef struct _CamelVeeStoreClass CamelVeeStoreClass;
 struct _CamelVeeStore {
 	CamelStore parent;
 
-	struct _CamelVeeStorePrivate *priv;
 };
 
 struct _CamelVeeStoreClass {

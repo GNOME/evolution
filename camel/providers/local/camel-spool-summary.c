@@ -44,11 +44,6 @@
 
 #define CAMEL_SPOOL_SUMMARY_VERSION (0x400)
 
-struct _CamelSpoolSummaryPrivate {
-};
-
-#define _PRIVATE(o) (((CamelSpoolSummary *)(o))->priv)
-
 static int spool_summary_load(CamelLocalSummary *cls, int forceindex, CamelException *ex);
 static int spool_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 
@@ -95,11 +90,8 @@ camel_spool_summary_class_init(CamelSpoolSummaryClass *klass)
 static void
 camel_spool_summary_init(CamelSpoolSummary *obj)
 {
-	struct _CamelSpoolSummaryPrivate *p;
 	struct _CamelFolderSummary *s = (CamelFolderSummary *)obj;
-
-	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
-
+	
 	/* message info size is from mbox parent */
 
 	/* and a unique file version */

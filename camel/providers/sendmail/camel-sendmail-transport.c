@@ -34,6 +34,8 @@
 #include <string.h>
 
 #include "camel-sendmail-transport.h"
+#include "camel-mime-filter-crlf.h"
+#include "camel-stream-filter.h"
 #include "camel-mime-message.h"
 #include "camel-data-wrapper.h"
 #include "camel-stream-fs.h"
@@ -88,6 +90,8 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	struct _header_raw *header, *savedbcc, *n, *tail;
 	const char *from_addr, *addr, **argv;
 	int i, len, fd[2], nullfd, wstat;
+	CamelStreamFilter *filter;
+	CamelMimeFilter *crlf;
 	sigset_t mask, omask;
 	CamelStream *out;
 	pid_t pid;
@@ -185,6 +189,13 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	/* Parent process. Write the message out. */
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
+	filter = camel_stream_filter_new_with_stream (out);
+	crlf = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	camel_stream_filter_add (filter, crlf);
+	camel_object_unref (crlf);
+	camel_object_unref (out);
+	
+	out = (CamelStream *) filter;
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out) == -1
 	    || camel_stream_close (out) == -1) {
 		camel_object_unref (CAMEL_OBJECT (out));

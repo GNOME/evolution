@@ -36,8 +36,7 @@ typedef struct _CamelSpoolSummaryClass CamelSpoolSummaryClass;
 
 struct _CamelSpoolSummary {
 	CamelMboxSummary parent;
-
-	struct _CamelSpoolSummaryPrivate *priv;
+	
 };
 
 struct _CamelSpoolSummaryClass {
