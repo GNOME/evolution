@@ -10,18 +10,8 @@ Event editor dialog:
 
 Full day view widget:
 
-- Right-click on background should pop up a menu with "New
-  appointment" item.
-
-- Right-click on child should pop up a menu with "Properties" and
-  "Remove appointment" items.
-
 - Layout the children nicely like M$ Schedule or Netscape Calendar do
   (i.e. make them not overlap each other).
-
-Year view:
-
-- Make use of Arturo's year view code.
 
 Month view:
 

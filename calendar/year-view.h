@@ -11,10 +11,12 @@
 #ifndef YEAR_VIEW_H
 #define YEAR_VIEW_H
 
-
+#include <time.h>
 #include <gtk/gtktable.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gtkcalendar.h>
+
+#include "calendar.h"
 #include "gnome-cal.h"
 
 BEGIN_GNOME_DECLS
@@ -33,6 +35,8 @@ struct _GncalYearView {
 
 	GtkWidget *calendar[12];	/* one calendar per month */
         guint       handler[12];    /* for (un)blocking the calendars */
+	
+	GtkWidget *year_label;
 	gint year;
 };
 
@@ -42,9 +46,9 @@ struct _GncalYearViewClass {
 
 
 guint      gncal_year_view_get_type       (void);
-GtkWidget *gncal_year_view_new            (int year);
+GtkWidget *gncal_year_view_new            (time_t date);
 
-void       gncal_year_view_set            (GncalYearView *yview, int year);
+void       gncal_year_view_set            (GncalYearView *yview, time_t date);
 
 
 END_GNOME_DECLS

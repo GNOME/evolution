@@ -8,8 +8,6 @@
  * 
  */
 
-#include <time.h>
-
 #include "gncal-year-view.h"
 
 static void gncal_year_view_init (GncalYearView *yview);
@@ -68,29 +66,41 @@ gncal_year_view_init (GncalYearView *yview)
 		yview->calendar[i] = NULL;
 		yview->handler [i] = 0;
 	}
+	
+	yview->year_label = NULL;
+	yview->year = 0;
 }
 
 GtkWidget *
-gncal_year_view_new (int year)
+gncal_year_view_new (time_t date)
 {
 	struct tm my_tm = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	char monthbuff[40];
 	GncalYearView *yview;
 	GtkWidget *frame, *vbox, *label;
+	struct tm *tmptm;
 	int i, x, y;
 
 	yview = gtk_type_new (gncal_year_view_get_type ());
 
-	gtk_table_set_homogeneous (GTK_TABLE (yview), TRUE);
-
-	yview->year = year;
-
+	tmptm = localtime(&date);
+	yview->year = tmptm->tm_year;
+	my_tm.tm_mon = tmptm->tm_year;
+	yview->year_label = gtk_label_new("");
+	gtk_table_attach (GTK_TABLE (yview), 
+			  GTK_WIDGET (yview->year_label),
+			  1, 2,
+			  0, 1,
+			  0, 0, 0, 5);
+	gtk_widget_show(GTK_WIDGET(yview->year_label));
+	
 	for (x = 0; x < 3; x++)
 	  for (y = 0; y < 4; y++) {
 		  
 		  i = y * 3 + x;
 		  
 		  yview->calendar[i] = gtk_calendar_new();
+		  gtk_calendar_display_options(GTK_CALENDAR(yview->calendar[i]), GTK_CALENDAR_SHOW_DAY_NAMES);
 		  frame = gtk_frame_new(NULL);
 		  vbox = gtk_vbox_new(0,0);
 		
@@ -101,8 +111,7 @@ gncal_year_view_new (int year)
 				       (gpointer *) yview);
 		  
 		  my_tm.tm_mon = i;
-		  my_tm.tm_year = year;
-		  strftime(monthbuff, sizeof (monthbuff)-1, "%B", &my_tm);
+		  strftime(monthbuff, 40, "%B", &my_tm);
 		  label = gtk_label_new(monthbuff);
 		
 		  gtk_container_add(GTK_CONTAINER(frame), vbox);
@@ -110,9 +119,9 @@ gncal_year_view_new (int year)
 		  gtk_box_pack_start(GTK_BOX(vbox), yview->calendar[i], 0, 0, 0);
 		  
 		  gtk_table_attach (GTK_TABLE (yview), 
-				    GTK_WIDGET (vbox),
+				    GTK_WIDGET (frame),
 				    x, x + 1,
-				    y, y + 1,
+				    y + 1, y + 2,
 				    0, 0, 0, 0);
 
 		  gtk_widget_show (frame);
@@ -120,17 +129,33 @@ gncal_year_view_new (int year)
 		  gtk_widget_show (GTK_WIDGET (yview->calendar[i]));
 	  }
 
-	gncal_year_view_set (yview, year);
+	gncal_year_view_set (yview, date);
 	
 	return GTK_WIDGET (yview);
 }
 
-void gncal_year_view_set (GncalYearView *yview, int year)
+void gncal_year_view_set (GncalYearView *yview, time_t date)
 {
 	int i;
+	char buff[10];
+	struct tm *tmptm;
+
+	tmptm = localtime(&date);
+	yview->year = tmptm->tm_year;
+
+	snprintf(buff, 10, "%d", yview->year + 1900);
+	gtk_label_set(GTK_LABEL(yview->year_label), buff);
 	
 	for (i = 0; i < 12; i++) {
-		yview->year = year;
-		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i + 1, year);
+		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year);
 	}
 }
+
+/*void
+gncal_week_view_update (GncalWeekView *wview, iCalObject *ico, int flags)
+{
+	g_return_if_fail (wview != NULL);
+	g_return_if_fail (GNCAL_IS_YEAR_VIEW (wview));
+
+	update (wview, TRUE, ico, flags);
+}*/
