@@ -384,7 +384,7 @@
  </part>
 
  <part name="score">
-  <title>Priority</title>
+  <title>Score</title>
   <input type="optionlist" name="score-type">
    <option value="less-than">
     <title>is</title>

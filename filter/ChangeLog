@@ -1,5 +1,7 @@
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Changed Priority to Score.
+
 	* filter-option.c (get_widget): Attach to the "activate" signal -
 	this should now make it so that a filter-option will "remember"
 	what a user changed.
