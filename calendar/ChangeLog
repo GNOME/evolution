@@ -1,3 +1,10 @@
+2001-08-18  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/calendar-config.c (locale_uses_24h_time_format): New.
+	(config_read): Use locale's setting as default for
+	/Calendar/Display/Use24HourFormat so that Europeans don't have to
+	switch to 24-hour format manually.
+
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_new_task): new function to open the

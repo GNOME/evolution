@@ -28,6 +28,7 @@
  */
 
 #include <config.h>
+#include <time.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -86,6 +87,15 @@ calendar_config_init			(void)
 	config_read ();
 }
 
+static gboolean
+locale_uses_24h_time_format (void)
+{  
+	char s[16];
+	time_t t = 0;
+
+	strftime (s, sizeof s, "%p", gmtime (&t));
+	return s[0] == '\0';
+}
 
 static void
 config_read				(void)
@@ -115,7 +125,7 @@ config_read				(void)
                 "/Calendar/Display/WeekStartDay", 1, NULL);
  
 	config->use_24_hour_format = bonobo_config_get_boolean_with_default (
-		db, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+		db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
 
 	config->week_start_day = bonobo_config_get_long_with_default (db, 
                 "/Calendar/Display/WeekStartDay", 1, NULL);
