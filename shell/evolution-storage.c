@@ -1066,7 +1066,7 @@ evolution_storage_has_subfolders (EvolutionStorage *evolution_storage,
 		listener = p->data;
 		GNOME_Evolution_StorageListener_notifyHasSubfolders (listener, path, message, &ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (ev._major == CORBA_NO_EXCEPTION)
 			continue;
 		if (ev._major != CORBA_USER_EXCEPTION)
 			result = EVOLUTION_STORAGE_ERROR_CORBA;
