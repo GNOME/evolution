@@ -1,3 +1,7 @@
+2000-08-12  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Check for Bonobo 0.17
+
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added addressbook/gui/search/Makefile.

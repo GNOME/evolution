@@ -209,14 +209,15 @@ dnl AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo > 0.16)
+AC_MSG_CHECKING(for Bonobo >= 0.17)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
-	vers=`gnome-config --modversion bonobo`
-	case $vers
-	in
-	    bonobo-0.?|bonobo-0.1[0-5]) bonobo_ok=false ;;
-	    *) bonobo_ok=true ;;
-	esac
+	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
+		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
+	if test "$vers" -ge 17; then
+		bonobo_ok=true
+	else
+		bonobo_ok=false
+	fi
 else
 	bonobo_ok=false
 fi
