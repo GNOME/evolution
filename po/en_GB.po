@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-22 08:17-0400\n"
-"PO-Revision-Date: 2004-09-22 08:19-0400\n"
+"POT-Creation-Date: 2004-09-26 15:58+0100\n"
+"PO-Revision-Date: 2004-09-26 15:58+0100\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -223,13 +223,13 @@ msgstr ""
 msgid "Default Sync Address:"
 msgstr "Default Sync Address:"
 
-#: addressbook/conduit/address-conduit.c:1181
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1183
+#: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
 msgstr "Could not load addressbook"
 
-#: addressbook/conduit/address-conduit.c:1250
-#: addressbook/conduit/address-conduit.c:1253
+#: addressbook/conduit/address-conduit.c:1252
+#: addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
 msgstr "Could not read pilot's Address application block"
 
@@ -345,7 +345,7 @@ msgstr "Migrating `%s':"
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:249 mail/mail-vfolder.c:218
+#: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "On This Computer"
 
@@ -423,7 +423,7 @@ msgstr "Address book '%s' will be removed. Are you sure you want to continue?"
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
-#: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -433,7 +433,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: addressbook/gui/component/addressbook-view.c:815
-#: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Properties..."
 
@@ -2528,7 +2528,7 @@ msgid "Cut"
 msgstr "Cut"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1126
-#: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -2900,10 +2900,9 @@ msgstr "Protocol not supported"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:724 camel/camel-service.c:762
-#: camel/camel-service.c:846 camel/camel-service.c:886
-#: camel/providers/pop3/camel-pop3-store.c:456
-#: camel/providers/pop3/camel-pop3-store.c:537
+#: camel/camel-service.c:723 camel/camel-service.c:887
+#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
+#: camel/providers/pop3/camel-pop3-store.c:544
 msgid "Cancelled"
 msgstr "Cancelled"
 
@@ -3462,8 +3461,8 @@ msgid "In async mode, output must be file."
 msgstr "In async mode, output must be file."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
-msgid "In normal mode, there should not need size option."
-msgstr "In normal mode, there should not need size option."
+msgid "In normal mode, there is no need for the size option."
+msgstr "In normal mode, there is no need for the size option."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
@@ -3805,7 +3804,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1079
+#: calendar/gui/calendar-component.c:1085
 msgid "Calendars"
 msgstr "Calendars"
 
@@ -3839,7 +3838,7 @@ msgstr "Evolution's Tasks component"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
+#: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 #: camel/providers/groupwise/camel-gw-listener.c:332
@@ -4116,7 +4115,7 @@ msgstr "Location contains"
 msgid "Unmatched"
 msgstr "Unmatched"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1910
 #: camel/providers/groupwise/camel-gw-listener.c:331
@@ -4154,15 +4153,15 @@ msgstr "%A %d %B %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:525
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
-#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:527
+#: calendar/gui/calendar-component.c:532 calendar/gui/calendar-component.c:534
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -4184,16 +4183,16 @@ msgstr "%d %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Calendar '%s' will be removed. Are you sure you want to continue?"
 
-#: calendar/gui/calendar-component.c:426
+#: calendar/gui/calendar-component.c:432
 msgid "New Calendar"
 msgstr "New Calendar"
 
-#: calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-component.c:522
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
-#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#: calendar/gui/calendar-component.c:546 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:559 calendar/gui/calendar-component.c:561
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -4202,70 +4201,70 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-component.c:545
+#: calendar/gui/calendar-component.c:551
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:641
 msgid "Failed upgrading calendars."
 msgstr "Failed upgrading calendars."
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:937
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Unable to open the calendar '%s' for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
 msgstr "There is no calendar available for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:1245
+#: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
 msgstr "New appointment"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
 msgstr "_Appointment"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1259
 msgid "New meeting"
 msgstr "New meeting"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
 msgstr "M_eeting"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
 msgstr "Create a new meeting request"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1267
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1268
 msgid "All Day A_ppointment"
 msgstr "All Day A_ppointment"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1269
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1275
 msgid "New calendar"
 msgstr "New calendar"
 
-#: calendar/gui/calendar-component.c:1270
+#: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: calendar/gui/calendar-component.c:1271
+#: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
 msgstr "Create a new calendar"
 
@@ -5446,7 +5445,7 @@ msgid "Low"
 msgstr "Low"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:943
+#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:949
 #: calendar/gui/e-calendar-table.c:398 mail/message-list.c:1011
 msgid "Normal"
 msgstr "Normal"
@@ -5701,11 +5700,11 @@ msgstr "Start Date"
 msgid "Summary"
 msgstr "Summary"
 
-#: calendar/gui/e-cal-model-calendar.c:175 calendar/gui/e-calendar-table.c:449
+#: calendar/gui/e-cal-model-calendar.c:181 calendar/gui/e-calendar-table.c:449
 msgid "Free"
 msgstr "Free"
 
-#: calendar/gui/e-cal-model-calendar.c:178 calendar/gui/e-calendar-table.c:450
+#: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "Busy"
@@ -5736,13 +5735,13 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Yes"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "No"
@@ -5768,11 +5767,11 @@ msgstr "No"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: calendar/gui/e-cal-model.c:945
+#: calendar/gui/e-cal-model.c:951
 msgid "Recurring"
 msgstr "Recurring"
 
-#: calendar/gui/e-cal-model.c:947
+#: calendar/gui/e-cal-model.c:953
 msgid "Assigned"
 msgstr "Assigned"
 
@@ -5897,7 +5896,7 @@ msgstr "_Mark Selected Tasks as Complete"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -7112,70 +7111,70 @@ msgstr "Print Setup"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Task List '%s' will be removed. Are you sure you want to continue?"
 
-#: calendar/gui/tasks-component.c:372
+#: calendar/gui/tasks-component.c:378
 msgid "New Task List"
 msgstr "New Task List"
 
-#: calendar/gui/tasks-component.c:415
+#: calendar/gui/tasks-component.c:421
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d task"
 msgstr[1] "%d tasks"
 
-#: calendar/gui/tasks-component.c:417 mail/mail-component.c:502
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:503
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d selected"
 msgstr[1] ", %d selected"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:470
 msgid "Failed upgrading tasks."
 msgstr "Failed upgrading tasks."
 
-#: calendar/gui/tasks-component.c:758
+#: calendar/gui/tasks-component.c:764
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Unable to open the task list '%s' for creating events and meetings"
 
-#: calendar/gui/tasks-component.c:773
+#: calendar/gui/tasks-component.c:779
 msgid "There is no calendar available for creating tasks"
 msgstr "There is no calendar available for creating tasks"
 
-#: calendar/gui/tasks-component.c:1047
+#: calendar/gui/tasks-component.c:1053
 msgid "New task"
 msgstr "New task"
 
-#: calendar/gui/tasks-component.c:1048
+#: calendar/gui/tasks-component.c:1054
 msgid "_Task"
 msgstr "_Task"
 
-#: calendar/gui/tasks-component.c:1049
+#: calendar/gui/tasks-component.c:1055
 msgid "Create a new task"
 msgstr "Create a new task"
 
-#: calendar/gui/tasks-component.c:1055
+#: calendar/gui/tasks-component.c:1061
 msgid "New assigned task"
 msgstr "New assigned task"
 
-#: calendar/gui/tasks-component.c:1056
+#: calendar/gui/tasks-component.c:1062
 msgid "Assigne_d Task"
 msgstr "Assigne_d Task"
 
-#: calendar/gui/tasks-component.c:1057
+#: calendar/gui/tasks-component.c:1063
 msgid "Create a new assigned task"
 msgstr "Create a new assigned task"
 
-#: calendar/gui/tasks-component.c:1063
+#: calendar/gui/tasks-component.c:1069
 msgid "New task list"
 msgstr "New task list"
 
-#: calendar/gui/tasks-component.c:1064
+#: calendar/gui/tasks-component.c:1070
 msgid "Task l_ist"
 msgstr "Task l_ist"
 
-#: calendar/gui/tasks-component.c:1065
+#: calendar/gui/tasks-component.c:1071
 msgid "Create a new task list"
 msgstr "Create a new task list"
 
@@ -9065,8 +9064,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1234
-#: camel/providers/nntp/camel-nntp-store.c:1332 mail/mail-ops.c:705
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
+#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Cancelled."
@@ -9359,15 +9358,15 @@ msgstr "Server challenge invalid\n"
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr "Server challenge contained invalid \"Quality of Protection\" token\n"
 
-#: camel/camel-sasl-digest-md5.c:850
+#: camel/camel-sasl-digest-md5.c:858
 msgid "Server response did not contain authorization data\n"
 msgstr "Server response did not contain authorisation data\n"
 
-#: camel/camel-sasl-digest-md5.c:868
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response contained incomplete authorization data\n"
 msgstr "Server response contained incomplete authorisation data\n"
 
-#: camel/camel-sasl-digest-md5.c:878
+#: camel/camel-sasl-digest-md5.c:886
 msgid "Server response does not match\n"
 msgstr "Server response does not match\n"
 
@@ -9442,15 +9441,10 @@ msgstr "The referenced credentials have expired."
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
-#: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1236
+#: camel/camel-sasl-kerberos4.c:225
+#: camel/providers/imap/camel-imap-store.c:1245
 msgid "Bad authentication response from server."
 msgstr "Bad authentication response from server."
-
-#: camel/camel-sasl-gssapi.c:217
-#, c-format
-msgid "Failed to resolve host `%s': %s"
-msgstr "Failed to resolve host `%s': %s"
 
 #: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
@@ -9465,7 +9459,7 @@ msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 "This option will connect to the server using Kerberos 4 authentication."
 
-#: camel/camel-sasl-kerberos4.c:162
+#: camel/camel-sasl-kerberos4.c:168
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -9527,57 +9521,41 @@ msgstr "POP Before SMTP auth using a non-pop source"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Regular expression compilation failed: %s: %s"
 
-#: camel/camel-service.c:271
+#: camel/camel-service.c:273
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' needs a username component"
 
-#: camel/camel-service.c:275
+#: camel/camel-service.c:277
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' needs a host component"
 
-#: camel/camel-service.c:279
+#: camel/camel-service.c:281
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' needs a path component"
 
-#: camel/camel-service.c:729
+#: camel/camel-service.c:742
+msgid "cannot create thread"
+msgstr "cannot create thread"
+
+#: camel/camel-service.c:891
 #, c-format
 msgid "Resolving: %s"
 msgstr "Resolving: %s"
 
-#: camel/camel-service.c:760 camel/camel-service.c:884
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr "Failure in name lookup: %s"
+#: camel/camel-service.c:912
+msgid "Host lookup failed"
+msgstr "Host lookup failed"
 
-#: camel/camel-service.c:781 camel/camel-service.c:905
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Host lookup failed: cannot create thread: %s"
-
-#: camel/camel-service.c:794
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Host lookup failed: %s: host not found"
-
-#: camel/camel-service.c:797
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Host lookup failed: %s: unknown reason"
-
-#: camel/camel-service.c:851
+#: camel/camel-service.c:1019
 msgid "Resolving address"
 msgstr "Resolving address"
 
-#: camel/camel-service.c:920
-msgid "Host lookup failed: host not found"
-msgstr "Host lookup failed: host not found"
-
-#: camel/camel-service.c:923
-msgid "Host lookup failed: unknown reason"
-msgstr "Host lookup failed: unknown reason"
+#: camel/camel-service.c:1039
+msgid "Name lookup failed"
+msgstr "Name lookup failed"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -10161,12 +10139,12 @@ msgstr "Checklist"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3220
+#: camel/providers/imap/camel-imap-store.c:3229
 msgid "Operation cancelled"
 msgstr "Operation cancelled"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3223
+#: camel/providers/imap/camel-imap-store.c:3232
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server unexpectedly disconnected: %s"
@@ -10174,9 +10152,9 @@ msgstr "Server unexpectedly disconnected: %s"
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:543
 #: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:556 shell/e-shell.c:1228
+#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
 msgid "Unknown error"
 msgstr "Unknown error"
 
@@ -10365,80 +10343,78 @@ msgstr "IMAP server %s"
 msgid "IMAP service for %s on %s"
 msgstr "IMAP service for %s on %s"
 
-#: camel/providers/imap/camel-imap-store.c:547
-#: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
-#: camel/providers/imapp/camel-imapp-store.c:231
-#: camel/providers/nntp/camel-nntp-store.c:209
-#: camel/providers/pop3/camel-pop3-store.c:175
-#: camel/providers/smtp/camel-smtp-transport.c:269
-#: camel/providers/smtp/camel-smtp-transport.c:285
-#, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "Could not connect to %s (port %d): %s"
-
-#: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/imap/camel-imap-store.c:552
+#: camel/providers/imap/camel-imap-store.c:576
+#: camel/providers/imapp/camel-imapp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:219
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
+#: camel/providers/smtp/camel-smtp-transport.c:292
+#, c-format
+msgid "Could not connect to %s (port %s): %s"
+msgstr "Could not connect to %s (port %s): %s"
+
+#: camel/providers/imap/camel-imap-store.c:554
+#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/pop3/camel-pop3-store.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:273
 msgid "SSL unavailable"
 msgstr "SSL unavailable"
 
-#: camel/providers/imap/camel-imap-store.c:564
-#: camel/providers/imap/camel-imap-store.c:841
+#: camel/providers/imap/camel-imap-store.c:573
+#: camel/providers/imap/camel-imap-store.c:850
 #: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:228
-#: camel/providers/nntp/camel-nntp-store.c:206
-#: camel/providers/nntp/camel-nntp-store.c:224
-#: camel/providers/pop3/camel-pop3-store.c:192
+#: camel/providers/imapp/camel-imapp-store.c:236
+#: camel/providers/nntp/camel-nntp-store.c:216
+#: camel/providers/nntp/camel-nntp-store.c:234
+#: camel/providers/pop3/camel-pop3-store.c:199
 msgid "Connection cancelled"
 msgstr "Connection cancelled"
 
-#: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/imap/camel-imap-store.c:706
+#: camel/providers/imap/camel-imap-store.c:684
+#: camel/providers/imap/camel-imap-store.c:715
 #: camel/providers/imap4/camel-imap4-store.c:282
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Failed to connect to IMAP server %s in secure mode: %s"
 
-#: camel/providers/imap/camel-imap-store.c:676
-#: camel/providers/pop3/camel-pop3-store.c:233
+#: camel/providers/imap/camel-imap-store.c:685
+#: camel/providers/pop3/camel-pop3-store.c:240
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS extension not supported."
 
-#: camel/providers/imap/camel-imap-store.c:707
-#: camel/providers/pop3/camel-pop3-store.c:274
+#: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/pop3/camel-pop3-store.c:281
 msgid "SSL negotiations failed"
 msgstr "SSL negotiations failed"
 
-#: camel/providers/imap/camel-imap-store.c:844
+#: camel/providers/imap/camel-imap-store.c:853
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Could not connect with command \"%s\": %s"
 
-#: camel/providers/imap/camel-imap-store.c:1268
+#: camel/providers/imap/camel-imap-store.c:1277
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP server %s does not support requested authentication type %s"
 
-#: camel/providers/imap/camel-imap-store.c:1278
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/imap/camel-imap-store.c:1287
+#: camel/providers/smtp/camel-smtp-transport.c:493
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "No support for authentication type %s"
 
-#: camel/providers/imap/camel-imap-store.c:1301
-#: camel/providers/imapp/camel-imapp-store.c:344
+#: camel/providers/imap/camel-imap-store.c:1310
+#: camel/providers/imapp/camel-imapp-store.c:352
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sPlease enter the IMAP password for %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1315
+#: camel/providers/imap/camel-imap-store.c:1324
 msgid "You didn't enter a password."
 msgstr "You didn't enter a password."
 
-#: camel/providers/imap/camel-imap-store.c:1344
+#: camel/providers/imap/camel-imap-store.c:1353
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10449,14 +10425,14 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1863
-#: camel/providers/imap/camel-imap-store.c:2053
+#: camel/providers/imap/camel-imap-store.c:1872
+#: camel/providers/imap/camel-imap-store.c:2062
 #, c-format
 msgid "No such folder %s"
 msgstr "No such folder %s"
 
-#: camel/providers/imap/camel-imap-store.c:1881
-#: camel/providers/imap/camel-imap-store.c:2259
+#: camel/providers/imap/camel-imap-store.c:1890
+#: camel/providers/imap/camel-imap-store.c:2268
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
 msgid ""
@@ -10464,12 +10440,12 @@ msgid ""
 msgstr ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1939
-#: camel/providers/imap/camel-imap-store.c:2320
+#: camel/providers/imap/camel-imap-store.c:1948
+#: camel/providers/imap/camel-imap-store.c:2329
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "The parent folder is not allowed to contain subfolders"
 
-#: camel/providers/imap/camel-imap-store.c:1994
+#: camel/providers/imap/camel-imap-store.c:2003
 #: camel/providers/local/camel-maildir-store.c:139
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
@@ -10477,7 +10453,7 @@ msgstr "The parent folder is not allowed to contain subfolders"
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Cannot create folder `%s': folder exists."
 
-#: camel/providers/imap/camel-imap-store.c:2270
+#: camel/providers/imap/camel-imap-store.c:2279
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Unknown parent folder: %s"
@@ -10589,6 +10565,12 @@ msgid ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
+
+#: camel/providers/imap4/camel-imap4-store.c:214
+#: camel/providers/imap4/camel-imap4-store.c:230
+#, c-format
+msgid "Could not connect to %s (port %d): %s"
+msgstr "Could not connect to %s (port %d): %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:257
 #, c-format
@@ -10725,7 +10707,7 @@ msgstr ""
 "\n"
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:328
+#: camel/providers/imapp/camel-imapp-store.c:336
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Could not connect to POP server on %s"
@@ -10873,10 +10855,12 @@ msgid "Unable to add message to summary: unknown reason"
 msgstr "Unable to add message to summary: unknown reason"
 
 #. Inbox is always first
+#. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:134
 msgid "Inbox"
 msgstr "Inbox"
 
@@ -11251,7 +11235,7 @@ msgstr ""
 "Folder may be corrupt, copy saved in `%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1126
+#: camel/providers/nntp/camel-nntp-store.c:1136
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Please enter the NNTP password for %s@%s"
@@ -11354,28 +11338,28 @@ msgstr ""
 "password."
 
 #: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1236
-#: camel/providers/nntp/camel-nntp-store.c:1334
+#: camel/providers/nntp/camel-nntp-store.c:1246
+#: camel/providers/nntp/camel-nntp-store.c:1344
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP Command failed: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:237
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Could not read greeting from %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:249
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP server %s returned error code %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:403
+#: camel/providers/nntp/camel-nntp-store.c:413
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET News via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:777
+#: camel/providers/nntp/camel-nntp-store.c:787
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11386,7 +11370,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:872
+#: camel/providers/nntp/camel-nntp-store.c:882
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11396,7 +11380,7 @@ msgstr ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 
-#: camel/providers/nntp/camel-nntp-store.c:904
+#: camel/providers/nntp/camel-nntp-store.c:914
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11406,32 +11390,32 @@ msgstr ""
 "\n"
 "newsgroup does not exist!"
 
-#: camel/providers/nntp/camel-nntp-store.c:929
+#: camel/providers/nntp/camel-nntp-store.c:939
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr "You cannot create a folder in a News store: subscribe instead."
 
-#: camel/providers/nntp/camel-nntp-store.c:937
+#: camel/providers/nntp/camel-nntp-store.c:947
 msgid "You cannot rename a folder in a News store."
 msgstr "You cannot rename a folder in a News store."
 
-#: camel/providers/nntp/camel-nntp-store.c:945
+#: camel/providers/nntp/camel-nntp-store.c:955
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr "You cannot remove a folder in a News store: unsubscribe instead."
 
-#: camel/providers/nntp/camel-nntp-store.c:1118
+#: camel/providers/nntp/camel-nntp-store.c:1128
 msgid "Authentication requested but not username provided"
 msgstr "Authentication requested but not username provided"
 
-#: camel/providers/nntp/camel-nntp-store.c:1148
+#: camel/providers/nntp/camel-nntp-store.c:1158
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Cannot authenticate to server: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1265
+#: camel/providers/nntp/camel-nntp-store.c:1275
 msgid "Not connected."
 msgstr "Not connected."
 
-#: camel/providers/nntp/camel-nntp-store.c:1314
+#: camel/providers/nntp/camel-nntp-store.c:1324
 #, c-format
 msgid "No such folder: %s"
 msgstr "No such folder: %s"
@@ -11530,30 +11514,30 @@ msgstr ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 
-#: camel/providers/pop3/camel-pop3-store.c:195
+#: camel/providers/pop3/camel-pop3-store.c:202
 #, c-format
-msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Could not connect to POP server %s (port %d): %s"
+msgid "Could not connect to POP server %s (port %s): %s"
+msgstr "Could not connect to POP server %s (port %s): %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:214
+#: camel/providers/pop3/camel-pop3-store.c:221
 #, c-format
-msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Failed to read a valid greeting from POP server %s (port %d)"
+msgid "Failed to read a valid greeting from POP server %s (port %s)"
+msgstr "Failed to read a valid greeting from POP server %s (port %s)"
 
-#: camel/providers/pop3/camel-pop3-store.c:232
-#: camel/providers/pop3/camel-pop3-store.c:261
-#: camel/providers/pop3/camel-pop3-store.c:273
+#: camel/providers/pop3/camel-pop3-store.c:239
+#: camel/providers/pop3/camel-pop3-store.c:268
+#: camel/providers/pop3/camel-pop3-store.c:280
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Failed to connect to POP server %s in secure mode: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:371
+#: camel/providers/pop3/camel-pop3-store.c:378
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Could not connect to POP server %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:412
-#: camel/providers/pop3/camel-pop3-store.c:526
+#: camel/providers/pop3/camel-pop3-store.c:419
+#: camel/providers/pop3/camel-pop3-store.c:533
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11562,37 +11546,37 @@ msgstr ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 
-#: camel/providers/pop3/camel-pop3-store.c:428
+#: camel/providers/pop3/camel-pop3-store.c:435
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL `%s' Login failed for POP server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:440
+#: camel/providers/pop3/camel-pop3-store.c:447
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Cannot login to POP server %s: SASL Protocol error"
 
-#: camel/providers/pop3/camel-pop3-store.c:459
+#: camel/providers/pop3/camel-pop3-store.c:466
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Failed to authenticate on POP server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:485
+#: camel/providers/pop3/camel-pop3-store.c:492
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sPlease enter the POP password for %s on host %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:553
-#, c-format
-msgid ""
-"Unable to connect to POP server %s.\n"
-"Error sending password: %s"
-msgstr ""
-"Unable to connect to POP server %s.\n"
-"Error sending password: %s"
-
 #: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:560
+#, c-format
+msgid ""
+"Unable to connect to POP server %s.\n"
+"Error sending password: %s"
+msgstr ""
+"Unable to connect to POP server %s.\n"
+"Error sending password: %s"
+
+#: camel/providers/pop3/camel-pop3-store.c:554
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11601,7 +11585,7 @@ msgstr ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:652
+#: camel/providers/pop3/camel-pop3-store.c:659
 #, c-format
 msgid "No such folder `%s'."
 msgstr "No such folder `%s'."
@@ -11769,40 +11753,40 @@ msgstr "Temporary authentication failure"
 msgid "Authentication required"
 msgstr "Authentication required"
 
-#: camel/providers/smtp/camel-smtp-transport.c:308
+#: camel/providers/smtp/camel-smtp-transport.c:315
 msgid "Welcome response error"
 msgstr "Welcome response error"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:350
+#: camel/providers/smtp/camel-smtp-transport.c:389
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Failed to connect to SMTP server %s in secure mode: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:351
 msgid "server does not appear to support SSL"
 msgstr "server does not appear to support SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:365
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "STARTTLS command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:380
 msgid "STARTTLS command failed"
 msgstr "STARTTLS command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:483
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP server %s does not support requested authentication type %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:521
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sPlease enter the SMTP password for %s on host %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:540
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11813,93 +11797,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:657
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:659
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP mail delivery via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "Cannot send message: service not connected."
 msgstr "Cannot send message: service not connected."
 
-#: camel/providers/smtp/camel-smtp-transport.c:683
+#: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: sender address not valid."
 msgstr "Cannot send message: sender address not valid."
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:694
 msgid "Sending message"
 msgstr "Sending message"
 
-#: camel/providers/smtp/camel-smtp-transport.c:702
+#: camel/providers/smtp/camel-smtp-transport.c:709
 msgid "Cannot send message: no recipients defined."
 msgstr "Cannot send message: no recipients defined."
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:720
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Cannot send message: one or more invalid recipients"
 
-#: camel/providers/smtp/camel-smtp-transport.c:885
+#: camel/providers/smtp/camel-smtp-transport.c:889
 msgid "SMTP Greeting"
 msgstr "SMTP Greeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:906
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:923
 msgid "HELO command failed"
 msgstr "HELO command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:989
 msgid "SMTP Authentication"
 msgstr "SMTP Authentication"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:995
 msgid "Error creating SASL authentication object."
 msgstr "Error creating SASL authentication object."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1057
+#: camel/providers/smtp/camel-smtp-transport.c:1029
 msgid "AUTH command failed"
 msgstr "AUTH command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1091
 msgid "Bad authentication response from server.\n"
 msgstr "Bad authentication response from server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1116
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM command failed: %s: mail not sent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1161
+#: camel/providers/smtp/camel-smtp-transport.c:1133
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1185
+#: camel/providers/smtp/camel-smtp-transport.c:1157
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO command failed: %s: mail not sent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1204
+#: camel/providers/smtp/camel-smtp-transport.c:1176
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1243
-#: camel/providers/smtp/camel-smtp-transport.c:1301
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1215
+#: camel/providers/smtp/camel-smtp-transport.c:1273
+#: camel/providers/smtp/camel-smtp-transport.c:1292
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA command failed: %s: mail not sent"
@@ -11907,26 +11891,26 @@ msgstr "DATA command failed: %s: mail not sent"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1260
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1232
+#: camel/providers/smtp/camel-smtp-transport.c:1308
 msgid "DATA command failed"
 msgstr "DATA command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1331
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1375
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "RSET command failed"
 msgstr "RSET command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1398
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1412
+#: camel/providers/smtp/camel-smtp-transport.c:1384
 msgid "QUIT command failed"
 msgstr "QUIT command failed"
 
@@ -12863,8 +12847,8 @@ msgstr "Evolution Mail preferences control"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:510
-#: mail/mail-component.c:561
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:511
+#: mail/mail-component.c:562
 msgid "Mail"
 msgstr "Mail"
 
@@ -13172,8 +13156,8 @@ msgstr "starts with"
 msgid "Stop Processing"
 msgstr "Stop Processing"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1548
-#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
+#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13217,8 +13201,8 @@ msgstr "<click here to select a folder>"
 msgid "Create New Folder"
 msgstr "Create New Folder"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
-#: mail/mail-component.c:711
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Specify where to create the folder:"
 
@@ -13240,7 +13224,7 @@ msgstr "VFolders"
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
+#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
 msgstr "Loading..."
 
@@ -13276,7 +13260,7 @@ msgstr "_Copy to Folder"
 msgid "_Move to Folder"
 msgstr "_Move to Folder"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Move"
@@ -13285,63 +13269,68 @@ msgstr "_Move"
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1002
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "Scanning folders in \"%s\""
+
+#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Select folder"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "C_opy"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2255
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Creating folder `%s'"
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "Create folder"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2633
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Rename the \"%s\" folder to:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2635
 msgid "Rename Folder"
 msgstr "Rename Folder"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_View"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2711
 msgid "Open in _New Window"
 msgstr "Open in _New Window"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2715
 msgid "_Copy..."
 msgstr "_Copy..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2716
 msgid "_Move..."
 msgstr "_Move..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2720
 msgid "_New Folder..."
 msgstr "_New Folder..."
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2723
 msgid "_Rename..."
 msgstr "_Rename..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Properties"
 
@@ -13638,116 +13627,116 @@ msgstr "Retrieving `%s'"
 msgid "Valid signature but cannot verify sender"
 msgstr "Valid signature but cannot verify sender"
 
-#: mail/em-format-html.c:848
+#: mail/em-format-html.c:871
 msgid "Malformed external-body part."
 msgstr "Malformed external-body part."
 
-#: mail/em-format-html.c:878
+#: mail/em-format-html.c:901
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pointer to FTP site (%s)"
 
-#: mail/em-format-html.c:889
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pointer to local file (%s) valid at site \"%s\""
 
-#: mail/em-format-html.c:891
+#: mail/em-format-html.c:914
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pointer to local file (%s)"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pointer to remote data (%s)"
 
-#: mail/em-format-html.c:923
+#: mail/em-format-html.c:946
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pointer to unknown external data (\"%s\" type)"
 
-#: mail/em-format-html.c:1163
+#: mail/em-format-html.c:1186
 msgid "Formatting message"
 msgstr "Formatting message"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "From"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Reply-To"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "To"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:807
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1552 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Mailer"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1579
+#: mail/em-format-html.c:1602
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1582
+#: mail/em-format-html.c:1605
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1592 mail/em-format-quote.c:321 mail/em-format.c:809
+#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Date"
 
-#: mail/em-format-html.c:1615 mail/em-format.c:810 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Newsgroups"
 
-#: mail/em-format.c:1059
+#: mail/em-format.c:1058
 #, c-format
 msgid "%s attachment"
 msgstr "%s attachment"
 
-#: mail/em-format.c:1098 mail/em-format.c:1231
+#: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Could not parse S/MIME message: Unknown error"
 
-#: mail/em-format.c:1221
+#: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Unsupported encryption type for multipart/encrypted"
 
-#: mail/em-format.c:1382
+#: mail/em-format.c:1381
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Could not parse MIME message. Displaying as source."
 
-#: mail/em-format.c:1401
+#: mail/em-format.c:1400
 msgid "Unsupported signature format"
 msgstr "Unsupported signature format"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Error verifying signature"
 msgstr "Error verifying signature"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Unknown error verifying signature"
 msgstr "Unknown error verifying signature"
 
@@ -14651,80 +14640,92 @@ msgstr "%s mailing list"
 msgid "Add Filter Rule"
 msgstr "Add Filter Rule"
 
-#: mail/mail-component.c:463
+#: mail/mail-component.c:135
+msgid "Drafts"
+msgstr "Drafts"
+
+#: mail/mail-component.c:136
+msgid "Outbox"
+msgstr "Outbox"
+
+#: mail/mail-component.c:137
+msgid "Sent"
+msgstr "Sent"
+
+#: mail/mail-component.c:464
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d deleted"
 msgstr[1] "%d deleted"
 
-#: mail/mail-component.c:465
+#: mail/mail-component.c:466
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d junk"
 msgstr[1] "%d junk"
 
-#: mail/mail-component.c:488
+#: mail/mail-component.c:489
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d draft"
 msgstr[1] "%d drafts"
 
-#: mail/mail-component.c:490
+#: mail/mail-component.c:491
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sent"
 msgstr[1] "%d sent"
 
-#: mail/mail-component.c:492
+#: mail/mail-component.c:493
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d unsent"
 msgstr[1] "%d unsent"
 
-#: mail/mail-component.c:496
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d total"
 msgstr[1] "%d total"
 
-#: mail/mail-component.c:498
+#: mail/mail-component.c:499
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d unread"
 msgstr[1] ", %d unread"
 
-#: mail/mail-component.c:663
+#: mail/mail-component.c:664
 msgid "New Mail Message"
 msgstr "New Mail Message"
 
-#: mail/mail-component.c:664
+#: mail/mail-component.c:665
 msgid "_Mail Message"
 msgstr "_Mail Message"
 
-#: mail/mail-component.c:665
+#: mail/mail-component.c:666
 msgid "Compose a new mail message"
 msgstr "Compose a new mail message"
 
-#: mail/mail-component.c:671
+#: mail/mail-component.c:672
 msgid "New Mail Folder"
 msgstr "New Mail Folder"
 
-#: mail/mail-component.c:672
+#: mail/mail-component.c:673
 msgid "Mail _Folder"
 msgstr "Mail _Folder"
 
-#: mail/mail-component.c:673
+#: mail/mail-component.c:674
 msgid "Create a new mail folder"
 msgstr "Create a new mail folder"
 
-#: mail/mail-component.c:805
+#: mail/mail-component.c:806
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Failed upgrading Mail settings or folders."
 
@@ -16139,11 +16140,6 @@ msgstr "Moving messages to %s"
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copying messages to %s"
-
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "Scanning folders in \"%s\""
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
@@ -19537,2094 +19533,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
-
-#~ msgid "*Control*F2"
-#~ msgstr "*Control*F2"
-
-#~ msgid ""
-#~ "The contact cannot be saved to the selected address book. Do you want to "
-#~ "discard changes?"
-#~ msgstr ""
-#~ "The contact cannot be saved to the selected address book. Do you want to "
-#~ "discard changes?"
-
-#~ msgid ""
-#~ "You are moving the contact from one address book to another, but it "
-#~ "cannot be removed from the source. Do you want to save a copy instead?"
-#~ msgstr ""
-#~ "You are moving the contact from one address book to another, but it "
-#~ "cannot be removed from the source. Do you want to save a copy instead?"
-
-#~ msgid "*Control*F3"
-#~ msgstr "*Control*F3"
-
-#~ msgid "*Control*F4"
-#~ msgstr "*Control*F4"
-
-#~ msgid "*Control*F1"
-#~ msgstr "*Control*F1"
-
-#~ msgid "480"
-#~ msgstr "480"
-
-#~ msgid "_Add Group"
-#~ msgstr "_Add Group"
-
-#~ msgid "Use ssl"
-#~ msgstr "Use ssl"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (Unstable)"
-
-#~ msgid "Remember this password"
-#~ msgstr "Remember this password"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "Remember this password for the remainder of this session"
-
-#
-#~ msgid "Keep"
-#~ msgstr "Keep"
-
-#~ msgid "_Add Contacts Group"
-#~ msgstr "_Add Contacts Group"
-
-#~ msgid "New Contacts Group"
-#~ msgstr "New Contacts Group"
-
-#~ msgid "Contacts Grou_p"
-#~ msgstr "Contacts Grou_p"
-
-#~ msgid "Create a new contacts group"
-#~ msgstr "Create a new contacts group"
-
-#~ msgid "Add Contacts Group"
-#~ msgstr "Add Contacts Group"
-
-#~ msgid "Download limit:"
-#~ msgstr "Download limit:"
-
-#~ msgid "Only locations within starting point"
-#~ msgstr "Only locations within starting point"
-
-#~ msgid "Search base only"
-#~ msgstr "Search base only"
-
-#~ msgid "Search base:"
-#~ msgstr "Search base:"
-
-#~ msgid "Search scope:"
-#~ msgstr "Search scope:"
-
-#~ msgid "Starting point and locations within it"
-#~ msgstr "Starting point and locations within it"
-
-#~ msgid "Timeout:"
-#~ msgstr "Timeout:"
-
-#~ msgid "_Email address:"
-#~ msgstr "_Email address:"
-
-#~ msgid "_Log in:"
-#~ msgstr "_Log in:"
-
-#~ msgid "Add Tasks Group"
-#~ msgstr "_Tasks Group"
-
-#~ msgid "L_ocation:"
-#~ msgstr "L_ocation:"
-
-#~ msgid "<b>Organizer</b>"
-#~ msgstr "<b>Organiser</b>"
-
-#~ msgid "_Organizer:"
-#~ msgstr "_Organiser:"
-
-#~ msgid "New tasks group"
-#~ msgstr "New tasks group"
-
-#~ msgid "Tasks Gro_up"
-#~ msgstr "Tasks Gro_up"
-
-#~ msgid "Create a new tasks group"
-#~ msgstr "Create a new tasks group"
-
-#~ msgid "Got BYE response"
-#~ msgstr "Got BYE response"
-
-#~ msgid "mail"
-#~ msgstr "mail"
-
-#~ msgid "Authentication Credentials for HTTP Server"
-#~ msgstr "Authentication Credentials for HTTP Server"
-
-#~ msgid "Calendars selected for publishing"
-#~ msgstr "Calendars selected for publishing"
-
-#~ msgid "Login name:"
-#~ msgstr "Login name:"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "User Publishes"
-#~ msgstr "User Publishes"
-
-#~ msgid "Could not start wombat"
-#~ msgstr "Could not start wombat"
-
-#~ msgid ""
-#~ "Selected calendar is read-only, events cannot be created. Please select a "
-#~ "read-write calendar."
-#~ msgstr ""
-#~ "Selected calendar is read-only, events cannot be created. Please select a "
-#~ "read-write calendar."
-
-#~ msgid "C_alendar"
-#~ msgstr "C_alendar"
-
-#~ msgid "Audio Alarm Options"
-#~ msgstr "Audio Alarm Options"
-
-#~ msgid "Message Alarm Options"
-#~ msgstr "Message Alarm Options"
-
-#~ msgid "Email Alarm Options"
-#~ msgstr "Email Alarm Options"
-
-#~ msgid "Program Alarm Options"
-#~ msgstr "Program Alarm Options"
-
-#~ msgid "Unknown Alarm Options"
-#~ msgstr "Unknown Alarm Options"
-
-#~ msgid "Alarm Repeat"
-#~ msgstr "Alarm Repeat"
-
-#~ msgid "Message to Display:"
-#~ msgstr "Message to Display:"
-
-#~ msgid "Message to Send"
-#~ msgstr "Message to Send"
-
-#~ msgid "Play sound:"
-#~ msgstr "Play sound:"
-
-#~ msgid "Run program:"
-#~ msgstr "Run program:"
-
-#~ msgid "With these arguments:"
-#~ msgstr "With these arguments:"
-
-#~ msgid "Basics"
-#~ msgstr "Basics"
-
-#~ msgid "Date/Time:"
-#~ msgstr "Date/Time:"
-
-#~ msgid "Reminders"
-#~ msgstr "Reminders"
-
-#~ msgid "_Options..."
-#~ msgstr "_Options..."
-
-#~ msgid "Addressbook..."
-#~ msgstr "Addressbook..."
-
-#~ msgid "B_usy"
-#~ msgstr "B_usy"
-
-#~ msgid "Co_nfidential"
-#~ msgstr "Co_nfidential"
-
-#~ msgid "Date & Time"
-#~ msgstr "Date & Time"
-
-#~ msgid "F_ree"
-#~ msgstr "F_ree"
-
-#~ msgid "Pri_vate"
-#~ msgstr "Pri_vate"
-
-#~ msgid "Pu_blic"
-#~ msgstr "Pu_blic"
-
-#~ msgid "Add A_ttendee"
-#~ msgstr "Add A_ttendee"
-
-#~ msgid "Add attendees from addressbook."
-#~ msgstr "Add attendees from addressbook."
-
-#~ msgid "Preview"
-#~ msgstr "Preview"
-
-#~ msgid "Recurrence Rule"
-#~ msgstr "Recurrence Rule"
-
-#~ msgid "_Custom recurrence"
-#~ msgstr "_Custom recurrence"
-
-#~ msgid "_Modify"
-#~ msgstr "_Modify"
-
-#~ msgid "_No recurrence"
-#~ msgstr "_No recurrence"
-
-#~ msgid "_Simple recurrence"
-#~ msgstr "_Simple recurrence"
-
-#~ msgid "% _Complete"
-#~ msgstr "% _Complete"
-
-#~ msgid "Progress"
-#~ msgstr "Progress"
-
-#~ msgid "Con_fidential"
-#~ msgstr "Con_fidential"
-
-#~ msgid "Folder:"
-#~ msgstr "Folder:"
-
-#~ msgid "There was an error on the CORBA system\n"
-#~ msgstr "There was an error on the CORBA system\n"
-
-#~ msgid "Object could not be found\n"
-#~ msgstr "Object could not be found\n"
-
-#~ msgid "You don't have the right permissions to update the calendar\n"
-#~ msgstr "You don't have the right permissions to update the calendar\n"
-
-#~ msgid "Attendee status could not be updated!\n"
-#~ msgstr "Attendee status could not be updated!\n"
-
-#~ msgid "Add attendees from addressbook"
-#~ msgstr "Add attendees from addressbook"
-
-#~ msgid "_Options"
-#~ msgstr "_Options"
-
-#~ msgid "Meeting _start time:"
-#~ msgstr "Meeting _start time:"
-
-#~ msgid "Meeting _end time:"
-#~ msgstr "Meeting _end time:"
-
-#~ msgid ""
-#~ "Selected task list is read-only, events cannot be created. Please select "
-#~ "a read-write calendar."
-#~ msgstr ""
-#~ "Selected task list is read-only, events cannot be created. Please select "
-#~ "a read-write calendar."
-
-#~ msgid "Can't find certificate for `%s'"
-#~ msgstr "Can't find certificate for `%s'"
-
-#~ msgid "Can't create CMS Message"
-#~ msgstr "Can't create CMS Message"
-
-#~ msgid "Can't create encoder context"
-#~ msgstr "Can't create encoder context"
-
-#~ msgid "_Score Rules"
-#~ msgstr "_Score Rules"
-
-#~ msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-#~ msgstr "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-
-#~ msgid "Properties"
-#~ msgstr "Properties"
-
-#~ msgid "Folder Name"
-#~ msgstr "Folder Name"
-
-#~ msgid "contact-list-editor"
-#~ msgstr "contact-list-editor"
-
-#~ msgid "Save List as VCard"
-#~ msgstr "Save List as VCard"
-
-#~ msgid "Groupwise"
-#~ msgstr "Groupwise"
-
-#~ msgid "<b>Starts:</b> "
-#~ msgstr "<b>Starts:</b> "
-
-#~ msgid "<b>Ends:</b> "
-#~ msgstr "<b>Ends:</b> "
-
-#~ msgid "<b>Completed:</b> "
-#~ msgstr "<b>Completed:</b> "
-
-#~ msgid "<b>Due:</b> "
-#~ msgstr "<b>Due:</b> "
-
-#~ msgid "<i>None</i>"
-#~ msgstr "<i>None</i>"
-
-#~ msgid ""
-#~ "Error opening %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Error opening %s:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Could not create composer window:\n"
-#~ "Unable to activate HTML editor component."
-#~ msgstr ""
-#~ "Could not create composer window:\n"
-#~ "Unable to activate HTML editor component."
-
-#~ msgid "_Properties..."
-#~ msgstr "_Properties..."
-
-#~ msgid "Checkbox"
-#~ msgstr "Checkbox"
-
-#~ msgid "C_alendar:"
-#~ msgstr "C_alendar:"
-
-#~ msgid "_Contacts:"
-#~ msgstr "_Contacts:"
-
-#~ msgid "_Mail:"
-#~ msgstr "_Mail:"
-
-#~ msgid "_Tasks:"
-#~ msgstr "_Tasks:"
-
-#~ msgid "Folder _type:"
-#~ msgstr "Folder _type:"
-
-#~ msgid "Open Other User's Folder"
-#~ msgstr "Open Other User's Folder"
-
-#~ msgid "_Folder Name:"
-#~ msgstr "_Folder Name:"
-
-#~ msgid "_User:"
-#~ msgstr "_User:"
-
-#~ msgid ""
-#~ "Some fields are no longer representable in the contact editor. Please "
-#~ "wait while Evolution copies those fields to the 'Notes' field..."
-#~ msgstr ""
-#~ "Some fields are no longer representable in the contact editor. Please "
-#~ "wait while Evolution copies those fields to the 'Notes' field..."
-
-#~ msgid "  S_how Supported Bases "
-#~ msgstr "  S_how Supported Bases "
-
-#~ msgid "1:00"
-#~ msgstr "1:00"
-
-#~ msgid "5:00"
-#~ msgstr "5:00"
-
-#~ msgid "Connecting"
-#~ msgstr "Connecting"
-
-#~ msgid "Distinguished _name:"
-#~ msgstr "Distinguished _name:"
-
-#~ msgid "Email address:"
-#~ msgstr "Email address:"
-
-#~ msgid "Evolution will use this DN to authenticate you with the server"
-#~ msgstr "Evolution will use this DN to authenticate you with the server"
-
-#~ msgid "S_earch scope: "
-#~ msgstr "S_earch scope: "
-
-#~ msgid "Searching"
-#~ msgstr "Searching"
-
-#~ msgid "This option controls how long a search will be run."
-#~ msgstr "This option controls how long a search will be run."
-
-#~ msgid "U_se SSL/TLS:"
-#~ msgstr "U_se SSL/TLS:"
-
-#~ msgid "_Display name:"
-#~ msgstr "_Display name:"
-
-#~ msgid "_Port number:"
-#~ msgstr "_Port number:"
-
-#~ msgid "_Search base:"
-#~ msgstr "_Search base:"
-
-#~ msgid "_Server name:"
-#~ msgstr "_Server name:"
-
-#~ msgid "_Timeout (minutes):"
-#~ msgstr "_Timeout (minutes):"
-
-#~ msgid "connecting-tab"
-#~ msgstr "connecting-tab"
-
-#~ msgid "general-tab"
-#~ msgstr "general-tab"
-
-#~ msgid "searching-tab"
-#~ msgstr "searching-tab"
-
-#~ msgid "Webcam:"
-#~ msgstr "Webcam:"
-
-#~ msgid "item7"
-#~ msgstr "item7"
-
-#~ msgid "item8"
-#~ msgstr "item8"
-
-#~ msgid "Calendar Properties"
-#~ msgstr "Calendar Properties"
-
-#~ msgid "Remote"
-#~ msgstr "Remote"
-
-#~ msgid "Task List Properties"
-#~ msgstr "Task List Properties"
-
-#~ msgid "_Refresh Interval:"
-#~ msgstr "_Refresh Interval:"
-
-#~ msgid "_Source URL:"
-#~ msgstr "_Source URL:"
-
-#~ msgid "_Invite Others..."
-#~ msgstr "_Invite Others..."
-
-#~ msgid "Posting not allowed by news server"
-#~ msgstr "Posting not allowed by news server"
-
-#~ msgid "Failed to send newsgroups header: %s: message not posted"
-#~ msgstr "Failed to send newsgroups header: %s: message not posted"
-
-#~ msgid "Error posting to newsgroup: %s: message not posted"
-#~ msgstr "Error posting to newsgroup: %s: message not posted"
-
-#~ msgid "Error reading response to posted message: message not posted"
-#~ msgstr "Error reading response to posted message: message not posted"
-
-#~ msgid "Error posting message: %s: message not posted"
-#~ msgstr "Error posting message: %s: message not posted"
-
-#~ msgid "Stream error"
-#~ msgstr "Stream error"
-
-#~ msgid "Connection error: %s"
-#~ msgstr "Connection error: %s"
-
-#~ msgid "Could not get group: %s"
-#~ msgstr "Could not get group: %s"
-
-#~ msgid "Could not get messages: unspecified error"
-#~ msgstr "Could not get messages: unspecified error"
-
-#~ msgid "Unknown server response: %s"
-#~ msgstr "Unknown server response: %s"
-
-#~ msgid "${1}"
-#~ msgstr "${1}"
-
-#~ msgid "Because \"${1}\"."
-#~ msgstr "Because \"${1}\"."
-
-#~ msgid "Brought to you by"
-#~ msgstr "Brought to you by"
-
-#~ msgid "_Filename:"
-#~ msgstr "_Filename:"
-
-#~ msgid "Do you want to trust \"%s\" for the following purposes?"
-#~ msgstr "Do you want to trust \"%s\" for the following purposes?"
-
-#~ msgid "View Certificate"
-#~ msgstr "View Certificate"
-
-#~ msgid "You have been asked to trust a new Certificate Authority (CA)."
-#~ msgstr "You have been asked to trust a new Certificate Authority (CA)."
-
-#~ msgid "About Ximian Evolution..."
-#~ msgstr "About Ximian Evolution..."
-
-#~ msgid "_About Ximian Evolution..."
-#~ msgstr "_About Ximian Evolution..."
-
-#~ msgid "Could not perform query on Root DSE"
-#~ msgstr "Could not perform query on Root DSE"
-
-#~ msgid "Error retrieving schema information"
-#~ msgstr "Error retrieving schema information"
-
-#~ msgid "Job title:"
-#~ msgstr "Job title:"
-
-#~ msgid "Do you want to save changes?"
-#~ msgstr "Do you want to save changes?"
-
-#~ msgid "Error saving %s: %s"
-#~ msgstr "Error saving %s: %s"
-
-#~ msgid ""
-#~ "The addressbook backend for\n"
-#~ "%s\n"
-#~ "has crashed. You will have to restart Evolution in order to use it again"
-#~ msgstr ""
-#~ "The addressbook backend for\n"
-#~ "%s\n"
-#~ "has crashed. You will have to restart Evolution in order to use it again"
-
-#~ msgid "Can not load URI"
-#~ msgstr "Can not load URI"
-
-#~ msgid ""
-#~ "The event being deleted is a meeting, would you like to send a "
-#~ "cancellation notice?"
-#~ msgstr ""
-#~ "The event being deleted is a meeting, would you like to send a "
-#~ "cancellation notice?"
-
-#~ msgid ""
-#~ "The task being deleted is assigned, would you like to send a cancellation "
-#~ "notice?"
-#~ msgstr ""
-#~ "The task being deleted is assigned, would you like to send a cancellation "
-#~ "notice?"
-
-#~ msgid "Are you sure you want to cancel and delete this task?"
-#~ msgstr "Are you sure you want to cancel and delete this task?"
-
-#~ msgid ""
-#~ "The journal entry being deleted is published, would you like to send a "
-#~ "cancellation notice?"
-#~ msgstr ""
-#~ "The journal entry being deleted is published, would you like to send a "
-#~ "cancellation notice?"
-
-#~ msgid "Are you sure you want to delete this untitled appointment?"
-#~ msgstr "Are you sure you want to delete this untitled appointment?"
-
-#~ msgid "Are you sure you want to delete this untitled task?"
-#~ msgstr "Are you sure you want to delete this untitled task?"
-
-#~ msgid "Are you sure want to delete this untitled journal entry?"
-#~ msgstr "Are you sure want to delete this untitled journal entry?"
-
-#~ msgid ""
-#~ "This event has been changed, but has not been saved.\n"
-#~ "\n"
-#~ "Do you wish to save your changes?"
-#~ msgstr ""
-#~ "This event has been changed, but has not been saved.\n"
-#~ "\n"
-#~ "Do you wish to save your changes?"
-
-#~ msgid "Save Event"
-#~ msgstr "Save Event"
-
-#~ msgid "The meeting information has been created. Send it?"
-#~ msgstr "The meeting information has been created. Send it?"
-
-#~ msgid "The meeting information has changed. Send an updated version?"
-#~ msgstr "The meeting information has changed. Send an updated version?"
-
-#~ msgid "The task assignment information has been created. Send it?"
-#~ msgstr "The task assignment information has been created. Send it?"
-
-#~ msgid "The task information has changed. Send an updated version?"
-#~ msgstr "The task information has changed. Send an updated version?"
-
-#~ msgid "The task backend for '%s' has crashed."
-#~ msgstr "The task backend for '%s' has crashed."
-
-#~ msgid "The calendar backend for '%s' has crashed."
-#~ msgstr "The calendar backend for '%s' has crashed."
-
-#~ msgid "Learning junk and/or non junk message(s)"
-#~ msgstr "Learning junk and/or non junk message(s)"
-
-#~ msgid "Check _Incoming Mail"
-#~ msgstr "Check _Incoming Mail"
-
-#~ msgid "Use _Daemon"
-#~ msgstr "Use _Daemon"
-
-#~ msgid "_Local Tests Only"
-#~ msgstr "_Local Tests Only"
-
-#~ msgid "Working"
-#~ msgstr "Working"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "\n"
-#~ "Unknown error."
-#~ msgstr ""
-#~ "%s\n"
-#~ "\n"
-#~ "Unknown error."
-
-#~ msgid ""
-#~ "%s\n"
-#~ "\n"
-#~ "The error from the component system is:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "%s\n"
-#~ "\n"
-#~ "The error from the component system is:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "\n"
-#~ "The error from the activation system is:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "%s\n"
-#~ "\n"
-#~ "The error from the activation system is:\n"
-#~ "%s"
-
-#
-#~ msgid ""
-#~ "The following entries are invalid:\n"
-#~ "\n"
-#~ msgstr "The following connections are currently active:"
-
-#~ msgid "Could not find widget for a field: `%s'"
-#~ msgstr "Could not find widget for a field: `%s'"
-
-#~ msgid "UID of the contacts source that the view will display"
-#~ msgstr "UID of the contacts source that the view will display"
-
-#~ msgid "The URI that the address book will display"
-#~ msgstr "The URI that the address book will display"
-
-#~ msgid "Evolution Addressbook folder viewer"
-#~ msgstr "Evolution Addressbook folder viewer"
-
-#~ msgid "Address 2:"
-#~ msgstr "Address 2:"
-
-#~ msgid "Blog:"
-#~ msgstr "Blog:"
-
-#~ msgid "Could not initialize gnome-vfs"
-#~ msgstr "Could not initialise gnome-vfs"
-
-#~ msgid "Could not open the folder in '%s'"
-#~ msgstr "Could not open the folder in '%s'"
-
-#~ msgid "The URI that the calendar will display"
-#~ msgstr "The URI that the calendar will display"
-
-#~ msgid "The type of view to show"
-#~ msgstr "The type of view to show"
-
-#~ msgid "Display a message"
-#~ msgstr "Display a message"
-
-#~ msgid "Select source"
-#~ msgstr "Select source"
-
-#~ msgid "Calendar file could not be updated!\n"
-#~ msgstr "Calendar file could not be updated!\n"
-
-#~ msgid "Evolution Calendar viewer"
-#~ msgstr "Evolution Calendar viewer"
-
-#~ msgid "Evolution Tasks viewer"
-#~ msgstr "Evolution Tasks viewer"
-
-#~ msgid "The URI of the tasks folder to display"
-#~ msgstr "The URI of the tasks folder to display"
-
-#~ msgid "Could not load the tasks in `%s'"
-#~ msgstr "Could not load the tasks in `%s'"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it containes the character \"%c"
-#~ "\""
-#~ msgstr ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-
-#~ msgid "VFolder on Thread"
-#~ msgstr "VFolder on Thread"
-
-#~ msgid "Filter on Thread"
-#~ msgstr "Filter on Thread"
-
-#~ msgid "Failed to migrate pop3 uid caches: %s"
-#~ msgstr "Failed to migrate pop3 uid caches: %s"
-
-#~ msgid "Failed to migrate folder expand state: %s"
-#~ msgstr "Failed to migrate folder expand state: %s"
-
-#~ msgid "Failed to open store for `%s': %s"
-#~ msgstr "Failed to open store for `%s': %s"
-
-#~ msgid "S3kr3t 0pt10n"
-#~ msgstr "S3kr3t 0pt10n"
-
-#~ msgid "S3kr3t 0pt10n."
-#~ msgstr "S3kr3t 0pt10n."
-
-#~ msgid "Evolution Mail folder viewer"
-#~ msgstr "Evolution Mail folder viewer"
-
-#~ msgid "URI of the mail source that the view will display"
-#~ msgstr "URI of the mail source that the view will display"
-
-#~ msgid ""
-#~ "Warning: Evolution could not upgrade all your data from version %d.%d.%"
-#~ "d.\n"
-#~ "The data hasn't been deleted, but it will not be seen by this version of "
-#~ "Evolution.\n"
-#~ msgstr ""
-#~ "Warning: Evolution could not upgrade all your data from version %d.%d.%"
-#~ "d.\n"
-#~ "The data hasn't been deleted, but it will not be seen by this version of "
-#~ "Evolution.\n"
-
-#~ msgid "Cannot initialize the Ximian Evolution shell: %s"
-#~ msgstr "Cannot initialise the Ximian Evolution shell: %s"
-
-#~ msgid "_Resend..."
-#~ msgstr "_Resend..."
-
-#~ msgid "Because \"{1}\""
-#~ msgstr "Because \"{1}\""
-
-#~ msgid "calendar"
-#~ msgstr "calendar"
-
-#~ msgid "Alerts"
-#~ msgstr "Alerts"
-
-#~ msgid "Time"
-#~ msgstr "Time"
-
-#~ msgid "_General"
-#~ msgstr "_General"
-
-#~ msgid ""
-#~ "The task backend for\n"
-#~ "%s\n"
-#~ " has crashed."
-#~ msgstr ""
-#~ "The task backend for\n"
-#~ "%s\n"
-#~ " has crashed."
-
-#~ msgid "Default shortcut group"
-#~ msgstr "Default shortcut group"
-
-#~ msgid "Default width of the shortcut bar pane"
-#~ msgstr "Default width of the shortcut bar pane"
-
-#~ msgid "Path to the default calendar folder"
-#~ msgstr "Path to the default calendar folder"
-
-#~ msgid "Path to the default contacts folder"
-#~ msgstr "Path to the default contacts folder"
-
-#~ msgid "Path to the default mail folder"
-#~ msgstr "Path to the default mail folder"
-
-#~ msgid "Path to the default tasks folder"
-#~ msgstr "Path to the default tasks folder"
-
-#~ msgid "Physical URI to the default calendar folder"
-#~ msgstr "Physical URI to the default calendar folder"
-
-#~ msgid "Physical URI to the default contacts folder"
-#~ msgstr "Physical URI to the default contacts folder"
-
-#~ msgid "Physical URI to the default mail folder"
-#~ msgstr "Physical URI to the default mail folder"
-
-#~ msgid "Physical URI to the default tasks folder"
-#~ msgstr "Physical URI to the default tasks folder"
-
-#~ msgid "Whether to show the folder bar"
-#~ msgstr "Whether to show the folder bar"
-
-#~ msgid "Whether to show the shortcut bar"
-#~ msgstr "Whether to show the shortcut bar"
-
-#~ msgid "Due date is before start date!"
-#~ msgstr "Due date is before start date!"
-
-#~ msgid ""
-#~ "Error while reading file %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Error while reading file %s:\n"
-#~ "%s"
-
-#~ msgid "Error saving file: %s"
-#~ msgstr "Error saving file: %s"
-
-#~ msgid "Error loading file: %s"
-#~ msgstr "Error loading file: %s"
-
-#~ msgid "Error accessing file: %s"
-#~ msgstr "Error accessing file: %s"
-
-#~ msgid ""
-#~ "Unable to seek on file: %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Unable to seek on file: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Unable to truncate file: %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Unable to truncate file: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error autosaving message: %s\n"
-#~ " %s"
-#~ msgstr ""
-#~ "Error autosaving message: %s\n"
-#~ " %s"
-
-#~ msgid ""
-#~ "Ximian Evolution has found unsaved messages from a previous session.\n"
-#~ "Would you like to try to recover them?"
-#~ msgstr ""
-#~ "Ximian Evolution has found unsaved messages from a previous session.\n"
-#~ "Would you like to try to recover them?"
-
-#~ msgid ""
-#~ "The message \"%s\" has not been sent.\n"
-#~ "\n"
-#~ "Do you wish to save your changes?"
-#~ msgstr ""
-#~ "The message \"%s\" has not been sent.\n"
-#~ "\n"
-#~ "Do you wish to save your changes?"
-
-#~ msgid "Rule name '%s' is not unique, choose another."
-#~ msgstr "Rule name '%s' is not unique, choose another."
-
-#~ msgid "You need to to specify at least one folder as a source."
-#~ msgstr "You need to to specify at least one folder as a source."
-
-#~ msgid "You must specify a valid script name."
-#~ msgstr "You must specify a valid script name."
-
-#~ msgid ""
-#~ "This message has no subject.\n"
-#~ "Really send?"
-#~ msgstr ""
-#~ "This message has no subject.\n"
-#~ "Really send?"
-
-#~ msgid ""
-#~ "Since the contact list you are sending to is configured to hide the "
-#~ "list's addresses, this message will contain only Bcc recipients."
-#~ msgstr ""
-#~ "Since the contact list you are sending to is configured to hide the "
-#~ "list's addresses, this message will contain only Bcc recipients."
-
-#~ msgid "This message contains only Bcc recipients."
-#~ msgstr "This message contains only Bcc recipients."
-
-#~ msgid ""
-#~ "It is possible that the mail server may reveal the recipients by adding "
-#~ "an Apparently-To header.\n"
-#~ "Send anyway?"
-#~ msgstr ""
-#~ "It is possible that the mail server may reveal the recipients by adding "
-#~ "an Apparently-To header.\n"
-#~ "Send anyway?"
-
-#~ msgid "You must specify recipients in order to send this message."
-#~ msgstr "You must specify recipients in order to send this message."
-
-#~ msgid "Cannot move folder `%s': illegal operation"
-#~ msgstr "Cannot move folder `%s': illegal operation"
-
-#~ msgid "%s"
-#~ msgstr "%s"
-
-#~ msgid "Could not delete folder: %s"
-#~ msgstr "Could not delete folder: %s"
-
-#~ msgid ""
-#~ "`%s' already exists.\n"
-#~ "Overwrite it?"
-#~ msgstr ""
-#~ "`%s' already exists.\n"
-#~ "Overwrite it?"
-
-#~ msgid "Error: '%s' exists and is not a regular file"
-#~ msgstr "Error: '%s' exists and is not a regular file"
-
-#~ msgid ""
-#~ "This operation will permanently remove all deleted messages in the folder "
-#~ "`%s'. If you continue, you will not be able to recover these messages.\n"
-#~ "\n"
-#~ "Really erase these messages?"
-#~ msgstr ""
-#~ "This operation will permanently remove all deleted messages in the folder "
-#~ "`%s'. If you continue, you will not be able to recover these messages.\n"
-#~ "\n"
-#~ "Really erase these messages?"
-
-#~ msgid ""
-#~ "This operation will permanently remove all deleted messages in all "
-#~ "folders. If you continue, you will not be able to recover these "
-#~ "messages.\n"
-#~ "\n"
-#~ "Really erase these messages?"
-#~ msgstr ""
-#~ "This operation will permanently remove all deleted messages in all "
-#~ "folders. If you continue, you will not be able to recover these "
-#~ "messages.\n"
-#~ "\n"
-#~ "Really erase these messages?"
-
-#~ msgid "The following filter rule(s):\n"
-#~ msgstr "The following filter rule(s):\n"
-
-#~ msgid ""
-#~ "Used the removed folder:\n"
-#~ "    '%s'\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "Used the removed folder:\n"
-#~ "    '%s'\n"
-#~ "And have been updated."
-
-#~ msgid "Save signature"
-#~ msgstr "Save signature"
-
-#~ msgid "Trying to edit a vfolder '%s' which doesn't exist."
-#~ msgstr "Trying to edit a vfolder '%s' which doesn't exist."
-
-#~ msgid "Address Book Creation Assistant"
-#~ msgstr "Address Book Creation Assistant"
-
-#~ msgid ""
-#~ "Congratulations, you are\n"
-#~ "\t      finished setting up this address book.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-#~ msgstr ""
-#~ "Congratulations, you are\n"
-#~ "\t      finished setting up this address book.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-
-#~ msgid "Finished"
-#~ msgstr "Finished"
-
-#~ msgid ""
-#~ "Now, you must specify how you want to connect to the LDAP server. The SSL "
-#~ "(Secure Sockets Layer)\n"
-#~ "and TLS (Transport Layer Security) protocols are used by some servers to "
-#~ "cryptographically protect\n"
-#~ "your connection. Ask your system administrator if your LDAP server uses "
-#~ "these protocols."
-#~ msgstr ""
-#~ "Now, you must specify how you want to connect to the LDAP server. The SSL "
-#~ "(Secure Sockets Layer)\n"
-#~ "and TLS (Transport Layer Security) protocols are used by some servers to "
-#~ "cryptographically protect\n"
-#~ "your connection. Ask your system administrator if your LDAP server uses "
-#~ "these protocols."
-
-#~ msgid ""
-#~ "Selecting this option will let you change Evolution's default settings "
-#~ "for LDAP\n"
-#~ "searches, and for creating and editing contacts. "
-#~ msgstr ""
-#~ "Selecting this option will let you change Evolution's default settings "
-#~ "for LDAP\n"
-#~ "searches, and for creating and editing contacts. "
-
-#~ msgid ""
-#~ "Specifying a\n"
-#~ "\t\t\t  display name and group is the first step in setting\n"
-#~ "\t\t\t  up an address book."
-#~ msgstr ""
-#~ "Specifying a\n"
-#~ "\t\t\t  display name and group is the first step in setting\n"
-#~ "\t\t\t  up an address book."
-
-#~ msgid "Step 1: Folder Characteristics"
-#~ msgstr "Step 1: Folder Characteristics"
-
-#~ msgid "Step 3: Connecting to Server"
-#~ msgstr "Step 3: Connecting to Server"
-
-#~ msgid "Step 4: Searching the Directory"
-#~ msgstr "Step 4: Searching the Directory"
-
-#~ msgid ""
-#~ "The options on this page control how many entries should be included in "
-#~ "your\n"
-#~ "searches, and how long a search should take. Ask your system "
-#~ "administrator if you\n"
-#~ "need to change these options."
-#~ msgstr ""
-#~ "The options on this page control how many entries should be included in "
-#~ "your\n"
-#~ "searches, and how long a search should take. Ask your system "
-#~ "administrator if you\n"
-#~ "need to change these options."
-
-#~ msgid ""
-#~ "This assistant will help you\n"
-#~ "\t      create a new address book. \n"
-#~ "\n"
-#~ "Depending on the type of address book you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-#~ msgstr ""
-#~ "This assistant will help you\n"
-#~ "\t      create a new address book. \n"
-#~ "\n"
-#~ "Depending on the type of address book you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-
-#~ msgid ""
-#~ "This is the name that will appear in your Evolution folder list. It is "
-#~ "for display purposes only. "
-#~ msgstr ""
-#~ "This is the name that will appear in your Evolution folder list. It is "
-#~ "for display purposes only. "
-
-#~ msgid ""
-#~ "You have decided to configure an LDAP server. The first step in doing "
-#~ "this is to provide its name and your\n"
-#~ "log in information. Please ask your system administrator if you are "
-#~ "unsure of this information."
-#~ msgstr ""
-#~ "You have decided to configure an LDAP server. The first step in doing "
-#~ "this is to provide its name and your\n"
-#~ "log in information. Please ask your system administrator if you are "
-#~ "unsure of this information."
-
-#~ msgid "Chillonia"
-#~ msgstr "Chillonia"
-
-#~ msgid "Business _fax:"
-#~ msgstr "Business _fax:"
-
-#~ msgid "_Business:"
-#~ msgstr "_Business:"
-
-#~ msgid "_Home:"
-#~ msgstr "_Home:"
-
-#~ msgid "_Mobile:"
-#~ msgstr "_Mobile:"
-
-#~ msgid "Save Contact as VCard"
-#~ msgstr "Save Contact as VCard"
-
-#~ msgid " B_usiness:"
-#~ msgstr " B_usiness:"
-
-#~ msgid "A_ddress..."
-#~ msgstr "A_ddress..."
-
-#~ msgid "A_ssistant's name:"
-#~ msgstr "A_ssistant's name:"
-
-#~ msgid "Addressbook:"
-#~ msgstr "Addressbook:"
-
-#~ msgid "Blog address:"
-#~ msgstr "Blog address:"
-
-#~ msgid "Collaboration"
-#~ msgstr "Collaboration"
-
-#~ msgid "Enter the person's instant messenger accounts here."
-#~ msgstr "Enter the person's instant messenger accounts here."
-
-#~ msgid "File a_s:"
-#~ msgstr "File a_s:"
-
-#~ msgid ""
-#~ "If this person has the ability to participate in a video conference, "
-#~ "enter their address here."
-#~ msgstr ""
-#~ "If this person has the ability to participate in a video conference, "
-#~ "enter their address here."
-
-#~ msgid ""
-#~ "If this person publishes free/busy or other calendar information on the "
-#~ "Internet, enter the address\n"
-#~ "of that information here."
-#~ msgstr ""
-#~ "If this person publishes free/busy or other calendar information on the "
-#~ "Internet, enter the address\n"
-#~ "of that information here."
-
-#~ msgid "New phone type"
-#~ msgstr "New phone type"
-
-#~ msgid "Organi_zation:"
-#~ msgstr "Organi_sation:"
-
-#~ msgid "Primary _email:"
-#~ msgstr "Primary _email:"
-
-#~ msgid "_Categories..."
-#~ msgstr "_Categories..."
-
-#~ msgid "_Manager's name:"
-#~ msgstr "_Manager's name:"
-
-#~ msgid "_Public Calendar URL:"
-#~ msgstr "_Public Calendar URL:"
-
-#~ msgid "_This is the mailing address"
-#~ msgstr "_This is the mailing address"
-
-#~ msgid "_Video Conferencing URL:"
-#~ msgstr "_Video Conferencing URL:"
-
-#~ msgid "_Web page address:"
-#~ msgstr "_Web page address:"
-
-#~ msgid "Account Name"
-#~ msgstr "Account Name"
-
-#~ msgid "Business"
-#~ msgstr "Business"
-
-#~ msgid "Calendar Creation Assistant"
-#~ msgstr "Calendar Creation Assistant"
-
-#~ msgid ""
-#~ "Congratulations, you are finished setting up this calendar.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-#~ msgstr ""
-#~ "Congratulations, you are finished setting up this calendar.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-
-#~ msgid ""
-#~ "Congratulations, you are finished setting up this task list.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-#~ msgstr ""
-#~ "Congratulations, you are finished setting up this task list.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-
-#~ msgid ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "calendar."
-#~ msgstr ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "calendar."
-
-#~ msgid ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "task list."
-#~ msgstr ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "task list."
-
-#~ msgid "Step 2: Remote Folder Parameters"
-#~ msgstr "Step 2: Remote Folder Parameters"
-
-#~ msgid "Task List Creation Assistant"
-#~ msgstr "Task List Creation Assistant"
-
-#~ msgid ""
-#~ "This assistant will help you create a new calendar. \n"
-#~ "\n"
-#~ "Depending on the type of calendar you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-#~ msgstr ""
-#~ "This assistant will help you create a new calendar. \n"
-#~ "\n"
-#~ "Depending on the type of calendar you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-
-#~ msgid ""
-#~ "This assistant will help you create a new task list.\n"
-#~ "\n"
-#~ "Depending on the type of task list you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-#~ msgstr ""
-#~ "This assistant will help you create a new task list.\n"
-#~ "\n"
-#~ "Depending on the type of task list you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-
-#~ msgid ""
-#~ "You're creating a folder in a group that's stored in a remote location. "
-#~ "This requires you\n"
-#~ "to specify additional parameters."
-#~ msgstr ""
-#~ "You're creating a folder in a group that's stored in a remote location. "
-#~ "This requires you\n"
-#~ "to specify additional parameters."
-
-#~ msgid "Internal error: expecting CamelMultipart, got \"%s\""
-#~ msgstr "Internal error: expecting CamelMultipart, got \"%s\""
-
-#~ msgid "Internal error: expecting CamelMimeMessage, got \"%s\""
-#~ msgstr "Internal error: expecting CamelMimeMessage, got \"%s\""
-
-#~ msgid "New Addressbook Book"
-#~ msgstr "New Addressbook Book"
-
-#~ msgid "_Address Book"
-#~ msgstr "_Address Book"
-
-#~ msgid "The view showing when the calendar starts"
-#~ msgstr "The view showing when the calendar starts"
-
-#~ msgid "_Task List"
-#~ msgstr "_Task List"
-
-#~ msgid "_minute(s)"
-#~ msgstr "_minute(s)"
-
-#~ msgid "Extra Completion folders"
-#~ msgstr "Extra Completion folders"
-
-#~ msgid "Select Default Folder"
-#~ msgstr "Select Default Folder"
-
-#~ msgid "Default Folders"
-#~ msgstr "Default Folders"
-
-#~ msgid "Offline Folders"
-#~ msgstr "Offline Folders"
-
-#~ msgid "Autocompletion Folders"
-#~ msgstr "Autocompletion Folders"
-
-#~ msgid ""
-#~ "Cannot create the specified folder:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Cannot create the specified folder:\n"
-#~ "%s"
-
-#~ msgid "The specified folder name is not valid: %s"
-#~ msgstr "The specified folder name is not valid: %s"
-
-#~ msgid "Please select a user."
-#~ msgstr "Please select a user."
-
-#~ msgid "Opening Folder"
-#~ msgstr "Opening Folder"
-
-#~ msgid "Opening Folder \"%s\""
-#~ msgstr "Opening Folder \"%s\""
-
-#~ msgid "in \"%s\" ..."
-#~ msgstr "in \"%s\" ..."
-
-#~ msgid "Could not open shared folder: %s."
-#~ msgstr "Could not open shared folder: %s."
-
-#~ msgid "Cannot find the specified shared folder."
-#~ msgstr "Cannot find the specified shared folder."
-
-#~ msgid "Create a new window"
-#~ msgstr "Create a new window"
-
-#~ msgid "Open a new window"
-#~ msgstr "Open a new window"
-
-#~ msgid "2:30"
-#~ msgstr "2:30"
-
-#~ msgid "Selected:"
-#~ msgstr "Selected:"
-
-#~ msgid "[script]"
-#~ msgstr "[script]"
-
-#~ msgid "With _Category"
-#~ msgstr "With _Category"
-
-#~ msgid "Address Book Sources"
-#~ msgstr "Address Book Sources"
-
-#~ msgid "<b>Filter Rules</b>"
-#~ msgstr "<b>Filter Rules</b>"
-
-#~ msgid "Edit Filters"
-#~ msgstr "Edit Filters"
-
-#~ msgid "Edit VFolders"
-#~ msgstr "Edit VFolders"
-
-#~ msgid "Outgoing"
-#~ msgstr "Outgoing"
-
-#~ msgid "_Search for Contacts"
-#~ msgstr "_Search for Contacts"
-
-#~ msgid "1 contact"
-#~ msgstr "Organisation:"
-
-#~ msgid "and %d other contacts."
-#~ msgstr "Organisation:"
-
-#~ msgid "Description"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "LDAP Server Name:"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Shell Command"
-#~ msgstr "Colours"
-
-#~ msgid "Message Fonts"
-#~ msgstr "Colours"
-
-#~ msgid "Restore Defaults"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Encryption"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Quit Assistant"
-#~ msgstr "Cannot initialise the Evolution shell."
-
-#~ msgid ""
-#~ "Could not create directory `%s':\n"
-#~ "%s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Scanning mail filters"
-#~ msgstr "Synchronise \"%s\""
-
-#~ msgid "Scanning directory"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Copy Folder"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid ""
-#~ "Cannot rename folder:\n"
-#~ "%s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid ""
-#~ "Cannot remove folder:\n"
-#~ "%s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Create New Shortcut Group"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Rename Shortcut"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Copy to folder..."
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Work Address"
-#~ msgstr "Colours"
-
-#~ msgid "Could not open '%s': %s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Could not create temporary mbox store: %s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Could not create temporary mbox folder: %s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Could not copy messages to temporary mbox folder: %s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Session not initialised"
-#~ msgstr "Could not initialise Bonobo"
-
-#~ msgid "Could not create a directory for the new addressbook."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Birthdays"
-#~ msgstr "Organisation:"
-
-#~ msgid "Could not create directory for new calendar"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Failed to migrate `%s': %s"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Could not create cache for new calendar"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Could not create directory for new task list"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "You don't have permission to open the folder in `%s'"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Adding %s"
-#~ msgstr "Synchronise \"%s\""
-
-#~ msgid "Select Calendar Folder"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Adding alarms for %s"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Folder Settings"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "New _Calendar"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Other Contacts"
-#~ msgstr "Organisation:"
-
-#, fuzzy
-#~ msgid "Evolution Addressbook LDAP Configuration Control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid ""
-#~ "Cannot transfer folder:\n"
-#~ "%s"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Add a Folder"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Sent"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Syncing Folder"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Synchronizing \"%s\" (%d of %d) ..."
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Cannot create a folder with that name"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Has subfolders"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Clear"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Organizational Unit"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Logo"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "ICS Calendar"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Evolution LDIF importer factory"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Using Email Address"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Reconnecting to LDAP server..."
-#~ msgstr "Synchronise \"%s\""
-
-#, fuzzy
-#~ msgid "Adding contact to LDAP server..."
-#~ msgstr "Synchronise \"%s\""
-
-#, fuzzy
-#~ msgid "Removing contact from LDAP server..."
-#~ msgstr "Synchronise \"%s\""
-
-#, fuzzy
-#~ msgid "Modifying contact from LDAP server..."
-#~ msgstr "Synchronise \"%s\""
-
-#, fuzzy
-#~ msgid "No such calendar"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Evolution Addressbook local backend"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Comp"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "ECard"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Related Contacts"
-#~ msgstr "Organisation:"
-
-#, fuzzy
-#~ msgid "Public Calendar"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Could not update invalid object"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "You do not have the right permissions to update the calendar\n"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Could not create a PGP signature context"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Could not create a PGP verfication context"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Local folders/%s"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Reconfiguring folder"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Reconfigure /%s"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Scanning folders ..."
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Configure the appearance of the Evolution Summary here"
-#~ msgstr "Cannot initialise Evolution's mail summary component."
-
-#, fuzzy
-#~ msgid "Evolution Summary component"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Evolution Summary configuration control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Agen"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Antigua"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Arizona"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Arlington"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Artigas"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Athinai"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Benina"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Boise"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Cagliari"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Cairo"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Calgary"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Campo"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Carlisle"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Chandler"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Cheju"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Chiclayo"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Chievres"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Childress"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Chino"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Chita"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Clarinda"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Clarion"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Colima"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Colorado"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Colville"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Comox"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Conroe"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Coro"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Homer"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Matamoros"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "McComb"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Morgantown"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Nanning"
-#~ msgstr "Synchronise \"%s\""
-
-#, fuzzy
-#~ msgid "Ontario"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Pristina"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Rifle"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Roros"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Scranton"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Springfield"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Tabatinga"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Tallinn"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Tatalina"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Toulouse"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Trenton"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Tyler"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Vaerlose"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Wooster"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Weather Settings"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "_New Feed"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "_Show full path for folders"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Copy this folder"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "_Folder..."
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "_Clear Flag"
-#~ msgstr "Colours"
-
-#, fuzzy
-#~ msgid "Factory to import LDIF files into Evolution."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Addressbook Storages."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the Addressbook Minicard control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid ""
-#~ "Factory for the configuration controls for the Evolution Addressbook."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Evolution Attribute"
-#~ msgstr "Cannot initialise the Evolution shell."
-
-#, fuzzy
-#~ msgid "_Evolution attribute:"
-#~ msgstr "Cannot initialise the Evolution shell."
-
-#, fuzzy
-#~ msgid "Display Cards?"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Display Cards"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Calendar."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the Evolution Tasks control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the calendar iTip view control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the sample Calendar control"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory to centralize calendar component editor dialogs"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory to create a component editor factory"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Could not activate Bonobo"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "Factory to import iCalendar files into Evolution"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Imports iCalendar files into Evolution"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Imports vCalendar files into Evolution"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Cannot initialize the Evolution composer."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Display Fonts."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Mail Accounts."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Mailer."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Message Composer."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Evolution mail folder factory component."
-#~ msgstr "Cannot initialise Evolution's mail summary component."
-
-#, fuzzy
-#~ msgid "Factory for the Evolution composer."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the Mail Summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Cannot initialize the Evolution mail component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's mail config component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's folder info component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory to import mbox into Evolution"
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "All folders"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Apri file"
-#~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Summary."
-#~ msgstr "Cannot initialise Evolution's mail summary component."
-
-#, fuzzy
-#~ msgid "Factory for the Evolution Summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Executive summary component could not initialize Bonobo.\n"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "Configuration control for Evolution folder settings."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not start the Evolution Mailer Assistant interface\n"
-#~ "(%s)"
-#~ msgstr "Cannot initialise Evolution's mail storage hash."
-
-#, fuzzy
-#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
-#~ msgstr "Cannot initialise Evolution's mail storage hash."
-
-#~ msgid "Cannot initialize the Bonobo component system."
-#~ msgstr "Cannot initialise the Bonobo component system."
-
-#, fuzzy
-#~ msgid "Pilot Con_duit Settings..."
-#~ msgstr "Cannot initialise the Evolution shell."
-
-#, fuzzy
-#~ msgid "setup_vfs(): could not initialize GNOME-VFS"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "init_corba(): could not initialize GNOME"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "init_bonobo(): could not initialize Bonobo"
-#~ msgstr "Could not initialise Bonobo"
-
-#, fuzzy
-#~ msgid "en"
-#~ msgstr "Organisation"
-
-#, fuzzy
-#~ msgid "Configuration control for the Evolution Addressbook."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Factory for the Calendar Summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "_Other Organizer"
-#~ msgstr "Organisation:"
-
-#, fuzzy
-#~ msgid "_Organization:"
-#~ msgstr "Organisation:"
-
-#, fuzzy
-#~ msgid "Evolution does not recognize this type of signed message."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's Summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "All _folders:"
-#~ msgstr "Synchronising \"%s\""
-
-#~ msgid "Cannot initialize Evolution's Executive Summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Colors for Tasks"
-#~ msgstr "Colours for display"
-
-#~ msgid "Organizer: "
-#~ msgstr "Organisation:"
-
-#~ msgid "Factory for the test bonobo component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Factory for the test component."
-#~ msgstr "Cannot initialise Evolution's mail component."
-
-#~ msgid "Synchronize"
-#~ msgstr "Synchronise"
-
-#~ msgid "Synchronize Action"
-#~ msgstr "Synchronise Action"
-
-#~ msgid ""
-#~ "\n"
-#~ "Mr.\n"
-#~ "Mrs.\n"
-#~ "Ms.\n"
-#~ "Miss\n"
-#~ "Dr.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Mr\n"
-#~ "Ms\n"
-#~ "Miss\n"
-#~ "Mrs\n"
-#~ "Dr\n"
-#~ "Prof\n"
-#~ "Rev\n"
-
-#~ msgid ""
-#~ "Enter your name and email address to be used in outgoing mail. You may "
-#~ "also, optionally, enter the name of your organization, and the name of a "
-#~ "file to read your signature from."
-#~ msgstr ""
-#~ "Enter your name and email address to be used in outgoing mail. You may "
-#~ "also, optionally, enter the name of your organisation, and the name of a "
-#~ "file to read your signature from."
-
-#~ msgid "Querying authorization capabilities of \"%s\""
-#~ msgstr "Querying authorisation capabilities of \"%s\""
-
-#~ msgid "Query authorization at \"%s\""
-#~ msgstr "Query authorisation at \"%s\""
