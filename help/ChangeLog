@@ -1,5 +1,9 @@
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* C/Makefile.am (evolution-guide): Use `$(srcdir)' here.
+
+2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* C/Makefile.am (SGML_FILES): Add `evolution.sgml'.
 	(evolution-guide): Process `evolution.sgml', not
 	`evolution-guide.sgml'.
