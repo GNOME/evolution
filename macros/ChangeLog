@@ -1,3 +1,7 @@
+2000-04-19  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* gnome-pilot.m4 (PILOT_LIBS): Changed the error string for gnome-pilot
+
 2000-04-10  Dan Winship  <danw@helixcode.com>
 
 	* gnome-pilot.m4 (PILOT_LIBS): Fix a bug introduced in the

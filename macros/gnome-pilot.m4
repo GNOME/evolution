@@ -117,7 +117,7 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 		$2
 	else
 		if test x$3 = xfailure; then
-			AC_MSG_ERROR(Gnome-pilot not installed or installation problem)
+			AC_MSG_ERROR(gnome-pilot development package not installed or installation problem)
 		fi
 	fi
 ])
