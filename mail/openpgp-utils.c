@@ -28,6 +28,7 @@
 
 #include <gnome.h> /* for _() macro */
 #include "openpgp-utils.h"
+#include "mail-session.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,14 +52,12 @@
 
 static const gchar *pgp_path = NULL;
 static PgpType pgp_type = PGP_TYPE_NONE;
-static PgpPasswdFunc pgp_passwd_func = NULL;
-static gpointer pgp_data = NULL;
 
 
 static gchar *
 pgp_get_passphrase (const gchar *userid)
 {
-	gchar *passphrase, *prompt, *type;
+	gchar *passphrase, *prompt, *type = NULL;
 	
 	switch (pgp_type) {
 	case PGP_TYPE_GPG:
@@ -71,17 +70,18 @@ pgp_get_passphrase (const gchar *userid)
 		type = "PGP2.x";
 		break;
 	default:
-		type = "";
+		g_assert_not_reached ();
 	}
-
+	
 	if (userid)
 		prompt = g_strdup_printf (_("Please enter your %s passphrase for %s"),
 					  type, userid);
 	else
 		prompt = g_strdup_printf (_("Please enter your %s passphrase"),
 					  type);
-
-	passphrase = pgp_passwd_func (prompt, pgp_data);
+	
+	/* User the userid as a key if possible, else be generic and use the type */
+	passphrase = mail_session_request_dialog (prompt, TRUE, userid ? userid : type, FALSE);
 	g_free (prompt);
 	
 	return passphrase;
@@ -92,18 +92,14 @@ pgp_get_passphrase (const gchar *userid)
  * openpgp_init:
  * @path: path to pgp
  * @type: pgp program type
- * @callback: function to query for a passphrase
- * @data: user data
  *
  * Initializes pgp variables
  **/
 void
-openpgp_init (const gchar *path, PgpType type, PgpPasswdFunc callback, gpointer data)
+openpgp_init (const gchar *path, PgpType type)
 {
 	pgp_path = path;
 	pgp_type = type;
-	pgp_passwd_func = callback;
-	pgp_data = data;
 }
 
 

@@ -40,6 +40,7 @@
 #include "mail-ops.h"
 #include "mail-local.h"
 #include "mail-session.h"
+#include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
@@ -180,7 +181,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
 	mail_config_init ();
-
+	
+	openpgp_init (mail_config_get_pgp_path (), mail_config_get_pgp_type ());
+	
 	storages_hash = g_hash_table_new (NULL, NULL);
 
 	create_vfolder_storage (shell_component);

@@ -1,5 +1,11 @@
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (owner_set_cb): Initialize OpenPGP.
+
+	* openpgp-utils.c (openpgp_init): No longer takes a passphrase
+	callback, we'll just use the mail-session one. Makes life simpler.
+	(pgp_get_passphrase): Use mail_session_request_dialog().
+
 	* mail-ops.c (do_send_queue): Remove the X-Evolution header before
 	we send.
 
@@ -19,7 +25,8 @@
 	little things.
 	(pgp_mime_part_encrypt): Do some canonical CRLF action before
 	encrypting.
-	(pgp_mime_part_sign): Make sure we are the owners of the byte array.
+	(pgp_mime_part_sign): Make sure we are the owners of the byte
+	array.
 	(pgp_mime_part_verify): Same.
 	(pgp_mime_part_encrypt): Same.
 	(pgp_mime_part_decrypt): Same.
@@ -36,10 +43,10 @@
 
 	* mail-mt.c (mail_msg_new): Init a cancel field in the message.
 	(mail_msg_free): Free it.
-	(mail_msg_cancel): New function to attempt to cancel an
-	operation by id.  Impelementation functions can still be
-	uncancellable by not registering for cancellation, etc, or do it
-	themselves as well.
+	(mail_msg_cancel): New function to attempt to cancel an operation
+	by id.  Impelementation functions can still be uncancellable by
+	not registering for cancellation, etc, or do it themselves as
+	well.
 
 	* mail-send-recv.c (fetch_mail_filter_folder): set folder_uid's
 	properly, so we can save it later.
