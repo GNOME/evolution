@@ -56,6 +56,11 @@
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include <sys/stat.h>
+#include <errno.h>
+
 #define LDAPSERVER_XML "ldapservers.xml"
 
 static gboolean load_ldap_data (EvolutionStorage *storage, const char *file_path);
@@ -126,9 +131,31 @@ load_ldap_data (EvolutionStorage *storage,
 	xmlNode *root;
 	xmlNode *child;
 
+ tryagain:
 	doc = xmlParseFile (file_path);
 	if (doc == NULL) {
-		return FALSE;
+		/* check to see if a ldapserver.xml.new file is
+                   there.  if it is, rename it and run with it */
+		char *new_path = g_strdup_printf ("%s.new", file_path);
+		struct stat sb;
+
+		if (stat (new_path, &sb) == 0) {
+			int rv;
+
+			rv = rename (new_path, file_path);
+			g_free (new_path);
+
+			if (0 > rv) {
+				g_error ("Failed to rename ldapserver.xml: %s\n", strerror(errno));
+				return FALSE;
+			}
+			else {
+				goto tryagain;
+			}
+		}
+
+		g_free (new_path);
+		return TRUE;
 	}
 
 	root = xmlDocGetRootElement (doc);
@@ -189,7 +216,7 @@ ldap_server_foreach(gpointer key, gpointer value, gpointer user_data)
 	xmlNewChild (server_root, NULL, (xmlChar *) "host",
 		     (xmlChar *) server->port);
 	xmlNewChild (server_root, NULL, (xmlChar *) "rootdn",
-		     (xmlChar *) server->port);
+		     (xmlChar *) server->rootdn);
 	xmlNewChild (server_root, NULL, (xmlChar *) "scope",
 		     (xmlChar *) server->scope);
 }
@@ -199,6 +226,10 @@ save_ldap_data (const char *file_path)
 {
 	xmlDoc *doc;
 	xmlNode *root;
+	int fd, rv;
+	xmlChar *buf;
+	int buf_size;
+	char *new_path = g_strdup_printf ("%s.new", file_path);
 
 	doc = xmlNewDoc ((xmlChar *) "1.0");
 	root = xmlNewDocNode (doc, NULL, (xmlChar *) "contactservers", NULL);
@@ -206,14 +237,33 @@ save_ldap_data (const char *file_path)
 
 	g_hash_table_foreach (servers, ldap_server_foreach, root);
 
-	if (xmlSaveFile (file_path, doc) < 0) {
-		unlink (file_path);
-		xmlFreeDoc (doc);
+	fd = open (new_path, O_CREAT | O_TRUNC | O_WRONLY, 0600);
+	fchmod (fd, 0600);
+
+	xmlDocDumpMemory (doc, &buf, &buf_size);
+
+	if (buf == NULL) {
+		g_error ("Failed to write ldapserver.xml: xmlBufferCreate() == NULL");
 		return FALSE;
 	}
 
-	xmlFreeDoc (doc);
-	return TRUE;
+	rv = write (fd, buf, buf_size);
+	xmlFree (buf);
+	close (fd);
+
+	if (0 > rv) {
+		g_error ("Failed to write new ldapserver.xml: %s\n", strerror(errno));
+		unlink (new_path);
+		return FALSE;
+	}
+	else {
+		if (0 > rename (new_path, file_path)) {
+			g_error ("Failed to rename ldapserver.xml: %s\n", strerror(errno));
+			unlink (new_path);
+			return FALSE;
+		}
+		return TRUE;
+	}
 }
 
 void
