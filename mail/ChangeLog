@@ -1,3 +1,8 @@
+2000-07-01  Dan Winship  <danw@helixcode.com>
+
+	* pixmaps.h, pixmaps/*.xpm: Removed. These aren't being used any
+	more. (The real pixmaps are in ../art.)
+
 2000-07-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (get_message_info):

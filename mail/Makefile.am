@@ -2,10 +2,6 @@ bin_PROGRAMS =	evolution-mail test-mail test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
-#imagesdir = $(datadir)/images/evolution
-#images_DATA = e-attchmt.png
-#EXTRA_DIST = $(image_DATA)
-
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\
@@ -53,8 +49,7 @@ evolution_mail_SOURCES =		\
 	message-list.c			\
 	message-list.h			\
 	session.c			\
-	mail.h				\
-	pixmaps.h
+	mail.h
 
 
 evolution_mail_LDADD = 					\
@@ -105,10 +100,6 @@ $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
 EXTRA_DIST = Mail.idl $(GOAD_FILES) $(OAF_FILES)
-
-dist-hook:
-	-mkdir $(distdir)/pixmaps
-	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
