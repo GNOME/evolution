@@ -1,5 +1,12 @@
 2004-03-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/eab-gui-util.c (eab_show_multiple_contacts): don't
+	know what I was thinking approving this change.  the _() was only
+	used in the plural case (in fact where n > 5), so a singular case
+	was never necessary, and neither was the call to ngettext.
+
+2004-03-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/e-contact-list-editor.c
 	(e_contact_list_editor_get_type): parent_type == EAB_TYPE_EDITOR.
 	(e_contact_list_editor_class_init): fill in editor_class virtual
