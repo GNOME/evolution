@@ -47,12 +47,15 @@ extern "C" {
 
 typedef struct {
 	CamelFolder parent_object;
+
+	CamelFolderSummary *external_summary; 
+	/* the external summary is intended to be read by callers */
 	
 	gchar *folder_file_path;   /* contains the messages */
 	gchar *summary_file_path;  /* contains the messages summary */
 	gchar *folder_dir_path;    /* contains the subfolders */
 	
-	CamelMboxSummary *summary; /* internal summary object */
+	CamelMboxSummary *internal_summary; /* internal summary object */
 	GList  *uid_array;
 
 } CamelMboxFolder;

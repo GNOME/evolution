@@ -68,7 +68,14 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 			       CamelException *ex);
 
 void
-camel_summary_append_entries (CamelMboxSummary *summary, GArray *entries);
+camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries);
+
+
+
+void 
+camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal, 
+						CamelFolderSummary *external, 
+						guint first_entry);
 
 
 #endif /* MH_SUMMARY_H */

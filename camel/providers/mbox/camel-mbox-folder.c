@@ -185,12 +185,12 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
 	folder->has_uid_capability = TRUE;
- 	folder->summary = NULL;
+ 	folder->summary = camel_folder_summary_new ();
 
 	mbox_folder->folder_file_path = NULL;
 	mbox_folder->summary_file_path = NULL;
 	mbox_folder->folder_dir_path = NULL;
-	mbox_folder->summary = NULL;
+	mbox_folder->internal_summary = NULL;
 	mbox_folder->uid_array = NULL;
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::init_with_store\n");
@@ -206,6 +206,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 static void
 _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelException *ex)
 {
+	CamelFolder *folder = CAMEL_FOLDER (mbox_folder);
 	GArray *message_info_array;
 	gboolean summary_file_exists;
 	gboolean summary_file_is_sync;
@@ -270,21 +271,25 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 		/* **FIXME : Free the parsed information structure */
 
 		/* allocate an internal summary object */
-		mbox_folder->summary = g_new (CamelMboxSummary, 1);
+		mbox_folder->internal_summary = g_new (CamelMboxSummary, 1);
 		
 		/* generate the folder md5 signature */
-		md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
+		md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->internal_summary->md5_digest);
 
 		/* store the number of messages as well as the summary array */
-		mbox_folder->summary->nb_message = mbox_summary_info->len;		
-		mbox_folder->summary->next_uid = next_uid;		
-		mbox_folder->summary->mbox_file_size = file_size;		
-		mbox_folder->summary->message_info = mbox_summary_info;
+		mbox_folder->internal_summary->nb_message = mbox_summary_info->len;		
+		mbox_folder->internal_summary->next_uid = next_uid;		
+		mbox_folder->internal_summary->mbox_file_size = file_size;		
+		mbox_folder->internal_summary->message_info = mbox_summary_info;
 		
 	} else {
 		/* every thing seems ok, just read the summary file from disk */
-		mbox_folder->summary = camel_mbox_load_summary (mbox_folder->summary_file_path, ex);
+		mbox_folder->internal_summary = camel_mbox_load_summary (mbox_folder->summary_file_path, ex);
 	}
+	
+	/* copy the internal summary information to the external 
+	   folder summary used by the display engines */
+	camel_mbox_summary_append_internal_to_external (mbox_folder->internal_summary, folder->summary, 0);
 }
 
 
@@ -324,7 +329,7 @@ _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	parent_class->close (folder, expunge, ex);
 	
 	/* save the folder summary on disc */
-	camel_mbox_save_summary (mbox_folder->summary, mbox_folder->summary_file_path, ex);
+	camel_mbox_save_summary (mbox_folder->internal_summary, mbox_folder->summary_file_path, ex);
 }
 
 
@@ -512,11 +517,11 @@ _create (CamelFolder *folder, CamelException *ex)
 	close (creat_fd);
 
 	/* create the summary object */	
-	mbox_folder->summary = g_new (CamelMboxSummary, 1);
-	mbox_folder->summary->nb_message = 0;
-	mbox_folder->summary->next_uid = 1;
-	mbox_folder->summary->mbox_file_size = 0;
-	mbox_folder->summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
+	mbox_folder->internal_summary = g_new (CamelMboxSummary, 1);
+	mbox_folder->internal_summary->nb_message = 0;
+	mbox_folder->internal_summary->next_uid = 1;
+	mbox_folder->internal_summary->mbox_file_size = 0;
+	mbox_folder->internal_summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 
 	return TRUE;
 
@@ -872,9 +877,9 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 	gint message_count;
 
 	g_assert (folder);
-	g_assert (mbox_folder->summary);
+	g_assert (mbox_folder->internal_summary);
 	
-	message_count = mbox_folder->summary->nb_message;
+	message_count = mbox_folder->internal_summary->nb_message;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::get_message_count found %d messages\n", message_count);
 	return message_count;
@@ -919,7 +924,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	   This position is still stored in the summary 
 	   for the moment 
 	*/
-	next_uid = mbox_folder->summary->next_uid;
+	next_uid = mbox_folder->internal_summary->next_uid;
 	tmp_file_fd = open (tmp_message_filename, O_RDONLY);
 	message_info_array = camel_mbox_parse_file (tmp_file_fd, 
 						    "From - ", 
@@ -935,7 +940,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 	/* get the value of the last available UID
 	   as saved in the summary file */
-	next_uid = mbox_folder->summary->next_uid;
+	next_uid = mbox_folder->internal_summary->next_uid;
 
 	/* 
 	   OK, this is not very efficient, we should not use the same
@@ -957,14 +962,20 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 
 	/* store the number of messages as well as the summary array */
-	mbox_folder->summary->nb_message += 1;		
-	mbox_folder->summary->next_uid = next_uid;	
+	mbox_folder->internal_summary->nb_message += 1;		
+	mbox_folder->internal_summary->next_uid = next_uid;	
 
-	((CamelMboxSummaryInformation *)(mbox_summary_info->data))->position += mbox_folder->summary->mbox_file_size;
-	mbox_folder->summary->mbox_file_size += tmp_file_size;		
+	((CamelMboxSummaryInformation *)(mbox_summary_info->data))->position += mbox_folder->internal_summary->mbox_file_size;
+	mbox_folder->internal_summary->mbox_file_size += tmp_file_size;		
 	
-	camel_summary_append_entries (mbox_folder->summary, mbox_summary_info);
-	
+	camel_mbox_summary_append_entries (mbox_folder->internal_summary, mbox_summary_info);
+
+	/* append the new entry of the internal summary to 
+	   the external summary */
+	camel_mbox_summary_append_internal_to_external (mbox_folder->internal_summary, 
+							folder->summary, 
+							mbox_folder->internal_summary->nb_message-1);
+
 	g_array_free (mbox_summary_info, TRUE); 
 	
 
@@ -993,7 +1004,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	unlink (tmp_message_filename);
 
 	/* generate the folder md5 signature */
-	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
+	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->internal_summary->md5_digest);
 
 
 	g_free (tmp_message_filename);
@@ -1016,7 +1027,7 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_uid_list\n");
 	
-	message_info_array = mbox_folder->summary->message_info;
+	message_info_array = mbox_folder->internal_summary->message_info;
 	
 	for (i=0; i<message_info_array->len; i++) {
 		
@@ -1054,7 +1065,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	
         searched_uid = strtoul(uid, (char **)NULL, 10);
 
-	message_info_array = mbox_folder->summary->message_info;
+	message_info_array = mbox_folder->internal_summary->message_info;
 	i=0;
 	uid_found = FALSE;
 	

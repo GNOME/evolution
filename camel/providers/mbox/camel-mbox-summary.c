@@ -255,9 +255,49 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 
 
 void
-camel_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
+camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
 {
 		
 	summary->message_info = g_array_append_vals (summary->message_info, entries->data, entries->len);
+	
+}
+
+
+
+
+
+void 
+camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal, 
+						CamelFolderSummary *external, 
+						guint first_entry)
+{
+	GArray *internal_array;
+	GArray *external_array;
+	
+	CamelMessageInfo external_entry;
+	CamelMboxSummaryInformation *internal_entry;
+	
+	int i;
+
+	
+	internal_array = internal->message_info;
+	external_array = external->message_info_list;
+	
+	/* we don't set any extra fields */
+	external_entry.extended_fields = NULL;
+
+
+	for (i=first_entry; i<internal_array->len; i++) {
+		internal_entry = (CamelMboxSummaryInformation *)(internal_array->data) + i;
+		
+		external_entry.subject = internal_entry->subject ? strdup (internal_entry->subject) : NULL;
+		external_entry.uid = g_strdup_printf ("%u", internal_entry->uid);
+		external_entry.date = internal_entry->date ? strdup (internal_entry->date) : NULL;
+		external_entry.sender = internal_entry->sender ? strdup (internal_entry->sender) : NULL;
+
+		g_array_append_vals (external_array, &external_entry, 1);
+		
+	}
+	
 	
 }

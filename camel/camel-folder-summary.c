@@ -113,7 +113,14 @@ _finalize (GtkObject *object)
 CamelFolderSummary *
 camel_folder_summary_new ()
 {
-	return gtk_type_new (CAMEL_FOLDER_SUMMARY_TYPE);
+	CamelFolderSummary *folder_summary;
+	
+	folder_summary = gtk_type_new (CAMEL_FOLDER_SUMMARY_TYPE);
+	folder_summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo));
+	folder_summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo));
+
+	return folder_summary;
+	
 }
 
 static const GArray *
@@ -143,5 +150,13 @@ camel_folder_summary_get_message_info_list (CamelFolderSummary *summary)
 {
 	return CFS_CLASS (summary)->get_message_info_list (summary);
 }
+
+
+
+
+
+
+
+
 
 
