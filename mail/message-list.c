@@ -49,10 +49,12 @@ static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 static void
-on_row_selection_cmd (ETable *table, 
-		      int row, 
-		      gboolean selected,
+on_cursor_change_cmd (ETable *table, 
+		      int row,
 		      gpointer user_data);
+static void
+select_row (ETable *table,
+	    gpointer user_data);
 
 
 static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
@@ -579,9 +581,17 @@ message_list_init (GtkObject *object)
 	message_list->etable = e_table_new (
 		message_list->header_model, message_list->table_model, spec);
 	g_free (spec);
+
+	gtk_object_set(GTK_OBJECT(message_list->etable),
+		       "cursor_mode", E_TABLE_CURSOR_LINE,
+		       "drawfocus", FALSE,
+		       NULL);
+
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "realize",
+			    GTK_SIGNAL_FUNC (select_row), message_list);
 	
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "row_selection",
-			   GTK_SIGNAL_FUNC (on_row_selection_cmd), message_list);
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
+			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 
 	gtk_widget_show (message_list->etable);
 	
@@ -626,6 +636,9 @@ message_list_destroy (GtkObject *object)
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
 	
+	if (message_list->idle_id != 0)
+		g_source_remove(message_list->idle_id);
+
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }
 
@@ -855,7 +868,7 @@ message_list_get_widget (MessageList *message_list)
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
 static gboolean
-on_row_selection_idle (gpointer data)
+on_cursor_change_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
@@ -866,20 +879,28 @@ on_row_selection_idle (gpointer data)
 }
 
 static void
-on_row_selection_cmd (ETable *table, 
+on_cursor_change_cmd (ETable *table, 
 		      int row, 
-		      gboolean selected,
 		      gpointer user_data)
 {
-	if (selected) {
-		MessageList *message_list;
-
-		message_list = MESSAGE_LIST (user_data);
-
-		message_list->row_to_select = row;
-
-		if (!message_list->idle_id)
-			g_idle_add_full (G_PRIORITY_LOW, on_row_selection_idle, message_list, NULL);
-	}
+	MessageList *message_list;
+	
+	message_list = MESSAGE_LIST (user_data);
+	
+	message_list->row_to_select = row;
+	
+	if (!message_list->idle_id)
+		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
 }
 
+
+static void
+select_row (ETable *table,
+	    gpointer user_data)
+{
+	MessageList *message_list;
+	
+	message_list = MESSAGE_LIST (user_data);
+	
+	e_table_select_row(E_TABLE(message_list->etable), 0);
+}

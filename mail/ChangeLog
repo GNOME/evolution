@@ -1,3 +1,10 @@
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Switched to using "cursor_change" signal instead
+	of "row_selection" for switching messages.  Select the first row
+	(still doesn't work because of ETable.)  Adapt to some small
+	ETable changes.  Set drawfocus to FALSE.
+
 2000-05-29  Not Zed  <NotZed@HelixCode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Hardcode the
