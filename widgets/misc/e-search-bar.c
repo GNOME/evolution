@@ -269,7 +269,7 @@ add_activate_button (ESearchBar *esb)
 	GtkWidget *label;
 	GtkWidget *holder;
 
-	label = gtk_label_new (_("Activate"));
+	label = gtk_label_new (_("Find Now"));
 	gtk_widget_show (label);
 
 	/* See the comment in `put_in_spacer_widget()' to understand

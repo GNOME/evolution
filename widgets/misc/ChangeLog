@@ -1,3 +1,7 @@
+2001-08-08  Anna Marie Dirks <anna@ximian.com> 
+	* e-search-bar.c: Re-labeled the "Activate" button "Find Now".
+	
+
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-bonobo-widget.c: New.
