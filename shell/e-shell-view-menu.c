@@ -467,9 +467,8 @@ command_new_mail_message (BonoboUIComponent *uih,
 	Bonobo_Unknown object;
 	
 	CORBA_exception_init (&ev);
-	object = bonobo_get_object (
-		"OAFIID:GNOME_Evolution_Mail_Composer!visible=1",
-		"Bonobo/Unknown", &ev);
+	object = bonobo_get_object ("OAFIID:GNOME_Evolution_Mail_Composer!visible=1",
+				    "Bonobo/Unknown", &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -527,21 +526,17 @@ static void
 menu_do_misc (BonoboUIComponent *component,
 	      EShellView        *shell_view)
 {
-	bonobo_ui_component_add_listener (
-		component, "ViewShortcutBar",
-		command_toggle_shortcut_bar, shell_view);
-	bonobo_ui_component_add_listener (
-		component, "ViewFolderBar",
-		command_toggle_folder_bar, shell_view);
-	bonobo_ui_component_add_verb (
-		component, "HelpSubmitBug",
-		(BonoboUIVerbFn) command_run_bugbuddy, shell_view);
-	bonobo_ui_component_add_verb (
-		component, "HelpAbout",
-		(BonoboUIVerbFn) command_about_box, shell_view);
-	bonobo_ui_component_add_verb (
-		component, "DebugDumpXml",
-		(BonoboUIVerbFn) command_xml_dump, shell_view);
+	bonobo_ui_component_add_listener (component, "ViewShortcutBar",
+					  command_toggle_shortcut_bar, shell_view);
+	bonobo_ui_component_add_listener (component, "ViewFolderBar",
+					  command_toggle_folder_bar, shell_view);
+
+	bonobo_ui_component_add_verb (component, "HelpSubmitBug",
+				      (BonoboUIVerbFn) command_run_bugbuddy, shell_view);
+	bonobo_ui_component_add_verb (component, "HelpAbout",
+				      (BonoboUIVerbFn) command_about_box, shell_view);
+	bonobo_ui_component_add_verb (component, "DebugDumpXml",
+				      (BonoboUIVerbFn) command_xml_dump, shell_view);
 }
 
 
@@ -625,14 +620,10 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	uic = e_shell_view_get_bonobo_ui_component (shell_view);
 	shell = e_shell_view_get_shell (shell_view);
 
-	bonobo_ui_component_add_verb_list_with_data (
-		uic, file_verbs, shell_view);
+	bonobo_ui_component_add_verb_list_with_data (uic, file_verbs, shell_view);
+	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_view);
 
-	bonobo_ui_component_add_verb_list_with_data (
-		uic, new_verbs, shell_view);
-
-	bonobo_ui_component_add_verb_list (
-		uic, help_verbs);
+	bonobo_ui_component_add_verb_list (uic, help_verbs);
 
 	menu_do_misc (uic, shell_view);
 
