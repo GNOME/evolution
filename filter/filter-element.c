@@ -32,6 +32,7 @@
 #include "filter-colour.h"
 #include "filter-datespec.h"
 #include "filter-score.h"
+#include "filter-int.h"
 #include "filter-folder.h"
 #include "filter-source.h"
 
@@ -265,6 +266,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_datespec_new ();
 	} else if (!strcmp (type, "score")) {
 		return (FilterElement *)filter_score_new ();
+	} else if (!strcmp (type, "integer")) {
+		return (FilterElement *)filter_int_new ();
 	} else if (!strcmp (type, "regex")) {
 		return (FilterElement *)filter_input_new_type_name (type);
 	} else if (!strcmp (type, "source")) {

@@ -414,6 +414,26 @@
   <input type="score" name="versus"/>
  </part>
 
+
+ <part name="size">
+  <title>Size (kB)</title>
+  <input type="optionlist" name="size-type">
+   <option value="greater-than">
+    <title>is greater than</title>
+    <code>
+       (match-all (&gt; (get-size) ${versus}))
+    </code>
+   </option>
+   <option value="less-than">
+    <title>is less than</title>
+    <code>
+       (match-all (&lt; (get-size) ${versus}))
+    </code>
+   </option>
+  </input>
+  <input type="integer" name="versus"/>
+ </part>
+
  <part name="status">
   <title>Status</title>
   <input type="optionlist" name="match-type">

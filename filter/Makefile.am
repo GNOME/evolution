@@ -40,6 +40,8 @@ libfilter_la_SOURCES =				\
 	filter-folder.h				\
 	filter-input.c				\
 	filter-input.h				\
+	filter-int.c				\
+	filter-int.h				\
 	filter-option.c				\
 	filter-option.h				\
 	filter-part.c				\

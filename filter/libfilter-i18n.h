@@ -42,6 +42,7 @@ char *s = N_("Replied to");
 char *s = N_("Score");
 char *s = N_("Sender");
 char *s = N_("Set Status");
+char *s = N_("Size (kB)");
 char *s = N_("sounds like");
 char *s = N_("Source Account");
 char *s = N_("Specific header");

@@ -1,3 +1,11 @@
+2001-07-02  Sam Creasey <sammy@oh.verio.com>
+	* filter-int.c: Added an integer type for filtering values.  used
+	for size.
+
+	* Makefile.am (SOURCES): added filter-int.c, filter-int.h
+
+	* filtertypes.xml: added a part entry for size based filters
+	
 2001-07-02  Anna Marie Dirks <anna@ximian.com> 
 
 	* filter-rule.c (get_widget): Changed "Add criterion" button to have 
