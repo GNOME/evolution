@@ -1,3 +1,23 @@
+2004-12-31  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/schedule-page.c: add necessary include
+
+	* gui/dialogs/meeting-page.c (sensitize_widgets): kill warning
+
+	* gui/dialogs/cal-prefs-dialog.c (template_url_changed): kill warning
+
+	* gui/dialogs/alarm-dialog.c (malarm_widgets_to_alarm): kill warnings
+	(init_widgets): ditto
+
+	* gui/main.c (initialize): no need to init the config system now
+
+	* gui/e-cell-date-edit-config.h: include date edit text header
+
+	* gui/e-cal-config.c (ecp_target_free): kill warning
+
+	* gui/calendar-config.c: clean up includes, internally initialize
+	the config setup to make it easier for others; kill dead functions
+
 2004-12-26  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (search_by_uid_and_client): removed superfluous if

@@ -31,17 +31,11 @@
 
 #include <string.h>
 #include <time.h>
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <libecal/e-cal-time-util.h>
 
-#include "calendar-component.h"
-#include "calendar-commands.h"
-#include "e-tasks.h"
-#include "e-cell-date-edit-text.h"
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 
@@ -63,8 +57,8 @@ do_cleanup (void)
 	config = NULL;
 }
 
-void
-calendar_config_init			(void)
+static void
+calendar_config_init (void)
 {
 	if (config)
 		return;
@@ -78,6 +72,8 @@ calendar_config_init			(void)
 void
 calendar_config_remove_notification (guint id)
 {
+	calendar_config_init ();
+	
 	gconf_client_notify_remove (config, id);
 }
 
@@ -88,6 +84,8 @@ calendar_config_locale_supports_12_hour_format (void)
 {
 	char s[16];
 	time_t t = 0;
+
+	calendar_config_init ();
 
 	e_utf8_strftime (s, sizeof s, "%p", gmtime (&t));
 	return s[0] != '\0';
@@ -121,12 +119,16 @@ units_to_string (CalUnits units)
 GSList *
 calendar_config_get_calendars_selected (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
 }
 
 void
 calendar_config_set_calendars_selected (GSList *selected)
 {
+	calendar_config_init ();
+
 	gconf_client_set_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, selected, NULL);
 }
 
@@ -134,6 +136,8 @@ guint
 calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SELECTED_CALENDARS, func, data, NULL, NULL);
 	
@@ -144,12 +148,16 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 char *
 calendar_config_get_primary_calendar (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, NULL);
 }
 
 void
 calendar_config_set_primary_calendar (const char *primary_uid)
 {
+	calendar_config_init ();
+
 	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, primary_uid, NULL);
 }
 
@@ -158,6 +166,8 @@ guint
 calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, func, data, NULL, NULL);
 	
@@ -171,6 +181,8 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
 gchar *
 calendar_config_get_timezone (void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
 }
 
@@ -179,6 +191,8 @@ calendar_config_get_icaltimezone (void)
 {
 	char *location;
 	icaltimezone *zone = NULL;
+
+	calendar_config_init ();
 	
 	location = calendar_config_get_timezone ();
 	if (location)
@@ -196,6 +210,8 @@ calendar_config_get_icaltimezone (void)
 void
 calendar_config_set_timezone (gchar *timezone)
 {
+	calendar_config_init ();
+
 	if (timezone && timezone[0])
 		gconf_client_set_string (config, CALENDAR_CONFIG_TIMEZONE, timezone, NULL);
 	else
@@ -206,6 +222,8 @@ guint
 calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIMEZONE, func, data, NULL, NULL);
 	
@@ -216,6 +234,8 @@ calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer 
 gboolean
 calendar_config_get_24_hour_format	(void)
 {
+	calendar_config_init ();
+
 	/* If the locale defines 'am' and 'pm' strings then the user has the
 	   choice of 12-hour or 24-hour time format, with 12-hour as the
 	   default. If the locale doesn't have 'am' and 'pm' strings we have
@@ -230,6 +250,8 @@ calendar_config_get_24_hour_format	(void)
 void
 calendar_config_set_24_hour_format	(gboolean     use_24_hour)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_24HOUR, use_24_hour, NULL);
 }
 
@@ -237,6 +259,8 @@ guint
 calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_24HOUR, func, data, NULL, NULL);
 	
@@ -247,6 +271,8 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 gint
 calendar_config_get_week_start_day	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WEEK_START, NULL);
 }
 
@@ -254,6 +280,8 @@ calendar_config_get_week_start_day	(void)
 void
 calendar_config_set_week_start_day	(gint	      week_start_day)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_WEEK_START, week_start_day, NULL);
 }
 
@@ -261,6 +289,8 @@ guint
 calendar_config_add_notification_week_start_day (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WEEK_START, func, data, NULL, NULL);
 	
@@ -271,6 +301,8 @@ calendar_config_add_notification_week_start_day (GConfClientNotifyFunc func, gpo
 gint
 calendar_config_get_day_start_hour	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_HOUR, NULL);
 }
 
@@ -278,6 +310,8 @@ calendar_config_get_day_start_hour	(void)
 void
 calendar_config_set_day_start_hour	(gint	      day_start_hour)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_HOUR, day_start_hour, NULL);
 }
 
@@ -285,6 +319,8 @@ guint
 calendar_config_add_notification_day_start_hour (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_HOUR, func, data, NULL, NULL);
 	
@@ -294,6 +330,8 @@ calendar_config_add_notification_day_start_hour (GConfClientNotifyFunc func, gpo
 gint
 calendar_config_get_day_start_minute	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, NULL);
 }
 
@@ -301,6 +339,8 @@ calendar_config_get_day_start_minute	(void)
 void
 calendar_config_set_day_start_minute	(gint	      day_start_min)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, day_start_min, NULL);
 }
 
@@ -308,6 +348,8 @@ guint
 calendar_config_add_notification_day_start_minute (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_MINUTE, func, data, NULL, NULL);
 	
@@ -317,6 +359,8 @@ calendar_config_add_notification_day_start_minute (GConfClientNotifyFunc func, g
 gint
 calendar_config_get_day_end_hour	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_HOUR, NULL);
 }
 
@@ -324,6 +368,8 @@ calendar_config_get_day_end_hour	(void)
 void
 calendar_config_set_day_end_hour	(gint	      day_end_hour)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_HOUR, day_end_hour, NULL);
 }
 
@@ -331,6 +377,8 @@ guint
 calendar_config_add_notification_day_end_hour (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_HOUR, func, data, NULL, NULL);
 	
@@ -340,6 +388,8 @@ calendar_config_add_notification_day_end_hour (GConfClientNotifyFunc func, gpoin
 gint
 calendar_config_get_day_end_minute	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, NULL);
 }
 
@@ -347,6 +397,8 @@ calendar_config_get_day_end_minute	(void)
 void
 calendar_config_set_day_end_minute	(gint	      day_end_min)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, day_end_min, NULL);
 }
 
@@ -355,6 +407,8 @@ calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc func, gpo
 {
 	guint id;
 	
+	calendar_config_init ();
+
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_MINUTE, func, data, NULL, NULL);
 	
 	return id;	
@@ -364,6 +418,8 @@ calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc func, gpo
 gint
 calendar_config_get_time_divisions	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, NULL);
 }
 
@@ -371,6 +427,8 @@ calendar_config_get_time_divisions	(void)
 void
 calendar_config_set_time_divisions	(gint	      divisions)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, divisions, NULL);
 }
 
@@ -378,6 +436,8 @@ guint
 calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIME_DIVISIONS, func, data, NULL, NULL);
 	
@@ -388,6 +448,8 @@ calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpo
 gboolean
 calendar_config_get_dnav_show_week_no	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, NULL);
 }
 
@@ -395,6 +457,8 @@ calendar_config_get_dnav_show_week_no	(void)
 void
 calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 {
+	calendar_config_init ();
+
 	gconf_client_set_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, show_week_no, NULL);
 }
 
@@ -402,6 +466,8 @@ guint
 calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data)
 {
 	guint id;
+
+	calendar_config_init ();
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, func, data, NULL, NULL);
 	
@@ -412,6 +478,8 @@ calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, 
 gint
 calendar_config_get_hpane_pos		(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_HPANE_POS, NULL);
 }
 
@@ -419,6 +487,8 @@ calendar_config_get_hpane_pos		(void)
 void
 calendar_config_set_hpane_pos		(gint	      hpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
 }
 
@@ -426,6 +496,8 @@ calendar_config_set_hpane_pos		(gint	      hpane_pos)
 gint
 calendar_config_get_vpane_pos		(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_VPANE_POS, NULL);
 }
 
@@ -433,6 +505,8 @@ calendar_config_get_vpane_pos		(void)
 void
 calendar_config_set_vpane_pos		(gint	      vpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_VPANE_POS, vpane_pos, NULL);
 }
 
@@ -440,6 +514,8 @@ calendar_config_set_vpane_pos		(gint	      vpane_pos)
 gint
 calendar_config_get_month_hpane_pos	(void)
 {
+	calendar_config_init ();
+
 	return gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, NULL);
 }
 
@@ -447,6 +523,8 @@ calendar_config_get_month_hpane_pos	(void)
 void
 calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 {
+	calendar_config_init ();
+
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, hpane_pos, NULL);
 }
 
@@ -454,6 +532,8 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 gint
 calendar_config_get_month_vpane_pos	(void)
 {
+	calendar_config_init ();
+
 	return  gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, NULL);
 }
 
@@ -748,32 +828,6 @@ void
 calendar_config_set_confirm_purge (gboolean confirm)
 {
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
-}
-
-/* This sets all the common config settings for an EDateEdit widget.
-   These are the week start day, whether we show week numbers, and whether we
-   use 24 hour format. */
-void
-calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
-{
-	gboolean dnav_show_week_no, use_24_hour;
-	gint week_start_day;
-
-	g_return_if_fail (E_IS_DATE_EDIT (dedit));
-
-	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
-
-	/* Note that this is 0 (Sun) to 6 (Sat). */
-	week_start_day = calendar_config_get_week_start_day ();
-
-	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
-	week_start_day = (week_start_day + 6) % 7;
-
-	use_24_hour = calendar_config_get_24_hour_format ();
-
-	e_date_edit_set_week_start_day (dedit, week_start_day);
-	e_date_edit_set_show_week_numbers (dedit, dnav_show_week_no);
-	e_date_edit_set_use_24_hour_format (dedit, use_24_hour);
 }
 
 void

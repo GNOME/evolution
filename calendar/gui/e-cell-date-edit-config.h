@@ -24,6 +24,7 @@
 #define _E_CELL_DATE_EDIT_CONFIG_H_
 
 #include <widgets/misc/e-cell-date-edit.h>
+#include "e-cell-date-edit-text.h"
 
 G_BEGIN_DECLS
 

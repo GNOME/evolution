@@ -30,12 +30,9 @@
 #ifndef _CALENDAR_CONFIG_H_
 #define _CALENDAR_CONFIG_H_
 
+#include <glib.h>
+#include <libecal/e-cal.h>
 #include <gconf/gconf-client.h>
-#include <widgets/misc/e-calendar.h>
-#include <widgets/misc/e-dateedit.h>
-#include <widgets/misc/e-cell-date-edit.h>
-#include "e-calendar-table.h"
-
 
 /* These are used to get/set the working days in the week. The bit-flags are
    combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
@@ -61,7 +58,6 @@ typedef enum
 } CalUnits;
 
 
-void	  calendar_config_init			(void);
 void calendar_config_remove_notification (guint id);
 
 /*
@@ -210,13 +206,6 @@ gchar *calendar_config_get_free_busy_template (void);
 void calendar_config_set_free_busy_template (const gchar *template);
 guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func, 
 							   gpointer data);
-
-/* Convenience functions to configure common properties of ECalendar,
-   EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */
-void	  calendar_config_configure_e_calendar		(ECalendar	*cal);
-void	  calendar_config_configure_e_date_edit		(EDateEdit	*dedit);
-void	  calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table);
-void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 
 /* Shows the timezone dialog if the user hasn't set a default timezone. */
 void	  calendar_config_check_timezone_set	(void);

@@ -342,7 +342,6 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	char *str;
 	ECalComponentText description;
 	GSList *attendee_list = NULL;
-	EDestination **destv;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	ENameSelectorModel *name_selector_model;
@@ -351,7 +350,6 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	GList *l;
-	int i;
 	
 	/* Attendees */
 	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
@@ -869,8 +867,6 @@ init_widgets (Dialog *dialog)
 {
 	GtkWidget *menu;
 	GtkTextBuffer *text_buffer;
-	BonoboControlFrame *cf;
-	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 	
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
 	g_signal_connect (menu, "selection_done",

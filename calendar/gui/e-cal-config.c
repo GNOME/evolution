@@ -52,7 +52,7 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 
 			if (p->source_changed_id) {
 				g_signal_handler_disconnect (s->source, p->source_changed_id);
-				p->source_changed_id = NULL;
+				p->source_changed_id = 0;
 			}
 			break; }
 		}

@@ -132,8 +132,6 @@ initialize (void)
 {
 	comp_editor_registry = E_COMP_EDITOR_REGISTRY (e_comp_editor_registry_new ());
 	
-	calendar_config_init ();
-
 #if 0
 	itip_control_factory_init ();
 	component_editor_factory_init ();

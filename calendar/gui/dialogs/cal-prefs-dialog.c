@@ -374,8 +374,6 @@ static void
 template_url_changed (GtkEntry *entry, DialogData *dialog_data)
 {
 	calendar_config_set_free_busy_template (gtk_entry_get_text (entry));
-
-	return FALSE;
 }
 
 static void

@@ -305,7 +305,7 @@ clear_widgets (MeetingPage *mpage)
 static void
 sensitize_widgets (MeetingPage *mpage)
 {
-	gboolean read_only = FALSE, user_org;
+	gboolean read_only = FALSE;
 	MeetingPagePrivate *priv = mpage->priv;
 	GError *error = NULL;
 	
