@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2003-03-30 15:07+0200\n"
-"PO-Revision-Date: 2003-03-30 22:22+0200\n"
+"PO-Revision-Date: 2003-03-30 22:28+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5162,13 +5162,13 @@ msgstr "URL"
 #: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:167
 #: e-util/e-time-utils.c:380
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %d.%m.%Y %H:%M:%S"
+msgstr "%a %d.%m.%Y %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:162
 #: e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %d.%m.%Y %H:%M:%S %p"
+msgstr "%a %d.%m.%Y %H.%M.%S"
 
 #: calendar/gui/e-cell-date-edit-text.c:126
 #, c-format
@@ -10680,19 +10680,19 @@ msgstr "Synkroniser kategorier"
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:172 e-util/e-time-utils.c:385
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %d.%m.%Y %I:%M %p"
+msgstr "%a %d.%m.%Y %H.%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:177 e-util/e-time-utils.c:376
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "%a %d.%m.%Y %H:%M"
+msgstr "%a %d.%m.%Y %H.%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:182
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %d.%m.%Y %I %p"
+msgstr "%a %d.%m.%Y %H"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
@@ -10703,30 +10703,30 @@ msgstr "%a %d.%m.%Y %H"
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:198
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%d.%m.%Y %I:%M:%S %p"
+msgstr "%d.%m.%Y %H.%M.%S"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:202
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%d.%m.%Y %H:%M:%S"
+msgstr "%d.%m.%Y %H.%M.%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:207
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%d.%m.%Y %I:%M %p"
+msgstr "%d.%m.%Y %H.%M"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:212
 msgid "%m/%d/%Y %H:%M"
-msgstr "%d.%m.%Y %H:%M"
+msgstr "%d.%m.%Y %H.%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:217
 msgid "%m/%d/%Y %I %p"
-msgstr "%d.%m.%Y %I %p"
+msgstr "%d.%m.%Y %H"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
@@ -10737,7 +10737,7 @@ msgstr "%d.%m.%Y %H"
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:326 e-util/e-time-utils.c:425
 msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%H.%M.%S"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:330 e-util/e-time-utils.c:417
@@ -10749,18 +10749,18 @@ msgstr "%H:%M:%S"
 #: e-util/e-time-utils.c:335 e-util/e-time-utils.c:422
 #: widgets/misc/e-dateedit.c:1420 widgets/misc/e-dateedit.c:1632
 msgid "%I:%M %p"
-msgstr "%I:%M %p"
+msgstr "%H.%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:414
 #: widgets/misc/e-dateedit.c:1417 widgets/misc/e-dateedit.c:1629
 msgid "%H:%M"
-msgstr "%H:%M"
+msgstr "%H.%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:343
 msgid "%I %p"
-msgstr "%I %p"
+msgstr "%H"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
 #: mail/mail-config.glade.h:183
@@ -12924,7 +12924,7 @@ msgstr "Utgått:"
 
 #: mail/mail-display.c:1793
 msgid "by %B %d, %Y, %l:%M %P"
-msgstr "ved %B %d, %Y, %l:%M %P"
+msgstr "ved %d %B %Y, %k:%M"
 
 #: mail/mail-display.c:2120
 msgid "Open Link in Browser"
@@ -13483,23 +13483,23 @@ msgstr "?"
 
 #: mail/message-list.c:1073
 msgid "Today %l:%M %p"
-msgstr "I dag %l:%M %p"
+msgstr "I dag %k:%M"
 
 #: mail/message-list.c:1082
 msgid "Yesterday %l:%M %p"
-msgstr "I går %l:%M %p"
+msgstr "I går %k:%M"
 
 #: mail/message-list.c:1094
 msgid "%a %l:%M %p"
-msgstr "%a %l:%M %p"
+msgstr "%a %k:%M"
 
 #: mail/message-list.c:1102
 msgid "%b %d %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%d %b %k:%M"
 
 #: mail/message-list.c:1104
 msgid "%b %d %Y"
-msgstr "%b %d %Y"
+msgstr "%d %b %Y"
 
 #: mail/message-list.c:2568
 msgid "Generating message list"
