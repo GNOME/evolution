@@ -1,3 +1,9 @@
+2002-04-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (e_storage_set_view_set_checkboxes_list,
+	e_storage_set_view_get_checkboxes_list): Added these functions.
+	Implemented checkboxes in the ETreeModel here.
+
 2002-04-19  Anna Marie Dirks  <anna@ximian.com>
 
 	* glade/e-shell-config-default-folders.glade: Minor label tweaks; 

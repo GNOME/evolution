@@ -92,6 +92,11 @@ void        e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set
 						    gboolean         show);
 gboolean    e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set_view);
 
+void        e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
+						    GList           *checkboxes);
+/* g_list_free this list, but don't free the strings within. */
+GList      *e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view);
+
 void        e_storage_set_view_set_allow_dnd       (EStorageSetView *storage_set_view,
 						    gboolean         allow_dnd);
 gboolean    e_storage_set_view_get_allow_dnd       (EStorageSetView *storage_set_view);

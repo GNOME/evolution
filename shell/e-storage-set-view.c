@@ -97,6 +97,8 @@ struct _EStorageSetViewPrivate {
 
 	/* The data.  */
 	GNOME_Evolution_ShellComponentDnd_Data *drag_corba_data;
+
+	GHashTable *checkboxes;
 };
 
 
@@ -622,6 +624,12 @@ impl_destroy (GtkObject *object)
 	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
 	g_hash_table_destroy (priv->type_name_to_pixbuf);
 
+	if (priv->checkboxes) {
+		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (priv->checkboxes);
+		priv->checkboxes = NULL;
+	}
+
 	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
 	if (priv->drag_corba_source_interface != CORBA_OBJECT_NIL) {
@@ -1142,6 +1150,7 @@ etree_value_at (ETreeModel *etree,
 		void *model_data)
 {
 	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
 	EStorageSet *storage_set;
 	EFolder *folder;
 	char *path;
@@ -1149,7 +1158,8 @@ etree_value_at (ETreeModel *etree,
 	int unread_count;
 
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
-	storage_set = storage_set_view->priv->storage_set;
+	priv = storage_set_view->priv;
+	storage_set = priv->storage_set;
 
 	/* Storages are always highlighted. */
 	if (path_is_storage (etree, tree_path) && col == 1)
@@ -1180,10 +1190,13 @@ etree_value_at (ETreeModel *etree,
 			return (void *) folder_name;
 	case 1: /* bold */
 		if (folder == NULL)
-			return (void *) FALSE;
-		return (void *) e_folder_get_highlighted (folder);
+			return GINT_TO_POINTER (FALSE);
+		return GINT_TO_POINTER (e_folder_get_highlighted (folder));
 	case 2: /* checkbox */
-		return (void *) FALSE;   /* FIXME: Yo danw, here's the whatnot, ya know. */
+		if (priv->checkboxes == NULL)
+			return GINT_TO_POINTER (FALSE);
+		return GINT_TO_POINTER(!!g_hash_table_lookup (priv->checkboxes,
+							      path));
 	default:
 		return NULL;
 	}
@@ -1213,12 +1226,56 @@ etree_fill_in_children (ETreeModel *etree,
 
 static void
 etree_set_value_at (ETreeModel *etree,
-		    ETreePath path,
+		    ETreePath tree_path,
 		    int col,
 		    const void *val,
 		    void *model_data)
 {
-	/* nada */
+	gboolean value;
+	char *path;
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	priv = storage_set_view->priv;
+
+	switch (col) {
+	case 2: /* checkbox */
+		value = GPOINTER_TO_INT (val);
+		path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
+		e_tree_model_pre_change (etree);
+		if (value) {
+			if (!priv->checkboxes) {
+				priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
+			} else {
+				if (g_hash_table_lookup (priv->checkboxes, path)) {
+					e_tree_model_no_change (etree);
+					return;
+				}
+			}
+
+			path = g_strdup (path);
+			g_hash_table_insert (priv->checkboxes, path, path);
+		} else {
+			char *temp;
+
+			if (!priv->checkboxes) {
+				e_tree_model_no_change (etree);
+				return;
+			} else {
+				if (!g_hash_table_lookup (priv->checkboxes, path)) {
+					e_tree_model_no_change (etree);
+					return;
+				}
+			}
+
+			temp = g_hash_table_lookup (priv->checkboxes, path);
+			g_hash_table_remove (priv->checkboxes, path);
+			g_free (temp);
+		}
+		e_tree_model_node_col_changed (etree, tree_path, col);
+		break;
+	}
 }
 
 static gboolean
@@ -1227,7 +1284,10 @@ etree_is_editable (ETreeModel *etree,
 		   int col,
 		   void *model_data)
 {
-	return FALSE;
+	if (col == 2)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
@@ -1552,6 +1612,8 @@ init (EStorageSetView *storage_set_view)
 
 	priv->drag_corba_source_context   = NULL;
 	priv->drag_corba_data             = NULL;
+
+	priv->checkboxes                  = NULL;
 
 	storage_set_view->priv = priv;
 }
@@ -1902,6 +1964,8 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
+	show = !! show;
+
 	if (show == priv->show_checkboxes)
 		return;
 
@@ -1920,6 +1984,68 @@ e_storage_set_view_get_show_checkboxes (EStorageSetView *storage_set_view)
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	return storage_set_view->priv->show_checkboxes;
+}
+
+void
+e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
+					GList           *checkboxes)
+{
+	gboolean changed = FALSE;
+	EStorageSetViewPrivate *priv = storage_set_view->priv;
+
+	e_tree_model_pre_change (priv->etree_model);
+	if (priv->checkboxes) {
+		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (priv->checkboxes);
+		changed = TRUE;
+	}
+
+	if (checkboxes) {
+		priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
+		for (; checkboxes; checkboxes = g_list_next (checkboxes)) {
+			char *path = checkboxes->data;
+			if (g_hash_table_lookup (priv->checkboxes, path))
+				continue;
+			path = g_strdup (path);
+			g_hash_table_insert (priv->checkboxes, path, path);
+		}
+		changed = TRUE;
+	}
+
+	if (changed)
+		e_tree_model_node_changed (priv->etree_model,
+					   e_tree_model_get_root (priv->etree_model));
+	else
+		e_tree_model_no_change (priv->etree_model);
+}
+
+static void
+essv_add_to_list (ETreePath tree_path, void **temp)
+{
+	EStorageSetView *storage_set_view = temp[0];
+	EStorageSetViewPrivate *priv = storage_set_view->priv;
+	GList **list = temp[1];
+
+	if (priv->checkboxes) {
+		char *path = (char*)e_tree_memory_node_get_data(E_TREE_MEMORY(priv->etree_model), tree_path);
+		if (path && g_hash_table_lookup (priv->checkboxes, path)) {
+			*list = g_list_prepend (*list, path);
+		}
+	}
+}
+
+/* g_list_free this list, but don't free the strings within. */
+GList *
+e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view)
+{
+	void *temp[2];
+	GList *list = NULL;
+	temp[0] = storage_set_view;
+	temp[1] = &list;
+
+	e_tree_path_foreach (E_TREE (storage_set_view), (ETreeForeachFunc) essv_add_to_list, temp);
+	list = g_list_reverse (list);
+	return list;
 }
 
 
