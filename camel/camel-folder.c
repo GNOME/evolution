@@ -958,3 +958,16 @@ camel_folder_copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 {
 	CF_CLASS (folder)->copy_message_to (folder, message, dest_folder);;
 }
+
+
+
+
+
+/* summary stuff */
+
+gboolean
+camel_folder_has_summary_capability (CamelFolder *folder)
+{
+	return folder->has_summary_capability;
+}
+

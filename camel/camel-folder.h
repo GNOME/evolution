@@ -136,6 +136,7 @@ gint camel_folder_get_message_count (CamelFolder *folder);
 gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message);
 const GList *camel_folder_list_permanent_flags (CamelFolder *folder);
 void camel_folder_copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
+gboolean camel_folder_has_summary_capability (CamelFolder *folder);
 
 
 #ifdef __cplusplus
