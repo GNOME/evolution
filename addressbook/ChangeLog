@@ -1,3 +1,13 @@
+2004-09-24  Hao Sheng  <hao.sheng@sun.com>
+	
+	Fix for #66523
+
+	* gui/contact-list-editor/e-contact-list-model.c:
+	(e_contact_list_model_add_email): estimate the same mail address
+	and popup a warning dialog.
+	* addressbook-errors.xml: add the question message for the warning
+	dialog.
+
 2004-09-23  Pamplona Hackers <gnome-desarrollo@es.gnome.org>
 
 	Fixes #61978

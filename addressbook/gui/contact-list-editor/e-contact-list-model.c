@@ -3,7 +3,9 @@
 #include <config.h>
 #include <string.h>
 #include "e-contact-list-model.h"
+#include "widgets/misc/e-error.h"
 
+#include <gtk/gtkmessagedialog.h>
 #define PARENT_TYPE e_table_model_get_type()
 static ETableModelClass *parent_class;
 
@@ -195,9 +197,25 @@ e_contact_list_model_add_email (EContactListModel *model,
 				const char *email)
 {
 	EDestination *new_dest;
+	char *list_email;
+	int row;
+	int row_count;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (email != NULL);
+
+	row_count = e_table_model_row_count (E_TABLE_MODEL (model));
+
+	for (row = 0; row < row_count; row++) {
+		list_email = (char *) e_table_model_value_at (E_TABLE_MODEL (model), 1, row);
+		
+		if (strcmp (list_email, email) == 0) {
+			if (e_error_run (NULL, "addressbook:ask-list-add-exists", 
+					 email) != GTK_RESPONSE_YES)
+				return;
+			break;
+		}
+	}
 
 	new_dest = e_destination_new ();
 	e_destination_set_email (new_dest, email);

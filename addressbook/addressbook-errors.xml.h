@@ -51,3 +51,8 @@ char *s = N_("Error saving contacts to {0}: {1}");
 char *s = N_("The Evolution addressbook has quit unexpectedly.");
 /* addressbook:backend-died secondary */
 char *s = N_("Your contacts for {0} will not be available until Evolution is restarted.");
+/* addressbook:ask-list-add-exists primary */
+char *s = N_("Address '{0}' already exists.");
+/* addressbook:ask-list-add-exists secondary */
+char *s = N_("A contact already exists with this address.  Would you like to add a new card with the same address anyway?");
+char *s = N_("_Add");

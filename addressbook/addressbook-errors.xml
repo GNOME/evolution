@@ -77,4 +77,10 @@
   <secondary>Your contacts for {0} will not be available until Evolution is restarted.</secondary>
  </error>
 
+ <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
+  <primary>Address '{0}' already exists.</primary>
+  <secondary>A contact already exists with this address.  Would you like to add a new card with the same address anyway?</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-ok" label="_Add" response="GTK_RESPONSE_YES"/>
+ </error>
 </error-list>
