@@ -58,10 +58,13 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 			      priv->remove_card_id);
 	gtk_signal_disconnect(GTK_OBJECT (priv->model),
 			      priv->modify_card_id);
+	gtk_signal_disconnect(GTK_OBJECT (priv->model),
+			      priv->model_changed_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
+	priv->model_changed_id = 0;
 
 	gtk_object_unref(GTK_OBJECT(priv->model));
 

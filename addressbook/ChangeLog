@@ -1,5 +1,11 @@
 2002-11-22  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-reflow-adapter.c (unlink_model): we
+	need to disconnect the model_changed signal too.  This at the very
+	least is bad and at the worst could cause crashes.
+
+2002-11-22  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #16870, constibuted by Sean.Gao@sun.com ]
 	* backend/ebook/evolution-ldif-importer.c (getNextLDIFEntry):
 	check for both LF and CRLF as empty line markers.
