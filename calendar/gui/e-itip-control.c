@@ -1740,6 +1740,7 @@ update_item (EItipControl *itip)
 	icalproperty *prop;
 	icalcomponent *clone;
 	GtkWidget *dialog;
+	GError *error = NULL;
 
 	priv = itip->priv;
 
@@ -1761,9 +1762,9 @@ update_item (EItipControl *itip)
 	icalcomponent_add_component (priv->top_level, clone);
 	icalcomponent_set_method (priv->top_level, priv->method);
 
-	/* FIXME Better error dialog */
-	if (!e_cal_receive_objects (priv->current_ecal, priv->top_level, NULL)) {
-		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
+	if (!e_cal_receive_objects (priv->current_ecal, priv->top_level, &error)) {
+		dialog = gnome_warning_dialog (error->message);
+		g_error_free (error);
 	} else {
 		dialog = gnome_ok_dialog (_("Update complete\n"));
 	}
