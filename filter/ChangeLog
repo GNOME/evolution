@@ -1,3 +1,9 @@
+2002-01-26  Mikael Hallendal  <micke@codefactory.se>
+
+	* rule-editor.c (add_editor_clicked): check if re->edit != NULL
+	  before trying to unref it. Fixes a segfault when closing the 
+	  rule editor.
+
 2002-01-15  Not Zed  <NotZed@Ximian.com>
 
 	* filter-input.c (xml_decode): If we write "" to an xml file, we
