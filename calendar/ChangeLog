@@ -1,5 +1,10 @@
 2000-08-11  Seth Alves  <alves@hungry.com>
 
+	* cal-util/cal-component.c (cal_component_get_pilot_id):
+	(cal_component_set_pilot_id):  stubs for pilot id accessors
+	(cal_component_get_pilot_status): 
+	(cal_component_set_pilot_status): stubs for pilot status accessors
+
 	* conduits/calendar/calendar-conduit.c (transmit): start to
 	convert to cal-component interface
 	
