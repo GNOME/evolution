@@ -146,7 +146,9 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
+
 #define DEFAULT_TREE_WIDTH         130
+#define MIN_POPUP_TREE_WIDTH       130
 
 #define DEFAULT_WIDTH 705
 #define DEFAULT_HEIGHT 550
@@ -270,7 +272,7 @@ reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 
 	gtk_widget_ref (priv->storage_set_view_box);
 	gtk_container_remove (GTK_CONTAINER (priv->folder_bar_popup), priv->storage_set_view_box);
-	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, TRUE);
+	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
 	gtk_widget_unref (priv->storage_set_view_box);
 
 	gtk_widget_destroy (priv->folder_bar_popup);
@@ -438,6 +440,8 @@ pop_up_folder_bar (EShellView *shell_view)
 	gdk_window_get_origin (priv->folder_title_bar->window, &orig_x, &orig_y);
 	x += orig_x;
 	y += orig_y + 2;
+
+	priv->view_hpaned_position = MAX (priv->view_hpaned_position, MIN_POPUP_TREE_WIDTH);
 
 	gtk_window_set_default_size (GTK_WINDOW (priv->folder_bar_popup),
 				     priv->view_hpaned_position,
@@ -899,7 +903,7 @@ setup_widgets (EShellView *shell_view)
 			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
-	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, TRUE);
+	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
 	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 

@@ -1,5 +1,13 @@
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: New constant `MIN_POPUP_TREE_WIDTH'.
+	(pop_up_folder_bar): Make sure the pop-up is always this size or
+	more.
+	(setup_widgets): Pass %FALSE for @shrink to `e_paned_pack1()'.
+	(reparent_storage_set_view_box_and_destroy_popup): Likewise.
+
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (shortcut_bar_visibility_changed_cb): New,
 	replacing `shortcut_bar_mode_changed_cb'.
 	(folder_bar_visibility_changed_cb): New, replacing
