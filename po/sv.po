@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.92 2001/07/24 05:28:18 menthos Exp $
+# $Id: sv.po,v 1.93 2001/07/24 18:02:51 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-24 07:25+0200\n"
-"PO-Revision-Date: 2001-07-24 07:26+0200\n"
+"POT-Creation-Date: 2001-07-24 19:58+0200\n"
+"PO-Revision-Date: 2001-07-24 20:01+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgstr "Ingen (anonymt läge)"
 #: addressbook/gui/component/addressbook-config.c:165
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:302
-#: camel/providers/pop3/camel-pop3-provider.c:67 mail/mail-config.glade.h:66
+#: camel/providers/pop3/camel-pop3-provider.c:67 mail/mail-config.glade.h:67
 msgid "Password"
 msgstr "Lösenord"
 
@@ -454,12 +454,12 @@ msgid "FIXME Bind DN Help text here"
 msgstr "FIXME Bind DN-hjälptext här"
 
 #: addressbook/gui/component/addressbook-config.c:352
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:79
 msgid "Remember this password"
 msgstr "Kom ihåg detta lösenord"
 
 #: addressbook/gui/component/addressbook-config.c:403
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:43
 msgid "Host:"
 msgstr "Värd:"
 
@@ -496,7 +496,7 @@ msgid "Advanced LDAP Options"
 msgstr "Avancerade LDAP-alternativ"
 
 #: addressbook/gui/component/addressbook-config.c:522
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:68
 msgid "Path:"
 msgstr "Sökväg:"
 
@@ -525,7 +525,7 @@ msgstr ""
 "den."
 
 #: addressbook/gui/component/addressbook-config.c:688
-#: mail/mail-config.glade.h:56 my-evolution/e-summary-preferences.c:894
+#: mail/mail-config.glade.h:57 my-evolution/e-summary-preferences.c:894
 msgid "Name:"
 msgstr "Namn:"
 
@@ -564,12 +564,12 @@ msgstr "URI"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:107
 msgid "_Add"
 msgstr "_Lägg till"
 
 #: addressbook/gui/component/addressbook-config.glade.h:6
-#: mail/mail-config.glade.h:108 ui/evolution-comp-editor.xml.h:20
+#: mail/mail-config.glade.h:109 ui/evolution-comp-editor.xml.h:20
 #: ui/evolution-mail-messagedisplay.xml.h:9
 #: ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
@@ -834,7 +834,7 @@ msgstr "_Kontakter..."
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:1205
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 mail/folder-browser.c:1302
-#: mail/mail-config.glade.h:107 ui/evolution-mail-message.xml.h:79
+#: mail/mail-config.glade.h:108 ui/evolution-mail-message.xml.h:79
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Ta bort"
@@ -947,7 +947,7 @@ msgstr "Mobil"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1446
 #: addressbook/gui/contact-editor/e-contact-editor.c:1504
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:63
 msgid "Other"
 msgstr "Annat"
 
@@ -1328,7 +1328,7 @@ msgstr "Skriv ut kuvert"
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:235
 #: addressbook/gui/widgets/e-addressbook-view.c:606 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:11 mail/mail-accounts.c:267
-#: mail/mail-config.glade.h:27 ui/evolution-addressbook.xml.h:8
+#: mail/mail-config.glade.h:28 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-mail-message.xml.h:16
 #: ui/evolution-tasks.xml.h:5
 msgid "Delete"
@@ -2010,8 +2010,8 @@ msgstr ""
 #: calendar/gui/dialogs/e-timezone-dialog.c:202
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/e-calendar-table.c:345 calendar/gui/e-calendar-table.c:420
-#: mail/mail-account-gui.c:1364 mail/mail-accounts.c:134
-#: mail/mail-accounts.c:388 mail/mail-config.glade.h:59
+#: mail/mail-account-gui.c:1374 mail/mail-accounts.c:134
+#: mail/mail-accounts.c:388 mail/mail-config.glade.h:60
 #: shell/e-shell-view.c:1405 widgets/misc/e-cell-date-edit.c:240
 #: widgets/misc/e-dateedit.c:437 widgets/misc/e-dateedit.c:1356
 #: widgets/misc/e-dateedit.c:1471
@@ -2282,7 +2282,7 @@ msgstr "slut på möte"
 msgid "hour(s)"
 msgstr "timme/timmar"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:109
+#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:110
 msgid "minute(s)"
 msgstr "minut(er)"
 
@@ -2357,7 +2357,7 @@ msgid "Defaults"
 msgstr "Standardvärden"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:30
 msgid "Display"
 msgstr "Visa"
 
@@ -2792,7 +2792,7 @@ msgid "Status"
 msgstr "Status"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:100
+#: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:101
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Typ"
@@ -4366,7 +4366,7 @@ msgid "Could not open cache directory: %s"
 msgstr "Kunde inte öppna cachekatalogen: %s"
 
 # Låter konstigt?
-#: camel/providers/imap/camel-imap-provider.c:43 mail/mail-config.glade.h:16
+#: camel/providers/imap/camel-imap-provider.c:43 mail/mail-config.glade.h:17
 msgid "Checking for new mail"
 msgstr "Kontrollerar ny e-post"
 
@@ -4974,7 +4974,7 @@ msgstr "Lämna meddelanden på servern"
 msgid "Delete after %s day(s)"
 msgstr "Ta bort efter %s dag(ar)"
 
-#: camel/providers/pop3/camel-pop3-provider.c:48 mail/mail-config.glade.h:65
+#: camel/providers/pop3/camel-pop3-provider.c:48 mail/mail-config.glade.h:66
 msgid "POP"
 msgstr "POP"
 
@@ -5069,7 +5069,7 @@ msgid "No such folder `%s'."
 msgstr "Det finns ingen mapp \"%s\"."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:37
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:88
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -5123,7 +5123,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "E-postleverans via programmet sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:80
+#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:81
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -5845,7 +5845,7 @@ msgstr ""
 "till."
 
 #: filter/filter-folder.c:225 filter/vfolder-rule.c:319
-#: mail/mail-account-gui.c:768
+#: mail/mail-account-gui.c:776
 msgid "Select Folder"
 msgstr "Välj mapp"
 
@@ -5906,14 +5906,14 @@ msgstr "inkommande"
 msgid "outgoing"
 msgstr "utgående"
 
-#: filter/filter.glade.h:1 mail/mail-config.glade.h:7
+#: filter/filter.glade.h:1 mail/mail-config.glade.h:8
 #: my-evolution/e-summary-preferences.c:1174
 #: my-evolution/e-summary-preferences.c:1226
 #: my-evolution/e-summary-preferences.c:1288
 msgid "Add"
 msgstr "Lägg till"
 
-#: filter/filter.glade.h:3 mail/mail-config.glade.h:33
+#: filter/filter.glade.h:3 mail/mail-config.glade.h:34
 msgid "Edit"
 msgstr "Redigera"
 
@@ -6488,11 +6488,11 @@ msgstr "Evolutions diskussionsgruppsredigerare"
 msgid "Evolution Account Editor"
 msgstr "Evolutions kontoredigerare"
 
-#: mail/mail-account-gui.c:958
+#: mail/mail-account-gui.c:966
 msgid "Save signature"
 msgstr "Spara signatur"
 
-#: mail/mail-account-gui.c:964
+#: mail/mail-account-gui.c:972
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
@@ -6510,7 +6510,7 @@ msgstr " (standard)"
 msgid "Disable"
 msgstr "Stäng av"
 
-#: mail/mail-accounts.c:176 mail/mail-config.glade.h:37
+#: mail/mail-accounts.c:176 mail/mail-config.glade.h:38
 msgid "Enable"
 msgstr "Slå på"
 
@@ -6762,59 +6762,63 @@ msgid " color"
 msgstr " färg"
 
 #: mail/mail-config.glade.h:3
+msgid "(SSL is not supported in this build of evolution)"
+msgstr "(SSL stöds inte i detta bygge av Evolution)"
+
+#: mail/mail-config.glade.h:4
 msgid "Account"
 msgstr "Konto"
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:5
 msgid "Account Information"
 msgstr "Kontoinformation"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:6
 msgid "Account Management"
 msgstr "Kontohantering"
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:7
 msgid "Accounts"
 msgstr "Konton"
 
-#: mail/mail-config.glade.h:8
+#: mail/mail-config.glade.h:9
 msgid "Always encrypt to myself when sending encrypted mail"
 msgstr "Kryptera alltid till mig själv när krypterad post skickas"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:10
 msgid "Always encrypt to myself when sending encrypyed mail"
 msgstr "Kryptera alltid till mig själv när krypterad post skickas"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:11
 msgid "Always load images off the net"
 msgstr "Läs alltid in bilder från nätet"
 
-#: mail/mail-config.glade.h:11 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:12 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Bilaga"
 
-#: mail/mail-config.glade.h:12
+#: mail/mail-config.glade.h:13
 msgid "Authentication"
 msgstr "Autentisering"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:14
 msgid "Authentication Type: "
 msgstr "Autentiseringstyp: "
 
 # Låter konstigt
-#: mail/mail-config.glade.h:14
+#: mail/mail-config.glade.h:15
 msgid "Automatically check for new mail every"
 msgstr "Kontrollera ny e-post var"
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:16
 msgid "Certificate ID:"
 msgstr "Certifikat-ID:"
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:18
 msgid "Composer"
 msgstr "Redigerare"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:19
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -6829,263 +6833,263 @@ msgstr ""
 "\n"
 "Klicka på \"Slutför\" för att spara dina inställningar."
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:25
 msgid "De_fault"
 msgstr "Sta_ndard"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:26
 msgid "Default Forward style is: "
 msgstr "Standardstil för vidarebefordran är: "
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:27
 msgid "Default character set: "
 msgstr "Standardteckentabell: "
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:29
 msgid "Digital IDs..."
 msgstr "Digitala ID..."
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:31
 msgid "Done"
 msgstr "Klar"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:32
 msgid "Drafts"
 msgstr "Mallar"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:33
 msgid "Drafts folder:"
 msgstr "Mallmapp:"
 
-#: mail/mail-config.glade.h:34 widgets/misc/e-filter-bar.h:103
+#: mail/mail-config.glade.h:35 widgets/misc/e-filter-bar.h:103
 msgid "Edit..."
 msgstr "Redigera..."
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:36
 msgid "Email Address:"
 msgstr "E-postadress:"
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:37
 msgid "Empty trash folders on exit"
 msgstr "Töm papperskorgsmappar vid avslut"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:39
 msgid "Full Name:"
 msgstr "Fullständigt namn:"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:40
 msgid "Get Digital ID..."
 msgstr "Hämta digitalt ID..."
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:41
 msgid "HTML Signature:"
 msgstr "HTML-signatur:"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:42
 msgid "Highlight citations with"
 msgstr "Markera citat med"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:44
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:45
 msgid "Identity"
 msgstr "Identitet"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:46
 msgid "In HTML mail"
 msgstr "I HTML-brev"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:47
 msgid "Inline"
 msgstr "Inuti"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:48
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:49
 msgid "Load images if sender is in addressbook"
 msgstr "Läs in bilder om avsändaren finns i adressboken"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:50
 msgid "Mail Configuration"
 msgstr "E-postkonfiguration"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:51
 msgid "Mailbox location"
 msgstr "Brevlådeplats"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:52
 msgid "Make this my default account"
 msgstr "Gör detta till mitt standardkonto"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:53
 msgid "Mark messages as Read after"
 msgstr "Markera meddelanden som lästa efter"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:54
 msgid "Message list should display in a threaded fasion by default"
 msgstr "Meddelandelistan ska visas trådad som standard"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:55
 msgid "Message preview should be displayed by default"
 msgstr "Meddelandeförhandsgranskningen ska visas som standard"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:56
 msgid "NNTP Server:"
 msgstr "NNTP-server:"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:58
 msgid "Never load images off the net"
 msgstr "Läs aldrig in bilder från nätet"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:59
 msgid "News"
 msgstr "Diskussionsgrupper"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:61
 msgid "Optional Information"
 msgstr "Valfri information"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:62
 msgid "Organization:"
 msgstr "Organisation:"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:64
 msgid "PGP Key ID:"
 msgstr "PGP-nyckelid:"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:65
 msgid "PGP binary path:"
 msgstr "Sökväg till PGP-programmet:"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:69
 msgid "Pick a color"
 msgstr "Välj en färg"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:70
 msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:71
 msgid "Prompt when sending messages with an empty subject"
 msgstr "Fråga då meddelanden skickas med en tom ämnesrad"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:72
 msgid "Prompt when sending messages with only Bcc recipients defined"
 msgstr "Fråga då meddelanden skickas med endast blindkopiemottagare angivna"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:73
 msgid "Qmail maildir "
 msgstr "Qmail-epostkatalog "
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:74
 msgid "Quoted"
 msgstr "Citerad"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:75
 msgid "Receiving Email"
 msgstr "Tar emot e-post"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:76
 msgid "Receiving Mail"
 msgstr "Tar emot e-post"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:77
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:78
 msgid "Remember PGP Passphrase until exit"
 msgstr "Kom ihåg GPG-lösenordsfrasen fram till avslut"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:80
 msgid "Required Information"
 msgstr "Obligatorisk information"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:82
 msgid "Secure MIME"
 msgstr "Säker MIME"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:83
 msgid "Security"
 msgstr "Säkerhet"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:84
 msgid "Select PGP binary"
 msgstr "Välj PGP-program"
 
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:85
 msgid "Send mail in HTML format by default."
 msgstr "Skicka brev i HTML-format som standard."
 
-#: mail/mail-config.glade.h:85
+#: mail/mail-config.glade.h:86
 msgid "Sending Email"
 msgstr "Skickar e-post"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:87
 msgid "Sending Mail"
 msgstr "Skickar e-post"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:89
 msgid "Sent"
 msgstr "Skickat"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:90
 msgid "Sent and Draft Messages"
 msgstr "Skickade meddelanden och mallar"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:91
 msgid "Sent messages folder:"
 msgstr "Mapp för skickade meddelanden:"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:92
 msgid "Server Configuration"
 msgstr "Serverkonfiguration"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:93
 msgid "Server Type: "
 msgstr "Servertyp: "
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:94
 msgid "Server requires authentication"
 msgstr "Servern kräver autentisering"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:95
 msgid "Signature file:"
 msgstr "Signaturfil:"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:96
 msgid "Source"
 msgstr "Källkod"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:97
 msgid "Source Information"
 msgstr "Källinformation"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:98
 msgid "Sources"
 msgstr "Källor"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:99
 msgid "Special Folders"
 msgstr "Specialmappar"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:100
 msgid "Standard Unix mbox"
 msgstr "Standard Unix-brevlåda"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:102
 msgid "Use secure connection (SSL)"
 msgstr "Använd säker anslutning (SSL)"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:103
 msgid "Username:"
 msgstr "Användarnamn:"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:104
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
@@ -7095,15 +7099,15 @@ msgstr ""
 "\n"
 "Klicka på \"Nästa\" för att börja. "
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:111
 msgid "newswindow1"
 msgstr "newswindow1"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:112
 msgid "placeholder"
 msgstr "platshållare"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:113
 msgid "seconds."
 msgstr "sekunder."
 
@@ -7294,17 +7298,17 @@ msgstr "Pekare till okänd extern data (typen \"%s\")"
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: mail/mail-local.c:452
+#: mail/mail-local.c:458
 #, c-format
 msgid "Opening '%s'"
 msgstr "Öppnar \"%s\""
 
-#: mail/mail-local.c:741
+#: mail/mail-local.c:747
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Byter format på mappen \"%s\" till \"%s\""
 
-#: mail/mail-local.c:862
+#: mail/mail-local.c:868
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -7313,7 +7317,7 @@ msgstr ""
 "Kan inte spara metadata för mapp; du kommer antagligen att\n"
 "upptäcka att du inte kan öppna denna mapp längre: %s"
 
-#: mail/mail-local.c:901
+#: mail/mail-local.c:907
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -7321,11 +7325,11 @@ msgstr ""
 "Om du inte längre kan öppna denna brevlåda måste\n"
 "du kanske reparera den manuellt."
 
-#: mail/mail-local.c:994
+#: mail/mail-local.c:1000
 msgid "You cannot change the format of a non-local folder."
 msgstr "Du kan inte ändra formatet på en ickelokal mapp."
 
-#: mail/mail-local.c:1005
+#: mail/mail-local.c:1011
 #, c-format
 msgid "Reconfigure %s"
 msgstr "Konfigura om %s"
@@ -10167,78 +10171,82 @@ msgid "Compose"
 msgstr "Skriv"
 
 #: ui/evolution-mail-global.xml.h:4
+msgid "Compose _New Message"
+msgstr "Skriv ett _nytt meddelande"
+
+#: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit mail accounts and other preferences"
 msgstr "Skapa eller redigera e-postkonton och andra inställningar"
 
-#: ui/evolution-mail-global.xml.h:5
+#: ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
 msgstr "Skapa eller redigera regler för filtrering av ny post"
 
-#: ui/evolution-mail-global.xml.h:6
+#: ui/evolution-mail-global.xml.h:7
 msgid "Create or edit virtual folder definitions"
 msgstr "Skapa eller redigera definitioner för virtuella mappar"
 
-#: ui/evolution-mail-global.xml.h:7
+#: ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
 msgstr "Töm _papperskorgen"
 
-#: ui/evolution-mail-global.xml.h:8
+#: ui/evolution-mail-global.xml.h:9
 msgid "Forget _Passwords"
 msgstr "_Glöm lösenord"
 
-#: ui/evolution-mail-global.xml.h:9
+#: ui/evolution-mail-global.xml.h:10
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Glöm ihågkomna lösenord så att du frågas efter dem igen"
 
-#: ui/evolution-mail-global.xml.h:10
+#: ui/evolution-mail-global.xml.h:11
 msgid "Manage _Subscriptions..."
 msgstr "_Hantera prenumerationer..."
 
-#: ui/evolution-mail-global.xml.h:11
+#: ui/evolution-mail-global.xml.h:12
 msgid "Open a window for composing a mail message"
 msgstr "Öppna ett fönster för skrivning av ett e-postmeddelande"
 
-#: ui/evolution-mail-global.xml.h:12
+#: ui/evolution-mail-global.xml.h:13
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Radera alla borttagna meddelanden från alla mappar permanent"
 
-#: ui/evolution-mail-global.xml.h:13
+#: ui/evolution-mail-global.xml.h:14
 msgid "Send / Receive"
 msgstr "Skicka / Ta emot"
 
-#: ui/evolution-mail-global.xml.h:14
+#: ui/evolution-mail-global.xml.h:15
 msgid "Send queued mail and retrieve new mail"
 msgstr "Skicka kölagd e-post och hämta ny e-post"
 
-#: ui/evolution-mail-global.xml.h:15
+#: ui/evolution-mail-global.xml.h:16
 msgid "Show message preview window"
 msgstr "Visa förhandsgranskningsfönster för meddelanden"
 
-#: ui/evolution-mail-global.xml.h:16
+#: ui/evolution-mail-global.xml.h:17
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Prenumerera eller säg upp prenumeration på mappar på fjärrservrar"
 
-#: ui/evolution-mail-global.xml.h:17
+#: ui/evolution-mail-global.xml.h:18
 msgid "Virtual Folder _Editor..."
 msgstr "_Redigerare för virtuella mappar..."
 
-#: ui/evolution-mail-global.xml.h:18
+#: ui/evolution-mail-global.xml.h:19
 msgid "_Filters..."
 msgstr "_Filter..."
 
-#: ui/evolution-mail-global.xml.h:19
+#: ui/evolution-mail-global.xml.h:20
 msgid "_Mail Message"
 msgstr "_E-postmeddelande"
 
-#: ui/evolution-mail-global.xml.h:20
+#: ui/evolution-mail-global.xml.h:21
 msgid "_Mail Settings..."
 msgstr "_E-postinställningar..."
 
-#: ui/evolution-mail-global.xml.h:21
+#: ui/evolution-mail-global.xml.h:22
 msgid "_Preview Pane"
 msgstr "F_örhandsgranskningspanel"
 
-#: ui/evolution-mail-global.xml.h:22
+#: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
 msgstr "_Skicka / Ta emot"
 
@@ -12320,9 +12328,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Apply any new filters to the mail in this box"
 #~ msgstr "Verkställ alla nya filter på e-posten i denna brevlåda"
-
-#~ msgid "Compose a new message"
-#~ msgstr "Skriv ett nytt meddelande"
 
 #~ msgid "Configure Folder..."
 #~ msgstr "Konfigura mapp..."
