@@ -1,5 +1,16 @@
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (emft_popup_new_folder_response): We can't use
+	a uri to do a lookup of a store-info on the store_hash, we have to
+	get a CamelStore first.
+	(row_draggable_cb): validate the iter before using it.
+	(row_drop_possible_cb): Same.
+	(drag_data_received_cb): Here too.
+	(drag_data_get_cb): Same.
+	(drag_data_delete_cb): Again here.
+
+2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-mt.c (set_stop): Removed most of the code. This is
 	basically now a nop. Need to somehow get the uic and fix this.
 

@@ -596,7 +596,9 @@ drag_data_received_cb (EMFolderTreeModel *model, GtkTreePath *dest_path, GtkSele
 	if (!selection->data || selection->length == -1)
 		return FALSE;
 	
-	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path))
+		return FALSE;
+	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_FOLDER_PATH, &path, -1);
@@ -646,7 +648,9 @@ row_drop_possible_cb (EMFolderTreeModel *model, GtkTreePath *dest_path, GtkSelec
 	GtkTreeIter iter;
 	gboolean is_store;
 	
-	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path))
+		return FALSE;
+	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, -1);
 	
 	if (selection->target == gdk_atom_intern ("x-uid-list", FALSE)) {
@@ -678,7 +682,9 @@ row_draggable_cb (EMFolderTreeModel *model, GtkTreePath *src_path, EMFolderTree 
 	GtkTreeIter iter;
 	gboolean is_store;
 	
-	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path))
+		return FALSE;
+	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, -1);
 	
 	return !is_store;
@@ -748,7 +754,9 @@ drag_data_get_cb (EMFolderTreeModel *model, GtkTreePath *src_path, GtkSelectionD
 	GtkTreeIter iter;
 	char *path, *uri;
 	
-	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path))
+		return FALSE;
+	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_FOLDER_PATH, &path,
@@ -787,7 +795,9 @@ drag_data_delete_cb (EMFolderTreeModel *model, GtkTreePath *src_path, EMFolderTr
 	GtkTreeIter iter;
 	char *path;
 	
-	gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path))
+		return FALSE;
+	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_FOLDER_PATH, &path,
@@ -825,8 +835,10 @@ em_folder_tree_new (void)
 	priv->ddg = g_signal_connect (model, "drag-data-get", G_CALLBACK (drag_data_get_cb), emft);
 	priv->ddd = g_signal_connect (model, "drag-data-delete", G_CALLBACK (drag_data_delete_cb), emft);
 	
-	gtk_drag_source_set ((GtkWidget *) emft, 0, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	gtk_drag_dest_set ((GtkWidget *) emft, GTK_DEST_DEFAULT_ALL, drop_types, num_drop_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_tree_view_enable_model_drag_source (priv->treeview, 0, drag_types, num_drag_types,
+						GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_tree_view_enable_model_drag_dest (priv->treeview, drop_types, num_drop_types,
+					      GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	
 	return (GtkWidget *) emft;
 }
@@ -1184,6 +1196,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	struct _EMFolderTreePrivate *priv = emfs->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	const char *uri, *parent;
+	CamelStore *store;
 	CamelException ex;
 	char *path, *name;
 	
@@ -1196,8 +1209,20 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	path = (char *) em_folder_selector_get_selected_path (emfs);
 	d(printf ("Creating folder: %s (%s)\n", path, uri));
 	
-	if (!(si = g_hash_table_lookup (priv->model->store_hash, uri)))
-		goto done;
+	camel_exception_init (&ex);
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+		/* FIXME: error dialog? */
+		gtk_widget_destroy ((GtkWidget *) emfs);
+		return;
+	}
+	
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+		gtk_widget_destroy ((GtkWidget *) emfs);
+		camel_object_unref (store);
+		return;
+	}
+	
+	camel_object_unref (store);
 	
 	/* FIXME: camel_store_create_folder should just take full path names */
 	path = g_strdup (path);
@@ -1211,7 +1236,6 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	
 	d(printf ("creating folder name='%s' path='%s'\n", name, path));
 	
-	camel_exception_init (&ex);
 	camel_store_create_folder (si->store, parent, name, &ex);
 	if (camel_exception_is_set (&ex)) {
 		d(printf ("Create failed: %s\n", ex.desc));
@@ -1225,8 +1249,6 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	}
 	
 	camel_exception_clear (&ex);
-	
- done:
 	
 	g_free (path);
 	
