@@ -610,19 +610,21 @@ height_cache_idle(ETableItem *eti)
 static void
 free_height_cache (ETableItem *eti)
 {
-	if (eti->height_cache)
-		g_free (eti->height_cache);
-	eti->height_cache = NULL;
-	eti->height_cache_idle_count = 0;
-	eti->uniform_row_height_cache = -1;
+	if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS (eti)) {
+		if (eti->height_cache)
+			g_free (eti->height_cache);
+		eti->height_cache = NULL;
+		eti->height_cache_idle_count = 0;
+		eti->uniform_row_height_cache = -1;
 
-	if (eti->uniform_row_height && eti->height_cache_idle_id != 0) {
-		g_source_remove(eti->height_cache_idle_id);
-		eti->height_cache_idle_id = 0;
+		if (eti->uniform_row_height && eti->height_cache_idle_id != 0) {
+			g_source_remove(eti->height_cache_idle_id);
+			eti->height_cache_idle_id = 0;
+		}
+
+		if ((!eti->uniform_row_height) && eti->height_cache_idle_id == 0)
+			eti->height_cache_idle_id = g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) height_cache_idle, eti, NULL);
 	}
-
-	if ((!eti->uniform_row_height) && eti->height_cache_idle_id == 0)
-		eti->height_cache_idle_id = g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) height_cache_idle, eti, NULL);
 }
 
 static void
@@ -1638,6 +1640,16 @@ eti_unrealize (GnomeCanvasItem *item)
 
 	if (eti_editing (eti))
 		e_table_item_leave_edit_(eti);
+
+	if (eti->height_cache_idle_id) {
+		g_source_remove(eti->height_cache_idle_id);
+		eti->height_cache_idle_id = 0;
+	}
+
+	if (eti->height_cache)
+		g_free (eti->height_cache);
+	eti->height_cache = NULL;
+	eti->height_cache_idle_count = 0;
 
 	gdk_gc_unref (eti->fill_gc);
 	eti->fill_gc = NULL;

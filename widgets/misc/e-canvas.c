@@ -134,6 +134,7 @@ e_canvas_destroy (GtkObject *object)
 
 	if (canvas->idle_id)
 		g_source_remove(canvas->idle_id);
+	canvas->idle_id = 0;
 
 	if (canvas->toplevel) {
 		if (canvas->visibility_notify_id)
@@ -736,6 +737,11 @@ static void
 e_canvas_unrealize (GtkWidget *widget)
 {
 	ECanvas * ecanvas = E_CANVAS (widget);
+
+	if (ecanvas->idle_id)
+		g_source_remove(ecanvas->idle_id);
+	ecanvas->idle_id = 0;
+
 	if (ecanvas->ic) {
 		gdk_ic_destroy (ecanvas->ic);
 		ecanvas->ic = NULL;
