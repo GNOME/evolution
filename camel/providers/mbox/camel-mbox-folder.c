@@ -965,7 +965,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	close (fd2);
 
 	/* remove the temporary file */
-	unlink (tmp_message_filename);
+	//unlink (tmp_message_filename);
 
 	/* generate the folder md5 signature */
 	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->internal_summary->md5_digest);
@@ -1067,7 +1067,9 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	
 	message = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (parent_store)));
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), message_stream);
+	//camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), message_stream);
+	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (message), message_stream);
+	
 	
 	
 

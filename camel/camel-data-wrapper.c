@@ -145,9 +145,14 @@ static void
 my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
+
+	if (data_wrapper->input_stream)
+		gtk_object_unref (GTK_OBJECT (data_wrapper->input_stream));
+
 	data_wrapper->input_stream = stream;
+
 	if (!data_wrapper->output_stream && stream)
-		data_wrapper->output_stream = stream;	
+		my_set_output_stream (data_wrapper, stream);
 		
 	if (stream)
 		gtk_object_ref (GTK_OBJECT (stream));
@@ -186,6 +191,10 @@ static void
 my_set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
+	
+	if (data_wrapper->output_stream)
+		gtk_object_unref (GTK_OBJECT (data_wrapper->output_stream));
+
 	data_wrapper->output_stream = stream;
 	if (stream)
 		gtk_object_ref (GTK_OBJECT (stream));
@@ -250,6 +259,11 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	g_assert (stream);
 	
 	output_stream = camel_data_wrapper_get_output_stream (data_wrapper);
+
+	if (!output_stream) 
+		return;
+
+	camel_stream_reset (output_stream);
 
 	while (!camel_stream_eos (output_stream)) {
 		nb_read = camel_stream_read (output_stream, tmp_buf, 4096);

@@ -659,14 +659,27 @@ my_get_content_object (CamelMedium *medium)
 static void
 my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 {
-	CamelMedium *medium = CAMEL_MEDIUM (mime_part);
+	CamelMedium *medium;
 	CamelStream *wrapper_stream;
 	CamelStreamB64 *stream_b64;
 
-	CamelDataWrapper *content = medium->content;
+	CamelDataWrapper *content;
+
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::_write_content_to_stream\n");
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::_write_content_to_stream, content=%p\n", content);
-	if (!content) return;
+
+	g_assert (mime_part);
+
+	medium = CAMEL_MEDIUM (mime_part);
+	content = medium->content;
+	
+	if (!content) { 
+		content = camel_medium_get_content_object (mime_part);
+	}
+		
+	if (!content) {
+		return;
+	}
 
 	switch (mime_part->encoding) {
 	case CAMEL_MIME_PART_ENCODING_DEFAULT:
@@ -677,6 +690,7 @@ my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 	case CAMEL_MIME_PART_ENCODING_BASE64:
 		/* encode the data wrapper output stream in base 64 ... */
 		wrapper_stream = camel_data_wrapper_get_output_stream (content);
+		camel_stream_reset (wrapper_stream);
 		stream_b64 = CAMEL_STREAM_B64 (camel_stream_b64_new_with_input_stream (wrapper_stream));
 		camel_stream_b64_set_mode (stream_b64, CAMEL_STREAM_B64_ENCODER);
 		
@@ -858,8 +872,7 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 									      content_stream_inf_bound, 
 									      -1);
-	
-
+		
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream leaving\n");
 
 }

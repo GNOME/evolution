@@ -138,12 +138,14 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	g_assert (data_wrapper);
 	g_assert (stream);
-	g_assert (simple_data_wrapper->byte_array);
+	
 	array = simple_data_wrapper->byte_array;
-	if (array->len)
+	if ( array && array->len)
 		camel_stream_write (stream, (gchar *)array->data, array->len);
+	else 
+		parent_class->write_to_stream (data_wrapper, stream);
 
-		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving my_write_to_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving my_write_to_stream\n");
 }
 
 

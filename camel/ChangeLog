@@ -1,3 +1,17 @@
+2000-03-03  bertrand  <bertrand@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): 
+	use set_input_stream instead of construct_from_stream
+	to feed the message object. 
+
+	* camel-data-wrapper.c (my_write_to_stream): reset output stream.
+	(my_set_input_stream): unref the previous input stream.
+	use the set_output_stream for default behaviour.
+	(my_set_output_stream): unref previous output stream.
+
+	* camel-mime-part.c (my_write_content_to_stream): reset content
+	object output stream.
+
 2000-03-03  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): Make
