@@ -1,3 +1,8 @@
+2002-03-05  Dan Winship  <danw@ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): Pull up assertion change
+	from evolution-1-0-branch to allow external storages.
+
 2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_unselect): If the clicked column was

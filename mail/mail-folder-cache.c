@@ -733,7 +733,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 	g_assert(CAMEL_IS_STORE(store));
 	g_assert(pthread_self() == mail_gui_thread);
-	g_assert(storage != NULL || corba_storage != CORBA_OBJECT_NIL);
+	g_assert(storage == NULL || corba_storage == CORBA_OBJECT_NIL);
 
 	LOCK(info_lock);
 
