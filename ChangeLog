@@ -1,3 +1,18 @@
+2001-03-28  Dan Winship  <danw@ximian.com>
+
+	* README: add a bit mentioning that if configure claims you don't
+	have something installed when you think you do, that it's probably
+	because you installed it in the wrong prefix, or because you need
+	a -devel package.
+
+	* configure.in: Add a new macro EVO_CHECK_LIB that checks for a
+	gnome-config-based library of a given version or later, correctly,
+	and if doesn't find it, suggests that you consult the README. Fix
+	the various library checks to use this. Meanwhile, remove a bunch
+	of old cruft and reorganize a little.
+
+	* acconfig.h: Remove cruft
+
 2001-03-28  Jon Trowbridge  <trow@ximian.com>
 
 	* AUTHORS: In a burst of egomania, added myself.

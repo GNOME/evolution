@@ -33,6 +33,12 @@ or one of its dependencies to compile, try running the
 "verify-evolution-install.sh" script in the tools/ subdirectory. It
 may be able to figure out what went wrong.
 
+If the configure script complains that you don't have a library that
+you know you have installed, it usually means either that you've
+installed things into multiple prefixes (see the bits on GNOME_PATH
+below) or (if you're on Linux) that you installed the "foo" package
+but forgot the "foo-devel" package.
+
 
 HOW TO BUILD EVOLUTION
 ----------------------

@@ -2,8 +2,6 @@
 AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
-cflags_set=${CFLAGS+set}
-
 EVOLUTION_MAJOR_VERSION=0
 EVOLUTION_MINOR_VERSION=0
 EVOLUTION_MICRO_VERSION=9
@@ -12,6 +10,30 @@ PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
+
+AC_DEFUN(EVO_CHECK_LIB, [
+	dispname="$1"
+	dispvers="$2"
+	pkgname="$3"
+
+	AC_MSG_CHECKING(for $dispname >= $dispvers)
+	cmpvers=`echo $dispvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
+	if gnome-config --libs $pkgname > /dev/null 2>&1; then
+		pkgvers=`gnome-config --modversion $pkgname | sed -e 's/^[[^0-9]]*//'`
+	else
+		pkgvers=not
+	fi
+	AC_MSG_RESULT($pkgvers found)
+
+	pkgvers=`echo $pkgvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
+	if test "$pkgvers" -lt $cmpvers; then
+		echo ""
+		echo "You need $dispname $dispvers or later to build Evolution" 1>&2
+		echo "(If you think you already have this installed, consult the README.)" 1>&2
+		exit 1
+	fi
+])
+
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
@@ -38,42 +60,16 @@ AM_PROG_XML_I18N_TOOLS
 dnl Initialize libtool
 AM_PROG_LIBTOOL
 
-AC_CANONICAL_HOST
-
 AM_ACLOCAL_INCLUDE(macros)
-GNOME_INIT(capplet)
+GNOME_INIT()
 GNOME_COMPILE_WARNINGS
-
-AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
-AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
-
-AC_MSG_CHECKING(system mail directory)
-if test -d /var/mail; then
-	system_mail_dir=/var/mail
-else
-	system_mail_dir=/var/spool/mail
-fi
-AC_MSG_RESULT($system_mail_dir)
-AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
-
-dnl Check for new enough gnome-libs
-CFLAGS_save=$CFLAGS
-LIBS_save=$LIBS
-CFLAGS=`gnome-config --cflags gnomeui`
-LIBS=`gnome-config --libs gnomeui`
-
-AC_CHECK_LIB(gnomeui, gnome_dialog_grab_focus, ,[
-AC_MSG_ERROR(gnome-libs 1.2.9 or higher is required.)])
-
-CFLAGS=$CFLAGS_save
-LIBS=$LIBS_save
+GNOME_X_CHECKS
+EVO_CHECK_LIB(gnome-libs, 1.2.9, gnome)
 
 ALL_LINGUAS="az ca da de el en_GB es fi fr ga gl hu it ja ko lt nl nn no pl pt pt_BR ru sk sl sv tr uk"
 AM_GNOME_GETTEXT
 localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
-
-GNOME_X_CHECKS
 
 dnl
 dnl Purify support
@@ -92,6 +88,18 @@ fi
 AC_SUBST(PURIFY)
 AM_CONDITIONAL(ENABLE_PURIFY, test "x$enable_purify" = "xyes" -a "x$PURIFY" != "ximpure")
 PURIFY="$PURIFY $PURIFYOPTIONS"
+
+
+AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
+AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
+
+AC_MSG_CHECKING(system mail directory)
+if test -d /var/mail; then
+	system_mail_dir=/var/mail
+else
+	system_mail_dir=/var/spool/mail
+fi
+AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
 
 dnl * Time zone stuff
 AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
@@ -258,132 +266,34 @@ else
   fi
 fi
 
-dnl **************************************************
-dnl * Print check
-dnl **************************************************
-AC_MSG_CHECKING(for GnomePrint libraries version either 0.20 or later)
-  if gnome-config --libs print > /dev/null 2>&1; then 
-    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 20; then
-      if test "$vers" -ge 21; then
-          AC_MSG_RESULT(found >=0.21)
-      else
-          AC_MSG_RESULT(found 0.20)
-	  AC_DEFINE(USING_GNOME_PRINT_0_20)
-      fi
-    else
-        AC_MSG_ERROR(Please upgrade your gnome-print to version 0.20 or later.)
-    fi
-  else
-     AC_MSG_ERROR(Did not find GnomePrint installed)
-  fi
-
-GNOME_PRINT_LIBS=`gnome-config --libs print`
-GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
-AC_SUBST(GNOME_PRINT_LIBS)
-AC_SUBST(GNOME_PRINT_CFLAGS)
-
-dnl ******************************
-dnl Check for Bonobo
-dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.36)
-if gnome-config --libs bonobox > /dev/null 2>&1; then
-	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
-		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
-	if test "$vers" -ge 36; then
-		bonobo_ok=true
-	else
-		bonobo_ok=false
-	fi
-else
-	bonobo_ok=false
-fi
-
-if $bonobo_ok; then
-	AC_MSG_RESULT($vers found)
-else
-	AC_MSG_ERROR(Bonobo 0.36 or newer is required to compile Evolution)
-fi
-
-dnl ******************************
-dnl OAF
-dnl ******************************
-
-AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
-if test x$OAF_CONFIG = xno; then
-	AC_MSG_ERROR("The oaf-config program was not found")
-else
-	OAF_LIBS=`$OAF_CONFIG --libs`
-	OAF_CFLAGS=`$OAF_CONFIG --cflags`
-fi
-
-AC_SUBST(OAF_LIBS)
-AC_SUBST(OAF_CFLAGS)
 
 
-dnl ******************************
-dnl LibGlade checking
-dnl ******************************
-AC_MSG_CHECKING(for Glade libraries)
-if gnome-config --libs libglade > /dev/null 2>&1; then 
-    AC_MSG_RESULT(found)
-else
-    AC_MSG_ERROR(Did not find libGlade installed)
-fi
+dnl ***************
+dnl GNOME Libraries
+dnl ***************
+EVO_CHECK_LIB(Bonobo, 0.36, bonobox)
+EVO_CHECK_LIB(OAF, 0.6, oaf)
+EVO_CHECK_LIB(libglade, 0.14, libglade)
+EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, 0.9.0, gnomecanvaspixbuf)
+EVO_CHECK_LIB(GAL, 0.5.99.12, gal)
+EVO_CHECK_LIB(GtkHTML, 0.8, gtkhtml)
+EVO_CHECK_LIB(GNOME-VFS, 0.4.2, vfs)
+EVO_CHECK_LIB(libxml, 1.8.10, xml)
 
-dnl ******************************
-dnl libunicode checking
-dnl ******************************
-AC_MSG_CHECKING(for libunicode)
-if unicode-config --libs > /dev/null 2>&1; then 
-    UNICODE_LIBS=`unicode-config --libs`
-    UNICODE_CFLAGS=`unicode-config --cflags`
-    AC_SUBST(UNICODE_LIBS)
-    AC_SUBST(UNICODE_CFLAGS)
-    AC_MSG_RESULT(found)
-else
-    AC_MSG_ERROR(libunicode not found)
-fi
 
-dnl ******************************
-dnl GdkPixbuf checking
-dnl ******************************
-AC_MSG_CHECKING(for Gdkpixbuf libraries)
-if gnome-config --libs gdk_pixbuf gnomecanvaspixbuf > /dev/null 2>&1; then 
-    AC_MSG_RESULT(found)
-else
-    AC_MSG_ERROR(Did not find gdkpixbuf installed)
-fi
-
-dnl ******************************
-dnl Gnome App Lib checking
-dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.5.99.11)
-if gnome-config --libs gal > /dev/null 2>&1; then 
-    vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
-        awk 'BEGIN { FS = "."; } { print $1 * 1000000 + $2 * 10000 + $3 * 100 + $4;}'`
-    if test "$vers" -ge 59911; then
-        AC_MSG_RESULT(found)
-    else
-        AC_MSG_ERROR(You need at least GNOME Application libs 0.5.99.11 for this version of Evolution)
-    fi
-else
-    AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
-fi
-
+dnl *************************
+dnl CFLAGS and LIBS and stuff
+dnl *************************
 GLIB_CFLAGS="`glib-config --cflags`"
 GLIB_LIBS="`glib-config --libs`"
-
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
-
 
 EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS $UNICODE_LIBS"
 EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS $UNICODE_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
-
 
 BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
 BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
@@ -395,31 +305,13 @@ BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixb
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
-dnl ******************************
-dnl GtkHTML checking
-dnl ******************************
-
-AC_MSG_CHECKING(for GtkHTML)
-if gnome-config --libs gtkhtml > /dev/null 2>&1; then
-	vers=`gnome-config --modversion gtkhtml`
-	case $vers
-	in
-	    gtkhtml-0.[012345678]) gtkhtml_ok=false ;;
-	    *) gtkhtml_ok=true ;;
-	esac
-else
-	gtkhtml_ok=false
-fi
-
-if $gtkhtml_ok; then
-	AC_MSG_RESULT($vers found)
-else
-	AC_MSG_ERROR(GtkHTML 0.8 or later is required to compile Evolution)
-fi
+GNOME_PRINT_LIBS=`gnome-config --libs print`
+GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
+AC_SUBST(GNOME_PRINT_LIBS)
+AC_SUBST(GNOME_PRINT_CFLAGS)
 
 GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"
 GTKHTML_LIBS="`gnome-config --libs gtkhtml`"
-
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
@@ -443,27 +335,6 @@ You need GtkHTML build with html-editor-control)
 fi
 
 AC_SUBST(GTK_HTML_EDITOR_IDL)
-
-dnl ******************************
-dnl Gnome-VFS checking
-dnl ******************************
-AC_MSG_CHECKING(for GNOME-VFS)
-if gnome-config --libs vfs > /dev/null 2>&1; then
-	vers=`gnome-config --modversion vfs`
-	case $vers
-	in
-	    gnome-vfs-0.[012]) vfs_ok=false ;;
-	    *) vfs_ok=true ;;
-	esac
-else
-	vfs_ok=false
-fi
-
-if $vfs_ok; then
-	AC_MSG_RESULT($vers)
-else
-	AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
-fi
 
 GNOME_VFS_LIBS="`gnome-config --libs vfs`"
 GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
@@ -489,21 +360,6 @@ if test x$enable_pilot_conduits = xyes; then
 else
    msg_pilot=no
 fi
-
-dnl ******
-dnl XML
-dnl ******
-GNOME_XML_CHECK
-xmlversion=`xml-config --version | sed 's/^libxml//'`
-xmlmajor=`echo $xmlversion | awk -F. '{print $1;}'`
-xmlminor=`echo $xmlversion | awk -F. '{print $2;}'`
-xmlpatch=`echo $xmlversion | awk -F. '{print $3;}'`
-if test "$xmlmajor" -ne 1 -o "$xmlminor" -ne 8 -o "$xmlpatch" -lt 7; then
-	AC_MSG_ERROR(gnome-xml 1.8.7 (or later, but not 2.0) is required to compile Evolution)
-fi
-
-AC_SUBST(CAPPLET_LIBS)
-
 
 dnl ********
 dnl Kerberos
