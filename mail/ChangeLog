@@ -1,3 +1,8 @@
+2001-01-16  Dan Winship  <danw@ximian.com>
+
+	* mail-ops.c (send_mail_send, do_send_queue): Update the X-Mailer
+	header to use the string specified by configure.
+
 2001-01-16  Jason Leach  <jasonleach@usa.net>
 
 	* subscribe-dialog.c: removed unecessary #inlcude "e-title-bar.h"

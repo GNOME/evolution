@@ -556,7 +556,7 @@ static void send_mail_send(struct _mail_msg *mm)
 	CamelTransport *xport;
 	FilterContext *context;
 
-	camel_medium_add_header(CAMEL_MEDIUM (m->message), "X-Mailer", "Evolution " VERSION " (Developer Preview)");
+	camel_medium_add_header(CAMEL_MEDIUM (m->message), "X-Mailer", "Evolution (" XMAILER_VERSION " - Preview Release)");
 	camel_mime_message_set_date(m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
 	xport = camel_session_get_transport(session, m->uri, &mm->ex);
@@ -682,16 +682,12 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 	extern CamelFolder *sent_folder;
 	CamelTransport *xport;
 	GPtrArray *uids;
-	char *x_mailer;
 	guint32 set;
 	int i;
 	
 	uids = camel_folder_get_uids (input->folder_queue);
 	if (!uids)
 		return;
-	
-	x_mailer = g_strdup_printf ("Evolution %s (Developer Preview)",
-				    VERSION);
 	
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
@@ -701,7 +697,7 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 		if (camel_exception_is_set (ex))
 			break;
 		
-		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
+		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", "Evolution (" XMAILER_VERSION " - Preview Release)");
 		
 		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 		
@@ -738,8 +734,6 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 			g_free (info);
 		}
 	}
-	
-	g_free (x_mailer);
 	
 	for (i = 0; i < uids->len; i++)
 		g_free (uids->pdata[i]);
