@@ -23,6 +23,7 @@ SUBDIRS =			\
 	addressbook		\
 	shell			\
 	mail			\
+	libical			\
 	libversit		\
 	calendar
 
