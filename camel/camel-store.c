@@ -122,6 +122,8 @@ camel_store_init (void *o)
 	
 	/* set vtrash on by default */
 	store->flags = CAMEL_STORE_VTRASH;
+
+	store->dir_sep = '/';
 	
 	store->priv = g_malloc0 (sizeof (*store->priv));
 #ifdef ENABLE_THREADS
@@ -433,17 +435,6 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 		guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 		CamelRenameInfo reninfo;
 
-		/* Emit changed signal */
-		if (store->flags & CAMEL_STORE_SUBSCRIPTIONS)
-			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
-		
-		reninfo.old_base = (char *)old_name;
-		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
-		if (info.new != NULL) {
-			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
-			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
-		}
-
 		CAMEL_STORE_LOCK(store, cache_lock);
 		for (i=0;i<info.folders->len;i++) {
 			char *new;
@@ -464,6 +455,17 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 			camel_object_unref((CamelObject *)folder);
 		}
 		CAMEL_STORE_UNLOCK(store, cache_lock);
+
+		/* Emit changed signal */
+		if (store->flags & CAMEL_STORE_SUBSCRIPTIONS)
+			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+		
+		reninfo.old_base = (char *)old_name;
+		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
+		if (info.new != NULL) {
+			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
+			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
+		}
 	} else {
 		/* Failed, just unlock our folders for re-use */
 		for (i=0;i<info.folders->len;i++) {

@@ -666,6 +666,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 				sep = imap_parse_string (&name, &len);
 				if (sep) {
 					store->dir_sep = *sep;
+					((CamelStore *)store)->dir_sep = store->dir_sep;
 					g_free (sep);
 				}
 			}
@@ -700,8 +701,10 @@ imap_connect_online (CamelService *service, CamelException *ex)
 			imap_parse_list_response (store, result, NULL, &store->dir_sep, NULL);
 			g_free (result);
 		}
-		if (!store->dir_sep)
+		if (!store->dir_sep) {
 			store->dir_sep = '/';	/* Guess */
+			((CamelStore *)store)->dir_sep = store->dir_sep;
+		}
 	}
 
 	/* canonicalize the namespace to end with dir_sep */
@@ -792,6 +795,7 @@ imap_connect_offline (CamelService *service, CamelException *ex)
 	camel_file_util_decode_string (storeinfo, &store->namespace);
 	camel_file_util_decode_uint32 (storeinfo, &tmp);
 	store->dir_sep = tmp;
+	((CamelStore *)store)->dir_sep = tmp;
 
 	/* Get subscribed folders */
 	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);

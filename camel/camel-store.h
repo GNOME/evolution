@@ -78,6 +78,11 @@ struct _CamelStore
 	GHashTable *folders;
 
 	int flags;
+
+	/* FIXME: This is a temporary measure until IMAP namespaces are properly implemented,
+	   after that, all external folder api's will assume a dir separator of '/' */
+	/* This is always a copy of IMAP_STORE()->dir_sep, or '/' */
+	char dir_sep;
 };
 
 

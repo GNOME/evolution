@@ -1,7 +1,32 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Use path not protocol as the path
+	part of the uri of the folder_created event.
+
+	* providers/local/camel-maildir-store.c (scan_dir): If FAST is
+	set, dont try and scan for unread counts.
+
+	* providers/local/camel-local-store.c (create_folder): Implement,
+	just return the folderinfo of the folder matched, not all of it.
+
+	* camel-store.c (camel_store_rename_folder): Rename the
+	camelfolders before emitting the folderchanged event (otherwise
+	vstore fails to pick up change.
+
 2001-10-27    <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_init): Always use a default dir_sep
+	of '/'.
+
+	* camel-store.h (struct _CamelStore): Added a dir_sep to the base
+	store so rename and whatnot can work, temporary fix for mixed dir
+	separator in folder name api's.
 
 	* providers/imap/camel-imap-store.c (rename_folder): Finished
 	implementation.
+	(imap_connect_online): Also set the store's dir_sep here.
+	(imap_connect_offline): "
 
 	* providers/local/camel-local-folder.c (local_rename): Implement
 	local rename of folder objects.
