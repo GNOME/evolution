@@ -1,3 +1,8 @@
+1998-08-26  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Use `AC_MSG_WARN'
+	if LibGTop cannot be found and the `fail' argument is not given.
+
 1998-08-24  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-support.m4 (GCC_NEED_DECLARATIONS): Added `setreuid',

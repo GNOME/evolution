@@ -82,7 +82,7 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	  if test "x$3" = "xfail"; then
 	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
 	  else
-	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
+	    AC_MSG_WARN(LibGTop >= $min_libgtop_version not found)
 	  fi
 	fi
 
