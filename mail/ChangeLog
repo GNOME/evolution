@@ -1,3 +1,9 @@
+2001-08-16  Jason Leach  <jleach@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): Only starting cutting
+	the signature out when we match "-- \n", so "--\n" in the middle
+	of a mail won't omit the rest for a quoted reply.  Bug #7454.
+
 2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (confirm_expunge): Respect the user's desire to
