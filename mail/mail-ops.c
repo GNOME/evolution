@@ -43,6 +43,7 @@
 #include "composer/e-msg-composer.h"
 #include "folder-browser.h"
 #include "e-util/e-html-utils.h"
+#include "e-util/e-unicode-i18n.h"
 
 #include "filter/filter-filter.h"
 
@@ -1078,8 +1079,8 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	}
 	
 	/* Fill in the new fields */
-	vtrash->full_name = g_strdup (_("Trash"));
-	vtrash->name = g_strdup (_("Trash"));
+	vtrash->full_name = g_strdup (U_("Trash"));
+	vtrash->name = g_strdup (U_("Trash"));
 	vtrash->url = g_strdup_printf ("vtrash:%s", uri);
 	vtrash->unread_message_count = -1;
 	g_free (uri);
