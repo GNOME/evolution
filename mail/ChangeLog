@@ -1,3 +1,9 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_remove_xevolution_headers): Oops, forgot
+	about X-Evolution-Format.
+	(mail_tool_restore_xevolution_headers): Same.
+
 2001-09-18  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (folder_browser_set_uri): Merged into

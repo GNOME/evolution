@@ -28,12 +28,13 @@
 #include <camel/camel.h>
 #include <camel/camel-filter-driver.h> /*eek*/
 
-typedef struct xevolution {
+typedef struct _xevolution {
 	char *flags;
 	char *source;
 	char *transport;
 	char *account;
 	char *fcc;
+	char *format;
 } XEvolution;
 
 /* Get a CamelFolder from a root url and a foldername (uses the global session)*/
