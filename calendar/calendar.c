@@ -4,7 +4,7 @@
  * This keeps track of a given calendar.  Eventually this will abtract everything
  * related to getting calendars/saving calendars locally or to a remote Calendar Service
  *
- * Copyright (C) 1998, 1999 the Free Software Foundation
+ * Copyright (C) 1998 the Free Software Foundation
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -12,8 +12,6 @@
  *
  */
 
-#include <gnome.h>
-#include <stdio.h>
 #include <config.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -40,8 +38,6 @@ calendar_new (char *title)
 
 	cal->title = g_strdup (title);
 
-	cal->event_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	
 	calendar_init_alarms (cal);
 	
 	return cal;
@@ -76,7 +72,7 @@ add_object_alarms (iCalObject *obj, time_t start, time_t end, void *closure)
 
 #define max(a,b) ((a > b) ? a : b)
 
-static void
+void
 ical_object_try_alarms (iCalObject *obj)
 {
 	int ao, po, od, mo;
@@ -97,14 +93,9 @@ ical_object_try_alarms (iCalObject *obj)
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (obj != NULL);
-	g_return_if_fail (obj->uid != NULL);
-	
 	obj->new = 0;
 	switch (obj->type){
 	case ICAL_EVENT:
-		g_hash_table_insert (cal->event_hash, obj->uid, obj);
 		cal->events = g_list_prepend (cal->events, obj);
 		ical_object_try_alarms (obj);
 #ifdef DEBUGGING_MAIL_ALARM
@@ -142,7 +133,6 @@ calendar_remove_object (Calendar *cal, iCalObject *obj)
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_remove (cal->events, obj);
-		g_hash_table_remove (cal->event_hash, obj->uid);
 		break;
 
 	case ICAL_TODO:
@@ -171,14 +161,23 @@ calendar_destroy (Calendar *cal)
 	g_list_foreach (cal->journal, (GFunc) ical_object_destroy, NULL);
 	g_list_free (cal->journal);
 
-	g_hash_table_destroy (cal->event_hash);
-	
 	if (cal->title)
 		g_free (cal->title);
 	if (cal->filename)
 		g_free (cal->filename);
 	
 	g_free (cal);
+}
+
+char *
+ice (time_t t)
+{
+	static char buffer [100];
+	struct tm *tm;
+
+	tm = localtime (&t);
+	sprintf (buffer, "%d/%d/%d", tm->tm_mday, tm->tm_mon, tm->tm_year);
+	return buffer;
 }
 
 void
@@ -324,42 +323,18 @@ calendar_load (Calendar *cal, char *fname)
 	return NULL;
 }
 
-/*
- * calendar_load_from_memory:
- * @cal: calendar on which we load the information
- * @buffer: A buffer that contains a vCalendar file
- *
- * Loads the information from the vCalendar information in @buffer
- * into the Calendar
- */
-char *
-calendar_load_from_memory (Calendar *cal, const char *buffer)
-{
-	VObject *vcal;
-	
-	g_return_val_if_fail (buffer != NULL, NULL);
-	
-	cal->filename = g_strdup ("memory-based-calendar");
-	vcal = Parse_MIME (buffer, strlen (buffer));
-	if (!vcal)
-		return "Could not load the calendar";
-
-	cal->file_time = time (NULL);
-	calendar_load_from_vobject (cal, vcal);
-	cleanVObject (vcal);
-	cleanStrTbl ();
-
-	return NULL;
-}
-
-static VObject *
-vcalendar_create_from_calendar (Calendar *cal)
+void
+calendar_save (Calendar *cal, char *fname)
 {
 	VObject *vcal;
 	GList   *l;
 	time_t  now = time (NULL);
+	struct  stat s;
 	struct tm *tm;
 	
+	if (fname == NULL)
+		fname = cal->filename;
+
 	/* WE call localtime for the side effect of setting tzname */
 	tm = localtime (&now);
 	
@@ -391,22 +366,6 @@ vcalendar_create_from_calendar (Calendar *cal)
 		addVObjectProp (vcal, obj);
 	}
 
-	return vcal;
-}
-
-void
-calendar_save (Calendar *cal, char *fname)
-{
-	VObject *vcal;
-	FILE *fp;
-	GtkWidget *dlg;
-	struct  stat s;
-	int status;
-	
-	if (fname == NULL)
-		fname = cal->filename;
-
-	vcal = vcalendar_create_from_calendar (cal);
 	if (g_file_exists (fname)){
 		char *backup_name = g_strconcat (fname, "~", NULL);
 
@@ -416,43 +375,13 @@ calendar_save (Calendar *cal, char *fname)
 		rename (fname, backup_name);
 		g_free (backup_name);
 	}
+	writeVObjectToFile (fname, vcal);
 
-    fp = fopen(fname,"w");
-    if (fp) {
-		writeVObject(fp, vcal);
-		fclose(fp);
-		if (strcmp(cal->filename, fname)) {
-			if (cal->filename)
-				g_free (cal->filename);
-			cal->filename = g_strdup (fname);
-		}
-		status = stat (fname, &s);
-		cal->file_time = s.st_mtime;
-	} else {
-		dlg = gnome_message_box_new(_("Failed to save calendar!"), 
-											GNOME_MESSAGE_BOX_ERROR, "Ok", NULL);
-		gtk_widget_show(dlg);
-	}
-
-	cleanVObject (vcal);
-	cleanStrTbl ();
-}
-
-char *
-calendar_get_as_vcal_string (Calendar *cal)
-{
-	VObject *vcal;
-	char *result;
+	stat (fname, &s);
+	cal->file_time = s.st_mtime;
 	
-	g_return_val_if_fail (cal != NULL, NULL);
-
-	vcal = vcalendar_create_from_calendar (cal);
-	result = writeMemVObject (NULL, 0, vcal);
-
 	cleanVObject (vcal);
 	cleanStrTbl ();
-
-	return result;
 }
 
 static gint
@@ -513,8 +442,6 @@ calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
 	while (alarm_kill (obj))
 		;
 	ical_object_try_alarms (obj);
-
-	obj->pilot_status = ICAL_PILOT_SYNC_MOD;
 }
 
 static void
@@ -541,99 +468,3 @@ calendar_init_alarms (Calendar *cal)
 	alarm_add (&day_change_alarm, calendar_day_change, cal);
 }
 
-static iCalObject *
-calendar_object_find_in_list (Calendar *cal, GList *list, const char *uid)
-{
-	GList *l;
-
-	for (l = list; l; l = l->next){
-		iCalObject *obj = l->data;
-
-		if (strcmp (obj->uid, uid) == 0)
-			return obj;
-	}
-
-	return NULL;
-}
-
-iCalObject *
-calendar_object_find_event (Calendar *cal, const char *uid)
-{
-	g_return_val_if_fail (cal != NULL, NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
-
-	return g_hash_table_lookup (cal->event_hash, uid);
-}
-
-iCalObject *
-calendar_object_find_todo (Calendar *cal, const char *uid)
-{
-	g_return_val_if_fail (cal != NULL, NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
-
-	return calendar_object_find_in_list (cal, cal->todo, uid);
-}
-
-iCalObject *
-calendar_object_find (Calendar *cal, const char *uid)
-{
-	iCalObject *obj;
-	
-	g_return_val_if_fail (cal != NULL, NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
-
-	obj = calendar_object_find_in_list (cal, cal->todo, uid);
-
-	if (obj == NULL)
-		obj = calendar_object_find_in_list (cal, cal->events, uid);
-
-	return obj;
-}
-
-iCalObject *
-calendar_object_find_by_pilot (Calendar *cal, int pilot_id)
-{
-	GList *l;
-	
-	g_return_val_if_fail (cal != NULL, NULL);
-
-	for (l = cal->events; l; l = l->next){
-		iCalObject *obj = l->data;
-
-		if (obj->pilot_id == pilot_id)
-			return obj;
-	}
-
-	for (l = cal->todo; l; l = l->next){
-		iCalObject *obj = l->data;
-
-		if (obj->pilot_id == pilot_id)
-			return obj;
-	}
-
-	return NULL;
-}
-
-/*
- * calendar_string_from_object:
- *
- * Returns the iCalObject @object armored around a vCalendar
- * object as a string.
- */
-char *
-calendar_string_from_object (iCalObject *object)
-{
-	Calendar *cal;
-	char *str;
-
-	g_return_val_if_fail (object != NULL, NULL);
-	
-	cal = calendar_new ("Temporal");
-	calendar_add_object (cal, object);
-	str = calendar_get_as_vcal_string (cal);
-	calendar_remove_object (cal, object);
-
-	calendar_destroy (cal);
-	
-	return str;
-}

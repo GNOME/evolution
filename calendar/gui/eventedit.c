@@ -59,6 +59,15 @@ event_editor_class_init (EventEditorClass *class)
 	object_class->destroy = event_editor_destroy;
 }
 
+GtkWidget *
+adjust (GtkWidget *w, gfloat x, gfloat y, gfloat xs, gfloat ys)
+{
+	GtkWidget *a = gtk_alignment_new (x, y, xs, ys);
+	
+	gtk_container_add (GTK_CONTAINER (a), w);
+	return a;
+}
+
 static GtkWidget *
 make_spin_button (int val, int low, int high)
 {
@@ -423,7 +432,7 @@ ee_classification_widgets (EventEditor *ee)
  * Retrieves the information from the CalendarAlarm widgets and stores them
  * on the CalendarAlarm generic values
  */
-static void
+void
 ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 {
 	GtkWidget *item;
@@ -1469,6 +1478,7 @@ static void
 event_editor_init (EventEditor *ee)
 {
 	ee->ical = 0;
+	gtk_window_set_title (GTK_WINDOW (ee), _("Create new appointment"));
 	gnome_dialog_set_close (GNOME_DIALOG(ee), TRUE);
 }
 
@@ -1501,12 +1511,6 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	if (ical == 0){
 		ical = ical_new ("", user_name, "");
 		ical->new     = 1;
-	} 
-
-	if (ical->new){
-		gtk_window_set_title (GTK_WINDOW (ee), _("Create new appointment"));
-	} else {
-		gtk_window_set_title (GTK_WINDOW (ee), _("Edit appointment"));
 	}
 
 	ical->user_data = ee; /* so that the world can know we are editing it */

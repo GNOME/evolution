@@ -44,10 +44,11 @@ gnome_calendar_get_type (void)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
+	GtkWidget *sw;
 	time_t now;
 
 	now = time (NULL);
-
+	
 	gcal->notebook   = gtk_notebook_new ();
 	gcal->day_view   = gncal_day_panel_new (gcal, now);
 	gcal->week_view  = gncal_week_view_new (gcal, now);
@@ -59,13 +60,11 @@ setup_widgets (GnomeCalendar *gcal)
 					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
 	gtk_container_add (GTK_CONTAINER (gcal->year_view_sw), gcal->year_view);
-	GTK_LAYOUT (gcal->year_view)->vadjustment->step_increment = 10.0;
-	gtk_adjustment_changed (GTK_ADJUSTMENT (GTK_LAYOUT (gcal->year_view)->vadjustment));
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view,  gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->month_view, gtk_label_new (_("Month View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view_sw,  gtk_label_new (_("Year View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view_sw,  gtk_label_new (_("Year View"))); 
 
 	gtk_widget_show_all (gcal->notebook);
 
@@ -133,7 +132,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 {
 	GtkWidget *cp = get_current_page (gcal);
 	time_t new_time;
-
+	
 	if (cp == gcal->day_view)
 		new_time = time_add_day (time_day_begin (gcal->current_display), 1 * direction);
 	else if (cp == gcal->week_view)
@@ -184,7 +183,7 @@ gnome_calendar_goto_today (GnomeCalendar *gcal)
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
+	
 	gnome_calendar_goto (gcal, time (NULL));
 }
 
@@ -196,7 +195,7 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (page_name != NULL);
-
+	
 
 	if (strcmp (page_name, "dayview") == 0)
 		page = 0;
@@ -215,21 +214,19 @@ gnome_calendar_new (char *title)
 	GtkWidget      *retval;
 	GnomeCalendar  *gcal;
 	GnomeApp       *app;
-
+		
 	retval = gtk_type_new (gnome_calendar_get_type ());
 	app = GNOME_APP (retval);
 	gcal = GNOME_CALENDAR (retval);
-
+	
 	app->name = g_strdup ("calendar");
 	app->prefix = g_strconcat ("/", app->name, "/", NULL);
-
+	
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
 	gcal->current_display = time_day_begin (time (NULL));
 	gcal->cal = calendar_new (title);
 	setup_widgets (gcal);
-	gnome_calendar_create_corba_server (gcal);
-
 	return retval;
 }
 
@@ -250,7 +247,7 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 	g_return_val_if_fail (gcal != NULL, 0);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
 	g_return_val_if_fail (file != NULL, 0);
-
+	
 	if ((r = calendar_load (gcal->cal, file)) != NULL){
 		printf ("Error loading calendar: %s\n", r);
 		return 0;
@@ -318,12 +315,12 @@ execute (char *command, int close_standard)
 	struct sigaction ignore, save_intr, save_quit;
 	int status = 0, i;
 	pid_t pid;
-
+	
 	ignore.sa_handler = SIG_IGN;
 	sigemptyset (&ignore.sa_mask);
 	ignore.sa_flags = 0;
-
-	sigaction (SIGINT, &ignore, &save_intr);
+    
+	sigaction (SIGINT, &ignore, &save_intr);    
 	sigaction (SIGQUIT, &ignore, &save_quit);
 
 	if ((pid = fork ()) < 0){
@@ -336,16 +333,16 @@ execute (char *command, int close_standard)
 			const int top = max_open_files ();
 			sigaction (SIGINT,  &save_intr, NULL);
 			sigaction (SIGQUIT, &save_quit, NULL);
-
+			
 			for (i = (close_standard ? 0 : 3); i < top; i++)
 				close (i);
-
+			
 			/* FIXME: As an excercise to the reader, copy the
 			 * code from mc to setup shell properly instead of
 			 * /bin/sh.  Yes, this comment is larger than a cut and paste.
 			 */
 			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
-
+			
 			_exit (127);
 		} else {
 			_exit (127);
@@ -362,7 +359,7 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 	pid_t pid;
 	int   p [2];
 	char *command;
-
+	
 	pipe (p);
 	pid = fork ();
 	if (pid == 0){
@@ -397,7 +394,7 @@ static gint
 start_beeping (gpointer data)
 {
 	gdk_beep ();
-
+	
 	return TRUE;
 }
 
@@ -406,7 +403,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {
 	iCalObject *ico = data;
 	guint tag;
-
+		
 	if (&ico->aalarm == which){
 		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
 		GtkWidget *w;
@@ -463,11 +460,11 @@ mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
 
 	tm_s = *localtime (&start);
 	day_end = time_day_end (end);
-
+	
 	for (t = start; t <= day_end; t += 60*60*24){
 		time_t new = mktime (&tm_s);
 		struct tm tm_day;
-
+		
 		tm_day = *localtime (&new);
 		gtk_calendar_mark_day (gtk_cal, tm_day.tm_mday);
 		tm_s.tm_mday++;
@@ -540,14 +537,14 @@ gnome_calendar_colors_changed (GnomeCalendar *gcal)
 	todo_list_properties_changed (GNCAL_DAY_PANEL (gcal->day_view));
 }
 
-void
-gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
+void 
+gnome_calendar_todo_properties_changed (GnomeCalendar *gcal) 
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
+	
 	/* FIXME: add day and week view when they are done */
-
+	
 	todo_style_changed = 1;
 	todo_list_properties_changed (GNCAL_DAY_PANEL (gcal->day_view));
 }

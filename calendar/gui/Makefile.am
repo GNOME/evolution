@@ -1,47 +1,15 @@
 SUBDIRS = doc
 
-idldir = $(datadir)/idl
-idl_DATA = GnomeCal.idl
-
-gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = gnomecal.gnorba
-
 help_base = $(datadir)/gnome/help/cal
-
-if HAVE_GNOME_PILOT
-EXTRA_PROGRAMS = todo-conduit-control-applet calendar-conduit-control-applet
-endif
-bin_PROGRAMS = gnomecal 
 
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
-	$(GNOME_CONDUIT_INCLUDEDIR)				\
-	$(PISOCK_INCLUDEDIR)                  \
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-GNOMECAL_CORBA_GENERATED =	\
-	GnomeCal.h		\
-	GnomeCal.c		\
-	GnomeCal-common.c	\
-	GnomeCal-skels.c	\
-	GnomeCal-stubs.c
-
-$(GNOMECAL_CORBA_GENERATED): my_gnomecal_idl
-
-my_gnomecal_idl: GnomeCal.idl
-	orbit-idl $(srcdir)/GnomeCal.idl
-	touch my_gnomecal_idl
-
-corba-cal.c		\
-corba-cal.h		\
-corba-cal-factory.c	\
-corba-cal-factory.h: GnomeCal.h
+bin_PROGRAMS = gnomecal
 
 gnomecal_SOURCES = \
-	GnomeCal-common.c	\
-	GnomeCal-skels.c	\
-	GnomeCal.h		\
 	alarm.c			\
 	alarm.h			\
 	calendar.c		\
@@ -51,10 +19,6 @@ gnomecal_SOURCES = \
 	eventedit.c		\
 	eventedit.h		\
 	getdate.y		\
-	corba-cal.c		\
-	corba-cal.h		\
-	corba-cal-factory.c	\
-	corba-cal-factory.h	\
 	gncal-day-panel.c	\
 	gncal-day-panel.h	\
 	gncal-day-view.c	\
@@ -91,106 +55,21 @@ gnomecal_SOURCES = \
 	year-view.c		\
 	year-view.h
 
-calendar_pilot_sync_SOURCES =	\
-	GnomeCal-common.c	\
-	GnomeCal-stubs.c	\
-	alarm.c			\
-	calendar-pilot-sync.c	\
-	calobj.c		\
-	calobj.h		\
-	calendar.c		\
-	calendar.h		\
-	timeutil.c		\
-	timeutil.h
-
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
 	$(INTLLIBS) ../libversit/libversit.a
 
-calendar_pilot_sync_LDADD =	\
-	$(PISOCK_LIBS)		\
-	$(LINK_FLAGS)
 
-
-if HAVE_GNOME_PILOT
-#calendar_conduit
-calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
-
-calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
-
-libcalendar_conduit_la_SOURCES = \
-	calendar-conduit.c
-
-libcalendar_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
-
-libcalendar_conduit_la_LIBADD = \
-	$(PISOCK_LIBS) \
-	$(GNOME_LIBDIR) \
-	$(GNOME_LIBS)
-
-calendar_conduit_control_applet_SOURCES = \
-	calendar-conduit-control-applet.c
-
-calendar_conduit_control_applet_LDADD = \
-	$(CAPPLET_LIBS) \
-	$(GNOME_LIBDIR) \
-        $(GNOME_CAPPLET_LIBS) \
-        $(PISOCK_LIBS) \
-        $(GNOMEUI_LIBS) \
-        $(PISOCK_LIBS) \
-	$(GNOME_PILOT_LIBS) \
-        $(INTLLIBS) 
-
-#todo_conduit
-todo_conduitsdir=$(libdir)/gnome-pilot/conduits
-
-todo_conduits_LTLIBRARIES = libtodo_conduit.la
-
-libtodo_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
-
-libtodo_conduit_la_LIBADD = \
-	$(GNOME_LIBDIR) \
-	$(GNOME_LIBS)
-
-libtodo_conduit_la_SOURCES = \
-	todo-conduit.c
-
-todo_conduit_control_applet_SOURCES = \
-	todo-conduit-control-applet.c
-
-todo_conduit_control_applet_LDADD = \
-	$(CAPPLET_LIBS) \
-	$(GNOME_LIBDIR) \
-        $(GNOME_CAPPLET_LIBS) \
-        $(PISOCK_LIBS) \
-        $(GNOMEUI_LIBS) \
-        $(PISOCK_LIBS) \
-	$(GNOME_PILOT_LIBS) \
-        $(INTLLIBS) 
-endif # HAVE_GNOME_PILOT
+#gncal_LDADD = $(LINK_FLAGS)
 
 gnomecal_LDADD = $(LINK_FLAGS)
-
-if HAVE_GNOME_PILOT
-ccenterdir = $(datadir)/control-center
-Rootdir = $(ccenterdir)
-PalmPilotdir = $(ccenterdir)/Peripherals/PalmPilot
-Conduitsdir = $(PalmPilotdir)/Conduits
-
-Conduits_DATA = \
-	calendar-conduit-control-applet.desktop \
-	todo-conduit-control-applet.desktop 
-endif
 
 EXTRA_DIST = \
 	gncal.desktop	\
 	bell.xpm	\
-	recur.xpm	\
-	$(idl_DATA)	\
-	$(gnorba_DATA) \
+	recur.xpm
+
 
 Productivitydir = $(datadir)/gnome/apps/Applications
 
@@ -198,4 +77,3 @@ Productivity_DATA = gncal.desktop
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
-	$(mkinstalldirs) $(Conduitsdir)

@@ -791,7 +791,7 @@ void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile)
 void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile)
 #endif
     {
-    /* initialize lex mode stack */
+	    /* initialize lex mode stack */
     lexBuf.lexModeStack[lexBuf.lexModeStackTop=0] = L_NORMAL;
 
     /* iniatialize lex buffer. */

@@ -18,28 +18,23 @@
 static char *
 ical_gen_uid (void)
 {
-	static char *hostname;
+	static char *domain;
 	time_t t = time (NULL);
-	static int serial;
 	
-	if (!hostname){
+	if (!domain){
 		char buffer [128];
 		
-		if ((gethostname (buffer, sizeof (buffer)-1) == 0) &&
-		    (buffer [0] != 0))
-			hostname = g_strdup (buffer);
-		else
-			hostname = g_strdup ("localhost");
+		getdomainname (buffer, sizeof (buffer)-1);
+		domain = g_strdup (domain);
 	}
 
 	return g_strdup_printf (
-		"%s-%d-%d-%d-%d@%s",
+		"%s-%d-%d-%d@%s",
 		isodate_from_time_t (t),
 		getpid (),
 		getgid (),
 		getppid (),
-		serial++,
-		hostname);
+		domain);
 }
 
 iCalObject *
@@ -52,9 +47,6 @@ ical_object_new (void)
 	ico->seq = -1;
 	ico->dtstamp = time (NULL);
 	ico->uid = ical_gen_uid ();
-
-	ico->pilot_id = 0;
-	ico->pilot_status = ICAL_PILOT_SYNC_MOD;
 	
 	return ico;
 }
@@ -380,8 +372,6 @@ load_recur_yearly_day (iCalObject *o, char **str)
 {
 	/* Skip as we do not support multiple days and we do expect
 	 * the dtstart to agree with the value on this field
-	 *
-	 * FIXME: we should support every-n-years
 	 */
 	skip_numbers (str);
 }
@@ -595,10 +585,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCUniqueStringProp)){
 		ical->uid = g_strdup (str_val (vo));
 		free (the_str);
-	} else {
-		ical->uid = ical_gen_uid ();
 	}
-
+	
 	/* seq */
 	if (has (o, VCSequenceProp)){
 		ical->seq = atoi (str_val (vo));
@@ -792,22 +780,6 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		}
 		free (the_str);
 	}
-
-	/*
-	 * Pilot
-	 */
-	if (has (o, XPilotIdProp)){
-		ical->pilot_id = atoi (str_val (vo));
-		free (the_str);
-	} else
-		ical->pilot_id = 0;
-
-	if (has (o, XPilotStatusProp)){
-		ical->pilot_status = atoi (str_val (vo));
-		free (the_str);
-	} else
-		ical->pilot_status = ICAL_PILOT_SYNC_MOD;
-	
 	return ical;
 }
 
@@ -1073,17 +1045,6 @@ ical_object_to_vobject (iCalObject *ical)
 		addPropValue (alarm, VCProcedureNameProp, ical->palarm.data);
 	if ((alarm = save_alarm (o, &ical->malarm, ical)))
 		addPropValue (alarm, VCEmailAddressProp, ical->malarm.data);
-
-	/* Pilot */
-	{
-		char buffer [20];
-		
-		sprintf (buffer, "%d", ical->pilot_id);
-		addPropValue (o, XPilotIdProp, buffer);
-		sprintf (buffer, "%d", ical->pilot_status);
-		addPropValue (o, XPilotStatusProp, buffer);
-	}
-	
 	return o;
 }
 
@@ -1463,33 +1424,3 @@ alarm_compute_offset (CalendarAlarm *a)
 	}
 	return a->offset;
 }
-
-iCalObject *
-ical_object_new_from_string (const char *vcal_string)
-{
-	iCalObject *ical = NULL;
-	VObject *cal, *event;
-	VObjectIterator i;
-	char *object_name;
-	
-	cal = Parse_MIME (vcal_string, strlen (vcal_string));
-
-	initPropIterator (&i, cal);
-
-	while (moreIteration (&i)){
-		event = nextVObject (&i);
-
-		object_name = vObjectName (event);
-		
-		if (strcmp (object_name, VCEventProp) == 0){
-			ical = ical_object_create_from_vobject (event, object_name);
-			break;
-		}
-	}
-
-	cleanVObject (cal);
-	cleanStrTbl ();
-
-	return ical;
-}
-
