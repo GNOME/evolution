@@ -21,7 +21,7 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	  AC_MSG_CHECKING(if $GNOME_CONFIG works)
 	  if $GNOME_CONFIG --libs-only-l gnome >/dev/null 2>&1; then
 	    AC_MSG_RESULT(yes)
-	    GNOME_GNORBA_CHECK
+	    GNOME_GNORBA_HOOK([],$2)
 	    GNOME_LIBS="`$GNOME_CONFIG --libs-only-l gnome`"
 	    GNOMEUI_LIBS="`$GNOME_CONFIG --libs-only-l gnomeui`"
 	    GNOMEGNORBA_LIBS="`$GNOME_CONFIG --libs-only-l gnorba gnomeui`"

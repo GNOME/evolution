@@ -1,3 +1,10 @@
+1998-11-20  James Henstridge  <james@daa.com.au>
+
+	* gnome.m4(GNOME_INIT_HOOK): Changed the call to GNOME_GNORBA_CHECK
+	to GNOME_GNORBA_HOOK([],$2).  Before if you specified that the
+	macro should not exit on errors, and you didn't have ORBit, the
+	script would fail anyway.
+
 1998-11-17  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4: We need to check for <net/if_var.h>
