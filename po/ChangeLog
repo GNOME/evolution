@@ -1,3 +1,7 @@
+2001-06-25  Andras Timar <timar@gnome.hu>
+
+        * hu.po: Updated Hungarian translation. 
+
 2001-06-24  Chris Toshok  <toshok@ximian.com>
 
 	* POTFILES.in: add ui/evolution-contact-list-editor.xml, and
