@@ -82,7 +82,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL }
 };
 
-#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "contacts/ldap") == 0 || g_strcasecmp((x), "contacts/public") == 0)
+#define IS_CONTACT_TYPE(x)  (g_ascii_strcasecmp((x), "contacts") == 0 || g_ascii_strcasecmp ((x), "contacts/ldap") == 0 || g_ascii_strcasecmp((x), "contacts/public") == 0)
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -527,7 +527,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon_path = NULL;
 		icon = NULL;
 	} else {
-		icon_path = g_build_filename (EVOLUTION_ICONSDIR, icon_name, NULL);
+		icon_path = g_build_filename (EVOLUTION_IMAGESDIR, icon_name, NULL);
 		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 

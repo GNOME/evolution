@@ -26,6 +26,7 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <string.h>
 #include <gtk/gtklabel.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <bonobo/bonobo-control.h>
@@ -79,7 +80,7 @@ e_address_widget_destroy (GtkObject *obj)
 		e_book_simple_query_cancel (common_book, addr->query_tag);
 
 	if (addr->query_idle_tag)
-		gtk_idle_remove (addr->query_idle_tag);
+		g_source_remove (addr->query_idle_tag);
 }
 
 static gint
@@ -314,7 +315,7 @@ e_address_widget_schedule_query (EAddressWidget *addr)
 {
 	if (addr->query_idle_tag || !doing_queries)
 		return;
-	addr->query_idle_tag = gtk_idle_add (query_idle_fn, addr);
+	addr->query_idle_tag = g_idle_add (query_idle_fn, addr);
 }
 
 /*

@@ -22,6 +22,7 @@
 
 #include <config.h>
 
+#include <string.h>
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook-config.h"
