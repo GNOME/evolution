@@ -1,3 +1,8 @@
+2004-04-01  Radek Doulik  <rodo@ximian.com>
+
+	* gui/e-calendar-view.c
+	(e_calendar_view_delete_selected_occurrence): fix small typo
+
 2004-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/recur-comp.c (recur_component_dialog): return correct

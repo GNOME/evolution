@@ -865,7 +865,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	e_cal_component_get_uid (comp, &uid);
 	if (e_cal_component_is_instance (comp))
-		rid = e_cal_component_get_recur_id_as_string (comp);
+		rid = e_cal_component_get_recurid_as_string (comp);
 	else
 		rid = "";
 
