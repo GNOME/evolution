@@ -5,6 +5,7 @@
 
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
+#include "e-addressbook-util.h"
 
 #include <gal/util/e-i18n.h>
 
@@ -15,6 +16,7 @@
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
+
 
 struct _EAddressbookReflowAdapterPrivate {
 	EAddressbookModel *model;
@@ -225,25 +227,57 @@ delete (GtkWidget *widget, ModelAndSelection *mns)
 	model_and_selection_free (mns);
 }
 
+static void
+open_card (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list) {
+		GList *iterator;
+		EBook *book = e_addressbook_model_get_ebook(priv->model);
+
+		for (iterator = list; iterator; iterator = iterator->next) {
+			ECard *card = iterator->data;
+
+			if (e_card_evolution_list (card)) {
+				e_addressbook_show_contact_list_editor (book, card,
+									FALSE, e_addressbook_model_editable (priv->model));
+			}
+			else {
+				e_addressbook_show_contact_editor (book, card,
+								   FALSE, e_addressbook_model_editable (priv->model));
+			}
+		}
+	}
+
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+#define POPUP_READONLY_MASK 0x01
 gint
 e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, GdkEvent *event, ESelectionModel *selection)
 {
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	ModelAndSelection *mns = g_new(ModelAndSelection, 1);
-	EPopupMenu menu[] = { {N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0},
+	EPopupMenu menu[] = { {N_("Open"), NULL, GTK_SIGNAL_FUNC(open_card), NULL, 0},
+			      {N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0},
 			      {N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
 			      {N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
 			      {N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
 #endif
-			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
 			      {NULL, NULL, NULL, 0}};
 
 	mns->adapter = adapter;
 	mns->selection = selection;
 	gtk_object_ref(GTK_OBJECT(mns->adapter));
 	gtk_object_ref(GTK_OBJECT(mns->selection));
-	e_popup_menu_run (menu, event, 0, 0, mns);
+	e_popup_menu_run (menu, event, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
 	return TRUE;
 }
 

@@ -1,5 +1,13 @@
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-reflow-adapter.c (open_card): new
+	function, used by the context menu.
+	(e_addressbook_reflow_adapter_right_click): put "Open" at the top
+	of the menu.  also, disable "Delete" if the addressbook isn't
+	writable.
+
+2001-08-08  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (rfc2254_escape): escape *, \, (,
 	and ), as per rfc2254.
 	(func_contains): escape the string.
