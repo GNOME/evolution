@@ -134,7 +134,8 @@ e_card_compare_name (ECard *card1, ECard *card2)
 
 	if (a->family && b->family) {
 		++possible;
-		if (name_fragment_match (a->family, b->family)) {
+		/* We don't allow "loose matching" (i.e. John vs. Jon) on family names */
+		if (! g_utf8_strcasecmp (a->family, b->family)) {
 			++matches;
 			family_match = TRUE;
 		}

@@ -698,6 +698,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
+	g_message ("remove row %d", row);
 	e_select_names_model_delete (child->source, row);
 }
 
@@ -732,6 +733,8 @@ remove_cb (GtkWidget *widget, void *data)
 {
 	RightClickData *rcdata = (RightClickData *)data;
 
+	e_select_names_model_freeze (rcdata->child->source);
+
 	/* Build a list of selected rows */
 	e_table_selected_row_foreach (rcdata->table,
 				      etable_selection_foreach_cb,
@@ -741,6 +744,8 @@ remove_cb (GtkWidget *widget, void *data)
 	g_slist_foreach (selected_rows,
 			 (GFunc)selected_rows_foreach_cb,
 			 rcdata->child);
+
+	e_select_names_model_thaw (rcdata->child->source);
 
 	/* Free everything we've created */
 	g_free (rcdata);

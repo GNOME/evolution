@@ -1,5 +1,8 @@
 2001-09-15  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-card-compare.c (e_card_compare_name): No
+	loose name matches on family names. (#8802)
+
 	* gui/component/select-names/e-select-names-text-model.c
 	(e_select_names_text_model_activate_obj): We can't use NULL as the
 	first arg for e_addressbook_show_contact_editor anymore.  Damn.
