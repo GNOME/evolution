@@ -57,28 +57,28 @@ extern char *evolution_dir;
 extern CamelSession *session;
 
 static struct _vfolder_info *
-vfolder_find(const char *name)
+vfolder_find (const char *name)
 {
 	GList *l = available_vfolders;
 	struct _vfolder_info *info;
-
+	
 	while (l) {
 		info = l->data;
-		if (!strcmp(info->name, name))
+		if (!strcmp (info->name, name))
 			return info;
-		l = g_list_next(l);
+		l = g_list_next (l);
 	}
 	return NULL;
 }
 
 static void
-register_new_source(struct _vfolder_info *info, CamelFolder *folder)
+register_new_source (struct _vfolder_info *info, CamelFolder *folder)
 {
 	FilterRule *rule = info->rule;
-
+	
 	if (rule && info->folder && rule->source) {
 		int remote = (((CamelService *)folder->parent_store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
-
+		
 		if (!strcmp(rule->source, "local")) {
 			if (!remote) {
 				printf("adding local folder to vfolder %s\n", rule->name);
@@ -96,34 +96,36 @@ register_new_source(struct _vfolder_info *info, CamelFolder *folder)
 	}
 }
 
-static void source_finalise(CamelFolder *sub, gpointer type, CamelFolder *vf)
+static void
+source_finalise (CamelFolder *sub, gpointer type, CamelFolder *vf)
 {
 	GList *l = available_vfolders;
 	
 	while (l) {
 		struct _vfolder_info *info = l->data;
-
+		
 		if (info->folder)
 			camel_vee_folder_remove_folder(info->folder, sub);
-
+		
 		l = l->next;
 	}
 }
 
 /* for registering potential vfolder sources */
-void vfolder_register_source(CamelFolder *folder)
+void
+vfolder_register_source (CamelFolder *folder)
 {
 	GList *l;
-
+	
 	if (CAMEL_IS_VEE_FOLDER(folder))
 		return;
-
+	
 	if (g_list_find(source_folders, folder))
 		return;
-
+	
 	/* FIXME: Hook to destroy event */
 	camel_object_hook_event((CamelObject *)folder, "finalize", (CamelObjectEventHookFunc)source_finalise, folder);
-
+	
 	source_folders = g_list_append(source_folders, folder);
 	l = available_vfolders;
 	while (l) {
@@ -135,15 +137,15 @@ void vfolder_register_source(CamelFolder *folder)
 /* go through the list of what we have, what we want, and make
    them match, deleting/reconfiguring as required */
 static void
-vfolder_refresh(void)
+vfolder_refresh (void)
 {
 	GList *l;
 	GList *head = NULL;	/* processed list */
 	struct _vfolder_info *info;
 	FilterRule *rule;
-	GString *expr = g_string_new("");
+	GString *expr = g_string_new ("");
 	char *uri, *path;
-
+	
 	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		info = vfolder_find(rule->name);
@@ -154,15 +156,15 @@ vfolder_refresh(void)
 			if (info->rule)
 				gtk_object_unref((GtkObject *)info->rule);
 			info->rule = rule;
-
+			
 			available_vfolders = g_list_remove(available_vfolders, info);
-
+			
 			/* check if the rule has changed ... otherwise, leave it */
 			if (strcmp(expr->str, info->query)) {
 				d(printf("Must reconfigure vfolder with new rule?\n"));
 				g_free(info->query);
 				info->query = g_strdup(expr->str);
-
+				
 				uri = g_strdup_printf("vfolder:%s", info->name);
 				path = g_strdup_printf("/%s", info->name);
 				evolution_storage_removed_folder(vfolder_storage, path);
@@ -203,12 +205,12 @@ vfolder_refresh(void)
 		g_free(info);
 		l = g_list_next(l);
 	}
-
+	
 	/* setup the virtual unmatched folder */
 	info = vfolder_find("UNMATCHED");
 	if (info == NULL) {
 		char *uri, *path;
-
+		
 		info = g_malloc(sizeof(*info));
 		info->name = g_strdup("UNMATCHED");
 		info->query = g_strdup("UNMATCHED");
@@ -224,7 +226,7 @@ vfolder_refresh(void)
 		g_free(path);
 	}
 	head = g_list_append(head, info);
-
+	
 	g_list_free(available_vfolders);
 	available_vfolders = head;
 	g_string_free(expr, TRUE);
@@ -250,41 +252,78 @@ unlist_vfolder (CamelObject *folder, gpointer event_data, gpointer user_data)
 	g_message ("Whoa, unlisting vfolder %p but can't find it", folder);
 }
 
+static int
+vfolder_remove_cb (EvolutionStorage *storage,
+		   const char *path,
+		   const char *physical_uri,
+		   gpointer user_data)
+{
+	vfolder_remove (physical_uri);
+	return EVOLUTION_STORAGE_OK;
+}
+
 void
-vfolder_create_storage(EvolutionShellComponent *shell_component)
+vfolder_create_storage (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellClient *shell_client;
 	GNOME_Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *user, *system;
-
+	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
 		return;
 	}
 	global_shell_client = shell_client;
-
+	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-    
+	
 	storage = evolution_storage_new (_("VFolders"), NULL, NULL);
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;
 	}
-
+	
 	vfolder_storage = storage;
-
+	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder",
+			    GTK_SIGNAL_FUNC (vfolder_remove_cb),
+			    NULL);
+	
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
 	
-	context = vfolder_context_new();
+	context = vfolder_context_new ();
 	printf("loading rules %s %s\n", system, user);
-	if (rule_context_load((RuleContext *)context, system, user) != 0) {
+	if (rule_context_load ((RuleContext *)context, system, user) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
-	g_free(user);
-	vfolder_refresh();
+	g_free (user);
+	vfolder_refresh ();
+}
+
+void
+vfolder_remove (const char *uri)
+{
+	struct _vfolder_info *info;
+	VfolderRule *rule;
+	char *user;
+	
+	g_warning ("vfolder_remove (\"%s\");", uri);
+	
+	if (strncmp (uri, "vfolder:", 8))
+		return;
+	
+	info = vfolder_find (uri + 8);
+	if (!info)
+		return;
+	
+	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
+	rule = (VfolderRule *)rule_context_find_rule ((RuleContext *) context, info->name, NULL);
+	rule_context_remove_rule ((RuleContext *) context, (FilterRule *) rule);
+	rule_context_save ((RuleContext *) context, user);
+	g_free (user);
+	vfolder_refresh ();
 }
 
 /* maps the shell's uri to the real vfolder uri and open the folder */
@@ -298,40 +337,40 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	const char *sourceuri;
 	int sources;
 	GList *l;
-
+	
 	if (strncmp (uri, "vfolder:", 8))
 		return NULL;
-
+	
 	info = vfolder_find(uri+8);
 	if (info == NULL) {
 		g_warning("Shell trying to open unknown vFolder: %s", uri);
 		return NULL;
 	}
-
+	
 	if (info->folder) {
 		camel_object_ref((CamelObject *)info->folder);
 		return (CamelFolder *)info->folder;
 	}
-
+	
 	d(printf("Opening vfolder: %s\n", uri));
-
+	
 	rule = (VfolderRule *)rule_context_find_rule((RuleContext *)context, info->name, NULL);
-
+	
 	storeuri = g_strdup_printf("vfolder:%s/vfolder/%s", evolution_dir, info->name);
 	foldername = g_strdup_printf("%s?%s", info->name, info->query);
-
+	
 	/* we dont have indexing on vfolders */
 	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
 	info->folder = (CamelVeeFolder *)folder;
 	camel_object_hook_event ((CamelObject *) info->folder, "finalize", unlist_vfolder, NULL);
-
+	
 	mail_folder_cache_set_update_estorage (uri, vfolder_storage);
-	mail_folder_cache_note_folder (uri, info->folder);
-
+	mail_folder_cache_note_folder (uri, CAMEL_FOLDER (info->folder));
+	
 	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
 	mail_hash_storage ((CamelService *)folder->parent_store, vfolder_storage);
 
-	if (strcmp(uri+8, "UNMATCHED") != 0) {
+	if (strcmp (uri + 8, "UNMATCHED") != 0) {
 		sourceuri = NULL;
 		sources = 0;
 		while ( (sourceuri = vfolder_rule_next_source(rule, sourceuri)) ) {

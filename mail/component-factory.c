@@ -199,17 +199,17 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_Environment ev;
 	
 	CORBA_exception_init(&ev);
-	if (!strcmp(type, "mail")) {
+	if (!strcmp (type, "mail")) {
 		/* This makes the uri start with mbox://file://, which
 		   looks silly but turns into a CamelURL that has
 		   url->provider of "mbox" */
-		uri = g_strdup_printf("mbox://%s", physical_uri);
-		mail_create_folder(uri, do_create_folder, CORBA_Object_duplicate(listener, &ev));
+		uri = g_strdup_printf ("mbox://%s", physical_uri);
+		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
 	} else {
-		GNOME_Evolution_ShellComponentListener_notifyResult(
+		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
-	CORBA_exception_free(&ev);
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -240,14 +240,14 @@ remove_folder (EvolutionShellComponent *shell_component,
 	CORBA_Environment ev;
 	
 	CORBA_exception_init (&ev);
-
+	
 	if (strcmp (type, "mail") != 0) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		CORBA_exception_free (&ev);
 		return;
 	}
-
+	
 	mail_remove_folder (physical_uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 							     GNOME_Evolution_ShellComponentListener_OK, &ev);
@@ -825,7 +825,7 @@ storage_remove_folder (EvolutionStorage *storage,
 	if (*physical_uri) {
 		if (strncmp (physical_uri, "vtrash:", 7) == 0)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-
+		
 		url = camel_url_new (physical_uri, NULL);
 		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;

@@ -1,3 +1,9 @@
+2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_create_storage): Connect to the
+	folder_remove signal on the storage.
+	(vfolder_remove): New function to remove a vfolder.
+
 2001-08-02  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (INCLUDES): Add EVOLUTION_BUTTONSDIR to get to some
