@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.86 2001/07/12 19:56:36 menthos Exp $
+# $Id: sv.po,v 1.87 2001/07/12 20:58:53 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-12 21:54+0200\n"
-"PO-Revision-Date: 2001-07-12 21:56+0200\n"
+"POT-Creation-Date: 2001-07-12 22:55+0200\n"
+"PO-Revision-Date: 2001-07-12 22:55+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5787,6 +5787,10 @@ msgstr "Jämför med"
 msgid "now"
 msgstr "nu"
 
+#: filter/filter-datespec.c:579
+msgid " ago"
+msgstr " sen"
+
 #: filter/filter-datespec.c:707
 msgid "<click here to select a date>"
 msgstr "<klicka här för att välja ett datum>"
@@ -7707,6 +7711,10 @@ msgstr "<b>Fel vid hämtning av Metar</b>"
 #: my-evolution/e-summary-weather.c:628
 msgid "Regions"
 msgstr "Regioner"
+
+#: my-evolution/e-summary.c:144
+msgid "%A, %d %B %Y"
+msgstr "%A %d %B %Y"
 
 #: my-evolution/e-summary.c:459 ui/my-evolution.xml.h:3
 msgid "Print My Evolution"
@@ -11706,9 +11714,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Find..."
 #~ msgstr "Sök..."
 
-#~ msgid "%A, %e %B %Y"
-#~ msgstr "%A %e %B %Y"
-
 #~ msgid "<b>Error loading calendar:<br>Method not supported"
 #~ msgstr "<b>Fel vid inläsning av kalender:<br>Stödjer inte metoden."
 
@@ -13284,9 +13289,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "twelfth"
 #~ msgstr "tolfte"
-
-#~ msgid "ago"
-#~ msgstr "sen"
 
 #~ msgid "Could not create summary"
 #~ msgstr "Kunde inte skapa sammanfattning"
