@@ -1624,8 +1624,13 @@ mail_display_redisplay_when_loaded (MailDisplay *md,
 }
 
 void
-mail_text_write (GtkHTML *html, GtkHTMLStream *stream, gboolean printing, const char *text)
+mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMimePart *part, gint idx, gboolean printing, const char *text)
 {
+	GByteArray *ba;
+	gchar *xed, *iframe;
+	gchar *btt = "<tt>\n";
+	gchar *ett = "</tt>\n";
+
 	guint flags;
 	char *htmltext;
 	
@@ -1639,10 +1644,17 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, gboolean printing, const 
 	
 	htmltext = e_text_to_html_full (text, flags, mail_config_get_citation_color ());
 	
-	gtk_html_write (html, stream, "<tt>", 4);
-	gtk_html_write (html, stream, htmltext, strlen (htmltext));
-	gtk_html_write (html, stream, "</tt>", 5);
+	ba = g_byte_array_new ();
+	g_byte_array_append (ba, (const guint8 *) btt, strlen (btt) + 1);
+	g_byte_array_append (ba, (const guint8 *) htmltext, strlen (htmltext) + 1);
+	g_byte_array_append (ba, (const guint8 *) ett, strlen (ett) + 1);
 	g_free (htmltext);
+
+	xed = g_strdup_printf ("x-evolution-data:%p-%d", part, idx);
+	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
+	mail_display_add_url (md, "data_urls", xed, ba);
+	gtk_html_write (html, stream, iframe, strlen (iframe));
+	g_free (iframe);
 }
 
 void
