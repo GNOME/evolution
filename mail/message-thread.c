@@ -35,6 +35,59 @@
 #include "mail-threads.h"
 
 #define d(x)
+/*#define LEAKDEBUG*/
+
+/* **************************************** */
+/* mem leak debug stuff */
+
+#ifdef LEAKDEBUG
+
+static GSList *allocedlist = NULL;
+
+static struct _container *
+alloc_container (void)
+{
+	struct _container *c;
+
+	c = g_new0 (struct _container, 1);
+	allocedlist = g_slist_prepend (allocedlist, c);
+	return c;
+}
+
+static void
+free_container (struct _container **c)
+{
+	memset ((*c), 0, sizeof (struct _container));
+	allocedlist = g_slist_remove (allocedlist, (*c));
+	g_free ((*c));
+	(*c) = NULL;
+}
+
+static void 
+print_containers (void)
+{
+	GSList *iter;
+
+	printf ("Containers currently unfreed:\n");
+	for (iter = allocedlist; iter; iter = iter->next) {
+		struct _container *c = (struct _container *) iter->data;
+		printf ("   %p: %p %p %p %s %s %d %d\n", 
+			c,
+			c->next, c->parent, c->child,
+			c->message ? c->message->subject : "(null message)",
+			c->root_subject ? c->root_subject : "(null root-subject)",
+			c->re, c->order);
+	}
+	printf ("End of list.\n");
+}
+
+#else
+#define alloc_container() (g_new0 (struct _container, 1))
+#define free_container(c) g_free (*(c))
+#define print_containers()
+#endif
+
+/* **************************************** */
 
 static struct _container *thread_messages(CamelFolder *folder, GPtrArray *uids);
 static void thread_messages_free(struct _container *);
@@ -296,7 +349,7 @@ group_root_set(struct _container **cp)
 				remove_node(cp, container, &clast);
 				remove_node(cp, c, &clast);
 
-				scan = g_malloc0(sizeof(*scan));
+				scan = alloc_container();
 				scan->root_subject = c->root_subject;
 				scan->re = c->re && container->re;
 				scan->next = c->next;
@@ -349,7 +402,7 @@ static void thread_messages_free(struct _container *c)
 		n = c->next;
 		if (c->child)
 			thread_messages_free(c->child); /* free's children first */
-		g_free(c);
+		free_container (&c);
 		c = n;
 	}
 }
@@ -438,12 +491,12 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
 			if (!c) {
-				c = g_malloc0(sizeof(*c));
+				c = alloc_container();
 				g_hash_table_insert(id_table, mi->message_id, c);
 			}
 		} else {
 			d(printf("doing : (no message id)\n"));
-			c = g_malloc0(sizeof(*c));
+			c = alloc_container();
 			g_hash_table_insert(no_id_table, (void *)mi, c);
 		}
 
@@ -466,7 +519,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			c = g_hash_table_lookup(id_table, ref->id);
 			if (c == NULL) {
 				d(printf("not found\n"));
-				c = g_malloc0(sizeof(*c));
+				c = alloc_container();
 				g_hash_table_insert(id_table, ref->id, c);
 			}
 			if (c!=child)
@@ -570,11 +623,14 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 	(input->build) (input->ml, data->container);
 	thread_messages_free (data->container);
 
+	print_containers();
+
 	if (input->use_camel_uidfree) {
 		mail_tool_camel_lock_up ();
 		camel_folder_free_uids (input->ml->folder, input->uids);
 		mail_tool_camel_lock_down ();
 	} else {
+		g_ptr_array_add (input->uids, NULL);
 		g_strfreev ((char **)input->uids->pdata);
 		g_ptr_array_free (input->uids, FALSE);
 	}

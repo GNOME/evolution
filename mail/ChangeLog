@@ -1,5 +1,9 @@
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 
+	* message-thread.c (alloc_container): Add support for debugging
+	container allocations -- currently disabled. Make sure that
+	the g_strfreev works.
+
 	* message-list.c (main_message_changed): Address bug #496 --
 	possible race when forwading a message_changed event.
 
