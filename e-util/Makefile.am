@@ -50,6 +50,8 @@ libeutil_la_SOURCES =				\
 	e-mktemp.h				\
 	e-msgport.c				\
 	e-msgport.h				\
+	e-passwords.c				\
+	e-passwords.h				\
 	e-path.c				\
 	e-path.h				\
 	e-request.c				\
