@@ -67,6 +67,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	void        (*row_selection)      (ETableItem *eti, int row, gboolean selected);
+	void        (*height_changed)     (ETableItem *eti);
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);

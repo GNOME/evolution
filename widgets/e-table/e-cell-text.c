@@ -221,7 +221,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			 */
 			if ((px + left_len) > x2)
 				px -= left_len - (x2-x1);
-				
+
+			/*
+			 * Draw
+			 */
 			for (i = 0, p = text_wc; *p; p++, i++){
 				gdk_draw_text_wc (
 					drawable, font, gc, px, y, p, 1);

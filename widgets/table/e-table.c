@@ -29,17 +29,6 @@
 
 static GtkObjectClass *e_table_parent_class;
 
-typedef struct { 
-	ETableModel     *table;
-	GnomeCanvasItem *table_item;
-	GnomeCanvasItem *lead;
-} Leaf;
-
-typedef struct {
-	
-} Node;
-
-
 static void
 et_destroy (GtkObject *object)
 {
@@ -122,38 +111,6 @@ e_table_setup_header (ETable *e_table)
 		
 }
 
-static Leaf *
-e_table_create_leaf (ETable *e_table, ETableModel *etm, int col, int height)
-{
-	Leaf *leaf;
-	
-	leaf = g_new (Leaf, 1);
-	leaf->table = etm;
-	
-	leaf->table_item = gnome_canvas_item_new (
-		gnome_canvas_root (e_table->table_canvas),
-		e_table_item_get_type (),
-		"ETableHeader", e_table->header,
-		"ETableModel",  etm,
-		"x", (double) 0,
-		"y", (double) 0,
-		"drawgrid", e_table->draw_grid,
-		"drawfocus", e_table->draw_focus,
-		"spreadsheet", e_table->spreadsheet,
-		NULL);
-
-	leaf->lead = e_table_group_new (
-		gnome_canvas_root (e_table->table_canvas),
-		e_table->header, col, leaf->table_item, TRUE);
-
-	gnome_canvas_item_set (
-		leaf->lead,
-		"y", (double) height,
-		NULL);
-
-	return leaf;
-}
-
 typedef struct {
 	void *value;
 	GArray *array;
@@ -232,7 +189,6 @@ e_table_make_subtables (ETableModel *model, GArray *groups)
 		ETableSubset *ss;
 		int j;
 
-		printf ("Creating subset of %d elements\n", sub_size);
 		tables [i] = e_table_subset_new (model, sub_size);
 		ss = E_TABLE_SUBSET (tables [i]);
 		
@@ -244,68 +200,167 @@ e_table_make_subtables (ETableModel *model, GArray *groups)
 	return (ETableModel **) tables;
 }
 
-static int
-leaf_height (Leaf *leaf)
+typedef struct _Node Node;
+
+struct _Node {
+	Node            *parent;
+	GnomeCanvasItem *item;
+	ETableModel     *table_model;
+	GSList          *children;
+
+	guint is_leaf:1;
+};
+
+static Node *
+leaf_new (GnomeCanvasItem *table_item, ETableModel *table_model, Node *parent)
 {
-	return leaf->lead->y2 - leaf->lead->y1;
+	Node *node = g_new (Node, 1);
+
+	g_assert (table_item != NULL);
+	g_assert (table_model != NULL);
+	g_assert (parent != NULL);
+	
+	node->item = table_item;
+	node->parent = parent;
+	node->table_model = table_model;
+	node->is_leaf = 1;
+
+	g_assert (!parent->is_leaf);
+	
+	parent->children = g_slist_append (parent->children, node);
+
+	e_table_group_add (E_TABLE_GROUP (parent->item), table_item);
+
+	return node;
 }
 
-static Leaf *
+static Node *
+node_new (GnomeCanvasItem *group_item, ETableModel *table_model, Node *parent)
+{
+	Node *node = g_new (Node, 1);
+
+	g_assert (table_model != NULL);
+
+	node->children = NULL;
+	node->item = group_item;
+	node->parent = parent;
+	node->table_model = table_model;
+	node->is_leaf = 0;
+
+	if (parent){
+		parent->children = g_slist_append (parent->children, node);
+
+		e_table_group_add (E_TABLE_GROUP (parent->item), group_item);
+	}
+	
+	return node;
+}
+
+static Node *
+e_table_create_leaf (ETable *e_table, ETableModel *etm, Node *parent)
+{
+	GnomeCanvasItem *table_item;
+	static double last_y;
+	Node *leaf;
+	
+	table_item = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (parent->item),
+		e_table_item_get_type (),
+		"ETableHeader", e_table->header,
+		"ETableModel",  etm,
+		"drawgrid", e_table->draw_grid,
+		"drawfocus", e_table->draw_focus,
+		"spreadsheet", e_table->spreadsheet,
+		NULL);
+
+	leaf = leaf_new (table_item, etm, parent);
+	
+	return leaf;
+}
+
+static int
+leaf_height (Node *leaf)
+{
+	const GnomeCanvasItem *item = leaf->item;
+	
+	return item->y2 - item->y1;
+}
+
+static int
+leaf_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	static int last_x = -1;
+	static int last_y = -1;
+	
+	if (event->type == GDK_BUTTON_PRESS){
+		last_x = event->button.x;
+		last_y = event->button.y;
+	} else if (event->type == GDK_BUTTON_RELEASE){
+		last_x = -1;
+		last_y = -1;
+	} else if (event->type == GDK_MOTION_NOTIFY){
+		if (last_x == -1)
+			return FALSE;
+		
+		gnome_canvas_item_move (item, event->motion.x - last_x, event->motion.y - last_y);
+		last_x = event->motion.x;
+		last_y = event->motion.y;
+	} else
+		return FALSE;
+	return TRUE;
+}
+
+static Node *
 e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
-		      GnomeCanvasGroup *root, int height, int *groups_list)
+		      GnomeCanvasGroup *root, Node *parent, int *groups_list)
 {
 	GArray *groups;
 	ETableModel **tables;
+	ETableCol *ecol;
 	int key_col, i;
-	GCompareFunc comp;
-	Leaf *leaf;
-	GnomeCanvasItem *group;
-	
-	if (groups_list)
-		key_col = *groups_list;
-	else
-		key_col = -1;
-	
-	if (key_col == -1){
-		printf ("Leaf->with %d rows\n", e_table_model_row_count (model));
-		leaf = e_table_create_leaf (e_table, model, key_col, height);
+	GnomeCanvasItem *group_item;
+	Node *group;
 
-		return leaf;
-	}
-
+	key_col = *groups_list;
+	g_assert (key_col != -1);
+	
 	/*
 	 * Create groups
 	 */
-	comp = e_table_header_get_column (header, key_col)->compare;
-	groups = e_table_create_groups (model, key_col, comp);
+	ecol = e_table_header_get_column (header, key_col);
+
+	g_assert (ecol != NULL);
+	
+	groups = e_table_create_groups (model, key_col, ecol->compare);
 	tables = e_table_make_subtables (e_table->model, groups);
 	e_table_destroy_groups (groups);
 
-	leaf = g_new0 (Leaf, 1);
-
-	leaf->table = NULL;
-	leaf->table_item = NULL;
-	group = gnome_canvas_item_new (
-		root,
-		gnome_canvas_group_get_type (),
-		NULL);
-
-	height = 0;
+	group_item = e_table_group_new (root, ecol, TRUE, parent == NULL);
+	group = node_new (group_item, model, parent);
+	
 	for (i = 0; tables [i] != NULL; i++){
-		printf ("Creating->%d with %d rows\n", i, e_table_model_row_count (tables [i]));
-
-		leaf = e_table_create_nodes (
-			e_table, tables [i], header, GNOME_CANVAS_GROUP (group), height,
-			&groups_list [1]);
+		Node *node;
 		
-		height += leaf_height (leaf);
+		/*
+		 * Leafs
+		 */
+		if (groups_list [1] == -1){
+			GnomeCanvasItem *item_leaf_header;
+			Node *leaf_header;
+			
+			item_leaf_header = e_table_group_new (
+				GNOME_CANVAS_GROUP (group_item), ecol, TRUE, FALSE);
+			leaf_header = node_new (item_leaf_header, tables [i], group);
+
+			e_table_create_leaf (e_table, tables [i], leaf_header);
+		} else {
+			e_table_create_nodes (
+				e_table, tables [i], header, GNOME_CANVAS_GROUP (group_item),
+				group, &groups_list [1]);
+		}
 	}
 
-	leaf->lead = e_table_group_new (
-		root,
-		e_table->header, key_col, group, TRUE);
-	
-	return leaf;
+	return group;
 }
 
 static int *
@@ -372,9 +427,9 @@ e_table_canvas_realize (GtkWidget *widget)
 {
 	ETableCanvas *e_table_canvas = (ETableCanvas *) widget;
 	ETable *e_table = e_table_canvas->e_table;
-	Leaf *leaf;
 	int *groups;
-
+	Node *leaf;
+	
 	GTK_WIDGET_CLASS (e_table_canvas_parent_class)->realize (widget);
 	
 	groups = group_spec_to_desc (e_table->group_spec);
@@ -434,10 +489,16 @@ e_table_canvas_class_init (GtkObjectClass *object_class)
 	e_table_canvas_parent_class = gtk_type_class (E_TABLE_CANVAS_PARENT_TYPE);
 }
 
+static void
+e_table_canvas_init (GtkObject *canvas)
+{
+	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
+}
+
 GtkType e_table_canvas_get_type (void);
 
 E_MAKE_TYPE (e_table_canvas, "ETableCanvas", ETableCanvas, e_table_canvas_class_init,
-	     NULL, E_TABLE_CANVAS_PARENT_TYPE);
+	     e_table_canvas_init, E_TABLE_CANVAS_PARENT_TYPE);
 
 static GnomeCanvas *
 e_table_canvas_new (ETable *e_table)

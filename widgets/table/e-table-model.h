@@ -56,5 +56,3 @@ void        e_table_model_row_changed      (ETableModel *e_table_model, int row)
 void        e_table_model_cell_changed     (ETableModel *e_table_model, int col, int row);
 
 #endif /* _E_TABLE_MODEL_H_ */
-
-

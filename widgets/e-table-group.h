@@ -14,22 +14,50 @@
 typedef struct {
 	GnomeCanvasGroup group;
 
-	ETableHeader *header;
+	/*
+	 * The ETableCol used to group this set
+	 */
 	ETableCol    *ecol;
-	int col;
-	int open;
-	GnomeCanvasItem *rect, *child;
+
+	/*
+	 * The canvas rectangle that contains the children
+	 */
+	GnomeCanvasItem *rect;
+
+	/*
+	 * Dimensions of the ETableGroup
+	 */
+	int width, height;
+
+	/*
+	 * State: the ETableGroup is open or closed
+	 */
+	guint open:1;
+
+	/*
+	 * Whether we should add indentation and open/close markers,
+	 * or if we just act as containers of subtables.
+	 */
+	guint transparent:1;
+
+	/*
+	 * List of GnomeCanvasItems we stack
+	 */
+	GSList *children;
 } ETableGroup;
 
 typedef struct {
 	GnomeCanvasGroupClass parent_class;
+	void (*height_changed) (ETableGroup *etg);
 } ETableGroupClass;
 
-GnomeCanvasItem *e_table_group_new       (GnomeCanvasGroup *parent, ETableHeader *header,
-					  int col, GnomeCanvasItem *child, int open);
+GnomeCanvasItem *e_table_group_new       (GnomeCanvasGroup *parent, ETableCol *ecol,
+					  gboolean open, gboolean transparent);
 void             e_table_group_construct (GnomeCanvasGroup *parent, ETableGroup *etg, 
-					  ETableHeader *header, int col,
-					  GnomeCanvasItem *child, int open);
-GtkType          e_table_group_get_type (void);
+					  ETableCol *ecol, gboolean open, gboolean transparent);
+
+void             e_table_group_add       (ETableGroup *etg, GnomeCanvasItem *child);
+
+GtkType          e_table_group_get_type  (void);
 
 #endif /* _E_TABLE_TREE_H_ */

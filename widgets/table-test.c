@@ -31,11 +31,9 @@ main (int argc, char *argv [])
 	gnome_init ("TableTest", "TableTest", argc, argv);
 	e_cursors_init ();
 
-#if 0
 	table_browser_test ();
 	multi_cols_test ();
 	check_test ();
-#endif
 	e_table_test ();
 	
 	gtk_main ();

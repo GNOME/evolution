@@ -286,6 +286,7 @@ do_e_table_demo (const char *col_spec, const char *group_spec)
 
 	gtk_container_add (GTK_CONTAINER (window), e_table);
 
+	gtk_widget_set_usize (window, 200, 200);
 	gtk_widget_show (e_table);
 	gtk_widget_show (window);
 }
@@ -294,7 +295,10 @@ void
 e_table_test (void)
 {
 	load_data ();
-	do_e_table_demo ("0,1,2,3,4", NULL);
+
+	if (getenv ("DO")){
+		do_e_table_demo ("0,1,2,3,4", NULL);
+		do_e_table_demo ("0,1,2,3,4", "3,4");
+	}
 	do_e_table_demo ("0,1,2,3,4", "3");
-	do_e_table_demo ("0,1,2,3,4", "3,4");
 }

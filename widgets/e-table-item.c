@@ -26,6 +26,7 @@ static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	ROW_SELECTION,
+	HEIGHT_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -97,18 +98,12 @@ eti_unrealize_cell_views (ETableItem *eti)
 
 }
 
-/*
- * GnomeCanvasItem::update method
- */
 static void
-eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+eti_bounds (ETableItem *eti, double *x1, double *y1, double *x2, double *y2)
 {
-	ETableItem *eti = E_TABLE_ITEM (item);
 	double i2c [6];
 	ArtPoint c1, c2, i1, i2;
-	
-	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 
 	gnome_canvas_item_i2c_affine (item, i2c);
 	i1.x = eti->x1;
@@ -122,9 +117,21 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 	item->y1 = c1.y;
 	item->x2 = c2.x;
 	item->y2 = c2.y;
+}
 
-	printf ("BBOX: %g %g %g %g\n", item->x1, item->y1, item->x2, item->y2);
+
+/*
+ * GnomeCanvasItem::update method
+ */
+static void
+eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+{
+	ETableItem *eti = E_TABLE_ITEM (item);
 	
+	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
+
+	eti_bounds (eti, &item->x1, &item->y1, &item->x2, &item->y2);
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
@@ -238,6 +245,22 @@ eti_get_height (ETableItem *eti)
 	return height;
 }
 
+static void
+eti_compute_height (ETableItem *eti)
+{
+	int new_height = eti_get_height (eti);
+
+	if (new_height != eti->height){
+		double x1, y1, x2, y2;
+		printf ("Emitting!\n");
+		
+		eti->height = new_height;
+		eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+
+		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [HEIGHT_CHANGED]);
+	}
+}
+
 /*
  * Callback routine: invoked when the ETableModel has suffered a change
  */
@@ -247,7 +270,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->cell_views)
-		eti->height = eti_get_height (eti);
+		eti_compute_height (eti);
 	
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 }
@@ -368,6 +391,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_changed), eti);
+
 	eti->table_model_row_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_row_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_row_changed), eti);
@@ -547,7 +571,8 @@ eti_realize (GnomeCanvasItem *item)
 	 */
 	eti_realize_cell_views (eti);
 
-	eti->height = eti_get_height (eti);
+	eti_compute_height (eti);
+
 	eti_update (item, NULL, NULL, 0);
 }
 
@@ -799,6 +824,34 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 	return TRUE;
 }
 
+static void
+eti_cursor_move_left (ETableItem *eti)
+{
+	e_table_item_leave_edit (eti);
+	e_table_item_focus (eti, eti->focused_col - 1, eti->focused_row);
+}
+
+static void
+eti_cursor_move_right (ETableItem *eti)
+{
+	e_table_item_leave_edit (eti);
+	e_table_item_focus (eti, eti->focused_col + 1, eti->focused_row);
+}
+
+static void
+eti_cursor_move_up (ETableItem *eti)
+{
+	e_table_item_leave_edit (eti);
+	e_table_item_focus (eti, eti->focused_col, eti->focused_row - 1);
+}
+
+static void
+eti_cursor_move_down (ETableItem *eti)
+{
+	e_table_item_leave_edit (eti);
+	e_table_item_focus (eti, eti->focused_col, eti->focused_row + 1);
+}
+
 static int
 eti_event (GnomeCanvasItem *item, GdkEvent *e)
 {
@@ -874,35 +927,53 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!eti->mode_spreadsheet && eti_editing (eti))
 				break;
 			
-			if (eti->focused_col > 0){
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, eti->focused_col - 1, eti->focused_row);
-			}
+			if (eti->focused_col > 0)
+				eti_cursor_move_left (eti);
+
 			return TRUE;
 
 		case GDK_Right:
 			if (!eti->mode_spreadsheet && eti_editing (eti))
 				break;
 			
-			if ((eti->focused_col + 1) < eti->cols){
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, eti->focused_col + 1, eti->focused_row);
-			}
+			if ((eti->focused_col + 1) < eti->cols)
+				eti_cursor_move_right (eti);
 			return TRUE;
 
 		case GDK_Up:
-			if (eti->focused_row > 0){
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, eti->focused_col, eti->focused_row - 1);
-			}
+			if (eti->focused_row > 0)
+				eti_cursor_move_up (eti);
 			return TRUE;
 			
 		case GDK_Down:
-			if ((eti->focused_row + 1) < eti->rows){
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, eti->focused_col, eti->focused_row + 1);
-			}
+			if ((eti->focused_row + 1) < eti->rows)
+				eti_cursor_move_down (eti);
+
 			return TRUE;
+
+		case GDK_Tab:
+			if ((e->key.state & GDK_SHIFT_MASK) != 0){
+				/* shift tab */
+				if (eti->focused_col > 0)
+					eti_cursor_move_left (eti);
+				else if (eti->focused_row > 0){
+					e_table_item_leave_edit (eti);
+					e_table_item_focus (eti, eti->cols - 1, eti->focused_row - 1);
+				} else {
+					/* FIXME: request focus leave backward */
+				}
+			} else {
+				if ((eti->focused_col + 1) < eti->cols)
+					eti_cursor_move_right (eti);
+				else if ((eti->focused_row + 1) < eti->rows){
+					e_table_item_leave_edit (eti);
+					e_table_item_focus (eti, 0, eti->rows - 1);
+				} else {
+					/* FIXME: request focus leave forward */
+				}
+			}
+			break;
+			
 		default:
 			if (!eti_editing (eti)){
 				if ((e->key.state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) != 0)
@@ -967,7 +1038,8 @@ eti_class_init (GtkObjectClass *object_class)
 	item_class->draw        = eti_draw;
 	item_class->point       = eti_point;
 	item_class->event       = eti_event;
-
+	item_class->bounds      = eti_bounds;
+	
 	eti_class->row_selection = eti_row_selection;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_POINTER,
@@ -992,6 +1064,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	eti_signals [HEIGHT_CHANGED] =
+		gtk_signal_new ("height_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, height_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, eti_signals, LAST_SIGNAL);
 
@@ -1037,7 +1117,7 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 	/*
 	 * make sure we have the Gtk Focus
 	 */
-	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (eti));
 }
 
 void

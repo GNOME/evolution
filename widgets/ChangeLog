@@ -1,3 +1,17 @@
+1999-12-22  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-item.c (e_table_item_focus): grab focus here with the
+	canvas method.
+
+1999-12-20  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table-group.c (etg_update): Change the dimensions only if the
+	child changes its own.
+
+	* e-table-item.c (eti_table_model_changed): Emit new signal on
+	table height change.
+	(eti_class_init): Register new "height_change" signal.
+
 1999-12-19  Damon Chaplin  <damon@karuna.freeserve.co.uk>
 
 	* Makefile.am (SUBDIRS): created SUBDIRS with meeting-time-sel.
