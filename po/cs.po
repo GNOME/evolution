@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-06-12 16:41-0400\n"
-"PO-Revision-Date: 2002-04-18 13:21-0400\n"
+"PO-Revision-Date: 2002-06-24 15:31-0400\n"
 "Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -609,7 +609,7 @@ msgstr "Vytvoøit nový kontakt \\\"%s\\\""
 #: addressbook/gui/component/e-address-popup.c:605
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr "Pøidat adresu k existujícímu konaktu \\\"%s\\\""
+msgstr "Pøidat adresu k existujícímu kontaktu \\\"%s\\\""
 
 #: addressbook/gui/component/e-address-popup.c:891
 msgid "Querying Addressbook..."
@@ -3357,7 +3357,7 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
 msgid "Starting:"
-msgstr "Spou¹tìní:"
+msgstr "Spu¹tìní:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:218
 msgid "Ending:"
@@ -3581,7 +3581,7 @@ msgstr ""
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
-msgstr "®ádný"
+msgstr "¾ádný"
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Recurring"
@@ -3744,7 +3744,7 @@ msgstr "den/dny/dnù"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "extra times every"
-msgstr "-krát navíc ka¾dé/-ý/-ou)"
+msgstr "krát navíc ka¾dé"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:84
 msgid "hours"
@@ -3779,7 +3779,7 @@ msgstr "%d hodin(-y)"
 
 #: calendar/gui/dialogs/alarm-page.c:328
 msgid "1 hour"
-msgstr "1 hodina"
+msgstr "1 hodinu"
 
 #: calendar/gui/dialogs/alarm-page.c:333
 #, c-format
@@ -3788,7 +3788,7 @@ msgstr "%d minut(-y)"
 
 #: calendar/gui/dialogs/alarm-page.c:336
 msgid "1 minute"
-msgstr "1 minuta"
+msgstr "1 minutu"
 
 #: calendar/gui/dialogs/alarm-page.c:341
 #, c-format
@@ -3897,7 +3897,7 @@ msgstr "pøed"
 #: calendar/gui/dialogs/alarm-page.glade.h:13
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
-msgstr "den/dny"
+msgstr "den/dny/dnù"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "end of appointment"
@@ -3909,11 +3909,11 @@ msgstr "hodin(-u,-y)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:187
 msgid "minute(s)"
-msgstr "minut (-u,-y)"
+msgstr "minut(-u,-y)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:17
 msgid "start of appointment"
-msgstr "zaèátkem (-ku) události"
+msgstr "zaèátkem(-ku) události"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
@@ -3978,7 +3978,6 @@ msgid "Monday"
 msgstr "pondìlí"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "S_un"
 msgstr "_ne"
 
@@ -3988,9 +3987,8 @@ msgid "Saturday"
 msgstr "sobota"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Sh_ow a reminder"
-msgstr "U_kázat výchozí pøipomínku"
+msgstr "U_kázat pøipomínku"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -4040,7 +4038,6 @@ msgid "W_eek starts:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#, fuzzy
 msgid "Wenesday"
 msgstr "støeda"
 
@@ -4051,7 +4048,7 @@ msgstr "pracovní týden"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr ""
+msgstr "pracovní dny:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
@@ -4070,9 +4067,8 @@ msgid "_Compress weekends in month view"
 msgstr "Zestruènit víkendy v mìsíèním pøehledu"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Day begins:"
-msgstr "Úkol zaèíná: <b>"
+msgstr "_Den zaèíná:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -4112,7 +4108,6 @@ msgid "_Time divisions:"
 msgstr "Èasové ús_eky:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Tue"
 msgstr "ú_t"
 
@@ -4121,9 +4116,8 @@ msgid "_Wed"
 msgstr "_st"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
-#, fuzzy
 msgid "before every appointment"
-msgstr "pøed zaèátkem události"
+msgstr "pøed ka¾dou událostí"
 
 #: calendar/gui/dialogs/cancel-comp.c:51
 msgid "The meeting status has changed. Send an updated version?"
@@ -5644,59 +5638,59 @@ msgstr ""
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
-msgstr ""
+msgstr "duben"
 
 #: calendar/gui/goto-dialog.glade.h:2
 msgid "August"
-msgstr ""
+msgstr "srpen"
 
 #: calendar/gui/goto-dialog.glade.h:3
 msgid "December"
-msgstr ""
+msgstr "prosinec"
 
 #: calendar/gui/goto-dialog.glade.h:4
 msgid "February"
-msgstr ""
+msgstr "únor"
 
 #: calendar/gui/goto-dialog.glade.h:5
 msgid "Go To Date"
-msgstr ""
+msgstr "Jít na datum"
 
 #: calendar/gui/goto-dialog.glade.h:6
 msgid "Go To Today"
-msgstr ""
+msgstr "Jít na dne¹ek"
 
 #: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
-msgstr ""
+msgstr "leden"
 
 #: calendar/gui/goto-dialog.glade.h:8
 msgid "July"
-msgstr ""
+msgstr "èervenec"
 
 #: calendar/gui/goto-dialog.glade.h:9
 msgid "June"
-msgstr ""
+msgstr "èerven"
 
 #: calendar/gui/goto-dialog.glade.h:10
 msgid "March"
-msgstr ""
+msgstr "bøezen"
 
 #: calendar/gui/goto-dialog.glade.h:11
 msgid "May"
-msgstr ""
+msgstr "kvìten"
 
 #: calendar/gui/goto-dialog.glade.h:12
 msgid "November"
-msgstr ""
+msgstr "listopad"
 
 #: calendar/gui/goto-dialog.glade.h:13
 msgid "October"
-msgstr ""
+msgstr "øíjen"
 
 #: calendar/gui/goto-dialog.glade.h:14
 msgid "September"
-msgstr ""
+msgstr "záøí"
 
 #: calendar/gui/itip-utils.c:220
 msgid "At least one attendee is necessary"
@@ -7775,7 +7769,7 @@ msgstr ""
 
 #: camel/camel-filter-driver.c:912
 msgid "Cannot open message"
-msgstr ""
+msgstr "Není mo¾né otevøít zprávu"
 
 #: camel/camel-filter-driver.c:913 camel/camel-filter-driver.c:925
 #, c-format
@@ -9069,9 +9063,9 @@ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr "Není mo¾né najít udìlátko k políèku `%s'"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
@@ -9782,11 +9776,11 @@ msgstr ""
 
 #: composer/e-msg-composer.c:1405
 msgid "Open file"
-msgstr ""
+msgstr "Otevøít soubor"
 
 #: composer/e-msg-composer.c:1554
 msgid "Insert File"
-msgstr ""
+msgstr "Vlo¾it soubor"
 
 #: composer/e-msg-composer.c:1826
 msgid ""
@@ -9795,17 +9789,16 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:1863
-#, fuzzy
 msgid "Signature:"
-msgstr "_Podpisy"
+msgstr "Podpis:"
 
 #: composer/e-msg-composer.c:1904 mail/mail-account-gui.c:1211
 msgid "Autogenerated"
-msgstr ""
+msgstr "automatický"
 
 #: composer/e-msg-composer.c:1916
 msgid "Set as default"
-msgstr ""
+msgstr "nastavit jako výchozí"
 
 #: composer/e-msg-composer.c:2114 composer/e-msg-composer.c:2727
 msgid "Compose a message"
@@ -9857,19 +9850,19 @@ msgstr "informace kalendáøe"
 
 #: default_user/searches.xml.h:1
 msgid "Body contains"
-msgstr ""
+msgstr "Tìlo zprávy obsahuje"
 
 #: default_user/searches.xml.h:2
 msgid "Body does not contain"
-msgstr ""
+msgstr "Tìlo zprávy neobsahuje"
 
 #: default_user/searches.xml.h:3
 msgid "Body or subject contains"
-msgstr ""
+msgstr "Tìlo zprávy nebo pøedmìt obsahuje"
 
 #: default_user/searches.xml.h:4
 msgid "Message contains"
-msgstr ""
+msgstr "Zpráva obsahuje"
 
 #: default_user/searches.xml.h:5
 msgid "Recipients contain"
@@ -9893,6 +9886,8 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
+"Soubor s tímto názvem ji¾ existuje.\n"
+"Pøejete si ho pøepsat?"
 
 #. Remember the password?
 #: e-util/e-passwords.c:363 mail/mail-session.c:269
@@ -10730,9 +10725,8 @@ msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 
 #: mail/component-factory.c:957
-#, fuzzy
 msgid "Warning: Unsent Messages"
-msgstr "Najít ve zprávì"
+msgstr "Varování: Neposlané zprávy"
 
 #: mail/component-factory.c:998
 msgid "New Mail Message"
@@ -11130,7 +11124,7 @@ msgstr ""
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
-msgstr ""
+msgstr "Posíláte zprávu v HTML formátu, av¹ak následují pøíjemci si nepøejí dostávat zprávy v HTML formátu:\n"
 
 #: mail/mail-callbacks.c:211
 msgid "Send anyway?"
@@ -11302,14 +11296,12 @@ msgid "en"
 msgstr ""
 
 #: mail/mail-composer-prefs.c:861
-#, fuzzy
 msgid "Add script signature"
-msgstr "Pøidat kritérium"
+msgstr ""
 
 #: mail/mail-composer-prefs.c:862
-#, fuzzy
 msgid "Add Signature"
-msgstr "_Podpisy"
+msgstr "Pøidat podpis"
 
 #: mail/mail-config-druid.c:146
 msgid ""
@@ -11422,14 +11414,12 @@ msgid "Account Management"
 msgstr ""
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "Add Sc_ript"
-msgstr "Pøidat kritérium"
+msgstr ""
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Add new signature..."
-msgstr "Ulo¾it podpis"
+msgstr "Pøidat nový podpis..."
 
 #: mail/mail-config.glade.h:12
 msgid "Al_ways encrypt to myself when sending encrypted mail"
@@ -11792,9 +11782,8 @@ msgid "Spell Checking Language"
 msgstr "Kontrola pravopisu"
 
 #: mail/mail-config.glade.h:123
-#, fuzzy
 msgid "Spell _Checking"
-msgstr "Kontrola pravopisu"
+msgstr "_Kontrola pravopisu"
 
 #: mail/mail-config.glade.h:124
 msgid "Standard Unix mbox"
@@ -11836,9 +11825,8 @@ msgid "XEmacs"
 msgstr ""
 
 #: mail/mail-config.glade.h:141
-#, fuzzy
 msgid "_Add Signature"
-msgstr "_Podpisy"
+msgstr "_Pøidat podpis"
 
 #: mail/mail-config.glade.h:142
 msgid "_Always load images off the net"
@@ -11861,9 +11849,8 @@ msgid "_Automatically check for new mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid "_Automatically insert smiley images"
-msgstr "Automaticky vkládat chechtáky"
+msgstr "_Automaticky vkládat chechtáky"
 
 #: mail/mail-config.glade.h:148
 msgid "_Beep when new mail arrives"
@@ -11890,9 +11877,8 @@ msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
 #: mail/mail-config.glade.h:156
-#, fuzzy
 msgid "_Enable"
-msgstr "Povolit"
+msgstr "_Povolit"
 
 #: mail/mail-config.glade.h:157
 msgid "_Fixed-width:"
@@ -11968,7 +11954,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:178 ui/evolution-message-composer.xml.h:54
 msgid "_Security"
-msgstr ""
+msgstr "_Zabezpeèení"
 
 #: mail/mail-config.glade.h:179
 msgid "_Sending Mail"
@@ -12156,9 +12142,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-format.c:1857
-#, fuzzy
 msgid "Could not create a PGP verfication context"
-msgstr "Není mo¾né vytvoøit slu¾bu hlá¹ení alarmu"
+msgstr ""
 
 #: mail/mail-format.c:1866
 msgid "This message is digitally signed and has been found to be authentic."
@@ -12198,9 +12183,9 @@ msgid "Malformed external-body part."
 msgstr ""
 
 #: mail/mail-local.c:538 mail/mail-local.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Local folders/%s"
-msgstr "Místní slo¾ky"
+msgstr "Místní slo¾ky/%s"
 
 #: mail/mail-local.c:670
 msgid "Reconfiguring folder"
@@ -12521,9 +12506,8 @@ msgid "Name:"
 msgstr "Jméno:"
 
 #: mail/mail-signature-editor.c:397
-#, fuzzy
 msgid "Signature hint"
-msgstr "Podpis #1"
+msgstr ""
 
 #: mail/mail-signature-editor.c:407
 msgid ""
@@ -12533,9 +12517,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-signature-editor.c:416
-#, fuzzy
 msgid "Hide signature hint"
-msgstr "Ulo¾it podpis"
+msgstr ""
 
 #: mail/mail-tools.c:257
 #, c-format
@@ -12597,9 +12580,9 @@ msgid "(No subject)"
 msgstr ""
 
 #: mail/message-browser.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Message"
-msgstr "Zpráva"
+msgstr "%s - zpráva"
 
 #: mail/message-list.c:676
 msgid "Unseen"
@@ -12678,9 +12661,8 @@ msgid "Follow Up Flag"
 msgstr ""
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
-msgstr "Pùvodní kontakt:"
+msgstr "Pùvodní umístìní"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
@@ -23999,19 +23981,16 @@ msgid "Configuration control for Evolution folder settings."
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:2
-#, fuzzy
 msgid "Folder Settings"
-msgstr "Nastavení"
+msgstr "Nastavení slo¾ky"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
 msgid "The Evolution shell."
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
-#, fuzzy
 msgid "This page can be used to configure various folder settings"
-msgstr ""
-"Tato strana nemù¾e být pou¾ita ke konfiguraci preferencí kalendáøe a úkolu "
+msgstr "Tato strana mù¾e být pou¾ita ke konfiguraci rùzných nastavení slo¾ky "
 
 #: shell/e-activity-handler.c:162
 msgid "Show Details"
@@ -24152,9 +24131,8 @@ msgid "Offline Folders"
 msgstr ""
 
 #: shell/e-shell-config-folder-settings.c:77
-#, fuzzy
 msgid "Autocompletion Folders"
-msgstr "Místní slo¾ky"
+msgstr ""
 
 #: shell/e-shell-folder-commands.c:140
 #, c-format
@@ -25183,7 +25161,7 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "den"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Delete the appointment"
@@ -25191,44 +25169,44 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Go To"
-msgstr ""
+msgstr "Jít na"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Go back"
-msgstr ""
+msgstr "Jít zpìt"
 
 #: ui/evolution-calendar.xml.h:8
 msgid "Go forward"
-msgstr ""
+msgstr "Jít dopøedu"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Go to _Date"
-msgstr ""
+msgstr "Jít na _datum"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Go to a specific date"
-msgstr ""
+msgstr "Jít na urèité datum"
 
 #: ui/evolution-calendar.xml.h:12
 msgid "Go to today"
-msgstr ""
+msgstr "Jít na dne¹ek"
 
 #: ui/evolution-calendar.xml.h:13
 msgid "Month"
-msgstr "Mìsíc"
+msgstr "mìsíc"
 
 #: ui/evolution-calendar.xml.h:15
 msgid "Previews the calendar to be printed"
-msgstr ""
+msgstr "Náhledy kalendáøe k tisku"
 
 #: ui/evolution-calendar.xml.h:16 ui/evolution-comp-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "NÃ¡hled:"
+msgstr "Tisknout _náhled"
 
 #: ui/evolution-calendar.xml.h:17
 msgid "Print this calendar"
-msgstr ""
+msgstr "Tisknout tento kalendáø"
 
 #: ui/evolution-calendar.xml.h:18
 msgid "Publish Free/Busy information for this calendar"
@@ -25236,23 +25214,23 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:19
 msgid "Show one day"
-msgstr ""
+msgstr "Ukázat jeden den"
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Show one month"
-msgstr ""
+msgstr "Ukázat jeden mìsíc"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Show one week"
-msgstr ""
+msgstr "Ukázat jeden týden"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Show the working week"
-msgstr ""
+msgstr "Ukázat pracovní týden"
 
 #: ui/evolution-calendar.xml.h:23
 msgid "Week"
-msgstr "Týden"
+msgstr "týden"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -25264,11 +25242,11 @@ msgstr "Zavøít"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this item"
-msgstr ""
+msgstr "Zavøít tuto polo¾ku"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
-msgstr ""
+msgstr "Smazat tuto polo¾ku"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
 #: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:17
@@ -25281,7 +25259,7 @@ msgstr ""
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
-msgstr ""
+msgstr "Tisknout tuto polo¾ku"
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:19
 #: ui/evolution-signature-editor.xml.h:5 widgets/misc/e-filter-bar.c:233
@@ -25300,11 +25278,11 @@ msgstr "Ulo¾it a zavøít"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save the item and close the dialog box"
-msgstr ""
+msgstr "Ulo¾it tuto polo¾ku a zavøít dialog"
 
 #: ui/evolution-comp-editor.xml.h:16
 msgid "Save this item to disk"
-msgstr ""
+msgstr "Ulo¾it tuto polo¾ku na disk"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
@@ -25317,7 +25295,7 @@ msgstr "_Soubor"
 
 #: ui/evolution-contact-editor.xml.h:5
 msgid "Print En_velope..."
-msgstr ""
+msgstr "Tisknout _obálku..."
 
 #: ui/evolution-contact-editor.xml.h:7
 #: ui/evolution-contact-list-editor.xml.h:5
@@ -25327,7 +25305,7 @@ msgstr "Ulo¾it _jako..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
-msgstr ""
+msgstr "Ulo¾it kontakt a zavøít dialog"
 
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
@@ -25603,71 +25581,71 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages from this sender"
-msgstr ""
+msgstr "Vytvoøit pravidlo pro filtrování zpráv od tohoto odesílatele"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
+msgstr "Vytvoøit pravidlo pro filtrování zpráv tìmto pøíjemcùm"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
+msgstr "Vytvoøit pravidlo pro filtrování zpráv pro tento seznam adres"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages with this subject"
-msgstr ""
+msgstr "Vytvoøit pravidlo pro filtrování zpráv s tímto pøedmìtem"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a virtual folder for these recipients"
-msgstr ""
+msgstr "Vytvoøit virtuální slo¾ku pro tyto pøíjemce"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a virtual folder for this mailing list"
-msgstr ""
+msgstr "Vytvoøit virtuální slo¾ku pro tento seznam adres"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for this sender"
-msgstr ""
+msgstr "Vytvoøit virtuální slo¾ku pro tohoto odesílatele"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this subject"
-msgstr ""
+msgstr "Vytvoøit virtuální slo¾ku pro tento pøedmìt"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Zmen¹it velikost textu"
 
 #: ui/evolution-mail-message.xml.h:21
 msgid "Display the next important message"
-msgstr ""
+msgstr "Zobrazit nasledující dùle¾itou zprávu"
 
 #: ui/evolution-mail-message.xml.h:22
 msgid "Display the next message"
-msgstr ""
+msgstr "Zobrazit následující zprávu"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Display the next unread message"
-msgstr ""
+msgstr "Zobrazit následující nepøeètenou zprávu"
 
 #: ui/evolution-mail-message.xml.h:24
 msgid "Display the next unread thread"
-msgstr ""
+msgstr "Zobrazit následující nepøeètené vlákno"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the previous important message"
-msgstr ""
+msgstr "Zobrazit pøedcházející dùle¾itou zprávu"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the previous message"
-msgstr ""
+msgstr "Zobrazit pøedcházející zprávu"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "Zobrazit pøedcházející nepøeètenou zprávu"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "F_orward"
-msgstr ""
+msgstr "Pø_eposlat"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -25699,23 +25677,23 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "Pøeposlat vybranou zprávu v tìle nové zprávy"
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "Pøeposlat vybranou zprávu uvedenou jako odpovìï"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Forward the selected message to someone"
-msgstr ""
+msgstr "Pøeposlat nìkomu vybranou zprávu"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "Pøeposlat nìkomu vybranou zprávu jako pøílohu"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
-msgstr ""
+msgstr "Zvìt¹it velikost textu"
 
 #: ui/evolution-mail-message.xml.h:42
 msgid "Load _Images"
@@ -25723,43 +25701,43 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark as I_mportant"
-msgstr ""
+msgstr "Oznaèit jako _dùle¾ité"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Mark as U_nread"
-msgstr ""
+msgstr "Oznaèit jako _nepøeètené"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Mark as Unimp_ortant"
-msgstr ""
+msgstr "Oznaèit jako nedù_le¾ité"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Mark the selected message(s) as having been read"
-msgstr ""
+msgstr "Oznaèit vybrané zprávy jako pøeètené"
 
 #: ui/evolution-mail-message.xml.h:48
 msgid "Mark the selected message(s) as important"
-msgstr ""
+msgstr "Oznaèit vybrané zprávy jako dùle¾ité"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Mark the selected message(s) as not having been read"
-msgstr ""
+msgstr "Oznaèit vybrané zprávy jako nepøeètené"
 
 #: ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as unimportant"
-msgstr ""
+msgstr "Oznaèit vybrané zprávy jako nedùle¾ité"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected messages for deletion"
-msgstr ""
+msgstr "Oznaèit vybrané zprávy ke smazání"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Move"
-msgstr "Posun"
+msgstr "Pøesunout"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Move selected message(s) to another folder"
-msgstr ""
+msgstr "Pøesunout vybrané zprávy do jiné slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:54
 msgid "Next"
@@ -25767,19 +25745,19 @@ msgstr "Dal¹í"
 
 #: ui/evolution-mail-message.xml.h:55
 msgid "Next _Important Message"
-msgstr ""
+msgstr "Dal¹í _dùle¾itá zpráva"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Next _Thread"
-msgstr ""
+msgstr "Dal¹í _vlákno"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "Dal¹í _nepøeètená zpráva"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Open the selected message in a new window"
-msgstr ""
+msgstr "Otevøít vybranou zprávu v novém oknì"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Open the selected message in the composer to re-send it"
@@ -25787,15 +25765,15 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Original Si_ze"
-msgstr ""
+msgstr "Pùvodní _velikost"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "Pøe_dchozí nepøeètená zpráva"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Pr_evious Important Message"
-msgstr ""
+msgstr "Pø_edchozí dùle¾itá zpráva"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Preview the message to be printed"
@@ -25807,7 +25785,7 @@ msgstr "Pøedchozí"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Print this message"
-msgstr ""
+msgstr "Vytisknout tuto zprávu"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Re_direct"
@@ -25823,23 +25801,23 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_earch Message..."
-msgstr ""
+msgstr "_Vyhledat zprávu..."
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "S_maller"
-msgstr ""
+msgstr "_Men¹í"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Save the message as a text file"
-msgstr ""
+msgstr "Ulo¾it tuto zprávu jako textový soubor"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "Vyhledat text v tìle zobrazené zprávy"
 
 #: ui/evolution-mail-message.xml.h:79
 msgid "Setup the page settings for your current printer"
-msgstr "Nastavení stránky pro aktuální tiskárnu"
+msgstr "Nastavit stránku pro aktuální tiskárnu"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "Show Email _Source"
@@ -25847,7 +25825,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "Show Full _Headers"
-msgstr ""
+msgstr "Ukázat celou _hlavièku"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show message in the normal style"
@@ -25931,11 +25909,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Open Message"
-msgstr ""
+msgstr "_Otevøít zprávu"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Previous Message"
-msgstr ""
+msgstr "_Pøedchozí zpráva"
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Quoted"
@@ -26073,11 +26051,11 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Send the message later"
-msgstr ""
+msgstr "Poslat tuto zprávu pozdìji"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Send this message now"
-msgstr ""
+msgstr "Poslat tuto zprávu nyní"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Show / hide attachments"
@@ -26153,9 +26131,8 @@ msgid "_Help"
 msgstr "Ná_povìda"
 
 #: ui/evolution-signature-editor.xml.h:15
-#, fuzzy
 msgid "_Signature editor"
-msgstr "_Podpisy"
+msgstr "Editor _podpisu"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -26315,19 +26292,19 @@ msgstr "Otevøít v novém oknu"
 
 #: ui/evolution.xml.h:23
 msgid "Open this folder in an other window"
-msgstr ""
+msgstr "Otevøít tuto slo¾ku v jiném oknì"
 
 #: ui/evolution.xml.h:24
 msgid "Send / Receive"
-msgstr ""
+msgstr "Odeslat / pøijmout"
 
 #: ui/evolution.xml.h:25
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "Poslat polo¾ky èekající ve frontì a pøijmout nové polo¾ky"
 
 #: ui/evolution.xml.h:26
 msgid "Show information about Ximian Evolution"
-msgstr ""
+msgstr "Ukázat informace o Ximian Evolution"
 
 #: ui/evolution.xml.h:27
 msgid "Submit Bug Report"
