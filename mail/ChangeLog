@@ -1,3 +1,6 @@
+2004-01-26 Aaron Weber <aaron@ximian.com>
+        * mail/default/C/Inbox: edited default message	
+
 2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_copy_folders__copy): Use FOLDER_INFO_FAST
