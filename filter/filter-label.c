@@ -177,4 +177,6 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 		l = l->next;
 	}
 	g_slist_free (list);
+	
+	g_object_unref (gconf);
 }

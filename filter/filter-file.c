@@ -256,14 +256,15 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	xmlFree (file->type);
 	file->type = type;
 	
+	g_free (file->path);
+	file->path = NULL;
+	
 	n = node->children;
 	while (n != NULL) {
 		if (!strcmp (n->name, type)) {
 			str = xmlNodeGetContent (n);
-			if (str)
-				file->path = g_strdup (str);
-			else
-				file->path = g_strdup ("");
+			file->path = g_strdup (str ? str : "");
+			xmlFree (str);
 			
 			d(printf ("  '%s'\n", file->path));
 			break;

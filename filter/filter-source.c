@@ -345,12 +345,16 @@ filter_source_get_sources (FilterSource *fs)
 {
 	EAccountList *accounts;
 	const EAccount *account;
+	GConfClient *gconf;
 	EIterator *it;
 	char *uri;
 	CamelURL *url;
-
+	
 	/* should this get the global object from mail? */
-	accounts = e_account_list_new(gconf_client_get_default());
+	gconf = gconf_client_get_default ();
+	accounts = e_account_list_new (gconf);
+	g_object_unref (gconf);
+	
 	for (it = e_list_get_iterator((EList *)accounts);
 	     e_iterator_is_valid(it);
 	     e_iterator_next(it)) {
