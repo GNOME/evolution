@@ -1340,9 +1340,9 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		gal_view_collection_set_title (collection, _("Calendar"));
 
-		path = gnome_util_prepend_user_home ("/evolution/views/calendar/");
+ 		path = gnome_util_prepend_user_home ("/evolution/views/calendar/");
 		gal_view_collection_set_storage_directories (collection,
-							     EVOLUTION_GALVIEWSDIR "/evolution/views/calendar/",
+							     EVOLUTION_GALVIEWSDIR "/calendar/",
 							     path);
 		g_free (path);
 

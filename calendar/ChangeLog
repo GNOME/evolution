@@ -1,3 +1,14 @@
+2003-02-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* pcs/Makefile.am: Split $(CORBA_GENERATED_H) rule from the
+	$(CORBA_GENERATED_C) rule to that it autogens properly when using
+	parallel makes.
+	* cal-client/Makefile.am: Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_setup_view_menus): Fix path to
+	the calendar's GAL Views directory.  [Pointed out by Grzegorz
+	Goawski.]
+
 2003-02-11  Hans Petter Jansson  <hpj@ximian.com>
 
 	Enable printing for calendar and tasks.

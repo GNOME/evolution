@@ -2,23 +2,23 @@
 # libcal-client
 #
 
-CORBA_SOURCES_GENERATED =			\
+CORBA_GENERATED_C =				\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
-
-CORBA_HEADERS_GENERATED =			\
+CORBA_GENERATED_H =			\
 	evolution-calendar.h
 
-CORBA_GENERATED = $(CORBA_SOURCES_GENERATED) $(CORBA_HEADERS_GENERATED)
+CORBA_GENERATED = $(CORBA_GENERATED_C) $(CORBA_GENERATED_H)
 
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
 
 idl_flags = $(IDL_INCLUDES)
 
-$(CORBA_GENERATED): $(idls)
+$(CORBA_GENERATED_H): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
+$(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
 
 INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
@@ -39,7 +39,7 @@ privlib_LTLIBRARIES = libcal-client.la
 libcal_clientincludedir = $(privincludedir)/cal-client
 
 libcal_client_la_SOURCES =	\
-	$(CORBA_SOURCES_GENERATED)	\
+	$(CORBA_GENERATED_C)	\
 	cal-client-multi.c	\
 	cal-client-types.c	\
 	cal-client.c		\
@@ -50,7 +50,7 @@ libcal_client_la_SOURCES =	\
 	query-listener.h
 
 libcal_clientinclude_HEADERS =		\
-	$(CORBA_HEADERS_GENERATED)	\
+	$(CORBA_GENERATED_H)		\
 	cal-client-multi.h		\
 	cal-client-types.h 		\
 	cal-client.h			\

@@ -24,8 +24,10 @@ idls =						\
 
 idl_flags = -I $(srcdir) $(IDL_INCLUDES)
 
-$(CORBA_GENERATED): $(idls)
+$(CORBA_GENERATED_H): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
+
+$(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
 
 pcsincludedir = $(privincludedir)/pcs
 
