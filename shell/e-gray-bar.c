@@ -41,34 +41,14 @@ static GtkEventBoxClass *parent_class = NULL;
 static void
 endarken_style (GtkWidget *widget)
 {
-	GtkStyle *style;
-	GtkRcStyle *new_rc_style;
-	int i;
+	GtkRcStyle *rc_style = gtk_rc_style_new();
 
-	style = widget->style;
+	rc_style->color_flags[GTK_STATE_NORMAL] |= GTK_RC_BG;
+	rc_style->bg[GTK_STATE_NORMAL].red = 0x8000;
+	rc_style->bg[GTK_STATE_NORMAL].green = 0x8000;
+	rc_style->bg[GTK_STATE_NORMAL].blue = 0x8000;
 
-	new_rc_style = gtk_rc_style_new ();
-
-	for (i = 0; i < 5; i++) {
-		new_rc_style->bg[i].red      = 0x8000;
-		new_rc_style->bg[i].green    = 0x8000;
-		new_rc_style->bg[i].blue     = 0x8000;
-		new_rc_style->base[i].red    = 0x8000;
-		new_rc_style->base[i].green  = 0x8000;
-		new_rc_style->base[i].blue   = 0x8000;
-		new_rc_style->fg[i].red      = 0xffff;
-		new_rc_style->fg[i].green    = 0xffff;
-		new_rc_style->fg[i].blue     = 0xffff;
-		new_rc_style->text[i].red    = 0xffff;
-		new_rc_style->text[i].green  = 0xffff;
-		new_rc_style->text[i].blue   = 0xffff;
-
-		new_rc_style->color_flags[i] = GTK_RC_BG | GTK_RC_FG | GTK_RC_BASE | GTK_RC_TEXT;
-	}
-
-	gtk_widget_modify_style (widget, new_rc_style);
-
-	gtk_rc_style_unref (new_rc_style);
+	gtk_widget_modify_style (widget, rc_style);
 }
 
 

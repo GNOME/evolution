@@ -127,6 +127,23 @@ title_button_box_realize_cb (GtkWidget *widget,
 }
 
 
+/* This is used to make the labels white.  Yes, yes, I know I shouldn't do
+   this.  Yes, yes, I know it's evil.  */
+
+static void
+set_title_bar_label_style (GtkWidget *widget)
+{
+	GtkRcStyle *rc_style = gtk_rc_style_new();
+
+	rc_style->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
+	rc_style->fg[GTK_STATE_NORMAL].red = 0xffff;
+	rc_style->fg[GTK_STATE_NORMAL].green = 0xffff;
+	rc_style->fg[GTK_STATE_NORMAL].blue = 0xffff;
+
+	gtk_widget_modify_style (widget, rc_style);
+}
+
+
 /* Utility functions.  */
 
 static int
@@ -427,15 +444,18 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	priv->label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
+	set_title_bar_label_style (priv->label);
 
 	priv->button_label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
 	gtk_widget_show (priv->button_label);
+	set_title_bar_label_style (priv->button_label);
 
 	priv->folder_bar_label = e_clipped_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
 	gtk_widget_show (priv->folder_bar_label);
+	set_title_bar_label_style (priv->folder_bar_label);
 
 	button_hbox = gtk_hbox_new (FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (button_hbox), "realize",
