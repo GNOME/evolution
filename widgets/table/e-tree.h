@@ -58,7 +58,8 @@ typedef struct {
 	/*
 	 * Configuration settings
 	 */
-	guint draw_grid : 1;
+	guint horizontal_draw_grid : 1;
+	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
 	guint row_selection_active : 1;
 

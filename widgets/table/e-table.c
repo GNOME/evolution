@@ -202,7 +202,8 @@ e_table_init (GtkObject *object)
 	e_table->group_info_change_id = 0;
 	e_table->reflow_idle_id = 0;
 
-	e_table->draw_grid = 1;
+	e_table->horizontal_draw_grid = 1;
+	e_table->vertical_draw_grid = 1;
 	e_table->draw_focus = 1;
 	e_table->cursor_mode = E_CURSOR_SIMPLE;
 	e_table->length_threshold = 200;
@@ -561,7 +562,8 @@ et_build_groups (ETable *et)
 				       0);
 	e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
-			      "drawgrid", et->draw_grid,
+			      "horiztonal_draw_grid", et->horizontal_draw_grid,
+			      "vertical_draw_grid", et->vertical_draw_grid,
 			      "drawfocus", et->draw_focus,
 			      "cursor_mode", et->cursor_mode,
 			      "length_threshold", et->length_threshold,
@@ -938,7 +940,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->click_to_add_message = g_strdup (gettext (specification->click_to_add_message));
-	e_table->draw_grid = specification->draw_grid;
+	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
+	e_table->vertical_draw_grid = specification->vertical_draw_grid;
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);

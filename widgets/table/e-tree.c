@@ -154,7 +154,8 @@ e_tree_init (GtkObject *object)
 	e_tree->sort_info = NULL;
 	e_tree->reflow_idle_id = 0;
 
-	e_tree->draw_grid = 1;
+	e_tree->horizontal_draw_grid = 1;
+	e_tree->vertical_draw_grid = 1;
 	e_tree->draw_focus = 1;
 	e_tree->cursor_mode = E_CURSOR_SIMPLE;
 	e_tree->length_threshold = 200;
@@ -439,7 +440,8 @@ et_build_item (ETree *et)
 					 "ETableHeader", et->header,
 					 "ETableModel", et->etta,
 					 "table_selection_model", et->selection,
-					 "drawgrid", et->draw_grid,
+					 "horizontal_draw_grid", et->horizontal_draw_grid,
+					 "vertical_draw_grid", et->vertical_draw_grid,
 					 "drawfocus", et->draw_focus,
 					 "cursor_mode", et->cursor_mode,
 					 "length_threshold", et->length_threshold,
@@ -714,7 +716,8 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	else
 		ete = e_table_extras_new();
 
-	e_tree->draw_grid = specification->draw_grid;
+	e_tree->horizontal_draw_grid = specification->horizontal_draw_grid;
+	e_tree->vertical_draw_grid = specification->vertical_draw_grid;
 	e_tree->draw_focus = specification->draw_focus;
 	e_tree->cursor_mode = specification->cursor_mode;
 	e_tree->full_header = e_table_spec_to_full_header(specification, ete);
@@ -1112,6 +1115,8 @@ gboolean
 e_tree_node_is_expanded (ETree *et, ETreePath path)
 {
 	path = e_tree_sorted_model_to_view_path(et->sorted, path);
+
+	g_return_val_if_fail(path, FALSE);
 
 	return e_tree_table_adapter_node_is_expanded (et->etta, path);
 }

@@ -301,7 +301,8 @@ finish_editing (ETableClickToAdd *etcta)
 						   "ETableHeader", etcta->eth,
 						   "ETableModel", etcta->one,
 						   "minimum_width", etcta->width,
-						   "drawgrid", TRUE,
+						   "horizontal_draw_grid", FALSE,
+						   "vertical_draw_grid", TRUE,
 						   "table_selection_model", etcta->selection,
 						   "cursor_mode", E_CURSOR_SPREADSHEET,
 						   NULL);
@@ -346,7 +347,8 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "ETableHeader", etcta->eth,
 							   "ETableModel", etcta->one,
 							   "minimum_width", etcta->width,
-							   "drawgrid", TRUE,
+							   "horizontal_draw_grid", FALSE,
+							   "vertical_draw_grid", TRUE,
 							   "table_selection_model", etcta->selection,
 							   "cursor_mode", E_CURSOR_SPREADSHEET,
 							   NULL);

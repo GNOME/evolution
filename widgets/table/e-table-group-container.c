@@ -34,7 +34,8 @@ enum {
 	ARG_WIDTH,
 	ARG_MINIMUM_WIDTH,
 	ARG_FROZEN,
-	ARG_TABLE_DRAW_GRID,
+	ARG_TABLE_HORIZONTAL_DRAW_GRID,
+	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
 	ARG_TABLE_SELECTION_MODEL,
@@ -410,7 +411,8 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
 				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(child),
-			      "drawgrid", etgc->draw_grid,
+			      "horizontal_draw_grid", etgc->horizontal_draw_grid,
+			      "vertical_draw_grid", etgc->vertical_draw_grid,
 			      "drawfocus", etgc->draw_focus,
 			      "cursor_mode", etgc->cursor_mode,
 			      "table_selection_model", etgc->table_selection_model,
@@ -718,12 +720,22 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_TABLE_DRAW_GRID:
-		etgc->draw_grid = GTK_VALUE_BOOL (*arg);
+	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
+		etgc->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"drawgrid", GTK_VALUE_BOOL (*arg),
+					"horizontal_draw_grid", GTK_VALUE_BOOL (*arg),
+					NULL);
+		}
+		break;
+
+	case ARG_TABLE_VERTICAL_DRAW_GRID:
+		etgc->vertical_draw_grid = GTK_VALUE_BOOL (*arg);
+		for (list = etgc->children; list; list = g_list_next (list)) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			gtk_object_set (GTK_OBJECT(child_node->child),
+					"vertical_draw_grid", GTK_VALUE_BOOL (*arg),
 					NULL);
 		}
 		break;
@@ -805,8 +817,10 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->get_printable = etgc_get_printable;
 	e_group_class->compute_location = etgc_compute_location;
 
-	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableGroupContainer::horizontal_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableGroupContainer::vertical_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_VERTICAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableGroupContainer::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableGroupContainer::cursor_mode", GTK_TYPE_INT,
@@ -915,7 +929,8 @@ etgc_init (GtkObject *object)
 	
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgc_reflow);
 
-	container->draw_grid = 1;
+	container->horizontal_draw_grid = 1;
+	container->vertical_draw_grid = 1;
 	container->draw_focus = 1;
 	container->cursor_mode = E_CURSOR_SIMPLE;
 	container->length_threshold = -1;

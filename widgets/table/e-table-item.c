@@ -47,7 +47,8 @@ enum {
 	ARG_TABLE_HEADER,
 	ARG_TABLE_MODEL,
 	ARG_TABLE_SELECTION_MODEL,
-	ARG_TABLE_DRAW_GRID,
+	ARG_TABLE_HORIZONTAL_DRAW_GRID,
+	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
@@ -520,7 +521,7 @@ eti_get_height (ETableItem *eti)
 	const int rows = eti->rows;
 	int row;
 	int height;
-	int height_extra = eti->draw_grid ? 1 : 0;
+	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	if (rows == 0)
 		return 0;
@@ -616,7 +617,7 @@ int
 e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 {
 	int row, total;
-	int height_extra = eti->draw_grid ? 1 : 0;
+	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	total = 0;
 
@@ -983,8 +984,12 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		eti->length_threshold = GTK_VALUE_INT (*arg);
 		break;
 
-	case ARG_TABLE_DRAW_GRID:
-		eti->draw_grid = GTK_VALUE_BOOL (*arg);
+	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
+		eti->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
+		break;
+
+	case ARG_TABLE_VERTICAL_DRAW_GRID:
+		eti->vertical_draw_grid = GTK_VALUE_BOOL (*arg);
 		break;
 
 	case ARG_TABLE_DRAW_FOCUS:
@@ -1209,7 +1214,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
 	GdkColor *background;
-	int height_extra = eti->draw_grid ? 1 : 0;
+	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	
 	/*
 	 * Clear the background
@@ -1293,7 +1298,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	f_x1 = f_x2 = f_y1 = f_y2 = -1;
 	f_found = FALSE;
 
-	if (eti->draw_grid && first_row == 0){
+	if (eti->horizontal_draw_grid && first_row == 0){
 		gdk_draw_line (
 			drawable, eti->grid_gc,
 				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
@@ -1402,7 +1407,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		}
 		yd += height;
 
-		if (eti->draw_grid) {
+		if (eti->horizontal_draw_grid) {
 			gdk_draw_line (
 				drawable, eti->grid_gc,
 				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
@@ -1411,7 +1416,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		}
 	}
 
-	if (eti->draw_grid){
+	if (eti->vertical_draw_grid){
 		int xd = x_offset;
 		
 		for (col = first_col; col <= last_col; col++){
@@ -1456,7 +1461,7 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 	gdouble x1, y1, x2, y2;
 	int col, row;
 
-	int height_extra = eti->draw_grid ? 1 : 0;
+	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	
 	/* FIXME: this routine is inneficient, fix later */
 
@@ -2071,8 +2076,10 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
 	gtk_object_add_arg_type ("ETableItem::table_selection_model", E_TABLE_SELECTION_MODEL_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
-	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableItem::horizontal_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
+	gtk_object_add_arg_type ("ETableItem::vertical_draw_grid", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_VERTICAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableItem::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableItem::cursor_mode", GTK_TYPE_INT,
@@ -2442,7 +2449,7 @@ e_table_item_print_page  (EPrintable *ep,
 	/*
 	 * Draw cells
 	 */
-	if (eti->draw_grid){
+	if (eti->horizontal_draw_grid){
 		gp_draw_rect(context, 0, yd, width, 1);
 	}
 	yd--;
@@ -2492,7 +2499,7 @@ e_table_item_print_page  (EPrintable *ep,
 		}
 		yd -= row_height;
 
-		if (eti->draw_grid){
+		if (eti->horizontal_draw_grid){
 			gp_draw_rect(context, 0, yd, width, 1);
 		}
 		yd--;
@@ -2500,7 +2507,7 @@ e_table_item_print_page  (EPrintable *ep,
 
 	itemcontext->rows_printed = row;
 
-	if (eti->draw_grid){
+	if (eti->vertical_draw_grid){
 		gdouble xd = 0;
 		
 		for (col = 0; col < cols; col++){

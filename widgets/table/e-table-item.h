@@ -53,7 +53,8 @@ typedef struct {
 	GdkGC           *focus_gc;
 	GdkBitmap       *stipple;
 
-	guint 		 draw_grid:1;
+	guint 		 horizontal_draw_grid:1;
+	guint 		 vertical_draw_grid:1;
 	guint 		 draw_focus:1;
 	guint 		 renderers_can_change_size:1;
 	guint 		 cell_views_realized:1;

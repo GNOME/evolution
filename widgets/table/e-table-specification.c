@@ -61,7 +61,8 @@ etsp_init (ETableSpecification *etsp)
 
 	etsp->no_headers            = FALSE;
 	etsp->click_to_add          = FALSE;
-	etsp->draw_grid             = FALSE;
+	etsp->horizontal_draw_grid  = FALSE;
+	etsp->vertical_draw_grid    = FALSE;
 	etsp->draw_focus            = TRUE;
 	etsp->horizontal_scrolling  = FALSE;
 
@@ -160,7 +161,13 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 
 	specification->no_headers = e_xml_get_bool_prop_by_name (node, "no-headers");
 	specification->click_to_add = e_xml_get_bool_prop_by_name (node, "click-to-add");
-	specification->draw_grid = e_xml_get_bool_prop_by_name (node, "draw-grid");
+	specification->horizontal_draw_grid = e_xml_get_bool_prop_by_name (node, "horizontal-draw-grid");
+	specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, "vertical-draw-grid");
+	if (e_xml_get_bool_prop_by_name_with_default(node, "draw-grid", TRUE) ==
+	    e_xml_get_bool_prop_by_name_with_default(node, "draw-grid", FALSE)) {
+		specification->horizontal_draw_grid =
+			specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, "draw-grid");
+	}
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
 	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
 
@@ -299,7 +306,8 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	node = xmlNewNode (NULL, "ETableSpecification");
 	e_xml_set_bool_prop_by_name (node, "no-headers", specification->no_headers);
 	e_xml_set_bool_prop_by_name (node, "click-to-add", specification->click_to_add);
-	e_xml_set_bool_prop_by_name (node, "draw-grid", specification->draw_grid);
+	e_xml_set_bool_prop_by_name (node, "horizontal-draw-grid", specification->horizontal_draw_grid);
+	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
 	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
 

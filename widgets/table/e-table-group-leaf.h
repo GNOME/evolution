@@ -32,7 +32,8 @@ typedef struct {
 	ETableSubset *ets;
 	guint is_grouped : 1;
 
-	guint draw_grid : 1;
+	guint horizontal_draw_grid : 1;
+	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
 	ECursorMode cursor_mode;
 

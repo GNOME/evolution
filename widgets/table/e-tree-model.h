@@ -3,6 +3,7 @@
 #define _E_TREE_MODEL_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtkobject.h>
 
 #ifdef __cplusplus
 extern "C" {
