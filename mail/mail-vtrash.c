@@ -138,7 +138,7 @@ get_trash_desc (struct _mail_msg *mm, int done)
 
 /* maps the shell's uri to the real vfolder uri and open the folder */
 static CamelFolder *
-create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
+create_trash_vfolder (CamelStore *store, const char *name, GPtrArray *urls, CamelException *ex)
 {
 	void camel_vee_folder_add_folder (CamelFolder *, CamelFolder *);
 	
@@ -148,7 +148,7 @@ create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
 	
 	d(fprintf (stderr, "Creating Trash vfolder\n"));
 	
-	storeuri = g_strdup_printf ("vfolder:%s/vfolder/%s", evolution_dir, name);
+	storeuri = g_strdup_printf ("vfolder:%s/vfolder/%p/%s", evolution_dir, store, name);
 	foldername = g_strdup ("mbox?(match-all (system-flag \"Deleted\"))");
 	
 	/* we dont have indexing on vfolders */
@@ -170,9 +170,7 @@ create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
 		d(fprintf (stderr, "source folder = %p\n", sourcefolder));
 		
 		if (sourcefolder) {
-			mail_tool_camel_lock_up ();
 			camel_vee_folder_add_folder (folder, sourcefolder);
-			mail_tool_camel_lock_down ();
 		} else {
 			/* we'll just silently ignore now-missing sources */
 			camel_exception_clear (ex);
@@ -206,7 +204,6 @@ static void
 get_trash_get (struct _mail_msg *mm)
 {
 	struct _get_trash_msg *m = (struct _get_trash_msg *)mm;
-	CamelStore *store;
 	GPtrArray *urls;
 
 	camel_operation_register(mm->cancel);
@@ -215,9 +212,9 @@ get_trash_get (struct _mail_msg *mm)
 	urls = g_ptr_array_new ();
 	
 	/* we don't want to connect */
-	m->store = store = (CamelStore *) camel_session_get_service (session, m->store_uri,
-								     CAMEL_PROVIDER_STORE, &mm->ex);
-	if (store == NULL) {
+	m->store = (CamelStore *) camel_session_get_service (session, m->store_uri,
+							     CAMEL_PROVIDER_STORE, &mm->ex);
+	if (m->store == NULL) {
 		g_warning ("Couldn't get service %s: %s\n", m->store_uri,
 			   camel_exception_get_description (&mm->ex));
 		camel_exception_clear (&mm->ex);
@@ -235,11 +232,11 @@ get_trash_get (struct _mail_msg *mm)
 			/* Create and add this new vTrash folder */
 			CamelFolderInfo *info;
 			
-			info = camel_store_get_folder_info (store, NULL, TRUE, TRUE, TRUE, &mm->ex);
+			info = camel_store_get_folder_info (m->store, NULL, TRUE, TRUE, TRUE, &mm->ex);
 			populate_folder_urls (info, urls);
-			camel_store_free_folder_info (store, info);
+			camel_store_free_folder_info (m->store, info);
 			
-			m->folder = create_trash_vfolder (_("vTrash"), urls, &mm->ex);
+			m->folder = create_trash_vfolder (m->store, _("vTrash"), urls, &mm->ex);
 		}
 	}
 

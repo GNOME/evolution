@@ -1,3 +1,10 @@
+2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vtrash.c (create_trash_vfolder): Come up with a unique
+	store uri for each vtrash (using %p and the CamelStore we're gonna
+	place it on).
+	(get_trash_get): Pass in the store so we can use it for %p.
+
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_gui_add_from_mlist): Rule to add mlist
