@@ -299,6 +299,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	GnomeVFSURI *src_uri;
 	GnomeVFSURI *dest_uri;
 	GnomeVFSResult result;
+	GNOME_Evolution_ShellComponentListener_Result e_result;
 
 	CORBA_exception_init (&ev);
 	
@@ -342,17 +343,19 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	result = xfer_file (src_uri, dest_uri, "addressbook.db", remove_source);
+	e_result = xfer_file (src_uri, dest_uri, "addressbook.db", remove_source);
 
-	if ((result == GNOME_Evolution_ShellComponentListener_OK) && remove_source) {
+	if ((e_result == GNOME_Evolution_ShellComponentListener_OK) && remove_source) {
 		char *summary_uri;
 
 		summary_uri = g_strconcat (source_physical_uri, "/addressbook.db.summary", NULL);
 		result = gnome_vfs_unlink (summary_uri);
+		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_NOT_FOUND)
+			e_result = GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
 		g_free (summary_uri);
 	}
 
-	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, e_result, &ev);
 
 	gnome_vfs_uri_unref (src_uri);
 	gnome_vfs_uri_unref (dest_uri);
