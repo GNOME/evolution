@@ -1,3 +1,21 @@
+2000-05-30  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c: Redo this back to the old way: a single GtkHTML
+	with various things inline in it. (Gets rid of flicker, simplifies
+	some scrolling, selecting, and printing issues.)
+	(handle_text_enriched, handle_text_html): Use <iframe>s for these,
+	to protect the rest of the document from their possibily invalid
+	HTML.
+	(handle_via_bonobo): Use (new-and-improved) <object> tags for
+	this, moving most of the work back into mail-display.c
+
+	* mail-display.c (on_object_requested): Move the Bonobo embedding
+	code back here again (reorganized a bit).
+	(on_url_requested): add x-evolution-data handler, for iframe
+	bodies.
+	(mail_html_new, mail_html_end): removed
+	(mail_display_set_message, mail_display_new): Update for NWO.
+
 2000-05-30  Not Zed  <NotZed@HelixCode.com>
 
 	* folder-browser.c (search_set): Properly encode the search string.

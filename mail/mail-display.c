@@ -18,6 +18,10 @@
 #include "mail-display.h"
 #include "mail.h"
 
+#include <bonobo.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo/bonobo-stream-memory.h>
+
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
 static GtkObjectClass *mail_display_parent_class;
@@ -127,11 +131,118 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 		gnome_url_show (url);
 }
 
+static void 
+embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
+{
+	BonoboWidget *be;      /* bonobo embeddable */
+	BonoboViewFrame *vf;   /* the embeddable view frame */
+	BonoboObjectClient* server;
+	CORBA_Environment ev;
+
+	be = BONOBO_WIDGET (obj);
+	server = bonobo_widget_get_server (be);
+
+	vf = bonobo_widget_get_view_frame (be);
+	bonobo_control_frame_control_deactivate (
+		BONOBO_CONTROL_FRAME (vf));
+	/* w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf)); */
+	
+	/* gtk_widget_destroy (w); */
+	
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+	CORBA_Object_release (
+		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
+
+	CORBA_exception_free (&ev);
+	bonobo_object_unref (BONOBO_OBJECT (vf));
+}
+
+static gboolean
+on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
+{
+	CamelMimeMessage *message;
+	CamelDataWrapper *wrapper;
+	const char *goad_id;
+	GtkWidget *embedded;
+	BonoboObjectClient *server;
+	Bonobo_PersistStream persist;	
+	CORBA_Environment ev;
+	GByteArray *ba;
+	CamelStream *cstream;
+	BonoboStream *bstream;
+
+	if (strncmp (eb->classid, "cid:", 4) != 0)
+		return FALSE;
+	message = gtk_object_get_data (GTK_OBJECT (html), "message");
+	wrapper = gtk_object_get_data (GTK_OBJECT (message), eb->classid + 4);
+	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (wrapper), FALSE);
+
+	goad_id = gnome_mime_get_value (eb->type, "bonobo-goad-id");
+	if (!goad_id) {
+		char *main_type =
+			g_strndup (eb->type, strcspn (eb->type, "/"));
+
+		goad_id = gnome_mime_get_value (main_type, "bonobo-goad-id");
+		g_free (main_type);
+	}
+	if (!goad_id)
+		return FALSE;
+
+	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
+	if (!embedded)
+		return FALSE;
+	gtk_signal_connect (GTK_OBJECT (embedded), "destroy",
+			    embeddable_destroy_cb, NULL);
+	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
+
+	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
+		server, "IDL:Bonobo/PersistStream:1.0", NULL);
+	if (persist == CORBA_OBJECT_NIL) {
+		bonobo_object_unref (BONOBO_OBJECT (embedded));
+		return FALSE;
+	}
+
+	/* Write the data to a CamelStreamMem... */
+	ba = g_byte_array_new ();
+	cstream = camel_stream_mem_new_with_byte_array (ba);
+	camel_data_wrapper_write_to_stream (wrapper, cstream);
+
+	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
+	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
+	gtk_object_unref (GTK_OBJECT (cstream));
+
+	/* ...and hydrate the PersistStream from the BonoboStream. */
+	CORBA_exception_init (&ev);
+	Bonobo_PersistStream_load (persist,
+				   bonobo_object_corba_objref (
+					   BONOBO_OBJECT (bstream)),
+				   eb->type, &ev);
+	bonobo_object_unref (BONOBO_OBJECT (bstream));
+	Bonobo_Unknown_unref (persist, &ev);
+	CORBA_Object_release (persist, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		bonobo_object_unref (BONOBO_OBJECT (embedded));
+		CORBA_exception_free (&ev);				
+		return FALSE;
+	}
+	CORBA_exception_free (&ev);
+
+	gtk_widget_show (embedded);
+	gtk_container_add (GTK_CONTAINER (eb), embedded);
+
+	return TRUE;
+}
+
 static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
-	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (user_data);
+	CamelMimeMessage *message;
+
+	message = gtk_object_get_data (GTK_OBJECT (html), "message");
 
 	if (strncmp (url, "x-gnome-icon:", 13) == 0) {
 		const char *name = url + 13;
@@ -169,36 +280,13 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		camel_data_wrapper_write_to_stream (data, stream_mem);
 		gtk_html_write (html, handle, ba->data, ba->len);
 		gtk_object_unref (GTK_OBJECT (stream_mem));
-	} else
-		return;
-}
+	} else if (strncmp (url, "x-evolution-data:", 17) == 0) {
+		char *string;
 
-/* HTML part code */
-static void
-html_size_req (GtkWidget *widget, GtkRequisition *requisition)
-{
-	requisition->height = GTK_LAYOUT (widget)->height;
-	requisition->width = GTK_LAYOUT (widget)->width;
-}
+		string = gtk_object_get_data (GTK_OBJECT (message), url);
+		g_return_if_fail (string != NULL);
 
-void
-mail_html_new (GtkHTML **html, GtkHTMLStream **stream,
-	       CamelMimeMessage *root, gboolean init)
-{
-	*html = GTK_HTML (gtk_html_new ());
-	gtk_html_set_editable (*html, FALSE);
-	gtk_signal_connect (GTK_OBJECT (*html), "size_request",
-			    GTK_SIGNAL_FUNC (html_size_req), NULL);
-	gtk_signal_connect (GTK_OBJECT (*html), "url_requested",
-			    GTK_SIGNAL_FUNC (on_url_requested), root);
-	gtk_signal_connect (GTK_OBJECT (*html), "link_clicked",
-			    GTK_SIGNAL_FUNC (on_link_clicked), root);
-
-	*stream = gtk_html_begin (*html);
-	if (init) {
-		mail_html_write (*html, *stream, HTML_HEADER
-				 "<BODY TEXT=\"#000000\" "
-				 "BGCOLOR=\"#FFFFFF\">\n");
+		gtk_html_write (html, handle, string, strlen (string));
 	}
 }
 
@@ -216,28 +304,6 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 	g_free (buf);
 }
 
-void
-mail_html_end (GtkHTML *html, GtkHTMLStream *stream, gboolean finish, GtkBox *box)
-{
-	GtkWidget *scroll;
-
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-					GTK_POLICY_NEVER,
-					GTK_POLICY_NEVER);
-	gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (html));
-
-	if (finish)
-		mail_html_write (html, stream, "</BODY></HTML>\n");
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
-
-	gtk_box_pack_start (box, scroll, FALSE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (html));
-	gtk_widget_show (scroll);
-}
-
-
-
 
 /**
  * mail_display_set_message:
@@ -253,6 +319,7 @@ void
 mail_display_set_message (MailDisplay *mail_display, 
 			  CamelMedium *medium)
 {
+	GtkHTMLStream *stream;
 	GtkAdjustment *adj;
 
 	/*
@@ -267,25 +334,22 @@ mail_display_set_message (MailDisplay *mail_display,
 		return;
 
 	/* Clean up from previous message. */
-	if (mail_display->current_message) {
-		GtkContainer *container =
-			GTK_CONTAINER (mail_display->inner_box);
-		GList *htmls;
-
-		htmls = gtk_container_children (container);
-		while (htmls) {
-			gtk_container_remove (container, htmls->data);
-			htmls = htmls->next;
-		}
-
+	if (mail_display->current_message)
 		gtk_object_unref (GTK_OBJECT (mail_display->current_message));
-	}
 
 	mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
 	gtk_object_ref (GTK_OBJECT (medium));
 
+	gtk_object_set_data (GTK_OBJECT (mail_display->html), "message", medium);
+	stream = gtk_html_begin (mail_display->html);
+	mail_html_write (mail_display->html, stream, "%s%s", HTML_HEADER,
+			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
-				  mail_display->inner_box);
+				  mail_display->html, stream,
+				  CAMEL_MIME_MESSAGE (medium));
+
+	mail_html_write (mail_display->html, stream, "</BODY></HTML>\n");
+	gtk_html_end (mail_display->html, stream, GTK_HTML_STREAM_OK);
 
 	adj = gtk_scrolled_window_get_vadjustment (mail_display->scroll);
 	gtk_adjustment_set_value (adj, 0);
@@ -329,7 +393,7 @@ GtkWidget *
 mail_display_new (FolderBrowser *parent_folder_browser)
 {
 	MailDisplay *mail_display = gtk_type_new (mail_display_get_type ());
-	GtkWidget *scroll, *vbox;
+	GtkWidget *scroll, *html;
 
 	g_assert (parent_folder_browser);
 
@@ -338,9 +402,6 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
 
-	/* For now, the box only contains a single scrolled window,
-	 * which in turn contains a vbox itself.
-	 */
 	scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 					GTK_POLICY_AUTOMATIC,
@@ -349,13 +410,19 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 				     GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));
 
-	vbox = gtk_vbox_new (FALSE, 2);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scroll),
-					       vbox);
-	gtk_widget_show (GTK_WIDGET (vbox));
+	html = gtk_html_new ();
+	gtk_html_set_editable (GTK_HTML (html), FALSE);
+	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
+			    GTK_SIGNAL_FUNC (on_url_requested), NULL);
+	gtk_signal_connect (GTK_OBJECT (html), "object_requested",
+			    GTK_SIGNAL_FUNC (on_object_requested), NULL);
+	gtk_signal_connect (GTK_OBJECT (html), "link_clicked",
+			    GTK_SIGNAL_FUNC (on_link_clicked), NULL);
+	gtk_container_add (GTK_CONTAINER (scroll), html);
+	gtk_widget_show (GTK_WIDGET (html));
 
 	mail_display->scroll = GTK_SCROLLED_WINDOW (scroll);
-	mail_display->inner_box = GTK_BOX (vbox);
+	mail_display->html = GTK_HTML (html);
 
 	return GTK_WIDGET (mail_display);
 }

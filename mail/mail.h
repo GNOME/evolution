@@ -32,7 +32,9 @@ BonoboControl *folder_browser_factory_new_control  (void);
 void mail_config_druid (void);
 
 /* mail-format */
-void mail_format_mime_message (CamelMimeMessage *mime_message, GtkBox *box);
+void mail_format_mime_message (CamelMimeMessage *mime_message,
+				   GtkHTML *html, GtkHTMLStream *stream,
+				   CamelMimeMessage *root_message);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);
