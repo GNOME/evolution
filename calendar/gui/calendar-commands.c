@@ -155,10 +155,8 @@ init_default_alarms (void)
 }
 
 	
-/* static void save_calendar_cmd (GtkWidget *widget, void *data); DELETE */
-
 static void
-about_calendar_cmd (GtkWidget *widget, void *data)
+about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
         GtkWidget *about;
         const gchar *authors[] = {
@@ -180,10 +178,11 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static void
-display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
+display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkWidget *ee;
 	iCalObject *ico;
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
 	/* Default to the day the user is looking at */
 	ico = ical_new ("", user_name, "");
@@ -196,9 +195,10 @@ display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 }
 
 static void
-display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
+display_objedit_today (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkWidget *ee;
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
 	ee = event_editor_new (gcal, NULL);
 	gtk_widget_show (ee);
@@ -252,44 +252,49 @@ set_normal_cursor (GnomeCalendar *gcal)
 }
 
 static void
-previous_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+previous_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
 	gnome_calendar_previous (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+next_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
 	gnome_calendar_next (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+today_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
 	gnome_calendar_goto_today (gcal);
 	set_normal_cursor (gcal);
 }
 
 static void
-goto_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+goto_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	goto_dialog (gcal);
 }
 
 static void
-new_calendar_cmd (GtkWidget *widget, void *data)
+new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	new_calendar (full_name, NULL, NULL, NULL, FALSE);
 }
 
-void
-close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
+static void
+close_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	all_calendars = g_list_remove (all_calendars, gcal);
 
 	/* DELETE
@@ -311,12 +316,12 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 
 
 void
-quit_cmd (void)
+quit_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	while (all_calendars){
 		GnomeCalendar *cal = GNOME_CALENDAR (all_calendars->data);
 
-		close_cmd (GTK_WIDGET (cal), cal);
+		close_cmd (uih, cal, path);
 	}
 }
 
@@ -343,7 +348,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 }
 
 static void
-open_calendar_cmd (GtkWidget *widget, void *data)
+open_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkFileSelection *fs;
 
@@ -370,7 +375,6 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
 
 	fname = g_strdup (gtk_file_selection_get_filename (fs));
-	/* calendar_save (gcal->cal, fname); DELETE / FIXME*/
 	g_free(fname);
 	gtk_main_quit ();
 }
@@ -406,105 +410,12 @@ save_as_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 static void
-properties_cmd (GtkWidget *widget, GtkWidget *gcal)
+properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	properties (gcal);
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	properties (GTK_WIDGET (gcal));
 }
 
-# if 0 /* DELETE */
-static void
-save_calendar_cmd (GtkWidget *widget, void *data)
-{
-	GnomeCalendar *gcal = data;
-
-	if (gcal->cal->filename){
-		struct stat s;
-		
-		if (stat (gcal->cal->filename, &s) == -1){
-			if (errno == ENOENT)
-				calendar_save (gcal->cal, gcal->cal->filename);
-
-			return;
-		}
-
-		if (s.st_mtime != gcal->cal->file_time){
-			GtkWidget *box;
-			char *str;
-			int b;
-			
-			str = g_strdup_printf (
-				_("File %s has changed since it was loaded\nContinue?"),
-				gcal->cal->filename);
-			box = gnome_message_box_new (str, GNOME_MESSAGE_BOX_INFO,
-						     GNOME_STOCK_BUTTON_YES,
-						     GNOME_STOCK_BUTTON_NO,
-						     NULL);
-			g_free (str);
-			gnome_dialog_set_default (GNOME_DIALOG (box), 1);
-			b = gnome_dialog_run (GNOME_DIALOG (box));
-
-			if (b != 0)
-				return;
-		}
-		
-		calendar_save (gcal->cal, gcal->cal->filename);
-	} else
-		save_as_calendar_cmd (widget, data);
-}
-#endif /* 0 */
-
-static GnomeUIInfo gnome_cal_file_menu [] = {
-        GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
-				  N_("Create a new calendar"),
-				  new_calendar_cmd, NULL),
-
-	GNOMEUIINFO_MENU_OPEN_ITEM(open_calendar_cmd, NULL),
-
-	/* GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL), FIXME */
-
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
-
-	GNOMEUIINFO_MENU_EXIT_ITEM(quit_cmd, NULL),
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo gnome_cal_edit_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("_New appointment..."),
-	  N_("Create a new appointment"), display_objedit, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
-	{ GNOME_APP_UI_ITEM, N_("New appointment for _today..."),
-	  N_("Create a new appointment for today"),
-	  display_objedit_today, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW, 0, 0, NULL },
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo gnome_cal_help_menu [] = {
-	GNOMEUIINFO_HELP ("gnomecal"),
-
-	GNOMEUIINFO_MENU_ABOUT_ITEM(about_calendar_cmd, NULL),
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo gnome_cal_settings_menu [] = {
-        GNOMEUIINFO_MENU_PREFERENCES_ITEM(properties_cmd, NULL),
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo gnome_cal_menu [] = {
-        GNOMEUIINFO_MENU_FILE_TREE(gnome_cal_file_menu),
-	GNOMEUIINFO_MENU_EDIT_TREE(gnome_cal_edit_menu),
-	GNOMEUIINFO_MENU_SETTINGS_TREE(gnome_cal_settings_menu),
-	GNOMEUIINFO_MENU_HELP_TREE(gnome_cal_help_menu),
-	GNOMEUIINFO_END
-};
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"), display_objedit, GNOME_STOCK_PIXMAP_NEW),
@@ -522,25 +433,6 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
-
-/*
-static void
-setup_menu (GtkWidget *gcal)
-{
-	gnome_app_create_menus_with_data (GNOME_APP (gcal), gnome_cal_menu, gcal);
-	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
-	gnome_app_install_menu_hints(GNOME_APP(gcal), gnome_cal_menu);
-}
-
-static void
-setup_appbar (GtkWidget *gcal)
-{
-        GtkWidget *appbar;
-
-        appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_USER);
-	gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET (appbar));
-}
-*/
 
 
 /* Performs signal connection as appropriate for interpreters or native bindings */
@@ -563,14 +455,17 @@ do_ui_signal_connect (GnomeUIInfo *uiinfo, gchar *signal_name,
 
 
 void
-calendar_control_activate (BonoboControl *control, BonoboUIHandler *uih)
+calendar_control_activate (BonoboControl *control,
+			   GnomeCalendar *cal)
 {
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar;
 	GnomeUIBuilderData uibdata;
+	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
+	g_assert (uih);
 
 	uibdata.connect_func = do_ui_signal_connect;
-	uibdata.data = control;
+	uibdata.data = cal;
 	uibdata.is_interp = FALSE;
 	uibdata.relay_func = NULL;
 	uibdata.destroy_func = NULL;
@@ -596,27 +491,68 @@ calendar_control_activate (BonoboControl *control, BonoboUIHandler *uih)
 				    1, 1, 0);
 
 
-#warning "do something twisted with gnome_cal_menu here?"
-	/*
-	bonobo_ui_handler_menu_new_item (uih, "/File/Mail", N_("_Mail"),
+	/* file menu */
+	bonobo_ui_handler_menu_new_item (uih, "/File/New", N_("_Mail"),
+					 N_("Create a new calendar"), -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, new_calendar_cmd, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/File/Open", NULL,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, msg_composer_cb, NULL);
-	*/
+					 0, 0, open_calendar_cmd, cal);
+	/*bonobo_ui_handler_menu_new_item (uih, "/File/Save", NULL,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, save_calendar_cmd, cal); */
+	/* separator */
+	bonobo_ui_handler_menu_new_item (uih, "/File/Close", NULL,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, close_cmd, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/File/Exit", NULL,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, quit_cmd, cal);
+
+	/* edit menu */
+	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment",
+					 N_("_New appointment..."),
+					 N_("Create a new appointment"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_NEW,
+					 0, 0, display_objedit, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment for today",
+					 N_("New appointment for _today..."),
+					 N_("Create a new appointment for today"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_NEW,
+					 0, 0, display_objedit_today, cal);
+
+	/* help menu */
+
+	bonobo_ui_handler_menu_new_item (uih, "/Help/About Calendar", NULL,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, about_calendar_cmd, cal);
+
+	/* settings menu */
+
+	bonobo_ui_handler_menu_new_item (uih, "/Settings/Preferences", NULL,
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, properties_cmd, cal);
 }
 
 
 void
-calendar_control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
+calendar_control_deactivate (BonoboControl *control)
 {
+	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
+	g_assert (uih);
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
-
-	/*
-	int i;
-	for (i=0; gnome_cal_menu[ i ].type != GNOME_APP_UI_ENDOFINFO; i++){
-		bonobo_ui_handler_menu_remove (uih, "/File/Mail");
-	}
-	*/
+ 	bonobo_ui_handler_unset_container (uih);
 }
 
 
@@ -625,7 +561,7 @@ calendar_control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 static gint
 calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 {
-	close_cmd (widget, gcal);
+	close_cmd (NULL, gcal, NULL);
 	return TRUE;
 }
 

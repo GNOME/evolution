@@ -118,11 +118,11 @@ calendar_iterate (GnomeCalendar *cal,
 
 void init_calendar (void);
 
-void calendar_control_activate (BonoboControl *control, BonoboUIHandler *uih);
-void calendar_control_deactivate (BonoboControl *control, BonoboUIHandler *uih);
+void calendar_control_activate (BonoboControl *control,
+				GnomeCalendar *cal);
+void calendar_control_deactivate (BonoboControl *control);
 
-void close_cmd (GtkWidget *widget, GnomeCalendar *gcal);
-void quit_cmd (void);
+void quit_cmd (BonoboUIHandler *uih, void *user_data, const char *path);
 
 extern char *user_calendar_file;
 extern char *user_name;

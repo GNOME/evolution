@@ -182,7 +182,7 @@ dump_todo (void)
 static void
 session_die (void)
 {
-	quit_cmd ();
+	quit_cmd (NULL, NULL, NULL);
 }
 
 /*

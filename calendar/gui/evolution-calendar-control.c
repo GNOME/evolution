@@ -24,15 +24,10 @@ control_activate_cb (BonoboControl *control,
 		     gboolean activate, 
 		     gpointer user_data)
 {
-	BonoboUIHandler  *uih;
-
-	uih = bonobo_control_get_ui_handler (control);
-	g_assert (uih);
-	
 	if (activate)
-		calendar_control_activate (control, uih);
+		calendar_control_activate (control, user_data);
 	else
-		calendar_control_deactivate (control, uih);
+		calendar_control_deactivate (control);
 }
 
 
@@ -40,17 +35,15 @@ static BonoboObject *
 calendar_factory (BonoboGenericFactory *Factory, void *closure)
 {
 	BonoboControl      *control;
-	GnomeCalendar      *cal;
 
 	/* Create the control. */
-	//cal = gnome_calendar_new ("unnamed");
-	cal = new_calendar ("title", NULL, NULL, NULL, 0);
+	GnomeCalendar *cal = new_calendar ("title", NULL, NULL, NULL, 0);
 	gtk_widget_show (GTK_WIDGET (cal));
 
 	control = bonobo_control_new (GTK_WIDGET (cal));
 
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, NULL);
+			    control_activate_cb, cal);
 
 	return BONOBO_OBJECT (control);
 }
