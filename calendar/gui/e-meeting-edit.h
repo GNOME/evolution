@@ -27,7 +27,6 @@
 #include <glade/glade.h>
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
-#include "event-editor.h"
 
 typedef struct _EMeetingEditor EMeetingEditor;
 
@@ -36,8 +35,8 @@ struct _EMeetingEditor {
 };
 
 
-EMeetingEditor * e_meeting_editor_new (CalComponent *comp, CalClient *client, 
-				       EventEditor *ee);
+EMeetingEditor * e_meeting_editor_new (CalComponent *comp, CalClient *client);
+
 void e_meeting_edit (EMeetingEditor *editor);
 void e_meeting_editor_free (EMeetingEditor *editor);
 

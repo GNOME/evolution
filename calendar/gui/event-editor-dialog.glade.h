@@ -4,7 +4,6 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("event-editor-dialog");
 gchar *s = N_("Su_mmary:");
 gchar *s = N_("Time");
 gchar *s = N_("_Start time:");

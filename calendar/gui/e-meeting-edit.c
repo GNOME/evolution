@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <bonobo.h>
 #include <glade/glade.h>
 #include <ical.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
@@ -54,7 +55,6 @@ struct _EMeetingEditorPrivate {
 	CalComponent *comp;
 	CalClient *client;
 	icalcomponent *icalcomp, *vevent;
-	EventEditor *ee;
 
 	gint numentries;  /* How many attendees are there? */
 	gboolean dirty;  /* Has anything changed? */
@@ -454,8 +454,6 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 		cal_component_free_datetime (&cal_dtstart);
 		cal_component_free_datetime (&cal_dtend);
 
-		event_editor_update_widgets (priv->ee);	
-
 		priv->dirty = TRUE;
 	}
 
@@ -831,7 +829,7 @@ organizer_changed_cb (GtkWidget *widget, gpointer data)
 /* ------------------------------------------------------------ */
 
 EMeetingEditor * 
-e_meeting_editor_new (CalComponent *comp, CalClient *client, EventEditor *ee)
+e_meeting_editor_new (CalComponent *comp, CalClient *client)
 {
 	EMeetingEditor *object;
 	EMeetingEditorPrivate *priv;
@@ -843,7 +841,6 @@ e_meeting_editor_new (CalComponent *comp, CalClient *client, EventEditor *ee)
 	priv->comp = comp;
 	priv->client = client;
 	priv->icalcomp = cal_component_get_icalcomponent (comp);
-	priv->ee = ee;
 	
 	object->priv = priv;
 

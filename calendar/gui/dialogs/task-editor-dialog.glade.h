@@ -4,7 +4,6 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("task-editor-dialog");
 gchar *s = N_("Su_mmary");
 gchar *s = N_("Sta_rt Date:");
 gchar *s = N_("_Due Date:");
