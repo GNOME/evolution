@@ -267,16 +267,13 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	ECalendarItem *calitem;
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
-	static gchar new_name[256] = "";
-        gchar buffer_start[128] = "";
-        gchar buffer_end[128] = "";
-        struct tm day_start = { 0 };
-        struct tm day_end = { 0 };
+	gchar *name_str = NULL;
+	gchar buffer_start[128] = "";
+	gchar buffer_end[128] = "";
+	struct tm day_start = { 0 };
+	struct tm day_end = { 0 };
 
 	g_return_val_if_fail (EA_IS_CALENDAR_ITEM (accessible), NULL);
-
-	if (accessible->name)
-		return accessible->name;
 
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (g_obj), NULL);
@@ -290,19 +287,15 @@ ea_calendar_item_get_name (AtkObject *accessible)
                 day_start.tm_mon = start_month;
                 day_start.tm_mday = start_day;
                 day_start.tm_isdst = -1;
-                e_utf8_strftime (buffer_start, sizeof (buffer_start), _(" %d %B %Y"), &day_start);
+                e_utf8_strftime (buffer_start, sizeof (buffer_start), _("%d %B %Y"), &day_start);
 
                 day_end.tm_year = end_year - 1900;
                 day_end.tm_mon = end_month;
                 day_end.tm_mday = end_day;
                 day_end.tm_isdst = -1;
-                e_utf8_strftime (buffer_end, sizeof (buffer_end), _(" %d %B %Y"), &day_end);
+                e_utf8_strftime (buffer_end, sizeof (buffer_end), _("%d %B %Y"), &day_end);
 
-                strcat (new_name, _("calendar (from "));
-                strcat (new_name, buffer_start);
-                strcat (new_name, _(" to "));
-                strcat (new_name, buffer_end);
-                strcat (new_name, _(")"));
+		name_str = g_strdup_printf (_("Calendar: from %s to %s"), buffer_start, buffer_end); 
         }
 
 #if 0
@@ -325,7 +318,10 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	}
 #endif
 
-	return new_name;
+	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
+	g_free (name_str);
+
+	return accessible->name;
 }
 
 static G_CONST_RETURN gchar*
@@ -1264,7 +1260,6 @@ e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
 	GDate *start_date, *end_date;
-	gint n_days;
 
 	*offset = 0;
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (calitem), FALSE);

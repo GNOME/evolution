@@ -127,16 +127,15 @@ ea_day_view_get_name (AtkObject *accessible)
 	GnomeCalendar *gcal;
 	const gchar *label_text;
 	GnomeCalendarViewType view_type;
-	gchar buffer[128] = "";
 	gint n_events;
-
+	gchar *event_str, *name_str;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW (accessible), NULL);
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
 		return NULL;
-	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
+	day_view = E_DAY_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 	label_text = ea_gnome_calendar_get_label_description (gcal);
 
@@ -144,16 +143,22 @@ ea_day_view_get_name (AtkObject *accessible)
 	/* the child main item is always there */
 	--n_events;
 	if (n_events >= 1)
-		g_snprintf (buffer, sizeof (buffer), ngettext ( _(", %d event"), _(", %d events"), n_events), n_events);
+		event_str = g_strdup_printf (ngettext ("It has %d event.", "It has %d events.", n_events), n_events);
+	else
+		event_str = g_strdup (_("It has no events."));
+
 	view_type = gnome_calendar_get_view (gcal);
 	if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
-		accessible->name = g_strconcat (_("work week view:"),
-						label_text, buffer,
-						NULL);
+		name_str = g_strdup_printf (_("Work Week View: %s. %s"),
+						label_text, event_str);
 	else
-		accessible->name = g_strconcat (_("day view:"),
-						label_text, buffer,
-						NULL);
+		name_str = g_strdup_printf (_("Day View: %s. %s"),
+						label_text, event_str);
+
+	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
+	g_free (name_str);
+	g_free (event_str);
+
 	return accessible->name;
 }
 

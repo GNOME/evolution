@@ -216,8 +216,8 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarViewEvent *event;
-	gchar *tmp_name;
-	gchar *new_name = g_strdup ("");
+	gchar *name_string;
+	gchar *alarm_string, *recur_string, *meeting_string, *summary_string;
         const char *summary;
 
 
@@ -229,53 +229,33 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		return NULL;
 	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
 
+	alarm_string = recur_string = meeting_string = "";
 	if (event && event->comp_data) {
-		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp)) {
-			tmp_name = new_name;
-			new_name = g_strconcat (new_name, _("alarm "), NULL);
-			g_free (tmp_name);
-		}
+		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp)) 
+			alarm_string = _("It has alarms.");
 
-		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
-			tmp_name = new_name;
-			new_name = g_strconcat (new_name, _("recurrence "), NULL);
-			g_free (tmp_name);
-		}
+		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) 
+			recur_string = _("It has recurrences.");
 
-		if (event->different_timezone) {
-			tmp_name = new_name;
-			new_name = g_strconcat (new_name, _("time-zone "), NULL);
-			g_free (tmp_name);
-		}
-
-		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
-			tmp_name = new_name;
-			new_name = g_strconcat (new_name, _("meeting "), NULL);
-			g_free (tmp_name);
-		}
+		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) 
+			meeting_string = _("It is a meeting.");
+			
 	}
-	tmp_name = new_name;
-	new_name = g_strconcat (new_name, _("event. Summary is "), NULL);
-	g_free (tmp_name);
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	if (summary) {
-		tmp_name = new_name;
-		new_name = g_strconcat (new_name, summary, NULL);
-		g_free (tmp_name);
-	}
-	else {
-		tmp_name = new_name;
-		new_name = g_strconcat (new_name, _("empty"), NULL);
-		g_free (tmp_name);
-	}
+	if (summary) 
+		summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
+	else 
+		summary_string = g_strdup (_("Calendar Event: It has no summary."));
 
-	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, new_name);
+	name_string = g_strdup_printf ("%s %s %s %s", summary_string, alarm_string, recur_string, meeting_string);
+
+	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
 	printf("EvoAcc:  name for event accobj=%p, is %s\n",
 	       (void *)accessible, new_name);
 #endif
-	g_free (new_name);
+	g_free (name_string);
 	return accessible->name;
 }
 

@@ -1,3 +1,16 @@
+2005-02-01  Harry Lu <harry.lu@sun.com>
+
+	Fix for 71924, 71926, 71932 
+	Don't split sentences that need translation.
+	Also remove two useless variables.
+
+	* calendar/ea-cal-view-event.c: (ea_cal_view_event_get_name):
+	* calendar/ea-day-view.c: (ea_day_view_get_name):
+	* calendar/ea-week-view.c: (ea_week_view_get_name),
+	(ea_week_view_get_n_children):
+	* widgets/ea-calendar-item.c: (ea_calendar_item_get_name),
+	(e_calendar_item_get_offset_for_date):
+
 2005-01-31  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #71929
