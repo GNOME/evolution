@@ -1,3 +1,7 @@
+2000-12-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dateedit.h: #include <time.h>
+
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
 	* e-calendar.c (e_calendar_destroy): Call the parent class destroyer

@@ -38,7 +38,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <gtk/gtkmain.h>
 #include "e-dateedit.h"
 #include "e-calendar.h"

@@ -41,6 +41,7 @@
 #ifndef __E_DATE_EDIT_H_
 #define __E_DATE_EDIT_H_ 
 
+#include <time.h>
 #include <gtk/gtkhbox.h>
 #include <libgnome/gnome-defs.h>
  
