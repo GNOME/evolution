@@ -1,7 +1,0 @@
-#include <gnome.h>
-#include <bonobo.h>
-#include <evolution/importer/evolution-importer.h>
-#include <evolution/importer/evolution-importer-client.h>
-
-evolution_importer_get_type
-evolution_importer_client_get_type
