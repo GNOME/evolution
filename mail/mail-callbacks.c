@@ -1344,7 +1344,7 @@ void
 configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-	
+
 	mail_local_reconfigure_folder(fb);
 }
 

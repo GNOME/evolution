@@ -113,6 +113,7 @@ checkmem(void *p)
 void mail_msg_free(void *msg)
 {
 	struct _mail_msg *m = msg;
+	void *bar = NULL, *label = NULL;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -132,13 +133,13 @@ void mail_msg_free(void *msg)
 	/* this closes the bar, and/or the whole progress dialogue, once we're out of things to do */
 	if (g_hash_table_size(mail_msg_active) == 0) {
 		if (progress_dialogue != NULL) {
-			void *data = progress_dialogue;
+			bar = progress_dialogue;
 			progress_dialogue = NULL;
 			progress_row = 0;
-			mail_proxy_event(destroy_widgets, NULL, data, NULL);
 		}
 	} else if (m->priv->bar) {
-		mail_proxy_event(destroy_widgets, NULL, m->priv->bar, m->priv->label);
+		bar = m->priv->bar;
+		label = m->priv->label;
 	}
 
 	if (m->priv->timeout_id > 0)
@@ -151,6 +152,9 @@ void mail_msg_free(void *msg)
 	g_free(m->priv->what);
 	g_free(m->priv);
 	g_free(m);
+
+	if (bar || label)
+		mail_proxy_event(destroy_widgets, NULL, bar, label);
 }
 
 void mail_msg_check_error(void *msg)

@@ -999,6 +999,9 @@ reconfigure_clicked(GnomeDialog *d, int button, struct _reconfigure_msg *m)
 		int type;
 		char *types[] = { "mbox", "maildir", "mh" };
 
+		/* hack to clear the message list during update */
+		message_list_set_folder(m->fb->message_list, NULL);
+
 		menu = (GtkMenu *)gtk_option_menu_get_menu(m->optionlist);
 		type = g_list_index(GTK_MENU_SHELL(menu)->children, gtk_menu_get_active(menu));
 		if (type < 0 || type > 2)

@@ -911,8 +911,13 @@ do_message_selected(FolderBrowser *fb)
 	d(printf ("selecting uid %s (delayed)\n", fb->new_uid));
 
 	/* keep polling if we are busy */
-	if (fb->reconfigure)
+	if (fb->reconfigure) {
+		if (fb->new_uid == NULL) {
+			mail_display_set_message(fb->mail_display, NULL);
+			return FALSE;
+		}
 		return TRUE;
+	}
 
 	fb->loading_id = 0;
 

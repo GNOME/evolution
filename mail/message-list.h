@@ -55,9 +55,7 @@ struct _MessageList {
 	/* The folder */
 	CamelFolder  *folder;
 
-	/* UID to model row hash table. Keys owned by the mempool. */
-	GHashTable       *uid_rowmap;
-	struct _EMemPool *uid_pool;
+	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
 
 	/* UID's to hide.  Keys in the mempool */
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */

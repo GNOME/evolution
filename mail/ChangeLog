@@ -1,3 +1,63 @@
+2001-03-17  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_msg_free): Move the proxy event outside the lock
+	(otherwise we always deadlock).
+
+	* mail-local.c (reconfigure_clicked): Clear the message list
+	during update inside the folder thingy.  This is a hell mess, need
+	to move the gui stuff to mail-callbacks and make this reconfigure
+	thing a more generic func.
+
+	* message-list.c (ml_value_to_string): Cleanup the logic to use
+	lookup tables.
+	(sort_uid_to_rows): Removed due to rewrite below.
+	(build_flat_diff): Changes for node/summary/etc changes.  Also do
+	changed nodes too.
+	(clear_tree): Free the info reference for nodes in our hashtable.
+	(build_subtree): Ref the info reference in our hash/tree node.
+	(on_click): Dont free message info, since we just got our ref to
+	it.
+	(remove_node_diff): Free messageinfo off node.
+	(build_flat): Ref messageinfo.
+	(message_list_set_folder): Allow a NULL folder to be set -
+	i.e. clear the view.
+	(message_list_set_folder): Emit a no message sleeted signal.
+	(build_tree): Change cursor keeping stuff to work with new info.
+	
+	Turned off BROKEN_ETREE - well maybe it'll work.  Check for
+	duplicate messages displayed, etc.
+
+2001-03-16  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.h: Added uid_nodemap; mapping of uid's to e-tree
+	nodes.
+
+	* message-list.c (build_flat): Changed to take a summary argument,
+	and to store node in node map, etc, and store info's in e-tree.
+	(build_subtree): Changed to store node in node map, and to store
+	info's in tree directly.
+	(ml_tree_value_at): Changed to get info directly from tree node,
+	removed allocated return value logic.
+	(ml_tree_value_at): Removed all "fake node" handling, no fake
+	nodes should ever exist.
+	(id_is_uid, id_is_subject, id_uid, id_subject): Removed macro's no
+	longer used.
+	(new_id_from_uid, new_id_from_subject): Removed no longer used.
+	(get_message_uid):
+	(get_message_info): Treat tree node data as messageinfo.
+	(message_list_select): Dont free the messageinfo, as its part of
+	our data, not retrieved from folder.
+	(message_list_drag_data_get): ditto.
+	(subtree_unread): Treat tree node data as messageinfo.
+	(subtree_size): ditto.
+	(subtree_earliest): ditto.
+	(clear_tree): Reset uid_nodemap on clear.
+	(save_node_state): tree nodes == messageinfo's.
+	(add_node_diff): ditto.
+	(remove_node_diff): ditto.
+	(main_folder_changed): use uid_nodemap to lookup changed nodes.
+	(main_message_changed): ditto.
+
 2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c (pgp_mime_part_sign_prepare_part): New function to
