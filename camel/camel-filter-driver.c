@@ -27,6 +27,8 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <errno.h>
 
@@ -38,8 +40,8 @@
 #include "camel-filter-driver.h"
 #include "camel-filter-search.h"
 
-#include "camel-exception.h"
 #include "camel-service.h"
+#include "camel-stream-fs.h"
 #include "camel-mime-message.h"
 
 #include "e-util/e-sexp.h"
@@ -141,6 +143,7 @@ static ESExpResult *do_shell (struct _ESExp *f, int argc, struct _ESExpResult **
 static ESExpResult *do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *play_sound (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_only_once (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 
 /* these are our filter actions - each must have a callback */
 static struct {
@@ -158,6 +161,7 @@ static struct {
 	{ "set-score",         (ESExpFunc *) do_score,     0 },
 	{ "set-system-flag",   (ESExpFunc *) set_flag,     0 },
 	{ "unset-system-flag", (ESExpFunc *) unset_flag,   0 },
+	{ "pipe-message",      (ESExpFunc *) pipe_message, 0 },
 	{ "shell",             (ESExpFunc *) do_shell,     0 },
 	{ "beep",              (ESExpFunc *) do_beep,      0 },
 	{ "play-sound",        (ESExpFunc *) play_sound,   0 },
@@ -637,6 +641,147 @@ unset_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterD
 	return NULL;
 }
 
+static int
+pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	int result, status, fds[4], i;
+	CamelMimeMessage *message;
+	CamelMimeParser *parser;
+	CamelStream *stream;
+	pid_t pid;
+	
+	if (argc < 1 || argv[0]->value.string[0] == '\0')
+		return 0;
+	
+	/* make sure we have the message... */
+	if (p->message == NULL) {
+		if (!(p->message = camel_folder_get_message (p->source, p->uid, p->ex)))
+			return -1;
+	}
+	
+	for (i = 0; i < 4; i++)
+		fds[i] = -1;
+	
+	for (i = 0; i < 4; i += 2) {
+		if (pipe (fds + i) == -1) {
+			camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Failed to create pipe to '%s': %s"),
+					      argv[0]->value.string, g_strerror (errno));
+			
+			for (i = 0; i < 4; i++) {
+				if (fds[i] == -1)
+					break;
+				close (fds[i]);
+			}
+			
+			return -1;
+		}
+	}
+	
+	if (!(pid = fork ())) {
+		/* child process */
+		GPtrArray *args;
+		int maxfd;
+		
+		if (dup2 (fds[0], STDIN_FILENO) < 0 || dup2 (fds[3], STDOUT_FILENO) < 0)
+			_exit (255);
+		
+		setsid ();
+		
+		maxfd = sysconf (_SC_OPEN_MAX);
+		if (maxfd > 0) {
+			for (i = 0; i < maxfd; i++) {
+				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
+					close (i);
+			}
+		}
+		
+		args = g_ptr_array_new ();
+		for (i = 0; i < argc; i++)
+			g_ptr_array_add (args, argv[i]->value.string);
+		g_ptr_array_add (args, NULL);
+		
+		execvp (argv[0]->value.string, (char **) args->pdata);
+		
+		g_ptr_array_free (args, TRUE);
+		
+		d(printf ("Could not execute %s: %s\n", argv[0]->value.string, g_strerror (errno)));
+		_exit (255);
+	} else if (pid < 0) {
+		camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to create create child process '%s': %s"),
+				      argv[0]->value.string, g_strerror (errno));
+		return -1;
+	}
+	
+	/* parent process */
+	close (fds[0]);
+	fcntl (fds[1], F_SETFL, O_NONBLOCK);
+	close (fds[3]);
+	
+	stream = camel_stream_fs_new_with_fd (fds[1]);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (p->message), stream);
+	camel_stream_flush (stream);
+	camel_object_unref (stream);
+	
+	parser = camel_mime_parser_new ();
+	camel_mime_parser_init_with_fd (parser, fds[2]);
+	camel_mime_parser_scan_from (parser, FALSE);
+	
+	message = camel_mime_message_new ();
+	if (camel_mime_part_construct_from_parser ((CamelMimePart *) message, parser) == -1) {
+		camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Invalid message stream received from %s"),
+				      argv[i]->value.string);
+		camel_object_unref (message);
+		message = NULL;
+	} else {
+		camel_object_unref (p->message);
+		p->message = message;
+	}
+	
+	camel_object_unref (parser);
+	
+	result = waitpid (pid, &status, 0);
+	
+	if (result == -1 && errno == EINTR) {
+		/* child process is hanging... */
+		kill (pid, SIGTERM);
+		sleep (1);
+		result = waitpid (pid, &status, WNOHANG);
+		if (result == 0) {
+			/* ...still hanging, set phasers to KILL */
+			kill (pid, SIGKILL);
+			sleep (1);
+			result = waitpid (pid, &status, WNOHANG);
+		}
+	}
+	
+	if (message && result != -1 && WIFEXITED (status))
+		return WEXITSTATUS (status);
+	else
+		return -1;
+}
+
+static ESExpResult *
+pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	int i;
+	
+	/* make sure all args are strings */
+	for (i = 0; i < argc; i++) {
+		if (argv[i]->type != ESEXP_RES_STRING)
+			return NULL;
+	}
+	
+	camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Piping message to %s", argv[0]->value.string);
+	pipe_to_system (f, argc, argv, driver);
+	
+	return NULL;
+}
+
+
 static ESExpResult *
 do_shell (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
 {
@@ -998,7 +1143,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	}
 	
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
-
+	
 	ret = 0;
 fail:
 	g_free (source_url);

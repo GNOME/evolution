@@ -1,3 +1,10 @@
+2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (pipe_message): New filter action that
+	pipes the message source to the user-program and reads back the
+	modified message and replaces driver->priv->message with the new
+	message object.
+
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c: Added a (get-size ) function to fix bug
