@@ -1,3 +1,7 @@
+2000-08-04  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops.c (move_msg): Fixed a pretty silly uninitialization bug.
+
 2000-08-04  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* message-list.c (message_list_regenerate): Free the GPtrArray

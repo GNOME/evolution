@@ -795,7 +795,7 @@ move_msg (GtkWidget *button, gpointer user_data)
 	static char *last = NULL;
 
 	if (!last)
-		g_strdup ("");
+		last = g_strdup ("");
 
 	evolution_shell_client_user_select_folder  (global_shell_client,
 						    _("Move message(s) to"),
