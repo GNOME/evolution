@@ -1311,7 +1311,6 @@ do_exit (EMsgComposer *composer)
 		
 		exit_dialog_cb (button, composer);
 	} else {
-		autosave_manager_unregister (am, composer);
 		gtk_widget_destroy (GTK_WIDGET (composer));
 	}
 }
@@ -1871,6 +1870,8 @@ destroy (GtkObject *object)
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
+
+	autosave_manager_unregister (am, composer);
 
 	CORBA_exception_init (&ev);
 
