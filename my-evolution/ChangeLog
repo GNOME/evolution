@@ -1,3 +1,10 @@
+2002-01-22  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-mail (e_summary_mail_reconfigure): Do the list backwards.
+
+	* e-summary-preferences.c (fill_mail_shown_clist): Prepend items.
+	(mail_add_clicked_cb): Prepend items.
+
 2002-02-03  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-offline-handler.c (impl_prepareForOffline): Create an 
