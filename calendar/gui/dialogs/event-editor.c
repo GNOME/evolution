@@ -173,7 +173,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->meet_page));
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->meet_page),
-				 _("Meeting"));
+				 _("Invitations"));
 
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
 

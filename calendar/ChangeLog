@@ -1,3 +1,11 @@
+2004-06-25    <jpr@novell.com>
+
+	* gui/dialogs/task-editor.c (task_editor_construct): use "Task"
+	instead of "Basic"
+
+	* gui/dialogs/event-editor.c (event_editor_construct): use
+	"Invitations" instead of "Meeting"
+
 2004-06-25  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/e-delegate-dialog.glade: use "Contacts..."

@@ -146,7 +146,7 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	gtk_object_sink (GTK_OBJECT (priv->task_page));
 	comp_editor_append_page (COMP_EDITOR (te), 
 				 COMP_EDITOR_PAGE (priv->task_page),
-				 _("Basics"));
+				 _("Task"));
 	g_signal_connect (G_OBJECT (priv->task_page), "client_changed",
 			  G_CALLBACK (client_changed_cb), te);
 
