@@ -332,12 +332,30 @@ event_editor_finalize (GObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
-	g_object_unref (priv->event_page);
-	g_object_unref (priv->recur_page);
-	g_object_unref (priv->meet_page);
-	g_object_unref (priv->sched_page);
+	if (priv->event_page) {
+ 		g_object_unref (priv->event_page);
+		priv->event_page = NULL;
+	}
+	
+	if (priv->recur_page) {
+		g_object_unref (priv->recur_page);
+		priv->recur_page = NULL;
+	}
 
-	g_object_unref (priv->model);
+	if (priv->meet_page) {
+		g_object_unref (priv->meet_page);
+		priv->meet_page = NULL;
+	}
+
+	if (priv->sched_page) {
+		g_object_unref (priv->sched_page);
+		priv->sched_page = NULL;
+	}
+
+	if (priv->model) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
 
 	g_free (priv);
 

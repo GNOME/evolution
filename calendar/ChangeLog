@@ -1,3 +1,10 @@
+2005-03-21  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #73031
+	* gui/dialogs/event-editor.c: (event_editor_finalize):
+	* gui/dialogs/task-editor.c: (task_editor_finalize): Added
+	a check for the presence of the object before unreffing it.
+
 2005-03-21  JP Rosevear  <jpr@novell.com> 
  
  	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try

@@ -315,11 +315,25 @@ task_editor_finalize (GObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
-	g_object_unref (priv->task_page);
-	g_object_unref (priv->task_details_page);
-	g_object_unref (priv->meet_page);
+	if (priv->task_page) {
+		g_object_unref (priv->task_page);
+		priv->task_page = NULL;
+	}
+
+	if (priv->task_details_page) {
+		g_object_unref (priv->task_details_page);
+		priv->task_details_page = NULL;
+	}
 	
-	g_object_unref (priv->model);
+	if (priv->meet_page) {	
+		g_object_unref (priv->meet_page);
+		priv->meet_page = NULL;
+	}
+	
+	if (priv->model) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
 	
 	g_free (priv);
 
