@@ -927,14 +927,9 @@ get_summary(CamelFolder *folder)
 	GPtrArray *res = g_ptr_array_new();
 	int i, count;
 
-	g_return_val_if_fail(folder->summary != NULL, res);
+	g_assert(folder->summary != NULL);
 
-	count = camel_folder_summary_count(folder->summary);
-	g_ptr_array_set_size(res, count);
-	for (i=0;i<count;i++)
-		res->pdata[i] = camel_folder_summary_index(folder->summary, i);
-
-	return res;
+	return camel_folder_summary_array(folder->summary);
 }
 
 /**
@@ -964,12 +959,9 @@ free_summary(CamelFolder *folder, GPtrArray *summary)
 {
 	int i;
 
-	g_return_if_fail(folder->summary != NULL);
+	g_assert(folder->summary != NULL);
 
-	for (i=0;i<summary->len;i++)
-		camel_folder_summary_info_free(folder->summary, summary->pdata[i]);
-
-	g_ptr_array_free(summary, TRUE);
+	camel_folder_summary_array_free(folder->summary, summary);
 }
 
 /**
@@ -1095,6 +1087,8 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
  * This copies a message from one folder to another. If the @source and
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message().
+ *
+ * This function is still depcreated, it is not the same as move_message_to.
  **/
 void
 camel_folder_copy_message_to (CamelFolder *source, const char *uid,

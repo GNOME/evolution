@@ -8,4 +8,4 @@ test6	basic folder operations, IMAP
 test7	basic folder operations, NNTP
 
 test8	multithreaded folder torture test, local
-
+test9	filtering

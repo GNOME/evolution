@@ -7,6 +7,7 @@
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
+#include <unistd.h>
 #endif
 
 #ifdef ENABLE_THREADS
@@ -74,6 +75,13 @@ static void die(int sig)
 		indie = 1;
 		printf("\n\nReceived fatal signal %d\n", sig);
 		g_hash_table_foreach(info_table, (GHFunc)dump_action, 0);
+
+#ifdef ENABLE_THREADS
+		if (camel_test_verbose > 2) {
+			printf("Attach debugger to pid %d to debug\n", getpid());
+			sleep(1000);
+		}
+#endif
 	}
 
 	_exit(1);

@@ -1,3 +1,37 @@
+2001-01-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (free_summary): Call
+	camel_folder_summary_array_free() to do the work.
+	(get_summary): Use camel_folder_summary_array() to get the array
+	atomically.  These fixes allow folder/test8 to work again, and fix
+	a sort of race where the summary size can change while we were
+	making a copy of it.
+
+	* camel-folder-summary.c (camel_folder_summary_array): Get the
+	summary array atomically, so it can't contain empty records.
+	(camel_folder_summary_array_free): And free it.
+
+	* tests/lib/camel-test.c (die): If we are verbose & in threads,
+	then goto sleep so we can debug.
+
+	* tests/folder/test8.c (worker): Add a missing pull() for
+	comnparing content.
+
+	* camel-filter-search.c: Fix the symbol table, so match-all is an
+	immediate function, as it should be.
+
+	* tests/folder/test9.c (main): New test, tests some filtering
+	things.
+
+	* tests/message/test3.c (main): Dont use a boundary string with
+	spaces in it.  Folding can corrupt it.  Maybe the folding isn't
+	working entirely right, but anyway.
+
+	* camel-session.c: Debug out the debug.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Plug
+	a messageinfo leak.
+
 2001-01-16  Dan Winship  <danw@ximian.com>
 
 	Delayed loading of IMAP message parts.
@@ -91,6 +125,65 @@
 	expected_host.
 
 2001-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-search.c (header_exists): Changed to support
+	multiple args (or'd together).
+	(header_contains): Cleaned up to match the search code.  Why did
+	fejj change it? I'll never know.
+	(header_matches): 
+	(header_starts_with): 
+	(header_ends_with): Big cleanup of fejj's "i'm the cut & paste
+	king" code.  Also properly handle or'ing of additional args to
+	match what the folder-search code should do.
+	(check_match): New function which does the annoying matching
+	stuff (for header matches).
+	(check_header): Similarly, handles or'ing of the matches together.
+	(header_contains):
+	(header_matches): 
+	(header_starts_with): 
+	(header_ends_with): Call check_header to do the actual work.
+	(header_soundex): And here too.
+	(match_all): Yeah like match-all isn't passed expression results,
+	its passed expression terms.  Fix this so match-all works like it
+	should, by executing the contained expression.
+	(message_body_contains): Copied directly from
+	camel-folder-search.c, a more robust/faster/simpler body search
+	code.
+	(mime_part_matches): Removed entirely.
+	(handle_multipart): Removed entirely.
+	(build_match_regex): Copied from camel-folder-search.  Builds a
+	set of simple strings into a regex pattern that matches any of
+	them (for faster & simpler matching).  Expanded to accept regex
+	patterns itself, so it can merge them together.
+	(body_contains): Use build match/match message to match using a
+	built regex.
+	(body_regex): Likewise, this time we tell it we're building a
+	regex though.
+	(header_full_regex): Use build_match_regex to take the drudgery
+	out of it, and expand it to handle multiple regex's at once.
+	(get_full_header): slightly cleaner (well i dunno, the sprintf
+	stuff just got to me).
+	(header_regex): Cleaned up to use build_match_Regex too, and to
+	properly check types.
+	(filter_message_search): Just allocate 'fms' on the stack.
+
+	* camel-filter-driver.c (camel_filter_driver_finalise): 
+	(camel_filter_driver_init): 
+	(camel_filter_driver_class_init): 
+	(camel_filter_driver_get_type): Changed from gtk object to camel
+	object.
+	(camel_filter_driver_add_rule): New function to add a rule to be
+	processed in sexp form.
+	(camel_filter_driver_init): Init the rules list.
+	(camel_filter_driver_finalise): Clear the rules/rules list.
+	(camel_filter_driver_filter_message): Scan rules list directly
+	rather than creating on the fly.
+
+	* Makefile.am (libcamelinclude_HEADERS): Added camel-filter-driver.h
+	(libcamel_la_SOURCES): Added camel-filter-driver.c, code taken
+	from filter-driver, which can drive, uh, filters based on sexp's.
+	(libcamelinclude_HEADERS): 
+	(libcamel_la_SOURCES): Added camel-filter-search.[ch]
 
 	* camel-folder-summary.c (camel_folder_summary_decode_string):
 	Chganged len back to be unsigned.  And do a simple range check on

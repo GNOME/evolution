@@ -247,6 +247,8 @@ void camel_folder_summary_clear(CamelFolderSummary *s);
 int camel_folder_summary_count(CamelFolderSummary *);
 CamelMessageInfo *camel_folder_summary_index(CamelFolderSummary *, int);
 CamelMessageInfo *camel_folder_summary_uid(CamelFolderSummary *, const char *uid);
+GPtrArray *camel_folder_summary_array(CamelFolderSummary *s);
+void camel_folder_summary_array_free(CamelFolderSummary *s, GPtrArray *array);
 
 /* summary formatting utils */
 char *camel_folder_summary_format_address(struct _header_raw *h, const char *name);

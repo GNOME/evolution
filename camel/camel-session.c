@@ -43,6 +43,8 @@
 
 #include "camel-private.h"
 
+#define d(x)
+
 static CamelObjectClass *parent_class;
 
 static void
@@ -641,7 +643,7 @@ void camel_cancel_cancel(CamelCancel *cc)
 			CAMEL_ACTIVE_UNLOCK();
 		}
 	} else if ((cc->flags & CAMEL_CANCEL_CANCELLED) == 0) {
-		printf("cancelling thread %d\n", cc->id);
+		d(printf("cancelling thread %d\n", cc->id));
 
 		CAMEL_CANCEL_LOCK(cc);
 		msg = g_malloc0(sizeof(*msg));
@@ -671,7 +673,7 @@ void camel_cancel_register(CamelCancel *cc)
 	cc->id = id;
 	g_hash_table_insert(cancel_active, (void *)id, cc);
 
-	printf("registering thread %d for cancellation\n", id);
+	d(printf("registering thread %d for cancellation\n", id));
 
 	CAMEL_ACTIVE_UNLOCK();
 
@@ -698,8 +700,7 @@ void camel_cancel_unregister(CamelCancel *cc)
 
 	CAMEL_ACTIVE_UNLOCK();
 
-	if (cc)
-		printf("unregistering thread %d for cancellation\n", cc->id);
+	d({if (cc) printf("unregistering thread %d for cancellation\n", cc->id)});
 
 	if (cc)
 		camel_cancel_unref(cc);
@@ -710,7 +711,7 @@ gboolean camel_cancel_check(CamelCancel *cc)
 {
 	CamelCancelMsg *msg;
 
-	printf("checking for cancel in thread %d\n", pthread_self());
+	d(printf("checking for cancel in thread %d\n", pthread_self()));
 
 	if (cc == NULL) {
 		if (cancel_active) {
@@ -723,18 +724,18 @@ gboolean camel_cancel_check(CamelCancel *cc)
 	}
 
 	if (cc->blocked > 0) {
-		printf("ahah!  cancellation is blocked\n");
+		d(printf("ahah!  cancellation is blocked\n"));
 		return FALSE;
 	}
 
 	if (cc->flags & CAMEL_CANCEL_CANCELLED) {
-		printf("previously cancelled\n");
+		d(printf("previously cancelled\n"));
 		return TRUE;
 	}
 
 	msg = (CamelCancelMsg *)e_msgport_get(cc->cancel_port);
 	if (msg) {
-		printf("Got cancellation message\n");
+		d(printf("Got cancellation message\n"));
 		CAMEL_CANCEL_LOCK(cc);
 		cc->flags |= CAMEL_CANCEL_CANCELLED;
 		CAMEL_CANCEL_UNLOCK(cc);

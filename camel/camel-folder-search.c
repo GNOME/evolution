@@ -30,6 +30,7 @@
 #include <sys/types.h>
 #include <regex.h>
 
+#warning "Fixme: remove gal/widgets/e-unicode dependency"
 #include <gal/widgets/e-unicode.h>
 #include "camel-folder-search.h"
 #include "string-utils.h"
@@ -800,6 +801,7 @@ g_lib_sux_htor(char *key, int value, struct _glib_sux_donkeys *fuckup)
 }
 
 /* performs a 'slow' content-based match */
+/* there is also an identical copy of this in camel-filter-search.c */
 static gboolean
 message_body_contains(CamelDataWrapper *object, regex_t *pattern)
 {

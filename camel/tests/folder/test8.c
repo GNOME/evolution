@@ -107,6 +107,7 @@ worker(void *d)
 		content = g_strdup_printf("Test message %d contents\n\n", id+i);
 		test_message_compare_content(camel_medium_get_content_object((CamelMedium *)msg), content, strlen(content));
 		test_free(content);
+		pull();
 
 		push("deleting message, cleanup");
 		j=(100.0*rand()/(RAND_MAX+1.0));

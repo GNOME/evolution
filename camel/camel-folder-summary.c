@@ -347,6 +347,55 @@ camel_folder_summary_index(CamelFolderSummary *s, int i)
 }
 
 /**
+ * camel_folder_summary_index:
+ * @s: 
+ * @i: 
+ * 
+ * Obtain a copy of the summary array.  This is done atomically,
+ * so cannot contain empty entries.
+ *
+ * It must be freed using camel_folder_summary_array_free().
+ **/
+GPtrArray *
+camel_folder_summary_array(CamelFolderSummary *s)
+{
+	CamelMessageInfo *info;
+	GPtrArray *res = g_ptr_array_new();
+
+	CAMEL_SUMMARY_LOCK(s, ref_lock);
+	CAMEL_SUMMARY_LOCK(s, summary_lock);
+
+	g_ptr_array_set_size(res, s->messages->len);
+	for (i=0;i<s->messages->len;i++) {
+		info = res->pdata[i] = g_ptr_array_index(s->messages, i);
+		info->refcount++;
+	}
+
+	CAMEL_SUMMARY_UNLOCK(s, summary_lock);
+	CAMEL_SUMMARY_UNLOCK(s, ref_lock);
+
+	return res;
+}
+
+/**
+ * camel_folder_summary_array_free:
+ * @s: 
+ * @array: 
+ * 
+ * Free the folder summary array.
+ **/
+void
+camel_folder_summary_array_free(CamelFolderSummary *s, GPtrArray *array)
+{
+	int i;
+
+	for (i=0;i<array->len;i++)
+		camel_folder_summary_info_free(s, array->pdata[i]);
+
+	g_ptr_array_free(array, TRUE);
+}
+
+/**
  * camel_folder_summary_uid:
  * @s: 
  * @uid: 

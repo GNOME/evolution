@@ -30,8 +30,8 @@ int main(int argc, char **argv)
 	mp = camel_multipart_new();
 
 	/* Hrm, this should be able to set its own boundary, no? */
-	camel_multipart_set_boundary(mp, "_=,.XYZ Kangaroo Meat is ! ABADF00D");
-	check(strcmp(camel_multipart_get_boundary(mp), "_=,.XYZ Kangaroo Meat is ! ABADF00D") == 0);
+	camel_multipart_set_boundary(mp, "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D");
+	check(strcmp(camel_multipart_get_boundary(mp), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
 
 	camel_medium_set_content_object((CamelMedium *)msg, (CamelDataWrapper *)mp);
 	check(camel_multipart_get_number(mp) == 0);
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 	check(CAMEL_IS_MULTIPART(mp2));
 	check(camel_multipart_get_number(mp2) == 3);
 
-	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ Kangaroo Meat is ! ABADF00D") == 0);
+	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
 	check(mp2->preface == NULL || strlen(mp2->preface) == 0);
 
 	/* FIXME */
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 	check(CAMEL_IS_MULTIPART(mp2));
 	check(camel_multipart_get_number(mp2) == 3);
 
-	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ Kangaroo Meat is ! ABADF00D") == 0);
+	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
 	check(mp2->preface == NULL || strlen(mp2->preface) == 0);
 
 	/* FIXME */
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
 	check(CAMEL_IS_MULTIPART(mp2));
 	check(camel_multipart_get_number(mp2) == 3);
 
-	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ Kangaroo Meat is ! ABADF00D") == 0);
+	check(strcmp(camel_multipart_get_boundary(mp2), "_=,.XYZ_Kangaroo_Meat_is_!_ABADF00D") == 0);
 	check(strcmp(mp2->preface, "pre-text\nLines.") == 0);
 	check(strcmp(mp2->postface, "post-text, no lines.\nOne line.\n") == 0);
 	test_message_compare_content(camel_medium_get_content_object(CAMEL_MEDIUM(camel_multipart_get_part(mp2, 0))),
