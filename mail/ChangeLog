@@ -1,3 +1,10 @@
+2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (composer_send_cb): Check to make sure that the
+	recipient list is neither NULL nor a 0-length list of addresses
+	and pop up a dialog letting the user know why we are not allowing
+	him/her to send the message.
+
 2000-10-26  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (write_data_to_file): Don't destroy a dialog

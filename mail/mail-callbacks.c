@@ -272,6 +272,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	MailConfigService *xport = NULL;
 	CamelMimeMessage *message;
+	const CamelInternetAddress *iaddr;
 	const char *subject;
 	struct post_send_data *psd = data;
 	
@@ -282,7 +283,17 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	message = e_msg_composer_get_message (composer);
 	
 	/* Check for no recipients */
-	if (!camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO)) {
+	iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	if (!iaddr || CAMEL_ADDRESS (iaddr)->addresses->len == 0) {
+		GtkWidget *message_box;
+		
+		message_box = gnome_message_box_new (_("You must specify recipients in order to send this message."),
+						     GNOME_MESSAGE_BOX_WARNING,
+						     GNOME_STOCK_BUTTON_OK,
+						     NULL);
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
+		
 		camel_object_unref (CAMEL_OBJECT (message));
 		return;
 	}
