@@ -1,3 +1,8 @@
+2001-03-27  Dietmar Maurer  <dietmar@ximian.com>
+
+	* wombat-moniker.c (wombat_moniker_resolve): we can now resolve to
+	storages and streams.
+
 2001-03-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* wombat.c: Replace <gnome.h> <and <bonobo.h> includes
