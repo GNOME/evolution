@@ -1,3 +1,7 @@
+1999-05-11  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (MACROS): Add `gnome-bonobo-check.m4'.
+
 1999-05-09  Jacob Berkman  <jberk+@cmu.edu>
 
 	* gnome-bonobo-check.m4: made test program return 0,

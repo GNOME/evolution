@@ -3,6 +3,7 @@ MACROS=						\
   aclocal-include.m4				\
   compiler-flags.m4				\
   curses.m4					\
+  gnome-bonobo-check.m4				\
   gnome-fileutils.m4				\
   gnome-gettext.m4				\
   gnome-ghttp-check.m4				\
