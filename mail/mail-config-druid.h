@@ -72,6 +72,7 @@ struct _MailConfigDruid {
 	GtkCheckButton *incoming_keep_mail;
 	
 	/* authentication */
+	gboolean have_auth_page;
 	GtkWidget *auth_text;
 	GtkOptionMenu *auth_type;
 	GtkEntry *password;

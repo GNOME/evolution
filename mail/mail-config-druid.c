@@ -340,6 +340,8 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	gchar *source_url;
 	CamelURL *url;
 	
+	config->have_auth_page = TRUE;
+	
 	source_url = mail_config_druid_get_source_url (config);
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
@@ -358,6 +360,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	}
 	
 	/* Otherwise, skip to transport page. */
+	config->have_auth_page = FALSE;
 	transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
 	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 	
@@ -595,6 +598,24 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	return FALSE;
 }
 
+static gboolean
+transport_back (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	MailConfigDruid *config = data;
+	
+	if (config->have_auth_page) {
+		return FALSE;
+	} else {
+		/* jump to the source page, skipping over the auth page */
+		GtkWidget *widget;
+		
+		widget = glade_xml_get_widget (config->gui, "druidSourcePage");
+		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (widget));
+		
+		return TRUE;
+	}
+}
+
 static void
 transport_changed (GtkWidget *widget, gpointer data)
 {
@@ -801,7 +822,7 @@ static struct {
 	{ "druidTransportPage",
 	  GTK_SIGNAL_FUNC (transport_next),
 	  GTK_SIGNAL_FUNC (transport_prepare),
-	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (transport_back),
 	  GTK_SIGNAL_FUNC (NULL) },
 	{ "druidManagementPage",
 	  GTK_SIGNAL_FUNC (management_next),
@@ -894,6 +915,7 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
 	druid->incoming_keep_mail = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
 	
+	druid->have_auth_page = TRUE;
 	druid->auth_text = glade_xml_get_widget (gui, "htmlAuthentication");
 	druid->auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuAuthType"));
 	druid->password = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPasswd"));

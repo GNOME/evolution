@@ -1,5 +1,15 @@
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c (transport_back): New callback to handle
+	when the user hits the "back" button when on the transport
+	page. This is needed to handle the case where we don't want to
+	show the user the auth page (due to there being no auth choices).
+	(incoming_next): If we are going to skip over the auth page, set
+	the 'have_auth_page' variable to FALSE.
+	(construct): Initialize the have_auth_page to TRUE.
+
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-config-druid.c (incoming_type_changed): Grab the focus of
 	the first widget that is sensitive.
 	(transport_type_changed): Same.
