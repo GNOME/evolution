@@ -594,8 +594,6 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			}
 			
 			g_free (local_cal_folder);
-			
-			e_source_list_sync (calendar_component_peek_source_list (component), NULL);
 
 			dialog_close ();
 		}
@@ -605,8 +603,6 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			
 			group = create_calendar_contact_source (calendar_component_peek_source_list (component));
 			g_object_unref (group);
-			
-			e_source_list_sync (calendar_component_peek_source_list (component), NULL);
 		}
 
 		if (minor == 5 && revision < 5) {
@@ -634,6 +630,17 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 		}
 
 	}
+
+	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
+
+	if (on_this_computer)
+		g_object_unref (on_this_computer);
+	if (on_the_web)
+		g_object_unref (on_the_web);
+	if (contacts)
+		g_object_unref (contacts);
+	if (personal_source)
+		g_object_unref (personal_source);
 
 	return retval;
 }
@@ -708,12 +715,12 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			}
 			
 			g_free (local_task_folder);
-			
-			e_source_list_sync (tasks_component_peek_source_list (component), NULL);
 
 			dialog_close ();
 		}		
 	}
+
+	e_source_list_sync (tasks_component_peek_source_list (component), NULL);
 
 	if (on_this_computer)
 		g_object_unref (on_this_computer);

@@ -1,5 +1,12 @@
 2004-03-26  JP Rosevear <jpr@ximian.com>
 
+	* gui/migration.c (migrate_calendars): make sure we always sync
+	the source list and just do it once; unref the sources we get
+	(migrate_tasks): make sure we always sync
+	the source list and just do it once
+
+2004-03-26  JP Rosevear <jpr@ximian.com>
+
 	Fixes #55648
 	
 	* gui/print.c (print_todo_details): get the default from the model
