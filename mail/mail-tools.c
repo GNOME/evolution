@@ -418,6 +418,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 					    text,
 					    want_plain ? "" : "</i></blockquote>");
 		g_free (text);
+		g_free (credits);
 		return ret_text;
 	}
 	
