@@ -1,5 +1,7 @@
 2001-10-28  Kevin Breit  <mrproper@ximian.com>
 
+	* C/usage-calendar.sgml: Fixed stupid build bugs
+
 	* C/usage-mail.sgml: Fixed a boo-boo
 
 	* C/usage-exec-summary.sgml: Touchups, nothing here, run along
