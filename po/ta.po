@@ -1,3 +1,4 @@
+# translation of ta.po to Tamil
 # translation of evolution.HEAD.po to Tamil
 # translation of evolution.HEAD.po to
 # This file is distributed under the same license as the PACKAGE package.
@@ -6,16 +7,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD\n"
+"Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-07-16 15:07+0530\n"
+"PO-Revision-Date: 2004-07-26 16:24+0530\n"
 "Last-Translator: Jayaradha N <jaya@pune.redhat.com>\n"
 "Language-Team: Tamil <zhakanini@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -1251,1081 +1253,1087 @@ msgstr "கொலம்பியா்பியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Comoros"
-msgstr ""
+msgstr "கோமொரொஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Congo"
-msgstr ""
+msgstr "காங்கோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo, The Democratic Republic Of The"
-msgstr ""
+msgstr "காங்கோ குடியரசின்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
-msgstr ""
+msgstr "குக் தீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Costa Rica"
-msgstr ""
+msgstr "கோஸ்டா ரிக்கா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "கோட் டில்வொரி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Croatia"
-msgstr ""
+msgstr "கொரிட்டா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Cuba"
-msgstr ""
+msgstr "க்யூபா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Cyprus"
-msgstr ""
+msgstr "சைப்ரஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:193
 msgid "Czech Republic"
-msgstr ""
+msgstr "செக் குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Denmark"
-msgstr ""
+msgstr "டென்மார்க்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Djibouti"
-msgstr ""
+msgstr "டிஜ்பொட்டி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Dominica"
-msgstr ""
+msgstr "டொம்னிக்கா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominican Republic"
-msgstr ""
+msgstr "சொமினிக் குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Ecuador"
-msgstr ""
+msgstr "ஈக்வடார்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Egypt"
-msgstr ""
+msgstr "எகிப்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "El Salvador"
-msgstr ""
+msgstr "எல் சால்வடார்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "ஈக்வடோசியல் கினியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
-msgstr ""
+msgstr "எரிட்ரிய"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Estonia"
-msgstr ""
+msgstr "எஸ்தோனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Ethiopia"
-msgstr ""
+msgstr "எதியோப்பியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Falkland Islands"
-msgstr ""
+msgstr "ஃபிளாங்லான் தீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Faroe Islands"
-msgstr ""
+msgstr "ஃபோரி தீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Fiji"
-msgstr ""
+msgstr "பிஜி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Finland"
-msgstr ""
+msgstr "பின்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "France"
-msgstr ""
+msgstr "ஃப்ரான்ஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
-msgstr ""
+msgstr "ஃப்ரெஞ்ச் கையானா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
-msgstr ""
+msgstr "ஃப்ரெஞ்ச் பாலினேசியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
-msgstr ""
+msgstr "ஃப்ரெஞ்ச் தெற்கு பிரதேசம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
-msgstr ""
+msgstr "கபான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gambia"
-msgstr ""
+msgstr "ஜாம்பியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Georgia"
-msgstr ""
+msgstr "ஜியார்ஜியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Germany"
-msgstr ""
+msgstr "ஜெர்மனி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
-msgstr ""
+msgstr "கானா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
-msgstr ""
+msgstr "கிப்ரால்டர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Greece"
-msgstr ""
+msgstr "க்ரீஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
-msgstr ""
+msgstr "க்ரீன்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
-msgstr ""
+msgstr "க்ரெனடா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guadeloupe"
-msgstr ""
+msgstr "க்வாடிலோப்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guam"
-msgstr ""
+msgstr "க்கம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guatemala"
-msgstr ""
+msgstr "க்வாதிமாலா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Guernsey"
-msgstr ""
+msgstr "க்ரென்சி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guinea"
-msgstr ""
+msgstr "கினியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "கினியா-பிசாயு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guyana"
-msgstr ""
+msgstr "கயானா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Haiti"
-msgstr ""
+msgstr "ஹைடி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "ஹார்ட் மற்றும் மெக்டொனால் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Holy See"
-msgstr ""
+msgstr "ஹோலி சீ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "Honduras"
-msgstr ""
+msgstr "ஹோன்டுராஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Hong Kong"
-msgstr ""
+msgstr "ஹாங்காங்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:234
 msgid "Hungary"
-msgstr ""
+msgstr "ஹங்கேரி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:235
 msgid "Iceland"
-msgstr ""
+msgstr "ஐஸ்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "India"
-msgstr ""
+msgstr "இந்தியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:237
 msgid "Indonesia"
-msgstr ""
+msgstr "இந்தோனேசியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Iran"
-msgstr ""
+msgstr "ஈரான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
 msgid "Iraq"
-msgstr ""
+msgstr "ஈராக்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Ireland"
-msgstr ""
+msgstr "அயர்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Isle of Man"
-msgstr ""
+msgstr "இஸ்லி ஆஃப் மேன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Israel"
-msgstr ""
+msgstr "இஸ்ரேல்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Italy"
-msgstr ""
+msgstr "இத்தாலி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Jamaica"
-msgstr ""
+msgstr "ஜமைக்கா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Japan"
-msgstr ""
+msgstr "ஜப்பான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Jersey"
-msgstr ""
+msgstr "ஜெர்சி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jordan"
-msgstr ""
+msgstr "ஜோர்டான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kazakhstan"
-msgstr ""
+msgstr "கசகிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kenya"
-msgstr ""
+msgstr "கென்யா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kiribati"
-msgstr ""
+msgstr "க்ரிபட்டி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Korea, Democratic People's Republic Of"
-msgstr ""
+msgstr "கொரியா, குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Republic Of"
-msgstr ""
+msgstr "கொரியா, குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Kuwait"
-msgstr ""
+msgstr "குவைத்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "கிரிகிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Laos"
-msgstr ""
+msgstr "லாவோஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Latvia"
-msgstr ""
+msgstr "லாத்வியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
-msgstr ""
+msgstr "லெபனான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lesotho"
-msgstr ""
+msgstr "லெஸத்தோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Liberia"
-msgstr ""
+msgstr "லாபேரியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Libya"
-msgstr ""
+msgstr "லிபியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Liechtenstein"
-msgstr ""
+msgstr "லிசன்ஸ்டைன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Lithuania"
-msgstr ""
+msgstr "லிதுவேனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Luxembourg"
-msgstr ""
+msgstr "லக்ஸம்பர்க்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Macao"
-msgstr ""
+msgstr "மகாவோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macedonia"
-msgstr ""
+msgstr "மெசிடோனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Madagascar"
-msgstr ""
+msgstr "மடகாஸ்கர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malawi"
-msgstr ""
+msgstr "மாலாவி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
-msgstr ""
+msgstr "மலேசியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Maldives"
-msgstr ""
+msgstr "மாலதீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mali"
-msgstr ""
+msgstr "மாலி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Malta"
-msgstr ""
+msgstr "மால்டா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Marshall Islands"
-msgstr ""
+msgstr "மார்ஷெல் தீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Martinique"
-msgstr ""
+msgstr "மார்டினிக்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mauritania"
-msgstr ""
+msgstr "மாரிடேனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritius"
-msgstr ""
+msgstr "மொரீஷியஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mayotte"
-msgstr ""
+msgstr "மயோதி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
-msgstr ""
+msgstr "மெக்ஸிகோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
-msgstr ""
+msgstr "மெக்ரோனிசியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
-msgstr ""
+msgstr "மால்டோவா குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
-msgstr ""
+msgstr "மொனாக்கோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Mongolia"
-msgstr ""
+msgstr "மங்கோலியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Montserrat"
-msgstr ""
+msgstr "மோன்ஸிராட்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Morocco"
-msgstr ""
+msgstr "மொரோக்கோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Mozambique"
-msgstr ""
+msgstr "மொசாம்பிக்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Myanmar"
-msgstr ""
+msgstr "மியான்மர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Namibia"
-msgstr ""
+msgstr "நமீபியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Nauru"
-msgstr ""
+msgstr "நௌரு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nepal"
-msgstr ""
+msgstr "நேபால்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Netherlands"
-msgstr ""
+msgstr "நெதர்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "நெதர்லாந்து ஆன்டிலிஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
-msgstr ""
+msgstr "நியூ காலிடொனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Zealand"
-msgstr ""
+msgstr "நியூசிலாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Nicaragua"
-msgstr ""
+msgstr "நிகராகுவா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
-msgstr ""
+msgstr "நிகெர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Nigeria"
-msgstr ""
+msgstr "நைஜீரியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Niue"
-msgstr ""
+msgstr "நியு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Norfolk Island"
-msgstr ""
+msgstr "நொர்ஃபோக் தீவு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "வடக்கு மெரைனா தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Norway"
-msgstr ""
+msgstr "நார்வே"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Oman"
-msgstr ""
+msgstr "ஓமன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Pakistan"
-msgstr ""
+msgstr "பாகிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Palau"
-msgstr ""
+msgstr "பாலௌ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palestinian Territory"
-msgstr ""
+msgstr "பாலஸ்தீனிய பிரதேசம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Panama"
-msgstr ""
+msgstr "பனாமா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "பாபௌ நியூ கினியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Paraguay"
-msgstr ""
+msgstr "பராகுவே"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Peru"
-msgstr ""
+msgstr "பெரு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Philippines"
-msgstr ""
+msgstr "பிலிப்பைன்ஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Pitcairn"
-msgstr ""
+msgstr "ப்பிட்கேரின்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Poland"
-msgstr ""
+msgstr "போலந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Portugal"
-msgstr ""
+msgstr "போர்சுகல்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Puerto Rico"
-msgstr ""
+msgstr "பௌட்டோ ரிக்கோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Qatar"
-msgstr ""
+msgstr "கதார்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
-msgstr ""
+msgstr "ரீயூனியன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Romania"
-msgstr ""
+msgstr "ரோமானியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Russian Federation"
-msgstr ""
+msgstr "ரஸ்யன் ஃபெடரேஷன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Rwanda"
-msgstr ""
+msgstr "ருவான்டா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Saint Kitts And Nevis"
-msgstr ""
+msgstr "செயின் கிட்ட்ஸ் மற்றும் நெவிஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Lucia"
-msgstr ""
+msgstr "செயின்ட் லூசியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Vincent And The Grena-dines"
-msgstr ""
+msgstr "செயின்ட் வின்ஸ்சென்ட் மற்றும் க்ரீனா டினிஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Samoa"
-msgstr ""
+msgstr "சாமௌ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "San Marino"
-msgstr ""
+msgstr "சான் மரினோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Sao Tome And Principe"
-msgstr ""
+msgstr "சயோ டோம் மற்றும் பிரின்ஸ்ப்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "சௌதி அரேபியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Senegal"
-msgstr ""
+msgstr "செனெகல்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Serbia And Montenegro"
-msgstr ""
+msgstr "செர்பியா மற்றும் மொன்டெனெங்ரோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Seychelles"
-msgstr ""
+msgstr "செய்செல்லெஸ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Sierra Leone"
-msgstr ""
+msgstr "சிியராா லியோன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Singapore"
-msgstr ""
+msgstr "சிங்கபூர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Slovakia"
-msgstr ""
+msgstr "ஸ்லோவோக்கியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "Slovenia"
-msgstr ""
+msgstr "ஸ்லோவேனியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Solomon Islands"
-msgstr ""
+msgstr "சாலமொன் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Somalia"
-msgstr ""
+msgstr "சோமாலியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "South Africa"
-msgstr ""
+msgstr "தென் ஆப்ரிக்கா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "தெற்கு ஜியார்ஜியா மற்றும் தெற்கு சான்விச் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Spain"
-msgstr ""
+msgstr "ஸ்பெயின் "
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Sri Lanka"
-msgstr ""
+msgstr "இலங்கை"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "St. Helena"
-msgstr ""
+msgstr "செயின்ட் ஹெலெனா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Pierre And Miquelon"
-msgstr ""
+msgstr "செயின்ட் பிரி மற்றும் மிஃயூலான்்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Sudan"
-msgstr ""
+msgstr "சூடான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Suriname"
-msgstr ""
+msgstr "சுரினாம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
+msgstr "ஸ்வால்பார் மற்றும் ஜான் மாயென் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Swaziland"
-msgstr ""
+msgstr "ஸ்வாசிலாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Sweden"
-msgstr ""
+msgstr "ஸ்வீடன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Switzerland"
-msgstr ""
+msgstr "சுவிசர்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Syria"
-msgstr ""
+msgstr "சிரியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
-msgstr ""
+msgstr "தாய்வான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Tajikistan"
-msgstr ""
+msgstr "தஜிகிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tanzania, United Republic Of"
-msgstr ""
+msgstr "தான்சானியா குடியரசு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Thailand"
-msgstr ""
+msgstr "தாய்லாந்து"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Timor-Leste"
-msgstr ""
+msgstr "திமோர்-லெஸ்டி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
-msgstr ""
+msgstr "டோகோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Tokelau"
-msgstr ""
+msgstr "டோகெலௌ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tonga"
-msgstr ""
+msgstr "தாங்கோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "டிரினிடாட் மற்றும் டொபாகோ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Tunisia"
-msgstr ""
+msgstr "டுனீஷியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Turkey"
-msgstr ""
+msgstr "துருக்கி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkmenistan"
-msgstr ""
+msgstr "துர்க்மெனிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turks And Caicos Islands"
-msgstr ""
+msgstr "துர்க்ஸ் மற்றும் காய்கோஸ் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Tuvalu"
-msgstr ""
+msgstr "துவாலு"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Uganda"
-msgstr ""
+msgstr "உகாண்டா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
-msgstr ""
+msgstr "உக்ரெயின்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "யுனெய்டர் அரப் எமிரேட்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "United Kingdom"
-msgstr ""
+msgstr "யுனைட்டட் கிங்டம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:365
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "அமெர்க்க ஐக்கிய மைனர் அவுட்லேயிங் தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Uruguay"
-msgstr ""
+msgstr "உருகுவே"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uzbekistan"
-msgstr ""
+msgstr "உஸ்பெகிஸ்தான்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Vanuatu"
-msgstr ""
+msgstr "வனாட்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Venezuela"
-msgstr ""
+msgstr "வெனிசூலா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Viet Nam"
-msgstr ""
+msgstr "வியட்னாம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "வெர்ஜின் தீவுகள், ப்ரிடீஷ்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "வெர்ஜின் தீவுகள் , U.S."
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Wallis And Futuna Islands"
-msgstr ""
+msgstr "வாலிஸ் மற்றும் ஃபுட்னா தீவுகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
-msgstr ""
+msgstr "மேற்கு சஹாரா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Yemen"
-msgstr ""
+msgstr "யேமன்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:376
 msgid "Zambia"
-msgstr ""
+msgstr "ஜாம்பியா்பியா"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zimbabwe"
-msgstr ""
+msgstr "ஜிம்பாப்வே"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:62
 msgid "AOL Instant Messenger"
-msgstr ""
+msgstr "AOL உடனுக்குடன் செய்தி அனுப்பி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/contact-editor/e-contact-editor.c:185
 #: addressbook/gui/widgets/eab-contact-display.c:334
 msgid "Jabber"
-msgstr ""
+msgstr "ஜப்பார்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:65
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "யாகூ செய்தி அனுப்பி"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/contact-editor/e-contact-editor.c:188
 #: addressbook/gui/widgets/eab-contact-display.c:333
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:118
 msgid "Service"
-msgstr ""
+msgstr "சேவைகள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
 #: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Location"
-msgstr ""
+msgstr "இடம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:134
 msgid "Username"
-msgstr ""
+msgstr "பயனீடாளர் பெயர்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:240
 #: addressbook/gui/contact-editor/e-contact-editor.c:202
 msgid "Home"
-msgstr ""
+msgstr "இல்லம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:248
 #: addressbook/gui/contact-editor/e-contact-editor.c:203
 msgid "Other"
-msgstr ""
+msgstr "மற்றவை"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:186
 #: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Yahoo"
-msgstr ""
+msgstr "யாகூ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:189
 #: addressbook/gui/widgets/eab-contact-display.c:332
 msgid "GroupWise"
-msgstr ""
+msgstr "குழுக்களாக"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:258
 msgid "Source Book"
-msgstr ""
+msgstr "மூல புத்தகம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:265
 msgid "Target Book"
-msgstr ""
+msgstr "சேரும் புத்தகம்"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:279
 msgid "Is New Contact"
-msgstr ""
+msgstr "புதிய தொடர்பு"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:286
 msgid "Writable Fields"
-msgstr ""
+msgstr "எழுதக்கூடிய புலங்கள்"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:300
 msgid "Changed"
-msgstr ""
+msgstr "மாற்றப்பட்டது"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2428
 msgid "This contact belongs to these categories:"
-msgstr ""
+msgstr "இந்த தொடர்புகள் இந்த வகையை சார்ந்தது"
 
 #. Create the selector
 #: addressbook/gui/contact-editor/e-contact-editor.c:2505
 msgid "Please select an image for this contact"
-msgstr ""
+msgstr "இந்த தொடர்பிலிருந்து படத்தை தேர்வு செய்யவும்"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2509
 msgid "No image"
-msgstr ""
+msgstr "படங்கள் இல்லை"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2712
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
+"தொடர்பின் தகவல் செல்லாது:\n"
+"\n"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2740
 msgid "Invalid contact."
-msgstr ""
+msgstr "செல்லாத தொடர்பு"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2799
 msgid ""
 "The contact cannot be saved to the selected address book. Do you want to "
 "discard changes?"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட முகவரி புத்தகத்தில் இந்த தொடர்பௌ சேமிக்க முடியாது. மாற்றங்களை நிராகரிக்க விருப்பமா?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2822
 msgid ""
 "You are moving the contact from one address book to another, but it cannot "
 "be removed from the source. Do you want to save a copy instead?"
-msgstr ""
+msgstr "நீங்கள் தொடர்புகளை ளை ஒரு முகவரி புத்தகத்திலிருந்து மற்ற புத்தகத்திற்கு நகர்த்த விர. இவ்வாறு நகர்த்த முடியாது ஆனால் நகலெடுத்து கொள்ளலாம் . நகலெடுக்க விருப்பமா?ம்பிகிற"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "தொடர்பு வேகமாக- சேர்"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:283
 msgid "_Edit Full"
-msgstr ""
+msgstr "(_E)முழுவதும் திருத்து"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:166
 msgid "_Full Name:"
-msgstr ""
+msgstr "(_F)முழு பெயர்"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
 msgid "E-_mail:"
-msgstr ""
+msgstr "(_m)மின்னஞ்சல்"
 
 #: addressbook/gui/contact-editor/eab-editor.c:315
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
+"இந்த தொடர்பை நீக்க \n"
+"வேண்டுமா?"
 
 #: addressbook/gui/contact-editor/eab-editor.c:318
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
 msgstr ""
+"இந்த தொடர்பை நீக்க \n"
+"வேண்டுமா?"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Address _2:"
-msgstr ""
+msgstr "விலாசம்2 (_2):"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Ci_ty:"
-msgstr ""
+msgstr "(_t)நகரம்:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
-msgstr ""
+msgstr "(_y)நாடு:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "Full Address"
-msgstr ""
+msgstr "முழு விலாசம்"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
-msgstr ""
+msgstr "(_A)முகவரி"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_PO Box:"
-msgstr ""
+msgstr "(_P)தபால் பெட்டி எண்:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_State/Province:"
-msgstr ""
+msgstr "(_S)மாநிலம்/பிரதேசம்:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr ""
+msgstr "(_Z) பின்கோடு:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
-msgstr ""
+msgstr "Dr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:3
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:4
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "Full Name"
-msgstr ""
+msgstr "முழு பெயர்"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:5
 msgid "I"
-msgstr ""
+msgstr "I"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:8
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Miss"
-msgstr ""
+msgstr "செல்வி"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mr."
-msgstr ""
+msgstr "திரு."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Mrs."
-msgstr ""
+msgstr "திருமதி."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Ms."
-msgstr ""
+msgstr "திரு/திருமதி"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "Sr."
-msgstr ""
+msgstr "சர்."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_First:"
-msgstr ""
+msgstr "(_F)முதல்:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:15
 msgid "_Last:"
-msgstr ""
+msgstr "(_L)கடைசி"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Middle:"
-msgstr ""
+msgstr "(_M)மையம்:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Suffix:"
-msgstr ""
+msgstr "(_S)கடைசி:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:18
 msgid "_Title:"
-msgstr ""
+msgstr "(_T)தலைப்பு:"
 
 #: addressbook/gui/contact-editor/im.glade.h:2
 msgid "Add IM Account"
-msgstr ""
+msgstr "IM கணக்கை சேர்க்கவும்"
 
 #: addressbook/gui/contact-editor/im.glade.h:3
 msgid "_Account name:"
-msgstr ""
+msgstr "(_A)கணக்கின் பெயர்:"
 
 #: addressbook/gui/contact-editor/im.glade.h:4
 msgid "_IM Service:"
-msgstr ""
+msgstr "(_I)IM சேவை"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
 msgid "_Location:"
-msgstr ""
+msgstr "(_L)இடம்:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr ""
+msgstr "மின்னஞ்சலை பட்டியலில் சேர்க்கவும்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Insert email adresses from Adress Book"
-msgstr ""
+msgstr "முகவரி புத்தகத்தில் மின்னஞ்சல் முகவரியை சேர்க்கவும்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:704
 msgid "Members"
-msgstr ""
+msgstr "உறுப்பினர்கள்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "Remove an email address from the List"
-msgstr ""
+msgstr "பட்டியலிலிருந்து மின்னஞ்சல் முகவரியை நீக்கவும்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "Select"
-msgstr ""
+msgstr "தேர்வுசெய்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_Hide addresses when sending mail to this list"
-msgstr ""
+msgstr "(_H)மின்னஞ்சலை குழுவிற்கு அனுப்புப்போது முகவரிகளை மறைக்கவும்"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_List name:"
-msgstr ""
+msgstr "(_L)பட்டியல் பெயர்:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "(_T)மின்னஞ்சல் முகவரியை தட்டச்சு செய்யவும் அல்லது கீழ் உள்ள பட்டியலிருந்து இழுத்து கொண்டுவந்து சேர்க்கவும்."
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
 msgid "dialog1"
-msgstr ""
+msgstr "உரையாடல்1"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:295
@@ -2334,70 +2342,70 @@ msgstr ""
 #: addressbook/gui/widgets/e-minicard-view-widget.c:105
 #: addressbook/gui/widgets/e-minicard-view.c:484
 msgid "Book"
-msgstr ""
+msgstr "புத்தகம்"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:177
 msgid "Is New List"
-msgstr ""
+msgstr "இது புதிய பட்டியல்"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:726
 #: calendar/gui/e-meeting-list-view.c:60
 #: calendar/gui/e-meeting-list-view.c:457
 msgid "Required Participants"
-msgstr ""
+msgstr "தேவையான பங்களிப்பு"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:803
 msgid "Contact List Editor"
-msgstr ""
+msgstr "தொடர்பு பட்டியல் தொகுப்பி"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr ""
+msgstr "தொடர்பு மாற்றப்பட்டது:"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
-msgstr ""
+msgstr "தொடர்பில் சிக்கல்:"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:3
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:1
 msgid "Duplicate Contact Detected"
-msgstr ""
+msgstr "இதே தொடர்பு ஏற்கெனவே உள்ளது கண்டுபிடிக்கப்பட்டது"
 
 #: addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
-msgstr ""
+msgstr "இந்த தொடர்பின் மாற்றப்பட்டட்ட மின்னஞ்சல் மற்றும்யர் ஏற்கெனவே அடைவில் உள்ளது. மீண்டும் சேர்க்க விருப்பமா? "
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr ""
+msgstr "புதிய தொடர்பு:"
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr ""
+msgstr "உண்மையான தொடர்பு:"
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:4
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
-msgstr ""
+msgstr "இந்த தொடர்பின் மாற்றப்பட்டட்ட மின்னஞ்சல் மற்றும்யர் ஏற்கெனவே அடைவில் உள்ளது. \n மீண்டும் சேர்க்க விருப்பமா? "
 
 #. FIXME: get the toplevel window...
 #: addressbook/gui/search/e-addressbook-search-dialog.c:170
 #: widgets/misc/e-filter-bar.c:156
 msgid "Advanced Search"
-msgstr ""
+msgstr "மேம்பட்ட தேடல்"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:148
 msgid "No contacts"
-msgstr ""
+msgstr "தொடர்புகள் எதுவும் இல்லை"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:151
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
+msgstr[0] "%d தொடர்புகள்"
 msgstr[1] ""
 
 #: addressbook/gui/widgets/e-addressbook-model.c:302
@@ -2406,43 +2414,43 @@ msgstr[1] ""
 #: addressbook/gui/widgets/e-minicard-view-widget.c:112
 #: addressbook/gui/widgets/e-minicard-view.c:491
 msgid "Query"
-msgstr ""
+msgstr "கேள்வி"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:445
 msgid "Error getting book view"
-msgstr ""
+msgstr "புத்தக பார்வையில் பிழை"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:399
 msgid "Model"
-msgstr ""
+msgstr "மாதிரி"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
-msgstr ""
+msgstr "அட்டையை திருத்தும் போது பிழை"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:167
 msgid "Name begins with"
-msgstr ""
+msgstr "பெயரின் துவக்கத்தில்"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:168
 msgid "Email begins with"
-msgstr ""
+msgstr "மின்னஞ்சல் துவக்கத்தில்"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:169
 #: calendar/gui/cal-search-bar.c:54
 msgid "Category is"
-msgstr ""
+msgstr "வகை"
 
 #. We attach subitems below
 #: addressbook/gui/widgets/e-addressbook-view.c:170
 #: calendar/gui/cal-search-bar.c:49
 msgid "Any field contains"
-msgstr ""
+msgstr "எந்த புலத்திலும்"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:171
 #: addressbook/gui/widgets/e-addressbook-view.c:176
 msgid "Advanced..."
-msgstr ""
+msgstr "மேம்பட்ட...."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:242
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
@@ -2450,300 +2458,300 @@ msgstr ""
 #: calendar/gui/e-meeting-list-view.c:227
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
-msgstr ""
+msgstr "வகை"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:539
 msgid "Address Book"
-msgstr ""
+msgstr "முகவரி புத்தகம்"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:883
 #: addressbook/gui/widgets/e-addressbook-view.c:1103
 #: addressbook/gui/widgets/e-addressbook-view.c:2093
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
-msgstr ""
+msgstr "VCard என சேமிக்கப்பட்டது..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1090
 msgid "New Contact..."
-msgstr ""
+msgstr "புதிய தொடர்பு..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1091
 msgid "New Contact List..."
-msgstr ""
+msgstr "புதிய தொடர்புகளின் பட்டியல்"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1094
 msgid "Go to Folder..."
-msgstr ""
+msgstr "அடைவுக்கு செல்..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1095
 msgid "Import..."
-msgstr ""
+msgstr "இறக்குமதி..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1097
 msgid "Search for Contacts..."
-msgstr ""
+msgstr "தொடர்புகளை தேடு..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1098
 msgid "Address Book Sources..."
-msgstr ""
+msgstr "முகவரி புத்தக மூலம்..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1100
 msgid "Pilot Settings..."
-msgstr ""
+msgstr "பைலட் அமைப்புகள்..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1104
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
-msgstr ""
+msgstr "தொடர்புகளை அனுப்பு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1105
 msgid "Send Message to Contact"
-msgstr ""
+msgstr "செய்தியை உரியவருக்கு அனுப்பு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1106 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr ""
+msgstr "அச்சடி"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1108
 msgid "Print Envelope"
-msgstr ""
+msgstr "தபாலாக அச்சடி"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1112
 msgid "Copy to Address Book..."
-msgstr ""
+msgstr "முகவரி புத்தகத்தில் நகலெடு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1113
 msgid "Move to Address Book..."
-msgstr ""
+msgstr "முகவரி புத்தகத்துக்கு நகர்த்து..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1116
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
-msgstr ""
+msgstr "வெட்டு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1117
 #: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:373
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
-msgstr ""
+msgstr "நகலெடு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1118
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
-msgstr ""
+msgstr "ஒட்டு"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1123
 #: calendar/gui/e-calendar-view.c:1340
 msgid "Current View"
-msgstr ""
+msgstr "தற்போதைய பார்வை"
 
 #. All, unmatched, separator
 #: addressbook/gui/widgets/e-addressbook-view.c:1678
 #: calendar/gui/cal-search-bar.c:358
 msgid "Any Category"
-msgstr ""
+msgstr "ஏதாவது ஒரு வகை"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
-msgstr ""
+msgstr "உதவியாள்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant Phone"
-msgstr ""
+msgstr "தொலைபேசி உதவி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
-msgstr ""
+msgstr "வணிக தொலைநகலி(Fax)"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Phone"
-msgstr ""
+msgstr "வணிக தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Phone 2"
-msgstr ""
+msgstr "வணிக தொலைபேசி எண் 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Callback Phone"
-msgstr ""
+msgstr "மீண்டும் அழைக்க வேண்டிய தொலை பேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Car Phone"
-msgstr ""
+msgstr "கார் தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 #: calendar/gui/e-cal-list-view.etspec.h:1
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Categories"
-msgstr ""
+msgstr "வகைகள்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Company Phone"
-msgstr ""
+msgstr "அலுவலக தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: addressbook/gui/widgets/eab-contact-display.c:545 smime/lib/e-cert.c:826
 msgid "Email"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: addressbook/gui/widgets/eab-popup-control.c:441
 msgid "Email 2"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரி 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 #: addressbook/gui/widgets/eab-popup-control.c:451
 msgid "Email 3"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரி 3"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Family Name"
-msgstr ""
+msgstr "குடும்ப பெயர்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "File As"
-msgstr ""
+msgstr "கோப்பு என"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Given Name"
-msgstr ""
+msgstr "கொடுக்கப்பட்ட பெயர்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
-msgstr ""
+msgstr "வீட்டு தொலைநகலி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Phone"
-msgstr ""
+msgstr "வீட்டு தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone 2"
-msgstr ""
+msgstr "வீட்டு தொலைபேசி எண் 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "ISDN Phone"
-msgstr ""
+msgstr "ISDN தொலை பேசி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Journal"
-msgstr ""
+msgstr "இதழ்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Manager"
-msgstr ""
+msgstr "மேலாளர்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Mobile Phone"
-msgstr ""
+msgstr "மொபைல் தொலைபேசி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Nickname"
-msgstr ""
+msgstr "புனைபெயர்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 #: addressbook/gui/widgets/eab-contact-display.c:375
 msgid "Note"
-msgstr ""
+msgstr "குறிப்பு"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Office"
-msgstr ""
+msgstr "அலுவலகம்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 #: addressbook/gui/widgets/eab-contact-display.c:345
 msgid "Organization"
-msgstr ""
+msgstr "நிறுவனம்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:28
 msgid "Other Fax"
-msgstr ""
+msgstr "மற்ற தொலை நகலி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Phone"
-msgstr ""
+msgstr "மற்ற தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
-msgstr ""
+msgstr "பேஜர்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
-msgstr ""
+msgstr "முதன்மை தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
-msgstr ""
+msgstr "வானொலி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-meeting-list-view.c:234
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
-msgstr ""
+msgstr "பங்கு"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Spouse"
-msgstr ""
+msgstr "மனைவி"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Telex"
-msgstr ""
+msgstr "டெலக்ஸ்"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
 msgid "Title"
-msgstr ""
+msgstr "தலைப்பு"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Unit"
-msgstr ""
+msgstr "அலகு"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
-msgstr ""
+msgstr "இணைய தளம்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:115
 #: addressbook/gui/widgets/e-minicard.c:137
 msgid "Width"
-msgstr ""
+msgstr "அகலம்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:122
 #: addressbook/gui/widgets/e-minicard.c:144
 msgid "Height"
-msgstr ""
+msgstr "உயரம்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:129
 #: addressbook/gui/widgets/e-minicard.c:152
 msgid "Has Focus"
-msgstr ""
+msgstr "துவக்கதில்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
-msgstr ""
+msgstr "புலம்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:143
 msgid "Field Name"
-msgstr ""
+msgstr "புலத்தின் பெயர்"
 
 #: addressbook/gui/widgets/e-minicard-label.c:150
 msgid "Text Model"
-msgstr ""
+msgstr "மாதிரி உரை"
 
 #: addressbook/gui/widgets/e-minicard-label.c:157
 msgid "Max field name length"
-msgstr ""
+msgstr "புலத்தின் பெயரின் அதிக பட்ச நீளம்"
 
 #: addressbook/gui/widgets/e-minicard-view-widget.c:126
 msgid "Column Width"
-msgstr ""
+msgstr "நெடுவரிசையின் அகலம்"
 
 #: addressbook/gui/widgets/e-minicard-view.c:164
 msgid ""
@@ -2753,6 +2761,11 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"இதில் காட்ட எந்த பொருளும் இல்லை.\n"
+"\n"
+"புதிய தொடர்பை உருவாக்க இங்கே இரண்டு-முறை க்ளிக் செய்யவும்."
 
 #: addressbook/gui/widgets/e-minicard-view.c:167
 msgid ""
@@ -2760,128 +2773,131 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"இதில் காட்ட எந்த பொருளும் இல்லை."
 
 #: addressbook/gui/widgets/e-minicard-view.c:477
 msgid "Adapter"
-msgstr ""
+msgstr "ஏற்பி"
 
 #: addressbook/gui/widgets/e-minicard.c:160
 msgid "Selected"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட"
 
 #: addressbook/gui/widgets/e-minicard.c:167
 msgid "Has Cursor"
-msgstr ""
+msgstr "கர்சரில்"
 
 #: addressbook/gui/widgets/eab-contact-display.c:131
 #: addressbook/gui/widgets/eab-contact-display.c:194
 msgid "(map)"
-msgstr ""
+msgstr "(வரைபடம்)"
 
 #: addressbook/gui/widgets/eab-contact-display.c:141
 #: addressbook/gui/widgets/eab-contact-display.c:207
 msgid "map"
-msgstr ""
+msgstr "வரைபடம்"
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
 #: addressbook/gui/widgets/eab-contact-display.c:526
 msgid "List Members"
-msgstr ""
+msgstr "உறுப்பினர்களின் பட்டியல்"
 
 #: addressbook/gui/widgets/eab-contact-display.c:322
 #: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "E-mail"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரி"
 
 #: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "Position"
-msgstr ""
+msgstr "நிலை"
 
 #: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Video Conferencing"
-msgstr ""
+msgstr "வீடியோ மூலம் கூட்ட்ம் நடத்தல்"
 
 #: addressbook/gui/widgets/eab-contact-display.c:348
 #: addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Phone"
-msgstr ""
+msgstr "தொலைபேசி எண்"
 
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Fax"
-msgstr ""
+msgstr "தொலை நகலி"
 
 #: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "work"
-msgstr ""
+msgstr "வேலை"
 
 #: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "WWW"
-msgstr ""
+msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:361
 #: addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Blog"
-msgstr ""
+msgstr "வலைப்பூ"
 
 #: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "personal"
-msgstr ""
+msgstr "செந்தமான"
 
 #: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "Job Title"
-msgstr ""
+msgstr "வேலையின் தலைப்பு"
 
 #: addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home page"
-msgstr ""
+msgstr "வீட்டுப்பக்கம்"
 
 #. E_BOOK_ERROR_OK
 #: addressbook/gui/widgets/eab-gui-util.c:49
 msgid "Success"
-msgstr ""
+msgstr "வெற்றி"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
 #: addressbook/gui/widgets/eab-gui-util.c:51
 msgid "Backend busy"
-msgstr ""
+msgstr "பின்னே வேலையாக "
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Repository offline"
-msgstr ""
+msgstr "கிடங்கு இயக்கதில் இல்லை"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: addressbook/gui/widgets/eab-gui-util.c:53
 msgid "Address Book does not exist"
-msgstr ""
+msgstr "முகவரி புத்தகம் இல்லை"
 
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: addressbook/gui/widgets/eab-gui-util.c:54
 msgid "No Self Contact defined"
-msgstr ""
+msgstr "சுய தொடர்பு தகவல் இல்லை"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: addressbook/gui/widgets/eab-gui-util.c:57
 msgid "Permission denied"
-msgstr ""
+msgstr "அனுமதி மறுக்கப்பட்டது"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Contact not found"
-msgstr ""
+msgstr "தொடர்பு காணவில்லை"
 
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: addressbook/gui/widgets/eab-gui-util.c:59
 msgid "Contact ID already exists"
-msgstr ""
+msgstr "தொடர்பு அடையாள எண் ஏற்கெனவே உள்ளது"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: addressbook/gui/widgets/eab-gui-util.c:60
 msgid "Protocol not supported"
-msgstr ""
+msgstr "விதிமுறைக்கு ஆதரவு இல்லை"
 
 #. E_BOOK_ERROR_CANCELLED
 #: addressbook/gui/widgets/eab-gui-util.c:61
@@ -2894,63 +2910,63 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:456
 #: camel/providers/pop3/camel-pop3-store.c:537
 msgid "Cancelled"
-msgstr ""
+msgstr "ரத்து செய்யப்பட்டது"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:62
 msgid "Could not cancel"
-msgstr ""
+msgstr "ரத்து செய்ய முடியாது"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
 msgid "Authentication Failed"
-msgstr ""
+msgstr "அனுமதி சோதிப்பு தோல்வியுற்றது"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: addressbook/gui/widgets/eab-gui-util.c:64
 msgid "Authentication Required"
-msgstr ""
+msgstr "அனுமதியை சோதிக்க வேண்டும்"
 
 #. E_BOOK_ERROR_TLS_NOT_AVAILABLE
 #: addressbook/gui/widgets/eab-gui-util.c:65
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS கிடைக்கவில்லை"
 
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: addressbook/gui/widgets/eab-gui-util.c:67
 msgid "No such source"
-msgstr ""
+msgstr "இது போன்ற மூலம் இல்லை"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: addressbook/gui/widgets/eab-gui-util.c:68
 msgid "Other error"
-msgstr ""
+msgstr "மற்ற பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:91
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
-msgstr ""
+msgstr "இந்த முகவரி புத்தகத்தை திறக்க முடியவில்லை.உங்களுக்கு அனுமதி இருந்தால் பாதையை சோதிக்கவும் "
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr ""
+msgstr "இந்த முகவரி புத்தகத்தை திறக்க முடியவில்லை . அதாவது நீங்கள் தவறான URI ஐ உள்ளிட்டுள்ளீர் அல்லது LDAP சேவகனை அணுக முடியவில்லை."
 
 #: addressbook/gui/widgets/eab-gui-util.c:103
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
-msgstr ""
+msgstr "எவல்யூஷனின் இந்த பதிப்பில் LDAP  சேவகனின் ஆதரவு இல்லை. நீங்கள் LDAP ஐ எவல்யூஷனில் பயன்படுத்த விரும்பினால் LDAP-ஆதரவுள்ள எவல்யூஷனை நிறுவவும்."
 
 #: addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr ""
+msgstr "முகவரி புத்தகத்தை திறக்க முடியவில்லை. நீங்கள் தவறான URI ஐ உள்ளிட்டுள்ளீர்கள் அல்லது சேவகனை தொடர்புகொள்ள முடியவில்லை."
 
 #: addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -2959,6 +2975,9 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
+"இந்த கேள்வி தொர்பாக அதிக விடைகள் வந்துள்ளதால் சேவகனால்\n விடைகளை காட்ட முடியவில்லை அல்லது எவல்யூஷனால் காட்ட முடியவில்லை\n"
+"தேடலை சுருக்கவும் \n"
+"அல்லது அடைவின் திறனை அதிகரிக்கவும்"
 
 #: addressbook/gui/widgets/eab-gui-util.c:136
 msgid ""
@@ -2967,44 +2986,48 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"இந்த கேள்வியை இயக்குவதற்கான நேரம் முடிவுற்றது \n"
+"தயவு செய்து உங்கள் அடைவில் தனிவிருப்பங்கள் பகுதியில்\n"
+"தேடலுக்கான கால அளவை \n"
+"கூட்டவும்"
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "முகவரி புத்தகத்தின் பின் இயக்கத்தால் இந்த கேள்வியை புரிந்துகொள்ள முடியவில்லை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:145
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "இந்த முகவரி புத்தகத்தின் பின் இயக்கி இந்த கேள்வியை புறக்கணித்தது"
 
 #: addressbook/gui/widgets/eab-gui-util.c:148
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "இந்த கேள்வி முழுமையாக முடியவில்லை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
 msgid "Error adding list"
-msgstr ""
+msgstr "பட்டியலில் சேர்க்கும் போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
 #: addressbook/gui/widgets/eab-gui-util.c:581
 msgid "Error adding contact"
-msgstr ""
+msgstr "தொடர்பை சேர்க்கும் போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:181
 msgid "Error modifying list"
-msgstr ""
+msgstr "தொடர்பை திருத்தும்போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:181
 msgid "Error modifying contact"
-msgstr ""
+msgstr "தொடர்பை திருத்தும் போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
 msgid "Error removing list"
-msgstr ""
+msgstr "பட்டியலை நீக்கும் போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
 #: addressbook/gui/widgets/eab-gui-util.c:539
 msgid "Error removing contact"
-msgstr ""
+msgstr "தொடர்பை நீக்கும் போது பிழை"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
@@ -3012,6 +3035,8 @@ msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
+"%d தொடர்புகளை திறக்கும் போது%d புதிய சாளரங்கள் திறக்கப்படும்.\n"
+"எல்லா தொடர்புகளையும் காட்ட வேண்டுமா?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:301
 #, c-format
@@ -3019,48 +3044,50 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s ஏற்கெனவே உள்லது\n"
+"மேலெழுத விருப்பமா?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:305
 msgid "Overwrite"
-msgstr ""
+msgstr "மேலெழுது"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/widgets/eab-gui-util.c:366
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: addressbook/gui/widgets/eab-gui-util.c:500
 msgid "list"
-msgstr ""
+msgstr "பட்டியல்"
 
 #: addressbook/gui/widgets/eab-gui-util.c:635
 msgid "Move contact to"
-msgstr ""
+msgstr "தொடர்புகளை நகர்த்து"
 
 #: addressbook/gui/widgets/eab-gui-util.c:637
 msgid "Copy contact to"
-msgstr ""
+msgstr "தொடர்புகளை நகலெடு"
 
 #: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Move contacts to"
-msgstr ""
+msgstr "தொடர்புகளை நகர்த்து"
 
 #: addressbook/gui/widgets/eab-gui-util.c:642
 msgid "Copy contacts to"
-msgstr ""
+msgstr "தொடர்புகளை நகர்த்து"
 
 #: addressbook/gui/widgets/eab-gui-util.c:645
 msgid "Select target addressbook."
-msgstr ""
+msgstr "முகவரி புத்தகம் சேரவேண்டிய இடத்தை தேர்வு செய்யவும்"
 
 #: addressbook/gui/widgets/eab-gui-util.c:868
 msgid "Multiple VCards"
-msgstr ""
+msgstr "பல VCards"
 
 #: addressbook/gui/widgets/eab-gui-util.c:871
 #, c-format
 msgid "VCard for %s"
-msgstr ""
+msgstr "%s க்கான VCard"
 
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
@@ -3069,426 +3096,426 @@ msgstr ""
 #.
 #: addressbook/gui/widgets/eab-popup-control.c:198
 msgid "(none)"
-msgstr ""
+msgstr "(எதுவுமில்லை)"
 
 #: addressbook/gui/widgets/eab-popup-control.c:431
 msgid "Primary Email"
-msgstr ""
+msgstr "முதன்மை மின்னஞ்சல் முகவரி"
 
 #: addressbook/gui/widgets/eab-popup-control.c:567
 msgid "Select an Action"
-msgstr ""
+msgstr "செயலை தேர்வு செய்"
 
 #: addressbook/gui/widgets/eab-popup-control.c:575
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr ""
+msgstr "புதிய தொடர்பை உருவாக்கு \"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:591
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr ""
+msgstr "ஏற்கெனவே உள்ள தொடர்பில் முகவரியை சேர்\"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:869
 msgid "Querying Address Book..."
-msgstr ""
+msgstr "முகவரி புத்தகத்தில் கேள்வி கேட்க்கப்படுகிறது..."
 
 #: addressbook/gui/widgets/eab-popup-control.c:952
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "தொடர்பு தகவலை திருத்து"
 
 #: addressbook/gui/widgets/eab-popup-control.c:1007
 msgid "Merge E-Mail Address"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரியை சேர்"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "and one other contact."
 msgid_plural "and %d other contacts."
-msgstr[0] ""
+msgstr[0] "%d மற்ற தொடர்புகள்"
 msgstr[1] ""
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:273
 msgid "Show Full VCard"
-msgstr ""
+msgstr "முழு VCard ஐ காட்டு"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr ""
+msgstr "பொருந்தும் VCard"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:278
 msgid "Save in addressbook"
-msgstr ""
+msgstr "முகவரி புத்தகத்தில் சேமி"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr ""
+msgstr "அட்டை காட்சி"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 msgid "GTK Tree View"
-msgstr ""
+msgstr "GTK கிளை காட்சி"
 
 #: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
-msgstr ""
+msgstr "தடையற்ற சோதனைம் சோதி"
 
 #: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr ""
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
-msgstr ""
+msgstr "கான்வாஸ் க்கான தடையற்ற சோதனை"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
-msgstr ""
+msgstr "எவல்யூஷன் LDIF ஏற்றி"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "LDAP தகவல் பறிமாற்ற வடிவம் (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
-msgstr ""
+msgstr "எவல்யூஷன் VCard ஏற்றி"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
 msgid "Evolution VCard importer"
-msgstr ""
+msgstr "எவல்யூஷன் VCard ஏற்றி"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
 msgid "Print envelope"
-msgstr ""
+msgstr "தபால்அட்டையை அச்சடி"
 
 #: addressbook/printing/e-contact-print.c:1000
 msgid "Print contacts"
-msgstr ""
+msgstr "தொடர்புகளை அச்சடி"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
 msgid "Print contact"
-msgstr ""
+msgstr "தொடர்புகளை அச்சடி"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "10 pt. தஹோமா"
 
 #: addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "8 pt. தஹோமா"
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "முடிவில் காலி படிவங்கள்:"
 
 #: addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "தகவல்"
 
 #: addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
-msgstr ""
+msgstr "கீழே:"
 
 #: addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr ""
+msgstr "அளவுகள்:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr ""
+msgstr "(_o) எழுத்துரு..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr ""
+msgstr "எழுத்துரு"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "அடிக்குறிப்பு..."
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
-msgstr ""
+msgstr "வடிவம்"
 
 #: addressbook/printing/e-contact-print.glade.h:11
 msgid "Header"
-msgstr ""
+msgstr "தலைப்பு"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr ""
+msgstr "மேல்குறிப்பு/அடிக்குறிப்பு"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "தலைப்புகள்"
 
 #: addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "ஒவ்வொரு கடிதத்துக்குமான தலைப்புகள்"
 
 #: addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr ""
+msgstr "உயரம்:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "அடுத்தடுத்து இருக்க வேண்டும்"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "சேர்:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "அகலவாக்கில்"
 
 #: addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
-msgstr ""
+msgstr "இடதுு:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "கடித்ததில் ஓரத்தில் தத்தல்"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
-msgstr ""
+msgstr "ஓரம்"
 
 #: addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
-msgstr ""
+msgstr "நெடுவரிசைகளின் எண்ணிக்கை"
 
 #: addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
-msgstr ""
+msgstr "தேர்வுகள்"
 
 #: addressbook/printing/e-contact-print.glade.h:24
 msgid "Orientation"
-msgstr ""
+msgstr "திசை"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
-msgstr ""
+msgstr "பக்கம்"
 
 #: addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
-msgstr ""
+msgstr "பக்க அமைப்பு:"
 
 #: addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
-msgstr ""
+msgstr "தாள்"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr ""
+msgstr "தாள் இருக்குமிடம்:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "நேர்வாக்கில்"
 
 #: addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
-msgstr ""
+msgstr "காட்சி:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "கருப்பு வெள்ளையாக அச்சடி"
 
 #: addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "இரட்டை படை பக்களை தலை கீழாக்கு"
 
 #: addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
-msgstr ""
+msgstr "வலது"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "பிரிவுகள்:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
-msgstr ""
+msgstr "நிழல்"
 
 #: addressbook/printing/e-contact-print.glade.h:36
 msgid "Size:"
-msgstr ""
+msgstr "அளவு:"
 
 #: addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr ""
+msgstr "புதிய பக்கத்தில் துவங்கு"
 
 #: addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
-msgstr ""
+msgstr "பாணியின் பெயர்"
 
 #: addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
-msgstr ""
+msgstr "மேல்:"
 
 #: addressbook/printing/e-contact-print.glade.h:40
 msgid "Type:"
-msgstr ""
+msgstr "வகை:"
 
 #: addressbook/printing/e-contact-print.glade.h:41
 msgid "Width:"
-msgstr ""
+msgstr "அகலம்:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr ""
+msgstr "(_F)எழுத்துரு..."
 
 #: addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
-msgstr ""
+msgstr "தொடர்புகளின்அச்சு பாணி தொகுப்பியின் சோதனை"
 
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "இது அச்சின் பாணியின் சாளர அளவை சோதிக்கும்"
 
 #: addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
-msgstr ""
+msgstr "தொடர்பு அச்சு சோதனை"
 
 #: addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "தொடர்பு அச்சு எண்ணை சோதிக்கும்"
 
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:657
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:49
 msgid "Can not open file"
-msgstr ""
+msgstr "கோப்பை திறக்க முடியவில்லை"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
 msgid "Couldn't get list of addressbooks"
-msgstr ""
+msgstr "முகவரி புத்தகங்கள் கிடைக்கவில்லை"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
 msgid "failed to open book"
-msgstr ""
+msgstr "புத்தகத்தை திறக்கும் போது தோல்வி"
 
 #: addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "நிலையான விளைவுக்கு பதிலாக தற்போதைய விளைவை காட்டு"
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "OUTPUTFILE"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
-msgstr ""
+msgstr "உள் முகவரி புத்தக அடைவுகளை பட்டியலிடு"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "அட்டைகளை vcard அல்லது csv ஆக காட்டு"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "[vcard|csv]"
-msgstr ""
+msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
-msgstr ""
+msgstr "ஒரே காலமல்லா பாங்கில் இறக்குமதி"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode,default size 100."
-msgstr ""
+msgstr "ஒரேகாலமல்லா பாங்கில் விளைவுக்கோப்பில் உள்ள அட்டைகளின் எண்ணிக்கை 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
-msgstr ""
+msgstr "கட்டளை வரி அளவுரு பிழை; --help தேர்வை பயன்படுத்தி பயன்பாட்டை தெரிந்துகொள்ளவும்"
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "csv அல்லது vcard க்கு மட்டும் ஆதரவு உண்டு"
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "ஒரே காலமல்லா பாங்கில் விளைவுக்கோப்பு"
 
 #: addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there should not need size option."
-msgstr ""
+msgstr "இயல்பான பாங்கில் அளவு தேர்வு அவசியமில்லை"
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
-msgstr ""
+msgstr "முடியாத உள் பிழை"
 
 #: addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "இயல்பான முகவரி புத்தகத்தை ஏற்றும் போது பிழை"
 
 #: addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
-msgstr ""
+msgstr "உள்ளிட்ட கோப்புு"
 
 #: addressbook/tools/evolution-addressbook-import.c:82
 msgid "No filename provided."
-msgstr ""
+msgstr "கோப்பின் பெயர் கொடுக்கப்படவில்லை"
 
 #: addressbook/util/e-destination.c:577
 msgid "Unnamed List"
-msgstr ""
+msgstr "பெயரில்லா பட்டியல்"
 
 #. calendar:prompt-cancel-meeting primary
 #. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "ரத்து அரிக்கையை அனைவருக்கும் அனுப்ப விருப்பமா?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
+msgstr "ரத்து அறிக்கையை அனுப்பவில்லை என்றால் மற்ற பங்கேற்பாளருக்கு கூட்டம் ரத்து ஆனது தெரியாமல் போகும்"
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
 msgid "Don't Send"
-msgstr ""
+msgstr "அனுப்பாதே"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
 msgid "Send Notice"
-msgstr ""
+msgstr "அறிக்கை அனுப்பு"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
 msgid "Are you sure you want to delete this meeting?"
-msgstr ""
+msgstr "இந்த கூட்டத்தை நீக்க விருப்பமா?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "இந்த கூட்டம் பற்றிய அனைத்து தகவல்களும் ரத்து செய்யப்படும் தகவல்களை மீண்டும் பெற முடியாது"
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
+msgstr "ரத்து அறிக்கையை அனுப்பவில்லை என்றால் மற்ற பங்கேற்பாளர்களுக்கு கூட்டம் ரத்து செய்யப்பட்டது தெரியாமல் போகும்."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
 msgid "Are you sure you want to delete this task?"
-msgstr ""
+msgstr "இந்த பணியை நீக்க விருப்பமா?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3496,267 +3523,267 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "இந்த பணினியில் உள்ள அனைத்து தகவல்களும் நீக்கப்படும் பிறகு மீட்க முடியாது."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr ""
+msgstr "இந்த இதழ் உள்ளீடுக்கான ரத்து அறிக்கையை அனுப்ப விருப்பமா?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
+msgstr "ரத்து அறிக்கையை அனுப்பவில்லை என்றால் மற்ற பங்கேற்பாளர்களுக்கு நீக்கப்பட்டது தெரியாமல் போகும்"
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
 msgid "Are you sure you want to delete this journal entry?"
-msgstr ""
+msgstr "இந்த இதழை நீக்க விருப்பமா?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "இந்த இதழில் உள்ள அனைத்து தகவல்களும் நீக்கப்படும் மீட்க முடியாது."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr ""
+msgstr "தலைப்பு {0}' க்கு ஒதுக்கப்பட்ட நேரத்தை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr ""
+msgstr "இந்த நேர ஒதுக்கம் தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும் மீட்க முடியாது"
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
 msgid "Are you sure you want to delete this appointment?"
-msgstr ""
+msgstr "இந்த நேர ஒதுக்கத்தை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
+msgstr "{0} வேலையை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr ""
+msgstr "'{0}' இதழ் உள்ளீட்டை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "இந்த இதழ் தொடர்பான அனைத்து தகவல்கள் நீக்கப்படும் ஆனால் மீட்க முடியாது."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
+msgstr "{0} நேர ஒதுக்கத்தை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "இது தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும் மீட்க முடியாது"
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
+msgstr "{0} பணியை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "இந்த பணி தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும் மீண்டும் மீட்க முடியாது"
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr ""
+msgstr "{0} இதழ் உள்ளீடுகளை நீக்க வேண்டுமா?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "இந்த இதழ் உள்ளீடு தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும். மீண்டும் மீட்க முடியாது."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
 msgid "Save Appointment"
-msgstr ""
+msgstr "நேர ஒதுக்கத்தை சேமி"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
 msgid "Would you like to save your changes to this appointment?"
-msgstr ""
+msgstr "இந்த நேர ஒதுக்கத்தில் உள்ள மாற்றங்களை சேமிக்க வேண்டுமா?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr ""
+msgstr "நேரஒதுக்கத்தில் மாற்றங்கள் செய்துள்ளீர் ஆனால் சேமிக்க வில்லை."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
-msgstr ""
+msgstr "மாற்றங்களை நிராகரி"
 
 #: calendar/calendar-errors.xml.h:74
 msgid "Save Changes"
-msgstr ""
+msgstr "மாற்றங்களை சேமி"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "கூட்ட அழைப்பை பங்கீட்டாளர்களுக்கு அனுப்ப வேண்டுமா?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
+msgstr "RSVP ஐ அனுமதிக்க பங்கீட்டாளர்களுக்கு மின்னஞ்சல் அழைப்பு அனுப்பப்பட்டது"
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
-msgstr ""
+msgstr "அனுப்பு"
 
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "திருத்தப்பட்ட கூட்டம் பற்றிய தகவல்களை பங்கேற்பாளர்களுக்கு அனுப்ப வேண்டுமா?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
+msgstr "மாற்றப்பட்ட தகவல்களை பங்கேற்பாளர்களின் நாள்காட்டியில் மாற்றங்கள் செய்யும்"
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "இந்த பணியை பங்கேற்பாளர்களுக்கு அனுப்ப வேண்டுமா?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "இந்த பணியை ஏற்பதற்கான அனைத்து பங்கேற்பாளர்களுக்கும் அழைப்பு அனுப்பபடும்"
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "திருத்தப்பட்ட பணியை பங்கேற்பாளர்களுக்கு அனுப்ப வேண்டுமா?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
+msgstr "திருத்தப்பட்ட பணி பங்கேற்பாளர்களின் நாள்காட்டியில் தேவையான மாற்றங்கள் செய்யும்."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "எதிர்பாராமல் எவல்யூஷன் வெளியேறியது"
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "எவல்யூஷனை மீண்டும் துவக்கும் வரை பணிவிவரம் கிடைக்காது"
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி எதிர்பாராமல் வெளியேறியது"
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "எவல்யூஷனை மீண்டும் துவக்காமல் நாள்காட்டியை பார்க்க முடியாது"
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
-msgstr ""
+msgstr "கடவுச்சொல்லை உள்ளிடு"
 
 #: calendar/conduits/calendar/calendar-conduit.c:223
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "பல நாட்களுக்கான நிகழ்வுகளை பிரி"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1330
 #: calendar/conduits/calendar/calendar-conduit.c:1331
 #: calendar/conduits/todo/todo-conduit.c:852
 #: calendar/conduits/todo/todo-conduit.c:853
 msgid "Could not start evolution-data-server"
-msgstr ""
+msgstr "எவல்யூஷன் தகவல் சேவகனை திறக்க முடியவில்லை"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1439
 #: calendar/conduits/calendar/calendar-conduit.c:1442
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "பைலட் நாள்காட்டியை படிக்க முடியவில்லை"
 
 #: calendar/conduits/todo/todo-conduit.c:209
 msgid "Default Priority:"
-msgstr ""
+msgstr "இயல்பான முன்னிரிமை:"
 
 #: calendar/conduits/todo/todo-conduit.c:932
 #: calendar/conduits/todo/todo-conduit.c:935
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "பைலட் செய்யவேண்டிய பயன்பாட்டு வேலையை படிக்க முடியவில்லை"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "*Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "*Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "நாள்காட்டி மற்றும் பணிகள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 #: calendar/gui/calendar-component.c:1060
 msgid "Calendars"
-msgstr ""
+msgstr "நாள்காட்டிகள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
+msgstr "உங்கள் நேரம், நாள்காட்டி மற்றும் பணிகளின் பட்டியலை இங்கே அமைக்கவும்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி மற்றும் பணிகள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி அமைப்பு "
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி அமைப்பு செய்தி பார்வை"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution Calendar/Task editor"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி/பணி தொகுப்பி"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Calendar component"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி பொருள்கள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Evolution's Tasks component"
-msgstr ""
+msgstr "எவல்யூஷனின் பணி கூறுகள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1099 calendar/gui/print.c:1819
@@ -3764,66 +3791,66 @@ msgstr ""
 #: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:705
 msgid "Tasks"
-msgstr ""
+msgstr "பணிகள்"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 msgid "_Calendars"
-msgstr ""
+msgstr "(_C)நாள்காட்டி"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 #: views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "(_T)பணிகள்"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி நினைவூட்டல் சேவை"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
-msgstr ""
+msgstr "துவங்குகிறது"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
 msgid "Ending:"
-msgstr ""
+msgstr "முடிகிறது:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
 msgid "Evolution Alarm"
-msgstr ""
+msgstr "எவல்யூஷன் எச்சரிக்கை மணி"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
 #, c-format
 msgid "Alarm on %s"
-msgstr ""
+msgstr "எச்சரிக்கை மணி இயக்கு %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 msgid "Snooze _time (minutes):"
-msgstr ""
+msgstr "(t)தூக்க நேரம் (நிமிடங்கள்)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
-msgstr ""
+msgstr "(_E) நேர ஒதுக்கத்தை திருத்து"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "_Snooze"
-msgstr ""
+msgstr "(_S)தூங்கு"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:881
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
-msgstr ""
+msgstr "திற"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:883
 msgid "Dismiss"
-msgstr ""
+msgstr "ரத்துசெய்"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:885
 msgid "Dismiss All"
-msgstr ""
+msgstr "அனைத்தையும் ரத்து செய்"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:949
 msgid "No description available."
-msgstr ""
+msgstr "விளக்கம் இல்லை"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:969
 #, c-format
@@ -3833,11 +3860,15 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"எச்சரிக்கை மணி இயக்கு %s\n"
+"%s\n"
+"துவக்க நேரம் %s\n"
+"முடியும் நேரம் %s"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1069
 #: calendar/gui/alarm-notify/alarm-queue.c:1093
 msgid "Warning"
-msgstr ""
+msgstr "எச்சரிக்கை"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1073
 msgid ""
@@ -3846,6 +3877,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"எவல்யூஷன்னில் மின்னஞ்சலோடு கூடிய நாள் நினைவூட்டல் வசதி \n"
+"இல்லை. ஆனால் இதில் மின்னஞ்சல் \n"
+"அனுப்பும் வசதி அமைக்கப்பட்டுள்ளது, எவல்யூஷன் \n"
+"சாதாரன நினைவூட்டல் உரையாடல் பெட்டியை காட்டும்."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1099
 #, c-format
@@ -3857,170 +3892,175 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"எவல்யூஷன் நாள்காட்டி துவங்க உள்ளது. நினைவூட்டல் நீழ்கண்ட நிரலை துவக்கும் :\n"
+"\n"
+"        %s\n"
+"\n"
+"இந்த நிரலை இயக்க விருப்பமா?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1113
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "இந்த நிரல் பற்றி இனி என்னிடம் கேட்க வேண்டாம்."
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "பொனொபொ வை துவக்க வேண்டாம்"
 
 #: calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "எச்சரிக்கை நினைவூட்டல் சேவையை உருவாக்க முடியவில்லை"
 
 #: calendar/gui/alarm-notify/util.c:37
 msgid "invalid time"
-msgstr ""
+msgstr "செல்லாத நேரம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "வார இறுதி நாளுக்கு குறைவான இடத்தை உபயோகிக்கவும்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "நாள்காட்டி எச்சரிக்கையை இயக்கவும்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Color of tasks that are due today"
-msgstr ""
+msgstr "இன்று நிலுவையில் உள்ள பணியின் நிறம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Color of tasks that are overdue"
-msgstr ""
+msgstr "அதிகநாட்களாக நிலுவையில் உள்ள பணியின் நிறம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "வேலை நாட்கள்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
-msgstr ""
+msgstr "கூட்டத்திற்கான இயல்பான நேரம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr ""
+msgstr "வேலை முடியும் நேரம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
-msgstr ""
+msgstr "வேலை துவங்கும் நேரம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
-msgstr ""
+msgstr "வாரத்தில் வேலைநாட்களின்் இடைவேலை நேரம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "பதிப்பிப்பதற்கான வேலை/வேலை இல்லை கும் urls களின் பட்டியல்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
-msgstr ""
+msgstr "வேலை முடியும் நிமிடம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
-msgstr ""
+msgstr "வேலை துவங்கும் நிமிடம்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
-msgstr ""
+msgstr "இயல்பான நினைவூட்டலுக்கான அலகின் எண்ணிக்கை"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "வேலையை மறைக்க தேவையான அலகின் எண்ணிக்கை"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "கிடைமட்ட பலகத்தின் நிலை"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "மாதகாட்சி கிடைமட்டட்ட தட்டின் நிலை "
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "மேலிருந்து கீழ் தட்டின் நிலை"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "மாத காட்சி மேலிருந்து கீழ் தட்டின் நிலை"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "மேலிருந்து கீழ் தட்டின் பணி காட்சி"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "எச்சரிக்கை மணியோடு இயங்கும் நிரல்கள்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
-msgstr ""
+msgstr "வாரம் மற்றும் மாத முடிவு வரை உள்ள நிகழ்வுகளை காட்டும்"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
-msgstr ""
+msgstr "கடைசியாக எச்சரிக்கை மணி ஒலித்தது"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Units for determining when to hide tasks"
-msgstr ""
+msgstr "பணியை மறைப்பதை கண்டறிய தேவையான அலகு"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units of default reminder"
-msgstr ""
+msgstr "இயல்பான நினைவு படுத்தலின் அலகு"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
-msgstr ""
+msgstr "வாரநாட்கள் வாரம் துவங்கியது"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "எச்சரிக்கை மணிக்கு அறிவிப்பு தட்டை பயன்படுத்த வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr ""
+msgstr "பணி ஒதுக்கத்தை நீக்க உறுதிப்படுத்த வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr ""
+msgstr "அடைவில் உள்ள அனைத்துகோப்புகளையும் நீக்க உறுதிப்படுத்த வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to hide completed tasks"
-msgstr ""
+msgstr "முழு பணி விவரத்தையும் மறைக்க வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr ""
+msgstr "நிழழ்வுக்கான பொது நினைவூட்டளை அமைக்க வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "am/pm க்கு பதிலாக 24 மணிநேர முறையில் நேரத்தை காட்ட வேண்டுமா"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
-msgstr ""
+msgstr "நாள் நகர்த்தியில் வார எண்ணை காட்ட வேண்டுமா"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
-msgstr ""
+msgstr "சுருக்கத்தில்"
 
 #: calendar/gui/cal-search-bar.c:51
 msgid "Description contains"
-msgstr ""
+msgstr "விளக்கத்தில்"
 
 #: calendar/gui/cal-search-bar.c:52
 msgid "Comment contains"
-msgstr ""
+msgstr "கருத்தில்"
 
 #: calendar/gui/cal-search-bar.c:53
 msgid "Location contains"
-msgstr ""
+msgstr "இடத்தில்"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
-msgstr ""
+msgstr "பொருந்தவில்லை"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
 #: calendar/gui/dialogs/select-source-dialog.c:108
@@ -4028,14 +4068,14 @@ msgstr ""
 #: camel/providers/groupwise/camel-gw-listener.c:315
 #: camel/providers/groupwise/camel-gw-listener.c:338
 msgid "Calendar"
-msgstr ""
+msgstr "நாள்காட்டி"
 
 #: calendar/gui/calendar-commands.c:352
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட நிகழ்வுகள் தவிர மற்ற நிகழ்வுகள் முடிந்து போன நிகழ்வுகள் நீக்கப்படும். தொடர்ந்தால் இந்த நிகழ்வுகள் பற்றி இனி தெரிந்துகொள்ள முடியாது"
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
