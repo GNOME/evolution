@@ -150,41 +150,14 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
 
-/* Organizer & Attendee */
-typedef enum {
-	CAL_COMPONENT_CUTYPE_INDIVIDUAL,
-	CAL_COMPONENT_CUTYPE_GROUP,
-	CAL_COMPONENT_CUTYPE_RESOURCE,
-	CAL_COMPONENT_CUTYPE_ROOM,
-	CAL_COMPONENT_CUTYPE_UNKNOWN
-} CalComponentCUType;
-
-typedef enum {
-	CAL_COMPONENT_ROLE_CHAIR,
-	CAL_COMPONENT_ROLE_REQUIRED,
-	CAL_COMPONENT_ROLE_OPTIONAL,
-	CAL_COMPONENT_ROLE_NON,
-	CAL_COMPONENT_ROLE_UNKNOWN
-} CalComponentRole;
-
-typedef enum {
-	CAL_COMPONENT_PARTSTAT_NEEDSACTION,
-	CAL_COMPONENT_PARTSTAT_ACCEPTED,
-	CAL_COMPONENT_PARTSTAT_DECLINED,
-	CAL_COMPONENT_PARTSTAT_TENTATIVE,
-	CAL_COMPONENT_PARTSTAT_DELEGATED,
-	CAL_COMPONENT_PARTSTAT_COMPLETED,
-	CAL_COMPONENT_PARTSTAT_INPROCESS,
-	CAL_COMPONENT_PARTSTAT_UNKNOWN
-} CalComponentPartStat;
-	
+/* Organizer & Attendee */	
 typedef struct {
 	const char *value;
 	
 	const char *member;
-	CalComponentCUType cutype;
-	CalComponentRole role;
-	CalComponentPartStat status;
+	icalparameter_cutype cutype;
+	icalparameter_role role;
+	icalparameter_partstat status;
 	gboolean rsvp;
 	
 	const char *delto;

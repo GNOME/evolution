@@ -78,9 +78,9 @@ struct attendee {
 	char *address;
 	char *member;
 
-	CalComponentCUType cutype;
-	CalComponentRole role;
-	CalComponentPartStat status;
+	icalparameter_cutype cutype;
+	icalparameter_role role;
+	icalparameter_partstat status;
 	gboolean rsvp;
 
 	char *delto;
@@ -562,32 +562,32 @@ get_widgets (MeetingPage *mpage)
 }
 
 
-static CalComponentCUType
+static icalparameter_cutype
 text_to_type (const char *type)
 {
 	if (!g_strcasecmp (type, _("Individual")))
-		return CAL_COMPONENT_CUTYPE_INDIVIDUAL;
+		return ICAL_CUTYPE_INDIVIDUAL;
 	else if (!g_strcasecmp (type, _("Group")))
-		return CAL_COMPONENT_CUTYPE_GROUP;
+		return ICAL_CUTYPE_GROUP;
 	else if (!g_strcasecmp (type, _("Resource")))
-		return CAL_COMPONENT_CUTYPE_RESOURCE;
+		return ICAL_CUTYPE_RESOURCE;
 	else if (!g_strcasecmp (type, _("Room")))
-		return CAL_COMPONENT_CUTYPE_ROOM;
+		return ICAL_CUTYPE_ROOM;
 	else
-		return CAL_COMPONENT_ROLE_UNKNOWN;
+		return ICAL_CUTYPE_NONE;
 }
 
 static char *
-type_to_text (CalComponentCUType type)
+type_to_text (icalparameter_cutype type)
 {
 	switch (type) {
-	case CAL_COMPONENT_CUTYPE_INDIVIDUAL:
+	case ICAL_CUTYPE_INDIVIDUAL:
 		return _("Individual");
-	case CAL_COMPONENT_CUTYPE_GROUP:
+	case ICAL_CUTYPE_GROUP:
 		return _("Group");
-	case CAL_COMPONENT_CUTYPE_RESOURCE:
+	case ICAL_CUTYPE_RESOURCE:
 		return _("Resource");
-	case CAL_COMPONENT_CUTYPE_ROOM:
+	case ICAL_CUTYPE_ROOM:
 		return _("Room");
 	default:
 		return _("Unknown");
@@ -597,32 +597,32 @@ type_to_text (CalComponentCUType type)
 
 }
 
-static CalComponentRole
+static icalparameter_role
 text_to_role (const char *role)
 {
 	if (!g_strcasecmp (role, _("Chair")))
-		return CAL_COMPONENT_ROLE_CHAIR;
+		return ICAL_ROLE_CHAIR;
 	else if (!g_strcasecmp (role, _("Required Participant")))
-		return CAL_COMPONENT_ROLE_REQUIRED;
+		return ICAL_ROLE_REQPARTICIPANT;
 	else if (!g_strcasecmp (role, _("Optional Participant")))
-		return CAL_COMPONENT_ROLE_OPTIONAL;
+		return ICAL_ROLE_OPTPARTICIPANT;
 	else if (!g_strcasecmp (role, _("Non-Participant")))
-		return CAL_COMPONENT_ROLE_NON;
+		return ICAL_ROLE_NONPARTICIPANT;
 	else
-		return CAL_COMPONENT_ROLE_UNKNOWN;
+		return ICAL_ROLE_NONE;
 }
 
 static char *
-role_to_text (CalComponentRole role) 
+role_to_text (icalparameter_role role) 
 {
 	switch (role) {
-	case CAL_COMPONENT_ROLE_CHAIR:
+	case ICAL_ROLE_CHAIR:
 		return _("Chair");
-	case CAL_COMPONENT_ROLE_REQUIRED:
+	case ICAL_ROLE_REQPARTICIPANT:
 		return _("Required Participant");
-	case CAL_COMPONENT_ROLE_OPTIONAL:
+	case ICAL_ROLE_OPTPARTICIPANT:
 		return _("Optional Participant");
-	case CAL_COMPONENT_ROLE_NON:
+	case ICAL_ROLE_NONPARTICIPANT:
 		return _("Non-Participant");
 	default:
 		return _("Unknown");
@@ -649,46 +649,45 @@ boolean_to_text (gboolean b)
 		return _("No");
 }
 
-static CalComponentPartStat
+static icalparameter_partstat
 text_to_partstat (const char *partstat)
 {
 	if (!g_strcasecmp (partstat, _("Needs Action")))
-		return CAL_COMPONENT_PARTSTAT_NEEDSACTION;
+		return ICAL_PARTSTAT_NEEDSACTION;
 	else if (!g_strcasecmp (partstat, _("Accepted")))
-		return CAL_COMPONENT_PARTSTAT_ACCEPTED;
+		return ICAL_PARTSTAT_ACCEPTED;
 	else if (!g_strcasecmp (partstat, _("Declined")))
-		return CAL_COMPONENT_PARTSTAT_DECLINED;
+		return ICAL_PARTSTAT_DECLINED;
 	else if (!g_strcasecmp (partstat, _("Tentative")))
-		return CAL_COMPONENT_PARTSTAT_TENTATIVE;
+		return ICAL_PARTSTAT_TENTATIVE;
 	else if (!g_strcasecmp (partstat, _("Delegated")))
-		return CAL_COMPONENT_PARTSTAT_DELEGATED;
+		return ICAL_PARTSTAT_DELEGATED;
 	else if (!g_strcasecmp (partstat, _("Completed")))
-		return CAL_COMPONENT_PARTSTAT_COMPLETED;
+		return ICAL_PARTSTAT_COMPLETED;
 	else if (!g_strcasecmp (partstat, _("In Process")))
-		return CAL_COMPONENT_PARTSTAT_INPROCESS;
+		return ICAL_PARTSTAT_INPROCESS;
 	else
-		return CAL_COMPONENT_PARTSTAT_UNKNOWN;
+		return ICAL_PARTSTAT_NONE;
 }
 
 static char *
-partstat_to_text (CalComponentPartStat partstat) 
+partstat_to_text (icalparameter_partstat partstat) 
 {
 	switch (partstat) {
-	case CAL_COMPONENT_PARTSTAT_NEEDSACTION:
+	case ICAL_PARTSTAT_NEEDSACTION:
 		return _("Needs Action");
-	case CAL_COMPONENT_PARTSTAT_ACCEPTED:
+	case ICAL_PARTSTAT_ACCEPTED:
 		return _("Accepted");
-	case CAL_COMPONENT_PARTSTAT_DECLINED:
+	case ICAL_PARTSTAT_DECLINED:
 		return _("Declined");
-	case CAL_COMPONENT_PARTSTAT_TENTATIVE:
+	case ICAL_PARTSTAT_TENTATIVE:
 		return _("Tentative");
-	case CAL_COMPONENT_PARTSTAT_DELEGATED:
+	case ICAL_PARTSTAT_DELEGATED:
 		return _("Delegated");
-	case CAL_COMPONENT_PARTSTAT_COMPLETED:
+	case ICAL_PARTSTAT_COMPLETED:
 		return _("Completed");
-	case CAL_COMPONENT_PARTSTAT_INPROCESS:
+	case ICAL_PARTSTAT_INPROCESS:
 		return _("In Process");
-	case CAL_COMPONENT_PARTSTAT_UNKNOWN:
 	default:
 		return _("Unknown");
 	}
@@ -778,13 +777,13 @@ invite_entry_changed (BonoboListener    *listener,
 			g_free (str);
 
 			if (!strcmp (section, _("Chair Persons")))
-				a->role = CAL_COMPONENT_ROLE_CHAIR;
+				a->role = ICAL_ROLE_CHAIR;
 			else if (!strcmp (section, _("Required Participants")))
-				a->role = CAL_COMPONENT_ROLE_REQUIRED;
+				a->role = ICAL_ROLE_REQPARTICIPANT;
 			else if (!strcmp (section, _("Optional Participants")))
-				a->role = CAL_COMPONENT_ROLE_OPTIONAL;
+				a->role = ICAL_ROLE_OPTPARTICIPANT;
 			else if (!strcmp (section, _("Non-Participants")))
-				a->role = CAL_COMPONENT_ROLE_NON;
+				a->role = ICAL_ROLE_NONPARTICIPANT;
 			
 			str = init_value (NULL, MEETING_RSVP_COL, mpage);
 			a->rsvp = text_to_boolean (str);
@@ -1417,6 +1416,9 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 		row_cnt = row_count (priv->model, mpage) - 1;
 		e_table_model_row_changed (priv->model, priv->row);
 		e_table_model_row_inserted (priv->model, row_cnt);
+
+		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 	}
 
  cleanup:
@@ -1461,6 +1463,9 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 		priv->deleted_attendees = g_slist_append (priv->deleted_attendees, a);
 
 		e_table_model_row_deleted (priv->model, pos);
+
+		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 
 		if (a->delto != NULL)
 			b = find_match (mpage, a->delto, &pos);

@@ -3587,78 +3587,17 @@ get_attendee_list (GSList *attendee_list, GSList **al)
 		a->value = icalproperty_get_attendee (attendee->prop);
 
 		if (attendee->member_param)
-			a->member = icalparameter_get_member (attendee->member_param);
-		if (attendee->cutype_param) {
-			switch (icalparameter_get_cutype (attendee->cutype_param)) {
-			case ICAL_CUTYPE_INDIVIDUAL:
-				a->cutype = CAL_COMPONENT_CUTYPE_INDIVIDUAL;
-				break;
-			case ICAL_CUTYPE_GROUP:
-				a->cutype = CAL_COMPONENT_CUTYPE_GROUP;
-				break;
-			case ICAL_CUTYPE_RESOURCE:
-				a->cutype = CAL_COMPONENT_CUTYPE_RESOURCE;
-				break;
-			case ICAL_CUTYPE_ROOM:
-				a->cutype = CAL_COMPONENT_CUTYPE_ROOM;
-				break;
-			default:
-				a->cutype = CAL_COMPONENT_CUTYPE_UNKNOWN;
-			}
-		}
-			
-		if (attendee->role_param) {
-			switch (icalparameter_get_role (attendee->role_param)) {
-			case ICAL_ROLE_CHAIR:
-				a->role = CAL_COMPONENT_ROLE_CHAIR;
-				break;
-			case ICAL_ROLE_REQPARTICIPANT:
-				a->role = CAL_COMPONENT_ROLE_REQUIRED;
-				break;
-			case ICAL_ROLE_OPTPARTICIPANT:
-				a->role = CAL_COMPONENT_ROLE_OPTIONAL;
-				break;
-			case ICAL_ROLE_NONPARTICIPANT:
-				a->role = CAL_COMPONENT_ROLE_NON;
-				break;
-			default:
-				a->role = CAL_COMPONENT_ROLE_UNKNOWN;
-			}
-		}
-
-		if (attendee->partstat_param) {
-			switch (icalparameter_get_role (attendee->partstat_param)) {
-			case ICAL_PARTSTAT_NEEDSACTION:
-				a->status = CAL_COMPONENT_PARTSTAT_NEEDSACTION;
-				break;
-			case ICAL_PARTSTAT_ACCEPTED:
-				a->status = CAL_COMPONENT_PARTSTAT_ACCEPTED;
-				break;
-			case ICAL_PARTSTAT_DECLINED:
-				a->status = CAL_COMPONENT_PARTSTAT_DECLINED;
-				break;
-			case ICAL_PARTSTAT_TENTATIVE:
-				a->status = CAL_COMPONENT_PARTSTAT_TENTATIVE;
-				break;
-			case ICAL_PARTSTAT_DELEGATED:
-				a->status = CAL_COMPONENT_PARTSTAT_DELEGATED;
-				break;
-			case ICAL_PARTSTAT_COMPLETED:
-				a->status = CAL_COMPONENT_PARTSTAT_COMPLETED;
-				break;
-			case ICAL_PARTSTAT_INPROCESS:
-				a->status = CAL_COMPONENT_PARTSTAT_INPROCESS;
-				break;
-			default:
-				a->status = CAL_COMPONENT_PARTSTAT_UNKNOWN;
-			}
-		}
-
+			a->member = icalparameter_get_member (attendee->member_param);		
+		if (attendee->cutype_param)
+			a->cutype = icalparameter_get_cutype (attendee->cutype_param);			
+		if (attendee->role_param)
+			a->role = icalparameter_get_role (attendee->role_param);
+		if (attendee->partstat_param)
+			a->status = icalparameter_get_role (attendee->partstat_param);
 		if (attendee->rsvp_param && icalparameter_get_rsvp (attendee->rsvp_param) == ICAL_RSVP_TRUE)
 			a->rsvp = TRUE;
 		else
 			a->rsvp = FALSE;
-
 		if (attendee->delfrom_param)
 			a->delfrom = icalparameter_get_sentby (attendee->delfrom_param);
 		if (attendee->delto_param)
@@ -3709,9 +3648,6 @@ set_attendee_list (CalComponent *comp,
 	for (l = al; l; l = l->next) {
 		CalComponentAttendee *a;
 		struct attendee *attendee;
-		icalparameter_cutype ct;
-		icalparameter_role r;
-		icalparameter_partstat p;
 
 		a = l->data;
 		g_return_if_fail (a->value != NULL);
@@ -3726,70 +3662,13 @@ set_attendee_list (CalComponent *comp,
 			icalproperty_add_parameter (attendee->prop, attendee->member_param);
 		}
 
-		switch (a->cutype) {
-			case CAL_COMPONENT_CUTYPE_INDIVIDUAL:
-				ct = ICAL_CUTYPE_INDIVIDUAL;
-				break;
-			case CAL_COMPONENT_CUTYPE_GROUP:
-				ct = ICAL_CUTYPE_GROUP;
-				break;
-			case CAL_COMPONENT_CUTYPE_RESOURCE:
-				ct = ICAL_CUTYPE_RESOURCE;
-				break;
-			case CAL_COMPONENT_CUTYPE_ROOM:
-				ct = ICAL_CUTYPE_ROOM;
-				break;
-			default:
-				ct = ICAL_CUTYPE_UNKNOWN;
-		}
-		attendee->cutype_param = icalparameter_new_cutype (ct);
+		attendee->cutype_param = icalparameter_new_cutype (a->cutype);
 		icalproperty_add_parameter (attendee->prop, attendee->cutype_param);
 
-		switch (a->role) {
-			case CAL_COMPONENT_ROLE_CHAIR:
-				r = ICAL_ROLE_CHAIR;
-				break;
-			case CAL_COMPONENT_ROLE_REQUIRED:
-				r = ICAL_ROLE_REQPARTICIPANT;
-				break;
-			case CAL_COMPONENT_ROLE_OPTIONAL:
-				r = ICAL_ROLE_OPTPARTICIPANT;
-				break;
-			case CAL_COMPONENT_ROLE_NON:
-				r = ICAL_ROLE_NONPARTICIPANT;
-				break;
-			default:
-				r = ICAL_ROLE_NONE;
-		}
-		attendee->role_param = icalparameter_new_role (r);
+		attendee->role_param = icalparameter_new_role (a->role);
 		icalproperty_add_parameter (attendee->prop, attendee->role_param);
 
-		switch (a->status) {
-			case CAL_COMPONENT_PARTSTAT_NEEDSACTION:
-				p = ICAL_PARTSTAT_NEEDSACTION;
-				break;
-			case CAL_COMPONENT_PARTSTAT_ACCEPTED:
-				p = ICAL_PARTSTAT_ACCEPTED;
-				break;
-			case CAL_COMPONENT_PARTSTAT_DECLINED:
-				p = ICAL_PARTSTAT_DECLINED;
-				break;
-			case CAL_COMPONENT_PARTSTAT_TENTATIVE:
-				p = ICAL_PARTSTAT_TENTATIVE;
-				break;
-			case CAL_COMPONENT_PARTSTAT_DELEGATED:
-				p = ICAL_PARTSTAT_DELEGATED;
-				break;
-			case CAL_COMPONENT_PARTSTAT_COMPLETED:
-				p = ICAL_PARTSTAT_COMPLETED;
-				break;
-			case CAL_COMPONENT_PARTSTAT_INPROCESS:
-				p = ICAL_PARTSTAT_INPROCESS;
-				break;
-			default:
-				p = ICAL_PARTSTAT_NONE;
-		}
-		attendee->partstat_param = icalparameter_new_partstat (p);
+		attendee->partstat_param = icalparameter_new_partstat (a->status);
 		icalproperty_add_parameter (attendee->prop, attendee->partstat_param);
 
 		if (a->rsvp)

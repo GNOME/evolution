@@ -98,7 +98,7 @@ struct _EItipControlPrivate {
 <input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
 
 #define REPLY_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
-<option VALUE=\"R\">Update</option></select>&nbsp &nbsp \
+<option VALUE=\"R\">Update respondent status</option></select>&nbsp &nbsp \
 <input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
 
 #define REFRESH_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
@@ -348,7 +348,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 		for (l = priv->addresses; l != NULL; l = l->next) {
 			ItipAddress *a = l->data;
 			
-			if (strcmp (a->address, text)) {
+			if (!strcmp (a->address, text)) {
 				priv->my_address = a->address;
 				return;
 			}
@@ -357,7 +357,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 }
 
 static icalproperty *
-find_attendee (icalcomponent *ical_comp, char *address)
+find_attendee (icalcomponent *ical_comp, const char *address)
 {
 	icalproperty *prop;
 	const char *attendee, *text;
@@ -376,11 +376,28 @@ find_attendee (icalcomponent *ical_comp, char *address)
 		attendee = icalvalue_get_string (value);
 
 		text = itip_strip_mailto (attendee);
-		if (!strstr (text, address))
+		if (strstr (text, address))
 			break;
 	}
 			
 	return prop;
+}
+
+static icalparameter_partstat
+find_attendee_partstat (icalcomponent *ical_comp, const char *address) 
+{
+	icalproperty *prop;
+
+	prop = find_attendee (ical_comp, address);
+	if (prop != NULL) {
+		icalparameter *param;
+		
+		param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		if (param != NULL)
+			return icalparameter_get_partstat (param);
+	}
+	
+	return ICAL_PARTSTAT_NONE;	
 }
 
 static void
@@ -512,7 +529,8 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 	GtkHTMLStream *html_stream;
 	CalComponentText text;
 	CalComponentOrganizer organizer;
-	GSList *l = NULL;
+	CalComponentAttendee *attendee;
+	GSList *attendees, *l = NULL;
 	gchar *html;
 	
 	priv = itip->priv;
@@ -535,7 +553,7 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 	g_free (html);
 
 	/* The image */
-	html = g_strdup ("<img src=\"/talking-heads.png\"></td>");
+	html = g_strdup ("<img src=\"/meeting-request.png\"></td>");
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 	g_free (html);
 
@@ -543,15 +561,38 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 	g_free (html);
 
-	/* The organizer */
-	cal_component_get_organizer (priv->comp, &organizer);
-	if (organizer.value != NULL) {
-		html = g_strdup_printf (itip_desc,
-					organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
-		gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
-		g_free (html);
+	switch (priv->method) {
+	case ICAL_METHOD_REFRESH:
+	case ICAL_METHOD_REPLY:
+		/* An attendee sent this */
+		cal_component_get_attendee_list (priv->comp, &attendees);
+		if (attendees != NULL) {			
+			attendee = attendees->data;		
+			html = g_strdup_printf (itip_desc, 
+						attendee->cn ? 
+						attendee->cn : 
+						itip_strip_mailto (attendee->value));
+		} else {
+			html = g_strdup_printf (itip_desc, "An unknown person");
+		}
+		break;
+	case ICAL_METHOD_PUBLISH:
+	case ICAL_METHOD_REQUEST:
+	case ICAL_METHOD_ADD:
+	case ICAL_METHOD_CANCEL:
+	default:
+		/* The organizer sent this */	
+		cal_component_get_organizer (priv->comp, &organizer);
+		if (organizer.value != NULL)
+			html = g_strdup_printf (itip_desc,
+						organizer.cn ? 
+						organizer.cn : 
+						itip_strip_mailto (organizer.value));		
+		break;
 	}
-
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+	
 	/* Describe what the user can do */
 	html = U_("<br> Please review the following information, "
 	          "and then select an action from the menu below.");
@@ -916,6 +957,22 @@ e_itip_control_get_from_address (EItipControl *itip)
 	return priv->from_address;
 }
 
+
+static void
+change_status (icalcomponent *ical_comp, const char *address, icalparameter_partstat status)
+{
+	icalproperty *prop;
+
+	prop = find_attendee (ical_comp, address);
+	if (prop) {
+		icalparameter *param;
+
+		icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		param = icalparameter_new_partstat (status);
+		icalproperty_add_parameter (prop, param);
+	}
+}
+
 static void
 update_item (EItipControl *itip) 
 {
@@ -937,12 +994,71 @@ update_item (EItipControl *itip)
 	icalcomponent_add_component (priv->top_level, clone);
 	
 	if (!cal_client_update_objects (client, priv->top_level))
-		dialog = gnome_warning_dialog (_("I couldn't update your calendar file!\n"));
+		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
 	else
 		dialog = gnome_ok_dialog (_("Update complete\n"));
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	icalcomponent_remove_component (priv->top_level, clone);
+}
+
+static void
+update_attendee_status (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+	CalClient *client;
+	CalClientGetStatus status;
+	CalComponent *comp;	
+	CalComponentVType type;
+	const char *uid;
+	GtkWidget *dialog;
+	
+	priv = itip->priv;
+
+	type = cal_component_get_vtype (priv->comp);
+	if (type == CAL_COMPONENT_TODO)
+		client = priv->task_client;
+	else 
+		client = priv->event_client;
+
+	/* Obtain our version */
+	cal_component_get_uid (priv->comp, &uid);	
+	status = cal_client_get_object (client, uid, &comp);
+
+	if (status == CAL_CLIENT_GET_SUCCESS) {
+		GSList *attendees;
+		
+		cal_component_get_attendee_list (priv->comp, &attendees);
+		if (attendees != NULL) {
+			CalComponentAttendee *a = attendees->data;
+			icalparameter_partstat partstat;
+			
+			partstat = find_attendee_partstat (priv->ical_comp, itip_strip_mailto (a->value));
+			
+			if (partstat != ICAL_PARTSTAT_NONE) {
+				change_status (cal_component_get_icalcomponent (comp),
+					       itip_strip_mailto (a->value),
+					       partstat);
+			} else {				
+				dialog = gnome_warning_dialog (_("Attendee status could "
+								 "not be updated because "
+								 "of an invalid status!\n"));
+				goto cleanup;				
+			}
+		}
+		
+		if (!cal_client_update_object (client, comp))
+			dialog = gnome_warning_dialog (_("Attendee status ould not be updated!\n"));
+		else
+			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
+	} else {
+		dialog = gnome_warning_dialog (_("Attendee status can not be updated " 
+						 "because the item no longer exists"));
+	}
+
+ cleanup:
+	gtk_object_unref (GTK_OBJECT (comp));
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 static void
@@ -1034,24 +1150,6 @@ send_freebusy (EItipControl *itip)
 }
 
 static void
-change_status (EItipControl *itip, gchar *address, icalparameter_partstat status)
-{
-	EItipControlPrivate *priv;
-	icalproperty *prop;
-
-	priv = itip->priv;
-
-	prop = find_attendee (priv->ical_comp, address);
-	if (prop) {
-		icalparameter *param;
-
-		icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-		param = icalparameter_new_partstat (status);
-		icalproperty_add_parameter (prop, param);
-	}
-}
-
-static void
 prev_clicked_cb (GtkWidget *widget, gpointer data) 
 {
 	EItipControl *itip = E_ITIP_CONTROL (data);
@@ -1136,22 +1234,22 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				update_item (itip);
 				break;
 			case 'A':
-				change_status (itip, priv->my_address, ICAL_PARTSTAT_ACCEPTED);
+				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_ACCEPTED);
 				update_item (itip);
 				break;
 			case 'T':
-				change_status (itip, priv->my_address, ICAL_PARTSTAT_TENTATIVE);
+				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_TENTATIVE);
 				update_item (itip);
 				break;
 			case 'D':
-				change_status (itip, priv->my_address, ICAL_PARTSTAT_DECLINED);
+				change_status (priv->ical_comp, priv->my_address, ICAL_PARTSTAT_DECLINED);
 				update_item (itip);
 				break;
 			case 'F':
 				send_freebusy (itip);
 				break;
 			case 'R':
-				update_item (itip);
+				update_attendee_status (itip);
 				break;
 			case 'S':
 				send_item (itip);
@@ -1171,6 +1269,45 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 	}
 	g_strfreev (fields);
 
-	if (rsvp)
-		itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->comp);			
+	if (rsvp) {
+		CalComponent *comp = NULL;
+
+		comp = cal_component_clone (priv->comp);
+		if (comp == NULL)
+			return;
+		
+		if (priv->my_address != NULL) {
+			icalcomponent *ical_comp;
+			icalproperty *prop;
+			const char *attendee, *text;
+			icalvalue *value;
+			
+			ical_comp = cal_component_get_icalcomponent (comp);
+
+			for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+			     prop != NULL;
+			     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+			{
+				value = icalproperty_get_value (prop);
+				if (!value)
+					continue;
+				
+				attendee = icalvalue_get_string (value);
+				text = itip_strip_mailto (attendee);
+
+				if (!strstr (text, priv->my_address)) {
+					icalcomponent_remove_property (ical_comp, prop);
+					icalproperty_free (prop);
+				}
+			}
+			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
+		} else {
+			GtkWidget *dialog;
+
+			dialog = gnome_warning_dialog (_("Unable to find any of your identities"
+							 "in the attendees list!\n"));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		}
+		gtk_object_unref (GTK_OBJECT (comp));
+	}
 }

@@ -1,3 +1,29 @@
+2001-09-13  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-component.h: use ical partstat, role, cutypes
+	directly 
+
+	* cal-util/cal-component.c: ditto
+
+	* gui/e-itip-control.c (find_my_address): set my addresses if the
+	addresses match
+	(find_attendee): strstr returns non-null on a match
+	(write_html): use new icon, select the name displayed (organizer
+	or attendee) based on method,
+	(ok_clicked_cb): when rsvp'ing strip off all but the attendee
+	being replied for as is specified in the spec
+	(find_attendee_partstat): new util function to extract the
+	partstat of an attendee
+	(update_attendee_status): updates the partstat of a specific
+	attendee in the reply message
+
+	* gui/dialogs/meeting-page.c: use ical partstat, role, cutypes
+	directly
+	(popup_delegate_cb): if we delegate, notify of needs send and
+	changed
+	(popup_delete_cb): notify of needs send and changed for each
+	deletion
+	
 2001-09-12  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-commands.c (publish_freebusy_cmd): send 6 weeks of
