@@ -1199,21 +1199,21 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-filter_druid_clicked (GtkWidget *w, int button, FolderBrowser *fb)
+filter_druid_clicked (GtkWidget *dialog, int button, FolderBrowser *fb)
 {
 	FilterContext *fc;
 	
 	if (button == 0) {
 		char *user;
 		
-		fc = gtk_object_get_data (GTK_OBJECT (w), "context");
+		fc = gtk_object_get_data (GTK_OBJECT (dialog), "context");
 		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 		rule_context_save ((RuleContext *)fc, user);
 		g_free (user);
 	}
 	
 	if (button != -1) {
-		gnome_dialog_close (GNOME_DIALOG (w));
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	}
 }
 
@@ -1229,7 +1229,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	FilterContext *fc;
 	char *user, *system;
-	GtkWidget *w;
+	GtkWidget *dialog;
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -1239,7 +1239,6 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	g_free (system);
 	
 	if (((RuleContext *)fc)->error) {
-		GtkWidget *dialog;
 		gchar *err;
 		
 		err = g_strdup_printf (_("Error loading filter information:\n%s"),
@@ -1251,10 +1250,10 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		return;
 	}
 	
-	w = (GtkWidget *)filter_editor_new(fc, filter_source_names);
-	gtk_object_set_data_full (GTK_OBJECT (w), "context", fc, (GtkDestroyNotify)gtk_object_unref);
-	gtk_signal_connect (GTK_OBJECT (w), "clicked", filter_druid_clicked, fb);
-	gtk_widget_show (GTK_WIDGET (w));
+	dialog = (GtkWidget *)filter_editor_new (fc, filter_source_names);
+	gtk_object_set_data_full (GTK_OBJECT (dialog), "context", fc, (GtkDestroyNotify)gtk_object_unref);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", filter_druid_clicked, fb);
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 void

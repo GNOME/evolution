@@ -210,6 +210,13 @@ mail_edit (GtkButton *button, gpointer data)
 }
 
 static void
+mail_double_click (GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	if (event->type == GDK_2BUTTON_PRESS)
+		mail_edit (NULL, data);
+}
+
+static void
 mail_delete (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
@@ -459,6 +466,8 @@ construct (MailAccountsDialog *dialog)
 			    GTK_SIGNAL_FUNC (mail_select), dialog);
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "unselect-row",
 			    GTK_SIGNAL_FUNC (mail_unselect), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "button_press_event",
+			    mail_double_click, dialog);
 	dialog->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailAdd"));
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_add), "clicked",
 			    GTK_SIGNAL_FUNC (mail_add), dialog);
