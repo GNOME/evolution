@@ -14,6 +14,7 @@
 void vfolder_load_storage(GNOME_Evolution_Shell shell);
 
 void vfolder_edit (void);
+void vfolder_edit_rule(const char *name);
 FilterPart *vfolder_create_part (const char *name);
 FilterRule *vfolder_clone_rule (FilterRule *in);
 void vfolder_gui_add_rule (VfolderRule *rule);

@@ -32,6 +32,8 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 
+#include "gal/widgets/e-gui-utils.h"
+
 #include "camel/camel.h"
 #include "camel/camel-remote-store.h"
 #include "camel/camel-vee-folder.h"
@@ -690,6 +692,67 @@ vfolder_edit (void)
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "clicked", vfolder_editor_clicked, NULL);
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "destroy", vfolder_editor_destroy, NULL);
 	gtk_widget_show (vfolder_editor);
+}
+
+static void
+edit_rule_clicked(GtkWidget *w, int button, void *data)
+{
+	if (button == 0) {
+		char *user;
+		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
+		FilterRule *orig;
+
+		orig = rule_context_find_rule((RuleContext *)context, rule->name, NULL);
+		if (orig) {
+			filter_rule_copy(orig, rule);
+		} else {
+			gtk_object_ref((GtkObject *)rule);
+			rule_context_add_rule((RuleContext *)context, rule);
+		}
+		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
+		rule_context_save((RuleContext *)context, user);
+		g_free(user);
+	}
+	if (button != -1) {
+		gnome_dialog_close((GnomeDialog *)w);
+	}
+}
+
+void
+vfolder_edit_rule(const char *uri)
+{
+	GtkWidget *w;
+	GnomeDialog *gd;
+	FilterRule *rule;
+	CamelURL *url;
+
+	url = camel_url_new(uri, NULL);
+	if (url && url->fragment
+	    && (rule = rule_context_find_rule((RuleContext *)context, url->fragment, NULL))) {
+		rule = filter_rule_clone(rule);
+
+		w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
+
+		gd = (GnomeDialog *)gnome_dialog_new(_("Edit VFolder"),
+						     GNOME_STOCK_BUTTON_OK,
+						     GNOME_STOCK_BUTTON_CANCEL,
+						     NULL);
+		gnome_dialog_set_default (gd, 0);
+
+		gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
+		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
+		gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
+		gtk_widget_show((GtkWidget *)gd);
+		gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
+		gtk_signal_connect((GtkObject *)gd, "clicked", edit_rule_clicked, NULL);
+		gtk_widget_show((GtkWidget *)gd);
+	} else {
+		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
+			  _("Trying to edit a vfolder '%s' which doesn't exist."), uri);
+	}
+
+	if (url)
+		camel_url_free(url);
 }
 
 static void

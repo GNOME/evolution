@@ -2138,7 +2138,12 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 
-	mail_local_reconfigure_folder(fb);
+	if (fb->uri &&
+	    strncmp(fb->uri, "vfolder:", 8) == 0) {
+		vfolder_edit_rule(fb->uri);
+	} else {
+		mail_local_reconfigure_folder(fb);
+	}
 }
 
 static void
