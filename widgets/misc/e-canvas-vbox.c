@@ -34,9 +34,7 @@ static void e_canvas_vbox_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_canvas_vbox_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_canvas_vbox_destroy (GtkObject *object);
 
-#if 0
 static gint e_canvas_vbox_event   (GnomeCanvasItem *item, GdkEvent *event);
-#endif
 static void e_canvas_vbox_realize (GnomeCanvasItem *item);
 
 static void e_canvas_vbox_reflow (GnomeCanvasItem *item, int flags);
@@ -104,9 +102,7 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 	object_class->destroy   = e_canvas_vbox_destroy;
   
 	/* GnomeCanvasItem method overrides */
-#if 0
 	item_class->event       = e_canvas_vbox_event;
-#endif
 	item_class->realize     = e_canvas_vbox_realize;
 }
 
@@ -179,7 +175,6 @@ e_canvas_vbox_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
 
-#if 0
 static gint
 e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -188,8 +183,6 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		switch (event->key.keyval) {
-		case GDK_KP_Tab:
-		case GDK_ISO_Left_Tab:
 		case GDK_Left:
 		case GDK_KP_Left:
 		case GDK_Right:
@@ -218,7 +211,6 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 	return return_val;
 	
 }
-#endif
 
 static void
 e_canvas_vbox_realize (GnomeCanvasItem *item)
