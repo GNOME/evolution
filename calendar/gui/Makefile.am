@@ -2,14 +2,13 @@ SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-# if HAVE_GNOME_PILOT
-#CPS = calendar-pilot-sync #empty-pilot-calendar
-# else
-#CPS =
-# endif
+if HAVE_GNOME_PILOT
+CPS = calendar-pilot-sync
+else
+CPS =
+endif
 
-# bin_PROGRAMS = evolution-calendar $(CPS)
-bin_PROGRAMS = evolution-calendar
+bin_PROGRAMS = evolution-calendar $(CPS)
 
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
@@ -46,8 +45,6 @@ glade_DATA = 					\
 	event-editor-dialog.glade
 
 glade_messages = event-editor-dialog.glade.h
-
-# calendar-conduit-control-applet
 
 evolution_calendar_SOURCES =			\
 	alarm.c					\
@@ -107,25 +104,25 @@ evolution_calendar_LDADD =					\
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
-# if HAVE_GNOME_PILOT
+if HAVE_GNOME_PILOT
+calendar_pilot_sync_SOURCES =			\
+	    calendar-pilot-sync.c
 
-# calendar_pilot_sync_SOURCES =			\
-# 	    calendar-pilot-sync.c
-# 
-# calendar_pilot_sync_INCLUDES =		\
-# 	    $(INCLUDES)			\
-# 	    $(GNOME_PILOT_CFLAGS)		\
-# 	    $(PISOCK_INCLUDEDIR)		\
-# 	    $(GNOME_CONDUIT_INCLUDEDIR)
-# 
-# calendar_pilot_sync_LDADD = -lpisock		\
-# 	    $(BONOBO_VFS_GNOME_LIBS)		\
-# 	    $(LINK_FLAGS)				\
-# 	    $(EXTRA_GNOME_LIBS)			\
-# 	    $(BONOBO_HTML_GNOME_LIBS)		\
-# 	    $(GNOME_PILOT_LIBS)			\
-# 	    $(PISOCK_LIBS)
-# endif
+calendar_pilot_sync_INCLUDES =			\
+	    $(INCLUDES)				\
+	    $(GNOME_PILOT_CFLAGS)		\
+	    $(PISOCK_INCLUDEDIR)		\
+	    $(GNOME_CONDUIT_INCLUDEDIR)
+
+calendar_pilot_sync_LDADD = -lpisock		\
+	    $(BONOBO_VFS_GNOME_LIBS)		\
+	    $(LINK_FLAGS)			\
+	    $(EXTRA_GNOME_LIBS)			\
+	    $(BONOBO_HTML_GNOME_LIBS)		\
+	    $(GNOME_PILOT_LIBS)			\
+	    $(PISOCK_LIBS)
+endif
+
 
 if USING_OAF
 oafdir = $(datadir)/oaf
@@ -148,11 +145,13 @@ EXTRA_DIST =	 			\
 	monthview.xpm			\
 	yearview.xpm			\
 	calendar-control.gnorba		\
-	calendar-control.oafinfo
+	calendar-control.oafinfo	\
+	gnomecal.conduit
 
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
+	$(mkinstalldirs) $(Conduitsdir)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

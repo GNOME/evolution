@@ -1,3 +1,11 @@
+2000-07-10  Seth Alves  <alves@hungry.com>
+
+	* gui/Makefile.am (SUBDIRS): 
+	* conduits/calendar/Makefile.am: moved calendar-conduit stuff from
+	the gui directory to here.
+
+	* Makefile.am (SUBDIRS): added conduits to SIBDIRS
+
 2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): Remove

@@ -747,8 +747,7 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 		printf ("<Syncing>\n");
 		sync_pilot (client, *link);
 		printf ("</Syncing>\n");
-	}
-	else {
+	} else {
 		if (tried) {
 			printf ("load and create of calendar failed\n");
 			return;
