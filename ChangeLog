@@ -1,3 +1,12 @@
+1999-06-24  root  <guiheneu@jean.joudboeuf.fr>
+
+	* camel/camel-simple-data-wrapper.[ch]:
+	new class. Simple implementation of a data wrapper:
+	simply keeps the stream result in a byte array.
+
+	* camel/camel-mime-part.c (_parse_header_pair): added a warning. 
+	Have to think about the correct way to store content type stuff.
+
 1999-06-24  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-message.c (_write_one_recipient_to_stream): 

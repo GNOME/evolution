@@ -621,11 +621,11 @@ _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *hea
 		header_handled = TRUE;
 		break;
 		
-	case HEADER_CONTENT_TYPE:
+	case HEADER_CONTENT_TYPE: /**** *  WARNING THIS IS BROKEN  * *****/
 		CAMEL_LOG (FULL_DEBUG,
 			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_TYPE: %s\n",
 			   header_value->str );
-
+		
 		gmime_content_field_construct_from_string (CAMEL_DATA_WRAPPER(mime_part)->content_type, header_value);
 		header_handled = TRUE;
 		break;

@@ -14,6 +14,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 libcamel_la_SOURCES = 				\
 	camel-log.c				\
 	camel-data-wrapper.c			\
+	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
 	camel-mime-message.c			\
 	camel-mime-part.c			\
@@ -31,6 +32,7 @@ libcamel_la_SOURCES = 				\
 libcamelinclude_HEADERS =			\
 	camel-log.h				\
 	camel-data-wrapper.h			\
+	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
 	camel-mime-message.h			\
 	camel-mime-part.h			\
