@@ -1,5 +1,10 @@
 2002-04-23  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/select-names.glade: Updated this
+	dialog to match the redesign.
+
+2002-04-23  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (do_popup_menu): Make unused
 	menu items disappear instead of graying out.
 
