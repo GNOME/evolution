@@ -17,8 +17,8 @@ INCLUDES =										\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LIBRARIES =				\
-	libeminicard.a
+noinst_LTLIBRARIES =				\
+	libeminicard.la
 
 libeminicard_a_SOURCES =			\
 	e-addressbook-marshal.c			\

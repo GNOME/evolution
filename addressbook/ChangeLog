@@ -1,5 +1,14 @@
 2003-02-19  Dan Winship  <danw@ximian.com>
 
+	* gui/component/Makefile.am:
+	* gui/contact-editor/Makefile.am:
+	* gui/contact-list-editor/Makefile.am:
+	* gui/search/Makefile.am:
+	* gui/widgets/Makefile.am:
+	* printing/Makefile.am: Build the subparts as (noinst) shared
+	libraries rather than static libraries, so they can be portably
+	linked into libevolution-addressbook.so
+
 	* gui/widgets/e-addressbook-model.c: Make parent_class static.
 
 	* gui/widgets/e-addressbook-reflow-adapter.c: Likewise

@@ -19,9 +19,9 @@ INCLUDES =						\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LIBRARIES =				\
-	libeaddressbooksearch.a
+noinst_LTLIBRARIES = 				\
+	libeaddressbooksearch.la
 
-libeaddressbooksearch_a_SOURCES =		\
+libeaddressbooksearch_la_SOURCES =		\
 	e-addressbook-search-dialog.c		\
 	e-addressbook-search-dialog.h
