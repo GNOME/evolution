@@ -1,5 +1,13 @@
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (emft_tree_button_press): Check that
+	emft_selection_get_selected() returns TRUE before we try to use
+	the iter. Fixes bug #56652.
+	(emft_popup_delete_response): Same idea here.
+	(emft_popup_delete_folder): Same.
+	(emft_popup_rename_folder): Same.
+	(emft_popup_properties): Same.
+
 	Fix for bug #56538
 
 	* em-folder-view.c (emfv_set_folder_uri): Don't set the preview

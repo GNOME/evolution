@@ -2339,7 +2339,9 @@ emft_popup_delete_response (GtkWidget *dialog, guint response, EMFolderTree *emf
 		return;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
-	emft_selection_get_selected (selection, &model, &iter);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return;
+	
 	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
 			    COL_POINTER_CAMEL_STORE, &store, -1);
 	
@@ -2364,7 +2366,9 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 	char *title, *path;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
-	emft_selection_get_selected (selection, &model, &iter);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return;
+	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, COL_STRING_FOLDER_PATH, &path, -1);
 	
 	local = mail_component_peek_local_store (NULL);
@@ -2411,7 +2415,9 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	local = mail_component_peek_local_store (NULL);
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
-	emft_selection_get_selected (selection, &model, &iter);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return;
+	
 	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &folder_path,
 			    COL_STRING_DISPLAY_NAME, &name,
 			    COL_POINTER_CAMEL_STORE, &store,
@@ -2494,7 +2500,9 @@ emft_popup_properties (GtkWidget *item, EMFolderTree *emft)
 	char *uri;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
-	emft_selection_get_selected (selection, &model, &iter);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return;
+	
 	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
 
 	em_folder_properties_show(NULL, NULL, uri);
@@ -2559,7 +2567,9 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	
 	/* FIXME: we really need the folderinfo to build a proper menu */
 	selection = gtk_tree_view_get_selection (treeview);
-	emft_selection_get_selected (selection, &model, &iter);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return FALSE;
+	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FOLDER_PATH, &path,
 			    COL_BOOL_IS_STORE, &isstore, -1);
