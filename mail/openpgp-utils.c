@@ -73,10 +73,14 @@ pgp_get_passphrase (const gchar *userid)
 	default:
 		type = "";
 	}
-	prompt = g_strdup_printf (_("Please enter your %s passphrase%s%s"),
-				  type, userid ? _(" for ") : "",
-				  userid ? userid : "");
-	
+
+	if (userid)
+		prompt = g_strdup_printf (_("Please entry your %s passphrase for %s"),
+					  type, userid);
+	else
+		prompt = g_strdup_printf (_("Please entry your %s passphrase"),
+					  type);
+
 	passphrase = pgp_passwd_func (prompt, pgp_data);
 	g_free (prompt);
 	

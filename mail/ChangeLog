@@ -1,3 +1,8 @@
+2001-01-16  Jason Leach  <jasonleach@usa.net>
+
+	* openpgp-utils.c (pgp_get_passphrase): Fix a string causing
+	translation problems.  Bug #1147.
+
 2001-01-16  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (mail_do_fetch_mail): Setup a cancellation handle.
