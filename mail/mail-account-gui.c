@@ -1460,22 +1460,6 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gtk_widget_show_all (top);
 	}
 	
-	/* Force some other elements to keep their current sizes even if
-	 * widgets are hidden
-	 */
-	item = glade_xml_get_widget (gui->xml, "source_frame");
-	gtk_widget_hide (item);
-	item = glade_xml_get_widget (gui->xml, "source_auth_frame");
-	gtk_widget_hide (item);
-	item = glade_xml_get_widget (gui->xml, "source_vbox");
-	gtk_widget_hide (item);
-	item = glade_xml_get_widget (gui->xml, "transport_frame");
-	gtk_widget_hide (item);
-	item = glade_xml_get_widget (gui->xml, "transport_auth_frame");
-	gtk_widget_hide (item);
-	item = glade_xml_get_widget (gui->xml, "transport_vbox");
-	gtk_widget_hide (item);
-
 	if (fstore)
 		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate", gui);
 	

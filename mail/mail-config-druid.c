@@ -132,71 +132,38 @@ static struct {
 	char *text;
 } info[] = {
 	{ "identity_html",
-	  N_("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.") },
+	  N_("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in,\nunless you wish to include this information in email you send.") },
 	{ "source_html",
-	  N_("Please enter information about your incoming mail server below. If you don't know what kind of server you use, contact your system administrator or Internet Service Provider.") },
+	  N_("Please enter information about your incoming mail server below. If you are not sure, ask your system\nadministrator or Internet Service Provider.") },
 	{ "extra_html",
-	  "The following options mostly don't work yet and are here only to taunt you. Ha ha!" },
+	  N_("Please select among the following options") },
 	{ "transport_html",
-	  N_("Please enter information about your outgoing mail protocol below. If you don't know which protocol you use, contact your system administrator or Internet Service Provider.") },
+	  N_("Please enter information about the way you will send mail. If you are not sure, ask your system\nadministrator or Internet Service Provider.") },
 	{ "management_html",
-	  N_("You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.") }
+	  N_("You are almost done with the mail configuration process. The identity, incoming mail server and\noutgoing mail transport method which you provided will be grouped together to\nmake an Evolution mail account. Please enter a name for this account in the space below.\nThis name will be used for display purposes only.") }
 };
 static int num_info = (sizeof (info) / sizeof (info[0]));
 
-static void
-html_size_req (GtkWidget *widget, GtkRequisition *requisition)
-{
-	 requisition->height = GTK_LAYOUT (widget)->height;
-}
-
 static GtkWidget *
-create_html (const char *name)
+create_label (const char *name)
 {
-	GtkWidget *scrolled, *html;
-	GtkHTMLStream *stream;
-	GtkStyle *style;
-	char *utf8;
+	GtkWidget *widget, *align;
 	int i;
-	
-	html = gtk_html_new ();
-	GTK_LAYOUT (html)->height = 0;
-	gtk_signal_connect (GTK_OBJECT (html), "size_request",
-			    GTK_SIGNAL_FUNC (html_size_req), NULL);
-	gtk_html_set_editable (GTK_HTML (html), FALSE);
-	style = gtk_rc_get_style (html);
-	if (!style)
-		style = gtk_widget_get_style (html);
-	if (style) {
-		gtk_html_set_default_background_color (GTK_HTML (html),
-						       &style->bg[0]);
-	}
-	gtk_widget_show (html);
-	
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (scrolled);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-	gtk_container_add (GTK_CONTAINER (scrolled), html);
-	
+
 	for (i = 0; i < num_info; i++) {
 		if (!strcmp (name, info[i].name))
 			break;
 	}
-	g_return_val_if_fail (i != num_info, scrolled);
+	g_return_val_if_fail (i != num_info, NULL);
 	
-	stream = gtk_html_begin_content (GTK_HTML (html),
-					 "text/html; charset=utf-8");
-	gtk_html_write (GTK_HTML (html), stream, "<html><p>", 9);
-	utf8 = e_utf8_from_locale_string (_(info[i].text));
-	gtk_html_write (GTK_HTML (html), stream, utf8, strlen (utf8));
-	g_free (utf8);
-	gtk_html_write (GTK_HTML (html), stream, "</p></html>", 11);
-	gtk_html_end (GTK_HTML (html), stream, GTK_HTML_STREAM_OK);
-	
-	return scrolled;
-}
+	widget = gtk_label_new (_(info[i].text));
 
+	align = gtk_alignment_new (0.0, 0.5, 1.0, 1.0);
+	gtk_container_add (GTK_CONTAINER (align), widget);
+
+	gtk_widget_show_all (align);
+	return align;
+}
 
 static void
 druid_cancel (GnomeDruid *druid, gpointer user_data)
@@ -747,7 +714,7 @@ get_fn (EvolutionWizard *wizard,
 	vbox = gtk_vbox_new (FALSE, 0);
         switch (page_num) {
         case 0:
-		widget = create_html ("identity_html");
+		widget = create_label ("identity_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 		widget = glade_xml_get_widget (gui->gui->xml, "identity_required_frame");
 		gtk_widget_reparent (widget, vbox);
@@ -758,7 +725,7 @@ get_fn (EvolutionWizard *wizard,
                 break;
 
         case 1:
-		widget = create_html ("source_html");
+		widget = create_label ("source_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 		widget = glade_xml_get_widget (gui->gui->xml, "source_vbox");
                 gtk_widget_reparent (widget, vbox);
@@ -766,14 +733,14 @@ get_fn (EvolutionWizard *wizard,
                 break;
 
         case 2:
-		widget = create_html ("extra_html");
+		widget = create_label ("extra_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
                 widget = glade_xml_get_widget (gui->gui->xml, "extra_vbox");
                 gtk_widget_reparent (widget, vbox);
                 break;
 
         case 3:
-		widget = create_html ("management_html");
+		widget = create_label ("transport_html");
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
                 widget = glade_xml_get_widget (gui->gui->xml, "transport_vbox");
                 gtk_widget_reparent (widget, vbox);

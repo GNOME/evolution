@@ -1,3 +1,13 @@
+2001-08-20  Iain Holmes  <iain@ximian.com>
+
+	* mail-config-druid.c: Change some of the text labels.
+	(create_label): Make a label instead of a GtkHTML widget.
+
+2001-08-18  Iain Holmes  <iain@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_setup): Stop hiding the source
+	and transport frames.
+
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_setup_property_menu):
