@@ -1,3 +1,10 @@
+2000-07-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): Hacks to get
+	IMAP code to work with CommunigatePro and MS Exchange (and any other
+	servers that send back a UID at the end of each FETCH inside of the main
+	body of the message part).
+
 2000-07-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c: All SELECT calls now pass

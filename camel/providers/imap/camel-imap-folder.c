@@ -855,10 +855,10 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		if (*q == '\n')
 			part_len--;
 	}
-	/* we want to make sure we get up to the last \n */
-	for ( ; *q && *q != '\n'; q++, part_len++);
+	/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
+	for (q--, part_len--; q > p && *(q-1) != '\n'; q--, part_len--);
 	
-	header = g_strndup (p, part_len);
+	header = g_strndup (p, part_len + 1);
 
 	g_free (result);
 	d(fprintf (stderr, "*** We got the header ***\n"));
@@ -899,10 +899,10 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		if (*q == '\n')
 			part_len--;
 	}
-	/* we want to make sure we get up to the last \n */
-	for ( ; *q && *q != '\n'; q++, part_len++);
+	/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
+	for ( ; q > p && *(q-1) != '\n'; q--, part_len--);
 
-	body = g_strndup (p, part_len);
+	body = g_strndup (p, part_len + 1);
 
 	g_free (result);
 	d(fprintf (stderr, "*** We got the body ***\n"));
