@@ -502,7 +502,6 @@ e_summary_init (ESummary *summary)
 {
 	GConfClient *gconf_client;
 	ESummaryPrivate *priv;
-	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
 	char *def;
 
 	summary->priv = g_new (ESummaryPrivate, 1);
@@ -520,7 +519,7 @@ e_summary_init (ESummary *summary)
 	gtk_html_set_editable (GTK_HTML (priv->html), FALSE);
 	gtk_html_set_default_content_type (GTK_HTML (priv->html),
 					   "text/html; charset=utf-8");
-	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolor);
+
 	def = g_strdup_printf (DEFAULT_HTML, _("Please wait..."));
 	gtk_html_load_from_string (GTK_HTML (priv->html), def, strlen (def));
 	g_free (def);
