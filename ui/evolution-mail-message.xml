@@ -46,6 +46,11 @@
      accel="*Control*d"
      pixtype="pixbuf"/>
 
+    <cmd name="MessageFollowUpFlag"
+     _tip="Flag selected message(s) for follow-up"
+     accel="*Control**Shift*G"
+     pixtype="pixbuf"/>
+
     <cmd name="MessageForward"
      _tip="Forward the selected message to someone"
      accel="*Control*f"
@@ -63,21 +68,24 @@
      _tip="Forward the selected message quoted like a reply"/>
 
     <cmd name="MessageMarkAsRead"
-     _tip="Mark the selected messages as having been read"
-     accel="*Control*k"/>
+     _tip="Mark the selected message(s) as having been read"
+     accel="*Control*k"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsUnRead"
-     _tip="Mark the selected messages as not having been read"
-     accel="*Control**Shift*k"/>
+     _tip="Mark the selected message(s) as not having been read"
+     accel="*Control**Shift*k"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsImportant"
-     _tip="Mark the selected messages as important"/>
+     _tip="Mark the selected message(s) as important"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsUnimportant"
-     _tip="Mark the selected messages as unimportant"/>
+     _tip="Mark the selected message(s) as unimportant"/>
 
     <cmd name="MessageMove"
-     _tip="Move selected messages to another folder"
+     _tip="Move selected message(s) to another folder"
      accel="*Control**Shift*m"
      pixtype="pixbuf"/>
 
@@ -263,6 +271,13 @@
             <menuitem name="MailPreviousUnread" verb="" _label="Previous Unread Message"/>
             <menuitem name="MailPreviousFlagged" verb="" _label="Previous Important Message"/>
           </submenu>
+
+	  <separator f="" name="emaillist1"/>
+
+          <menuitem name="MessageFollowUpFlag" verb="" _label="Follow _Up..."/>
+
+	  <separator f="" name="emaillist2"/>
+
           <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
@@ -275,16 +290,16 @@
             <menuitem verb="MessageRedirect" _label="Re_direct"/>
           </submenu>
 
-	  <separator f="" name="emaillist1"/>
+	  <separator f="" name="emaillist3"/>
 
           <menuitem name="MessageMove" verb="" _label="_Move to Folder"/>
           <menuitem name="MessageCopy" verb="" _label="_Copy to Folder"/>
 
-	  <separator f="" name="emaillist2"/>
+	  <separator f="" name="emaillist4"/>
 
           <menuitem name="AddSenderToAddressbook" verb="" _label="Add Sender to Address _Book"/>
 
-	  <separator f="" name="emaillist3"/>
+	  <separator f="" name="emaillist5"/>
 
           <menuitem name="MessageApplyFilters" verb="" _label="_Apply Filters"/>
         </placeholder>
