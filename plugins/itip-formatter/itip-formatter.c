@@ -719,8 +719,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 				
 					/* Skip the actual message and the text/calendar part */
 					/* FIXME Do we need to skip anything else? */
-					if (!g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id ((CamelMimePart *) msg))
-					    || !g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id (pitip->pobject.part)))
+					if (part == (CamelMimePart *) msg || part == pitip->pobject.part)
 						continue;
 				
 					new_uri = em_utils_temp_save_part (NULL, part);

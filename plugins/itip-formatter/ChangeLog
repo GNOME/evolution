@@ -1,5 +1,10 @@
 2005-01-10  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (update_item): compare pointers instead of
+	content id
+	
+2005-01-10  JP Rosevear  <jpr@novell.com>	
+
 	* itip-formatter.c (update_item): first crack at saving
 	attachments for the backend
 	(extract_itip_data): tell the user what to do for more than one
