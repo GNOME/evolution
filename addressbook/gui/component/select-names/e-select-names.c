@@ -35,6 +35,7 @@
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook-storage.h>
 #include <addressbook/gui/component/addressbook.h>
@@ -140,19 +141,8 @@ set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 		       NULL);
 	update_query (NULL, esn);
 	gtk_object_unref(GTK_OBJECT(book));
-	gtk_object_unref(GTK_OBJECT(esn));
 	gtk_object_unref(GTK_OBJECT(esn->model));
-}
-
-static void
-set_book_with_model_data(EBook *book, EBookStatus status, EAddressbookModel *model)
-{
-	gtk_object_set(GTK_OBJECT(model),
-		       "book", book,
-		       "query", "(contains \"email\" \"\")",
-		       NULL);
-	gtk_object_unref(GTK_OBJECT(book));
-	gtk_object_unref(GTK_OBJECT(model));
+	gtk_object_unref(GTK_OBJECT(esn));
 }
 
 static void
@@ -161,30 +151,23 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 	EBook *book;
 	char *book_uri;
 
+	book_uri = e_book_expand_uri (uri);
+
 	/* If uri == the current uri, then we don't have to do anything */
 	book = e_addressbook_model_get_ebook (model);
 	if (book) {
 		const gchar *current_uri = e_book_get_uri (book);
-		if (uri && current_uri && !strcmp (uri, current_uri))
+		if (current_uri && !strcmp (book_uri, current_uri)) {
+			g_free (book_uri);
 			return;
-	}
-
-	if (!strncmp (uri, "file:", 5)) {
-		book_uri = g_strconcat (uri, "/addressbook.db", NULL);
-	}
-	else {
-		book_uri = g_strdup (uri);
+		}
 	}
 
 	book = e_book_new();
-	if (e_select_names) {
-		gtk_object_ref(GTK_OBJECT(e_select_names));
-		gtk_object_ref(GTK_OBJECT(model));
-		addressbook_load_uri(book, book_uri, (EBookCallback) set_book, e_select_names);
-	} else {
-		gtk_object_ref(GTK_OBJECT(model));
-		addressbook_load_uri(book, book_uri, (EBookCallback) set_book_with_model_data, model);
-	}
+
+	gtk_object_ref(GTK_OBJECT(e_select_names));
+	gtk_object_ref(GTK_OBJECT(model));
+	addressbook_load_uri(book, book_uri, (EBookCallback) set_book, e_select_names);
 
 	g_free (book_uri);
 }
@@ -487,6 +470,13 @@ e_select_names_create_categories (gchar *name,
 }
 
 static void
+clear_widget (GtkWidget *w, gpointer user_data)
+{
+	GtkWidget **widget_ref = user_data;
+	*widget_ref = NULL;
+}
+
+static void
 e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
@@ -532,16 +522,22 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->status_message = glade_xml_get_widget (gui, "status-message");
 	if (e_select_names->status_message && !GTK_IS_LABEL (e_select_names->status_message))
 		e_select_names->status_message = NULL;
-	if (e_select_names->status_message)
+	if (e_select_names->status_message) {
 		gtk_signal_connect (GTK_OBJECT (e_select_names->model), "status_message",
 				    GTK_SIGNAL_FUNC (status_message), e_select_names);
+		gtk_signal_connect(GTK_OBJECT(e_select_names->status_message), "destroy",
+				   GTK_SIGNAL_FUNC(clear_widget), &e_select_names->status_message);
+	}
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))
 		e_select_names->categories = NULL;
-	if (e_select_names->categories)
+	if (e_select_names->categories) {
 		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "changed",
 				   GTK_SIGNAL_FUNC(categories_changed), e_select_names);
+		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "destroy",
+				   GTK_SIGNAL_FUNC(clear_widget), &e_select_names->categories);
+	}
 
 	e_select_names->select_entry = glade_xml_get_widget (gui, "entry-select");
 	if (e_select_names->select_entry && !GTK_IS_ENTRY (e_select_names->select_entry))
@@ -551,6 +547,8 @@ e_select_names_init (ESelectNames *e_select_names)
 				   GTK_SIGNAL_FUNC(select_entry_changed), e_select_names);
 		gtk_signal_connect(GTK_OBJECT(e_select_names->select_entry), "activate",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
+		gtk_signal_connect(GTK_OBJECT(e_select_names->select_entry), "destroy",
+				   GTK_SIGNAL_FUNC(clear_widget), &e_select_names->select_entry);
 	}
 
 	button  = glade_xml_get_widget (gui, "button-find");
@@ -601,6 +599,7 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 	gtk_object_unref(GTK_OBJECT(child->text_model));
 	gtk_object_unref(GTK_OBJECT(child->source));
 	g_free(key);
+	g_free(child);
 }
 
 static void
