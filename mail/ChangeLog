@@ -1,3 +1,9 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* component-factory.c (owner_unset_cb): Quit when the shell exits.
+	This is a kludge, but a pretty necessary one until the refcounting
+	bugs that keep the component from exiting properly are fixed.
+
 2000-05-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c: Partially implemented the source
