@@ -319,6 +319,10 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 
 	to = e_iconv_charset_name(oto);
 	from = e_iconv_charset_name(ofrom);
+	if (to == NULL)
+		to = "";
+	if (from == NULL)
+		from = "";
 	tofrom = alloca(strlen(to) +strlen(from) + 2);
 	sprintf(tofrom, "%s%%%s", to, from);
 
