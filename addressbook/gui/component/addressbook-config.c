@@ -717,8 +717,6 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	}
 
 	addressbook_source_free (source);
-
-	gtk_object_unref (GTK_OBJECT (selection_model));
 }
 
 static void

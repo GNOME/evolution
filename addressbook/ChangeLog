@@ -24,6 +24,12 @@
 	* backend/pas/pas-backend-summary.[ch]: new files, reading and
 	writing (and querying) summaries.
 
+2002-06-27  Sean Atkinson  <sean@cantab.net>
+
+        * gui/component/addressbook-config.c (query_for_supported_bases):
+        don't unref selection_model (otherwise 3 clicks of
+        "Show Supported Bases" crashes if LDAP server isn't running).
+
 2002-06-25  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component):
