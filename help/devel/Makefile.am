@@ -1,4 +1,4 @@
-SUBDIRS = calendar importer executive-summary
+SUBDIRS = calendar executive-summary
 
 # The name of the module.
 DOC_MODULE=evolution-devel-guide
@@ -34,13 +34,13 @@ local_entities =					\
 	calendar/cal-util/sgml/cal-util.sgml		\
 	calendar/cal-util/sgml/timeutil.sgml		\
 							\
-	importer/sgml/evolution-importer.sgml		\
-	importer/sgml/evolution-importer-client.sgml	\
-							\
 	executive-summary/sgml/executive-summary-component.sgml	\
 	executive-summary/sgml/executive-summary-component-factory.sgml	\
 	executive-summary/sgml/executive-summary-component-factory-client.sgml	\
 	executive-summary/sgml/executive-summary-html-view.sgml
+
+#	importer/sgml/evolution-importer.sgml		\
+#	importer/sgml/evolution-importer-client.sgml
 
 EXTRA_DIST =			\
 	$(content_files)

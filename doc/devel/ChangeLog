@@ -1,3 +1,10 @@
+2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-devel-guide.sgml: Disable the importer references here
+	too.
+
+	* Makefile.am: Remove the importer stuff for now.
+
 2001-04-20  Damon Chaplin  <damon@ximian.com>
 
 	* importer/evolution-shell-importer.types: changed path to the
