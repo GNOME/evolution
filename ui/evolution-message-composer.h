@@ -20,7 +20,7 @@ gchar *s = N_("Insert text file...");
 gchar *s = N_("Insert a file as text into the message");
 gchar *s = N_("Send");
 gchar *s = N_("Send the message now");
-gchar *s = N_("Send later");
+gchar *s = N_("Send _later");
 gchar *s = N_("Send the message later");
 gchar *s = N_("Attach");
 gchar *s = N_("Attach a file");
@@ -34,7 +34,7 @@ gchar *s = N_("_Save");
 gchar *s = N_("Save _As...");
 gchar *s = N_("Save in _folder... (FIXME)");
 gchar *s = N_("_Insert text file... (FIXME)");
-gchar *s = N_("Send _Now");
+gchar *s = N_("Send");
 gchar *s = N_("Send _Later");
 gchar *s = N_("_Close");
 gchar *s = N_("_Edit");
@@ -44,5 +44,10 @@ gchar *s = N_("Show _attachments");
 gchar *s = N_("_Help");
 gchar *s = N_("_About...");
 gchar *s = N_("_Debug");
+gchar *s = N_("Send this message now");
 gchar *s = N_("Bold");
 gchar *s = N_("Sets something as bold");
+
+
+
+
