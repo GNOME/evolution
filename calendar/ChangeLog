@@ -1,3 +1,8 @@
+2004-03-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): remove debug code that
+	slipped in
+
 2004-03-24  Danilo Šegan  <dsegan@gmx.net>
 
 	* gui/e-alarm-list.c (get_alarm_duration_string): Use ngettext for
