@@ -706,7 +706,7 @@ BonoboControl *
 addressbook_factory_new_control (void)
 {
 	AddressbookView *view;
-	GtkFrame *frame;
+	GtkWidget *frame;
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
@@ -732,8 +732,8 @@ addressbook_factory_new_control (void)
 			    GTK_SIGNAL_FUNC (addressbook_menu_activated), view);
 
 	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
-	gtk_container_add (GTK_CONTAINER (frame), view->view);
-	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET(frame),
+	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (view->view));
+	gtk_box_pack_start (GTK_BOX (view->vbox), frame,
 			    TRUE, TRUE, 0);
 
 	/* create the initial view */

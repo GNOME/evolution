@@ -1,5 +1,13 @@
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_factory_new_control):
+	Fixed warnings here.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(hash_cleanup_fn): Removed this unused function.
+
+2001-08-03  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-simple.c (e_card_simple_sync_card,
 	fill_in_info): Made the list of E_CARD_PHONE types in
 	phone_correspondences more complete by adding the new 5

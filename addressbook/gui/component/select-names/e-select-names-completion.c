@@ -543,13 +543,6 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 }
 
 static void
-hash_cleanup_fn (gpointer key, gpointer val, gpointer closure)
-{
-	g_free (key);
-	g_free (val);
-}
-
-static void
 book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 {
 	while (cards) {
