@@ -44,21 +44,20 @@
       in case you need to refer to it later, you'll find that feature
       especially useful.
     </para>
+  </abstract>
 
-    <para>
+  <sect1 id="usage-mail-getnsend">
+    <title>Reading, Getting and Sending Mail</title>
+    <sect2 id="usage-mail-getnsend-read">
+      <title>Reading Mail</title>
+      <para>
        You can start reading email by clicking
        <guibutton>Inbox</guibutton> in the shortcut bar.  By
        default, the <interface>Inbox</interface> is open when you
        start <application>Evolution</application>, and the first
        time you see your inbox, there's a message in it from Helix
        Code welcoming you to the application.
-    </para>
-  </abstract>
-
-  <sect1 id="usage-mail-getnsend">
-    <title>Reading, Getting and Sending Mail</title>
-    <sect2 id="usage-mail-getnsend-read">
-      <title>Reading a Message</title>
+      </para>
       <para>
 	The first time you open your
 	<application>Evolution</application>
@@ -75,10 +74,10 @@
         <variablelist>
 	 
          <varlistentry>
-	    <term><guimenuitem>View Message</guimenuitem> </term>  
+	    <term><guimenuitem>Open in New Window</guimenuitem> </term>  
 	    <listitem><para> 
                Select this item to view the message in
-               the view pane of the <application>Evolution</application>
+               a new <application>Evolution</application>
                window. 
             </para></listitem>
 	  </varlistentry>
@@ -141,38 +140,124 @@
                 from a folder tree.
              </para></listitem>
            </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>vFolder for Subject</guimenuitem></term>
+	    <listitem><para>
+	     Select this item to create a pre-fabricated vFolder based on
+	     the current message's Subject line.
+	   </para></listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guimenuitem>vFolder for Sender</guimenuitem></term>
+	    <listitem><para>
+	     Select this item to create a pre-fabricated vFolder based on
+	     who sent the current message.
+	   </para></listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term><guimenuitem>vFolder for Recipients</guimenuitem></term>
+	   <listitem><para>
+	     Select this item to create a pre-fabricated vFolder based on
+	   who the recipients are.
+	   </para></listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term><guimenuitem>Filter for Subject</guimenuitem></term>
+	   <listitem><para>
+	     Select this item to create a pre-fabricated filter based on
+	     the current message's Subject line.
+	   </para></listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term><guimenuitem>Filter for Sender</guimenuitem></term>
+	   <listitem><para>
+	     Select this item to create a pre-fabricated filter based on
+	     who sent the current message.
+	   </para></listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term><guimenuitem>Filter for Recipients</guimenuitem></term>
+	   <listitem><para>
+	     Select this item to create a pre-fabricated filter based on
+	     who the recipients are.
+	   </para></listitem>
+	 </varlistentry>
+      </variablelist>
+     </para>
+    
+      <note id="usage-mail-listorder">
+	<title>The Order of the Message List</title>
+	<para>
+          You can also select the order in which messages appear in
+          that list.  To sort by sender, subject, or date, click on the
+          bars with those labels at the top of the message list.  If
+          you click twice, you'll sort them in reverse order.
+        </para>
+	<para>
+          Aside from sorting the messages, you can opt to have the
+          messages threaded. Select <menuchoice>
+          <guimenu>View</guimenu> <guimenuitem>Threaded Message
+          List</guimenuitem> </menuchoice> to turn the threaded view
+          on or off.  If the option selected,
+          <application>Evolution</application> will attempt to
+          associate related messages by using the
+          <systemitem>References</systemitem>,
+          <systemitem>In-Reply-To</systemitem>, and
+          <systemitem>Subject</systemitem> message headers.  Messages
+          which are related are then placed next to each other, so
+          that it's easier to follow the thread of a conversation from
+          message to message.
+        </para>
+      </note>
+      <para>
+         Other actions you can perform are listed, appropriately, in
+         the <guimenu>Actions</guimenu> menu in the menu bar:
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Mark all Messages Read</guimenuitem></term>
+	    <listitem><para>
+               <application>Evolution</application> keeps track of which 
+                messages you have read, and which ones you haven't: 
+                When you've looked at a message for more than a few seconds, 
+                it's no longer marked as new.  If you want to mark all mail 
+                in a folder as read, select this item.
+             </para></listitem>
+	    </varlistentry>
+	  <varlistentry>
+	    <term><guimenuitem>View Message</guimenuitem></term>
+	    <listitem><para>
+                <guimenuitem>View Message</guimenuitem> opens the selected message 
+                in its own window.
+             </para></listitem>
+	    </varlistentry>	  
+	  <varlistentry>
+	    <term><guimenuitem>Edit Message</guimenuitem></term>
+	    <listitem><para>
+               Only available for messages you have written (drafts and
+               mail in the <guilabel>Outbox</guilabel>, this item opens the message
+               in a new mail composition window.
+             </para></listitem>
+	    </varlistentry>
+	  <varlistentry>
+	    <term><guimenuitem>Expunge</guimenuitem></term>
+	    <listitem><para>
+               Clicking the <guibutton>Delete</guibutton> button marks 
+               messages for deleteion. <guimenuitem>Expunge</guimenuitem> 
+               wipes them off the face of the earth.               
+             </para></listitem>
+	    </varlistentry>
 	  </variablelist>
       </para>
-      
       <para>
-         You can also select the order in which messages appear in
-         that list.  To sort by sender, subject, or date, click on the
-         bars with those labels at the top of the message list.  If
-         you click twice, you'll sort them in reverse order.
-      </para>
-      <para>
-         Aside from sorting the messages, you can opt to have the
-         messages threaded. Select <menuchoice>
-         <guimenu>View</guimenu> <guimenuitem>Threaded Message
-         List</guimenuitem> </menuchoice> to turn the threaded view on
-         or off.  If the option selected,
-         <application>Evolution</application> will attempt to
-         associate related messages by using the
-         <systemitem>References</systemitem>,
-         <systemitem>In-Reply-To</systemitem>, and
-         <systemitem>Subject</systemitem> message headers.  Messages
-         which are related are then placed next to each other, so that
-         it's easier to follow the thread of a conversation from
-         message to message.
-      </para>
-      <para>
-	Go ahead and click on the message in the <interface>message
-	list</interface>.  That selects the message.  Then click on
-	the <guibutton>Delete</guibutton> button in the tool bar.  The
-	message now has a line through it, because you've marked it
-	for deletion.  If you really want to get rid of it, choose
-	<guimenuitem>Expunge</guimenuitem> from the
-	<guimenu>Tools</guimenu> menu.  That will delete it
+	Now that you've had a look around the
+	<interface>Inbox</interface>, select the welcome message in
+	the <interface>message list</interface> by clicking on it
+	once.  Then click on the <guibutton>Delete</guibutton> button
+	in the tool bar.  The message now has a line through it,
+	because you've marked it for deletion.  If you really want to
+	get rid of it, choose <guimenuitem>Expunge</guimenuitem> from
+	the <guimenu>Actions</guimenu> menu.  That will delete it
 	permanently. If you want to keep it, click
 	<guibutton>Delete</guibutton> again, and it will no longer be
 	marked as deleted.  At some point in the future, this feature
@@ -300,39 +385,75 @@
 	 <guibutton>Send</guibutton>.  That's easy.  It may even be
 	 too easy, which is why I like to queue my messages up to be
 	 sent a few minutes later.
-
-	 <tip id="usage-mail-getnsend-send-attach-tip">
-	  <title>Send Now, Send Later</title>
-	  <para>
-	    Evolution will send mail immediately unless you tell it to
-	    do otherwise by selecting <guimenuitem>Send
-	    Later</guimenuitem> from the <guimenu>MENU</guimenu> in
-	    the message composition window.  Then, when you press
-	    <guibutton>Send</guibutton>, all your unsent messages will
-	    go out at once.  I like to use "Send Later" because it
-	    gives me a chance to change my mind about a message before
-	    it goes out.  That way, I don't send anything I'll regret
-	    the next day.
-	  </para>
-	  <para>
-	    To learn more about how you can specify message queue
-	    and filter behavior, see <xref linkend="config-prefs-mail">.
-	  </para>
-	 </tip>
        </para>
-
-      <para>
-	You can probably guess the purpose of the buttons labelled
-	<guilabel>Cut</guilabel>, <guilabel>Copy</guilabel>,
-	<guilabel>Paste</guilabel> and <guilabel>Undo</guilabel>, but
-	there's a bit more to sending mail that's less obvious.  In
-	the next few sections, you'll see how
-	<application>Evolution</application> handles additional
-	features, including mailing lists, attachments, and
-	forwarding.
-      </para>
-
-
+      <sect3 id="usage-mail-getnsend-send-delay">
+	<title>Saving Messages for Later</title>
+	<para>
+	   Evolution will send mail immediately unless you tell it to
+	   do otherwise by selecting <menuchoice>
+	   <guimenu>File</guimenu> <guimenuitem>Send
+	   Later</guimenuitem></menuchoice>.  That will add messages to the
+	   <guilabel>Outbox</guilabel> queue.  Then, when you press
+	   <guibutton>Send</guibutton> in another message, or
+	   <guibutton>Get Mail</guibutton> in the main mail window,
+	   all your unsent messages will go out at once.  I like to
+	   use "Send Later" because it gives me a chance to change my
+	   mind about a message before it goes out.  That way, I don't
+	   send anything I'll regret the next day.
+	</para>
+	<para>
+           You can also choose to save messages as drafts or as text
+           files.  Choose
+           <menuchoice>
+             <guimenu>File</guimenu>
+             <guimenuitem>Save</guimenuitem>
+	  </menuchoice>
+          or <guimenuitem>Save As</guimenuitem> to save your message
+          as a text file. If you prefer to keep your message in a
+          folder (the <guilabel>Drafts</guilabel> folder would be the
+          obvious place), you can select <menuchoice>
+          <guimenu>File</guimenu> <guimenuitem>Save In
+          Folder</guimenuitem> </menuchoice>.
+        </para>
+	<para>
+	   To learn more about how you can specify message queue and
+	   filter behavior, see <xref linkend="config-prefs-mail">.
+	</para>
+	
+	<para>
+	  You can probably guess the purpose of the buttons labelled
+	  <guibutton>Cut</guibutton>, <guibutton>Copy</guibutton>,
+	  <guibutton>Paste</guibutton>, <guibutton>Undo</guibutton>
+	  and <guibutton>Redo</guibutton> , but there's a bit more to
+	  sending mail that's less obvious.  In the next few sections,
+	  you'll see how <application>Evolution</application> handles
+	  additional features, including mailing lists, attachments,
+	  and forwarding.
+        </para>
+      </sect3>
+      <sect3 id="usage-mail-getnsend-send-attach">
+	<title>Attachments</title>
+	<para>
+	    If you want to attach a file to your email message, you
+	    can drag it from your desktop into the message window, or
+	    click the button in the toolbar with a paper clip on it,
+	    labelled <guibutton>Attach</guibutton>.  If you click the
+	    <guibutton>Attach</guibutton> button,
+	    <application>Evolution</application> will open a file
+	    selection dialog box, to ask you which file you want to
+	    send.  Select the file and click <guilabel>OK</guilabel>.
+        </para>
+	<para>
+            To see what files you've attached to the message you're
+            composing, select <menuchoice> <guimenu>View</guimenu>
+            <guimenuitem>Show Attachments</guimenuitem> </menuchoice>.
+        </para>
+	<para>
+            When you send the message, a copy of the attached file
+	    will go with it.  Be aware that big attachments can take a
+	    long time to download.
+          </para>
+	</sect3>
       <sect3 id="usage-mail-getnsend-send-to">
 	<title>Choosing Recipients</title>
 	<para>
@@ -340,9 +461,13 @@
 	  you can also enter nicknames or other portions of address
 	  data, and <application>Evolution</application> will complete
 	  the address for you. <!-- (INSERT description of UI for this
-	  feature, once it is decided upon). -->  If you enter a name or
-	  nickname that can go with more than one card, Evolution will
-	  open a dialog box to ask you which person you meant.
+	  feature, once it is decided upon). --> If you enter a name
+	  or nickname that can go with more than one card, Evolution
+	  will open a dialog box to ask you which person you meant.
+	  <!-- (NOT YET) Also, <application>Evolution</application>
+	  will add a domain to any unqualified addresses.  By default,
+	  this is your domain, but you can choose which one mail
+	  preferences dialog. -->
         </para>
         <para>
           Alternately, you can click on the
@@ -362,11 +487,11 @@
 	<sect4 id="usage-mail-getnsend-send-to-mult">
 	  <title>Multiple Recipients</title>
 	  <para>
-	    In addition, you can mark recipients in three different
-	    ways.  The <guilabel>To:</guilabel> field is for the
-	    primary recipients of the message you are going to send.
-	    However, it is considered bad form to have more than a few
-	    email addresses in this section.
+	    You can address your email in three different ways.  The
+	    <guilabel>To:</guilabel> field is for the primary
+	    recipients of the message you are going to send.  However,
+	    it is considered bad form to have more than a few email
+	    addresses in this section.
 	  </para>
 	  <para>
 	    If you're writing to one person, but want to keep a third
@@ -471,7 +596,61 @@ with quoted materials and the relevant replies interspersed-->
 	  </example>
 	</para>
       </sect3>
+      <sect3 id="usage-mail-getnsend-send-find">
+        <title>Searching and Replacing with the Composer</title>
+	<para>
+           You're probably familiar with search and replace features,
+           and if you come from a Linux or Unix background, you
+           probably know what <guimenuitem>Find Regex</guimenuitem>
+           does.  If you aren't among the lucky who already know,
+           here's a quick rundown of an important section of the
+           <guimenu>Edit</guimenu> menu.
+        </para>
+	<para>
+           <variablelist>
+	    <varlistentry>
+	      <term><guimenuitem>Find</guimenuitem></term>
+	      <listitem><para> Enter a word or phrase, and
+	      <application>Evolution</application> will find it
+              in your message.
+	      </para></listitem>
+	    </varlistentry>
+	    
+	    <varlistentry>
+	      <term><guimenuitem>Find Regex</guimenuitem></term>
+	      <listitem>
+		<para>
+                  Regular expressions, often called "regex" for short,
+                  are a powerful way of expressing complicated
+                  statements using metacharacters or wildcard symbols.
+                  For example, the statement
+                  <userinput>fly*so[a|u]p</userinput> means "any
+                  phrase beginning with 'fly' and ending in 'soup' or
+                  'soap'", so you'd find both "fly in my soup" and
+                  "fly in my soap."  There's not room here to go into
+                  depth here, but if you want, have a look at the
+                  documentation for the <command>grep</command>
+                  command.
+                </para></listitem>
+	    </varlistentry>
 
+	    <varlistentry>
+	      <term><guimenuitem>Find Again</guimenuitem></term>
+	      <listitem><para>
+                   Select this item to repeat the last search you performed.
+              </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenuitem>Replace</guimenuitem></term>
+	      <listitem><para> Find something, replace it with
+	      something else.  </para></listitem>
+	    </varlistentry>
+
+	  </variablelist>
+            
+        </para>
+      </sect3>
       <sect3 id="usage-mail-getnsend-send-html">
 	<title>Embellish your email with HTML</title>
 	<para>
@@ -493,18 +672,13 @@ with quoted materials and the relevant replies interspersed-->
 	    get very angry if you send them HTML mail, which is why
 	    <application>Evolution</application> sends plain text
 	    unless you explicitly ask for HTML.  To send HTML mail,
-	    you will need to select <menuchoice> <guimenuitem>
-	    HTML</guimenuitem></menuchoice> in the mail settings dialog box.  See
-	    <xref linkend="config-prefs-mail-other"> for more information.
+	    you will need to select <menuchoice>
+	    <guimenu>Format</guimenu> <guimenuitem>
+	    HTML</guimenuitem></menuchoice>.  Alternately, you can set
+	    your default mail format preferences in the mail
+	    configuration dialog.  See <xref
+	    linkend="config-prefs-mail-other"> for more information.
           </para>
-	  <para>
-            If you format a message with HTML, but do not have
-	    <guilabel>Send Messages as HTML</guilabel> enabled in your
-	    mail settings, the composer will remove your text styles.
-	    It will, however, preserve indentation and lists.  The
-	    same is true for individuals in your address book whom you
-	    have not marked as wanting to receive HTML mail.
-           </para>
 	</note>
 	<para>
            HTML formatting tools are located just above the
@@ -625,24 +799,7 @@ with quoted materials and the relevant replies interspersed-->
 	    </para>
 	</note>
       </sect3>
-      <sect3 id="usage-mail-getnsend-send-attach">
-	<title>Attachments</title>
-	<para>
-	    If you want to attach a file to your email message, you
-	    can drag it from your desktop into the message window, or
-	    click the button in the toolbar with a paper clip on it,
-	    labelled <guibutton>Attach</guibutton>.  If you click the
-	    <guibutton>Attach</guibutton> button,
-	    <application>Evolution</application> will open a file
-	    selection dialog box, to ask you which file you want to
-	    send.  Select the file and click <guilabel>OK</guilabel>.
-          </para>
-	<para>
-            When you send the message, a copy of the file will
-	    go with it.  Be aware that big attachments can take a long
-	    time to download.
-          </para>
-	</sect3>
+   
 
 <!-- Function not implemented, 
 possibly never will be due to security evil. -->
@@ -706,8 +863,8 @@ possibly never will be due to security evil. -->
 	      <para>
 		 Don't send spam or forward chain mail.  If you must,
 		 watch out for hoaxes and urban legends, and make sure
-		 the message doesn't have multiple layers of email
-		 quotation symbols (&gt;) indicating multiple layers
+		 the message doesn't have multiple layers of
+		 greater-than signs, (&gt;) indicating multiple layers
 		 of careless inline forwarding.
 	      </para>
 	    </listitem>
@@ -722,7 +879,8 @@ possibly never will be due to security evil. -->
 
 	    <listitem>
 	      <para>
-		ALL CAPS MEANS YOU'RE SHOUTING!
+		ALL CAPS MEANS YOU'RE SHOUTING! Don't write a whole
+		message in capital letters.  It hurts people's ears.
 	      </para>
 	    </listitem>
 
@@ -1130,3 +1288,17 @@ possibly never will be due to security evil. -->
 
   </sect1>
 </chapter>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

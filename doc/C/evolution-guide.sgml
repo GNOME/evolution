@@ -9,11 +9,13 @@
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
+<!ENTITY APX-MENUREF SYSTEM "apx-menuref.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
 <!ENTITY APX-FDL SYSTEM "apx-fdl.sgml">
 <!ENTITY APX-GPL SYSTEM "apx-gpl.sgml">
+
 
 ]>
 
@@ -112,6 +114,8 @@
     &CONFIG-PREFS;
     &CONFIG-SYNC;
   </part>
+
+  &APX-MENUREF;
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 

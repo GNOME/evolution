@@ -1,0 +1,478 @@
+<!--
+<!DOCTYPE Appendix PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
+<appendix id="menuref">
+  <title>Menu Reference</title>
+  <para>
+    This section will serve as a reference for every capability that
+    <application>Evolution</application> has.  When menu items are
+    repeated in <application>Evolution</application>, they're repeated
+    here too.
+  </para>
+  <para>
+    From left to right, the menus available to you when you are
+    reading mail are: <guimenu>File</guimenu>,
+    <guimenu>Edit</guimenu>, <guimenu>View</guimenu>,
+    <guimenu>Tools</guimenu>, <guimenu>Actions</guimenu>, and
+    <guimenu>Help</guimenu>.  The last of these doesn't change, but
+    the rest of them have contents that will change depending on
+    whether you're looking at mail, contacts, or calendar information.
+    In addition, the editor tools for messages, appointments, and
+    contacts all have menu bars.
+
+  </para>
+  <sect1 id="menuref-universal">
+    <title>Menus that are the same everywhere</title>
+    <para>
+      The <guimenu>File</guimenu> and <guimenu>Help</guimenu> menus in
+      the main <application>Evolution</application> window do not
+      change, because they refer to universal items.  Other menus have
+      contents that change depending on context.
+    </para>
+   
+ <sect2 id="menuref-universal-file">
+      <title>File Menu</title>
+      <para>
+	<variablelist>
+
+	  <varlistentry>
+	    <term><guisubmenu>New...</guisubmenu> Submenu</term>
+	    <listitem><para>
+		<itemizedlist>
+		  <listitem><para>
+		      <guimenuitem>Folder</guimenuitem> &mdash;
+		       Create a new folder. See <xref 
+		       linkend="usage-mainwindow-folderbar">
+		       for more information about folders.
+		    </para></listitem>
+		  <listitem><para>
+		      <guimenuitem>Shortcut</guimenuitem> &mdash;
+		       Create a new Shortcut in the Shortcut Bar.
+		    </para></listitem>
+		  <listitem><para>
+		      <guimenuitem>Mail Message</guimenuitem> &mdash;
+		       Compose a new mail message. Covered in
+		       <xref linkend="usage-mail-getnsend-send">.
+		    </para></listitem>
+		  <listitem><para>
+		      <guimenuitem>Appointment</guimenuitem> &mdash;
+		       Enter a new appointment in your calendar. See <xref
+			linkend="usage-calendar-apts-basic"> for more information.
+		    </para></listitem>
+		  <listitem><para>
+		      <guimenuitem>Task</guimenuitem> &mdash;
+		       Enter a new to-do item in your taskpad. Covered in 
+		       <xref linkend="usage-calendar-todo">.
+		    </para></listitem>
+		</itemizedlist>
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Go to Folder</guimenuitem></term>
+	    <listitem><para>
+               View the items in a particular folder.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Create New Folder</guimenuitem></term>
+	    <listitem><para>
+		 This item doesn't belong here any more.
+	      </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Print Message</guimenuitem></term>
+	    <listitem><para>
+		 Print the current message.
+	      </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Exit</guimenuitem></term>
+	    <listitem><para>
+		 Quit using <application>Evolution</application>.
+	      </para></listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+
+    <sect2 id="menuref-universal-help">
+      <title>The Help Menu</title>
+      <para>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem>Help Index</guimenuitem></term>
+	  <listitem><para>
+             Displays the table of contents for this document.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Getting Started</guimenuitem></term>
+	  <listitem><para>
+              A quick look around, and a summary of the things
+              <application>Evolution</application> can do for you.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Using the Mailer</guimenuitem></term>
+	  <listitem><para>
+              An in-depth tour of <application>Evolution</application> Mail.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Using the Calendar</guimenuitem></term>
+	  <listitem><para>
+             A step-by-step guide to using the Calendar.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Using the Contact Manager</guimenuitem></term>
+	  <listitem><para>
+            Find your way around the Contact Manager.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Submit Bug Report</guimenuitem></term>
+	  <listitem><para>
+             If you don't report them, they can't fix them.  Select this item to let the 
+             developers know what's wrong.
+           </para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>About Evolution</guimenuitem></term>
+	  <listitem><para>
+              Displays a window with information about the application and its authors.
+              This has the same information as <xref linkend="authors">.
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+  </sect1>
+
+
+  <sect1 id="menuref-mail">
+    <title>Mail Menus</title>
+    <para>
+       All the menus for mail. FIXME: this paragraph needs content.
+    </para>
+   
+    <sect2 id="menuref-mail-edit">
+      <title>The Edit Menu</title>
+      <para>
+        This menu is currently empty.
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-mail-view">
+      <title>The View Menu</title>
+      <para>
+        This menu lets you control the way
+        <application>Evolution</application> displays your information
+        for you.
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Show Shortcut Bar</guimenuitem></term>
+	    <listitem><para>
+              Toggle the shortcut bar on and off with this item.             
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Show Folder Bar</guimenuitem></term>
+	    <listitem><para>
+             Toggle the folder bar on and off with this item. 
+             See <xref linkend="usage-mainwindow-folderbar"> for 
+             more information about the folder bar.             
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Threaded Message List</guimenuitem></term>
+	    <listitem><para>
+               This item controls whether your message list is displayed by thread 
+               or by other criteria.  The default order is by date; see
+               <xref linkend="usage-mail-listorder"> for information about the
+               order of the message list.
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-mail-tools">
+      <title>The Tools Menu</title>
+      <para>
+      <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Mail Filters</guimenuitem></term>
+	    <listitem><para>
+             Edit your mail filters here.  
+             See <xref linkend="usage-mail-organize-filters">
+             for more information about mail filtering.
+           </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>vFolder Editor</guimenuitem></term>
+	    <listitem><para>
+              Create, edit, and delete vFolders with this tool. 
+              To learn about using vFolders with mail, see 
+              <xref linkend="usage-mail-organize-vfolders">.
+           </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Mail Configuration</guimenuitem></term>
+	    <listitem><para>
+             This is a poorly named tool.  You can set your identity, 
+             and everything else related to your mail account, here.
+           </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Forget Passwords</guimenuitem></term>
+	    <listitem><para>
+             Although it's really an Action (FIXME), this item will cause 
+             <application>Evolution</application> to forget what your
+             password is.
+           </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Configure Folder</guimenuitem></term>
+	    <listitem><para>
+              Another FIXME item, this allows you to set the file format
+              in which <application>Evolution</application> stores mail.
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+
+    <sect2 id="menuref-mail-actions">
+      <title>The Actions Menu</title>
+      <para>
+          When you select one of the actions from this menu,
+          <application>Evolution</application> will do your bidding,
+          usually to the item you have selected.
+      </para>
+      <para>
+          The actions you can perform are:
+          <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Edit Message</guimenuitem></term>
+	    <listitem><para>
+	      Select a message in the drafts folder before you select this 
+	      item.  You can only edit a message you have written. FIXME: POOR
+	      description of BROKEN behavior. 
+	   </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>View Message</guimenuitem></term>
+	    <listitem><para>
+	       Displays the selected message in a new window.
+	   </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Mark all Messages Read</guimenuitem></term>
+	    <listitem><para>
+	      <application>Evolution</application> keeps track of which messages 
+	      you've seen;  When you don't need to read all those messages, select this item.
+	      You can mark a single message as read by right-clicking it in the message bar.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Expunge</guimenuitem></term>
+	    <listitem><para>
+                   Emtpies the trash folder, erasing messages permanently. 
+                   Once you've done this, don't come crying to me if you
+                   want a message back.
+	       </para></listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+  </sect1>
+  <sect1 id="menuref-cal">
+    <title>The Calendar Menus</title>
+    <para>
+      The Main window of the calendar has the same menus as the main
+      window of the mail client.  However, their contents vary in a
+      number of ways.
+    </para>
+    <sect2 id="menuref-cal-edit">
+      <title>The Calendar Edit Menu</title>
+      <para>
+         The contents of the Edit menu are currently so borked that I
+         refuse to document them right now. (That means FIXME). They
+         should be:
+
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Item</guimenuitem></term>
+	    <listitem><para>
+              Description
+           </para></listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guimenuitem>Item</guimenuitem></term>
+	    <listitem><para>
+              Description
+           </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	  <term><guimenuitem>Item</guimenuitem></term>
+	  <listitem><para>
+              Description
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+    <sect2 id="menuref-cal-view">
+      <title>The Calendar View Menu</title>
+      <para>
+        The Calendar's <guimenu>View</guimenu> menu contains the following items:
+
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Show Shortcut Bar</guimenuitem></term>
+	    <listitem><para>
+              Toggle the Shortcut Bar on and off with this item.              
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Show Folder Bar</guimenuitem></term>
+	    <listitem><para>
+             Toggle the folder bar on and off with this item. 
+             See <xref linkend="usage-mainwindow-folderbar"> for 
+             more information about the folder bar.     
+           </para></listitem>
+	  </varlistentry>
+		  
+	  <varlistentry>
+	  <term><guimenuitem>View By Day</guimenuitem></term>
+	  <listitem><para>
+             Switch to the day view for your calendar.
+           </para></listitem>
+	  </varlistentry>	  
+
+	  <varlistentry>
+	  <term><guimenuitem>View Five Days</guimenuitem></term>
+	  <listitem><para>
+             View five calendar days at once. 
+           </para></listitem>
+	  </varlistentry>	  
+
+	  <varlistentry>
+	  <term><guimenuitem>View by Week</guimenuitem></term>
+	  <listitem><para>
+             Switch the calendar view to full week mode.
+           </para></listitem>
+	  </varlistentry>
+  
+	  <varlistentry>
+	  <term><guimenuitem>View By Month</guimenuitem></term>
+	  <listitem><para>
+             Look at a month at a time.
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+    <sect2 id="menuref-cal-tools">
+      <title>The Calendar Tools Menu</title>
+      <para>
+         This menu is empty.
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-actions">
+      <title>The Calendar Actions Menu</title>
+      <para>
+         This menu is empty.
+      </para>
+    </sect2>
+  </sect1>
+  <sect1>
+    <title>Contact Manager Menus</title>
+    <para>
+      Insert Content Here (FIXME).
+    </para>
+
+    <sect2 id="menuref-contact-edit">
+      <title>Contact Manager Edit Menu</title>
+      <para>
+         This menu is empty.
+      </para>
+    </sect2>
+
+
+    <sect2 id="menuref-contact-view">
+      <title>Contact Manager Edit Menu</title>
+      <para>
+        This menu contains the following items:
+
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Show Shortcut Bar</guimenuitem></term>
+	    <listitem><para>
+              Toggle the Shortcut Bar on and off with this item.              
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Show Folder Bar</guimenuitem></term>
+	    <listitem><para>
+             Toggle the folder bar on and off with this item. 
+             See <xref linkend="usage-mainwindow-folderbar"> for 
+             more information about the folder bar.     
+           </para></listitem>
+	  </varlistentry>
+		  
+	  <varlistentry>
+	  <term><guimenuitem>As Table</guimenuitem></term>
+	  <listitem><para>
+             View your contacts as a table.  
+             When in table-view mode, this menu item reads 
+             <guimenuitem>As Minicards</guimenuitem>, and changes the view
+             back to the minicard format.
+           </para></listitem>
+	  </varlistentry>	  
+	</variablelist>      
+      </para>
+    </sect2>
+
+   <sect2 id="menuref-contact-tools">
+      <title>Contact Manager Tools Menu</title>
+      <para>
+         This menu is empty.
+      </para>
+    </sect2>
+
+
+
+   <sect2 id="menuref-contact-actions">
+      <title>Contact Manager Tools Menu</title>
+      <para>
+         This menu is broken. (FIXME).
+      </para>
+    </sect2>
+  </sect1>
+</appendix>
+
+
+
+
+
+
+
