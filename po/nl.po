@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-29 22:26+0100\n"
+"POT-Creation-Date: 2004-12-20 12:54+0100\n"
 "PO-Revision-Date: 2004-10-08 14:42+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -2956,7 +2956,7 @@ msgstr "Protocol niet ondersteund"
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
 #: camel/camel-service.c:724 camel/camel-service.c:886
-#: camel/camel-service.c:1019 camel/providers/pop3/camel-pop3-store.c:474
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:474
 #: camel/providers/pop3/camel-pop3-store.c:555
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -4503,7 +4503,7 @@ msgstr "minuten"
 msgid "start of appointment"
 msgstr "begin van afspraak"
 
-#: calendar/gui/dialogs/alarm-list-dialog.c:192
+#: calendar/gui/dialogs/alarm-list-dialog.c:199
 msgid "Action/Trigger"
 msgstr "Actie/Sensor"
 
@@ -9211,7 +9211,7 @@ msgstr ""
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG %s mislukt: %s\n"
 
-#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
+#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:388
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Kan ondertekeningsdata niet genereren: %s"
@@ -9234,8 +9234,8 @@ msgid "This is a digitally signed message part"
 msgstr "Dit berichtdeel is digitaal ondertekend"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
-#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
-#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:690
+#: camel/camel-smime-context.c:701 camel/camel-smime-context.c:708
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Kan ondertekening niet verifiëren: Onjuist bericht formaat"
 
@@ -9259,7 +9259,7 @@ msgstr "Dit berichtdeel is digitaal ondertekend"
 msgid "Failed to decrypt MIME part: protocol error"
 msgstr "Ontcijferen van het MIME gedeelte is mislukt: protocol fout"
 
-#: camel/camel-gpg-context.c:1725 camel/camel-smime-context.c:995
+#: camel/camel-gpg-context.c:1725 camel/camel-smime-context.c:964
 msgid "Encrypted content"
 msgstr "Versleutelde inhoud"
 
@@ -9367,7 +9367,7 @@ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
 msgid "Failed to decrypt MIME part: invalid structure"
 msgstr "Kan MIME-berichtdeel niet decoderen: ongeldige structuur"
 
-#: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
+#: camel/camel-multipart-signed.c:676 camel/camel-multipart-signed.c:727
 msgid "parse error"
 msgstr "analysefout"
 
@@ -9676,15 +9676,15 @@ msgstr "Opzoeken host mislukt"
 msgid "Host lookup failed: %s: %s"
 msgstr "Opzoeken host mislukt: %s: %s"
 
-#: camel/camel-service.c:1023
+#: camel/camel-service.c:1021
 msgid "Resolving address"
 msgstr "Adres wordt opgezocht"
 
-#: camel/camel-service.c:1043
+#: camel/camel-service.c:1041
 msgid "Name lookup failed"
 msgstr "Opzoeken naam mislukt"
 
-#: camel/camel-service.c:1046
+#: camel/camel-service.c:1044
 #, c-format
 msgid "Name lookup failed: %s"
 msgstr "Opzoeken naam mislukt: %s"
@@ -9698,217 +9698,212 @@ msgstr ""
 "Kon de directory %s niet aanmaken:\n"
 "%s"
 
-#: camel/camel-smime-context.c:104
-#, c-format
-msgid "Enter security pass-phrase for `%s'"
-msgstr "Voer uw Wachtwoord in voor `%s'"
-
-#: camel/camel-smime-context.c:261
+#: camel/camel-smime-context.c:230
 #, c-format
 msgid "Cannot find certificate for '%s'"
 msgstr "Kan certificaat voor '%s' niet vinden"
 
-#: camel/camel-smime-context.c:267
+#: camel/camel-smime-context.c:236
 msgid "Cannot create CMS message"
 msgstr "Kan geen CMS-bericht aanmaken"
 
-#: camel/camel-smime-context.c:272
+#: camel/camel-smime-context.c:241
 msgid "Cannot create CMS signedData"
 msgstr "Kan geen CMS-ondertekende-data aanmaken"
 
-#: camel/camel-smime-context.c:278
+#: camel/camel-smime-context.c:247
 msgid "Cannot attach CMS signedData"
 msgstr "Kan geen CMS-ondertekende-data bijvoegen"
 
-#: camel/camel-smime-context.c:285
+#: camel/camel-smime-context.c:254
 msgid "Cannot attach CMS data"
 msgstr "Kan geen CMS-data bijvoegen"
 
-#: camel/camel-smime-context.c:291
+#: camel/camel-smime-context.c:260
 msgid "Cannot create CMS SignerInfo"
 msgstr "Kan geen CMS-ontertekenaarsinfo aanmaken"
 
-#: camel/camel-smime-context.c:297
+#: camel/camel-smime-context.c:266
 msgid "Cannot find cert chain"
 msgstr "Kan certificaatketting niet vinden"
 
-#: camel/camel-smime-context.c:303
+#: camel/camel-smime-context.c:272
 msgid "Cannot add CMS SigningTime"
 msgstr "Kan CMS ontertekeninstijd niet toevoegen"
 
-#: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
+#: camel/camel-smime-context.c:294 camel/camel-smime-context.c:306
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
 msgstr "Het versleutelingscertificaat voor '%s' bestaat niet"
 
-#: camel/camel-smime-context.c:344
+#: camel/camel-smime-context.c:313
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
 msgstr "Kan SMIMEEncKeyPrefs attribuut niet toevoegen"
 
-#: camel/camel-smime-context.c:349
+#: camel/camel-smime-context.c:318
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
 msgstr "Kan MS SMIMEEncKeyPrefs attribuut niet toevoegen"
 
-#: camel/camel-smime-context.c:354
+#: camel/camel-smime-context.c:323
 msgid "Cannot add encryption certificate"
 msgstr "Kan encryptiecertificaat niet toevoegen"
 
-#: camel/camel-smime-context.c:360
+#: camel/camel-smime-context.c:329
 msgid "Cannot add CMS SignerInfo"
 msgstr "Kan CMS ontertekenaars info niet toevoegen"
 
-#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
+#: camel/camel-smime-context.c:399 camel/camel-smime-context.c:846
 msgid "Cannot create encoder context"
 msgstr "Kan geen versleutelingscontext maken"
 
-#: camel/camel-smime-context.c:436
+#: camel/camel-smime-context.c:405
 msgid "Failed to add data to CMS encoder"
 msgstr "Fout bij toevoegen data aan CMS encoder"
 
-#: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
+#: camel/camel-smime-context.c:410 camel/camel-smime-context.c:863
 msgid "Failed to encode data"
 msgstr "Versleutelen van data mislukt"
 
-#: camel/camel-smime-context.c:514
+#: camel/camel-smime-context.c:483
 msgid "Unverified"
 msgstr "Ongeverifieerd"
 
-#: camel/camel-smime-context.c:516
+#: camel/camel-smime-context.c:485
 msgid "Good signature"
 msgstr "Correcte handtekening"
 
-#: camel/camel-smime-context.c:518
+#: camel/camel-smime-context.c:487
 msgid "Bad signature"
 msgstr "Slechte handtekening"
 
-#: camel/camel-smime-context.c:520
+#: camel/camel-smime-context.c:489
 msgid "Content tampered with or altered in transit"
 msgstr ""
 "Er is met de inhoud geknoeit of de inhoud is gewijzigd tijdens verzending"
 
-#: camel/camel-smime-context.c:522
+#: camel/camel-smime-context.c:491
 msgid "Signing certificate not found"
 msgstr "Ondertekeningscertificaat niet gevonden"
 
-#: camel/camel-smime-context.c:524
+#: camel/camel-smime-context.c:493
 msgid "Signing certificate not trusted"
 msgstr "Ondertekeningscertificaat niet vertrouwd"
 
-#: camel/camel-smime-context.c:526
+#: camel/camel-smime-context.c:495
 msgid "Signature algorithm unknown"
 msgstr "Ondertekeningsalgoritme onbekend"
 
-#: camel/camel-smime-context.c:528
+#: camel/camel-smime-context.c:497
 msgid "Signature algorithm unsupported"
 msgstr "Ondertekeningsalgoritme niet ondersteund"
 
-#: camel/camel-smime-context.c:530
+#: camel/camel-smime-context.c:499
 msgid "Malformed signature"
 msgstr "Misvormde handtekening"
 
 # verwerkingsfout
-#: camel/camel-smime-context.c:532
+#: camel/camel-smime-context.c:501
 msgid "Processing error"
 msgstr "Analysefout"
 
-#: camel/camel-smime-context.c:569
+#: camel/camel-smime-context.c:538
 msgid "No signedData in signature"
 msgstr "Geen signedData in handtekening"
 
-#: camel/camel-smime-context.c:576
+#: camel/camel-smime-context.c:545
 msgid "Digests missing from enveloped data"
 msgstr "Samenvattingen ontbreken in omhulde gegevens"
 
-#: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
+#: camel/camel-smime-context.c:558 camel/camel-smime-context.c:568
 msgid "Cannot calculate digests"
 msgstr "Kan samenvattingen niet berekenen"
 
-#: camel/camel-smime-context.c:604
+#: camel/camel-smime-context.c:573
 msgid "Cannot set message digests"
 msgstr "Kan berichtsamenvattingen niet instellen"
 
-#: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
+#: camel/camel-smime-context.c:583 camel/camel-smime-context.c:588
 msgid "Certificate import failed"
 msgstr "Certificaatimport mislukt"
 
-#: camel/camel-smime-context.c:628
+#: camel/camel-smime-context.c:597
 msgid "Certificate only message, cannot verify certificates"
 msgstr "Bericht met enkel een certificaat, kan certificaten niet verifiëren"
 
-#: camel/camel-smime-context.c:631
+#: camel/camel-smime-context.c:600
 msgid "Certificate only message, certificates imported and verified"
 msgstr ""
 "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
 
-#: camel/camel-smime-context.c:635
+#: camel/camel-smime-context.c:604
 msgid "Cannot find signature digests"
 msgstr "Kan ondertekeningsamenvattingen niet vinden"
 
-#: camel/camel-smime-context.c:651
+#: camel/camel-smime-context.c:620
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Ondertekenaar: %s <%s>: %s\n"
 
-#: camel/camel-smime-context.c:752
+#: camel/camel-smime-context.c:721
 msgid "Decoder failed"
 msgstr "Decoderen mislukt"
 
-#: camel/camel-smime-context.c:804
+#: camel/camel-smime-context.c:773
 #, c-format
 msgid "Cannot find certificate for `%s'"
 msgstr "Kan geen certificaat voor '%s' vinden"
 
-#: camel/camel-smime-context.c:811
+#: camel/camel-smime-context.c:780
 msgid "Cannot find common bulk encryption algorithm"
 msgstr "Kan geen algemeen bulkcoderingsalgoritme vinden"
 
 #. PORT_GetError(); ??
-#: camel/camel-smime-context.c:820
+#: camel/camel-smime-context.c:789
 msgid "Cannot allocate slot for encryption bulk key"
 msgstr "Kan geen slot toewijzen voor bulkcoderingssleutel"
 
-#: camel/camel-smime-context.c:831
+#: camel/camel-smime-context.c:800
 msgid "Cannot create CMS Message"
 msgstr "Kan geen CMS-bericht aanmaken"
 
-#: camel/camel-smime-context.c:837
+#: camel/camel-smime-context.c:806
 msgid "Cannot create CMS EnvelopedData"
 msgstr "Kan geen CMS EnvelopedData maken"
 
-#: camel/camel-smime-context.c:843
+#: camel/camel-smime-context.c:812
 msgid "Cannot attach CMS EnvelopedData"
 msgstr "Kan CMS EnvelopedData niet bijvoegen"
 
-#: camel/camel-smime-context.c:849
+#: camel/camel-smime-context.c:818
 msgid "Cannot attach CMS data object"
 msgstr "Kan CMS-gegevensobject niet bijvoegen"
 
-#: camel/camel-smime-context.c:858
+#: camel/camel-smime-context.c:827
 msgid "Cannot create CMS RecipientInfo"
 msgstr "Kan geen CMS RecipientInfo maken"
 
-#: camel/camel-smime-context.c:863
+#: camel/camel-smime-context.c:832
 msgid "Cannot add CMS RecipientInfo"
 msgstr "Kan geen CMS ontvangersinfo toevoegen"
 
-#: camel/camel-smime-context.c:888
+#: camel/camel-smime-context.c:857
 msgid "Failed to add data to encoder"
 msgstr "Kon gegevens niet toevoegen aan codeerder"
 
-#: camel/camel-smime-context.c:975
+#: camel/camel-smime-context.c:944
 #, c-format
 msgid "Decoder failed, error %d"
 msgstr "Decoderen mislukt, error %d"
 
-#: camel/camel-smime-context.c:982
+#: camel/camel-smime-context.c:951
 msgid "S/MIME Decrypt: No encrypted content found"
 msgstr "S/MIME Decrypten: Geen versleutelde inhoud gevonden"
 
-#: camel/camel-smime-context.c:1009
+#: camel/camel-smime-context.c:978
 msgid "import keys: unimplemented"
 msgstr "sleutels importeren: niet geïmplementeerd"
 
-#: camel/camel-smime-context.c:1017
+#: camel/camel-smime-context.c:986
 msgid "export keys: unimplemented"
 msgstr "sleutels exporteren: niet geimplementeerd"
 
@@ -10308,12 +10303,12 @@ msgstr "IMAP-opdracht mislukt: %s"
 msgid "Server response ended too soon."
 msgstr "Het antwoord van de server eindigde te snel."
 
-#: camel/providers/imap/camel-imap-command.c:649
+#: camel/providers/imap/camel-imap-command.c:655
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Het antwoord van de IMAP-server bevatte geen %s informatie"
 
-#: camel/providers/imap/camel-imap-command.c:685
+#: camel/providers/imap/camel-imap-command.c:691
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "De IMAP-server gaf onverwacht een 'OK' antwoord: %s"
@@ -11963,63 +11958,63 @@ msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
 
-#: camel/providers/smtp/camel-smtp-transport.c:902
+#: camel/providers/smtp/camel-smtp-transport.c:901
 msgid "SMTP Greeting"
 msgstr "SMTP Begroeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:921
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:938
+#: camel/providers/smtp/camel-smtp-transport.c:944
 msgid "HELO command failed"
 msgstr "HELO command mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1004
+#: camel/providers/smtp/camel-smtp-transport.c:1010
 msgid "SMTP Authentication"
 msgstr "SMTP Aanmelding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1010
+#: camel/providers/smtp/camel-smtp-transport.c:1016
 msgid "Error creating SASL authentication object."
 msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1027
-#: camel/providers/smtp/camel-smtp-transport.c:1038
+#: camel/providers/smtp/camel-smtp-transport.c:1033
+#: camel/providers/smtp/camel-smtp-transport.c:1044
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1044
+#: camel/providers/smtp/camel-smtp-transport.c:1050
 msgid "AUTH command failed"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1106
+#: camel/providers/smtp/camel-smtp-transport.c:1112
 msgid "Bad authentication response from server.\n"
 msgstr "Fout aanmeldingsantwoord van server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1131
+#: camel/providers/smtp/camel-smtp-transport.c:1137
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1148
+#: camel/providers/smtp/camel-smtp-transport.c:1154
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1172
+#: camel/providers/smtp/camel-smtp-transport.c:1178
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1191
+#: camel/providers/smtp/camel-smtp-transport.c:1197
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1230
-#: camel/providers/smtp/camel-smtp-transport.c:1288
-#: camel/providers/smtp/camel-smtp-transport.c:1307
+#: camel/providers/smtp/camel-smtp-transport.c:1236
+#: camel/providers/smtp/camel-smtp-transport.c:1294
+#: camel/providers/smtp/camel-smtp-transport.c:1313
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
@@ -12027,26 +12022,26 @@ msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1247
-#: camel/providers/smtp/camel-smtp-transport.c:1323
+#: camel/providers/smtp/camel-smtp-transport.c:1253
+#: camel/providers/smtp/camel-smtp-transport.c:1329
 msgid "DATA command failed"
 msgstr "DATA-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1346
+#: camel/providers/smtp/camel-smtp-transport.c:1352
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1362
+#: camel/providers/smtp/camel-smtp-transport.c:1368
 msgid "RSET command failed"
 msgstr "RSET-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1385
+#: camel/providers/smtp/camel-smtp-transport.c:1391
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1405
 msgid "QUIT command failed"
 msgstr "QUIT-opdracht mislukt: %s"
 
@@ -13316,7 +13311,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1541
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1553
 #: mail/em-format-quote.c:305 mail/em-format.c:833 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
@@ -13332,22 +13327,22 @@ msgstr "Status herstellen"
 msgid "<b>Then</b>"
 msgstr "<b>Dan</b>"
 
-#: mail/em-folder-browser.c:129
+#: mail/em-folder-browser.c:130
 msgid "Create _Virtual Folder From Search..."
 msgstr "_VMap van zoekopdracht maken..."
 
-#: mail/em-folder-properties.c:122
+#: mail/em-folder-properties.c:123
 msgid "Folder Properties"
 msgstr "Map-eigenschappen"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-properties.c:161
+#: mail/em-folder-properties.c:162
 msgid "Total message:"
 msgid_plural "Total messages:"
 msgstr[0] "Berichtentotaal:"
 msgstr[1] "Berichtentotaal:"
 
-#: mail/em-folder-properties.c:173
+#: mail/em-folder-properties.c:174
 msgid "Unread message:"
 msgid_plural "Unread messages:"
 msgstr[0] "Ongelezen bericht:"
@@ -13823,55 +13818,55 @@ msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 msgid "Formatting message"
 msgstr "Bezig met opmaken van bericht"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:828
+#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:828
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Van"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:829
+#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:829
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:830
+#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:830
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Aan"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:831
+#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:831
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1432 mail/em-format-quote.c:192 mail/em-format.c:832
+#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:832
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1545 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1557 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
 # a = afgekorte weeknaam, R = 24h tijd, Z is tijdzone
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1572
+#: mail/em-format-html.c:1584
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1575
+#: mail/em-format-html.c:1587
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1585 mail/em-format-quote.c:321 mail/em-format.c:834
+#: mail/em-format-html.c:1597 mail/em-format-quote.c:321 mail/em-format.c:834
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format-html.c:1608 mail/em-format.c:835 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1620 mail/em-format.c:835 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Nieuwsgroepen"
 
@@ -13904,7 +13899,7 @@ msgstr "Fout bij het verifiëren van ondertekening"
 msgid "Unknown error verifying signature"
 msgstr "Onbekende fout bij het verifiëren van ondertekening"
 
-#: mail/em-junk-filter.c:86
+#: mail/em-junk-filter.c:89
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (ingebouwd)"
 
@@ -19159,7 +19154,7 @@ msgstr "Antwoordadres-veld:"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
-msgstr "_Beveiliging"
+msgstr "Be_veiliging"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_To Field"
@@ -19783,6 +19778,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% voltooid)"
+
+#~ msgid "Enter security pass-phrase for `%s'"
+#~ msgstr "Voer uw Wachtwoord in voor `%s'"
 
 #~ msgid "Select individual file"
 #~ msgstr "Selecteer individueel bestand"
