@@ -927,7 +927,8 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 			      NULL);
 	xmlDocSetRootElement (doc, root);
 
-	e_xml_set_integer_prop_by_name(root, "vers", 1);
+	e_xml_set_integer_prop_by_name (root, "vers", 2);
+	e_xml_set_bool_prop_by_name (root, "default", e_tree_model_get_expanded_default (priv->source));
 
 	tar.root = root;
 	tar.tree = etta->priv->source;
@@ -949,6 +950,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	xmlNode *root;
 	xmlNode *child;
 	int vers;
+	gboolean model_default, saved_default;
 
 	g_return_if_fail(etta != NULL);
 
@@ -964,8 +966,14 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		return;
 	}
 
-	vers = e_xml_get_integer_prop_by_name_with_default(root, "vers", 0);
-	if (vers != 1) {
+	vers = e_xml_get_integer_prop_by_name_with_default (root, "vers", 0);
+	if (vers > 2) {
+		xmlFreeDoc (doc);
+		return;
+	}
+	model_default = e_tree_model_get_expanded_default (priv->source);
+	saved_default = e_xml_get_bool_prop_by_name_with_default (root, "default", !model_default);
+	if (saved_default != model_default) {
 		xmlFreeDoc (doc);
 		return;
 	}
@@ -985,7 +993,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 			return;
 		}
 
-		add_expanded_node(etta, id, !e_tree_model_get_expanded_default(etta->priv->source));
+		add_expanded_node(etta, id, !model_default);
 	}
 
 	xmlFreeDoc (doc);
