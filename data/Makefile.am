@@ -19,3 +19,19 @@ endif
 man_MANS = evolution.1
 
 EXTRA_DIST = $(desktop_in_files) $(keys_in_files) $(mime_DATA) $(man_MANS)
+
+SUBDIRS = cde_app_root
+
+# CDE Stuff
+
+if HAVE_DTAPPINTEGRATE
+
+# This installs Evolution into the Application Manager on CDE
+dtappintegrate:
+	$(DTAPPINTEGRATE) -s $(prefix)/share/evolution/cde_app_root
+
+# ...And this uninstalls it
+dtappunintegrate:
+	$(DTAPPINTEGRATE) -u -s $(prefix)/share/evolution/cde_app_root
+
+endif

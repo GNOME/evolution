@@ -72,3 +72,20 @@ SUBDIRS =			\
 	      < $(srcdir)/$< > $@.tmp \
 	  && mv $@.tmp $@
 
+# CDE Stuff
+
+if HAVE_DTAPPINTEGRATE
+
+# This installs Evolution into the Application Manager on CDE
+dtappintegrate:
+	( cd data && make dtappintegrate )
+
+# ...And this uninstalls it
+dtappunintegrate:
+	( cd data ; make dtappunintegrate )
+
+# Install/uninstall for CDE
+cde-install: install dtappintegrate
+cde-uninstall: dtappunintegrate uninstall
+
+endif

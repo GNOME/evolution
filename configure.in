@@ -884,6 +884,34 @@ AC_SUBST(NSPR_LDFLAGS)
 AC_SUBST(NSS_CFLAGS)
 AC_SUBST(NSS_LDFLAGS)
 
+dnl ******************
+dnl CDE dtappintegrate
+dnl ******************
+
+AC_ARG_WITH(cde-path, [  --with-cde-path=PATH   Location of CDE installation],
+	    [with_cde_path="$withval"])
+if test -z "$with_cde_path"; then
+	with_cde_path="/usr/dt"
+fi
+
+AC_MSG_CHECKING(for dtappintegrate)
+if test -x "$with_cde_path/bin/dtappintegrate" ; then
+	DTAPPINTEGRATE="$with_cde_path/bin/dtappintegrate"
+else
+	DTAPPINTEGRATE="no"
+fi
+AC_MSG_RESULT([$DTAPPINTEGRATE])
+
+AC_SUBST(DTAPPINTEGRATE)
+AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, test "x$DTAPPINTEGRATE" != "xno")
+
+dnl ****************************************************
+dnl GNOME_PREFIX is is needed by shell/evolution-nognome
+dnl ****************************************************
+
+GNOME_PREFIX="`gnome-config --prefix`"
+AC_SUBST(GNOME_PREFIX)
+
 dnl ******************************
 dnl OpenSSL
 dnl ******************************
@@ -1217,6 +1245,17 @@ camel/tests/smime/Makefile
 camel/tests/stream/Makefile
 composer/Makefile
 data/Makefile
+data/cde_app_root/Makefile
+data/cde_app_root/dt/Makefile
+data/cde_app_root/dt/appconfig/Makefile
+data/cde_app_root/dt/appconfig/appmanager/Makefile
+data/cde_app_root/dt/appconfig/appmanager/C/Makefile
+data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Makefile
+data/cde_app_root/dt/appconfig/icons/Makefile
+data/cde_app_root/dt/appconfig/icons/C/Makefile
+data/cde_app_root/dt/appconfig/types/Makefile
+data/cde_app_root/dt/appconfig/types/C/Makefile
+data/cde_app_root/dt/appconfig/types/C/Ximian.dt
 default_user/Makefile
 default_user/local/Makefile
 default_user/local/Calendar/Makefile
@@ -1249,6 +1288,7 @@ my-evolution/Makefile
 omf-install/Makefile
 po/Makefile.in
 shell/Makefile
+shell/evolution-nognome
 shell/glade/Makefile
 shell/importer/Makefile
 sounds/Makefile
