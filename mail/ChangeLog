@@ -1,3 +1,17 @@
+2004-10-12  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c: when starting new spamd, call it with
+	--socketpath parameter to use unix sockets instead of opening TCP
+	port. kill such started daemon in finalize callback which is
+	installed by atexit. also try to respawn spamd in case spamc
+	returns error, if respawning is too fast (8 restarts in last 5
+	minutes) fallback to spamassassin
+
+	* mail-component.c (impl_quit): call mail_session_quit
+
+	* mail-session.c (mail_session_init): call junk plugin init
+	(mail_session_quit): new method, called on evo exit
+
 2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
 
 	* mail-config.glade : Evolution word spelled with an uppercase E

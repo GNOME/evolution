@@ -641,6 +641,8 @@ mail_session_init (const char *base_directory)
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,
 								session, NULL, NULL);
 	session->junk_plugin = CAMEL_JUNK_PLUGIN (em_junk_filter_get_plugin ());
+	if (session->junk_plugin)
+		camel_junk_plugin_init (session->junk_plugin);
 
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);
