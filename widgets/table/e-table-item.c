@@ -396,7 +396,7 @@ eti_row_height_real (ETableItem *eti, int row)
 	int col;
 	int h, max_h;
 
-	g_assert (eti->cell_views);
+	g_assert (cols == 0 || eti->cell_views);
 	
 	max_h = 0;
 	
