@@ -686,7 +686,7 @@ update_offline_menu_item (EShellView *shell_view,
 	case E_SHELL_LINE_STATUS_OFFLINE:
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
-					      "label", _("Work online"), NULL);
+					      "label", _("Work Online"), NULL);
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOnline", NULL);
@@ -698,7 +698,7 @@ update_offline_menu_item (EShellView *shell_view,
 	case E_SHELL_LINE_STATUS_ONLINE:
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
-					      "label", _("Work offline"), NULL);
+					      "label", _("Work Offline"), NULL);
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOffline", NULL);
@@ -710,7 +710,7 @@ update_offline_menu_item (EShellView *shell_view,
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
-					      "label", _("Work offline"), NULL);
+					      "label", _("Work Offline"), NULL);
 		bonobo_ui_component_set_prop (ui_component,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOffline", NULL);

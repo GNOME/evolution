@@ -1,3 +1,8 @@
+2001-07-26  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view-menu.c (update_offline_menu_item): Little UI thing:
+	capitalize the words Offline/Online for the File menu.
+
 2001-07-25  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (folder_selected_cb): New
