@@ -1195,10 +1195,10 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	}
 
 	mail_tool_camel_lock_up ();
-	if (input->flag_all) {
+	if (input->flag_all)
 		camel_folder_free_uids (input->source, input->uids);
-		input->uids = NULL;
-	}
+	else
+		g_ptr_array_free (input->uids, TRUE);
 	camel_folder_thaw (input->source);
 	mail_tool_camel_lock_down ();
 }
@@ -1210,9 +1210,6 @@ cleanup_flag_messages (gpointer in_data, gpointer op_data,
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 
 	camel_object_unref (CAMEL_OBJECT (input->source));
-
-	if (input->uids)
-		g_ptr_array_free (input->uids, TRUE);
 }
 
 static const mail_operation_spec op_flag_messages = {
