@@ -1,3 +1,9 @@
+2004-03-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-commands.c
+	(calendar_control_sensitize_calendar_commands): check if the selected
+	event has its associated ECalModelComponent.
+
 2004-03-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-tasks.c (search_bar_sexp_changed_cb): set the search query

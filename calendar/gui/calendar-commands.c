@@ -512,7 +512,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	n_selected = enable ? g_list_length (list) : 0;
 
 	event = (ECalendarViewEvent *) list ? list->data : NULL;
-	if (event)
+	if (event && event->comp_data)
 		e_cal_is_read_only (event->comp_data->client, &selected_read_only, NULL);
 	else
 		selected_read_only = TRUE;
