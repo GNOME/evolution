@@ -1,3 +1,7 @@
+2004-06-07  Dan Winship  <danw@novell.com>
+
+	* e-msg-composer.c (pixcache): s/stock_save_as/stock_save-as/
+
 2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (create_composer): Use e_error_run() instead of

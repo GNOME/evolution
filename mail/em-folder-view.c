@@ -893,7 +893,7 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "00.emfv.00", N_("_Open"), G_CALLBACK(emfv_popup_open), NULL, NULL, 0 },
 	{ EM_POPUP_ITEM, "00.emfv.01", N_("_Edit as New Message..."), G_CALLBACK(emfv_popup_edit), NULL, NULL, EM_POPUP_SELECT_EDIT },
-	{ EM_POPUP_ITEM, "00.emfv.02", N_("_Save As..."), G_CALLBACK(emfv_popup_saveas), NULL, "stock_save_as", 0 },
+	{ EM_POPUP_ITEM, "00.emfv.02", N_("_Save As..."), G_CALLBACK(emfv_popup_saveas), NULL, "stock_save-as", 0 },
 	{ EM_POPUP_ITEM, "00.emfv.03", N_("_Print"), G_CALLBACK(emfv_popup_print), NULL, "stock_print", 0 },
 
 	{ EM_POPUP_BAR, "10.emfv" },
@@ -1512,7 +1512,7 @@ static EPixmap emfv_message_pixmaps[] = {
 	E_PIXMAP ("/commands/MessageApplyFilters", "stock_mail-filters-apply", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageFilterJunk", "stock_spam", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageSearch", "stock_search", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageSaveAs", "stock_save_as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageSaveAs", "stock_save-as", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMarkAsRead", "stock_mail-open", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMarkAsUnRead", "stock_mail-unread", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/commands/MessageMarkAsImportant", "stock_mail-priority-high", E_ICON_SIZE_MENU),

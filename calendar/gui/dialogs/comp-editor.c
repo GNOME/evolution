@@ -124,7 +124,7 @@ static EPixmap pixmaps [] =
 {
 	E_PIXMAP ("/menu/File/FileSave",			"stock_save",          E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileSaveAndClose",		"stock_save",          E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/FileSaveAs",			"stock_save_as",       E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileSaveAs",			"stock_save-as",       E_ICON_SIZE_MENU),
 
 	E_PIXMAP ("/menu/File/FileDelete",			"stock_delete",        E_ICON_SIZE_MENU),
 

@@ -1,3 +1,11 @@
+2004-06-07  Dan Winship  <danw@novell.com>
+
+	* em-folder-view.c (emfv_popup_menu, emfv_message_pixmaps):
+	s/stock_save_as/stock_save-as/
+
+	* em-popup.c (emp_standard_select_popups,
+	emp_standard_object_popups): Likewise	
+
 2004-06-05  Christian Neumair  <chris@gnome-de.org>
 
 	* em-folder-tree.c: Shuffle usage of trailing "..." in menus according

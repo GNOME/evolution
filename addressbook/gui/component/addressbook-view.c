@@ -423,7 +423,7 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save_as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save-as", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/Print/ContactsPrint", "stock_print", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "stock_print-preview", E_ICON_SIZE_MENU),
 

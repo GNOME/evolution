@@ -688,7 +688,7 @@ emp_popup_saveas(GtkWidget *w, EMPopupTarget *t)
 static EMPopupItem emp_standard_select_popups[] = {
 	/*{ EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },*/
 	{ EM_POPUP_ITEM, "00.select.01", N_("_Edit as New Message..."), G_CALLBACK(emp_popup_edit), NULL, NULL, EM_POPUP_SELECT_EDIT },
-	{ EM_POPUP_ITEM, "00.select.02", N_("_Save As..."), G_CALLBACK(emp_popup_saveas), NULL, "stock_save_as", 0 },	
+	{ EM_POPUP_ITEM, "00.select.02", N_("_Save As..."), G_CALLBACK(emp_popup_saveas), NULL, "stock_save-as", 0 },	
 };
 #endif
 
@@ -804,7 +804,7 @@ emp_part_popup_forward (GtkWidget *w, EMPopupTarget *t)
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
-	{ EM_POPUP_ITEM, "00.part.00", N_("_Save As..."), G_CALLBACK(emp_part_popup_saveas), NULL, "stock_save_as", 0 },
+	{ EM_POPUP_ITEM, "00.part.00", N_("_Save As..."), G_CALLBACK(emp_part_popup_saveas), NULL, "stock_save-as", 0 },
 	{ EM_POPUP_ITEM, "00.part.10", N_("Set as _Background"), G_CALLBACK(emp_part_popup_set_background), NULL, NULL, EM_POPUP_PART_IMAGE },
 	{ EM_POPUP_BAR, "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
 	{ EM_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), G_CALLBACK(emp_part_popup_reply_sender), NULL, "stock_mail-reply" , EM_POPUP_PART_MESSAGE },
