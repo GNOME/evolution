@@ -102,6 +102,7 @@ struct _EMsgComposer {
 
 	MailConfigSignature *signature;
 	gboolean auto_signature;
+	GtkWidget *sig_omenu;
 };
 
 struct _EMsgComposerClass {

@@ -185,7 +185,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
 	GtkWidget *omenu, *menu, *first = NULL;
 	const GSList *accounts;
-	GtkWidget *item;
+	GtkWidget *item, *hbox;
 	int i = 0, history = 0;
 	int default_account;
 	
@@ -246,8 +246,13 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
 	}
-	
-	return omenu;
+
+	hbox = gtk_hbox_new (FALSE, 3);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), omenu);
+	gtk_widget_show (omenu);
+	gtk_widget_show (hbox);
+
+	return hbox;
 }
 
 static void
@@ -1101,4 +1106,13 @@ e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->subject.entry;
+}
+
+GtkWidget *
+e_msg_composer_hdrs_get_from_hbox (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+	
+	return hdrs->priv->from.entry;
 }
