@@ -22,7 +22,6 @@
 #define __E_TABLE_FIELD_CHOOSER_DIALOG_H__
 
 #include <gnome.h>
-#include <glade/glade.h>
 #include <gal/e-table/e-table-field-chooser.h>
 #include <gal/e-table/e-table-header.h>
 

@@ -63,6 +63,8 @@ typedef struct {
 
 	GnomeCanvasItem *header_item, *root;
 
+	GnomeCanvasItem *white_item;
+
 	gint length_threshold;
 
 	gint rebuild_idle_id;

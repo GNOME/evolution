@@ -265,6 +265,10 @@ table_canvas_reflow_idle (ETable *e_table)
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->table_canvas),
 		0, 0, width - 1, height - 1);
+	gtk_object_set (GTK_OBJECT (e_table->white_item),
+			"x2", width,
+			"y2", height,
+			NULL);
 	e_table->reflow_idle_id = 0;
 	return FALSE;
 }
@@ -274,13 +278,23 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			    ETable *e_table)
 {
 	gdouble width;
+	gdouble height;
+
 	width = alloc->width;
+	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
+			"height", &height,
+			NULL);
+	height = MAX ((int)height, alloc->height);
 
 	gtk_object_set (GTK_OBJECT (e_table->canvas_vbox),
 			"width", width,
 			NULL);
 	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", width,
+			NULL);
+	gtk_object_set (GTK_OBJECT (e_table->white_item),
+			"x2", width,
+			"y2", height,
 			NULL);
 	if (e_table->reflow_idle_id)
 		g_source_remove(e_table->reflow_idle_id);
@@ -430,6 +444,9 @@ changed_idle (gpointer data)
 		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
 				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
 				NULL);
+
+		if (GTK_WIDGET_REALIZED(et->table_canvas))
+			table_canvas_size_allocate (GTK_WIDGET(et->table_canvas), &GTK_WIDGET(et->table_canvas)->allocation, et);
 	}
 
 	et->need_rebuild = 0;
@@ -524,6 +541,14 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 
 
+	e_table->white_item = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
+						    gnome_canvas_rect_get_type(),
+						    "x1", (double) 0,
+						    "y1", (double) 0,
+						    "x2", (double) 100,
+						    "y2", (double) 100,
+						    "fill_color", "white",
+						    NULL);
 	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
 						     e_canvas_vbox_get_type(),
 						     "spacing", 10.0,
