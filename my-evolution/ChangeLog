@@ -1,5 +1,10 @@
 2001-07-11  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-mail.c (e_summary_mail_generate_html): Protect with
+	g_return_if_fail
+
+2001-07-11  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (destroy): Destroy the alarm.
 	(e_summary_init): Init the alarm.
 	

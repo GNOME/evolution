@@ -93,6 +93,9 @@ e_summary_mail_generate_html (ESummary *summary)
 	GList *p;
 	gchar *s;
 
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
 	mail = summary->mail;
 	string = g_string_new ("<dl><dt><img src=\"ico-mail.png\" "
 	                       "align=\"middle\" alt=\"\" width=\"48\" "
