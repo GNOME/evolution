@@ -145,7 +145,7 @@ e_minicard_class_init (EMinicardClass *klass)
 							      _("Height"),
 							      /*_( */"XXX blurb" /*)*/,
 							      0.0, G_MAXDOUBLE, 10.0,
-							      G_PARAM_READWRITE));
+							      G_PARAM_READABLE));
 
 	g_object_class_install_property (object_class, PROP_HAS_FOCUS,
 					 /* XXX should be _enum */

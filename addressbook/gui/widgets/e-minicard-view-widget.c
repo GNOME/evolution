@@ -121,11 +121,11 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH, 
-					 g_param_spec_int ("column_width",
-							   _("Column Width"),
-							   /*_( */"XXX blurb" /*)*/,
-							   0, 0, 0,
-							   G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
+					 g_param_spec_double ("column_width",
+							      _("Column Width"),
+							      /*_( */"XXX blurb" /*)*/,
+							      0.0, G_MAXDOUBLE, 150.0,
+							      G_PARAM_READWRITE));
 
 	signals [SELECTION_CHANGE] =
 		g_signal_new ("selection_change",
@@ -226,10 +226,10 @@ e_minicard_view_widget_set_property (GObject *object,
 				      NULL);
 		break;
 	case PROP_COLUMN_WIDTH:
-		emvw->column_width = g_value_get_int (value);
+		emvw->column_width = g_value_get_double (value);
 		if (emvw->emv) {
 			g_object_set (emvw->emv,
-				      "column_width", (int) emvw->column_width,
+				      "column_width", emvw->column_width,
 				      NULL);
 		}
 		break;
@@ -260,7 +260,7 @@ e_minicard_view_widget_get_property (GObject *object,
 		g_value_set_boolean (value, emvw->editable);
 		break;
 	case PROP_COLUMN_WIDTH:
-		g_value_set_int (value, emvw->column_width);
+		g_value_set_double (value, emvw->column_width);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -331,7 +331,7 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"height", (double) 100,
 		"minimum_width", (double) 100,
 		"adapter", view->adapter,
-		"column_width", (int) view->column_width,
+		"column_width", view->column_width,
 		NULL );
 
 	g_signal_connect (E_REFLOW(view->emv)->selection,

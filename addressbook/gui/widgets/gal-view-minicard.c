@@ -197,7 +197,7 @@ gal_view_minicard_attach (GalViewMinicard *view, EMinicardViewWidget *emvw)
 	g_object_ref (view->emvw);
 
 	g_object_set (view->emvw,
-		      "column_width", (int) view->column_width,
+		      "column_width", view->column_width,
 		      NULL);
 
 	view->emvw_column_width_changed_id =
