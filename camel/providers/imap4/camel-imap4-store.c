@@ -793,6 +793,8 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 		fi->unread = -1;
 		fi->total = -1;
 		
+		camel_imap4_store_summary_note_info (((CamelIMAP4Store *) store)->summary, fi);
+		
 		camel_object_trigger_event (store, "folder_created", fi);
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
@@ -893,6 +895,8 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 		fi->unread = -1;
 		fi->total = -1;
 		
+		camel_imap4_store_summary_unnote_info (((CamelIMAP4Store *) store)->summary, fi);
+		
 		camel_object_trigger_event (store, "folder_deleted", fi);
 		
 		camel_folder_info_free (fi);
@@ -959,6 +963,7 @@ imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_na
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* FIXME: need to update state on the renamed folder object */
+		/* FIXME: need to update cached summary info too */
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
@@ -1154,10 +1159,16 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	char wildcard;
 	int id, i;
 	
+	if (top == NULL)
+		top = "";
+	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	if (!camel_session_is_online (session) || engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED) {
+		fprintf (stderr, "****************************************************\n");
+		fprintf (stderr, "*** Getting folder info in disconnected state... ***\n");
 		fi = camel_imap4_store_summary_get_folder_info (((CamelIMAP4Store *) store)->summary, top, flags);
+		fprintf (stderr, "****************************************************\n");
 		if (fi == NULL && camel_session_is_online (session)) {
 			/* folder info hasn't yet been cached and the store hasn't been
 			 * connected yet, but the network is available so we can connect
@@ -1179,9 +1190,6 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 		cmd = "LSUB";
 	else
 		cmd = "LIST";
-	
-	if (top == NULL)
-		top = "";
 	
 	wildcard = (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%';
 	pattern = imap4_folder_utf7_name (store, top, wildcard);

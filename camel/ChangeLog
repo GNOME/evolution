@@ -1,8 +1,15 @@
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-store.c (imap4_create_folder): Cache
+	the folder-info on the summary if successful.
+	(imap4_delete_folder): Un-cache the folder-info from the summary.
+
 	* providers/imap4/camel-imap4-store-summary.c (load_namespaces):
 	Cleaned up a bit.
 	(save_namespaces): Same.
+	(camel_imap4_store_summary_unnote_info): New function.
+	(camel_imap4_store_summary_get_folder_info): Fixed the logic a
+	bit.
 
 2004-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 

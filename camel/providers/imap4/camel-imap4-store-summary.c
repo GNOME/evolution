@@ -334,6 +334,17 @@ camel_imap4_store_summary_note_info (CamelIMAP4StoreSummary *s, CamelFolderInfo 
 	si->total = fi->total;
 	
 	camel_store_summary_add (ss, si);
+	
+	/* FIXME: should this be recursive? */
+}
+
+
+void
+camel_imap4_store_summary_unnote_info (CamelIMAP4StoreSummary *s, CamelFolderInfo *fi)
+{
+	CamelStoreSummary *ss = (CamelStoreSummary *) s;
+	
+	camel_store_summary_remove_path (ss, fi->full_name);
 }
 
 
@@ -363,9 +374,6 @@ camel_imap4_store_summary_get_folder_info (CamelIMAP4StoreSummary *s, const char
 	size_t toplen, len;
 	int i;
 	
-	if (top == NULL)
-		top = "";
-	
 	toplen = strlen (top);
 	folders = g_ptr_array_new ();
 	
@@ -374,7 +382,7 @@ camel_imap4_store_summary_get_folder_info (CamelIMAP4StoreSummary *s, const char
 		if (strncmp (si->path, top, toplen) != 0)
 			continue;
 		
-		if ((len = strlen (si->path)) > toplen && si->path[toplen] != '/')
+		if (toplen > 0 && (len = strlen (si->path)) > toplen && si->path[toplen] != '/')
 			continue;
 		
 		if (len == toplen) {
