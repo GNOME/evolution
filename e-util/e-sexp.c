@@ -553,7 +553,7 @@ e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 	return r;
 }
 
-
+#if 0
 static void
 eval_dump_result(ESExpResult *r, int depth)
 {
@@ -586,6 +586,7 @@ eval_dump_result(ESExpResult *r, int depth)
 	}
 	printf("\n");
 }
+#endif
 
 static void
 parse_dump_term(struct _ESExpTerm *t, int depth)
