@@ -1,3 +1,7 @@
+2004-10-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-sasl-gssapi.c: #include "camel-i18n.h"
+
 2004-10-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_get_folder): Don't

@@ -46,6 +46,7 @@
 #define GSS_C_OID_KRBV5_DES GSS_C_NO_OID
 #endif
 
+#include "camel-i18n.h"
 #include "camel-sasl-gssapi.h"
 
 CamelServiceAuthType camel_sasl_gssapi_authtype = {
