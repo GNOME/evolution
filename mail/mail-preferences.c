@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "mail-preferences.h"
 
 #include <gconf/gconf.h>
@@ -32,6 +34,8 @@
 #include "widgets/misc/e-charset-picker.h"
 
 #include <bonobo/bonobo-generic-factory.h>
+
+#include "gal/util/e-iconv.h"
 
 #include "mail-config.h"
 
@@ -276,7 +280,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	/* HTML Mail tab */
 	
 	/* Loading Images */
-	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images");
+	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
 	g_signal_connect (prefs->images_never, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
