@@ -646,6 +646,9 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		fsearch = g_string_new ("");
 		faction = g_string_new ("");
 
+		if (!strcmp (type, FILTER_SOURCE_DEMAND))
+			type = FILTER_SOURCE_INCOMING;
+
 		/* add the user-defined rules next */
 		while ((rule = rule_context_next_rule (fc, rule, type))) {
 			g_string_truncate (fsearch, 0);

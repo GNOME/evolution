@@ -1,3 +1,12 @@
+2004-01-26  Radek Doulik  <rodo@ximian.com>
+
+	* mail-session.c (main_get_filter_driver): translate DEMAND to
+	INCOMING to get the right rules
+
+	* mail-ops.c (mail_filter_on_demand): use FILTER_SOURCE_DEMAND
+
+	Fixes #53266
+
 2004-01-25  Rodney Dawes  <dobey@ximian.com>
 
 	* em-folder-selector.c (em_folder_selector_create_new): Cast the
