@@ -106,8 +106,6 @@ create_page_container (const char *description,
 		       GtkWidget *widget)
 {
 	GtkWidget *vbox;
-	GtkWidget *label;
-	GtkWidget *separator;
 
 	vbox = gtk_vbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 3);
@@ -119,12 +117,13 @@ create_page_container (const char *description,
 
 	separator = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, TRUE, 0);
+
+	gtk_widget_show (label);
+	gtk_widget_show (separator);
 #endif
 
 	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
 
-	gtk_widget_show (label);
-	gtk_widget_show (separator);
 	gtk_widget_show (widget);
 	gtk_widget_show (vbox);
 
