@@ -1,3 +1,7 @@
+2001-07-29  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-tasks.xml: use the new print icons.
+
 2001-07-30  Jason Leach  <jleach@ximian.com>
 
 	* evolution-mail-message.xml: Correct the tooltip for the Print
