@@ -69,8 +69,8 @@ CamelType camel_multipart_encrypted_get_type (void);
 CamelMultipartEncrypted *camel_multipart_encrypted_new (void);
 
 int camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *content,
-				       CamelCipherContext *cipher, GPtrArray *recipients,
-				       CamelException *ex);
+				       CamelCipherContext *cipher, const char *userid,
+				       GPtrArray *recipients, CamelException *ex);
 
 CamelMimePart *camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 						  CamelCipherContext *cipher,

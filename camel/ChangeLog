@@ -1,5 +1,8 @@
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_encrypt):
+	Oops, this needs to take a userid argument.
+
 	* camel-gpg-context.c (gpg_clearsign): Removed (never did anything
 	anyway).
 

@@ -137,8 +137,8 @@ camel_multipart_encrypted_new (void)
 
 int
 camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *content,
-				   CamelCipherContext *cipher, GPtrArray *recipients,
-				   CamelException *ex)
+				   CamelCipherContext *cipher, const char *userid,
+				   GPtrArray *recipients, CamelException *ex)
 {
 	CamelMimePart *version_part, *encrypted_part;
 	CamelContentType *mime_type;
@@ -170,7 +170,7 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	
 	/* encrypt the content stream */
 	ciphertext = camel_stream_mem_new ();
-	if (camel_cipher_encrypt (cipher, FALSE, NULL, recipients, stream, ciphertext, ex) == -1) {
+	if (camel_cipher_encrypt (cipher, FALSE, userid, recipients, stream, ciphertext, ex) == -1) {
 		camel_object_unref (ciphertext);
 		camel_object_unref (stream);
 		return -1;
