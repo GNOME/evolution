@@ -287,6 +287,8 @@ mail/em-utils.c
 mail/evolution-mail.schemas.in.in
 mail/importers/GNOME_Evolution_Mail_Importers.server.in.in
 mail/importers/elm-importer.c
+mail/importers/evolution-mbox-importer.c
+mail/importers/evolution-outlook-importer.c
 mail/importers/mail-importer.c
 mail/importers/netscape-importer.c
 mail/importers/pine-importer.c
