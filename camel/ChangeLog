@@ -3,6 +3,8 @@
 	* providers/pop3/camel-pop3-store.c (pop3_connect): Clarify error
 	messages.
 	(finalize): fix a bug in camel_exception usage
+	(pop3_connect): Remember the password after asking for it the
+	first time.
 
 2000-04-07  NotZed  <NotZed@HelixCode.com>
 

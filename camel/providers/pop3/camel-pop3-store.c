@@ -211,7 +211,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	struct sockaddr_in sin;
 	int fd, status, apoplen;
-	char *buf, *apoptime, *pass;
+	char *buf, *apoptime;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
 	if (!service_class->connect (service, ex))
@@ -221,16 +221,16 @@ pop3_connect (CamelService *service, CamelException *ex)
 	if (!h)
 		return FALSE;
 
-	pass = g_strdup (service->url->passwd);
-	if (!pass) {
+	if (!service->url->passwd) {
 		char *prompt = g_strdup_printf ("Please enter the POP3 password for %s@%s",
 						service->url->user, h->h_name);
-		pass = camel_session_query_authenticator (camel_service_get_session (service),
-							  prompt, TRUE,
-							  service, "password",
-							  ex);
+		service->url->passwd =
+			camel_session_query_authenticator (camel_service_get_session (service),
+							   prompt, TRUE,
+							   service, "password",
+							   ex);
 		g_free (prompt);
-		if (!pass)
+		if (!service->url->passwd)
 			return FALSE;
 	}
 
@@ -247,7 +247,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 				      strerror(errno));
 		if (fd > -1)
 			close (fd);
-		g_free (pass);
 		return FALSE;
 	}
 
@@ -257,10 +256,8 @@ pop3_connect (CamelService *service, CamelException *ex)
 
 	/* Read the greeting, note APOP timestamp, if any. */
 	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-	if (!buf) {
-		g_free (pass);
+	if (!buf)
 		return -1;
-	}
 	apoptime = strchr (buf, '<');
 	if (apoptime) {
 		int len = strcspn (apoptime, ">");
@@ -277,7 +274,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		unsigned char md5sum[16], *s;
 
 		secret = g_strdup_printf("%.*s%s", apoplen + 1, apoptime,
-					 pass);
+					 service->url->passwd);
 		md5_get_digest(secret, strlen(secret), md5sum);
 		g_free(secret);
 
@@ -299,23 +296,21 @@ pop3_connect (CamelService *service, CamelException *ex)
 					      "server. Error sending username:"
 					      " %s", msg ? msg : "(Unknown)");
 			g_free (msg);
-			g_free (pass);
 			return FALSE;
 		}
 
-		status = camel_pop3_command(store, &msg, "PASS %s", pass);
+		status = camel_pop3_command(store, &msg, "PASS %s",
+					    service->url->passwd);
 		if (status != CAMEL_POP3_OK) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      "Unable to authenticate to POP "
 					      "server. Error sending password:"
 					      " %s", msg ? msg : "(Unknown)");
 			g_free (msg);
-			g_free (pass);
 			return FALSE;
 		}
 	}
 
-	g_free (pass);
 	return TRUE;
 }
 
