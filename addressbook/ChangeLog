@@ -1,3 +1,15 @@
+2001-09-26  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_changes): set
+	the last_use and use_score fields of the card to known values so
+	the card doesn't register as changed when only they have changed
+
+2001-09-26  Peter Williams  <peterw@ximian.com>
+ 
+ 	* conduit/address-conduit.c (ecard_from_remote_record): Fix this function
+ 	to set email addresses properly, and handle multiple occurrences of
+ 	email addresses, home phone numbers, and business phone numbers.
+	
 2001-09-25  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-component.c (user_create_new_item_cb):

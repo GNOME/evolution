@@ -453,6 +453,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	char *txt;
 	char *stringparts[3];
 	int i;
+	ECardSimpleEmailId last_email;
+	ECardSimpleField last_business, last_home;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
@@ -505,19 +507,50 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	free (delivery.country);
 	free (delivery.code);
 	g_free (label.data);
-	
+
+	last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL;
+	last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS;
+	last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME;
+
 	/* Phone numbers */
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 		char *phonenum = get_entry_text (address, i);
 
-		if (!strcmp (phonelabel, "E-mail"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, phonenum);
-		else if (!strcmp (phonelabel, "Home"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME, phonenum);
-		else if (!strcmp (phonelabel, "Work"))
-			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, phonenum);
-		else if (!strcmp (phonelabel, "Fax"))
+		if (!strcmp (phonelabel, "E-mail")) {
+			e_card_simple_set_email(simple, last_email, phonenum);
+
+			switch (last_email) {
+			case E_CARD_SIMPLE_EMAIL_ID_EMAIL:
+				last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL_2;
+				break;
+			case E_CARD_SIMPLE_EMAIL_ID_EMAIL_2:
+				last_email = E_CARD_SIMPLE_EMAIL_ID_EMAIL_3;
+				break;
+			default:
+				WARN ("ran out of email fields in ecard_from_remote_record!");
+			}
+		} else if (!strcmp (phonelabel, "Home")) {
+			e_card_simple_set(simple, last_home, phonenum);
+
+			switch (last_home) {
+			case E_CARD_SIMPLE_FIELD_PHONE_HOME:
+				last_home = E_CARD_SIMPLE_FIELD_PHONE_HOME_2;
+				break;
+			default:
+				WARN ("ran out of home phone fields in ecard_from_remote_record!");
+			}
+		} else if (!strcmp (phonelabel, "Work")) {
+			e_card_simple_set(simple, last_business, phonenum);
+			
+			switch (last_business) {
+			case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS:
+				last_business = E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2;
+				break;
+			default:
+				WARN ("ran out of home phone fields in ecard_from_remote_record!");
+			}
+		} else if (!strcmp (phonelabel, "Fax"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, phonenum);
 		else if (!strcmp (phonelabel, "Other"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, phonenum);

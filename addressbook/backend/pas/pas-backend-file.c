@@ -391,9 +391,19 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 			/* don't include the version in the list of cards */
 			if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 			    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+				ECard *card;
 				char *id = id_dbt.data;
-				char *vcard_string = vcard_dbt.data;
-
+				char *vcard_string;
+				
+				/* Remove fields the user can't change
+				 * and can change without the rest of the
+				 * card changing 
+				 */
+				card = e_card_new (vcard_dbt.data);
+				gtk_object_set (GTK_OBJECT (card), "last_use", NULL, "use_score", 0.0, NULL);
+				vcard_string = e_card_get_vcard_assume_utf8 (card);
+				gtk_object_unref (GTK_OBJECT (card));
+				
 				/* check what type of change has occurred, if any */
 				switch (e_dbhash_compare (ehash, id, vcard_string)) {
 				case E_DBHASH_STATUS_SAME:
