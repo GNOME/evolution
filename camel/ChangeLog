@@ -1,3 +1,9 @@
+2004-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap-summary.[c,h]: New source files
+	implementing the CamelFolderSummary class for the new IMAP4
+	implementation.
+
 2004-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary):

@@ -25,6 +25,8 @@ libcamelimap4_la_SOURCES = 			\
 	camel-imap-specials.h			\
 	camel-imap-stream.c			\
 	camel-imap-stream.h			\
+	camel-imap-summary.c			\
+	camel-imap-summary.h			\
 	camel-imap-utils.c			\
 	camel-imap-utils.h
 
