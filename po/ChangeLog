@@ -1,3 +1,8 @@
+2003-11-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.skip: Added data/evolution.desktop.in.
+	* no.po: Updated Norwegian translation.
+
 2003-11-10  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
 
         * es.po: Revision of Spanish translation by

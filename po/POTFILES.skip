@@ -7,6 +7,7 @@ camel/camel-pkcs7-context.c
 camel/providers/nntp/camel-nntp-auth.c
 camel/providers/nntp/camel-nntp-folder.c
 camel/providers/nntp/camel-nntp-grouplist.c
+data/evolution.desktop.in
 executive-summary/component/component-factory.c
 executive-summary/component/e-summary-callbacks.c
 executive-summary/component/e-summary-url.c
