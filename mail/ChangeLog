@@ -1,3 +1,8 @@
+2002-04-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* folder-browser.c, mail-display.c: Updated these to match the new
+	EPopupMenu.
+
 2002-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_signed): Handle broken

@@ -698,14 +698,12 @@ enum {
 
 static EPopupMenu context_menu[] = {
 #if 0
-	{ N_("_Delegate To..."),               NULL,
-	  GTK_SIGNAL_FUNC (popup_delegate_cb), NULL, NULL,  CAN_DELEGATE },
+	E_POPUP_ITEM (N_("_Delegate To..."), GTK_SIGNAL_FUNC (popup_delegate_cb),  CAN_DELEGATE),
 
 	E_POPUP_SEPARATOR,
 #endif
 
-	{ N_("_Delete"),                      NULL,
-	  GTK_SIGNAL_FUNC (popup_delete_cb),  NULL, NULL,  CAN_DELETE },
+	E_POPUP_ITEM (N_("_Delete"), GTK_SIGNAL_FUNC (popup_delete_cb),   CAN_DELETE),
 	
 	E_POPUP_TERMINATOR
 };
@@ -725,7 +723,7 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
 	
 	/* FIXME: if you enable Delegate, then change index to '1' */
-	context_menu[0].pixmap = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
+	context_menu[0].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);

@@ -1,3 +1,15 @@
+2002-04-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_create_categories): Changed this to use
+	ECategoriesMasterListOptionMenu.
+
+	* gui/component/select-names/e-select-names.c
+	(section_right_click_cb),
+	gui/widgets/e-addressbook-reflow-adapter.c,
+	gui/widgets/e-addressbook-view.c: Updated these to match the new
+	EPopupMenu.
+
 2002-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-component.c: Include

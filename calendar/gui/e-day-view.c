@@ -3540,80 +3540,68 @@ enum {
 };
 
 static EPopupMenu main_items [] = {
-	{ N_("New _Appointment"), NULL,
-	  e_day_view_on_new_appointment, NULL, NULL, 0 },
-	{ N_("New All Day _Event"), NULL,
-	  e_day_view_on_new_event, NULL, NULL, 0 },
-	{ N_("New Meeting"), NULL,
-	  e_day_view_on_new_meeting, NULL, NULL, 0 },
-	{ N_("New Task"), NULL,
-	  e_day_view_on_new_task, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("New _Appointment"),
+	  e_day_view_on_new_appointment, 0),
+	E_POPUP_ITEM (N_("New All Day _Event"),
+	  e_day_view_on_new_event, 0),
+	E_POPUP_ITEM (N_("New Meeting"),
+	  e_day_view_on_new_meeting, 0),
+	E_POPUP_ITEM (N_("New Task"),
+	  e_day_view_on_new_task, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("Print..."), NULL,
-	  e_day_view_on_print, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("Print..."),
+	  e_day_view_on_print, 0),
 	
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("_Paste"),
+	  e_day_view_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("Go to _Today"), NULL,
-	  e_day_view_on_goto_today, NULL, NULL, 0 },
-	{ N_("_Go to Date..."), NULL,
-	  e_day_view_on_goto_date, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("Go to _Today"),
+	  e_day_view_on_goto_today, 0),
+	E_POPUP_ITEM (N_("_Go to Date..."),
+	  e_day_view_on_goto_date, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Publish Free/Busy Information"), NULL,
-	  e_day_view_on_publish, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("_Publish Free/Busy Information"),
+	  e_day_view_on_publish, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Configure..."), NULL,
-	  e_day_view_on_paste, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("_Configure..."),
+	  e_day_view_on_paste, 0),
 
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
-	{ N_("_Open"), NULL,
-	  e_day_view_on_edit_appointment, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
-	{ N_("_Save As..."), NULL,
-	  e_day_view_on_save_as, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
-	{ N_("_Print..."), NULL,
-	  e_day_view_on_print_event, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
 
 	/* Only show this separator if one of the above is shown. */
-	{ "", NULL, NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	E_POPUP_SEPARATOR,
 
-	{ N_("C_ut"), NULL,
-	  e_day_view_on_cut, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
-	{ N_("_Copy"), NULL,
-	  e_day_view_on_copy, NULL, NULL, 0 },
-	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("C_ut"), e_day_view_on_cut, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Copy"), e_day_view_on_copy, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_day_view_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Schedule Meeting..."), NULL,
-	  e_day_view_on_meeting, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
-	{ N_("_Forward as iCalendar..."), NULL,
-	  e_day_view_on_forward, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
 	
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Delete"), NULL,
-	  e_day_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
-	{ N_("Make this Occurrence _Movable"), NULL,
-	  e_day_view_on_unrecur_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete this _Occurrence"), NULL,
-	  e_day_view_on_delete_occurrence, NULL, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete _All Occurrences"), NULL,
-	  e_day_view_on_delete_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	E_POPUP_ITEM (N_("_Delete"), e_day_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_day_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_day_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_day_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING),
 
 	E_POPUP_TERMINATOR
 };

@@ -969,39 +969,27 @@ enum {
 
 
 static EPopupMenu tasks_popup_menu [] = {
-	{ N_("_Open"), NULL,
-	  e_calendar_table_on_open_task, NULL, NULL, MASK_SINGLE },
-	{ N_("_Save as..."), NULL,
-	  e_calendar_table_on_save_as, NULL, NULL, MASK_SINGLE },
-	{ N_("_Print..."), NULL,
-	  e_calendar_table_on_print_task, NULL, NULL, MASK_SINGLE },
+	E_POPUP_ITEM (N_("_Open"), e_calendar_table_on_open_task, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Save as..."), e_calendar_table_on_save_as, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Print..."), e_calendar_table_on_print_task, MASK_SINGLE),
 
 	E_POPUP_SEPARATOR,
 	
-	{ N_("C_ut"), NULL,
-	  e_calendar_table_on_cut, NULL, NULL, 0 },
-	{ N_("_Copy"), NULL,
-	  e_calendar_table_on_copy, NULL, NULL, 0 },
-	{ N_("_Paste"), NULL,
-	  e_calendar_table_on_paste, NULL, NULL, 0 },
+	E_POPUP_ITEM (N_("C_ut"), e_calendar_table_on_cut, 0),
+	E_POPUP_ITEM (N_("_Copy"), e_calendar_table_on_copy, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_calendar_table_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Assign Task"), NULL,
-	  e_calendar_table_on_assign, NULL, NULL, MASK_SINGLE },
-	{ N_("_Forward as iCalendar"), NULL,
-	  e_calendar_table_on_forward, NULL, NULL, MASK_SINGLE },
-	{ N_("_Mark as Complete"), NULL,
-	  mark_as_complete_cb, NULL, NULL, MASK_SINGLE },
-	{ N_("_Mark Selected Tasks as Complete"), NULL,
-	  mark_as_complete_cb, NULL, NULL, MASK_MULTIPLE },
+	E_POPUP_ITEM (N_("_Assign Task"), e_calendar_table_on_assign, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Forward as iCalendar"), e_calendar_table_on_forward, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Mark as Complete"), mark_as_complete_cb, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, MASK_MULTIPLE),
 	
 	E_POPUP_SEPARATOR,
 
-	{ N_("_Delete"), NULL,
-	  delete_cb, NULL, NULL, MASK_SINGLE },
-	{ N_("_Delete Selected Tasks"), NULL,
-	  delete_cb, NULL, NULL, MASK_MULTIPLE },
+	E_POPUP_ITEM (N_("_Delete"), delete_cb, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Delete Selected Tasks"), delete_cb, MASK_MULTIPLE),
 
 	E_POPUP_TERMINATOR
 };

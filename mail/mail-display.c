@@ -385,12 +385,9 @@ static gboolean
 pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 {
 	EPopupMenu *menu;
-	EPopupMenu save_item = { N_("Save to Disk..."), NULL,
-				 GTK_SIGNAL_FUNC (save_cb), NULL, NULL, 0 };
-	EPopupMenu view_item = { N_("View Inline"), NULL,
-				 GTK_SIGNAL_FUNC (inline_cb), NULL, NULL, 2 };
-	EPopupMenu open_item = { N_("Open in %s..."), NULL,
-				 GTK_SIGNAL_FUNC (launch_cb), NULL, NULL, 1 };
+	EPopupMenu save_item = E_POPUP_ITEM (N_("Save to Disk..."), GTK_SIGNAL_FUNC (save_cb), 0);
+	EPopupMenu view_item = E_POPUP_ITEM (N_("View Inline"), GTK_SIGNAL_FUNC (inline_cb), 2);
+	EPopupMenu open_item = E_POPUP_ITEM (N_("Open in %s..."), GTK_SIGNAL_FUNC (launch_cb), 1);
 	MailDisplay *md;
 	CamelMimePart *part;
 	MailMimeHandler *handler;
@@ -1123,7 +1120,7 @@ load_http (MailDisplay *md, gpointer data)
 	}
 
 	while ((result = gnome_vfs_read (handle, buf, sizeof (buf), &read)) == GNOME_VFS_OK) {
-		printf ("%s: read %d bytes\n", url, read);
+		printf ("%s: read %d bytes\n", url, (int) read); 
 		g_byte_array_append (ba, buf, read);
 		total += read;
 	}
@@ -1813,16 +1810,12 @@ enum {
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
-	{ N_("Open Link in Browser"), NULL,
-	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL, NULL,  MASK_URL },
-	{ N_("Copy Link Location"), NULL,
-	  GTK_SIGNAL_FUNC (link_copy_location), NULL, NULL,  MASK_URL },
+	E_POPUP_ITEM (N_("Open Link in Browser"), GTK_SIGNAL_FUNC (link_open_in_browser),   MASK_URL),
+	E_POPUP_ITEM (N_("Copy Link Location"), GTK_SIGNAL_FUNC (link_copy_location),  MASK_URL),
 #if 0
-	{ N_("Save Link as (FIXME)"), NULL,
-	  GTK_SIGNAL_FUNC (link_save_as), NULL, NULL,  MASK_URL },
+	E_POPUP_ITEM (N_("Save Link as (FIXME)"), GTK_SIGNAL_FUNC (link_save_as),  MASK_URL),
 #endif
-	{ N_("Save Image as..."), NULL,
-	  GTK_SIGNAL_FUNC (image_save_as), NULL, NULL, MASK_SRC }, 
+	E_POPUP_ITEM (N_("Save Image as..."), GTK_SIGNAL_FUNC (image_save_as), MASK_SRC), 
      
 	TERMINATOR
 };

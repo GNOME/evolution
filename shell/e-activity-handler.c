@@ -159,9 +159,9 @@ show_cancellation_popup (ActivityInfo *activity_info,
 {
 	GtkMenu *popup;
 	EPopupMenu items[] = {
-		{ N_("Show Details"), NULL, task_widget_show_details_callback, NULL, NULL, 0 },
+		E_POPUP_MENU (N_("Show Details"), task_widget_show_details_callback, 0),
 		E_POPUP_SEPARATOR,
-		{ N_("Cancel Operation"), NULL, task_widget_cancel_callback, NULL, NULL, 0 },
+		E_POPUP_MENU (N_("Cancel Operation"), task_widget_cancel_callback, 0),
 		E_POPUP_TERMINATOR
 	};
 

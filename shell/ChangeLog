@@ -1,3 +1,7 @@
+2002-04-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-activity-handler.c: Updated this to match the new EPopupMenu.
+
 2002-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (handle_evolution_path_drag_motion):

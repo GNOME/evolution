@@ -43,7 +43,7 @@
 #include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-text-model.h"
-#include <gal/widgets/e-categories-master-list-combo.h>
+#include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
@@ -53,7 +53,7 @@ static void e_select_names_class_init	(ESelectNamesClass	 *klass);
 static void e_select_names_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_select_names_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_select_names_destroy (GtkObject *object);
-static void update_query (GtkWidget *button, ESelectNames *e_select_names);
+static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
 
 static GnomeDialogClass *parent_class = NULL;
 #define PARENT_TYPE gnome_dialog_get_type()
@@ -465,15 +465,15 @@ removed_folder  (EvolutionStorageListener *storage_listener,
 }
 
 static void
-update_query (GtkWidget *button, ESelectNames *e_select_names)
+update_query (GtkWidget *widget, ESelectNames *e_select_names)
 {
 	char *category = "";
 	char *search = "";
 	char *query;
 	char *q_array[4];
 	int i;
-	if (e_select_names->categories_entry) {
-		category = gtk_entry_get_text (GTK_ENTRY (e_select_names->categories_entry));
+	if (e_select_names->categories) {
+		category = e_categories_master_list_option_menu_get_category (E_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories));
 	}
 	if (e_select_names->search_entry) {
 		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->search_entry));
@@ -502,6 +502,12 @@ update_query (GtkWidget *button, ESelectNames *e_select_names)
 		g_free (q_array[i]);
 	}
 	g_free (query);
+}
+
+static void
+categories_changed (GtkWidget *widget, gint value, ESelectNames *e_select_names)
+{
+	update_query (widget, e_select_names);
 }
 
 static void
@@ -653,13 +659,13 @@ e_select_names_create_categories (gchar *name,
 				  gint int1, gint int2)
 {
 	ECategoriesMasterList *ecml;
-	GtkWidget *combo;
+	GtkWidget *option_menu;
 
 	ecml = e_categories_master_list_wombat_new ();
-	combo = e_categories_master_list_combo_new (ecml);
+	option_menu = e_categories_master_list_option_menu_new (ecml);
 	gtk_object_unref (GTK_OBJECT (ecml));
 
-	return combo;
+	return option_menu;
 }
 
 static void
@@ -699,21 +705,17 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->without = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "without");
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
-	if (e_select_names->categories && !GTK_IS_COMBO (e_select_names->categories))
+	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))
 		e_select_names->categories = NULL;
-	if (e_select_names->categories) {
-		e_select_names->categories_entry = GTK_COMBO (e_select_names->categories)->entry;
-	} else
-		e_select_names->categories_entry = NULL;
 	e_select_names->search_entry = glade_xml_get_widget (gui, "entry-find");
 	if (e_select_names->search_entry && !GTK_IS_ENTRY (e_select_names->search_entry))
 		e_select_names->search_entry = NULL;
 	if (e_select_names->search_entry)
 		gtk_signal_connect(GTK_OBJECT(e_select_names->search_entry), "activate",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
-	if (e_select_names->categories_entry)
-		gtk_signal_connect(GTK_OBJECT(e_select_names->categories_entry), "changed",
-				   GTK_SIGNAL_FUNC(update_query), e_select_names);
+	if (e_select_names->categories)
+		gtk_signal_connect(GTK_OBJECT(e_select_names->categories), "changed",
+				   GTK_SIGNAL_FUNC(categories_changed), e_select_names);
 
 	button  = glade_xml_get_widget (gui, "button-find");
 	if (button)
@@ -849,7 +851,7 @@ static void
 section_right_click_cb (EText *text, GdkEventButton *ev, gint pos, ESelectNamesChild *child)
 {
 	EPopupMenu right_click_menu[] = {
-		{ N_("Remove"), NULL, GTK_SIGNAL_FUNC (remove_cb), NULL, NULL, 0 },
+		E_POPUP_ITEM (N_("Remove"), GTK_SIGNAL_FUNC (remove_cb), 0),
 		E_POPUP_TERMINATOR
 	};
 	gint index;

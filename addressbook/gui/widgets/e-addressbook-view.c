@@ -69,6 +69,8 @@
 
 #define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
 
+#define d(x)
+
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
 static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -771,7 +773,7 @@ minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
 static void
 minicard_button_press (GtkWidget *widget, GdkEventButton *event, EAddressbookView *view)
 {
-	g_print ("Button %d pressed with event type %d\n", event->button, event->type);
+	d(g_print ("Button %d pressed with event type %d\n", event->button, event->type));
 }
 
 static void
@@ -1019,23 +1021,23 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		GtkMenu *popup;
 
 		EPopupMenu menu[] = {
-			{ N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, NULL, 0 }, 
-			{ N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, NULL, 0 },
-			{ N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, NULL, 0 },
-			{ N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, NULL, 0 },
+			E_POPUP_ITEM (N_("Save as VCard"), GTK_SIGNAL_FUNC(save_as), 0), 
+			E_POPUP_ITEM (N_("Forward Contact"), GTK_SIGNAL_FUNC(send_as), 0),
+			E_POPUP_ITEM (N_("Send Message to Contact"), GTK_SIGNAL_FUNC(send_to), 0),
+			E_POPUP_ITEM (N_("Print"), GTK_SIGNAL_FUNC(print), 0),
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-			{ N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, NULL, 0 },
+			E_POPUP_ITEM (N_("Print Envelope"), GTK_SIGNAL_FUNC(print_envelope), 0),
 #endif
 			E_POPUP_SEPARATOR,
 
-			{ N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, NULL, 0 }, 
-			{ N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_ITEM (N_("Copy to folder..."), GTK_SIGNAL_FUNC(copy_to_folder), 0), 
+			E_POPUP_ITEM (N_("Move to folder..."), GTK_SIGNAL_FUNC(move_to_folder), POPUP_READONLY_MASK),
 			E_POPUP_SEPARATOR,
 
-			{ N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, NULL, POPUP_READONLY_MASK },
-			{ N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, NULL, 0 },
-			{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
-			{ N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_ITEM (N_("Cut"), GTK_SIGNAL_FUNC (cut), POPUP_READONLY_MASK),
+			E_POPUP_ITEM (N_("Copy"), GTK_SIGNAL_FUNC (copy), 0),
+			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
+			E_POPUP_ITEM (N_("Delete"), GTK_SIGNAL_FUNC(delete), POPUP_READONLY_MASK),
 			E_POPUP_TERMINATOR
 		};
 
@@ -1085,10 +1087,10 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView
 		GtkMenu *popup;
 
 		EPopupMenu menu[] = {
-			{ N_("New Contact..."), NULL, GTK_SIGNAL_FUNC(new_card), NULL, NULL, POPUP_READONLY_MASK },
-			{ N_("New Contact List..."), NULL, GTK_SIGNAL_FUNC(new_list), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_ITEM (N_("New Contact..."), GTK_SIGNAL_FUNC(new_card), POPUP_READONLY_MASK),
+			E_POPUP_ITEM (N_("New Contact List..."), GTK_SIGNAL_FUNC(new_list), POPUP_READONLY_MASK),
 			E_POPUP_SEPARATOR,
-			{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_ITEM (N_("Paste"), GTK_SIGNAL_FUNC (paste), POPUP_READONLY_MASK),
 			E_POPUP_TERMINATOR
 		};
 
