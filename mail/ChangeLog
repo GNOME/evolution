@@ -1,5 +1,8 @@
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-mailer-prefs.c (citation_color_set): We only want 8bits per
+	color. Fixes bug #57588.
+
 	* em-folder-tree-model.c (em_folder_tree_model_remove_store):
 	Duh. If the lookup of si fails, don't use si->display_name in the
 	warning message. Actually, don't bother with a warning message at

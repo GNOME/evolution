@@ -173,13 +173,13 @@ citation_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMMai
 	guint32 rgb = 0;
 	char buf[20];
 	
-	rgb   = r;
+	rgb   = r & 0xff;
 	rgb <<= 8;
-	rgb  |= g;
+	rgb  |= g & 0xff;
 	rgb <<= 8;
-	rgb  |= b;
+	rgb  |= b & 0xff;
 	
-	sprintf (buf,"#%06x", rgb & 0xffffff);
+	sprintf (buf, "#%06x", rgb & 0xffffff);
 	
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", buf, NULL);
 }
