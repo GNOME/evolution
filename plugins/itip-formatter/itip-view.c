@@ -534,22 +534,28 @@ set_buttons (ItipView *view)
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME Right response? */
-		set_one_button (view, "_Add", GTK_STOCK_ADD, ITIP_VIEW_RESPONSE_ACCEPT);
+		set_one_button (view, "_Add", GTK_STOCK_ADD, ITIP_VIEW_RESPONSE_UPDATE);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Refresh", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
+		set_one_button (view, "_Send Meeting Information", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		set_one_button (view, "_Update Attendee Status", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
-		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
+		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
+		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	default:
 		break;

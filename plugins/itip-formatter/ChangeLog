@@ -1,5 +1,30 @@
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.h: add response enums
+
+	* itip-view.c (set_buttons): fiddle with button names and response enums
+
+	* itip-formatter.c (find_server): don't include our uid in the
+	conflicts search
+	(update_attendee_status): update the status of the attendee and
+	save it out
+	(adjust_item): get relevant properties for items that might
+	contain them if sent from an attendee
+	(get_real_item): get the actual, current item
+	(send_item): send the item
+	(view_response_cb): handle REPLY and REFRESH requests
+	(format_itip_object): adjust the item if necessary and set the
+	attendee for reply/refresh; prevent crash if no description
+	(pitip_free): skeleton free function
+	(format_itip): load delete message setting
+	(delete_toggled_cb): set delete message setting based on toggle
+	(itip_formatter_page_factory): make the delete message check box
+	work
+
+	* Makefile.am: install e-error messages
+
+2005-01-03  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.h: new protos, signal
 
 	* itip-view.c (set_info_items): be more generic so both upper and

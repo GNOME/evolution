@@ -33,6 +33,7 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-folder.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-option-menu.h>
@@ -43,12 +44,14 @@
 #include <mail/em-format-html.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
+#include <widgets/misc/e-error.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
 #include "itip-view.h"
 
 #define CLASSID "itip://"
+#define GCONF_KEY_DELETE "/apps/evolution/itip/delete_processed"
 
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
@@ -88,6 +91,8 @@ typedef struct {
 	gint   view_only;
 
 	guint progress_info_id;
+
+	gboolean delete_message;
 } FormatItipPObject;
 
 typedef struct {
@@ -453,7 +458,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 			source = m->data;
 			
 			if (!fd) {
-				char *start, *end;
+				char *start = NULL, *end = NULL;
 				
 				fd = g_new0 (EItipControlFindData, 1);
 				fd->pitip = pitip;
@@ -464,7 +469,8 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 					start = isodate_from_time_t (pitip->start_time);
 					end = isodate_from_time_t (pitip->end_time);
 					
-					fd->sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\"))", start, end);				
+					fd->sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\")) (not (uid? \"%s\")))", 
+								    start, end, icalcomponent_get_uid (pitip->ical_comp));
 					g_message ("Sexp is %s", fd->sexp);
 				}
 				
@@ -634,6 +640,139 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	icalcomponent_remove_component (pitip->top_level, clone);
 }
 
+static void
+update_attendee_status (FormatItipPObject *pitip)
+{
+	ECalComponent *comp = NULL;
+	icalcomponent *icalcomp = NULL;
+	const char *uid;
+	GError *error;
+	
+	/* Obtain our version */
+	e_cal_component_get_uid (pitip->comp, &uid);
+	if (e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL)) {
+		GSList *attendees;
+
+		comp = e_cal_component_new ();
+		if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+			icalcomponent_free (icalcomp);
+
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "The meeting is invalid and cannot be updated");
+		} else {
+			e_cal_component_get_attendee_list (pitip->comp, &attendees);
+			if (attendees != NULL) {
+				ECalComponentAttendee *a = attendees->data;
+				icalproperty *prop;
+
+				prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
+
+				if (prop == NULL) {
+					if (e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL) == GTK_RESPONSE_YES) {
+						change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+						e_cal_component_rescan (comp);
+					} else {
+						goto cleanup;
+					}
+				} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
+					itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, 
+								       _("Attendee status could not be updated because the status is invalid"));
+					goto cleanup;
+				} else {
+					change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+					e_cal_component_rescan (comp);			
+				}
+			}
+		}
+
+		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
+			char *info;
+			
+			info = g_strdup_printf (_("Unable to update attendee statusAttendee status updated. %s"), error->message);
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, info);
+			g_free (info);
+			
+			g_error_free (error);
+		} else {
+			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Attendee status updated"));
+		}
+	} else {
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+					       _("Attendee status can not be updated because the item no longer exists"));
+	}
+
+ cleanup:
+	if (comp != NULL)
+		g_object_unref (comp);
+}
+
+static ECalComponent *
+get_real_item (FormatItipPObject *pitip)
+{
+	ECalComponent *comp;
+	icalcomponent *icalcomp;
+	gboolean found = FALSE;
+	const char *uid;
+
+	e_cal_component_get_uid (pitip->comp, &uid);
+
+	found = e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL);
+	if (!found)
+		return NULL;
+
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return NULL;
+	}
+
+	return comp;
+}
+
+static void
+adjust_item (FormatItipPObject *pitip, ECalComponent *comp)
+{
+	ECalComponent *real_comp;
+	
+	real_comp = get_real_item (pitip);
+	if (real_comp != NULL) {
+		ECalComponentText text;
+		const char *string;
+		GSList *l;
+		
+		e_cal_component_get_summary (real_comp, &text);
+		e_cal_component_set_summary (comp, &text);
+		e_cal_component_get_location (real_comp, &string);
+		e_cal_component_set_location (comp, string);
+		e_cal_component_get_description_list (real_comp, &l);
+		e_cal_component_set_description_list (comp, l);
+		e_cal_component_free_text_list (l);
+		
+		g_object_unref (real_comp);
+	} else {
+		ECalComponentText text = {_("Unknown"), NULL};
+		
+		e_cal_component_set_summary (comp, &text);
+	}
+}
+
+static void
+send_item (FormatItipPObject *pitip)
+{
+	ECalComponent *comp;
+
+	comp = get_real_item (pitip);
+	
+	if (comp != NULL) {
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL);
+		g_object_unref (comp);
+
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "Meeting information sent");
+	} else {
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to send meeting information, the meeting does not exist");
+	}
+}
+
 static icalcomponent *
 get_next (icalcompiter *iter)
 {
@@ -667,7 +806,7 @@ extract_itip_data (FormatItipPObject *pitip)
 	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_write_to_stream (content, mem);
-	
+
 	pitip->vcalendar = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 
 	camel_object_unref (mem);	
@@ -763,10 +902,21 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			update_item (pitip, response);
 		}
 		break;
+	case ITIP_VIEW_RESPONSE_UPDATE:
+		update_attendee_status (pitip);
+		break;
+	case ITIP_VIEW_RESPONSE_REFRESH:
+		send_item (pitip);
+		break;
 	default:
 		break;
 	}
 
+	if (pitip->delete_message) {
+		g_message ("Deleting!");
+		camel_folder_delete_message (((EMFormat *) pitip->pobject.format)->folder, ((EMFormat *) pitip->pobject.format)->uid);
+	}
+	
         if (e_cal_get_save_schedules (pitip->current_ecal))
                 return;
 
@@ -884,16 +1034,49 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		/* FIXME What to do here? */
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
 	}
-	
-	e_cal_component_get_organizer (pitip->comp, &organizer);
-	itip_view_set_organizer (ITIP_VIEW (pitip->view), organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
-	/* FIXME, do i need to strip the sentby somehow? Maybe with camel? */
-	itip_view_set_sentby (ITIP_VIEW (pitip->view), organizer.sentby);
 
-/* FIXME try and match sender with organizer/attendee/sentby?
-	pd->from_address = camel_address_encode ((CamelAddress *)from);		
-	g_message ("Detected from address %s", pd->from_address);
-*/
+	switch (pitip->method) {
+	case ICAL_METHOD_PUBLISH:
+	case ICAL_METHOD_REQUEST:
+	case ICAL_METHOD_ADD:
+	case ICAL_METHOD_CANCEL:
+		/* An organizer sent this */
+		e_cal_component_get_organizer (pitip->comp, &organizer);
+		itip_view_set_organizer (ITIP_VIEW (pitip->view), organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
+		/* FIXME, do i need to strip the sentby somehow? Maybe with camel? */
+		itip_view_set_sentby (ITIP_VIEW (pitip->view), organizer.sentby);
+	
+		/* FIXME try and match sender with organizer/attendee/sentby?
+		   pd->from_address = camel_address_encode
+		   ((CamelAddress *)from); g_message ("Detected from address %s",
+		   pd->from_address);
+		*/
+		break;
+	case ICAL_METHOD_REPLY:
+	case ICAL_METHOD_REFRESH:
+		/* Provide extra info, since its not in the component */
+		/* FIXME Check sequence number of meeting? */
+		adjust_item (pitip, pitip->comp);
+
+	case ICAL_METHOD_COUNTER:
+	case ICAL_METHOD_DECLINECOUNTER:
+		/* An attendee sent this */
+		e_cal_component_get_attendee_list (pitip->comp, &list);
+		if (list != NULL) {
+			ECalComponentAttendee *attendee;
+			
+			attendee = list->data;
+			
+			itip_view_set_attendee (ITIP_VIEW (pitip->view), attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
+
+			e_cal_component_free_attendee_list (list);
+		}
+		
+		break;		
+	default:
+		/* FIXME What to do here? */
+		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
+	}	
 
 	e_cal_component_get_summary (pitip->comp, &text);
 	itip_view_set_summary (ITIP_VIEW (pitip->view), text.value ? text.value : _("None"));
@@ -914,9 +1097,11 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			g_string_append_printf (gstring, "\n\n%s", text->value);
 	}
 	e_cal_component_free_text_list (list);
-		
-	itip_view_set_description (ITIP_VIEW (pitip->view), gstring->str);
-	g_string_free (gstring, TRUE);
+
+	if (gstring) {
+		itip_view_set_description (ITIP_VIEW (pitip->view), gstring->str);
+		g_string_free (gstring, TRUE);
+	}
 	
 	to_zone = calendar_config_get_icaltimezone ();
 	
@@ -975,24 +1160,44 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	return TRUE;
 }
 
+static void
+pitip_free (EMFormatHTMLPObject *pobject) 
+{
+	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
+
+	
+}
+
 void
 format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
 	FormatItipPObject *pitip;
-
+	GConfClient *gconf;
+	
 	pitip = (FormatItipPObject *) em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (FormatItipPObject), CLASSID, target->part, format_itip_object);
-	// FIXME set the free function
-//	pitip->object.free = pitip_free;
+	pitip->pobject.free = pitip_free;
 
+	gconf = gconf_client_get_default ();
+	pitip->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);
+	g_object_unref (gconf);
+	
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", CLASSID);
 	camel_stream_printf (target->stream, "</td></tr></table>");
 }
 
+static void
+delete_toggled_cb (GtkWidget *widget, gpointer data)
+{
+	EMConfigTargetPrefs *target = data;
+	
+	gconf_client_set_bool (target->gconf, GCONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
+}
+
 GtkWidget *
 itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
-//	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
+	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
 	GtkWidget *page;
 	GtkWidget *tab_label;
 	GtkWidget *frame;
@@ -1002,10 +1207,6 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *inner_vbox;
 	GtkWidget *check;
 	GtkWidget *check_gaim;
-
-	/* A structure to pass some stuff around */
-//	stuff = g_new0 (struct bbdb_stuff, 1);
-//	stuff->target = target;
 
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
@@ -1017,7 +1218,7 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	frame = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (page), frame, FALSE, FALSE, 0);
 
-	/* "Automatic Contacts" */
+	/* "General" */
 	frame_label = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (frame_label), _("<span weight=\"bold\">General</span>"));
 	GTK_MISC (frame_label)->xalign = 0.0;
@@ -1031,14 +1232,14 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	inner_vbox = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 	
-	/* Enable BBDB checkbox */
+	/* Delete message after acting */
+	/* FIXME Need a schema for this */
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
-//	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
-//	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (enable_toggled_cb), stuff);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_DELETE, NULL));
+	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), target);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
-//	stuff->check = check;
 
-	/* "Instant Messaging Contacts" */
+	/* "Conflict searching" */
 	frame = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
 
@@ -1055,10 +1256,9 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	inner_vbox = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 	
-	/* Enable Gaim Checkbox */
+	/* Source selector */
 	check_gaim = gtk_label_new (_("Select the calendars to search for meeting conflicts"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
-//	stuff->check_gaim = check_gaim;
 
 	gtk_widget_show_all (page);
 

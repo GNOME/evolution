@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.itip-formatter">
+
+ <error id="meeting-update-failed" type="error">
+  <primary>Unable to save meeting to calendar</primary>
+  <secondary>The error sent back was "{0}".</secondary>
+ </error>
+
+ <error id="add-unknown-attendee" type="question">
+  <primary>This response is not from a current attendee.  Add the sender as an attendee?</primary>
+ </error>
+
+</error-list>
