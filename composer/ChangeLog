@@ -1,5 +1,9 @@
 2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer.c (e_msg_composer_new_from_url): If the subject
+	or body components of the mailto url are not in UTF-8, convert
+	them to UTF-8.
+
 	* e-msg-composer-attachment.c (update_mime_type): Fixed a #warning
 	by converting the filename into a uri before passing it into
 	gnome_vfs_get_mime_type() since that function really needs a uri.

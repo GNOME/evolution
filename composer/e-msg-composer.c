@@ -3658,6 +3658,7 @@ e_msg_composer_new_from_url (const char *url_in)
 	EDestination **tov, **ccv, **bccv;
 	char *subject = NULL, *body = NULL;
 	const char *p, *header;
+	size_t nread, nwritten;
 	char *content;
 	int len, clen;
 	
@@ -3704,10 +3705,30 @@ e_msg_composer_new_from_url (const char *url_in)
 				bcc = add_recipients (bcc, content, FALSE);
 			} else if (!strncasecmp (header, "subject", len)) {
 				g_free (subject);
-				subject = g_strdup (content);
+				if (g_utf8_validate (content, -1, NULL)) {
+					subject = content;
+					content = NULL;
+				} else {
+					subject = g_locale_to_utf8 (content, clen, &nread,
+								    &nwritten, NULL);
+					if (subject) {
+						subject = g_realloc (subject, nwritten + 1);
+						subject[nwritten] = '\0';
+					}
+				}
 			} else if (!strncasecmp (header, "body", len)) {
 				g_free (body);
-				body = g_strdup (content);
+				if (g_utf8_validate (content, -1, NULL)) {
+					body = content;
+					content = NULL;
+				} else {
+					body = g_locale_to_utf8 (content, clen, &nread,
+								 &nwritten, NULL);
+					if (body) {
+						body = g_realloc (body, nwritten + 1);
+						body[nwritten] = '\0';
+					}
+				}
 			} else if (!strncasecmp (header, "attach", len)) {
 				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
 			} else {
