@@ -789,6 +789,7 @@ quoted_decode(const unsigned char *in, int len, unsigned char *out)
 /* rfc2047 version of quoted-printable */
 /* safemask is the mask to apply to the camel_mime_special_table to determine what
    characters can safely be included without encoding */
+/* Why do we need a 'safemask'? we always want to encode the same. */
 static int
 quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned short safemask)
 {
@@ -797,25 +798,25 @@ quoted_encode(const unsigned char *in, int len, unsigned char *out, unsigned sho
 	unsigned char c;
 
 	inptr = in;
-	inend = in+len;
+	inend = in + len;
 	outptr = out;
-	while (inptr<inend) {
+	while (inptr < inend) {
 		c = *inptr++;
-		/*if (is_qpsafe(c) && !(c=='_' || c=='?')) {*/
-		if (camel_mime_special_table[c] & safemask) {
-			if (c==' ')
-				c='_';
-			*outptr++=c;
+		if ((is_qpsafe (c) || c == ' ') && !(c == '_' || c == '?')) {
+			/*if (camel_mime_special_table[c] & safemask) {*/
+			if (c == ' ')
+				c = '_';
+			*outptr++ = c;
 		} else {
 			*outptr++ = '=';
-			*outptr++ = tohex[(c>>4) & 0xf];
+			*outptr++ = tohex[(c >> 4) & 0xf];
 			*outptr++ = tohex[c & 0xf];
 		}
 	}
 
-	printf("encoding '%.*s' = '%.*s'\n", len, in, outptr-out, out);
+	d(printf("encoding '%.*s' = '%.*s'\n", len, in, outptr-out, out));
 
-	return outptr-out;
+	return (outptr - out);
 }
 
 
@@ -1177,9 +1178,9 @@ header_encode_string(const unsigned char *in)
 			}
 			start = inptr;
 			encoding = 0;
-		} else if (c>127 && c < 256) {
+		} else if (c > 127 && c < 256) {
 			encoding = MAX(encoding, 1);
-		} else if (c >=256) {
+		} else if (c >= 256) {
 			encoding = MAX(encoding, 2);
 		}
 	}
