@@ -635,10 +635,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	      <name>sigOption</name>
 	      <can_focus>True</can_focus>
 	      <items>Default
-
-Signature #1
-Signature #2
-xxxxxxxxxxxxxxxxxxxx
 </items>
 	      <initial_choice>0</initial_choice>
 	      <child>

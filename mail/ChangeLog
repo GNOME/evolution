@@ -1,3 +1,12 @@
+2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (spell_load_values): Don't maek "en" for
+	translation. Fixes bug #31788.
+
+	* mail-config.glade: Removed a "xxxxxxxxxxx" string so that
+	translators don't need to translate it. It was only a filler
+	string. Fixes bug #31789.
+
 2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Don't default 'me' to
