@@ -143,7 +143,7 @@ match_nickname (ESelectNamesCompletion *comp, EDestination *dest)
 
 	if (card->nickname
 	    && !g_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
-		ECompletionMatch *match = g_new0 (ECompletionMatch, 1);
+		ECompletionMatch *match;
 		gchar *str;
 		
 		score = len * 10; /* nickname gives 10 points per matching character */

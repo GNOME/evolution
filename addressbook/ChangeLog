@@ -1,5 +1,8 @@
 2001-09-17  Larry Ewing  <lewing@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(match_nickname): don't malloc a match we will never use.
+
 	* gui/widgets/e-addressbook-model.c (get_view): free the dup'd
 	capabilities.
 
