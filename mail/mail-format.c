@@ -40,7 +40,6 @@
 #include <gal/util/e-iconv.h>
 
 #include <camel/camel-mime-utils.h>
-#include <camel/camel-pgp-mime.h>
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-multipart-signed.h>
