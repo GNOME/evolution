@@ -1,5 +1,12 @@
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 
+	* gui/dialogs/event-page.c: if the timezones of the start and end of
+	the event are the same, then if the start timezone is changed we
+	change the end timezone as well, since that is what most users will
+	want.
+
+2001-06-19  Damon Chaplin  <damon@ximian.com>
+
 	* pcs/cal.c: 
 	* idl/evolution-calendar.idl: 
 	* cal-client/cal-client.[hc]: removed stuff to get builtin timezone

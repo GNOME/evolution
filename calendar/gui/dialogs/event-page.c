@@ -71,6 +71,11 @@ struct _EventPagePrivate {
 	GtkWidget *categories;
 
 	gboolean updating;
+
+	/* This is TRUE if both the start & end timezone are the same. If the
+	   start timezone is then changed, we updated the end timezone to the
+	   same value, since 99% of events start and end in one timezone. */
+	gboolean sync_timezones;
 };
 
 
@@ -170,6 +175,7 @@ event_page_init (EventPage *epage)
 	priv->categories = NULL;
 
 	priv->updating = FALSE;
+	priv->sync_timezones = FALSE;
 }
 
 /* Destroy handler for the event page */
@@ -357,6 +363,11 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 					    epage);
 
 	check_all_day (epage);
+
+	/* FIXME: Get the timezones from the event and put them in the
+	   widgets. Set sync_timezones to TRUE if both timezones are the same.
+	*/
+	priv->sync_timezones = TRUE;
 
 	/* Classification */
 
@@ -664,6 +675,46 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 					       &dates);
 }
 
+/* Callback used when the start timezone is changed. If sync_timezones is set,
+ * we set the end timezone to the same value. It also updates the start time
+ * labels on the other notebook pages.
+ */
+static void
+start_timezone_changed_cb (GtkWidget *widget, gpointer data)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+	char *zone;
+
+	epage = EVENT_PAGE (data);
+	priv = epage->priv;
+
+	if (priv->sync_timezones) {
+		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
+	}
+}
+
+
+/* Callback used when the end timezone is changed. It checks if the end
+ * timezone is the same as the start timezone and sets sync_timezones if so.
+ */
+static void
+end_timezone_changed_cb (GtkWidget *widget, gpointer data)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+	char *start_zone, *end_zone;
+	
+	epage = EVENT_PAGE (data);
+	priv = epage->priv;
+
+	start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	end_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
+
+	priv->sync_timezones = (strcmp (start_zone, end_zone)) ? FALSE : TRUE;
+}
+
 /* Callback: all day event button toggled.
  * Note that this should only be called when the user explicitly toggles the
  * button. Be sure to block this handler when the toggle button's state is set
@@ -841,6 +892,11 @@ init_widgets (EventPage *epage)
 			    GTK_SIGNAL_FUNC (date_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->end_time), "changed",
 			    GTK_SIGNAL_FUNC (date_changed_cb), epage);
+
+	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
+			    GTK_SIGNAL_FUNC (start_timezone_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_timezone), "changed",
+			    GTK_SIGNAL_FUNC (end_timezone_changed_cb), epage);
 
 	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
 			    GTK_SIGNAL_FUNC (all_day_event_toggled_cb), epage);
