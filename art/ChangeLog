@@ -1,3 +1,8 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: remove imagesdir, etc, which are now defined in
+	configure.in
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (imagesdir): Version using $(BASE_VERSION).

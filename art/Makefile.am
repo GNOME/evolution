@@ -1,4 +1,3 @@
-imagesdir = $(datadir)/evolution-$(BASE_VERSION)/images/
 images_DATA = \
 	16_copy.png			\
 	16_customize.png		\
@@ -166,7 +165,6 @@ images_DATA = \
 	working-16.png			\
 	world_map-960.png
 
-buttonsdir = $(datadir)/evolution-$(BASE_VERSION)/images/buttons
 buttons_DATA = 				\
 	arrow-right-24.png		\
 	arrow-left-24.png		\
@@ -200,7 +198,6 @@ buttons_DATA = 				\
 	workweekview.xpm		\
 	yearview.xpm
 
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = 					\
 	evolution.png				\
 	import.png				\
@@ -213,7 +210,7 @@ glade_DATA = 					\
 	thankyou.png				\
 	timezone-48.png
 
-conduitsdir = $(datadir)/evolution-$(BASE_VERSION)/images/conduits
+conduitsdir = $(imagesdir)/conduits
 conduits_DATA =				\
 	evo-16-address-conduit.png   	\
 	evo-16-todo-conduit.png     	\
