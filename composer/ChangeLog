@@ -1,3 +1,10 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_flush_pending_body): Use
+	set_editor_text()
+	(e_msg_composer_new_from_url): Same.
+	(e_msg_composer_set_body_text): Re-Show the signature.
+
 2002-02-12  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_is_dirty): reflect gtkhtml API

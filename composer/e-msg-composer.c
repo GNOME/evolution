@@ -843,7 +843,7 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	CORBA_exception_init (&ev);
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		bonobo_widget_get_server (editor), "IDL:Bonobo/PersistStream:1.0", &ev);
-
+	
 	g_return_if_fail (persist != CORBA_OBJECT_NIL);
 	
 	stream = bonobo_stream_mem_create (text, strlen (text),
@@ -2614,7 +2614,7 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 	body = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
 	if (body) {
 		if (apply) 
-			e_msg_composer_set_body_text (composer, body);
+			set_editor_text (composer, body);
 		
 		gtk_object_set_data (GTK_OBJECT (composer), "body:text", NULL);
 		g_free (body);
@@ -3124,8 +3124,10 @@ e_msg_composer_new_from_url (const char *url_in)
 	}
 	
 	if (body) {
-		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
-		e_msg_composer_set_body_text (composer, htmlbody);
+		char *htmlbody;
+		
+		htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
+		set_editor_text (composer, htmlbody);
 		g_free (htmlbody);
 	}
 	
@@ -3195,10 +3197,11 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	printf ("setting as body text:\n-----\n%s\n-----\n", text);
-	fflush (stdout);
-	
 	set_editor_text (composer, text);
+	
+	/* set editor text unfortunately kills the signature so we
+           have to re-show it */
+	e_msg_composer_show_sig_file (composer);
 }
 
 
