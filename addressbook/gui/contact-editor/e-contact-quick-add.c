@@ -98,8 +98,6 @@ quick_add_set_name (QuickAdd *qa, const gchar *name)
 
 	g_free (qa->name);
 	qa->name = g_strdup (name);
-
-	e_contact_set (qa->contact, E_CONTACT_FULL_NAME, (char *) name);
 }
 
 static void
@@ -110,8 +108,6 @@ quick_add_set_email (QuickAdd *qa, const gchar *email)
 
 	g_free (qa->email);
 	qa->email = g_strdup (email);
-
-	e_contact_set (qa->contact, E_CONTACT_EMAIL_1, (char*)email);
 }
 
 static void
@@ -242,9 +238,9 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 			email = tmp;
 		}
 
-		quick_add_set_name (qa, name);
-		quick_add_set_email (qa, email);
-	
+		e_contact_set (qa->contact, E_CONTACT_FULL_NAME, (char *) name ? name : "");
+		e_contact_set (qa->contact, E_CONTACT_EMAIL_1,   (char *) email ? email : "");
+
 		g_free (name);
 		g_free (email);
 	}
