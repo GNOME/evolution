@@ -302,6 +302,9 @@ async_folder_cb (BonoboListener *listener, char *event_name,
 	case GNOME_Evolution_Storage_UNSUPPORTED_TYPE:
 		result = E_STORAGE_UNSUPPORTEDTYPE;
 		break;
+	case GNOME_Evolution_Storage_INVALID_URI:
+		result = E_STORAGE_INVALIDNAME;
+		break;
 	case GNOME_Evolution_Storage_ALREADY_EXISTS:
 		result = E_STORAGE_EXISTS;
 		break;
@@ -314,8 +317,9 @@ async_folder_cb (BonoboListener *listener, char *event_name,
 	case GNOME_Evolution_Storage_NO_SPACE:
 		result = E_STORAGE_NOSPACE;
 		break;
-	case GNOME_Evolution_Storage_INVALID_URI:
 	case GNOME_Evolution_Storage_NOT_EMPTY:
+		result = E_STORAGE_NOTEMPTY;
+		break;
 	case GNOME_Evolution_Storage_GENERIC_ERROR:
 	default:
 		result = E_STORAGE_GENERICERROR;
