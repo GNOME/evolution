@@ -1,3 +1,9 @@
+2004-01-23  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/e-itip-control.c: Use PUBLISH if no METHOD defined
+
+	Fixes #45564
+
 2004-01-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.c (e_cal_view_objects_removed_cb): don't assert
