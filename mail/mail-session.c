@@ -131,8 +131,8 @@ make_key (CamelService *service, const char *item)
 }
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean secret,
-	      CamelService *service, const char *item, CamelException *ex)
+main_get_password (CamelSession *session, const char *prompt, gboolean secret,
+		   CamelService *service, const char *item, CamelException *ex)
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	gboolean cache = TRUE;
@@ -173,15 +173,29 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	return ans;
 }
 
+static char *
+get_password (CamelSession *session, const char *prompt, gboolean secret,
+	      CamelService *service, const char *item, CamelException *ex)
+{
+	return (char *)mail_call_main(MAIL_CALL_p_ppippp, (MailMainFunc)main_get_password,
+				      session, prompt, secret, service, item, ex);
+}
+
 static void
-forget_password (CamelSession *session, CamelService *service,
-		 const char *item, CamelException *ex)
+main_forget_password (CamelSession *session, CamelService *service, const char *item, CamelException *ex)
 {
 	char *key = make_key (service, item);
 
 	e_passwords_forget_password (key);
 	
 	g_free (key);
+}
+
+static void
+forget_password (CamelSession *session, CamelService *service, const char *item, CamelException *ex)
+{
+	mail_call_main(MAIL_CALL_p_pppp, (MailMainFunc)main_forget_password,
+		       session, service, item, ex);
 }
 
 static gboolean
@@ -317,7 +331,7 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 }
 
 static CamelFilterDriver *
-get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
+main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
 	RuleContext *fc;
@@ -367,6 +381,13 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 	
 	gtk_object_unref (GTK_OBJECT (fc));
 	return driver;
+}
+
+static CamelFilterDriver *
+get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
+{
+	return (CamelFilterDriver *)mail_call_main(MAIL_CALL_p_ppp, (MailMainFunc)main_get_filter_driver,
+						   session, type, ex);
 }
 
 char *

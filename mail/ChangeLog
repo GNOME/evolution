@@ -1,3 +1,14 @@
+2001-10-15    <NotZed@Ximian.com>
+
+	* mail-session.c (get_password): Proxy get-password call to main
+	thread.
+	(forget_password): same for forget_password.
+	(get_filter_driver): and same for get_filter_driver, since it uses
+	gtk objects.
+
+	* mail-mt.c (mail_call_main): new generic interface for calling
+	stuff/proxying in the gui thread.
+
 2001-10-14  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (e_searching_tokenizer_clone): Share

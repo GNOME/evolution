@@ -71,6 +71,18 @@ gboolean mail_user_message (const char *type, const char *prompt, gboolean allow
 /* forward a camel event (or other call) to the gui thread */
 int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
 
+/* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
+typedef enum {
+	MAIL_CALL_p_p,
+	MAIL_CALL_p_ppp,
+	MAIL_CALL_p_pppp,
+	MAIL_CALL_p_ppippp,
+} mail_call_t;
+
+typedef void *(*MailMainFunc)();
+
+void *mail_call_main(mail_call_t type, MailMainFunc func, ...);
+
 /* a message port that receives messages in the gui thread, used for sending port */
 extern EMsgPort *mail_gui_port;
 /* a message port that receives messages in the gui thread, used for the reply port */

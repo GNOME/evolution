@@ -32,6 +32,7 @@
 #include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/
+#define LOG_OPS
 #define d(x) 
 
 static void set_stop(int sensitive);
@@ -57,6 +58,10 @@ struct _mail_msg_priv {
 static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 /* mail_msg stuff */
+#ifdef LOG_OPS
+static FILE *log;
+#endif
+
 static unsigned int mail_msg_seq; /* sequence number of each message */
 static GHashTable *mail_msg_active; /* table of active messages, must hold mail_msg_lock to access */
 static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -72,6 +77,16 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 
 	MAIL_MT_LOCK(mail_msg_lock);
 
+#ifdef LOG_OPS
+	if (log == NULL && getenv("EVOLUTION_MAIL_LOG_OPS") != NULL) {
+		time_t now = time(0);
+
+		log = fopen("evolution-mail-ops.log", "w+");
+		setvbuf(log, NULL, _IOLBF, 0);
+		fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
+		g_warning("Logging mail operations to evolution-mail-ops.log");
+	}
+#endif
 	msg = g_malloc0(size);
 	msg->ops = ops;
 	msg->seq = mail_msg_seq++;
@@ -84,6 +99,10 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 
 	d(printf("New message %p\n", msg));
 
+#ifdef LOG_OPS
+	if (log)
+		fprintf(log, "%p: New\n", msg);
+#endif
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	return msg;
@@ -137,6 +156,10 @@ void mail_msg_free(void *msg)
 
 	MAIL_MT_LOCK(mail_msg_lock);
 
+#ifdef LOG_OPS
+	if (log)
+		fprintf(log, "%p: Free\n", msg);
+#endif
 	g_hash_table_remove(mail_msg_active, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
 
@@ -305,6 +328,11 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 		checkmem(m->priv);
 #endif
 
+#ifdef LOG_OPS
+		if (log)
+			fprintf(log, "%p: Replied to GUI thread\n", m);
+#endif
+
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
@@ -325,6 +353,11 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 		checkmem(m);
 		checkmem(m->cancel);
 		checkmem(m->priv);
+#endif
+
+#ifdef LOG_OPS
+		if (log)
+			fprintf(log, "%p: Received at GUI thread\n", m);
 #endif
 
 		if (m->ops->receive_msg)
@@ -369,11 +402,21 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 	if (m->ops->describe_msg) {
 		char *text = m->ops->describe_msg(m, FALSE);
 
+#ifdef LOG_OPS
+		if (log)
+			fprintf(log, "%p: Received at thread %ld: '%s'\n", m, pthread_self(), text);
+#endif
+
 		d(printf("message received at thread\n"));
 		camel_operation_register(m->cancel);
 		camel_operation_start(m->cancel, "%s", text);
 		g_free(text);
 	}
+#ifdef LOG_OPS
+	else
+		if (log)
+			fprintf(log, "%p: Received at thread %ld\n", m, pthread_self());
+#endif
 
 	if (m->ops->receive_msg) {
 		mail_enable_stop();
@@ -765,6 +808,96 @@ int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_
 		return id;
 	}
 }
+
+/* ********************************************************************** */
+
+struct _call_msg {
+	struct _mail_msg msg;
+	mail_call_t type;
+	MailMainFunc func;
+	void *ret;
+	va_list ap;
+};
+
+static void
+do_call(struct _mail_msg *mm)
+{
+	struct _call_msg *m = (struct _call_msg *)mm;
+	void *p1, *p2, *p3, *p4, *p5;
+	int i1;
+	va_list ap = m->ap;
+
+	switch(m->type) {
+	case MAIL_CALL_p_p:
+		p1 = va_arg(ap, void *);
+		m->ret = m->func(p1);
+		break;
+	case MAIL_CALL_p_ppp:
+		p1 = va_arg(ap, void *);
+		p2 = va_arg(ap, void *);
+		p3 = va_arg(ap, void *);
+		m->ret = m->func(p1, p2, p3);
+		break;
+	case MAIL_CALL_p_pppp:
+		p1 = va_arg(ap, void *);
+		p2 = va_arg(ap, void *);
+		p3 = va_arg(ap, void *);
+		p4 = va_arg(ap, void *);
+		m->ret = m->func(p1, p2, p3, p4);
+		break;
+	case MAIL_CALL_p_ppippp:
+		p1 = va_arg(ap, void *);
+		p2 = va_arg(ap, void *);
+		i1 = va_arg(ap, int);
+		p3 = va_arg(ap, void *);
+		p4 = va_arg(ap, void *);
+		p5 = va_arg(ap, void *);
+		m->ret = m->func(p1, p2, i1, p3, p4, p5);
+		break;
+	}
+}
+
+struct _mail_msg_op mail_call_op = {
+	NULL,
+	do_call,
+	NULL,
+	NULL,
+};
+
+void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
+{
+	struct _call_msg *m;
+	void *ret;
+	va_list ap;
+	EMsgPort *reply = NULL;
+	int ismain = pthread_self() == mail_gui_thread;
+
+	va_start(ap, func);
+
+	if (!ismain)
+		reply = e_msgport_new();
+
+	m = mail_msg_new(&mail_call_op, reply, sizeof(*m));
+	m->type = type;
+	m->func = func;
+	m->ap = ap;
+
+	if (!ismain) {
+		e_msgport_put(mail_gui_port, (EMsg *)m);
+		e_msgport_wait(reply);
+		e_msgport_destroy(reply);
+	} else {
+		do_call(&m->msg);
+	}
+
+	va_end(ap);
+
+	ret = m->ret;
+	mail_msg_free(m);
+	
+	return ret;
+}
+
 
 /* ********************************************************************** */
 /* locked via status_lock */
