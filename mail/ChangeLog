@@ -1,3 +1,41 @@
+2001-09-06  Dan Winship  <danw@ximian.com>
+
+	Fix a bunch of replying/forwarding-related formatting bugs.
+
+	2749 - Message text not included in reply, but html attachment is
+	4294 - "forward inline" should quote the same headers as the
+	       normal mail display
+	6100 - Reply to a forwarded email displays email headers
+	7255 - Replying to HTML message
+	7527 - replying to forwarded message w/ attachments does the wrong
+	       thing
+	
+	* mail-format.c (mail_get_message_rfc822): New function to get
+	message headers and body together, for inline forwards, or replies
+	containing attached messages.
+	(mail_get_message_body): Redo this to always return HTML, but keep
+	the "want_plain" flag, to decide whether to return HTML that looks
+	like HTML or HTML that looks like plain text. Use
+	mail_get_message_rfc822 to handle attached message/rfc822 parts.
+	Don't include the text of vcard or icalendar attachments. Don't
+	fail to include text parts just because we found an HTML part.
+	(Since we're always returning HTML now, this doesn't cause
+	problems any more.)
+
+	* mail-tools.c (mail_tool_quote_message): Simplify greatly.
+	mail_get_message_body always returns HTML now, and we let it take
+	care of prepending "> "s too. We then let GtkHTML deal with
+	converting the HTML to plain text if the user wants to reply in
+	plain text.
+	(mail_tool_forward_message): Simplify this a ton too: parts of it
+	are moved into mail_get_message_rfc822 and parts are now
+	unnecessary.
+
+	* mail-callbacks.c (do_forward_non_attached): Call
+	mail_tool_forward_message here always, and let it do the "> "
+	quoting in the "quoted" case, so that we get the headers too when
+	forwarding quoted. Related to bug #4294.
+
 2001-09-05  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (launch_cb): the "command" of a

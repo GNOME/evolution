@@ -922,19 +922,14 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 static void
 do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
-	char *subject, *text, *title;
+	char *subject, *text;
+	MailConfigForwardStyle style = GPOINTER_TO_INT (data);
 	
 	if (!message)
 		return;
 	
 	subject = mail_tool_generate_forward_subject (message);
-	if (GPOINTER_TO_INT (data) == MAIL_CONFIG_FORWARD_INLINE) {
-		text = mail_tool_forward_message (message);
-	} else {
-		title = e_utf8_from_locale_string (_("Forwarded message:\n"));
-		text = mail_tool_quote_message (message, title);
-		g_free (title);
-	}
+	text = mail_tool_forward_message (message, style == MAIL_CONFIG_FORWARD_QUOTED);
 	
 	if (text) {
 		EMsgComposer *composer = forward_get_composer (message, subject);

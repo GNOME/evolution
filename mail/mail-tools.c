@@ -386,12 +386,15 @@ gchar *
 mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 {
 	CamelDataWrapper *contents;
-	gboolean want_plain, is_html;
+	gboolean want_plain;
 	gchar *text;
 	
 	want_plain = !mail_config_get_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	text = mail_get_message_body (contents, want_plain, &is_html);
+	/* We pass "want_plain" for "cite", since if it's HTML, we'll
+	 * do the citing ourself below.
+	 */
+	text = mail_get_message_body (contents, want_plain, want_plain);
 	
 	/* Set the quoted reply text. */
 	if (text) {
@@ -406,68 +409,15 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 			va_end (ap);
 		}
 		
-		if (is_html) {
-			ret_text = g_strdup_printf ("%s<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
-						    "<blockquote><i><font color=\"%06x\">\n%s\n"
-						    "</font></i></blockquote>"
-						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-						    credits ? credits : "",
-						    mail_config_get_citation_color (), text);
-		} else {
-			gchar *s, *d, *quoted_text, *orig_text;
-			gint lines, len;
-			
-			/* Count the number of lines in the body. If
-			 * the text ends with a \n, this will be one
-			 * too high, but that's ok. Allocate enough
-			 * space for the text and the "> "s.
-			 */
-			for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
-				lines++;
-			
-			/* offset is the size of the credits, strlen (text)
-			 * covers the body, lines * 2 does the "> "s, and
-			 * the last +2 covers the final "\0", plus an extra
-			 * "\n" in case text doesn't end with one.
-			 */
-			quoted_text = g_malloc (strlen (text) + lines * 2 + 2);
-			
-			s = text;
-			d = quoted_text;
-			
-			/* Copy text to quoted_text line by line,
-			 * prepending "> ".
-			 */
-			while (1) {
-				len = strcspn (s, "\n");
-				if (len == 0 && !*s)
-					break;
-				if (!strncmp ("-- \n", s, 4))
-					break;
-				sprintf (d, "> %.*s\n", len, s);
-				s += len;
-				if (!*s++)
-					break;
-				d += len + 3;
-			}
-			*d = '\0';
-			
-			/* Now convert that to HTML. */
-			orig_text = e_text_to_html_full (quoted_text, E_TEXT_TO_HTML_PRE
-							 | (mail_config_get_citation_highlight ()
-							    ? E_TEXT_TO_HTML_MARK_CITATION : 0),
-							 mail_config_get_citation_color ());
-			g_free (quoted_text);
-			ret_text = g_strdup_printf ("%s<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
-						    "%s"
-						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-						    credits ? credits : "",
-						    orig_text);
-			g_free (orig_text);
-		}
-		
+		ret_text = g_strdup_printf ("%s<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
+					    "<font color=\"%06x\">\n%s%s%s</font>"
+					    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
+					    credits ? credits : "",
+					    mail_config_get_citation_color (),
+					    want_plain ? "" : "<blockquote><i>",
+					    text,
+					    want_plain ? "" : "</i></blockquote>");
 		g_free (text);
-		
 		return ret_text;
 	}
 	
@@ -476,82 +426,22 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 
 /**
  * mail_tool_forward_message:
- * @message: mime message to quote
+ * @message: mime message to forward
+ * @quoted: whether to forwarded it quoted (%TRUE) or inline (%FALSE)
  *
  * Returns an allocated buffer containing the forwarded message.
  */
 gchar *
-mail_tool_forward_message (CamelMimeMessage *message)
+mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 {
-	CamelDataWrapper *contents;
-	gboolean want_plain, is_html;
-	XEvolution *xev;
-	gchar *text;
+	gchar *title, *body, *ret;
 	
-	xev = mail_tool_remove_xevolution_headers (message);
-	
-	want_plain = !mail_config_get_send_html ();
-	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	text = mail_get_message_body (contents, want_plain, &is_html);
-	
-	mail_tool_restore_xevolution_headers (message, xev);
-	mail_tool_destroy_xevolution (xev);
-	
-	/* Set the quoted reply text. */
-	if (text) {
-		gchar *ret_text, *credits = NULL;
-		const CamelInternetAddress *cia;
-		char *buf, *from, *to, *subject;
-		char *title;
-		
-		/* create credits */
-		cia = camel_mime_message_get_from (message);
-		buf = camel_address_format (CAMEL_ADDRESS (cia));
-		if (buf) {
-			from = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
-			g_free (buf);
-		} else
-			from = NULL;
-		
-		cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-		buf = camel_address_format (CAMEL_ADDRESS (cia));
-		if (buf) {
-			to = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
-			g_free (buf);
-		} else
-			to = NULL;
-		
-		buf = (char *) camel_mime_message_get_subject (message);
-		if (buf)
-			subject = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
-		else
-			subject = "";
-		
-		title = e_utf8_from_locale_string (_("Forwarded Message"));
-		credits = g_strdup_printf ("-----%s-----<br>"
-					   "<b>From:</b> %s<br>"
-					   "<b>To:</b> %s<br>"
-					   "<b>Subject:</b> %s<br>",
-					   title, from ? from : "",
-					   to ? to : "", subject);
-		g_free (title);
-		g_free (from);
-		g_free (to);
-		
-		if (!is_html) {
-			/* Now convert that to HTML. */
-			ret_text = e_text_to_html (text, E_TEXT_TO_HTML_PRE);
-			g_free (text);
-			text = ret_text;
-		}
-		
-		ret_text = g_strdup_printf ("%s<br>%s\n", credits, text);
-		
-		g_free (credits);
-		g_free (text);
-		
-		return ret_text;
-	}
-	
-	return NULL;
+	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message),
+				      !mail_config_get_send_html (),
+				      quoted);
+	title = e_utf8_from_locale_string (_("Forwarded Message"));
+	ret = g_strdup_printf ("-----%s-----<br>%s", title, body ? body : "");
+	g_free (title);
+	g_free (body);
+	return ret;
 }

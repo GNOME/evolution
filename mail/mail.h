@@ -61,8 +61,7 @@ gboolean mail_part_is_inline (CamelMimePart *part);
 gboolean mail_part_is_displayed_inline (CamelMimePart *part, MailDisplay *md);
 void     mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md);
 
-char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
-			     gboolean *is_html);
+char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite);
 
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);

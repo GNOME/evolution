@@ -1166,8 +1166,6 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 		
 		buffer = CAMEL_STREAM_MEM (plaintext)->buffer;
 		
-		/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
-		 * however this broken pgp method doesn't exactly tell us what it is */
 		camel_mime_part_set_content (mime_part, buffer->data, buffer->len, "text/plain");
 		camel_object_unref (CAMEL_OBJECT (plaintext));
 	}
@@ -1292,7 +1290,6 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 	camel_exception_init (&ex);
 	
 	/* FIXME: multipart parts */
-	/* another FIXME: this doesn't have to return plaintext you realize... */
 	if (g_datalist_get_data (md->data, "show_pgp")) {
 		CamelPgpContext *ctx;
 		
@@ -1358,9 +1355,6 @@ try_inline_pgp (char *start, MailDisplay *md)
 	end += strlen ("-----END PGP MESSAGE-----") - 1;
 	
 	mail_html_write (md->html, md->stream, "<hr>");
-	
-	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
-	 * however, I suppose that since it was 'inline', it probably is */
 	
 	ciphertext = camel_stream_mem_new ();
 	camel_stream_write (ciphertext, start, end - start);
@@ -2145,32 +2139,146 @@ handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 	return TRUE;
 }
 
+/**
+ * mail_get_message_rfc822:
+ * @message: the message
+ * @want_plain: whether the caller prefers plain to html
+ * @cite: whether or not to cite the message text
+ *
+ * See mail_get_message_body() below for more details.
+ *
+ * Return value: an HTML string representing the text parts of @message.
+ **/
+static char *
+mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolean cite)
+{
+	CamelDataWrapper *contents;
+	GString *retval;
+	const CamelInternetAddress *cia;
+	char *text, *citation, *buf, *html;
+	time_t date_val;
+	int offset;
+
+	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	text = mail_get_message_body (contents, want_plain, cite);
+	if (!text)
+		text = g_strdup ("");
+	citation = cite ? "&gt; " : "";
+	retval = g_string_new (NULL);
+
+	/* Kludge: if text starts with "<PRE>", wrap it around the
+	 * headers too so we won't get a blank line between them for the
+	 * <P> to <PRE> switch.
+	 */
+	if (!g_strncasecmp (text, "<pre>", 5))
+		g_string_sprintfa (retval, "<PRE>");
+
+	/* create credits */
+	cia = camel_mime_message_get_from (message);
+	buf = camel_address_format (CAMEL_ADDRESS (cia));
+	if (buf) {
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_string_sprintfa (retval, "%s<b>From:</b> %s<br>",
+				   citation, html);
+		g_free (html);
+		g_free (buf);
+	}
+
+	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	buf = camel_address_format (CAMEL_ADDRESS (cia));
+	if (buf) {
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_string_sprintfa (retval, "%s<b>To:</b> %s<br>",
+				   citation, html);
+		g_free (html);
+		g_free (buf);
+	}
+
+	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	buf = camel_address_format (CAMEL_ADDRESS (cia));
+	if (buf) {
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_string_sprintfa (retval, "%s<b>Cc:</b> %s<br>",
+				   citation, html);
+		g_free (html);
+		g_free (buf);
+	}
+
+	buf = (char *) camel_mime_message_get_subject (message);
+	if (buf) {
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_string_sprintfa (retval, "%s<b>Subject:</b> %s<br>",
+				   citation, html);
+		g_free (html);
+	}
+
+	date_val = camel_mime_message_get_date (message, &offset);
+	buf = header_format_date (date_val, offset);
+	html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+	g_string_sprintfa (retval, "%s<b>Date:</b> %s<br>", citation, html);
+	g_free (html);
+
+	if (!g_strncasecmp (text, "<pre>", 5))
+		g_string_sprintfa (retval, "%s<br>%s", citation, text + 5);
+	else
+		g_string_sprintfa (retval, "%s<br>%s", citation, text);
+	g_free (text);
+
+	buf = retval->str;
+	g_string_free (retval, FALSE);
+	return buf;
+}
+
+/**
+ * mail_get_message_body:
+ * @data: the message or mime part content
+ * @want_plain: whether the caller prefers plain to html
+ * @cite: whether or not to cite the message text
+ *
+ * This creates an HTML string representing @data. If @want_plain is %TRUE,
+ * it will be an HTML string that looks like a text/plain representation
+ * of @data (but it will still be HTML).
+ *
+ * If @cite is %TRUE, the message will be cited as a reply, using "> "s.
+ *
+ * Return value: the HTML string, which the caller must free, or
+ * %NULL if @data doesn't include any data which should be forwarded or
+ * replied to.
+ **/
 char *
-mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
+mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite)
 {
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
 	int i, nparts;
-	char *subtext, *old;
-	const char *boundary;
+	char *subtext, *old, *div;
 	char *text = NULL;
 	CamelContentType *mime_type;
-	
-	/* We only include text, message, and multipart bodies. */
+
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
-	
-	/* FIXME: This is wrong. We don't want to include large
-	 * images. But if we don't do it this way, we don't get
-	 * the headers...
+
+	/* If it is message/rfc822 or message/news, extract the
+	 * important headers and recursively process the body.
 	 */
-	if (header_content_type_is (mime_type, "message", "*")) {
-		*is_html = FALSE;
-		return get_data_wrapper_text (data);
-	}
-	
-	if (header_content_type_is (mime_type, "text", "*")) {
-		*is_html = header_content_type_is (mime_type, "text", "html");
-		return get_data_wrapper_text (data);
+	if (header_content_type_is (mime_type, "message", "rfc822") ||
+	    header_content_type_is (mime_type, "message", "news"))
+		return mail_get_message_rfc822 (CAMEL_MIME_MESSAGE (data), want_plain, cite);
+
+	/* If it's a vcard or icalendar, ignore it. */
+	if (header_content_type_is (mime_type, "text", "x-vcard") ||
+	    header_content_type_is (mime_type, "text", "calendar"))
+		return NULL;
+
+	/* Get the body data for other text/ or message/ types */
+	if (header_content_type_is (mime_type, "text", "*") ||
+	    header_content_type_is (mime_type, "message", "*")) {
+		text = get_data_wrapper_text (data);
+		if (text && !header_content_type_is (mime_type, "text", "html")) {
+			char *html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
+			g_free (text);
+			text = html;
+		}
+		return text;
 	}
 	
 	/* If it's not message and it's not text, and it's not
@@ -2188,38 +2296,31 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 		if (!subpart)
 			return NULL;
 		
-		data = camel_medium_get_content_object (
-			CAMEL_MEDIUM (subpart));
-		return mail_get_message_body (data, want_plain, is_html);
+		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
+		return mail_get_message_body (data, want_plain, cite);
 	}
 	
+	/* Otherwise, concatenate all the parts that we can. */
+	if (want_plain) {
+		if (cite)
+			div = "<br>\n&gt; ----<br>\n&gt; <br>\n";
+		else
+			div = "<br>\n----<br>\n<br>\n";
+	} else
+		div = "<br><hr><br>";
+
 	nparts = camel_multipart_get_number (mp);
-	
-	/* Otherwise, concatenate all the parts that we can. If we find
-	 * an HTML part in there though, return just that: We don't want
-	 * to deal with merging HTML and non-HTML parts.
-	 */
-	boundary = camel_multipart_get_boundary (mp);
 	for (i = 0; i < nparts; i++) {
 		subpart = camel_multipart_get_part (mp, i);
 		
-		if (!mail_part_is_inline (subpart))
-			continue;
-		
-		data = camel_medium_get_content_object (
-			CAMEL_MEDIUM (subpart));
-		subtext = mail_get_message_body (data, want_plain, is_html);
+		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
+		subtext = mail_get_message_body (data, want_plain, cite);
 		if (!subtext)
 			continue;
-		if (*is_html) {
-			g_free (text);
-			return subtext;
-		}
 		
 		if (text) {
 			old = text;
-			text = g_strdup_printf ("%s\n--%s\n%s", old,
-						boundary, subtext);
+			text = g_strdup_printf ("%s%s%s", old, div, subtext);
 			g_free (subtext);
 			g_free (old);
 		} else
