@@ -94,6 +94,9 @@ static void cal_backend_imc_update_pilot_id (CalBackend *backend,
 					     unsigned long int pilot_status);
 
 
+
+static void notify_update (CalBackendIMC *cbimc, const char *uid);
+
 static CalBackendClass *parent_class;
 
 
@@ -1028,6 +1031,10 @@ cal_backend_imc_update_pilot_id (CalBackend *backend,
 
 	obj->pilot_id = pilot_id;
 	obj->pilot_status = pilot_status;
+
+	save (cbimc);
+
+	notify_update (cbimc, uid);
 }
 
 
