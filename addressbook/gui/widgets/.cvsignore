@@ -1,0 +1,12 @@
+.deps
+.libs
+.pure
+Makefile
+Makefile.in
+*.lo
+*.la
+minicard-label-test
+minicard-test
+minicard-view-test
+minicard-widget-test
+reflow-test

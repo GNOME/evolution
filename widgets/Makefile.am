@@ -5,4 +5,5 @@ SUBDIRS =			\
 	e-text			\
 	e-table			\
 	meeting-time-sel	\
-	shortcut-bar
+	shortcut-bar		\
+	e-reflow

@@ -1,3 +1,17 @@
+2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/widgets/*, gui/minicard/*: Moved gui/minicard to
+	gui/widgets, except for e-reflow.c, e-reflow.h, e-reflow-sorted.c,
+	and e-reflow-sorted.h.
+
+	* gui/widgets/Makefile.am: Added e-reflow to the INCLUDES list and
+	libereflow.a to a bunch of LDADD lines.
+
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): Added
+	libereflow.a here.
+
+	* gui/Makefile.am (SUBDIRS): Replaced minicard with widgets.
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/select-names/Makefile.am: Add space after `-I'

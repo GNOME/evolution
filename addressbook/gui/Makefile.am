@@ -1,1 +1,1 @@
-SUBDIRS = minicard search component
+SUBDIRS = widgets search component

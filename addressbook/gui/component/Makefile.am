@@ -53,6 +53,7 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
 	$(top_builddir)/widgets/e-text/libetext.a			\
 	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\

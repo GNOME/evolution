@@ -573,6 +573,7 @@ widgets/Makefile
 widgets/e-paned/Makefile
 widgets/e-table/Makefile
 widgets/e-text/Makefile
+widgets/e-reflow/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
@@ -586,7 +587,7 @@ addressbook/backend/idl/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/gui/Makefile
-addressbook/gui/minicard/Makefile
+addressbook/gui/widgets/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
