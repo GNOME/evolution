@@ -1,3 +1,7 @@
+2001-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/evolution-faq.sgml: Re-indented.
+
 2001-05-18  Duncan Mak  <duncan@ximian.com>
 
 	* C/evolution-faq.sgml: Added two questions about importing Outlook (text from Iain).

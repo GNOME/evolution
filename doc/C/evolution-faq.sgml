@@ -1,32 +1,32 @@
 <!--
 <!DOCTYPE appendix PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
-  <appendix id="evolution-faq">
+<appendix id="evolution-faq">
   <title>Frequently Asked Questions About Ximian Evolution</title>
-    	<para>
-	 Here are some frequently asked questions about the
-	 <application>Evolution</application> groupware suite from
-	 Ximian.
-	</para>
-   
-    <!-- Section: Getting and compiling -->
+  <para>
+    Here are some frequently asked questions about the
+    <application>Evolution</application> groupware suite from
+    Ximian.
+  </para>
+  
+  <!-- Section: Getting and compiling -->
 
-    <sect1 id="get-and-compile">
-      <title>
-	Getting and Compiling Evolution
-      </title>
+  <sect1 id="get-and-compile">
+    <title>
+      Getting and Compiling Evolution
+    </title>
     <qandaset>
       <qandaentry>
 	<question>
 	  <para>
-	  Where can I get the latest Evolution release?
+	    Where can I get the latest Evolution release?
 	  </para>
 	</question>
 	<answer>
 	  <para>
-	  There are two ways to install the latest Evolution
-	  release:
-	<itemizedlist>
+	    There are two ways to install the latest Evolution
+	    release:
+	    <itemizedlist>
 	      <listitem>
 		<para>
 	          If you have Ximian GNOME installed, you can start
@@ -40,18 +40,18 @@
 
 	      <listitem>
 		<para>
-	           If you want to compile from source, you can
-	           download the latest official Evolution tarball
-	           from:
+		  If you want to compile from source, you can
+		  download the latest official Evolution tarball
+		  from:
 	        </para>
 
 		<para>
 	          <ulink url="ftp://ftp.gnome.org/pub/GNOME/unstable/sources/evolution">
-		  ftp://ftp.gnome.org/pub/GNOME/unstable/sources/evolution</ulink>
+		    ftp://ftp.gnome.org/pub/GNOME/unstable/sources/evolution</ulink>
 	        </para>
 	      </listitem>
 	    </itemizedlist>
-	 </para>  
+	  </para>  
 	</answer>      
       </qandaentry>
       <qandaentry>
@@ -61,15 +61,15 @@
 	  </para>
 	</question>
 	<answer>
-	<para>
-	  Yes, if you have Ximian GNOME installed.  Just run Red
-	  Carpet and subscribe to the Evolution Snapshot channel.
-	</para>
+	  <para>
+	    Yes, if you have Ximian GNOME installed.  Just run Red
+	    Carpet and subscribe to the Evolution Snapshot channel.
+	  </para>
 
-	<para>
-	  You can check the status of snapshots at <ulink
-	  url="http://primates.ximian.com/~snapshot">http://primates.ximian.com/~snapshot</ulink>.
-	</para>
+	  <para>
+	    You can check the status of snapshots at <ulink
+							    url="http://primates.ximian.com/~snapshot">http://primates.ximian.com/~snapshot</ulink>.
+	  </para>
 	</answer>
       </qandaentry>
       <qandaentry>
@@ -95,34 +95,34 @@
 	<answer>
 	  <para>
 	    If you already have <ulink
-	    url="http://cvs.gnome.org">GNOME CVS</ulink> access,
+				       url="http://cvs.gnome.org">GNOME CVS</ulink> access,
 	    simply check out the following modules: evolution,
 	    gtkhtml, gal.
-	</para>
-	<para>
-	  If you don't have a CVS account, you can use anoncvs
-	  instead. Bear in mind that anoncvs is only synchronized once
-	  a day, and code received from anoncvs may not be latest
-	  version available.
-	</para>
+	  </para>
+	  <para>
+	    If you don't have a CVS account, you can use anoncvs
+	    instead. Bear in mind that anoncvs is only synchronized once
+	    a day, and code received from anoncvs may not be latest
+	    version available.
+	  </para>
 
-	<para>
-	  Before using the anoncvs server, you have to log into it.
-	  This only needs to be done once. Use this command:
-	</para>
+	  <para>
+	    Before using the anoncvs server, you have to log into it.
+	    This only needs to be done once. Use this command:
+	  </para>
 
-	<programlisting>
-cvs -z3 -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome login
-	</programlisting>
+	  <programlisting>
+	    cvs -z3 -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome login
+	  </programlisting>
 
-	<para>
-	  Then you can retrieve the modules needed to compile Evolution
-	  using the following command:
-	</para>
+	  <para>
+	    Then you can retrieve the modules needed to compile Evolution
+	    using the following command:
+	  </para>
 
-	<programlisting>
-cvs -z3 -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co evolution gtkhtml gal
-	</programlisting>
+	  <programlisting>
+	    cvs -z3 -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co evolution gtkhtml gal
+	  </programlisting>
 	</answer>
       </qandaentry>
       <qandaentry>
@@ -130,47 +130,47 @@ cvs -z3 -d :pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co evolution gtkhtml 
 	  <para>
 	    How should I compile Evolution avoiding conflicts with my
 	    existing GNOME installation?
-	</para>
+	  </para>
 	</question>
 	<answer>
-	<para>
-	  The best way is to install Evolution into a separate prefix.
-	  In order to specify a non-default installation prefix, you
-	  can pass the <parameter>--prefix</parameter> option to
-	  <filename>configure</filename> or
-	  <filename>autogen.sh</filename>.  For example:
-	</para>
+	  <para>
+	    The best way is to install Evolution into a separate prefix.
+	    In order to specify a non-default installation prefix, you
+	    can pass the <parameter>--prefix</parameter> option to
+	    <filename>configure</filename> or
+	    <filename>autogen.sh</filename>.  For example:
+	  </para>
 
-	<programlisting>
-cd /cvs/evolution
-./autogen.sh --prefix=/opt/gnome
-	</programlisting>
+	  <programlisting>
+	    cd /cvs/evolution
+	    ./autogen.sh --prefix=/opt/gnome
+	  </programlisting>
 
-	<para>
-	  If you install Evolution and the Evolution libraries in a
-	  non-standard prefix, make sure you set the appropriate
-	  environment variables in the startup script for Evolution:
-	</para>
+	  <para>
+	    If you install Evolution and the Evolution libraries in a
+	    non-standard prefix, make sure you set the appropriate
+	    environment variables in the startup script for Evolution:
+	  </para>
 
-	<programlisting>
-export PATH=/opt/gnome:$PATH
-export GNOME_PATH=/opt/gnome:/usr
-	</programlisting>
+	  <programlisting>
+	    export PATH=/opt/gnome:$PATH
+	    export GNOME_PATH=/opt/gnome:/usr
+	  </programlisting>
 
-	<para>
-	  You may also need to add <filename>$prefix/lib</filename>
-	  (e.g. <filename>/opt/gnome/lib</filename>) to your
-	  <filename>/etc/ld.so.conf</filename>.  Of course, this will
-	  not work for systems which do not use ld.so.conf, such as
-	  HP-UX.
-	</para>
+	  <para>
+	    You may also need to add <filename>$prefix/lib</filename>
+	    (e.g. <filename>/opt/gnome/lib</filename>) to your
+	    <filename>/etc/ld.so.conf</filename>.  Of course, this will
+	    not work for systems which do not use ld.so.conf, such as
+	    HP-UX.
+	  </para>
 	</answer>
       </qandaentry>
       <qandaentry>
 	<question>
 	  <para>
 	    I get <computeroutput>make: *** No rule to make target
-	    `all-no-@BUILD_INCLUDED_LIBINTL@'</computeroutput>
+	      `all-no-@BUILD_INCLUDED_LIBINTL@'</computeroutput>
           </para>
 	</question>
 	<answer>
@@ -183,61 +183,61 @@ export GNOME_PATH=/opt/gnome:/usr
 	</answer>
       </qandaentry>
     </qandaset>
-    </sect1>
+  </sect1>
 
-    <sect1 id="faq-trouble">
-      <title>Troubleshooting</title>
+  <sect1 id="faq-trouble">
+    <title>Troubleshooting</title>
     <qandaset>
       <qandaentry>
 	<question>
 	  <para>
 	    I get <computeroutput>Cannot initialize the Evolution
-	    shell</computeroutput>.
-	   </para>
+	      shell</computeroutput>.
+	  </para>
 	</question>
 	<answer>
 	  <para>
 	    Check that:
 	  </para>
 
-	    <itemizedlist>
-	      <listitem>
-		<para>
-		  <filename>oafd</filename> is listen in your <envar>PATH</envar>
-		  environment variable.
-		</para>
-	      </listitem>
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		<filename>oafd</filename> is listen in your <envar>PATH</envar>
+		environment variable.
+	      </para>
+	    </listitem>
 
-	      <listitem>
-		<para>
-		  <filename>GNOME_Evolution_Shell.oaf</filename> and
-		  the other      
-		  <filename>GNOME_Evolution_*.oaf</filename> files are
-		  readable and installed in
-		  <filename>$prefix/share/oaf</filename>, where
-		  <filename>$prefix</filename> is one of the prefixes
-		  listed in <envar>GNOME_PATH</envar> or
-		  <envar>OAF_INFO_PATH</envar>.  (These variables are
-		  supposed to contain $PATH-like colon-separated lists of
-		  paths.  If the installation prefix for Evolution is
-		  different from that). Run `oaf-slay' once before running
-		  `evolution' again if you change $GNOME_PATH or
-		  $OAF_INFO_PATH.
-		</para>
-	      </listitem>
+	    <listitem>
+	      <para>
+		<filename>GNOME_Evolution_Shell.oaf</filename> and
+		the other      
+		<filename>GNOME_Evolution_*.oaf</filename> files are
+		readable and installed in
+		<filename>$prefix/share/oaf</filename>, where
+		<filename>$prefix</filename> is one of the prefixes
+		listed in <envar>GNOME_PATH</envar> or
+		<envar>OAF_INFO_PATH</envar>.  (These variables are
+		supposed to contain $PATH-like colon-separated lists of
+		paths.  If the installation prefix for Evolution is
+		different from that). Run `oaf-slay' once before running
+		`evolution' again if you change $GNOME_PATH or
+		$OAF_INFO_PATH.
+	      </para>
+	    </listitem>
 
-	      <listitem>
-		<para>
-		  <filename>evolution</filename>,
-		  <filename>evolution-mail</filename> and the other
-		  <filename>evolution-*</filename> executables are in your
-		  $PATH.
-		</para>
-	      </listitem>
-	    </itemizedlist>
+	    <listitem>
+	      <para>
+		<filename>evolution</filename>,
+		<filename>evolution-mail</filename> and the other
+		<filename>evolution-*</filename> executables are in your
+		$PATH.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
 	</answer>
       </qandaentry>
- 
+      
       <qandaentry>
 	<question>
 	  <para>
@@ -246,107 +246,107 @@ export GNOME_PATH=/opt/gnome:/usr
 	</question>
 	<answer>
 	  <para>
-	  This actually means that Evolution cannot activate the HTML
-	  editor component from GtkHTML.  The comments in the previous
-	  answer still apply; also make sure that
-	  <command>gnome-gtkhtml-editor</command> is in your
-	  <envar>PATH</envar>.
-	</para>
+	    This actually means that Evolution cannot activate the HTML
+	    editor component from GtkHTML.  The comments in the previous
+	    answer still apply; also make sure that
+	    <command>gnome-gtkhtml-editor</command> is in your
+	    <envar>PATH</envar>.
+	  </para>
 	</answer>
       </qandaentry>
- 
-     <qandaentry>
-       <question>
-	<para>
-	  I updated my Evolution, but my addressbook contacts are no
-	  longer there, what should I do?
-	</para>
+      
+      <qandaentry>
+	<question>
+	  <para>
+	    I updated my Evolution, but my addressbook contacts are no
+	    longer there, what should I do?
+	  </para>
 	</question>
 	<answer>
-	<para>
-	  Evolution uses the <filename>libdb</filename> library to
-	  handle the addressbook database.  Two versions of
-	  <filename>libdb</filename> can be used with Evolution: version
-	  1.88 and version 2.
-	</para>
+	  <para>
+	    Evolution uses the <filename>libdb</filename> library to
+	    handle the addressbook database.  Two versions of
+	    <filename>libdb</filename> can be used with Evolution: version
+	    1.88 and version 2.
+	  </para>
 
-	<para>
-	  Unfortunately, an Evolution executable that is linked against
-	  a certain version of <filename>libdb</filename> will only be
-	  able to read addressbook files written by another Evolution
-	  executable that is linked with the same version of the
-	  library.  If your addressbook is not readable by Evolution
-	  anymore, it probably means that you used to have Evolution
-	  linked with a certain version of <filename>libdb</filename>,
-	  but now it gets linked to a different version.
-	</para>
+	  <para>
+	    Unfortunately, an Evolution executable that is linked against
+	    a certain version of <filename>libdb</filename> will only be
+	    able to read addressbook files written by another Evolution
+	    executable that is linked with the same version of the
+	    library.  If your addressbook is not readable by Evolution
+	    anymore, it probably means that you used to have Evolution
+	    linked with a certain version of <filename>libdb</filename>,
+	    but now it gets linked to a different version.
+	  </para>
 
-	<para>
-	  Because of the way <filename>libdb</filename> is designed, it
-	  is not easy for Evolution to automatically do the conversion
-	  between the two formats.  But, if your Evolution used to be
-	  linked against version 1.85 and now is linked to version 2,
-	  there is a very simple way to convert the database and recover
-	  your data.
-	</para>
+	  <para>
+	    Because of the way <filename>libdb</filename> is designed, it
+	    is not easy for Evolution to automatically do the conversion
+	    between the two formats.  But, if your Evolution used to be
+	    linked against version 1.85 and now is linked to version 2,
+	    there is a very simple way to convert the database and recover
+	    your data.
+	  </para>
 
-	<itemizedlist>
+	  <itemizedlist>
 
-	  <listitem>
-	    <para>
-	      First of all, check the format of the database using the
-	      <command>file</command> command:
-	    </para>
+	    <listitem>
+	      <para>
+		First of all, check the format of the database using the
+		<command>file</command> command:
+	      </para>
 
-	    <programlisting>
+	      <programlisting>
                 file ~/evolution/local/Contacts/addressbook.db
-	    </programlisting>
+	      </programlisting>
 
-	    <para>
-	      You want version 1.85 there.  If your version is 2, then
-	      your current Evolution is probably linked against
-	      version 1.85 and you cannot convert the database to the
-	      old format. To do that, follow these instructions:
-	    </para>
-	  </listitem>
-	  
-	  <listitem>
-	    <para>
-	      Quit Evolution.
-	    </para>
-	  </listitem>
+	      <para>
+		You want version 1.85 there.  If your version is 2, then
+		your current Evolution is probably linked against
+		version 1.85 and you cannot convert the database to the
+		old format. To do that, follow these instructions:
+	      </para>
+	    </listitem>
+	    
+	    <listitem>
+	      <para>
+		Quit Evolution.
+	      </para>
+	    </listitem>
 
-	  <listitem>
-	    <para>
-	      Make a copy of the addressbook database for backup
-	      purposes.
-	    </para>
+	    <listitem>
+	      <para>
+		Make a copy of the addressbook database for backup
+		purposes.
+	      </para>
 
-	    <programlisting>
-cd ~/evolution/local/Contacts
-cp addressbook.db addressbook.db.backup
-	    </programlisting>
-	  </listitem>
+	      <programlisting>
+		cd ~/evolution/local/Contacts
+		cp addressbook.db addressbook.db.backup
+	      </programlisting>
+	    </listitem>
 
-	  <listitem>
-	    <para>
-	      Convert the contacts to the new format using
-	      <command>db_dump185</command> and
-	      <command>db_load</command>:
-	    </para>
+	    <listitem>
+	      <para>
+		Convert the contacts to the new format using
+		<command>db_dump185</command> and
+		<command>db_load</command>:
+	      </para>
 
-	    <programlisting>
-db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolution/local/Contacts/addressbook.db
-	    </programlisting>
-	  </listitem>
+	      <programlisting>
+		db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolution/local/Contacts/addressbook.db
+	      </programlisting>
+	    </listitem>
 
-	  <listitem>
-	    <para>
-	      Restart Evolution.
-	    </para>
-	  </listitem>
+	    <listitem>
+	      <para>
+		Restart Evolution.
+	      </para>
+	    </listitem>
 
-	</itemizedlist>
+	  </itemizedlist>
 	</answer> 
       </qandaentry>
 
@@ -365,8 +365,8 @@ db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolutio
 	  </para>
 	  
 	  <programlisting>
-chmod 1777 /var/spool/mail
-	</programlisting>
+	    chmod 1777 /var/spool/mail
+	  </programlisting>
 
 	  <para>
 	    Yes, we know this is a problem.  It will be fixed eventually.
@@ -375,11 +375,11 @@ chmod 1777 /var/spool/mail
       </qandaentry>
 
       <qandaentry>
-      <question>
-	<para>
-	  Evolution crashes reporting that it couldn't allocate N
-	  billion bytes; how do I fix this?
-	</para>
+	<question>
+	  <para>
+	    Evolution crashes reporting that it couldn't allocate N
+	    billion bytes; how do I fix this?
+	  </para>
 	</question>
 	<answer>
 	  <para>
@@ -396,32 +396,32 @@ chmod 1777 /var/spool/mail
 	    applies to GtkHTML upgrades; after upgrading and
 	    installing a newer GtkHTML, always re-compile and
 	    re-install Evolution against it.
- 	 </para>
+	  </para>
 	</answer> 
       </qandaentry>
 
       <qandaentry>
-      <question>
-	<para>
-	  What is <command>killev</command> and why do I need to use it?
-	</para>
+	<question>
+	  <para>
+	    What is <command>killev</command> and why do I need to use it?
+	  </para>
 	</question>
 	<answer>
-	<para>
-	  Evolution is actually made up of several components that run
-	  as separate processes.  Evolution's shell is not very good
-	  at cleaning up stale processes, so it is possible that
-	  sometimes already-running components cause unexpected and/or
-	  broken behavior.
-	</para>
+	  <para>
+	    Evolution is actually made up of several components that run
+	    as separate processes.  Evolution's shell is not very good
+	    at cleaning up stale processes, so it is possible that
+	    sometimes already-running components cause unexpected and/or
+	    broken behavior.
+	  </para>
 
-	<para>
-	  It's always a good idea to run <command>killev</command>
-	  after a crash in Evolution, especially if the Evolution
-	  shell itself crashed.  (If a component crashes instead, you
-	  should try to exit the shell cleanly first, so you give a
-	  chance to the other components to clean things up properly.)
-	</para>
+	  <para>
+	    It's always a good idea to run <command>killev</command>
+	    after a crash in Evolution, especially if the Evolution
+	    shell itself crashed.  (If a component crashes instead, you
+	    should try to exit the shell cleanly first, so you give a
+	    chance to the other components to clean things up properly.)
+	  </para>
 	</answer> 
       </qandaentry>
 
@@ -438,32 +438,32 @@ chmod 1777 /var/spool/mail
 	    GNOME Desktop to activate components.  It will kill the
 	    object activation daemon (<command>oafd</command>) as well
 	    as all the active components on the system.
-	</para>
+	  </para>
 
-	<para>
-	  Normally, you shouldn't need to run
-	  <command>oaf-slay</command>, unless <command>oafd</command>
-	  gets stuck or confused.  For example, it might help in case
-	  Evolution cannot activate components.
-	</para>
+	  <para>
+	    Normally, you shouldn't need to run
+	    <command>oaf-slay</command>, unless <command>oafd</command>
+	    gets stuck or confused.  For example, it might help in case
+	    Evolution cannot activate components.
+	  </para>
 
-	<para>
-       	   Using <command>oaf-slay</command>
-	  <command>oaf-slay</command> is quite drastic and can cause
-	  problems with other programs that use oaf, especially with
-	  <application>Nautilus</application>. To avoid problems, do
-	  not run <command>oaf-slay</command> while you are in GNOME.
-	</para>
+	  <para>
+	    Using <command>oaf-slay</command>
+	    <command>oaf-slay</command> is quite drastic and can cause
+	    problems with other programs that use oaf, especially with
+	    <application>Nautilus</application>. To avoid problems, do
+	    not run <command>oaf-slay</command> while you are in GNOME.
+	  </para>
 	</answer>
       </qandaentry>
     </qandaset>
-    </sect1>
+  </sect1>
 
-    <sect1 id="faq-debugging">
+  <sect1 id="faq-debugging">
     <title>Questions about Bugs and Debugging</title>
-      <para>
-	Find a bug? Here's how to help us fix it!
-      </para>
+    <para>
+      Find a bug? Here's how to help us fix it!
+    </para>
     
     <qandaset>
       <qandaentry>
@@ -476,16 +476,16 @@ chmod 1777 /var/spool/mail
 	  <para>
 	    You should report bugs about Evolution into the Ximian bug
 	    reporting system (Bugzilla), located at <ulink
-	    url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
-	</para>
-	
+							   url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
+	  </para>
+	  
 	  <para>
 	    Please use the query function to check if a bug has been
 	    submitted already before submitting it.
  	  </para>
 	</answer> 
       </qandaentry>
-    
+      
       <qandaentry>
 	<question>
 	  <para>
@@ -493,11 +493,11 @@ chmod 1777 /var/spool/mail
 	  </para>
 	</question>
 	<answer>
-	<para>
-	  Not yet.  The Ximian bug tracker does not yet have an
-	  email-based interface, so Bug Buddy cannot talk to it.  This
-	  will be fixed eventually.
-	</para>
+	  <para>
+	    Not yet.  The Ximian bug tracker does not yet have an
+	    email-based interface, so Bug Buddy cannot talk to it.  This
+	    will be fixed eventually.
+	  </para>
 	</answer>
       </qandaentry>
 
@@ -508,114 +508,114 @@ chmod 1777 /var/spool/mail
 	  </para>
 	</question>
 	<answer>
- 	 <para>
-	   A stack trace is a list of the chain of function calls that
-	   lead to some point in the program.  Typically, you want to
-	   get a stack trace when Evolution crashes or hangs and you
-	   want to try to figure out where in the code that happened
-	   and why.  For this reason, stack traces are extremely
-	   useful for the Evolution developers, so it's important that
-	   you learn how to get them, and include them in crash
-	   reports. Once we have <command>bug-buddy</command> working
-	   with our bug database, it will be much easier to do
-	   this. Until then, here's how:
-	</para>
+	  <para>
+	    A stack trace is a list of the chain of function calls that
+	    lead to some point in the program.  Typically, you want to
+	    get a stack trace when Evolution crashes or hangs and you
+	    want to try to figure out where in the code that happened
+	    and why.  For this reason, stack traces are extremely
+	    useful for the Evolution developers, so it's important that
+	    you learn how to get them, and include them in crash
+	    reports. Once we have <command>bug-buddy</command> working
+	    with our bug database, it will be much easier to do
+	    this. Until then, here's how:
+	  </para>
 
-	<para>
-	  First of all, in order to get a stack trace, your executable
-	  (and possibly the libraries) must be compiled with debugging
-	  symbols.  Debugging symbols are created by default if you
-	  compile from CVS, and are included in the snapshot builds.
-	  If you decide to compile by yourself with some custom CFLAGS
-	  value, make sure <command>-g</command> is included in them.
-	</para>
+	  <para>
+	    First of all, in order to get a stack trace, your executable
+	    (and possibly the libraries) must be compiled with debugging
+	    symbols.  Debugging symbols are created by default if you
+	    compile from CVS, and are included in the snapshot builds.
+	    If you decide to compile by yourself with some custom CFLAGS
+	    value, make sure <command>-g</command> is included in them.
+	  </para>
 
-	<para>
-	  Finally, you must put the component that crashes through
-	  <command>gdb</command>.  Make sure all the components are
-	  dead (exit Evolution and <command>killev</command>), then
-	  run the following command:
-	</para>
+	  <para>
+	    Finally, you must put the component that crashes through
+	    <command>gdb</command>.  Make sure all the components are
+	    dead (exit Evolution and <command>killev</command>), then
+	    run the following command:
+	  </para>
 
-	<programlisting>
-gdb name-of-component
-	</programlisting>
+	  <programlisting>
+	    gdb name-of-component
+	  </programlisting>
 
-	<para>
-	  Then, at the gdb prompt, type <userinput>r</userinput> (for
-	  "run") and wait a few seconds to make sure the component has
-	  registered with the name service.  Then start Evolution
-	  normally from a different terminal.
-	</para>
+	  <para>
+	    Then, at the gdb prompt, type <userinput>r</userinput> (for
+	    "run") and wait a few seconds to make sure the component has
+	    registered with the name service.  Then start Evolution
+	    normally from a different terminal.
+	  </para>
 
-	<para>
-	  Then, reproduce the crash, and go back to the terminal where
-	  you ran <command>gdb</command>.  If the component crashed,
-	  you should have a prompt there; otherwise, just hit
-	  <keycombo action=simul>
-	    <keycap>Control</keycap>
-	    <keycap>C</keycap>
-	  </keycombo>.
-	  At the prompt, type:
-	</para>
+	  <para>
+	    Then, reproduce the crash, and go back to the terminal where
+	    you ran <command>gdb</command>.  If the component crashed,
+	    you should have a prompt there; otherwise, just hit
+	    <keycombo action=simul>
+	      <keycap>Control</keycap>
+	      <keycap>C</keycap>
+	    </keycombo>.
+	    At the prompt, type:
+	  </para>
 
-	<programlisting>
-info threads
-	</programlisting>
+	  <programlisting>
+	    info threads
+	  </programlisting>
 
-	<para>
-	  This will give you a list of the current running threads,
-	  e.g.
-	</para>
+	  <para>
+	    This will give you a list of the current running threads,
+	    e.g.
+	  </para>
 
-	<screen>
-(gdb) info threads
-  8 Thread 6151 (LWP 14908)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  7 Thread 5126 (LWP 14907)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  6 Thread 4101 (LWP 1007)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  5 Thread 3076 (LWP 1006)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  4 Thread 2051 (LWP 1005)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  3 Thread 1026 (LWP 1004)  0x409778fe in sigsuspend () from /lib/libc.so.6
-  2 Thread 2049 (LWP 1003)  0x40a10d90 in poll () from /lib/libc.so.6
-  1 Thread 1024 (LWP 995)  0x40a10d90 in poll () from /lib/libc.so.6
-	</screen>
+	  <screen>
+	    (gdb) info threads
+	    8 Thread 6151 (LWP 14908)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    7 Thread 5126 (LWP 14907)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    6 Thread 4101 (LWP 1007)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    5 Thread 3076 (LWP 1006)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    4 Thread 2051 (LWP 1005)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    3 Thread 1026 (LWP 1004)  0x409778fe in sigsuspend () from /lib/libc.so.6
+	    2 Thread 2049 (LWP 1003)  0x40a10d90 in poll () from /lib/libc.so.6
+	    1 Thread 1024 (LWP 995)  0x40a10d90 in poll () from /lib/libc.so.6
+	  </screen>
 
-	<para>
-	  (Notice that, normally, only
-	  <command>evolution-mail</command> will have more than one
-	  thread.)
-	</para>
+	  <para>
+	    (Notice that, normally, only
+	    <command>evolution-mail</command> will have more than one
+	    thread.)
+	  </para>
 
-	<para>
-	  Now, for each of the thread listed, type the following
-	  commands:
-	</para>
+	  <para>
+	    Now, for each of the thread listed, type the following
+	    commands:
+	  </para>
 
-	<programlisting>
-thread N
-bt
-	</programlisting>
+	  <programlisting>
+	    thread N
+	    bt
+	  </programlisting>
 
-	<para>
-	  Where `N' is the thread number.  (In this example, you would
-	  have to do it with N as 1, 2, 3... 8.)  Then cut and paste
-	  all the output into some text file, and quit
-	  <command>gdb</command> by typing
-	  <userinput>quit</userinput>.
-	</para>
+	  <para>
+	    Where `N' is the thread number.  (In this example, you would
+	    have to do it with N as 1, 2, 3... 8.)  Then cut and paste
+	    all the output into some text file, and quit
+	    <command>gdb</command> by typing
+	    <userinput>quit</userinput>.
+	  </para>
 
-	<para>
-	  You can also get a stack trace from a running component or a
-	  component that has just crashed.  Just start
-	  <command>gdb</command> normally and, instead of using the
-	  <userinput>r</userinput> command, use
-	  <userinput>attach</userinput> to attach to the running
-	  process:
-	</para>
+	  <para>
+	    You can also get a stack trace from a running component or a
+	    component that has just crashed.  Just start
+	    <command>gdb</command> normally and, instead of using the
+	    <userinput>r</userinput> command, use
+	    <userinput>attach</userinput> to attach to the running
+	    process:
+	  </para>
 
-	<programlisting>
-attach PID
-	</programlisting>
+	  <programlisting>
+	    attach PID
+	  </programlisting>
 
  	  <para>
 	    Where <userinput>PID</userinput> is the PID of the
@@ -630,10 +630,10 @@ attach PID
   
   <sect1 id="faq-features">
     <title>Features</title>
-      <para>
-       Following is a list of questions about the features in
-       <application>Evolution</application>.   
-      </para>
+    <para>
+      Following is a list of questions about the features in
+      <application>Evolution</application>.   
+    </para>
 
     <qandaset>
       <qandaentry>
@@ -660,7 +660,7 @@ attach PID
           </para>
 
 	  <programlisting>
-rm -rf ~/evolution/local/Inbox/subfolders/Foo
+	    rm -rf ~/evolution/local/Inbox/subfolders/Foo
           </programlisting>
 
 	  <para>
@@ -668,7 +668,7 @@ rm -rf ~/evolution/local/Inbox/subfolders/Foo
 	  </para>
 	</answer> 
       </qandaentry>
- 
+      
       <qandaentry>
 	<question>
 	  <para>
@@ -688,7 +688,7 @@ rm -rf ~/evolution/local/Inbox/subfolders/Foo
 	  </para>
 
 	  <programlisting>
-cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/Bar
+	    cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/Bar
 	  </programlisting>
 
 	  <para>
@@ -699,11 +699,11 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
       </qandaentry>
 
       <qandaentry>
-      <question>
-	<para>
-	  Can I read mail from a mailbox file created by some other
-	  application (e.g. Mutt) without importing mail from it?
-	</para>
+	<question>
+	  <para>
+	    Can I read mail from a mailbox file created by some other
+	    application (e.g. Mutt) without importing mail from it?
+	  </para>
 	</question>
 	<answer>
 	  <para>
@@ -759,7 +759,7 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	    for this to work you need the
 	    <filename>gnome-spell</filename> component, which is not
 	    shipped with Ximian GNOME yet.
- 	 </para>
+	  </para>
 
 	  <para>
 	    If you are brave enough, you can check out module
@@ -807,14 +807,14 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	    GNOME Control Center, go to the "HTML Viewer"
 	    configuration page, which is under the "Document Handlers"
 	    category.
-	</para>
+	  </para>
 	</answer> 
       </qandaentry>
       <qandaentry>
 	<question>
 	  <para>
             How do I import my Outlook <filename>.pst</filename> files into Evolution?
-         </para>
+	  </para>
 	</question>
 	<answer>
 	  <para>
@@ -824,7 +824,7 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
             convert them into the <type>mbox</type> format, which can
             then be imported by Evolution.
           </para>
-      
+	  
 	  <para>
             To start importing your Outlook mail to Evolution, run
             Mozilla Mail on Windows and select the
@@ -833,21 +833,21 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
             Outlook. Once Mozilla has imported all your mail, reboot
             your computer into Linux.
           </para>
-      
+	  
           <para>
             Mount your Windows partition in Linux and run Evolution to
             begin importing your mail. Select
             <menuchoice><guimenu>File</guimenu><guimenuitem>Import
-            File...</guimenuitem></menuchoice> to start importing. Set
+		File...</guimenuitem></menuchoice> to start importing. Set
             the file type to MBox (mbox) and click on
             <guibutton>Browse</guibutton> to select the mail you want
             to import.
           </para>
-      
+	  
           <para>
             If you are the only user on Windows, the mail files will
             be stored in <filename>/mnt/c/windows/Application
-            Data/Mozilla/Profiles/default/XXXX/Mail/imported.mail/</filename>
+	      Data/Mozilla/Profiles/default/XXXX/Mail/imported.mail/</filename>
             where <filename>/mnt/c/</filename> is your windows
             partition mount point and XXXX is some collection of
             numbers and digits ending in <filename>.slt</filename>.
@@ -857,14 +857,14 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
             If there is more than one user, the file will be in
             <filename>/mnt/c/windows/Profiles/USERNAME/XXXX/Mail/imported.mail/</filename>
             where USERNAME is your Windows username.
-         </para>
+	  </para>
 
 	  <para>
             For each mail folder in Outlook, Mozilla will convert the
             folder into one mbox file. To import all your mail, import
             all the files without a <filename>.msf</filename>
             extension.
-           </para>
+	  </para>
 	</answer> 
       </qandaentry>
       
@@ -876,31 +876,14 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	</question>
 	<answer>
 	  <para>
-             Mozilla on Windows accesses the <filename>.pst</filename>
-             files through the <filename>MAPI.DLL</filename>, which is
-             only avaliable on Windows.  <filename>MAPI.DLL</filename>
-             is the only way to access <filename>.pst</filename> files
-             and Evolution cannot use this DLL in Linux.
+	    Mozilla on Windows accesses the <filename>.pst</filename>
+	    files through the <filename>MAPI.DLL</filename>, which is
+	    only avaliable on Windows.  <filename>MAPI.DLL</filename>
+	    is the only way to access <filename>.pst</filename> files
+	    and Evolution cannot use this DLL in Linux.
           </para>
 	</answer> 
       </qandaentry>
     </qandaset>
-    </sect1> 
-  </appendix>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </sect1> 
+</appendix>
