@@ -1,3 +1,9 @@
+2001-08-22  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-ui.c (fbui_sensitize_timeout): Check for NULL uic
+	here as well.
+	(fbui_sensitize_items): Up the timeout interval to 110 ms.
+
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
 	* mail-account-editor.c (apply_changes): Honor the return value of 

@@ -433,7 +433,13 @@ fbui_sensitize_timeout (gpointer data)
 	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
 		sd = (struct sensitize_data *) iter->data;
 
-		fbui_real_sensitize_items (uic, sd->items, sd->enable);
+		/* if UIC == NULL, we could just return TRUE, but we don't
+		 * know when UIC is going to come back... when it does,
+		 * the UI stuff will be reset, so no problem.
+		 */
+
+		if (uic)
+			fbui_real_sensitize_items (uic, sd->items, sd->enable);
 		g_free (sd);
 	}
 
@@ -472,7 +478,7 @@ fbui_sensitize_items (FolderBrowser *fb, const char **items, gboolean enable)
 	}
 
 	if (fb->sensitize_timeout_id == 0)
-		fb->sensitize_timeout_id = g_timeout_add (90, fbui_sensitize_timeout, fb);
+		fb->sensitize_timeout_id = g_timeout_add (110, fbui_sensitize_timeout, fb);
 }
 
 static const char *message_pane_enables[] = {
