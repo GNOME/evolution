@@ -1,3 +1,13 @@
+2000-04-14  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.[ch]: Moved from camel/camel-formatter, and changed
+	slightly. (More to come.)
+
+	* html-stream.[ch]: No longer necessary. mail-format uses
+	GtkHTMLStreamHandles directly.
+
+	* mail-display.[ch]: update for new message formatting code.
+
 2000-04-14  Chris Toshok  <toshok@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): use

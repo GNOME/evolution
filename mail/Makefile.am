@@ -29,10 +29,10 @@ evolution_mail_SOURCES =		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
 	folder-browser-factory.h	\
-	html-stream.c			\
-	html-stream.h			\
-	mail-display.h			\
 	mail-display.c			\
+	mail-display.h			\
+	mail-format.c			\
+	mail-format.h			\
 	mail-ops.c			\
 	mail-ops.h			\
 	main.c				\

@@ -33,10 +33,7 @@ struct _MailDisplay {
 	FolderBrowser *parent_folder_browser;
 
 	GtkHTML *      headers_html_widget;
-	CamelStream *  headers_stream;
-
 	GtkHTML *      body_html_widget;
-	CamelStream *  body_stream;
 	
 	CamelMimeMessage *current_message;
 };

@@ -12,8 +12,7 @@
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "mail-display.h"
-#include "html-stream.h"
-#include "camel/camel-formatter.h"
+#include "mail-format.h"
 
 /* corba/bonobo stuff */
 #include <bonobo.h>
@@ -276,14 +275,8 @@ void
 mail_display_set_message (MailDisplay *mail_display, 
 			  CamelMedium *medium)
 {
-	CamelFormatter *camel_formatter;
+	GtkHTMLStreamHandle *headers_stream, *body_stream;
 
-	/* okay, we should not create a formatter
-	 * each time we need to display a message
-	 * but I don't know how the formatter reacts
-	 * to consecutive call to *_to_html - ber */
-	camel_formatter = camel_formatter_new ();
-	
 	/*
 	 * for the moment, camel-formatter deals only with 
 	 * mime messages, but in the future, it should be 
@@ -292,70 +285,52 @@ mail_display_set_message (MailDisplay *mail_display,
 	 * fact, only the medium class has the distinction 
 	 * header / body 
 	 */
-	if (CAMEL_IS_MIME_MESSAGE (medium)) {
-		
-		/* we were given a reference to the message in the last call 
-		 * to mail_display_set_message, free it now. */
-		if (mail_display->current_message)
-			gtk_object_unref (GTK_OBJECT (mail_display->current_message));
-				
-		mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
-		/* 
-		 * reset the html stream to clean 
-		 * the gtkhtml widget 
-		 */
-		camel_stream_reset (mail_display->body_stream);
-		camel_stream_reset (mail_display->headers_stream);
-		
-		/* 
-		 * convert the message into html
-		 * and stream the result to the gtkhtml
-		 * widgets 
-		 */
-		camel_stream_write_string (mail_display->headers_stream, "\n\
+	if (!CAMEL_IS_MIME_MESSAGE (medium))
+		return;
+
+	/* we were given a reference to the message in the last call 
+	 * to mail_display_set_message, free it now. */
+	if (mail_display->current_message)
+		gtk_object_unref (GTK_OBJECT (mail_display->current_message));
+
+	mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
+
+	headers_stream = gtk_html_begin (mail_display->headers_html_widget, "");
+	body_stream = gtk_html_begin (mail_display->body_html_widget, "");
+
+	/* Convert the message into html and stream the result to the
+	 * gtkhtml widgets.
+	 */
+	mail_write_html (headers_stream, "\n\
 <!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
 <html>\n\
 <head>\n\
    <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
 </head>\n\
-<body text=\"#000000\" bgcolor=\"#999999\">\n\
+<body text=\"#000000\" bgcolor=\"#EEEEEE\">\n\
 <font>\n\
-");;
+");
 
-		camel_stream_write_string (mail_display->body_stream, "\n\
+	mail_write_html (body_stream, "\n\
 <!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n\
 <html>\n\
 <head>\n\
    <meta name=\"GENERATOR\" content=\"Evolution Mail Component (Rhon Rhon release)\">\n\
 </head>\n\
 <body text=\"#000000\" bgcolor=\"#FFFFFF\">\n\
-");;
+");
 
+	mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
+				  headers_stream,
+				  body_stream);
 
-		 camel_formatter_mime_message_to_html 
-			(camel_formatter,
-			 CAMEL_MIME_MESSAGE (medium),
-			 mail_display->headers_stream,
-			 mail_display->body_stream);
-		 
-		
-		 gtk_object_unref (GTK_OBJECT (camel_formatter));
+	mail_write_html (headers_stream, "\n</font>\n</body>\n</html>\n");
+	mail_write_html (body_stream, "\n</body>\n</html>\n");
 
-		 camel_stream_write_string (mail_display->headers_stream, "\n\
-</font>\n\
-</body>\n\
-</html>\n\
-");;
-
-		camel_stream_write_string (mail_display->body_stream, "\n\
-</body>\n\
-</html>\n\
-");;
-
-		camel_stream_close (mail_display->body_stream);
-		camel_stream_close (mail_display->headers_stream);
-		
-	}	
+	gtk_html_end (mail_display->headers_html_widget, headers_stream,
+		      GTK_HTML_STREAM_OK);
+	gtk_html_end (mail_display->body_html_widget, body_stream,
+		      GTK_HTML_STREAM_OK);
 }
 
 
@@ -369,8 +344,7 @@ mail_display_init (GtkObject *object)
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
 	/* create the headers html widget */
-	mail_display->headers_html_widget =  (GtkHTML *) gtk_html_new ();	
-	mail_display->headers_stream = html_stream_new (mail_display->headers_html_widget);
+	mail_display->headers_html_widget =  (GtkHTML *) gtk_html_new ();
 	gtk_widget_show (GTK_WIDGET (mail_display->headers_html_widget));
 	
 	/* create the body html widget */
@@ -379,8 +353,6 @@ mail_display_init (GtkObject *object)
 			    "object_requested",
 			    GTK_SIGNAL_FUNC (on_object_requested), 
 			    NULL);
-
-	mail_display->body_stream = html_stream_new (mail_display->body_html_widget);
 	gtk_widget_show (GTK_WIDGET (mail_display->body_html_widget));
 	
 	/* various other initializations */
@@ -435,7 +407,7 @@ mail_display_new (FolderBrowser *parent_folder_browser)
 	gtk_widget_show (frame_wnd);
 	gtk_container_add (GTK_CONTAINER (scroll_wnd), 
 			   GTK_WIDGET (mail_display->headers_html_widget));
-	gtk_widget_set_usize (GTK_WIDGET (scroll_wnd), -1, 50);
+	gtk_widget_set_usize (GTK_WIDGET (scroll_wnd), -1, 100);
 	/* add it on the top part of the table */
   	gtk_table_attach (table, GTK_WIDGET (frame_wnd), 
   			  0, 1, 0, 1,
@@ -457,12 +429,6 @@ mail_display_new (FolderBrowser *parent_folder_browser)
   	gtk_table_attach (table, GTK_WIDGET (scroll_wnd), 
   			  0, 1, 1, 2,
   			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0); 
-
-	
-	/* write the default text to the  html widgets */
-	camel_stream_write_string (mail_display->headers_stream, default_header_html_string);
-	camel_stream_write_string (mail_display->body_stream,    default_body_html_string);
-	 
 
 	return GTK_WIDGET (mail_display);
 }
