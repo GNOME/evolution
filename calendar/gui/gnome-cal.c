@@ -1388,7 +1388,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 		gtk_signal_connect (GTK_OBJECT (ee), "editor_closed",
 				    GTK_SIGNAL_FUNC (editor_closed_cb), gcal);
 
-		event_editor_set_ical_object (EVENT_EDITOR (ee), comp);
+		event_editor_set_event_object (EVENT_EDITOR (ee), comp);
 	}
 
 	event_editor_focus (ee);

@@ -63,7 +63,7 @@ EventEditor *event_editor_construct (EventEditor *ee);
 
 EventEditor *event_editor_new (void);
 
-void event_editor_set_ical_object (EventEditor *ee, CalComponent *comp);
+void event_editor_set_event_object (EventEditor *ee, CalComponent *comp);
 
 void event_editor_focus (EventEditor *ee);
 

@@ -2757,12 +2757,14 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.tzid = NULL;
 
 	dt = week_view->day_starts[week_view->selection_start_day];
-	*date.value = icaltime_from_timet (dt, FALSE, FALSE);
+	*date.value = icaltime_from_timet (dt, TRUE, FALSE);
 	cal_component_set_dtstart (comp, &date);
 
 	dt = week_view->day_starts[week_view->selection_end_day + 1];
-	*date.value = icaltime_from_timet (dt, FALSE, FALSE);
+	*date.value = icaltime_from_timet (dt, TRUE, FALSE);
 	cal_component_set_dtend (comp, &date);
+
+	cal_component_commit_sequence (comp);
 
 	gnome_calendar_edit_object (week_view->calendar, comp);
 	gtk_object_unref (GTK_OBJECT (comp));

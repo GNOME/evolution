@@ -1,5 +1,19 @@
 2000-08-29  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/gnome-cal.c (gnome_calendar_edit_object): Use
+	event_editor_set_event_object
+
+	* gui/event-editor.c (event_editor_set_event_object): Rename
+	from event_editor_set_ical_object
+
+	* gui/event-editor.h: Update prototype
+
+	* gui/e-week-view.c (e_week_view_on_new_appointment): 
+	Call cal_component_commit_sequence after event changes. Default
+	to these being all day events.
+	
+2000-08-29  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/event-editor.c (dialog_to_comp_object): These are not UTC
 	times
 

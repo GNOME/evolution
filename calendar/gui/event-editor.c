@@ -260,8 +260,8 @@ event_editor_destroy (GtkObject *object)
 	}
 
 	if (priv->comp) {
-		/* We do not emit the "ical_object_released" signal here.  If
-		 * the user cloased the dialog box, then it has already been
+		/* We do not emit the "released_event_object" signal here.  If
+		 * the user closed the dialog box, then it has already been
 		 * released.  If the application just destroyed the event
 		 * editor, then it had better clean up after itself.
 		 */
@@ -1530,14 +1530,14 @@ event_editor_new (void)
 }
 
 /**
- * event_editor_set_ical_object:
+ * event_editor_set_event_object:
  * @ee: An event editor.
  * @comp: A calendar object.
  * 
  * Sets the calendar object that an event editor dialog will manipulate.
  **/
 void
-event_editor_set_ical_object (EventEditor *ee, CalComponent *comp)
+event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
 	char *title;
