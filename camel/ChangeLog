@@ -1,5 +1,9 @@
 2002-07-24  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
+	Sync before doing an expunge if we dont have uidplus.  See #25766.
+	(imap_expunge_uids_resyncing): Same here.
+
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
 	Duplicated the very much hack in imap_store_refresh_folders() to
 	avoid a deadlock in #27959.  A decent fix has to wait for a

@@ -823,7 +823,15 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	char *set;
 	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	
+
+	if ((store->capabilities & IMAP_CAPABILITY_UIDPLUS) == 0) {
+		((CamelFolderClass *)CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, 0, ex);
+		if (camel_exception_is_set(ex)) {
+			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+			return;
+		}
+	}
+
 	while (uid < uids->len) {
 		set = imap_uid_array_to_set (folder->summary, uids, uid, UID_SET_LIMIT, &uid);
 		response = camel_imap_command (store, folder, ex,
@@ -886,6 +894,13 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 	 */
 	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+
+	((CamelFolderClass *)CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, 0, ex);
+	if (camel_exception_is_set(ex)) {
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		return;
+	}
+
 	response = camel_imap_command (store, folder, ex, "UID SEARCH DELETED");
 	if (!response) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
