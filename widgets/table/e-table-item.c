@@ -218,6 +218,8 @@ eti_ungrab (ETableItem *eti, guint32 time)
 				eti->gtk_grabbed = FALSE;
 			}
 			gnome_canvas_item_ungrab(item, time);
+			eti->grabbed_col = -1;
+			eti->grabbed_row = -1;
 		}
 	}
 }
@@ -1689,8 +1691,7 @@ eti_unrealize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 
-	if (eti->grabbed) {
-		eti->grabbed = FALSE;
+	if (eti->grabbed_count > 0) {
 		d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
 		eti_ungrab (eti, -1);
 	}
@@ -2308,7 +2309,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				eti->drag_x        = realx;
 				eti->drag_y        = realy;
 				eti->drag_state    = e->button.state;
-				eti->grabbed       = TRUE;
 				d(g_print ("%s: eti_grab\n", __FUNCTION__));
 				eti_grab (eti, e->button.time);
 			}
@@ -2343,10 +2343,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		d(g_print("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, e->button.button));
 
-		if (eti->grabbed) {
+		if (eti->grabbed_count > 0) {
 			d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
 			eti_ungrab (eti, e->button.time);
-			eti->grabbed = FALSE;
 		}
 
 		if (e->button.button == 1) {
@@ -2469,12 +2468,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				if (eti->in_drag) {
 					eti->in_drag = FALSE;
 				}
+				if (eti_editing (eti))
+					e_table_item_leave_edit_ (eti);
+
 			}
 
-			if (eti->grabbed) {
+			if (eti->grabbed_count > 0) {
 				d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
 				eti_ungrab (eti, e->button.time);
-				eti->grabbed = FALSE;
 			}
 
 			if (model_row != -1 && model_col != -1) {
