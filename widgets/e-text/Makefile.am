@@ -1,4 +1,5 @@
 INCLUDES =					\
+	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES =				\

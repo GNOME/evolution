@@ -1,3 +1,9 @@
+2000-03-17 Elliot Lee <sopwith@redhat.com>
+	* calendar/cal-client/Makefile.am,
+	calendar/cal-util/Makefile.am, calendar/gui/Makefile.am,
+	calendar/pcs/Makefile.am, mail/Makefile.am,
+	widgets/e-text/Makefile.am: Fix for srcdir != builddir.
+
 2000-03-14  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (SUBDIRS): build shell before mail, since mail

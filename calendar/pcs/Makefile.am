@@ -14,6 +14,7 @@ bin_PROGRAMS = tlacuache
 #        $(GNOME_INCLUDEDIR)
 
 INCLUDES = \
+	-I$(top_srcdir) \
 	-I$(top_srcdir)/calendar/cal-client \
 	-I$(top_srcdir)/calendar/cal-util \
 	-I$(top_srcdir)/calendar \
@@ -69,8 +70,8 @@ ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
 
 tlacuache_LDADD =					\
 	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(top_srcdir)/calendar/cal-util/libcalutil.la	\
-	$(top_srcdir)/libversit/libversit.la		\
+	$(top_builddir)/calendar/cal-util/libcalutil.la	\
+	$(top_builddir)/libversit/libversit.la		\
 	$(ICAL_LINK_FLAGS)
 
 gnorbadir = $(sysconfdir)/CORBA/servers

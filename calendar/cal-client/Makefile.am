@@ -19,7 +19,7 @@ $(CORBA_GENERATED): $(idls)
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"cal-client\"			\
-	-I$(top_srcdir)/calendar/cal-util		\
+	-I$(top_srcdir)/calendar			\
 	-I$(srcdir) -I$(top_srcdir) 			\
 	-I. 						\
 	-I.. 						\
@@ -56,7 +56,7 @@ client_test_INCLUDES =			\
 
 client_test_LDADD =					\
 	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(top_srcdir)/calendar/cal-util/libcalutil.la	\
+	$(top_builddir)/calendar/cal-util/libcalutil.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/libical/src/libical/libical.la	\
 	libcal-client.la

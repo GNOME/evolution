@@ -9,7 +9,7 @@ bin_PROGRAMS = gnomecal
 #		 calendar-pilot-sync
 #endif
 
-ICAL_LINK_FLAGS = $(top_srcdir)/libical/src/libical/libical.la
+ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
 
 INCLUDES = 						\
 	-I$(includedir)					\
@@ -72,10 +72,10 @@ gnomecal_SOURCES =				\
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
-	$(top_srcdir)/calendar/cal-util/libcalutil.la \
-	$(top_srcdir)/libversit/libversit.la \
+	$(top_builddir)/calendar/cal-util/libcalutil.la \
+	$(top_builddir)/libversit/libversit.la \
 	$(ICAL_LINK_FLAGS) \
-	$(top_srcdir)/calendar/cal-client/libcal-client.la
+	$(top_builddir)/calendar/cal-client/libcal-client.la
 
 #calendar_pilot_sync_LDADD =	\
 #	 $(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
