@@ -1,3 +1,7 @@
+2004-01-05  Laurent Dhima  <laurenti@alblinux.net>
+
+	* configure.in: Added "sq" to ALL_LINGUAS.
+
 2004-01-01  Roozbeh Pournader  <roozbeh@sharif.edu>
 
 	* configure.in: Added "fa" (Persian) to ALL_LINGUAS.
