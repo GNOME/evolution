@@ -21,6 +21,7 @@ images_DATA = \
 	configure_16_mail.xpm		\
 	connect_to_url-16.xpm		\
 	contact-is-a-list.png		\
+	contact-list-16.png		\
 	copy_16_message.xpm		\
 	edit.xpm			\
 	empty.gif			\
@@ -88,8 +89,7 @@ images_DATA = \
 	malehead.png			\
 	mark-as-important-16.png	\
 	meeting-request.png		\
-	meeting-request.png 		\
-	meeting.xpm			\
+	meeting-request-16.png 		\
 	monkey-16.png			\
 	move_message.xpm		\
 	myevo-appointments.png		\
@@ -116,6 +116,7 @@ images_DATA = \
 	pgp-signature-bad.png 		\
 	pgp-signature-nokey.png 	\
 	pgp-signature-ok.png 		\
+	post-message-16.png		\
 	print-preview.xpm		\
 	print.xpm			\
 	priority-high.xpm		\
@@ -233,7 +234,6 @@ EXTRA_DIST = \
 	mail-replied.xpm		\
 	flag-for-followup.xpm		\
 	mark.xpm			\
-	meeting.xpm			\
 	priority-high.xpm		\
 	priority-low.xpm		\
 	recur.xpm			\
@@ -255,5 +255,3 @@ EXTRA_DIST = \
 	$(conduits_DATA)		\
 	$(glade_DATA)			\
 	$(appicon_DATA)
-
-
