@@ -1,5 +1,15 @@
 2000-09-01  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.c: Update for new libical.
+	Conduits should atleast compile now.
+
+	* conduits/calendar/calendar-conduit.c: ditto 
+
+	* Makefile.am: Build the conduits only when they've been
+	enabled.
+
+2000-09-01  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/event-editor.c: Make toolbar save and close button.
 	We should put a similar menu option in sometime.
 

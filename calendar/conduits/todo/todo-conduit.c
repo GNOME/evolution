@@ -452,7 +452,7 @@ ical_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 {
 	CalComponent *obj;
 	struct ToDo todo;
-	struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
+	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 
 	CalComponentText summary = {NULL, NULL};
 	CalComponentText comment = {NULL, NULL};
@@ -505,7 +505,7 @@ ical_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 		struct icaltimetype dtend_ictt;
 		CalComponentDateTime dtend;
 
-		dtend_ictt = icaltimetype_from_timet (mktime (& todo.due), FALSE);
+		dtend_ictt = icaltime_from_timet (mktime (& todo.due), FALSE, FALSE);
 		dtend.value = &dtend_ictt;
 		dtend.tzid = NULL;
 		cal_component_set_dtend (obj, &dtend);
@@ -594,7 +594,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	}
 
 	if (status != CAL_CLIENT_GET_SUCCESS) {
-		struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
+		struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 
 		LOG ("failed, making a new one.\n");
 
@@ -1110,7 +1110,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		time_t dtend_time_t;
 
 		cal_component_get_dtend (local->ical, &dtend);
-		dtend_time_t = time_from_icaltimetype (*dtend.value);
+		dtend_time_t = icaltime_as_timet (*dtend.value);
 
 		local->todo->due = *localtime (&dtend_time_t);
 		local->todo->indefinite = (dtend.value->year == 0);

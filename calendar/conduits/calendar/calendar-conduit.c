@@ -9,7 +9,6 @@
 #include <errno.h>
 
 #include <cal-client/cal-client.h>
-// #include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
 #include <pi-source.h>
 #include <pi-socket.h>
@@ -407,9 +406,8 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 			CalComponent *in_obj)
 {
 	CalComponent *obj;
-	// int i;
 	struct Appointment a;
-	struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
+	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 
 	CalComponentText summary = {NULL, NULL};
 	CalComponentText comment = {NULL, NULL};
@@ -477,7 +475,7 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		struct icaltimetype dtstart_ictt;
 		CalComponentDateTime dtstart;
 
-		dtstart_ictt = icaltimetype_from_timet (mktime (& a.begin), FALSE);
+		dtstart_ictt = icaltime_from_timet (mktime (& a.begin), FALSE, FALSE);
 		dtstart.value = &dtstart_ictt;
 		dtstart.tzid = NULL;
 		cal_component_set_dtstart (obj, &dtstart);
@@ -489,7 +487,7 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		struct icaltimetype dtend_ictt;
 		CalComponentDateTime dtend;
 
-		dtend_ictt = icaltimetype_from_timet (mktime (& a.end), FALSE);
+		dtend_ictt = icaltime_from_timet (mktime (& a.end), FALSE, FALSE);
 		dtend.value = &dtend_ictt;
 		dtend.tzid = NULL;
 		cal_component_set_dtend (obj, &dtend);
@@ -658,7 +656,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	}
 
 	if (status != CAL_CLIENT_GET_SUCCESS) {
-		struct icaltimetype now = icaltimetype_from_timet (time (NULL), FALSE);
+		struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 
 		printf ("failed, making a new one.\n");
 
