@@ -1157,6 +1157,7 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 			PK11_InitPin (slot, "", pwd);
 		}
 
+		PK11_SetPasswordFunc(pk11_password);
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {
 			printf ("PK11_Authenticate failed (err = %d/%d)\n", PORT_GetError(), PORT_GetError() + 0x2000);
 			return FALSE;
