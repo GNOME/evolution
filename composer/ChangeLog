@@ -1,8 +1,8 @@
 2002-06-03  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* e-msg-composer.c (e_msg_composer_guess_mime_type): Use
-	gnome_vfs_file_info_clear() instead of gnome_vfs_file_info_unref()
-	so that we don't try and free static data.
+	* e-msg-composer.c (e_msg_composer_guess_mime_type): Allocate a
+	new FileInfo struct here rather than using and unref it when we're
+	finished with it.
 
 2002-05-30  Not Zed  <NotZed@Ximian.com>
 
