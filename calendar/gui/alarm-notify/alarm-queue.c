@@ -897,7 +897,7 @@ procedure_notification_dialog (const char *cmd, const char *url)
 		save_blessed_program (url);
 	gtk_widget_destroy (dialog);
 
-	return (btn == GNOME_YES);
+	return (btn == GTK_RESPONSE_OK);
 }
 
 static void

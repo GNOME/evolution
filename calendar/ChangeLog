@@ -1,10 +1,19 @@
-2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/dialogs/alarm-options.c (alarm_to_dialog): Make the file
-	entry modal.  [#40792]
-
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #40790
+	
+	* gui/alarm-notify/alarm-queue.c (procedure_notification_dialog):
+	return based on the response code (not old button stuff)
+
+2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
+  
+       * gui/dialogs/alarm-options.c (alarm_to_dialog): Make the file
+       entry modal.  [#40792]
+
+2003-04-04  JP Rosevear  <jpr@ximian.com>
+	
+	Fixes #40789
+	
 	* gui/dialogs/alarm-options.c (alarm_to_dalarm_widgets):
 	description is a text buffer
 	(alarm_to_malarm_widgets): ditto
