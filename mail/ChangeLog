@@ -2,6 +2,7 @@
 
 	* folder-browser-factory.c: Changed "Send" to "Compose" to
 	avoid user confusion. Compose is a little more intuitive.
+	Also changed the pixmap to MAIL_NEW instead of MAIL_SND
 
 	* mail-ops.c (compose_msg): Renamed to avoid confusion
 
