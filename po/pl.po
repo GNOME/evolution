@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-07 21:18+0200\n"
+"POT-Creation-Date: 2003-08-11 00:02+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -543,9 +543,8 @@ msgid "Evolution Addressbook"
 msgstr "Książka adresowa Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Addressbook LDAP Configuration Control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji książki adresowej LDAP Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 msgid "Evolution Addressbook address pop-up"
@@ -3261,9 +3260,8 @@ msgstr ""
 "Brak elementów do wyświetlenia w tym widoku."
 
 #: addressbook/gui/widgets/e-minicard-view.c:457
-#, fuzzy
 msgid "Adapter"
-msgstr "po"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard.c:169
 msgid "Selected"
@@ -3658,9 +3656,8 @@ msgid "Evolution Calendar and Tasks component"
 msgstr "Komponent kalendarza i zadań Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Calendar configuration control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji kalendarza Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
@@ -11787,9 +11784,8 @@ msgid "Evolution Mail"
 msgstr "Poczta Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Mail accounts configuration control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji kont pocztowych Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
@@ -11800,9 +11796,8 @@ msgid "Evolution Mail composer"
 msgstr "Edytor listów programu Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Mail composer configuration control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji programu do tworzenia listów Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail configuration interface"
@@ -11813,9 +11808,8 @@ msgid "Evolution Mail folder viewer"
 msgstr "Przeglądarka folderu pocztowego Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12
-#, fuzzy
 msgid "Evolution Mail preferences control"
-msgstr "Komponent zestawienia wykonawczego poczty Evolution."
+msgstr "Kontrola preferencji poczty Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
@@ -12772,9 +12766,8 @@ msgid "IMAPv4 "
 msgstr "IMAPv4"
 
 #: mail/mail-config.glade.h:63
-#, fuzzy
 msgid "Inline"
-msgstr "W _treści listu"
+msgstr ""
 
 #: mail/mail-config.glade.h:64
 msgid "Kerberos "
@@ -13191,9 +13184,8 @@ msgid "Save Attachment..."
 msgstr "Zapisz załącznik..."
 
 #: mail/mail-display.c:481
-#, fuzzy
 msgid "View Inline"
-msgstr "Wyświetl na miejscu (za pomocą programu %s)"
+msgstr ""
 
 #: mail/mail-display.c:482
 #, c-format
@@ -13408,9 +13400,8 @@ msgstr ""
 "%s"
 
 #: mail/mail-mt.c:904
-#, fuzzy
 msgid "Working"
-msgstr "Przetwarzanie"
+msgstr "Wykonywanie operacji"
 
 #: mail/mail-ops.c:86
 msgid "Filtering Folder"
@@ -13832,9 +13823,8 @@ msgid "Flagged"
 msgstr "Oznaczony"
 
 #: mail/message-list.etspec.h:6
-#, fuzzy
 msgid "Follow Up Flag"
-msgstr "Według znacznika podążania"
+msgstr ""
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -13849,9 +13839,8 @@ msgid "Size"
 msgstr "Rozmiar"
 
 #: mail/message-tag-followup.c:62
-#, fuzzy
 msgid "Call"
-msgstr "Telefon"
+msgstr ""
 
 #: mail/message-tag-followup.c:63
 msgid "Do Not Forward"
@@ -13903,9 +13892,8 @@ msgid ""
 msgstr ""
 
 #: mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due by:"
-msgstr "_Czas zakończenia:"
+msgstr "_Termin zakończenia:"
 
 #: mail/message-tags.glade.h:7
 msgid "_Flag:"
@@ -13981,9 +13969,8 @@ msgid "Evolution Summary component"
 msgstr "Komponent zestawienia Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Summary configuration control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji zestawienia Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 msgid "Summary Preferences"
@@ -14616,7 +14603,7 @@ msgstr "Bahia Blanca"
 
 #: my-evolution/Locations.h:163
 msgid "Bahias de Huatulco"
-msgstr ""
+msgstr "Bahias de Huatulco"
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
@@ -14628,20 +14615,19 @@ msgstr "Bakersfield"
 
 #: my-evolution/Locations.h:167
 msgid "Bale-Mulhouse"
-msgstr ""
+msgstr "Bale-Mulhouse"
 
 #: my-evolution/Locations.h:168
 msgid "Balikesir"
-msgstr ""
+msgstr "Balikesir"
 
 #: my-evolution/Locations.h:169
 msgid "Balikesir/Bandirma"
-msgstr ""
+msgstr "Balikesir/Bandirma"
 
 #: my-evolution/Locations.h:170
-#, fuzzy
 msgid "Ball Mountain"
-msgstr "Treść zawiera"
+msgstr "Ball Mountain"
 
 #: my-evolution/Locations.h:171
 msgid "Baltimore"
@@ -14656,35 +14642,32 @@ msgid "Banak"
 msgstr "Banak"
 
 #: my-evolution/Locations.h:174
-#, fuzzy
 msgid "Bandarabbass"
-msgstr "Kalendarz i zadania"
+msgstr "Bandarabbass"
 
 #: my-evolution/Locations.h:175
 msgid "Bangor"
 msgstr "Bangor"
 
 #: my-evolution/Locations.h:176
-#, fuzzy
 msgid "Baracoa"
-msgstr "Barbados"
+msgstr "Baracoa"
 
 #: my-evolution/Locations.h:177
 msgid "Barbers Point"
-msgstr ""
+msgstr "Barbers Point"
 
 #: my-evolution/Locations.h:178
 msgid "Barcelona"
 msgstr "Barcelona"
 
 #: my-evolution/Locations.h:179
-#, fuzzy
 msgid "Bardufoss"
-msgstr "Barbados"
+msgstr "Bardufoss"
 
 #: my-evolution/Locations.h:180
 msgid "Bar Harbor"
-msgstr ""
+msgstr "Bar Harbor"
 
 #: my-evolution/Locations.h:181
 msgid "Bari"
@@ -14692,34 +14675,31 @@ msgstr "Bari"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
-msgstr ""
+msgstr "Bariloche"
 
 #: my-evolution/Locations.h:183
-#, fuzzy
 msgid "Barinas"
-msgstr "Bahrain"
+msgstr "Barinas"
 
 #: my-evolution/Locations.h:184
-#, fuzzy
 msgid "Barking Sand"
-msgstr "Szalejący piasek"
+msgstr "Barking Sand"
 
 #: my-evolution/Locations.h:185
 msgid "Barksdale"
-msgstr ""
+msgstr "Barksdale"
 
 #: my-evolution/Locations.h:186
-#, fuzzy
 msgid "Barnaul"
-msgstr "Brazylia"
+msgstr "Barnaul"
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
-msgstr ""
+msgstr "Barquisimeto"
 
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr ""
+msgstr "Barranquilla/Ernestocortissoz"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
@@ -14727,15 +14707,15 @@ msgstr "Barrow"
 
 #: my-evolution/Locations.h:190
 msgid "Barter Island"
-msgstr "Wyspy Bartera"
+msgstr "Wyspa Bartera"
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
-msgstr ""
+msgstr "Bartlesville"
 
 #: my-evolution/Locations.h:192
 msgid "Bartow"
-msgstr ""
+msgstr "Bartow"
 
 #: my-evolution/Locations.h:193
 msgid "Bastia"
@@ -14743,7 +14723,7 @@ msgstr "Bastia"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
-msgstr ""
+msgstr "Batesville"
 
 #: my-evolution/Locations.h:195
 msgid "Batman"
@@ -14771,12 +14751,11 @@ msgstr "Bayamo"
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
-msgstr ""
+msgstr "Bayreuth"
 
 #: my-evolution/Locations.h:202
-#, fuzzy
 msgid "Beatrice"
-msgstr "Bałtycki"
+msgstr "Beatrice"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
@@ -14788,16 +14767,15 @@ msgstr "Beaumont"
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
-msgstr ""
+msgstr "Beaumont-Port Arthur"
 
 #: my-evolution/Locations.h:206
 msgid "Beauvais-Tille"
-msgstr ""
+msgstr "Beauvais-Tille"
 
 #: my-evolution/Locations.h:207
-#, fuzzy
 msgid "Beauvechain"
-msgstr "Bahrain"
+msgstr "Beauvechain"
 
 #: my-evolution/Locations.h:208
 msgid "Beckley"
@@ -14817,12 +14795,11 @@ msgstr "Bejrut"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
-msgstr ""
+msgstr "Beja"
 
 #: my-evolution/Locations.h:213
-#, fuzzy
 msgid "Belem"
-msgstr "Belize"
+msgstr "Belem"
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
@@ -14837,71 +14814,64 @@ msgid "Belgorod"
 msgstr ""
 
 #: my-evolution/Locations.h:219
-#, fuzzy
 msgid "Belleville"
-msgstr "Belize"
+msgstr "Belleville"
 
 #: my-evolution/Locations.h:220
-#, fuzzy
 msgid "Bellingham"
-msgstr "Szalejący grad"
+msgstr "Bellingham"
 
 #: my-evolution/Locations.h:221
 msgid "Belmar-Farmingdale"
-msgstr ""
+msgstr "Belmar-Farmingdale"
 
 #: my-evolution/Locations.h:222
-#, fuzzy
 msgid "Belo Horizonte"
-msgstr "Belize"
+msgstr "Belo Horizonte"
 
 #: my-evolution/Locations.h:223
 msgid "Belo Horizonte Apt"
-msgstr ""
+msgstr "Belo Horizonte Apt"
 
 #: my-evolution/Locations.h:224
 msgid "Bemidji"
-msgstr ""
+msgstr "Bemidji"
 
 #: my-evolution/Locations.h:225
-#, fuzzy
 msgid "Benbecula"
-msgstr "Wenezuela"
+msgstr "Benbecula"
 
 #: my-evolution/Locations.h:226
-#, fuzzy
 msgid "Benina"
-msgstr "Benin"
+msgstr "Benina"
 
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
-msgstr ""
+msgstr "Benton Harbor"
 
 #: my-evolution/Locations.h:228
 msgid "Bentonville"
-msgstr ""
+msgstr "Bentonville"
 
 #: my-evolution/Locations.h:229
-#, fuzzy
 msgid "Beograd"
-msgstr "Odśwież"
+msgstr ""
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
 msgstr "Bergamo"
 
 #: my-evolution/Locations.h:231
-#, fuzzy
 msgid "Bergen"
-msgstr "Widziany"
+msgstr "Bergen"
 
 #: my-evolution/Locations.h:232
 msgid "Bergstrom AFB"
-msgstr ""
+msgstr "Bergstrom AFB"
 
 #: my-evolution/Locations.h:233
 msgid "Berlevag"
-msgstr ""
+msgstr "Berlevag"
 
 #: my-evolution/Locations.h:234
 msgid "Berlin"
@@ -14916,23 +14886,20 @@ msgid "Berlin-Tempelhof"
 msgstr "Berlin-Tempelhof"
 
 #: my-evolution/Locations.h:237
-#, fuzzy
 msgid "Bern"
-msgstr "Benin"
+msgstr "Bern"
 
 #: my-evolution/Locations.h:238
-#, fuzzy
 msgid "Bethel"
-msgstr "Pogoda"
+msgstr "Pethel"
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
 msgstr "Betlejem Port Lotniczy"
 
 #: my-evolution/Locations.h:240
-#, fuzzy
 msgid "Bettles"
-msgstr "Belize"
+msgstr "Bettles"
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
@@ -14940,33 +14907,31 @@ msgstr "Beverly"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
-msgstr ""
+msgstr "Biarritz-Bayonne"
 
 #: my-evolution/Locations.h:243
 msgid "Bicycle Lake"
-msgstr ""
+msgstr "Bicycle Lake"
 
 #: my-evolution/Locations.h:244
 msgid "Biggin Hill"
-msgstr ""
+msgstr "Biggin Hill"
 
 #: my-evolution/Locations.h:245
-#, fuzzy
 msgid "Big Piney"
-msgstr "Pine"
+msgstr "Big Piney"
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
-msgstr ""
+msgstr "Big River Lake"
 
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
 msgstr "Bilbao"
 
 #: my-evolution/Locations.h:248
-#, fuzzy
 msgid "Billings"
-msgstr "Szalejące tumany kurzu"
+msgstr "Billings"
 
 #: my-evolution/Locations.h:249
 msgid "Billund"
@@ -14974,7 +14939,7 @@ msgstr "Billund"
 
 #: my-evolution/Locations.h:250
 msgid "Binghamton"
-msgstr ""
+msgstr "Binghamton"
 
 #: my-evolution/Locations.h:251
 msgid "Birmingham"
@@ -14982,11 +14947,11 @@ msgstr "Birmingham"
 
 #: my-evolution/Locations.h:252
 msgid "Bisha"
-msgstr ""
+msgstr "Bisha"
 
 #: my-evolution/Locations.h:253
 msgid "Bishop"
-msgstr ""
+msgstr "Bishop"
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
@@ -15001,48 +14966,44 @@ msgid "Blagoveschensk"
 msgstr ""
 
 #: my-evolution/Locations.h:257
-#, fuzzy
 msgid "Blanding"
-msgstr "Ostrzeżenie"
+msgstr "Blanding"
 
-# [cyba] Nie mam pewności, ale jest zatoka Cooka, cieśnina, góry, więc chyba...
 #: my-evolution/Locations.h:258
-#, fuzzy
 msgid "Block Island"
-msgstr "Wyspy Cooka"
+msgstr "Block Island"
 
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
-msgstr ""
+msgstr "Loemfontein J. B. M. Hertzog "
 
 #: my-evolution/Locations.h:260
-#, fuzzy
 msgid "Bloomington"
-msgstr "Szalejący piasek"
+msgstr "Bloomington"
 
 #: my-evolution/Locations.h:261
 msgid "Blue Canyon"
-msgstr ""
+msgstr "Blue Canyon"
 
 #: my-evolution/Locations.h:262
 msgid "Bluefield"
-msgstr ""
+msgstr "Bluefield"
 
 #: my-evolution/Locations.h:263
 msgid "Bluefields"
-msgstr ""
+msgstr "Bluefields"
 
 #: my-evolution/Locations.h:264
 msgid "Blythe"
-msgstr ""
+msgstr "Blythe"
 
 #: my-evolution/Locations.h:265
 msgid "Boa Vista"
-msgstr ""
+msgstr "Boa Vista"
 
 #: my-evolution/Locations.h:266
 msgid "Bocas del Toro"
-msgstr ""
+msgstr "Bocas del Toro"
 
 #: my-evolution/Locations.h:267
 msgid "Bodo"
@@ -15053,27 +15014,24 @@ msgid "Bogota/Eldorado"
 msgstr "Bogota/Eldorado"
 
 #: my-evolution/Locations.h:269
-#, fuzzy
 msgid "Boise"
-msgstr "Zamknij"
+msgstr "Boise"
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
 msgstr "Bolonia"
 
 #: my-evolution/Locations.h:272
-#, fuzzy
 msgid "Bolzano"
-msgstr "Polska"
+msgstr "Bolzano"
 
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
 msgstr "Bombaj/Santacruz"
 
 #: my-evolution/Locations.h:274
-#, fuzzy
 msgid "Boone"
-msgstr "Gotowe"
+msgstr "Boone"
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
@@ -15089,7 +15047,7 @@ msgstr "Bornholm"
 
 #: my-evolution/Locations.h:278
 msgid "Boscombe Down"
-msgstr ""
+msgstr "Boscombe Down"
 
 #: my-evolution/Locations.h:279
 msgid "Bosnia-Herzegovina"
@@ -15100,28 +15058,24 @@ msgid "Boston"
 msgstr "Boston"
 
 #: my-evolution/Locations.h:281
-#, fuzzy
 msgid "Boulmer"
-msgstr "Folder"
+msgstr "Boulmer"
 
 #: my-evolution/Locations.h:282
-#, fuzzy
 msgid "Bourges"
-msgstr "Godzin"
+msgstr "Bourges"
 
 #: my-evolution/Locations.h:283
 msgid "Bournemouth"
-msgstr ""
+msgstr "Bournemouth"
 
 #: my-evolution/Locations.h:284
-#, fuzzy
 msgid "Bowling Green"
-msgstr "Szalejący piasek"
+msgstr "Bowling Green"
 
 #: my-evolution/Locations.h:285
-#, fuzzy
 msgid "Bozeman"
-msgstr "Koreański"
+msgstr "Bozeman"
 
 #: my-evolution/Locations.h:286
 msgid "Bradford"
@@ -15129,12 +15083,11 @@ msgstr "Bradford"
 
 #: my-evolution/Locations.h:287
 msgid "Bradshaw Field"
-msgstr ""
+msgstr "Bradshaw Field"
 
 #: my-evolution/Locations.h:288
-#, fuzzy
 msgid "Brainerd"
-msgstr "Ukraina"
+msgstr "Brainerd"
 
 #: my-evolution/Locations.h:289
 msgid "Brasilia"
@@ -15142,7 +15095,7 @@ msgstr "Brasilia"
 
 #: my-evolution/Locations.h:290
 msgid "Brasschaat"
-msgstr ""
+msgstr "Brasschaat"
 
 #: my-evolution/Locations.h:291
 msgid "Bratislava"
@@ -15154,7 +15107,7 @@ msgstr "Brack"
 
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
-msgstr ""
+msgstr "Braunschweig"
 
 #: my-evolution/Locations.h:295
 msgid "Bremen"
@@ -15162,7 +15115,7 @@ msgstr "Bremen"
 
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
-msgstr ""
+msgstr "Bremerton"
 
 #: my-evolution/Locations.h:297
 msgid "Brest"
@@ -15170,12 +15123,11 @@ msgstr "Brześć"
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
-msgstr ""
+msgstr "Bridgeport"
 
 #: my-evolution/Locations.h:299
-#, fuzzy
 msgid "Brindisi"
-msgstr "Burundi"
+msgstr "Brindisi"
 
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
@@ -15194,36 +15146,32 @@ msgid "Brno"
 msgstr "Brno"
 
 #: my-evolution/Locations.h:304
-#, fuzzy
 msgid "Broadus"
-msgstr "Barbados"
+msgstr "Broadus"
 
 #: my-evolution/Locations.h:305
-#, fuzzy
 msgid "Broken Bow"
-msgstr "Fragmentaryczne chmury"
+msgstr "Broken Bow"
 
 #: my-evolution/Locations.h:306
 msgid "Bronnoysund"
-msgstr ""
+msgstr "Bronnoysund"
 
 #: my-evolution/Locations.h:307
-#, fuzzy
 msgid "Brookings"
-msgstr "Przetwarzanie"
+msgstr "Prookings"
 
 #: my-evolution/Locations.h:308
 msgid "Brooksville"
-msgstr ""
+msgstr "Brooksville"
 
 #: my-evolution/Locations.h:309
-#, fuzzy
 msgid "Broome"
-msgstr "Dolny:"
+msgstr "Broome"
 
 #: my-evolution/Locations.h:310
 msgid "Brownsville"
-msgstr ""
+msgstr "Brownsville"
 
 #: my-evolution/Locations.h:311
 msgid "Brunswick"
@@ -15231,20 +15179,19 @@ msgstr "Brunszwik"
 
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
-msgstr ""
+msgstr "Bruksela-Port Lotniczy"
 
 #: my-evolution/Locations.h:313
 msgid "Bryansk"
-msgstr ""
+msgstr "Brańsk"
 
 #: my-evolution/Locations.h:314
-#, fuzzy
 msgid "Bryce Canyon"
-msgstr "Według f_irmy"
+msgstr "Bryce Canyon"
 
 #: my-evolution/Locations.h:315
 msgid "Bucaramanga/Palonegro"
-msgstr ""
+msgstr "Bucaramanga/Palonegro"
 
 #: my-evolution/Locations.h:316
 msgid "Bucuresti"
@@ -15252,7 +15199,7 @@ msgstr "Bukareszt"
 
 #: my-evolution/Locations.h:317
 msgid "Bucuresti-Otopeni"
-msgstr ""
+msgstr "Bukareszt-Otopeni"
 
 #: my-evolution/Locations.h:318
 msgid "Budapest"
@@ -15264,63 +15211,55 @@ msgstr "Buffalo"
 
 #: my-evolution/Locations.h:321
 msgid "Bullfrog"
-msgstr ""
+msgstr "Bullfrog"
 
 #: my-evolution/Locations.h:322
-#, fuzzy
 msgid "Burbank"
-msgstr "Bhutan"
+msgstr "Burbank"
 
 #: my-evolution/Locations.h:323
-#, fuzzy
 msgid "Burgas"
-msgstr "Prc"
+msgstr "Burgas"
 
 #: my-evolution/Locations.h:324
-#, fuzzy
 msgid "Burley"
-msgstr "Turcja"
+msgstr "Burley"
 
 #: my-evolution/Locations.h:325
 msgid "Burlington"
-msgstr ""
+msgstr "Burlington"
 
 #: my-evolution/Locations.h:326
-#, fuzzy
 msgid "Burnet"
-msgstr "Burundi"
+msgstr "Burnet"
 
 #: my-evolution/Locations.h:327
-#, fuzzy
 msgid "Burns"
-msgstr "Prc"
+msgstr "Burns"
 
 #: my-evolution/Locations.h:328
-#, fuzzy
 msgid "Bursa"
-msgstr "Prc"
+msgstr "Bursa"
 
 #: my-evolution/Locations.h:329
 msgid "Burwell"
-msgstr ""
+msgstr "Burwell"
 
 #: my-evolution/Locations.h:330
 msgid "Butte"
-msgstr ""
+msgstr "Butte"
 
 #: my-evolution/Locations.h:331
 msgid "Caen-Carpiquet"
-msgstr ""
+msgstr "Caen-Carpiquet"
 
 #: my-evolution/Locations.h:332
-#, fuzzy
 msgid "Cagliari"
-msgstr "Kalendarz"
+msgstr "Cagliari"
 
 #: my-evolution/Locations.h:333
-#, fuzzy
 msgid "Cairns"
-msgstr "Przewodniczenie"
+msgstr "Cairns"
 
 #: my-evolution/Locations.h:334
 msgid "Cairo"
@@ -15328,16 +15267,15 @@ msgstr "Kair"
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
-msgstr ""
+msgstr "Calabozo"
 
 #: my-evolution/Locations.h:336
 msgid "Calcutta/Dum Dum"
 msgstr "Kalkuta/Dum Dum"
 
 #: my-evolution/Locations.h:337
-#, fuzzy
 msgid "Caldwell"
-msgstr "Telefon"
+msgstr "Caldwell"
 
 #: my-evolution/Locations.h:338
 msgid "Calgary"
@@ -15345,12 +15283,11 @@ msgstr "Calgary"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
-msgstr ""
+msgstr "Cali/Alfonso Bonillaaragon"
 
 #: my-evolution/Locations.h:340
-#, fuzzy
 msgid "Caliente"
-msgstr "Kalendarz"
+msgstr "Caliente"
 
 #: my-evolution/Locations.h:341
 msgid "California"
@@ -15379,38 +15316,32 @@ msgid "Cameron"
 msgstr ""
 
 #: my-evolution/Locations.h:347
-#, fuzzy
 msgid "Camiri"
-msgstr "Przewodniczenie"
+msgstr "Camiri"
 
 #: my-evolution/Locations.h:348
-#, fuzzy
 msgid "Campeche"
-msgstr "Zakończone"
+msgstr "Campeche"
 
 #: my-evolution/Locations.h:349
-#, fuzzy
 msgid "Campinas"
-msgstr "Kambodża"
+msgstr "Campinas"
 
 #: my-evolution/Locations.h:350
-#, fuzzy
 msgid "Campo"
-msgstr "Frma"
+msgstr "Campo"
 
 #: my-evolution/Locations.h:351
-#, fuzzy
 msgid "Campo Grande"
-msgstr "Wyspy Zielonego Przylądka"
+msgstr "Campo Grande"
 
 #: my-evolution/Locations.h:352
 msgid "Camp Stanley/H-207"
-msgstr ""
+msgstr "Camp Stanley/H-207"
 
 #: my-evolution/Locations.h:353
-#, fuzzy
 msgid "Canaan"
-msgstr "Kanada"
+msgstr "Canaan"
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
@@ -15454,14 +15385,12 @@ msgid "Cannes-Mandelieu"
 msgstr ""
 
 #: my-evolution/Locations.h:365
-#, fuzzy
 msgid "Cantwell"
-msgstr "Anuluj"
+msgstr "Cantwell"
 
 #: my-evolution/Locations.h:366
-#, fuzzy
 msgid "Cape Girardeau"
-msgstr "Wyspy Zielonego Przylądka"
+msgstr "Cape Girardeau"
 
 #: my-evolution/Locations.h:367
 #, fuzzy
@@ -15514,9 +15443,8 @@ msgid "Carbondale"
 msgstr "Kambodża"
 
 #: my-evolution/Locations.h:378
-#, fuzzy
 msgid "Cardiff"
-msgstr "Karta"
+msgstr "Cardiff"
 
 #: my-evolution/Locations.h:379
 #, fuzzy
@@ -24215,7 +24143,6 @@ msgstr "Utrzymująca się mżawka"
 
 #. RAIN
 #: my-evolution/metar.c:143
-#, fuzzy
 msgid "Rain"
 msgstr "Deszcz"
 
@@ -24260,9 +24187,8 @@ msgid "Drifting rain"
 msgstr "Zbliżający się deszcz"
 
 #: my-evolution/metar.c:155
-#, fuzzy
 msgid "Freezing rain"
-msgstr "Utrzymujący się grad"
+msgstr "Zmrożony deszcz"
 
 #. SNOW
 #: my-evolution/metar.c:158
@@ -24278,18 +24204,16 @@ msgid "Light snow"
 msgstr "Lekki śnieg"
 
 #: my-evolution/metar.c:161
-#, fuzzy
 msgid "Moderate snow"
-msgstr "Umiarkowany piasek"
+msgstr ""
 
 #: my-evolution/metar.c:162
 msgid "Heavy snow"
 msgstr "Obfity śnieg"
 
 #: my-evolution/metar.c:163
-#, fuzzy
 msgid "Shallow snow"
-msgstr "Słaby dym"
+msgstr ""
 
 #: my-evolution/metar.c:164
 msgid "Patches of snow"
@@ -24308,9 +24232,8 @@ msgid "Blowing snowfall"
 msgstr "Szalejące opady śniegu"
 
 #: my-evolution/metar.c:168
-#, fuzzy
 msgid "Snow showers"
-msgstr "Krótkotrwałe ziarna śniegu"
+msgstr "Obfite opady śniegu"
 
 #: my-evolution/metar.c:169
 msgid "Drifting snow"
@@ -24322,9 +24245,8 @@ msgstr "Zmrożony śnieg"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:173
-#, fuzzy
 msgid "Snow grains"
-msgstr "Krótkotrwałe ziarna śniegu"
+msgstr "Ziarna śniegu"
 
 #: my-evolution/metar.c:174
 msgid "Snow grains in the vicinity"
@@ -24505,9 +24427,8 @@ msgid "Hailstorm"
 msgstr "Burza gradowa"
 
 #: my-evolution/metar.c:227
-#, fuzzy
 msgid "Blowing hail"
-msgstr "Szalejący gradzik"
+msgstr "Szalejący grad"
 
 #: my-evolution/metar.c:228
 msgid "Hail showers"
@@ -24838,9 +24759,8 @@ msgid "Partial sand"
 msgstr "Częściowy piasek"
 
 #: my-evolution/metar.c:332
-#, fuzzy
 msgid "Blowing sand"
-msgstr "Szalejąca burza piaskowa"
+msgstr "Szalejący piasek"
 
 #: my-evolution/metar.c:334
 msgid "Drifting sand"
@@ -24922,7 +24842,7 @@ msgstr "Łagodny pył wodny"
 
 #: my-evolution/metar.c:360
 msgid "Partial spray"
-msgstr ""
+msgstr "Przejściowy pył wodny"
 
 #: my-evolution/metar.c:362
 msgid "Blowing spray"
@@ -25177,9 +25097,8 @@ msgid "Drifting tornado"
 msgstr "Zbliżające się tornado"
 
 #: my-evolution/metar.c:455
-#, fuzzy
 msgid "Freezing tornado"
-msgstr "Zbliżające się tornado"
+msgstr "Zmrożone tornado"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:458
@@ -25317,9 +25236,8 @@ msgid "Evolution Shell"
 msgstr "Powłoka Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:3
-#, fuzzy
 msgid "Evolution folder settings configuration control"
-msgstr "Generator formantu konfiguracji Zestawienia Evolution."
+msgstr "Kontrola konfiguracji ustawień folderu Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:4
 msgid "Folder Settings"
@@ -25352,13 +25270,11 @@ msgid "Add a Folder"
 msgstr "Dodanie folderu"
 
 #: shell/e-local-storage.c:179
-#, fuzzy
 msgid "Drafts"
-msgstr "Roboczy"
+msgstr "Szkice"
 
 #: shell/e-local-storage.c:180 shell/e-shell-view.c:481
 #: shell/e-shortcuts.c:1084
-#, fuzzy
 msgid "Inbox"
 msgstr "Nadchodzące"
 
@@ -25367,9 +25283,8 @@ msgid "Outbox"
 msgstr "Wychodzące"
 
 #: shell/e-local-storage.c:182
-#, fuzzy
 msgid "Sent"
-msgstr "Wyślij"
+msgstr "Wysłane"
 
 #: shell/e-setup.c:146
 msgid "Could not update files correctly"
@@ -26667,9 +26582,8 @@ msgid "Go to a specific date"
 msgstr "Przechodzi do podanej daty"
 
 #: ui/evolution-calendar.xml.h:15
-#, fuzzy
 msgid "Go to today"
-msgstr "Przejdź do d_zisiaj"
+msgstr "Przejdź do dzisiaj"
 
 #: ui/evolution-calendar.xml.h:16
 msgid "Month"
@@ -28232,14 +28146,12 @@ msgstr "Podprogram obsługi lokalnej książki adresowej/LDAP dla Evolution"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:2
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Calendar local file backend"
-msgstr "Przeglądarka kalendarza iTip/iMip"
+msgstr "Podprogram pliku lokalnego kalendarza Evolution"
 
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Addressbook local file backend"
-msgstr "Przeglądarka miniaturowych kart książki adresowej Evolution"
+msgstr "Podprogram pliku lokalnej książki adresowej Evolution"
 
 #~ msgid "Save As..."
 #~ msgstr "Zapisz jako..."
