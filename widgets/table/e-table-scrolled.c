@@ -131,7 +131,10 @@ GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel       *e
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec_fn != NULL, NULL);
 
-	ets = gtk_type_new (e_table_scrolled_get_type ());
+	ets = E_TABLE_SCROLLED (gtk_widget_new (e_table_scrolled_get_type (),
+						"hadjustment", NULL,
+						"vadjustment", NULL,
+						NULL));
 
 	ets = e_table_scrolled_construct_from_spec_file (ets, etm, ete, spec_fn, state_fn);
 
