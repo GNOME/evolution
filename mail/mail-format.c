@@ -219,7 +219,7 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 		g_free (html_str);
 
 		xed = g_strdup_printf ("x-evolution-data:%p", mime_message);
-		iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
+		iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 		mail_display_add_url (md, "data_urls", xed, ba);
 		mail_html_write (html, stream, iframe);
 		g_free (iframe);
@@ -1391,7 +1391,7 @@ handle_text_plain_flowed (char *buf, CamelMimePart *part, MailDisplay *md, GtkHT
 	g_byte_array_append (ba, "</tt>\n", 6);
 
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
-	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
+	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
 	mail_html_write (html, stream, iframe);
 	g_free (iframe);
@@ -1686,7 +1686,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	g_string_free (string, TRUE);
 	
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
-	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
+	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
 	
 	return TRUE;
@@ -1720,7 +1720,7 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 	location = get_location (part, md);
 	if (!location)
 		location = get_cid (part, md);
-	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", location);
+	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", location, location);
 	return TRUE;
 }
 

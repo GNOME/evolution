@@ -1651,7 +1651,7 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMim
 	g_free (htmltext);
 
 	xed = g_strdup_printf ("x-evolution-data:%p-%d", part, idx);
-	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
+	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
 	gtk_html_write (html, stream, iframe, strlen (iframe));
 	g_free (iframe);
