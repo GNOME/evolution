@@ -291,13 +291,9 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	CamelProvider *provider;
 	CamelService *service;
 
-	url = camel_url_new (url_string);
-	if (!url) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("Could not parse URL `%s'"),
-				      url_string);
+	url = camel_url_new (url_string, ex);
+	if (!url)
 		return NULL;
-	}
 
 	/* We need to look up the provider so we can then lookup
 	   the service in the provider's cache */

@@ -3,14 +3,10 @@
 	* camel-url.c (camel_url_new_with_base): New URL parser with full
 	RFC1808 relative URL support. Yum.
 	(camel_url_new): Wrapper around camel_url_new_with_base now.
-	Removed the CamelException since no one ever used it...
-	
+
 	* tests/Makefile.am: add misc subdir
 
 	* tests/misc/url.c: relative URL test cases from RFC 1808
-
-	* camel-session.c (camel_session_get_service): Update
-	camel_url_new call.
 
 2001-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 

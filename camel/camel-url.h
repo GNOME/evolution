@@ -50,7 +50,7 @@ typedef struct {
 } CamelURL;
 
 CamelURL *camel_url_new_with_base (CamelURL *base, const char *url_string);
-CamelURL *camel_url_new (const char *url_string);
+CamelURL *camel_url_new (const char *url_string, CamelException *ex);
 char *camel_url_to_string (CamelURL *url, gboolean show_password);
 void camel_url_free (CamelURL *url);
 
