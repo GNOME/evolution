@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-10-30 22:26+0300\n"
-"PO-Revision-Date: 2000-10-30 23:12+03:00\n"
+"POT-Creation-Date: 2000-10-31 08:37+0300\n"
+"PO-Revision-Date: 2000-10-31 08:40+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -544,6 +544,10 @@ msgstr "Фамилия:"
 #: addressbook/contact-editor/fullname-strings.h:25
 msgid "_Suffix:"
 msgstr "Суффикс:"
+
+#: addressbook/gui/component/addressbook.c:275
+msgid "Quick Search"
+msgstr "Быстрый поиск"
 
 #: addressbook/gui/component/addressbook.c:310
 msgid "As _Minicards"
@@ -1909,6 +1913,9 @@ msgid ""
 "However, the appointment will recur at the appropriate time and will be "
 "displayed properly in the calendar views."
 msgstr ""
+"Это встреча с пользовательскими правилами повторения, которые не могут быть исправлены в Evolution.\n"
+"\n"
+"Однако, встреча будет повторятся в подходящее время и будет правильно отображаться в окнах календаря."
 
 #: calendar/gui/getdate.y:391
 msgid "january"
@@ -2673,7 +2680,9 @@ msgstr "Пароль"
 
 #: camel/providers/imap/camel-imap-store.c:234
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "Подключение к IMAP серверу будет производиться с использованием незашифрованного пароля."
+msgstr ""
+"Подключение к IMAP серверу будет производиться с использованием "
+"незашифрованного пароля."
 
 #: camel/providers/imap/camel-imap-store.c:243
 msgid "Kerberos 4"
@@ -2682,7 +2691,9 @@ msgstr "Kerberos 4"
 #: camel/providers/imap/camel-imap-store.c:245
 msgid ""
 "This option will connect to the IMAP server using Kerberos 4 authentication."
-msgstr "Подключение к IMAP серверу будет производиться с использованием для идентификации протокола Kerberos 4."
+msgstr ""
+"Подключение к IMAP серверу будет производиться с использованием для "
+"идентификации протокола Kerberos 4."
 
 #: camel/providers/imap/camel-imap-store.c:331
 #, c-format
@@ -2729,7 +2740,9 @@ msgstr "Почтовые файлы в формате UNIX mbox"
 msgid ""
 "For reading mail delivered by the local system, and for storing mail on "
 "local disk."
-msgstr "Для чтения почты доставленной локальной системой и хранения почты на локальном диске."
+msgstr ""
+"Для чтения почты доставленной локальной системой и хранения почты на "
+"локальном диске."
 
 #: camel/providers/mbox/camel-mbox-store.c:121
 #, c-format
@@ -2940,25 +2953,36 @@ msgstr "POP"
 msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
-msgstr "Для подключения к POP серверам. POP протокол может быть также использован для получения почты от обычных провайдеров Web-почты и специфических систем электронной почты."
+msgstr ""
+"Для подключения к POP серверам. POP протокол может быть также использован "
+"для получения почты от обычных провайдеров Web-почты и специфических систем "
+"электронной почты."
 
 #: camel/providers/pop3/camel-pop3-store.c:154
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
-msgstr "Подключение к POP серверу будет производиться с использованием незашифрованного пароля. Большинством POP серверов поддерживается только этот вариант."
+msgstr ""
+"Подключение к POP серверу будет производиться с использованием "
+"незашифрованного пароля. Большинством POP серверов поддерживается только "
+"этот вариант."
 
 #: camel/providers/pop3/camel-pop3-store.c:164
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
-msgstr "Подключение к POP серверу будет производиться с использованием шифрованного пароля по протоколу APOP. Это может работать не для всех пользователея даже на серверах, которые якобы поддерживают это."
+msgstr ""
+"Подключение к POP серверу будет производиться с использованием шифрованного "
+"пароля по протоколу APOP. Это может работать не для всех пользователея даже "
+"на серверах, которые якобы поддерживают это."
 
 #: camel/providers/pop3/camel-pop3-store.c:176
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr "Подключение к POP серверу будет производиться с использованием Kerberos 4 для идентификации."
+msgstr ""
+"Подключение к POP серверу будет производиться с использованием Kerberos 4 "
+"для идентификации."
 
 #: camel/providers/pop3/camel-pop3-store.c:221
 #, c-format
@@ -3019,7 +3043,8 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "Для доставки почты передачей её программе \"Sendmail\" на локальной системе."
+msgstr ""
+"Для доставки почты передачей её программе \"Sendmail\" на локальной системе."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
 #, c-format
@@ -3061,7 +3086,9 @@ msgstr "Доставка почты через программу sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr "Для доставки почты с помощью подключеия к удаленному почтовому узлу по протоколу SMTP."
+msgstr ""
+"Для доставки почты с помощью подключеия к удаленному почтовому узлу по "
+"протоколу SMTP."
 
 #: camel/providers/vee/camel-vee-provider.c:30
 msgid "Virtual folder email provider"
@@ -3398,39 +3425,39 @@ msgstr "Ввести URI папки"
 msgid "<click here to select a folder>"
 msgstr "<щелкните здесь для выбора папки>"
 
-#: filter/filter-part.c:420
+#: filter/filter-part.c:458
 msgid "Test"
 msgstr "Проверка"
 
-#: filter/filter-rule.c:509
+#: filter/filter-rule.c:520
 msgid "Rule name: "
 msgstr "Название фильтра: "
 
-#: filter/filter-rule.c:513
+#: filter/filter-rule.c:524
 msgid "Untitled"
 msgstr "Неозаглавленное"
 
-#: filter/filter-rule.c:527
+#: filter/filter-rule.c:538
 msgid "If"
 msgstr "Если"
 
-#: filter/filter-rule.c:544
+#: filter/filter-rule.c:555
 msgid "Execute actions"
 msgstr "Выполнить действия"
 
-#: filter/filter-rule.c:548
+#: filter/filter-rule.c:559
 msgid "if all criteria are met"
 msgstr "если удовлетворяет всем критериям"
 
-#: filter/filter-rule.c:553
+#: filter/filter-rule.c:564
 msgid "if any criteria are met"
 msgstr "если удовлетворяет любому из критериев"
 
-#: filter/filter-rule.c:564
+#: filter/filter-rule.c:575
 msgid "Add criterion"
 msgstr "Добавить критерий"
 
-#: filter/filter-rule.c:570
+#: filter/filter-rule.c:581
 msgid "Remove criterion"
 msgstr "Удалить критерий"
 
