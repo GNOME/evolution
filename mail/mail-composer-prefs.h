@@ -31,11 +31,10 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-file-entry.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-propmanager.h>
+#include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <gconf/gconf-client.h>
 
 #include "mail-signature-editor.h"
@@ -58,9 +57,9 @@ struct _MailComposerPrefs {
 	GtkVBox parent_object;
 	
 	EvolutionConfigControl *control;
-
+	
 	GConfClient *gconf;
-
+	
 	GladeXML *gui;
 	
 	/* General tab */
@@ -79,15 +78,14 @@ struct _MailComposerPrefs {
 	GtkCList *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;
-	gchar *language_str;
-	gchar *language_str_orig;
+	char *language_str;
+	char *language_str_orig;
 	GdkColor spell_error_color;
 	GdkColor spell_error_color_orig;
 	GdkPixmap *mark_pixmap;
 	GdkBitmap *mark_bitmap;
 	GdkPixbuf *enabled_pixbuf;
 	GtkWidget *spell_able_button;
-
 	
 	/* Forwards and Replies */
 	GtkOptionMenu *forward_style;
@@ -124,7 +122,7 @@ GtkWidget *mail_composer_prefs_new (void);
 void mail_composer_prefs_apply (MailComposerPrefs *prefs);
 
 
-MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const gchar *script);
+MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const char *script);
 
 /* needed by global config */
 #define MAIL_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
