@@ -56,6 +56,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-chomp.c		\
 	camel-mime-filter-canon.c		\
 	camel-mime-filter-crlf.c		\
+	camel-mime-filter-enriched.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-html.c		\
 	camel-mime-filter-tohtml.c		\
@@ -157,6 +158,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-chomp.h		\
 	camel-mime-filter-canon.h		\
 	camel-mime-filter-crlf.h		\
+	camel-mime-filter-enriched.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-html.h		\
 	camel-mime-filter-tohtml.h		\

@@ -259,7 +259,7 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 		
 #define CONVERT_URLS (CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES)
 		if (html->flags & CONVERT_URLS) {
-						size_t matchlen, buflen, len;
+			size_t matchlen, buflen, len;
 			urlmatch_t match;
 			
 			len = inptr - start;

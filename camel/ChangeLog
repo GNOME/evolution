@@ -1,3 +1,11 @@
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel.h: #include some headers we had forgotten to add
+	previously, also added camel-mime-filter-enriched.h.
+
+	* camel-mime-filter-enriched.[c,h]: New stream filter to convert
+	text/enriched and text/richtext into HTML.
+
 2002-12-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-signed.c (camel_multipart_signed_verify): Don't

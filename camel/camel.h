@@ -45,7 +45,10 @@ extern "C" {
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-filter-canon.h>
 #include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-mime-filter-enriched.h>
+#include <camel/camel-mime-filter-from.h>
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-crlf.h>
