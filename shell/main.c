@@ -80,7 +80,7 @@
 #include <pthread.h>
 
 
-//#define DEVELOPMENT
+#define DEVELOPMENT
 
 
 static EShell *shell = NULL;
