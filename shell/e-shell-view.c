@@ -33,7 +33,6 @@
 
 #include "e-shell-marshal.h"
 
-#include "e-gray-bar.h"
 #include "e-history.h"
 #include "e-icon-factory.h"
 #include "e-shell-constants.h"
