@@ -323,6 +323,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 
 	mail_tool_send_via_transport (xport, CAMEL_MEDIUM (input->message),
 				      ex);
+	camel_object_unref (CAMEL_OBJECT (xport));
 
 	if (camel_exception_is_set (ex))
 		return;
