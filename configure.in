@@ -546,7 +546,7 @@ if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 -lpthread"
+	nsprlibs="-lnspr4 -lplc4 -lplds4 $PTHREAD_LIB"
 	AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
 	[
 		CFLAGS="$CFLAGS $NSPR_CFLAGS"
@@ -580,8 +580,13 @@ if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	
 	AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
 	AC_MSG_RESULT("")
-	
-	CPPFLAGS="$CPPFLAGS -I$with_nss_includes"
+
+        if test "x${with_nspr_includes}" != "x"; then
+	        CPPFLAGS="$CPPFLAGS -I$with_nspr_includes -I$with_nss_includes"
+        else
+	        CPPFLAGS="$CPPFLAGS -I$with_nss_includes"
+        fi
+
 	AC_CHECK_HEADERS(nss.h ssl.h smime.h, [ moz_nspr_includes="yes" ])
 	CPPFLAGS="$CPPFLAGS_save"
 	
@@ -603,7 +608,7 @@ msg_nss="no"
 if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 -lpthread"
+	nsprlibs="-lnspr4 -lplc4 -lplds4 $PTHREAD_LIB"
 	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
 	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 	[

@@ -1,3 +1,9 @@
+2001-05-09  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add the nspr includes to the list of includes used
+	to test for NSS headers, and don't assume -lpthread in the
+	nss/nspr libs - use PTHREAD_LIB.
+
 2001-05-09  Iain Holmes  <iain@ximian.com>
 
 	* tools/killev: Added rdf-summary killing stuff from R Burton
