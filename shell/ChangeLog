@@ -1,3 +1,8 @@
+2003-02-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* glade/e-active-connection-dialog.glade: Update dialog to use
+	stock response IDs.
+
 2003-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (upgrade_from_1_0_if_needed): fix the conf keys, currently unused.
