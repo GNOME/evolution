@@ -1,3 +1,8 @@
+2005-01-19  Vivek Jain <jvivek@novell.com>
+	*install-shared.c
+	(org_gnome_popup_wizard): fixed a crash, caused by g_free
+	(install_folder_response): free the memory	
+
 2005-01-18  Vivek Jain <jvivek@novell.com>
 	*install-shared.c
 	(org_gnome_popup_wizard): removed unnecessary stuff for the display of

@@ -123,6 +123,8 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				camel_object_unref (store);
 			}  
 		}
+
+		g_strfreev(names);
 		gtk_widget_destroy ((GtkWidget *)emfs);
 	}
 
@@ -213,7 +215,6 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 			g_warning ("Could not get the sender name");
 
 		g_free (buffer) ;
-		g_free (notification);
 		g_free (start_message) ;
 	}
 }
