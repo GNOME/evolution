@@ -225,7 +225,7 @@ get_widget (FilterElement *fe)
 	
 	menu = gtk_menu_new ();
 	for (flag = system_flags; flag->title; flag++) {
-		item = gtk_menu_item_new_with_label (flag->title);
+		item = gtk_menu_item_new_with_label (_(flag->title));
 		gtk_object_set_data (GTK_OBJECT (item), "flag", flag);
 		gtk_signal_connect (GTK_OBJECT (item), "activate", item_selected, fe);
 		

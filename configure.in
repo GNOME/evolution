@@ -854,6 +854,7 @@ doc/devel/Makefile
 doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
+doc/devel/executive-summary/Makefile
 doc/devel/importer/Makefile
 ])
 

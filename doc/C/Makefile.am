@@ -3,12 +3,10 @@ evolution_helpdir = $(datadir)/gnome/help/evolution/C
 SGML_FILES =			\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
-	apx-fdl.sgml		\
 	apx-gloss.sgml		\
 	config-prefs.sgml	\
 	config-setupassist.sgml	\
 	config-sync.sgml	\
-	evolution-guide.sgml	\
 	preface.sgml		\
 	usage-calendar.sgml	\
 	usage-contact.sgml	\
