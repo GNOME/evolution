@@ -1,4 +1,13 @@
-2004-02-04 Yong Sun <Yong.Sun@sun.com>
+2004-02-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/notify-main.c: (init_session): just set the
+	daemon's restart style, not the restart command. Connect to
+	save_yourself" signal on the session also.
+	(save_session_cb): set the restart command here.
+
+	* gui/alarm-notify/Makefile.am: added EVOLUTION_LIBEXECDIR.
+
+2004-02-04  Yong Sun <Yong.Sun@sun.com>
 
 	* gui/print.c: Fix a bug in evolution/calendar/gui/print.c:
 	bound_text(). It does not break lines with the correct boundary of UTF-8

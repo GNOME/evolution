@@ -57,15 +57,28 @@ client_die_cb (GnomeClient *client)
 	bonobo_main_quit ();
 }
 
+static gint
+save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
+		 GnomeInteractStyle interact_style, gint fast, gpointer user_data)
+{
+	char *args[2];
+
+	args[0] = EVOLUTION_LIBEXECDIR "/evolution-alarm-notify";
+	args[1] = NULL;
+
+	gnome_client_set_restart_command (master_client, 1, args);
+
+	return TRUE;
+}
+
 /* Sees if a session manager is present.  If so, it tells the SM how to restart
  * the daemon when the session starts.  It also sets the die callback so that
  * the daemon can terminate properly when the session ends.
  */
 static void
-set_session_parameters (char **argv)
+init_session (void)
 {
 	int flags;
-	char *args[2];
 
 	master_client = gnome_master_client ();
 	flags = gnome_client_get_flags (master_client);
@@ -77,15 +90,12 @@ set_session_parameters (char **argv)
 	 * the session starts.  The daemon will take care of loading whatever
 	 * calendars it was told to load.
 	 */
-	gnome_client_set_restart_style (master_client, GNOME_RESTART_ANYWAY);
-
-	args[0] = argv[0];
-	args[1] = NULL;
-
-	gnome_client_set_restart_command (master_client, 1, args);
+	gnome_client_set_restart_style (master_client, GNOME_RESTART_IF_RUNNING);
 
 	g_signal_connect (G_OBJECT (master_client), "die",
 			  G_CALLBACK (client_die_cb), NULL);
+	g_signal_connect (G_OBJECT (master_client), "save_yourself",
+			  G_CALLBACK (save_session_cb), NULL);
 }
 
 /* Factory function for the alarm notify service; just creates and references a
@@ -183,7 +193,7 @@ main (int argc, char **argv)
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 
-	set_session_parameters (argv);
+	init_session ();
 
 	g_idle_add ((GSourceFunc) load_calendars, NULL);
 

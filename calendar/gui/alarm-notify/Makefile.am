@@ -28,6 +28,7 @@ INCLUDES = 						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 glade_DATA =		\
