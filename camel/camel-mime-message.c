@@ -239,8 +239,6 @@ camel_mime_message_get_sent_date (CamelMimeMessage *message)
 void
 camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to)
 {
-	char *text;
-	
 	g_assert (mime_message);
 	
 	/* FIXME: check format of string, handle it nicer ... */
@@ -248,9 +246,8 @@ camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *re
 	g_free (mime_message->reply_to);
 	mime_message->reply_to = g_strstrip (g_strdup (reply_to));
 	
-	text = header_encode_phrase (mime_message->reply_to);
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "Reply-To", text);
-	g_free (text);
+	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "Reply-To",
+						       mime_message->reply_to);
 }
 
 const gchar *
@@ -288,8 +285,6 @@ camel_mime_message_get_subject (CamelMimeMessage *mime_message)
 void
 camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from)
 {
-	char *text;
-	
 	g_assert (mime_message);
 	
 	/* FIXME: check format of string, handle it nicer ... */
@@ -297,9 +292,8 @@ camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from)
 	g_free (mime_message->from);
 	mime_message->from = g_strstrip (g_strdup (from));
 	
-	text = header_encode_phrase (mime_message->from);
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "From", text);
-	g_free (text);
+	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "From",
+						       mime_message->from);
 }
 
 const gchar *

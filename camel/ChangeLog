@@ -1,3 +1,14 @@
+2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-utils.c (quoted_encode_step): Modified to not encode
+	space chars in the middle of a line.
+	(isblank): New macro if we're not on a system with the GNU isblank
+	extension.
+
+	* camel-mime-message.c (camel_mime_message_set_from): Reversed my
+	changes, don't header_encode_phrase - it generates broken headers.
+	(camel_mime_message_set_reply_to): Same.
+
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-utils.c (camel_nntp_get_headers):

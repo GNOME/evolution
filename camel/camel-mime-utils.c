@@ -140,6 +140,10 @@ enum {
 #define is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_ESPECIAL) != 0)
 #define is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & IS_PSAFE) != 0)
 
+#ifndef HAVE_ISBLANK
+#define isblank(c) ((c) == ' ' || (c) == '\t')
+#endif /* HAVE_ISBLANK */
+
 /* only needs to be run to rebuild the tables above */
 #ifdef BUILD_TABLE
 
@@ -563,70 +567,73 @@ quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, 
 }
 
 int
-quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *statep, int *save)
+quoted_encode_step (unsigned char *in, int len, unsigned char *out, int *statep, int *save)
 {
-	register unsigned char *inptr, *outptr, *inend;
-	unsigned char c;
-	register int sofar = *save, /* keeps track of how many chars on a line */
-		last=*statep;	/* keeps track if last char to end was a space cr etc */
-
+	register guchar *inptr, *outptr, *inend;
+	guchar c;
+	register int sofar = *save;  /* keeps track of how many chars on a line */
+	register int last = *statep; /* keeps track if last char to end was a space cr etc */
+	
 	inptr = in;
-	inend = in+len;
+	inend = in + len;
 	outptr = out;
-	while (inptr<inend) {
+	while (inptr < inend) {
 		c = *inptr++;
-		if (c=='\r') {
+		if (c == '\r') {
 			if (last != -1) {
 				*outptr++ = '=';
-				*outptr++ = tohex[(last>>4) & 0xf];
+				*outptr++ = tohex[(last >> 4) & 0xf];
 				*outptr++ = tohex[last & 0xf];
-				sofar+=3;
+				sofar += 3;
 			}
 			last = c;
-		} else if (c=='\n') {
-			if (last != -1 && last!='\r') {
+		} else if (c == '\n') {
+			if (last != -1 && last != '\r') {
 				*outptr++ = '=';
-				*outptr++ = tohex[(last>>4) & 0xf];
+				*outptr++ = tohex[(last >> 4) & 0xf];
 				*outptr++ = tohex[last & 0xf];
 			}
 			*outptr++ = '\n';
-			sofar=0;
+			sofar = 0;
 			last = -1;
 		} else {
 			if (last != -1) {
-				if (is_qpsafe(last)) {
+				if (is_qpsafe (last) || isblank (last)) {
 					*outptr++ = last;
 					sofar++;
 				} else {
 					*outptr++ = '=';
-					*outptr++ = tohex[(last>>4) & 0xf];
+					*outptr++ = tohex[(last >> 4) & 0xf];
 					*outptr++ = tohex[last & 0xf];
-					sofar+=3;
+					sofar += 3;
 				}
 			}
-			if (is_qpsafe(c)) {
-				if (sofar>74) {
-					*outptr++='=';
-					*outptr++='\n';
+			
+			if (is_qpsafe (c) || isblank (c)) {
+				if (sofar > 74) {
+					*outptr++ = '=';
+					*outptr++ = '\n';
 					sofar = 0;
 				}
-				/* delay output of space */
-				if (c==' ' || c==0x09) {
+				
+				/* delay output of space char */
+				if (isblank (c)) {
 					last = c;
 				} else {
-					*outptr++=c;
+					*outptr++ = c;
 					sofar++;
 					last = -1;
 				}
 			} else {
-				if (sofar>72) {
-					*outptr++='=';
-					*outptr++='\n';
+				if (sofar > 72) {
+					*outptr++ = '=';
+					*outptr++ = '\n';
 					sofar = 3;
 				} else
 					sofar += 3;
+				
 				*outptr++ = '=';
-				*outptr++ = tohex[(c>>4) & 0xf];
+				*outptr++ = tohex[(c >> 4) & 0xf];
 				*outptr++ = tohex[c & 0xf];
 				last = -1;
 			}
@@ -634,7 +641,8 @@ quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *statep, 
 	}
 	*save = sofar;
 	*statep = last;
-	return outptr-out;
+	
+	return (outptr - out);
 }
 
 /*
