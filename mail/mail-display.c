@@ -314,6 +314,12 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	}
 #endif
 
+	if (event->button != 1 && event->button != 3) {
+		gtk_propagate_event (GTK_WIDGET (user_data),
+				     (GdkEvent *)event);
+		return TRUE;
+	}
+
 	part = gtk_object_get_data (GTK_OBJECT (widget), "CamelMimePart");
 	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (widget),
 							    "mime_type"));

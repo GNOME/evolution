@@ -1,3 +1,8 @@
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (pixmap_press): Ignore "funky" button clicks
+	(like scroll wheel scrolls)
+
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* *.*: Cleaned up #includes. Remove unneccesary includes of
