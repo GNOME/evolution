@@ -1,3 +1,7 @@
+2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.glade: Updated to comply with the HIG.
+
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_get_default_charset_setting): Use
