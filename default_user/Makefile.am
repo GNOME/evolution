@@ -1,4 +1,4 @@
-SUBDIRS = local config
+SUBDIRS = local
 
 defaultdir = $(datadir)/evolution/default_user
 default_DATA = addressbook-sources.xml searches.xml
