@@ -33,6 +33,7 @@
 #include "mail-mt.h"
 
 #include "gal/widgets/e-gui-utils.h"
+#include "gal/util/e-unicode-i18n.h"
 
 #include "camel/camel.h"
 #include "camel/camel-remote-store.h"
@@ -41,8 +42,6 @@
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-editor.h"
-
-#include "e-util/e-unicode-i18n.h"
 
 #define d(x) 
 

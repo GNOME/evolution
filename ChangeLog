@@ -1,3 +1,29 @@
+2001-10-29  Joe Shaw  <joe@ximian.com>
+
+	* configure.in: Require gal 0.15.99.8
+
+	* addressbook/backend/ebook/e-card-simple.c,
+	addressbook/gui/component/addressbook-storage.c,
+	addressbook/gui/widgets/e-addressbook-view.c,
+	calendar/gui/e-calendar-table.c,
+	calendar/gui/e-itip-control.c,
+	calendar/gui/e-meeting-model.c,
+	calendar/gui/itip-utils.c,
+	calendar/gui/print.c,
+	calendar/gui/alarm-notify/alarm-notify-dialog.c,
+	filter/rule-editor.c,
+	mail/mail-config.c,
+	mail/mail-folder-cache.c,
+	mail/mail-format.c,
+	mail/mail-local.c,
+	mail/mail-ops.c,
+	mail/mail-vfolder.c,
+	shell/e-local-storage.c,
+	shell/e-summary-storage.c: Change includes of
+	e-util/e-unicode-i18n.h to gal/util/e-unicode-i18n.h
+
+	* e-util/Makefile.am: Don't build e-unicode-i18n.[ch] anymore.
+
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* NEWS (Addressbook): Added my addressbook changes.

@@ -28,7 +28,7 @@
 #include <glade/glade.h>
 
 #include <gal/widgets/e-unicode.h>
-#include <e-util/e-unicode-i18n.h>
+#include <gal/util/e-unicode-i18n.h>
 #include "rule-editor.h"
 #include "rule-context.h"
 #include "filter-rule.h"

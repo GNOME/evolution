@@ -43,7 +43,7 @@
 #include <libgnomeprint/gnome-printer-dialog.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
-#include <e-util/e-unicode-i18n.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"

@@ -61,8 +61,6 @@ libeutil_la_SOURCES =				\
 	e-sexp.h				\
 	e-time-utils.c				\
 	e-time-utils.h				\
-	e-unicode-i18n.c			\
-	e-unicode-i18n.h			\
 	e-url.c					\
 	e-url.h					\
 	md5-utils.c				\

@@ -42,7 +42,7 @@
 #include <camel/camel-stream-null.h>
 #include <shell/e-setup.h>
 #include <e-util/e-html-utils.h>
-#include <e-util/e-unicode-i18n.h>
+#include <gal/util/e-unicode-i18n.h>
 
 #include "mail.h"
 #include "mail-tools.h"

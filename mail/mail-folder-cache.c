@@ -36,8 +36,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
-
-#include "e-util/e-unicode-i18n.h"
+#include <gal/util/e-unicode-i18n.h>
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"

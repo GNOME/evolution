@@ -44,12 +44,12 @@
 
 #include <shell/evolution-shell-client.h>
 
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/unicode/gunicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
-#include <e-util/e-unicode-i18n.h>
 #include <e-util/e-passwords.h>
 #include "mail.h"
 #include "mail-config.h"

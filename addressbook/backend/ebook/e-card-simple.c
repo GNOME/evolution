@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtkobject.h>
-#include <e-util/e-unicode-i18n.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 
 #include <libversit/vcc.h>

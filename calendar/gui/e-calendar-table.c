@@ -37,10 +37,10 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-combo.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
-#include <e-util/e-unicode-i18n.h>
 #include "e-calendar-table.h"
 #include "e-cell-date-edit-text.h"
 #include "calendar-config.h"

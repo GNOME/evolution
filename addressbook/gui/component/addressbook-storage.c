@@ -57,11 +57,10 @@
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-object.h>
 
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
-
-#include "e-util/e-unicode-i18n.h"
 
 #include "evolution-shell-component.h"
 

@@ -47,8 +47,8 @@
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include "e-util/e-path.h"
-#include "e-util/e-unicode-i18n.h"
 #include "e-local-folder.h"
 
 #include "evolution-storage.h"

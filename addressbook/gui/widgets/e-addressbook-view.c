@@ -33,6 +33,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+#include <gal/util/e-unicode.i18n.h>
 #include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
@@ -40,8 +41,6 @@
 #include <libgnomeprint/gnome-print-dialog.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
-
-#include <e-util/e-unicode-i18n.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"

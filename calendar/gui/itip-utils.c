@@ -33,8 +33,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
-#include <e-util/e-unicode-i18n.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-time-utils.h>

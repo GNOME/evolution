@@ -36,6 +36,7 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -45,7 +46,6 @@
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-unicode-i18n.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"

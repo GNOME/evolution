@@ -36,13 +36,13 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-popup.h>
 #include <gal/e-table/e-cell-combo.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <e-book.h>
 #include <e-card-types.h>
 #include <e-card-cursor.h>
 #include <e-card.h>
 #include <e-card-simple.h>
 #include <e-destination.h>
-#include <e-util/e-unicode-i18n.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/timeutil.h>

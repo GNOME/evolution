@@ -32,6 +32,7 @@
 #include <errno.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include <camel/camel-vtrash-folder.h>
@@ -43,7 +44,6 @@
 #include "composer/e-msg-composer.h"
 #include "folder-browser.h"
 #include "e-util/e-html-utils.h"
-#include "e-util/e-unicode-i18n.h"
 
 #include "filter/filter-filter.h"
 
