@@ -267,17 +267,18 @@ entry_destroyed(EEntry *entry, ESelectNamesManager *manager)
 }
 
 static void
-completion_handler (EEntry *entry, const gchar *text, gpointer user_data)
+completion_handler (EEntry *entry, ECompletionMatch *match)
 {
 	ESelectNamesModel *snm;
 	EDestination *dest;
 	gint i, pos, start_pos, len;
 
-	if (user_data == NULL)
+	if (match == NULL || match->user_data == NULL)
 		return;
 
+
 	snm = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
-	dest = E_DESTINATION (user_data);
+	dest = E_DESTINATION (match->user_data);
 
 	/* Sometimes I really long for garbage collection.  Reference
            counting makes you feel 31337, but sometimes it is just a

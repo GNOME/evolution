@@ -87,7 +87,53 @@ static FILE *out;
  */
 
 typedef gchar *(*BookQuerySExp) (ESelectNamesCompletion *);
-typedef gchar *(*BookQueryMatchTester) (ESelectNamesCompletion *, EDestination *, double *score);
+typedef ECompletionMatch *(*BookQueryMatchTester) (ESelectNamesCompletion *, EDestination *);
+
+static void
+our_match_destroy (ECompletionMatch *match)
+{
+	gtk_object_unref (GTK_OBJECT (match->user_data));
+}
+
+static ECompletionMatch *
+make_match (EDestination *dest, const gchar *menu_form, double score)
+{
+	ECompletionMatch *match = g_new0 (ECompletionMatch, 1);
+	e_completion_match_construct (match);
+
+	e_completion_match_set_text (match, e_destination_get_name (dest), menu_form);
+	match->score = score;
+	match->sort_minor = e_destination_get_email_num (dest);
+
+	match->user_data = dest;
+	gtk_object_ref (GTK_OBJECT (dest));
+
+	match->destroy = our_match_destroy;
+
+	return match;
+}
+
+static void
+emailify_match (ECompletionMatch *match)
+{
+	EDestination *dest = E_DESTINATION (match->user_data);
+	ECard *card = e_destination_get_card (dest);
+	const gchar *email = e_destination_get_email (dest);
+	const gchar *menu_txt = e_completion_match_get_menu_text (match);
+	
+	if (card && card->email && e_list_length (card->email) > 1) {
+		
+		if (email && strstr (menu_txt, email) == NULL) {
+			gchar *tmp = g_strdup_printf ("%s <%s>", menu_txt, email);
+			e_completion_match_set_text (match,
+						     e_completion_match_get_match_text (match),
+						     tmp);
+			g_free (tmp);
+		}
+
+		match->sort_minor = e_destination_get_email_num (dest);
+	}
+}
 
 /*
  * Nickname query
@@ -100,73 +146,29 @@ sexp_nickname (ESelectNamesCompletion *comp)
 
 }
 
-static gint
-e_utf8_strncasecmp (const gchar *p, const gchar *q, gint len)
+static ECompletionMatch *
+match_nickname (ESelectNamesCompletion *comp, EDestination *dest)
 {
-	if (p == NULL || q == NULL) {
-		if (p) return +1;
-		if (q) return -1;
-		return 0;
-	}
-
-	if (len < 0)
-		len = G_MAXINT;
-	
-	while (*p && *q && len > 0) {
-		gunichar cp = g_utf8_get_char (p);
-		gunichar cq = g_utf8_get_char (q);
-
-		if  (!(g_unichar_validate (cp)
-		       && g_unichar_validate (cq)))
-			break;
-
-		cp = g_unichar_tolower (cp);
-		cq = g_unichar_tolower (cq);
-
-		if (cp != cq)
-			return (cp < cq) - (cp > cq);
-		
-		p = g_utf8_next_char (p);
-		q = g_utf8_next_char (q);
-		--len;
-	}
-
-	if (len) {
-		if (*p)
-			return +1;
-		else if (*q)
-			return -1;
-	}
-		
-	return 0;
-}
-
-static gint
-e_utf8_strcasecmp (const gchar *p, const gchar *q)
-{
-	return e_utf8_strncasecmp (p, q, -1);
-}
-
-
-static gchar *
-match_nickname (ESelectNamesCompletion *comp, EDestination *dest, double *score)
-{
+	ECompletionMatch *match = NULL;
 	gint len = strlen (comp->priv->query_text);
 	ECard *card = e_destination_get_card (dest);
+	double score;
 
 	if (card->nickname
-	    && !e_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
+	    && !g_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
+		ECompletionMatch *match = g_new0 (ECompletionMatch, 1);
 		gchar *name = e_card_name_to_string (card->name);
 		gchar *str;
 		
-		*score = len * 10; /* nickname gives 10 points per matching character */
-		
+		score = len * 10; /* nickname gives 10 points per matching character */
 		str = g_strdup_printf ("(%s) %s", card->nickname, name);
+
+		match = make_match (dest, str, score);
 		g_free (name);
-		return str;
+		g_free (str);
 	}
 
-	return NULL;
+	return match;
 }
 
 /*
@@ -179,23 +181,33 @@ sexp_email (ESelectNamesCompletion *comp)
 	return g_strdup_printf ("(beginswith \"email\" \"%s\")", comp->priv->query_text);
 }
 
-static gchar *
-match_email (ESelectNamesCompletion *comp, EDestination *dest, double *score)
+static ECompletionMatch *
+match_email (ESelectNamesCompletion *comp, EDestination *dest)
 {
+	ECompletionMatch *match;
 	gint len = strlen (comp->priv->query_text);
 	ECard *card = e_destination_get_card (dest);
 	const gchar *email = e_destination_get_email (dest);
+	double score;
 	
-	if (email && !e_utf8_strncasecmp (comp->priv->query_text, email, len)) {
+	if (email && !g_utf8_strncasecmp (comp->priv->query_text, email, len)) {
+
 		gchar *name, *str;
-		*score = len * 2; /* 2 points for each matching character */
+		
+		score = len * 2; /* 2 points for each matching character */
+
 		name = e_card_name_to_string (card->name);
 		if (name && *name)
 			str = g_strdup_printf ("<%s> %s", email, name);
 		else
 			str = g_strdup (email);
+
+		match = make_match (dest, str, score);
+
 		g_free (name);
-		return str;
+		g_free (str);
+
+		return match;
 	}
 
 	return NULL;
@@ -235,6 +247,7 @@ sexp_name (ESelectNamesCompletion *comp)
 		g_free (cpy);
 		g_free (strv);
 
+
 		return query;
 	}
 
@@ -258,7 +271,7 @@ match_name_fragment (const gchar *fragment, const gchar *txt)
 	gint len = strlen (txt);
 
 	while (*fragment) {
-		if (!e_utf8_strncasecmp (fragment, txt, len))
+		if (!g_utf8_strncasecmp (fragment, txt, len))
 			return TRUE;
 
 		while (*fragment && !isspace ((gint) *fragment))
@@ -270,14 +283,17 @@ match_name_fragment (const gchar *fragment, const gchar *txt)
 	return FALSE;
 }
 
-static gchar *
-match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
+static ECompletionMatch *
+match_name (ESelectNamesCompletion *comp, EDestination *dest)
 {
+	ECompletionMatch *final_match = NULL;
+	gchar *menu_text = NULL;
 	ECard *card;
 	gchar *cpy, **strv;
 	const gchar *email;
 	gint len, i, match_len = 0;
 	gint match = 0, first_match = 0;
+	double score = 0;
 	gboolean have_given, have_additional, have_family;
 
 	card = e_destination_get_card (dest);
@@ -330,28 +346,31 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 
 	}
 	
-	*score = match_len * 3; /* three points per match character */
+	score = match_len * 3; /* three points per match character */
 
 	if (card->nickname) {
 		/* We massively boost the score if the nickname exists and is the same as one of the "real" names.  This keeps the
 		   nickname from matching ahead of the real name for this card. */
 		len = strlen (card->nickname);
-		if ((card->name->given && !e_utf8_strncasecmp (card->name->given, card->nickname, MIN (strlen (card->name->given), len)))
-		    || (card->name->family && !e_utf8_strncasecmp (card->name->family, card->nickname, MIN (strlen (card->name->family), len)))
-		    || (card->name->additional && !e_utf8_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
-			*score *= 100;
+		if ((card->name->given && !g_utf8_strncasecmp (card->name->given, card->nickname, MIN (strlen (card->name->given), len)))
+		    || (card->name->family && !g_utf8_strncasecmp (card->name->family, card->nickname, MIN (strlen (card->name->family), len)))
+		    || (card->name->additional && !g_utf8_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
+			score *= 100;
 	}
 
+#if 0
+	/* This leads to some pretty counter-intuitive results, so I'm disabling it. */
 	email = e_destination_get_email (dest);
 	if (email) {
 		/* Do the same for the email address. */
 		gchar *at = strchr (email, '@');
 		len = at ? at-email : strlen (email);
-		if ((card->name->given && !e_utf8_strncasecmp (card->name->given, email, MIN (strlen (card->name->given), len)))
-		    || (card->name->family && !e_utf8_strncasecmp (card->name->family, email, MIN (strlen (card->name->family), len)))
-		    || (card->name->additional && !e_utf8_strncasecmp (card->name->additional, email, MIN (strlen (card->name->additional), len))))
-			*score *= 100;
+		if ((card->name->given && !g_utf8_strncasecmp (card->name->given, email, MIN (strlen (card->name->given), len)))
+		    || (card->name->family && !g_utf8_strncasecmp (card->name->family, email, MIN (strlen (card->name->family), len)))
+		    || (card->name->additional && !g_utf8_strncasecmp (card->name->additional, email, MIN (strlen (card->name->additional), len))))
+			score *= 100;
 	}
+#endif
 
 	have_given       = card->name->given && *card->name->given;
 	have_additional  = card->name->additional && *card->name->additional;
@@ -360,41 +379,46 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 	if (first_match == MATCHED_GIVEN_NAME) {
 
 		if (have_family)
-			return g_strdup_printf ("%s %s", card->name->given, card->name->family);
+			menu_text = g_strdup_printf ("%s %s", card->name->given, card->name->family);
 		else
-			return g_strdup_printf (card->name->given);
+			menu_text = g_strdup_printf (card->name->given);
 
 	} else if (first_match == MATCHED_ADDITIONAL_NAME) {
 
 		if (have_family) {
 			
-			return g_strdup_printf ("%s, %s%s%s",
-						card->name->family,
-						have_given ? card->name->given : "",
-						have_given ? " " : "",
-						card->name->additional);
+			menu_text = g_strdup_printf ("%s, %s%s%s",
+						     card->name->family,
+						     have_given ? card->name->given : "",
+						     have_given ? " " : "",
+						     card->name->additional);
 
 		} else {
 
-			return g_strdup_printf ("%s%s%s",
-						have_given ? card->name->given : "",
-						have_given ?  " " : "",
-						card->name->additional);
+			menu_text = g_strdup_printf ("%s%s%s",
+						     have_given ? card->name->given : "",
+						     have_given ?  " " : "",
+						     card->name->additional);
 
 		}
 
 	} else if (first_match == MATCHED_FAMILY_NAME) {
 
 		if (have_given)
-			return g_strdup_printf ("%s, %s %s",
-						card->name->family,
-						card->name->given,
-						have_additional ? card->name->additional : "");
+			menu_text = g_strdup_printf ("%s, %s %s",
+						     card->name->family,
+						     card->name->given,
+						     have_additional ? card->name->additional : "");
 		else
-			return g_strdup_printf (card->name->family);
+			menu_text = g_strdup_printf (card->name->family);
+	}
+
+	if (menu_text) {
+		final_match = make_match (dest, menu_text, score);
+		g_free (menu_text);
 	}
 	
-	return NULL;
+	return final_match;
 }
 
 /*
@@ -407,8 +431,8 @@ sexp_initials (ESelectNamesCompletion *comp)
 	return NULL;
 }
 
-static gchar *
-match_initials (ESelectNamesCompletion *comp, EDestination *dest, double *score)
+static ECompletionMatch *
+match_initials (ESelectNamesCompletion *comp, EDestination *dest)
 {
 	return NULL;
 }
@@ -480,72 +504,38 @@ book_query_sexp (ESelectNamesCompletion *comp)
  * Sweep across all of our query rules and find the best score/match
  * string that applies to a given destination.
  */
-static gchar *
-book_query_score (ESelectNamesCompletion *comp, EDestination *dest, double *score)
+static ECompletionMatch *
+book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 {
-	double best_score = -1;
-	gchar *best_string = NULL;
+	ECompletionMatch *best_match = NULL;
 	gint i;
-
-	g_return_val_if_fail (score, NULL);
-	*score = -1;
 
 	g_return_val_if_fail (comp && E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 
 	for (i=0; i<book_query_count; ++i) {
-		double this_score = -1;
-		gchar *this_string = NULL;
+
+		ECompletionMatch *this_match = NULL;
 
 		if (book_queries[i].primary || !comp->priv->primary_only) {
 			if (book_queries[i].tester && e_destination_get_card (dest))
-				this_string = book_queries[i].tester (comp, dest, &this_score);
-			if (this_string) {
-				if (this_score > best_score) {
-					g_free (best_string);
-					best_string = this_string;
-					best_score = this_score;
+				this_match = book_queries[i].tester (comp, dest);
+
+			if (this_match) {
+				if (best_match == NULL || this_match->score > best_match->score) {
+					e_completion_match_unref (best_match);
+					best_match = this_match;
 				} else {
-					g_free (this_string);
+					e_completion_match_unref (this_match);
 				}
 			}
 		}
 	}
 
-	/* If this destination corresponds to a card w/ multiple addresses, and if the
-	   address isn't already in the string, append it. */
-	if (best_string) {
-		ECard *card = e_destination_get_card (dest);
-		if (e_list_length (card->email) > 1) {
-			ECardSimple *simp;
-			const gchar *email = e_destination_get_email (dest);
-			const gchar *simp_email;
+	if (best_match)
+		emailify_match (best_match);
 
-			if (email && strstr (best_string, email) == NULL) {
-				gchar *tmp = g_strdup_printf ("%s <%s>", best_string, email);
-				g_free (best_string);
-				best_string = tmp;
-			}
-
-			/* Give a small bonus to the primary/secondary e-mail address, so that they will
-			   always come in the correct order in the listing. */
-			if (email) {
-				simp = e_card_simple_new (card);
-				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL);
-				if (simp_email && !e_utf8_strcasecmp (simp_email, email)) {
-					best_score += 0.2;
-				}
-				simp_email = e_card_simple_get_email (simp, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2);
-				if (simp_email && !e_utf8_strcasecmp (simp_email, email)) {
-					best_score += 0.1;
-				}
-				gtk_object_unref (GTK_OBJECT (simp));
-			}
-		}
-	}
-
-	*score = best_score;
-	return best_string;
+	return best_match;
 }
 
 static void
@@ -559,24 +549,20 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 			for (i=0; i<e_list_length (card->email); ++i) {
 				EDestination *dest = e_destination_new ();
 				const gchar *email;
-				gchar *match_text;
-				double score = -1;
+				ECompletionMatch *match;
 				
 				e_destination_set_card (dest, card, i);
 				email = e_destination_get_email (dest);
 
 				if (email && *email) {
 				
-					match_text = book_query_score (comp, dest, &score);
-					if (match_text && score > 0) {
-						
-						e_completion_found_match_full (E_COMPLETION (comp), match_text, score, dest,
-									       (GtkDestroyNotify) gtk_object_unref);
+					match = book_query_score (comp, dest);
+					if (match && match->score > 0) {
+						e_completion_found_match (E_COMPLETION (comp), match);
 					} else {
-						gtk_object_unref (GTK_OBJECT (dest));
+						e_completion_match_unref (match);
 					}
-					g_free (match_text);
-				} else {
+
 					gtk_object_unref (GTK_OBJECT (dest));
 				}
 			}
@@ -956,7 +942,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 
 	can_reuse_cached_cards = (comp->priv->cached_query_text
 				  && (strlen (comp->priv->cached_query_text) <= strlen (clean))
-				  && !e_utf8_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
+				  && !g_utf8_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
 
 
 	if (can_reuse_cached_cards) {
@@ -1012,7 +998,7 @@ search_override_check (SearchOverride *over, const gchar *text)
 	if (over == NULL || text == NULL)
 		return FALSE;
 
-	return !e_utf8_strcasecmp (over->trigger, text);
+	return !g_utf8_strcasecmp (over->trigger, text);
 }
 
 
@@ -1055,11 +1041,14 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 		if (search_override_check (&(override[j]), str)) {
 			gint k;
 
-			for (k=0; override[j].text[k]; ++k)
-				e_completion_found_match (comp, override[j].text[k]);
-			
-			if (out)
-				fprintf (out, "aborting on override \"%s\"\n", override[j].trigger);
+			for (k=0; override[j].text[k]; ++k) {
+				ECompletionMatch *match = g_new (ECompletionMatch, 1);
+				e_completion_match_construct (match);
+				e_completion_match_set_text (match, text, override[j].text[k]);
+				match->score = 1;
+				e_completion_found_match (comp, match);
+			}
+
 			e_completion_end_search (comp);
 			return;
 		}

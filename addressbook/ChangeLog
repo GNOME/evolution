@@ -1,3 +1,20 @@
+2001-06-05  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(completion_handler): Change the completion handler to use the
+	ECompletionMatch.
+
+	* gui/component/select-names/e-select-names-completion.c
+	General changes to convert for ECompletionMatch use.
+	(emailify_match): Use extra sort keys in ECompletionMatch to let
+	us ensure that the primary email address is always the first
+	option, the secondary comes second, etc.  There was no nice way to
+	do this previously.
+	(match_name): Removed code that adjusted score based on
+	similarities between the "real name" and the e-mail address.  It
+	seemed like a good idea at the time, but produced unexpected and
+	confusing results.
+
 2001-06-04  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card-compare.c: Added.  Code for testing
