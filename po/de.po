@@ -1,5 +1,5 @@
 # German po for Evolution.
-# Copyright (C) 2000 Free Software Foundation, Inc.
+# Copyright (C) 2000-2002 Free Software Foundation, Inc.
 # Kai Lahmann <kl@linuxfaqs.de>, 2000.
 # Matthias Warkus <mawa@iname.com>, 2000.
 #
@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-06-19 17:07-0400\n"
+"POT-Creation-Date: 2002-09-21 14:42+0200\n"
 "PO-Revision-Date: 2001-12-04 20:48+0100\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -818,9 +818,8 @@ msgid "Basic"
 msgstr "Grundlegend"
 
 #: addressbook/gui/component/addressbook-config.glade.h:9
-#, fuzzy
 msgid "Check this if the server requires you to authenticate."
-msgstr "_Mein Server benötigt Legitimation"
+msgstr "Kreuzen Sie dies an, falls der Server Ihre Anmeldung benötigt."
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
 msgid "De_lete"
@@ -831,9 +830,8 @@ msgid "Distinguished name (DN)"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:12
-#, fuzzy
 msgid "Email address"
-msgstr "E-Mail-Adresse:"
+msgstr "E-Mail-Adresse"
 
 #: addressbook/gui/component/addressbook-config.glade.h:13
 #, fuzzy
@@ -946,7 +944,6 @@ msgid "_Edit"
 msgstr "_Bearbeiten"
 
 #: addressbook/gui/component/addressbook-config.glade.h:32
-#, fuzzy
 msgid "_Email address:"
 msgstr "_E-Mail-Adresse:"
 
@@ -959,7 +956,7 @@ msgid "_Server name:"
 msgstr "_Servername:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:137
 msgid "Could not initialize gnome-vfs"
 msgstr "gnome-vfs konnte nicht initialisiert werden"
 
@@ -1009,14 +1006,12 @@ msgid "Enter password for %s (user %s)"
 msgstr "Passwort für %s (Benutzer %s) eingeben"
 
 #: addressbook/gui/component/addressbook.c:822
-#, fuzzy
 msgid "Name begins with"
-msgstr "endet mit"
+msgstr "Name fängt an mit"
 
 #: addressbook/gui/component/addressbook.c:823
-#, fuzzy
 msgid "Email is"
-msgstr "E-Mail 2"
+msgstr "E-Mail ist"
 
 #: addressbook/gui/component/addressbook.c:824
 #: calendar/gui/cal-search-bar.c:59
@@ -3153,9 +3148,8 @@ msgid "Africa/Dar_es_Salaam"
 msgstr ""
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "Dschibuti"
+msgstr "Afrika/Dschibuti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
@@ -5102,7 +5096,7 @@ msgid "New _Task"
 msgstr "Neue _Aufgabe"
 
 #: calendar/gui/control-factory.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in '%s'"
 msgstr "Der Ordner in `%s' konnte nicht geöffnet werden"
 
@@ -5794,11 +5788,8 @@ msgid "F_ree"
 msgstr "_Frei"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "L_ocation:"
-msgstr ""
-"\n"
-"Geographischer Ort: "
+msgstr "Ge_ographischer Ort: "
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -6074,57 +6065,46 @@ msgid "_Due Date:"
 msgstr "Fällig am:"
 
 #: calendar/gui/e-calendar-table.c:427
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -6381,7 +6361,6 @@ msgid "<i>None</i>"
 msgstr "<i>Keine</i>"
 
 #: calendar/gui/e-itip-control.c:781
-#, fuzzy
 msgid "Status:"
 msgstr "Status:"
 
@@ -6986,9 +6965,8 @@ msgid "Calendar information"
 msgstr "Kalender-Information"
 
 #: calendar/gui/itip-utils.c:398
-#, fuzzy
 msgid "Updated"
-msgstr "Aktualisieren"
+msgstr "Aktualisiert"
 
 #: calendar/gui/itip-utils.c:406
 #, fuzzy
@@ -7003,7 +6981,11 @@ msgstr ""
 msgid "You must be an attendee of the event."
 msgstr "Sie müssen ein Teilnehmer des Ereignisses sein."
 
-#: calendar/gui/main.c:91
+#: calendar/gui/main.c:65
+msgid "Could not activate Bonobo"
+msgstr "Bonobo konnte nicht aktiviert werden"
+
+#: calendar/gui/main.c:94
 msgid "Could not create the component editor factory"
 msgstr "Komponenteneditor-Fabrik konnte nicht angelegt werden"
 
@@ -11922,9 +11904,8 @@ msgid "VFolders"
 msgstr "VOrdner"
 
 #: mail/mail-vfolder.c:785
-#, fuzzy
 msgid "vFolders"
-msgstr "Ordner"
+msgstr "vOrdner"
 
 #: mail/mail-vfolder.c:825
 msgid "Edit VFolder"
@@ -12116,9 +12097,8 @@ msgid "%l:%M %d %B"
 msgstr "%l.%M %d. %B"
 
 #: my-evolution/e-summary-calendar.c:395
-#, fuzzy
 msgid "No description"
-msgstr "Beschreibung"
+msgstr "Keine Beschreibung"
 
 #: my-evolution/e-summary-mail.c:129
 msgid "Mail summary"
@@ -12198,9 +12178,8 @@ msgid "%A, %B %e %Y"
 msgstr "%A, %e. %B %Y"
 
 #: my-evolution/e-summary.c:493
-#, fuzzy
 msgid "Please wait..."
-msgstr "Bitte warten"
+msgstr "Bitte warten..."
 
 #: my-evolution/e-summary.c:584 ui/my-evolution.xml.h:3
 msgid "Print Summary"
@@ -12645,7 +12624,7 @@ msgid "Freezing ice pellets"
 msgstr "Eisige Eiskörner"
 
 #. HAIL
-#: my-evolution/Locations.h:883 my-evolution/metar.c:217
+#: my-evolution/metar.c:217 my-evolution/Locations.h:883
 msgid "Hail"
 msgstr "Hagel"
 
@@ -24619,9 +24598,8 @@ msgstr "Datei %s existiert nicht"
 
 #: shell/e-shell-importer.c:410 shell/e-shell-importer.c:420
 #: shell/e-shell-importer.c:436 shell/e-shell-importer.c:486
-#, fuzzy
 msgid "Evolution Error"
-msgstr "Evolution "
+msgstr "Evolution-Fehler"
 
 #: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
@@ -26979,50 +26957,3 @@ msgstr "init-corba(): GNOME konnte nicht initialisiert werden"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo konnte nicht initialisiert werden"
-
-#~ msgid "_Other Organizer"
-#~ msgstr "_Anderer Organisator"
-
-#~ msgid "Unable to find any of your identities in the attendees list!\n"
-#~ msgstr ""
-#~ "Keine Ihrer Identitäten kann in der Anwesenheitsliste gefunden werden!\n"
-
-#~ msgid "Name contains"
-#~ msgstr "Name enthält"
-
-#~ msgid "Email contains"
-#~ msgstr "E-Mail enthält"
-
-#~ msgid "Free/Busy information (%s to %s)"
-#~ msgstr "Verfügbarkeitsinformationen (%s bis %s)"
-
-#~ msgid "iCalendar information"
-#~ msgstr "iKalender-Information"
-
-#~ msgid "°F"
-#~ msgstr "°F"
-
-#~ msgid "°C"
-#~ msgstr "°C"
-
-#~ msgid "B_usiness"
-#~ msgstr "Geschäftlich"
-
-#~ msgid "Business _Fax"
-#~ msgstr "Geschäftliches Fax"
-
-#~ msgid "_Business"
-#~ msgstr "Geschäftlich"
-
-#~ msgid "_Home"
-#~ msgstr "Zu Hause"
-
-#~ msgid "_Mobile"
-#~ msgstr "Mobil"
-
-#~ msgid ""
-#~ "Issuer: %s\n"
-#~ "Subject: %s"
-#~ msgstr ""
-#~ "Ausgabestelle: %s\n"
-#~ "Betreff: %s"
