@@ -1080,7 +1080,7 @@ msgid ""
 "understand and ultimately resolve this problem, please send an e-mail to Jon "
 "Trowbridge <trow@ximian.com> with a detailed description of the "
 "circumstances under which this error occurred.  Thank you."
-msgstr ""
+msgstr "Evolution は ローカルストレージのアドレス帳を取得できません。 これはおそらく evolution-addressbook コンポーネントがクラッシュしたことによります。 より、この問題を理解したり解決するために、Jon Trowbridge <trow@ximian.com> まで、このエラーの状況についての詳細な説明をメールで送ってください。よろしくお願いします。"
 
 #: addressbook/gui/component/select-names/e-select-names.c:598
 msgid "Select Contacts from Addressbook"
@@ -1152,9 +1152,8 @@ msgid "Details"
 msgstr "詳細"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "F_ree/Busy URL:"
-msgstr "空き/多忙 URL"
+msgstr "空き/多忙 URL(_R):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "File A_s:"
@@ -1170,6 +1169,8 @@ msgid ""
 "Internet, enter the address\n"
 "of that information here."
 msgstr ""
+"この人が 空き/多忙情報や他のカレンダー情報をインターネットに公開したら,\n"
+" そのアドレス情報をここに入力します。"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "New phone type"
@@ -1259,9 +1260,8 @@ msgid "_Profession:"
 msgstr "専門職(_P):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Public Calendar URL:"
-msgstr "カレンダ URI"
+msgstr "公開カレンダ URI:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Spouse:"
@@ -2574,7 +2574,7 @@ msgstr "カードの削除中にエラーが発生しました"
 #. also be placed at the begining ot the string
 #: addressbook/gui/widgets/e-addressbook-view.c:399
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ""
+msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #. Translators: put here a list of characters that correspond to buttons
 #. in addressbook. You may use any character to separate labels but it
@@ -2582,7 +2582,7 @@ msgstr ""
 #. Use lower case letters if possible.
 #: addressbook/gui/widgets/e-addressbook-view.c:404
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-msgstr ""
+msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:867
 msgid "* Click here to add a contact *"
@@ -2732,7 +2732,7 @@ msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "含む:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
@@ -2744,7 +2744,7 @@ msgstr "左:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "横に文字タブ"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -2776,7 +2776,7 @@ msgstr "用紙"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr ""
+msgstr "紙ソース:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
@@ -3005,6 +3005,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"Evolution はメールによるカレンダーリマインダ\n"
+"機能がまだありません。しかし、リマインダにメール送信を\n"
+"設定すれば、代わりに通常のリマインダダイアログボックス\n"
+"にて表示します。"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:740
 #, c-format
@@ -3016,6 +3020,12 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"Evolution カレンダーリマインダは発動しようとします。\n"
+"リマインダは以下のコマンドプログラムに設定されています。:\n"
+"\n"
+"        %s\n"
+"\n"
+"本当にこのプログラムを起動してよいですか?"
 
 #: calendar/gui/alarm-notify/notify-main.c:73 calendar/gui/main.c:58
 msgid "Could not initialize GNOME"
@@ -3307,11 +3317,11 @@ msgstr "プログラムを実行する:"
 msgid ""
 "This is an email reminder, but Evolution does not yet support this kind of "
 "reminders.  You will not be able to edit the options for this reminder."
-msgstr ""
+msgstr "これは eメール リマインダですが、Evolution はまだこの種類を提供していません。このリマインダに対してのオプションは編集することができません。"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
-msgstr ""
+msgstr "これらの引数をとる:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
 msgid "days"
@@ -3394,54 +3404,53 @@ msgid "Run a program"
 msgstr "次の時にプログラムを実行する:"
 
 #: calendar/gui/dialogs/alarm-page.c:391
-#, fuzzy
 msgid "Unknown action to be performed"
-msgstr "未知の雷嵐"
+msgstr "未知の実行されるアクション"
 
 #: calendar/gui/dialogs/alarm-page.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "アポイントの開始前"
+msgstr "アポイントの開始前 %s %s"
 
 #: calendar/gui/dialogs/alarm-page.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "アポイントの開始前"
+msgstr "アポイントの開始後 %s %s"
 
 #: calendar/gui/dialogs/alarm-page.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the start of the appointment"
-msgstr "アポイントの開始前"
+msgstr "アポイントの開始 %s"
 
 #: calendar/gui/dialogs/alarm-page.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "アポイントの開始前"
+msgstr "アポイントの終了 %s"
 
 #: calendar/gui/dialogs/alarm-page.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "アポイントの終了後"
+msgstr "アポイントの終了後 %s %s"
 
 #: calendar/gui/dialogs/alarm-page.c:428
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the end of the appointment"
-msgstr "アポイントの終了後"
+msgstr "アポイントの終了時 %s"
 
 #: calendar/gui/dialogs/alarm-page.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "%s at an unknown time"
-msgstr "不明な送信者"
+msgstr "未明に %s"
 
 #: calendar/gui/dialogs/alarm-page.c:445
-#, fuzzy, c-format
+#, c-format
 msgid "%s at %s"
-msgstr "%s サーバ %s"
+msgstr "%s の %s"
 
 #: calendar/gui/dialogs/alarm-page.c:452
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s は未知の発動タイプ"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -3728,12 +3737,12 @@ msgstr "この仕訳記入は削除されました"
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s は変更しました。これらの変更を破棄してエディタを閉じますか?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s は変更されてません。エディタを閉じますか?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
@@ -4439,13 +4448,12 @@ msgid "Task begins: <b>"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:479
-#, fuzzy
 msgid "Free/Busy info begins: <b>"
-msgstr "空き/多忙 情報(_F):"
+msgstr "空き/多忙 情報開始: <b>"
 
 #: calendar/gui/e-itip-control.c:483
 msgid "Begins: <b>"
-msgstr ""
+msgstr "開始: <b>"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:677
@@ -5418,16 +5426,13 @@ msgid "Unsupported operation: append message: for %s"
 msgstr ""
 
 #: camel/camel-folder.c:1039
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr ""
-"正規表現での検索を実行中にエラー: %s:\n"
-"%s"
+msgstr "未対応の操作: 正規表現での検索: %s に"
 
 #: camel/camel-folder.c:1219
-#, fuzzy
 msgid "Moving messages"
-msgstr "%s へメッセージを移動中"
+msgstr "メッセージを移動"
 
 #: camel/camel-folder-search.c:333
 #, c-format
@@ -5756,9 +5761,8 @@ msgid "Server challenge invalid\n"
 msgstr "無効です\n"
 
 #: camel/camel-sasl-digest-md5.c:825
-#, fuzzy
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "無効な \"\" トークンを含んでいます\n"
+msgstr "サーバー試行は無効な \"保護品質\" トークンを含んでいます\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -5995,24 +5999,24 @@ msgid "No such message: %s"
 msgstr "そのようなメッセージはありません: %s"
 
 #: camel/camel-vee-store.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "フォルダを作成できません: このストアでは不正な操作です"
+msgstr "フォルダを削除できません: %s: 不正な操作です"
 
 #: camel/camel-vee-store.c:286
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "フォルダを取得出来ません: %s: %s"
+msgstr "フォルダを削除できません: %s: そのようなフォルダはありません"
 
 #: camel/camel-vee-store.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "フォルダを作成できません: このストアでは不正な操作です"
+msgstr "フォルダをリネームできません: %s: 不正な操作です"
 
 #: camel/camel-vee-store.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "フォルダを取得出来ません: %s: %s"
+msgstr "フォルダをリネームできません: %s: そのようなフォルダはありません"
 
 #: camel/camel-vtrash-folder.c:109
 msgid "You cannot copy messages from this trash folder."
@@ -8648,18 +8652,16 @@ msgid "Please select among the following options"
 msgstr "次のオプションから選択してください"
 
 #: mail/mail-config-druid.c:141
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"以下に送信プロトコルについての情報を入力してください．もしあなたの使う\n"
+"送信プロとこつについての情報を入力してください．もしあなたの使う\n"
 "プロトコルを知らないならば，システム管理者かインターネットプロバイダと\n"
 "連絡をとってみてください"
 
 #: mail/mail-config-druid.c:143
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
@@ -8669,13 +8671,10 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"メール設定の処理はだいたい完了しました．あなたが提供したユーザ情報，メール"
-"サーバや\n"
-"送信プロトコルは Evolution メールアカウントを作るために一纏めにされるでしょ"
-"う\n"
-"以下にこのアカウントの空間の名前を入力してください．この名前は表示目的だけ"
-"に\n"
-"使用されます．"
+"メール設定の処理はだいたい完了しました．提供したユーザ情報，メールサーバや\n"
+"送信プロトコルは ひとつの Evolution メールアカウントに設定されます。\n"
+"以下にこのアカウントの名前を入力してください。この名前は表示目的だけに\n"
+"使用されます。"
 
 #. set window title
 #: mail/mail-config-druid.c:570
@@ -8683,9 +8682,9 @@ msgid "Evolution Account Assistant"
 msgstr "Evolutionアカウントアシスタント"
 
 #: mail/mail-config.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "Account %d"
-msgstr "アカウント"
+msgstr "アカウント %d"
 
 #: mail/mail-config.c:1618
 #, c-format
@@ -8712,9 +8711,8 @@ msgid "Connecting to server..."
 msgstr "サーバへ接続中..."
 
 #: mail/mail-config.glade.h:1
-#, fuzzy
 msgid " _Check for supported types "
-msgstr "サポートされた種別をチェック(_C)"
+msgstr "使用できるタイプをチェック(_C)"
 
 #: mail/mail-config.glade.h:2
 msgid " color"
@@ -8773,14 +8771,12 @@ msgid "Composer"
 msgstr "メール作成"
 
 #: mail/mail-config.glade.h:17
-#, fuzzy
 msgid "Configuration"
-msgstr "メールの設定"
+msgstr "設定"
 
 #: mail/mail-config.glade.h:18
-#, fuzzy
 msgid "Confirm when Expunging a folder"
-msgstr "フォルダを削除中"
+msgstr "フォルダでの削除確認"
 
 #: mail/mail-config.glade.h:19
 msgid ""
@@ -9027,9 +9023,8 @@ msgstr ""
 "\"次\" をクリックして始めてください"
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "_Always load images off the net"
-msgstr "常に画像を読み込まない"
+msgstr "常に画像をネットから読み込む"
 
 #: mail/mail-config.glade.h:93
 msgid "_Automatically check for new mail every"
@@ -9080,9 +9075,8 @@ msgid "_Name:"
 msgstr "名前(_N):"
 
 #: mail/mail-config.glade.h:107
-#, fuzzy
 msgid "_Never load images off the net"
-msgstr "二度と画像を読み込まない"
+msgstr "画像をネットから読み込まない"
 
 #: mail/mail-config.glade.h:108
 msgid "_Organization:"
@@ -9346,9 +9340,9 @@ msgid "You cannot change the format of a non-local folder."
 msgstr "ローカルフォルダ以外の形式は変更できません"
 
 #: mail/mail-local.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid "Reconfigure /%s"
-msgstr "%s の再設定"
+msgstr "/%s の再設定"
 
 #: mail/mail-mt.c:199
 #, c-format
@@ -9542,9 +9536,9 @@ msgid "Disconnecting from %s"
 msgstr "%s との接続を切っています"
 
 #: mail/mail-ops.c:2065
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s"
-msgstr "%s との接続を切っています"
+msgstr "%s に再接続中"
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
@@ -9649,9 +9643,9 @@ msgid "Setting up vfolder: %s"
 msgstr "仮想フォルダを作成中: %s"
 
 #: mail/mail-vfolder.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "\"%s\" の中のフォルダを走査中"
+msgstr "URI の仮想フォルダを更新中: %s"
 
 #: mail/mail-vfolder.c:414
 #, c-format
@@ -9931,12 +9925,10 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "管理一覧コンポーネントは Bonobo を初期化できませんでした\n"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "F"
 msgstr "華氏"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "C"
 msgstr "摂氏"
 
@@ -11370,34 +11362,33 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-commands.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "Delete \"%s\""
-msgstr "削除"
+msgstr "\"%s\" を削除"
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
-msgstr "本当にフォルダ '%s' を削除してもよろしいですか?"
+msgstr "本当に フォルダ \"%s\" を削除してもよろしいですか?"
 
 #: shell/e-shell-folder-commands.c:470
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr ""
-"フォルダを削除できません:\n"
+"フォルダをリネームできません:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "フォルダ '%s' をリネーム"
+msgstr "フォルダ \"%s\" をリネーム"
 
 #: shell/e-shell-folder-commands.c:506
-#, fuzzy
 msgid "Rename folder"
-msgstr "フォルダ '%s' をリネーム"
+msgstr "フォルダをリネーム"
 
 #: shell/e-shell-folder-creation-dialog.c:111
 #, c-format
@@ -11564,9 +11555,8 @@ msgid "Import data and settings from older programs"
 msgstr ""
 
 #: shell/e-shell-importer.c:655
-#, fuzzy
 msgid "Import a single file"
-msgstr "外部ファイル形式をインポートします"
+msgstr "シングルファイルをインポートします"
 
 #: shell/e-shell-importer.c:720 shell/e-shell-startup-wizard.c:582
 msgid ""
@@ -11664,9 +11654,9 @@ msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr "フィルタ実行中にエラー: %s: %s"
+msgstr "%s を実行中にエラー"
 
 #: shell/e-shell-view-menu.c:705
 msgid "Work Online"
@@ -11874,12 +11864,12 @@ msgid "Shortcuts"
 msgstr "ショートカット"
 
 #: shell/e-storage-set-view.c:645
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot transfer folder:\n"
 "%s"
 msgstr ""
-"フォルダを削除できません:\n"
+"フォルダ転送できません:\n"
 "%s"
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
@@ -12013,24 +12003,20 @@ msgid "Evolution Importer Assistant"
 msgstr "Evolution インポートアシスタント"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import File (step 3 of 3)"
-msgstr "ファイルをインポート (ステップ 2/2)"
+msgstr "ファイルをインポート (ステップ 3/3)"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type (step 1 of 3)"
-msgstr "ファイルをインポート (ステップ 2/2)"
+msgstr "タイプをインポート (ステップ 1/3)"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers (step 2 of 3)"
-msgstr "ファイルを選択 (ステップ 1/2)"
+msgstr "インポートタイプを選択 (ステップ 2/3)"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File (step 2 of 3)"
-msgstr "ファイルを選択 (ステップ 1/2)"
+msgstr "ファイルを選択 (ステップ 2/3)"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -12681,7 +12667,7 @@ msgstr "メッセージリストをスレッド化します"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
-msgstr "消去(_E)"
+msgstr "完全削除(_E)"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
@@ -13435,9 +13421,8 @@ msgid "_Go to Folder..."
 msgstr "フォルダへ移動(_G)..."
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Import..."
-msgstr "インポート中..."
+msgstr "インポート..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
@@ -13452,9 +13437,8 @@ msgid "_New Folder"
 msgstr "新規フォルダ(_N)"
 
 #: ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Pilot Settings..."
-msgstr "メール設定(_M)..."
+msgstr "Pilot の設定(_M)..."
 
 #: ui/evolution.xml.h:46
 msgid "_Rename..."
@@ -13664,9 +13648,8 @@ msgid "Save Search"
 msgstr "検索を保存"
 
 #: widgets/misc/e-filter-bar.h:94
-#, fuzzy
 msgid "Add to Saved Searches"
-msgstr "検索を保存"
+msgstr "保存した検索を追加"
 
 #: widgets/misc/e-filter-bar.h:95
 msgid "Clear"
