@@ -36,8 +36,6 @@ struct  _EFolder {
 
 	EFolderType type;
 
-	EService *eservice;     /* an Efolder should have an eservice */
-  
 	/*
 	 * General properties
 	 */

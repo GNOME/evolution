@@ -1,3 +1,11 @@
+2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-folder.h: Removed member `eservice' from `EFolder'.
+
+	* e-service.c: Removed.
+
+	* e-service.h: Removed.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.
