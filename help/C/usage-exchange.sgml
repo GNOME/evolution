@@ -437,32 +437,33 @@ There are, however, some features which are not available:
           it, every card will appear.
         </para>
       </tip>
-    <para>
-      In addition, when you schedule a meeting with your calendar on
-      the <application>Exchange</application>server, you can check
-      when other local Exchange users are busy according to their
-      <application>Exchange</application>calendars. To do so:
+    </sect1>
+    <sect1 id="full-advantage">
+      <title>Taking Full Advantage of the Exchange Server When Scheduling Appointments</title>
+      <para>
+        When you schedule a meeting with your calendar on the
+        <application>Exchange</application>server, you can check when
+        other local Exchange users are busy according to their
+        <application>Exchange</application>calendars. To do so:
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
             Open a new appointment in the calendar.
           </para>
 	</listitem>
-
 	<listitem>
 	  <para> Choose <menuchoice> <guimenu>Actions</guimenu>
 	      <guimenuitem>Schedule Meeting</guimenuitem>
 	      </menuchoice> in the meeting editor window.
           </para>
 	</listitem>
-
 	<listitem>
-	  <para> Add attendees, either by entering their email address
-            into the list, or by clicking the <guibutton>Invite
-            Others</guibutton> button. When doing so, it's best to use
-            the Global Address List (GAL).  Choose the GAL from the
-            drop-down list of address sources at the top of the dialog
-            box.
+	  <para> Add attendees, either by entering their email
+            addresses into the list, or by clicking the
+            <guibutton>Invite Others</guibutton> button. If you choose
+            to so, it's best to use the Global Address List (GAL).
+            Choose the GAL from the drop-down list of address sources
+            at the top of the dialog box.
          </para>
 	</listitem>
 	<listitem>
@@ -475,7 +476,21 @@ There are, however, some features which are not available:
  	</listitem>
       </orderedlist>
     </para>
-  </sect1>
+      <tip id="autopick">
+	<title>Using Autopick to Adjust Meeting Times</title>
+	<para>
+         If meeting attendees are not available during the times you
+         have scheduled a meeting, you can "nudge" the meeting forward
+         or backward to the nearest available time.  To do so, just
+         click the arrows to the left or right of the
+         <guilabel>Autopick</guilabel> button. The autopick tool will
+         move the meeting to the nearest time during which all
+         attendees are available.  If you aren't satisfied with those
+         results, you can drag the edges of the meeting time to the
+         hours that you want to select.
+      </para>
+      </tip>
+    </sect1>
 </chapter>
 
 
