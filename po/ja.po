@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-11 14:37+0900\n"
-"PO-Revision-Date: 2004-02-11 14:31+0900\n"
+"POT-Creation-Date: 2004-02-11 14:32+0900\n"
+"PO-Revision-Date: 2004-02-11 14:45+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -3740,7 +3740,7 @@ msgstr "日"
 
 #: calendar/gui/calendar-commands.c:431
 msgid "%A %d %B %Y"
-msgstr "%Y年 %B%d日 %A"
+msgstr "%Y年 %B%e日 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -5749,7 +5749,7 @@ msgstr "%02i 分分割"
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
-msgstr "%B%d日 %A"
+msgstr "%B%e日 %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -6309,7 +6309,7 @@ msgstr "進行中"
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2060
 msgid "%A, %B %d, %Y"
-msgstr "%Y年 %B%d日 %A"
+msgstr "%Y年 %B%e日 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
