@@ -2,9 +2,10 @@
 
 /*
  * Author :
- *  Damon Chaplin <damon@helixcode.com>
+ *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -335,6 +336,24 @@ e_calendar_table_new (void)
 }
 
 
+/**
+ * e_calendar_table_get_model:
+ * @cal_table: A calendar table.
+ * 
+ * Queries the calendar data model that a calendar table is using.
+ * 
+ * Return value: A calendar model.
+ **/
+CalendarModel *
+e_calendar_table_get_model (ECalendarTable *cal_table)
+{
+	g_return_val_if_fail (cal_table != NULL, NULL);
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
+
+	return cal_table->model;
+}
+
+
 static void
 e_calendar_table_destroy (GtkObject *object)
 {
@@ -344,6 +363,9 @@ e_calendar_table_destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (cal_table->model));
 	cal_table->model = NULL;
+
+	gtk_object_unref (GTK_OBJECT (cal_table->subset_model));
+	cal_table->subset_model = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

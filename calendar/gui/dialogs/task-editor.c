@@ -2,9 +2,10 @@
 
 /*
  * Author :
- *  Damon Chaplin <damon@helixcode.com>
+ *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -50,7 +51,7 @@ typedef struct {
 
 	/* Client to use */
 	CalClient *client;
-	
+
 	/* Calendar component we are editing; this is an internal copy and is
 	 * not one of the read-only objects from the parent calendar.
 	 */
@@ -167,7 +168,7 @@ static void field_changed		(GtkWidget	*widget,
 static void task_editor_set_changed	(TaskEditor	*tedit,
 					 gboolean	 changed);
 static gboolean prompt_to_save_changes	(TaskEditor	*tedit);
-static void categories_clicked          (GtkWidget      *button, 
+static void categories_clicked          (GtkWidget      *button,
 					 TaskEditor     *editor);
 
 /* The function libglade calls to create the EDateEdit widgets in the GUI. */
@@ -227,7 +228,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
 	BONOBO_UI_VERB ("FileClose", file_close_cb),
 	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
-		  
+
 	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
 
 	BONOBO_UI_VERB_END
@@ -236,9 +237,9 @@ static BonoboUIVerb verbs [] = {
 /**
  * task_editor_construct:
  * @tedit: A #TaskEditor.
- * 
+ *
  * Constructs a task editor by loading its Glade XML file.
- * 
+ *
  * Return value: The same object as @tedit, or NULL if the widgets could not be
  * created.  In the latter case, the task editor will automatically be
  * destroyed.
@@ -521,7 +522,7 @@ task_editor_destroy (GtkObject *object)
 }
 
 
-void 
+void
 task_editor_set_cal_client (TaskEditor *tedit,
 			    CalClient *client)
 {
@@ -539,8 +540,8 @@ task_editor_set_cal_client (TaskEditor *tedit,
 		g_return_if_fail (IS_CAL_CLIENT (client));
 
 	if (client)
-		g_return_if_fail (cal_client_is_loaded (client));	
-	
+		g_return_if_fail (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED);
+
 	if (client)
 		gtk_object_ref (GTK_OBJECT (client));
 
@@ -576,7 +577,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	g_return_if_fail (IS_TASK_EDITOR (tedit));
 
 	priv = tedit->priv;
-	
+
 	/* If we aren't showing the object which has been updated, return. */
 	if (!priv->comp)
 	  return;
@@ -650,7 +651,7 @@ raise_and_focus (GtkWidget *widget)
  * task_editor_set_todo_object:
  * @tedit: A #TaskEditor.
  * @comp: A todo object.
- * 
+ *
  * Sets the todo object that a task editor dialog will manipulate.
  **/
 void
@@ -684,7 +685,7 @@ make_title_from_comp (CalComponent *comp)
 	const char *summary;
 	CalComponentVType type;
 	CalComponentText text;
-	
+
 	if (!comp)
 		return g_strdup (_("Edit Task"));
 
@@ -694,7 +695,7 @@ make_title_from_comp (CalComponent *comp)
 	else
 		summary =  _("No summary");
 
-	
+
 	type = cal_component_get_vtype (comp);
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
@@ -761,7 +762,7 @@ fill_widgets (TaskEditor *tedit)
 	TaskEditorPriority priority;
 	const char *url;
 	const char *categories;
-	
+
 	priv = tedit->priv;
 
 	task_editor_set_changed (tedit, FALSE);
@@ -786,7 +787,7 @@ fill_widgets (TaskEditor *tedit)
 		e_dialog_editable_set (priv->description, NULL);
 	}
 	cal_component_free_text_list (l);
-	
+
 	/* Due Date. */
 	cal_component_get_due (priv->comp, &d);
 	if (d.value) {
@@ -905,7 +906,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	CalComponentClassification classification;
 	char *url, *cat;
 	char *str;
-	
+
 	priv = tedit->priv;
 	comp = priv->comp;
 
@@ -942,7 +943,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 
 		cal_component_set_description_list (comp, &l);
 	}
-	
+
 	if (!str)
 		g_free (str);
 
@@ -1020,7 +1021,7 @@ debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit = TASK_EDITOR (data);
 	TaskEditorPrivate *priv = tedit->priv;
-	
+
 	bonobo_window_dump (BONOBO_WINDOW (priv->app), "on demand");
 }
 
@@ -1052,13 +1053,13 @@ file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	TaskEditor *tedit;
 	TaskEditorPrivate *priv;
 	const char *uid;
-	
+
 	tedit = TASK_EDITOR (data);
 
 	g_return_if_fail (IS_TASK_EDITOR (tedit));
 
 	priv = tedit->priv;
-	
+
 	g_return_if_fail (priv->comp);
 
 	cal_component_get_uid (priv->comp, &uid);
@@ -1097,7 +1098,7 @@ priority_value_to_index (int priority_value)
 		retval = PRIORITY_HIGH;
 	else if (priority_value == 5)
 		retval = PRIORITY_NORMAL;
-	else 
+	else
 		retval = PRIORITY_LOW;
 
 	return retval;
@@ -1298,7 +1299,7 @@ prompt_to_save_changes		(TaskEditor	*tedit)
 
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 				 GTK_WINDOW (priv->app));
-		
+
 	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 	case 0: /* Save */
 		/* FIXME: If an error occurs here, we should popup a dialog
@@ -1329,7 +1330,7 @@ categories_clicked(GtkWidget *button, TaskEditor *tedit)
 	dialog = GNOME_DIALOG (e_categories_new (categories));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
-	
+
 	if (result == 0) {
 		gtk_object_get (GTK_OBJECT (dialog),
 				"categories", &categories,

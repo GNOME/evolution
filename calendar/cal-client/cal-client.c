@@ -1,10 +1,10 @@
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar client
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,17 +31,15 @@
 
 
 
-/* Loading state for the calendar client */
-typedef enum {
-	LOAD_STATE_NOT_LOADED,
-	LOAD_STATE_LOADING,
-	LOAD_STATE_LOADED
-} LoadState;
-
 /* Private part of the CalClient structure */
 struct _CalClientPrivate {
 	/* Load state to avoid multiple loads */
-	LoadState load_state;
+	CalClientLoadState load_state;
+
+	/* URI of the calendar that is being loaded or is already loaded, or
+	 * NULL if we are not loaded.
+	 */
+	char *uri;
 
 	/* The calendar factory we are contacting */
 	GNOME_Evolution_Calendar_CalFactory factory;
@@ -57,7 +55,7 @@ struct _CalClientPrivate {
 
 /* Signal IDs */
 enum {
-	CAL_LOADED,
+	CAL_OPENED,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
 	LAST_SIGNAL
@@ -115,11 +113,11 @@ cal_client_class_init (CalClientClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
-	cal_client_signals[CAL_LOADED] =
-		gtk_signal_new ("cal_loaded",
+	cal_client_signals[CAL_OPENED] =
+		gtk_signal_new ("cal_opened",
 				GTK_RUN_FIRST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (CalClientClass, cal_loaded),
+				GTK_SIGNAL_OFFSET (CalClientClass, cal_opened),
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_ENUM);
@@ -154,8 +152,9 @@ cal_client_init (CalClient *client)
 	priv = g_new0 (CalClientPrivate, 1);
 	client->priv = priv;
 
+	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+	priv->uri = NULL;
 	priv->factory = CORBA_OBJECT_NIL;
-	priv->load_state = LOAD_STATE_NOT_LOADED;
 }
 
 /* Gets rid of the factory that a client knows about */
@@ -263,7 +262,12 @@ cal_client_destroy (GtkObject *object)
 	destroy_listener (client);
 	destroy_cal (client);
 
-	priv->load_state = LOAD_STATE_NOT_LOADED;
+	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+
+	if (priv->uri) {
+		g_free (priv->uri);
+		priv->uri = NULL;
+	}
 
 	g_free (priv);
 	client->priv = NULL;
@@ -276,10 +280,10 @@ cal_client_destroy (GtkObject *object)
 
 /* Signal handlers for the listener's signals */
 
-/* Handle the cal_loaded signal from the listener */
+/* Handle the cal_opened notification from the listener */
 static void
-cal_loaded_cb (CalListener *listener,
-	       GNOME_Evolution_Calendar_Listener_LoadStatus status,
+cal_opened_cb (CalListener *listener,
+	       GNOME_Evolution_Calendar_Listener_OpenStatus status,
 	       GNOME_Evolution_Calendar_Cal cal,
 	       gpointer data)
 {
@@ -287,42 +291,44 @@ cal_loaded_cb (CalListener *listener,
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_Cal cal_copy;
-	CalClientLoadStatus client_status;
+	CalClientOpenStatus client_status;
 
 	client = CAL_CLIENT (data);
 	priv = client->priv;
 
-	g_assert (priv->load_state == LOAD_STATE_LOADING);
+	g_assert (priv->load_state == CAL_CLIENT_LOAD_LOADING);
+	g_assert (priv->uri != NULL);
 
-	client_status = CAL_CLIENT_LOAD_ERROR;
+	client_status = CAL_CLIENT_OPEN_ERROR;
 
 	switch (status) {
 	case GNOME_Evolution_Calendar_Listener_SUCCESS:
 		CORBA_exception_init (&ev);
 		cal_copy = CORBA_Object_duplicate (cal, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_message ("cal_loaded(): could not duplicate the calendar client interface");
+			g_message ("cal_opened_cb(): could not duplicate the "
+				   "calendar client interface");
 			CORBA_exception_free (&ev);
 			goto error;
 		}
 		CORBA_exception_free (&ev);
 
 		priv->cal = cal_copy;
-		priv->load_state = LOAD_STATE_LOADED;
+		priv->load_state = CAL_CLIENT_LOAD_LOADED;
 
-		client_status = CAL_CLIENT_LOAD_SUCCESS;
+		client_status = CAL_CLIENT_OPEN_SUCCESS;
 		goto out;
 
 	case GNOME_Evolution_Calendar_Listener_ERROR:
-		client_status = CAL_CLIENT_LOAD_ERROR;
+		client_status = CAL_CLIENT_OPEN_ERROR;
 		goto error;
 
-	case GNOME_Evolution_Calendar_Listener_IN_USE:
-		client_status = CAL_CLIENT_LOAD_IN_USE;
+	case GNOME_Evolution_Calendar_Listener_NOT_FOUND:
+		client_status = CAL_CLIENT_OPEN_NOT_FOUND;
 		goto error;
 
 	case GNOME_Evolution_Calendar_Listener_METHOD_NOT_SUPPORTED:
-		client_status = CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED;
+		client_status = CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED;
 		goto error;
 
 	default:
@@ -333,14 +339,24 @@ cal_loaded_cb (CalListener *listener,
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 	priv->listener = NULL;
-	priv->load_state = LOAD_STATE_NOT_LOADED;
+
+	/* We free the priv->uri and set the priv->load_state until after the
+	 * "cal_opened" signal has been emitted so that handlers will be able to
+	 * access this information.
+	 */
 
  out:
 
-	g_assert (priv->load_state != LOAD_STATE_LOADING);
+	g_assert (priv->load_state != CAL_CLIENT_LOAD_LOADING);
 
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_OPENED],
 			 client_status);
+
+	if (client_status != CAL_CLIENT_OPEN_SUCCESS) {
+		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+		g_free (priv->uri);
+		priv->uri = NULL;
+	}
 }
 
 /* Handle the obj_updated signal from the listener */
@@ -425,7 +441,7 @@ cal_client_construct (CalClient *client)
  * cal_client_new:
  *
  * Creates a new calendar client.  It should be initialized by calling
- * cal_client_load_calendar() or cal_client_create_calendar().
+ * cal_client_open_calendar().
  *
  * Return value: A newly-created calendar client, or NULL if the client could
  * not be constructed because it could not contact the calendar server.
@@ -446,9 +462,23 @@ cal_client_new (void)
 	return client;
 }
 
-/* Issues a load or create request */
-static gboolean
-load_or_create (CalClient *client, const char *str_uri, gboolean load)
+/**
+ * cal_client_open_calendar:
+ * @client: A calendar client.
+ * @str_uri: URI of calendar to open.
+ * @only_if_exists: FALSE if the calendar should be opened even if there
+ * was no storage for it, i.e. to create a new calendar or load an existing
+ * one if it already exists.  TRUE if it should only try to load calendars
+ * that already exist.
+ *
+ * Makes a calendar client initiate a request to open a calendar.  The calendar
+ * client will emit the "cal_opened" signal when the response from the server is
+ * received.
+ *
+ * Return value: TRUE on success, FALSE on failure to issue the open request.
+ **/
+gboolean
+cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists)
 {
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_Listener corba_listener;
@@ -458,44 +488,41 @@ load_or_create (CalClient *client, const char *str_uri, gboolean load)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_NOT_LOADED, FALSE);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_NOT_LOADED, FALSE);
+	g_assert (priv->uri == NULL);
 
 	g_return_val_if_fail (str_uri != NULL, FALSE);
 
-	priv->listener = cal_listener_new ();
+	priv->listener = cal_listener_new (cal_opened_cb,
+					   obj_updated_cb,
+					   obj_removed_cb,
+					   client);
 	if (!priv->listener) {
-		g_message ("load_or_create(): could not create the listener");
+		g_message ("cal_client_open_calendar(): could not create the listener");
 		return FALSE;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (priv->listener), "cal_loaded",
-			    GTK_SIGNAL_FUNC (cal_loaded_cb),
-			    client);
-	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb),
-			    client);
-	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb),
-			    client);
-
 	corba_listener = (GNOME_Evolution_Calendar_Listener) bonobo_object_corba_objref (
 		BONOBO_OBJECT (priv->listener));
-
+	
 	CORBA_exception_init (&ev);
 
-	priv->load_state = LOAD_STATE_LOADING;
+	priv->load_state = CAL_CLIENT_LOAD_LOADING;
+	priv->uri = g_strdup (str_uri);
 
-	if (load)
-		GNOME_Evolution_Calendar_CalFactory_load (priv->factory, str_uri, corba_listener, &ev);
-	else
-		GNOME_Evolution_Calendar_CalFactory_create (priv->factory, str_uri, corba_listener, &ev);
+	GNOME_Evolution_Calendar_CalFactory_open (priv->factory, str_uri, only_if_exists,
+						  corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("load_or_create(): load/create request failed");
+		CORBA_exception_free (&ev);
+
+		g_message ("cal_client_open_calendar(): open request failed");
 		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 		priv->listener = NULL;
-		priv->load_state = LOAD_STATE_NOT_LOADED;
-		CORBA_exception_free (&ev);
+		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+		g_free (priv->uri);
+		priv->uri = NULL;
+
 		return FALSE;
 	}
 	CORBA_exception_free (&ev);
@@ -504,50 +531,17 @@ load_or_create (CalClient *client, const char *str_uri, gboolean load)
 }
 
 /**
- * cal_client_load_calendar:
- * @client: A calendar client.
- * @str_uri: URI of calendar to load.
- *
- * Makes a calendar client initiate a request to load a calendar.  The calendar
- * client will emit the "cal_loaded" signal when the response from the server is
- * received.
- *
- * Return value: TRUE on success, FALSE on failure to issue the load request.
- **/
-gboolean
-cal_client_load_calendar (CalClient *client, const char *str_uri)
-{
-	return load_or_create (client, str_uri, TRUE);
-}
-
-/**
- * cal_client_create_calendar:
- * @client: A calendar client.
- * @str_uri: URI that will contain the calendar data.
- *
- * Makes a calendar client initiate a request to create a new calendar.  The
- * calendar client will emit the "cal_loaded" signal when the response from the
- * server is received.
- *
- * Return value: TRUE on success, FALSE on failure to issue the create request.
- **/
-gboolean
-cal_client_create_calendar (CalClient *client, const char *str_uri)
-{
-	return load_or_create (client, str_uri, FALSE);
-}
-
-/**
- * cal_client_is_loaded:
+ * cal_client_get_load_state:
  * @client: A calendar client.
  * 
- * Queries whether a calendar client has been loaded successfully.
+ * Queries the state of loading of a calendar client.
  * 
- * Return value: TRUE if the client has been loaded, FALSE if it has not or if
- * the loading process is not finished yet.
+ * Return value: A #CalClientLoadState value indicating whether the client has
+ * not been loaded with cal_client_open_calendar() yet, whether it is being
+ * loaded, or whether it is already loaded.
  **/
-gboolean
-cal_client_is_loaded (CalClient *client)
+CalClientLoadState
+cal_client_get_load_state (CalClient *client)
 {
 	CalClientPrivate *priv;
 
@@ -555,7 +549,28 @@ cal_client_is_loaded (CalClient *client)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	return (priv->load_state == LOAD_STATE_LOADED);
+	return priv->load_state;
+}
+
+/**
+ * cal_client_get_uri:
+ * @client: A calendar client.
+ * 
+ * Queries the URI that is open in a calendar client.
+ * 
+ * Return value: The URI of the calendar that is already loaded or is being
+ * loaded, or NULL if the client has not started a load request yet.
+ **/
+const char *
+cal_client_get_uri (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	return priv->uri;
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */
@@ -589,7 +604,7 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), -1);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, -1);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, -1);
 
 	t = corba_obj_type (type);
 
@@ -630,7 +645,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
 	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_NOT_FOUND);
 	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
@@ -713,7 +728,7 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
 	t = corba_obj_type (type);
 
@@ -783,7 +798,7 @@ cal_client_get_changes (CalClient *client, CalObjType type, const char *change_i
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
 	t = corba_obj_type (type);
 	CORBA_exception_init (&ev);
@@ -860,7 +875,7 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
@@ -1110,7 +1125,7 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 	g_return_if_fail (IS_CAL_CLIENT (client));
 
 	priv = client->priv;
-	g_return_if_fail (priv->load_state == LOAD_STATE_LOADED);
+	g_return_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED);
 
 	g_return_if_fail (start != -1 && end != -1);
 	g_return_if_fail (start <= end);
@@ -1263,7 +1278,7 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
@@ -1339,7 +1354,7 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
 
 	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (start != -1 && end != -1, FALSE);
@@ -1409,7 +1424,7 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 
@@ -1464,7 +1479,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
 
 	g_return_val_if_fail (uid != NULL, FALSE);
 

@@ -2,8 +2,9 @@
 /* Evolution calendar - generic backend class
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,9 +45,10 @@ BEGIN_GNOME_DECLS
 
 /* Load status values */
 typedef enum {
-	CAL_BACKEND_LOAD_SUCCESS,	/* Loading OK */
-	CAL_BACKEND_LOAD_ERROR		/* We need better error reporting in libversit */
-} CalBackendLoadStatus;
+	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
+	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
+	CAL_BACKEND_OPEN_NOT_FOUND
+} CalBackendOpenStatus;
 
 /* Result codes for ::get_alarms_in_range() */
 typedef enum {
@@ -57,8 +59,6 @@ typedef enum {
 
 struct _CalBackend {
 	GtkObject object;
-
-	GnomeVFSURI *uri;
 };
 
 struct _CalBackendClass {
@@ -70,8 +70,9 @@ struct _CalBackendClass {
 	/* Virtual methods */
 	GnomeVFSURI *(* get_uri) (CalBackend *backend);
 	void (* add_cal) (CalBackend *backend, Cal *cal);
-	CalBackendLoadStatus (* load) (CalBackend *backend, GnomeVFSURI *uri);
-	void (* create) (CalBackend *backend, GnomeVFSURI *uri);
+
+	CalBackendOpenStatus (* open) (CalBackend *backend, GnomeVFSURI *uri,
+				       gboolean only_if_exists);
 
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
@@ -97,9 +98,8 @@ GnomeVFSURI *cal_backend_get_uri (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 
-CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
-
-void cal_backend_create (CalBackend *backend, GnomeVFSURI *uri);
+CalBackendOpenStatus cal_backend_open (CalBackend *backend, GnomeVFSURI *uri,
+				       gboolean only_if_exists);
 
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 

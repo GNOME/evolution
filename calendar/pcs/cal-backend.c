@@ -2,9 +2,10 @@
 /* Evolution calendar - generic backend class
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Federico Mena-Quintero <federico@helixcode.com>
- *          JP Rosevear <jpr@helixcode.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
+ *          JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,10 +41,6 @@ enum {
 };
 
 static void cal_backend_class_init (CalBackendClass *class);
-static void cal_backend_init (CalBackend *backend);
-static void cal_backend_destroy (GtkObject *object);
-
-static GtkObjectClass *parent_class;
 
 static guint cal_backend_signals[LAST_SIGNAL];
 
@@ -71,7 +68,7 @@ cal_backend_get_type (void)
 			sizeof (CalBackend),
 			sizeof (CalBackendClass),
 			(GtkClassInitFunc) cal_backend_class_init,
-			(GtkObjectInitFunc) cal_backend_init,
+			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved_1 */
 			NULL, /* reserved_2 */
 			(GtkClassInitFunc) NULL
@@ -92,10 +89,6 @@ cal_backend_class_init (CalBackendClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
-
-	object_class->destroy = cal_backend_destroy;
-
 	cal_backend_signals[LAST_CLIENT_GONE] =
 		gtk_signal_new ("last_client_gone",
 				GTK_RUN_FIRST,
@@ -107,37 +100,13 @@ cal_backend_class_init (CalBackendClass *class)
 	gtk_object_class_add_signals (object_class, cal_backend_signals, LAST_SIGNAL);
 }
 
-/* Per instance initialization function */
-static void
-cal_backend_init (CalBackend *backend)
-{
-	backend->uri = NULL;
-}
-
-static void
-cal_backend_destroy (GtkObject *object)
-{
-	CalBackend *backend;
-	
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (object));
-
-	backend = CAL_BACKEND (object);
-
- 	if (backend->uri)
-		gnome_vfs_uri_unref (backend->uri);
-	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
 
 
 /**
  * cal_backend_get_uri:
  * @backend: A calendar backend.
  *
- * Queries the URI of a calendar backend, which must already have a loaded
+ * Queries the URI of a calendar backend, which must already have an open
  * calendar.
  *
  * Return value: The URI where the calendar is stored.
@@ -152,23 +121,13 @@ cal_backend_get_uri (CalBackend *backend)
 	return (* CLASS (backend)->get_uri) (backend);
 }
 
-static void
-cal_backend_set_uri (CalBackend *backend, GnomeVFSURI *uri)
-{
-	if (backend->uri)
-		gnome_vfs_uri_unref (backend->uri);
-
-	gnome_vfs_uri_ref (uri);
-	backend->uri = uri;
-}
-
 /**
  * cal_backend_add_cal:
  * @backend: A calendar backend.
  * @cal: A calendar client interface object.
  *
  * Adds a calendar client interface object to a calendar @backend.
- * The calendar backend must already have a loaded calendar.
+ * The calendar backend must already have an open calendar.
  **/
 void
 cal_backend_add_cal (CalBackend *backend, Cal *cal)
@@ -181,51 +140,31 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 }
 
 /**
- * cal_backend_load:
+ * cal_backend_open:
  * @backend: A calendar backend.
  * @uri: URI that contains the calendar data.
+ * @only_if_exists: Whether the calendar should be opened only if it already
+ * exists.  If FALSE, a new calendar will be created when the specified @uri
+ * does not exist.
  *
- * Loads a calendar backend with data from a calendar stored at the specified
+ * Opens a calendar backend with data from a calendar stored at the specified
  * URI.
  *
  * Return value: An operation status code.
  **/
-CalBackendLoadStatus
-cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
+CalBackendOpenStatus
+cal_backend_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists)
 {
-	CalBackendLoadStatus result;
+	CalBackendOpenStatus result;
 
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
+	g_return_val_if_fail (backend != NULL, CAL_BACKEND_OPEN_ERROR);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_OPEN_ERROR);
+	g_return_val_if_fail (uri != NULL, CAL_BACKEND_OPEN_ERROR);
 
-	g_assert (CLASS (backend)->load != NULL);
-	result =  (* CLASS (backend)->load) (backend, uri);
+	g_assert (CLASS (backend)->open != NULL);
+	result =  (* CLASS (backend)->open) (backend, uri, only_if_exists);
 
-	if (result == CAL_BACKEND_LOAD_SUCCESS)
-		cal_backend_set_uri (backend, uri);
-	
 	return result;
-}
-
-/**
- * cal_backend_create:
- * @backend: A calendar backend.
- * @uri: URI that will contain the calendar data.
- *
- * Creates a new empty calendar in a calendar backend.
- **/
-void
-cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
-{
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
-	g_return_if_fail (uri != NULL);
-
-	g_assert (CLASS (backend)->create != NULL);
-	(* CLASS (backend)->create) (backend, uri);
-
-	cal_backend_set_uri (backend, uri);
 }
 
 /**

@@ -1,9 +1,26 @@
-/*
- * GnomeCalendar widget
- * Copyright (C) 1998 the Free Software Foundation
+/* Evolution calendar - Main calendar view widget
  *
- * Authors: Miguel de Icaza (miguel@kernel.org)
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Copyright (C) 1998 The Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
+ *
+ * Authors: Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
+ *          Seth Alves <alves@hungry.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
 #ifndef GNOME_CALENDAR_APP_H
@@ -55,9 +72,7 @@ GtkWidget *gnome_calendar_new			(void);
 
 CalClient *gnome_calendar_get_cal_client	(GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_open                  (GnomeCalendar *gcal,
-						 char *file,
-						 GnomeCalendarOpenMode gcom);
+gboolean   gnome_calendar_open                  (GnomeCalendar *gcal, char *str_uri);
 /*
 int	   gnome_calendar_create		(GnomeCalendar *gcal,
 						 char *file);

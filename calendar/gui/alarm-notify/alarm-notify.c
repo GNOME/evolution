@@ -1,8 +1,9 @@
 /* Evolution calendar - Alarm notification service object
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +39,7 @@ static void alarm_notify_class_init (AlarmNotifyClass *class);
 static void alarm_notify_init (AlarmNotify *an);
 static void alarm_notify_destroy (GtkObject *object);
 
-static POA_GNOME_Evolution_Calendar_AlarmListener__vepv alarm_listener_vepv;
+static POA_GNOME_Evolution_Calendar_AlarmNotify__vepv alarm_notify_vepv;
 
 static BonoboObjectClass *parent_class;
 
@@ -136,6 +137,32 @@ alarm_notify_destroy (GtkObject *object)
 
 /* CORBA servant implementation */
 
+/* AlarmNotify::addCalendar method */
+static void
+AlarmNotify_addCalendar (PortableServer_Servant servant,
+			 const CORBA_char *uri,
+			 CORBA_Environment *ev)
+{
+	AlarmNotify *an;
+
+	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+
+	/* FIXME */
+}
+
+/* AlarmNotify::removeCalendar method */
+static void
+AlarmNotify_removeCalendar (PortableServer_Servant servant,
+			    const CORBA_char *uri,
+			    CORBA_Environment *ev)
+{
+	AlarmNotify *an;
+
+	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+
+	/* FIXME */
+}
+
 /**
  * alarm_notify_get_epv:
  * 
@@ -153,4 +180,98 @@ alarm_notify_get_epv (void)
 	epv->removeCalendar = AlarmNotify_removeCalendar;
 	epv->die = AlarmNotify_die;
 	return epv;
+}
+
+
+
+/**
+ * alarm_notify_construct:
+ * @an: An alarm notification service object.
+ * @corba_an: CORBA object for the alarm notification service.
+ * 
+ * Constructs an alarm notification service object by binding the corresponding
+ * CORBA object to it.
+ * 
+ * Return value: the same object as the @an argument.
+ **/
+AlarmNotify *
+alarm_notify_construct (AlarmNotify *an,
+			GNOME_Evolution_Calendar_AlarmNotify corba_an)
+{
+	g_return_val_if_fail (an != NULL, NULL);
+	g_return_val_if_fail (IS_ALARM_NOTIFY (an), NULL);
+
+	/* FIXME: add_interface the property bag here */
+
+	bonobo_object_construct (BONOBO_OBJECT (an), corba_an);
+	return an;
+}
+
+/**
+ * alarm_notify_corba_object_create:
+ * @object: #BonoboObject that will wrap the CORBA object.
+ * 
+ * Creates and activates the CORBA object that is wrapped by the specified alarm
+ * notification service @object.
+ * 
+ * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
+ * failure.
+ **/
+GNOME_Evolution_Calendar_AlarmNotify
+alarm_notify_corba_object_create (BonoboObject *object)
+{
+	POA_GNOME_Evolution_Calendar_AlarmNotify *servant;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (IS_ALARM_NOTIFY (object), CORBA_OBJECT_NIL);
+
+	servant = (POA_GNOME_Evolution_Calendar_AlarmNotify *) g_new (BonoboObjectServant, 1);
+	servant->vepv = &alarm_notify_vepv;
+
+	CORBA_exception_init (&ev);
+	POA_GNOME_Evolution_Calendar_AlarmNotify__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free (servant);
+		CORBA_exception_free (&ev);
+		return CORBA_OBJECT_NIL;
+	}
+
+	CORBA_exception_free (&ev);
+	return (GNOME_Evolution_Calendar_AlarmNotify) bonobo_object_activate_servant (
+		object, servant);
+}
+
+/**
+ * alarm_notify_new:
+ * 
+ * Creates a new #AlarmNotify object.
+ * 
+ * Return value: A newly-created #AlarmNotify, or NULL if its corresponding
+ * CORBA object could not be created.
+ **/
+AlarmNotify *
+alarm_notify_new (void)
+{
+	AlarmNotify *an;
+	GNOME_Evolution_Calendar_AlarmNotify corba_an;
+	CORBA_Environment ev;
+	gboolean result;
+
+	an = gtk_type_new (TYPE_ALARM_NOTIFY);
+
+	corba_an = alarm_notify_corba_object_create (BONOBO_OBJECT (an));
+
+	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (corba_an, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION || result) {
+		g_message ("alarm_notify_new(): could not create the CORBA alarm notify service");
+		bonobo_object_unref (BONOBO_OBJECT (an));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	CORBA_exception_free (&ev);
+
+	return alarm_notify_construct (an, corba_an);
 }

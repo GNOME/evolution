@@ -60,8 +60,7 @@ struct _EToDoConduitContext {
 
 	CalClient *client;
 	char *calendar_file;
-	gboolean calendar_load_tried;
-	gboolean calendar_load_success;
+	gboolean calendar_open_success;
 
 	GList *uids;
 	GList *changed;

@@ -1,11 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * e-itip-control.c
+/* Evolution calendar - Control for displaying iTIP mail messages
  *
- * Authors:
- *    Jesse Pavel <jpavel@helixcode.com>
+ * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Copyright 2000, Helix Code, Inc.
+ * Author: Jesse Pavel <jpavel@ximian.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
 #include <config.h>
@@ -126,29 +139,26 @@ itip_control_destroy_cb (GtkObject *object,
 	
 
 static void
-cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
-	CalClient *client = CAL_CLIENT (object);
 	EItipControlPrivate *priv = data;
 
 	gtk_widget_hide (priv->loading_progress);
 
-	if (status == CAL_CLIENT_GET_SUCCESS) {
+	if (status == CAL_CLIENT_OPEN_SUCCESS) {
 		if (cal_client_update_object (client, priv->cal_comp) == FALSE) {
 			GtkWidget *dialog;
 	
 			dialog = gnome_warning_dialog("I couldn't update your calendar file!\n");
 			gnome_dialog_run (GNOME_DIALOG(dialog));
-		}
-		else {
+		} else {
 			/* We have success. */
 			GtkWidget *dialog;
 	
 			dialog = gnome_ok_dialog("Component successfully updated.");
 			gnome_dialog_run (GNOME_DIALOG(dialog));
 		}
-	}
-	else {
+	} else {
 		GtkWidget *dialog;
 
 		dialog = gnome_ok_dialog("There was an error loading the calendar file.");
@@ -169,10 +179,10 @@ update_calendar (EItipControlPrivate *priv)
 	
 	client = cal_client_new ();
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
-	    	   	    GTK_SIGNAL_FUNC (cal_loaded_cb), priv);
+	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
+	    	   	    GTK_SIGNAL_FUNC (cal_opened_cb), priv);
 	
-	if (cal_client_load_calendar (client, cal_uri) == FALSE) {
+	if (cal_client_open_calendar (client, cal_uri, FALSE) == FALSE) {
 		GtkWidget *dialog;
 
 		dialog = gnome_warning_dialog("I couldn't open your calendar file!\n");
@@ -407,11 +417,13 @@ load_calendar_store (char *cal_uri, CalClient **cal_client)
 	}
 
 	*cal_client = cal_client_new ();
-	if (cal_client_load_calendar (*cal_client, uri) == FALSE) {
+	if (cal_client_open_calendar (*cal_client, uri, FALSE) == FALSE) {
 		return FALSE;
 	}
 
-	while (!cal_client_is_loaded (*cal_client)) {
+	/* FIXME!!!!!!  This is fucking ugly. */
+
+	while (!cal_client_get_load_state (*cal_client) != CAL_CLIENT_LOAD_LOADED) {
 		gtk_main_iteration_do (FALSE);  /* Do a non-blocking iteration. */
 		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
 	}

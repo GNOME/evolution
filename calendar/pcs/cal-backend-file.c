@@ -1,8 +1,9 @@
 /* Evolution calendar - iCalendar file backend
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,8 +66,8 @@ static void cal_backend_file_destroy (GtkObject *object);
 
 static GnomeVFSURI *cal_backend_file_get_uri (CalBackend *backend);
 static void cal_backend_file_add_cal (CalBackend *backend, Cal *cal);
-static CalBackendLoadStatus cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri);
-static void cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri);
+static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri,
+						   gboolean only_if_exists);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
@@ -138,8 +139,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->add_cal = cal_backend_file_add_cal;
-	backend_class->load = cal_backend_file_load;
-	backend_class->create = cal_backend_file_create;
+	backend_class->open = cal_backend_file_open;
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_type_by_uid = cal_backend_file_get_type_by_uid;
@@ -587,7 +587,7 @@ scan_vcalendar (CalBackendFile *cbfile)
 
 /* Callback used from icalparser_parse() */
 static char *
-get_line (char *s, size_t size, void *data)
+get_line_fn (char *s, size_t size, void *data)
 {
 	FILE *file;
 
@@ -595,25 +595,119 @@ get_line (char *s, size_t size, void *data)
 	return fgets (s, size, file);
 }
 
-/* Load handler for the file backend */
-static CalBackendLoadStatus
-cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
+/* Parses an open iCalendar file and returns a toplevel component with the contents */
+static icalcomponent *
+parse_file (FILE *file)
+{
+	icalparser *parser;
+	icalcomponent *icalcomp;
+
+	parser = icalparser_new ();
+	icalparser_set_gen_data (parser, file);
+
+	icalcomp = icalparser_parse (parser, get_line_fn);
+	icalparser_free (parser);
+
+	return icalcomp;
+}
+
+/* Parses an open iCalendar file and loads it into the backend */
+static CalBackendOpenStatus
+open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
+{
+	CalBackendFilePrivate *priv;
+	icalcomponent *icalcomp;
+
+	priv = cbfile->priv;
+
+	icalcomp = parse_file (file);
+
+	if (fclose (file) != 0) {
+		if (icalcomp)
+			icalcomponent_free (icalcomp);
+
+		return CAL_BACKEND_OPEN_ERROR;
+	}
+
+	if (!icalcomp)
+		return CAL_BACKEND_OPEN_ERROR;
+		
+	/* FIXME: should we try to demangle XROOT components and
+	 * individual components as well?
+	 */
+
+	if (icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT)
+		return CAL_BACKEND_OPEN_ERROR;
+
+	priv->icalcomp = icalcomp;
+
+	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	scan_vcalendar (cbfile);
+
+	gnome_vfs_uri_ref (uri);
+	priv->uri = uri;
+
+	return CAL_BACKEND_OPEN_SUCCESS;
+}
+
+static CalBackendOpenStatus
+create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
+{
+	CalBackendFilePrivate *priv;
+	icalproperty *prop;
+
+	priv = cbfile->priv;
+
+	/* Create the new calendar information */
+
+	priv->icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+
+	/* RFC 2445, section 4.7.1 */
+	prop = icalproperty_new_calscale ("GREGORIAN");
+	icalcomponent_add_property (priv->icalcomp, prop);
+
+	/* RFC 2445, section 4.7.3 */
+	prop = icalproperty_new_prodid ("-//Ximian//NONSGML Evolution Calendar//EN");
+	icalcomponent_add_property (priv->icalcomp, prop);
+
+	/* RFC 2445, section 4.7.4.  This is the iCalendar spec version, *NOT*
+	 * the product version!  Do not change this!
+	 */
+	prop = icalproperty_new_version ("2.0");
+	icalcomponent_add_property (priv->icalcomp, prop);
+
+	/* Create our internal data */
+
+	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	gnome_vfs_uri_ref (uri);
+	priv->uri = uri;
+
+	mark_dirty (cbfile);
+
+	return CAL_BACKEND_OPEN_SUCCESS;
+}
+
+/* Open handler for the file backend */
+static CalBackendOpenStatus
+cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
 	char *str_uri;
 	FILE *file;
-	icalparser *parser;
-	icalcomponent *icalcomp;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	g_return_val_if_fail (priv->icalcomp == NULL, CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
+	g_return_val_if_fail (priv->icalcomp == NULL, CAL_BACKEND_OPEN_ERROR);
+	g_return_val_if_fail (uri != NULL, CAL_BACKEND_OPEN_ERROR);
+
+	g_assert (priv->uri == NULL);
+	g_assert (priv->comp_uid_hash == NULL);
 
 	if (!gnome_vfs_uri_is_local (uri))
-		return CAL_BACKEND_LOAD_ERROR;
+		return CAL_BACKEND_OPEN_ERROR;
 
 	str_uri = gnome_vfs_uri_to_string (uri,
 					   (GNOME_VFS_URI_HIDE_USER_NAME
@@ -626,87 +720,14 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	file = fopen (str_uri, "r");
 	g_free (str_uri);
 
-	if (!file)
-		return CAL_BACKEND_LOAD_ERROR;
+	if (file)
+		return open_cal (cbfile, uri, file);
+	else {
+		if (only_if_exists)
+			return CAL_BACKEND_OPEN_NOT_FOUND;
 
-	parser = icalparser_new ();
-	icalparser_set_gen_data (parser, file);
-
-	icalcomp = icalparser_parse (parser, get_line);
-	icalparser_free (parser);
-
-	if (fclose (file) != 0)
-		return CAL_BACKEND_LOAD_ERROR;
-
-	if (!icalcomp)
-		return CAL_BACKEND_LOAD_ERROR;
-
-	/* FIXME: should we try to demangle XROOT components and individual
-         * components as well?
-	 */
-
-	if (icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT)
-		return CAL_BACKEND_LOAD_ERROR;
-
-	priv->icalcomp = icalcomp;
-
-	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	scan_vcalendar (cbfile);
-
-	/* Clean up */
-	if (priv->uri)
-		gnome_vfs_uri_unref (priv->uri);
-	
-	gnome_vfs_uri_ref (uri);
-	priv->uri = uri;
-
-	return CAL_BACKEND_LOAD_SUCCESS;
-}
-
-/* Create handler for the file backend */
-static void
-cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-	icalproperty *prop;
-
-	cbfile = CAL_BACKEND_FILE (backend);
-	priv = cbfile->priv;
-
-	g_return_if_fail (priv->icalcomp == NULL);
-	g_return_if_fail (uri != NULL);
-
-	/* Create the new calendar information */
-
-	g_assert (priv->icalcomp == NULL);
-	priv->icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
-
-	/* RFC 2445, section 4.7.1 */
-	prop = icalproperty_new_calscale ("GREGORIAN");
-	icalcomponent_add_property (priv->icalcomp, prop);
-
-	/* RFC 2445, section 4.7.3 */
-	prop = icalproperty_new_prodid ("-//Helix Code//NONSGML Evolution Calendar//EN");
-	icalcomponent_add_property (priv->icalcomp, prop);
-
-	/* RFC 2445, section 4.7.4 */
-	prop = icalproperty_new_version ("2.0");
-	icalcomponent_add_property (priv->icalcomp, prop);
-
-	/* Create our internal data */
-
-	g_assert (priv->comp_uid_hash == NULL);
-	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* Clean up */
-	if (priv->uri)
-		gnome_vfs_uri_unref (priv->uri);
-	
-	gnome_vfs_uri_ref (uri);
-	priv->uri = uri;
-
-	mark_dirty (cbfile);
+		return create_cal (cbfile, uri);
+	}
 }
 
 /* Get_n_objects handler for the file backend */

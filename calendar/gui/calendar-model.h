@@ -1,8 +1,9 @@
 /* Evolution calendar - Data model for ETable
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,6 +64,10 @@ CalClient*	calendar_model_get_cal_client	  (CalendarModel   *model);
 void		calendar_model_set_cal_client	  (CalendarModel   *model,
 						   CalClient	   *client,
 						   CalObjType	    type);
+
+void		calendar_model_set_new_comp_vtype  (CalendarModel     *model,
+						    CalComponentVType  vtype);
+CalComponentVType calendar_model_get_new_comp_vtype (CalendarModel    *model);
 
 void		calendar_model_mark_task_complete (CalendarModel   *model,
 						   gint		    row);

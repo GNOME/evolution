@@ -151,7 +151,7 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
 		filename = g_strdup_printf ("%s/tasks.ics",
 					    BONOBO_ARG_GET_STRING (arg));
-		e_tasks_open (tasks, filename, E_TASKS_OPEN_OR_CREATE);
+		e_tasks_open (tasks, filename);
 		g_free (filename);
 		break;
 

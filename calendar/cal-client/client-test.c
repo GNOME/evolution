@@ -1,8 +1,9 @@
 /* Evolution calendar client - test program
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -115,17 +116,18 @@ list_uids (gpointer data)
 	return FALSE;
 }
 
-/* Callback used when a calendar is loaded */
+/* Callback used when a calendar is opened */
 static void
-cal_loaded (CalClient *client, CalClientLoadStatus status, gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
 	cl_printf (client, "Load/create %s\n",
-		   ((status == CAL_CLIENT_LOAD_SUCCESS) ? "success" :
-		    (status == CAL_CLIENT_LOAD_ERROR) ? "error" :
-		    (status == CAL_CLIENT_LOAD_IN_USE) ? "in use" :
+		   ((status == CAL_CLIENT_OPEN_SUCCESS) ? "success" :
+		    (status == CAL_CLIENT_OPEN_ERROR) ? "error" :
+		    (status == CAL_CLIENT_OPEN_NOT_FOUND) ? "not found" :
+		    (status == CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED) ? "method not supported" :
 		    "unknown status value"));
 
-	if (status == CAL_CLIENT_LOAD_SUCCESS)
+	if (status == CAL_CLIENT_OPEN_SUCCESS)
 		g_idle_add (list_uids, client);
 	else
 		gtk_object_unref (GTK_OBJECT (client));
@@ -133,7 +135,7 @@ cal_loaded (CalClient *client, CalClientLoadStatus status, gpointer data)
 
 /* Callback used when an object is updated */
 static void
-obj_updated (CalClient *client, const char *uid, gpointer data)
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
 	cl_printf (client, "Object updated: %s\n", uid);
 }
@@ -155,7 +157,7 @@ client_destroy_cb (GtkObject *object, gpointer data)
 
 /* Creates a calendar client and tries to load the specified URI into it */
 static void
-create_client (CalClient **client, const char *uri, gboolean load)
+create_client (CalClient **client, const char *uri, gboolean only_if_exists)
 {
 	gboolean result;
 
@@ -169,23 +171,19 @@ create_client (CalClient **client, const char *uri, gboolean load)
 			    client_destroy_cb,
 			    NULL);
 
-	gtk_signal_connect (GTK_OBJECT (*client), "cal_loaded",
-			    GTK_SIGNAL_FUNC (cal_loaded),
+	gtk_signal_connect (GTK_OBJECT (*client), "cal_opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb),
 			    NULL);
 	gtk_signal_connect (GTK_OBJECT (*client), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated),
+			    GTK_SIGNAL_FUNC (obj_updated_cb),
 			    NULL);
 
 	printf ("Calendar loading `%s'...\n", uri);
 
-	if (load)
-		result = cal_client_load_calendar (*client, uri);
-	else
-		result = cal_client_create_calendar (*client, uri);
+	result = cal_client_open_calendar (*client, uri, only_if_exists);
 
 	if (!result) {
-		g_message ("create_client(): failure when issuing calendar %s request `%s'",
-			   load ? "load" : "create",
+		g_message ("create_client(): failure when issuing calendar open request `%s'",
 			   uri);
 		exit (1);
 	}
@@ -205,8 +203,8 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	create_client (&client1, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
-	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", FALSE);
+	create_client (&client1, "/cvs/evolution/calendar/cal-client/test.ics", FALSE);
+	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
 
 	bonobo_main ();
 	return 0;

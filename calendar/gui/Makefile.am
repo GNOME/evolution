@@ -55,8 +55,6 @@ evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
 	alarm.c					\
 	alarm.h					\
-	alarm-notify.c				\
-	alarm-notify.h				\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-commands.c			\
@@ -99,8 +97,6 @@ evolution_calendar_SOURCES =			\
 	event-editor.h				\
 	gnome-cal.c				\
 	gnome-cal.h				\
-	gnome-month-item.c			\
-	gnome-month-item.h			\
 	goto.c					\
 	goto.h					\
 	itip-utils.c				\

@@ -1295,15 +1295,15 @@ e_day_view_set_calendar		(EDayView	*day_view,
 }
 
 
-/* Callback used when the calendar client finishes loading */
+/* Callback used when the calendar client finishes opening */
 static void
-cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
 	EDayView *day_view;
 
 	day_view = E_DAY_VIEW (data);
 
-	if (status != CAL_CLIENT_LOAD_SUCCESS)
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
 		return;
 
 	e_day_view_queue_reload_events (day_view);
@@ -1453,9 +1453,9 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	day_view->client = client;
 
 	if (day_view->client) {
-		if (!cal_client_is_loaded (day_view->client))
-			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_loaded",
-					    GTK_SIGNAL_FUNC (cal_loaded_cb), day_view);
+		if (cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED)
+			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_opened",
+					    GTK_SIGNAL_FUNC (cal_opened_cb), day_view);
 
 		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), day_view);
@@ -3834,7 +3834,8 @@ e_day_view_reload_events (EDayView *day_view)
 {
 	e_day_view_free_events (day_view);
 
-	if (!(day_view->client && cal_client_is_loaded (day_view->client)))
+	if (!(day_view->client
+	      && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
 	/* If both lower & upper are 0, then the time range hasn't been set,

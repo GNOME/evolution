@@ -2,9 +2,10 @@
 
 /*
  * Author :
- *  Damon Chaplin <damon@helixcode.com>
+ *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 1999, Helix Code, Inc.
+ * Copyright 2001, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -831,15 +832,15 @@ e_week_view_set_calendar	(EWeekView	*week_view,
 }
 
 
-/* Callback used when the calendar client finishes loading */
+/* Callback used when the calendar client finishes opening */
 static void
-cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
 	EWeekView *week_view;
 
 	week_view = E_WEEK_VIEW (data);
 
-	if (status != CAL_CLIENT_LOAD_SUCCESS)
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
 		return;
 
 	e_week_view_queue_reload_events (week_view);
@@ -976,9 +977,9 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 	week_view->client = client;
 
 	if (week_view->client) {
-		if (!cal_client_is_loaded (week_view->client))
-			gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_loaded",
-					    GTK_SIGNAL_FUNC (cal_loaded_cb), week_view);
+		if (cal_client_get_load_state (week_view->client) != CAL_CLIENT_LOAD_LOADED)
+			gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_opened",
+					    GTK_SIGNAL_FUNC (cal_opened_cb), week_view);
 
 		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), week_view);
@@ -2012,7 +2013,8 @@ e_week_view_reload_events (EWeekView *week_view)
 
 	e_week_view_free_events (week_view);
 
-	if (!(week_view->client && cal_client_is_loaded (week_view->client)))
+	if (!(week_view->client
+	      && cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
 	/* Only load events if the date range has been set. */

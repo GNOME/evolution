@@ -1,8 +1,9 @@
 /* Evolution calendar client
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,19 +43,27 @@ typedef struct _CalClientClass CalClientClass;
 
 typedef struct _CalClientPrivate CalClientPrivate;
 
-/* Load status for the cal_loaded signal */
+/* Open status for the cal_opened signal */
 typedef enum {
-	CAL_CLIENT_LOAD_SUCCESS,
-	CAL_CLIENT_LOAD_ERROR,
-	CAL_CLIENT_LOAD_IN_USE,
-	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED
-} CalClientLoadStatus;
+	CAL_CLIENT_OPEN_SUCCESS,
+	CAL_CLIENT_OPEN_ERROR,
+	CAL_CLIENT_OPEN_NOT_FOUND,
+	CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED
+} CalClientOpenStatus;
 
+/* Get status for the cal_client_get_object() function */
 typedef enum {
 	CAL_CLIENT_GET_SUCCESS,
 	CAL_CLIENT_GET_NOT_FOUND,
 	CAL_CLIENT_GET_SYNTAX_ERROR
 } CalClientGetStatus;
+
+/* Whether the client is not loaded, is being loaded, or is already loaded */
+typedef enum {
+	CAL_CLIENT_LOAD_NOT_LOADED,
+	CAL_CLIENT_LOAD_LOADING,
+	CAL_CLIENT_LOAD_LOADED
+} CalClientLoadState;
 
 
 struct _CalClient {
@@ -69,7 +78,7 @@ struct _CalClientClass {
 
 	/* Notification signals */
 
-	void (* cal_loaded) (CalClient *client, CalClientLoadStatus status);
+	void (* cal_opened) (CalClient *client, CalClientOpenStatus status);
 
 	void (* obj_updated) (CalClient *client, const char *uid);
 	void (* obj_removed) (CalClient *client, const char *uid);
@@ -81,10 +90,11 @@ CalClient *cal_client_construct (CalClient *client);
 
 CalClient *cal_client_new (void);
 
-gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
-gboolean cal_client_create_calendar (CalClient *client, const char *str_uri);
+gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
 
-gboolean cal_client_is_loaded (CalClient *client);
+CalClientLoadState cal_client_get_load_state (CalClient *client);
+
+const char *cal_client_get_uri (CalClient *client);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);
 

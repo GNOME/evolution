@@ -3,10 +3,11 @@
 /* Evolution calendar - Event editor dialog
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
- * Authors: Miguel de Icaza <miguel@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
- *          Seth Alves <alves@helixcode.com>
+ * Authors: Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
+ *          Seth Alves <alves@hungry.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +76,7 @@ struct _EventEditorPrivate {
 
 	/* Client to use */
 	CalClient *client;
-	
+
 	/* Calendar object/uid we are editing; this is an internal copy */
 	CalComponent *comp;
 
@@ -113,7 +114,7 @@ struct _EventEditorPrivate {
 
 	GtkWidget *categories;
 	GtkWidget *categories_btn;
-	
+
 	GtkWidget *recurrence_summary;
 	GtkWidget *recurrence_starting_date;
 
@@ -325,7 +326,7 @@ make_title_from_comp (CalComponent *comp)
 	const char *summary;
 	CalComponentVType type;
 	CalComponentText text;
-	
+
 	if (!comp)
 		return g_strdup (_("Edit Appointment"));
 
@@ -335,7 +336,7 @@ make_title_from_comp (CalComponent *comp)
 	else
 		summary =  _("No summary");
 
-	
+
 	type = cal_component_get_vtype (comp);
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
@@ -845,7 +846,7 @@ sensitize_recur_widgets (EventEditor *ee)
 		g_assert_not_reached ();
 	}
 }
-	
+
 /* Callback used when one of the recurrence type radio buttons is toggled.  We
  * enable or the recurrence parameters.
  */
@@ -1869,7 +1870,7 @@ fill_widgets (EventEditor *ee)
 	GSList *l;
 	time_t dtstart, dtend;
 	const char *categories;
-	
+
 	priv = ee->priv;
 
 	clear_widgets (ee);
@@ -1888,7 +1889,7 @@ fill_widgets (EventEditor *ee)
 		e_dialog_editable_set (priv->description, text.value);
 	}
 	cal_component_free_text_list (l);
-	
+
 	/* Start and end times */
 
 	/* All-day events are inclusive, i.e. if the end date shown is 2nd Feb
@@ -1984,7 +1985,7 @@ fill_widgets (EventEditor *ee)
 /**
  * event_editor_update_widgets:
  * @ee: An event editor.
- * 
+ *
  * Causes an event editor dialog to re-read the values of its calendar component
  * object.  This function should be used if the #CalComponent is changed by
  * external means while it is open in the editor.
@@ -2232,7 +2233,7 @@ recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 		tim = gtk_clist_get_row_data (exception_list, i);
 		*cdt->value = icaltime_from_timet (*tim, FALSE, TRUE);
-		
+
 		list = g_slist_prepend (list, cdt);
 	}
 
@@ -2249,7 +2250,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	time_t t;
 	gboolean all_day_event;
 	char *cat, *str;
-	
+
 	priv = ee->priv;
 
 	/* Summary */
@@ -2285,12 +2286,12 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 		cal_component_set_description_list (comp, &l);
 	}
-	
+
 	if (!str)
 		g_free (str);
 
 	/* Dates */
-	
+
 	date.value = g_new (struct icaltimetype, 1);
 	date.tzid = NULL;
 
@@ -2400,7 +2401,7 @@ debug_xml_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv = ee->priv;
-	
+
 	bonobo_window_dump (BONOBO_WINDOW (priv->app), "on demand");
 }
 
@@ -2431,13 +2432,13 @@ file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
-	
+
 	ee = EVENT_EDITOR (data);
 
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
 	priv = ee->priv;
-	
+
 	g_return_if_fail (priv->comp);
 
 	if (delete_component_dialog (priv->comp, priv->app)) {
@@ -2496,9 +2497,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileDelete", file_delete_cb),
 	BONOBO_UI_VERB ("FileClose", file_close_cb),
 	BONOBO_UI_VERB ("FileSaveAndClose", file_save_and_close_cb),
-		  
+
 	BONOBO_UI_VERB ("ActionScheduleMeeting", schedule_meeting_cb),
-		  
+
 	BONOBO_UI_VERB ("DebugDumpXml", debug_xml_cb),
 
 	BONOBO_UI_VERB_END
@@ -2525,9 +2526,9 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 /**
  * event_editor_construct:
  * @ee: An event editor.
- * 
+ *
  * Constructs an event editor by loading its Glade data.
- * 
+ *
  * Return value: The same object as @ee, or NULL if the widgets could not be
  * created.  In the latter case, the event editor will automatically be
  * destroyed.
@@ -2604,7 +2605,7 @@ event_editor_construct (EventEditor *ee)
 
 
 	/* Add focus to the summary entry */
-	
+
 	gtk_widget_grab_focus (GTK_WIDGET (priv->general_summary));
 
 	/* Show the dialog */
@@ -2621,9 +2622,9 @@ event_editor_construct (EventEditor *ee)
 
 /**
  * event_editor_new:
- * 
+ *
  * Creates a new event editor dialog.
- * 
+ *
  * Return value: A newly-created event editor dialog, or NULL if the event
  * editor could not be created.
  **/
@@ -2660,7 +2661,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
 	priv = ee->priv;
-	
+
 	/* If we aren't showing the object which has been updated, return. */
 	if (!priv->comp)
 	  return;
@@ -2723,11 +2724,11 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
  * event_editor_set_cal_client:
  * @ee: An event editor.
  * @client: Calendar client.
- * 
+ *
  * Sets the calendar client than an event editor will use for updating its
  * calendar components.
  **/
-void 
+void
 event_editor_set_cal_client (EventEditor *ee, CalClient *client)
 {
 	EventEditorPrivate *priv;
@@ -2744,8 +2745,8 @@ event_editor_set_cal_client (EventEditor *ee, CalClient *client)
 		g_return_if_fail (IS_CAL_CLIENT (client));
 
 	if (client)
-		g_return_if_fail (cal_client_is_loaded (client));	
-	
+		g_return_if_fail (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED);
+
 	if (client)
 		gtk_object_ref (GTK_OBJECT (client));
 
@@ -2767,10 +2768,10 @@ event_editor_set_cal_client (EventEditor *ee, CalClient *client)
 /**
  * event_editor_get_cal_client:
  * @ee: An event editor.
- * 
+ *
  * Queries the calendar client that an event editor is using to update its
  * calendar components.
- * 
+ *
  * Return value: A calendar client object.
  **/
 CalClient *
@@ -2789,7 +2790,7 @@ event_editor_get_cal_client (EventEditor *ee)
  * event_editor_set_event_object:
  * @ee: An event editor.
  * @comp: A calendar object.
- * 
+ *
  * Sets the calendar object that an event editor dialog will manipulate.
  **/
 void
@@ -2818,7 +2819,7 @@ event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 /**
  * event_editor_focus:
  * @ee: An event editor.
- * 
+ *
  * Makes sure an event editor is shown, on top of other windows, and focused.
  **/
 void
@@ -3275,7 +3276,7 @@ prompt_to_save_changes		(EventEditor	*ee)
 
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 				 GTK_WINDOW (priv->app));
-		
+
 	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 	case 0: /* Save */
 		/* FIXME: If an error occurs here, we should popup a dialog
@@ -3305,7 +3306,7 @@ categories_clicked (GtkWidget *button, EventEditor *ee)
 	dialog = GNOME_DIALOG (e_categories_new (categories));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
-	
+
 	if (result == 0) {
 		gtk_object_get (GTK_OBJECT (dialog),
 				"categories", &categories,

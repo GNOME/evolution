@@ -1,9 +1,10 @@
 /* Evolution calendar - Low-level alarm timer mechanism
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Miguel de Icaza <miguel@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Miguel de Icaza <miguel@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

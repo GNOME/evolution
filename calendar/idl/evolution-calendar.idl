@@ -2,9 +2,10 @@
  *
  * Copyright (C) 2000 Eskil Heyn Olsen
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Eskil Heyn Olsen <deity@eskil.dk>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  */
 
 #ifndef _EVOLUTION_CALENDAR_IDL_
@@ -154,20 +155,20 @@ module Calendar {
 
 	/* Listener for changes in a calendar */
 	interface Listener : Bonobo::Unknown {
-		/* Return status when loading a calendar; we need better error reporting */
-		enum LoadStatus {
+		/* Return status when opening a calendar */
+		enum OpenStatus {
 			SUCCESS,		/* All OK */
 			ERROR,			/* Generic error */
-			IN_USE,			/* Requested create while a calendar
-						 * with the same URI was in use.
+			NOT_FOUND,		/* Requested opening in only_if_exists mode
+						 * when the URI did not exist.
 						 */
 			METHOD_NOT_SUPPORTED	/* A method handler is not registered */
 		};
 
-		/* Called from a CalFactory when a calendar is initially loaded
-		 * or created.  The listener must remember the cal object.
+		/* Called from a CalFactory when a calendar is initially opened.
+		 * The listener must remember the cal object.  
 		 */
-		void notifyCalLoaded (in LoadStatus status, in Cal cal);
+		void notifyCalOpened (in OpenStatus status, in Cal cal);
 
 		/* Called from a Calendar when a component is added or changed */
 		void notifyObjUpdated (in CalObjUID uid);
@@ -180,12 +181,8 @@ module Calendar {
 	interface CalFactory : Bonobo::Unknown {
 		exception NilListener {};
 
-		/* Load a calendar from an URI */
-		void load (in string uri, in Listener listener)
-			raises (NilListener);
-
-		/* Create a new calendar at the specified URI */
-		void create (in string uri, in Listener listener)
+		/* Open a calendar from an URI */
+		void open (in string uri, in boolean only_if_exists, in Listener listener)
 			raises (NilListener);
 	};
 

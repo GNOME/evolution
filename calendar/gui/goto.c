@@ -1,10 +1,11 @@
 /* Go to date dialog for Evolution
  *
- * Copyright (C) 1998 Red Hat Software, Inc.
+ * Copyright (C) 1998 Red Hat, Inc.
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
- * Authors: Federico Mena <federico@nuclecu.unam.mx>
- *          JP Rosevear <jpr@helixcode.com>
+ * Authors: Federico Mena <federico@ximian.com>
+ *          JP Rosevear <jpr@ximian.com>
  */
 
 #include <config.h>

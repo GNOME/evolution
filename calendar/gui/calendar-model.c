@@ -3,8 +3,9 @@
 /* Evolution calendar - Data model for ETable
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +57,9 @@ struct _CalendarModelPrivate {
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
 
+	/* Type of components to create when using click-to-add in the table */
+	CalComponentVType new_comp_vtype;
+
 	/* Whether we display dates in 24-hour format. */
 	gboolean use_24_hour_format;
 
@@ -73,7 +77,6 @@ struct _CalendarModelPrivate {
 
 enum {
 	CATEGORIES_CHANGED,
-
 	LAST_SIGNAL
 };
 
@@ -196,6 +199,7 @@ calendar_model_init (CalendarModel *model)
 
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (CalComponent *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->new_comp_vtype = CAL_COMPONENT_EVENT;
 	priv->use_24_hour_format = TRUE;
 
 	priv->categories = g_tree_new ((GCompareFunc)strcmp);
@@ -1307,7 +1311,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	 * is only used for the task list.
 	 */
 	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+	cal_component_set_new_vtype (comp, priv->new_comp_vtype);
 
 	cal_component_get_uid (comp, &uid);
 
@@ -1534,17 +1538,17 @@ calendar_model_new (void)
 }
 
 
-/* Callback used when a calendar is loaded into the server */
+/* Callback used when a calendar is opened into the server */
 static void
-cal_loaded_cb (CalClient *client,
-	       CalClientLoadStatus status,
-	       CalendarModel *model)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
-	g_return_if_fail (IS_CALENDAR_MODEL (model));
+	CalendarModel *model;
+
+	model = CALENDAR_MODEL (data);
 
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 
-	if (status == CAL_CLIENT_LOAD_SUCCESS) {
+	if (status == CAL_CLIENT_OPEN_SUCCESS) {
 		load_objects (model);
 		calendar_model_collect_all_categories (model);
 	}
@@ -1744,8 +1748,7 @@ load_objects (CalendarModel *model)
 
 	priv = model->priv;
 
-	if (!cal_client_is_loaded (priv->client))
-		return;
+	g_assert (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED);
 
 	uids = cal_client_get_uids (priv->client, priv->type);
 
@@ -1861,19 +1864,62 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 	priv->type = type;
 
 	if (priv->client) {
-		if (!cal_client_is_loaded (priv->client))
-			gtk_signal_connect (GTK_OBJECT (priv->client), "cal_loaded",
-					    GTK_SIGNAL_FUNC (cal_loaded_cb), model);
-
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), model);
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 				    GTK_SIGNAL_FUNC (obj_removed_cb), model);
 
-		load_objects (model);
+		if (cal_client_get_load_state (priv->client) != CAL_CLIENT_LOAD_LOADED)
+			gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
+					    GTK_SIGNAL_FUNC (cal_opened_cb), model);
+		else
+			load_objects (model);
 	}
 
 	e_table_model_changed (E_TABLE_MODEL (model));
+}
+
+
+/**
+ * calendar_model_set_new_comp_vtype:
+ * @model: A calendar model.
+ * @vtype: Type of calendar components to create.
+ * 
+ * Sets the type of calendar components that will be created by a calendar table
+ * model when the click-to-add functionality of the table is used.
+ **/
+void
+calendar_model_set_new_comp_vtype (CalendarModel *model, CalComponentVType vtype)
+{
+	CalendarModelPrivate *priv;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+	g_return_if_fail (vtype != CAL_COMPONENT_NO_TYPE);
+
+	priv = model->priv;
+	priv->new_comp_vtype = vtype;
+}
+
+/**
+ * calendar_model_get_new_comp_vtype:
+ * @model: A calendar model.
+ * 
+ * Queries the type of calendar components that are created by a calendar table
+ * model when using the click-to-add functionality in a table.
+ * 
+ * Return value: Type of components that are created.
+ **/
+CalComponentVType
+calendar_model_get_new_comp_vtype (CalendarModel *model)
+{
+	CalendarModelPrivate *priv;
+
+	g_return_val_if_fail (model != NULL, CAL_COMPONENT_NO_TYPE);
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), CAL_COMPONENT_NO_TYPE);
+
+	priv = model->priv;
+	return priv->new_comp_vtype;
 }
 
 

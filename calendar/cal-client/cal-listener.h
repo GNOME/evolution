@@ -1,8 +1,9 @@
 /* Evolution calendar listener
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,23 +55,42 @@ struct _CalListenerClass {
 
 	/* Notification signals */
 
-	void (* cal_loaded) (CalListener *listener,
-			     GNOME_Evolution_Calendar_Listener_LoadStatus status,
+	void (* cal_opened) (CalListener *listener,
+			     GNOME_Evolution_Calendar_Listener_OpenStatus status,
 			     GNOME_Evolution_Calendar_Cal cal);
 	void (* obj_updated) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
 	void (* obj_removed) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
 };
 
+/* Notification functions */
+typedef void (* CalListenerCalOpenedFn) (CalListener *listener,
+					 GNOME_Evolution_Calendar_Listener_OpenStatus status,
+					 GNOME_Evolution_Calendar_Cal cal,
+					 gpointer data);
+
+typedef void (* CalListenerObjUpdatedFn) (CalListener *listener,
+					  const GNOME_Evolution_Calendar_CalObjUID uid,
+					  gpointer data);
+typedef void (* CalListenerObjRemovedFn) (CalListener *listener,
+					  const GNOME_Evolution_Calendar_CalObjUID uid,
+					  gpointer data);
+
+
 GtkType cal_listener_get_type (void);
 
 CalListener *cal_listener_construct (CalListener *listener,
-				     GNOME_Evolution_Calendar_Listener corba_listener);
+				     GNOME_Evolution_Calendar_Listener corba_listener,
+				     CalListenerCalOpenedFn cal_opened_fn,
+				     CalListenerObjUpdatedFn obj_updated_fn,
+				     CalListenerObjRemovedFn obj_removed_fn,
+				     gpointer fn_data);
 
 GNOME_Evolution_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
 
-CalListener *cal_listener_new (void);
-
-GNOME_Evolution_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
+CalListener *cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
+			       CalListenerObjUpdatedFn obj_updated_fn,
+			       CalListenerObjRemovedFn obj_removed_fn,
+			       gpointer fn_data);
 
 POA_GNOME_Evolution_Calendar_Listener__epv *cal_listener_get_epv (void);
 

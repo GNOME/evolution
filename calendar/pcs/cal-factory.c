@@ -1,8 +1,9 @@
 /* Evolution calendar factory
  *
  * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@helixcode.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -197,58 +198,7 @@ cal_factory_destroy (GtkObject *object)
 
 
 
-/* Loading and creating calendars */
-
-/* Job data */
-typedef struct {
-	CalFactory *factory;
-	char *uri;
-	GNOME_Evolution_Calendar_Listener listener;
-} LoadCreateJobData;
-
-/* Queues a load or create request */
-static void
-queue_load_create_job (CalFactory *factory, const char *uri, GNOME_Evolution_Calendar_Listener listener,
-		       JobFunc func)
-{
-	LoadCreateJobData *jd;
-	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_Listener listener_copy;
-	gboolean result;
-
-	g_assert (uri != NULL);
-
-	CORBA_exception_init (&ev);
-	result = CORBA_Object_is_nil (listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("queue_load_create_job(): could not see if the listener was NIL");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	CORBA_exception_free (&ev);
-
-	if (result) {
-		g_message ("queue_load_create_job(): cannot operate on a NIL listener!");
-		return;
-	}
-
-	listener_copy = CORBA_Object_duplicate (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("queue_load_create_job(): could not duplicate the listener");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	jd = g_new (LoadCreateJobData, 1);
-	jd->factory = factory;
-	jd->uri = g_strdup (uri);
-	jd->listener = listener_copy;
-
-	job_add (func, jd);
-}
+/* Opening calendars */
 
 /* Looks up a calendar backend in a factory's hash table of uri->cal */
 static CalBackend *
@@ -339,7 +289,7 @@ launch_backend_for_uri (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_C
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (
+		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
 			listener,
 			GNOME_Evolution_Calendar_Listener_METHOD_NOT_SUPPORTED,
 			CORBA_OBJECT_NIL,
@@ -359,13 +309,14 @@ launch_backend_for_uri (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_C
 	return backend;
 }
 
-/* Loads a calendar backend and puts it in the factory's backend hash table */
+/* Opens a calendar backend and puts it in the factory's backend hash table */
 static CalBackend *
-load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_Calendar_Listener listener)
+open_backend (CalFactory *factory, GnomeVFSURI *uri, gboolean only_if_exists,
+	      GNOME_Evolution_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
-	CalBackendLoadStatus status;
+	CalBackendOpenStatus status;
 	CORBA_Environment ev;
 
 	priv = factory->priv;
@@ -374,24 +325,41 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_Calendar_Li
 	if (!backend)
 		return NULL;
 
-	status = cal_backend_load (backend, uri);
+	status = cal_backend_open (backend, uri, only_if_exists);
 
 	switch (status) {
-	case CAL_BACKEND_LOAD_SUCCESS:
+	case CAL_BACKEND_OPEN_SUCCESS:
 		add_backend (factory, uri, backend);
 		return backend;
 
-	case CAL_BACKEND_LOAD_ERROR:
+	case CAL_BACKEND_OPEN_ERROR:
 		gtk_object_unref (GTK_OBJECT (backend));
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
+		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
+			listener,
+			GNOME_Evolution_Calendar_Listener_ERROR,
+			CORBA_OBJECT_NIL,
+			&ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("load_backend(): could not notify the listener");
+			g_message ("open_backend(): could not notify the listener");
+
+		CORBA_exception_free (&ev);
+		return NULL;
+
+	case CAL_BACKEND_OPEN_NOT_FOUND:
+		gtk_object_unref (GTK_OBJECT (backend));
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
+			listener,
+			GNOME_Evolution_Calendar_Listener_NOT_FOUND,
+			CORBA_OBJECT_NIL,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("open_backend(): could not notify the listener");
 
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -400,44 +368,6 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_Calendar_Li
 		g_assert_not_reached ();
 		return NULL;
 	}
-}
-
-/* Creates a calendar backend and puts it in the factory's backend hash table */
-static CalBackend *
-create_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_Calendar_Listener listener)
-{
-	CalFactoryPrivate *priv;
-	CalBackend *backend;
-
-	priv = factory->priv;
-
-	backend = launch_backend_for_uri (factory, uri, listener);
-	if (!backend)
-		return NULL;
-
-	cal_backend_create (backend, uri);
-
-	/* FIXME: add error reporting to cal_backend_create() */
-#if 0
-	{
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("create_fn(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-	}
-#endif
-
-	add_backend (factory, uri, backend);
-
-	return backend;
 }
 
 /* Adds a listener to a calendar backend by creating a calendar client interface
@@ -454,10 +384,11 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Evolution_C
 		g_message ("add_calendar_client(): could not create the calendar client interface");
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
+		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
+			listener,
+			GNOME_Evolution_Calendar_Listener_ERROR,
+			CORBA_OBJECT_NIL,
+			&ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_message ("add_calendar_client(): could not notify the listener");
 
@@ -468,10 +399,11 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Evolution_C
 	cal_backend_add_cal (backend, cal);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-						GNOME_Evolution_Calendar_Listener_SUCCESS,
-						bonobo_object_corba_objref (BONOBO_OBJECT (cal)),
-						&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCalOpened (
+		listener,
+		GNOME_Evolution_Calendar_Listener_SUCCESS,
+		bonobo_object_corba_objref (BONOBO_OBJECT (cal)),
+		&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("add_calendar_client(): could not notify the listener");
@@ -481,13 +413,22 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Evolution_C
 	CORBA_exception_free (&ev);
 }
 
-/* Job handler for the load calendar command */
+/* Job data */
+typedef struct {
+	CalFactory *factory;
+	char *uri;
+	gboolean only_if_exists;
+	GNOME_Evolution_Calendar_Listener listener;
+} OpenJobData;
+
+/* Job handler for the open calendar command */
 static void
-load_fn (gpointer data)
+open_fn (gpointer data)
 {
-	LoadCreateJobData *jd;
+	OpenJobData *jd;
 	CalFactory *factory;
 	GnomeVFSURI *uri;
+	gboolean only_if_exists;
 	GNOME_Evolution_Calendar_Listener listener;
 	CalBackend *backend;
 	CORBA_Environment ev;
@@ -500,19 +441,21 @@ load_fn (gpointer data)
 	uri = gnome_vfs_uri_new (jd->uri);
 	g_free (jd->uri);
 
+	only_if_exists = jd->only_if_exists;
 	factory = jd->factory;
 	listener = jd->listener;
 	g_free (jd);
 
 	if (!uri) {
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
+		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
+			listener,
+			GNOME_Evolution_Calendar_Listener_ERROR,
+			CORBA_OBJECT_NIL,
+			&ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("load_fn(): Could not notify the listener!");
+			g_message ("open_fn(): Could not notify the listener!");
 
 		CORBA_exception_free (&ev);
 		goto out;
@@ -523,7 +466,7 @@ load_fn (gpointer data)
 	backend = lookup_backend (factory, uri);
 
 	if (!backend)
-		backend = load_backend (factory, uri, listener);
+		backend = open_backend (factory, uri, only_if_exists, listener);
 
 	gnome_vfs_uri_unref (uri);
 
@@ -536,82 +479,7 @@ load_fn (gpointer data)
 	CORBA_Object_release (listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("load_fn(): could not release the listener");
-
-	CORBA_exception_free (&ev);
-}
-
-/* Job handler for the create calendar command */
-static void
-create_fn (gpointer data)
-{
-	LoadCreateJobData *jd;
-	CalFactory *factory;
-	GnomeVFSURI *uri;
-	GNOME_Evolution_Calendar_Listener listener;
-	CalBackend *backend;
-	CORBA_Environment ev;
-
-	jd = data;
-	g_assert (jd->uri != NULL);
-
-	/* Check the URI */
-
-	uri = gnome_vfs_uri_new (jd->uri);
-	g_free (jd->uri);
-
-	factory = jd->factory;
-	listener = jd->listener;
-	g_free (jd);
-
-	if (!uri) {
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("create_fn(): Could not notify the listener!");
-
-		CORBA_exception_free (&ev);
-		goto out;
-	}
-
-	/* Check that the backend is not in use */
-
-	backend = lookup_backend (factory, uri);
-
-	if (backend) {
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalLoaded (listener,
-							GNOME_Evolution_Calendar_Listener_IN_USE,
-							CORBA_OBJECT_NIL,
-							&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("create_fn(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		goto out;
-	}
-
-	/* Create the backend */
-
-	backend = create_backend (factory, uri, listener);
-
-	if (backend)
-		add_calendar_client (factory, backend, listener);
-
-	gnome_vfs_uri_unref (uri);
-
- out:
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("create_fn(): could not release the listener");
+		g_message ("open_fn(): could not release the listener");
 
 	CORBA_exception_free (&ev);
 }
@@ -620,10 +488,11 @@ create_fn (gpointer data)
 
 /* CORBA servant implementation */
 
-/* CalFactory::load method */
+/* CalFactory::open method */
 static void
-CalFactory_load (PortableServer_Servant servant,
+CalFactory_open (PortableServer_Servant servant,
 		 const CORBA_char *uri,
+		 CORBA_boolean only_if_exists,
 		 GNOME_Evolution_Calendar_Listener listener,
 		 CORBA_Environment *ev)
 {
@@ -631,6 +500,8 @@ CalFactory_load (PortableServer_Servant servant,
 	CalFactoryPrivate *priv;
 	CORBA_Environment ev2;
 	gboolean result;
+	OpenJobData *jd;
+	GNOME_Evolution_Calendar_Listener listener_copy;
 
 	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
@@ -648,23 +519,27 @@ CalFactory_load (PortableServer_Servant servant,
 	}
 	CORBA_exception_free (&ev2);
 
-	queue_load_create_job (factory, uri, listener, load_fn);
-}
+	CORBA_exception_init (&ev2);
+	listener_copy = CORBA_Object_duplicate (listener, &ev2);
 
-/* CalFactory::create method */
-static void
-CalFactory_create (PortableServer_Servant servant,
-		   const CORBA_char *uri,
-		   GNOME_Evolution_Calendar_Listener listener,
-		   CORBA_Environment *ev)
-{
-	CalFactory *factory;
-	CalFactoryPrivate *priv;
+	if (ev2._major != CORBA_NO_EXCEPTION) {
+		g_message ("CalFactory_open(): could not duplicate the listener");
+		CORBA_exception_free (&ev2);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_CalFactory_NilListener,
+				     NULL);
+		return;
+	}
 
-	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
+	CORBA_exception_free (&ev2);
 
-	queue_load_create_job (factory, uri, listener, create_fn);
+	jd = g_new (OpenJobData, 1);
+	jd->factory = factory;
+	jd->uri = g_strdup (uri);
+	jd->only_if_exists = only_if_exists;
+	jd->listener = listener_copy;
+
+	job_add (open_fn, jd);
 }
 
 /**
@@ -681,8 +556,7 @@ cal_factory_get_epv (void)
 	POA_GNOME_Evolution_Calendar_CalFactory__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Calendar_CalFactory__epv, 1);
-	epv->load = CalFactory_load;
-	epv->create = CalFactory_create;
+	epv->open = CalFactory_open;
 
 	return epv;
 }
@@ -802,7 +676,7 @@ str_tolower (const char *s)
  * @backend_type: Class type of the backend to create for this @method.
  * 
  * Registers the type of a #CalBackend subclass that will be used to handle URIs
- * with a particular method.  When the factory is asked to load a particular
+ * with a particular method.  When the factory is asked to open a particular
  * URI, it will look in its list of registered methods and create a backend of
  * the appropriate type.
  **/

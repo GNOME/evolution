@@ -162,29 +162,23 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 
 /* Calendar Server routines */
 static void
-start_calendar_server_cb (GtkWidget *cal_client,
-			  CalClientLoadStatus status,
-			  ECalConduitContext *ctxt)
+start_calendar_server_cb (CalClient *cal_client,
+			  CalClientOpenStatus status,
+			  gpointer data)
 {
-	CalClient *client = CAL_CLIENT (cal_client);
+	ECalConduitContext *ctxt;
 
-	LOG ("  entering start_calendar_server_load_cb, tried=%d\n",
-		ctxt->calendar_load_tried);
+	ctxt = data;
 
-	if (status == CAL_CLIENT_LOAD_SUCCESS) {
-		ctxt->calendar_load_success = TRUE;
+	LOG ("  entering start_calendar_server_cb\n");
+
+	if (status == CAL_CLIENT_OPEN_SUCCESS) {
+		ctxt->calendar_open_success = TRUE;
 		LOG ("    success\n");
-		gtk_main_quit (); /* end the sub event loop */
-	} else {
-		if (ctxt->calendar_load_tried) {
-			LOG ("    load and create of calendar failed\n");
-			gtk_main_quit (); /* end the sub event loop */
-			return;
-		}
+	} else
+		LOG ("    open of calendar failed\n");
 
-		cal_client_create_calendar (client, ctxt->calendar_file);
-		ctxt->calendar_load_tried = TRUE;
-	}
+	gtk_main_quit (); /* end the sub event loop */
 }
 
 static int
@@ -199,17 +193,17 @@ start_calendar_server (ECalConduitContext *ctxt)
 	ctxt->calendar_file = g_concat_dir_and_file (g_get_home_dir (),
 			       "evolution/local/Calendar/calendar.ics");
 
-	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
+	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_opened",
 			    start_calendar_server_cb, ctxt);
 
-	LOG ("    calling cal_client_load_calendar\n");
-	cal_client_load_calendar (ctxt->client, ctxt->calendar_file);
+	LOG ("    calling cal_client_open_calendar\n");
+	cal_client_open_calendar (ctxt->client, ctxt->calendar_file, FALSE);
 
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
 
-	if (ctxt->calendar_load_success)
+	if (ctxt->calendar_open_success)
 		return 0;
 
 	return -1;

@@ -2,6 +2,7 @@
 /* e-tasks.c
  *
  * Copyright (C) 2001  Helix Code, Inc.
+ * Copyright (C) 2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,8 +19,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors: Federico Mena Quintero <federico@helixcode.com>
- *	    Damon Chaplin <damon@helixcode.com>
+ * Authors: Federico Mena Quintero <federico@ximian.com>
+ *	    Damon Chaplin <damon@ximian.com>
  */
 
 #include <config.h>
@@ -28,31 +29,15 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include "dialogs/task-editor.h"
 #include "e-calendar-table.h"
-#include "alarm-notify.h"
 #include "component-factory.h"
 
 #include "e-tasks.h"
 
 
-/* States for the calendar loading and creation state machine */
-typedef enum {
-	LOAD_STATE_NOT_LOADED,
-	LOAD_STATE_WAIT_LOAD,
-	LOAD_STATE_WAIT_LOAD_BEFORE_CREATE,
-	LOAD_STATE_WAIT_CREATE,
-	LOAD_STATE_LOADED
-} LoadState;
-
 /* Private part of the GnomeCalendar structure */
 struct _ETasksPrivate {
 	/* The calendar client object we monitor */
 	CalClient   *client;
-
-	/* Loading state; we can be loading or creating a calendar */
-	LoadState load_state;
-
-	/* URI of the folder being shown. */
-	char *folder_uri;
 
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
@@ -68,7 +53,7 @@ static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
-static void cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data);
+static void cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data);
 static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
 static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
 
@@ -115,8 +100,6 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
-	priv->load_state = LOAD_STATE_NOT_LOADED;
-
 	setup_widgets (tasks);
 }
 
@@ -138,6 +121,7 @@ setup_widgets (ETasks *tasks)
 	ETasksPrivate *priv;
 	ETable *etable;
 	GtkWidget *hbox, *menuitem, *categories_label;
+	CalendarModel *model;
 
 	priv = tasks->priv;
 
@@ -165,13 +149,17 @@ setup_widgets (ETasks *tasks)
 
 
 	priv->tasks_view = e_calendar_table_new ();
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
 	gtk_table_attach (GTK_TABLE (tasks), priv->tasks_view, 0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (priv->tasks_view);
 
-	gtk_signal_connect (GTK_OBJECT (E_CALENDAR_TABLE (priv->tasks_view)->model), "categories-changed", GTK_SIGNAL_FUNC (e_tasks_on_categories_changed), tasks);
+	gtk_signal_connect (GTK_OBJECT (E_CALENDAR_TABLE (priv->tasks_view)->model),
+			    "categories-changed",
+			    GTK_SIGNAL_FUNC (e_tasks_on_categories_changed), tasks);
 }
 
 
@@ -189,14 +177,16 @@ e_tasks_construct (ETasks *tasks)
 	if (!priv->client)
 		return NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_loaded",
-			    GTK_SIGNAL_FUNC (cal_loaded_cb), tasks);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), tasks);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
 			    GTK_SIGNAL_FUNC (obj_updated_cb), tasks);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), tasks);
 
+#if 0
 	alarm_notify_add_client (priv->client);
+#endif
 
 	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->tasks_view),
 					 priv->client);
@@ -241,15 +231,10 @@ e_tasks_destroy (GtkObject *object)
 				     config_filename);
 	g_free (config_filename);
 
-	priv->load_state = LOAD_STATE_NOT_LOADED;
-
-	if (priv->folder_uri) {
-		g_free (priv->folder_uri);
-		priv->folder_uri = NULL;
-	}
-
 	if (priv->client) {
+#if 0
 		alarm_notify_remove_client (priv->client);
+#endif
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}
@@ -264,8 +249,7 @@ e_tasks_destroy (GtkObject *object)
 
 gboolean
 e_tasks_open			(ETasks		*tasks,
-				 char		*file,
-				 ETasksOpenMode	 gcom)
+				 char		*file)
 {
 	ETasksPrivate *priv;
 	char *config_filename;
@@ -275,21 +259,6 @@ e_tasks_open			(ETasks		*tasks,
 	g_return_val_if_fail (file != NULL, FALSE);
 
 	priv = tasks->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_NOT_LOADED,
-			      FALSE);
-
-	g_assert (priv->folder_uri == NULL);
-
-	priv->folder_uri = g_strdup (file);
-
-	if (gcom == E_TASKS_OPEN)
-		priv->load_state = LOAD_STATE_WAIT_LOAD;
-	else if (gcom == E_TASKS_OPEN_OR_CREATE)
-		priv->load_state = LOAD_STATE_WAIT_LOAD_BEFORE_CREATE;
-	else {
-		g_assert_not_reached ();
-		return FALSE;
-	}
 
 	config_filename = e_tasks_get_config_filename (tasks);
 	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->tasks_view),
@@ -297,11 +266,7 @@ e_tasks_open			(ETasks		*tasks,
 	g_free (config_filename);
 
 
-	if (!cal_client_load_calendar (priv->client, file)) {
-		priv->load_state = LOAD_STATE_NOT_LOADED;
-		g_free (priv->folder_uri);
-		priv->folder_uri = NULL;
-
+	if (!cal_client_open_calendar (priv->client, file, FALSE)) {
 		g_message ("e_tasks_open(): Could not issue the request");
 		return FALSE;
 	}
@@ -309,19 +274,6 @@ e_tasks_open			(ETasks		*tasks,
 	return TRUE;
 }
 
-
-/* Loads the initial data into the calendar; this should be called right after
- * the cal_loaded signal from the client is invoked.
- */
-static void
-initial_load				(ETasks		*tasks)
-{
-	ETasksPrivate *priv;
-
-	priv = tasks->priv;
-
-	/* FIXME: Do we need to do anything? */
-}
 
 /* Displays an error to indicate that loading a calendar failed */
 static void
@@ -331,19 +283,6 @@ load_error				(ETasks		*tasks,
 	char *msg;
 
 	msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
-	g_free (msg);
-}
-
-/* Displays an error to indicate that creating a calendar failed */
-static void
-create_error				(ETasks		*tasks,
-					 const char	*uri)
-{
-	char *msg;
-
-	msg = g_strdup_printf (_("Could not create a tasks file in `%s'"),
-			       uri);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (msg);
 }
@@ -360,89 +299,34 @@ method_error				(ETasks		*tasks,
 	g_free (msg);
 }
 
-/* Callback from the calendar client when a calendar is loaded */
+/* Callback from the calendar client when a calendar is opened */
 static void
-cal_loaded_cb				(CalClient	*client,
-					 CalClientLoadStatus status,
+cal_opened_cb				(CalClient	*client,
+					 CalClientOpenStatus status,
 					 gpointer	 data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	gboolean free_uri;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	g_assert (priv->load_state != LOAD_STATE_NOT_LOADED
-		  && priv->load_state != LOAD_STATE_LOADED);
-	g_assert (priv->folder_uri != NULL);
+	switch (status) {
+	case CAL_CLIENT_OPEN_SUCCESS:
+		/* Everything is OK */
+		return;
 
-	free_uri = TRUE;
-
-	switch (priv->load_state) {
-	case LOAD_STATE_WAIT_LOAD:
-		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (tasks);
-		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			load_error (tasks, priv->folder_uri);
-		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (tasks, priv->folder_uri);
-		} else
-			g_assert_not_reached ();
-
+	case CAL_CLIENT_OPEN_ERROR:
+		load_error (tasks, cal_client_get_uri (client));
 		break;
 
-	case LOAD_STATE_WAIT_LOAD_BEFORE_CREATE:
-		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (tasks);
-		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_WAIT_CREATE;
-			free_uri = FALSE;
+	case CAL_CLIENT_OPEN_NOT_FOUND:
+		/* bullshit; we did not specify only_if_exists */
+		g_assert_not_reached ();
+		return;
 
-			if (!cal_client_create_calendar (priv->client,
-							 priv->folder_uri)) {
-				priv->load_state = LOAD_STATE_NOT_LOADED;
-				free_uri = TRUE;
-				g_message ("cal_loaded_cb(): Could not issue the create request");
-			}
-		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (tasks, priv->folder_uri);
-		} else
-			g_assert_not_reached ();
-
-		break;
-
-	case LOAD_STATE_WAIT_CREATE:
-		if (status == CAL_CLIENT_LOAD_SUCCESS) {
-			priv->load_state = LOAD_STATE_LOADED;
-			initial_load (tasks);
-		} else if (status == CAL_CLIENT_LOAD_ERROR) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			create_error (tasks, priv->folder_uri);
-		} else if (status == CAL_CLIENT_LOAD_IN_USE) {
-			/* Someone created the URI while we were issuing the
-			 * create request, so we just try to reload.
-			 */
-			priv->load_state = LOAD_STATE_WAIT_LOAD;
-			free_uri = FALSE;
-
-			if (!cal_client_load_calendar (priv->client,
-						       priv->folder_uri)) {
-				priv->load_state = LOAD_STATE_NOT_LOADED;
-				free_uri = TRUE;
-				g_message ("cal_loaded_cb(): Could not issue the load request");
-			}
-		} else if (status == CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED) {
-			priv->load_state = LOAD_STATE_NOT_LOADED;
-			method_error (tasks, priv->folder_uri);
-		} else
-			g_assert_not_reached ();
-
+	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
+		method_error (tasks, cal_client_get_uri (client));
 		break;
 
 	default:
@@ -491,7 +375,7 @@ e_tasks_get_config_filename		(ETasks		*tasks)
 
 	priv = tasks->priv;
 
-	url = g_strdup (priv->folder_uri);
+	url = g_strdup (cal_client_get_uri (priv->client));
 
 	/* This turns all funny characters into '_', in the string itself. */
 	e_filename_make_safe (url);

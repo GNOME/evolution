@@ -33,8 +33,8 @@
 #include <liboaf/liboaf.h>
 
 #include <gal/widgets/e-cursors.h>
+
 #include "alarm.h"
-#include "alarm-notify.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "component-factory.h"
@@ -65,7 +65,6 @@ main (int argc, char **argv)
 	init_bonobo (argc, argv);
 	glade_gnome_init ();
 	alarm_init ();
-	alarm_notify_init ();
 	e_cursors_init ();
 
 #if 0
@@ -82,9 +81,8 @@ main (int argc, char **argv)
 
 	bonobo_main ();
 
-	calendar_config_write_on_exit ();
-	alarm_notify_done ();
 	alarm_done ();
+	calendar_config_write_on_exit ();
 
 	return 0;
 }

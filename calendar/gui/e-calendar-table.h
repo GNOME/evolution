@@ -2,9 +2,10 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@helixcode.com>
+ *  Damon Chaplin <damon@ximian.com>
  *
  * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -88,6 +89,7 @@ struct _ECalendarTableClass
 GtkType	   e_calendar_table_get_type		(void);
 GtkWidget* e_calendar_table_new			(void);
 
+CalendarModel *e_calendar_table_get_model	(ECalendarTable *cal_table);
 
 void	   e_calendar_table_set_cal_client	(ECalendarTable *cal_table,
 						 CalClient	*client);

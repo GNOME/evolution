@@ -2,6 +2,7 @@
 /* e-tasks.h
  *
  * Copyright (C) 2001  Helix Code, Inc.
+ * Copyright (C) 2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,8 +19,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors: Federico Mena Quintero <federico@helixcode.com>
- *	    Damon Chaplin <damon@helixcode.com>
+ * Authors: Federico Mena Quintero <federico@ximian.com>
+ *	    Damon Chaplin <damon@ximian.com>
  */
 
 #ifndef _E_TASKS_H_
@@ -51,19 +52,13 @@ struct _ETasksClass {
 };
 
 
-typedef enum {
-	E_TASKS_OPEN,
-	E_TASKS_OPEN_OR_CREATE
-} ETasksOpenMode;
-
 GtkType    e_tasks_get_type         	(void);
 GtkWidget *e_tasks_construct		(ETasks		*tasks);
 
 GtkWidget *e_tasks_new			(void);
 
 gboolean   e_tasks_open			(ETasks		*tasks,
-					 char		*file,
-					 ETasksOpenMode	 gcom);
+					 char		*file);
 
 CalClient *e_tasks_get_cal_client	(ETasks		*tasks);
 

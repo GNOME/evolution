@@ -1,3 +1,141 @@
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* */*: Ximianified email addresses and copyrights.
+
+	* idl/evolution-calendar.idl (CalFactory::open): Renamed from
+	::load(), and added an only_if_exists argument.
+	(CalFactory::create): Removed method.
+	(Listener::OpenStatus): Removed the IN_USE error and replaced it
+	with a NOT_FOUND one; renamed the enum from LoadStatus.
+	(Listener::notifyCalOpened): Renamed from notifyCalLoaded().
+
+	* pcs/cal-backend.h (CalBackend): Removed the uri field.
+	(CalBackendOpenStatus): Renamed from CalBackendLoadStatus and
+	added a NOT_FOUND value.
+	(CalBackendClass::open): Put in a slot for the open method.
+
+	* pcs/cal-backend.c (cal_backend_create): Removed function.
+
+	* pcs/cal-backend-file.c (cal_backend_file_open): Return the
+	appropriate value when only_if_exists is TRUE.
+	(create_cal): We are Ximian now, so set the PRODID property to
+	the appropriate foo.
+
+	* pcs/cal-factory.c (CalFactory_open): implemented, replacing
+	CalFactory_load() and CalFactory_create().
+	(CalFactory_open): Moved the queue_load_create_job() stuff to
+	here, since we now only need to contemplate the open case instead
+	of load/create ones.
+	(open_backend): Do everything here; replaces load_backend() and
+	create_backend().
+
+	* cal-client/cal-listener.h (CalListenerClass::cal_opened):
+	Renamed from cal_loaded.
+	(CalListenerClass): Replaced the silly signals, which are
+	gratuitous abstraction, by a set of function pointers in the
+	instance structure.
+
+	* cal-client/cal-listener.c (cal_listener_get_calendar): Removed
+	unused function.
+	(cal_listener_construct): Added the listener notification functions.
+	(cal_listener_new): Ditto.
+	(Listener_notifyCalOpened): Renamed to our new naming convention
+	for servant implementations.
+	(Listener_notifyObjUpdated): Ditto.
+	(Listener_notifyObjRemoved): Ditto.
+
+	* cal-client/cal-client.h (CalClientOpenStatus): Renamed from
+	CalClientLoadStatus.
+	(CalClientClass::cal_opened): Renamed from ::cal_loaded().
+	(CalClientLoadState): New enum; basically make LoadState public so
+	that users of this code do not have to maintain their own states.
+
+	* cal-client/cal-client.c (cal_client_create_calendar): Removed
+	function.
+	(cal_client_open_calendar): Moved the functionality over from
+	load_or_create(); now we do everything here.
+	(*): Use the CalClientLoadState enum values instead of the old
+	LoadState values.
+	(cal_client_get_load_state): Renamed from cal_client_is_loaded(),
+	and return the appropriate value.
+	(CalClientPrivate): Added an uri field.
+	(cal_client_init): Initialize priv->uri.
+	(cal_client_destroy): Free the priv->uri.
+	(cal_opened_cb): Maintain the priv->uri.
+	(cal_client_open_calendar): Fill in the priv->uri.
+	(cal_client_get_uri): New function.
+
+	* gui/calendar-model.c (calendar_model_set_new_comp_vtype): New
+	function to configure the type of calendar components to create
+	when doing click-to-add.  This makes the model usable for
+	something other than task lists.
+	(calendar_model_get_new_comp_vtype): New function.
+
+	* gui/e-calendar-table.c (e_calendar_table_get_model): New function.
+	(e_calendar_table_destroy): Unref the subset_model.
+
+	* gui/gnome-cal.h (GnomeCalendarOpenMode): Removed enum.
+
+	* gui/gnome-cal.c (LoadState): Removed enum; we now use the
+	CalClientLoadState from the client objects.
+	(GnomeCalendarPrivate): Removed the loading_uri and
+	task_pad_loading_uri fields as well as the load_state and
+	task_pad_load_state fields, as we can now query them directly from
+	the CalClient.
+	(open_error): Renamed from load_error().
+	(create_error): Removed function.
+	(gnome_calendar_open): Do not take in the mode parameter.
+	(cal_opened_cb): Get rid of our beautifully-crafted state machine
+	and replace it with simple code; all the loading smarts are in the
+	Wombat now.
+	(setup_widgets): Set the new component vtype of the table model to
+	CAL_COMPONENT_TODO.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Removed
+	gnome-month-item.[ch] from the list of sources.
+
+	* gui/calendar-summary.c (CalSummary): Removed unused cal_loaded
+	field.
+	(create_summary_view): Do not check if the file exists; this is
+	the job of the Wombat.
+	(generate_html_summary): Fixed prototype.
+	(alarm_fn): Fixed prototype.
+	(property_dialog): Fixed prototype.  Wonder if/how this ever
+	worked.
+	(create_summary_view): Cast the component and view as
+	appropriate.  Removed unused html variable.
+
+	[Iain dude, are you compiling with -Wall?]
+
+	* gui/e-itip-control.c (cal_opened_cb): Sigh, this function
+	signature was *very* wrong.  It was using CalClientGetStatus
+	instead of CalClientOpenStatus.
+
+	* gui/e-tasks.h (ETasksOpenMode): Removed enum.
+
+	* gui/e-tasks.c (setup_widgets): Set the new component vtype of
+	the table model to CAL_COMPONENT_TODO.
+	(LoadState): Removed the state machine foo.
+	(e_tasks_open): Removed the mode parameter.
+	(initial_load): Removed function.
+	(create_error): Removed function.
+	(ETasksPrivate): Removed folder_uri field.
+	(cal_opened_cb): Remove the state machine.
+
+	* gui/component-factory.c: #include "tasks-control.h"
+
+	* conduits/calendar/calendar-conduit.h (ECalConduitContext):
+	Removed calendar_load_tried field.
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server_cb):
+	Sigh, fixed function prototype.
+
+	* conduits/todo/todo-conduit.h (EToDoConduitContext): Removed
+	calendar_load_tried field.
+
+	* conduits/todo/todo-conduit.c (start_calendar_server_cb): Fixed
+	function prototype.
+
 2001-01-16  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (print_local): fix debug output

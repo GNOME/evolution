@@ -2,6 +2,7 @@
 /* component-factory.c
  *
  * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,7 +19,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli
+ * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
 #include <config.h>
@@ -30,6 +31,8 @@
 #include "control-factory.h"
 #include "calendar-config.h"
 #include "calendar-summary.h"
+#include "tasks-control.h"
+
 
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"

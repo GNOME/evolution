@@ -1,9 +1,10 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* calendar-summary.c
  *
- * Authors: Iain Holmes <iain@helixcode.com>
+ * Authors: Iain Holmes <iain@ximian.com>
  *
  * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -40,6 +41,7 @@
 
 #include "cal-util/cal-component.h"
 #include "cal-util/timeutil.h"
+#include "alarm.h"
 #include "calendar-model.h"
 
 #include "calendar-summary.h"
@@ -49,7 +51,6 @@ typedef struct {
 	ExecutiveSummaryHtmlView *view;
 	BonoboPropertyControl *property_control;
 	CalClient *client;
-	gboolean cal_loaded;
 
 	GtkWidget *show_appointments;
 	GtkWidget *show_tasks;
@@ -77,12 +78,15 @@ static BonoboGenericFactory *factory;
 #define CALENDAR_SUMMARY_ID "OAFIID:GNOME_Evolution_Calendar_Summary_ComponentFactory"
 
 static gboolean
-generate_html_summary (CalSummary *summary)
+generate_html_summary (gpointer data)
 {
+	CalSummary *summary;	
 	time_t t, day_begin, day_end;
 	struct tm *timeptr;
 	GList *uids, *l;
 	char *ret_html, *tmp, *datestr;
+
+	summary = data;
 	
 	t = time (NULL);
 	day_begin = time_day_begin (t);
@@ -279,33 +283,33 @@ obj_removed_cb (CalClient *client,
 
 	summary->idle = g_idle_add (generate_html_summary, summary);
 }
+
 static void
-cal_loaded_cb (CalClient *client,
-	       CalClientLoadStatus status,
+cal_opened_cb (CalClient *client,
+	       CalClientOpenStatus status,
 	       CalSummary *summary)
 {
 	switch (status) {
-	case CAL_CLIENT_LOAD_SUCCESS:
-		summary->cal_loaded = TRUE;
-
+	case CAL_CLIENT_OPEN_SUCCESS:
 		if (summary->idle != 0)
 			return;
 
 		summary->idle = g_idle_add (generate_html_summary, summary);
 		break;
 
-	case CAL_CLIENT_LOAD_ERROR:
+	case CAL_CLIENT_OPEN_ERROR:
 		executive_summary_html_view_set_html (summary->view,
 						      _("<b>Error loading calendar</b>"));
 		break;
 
-	case CAL_CLIENT_LOAD_IN_USE:
-		executive_summary_html_view_set_html (summary->view,
-						      _("<b>Error loading calendar:<br>Calendar in use."));
-		
+	case CAL_CLIENT_OPEN_NOT_FOUND:
+		/* We did not use only_if_exists when opening the calendar, so
+		 * this should not happen.
+		 */
+		g_assert_not_reached ();
 		break;
 
-	case CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED:
+	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
 		executive_summary_html_view_set_html (summary->view,
 						      _("<b>Error loading calendar:<br>Method not supported"));
 		break;
@@ -314,12 +318,16 @@ cal_loaded_cb (CalClient *client,
 		break;
 	}
 }
+
 static void
 alarm_fn (gpointer alarm_id,
 	  time_t old_t,
-	  CalSummary *summary)
+	  gpointer data)
 {
+	CalSummary *summary;
 	time_t t, day_end;
+
+	summary = data;
 
 	/* Remove the old alarm, and start a new one for the next midnight */
 	alarm_remove (alarm_id);
@@ -464,10 +472,10 @@ property_dialog_changed (GtkWidget *widget,
 	bonobo_property_control_changed (summary->property_control, NULL);
 }
 
-static void
+static BonoboControl *
 property_dialog (BonoboPropertyControl *property_control,
 		 int page_num,
-		 gpointer user_data)
+		 void *user_data)
 {
 	BonoboControl *control;
 	CalSummary *summary = (CalSummary *) user_data;
@@ -530,7 +538,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboPropertyControl *property_control;
 	BonoboEventSource *event_source;
 	CalSummary *summary;
-	char *html, *file;
+	char *file;
 	time_t t, day_end;
 
 	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
@@ -539,11 +547,10 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	component = executive_summary_component_new ();
 
 	summary = g_new (CalSummary, 1);
-	summary->component = component;
+	summary->component = EXECUTIVE_SUMMARY_COMPONENT (component);
 	summary->icon = g_strdup ("evolution-calendar.png");
 	summary->title = g_strdup ("Things to do");
 	summary->client = cal_client_new ();
-	summary->cal_loaded = FALSE;
 	summary->idle = 0;
 	summary->appointments = TRUE;
 	summary->tasks = TRUE;
@@ -552,17 +559,12 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	day_end = time_day_end (t);
 	summary->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
-	/* Check for calendar files */
-	if (!g_file_exists (file)) {
-		cal_client_create_calendar (summary->client, file);
-	}
-
 	/* Load calendar */
-	cal_client_load_calendar (summary->client, file);
+	cal_client_open_calendar (summary->client, file, FALSE);
 	g_free (file);
 
-	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-loaded",
-			    GTK_SIGNAL_FUNC (cal_loaded_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
 	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
 			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
 	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
@@ -575,7 +577,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 
 	/* HTML view */
 	view = executive_summary_html_view_new_full (event_source);
-	summary->view = view;
+	summary->view = EXECUTIVE_SUMMARY_HTML_VIEW (view);
 
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      _("Loading Calendar"));

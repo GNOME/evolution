@@ -1,9 +1,11 @@
 /* Miscellaneous time-related utilities
  *
  * Copyright (C) 1998 The Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Federico Mena <federico@nuclecu.unam.mx>
- *          Miguel de Icaza <miguel@nuclecu.unam.mx>
+ * Authors: Federico Mena <federico@ximian.com>
+ *          Miguel de Icaza <miguel@ximian.com>
  */
 
 #ifndef TIMEUTIL_H

@@ -123,7 +123,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 
 	prepare_tag (ecal, &c);
 
-	if (!cal_client_is_loaded (client))
+	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
 		return;
 
 #if 0
