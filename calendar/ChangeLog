@@ -1,3 +1,10 @@
+2001-12-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-config.c (calendar_config_get_default_uri):
+	(calendar_config_get_default_tasks_uri): if the key in the config
+	database does not exist, just return the local URIs, but never
+	return NULL
+
 2001-12-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/event-page.c (event_page_fill_widgets): default

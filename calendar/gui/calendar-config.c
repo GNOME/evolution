@@ -421,7 +421,16 @@ calendar_config_write_on_exit		(void)
 gchar *
 calendar_config_get_default_uri (void)
 {
-	return config->default_uri;
+	static gchar *default_uri = NULL;
+
+	if (config->default_uri)
+		return config->default_uri;
+
+	if (!default_uri)
+		default_uri = g_strdup_printf ("%/evolution/local/Calendar/calendar.ics",
+					       g_get_home_dir ());
+
+	return default_uri;
 }
 
 /* Sets the default calendar URI */
@@ -439,7 +448,16 @@ calendar_config_set_default_uri (gchar *default_uri)
 gchar *
 calendar_config_get_default_tasks_uri (void)
 {
-	return config->default_tasks_uri;
+	static gchar *default_tasks_uri = NULL;
+
+	if (config->default_tasks_uri)
+		return config->default_tasks_uri;
+
+	if (!default_tasks_uri)
+		default_tasks_uri = g_strdup_printf ("%/evolution/local/Tasks/tasks.ics",
+						     g_get_home_dir ());
+
+	return default_tasks_uri;
 }
 
 void
