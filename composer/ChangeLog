@@ -1,3 +1,7 @@
+2004-01-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: missed this - remove disable deprecated flag
+
 2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_headers): Unifdef out the post-to
