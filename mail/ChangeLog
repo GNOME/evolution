@@ -1,3 +1,10 @@
+2004-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_drop_folder): We need to recursively copy
+	the dragged folder tree over to the drop location, not just the
+	parent folder. We also need to subscribe to the newly created
+	folder in some cases.
+
 2004-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_format_headers): add the monkey button if
