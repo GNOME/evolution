@@ -95,7 +95,7 @@
 			 pixtype="pixbuf"/>
 
 		        <menuitem name="ContactDelete" verb=""
-		        _label="Delete"/>
+		        _label="Delete" pixtype="pixbuf"/>
 			<separator/>
 
 			<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
