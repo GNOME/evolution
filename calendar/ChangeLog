@@ -1,5 +1,17 @@
 2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/Makefile.am (test_recur_LDADD): Link to the libical
+	shared library.
+
+	* cal-client/Makefile.am (client_test_LDADD): Likewise.
+
+	* conduits/calendar/Makefile.am (libecalendar_conduit_la_LIBADD):
+	Likewise.
+
+	* gui/Makefile.am (LINK_FLAGS): Likewise.
+
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
+
 	This is to make things work with libical 0.21helix1 and later.
 	Warnings remain because at last libical was constified; will take
 	care of those tomorrow.

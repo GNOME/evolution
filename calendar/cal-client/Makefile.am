@@ -71,7 +71,7 @@ client_test_LDADD =						\
 	-lunicode						\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.a		\
+	$(top_builddir)/libical/src/libical/libical.la		\
 	libcal-client.la
 
 BUILT_SOURCES = $(CORBA_GENERATED)

@@ -46,7 +46,6 @@ AC_OUTPUT([
 Makefile
 design-data/Makefile
 doc/Makefile
-examples/Makefile
 scripts/Makefile
 src/Makefile
 src/libical/Makefile

@@ -35,17 +35,17 @@ INCLUDES = 						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
 
-LINK_FLAGS =							\
-	$(BONOBO_VFS_GNOME_LIBS)				\
-	$(EXTRA_GNOME_LIBS)					\
-	$(INTLLIBS)						\
-	dialogs/libcal-dialogs.a				\
-	$(top_builddir)/calendar/cal-client/libcal-client.la	\
-	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
-	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.a		\
+LINK_FLAGS =								\
+	$(BONOBO_VFS_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)						\
+	$(INTLLIBS)							\
+	dialogs/libcal-dialogs.a					\
+	$(top_builddir)/calendar/cal-client/libcal-client.la		\
+	$(top_builddir)/calendar/cal-util/libcal-util.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/libical/src/libical/libical.la			\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a
 
 gladedir   = $(datadir)/evolution/glade

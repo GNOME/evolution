@@ -1,3 +1,7 @@
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am (wombat_LDADD): Link to the libical shared library.
+
 2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* wombat.oafinfo:
