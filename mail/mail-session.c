@@ -53,7 +53,7 @@
 #define d(x)
 
 CamelSession *session;
-
+static int session_check_junk_notify_id = -1;
 
 #define MAIL_SESSION_TYPE     (mail_session_get_type ())
 #define MAIL_SESSION(obj)     (CAMEL_CHECK_CAST((obj), MAIL_SESSION_TYPE, MailSession))
@@ -100,6 +100,9 @@ init (MailSession *session)
 static void
 finalise (MailSession *session)
 {
+	if (session_check_junk_notify_id != -1)
+		gconf_client_notify_remove (mail_config_get_gconf_client (), session_check_junk_notify_id);
+
 	mail_async_event_destroy(session->async);
 	e_mutex_destroy(session->lock);
 }
@@ -586,7 +589,6 @@ static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
-	GString *fsearch, *faction;
 	FilterRule *rule = NULL;
 	char *user, *system;
 	GConfClient *gconf;
@@ -623,25 +625,32 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	camel_filter_driver_set_shell_func (driver, mail_execute_shell_command, NULL);
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
-	
-	fsearch = g_string_new ("");
-	faction = g_string_new ("");
 
-	/* implicit junk check as 1st rule */
-	camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
-	
-	/* add the user-defined rules next */
-	while ((rule = rule_context_next_rule (fc, rule, type))) {
-		g_string_truncate (fsearch, 0);
-		g_string_truncate (faction, 0);
-		
-		filter_rule_build_code (rule, fsearch);
-		filter_filter_build_action ((FilterFilter *) rule, faction);
-		camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
+	if ((!strcmp (type, FILTER_SOURCE_INCOMING) || !strcmp (type, FILTER_SOURCE_JUNKTEST))
+	    && camel_session_check_junk (session)) {
+		/* implicit junk check as 1st rule */
+		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	}
-	
-	g_string_free (fsearch, TRUE);
-	g_string_free (faction, TRUE);
+
+	if (strcmp (type, FILTER_SOURCE_JUNKTEST)) {
+		GString *fsearch, *faction;
+
+		fsearch = g_string_new ("");
+		faction = g_string_new ("");
+
+		/* add the user-defined rules next */
+		while ((rule = rule_context_next_rule (fc, rule, type))) {
+			g_string_truncate (fsearch, 0);
+			g_string_truncate (faction, 0);
+		
+			filter_rule_build_code (rule, fsearch);
+			filter_filter_build_action ((FilterFilter *) rule, faction);
+			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
+		}
+
+		g_string_free (fsearch, TRUE);
+		g_string_free (faction, TRUE);
+	}
 	
 	g_object_unref (fc);
 	
@@ -745,11 +754,25 @@ mail_session_forget_password (const char *key)
 	e_passwords_forget_password ("Mail", key);
 }
 
+static void
+mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry, CamelSession *session)
+{
+	gchar *key;
+
+	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
+	g_return_if_fail (gconf_entry_get_value (entry) != NULL);
+
+	key = strrchr (gconf_entry_get_key (entry), '/');
+	if (!strcmp (key, "check_incoming"))
+		camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
+}
+
 void
 mail_session_init (const char *base_directory)
 {
 	char *camel_dir;
-
+	GConfClient *gconf;
+	
 	if (camel_init (base_directory, TRUE) != 0)
 		exit (0);
 	
@@ -758,8 +781,13 @@ mail_session_init (const char *base_directory)
 	camel_dir = g_strdup_printf ("%s/mail", base_directory);
 	camel_session_construct (session, camel_dir);
 
+	gconf = mail_config_get_gconf_client ();
+	camel_session_set_check_junk (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming", NULL));
+	session_check_junk_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/junk",
+								(GConfClientNotifyFunc) mail_session_check_junk_notify,
+								session, NULL, NULL);
 	session->junk_plugin = CAMEL_JUNK_PLUGIN (em_junk_filter_get_plugin ());
-	
+
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	

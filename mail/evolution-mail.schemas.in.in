@@ -603,6 +603,22 @@
       </locale>
     </schema>
 
+    <!-- Junk -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/junk/check_incoming</key>
+      <applyto>/apps/evolution/mail/junk/check_incoming</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Check incoming mail being junk</short>
+         <long>
+          Run junk test on incoming mail
+         </long>
+      </locale>
+    </schema>
+
     <!-- Account settings -->
 
     <schema>

@@ -1,3 +1,12 @@
+2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* mail-session.c: monitor gconf key
+	/apps/evolution/mail/junk/check_incoming and keep session junk
+	flag uptodate
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): added junk
+	preferences
+
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (uri_to_evname): Updated to add use mail subdirs.

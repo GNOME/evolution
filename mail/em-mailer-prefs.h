@@ -98,6 +98,9 @@ struct _EMMailerPrefs {
 		GnomeColorPicker *color;
 	} labels[5];
 	GtkButton *restore_labels;
+
+	/* Junk prefs */
+	GtkToggleButton *check_incoming;
 };
 
 struct _EMMailerPrefsClass {

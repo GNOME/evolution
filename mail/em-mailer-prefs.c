@@ -360,6 +360,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);
+
+	/* Junk prefs */
+	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming", NULL);
+	gtk_toggle_button_set_active (prefs->check_incoming, bool);
+	g_signal_connect (prefs->check_incoming, "toggled", G_CALLBACK (settings_changed), prefs);
 }
 
 
@@ -470,5 +476,9 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 		l = n;
 	}
 	
+	/* junk prefs */
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming",
+			       gtk_toggle_button_get_active (prefs->check_incoming), NULL);
+
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }

@@ -34,14 +34,13 @@ struct _EMJunkPlugin
 {
 	CamelJunkPlugin csp;
 
-	/* when called, it should insert own GUI configuration into supplied.
-	   container. returns data pointer which is later passed to apply,
+	/* when called, it should return widget containing UI configuration.
 	   plugin has to call (*changed_cb) (); whenever configuration
-	   is changed to notify settings dialog about a change.
-	   if setup_config_ui is NULL, it means there are no options */
+	   is changed to notify settings dialog about that change.
+	   if setup_widget is NULL, it means there is no UI configuration */
 
-	gpointer (*setup_config_ui) (GtkWidget *container, void (*changed_cb) ());
-	void     (*apply)           (gpointer data);
+	GtkWidget (*setup_widget) (void (*changed_cb) ());
+	void      (*apply)        ();
 };
 
 #endif
