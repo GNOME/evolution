@@ -242,8 +242,14 @@ composer_get_default_charset_setting (void)
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
 	
-	if (buf == NULL)
+	if (buf == NULL || buf[0] == '\0') {
+		g_free (buf);
 		buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+		if (buf && buf[0] == '\0') {
+			g_free (buf);
+			buf = NULL;
+		}
+	}
 	
 	g_object_unref (gconf);
 	

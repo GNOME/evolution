@@ -1,3 +1,12 @@
+2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (get_default_charset): Same as
+	below.
+
+	* e-msg-composer.c (composer_get_default_charset_setting): Handle
+	empty-string as the charset value gotten from gconf as this can
+	happen. Partial fix for bug #47638.
+
 2003-09-13  Charles Zhang  <charles.zhang@sun.com>
 
 	* e-msg-composer-attachment-bar.c (remove_attachment): Add some
