@@ -637,18 +637,20 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
 
-#if 0
+#if 1
 	g_print ("In e_week_view_event_item_button_press\n");
 #endif
 
 	pos = e_week_view_event_item_get_position (wveitem, bevent->button.x,
 						   bevent->button.y);
-
-	/* Ignore clicks on the event while editing. */
-	if (pos == E_WEEK_VIEW_POS_EVENT && E_TEXT (span->text_item)->editing)
+	if (pos == E_WEEK_VIEW_POS_NONE)
 		return FALSE;
 
-	if (pos == E_WEEK_VIEW_POS_EVENT) {
+	/* Ignore clicks on the event while editing. */
+	if (E_TEXT (span->text_item)->editing)
+		return FALSE;
+
+	if (bevent->button.button == 1) {
 		/* Remember the item clicked and the mouse position,
 		   so we can start a drag if the mouse moves. */
 		week_view->pressed_event_num = wveitem->event_num;
@@ -659,9 +661,15 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 
 		/* FIXME: Remember the day offset from the start of the event.
 		 */
+	} else if (bevent->button.button == 3) {
+		e_week_view_show_popup_menu (week_view,
+					     (GdkEventButton*) bevent,
+					     wveitem->event_num);
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
+					      "button_press_event");
 	}
 
-	return FALSE;
+	return TRUE;
 }
 
 

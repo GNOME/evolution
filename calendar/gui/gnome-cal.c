@@ -385,20 +385,20 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 }
 
 
+/* This tells all components to reload all calendar objects. */
 static void
 gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 {
-	e_day_view_update_event (E_DAY_VIEW (cal->day_view),
-				 object, flags);
-	e_day_view_update_event (E_DAY_VIEW (cal->work_week_view),
-				 object, flags);
-	e_week_view_update_event (E_WEEK_VIEW (cal->week_view),
-				  object, flags);
-	e_week_view_update_event (E_WEEK_VIEW (cal->month_view),
-				  object, flags);
-	year_view_update (YEAR_VIEW (cal->year_view), object, flags);
+	e_day_view_update_all_events (E_DAY_VIEW (cal->day_view));
+	e_day_view_update_all_events (E_DAY_VIEW (cal->work_week_view));
+	e_week_view_update_all_events (E_WEEK_VIEW (cal->week_view));
+	e_week_view_update_all_events (E_WEEK_VIEW (cal->month_view));
 
-	gncal_todo_update (GNCAL_TODO (cal->todo), object, flags);
+#if 0
+	year_view_update (YEAR_VIEW (cal->year_view), NULL, TRUE);
+#endif
+
+	gncal_todo_update (GNCAL_TODO (cal->todo), NULL, TRUE);
 	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
 }
 
@@ -410,7 +410,22 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 {
 	printf ("gnome-cal: got object changed_cb, uid='%s'\n",
 		uid?uid:"<NULL>");
-	gnome_calendar_update_all (gcal, NULL, CHANGE_NEW);
+
+	/* FIXME: do we really want each view to reload the event itself?
+	   Maybe we should keep track of events globally, maybe with ref
+	   counts. We also need to sort out where they get freed. */
+	e_day_view_update_event (E_DAY_VIEW (gcal->day_view), uid);
+	e_day_view_update_event (E_DAY_VIEW (gcal->work_week_view), uid);
+	e_week_view_update_event (E_WEEK_VIEW (gcal->week_view), uid);
+	e_week_view_update_event (E_WEEK_VIEW (gcal->month_view), uid);
+
+	/* FIXME: optimize these? */
+#if 0
+	year_view_update (YEAR_VIEW (gcal->year_view), NULL, TRUE);
+#endif
+
+	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, TRUE);
+	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
 
@@ -421,7 +436,18 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 {
 	printf ("gnome-cal: got object removed _cb, uid='%s'\n",
 		uid?uid:"<NULL>");
-	gnome_calendar_update_all (gcal, NULL, CHANGE_ALL);
+
+	e_day_view_remove_event (E_DAY_VIEW (gcal->day_view), uid);
+	e_day_view_remove_event (E_DAY_VIEW (gcal->work_week_view), uid);
+	e_week_view_remove_event (E_WEEK_VIEW (gcal->week_view), uid);
+	e_week_view_remove_event (E_WEEK_VIEW (gcal->month_view), uid);
+
+	/* FIXME: optimize these? */
+#if 0
+	year_view_update (YEAR_VIEW (gcal->year_view), NULL, CHANGE_ALL);
+#endif
+	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, CHANGE_ALL);
+	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
 
@@ -794,20 +820,23 @@ static int
 mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
 {
 	GtkCalendar *gtk_cal = c;
-	struct tm tm_s;
-	time_t t, day_end;
+	struct tm tm_s, tm_e;
+	gint start_day, end_day, day;
 
 	tm_s = *localtime (&start);
-	day_end = time_day_end (end);
+	tm_e = *localtime (&end);
 
-	for (t = start; t <= day_end; t += 60*60*24){
-		time_t new = mktime (&tm_s);
-		struct tm tm_day;
+	start_day = tm_s.tm_mday;
+	end_day = tm_e.tm_mday;
 
-		tm_day = *localtime (&new);
-		gtk_calendar_mark_day (gtk_cal, tm_day.tm_mday);
-		tm_s.tm_mday++;
-	}
+	/* If the event ends at midnight then really it ends on the previous
+	   day (unless it started at the same time). */
+	if (start != end && tm_e.tm_hour == 0 && tm_e.tm_min == 0)
+		end_day--;
+
+	for (day = start_day; day <= end_day; day++)
+		gtk_calendar_mark_day (gtk_cal, day);
+
 	return TRUE;
 }
 

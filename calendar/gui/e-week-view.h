@@ -279,8 +279,12 @@ struct _EWeekView
 	gint editing_event_num;
 	gint editing_span_num;
 
-	/* The day or event that the context menu is for. */
-	gint popup_event_day;
+	/* This is TRUE if we are editing an event which we have just created.
+	   We ignore the "update_event" callback which we will get from the
+	   server when the event is added. */
+	gboolean editing_new_event;
+
+	/* The event that the context menu is for. */
 	gint popup_event_num;
 
 	/* The last mouse position when dragging, in the entire canvas. */
@@ -318,13 +322,18 @@ gboolean   e_week_view_get_compress_weekend	(EWeekView	*week_view);
 void       e_week_view_set_compress_weekend	(EWeekView	*week_view,
 						 gboolean	 compress);
 
-/* This is called when one or more events have been updated, either within the
-   EWeekView itself, or via another calendar view or application. If only one
-   event has changed, it is passed in the ico argument and the flags indicate
-   the change - whether it is a new event, or just the summary has changed. */
+/* This reloads all calendar events. */
+void       e_week_view_update_all_events	(EWeekView	*week_view);
+
+/* This is called when one event has been added or updated. */
 void       e_week_view_update_event		(EWeekView	*week_view,
-						 iCalObject	*ico,
-						 int		 flags);
+						 const gchar	*uid);
+
+/* This removes all the events associated with the given uid. Note that for
+   recurring events there may be more than one. If any events are found and
+   removed we need to layout the events again. */
+void	   e_week_view_remove_event		(EWeekView	*week_view,
+						 const gchar	*uid);
 
 
 /*
@@ -349,6 +358,10 @@ void	   e_week_view_start_editing_event	(EWeekView	*week_view,
 						 gint		 span_num,
 						 gchar		*initial_text);
 void	   e_week_view_stop_editing_event	(EWeekView	*week_view);
+
+void	   e_week_view_show_popup_menu		(EWeekView	*week_view,
+						 GdkEventButton *event,
+						 gint		 event_num);
 
 #ifdef __cplusplus
 }

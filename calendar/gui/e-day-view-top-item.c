@@ -229,7 +229,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			    item_height - 3);
 
 	/* Draw the selection background. */
-	if (day_view->selection_start_col != -1) {
+	if (GTK_WIDGET_HAS_FOCUS (day_view)
+	    && day_view->selection_start_col != -1) {
 		gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
 
 		start_col = day_view->selection_start_col;

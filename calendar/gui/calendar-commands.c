@@ -805,6 +805,8 @@ calendar_iterate (GnomeCalendar *cal,
 			break;
 		}
 
+		/* FIXME: add g_free (obj_string) ? */
+
 		g_free (l->data);
 	}
 	g_list_free (uids);

@@ -314,6 +314,11 @@ struct _EDayView
 	gint editing_event_day;
 	gint editing_event_num;
 
+	/* This is TRUE if we are editing an event which we have just created.
+	   We ignore the "update_event" callback which we will get from the
+	   server when the event is added. */
+	gboolean editing_new_event;
+
 	/* This is a GnomeCanvasRect which is placed around an item while it
 	   is being resized, so we can raise it above all other EText items. */
 	GnomeCanvasItem *resize_long_event_rect_item;
@@ -414,15 +419,18 @@ void       e_day_view_set_selected_time_range	(EDayView	*day_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
+/* This reloads all calendar events. */
+void       e_day_view_update_all_events		(EDayView	*day_view);
 
-/* This is called when one or more events have been updated, either within the
-   EDayView itself, or via another calendar view or application. If only one
-   event has changed, it is passed in the ico argument and the flags indicate
-   the change - whether it is a new event, or just the summary has changed. */
+/* This is called when one event has been added or updated. */
 void       e_day_view_update_event		(EDayView	*day_view,
-						 iCalObject	*ico,
-						 int		 flags);
+						 const gchar	*uid);
 
+/* This removes all the events associated with the given uid. Note that for
+   recurring events there may be more than one. If any events are found and
+   removed we need to layout the events again. */
+void	   e_day_view_remove_event		(EDayView	*day_view,
+						 const gchar	*uid);
 
 /* The number of days shown in the EDayView, from 1 to 7. This is normally
    either 1 or 5 (for the Work-Week view). */

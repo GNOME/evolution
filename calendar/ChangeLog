@@ -1,3 +1,28 @@
+2000-05-01  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/calobj.c (ical_object_compare_dates): new function to see
+	if the event dates have changed (including any recurrence rules).
+	It is used for optimization when we get the "object_changed" signal.
+	We have to do far less work if the dates are unchanged.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: only draw the selection when we have the keyboard
+	focus, since the user expects to be able to type in a new event when
+	the selection is shown. Also keep the selection when we lose focus,
+	but just don't show it.
+
+	Also quite a few changes to cope with the new client/server
+	architecture.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): 
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw): 
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day): 
+	only draw the selection if the widget has the keyboard focus.
+
+	* gui/gnome-cal.c (mark_gtk_calendar_day): fixed so it works with
+	events longer than one day. And changed the code for updating events
+	in the new views.
+
 2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/evolution-calendar-control.c

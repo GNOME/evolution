@@ -258,6 +258,11 @@ int ical_object_get_first_weekday (int weekday_mask);
 /* Returns the number of seconds configured to trigger the alarm in advance to an event */
 int         alarm_compute_offset (CalendarAlarm *a);
 
+
+/* Returns TRUE if the dates of both objects match, including any recurrence
+   rules. */
+gboolean ical_object_compare_dates (iCalObject *ico1, iCalObject *ico2);
+
 END_GNOME_DECLS
 
 #endif

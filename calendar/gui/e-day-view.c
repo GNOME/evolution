@@ -187,10 +187,20 @@ static gboolean e_day_view_find_event_from_item (EDayView *day_view,
 						 GnomeCanvasItem *item,
 						 gint *day_return,
 						 gint *event_num_return);
-static gboolean e_day_view_find_event_from_ico (EDayView *day_view,
-						iCalObject *ico,
+static gboolean e_day_view_find_event_from_uid (EDayView *day_view,
+						const gchar *uid,
 						gint *day_return,
 						gint *event_num_return);
+
+typedef gboolean (* EDayViewForeachEventCallback) (EDayView *day_view,
+						   gint day,
+						   gint event_num,
+						   gpointer data);
+
+static void e_day_view_foreach_event_with_uid (EDayView *day_view,
+					       const gchar *uid,
+					       EDayViewForeachEventCallback callback,
+					       gpointer data);
 
 static void e_day_view_reload_events (EDayView *day_view);
 static void e_day_view_free_events (EDayView *day_view);
@@ -338,6 +348,14 @@ static void e_day_view_on_main_canvas_drag_data_received (GtkWidget      *widget
 							  guint           info,
 							  guint           time,
 							  EDayView	 *day_view);
+static gboolean e_day_view_update_event_cb (EDayView *day_view,
+					    gint day,
+					    gint event_num,
+					    gpointer data);
+static gboolean e_day_view_remove_event_cb (EDayView *day_view,
+					    gint day,
+					    gint event_num,
+					    gpointer data);
 
 
 static GtkTableClass *parent_class;
@@ -449,6 +467,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
+	day_view->editing_new_event = FALSE;
 
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
@@ -1012,12 +1031,18 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static gint
 e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
+	EDayView *day_view;
+
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
+	day_view = E_DAY_VIEW (widget);
+
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
-	gtk_widget_draw_focus (widget);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
 
 	return FALSE;
 }
@@ -1035,9 +1060,6 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	day_view = E_DAY_VIEW (widget);
 
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
-
-	/* Get rid of selection. */
-	day_view->selection_start_col = -1;
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -1058,11 +1080,23 @@ e_day_view_set_calendar		(EDayView	*day_view,
 }
 
 
+/* This reloads all calendar events. */
 void
-e_day_view_update_event	(EDayView	*day_view,
-			 iCalObject	*ico,
-			 int		 flags)
+e_day_view_update_all_events	(EDayView	*day_view)
 {
+	e_day_view_reload_events (day_view);
+}
+
+
+/* This is called when one event has been added or updated. */
+void
+e_day_view_update_event		(EDayView	*day_view,
+				 const gchar	*uid)
+{
+	EDayViewEvent *event;
+	gchar *obj_string;
+	iCalObject *ico;
+	CalObjFindStatus status;
 	gint day, event_num;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
@@ -1071,48 +1105,199 @@ e_day_view_update_event	(EDayView	*day_view,
 	g_print ("In e_day_view_update_event\n");
 #endif
 
-	/* If our time hasn't been set yet, just return. */
-	if (day_view->lower == 0 && day_view->upper == 0)
+	/* If our calendar or time hasn't been set yet, just return. */
+	if (!day_view->calendar
+	    || (day_view->lower == 0 && day_view->upper == 0))
 		return;
+
+	/* Get the event from the server. */
+	obj_string = cal_client_get_object (day_view->calendar->client, uid);
+	status = ical_object_find_in_string (uid, obj_string, &ico);
+
+	switch (status) {
+	case CAL_OBJ_FIND_SUCCESS:
+		/* Fall through. */
+		break;
+	case CAL_OBJ_FIND_SYNTAX_ERROR:
+		g_warning ("syntax error uid=%s\n", uid);
+		return;
+	case CAL_OBJ_FIND_NOT_FOUND:
+		g_warning ("obj not found uid=%s\n", uid);
+		return;
+	}
 
 	/* We only care about events. */
 	if (ico && ico->type != ICAL_EVENT)
 		return;
 
-	/* If one non-recurring event was added, we can just add it. */
-	if (flags == CHANGE_NEW && ico && !ico->recur) {
-		if (ico->dtstart < day_view->upper
-		    && ico->dtend > day_view->lower) {
-			e_day_view_add_event (ico, ico->dtstart, ico->dtend,
-					      day_view);
-			e_day_view_check_layout (day_view);
+	/* If the event already exists and the dates didn't change, we can
+	   update the event fairly easily without changing the events arrays
+	   or computing a new layout. */
+	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
+		if (day == E_DAY_VIEW_LONG_EVENT)
+			event = &g_array_index (day_view->long_events,
+						EDayViewEvent, event_num);
+		else
+			event = &g_array_index (day_view->events[day],
+						EDayViewEvent, event_num);
 
+		if (ical_object_compare_dates (event->ico, ico)) {
+			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
 			gtk_widget_queue_draw (day_view->top_canvas);
 			gtk_widget_queue_draw (day_view->main_canvas);
-		}
-		return;
-
-	/* If only the summary changed, we can update that easily. */
-	} else if (!(flags & ~CHANGE_SUMMARY)) {
-		if (e_day_view_find_event_from_ico (day_view, ico,
-						    &day, &event_num)) {
-			if (day == E_DAY_VIEW_LONG_EVENT) {
-				e_day_view_update_long_event_label (day_view,
-								    event_num);
-				/* For long events we also have to reshape it
-				   as the text is centered. */
-				e_day_view_reshape_long_event (day_view,
-							       event_num);
-			} else {
-				e_day_view_update_event_label (day_view, day,
-							       event_num);
-			}
-
 			return;
+		}
+
+		/* The dates have changed, so we need to remove the
+		   old occurrrences before adding the new ones. */
+		e_day_view_foreach_event_with_uid (day_view, uid,
+						   e_day_view_remove_event_cb,
+						   NULL);
+	}
+
+	/* Add the occurrences of the event. */
+	ical_object_generate_events (ico, day_view->lower, day_view->upper,
+				     e_day_view_add_event, day_view);
+
+	e_day_view_check_layout (day_view);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static gboolean
+e_day_view_update_event_cb (EDayView *day_view,
+			    gint day,
+			    gint event_num,
+			    gpointer data)
+{
+	EDayViewEvent *event;
+	iCalObject *ico;
+
+	ico = data;
+
+	/* FIXME: When do ico's get freed? */
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		event = &g_array_index (day_view->long_events, EDayViewEvent,
+					event_num);
+		event->ico = ico;
+	} else {
+		event = &g_array_index (day_view->events[day], EDayViewEvent,
+					event_num);
+		event->ico = ico;
+	}
+
+	/* If we are editing an event which we have just created, we will get
+	   an update_event callback from the server. But we need to ignore it
+	   or we will lose the text the user has already typed in. */
+	if (day_view->editing_new_event
+	    && day_view->editing_event_day == day
+	    && day_view->editing_event_num == event_num) {
+		return TRUE;
+	}
+
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		e_day_view_update_long_event_label (day_view, event_num);
+		e_day_view_reshape_long_event (day_view, event_num);
+	} else {
+		e_day_view_update_event_label (day_view, day, event_num);
+		e_day_view_reshape_day_event (day_view, day, event_num);
+	}
+	return TRUE;
+}
+
+
+/* This calls a given function for each event instance that matches the given
+   uid. Note that it is safe for the callback to remove the event (since we
+   step backwards through the arrays). */
+static void
+e_day_view_foreach_event_with_uid (EDayView *day_view,
+				   const gchar *uid,
+				   EDayViewForeachEventCallback callback,
+				   gpointer data)
+{
+	EDayViewEvent *event;
+	gint day, event_num;
+
+	for (day = 0; day < day_view->days_shown; day++) {
+		for (event_num = day_view->events[day]->len - 1;
+		     event_num >= 0;
+		     event_num--) {
+			event = &g_array_index (day_view->events[day],
+						EDayViewEvent, event_num);
+			if (event->ico && event->ico->uid
+			    && !strcmp (uid, event->ico->uid)) {
+				if (!(*callback) (day_view, day, event_num,
+						  data))
+					return;
+			}
 		}
 	}
 
-	e_day_view_reload_events (day_view);
+	for (event_num = day_view->long_events->len - 1;
+	     event_num >= 0;
+	     event_num--) {
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent, event_num);
+		if (event->ico && event->ico->uid
+		    && !strcmp (uid, event->ico->uid)) {
+			if (!(*callback) (day_view, day, event_num, data))
+				return;
+		}
+	}
+}
+
+
+/* This removes all the events associated with the given uid. Note that for
+   recurring events there may be more than one. If any events are found and
+   removed we need to layout the events again. */
+void
+e_day_view_remove_event	(EDayView	*day_view,
+			 const gchar	*uid)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	e_day_view_foreach_event_with_uid (day_view, uid,
+					   e_day_view_remove_event_cb, NULL);
+
+	e_day_view_check_layout (day_view);
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static gboolean
+e_day_view_remove_event_cb (EDayView *day_view,
+			    gint day,
+			    gint event_num,
+			    gpointer data)
+{
+	EDayViewEvent *event;
+
+	if (day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent, event_num);
+	else
+		event = &g_array_index (day_view->events[day],
+					EDayViewEvent, event_num);
+
+	/* We set the event's uid to NULL so we don't try to update it in
+	   on_editing_stopped(). */
+	g_free (event->ico->uid);
+	event->ico->uid = NULL;
+
+	if (event->canvas_item)
+		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		g_array_remove_index (day_view->long_events, event_num);
+		day_view->long_events_need_layout = TRUE;
+	} else {
+		g_array_remove_index (day_view->events[day], event_num);
+		day_view->need_layout[day] = TRUE;
+	}
+	return TRUE;
 }
 
 
@@ -1221,8 +1406,8 @@ e_day_view_find_event_from_item (EDayView *day_view,
    If is is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
    Returns TRUE if the event was found. */
 static gboolean
-e_day_view_find_event_from_ico (EDayView *day_view,
-				iCalObject *ico,
+e_day_view_find_event_from_uid (EDayView *day_view,
+				const gchar *uid,
 				gint *day_return,
 				gint *event_num_return)
 {
@@ -1234,10 +1419,8 @@ e_day_view_find_event_from_ico (EDayView *day_view,
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-			//if (event->ico == ico) {
-			if (ico && ico->uid &&
-			    event && event->ico && event->ico->uid &&
-			    (strcmp (ico->uid, event->ico->uid) == 0)) {
+			if (event->ico && event->ico->uid
+			    && !strcmp (uid, event->ico->uid)) {
 				*day_return = day;
 				*event_num_return = event_num;
 				return TRUE;
@@ -1249,7 +1432,8 @@ e_day_view_find_event_from_ico (EDayView *day_view,
 	     event_num++) {
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
-		if (event->ico == ico) {
+		if (event->ico && event->ico->uid
+		    && !strcmp (uid, event->ico->uid)) {
 			*day_return = E_DAY_VIEW_LONG_EVENT;
 			*event_num_return = event_num;
 			return TRUE;
@@ -2015,7 +2199,8 @@ e_day_view_on_event_right_click (EDayView *day_view,
 		{ N_("New appointment..."), (GtkSignalFunc) e_day_view_on_new_appointment, NULL, TRUE }
 	};
 
-	have_selection = (day_view->selection_start_col != -1);
+	have_selection = GTK_WIDGET_HAS_FOCUS (day_view)
+		&& day_view->selection_start_col != -1;
 
 	if (event_num == -1) {
 		items = 1;
@@ -2648,7 +2833,10 @@ e_day_view_reload_events (EDayView *day_view)
 	day_view->pressed_event_day = -1;
 	day_view->drag_event_day = -1;
 
-	if (day_view->calendar) {
+	/* If both lower & upper are 0, then the time range hasn't been set,
+	   so we don't try to load any events. */
+	if (day_view->calendar
+	    && (day_view->lower != 0 || day_view->upper != 0)) {
 		calendar_iterate (day_view->calendar,
 				  day_view->lower,
 				  day_view->upper,
@@ -3512,16 +3700,25 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	e_day_view_get_selection_range (day_view, &ico->dtstart, &ico->dtend);
 
-	gnome_calendar_add_object (day_view->calendar, ico);
+	/* We add the event locally and start editing it. When we get the
+	   "update_event" callback from the server, we basically ignore it.
+	   If we were to wait for the "update_event" callback it wouldn't be
+	   as responsive and we may lose a few keystrokes. */ 
+	e_day_view_add_event (ico, ico->dtstart, ico->dtend, day_view);
+	e_day_view_check_layout (day_view);
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
 
-	/* gnome_calendar_add_object() should have resulted in a call to
-	   e_day_view_update_event(), so the new event should now be layed out.
-	   So we try to find it so we can start editing it. */
-	if (e_day_view_find_event_from_ico (day_view, ico, &day, &event_num)) {
-		/* Start editing the new event. */
+	if (e_day_view_find_event_from_uid (day_view, ico->uid,
+					    &day, &event_num)) {
 		e_day_view_start_editing_event (day_view, day, event_num,
 						initial_text);
+		day_view->editing_new_event = TRUE;
+	} else {
+		g_warning ("Couldn't find event to start editing.\n");
 	}
+
+	gnome_calendar_add_object (day_view->calendar, ico);
 
 	return TRUE;
 }
@@ -3702,9 +3899,14 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	/* Reset the edit fields. */
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
+	day_view->editing_new_event = FALSE;
 
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
+
+	/* Check that the event is still valid. */
+	if (!event->ico->uid)
+		return;
 
 	gtk_object_get (GTK_OBJECT (event->canvas_item),
 			"text", &text,

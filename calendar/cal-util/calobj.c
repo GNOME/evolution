@@ -21,6 +21,8 @@
 /* VCalendar product ID */
 #define PRODID "-//Helix Code//NONSGML Evolution Calendar//EN"
 
+static gint compare_exdates (gconstpointer a, gconstpointer b);
+
 
 
 static char *
@@ -1224,6 +1226,10 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 	if (!ico->recur) {
 		if ((end && (ico->dtstart < end) && (ico->dtend > start))
 		    || ((end == 0) && (ico->dtend > start))) {
+			/* The new calendar views expect the times to not be
+			   clipped, so they can show that it continues past
+			   the end of the viewable area. */
+#if 0
 			time_t ev_s, ev_e;
 
 			/* Clip range */
@@ -1232,6 +1238,9 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 			ev_e = MIN (ico->dtend, end);
 
 			(* cb) (ico, ev_s, ev_e, closure);
+#else
+			(* cb) (ico, ico->dtstart, ico->dtend, closure);
+#endif
 		}
 		return;
 	}
@@ -1630,4 +1639,103 @@ ical_object_to_string (iCalObject *ico)
 	free (buf);
 
 	return gbuf;
+}
+
+
+/**
+ * ical_object_compare_dates:
+ * @ico1: A calendar event.
+ * @ico2: A calendar event to compare with @ico1.
+ * 
+ * Returns TRUE if the dates of both objects match, including any recurrence
+ * rules. Both calendar objects must have a type of ICAL_EVENT.
+ * 
+ * Return value: TRUE if both calendar objects have the same dates.
+ **/
+gboolean
+ical_object_compare_dates (iCalObject *ico1,
+			   iCalObject *ico2)
+{
+	Recurrence *recur1, *recur2;
+	gint num_exdates;
+	GList *elem1, *elem2;
+	time_t *time1, *time2;
+
+	g_return_val_if_fail (ico1 != NULL, FALSE);
+	g_return_val_if_fail (ico2 != NULL, FALSE);
+	g_return_val_if_fail (ico1->type == ICAL_EVENT, FALSE);
+	g_return_val_if_fail (ico2->type == ICAL_EVENT, FALSE);
+
+	/* First check the base dates. */
+	if (ico1->dtstart != ico2->dtstart
+	    || ico1->dtend != ico2->dtend)
+		return FALSE;
+
+	recur1 = ico1->recur;
+	recur2 = ico2->recur;
+
+	/* If the event doesn't recur, we already know it matches. */
+	if (!recur1 && !recur2)
+		return TRUE;
+
+	/* Check that both recur. */
+	if (!(recur1 && recur2))
+		return FALSE;
+
+	/* Now we need to see if the recurrence rules are the same. */
+	if (recur1->type != recur2->type
+	    || recur1->interval != recur2->interval
+	    || recur1->enddate != recur2->enddate
+	    || recur1->weekday != recur2->weekday
+	    || recur1->duration != recur2->duration
+	    || recur1->_enddate != recur2->_enddate
+	    || recur1->__count != recur2->__count)
+		return FALSE;
+
+	switch (recur1->type) {
+	case RECUR_MONTHLY_BY_POS:
+		if (recur1->u.month_pos != recur2->u.month_pos)
+			return FALSE;
+		break;
+	case RECUR_MONTHLY_BY_DAY:
+		if (recur1->u.month_day != recur2->u.month_day)
+			return FALSE;
+		break;
+	default:
+		break;
+	}
+
+	/* Now check if the excluded dates match. */
+	num_exdates = g_list_length (ico1->exdate);
+	if (g_list_length (ico2->exdate) != num_exdates)
+		return FALSE;
+	if (num_exdates == 0)
+		return TRUE;
+
+	ico1->exdate = g_list_sort (ico1->exdate, compare_exdates);
+	ico2->exdate = g_list_sort (ico2->exdate, compare_exdates);
+
+	elem1 = ico1->exdate;
+	elem2 = ico2->exdate;
+	while (elem1) {
+		time1 = (time_t*) elem1->data;
+		time2 = (time_t*) elem2->data;
+
+		if (*time1 != *time2)
+			return FALSE;
+
+		elem1 = elem1->next;
+		elem2 = elem2->next;
+	}
+
+	return TRUE;
+}
+
+
+static gint
+compare_exdates (gconstpointer a, gconstpointer b)
+{
+	const time_t *ca = a, *cb = b;
+	time_t diff = *ca - *cb;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }

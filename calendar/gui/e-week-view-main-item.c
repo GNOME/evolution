@@ -277,7 +277,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 	/* If the day is selected, draw the blue background. */
 	selected = TRUE;
-	if (week_view->selection_start_day == -1
+	if (!GTK_WIDGET_HAS_FOCUS (week_view)
+	    || week_view->selection_start_day == -1
 	    || week_view->selection_start_day > day
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
