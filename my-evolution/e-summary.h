@@ -37,10 +37,10 @@
 #include <Evolution.h>
 
 #define E_SUMMARY_TYPE (e_summary_get_type ())
-#define E_SUMMARY(obj) (GTK_CHECK_CAST ((obj), E_SUMMARY_TYPE, ESummary))
-#define E_SUMMARY_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), E_SUMMARY_TYPE, ESummaryClass))
-#define IS_E_SUMMARY(obj) (GTK_CHECK_TYPE ((obj), E_SUMMARY_TYPE))
-#define IS_E_SUMMARY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), E_SUMMARY_TYPE))
+#define E_SUMMARY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_SUMMARY_TYPE, ESummary))
+#define E_SUMMARY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_SUMMARY_TYPE, ESummaryClass))
+#define IS_E_SUMMARY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_SUMMARY_TYPE))
+#define IS_E_SUMMARY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_SUMMARY_TYPE))
 
 typedef struct _ESummaryPrivate ESummaryPrivate;
 typedef struct _ESummaryClass ESummaryClass;

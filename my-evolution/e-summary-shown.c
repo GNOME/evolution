@@ -530,13 +530,13 @@ e_summary_shown_init (ESummaryShown *shown)
 	gtk_box_pack_start (GTK_BOX (shown), align, FALSE, FALSE, 3);
 
 	/* Fixme: nice GFX version */
-	priv->add = construct_pixmap_button (_("Add"), GNOME_STOCK_BUTTON_NEXT);
+	priv->add = construct_pixmap_button (_("Add"), GTK_STOCK_GO_FORWARD);
 	gtk_widget_set_sensitive (priv->add, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->add, TRUE, FALSE, 0);
 	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked), shown);
 
 	/* Fixme: Ditto */
-	priv->remove = construct_pixmap_button (_("Remove"), GNOME_STOCK_BUTTON_PREV);
+	priv->remove = construct_pixmap_button (_("Remove"), GTK_STOCK_GO_BACK);
 	gtk_widget_set_sensitive (priv->remove, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->remove, TRUE, FALSE, 0);
 	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked), shown);

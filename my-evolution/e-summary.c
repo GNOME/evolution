@@ -465,7 +465,7 @@ e_summary_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = destroy;
 
-	e_summary_parent_class = gtk_type_class (PARENT_TYPE);
+	e_summary_parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
@@ -622,7 +622,7 @@ do_summary_print (ESummary *summary,
 		int result = gnome_print_master_print (print_master);
 
 		if (result == -1) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("Printing of Summary failed"));
 		}
 	}

@@ -1,3 +1,10 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* e-summary-shown.c (e_summary_shown_init): GNOME_STOCK_*NEXT/PREV ->
+	GTK_STOCK_*GO_BACK/FORWARD.
+
+	* e-summary.[ch]: ran fix.sh over this.
+
 2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (component_destroy): Removed.
