@@ -1,3 +1,12 @@
+2002-07-22  Dan Winship  <danw@ximian.com>
+
+	* backend/pas/Makefile.am: Split pas-backend-file and
+	pas-backend-ldap out of libpas and build them as separate (noinst)
+	libraries libpasfile.a and libpasldap.a. This gets the db3 and
+	LDAP dependencies out of libpas, and people trying to create an
+	addressbook backend shouldn't be calling functions from the
+	existing backends anyway so there's no reason to install them.
+
 2002-07-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/select-names.glade: remove the option

@@ -28,18 +28,16 @@ INCLUDES =						\
 LDAP_SCHEMA =						\
 	evolutionperson.schema
 
-LDAP_BACKEND_FILES_C = pas-backend-ldap.c
-LDAP_BACKEND_FILES_H = pas-backend-ldap.h
+LDAP_BACKEND_FILES =					\
+	pas-backend-ldap.c				\
+	pas-backend-ldap.h
 
 if ENABLE_LDAP
-LDAP_BACKEND_C = $(LDAP_BACKEND_FILES_C)
-LDAP_BACKEND_H = $(LDAP_BACKEND_FILES_H)
-else
-LDAP_BACKEND_C = 
-LDAP_BACKEND_H =
+LDAP_BACKEND = libpasldap.a
 endif
 
 privlib_LIBRARIES = libpas.a
+noinst_LIBRARIES = libpasfile.a $(LDAP_BACKEND)
 
 pasincludedir = $(includedir)/evolution/pas
 
@@ -49,8 +47,6 @@ pasinclude_HEADERS =					\
 	pas-book-view.h					\
 	pas-book.h					\
 	pas-backend-card-sexp.h				\
-	pas-backend-file.h				\
-	$(LDAP_BACKEND_H)				\
 	pas-backend.h					\
 	pas-backend-summary.h				\
 	pas-card-cursor.h
@@ -63,10 +59,18 @@ libpas_a_SOURCES =					\
 	pas-book.c					\
 	pas-backend-card-sexp.c				\
 	pas-backend-file.c				\
-	$(LDAP_BACKEND_C)				\
 	pas-backend.c					\
 	pas-backend-summary.c				\
 	pas-card-cursor.c
+
+libpasfile_a_SOURCES =					\
+	pas-backend-file.c				\
+	pas-backend-file.h
+
+if ENABLE_LDAP
+libpasldap_a_SOURCES =					\
+	$(LDAP_BACKEND_FILES)
+endif
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES = $(BUILT_SOURCES)
@@ -74,4 +78,4 @@ CLEANFILES = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-EXTRA_DIST = $(LDAP_BACKEND_FILES_C) $(LDAP_BACKEND_FILES_H) $(LDAP_SCHEMA)
+EXTRA_DIST = $(LDAP_BACKEND_FILES) $(LDAP_SCHEMA)
