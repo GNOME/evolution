@@ -71,7 +71,7 @@ INCLUDES =								\
 	-DEVOLUTION_ICONSDIR=\"$(iconsdir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"					\
-	$(GNOME_FULL_CFLAGS)
+	$(EVOLUTION_MAIL_CFLAGS)
 
 libcomposer_a_SOURCES = 			\
 	$(IDL_GENERATED)			\

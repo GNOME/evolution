@@ -79,10 +79,9 @@
 #include "camel/camel-charset-map.h"
 #include "camel/camel-session.h"
 
-#warning "need to re-add mail.h"
-/*#include "mail.h"*/
 #include "mail/mail-callbacks.h"
 #include "mail/mail-crypto.h"
+#include "mail/mail-format.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
@@ -3134,9 +3133,7 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 	} else if (header_content_type_is (content_type, "text", "*")) {
 		char *text;
 		
-		text = mail_get_message_body (content, FALSE, FALSE);
-		
-		if (text)
+		if ((text = mail_get_message_body (content, FALSE, FALSE)))
 			e_msg_composer_set_pending_body (composer, text);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -3193,9 +3190,7 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 	} else if (header_content_type_is (content_type, "text", "*")) {
 		char *text;
 		
-		text = mail_get_message_body (content, FALSE, FALSE);
-		
-		if (text)
+		if ((text = mail_get_message_body (content, FALSE, FALSE)))
 			e_msg_composer_set_pending_body (composer, text);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -3256,9 +3251,7 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		char *text;
 		
 		contents = camel_medium_get_content_object (CAMEL_MEDIUM (text_part));
-		text = mail_get_message_body (contents, FALSE, FALSE);
-		
-		if (text)
+		if ((text = mail_get_message_body (contents, FALSE, FALSE)))
 			e_msg_composer_set_pending_body (composer, text);
 	}
 }
