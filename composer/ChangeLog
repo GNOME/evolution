@@ -1,3 +1,8 @@
+2004-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (create_composer): Remove the 6-pixel border
+	around the main window. That just looked ugly.
+
 2004-01-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: missed this - remove disable deprecated flag

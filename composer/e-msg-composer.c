@@ -2966,7 +2966,6 @@ create_composer (int visible_mask)
 		return NULL;
 	}
 	
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
 	gtk_box_set_spacing (GTK_BOX (vbox), 6);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	g_signal_connect (composer->hdrs, "subject_changed",
