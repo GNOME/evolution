@@ -252,14 +252,12 @@ static void
 e_calendar_item_class_init (ECalendarItemClass *class)
 {
 	GtkObjectClass  *object_class;
-	GtkWidgetClass *widget_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_ref(gnome_canvas_item_get_type());
+	parent_class = g_type_class_peek_parent (class);
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	item_class = (GnomeCanvasItemClass *) class;
+	object_class = GTK_OBJECT_CLASS (class);
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
 
 	gtk_object_add_arg_type ("ECalendarItem::year",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE,
@@ -352,7 +350,6 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	object_class->get_arg = e_calendar_item_get_arg;
 	object_class->set_arg = e_calendar_item_set_arg;
 
-	widget_class->focus = e_calendar_item_focus;
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = e_calendar_item_realize;
 	item_class->unrealize   = e_calendar_item_unrealize;
@@ -687,19 +684,6 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	if (need_update) {
 		gnome_canvas_item_request_update (item);
 	}
-}
-
-static gboolean
-e_calendar_item_focus (GtkWidget *widget, GtkDirectionType direction)
-{
-	ECalendarItem *calitem;
-
-	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (E_IS_CALENDAR_ITEM (widget), FALSE);
-	calitem = E_CALENDAR_ITEM (widget);
-
-	GTK_WIDGET_CLASS (parent_class)->focus (widget, direction);
-	return TRUE;
 }
 
 static void

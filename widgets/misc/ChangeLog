@@ -1,3 +1,8 @@
+2003-11-12  JP Rosevear <jpr@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_class_init): a canvas item
+	does not inherit from gtkwidget
+
 2003-11-11  Bolian Yin <bolian.yin@sun.com>
                                                                                 
         Fixes #50538
