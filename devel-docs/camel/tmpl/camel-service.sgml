@@ -19,6 +19,7 @@ CamelService
 
 </para>
 
+@e: 
 
 <!-- ##### FUNCTION camel_service_connect ##### -->
 <para>

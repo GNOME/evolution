@@ -1,3 +1,11 @@
+1999-09-03  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* devel-docs/camel/Makefile.am:
+	sgml doc has camel-recipient now.
+
+	* camel/camel-recipient.c (camel_recipient_foreach_recipient_type): 
+	added in-line documentation.
+
 1999-09-02  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/maildir: Added (experimental) maildir 

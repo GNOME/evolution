@@ -3,6 +3,7 @@
 <!entity CamelFolder SYSTEM "sgml/camel-folder.sgml">
 <!entity CamelMimeMessage SYSTEM "sgml/camel-mime-message.sgml">
 <!entity CamelMimePart SYSTEM "sgml/camel-mime-part.sgml">
+<!entity CamelRecipient SYSTEM "sgml/camel-recipient.sgml">
 <!entity CamelService SYSTEM "sgml/camel-service.sgml">
 <!entity CamelStore SYSTEM "sgml/camel-store.sgml">
 <!entity CamelStream SYSTEM "sgml/camel-stream.sgml">
@@ -21,6 +22,7 @@
     &CamelFolder;
     &CamelMimePart;
     &CamelDataWrapper;
+    &CamelRecipient;
 
   </chapter>
 </book>

@@ -24,6 +24,7 @@ tmpl_sources =					\
 	tmpl/camel-folder.sgml			\
 	tmpl/camel-mime-message.sgml		\
 	tmpl/camel-mime-part.sgml		\
+	tmpl/camel-recipient.sgml		\
 	tmpl/camel-service.sgml			\
 	tmpl/camel-store.sgml			\
 	tmpl/camel-stream.sgml		

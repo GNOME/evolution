@@ -14,25 +14,6 @@ CamelMimePart
 
 </para>
 
-<!-- ##### FUNCTION camel_mime_part_add_header ##### -->
-<para>
-
-</para>
-
-@mime_part: 
-@header_name: 
-@header_value: 
-
-
-<!-- ##### FUNCTION camel_mime_part_set_content_object ##### -->
-<para>
-
-</para>
-
-@mime_part: 
-@content: 
-
-
 <!-- ##### FUNCTION camel_mime_part_set_filename ##### -->
 <para>
 
@@ -76,15 +57,6 @@ CamelMimePart
 
 @mime_part: 
 @header_lines: 
-
-
-<!-- ##### FUNCTION camel_mime_part_get_content_object ##### -->
-<para>
-
-</para>
-
-@mime_part: 
-@Returns: 
 
 
 <!-- ##### FUNCTION camel_mime_part_get_content_id ##### -->
@@ -132,15 +104,6 @@ CamelMimePart
 @disposition: 
 
 
-<!-- ##### FUNCTION camel_mime_part_remove_header ##### -->
-<para>
-
-</para>
-
-@mime_part: 
-@header_name: 
-
-
 <!-- ##### FUNCTION camel_mime_part_get_filename ##### -->
 <para>
 
@@ -183,16 +146,6 @@ CamelMimePart
 </para>
 
 @mime_part: 
-@Returns: 
-
-
-<!-- ##### FUNCTION camel_mime_part_get_header ##### -->
-<para>
-
-</para>
-
-@mime_part: 
-@header_name: 
 @Returns: 
 
 
