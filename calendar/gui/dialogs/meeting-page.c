@@ -810,8 +810,12 @@ invite_entry_changed (BonoboListener    *listener,
 			row_cnt = row_count (priv->model, mpage) - 1;
 			e_table_model_row_inserted (priv->model, row_cnt);
 		}
+
+		/* FIXME: Should you unref destv[i], JP?? - Damon */
+
 	}
 	
+	/* FIXME: Should you g_free() destv, JP?? - Damon */
 }
 
 static void

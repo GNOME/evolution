@@ -83,6 +83,8 @@ static gboolean e_week_view_event_item_button_press (EWeekViewEventItem *wveitem
 						     GdkEvent		*event);
 static gboolean e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 						       GdkEvent		  *event);
+static gboolean e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
+						     GdkEvent		*bevent);
 static EWeekViewPosition e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 							      gdouble x,
 							      gdouble y);
@@ -724,6 +726,8 @@ e_week_view_event_item_event (GnomeCanvasItem *item, GdkEvent *event)
 	wveitem = E_WEEK_VIEW_EVENT_ITEM (item);
 
 	switch (event->type) {
+	case GDK_2BUTTON_PRESS:
+		return e_week_view_event_item_double_click (wveitem, event);
 	case GDK_BUTTON_PRESS:
 		return e_week_view_event_item_button_press (wveitem, event);
 	case GDK_BUTTON_RELEASE:
@@ -812,7 +816,7 @@ e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-#if 0
+#if 1
 	g_print ("In e_week_view_event_item_button_release\n");
 #endif
 
@@ -830,6 +834,33 @@ e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 	week_view->pressed_event_num = -1;
 
 	return FALSE;
+}
+
+
+static gboolean
+e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
+				     GdkEvent		*bevent)
+{
+	EWeekView *week_view;
+	EWeekViewEvent *event;
+	GnomeCanvasItem *item;
+
+	item = GNOME_CANVAS_ITEM (wveitem);
+
+	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				wveitem->event_num);
+
+	e_week_view_stop_editing_event (week_view);
+
+	if (week_view->calendar)
+		gnome_calendar_edit_object (week_view->calendar, event->comp);
+	else
+		g_warning ("Calendar not set");
+
+	return TRUE;
 }
 
 

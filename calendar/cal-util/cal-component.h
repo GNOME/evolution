@@ -257,6 +257,9 @@ void cal_component_set_comment_list (CalComponent *comp, GSList *text_list);
 void cal_component_get_completed (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_completed (CalComponent *comp, struct icaltimetype *t);
 
+void cal_component_get_contact_list (CalComponent *comp, GSList **text_list);
+void cal_component_set_contact_list (CalComponent *comp, GSList *text_list);
+
 void cal_component_get_created (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_created (CalComponent *comp, struct icaltimetype *t);
 

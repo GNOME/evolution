@@ -522,17 +522,17 @@ e_week_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].red   = 0xeded;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].green = 0xeded;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].blue  = 0xeded;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].red   = 0xe0e0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].green = 0xe0e0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].blue  = 0xe0e0;
 
 	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].red   = 65535;
 	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].green = 65535;
 	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].blue  = 65535;
 
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red   = 0xd6d6;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green = 0xd6d6;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue  = 0xd6d6;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red   = 213 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green = 213 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue  = 213 * 257;
 
 	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].red   = 0;
 	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].green = 0;
@@ -2041,8 +2041,12 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-#if 0
+#if 1
 	g_print ("In e_week_view_on_button_press\n");
+	if (event->type == GDK_2BUTTON_PRESS)
+		g_print (" is a double-click\n");
+	if (week_view->pressed_event_num != -1)
+		g_print (" item is pressed\n");
 #endif
 
 	/* Handle scroll wheel events */
@@ -2059,10 +2063,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return TRUE;
 	}
 
-	/* If an event is pressed just return. */
-	if (week_view->pressed_event_num != -1)
-		return FALSE;
-
 	/* Convert the mouse position to a week & day. */
 	x = event->x;
 	y = event->y;
@@ -2070,8 +2070,25 @@ e_week_view_on_button_press (GtkWidget *widget,
 	if (day == -1)
 		return FALSE;
 
-	/* Start the selection drag. */
+	/* If an event is pressed just return. */
+	if (week_view->pressed_event_num != -1)
+		return FALSE;
+
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		time_t dtstart, dtend;
+
+		g_print ("  got double-click\n");
+
+		dtstart = week_view->day_starts[day];
+		dtend = week_view->day_starts[day + 1];
+		gnome_calendar_new_appointment_for (week_view->calendar,
+						    dtstart, dtend,
+						    TRUE);
+		return TRUE;
+	}
+
 	if (event->button == 1) {
+		/* Start the selection drag. */
 		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
@@ -2823,18 +2840,19 @@ e_week_view_stop_editing_event (EWeekView *week_view)
 
 static gboolean
 e_week_view_on_text_item_event (GnomeCanvasItem *item,
-				GdkEvent *event,
+				GdkEvent *gdkevent,
 				EWeekView *week_view)
 {
+	EWeekViewEvent *event;
 	gint event_num, span_num;
 
 #if 0
 	g_print ("In e_week_view_on_text_item_event\n");
 #endif
 
-	switch (event->type) {
+	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
-		if (event && event->key.keyval == GDK_Return) {
+		if (gdkevent && gdkevent->key.keyval == GDK_Return) {
 			/* We set the keyboard focus to the EDayView, so the
 			   EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -2846,16 +2864,32 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 		break;
+	case GDK_2BUTTON_PRESS:
+		if (!e_week_view_find_event_from_item (week_view, item,
+						       &event_num, &span_num))
+			return FALSE;
+
+		event = &g_array_index (week_view->events, EWeekViewEvent,
+					event_num);
+
+		if (week_view->calendar)
+			gnome_calendar_edit_object (week_view->calendar,
+						    event->comp);
+		else
+			g_warning ("Calendar not set");
+
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+		return TRUE;
 	case GDK_BUTTON_PRESS:
 		if (!e_week_view_find_event_from_item (week_view, item,
 						       &event_num, &span_num))
 			return FALSE;
 
-		if (event->button.button == 3) {
+		if (gdkevent->button.button == 3) {
 			if (!GTK_WIDGET_HAS_FOCUS (week_view))
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			e_week_view_show_popup_menu (week_view,
-						     (GdkEventButton*) event,
+						     (GdkEventButton*) gdkevent,
 						     event_num);
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item->canvas),
 						      "button_press_event");
@@ -2870,9 +2904,9 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
 
-			if (event) {
-				week_view->drag_event_x = event->button.x;
-				week_view->drag_event_y = event->button.y;
+			if (gdkevent) {
+				week_view->drag_event_x = gdkevent->button.x;
+				week_view->drag_event_y = gdkevent->button.y;
 			} else
 				g_warning ("No GdkEvent");
 
@@ -2910,7 +2944,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		week_view->pressed_event_num = -1;
 		break;
 	case GDK_FOCUS_CHANGE:
-		if (event->focus_change.in) {
+		if (gdkevent->focus_change.in) {
 			e_week_view_on_editing_started (week_view, item);
 		} else {
 			e_week_view_on_editing_stopped (week_view, item);

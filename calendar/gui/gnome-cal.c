@@ -139,6 +139,12 @@ struct _GnomeCalendarPrivate {
 
 	/* Our current timezone. */
 	icaltimezone *zone;
+
+	/* The dates currently shown. If they are -1 then we have no dates
+	   shown. We only use these to check if we need to emit a
+	   'dates-shown-changed' signal.*/
+	time_t visible_start;
+	time_t visible_end;
 };
 
 /* Signal IDs */
@@ -677,6 +683,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->view_collection = NULL;
 	priv->view_menus = NULL;
+
+	priv->visible_start = -1;
+	priv->visible_end = -1;
 }
 
 /* Frees a set of categories */
@@ -1902,8 +1911,12 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 
 	itt = icaltime_from_timet_with_zone (dtend, FALSE, priv->zone);
 	if (all_day) {
-		itt.hour = itt.minute = itt.second = 0;
-		icaltime_adjust (&itt, 1, 0, 0, 0);
+		/* If we want an all-day event and the end time isn't on a
+		   day boundary, we move it to the end of the day it is in. */
+		if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
+			itt.hour = itt.minute = itt.second = 0;
+			icaltime_adjust (&itt, 1, 0, 0, 0);
+		}
 	}
 	cal_component_set_dtend (comp, &dt);
 
@@ -2374,8 +2387,24 @@ gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
 static void
 gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 {
+	GnomeCalendarPrivate *priv;
+	time_t start_time, end_time;
+
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	gtk_signal_emit (GTK_OBJECT (gcal),
-			 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
+	priv = gcal->priv;
+
+	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
+
+	/* We check if the visible date range has changed, and only emit the
+	   signal if it has. (This makes sure we only change the folder title
+	   bar label in the shell when we need to.) */
+	if (priv->visible_start != start_time
+	    || priv->visible_end != end_time) {
+		priv->visible_start = start_time;
+		priv->visible_end = end_time;
+
+		gtk_signal_emit (GTK_OBJECT (gcal),
+				 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
+	}
 }

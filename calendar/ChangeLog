@@ -1,3 +1,48 @@
+2001-08-14  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/task-page.c: 
+	* gui/dialogs/event-page.c: added support for the Contacts field.
+	Note that I'm not sure what we should put in the iCalendar CONTACT
+	properties. Currently we put "name <email>", but it isn't recognized
+	as a contact when we reopen the dialog, so we may need more info here.
+	Also we currently use a simple parser to parse the above format, and
+	we should maybe use some camel function.
+
+	* gui/dialogs/task-page.glade: 
+	* gui/dialogs/event-page.glade: replaced the GtkEntry fields for the
+	Contacts with a GtkEventBox which we put the BonoboControl in at
+	runtime.
+
+	* gui/dialogs/meeting-page.c (invite_entry_changed): added FIXMEs
+	since it doesn't seem to be freeing the EDestination stuff. JP?
+
+	* gui/dialogs/comp-editor-util.c: added bunch of utility functions to
+	handle the Contacts field in the main Event and Task pages.
+
+	* gui/gnome-cal.c: added visible_start and visible_end fields, so we
+	only emit the 'dates-shown-changed' signal when really necessary.
+	Currently changing the folder title bar label results in a complete
+	redraw of the Evolution window (silly GtkLabel queueing a resize),
+	so we want to avoid that as much as possible.
+	(gnome_calendar_new_appointment_for): only move the event's end time
+	to the end of the day if it is not already 00:00:00.
+
+	* gui/e-week-view-event-item.c: 
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: added support for double-clicking on an event to
+	open it, and for double-clicking on the background to create a new
+	event. There is still a minor problem to sort out, but it basically
+	works.
+
+	* cal-util/cal-component.c: added support for CONTACT properties,
+	mainly by copying the code for COMMENT properties which are exactly
+	the same type.
+
+	* gui/e-day-view.c (e_day_view_realize): use the same color for the
+	top canvas background as the shortcut bar, to make it look a little
+	nicer (I think). Although we still have the theme problem with
+	hard-coded colors.
+
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-calendar-table.etspec: Made the click-to-add message

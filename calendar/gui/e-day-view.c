@@ -971,13 +971,13 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 148 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 149 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 148 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 32512;
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 148 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 149 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 148 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 32512;
 
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].red   = 65535;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].green = 65535;
@@ -2869,6 +2869,17 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 	e_day_view_stop_editing_event (day_view);
 
 	if (event->button == 1) {
+		if (event->type == GDK_2BUTTON_PRESS) {
+			time_t dtstart, dtend;
+
+			e_day_view_get_selected_time_range (day_view, &dtstart,
+							    &dtend);
+			gnome_calendar_new_appointment_for (day_view->calendar,
+							    dtstart, dtend,
+							    TRUE);
+			return TRUE;
+		}
+
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -2946,6 +2957,8 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	gint event_x, event_y, scroll_x, scroll_y, row, day, event_num;
 	EDayViewPosition pos;
 
+	g_print ("In e_day_view_on_main_canvas_button_press\n");
+
 	/* Handle scroll wheel events */
 	if (event->button == 4) {
 		/* The wheel has been moved up, so scroll the canvas down. */
@@ -2988,6 +3001,17 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 
 	/* Start the selection drag. */
 	if (event->button == 1) {
+		if (event->type == GDK_2BUTTON_PRESS) {
+			time_t dtstart, dtend;
+
+			e_day_view_get_selected_time_range (day_view, &dtstart,
+							    &dtend);
+			gnome_calendar_new_appointment_for (day_view->calendar,
+							    dtstart, dtend,
+							    FALSE);
+			return TRUE;
+		}
+
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -3048,6 +3072,8 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 		} else if (event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (day_view, -1,
 							  event_num);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->top_canvas),
+						      "button_press_event");
 			return TRUE;
 		}
 	} else if (event->button == 3) {
@@ -3081,6 +3107,8 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 		} else if (event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (day_view, day,
 							  event_num);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->main_canvas),
+						      "button_press_event");
 			return TRUE;
 		}
 	} else if (event->button == 3) {
@@ -3327,6 +3355,21 @@ e_day_view_on_event_double_click (EDayView *day_view,
 				  gint day,
 				  gint event_num)
 {
+	EDayViewEvent *event;
+
+	if (day == -1)
+		event = &g_array_index (day_view->long_events, EDayViewEvent,
+					event_num);
+	else 
+		event = &g_array_index (day_view->events[day], EDayViewEvent,
+					event_num);
+
+	e_day_view_stop_editing_event (day_view);
+
+	if (day_view->calendar)
+		gnome_calendar_edit_object (day_view->calendar, event->comp);
+	else
+		g_warning ("Calendar not set");
 }
 
 enum {
@@ -3727,6 +3770,8 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 					  GdkEventButton *event,
 					  EDayView *day_view)
 {
+	g_print ("In e_day_view_on_main_canvas_button_release\n");
+
 	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
@@ -5389,6 +5434,10 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 		break;
+	case GDK_2BUTTON_PRESS:
+		g_print ("Item got double-click\n");
+		break;
+
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		/* Only let the EText handle the event while editing. */

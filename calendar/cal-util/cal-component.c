@@ -71,6 +71,9 @@ struct _CalComponentPrivate {
 	GSList *comment_list; /* list of struct text */
 
 	icalproperty *completed;
+
+	GSList *contact_list; /* list of struct text */
+
 	icalproperty *created;
 
 	GSList *description_list; /* list of struct text */
@@ -286,6 +289,7 @@ free_icalcomponent (CalComponent *comp)
 	priv->classification = NULL;
 	priv->comment_list = NULL;
 	priv->completed = NULL;
+	priv->contact_list = NULL;
 	priv->created = NULL;
 
 	priv->description_list = free_slist (priv->description_list);
@@ -597,6 +601,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_COMPLETED_PROPERTY:
 		priv->completed = prop;
+		break;
+
+	case ICAL_CONTACT_PROPERTY:
+		scan_text (comp, &priv->contact_list, prop);
 		break;
 
 	case ICAL_CREATED_PROPERTY:
@@ -1615,6 +1623,55 @@ cal_component_set_comment_list (CalComponent *comp, GSList *text_list)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	set_text_list (comp, icalproperty_new_comment, &priv->comment_list, text_list);
+}
+
+/**
+ * cal_component_get_contact_list:
+ * @comp: A calendar component object.
+ * @text_list: Return value for the contact properties and their parameters, as
+ * a list of #CalComponentText structures.  This should be freed using the
+ * cal_component_free_text_list() function.
+ *
+ * Queries the contact of a calendar component object.  The contact property can
+ * appear several times inside a calendar component, and so a list of
+ * #CalComponentText is returned.
+ **/
+void
+cal_component_get_contact_list (CalComponent *comp, GSList **text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (text_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_text_list (priv->contact_list, icalproperty_get_contact, text_list);
+}
+
+/**
+ * cal_component_set_contact_list:
+ * @comp: A calendar component object.
+ * @text_list: List of #CalComponentText structures.
+ *
+ * Sets the contact of a calendar component object.  The contact property can
+ * appear several times inside a calendar component, and so a list of
+ * #CalComponentText structures is used.
+ **/
+void
+cal_component_set_contact_list (CalComponent *comp, GSList *text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_text_list (comp, icalproperty_new_contact, &priv->contact_list, text_list);
 }
 
 /* Gets a struct icaltimetype value */

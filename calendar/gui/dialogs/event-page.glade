@@ -487,18 +487,17 @@
       </widget>
 
       <widget>
-	<class>GtkEntry</class>
-	<name>contacts</name>
-	<can_focus>True</can_focus>
-	<editable>True</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
+	<class>GtkEventBox</class>
+	<name>contacts-box</name>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
 	  <fill>True</fill>
 	</child>
+
+	<widget>
+	  <class>Placeholder</class>
+	</widget>
       </widget>
 
       <widget>
