@@ -1,3 +1,8 @@
+2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in: Do not output `doc/Makefile' because there is
+	nothing to generate it from.
+
 2000-05-02  Dan Winship  <danw@helixcode.com>
 
 	* configure.in, acconfig.h: add some minimal Kerberos checking.

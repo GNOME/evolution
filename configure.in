@@ -399,7 +399,6 @@ macros/Makefile
 intl/Makefile
 po/Makefile.in
 e-util/Makefile
-doc/Makefile
 libibex/Makefile
 camel/Makefile
 camel/providers/Makefile
@@ -449,4 +448,5 @@ wombat/Makefile
 art/Makefile
 default_user/Makefile
 tools/Makefile
+directory/Makefile
 ])
