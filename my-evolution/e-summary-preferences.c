@@ -364,7 +364,7 @@ struct _CalendarPage {
 typedef struct _PropertyData {
 	ESummary *summary;
 	GnomePropertyBox *box;
-	GtkWidget *new_entry;
+	GtkWidget *new_url_entry, *new_name_entry;
 	GladeXML *xml;
 
 	struct _MailPage *mail;
@@ -448,6 +448,33 @@ find_name_for_url (PropertyData *pd,
 }
 
 static void
+save_known_rdfs (GList *rdfs)
+{
+	FILE *handle;
+	char *rdf_file;
+
+	rdf_file = gnome_util_prepend_user_home ("evolution/config/RDF-urls.txt");
+	handle = fopen (rdf_file, "w");
+	g_free (rdf_file);
+
+	if (handle == NULL) {
+		g_warning ("Error opening RDF-urls.txt");
+		return;
+	}
+
+	for (; rdfs; rdfs = rdfs->next) {
+		struct _RDFInfo *info;
+		char *line;
+		
+		info = rdfs->data;
+		line = g_strconcat (info->url, ",", info->name, "\n", NULL);
+		fputs (line, handle);
+	}
+
+	fclose (handle);
+}
+
+static void
 fill_rdf_all_clist (GtkCList *clist, 
 		    PropertyData *pd)
 {
@@ -464,7 +491,7 @@ fill_rdf_all_clist (GtkCList *clist,
 			char *text[1];
 			int row;
 			
-			text[0] = rdfs[i].name;
+			text[0] = _(rdfs[i].name);
 			row = gtk_clist_append (clist, text);
 			/* We don't need to free this data as it's
 			   static */
@@ -480,6 +507,10 @@ fill_rdf_all_clist (GtkCList *clist,
 		char **tokens;
 		struct _RDFInfo *info;
 		int row;
+
+		if (line[strlen (line) - 1] == '\n') {
+			line[strlen (line) - 1] = 0;
+		}
 
 		tokens = g_strsplit (line, ",", 2);
 		if (tokens == NULL) {
@@ -663,7 +694,7 @@ rdf_add_clicked_cb (GtkButton *button,
 {
 	struct _RDFInfo *info;
 	GList *p;
-	char *url, *text[1];
+	char *text[1];
 	int row;
 
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->all)->selection->data);
@@ -707,15 +738,33 @@ add_dialog_clicked_cb (GnomeDialog *dialog,
 		       int button,
 		       PropertyData *pd)
 {
+	struct _RDFInfo *info;
+	char *url, *name;
 	char *text[1];
+	int row;
 
 	if (button == 1) {
+		gnome_dialog_close (dialog);
 		return;
 	}
 
-	text[0] = gtk_entry_get_text (GTK_ENTRY (pd->new_entry));
-	gtk_clist_append (GTK_CLIST (pd->rdf->all), text);
-	
+	url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
+	if (url == NULL || *text == 0) {
+		gnome_dialog_close (dialog);
+		return;
+	}
+	name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
+	info = g_new (struct _RDFInfo, 1);
+	info->url = g_strdup (url);
+	info->name = name ? g_strdup (name) : g_strdup (url);
+
+	text[0] = info->name;
+	row = gtk_clist_append (GTK_CLIST (pd->rdf->all), text);
+	gtk_clist_set_row_data_full (GTK_CLIST (pd->rdf->all), row, info,
+				     free_rdf_info);
+	pd->rdf->known = g_list_append (pd->rdf->known, info);
+
+	save_known_rdfs (pd->rdf->known);
 	gnome_dialog_close (dialog);
 }
 
@@ -724,7 +773,7 @@ rdf_new_url_clicked_cb (GtkButton *button,
 			PropertyData *pd)
 {
 	static GtkWidget *add_dialog = NULL;
-	GtkWidget *label;
+	GtkWidget *label, *hbox;
 
 	if (add_dialog != NULL) {
 		gdk_window_raise (add_dialog->window);
@@ -743,9 +792,21 @@ rdf_new_url_clicked_cb (GtkButton *button,
 	label = gtk_label_new (_("Enter the URL of the RDF file you wish to add"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
 			    TRUE, TRUE, 0);
-	pd->new_entry = gtk_entry_new ();
+	hbox = gtk_hbox_new (FALSE, 2);
+	label = gtk_label_new (_("Name:"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	pd->new_name_entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), pd->new_name_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox,
+			    TRUE, TRUE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	label = gtk_label_new (_("URL:"));
+	pd->new_url_entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), pd->new_url_entry, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), 
-			    pd->new_entry, TRUE, TRUE, 0);
+			    hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (add_dialog);
 }
 
@@ -1049,6 +1110,7 @@ static void
 free_property_dialog (PropertyData *pd)
 {
 	if (pd->rdf) {
+		g_list_free (pd->rdf->known);
 		g_free (pd->rdf);
 	}
 	if (pd->mail) {

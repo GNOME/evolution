@@ -1,5 +1,14 @@
 2001-06-30  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (fill_rdf_all_clist): Load the URLs from a
+	file.
+	(save_known_urls): Save the known URLs.
+	(add_dialog_clicked_cb): Close the dialog on Cancel. Save the URLs on
+	Ok.
+	(rdf_new_url_clicked_cb): Add some labels and an entry for the name.
+
+2001-06-30  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (fill_rdf_all_clist): Fill with names
 	instead of URLs.
 	(find_name_for_url): Given a URL find a name for it if we know it.
