@@ -1,20 +1,27 @@
+2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (write_headers): Respect Gtk theme colors for the
+	fonts and calculate a new table gbcolor based on gtk theme
+	preferences.
+
+	* mail-config.glade: Label the enabled field.
+
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
 	* message-list.etspec: Make the date column smaller and the
 	subject column larger, relatively.
 
-	* mail-folder-cache.c (make_folder_status): Don't display
-	"0 hidden".
+	* mail-folder-cache.c (make_folder_status): Don't display "0
+	hidden".
 
-	* folder-browser.c (on_key_press): Make 'q' a toggle, not
-	one-way.
+	* folder-browser.c (on_key_press): Make 'q' a toggle, not one-way.
 
 	* message-list.etspec: Rename "Date" column to "Sent".
 
 2001-07-25  Anna Marie Dirks <anna@ximian.com> 
-	* mail-config.glade: fixed a mis-spelling of "Fashion" in
-	the mail accounts window. (See bug 5433)
 
+	* mail-config.glade: fixed a mis-spelling of "Fashion" in the mail
+	accounts window. (See bug 5433)
 
 2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -864,27 +864,68 @@ write_header (CamelMimeMessage *message, MailDisplay *md,
 		write_text_header (name, value, flags, md->html, md->stream);
 }
 
+#define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
+
 static void
 write_headers (CamelMimeMessage *message, MailDisplay *md)
 {
-	GArray *gheaders;
+	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
 	CamelMediumHeader *headers, default_headers[] = {
 		{ "From", NULL }, { "Reply-To", NULL },
 		{ "To", NULL }, { "Cc" , NULL }, { "Subject", NULL },
 		{ "Date", NULL }
 	};
+	char bgcolor[7], fontcolor[7];
+	GtkStyle *style = NULL;
 	int i, len, flags;
-	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
+	GArray *gheaders;
+	
+	/* My favorite thing to do...much around with colors so we respect people's stupid themes */
+	style = gtk_widget_get_style (GTK_WIDGET (md->html));
+	if (style) {
+		int state = GTK_WIDGET_STATE (GTK_WIDGET (md->html));
+		gushort r, g, b;
+		
+		r = style->base[state].red / 256;
+		g = style->base[state].green / 256;
+		b = style->base[state].blue / 256;
+		
+		if (COLOR_IS_LIGHT (r, g, b)) {
+			r *= 0.92;
+			g *= 0.92;
+			b *= 0.92;
+		} else {
+			r = 255 - (0.92 * (255 - r));
+			g = 255 - (0.92 * (255 - g));
+			b = 255 - (0.92 * (255 - b));
+		}
+		
+		g_warning ("%d, %d, %d", r, g, b);
+		sprintf (bgcolor, "%.2X%.2X%.2X", r, g, b);
+		
+		r = style->text[state].red;
+		g = style->text[state].green / 256;
+		b = style->text[state].blue / 256;
+		
+		sprintf (fontcolor, "%.2X%.2X%.2X", r, g, b);
+	} else {
+		strcpy (bgcolor, "EEEEEE");
+		strcpy (fontcolor, "000000");
+	}
 	
 	mail_html_write (md->html, md->stream,
 			 "<table width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0>"
 			 "<tr><td></td></tr></table></td></tr>"
 			 "<tr><td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
-			 "<td width=\"100%%\"><font color=\"#000000\">"
+			 "<td width=\"100%%\"><font color=\"#");
+	mail_html_write (md->html, md->stream, fontcolor);
+	mail_html_write (md->html, md->stream, "\">"
 			 "<table bgcolor=\"#000000\" width=\"100%%\" "
 			 "cellspacing=0 cellpadding=1><tr><td>"
-			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
+			 "<table bgcolor=\"#");
+	mail_html_write (md->html, md->stream, bgcolor);
+	mail_html_write (md->html, md->stream, "\" width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td><table>\n");
 	
 	if (full) {
