@@ -1,5 +1,11 @@
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mbox-store.c (get_folder_info): Use
+	CAMEL_FODLER_NOCHILDREN rather than NOINFERIORS because
+	NOINFERIORS means the folder cannot contain subfolders. However,
+	our mbox structure always allows subfolders.
+	(scan_dir): Same.
+
 	* camel-store.h: Add a CAMEL_FOLDER_NOCHILDREN flag.
 
 	* providers/imap/camel-imap-store.c (get_folders): Same as below.

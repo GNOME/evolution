@@ -608,7 +608,7 @@ scan_dir (CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const
 			g_free (full_name);
 			
 			if (S_ISDIR (st.st_mode)) {
-				fi->flags = (fi->flags & ~CAMEL_FOLDER_NOINFERIORS) | CAMEL_FOLDER_CHILDREN;
+				fi->flags = (fi->flags & ~CAMEL_FOLDER_NOCHILDREN) | CAMEL_FOLDER_CHILDREN;
 			} else {
 				fi->unread_message_count = unread;
 				fi->flags &= ~CAMEL_FOLDER_NOSELECT;
@@ -630,7 +630,7 @@ scan_dir (CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const
 			if (S_ISDIR (st.st_mode))
 				fi->flags = CAMEL_FOLDER_NOSELECT;
 			else
-				fi->flags = CAMEL_FOLDER_NOINFERIORS;
+				fi->flags = CAMEL_FOLDER_NOCHILDREN;
 			
 			if (tail == NULL)
 				folders = fi;
@@ -741,7 +741,7 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	if (fi->child)
 		fi->flags |= CAMEL_FOLDER_CHILDREN;
 	else
-		fi->flags |= CAMEL_FOLDER_NOINFERIORS;
+		fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 	
 	g_free (subdir);
 	
