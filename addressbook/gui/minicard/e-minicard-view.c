@@ -274,6 +274,39 @@ card_added_cb (EBook* book, EBookStatus status, const char *id,
 	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
 }
 
+static void
+card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
+{
+	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
+}
+
+/* Callback for the add_card signal from the contact editor */
+static void
+add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_add_card (book, card, card_added_cb, NULL);
+}
+
+/* Callback for the commit_card signal from the contact editor */
+static void
+commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_commit_card (book, card, card_changed_cb, NULL);
+}
+
+/* Callback used when the contact editor is closed */
+static void
+editor_closed_cb (EContactEditor *ce, gpointer data)
+{
+	gtk_object_unref (GTK_OBJECT (ce));
+}
+
 static gboolean
 e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -285,49 +318,25 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 		if (((GdkEventButton *)event)->button == 1)
 		{
-			gint result;
 			ECard *card;
-			GtkWidget* contact_editor;
+			EContactEditor *ce;
 			EBook *book;
-			GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
-		
+
 			card = e_card_new("");
-			contact_editor = e_contact_editor_new(card);
-			gtk_object_sink(GTK_OBJECT(card));
-		
-			gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
-		
+
 			gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
-		
-		
 			g_assert (E_IS_BOOK (book));
-		
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
-					    contact_editor, TRUE, TRUE, 0);
-		
-			gtk_widget_show (contact_editor);
-			gtk_widget_show (dlg);
-		
-			gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
-			result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-		
-		
-			/* If the user clicks "okay"...*/
-			if (result == 0) {
-				ECard *card;
-				g_assert (contact_editor);
-				g_assert (GTK_IS_OBJECT (contact_editor));
-				gtk_object_get(GTK_OBJECT(contact_editor),
-					       "card", &card,
-					       NULL);
-			
-				/* Add the card in the contact editor to our ebook */
-				e_book_add_card (
-						 book,
-						 card,
-						 card_added_cb,
-						 NULL);
-			}
+
+			ce = e_contact_editor_new (card, TRUE);
+
+			gtk_signal_connect (GTK_OBJECT (ce), "add_card",
+					    GTK_SIGNAL_FUNC (add_card_cb), book);
+			gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
+					    GTK_SIGNAL_FUNC (commit_card_cb), book);
+			gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+					    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+
+			gtk_object_sink(GTK_OBJECT(card));
 		}
 		return TRUE;
 	default:

@@ -102,59 +102,62 @@ card_modified_cb (EBook* book, EBookStatus status,
 	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
 }
 
+/* Callback for the add_card signal from the contact editor */
+static void
+add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_add_card (book, card, card_added_cb, NULL);
+}
+
+/* Callback for the commit_card signal from the contact editor */
+static void
+commit_card_cb (EContactEditor *ce, ECard *card, gpointer data)
+{
+	EBook *book;
+
+	book = E_BOOK (data);
+	e_book_commit_card (book, card, card_modified_cb, NULL);
+}
+
+/* Callback used when the contact editor is closed */
+static void
+editor_closed_cb (EContactEditor *ce, gpointer data)
+{
+	gtk_object_unref (GTK_OBJECT (ce));
+}
+
 static void
 new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	gint result;
 	ECard *card;
-	GtkWidget* contact_editor;
 	EBook *book;
+	EContactEditor *ce;
 	AddressbookView *view = (AddressbookView *) user_data;
 	GtkObject *object;
-	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", GNOME_STOCK_BUTTON_CANCEL, NULL);
 
 	card = e_card_new("");
-	contact_editor = e_contact_editor_new(card);
-	gtk_object_sink(GTK_OBJECT(card));
-
-	gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
 
 	if (view->view)
 		object = GTK_OBJECT(view->view);
 	else
 		object = GTK_OBJECT(view->model);
+
 	gtk_object_get(object, "book", &book, NULL);
-
-
 	g_assert (E_IS_BOOK (book));
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
-			    contact_editor, TRUE, TRUE, 0);
+	ce = e_contact_editor_new (card, TRUE);
 
-	gtk_widget_show (contact_editor);
-	gtk_widget_show (dlg);
+	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
+			    GTK_SIGNAL_FUNC (add_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
+			    GTK_SIGNAL_FUNC (commit_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
-	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-
-	
-	/* If the user clicks "okay"...*/
-	if (result == 0) {
-		ECard *card;
-		g_assert (contact_editor);
-		g_assert (GTK_IS_OBJECT (contact_editor));
-		gtk_object_get(GTK_OBJECT(contact_editor),
-			       "card", &card,
-			       NULL);
-		
-		/* Add the card in the contact editor to our ebook */
-		e_book_add_card (
-			book,
-			card,
-			card_added_cb,
-			NULL);
-	}
-	
+	gtk_object_sink(GTK_OBJECT(card));
 }
 
 static void
@@ -813,15 +816,8 @@ static void
 table_double_click(ETable *table, gint row, AddressbookView *view)
 {
 	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
-	gint result;
-	GtkWidget* contact_editor;
 	EBook *book;
-	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", GNOME_STOCK_BUTTON_CANCEL, NULL);
-
-	contact_editor = e_contact_editor_new(card);
-	gtk_object_unref(GTK_OBJECT(card));
-
-	gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
+	EContactEditor *ce;
 
 	gtk_object_get(GTK_OBJECT(view->model),
 		       "book", &book,
@@ -829,34 +825,16 @@ table_double_click(ETable *table, gint row, AddressbookView *view)
 
 	g_assert (E_IS_BOOK (book));
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
-			    contact_editor, TRUE, TRUE, 0);
+	ce = e_contact_editor_new (card, FALSE);
 
-	gtk_widget_show (contact_editor);
-	gtk_widget_show (dlg);
+	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
+			    GTK_SIGNAL_FUNC (add_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
+			    GTK_SIGNAL_FUNC (commit_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
-	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-
-	
-	/* If the user clicks "okay"...*/
-	if (result == 0) {
-		ECard *card;
-		g_assert (contact_editor);
-		g_assert (GTK_IS_OBJECT (contact_editor));
-		gtk_object_get(GTK_OBJECT(contact_editor),
-			       "card", &card,
-			       NULL);
-		
-		/* Add the card in the contact editor to our ebook */
-		e_book_commit_card (
-			book,
-			card,
-			card_modified_cb,
-			NULL);
-	}
-	
-	gnome_dialog_close(GNOME_DIALOG (dlg));
+	gtk_object_unref(GTK_OBJECT(card));
 }
 
 static void

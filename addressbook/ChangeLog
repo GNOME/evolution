@@ -1,3 +1,39 @@
+2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* contact-editor/e-contact-editor.h (EContactEditor): Now this
+	derives from GtkObject.  It follows the same strategy as the
+	EventEditor in the calendar.
+	(EContactEditor): Added an is_new_card field so that we can know
+	whether to add() or commit() the card.
+
+	* contact-editor/e-contact-editor.c (e_contact_editor_get_type):
+	Derive from GtkObject.
+	(e_contact_editor_class_init): Likewise.
+	(e_contact_editor_class_init): Added an "is_new_card" argument.
+	(e_contact_editor_set_arg): Handle ARG_IS_NEW_CARD.
+	(e_contact_editor_get_arg): Likewise.
+	(e_contact_editor_new): Take in an is_new_arg argument and set it
+	on the object.
+	(e_contact_editor_init): Load the app widget into the app field of
+	the EContactEditor structure.  Create its UIHandler as well.
+	(e_contact_editor_class_init): New "add_card", "commit_card", and
+	"editor_closed" signals.
+
+	* contact-editor/test-editor.c (main): Modified for the new API.
+	(editor_closed_cb): Tweaked for the new API.
+	Since this test program does not use Bonobo, it doesn't work,
+	though.
+
+	* gui/component/addressbook.c (new_contact_cb): Use the new
+	contact editor API.
+	(table_double_click): Ditto.
+
+	* gui/minicard/e-minicard-view.c (e_minicard_view_event): Use the
+	new contact editor API.
+
+	* gui/minicard/e-minicard.c (e_minicard_event): Use the new
+	contact editor API.
+
 2000-06-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* contact-editor/Makefile.am (contact_editor_test_LDADD): Remove

@@ -29,6 +29,14 @@
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <e-util/e-gui-utils.h>
 
+/* Signal IDs */
+enum {
+	ADD_CARD,
+	COMMIT_CARD,
+	EDITOR_CLOSED,
+	LAST_SIGNAL
+};
+
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
 static void e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -47,12 +55,15 @@ static void set_fields(EContactEditor *editor);
 static void set_address_field(EContactEditor *editor, int result);
 static void add_field_callback(GtkWidget *widget, EContactEditor *editor);
 
-static GtkVBoxClass *parent_class = NULL;
+static GtkObjectClass *parent_class = NULL;
+
+static guint contact_editor_signals[LAST_SIGNAL];
 
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_CARD
+	ARG_CARD,
+	ARG_IS_NEW_CARD
 };
 
 enum {
@@ -80,7 +91,7 @@ e_contact_editor_get_type (void)
         (GtkClassInitFunc) NULL,
       };
 
-      contact_editor_type = gtk_type_unique (gtk_vbox_get_type (), &contact_editor_info);
+      contact_editor_type = gtk_type_unique (GTK_TYPE_OBJECT, &contact_editor_info);
     }
 
   return contact_editor_type;
@@ -90,15 +101,43 @@ static void
 e_contact_editor_class_init (EContactEditorClass *klass)
 {
   GtkObjectClass *object_class;
-  GtkVBoxClass *vbox_class;
 
   object_class = (GtkObjectClass*) klass;
-  vbox_class = (GtkVBoxClass *) klass;
 
-  parent_class = gtk_type_class (gtk_vbox_get_type ());
+  parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
   gtk_object_add_arg_type ("EContactEditor::card", GTK_TYPE_OBJECT, 
 			   GTK_ARG_READWRITE, ARG_CARD);
+  gtk_object_add_arg_type ("EContactEditor::is_new_card", GTK_TYPE_BOOL,
+			   GTK_ARG_READWRITE, ARG_IS_NEW_CARD);
+
+  contact_editor_signals[ADD_CARD] =
+	  gtk_signal_new ("add_card",
+			  GTK_RUN_FIRST,
+			  object_class->type,
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, add_card),
+			  gtk_marshal_NONE__OBJECT,
+			  GTK_TYPE_NONE, 1,
+			  GTK_TYPE_OBJECT);
+
+  contact_editor_signals[COMMIT_CARD] =
+	  gtk_signal_new ("commit_card",
+			  GTK_RUN_FIRST,
+			  object_class->type,
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, commit_card),
+			  gtk_marshal_NONE__OBJECT,
+			  GTK_TYPE_NONE, 1,
+			  GTK_TYPE_OBJECT);
+
+  contact_editor_signals[EDITOR_CLOSED] =
+	  gtk_signal_new ("editor_closed",
+			  GTK_RUN_FIRST,
+			  object_class->type,
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, editor_closed),
+			  gtk_marshal_NONE__NONE,
+			  GTK_TYPE_NONE, 0);
+
+  gtk_object_class_add_signals (object_class, contact_editor_signals, LAST_SIGNAL);
  
   object_class->set_arg = e_contact_editor_set_arg;
   object_class->get_arg = e_contact_editor_get_arg;
@@ -463,12 +502,327 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		g_free(categories);
 }
 
+/* Emits the signal to request saving a card */
+static void
+save_card (EContactEditor *ce)
+{
+	if (ce->is_new_card)
+		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[ADD_CARD],
+				 ce->card);
+	else
+		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[COMMIT_CARD],
+				 ce->card);
+
+	/* FIXME: should we set the ce->is_new_card here or have the client code
+	 * set the "is_new_card" argument on the contact editor object?
+	 */
+
+	ce->is_new_card = FALSE;
+}
+
+/* Closes the dialog box and emits the appropriate signals */
+static void
+close_dialog (EContactEditor *ce)
+{
+	g_assert (ce->app != NULL);
+
+	gtk_widget_destroy (ce->app);
+	ce->app = NULL;
+
+	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[EDITOR_CLOSED]);
+}
+
+/* Menu callbacks */
+
+/* File/Save callback */
+static void
+file_save_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+	save_card (ce);
+}
+
+/* File/Close callback */
+static void
+file_close_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+	close_dialog (ce);
+}
+
+/* Menu bar */
+
+static GnomeUIInfo file_new_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Appointment"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Meeting Re_quest"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Mail Message"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Task"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Task _Request"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Journal Entry"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Note"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Ch_oose Form..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo file_page_setup_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Memo Style"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Define Print _Styles..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo file_menu[] = {
+	GNOMEUIINFO_MENU_NEW_SUBTREE (file_new_menu),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: S_end"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_SAVE_ITEM (file_save_cb, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Delete"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Move to Folder..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Cop_y to Folder..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("Page Set_up"), file_page_setup_menu),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print Pre_view"), NULL, NULL),
+	GNOMEUIINFO_MENU_PRINT_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_PROPERTIES_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CLOSE_ITEM (file_close_cb, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo edit_object_menu[] = {
+	GNOMEUIINFO_ITEM_NONE ("FIXME: what goes here?", NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo edit_menu[] = {
+	GNOMEUIINFO_MENU_UNDO_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_REDO_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CUT_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_COPY_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_PASTE_ITEM (NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Paste _Special..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_CLEAR_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SELECT_ALL_ITEM (NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Mark as U_nread"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_MENU_FIND_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_FIND_AGAIN_ITEM (NULL, NULL),
+	GNOMEUIINFO_SUBTREE (N_("_Object"), edit_object_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_previous_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Unread Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Fi_rst Item in Folder"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_next_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Unread Item"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Last Item in Folder"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_toolbars_menu[] = {
+	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: _Standard"), NULL, NULL, NULL, NULL,
+	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: __Formatting"), NULL, NULL, NULL, NULL,
+	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Customize..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo view_menu[] = {
+	GNOMEUIINFO_SUBTREE (N_("Pre_vious"), view_previous_menu),
+	GNOMEUIINFO_SUBTREE (N_("Ne_xt"), view_next_menu),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("_Toolbars"), view_toolbars_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo insert_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _File..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: It_em..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Object..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo format_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Font..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Paragraph..."), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo tools_forms_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Ch_oose Form..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Desi_gn This Form"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: D_esign a Form..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Publish _Form..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Pu_blish Form As..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Script _Debugger"), NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo tools_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Spelling..."), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_SUBTREE (N_("_Forms"), tools_forms_menu),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo actions_menu[] = {
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _New Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New _Contact from Same Company"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New _Letter to Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New _Message to Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New Meetin_g with Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Plan a Meeting..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New _Task for Contact"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: New _Journal Entry for Contact"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Flag for Follow Up..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Display Map of Address"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Open Web Page"), NULL, NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Forward as _vCard"), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: For_ward"), NULL, NULL)
+};
+
+static GnomeUIInfo help_menu[] = {
+	GNOMEUIINFO_ITEM_NONE ("FIXME: fix Bonobo so it supports help items!", NULL, NULL),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo main_menu[] = {
+	GNOMEUIINFO_MENU_FILE_TREE (file_menu),
+	GNOMEUIINFO_MENU_EDIT_TREE (edit_menu),
+	GNOMEUIINFO_MENU_VIEW_TREE (view_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Insert"), insert_menu),
+	GNOMEUIINFO_SUBTREE (N_("F_ormat"), format_menu),
+	GNOMEUIINFO_SUBTREE (N_("_Tools"), tools_menu),
+	GNOMEUIINFO_SUBTREE (N_("Actio_ns"), actions_menu),
+	GNOMEUIINFO_MENU_HELP_TREE (help_menu),
+	GNOMEUIINFO_END
+};
+
+/* Creates the menu bar for the contact editor */
+static void
+create_menu (EContactEditor *ce)
+{
+	BonoboUIHandlerMenuItem *list;
+
+	bonobo_ui_handler_create_menubar (ce->uih);
+
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (main_menu, ce);
+	bonobo_ui_handler_menu_add_list (ce->uih, "/", list);
+}
+
+/* Toolbar/Save and Close callback */
+static void
+tb_save_and_close_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+	save_card (ce);
+	close_dialog (ce);
+}
+
+/* Toolbar */
+
+static GnomeUIInfo toolbar[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Save and Close"),
+				N_("Save the appointment and close the dialog box"),
+				tb_save_and_close_cb,
+				GNOME_STOCK_PIXMAP_SAVE),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print..."),
+			       N_("Print this item"), NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."),
+			       N_("Insert a file as an attachment"), NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Recurrence..."),
+			       N_("Configure recurrence rules"), NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite Attendees..."),
+			       N_("Invite attendees to a meeting"), NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Delete"),
+			       N_("Delete this item"), NULL),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Previous"),
+			       N_("Go to the previous item"), NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Next"),
+			       N_("Go to the next item"), NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Help"),
+				N_("See online help"), NULL, GNOME_STOCK_PIXMAP_HELP),
+	GNOMEUIINFO_END
+};
+
+/* Creates the toolbar for the contact editor */
+static void
+create_toolbar (EContactEditor *ce)
+{
+	BonoboUIHandlerToolbarItem *list;
+	GnomeDockItem *dock_item;
+	GtkWidget *toolbar_child;
+
+	bonobo_ui_handler_create_toolbar (ce->uih, "Toolbar");
+
+	/* Fetch the toolbar.  What a pain in the ass. */
+
+	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (ce->app), GNOME_APP_TOOLBAR_NAME);
+	g_assert (dock_item != NULL);
+
+	toolbar_child = gnome_dock_item_get_child (dock_item);
+	g_assert (toolbar_child != NULL && GTK_IS_TOOLBAR (toolbar_child));
+
+	/* Turn off labels as GtkToolbar sucks */
+	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar_child), GTK_TOOLBAR_ICONS);
+
+	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ce);
+	bonobo_ui_handler_toolbar_add_list (ce->uih, "/Toolbar", list);
+}
+
+/* Callback used when the dialog box is destroyed */
+static gint
+app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+
+	close_dialog (ce);
+	return TRUE;
+}
+
 static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-
 
 	e_contact_editor->email_info = NULL;
 	e_contact_editor->phone_info = NULL;
@@ -498,15 +852,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
 	e_contact_editor->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "notebook-contact-editor");
-	if (!widget) {
-		return;
-	}
-	gtk_widget_reparent(widget,
-			    GTK_WIDGET(e_contact_editor));
+	e_contact_editor->app = glade_xml_get_widget (gui, "contact editor");
 
-	if (GTK_IS_CONTAINER(widget))
-		e_container_foreach_leaf(GTK_CONTAINER(widget), (GtkCallback) add_field_callback, e_contact_editor);
+	e_container_foreach_leaf (GTK_CONTAINER (e_contact_editor->app),
+				  (GtkCallback) add_field_callback,
+				  e_contact_editor);
 
 	_replace_buttons(e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
@@ -520,6 +870,24 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && GTK_IS_BUTTON(widget))
 		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
 				   categories_clicked, e_contact_editor);
+
+	/* Build the menu and toolbar */
+
+	e_contact_editor->uih = bonobo_ui_handler_new ();
+	if (!e_contact_editor->uih) {
+		g_message ("e_contact_editor_init(): eeeeek, could not create the UI handler!");
+		return;
+	}
+
+	bonobo_ui_handler_set_app (e_contact_editor->uih, GNOME_APP (e_contact_editor->app));
+
+	create_menu (e_contact_editor);
+	create_toolbar (e_contact_editor);
+
+	/* Connect to the deletion of the dialog */
+
+	gtk_signal_connect (GTK_OBJECT (e_contact_editor->app), "delete_event",
+			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
 }
 
 void
@@ -567,14 +935,20 @@ e_contact_editor_destroy (GtkObject *object) {
 	gtk_object_unref(GTK_OBJECT(e_contact_editor->gui));
 }
 
-GtkWidget*
-e_contact_editor_new (ECard *card)
+EContactEditor *
+e_contact_editor_new (ECard *card, gboolean is_new_card)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_contact_editor_get_type ()));
-	gtk_object_set (GTK_OBJECT(widget),
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
+
+	gtk_object_set (GTK_OBJECT (ce),
 			"card", card,
+			"is_new_card", is_new_card,
 			NULL);
-	return widget;
+
+	gtk_widget_show (ce->app);
+	return ce;
 }
 
 static void
@@ -594,6 +968,10 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       NULL);
 		fill_in_info(editor);
 		break;
+
+	case ARG_IS_NEW_CARD:
+		editor->is_new_card = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		break;
 	}
 }
 
@@ -610,6 +988,11 @@ e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		extract_info(e_contact_editor);
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_contact_editor->card);
 		break;
+
+	case ARG_IS_NEW_CARD:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_new_card ? TRUE : FALSE;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;

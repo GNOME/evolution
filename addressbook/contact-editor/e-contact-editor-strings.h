@@ -4,6 +4,12 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("_Add");
+gchar *s = N_("_Delete");
+gchar *s = N_("Phone Types");
+gchar *s = N_("New phone type");
+gchar *s = N_("Add");
+gchar *s = N_("New phone type");
 gchar *s = N_("Contact Editor");
 gchar *s = N_("_Full Name...");
 gchar *s = N_("File As:");
@@ -33,9 +39,3 @@ gchar *s = N_("_Manager's Name:");
 gchar *s = N_("Anni_versary:");
 gchar *s = N_("No_tes:");
 gchar *s = N_("Details");
-gchar *s = N_("_Add");
-gchar *s = N_("_Delete");
-gchar *s = N_("Phone Types");
-gchar *s = N_("New phone type");
-gchar *s = N_("Add");
-gchar *s = N_("New phone type");

@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
+#include <bonobo.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
 
@@ -52,13 +53,17 @@ typedef struct _EContactEditorClass  EContactEditorClass;
 
 struct _EContactEditor
 {
-	GtkVBox parent;
+	GtkObject object;
 	
 	/* item specific fields */
 	ECard *card;
 	ECardSimple *simple;
+
+	/* UI handler */
+	BonoboUIHandler *uih;
 	
 	GladeXML *gui;
+	GtkWidget *app;
 	GnomeUIInfo *email_info;
 	GnomeUIInfo *phone_info;
 	GnomeUIInfo *address_info;
@@ -77,15 +82,24 @@ struct _EContactEditor
 	ECardSimpleAddressId address_choice;
 	
 	GList *arbitrary_fields;
+
+	/* Whether we are editing a new card or an existing one */
+	guint is_new_card : 1;
 };
 
 struct _EContactEditorClass
 {
-	GtkVBoxClass parent_class;
+	GtkObjectClass parent_class;
+
+	/* Notification signals */
+
+	void (* add_card) (EContactEditor *ce, ECard *card);
+	void (* commit_card) (EContactEditor *ce, ECard *card);
+	void (* editor_closed) (EContactEditor *ce);
 };
 
 
-GtkWidget *e_contact_editor_new(ECard *card);
+EContactEditor *e_contact_editor_new (ECard *card, gboolean is_new_card);
 GtkType    e_contact_editor_get_type (void);
 
 #ifdef __cplusplus
