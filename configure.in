@@ -1045,7 +1045,7 @@ dnl EVO_SET_COMPILE_FLAGS(E_WIDGETS, bonobo_conf bonobox_print gdk_pixbuf gnomec
 dnl AC_SUBST(E_WIDGETS_CFLAGS)
 dnl AC_SUBST(E_WIDGETS_LIBS)
 dnl 
-EVO_SET_COMPILE_FLAGS(IMPORTERS, gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-1.0 >= $EDS_REQUIRED)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1358,6 +1358,7 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/importers/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
