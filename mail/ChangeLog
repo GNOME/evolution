@@ -1,3 +1,9 @@
+2001-03-25  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (unref_standard_folders): Fix a bug in this
+	that probably would have been noticed sooner if ETree hadn't always
+	made the mailer crash before you got here. :-)
+
 2001-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (transport_auth_type_changed): Allow the

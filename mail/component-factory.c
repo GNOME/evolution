@@ -171,7 +171,7 @@ unref_standard_folders (void)
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
 		if (standard_folders[i].folder)
-			camel_object_unref (CAMEL_OBJECT (standard_folders[i].folder));
+			camel_object_unref (CAMEL_OBJECT (*standard_folders[i].folder));
 	}
 }
 
