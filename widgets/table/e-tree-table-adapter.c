@@ -446,11 +446,15 @@ static void
 update_node(ETreeTableAdapter *etta, ETreePath path)
 {
 	ETreePath parent = e_tree_model_node_get_parent(etta->priv->source, path);
+	gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, path);
 	delete_node(etta, parent, path);
 	if (e_tree_model_node_is_root(etta->priv->source, path))
 		generate_tree(etta, path);
 	else
 		insert_node(etta, parent, path);
+
+	if (expanded != e_tree_model_get_expanded_default (etta->priv->source))
+		e_tree_table_adapter_node_set_expanded (etta, path, expanded);
 }
 
 static void
@@ -1082,10 +1086,11 @@ e_tree_table_adapter_show_node (ETreeTableAdapter *etta, ETreePath path)
 gboolean     
 e_tree_table_adapter_node_is_expanded (ETreeTableAdapter *etta, ETreePath path)
 {
-	if (!e_tree_model_node_is_expandable (etta->priv->source, path))
+	node_t *node = get_node(etta, path);
+	if (!e_tree_model_node_is_expandable (etta->priv->source, path) || !node)
 		return FALSE;
 
-	return get_node(etta, path)->expanded;
+	return node->expanded;
 }
 
 void
