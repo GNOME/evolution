@@ -99,6 +99,8 @@ service_copy (const MailConfigService *source)
 	new = g_new0 (MailConfigService, 1);
 	new->url = g_strdup (source->url);
 	new->keep_on_server = source->keep_on_server;
+	new->auto_check = source->auto_check;
+	new->auto_check_time = source->auto_check_time;
 	new->save_passwd = source->save_passwd;
 	new->use_ssl = source->use_ssl;
 	
@@ -201,6 +203,7 @@ config_read (void)
 	gchar *str;
 	gint len, i;
 	gboolean have_default = FALSE;
+	gboolean def;
 	
 	mail_config_clear ();
 	
@@ -260,6 +263,16 @@ config_read (void)
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		source->keep_on_server = gnome_config_get_bool (path);
 		g_free (path);
+		path = g_strdup_printf ("source_auto_check_%d", i);
+		source->auto_check = gnome_config_get_bool_with_default (path, &def);
+		if (def)
+			source->auto_check = FALSE;
+		g_free (path);
+		path = g_strdup_printf ("source_auto_check_time_%d", i);
+		source->auto_check_time = gnome_config_get_int_with_default (path, &def);
+		if (source->auto_check && def)
+			source->auto_check = FALSE;
+		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		source->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
@@ -314,31 +327,41 @@ config_read (void)
 	/* Format */
 	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
 			       evolution_dir);
-	config->send_html = gnome_config_get_bool (str);
+	config->send_html = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->send_html = FALSE;
 	g_free (str);
 	
 	/* Mark as seen timeout */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout=1500", 
+	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
 			       evolution_dir);
-	config->seen_timeout = gnome_config_get_int (str);
+	config->seen_timeout = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->seen_timeout = 1500;
 	g_free (str);
 	
 	/* Show Messages Threaded */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
 			       evolution_dir);
-	config->thread_list = gnome_config_get_bool (str);
+	config->thread_list = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->thread_list = FALSE;
 	g_free (str);
 	
 	/* Size of vpaned in mail view */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size=200", 
+	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
 			       evolution_dir);
-	config->paned_size = gnome_config_get_int (str);
+	config->paned_size = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->paned_size = 200;
 	g_free (str);
 	
 	/* Empty Subject */
-	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject=true", 
+	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
 			       evolution_dir);
-	config->prompt_empty_subject = gnome_config_get_bool (str);
+	config->prompt_empty_subject = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->prompt_empty_subject = TRUE;
 	g_free (str);
 	
 	/* PGP/GPG */
@@ -346,9 +369,11 @@ config_read (void)
 			       evolution_dir);
 	config->pgp_path = gnome_config_get_string (str);
 	g_free (str);
-	str = g_strdup_printf ("=%s/config/Mail=/PGP/type=0", 
+	str = g_strdup_printf ("=%s/config/Mail=/PGP/type", 
 			       evolution_dir);
-	config->pgp_type = gnome_config_get_int (str);
+	config->pgp_type = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->pgp_type = 0;
 	g_free (str);
 	
 	gnome_config_sync ();
@@ -402,8 +427,17 @@ mail_config_write (void)
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		gnome_config_set_bool (path, account->source->keep_on_server);
 		g_free (path);
+		path = g_strdup_printf ("source_auto_check_%d", i);
+		gnome_config_set_bool (path, account->source->auto_check);
+		g_free (path);
+		path = g_strdup_printf ("source_auto_check_time_%d", i);
+		gnome_config_set_int (path, account->source->auto_check_time);
+		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		gnome_config_set_bool (path, account->source->save_passwd);
+		g_free (path);
+		path = g_strdup_printf ("source_use_ssl_%d", i);
+		gnome_config_set_bool (path, account->source->use_ssl);
 		g_free (path);
 		
 		/* transport info */
@@ -432,6 +466,28 @@ mail_config_write (void)
 	}
 	gnome_config_pop_prefix ();
 	
+	gnome_config_sync ();
+}
+
+void
+mail_config_write_on_exit (void)
+{
+	gchar *str;
+	GSList *sources;
+	MailConfigService *s;
+	
+	/* Show Messages Threaded */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->thread_list);
+	g_free (str);
+	
+	/* Size of vpaned in mail view */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->paned_size);
+	g_free (str);
+	
 	/* Mark as seen timeout */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
 			       evolution_dir);
@@ -458,34 +514,6 @@ mail_config_write (void)
 	str = g_strdup_printf ("=%s/config/Mail=/PGP/type", 
 			       evolution_dir);
 	gnome_config_set_int (str, config->pgp_type);
-	g_free (str);
-	
-	gnome_config_sync ();
-}
-
-void
-mail_config_write_on_exit (void)
-{
-	gchar *str;
-	GSList *sources;
-	MailConfigService *s;
-	
-	/* Show Messages Threaded */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->thread_list);
-	g_free (str);
-	
-	/* Mark as seen timeout */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->seen_timeout);
-	g_free (str);
-	
-	/* Size of vpaned in mail view */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->paned_size);
 	g_free (str);
 	
 	/* Passwords */

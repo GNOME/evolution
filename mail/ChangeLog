@@ -1,3 +1,10 @@
+2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Properly do defaults here.
+	(mail_config_write): Removed some of the settings being saved
+	here.
+	(mail_config_write_on_exit): Save those settings here instead.
+
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write_on_exit): Oops, save the

@@ -42,6 +42,8 @@ typedef struct {
 typedef struct {
 	gchar *url;
 	gboolean keep_on_server;
+	gboolean auto_check;
+	gint auto_check_time;
 	gboolean save_passwd;
 	gboolean use_ssl;
 } MailConfigService;
