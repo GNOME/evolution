@@ -593,6 +593,7 @@ main (int argc, char **argv)
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
+	e_proxy_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 

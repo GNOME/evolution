@@ -1,3 +1,11 @@
+2003-04-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	Patch from Sanshao Jiang <alex.jiang@sun.com>.
+
+	[#41484]
+
+	* main.c (main): Add e_proxy_init()
+	
 2003-04-24  Dan Winship  <danw@ximian.com>
 
 	* evolution-shell-component.c (impl_setOwner): Comment out the
