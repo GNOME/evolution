@@ -127,6 +127,7 @@ ibex_unindex (ibex *ib, char *name)
 		ibf->index = -1;
 		g_tree_remove (ib->files, name);
 		g_ptr_array_add (ib->oldfiles, ibf);
+		ib->dirty = TRUE;
 	}
 }
 
