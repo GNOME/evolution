@@ -1,3 +1,8 @@
+2003-04-02  Not Zed  <NotZed@Ximian.com>
+
+	* e-passwords.c (e_passwords_forget_passwords): Delete all
+	Passwords-* sections.  Should make this work.
+
 2003-03-31  Chris Toshok  <toshok@ximian.com>
 
 	* ename/test-ename-western.c (do_name): print "" if the value is

@@ -95,9 +95,23 @@ e_passwords_shutdown ()
 void
 e_passwords_forget_passwords ()
 {
+	void *it;
+	char *key;
+
 	e_passwords_init ();
 
-	gnome_config_private_clean_section ("/Evolution/Passwords");
+	it = gnome_config_private_init_iterator_sections("/Evolution");
+	while ( (it = gnome_config_iterator_next(it, &key, NULL)) ) {
+		if (0 == strncmp(key, "Passwords-", 10)) {
+			char *section = g_strdup_printf("/Evolution/%s", key);
+
+			gnome_config_private_clean_section (section);
+			g_free(section);
+		}
+		g_free(key);
+	}
+
+	/*gnome_config_private_clean_section ("/Evolution/Passwords-Mail");*/
 	gnome_config_private_sync_file ("/Evolution");
 
 	/* free up the session passwords */
