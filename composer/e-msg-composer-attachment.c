@@ -219,7 +219,7 @@ e_msg_composer_attachment_new (const char *file_name,
 #if 0
 	/* Note: Outlook 2002 is broken with respect to Content-Ids on
            non-multipart/related parts, so as an interoperability
-           workwaround, don't set a Content-Id on these parts. Fixes
+           workaround, don't set a Content-Id on these parts. Fixes
            bug #10032 */
 	/* set the Content-Id */
 	content_id = header_msgid_generate ();
