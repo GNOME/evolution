@@ -613,8 +613,8 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 /*
  * Computes the distance between @start_row and @end_row in pixels
  */
-static int
-eti_row_diff (ETableItem *eti, int start_row, int end_row)
+int
+e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 {
 	int row, total;
 
@@ -646,9 +646,9 @@ eti_request_region_redraw (ETableItem *eti,
 	if (eti->rows > 0) {
 		
 		x1 = e_table_header_col_diff (eti->header, 0, start_col);
-		y1 = eti_row_diff (eti, 0, start_row);
+		y1 = e_table_item_row_diff (eti, 0, start_row);
 		width = e_table_header_col_diff (eti->header, start_col, end_col + 1);
-		height = eti_row_diff (eti, start_row, end_row + 1);
+		height = e_table_item_row_diff (eti, start_row, end_row + 1);
 		
 		eti_item_region_redraw (eti, eti->x1 + x1 - border,
 					eti->y1 + y1 - border,
@@ -671,9 +671,9 @@ eti_request_region_show (ETableItem *eti,
 	int x1, y1, x2, y2;
 	
 	x1 = e_table_header_col_diff (eti->header, 0, start_col);
-	y1 = eti_row_diff (eti, 0, start_row);
+	y1 = e_table_item_row_diff (eti, 0, start_row);
 	x2 = x1 + e_table_header_col_diff (eti->header, start_col, end_col + 1);
-	y2 = y1 + eti_row_diff (eti, start_row, end_row + 1);
+	y2 = y1 + e_table_item_row_diff (eti, start_row, end_row + 1);
 
 	if (delay)
 		e_canvas_item_show_area_delayed(GNOME_CANVAS_ITEM(eti), x1, y1, x2, y2, delay);
@@ -1451,7 +1451,7 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 		*col_res = eti->grabbed_col;
 		*row_res = eti->grabbed_row;
 		*x1_res = x - eti->x1 - e_table_header_col_diff (eti->header, 0, eti->grabbed_col);
-		*y1_res = y - eti->y1 - eti_row_diff (eti, 0, eti->grabbed_row);
+		*y1_res = y - eti->y1 - e_table_item_row_diff (eti, 0, eti->grabbed_row);
 		return TRUE;
 	}
 	

@@ -140,6 +140,9 @@ void        e_table_item_compute_location    (ETableItem        *eti,
 					      int               *row,
 					      int               *col);
 
+int	    e_table_item_row_diff	     (ETableItem	*eti,
+					      int		 start_row,
+					      int		 end_row);
 
 END_GNOME_DECLS
 
