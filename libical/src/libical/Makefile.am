@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.36 2003/09/11 22:04:19 hansp Exp $
+#  $Id: Makefile.am,v 1.37 2003/09/12 18:14:01 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -40,7 +40,7 @@ noinst_LTLIBRARIES = libical-static.la
 libical_static_la_SOURCES = $(libical_la_SOURCES)
 libical_static_la_LDFLAGS = --all-static
 
-CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(datadir)/$(PACKAGE)"\"
+CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
 # CFLAGS = -g
 
