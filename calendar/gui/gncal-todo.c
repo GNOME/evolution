@@ -54,15 +54,20 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	GncalTodo *todo;
 	GtkEntry *entry;
 	GnomeDateEdit *due_date;
+	GtkText *comment;
 	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
 	todo = GNCAL_TODO (gtk_object_get_data (GTK_OBJECT (dialog), "gncal_todo"));
 	entry = GTK_ENTRY (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));
 	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
+	comment = GTK_TEXT(gtk_object_get_data (GTK_OBJECT(dialog), "comment"));
 	if (ico->summary)
-		g_free (ico->summary);
+	  g_free (ico->summary);
+	if (ico->comment)
+	  g_free (ico->comment);
 	ico->dtend = gnome_date_edit_get_date (due_date);
 	ico->summary = g_strdup (gtk_entry_get_text (entry));
+	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
 	ico->user_data = NULL;
 
 	if (ico->new) {
@@ -107,7 +112,13 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	GtkWidget *due_box;
 	GtkWidget *due_label;
 	GtkWidget *due_entry;
+	GtkWidget *comment_box;
+	GtkWidget *comment_label;
+	GtkWidget *comment_text;
+	GtkWidget *comment_internal_box;
+	GtkWidget *comment_sep;
 	GtkWidget *w;
+
 
 	GtkWidget *entry;
 
@@ -127,6 +138,17 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), due_box, FALSE, FALSE, 0);
 	gtk_widget_show (due_box);
 
+	comment_box = gtk_hbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (comment_box), 4);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), comment_box, FALSE, FALSE, 0);
+	gtk_widget_show (comment_box);
+
+	comment_internal_box = gtk_vbox_new(FALSE,2);
+	gtk_container_border_width (GTK_CONTAINER (comment_internal_box), 4);
+
+	gtk_box_pack_start (GTK_BOX (comment_box), comment_internal_box, TRUE, TRUE, 0);
+	gtk_widget_show (comment_internal_box);
+
 	w = gtk_label_new (_("Summary:"));
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
@@ -145,7 +167,30 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	due_entry = date_edit_new (ico->dtend, FALSE);
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);
-	
+
+
+	comment_sep = gtk_hseparator_new ();
+	gtk_box_pack_start (GTK_BOX (comment_box), comment_sep, FALSE, FALSE, 0);
+	gtk_widget_show(comment_sep);
+
+	comment_label = gtk_label_new (_("Item Comments:"));
+	gtk_label_set_justify(GTK_LABEL(comment_label), GTK_JUSTIFY_LEFT);
+	gtk_box_pack_start (GTK_BOX (comment_internal_box), comment_label, TRUE, TRUE, 0);
+	gtk_widget_show (comment_label);
+
+
+
+
+	comment_text = gtk_text_new (NULL, NULL);
+	gtk_text_set_editable (GTK_TEXT (comment_text), TRUE);
+	gtk_text_set_word_wrap( GTK_TEXT(comment_text), TRUE);
+	gtk_text_freeze(GTK_TEXT(comment_text));
+	if(ico->comment) {
+	  gtk_text_insert(GTK_TEXT(comment_text), NULL, NULL, NULL, ico->comment, strlen(ico->comment));
+	}
+	gtk_text_thaw(GTK_TEXT(comment_text));
+	gtk_box_pack_start (GTK_BOX (comment_internal_box), comment_text, FALSE, TRUE, 0);
+	gtk_widget_show (comment_text);
 
 	ico->user_data = dialog;
 
@@ -154,6 +199,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_object_set_data (GTK_OBJECT (dialog), "gncal_todo", todo);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
 	gtk_object_set_data (GTK_OBJECT (dialog), "due_date", due_entry);
+	gtk_object_set_data (GTK_OBJECT (dialog), "comment", comment_text);
 
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 0, (GtkSignalFunc) ok_button, dialog);
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 1, (GtkSignalFunc) cancel_button, dialog);
