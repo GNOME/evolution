@@ -1,3 +1,8 @@
+1999-04-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Fixed cut&paste
+	bug for day fontsets.
+
 1999-05-26  Russell Steinthal  <steintr@condor.penguinpowered.com>
 
 	* gncal-todo.c main.c main.h prop.c: Added support for priorities
