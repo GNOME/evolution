@@ -254,6 +254,7 @@ mail_change_notify (BonoboListener *listener,
 	GNOME_Evolution_FolderInfo_MessageCount *count;
 	ESummaryMail *mail;
 	ESummaryMailFolder *folder;
+	GList *p;
 
 	mail = summary->mail;
 
@@ -267,9 +268,24 @@ mail_change_notify (BonoboListener *listener,
 	folder->count = count->count;
 	folder->unread = count->unread;
 
-	/* Regen HTML */
-	e_summary_mail_generate_html (summary);
-	e_summary_draw (summary);
+	/* Are we displaying this folder? */
+	for (p = summary->preferences->display_folders; p; p = p->next) {
+		char *uri;
+		
+		uri = g_strconcat ("file://", p->data, NULL);
+
+		g_print ("uri: %s\t%s\n", uri, folder->path);
+		if (strcmp (uri, folder->path) == 0) {
+			/* Regen HTML */
+			e_summary_mail_generate_html (summary);
+			e_summary_draw (summary);
+
+			g_free (uri);
+			return;
+		}
+
+		g_free (uri);
+	}
 }
 
 static void

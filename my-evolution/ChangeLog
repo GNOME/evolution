@@ -1,5 +1,10 @@
 2001-09-17  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-mail (mail_change_notify): Only redraw the display when
+	we receive a notify about a folder we are displaying
+
+2001-09-17  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-calendar.c (uids_to_array): Correctly use qsort.
 	(e_summary_calendar_event_sort_func): Dereference the e1 and e2.
 
