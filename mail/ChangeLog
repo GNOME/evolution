@@ -1,5 +1,10 @@
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_write_on_exit): Oops, save the
+	seen_timeout variable.
+
+2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-config-druid.c (set_defaults): Updated to checkfor
 	"(none)".
 
