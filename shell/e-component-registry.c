@@ -26,7 +26,6 @@
 
 #include "e-component-registry.h"
 
-#include "e-shell-utils.h"
 #include <e-util/e-icon-factory.h>
 
 #include <libgnome/gnome-i18n.h>

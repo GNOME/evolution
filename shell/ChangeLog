@@ -1,3 +1,7 @@
+2005-01-28  JP Rosevear  <jpr@novell.com>
+
+	* e-component-registry.c: Remove e-shell-utils.c include
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	* apps_evolution_shell.schemas.in.in: close long tag
