@@ -1384,7 +1384,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 
 		dialog = gtk_message_dialog_new(parent,
 						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_ERROR, GTK_BUTTONS_YES_NO,
+						GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 						_("Ximian Evolution has found unsaved files from a previous session.\n"
 						  "Would you like to try to recover them?"));
 		load = gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_YES;

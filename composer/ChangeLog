@@ -1,3 +1,9 @@
+2003-04-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans): Change
+	the "would you like to recover unsaved drafts?" dialog a QUESTION
+	dialog rather than an ERROR dialog. Fixes bug #42024.
+
 2003-04-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): If we
