@@ -93,6 +93,15 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			       (widget->style->klass->ythickness + INNER_BORDER) * 2);
 }
 
+static gint
+canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *e_entry)
+{
+	if (e_entry->canvas->focused_item != GNOME_CANVAS_ITEM(e_entry->item)) {
+		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_entry->item));
+	}
+	return 0;
+}
+
 static void
 e_entry_init (GtkObject *object)
 {
@@ -104,6 +113,8 @@ e_entry_init (GtkObject *object)
 			   GTK_SIGNAL_FUNC(canvas_size_allocate), e_entry);
 	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "size_request",
 			   GTK_SIGNAL_FUNC(canvas_size_request), e_entry);
+	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "focus_in_event",
+			   GTK_SIGNAL_FUNC(canvas_focus_in_event), e_entry);
 	e_entry->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root(e_entry->canvas),
 						     e_text_get_type(),
 						     "clip", TRUE,
