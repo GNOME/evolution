@@ -153,31 +153,32 @@ control_activate_cb (BonoboControl *control,
 }
 
 static void
-control_destroy_cb (BonoboControl *control,
-		    GtkObject     *folder_browser)
+control_destroy_cb (GtkObject *fb, GObject *deadbeef)
 {
 	gtk_object_destroy (folder_browser);
 }
 
 static void
-browser_destroy_cb (FolderBrowser *fb,
-		    BonoboControl *control)
+browser_destroy_cb (BonoboControl *control, GObject *deadbeef)
 {
 	EIterator *it;
-
+	
 	/* We do this from browser_destroy_cb rather than
 	 * control_destroy_cb because currently, the controls
 	 * don't seem to all get destroyed properly at quit
 	 * time (but the widgets get destroyed by X). FIXME.
 	 */
-
-	for (it = e_list_get_iterator (control_list); e_iterator_is_valid (it); e_iterator_next (it)) {
+	
+	it = e_list_get_iterator (control_list);
+	while (e_iterator_is_valid (it)) {
 		if (e_iterator_get (it) == control) {
 			e_iterator_delete (it);
 			break;
 		}
+		e_iterator_next (it);
 	}
-	gtk_object_unref (GTK_OBJECT (it));
+	
+	g_object_unref (it);
 }
 
 BonoboControl *
@@ -185,36 +186,32 @@ folder_browser_factory_new_control (const char *uri,
 				    const GNOME_Evolution_Shell shell)
 {
 	BonoboControl *control;
-	GtkWidget *folder_browser;
-
-	folder_browser = folder_browser_new (shell, uri);
-	if (folder_browser == NULL)
+	GtkWidget *fb;
+	
+	if (!(fb = folder_browser_new (shell, uri)))
 		return NULL;
-
+	
 	FOLDER_BROWSER (folder_browser)->pref_master = TRUE; /* save UI settings changed in this FB */
-
+	
 	gtk_widget_show (folder_browser);
 	
 	control = bonobo_control_new (folder_browser);
 	
 	if (control == NULL) {
-		gtk_object_unref (GTK_OBJECT (folder_browser));
+		g_object_unref (fb);
 		return NULL;
 	}
 	
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, folder_browser);
-
-	gtk_signal_connect (GTK_OBJECT (control), "destroy",
-			    control_destroy_cb, folder_browser);
-	gtk_signal_connect (GTK_OBJECT (folder_browser), "destroy",
-			    browser_destroy_cb, control);
-
+	g_signal_connect (control, "activate", GTK_SIGNAL_FUNC (control_activate_cb), fb);
+	
+	g_object_weak_ref (control, (GWeakNotify) control_destroy_cb, fb);
+	g_object_weak_ref (fb, (GWeakNotify) browser_destroy_cb, control);
+	
 	if (!control_list)
 		control_list = e_list_new (NULL, NULL, NULL);
-
+	
 	e_list_append (control_list, control);
-
+	
 	return control;
 }
 
@@ -233,21 +230,24 @@ folder_browser_factory_get_browser(const char *uri)
 	EIterator *it;
 	BonoboControl *control;
 	FolderBrowser *fb = NULL;
-
+	
 	if (control_list == NULL)
 		return NULL;
 	
 	controls = folder_browser_factory_get_control_list ();
-	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {		
+	
+	it = e_list_get_iterator (controls);
+	while (e_iterator_is_valid (it)) {
 		control = BONOBO_CONTROL (e_iterator_get (it));
-		fb = FOLDER_BROWSER(bonobo_control_get_widget(control));
-		if (fb->uri && strcmp(fb->uri, uri) == 0)
+		fb = FOLDER_BROWSER (bonobo_control_get_widget (control));
+		if (fb->uri && strcmp (fb->uri, uri) == 0)
 			break;
 		fb = NULL;
+		
+		e_iterator_next (it);
 	}
-	gtk_object_unref (GTK_OBJECT(it));
-
+	
+	g_object_unref (it);
+	
 	return fb;
 }
-
-

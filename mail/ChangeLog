@@ -1,5 +1,9 @@
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c: Ported.
+
+	* folder-browser-factory.c: Ported.
+
 	* folder-browser.c: Ported.
 
 	* e-searching-tokenizer.c: Roughly ported.

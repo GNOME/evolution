@@ -809,7 +809,8 @@ update_status_bar_idle_cb(gpointer data)
 		update_status_bar (fb);
 	
 	fb->update_status_bar_idle_id = 0;
-	gtk_object_unref (GTK_OBJECT (fb));
+	g_object_unref (fb);
+	
 	return FALSE;
 }
 
@@ -817,7 +818,7 @@ static void
 update_status_bar_idle(FolderBrowser *fb)
 {
 	if (fb->update_status_bar_idle_id == 0) {
-		gtk_object_ref (GTK_OBJECT (fb));
+		g_object_ref (fb);
 		fb->update_status_bar_idle_id = g_idle_add (update_status_bar_idle_cb, fb);
 	}
 }
@@ -830,10 +831,10 @@ static void main_folder_changed(CamelObject *o, void *event_data, void *data)
 		return;
 	
 	/* so some corba unref doesnt blow us away while we're busy */
-	gtk_object_ref((GtkObject *)fb);
-	update_status_bar(fb);
+	g_object_ref (fb);
+	update_status_bar (fb);
 	folder_browser_ui_scan_selection (fb);
-	gtk_object_unref((GtkObject *)fb);
+	g_object_unref (fb);
 }
 
 static void folder_changed (CamelObject *obj, void *event_data, void *user_data)
@@ -2046,7 +2047,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	closures = g_ptr_array_new ();
 	label_menu[0].closure = g_new (struct _label_data, 1);
 	g_ptr_array_add (closures, label_menu[0].closure);
-	gtk_object_ref (GTK_OBJECT (fb));
+	g_object_ref (fb);
 	((struct _label_data *) label_menu[0].closure)->fb = fb;
 	((struct _label_data *) label_menu[0].closure)->label = NULL;
 	
