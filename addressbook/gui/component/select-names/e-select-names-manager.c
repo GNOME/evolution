@@ -16,8 +16,9 @@
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 #include "e-select-names.h"
-#include <addressbook/backend/ebook/e-address-completion.h>
+#include "e-select-names-completion.h"
 #include <gal/e-text/e-entry.h>
+#include <addressbook/backend/ebook/e-destination.h>
 
 /* Object argument IDs */
 enum {
@@ -213,9 +214,10 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 	manager->entries  = e_list_new(entry_copy, entry_free, manager);
 }
 
-void                          e_select_names_manager_add_section               (ESelectNamesManager *manager,
-										const char *id,
-										const char *title)
+void
+e_select_names_manager_add_section (ESelectNamesManager *manager,
+				    const char *id,
+				    const char *title)
 {
 	ESelectNamesManagerSection *section;
 	
@@ -225,6 +227,25 @@ void                          e_select_names_manager_add_section               (
 	section->model = e_select_names_model_new();
 	e_list_append(manager->sections, section);
 	section_free(section, manager);
+}
+
+ESelectNamesModel *
+e_select_names_manager_get_source (ESelectNamesManager *manager, const char *id)
+{
+	EIterator *iterator;
+
+	g_return_val_if_fail (manager && E_IS_SELECT_NAMES_MANAGER (manager), NULL);
+	g_return_val_if_fail (id, NULL);
+
+	iterator = e_list_get_iterator (manager->sections);
+	for (e_iterator_reset (iterator); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+		const ESelectNamesManagerSection *section = e_iterator_get (iterator);
+		if (!strcmp (section->id, id)) {
+			return section->model;
+		}
+	}
+
+	return NULL;
 }
 
 static void
@@ -246,31 +267,30 @@ entry_destroyed(EEntry *entry, ESelectNamesManager *manager)
 static void
 completion_handler (EEntry *entry, const gchar *text, gpointer user_data)
 {
-	ESelectNamesModel *snm = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
-	ESelectNamesModelData *data = g_new0 (ESelectNamesModelData, 1);
-	EIterator *iterator;
+	ESelectNamesModel *snm;
+	EDestination *dest;
+	gint i, pos, start_pos, len;
 
-	data->type = E_SELECT_NAMES_MODEL_DATA_TYPE_CARD;
-	data->card = E_CARD (user_data);
-	gtk_object_ref (GTK_OBJECT (data->card));
-	data->string = g_strdup (text);
-	
-	iterator = e_list_get_iterator (snm->data);
-	e_select_names_model_replace_item (snm, iterator, data);
+	if (user_data == NULL)
+		return;
+
+	snm = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+	dest = E_DESTINATION (user_data);
+
+	/* Sometimes I really long for garbage collection.  Reference
+           counting makes you feel 31337, but sometimes it is just a
+           bitch. */
+	gtk_object_ref (GTK_OBJECT (dest));
+
+	pos = e_entry_get_position (entry);
+	e_select_names_model_text_pos (snm, pos, &i, NULL, NULL);
+	e_select_names_model_replace (snm, i, dest);
+	e_select_names_model_name_pos (snm, i, &start_pos, &len);
+	e_entry_set_position (entry, start_pos+len);
 }
 
-static void
-set_completion (EBook *book, EBookStatus status, EEntry *entry)
-{
-	ECompletion *addr_comp;
-
-	addr_comp = e_address_completion_new (book);
-	e_entry_enable_completion_full (entry, addr_comp, -1, completion_handler);
-	gtk_object_unref (GTK_OBJECT (book));
-}
-
-GtkWidget                    *e_select_names_manager_create_entry              (ESelectNamesManager *manager,
-										const char *id)
+GtkWidget *
+e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *id)
 {
 	ETextModel *model;
 	EIterator *iterator;
@@ -280,26 +300,21 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 		if (!strcmp(section->id, id)) {
 			ESelectNamesManagerEntry *entry;
 			EEntry *eentry;
-			gchar *filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
-			gchar *uri = g_strdup_printf ("file://%s", filename);
-			EBook *book;
+			ECompletion *comp;
 
-			eentry = E_ENTRY(e_entry_new());
-			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_model",  section->model);
-
-			book = e_book_new ();
-			gtk_object_ref (GTK_OBJECT (book));
-			e_book_load_uri (book, uri, (EBookCallback) set_completion, eentry);
-			g_free (uri);
-			g_free (filename);
+			eentry = E_ENTRY (e_entry_new ());
+			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_model", section->model);
 			
-			entry = g_new(ESelectNamesManagerEntry, 1);
+			entry = g_new (ESelectNamesManagerEntry, 1);
 			entry->entry = eentry;
 			entry->id = (char *)id;
 
-			model = e_select_names_text_model_new(section->model);
-			e_list_append(manager->entries, entry);
+			model = e_select_names_text_model_new (section->model);
+			e_list_append (manager->entries, entry);
 			g_free(entry);
+
+			comp = e_select_names_completion_new (NULL, section->model); /* NULL == use local addressbook */
+			e_entry_enable_completion_full (eentry, comp, 50, completion_handler);
 
 			gtk_object_set(GTK_OBJECT(eentry),
 				       "model", model,
@@ -356,8 +371,9 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 	gnome_dialog_close(GNOME_DIALOG(dialog));
 }
 
-void                          e_select_names_manager_activate_dialog           (ESelectNamesManager *manager,
-										const char *id)
+void
+e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
+					const char *id)
 {
 	EIterator *iterator;
 	
@@ -386,9 +402,11 @@ void                          e_select_names_manager_activate_dialog           (
 	}
 }
 
+#if 0
 /* Of type ECard */
-EList                    *e_select_names_manager_get_cards                 (ESelectNamesManager *manager,
-									    const char *id)
+EList *
+e_select_names_manager_get_cards (ESelectNamesManager *manager,
+				  const char *id)
 {
 	EIterator *iterator;
 	iterator = e_list_get_iterator(manager->sections);
@@ -400,3 +418,4 @@ EList                    *e_select_names_manager_get_cards                 (ESel
 	}
 	return NULL;
 }
+#endif

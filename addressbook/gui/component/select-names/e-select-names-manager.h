@@ -41,14 +41,18 @@ ESelectNamesManager *e_select_names_manager_new               (void);
 void                 e_select_names_manager_add_section       (ESelectNamesManager *manager,
 							       const char *id,
 							       const char *title);
+ESelectNamesModel   *e_select_names_manager_get_source        (ESelectNamesManager *manager,
+							       const char *id);
 GtkWidget           *e_select_names_manager_create_entry      (ESelectNamesManager *manager,
 							       const char *id);
 void                 e_select_names_manager_activate_dialog   (ESelectNamesManager *manager,
 							       const char *id);
 
+#if 0
 /* Of type ECard */
 EList               *e_select_names_manager_get_cards         (ESelectNamesManager *manager,
 							       const char *id);
+#endif
 
 /* Standard Gtk function */			      
 GtkType              e_select_names_manager_get_type          (void);

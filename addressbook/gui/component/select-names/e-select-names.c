@@ -135,32 +135,15 @@ real_add_address_cb (int model_row,
 	ESelectNamesChild *child = closure;
 	ESelectNames *names = child->names;
 	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), model_row);
-	ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_CARD,
-				     card,
-				     NULL};
-	char *name, *email;
-	ECardSimple *simple = e_card_simple_new(card);
-	EIterator *iterator;
+	EDestination *dest = e_destination_new ();
 
-	name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
-	email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
-	if (name && *name && email && *email) {
-		new.string = g_strdup_printf("\"%s\" <%s>", name, email);
-	} else if (email && *email) {
-		new.string = g_strdup_printf("%s", email);
-	} else {
-		new.string = g_strdup("");
-	}
+	e_destination_set_card (dest, card, 0);
 
-	iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
-	e_iterator_last(iterator);
-	e_select_names_model_add_item(child->source, iterator, &new);
+	e_select_names_model_insert (child->source,
+				     e_select_names_model_count (child->source),
+				     dest);
 
-	gtk_object_unref(GTK_OBJECT(simple));
 	gtk_object_unref(GTK_OBJECT(card));
-	g_free(email);
-	g_free(name);
-	g_free(new.string);
 }
 
 static void
@@ -494,12 +477,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
-	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
-	e_iterator_reset(iterator);
-	for (; row > 0; row--) {
-		e_iterator_next(iterator);
-	}
-	e_select_names_model_remove_item(child->source, iterator);
+	e_select_names_model_delete (child->source, row);
 }
 
 void

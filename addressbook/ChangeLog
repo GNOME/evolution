@@ -1,3 +1,69 @@
+2001-03-01  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Change for new EDestination/ESelectNamesModel API.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_get_source): Added.  A function for
+	looking up the ESelectNamesModel by id.  (I didn't end up using
+	this function, but it might come in handy later.)
+	(e_select_names_manager_get_cards): #if 0/#endif out this
+	function.
+	(e_select_names_manager_create_entry): Modified to attach an
+	ESelectNamesCompletion to the entry we create.
+	(completion_handler): A post-completion handler for our EEntry, to
+	take the completion's extra data (an EDestination) and properly
+	stick it into our ESelectNamesModel.
+
+	* gui/component/select-names/e-select-names.c
+	(real_add_address_cb): Changed to operate on EDestinations rather
+	than ECards and to use the new ESelectNamesModel API.  This leads
+	to a rather nice code simplication.
+	(remove_address): Changed for new ESelectNamesModel API.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Rather than just passing the entry's text
+	through the property bag, get the "address text" from the model.
+	This returns a nice, verbose string of addresses with names
+	expanded when the address is tied to an ECard (i.e. "Jon
+	Trowbridge <trow@ximian.com>").
+	(impl_SelectNames_get_entry_for_section): Make the text property
+	read-only.
+	(entry_set_property_fn): ...and since it is read-only now, chop
+	out the setter code.
+	
+	* gui/component/select-names/e-select-names-text-model.h: 
+	* gui/component/select-names/e-select-names-text-model.c: Again,
+	this code has been (pretty much) totally rewritten to convert all
+	text operations into changes on the ESelectNamesModel.  This lets
+	us give the associated EEntry some (IMHO) nice semantics regarding
+	whitespace, etc.  Includes object activation, so destinations tied
+	to ECards are underlined and can be double-clicked to bring up a
+	contact editor.
+
+	* gui/component/select-names/e-select-names-model.h: 
+	* gui/component/select-names/e-select-names-model.c: I've heavily
+	modified this object to both hide all implementation details
+	(which the old version exposed a bit too much for my peculiar
+	tastes) and to act as an EDestination container.  The old code put
+	the text model operations here.  I've moved them all to
+	ESelectNamesTextModel --- so the text model actions (insert,
+	delete, etc.) are all done through the API rather than operating on
+	ESelectNamesModel internals.
+
+	* gui/component/select-names/e-select-names-completion.c: Added.  A
+	fairly complicated object derived from ECompletion that searches
+	our local addressbook in various and sundry ways.
+
+	* gui/component/select-names/e-select-names-completion.h: 
+
+	* backend/ebook/e-destination.h: 
+	* backend/ebook/e-destination.c: Added.  This object encapsulates
+	a place to sent an email to, which can either be just a address as
+	a string ("trow@ximian.com"), a fancier string ("Jon Trowbridge
+	<trow@ximian.com>"), or an ECard and a specific address within
+	that ECard.
+
 2001-03-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h,

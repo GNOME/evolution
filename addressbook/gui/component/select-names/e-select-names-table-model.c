@@ -108,38 +108,31 @@ static void
 fill_in_info (ESelectNamesTableModel *model)
 {
 	if (model->source) {
-		EList *list = e_select_names_model_get_data(model->source);
-		EIterator *iterator = e_list_get_iterator(list);
-		int count = 0;
-		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-			count ++;
-		}
+		int count = e_select_names_model_count (model->source);
+		gint i;
+
 		model->count = count;
 		model->data = g_new(ESelectNamesTableModelData, count);
-		count = 0;
-		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-			const ESelectNamesModelData *data = e_iterator_get(iterator);
-			switch (data->type) {
-			case E_SELECT_NAMES_MODEL_DATA_TYPE_CARD: {
-				ECardSimple *simple = e_card_simple_new(data->card);
-				model->data[count].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
-				if ((model->data[count].name == 0) || *model->data[count].name == 0) {
-					model->data[count].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
+
+		for (i = 0; i < count; ++i) {
+			const EDestination *dest = e_select_names_model_get_destination (model->source, i);
+			ECard *card = dest ? e_destination_get_card (dest) : NULL;
+
+			if (card) {
+				ECardSimple *simple = e_card_simple_new(card);
+				model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
+				if ((model->data[i].name == 0) || *model->data[i].name == 0) {
+					model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
 				}
-				if (model->data[count].name == 0)
-					model->data[count].name = g_strdup("");
-				model->data[count].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
-				if (model->data[count].email == 0)
-					model->data[count].email = g_strdup("");
+				if (model->data[i].name == 0)
+					model->data[i].name = g_strdup("");
+				model->data[i].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
+				if (model->data[i].email == 0)
+					model->data[i].email = g_strdup("");
 				gtk_object_unref(GTK_OBJECT(simple));
-				count ++;
-				break;
-			}
-			case E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS:
-				model->data[count].name =  e_strdup_strip(data->string);
-				model->data[count].email = e_strdup_strip(data->string);
-				count ++;
-				break;
+			} else {
+				model->data[i].name =  g_strdup (e_destination_get_string (dest));
+				model->data[i].email = g_strdup (model->data[i].name);
 			}
 		}
 	} else {

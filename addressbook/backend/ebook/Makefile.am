@@ -39,19 +39,18 @@ lib_LTLIBRARIES = libebook.la
 
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
-	e-address-completion.c				\
 	e-book-listener.c				\
 	e-book-view-listener.c				\
 	e-book-view.c					\
 	e-book.c					\
 	e-card-cursor.c					\
 	e-card-simple.c					\
-	e-card.c
+	e-card.c					\
+	e-destination.c
 
 libebookincludedir = $(includedir)/evolution/ebook
 
 libebookinclude_HEADERS =				\
-	e-address-completion.h				\
 	e-book-listener.h				\
 	e-book-types.h					\
 	e-book-view-listener.h				\
@@ -61,7 +60,8 @@ libebookinclude_HEADERS =				\
 	e-card-pairs.h					\
 	e-card-simple.h					\
 	e-card-types.h					\
-	e-card.h
+	e-card.h					\
+	e-destination.h
 
 
 #

@@ -61,15 +61,18 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 		       CORBA_Environment *ev,
 		       void *user_data)
 {
-	GtkWidget *widget;
-	char *text;
+	GtkWidget *w;
+	const char *text;
 
-	widget = GTK_WIDGET (user_data);
+	w = GTK_WIDGET (user_data);
 
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
-		gtk_object_get (GTK_OBJECT (widget), "text", &text, NULL);
-		BONOBO_ARG_SET_STRING (arg, text);
+		{
+			ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "bonobo_select_names_model"));
+			text = e_select_names_model_get_address_text (model);
+			BONOBO_ARG_SET_STRING (arg, text);
+		}
 		break;
 	default:
 		break;
@@ -84,15 +87,11 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 		       gpointer user_data)
 {
 	GtkWidget *widget;
-	const char *text;
 
 	widget = GTK_WIDGET (user_data);
 
 	switch (arg_id) {
-	case ENTRY_PROPERTY_ID_TEXT:
-		text = BONOBO_ARG_GET_STRING (arg);
-		gtk_object_set (GTK_OBJECT (widget), "text", text, NULL);
-		break;
+
 	case ENTRY_PROPERTY_ID_ENTRY_CHANGED:
 		gtk_object_set_data (GTK_OBJECT (widget), "entry_property_id_changed", GUINT_TO_POINTER (1));
 		break;
@@ -173,6 +172,10 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 
 	entry_widget = e_select_names_manager_create_entry (priv->manager, section_id);
 	gtk_widget_show (entry_widget);
+	
+	gtk_object_set_data (GTK_OBJECT (entry_widget),
+			     "bonobo_select_names_model",
+			     e_select_names_manager_get_source (priv->manager, section_id));
 
 	if (entry_widget == NULL) {
 		CORBA_exception_set (ev,
@@ -187,7 +190,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	property_bag = bonobo_property_bag_new (entry_get_property_fn, entry_set_property_fn, entry_widget);
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
 				 BONOBO_ARG_STRING, NULL, NULL,
-				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+				 BONOBO_PROPERTY_READABLE);
 	bonobo_property_bag_add (property_bag, "entry_changed", ENTRY_PROPERTY_ID_ENTRY_CHANGED,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_WRITEABLE);

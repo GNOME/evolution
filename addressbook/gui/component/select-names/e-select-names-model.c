@@ -1,9 +1,10 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors: 
- *   Chris Lahey     <clahey@helixcode.com>
+ *   Chris Lahey     <clahey@ximian.com>
+ *   Jon Trowbidge   <trow@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  */
 
 #include <config.h>
@@ -11,13 +12,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <gtk/gtkmarshal.h>
 
 #include "e-select-names-model.h"
 #include <gal/util/e-util.h>
 #include "addressbook/backend/ebook/e-card-simple.h"
 
+#define SEPARATOR ", "
+#define SEPLEN    2
+
+
 enum {
 	E_SELECT_NAMES_MODEL_CHANGED,
+	E_SELECT_NAMES_MODEL_RESIZED,
 	E_SELECT_NAMES_MODEL_LAST_SIGNAL
 };
 
@@ -29,6 +36,27 @@ enum {
 	ARG_CARD,
 };
 
+enum {
+	NAME_DATA_BLANK,
+	NAME_DATA_CARD,
+	NAME_DATA_STRING
+};
+
+enum {
+	NAME_FORMAT_GIVEN_FIRST,
+	NAME_FORMAT_FAMILY_FIRST
+};
+
+struct _ESelectNamesModelPrivate {
+	gchar *id;
+	gchar *title;
+
+	GList *data;  /* of EDestination */
+	gchar *text;
+	gchar *addr_text;
+};
+
+
 static void e_select_names_model_init (ESelectNamesModel *model);
 static void e_select_names_model_class_init (ESelectNamesModelClass *klass);
 
@@ -36,15 +64,6 @@ static void e_select_names_model_destroy (GtkObject *object);
 static void e_select_names_model_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_select_names_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 
-/**
- * e_select_names_model_get_type:
- * @void: 
- * 
- * Registers the &ESelectNamesModel class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the &ESelectNamesModel class.
- **/
 GtkType
 e_select_names_model_get_type (void)
 {
@@ -68,34 +87,22 @@ e_select_names_model_get_type (void)
 	return model_type;
 }
 
-/**
- * e_select_names_model_new:
- * @VCard: a string in vCard format
- *
- * Returns: a new #ESelectNamesModel that wraps the @VCard.
- */
-ESelectNamesModel *
-e_select_names_model_new (void)
+typedef void (*GtkSignal_NONE__INT_INT_INT) (GtkObject *object, gint arg1, gint arg2, gint arg3, gpointer user_data);
+static void
+local_gtk_marshal_NONE__INT_INT_INT (GtkObject    *object, 
+				     GtkSignalFunc func, 
+				     gpointer      func_data, 
+				     GtkArg       *args)
 {
-	ESelectNamesModel *model = E_SELECT_NAMES_MODEL(gtk_type_new(e_select_names_model_get_type()));
-	return model;
+	GtkSignal_NONE__INT_INT_INT rfunc;
+	rfunc = (GtkSignal_NONE__INT_INT_INT) func;
+	(* rfunc) (object,
+		   GTK_VALUE_INT(args[0]),
+		   GTK_VALUE_INT(args[1]),
+		   GTK_VALUE_INT(args[2]),
+		   func_data);
 }
 
-/**
- * e_select_names_model_new:
- * @VCard: a string in vCard format
- *
- * Returns: a new #ESelectNamesModel that wraps the @VCard.
- */
-ESelectNamesModel *
-e_select_names_model_duplicate (ESelectNamesModel *old)
-{
-	ESelectNamesModel *model = E_SELECT_NAMES_MODEL(gtk_type_new(e_select_names_model_get_type()));
-	model->data = e_list_duplicate(old->data);
-	model->id = g_strdup(old->id);
-	model->title = g_strdup(old->title);
-	return model;
-}
 
 static void
 e_select_names_model_class_init (ESelectNamesModelClass *klass)
@@ -112,6 +119,14 @@ e_select_names_model_class_init (ESelectNamesModelClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_select_names_model_signals[E_SELECT_NAMES_MODEL_RESIZED] =
+		gtk_signal_new ("resized",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ESelectNamesModelClass, resized),
+				local_gtk_marshal_NONE__INT_INT_INT,
+				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_INT);
+
 	gtk_object_class_add_signals (object_class, e_select_names_model_signals, E_SELECT_NAMES_MODEL_LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("ESelectNamesModel::card",
@@ -124,18 +139,31 @@ e_select_names_model_class_init (ESelectNamesModelClass *klass)
 	object_class->set_arg = e_select_names_model_set_arg;
 }
 
-/*
- * ESelectNamesModel lifecycle management and vcard loading/saving.
+/**
+ * e_select_names_model_init:
  */
+static void
+e_select_names_model_init (ESelectNamesModel *model)
+{
+	model->priv = g_new0 (struct _ESelectNamesModelPrivate, 1);
+}
 
 static void
 e_select_names_model_destroy (GtkObject *object)
 {
-	ESelectNamesModel *model;
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (object);
 	
-	model = E_SELECT_NAMES_MODEL (object);
+	g_free (model->priv->title);
+	g_free (model->priv->id);
 
-	gtk_object_unref(GTK_OBJECT(model->data));
+	g_list_foreach (model->priv->data, (GFunc) gtk_object_unref, NULL);
+	g_list_free (model->priv->data);
+
+	g_free (model->priv->text);
+	g_free (model->priv->addr_text);
+
+	g_free (model->priv);
+
 }
 
 
@@ -172,302 +200,310 @@ e_select_names_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
-static void *
-data_copy(const void *sec, void *data)
+/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
+
+ESelectNamesModel *
+e_select_names_model_new (void)
 {
-	const ESelectNamesModelData *section = sec;
-	ESelectNamesModelData *newsec;
+	ESelectNamesModel *model;
+	model = E_SELECT_NAMES_MODEL (gtk_type_new (e_select_names_model_get_type ()));
+	return model;
+}
+
+ESelectNamesModel *
+e_select_names_model_duplicate (ESelectNamesModel *old)
+{
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL(gtk_type_new(e_select_names_model_get_type()));
+	GList *iter;
+
+	model->priv->id = g_strdup (old->priv->id);
+	model->priv->title = g_strdup (old->priv->title);
 	
-	newsec = g_new(ESelectNamesModelData, 1);
-	newsec->type = section->type;
-	newsec->card = section->card;
-	if (newsec->card)
-		gtk_object_ref(GTK_OBJECT(newsec->card));
-	newsec->string = g_strdup(section->string);
-	return newsec;
-}
-
-static void
-data_free(void *sec, void *data)
-{
-	ESelectNamesModelData *section = sec;
-	if (section->card)
-		gtk_object_unref(GTK_OBJECT(section->card));
-	g_free(section->string);
-	g_free(section);
-}
-
-/**
- * e_select_names_model_init:
- */
-static void
-e_select_names_model_init (ESelectNamesModel *model)
-{
-	model->data = e_list_new(data_copy, data_free, model);
-}
-
-static void *
-copy_func(const void *data, void *user_data)
-{
-	GtkObject *object = (void *) data;
-	if (object)
-		gtk_object_ref(object);
-	return object;
-}
-
-static void
-free_func(void *data, void *user_data)
-{
-	GtkObject *object = data;
-	if (object)
-		gtk_object_unref(object);
-}
-
-/* Of type ECard */
-EList                    *e_select_names_model_get_cards                 (ESelectNamesModel *model)
-{
-	EList *list = e_list_new(copy_func, free_func, NULL);
-	EIterator *iterator = e_list_get_iterator(model->data);
-	EIterator *new_iterator = e_list_get_iterator(list);
-
-	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-		ECard *card;
-		ECardSimple *simple;
-		if (node->card) {
-			card = node->card;
-			gtk_object_ref(GTK_OBJECT(card));
-		} else {
-			card = e_card_new("");
-		}
-		simple = e_card_simple_new(card);
-		e_card_simple_set_arbitrary(simple, "text_version", "string", node->string);
-		e_iterator_insert(new_iterator, card, FALSE);
-		gtk_object_unref(GTK_OBJECT(card));
-		gtk_object_unref(GTK_OBJECT(simple));
+	for (iter = old->priv->data; iter != NULL; iter = g_list_next (iter)) {
+		EDestination *dup = e_destination_copy (E_DESTINATION (iter->data));
+		model->priv->data = g_list_append (model->priv->data, dup);
 	}
-	return list;
+
+	return model;
 }
 
-EList                    *e_select_names_model_get_data                 (ESelectNamesModel *model)
+const gchar *
+e_select_names_model_get_textification (ESelectNamesModel *model)
 {
-	return model->data;
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+
+	if (model->priv->text == NULL) {
+
+		if (model->priv->data == NULL) {
+			
+			model->priv->text = g_strdup ("");
+
+		} else {
+			gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
+			gint i = 0;
+			GList *iter = model->priv->data;
+			
+			while (iter) {
+				EDestination *dest = E_DESTINATION (iter->data);
+				strv[i] = (gchar *) e_destination_get_string (dest);
+				if (strv[i] == NULL)
+					strv[i] = "";
+				++i;
+				iter = g_list_next (iter);
+			}
+
+			model->priv->text = g_strjoinv (SEPARATOR, strv);
+			
+			g_free (strv);
+		}
+	}
+
+	return model->priv->text;
+}
+
+const gchar *
+e_select_names_model_get_address_text (ESelectNamesModel *model)
+{
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+
+	if (model->priv->addr_text == NULL) {
+
+		if (model->priv->data == NULL) {
+
+			model->priv->addr_text = g_strdup ("");
+
+		} else {
+			gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
+			gint i = 0;
+			GList *iter = model->priv->data;
+
+			while (iter) {
+				EDestination *dest = E_DESTINATION (iter->data);
+				strv[i] = (gchar *) e_destination_get_email_verbose (dest);
+				if (strv[i])
+					++i;
+				iter = g_list_next (iter);
+			}
+
+			model->priv->addr_text = g_strjoinv (SEPARATOR, strv);
+
+			g_free (strv);
+		}
+	}
+
+	return model->priv->addr_text;
+}
+
+gint
+e_select_names_model_count (ESelectNamesModel *model)
+{
+	g_return_val_if_fail (model != NULL, 0);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), 0);
+
+	return g_list_length (model->priv->data);
+}
+
+const EDestination *
+e_select_names_model_get_destination (ESelectNamesModel *model, gint index)
+{
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (0 <= index, NULL);
+	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
+
+	return E_DESTINATION (g_list_nth_data (model->priv->data, index));
+}
+
+ECard *
+e_select_names_model_get_card (ESelectNamesModel *model, gint index)
+{
+	const EDestination *dest;
+
+	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (0 <= index, NULL);
+	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
+
+	dest = e_select_names_model_get_destination (model, index);
+	return dest ? e_destination_get_card (dest) : NULL;
+
+}
+
+const gchar *
+e_select_names_model_get_string (ESelectNamesModel *model, gint index)
+{
+	const EDestination *dest;
+
+	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (0 <= index, NULL);
+	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
+
+	dest = e_select_names_model_get_destination (model, index);
+	
+	return dest ? e_destination_get_string (dest) : "";
 }
 
 static void
-e_select_names_model_changed           (ESelectNamesModel *model)
+e_select_names_model_changed (ESelectNamesModel *model)
 {
-	gtk_signal_emit(GTK_OBJECT(model),
-			e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+	g_free (model->priv->text);
+	model->priv->text = NULL;
+	
+	g_free (model->priv->addr_text);
+	model->priv->addr_text = NULL;
+
+	gtk_signal_emit(GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
 }
 
 void
-e_select_names_model_insert            (ESelectNamesModel *model,
-					EIterator *iterator, /* Must be one of the iterators in the model, or NULL if the list is empty. */
-					int index,
-					char *data)
+e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination *dest)
 {
-	gchar **strings = e_strsplit(data, ",", -1);
-	int i;
-	if (iterator == NULL) {
-		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS, NULL, ""};
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (0 <= index && index <= g_list_length (model->priv->data));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
-		e_list_append(model->data, &new);
-		iterator = e_list_get_iterator(model->data);
+	model->priv->data = g_list_insert (model->priv->data, dest, index);
+	
+	gtk_object_ref (GTK_OBJECT (dest));
+	gtk_object_sink (GTK_OBJECT (dest));
 
-		index = 0;
+	e_select_names_model_changed (model);
+}
+
+void
+e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination *dest)
+{
+	GList *node;
+	gint old_strlen=0, new_strlen=0;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (model->priv->data == NULL || (0 <= index && index < g_list_length (model->priv->data)));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+	
+	new_strlen = e_destination_get_strlen (dest);
+
+	if (model->priv->data == NULL) {
+		model->priv->data = g_list_append (model->priv->data, dest);
 	} else {
-		gtk_object_ref(GTK_OBJECT(iterator));
-	}
-	if (strings[0]) {
-		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-		gchar *temp = g_strdup_printf("%.*s%s%s", index, node->string, strings[0], node->string + index);
-		g_free(node->string);
-		node->string = temp;
-		index += strlen(strings[0]);
-
-		for (i = 1; strings[i]; i++) {
-			ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-			gchar *temp = g_strdup_printf("%.*s", index, node->string);
-			gchar *temp2 = g_strdup_printf("%s%s", strings[i], node->string + index);
-
-			g_free(node->string);
-			node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
-			node->string = temp;
-			if (node->card)
-				gtk_object_unref(GTK_OBJECT(node->card));
-			node->card = NULL;
-
-			node = g_new(ESelectNamesModelData, 1);
-			node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
-			node->card = NULL;
-			node->string = temp2;
-			e_iterator_insert(iterator, node, 0);
-			index = strlen(strings[i]);
-			g_free(node->string);
-			g_free(node);
-		}
-	}
-	e_select_names_model_changed(model);
-	gtk_object_unref(GTK_OBJECT(iterator));
-}
-
-void
-e_select_names_model_insert_length     (ESelectNamesModel *model,
-					EIterator *iterator, /* Must be one of the iterators in the model. */
-					int index,
-					char *data,
-					int length)
-{
-	gchar *string = g_new(char, length + 1);
-	strncpy(string, data, length);
-	string[length] = 0;
-	e_select_names_model_insert(model, iterator, index, string);
-	g_free(string);
-}
-
-void
-e_select_names_model_delete            (ESelectNamesModel *model,
-					EIterator *iterator, /* Must be one of the iterators in the model. */
-					int index,
-					int length)
-{
-	while (length > 0 && e_iterator_is_valid(iterator)) {
-		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-		int this_length = strlen(node->string);
-		if (this_length <= index + length) {
-			gchar *temp = g_strdup_printf("%.*s", index, node->string);
-			g_free(node->string);
-			node->string = temp;
-			length -= this_length - index;
-		} else {
-			gchar *temp = g_strdup_printf("%.*s%s", index, node->string, node->string + index + length);
-			g_free(node->string);
-			node->string = temp;
-			break;
-		}
 		
-		if (length > 0) {
-			e_iterator_next(iterator);
-			if (e_iterator_is_valid(iterator)) {
-				ESelectNamesModelData *node2 = (void *) e_iterator_get(iterator);
-				gchar *temp = g_strdup_printf("%s%s", node->string, node2->string);
-				g_free(node2->string);
-				node2->string = temp;
-				e_iterator_prev(iterator);
-				e_iterator_delete(iterator);
-				length --;
-			}
+		node = g_list_nth (model->priv->data, index);
+
+		if (node->data != dest) {
+			old_strlen = e_destination_get_strlen (E_DESTINATION (node->data));
+
+			gtk_object_unref (GTK_OBJECT (node->data));
+
+			node->data = dest;
+			gtk_object_ref (GTK_OBJECT (dest));
+			gtk_object_sink (GTK_OBJECT (dest));
 		}
 	}
-	e_select_names_model_changed(model);
+
+	e_select_names_model_changed (model);
+
+	gtk_signal_emit (GTK_OBJECT (model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_RESIZED],
+			 index, old_strlen, new_strlen);
 }
 
 void
-e_select_names_model_replace           (ESelectNamesModel *model,
-					EIterator *iterator, /* Must be one of the iterators in the model. */
-					int index,
-					int length,
-					char *data)
+e_select_names_model_delete (ESelectNamesModel *model, gint index)
 {
-	if (iterator == NULL) {
-		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS, NULL, ""};
+	GList *node;
 
-		e_list_append(model->data, &new);
-		iterator = e_list_get_iterator(model->data);
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
+	
+	node = g_list_nth (model->priv->data, index);
+	gtk_object_unref (GTK_OBJECT (node->data));
 
-		index = 0;
-	} else {
-		gtk_object_ref(GTK_OBJECT(iterator));
+	model->priv->data = g_list_remove_link (model->priv->data, node);
+	g_list_free_1 (node);
+
+	e_select_names_model_changed (model);
+}
+
+void
+e_select_names_model_delete_all (ESelectNamesModel *model)
+{
+	g_return_if_fail (model != NULL);
+
+	g_list_foreach (model->priv->data, (GFunc) gtk_object_unref, NULL);
+	g_list_free (model->priv->data);
+	model->priv->data = NULL;
+
+	e_select_names_model_changed (model);
+}
+
+void
+e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, gint *length)
+{
+	gint rp = 0, i, len = 0;
+	GList *iter;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+
+	i = 0;
+	iter = model->priv->data;
+	while (iter && i <= index) {
+		rp += len + (i > 0 ? SEPLEN : 0);
+		len = e_destination_get_strlen (E_DESTINATION (iter->data));
+		++i;
+		iter = g_list_next (iter);
 	}
-	while (length > 0 && e_iterator_is_valid(iterator)) {
-		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-		int this_length = strlen(node->string);
-		if (this_length <= index + length) {
-			gchar *temp = g_strdup_printf("%.*s", index, node->string);
-			g_free(node->string);
-			node->string = temp;
-			length -= this_length - index;
-		} else {
-			gchar *temp = g_strdup_printf("%.*s%s", index, node->string, node->string + index + length);
-			g_free(node->string);
-			node->string = temp;
-			length = 0;
-		}
-
-		if (length > 0) {
-			e_iterator_next(iterator);
-			if (e_iterator_is_valid(iterator)) {
-				ESelectNamesModelData *node2 = (void *) e_iterator_get(iterator);
-				gchar *temp = g_strdup_printf("%s%s", node->string, node2->string);
-				g_free(node2->string);
-				node2->string = temp;
-				e_iterator_prev(iterator);
-				e_iterator_delete(iterator);
-			}
-		}
+	
+	if (i <= index) {
+		rp = -1;
+		len = 0;
 	}
-	if (!e_iterator_is_valid(iterator)) {
-		ESelectNamesModelData *node;
-		e_iterator_last(iterator);
-		if (e_iterator_is_valid(iterator)) {
-			node = (void *) e_iterator_get(iterator);
-			index = strlen(node->string);
-		} else
-			index = 0;
+	
+	if (pos)
+		*pos = rp;
+	if (length)
+		*length = len;
+}
+
+void
+e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length)
+{
+	GList *iter;
+	gint len = 0, i = 0, sp = 0, adj = 0;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+
+	iter = model->priv->data;
+
+	while (iter != NULL) {
+		len = e_destination_get_strlen (E_DESTINATION (iter->data));
+
+		if (sp <= pos && pos <= sp + len + adj)
+			break;
+
+		sp += len + adj + 1;
+		adj = 1;
+		++i;
+
+		iter = g_list_next (iter);
 	}
-	e_select_names_model_insert (model, iterator, index, data);
-	gtk_object_unref(GTK_OBJECT(iterator));
+
+	if (i != 0)
+		++sp; /* skip past "magic space" */
+
+	if (iter == NULL) {
+		i = -1;
+		sp = -1;
+		len = 0;
+	}
+
+	if (index)
+		*index = i;
+	if (start_pos)
+		*start_pos = sp;
+	if (length)
+		*length = len;
 }
-
-static void
-esnm_add_item_real (ESelectNamesModel *model,
-		    EIterator *iterator, /* NULL for at the beginning. */
-		    gboolean before,
-		    ESelectNamesModelData *data)
-{
-	if (iterator == NULL)
-		iterator = e_list_get_iterator(model->data);
-	else
-		gtk_object_ref(GTK_OBJECT(iterator));
-
-	e_iterator_insert(iterator, data, before);
-
-	gtk_object_unref(GTK_OBJECT(iterator));
-}
-
-static void
-esnm_remove_item_real       (ESelectNamesModel *model,
-			     EIterator *iterator)
-{
-	e_iterator_delete(iterator);
-}
-
-void
-e_select_names_model_add_item          (ESelectNamesModel *model,
-					EIterator *iterator, /* NULL for at the beginning. */
-					ESelectNamesModelData *data)
-{
-	esnm_add_item_real(model, iterator, FALSE, data);
-	e_select_names_model_changed(model);
-}
-
-void
-e_select_names_model_replace_item      (ESelectNamesModel *model,
-					EIterator *iterator,
-					ESelectNamesModelData *data)
-{
-	esnm_remove_item_real(model, iterator);
-	esnm_add_item_real(model, iterator, FALSE, data);
-	e_select_names_model_changed(model);
-}
-
-void
-e_select_names_model_remove_item       (ESelectNamesModel *model,
-					EIterator *iterator)
-{
-	esnm_remove_item_real(model, iterator);
-	e_select_names_model_changed(model);
-}
-
-

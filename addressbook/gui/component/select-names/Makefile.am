@@ -51,6 +51,8 @@ libeselectnames_la_SOURCES = 		\
 	$(IDL_GENERATED)		\
 	e-select-names-bonobo.c		\
 	e-select-names-bonobo.h		\
+	e-select-names-completion.c	\
+	e-select-names-completion.h	\
 	e-select-names-factory.c	\
 	e-select-names-factory.h	\
 	e-select-names-manager.c	\

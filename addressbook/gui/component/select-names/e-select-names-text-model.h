@@ -1,9 +1,10 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey    <clahey@ximian.com>
+ *   Jon Trowbridge <trow@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  */
 
 #ifndef __E_SELECT_NAMES_TEXT_MODEL_H__
@@ -28,8 +29,8 @@ struct _ESelectNamesTextModel {
 	ETextModel parent;
 
 	ESelectNamesModel *source;
-	int source_changed_id;
-	int *lengths;
+	gint source_changed_id;
+	gint source_resize_id;
 };
 
 struct _ESelectNamesTextModelClass {
