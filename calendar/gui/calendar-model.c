@@ -237,7 +237,7 @@ calendar_model_destroy (GtkObject *object)
 static int
 calendar_model_column_count (ETableModel *etm)
 {
-	return ICAL_OBJECT_FIELD_NUM_FIELDS;
+	return CAL_COMPONENT_FIELD_NUM_FIELDS;
 }
 
 /* row_count handler for the calendar table model */
@@ -274,20 +274,309 @@ get_time_t (time_t *t, gboolean skip_midnight)
 	return buffer;
 }
 
-static char*
-get_geo (iCalGeo *geo)
+/* Builds a string based on the list of CATEGORIES properties of a calendar
+ * component.
+ */
+static char *
+get_categories (CalComponent *comp)
 {
-	static gchar buffer[32];
+	GSList *categories;
+	GString *str;
+	char *s;
+	GSList *l;
 
-	if (!geo->valid)
-		buffer[0] = '\0';
-	else
-		g_snprintf (buffer, 32, "%g, %g", geo->latitude,
-			    geo->longitude);
+	cal_component_get_categories_list (comp, &categories);
 
-	return buffer;
+	str = g_string_new (NULL);
+
+	for (l = categories; l; l = l->next) {
+		const char *category;
+
+		category = l->data;
+		g_string_append (str, category);
+
+		if (l->next != NULL)
+			g_string_append (str, ", ");
+	}
+
+	s = str->str;
+
+	g_string_free (s, FALSE);
+	cal_component_free_categories_list (categories);
+
+	return s;
 }
 
+/* Returns a string based on the CLASSIFICATION property of a calendar component */
+static char *
+get_classification (CalComponent *comp)
+{
+	CalComponentClassification classif;
+
+	cal_component_get_classification (comp, &classif);
+
+	switch (classif) {
+	case CAL_COMPONENT_CLASS_NONE:
+		return "";
+
+	case CAL_COMPONENT_CLASS_PUBLIC:
+		return _("Public");
+
+	case CAL_COMPONENT_CLASS_PRIVATE:
+		return _("Private");
+
+	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
+		return _("Confidential");
+
+	case CAL_COMPONENT_CLASS_UNKNOWN:
+		return _("Unknown");
+
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
+/* Builds a string for the COMPLETED property of a calendar component */
+static char *
+get_completed (CalComponent *comp)
+{
+	struct icaltimetype *completed;
+	time_t t;
+
+	cal_component_get_completed (comp, &completed);
+
+	if (!completed)
+		t = 0;
+	else {
+		t = time_from_icaltimetype (*completed);
+		cal_component_free_icaltimetype (completed);
+	}
+
+	return get_time_t (&t, FALSE);
+}
+
+/* Builds a string for and frees a date/time value */
+static char *
+get_and_free_datetime (CalComponentDateTime dt)
+{
+	time_t t;
+
+	if (!dt.value)
+		t = 0;
+	else
+		t = time_from_icaltimetype (*t.value);
+
+	cal_component_free_datetime (comp, &dt);
+
+	return get_time_t (&t, FALSE);
+}
+
+/* Builds a string for the DTEND property of a calendar component */
+static char *
+get_dtend (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+
+	cal_component_get_dtend (comp, &dt);
+	return get_and_free_datetime (dt);
+}
+
+/* Builds a string for the DTSTART property of a calendar component */
+static char *
+get_dtstart (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+
+	cal_component_get_dtstart (comp, &dt);
+	return get_and_free_datetime (dt);
+}
+
+/* Builds a string for the DUE property of a calendar component */
+static char *
+get_due (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+
+	cal_component_get_due (comp, &dt);
+	return get_and_free_datetime (dt);
+}
+
+/* Builds a string for the PERCENT property of a calendar component */
+static char*
+get_geo (CalComponent *comp)
+{
+	struct icalgeotype *geo;
+	static gchar buf[32];
+
+	cal_component_get_geo (comp, &geo);
+
+	if (!geo)
+		buf[0] = '\0';
+	else {
+		g_snprintf (buf, sizeof (buf), "%g %s, %g %s",
+			    fabs (geo->lat),
+			    geo->lat >= 0.0 ? _("N") : _("S"),
+			    fabs (geo->lon),
+			    geo->lon >= 0.0 ? _("E") : _("W"));
+		cal_component_free_geo (geo);
+	}
+
+	return buf;
+}
+
+/* Builds a string for the PERCENT property of a calendar component */
+static char *
+get_percent (CalComponent *comp)
+{
+	int *percent;
+	static char buf[32];
+
+	cal_component_get_percent (comp, &percent);
+
+	if (!percent)
+		buf[0] = '\0';
+	else {
+		g_snprintf (buf, sizeof (buf), "%d%%", *percent);
+		cal_component_free_percent (percent);
+	}
+
+	return buf;
+}
+
+/* Builds a string for the PRIORITY property of a calendar component */
+static char *
+get_priority (CalComponent *comp)
+{
+	int *priority;
+	static char buf[32];
+
+	cal_component_get_priority (comp, &priority);
+
+	if (!priority)
+		buf[0] = '\0';
+	else {
+		g_snprintf (buf, sizeof (buf), "%d", *priority);
+		cal_component_free_priority (priority);
+	}
+
+	return buf;
+}
+
+/* Builds a string for the SUMMARY property of a calendar component */
+static char *
+get_summary (CalComponent *comp)
+{
+	CalComponentSummary summary;
+
+	cal_component_get_summary (comp, &summary);
+
+	if (summary.value)
+		return (char *) summary.value;
+	else
+		return "";
+}
+
+/* Builds a string for the TRANSPARENCY property of a calendar component */
+static char *
+get_transparency (CalComponent *comp)
+{
+	CalComponentTransparency transp;
+
+	cal_component_get_transparency (comp, &transp);
+
+	switch (transp) {
+	case CAL_COMPONENT_TRANSP_NONE:
+		return "";
+
+	case CAL_COMPONENT_TRANSP_TRANSPARENT:
+		return _("Transparent");
+
+	case CAL_COMPONENT_TRANSP_OPAQUE:
+		return _("Opaque");
+
+	case CAL_COMPONENT_TRANSP_UNKNOWN:
+		return _("Unknown");
+
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
+/* Builds a string for the URL property of a calendar component */
+static char *
+get_url (CalComponent *comp)
+{
+	const char *url;
+
+	cal_component_get_url (comp, &url);
+
+	if (url)
+		return (char *) url;
+	else
+		return "";
+}
+
+/* Returns whether the component has any alarms defined for it */
+static gboolean
+get_has_alarms (CalComponent *comp)
+{
+	CalComponentAlarm *alarm;
+	gboolean retval;
+
+	alarm = cal_component_get_first_alarm (comp);
+	retval = (alarm != NULL);
+
+	cal_component_alarm_free (alarm);
+	return retval;
+}
+
+/* Returns whether the component has any recurrences defined for it */
+static gboolean
+get_has_recurrences (CalComponent *comp)
+{
+	return cal_component_has_rdates (comp) || cal_component_has_rrules (comp);
+}
+
+/* Returns whether the completion date has been set on a component */
+static gboolean
+get_is_complete (CalComponent *comp)
+{
+	struct icaltimetype *t;
+	gboolean retval;
+
+	cal_component_get_completed (comp, &t);
+	retval = (t != NULL);
+
+	cal_component_free_icaltimetype (t);
+	return retval;
+}
+
+/* Returns whether a calendar component is overdue.
+ *
+ * FIXME: This will only get called when the component is scrolled into the
+ * ETable.  There should be some sort of dynamic update thingy for if a component
+ * becomes overdue while it is being viewed.
+ */
+static gboolean
+get_is_overdue (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+	gboolean retval;
+
+	cal_component_get_due (comp, &dt);
+
+	if (!dt.value)
+		retval = FALSE;
+	else {
+		
+	}
+
+	cal_component_free_datetime (&dt);
+
+	return retval;
+}
 
 /* value_at handler for the calendar table model */
 static void *
@@ -301,86 +590,68 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
 	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
 
 	comp = g_array_index (priv->objects, CalComponent *, row);
 	g_assert (comp != NULL);
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_COMMENT:
-		return ico->comment ? ico->comment : "";
+	case CAL_COMPONENT_FIELD_CATEGORIES:
+		return get_categories (comp);
 
-	case ICAL_OBJECT_FIELD_COMPLETED:
-		return get_time_t (&ico->completed, FALSE);
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
+		return get_classification (comp);
 
-	case ICAL_OBJECT_FIELD_CREATED:
-		return get_time_t (&ico->created, FALSE);
+	case CAL_COMPONENT_FIELD_COMPLETED:
+		return get_completed (comp);
 
-	case ICAL_OBJECT_FIELD_DESCRIPTION:
-		return ico->desc ? ico->desc : "";
+	case CAL_COMPONENT_FIELD_DTEND:
+		return get_dtend (comp);
 
-	case ICAL_OBJECT_FIELD_DTSTAMP:
-		return get_time_t (&ico->dtstamp, FALSE);
+	case CAL_COMPONENT_FIELD_DTSTART:
+		return get_dtstart (comp);
 
-	case ICAL_OBJECT_FIELD_DTSTART:
-		return get_time_t (&ico->dtstart, FALSE);
+	case CAL_COMPONENT_FIELD_DUE:
+		return get_due (comp);
 
-	case ICAL_OBJECT_FIELD_DTEND:
-		return get_time_t (&ico->dtend, FALSE);
+	case CAL_COMPONENT_FIELD_GEO:
+		return get_geo (comp);
 
-	case ICAL_OBJECT_FIELD_GEO:
-		return get_geo (&ico->geo);
+	case CAL_COMPONENT_FIELD_PERCENT:
+		return get_percent (comp);
 
-	case ICAL_OBJECT_FIELD_LAST_MOD:
-		return get_time_t (&ico->last_mod, FALSE);
+	case CAL_COMPONENT_FIELD_PRIORITY:
+		return get_priority (comp);
 
-	case ICAL_OBJECT_FIELD_LOCATION:
-		return ico->location ? ico->location : "";
+	case CAL_COMPONENT_FIELD_SUMMARY:
+		return get_summary (comp);
 
-	case ICAL_OBJECT_FIELD_ORGANIZER:
-		if (ico->organizer && ico->organizer->name)
-			return ico->organizer->name;
-		else
-			return "";
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+		return get_transparency (comp);
 
-	case ICAL_OBJECT_FIELD_PERCENT:
-		g_snprintf (buffer, 16, "%i", ico->percent);
-		return buffer;
+	case CAL_COMPONENT_FIELD_URL:
+		return get_url (comp);
 
-	case ICAL_OBJECT_FIELD_PRIORITY:
-		g_snprintf (buffer, 16, "%i", ico->priority);
-		return buffer;
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+		return GINT_TO_POINTER (get_has_alarms (comp));
 
-	case ICAL_OBJECT_FIELD_SUMMARY:
-		return ico->summary ? ico->summary : "";
-
-	case ICAL_OBJECT_FIELD_URL:
-		return ico->url ? ico->url : "";
-
-	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-		return (gpointer) (ico->dalarm.enabled || ico->aalarm.enabled
-				   || ico->palarm.enabled || ico->malarm.enabled);
-
-	case ICAL_OBJECT_FIELD_ICON:
+	case CAL_COMPONENT_FIELD_ICON:
 		/* FIXME: Also support 'Assigned to me' & 'Assigned to someone
 		   else'. */
-		if (ico->recur)
+		if (get_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
 		else
 			return GINT_TO_POINTER (0);
 
-	case ICAL_OBJECT_FIELD_COMPLETE:
-		/* FIXME: Should check if the Completed field is set? */
-		return GINT_TO_POINTER (ico->completed > 0);
+	case CAL_COMPONENT_FIELD_COMPLETE:
+		return GINT_TO_POINTER (get_is_complete (comp));
 
-	case ICAL_OBJECT_FIELD_RECURRING:
-		return GINT_TO_POINTER (ico->recur != NULL);
+	case CAL_COMPONENT_FIELD_RECURRING:
+		return GINT_TO_POINTER (get_has_recurrences (comp));
 
-	case ICAL_OBJECT_FIELD_OVERDUE:
-		/* I don't think calling time() is too slow. It takes about
-		   4 times as long as calling strlen() on a 20-char string
-		   on my machine. */
+	case CAL_COMPONENT_FIELD_OVERDUE:
+		return GINT_TO_POINTER (get_is_overdue (comp));
 		if (ico->percent != 100
 		    && ico->dtend > 0
 		    && ico->dtend < time (NULL))
@@ -653,10 +924,6 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		set_time_t (&ico->completed, value);
 		break;
 
-	case ICAL_OBJECT_FIELD_CREATED:
-		set_time_t (&ico->created, value);
-		break;
-
 	case ICAL_OBJECT_FIELD_DESCRIPTION:
 		set_string (&ico->desc, value);
 		break;
@@ -751,7 +1018,6 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	/*g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);*/
 
 	switch (col) {
-	case ICAL_OBJECT_FIELD_CREATED:
 	case ICAL_OBJECT_FIELD_DTSTAMP:
 	case ICAL_OBJECT_FIELD_LAST_MOD:
 	case ICAL_OBJECT_FIELD_GEO:
@@ -882,9 +1148,6 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 		return dup_string (value);
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
-		return dup_time_t (value);
-
-	case ICAL_OBJECT_FIELD_CREATED:
 		return dup_time_t (value);
 
 	case ICAL_OBJECT_FIELD_DESCRIPTION:
@@ -1036,9 +1299,6 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case ICAL_OBJECT_FIELD_COMPLETED:
 		return init_time_t ();
 
-	case ICAL_OBJECT_FIELD_CREATED:
-		return init_time_t ();
-
 	case ICAL_OBJECT_FIELD_DESCRIPTION:
 		return init_string ();
 
@@ -1136,9 +1396,6 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 		return string_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
-		return time_t_is_empty (value);
-
-	case ICAL_OBJECT_FIELD_CREATED:
 		return time_t_is_empty (value);
 
 	case ICAL_OBJECT_FIELD_DESCRIPTION:

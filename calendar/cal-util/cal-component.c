@@ -71,6 +71,7 @@ struct _CalComponentPrivate {
 	GSList *exdate_list; /* list of icalproperty objects */
 	GSList *exrule_list; /* list of icalproperty objects */
 
+	icalproperty *geo;
 	icalproperty *last_modified;
 	icalproperty *percent;
 	icalproperty *priority;
@@ -244,6 +245,7 @@ free_icalcomponent (CalComponent *comp)
 	g_slist_free (priv->exrule_list);
 	priv->exrule_list = NULL;
 
+	priv->geo = NULL;
 	priv->last_modified = NULL;
 	priv->percent = NULL;
 	priv->priority = NULL;
@@ -515,6 +517,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_EXRULE_PROPERTY:
 		scan_recur (comp, &priv->exrule_list, prop);
+		break;
+
+	case ICAL_GEO_PROPERTY:
+		priv->geo = prop;
 		break;
 
 	case ICAL_LASTMODIFIED_PROPERTY:
@@ -1951,7 +1957,6 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (exdate_list != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
@@ -2096,7 +2101,6 @@ cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (recur_list != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
@@ -2104,6 +2108,69 @@ cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list)
 	set_recur_list (comp, icalproperty_new_exrule, &priv->exrule_list, recur_list);
 
 	priv->need_sequence_inc = TRUE;
+}
+
+/**
+ * cal_component_get_geo:
+ * @comp: A calendar component object.
+ * @geo: Return value for the geographic position property.  This should be
+ * freed using the cal_component_free_geo() function.
+ * 
+ * Sets the geographic position property of a calendar component object.
+ **/
+void
+cal_component_get_geo (CalComponent *comp, struct icalgeotype **geo)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (geo != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->geo) {
+		*geo = g_new (struct icalgeotype, 1);
+		**geo = icalproperty_get_geo (priv->geo);
+	} else
+		*geo = NULL;
+}
+
+/**
+ * cal_component_set_geo:
+ * @comp: A calendar component object.
+ * @geo: Value for the geographic position property.
+ * 
+ * Sets the geographic position property on a calendar component object.
+ **/
+void
+cal_component_set_geo (CalComponent *comp, struct icalgeotype *geo)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!geo) {
+		if (priv->geo) {
+			icalcomponent_remove_property (priv->icalcomp, priv->geo);
+			icalproperty_free (priv->geo);
+			priv->geo = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->geo)
+		icalproperty_set_geo (priv->geo, *geo);
+	else {
+		priv->geo = icalproperty_new_geo (*geo);
+		icalcomponent_add_property (priv->icalcomp, priv->geo);
+	}
 }
 
 /**
@@ -2334,6 +2401,29 @@ cal_component_set_rdate_list (CalComponent *comp, GSList *period_list)
 }
 
 /**
+ * cal_component_has_rdates:
+ * @comp: A calendar component object.
+ * 
+ * Queries whether a calendar component object has any recurrence dates defined
+ * for it.
+ * 
+ * Return value: TRUE if the component has recurrence dates, FALSE otherwise.
+ **/
+gboolean
+cal_component_has_rdates (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	return (priv->rdate_list != NULL);
+}
+
+/**
  * cal_component_get_rrule_list:
  * @comp: A calendar component object.
  * @recur_list: List of recurrence rules as struct #icalrecurrencetype
@@ -2380,6 +2470,29 @@ cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list)
 	set_recur_list (comp, icalproperty_new_rrule, &priv->rrule_list, recur_list);
 
 	priv->need_sequence_inc = TRUE;
+}
+
+/**
+ * cal_component_has_rrules:
+ * @comp: A calendar component object.
+ * 
+ * Queries whether a calendar component object has any recurrence rules defined
+ * for it.
+ * 
+ * Return value: TRUE if the component has recurrence rules, FALSE otherwise.
+ **/
+gboolean
+cal_component_has_rrules (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	return (priv->rrule_list != NULL);
 }
 
 /**
@@ -2749,6 +2862,21 @@ cal_component_free_exdate_list (GSList *exdate_list)
 }
 
 /**
+ * cal_component_free_geo:
+ * @geo: An #icalgeotype structure.
+ * 
+ * Frees a struct #icalgeotype structure as returned by the calendar component
+ * functions.
+ **/
+void
+cal_component_free_geo (struct icalgeotype *geo)
+{
+	g_return_if_fail (geo != NULL);
+
+	g_free (geo);
+}
+
+/**
  * cal_component_free_icaltimetype:
  * @t: An #icaltimetype structure.
  *
@@ -2949,6 +3077,36 @@ cal_component_get_first_alarm (CalComponent *comp)
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 
 	subcomp = icalcomponent_get_first_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
+	if (!subcomp)
+		return NULL;
+
+	return make_alarm (comp, subcomp);
+}
+
+/**
+ * cal_component_get_next_alarm:
+ * @comp: A calendar component object.
+ * 
+ * Gets the next alarm on a calendar component object.  This should be used as
+ * an iterator function after calling cal_component_get_first_alarm().
+ * 
+ * Return value: The next alarm in the component, or NULL if the component has
+ * no more alarms.  This should be freed using the cal_component_alarm_free()
+ * function.
+ **/
+CalComponentAlarm *
+cal_component_get_next_alarm (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	icalcomponent *subcomp;
+
+	g_return_val_if_fail (comp != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+
+	subcomp = icalcomponent_get_next_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
 	if (!subcomp)
 		return NULL;
 

@@ -1,5 +1,41 @@
 2000-08-11  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/calendar-model.c (get_geo): Generate a prettier string for
+	the geographical position.
+	(get_classification): New function.
+	(get_categories): New function.
+	(get_completed): New function.
+	(get_dtend): New function.
+	(get_dtstart): New function.
+	(get_due): New function.
+	(get_percent): New function.
+	(get_priority): New function.
+	(get_summary): New function.
+	(get_transparency): New function.
+	(get_url): New function.
+	(get_has_alarms): New function.
+	(get_has_recurrences): New function.
+	(get_is_complete): New function.
+	(get_is_overdue): New function.
+
+	* cal-util/cal-component.c (scan_property): Handle the GEO
+	property.
+	(free_icalcomponent): Likewise.
+	(cal_component_get_geo): Likewise.
+	(cal_component_set_geo): Likewise.
+	(cal_component_free_geo): Likewise.
+	(cal_component_set_exdate_list): Removed incorrect assertion.
+	(cal_component_set_exrule_list): Removed incorrect assertion.
+	(cal_component_get_next_alarm): Oops, this had not been
+	implemented at all.
+	(cal_component_has_rdates): New function.
+	(cal_component_has_rrules): New function.
+
+	* cal-util/cal-component.h (CalComponentField): Added the GEO
+	property.
+
+2000-08-11  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-util/cal-component.c (scan_property): Handle the
 	PERCENT-COMPLETE property.
 	(free_icalcomponent): Likewise.
