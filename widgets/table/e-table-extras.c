@@ -13,6 +13,7 @@
 #include "gal/util/e-util.h"
 #include "gal/e-table/e-cell-text.h"
 #include "gal/e-table/e-cell-checkbox.h"
+#include "gal/e-table/e-cell-tree.h"
 #include "e-table-extras.h"
 
 #define PARENT_TYPE (gtk_object_get_type())
@@ -75,6 +76,11 @@ ete_init (ETableExtras *extras)
 	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
 
 	e_table_extras_add_compare(extras, "string", g_str_compare);
+	e_table_extras_add_compare(extras, "integer", g_int_compare);
+
+	e_table_extras_add_cell(extras, "checkbox", e_cell_checkbox_new());
+	e_table_extras_add_cell(extras, "string", e_cell_text_new (NULL, GTK_JUSTIFY_LEFT));
+	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
 
 E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, PARENT_TYPE);

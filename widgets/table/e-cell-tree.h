@@ -32,8 +32,7 @@ typedef struct {
 } ECellTreeClass;
 
 GtkType    e_cell_tree_get_type (void);
-ECell     *e_cell_tree_new      (ETableModel *model,
-				 GdkPixbuf *open_pixbuf,
+ECell     *e_cell_tree_new      (GdkPixbuf *open_pixbuf,
 				 GdkPixbuf *closed_pixbuf,
 				 gboolean draw_lines,
 				 ECell *subcell);

@@ -61,11 +61,8 @@ enum {
 
 enum {
 	ARG_0,
-	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
-	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
-	ARG_CLICK_TO_ADD_MESSAGE,
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -759,6 +756,9 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		ete = e_table_extras_new();
 
 	e_table->use_click_to_add = specification->click_to_add;
+	e_table->click_to_add_message = g_strdup(specification->click_to_add_message_);
+	e_table->draw_grid = specification->draw_grid;
+	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = et_spec_to_full_header(e_table, specification, ete);
 
 	e_table->model = etm;
@@ -1136,16 +1136,8 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	ETable *etable = E_TABLE (o);
 
 	switch (arg_id){
-	case ARG_TABLE_DRAW_GRID:
-		GTK_VALUE_BOOL (*arg) = etable->draw_grid;
-		break;
-
 	case ARG_TABLE_DRAW_FOCUS:
 		GTK_VALUE_BOOL (*arg) = etable->draw_focus;
-		break;
-
-	case ARG_CLICK_TO_ADD_MESSAGE:
-		GTK_VALUE_STRING (*arg) = g_strdup (etable->click_to_add_message);
 		break;
 	}
 }
@@ -1170,15 +1162,6 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 		
-	case ARG_TABLE_DRAW_GRID:
-		etable->draw_grid = GTK_VALUE_BOOL (*arg);
-		if (etable->group) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
-					       "drawgrid", GTK_VALUE_BOOL (*arg),
-					       NULL);
-		}
-		break;
-
 	case ARG_TABLE_DRAW_FOCUS:
 		etable->draw_focus = GTK_VALUE_BOOL (*arg);
 		if (etable->group) {
@@ -1186,24 +1169,6 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					"drawfocus", GTK_VALUE_BOOL (*arg),
 					NULL);
 		}
-		break;
-
-	case ARG_CURSOR_MODE:
-		etable->cursor_mode = GTK_VALUE_INT (*arg);
-		if (etable->group) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
-					"cursor_mode", GTK_VALUE_INT (*arg),
-					NULL);
-		}
-		break;
-	case ARG_CLICK_TO_ADD_MESSAGE:
-		if (etable->click_to_add_message)
-			g_free(etable->click_to_add_message);
-		etable->click_to_add_message = g_strdup(GTK_VALUE_STRING (*arg));
-		if (etable->click_to_add)
-			gnome_canvas_item_set(etable->click_to_add,
-					      "message", etable->click_to_add_message,
-					      NULL);
 		break;
 	}
 }
@@ -1989,16 +1954,10 @@ e_table_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 	
-	gtk_object_add_arg_type ("ETable::drawgrid", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETable::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_FOCUS);
-	gtk_object_add_arg_type ("ETable::cursor_mode", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
-	gtk_object_add_arg_type ("ETable::click_to_add_message", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_CLICK_TO_ADD_MESSAGE);
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE);

@@ -1607,7 +1607,7 @@ e_cell_text_init (ECellText *ect)
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
 
 ECell *
-e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justify)
+e_cell_text_new (const char *fontname, GtkJustification justify)
 {
 	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
 

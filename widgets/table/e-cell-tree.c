@@ -635,8 +635,7 @@ e_cell_tree_construct (ECellTree *ect,
 
 
 ECell *
-e_cell_tree_new (ETableModel *etm,
-		 GdkPixbuf *open_pixbuf,
+e_cell_tree_new (GdkPixbuf *open_pixbuf,
 		 GdkPixbuf *closed_pixbuf,
 		 gboolean draw_lines,
 		 ECell *subcell)
