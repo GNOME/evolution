@@ -1,5 +1,9 @@
 2000-04-13  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/contact-editor/e-contact-editor.c
+	(fill_in_info): reflect the title attribute in the contact editor.
+	(extract_info): same.
+
 	* addressbook/backend/pas/pas-backend-ldap.c: add the title attribute.
 
 	* addressbook/gui/minicard/test-reflow.c: add a title.
