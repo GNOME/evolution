@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-23 13:58+0200\n"
+"POT-Creation-Date: 2004-09-24 09:46+0200\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -231,13 +231,13 @@ msgstr ""
 msgid "Default Sync Address:"
 msgstr "Domyślny adres do synchronizacji:"
 
-#: addressbook/conduit/address-conduit.c:1181
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1183
+#: addressbook/conduit/address-conduit.c:1184
 msgid "Could not load addressbook"
 msgstr "Nie można wczytać książki adresowej"
 
-#: addressbook/conduit/address-conduit.c:1250
-#: addressbook/conduit/address-conduit.c:1253
+#: addressbook/conduit/address-conduit.c:1252
+#: addressbook/conduit/address-conduit.c:1255
 msgid "Could not read pilot's Address application block"
 msgstr "Nie można odczytać bloku aplikacji adresowej Pilota"
 
@@ -353,7 +353,7 @@ msgstr "Migrowanie \"%s\":"
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:249 mail/mail-vfolder.c:218
+#: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "Na tym komputerze"
 
@@ -433,7 +433,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
-#: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -443,7 +443,7 @@ msgid "Delete"
 msgstr "Usuń"
 
 #: addressbook/gui/component/addressbook-view.c:815
-#: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Właściwości..."
 
@@ -2541,7 +2541,7 @@ msgid "Cut"
 msgstr "Wytnij"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1126
-#: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -3486,7 +3486,7 @@ msgid "In async mode, output must be file."
 msgstr "W trybie asynchronicznym, wyjście musi być plikiem."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
-msgid "In normal mode, there should not need size option."
+msgid "In normal mode, there is no need for the size option."
 msgstr "W trybie zwykłym, nie potrzeba opcji rozmiaru."
 
 # FIXME - bełkot
@@ -3827,7 +3827,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalendarz i zadania"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1079
+#: calendar/gui/calendar-component.c:1085
 msgid "Calendars"
 msgstr "Kalendarze"
 
@@ -3861,7 +3861,7 @@ msgstr "Komponent zadań Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
+#: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 #: camel/providers/groupwise/camel-gw-listener.c:332
@@ -4140,7 +4140,7 @@ msgstr "Położenie zawiera"
 msgid "Unmatched"
 msgstr "Niedopasowane"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1910
 #: camel/providers/groupwise/camel-gw-listener.c:331
@@ -4178,15 +4178,15 @@ msgstr "%A %d %B %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:525
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
-#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:527
+#: calendar/gui/calendar-component.c:532 calendar/gui/calendar-component.c:534
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -4208,16 +4208,16 @@ msgstr "%d %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Kalendarz \"%s\" zostanie usunięty. Czy na pewno chcesz kontynuować?"
 
-#: calendar/gui/calendar-component.c:426
+#: calendar/gui/calendar-component.c:432
 msgid "New Calendar"
 msgstr "Nowy kalendarz"
 
-#: calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-component.c:522
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
-#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#: calendar/gui/calendar-component.c:546 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:559 calendar/gui/calendar-component.c:561
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -4226,71 +4226,71 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-component.c:545
+#: calendar/gui/calendar-component.c:551
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:641
 msgid "Failed upgrading calendars."
 msgstr "Nie można zaktualizować kalendarzy."
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:937
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 "Nie można otworzyć kalendarza \"%s\" w celu utworzenia zdarzeń i spotkań"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Brak dostępnego kalendarza do utworzenia zdarzeń i spotkań"
 
-#: calendar/gui/calendar-component.c:1245
+#: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
 msgstr "Nowy termin"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
 msgstr "_Termin"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
 msgstr "Tworzy nowy termin"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1259
 msgid "New meeting"
 msgstr "Nowe spotkanie"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
 msgstr "Spot_kanie"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
 msgstr "Tworzy nową prośbę o spotkanie"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1267
 msgid "New all day appointment"
 msgstr "Nowy termin całodniowy"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1268
 msgid "All Day A_ppointment"
 msgstr "T_ermin całodniowy"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1269
 msgid "Create a new all-day appointment"
 msgstr "Tworzy nowy termin całodniowy"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1275
 msgid "New calendar"
 msgstr "Nowy kalendarz"
 
-#: calendar/gui/calendar-component.c:1270
+#: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
 msgstr "Kale_ndarz"
 
-#: calendar/gui/calendar-component.c:1271
+#: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
 msgstr "Tworzy nowy kalendarz"
 
@@ -5935,7 +5935,7 @@ msgstr "_Oznacz zadania jako zakończone"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -7160,11 +7160,11 @@ msgstr "Ustawienia wydruku"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Lista zadań \"%s\" zostanie usunięta. Czy na pewno chcesz kontynuować?"
 
-#: calendar/gui/tasks-component.c:372
+#: calendar/gui/tasks-component.c:378
 msgid "New Task List"
 msgstr "Nowa lista zadań"
 
-#: calendar/gui/tasks-component.c:415
+#: calendar/gui/tasks-component.c:421
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
@@ -7172,7 +7172,7 @@ msgstr[0] "%d zadanie"
 msgstr[1] "%d zadania"
 msgstr[2] "%d zadań"
 
-#: calendar/gui/tasks-component.c:417 mail/mail-component.c:502
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:503
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -7180,53 +7180,53 @@ msgstr[0] ", %d zaznaczone"
 msgstr[1] ", %d zaznaczone"
 msgstr[2] ", %d zaznaczonych"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:470
 msgid "Failed upgrading tasks."
 msgstr "Nie można zaktualizować zadań."
 
-#: calendar/gui/tasks-component.c:758
+#: calendar/gui/tasks-component.c:764
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Nie można otworzyć listy zadań \"%s\" w celu utworzenia zdarzeń i spotkań"
 
-#: calendar/gui/tasks-component.c:773
+#: calendar/gui/tasks-component.c:779
 msgid "There is no calendar available for creating tasks"
 msgstr "Brak dostępnego kalendarza do utworzenia zadań"
 
-#: calendar/gui/tasks-component.c:1047
+#: calendar/gui/tasks-component.c:1053
 msgid "New task"
 msgstr "Nowe zadanie"
 
-#: calendar/gui/tasks-component.c:1048
+#: calendar/gui/tasks-component.c:1054
 msgid "_Task"
 msgstr "_Zadanie"
 
-#: calendar/gui/tasks-component.c:1049
+#: calendar/gui/tasks-component.c:1055
 msgid "Create a new task"
 msgstr "Tworzy nowe zadanie"
 
-#: calendar/gui/tasks-component.c:1055
+#: calendar/gui/tasks-component.c:1061
 msgid "New assigned task"
 msgstr "Nowe przypisane zadanie"
 
-#: calendar/gui/tasks-component.c:1056
+#: calendar/gui/tasks-component.c:1062
 msgid "Assigne_d Task"
 msgstr "Przypisane za_danie"
 
-#: calendar/gui/tasks-component.c:1057
+#: calendar/gui/tasks-component.c:1063
 msgid "Create a new assigned task"
 msgstr "Tworzy nowe przypisane zadanie"
 
-#: calendar/gui/tasks-component.c:1063
+#: calendar/gui/tasks-component.c:1069
 msgid "New task list"
 msgstr "Nowa lista zadań"
 
-#: calendar/gui/tasks-component.c:1064
+#: calendar/gui/tasks-component.c:1070
 msgid "Task l_ist"
 msgstr "L_ista zadań"
 
-#: calendar/gui/tasks-component.c:1065
+#: calendar/gui/tasks-component.c:1071
 msgid "Create a new task list"
 msgstr "Tworzy nową listę zadań"
 
@@ -10151,7 +10151,7 @@ msgstr "Sprawdzanie nowych listów we wszystkich folderach"
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
 msgstr ""
-"Zastosowanie filtrów na nowych wiadomościach w Nadchodzących na tym serwerze"
+"Zastosowanie filtrów na nowych wiadomościach w Odebranych na tym serwerze"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
@@ -10161,7 +10161,7 @@ msgstr "Sprawdzanie nowych listów pod kątem śmieci"
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "Sprawdzanie śmieci tylko w folderze INBOX"
+msgstr "Sprawdzanie śmieci tylko w folderze Odebrane"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:65
 #: camel/providers/imap/camel-imap-provider.c:70
@@ -10398,7 +10398,8 @@ msgstr "Przestrzeń nazw"
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr ""
-"Zastosowywanie filtrów w odniesieniu do nowych listów w INBOX na tym serwerze"
+"Zastosowywanie filtrów w odniesieniu do nowych listów w Odebrane na tym "
+"serwerze"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10850,7 +10851,7 @@ msgstr ""
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
 msgid "Apply filters to new messages in INBOX"
-msgstr "Zastosowywanie filtrów w odniesieniu do nowych listów w INBOX"
+msgstr "Zastosowywanie filtrów w odniesieniu do nowych listów w Odebrane"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
@@ -10903,7 +10904,7 @@ msgstr "Nie można pobrać folderu: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:178
 msgid "Local stores do not have an inbox"
-msgstr "Lokalne miejsca przechowywania nie mają skrzynki nadchodzącej"
+msgstr "Lokalne miejsca przechowywania nie mają skrzynki odebranych"
 
 #: camel/providers/local/camel-local-store.c:224
 #, c-format
@@ -10948,12 +10949,14 @@ msgid "Unable to add message to summary: unknown reason"
 msgstr "Nie można dodać listu do zestawienia: przyczyna nieznana"
 
 #. Inbox is always first
+#. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:134
 msgid "Inbox"
-msgstr "Nadchodzące"
+msgstr "Odebrane"
 
 #: camel/providers/local/camel-maildir-folder.c:214
 msgid "Maildir append message cancelled"
@@ -11286,7 +11289,7 @@ msgstr "\"%s\" nie jest plikiem skrzynki."
 
 #: camel/providers/local/camel-spool-store.c:197
 msgid "Store does not support an INBOX"
-msgstr "Miejsce przechowywania nie obsługuje folderu INBOX"
+msgstr "Miejsce przechowywania nie obsługuje folderu Odebranych"
 
 #: camel/providers/local/camel-spool-store.c:209
 #, c-format
@@ -12348,7 +12351,7 @@ msgid ""
 "continue the message at a later date."
 msgstr ""
 "Zamknięcie okna tworzenia listu spowoduje bezpowrotne porzucenie wiadomości, "
-"chyba, że zostanie wybrany zapis wiadomości w folderze szkiców. Pozwoli to "
+"chyba, że zostanie wybrany zapis wiadomości w folderze roboczym. Pozwoli to "
 "na późniejsze kontynuowanie wiadomości."
 
 #: composer/mail-composer-errors.xml.h:33
@@ -12972,8 +12975,8 @@ msgstr "Kontrola preferencji poczty Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:510
-#: mail/mail-component.c:561
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:511
+#: mail/mail-component.c:562
 msgid "Mail"
 msgstr "Poczta"
 
@@ -13282,8 +13285,8 @@ msgstr "rozpoczyna się od"
 msgid "Stop Processing"
 msgstr "Zatrzymanie przetwarzania"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1548
-#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
+#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13329,8 +13332,8 @@ msgstr "<kliknij, aby wybrać folder> "
 msgid "Create New Folder"
 msgstr "Tworzenie nowego folderu"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
-#: mail/mail-component.c:711
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Określ miejsce utworzenia folderu:"
 
@@ -13352,7 +13355,7 @@ msgstr "VFoldery"
 msgid "UNMATCHED"
 msgstr "NIEPASUJĄCE"
 
-#: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
+#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
@@ -13389,7 +13392,7 @@ msgstr "S_kopiuj do folderu"
 msgid "_Move to Folder"
 msgstr "P_rzenieś do folderu"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Przenieś"
@@ -13398,63 +13401,68 @@ msgstr "_Przenieś"
 msgid "Cancel _Drag"
 msgstr "Anuluj p_rzeciąganie"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1002
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "Analizowanie folderów w \"%s\""
+
+#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Wybór folderu"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "Sk_opiuj"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2255
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Tworzenie folderu \"%s\""
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "Tworzenie folderu"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2633
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Zmiana nazwy folderu \"%s\" na:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2635
 msgid "Rename Folder"
 msgstr "Zmiana nazwy folderu"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Widok"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2711
 msgid "Open in _New Window"
 msgstr "Otwórz w nowym _oknie"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2715
 msgid "_Copy..."
 msgstr "S_kopiuj..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2716
 msgid "_Move..."
 msgstr "_Przenieś..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2720
 msgid "_New Folder..."
 msgstr "_Nowy folder..."
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2723
 msgid "_Rename..."
 msgstr "_Zmień nazwę..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Właściwości"
 
@@ -13752,119 +13760,119 @@ msgstr "Pobieranie \"%s\""
 msgid "Valid signature but cannot verify sender"
 msgstr "Poprawny podpis ale nie można zweryfikować nadawcy"
 
-#: mail/em-format-html.c:848
+#: mail/em-format-html.c:871
 msgid "Malformed external-body part."
 msgstr "Niepoprawna forma części external-body."
 
-#: mail/em-format-html.c:878
+#: mail/em-format-html.c:901
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Wskaźnik do witryny FTP (%s)"
 
-#: mail/em-format-html.c:889
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Wskaźnik do lokalnego pliku (%s) poprawny na witrynie \"%s\""
 
-#: mail/em-format-html.c:891
+#: mail/em-format-html.c:914
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Wskaźnik do lokalnego pliku (%s)"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Wskaźnik na zdalne dane (%s)"
 
-#: mail/em-format-html.c:923
+#: mail/em-format-html.c:946
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Wskaźnik na nieznane zewnętrzne dane (typu \"%s\")"
 
-#: mail/em-format-html.c:1163
+#: mail/em-format-html.c:1186
 msgid "Formatting message"
 msgstr "Formatowanie listu"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Od"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Odpowiedź do"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Dla"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:807
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1552 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Program pocztowy"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1579
+#: mail/em-format-html.c:1602
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1582
+#: mail/em-format-html.c:1605
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1592 mail/em-format-quote.c:321 mail/em-format.c:809
+#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: mail/em-format-html.c:1615 mail/em-format.c:810 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Grupy nowin"
 
-#: mail/em-format.c:1059
+#: mail/em-format.c:1058
 #, c-format
 msgid "%s attachment"
 msgstr "Załącznik: %s"
 
-#: mail/em-format.c:1098 mail/em-format.c:1231
+#: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Nie można przetworzyć widomości S/MIME: Nieznany błąd"
 
-#: mail/em-format.c:1221
+#: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr ""
 "Nieobsługiwany rodzaj szyfrowania dla wiadomości wieloczęściowych/"
 "szyfrowanych"
 
-#: mail/em-format.c:1382
+#: mail/em-format.c:1381
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 "Nie można przetworzyć jako list MIME. Wyświetlanie w postaci źródłowej."
 
-#: mail/em-format.c:1401
+#: mail/em-format.c:1400
 msgid "Unsupported signature format"
 msgstr "Nieobsługiwany format podpisu"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Error verifying signature"
 msgstr "Błąd weryfikacji podpisu"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Unknown error verifying signature"
 msgstr "Nieznany błąd weryfikacji podpisu"
 
@@ -14777,7 +14785,19 @@ msgstr "lista dyskusyjna %s"
 msgid "Add Filter Rule"
 msgstr "Dodanie reguły filtru"
 
-#: mail/mail-component.c:463
+#: mail/mail-component.c:135
+msgid "Drafts"
+msgstr "Robocze"
+
+#: mail/mail-component.c:136
+msgid "Outbox"
+msgstr "Wychodzące"
+
+#: mail/mail-component.c:137
+msgid "Sent"
+msgstr "Wysłane"
+
+#: mail/mail-component.c:464
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -14785,7 +14805,7 @@ msgstr[0] "%d usunięty"
 msgstr[1] "%d usunięte"
 msgstr[2] "%d usuniętych"
 
-#: mail/mail-component.c:465
+#: mail/mail-component.c:466
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -14793,16 +14813,15 @@ msgstr[0] "%d śmieć"
 msgstr[1] "%d śmieci"
 msgstr[2] "%d śmieci"
 
-# FIXME - albo zmienić koncepcję nazwy :)
-#: mail/mail-component.c:488
+#: mail/mail-component.c:489
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "%d zapisany"
-msgstr[1] "%d zapisane"
-msgstr[2] "%d zapisanych"
+msgstr[0] "%d roboczy"
+msgstr[1] "%d robocze"
+msgstr[2] "%d roboczych"
 
-#: mail/mail-component.c:490
+#: mail/mail-component.c:491
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -14810,7 +14829,7 @@ msgstr[0] "%d wysłany"
 msgstr[1] "%d wysłane"
 msgstr[2] "%d wysłanych"
 
-#: mail/mail-component.c:492
+#: mail/mail-component.c:493
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -14818,7 +14837,7 @@ msgstr[0] "%d nie wysłany"
 msgstr[1] "%d nie wysłane"
 msgstr[2] "%d nie wysłanych"
 
-#: mail/mail-component.c:496
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -14826,7 +14845,7 @@ msgstr[0] "%d wszystkich"
 msgstr[1] "%d wszystkich"
 msgstr[2] "%d wszystkich"
 
-#: mail/mail-component.c:498
+#: mail/mail-component.c:499
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
@@ -14834,31 +14853,31 @@ msgstr[0] ", %d nieprzeczytany"
 msgstr[1] ", %d nieprzeczytane"
 msgstr[2] ", %d nieprzeczytanych"
 
-#: mail/mail-component.c:663
+#: mail/mail-component.c:664
 msgid "New Mail Message"
 msgstr "Nowy list"
 
-#: mail/mail-component.c:664
+#: mail/mail-component.c:665
 msgid "_Mail Message"
 msgstr "_List"
 
-#: mail/mail-component.c:665
+#: mail/mail-component.c:666
 msgid "Compose a new mail message"
 msgstr "Tworzy nowy list"
 
-#: mail/mail-component.c:671
+#: mail/mail-component.c:672
 msgid "New Mail Folder"
 msgstr "Nowy folder poczty"
 
-#: mail/mail-component.c:672
+#: mail/mail-component.c:673
 msgid "Mail _Folder"
 msgstr "F_older poczty"
 
-#: mail/mail-component.c:673
+#: mail/mail-component.c:674
 msgid "Create a new mail folder"
 msgstr "Tworzy nowy folder poczty"
 
-#: mail/mail-component.c:805
+#: mail/mail-component.c:806
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Nie powiodło się zaktualizowanie ustawień poczty lub folderów."
 
@@ -15061,7 +15080,7 @@ msgstr "<span weight=\"bold\">Bezpieczeństwo</span>"
 
 #: mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "<span weight=\"bold\">Listy wysłane i szkice</span>"
+msgstr "<span weight=\"bold\">Listy wysłane i robocze</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
@@ -15206,7 +15225,7 @@ msgstr "Gotowe"
 
 #: mail/mail-config.glade.h:75
 msgid "Drafts _Folder:"
-msgstr "Folder ze _szkicami:"
+msgstr "Folder _roboczy:"
 
 #: mail/mail-config.glade.h:77
 msgid "Email Accounts"
@@ -15772,7 +15791,7 @@ msgstr ""
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr "Użyć domyślnego folderu szkiców?"
+msgstr "Użyć domyślnego folderu roboczego?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
@@ -15780,8 +15799,8 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
-"Nie można otworzyć folderu szkiców dla tego konta. Czy zamiast tego "
-"wykorzystać systemowy folder szkiców?"
+"Nie można otworzyć folderu roboczego dla tego konta. Czy zamiast tego "
+"wykorzystać systemowy folder roboczy?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -16283,11 +16302,6 @@ msgstr "Przenoszenie listów do %s"
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopiowanie listów do %s"
-
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "Analizowanie folderów w \"%s\""
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
@@ -18985,7 +18999,7 @@ msgstr "Zapisz jako"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
-msgstr "Zapisz _szkic"
+msgstr "Zapisz _roboczy"
 
 #: ui/evolution-message-composer.xml.h:20
 msgid "Save in folder..."
