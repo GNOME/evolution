@@ -1317,7 +1317,7 @@ get_control_for_uri (EShellView *shell_view,
 
 	slash = strchr (path + 1, G_DIR_SEPARATOR);
 	if (slash == NULL || slash[1] == '\0')
-		folder_type = get_type_for_storage (shell_view, path, &physical_uri);
+		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
 	else
 		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
 	if (!folder_type)
