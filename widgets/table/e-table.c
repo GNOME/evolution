@@ -1618,6 +1618,15 @@ e_table_get_cell_geometry (ETable *table,
 	}
 }
 
+ESelectionModel *
+e_table_get_selection_model (ETable *table)
+{
+	g_return_val_if_fail (table != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE (table), NULL);
+
+	return E_SELECTION_MODEL (table->selection);
+}
+
 struct _ETableDragSourceSite
 {
 	GdkModifierType    start_button_mask;

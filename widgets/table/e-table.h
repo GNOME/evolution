@@ -180,125 +180,127 @@ typedef struct {
 						  guint               info,
 						  guint               time);
 } ETableClass;
-
-GtkType         e_table_get_type                  (void);
-
-ETable         *e_table_construct                 (ETable               *e_table,
-						   ETableModel          *etm,
-						   ETableExtras         *ete,
-						   const char           *spec,
-						   const char           *state);
-GtkWidget      *e_table_new                       (ETableModel          *etm,
-						   ETableExtras         *ete,
-						   const char           *spec,
-						   const char           *state);
+GtkType          e_table_get_type                  (void);
+ETable          *e_table_construct                 (ETable               *e_table,
+						    ETableModel          *etm,
+						    ETableExtras         *ete,
+						    const char           *spec,
+						    const char           *state);
+GtkWidget       *e_table_new                       (ETableModel          *etm,
+						    ETableExtras         *ete,
+						    const char           *spec,
+						    const char           *state);
 
 /* Create an ETable using files. */
-ETable         *e_table_construct_from_spec_file  (ETable               *e_table,
-						   ETableModel          *etm,
-						   ETableExtras         *ete,
-						   const char           *spec_fn,
-						   const char           *state_fn);
-GtkWidget      *e_table_new_from_spec_file        (ETableModel          *etm,
-						   ETableExtras         *ete,
-						   const char           *spec_fn,
-						   const char           *state_fn);
+ETable          *e_table_construct_from_spec_file  (ETable               *e_table,
+						    ETableModel          *etm,
+						    ETableExtras         *ete,
+						    const char           *spec_fn,
+						    const char           *state_fn);
+GtkWidget       *e_table_new_from_spec_file        (ETableModel          *etm,
+						    ETableExtras         *ete,
+						    const char           *spec_fn,
+						    const char           *state_fn);
 
 /* To save the state */
-gchar          *e_table_get_state                 (ETable               *e_table);
-void            e_table_save_state                (ETable               *e_table,
-						   const gchar          *filename);
-ETableState    *e_table_get_state_object          (ETable               *e_table);
+gchar           *e_table_get_state                 (ETable               *e_table);
+void             e_table_save_state                (ETable               *e_table,
+						    const gchar          *filename);
+ETableState     *e_table_get_state_object          (ETable               *e_table);
 
 /* note that it is more efficient to provide the state at creation time */
-void            e_table_set_state                 (ETable               *e_table,
-						   const gchar          *state);
-void            e_table_set_state_object          (ETable               *e_table,
-						   ETableState          *state);
-void            e_table_load_state                (ETable               *e_table,
-						   const gchar          *filename);
-
-void            e_table_set_cursor_row            (ETable               *e_table,
-						   int                   row);
+void             e_table_set_state                 (ETable               *e_table,
+						    const gchar          *state);
+void             e_table_set_state_object          (ETable               *e_table,
+						    ETableState          *state);
+void             e_table_load_state                (ETable               *e_table,
+						    const gchar          *filename);
+void             e_table_set_cursor_row            (ETable               *e_table,
+						    int                   row);
 
 /* -1 means we don't have the cursor. */
-int             e_table_get_cursor_row            (ETable               *e_table);
-void            e_table_selected_row_foreach      (ETable               *e_table,
-						   EForeachFunc          callback,
-						   gpointer              closure);
-gint            e_table_selected_count            (ETable               *e_table);
-EPrintable     *e_table_get_printable             (ETable               *e_table);
+int              e_table_get_cursor_row            (ETable               *e_table);
+void             e_table_selected_row_foreach      (ETable               *e_table,
+						    EForeachFunc          callback,
+						    gpointer              closure);
+gint             e_table_selected_count            (ETable               *e_table);
+EPrintable      *e_table_get_printable             (ETable               *e_table);
+gint             e_table_get_next_row              (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_get_prev_row              (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_model_to_view_row         (ETable               *e_table,
+						    gint                  model_row);
+gint             e_table_view_to_model_row         (ETable               *e_table,
+						    gint                  view_row);
+void             e_table_get_cell_at               (ETable               *table,
+						    int                   x,
+						    int                   y,
+						    int                  *row_return,
+						    int                  *col_return);
+void             e_table_get_cell_geometry         (ETable               *table,
+						    int                   row,
+						    int                   col,
+						    int                  *x_return,
+						    int                  *y_return,
+						    int                  *width_return,
+						    int                  *height_return);
 
-gint            e_table_get_next_row              (ETable               *e_table,
-						   gint                  model_row);
-gint            e_table_get_prev_row              (ETable               *e_table,
-						   gint                  model_row);
-
-gint            e_table_model_to_view_row         (ETable               *e_table,
-						   gint                  model_row);
-gint            e_table_view_to_model_row         (ETable               *e_table,
-						   gint                  view_row);
-void            e_table_get_cell_at               (ETable *table,
-						   int x, int y,
-						   int *row_return, int *col_return);
-
-void            e_table_get_cell_geometry         (ETable *table,
-						   int row, int col,
-						   int *x_return, int *y_return,
-						   int *width_return, int *height_return);
+/* Useful accessor functions. */
+ESelectionModel *e_table_get_selection_model       (ETable               *table);
 
 /* Drag & drop stuff. */
 /* Target */
-void            e_table_drag_get_data             (ETable               *table,
-						   int                   row,
-						   int                   col,
-						   GdkDragContext       *context,
-						   GdkAtom               target,
-						   guint32               time);
-void            e_table_drag_highlight            (ETable               *table,
-						   int                   row,
-						   int                   col); /* col == -1 to highlight entire row. */
-void            e_table_drag_unhighlight          (ETable               *table);
-void            e_table_drag_dest_set             (ETable               *table,
-						   GtkDestDefaults       flags,
-						   const GtkTargetEntry *targets,
-						   gint                  n_targets,
-						   GdkDragAction         actions);
-void            e_table_drag_dest_set_proxy       (ETable               *table,
-						   GdkWindow            *proxy_window,
-						   GdkDragProtocol       protocol,
-						   gboolean              use_coordinates);
+void             e_table_drag_get_data             (ETable               *table,
+						    int                   row,
+						    int                   col,
+						    GdkDragContext       *context,
+						    GdkAtom               target,
+						    guint32               time);
+void             e_table_drag_highlight            (ETable               *table,
+						    int                   row,
+						    int                   col); /* col == -1 to highlight entire row. */
+void             e_table_drag_unhighlight          (ETable               *table);
+void             e_table_drag_dest_set             (ETable               *table,
+						    GtkDestDefaults       flags,
+						    const GtkTargetEntry *targets,
+						    gint                  n_targets,
+						    GdkDragAction         actions);
+void             e_table_drag_dest_set_proxy       (ETable               *table,
+						    GdkWindow            *proxy_window,
+						    GdkDragProtocol       protocol,
+						    gboolean              use_coordinates);
 
 /* There probably should be functions for setting the targets
  * as a GtkTargetList
  */
-void            e_table_drag_dest_unset           (GtkWidget            *widget);
+void             e_table_drag_dest_unset           (GtkWidget            *widget);
 
 /* Source side */
-void            e_table_drag_source_set           (ETable               *table,
-						   GdkModifierType       start_button_mask,
-						   const GtkTargetEntry *targets,
-						   gint                  n_targets,
-						   GdkDragAction         actions);
-void            e_table_drag_source_unset         (ETable               *table);
+void             e_table_drag_source_set           (ETable               *table,
+						    GdkModifierType       start_button_mask,
+						    const GtkTargetEntry *targets,
+						    gint                  n_targets,
+						    GdkDragAction         actions);
+void             e_table_drag_source_unset         (ETable               *table);
 
 /* There probably should be functions for setting the targets
  * as a GtkTargetList
  */
-GdkDragContext *e_table_drag_begin                (ETable               *table,
-						   int                   row,
-						   int                   col,
-						   GtkTargetList        *targets,
-						   GdkDragAction         actions,
-						   gint                  button,
-						   GdkEvent             *event);
+GdkDragContext  *e_table_drag_begin                (ETable               *table,
+						    int                   row,
+						    int                   col,
+						    GtkTargetList        *targets,
+						    GdkDragAction         actions,
+						    gint                  button,
+						    GdkEvent             *event);
 
 /* selection stuff */
-void            e_table_select_all                (ETable               *table);
-void            e_table_invert_selection          (ETable               *table);
+void             e_table_select_all                (ETable               *table);
+void             e_table_invert_selection          (ETable               *table);
 
 /* This function is only needed in single_selection_mode. */
-void            e_table_right_click_up            (ETable               *table);
+void             e_table_right_click_up            (ETable               *table);
 
 END_GNOME_DECLS
 
