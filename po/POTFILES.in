@@ -18,6 +18,7 @@ addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-config.glade
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook-storage.c
+addressbook/gui/component/e-address-popup.c
 addressbook/gui/component/e-address-widget.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
@@ -203,6 +204,9 @@ mail/subscribe-dialog.c
 my-evolution/GNOME_Evolution_Summary.oaf.in
 my-evolution/component-factory.c
 my-evolution/e-summary-calendar.c
+my-evolution/e-summary-mail.c
+my-evolution/e-summary-rdf.c
+my-evolution/e-summary-weather.c
 my-evolution/e-summary.c
 my-evolution/main.c
 my-evolution/metar.c
