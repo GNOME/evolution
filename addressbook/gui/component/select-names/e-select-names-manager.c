@@ -283,24 +283,24 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 	g_object_ref (model);
 	
 	g_signal_connect (entry->entry,
-			    "popup",
-			    G_CALLBACK (popup_cb),
-			    entry);
+			  "popup",
+			  G_CALLBACK (popup_cb),
+			  entry);
 			
 	g_signal_connect (entry->entry->canvas,
-			    "focus_in_event",
-			    G_CALLBACK (focus_in_cb),
-			    entry);
+			  "focus_in_event",
+			  G_CALLBACK (focus_in_cb),
+			  entry);
 	
 	g_signal_connect (entry->entry->canvas,
-			    "focus_out_event",
-			    G_CALLBACK (focus_out_cb),
-			    entry);
+			  "focus_out_event",
+			  G_CALLBACK (focus_out_cb),
+			  entry);
 
 	g_signal_connect (entry->entry,
-			    "completion_popup",
-			    G_CALLBACK (completion_popup_cb),
-			    entry);
+			  "completion_popup",
+			  G_CALLBACK (completion_popup_cb),
+			  entry);
 
 	g_object_set_data (G_OBJECT (entry->entry), "entry_info", entry);
 	g_object_set_data (G_OBJECT (entry->entry), "select_names_model", model);

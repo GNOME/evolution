@@ -1,5 +1,10 @@
 2003-02-16  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_entry_new): indent properly.
+
+2003-02-16  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-reflow-adapter.c (unlink_model):
 	disconnect search_started and search_result.
 	(addressbook_compare): if we're loading, just compare model
