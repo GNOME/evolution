@@ -822,6 +822,20 @@ dialog_destroy (GtkWidget *dialog, gpointer user_data)
 /* Signatures */
 
 static void
+run_script (gchar *script)
+{
+	struct stat s;
+
+	if (stat (script, &s))
+		return;
+
+	if (!S_ISREG (s.st_mode) || !(s.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
+		return;
+
+	mail_config_signature_run_script (script);
+}
+
+static void
 sig_load_preview (MailAccountsDialog *dialog, MailConfigSignature *sig)
 {
 	gchar *str;
@@ -831,7 +845,7 @@ sig_load_preview (MailAccountsDialog *dialog, MailConfigSignature *sig)
 		return;
 	}
 
-	mail_config_signature_run_script (sig->script);
+	run_script (sig->script);
 	str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
 	if (!str)
 		str = g_strdup (" ");
@@ -874,7 +888,7 @@ sig_edit (GtkWidget *w, MailAccountsDialog *dialog)
 	MailConfigSignature *sig = sig_current_sig (dialog);
 
 	if (sig->filename && *sig->filename)
-		mail_signature_editor (sig->filename, sig->html);
+		mail_signature_editor (sig);
 	else
 		e_notice (GTK_WINDOW (dialog), GNOME_MESSAGE_BOX_ERROR,
 			  _("Please specify signature filename\nin Andvanced section of signature settings."));
@@ -1114,6 +1128,11 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailAccoun
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
 		printf ("accounts NAME CHANGED\n");
+		break;
+	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
+		printf ("accounts CONTENT CHANGED\n");
+		if (sig == sig_current_sig (dialog))
+			sig_load_preview (dialog, sig);
 		break;
 	default:
 		;

@@ -3587,6 +3587,18 @@ Quoted
 	  <label>_Delete</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label66</name>
+	  <label>                        </label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	</widget>
       </widget>
 
       <widget>
@@ -3615,7 +3627,7 @@ Quoted
 	  <tooltip>Show advanced settings</tooltip>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Ad_vanced</label>
+	  <label>Ad_vanced &gt;&gt;</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -3630,7 +3642,7 @@ Quoted
 	  <tooltip>Hide advanced settings</tooltip>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>S_imple</label>
+	  <label>&lt;&lt; S_imple</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -3642,7 +3654,7 @@ Quoted
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label65</name>
-	  <label>                   </label>
+	  <label>                        </label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>

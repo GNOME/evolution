@@ -1103,7 +1103,7 @@ sig_edit_text (GtkWidget *w, MailAccountGui *gui)
 		return;
 
 	if (sig->filename && *sig->filename)
-		mail_signature_editor (sig->filename, sig->html);
+		mail_signature_editor (sig);
 	else
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Please specify signature filename\nin Andvanced section of signature settings."));
@@ -1118,7 +1118,7 @@ sig_edit_html (GtkWidget *w, MailAccountGui *gui)
 		return;
 
 	if (sig->filename && *sig->filename)
-		mail_signature_editor (sig->filename, sig->html);
+		mail_signature_editor (sig);
 	else
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Please specify signature filename\nin Andvanced section of signature settings."));

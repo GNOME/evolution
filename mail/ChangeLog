@@ -10,6 +10,12 @@
 
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
+	* mail-signature-editor.c: notify accounts dialog about signature
+	content change
+
+	* mail-accounts.c (run_script): run script only if file regular
+	file exists and has x flag
+
 	* mail-signature-editor.c (mail_signature_editor): set initial
 	focus to editor
 	(do_exit): use hasUndo to avoid question dialog when content is

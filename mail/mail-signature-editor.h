@@ -31,7 +31,7 @@ extern "C" {
 
 #include <glib.h>
 
-void mail_signature_editor (const gchar *filename, gboolean html);
+void mail_signature_editor (MailConfigSignature *sig);
 
 #ifdef __cplusplus
 }
