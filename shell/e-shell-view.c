@@ -2589,8 +2589,14 @@ e_shell_view_get_current_component_id (EShellView *shell_view)
 	priv = shell_view->priv;
 
 	type_registry = e_shell_get_folder_type_registry (priv->shell);
+
 	current_folder_type = e_shell_view_get_current_folder_type (shell_view);
+	if (current_folder_type == NULL)
+		return NULL;
+
 	component_client = e_folder_type_registry_get_handler_for_type (type_registry, current_folder_type);
+	if (component_client == NULL)
+		return NULL;
 
 	return evolution_shell_component_client_get_id (component_client);
 }
