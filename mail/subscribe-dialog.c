@@ -143,8 +143,7 @@ struct _FolderETree {
 	CamelStore *store;
 	EvolutionStorage *e_storage;
 	char *service_name;
-	char *search;
-
+	
 	FolderETreeActivityCallback activity_cb;
 	gpointer activity_data;
 	int activity_level;
@@ -486,7 +485,7 @@ subscribe_get_global_extras (void)
 typedef struct _ftree_node ftree_node;
 
 struct _ftree_node {
-	guint8    flags;
+	guint8 flags;
 	char *cache;
 	int uri_offset;
 	int full_name_offset;
@@ -502,22 +501,15 @@ struct _ftree_node {
 #define FTREE_NODE_ROOT         (1 << 3)
 
 static ftree_node *
-ftree_node_new_root (const char *prefix)
+ftree_node_new_root (void)
 {
 	ftree_node *node;
-	size_t      size;
-
-	if (prefix == NULL)
-		prefix = "";
-
-	size = sizeof (ftree_node) + strlen (prefix) + 1;
-
-	node = g_malloc (size);
+	
+	node = g_malloc (sizeof (ftree_node));
 	node->flags = FTREE_NODE_ROOT;
 	node->uri_offset = 0;
-	node->full_name_offset = 1;
+	node->full_name_offset = 0;
 	node->data[0] = '\0';
-	strcpy (node->data + 1, prefix);
 	
 	return node;
 }
@@ -528,8 +520,7 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 	ftree_node *node;
 	int         uri_offset, full_name_offset;
 	size_t      size;
-	CamelURL   *url;
-
+	
 	uri_offset       = strlen (fi->name) + 1;
 	full_name_offset = uri_offset + strlen (fi->url) + 1;
 	size             = full_name_offset + strlen (fi->full_name);
@@ -539,15 +530,8 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 
 	node->cache = NULL;
 	
-	/* Noselect? */
-
-	url = camel_url_new (fi->url, NULL);
-	if (camel_url_get_param (url, "noselect"))
-		node->flags = 0;
-	else
-		node->flags = FTREE_NODE_SUBSCRIBABLE;
-	camel_url_free (url);
-
+	node->flags = FTREE_NODE_SUBSCRIBABLE;
+	
 	/* subscribed? */
 
 	if (camel_store_folder_subscribed (store, fi->full_name))
@@ -760,7 +744,7 @@ fe_check_for_children (FolderETree *ftree, ETreePath path)
 
 	/* figure out our search prefix */
 	if (path == ftree->root)
-		prefix = ftree->search;
+		prefix = "";
 	else
 		prefix = ftree_node_get_full_name (node);
 
@@ -782,7 +766,7 @@ fe_create_root_node (FolderETree *ftree)
 {
 	ftree_node *node;
 
-	node = ftree_node_new_root (ftree->search);
+	node = ftree_node_new_root ();
 	ftree->root = e_tree_memory_node_insert (E_TREE_MEMORY(ftree), NULL, 0, node);
 	fe_check_for_children (ftree, ftree->root);
 }
@@ -870,8 +854,7 @@ fe_finalise (GObject *obj)
 
 	camel_object_unref (ftree->store);
 	bonobo_object_unref (BONOBO_OBJECT (ftree->e_storage));
-
-	g_free (ftree->search);
+	
 	g_free (ftree->service_name);
 
 	((GObjectClass *)folder_etree_parent_class)->finalize(obj);
@@ -913,9 +896,7 @@ folder_etree_init (GtkObject *object)
 
 	ftree->scan_ops = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ftree->subscribe_ops = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	ftree->search = g_strdup ("");
-
+	
 	ftree->activity_level = 0;
 	ftree->node_full_name = g_hash_table_new(g_str_hash, g_str_equal);
 }
@@ -970,19 +951,6 @@ folder_etree_clear_tree (FolderETree *ftree)
 	ftree->node_full_name = g_hash_table_new(g_str_hash, g_str_equal);
 	e_tree_memory_thaw (E_TREE_MEMORY (ftree));
 }
-
-static void
-folder_etree_set_search (FolderETree *ftree, const char *search)
-{
-	if (!strcmp (search, ftree->search))
-		return;
-
-	g_free (ftree->search);
-	ftree->search = g_strdup (search);
-	
-	folder_etree_clear_tree (ftree);
-}
-
 
 static int
 folder_etree_path_set_subscription (FolderETree *ftree, ETreePath path, gboolean subscribe)
@@ -1305,18 +1273,6 @@ sc_refresh_pressed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-sc_search_activated (GtkWidget *widget, gpointer user_data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData       *store = sc->priv->current_store;
-
-	if (!store)
-		return;
-
-	folder_etree_set_search (store->ftree, gtk_entry_get_text (GTK_ENTRY (widget)));
-}
-
-static void
 sc_close_pressed (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
@@ -1349,45 +1305,10 @@ sc_unsubscribe_pressed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-sc_all_toggled (GtkWidget *widget, gpointer user_data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData       *store = sc->priv->current_store;
-
-	if (!store)
-		return;
-
-	if (GTK_TOGGLE_BUTTON (widget)->active) {
-		gtk_widget_set_sensitive (sc->priv->search_entry, FALSE);
-		folder_etree_set_search (store->ftree, "");
-	}
-}
-
-static void
-sc_filter_toggled (GtkWidget *widget, gpointer user_data)
-{
-	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
-	StoreData *store = sc->priv->current_store;
-
-	if (!store)
-		return;
-
-	if (GTK_TOGGLE_BUTTON (widget)->active) {
-		gtk_widget_set_sensitive (sc->priv->search_entry, TRUE);
-		sc_search_activated (sc->priv->search_entry, sc);
-	}
-}
-
-static void
 kill_default_view (SubscribeDialog *sc)
 {
 	gtk_widget_hide (sc->priv->none_item);
-
-	/* the entry will be set sensitive when one of the
-	 * radio buttons is activated, if necessary. */
-
-	gtk_widget_set_sensitive (sc->priv->all_radio, TRUE);
-	gtk_widget_set_sensitive (sc->priv->filter_radio, TRUE);
+	
 	gtk_widget_set_sensitive (sc->priv->sub_button, TRUE);
 	gtk_widget_set_sensitive (sc->priv->unsub_button, TRUE);
 	gtk_widget_set_sensitive (sc->priv->refresh_button, TRUE);
@@ -1466,14 +1387,6 @@ menu_item_selected (GtkMenuItem *item, gpointer user_data)
 	gtk_widget_show (sd->widget);
 	sc->priv->current_widget = sd->widget;
 	sc->priv->current_store  = sd;
-
-	if (*sd->ftree->search) {
-		gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), sd->ftree->search);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->filter_radio), TRUE);
-	} else {
-		gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->all_radio), TRUE);
-	}
 }
 
 static void
@@ -1660,22 +1573,16 @@ subscribe_dialog_construct (GtkObject *object)
 	gtk_box_pack_start (GTK_BOX (sc->priv->hbox), sc->priv->default_widget, TRUE, TRUE, 0);
 	gtk_widget_show (sc->priv->default_widget);
 	
-	gtk_widget_set_sensitive (sc->priv->all_radio, FALSE);
-	gtk_widget_set_sensitive (sc->priv->filter_radio, FALSE);
-	gtk_widget_set_sensitive (sc->priv->search_entry, FALSE);
 	gtk_widget_set_sensitive (sc->priv->sub_button, FALSE);
 	gtk_widget_set_sensitive (sc->priv->unsub_button, FALSE);
 	gtk_widget_set_sensitive (sc->priv->refresh_button, FALSE);
 	
 	/* hook up some signals */
-	g_signal_connect(sc->priv->search_entry, "activate", G_CALLBACK(sc_search_activated), sc);
 	g_signal_connect(sc->priv->close_button, "clicked", G_CALLBACK(sc_close_pressed), sc);
 	g_signal_connect(sc->priv->sub_button, "clicked", G_CALLBACK(sc_subscribe_pressed), sc);
 	g_signal_connect(sc->priv->unsub_button, "clicked", G_CALLBACK(sc_unsubscribe_pressed), sc);
 	g_signal_connect(sc->priv->refresh_button, "clicked", G_CALLBACK(sc_refresh_pressed), sc);
-	g_signal_connect(sc->priv->all_radio, "toggled", G_CALLBACK(sc_all_toggled), sc);
-	g_signal_connect(sc->priv->filter_radio, "toggled", G_CALLBACK(sc_filter_toggled), sc);
-
+	
 	/* progress */
 	gtk_progress_bar_set_pulse_step(GTK_PROGRESS_BAR(sc->priv->progress), 0.1);
 
