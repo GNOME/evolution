@@ -1,3 +1,20 @@
+2002-04-08  Dan Winship  <danw@ximian.com>
+
+	* gui/component-factory.c (create_view): Add view_info arg. If the
+	view_info is non-empty and this is a calendar folder, set the
+	"view" property on the control's propertybag.
+
+	* gui/control-factory.c (calendar_properties_init): Set up the
+	"view" property.
+	(get_prop, set_prop): handle the "view" property by
+	getting/setting the GnomeCalendar's view. Unfortunately, this
+	doesn't actually work. See #23208.
+
+	* gui/calendar-commands.c (calendar_control_activate): Set the UI
+	component's container before calling
+	gnome_calendar_set_ui_component so that the search bar
+	initialization will work.
+
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal-backend-db.[hc]: Remove dead files.

@@ -686,11 +686,11 @@ calendar_control_activate (BonoboControl *control,
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	gnome_calendar_set_ui_component (gcal, uic);
-
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
+
+	gnome_calendar_set_ui_component (gcal, uic);
 
 	bonobo_ui_component_add_verb_list_with_data (uic, verbs, gcal);
 

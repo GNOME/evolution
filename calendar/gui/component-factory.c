@@ -83,6 +83,7 @@ static EvolutionShellComponentResult
 create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
 	     const char *type,
+	     const char *view_info,
 	     BonoboControl **control_return,
 	     void *closure)
 {
@@ -101,6 +102,8 @@ create_view (EvolutionShellComponent *shell_component,
 	}
 
 	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
+	if (!g_strcasecmp (type, "calendar") && *view_info)
+		bonobo_control_set_property (control, "view", view_info, NULL);
 
 	*control_return = control;
 

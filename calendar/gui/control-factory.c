@@ -37,9 +37,11 @@
 
 #include "control-factory.h"
 
-#define PROPERTY_CALENDAR_URI "folder_uri"
+#define PROPERTY_CALENDAR_URI      "folder_uri"
+#define PROPERTY_CALENDAR_URI_IDX  1
 
-#define PROPERTY_CALENDAR_URI_IDX 1
+#define PROPERTY_CALENDAR_VIEW     "view"
+#define PROPERTY_CALENDAR_VIEW_IDX 2
 
 #define CONTROL_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ControlFactory"
 
@@ -69,13 +71,30 @@ get_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	GnomeCalendar *gcal = user_data;
-	char *uri;
+	const char *uri;
 
 	switch (arg_id) {
 
 	case PROPERTY_CALENDAR_URI_IDX:
 		uri = cal_client_get_uri (gnome_calendar_get_cal_client (gcal));
 		BONOBO_ARG_SET_STRING (arg, uri);
+		break;
+
+	case PROPERTY_CALENDAR_VIEW_IDX:
+		switch (gnome_calendar_get_view (gcal)) {
+		case GNOME_CAL_DAY_VIEW:
+			BONOBO_ARG_SET_STRING (arg, "day");
+			break;
+		case GNOME_CAL_WEEK_VIEW:
+			BONOBO_ARG_SET_STRING (arg, "week");
+			break;
+		case GNOME_CAL_WORK_WEEK_VIEW:
+			BONOBO_ARG_SET_STRING (arg, "workweek");
+			break;
+		case GNOME_CAL_MONTH_VIEW:
+			BONOBO_ARG_SET_STRING (arg, "month");
+			break;
+		}
 		break;
 
 	default:
@@ -92,20 +111,38 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	GnomeCalendar *gcal = user_data;
-	char *uri;
+	char *string;
+	GnomeCalendarViewType view;
 
 	switch (arg_id) {
 	case PROPERTY_CALENDAR_URI_IDX:
-		uri = BONOBO_ARG_GET_STRING (arg);
-		if (!gnome_calendar_open (gcal, uri)) {
+		string = BONOBO_ARG_GET_STRING (arg);
+		if (!gnome_calendar_open (gcal, string)) {
 			char *msg;
 
-			msg = g_strdup_printf (_("Could not open the folder in '%s'"), uri);
+			msg = g_strdup_printf (_("Could not open the folder in '%s'"), string);
 			gnome_error_dialog_parented (
 				msg,
 				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 			g_free (msg);
 		}
+		break;
+
+	case PROPERTY_CALENDAR_VIEW_IDX:
+		string = BONOBO_ARG_GET_STRING (arg);
+		if (!g_strcasecmp (string, "week"))
+			view = GNOME_CAL_WEEK_VIEW;
+		else if (!g_strcasecmp (string, "workweek"))
+			view = GNOME_CAL_WORK_WEEK_VIEW;
+		else if (!g_strcasecmp (string, "month"))
+			view = GNOME_CAL_MONTH_VIEW;
+		else
+			view = GNOME_CAL_DAY_VIEW;
+
+		/* This doesn't actually work, because the GalView
+		 * comes along and resets the view. FIXME.
+		 */
+		gnome_calendar_set_view (gcal, view, FALSE, TRUE);
 		break;
 
 	default:
@@ -128,6 +165,13 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 				 BONOBO_ARG_STRING,
 				 NULL,
 				 _("The URI that the calendar will display"),
+				 0);
+	bonobo_property_bag_add (pbag,
+				 PROPERTY_CALENDAR_VIEW,
+				 PROPERTY_CALENDAR_VIEW_IDX,
+				 BONOBO_ARG_STRING,
+				 NULL,
+				 _("The type of view to show"),
 				 0);
 
 	bonobo_control_set_properties (control, pbag);
