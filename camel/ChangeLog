@@ -1,5 +1,10 @@
 2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-message.c (find_best_encoding): Updated to convert
+	to/from the correct charset (since content is no longer
+	necessarily in UTF-8).
+	(best_encoding): Free the charset string when we're done with it.
+
 	* camel-stream-fs.c (stream_read): Increment the seekable stream
 	position by the number of bytes read. Oops.
 	(stream_write): Same here.
