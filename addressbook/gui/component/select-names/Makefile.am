@@ -12,7 +12,7 @@ IDL_GENERATED = \
 Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
+	$(ORBIT_IDL) -I$(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		-I$(srcdir) $(srcdir)/Evolution-Addressbook-SelectNames.idl
 
 oafdir = $(datadir)/oaf

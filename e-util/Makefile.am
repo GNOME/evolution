@@ -3,6 +3,7 @@ imagesdir = $(datadir)/images/evolution
 INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
+	$(UNICODE_CFLAGS)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"		\
 	$(UNICODE_CFLAGS)

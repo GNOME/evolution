@@ -12,7 +12,7 @@ IDL_GENERATED = \
 Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
+	$(ORBIT_IDL) -I$(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 ##
@@ -40,6 +40,8 @@ INCLUDES =								\
 	-I$(top_builddir)/addressbook/gui/component/select-names	\
 	$(GNOME_INCLUDEDIR)						\
 	$(BONOBO_GNOME_CFLAGS)						\
+	$(GTKHTML_CFLAGS)						\
+	$(UNICODE_CFLAGS)						\
 	-DG_LOG_DOMAIN=\"composer\"
 
 CPPFLAGS =					\
