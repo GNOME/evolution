@@ -5,19 +5,6 @@
 
 CALENDAR_IDLS = $(top_srcdir)/calendar/idl/evolution-calendar.idl
 SHELL_IDLS = \
-        $(top_srcdir)/shell/Evolution-Activity.idl                  \
-        $(top_srcdir)/shell/Evolution-ConfigControl.idl             \
-        $(top_srcdir)/shell/Evolution-Offline.idl                   \
-        $(top_srcdir)/shell/Evolution-Session.idl                   \
-        $(top_srcdir)/shell/Evolution-Shell.idl                     \
-        $(top_srcdir)/shell/Evolution-ShellComponent.idl            \
-        $(top_srcdir)/shell/Evolution-ShellComponentDnd.idl         \
-        $(top_srcdir)/shell/Evolution-ShellView.idl                 \
-        $(top_srcdir)/shell/Evolution-Shortcuts.idl                 \
-        $(top_srcdir)/shell/Evolution-Storage.idl                   \
-        $(top_srcdir)/shell/Evolution-StorageSetView.idl            \
-        $(top_srcdir)/shell/Evolution-Wizard.idl                    \
-        $(top_srcdir)/shell/Evolution-common.idl                    \
         $(top_srcdir)/shell/Evolution.idl
                                                                                                                        
 CALENDAR_IDL_GENERATED_H = evolution-calendar.h
