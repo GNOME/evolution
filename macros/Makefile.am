@@ -24,7 +24,7 @@ MACROS=						\
   linger.m4					\
   need-declaration.m4
 
-EXTRA_DIST=$(MACROS) gnome-common.m4 autogen.sh gnome-autogen.sh
+EXTRA_DIST=$(MACROS) gnome-common.m4 autogen.sh
 MAINTAINERCLEANFILES=macros.dep
 
 @MAINT@macros.dep: Makefile.am
@@ -37,7 +37,5 @@ gnome-macros.dep: Makefile.am
 	@echo '$$(top_srcdir)/aclocal.m4: $(MACROS:%=$(gnome_aclocaldir)/%)' > $@
 
 gnome_aclocal_DATA = $(MACROS) gnome-macros.dep gnome-common.m4 autogen.sh
-
-bin_SCRIPTS = gnome-autogen.sh
 
 endif

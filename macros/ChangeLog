@@ -1,5 +1,9 @@
 2000-05-29  Martin Baulig  <baulig@suse.de>
 
+	* gnome-autogen.sh: Moved to the `bin/' directory.
+
+2000-05-29  Martin Baulig  <baulig@suse.de>
+
 	* gnome-autogen.sh: If `USE_GNOME_2_MACROS' is set, use the
 	GNOME 2.0 macros from the `macros2' directory.
 
