@@ -201,7 +201,7 @@ new_calendar_dialog (GtkWindow *parent)
 	/* load the Glade file */
 	xml = glade_xml_new (EVOLUTION_GLADEDIR "/new-calendar.glade", "new-calendar-dialog", NULL);
 	if (!xml) {
-		g_warning ("new_calendar_dialog(): cannot load Glade file");
+		g_warning (G_STRLOC ": cannot load Glade file");
 		return FALSE;
 	}
 
@@ -262,8 +262,6 @@ new_calendar_dialog (GtkWindow *parent)
 	g_object_unref (gconf_client);
 	g_object_unref (source_list);
 	gtk_widget_destroy (dialog);
-
-	/* free memory */
 	g_object_unref (xml);
 
 	return result;

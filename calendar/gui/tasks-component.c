@@ -41,6 +41,7 @@
 #include "calendar-config.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
+#include "dialogs/new-task-list.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
 
@@ -351,6 +352,7 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 static void
 new_task_list_cb (GtkWidget *widget, TasksComponent *component)
 {
+	new_task_list_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void

@@ -1,5 +1,18 @@
 2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/new-task-list.glade:
+	* gui/dialogs/new-task-list.[ch]: new files containing the
+	implementation of the 'New Task List' dialog.
+
+	* gui/dialogs/Makefile.am: added new files.
+
+	* gui/dialogs/new-calendar.c (new_calendar_dialog): use G_STRLOC
+	for g_warning messages.
+
+	* gui/tasks-component.c (new_task_list_cb): implemented.
+
+2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): actually
 	add the source selector to the dialog's box.
 
