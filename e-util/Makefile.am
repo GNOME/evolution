@@ -66,7 +66,7 @@ libeutil_la_SOURCES =				\
 	md5-utils.c				\
 	md5-utils.h
 
-libeutil_la_LIBADD = $(GAL_LIBS)
+libeutil_la_LIBADD = -lc $(GAL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)

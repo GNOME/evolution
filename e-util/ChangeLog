@@ -1,3 +1,7 @@
+2001-11-13  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am (libeutil_la_LIBADD): Explicitly add -lc
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.c (e_time_parse_date): added a 2nd format, with the
