@@ -65,6 +65,8 @@
 #include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
 
+/*#include <addressbook/backend/ebook/e-card.h>*/
+
 #include "widgets/misc/e-charset-picker.h"
 
 #include "camel/camel.h"
@@ -107,11 +109,13 @@ static guint signals[LAST_SIGNAL] = { 0 };
 enum {
 	DND_TYPE_MESSAGE_RFC822,
 	DND_TYPE_TEXT_URI_LIST,
+	DND_TYPE_TEXT_VCARD,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
+	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
 static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -2083,6 +2087,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		    guint info, guint time)
 {
 	gchar *tmp, *filename, **filenames;
+	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
 	int i;
@@ -2120,6 +2125,17 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		g_free (filenames);
 		break;
+	case DND_TYPE_TEXT_VCARD:
+		mime_part = camel_mime_part_new ();
+		camel_mime_part_set_content (mime_part, selection->data,
+					     selection->length, "text/x-vcard");
+		camel_mime_part_set_disposition (mime_part, "inline");
+		
+		e_msg_composer_attachment_bar_attach_mime_part
+			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+			 mime_part);
+		
+		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
 		break;
 	}

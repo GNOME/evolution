@@ -1,3 +1,8 @@
+2001-11-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (drag_data_received): Allow drag & drop for
+	vcards.
+
 2001-11-14  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (create_composer): popup failure dialog if we
