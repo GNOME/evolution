@@ -1,3 +1,11 @@
+2002-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* filter.glade: Added a datespec editor window.
+
+	* filter-datespec.c (button_clicked): Rewritten to use glade.
+	Simplified all the code around it as a result, etc, and fixed bug
+	#21798.
+
 2002-08-01  Peter Williams  <peterw@ximian.com>
 
 	* filter-datespec.c (activate_specified): If the value was unset,

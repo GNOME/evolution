@@ -31,7 +31,12 @@
 typedef struct _FilterDatespec	FilterDatespec;
 typedef struct _FilterDatespecClass	FilterDatespecClass;
 
-typedef enum _FilterDatespec_type { FDST_NOW, FDST_SPECIFIED, FDST_X_AGO, FDST_UNKNOWN } FilterDatespec_type;
+typedef enum _FilterDatespec_type {
+	FDST_UNKNOWN = -1,
+	FDST_NOW,
+	FDST_SPECIFIED,
+	FDST_X_AGO,
+} FilterDatespec_type;
 
 struct _FilterDatespec {
 	FilterElement parent;
