@@ -1,3 +1,8 @@
+2004-12-03  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* configure.in : Add groupwise-account-setup to plguin 
+	 and base plugin list. Add corresponding Makfile to AC_OUTPUT section.
+	
 2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
 
 	* configure.in: Add "cy" (Welsh) to ALL_LINGUAS.
