@@ -46,14 +46,28 @@ typedef struct _EvolutionStorageClass   EvolutionStorageClass;
 
 enum _EvolutionStorageResult {
 	EVOLUTION_STORAGE_OK,
+
+	/* Generic errors */
+	EVOLUTION_STORAGE_ERROR_GENERIC,
+	EVOLUTION_STORAGE_ERROR_CORBA,
+	EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER,
+
+	/* Registration errors */
 	EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED,
 	EVOLUTION_STORAGE_ERROR_NOTREGISTERED,
 	EVOLUTION_STORAGE_ERROR_NOREGISTRY,
-	EVOLUTION_STORAGE_ERROR_CORBA,
 	EVOLUTION_STORAGE_ERROR_EXISTS,
-	EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER,
 	EVOLUTION_STORAGE_ERROR_NOTFOUND,
-	EVOLUTION_STORAGE_ERROR_GENERIC
+
+	/* Folder creation/deletion errors */
+	EVOLUTION_STORAGE_ERROR_UNSUPPORTED_OPERATION,
+	EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE,
+	EVOLUTION_STORAGE_ERROR_INVALID_URI,
+	EVOLUTION_STORAGE_ERROR_ALREADY_EXISTS,
+	EVOLUTION_STORAGE_ERROR_DOES_NOT_EXIST,
+	EVOLUTION_STORAGE_ERROR_PERMISSION_DENIED,
+	EVOLUTION_STORAGE_ERROR_NO_SPACE,
+	EVOLUTION_STORAGE_ERROR_NOT_EMPTY
 };
 typedef enum _EvolutionStorageResult EvolutionStorageResult;
 
@@ -65,6 +79,17 @@ struct _EvolutionStorage {
 
 struct _EvolutionStorageClass {
 	BonoboObjectClass parent_class;
+
+	/* signals */
+	int (*create_folder) (EvolutionStorage *storage,
+			      const char *path,
+			      const char *type,
+			      const char *description,
+			      const char *parent_physical_uri);
+
+	int (*remove_folder) (EvolutionStorage *storage,
+			      const char *path,
+			      const char *physical_uri);
 };
 
 

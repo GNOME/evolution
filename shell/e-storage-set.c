@@ -515,6 +515,7 @@ e_storage_set_async_create_folder  (EStorageSet            *storage_set,
 	g_return_if_fail (path != NULL);
 	g_return_if_fail (g_path_is_absolute (path));
 	g_return_if_fail (type != NULL);
+	g_return_if_fail (description != NULL);
 	g_return_if_fail (callback != NULL);
 
 	storage = get_storage_for_path (storage_set, path, &subpath);

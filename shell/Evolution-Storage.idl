@@ -29,10 +29,33 @@ module Evolution {
 
 		attribute string name;
 
-		void addListener    (in StorageListener listener)
+		enum Result {
+			OK,
+			UNSUPPORTED_OPERATION,
+			UNSUPPORTED_TYPE,
+			INVALID_URI,
+			ALREADY_EXISTS,
+			DOES_NOT_EXIST,
+			PERMISSION_DENIED,
+			NO_SPACE,
+			NOT_EMPTY,
+			GENERIC_ERROR
+		};
+
+		void asyncCreateFolder (in string path,
+					in string type,
+					in string description,
+					in string parent_physical_uri,
+					in Bonobo::Listener listener);
+
+		void asyncRemoveFolder (in string path,
+					in string physical_uri,
+					in Bonobo::Listener listener);
+
+		void addListener       (in StorageListener listener)
 			raises (AlreadyListening);
 
-		void removeListener (in StorageListener listener)
+		void removeListener    (in StorageListener listener)
 			raises (NotFound);
 	};
 

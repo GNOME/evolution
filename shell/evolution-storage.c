@@ -62,6 +62,15 @@ struct _EvolutionStoragePrivate {
 };
 
 
+enum {
+	CREATE_FOLDER,
+	REMOVE_FOLDER,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+
 /* Utility functions.  */
 
 static void
@@ -240,6 +249,92 @@ impl_Storage__get_name (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->name);
 }
 
+static GNOME_Evolution_Storage_Result
+storage_gtk_to_corba_result (EvolutionStorageResult result)
+{
+	GNOME_Evolution_Storage_Result corba_result;
+
+	switch (result) {
+	case EVOLUTION_STORAGE_OK:
+		return GNOME_Evolution_Storage_OK;
+	case EVOLUTION_STORAGE_ERROR_UNSUPPORTED_OPERATION:
+		return GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
+	case EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE:
+		return GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
+	case EVOLUTION_STORAGE_ERROR_INVALID_URI:
+		return GNOME_Evolution_Storage_INVALID_URI;
+	case EVOLUTION_STORAGE_ERROR_ALREADY_EXISTS:
+		return GNOME_Evolution_Storage_ALREADY_EXISTS;
+	case EVOLUTION_STORAGE_ERROR_DOES_NOT_EXIST:
+		return GNOME_Evolution_Storage_DOES_NOT_EXIST;
+	case EVOLUTION_STORAGE_ERROR_PERMISSION_DENIED:
+		return GNOME_Evolution_Storage_PERMISSION_DENIED;
+	case EVOLUTION_STORAGE_ERROR_NO_SPACE:
+		return GNOME_Evolution_Storage_NO_SPACE;
+	case EVOLUTION_STORAGE_ERROR_NOT_EMPTY:
+		return GNOME_Evolution_Storage_NOT_EMPTY;
+	default:
+		return GNOME_Evolution_Storage_GENERIC_ERROR;
+	}
+}
+
+static void
+impl_Storage_async_create_folder (PortableServer_Servant servant,
+				  const CORBA_char *path,
+				  const CORBA_char *type,
+				  const CORBA_char *description,
+				  const CORBA_char *parent_physical_uri,
+				  const Bonobo_Listener listener,
+				  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	int int_result;
+	CORBA_any any;
+	GNOME_Evolution_Storage_Result corba_result;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
+	gtk_signal_emit (GTK_OBJECT (storage), signals[CREATE_FOLDER],
+			 path, type, description, parent_physical_uri,
+			 &int_result);
+
+	corba_result = storage_gtk_to_corba_result (int_result);
+	any._type = TC_GNOME_Evolution_Storage_Result;
+	any._value = &corba_result;
+
+	Bonobo_Listener_event (listener, "result", &any, ev);
+}
+
+static void
+impl_Storage_async_remove_folder (PortableServer_Servant servant,
+				  const CORBA_char *path,
+				  const CORBA_char *physical_uri,
+				  const Bonobo_Listener listener,
+				  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	int int_result;
+	CORBA_any any;
+	GNOME_Evolution_Storage_Result corba_result;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
+	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_FOLDER],
+			 path, physical_uri, &int_result);
+
+	corba_result = storage_gtk_to_corba_result (int_result);
+	any._type = TC_GNOME_Evolution_Storage_Result;
+	any._value = &corba_result;
+
+	Bonobo_Listener_event (listener, "result", &any, ev);
+}
+
 static void
 impl_Storage_add_listener (PortableServer_Servant servant,
 			   const GNOME_Evolution_StorageListener listener,
@@ -352,6 +447,30 @@ class_init (EvolutionStorageClass *klass)
 
 	parent_class = gtk_type_class (bonobo_object_get_type ());
 
+	signals[CREATE_FOLDER] = gtk_signal_new ("create_folder",
+						 GTK_RUN_LAST,
+						 object_class->type,
+						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								    create_folder),
+						 e_marshal_INT__POINTER_POINTER_POINTER_POINTER,
+						 GTK_TYPE_INT, 4,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING);
+
+	signals[REMOVE_FOLDER] = gtk_signal_new ("remove_folder",
+						 GTK_RUN_LAST,
+						 object_class->type,
+						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								    remove_folder),
+						 e_marshal_INT__POINTER_POINTER,
+						 GTK_TYPE_INT, 2,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
 	corba_class_init ();
 }
 
@@ -378,9 +497,11 @@ evolution_storage_get_epv (void)
 	POA_GNOME_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
-	epv->_get_name      = impl_Storage__get_name;
-	epv->addListener    = impl_Storage_add_listener;
-	epv->removeListener = impl_Storage_remove_listener;
+	epv->_get_name         = impl_Storage__get_name;
+	epv->asyncCreateFolder = impl_Storage_async_create_folder;
+	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
+	epv->addListener       = impl_Storage_add_listener;
+	epv->removeListener    = impl_Storage_remove_listener;
 
 	return epv;
 }

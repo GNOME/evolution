@@ -27,37 +27,5 @@ module Evolution {
 				   in string display_name,
 				   in boolean highlighted);
 	};
-
-	interface LocalStorageOpsListener : Bonobo::Unknown {
-		enum Result {
-			OK,
-			UNSUPPORTED_OPERATION,
-			UNSUPPORTED_TYPE,
-			EXISTS,
-			INVALID_URI,
-			PERMISSION_DENIED,
-			HAS_SUBFOLDERS,
-			NO_SPACE
-		};
-
-		void notifyResult (in Result result);
-	};
-
-	interface LocalStorageOps : Bonobo::Unknown {
-		exception Busy {};
-
-		void addFolderAsync (in ShellComponentListener listener,
-				     in string physical_uri,
-				     in string type)
-			raises (Busy);
-
-		void removeFolderAsync (in ShellComponentListener listener,
-					in string physical_uri)
-			raises (Busy);
-
-		void populateFolderContextMenu (in Bonobo::UIContainer uih,
-						in string physical_uri,
-						in string type);
-	};
 };
 };

@@ -1,3 +1,30 @@
+2001-02-14  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Storage.idl: add asyncCreateFolder and
+	asyncRemoveFolder interfaces. (Use Bonobo::Listener rather than
+	creating a new listener interface.)
+
+	* Evolution-LocalStorage.idl: Remove the
+	Evolution::LocalStorageOpsListener interface, which wasn't being
+	used.
+
+	* evolution-storage.c (impl_Storage_async_create_folder,
+	impl_Storage_async_remove_folder): implement by emitting signals
+	on the EvolutionStorage object. Convert from
+	EvolutionStorageResult to GNOME_Evolution_Storage_Result (blah!)
+	(class_init): Set up the new "create_folder" and "remove_folder"
+	signals.
+
+	* e-corba-storage.c (async_create_folder, async_remove_folder):
+	Implement, using the new Evolution::Storage IDL. Convert from
+	GNOME_Evolution_Storage_Result to EStorageResult (blah!)
+
+	* e-storage-set.c (e_storage_set_async_create_folder): Don't allow
+	a NULL description (since it doesn't allow a NULL anythign else).
+
+	* e-shell-folder-creation-dialog.c (dialog_clicked_cb): Pass ""
+	rather than NULL for the description.
+
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* Makefile.am: xml-i18n-tools setup.
