@@ -125,9 +125,13 @@ impl_destroy (GtkObject *object)
 static void
 dbl_click_cb (EStorageSetView *essv,
 	      int row,
+	      int col,
+	      GdkEvent *event,
 	      EShellFolderSelectionDialog *folder_selection_dialog)
 {
 	EShellFolderSelectionDialogPrivate *priv;
+
+	g_return_if_fail (folder_selection_dialog != NULL);
 
 	priv = folder_selection_dialog->priv;
 	if (check_folder_type (folder_selection_dialog)) {
