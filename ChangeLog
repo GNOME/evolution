@@ -1,3 +1,8 @@
+2003-08-01  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Add option for '--enable-imapp', for 'new' imap
+	code.
+
 2003-07-26  Larry Ewing  <lewing@ximian.com>
 
 	* configure.in: use libgtkhtml-3.1 for linking.

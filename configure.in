@@ -445,6 +445,19 @@ else
 fi
 AM_CONDITIONAL(ENABLE_NNTP, test x$enable_nntp = xyes)
 
+dnl **************************************************
+dnl New IMAP code support.
+dnl **************************************************
+AC_ARG_ENABLE(imapp, 
+[  --enable-imapp=[no/yes]      Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code],,enable_imapp=no)
+if test "x$enable_imapp" = "xyes"; then
+	AC_DEFINE(ENABLE_IMAPP,1,[Really don't try this at home])
+	msg_imapp=yes
+else
+	msg_imapp=no
+fi
+AM_CONDITIONAL(ENABLE_IMAPP, test x$enable_imapp = xyes)
+
 
 dnl **************************************************
 dnl * Posix thread support
@@ -1317,6 +1330,7 @@ art/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/imap/Makefile
+camel/providers/imapp/Makefile
 camel/providers/local/Makefile
 camel/providers/nntp/Makefile
 camel/providers/pop3/Makefile
