@@ -120,6 +120,9 @@ source_group_is_remote (ESourceGroup *group)
 {
 	EUri     *uri;
 	gboolean  is_remote = FALSE;
+	
+	if (!group)
+		return FALSE;
 
 	uri = e_uri_new (e_source_group_peek_base_uri (group));
 	if (!uri)
@@ -202,6 +205,9 @@ source_group_can_add (ESourceGroup *source_group)
 	gboolean can_add;
 	EUri     *uri;
 
+	if (!source_group)
+		return FALSE;
+
 	can_add = !e_source_group_is_readonly (source_group);
 
 	if (can_add) {
@@ -222,6 +228,9 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 {
 	GSList *groups, *sl;
 	int index=-1, i=0;
+
+	if (source_list == NULL)
+		return index;
 
 	groups = e_source_list_peek_groups (source_list);
 	for (sl = groups; sl; sl = g_slist_next (sl)) {
@@ -351,11 +360,13 @@ general_entry_modified (SourceDialog *source_dialog)
 {
 	const char *text = gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry));
 	gboolean sensitive = text && *text != '\0';
+
+	sensitive &= (source_dialog->source_group != NULL);
 	
 	if (source_group_is_remote (source_dialog->source_group)) {
 		sensitive &= remote_page_verify (source_dialog);
 	}
-	
+
 	gtk_widget_set_sensitive (source_dialog->add_button, sensitive);
 }
 
@@ -684,8 +695,10 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+	if (index > -1) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+	}
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
 
@@ -847,8 +860,10 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+	if (index > -1) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
+		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+	}
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
 
