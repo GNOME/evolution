@@ -108,10 +108,9 @@ camel_tcp_stream_raw_get_type (void)
 	return type;
 }
 
-
 #ifdef SIMULATE_FLAKY_NETWORK
 static ssize_t
-tcp_write (int fd, char *buffer, size_t buflen)
+tcp_write (int fd, const char *buffer, size_t buflen)
 {
 	size_t len = buflen;
 	int val;
@@ -126,14 +125,18 @@ tcp_write (int fd, char *buffer, size_t buflen)
 		errno = EAGAIN;
 		return -1;
 	case 3:
+	case 4:
+	case 5:
 		len = 1 + (size_t) (buflen * rand () / (RAND_MAX + 1.0));
+		len = MIN (len, buflen);
 		/* fall through... */
 	default:
 		return write (fd, buffer, len);
 	}
 }
-#else
-#define tcp_write(fd, buf, len) write (fd, buf, len)
+
+#define write(fd, buffer, buflen) tcp_write (fd, buffer, buflen)
+
 #endif /* SIMULATE_FLAKY_NETWORK */
 
 
@@ -209,7 +212,6 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	CamelTcpStreamRaw *tcp_stream_raw = CAMEL_TCP_STREAM_RAW (stream);
 	ssize_t w, written = 0;
 	int cancel_fd;
-	int saveerrno;
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
@@ -220,15 +222,15 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (cancel_fd == -1) {
 		do {
 			do {
-				w = tcp_write (tcp_stream_raw->sockfd, buffer + written, n - written);
+				w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
 			} while (w == -1 && (errno == EINTR || errno == EAGAIN));
 			
 			if (w > 0)
 				written += w;
 		} while (w != -1 && written < n);
 	} else {
+		int error, flags, fdmax;
 		fd_set rdset, wrset;
-		int flags, fdmax;
 		
 		flags = fcntl (tcp_stream_raw->sockfd, F_GETFL);
 		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags | O_NONBLOCK);
@@ -248,7 +250,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			}
 			
 			do {
-				w = tcp_write (tcp_stream_raw->sockfd, buffer + written, n - written);
+				w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
 			} while (w == -1 && errno == EINTR);
 			
 			if (w == -1) {
@@ -258,9 +260,9 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				written += w;
 		} while (w != -1 && written < n);
 		
-		saveerrno = errno;
+		error = errno;
 		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-		errno = saveerrno;
+		errno = error;
 	}
 	
 	return written;
