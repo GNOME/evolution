@@ -236,7 +236,7 @@ e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EM
 	struct _menu_node *node;
 	GSList *l;
 
-	node = g_malloc(sizeof(*node));
+	node = g_malloc0(sizeof(*node));
 	node->parent = emp;
 	node->items = items;
 	node->uis = uifiles;
@@ -489,7 +489,7 @@ e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc
 {
 	struct _EMenuFactory *f = g_malloc0(sizeof(*f));
 
-	printf("%p adding factory '%s' to class '%s'\n", klass, menuid, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	printf("%p adding factory '%s' to class '%s'\n", klass, menuid?menuid:"<all menus>", g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
 
 	f->menuid = g_strdup(menuid);
 	f->factory = func;

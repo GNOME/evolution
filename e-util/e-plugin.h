@@ -14,9 +14,13 @@ typedef struct _EPluginClass EPluginClass;
 #define E_PLUGIN_CLASSID "com.ximian.evolution.plugin"
 
 /**
- * struct _EPlugin - 
+ * struct _EPlugin - An EPlugin instance.
  * 
  * @object: Superclass.
+ * @id: Unique identifier for plugin instance.
+ * @path: Filename where the xml definition resides.
+ * @hooks_pending: A list hooks which can't yet be loaded.  This is
+ * the xmlNodePtr to the root node of the hook definition.
  * @description: A description of the plugin's purpose.
  * @name: The name of the plugin.
  * @domain: The translation domain for this plugin.
@@ -30,6 +34,10 @@ typedef struct _EPluginClass EPluginClass;
  **/
 struct _EPlugin {
 	GObject object;
+
+	char *id;
+	char *path;
+	GSList *hooks_pending;
 
 	char *description;
 	char *name;

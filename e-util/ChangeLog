@@ -1,3 +1,17 @@
+2004-10-07  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): show the toplevel notebook if we
+	had to create one, always.
+
+	* e-menu.c (e_menu_add_items): initialise node->menu properly.
+
+	* e-plugin.c (ep_load): read/initialise a unique id for all
+	plugins and track them in a hashtable.
+	(ep_construct): refactor so we have more control over what
+	happens.  if the hook handling class isn't registered yet, just
+	note it and keep going.
+	(e_plugin_hook_new): remove this, its handled internally by above.
+
 2004-10-06  Not Zed  <NotZed@Ximian.com>
 
 	* e-popup.c (e_popup_create_menu): only take one mask parameter,

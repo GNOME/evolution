@@ -481,6 +481,7 @@ ec_rebuild(EConfig *emp)
 					root = item->factory(emp, item, NULL, wn->widget, wn->context->data);
 				} else if (item->type == E_CONFIG_BOOK) {
 					root = book = gtk_notebook_new();
+					gtk_widget_show(book);
 				} else if (item->type == E_CONFIG_DRUID) {
 					root = druid = gnome_druid_new();
 				} else
