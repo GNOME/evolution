@@ -63,8 +63,12 @@ int       g_str_compare                                                    (cons
 int       g_int_compare                                                    (const void       *x,
 									    const void       *y);
 char     *e_strdup_strip                                                   (const char       *string);
+
 void      e_free_object_list                                               (GList            *list);
+void      e_free_object_slist                                              (GSList           *list);
 void      e_free_string_list                                               (GList            *list);
+void      e_free_string_slist                                              (GSList           *list);
+
 char     *e_read_file                                                      (const char       *filename);
 int       e_write_file                                                     (const char       *filename,
 									    const char       *data,

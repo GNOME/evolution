@@ -90,6 +90,17 @@ e_free_object_list (GList *list)
 }
 
 void
+e_free_object_slist (GSList *list)
+{
+	GSList *p;
+
+	for (p = list; p != NULL; p = p->next)
+		gtk_object_unref (GTK_OBJECT (p->data));
+
+	g_slist_free (list);
+}
+
+void
 e_free_string_list (GList *list)
 {
 	GList *p;
@@ -98,6 +109,16 @@ e_free_string_list (GList *list)
 		g_free (p->data);
 
 	g_list_free (list);
+}
+
+void
+e_free_string_slist (GSList *list)
+{
+	GSList *p;
+
+	for (p = list; p != NULL; p = p->next)
+		g_free (p->data);
+	g_slist_free (list);
 }
 
 #define BUFF_SIZE 1024
