@@ -264,6 +264,8 @@ enum {
 	FOLDER_ICON_OUTBOX,
 	FOLDER_ICON_TRASH,
 	FOLDER_ICON_JUNK,
+	FOLDER_ICON_SHARED_TO_ME,
+	FOLDER_ICON_SHARED_BY_ME,
 	FOLDER_ICON_LAST
 };
 
@@ -276,6 +278,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	static gboolean initialised = FALSE;
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_store;
+	guint32 flags;
 	char *full_name;
 	
 	if (!initialised) {
@@ -284,12 +287,13 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("stock_outbox", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("stock_delete", E_ICON_SIZE_MENU);
 		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("stock_spam", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared_to_me", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared_by_me", E_ICON_SIZE_MENU);
 		initialised = TRUE;
 	}
 	
 	gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &full_name,
-			    COL_BOOL_IS_STORE, &is_store, -1);
-	
+			    COL_BOOL_IS_STORE, &is_store, COL_UINT_FLAGS, &flags, -1);
 	if (!is_store && full_name != NULL) {
 		if (!g_ascii_strcasecmp (full_name, "Inbox"))
 			pixbuf = folder_icons[FOLDER_ICON_INBOX];
@@ -299,10 +303,14 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
 		else if (!strcmp (full_name, CAMEL_VJUNK_NAME))
 			pixbuf = folder_icons[FOLDER_ICON_JUNK];
+		else if (flags & CAMEL_FOLDER_SHARED_TO_ME) 
+			pixbuf = folder_icons[FOLDER_ICON_SHARED_TO_ME];
+		else if (flags & CAMEL_FOLDER_SHARED_BY_ME) 
+			pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
 		else
 			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
 	}
-	
+		
 	g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
 	g_free (full_name);
 }

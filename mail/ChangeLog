@@ -1,3 +1,8 @@
+2005-01-11  Vivek Jain  <jvivek@novell.com>
+
+	* em-folder-tree.c (render_pixbuf): Added conditions to check for
+	shared folders to display different icon if it is a shard folder.	
+
 2005-01-07  Not Zed  <NotZed@Ximian.com>
 
 	* em-account-prefs.c (account_add_clicked): remove old code, setup
