@@ -1,3 +1,9 @@
+2003-02-03  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (remove_folder): pull
+	forward Jack Jia's fix for #33672, but convert it to use unlink
+	instead of the gnome-vfs stuff.
+
 2003-01-27  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: add a scrolled window

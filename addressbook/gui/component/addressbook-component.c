@@ -135,7 +135,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	char *addressbook_db_path, *subdir_path;
+	char *db_path, *summary_path, *subdir_path;
 	struct stat sb;
 	int rv;
 
@@ -175,24 +175,27 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	addressbook_db_path = g_build_filename (physical_uri + 7, "addressbook.db", NULL);
-	rv = unlink (addressbook_db_path);
-	g_free (addressbook_db_path);
-	if (rv == 0) {
+	db_path = g_build_filename (physical_uri + 7, "addressbook.db", NULL);
+	summary_path = g_build_filename (physical_uri + 7, "addressbook.db.summary", NULL);
+	rv = unlink (db_path);
+
+	if (rv == 0 || (rv == -1 && errno == ENOENT))
+		rv = unlink (summary_path);
+
+	if (rv == 0 || (rv == -1 && errno == ENOENT)) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_OK,
 								     &ev);
 	}
 	else {
-		if (errno == EACCES || errno == EPERM)
-			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-							     &ev);
-		else
-			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_INVALID_URI, /*XXX*/
-							     &ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+								     &ev);
 	}
+
+	g_free (db_path);
+	g_free (summary_path);
+
 	CORBA_exception_free(&ev);
 }
 
