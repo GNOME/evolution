@@ -1293,6 +1293,7 @@ addressbook/backend/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/idl/Makefile
+addressbook/conduit/Makefile
 addressbook/printing/Makefile
 art/Makefile
 camel/Makefile
@@ -1358,6 +1359,9 @@ calendar/Makefile
 calendar/idl/Makefile
 calendar/cal-util/Makefile
 calendar/cal-client/Makefile
+calendar/conduits/Makefile
+calendar/conduits/todo/Makefile
+calendar/conduits/calendar/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
