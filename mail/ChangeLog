@@ -1,3 +1,8 @@
+2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-component.c (create_view_widget): If the user selects a
+	store node, don't try to open it as a folder.
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-component.c (impl_sendAndReceive): New, implementation for

@@ -242,13 +242,19 @@ create_view_widget (EMFolderTree *emft, const char *path, const char *uri)
 	const char *noselect;
 	CamelURL *url;
 	
-	url = camel_url_new (uri, NULL);
-	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-	if (noselect && !strcasecmp (noselect, "yes"))
+	if (!strcmp (path, "/")) {
+		/* user selected a CamelStore node... */
+		/* NOTE: we *could* display some sort of statistics control for the store here, maybe? something like Outlook does? */
 		control = create_noselect_control ();
-	else
-		control = folder_browser_factory_new_control (uri);
-	camel_url_free (url);
+	} else {
+		url = camel_url_new (uri, NULL);
+		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
+		if (noselect && !strcasecmp (noselect, "yes"))
+			control = create_noselect_control ();
+		else
+			control = folder_browser_factory_new_control (uri);
+		camel_url_free (url);
+	}
 	
 	if (!control)
 		return NULL;
