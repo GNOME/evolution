@@ -1,5 +1,8 @@
 2001-06-29  Larry Ewing  <lewing@ximian.com>
 
+	* mail-display.c (html_button_press_event): remove redundant
+	logic.
+
 	* mail-callbacks.c (create_msg_composer): make sure we show the
 	sig file.
 

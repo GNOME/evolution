@@ -1492,7 +1492,6 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			HTMLEngine *e;
 			HTMLPoint *point;
 			GtkWidget *popup_thing;
-			const gchar *link;
 
 			e     = GTK_HTML (widget)->engine;
 			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
@@ -1512,7 +1511,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 								    NULL);
 					make_popup_window (popup_thing);
 
-				} else if ((link = html_object_get_url (point->object))) {
+				} else if (url) {
 
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
 
