@@ -65,6 +65,12 @@ struct post_send_data {
 };
 
 static void
+druid_destroyed (void)
+{
+	gtk_main_quit ();
+}
+
+static void
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
@@ -72,21 +78,28 @@ configure_mail (FolderBrowser *fb)
 	if (fb) {
 		GtkWidget *dialog;
 		
-		dialog = gnome_message_box_new (_("You have not configured the mail client.\n"
-						  "You need to do this before you can send,\n"
-						  "receive or compose mail.\n"
-						  "Would you like to configure it now?"),
-						GNOME_MESSAGE_BOX_QUESTION,
-						GNOME_STOCK_BUTTON_YES,
-						GNOME_STOCK_BUTTON_NO, NULL);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
+		dialog = gnome_message_box_new (
+			_("You have not configured the mail client.\n"
+			  "You need to do this before you can send,\n"
+			  "receive or compose mail.\n"
+			  "Would you like to configure it now?"),
+			GNOME_MESSAGE_BOX_QUESTION,
+			GNOME_STOCK_BUTTON_YES,
+			GNOME_STOCK_BUTTON_NO, NULL);
+
+		gnome_dialog_set_parent (
+			GNOME_DIALOG (dialog),
+			GTK_WINDOW (gtk_widget_get_ancestor (
+				GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
 		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
-			/* FIXME: should we block until mail-config is done? */
 			druid = mail_config_druid_new (fb->shell);
+			gtk_signal_connect (GTK_OBJECT (druid), "destroy",
+					    GTK_SIGNAL_FUNC (druid_destroyed), NULL);
 			gtk_widget_show (GTK_WIDGET (druid));
+			gtk_grab_add (GTK_WIDGET (druid));
+			gtk_main ();
 			break;
 		case 1:
 		default:

@@ -1,3 +1,8 @@
+2001-01-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* mail-callbacks.c (configure_mail): Force finalization of the
+	function before returning fixing the FIXME that was there.
+
 2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config-druid.c (transport_next): If the service_check
