@@ -1,5 +1,32 @@
 2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-creation-dialog.c (add_folder_types): Only put
+	the types that are user-creatable in the folder type option menu.
+
+	* evolution-shell-component.c
+	(impl_ShellComponent__get_supported_types): Set the
+	`user_creatable' member too.
+	(evolution_shell_component_construct): Copy the `user_creatable'
+	member too.
+
+	* evolution-shell-component.h: New member `user_creatable' in
+	`EvolutionShellComponentFolderType'.
+
+	* e-component-registry.c (register_type): Pass the user_creatable
+	member of the CORBA FolderType struct.
+
+	* e-folder-type-registry.c: New member `user_creatable' in struct
+	FolderType.
+	(e_folder_type_registry_register_type): New arg @user_creatable.
+	(register_folder_type): Likewise.
+	(folder_type_new): Likewise.
+	(e_folder_type_registry_type_is_user_creatable): New.
+
+	* Evolution-ShellComponent.idl: New member `user_creatable' in
+	`struct FolderType'.
+
+2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-activity-client.c (impl_destroy): Use
 	`g_source_remove()' instead of `gtk_timeout_remove()' here, as we
 	are using `g_timeout_add()' and not `gtk_timeout_add()' to set up

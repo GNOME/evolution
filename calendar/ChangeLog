@@ -1,3 +1,9 @@
+2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c: Make folders of type "calendar" and
+	"tasks" user-creatable by setting `user_creatable' to %TRUE in the
+	`EvolutionShellComponentFolderType's.
+
 2001-07-19  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/event-editor.h (event_editor_update_widgets):

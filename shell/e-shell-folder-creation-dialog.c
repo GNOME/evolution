@@ -361,6 +361,9 @@ add_folder_types (GtkWidget *dialog,
 
 		type_name = (const char *) p->data;
 
+		if (! e_folder_type_registry_type_is_user_creatable (folder_type_registry, type_name))
+			continue;
+
 		menu_item = gtk_menu_item_new_with_label (type_name);
 		gtk_widget_show (menu_item);
 		gtk_menu_append (GTK_MENU (menu), menu_item);

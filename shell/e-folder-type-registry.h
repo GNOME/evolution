@@ -63,6 +63,7 @@ EFolderTypeRegistry *e_folder_type_registry_new        (void);
 gboolean  e_folder_type_registry_register_type         (EFolderTypeRegistry           *folder_type_registry,
 							const char                    *type_name,
 							const char                    *icon_name,
+							gboolean                       user_creatable,
 							int                            num_exported_dnd_types,
 							const char                   **exported_dnd_types,
 							int                            num_accepted_dnd_types,
@@ -79,6 +80,8 @@ GdkPixbuf                     *e_folder_type_registry_get_icon_for_type       (E
 const char                    *e_folder_type_registry_get_icon_name_for_type  (EFolderTypeRegistry *folder_type_registry,
 									       const char          *type_name);
 EvolutionShellComponentClient *e_folder_type_registry_get_handler_for_type    (EFolderTypeRegistry *folder_type_registry,
+									       const char          *type_name);
+gboolean                       e_folder_type_registry_type_is_user_creatable  (EFolderTypeRegistry *folder_type_registry,
 									       const char          *type_name);
 
 GList *e_folder_type_registry_get_exported_dnd_types_for_type (EFolderTypeRegistry *folder_type_registry,

@@ -105,6 +105,7 @@ static gboolean
 register_type (EComponentRegistry *component_registry,
 	       const char *name,
 	       const char *icon_name,
+	       gboolean user_creatable,
 	       int num_exported_dnd_types,
 	       const char **exported_dnd_types,
 	       int num_accepted_dnd_types,
@@ -120,7 +121,7 @@ register_type (EComponentRegistry *component_registry,
 	g_assert (folder_type_registry != NULL);
 
 	if (! e_folder_type_registry_register_type (folder_type_registry,
-						    name, icon_name,
+						    name, icon_name, user_creatable,
 						    num_exported_dnd_types,
 						    exported_dnd_types,
 						    num_accepted_dnd_types,
@@ -188,7 +189,7 @@ register_component (EComponentRegistry *component_registry,
 		type = supported_types->_buffer + i;
 
 		if (! register_type (component_registry,
-				     type->name, type->icon_name,
+				     type->name, type->icon_name, type->user_creatable, 
 				     type->exported_dnd_types._length,
 				     (const char **) type->exported_dnd_types._buffer,
 				     type->accepted_dnd_types._length,

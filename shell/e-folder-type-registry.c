@@ -41,6 +41,7 @@ static GtkObjectClass *parent_class = NULL;
 struct _FolderType {
 	char *name;
 	char *icon_name;
+	gboolean user_creatable;
 
 	GList *exported_dnd_types; /* char * */
 	GList *accepted_dnd_types; /* char * */
@@ -63,6 +64,7 @@ struct _EFolderTypeRegistryPrivate {
 static FolderType *
 folder_type_new (const char *name,
 		 const char *icon_name,
+		 gboolean user_creatable,
 		 int num_exported_dnd_types,
 		 const char **exported_dnd_types,
 		 int num_accepted_dnd_types,
@@ -74,8 +76,9 @@ folder_type_new (const char *name,
 
 	new = g_new (FolderType, 1);
 
-	new->name      = g_strdup (name);
-	new->icon_name = g_strdup (icon_name);
+	new->name           = g_strdup (name);
+	new->icon_name      = g_strdup (icon_name);
+	new->user_creatable = user_creatable;
 
 	new->exported_dnd_types = NULL;
 	for (i = 0; i < num_exported_dnd_types; i++)
@@ -146,6 +149,7 @@ static gboolean
 register_folder_type (EFolderTypeRegistry *folder_type_registry,
 		      const char *name,
 		      const char *icon_name,
+		      gboolean user_creatable,
 		      int num_exported_dnd_types,
 		      const char **exported_dnd_types,
 		      int num_accepted_dnd_types,
@@ -160,7 +164,7 @@ register_folder_type (EFolderTypeRegistry *folder_type_registry,
 	if (get_folder_type (folder_type_registry, name) != NULL)
 		return FALSE;
 
-	folder_type = folder_type_new (name, icon_name,
+	folder_type = folder_type_new (name, icon_name, user_creatable,
 				       num_exported_dnd_types, exported_dnd_types,
 				       num_accepted_dnd_types, accepted_dnd_types);
 	g_hash_table_insert (priv->name_to_type, folder_type->name, folder_type);
@@ -275,6 +279,7 @@ gboolean
 e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 				      const char *type_name,
 				      const char *icon_name,
+				      gboolean user_creatable,
 				      int num_exported_dnd_types,
 				      const char **exported_dnd_types,
 				      int num_accepted_dnd_types,
@@ -285,7 +290,7 @@ e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 	g_return_val_if_fail (type_name != NULL, FALSE);
 	g_return_val_if_fail (icon_name != NULL, FALSE);
 
-	return register_folder_type (folder_type_registry, type_name, icon_name,
+	return register_folder_type (folder_type_registry, type_name, icon_name, user_creatable,
 				     num_exported_dnd_types, exported_dnd_types,
 				     num_accepted_dnd_types, accepted_dnd_types);
 }
@@ -393,6 +398,25 @@ e_folder_type_registry_get_handler_for_type (EFolderTypeRegistry *folder_type_re
 	}
 
 	return folder_type->handler;
+}
+
+gboolean
+e_folder_type_registry_type_is_user_creatable  (EFolderTypeRegistry *folder_type_registry,
+						const char          *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_registry != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), FALSE);
+	g_return_val_if_fail (type_name != NULL, FALSE);
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_registry_type_is_user_creatable() -- Unknown type `%s'", type_name);
+		return FALSE;
+	}
+
+	return folder_type->user_creatable;
 }
 
 

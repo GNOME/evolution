@@ -63,7 +63,7 @@ static char *accepted_dnd_types[] = {
 };
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "contacts", "evolution-contacts.png", accepted_dnd_types, NULL },
+	{ "contacts", "evolution-contacts.png", TRUE, accepted_dnd_types, NULL },
 	{ NULL, NULL, NULL, NULL }
 };
 

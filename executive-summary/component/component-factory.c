@@ -44,7 +44,7 @@ static BonoboGenericFactory *factory = NULL;
 static gint running_objects = 0;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "executive-summary", "evolution-today.png" },
+	{ "executive-summary", "evolution-today.png", FALSE, NULL, NULL },
 	{ NULL, NULL }
 };
 

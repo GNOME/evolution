@@ -90,9 +90,9 @@ static char *exported_dnd_types[] = {
 };
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "mail", "evolution-inbox.png", accepted_dnd_types, exported_dnd_types },
-	{ "mailstorage", "evolution-inbox.png", NULL, NULL },
-	{ "vtrash", "evolution-trash.png", accepted_dnd_types, exported_dnd_types },
+	{ "mail", "evolution-inbox.png", TRUE, accepted_dnd_types, exported_dnd_types },
+	{ "mailstorage", "evolution-inbox.png", FALSE, NULL, NULL },
+	{ "vtrash", "evolution-trash.png", FALSE, accepted_dnd_types, exported_dnd_types },
 	{ NULL, NULL, NULL, NULL }
 };
 

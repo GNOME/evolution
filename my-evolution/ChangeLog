@@ -1,3 +1,9 @@
+2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c: Make the "My Evolution" folder
+	non-creatable by setting the `user_creatable' member of
+	`EvolutionShellComponentFolderType' to %FALSE.
+
 2001-07-20  Jason Leach  <jleach@ximian.com>
 
 	* e-summary-tasks.c: Revert last changes, URIs are now back to

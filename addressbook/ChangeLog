@@ -1,3 +1,9 @@
+2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c: Make the "contacts"
+	folders user-creatable by setting `user_creatable' to %TRUE in the
+	`EvolutionShellComponentFolderType's.
+
 2001-07-18  Chris Toshok  <toshok@ximian.com>
 
 	[ patch contributed by Jos Dehaes <jos.dehaes@bigfoot.com> ]

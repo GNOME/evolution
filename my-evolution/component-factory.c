@@ -27,7 +27,7 @@
 static gint running_objects = 0;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "My Evolution", "evolution-today.png" },
+	{ "My Evolution", "evolution-today.png", FALSE, NULL, NULL },
 	{ NULL, NULL }
 };
 

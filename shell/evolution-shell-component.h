@@ -107,6 +107,7 @@ typedef char * (* EvolutionShellComponentGetDndSelectionFn) (EvolutionShellCompo
 struct _EvolutionShellComponentFolderType {
 	char *name;
 	char *icon_name;
+	gboolean user_creatable;
 
 	/* The following are NULL-terminated arrays.  */
 	char **accepted_dnd_types;
