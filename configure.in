@@ -260,11 +260,11 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.31)
+AC_MSG_CHECKING(for Bonobo >= 0.36)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
-	if test "$vers" -ge 31; then
+	if test "$vers" -ge 36; then
 		bonobo_ok=true
 	else
 		bonobo_ok=false
@@ -276,7 +276,7 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo 0.31 or newer is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo 0.36 or newer is required to compile Evolution)
 fi
 
 dnl ******************************
@@ -332,14 +332,14 @@ fi
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.4.99.8)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.5)
 if gnome-config --libs gal > /dev/null 2>&1; then 
     vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000000 + $2 * 10000 + $3 * 100 + $4;}'`
-    if test "$vers" -ge 49908; then
+    if test "$vers" -ge 50000; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME Application libs 0.4.99.8 for this version of Evolution)
+        AC_MSG_ERROR(You need at least GNOME Application libs 0.5 for this version of Evolution)
     fi
 else
     AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
