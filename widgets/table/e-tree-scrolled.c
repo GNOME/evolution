@@ -131,8 +131,10 @@ GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel       *etm
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec_fn != NULL, NULL);
 
-	ets = gtk_type_new (e_tree_scrolled_get_type ());
-
+	ets = E_TREE_SCROLLED (gtk_widget_new (e_tree_scrolled_get_type (),
+                                                "hadjustment", NULL,
+                                                "vadjustment", NULL,
+                                                NULL));
 	ets = e_tree_scrolled_construct_from_spec_file (ets, etm, ete, spec_fn, state_fn);
 
 	return GTK_WIDGET (ets);
