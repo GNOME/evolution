@@ -1,3 +1,12 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (imagesdir): Version using $(BASE_VERSION).
+	(buttonsdir): Likewise.
+	(conduitsdir): Likewise.
+	(install-data-local): New rule to install evolution.png as
+	evolution-$(BASE_VERSION).png.
+	(EXTRA_DIST): Add evolution.png.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (imagesdir): Install images into
