@@ -37,7 +37,7 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <netdb.h>
 #include "camel-types.h"
-#include "url-util.h"
+#include "camel-url.h"
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -51,7 +51,7 @@ struct _CamelService {
 
 	CamelSession *session;
 	gboolean connected;
-	Gurl *url;
+	CamelURL *url;
 	int url_flags;
 
 };
@@ -64,7 +64,7 @@ typedef struct {
 	gboolean  (*connect)           (CamelService *service, 
 					CamelException *ex);
 	gboolean  (*connect_with_url)  (CamelService *service, 
-					Gurl *url,
+					CamelURL *url,
 					CamelException *ex);
 	gboolean  (*disconnect)        (CamelService *service, 
 					CamelException *ex);
@@ -96,7 +96,7 @@ typedef struct {
 /* public methods */
 CamelService *      camel_service_new                (GtkType type, 
 						      CamelSession *session,
-						      Gurl *url, 
+						      CamelURL *url, 
 						      CamelException *ex);
 
 gboolean            camel_service_connect            (CamelService *service, 
@@ -118,11 +118,7 @@ void                camel_service_free_auth_types    (CamelService *service,
 /* convenience functions */
 struct hostent *    camel_service_gethost            (CamelService *service,
 						      CamelException *ex);
-int                 camel_service_getport            (CamelService *service,
-						      char *default_name,
-						      int default_number,
-						      char *proto,
-						      CamelException *ex);
+
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);

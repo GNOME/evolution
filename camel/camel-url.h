@@ -1,11 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* url-util.h : utility functions to parse URLs */
+/* camel-url.h : utility functions to parse URLs */
 
 /* 
- * Author : 
+ * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
- * Copyright 1999, 2000 HelixCode (http://www.helixcode.com)
+ * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +25,11 @@
  */
 
 
-#ifndef URL_UTIL_H
-#define URL_UTIL_H 1
+#ifndef CAMEL_URL_H
+#define CAMEL_URL_H 1
 
 #include <glib.h>
+#include "camel-types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,24 +37,19 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct {
-	gchar *protocol;
-	gchar *user;
-	gchar *authmech;
-	gchar *passwd;
-	gchar *host;
-	gchar *port;
-	gchar *path;
+	char *protocol;
+	char *user;
+	char *authmech;
+	char *passwd;
+	char *host;
+	int   port;
+	char *path;
 
-} Gurl;
+} CamelURL;
 
-/* the cache system has been disabled because it would 
-   need the user to use accessors instead of modifying the 
-   structure field. As the speed is not so important here, 
-   I chose not to use it */
-
-Gurl *g_url_new (const gchar *url_string);
-gchar *g_url_to_string (const Gurl *url, gboolean show_password);
-void g_url_free (Gurl *url);
+CamelURL *camel_url_new (const char *url_string, CamelException *ex);
+char *camel_url_to_string (CamelURL *url, gboolean show_password);
+void camel_url_free (CamelURL *url);
 
 #ifdef __cplusplus
 }

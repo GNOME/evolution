@@ -28,7 +28,7 @@
 #include "camel-mbox-store.h"
 #include "camel-mbox-folder.h"
 #include "camel-exception.h"
-#include "url-util.h"
+#include "camel-url.h"
 
 /* Returns the class for a CamelMboxStore */
 #define CMBOXS_CLASS(so) CAMEL_MBOX_STORE_CLASS (GTK_OBJECT(so)->klass)
@@ -88,7 +88,7 @@ camel_mbox_store_get_type (void)
 const gchar *
 camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 {
-	Gurl *url = CAMEL_SERVICE (store)->url;
+	CamelURL *url = CAMEL_SERVICE (store)->url;
 
 	g_assert(url != NULL);
 	return url->path;

@@ -33,7 +33,7 @@
 #include "camel-transport.h"
 #include "camel-exception.h"
 #include "string-utils.h"
-#include "url-util.h"
+#include "camel-url.h"
 #include "hash-table-utils.h"
 
 
@@ -108,7 +108,7 @@ camel_session_new (CamelAuthCallback authenticator)
  * @provider: provider object
  * 
  * Set the default implementation for a protocol. The protocol
- * is determined by provider->protocol field (See CamelProtocol).
+ * is determined by provider->protocol field (See CamelProvider).
  * It overrides the default provider for this protocol.
  * 
  **/
@@ -170,7 +170,7 @@ camel_session_get_store_from_provider (CamelSession *session,
  **/
 static CamelStore *
 get_store_for_protocol_with_url (CamelSession *session, const char *protocol,
-				 Gurl *url, CamelException *ex)
+				 CamelURL *url, CamelException *ex)
 {
 	const CamelProvider *provider = NULL;
 
@@ -235,21 +235,17 @@ CamelStore *
 camel_session_get_store (CamelSession *session, const char *url_string,
 			 CamelException *ex)
 {
-	Gurl *url;
+	CamelURL *url;
 	CamelStore *store;
 
-	url = g_url_new (url_string);
-	if (url == NULL || url->protocol == NULL) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				     "Could not determine protocol for "
-				     "URL '%s'", url_string);
+	url = camel_url_new (url_string, ex);
+	if (!url)
 		return NULL;
-	}
 	
 	store = get_store_for_protocol_with_url (session, url->protocol,
 						 url, ex);
 	if (store == NULL)
-		g_url_free (url);
+		camel_url_free (url);
 	return store;
 }
 

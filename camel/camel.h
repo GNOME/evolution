@@ -57,12 +57,12 @@ extern "C" {
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-thread-proxy.h>
+#include <camel/camel-url.h>
 #include <camel/data-wrapper-repository.h>
 #include <camel/gmime-content-field.h>
 #include <camel/gmime-utils.h>
 #include <camel/gstring-util.h>
 #include <camel/string-utils.h>
-#include <camel/url-util.h>
 
 gint camel_init (void);
 

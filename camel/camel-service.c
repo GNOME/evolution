@@ -37,14 +37,14 @@ static GtkObjectClass *parent_class=NULL;
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
 
 static gboolean _connect(CamelService *service, CamelException *ex);
-static gboolean _connect_with_url (CamelService *service, Gurl *url,
+static gboolean _connect_with_url (CamelService *service, CamelURL *url,
 				   CamelException *ex);
 static gboolean _disconnect(CamelService *service, CamelException *ex);
 static gboolean _is_connected (CamelService *service);
 static GList *  _query_auth_types (CamelService *service);
 static void     _free_auth_types (CamelService *service, GList *authtypes);
 static void     _finalize (GtkObject *object);
-static gboolean _set_url (CamelService *service, Gurl *url,
+static gboolean _set_url (CamelService *service, CamelURL *url,
 			  CamelException *ex);
 
 static void
@@ -101,7 +101,7 @@ _finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelService::finalize\n");
 
 	if (camel_service->url)
-		g_url_free (camel_service->url);
+		camel_url_free (camel_service->url);
 	if (camel_service->session)
 		gtk_object_unref (GTK_OBJECT (camel_service->session));
 
@@ -123,7 +123,7 @@ _finalize (GtkObject *object)
  * Return value: the CamelService, or NULL.
  **/
 CamelService *
-camel_service_new (GtkType type, CamelSession *session, Gurl *url,
+camel_service_new (GtkType type, CamelSession *session, CamelURL *url,
 		   CamelException *ex)
 {
 	CamelService *service;
@@ -197,7 +197,7 @@ camel_service_connect (CamelService *service, CamelException *ex)
  * Return value: whether or not the connection succeeded
  **/
 static gboolean
-_connect_with_url (CamelService *service, Gurl *url, CamelException *ex)
+_connect_with_url (CamelService *service, CamelURL *url, CamelException *ex)
 {
 	g_assert (service->session);
 
@@ -219,11 +219,14 @@ _connect_with_url (CamelService *service, Gurl *url, CamelException *ex)
  * Return value: whether or not the connection succeeded
  **/
 gboolean
-camel_service_connect_with_url (CamelService *service, char *url,
+camel_service_connect_with_url (CamelService *service, char *url_string,
 				CamelException *ex)
 {
-	return CSERV_CLASS(service)->connect_with_url (service, g_url_new(url),
-						       ex);
+	CamelURL *url = camel_url_new (url_string, ex);
+
+	if (!url)
+		return FALSE;
+	return CSERV_CLASS(service)->connect_with_url (service, url, ex);
 }
 
 
@@ -298,19 +301,19 @@ camel_service_is_connected (CamelService *service)
  * @url_string: the URL
  * @ex: a CamelException
  *
- * This converts the URL to a Gurl, validates it for the service,
+ * This converts the URL to a CamelURL, validates it for the service,
  * and sets it as the default URL for the service.
  *
  * Return value: success or failure
  **/
 static gboolean
-_set_url (CamelService *service, Gurl *url, CamelException *ex)
+_set_url (CamelService *service, CamelURL *url, CamelException *ex)
 {
 	char *url_string;
 
 	if (service->url_flags & CAMEL_SERVICE_URL_NEED_USER &&
 	    (url->user == NULL || url->user[0] == '\0')) {
-		url_string = g_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      "URL '%s' needs a username component",
 				      url_string);
@@ -318,7 +321,7 @@ _set_url (CamelService *service, Gurl *url, CamelException *ex)
 		return FALSE;
 	} else if (service->url_flags & CAMEL_SERVICE_URL_NEED_HOST &&
 		   (url->host == NULL || url->host[0] == '\0')) {
-		url_string = g_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      "URL '%s' needs a host component",
 				      url_string);
@@ -326,7 +329,7 @@ _set_url (CamelService *service, Gurl *url, CamelException *ex)
 		return FALSE;
 	} else if (service->url_flags & CAMEL_SERVICE_URL_NEED_PATH &&
 		   (url->path == NULL || url->path[0] == '\0')) {
-		url_string = g_url_to_string (url, FALSE);
+		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
 				      "URL '%s' needs a path component",
 				      url_string);
@@ -335,7 +338,7 @@ _set_url (CamelService *service, Gurl *url, CamelException *ex)
 	}
 
 	if (service->url)
-		g_url_free (service->url);
+		camel_url_free (service->url);
 	service->url = url;
 	return TRUE;
 }
@@ -353,7 +356,7 @@ _set_url (CamelService *service, Gurl *url, CamelException *ex)
 char *
 camel_service_get_url (CamelService *service)
 {
-	return g_url_to_string(service->url, FALSE);
+	return camel_url_to_string(service->url, FALSE);
 }
 
 
@@ -462,47 +465,4 @@ camel_service_gethost (CamelService *service, CamelException *ex)
 	}
 
 	return h;
-}
-
-/**
- * camel_service_getport: get the port number for a service's URL
- * @service: a CamelService
- * @default_name: the default service name if none is provided by the URL
- * @default_number: the default port number if the @default_name lookup fails
- * @proto: the protocol (eg, "tcp") to be used
- * @ex: a CamelExcption
- *
- * This is a convenience function to get the port number for a service
- * based on the service's URL (which may contain either a numeric
- * or symbolic port name) and the provided defaults.
- *
- * Return value: a port number (in network byte order), or -1 if the
- * user specified a port name that could not be resolved.
- **/
-int
-camel_service_getport (CamelService *service, char *default_port,
-		       int default_number, char *proto, CamelException *ex)
-{
-	struct servent *s;
-	char *port;
-
-	if (service->url->port)
-		port = service->url->port;
-	else
-		port = default_port;
-
-	if (isdigit (*port))
-		return htons (atoi (port));
-
-	s = getservbyname (port, proto);
-	if (s)
-		return s->s_port;
-
-
-	if (port == service->url->port) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "Unknown port `%s'", port);
-		return -1;
-	} else
-		return htons (default_number);
 }

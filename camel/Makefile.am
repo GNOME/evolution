@@ -64,6 +64,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	camel-transport.c			\
+	camel-url.c				\
 	data-wrapper-repository.c		\
 	gmime-base64.c				\
 	gmime-content-field.c			\
@@ -72,7 +73,6 @@ libcamel_la_SOURCES = 				\
 	hash-table-utils.c			\
 	md5-utils.c				\
 	string-utils.c				\
-	url-util.c				\
 	$(pthread_SRC)
 
 libcamelinclude_HEADERS =			\
@@ -108,6 +108,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	camel-transport.h			\
+	camel-url.h				\
 	data-wrapper-repository.h		\
 	gmime-base64.h				\
 	gmime-content-field.h			\
@@ -116,7 +117,6 @@ libcamelinclude_HEADERS =			\
 	hash-table-utils.h			\
 	md5-utils.h				\
 	string-utils.h				\
-	url-util.h				\
 	camel-exception-list.def		\
 	$(pthread_HDR)
 

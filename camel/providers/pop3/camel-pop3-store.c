@@ -40,8 +40,8 @@
 #include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-exception.h"
+#include "camel-url.h"
 #include "md5-utils.h"
-#include "url-util.h"
 
 /* Specified in RFC 1939 */
 #define POP3_PORT 110
@@ -205,7 +205,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
-	int port, fd, status, apoplen;
+	int fd, status, apoplen;
 	char *buf, *apoptime, *pass;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
@@ -214,9 +214,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 
 	h = camel_service_gethost (service, ex);
 	if (!h)
-		return FALSE;
-	port = camel_service_getport (service, "pop3", POP3_PORT, "tcp", ex);
-	if (port == -1)
 		return FALSE;
 
 	pass = g_strdup (service->url->passwd);
@@ -233,7 +230,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 
 	sin.sin_family = h->h_addrtype;
-	sin.sin_port = port;
+	sin.sin_port = htons (service->url->port ? service->url->port : POP3_PORT);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
