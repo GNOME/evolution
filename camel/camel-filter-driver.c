@@ -493,13 +493,14 @@ close_folder (void *key, void *value, void *data)
 	CamelFilterDriver *driver = data;
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	
-	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders) * 100 / p->closed, "Syncing folders");
 	p->closed++;
 
 	g_free (key);
 	camel_folder_sync (folder, FALSE, p->ex);
 	camel_folder_thaw (folder);
 	camel_object_unref (CAMEL_OBJECT (folder));
+
+	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders)* 100 / p->closed, "Syncing folders");
 }
 
 /* flush/close all folders */
@@ -507,7 +508,9 @@ static int
 close_folders (CamelFilterDriver *driver)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
-	
+
+	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 0, "Syncing folders");
+
 	p->closed = 0;
 	g_hash_table_foreach (p->folders, close_folder, driver);
 	g_hash_table_destroy (p->folders);
