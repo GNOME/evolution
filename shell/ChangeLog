@@ -35,12 +35,6 @@
 
 	* Evolution-ShellView.idl: New interface.
 
-2000-08-10  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* e-shell.c (ADDRESSBOOK_COMPONENT_ID): New constant; ID for the
-	executive summary component.
-	(setup_components): Activate the executive summary component.
-
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* Evolution-ShellComponent.idl: add "in string evolution_homedir"
