@@ -156,8 +156,6 @@ e_uri_schema_registry_set_handler_for_schema (EUriSchemaRegistry *registry,
 
 	new_handler = schema_handler_new (schema, shell_component);
 	g_hash_table_insert (priv->schema_to_handler, new_handler->schema, new_handler);
-
-	return TRUE;
 }
 
 EvolutionShellComponentClient *

@@ -207,6 +207,7 @@ idle_cb (void *data)
 	EShellConstructResult result;
 	GSList *p;
 	gboolean have_evolution_uri;
+	gboolean display_default;
 
 	CORBA_exception_init (&ev);
 
@@ -259,15 +260,31 @@ idle_cb (void *data)
 			have_evolution_uri = TRUE;
 	}
 
-	if (! have_evolution_uri) {
-		if (shell == NULL || ! e_shell_restore_from_settings (shell)) {
-			const char *uri;
-
-			uri = E_SHELL_VIEW_DEFAULT_URI;
-			GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-			if (ev._major != CORBA_NO_EXCEPTION)
-				g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+	if (shell == NULL) {
+		if (uri_list == NULL)
+			display_default = TRUE;
+		else
+			display_default = FALSE;
+	} else {
+		if (! have_evolution_uri) {
+			if (! e_shell_restore_from_settings (shell)) 
+				display_default = TRUE;
+			else
+				display_default = FALSE;
+		} else {
+			display_default = FALSE;
 		}
+
+		display_default = FALSE;
+	}
+
+	if (display_default) {
+		const char *uri;
+
+		uri = E_SHELL_VIEW_DEFAULT_URI;
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
 	}
 
 	for (p = uri_list; p != NULL; p = p->next) {
