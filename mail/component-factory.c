@@ -106,6 +106,38 @@ static const char *schema_types[] = {
 
 /* EvolutionShellComponent methods and signals.  */
 
+static void
+storage_activate (BonoboControl *control, gboolean activate,
+		  const char *physical_uri)
+{
+	CamelService *store;
+	EvolutionStorage *storage;
+	CamelException ex;
+
+	if (!activate)
+		return;
+
+	camel_exception_init (&ex);
+	store = camel_session_get_service (session, physical_uri,
+					   CAMEL_PROVIDER_STORE, &ex);
+	if (!store) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot connect to store: %s"),
+			  camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+		return;
+	}
+	camel_exception_clear (&ex);
+
+	storage = g_hash_table_lookup (storages_hash, store);
+	if (storage &&
+	    !gtk_object_get_data (GTK_OBJECT (storage), "connected")) {
+		mail_note_store (CAMEL_STORE(store), storage,
+				 CORBA_OBJECT_NIL, NULL, NULL);
+	}
+	camel_object_unref (CAMEL_OBJECT (store));
+}	
+
 static BonoboControl *
 create_noselect_control (void)
 {
@@ -143,24 +175,13 @@ create_view (EvolutionShellComponent *shell_component,
 								      corba_shell);
 		camel_url_free (url);
 	} else if (!g_strcasecmp (folder_type, "mailstorage")) {
-		CamelService *store;
-		EvolutionStorage *storage;
-		
-		store = camel_session_get_service (session, physical_uri,
-						   CAMEL_PROVIDER_STORE, NULL);
-		if (!store)
-			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-		storage = g_hash_table_lookup (storages_hash, store);
-		if (!storage) {
-			camel_object_unref (CAMEL_OBJECT (store));
-			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-		}
-		
-		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_note_store(CAMEL_STORE(store), storage, CORBA_OBJECT_NIL, NULL, NULL);
-		camel_object_unref (CAMEL_OBJECT (store));
-		
+		char *uri_dup = g_strdup (physical_uri);
+
 		control = create_noselect_control ();
+		gtk_object_set_data_full (GTK_OBJECT (control), "physical_uri",
+					  uri_dup, g_free);
+		gtk_signal_connect (GTK_OBJECT (control), "activate",
+				    storage_activate, uri_dup);
 	} else if (!g_strcasecmp (folder_type, "vtrash")) {
 		if (!g_strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);

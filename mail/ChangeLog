@@ -1,3 +1,12 @@
+2001-10-08  Dan Winship  <danw@frotz.mysterion.org>
+
+	* component-factory.c (create_view): For mailstorage folders,
+	connect to the control's "activate" signal, and don't try to
+	connect to the store.
+	(storage_activate): Instead, do it here, so if the connection
+	fails, or the user cancels, or whatever else, he can try again
+	later.
+
 2001-10-07  Dan Winship  <danw@ximian.com>
 
 	* mail-tools.c (mail_tool_do_movemail): Remove #ifndef
