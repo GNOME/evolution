@@ -1,3 +1,21 @@
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary-url.c (e_summary_url_exec): Execute a program
+	specified in the format "exec://program args".
+	(e_summary_url_mail_compose): Run the mail composer when a mailto:
+	URL is clicked.
+
+2000-10-25  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_start_load): Add a hack to stop the
+	GtkHTML widget returning to the top when it is redrawn.
+
+	* component/e-summary-url.[ch]
+	* component/e-summary-util.[ch]: Split some functions out of e-summary.c
+
+	* component/Makefile.am: Added the new files, and run orbit-idl on the
+	mail composer idl.
+
 2000-10-25    <jpr@helixcode.com>
 
 	* component/e-summary-factory.c (control_activate): User 

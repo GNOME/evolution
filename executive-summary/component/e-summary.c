@@ -30,21 +30,23 @@
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <gtk/gtkvbox.h>
 #include <gal/util/e-util.h>
 
 #include <evolution-services/executive-summary.h>
 #include <evolution-services/executive-summary-component-client.h>
 #include <evolution-services/executive-summary-component-view.h>
 
-#include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
+#include "e-summary-util.h"
+#include "e-summary-url.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
 static GtkObjectClass *e_summary_parent_class;
 
 struct _ESummaryPrivate {
+	Evolution_Shell shell;
+
 	GtkWidget *html_scroller;
 	GtkWidget *html;
 
@@ -75,7 +77,6 @@ s2w_foreach (gpointer *key,
 	     gpointer *value,
 	     ESummaryPrivate *priv)
 {
-	g_print ("%s\n", __FUNCTION__);
 	e_summary_window_free ((ESummaryWindow *) value, priv);
 	g_free (value);
 }
@@ -86,7 +87,6 @@ e_summary_destroy (GtkObject *object)
 	ESummary *esummary = E_SUMMARY (object);
 	ESummaryPrivate *priv;
 
-	g_print ("Destroy\n");
 	priv = esummary->private;
 	if (priv == NULL)
 		return;
@@ -110,102 +110,6 @@ e_summary_class_init (GtkObjectClass *object_class)
 	e_summary_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-static char *
-e_pixmap_file (const char *filename)
-{
-	char *ret;
-	char *edir;
-
-	if (g_file_exists (filename)) {
-		ret = g_strdup (filename);
-
-		return ret;
-	}
-
-	/* Try the evolution images dir */
-	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution",
-				      filename);
-
-	if (g_file_exists (edir)) {
-		ret = g_strdup (edir);
-		g_free (edir);
-
-		return ret;
-	}
-
-	/* Try the evolution button images dir */
-	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons",
-				      filename);
-
-	if (g_file_exists (edir)) {
-		ret = g_strdup (edir);
-		g_free (edir);
-		
-		return ret;
-	}
-
-	/* Fall back to the gnome_pixmap_file */
-	return gnome_pixmap_file (filename);
-}
-	
-static void
-request_cb (GtkHTML *html,
-	    const gchar *url,
-	    GtkHTMLStream *stream)
-{
-	char *filename;
-	GnomeVFSHandle *handle = NULL;
-	GnomeVFSResult result;
-
-	if (strncasecmp (url, "file:", 5) == 0) {
-		url += 5;
-		filename = e_pixmap_file (url);
-	} else if (strchr (url, ':') >= strchr (url, '/')) {
-		filename = e_pixmap_file (url);
-	} else
-		filename = g_strdup (url);
-
-	if (filename == NULL) {
-		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-		return;
-	}
-
-	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
-
-	if (result != GNOME_VFS_OK) {
-		g_warning ("%s: %s", filename, 
-			   gnome_vfs_result_to_string (result));
-		g_free (filename);
-		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-		return;
-	}
-
-	g_free (filename);
-	while (1) {
-		char buffer[4096];
-		GnomeVFSFileSize size;
-
-		/* Clear buffer */
-		memset (buffer, 0x00, 4096);
-
-		result = gnome_vfs_read (handle, buffer, 4096, &size);
-		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-			g_warning ("Error reading data: %s", 
-				   gnome_vfs_result_to_string (result));
-			gnome_vfs_close (handle);
-			gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-		}
-
-		if (size == 0)
-			break; /* EOF */
-
-		gtk_html_stream_write (stream, buffer, size);
-	}
-	
-	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-	gnome_vfs_close (handle);
-}
-
 static void
 e_summary_start_load (ESummary *summary)
 {
@@ -213,7 +117,12 @@ e_summary_start_load (ESummary *summary)
 	char *header = "<html><body bgcolor=\"#ffffff\">";
 
 	priv = summary->private;
+
 	priv->stream = gtk_html_begin (GTK_HTML (priv->html));
+
+	/* Hack to stop page returning to the top */
+	GTK_HTML (priv->html)->engine->newPage = FALSE;
+
 	gtk_html_write (GTK_HTML (priv->html), priv->stream,
 			header, strlen (header));
 }
@@ -222,7 +131,11 @@ static void
 load_default (ESummary *summary)
 {
 	ESummaryPrivate *priv;
-	char *def = "<table width=\"100%\"><tr><td align=\"right\"><img src=\"ccsplash.png\"></td></tr></table><hr>";
+	char *def = "<table width=\"100%\"><tr><td align=\"right\">"
+		"<img src=\"ccsplash.png\"></td></tr></table>"
+		"<table width=\"100%\"><tr><td><a href=\"exec://bug-buddy\"><img src=\"file://gnome-spider.png\">"
+		"</a></td><td><a href=\"exec://bug-buddy\">Submit a bug report"
+		"</a></td><td>All Executive Summary comments to <a href=\"mailto:iain@helixcode.com\">Iain Holmes</a></td></tr></table><hr>";
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -259,6 +172,7 @@ e_summary_init (ESummary *esummary)
 
 	priv->window_list = NULL;
 	priv->idle = 0;
+
 	/* HTML widget */
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->html_scroller),
@@ -267,9 +181,11 @@ e_summary_init (ESummary *esummary)
 	gtk_html_set_editable (GTK_HTML (priv->html), FALSE);
 	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolour);
 	gtk_signal_connect (GTK_OBJECT (priv->html), "url-requested",
-			    GTK_SIGNAL_FUNC (request_cb), NULL);
+			    GTK_SIGNAL_FUNC (e_summary_url_request), esummary);
   	gtk_signal_connect (GTK_OBJECT (priv->html), "object-requested", 
   			    GTK_SIGNAL_FUNC (on_object_requested), esummary); 
+	gtk_signal_connect (GTK_OBJECT (priv->html), "link-clicked",
+			    GTK_SIGNAL_FUNC (e_summary_url_click), esummary);
 	
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
 	gtk_widget_show_all (priv->html_scroller);
@@ -292,8 +208,12 @@ GtkWidget *
 e_summary_new (const Evolution_Shell shell)
 {
 	ESummary *esummary;
+	ESummaryPrivate *priv;
 
 	esummary = gtk_type_new (e_summary_get_type ());
+	priv = esummary->private;
+
+	priv->shell = shell;
 
 	return GTK_WIDGET (esummary);
 }

@@ -19,27 +19,32 @@ INCLUDES = \
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
 
-CLEANFILES = $(IDL_GENERATED)
+CLEANFILES = $(COMPOSER_GENERATED)
 
-IDL_GENERATED = \
-	Executive-Summary.h		\
-	Executive-Summary-common.c	\
-	Executive-Summary-skels.c	\
-	Executive-Summary-stubs.c
+COMPOSER_GENERATED = \
+	Composer.h			\
+	Composer-common.c		\
+	Composer-skels.c		\
+	Composer-stubs.c
 
-Executive-Summary-impl.o: Executive-Summary.h
+Composer-impl.o: Composer.h
 
-$(IDL_GENERATED):
+$(COMPOSER_GENERATED):
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
-		-I$(srcdir) $(srcdir)/../idl/Executive-Summary.idl
+		-I$(srcdir) $(top_srcdir)/composer/Composer.idl
 
 evolution_executive_summary_SOURCES =		\
+	$(COMPOSER_GENERATED)		\
 	component-factory.c		\
 	component-factory.h		\
 	e-summary.c			\
 	e-summary.h			\
 	e-summary-factory.c		\
 	e-summary-factory.h		\
+	e-summary-url.c			\
+	e-summary-url.h			\
+	e-summary-util.c		\
+	e-summary-util.h		\
 	main.c
 
 evolution_executive_summary_LDADD = 					\

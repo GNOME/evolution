@@ -22,6 +22,7 @@ images_DATA = \
 
 buttonsdir = $(datadir)/images/evolution/buttons
 buttons_DATA = 				\
+	add-service.png			\
 	compose-message.png		\
 	copy-message.png		\
 	fetch-mail.png			\
@@ -31,6 +32,7 @@ buttons_DATA = 				\
 	reply.png
 
 EXTRA_DIST = \
+	add-service.png	\
 	attachment.xpm \
 	compose-message.png \
 	copy-message.png \
