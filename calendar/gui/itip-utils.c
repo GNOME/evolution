@@ -916,11 +916,11 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 			/* We sent them all via the server */
 			retval = TRUE;
 			goto cleanup;
+		} else if (to_list == NULL || to_list->_length == 0) {
+			/* if we don't have recipients, return */
+			retval = FALSE;
+			goto cleanup;
 		}
-	} else if (to_list == NULL || to_list->_length == 0) {
-		/* if we don't have recipients, return */
-		retval = FALSE;
-		goto cleanup;
 	}
 
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
