@@ -908,11 +908,6 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 	/* Reload the event/tasks, since the 'Hide Completed Tasks' option
 	   may have been changed, so the query needs to be updated. */
 	calendar_model_refresh (model);
-
-	/* This is for changing the colors of the text; they will be re-fetched
-	 * by ECellText when the table is redrawn.
-	 */
-	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
 

@@ -847,6 +847,8 @@ e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	
 	priv = im->priv;
 	
+	e_table_model_pre_change (E_TABLE_MODEL (im));
+
 	gtk_object_ref (GTK_OBJECT (ia));
 	g_ptr_array_add (priv->attendees, ia);
 	
@@ -908,6 +910,8 @@ e_meeting_model_remove_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	}
 	
 	if (row != -1) {
+		e_table_model_pre_change (E_TABLE_MODEL (im));
+
 		g_ptr_array_remove_index (priv->attendees, row);		
 		gtk_object_unref (GTK_OBJECT (ia));
 
@@ -919,17 +923,21 @@ void
 e_meeting_model_remove_all_attendees (EMeetingModel *im)
 {
 	EMeetingModelPrivate *priv;
-	gint i;
+	gint i, len;
 	
 	priv = im->priv;
 	
-	for (i = 0; i < priv->attendees->len; i++) {
+	e_table_model_pre_change (E_TABLE_MODEL (im));
+
+	len = priv->attendees->len;
+
+	for (i = 0; i < len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
 		gtk_object_unref (GTK_OBJECT (ia));
 	}
 
-	e_table_model_rows_deleted (E_TABLE_MODEL (im), 0, priv->attendees->len);
 	g_ptr_array_set_size (priv->attendees, 0);
+	e_table_model_rows_deleted (E_TABLE_MODEL (im), 0, len);
 }
 
 EMeetingAttendee *
@@ -1613,6 +1621,9 @@ attendee_changed_cb (EMeetingAttendee *ia, gpointer data)
 	if (row == -1)
 		return;
 	
+	/* FIXME: Ideally I think you are supposed to call pre_change() before
+	   the data structures are changed. */
+	e_table_model_pre_change (E_TABLE_MODEL (im));
 	e_table_model_row_changed (E_TABLE_MODEL (im), row);
 }
 
