@@ -31,6 +31,7 @@ struct _GalViewMenusPrivate {
 	int instance_changed_id;
 	BonoboUIComponent *component;
 	EList *listenerClosures;
+	GtkWidget *define_views_dialog;
 };
 
 typedef struct {
@@ -132,6 +133,13 @@ add_instance (GalViewMenus *gvm,
 }
 
 static void
+clear_define_views_dialog (gpointer data)
+{
+	GalViewMenus *gvm = GAL_VIEW_MENUS (data);
+	gvm->priv->define_views_dialog = NULL;
+}
+
+static void
 gvm_destroy (GtkObject *object)
 {
 	GalViewMenus *gvm = GAL_VIEW_MENUS (object);
@@ -140,6 +148,11 @@ gvm_destroy (GtkObject *object)
 
 	gal_view_menus_unmerge (gvm, NULL);
 
+	if (gvm->priv->define_views_dialog) {
+		gtk_object_weakunref (GTK_OBJECT (gvm->priv->define_views_dialog),
+				      clear_define_views_dialog,
+				      gvm);
+	}
 	g_free(gvm->priv);
 	gvm->priv = NULL;
 
@@ -157,12 +170,13 @@ gvm_class_init (GtkObjectClass *klass)
 static void
 gvm_init (GalViewMenus *gvm)
 {
-	gvm->priv = g_new(GalViewMenusPrivate, 1);
-	gvm->priv->instance = NULL;
+	gvm->priv                        = g_new(GalViewMenusPrivate, 1);
+	gvm->priv->instance              = NULL;
 	gvm->priv->collection_changed_id = 0;
-	gvm->priv->instance_changed_id = 0;
-	gvm->priv->component = NULL;
-	gvm->priv->listenerClosures = NULL;
+	gvm->priv->instance_changed_id   = 0;
+	gvm->priv->component             = NULL;
+	gvm->priv->listenerClosures      = NULL;
+	gvm->priv->define_views_dialog   = NULL;
 }
 
 E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
@@ -209,10 +223,19 @@ define_views(BonoboUIComponent *component,
 	     GalViewMenus      *menus,
 	     char              *cname)
 {
-	GtkWidget *dialog = gal_define_views_dialog_new(menus->priv->instance->collection);
-	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
-			   GTK_SIGNAL_FUNC(dialog_clicked), menus);
-	gtk_widget_show(dialog);
+	if (menus->priv->define_views_dialog) {
+		gdk_window_raise (menus->priv->define_views_dialog->window);
+	} else {
+		GtkWidget *dialog = gal_define_views_dialog_new(menus->priv->instance->collection);
+
+		gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+				   GTK_SIGNAL_FUNC(dialog_clicked), menus);
+		menus->priv->define_views_dialog = dialog;
+		gtk_object_weakref (GTK_OBJECT (dialog),
+				    clear_define_views_dialog,
+				    menus);
+		gtk_widget_show(dialog);
+	}
 }
 
 static void
