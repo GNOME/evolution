@@ -539,14 +539,6 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 }
 
 static void
-model_changed_cb (ETableModel *etm, gpointer user_data)
-{
-	EDayView *day_view = E_DAY_VIEW (user_data);
-
-	e_day_view_update_query (day_view);
-}
-
-static void
 update_row (EDayView *day_view, int row)
 {
 	ECalModelComponent *comp_data;
@@ -984,8 +976,6 @@ e_day_view_init (EDayView *day_view)
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "model_changed",
-			  G_CALLBACK (model_changed_cb), day_view);
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
 			  G_CALLBACK (model_row_changed_cb), day_view);
 	g_signal_connect (G_OBJECT (model), "model_cell_changed",
@@ -2248,8 +2238,6 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];
-
-	e_day_view_update_query (day_view);
 }
 
 

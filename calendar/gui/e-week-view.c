@@ -286,7 +286,6 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 		start_time = time_day_begin_with_zone (start_time,
 						       e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		e_week_view_recalc_day_starts (week_view, start_time);
-		e_week_view_update_query (week_view);
 	}
 
 	/* Reset the adjustment value to 0 if the base address has changed.
@@ -338,14 +337,6 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	e_week_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
 
 	g_object_unref (comp);
-}
-
-static void
-model_changed_cb (ETableModel *etm, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-
-	e_week_view_update_query (week_view);
 }
 
 static void
@@ -586,8 +577,6 @@ e_week_view_init (EWeekView *week_view)
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "model_changed",
-			  G_CALLBACK (model_changed_cb), week_view);
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
 			  G_CALLBACK (model_row_changed_cb), week_view);
 	g_signal_connect (G_OBJECT (model), "model_cell_changed",

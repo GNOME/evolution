@@ -1741,8 +1741,8 @@ e_cal_model_set_time_range (ECalModel *model, time_t start, time_t end)
 	priv->start = start;
 	priv->end = end;
 
-	redo_queries (model);
 	g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
+	redo_queries (model);
 }
 
 const char *

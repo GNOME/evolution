@@ -1,3 +1,21 @@
+2005-01-03  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model.c (e_cal_model_set_time_range): redo the queries
+	after emitting the 'time_range_changed' signal, since now the
+	views will only update their internal data but not redraw the
+	events on that signal.
+
+	* gui/e-day-view.c (model_changed_cb): removed, no longer needed.
+	(e_day_view_recalc_day_starts): no need to call e_day_view_update_query.
+	(e_day_view_init): no need to connect to 'model_changed' signal
+	on the model, we already connect to the row/cell_changed ones.
+
+	* gui/e-week-view.c (time_range_changed_cb): no need to call
+	e_week_view_update_query.
+	(model_changed_cb): removed, no longer needed.
+	(e_week_view_init): no need to connect to 'model_changed' signal
+	on the model, we already connect to the row/cell_changed ones.
+
 2004-12-31  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/schedule-page.c: add necessary include
