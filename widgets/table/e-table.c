@@ -658,7 +658,6 @@ e_table_setup_header (ETable *e_table)
 {
 	char *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
-	GTK_WIDGET_UNSET_FLAGS (e_table->header_canvas, GTK_CAN_FOCUS);
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
 

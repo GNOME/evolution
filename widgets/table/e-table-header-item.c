@@ -35,6 +35,7 @@
 #include <libgnomecanvas/gnome-canvas-polygon.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk/gdkkeysyms.h>
 #include "gal/widgets/e-cursors.h"
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
@@ -1061,6 +1062,8 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 
 			return TRUE;
 		}
+		if (return_col)
+			*return_col = col;
 
 		if (total > pos + TOLERANCE)
 			return FALSE;
@@ -1521,16 +1524,13 @@ ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 }
 
 static void
-ethi_change_sort_state (ETableHeaderItem *ethi, gdouble x)
+ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 {
-	ETableCol *col;
 	int model_col;
 	int length;
 	int i;
 	int found = FALSE;
 	
-	col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, x));
-
 	if (col == NULL)
 		return;
 
@@ -1667,6 +1667,9 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->click_x = e->button.x;
 				ethi->click_y = e->button.y;
 				ethi->maybe_drag = TRUE;
+				is_pointer_on_division (ethi, x, &start, &col);
+				ethi->selected_col = col;
+				e_canvas_item_grab_focus (item, TRUE);
 			} else if (e->button.button == 3){
 				ethi_header_context_menu (ethi, &e->button);
 			} else
@@ -1703,14 +1706,65 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (ethi->resize_col != -1){
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi);
-		} else if (was_maybe_drag && ethi->sort_info) 
-			ethi_change_sort_state (ethi, e->button.x);
+		} else if (was_maybe_drag && ethi->sort_info) {
+			ETableCol *col;
+		
+			col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
+			ethi_change_sort_state (ethi, col);
+		}
 		
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
 
 		break;
 	}
+	case GDK_KEY_PRESS:
+		if ((e->key.keyval == GDK_F10) && (e->key.state & GDK_SHIFT_MASK)) {
+			EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
+			ETableCol *col;
+			GtkMenu *popup;
+ 
+			info->ethi = ethi;
+			info->col = ethi->selected_col;
+			col = e_table_header_get_column (ethi->eth, info->col);
+			
+			popup = e_popup_menu_create_with_domain (ethi_context_menu,
+								 1 +
+								 (col->sortable ? 0 : 2) +
+								 ((ethi->table || ethi->tree) ? 0 : 4) + 
+								 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+								 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+								 128, info, E_I18N_DOMAIN);
+			g_object_ref (popup);
+			gtk_object_sink (GTK_OBJECT (popup));
+			g_signal_connect (popup, "selection-done",
+					  G_CALLBACK (free_popup_info), info);
+			e_popup_menu (popup, NULL);
+		} else if (e->key.keyval == GDK_space) {
+			ETableCol *col;
+			
+			col = e_table_header_get_column (ethi->eth, ethi->selected_col);
+			ethi_change_sort_state (ethi, col);
+		} else if ((e->key.keyval == GDK_Right) || (e->key.keyval == GDK_KP_Right)) {
+			ETableCol *col;
+
+			if ((ethi->selected_col < 0) || (ethi->selected_col >= ethi->eth->col_count - 1))
+				ethi->selected_col = 0;
+			else 
+				ethi->selected_col++;
+			col = e_table_header_get_column (ethi->eth, ethi->selected_col);
+			ethi_change_sort_state (ethi, col);
+		} else if ((e->key.keyval == GDK_Left) || (e->key.keyval == GDK_KP_Left)) {
+			ETableCol *col;
+
+			if ((ethi->selected_col <= 0) || (ethi->selected_col >= ethi->eth->col_count))
+				ethi->selected_col = ethi->eth->col_count - 1;
+			else 
+				ethi->selected_col--;
+			col = e_table_header_get_column (ethi->eth, ethi->selected_col);
+			ethi_change_sort_state (ethi, col);
+		}
+		break;
 	
 	default:
 		return FALSE;
@@ -1830,6 +1884,8 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->group_indent_width = 0;
 	ethi->table = NULL;
 	ethi->tree = NULL;
+
+	ethi->selected_col = 0;
 }
 
 E_MAKE_TYPE (e_table_header_item,

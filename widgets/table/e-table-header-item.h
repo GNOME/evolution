@@ -96,6 +96,10 @@ typedef struct {
 	ETable          *table;
 	ETree           *tree;
 	void            *config;
+
+	/* For keyboard navigation*/
+	int selected_col;
+
 } ETableHeaderItem;
 
 typedef struct {
