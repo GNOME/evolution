@@ -1,3 +1,10 @@
+2000-12-21  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-message-search.c (filter_message_search): And here too.
+
+	* filter-driver.c (filter_driver_finalise): Kind of revert an
+	accidentally commited patch for e_sexp_unref.
+
 2000-12-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_message): Oops, slight
