@@ -48,15 +48,21 @@ e_popup_menu (GtkMenu *menu, GdkEvent *event)
 
 	e_auto_kill_popup_menu_on_selection_done (menu);
 
-	if (event->type == GDK_KEY_PRESS)
-		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->key.time);
-	else if ((event->type == GDK_BUTTON_PRESS) ||
-		 (event->type == GDK_BUTTON_RELEASE) ||
-		 (event->type == GDK_2BUTTON_PRESS) ||
-		 (event->type == GDK_3BUTTON_PRESS)){
-		gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button.button, event->button.time);
+	if (event) {
+		if (event->type == GDK_KEY_PRESS)
+			gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0,
+					event->key.time);
+		else if ((event->type == GDK_BUTTON_PRESS) ||
+			 (event->type == GDK_BUTTON_RELEASE) ||
+			 (event->type == GDK_2BUTTON_PRESS) ||
+			 (event->type == GDK_3BUTTON_PRESS)){
+			gtk_menu_popup (menu, NULL, NULL, 0, NULL,
+					event->button.button,
+					event->button.time);
+		}
 	} else
-		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, GDK_CURRENT_TIME);
+		gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0,
+				GDK_CURRENT_TIME);
 }
 
 typedef struct {
