@@ -1,5 +1,10 @@
 2003-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-message-browser.c (emmb_set_message): Set the window title to
+	be that of the message subject. Fixes bug #48617.
+
+2003-09-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fix for bug #48618.
 
 	* em-folder-view.c (emfv_list_message_selected): See if we have
