@@ -1249,36 +1249,6 @@ static struct _gconf_map importer_netscape_map[] = {
 
 /* ********************************************************************** */
 
-static struct _gconf_map myev_mail_map[] = {
-	/* /My-Evolution/Mail */
-	{ "show_full_path", "summary/mail/show_full_paths", BMAP_BOOL },
-	{ 0 },
-};
-
-static struct _gconf_map myev_rdf_map[] = {
-	/* /My-Evolution/RDF */
-	{ "rdf_urls", "summary/rdf/uris", BMAP_STRLIST },
-	{ "rdf_refresh_time", "summary/rdf/refresh_time", BMAP_INT },
-	{ "limit", "summary/rdf/max_items", BMAP_INT },
-	{ 0 },
-};
-
-static struct _gconf_map myev_weather_map[] = {
-	/* /My-Evolution/Weather */
-	{ "stations", "summary/weather/stations", BMAP_STRLIST },
-	{ "units", "summary/weather/use_metric", BMAP_BOOL }, /* this is use_metric bool in 1.3? */
-	{ "weather_refresh_time", "summary/weather/refresh_time", BMAP_INT },
-	{ 0 },
-};
-
-static struct _gconf_map myev_schedule_map[] = {
-	/* /My-Evolution/Shedule */
-	{ "show_tasks", "summary/tasks/show_all", BMAP_BOOL }, /* this is show_all bool in 1.3? */
-	{ 0 },
-};
-
-/* ********************************************************************** */
-
 /* This grabs the defaults from the first view ... (?) */
 static struct _gconf_map shell_views_map[] = {
 	/* /Shell/Views/0 */
@@ -1419,11 +1389,6 @@ static struct {
 	{ "/Importer/Elm", importer_elm_map },
 	{ "/Importer/Pine", importer_pine_map },
 	{ "/Importer/Netscape", importer_netscape_map },
-
-	{ "My-Evolution/Mail", myev_mail_map },
-	{ "My-Evolution/RDF", myev_rdf_map },
-	{ "My-Evolution/Weather", myev_weather_map },
-	{ "My-Evolution/Schedule", myev_schedule_map },
 
 	{ "/Shell", shell_map },
 	{ "/Shell/Views/0", shell_views_map },
@@ -1927,3 +1892,4 @@ error:
 
 	return res;
 }
+
