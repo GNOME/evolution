@@ -137,7 +137,7 @@ bbdb_sync_buddy_list (void)
 		GaimBuddy *b = l->data;
 		EBookQuery *query;
 		GList *contacts;
-		GError *error;
+		GError *error = NULL;
 		EContact *c;
 
 		if (b->alias == NULL || strlen (b->alias) == 0)

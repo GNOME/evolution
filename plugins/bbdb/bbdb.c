@@ -233,7 +233,7 @@ bbdb_open_addressbook (void)
 	gboolean     enable;
 
 	gboolean     status;
-	GError      *error;
+	GError      *error = NULL;
 	
 	gconf = gconf_client_get_default ();
 

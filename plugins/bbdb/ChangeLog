@@ -1,3 +1,11 @@
+2005-01-31   Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gaimbuddies.c (bbdb_sync_buddy_list) : initialize 
+	GError* to NULL 
+	Fixes #71512 
+	
+	* bbdb.c (bbdb_open_addressbook) : ditto 
+		
 2005-01-22  Nat Friedman  <nat@novell.com>
 
 	* gaimbuddies.c (im_list_contains_buddy): Check the buddy account
