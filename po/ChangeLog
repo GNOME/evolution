@@ -1,3 +1,11 @@
+2003-07-26  Danilo Šegan  <dsegan@gmx.net>
+
+	* sr.po,sr@Latn.po: Updated Serbian translation by Serbian team 
+	(Prevod.org).
+
+	* POTFILES.in: Removed "widgets/misc/e-messagebox.c" because it
+	was removed from repository on July 23, by danw.
+
 2003-07-26 Marco Ciampa <ciampix@libero.it>
 	
 	* it.po: Updated italian translation.
