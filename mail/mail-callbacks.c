@@ -1153,8 +1153,16 @@ edit_msg_internal (FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb))
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb)) {
+		int i;
+		
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
+		
 		return;
+	}
 
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
@@ -1179,13 +1187,15 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 static void
 do_resend_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
-	const MailConfigAccount *account;
 	int i;
 	
-	account = mail_config_get_default_account ();
+	for (i = 0; i < messages->len; i++) {
+		/* generate a new Message-Id because they need to be unique */
+		camel_mime_message_set_message_id (messages->pdata[i], NULL);
+	}
 	
-	for (i = 0; i < messages->len; i++)
-		mail_send_mail (account->transport->url, messages->pdata[i], NULL, NULL);
+	/* "Resend" should open up the composer to let the user edit the message */
+	do_edit_messages (folder, uids, messages, data);
 }
 
 
@@ -1210,6 +1220,17 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	
+	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to resend all %d messages?"), uids, fb)) {
+		int i;
+		
+		for (i = 0; i < uids->len; i++)
+			g_free (uids->pdata[i]);
+		
+		g_ptr_array_free (uids, TRUE);
+		
+		return;
+	}
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
 }

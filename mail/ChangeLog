@@ -1,3 +1,17 @@
+2001-05-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (edit_msg_internal): Free the UIDs if the user
+	decides to not go through with editing all the messages he
+	selected.
+	(resend_msg): If the user attempts to resend more than 10
+	messages, make sure he really means it.
+	(do_resend_messages): Richard Zach feels that "Resend" should open
+	the message(s) in a composer since he might want to edit at least
+	the recipients (maybe he needs to resend because the message
+	bounced the first time) and Ettore wants pretty much the same
+	thing. This makes "Resend" basically the same as "Edit" but for
+	previously sent messages, whereas "Edit" is only for Drafts.
+
 2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* mail-search.c: convert search entry to utf8.
