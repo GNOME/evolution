@@ -29,6 +29,7 @@
 #include "mail.h"
 #include "folder-browser.h"
 #include "e-util/e-setup.h"
+#include "filter/filter-editor.h"
 
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>
@@ -422,4 +423,41 @@ expunge_folder (GtkWidget *button, gpointer user_data)
 #endif
 	}
 }
+
+static void
+filter_druid_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
+{
+	printf("closing dialog\n");
+	if (button == 0) {
+		char *user;
+
+		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+		filter_editor_save_rules(fe, user);
+		printf("saving filter options to '%s'\n", user);
+		g_free(user);
+	}
+	if (button != -1) {
+		gnome_dialog_close(fe);
+	}
+}
+
+void filter_edit (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+	FilterEditor *fe;
+	char *user, *system;
+
+	printf("Editing filters ...\n");
+	fe = filter_editor_new();
+
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = g_strdup_printf("%s/filtertypes.xml", EVOLUTION_DATADIR);
+	filter_editor_set_rule_files(fe, system, user);
+	g_free(user);
+	g_free(system);
+	gnome_dialog_append_buttons((GnomeDialog *)fe, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
+	gtk_signal_connect(fe, "clicked", filter_druid_clicked, fb);
+	gtk_widget_show(fe);
+}
+
 

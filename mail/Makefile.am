@@ -17,8 +17,9 @@ INCLUDES = \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
-        -DG_LOG_DOMAIN=\"evolution-mail\"
+	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\
@@ -57,6 +58,7 @@ evolution_mail_LDADD = 					\
 	../camel/libcamel.la				\
 	../e-util/libeutil.la				\
 	../libibex/libibex.la				\
+	../filter/libfilter.la				\
 	$(BONOBO_HTML_GNOME_LIBS)			\
 	$(UNICODE_LIBS)
 

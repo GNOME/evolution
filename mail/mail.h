@@ -51,6 +51,8 @@ void reply_to_all (GtkWidget *button, gpointer user_data);
 void delete_msg (GtkWidget *button, gpointer user_data);
 void expunge_folder (GtkWidget *button, gpointer user_data);
 
+void filter_edit (GtkWidget *button, gpointer user_data);
+
 /* session */
 void session_init (void);
 extern CamelSession *session;

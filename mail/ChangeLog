@@ -1,3 +1,12 @@
+2000-05-16  NotZed  <NotZed@HelixCode.com>
+
+	* mail-ops.c (filter_edit): Function to bring up the filter editor.
+	(filter_druid_clicked): Save/close dialogue.
+
+	* Makefile.am (evolution_mail_LDADD): Added libfilter.
+	(INCLUDES): Add EVOLUTION_DATADIR, and fix matt's brokeneditor(tm)
+	for putting spaces instead of tabs in.
+
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-format.c: Removed usage of bonobo_object_destroy.
