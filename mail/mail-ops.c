@@ -110,6 +110,13 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 
 	CamelFolder *search_folder = NULL;
 
+	/* If using IMAP, don't do anything... */
+
+	if (!strncmp (input->source_url, "imap:", 5)) {
+		data->empty = FALSE;
+		return;
+	}
+
 	if (input->destination == NULL) {
 		input->destination = mail_tool_get_local_inbox (ex);
 

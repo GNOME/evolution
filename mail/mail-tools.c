@@ -447,11 +447,6 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 	CamelFolder *search_folder = NULL;
 	CamelFolder *spool_folder = NULL;
 
-	/* If using IMAP, don't do anything... */
-
-	if (!strncmp (source_url, "imap:", 5))
-		return NULL;
-
 	/* If fetching mail from an mbox store, safely copy it to a
 	 * temporary store first.
 	 */
