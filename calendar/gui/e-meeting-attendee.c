@@ -187,6 +187,9 @@ finalize (GObject *obj)
 	g_array_free (priv->busy_periods, TRUE);
 	
 	g_free (priv);
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 GObject *
