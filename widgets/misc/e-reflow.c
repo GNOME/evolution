@@ -1298,14 +1298,6 @@ e_reflow_class_init (EReflowClass *klass)
 				e_marshal_NONE__DOUBLE,
 				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
 
-	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
-
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
 	object_class->set_arg  = e_reflow_set_arg;
