@@ -1,3 +1,8 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (do_get_pass): Make the title translatable, and also
+	use the account name when possible. Sorta fixes bug #6277.
+
 2001-09-17    <NotZed@Ximian.com>
 
 	* mail-send-recv.c (get_receive_type): Function to get the real

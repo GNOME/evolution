@@ -19,6 +19,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "folder-browser-factory.h"
 #include "e-util/e-msgport.h"
@@ -430,11 +431,12 @@ static void
 do_get_pass (struct _mail_msg *mm)
 {
 	struct _pass_msg *m = (struct _pass_msg *)mm;
-	const MailConfigAccount *mca;
+	const MailConfigAccount *mca = NULL;
 	GtkWidget *dialogue;
 	GtkWidget *check, *entry;
 	GList *children, *iter;
 	gboolean show;
+	char *title;
 	
 	/* this api is just awful ... hence the hacks */
 	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL,
@@ -494,7 +496,18 @@ do_get_pass (struct _mail_msg *mm)
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
 	
-	gtk_window_set_title (GTK_WINDOW(dialogue), "Enter Password");
+	if (mca) {
+		char *name;
+		
+		name = e_utf8_to_gtk_string (GTK_WIDGET (dialogue), mca->name);
+		title = g_strdup_printf (_("Enter Password for %s"), name);
+		g_free (name);
+	} else
+		title = g_strdup (_("Enter Password"));
+	
+	gtk_window_set_title (GTK_WINDOW (dialogue), title);
+	g_free (title);
+	
 	gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
 	
 	/*gtk_widget_show(dialogue);*/
