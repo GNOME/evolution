@@ -1,3 +1,10 @@
+2001-09-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (invite_entry_changed): free the
+	destination vector when we finish with it, if we actually add
+	anyone, notify listeners of the needs send and changed info. Fixes
+	bug #8632.
+
 2001-09-10  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/print.c

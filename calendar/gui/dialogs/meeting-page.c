@@ -801,13 +801,12 @@ invite_entry_changed (BonoboListener    *listener,
 
 			row_cnt = row_count (priv->model, mpage) - 1;
 			e_table_model_row_inserted (priv->model, row_cnt);
+
+			comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+			comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 		}
-
-		/* FIXME: Should you unref destv[i], JP?? - Damon */
-
 	}
-	
-	/* FIXME: Should you g_free() destv, JP?? - Damon */
+	e_destination_freev (destv);
 }
 
 static void
