@@ -30,7 +30,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-void  mail_send_receive  (void);
+/* send/receive all uri's */
+void mail_send_receive(void);
+/* receive a single uri */
+void mail_receive_uri(const char *uri, int keep);
+/* setup auto receive stuff */
+void mail_autoreceive_setup(void);
 
 #ifdef __cplusplus
 }

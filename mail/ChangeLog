@@ -1,3 +1,19 @@
+2001-02-09  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (filter_folder_free): only free driver, if set.
+	(fetch_mail_fetched): Unref the driver here, so it can cleanup
+	before we call the 'done' callback.
+
+	* component-factory.c (owner_set_cb): Add setup for mail
+	autoreceive stuff.
+
+	* mail-send-recv.c (free_info_data): Free the send info's from teh
+	active hash, not the running list.
+	(receive_done): As we finish downloads, remove them and clean them
+	up, and also close the window.
+	(mail_autoreceive_setup): New function to setup & maintain
+	automatic download stuff.
+
 2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (construct): Set the sensitivity of the spin

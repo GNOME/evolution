@@ -209,7 +209,8 @@ filter_folder_free(struct _mail_msg *mm)
 		camel_operation_unref(m->cancel);
 	if (m->destination)
 		camel_object_unref((CamelObject *)m->destination);
-	camel_object_unref((CamelObject *)m->driver);
+	if (m->driver)
+		camel_object_unref((CamelObject *)m->driver);
 }
 
 static struct _mail_msg_op filter_folder_op = {
@@ -332,6 +333,11 @@ static void
 fetch_mail_fetched(struct _mail_msg *mm)
 {
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
+
+	/* we unref this here as it may have more work to do (syncing
+	   folders and whatnot) before we are really done */
+	camel_object_unref((CamelObject *)m->fmsg.driver);
+	m->fmsg.driver = NULL;
 
 	if (m->done)
 		m->done(m->source_uri, m->data);

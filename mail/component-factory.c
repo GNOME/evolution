@@ -49,6 +49,7 @@
 #include "component-factory.h"
 
 #include "mail-summary.h"
+#include "mail-send-recv.h"
 
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
@@ -211,6 +212,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 
 	mail_session_enable_interaction (TRUE);
+
+	mail_autoreceive_setup();
 }
 
 static void

@@ -49,8 +49,6 @@
 #include <libgnomeui/gnome-window-icon.h>
 
 
-GHashTable *active_downloads = NULL;
-
 /* send/receive email */
 
 /* ********************************************************************** */
@@ -68,8 +66,6 @@ struct _folder_info {
 struct _send_data {
 	GList *infos;
 
-	int active;		/* how many still active */
-
 	GnomeDialog *gd;
 	int cancelled;
 
@@ -78,6 +74,8 @@ struct _send_data {
 
 	GMutex *lock;
 	GHashTable *folders;
+
+	GHashTable *active;	/* send_info's by uri */
 };
 
 typedef enum {
@@ -104,6 +102,22 @@ struct _send_info {
 	struct _send_data *data;
 };
 
+static struct _send_data *send_data = NULL;
+
+static struct _send_data *setup_send_data(void)
+{
+	struct _send_data *data;
+	
+	if (send_data == NULL) {
+		send_data = data = g_malloc0(sizeof(*data));
+		data->lock = g_mutex_new();
+		data->folders = g_hash_table_new(g_str_hash, g_str_equal);
+		data->inbox = mail_tool_get_local_inbox(NULL);
+		data->active = g_hash_table_new(g_str_hash, g_str_equal);
+	}
+	return send_data;
+}
+
 static void
 receive_cancel(GtkButton *button, struct _send_info *info)
 {
@@ -120,56 +134,66 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 static void
 free_folder_info(void *key, struct _folder_info *info, void *data)
 {
-	camel_folder_thaw (info->folder);	
+	/*camel_folder_thaw (info->folder);	*/
 	camel_object_unref((CamelObject *)info->folder);
 	g_free(info->uri);
 }
 
-static void
-free_info_data(void *datain)
+static void free_send_info(void *key, struct _send_info *info, void *data)
 {
-	struct _send_data *data = datain;
-	GList *list = data->infos;
+	g_free(info->uri);
+	camel_operation_unref(info->cancel);
+	g_free(info);
+}
 
-	while (list) {
-		struct _send_info *info = list->data;
-		g_free(info->uri);
-		camel_operation_unref(info->cancel);
-		list = list->next;
-	}
+static void
+free_send_data(void)
+{
+	struct _send_data *data = send_data;
+
+	g_assert(g_hash_table_size(data->active) == 0);
 
 	g_list_free(data->infos);
+	g_hash_table_foreach(data->active, (GHFunc)free_send_info, NULL);
+	g_hash_table_destroy(data->active);
 	g_hash_table_foreach(data->folders, (GHFunc)free_folder_info, NULL);
 	g_hash_table_destroy(data->folders);
 	g_mutex_free(data->lock);
 	if (data->inbox) {
-		camel_folder_thaw (data->inbox);		
+		/*camel_folder_thaw (data->inbox);		*/
 		camel_object_unref((CamelObject *)data->inbox);
 	}
 	g_free(data);
+	send_data = NULL;
+}
+
+
+static void cancel_send_info(void *key, struct _send_info *info, void *data)
+{
+	receive_cancel(info->stop, info);
+}
+
+static void hide_send_info(void *key, struct _send_info *info, void *data)
+{
+	info->stop = NULL;
+	info->bar = NULL;
 }
 
 static void
 dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
 {
-	GList *scan;
-
 	switch(button) {
-	case 0:			/* ok */
-		gnome_dialog_close(gd);
-		break;
-	case 1:
+	case 0:
 		printf("cancelled whole thing\n");
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
-			scan = data->infos;
-			while (scan) {
-				struct _send_info *info = scan->data;
-				receive_cancel(info->stop, info);
-				scan = scan->next;
-			}
+			g_hash_table_foreach(data->active, (GHFunc)cancel_send_info, NULL);
 		}
-		gnome_dialog_set_sensitive(gd, 1, FALSE);
+		gnome_dialog_set_sensitive(gd, 0, FALSE);
+		break;
+	case -1:		/* dialogue vanished, so make out its just hidden */
+		printf("hiding dialogue\n");
+		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
 		break;
 	}
 }
@@ -188,15 +212,10 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 	GtkProgressBar *bar;
 	GtkButton *stop;
 	struct _send_info *info;
-	
-	data = g_malloc0(sizeof(*data));
-	data->lock = g_mutex_new();
-	data->folders = g_hash_table_new(g_str_hash, g_str_equal);
-	data->inbox = mail_tool_get_local_inbox(NULL);
-	camel_folder_freeze (data->inbox);
 
-	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gnome_dialog_set_sensitive(gd, 0, FALSE);
+	data = setup_send_data();
+
+	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_DATADIR "images/evolution/evolution-inbox.png");
 
 	frame= (GtkFrame *)gtk_frame_new(_("Receiving"));
@@ -214,19 +233,36 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 			continue;
 		}
 
-		info = g_malloc0(sizeof(*info));
-		/* imap is handled differently */
-		if (!strncmp(source->url, "imap:", 5))
-			info->type = SEND_UPDATE;
-		else
-			info->type = SEND_RECEIVE;
-		printf("adding source %s\n", source->url);
+		/* see if we have an outstanding download active */
+		info = g_hash_table_lookup(data->active, source->url);
+		if (info == NULL) {
+			info = g_malloc0(sizeof(*info));
+			/* imap is handled differently */
+			if (!strncmp(source->url, "imap:", 5))
+				info->type = SEND_UPDATE;
+			else
+				info->type = SEND_RECEIVE;
+			printf("adding source %s\n", source->url);
+
+			info->uri = g_strdup(source->url);
+			info->keep = source->keep_on_server;
+			info->cancel = camel_operation_new(operation_status, info);
+			info->state = SEND_ACTIVE;
+
+			g_hash_table_insert(data->active, info->uri, info);
+			list = g_list_prepend(list, info);
+		} else if (info->bar != NULL) {
+			/* incase we get the same source pop up again */
+			sources = sources->next;
+			continue;
+		}
 
 		label = (GtkLabel *)gtk_label_new(source->url);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
 
 		gtk_progress_set_show_text((GtkProgress *)bar, TRUE);
+
 		if (info->type == SEND_UPDATE) {
 			gtk_progress_set_format_string((GtkProgress *)bar, _("Updating ..."));
 		} else {
@@ -238,17 +274,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		gtk_table_attach(table, (GtkWidget *)stop, 2, 3, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
 
 		info->bar = bar;
-		info->uri = g_strdup(source->url);
-		info->keep = source->keep_on_server;
-		info->cancel = camel_operation_new(operation_status, info);
 		info->stop = stop;
 		info->data = data;
-		info->state = SEND_ACTIVE;
-		data->active++;
-
-		g_hash_table_insert(active_downloads, info->uri, info);
-
-		list = g_list_prepend(list, info);
 
 		gtk_signal_connect((GtkObject *)stop, "clicked", receive_cancel, info);
 		sources = sources->next;
@@ -264,10 +291,21 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		gtk_container_add((GtkContainer *)frame, (GtkWidget *)table);
 		gtk_widget_show((GtkWidget *)frame);
 
-		info = g_malloc0(sizeof(*info));
-		info->type = SEND_SEND;
-		printf("adding dest %s\n", destination);
-	
+		info = g_hash_table_lookup(data->active, destination);
+		if (info == NULL) {
+			info = g_malloc0(sizeof(*info));
+			info->type = SEND_SEND;
+			printf("adding dest %s\n", destination);
+
+			info->uri = g_strdup(destination);
+			info->keep = FALSE;
+			info->cancel = camel_operation_new(operation_status, info);
+			info->state = SEND_ACTIVE;
+
+			g_hash_table_insert(data->active, info->uri, info);
+			list = g_list_prepend(list, info);
+		}
+
 		label = (GtkLabel *)gtk_label_new(destination);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
@@ -280,17 +318,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		gtk_table_attach(table, (GtkWidget *)stop, 2, 3, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
 	
 		info->bar = bar;
-		info->uri = g_strdup(destination);
-		info->keep = FALSE;
-		info->cancel = camel_operation_new(NULL, NULL);
 		info->stop = stop;
 		info->data = data;
-		info->state = SEND_ACTIVE;
-		data->active++;
-
-		g_hash_table_insert(active_downloads, info->uri, info);
-	
-		list = g_list_prepend(list, info);
 	
 		gtk_signal_connect((GtkObject *)stop, "clicked", receive_cancel, info);
 		gtk_widget_show_all((GtkWidget *)table);
@@ -302,7 +331,6 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 
 	data->infos = list;
 	data->gd = gd;
-	gtk_object_set_data_full((GtkObject *)gd, "info_data", data, free_info_data);
 
 	return data;
 }
@@ -463,13 +491,19 @@ receive_done (char *uri, void *data)
 	if (info->stop)
 		gtk_widget_set_sensitive((GtkWidget *)info->stop, FALSE);
 
-	info->data->active--;
-	if (info->data->active == 0 && info->data) {
-		gnome_dialog_set_sensitive(info->data->gd, 0, TRUE);
-		gnome_dialog_set_sensitive(info->data->gd, 1, FALSE);
+	/* remove/free this active download */
+	g_hash_table_remove(info->data->active, info->uri);
+	info->data->infos = g_list_remove(info->data->infos, info);
+	g_free(info->uri);
+	camel_operation_unref(info->cancel);
+
+	if (g_hash_table_size(info->data->active) == 0) {
+		if (info->data->gd)
+			gtk_object_unref((GtkObject *)info->data->gd);
+		free_send_data();
 	}
 
-	g_hash_table_remove(active_downloads, info->uri);
+	g_free(info);
 }
 
 /* same for updating */
@@ -510,7 +544,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		camel_object_unref((CamelObject *)oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
-		camel_folder_freeze (folder);		
+		/*camel_folder_freeze (folder);		*/
 		oldinfo = g_malloc0(sizeof(*oldinfo));
 		oldinfo->folder = folder;
 		oldinfo->uri = g_strdup(uri);
@@ -549,9 +583,6 @@ void mail_send_receive(void)
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
-
-	if (active_downloads == NULL)
-		active_downloads = g_hash_table_new(g_str_hash, g_str_equal);
 
 	if (gd != NULL) {
 		g_assert(GTK_WIDGET_REALIZED(gd));
@@ -609,24 +640,114 @@ void mail_send_receive(void)
 	gtk_object_unref((GtkObject *)fc);
 }
 
-#if 0
+struct _auto_data {
+	char *uri;
+	int keep;		/* keep on server flag */
+	int period;		/* in seconds */
+	int timeout_id;
+};
+
+static GHashTable *auto_active;
+
+static gboolean
+auto_timeout(void *data)
+{
+	struct _auto_data *info = data;
+
+	mail_receive_uri(info->uri, info->keep);
+
+	return TRUE;
+}
+
+static void auto_setup_set(void *key, struct _auto_data *info, GHashTable *set)
+{
+	g_hash_table_insert(set, info->uri, info);
+}
+
+static void auto_clean_set(void *key, struct _auto_data *info, GHashTable *set)
+{
+	printf("removing auto-check for %s\n", info->uri);
+	g_hash_table_remove(set, info->uri);
+	gtk_timeout_remove(info->timeout_id);
+	g_free(info->uri);
+	g_free(info);
+}
+
+/* call to setup initial, and after changes are made to the config */
+/* FIXME: Need a cleanup funciton for when object is deactivated */
+void
+mail_autoreceive_setup(void)
+{
+	GSList *sources;
+	GHashTable *set_hash;
+
+	sources = mail_config_get_sources();
+	if (!sources)
+		return;
+
+	if (auto_active == NULL)
+		auto_active = g_hash_table_new(g_str_hash, g_str_equal);
+
+	set_hash = g_hash_table_new(g_str_hash, g_str_equal);
+	g_hash_table_foreach(auto_active, (GHFunc)auto_setup_set, set_hash);
+
+	while (sources) {
+		MailConfigService *source = sources->data;
+		if (source->url && source->auto_check) {
+			struct _auto_data *info;
+
+			printf("setting up auto-receive mail for : %s\n", source->url);
+
+			g_hash_table_remove(set_hash, source->url);
+			info = g_hash_table_lookup(auto_active, source->url);
+			if (info) {
+				info->keep = source->keep_on_server;
+				if (info->period != source->auto_check_time*60) {
+					info->period = source->auto_check_time*60;
+					gtk_timeout_remove(info->timeout_id);
+					info->timeout_id = gtk_timeout_add(info->period*1000, auto_timeout, info);
+				}
+			} else {
+				info = g_malloc0(sizeof(*info));
+				info->uri = g_strdup(source->url);
+				info->keep = source->keep_on_server;
+				info->period = source->auto_check_time*60;
+				info->timeout_id = gtk_timeout_add(info->period*1000, auto_timeout, info);
+				g_hash_table_insert(auto_active, info->uri, info);
+				/* If we do this at startup, it can cause the logon dialogue to be hidden,
+				   so lets not */
+				/*mail_receive_uri(source->url, source->keep_on_server);*/
+			}
+		}
+
+		sources = sources->next;
+	}
+
+	g_hash_table_foreach(set_hash, (GHFunc)auto_clean_set, auto_active);
+	g_hash_table_destroy(set_hash);
+}
+
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert
    them in to add them. */
 void mail_receive_uri(const char *uri, int keep)
 {
 	FilterContext *fc;
 	struct _send_info *info;
+	struct _send_data *data;
+	extern CamelFolder *outbox_folder;
 
-	if (active_downloads == NULL)
-		active_downloads = g_hash_table_new(g_str_hash, g_str_equal);
-
-	info = g_hash_table_lookup(active_downloads);
-	if (info != NULL)
+	data = setup_send_data();
+	info = g_hash_table_lookup(data->active, uri);
+	if (info != NULL) {
+		printf("download of %s still in progress\n", uri);
 		return;
+	}
+
+	printf("starting non-interactive download of '%s'\n", uri);
 
 	info = g_malloc0(sizeof(*info));
 	/* imap is handled differently */
-	if (!strncmp(source->url, "imap:", 5))
+	if (!strncmp(uri, "imap:", 5))
 		info->type = SEND_UPDATE;
 	else
 		info->type = SEND_RECEIVE;
@@ -638,9 +759,8 @@ void mail_receive_uri(const char *uri, int keep)
 	info->stop = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
-	data->active++;
 
-	g_hash_table_insert(active_downloads, info);
+	g_hash_table_insert(data->active, info->uri, info);
 
 	fc = mail_load_filter_context();
 	switch(info->type) {
@@ -668,4 +788,4 @@ void mail_receive_uri(const char *uri, int keep)
 	}
 	gtk_object_unref((GtkObject *)fc);
 }
-#endif
+
