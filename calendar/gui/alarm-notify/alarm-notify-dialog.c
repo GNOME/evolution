@@ -49,6 +49,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *title;
 	GtkWidget *snooze_time;
+	GtkWidget *minutes_label;
 	GtkWidget *description;
 	GtkWidget *location;
 	GtkWidget *start;
@@ -64,6 +65,21 @@ enum {
 };
 
 
+
+static void
+an_update_minutes_label (GtkSpinButton *sb, gpointer data)
+{
+	AlarmNotify *an;
+	char *new_label;
+	int snooze_timeout;
+
+	an = (AlarmNotify *) data;
+
+	snooze_timeout = gtk_spin_button_get_value_as_int (sb);
+	new_label = g_strdup (ngettext ("minute", "minutes", snooze_timeout));
+	gtk_label_set_text (GTK_LABEL (an->minutes_label), new_label);
+	g_free (new_label);
+}
 
 /**
  * alarm_notify_dialog:
@@ -122,6 +138,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
 	an->title = glade_xml_get_widget (an->xml, "title-label");
 	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
+	an->minutes_label = glade_xml_get_widget (an->xml, "minutes-label");
 	an->description = glade_xml_get_widget (an->xml, "description-label");
 	an->location = glade_xml_get_widget (an->xml, "location-label");
 	an->start = glade_xml_get_widget (an->xml, "start-label");
@@ -167,6 +184,9 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	end = timet_to_str_with_zone (occur_end, current_zone);
 	gtk_label_set_text (GTK_LABEL (an->end), end);
 
+	/* Set callback for updating the snooze "minutes" label */
+	g_signal_connect (G_OBJECT (an->snooze_time), "value_changed",
+			  G_CALLBACK (an_update_minutes_label), an);
 	/* Run! */
 
 	if (!GTK_WIDGET_REALIZED (an->dialog))

@@ -1,3 +1,12 @@
+2004-12-17  Rodney Dawes  <dobey@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c (an_minutes_update_label):
+	Add callback function for doing ngettext on the "minutes" label
+	(alarm_notify_dialog): Get the "minutes" label from the glade file
+	and set the callback for its "value_changed" signal
+
+	Fixes #47535
+
 2004-12-13  Harish Krishnaswamy <kharish@novell.com>
 
 	* gui/dialogs/calendar-setup.c : Correct some white space 
