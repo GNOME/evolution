@@ -1,3 +1,8 @@
+2001-09-13  Larry Ewing  <lewing@ximian.com>
+
+	* e-search-bar.c (set_dropdown): unref the old dropdown_menu if
+	there is one.
+
 2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (menubar_activated): No longer need the context

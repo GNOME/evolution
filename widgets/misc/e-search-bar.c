@@ -325,6 +325,9 @@ set_dropdown (ESearchBar *esb,
 	GtkWidget *dropdown;
 	int i;
 	
+	if (esb->dropdown_menu)
+		gtk_widget_unref (esb->dropdown_menu);
+
 	menu = esb->dropdown_menu = gtk_menu_new ();
 	for (i = 0; items[i].id != -1; i++)
 		add_dropdown (esb, items + i);
