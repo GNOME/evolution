@@ -510,6 +510,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 
 		tryagain = pop3_try_authenticate (service, kpop, errbuf, ex);
 		g_free (errbuf);
+		errbuf = NULL;
 	} while (tryagain);
 
 	if (camel_exception_is_set (ex)) {

@@ -1,3 +1,9 @@
+2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Set the errbuf
+	to NULL after freeing it? I don't think this should fix bug #1801
+	but I guess it can't hurt.
+
 2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c (remote_recv_line): Protect against a
