@@ -1,3 +1,9 @@
+2004-04-22  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online)
+	(imap_expunge_uids_resyncing): Send a flag list rather than
+	\Deleted by itself.  See #57381.
+
 2004-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (imap4_sync_changes): Don't

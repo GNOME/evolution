@@ -910,7 +910,7 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	while (uid < uids->len) {
 		set = imap_uid_array_to_set (folder->summary, uids, uid, UID_SET_LIMIT, &uid);
 		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s +FLAGS.SILENT \\Deleted",
+					       "UID STORE %s +FLAGS.SILENT (\\Deleted)",
 					       set);
 		if (response)
 			camel_imap_response_free (store, response);
@@ -1024,7 +1024,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			uidset = imap_uid_array_to_set (folder->summary, keep_uids, uid, UID_SET_LIMIT, &uid);
 			
 			response = camel_imap_command (store, folder, ex,
-						       "UID STORE %s -FLAGS.SILENT \\Deleted",
+						       "UID STORE %s -FLAGS.SILENT (\\Deleted)",
 						       uidset);
 			
 			g_free (uidset);
@@ -1048,7 +1048,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			uidset = imap_uid_array_to_set (folder->summary, mark_uids, uid, UID_SET_LIMIT, &uid);
 			
 			response = camel_imap_command (store, folder, ex,
-						       "UID STORE %s +FLAGS.SILENT \\Deleted",
+						       "UID STORE %s +FLAGS.SILENT (\\Deleted)",
 						       uidset);
 			
 			g_free (uidset);
@@ -1082,7 +1082,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			/* Don't pass ex if it's already been set */
 			response = camel_imap_command (store, folder,
 						       camel_exception_is_set (ex) ? NULL : ex,
-						       "UID STORE %s +FLAGS.SILENT \\Deleted",
+						       "UID STORE %s +FLAGS.SILENT (\\Deleted)",
 						       uidset);
 			
 			g_free (uidset);
