@@ -129,6 +129,7 @@ struct _EEntryPrivate {
 
 	guint draw_borders : 1;
 	guint emulate_label_resize : 1;
+	guint have_set_transient : 1;
 	gint last_width;
 };
 
@@ -750,6 +751,25 @@ key_release_cb (GtkWidget *w, GdkEventKey *ev, gpointer user_data)
 	return rv;
 }
 
+static void
+e_entry_make_completion_window_transient (EEntry *entry)
+{
+	GtkWidget *w;
+
+	if (entry->priv->have_set_transient || entry->priv->completion_view_popup == NULL)
+		return;
+	
+	w = GTK_WIDGET (entry)->parent;
+	while (w && ! GTK_IS_WINDOW (w))
+		w = w->parent;
+
+	if (w) {
+		gtk_window_set_transient_for (GTK_WINDOW (entry->priv->completion_view_popup),
+					      GTK_WINDOW (w));
+		entry->priv->have_set_transient = 1;
+	}
+}
+
 void
 e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint delay, EEntryCompletionHandler handler)
 {
@@ -807,6 +827,8 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 							      entry);
 
 	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
+
+	e_entry_make_completion_window_transient (entry);
 
 	gtk_signal_connect (GTK_OBJECT (entry->item->model),
 			    "cancel_completion",
@@ -1214,6 +1236,8 @@ e_entry_realize (GtkWidget *widget)
 		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
 
 	entry = E_ENTRY (widget);
+
+	e_entry_make_completion_window_transient (entry);
 
 	if (entry->priv->emulate_label_resize) {
 		d(g_print("%s: queue_resize\n", __FUNCTION__));
