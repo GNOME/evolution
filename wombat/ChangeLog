@@ -1,3 +1,14 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* wombat.c
+	(register_pcs): New function for registering into the name
+	service.  Varies according on whether we are `USING_OAF' or not.
+	(init_corba): New function for initializing the CORBA stuff.
+	Implementation depends on `USING_OAF'.
+	(init_bonobo): Use `init_corba'.
+
+	* Makefile.am: Updated for OAF.
+
 2000-04-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* wombat.c (cal_factory pas_book_factory): New module-wide

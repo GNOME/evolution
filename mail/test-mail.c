@@ -6,9 +6,40 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
+
+#include <config.h>
+
 #include <gnome.h>
 #include <bonobo.h>
+
+#ifdef USING_OAF
+
+#include <liboaf/liboaf.h>
+
+static void
+init_corba (int *argc, char *argv[])
+{
+	gnome_init ("sample-control-container", "1.0", *argc, argv);
+	oaf_init (*argc, argv);
+}
+
+#else  /* USING_OAF */
+
 #include <libgnorba/gnorba.h>
+
+static void
+init_corba (int *argc, char *argv [])
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	gnome_CORBA_init ("sample-control-container", "1.0", argc, argv, 0, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+#endif /* USING_OAF */
 
 static guint
 create_container (void)
@@ -46,21 +77,10 @@ create_container (void)
 int
 main (int argc, char *argv [])
 {
-	CORBA_Environment ev;
-	CORBA_ORB orb;
+	init_corba (&argc, argv);
 
-	CORBA_exception_init (&ev);
-
-	gnome_CORBA_init ("sample-control-container", "1.0", &argc, argv, 0, &ev);
-
-	CORBA_exception_free (&ev);
-
-	orb = gnome_CORBA_ORB ();
-
-	if (bonobo_init (orb, NULL, NULL) == FALSE)
+	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error ("Could not initialize Bonobo\n");
-
-	
 	
 	gtk_idle_add ((GtkFunction) create_container, NULL);
 

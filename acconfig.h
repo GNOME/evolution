@@ -12,8 +12,9 @@
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR
 #undef HAVE_LDAP
+#undef HAVE_TIMEZONE
+#undef HAVE_TM_GMTOFF
+#undef USING_OAF
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
-#undef HAVE_TIMEZONE
-#undef HAVE_TM_GMTOFF

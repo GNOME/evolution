@@ -5,15 +5,23 @@
  *   Miguel de Icaza (miguel@helixcode.com)
  *
  */
+
 #include <config.h>
+
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-cursors.h>
 #include <e-util/e-setup.h> /* for e_setup_base_dir */
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
+
+#ifdef USING_OAF
+#include <liboaf/liboaf.h>
+#else
+#include <libgnorba/gnorba.h>
+#endif
+
 #include "e-shell.h"
 #include "e-shell-view.h"
 
@@ -29,6 +37,21 @@ const struct poptOption shell_popt_options [] = {
         { NULL, '\0', 0, NULL, 0 }
 };
 
+#ifdef USING_OAF
+
+static void
+corba_init (int *argc, char *argv [])
+{
+	gnomelib_register_popt_table (shell_popt_options, "Evolution shell options");
+
+	gnome_init_with_popt_table ("Evolution", VERSION, *argc, argv,
+				    oaf_popt_options, 0, NULL);
+
+	oaf_init (*argc, argv);
+}
+
+#else  /* USING_OAF */
+
 static void
 corba_init (int *argc, char *argv [])
 {
@@ -39,8 +62,14 @@ corba_init (int *argc, char *argv [])
 		"Evolution", VERSION, argc, argv,
 		shell_popt_options, 0, &ctx, GNORBA_INIT_SERVER_FUNC, &ev);
 	CORBA_exception_free (&ev);
-	
-	if (bonobo_init (gnome_CORBA_ORB (), NULL, NULL) == FALSE){
+}
+
+#endif /* USING_OAF */
+
+static void
+init_bonobo (void)
+{
+	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE){
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Failed to initialize the Bonobo component system"));
 		exit (1);
@@ -96,6 +125,8 @@ main (int argc, char *argv [])
 	textdomain (PACKAGE);
 
 	corba_init (&argc, argv);
+	init_bonobo ();
+
 	gui_init ();
 
 	evolution_boot ();

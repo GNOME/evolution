@@ -9,6 +9,7 @@
  */
 
 #include <config.h>
+
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
@@ -19,6 +20,12 @@
 #include <e-util/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
+
+#ifdef USING_OAF
+#define CONTROL_FACTORY_ID "OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
+#else
+#define CONTROL_FACTORY_ID "control-factory:addressbook"
+#endif
 
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
@@ -451,10 +458,9 @@ addressbook_factory_init (void)
 	if (addressbook_control_factory != NULL)
 		return;
 
-	addressbook_control_factory =
-		bonobo_generic_factory_new (
-			"control-factory:addressbook",
-			addressbook_factory, NULL);
+	addressbook_control_factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID,
+								  addressbook_factory,
+								  NULL);
 
 	if (addressbook_control_factory == NULL) {
 		g_error ("I could not register a Addressbook factory.");

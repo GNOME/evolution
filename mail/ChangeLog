@@ -1,3 +1,27 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c: New macro `CONTROL_FACTORY_ID', which
+	is #defined to a different value according to whether we are
+	`USING_OAF' or not.
+	(folder_browser_factory_init): Use `CONTROL_FACTORY_ID'.
+
+	* test-mail.c
+	(init_corba): New helper function, implemented differently
+	according to `USING_OAF'.
+	(main): Use `init_corba()'.
+
+	* main.c
+	(init_corba): New helper function, implemented differently
+	according to `USING_OAF'.
+	(init_bonobo): Use `init_corba()'.
+
+	* Makefile.am: Install OAF stuff if `USING_OAF'.  Add
+	`-I$(datadir)/idl' to the `orbit-idl' command-line so that we can
+	use Bonobo IDL files installed under our prefix as well.  Also,
+	use `$(ORBIT_IDL)' instead of hardcoded `orbit-idl'.
+
+	* evolution-mail.oafinfo: New file.
+
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c: Move text_to_html to e-util.

@@ -1,3 +1,16 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c: OAFized.
+	(get_view): If `bonobo_widget_new_control()' fails for the
+	calendar, don't try to get the property bag and stuff and thus
+	prevent a segfault.
+
+	* main.c
+	(corba_init): Removed Bonobo initialization.  Implemented OAF
+	version for the case in which `USING_OAF' is #defined.
+	(init_bonob): New function.
+	(main): Call `init_bonobo()'.
+
 2000-04-26  Matt Loper  <matt@helixcode.com>
 
 	* e-shell-view.c (bonobo_widget_is_dead): Helper function to see

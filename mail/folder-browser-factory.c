@@ -23,6 +23,11 @@
 #include <camel/camel-stream-fs.h>
 #include "mail-ops.h"
 
+#ifdef USING_OAF
+#define CONTROL_FACTORY_ID "OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2"
+#else
+#define CONTROL_FACTORY_ID "control-factory:evolution-mail"
+#endif
 			
 static void
 folder_browser_set_shell (EvolutionServiceRepository *sr,
@@ -252,14 +257,12 @@ folder_browser_factory_init (void)
 {
 	static BonoboGenericFactory *bonobo_folder_browser_factory = NULL;
 	
-	
 	if (bonobo_folder_browser_factory != NULL)
 		return;
 
-	bonobo_folder_browser_factory =
-		bonobo_generic_factory_new (
-			"control-factory:evolution-mail",
-			folder_browser_factory, NULL);
+	bonobo_folder_browser_factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID,
+								    folder_browser_factory,
+								    NULL);
 
 	if (bonobo_folder_browser_factory == NULL){
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

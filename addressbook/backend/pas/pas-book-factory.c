@@ -8,11 +8,17 @@
 
 #include <config.h>
 #include <ctype.h>
-#include <libgnorba/gnorba.h>
+
 #include "addressbook.h"
 #include "pas-book-factory.h"
 
+#ifdef USING_OAF
+#include <liboaf/liboaf.h>
+#define PAS_BOOK_FACTORY_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
+#else
+#include <libgnorba/gnorba.h>
 #define PAS_BOOK_FACTORY_GOAD_ID "evolution:addressbook-server"
+#endif
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;
@@ -301,25 +307,43 @@ pas_book_factory_new (void)
 	return factory;
 }
 
-/**
- * pas_book_factory_activate:
- */
-void
-pas_book_factory_activate (PASBookFactory *factory)
+#ifdef USING_OAF
+
+static gboolean
+register_factory (CORBA_Object obj)
+{
+	OAF_RegistrationResult result;
+
+	puts ("about to register addressbook");
+
+	result = oaf_active_server_register (PAS_BOOK_FACTORY_OAF_ID, obj);
+
+	switch (result) {
+	case OAF_REG_SUCCESS:
+		return TRUE;
+	case OAF_REG_NOT_LISTED:
+		g_message ("Error registering the PAS factory: not listed");
+		return FALSE;
+	case OAF_REG_ALREADY_ACTIVE:
+		g_message ("Error registering the PAS factory: already active");
+		return FALSE;
+	case OAF_REG_ERROR:
+	default:
+		g_message ("Error registering the PAS factory: generic error");
+		return FALSE;
+	}
+}
+
+#else
+
+static gboolean
+register_factory (CORBA_Object obj)
 {
 	CORBA_Environment  ev;
-	int                ret;
-
-	g_return_if_fail (factory != NULL);
-	g_return_if_fail (PAS_IS_BOOK_FACTORY (factory));
-
 	CORBA_exception_init (&ev);
+	int ret;
 
-	ret = goad_server_register (
-		NULL,
-		bonobo_object_corba_objref (BONOBO_OBJECT (factory)),
-		PAS_BOOK_FACTORY_GOAD_ID, "server",
-		&ev);
+	ret = goad_server_register (NULL, obj, PAS_BOOK_FACTORY_GOAD_ID, "server", &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("pas_book_factory_activate: Exception "
@@ -330,22 +354,34 @@ pas_book_factory_activate (PASBookFactory *factory)
 
 	CORBA_exception_free (&ev);
 
-	if (ret == -1) {
-		g_message ("pas_book_factory_activate: Error "
-			   "registering PASBookFactory!\n");
-		return;
-	}
-
-	if (ret == -2) {
+	switch (ret) {
+	case 0:
+		return TRUE;
+	case -2:
 		g_message ("pas_book_factory_activate: Another "
 			   "PASBookFactory is already running.\n");
-		return;
-		
+		return FALSE;
+	case -1:
+	default:
+		g_message ("pas_book_factory_activate: Error "
+			   "registering PASBookFactory!\n");
+		return FALSE;
 	}
-
-	return;
 }
 
+#endif
+
+/**
+ * pas_book_factory_activate:
+ */
+void
+pas_book_factory_activate (PASBookFactory *factory)
+{
+	g_return_if_fail (factory != NULL);
+	g_return_if_fail (PAS_IS_BOOK_FACTORY (factory));
+
+	register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
+}
 
 static void
 pas_book_factory_init (PASBookFactory *factory)

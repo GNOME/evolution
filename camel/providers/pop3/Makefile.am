@@ -8,9 +8,14 @@ providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelpop3.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
+INCLUDES =					\
+	-I..					\
+	-I$(srcdir)/..				\
+	-I$(srcdir)/../../..			\
+        -I$(includedir)				\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel	\
+	$(GTK_INCLUDEDIR)			\
+	-I$(top_srcdir)/camel			\
 	-I$(srcdir)/../mbox
 
 libcamelpop3_la_SOURCES = 			\

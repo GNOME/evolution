@@ -9,6 +9,7 @@
  */
 
 #include <config.h>
+
 #include <pwd.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -325,22 +326,31 @@ int
 main (int argc, char **argv)
 {
 	GnomeClient *client;
-	CORBA_Environment ev;
 	GtkWidget *cal_window;
 	GnomeCalendar *cal_frame;
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	CORBA_exception_init (&ev);
-	gnome_CORBA_init_with_popt_table ("calendar", VERSION, &argc, argv,
-					  options, 0, NULL, 0, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("main(): could not initialize the ORB");
+#ifdef USING_OAF
+	gnome_init_with_popt_table ("calendar", VERSION, argc, argv, oaf_popt_options,
+				    0, NULL);
+	oaf_init (argc, argv);
+#else
+	{
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		gnome_CORBA_init_with_popt_table ("calendar", VERSION, &argc, argv,
+						  options, 0, NULL, 0, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_message ("main(): could not initialize the ORB");
+			CORBA_exception_free (&ev);
+			exit (EXIT_FAILURE);
+		}
 		CORBA_exception_free (&ev);
-		exit (EXIT_FAILURE);
 	}
-	CORBA_exception_free (&ev);
+#endif
 
 	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		g_message ("main(): could not initialize Bonobo");

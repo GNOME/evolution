@@ -1,3 +1,27 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/evolution-calendar-control.c
+	(init_bonobo): OAFized.
+
+	* gui/main.c (main): Initialize with OAF if `USING_OAF'.
+
+	* gui/evolution-calendar-control.c: New #define
+	`CONTROL_FACTORY_ID', varying according to whether we are
+	`USING_OAF'.
+	(calendar_factory_init): Use `CONTROL_FACTORY_ID'.
+
+	* gui/Makefile.am: Updated for OAF.
+
+	* pcs/cal-factory.h: Explicitly #include
+	"calendar/pcs/evolution-calendar.h" instead of just
+	"evolution-calendar.h".
+
+	* cal-client/cal-client.c (cal_client_construct) [USING_OAF]: Use
+	OAF.
+
+	* cal-client/client-test.c (init_corba): New function, implemented
+	differently depending on `USING_OAF'.
+
 2000-04-27    <alves@hungry.com>
 
 	* pcs/cal-backend.c (cal_backend_load): fix memory leak

@@ -21,12 +21,25 @@
 #include <libgnorba/gnorba.h>
 #include <gtk/gtkprivate.h>
 
+#ifdef USING_OAF
+
+#    define MAIL_CONTROL_ID        "OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45"
+#    define ADDRESSBOOK_CONTROL_ID "OAFIID:control:addressbook:851f883b-2fe7-4c94-a1e3-a1f2a7a03c49"
+#    define CALENDAR_CONTROL_ID    "OAFIID:control:calendar:dd34ddae-25c6-486b-a8a8-3e8f0286b54c"
+
+#else
+
+#   define MAIL_CONTROL_ID        "control:evolution-mail"
+#   define ADDRESSBOOK_CONTROL_ID "control:addressbook"
+#   define CALENDAR_CONTROL_ID    "control:calendar"
+
+#endif
+
 #define PARENT_TYPE gnome_app_get_type ()
 
 static GtkObjectClass *parent_class;
 
-struct _EShellViewPrivate 
-{
+struct _EShellViewPrivate {
 	/* a hashtable of e-folders -> widgets */
 	GHashTable *folder_views;
 	GtkWidget *notebook;
@@ -150,11 +163,11 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 	switch (e_folder_type) {
 
 	case E_FOLDER_MAIL :
-		w = bonobo_widget_new_control ("control:evolution-mail", uih);
+		w = bonobo_widget_new_control (MAIL_CONTROL_ID, uih);
 		break;
 
 	case E_FOLDER_CONTACTS :
-		w = bonobo_widget_new_control ("control:addressbook", uih);
+		w = bonobo_widget_new_control (ADDRESSBOOK_CONTROL_ID, uih);
 		break;
 
 	case E_FOLDER_CALENDAR : {
@@ -162,7 +175,7 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		BonoboPropertyBagClient *pbc;
 		BonoboControlFrame *cf;
 
-		w = bonobo_widget_new_control ("control:calendar", uih);
+		w = bonobo_widget_new_control (CALENDAR_CONTROL_ID, uih);
 
 		if (w) {
 			cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
@@ -191,8 +204,7 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		return NULL;
 	}
 
-	if (w)
-	{
+	if (w) {
 		Evolution_ServiceRepository corba_sr;
 		BonoboObjectClient *server =
 			bonobo_widget_get_server (BONOBO_WIDGET (w));
@@ -347,8 +359,10 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 		int new_page_index;
 
 		folder_view = get_view (eshell_view, efolder, uih);
-		if (!folder_view)
+		if (!folder_view) {
+			/* FIXME: Report failure.  */
 			return;
+		}
 
 		gtk_notebook_append_page (notebook, folder_view, NULL);
 		new_page_index = gtk_notebook_page_num (notebook,

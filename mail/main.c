@@ -8,7 +8,6 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include "e-util/e-gui-utils.h"
@@ -16,28 +15,48 @@
 #include "main.h"
 #include "session.h"
 
-CORBA_ORB orb;
+#ifdef USING_OAF
+
+#include <liboaf/liboaf.h>
 
 static void
-init_bonobo (int argc, char **argv)
+init_corba (int argc, char *argv [])
+{
+	gnome_init_with_popt_table ("evolution-mail-component", VERSION, argc, argv,
+				    oaf_popt_options, 0, NULL);
+	oaf_init (argc, argv);
+}
+
+#else  /* USING_OAF */
+
+#include <libgnorba/gnorba.h>
+
+static void
+init_corba (int *argc, char *argv [])
 {
 	CORBA_Environment ev;
 	
 	CORBA_exception_init (&ev);
 
-	gnome_CORBA_init_with_popt_table (
+ 	gnome_CORBA_init_with_popt_table (
 		"evolution-mail-component", "1.0",
 		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
 
-	orb = gnome_CORBA_ORB ();
+	CORBA_exception_free (&ev);
+}
 
-	if (bonobo_init (orb, NULL, NULL) == FALSE){
+#endif /* USING_OAF */
+
+static void
+init_bonobo (int argc, char **argv)
+{
+	init_corba (argc, argv);
+
+	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE){
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Mail Component: I could not initialize Bonobo"));
 		exit (1);
 	}
-
-	CORBA_exception_free (&ev);
 }
 
 int

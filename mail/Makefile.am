@@ -63,13 +63,21 @@ test_mail_LDADD = \
 	$(BONOBO_HTML_GNOME_LIBS)
 
 
+GOAD_FILES = evolution-mail.gnorba
+OAF_FILES = evolution-mail.oafinfo
+
+if USING_OAF
+oafdir = $(datadir)/oaf
+oaf_DATA = $(OAF_FILES)
+else
 gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = evolution-mail.gnorba
+gnorba_DATA = $(GOAD_FILES)
+endif
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
+	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl evolution-mail.gnorba
+EXTRA_DIST = Mail.idl $(GOAD_FILES) $(OAF_FILES)
 
 dist-hook:
 	-mkdir $(distdir)/pixmaps

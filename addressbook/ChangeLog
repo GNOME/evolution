@@ -1,3 +1,36 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* ename/Makefile.am
+	(gnome_libs): Use `BONOBO_GNOME_LIBS'.
+	(INCLUDES): Add `-I$(srcdir)/..'.
+
+	* backend/pas/pas-book-factory.c
+	(register_factory): New function to register the factory.
+	Implementation different according to `USING_OAF'.
+	(pas_book_factory_activate): Use `register_factory()'.
+
+	* gui/component/addressbook.c: New #define `CONTROL_FACTORY_ID',
+	varying depending on whether we are `USING_OAF'.
+	(addressbook_factory_init): Use `CONTROL_FACTORY_ID'.
+
+	* backend/ebook/test-client.c (init_corba): New function,
+	implemented differently according to the `USING_OAF' #define.
+
+	* backend/ebook/e-book.c: New #define `CARDSERVER_OAF_ID'.
+	(e_book_construct): Work with OAF #if `USING_OAF'.
+
+	* backend/ebook/Makefile.am (gnome_libs): Removed.
+	(corbadir): Removed.
+	(ebook_libs): Removed.
+	(test_client_LDADD): Just add `libebook.la'.
+	(test_card_LDADD): Likewise.
+	(test_client_list_LDADD): Likewise.
+
+	* gui/component/addressbook-factory.c
+	(init_corba): New helper function, implemented differently
+	according to `USING_OAF'.
+	(main): Call `init_corba()'.
+
 2000-04-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added file as,

@@ -1,7 +1,9 @@
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"EName\"			\
-	-I$(srcdir) -I$(top_srcdir) 			\
+	-I$(srcdir)					\
+	-I$(srcdir)/..					\
+	-I$(top_srcdir) 				\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
@@ -9,9 +11,7 @@ INCLUDES =						\
         $(GNOME_INCLUDEDIR)
 
 gnome_libs =						\
-	$(GNOME_LIBDIR)					\
-        $(GNOMEUI_LIBS)					\
-	$(GNOMEGNORBA_LIBS)				\
+	$(BONOBO_GNOME_LIBS)				\
 	$(INTLLIBS)
 
 ename_libs = 						\

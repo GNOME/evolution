@@ -9,9 +9,9 @@
  */
 
 #include <config.h>
-#include <libgnorba/gnorba.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmarshal.h>
+
 #include "addressbook.h"
 #include "e-card-cursor.h"
 #include "e-book-view-listener.h"

@@ -1,3 +1,11 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* providers/pop3/Makefile.am (INCLUDES): Add `-I$(srcdir)/../../..'
+	to pick the Camel includes.
+	* providers/sendmail/Makefile.am (INCLUDES): Likewise.
+
+	* camel.h: Don't #include <camel/data-wrapper-repository.h> anymore.
+
 2000-04-27  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (check_header): Dont try and check a NULL

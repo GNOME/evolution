@@ -1,0 +1,27 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:IDL:GNOME:Calendar:Repository:1.0:56989bb6-65a1-430c-86a8-81bbe64bf7ab"
+            type="factory"
+            location="OAFIID:IDL:GNOME:Calendar:RepositoryLocator:1.0:83b25bb0-b68b-4c6b-86e7-c303e9897c21">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Gnome/Calendar/Repository:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Calendar Repository"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:IDL:GNOME:Calendar:RepositoryLocator:1.0:83b25bb0-b68b-4c6b-86e7-c303e9897c21"
+            type="exe"
+            location="gnomecal">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Calendar Server"/>
+</oaf_server>
+
+</oaf_info>

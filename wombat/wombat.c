@@ -9,16 +9,13 @@
 #include <bonobo.h>
 #include <pas/pas-book-factory.h>
 #include <pas/pas-backend-file.h>
+#include <libgnomevfs/gnome-vfs-init.h>
+
 #ifdef HAVE_LDAP
 #include <pas/pas-backend-ldap.h>
 #endif
-#include <libgnomevfs/gnome-vfs-init.h>
-#include <libgnorba/gnorba.h>
+
 #include "calendar/pcs/cal-factory.h"
-
-
-
-static CORBA_ORB orb;
 
 /* The and addressbook calendar factories */
 
@@ -89,24 +86,50 @@ last_calendar_gone_cb (CalFactory *factory, gpointer data)
 	queue_termination ();
 }
 
-/* Creates the calendar factory object and registers it with GOAD */
-static void
-setup_pcs (int argc, char **argv)
+#ifdef USING_OAF
+
+/* (For the OAF popt stuff, which otherwise does not get in.)  */
+#include <gnome.h>
+
+#include <liboaf/liboaf.h>
+
+static gboolean
+register_pcs (CORBA_Object obj)
 {
-	CORBA_Object object;
+	OAF_RegistrationResult result;
+
+	result = oaf_active_server_register
+		("OAFIID:evolution:calendar-factory:1c915858-ece3-4a6f-9d81-ea0f108a9554",
+		 obj);
+
+	switch (result) {
+	case OAF_REG_SUCCESS:
+		return TRUE;	/* Wooho! */
+	case OAF_REG_NOT_LISTED:
+		g_message ("Cannot register the PCS because not listed");
+		return FALSE;
+	case OAF_REG_ALREADY_ACTIVE:
+		g_message ("Cannot register the PCS because already active");
+		return FALSE;
+	case OAF_REG_ERROR:
+	default:
+		g_message ("Cannot register the PCS because we suck");
+		return FALSE;
+	}
+}
+
+#else  /* USING_OAF */
+
+#include <libgnorba/gnorba.h>
+
+static gboolean
+register_pcs (CORBA_Object object)
+{
 	CORBA_Environment ev;
 	int result;
 
-	cal_factory = cal_factory_new ();
-
-	if (!cal_factory) {
-		g_message ("setup_pcs(): Could not create the calendar factory");
-		return;
-	}
-
-	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
-
 	CORBA_exception_init (&ev);
+
 	result = goad_server_register (CORBA_OBJECT_NIL,
 				       object,
 				       "evolution:calendar-factory",
@@ -117,23 +140,47 @@ setup_pcs (int argc, char **argv)
 
 	if (ev._major != CORBA_NO_EXCEPTION || result == -1) {
 		g_message ("setup_pcs(): could not register the calendar factory");
-		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
-		cal_factory = NULL;
 		CORBA_exception_free (&ev);
-		return;
-	} else if (result == -2) {
+		return FALSE;
+	}
+
+	if (result == -2) {
 		g_message ("setup_pcs(): a calendar factory is already registered");
-		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
-		cal_factory = NULL;
 		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	CORBA_exception_free (&ev);
+	return TRUE;
+}
+
+#endif /* USING_OAF */
+
+/* Creates the calendar factory object and registers it with GOAD */
+static void
+setup_pcs (int argc, char **argv)
+{
+	CORBA_Object object;
+
+	cal_factory = cal_factory_new ();
+
+	if (!cal_factory) {
+		g_message ("setup_pcs(): Could not create the calendar factory");
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (cal_factory), "last_calendar_gone",
+	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
+
+	if (! register_pcs (object)) {
+		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
+		cal_factory = NULL;
+		return;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (cal_factory),
+			    "last_calendar_gone",
 			    GTK_SIGNAL_FUNC (last_calendar_gone_cb),
 			    NULL);
-
-	CORBA_exception_free (&ev);
 }
 
 
@@ -154,8 +201,20 @@ setup_vfs (int argc, char **argv)
 
 
 
+#ifdef USING_OAF
+
 static void
-init_bonobo (int argc, char **argv)
+init_corba (int *argc, char **argv)
+{
+	gnome_init_with_popt_table ("Personal Addressbook Server", "0.0",
+				    *argc, argv, oaf_popt_options, 0, NULL);
+	oaf_init (*argc, argv);
+}
+
+#else
+
+static void
+init_corba (int *argc, char **argv)
 {
 	CORBA_Environment ev;
 
@@ -163,7 +222,7 @@ init_bonobo (int argc, char **argv)
 
 	gnome_CORBA_init_with_popt_table (
 		"Personal Addressbook Server", "0.0",
-		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("init_bonobo(): could not initialize GOAD");
@@ -172,10 +231,16 @@ init_bonobo (int argc, char **argv)
 	}
 
 	CORBA_exception_free (&ev);
+}
 
-	orb = gnome_CORBA_ORB ();
+#endif
 
-	if (!bonobo_init (orb, NULL, NULL)) {
+static void
+init_bonobo (int *argc, char **argv)
+{
+	init_corba (argc, argv);
+
+	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		g_message ("init_bonobo(): could not initialize Bonobo");
 		exit (EXIT_FAILURE);
 	}
@@ -184,7 +249,7 @@ init_bonobo (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
-	init_bonobo  (argc, argv);
+	init_bonobo  (&argc, argv);
 	setup_vfs    (argc, argv);
 
 	setup_pas    (argc, argv);

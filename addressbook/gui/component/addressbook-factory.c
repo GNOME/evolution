@@ -10,25 +10,48 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <glade/glade.h>
+
 #include "addressbook.h"
 
-CORBA_Environment ev;
-CORBA_ORB orb;
+#ifdef USING_OAF
+
+#include <liboaf/liboaf.h>
+
+static void
+init_corba (int *argc, char **argv)
+{
+	gnome_init_with_popt_table ("evolution-addressbook", "0.0",
+				    *argc, argv, oaf_popt_options, 0, NULL);
+
+	oaf_init (*argc, argv);
+}
+
+#else
+
+#include <libgnorba/gnorba.h>
+ 
+static void
+init_corba (int *argc, char **argv)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	gnome_CORBA_init_with_popt_table (
+		"evolution-addressbook", "0.0",
+		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+#endif
 
 static void
 init_bonobo (int argc, char **argv)
 {
-
-	gnome_CORBA_init_with_popt_table (
-		"evolution-addressbook", "0.0",
-		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-
-	orb = gnome_CORBA_ORB ();
-
-	if (bonobo_init (orb, NULL, NULL) == FALSE)
+	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
 	glade_gnome_init ();
@@ -37,7 +60,7 @@ init_bonobo (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
-	CORBA_exception_init (&ev);
+	init_corba (&argc, argv);
 
 	init_bonobo (argc, argv);
 

@@ -81,8 +81,17 @@ evolution_calendar_LDADD =					\
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
+if USING_OAF
+oafdir = $(datadir)/oaf
+oaf_DATA = calendar-control.oafinfo
+else
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = calendar-control.gnorba
+endif
+
+EXTRA_DIST = 				\
+	calendar-control.gnorba		\
+	calendar-control.oafinfo
 
 #calendar_pilot_sync_SOURCES =	\
 #	 GnomeCal-common.c	\

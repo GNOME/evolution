@@ -2,10 +2,14 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-control.h>
 
+#ifdef USING_OAF
+#include <liboaf/liboaf.h>
+#else
+#include <libgnorba/gnorba.h>
+#endif
 
 #include <cal-util/timeutil.h>
 #include <gui/alarm.h>
@@ -17,6 +21,11 @@
 
 #define PROPERTY_CALENDAR_URI_IDX 1
 
+#ifdef USING_OAF
+#define CONTROL_FACTORY_ID "OAFIID:control-factory:calendar:f4f90989-0f50-4af2-ad94-8bbdf331f0bc"
+#else
+#define CONTROL_FACTORY_ID "control-factory:calendar"
+#endif
 
 CORBA_Environment ev;
 CORBA_ORB orb;
@@ -36,15 +45,21 @@ control_activate_cb (BonoboControl *control,
 
 
 static void
-init_bonobo (int argc, char **argv)
+init_bonobo (int *argc, char **argv)
 {
+#ifdef USING_OAF
+	/* FIXME: VERSION instead of "0.0".  */
+	gnome_init_with_popt_table ("evolution-calendar", "0.0",
+				    *argc, argv, oaf_popt_options,
+				    0, NULL);
+	oaf_init (*argc, argv);
+#else
 	gnome_CORBA_init_with_popt_table (
 		"evolution-calendar", "0.0",
-		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+#endif
 
-	orb = gnome_CORBA_ORB ();
-
-	if (bonobo_init (orb, NULL, NULL) == FALSE)
+	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 }
 
@@ -144,8 +159,10 @@ calendar_factory_init (void)
 	if (calendar_control_factory != NULL)
 		return;
 
+	puts ("XXXXXX - initializing calendar factory!!!");
+
 	calendar_control_factory =
-		bonobo_generic_factory_new ("control-factory:calendar",
+		bonobo_generic_factory_new (CONTROL_FACTORY_ID,
 					    calendar_factory, NULL);
 
 	if (calendar_control_factory == NULL) {
@@ -164,7 +181,7 @@ main (int argc, char **argv)
 
 	CORBA_exception_init (&ev);
 
-	init_bonobo (argc, argv);
+	init_bonobo (&argc, argv);
 
 	calendar_factory_init ();
 

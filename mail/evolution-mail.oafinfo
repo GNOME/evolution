@@ -1,0 +1,28 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2"
+            type="exe"
+            location="evolution-mail">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Evolution mail folder factory component."/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45"
+            type="factory"
+            location="OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/evolution-mail:1.0"/>
+		<item value="IDL:GNOME/Control:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Evolution mail folder display component."/>
+</oaf_server>
+
+</oaf_info>

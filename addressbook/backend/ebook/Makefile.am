@@ -1,7 +1,5 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-corbadir = $(sysconfdir)/CORBA/servers
-
 CORBA_SOURCE =						\
 	addressbook.h					\
 	addressbook-common.c				\
@@ -23,16 +21,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
         $(BONOBO_GNOME_CFLAGS)
-
-gnome_libs =						\
-	$(GNOME_LIBDIR)					\
-        $(GNOMEUI_LIBS)					\
-	$(GNOMEGNORBA_LIBS)				\
-	$(INTLLIBS)
-
-ebook_libs = 						\
-	libebook.la 					\
-	$(gnome_libs)
 
 lib_LTLIBRARIES = libebook.la
 
@@ -65,24 +53,24 @@ test_client_SOURCES =					\
 	test-client.c
 
 test_client_LDADD =					\
+	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
-	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 
 test_client_list_SOURCES =				\
 	test-client-list.c
 
 test_client_list_LDADD =				\
+	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
-	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 
 test_card_SOURCES =					\
 	test-card.c
 
 test_card_LDADD =					\
+	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
-	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 
 BUILT_SOURCES = $(CORBA_SOURCE)

@@ -35,5 +35,14 @@ evolution_addressbook_LDADD =						\
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
+if USING_OAF
+oafdir = $(datadir)/oaf
+oaf_DATA = addressbook.oafinfo
+else
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = addressbook.gnorba
+endif
+
+EXTRA_DIST = 			\
+	addressbook.gnorba	\
+	addressbook.oafinfo

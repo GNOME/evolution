@@ -9,7 +9,11 @@ providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 
 provider_LTLIBRARIES = libcamelsendmail.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
+INCLUDES =					\
+	-I..					\
+	-I$(srcdir)/..				\
+	-I$(srcdir)/../../..			\
+	-I$(includedir)				\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel
 

@@ -166,6 +166,7 @@ dnl ******************************
 AC_MSG_CHECKING(for Bonobo > 0.5)
 if gnome-config --libs bonobo > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
+        echo $vers
 	case $vers
 	in
 	    bonobo-0.[[012345]]) bonobo_ok=false ;;
@@ -299,7 +300,7 @@ AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
-GNOME_PILOT_CHECK
+dnl GNOME_PILOT_CHECK
 
 
 dnl ******
@@ -321,7 +322,44 @@ AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
 AC_CONFIG_SUBDIRS(libical)
 
 AC_SUBST(CAPPLET_LIBS)
-	
+
+dnl ******************************
+dnl Whether to use OAF
+dnl ******************************
+
+AC_ARG_ENABLE(oaf, 
+            [  --enable-oaf=[no/yes]      Use OAF instead of GOAD.],,enable_oaf=no)
+
+if test "x$enable_oaf" = "xyes"; then
+        AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
+        if test x$OAF_CONFIG = xno; then
+                AC_MSG_ERROR("You enabled OAF support but oaf-config was not found")
+        else
+                OAF_LIBS=`$OAF_CONFIG --libs`
+                OAF_CFLAGS=`$OAF_CONFIG --cflags`
+                GNORBA_LIBNAME=
+        fi
+else
+        OAF_LIBS=
+        OAF_CFLAGS=
+        GNORBA_LIBNAME=gnorba
+fi
+
+AC_SUBST(OAF_LIBS)
+AC_SUBST(OAF_CFLAGS)
+
+AM_CONDITIONAL(USING_OAF, test "x$enable_oaf" = "xyes")
+
+if test "x$enable_oaf" = "xyes"; then
+	AC_DEFINE(USING_OAF)
+	BONOBO_GNOME_LIBS="`oaf-config --libs` $BONOBO_GNOME_LIBS"
+	BONOBO_GNOME_CFLAGS="`oaf-config --cflags ` $BONOBO_GNOME_CFLAGS"
+fi
+
+dnl ******************************
+dnl Makefiles
+dnl ******************************
+
 AC_OUTPUT([
 Makefile
 macros/Makefile

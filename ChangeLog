@@ -1,3 +1,11 @@
+2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* acconfig.h: New configured #define `USING_OAF'.
+
+	* configure.in: Added `--enable-oaf' option and corresponding
+	`OAF_LIBS' and `OAF_FLAGS' variables.  Code friendly provided by
+	Maciej Stachowiak <mjs@eazel.com>.
+
 2000-04-27  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test10.c: Fix for removal of camelmimebodypart, and changes
