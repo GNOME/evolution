@@ -471,6 +471,8 @@ mail_part_is_inline (CamelMimePart *part)
 {
 	const char *disposition;
 	CamelContentType *content_type;
+	char *type;
+	gboolean anon;
 
 	/* If it has an explicit disposition, return that. */
 	disposition = camel_mime_part_get_disposition (part);
@@ -487,7 +489,10 @@ mail_part_is_inline (CamelMimePart *part)
 	/* Otherwise, display it inline if it's "anonymous", and
 	 * as an attachment otherwise.
 	 */
-	return is_anonymous (part, header_content_type_simple (content_type));
+	type = header_content_type_simple (content_type);
+	anon = is_anonymous (part, type);
+	g_free (type);
+	return anon;
 }
 
 static void
