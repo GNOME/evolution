@@ -219,19 +219,16 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			   what it's been copied to at least 1 folder - even if it's just
 			   the default (assuming we didn't get an exception) */
 			if (!input->keep_on_server && !camel_exception_is_set (ex)) {
-				guint32 flags;
-				
-				flags = camel_folder_get_message_flags (folder, uids->pdata[i]);
 				camel_folder_set_message_flags (folder, uids->pdata[i],
 								CAMEL_MESSAGE_DELETED,
-								~flags);
+								CAMEL_MESSAGE_DELETED);
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
 		
 		gtk_object_unref (GTK_OBJECT (filter));
 		
-		camel_folder_sync (folder, FALSE, ex);
+		camel_folder_sync (folder, TRUE, ex);
 		
 		camel_folder_thaw (input->destination);
 		

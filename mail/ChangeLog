@@ -1,7 +1,11 @@
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Fix the sense of the "keep on
-	server" check so we're not doing this backwards.
+	server" check so we're not doing this backwards. Don't
+	get_message_flags, because POP doesn't support it and it's
+	pointless anyway since we're setting deleted, not toggling it.
+	call camel_folder_sync with expunge=TRUE so that the deletions are
+	actually recorded.
 
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
