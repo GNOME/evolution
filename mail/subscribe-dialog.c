@@ -31,9 +31,6 @@
 
 #include <string.h>
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-appbar.h>
-
 #include <gal/util/e-util.h>
 
 #include <gal/e-table/e-cell-toggle.h>
@@ -1289,7 +1286,6 @@ struct _SubscribeDialogPrivate {
 	GtkWidget *filter_radio, *all_radio;
 	GtkWidget *sub_button, *unsub_button, *refresh_button, *close_button;
 	GtkWidget *progress;
-	GtkWidget *appbar;
 
 	int cancel;		/* have we been cancelled? */
 	guint activity_timeout_id;
@@ -1386,14 +1382,14 @@ sc_activity_cb (int level, SubscribeDialog *sc)
 			return;
 
 		sc->priv->activity_timeout_id = g_timeout_add(50, (GSourceFunc)sc_activity_timeout, sc);
-		gnome_appbar_set_status (GNOME_APPBAR (sc->priv->appbar), _("Scanning folders..."));
+		gtk_widget_show(sc->priv->progress);
 	} else {
 		if (sc->priv->activity_timeout_id) {
 			g_source_remove (sc->priv->activity_timeout_id);
 			sc->priv->activity_timeout_id = 0;
 		}
 
-		gnome_appbar_set_status (GNOME_APPBAR (sc->priv->appbar), "");
+		gtk_widget_hide(sc->priv->progress);
 	}
 }
 
@@ -1616,19 +1612,15 @@ subscribe_dialog_construct (GtkObject *object)
 	
 	/* Load the XML */
 	/* "app2" */
-	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", "app", NULL);
-	
-	sc->app                  = glade_xml_get_widget (sc->priv->xml, "app");
+	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", "subscribe_dialog", NULL);
+
+	sc->app                  = glade_xml_get_widget (sc->priv->xml, "subscribe_dialog");
 	sc->priv->hbox           = glade_xml_get_widget (sc->priv->xml, "tree_box");
-	sc->priv->search_entry   = glade_xml_get_widget (sc->priv->xml, "search_entry");
-	sc->priv->filter_radio   = glade_xml_get_widget (sc->priv->xml, "filter_radio");
-	sc->priv->all_radio      = glade_xml_get_widget (sc->priv->xml, "all_radio");
 	sc->priv->close_button   = glade_xml_get_widget (sc->priv->xml, "close_button");
 	sc->priv->sub_button     = glade_xml_get_widget (sc->priv->xml, "subscribe_button");
 	sc->priv->unsub_button   = glade_xml_get_widget (sc->priv->xml, "unsubscribe_button");
 	sc->priv->refresh_button = glade_xml_get_widget (sc->priv->xml, "refresh_button");
-	sc->priv->appbar         = GNOME_APP (sc->app)->statusbar;
-	sc->priv->progress       = GTK_WIDGET (gnome_appbar_get_progress (GNOME_APPBAR (sc->priv->appbar)));
+	sc->priv->progress       = glade_xml_get_widget(sc->priv->xml, "progress_bar");
 
 	/* create default view */
 	sc->priv->default_widget = sc_create_default_widget();
@@ -1648,6 +1640,10 @@ subscribe_dialog_construct (GtkObject *object)
 	
 	/* progress */
 	gtk_progress_bar_set_pulse_step(GTK_PROGRESS_BAR(sc->priv->progress), 0.1);
+	gtk_widget_hide(sc->priv->progress);
+
+	/* reasonable starting point */
+	gtk_window_set_default_size((GtkWindow *)sc->app, 350, 400);
 
 	/* Get the list of stores */
 	populate_store_list (sc);

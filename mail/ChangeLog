@@ -1,3 +1,18 @@
+2003-04-15  Not Zed  <NotZed@Ximian.com>
+
+	* For bug #41199.
+
+	* subscribe-dialog.glade: New interface from Anna.  Setup the
+	wigdet names and add a progress bar, and set the default opening
+	size to something reasonable.
+	
+	* subscribe-dialog.c (subscribe_dialog_construct): changes to
+	match the glade file chagnes.  remove the search stuff. hide the
+	progress bar by default.
+	(sc_activity_cb): show the progress bar when we're active, hide
+	it when inactive.  dont set any status.
+	(struct _SubscribeDialogPrivate): Remove the appbar.
+
 2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* mail-mt.c (mail_msg_check_error): Free the temporary error text.
