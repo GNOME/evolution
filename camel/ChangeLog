@@ -3,9 +3,22 @@
 	* providers/imap: Added some initial code to the camel tree
 	for IMAPv4
 
+	* providers/imap/.cvsignore: Added to repository
+
+	* providers/smtp/camel-smtp-transport.c: Added debug fprintf's
+	so that testers can provide more information. Tested with simple
+	messages and a reply to the hello@helixcode.com default message
+	but should really be tested more.
+	(smtp_data): Fixed to use data_wrapper_write_to_stream.
+
+	* camel-mime-filter-smtp.c (filter): Modified to escape all lines
+	beginning with a '.' and to place a \r before each \n if one did
+	not previously exist. Removed code to escape "From " as it was
+	found to not be needed for SMTP.
+
 2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/smtp/camel-smtp-transport.c: smtp_data: Fixed the 
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Fixed the 
 	filtered stream. Fixes for stream changes, updated to use 
 	camel-mime-filter-smtp.
 

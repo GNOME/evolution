@@ -23,6 +23,8 @@
 #include "camel-mime-filter-smtp.h"
 #include <string.h>
 
+#include <stdio.h>
+
 #define d(x)
 
 struct _CamelMimeFilterSmtpPrivate {
@@ -64,7 +66,7 @@ camel_mime_filter_smtp_get_type (void)
 	return type;
 }
 
-typedef enum { EOLN_NODE, FROM_NODE, DOT_NODE } node_t;
+typedef enum { EOLN_NODE, DOT_NODE } node_t;
 
 struct smtpnode {
 	struct smtpnode *next;
@@ -80,26 +82,23 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	*outprespace = prespace;
 }
 
+
 /* Yes, it is complicated ... */
 static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
 	CamelMimeFilterSmtp *f = (CamelMimeFilterSmtp *)mf;
 	register gchar *inptr, *inend;
+	guint linecount = 0;
+	guint dotcount = 0;
 	gint left;
 	gint midline = f->midline;
-	gint fromcount = 0;
-	gint dotcount = 0;
-	gint linecount = 0;
 	struct smtpnode *head = NULL, *tail = (struct smtpnode *)&head, *node;
-	gchar *outptr;
+	gchar *outptr = NULL;
 
 	inptr = in;
 	inend = inptr + len;
 
-	d(printf("Filtering '%.*s'\n", len, in));
-
-	/* first, see if we need to escape any from's */
 	while (inptr < inend) {
 		register gint c = -1;
 
@@ -109,7 +108,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 
 		if (c == '\n' || !midline) {
 			/* if there isn't already a carriage-return before the line-feed, count it */
-			if (*(inptr-1) != '\r') {
+			if (*(inptr-1) == '\n' && *(inptr-2) != '\r') {
 				linecount++;
 				node = alloca(sizeof(*node));
 				node->type = EOLN_NODE;
@@ -120,68 +119,51 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			}
 
 			left = inend - inptr;
-			if (left > 0) {
-				midline = TRUE;
-				if (left < 5) {
-					/* MUST check for upper and lower case F, since our "From " has no case guarentee */
-					if (*inptr == 'F' || *inptr == '.') {
-						camel_mime_filter_backup(mf, inptr, left);
-						midline = FALSE;
-						inend = inptr;
-						break;
-					}
-				} else {
-					if (!strncmp(inptr, "From ", 5)) {
-						fromcount++;
-						/* yes, we do alloc them on the stack ... at most we're going to get
-						   len / 7 of them anyway */
-						node = alloca(sizeof(*node));
-						node->type = FROM_NODE;
-						node->pointer = inptr;
-						node->next = NULL;
-						tail->next = node;
-						tail = node;
-						inptr += 5;
-					} else {
-						if (!strncmp(inptr, ".\n", 2) || !strncmp(inptr, ".\r\n", 3)) {
-							dotcount++;
-							node = alloca(sizeof(*node));
-							node->type = DOT_NODE;
-							node->pointer = inptr;
-							node->next = NULL;
-							tail->next = node;
-							tail = node;
-							if (inptr[1] == '\n')
-								inptr += 2;
-							else
-								inptr += 3;
-						}
-					}
+		        if (left < 2) {
+				if (*inptr == '.') {
+					camel_mime_filter_backup(mf, inptr, left);
+					midline = FALSE;
+					inend = inptr;
+					break;
 				}
 			} else {
-				/* \n is at end of line, check next buffer */
-				midline = FALSE;
+				/* we only need to escape dots if they start the line */
+				if (left > 0 && *inptr == '.' && *(inptr+1) != '.') {
+					midline = TRUE;
+					dotcount++;
+					node = alloca(sizeof(*node));
+					node->type = DOT_NODE;
+					node->pointer = inptr;
+					node->next = NULL;
+					tail->next = node;
+					tail = node;
+					inptr++;
+				} else {
+					midline = TRUE;
+				}
 			}
+		} else {
+			/* \n is at end of line, check next buffer */
+			midline = FALSE;
 		}
 	}
 
 	f->midline = midline;
 
-	if (fromcount > 0 || dotcount > 0 || linecount > 0) {
-		camel_mime_filter_set_size(mf, len + fromcount + dotcount + linecount, FALSE);
+	if (dotcount > 0 || linecount > 0) {
+		camel_mime_filter_set_size(mf, len + dotcount + linecount, FALSE);
 		node = head;
 		inptr = in;
 		outptr = mf->outbuf;
 		while (node) {
-			memcpy(outptr, inptr, node->pointer - inptr);
-			outptr += node->pointer - inptr;
 			if (node->type == EOLN_NODE) {
+				memcpy(outptr, inptr, node->pointer - inptr);
+				outptr += node->pointer - inptr;
 				*outptr++ = '\r';
-				*outptr++ = '\n';
 			} else {
-				if (node->type == FROM_NODE) {
-					*outptr++ = '>';
-				} else {
+				if (node->type == DOT_NODE) {
+					memcpy(outptr, inptr, node->pointer - inptr);
+					outptr += node->pointer - inptr;
 					*outptr++ = '.';
 				}
 			}
@@ -249,7 +231,7 @@ camel_mime_filter_smtp_new (void)
 	return new;
 }
 
-#if 0
+#ifdef TEST_PROGRAM
 
 #include <stdio.h>
 
