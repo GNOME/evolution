@@ -1,5 +1,10 @@
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts.c (load_shortcuts): Also use the display name for
+	the storage.
+
+2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts.c (load_shortcuts): Use xmlMemStrdup() to override
 	the type as it's expected to be allocated by libxml later on.
 	Also, get the icon for the storage if the shortcut points to a

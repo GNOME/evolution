@@ -345,15 +345,21 @@ load_shortcuts (EShortcuts *shortcuts,
 
 					storage = e_storage_set_get_storage (priv->storage_set,
 									     uri + E_SHELL_URI_PREFIX_LEN + 1);
-					if (type != NULL)
-						xmlFree (type);
+					if (storage != NULL) {
+						if (type != NULL)
+							xmlFree (type);
+						storage_type = e_storage_get_toplevel_node_type (storage);
 
-					storage_type = e_storage_get_toplevel_node_type (storage);
+						if (storage_type == NULL)
+							type = NULL;
+						else
+							type = xmlMemStrdup (storage_type);
 
-					if (storage_type == NULL)
-						type = NULL;
-					else
-						type = xmlMemStrdup (storage_type);
+						if (name != NULL)
+							xmlFree (name);
+
+						name = xmlMemStrdup (e_storage_get_display_name (storage));
+					}
 				}
 			}
 
