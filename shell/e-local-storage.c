@@ -152,12 +152,16 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 		       const char *name)
 {
 	EFolder *folder;
+	const char *utf8_name;
 
 	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
 	if (folder == NULL)
 		return FALSE;
 
-	e_folder_set_name (folder, name);
+	utf8_name = e_utf8_from_locale_string (name);
+	e_folder_set_name (folder, utf8_name);
+	g_free (utf8_name);
+
 	e_folder_set_is_stock (folder, TRUE);
 
 	return TRUE;

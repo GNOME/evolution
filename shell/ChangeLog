@@ -1,5 +1,10 @@
 2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-local-storage.c (setup_folder_as_stock): Use utf 8 to set the
+	name.
+
+2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (etree_value_at): Remove debugging message.
 
 2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
