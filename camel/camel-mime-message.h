@@ -133,6 +133,8 @@ CamelMimePart              *camel_mime_message_get_part_by_content_id (CamelMime
 
 char                       *camel_mime_message_build_mbox_from    (CamelMimeMessage           *mime_message);
 
+void camel_mime_message_dump(CamelMimeMessage *msg, int body);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

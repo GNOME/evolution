@@ -1,5 +1,16 @@
 2004-03-15  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-folder.c (get_content, get_message):
+	set the mime-type field on the content the same way as
+	construct_from_stream does.  Bug #55472.
+
+	* camel-mime-message.c (camel_mime_message_dump): utility function
+	to dump message content to stdout.
+	(camel_mime_message_init): default mime type to message/rfc822.
+
+	* camel.c (camel_init): change camel verbose debug to be an int, a
+	bitmask of debug options.
+
 	* camel-mime-utils.c (camel_header_location_decode): drop embedded
 	whitespace characters, and don't do unquoting, etc.  See rfc2557
 	4.4.2 and rfc2017 3.1.

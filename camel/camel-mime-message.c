@@ -49,6 +49,8 @@
 
 #define d(x)
 
+extern int camel_verbose_debug;
+
 /* these 2 below should be kept in sync */
 typedef enum {
 	HEADER_UNKNOWN,
@@ -112,10 +114,9 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_medium_class->add_header = add_header;
 	camel_medium_class->set_header = set_header;
 	camel_medium_class->remove_header = remove_header;
-	
+
 	camel_mime_part_class->construct_from_parser = construct_from_parser;
 }
-
 
 static void
 camel_mime_message_init (gpointer object, gpointer klass)
@@ -127,6 +128,10 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	for (i=0;recipient_names[i];i++) {
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
 	}
+
+	if (((CamelDataWrapper *)mime_message)->mime_type)
+		camel_content_type_unref(((CamelDataWrapper *)mime_message)->mime_type);
+	((CamelDataWrapper *)mime_message)->mime_type = camel_content_type_new("message", "rfc822");
 
 	mime_message->subject = NULL;
 	mime_message->reply_to = NULL;
@@ -156,7 +161,6 @@ camel_mime_message_finalize (CamelObject *object)
 	g_hash_table_foreach (message->recipients, unref_recipient, NULL);
 	g_hash_table_destroy (message->recipients);
 }
-
 
 CamelType
 camel_mime_message_get_type (void)
@@ -960,4 +964,55 @@ camel_mime_message_build_mbox_from (CamelMimeMessage *message)
 	g_string_free (out, FALSE);
 	
 	return ret;
+}
+
+static void
+cmm_dump_rec(CamelMimeMessage *msg, CamelMimePart *part, int body, int depth)
+{
+	CamelDataWrapper *containee;
+	int parts, i;
+	int go = TRUE;
+	char *s;
+
+	s = alloca(depth+1);
+	memset(s, ' ', depth);
+	s[depth] = 0;
+	/* yes this leaks, so what its only debug stuff */
+	printf("%sclass: %s\n", s, ((CamelObject *)part)->klass->name);
+	printf("%smime-type: %s\n", s, camel_content_type_format(((CamelDataWrapper *)part)->mime_type));
+
+	containee = camel_medium_get_content_object((CamelMedium *)part);
+	
+	if (containee == NULL)
+		return;
+
+	printf("%scontent class: %s\n", s, ((CamelObject *)containee)->klass->name);
+	printf("%scontent mime-type: %s\n", s, camel_content_type_format(((CamelDataWrapper *)containee)->mime_type));
+	
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART(containee)) {
+		parts = camel_multipart_get_number((CamelMultipart *)containee);
+		for (i = 0; go && i < parts; i++) {
+			CamelMimePart *part = camel_multipart_get_part((CamelMultipart *)containee, i);
+
+			cmm_dump_rec(msg, part, body, depth+2);
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
+		cmm_dump_rec(msg, (CamelMimePart *)containee, body, depth+2);
+	}
+}
+
+/**
+ * camel_mime_message_dump:
+ * @msg: 
+ * @body: 
+ * 
+ * Dump information about the mime message to stdout.
+ *
+ * If body is TRUE, then dump body content of the message as well (currently unimplemented).
+ **/
+void
+camel_mime_message_dump(CamelMimeMessage *msg, int body)
+{
+	cmm_dump_rec(msg, (CamelMimePart *)msg, body, 0);
 }

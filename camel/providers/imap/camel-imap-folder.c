@@ -1745,7 +1745,9 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	char *part_spec;
 	
 	part_spec = content_info_get_part_spec (ci);
-	
+
+	d(printf("get content '%s' '%s'\n", part_spec, camel_content_type_format(ci->type)));
+
 	/* There are three cases: multipart/signed, multipart, message/rfc822, and "other" */
 	if (camel_content_type_is (ci->type, "multipart", "signed")) {
 		CamelMultipartSigned *body_mp;
@@ -1826,8 +1828,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 				return NULL;
 			}
 			
+			camel_data_wrapper_set_mime_type_field(content, camel_mime_part_get_content_type(part));
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), content);
 			camel_object_unref (CAMEL_OBJECT (content));
+
 			camel_multipart_add_part (body_mp, part);
 			camel_object_unref (CAMEL_OBJECT (part));
 			
@@ -1869,7 +1873,9 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 	g_free (section_text);
 	if (!stream)
 		return NULL;
-	
+
+	d(printf("get message '%s'\n", part_spec));
+
 	msg = camel_mime_message_new ();
 	ret = camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
@@ -1883,7 +1889,8 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
 	}
-	
+
+	camel_data_wrapper_set_mime_type_field(content, camel_mime_part_get_content_type((CamelMimePart *)msg));
 	camel_medium_set_content_object (CAMEL_MEDIUM (msg), content);
 	camel_object_unref (CAMEL_OBJECT (content));
 	

@@ -469,6 +469,7 @@ camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 void
 camel_mime_part_set_content_location (CamelMimePart *mime_part, const char *location)
 {
+	/* FIXME: this should perform content-location folding */
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-Location", location);
 }
 
@@ -533,7 +534,6 @@ camel_mime_part_get_content_type (CamelMimePart *mime_part)
 {
 	return ((CamelDataWrapper *) mime_part)->mime_type;
 }
-
 
 static void
 set_content_object (CamelMedium *medium, CamelDataWrapper *content)

@@ -46,6 +46,8 @@
 #define d(x)
 #define w(x)
 
+extern int camel_verbose_debug;
+
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolder */
@@ -1014,6 +1016,12 @@ camel_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException 
 	ret = CF_CLASS (folder)->get_message (folder, uid, ex);
 
 	CAMEL_FOLDER_UNLOCK(folder, lock);
+
+	/* FIXME: need a better verbose debug framework */
+	if (ret && (camel_verbose_debug & 2)) {
+		printf("CamelFolder:get_message('%s', '%s') =\n", folder->full_name, uid);
+		camel_mime_message_dump(ret, FALSE);
+	}
 
 	return ret;
 }
