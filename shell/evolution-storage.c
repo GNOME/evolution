@@ -799,10 +799,10 @@ evolution_storage_class_init (EvolutionStorageClass *klass)
 				G_SIGNAL_RUN_LAST,
 				G_STRUCT_OFFSET (EvolutionStorageClass, remove_shared_folder),
 				NULL, NULL,
-				e_shell_marshal_NONE__STRING_POINTER,
+				e_shell_marshal_NONE__POINTER_STRING,
 				G_TYPE_NONE, 2,
-				G_TYPE_STRING,
-				G_TYPE_POINTER);
+				G_TYPE_POINTER,
+				G_TYPE_STRING);
 
 	signals[SHOW_FOLDER_PROPERTIES] 
 		= g_signal_new ("show_folder_properties",

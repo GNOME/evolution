@@ -1,5 +1,8 @@
 2003-04-07  Dan Winship  <danw@ximian.com>
 
+	* evolution-storage.c (evolution_storage_class_init): Fix arg
+	types on REMOVED_SHARED_FOLDER signal. #40888
+
 	* evolution-folder-selector-button.c (clicked): Desensitize the
 	window's top-level container rather than desensitizing the window
 	itself, which causes strange problems [#40854]. Also fix up the
