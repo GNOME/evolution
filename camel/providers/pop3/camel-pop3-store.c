@@ -393,11 +393,10 @@ pop3_connect (CamelService *service, CamelException *ex)
 		char *prompt = g_strdup_printf ("Please enter the POP3 password for %s@%s",
 						service->url->user,
 						service->url->host);
-		service->url->passwd =
-			camel_session_query_authenticator (camel_service_get_session (service),
-							   prompt, TRUE,
-							   service, "password",
-							   ex);
+		service->url->passwd = camel_session_query_authenticator (
+			camel_service_get_session (service),
+			CAMEL_AUTHENTICATOR_ASK, prompt, TRUE,
+			service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd) {
 			pop3_disconnect (service, ex);
@@ -415,7 +414,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 					      "server. Error sending username:"
 					      " %s", msg ? msg : "(Unknown)");
 			g_free (msg);
-			pop3_disconnect (service, ex);
+			goto lose;
 		}
 		g_free (msg);
 
@@ -440,8 +439,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				     "No support for requested "
 				     "authentication mechanism.");
-		pop3_disconnect (service, ex);
-		return FALSE;
+		goto lose;
 	}
 
 	if (status != CAMEL_POP3_OK) {
@@ -450,13 +448,21 @@ pop3_connect (CamelService *service, CamelException *ex)
 				      "server. Error sending password:"
 				      " %s", msg ? msg : "(Unknown)");
 		g_free (msg);
-		pop3_disconnect (service, ex);
-		return FALSE;
+		goto lose;
 	}
 	g_free (msg);
 
 	service_class->connect (service, ex);
 	return TRUE;
+
+ lose:
+	/* Uncache the password. */
+	camel_session_query_authenticator (camel_service_get_session (service),
+					   CAMEL_AUTHENTICATOR_TELL, NULL,
+					   TRUE, service, "password", ex);
+
+	pop3_disconnect (service, ex);
+	return FALSE;
 }
 
 static gboolean

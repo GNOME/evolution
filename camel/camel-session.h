@@ -43,7 +43,12 @@ extern "C" {
 #define CAMEL_IS_SESSION(o)    (GTK_CHECK_TYPE((o), CAMEL_SESSION_TYPE))
 
 
-typedef char *(*CamelAuthCallback) (char *prompt, gboolean secret,
+typedef enum {
+	CAMEL_AUTHENTICATOR_ASK, CAMEL_AUTHENTICATOR_TELL
+} CamelAuthCallbackMode;
+
+typedef char *(*CamelAuthCallback) (CamelAuthCallbackMode mode,
+				    char *data, gboolean secret,
 				    CamelService *service, char *item,
 				    CamelException *ex);
 
@@ -88,12 +93,13 @@ CamelService *  camel_session_get_service             (CamelSession *session,
 	((CamelTransport *) camel_session_get_service (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
 
-char *          camel_session_query_authenticator     (CamelSession *session,
-						       char *prompt,
-						       gboolean secret,
-						       CamelService *service,
-						       char *item,
-						       CamelException *ex);
+char *          camel_session_query_authenticator (CamelSession *session,
+						   CamelAuthCallbackMode mode,
+						   char *prompt,
+						   gboolean secret,
+						   CamelService *service,
+						   char *item,
+						   CamelException *ex);
 
 #ifdef __cplusplus
 }

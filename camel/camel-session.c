@@ -250,31 +250,41 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 /**
  * camel_session_query_authenticator: query the session authenticator
  * @session: session object
- * @prompt: prompt to use if authenticator can query the user
+ * @mode: %CAMEL_AUTHENTICATOR_ASK or %CAMEL_AUTHENTICATOR_TELL
+ * @data: prompt to query user with, or data to cache
  * @secret: whether or not the data is secret (eg, a password)
  * @service: the service this query is being made by
  * @item: an identifier, unique within this service, for the information
  * @ex: a CamelException
  *
- * This function is used by a CamelService to request authentication
- * information it needs to complete a connection. If the authenticator
- * stores any authentication information in configuration files, it
- * should use @service and @item as keys to find the right piece of
- * information. If it doesn't store authentication information in config
- * files, it should use the given @prompt to ask the user for the
- * information. If @secret is set, the user's input should not be
- * echoed back. The authenticator should set @ex to
- * CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
- * information. The caller must g_free() the information when it is
- * done with it.
+ * This function is used by a CamelService to discuss authentication
+ * information with the application.
  *
- * Return value: the authentication information or NULL.
+ * @service and @item together uniquely identify the piece of data the
+ * caller is concerned with.
+ *
+ * If @mode is %CAMEL_AUTHENTICATOR_ASK, then @data is a question to
+ * ask the user (if the application doesn't already have the answer
+ * cached). If @secret is set, the user's input should not be echoed
+ * back. The authenticator should set @ex to
+ * %CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
+ * information. The caller must g_free() the information returned when
+ * it is done with it.
+ *
+ * If @mode is %CAMEL_AUTHENTICATOR_TELL, then @data is information
+ * that the application should cache, or %NULL if it should stop
+ * caching anything about that datum (eg, because the data is a
+ * password that turned out to be incorrect).
+ *
+ * Return value: the authentication information or %NULL.
  **/
 char *
-camel_session_query_authenticator (CamelSession *session, char *prompt,
-				   gboolean secret,
+camel_session_query_authenticator (CamelSession *session,
+				   CamelAuthCallbackMode mode,
+				   char *prompt, gboolean secret,
 				   CamelService *service, char *item,
 				   CamelException *ex)
 {
-	return session->authenticator (prompt, secret, service, item, ex);
+	return session->authenticator (mode, prompt, secret,
+				       service, item, ex);
 }
