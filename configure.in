@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.5.6, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 1.5.7, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -999,9 +999,9 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.1.7
-GTKHTML_REQUIRED=3.1.11
-EDS_REQUIRED=0.0.91
+GAL_REQUIRED=2.1.8
+GTKHTML_REQUIRED=3.1.12
+EDS_REQUIRED=0.0.92
 BONOBOUI_REQUIRED=2.4.2
 
 AC_SUBST(GAL_REQUIRED)

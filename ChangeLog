@@ -6,6 +6,10 @@
 
 	* data/evolution.desktop.in.in: Use the icon theme
 
+2004-04-19  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: bump version, requirements
+
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (UPGRADE_REVISION): bump to 8 for new contact list
