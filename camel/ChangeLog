@@ -8,6 +8,10 @@
 	(camel_search_header_match): Strip leading spaces before doing
 	anything else. Also use vlen and mlen so as to not need to do 500
 	strlen()'s.
+	(camel_ustrcasecmp): Don't get_utf8() for the 2 strings in the
+	comparison part of the loop because of short-circuit expression
+	evaluation. (blame JPR if this is the wrong term!)
+	(camel_ustrncasecmp): Same.
 
 2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 

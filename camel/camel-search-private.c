@@ -307,13 +307,18 @@ camel_ustrcasecmp (const char *s1, const char *s2)
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
-	while ((u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
-		u1 = unicode_tolower(u1);
-		u2 = unicode_tolower(u2);
+	u1 = utf8_get (&s1);
+	u2 = utf8_get (&s2);
+	while (u1 && u2) {
+		u1 = unicode_tolower (u1);
+		u2 = unicode_tolower (u2);
 		if (u1 < u2)
 			return -1;
 		else if (u1 > u2)
 			return 1;
+		
+		u1 = utf8_get (&s1);
+		u2 = utf8_get (&s2);
 	}
 	
 	/* end of one of the strings ? */
@@ -332,14 +337,19 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
-	while (len > 0 && (u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
-		u1 = unicode_tolower(u1);
-		u2 = unicode_tolower(u2);
+	u1 = utf8_get (&s1);
+	u2 = utf8_get (&s2);
+	while (len > 0 && u1 && u2) {
+		u1 = unicode_tolower (u1);
+		u2 = unicode_tolower (u2);
 		if (u1 < u2)
 			return -1;
 		else if (u1 > u2)
 			return 1;
+		
 		len--;
+		u1 = utf8_get (&s1);
+		u2 = utf8_get (&s2);
 	}
 	
 	if (len == 0)
