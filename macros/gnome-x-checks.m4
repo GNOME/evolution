@@ -29,7 +29,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 
         dnl Checks for libraries.
         AC_CHECK_LIB(X11, XOpenDisplay,
-                x_libs="$X_PRE_LIBS -lX11"
+                x_libs="$X_PRE_LIBS -lX11",
                 [AC_MSG_ERROR(No X11 installed)],
                 $X_EXTRA_LIBS)
 	AC_SUBST(x_libs)
