@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-03 19:52+0100\n"
-"PO-Revision-Date: 2003-11-03 19:52+0200\n"
+"POT-Creation-Date: 2003-11-14 15:43+0100\n"
+"PO-Revision-Date: 2003-11-14 15:43+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -462,7 +462,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Bonobo konnte nicht initialisiert werden"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "Suchen..."
 
@@ -495,11 +495,11 @@ msgstr "Karte von LDAP-Server entfernen..."
 msgid "Modifying card from LDAP server..."
 msgstr "Karte auf LDAP-Server ändern..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr "Abrufen der LDAP-Suchergebnisse..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 msgid "Error performing search"
 msgstr "Fehler beim Ausführen der Suche"
 
@@ -1421,7 +1421,7 @@ msgstr "Einsortieren _unter:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
-msgstr "Voller _Name..."
+msgstr "_Voller Name..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid ""
@@ -1430,7 +1430,7 @@ msgid ""
 "of that information here."
 msgstr ""
 "Falls diese Person Verfügbarkeits- oder andere Kalenderinformationen im "
-"Internet veröffentlicht, können Sie die Adresse zu diesen Informationen hier "
+"Internet\nveröffentlicht, können Sie die Adresse zu diesen Informationen hier "
 "eingeben."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
@@ -1455,7 +1455,7 @@ msgstr "_E-Mail, primär:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "S_pouse:"
-msgstr "Ehe_partner:"
+msgstr "_Ehepartner:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Wants to receive _HTML mail"
@@ -1470,6 +1470,7 @@ msgid "_Business:"
 msgstr "_Geschäftlich:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
+# Konflikt: A_ktionen-Menü
 msgid "_Categories..."
 msgstr "Ka_tegorien..."
 
@@ -1509,15 +1510,15 @@ msgstr "_Büro:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Public Calendar URL:"
-msgstr "_Öffentliche Kalenderadresse:"
+msgstr "Ö_ffentliche Kalenderadresse:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_This is the mailing address"
-msgstr "Dies ist die _Mailingliste"
+msgstr "Dies ist die _Postadresse"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
-msgstr "Adresse der _Website:"
+msgstr "_Web-Adresse:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:102
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
@@ -5658,8 +5659,8 @@ msgstr "Abgelehnt"
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
 #: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
@@ -8398,7 +8399,7 @@ msgstr "Nachrichten werden verschoben"
 msgid "Copying messages"
 msgstr "Nachrichten werden kopiert"
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8409,18 +8410,18 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 "Die Syntax des gpg-Wink auf die Benutzerkennung konnte nicht analysiert "
 "werden."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 "Die Syntax des gpg-Winks auf das Passwort konnte nicht analysiert werden."
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8429,34 +8430,34 @@ msgstr ""
 "Für das Entsperren des Schlüssels für den\n"
 "Benutzer %s ist ein Passwort erforderlich."
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:574
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Abgesagt."
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 "Geheimschlüssel konnte nicht entsperrt werden: 3 falsche Passwörter "
 "eingegeben."
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Unerwartete GnuPG-Antwort: %s"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 msgid "No data provided"
 msgstr "Keine Daten angegeben"
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr ""
 "Nachricht konnte nicht verschlüsselt werden: keine gültigen Empfänger "
 "angegeben."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8467,25 +8468,25 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG %s fehlgeschlagen: %s\n"
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "gpg konnte nicht ausgeführt werden: %s"
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 msgid "Failed to execute gpg."
 msgstr "gpg konnte nicht ausgeführt werden."
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9464,7 +9465,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-Server %s unterstützt den verlangten Legitimationstyp %s nicht."
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Keine Unterstützung für Legitimationstyp %s"
@@ -10366,37 +10367,37 @@ msgstr "Legitimation erforderlich"
 msgid "Welcome response error"
 msgstr "Fehler bei Welcome-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Verbindung mit SMTP-Server %s im sicheren Modus ist fehlgeschlagen: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 msgid "server does not appear to support SSL"
 msgstr "Server scheint kein SSL zu unterstützen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Zeitüberschreitung bei STARTTLS-Anfrage: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 msgid "STARTTLS response error"
 msgstr "Fehler bei STARTTLS-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:467
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr ""
 "SMTP-Server %s unterstützt den erforderlichen Legitimationstypen %s nicht."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sBitte geben Sie das SMTP-Passwort für %s@%s ein"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:524
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10407,89 +10408,89 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-Server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP-E-Mail-Auslieferung über %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr ""
 "Nachricht konnte nicht verschickt werden: Absenderadresse nicht gültig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Nachricht wird verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr "Nachricht konnte nicht verschickt werden: Keine Empfänger angegeben."
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: one or more invalid recipients"
 msgstr ""
 "Nachricht konnte nicht verschickt werdenn: mindestens ein Empfänger ungültig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 msgid "SMTP Greeting"
 msgstr "SMTP-Begrüßung"
 
-#: camel/providers/smtp/camel-smtp-transport.c:929
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Zeitüberschreitung bei HELO-Anfrage: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:942
 msgid "HELO response error"
 msgstr "Fehler bei HELO-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 msgid "SMTP Authentication"
 msgstr "SMTP-Legitimation"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "Error creating SASL authentication object."
 msgstr "Fehler beim Anlegen eines SASL-Legitimations-Objektes."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1052
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Zeitüberschreitung bei AUTH-Anfrage: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1061
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr "AUTH-Anfrage fehlgeschlagen."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1122
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 msgid "Bad authentication response from server.\n"
 msgstr "Fehlerhafte Legitimationsantwort vom Server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1147
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Zeitüberschreitung bei MAIL-FROM-Anfrage: %s: E-Mail nicht verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1167
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 msgid "MAIL FROM response error"
 msgstr "Fehler bei MAIL-FROM-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1191
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Zeitüberschreitung bei RCPT-TO-Anfrage: %s: E-Mail nicht verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> fehlgeschlagen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Zeitüberschreitung bei DATA-Anfrage: %s: E-Mail nicht verschickt."
@@ -10497,37 +10498,37 @@ msgstr "Zeitüberschreitung bei DATA-Anfrage: %s: E-Mail nicht verschickt."
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1272
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 msgid "DATA response error"
 msgstr "Fehler bei DATA-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Zeitüberschreitung beim Übermitteln von DATA: Nachrichtenterminierung: %s E-"
 "Mail nicht verschickt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "DATA termination response error"
 msgstr "Fehler bei DATA-Terminierungsantwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Zeitüberschreitung bei RSET-Anfrage: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 msgid "RSET response error"
 msgstr "Fehler bei RSET-Antwort"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Zeitüberschreitung bei QUIT-Anfrage: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 msgid "QUIT response error"
 msgstr "Fehler bei QUIT-Antwort"
 
@@ -27585,7 +27586,7 @@ msgstr "Einfügen"
 
 #: ui/evolution-message-composer.xml.h:45
 msgid "_Open..."
-msgstr "_Öffnen..."
+msgstr "Ö_ffnen..."
 
 #: ui/evolution-message-composer.xml.h:46
 msgid "_Reply-To Field"
