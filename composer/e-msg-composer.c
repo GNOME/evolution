@@ -271,13 +271,19 @@ static void
 add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 {
 	GList *d = composer->current_images;
+	GHashTable *added;
 
+	added = g_hash_table_new (g_direct_hash, g_direct_equal);
 	while (d) {
 		CamelMimePart *part = d->data;
 
-		camel_multipart_add_part (multipart, part);		
+		if (!g_hash_table_lookup (added, part)) {
+			camel_multipart_add_part (multipart, part);
+			g_hash_table_insert (added, part, part);
+		}
 		d = d->next;
 	}
+	g_hash_table_destroy (added);
 }
 
 /* This functions builds a CamelMimeMessage for the message that the user has

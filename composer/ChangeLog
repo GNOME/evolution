@@ -1,3 +1,8 @@
+2001-11-02  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (add_inlined_images): use hash table to
+	eliminate duplicates
+
 2001-11-02    <NotZed@Ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_enable_autosave): New
