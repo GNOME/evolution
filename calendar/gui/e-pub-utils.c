@@ -301,7 +301,7 @@ e_pub_publish (gboolean publish) {
 				password = e_passwords_ask_password (_("Enter password"), 
 								     "Calendar", (gchar *)uri->location, 
 								     prompt,
-								     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
+								     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
 								     &remember, NULL);
 
 				g_free (prompt);

@@ -1,3 +1,14 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* common/authentication.c (auth_func_cb): constify the strings to
+	remove a warning.
+
+	** See bug #64856 (workaround).
+
+	* common/authentication.c (auth_func_cb): 
+	* gui/e-pub-utils.c(e_pub_publish): add ONLINE flag to password
+	request.
+
 2004-08-28  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-itip-control.c (rsvp_clicked_cb): get the active state

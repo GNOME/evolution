@@ -36,8 +36,7 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 	gboolean remember;
 	char *password;
 	ESource *source;
-	gchar *auth_domain;
-	gchar *component_name;
+	const gchar *auth_domain, *component_name;
 
 	source = e_cal_get_source (ecal);
 	auth_domain = e_source_get_property (source, "auth-domain");
@@ -46,7 +45,8 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 	
 	if (!password)
 		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt,
-						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
+						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
+						     &remember,
 						     NULL);
 
 	return password;
