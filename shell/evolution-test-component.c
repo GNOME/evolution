@@ -37,15 +37,58 @@
 
 #define COMPONENT_ID "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
 
+#define CONFIGURATION_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_TestComponent_ConfigurationControlFactory"
+#define CONFIGURATION_CONTROL_ID         "OAFIID:GNOME_Evolution_TestComponent_ConfigurationControl"
+
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "test", "/usr/share/pixmaps/gnome-money.png", N_("Test"), N_("Test type"), FALSE, NULL, NULL },
 	{ NULL }
 };
 
 
+static BonoboGenericFactory *configuration_control_factory = NULL;
+
 static EvolutionShellClient *parent_shell = NULL;
 
 static int timeout_id = 0;
+
+
+/* Test the configuration control.  */
+
+static BonoboObject *
+create_configuration_page (void)
+{
+	GtkWidget *label;
+
+	label = gtk_label_new ("This is the configuration page for the test component.");
+	gtk_widget_show (label);
+
+	return BONOBO_OBJECT (bonobo_control_new (label));
+}
+
+static BonoboObject *
+configuration_control_factory_fn (BonoboGenericFactory *factory,
+				  const char *id,
+				  void *closure)
+{
+	if (strcmp (id, CONFIGURATION_CONTROL_ID) == 0) {
+		return create_configuration_page ();
+	} else {
+		g_warning ("Unknown ID in configuration control factory -- %s", id);
+		return NULL;
+	}
+}
+
+static void
+register_configuration_control_factory (void)
+{
+	configuration_control_factory = bonobo_generic_factory_new_multi (CONFIGURATION_CONTROL_FACTORY_ID,
+									  configuration_control_factory_fn,
+									  NULL);
+
+	if (configuration_control_factory == NULL)
+		g_warning ("Cannot register configuration control factory!");
+}
 
 
 /* Test the ::Shortcut interface.  */
@@ -343,6 +386,8 @@ main (int argc, char **argv)
 
 	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error ("Cannot initialize the test component.");
+
+	register_configuration_control_factory ();
 
 	register_component ();
 

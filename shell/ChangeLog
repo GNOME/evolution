@@ -1,3 +1,22 @@
+2002-03-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (create_configuration_page): New
+	function to create a test configuration page for the test
+	component.
+	(configuration_control_factory_fn): Factory function for the
+	configuration controls.
+	(register_configuration_control_factory): New function to register
+	the factory.
+	(main): Call it.
+
+	* e-shell-view-menu.c: Add verb "Settings".
+	(command_settings): Implementation for the "Settings" verb.
+
+	* GNOME_Evolution_TestComponent.oaf: Add a configuration control.
+
+	* e-shell-settings-dialog.c: New.
+	* e-shell-settings-dialog.h: New.	
+
 2002-03-07  Dan Winship  <danw@ximian.com>
 
 	Addendum to previous commit: Remove "storage_selected" vs

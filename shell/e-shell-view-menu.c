@@ -24,7 +24,25 @@
 
 /* FIXME: This file is a bit of a mess.  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include "e-shell-view-menu.h"
+
+#include "e-shell-folder-creation-dialog.h"
+#include "e-shell-folder-selection-dialog.h"
+
+#include "e-shell-settings-dialog.h"
+
+#include "e-shell-constants.h"
+
+#include "e-shell-importer.h"
+#include "e-shell-about-box.h"
+
+#include "e-shell-folder-commands.h"
+
+#include "evolution-shell-component-utils.h"
 
 #include <glib.h>
 
@@ -45,19 +63,6 @@
 #include <bonobo/bonobo-moniker-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
-
-#include "e-shell-folder-creation-dialog.h"
-#include "e-shell-folder-selection-dialog.h"
-
-#include "e-shell-constants.h"
-
-#include "e-shell-view-menu.h"
-#include "e-shell-importer.h"
-#include "e-shell-about-box.h"
-
-#include "e-shell-folder-commands.h"
-
-#include "evolution-shell-component-utils.h"
 
 
 /* Utility functions.  */
@@ -564,6 +569,23 @@ command_new_shortcut (BonoboUIComponent *uih,
 /* Tools menu.  */
 
 static void
+command_settings (BonoboUIComponent *uih,
+		  void *data,
+		  const char *path)
+{
+	EShellView *shell_view;
+	GtkWidget *dialog;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	dialog = e_shell_settings_dialog_new ();
+
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (shell_view));
+	
+	gtk_widget_show (dialog);
+}
+
+static void
 command_pilot_settings (BonoboUIComponent *uih,
 			void *data,
 			const char *path)
@@ -624,6 +646,8 @@ BonoboUIVerb folder_verbs [] = {
 };
 
 BonoboUIVerb tools_verbs[] = {
+	BONOBO_UI_VERB ("Settings", command_settings),
+
 	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
 
 	BONOBO_UI_VERB_END
