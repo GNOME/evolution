@@ -260,6 +260,7 @@ add_header (EMsgComposerHdrs *hdrs,
 		gtk_object_set(GTK_OBJECT(entry),
 			       "editable", TRUE,
 			       "use_ellipsis", TRUE,
+			       "allow_newlines", FALSE,
 			       NULL);
 	}
 

@@ -1,3 +1,8 @@
+2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-msg-composer-hdrs.c (add_header): Made it so that carriage
+	return doesn't insert a newline in the subject entry.
+
 2000-12-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-hdrs.c (set_entry): Don't convert the utf-8
