@@ -86,7 +86,8 @@ static void handle_via_bonobo            (CamelMimePart *part,
 					  struct mail_format_data *mfd);
 
 /* writes the header info for a mime message into an html stream */
-static void write_headers (struct mail_format_data *mfd);
+static void write_headers (CamelMimeMessage *message,
+			   struct mail_format_data *mfd);
 
 /* dispatch html printing via mimetype */
 static void call_handler_function (CamelMimePart *part,
@@ -123,7 +124,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message,
 					  mfd.urls, free_urls);
 	}
 
-	write_headers (&mfd);
+	write_headers (mime_message, &mfd);
 	call_handler_function (CAMEL_MIME_PART (mime_message), &mfd);
 }
 
@@ -385,7 +386,7 @@ write_recipients_to_stream (const gchar *recipient_type,
 
 
 static void
-write_headers (struct mail_format_data *mfd)
+write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 {
 	const CamelInternetAddress *recipients;
 
@@ -395,24 +396,24 @@ write_headers (struct mail_format_data *mfd)
 			 "<tr><td><table>\n");
 
 	write_field_to_stream ("From:",
-			       camel_mime_message_get_from (mfd->root),
+			       camel_mime_message_get_from (message),
 			       TRUE, mfd->html, mfd->stream);
 
-	if (camel_mime_message_get_reply_to (mfd->root)) {
+	if (camel_mime_message_get_reply_to (message)) {
 		write_field_to_stream ("Reply-To:",
-				       camel_mime_message_get_reply_to (mfd->root),
+				       camel_mime_message_get_reply_to (message),
 				       FALSE, mfd->html, mfd->stream);
 	}
 
 	write_recipients_to_stream ("To:",
-				    camel_mime_message_get_recipients (mfd->root, CAMEL_RECIPIENT_TYPE_TO),
+				    camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
 				    FALSE, TRUE, mfd->html, mfd->stream);
 
-	recipients = camel_mime_message_get_recipients (mfd->root, CAMEL_RECIPIENT_TYPE_CC);
+	recipients = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	write_recipients_to_stream ("Cc:", recipients, TRUE, TRUE,
 				    mfd->html, mfd->stream);
 	write_field_to_stream ("Subject:",
-			       camel_mime_message_get_subject (mfd->root),
+			       camel_mime_message_get_subject (message),
 			       TRUE, mfd->html, mfd->stream);
 
 	mail_html_write (mfd->html, mfd->stream, "</table></td></tr></table></center>");

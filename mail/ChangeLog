@@ -1,3 +1,9 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (write_headers): Oops. This needs to take a
+	message argument because we might be writing headers for an
+	embedded message/rfc822 subpart rather than the root document.
+
 2000-06-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c: Config dialogs are completed.
