@@ -1,3 +1,8 @@
+2001-07-10  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-contact-list-editor.xml: Remove Print commands and
+	toolbar/menu items.  Also, use "list" instead of "group".
+
 2001-07-09  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-message-composer.xml: remove FileSaveInFolder menu

@@ -11,21 +11,14 @@
 		<cmd name="ContactListEditorSendTo"/>
 
 		<cmd name="ContactListEditorDelete"
-		 _tip="Delete this group"
+		 _tip="Delete this list"
 		 pixtype="stock" pixname="Trash"/>
-
-		<cmd name="ContactListEditorPrint"
-		 _tip="Print this item"
-		 pixtype="stock" pixname="Print"/>
-
-		<cmd name="ContactListEditorPrintEnvelope"
-		 pixtype="stock" pixname="Print"/>
 
 		<cmd name="ContactListEditorClose"
 		 pixtype="stock" pixname="Close"/>
 
 		<cmd name="ContactListEditorSaveClose"
-		 _tip="Save the group and close the dialog box"
+		 _tip="Save the list and close the dialog box"
 		 pixtype="stock" pixname="Save"/>
 	</commands>
 
@@ -42,27 +35,15 @@
 			<separator/>
 
 		        <menuitem name="ContactListEditorSendAs" verb=""
-			_label="Se_nd group to other..."/>
+			_label="Se_nd list to other..."/>
 
 		        <menuitem name="ContactListEditorSendTo" verb=""
-			_label="Send _message to group..."/>
+			_label="Send _message to list..."/>
 
 			<separator/>
 
 		        <menuitem name="ContactListEditorDelete" verb=""
 			_label="Delete..."/>
-
-			<separator/>
-
-			<placeholder name="Print">
-
-				<menuitem name="ContactListEditorPrint" verb=""
-				_label="_Print..."/>
-
-				<menuitem name="ContactListEditorPrintEnvelope" verb=""
-				_label="Print En_velope..."/>
-
-			</placeholder>
 
 			<separator/>
 
@@ -78,9 +59,6 @@
 		_label="Save and Close"	priority="1"/>
 
 		<separator/>
-
-		<toolitem name="ContactListEditorPrint" verb=""
-		_label="Print..." priority="1"/>
 
 		<toolitem name="ContactListEditorDelete" verb=""
 		_label="Delete..." priority="1"/>
