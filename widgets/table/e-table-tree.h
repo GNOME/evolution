@@ -24,6 +24,9 @@
 #ifndef _E_TABLE_TREE_H_
 #define _E_TABLE_TREE_H_
 
+#include <gal/e-table/e-table-model.h>
+#include <libgnome/gnome-defs.h>
+
 BEGIN_GNOME_DECLS
 
 typedef struct {

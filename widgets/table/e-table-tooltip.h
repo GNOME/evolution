@@ -25,6 +25,7 @@
 #define _E_TABLE_TOOLTIP_H_
 
 #include <libgnomeui/gnome-canvas.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

@@ -24,6 +24,8 @@
 #ifndef _E_TABLE_COL_DND_H_
 #define _E_TABLE_COL_DND_H_
 
+#include <libgnome/gnome-defs.h>
+
 BEGIN_GNOME_DECLS
 
 #define TARGET_ETABLE_COL_TYPE "application/x-etable-column-header"

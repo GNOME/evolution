@@ -31,6 +31,7 @@
 #include <gal/e-table/e-table-defines.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-printable.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

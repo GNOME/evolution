@@ -30,6 +30,7 @@
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-table-selection-model.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

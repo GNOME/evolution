@@ -31,6 +31,7 @@
 #include <gnome-xml/tree.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

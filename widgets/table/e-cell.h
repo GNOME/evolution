@@ -29,6 +29,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-tooltip.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

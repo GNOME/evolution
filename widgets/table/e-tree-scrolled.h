@@ -27,6 +27,7 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-table/e-tree-model.h>
 #include <gal/e-table/e-tree.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

@@ -32,6 +32,7 @@
 #include <gal/e-table/e-table-tooltip.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/widgets/e-printable.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

@@ -32,6 +32,7 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

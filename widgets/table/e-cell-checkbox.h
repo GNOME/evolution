@@ -24,6 +24,7 @@
 #define _E_CELL_CHECKBOX_H_
 
 #include <gal/e-table/e-cell-toggle.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

@@ -39,6 +39,7 @@
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

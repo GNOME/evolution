@@ -28,6 +28,7 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-specification.h>
 #include <gal/e-table/e-table-extras.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

@@ -24,6 +24,7 @@
 #define _E_CELL_SIZE_H_
 
 #include <gal/e-table/e-cell-text.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

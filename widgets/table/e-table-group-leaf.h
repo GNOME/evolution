@@ -28,6 +28,7 @@
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-subset.h>
 #include <gal/e-table/e-table-item.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 
