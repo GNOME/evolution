@@ -1,3 +1,16 @@
+2001-11-09  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes Ximian bug #14646 ]
+	* gui/component/addressbook.c (addressbook_default_book_open): new
+	function.  if the default_book failed to load, load the local
+	addressbook in its place.
+	addressbook_load_default_book): if we're loading the default_book
+	uri, use addressbook_default_book_open as the open_response.
+
+	* backend/ebook/e-book.c (e_book_load_uri_step): reset the
+	load_state to NotLoaded so we can attempt another load_uri on
+	the book if it fails.
+
 2001-11-08  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

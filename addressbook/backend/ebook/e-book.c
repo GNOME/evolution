@@ -555,6 +555,10 @@ e_book_load_uri_step (EBook *book, EBookStatus status, EBookLoadURIData *data)
 	else {
 		EBookCallback cb = data->open_response;
 		gpointer closure = data->closure;
+		
+		/* reset the load_state to NotLoaded so people can
+                   attempt another load_uri on the book. */
+		book->priv->load_state = URINotLoaded;
 
 		g_free (data);
 

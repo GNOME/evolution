@@ -668,6 +668,28 @@ addressbook_load_uri (EBook *book, const char *uri,
 	return rv;
 }
 
+typedef struct {
+	gpointer closure;
+	EBookCallback open_response;
+} DefaultBookClosure;
+
+static void
+addressbook_default_book_open (EBook *book, EBookStatus status, gpointer closure)
+{
+	DefaultBookClosure *default_book_closure = closure;
+	gpointer user_closure = default_book_closure->closure;
+	EBookCallback user_response = default_book_closure->open_response;
+
+	g_free (default_book_closure);
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		e_book_load_local_address_book (book, user_response, user_closure);
+	}
+	else {
+		user_response (book, status, user_closure);
+	}
+}
+
 gboolean
 addressbook_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
@@ -686,7 +708,11 @@ addressbook_load_default_book (EBook *book, EBookCallback open_response, gpointe
 	CORBA_exception_free (&ev);
 
 	if (val) {
-		rv = addressbook_load_uri (book, val, open_response, closure);
+		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
+		default_book_closure->closure = closure;
+		default_book_closure->open_response = open_response;
+		rv = addressbook_load_uri (book, val,
+					   addressbook_default_book_open, default_book_closure);
 		g_free (val);
 	}
 	else {
