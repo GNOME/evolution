@@ -19,6 +19,7 @@ INCLUDES =							\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
+	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 bin_PROGRAMS =	\

@@ -1,5 +1,9 @@
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/Makefile.am (INCLUDES): add LDAP_CFLAGS to INCLUDES
+
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (book_open_cb): no more
 	source->type.
 
