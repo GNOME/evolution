@@ -30,6 +30,7 @@
 #include <bonobo/bonobo-ui-toolbar-icon.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <gtkhtml/gtkhtml-embedded.h>
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
