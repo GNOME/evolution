@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
+#include <libecal/e-cal-time-util.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include "e-pub-utils.h"
 #include "e-calendar-view.h"
@@ -81,6 +82,8 @@ typedef struct
 	GSList *task_source_selection;
 	
 	GnomeCalendar *calendar;
+
+	EInfoLabel *info_label;
 	GtkWidget *source_selector;
 
 	BonoboControl *view_control;
@@ -446,8 +449,113 @@ source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+		break;
 	default:
+		break;
 	}
+}
+
+static void
+set_info (CalendarComponentView *component_view)
+{
+	icaltimezone *zone;
+	struct icaltimetype start_tt, end_tt;
+	time_t start_time, end_time;
+	struct tm start_tm, end_tm;
+	char buffer[512], end_buffer[256];
+	GnomeCalendarViewType view;
+
+	gnome_calendar_get_visible_time_range (component_view->calendar, &start_time, &end_time);
+	zone = gnome_calendar_get_timezone (component_view->calendar);
+
+	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, zone);
+	start_tm.tm_year = start_tt.year - 1900;
+	start_tm.tm_mon = start_tt.month - 1;
+	start_tm.tm_mday = start_tt.day;
+	start_tm.tm_hour = start_tt.hour;
+	start_tm.tm_min = start_tt.minute;
+	start_tm.tm_sec = start_tt.second;
+	start_tm.tm_isdst = -1;
+	start_tm.tm_wday = time_day_of_week (start_tt.day, start_tt.month - 1,
+					     start_tt.year);
+
+	/* Take one off end_time so we don't get an extra day. */
+	end_tt = icaltime_from_timet_with_zone (end_time - 1, FALSE, zone);
+	end_tm.tm_year = end_tt.year - 1900;
+	end_tm.tm_mon = end_tt.month - 1;
+	end_tm.tm_mday = end_tt.day;
+	end_tm.tm_hour = end_tt.hour;
+	end_tm.tm_min = end_tt.minute;
+	end_tm.tm_sec = end_tt.second;
+	end_tm.tm_isdst = -1;
+	end_tm.tm_wday = time_day_of_week (end_tt.day, end_tt.month - 1,
+					   end_tt.year);
+
+	view = gnome_calendar_get_view (component_view->calendar);
+
+	switch (view) {
+	case GNOME_CAL_DAY_VIEW:
+	case GNOME_CAL_WORK_WEEK_VIEW:
+	case GNOME_CAL_WEEK_VIEW:
+		if (start_tm.tm_year == end_tm.tm_year
+		    && start_tm.tm_mon == end_tm.tm_mon
+		    && start_tm.tm_mday == end_tm.tm_mday) {
+			e_utf8_strftime (buffer, sizeof (buffer),
+				  _("%A %d %B %Y"), &start_tm);
+		} else if (start_tm.tm_year == end_tm.tm_year) {
+			e_utf8_strftime (buffer, sizeof (buffer),
+				  _("%a %d %b"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+				  _("%a %d %b %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		} else {
+			e_utf8_strftime (buffer, sizeof (buffer),
+				  _("%a %d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+				  _("%a %d %b %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		}
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+	case GNOME_CAL_LIST_VIEW:
+		if (start_tm.tm_year == end_tm.tm_year) {
+			if (start_tm.tm_mon == end_tm.tm_mon) {
+				e_utf8_strftime (buffer, sizeof (buffer),
+					  "%d", &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
+					  _("%d %B %Y"), &end_tm);
+				strcat (buffer, " - ");
+				strcat (buffer, end_buffer);
+			} else {
+				e_utf8_strftime (buffer, sizeof (buffer),
+					  _("%d %B"), &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer),
+					  _("%d %B %Y"), &end_tm);
+				strcat (buffer, " - ");
+				strcat (buffer, end_buffer);
+			}
+		} else {
+			e_utf8_strftime (buffer, sizeof (buffer),
+				  _("%d %B %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer),
+				  _("%d %B %Y"), &end_tm);
+			strcat (buffer, " - ");
+			strcat (buffer, end_buffer);
+		}
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	e_info_label_set_info (component_view->info_label, _("Calendar"), buffer);
+}
+
+static void
+calendar_dates_changed_cb (GnomeCalendar *calendar, CalendarComponentView *component_view)
+{
+	set_info (component_view);
 }
 
 static void
@@ -912,7 +1020,7 @@ create_component_view (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
 	CalendarComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox, *info;
+	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
 	guint not;
 	
@@ -950,12 +1058,12 @@ create_component_view (CalendarComponent *calendar_component)
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	info = e_info_label_new("stock_calendar");
-	e_info_label_set_info((EInfoLabel *)info, _("Calendars"), "");
-	gtk_widget_show (info);
+	component_view->info_label = (EInfoLabel *)e_info_label_new("stock_calendar");
+	e_info_label_set_info (component_view->info_label, _("Calendars"), "");
+	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), info, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
@@ -970,6 +1078,8 @@ create_component_view (CalendarComponent *calendar_component)
 	}
 
 	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
+
+	/* This signal is thrown if backends die - we update the selector */
 	g_signal_connect (component_view->calendar, "source_removed", 
 			  G_CALLBACK (source_removed_cb), component_view);
 
@@ -995,6 +1105,11 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Set up the "new" item handler */
 	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("calendar", create_local_item_cb, calendar_component);
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
+
+	/* We use this to update the component information */
+	set_info (component_view);
+	g_signal_connect (component_view->calendar, "dates_shown_changed",
+			  G_CALLBACK (calendar_dates_changed_cb), component_view);
 
 	/* Load the selection from the last run */
 	update_selection (component_view);	

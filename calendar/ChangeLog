@@ -1,5 +1,13 @@
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/calendar-component.c (set_info): set the info label
+	(calendar_dates_changed_cb): call back for when the dates of the
+	calendar change
+	(create_component_view): store the info label for later use;
+	listen for date changes to set the info label
+
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
 	Fixes #57897
 	
 	* gui/e-tasks.c (setup_widgets): no need to listen for the deleted
