@@ -58,6 +58,13 @@
 
 #define PARENT_TYPE (gtk_object_get_type ())
 
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("Folder"),
+	N_("Store"),
+};
+#endif
+
 #define FOLDER_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
         <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"cell_toggle\" compare=\"integer\"/> \
         <ETableColumn model_col=\"1\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \

@@ -1,5 +1,7 @@
 2001-01-12  Miguel de Icaza  <miguel@ximian.com>
 
+	* message-list.c: Add strings for localization
+
 	* folder-browser.c: Rename "Save" to "Store search as vFolder". 
 
 2001-01-11  Miguel de Icaza  <miguel@gnu.org>

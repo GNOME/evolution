@@ -1101,6 +1101,14 @@ save_header_state(MessageList *ml)
 	g_free(filename);
 }
 
+#ifdef JUST_FOR_TRANSLATORS
+static char list [] = {
+	N_("Status"), N_("Flagged"), N_("Score"), N_("Attachment"),
+	N_("From"),   N_("Subject"), N_("Date"),  N_("Received"),
+	N_("To"),     N_("Size")
+};
+#endif
+
 static char *
 message_list_get_layout (MessageList *message_list)
 {
