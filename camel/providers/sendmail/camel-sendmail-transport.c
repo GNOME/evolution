@@ -87,10 +87,12 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 {
 	const char *from_addr, *addr, **argv;
 	int i, len, fd[2], nullfd, wstat;
+	struct _header_raw *header;
+	GSList *n, *bcc = NULL;
 	sigset_t mask, omask;
 	CamelStream *out;
 	pid_t pid;
-
+	
 	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &from_addr))
 		return FALSE;
 	
@@ -115,12 +117,26 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	argv[i + 5] = NULL;
 	
+	/* copy and remove the bcc headers */
+	header = CAMEL_MIME_PART (message)->headers;
+	while (header) {
+		if (!strcasecmp (header->name, "Bcc"))
+			bcc = g_slist_append (bcc, g_strdup (header->value));
+		header = header->next;
+	}
+	
+	n = bcc;
+	while (n) {
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+		n = n->next;
+	}
+	
 	if (pipe (fd) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create pipe to sendmail: "
 					"%s: mail not sent"),
 				      g_strerror (errno));
-		return FALSE;
+		goto exception;
 	}
 	
 	/* Block SIGCHLD so the calling application doesn't notice
@@ -139,7 +155,8 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 				      g_strerror (errno));
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		g_free (argv);
-		return FALSE;
+		
+		goto exception;
 	case 0:
 		/* Child process */
 		nullfd = open ("/dev/null", O_RDWR);
@@ -170,7 +187,7 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		
-		return FALSE;
+		goto exception;
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (out));
@@ -180,6 +197,15 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		;
 	
 	sigprocmask (SIG_SETMASK, &omask, NULL);
+	
+	/* add the bcc headers back */
+	while (bcc) {
+		n = bcc->next;
+		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
+		g_free (bcc->data);
+		g_slist_free1 (bcc);
+		bcc = n;
+	}
 	
 	if (!WIFEXITED (wstat)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -203,6 +229,17 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	}
 	
 	return TRUE;
+	
+ exception:
+	
+	/* add the bcc headers back */
+	while (bcc) {
+		n = bcc->next;
+		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
+		g_free (bcc->data);
+		g_slist_free1 (bcc);
+		bcc = n;
+	}
 }
 
 static char *

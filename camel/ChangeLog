@@ -1,3 +1,12 @@
+2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Remove all
+	Bcc headers before sending to the smtp server.
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Remove all Bcc headers before sending to
+	sendmail.
+
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.c (camel_init): Call camel_iconv_init().

@@ -1226,7 +1226,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
 	struct _header_raw *header;
-	GSList *h, *bcc = NULL;
+	GSList *n, *bcc = NULL;
 	int ret;
 	
 	/* if the message contains 8bit/binary mime parts and the server
@@ -1290,20 +1290,22 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 		header = header->next;
 	}
 	
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+	n = bcc;
+	while (n) {
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+		n = n->next;
+	}
 	
 	/* write the message */
 	ret = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
 	
 	/* add the bcc headers back */
-	if (bcc) {
-		h = bcc;
-		while (h) {
-			camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", h->data);
-			g_free (h->data);
-			h = h->next;
-		}
-		g_slist_free (bcc);
+	while (bcc) {
+		n = bcc->next;
+		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
+		g_free (bcc->data);
+		g_slist_free1 (bcc);
+		bcc = n;
 	}
 	
 	if (ret == -1) {
