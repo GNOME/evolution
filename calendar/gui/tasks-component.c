@@ -45,6 +45,7 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
+#include "widgets/misc/e-info-label.h"
 
 
 #define CREATE_TASK_ID      "task"
@@ -477,7 +478,7 @@ impl_createControls (PortableServer_Servant servant,
 {
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
-	GtkWidget *selector_scrolled_window, *statusbar_widget;
+	GtkWidget *selector_scrolled_window, *statusbar_widget, *vbox, *info;
 	BonoboControl *sidebar_control, *statusbar_control;
 	guint not;
 	
@@ -495,7 +496,16 @@ impl_createControls (PortableServer_Servant servant,
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	sidebar_control = bonobo_control_new (selector_scrolled_window);
+	info = e_info_label_new("evolution-tasks-mini.png");
+	e_info_label_set_info((EInfoLabel *)info, _("Tasks"), "");
+	gtk_widget_show (info);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), info, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
+	sidebar_control = bonobo_control_new (vbox);
 
 	/* create the tasks view */
  	priv->view_control = tasks_control_new ();
