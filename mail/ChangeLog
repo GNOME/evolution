@@ -1,3 +1,13 @@
+2002-07-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (folder_deleted): Removed.  The
+	folder's deleted event isn't needed since we're listening to the
+	store's folder_deleted signal.  Also, the code was wrong, it
+	cleared the folder without disconnecting events, etc.  See #16486,
+	and probably others.
+	(mail_note_folder): Dont hook onto deleted anymore.
+	(unset_folder_info): Or unhook from it.
+
 2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (mail_load_storages): Don't skip over
@@ -73,6 +83,7 @@
 	* mail-format.c (handle_multipart_signed): Use the new gpg cipher
 	context.
 
+>>>>>>> 1.2235
 2002-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_change_first_visible_parent): New
