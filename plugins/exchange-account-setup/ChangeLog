@@ -1,3 +1,8 @@
+2005-01-19  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-ask-password.c (validate_exchange_user): Fix for remembering
+	password if user has selected that option, while creating the account. 
+
 2005-01-18  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-ask-password.c (validate_exchange_user): Reading the return

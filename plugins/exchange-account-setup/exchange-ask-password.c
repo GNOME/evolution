@@ -43,7 +43,7 @@ GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData 
 
 char *owa_entry_text = NULL; 
 
-typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, char *url, CamelException *ex);
+typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, char *url, gboolean *remember_password, CamelException *ex);
 
 typedef struct {
         CamelProviderValidateUserFunc *validate_user;
@@ -70,13 +70,13 @@ validate_exchange_user (void *data)
 	CamelProviderValidate *validate;
 	CamelURL *url=NULL;
 	CamelProvider *provider = NULL;
-	gboolean valid = FALSE;
+	gboolean valid = FALSE, *remember_password;
 	char *account_url, *url_string; 
 	const char *source_url;
 	static int count = 0;
 	char *id_name, *at, *user;
 
-	if (count) 
+	if (count)
 		return valid;
 
 	source_url = e_account_get_string (target_account->account, 
@@ -86,9 +86,7 @@ validate_exchange_user (void *data)
 	if (!provider) {
 		return FALSE;	/* This should never happen */
 	}
-
 	url = camel_url_new_with_base (NULL, account_url);
-
 	validate = provider->priv; 
 	if (validate) {
 
@@ -104,8 +102,7 @@ validate_exchange_user (void *data)
 				camel_url_set_user (url, user);
 			}
 		}
-
-		valid = validate->validate_user (url, owa_entry_text, NULL); 
+		valid = validate->validate_user (url, owa_entry_text, remember_password, NULL); 
 	}
 
 	/* FIXME: need to check for return value */
@@ -116,6 +113,7 @@ validate_exchange_user (void *data)
 				      E_ACCOUNT_SOURCE_URL, url_string);
 		e_account_set_string (target_account->account, 
 				      E_ACCOUNT_TRANSPORT_URL, url_string);
+		target_account->account->source->save_passwd = *remember_password;
 	}
 	
 	camel_url_free (url);
