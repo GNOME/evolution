@@ -25,7 +25,6 @@
 
 #include "evolution-shell-component-utils.h"
 
-#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-ui-util.h>
