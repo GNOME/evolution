@@ -39,111 +39,80 @@ e_summary_calendar_get_html (ESummary *summary)
 	return summary->calendar->html;
 }
 
-/* list_sort_merge, and list_sort are copied from GNOME-VFS.
-   Author: Sven Oliver <sven.over@ob.kamp.net>
-   Modified by Ettore Perazzoli <ettore@comm2000.it> to let the compare
-   functions get an additional gpointer parameter.  
+typedef struct {
+	CalComponent *comp;
+	CalComponentDateTime dt;
+	icaltimezone *zone;
+} ESummaryCalEvent;
 
-   Included here as using gnome-vfs for 1 20 line function 
-   seems a bit of overkill.
-*/
-
-typedef gint (* CalSummaryListCompareFunc) (gconstpointer a, 
-					    gconstpointer b,
-					    gpointer data);
-static GList *
-cal_list_sort_merge (GList *l1,
-		     GList *l2,
-		     CalSummaryListCompareFunc compare_func,
-		     gpointer data)
-{
-	GList list, *l, *lprev;
-
-	l = &list;
-	lprev = NULL;
-
-	while (l1 && l2) {
-		if (compare_func (l1->data, l2->data, data) < 0) {
-			l->next = l1;
-			l = l->next;
-			l->prev = lprev;
-			lprev = l;
-			l1 = l1->next;
-		} else {
-			l->next = l2;
-			l = l->next;
-			l->prev = lprev;
-			lprev = l;
-			l2 = l2->next;
-		}
-	}
-
-	l->next = l1 ? l1 : l2;
-	l->next->prev = l;
-
-	return list.next;
-}
-
-static GList *
-cal_list_sort (GList *list,
-	       CalSummaryListCompareFunc compare_func,
-	       gpointer data)
-{
-	GList *l1, *l2;
-
-	if (!list)
-		return NULL;
-	if (!list->next)
-		return list;
-
-	l1 = list;
-	l2 = list->next;
-
-	while ((l2 = l2->next) != NULL) {
-		if ((l2 = l2->next) == NULL)
-			break;
-		l1 = l1->next;
-	}
-
-	l2 = l1->next;
-	l1->next = NULL;
-	
-	return cal_list_sort_merge (cal_list_sort (list, compare_func, data),
-				    cal_list_sort (l2, compare_func, data),
-				    compare_func, data);
-}
-	
 static int
-sort_uids (gconstpointer a,
-	   gconstpointer b,
-	   gpointer user_data)
+e_summary_calendar_event_sort_func (const void *e1,
+				    const void *e2)
 {
-	CalComponent *comp_a, *comp_b;
-	ESummary *summary = user_data;
-	ESummaryCalendar *calendar = summary->calendar;
-	CalClientGetStatus status;
-	CalComponentDateTime start_a, start_b;
-	int retval;
+	ESummaryCalEvent *event1, *event2;
 
-	/* a after b then return > 0 */
+	event1 = (ESummaryCalEvent *) e1;
+	event2 = (ESummaryCalEvent *) e2;
 
-	status = cal_client_get_object (calendar->client, a, &comp_a);
-	if (status != CAL_CLIENT_GET_SUCCESS)
-		return -1;
+	return icaltime_compare (*event1->dt.value, *event2->dt.value);
+}
 
-	status = cal_client_get_object (calendar->client, b, &comp_b);
-	if (status != CAL_CLIENT_GET_SUCCESS)
-		return 1;
+static GPtrArray *
+uids_to_array (ESummary *summary,
+	       CalClient *client,
+	       GList *uids)
+{
+	GList *p;
+	GPtrArray *array;
 
-	cal_component_get_dtstart (comp_a, &start_a);
-	cal_component_get_dtstart (comp_b, &start_b);
+	g_return_val_if_fail (IS_E_SUMMARY (summary), NULL);
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (uids != NULL, NULL);
 
-	retval = icaltime_compare (*start_a.value, *start_b.value);
+	array = g_ptr_array_new ();
+	for (p = uids; p; p = p->next) {
+		ESummaryCalEvent *event;
+		CalClientGetStatus status;
 
-	cal_component_free_datetime (&start_a);
-	cal_component_free_datetime (&start_b);
+		event = g_new (ESummaryCalEvent, 1);
 
-	return retval;
+		status = cal_client_get_object (client, p->data, &event->comp);
+		if (status != CAL_CLIENT_GET_SUCCESS) {
+			g_free (event);
+			continue;
+		}
+
+		cal_component_get_dtstart (event->comp, &event->dt);
+
+		status = cal_client_get_timezone (client, event->dt.tzid, &event->zone);
+		if (status != CAL_CLIENT_GET_SUCCESS) {
+			gtk_object_unref (GTK_OBJECT (event->comp));
+			g_free (event);
+			continue;
+		}
+
+		icaltimezone_convert_time (event->dt.value, event->zone, summary->tz);
+		g_ptr_array_add (array, event);
+	}
+
+	qsort (array->pdata, array->len, sizeof (ESummaryCalEvent), e_summary_calendar_event_sort_func);
+
+	return array;
+}
+
+static void
+free_event_array (GPtrArray *array)
+{
+	int i;
+
+	for (i = 0; i < array->len; i++) {
+		ESummaryCalEvent *event;
+		
+		event = array->pdata[i];
+		gtk_object_unref (GTK_OBJECT (event->comp));
+	}
+
+	g_ptr_array_free (array, TRUE);
 }
 
 static gboolean
@@ -151,32 +120,32 @@ generate_html (gpointer data)
 {
 	ESummary *summary = data;
 	ESummaryCalendar *calendar = summary->calendar;
-	GList *uids, *l;
+	GList *uids;
 	GString *string;
 	char *tmp;
 	time_t t, begin, end, f;
 
 	t = time (NULL);
-	begin = time_day_begin (t);
+	begin = time_day_begin_with_zone (t, summary->tz);
 	switch (summary->preferences->days) {
 	case E_SUMMARY_CALENDAR_ONE_DAY:
-		end = time_day_end (t);
+		end = time_day_end_with_zone (t, summary->tz);
 		break;
 
 	case E_SUMMARY_CALENDAR_FIVE_DAYS:
 		f = time_add_day (t, 5);
-		end = time_day_end (f);
+		end = time_day_end_with_zone (f, summary->tz);
 		break;
 	
 	case E_SUMMARY_CALENDAR_ONE_WEEK:
 		f = time_add_week (t, 1);
-		end = time_day_end (f);
+		end = time_day_end_with_zone (f, summary->tz);
 		break;
 
 	case E_SUMMARY_CALENDAR_ONE_MONTH:
 	default:
 		f = time_add_month (t, 1);
-		end = time_day_end (f);
+		end = time_day_end_with_zone (f, summary->tz);
 		break;
 	}
 
@@ -197,9 +166,9 @@ generate_html (gpointer data)
 		e_summary_draw (summary);
 		return FALSE;
 	} else {
+		GPtrArray *uidarray;
+		int i;
 		char *s;
-
-		uids = cal_list_sort (uids, sort_uids, summary);
 
 		string = g_string_new ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
 		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">");
@@ -207,30 +176,18 @@ generate_html (gpointer data)
 		g_string_append (string, s);
 		g_free (s);
 		g_string_append (string, "</a></b></dt><dd>");
-		for (l = uids; l; l = l->next) {
-			char *uid, *start_str;
-			CalComponent *comp;
+
+		uidarray = uids_to_array (summary, calendar->client, uids);
+		for (i = 0; i < uidarray->len; i++) {
+			ESummaryCalEvent *event;
 			CalComponentText text;
-			CalClientGetStatus status;
-			CalComponentDateTime start, end;
-			time_t start_t, dt;
+			time_t start_t;
 			struct tm *start_tm;
+			char *start_str;
 
-			uid = l->data;
-			status = cal_client_get_object (calendar->client, uid, &comp);
-			if (status != CAL_CLIENT_GET_SUCCESS) {
-				continue;
-			}
-
-			cal_component_get_summary (comp, &text);
-
-			cal_component_get_dtstart (comp, &start);
-			cal_component_get_dtend (comp, &end);
-			
-			start_t = icaltime_as_timet (*start.value);
-
-			cal_component_free_datetime (&start);
-			cal_component_free_datetime (&end);
+			event = uidarray->pdata[i];
+			cal_component_get_summary (event->comp, &text);
+			start_t = icaltime_as_timet (*event->dt.value);
 
 			start_str = g_new (char, 20);
 			start_tm = localtime (&start_t);
@@ -250,7 +207,7 @@ generate_html (gpointer data)
 			g_free (tmp);
 		}
 
-		cal_obj_uid_list_free (uids);
+		free_event_array (uidarray);
 		g_string_append (string, "</dd></dl>");
 	}
 
@@ -335,18 +292,20 @@ e_summary_calendar_init (ESummary *summary)
 	if (result == FALSE) {
 		g_message ("Open calendar failed");
 	}
-
+	
+	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
+	
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
 		g_warning ("Error getting Wombat. Using defaults");
-	} else {
-		calendar->wants24hr = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
-		bonobo_object_release_unref (db, NULL);
+		return;
 	}
-	CORBA_exception_free (&ev);
 
-	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
+	calendar->wants24hr = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
+	bonobo_object_release_unref (db, NULL);
+	CORBA_exception_free (&ev);
 }
 
 void

@@ -1,3 +1,10 @@
+2001-09-14  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (uids_to_array): Create ESummaryCalEvents and 
+	put them in an array to get the timezone stuff right.
+	(e_summary_calendar_event_sort_func): Sort the array.
+	(generate_html): Use the timezone formats of things.
+
 2001-09-13  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Removed duff Norway station

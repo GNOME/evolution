@@ -17,6 +17,8 @@
 #include "e-summary-weather.h"
 #include "e-summary-tasks.h"
 
+#include <ical.h>
+
 #include <Evolution.h>
 
 #define E_SUMMARY_TYPE (e_summary_get_type ())
@@ -99,6 +101,9 @@ struct _ESummary {
 
 	GtkWidget *prefs_window;
 	gboolean online;
+
+	char *timezone;
+	icaltimezone *tz;
 };
 
 struct _ESummaryClass {

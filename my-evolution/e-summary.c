@@ -27,6 +27,10 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+
 #include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-url.h>
 
@@ -148,7 +152,8 @@ e_summary_draw (ESummary *summary)
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	if (summary->mail == NULL || summary->calendar == NULL
-	    || summary->rdf == NULL || summary->weather == NULL) {
+	    || summary->rdf == NULL || summary->weather == NULL 
+	    || summary->tasks == NULL) {
 		return;
 	}
 
@@ -401,6 +406,8 @@ alarm_fn (gpointer alarm_id,
 static void
 e_summary_init (ESummary *summary)
 {
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
 	time_t t, day_end;
@@ -438,13 +445,32 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
-	alarm_init ();
-	t = time (NULL);
-	day_end = time_day_end (t);
-	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
-
 	summary->prefs_window = NULL;
 	e_summary_preferences_init (summary);
+
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		g_warning ("Error getting Wombat. Using defaults");
+		return;
+	}
+
+	summary->timezone = bonobo_config_get_string (db, "/Calendar/Display/Timezone", NULL);
+	summary->tz = icaltimezone_get_builtin_timezone (summary->timezone);
+
+	bonobo_object_release_unref (db, NULL);
+	CORBA_exception_free (&ev);
+
+	alarm_init ();
+	t = time (NULL);
+	if (summary->tz == NULL) {
+		day_end = time_day_end (t);
+	} else {
+		day_end = time_day_end_with_zone (t, summary->tz);
+	}
+
+	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 }
 
 E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
