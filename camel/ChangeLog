@@ -1,5 +1,10 @@
 2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (parse_fetch_response): If we
+	are fetching HEADERs, don't cache the stream - instead just create
+	a mem-stream and return that. This reduces a significant amount of
+	overhead due to disk i/o.
+
 	* camel-multipart-encrypted.c (camel_multipart_encrypted_decrypt):
 	Don't forget to set an appropriate exception before returning
 	NULL.

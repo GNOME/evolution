@@ -2372,11 +2372,12 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 {
 	GData *data = NULL;
 	char *start, *part_spec = NULL, *body = NULL, *uid = NULL;
+	gboolean header = FALSE;
 	int body_len = 0;
-
+	
 	if (*response != '(') {
 		long seq;
-
+		
 		if (*response != '*' || *(response + 1) != ' ')
 			return NULL;
 		seq = strtol (response + 2, &response, 10);
@@ -2385,34 +2386,38 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 		if (g_strncasecmp (response, " FETCH (", 8) != 0)
 			return NULL;
 		response += 7;
-
+		
 		g_datalist_set_data (&data, "SEQUENCE", GINT_TO_POINTER (seq));
 	}
-
+	
 	do {
 		/* Skip the initial '(' or the ' ' between elements */
 		response++;
-
+		
 		if (!g_strncasecmp (response, "FLAGS ", 6)) {
 			guint32 flags;
-
+			
 			response += 6;
 			/* FIXME user flags */
 			flags = imap_parse_flag_list (&response);
-
+			
 			g_datalist_set_data (&data, "FLAGS", GUINT_TO_POINTER (flags));
 		} else if (!g_strncasecmp (response, "RFC822.SIZE ", 12)) {
 			unsigned long size;
-
+			
 			response += 12;
 			size = strtoul (response, &response, 10);
 			g_datalist_set_data (&data, "RFC822.SIZE", GUINT_TO_POINTER (size));
 		} else if (!g_strncasecmp (response, "BODY[", 5) ||
 			   !g_strncasecmp (response, "RFC822 ", 7)) {
 			char *p;
-
+			
 			if (*response == 'B') {
 				response += 5;
+				
+				if (!g_strncasecmp (response, "HEADER]", 7) || !g_strncasecmp (response, "0]", 2))
+					header = TRUE;
+				
 				p = strchr (response, ']');
 				if (!p || *(p + 1) != ' ')
 					break;
@@ -2421,14 +2426,17 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			} else {
 				part_spec = g_strdup ("");
 				response += 7;
+				
+				if (!g_strncasecmp (response, "HEADER", 6))
+					header = TRUE;
 			}
-
+			
 			body = imap_parse_nstring ((const char **) &response, &body_len);
 			if (!response) {
 				g_free (part_spec);
 				break;
 			}
-
+			
 			if (!body)
 				body = g_strdup ("");
 			g_datalist_set_data_full (&data, "BODY_PART_SPEC", part_spec, g_free);
@@ -2442,35 +2450,38 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			g_datalist_set_data_full (&data, "BODY", g_strndup (start, response - start), g_free);
 		} else if (!g_strncasecmp (response, "UID ", 4)) {
 			int len;
-
+			
 			len = strcspn (response + 4, " )");
 			uid = g_strndup (response + 4, len);
 			g_datalist_set_data_full (&data, "UID", uid, g_free);
 			response += 4 + len;
 		} else {
-			g_warning ("Unexpected FETCH response from server: "
-				   "(%s", response);
+			g_warning ("Unexpected FETCH response from server: (%s", response);
 			break;
 		}
 	} while (response && *response != ')');
-
+	
 	if (!response || *response != ')') {
 		g_datalist_clear (&data);
 		return NULL;
 	}
-
+	
 	if (uid && body) {
 		CamelStream *stream;
-
-		CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
-		stream = camel_imap_message_cache_insert (imap_folder->cache,
-							  uid, part_spec,
-							  body, body_len, NULL);
-		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
+		
+		if (!header) {
+			CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
+			stream = camel_imap_message_cache_insert (imap_folder->cache,
+								  uid, part_spec,
+								  body, body_len, NULL);
+			CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
+		} else {
+			stream = camel_stream_mem_new_with_buffer (body, body_len);
+		}
 		g_datalist_set_data_full (&data, "BODY_PART_STREAM", stream,
 					  (GDestroyNotify)camel_object_unref);
 	}
-
+	
 	return data;
 }
 
