@@ -109,6 +109,54 @@ icon_callback (EShortcutBar *shortcut_bar,
 }
 
 
+static void
+show_new_group_dialog (EShortcutsView *view)
+{
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *entry;
+	GtkWidget *box;
+	const char *group_name;
+	int button_num;
+
+	dialog = gnome_dialog_new (_("Create new shortcut group"),
+				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+
+	label = gtk_label_new (_("Group name:"));
+	gtk_widget_show (label);
+
+	entry = gtk_entry_new ();
+	gtk_widget_show (entry);
+
+	box = gtk_hbox_new (FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (box);
+
+	gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box), entry, TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), box, FALSE, TRUE, 0);
+
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+
+	gtk_widget_grab_focus (entry);
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (entry));
+
+	gtk_widget_show (dialog);
+
+	button_num = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (button_num == -1)
+		return;
+	if (button_num != 0) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	group_name = gtk_entry_get_text (GTK_ENTRY (entry));
+	e_shortcuts_add_group (view->priv->shortcuts, -1, group_name);
+}
+
+
 /* Shortcut bar right-click menu.  */
 
 struct _RightClickMenuData {
@@ -123,12 +171,10 @@ toggle_large_icons_cb (GtkWidget *widget,
 {
 	RightClickMenuData *menu_data;
 
-	g_return_if_fail (GTK_IS_RADIO_MENU_ITEM (widget));
-
-	if (data == NULL)
-		return;
-
 	menu_data = (RightClickMenuData *) data;
+
+	if (menu_data == NULL)
+		return;
 
 	if (! GTK_CHECK_MENU_ITEM (widget)->active)
 		return;
@@ -144,12 +190,9 @@ toggle_small_icons_cb (GtkWidget *widget,
 {
 	RightClickMenuData *menu_data;
 
-	g_return_if_fail (GTK_IS_RADIO_MENU_ITEM (widget));
-
-	if (data == NULL)
-		return;
-
 	menu_data = (RightClickMenuData *) data;
+	if (menu_data == NULL)
+		return;
 
 	if (! GTK_CHECK_MENU_ITEM (widget)->active)
 		return;
@@ -159,11 +202,53 @@ toggle_small_icons_cb (GtkWidget *widget,
 				      E_ICON_BAR_SMALL_ICONS);
 }
 
+static void
+create_new_group_cb (GtkWidget *widget,
+		     void *data)
+{
+	RightClickMenuData *menu_data;
+
+	menu_data = (RightClickMenuData *) data;
+
+	show_new_group_dialog (menu_data->shortcuts_view);
+}
+
+static void
+destroy_group_cb (GtkWidget *widget,
+		  void *data)
+{
+	RightClickMenuData *menu_data;
+	EShortcuts *shortcuts;
+	EShortcutsView *shortcuts_view;
+	EShortcutsViewPrivate *priv;
+	GtkWidget *message_box;
+	char *question;
+
+	menu_data = (RightClickMenuData *) data;
+	shortcuts_view = menu_data->shortcuts_view;
+	priv = shortcuts_view->priv;
+	shortcuts = priv->shortcuts;
+
+	question = g_strdup_printf (_("Do you really want to remove group\n"
+				      "`%s' from the shortcut bar?"),
+				    e_shortcuts_get_group_title (shortcuts, menu_data->group_num));
+
+	message_box = gnome_message_box_new (question, GNOME_MESSAGE_BOX_QUESTION,
+					     _("Remove"), _("Don't remove"), NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (message_box),
+				 GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))));
+
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (message_box)) != 0)
+		return;
+
+	e_shortcuts_remove_group (shortcuts, menu_data->group_num);
+}
+
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
-	{ GNOME_APP_UI_ITEM, N_("_Small icons"),
+	{ GNOME_APP_UI_ITEM, N_("_Small Icons"),
 	  N_("Show the shortcuts as small icons"), toggle_small_icons_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("_Large icons"),
+	{ GNOME_APP_UI_ITEM, N_("_Large Icons"),
 	  N_("Show the shortcuts as large icons"), toggle_large_icons_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 
@@ -172,6 +257,16 @@ static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
 
 static GnomeUIInfo right_click_menu_uiinfo[] = {
 	GNOMEUIINFO_RADIOLIST (icon_size_radio_group_uiinfo),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("_New Group..."),
+	  N_("Create a new shortcut group"), create_new_group_cb, NULL,
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("_Remove This Group..."),
+	  N_("Remove this shortcut group"), destroy_group_cb, NULL,
+	  NULL, 0, 0, 0, 0 },
+
 	GNOMEUIINFO_END
 };
 
@@ -196,6 +291,9 @@ pop_up_right_click_menu_for_group (EShortcutsView *shortcuts_view,
 	else
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (icon_size_radio_group_uiinfo[1].widget),
 						TRUE);
+
+	if (group_num == 0)
+		gtk_widget_set_sensitive (right_click_menu_uiinfo[3].widget, FALSE);
 
 	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, menu_data);
 
@@ -247,11 +345,6 @@ remove_shortcut_cb (GtkWidget *widget,
 	shortcuts = shortcuts_view->priv->shortcuts;
 
 	e_shortcuts_remove_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
-
-	/* FIXME not real model-view.  */
-	e_shortcut_model_remove_item (E_SHORTCUT_BAR (shortcuts_view)->model,
-				      menu_data->group_num,
-				      menu_data->item_num);
 }
 
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
@@ -426,6 +519,7 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
 
 	priv = shortcuts_view->priv;
+	priv->shortcuts = shortcuts;
 
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcuts_view), icon_callback,
 					  shortcuts);

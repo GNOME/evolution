@@ -697,6 +697,9 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 
 	group = (ShortcutGroup *) p->data;
 
+	if (num == -1)
+		num = g_list_length (group->shortcuts);
+
 	group->shortcuts = g_list_insert (group->shortcuts, g_strdup (uri), num);
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_SHORTCUT], group_num, num);
@@ -748,6 +751,9 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 	group->title     = g_strdup (group_name);
 	group->shortcuts = NULL;
 
+	if (group_num == -1)
+		group_num = g_list_length (priv->groups);
+
 	priv->groups = g_list_insert (priv->groups, group, group_num);
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_GROUP], group_num);
@@ -761,6 +767,7 @@ e_shortcuts_get_group_title (EShortcuts *shortcuts,
 			     int group_num)
 {
 	EShortcutsPrivate *priv;
+	GList *group_element;
 	const ShortcutGroup *group;
 
 	g_return_val_if_fail (shortcuts != NULL, NULL);
@@ -768,9 +775,11 @@ e_shortcuts_get_group_title (EShortcuts *shortcuts,
 
 	priv = shortcuts->priv;
 
-	group = g_list_nth (priv->groups, group_num);
-	if (group == NULL)
+	group_element = g_list_nth (priv->groups, group_num);
+	if (group_element == NULL)
 		return NULL;
+
+	group = (ShortcutGroup *) group_element->data;
 
 	return group->title;
 }

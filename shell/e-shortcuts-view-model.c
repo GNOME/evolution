@@ -145,7 +145,7 @@ shortcuts_new_group_cb (EShortcuts *shortcuts,
 	EShortcutsViewModelPrivate *priv;
 	const char *title;
 
-	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (shortcuts);
+	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
 
 	title = e_shortcuts_get_group_title (priv->shortcuts, group_num);
@@ -229,6 +229,7 @@ class_init (EShortcutsViewModelClass *klass)
 	GtkObjectClass *object_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = impl_destroy;
 
 	parent_class = gtk_type_class (e_shortcut_model_get_type ());
 }
