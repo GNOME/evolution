@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-03 18:46+0200\n"
+"POT-Creation-Date: 2003-08-05 00:59+0200\n"
 "PO-Revision-Date: 2003-08-02 09:33+0200\n"
 "Last-Translator: Brigitte Le Grand <brigitte.le.grand@sun.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -3987,7 +3987,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
 #: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4567,7 +4567,7 @@ msgstr "Aucun résumé"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3995
-#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1169
+#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1171
 msgid "Save as..."
 msgstr "Enregistrer sous..."
 
@@ -5033,7 +5033,7 @@ msgstr ""
 "\n"
 "Voulez-vous enregistrer les modifications ?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
 msgid "_Discard Changes"
 msgstr "Aban_donner les modifications"
 
@@ -10287,7 +10287,7 @@ msgstr "Opération demandée abandonnée : erreur de traitement"
 
 #: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
-msgstr "Utilisateur non local; veuillez essayer <forward-path>"
+msgstr "Utilisateur non local ; veuillez essayer <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
@@ -10637,11 +10637,11 @@ msgstr "Destination de la contribution"
 msgid "Attach file(s)"
 msgstr "Joindre des fichiers"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:542
 msgid "Could not create a PGP signature context"
 msgstr "Impossible de créer un contexte de signature PGP."
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:821
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10650,30 +10650,30 @@ msgstr ""
 "Erreur durant la lecture du fichier %s :\n"
 "%s"
 
-#: composer/e-msg-composer.c:1182
+#: composer/e-msg-composer.c:1184
 msgid "File exists, overwrite?"
 msgstr "Le fichier existe, l'écraser ?"
 
-#: composer/e-msg-composer.c:1200
+#: composer/e-msg-composer.c:1202
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erreur d'enregistrement du fichier : %s"
 
-#: composer/e-msg-composer.c:1223
+#: composer/e-msg-composer.c:1225
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erreur de chargement du fichier : %s"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Erreur accès au fichier : %s"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 msgid "Unable to retrieve message from editor"
 msgstr "Impossible de récupérer le message de l'éditeur."
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10682,7 +10682,7 @@ msgstr ""
 "Impossible de rechercher dans le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1283
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10691,7 +10691,7 @@ msgstr ""
 "Impossible de tronquer le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1292
+#: composer/e-msg-composer.c:1294
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10700,7 +10700,7 @@ msgstr ""
 "Impossible de copier le descripteur de fichier : %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1301
+#: composer/e-msg-composer.c:1303
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10709,7 +10709,7 @@ msgstr ""
 "Erreur lors de l'auto-enregistrement du message : %s :\n"
 " %s"
 
-#: composer/e-msg-composer.c:1398
+#: composer/e-msg-composer.c:1400
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10717,7 +10717,7 @@ msgstr ""
 "Evolution a trouvé des fichiers non enregistrés d'une session précédente.\n"
 "Voulez-vous essayer de les récupérer ?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1563
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10728,23 +10728,23 @@ msgstr ""
 "\n"
 "Voulez-vous enregistrer les modifications ?"
 
-#: composer/e-msg-composer.c:1570
+#: composer/e-msg-composer.c:1572
 msgid "Warning: Modified Message"
 msgstr "Avertissement : message modifié"
 
-#: composer/e-msg-composer.c:1602
+#: composer/e-msg-composer.c:1604
 msgid "Open file"
 msgstr "Ouvrir un fichier"
 
-#: composer/e-msg-composer.c:2026
+#: composer/e-msg-composer.c:2028
 msgid "Signature:"
 msgstr "Signature :"
 
-#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Généré automatiquement"
 
-#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
 #: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "Composer un message"
@@ -12652,7 +12652,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
-msgstr "Toujours envoyér une copie cachée (_Bcc) à :"
+msgstr "Toujours envoyer une copie cachée (_Bcc) à :"
 
 #: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
@@ -13688,7 +13688,7 @@ msgstr "Saisissez le mot de passe"
 
 #: mail/mail-session.c:284
 msgid "_Remember this password"
-msgstr "Mémo _riser le mot de passe"
+msgstr "Mémo_riser le mot de passe"
 
 #: mail/mail-session.c:285
 msgid "_Remember this password for the remainder of this session"
