@@ -47,7 +47,7 @@ CamelProviderConfEntry pop3_conf_entries[] = {
 };
 
 static CamelProvider pop3_provider = {
-	"pop3",
+	"pop",
 	
 	N_("POP"),
 	
