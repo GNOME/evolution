@@ -133,7 +133,7 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 {
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->header_canvas),
-		0, 0, alloc->width, COLUMN_HEADER_HEIGHT);
+		0, 0, alloc->width - 1, COLUMN_HEADER_HEIGHT - 1);
 }
 
 static void
