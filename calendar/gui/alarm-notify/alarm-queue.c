@@ -580,8 +580,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 static void
 create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 {
-	QueuedAlarm *orig_qa, *qa;
-	CalAlarmInstance *instance;
+	QueuedAlarm *orig_qa;
 	time_t t;
 	gpointer new_id;
 
@@ -599,20 +598,9 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 		return;
 	}
 
-	instance = g_new (CalAlarmInstance, 1);
-	instance->auid = orig_qa->instance->auid;
-	instance->trigger = t;
-	instance->occur_start = orig_qa->instance->occur_start;
-	instance->occur_end = orig_qa->instance->occur_end;
-
-	cqa->alarms->alarms = g_slist_prepend (cqa->alarms->alarms, instance);
-
-	qa = g_new (QueuedAlarm, 1);
-	qa->alarm_id = new_id;
-	qa->instance = instance;
-	qa->snooze = TRUE;
-
-	cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
+	orig_qa->instance->trigger = t;
+	orig_qa->alarm_id = new_id;
+	orig_qa->snooze = TRUE;
 }
 
 /* Launches a component editor for a component */
@@ -707,7 +695,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (c->cqa, c->alarm_id, snooze_mins);
-		break;
+		return;
 
 	case ALARM_NOTIFY_EDIT:
 		edit_component (c->client, c->comp);

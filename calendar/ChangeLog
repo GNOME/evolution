@@ -1,3 +1,12 @@
+2003-05-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41760
+
+	* gui/alarm-notify/alarm-queue.c (create_snooze): don't add a new
+	alarm, but update the already existing one.
+	(notify_dialog_cb): make sure we don't remove the alarm if we are
+	snoozing.
+	
 2003-05-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-page.glade: fix button conversion problem
