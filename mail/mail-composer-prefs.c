@@ -107,8 +107,8 @@ mail_composer_prefs_finalise (GObject *obj)
 {
 	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
-	g_object_unref ((prefs->gui));
-	g_object_unref ((prefs->pman));
+	g_object_unref (prefs->gui);
+	g_object_unref (prefs->pman);
 	g_object_unref (prefs->enabled_pixbuf);
 	gdk_pixmap_unref (prefs->mark_pixmap);
 	g_object_unref (prefs->mark_bitmap);
@@ -228,10 +228,10 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 MailConfigSignature *
-mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const gchar *script)
+mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const char *script)
 {
 	MailConfigSignature *sig;
-
+	
 	sig = mail_config_signature_add (html, script);
 	
 	if (prefs) {
@@ -239,13 +239,20 @@ mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, cons
 		GtkTreeIter iter;
 		GtkTreeSelection *selection;
 		char *name = NULL, *val;
-
+		
 		model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_list);
 		selection = gtk_tree_view_get_selection (prefs->sig_list);
-		if (sig->name)
-			val = name = g_strconcat (sig->name, " ", _("[script]"), NULL);
-		else
-			val = g_strdup (_("[script]"));
+		if (sig->name) {
+			if (sig->script)
+				val = name = g_strconcat (sig->name, " ", _("[script]"), NULL);
+			else
+				val = sig->name;
+		} else {
+			if (sig->script)
+				val = _("Unnamed [script]");
+			else
+				val = _("[script]");
+		}
 		
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter, 0, val, 1, sig, -1);
@@ -798,7 +805,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	/* Spell Checking: GtkHTML part */
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	g_signal_connect (prefs->pman, "changed", G_CALLBACK(toggle_button_toggled), prefs);
-	g_object_ref ((prefs->pman));
+	g_object_ref (prefs->pman);
 	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);

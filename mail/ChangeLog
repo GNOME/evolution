@@ -1,3 +1,9 @@
+2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_new_signature): Don't
+	always append "[script]" to the signature name. Also cleaned up
+	some memory leakage.
+
 2003-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-preferences.c (mail_preferences_apply): fix the g_snprintf
