@@ -1,3 +1,7 @@
+2001-12-11  Israel Escalante <israel@ximian.com>
+
+	* Release 0.10.0.
+
 2001-11-28  Sebastian Rittau  <srittau@jroger.in-berlin.de>
 
 	* gnome-pilot.m4 (PILOT_LINK_HOOK):
