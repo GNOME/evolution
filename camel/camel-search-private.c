@@ -41,12 +41,49 @@
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "e-util/e-sexp.h"
-
 #include "camel-search-private.h"
+#include "camel-i18n.h"
 
 #include <glib/gunicode.h>
 
 #define d(x)
+
+static inline guint32
+camel_utf8_getc(const unsigned char **ptr)
+{
+	register unsigned char *p = (unsigned char *)*ptr;
+	register unsigned char c, r;
+	register guint32 v, m;
+
+again:
+	r = *p++;
+loop:
+	if (r < 0x80) {
+		*ptr = p;
+		v = r;
+	} else if (r < 0xfe) { /* valid start char? */
+		v = r;
+		m = 0x7f80;	/* used to mask out the length bits */
+		do {
+			c = *p++;
+			if ((c & 0xc0) != 0x80) {
+				r = c;
+				goto loop;
+			}
+			v = (v<<6) | (c & 0x3f);
+			r<<=1;
+			m<<=5;
+		} while (r & 0x40);
+		
+		*ptr = p;
+
+		v &= ~m;
+	} else {
+		goto again;
+	}
+
+	return v;
+}
 
 /* builds the regex into pattern */
 /* taken from camel-folder-search, with added isregex & exception parameter */
@@ -195,28 +232,12 @@ header_soundex (const char *header, const char *match)
 	return truth;
 }
 
-/* FIXME: This is stupidly slow and needs to be removed */
-static gunichar
-utf8_get (const char **inp)
-{
-	const unsigned char *p = *inp;
-	gunichar c;
-
-	if (p == NULL)
-		return 0;
-	
-	c = g_utf8_get_char (p);
-	*inp = g_unichar_validate (c) ? g_utf8_next_char (p) : NULL;
-	
-	return c;
-}
-
 const char *
 camel_ustrstrcase (const char *haystack, const char *needle)
 {
 	gunichar *nuni, *puni;
 	gunichar u;
-	const char *p;
+	const unsigned char *p;
 	
 	g_return_val_if_fail (haystack != NULL, NULL);
 	g_return_val_if_fail (needle != NULL, NULL);
@@ -229,25 +250,25 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	puni = nuni = g_alloca (sizeof (gunichar) * strlen (needle));
 	
 	p = needle;
-	while ((u = utf8_get (&p)))
+	while ((u = camel_utf8_getc(&p)))
 		*puni++ = g_unichar_tolower (u);
 	
 	/* NULL means there was illegal utf-8 sequence */
 	if (!p)
 		return NULL;
 	
-	p = haystack;
-	while ((u = utf8_get (&p))) {
+	p = (const unsigned char *)haystack;
+	while ((u = camel_utf8_getc(&p))) {
 		gunichar c;
 		
 		c = g_unichar_tolower (u);
 		/* We have valid stripped char */
 		if (c == nuni[0]) {
-			const gchar *q = p;
+			const unsigned char *q = p;
 			gint npos = 1;
 			
 			while (nuni + npos < puni) {
-				u = utf8_get (&q);
+				u = camel_utf8_getc(&q);
 				if (!q || !u)
 					return NULL;
 				
@@ -283,8 +304,8 @@ camel_ustrcasecmp (const char *s1, const char *s2)
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
-	u1 = utf8_get (&s1);
-	u2 = utf8_get (&s2);
+	u1 = camel_utf8_getc((const unsigned char **)&s1);
+	u2 = camel_utf8_getc((const unsigned char **)&s2);
 	while (u1 && u2) {
 		u1 = g_unichar_tolower (u1);
 		u2 = g_unichar_tolower (u2);
@@ -293,8 +314,8 @@ camel_ustrcasecmp (const char *s1, const char *s2)
 		else if (u1 > u2)
 			return 1;
 		
-		u1 = utf8_get (&s1);
-		u2 = utf8_get (&s2);
+		u1 = camel_utf8_getc((const unsigned char **)&s1);
+		u2 = camel_utf8_getc((const unsigned char **)&s2);
 	}
 	
 	/* end of one of the strings ? */
@@ -313,8 +334,8 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
-	u1 = utf8_get (&s1);
-	u2 = utf8_get (&s2);
+	u1 = camel_utf8_getc((const unsigned char **)&s1);
+	u2 = camel_utf8_getc((const unsigned char **)&s2);
 	while (len > 0 && u1 && u2) {
 		u1 = g_unichar_tolower (u1);
 		u2 = g_unichar_tolower (u2);
@@ -324,8 +345,8 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 			return 1;
 		
 		len--;
-		u1 = utf8_get (&s1);
-		u2 = utf8_get (&s2);
+		u1 = camel_utf8_getc((const unsigned char **)&s1);
+		u2 = camel_utf8_getc((const unsigned char **)&s2);
 	}
 	
 	if (len == 0)
@@ -344,7 +365,7 @@ camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 static int
 header_match(const char *value, const char *match, camel_search_match_t how)
 {
-	const char *p;
+	const unsigned char *p;
 	int vlen, mlen;
 	
 	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
@@ -357,7 +378,7 @@ header_match(const char *value, const char *match, camel_search_match_t how)
 	
 	/* from dan the man, if we have mixed case, perform a case-sensitive match,
 	   otherwise not */
-	p = match;
+	p = (const unsigned char *)match;
 	while (*p) {
 		if (isupper(*p)) {
 			switch (how) {
@@ -493,43 +514,6 @@ camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 	}
 	
 	return truth;
-}
-
-static inline guint32
-camel_utf8_getc(const unsigned char **ptr)
-{
-	register unsigned char *p = (unsigned char *)*ptr;
-	register unsigned char c, r;
-	register guint32 v, m;
-
-again:
-	r = *p++;
-loop:
-	if (r < 0x80) {
-		*ptr = p;
-		v = r;
-	} else if (r < 0xfe) { /* valid start char? */
-		v = r;
-		m = 0x7f80;	/* used to mask out the length bits */
-		do {
-			c = *p++;
-			if ((c & 0xc0) != 0x80) {
-				r = c;
-				goto loop;
-			}
-			v = (v<<6) | (c & 0x3f);
-			r<<=1;
-			m<<=5;
-		} while (r & 0x40);
-		
-		*ptr = p;
-
-		v &= ~m;
-	} else {
-		goto again;
-	}
-
-	return v;
 }
 
 static void

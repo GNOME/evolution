@@ -41,6 +41,7 @@
 #include "camel-file-utils.h"
 #include "camel-string-utils.h"
 #include "camel-url.h"
+#include "camel-i18n.h"
 
 #include "camel-private.h"
 

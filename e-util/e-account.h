@@ -29,13 +29,15 @@
 #define E_IS_ACCOUNT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_ACCOUNT))
 
 typedef enum _e_account_item_t {
+	E_ACCOUNT_NAME,
+
 	E_ACCOUNT_ID_NAME,
 	E_ACCOUNT_ID_ADDRESS,
 	E_ACCOUNT_ID_REPLY_TO,
 	E_ACCOUNT_ID_ORGANIZATION,
 	E_ACCOUNT_ID_SIGNATURE,
 
-	E_ACCOUNT_SOURCE_URL,
+	E_ACCOUNT_SOURCE_URL,	/* what about separating out host/user/path settings??  sigh */
 	E_ACCOUNT_SOURCE_KEEP_ON_SERVER,
 	E_ACCOUNT_SOURCE_AUTO_CHECK,
 	E_ACCOUNT_SOURCE_AUTO_CHECK_TIME,
@@ -63,7 +65,7 @@ typedef enum _e_account_item_t {
 	E_ACCOUNT_SMIME_ENCRYPT_KEY,
 	E_ACCOUNT_SMIME_SIGN_DEFAULT,
 	E_ACCOUNT_SMIME_ENCRYPT_TO_SELF,
-	E_ACCOUNT_SMIME_ENCRYPE_DEFAULT,
+	E_ACCOUNT_SMIME_ENCRYPT_DEFAULT,
 
 	E_ACCOUNT_ITEM_LAST
 } e_account_item_t;
@@ -123,6 +125,7 @@ typedef struct _EAccount {
 typedef struct {
 	GObjectClass parent_class;
 
+	void (*changed)(EAccount *, int field);
 } EAccountClass;
 
 
@@ -136,15 +139,13 @@ void      e_account_import       (EAccount   *dest, EAccount   *src);
 char     *e_account_to_xml       (EAccount   *account);
 char     *e_account_uid_from_xml (const char *xml);
 
-#if 0
 const char *e_account_get_string(EAccount *, e_account_item_t type);
 int e_account_get_int(EAccount *, e_account_item_t type);
 gboolean e_account_get_bool(EAccount *, e_account_item_t type);
 
 void e_account_set_string(EAccount *, e_account_item_t type, const char *);
-void e_account_set_int(EAccount *, e_account_item_t type, const char *);
-void e_account_set_bool(EAccount *, e_account_item_t type, const char *);
-#endif
+void e_account_set_int(EAccount *, e_account_item_t type, int);
+void e_account_set_bool(EAccount *, e_account_item_t type, gboolean);
 
 gboolean e_account_writable(EAccount *ea, e_account_item_t type);
 gboolean e_account_writable_option(EAccount *ea, const char *protocol, const char *option);

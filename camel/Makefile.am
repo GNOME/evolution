@@ -76,6 +76,7 @@ libcamel_la_SOURCES = 				\
 	camel-multipart.c			\
 	camel-multipart-encrypted.c		\
 	camel-multipart-signed.c		\
+	camel-list-utils.c			\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-partition-table.c			\
@@ -181,6 +182,7 @@ libcamelinclude_HEADERS =			\
 	camel-multipart.h			\
 	camel-multipart-encrypted.h		\
 	camel-multipart-signed.h		\
+	camel-list-utils.h			\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-partition-table.h			\

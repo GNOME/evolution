@@ -35,6 +35,7 @@
 #include "camel-stream-fs.h"
 #include "camel-mime-utils.h"
 #include "camel-mime-part.h"
+#include "camel-i18n.h"
 
 static void camel_multipart_encrypted_class_init (CamelMultipartEncryptedClass *klass);
 static void camel_multipart_encrypted_init (gpointer object, gpointer klass);

@@ -36,6 +36,7 @@
 #include "camel-local-store.h"
 #include "camel-exception.h"
 #include "camel-url.h"
+#include "camel-i18n.h"
 
 #include "camel-local-folder.h"
 #include <camel/camel-text-index.h>

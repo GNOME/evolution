@@ -31,6 +31,7 @@
 #include "camel-sasl-popb4smtp.h"
 #include "camel-service.h"
 #include "camel-session.h"
+#include "camel-i18n.h"
 
 CamelServiceAuthType camel_sasl_popb4smtp_authtype = {
 	N_("POP before SMTP"),

@@ -32,6 +32,7 @@
 #include "camel-disco-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
+#include "camel-i18n.h"
 
 #define d(x) 
 

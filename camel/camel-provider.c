@@ -41,8 +41,8 @@
 #include "camel-exception.h"
 #include "camel-string-utils.h"
 #include "camel-vee-store.h"
-
 #include "e-util/e-msgport.h"
+#include "camel-i18n.h"
 
 /* table of CamelProviderModule's */
 static GHashTable *module_table;

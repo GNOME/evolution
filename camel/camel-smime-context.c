@@ -56,6 +56,7 @@
 
 #include "camel-smime-context.h"
 #include "camel-operation.h"
+#include "camel-i18n.h"
 
 #define d(x)
 

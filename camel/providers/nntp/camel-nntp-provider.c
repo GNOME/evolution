@@ -30,6 +30,7 @@
 #include "camel-nntp-store.h"
 #include "camel-provider.h"
 #include "camel-session.h"
+#include "camel-i18n.h"
 
 static void add_hash (guint *hash, char *s);
 static guint nntp_url_hash (gconstpointer key);
@@ -57,7 +58,7 @@ static CamelProvider news_provider = {
 	"news",
 
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
-	CAMEL_PROVIDER_IS_STORAGE,
+	CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_SUPPORTS_SSL,
 
 	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_USER |
 	CAMEL_URL_ALLOW_PASSWORD | CAMEL_URL_ALLOW_AUTH,

@@ -31,6 +31,7 @@
 #include "camel-session.h"
 #include "camel-url.h"
 #include "camel-sasl.h"
+#include "camel-i18n.h"
 
 static CamelProvider smtp_provider = {
 	"smtp",

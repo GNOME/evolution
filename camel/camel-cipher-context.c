@@ -29,6 +29,7 @@
 
 #include <glib.h>
 
+#include "camel-i18n.h"
 #include "camel-cipher-context.h"
 #include "camel-stream.h"
 #include "camel-operation.h"

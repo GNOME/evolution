@@ -41,6 +41,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkdialog.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-mktemp.h"
 

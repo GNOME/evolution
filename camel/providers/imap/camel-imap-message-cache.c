@@ -36,6 +36,7 @@
 #include "camel-data-wrapper.h"
 #include "camel-exception.h"
 #include "camel-stream-fs.h"
+#include "camel-i18n.h"
 
 static void finalize (CamelImapMessageCache *cache);
 static void stream_finalize (CamelObject *stream, gpointer event_data, gpointer user_data);

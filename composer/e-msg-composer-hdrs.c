@@ -35,6 +35,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "Composer.h"
 

@@ -36,7 +36,7 @@ GtkWidget *mail_send_receive(void);
 void mail_receive_uri(const char *uri, int keep);
 void mail_send (void);
 /* setup auto receive stuff */
-void mail_autoreceive_setup(void);
+void mail_autoreceive_init(void);
 
 #ifdef __cplusplus
 }

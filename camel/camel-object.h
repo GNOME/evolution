@@ -39,9 +39,6 @@ extern "C" {
 #include <camel/camel-arg.h>
 #include <camel/camel-types.h>	/* this is a @##$@#SF stupid header */
 
-/* this crap shouldn't be here */
-#include <camel/camel-i18n.h>
-
 /* turn on so that camel_object_class_dump_tree() dumps object instances as well */
 #define CAMEL_OBJECT_TRACK_INSTANCES
 
@@ -234,6 +231,10 @@ int camel_object_set(void *obj, struct _CamelException *ex, ...);
 int camel_object_setv(void *obj, struct _CamelException *ex, CamelArgV *);
 int camel_object_get(void *obj, struct _CamelException *ex, ...);
 int camel_object_getv(void *obj, struct _CamelException *ex, CamelArgGetV *);
+
+/* not very efficient one-time calls */
+void *camel_object_get_ptr(void *vo, CamelException *ex, int tag);
+int camel_object_get_int(void *vo, CamelException *ex, int tag);
 
 /* meta-data for user-specific data */
 char *camel_object_meta_get(void *vo, const char * name);

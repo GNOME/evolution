@@ -36,6 +36,7 @@
 #include "camel/camel-stream-null.h"
 #include "camel/camel-operation.h"
 #include "camel/camel-data-cache.h"
+#include "camel/camel-i18n.h"
 
 #include "camel-nntp-summary.h"
 #include "camel-nntp-folder.h"

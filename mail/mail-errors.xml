@@ -311,6 +311,13 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <button label="_Append" response="GTK_RESPONSE_OK"/>
  </error>
 
+ <error id="no-load-license" type="error">
+  <primary>Unable to read license file.</primary>
+  <secondary>Cannot read the license file &quot;{0}&quot;, due to an
+      installation problem.  You will not be able to use this provider until
+      you can accept its license.</secondary>
+ </error>
+
  <error id="gw-accountsetup-error" type="error">
  <primary><span weight="bold" size="larger">Unable to connect to the GroupWise
 server.</span></primary>

@@ -49,6 +49,7 @@
 #include "camel-seekable-substream.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-canon.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))
 	       #include <stdio.h>;*/

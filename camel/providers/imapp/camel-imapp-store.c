@@ -48,6 +48,7 @@
 #ifdef HAVE_SSL
 #include "camel/camel-tcp-stream-ssl.h"
 #endif
+#include "camel/camel-i18n.h"
 
 #include "camel-imapp-store-summary.h"
 #include "camel-imapp-store.h"

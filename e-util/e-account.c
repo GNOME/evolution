@@ -37,6 +37,13 @@
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
 
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 /*
 lock mail accounts	Relatively difficult -- involves redesign of the XML blobs which describe accounts
 disable adding mail accounts	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
@@ -81,6 +88,16 @@ class_init (GObjectClass *object_class)
 
 	/* virtual method override */
 	object_class->finalize = finalize;
+
+	signals[CHANGED] =
+		g_signal_new("changed",
+			     G_OBJECT_CLASS_TYPE (object_class),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET (EAccountClass, changed),
+			     NULL, NULL,
+			     g_cclosure_marshal_VOID__INT,
+			     G_TYPE_NONE, 1,
+			     G_TYPE_INT);
 }
 
 static void
@@ -89,6 +106,9 @@ init (EAccount *account)
 	account->id = g_new0 (EAccountIdentity, 1);
 	account->source = g_new0 (EAccountService, 1);
 	account->transport = g_new0 (EAccountService, 1);
+
+	account->source->auto_check = FALSE;
+	account->source->auto_check_time = 10;
 }
 
 static void
@@ -412,9 +432,10 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 
 	xmlFreeDoc (doc);
 
+	g_signal_emit(account, signals[CHANGED], 0, -1);
+
 	return changed;
 }
-
 
 /**
  * e_account_import:
@@ -481,8 +502,9 @@ e_account_import (EAccount *dest, EAccount *src)
 	dest->smime_encrypt_to_self = src->smime_encrypt_to_self;
 	g_free (dest->smime_encrypt_key);
 	dest->smime_encrypt_key = g_strdup (src->smime_encrypt_key);
-}
 
+	g_signal_emit(dest, signals[CHANGED], 0, -1);
+}
 
 /**
  * e_account_to_xml:
@@ -641,44 +663,55 @@ static struct _system_info {
 	{ "transport", 1<<EAP_LOCK_TRANSPORT },
 };
 
-static struct {
+#define TYPE_STRING (1)
+#define TYPE_INT (2)
+#define TYPE_BOOL (3)
+#define TYPE_MASK (0xff)
+#define TYPE_STRUCT (1<<8)
+
+static struct _account_info {
 	guint32 perms;
-} account_perms[E_ACCOUNT_ITEM_LAST] = {
-	{ /* E_ACCOUNT_ID_NAME, */ },
-	{ /* E_ACCOUNT_ID_ADDRESS, */ },
-	{ /* E_ACCOUNT_ID_REPLY_TO, */ },
-	{ /* E_ACCOUNT_ID_ORGANIZATION */ },
-	{ /* E_ACCOUNT_ID_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
+	guint32 type;
+	unsigned int offset;
+	unsigned int struct_offset;
+} account_info[E_ACCOUNT_ITEM_LAST] = {
+	{ /* E_ACCOUNT_NAME */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, name) },
 
-	{ /* E_ACCOUNT_SOURCE_URL */ 1<<EAP_LOCK_SOURCE },
-	{ /* E_ACCOUNT_SOURCE_KEEP_ON_SERVER */ },
-	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK */ 1<<EAP_LOCK_AUTOCHECK },
-	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK_TIME */ 1<<EAP_LOCK_AUTOCHECK },
-	{ /* E_ACCOUNT_SOURCE_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
+	{ /* E_ACCOUNT_ID_NAME, */ 0, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, id), G_STRUCT_OFFSET(EAccountIdentity, name) },
+	{ /* E_ACCOUNT_ID_ADDRESS, */ 0, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, id), G_STRUCT_OFFSET(EAccountIdentity, address) },
+	{ /* E_ACCOUNT_ID_REPLY_TO, */ 0, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, id), G_STRUCT_OFFSET(EAccountIdentity, reply_to) },
+	{ /* E_ACCOUNT_ID_ORGANIZATION */ 0, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, id), G_STRUCT_OFFSET(EAccountIdentity, organization) },
+	{ /* E_ACCOUNT_ID_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, id), G_STRUCT_OFFSET(EAccountIdentity, sig_uid) },
 
-	{ /* E_ACCOUNT_TRANSPORT_URL */ 1<<EAP_LOCK_TRANSPORT },
-	{ /* E_ACCOUNT_TRANSPORT_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
+	{ /* E_ACCOUNT_SOURCE_URL */ 1<<EAP_LOCK_SOURCE, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, source), G_STRUCT_OFFSET(EAccountService, url) },
+	{ /* E_ACCOUNT_SOURCE_KEEP_ON_SERVER */ 0, TYPE_BOOL|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, source), G_STRUCT_OFFSET(EAccountService, keep_on_server) },
+	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK */ 1<<EAP_LOCK_AUTOCHECK, TYPE_BOOL|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, source), G_STRUCT_OFFSET(EAccountService, auto_check) },
+	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK_TIME */ 1<<EAP_LOCK_AUTOCHECK, TYPE_INT|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, source), G_STRUCT_OFFSET(EAccountService, auto_check_time) },
+	{ /* E_ACCOUNT_SOURCE_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD, TYPE_BOOL|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, source), G_STRUCT_OFFSET(EAccountService, save_passwd) },
 
-	{ /* E_ACCOUNT_DRAFTS_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS },
-	{ /* E_ACCOUNT_SENT_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS },
+	{ /* E_ACCOUNT_TRANSPORT_URL */ 1<<EAP_LOCK_TRANSPORT, TYPE_STRING|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, transport), G_STRUCT_OFFSET(EAccountService, url) },
+	{ /* E_ACCOUNT_TRANSPORT_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD, TYPE_BOOL|TYPE_STRUCT, G_STRUCT_OFFSET(EAccount, transport), G_STRUCT_OFFSET(EAccountService, save_passwd) },
 
-	{ /* E_ACCOUNT_CC_ALWAYS */ },
-	{ /* E_ACCOUNT_CC_ADDRS */ },
+	{ /* E_ACCOUNT_DRAFTS_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS, TYPE_STRING, G_STRUCT_OFFSET(EAccount, drafts_folder_uri) },
+	{ /* E_ACCOUNT_SENT_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS, TYPE_STRING, G_STRUCT_OFFSET(EAccount, sent_folder_uri) },
 
-	{ /* E_ACCOUNT_BCC_ALWAYS */ },
-	{ /* E_ACCOUNT_BCC_ADDRS */ },
+	{ /* E_ACCOUNT_CC_ALWAYS */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, always_cc) },
+	{ /* E_ACCOUNT_CC_ADDRS */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, cc_addrs) },
 
-	{ /* E_ACCOUNT_PGP_KEY */ },
-	{ /* E_ACCOUNT_PGP_ENCRYPT_TO_SELF */ },
-	{ /* E_ACCOUNT_PGP_ALWAYS_SIGN */ },
-	{ /* E_ACCOUNT_PGP_NO_IMIP_SIGN */ },
-	{ /* E_ACCOUNT_PGP_ALWAYS_TRUST */ },
+	{ /* E_ACCOUNT_BCC_ALWAYS */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, always_bcc) },
+	{ /* E_ACCOUNT_BCC_ADDRS */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, bcc_addrs) },
 
-	{ /* E_ACCOUNT_SMIME_SIGN_KEY */ },
-	{ /* E_ACCOUNT_SMIME_ENCRYPT_KEY */ },
-	{ /* E_ACCOUNT_SMIME_SIGN_DEFAULT */ },
-	{ /* E_ACCOUNT_SMIME_ENCRYPT_TO_SELF */ },
-	{ /* E_ACCOUNT_SMIME_ENCRYPE_DEFAULT */ },
+	{ /* E_ACCOUNT_PGP_KEY */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, pgp_key) },
+	{ /* E_ACCOUNT_PGP_ENCRYPT_TO_SELF */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_encrypt_to_self) },
+	{ /* E_ACCOUNT_PGP_ALWAYS_SIGN */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_always_sign) },
+	{ /* E_ACCOUNT_PGP_NO_IMIP_SIGN */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_no_imip_sign) },
+	{ /* E_ACCOUNT_PGP_ALWAYS_TRUST */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_always_trust) },
+
+	{ /* E_ACCOUNT_SMIME_SIGN_KEY */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, smime_sign_key) },
+	{ /* E_ACCOUNT_SMIME_ENCRYPT_KEY */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, smime_encrypt_key) },
+	{ /* E_ACCOUNT_SMIME_SIGN_DEFAULT */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_sign_default) },
+	{ /* E_ACCOUNT_SMIME_ENCRYPT_TO_SELF */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_encrypt_to_self) },
+	{ /* E_ACCOUNT_SMIME_ENCRYPT_DEFAULT */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, smime_encrypt_default) },
 };
 
 static GHashTable *ea_option_table;
@@ -761,6 +794,89 @@ ea_setting_setup(void)
 	g_object_unref(gconf);
 }
 
+/* look up the item in the structure or the substructure using our table of reflection data */
+#define addr(ea, type) \
+	((account_info[type].type & TYPE_STRUCT)? \
+	(((char **)(((char *)ea)+account_info[type].offset))[0] + account_info[type].struct_offset): \
+	(((char *)ea)+account_info[type].offset))
+	
+const char *e_account_get_string(EAccount *ea, e_account_item_t type)
+{
+	return *((const char **)addr(ea, type));
+}
+
+int e_account_get_int(EAccount *ea, e_account_item_t type)
+{
+	return *((int *)addr(ea, type));
+}
+
+gboolean e_account_get_bool(EAccount *ea, e_account_item_t type)
+{
+	return *((gboolean *)addr(ea, type));
+}
+
+static void
+dump_account(EAccount *ea)
+{
+	char *xml;
+
+	printf("Account changed\n");
+	xml = e_account_to_xml(ea);
+	printf(" ->\n%s\n", xml);
+	g_free(xml);
+}
+
+/* TODO: should it return true if it changed? */
+void e_account_set_string(EAccount *ea, e_account_item_t type, const char *val)
+{
+	char **p;
+
+	if (!e_account_writable(ea, type)) {
+		g_warning("Trying to set non-writable option account value");
+	} else {
+		p = (char **)addr(ea, type);
+		printf("Setting string %d: old '%s' new '%s'\n", type, *p, val);
+		if (*p != val
+		    && (*p == NULL || val == NULL || strcmp(*p, val) != 0)) {
+			g_free(*p);
+			*p = g_strdup(val);
+
+			dump_account(ea);
+			g_signal_emit(ea, signals[CHANGED], 0, type);
+		}
+	}
+}
+
+void e_account_set_int(EAccount *ea, e_account_item_t type, int val)
+{
+	if (!e_account_writable(ea, type)) {
+		g_warning("Trying to set non-writable option account value");
+	} else {
+		int *p = (int *)addr(ea, type);
+
+		if (*p != val) {
+			*p = val;
+			dump_account(ea);
+			g_signal_emit(ea, signals[CHANGED], 0, type);
+		}
+	}
+}
+
+void e_account_set_bool(EAccount *ea, e_account_item_t type, gboolean val)
+{
+	if (!e_account_writable(ea, type)) {
+		g_warning("Trying to set non-writable option account value");
+	} else {
+		gboolean *p = (gboolean *)addr(ea, type);
+
+		if (*p != val) {
+			*p = val;
+			dump_account(ea);
+			g_signal_emit(ea, signals[CHANGED], 0, type);
+		}
+	}
+}
+
 gboolean
 e_account_writable_option(EAccount *ea, const char *protocol, const char *option)
 {
@@ -789,5 +905,5 @@ e_account_writable(EAccount *ea, e_account_item_t type)
 {
 	ea_setting_setup();
 
-	return (account_perms[type].perms & ea_perms) == 0;
+	return (account_info[type].perms & ea_perms) == 0;
 }

@@ -42,12 +42,11 @@
 
 #include "camel-movemail.h"
 #include "camel-exception.h"
-
 #include "camel-mime-parser.h"
 #include "camel-mime-filter.h"
 #include "camel-mime-filter-from.h"
-
 #include "camel-lock-client.h"
+#include "camel-i18n.h"
 
 #define d(x)
 

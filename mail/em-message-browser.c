@@ -41,6 +41,7 @@
 
 #include "em-format-html-display.h"
 #include "em-message-browser.h"
+#include "em-menu.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
@@ -174,6 +175,8 @@ emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageB
 GtkWidget *em_message_browser_new(void)
 {
 	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), 0);
+
+	((EMFolderView *)emmb)->menu = em_menu_new("com.novell.evolution.mail.messagebrowser");
 
 	return (GtkWidget *)emmb;
 }

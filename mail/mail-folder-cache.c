@@ -34,6 +34,7 @@
 #include <time.h>
 
 #include <libgnome/gnome-sound.h>
+#include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
@@ -52,6 +53,8 @@
 #include "mail-autofilter.h"
 #include "mail-config.h"
 #include "em-folder-tree-model.h"
+
+#include "em-event.h"
 
 #define w(x) 
 #define d(x)
@@ -238,6 +241,14 @@ real_flush_updates(void *o, void *event_data, void *data)
 		if (notify_type != 0 && up->new && notify_idle_id == 0 && (now - last_notify >= 5))
 			notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, notify_idle_cb, NULL, NULL);
 		
+		if (up->uri) {
+			EMEvent *e = em_event_peek();
+			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new?EM_EVENT_FOLDER_NEWMAIL:0);
+
+			/* EVENT: folder.changed definition */
+			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
+		}
+
 		free_update(up);
 		
 		LOCK(info_lock);
@@ -357,6 +368,7 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	up->unread = unread;
 	up->new = new ? 1 : 0;
 	up->store = mfi->store_info->store;
+	up->uri = g_strdup(mfi->uri);
 	camel_object_ref(up->store);
 	e_dlist_addtail(&updates, (EDListNode *)up);
 	flush_updates();

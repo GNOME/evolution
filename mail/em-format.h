@@ -53,25 +53,70 @@ typedef enum _em_format_mode_t {
 	EM_FORMAT_SOURCE,
 } em_format_mode_t;
 
-/* can be subclassed/extended ... */
+/**
+ * struct _EMFormatHandler - MIME type handler.
+ * 
+ * @mime_type: Type this handler handles.
+ * @handler: The handler callback.
+ * @flags: Handling flags, see enum _em_format_handler_t.
+ * @old: The last handler set on this type.  Allows overrides to
+ * fallback to previous implementation.
+ * 
+ **/
 struct _EMFormatHandler {
 	char *mime_type;
 	EMFormatFunc handler;
 	guint32 flags;
-	GList *applications;	/* gnome vfs short-list of applications, do we care? */
+
+	struct _EMFormatHandler *old;
 };
 
-/* inline by default */
-#define EM_FORMAT_HANDLER_INLINE (1<<0)
-/* inline by default, and override content-disposition always */
-#define EM_FORMAT_HANDLER_INLINE_DISPOSITION (1<<1)
+/**
+ * enum _em_format_handler_t - Format handler flags.
+ * 
+ * @EM_FORMAT_HANDLER_INLINE: This type should be shown expanded
+ * inline by default.
+ * @EM_FORMAT_HANDLER_INLINE_DISPOSITION: This type should always be
+ * shown inline, despite what the Content-Disposition suggests.
+ * 
+ **/
+enum _em_format_handler_t {
+	EM_FORMAT_HANDLER_INLINE = 1<<0,
+	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1,
+};
+
 
 typedef struct _EMFormatPURI EMFormatPURI;
 typedef void (*EMFormatPURIFunc)(EMFormat *md, struct _CamelStream *stream, EMFormatPURI *puri);
 
+/**
+ * struct _EMFormatPURI - Pending URI object.
+ * 
+ * @next: Double-linked list header.
+ * @prev: Double-linked list header.
+ * @free: May be set by allocator and will be called when no longer needed.
+ * @format: 
+ * @uri: Calculated URI of the part, if the part has one in its
+ * Content-Location field.
+ * @cid: The RFC2046 Content-Id of the part.  If none is present, a unique value
+ * is calculated from @part_id.
+ * @part_id: A unique identifier for each part.
+ * @func: Callback for when the URI is requested.  The callback writes
+ * its data to the supplied stream.
+ * @part: 
+ * @use_count: 
+ * 
+ * This is used for multipart/related, and other formatters which may
+ * need to include a reference to out-of-band data in the content
+ * stream.
+ *
+ * This object may be subclassed as a struct.
+ **/
 struct _EMFormatPURI {
-	struct _EMFormatPURI *next, *prev;
+	struct _EMFormatPURI *next;
+	struct _EMFormatPURI *prev;
 
+	void (*free)(struct _EMFormatPURI *p); /* optional callback for freeing user-fields */
 	struct _EMFormat *format;
 
 	char *uri;		/* will be the location of the part, may be empty */
@@ -84,9 +129,23 @@ struct _EMFormatPURI {
 	unsigned int use_count;	/* used by multipart/related to see if it was accessed */
 };
 
-/* used to stack pending uri's for visibility (multipart/related) */
+/**
+ * struct _EMFormatPURITree - Pending URI visibility tree.
+ * 
+ * @next: Double-linked list header.
+ * @prev: Double-linked list header.
+ * @parent: Parent in tree.
+ * @uri_list: List of EMFormatPURI objects at this level.
+ * @children: Child nodes of EMFormatPURITree.
+ *
+ * This structure is used internally to form a visibility tree of
+ * parts in the current formatting stream.  This is to implement the
+ * part resolution rules for RFC2387 to implement multipart/related.
+ **/
 struct _EMFormatPURITree {
-	struct _EMFormatPURITree *next, *prev, *parent;
+	struct _EMFormatPURITree *next;
+	struct _EMFormatPURITree *prev;
+	struct _EMFormatPURITree *parent;
 
 	EDList uri_list;
 	EDList children;
@@ -102,6 +161,34 @@ struct _EMFormatHeader {
 #define EM_FORMAT_HEADER_BOLD (1<<0)
 #define EM_FORMAT_HEADER_LAST (1<<4) /* reserve 4 slots */
 
+/**
+ * struct _EMFormat - Mail formatter object.
+ * 
+ * @parent: 
+ * @priv: 
+ * @message: 
+ * @folder: 
+ * @uid: 
+ * @part_id: 
+ * @header_list: 
+ * @session: 
+ * @base url: 
+ * @snoop_mime_type: 
+ * @valid: 
+ * @valid_parent: 
+ * @inline_table: 
+ * @pending_uri_table: 
+ * @pending_uri_tree: 
+ * @pending_uri_level: 
+ * @mode: 
+ * @charset: 
+ * @default_charset: 
+ * 
+ * Most fields are private or read-only.
+ *
+ * This is the base MIME formatter class.  It provides no formatting
+ * itself, but drives most of the basic types, including multipart / * types.
+ **/
 struct _EMFormat {
 	GObject parent;
 	
@@ -200,7 +287,7 @@ char *em_format_describe_part(struct _CamelMimePart *part, const char *mimetype)
 GType em_format_get_type(void);
 
 void em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info);
-void em_format_class_remove_handler (EMFormatClass *emfc, const char *mime_type);
+void em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info);
 #define em_format_find_handler(emf, type) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->find_handler((emf), (type))
 const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const char *mime_type);
 

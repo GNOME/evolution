@@ -33,15 +33,13 @@
 #include "camel-store.h"
 #include "camel-mime-message.h"
 #include "camel-debug.h"
-
 #include "e-util/e-memory.h"
 #include "camel-operation.h"
-
 #include "camel-session.h"
 #include "camel-filter-driver.h"
 #include "camel-private.h"
 #include "camel-vtrash-folder.h"
-#include "filter/filter-rule.h"
+#include "camel-i18n.h"
 
 #define d(x) 
 #define w(x)
@@ -1822,7 +1820,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 	    && changed->uid_recent->len > 0)
 		driver = camel_session_get_filter_driver(session,
 							 (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) 
-							 ? FILTER_SOURCE_INCOMING : FILTER_SOURCE_JUNKTEST, NULL);
+							 ? "incoming":"junktest", NULL);
 		
 	if (driver) {
 		recents = g_ptr_array_new();

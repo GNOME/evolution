@@ -35,6 +35,7 @@
 #include <camel/camel-url.h>
 
 #include <gal/util/e-iconv.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "em-stripsig-filter.h"
 #include "em-format-quote.h"
@@ -493,10 +494,11 @@ emfq_text_html(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormat
 	em_format_format_text(emf, stream, camel_medium_get_content_object((CamelMedium *)part));
 }
 
-static const char *type_remove_table[] = {
-	"message/external-body",
-	"multipart/appledouble",
-};
+static void
+emfq_ignore(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+{
+	/* NOOP */
+}
 
 static EMFormatHandler type_builtin_table[] = {
 	{ "text/plain",(EMFormatFunc)emfq_text_plain },
@@ -504,6 +506,8 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "text/richtext",(EMFormatFunc)emfq_text_enriched },
 	{ "text/html",(EMFormatFunc)emfq_text_html },
 /*	{ "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
+	{ "message/external-body", (EMFormatFunc)emfq_ignore },
+	{ "multipart/appledouble", (EMFormatFunc)emfq_ignore },
 };
 
 static void
@@ -511,9 +515,6 @@ emfq_builtin_init(EMFormatQuoteClass *efhc)
 {
 	int i;
 	
-	for (i = 0; i < sizeof(type_remove_table) / sizeof(type_remove_table[0]); i++)
-		em_format_class_remove_handler((EMFormatClass *) efhc, type_remove_table[i]);
-
 	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
 		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
 }

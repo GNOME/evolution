@@ -23,7 +23,6 @@
  * USA
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h> 
 #endif
@@ -70,6 +69,7 @@
 #include "camel-string-utils.h"
 #include "camel-file-utils.h"
 #include "camel-debug.h"
+#include "camel-i18n.h"
 
 #define d(x) x
 

@@ -45,6 +45,7 @@
 #include "camel-stream-mem.h"
 #include "e-util/e-memory.h"
 #include "camel-search-private.h"
+#include "camel-i18n.h"
 
 #define d(x) 
 #define r(x) 

@@ -27,6 +27,7 @@
 #include <string.h>
 #include "camel-sasl-plain.h"
 #include "camel-service.h"
+#include "camel-i18n.h"
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
 	N_("PLAIN"),

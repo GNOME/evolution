@@ -42,6 +42,7 @@
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-from.h"
 #include "camel-exception.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

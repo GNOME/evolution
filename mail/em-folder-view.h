@@ -75,6 +75,9 @@ struct _EMFolderView {
 	GSList *ui_files;	/* const char * list, TODO: should this be on class? */
 	const char *ui_app_name;
 
+	/* used to manage some menus, particularly plugins */
+	struct _EMMenu *menu;
+
 	/* for proxying jobs to main or other threads */
 	struct _MailAsyncEvent *async;
 
@@ -119,7 +122,7 @@ GtkWidget *em_folder_view_new(void);
 #define em_folder_view_set_folder_uri(emfv, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder_uri((emfv), (uri))
 #define em_folder_view_set_message(emfv, uid, nomarkseen) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid), (nomarkseen))
 
-struct _EMPopupTarget *em_folder_view_get_popup_target(EMFolderView *emfv);
+EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp);
 
 int em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set);
 int em_folder_view_open_selected(EMFolderView *emfv);

@@ -44,13 +44,13 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "mail-component.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
-#include "mail-config-druid.h"
 #include "message-tag-followup.h"
 
 #include <e-util/e-mktemp.h>
@@ -63,6 +63,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
+#include "em-account-editor.h"
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
@@ -178,19 +179,18 @@ druid_destroy_cb (gpointer user_data, GObject *deadbeef)
 gboolean
 em_utils_configure_account (GtkWidget *parent)
 {
-	MailConfigDruid *druid;
-	
-	druid = mail_config_druid_new ();
-	
+	EMAccountEditor *emae;
+
+	emae = em_account_editor_new(NULL, EMAE_DRUID);
 	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) druid, parent);
+		e_dialog_set_transient_for((GtkWindow *)emae->editor, parent);
+
+	g_object_weak_ref((GObject *)emae->editor, (GWeakNotify) druid_destroy_cb, NULL);
+	gtk_widget_show(emae->editor);
+	gtk_grab_add(emae->editor);
+	gtk_main();
 	
-	g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
-	gtk_widget_show ((GtkWidget *) druid);
-	gtk_grab_add ((GtkWidget *) druid);
-	gtk_main ();
-	
-	return mail_config_is_configured ();
+	return mail_config_is_configured();
 }
 
 /**

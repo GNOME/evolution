@@ -38,6 +38,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkbox.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-gtk-utils.h"
 #include "e-util/e-account-list.h"
@@ -761,8 +762,7 @@ GtkWidget *mail_send_receive (void)
 }
 
 struct _auto_data {
-	char *uri;
-	int keep;		/* keep on server flag */
+	EAccount *account;
 	int period;		/* in seconds */
 	int timeout_id;
 };
@@ -774,85 +774,100 @@ auto_timeout(void *data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_is_online(session))
-		mail_receive_uri(info->uri, info->keep);
+	if (camel_session_is_online(session)) {
+		const char *uri = e_account_get_string(info->account, E_ACCOUNT_SOURCE_URL);
+		int keep = e_account_get_bool(info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
+
+		mail_receive_uri(uri, keep);
+	}
 
 	return TRUE;
 }
 
-static void auto_setup_set(void *key, struct _auto_data *info, GHashTable *set)
+static void
+auto_account_removed(EAccountList *eal, EAccount *ea, void *dummy)
 {
-	g_hash_table_insert(set, info->uri, info);
+	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
+
+	g_return_if_fail(info != NULL);
+
+	if (info->timeout_id) {
+		g_source_remove(info->timeout_id);
+		info->timeout_id = 0;
+	}
 }
 
-static void auto_clean_set(void *key, struct _auto_data *info, GHashTable *set)
+static void
+auto_account_finalised(EAccount *ea, struct _auto_data *info)
 {
-	d(printf("removing auto-check for %s %p\n", info->uri, info));
-	g_hash_table_remove(set, info->uri);
-	g_source_remove(info->timeout_id);
-	g_free(info->uri);
+	if (info->timeout_id)
+		g_source_remove(info->timeout_id);
 	g_free(info);
+}
+
+static void
+auto_account_commit(struct _auto_data *info)
+{
+	int period, check;
+
+	check = info->account->enabled
+		&& e_account_get_bool(info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
+		&& e_account_get_string(info->account, E_ACCOUNT_SOURCE_URL);
+	period = e_account_get_int(info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME)*60;
+	period = MAX(60, period);
+
+	if (info->timeout_id
+	    && (!check
+		|| period != info->period)) {
+		g_source_remove(info->timeout_id);
+		info->timeout_id = 0;
+	}
+	info->period = period;
+	if (check && info->timeout_id == 0)
+		info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
+}
+
+static void
+auto_account_added(EAccountList *eal, EAccount *ea, void *dummy)
+{
+	struct _auto_data *info;
+
+	info = g_malloc0(sizeof(*info));
+	info->account = ea;
+	g_object_set_data_full((GObject *)ea, "mail-autoreceive", info, (GDestroyNotify)auto_account_finalised);
+	auto_account_commit(info);
+}
+
+static void
+auto_account_changed(EAccountList *eal, EAccount *ea, void *dummy)
+{
+	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
+
+	g_return_if_fail(info != NULL);
+
+	auto_account_commit(info);
 }
 
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_setup (void)
+mail_autoreceive_init(void)
 {
 	EAccountList *accounts;
-	GHashTable *set_hash;
 	EIterator *iter;
 
+	if (auto_active)
+		return;
+
 	accounts = mail_config_get_accounts ();
-	
-	if (auto_active == NULL)
-		auto_active = g_hash_table_new(g_str_hash, g_str_equal);
-	
-	set_hash = g_hash_table_new(g_str_hash, g_str_equal);
-	g_hash_table_foreach(auto_active, (GHFunc)auto_setup_set, set_hash);
-	
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		EAccountService *source;
-		EAccount *account;
-		
-		account = (EAccount *) e_iterator_get (iter);
-		source = account->source;
-		
-		if (account->enabled && source->url && source->auto_check) {
-			struct _auto_data *info;
-			
-			d(printf("setting up auto-receive mail for : %s %dm\n", source->url, source->auto_check_time));
-			
-			g_hash_table_remove(set_hash, source->url);
-			info = g_hash_table_lookup(auto_active, source->url);
-			if (info) {
-				info->keep = source->keep_on_server;
-				if (info->period != source->auto_check_time*60) {
-					info->period = MAX(source->auto_check_time*60, 60);
-					g_source_remove(info->timeout_id);
-					info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
-				}
-			} else {
-				info = g_malloc0(sizeof(*info));
-				info->uri = g_strdup(source->url);
-				info->keep = source->keep_on_server;
-				info->period = MAX(source->auto_check_time*60, 60);
-				info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
-				g_hash_table_insert(auto_active, info->uri, info);
-				/* If we do this at startup, it can cause the logon dialog to be hidden,
-				   so lets not */
-				/*mail_receive_uri(source->url, source->keep_on_server);*/
-			}
-		}
-		
-		e_iterator_next (iter);
-	}
-	
-	g_object_unref (iter);
-	
-	g_hash_table_foreach(set_hash, (GHFunc)auto_clean_set, auto_active);
-	g_hash_table_destroy(set_hash);
+	auto_active = g_hash_table_new(g_str_hash, g_str_equal);
+
+	g_signal_connect(accounts, "account-added", G_CALLBACK(auto_account_added), NULL);
+	g_signal_connect(accounts, "account-removed", G_CALLBACK(auto_account_removed), NULL);
+	g_signal_connect(accounts, "account-changed", G_CALLBACK(auto_account_changed), NULL);
+
+	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
+		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert

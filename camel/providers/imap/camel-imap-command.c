@@ -43,7 +43,7 @@
 #include <camel/camel-private.h>
 #include <camel/camel-utf8.h>
 #include <camel/camel-session.h>
-
+#include "camel-i18n.h"
 
 extern int camel_verbose_debug;
 

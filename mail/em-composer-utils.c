@@ -28,6 +28,7 @@
 #include <gtk/gtkdialog.h>
 
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"

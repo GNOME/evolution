@@ -55,7 +55,7 @@
 #include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
 #include "camel-search-private.h"
-
+#include "camel-i18n.h"
 #include "camel-url.h"
 
 #define d(x)

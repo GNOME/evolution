@@ -40,6 +40,7 @@
 #include <camel/camel-mime-message.h>
 
 #include "camel-private.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

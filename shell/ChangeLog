@@ -94,6 +94,10 @@
 	* e-shell-errors.xml.h: Add this back to CVS for translators
 	* .cvsignore: Don't ignore e-shell-errors.xml.h
 
+2004-09-07  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell.c (e_shell_construct): disable the startup wizard.
+
 2004-06-24  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #57367.

@@ -27,6 +27,7 @@
 #include "camel-store.h"
 #include "camel-vee-store.h"
 #include "camel-mime-message.h"
+#include "camel-i18n.h"
 
 #include <string.h>
 

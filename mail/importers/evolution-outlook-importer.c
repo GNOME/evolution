@@ -40,6 +40,7 @@
 #include <gtk/gtkprogressbar.h>
 
 #include <bonobo/bonobo-control.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>

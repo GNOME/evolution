@@ -30,6 +30,7 @@
 #include "camel-sendmail-transport.h"
 #include "camel-session.h"
 #include "camel-url.h"
+#include "camel-i18n.h"
 
 static CamelProvider sendmail_provider = {
 	"sendmail",

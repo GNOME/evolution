@@ -36,6 +36,7 @@
 #include <errno.h>
 
 #include "em-popup.h"
+#include "em-menu.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format.h"
@@ -75,6 +76,7 @@
 
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-tree-memory.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-vtrash-folder.h>
@@ -319,6 +321,24 @@ mc_startup(MailComponent *mc)
 	mc_setup_local_store(mc);
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
+
+#ifdef ENABLE_MONO
+	if (getenv("EVOLUTION_DISABLE_MONO") == NULL)
+		e_plugin_register_type(e_plugin_mono_get_type());
+#endif
+	e_plugin_register_type(e_plugin_lib_get_type());
+	e_plugin_hook_register_type(em_popup_hook_get_type());
+	e_plugin_hook_register_type(em_menu_hook_get_type());
+	e_plugin_hook_register_type(em_config_hook_get_type());
+
+	e_plugin_hook_register_type(em_format_hook_get_type());
+	em_format_hook_register_type(em_format_get_type());
+	em_format_hook_register_type(em_format_html_get_type());
+	em_format_hook_register_type(em_format_html_display_get_type());
+
+	e_plugin_hook_register_type(em_event_hook_get_type());
+
+	e_plugin_load_plugins();
 }
 
 static void
@@ -857,7 +877,7 @@ mail_component_init (MailComponent *component)
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new (NULL, NULL);
 	
-	mail_autoreceive_setup();
+	mail_autoreceive_init();
 	
 	offline = mail_offline_handler_new();
 	bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)offline);

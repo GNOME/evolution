@@ -55,6 +55,7 @@
 #include <gtk/gtkmenuitem.h>
 
 #include "mail-config.h"
+#include "em-config.h"
 
 static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
@@ -660,6 +661,42 @@ notify_sound_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/notify/sound", filename, NULL);
 }
 
+static GtkWidget *
+emmp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+{
+	EMMailerPrefs *prefs = data;
+
+	return glade_xml_get_widget(prefs->gui, item->label);
+}
+
+/* plugin meta-data */
+static EMConfigItem emmp_items[] = {
+	{ E_CONFIG_BOOK, "", "preferences_toplevel", emmp_widget_glade },
+	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "00.general/00.fonts", "vboxMessageFonts", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "00.general/10.display", "vboxMessageDisplay", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "00.general/20.delete", "vboxDeletingMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "00.general/30.newmail", "vboxNewMailNotify", emmp_widget_glade },
+	{ E_CONFIG_PAGE, "10.html", "vboxHtmlMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "10.html/00.general", "vbox173", emmp_widget_glade },
+	{ E_CONFIG_SECTION, "10.html/10.images", "vbox190", emmp_widget_glade },
+	{ E_CONFIG_PAGE, "20.labels", "frameColours", emmp_widget_glade },
+	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */
+	{ E_CONFIG_PAGE, "30.headers", "vboxHeaderTab", emmp_widget_glade },
+	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
+	{ E_CONFIG_PAGE, "40.junk", "vbox161", emmp_widget_glade },
+	/* no subvbox for section { E_CONFIG_SECTION, "40.junk/00.general", xxx, emmp_widget_glade } */
+	{ E_CONFIG_SECTION, "40.junk/10.options", "vbox204", emmp_widget_glade },
+};
+
+static void
+emmp_free(EConfig *ec, GSList *items, void *data)
+{
+	/* the prefs data is freed automagically */
+
+	g_slist_free(items);
+}
+
 static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
@@ -673,19 +710,19 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	GladeXML *gui;
 	gboolean locked;
 	int val, i;
-	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab", NULL);
+	EMConfig *ec;
+	EMConfigTargetPrefs *target;
+	GSList *l;
+
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_toplevel", NULL);
 	prefs->gui = gui;
-	
-	/* get our toplevel widget */
-	toplevel = glade_xml_get_widget (gui, "toplevel");
-	
-	/* reparent */
-	gtk_widget_ref (toplevel);
-	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
-	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
-	gtk_widget_unref (toplevel);
-	
+
+	ec = em_config_new(E_CONFIG_BOOK, "com.novell.evolution.mail.prefs");
+	l = NULL;
+	for (i=0;i<sizeof(emmp_items)/sizeof(emmp_items[0]);i++)
+		l = g_slist_prepend(l, &emmp_items[i]);
+	e_config_add_items((EConfig *)ec, l, NULL, NULL, emmp_free, prefs);
+
 	/* General tab */
 	
 	/* Message Display */
@@ -964,6 +1001,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	toggle_button_init (prefs, prefs->sa_local_tests_only, TRUE,
 			    "/apps/evolution/mail/junk/sa/local_only",
 			    G_CALLBACK (toggle_button_toggled_not));
+
+	/* get our toplevel widget */
+	target = em_config_target_new_prefs(ec, prefs->gconf);
+	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
+	toplevel = e_config_create_widget((EConfig *)ec);
+	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }
 
 GtkWidget *

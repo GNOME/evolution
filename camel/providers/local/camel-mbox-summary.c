@@ -41,6 +41,7 @@
 #include "camel/camel-file-utils.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
+#include "camel-i18n.h"
 
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -255,7 +256,7 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 				if ((info->flags & CAMEL_MESSAGE_FOLDER_NOTSEEN)) {
 					info->flags &= ~CAMEL_MESSAGE_FOLDER_NOTSEEN;
 					camel_folder_summary_info_free(s, mi);
-					mbi = (CamelMboxMessageInfo *)mi = info;
+					mbi = (CamelMboxMessageInfo *)(mi = info);
 				} else {
 					add = 7;
 					d(printf("seen '%s' before, adding anew\n", uid));

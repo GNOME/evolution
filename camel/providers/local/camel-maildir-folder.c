@@ -39,6 +39,7 @@
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 #include "camel-exception.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

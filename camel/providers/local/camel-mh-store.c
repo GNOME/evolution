@@ -34,6 +34,7 @@
 #include "camel-exception.h"
 #include "camel-url.h"
 #include "camel-private.h"
+#include "camel-i18n.h"
 
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-buffer.h>

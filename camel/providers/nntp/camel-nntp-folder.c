@@ -21,7 +21,6 @@
  * USA
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -50,6 +49,7 @@
 #include "camel/camel-multipart.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream-buffer.h"
+#include "camel/camel-i18n.h"
 
 #include "camel-nntp-summary.h"
 #include "camel-nntp-store.h"

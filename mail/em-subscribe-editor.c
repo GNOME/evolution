@@ -43,6 +43,7 @@
 #include "mail-config.h"
 
 #include <glade/glade.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkscrolledwindow.h>

@@ -52,12 +52,7 @@
 #include <glade/glade.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-
-#if 0
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#endif
+#include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
@@ -1043,19 +1038,33 @@ static void efhd_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart
 
 /* if it hasn't been processed yet, format the attachment */
 static void
-efhd_attachment_show(GtkWidget *w, struct _attach_puri *info)
+efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
 {
+	struct _attach_puri *info = data;
+
 	d(printf("show attachment button called\n"));
 
 	info->shown = ~info->shown;
 	em_format_set_inline(info->puri.format, info->puri.part_id, info->shown);
 }
 
-static EMPopupItem efhd_menu_items[] = {
-	{ EM_POPUP_BAR, "05.display", },
-	{ EM_POPUP_ITEM, "05.display.00", N_("_View Inline"), G_CALLBACK(efhd_attachment_show) },
-	{ EM_POPUP_ITEM, "05.display.00", N_("_Hide"), G_CALLBACK(efhd_attachment_show) },
+static void
+efhd_attachment_button_show(GtkWidget *w, void *data)
+{
+	efhd_attachment_show(NULL, NULL, data);
+}
+
+static EPopupItem efhd_menu_items[] = {
+	{ E_POPUP_BAR, "05.display", },
+	{ E_POPUP_ITEM, "05.display.00", N_("_View Inline"), efhd_attachment_show },
+	{ E_POPUP_ITEM, "05.display.00", N_("_Hide"), efhd_attachment_show },
 };
+
+static void
+efhd_menu_items_free(EPopup *ep, GSList *items, void *data)
+{
+	g_slist_free(items);
+}
 
 static void
 efhd_popup_place_widget(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
@@ -1073,8 +1082,8 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	GtkMenu *menu;
 	GSList *menus = NULL;
 	EMPopup *emp;
-	EMPopupTarget *target;
-	EMPopupItem *item;
+	EMPopupTargetPart *target;
+	EPopupItem *item;
 
 	d(printf("attachment popup, button %d\n", event->button));
 
@@ -1084,22 +1093,20 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	}
 
 	emp = em_popup_new("com.ximian.mail.formathtmldisplay.popup.part");
-	target = em_popup_target_new_part(info->puri.part, info->handle?info->handle->mime_type:NULL);
-	target->widget = w;
+	target = em_popup_target_new_part(emp, info->puri.part, info->handle?info->handle->mime_type:NULL);
+	target->target.widget = w;
 
 	/* add our local menus */
 	if (info->handle) {
 		/* show/hide menus, only if we have an inline handler */
-		efhd_menu_items[0].activate_data = info;
 		menus = g_slist_prepend(menus, &efhd_menu_items[0]);
 		item = &efhd_menu_items[info->shown?2:1];
-		item->activate_data = info;
 		menus = g_slist_prepend(menus, item);
 	}
 
-	em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
+	e_popup_add_items((EPopup *)emp, menus, efhd_menu_items_free, info);
 
-	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
+	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, target->target.mask, target->target.mask);
 	if (event)
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 	else
@@ -1217,7 +1224,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	button = gtk_button_new();
 
 	if (info->handle)
-		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_show), info);
+		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_button_show), info);
 	else {
 		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);

@@ -37,6 +37,7 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
+#include <camel/camel-i18n.h>
 
 #include "mail-session.h"
 #include "em-junk-filter.h"

@@ -74,6 +74,7 @@
 #include "em-folder-browser.h"
 #include "em-folder-properties.h"
 #include "em-subscribe-editor.h"
+#include "em-menu.h"
 #include "message-list.h"
 
 #include "mail-component.h"
@@ -100,6 +101,8 @@ struct _EMFolderBrowserPrivate {
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
 	
 	char *select_uid;
+
+	EMMenu *menu;		/* toplevel menu manager */
 };
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
@@ -283,6 +286,8 @@ em_folder_browser_get_type(void)
 GtkWidget *em_folder_browser_new(void)
 {
 	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
+
+	((EMFolderView *)emfb)->menu = em_menu_new("com.novell.evolution.mail.browser");
 
 	return (GtkWidget *)emfb;
 }

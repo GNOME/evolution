@@ -414,6 +414,11 @@
 	Don't set empty default value on an int, this causes gconf warning.
 	(bug #60859)
 
+2004-09-04  Not Zed  <NotZed@Ximian.com>
+
+	* util/e-destination.c: include gnome-i18n.h since camel-object no
+	longer does(!).
+
 2004-07-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c

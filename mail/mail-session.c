@@ -42,6 +42,7 @@
 
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include "camel/camel-filter-driver.h"
+#include <camel/camel-i18n.h>
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"

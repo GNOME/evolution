@@ -1,3 +1,27 @@
+2004-09-09  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: updates.  some not very readable, sigh.
+
+	* images: Added e-popup-merge-[12].pic.
+
+2004-09-04  Not Zed  <NotZed@Ximian.com>
+
+	* images/Makefile: add a temporary makefile to build images from
+	source pic files.
+
+	* evolution-plugin-manual.xml: updates/rearrangements.
+
+2004-09-01  Not Zed  <NotZed@Ximian.com>
+
+	* images/*: added some image files.
+
+	* evolution-plugin-manual.xml: fix for some api changes.  Updates.
+
+2004-08-25  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: Added the working plugin manual
+	in-case i crash my bike going to work one day.
+
 2003-11-20  JP Rosevear <jpr@ximian.com>
 
 	* Remove dead doc files.

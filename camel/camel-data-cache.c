@@ -34,6 +34,7 @@
 #include <alloca.h>
 #endif
 
+#include "camel-i18n.h"
 #include "camel-data-cache.h"
 #include "camel-exception.h"
 #include "camel-stream-fs.h"

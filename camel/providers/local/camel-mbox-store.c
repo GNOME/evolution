@@ -37,6 +37,7 @@
 #include "camel-text-index.h"
 #include "camel-exception.h"
 #include "camel-url.h"
+#include "camel-i18n.h"
 
 #define d(x) 
 

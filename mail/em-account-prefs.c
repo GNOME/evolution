@@ -32,6 +32,8 @@
 #include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkcellrenderertext.h>
 
+#include <libgnome/gnome-i18n.h>
+
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
@@ -43,6 +45,8 @@
 #include "widgets/misc/e-error.h"
 
 #include "em-account-prefs.h"
+
+#include "em-account-editor.h"
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);
@@ -132,13 +136,17 @@ account_add_finished (EMAccountPrefs *prefs, GObject *deadbeef)
 	g_object_unref (prefs);
 }
 
+#include "em-config.h"
+
 static void
 account_add_clicked (GtkButton *button, gpointer user_data)
 {
 	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
-	GtkWidget *parent;
 	
 	if (prefs->druid == NULL) {
+#if 0
+		GtkWidget *parent;
+
 		prefs->druid = (GtkWidget *) mail_config_druid_new ();
 		
 		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
@@ -150,6 +158,12 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 		
 		gtk_widget_show (prefs->druid);
 		g_object_ref (prefs);
+#else
+		EMAccountEditor *emae;
+
+		emae = em_account_editor_new(NULL, EMAE_DRUID);
+		gtk_widget_show(emae->editor);
+#endif
 	} else {
 		gdk_window_raise (prefs->druid->window);
 	}
@@ -182,8 +196,9 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 		
 		if (account) {
+#if 0
 			GtkWidget *parent;
-			
+
 			parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
 			parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 			
@@ -192,6 +207,15 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			g_object_weak_ref ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
 			gtk_widget_show (prefs->editor);
 			g_object_ref (prefs);
+#endif
+			/* test foo */
+			{
+				EMAccountEditor *emae;
+
+				emae = em_account_editor_new(account, EMAE_NOTEBOOK);
+				gtk_widget_show(emae->editor);
+			}
+
 		}
 	} else {
 		gdk_window_raise (prefs->editor->window);
@@ -231,8 +255,6 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		
 		mail_config_write ();
 		
-		mail_autoreceive_setup ();
-		
 		gtk_list_store_remove ((GtkListStore *) model, &iter);
 		
 		len = e_list_length ((EList *) accounts);
@@ -270,12 +292,30 @@ account_default_clicked (GtkButton *button, gpointer user_data)
 }
 
 static void
-account_able_clicked (GtkButton *button, gpointer user_data)
+account_able_changed(EAccount *account)
 {
 	MailComponent *component = mail_component_peek ();
+
+	/* FIXME: do this directly by listening to the mail accounts changed events in the relevant components */
+
+	if (account->source->url) {
+		if (account->enabled)
+			mail_component_load_store_by_uri (component,
+							  account->source->url,
+							  account->name);
+		else
+			mail_component_remove_store_by_uri (component, account->source->url);
+	}
+
+	mail_config_write ();
+}
+
+static void
+account_able_clicked (GtkButton *button, gpointer user_data)
+{
 	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
-	EAccount *account = NULL;
+	EAccount *account;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	
@@ -286,23 +326,10 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
 		
 		gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
-	}
-	
-	if (account) {
-		/* if the account got disabled, remove it from the
-		   folder-tree, otherwise add it to the folder-tree */
-		if (account->source->url) {
-			if (account->enabled)
-				mail_component_load_store_by_uri (component,
-								  account->source->url,
-								  account->name);
-			else
-				mail_component_remove_store_by_uri (component, account->source->url);
-		}
-		
-		mail_autoreceive_setup ();
-		
-		mail_config_write ();
+
+		/* let the rest of the application know it changed */
+		e_account_list_change(mail_config_get_accounts(), account);
+		account_able_changed(account);
 	}
 }
 
@@ -327,25 +354,13 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 		
 		if (gtk_tree_selection_iter_is_selected (selection, &iter))
 			gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
+
+		/* let the rest of the application know it changed */
+		e_account_list_change(mail_config_get_accounts(), account);
+		account_able_changed(account);
 	}
 	
 	gtk_tree_path_free (path);
-	
-	if (account) {
-		MailComponent *component = mail_component_peek ();
-		
-		/* if the account got disabled, remove it from the
-		   folder-tree, otherwise add it to the folder-tree */
-		if (account->source->url) {
-			if (account->enabled)
-				mail_component_load_store_by_uri (component, account->source->url, account->name);
-			else
-				mail_component_remove_store_by_uri (component, account->source->url);
-		}
-		
-		mail_autoreceive_setup ();
-		mail_config_write ();
-	}
 }
 
 static void

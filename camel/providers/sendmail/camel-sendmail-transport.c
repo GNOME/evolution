@@ -40,6 +40,7 @@
 #include "camel-data-wrapper.h"
 #include "camel-stream-fs.h"
 #include "camel-exception.h"
+#include "camel-i18n.h"
 
 static char *get_name (CamelService *service, gboolean brief);
 

@@ -160,6 +160,9 @@ typedef struct {
 	
 	/* Flags describing the provider, flags describing its URLs */
 	int flags, url_flags;
+
+	/* The ConfEntry and AutoDetect functions will probably be
+	 * DEPRECATED in a future release */
 	
 	/* Extra configuration information */
 	CamelProviderConfEntry *extra_conf;

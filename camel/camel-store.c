@@ -39,6 +39,7 @@
 #include "camel-vtrash-folder.h"
 #include "camel-exception.h"
 #include "camel-private.h"
+#include "camel-i18n.h"
 
 #define d(x)
 #define w(x)

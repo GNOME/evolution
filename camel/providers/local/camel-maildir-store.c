@@ -37,6 +37,7 @@
 #include "camel-url.h"
 #include "camel-private.h"
 #include "camel-maildir-summary.h"
+#include "camel-i18n.h"
 
 #define d(x)
 

@@ -44,8 +44,8 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
 #include "camel-mime-message.h"
-
 #include "camel-debug.h"
+#include "camel-i18n.h"
 
 #include "e-util/e-sexp.h"
 #include "e-util/e-memory.h"

@@ -27,6 +27,7 @@
 #include "camel-vee-folder.h"
 
 #include "camel-private.h"
+#include "camel-i18n.h"
 
 #include <string.h>
 

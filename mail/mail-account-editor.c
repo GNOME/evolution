@@ -36,6 +36,7 @@
 
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkstock.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "widgets/misc/e-error.h"
 

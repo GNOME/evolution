@@ -35,7 +35,6 @@
 #include <errno.h>
 
 #include "e-util/e-msgport.h"
-
 #include "e-util/e-host-utils.h"
 
 #include "camel-service.h"
@@ -43,6 +42,7 @@
 #include "camel-exception.h"
 #include "camel-operation.h"
 #include "camel-private.h"
+#include "camel-i18n.h"
 
 #define d(x)
 #define w(x)

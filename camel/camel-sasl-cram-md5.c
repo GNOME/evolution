@@ -30,6 +30,7 @@
 #include "camel-mime-utils.h"
 #include "camel-service.h"
 #include <e-util/md5-utils.h>
+#include "camel-i18n.h"
 
 CamelServiceAuthType camel_sasl_cram_md5_authtype = {
 	N_("CRAM-MD5"),

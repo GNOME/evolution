@@ -795,7 +795,7 @@
   </child>
 </widget>
 
-<widget class="GtkDialog" id="lic_dialog">
+<widget class="GtkDialog" id="license_dialog">
   <property name="visible">True</property>
   <property name="title" translatable="yes">License Agreement</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -909,7 +909,7 @@
 	  <property name="spacing">0</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="lic_top_label">
+	    <widget class="GtkLabel" id="license_top_label">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">
  Please read carefully the license agreement displayed
@@ -942,7 +942,7 @@
 	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 	      <child>
-		<widget class="GtkTextView" id="textview1">
+		<widget class="GtkTextView" id="license_textview">
 		  <property name="width_request">500</property>
 		  <property name="height_request">400</property>
 		  <property name="visible">True</property>
@@ -969,7 +969,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkCheckButton" id="lic_checkbutton">
+	    <widget class="GtkCheckButton" id="license_checkbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label" translatable="yes">Tick this to accept the license agreement</property>

@@ -54,6 +54,7 @@
 #include <gconf/gconf-client.h>
 
 #include <libgnomeui/gnome-pixmap.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "message-tag-followup.h"
 #include "mail-config.h"

@@ -54,6 +54,7 @@
 #ifdef HAVE_SSL
 #include "camel-tcp-stream-ssl.h"
 #endif
+#include "camel-i18n.h"
 
 /* Specified in RFC 1939 */
 #define POP3_PORT 110

@@ -42,6 +42,7 @@
 
 #include "camel-private.h"
 #include "e-util/e-memory.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -279,7 +280,7 @@ static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _camel_
 		if (info) {
 			d(printf("already seen uid '%s', just summarising instead\n", uid));
 			camel_folder_summary_info_free(s, mi);
-			mdi = (CamelMaildirMessageInfo *)mi = info;
+			mdi = (CamelMaildirMessageInfo *)(mi = info);
 		}
 
 		/* with maildir we know the real received date, from the filename */

@@ -33,8 +33,9 @@
 
 #include "camel-pop3-engine.h"
 #include "camel-pop3-stream.h"
-#include <camel/camel-service.h>
-#include <camel/camel-sasl.h>
+#include "camel-service.h"
+#include "camel-sasl.h"
+#include "camel-i18n.h"
 
 /* max 'outstanding' bytes in output stream, so we can't deadlock waiting
    for the server to accept our data when pipelining */
@@ -224,8 +225,6 @@ static void
 get_capabilities(CamelPOP3Engine *pe)
 {
 	CamelPOP3Command *pc;
-	unsigned char *line;
-	unsigned int len;
 	
 	if (!(pe->flags & CAMEL_POP3_ENGINE_DISABLE_EXTENSIONS)) {
 		pc = camel_pop3_engine_command_new(pe, CAMEL_POP3_COMMAND_MULTI, cmd_capa, NULL, "CAPA\r\n");

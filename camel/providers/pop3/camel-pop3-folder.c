@@ -37,6 +37,7 @@
 #include "camel-mime-message.h"
 #include "camel-operation.h"
 #include "camel-data-cache.h"
+#include "camel-i18n.h"
 
 #include <e-util/md5-utils.h>
 

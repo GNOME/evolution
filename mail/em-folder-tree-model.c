@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -38,6 +37,7 @@
 #include <e-util/e-mktemp.h>
 
 #include <gal/util/e-xml-utils.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>
 
@@ -427,7 +427,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	gboolean load = FALSE;
 	struct _CamelFolder *folder;
 	gboolean emitted = FALSE;
-	
+
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 	

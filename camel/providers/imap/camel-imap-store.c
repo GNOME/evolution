@@ -24,7 +24,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -59,11 +58,10 @@
 #include "camel-sasl.h"
 #include "camel-utf8.h"
 #include "camel-string-utils.h"
-
 #include "camel-imap-private.h"
 #include "camel-private.h"
-
 #include "camel-debug.h"
+#include "camel-i18n.h"
 
 #define d(x) 
 

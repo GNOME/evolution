@@ -37,6 +37,7 @@
 #include "camel-charset-map.h"
 #include "camel-mime-utils.h"
 #include "camel-sasl-digest-md5.h"
+#include "camel-i18n.h"
 
 #define d(x)
 

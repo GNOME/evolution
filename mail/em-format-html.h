@@ -49,8 +49,32 @@ struct _CamelStream;
 
 typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 
+/**
+ * struct _EMFormatHTMLJob - A formatting job.
+ * 
+ * @next: Double linked list header.
+ * @prev: Double linked list header.
+ * @format: Set by allocation function.
+ * @stream: Free for use by caller.
+ * @puri_level: Set by allocation function.
+ * @base: Set by allocation function, used to save state.
+ * @callback: This callback will always be invoked, only once, even if the user
+ * cancelled the display.  So the callback should free any extra data
+ * it allocated every time it is called.
+ * @u: Union data, free for caller to use.
+ * 
+ * This object is used to queue a long-running-task which cannot be
+ * processed in the primary thread.  When its turn comes, the job will
+ * be de-queued and the @callback invoked to perform its processing,
+ * restoring various state to match the original state.  This is used
+ * for image loading and other internal tasks.
+ *
+ * This object is struct-subclassable.  Only em_format_html_job_new()
+ * may be used to allocate these.
+ **/
 struct _EMFormatHTMLJob {
-	struct _EMFormatHTMLJob *next, *prev;
+	struct _EMFormatHTMLJob *next;
+	struct _EMFormatHTMLJob *prev;
 
 	EMFormatHTML *format;
 	struct _CamelStream *stream;
@@ -75,8 +99,27 @@ typedef struct _EMFormatHTMLPObject EMFormatHTMLPObject;
 
 typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 
+/**
+ * struct _EMFormatHTMLPObject - Pending object.
+ * 
+ * @next: Double linked list header.
+ * @prev: Double linked list header.
+ * @free: Invoked when the object is no longer needed.
+ * @format: The parent formatter.
+ * @classid: The assigned class id as passed to add_pobject().
+ * @func: Callback function.
+ * @part: The part as passed to add_pobject().
+ * 
+ * This structure is used to track OBJECT tags which have been
+ * inserted into the HTML stream.  When GtkHTML requests them the
+ * @func will be invoked to create the embedded widget.
+ *
+ * This object is struct-subclassable.  Only
+ * em_format_html_add_pobject() may be used to allocate these.
+ **/
 struct _EMFormatHTMLPObject {
-	struct _EMFormatHTMLPObject *next, *prev;
+	struct _EMFormatHTMLPObject *next;
+	struct _EMFormatHTMLPObject *prev;
 
 	void (*free)(struct _EMFormatHTMLPObject *);
 	struct _EMFormatHTML *format;
@@ -93,6 +136,33 @@ struct _EMFormatHTMLPObject {
 
 #define EM_FORMAT_HTML_VPAD "<table cellspacing=0 cellpadding=3><tr><td><a name=\"padding\"></a></td></tr></table>\n"
 
+/**
+ * struct _EMFormatHTML - HTML formatter object.
+ * 
+ * @format: 
+ * @priv: 
+ * @html: 
+ * @pending_object_list: 
+ * @headers: 
+ * @text_html_flags: 
+ * @body_colour: 
+ * @text_colour: 
+ * @frame_colour: 
+ * @content_colour: 
+ * @citation_colour: 
+ * @load_http:2: 
+ * @load_http_now:1: 
+ * @mark_citations:1: 
+ * @simple_headers:1: 
+ * @hide_headers:1: 
+ * @show_rupert:1: 
+ * 
+ * Most of these fields are private or read-only.
+ *
+ * The base HTML formatter object.  This object drives HTML generation
+ * into a GtkHTML parser.  It also handles text to HTML conversion,
+ * multipart/related objects and inline images.
+ **/
 struct _EMFormatHTML {
 	EMFormat format;
 

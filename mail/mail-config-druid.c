@@ -41,6 +41,7 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include <bonobo/bonobo-exception.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "mail-config-druid.h"
 #include "mail-config.h"

@@ -31,6 +31,7 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <e-util/e-msgport.h>
 #include <camel/camel-url.h>
@@ -201,8 +202,10 @@ em_format_get_type(void)
  * @emfc: EMFormatClass
  * @info: Callback information.
  * 
- * Add a mime type handler to this class.  This is only used by implementing
- * classes.
+ * Add a mime type handler to this class.  This is only used by
+ * implementing classes.  The @info.old pointer will automatically be
+ * setup to point to the old hanlder if one was already set.  This can
+ * be used for overrides a fallback.
  *
  * When a mime type described by @info is encountered, the callback will
  * be invoked.  Note that @info may be extended by sub-classes if
@@ -213,26 +216,36 @@ em_format_get_type(void)
 void
 em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info)
 {
+	printf("adding format handler to '%s' '%s'\n", 	g_type_name_from_class((GTypeClass *)emfc), info->mime_type);
+	info->old = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
 	g_hash_table_insert(emfc->type_handlers, info->mime_type, info);
-	/* FIXME: do we care?  This is really gui stuff */
-	/*
-	  if (info->applications == NULL)
-	  info->applications = gnome_vfs_mime_get_short_list_applications(info->mime_type);*/
 }
-
 
 /**
  * em_format_class_remove_handler:
- * @emfc: EMFormatClass
- * @mime_type: mime-type of handler to remove
- *
- * Remove a mime type handler from this class. This is only used by
- * implementing classes.
+ * @emfc: 
+ * @info: 
+ * 
+ * Remove a handler.  @info must be a value which was previously
+ * added.
  **/
 void
-em_format_class_remove_handler (EMFormatClass *emfc, const char *mime_type)
+em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info)
 {
-	g_hash_table_remove (emfc->type_handlers, mime_type);
+	EMFormatHandler *current;
+
+	/* TODO: thread issues? */
+
+	current = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
+	if (current == info) {
+		current = info->old;
+		g_hash_table_insert(emfc->type_handlers, current->mime_type, current);
+	} else {
+		while (current && current->old != info)
+			current = current->old;
+		g_return_if_fail(current != NULL);
+		current->old = info->old;
+	}
 }
 
 /**
@@ -311,6 +324,8 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 {
 	EMFormatPURI *puri;
 	const char *tmp;
+
+	printf("adding puri for part: %s\n", emf->part_id->str);
 
 	g_assert(size >= sizeof(*puri));
 	puri = g_malloc0(size);
@@ -425,13 +440,13 @@ em_format_find_visible_puri(EMFormat *emf, const char *uri)
 	EMFormatPURI *pw;
 	struct _EMFormatPURITree *ptree;
 
-	d(printf("checking for visible uri '%s'\n", uri));
+	(printf("checking for visible uri '%s'\n", uri));
 
 	ptree = emf->pending_uri_level;
 	while (ptree) {
 		pw = (EMFormatPURI *)ptree->uri_list.head;
 		while (pw->next) {
-			d(printf(" pw->uri = '%s' pw->cid = '%s\n", pw->uri?pw->uri:"", pw->cid));
+			(printf(" pw->uri = '%s' pw->cid = '%s\n", pw->uri?pw->uri:"", pw->cid));
 			if ((pw->uri && !strcmp(pw->uri, uri)) || !strcmp(pw->cid, uri))
 				return pw;
 			pw = pw->next;
@@ -468,6 +483,8 @@ emf_clear_puri_node(struct _EMFormatPURITree *node)
 		pw = (EMFormatPURI *)node->uri_list.head;
 		pn = pw->next;
 		while (pn) {
+			if (pw->free)
+				pw->free(pw);
 			g_free(pw->uri);
 			g_free(pw->cid);
 			g_free(pw->part_id);

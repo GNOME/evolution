@@ -863,7 +863,7 @@ CamelType camel_name_to_type(const char *name)
 }
 
 static char *
-desc_data(CamelObject *o, int ok)
+desc_data(CamelObject *o, guint32 ok)
 {
 	char *what;
 
@@ -885,17 +885,22 @@ desc_data(CamelObject *o, int ok)
 	return what;
 }
 
+#define check_magic(o, ctype, omagic) \
+	( ((CamelObject *)(o))->magic == (omagic) \
+	&& (ctype)->magic == CAMEL_OBJECT_CLASS_MAGIC) \
+	? 1 : check_magic_fail(o, ctype, omagic)
+
 static gboolean
-check_magic(void *o, CamelType ctype, int isob)
+check_magic_fail(void *o, CamelType ctype, guint32 omagic)
 {
 	char *what, *to;
 
-	what = desc_data(o, isob?CAMEL_OBJECT_MAGIC:CAMEL_OBJECT_CLASS_MAGIC);
+	what = desc_data(o, omagic);
 	to = desc_data((CamelObject *)ctype, CAMEL_OBJECT_CLASS_MAGIC);
 
 	if (what || to) {
 		if (what == NULL) {
-			if (isob)
+			if (omagic == CAMEL_OBJECT_MAGIC)
 				what = g_strdup_printf("OBJECT '%s'", ((CamelObject *)o)->klass->name);
 			else
 				what = g_strdup_printf("OBJECT '%s'", ((CamelObjectClass *)o)->name);
@@ -917,7 +922,7 @@ camel_object_is(CamelObject *o, CamelType ctype)
 {
 	CamelObjectClass *k;
 
-	g_return_val_if_fail(check_magic(o, ctype, TRUE), FALSE);
+	g_return_val_if_fail(check_magic(o, ctype, CAMEL_OBJECT_MAGIC), FALSE);
 
 	k = o->klass;
 	while (k) {
@@ -932,7 +937,7 @@ camel_object_is(CamelObject *o, CamelType ctype)
 gboolean
 camel_object_class_is(CamelObjectClass *k, CamelType ctype)
 {
-	g_return_val_if_fail(check_magic(k, ctype, FALSE), FALSE);
+	g_return_val_if_fail(check_magic(k, ctype, CAMEL_OBJECT_CLASS_MAGIC), FALSE);
 
 	while (k) {
 		if (k == ctype)
@@ -948,7 +953,7 @@ camel_object_cast(CamelObject *o, CamelType ctype)
 {
 	CamelObjectClass *k;
 
-	g_return_val_if_fail(check_magic(o, ctype, TRUE), NULL);
+	g_return_val_if_fail(check_magic(o, ctype, CAMEL_OBJECT_MAGIC), NULL);
 
 	k = o->klass;
 	while (k) {
@@ -967,7 +972,7 @@ camel_object_class_cast(CamelObjectClass *k, CamelType ctype)
 {
 	CamelObjectClass *r = k;
 
-	g_return_val_if_fail(check_magic(k, ctype, FALSE), NULL);
+	g_return_val_if_fail(check_magic(k, ctype, CAMEL_OBJECT_CLASS_MAGIC), NULL);
 
 	while (k) {
 		if (k == ctype)
@@ -1328,6 +1333,55 @@ int camel_object_get(void *vo, CamelException *ex, ...)
 	camel_argv_end(&args);
 
 	return ret;
+}
+
+void *camel_object_get_ptr(void *vo, CamelException *ex, int tag)
+{
+	CamelObject *o = vo;
+	CamelArgGetV args;
+	CamelObjectClass *klass = o->klass;
+	int ret = 0;
+	void *val = NULL;
+
+	g_return_val_if_fail(CAMEL_IS_OBJECT(o), NULL);
+	g_return_val_if_fail((tag & CAMEL_ARG_TYPE) == CAMEL_ARG_OBJ
+			     || (tag & CAMEL_ARG_TYPE) == CAMEL_ARG_STR
+			     || (tag & CAMEL_ARG_TYPE) == CAMEL_ARG_PTR, 0);
+
+	/* woefully inefficient, *shrug */
+	args.argc = 1;
+	args.argv[0].tag = tag;
+	args.argv[0].ca_ptr = &val;
+
+	ret = klass->getv(o, ex, &args);
+	if (ret != 0)
+		return NULL;
+	else
+		return val;
+}
+
+int camel_object_get_int(void *vo, CamelException *ex, int tag)
+{
+	CamelObject *o = vo;
+	CamelArgGetV args;
+	CamelObjectClass *klass = o->klass;
+	int ret = 0;
+	int val = 0;
+
+	g_return_val_if_fail(CAMEL_IS_OBJECT(o), 0);
+	g_return_val_if_fail((tag & CAMEL_ARG_TYPE) == CAMEL_ARG_INT
+			     || (tag & CAMEL_ARG_TYPE) == CAMEL_ARG_BOO, 0);
+
+	/* woefully inefficient, *shrug */
+	args.argc = 1;
+	args.argv[0].tag = tag;
+	args.argv[0].ca_int = &val;
+
+	ret = klass->getv(o, ex, &args);
+	if (ret != 0)
+		return 0;
+	else
+		return val;
 }
 
 int camel_object_getv(void *vo, CamelException *ex, CamelArgGetV *args)

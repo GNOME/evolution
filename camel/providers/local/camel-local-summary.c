@@ -35,6 +35,7 @@
 #include "camel/camel-mime-message.h"
 #include "camel/camel-stream-null.h"
 #include "camel/camel-file-utils.h"
+#include "camel/camel-i18n.h"
 
 #define w(x)
 #define io(x)

@@ -48,6 +48,7 @@
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-from.h"
 #include "camel-exception.h"
+#include "camel-i18n.h"
 
 #include "camel-local-private.h"
 
