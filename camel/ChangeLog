@@ -1,3 +1,11 @@
+2000-06-30  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_move_message_to): New function, to
+	move a message from one folder to another. The default
+	implementation just uses append_message and delete_message, but
+	providers can implement more efficient versions for use when both
+	folders are on the same store.
+
 2000-06-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge): Should now

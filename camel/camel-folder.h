@@ -155,9 +155,17 @@ typedef struct {
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
-	GList * (*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
+	GList * (*search_by_expression) (CamelFolder *folder,
+					 const char *expression,
+					 CamelException *ex);
 
-	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *, const char *uid);
+	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *,
+							const char *uid);
+
+	void (*move_message_to) (CamelFolder *source,
+				 const char *uid,
+				 CamelFolder *destination,
+				 CamelException *ex);
 } CamelFolderClass;
 
 
@@ -270,6 +278,11 @@ GList *		   camel_folder_search_by_expression  (CamelFolder *folder, const char 
 /* summary info. FIXME: rename this slightly? */
 const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *summary,
 							 const char *uid);
+
+void               camel_folder_move_message_to       (CamelFolder *source,
+						       const char *uid,
+						       CamelFolder *dest,
+						       CamelException *ex);
 
 #ifdef __cplusplus
 }
