@@ -1003,16 +1003,15 @@ e_tasks_delete_completed (ETasks *tasks)
 
 	sexp = g_strdup ("(is-completed?)");
 
-	set_status_message (tasks, _("Expunging"));
-	
-	/* FIXME Confirm expunge */
+	set_status_message (tasks, _("Expunging"));	
+
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
 		GList *objects, *m;
 		gboolean read_only = TRUE;
 		
 		e_cal_is_read_only (client, &read_only, NULL);
-		if (!read_only)
+		if (read_only)
 			continue;
 		
 		if (!e_cal_get_object_list (client, sexp, &objects, NULL)) {

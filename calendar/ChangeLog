@@ -1,5 +1,10 @@
 2003-11-28  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-tasks.c (e_tasks_delete_completed): we want to skip if it
+	*is* read only
+
+2003-11-28  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-meeting-store.c (e_meeting_store_get_type): allocate the
 	type information correctly
 
