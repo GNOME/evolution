@@ -1,3 +1,10 @@
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size): use
+	pango_layout_get_pixel_size here instead of
+	pango_layout_get_width, which returns 0 (unless it's been set by
+	the user before, I believe).
+
 2003-01-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-client.c (impl_dispose): Properly reset
