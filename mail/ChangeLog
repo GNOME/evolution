@@ -1,3 +1,14 @@
+2004-07-28  Not Zed  <NotZed@Ximian.com>
+
+	** See #61940.
+
+	* em-composer-utils.c (composer_set_body): add emformat source arg.
+	(em_utils_reply_to_message): take source arg.  Fixed callers.
+
+	* em-utils.c (em_utils_message_to_html): take a source formatter
+	argument, so we can copy/honour settings from it.
+	(em_utils_part_to_html): similar.
+
 2004-07-27  Not Zed  <NotZed@Ximian.com>
 
 	** See #57972.

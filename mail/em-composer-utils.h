@@ -33,6 +33,7 @@ extern "C" {
 struct _CamelFolder;
 struct _CamelMimeMessage;
 struct _EMsgComposer;
+struct _EMFormat;
 
 void em_composer_utils_setup_callbacks (struct _EMsgComposer *composer, struct _CamelFolder *folder, const char *uid,
 					guint32 flags, guint32 set, struct _CamelFolder *drafts, const char *drafts_uid);
@@ -68,7 +69,7 @@ enum {
 	REPLY_MODE_LIST
 };
 
-void em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode);
+void em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode, struct _EMFormat *source);
 
 void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid);
 

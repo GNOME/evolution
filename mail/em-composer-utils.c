@@ -886,7 +886,7 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 		
-		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len);
+		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL);
 		
 		if (text) {
 			composer = create_new_composer (subject, fromuri);
@@ -1660,7 +1660,7 @@ attribution_format (const char *format, CamelMimeMessage *message)
 }
 
 static void
-composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
+composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *source)
 {
 	char *text, *credits;
 	CamelMimePart *part;
@@ -1683,7 +1683,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (ATTRIBUTION, message);
-		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE, &len);
+		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE, &len, source);
 		g_free (credits);
 		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
@@ -1693,11 +1693,21 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	e_msg_composer_drop_editor_undo (composer);
 }
 
+struct _reply_data {
+	EMFormat *source;
+	int mode;
+};
+
 static void
 reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
 {
+	struct _reply_data *rd = user_data;
+
 	if (message != NULL)
-		em_utils_reply_to_message(folder, uid, message, GPOINTER_TO_INT(user_data));
+		em_utils_reply_to_message(folder, uid, message, rd->mode, rd->source);
+
+	g_object_unref(rd->source);
+	g_free(rd);
 }
 
 /**
@@ -1706,6 +1716,7 @@ reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message
  * @uid: optional uid
  * @message: message to reply to, optional
  * @mode: reply mode
+ * @source: source to inherit view settings from
  *
  * Creates a new composer ready to reply to @message.
  *
@@ -1717,7 +1728,7 @@ reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message
  * been replied to.
  **/
 void
-em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, int mode)
+em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, int mode, EMFormat *source)
 {
 	CamelInternetAddress *to = NULL, *cc = NULL;
 	EMsgComposer *composer;
@@ -1726,7 +1737,13 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	guint32 flags;
 
 	if (folder && uid && message == NULL) {
-		mail_get_message(folder, uid, reply_to_message, GINT_TO_POINTER(mode), mail_thread_new);
+		struct _reply_data *rd = g_malloc0(sizeof(*rd));
+
+		rd->mode = mode;
+		rd->source = source;
+		g_object_ref(rd->source);
+		mail_get_message(folder, uid, reply_to_message, rd, mail_thread_new);
+
 		return;
 	}
 
@@ -1764,7 +1781,7 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	if (cc != NULL)
 		camel_object_unref (cc);
 	
-	composer_set_body (composer, message);
+	composer_set_body (composer, message, source);
 	
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 	
@@ -1843,7 +1860,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	if (to != NULL)
 		camel_object_unref (to);
 	
-	composer_set_body (composer, message);
+	composer_set_body (composer, message, NULL);
 	
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 	

@@ -1365,7 +1365,7 @@ em_utils_get_proxy_uri(void)
  * Return Value: The part in displayable html format.
  **/
 char *
-em_utils_part_to_html(CamelMimePart *part, ssize_t *len)
+em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1378,6 +1378,13 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len)
 	
 	emfq = em_format_quote_new(NULL, (CamelStream *)mem, 0);
 	em_format_set_session((EMFormat *)emfq, session);
+	if (source) {
+		/* copy over things we can, other things are internal, perhaps need different api than 'clone' */
+		if (source->default_charset)
+			em_format_set_default_charset((EMFormat *)emfq, source->default_charset);
+		if (source->charset)
+			em_format_set_default_charset((EMFormat *)emfq, source->charset);
+	}
 	em_format_part((EMFormat *) emfq, (CamelStream *) mem, part);
 	g_object_unref (emfq);
 	
@@ -1395,6 +1402,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len)
 /**
  * em_utils_message_to_html:
  * @message: 
+ * @source:
  * @credits: 
  * @flags: EMFormatQuote flags
  *
@@ -1404,7 +1412,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len)
  * Return value: The html version.
  **/
 char *
-em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len)
+em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1417,7 +1425,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
 	em_format_set_session((EMFormat *)emfq, session);
-	em_format_format((EMFormat *)emfq, NULL, NULL, message);
+	em_format_format_clone((EMFormat *)emfq, NULL, NULL, message, source);
 	g_object_unref (emfq);
 	
 	camel_stream_write ((CamelStream *) mem, "", 1);
