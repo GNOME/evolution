@@ -1609,7 +1609,8 @@ new_source_created (MailConfigAccount *account)
 	}
 
 	/* not a storage, don't bother. */
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return;
 
 	inbox = mail_tool_get_inbox (account->source->url, &ex);
@@ -1639,10 +1640,8 @@ new_source_created (MailConfigAccount *account)
 		 */
 	}
 
-	if (!(prov->flags & CAMEL_PROVIDER_IS_EXTERNAL)) {
-		/* add the storage to the folder tree */
-		add_new_storage (account->source->url, account->name);
-	}
+	/* add the storage to the folder tree */
+	add_new_storage (account->source->url, account->name);
 
 	if (inbox)
 		camel_object_unref (CAMEL_OBJECT (inbox));
