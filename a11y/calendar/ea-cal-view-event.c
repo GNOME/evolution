@@ -209,13 +209,13 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
 
 	if (event && event->comp_data) {
-		if (cal_util_component_has_alarms (event->comp_data->icalcomp)) {
+		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
 			new_name = g_strconcat (new_name, "alarm ", NULL);
 			g_free (tmp_name);
 		}
 
-		if (cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
 			new_name = g_strconcat (new_name, "recurrence ", NULL);
 			g_free (tmp_name);
@@ -227,7 +227,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 			g_free (tmp_name);
 		}
 
-		if (cal_util_component_has_organizer (event->comp_data->icalcomp)) {
+		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
 			tmp_name = new_name;
 			new_name = g_strconcat (new_name, "meeting ", NULL);
 			g_free (tmp_name);

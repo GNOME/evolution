@@ -138,7 +138,7 @@ ea_week_view_get_name (AtkObject *accessible)
 		return NULL;
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
-	gcal = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
 	label_text = calendar_get_text_for_folder_bar_label (gcal);
 
 	n_events = atk_object_get_n_accessible_children (accessible);
@@ -179,7 +179,7 @@ ea_week_view_get_description (AtkObject *accessible)
 		GnomeCalendar *gcal;
 		GnomeCalendarViewType view_type;
 
-		gcal = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+		gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
 		view_type = gnome_calendar_get_view (gcal);
 
 		if (view_type == GNOME_CAL_MONTH_VIEW)

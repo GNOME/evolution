@@ -254,7 +254,7 @@ ea_day_view_main_item_new (GObject *obj)
 			  accessible);
 
 	/* listen for date changes of calendar */
-	gcal = e_cal_view_get_calendar (E_CAL_VIEW (main_item->day_view));
+	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (main_item->day_view));
 	if (gcal)
 		g_signal_connect (gcal, "dates_shown_changed",
 				  G_CALLBACK (ea_day_view_main_item_dates_change_cb),
