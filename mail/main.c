@@ -121,7 +121,7 @@ main (int argc, char *argv [])
 	
 	gconf_init (argc, argv, NULL);
 	
-	glade_gnome_init ();
+	glade_init ();
 	
 	gnome_vfs_init ();
 	
