@@ -80,7 +80,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-static char *get_password(CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
+static char *get_password(CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static guint register_timeout(CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data);
@@ -159,6 +159,7 @@ struct _pass_msg {
 	
 	CamelSession *session;
 	const char *prompt;
+	gboolean reprompt;
 	gboolean secret;
 	CamelService *service;
 	const char *item;
@@ -189,7 +190,8 @@ pass_response (GtkDialog *dialog, int button, void *data)
 	struct _pass_msg *m = data;
 	
 	switch (button) {
-	case GTK_RESPONSE_OK: {
+	case GTK_RESPONSE_OK:
+	{
 		gboolean cache, remember;
 		
 		m->result = g_strdup (gtk_entry_get_text ((GtkEntry *) m->entry));
@@ -217,7 +219,8 @@ pass_response (GtkDialog *dialog, int button, void *data)
 			if (remember)
 				e_passwords_remember_password ("Mail", m->key);
 		}
-		break; }
+		break;
+	}
 	default:
 		camel_exception_set (m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
 		break;
@@ -269,6 +272,12 @@ request_password (struct _pass_msg *m)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 0);
 	gtk_widget_show (m->entry);
 	
+	if (m->reprompt && m->result) {
+		gtk_entry_set_text ((GtkEntry *) m->entry, m->result);
+		g_free (m->result);
+		m->result = NULL;
+	}
+	
 	if (m->service_url == NULL || m->service != NULL) {
 		m->check = gtk_check_button_new_with_mnemonic (m->service_url? _("_Remember this password") :
 							       _("_Remember this password for the remainder of this session"));
@@ -298,7 +307,7 @@ do_get_pass(struct _mail_msg *mm)
 			m->result = g_strdup(account->source->url);
 	} else if (m->key) {
 		m->result = e_passwords_get_password ("Mail", m->key);
-		if (m->result == NULL) {
+		if (m->result == NULL || m->reprompt) {
 			if (mail_session->interactive) {
 				request_password(m);
 				return;
@@ -326,12 +335,13 @@ static struct _mail_msg_op get_pass_op = {
 };
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex)
+get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret,
+	      CamelService *service, const char *item, CamelException *ex)
 {
 	struct _pass_msg *m, *r;
 	EMsgPort *pass_reply;
 	char *ret;
-
+	
 	/* We setup an async request and send it off, and wait for it to return */
 	/* If we're really in main, we dont of course ...
 	   ... but this shouldn't be allowed because of locking issues */
@@ -340,6 +350,7 @@ get_password (CamelSession *session, const char *prompt, gboolean secret, CamelS
 	m->ismain = pthread_self() == mail_gui_thread;
 	m->session = session;
 	m->prompt = prompt;
+	m->reprompt = reprompt;
 	m->secret = secret;
 	m->service = service;
 	m->item = item;
@@ -348,11 +359,11 @@ get_password (CamelSession *session, const char *prompt, gboolean secret, CamelS
 		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	m->key = make_key(service, item);
 
-	if (m->ismain)
+	if (m->ismain) {
 		do_get_pass((struct _mail_msg *)m);
-	else {
+	} else {
 		extern EMsgPort *mail_gui_port2;
-
+		
 		e_msgport_put(mail_gui_port2, (EMsg *)m);
 	}
 	

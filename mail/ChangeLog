@@ -1,3 +1,15 @@
+2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (do_get_pass): Change the logic here
+	slightly. Instead of only reprompting the user if the cache is
+	empty, also reprompt the user if the backend is forcing a
+	reprompt.
+	(request_password): If we have a cached passwd string for the
+	account, fill-in the GtkEntry box with that value by
+	default. This, together with the camel changes, fixes the
+	"Evolution forgets my POP passwd if it gets a -ERR response during
+	the login phase" bug.
+
 2003-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-searching-tokenizer.c: #include <stdio.h>
