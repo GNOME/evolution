@@ -1,5 +1,15 @@
 2001-08-29  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
+	Paranoia.  Check that name != qa->name.
+	(quick_add_set_email): Check that email != qa->email.
+	(ce_have_book): Store the QuickAdd data structure in object data,
+	so that we can be extra-careful and avoid having a dangling
+	pointer floating around out somewhere as the closure for a signal.
+	Fixes bug #8155, I think.
+	(card_added_cb): Clear object data to ensure single unref.
+	(editor_closed_cb): Clear object data to ensure single unref.
+
 	* gui/component/select-names/e-select-names-completion.c
 	(book_query_score): Make sure that comp->priv->query_text isn't
 	NULL.  (Fixes bug #8195)

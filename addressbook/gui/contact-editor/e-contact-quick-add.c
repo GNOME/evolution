@@ -97,6 +97,9 @@ quick_add_set_name (QuickAdd *qa, const gchar *name)
 {
 	ECardSimple *simple;
 
+	if (name == qa->name)
+		return;
+
 	g_free (qa->name);
 	qa->name = g_strdup (name);
 
@@ -110,6 +113,9 @@ static void
 quick_add_set_email (QuickAdd *qa, const gchar *email)
 {
 	ECardSimple *simple;
+
+	if (email == qa->email)
+		return;
 
 	g_free (qa->email);
 	qa->email = g_strdup (email);
@@ -153,21 +159,28 @@ quick_add_merge_card (QuickAdd *qa)
 static void
 card_added_cb (EContactEditor *ce, EBookStatus status, ECard *card, gpointer closure)
 {
-	QuickAdd *qa = (QuickAdd *) closure;
+	QuickAdd *qa = (QuickAdd *) gtk_object_get_data (GTK_OBJECT (ce), "quick_add");
 
-	if (qa->cb)
-		qa->cb (qa->card, qa->closure);
+	if (qa) {
+
+		if (qa->cb)
+			qa->cb (qa->card, qa->closure);
 	
-	quick_add_unref (qa);
+		quick_add_unref (qa);
+		gtk_object_set_data (GTK_OBJECT (ce), "quick_add", NULL);
+	}
 }
 
 static void
 editor_closed_cb (GtkWidget *w, gpointer closure)
 {
-	QuickAdd *qa = (QuickAdd *) closure;
-	g_warning ("editor_closed_cb");
-	quick_add_unref (qa);
-	gtk_object_unref (GTK_OBJECT (w));
+	QuickAdd *qa = (QuickAdd *) gtk_object_get_data (GTK_OBJECT (w), "quick_add");
+
+	if (qa) {
+		quick_add_unref (qa);
+		gtk_object_set_data (GTK_OBJECT (w), "quick_add", NULL);
+		gtk_object_unref (GTK_OBJECT (w));
+	}
 }
 
 static void
@@ -186,14 +199,20 @@ ce_have_book (EBook *book, gpointer closure)
 				"changed", TRUE,
 				NULL);
 
+		/* We pass this via object data, so that we don't get a dangling pointer referenced if both
+		   the "card_added" and "editor_closed" get emitted.  (Which, based on a backtrace in bugzilla,
+		   I think can happen and cause a crash. */
+		gtk_object_set_data_full (GTK_OBJECT (contact_editor), "quick_add", qa,
+					  (GtkDestroyNotify) quick_add_unref);
+
 		gtk_signal_connect (GTK_OBJECT (contact_editor),
 				    "card_added",
 				    GTK_SIGNAL_FUNC (card_added_cb),
-				    qa);
+				    NULL);
 		gtk_signal_connect (GTK_OBJECT (contact_editor),
 				    "editor_closed",
 				    GTK_SIGNAL_FUNC (editor_closed_cb),
-				    qa);
+				    NULL);
 	}
 }
 
