@@ -1991,7 +1991,7 @@ do_drag_motion(ETree *et,
 	       gint y,
 	       guint time)
 {
-	gboolean ret_val;
+	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
 	GtkWidget *widget;
@@ -2203,7 +2203,7 @@ et_drag_drop(GtkWidget *widget,
 	     guint time,
 	     ETree *et)
 {
-	gboolean ret_val;
+	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
 	y -= widget->allocation.y;
