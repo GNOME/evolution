@@ -58,7 +58,7 @@ typedef struct {
 	const char *value;
 
 	/* Alternate representation URI */
-	const char *altrep_param;
+	const char *altrep;
 } CalComponentPropSummary;
 
 typedef struct {
@@ -66,8 +66,16 @@ typedef struct {
 	const char *value;
 
 	/* Alternate representation URI */
-	const char *altrep_param;
+	const char *altrep;
 } CalComponentDescription;
+
+typedef struct {
+	/* Actual date/time value */
+	struct icaltimetype *value;
+
+	/* Timezone ID */
+	const char *tzid;
+} CalComponentDateTime;
 
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
@@ -105,6 +113,17 @@ void cal_component_set_summary (CalComponent *comp, const CalComponentPropSummar
 void cal_component_get_description_list (CalComponent *comp, GSList **desc_list);
 void cal_component_set_description_list (CalComponent *comp, GSList *desc_list);
 void cal_component_free_description_list (GSList *desc_list);
+
+void cal_component_free_datetime (CalComponentDateTime *dt);
+
+void cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt);
+void cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt);
+
+void cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt);
+void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
+
+void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
+void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
 
 

@@ -1,3 +1,19 @@
+2000-07-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (scan_datetime): Handle date/time and
+	timezone pairs.
+	(scan_property): Handle DTSTART and DTEND.
+	(cal_component_free_datetime): Ditto.
+	(get_datetime): Ditto.
+	(cal_component_get_dtstart): Ditto.
+	(set_datetime): Ditto.
+	(cal_component_set_dtstart): Ditto.
+	(cal_component_get_dtend): Ditto.
+	(cal_component_set_dtend): Ditto.
+	(scan_property): Handle DUE date.
+	(cal_component_get_due): Ditto.
+	(cal_component_set_due): Ditto.
+
 2000-07-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_get_description_list):
