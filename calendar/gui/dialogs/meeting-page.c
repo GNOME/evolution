@@ -670,7 +670,7 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
-	e_auto_kill_popup_menu_on_hide (menu);
+	e_auto_kill_popup_menu_on_selection_done (menu);
 	
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
 			event->button.button, event->button.time);

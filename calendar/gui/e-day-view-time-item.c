@@ -524,7 +524,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 	menu = gtk_menu_new ();
 
 	/* Make sure the menu is destroyed when it disappears. */
-	e_auto_kill_popup_menu_on_hide (GTK_MENU (menu));
+	e_auto_kill_popup_menu_on_selection_done (GTK_MENU (menu));
 
 	for (i = 0; i < num_divisions; i++) {
 		g_snprintf (buffer, sizeof (buffer),

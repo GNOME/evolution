@@ -1,3 +1,11 @@
+2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/e-day-view-time-item.c
+	(e_day_view_time_item_show_popup_menu): Use
+	e_auto_kill_popup_menu_on_selection_done() instead of
+	e_auto_kill_popup_menu_on_hide().
+	* gui/dialogs/meeting-page.c (right_click_cb): Likewise.
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* gui/dialogs/event-page.c (make_timezone_entry): show the widget
