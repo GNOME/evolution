@@ -332,7 +332,7 @@ sensitize_widgets (MeetingPage *mpage)
 	gtk_widget_set_sensitive (priv->add, !read_only);
 	gtk_widget_set_sensitive (priv->remove, !read_only);
 	gtk_widget_set_sensitive (priv->invite, !read_only);
-	gtk_widget_set_sensitive (priv->list_view, !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 }
 
 /* fill_widgets handler for the meeting page */
@@ -592,8 +592,98 @@ add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 }
 
 static void
+remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia) 
+{
+	MeetingPagePrivate *priv;
+	int pos = 0;
+	
+	priv = mpage->priv;
+
+	/* If the user deletes the attendee explicitly, assume they no
+	   longer want the organizer showing up */
+	if (ia == priv->ia) {
+		g_object_unref (priv->ia);
+		priv->ia = NULL;
+	}	
+		
+	/* If this was a delegatee, no longer delegate */
+	if (e_meeting_attendee_is_set_delfrom (ia)) {
+		EMeetingAttendee *ib;
+		
+		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
+		if (ib != NULL) {
+			e_meeting_attendee_set_delto (ib, NULL);
+			e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
+		}		
+	}
+	
+	/* Handle deleting all attendees in the delegation chain */	
+	while (ia != NULL) {
+		EMeetingAttendee *ib = NULL;
+
+		g_object_ref (ia);
+		g_ptr_array_add (priv->deleted_attendees, ia);
+		e_meeting_store_remove_attendee (priv->model, ia);
+
+		if (e_meeting_attendee_get_delto (ia) != NULL)
+			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+		ia = ib;
+	}
+
+	sensitize_widgets (mpage);
+}
+
+static void
+remove_attendee_at_row (MeetingPage *mpage, int row) 
+{
+	MeetingPagePrivate *priv;
+	EMeetingAttendee *ia;
+	
+	priv = mpage->priv;
+
+	ia = e_meeting_store_find_attendee_at_row (priv->model, row);
+	remove_attendee (mpage, ia);
+}
+
+static void
 remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 {
+	MeetingPagePrivate *priv;
+	EMeetingAttendee *ia;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	gboolean valid_iter;
+	char *address;
+	
+	priv = mpage->priv;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		g_warning ("Could not get a selection to delete.");
+		return;
+	}
+	path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->model), &iter);	
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+	ia = e_meeting_store_find_attendee (priv->model, address, NULL);
+	g_free (address);
+	if (!ia)
+		return;
+	
+	remove_attendee (mpage, ia);
+
+	/* Select closest item after removal */
+	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+	if (!valid_iter) {
+		gtk_tree_path_prev (path);
+		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+	}
+
+	if (valid_iter)
+		gtk_tree_selection_select_iter (selection, &iter);
+
+	gtk_tree_path_free (path);
 }
 
 /* Function called to invite more people */
@@ -647,43 +737,10 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
-	EMeetingAttendee *ia;
-	int pos = 0;
 	
 	priv = mpage->priv;
 
-	ia = e_meeting_store_find_attendee_at_row (priv->model, priv->row);
-
-	/* If the user deletes the attendee explicitly, assume they no
-	   longer want the organizer showing up */
-	if (ia == priv->ia) {
-		g_object_unref (priv->ia);
-		priv->ia = NULL;
-	}	
-		
-	/* If this was a delegatee, no longer delegate */
-	if (e_meeting_attendee_is_set_delfrom (ia)) {
-		EMeetingAttendee *ib;
-		
-		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
-		if (ib != NULL) {
-			e_meeting_attendee_set_delto (ib, NULL);
-			e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
-		}		
-	}
-	
-	/* Handle deleting all attendees in the delegation chain */	
-	while (ia != NULL) {
-		EMeetingAttendee *ib = NULL;
-
-		g_object_ref (ia);
-		g_ptr_array_add (priv->deleted_attendees, ia);
-		e_meeting_store_remove_attendee (priv->model, ia);
-
-		if (e_meeting_attendee_get_delto (ia) != NULL)
-			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
-		ia = ib;
-	}
+	remove_attendee_at_row (mpage, priv->row);
 }
 
 enum {
@@ -697,7 +754,7 @@ static EPopupMenu context_menu[] = {
 
 	E_POPUP_SEPARATOR,
 #endif
-	E_POPUP_ITEM (N_("_Delete"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
+	E_POPUP_ITEM (N_("_Remove"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
 	
 	E_POPUP_TERMINATOR
 };
@@ -737,8 +794,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	/* FIXME: if you enable Delegate, then change index to '1'.
 	 * (This has now been enabled). */
 	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
-	context_menu[1].pixmap_widget =
-	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
+	context_menu[0].pixmap_widget =
+	  gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
 
 	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, mpage);
 	e_auto_kill_popup_menu_on_selection_done (menu);
@@ -827,7 +884,6 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	priv->model = ems;
 
 	priv->list_view = e_meeting_list_view_new (priv->model); 
-
 	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), mpage);
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
