@@ -46,6 +46,35 @@ Mailer:
   - Various untranslated buttons/menus and other translation issues
     fixed.  (Michael, Jeff)
 
+  - Offline searching in IMAP. (Michael)
+
+  - Don't warn the user if he drags a message and drops it in the same
+    place.  (Jeff)
+
+  - Fixed replying-to and forwarding messages with attachments to
+    attach the appropriate attachments in the new message.  (Jeff, Larry)
+
+  - Don't allow the user to edit the default searches and keep all the
+    search menus consistant accross all folders.  (Jeff)
+
+  - Allow the user to drag&drop and/or move messages to the Trash
+    folder.  (Jeff)
+
+  - Various fixes to the filtering code.  (Jeff, Michael)
+
+  - Make various dialogs non-modal.  (Jeff)
+
+  - Fixes to POP3 UID caching so users can "leave mail on server" and
+    not get duplicates.  (Jeff)
+
+  - Fixes to IMAP caching code where servers support the UIDPLUS
+    extension. Will also now un-cache a folder when the user deletes
+    it from the IMAP server.  (Jeff)
+
+  - Removed support for PGP 2.6.x due to security issues (pgp would
+    always return 0 suggesting that the signature was valid even when
+    it wasn't).  (Jeff)
+
   - Lots and lots and lots of other little and not so little things.
     (Michael, Jeff, Dan, Trow)
 
