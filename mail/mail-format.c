@@ -1395,11 +1395,13 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	CamelMimePart *mime_part;
 	CamelCipherContext *cipher;
 	CamelDataWrapper *wrapper;
+	const char *protocol;
 	CamelException ex;
 	gboolean handled;
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	if (!camel_pgp_mime_is_rfc2015_encrypted (part))
+	protocol = header_content_type_param (part->content_type, "protocol");
+	if (!protocol || strcmp (protocol, "application/pgp-encrypted") != 0)
 		return handle_multipart_mixed (part, mime_type, md, stream);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));

@@ -1,3 +1,9 @@
+2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_multipart_encrypted): We don't have
+	camel_pgp_mime_is_rfc2015_encrypted() anymore so just look at the
+	protocol for now.
+
 2003-07-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_received): Handle
