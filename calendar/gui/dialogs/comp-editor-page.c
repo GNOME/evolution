@@ -237,7 +237,7 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
 gboolean
 comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
-	g_return_val_if_fail (COMP_IS_EDITOR_PAGE (page), FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 
 	g_assert (CLASS (page)->fill_widgets != NULL);
