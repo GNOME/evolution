@@ -12,8 +12,11 @@
 #define E_IS_TREE_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_MODEL_TYPE))
 
 typedef GNode ETreePath;
+typedef struct ETreeModel ETreeModel;
+typedef struct ETreeModelClass ETreeModelClass;
+typedef gint (*ETreePathCompareFunc)(ETreeModel *, ETreePath *path1, ETreePath *path2);
 
-typedef struct {
+struct ETreeModel {
 	ETableModel base;
 	GNode      *root;
 	gboolean   root_visible;
@@ -21,9 +24,9 @@ typedef struct {
 	guint32    num_expanded_to_save;
 	guint32    num_collapsed_to_save;
 	GHashTable *expanded_state; /* used for loading/saving expanded state */
-} ETreeModel;
+};
 
-typedef struct {
+struct ETreeModelClass {
 	ETableModelClass parent_class;
 
 	/*
@@ -62,7 +65,7 @@ typedef struct {
 	void       (*node_collapsed) (ETreeModel *etm, ETreePath *node);
 	void       (*node_expanded)  (ETreeModel *etm, ETreePath *node, gboolean *allow_expand);
 
-} ETreeModelClass;
+};
 
 GtkType     e_tree_model_get_type (void);
 void        e_tree_model_construct (ETreeModel *etree);
@@ -100,7 +103,8 @@ void       e_tree_model_root_node_set_visible (ETreeModel *etree, gboolean visib
 gboolean   e_tree_model_root_node_is_visible  (ETreeModel *etree);
 
 /* sort routine, analogous to gtk_ctree_node_sort */
-void e_tree_model_node_sort (ETreeModel *tree_model, ETreePath *node, GCompareFunc compare);
+void e_tree_model_node_set_compare_function (ETreeModel *tree_model, ETreePath *node, ETreePathCompareFunc compare);
+void e_tree_model_node_sort (ETreeModel *tree_model, ETreePath *node);
 
 /*
 ** Routines for emitting signals on the ETreeModel

@@ -35,6 +35,7 @@ typedef struct {
 	gboolean expanded;
 	guint visible_descendents;
 	char *save_id;
+	ETreePathCompareFunc compare;
 	gpointer node_data;
 } ENode;
 
@@ -846,50 +847,6 @@ add_visible_descendents_to_array (ETreeModel *etm, GNode *gnode, int *row, int *
 	}
 }
 
-void
-e_tree_model_node_sort (ETreeModel *tree_model,
-			ETreePath *node,
-			GCompareFunc compare)
-{
-	int num_nodes = g_node_n_children (node);
-	ETreePath **path_array;
-	gboolean *expanded;
-	int i;
-	int child_index;
-	gboolean node_expanded = e_tree_model_node_is_expanded (tree_model, node);
-
-	if (num_nodes == 0)
-		return;
-
-	path_array = g_new (ETreePath*, num_nodes);
-	expanded = g_new (gboolean, num_nodes);
-
-	child_index = e_tree_model_row_of_node (tree_model, node) + 1;
-
-	for (i = 0; i < num_nodes; i ++) {
-		path_array[i] = g_node_first_child(node);
-		expanded[i] = e_tree_model_node_is_expanded (tree_model, path_array[i]);
-		e_tree_model_node_set_expanded(tree_model, path_array[i], FALSE);
-		if (node_expanded)
-			tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
-		g_node_unlink (path_array[i]);
-	}
-
-	qsort (path_array, num_nodes, sizeof(ETreePath*), compare);
-	
-	for (i = num_nodes - 1; i >= 0; i --) {
-		g_node_prepend (node, path_array[i]);
-		if (node_expanded)
-			tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index, path_array[i]);
-		e_tree_model_node_set_expanded (tree_model, path_array[i], expanded[i]);
-	}
-
-	g_free (path_array);
-	g_free (expanded);
-
-	e_table_model_changed (E_TABLE_MODEL (tree_model));
-}
-
 static void
 save_expanded_state_func (char *key, gboolean expanded, gpointer user_data)
 {
@@ -1040,3 +997,92 @@ e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 			etm->num_collapsed_to_save ++;
 	}
 }
+
+
+
+void
+e_tree_model_node_set_compare_function (ETreeModel *tree_model,
+					ETreePath *node,
+					ETreePathCompareFunc compare)
+{
+	ENode *enode;
+	gboolean need_sort;
+
+	g_return_if_fail (E_TREE_MODEL (tree_model));
+	g_return_if_fail (node && node->data);
+
+	enode = (ENode*)node->data;
+
+	need_sort = (compare != enode->compare);
+
+	enode->compare = compare;
+
+	if (need_sort)
+		e_tree_model_node_sort (tree_model, node);
+}
+
+typedef struct {
+	ETreeModel *model;
+	ETreePath *path;
+	ETreePathCompareFunc compare;
+	gboolean was_expanded;
+} ETreeSortInfo;
+
+static gint
+e_tree_model_node_compare (ETreeSortInfo *info1, ETreeSortInfo *info2)
+{
+	return info1->compare (info1->model, info1->path, info2->path);
+}
+
+void
+e_tree_model_node_sort (ETreeModel *tree_model,
+			ETreePath *node)
+{
+	int num_nodes = g_node_n_children (node);
+	ETreeSortInfo *sort_info;
+	int i;
+	int child_index;
+	gboolean node_expanded = e_tree_model_node_is_expanded (tree_model, node);
+	ENode *enode;
+
+	g_return_if_fail (E_TREE_MODEL (tree_model));
+	g_return_if_fail (node && node->data);
+
+	enode = (ENode*)node->data;
+
+	g_return_if_fail (enode->compare);
+
+	if (num_nodes == 0)
+		return;
+
+	sort_info = g_new (ETreeSortInfo, num_nodes);
+
+	child_index = e_tree_model_row_of_node (tree_model, node) + 1;
+
+	for (i = 0; i < num_nodes; i ++) {
+
+		sort_info[i].path = g_node_first_child(node);
+		sort_info[i].was_expanded = e_tree_model_node_is_expanded (tree_model, sort_info[i].path);
+		sort_info[i].model = tree_model;
+		sort_info[i].compare = enode->compare;
+
+		e_tree_model_node_set_expanded(tree_model, sort_info[i].path, FALSE);
+		if (node_expanded)
+			tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
+		g_node_unlink (sort_info[i].path);
+	}
+
+	qsort (sort_info, num_nodes, sizeof(ETreeSortInfo), (GCompareFunc)e_tree_model_node_compare);
+	
+	for (i = num_nodes - 1; i >= 0; i --) {
+		g_node_prepend (node, sort_info[i].path);
+		if (node_expanded)
+			tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index, sort_info[i].path);
+		e_tree_model_node_set_expanded (tree_model, sort_info[i].path, sort_info[i].was_expanded);
+	}
+
+	g_free (sort_info);
+
+	e_table_model_changed (E_TABLE_MODEL (tree_model));
+}
+
