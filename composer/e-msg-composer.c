@@ -1008,6 +1008,9 @@ save_draft (EMsgComposer *composer, int quitok)
 	
 	mail_append_mail (folder, msg, info, save_done, si);
 	camel_object_unref (CAMEL_OBJECT (msg));
+	
+	/* Reset the "changed" state to FALSE */
+	composer->has_changed = FALSE;
 }
 
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
@@ -1296,7 +1299,7 @@ exit_dialog_cb (int reply, EMsgComposer *composer)
 	switch (reply) {
 	case REPLY_YES:
 		/* this has to be done async */
-		save_draft(composer, TRUE);
+		save_draft (composer, TRUE);
 		break;
 	case REPLY_NO:
 		gtk_widget_destroy (GTK_WIDGET (composer));
