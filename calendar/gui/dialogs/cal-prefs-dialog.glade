@@ -375,6 +375,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Monday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -394,6 +397,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Tuesday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -413,6 +419,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Wednesday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -432,6 +441,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Thursday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -451,6 +463,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Friday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -470,6 +485,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Saturday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -489,6 +507,9 @@
 			      <property name="active">False</property>
 			      <property name="inconsistent">False</property>
 			      <property name="draw_indicator">True</property>
+			      <accessibility>
+				<atkproperty name="AtkObject::accessible_name" translatable="yes">Sunday</atkproperty>
+			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -1899,7 +1920,7 @@
 				  <property name="max_length">0</property>
 				  <property name="text" translatable="yes"></property>
 				  <property name="has_frame">True</property>
-				  <property name="invisible_char">*</property>
+				  <property name="invisible_char" translatable="yes">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
 				<packing>
