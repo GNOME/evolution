@@ -1,3 +1,9 @@
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* configure.in: Renamed default_user/local/Sentbox to
+	default_user/local/Sent\ Mail as Ettore and Danw are picky about
+	folder names
+
 2000-09-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added calendar/conduits/Makefile,

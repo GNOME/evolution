@@ -600,7 +600,7 @@ default_user/local/Contacts/Makefile
 default_user/local/Drafts/Makefile
 default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile
-default_user/local/Sentbox/Makefile
+default_user/local/Sent\ Mail/Makefile
 default_user/local/Trash/Makefile
 tools/Makefile
 doc/Makefile
