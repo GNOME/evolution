@@ -122,7 +122,7 @@ struct _GnomeCalendarPrivate {
 	GList       *dn_queries; /* list of CalQueries */
 	char        *sexp;
 	char        *todo_sexp;
-	guint        e_cal_view_timeout;
+	guint        update_timeout;
 	
 	/* This is the view currently shown. We use it to keep track of the
 	   positions of the panes. range_selected is TRUE if a range of dates
@@ -708,9 +708,7 @@ static void
 set_search_query (GnomeCalendar *gcal, const char *sexp)
 {
 	GnomeCalendarPrivate *priv;
-	ECalModel *model;
 	int i;
-	char *new_sexp = NULL;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -971,7 +969,6 @@ setup_config (GnomeCalendar *calendar)
 {
 	GnomeCalendarPrivate *priv;
 	guint not;
-	guint timeout_id = 0;
 
 	priv = calendar->priv;
 
@@ -997,9 +994,6 @@ setup_config (GnomeCalendar *calendar)
 	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb, 
 							      calendar);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-	
-	/* Timeout check to hide completed items */
-	timeout_id = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, calendar, NULL);
 	
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -1093,6 +1087,9 @@ setup_widgets (GnomeCalendar *gcal)
 
 	g_signal_connect (etable, "selection_change",
 			  G_CALLBACK (table_selection_change_cb), gcal);
+
+	/* Timeout check to hide completed items */
+	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, gcal, NULL);	
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
@@ -1278,9 +1275,9 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->todo_sexp = NULL;
 		}
 
-		if (priv->e_cal_view_timeout) {
-			g_source_remove (priv->e_cal_view_timeout);
-			priv->e_cal_view_timeout = 0;
+		if (priv->update_timeout) {
+			g_source_remove (priv->update_timeout);
+			priv->update_timeout = 0;
 		}
 
 		if (priv->view_instance) {

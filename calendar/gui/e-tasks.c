@@ -75,7 +75,8 @@ struct _ETasksPrivate {
 	
 	gchar *current_uid;
 	char *sexp;
-
+	guint update_timeout;
+	
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
@@ -169,9 +170,6 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	ECalModel *model;
-	char *new_sexp = NULL;
-	char *real_sexp = NULL;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
@@ -304,7 +302,6 @@ setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	guint not;
-	guint timeout_id = 0;
 
 	priv = tasks->priv;
 	
@@ -324,10 +321,7 @@ setup_config (ETasks *tasks)
 	
 	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb, 
 							      tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-	
-	/* Timeout check to hide completed items */
-	timeout_id = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, tasks, NULL);	
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));	
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
@@ -381,6 +375,9 @@ setup_widgets (ETasks *tasks)
 
 	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), tasks);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);
+
+	/* Timeout check to hide completed items */
+	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, tasks, NULL);	
 
 	/* create the task detail */
 	priv->preview = e_cal_component_preview_new ();
@@ -531,6 +528,11 @@ e_tasks_destroy (GtkObject *object)
 		if (priv->sexp) {
 			g_free (priv->sexp);
 			priv->sexp = NULL;
+		}
+
+		if (priv->update_timeout) {
+			g_source_remove (priv->update_timeout);
+			priv->update_timeout = 0;
 		}
 	
 		if (priv->tasks_view_config) {
