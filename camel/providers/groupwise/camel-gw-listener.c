@@ -381,7 +381,7 @@ get_addressbook_names_from_server (char *source_url)
 	char *uri;
 	const char *use_ssl;
 	const char *poa_address;
-	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
+	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER;
 
 	url = camel_url_new (source_url, NULL);
         if (url == NULL) {
@@ -395,6 +395,8 @@ get_addressbook_names_from_server (char *source_url)
         if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7181";
 	use_ssl = camel_url_get_param (url, "soap_ssl");
+	if(use_ssl)
+		use_ssl = "always";
 	key =  g_strdup_printf ("groupwise://%s@%s/", url->user, poa_address); 
 	if (use_ssl)
 		uri = g_strdup_printf ("https://%s:%s/soap", poa_address, soap_port);
@@ -653,7 +655,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->name = g_strdup (account->name);
 	info->source_url = g_strdup (account->source->url);
 	status = add_addressbook_sources (account);
-	if (status)
+	if (status) 
 		add_calendar_tasks_sources (info);
 	groupwise_accounts = g_list_append (groupwise_accounts, info);
 
@@ -700,6 +702,10 @@ account_changed (EAccountList *account_listener, EAccount *account)
 	existing_account_info = lookup_account_info (account->uid);
        
 	if (existing_account_info == NULL && is_gw_account) {
+
+		if (!account->enabled)
+			return;
+
 		/* some account of other type is changed to Groupwise */
 		account_added (account_listener, account);
 
@@ -716,6 +722,10 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		
 	} else if ( existing_account_info != NULL && is_gw_account ) {
 		
+		if (!account->enabled) {
+			account_removed (account_listener, account);
+			return;
+		}
 		/* some info of groupwise account is changed . update the sources with new info if required */
 		url = camel_url_new (existing_account_info->source_url, NULL);
 		poa_address = camel_url_get_param (url, "poa");
@@ -773,7 +783,7 @@ camel_gw_listener_construct (CamelGwListener *config_listener)
 	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ) ; e_iterator_is_valid (iter); e_iterator_next (iter) ) {
 		
 		account = E_ACCOUNT (e_iterator_get (iter));
-		if ( is_groupwise_account (account)) {
+		if ( is_groupwise_account (account) && account->enabled) {
 			
 		        info = g_new0 (GwAccountInfo, 1);
 			info->uid = g_strdup (account->uid);
