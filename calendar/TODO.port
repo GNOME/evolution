@@ -1,5 +1,0 @@
-* gui/alarm-notify/alarm-notify-dialog.c:
-	replace missing gnome_win_hints_* calls.
-* gui/dialogs/comp-editor-util.c
-	there's a comment in comp_editor_create_contacts_component about OAF being broken.
-	Check if it's true with BonoboActivation.
