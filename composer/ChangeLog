@@ -1,3 +1,25 @@
+2001-06-12  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-attachment.glade: Replace the disposition option
+	menu with a checkbox.
+
+	* e-msg-composer-select-file.c
+	(e_msg_composer_select_file_attachment): New function to select a
+	file to attach. Adds a "suggest inline disposition" checkbox.
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): Add
+	a disposition argument rather than always defaulting to
+	"attachment".
+	(struct _DialogData, ok_cb, e_msg_composer_attachment_edit):
+	Update for optionmenu->checkbox change for disposition.
+
+	* e-msg-composer-attachment-bar.c (add_from_file): Add a
+	disposition argument.
+	(add_from_user): Use e_msg_composer_select_file_attachment, pass
+	chosen disposition to add_from_file.
+	(e_msg_composer_attachment_bar_attach): Pass "attachment" to
+	add_from_file for the disposition.
+
 2001-06-11  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (best_charset): Fix again... don't leave

@@ -10,23 +10,12 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <use_widget_names>False</use_widget_names>
   <output_main_file>False</output_main_file>
-  <output_support_files>True</output_support_files>
-  <output_build_files>True</output_build_files>
-  <backup_source_files>True</backup_source_files>
-  <main_source_file>interface.c</main_source_file>
-  <main_header_file>interface.h</main_header_file>
-  <handler_source_file>callbacks.c</handler_source_file>
-  <handler_header_file>callbacks.h</handler_header_file>
-  <support_source_file>support.c</support_source_file>
-  <support_header_file>support.h</support_header_file>
 </project>
 
 <widget>
   <class>GnomeDialog</class>
   <name>dialog</name>
-  <cxx_use_heap>True</cxx_use_heap>
   <title>Attachment properties</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -41,7 +30,6 @@
     <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
     <name>dialog-vbox1</name>
-    <cxx_use_heap>True</cxx_use_heap>
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
     <child>
@@ -51,9 +39,43 @@
     </child>
 
     <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area1</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>ok_button</name>
+	<can_default>True</can_default>
+	<has_default>True</has_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>close_button</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
+
+    <widget>
       <class>GtkTable</class>
       <name>table1</name>
-      <cxx_use_heap>True</cxx_use_heap>
       <rows>4</rows>
       <columns>2</columns>
       <homogeneous>False</homogeneous>
@@ -68,7 +90,6 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>description_entry</name>
-	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -93,7 +114,6 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox3</name>
-	<cxx_use_heap>True</cxx_use_heap>
 	<homogeneous>False</homogeneous>
 	<spacing>10</spacing>
 	<child>
@@ -115,7 +135,6 @@
 	  <class>GtkEntry</class>
 	  <name>file_name_entry</name>
 	  <width>290</width>
-	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
 	  <text_visible>True</text_visible>
@@ -132,7 +151,6 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>mime_type_entry</name>
-	<cxx_use_heap>True</cxx_use_heap>
 	<sensitive>False</sensitive>
 	<can_focus>True</can_focus>
 	<editable>False</editable>
@@ -157,8 +175,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label3</name>
-	<cxx_use_heap>True</cxx_use_heap>
+	<name>mime_label</name>
 	<label>MIME type:</label>
 	<justify>GTK_JUSTIFY_LEFT</justify>
 	<wrap>False</wrap>
@@ -184,8 +201,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label1</name>
-	<cxx_use_heap>True</cxx_use_heap>
+	<name>description_label</name>
 	<label>Description:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -211,8 +227,7 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label2</name>
-	<cxx_use_heap>True</cxx_use_heap>
+	<name>filename_label</name>
 	<label>File name:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -237,19 +252,15 @@
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>label4</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<label>Send as:</label>
-	<justify>GTK_JUSTIFY_LEFT</justify>
-	<wrap>False</wrap>
-	<xalign>1</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
+	<class>GtkCheckButton</class>
+	<name>disposition_checkbox</name>
+	<can_focus>True</can_focus>
+	<label>Suggest automatic display of attachment</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
 	<child>
 	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
+	  <right_attach>2</right_attach>
 	  <top_attach>3</top_attach>
 	  <bottom_attach>4</bottom_attach>
 	  <xpad>0</xpad>
@@ -261,69 +272,6 @@
 	  <xfill>True</xfill>
 	  <yfill>False</yfill>
 	</child>
-      </widget>
-
-      <widget>
-	<class>GtkOptionMenu</class>
-	<name>disposition_option</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<can_focus>True</can_focus>
-	<items>Attachment
-Inline attachment
-</items>
-	<initial_choice>1</initial_choice>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>3</top_attach>
-	  <bottom_attach>4</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area1</name>
-      <cxx_use_heap>True</cxx_use_heap>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>ok_button</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<can_default>True</can_default>
-	<has_default>True</has_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>close_button</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
       </widget>
     </widget>
   </widget>

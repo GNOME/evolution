@@ -62,7 +62,8 @@ struct _EMsgComposerAttachmentClass {
 
 
 GtkType e_msg_composer_attachment_get_type (void);
-EMsgComposerAttachment *e_msg_composer_attachment_new (const gchar *file_name);
+EMsgComposerAttachment *e_msg_composer_attachment_new (const gchar *file_name,
+						       const gchar *disposition);
 EMsgComposerAttachment *e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part);
 void e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 				     GtkWidget *parent);

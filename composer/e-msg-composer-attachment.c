@@ -29,7 +29,8 @@
 
 #include <sys/stat.h>
 
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtktogglebutton.h>
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -140,12 +141,14 @@ e_msg_composer_attachment_get_type (void)
 
 /**
  * e_msg_composer_attachment_new:
- * @file_name: 
- * 
- * Return value: 
+ * @file_name: filename to attach
+ * @disposition: Content-Disposition of the attachment
+ *
+ * Return value: the new attachment, or %NULL on error
  **/
 EMsgComposerAttachment *
-e_msg_composer_attachment_new (const gchar *file_name)
+e_msg_composer_attachment_new (const gchar *file_name,
+			       const gchar *disposition)
 {
 	EMsgComposerAttachment *new;
 	CamelMimePart *part;
@@ -181,7 +184,7 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
 
-	camel_mime_part_set_disposition (part, "attachment");
+	camel_mime_part_set_disposition (part, disposition);
 	if (strchr (file_name, '/'))
 		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
 	else
@@ -233,7 +236,7 @@ struct _DialogData {
 	GtkEntry *file_name_entry;
 	GtkEntry *description_entry;
 	GtkEntry *mime_type_entry;
-	GtkOptionMenu *disposition_option;
+	GtkToggleButton *disposition_checkbox;
 	EMsgComposerAttachment *attachment;
 };
 typedef struct _DialogData DialogData;
@@ -312,27 +315,6 @@ close_cb (GtkWidget *widget,
 	destroy_dialog_data (dialog_data);
 }
 
-/* Why was this never part of GTK? */
-static int
-option_menu_get_history (GtkOptionMenu *menu)
-{
-	GtkWidget *active;
-
-	g_return_val_if_fail (menu != NULL, -1);
-	g_return_val_if_fail (GTK_IS_OPTION_MENU (menu), -1);
-
-	if (menu->menu) {
-		active = gtk_menu_get_active (GTK_MENU (menu->menu));
-
-		if (active)
-			return g_list_index (GTK_MENU_SHELL (menu->menu)->children,
-					     active);
-		else 
-			return -1;
-	} else 
-		return -1;
-}
-
 static void
 ok_cb (GtkWidget *widget,
        gpointer data)
@@ -340,7 +322,6 @@ ok_cb (GtkWidget *widget,
 	DialogData *dialog_data;
 	EMsgComposerAttachment *attachment;
 	gchar *str;
-	int option;
 	
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
@@ -360,8 +341,7 @@ ok_cb (GtkWidget *widget,
 		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)), str);
 	g_free (str);
 
-	option = option_menu_get_history (dialog_data->disposition_option);
-	switch (option) {
+	switch (gtk_toggle_button_get_active (dialog_data->disposition_checkbox)) {
 	case 0:
 		camel_mime_part_set_disposition (attachment->body, "attachment");
 		break;
@@ -424,18 +404,14 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	dialog_data = g_new (DialogData, 1);
 	dialog_data->attachment = attachment;
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
-	dialog_data->file_name_entry = GTK_ENTRY (glade_xml_get_widget
-						  (editor_gui,
-						   "file_name_entry"));
-	dialog_data->description_entry = GTK_ENTRY (glade_xml_get_widget
-						    (editor_gui,
-						     "description_entry"));
-	dialog_data->mime_type_entry = GTK_ENTRY (glade_xml_get_widget
-						  (editor_gui,
-						   "mime_type_entry"));
-	dialog_data->disposition_option = GTK_OPTION_MENU (glade_xml_get_widget 
-							  (editor_gui,
-							   "disposition_option"));
+	dialog_data->file_name_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "file_name_entry"));
+	dialog_data->description_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "description_entry"));
+	dialog_data->mime_type_entry = GTK_ENTRY (
+		glade_xml_get_widget (editor_gui, "mime_type_entry"));
+	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget (editor_gui, "disposition_checkbox"));
 
 	if (attachment != NULL) {
 		CamelContentType *content_type;
@@ -452,10 +428,8 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		g_free (type);
 
 		disposition = camel_mime_part_get_disposition (attachment->body);
-		if (disposition && !g_strcasecmp (disposition, "inline"))
-			gtk_option_menu_set_history (dialog_data->disposition_option, 1);
-		else
-			gtk_option_menu_set_history (dialog_data->disposition_option, 0);
+		gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
+					      disposition && !g_strcasecmp (disposition, "inline"));
 	}
 
 	connect_widget (editor_gui, "ok_button", "clicked", ok_cb, dialog_data);

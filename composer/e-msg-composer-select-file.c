@@ -21,6 +21,8 @@
  * Author: Ettore Perazzoli
  */
 
+#include <gtk/gtkbox.h>
+#include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
@@ -29,6 +31,7 @@
 
 struct _FileSelectionInfo {
 	GtkWidget *widget;
+	GtkToggleButton *inline_checkbox;
 	char *selected_file;
 };
 typedef struct _FileSelectionInfo FileSelectionInfo;
@@ -103,11 +106,13 @@ create_file_selection (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
+	GtkWidget *inline_checkbox;
+	GtkWidget *box;
 	char *path;
 
 	info = g_new (FileSelectionInfo, 1);
 
-	widget        = gtk_file_selection_new (NULL);
+	widget = gtk_file_selection_new (NULL);
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), path);
 	g_free (path);
@@ -123,8 +128,13 @@ create_file_selection (EMsgComposer *composer)
 	gtk_signal_connect (GTK_OBJECT (widget), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), info);
 
-	info->widget        = widget;
-	info->selected_file = NULL;
+	inline_checkbox = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
+	box = gtk_widget_get_ancestor (GTK_FILE_SELECTION (widget)->selection_entry, GTK_TYPE_BOX);
+	gtk_box_pack_end (GTK_BOX (box), inline_checkbox, FALSE, FALSE, 4);
+
+	info->widget          = widget;
+	info->selected_file   = NULL;
+	info->inline_checkbox = GTK_TOGGLE_BUTTON (inline_checkbox);
 
 	return info;
 }
@@ -141,14 +151,14 @@ file_selection_info_destroy_notify (void *data)
 }
 
 
-char *
-e_msg_composer_select_file (EMsgComposer *composer,
-			    const char *title)
+static char *
+select_file_internal (EMsgComposer *composer,
+		      const char *title,
+		      gboolean *inline_p)
 {
 	FileSelectionInfo *info;
 	char *retval;
 
-	g_return_val_if_fail (composer != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	info = gtk_object_get_data (GTK_OBJECT (composer),
@@ -165,6 +175,10 @@ e_msg_composer_select_file (EMsgComposer *composer,
 		return NULL;		/* Busy!  */
 
 	gtk_window_set_title (GTK_WINDOW (info->widget), title);
+	if (inline_p)
+		gtk_widget_show (GTK_WIDGET (info->inline_checkbox));
+	else
+		gtk_widget_hide (GTK_WIDGET (info->inline_checkbox));
 	gtk_widget_show (info->widget);
 
 	GDK_THREADS_ENTER();
@@ -174,5 +188,35 @@ e_msg_composer_select_file (EMsgComposer *composer,
 	retval = info->selected_file;
 	info->selected_file = NULL;
 
+	if (inline_p) {
+		*inline_p = gtk_toggle_button_get_active (info->inline_checkbox);
+		gtk_toggle_button_set_active (info->inline_checkbox, FALSE);
+	}
+
 	return retval;
+}
+
+/**
+ * e_msg_composer_select_file:
+ * @composer: a composer
+ * @title: the title for the file selection dialog box
+ *
+ * This pops up a file selection dialog box with the given title
+ * and allows the user to select a file.
+ *
+ * Return value: the selected filename, or %NULL if the user
+ * cancelled.
+ **/
+char *
+e_msg_composer_select_file (EMsgComposer *composer,
+			    const char *title)
+{
+	return select_file_internal (composer, title, NULL);
+}
+
+char *
+e_msg_composer_select_file_attachment (EMsgComposer *composer,
+				       gboolean *inline_p)
+{
+	return select_file_internal (composer, _("Attach a file"), inline_p);
 }

@@ -29,4 +29,7 @@
 char *e_msg_composer_select_file (EMsgComposer *composer,
 				  const char *title);
 
+char *e_msg_composer_select_file_attachment (EMsgComposer *composer,
+					     gboolean *inline_p);
+
 #endif /* E_MSG_COMPOSER_SELECT_FILE_H */

@@ -168,9 +168,10 @@ add_from_mime_part (EMsgComposerAttachmentBar *bar,
 
 static void
 add_from_file (EMsgComposerAttachmentBar *bar,
-	       const gchar *file_name)
+	       const gchar *file_name,
+	       const gchar *disposition)
 {
-	add_common (bar, e_msg_composer_attachment_new (file_name));
+	add_common (bar, e_msg_composer_attachment_new (file_name, disposition));
 }
 
 static void
@@ -420,12 +421,15 @@ add_from_user (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposer *composer;
 	char *file_name;
+	gboolean is_inline = FALSE;
 	
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 	
-	file_name = e_msg_composer_select_file (composer, _("Attach a file"));
+	file_name = e_msg_composer_select_file_attachment (composer, &is_inline);
+	if (!file_name)
+		return;
 	
-	add_from_file (bar, file_name);
+	add_from_file (bar, file_name, is_inline ? "inline" : "attachment");
 	
 	g_free (file_name);
 }
@@ -800,7 +804,7 @@ e_msg_composer_attachment_bar_attach (EMsgComposerAttachmentBar *bar,
 	if (file_name == NULL)
 		add_from_user (bar);
 	else
-		add_from_file (bar, file_name);
+		add_from_file (bar, file_name, "attachment");
 }
 
 void
