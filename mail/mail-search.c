@@ -257,7 +257,7 @@ match_cb (ESearchingTokenizer *st, MailSearch *ms)
 void
 mail_search_construct (MailSearch *ms, MailDisplay *mail)
 {
-	const gchar *buttons[] = { N_("Search"),
+	const gchar *buttons[] = { _("Search"),
 				   GNOME_STOCK_BUTTON_CLOSE,
 				   NULL };
 	gchar *title = NULL;
