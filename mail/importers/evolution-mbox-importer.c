@@ -290,7 +290,6 @@ mbox_factory_fn (BonoboGenericFactory *_factory,
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
 			    GTK_SIGNAL_FUNC (importer_destroy_cb), mbox);
 
-	g_warning ("Returning");
 	return BONOBO_OBJECT (importer);
 }
 

@@ -1,3 +1,8 @@
+2001-07-02  Peter Williams  <peterw@ximian.com>
+
+	* importers/evolution-mbox-importer.c (mbox_factory_fn): Kill
+	irritating "Returning" g_warning.
+
 2001-07-02  Dan Winship  <danw@ximian.com>
 
 	* mail-session.c (get_filter_driver): Implement this, based on
