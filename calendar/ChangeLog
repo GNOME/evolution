@@ -1,3 +1,16 @@
+2002-12-02  Dan Winship  <danw@ximian.com>
+
+	* gui/e-itip-control.c (write_recurrence_piece): Describe
+	recurrences, if we can. #30993
+	(set_date_label): If the meeting has recurrences, call
+	write_recurrence_piece after writing the start and end dates.
+	(write_label_piece): Wrap the timezone in <font size=-1> to
+	de-emphasize it a bit and try to keep the timestamp on a single
+	line even with big Outlook timezone names. Add an option to show
+	just the date, for describing the end of recurrences (since the
+	time in the UNTIL is the *beginning* of the last instance, which
+	would confuse people).
+
 2002-11-30  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-meeting-model.c (append_row): Don't leak meeting attendees;
