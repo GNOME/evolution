@@ -1,3 +1,9 @@
+2003-10-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_set_folder): Disable the selection of
+	the first unread message for now. This is actually annoying the
+	fuck out of me, Radek, and a few other people.
+
 2003-10-02  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
 	* mail-config-druid.c: Fix for 40917 "Backspace shouldn't

@@ -729,10 +729,12 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list")))
 			message_list_set_threaded(emfv->list, sstate[0] != '0');
-
+		
+#if 0
 		if (emfv->list->cursor_uid == NULL && ((EMFolderBrowser *)emfv)->priv->list_built_id == 0)
 			((EMFolderBrowser *)emfv)->priv->list_built_id =
 				g_signal_connect(emfv->list, "message_list_built", G_CALLBACK(emfb_list_built), emfv);
+#endif
 	}
 
 	emfb_parent->set_folder(emfv, folder, uri);
