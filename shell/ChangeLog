@@ -1,5 +1,18 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c: New member `finished' in
+	`EShellOfflineHandlerPrivate'.
+	(finalize_offline): Ref the handler as we might get destroyed
+	while putting every component offline.
+	(impl_OfflineProgressListener_updateProgress): Don't emit
+	::offline_procedure_finished if ->finished is %TRUE.  Also, set it
+	to %TRUE after emitting the signal.
+	(cancel_offline): Likewise.
+	(finalize_offline): Likewise.
+	(update_dialog_clist): Guard against NULL ->dialog_gui.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage.c (impl_Storage_async_xfer_folder): Implement.
 	(class_init): Add the signal "xfer_folder" signal.
 
