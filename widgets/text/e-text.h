@@ -206,6 +206,8 @@ struct _EText {
 	guint bold : 1;
 	guint strikeout : 1;
 
+	guint tooltip_owner : 1;
+
 	EFontStyle     style;
 
 	gchar *break_characters;        /* Characters to optionally break after */

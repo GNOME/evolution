@@ -354,7 +354,7 @@ e_text_init (EText *text)
 {
 	text->model = e_text_model_new ();
 	text->text = e_text_model_get_text (text->model);
-	
+
 	gtk_object_ref (GTK_OBJECT (text->model));
 	gtk_object_sink (GTK_OBJECT (text->model));
 
@@ -420,6 +420,7 @@ e_text_init (EText *text)
 
 	text->tooltip_timeout = 0;
 	text->tooltip_count = 0;
+	text->tooltip_owner = FALSE;
 
 	text->dbl_timeout = 0;
 	text->tpl_timeout = 0;
@@ -444,6 +445,10 @@ e_text_destroy (GtkObject *object)
 	g_return_if_fail (E_IS_TEXT (object));
 
 	text = E_TEXT (object);
+
+	if (text->tooltip_owner) {
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
+	}
 
 	if (text->model_changed_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (text->model), 
@@ -2682,6 +2687,9 @@ static gboolean
 tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 {
 	gint ret_val = FALSE;
+	if (GTK_OBJECT_DESTROYED (text)) {
+		return FALSE;
+	}
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
@@ -2701,6 +2709,13 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 		break;
 	}
 	return ret_val;
+}
+
+static void
+tooltip_destroy(GtkWidget *tooltip, EText *text)
+{
+	text->tooltip_owner = FALSE;
+	gtk_object_unref (GTK_OBJECT (text));
 }
 
 static gboolean
@@ -2883,11 +2898,15 @@ _do_tooltip (gpointer data)
 	gtk_widget_realize (tooltip_window);
 	gtk_signal_connect (GTK_OBJECT(tooltip_window), "event",
 			    GTK_SIGNAL_FUNC(tooltip_event), text);
+	gtk_signal_connect (GTK_OBJECT(tooltip_window), "destroy",
+			    GTK_SIGNAL_FUNC(tooltip_destroy), text);
+	gtk_object_ref (GTK_OBJECT (text));
 
 	e_canvas_popup_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas),
 				tooltip_window,
 				pixel_origin.x - 2 + tooltip_x,
 				pixel_origin.y - 2 + tooltip_y);
+	text->tooltip_owner = TRUE;
 	
 	text->tooltip_timeout = 0;
 	return FALSE;

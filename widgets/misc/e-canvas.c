@@ -139,6 +139,8 @@ e_canvas_destroy (GtkObject *object)
 		canvas->toplevel = NULL;
 	}
 
+	e_canvas_hide_tooltip(canvas);
+
 	if ((GTK_OBJECT_CLASS (parent_class))->destroy)
 		(*(GTK_OBJECT_CLASS (parent_class))->destroy) (object);
 }
