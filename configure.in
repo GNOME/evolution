@@ -515,7 +515,7 @@ fi
 msg_krb4=No
 if test x${with_krb4:=no} != xno; then
 	LDFLAGS_save="$LDFLAGS"
-	AC_CACHE_CHECK(Kerberos 4, ac_cv_lib_kerberos4,
+	AC_CACHE_CHECK(for Kerberos 4, ac_cv_lib_kerberos4,
 	[
 		ac_cv_lib_kerberos4=no
 
