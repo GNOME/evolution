@@ -1311,6 +1311,7 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			continue;
 		case -1:	/* i/o error */
+			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			if (camel_exception_get_id(ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				return -1;
 			camel_exception_clear(ex);

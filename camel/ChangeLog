@@ -1,5 +1,8 @@
 2004-06-03  Not Zed  <NotZed@Ximian.com>
 
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command):
+	disconnect if we get an io error or user cancellation.
+
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_sync_online):
 	only save the summary, don't update from server, thats what
 	refresh info does.
