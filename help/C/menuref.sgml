@@ -186,8 +186,8 @@
 	    <term>Navigating the Message List with the Keyboard:</term>
 	    <listitem>
 	      <para>
-                Press <keycap>N</keycap> to jump to the next unread
-                message. <keycap>P</keycap> goes to the previous
+                Press <keycap>]</keycap> or <keycap>.</keycap> to jump to the next unread
+                message. <keycap>[</keycap> or <keycap>,</keycap> goes to the previous
                 unread message.  Use the arrow keys to move up
                 and down along the list of all messages.
                 </para>
@@ -249,7 +249,7 @@
 	    <listitem>
 	      <para>
                 Double-click the message you want to view, or select
-                it and press
+                it and press <keycap>Return</keycap>
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>O</keycap>

@@ -498,6 +498,23 @@
 		    want, even obscure or custom ones. Enter the header name
 		    in the first text box, and put your search text in the
 		    second one.
+        
+
+      <note id="multiple-repeated-headers">
+        <title>Repeated Headers</title>
+         <para>
+            If a message uses a header more than once, Evolution will
+	    pay attention only to the first instance, even if the
+	    message defines the header differently the second
+	    time. For example, if a message declares the Resent-From:
+	    header as "engineering@rupertcorp.com" and then restates
+	    it as "marketing@rupertcorp.com," Evolution will filter as
+	    though the second declaration had not occurred.  To filter
+	    on messages that use headers multiple times, use a regular
+	    expression.
+         </para>
+      </note>
+
 		  </para></listitem>
 		
 		<listitem><para>

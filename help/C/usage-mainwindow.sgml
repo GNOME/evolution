@@ -77,6 +77,37 @@
      </itemizedlist>
      </para>
  
+     <para>
+       <note>
+         <title>Command Line Options</title>
+         <para>
+           Evolution has a number of command-line options that you may
+           wish to make use of. You can find the full list by running
+           the commands <userinput>man evolution</userinput> or
+           <userinput>evolution --help</userinput>.  The most
+           important ones are:
+           <itemizedlist>
+             <listitem>
+               <para>
+                 To start Evolution in offline mode: <userinput>evolution --offline</userinput> 
+               </para>
+             </listitem>
+
+             <listitem>
+               <para>
+                 To start Evolution and begin composing a message to the email address you name: <userinput>evolution mailto:joe@somewhere.net</userinput>
+             </para>
+           </listitem>
+
+           <listitem>
+             <para>
+               To make your web browser use Evolution as the default email client, enter <userinput>evolution "%s"</userinput> as the email handler in your web browser or in the GNOME Control Center.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+    </note>
+  </para>
  <para>
      The first time you run the program, it will create a directory
       called <filename>evolution</filename> in your home directory,

@@ -2141,10 +2141,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	and select the <guilabel>Mail Accounts</guilabel> button, then
 	select the account you want to use securely, and click the
 	<guibutton>Edit</guibutton> button. Then, select the
-	<guilabel>Security</guilabel> tab in the account dialog. Once
-	there, select the account with which you'd like to send and
-	receive encrypted mail, and click the
-	<guibutton>Edit</guibutton> button.  In the
+	<guilabel>Security</guilabel> tab in the account dialog.   In the
 	<guilabel>Security</guilabel> tab is a section labeled
 	<guilabel>Pretty Good Privacy</guilabel>.  Enter your key ID
 	and click <guibutton>OK</guibutton>.  Your key is now

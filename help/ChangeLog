@@ -1,3 +1,20 @@
+2002-10-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exchange.sgml: Update supported/unsupported list.
+
+	* C/topic.dat: Change "What is Evolution" to "Introduction"
+
+	* C/usage-exchange.sgml: typo.
+
+	* C/menuref.sgml: update keycapss.
+
+	* C/usage-mainwindow.sgml: add note about command-line options.
+
+2002-10-11  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.sgml: add note about multiple repeated header
+	definitions as per 31291.
+
 2002-10-08  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-exchange.sgml: fix 1.0/1.2 feature list discrepancies.

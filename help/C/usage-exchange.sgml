@@ -16,7 +16,7 @@
     <title>Requirements</title>
     <para>
       Ximian Connector works only with Exchange 2000, and requires
-      that Outlook Web Access must be enabled. Each user will need a
+      that Outlook Web Access be enabled. Each user will need a
       valid Microsoft Exchange 2000 server account, including license.
   </para>
   </warning>
@@ -79,7 +79,7 @@
 	<term>Notes</term>
 	<listitem>
 	  <para>
-            The Notes component now works.
+            The "Notes" and "Journal" folders in Exchange accounts are now readable, and you can drag items into them from other folders. Creating new Notes or Journal entries is not yet supported.
           </para>
 	</listitem>
       </varlistentry>
@@ -100,9 +100,9 @@
   <sect1 id="features">
     <title>Connector Features</title>
     <para>
-      <application>Ximian Connector</application> supports the most
-      often used features of <application>Microsoft
-      Exchange</application>:
+      In addition to the features listed above, <application>Ximian
+      Connector</application> supports the following basic 
+      <application>Microsoft Exchange</application> features:
       <itemizedlist>
 	<listitem>
 	  <para>
@@ -229,12 +229,6 @@
 <para>
 There are, however, some features which are not available:
 <itemizedlist>
-
-	    <listitem>
-	      <para>
-                Journal component.
-	      </para>
-	    </listitem>
 	    <listitem>
 	      <para>
 		Work Offline (disconnected mode).
@@ -245,7 +239,6 @@ There are, however, some features which are not available:
                "Recall Message" function.
 	      </para>
 	    </listitem>
-
 	    <listitem>
 	      <para>
                Creation of an automatic "out-of-office" reply
