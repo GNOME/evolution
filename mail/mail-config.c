@@ -2905,8 +2905,6 @@ mail_config_signature_delete (MailConfigSignature *sig)
 	GSList *al;
 	gboolean after = FALSE;
 
-	/* FIXME remove it from all accounts */
-
 	for (al = config->accounts; al; al = al->next) {
 		MailConfigAccount *account;
 
