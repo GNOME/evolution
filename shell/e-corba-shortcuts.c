@@ -80,8 +80,7 @@ shortcut_list_to_corba (const GSList *shortcut_list,
 		buffer[i].type = CORBA_string_dup (e_safe_corba_string (item->type));
 	}
 
-	if (buffer) /* if we have 0 shortcuts, buffer = NULL */
-		CORBA_sequence_set_release (buffer, TRUE);
+	CORBA_sequence_set_release (shortcut_list_return, TRUE);
 }
 
 
