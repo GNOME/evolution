@@ -112,26 +112,6 @@ is_in_uids (GSList *uids, ESource *source)
 	return FALSE;
 }
 
-static ESource *
-find_first_source (ESourceList *source_list)
-{
-	GSList *groups, *sources, *l, *m;
-			
-	groups = e_source_list_peek_groups (source_list);
-	for (l = groups; l; l = l->next) {
-		ESourceGroup *group = l->data;
-				
-		sources = e_source_group_peek_sources (group);
-		for (m = sources; m; m = m->next) {
-			ESource *source = m->data;
-
-			return source;
-		}				
-	}
-
-	return NULL;
-}
-
 static void
 update_uris_for_selection (CalendarComponent *calendar_component)
 {
@@ -826,45 +806,25 @@ setup_create_ecal (CalendarComponent *calendar_component)
 }
 
 static void
-impl_requestCreateItem (PortableServer_Servant servant,
-			const CORBA_char *item_type_name,
-			CORBA_Environment *ev)
+create_new_event (CalendarComponent *calendar_component, gboolean is_allday, gboolean is_meeting, CORBA_Environment *ev)
 {
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
 	ECalComponent *comp;
 	EventEditor *editor;
-	gboolean is_meeting = FALSE;
-	gboolean read_only = FALSE;
+	gboolean read_only;
 	
 	priv = calendar_component->priv;
-
+	
 	if (!setup_create_ecal (calendar_component)) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
-
-	e_cal_is_read_only (priv->create_ecal, &read_only, NULL);
-	if (read_only)
-		return;
-	
 	}
 	
+	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only);
+		return;
+
 	editor = event_editor_new (priv->create_ecal);
-	
-	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
-		comp = get_default_event (priv->create_ecal, FALSE);
- 	} else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0) {
-		comp = get_default_event (priv->create_ecal, TRUE);
-	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
-		comp = get_default_event (priv->create_ecal, FALSE);
-		is_meeting = TRUE;
-	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
-		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
-		return;
-	} else {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-		return;
-	}	
+	comp = get_default_event (priv->create_ecal, is_allday);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	if (is_meeting)
@@ -872,6 +832,29 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	comp_editor_focus (COMP_EDITOR (editor));
 
 	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+}
+
+static void
+impl_requestCreateItem (PortableServer_Servant servant,
+			const CORBA_char *item_type_name,
+			CORBA_Environment *ev)
+{
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentPrivate *priv;
+	
+	priv = calendar_component->priv;
+	
+	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
+		create_new_event (calendar_component, FALSE, FALSE, ev);
+ 	} else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0) {
+		create_new_event (calendar_component, TRUE, FALSE, ev);
+	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
+		create_new_event (calendar_component, FALSE, TRUE, ev);
+	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
+		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
+	} else {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
+	}
 }
 
 

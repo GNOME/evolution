@@ -1,3 +1,15 @@
+2004-01-14  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c (impl_requestCreateItem): new utility
+	routine to create new tasks
+	(create_new_todo): use above so we don't try to set up the
+	creation ecal unless we are actually creating a new item
+
+	* gui/calendar-component.c (create_new_event): new utility routine
+	to create new events
+	(impl_requestCreateItem): use above so we don't try to set up the
+	creation ecal unless we are actually creating a new item
+
 2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu):

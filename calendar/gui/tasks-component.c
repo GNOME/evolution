@@ -726,6 +726,33 @@ setup_create_ecal (TasksComponent *component)
 }
 
 static void
+create_new_todo (TasksComponent *task_component, CORBA_Environment *ev)
+{
+	TasksComponentPrivate *priv;
+	ECalComponent *comp;
+	TaskEditor *editor;
+	gboolean read_only;
+	
+	priv = task_component->priv;
+	
+	if (!setup_create_ecal (task_component)) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
+		return;
+	}
+	
+	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only);
+		return;
+
+	editor = task_editor_new (priv->create_ecal);
+	comp = get_default_task (priv->create_ecal);
+
+	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+	comp_editor_focus (COMP_EDITOR (editor));
+
+	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+}
+
+static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
@@ -736,25 +763,11 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	priv = tasks_component->priv;	
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
-		ECalComponent *comp;
-		TaskEditor *editor;
-
-		if (!setup_create_ecal (tasks_component))
-			return;	
-		
-		editor = task_editor_new (priv->create_ecal);
-
-		comp = get_default_task (priv->create_ecal);
-
-		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-		comp_editor_focus (COMP_EDITOR (editor));
-
-		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+		create_new_todo (tasks_component, ev);
 	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
 		calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->tasks))));
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-		return;
 	}
 }
 
