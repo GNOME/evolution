@@ -3956,7 +3956,7 @@ msgstr "Videno"
 
 #: filter/libfilter-i18n.h:21
 msgid "Sender"
-msgstr "Po¹ljatelj"
+msgstr "Po¹iljatelj"
 
 #: filter/libfilter-i18n.h:22
 msgid "Set Flag"
