@@ -1,5 +1,15 @@
 2001-10-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c: Added #include
+	<gal/widgets/e-unicode.h>.
+
+	* gui/widgets/e-minicard-control.c: Made this display the number
+	of extra cards in the attachment as well as made it save them all
+	to the local addressbook if the person selects the button.  Fixes
+	Ximian bug #9507.
+
+2001-10-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-minicard.c (e_minicard_event): Changed this to not
 	grab on a right click.  Fixes Ximian bug #12660.
 

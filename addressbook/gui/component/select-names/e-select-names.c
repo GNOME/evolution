@@ -45,6 +45,7 @@
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-combo.h>
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-categories-master-list-wombat.h>
 
 static void e_select_names_init		(ESelectNames		 *card);

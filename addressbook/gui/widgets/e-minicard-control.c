@@ -15,11 +15,19 @@
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-stream-client.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-card.h>
+#include <gal/util/e-util.h>
 
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
 #include "e-card-merging.h"
+
+typedef struct {
+	EMinicardWidget *minicard;
+	GList *card_list;
+	GtkWidget *label;
+} EMinicardControl;
 
 #if 0
 enum {
@@ -143,9 +151,9 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	      Bonobo_Persist_ContentType type, void *data,
 	      CORBA_Environment *ev)
 {
-	ECard *card;
+	GList *list;
 	char *vcard;
-	GtkWidget *minicard = data;
+	EMinicardControl *minicard_control = data;
 
 	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
@@ -160,12 +168,28 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	card = e_card_new_with_default_charset(vcard, "ISO-8859-1");
+	e_free_object_list (minicard_control->card_list);
+	list = e_card_load_cards_from_string_with_default_charset(vcard, "ISO-8859-1");
 	g_free(vcard);
-	gtk_object_set(GTK_OBJECT(minicard),
-		       "card", card,
-		       NULL);
-	gtk_object_unref(GTK_OBJECT(card));
+	minicard_control->card_list = list;
+	if (list)
+		gtk_object_set(GTK_OBJECT(minicard_control->minicard),
+			       "card", list->data,
+			       NULL);
+	if (list && list->next) {
+		char *message;
+		int length = g_list_length (list) - 1;
+		if (length > 1) {
+			message = g_strdup_printf (_("and %d other cards."), length);
+		} else {
+			message = g_strdup_printf (_("and one other card."));
+		}
+		gtk_label_set_text (GTK_LABEL (minicard_control->label), message);
+		g_free (message);
+		gtk_widget_show (minicard_control->label);
+	} else {
+		gtk_widget_hide (minicard_control->label);
+	}
 } /* pstream_load */
 
 /*
@@ -176,10 +200,9 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	      Bonobo_Persist_ContentType type, void *data,
 	      CORBA_Environment *ev)
 {
-	char                *vcard;
-	ECard               *card;
-	EMinicardWidget     *minicard = data;
-	int                  length;
+	EMinicardControl *minicard_control = data;
+	char             *vcard;
+	int               length;
 
 	if (type && g_strcasecmp (type, "text/vCard") != 0 &&	    
 	    g_strcasecmp (type, "text/x-vCard") != 0) {	    
@@ -188,10 +211,7 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	gtk_object_get (GTK_OBJECT (minicard),
-			"card", &card,
-			NULL);
-	vcard = e_card_get_vcard(card);
+	vcard = e_card_list_get_vcard(minicard_control->card_list);
 	length = strlen (vcard);
 	bonobo_stream_client_write (stream, vcard, length, ev);
 	g_free (vcard);
@@ -201,18 +221,15 @@ static CORBA_long
 pstream_get_max_size (BonoboPersistStream *ps, void *data,
 		      CORBA_Environment *ev)
 {
-  GtkWidget *minicard = data;
-  ECard *card;
-  char *vcard;
-  gint length;
-  
-  gtk_object_get (GTK_OBJECT (minicard),
-		  "card", &card, NULL);
-  vcard = e_card_get_vcard(card);
-  length = strlen (vcard);
-  g_free (vcard);
+	EMinicardControl *minicard_control = data;
+	char *vcard;
+	gint length;
 
-  return length;
+	vcard = e_card_list_get_vcard(minicard_control->card_list);
+	length = strlen (vcard);
+	g_free (vcard);
+
+	return length;
 }
 
 static Bonobo_Persist_ContentTypeList *
@@ -223,44 +240,38 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 }
 
 static void
-book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+book_open_cb (EBook *book, gpointer closure)
 {
-	ECard *card = closure;
-	e_card_merging_book_add_card(book, card, NULL, NULL);
-	gtk_object_unref(GTK_OBJECT(card));
+	GList *list = closure;
+	if (book) {
+		GList *p;
+		for (p = list; p; p = p->next) {
+			e_card_merging_book_add_card(book, p->data, NULL, NULL);
+		}
+	}
+	e_free_object_list (list);
 }
 
 static void
-save_in_addressbook(GtkWidget *button, EMinicardWidget *minicard)
+save_in_addressbook(GtkWidget *button, gpointer data)
 {
-	EBook *book;
-	gchar *path, *uri;
-	ECard *card;
+	EMinicardControl *minicard_control = data;
+	GList *list, *p;
 
-	book = e_book_new ();
+	list = g_list_copy (minicard_control->card_list);
 
-	if (!book) {
-		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
-			__FILE__,
-			__FUNCTION__);
-		return;
-	}
+	for (p = list; p; p = p->next)
+		gtk_object_ref (GTK_OBJECT (p->data));
 
+	e_book_use_local_address_book (book_open_cb, list);
+}
 
-	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", path);
-	g_free (path);
-
-	gtk_object_get(GTK_OBJECT(minicard),
-		       "card", &card,
-		       NULL);
-	gtk_object_ref(GTK_OBJECT(card));
-
-	if (! e_book_load_uri (book, uri, book_open_cb, card)) {
-		printf ("error calling load_uri!\n");
-	}
-	g_free(uri);
+static void
+free_struct (GtkWidget *control, gpointer data)
+{
+	EMinicardControl *minicard_control = data;
+	e_free_object_list (minicard_control->card_list);
+	g_free (minicard_control);
 }
 
 static BonoboObject *
@@ -269,33 +280,50 @@ e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 #if 0
 	BonoboPropertyBag  *pb;
 #endif
-	BonoboControl      *control;
+	BonoboControl       *control;
 	BonoboPersistStream *stream;
-	GtkWidget	   *minicard;
-	GtkWidget          *button;
-	GtkWidget          *vbox;
+	GtkWidget	    *minicard;
+	GtkWidget           *button;
+	GtkWidget           *label;
+	GtkWidget           *vbox;
+
+	EMinicardControl    *minicard_control = g_new (EMinicardControl, 1);
+
+
+	minicard_control->card_list = NULL;
+	minicard_control->minicard = NULL;
+	minicard_control->label = NULL;
 
 	/* Create the control. */
 
 	minicard = e_minicard_widget_new ();
 	gtk_widget_show (minicard);
+	minicard_control->minicard = E_MINICARD_WIDGET (minicard);
+
+	/* This is intentionally not shown. */
+	label = gtk_label_new ("");
+	minicard_control->label = label;
 
 	button = gtk_button_new_with_label(_("Save in addressbook"));
 	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(save_in_addressbook), minicard);
+			   save_in_addressbook, minicard_control);
 	gtk_widget_show (button);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), minicard, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 	gtk_widget_show (vbox);
 
 	control = bonobo_control_new (vbox);
 
+	gtk_signal_connect (GTK_OBJECT (control), "destroy",
+			    free_struct, minicard_control);
+
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_max_size,
 					    pstream_get_content_types,
-					    minicard);
+					    minicard_control);
 
 #if 0
 	/* Create the properties. */
