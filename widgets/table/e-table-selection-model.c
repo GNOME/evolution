@@ -107,7 +107,8 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 			for (i = box + 1; i < last; i++) {
 				etsm->selection[i] = (etsm->selection[i] << 1) | (etsm->selection[i + 1] >> 31);
 			}
-			etsm->selection[i] = etsm->selection[i] << 1;
+			/* this over-runs our memory! */
+			/*etsm->selection[i] = etsm->selection[i] << 1; */
 		}
 		etsm->row_count --;
 		/* Remove the last word if not needed. */
