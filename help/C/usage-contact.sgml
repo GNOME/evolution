@@ -108,75 +108,9 @@
        more than a few people listed, you'll want some way of finding
        them more quickly, which is why there's a search feature.
     </para>
-
-    <sect2 id="contact-search">
-      <title>Searching for Contacts</title>
-      <para>
-	   Between <guilabel>Delete</guilabel> and <guilabel>View
-    	   All</guilabel> is a quick search field. To use it, select
-    	   from the drop-down list which sort of search you'd like to
-    	   perform (the whole card, just the name, or just the email
-    	   address), then enter one or more words in the text entry
-    	   box, and press <keycap>Enter</keycap>.
-    	   <application>Evolution</application> will search through
-    	   the contents of every displayed card to find one that
-    	   matches. You can refine searches by doing several in
-    	   succession, or start over by pressing the <guibutton>View
-    	   All</guibutton> button.
-	</para>
-      <para>
-	   If there are no matches, the card display will be
-	   blank. When you'd like to see all the cards again, press
-	   <guilabel>Show All</guilabel>.
-       </para>
-      <example id="contact-quicksearch-ex">
-	<title>Refining a Quick Search</title>
-	<para>
-	    Tom comes back from lunch and finds a note on his
-	    keyboard: "Curtis in sales called for you, but he didn't
-	    leave a number, and I forgot to write down the name of the
-	    company he works for. He said it was important, though."
-	    Tom is not at all annoyed.
-         </para>
-	 <para>
-	    He opens his contacts folder, and runs a quick search for
-	    "Curtis." There are eighteen different people with that name
-	    in the file. He then enters "Sales," and
-	    <application>Evolution</application> narrows it down to the
-	    right Curtis. He only becomes annoyed when he discovers that
-	    the call was not actually important.
-          </para>
-      </example>
-    
-      <para>
-        If you prefer to perform a more complex search, press
-        <guibutton>Find</guibutton> or choose
-        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for
-        Contact</guimenuitem></menuchoice>. This will open the
-        in-depth search window, which lets you use multiple search
-        criteria in the same way that email filters and <glossterm
-        linkend="vfolder">virtual folders</glossterm> do.  
-      </para>
-      <para>
-        Click <guibutton>Add Criterion</guibutton> to increase the
-        number of criteria you'd like to use in the search, and
-        <guibutton>Remove Criterion</guibutton> to remove one from the
-        bottom of the list.  Your criteria may be a search within the
-        <guilabel>Name</guilabel> or <guilabel>Email</guilabel>
-        fields; alternately you can choose to search through all the
-        fields with a regular expression.  Then, you can select from
-        all the familiar requirements like <guilabel>Begins
-        With</guilabel> and <guilabel>Does Not Contain</guilabel>,
-        decide whether to match <guilabel>All</guilabel> or
-        <guilabel>Any</guilabel> of your criteria, and press
-        <guibutton>Search</guibutton> to set it all off.
-      </para>
-    
-    </sect2>
-
   </sect1>
   <sect1 id="usage-contact-cards">
-    <title>Destroy, Create, and Change: The Contact Editor</title>
+    <title>The Contact Editor</title>
     <para>
        To delete a card, click on it once to select it, then press the
        <guibutton>Delete</guibutton> button.  If you have multiple
@@ -368,6 +302,70 @@
     </sect2>
 ############### SHORTCUT SECTION COMMENTED OUT FOR NOW -->
 
+  </sect1>
+
+  <sect1 id="contact-search">
+    <title>Searching for Contacts</title>
+    <para>
+      Between <guilabel>Delete</guilabel> and <guilabel>View
+	All</guilabel> is a quick search field. To use it, select
+      from the drop-down list which sort of search you'd like to
+    	   perform (the whole card, just the name, or just the email
+      address), then enter one or more words in the text entry
+      box, and press <keycap>Enter</keycap>.
+      <application>Evolution</application> will search through
+      the contents of every displayed card to find one that
+      matches. You can refine searches by doing several in
+      succession, or start over by pressing the <guibutton>View
+	All</guibutton> button.
+    </para>
+    <para>
+      If there are no matches, the card display will be
+      blank. When you'd like to see all the cards again, press
+      <guilabel>Show All</guilabel>.
+    </para>
+    <example id="contact-quicksearch-ex">
+      <title>Refining a Quick Search</title>
+      <para>
+	Tom comes back from lunch and finds a note on his
+	keyboard: "Curtis in sales called for you, but he didn't
+	leave a number, and I forgot to write down the name of the
+	company he works for. He said it was important, though."
+	Tom is not at all annoyed.
+      </para>
+      <para>
+	He opens his contacts folder, and runs a quick search for
+	"Curtis." There are eighteen different people with that name
+	in the file. He then enters "Sales," and
+	<application>Evolution</application> narrows it down to the
+	right Curtis. He only becomes annoyed when he discovers that
+	the call was not actually important.
+      </para>
+    </example>
+    
+    <para>
+      If you prefer to perform a more complex search, press
+      <guibutton>Find</guibutton> or choose
+      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for
+	  Contact</guimenuitem></menuchoice>. This will open the
+      in-depth search window, which lets you use multiple search
+      criteria in the same way that email filters and <glossterm
+								 linkend="vfolder">virtual folders</glossterm> do.  
+    </para>
+    <para>
+      Click <guibutton>Add Criterion</guibutton> to increase the
+      number of criteria you'd like to use in the search, and
+      <guibutton>Remove Criterion</guibutton> to remove one from the
+      bottom of the list.  Your criteria may be a search within the
+      <guilabel>Name</guilabel> or <guilabel>Email</guilabel>
+      fields; alternately you can choose to search through all the
+      fields with a regular expression.  Then, you can select from
+      all the familiar requirements like <guilabel>Begins
+        With</guilabel> and <guilabel>Does Not Contain</guilabel>,
+      decide whether to match <guilabel>All</guilabel> or
+      <guilabel>Any</guilabel> of your criteria, and press
+      <guibutton>Search</guibutton> to set it all off.
+    </para>
   </sect1>
 
   <sect1 id="usage-contact-organize">
@@ -595,33 +593,18 @@
  -->
 
     </sect2>
-<!---  FIXME this feature not yet implemented 
-    <sect2 id="usage-contact-automation-extra">
-      <title>Map It!</title>
-      <para>
-	 Need a map or directions? Click
-	 <guibutton>MapIt</guibutton> from within the contact
-	 manager, and <application>Evolution</application> will
-	 map the address for you online.
-      </para>
-    </sect2>
--->
-
-
+    <!---  FIXME this feature not yet implemented 
+  <sect2 id="usage-contact-automation-extra">
+  <title>Map It!</title>
+  <para>
+    Need a map or directions? Click
+  <guibutton>MapIt</guibutton> from within the contact
+    manager, and <application>Evolution</application> will
+    map the address for you online.
+  </para>
+  </sect2>
+    -->
+    
+    
   </sect1>
-
 </chapter> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-

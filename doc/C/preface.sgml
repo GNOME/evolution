@@ -302,7 +302,6 @@
       import your files right back in.
     </para>
   </sect1>
-  
   <sect1 id="quickref-commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>
@@ -530,8 +529,8 @@
 	  </variablelist>
 
         </para>
-      </sect2>
-      <sect2 id="quickref-contact">
+  </sect2>
+    <sect2 id="quickref-contact">
         <title>Contact Manager</title>
         <para>
 	Here are the most frequent tasks that are done in the Contact Manager,
@@ -598,19 +597,7 @@
 	  </varlistentry>
 	</variablelist>
 
-        </para>
-      </sect2>
-    </sect1>
-  </preface>
-
-
-
-
-
-
-
-
-
-
-
-
+      </para>
+    </sect2>
+  </sect1>
+</preface>

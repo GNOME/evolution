@@ -16,6 +16,7 @@
 <!ENTITY MENUREF SYSTEM "menuref.sgml">
 <!ENTITY FAQ SYSTEM "evolution-faq.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
+<!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
 
@@ -136,6 +137,7 @@ implemented. -->
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
+
 </book>
 
 

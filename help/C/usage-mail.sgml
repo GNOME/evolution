@@ -47,11 +47,7 @@
     </para>
   </abstract>
 
-
-  <sect1 id="usage-mail-getnsend">
-    <title>Reading, Getting and Sending Mail</title>
-
-    <sect2 id="usage-mail-getnsend-read">
+  <sect1 id="usage-mail-getnsend-read">
       <title>Reading Mail</title>
       <para>
        You can start reading email by clicking
@@ -127,7 +123,7 @@
         </tip>
       </para>
 
-      <sect3 id="usage-mail-listorder">
+      <sect2 id="usage-mail-listorder">
         <title>Sorting the message list</title>
         <para>
           One of the ways <application>Evolution</application> lets
@@ -155,8 +151,8 @@
           message with the original, so you can follow the thread of a
           conversation from one message to the next.
         </para>
-      </sect3>
-      <sect3 id="usage-mail-getnsend-delete">
+      </sect2>
+      <sect2 id="usage-mail-getnsend-delete">
         <title>Deleting Mail</title>
         <para>
           Once you've read your mail, you may want to get rid of
@@ -177,10 +173,10 @@
           <guimenu>Folder</guimenu> menu.  That will delete it
           permanently.
         </para>
-      </sect3>
-    </sect2>
+      </sect2>
+    </sect1>
 
-    <sect2 id="usage-mail-getnsend-get">
+    <sect1 id="usage-mail-getnsend-get">
       <title>Checking Mail</title>
       <para>
         Now that you've had a look around the
@@ -220,7 +216,7 @@
       </para>
     </note>
 
-      <sect3 id="usage-mail-getnsend-get-news">
+      <sect2 id="usage-mail-getnsend-get-news">
          <title>Using Evolution for News </title>
        <para>
          Newsgroups are so similar to email that there's no reason not
@@ -232,9 +228,9 @@
          <application>Evolution</application> will also check for news
          messages.
        </para>
-       </sect3>
+       </sect2>
 
-      <sect3 id="usage-mail-getnsend-get-attach">
+      <sect2 id="usage-mail-getnsend-get-attach">
         <title>Attachments and HTML Mail</title>
         <para>
           If someone sends you an <glossterm>attachment</glossterm>, a
@@ -257,11 +253,11 @@
            HTML-formatted mail, complete with graphics.  HTML
            formatting will display automatically, although you can
            turn it off if you prefer.
-        </para>
-      </sect3>
+      </para>
     </sect2>
+  </sect1>
 
-    <sect2 id="usage-mail-getnsend-send">
+    <sect1 id="usage-mail-getnsend-send">
       <title>Writing and Sending Mail</title>
       <para>
          You can start writing a new email message by selecting
@@ -296,7 +292,7 @@
          <guibutton>Send</guibutton>.
        </para>
 
-      <sect3 id="usage-mail-getnsend-send-delay">
+      <sect2 id="usage-mail-getnsend-send-delay">
         <title>Saving Messages for Later</title>
         <para>
            Evolution will send mail immediately unless you tell it to
@@ -330,8 +326,8 @@
           <guimenu>File</guimenu> <guimenuitem>Save In
           Folder</guimenuitem> </menuchoice>.
         </para>
-      </sect3>
-      <sect3 id="usage-mail-getnsend-send-compose">
+      </sect2>
+      <sect2 id="usage-mail-getnsend-send-compose">
         <title>Advanced Mail Composition</title>
         <para>
           You can probably guess the purpose of the buttons labelled
@@ -343,7 +339,7 @@
           additional features, including large recipient lists,
           attachments, and forwarding.
         </para>
-      <sect4 id="usage-mail-getnsend-send-attach">
+      <sect3 id="usage-mail-getnsend-send-attach">
         <title>Attachments</title>
         <para>
             If you want to attach a file to your email message, you
@@ -374,8 +370,8 @@
             always shown, load images only if the sender is in your
             addressbook, or never load images.
         </para>
-        </sect4>
-        <sect4 id="usage-mail-getnsend-send-to-types">
+      </sect3>
+      <sect3 id="usage-mail-getnsend-send-to-types">
          <title>Types of Recipients</title>
         <para>
             <application>Evolution</application>, like most email
@@ -428,9 +424,9 @@
              </para>
             </example>
           </para>
-        </sect4>
+        </sect3>
 
-        <sect4 id="usage-mail-getnsend-send-to">
+        <sect3 id="usage-mail-getnsend-send-to">
         <title>Choosing Recipients Quickly</title>
         <para>
 f you have created address cards in the contact manager,
@@ -461,10 +457,10 @@ f you have created address cards in the contact manager,
             linkend="usage-contact-automate"> and <xref
             linkend="usage-calendar-apts">.
           </para>
-        </sect4>
-      </sect3>
+        </sect3>
+      </sect2>
 
-      <sect3 id="usage-mail-getnsend-send-reply">
+      <sect2 id="usage-mail-getnsend-send-reply">
         <title>Replying to Messages</title>
         <para>
            To reply to a message, press the
@@ -542,9 +538,9 @@ with quoted materials and the relevant replies interspersed-->
             </para>
           </note>
         </para>
-      </sect3>
+      </sect2>
 
-      <sect3 id="usage-mail-getnsend-send-find">
+      <sect2 id="usage-mail-getnsend-send-find">
         <title>Searching and Replacing with the Composer</title>
         <para>
            You're probably familiar with search and replace features,
@@ -601,8 +597,8 @@ with quoted materials and the relevant replies interspersed-->
             be <guilabel>Case Sensitive</guilabel> when it determines
             a match.
         </para>
-      </sect3>
-      <sect3 id="usage-mail-getnsend-send-html">
+      </sect2>
+      <sect2 id="usage-mail-getnsend-send-html">
         <title>Embellish your email with HTML</title>
         <para>
             Normally, you can't set text styles or insert pictures in
@@ -779,7 +775,7 @@ with quoted materials and the relevant replies interspersed-->
               composition tool or text editor would.
             </para>
         </note>
-      </sect3>
+      </sect2>
 
 
 <!-- Function not implemented, possibly never will be due to security evil. -->
@@ -796,7 +792,7 @@ with quoted materials and the relevant replies interspersed-->
         </sect3>
 -->
 
-      <sect3 id="usage-mail-getnsend-fwd">
+      <sect2 id="usage-mail-getnsend-fwd">
         <title>Forwarding Mail</title>
         <para>
           The post office forwards your mail for you when you change
@@ -831,8 +827,8 @@ with quoted materials and the relevant replies interspersed-->
           <interface>composition frame</interface>, and press
           <guibutton>Send</guibutton>.
         </para>
-      </sect3>
-      <sect3 id="usage-mail-getnsend-ettiquette">
+      </sect2>
+      <sect2 id="usage-mail-getnsend-ettiquette">
         <title>Seven Tips for Email Courtesy</title>
         <para>
           I started with ten, but four were "Don't send
@@ -860,7 +856,7 @@ with quoted materials and the relevant replies interspersed-->
             <listitem>
               <para>
                 ALL CAPS MEANS YOU'RE SHOUTING! Don't write a whole
-                message in capital letters.  It hurts people's ears.
+                messagge in capital letters.  It hurts people's ears.
               </para>
             </listitem>
 
@@ -876,18 +872,189 @@ with quoted materials and the relevant replies interspersed-->
                 don't write back.
               </para>
             </listitem>
-
-            <listitem>
-              <para>
-                 When you reply or forward, include just enough of
-                 the previous message to provide context: not too
-                 much, not too little.
-              </para>
-            </listitem>
-          </itemizedlist>
-        </para>
-        <para> Happy mailing! </para>
-      </sect3>
+	  
+	  <listitem>
+	    <para>
+	      When you reply or forward, include just enough of
+	      the previous message to provide context: not too
+	      much, not too little.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para> Happy mailing! </para>
     </sect2>
   </sect1>
+
+
+    <sect1 id="usage-mail-subscriptions">
+      <title>Subscription Management</title>
+      <para>
+         <application>Evolution</application> lets you handle your
+         IMAP and newsgroup subscriptions with the same tool: the
+         subscriptions manager.  To start using it, choose
+         <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage
+         Subscriptions</guimenuitem> </menuchoice>.
+      </para>
+      <para>
+         If you have configured any IMAP (mail) or NNTP (news)
+         servers, you will see them listed in the left half of the
+         subscription management window.  Click on a server to select
+         it, and you will see the folders or newsgroups available to
+         you.  You can then select individual folders and subscribe to
+         them, or remove yourself from the subscription list.
+      </para>
+      <para>
+        Once you have subscribed to a folder or newsgroup, your system
+        will check for new messages whenever you press the
+        <guibutton>Get Mail</guibutton> button.
+      </para>
+</sect1>
+
+  
+<sect1 id="encryption">
+    <title>Encryption</title>
+    <sect2 id="encryption-whatis">
+      <title>What is Encryption?</title>
+      <para>
+	Encryption is an ancient method of changing readable text to unreadable
+	text that dates back to Egyptian times.  Encryption takes the statement
+	"Evolution" and turns it into something which cannot be read without help
+	through decryption.
+	<example>
+	  <title>Encryption Example</title>
+	  <para>
+	    Kevin orders an <application>Evolution</application> t-shirt from
+	    Ximian, Inc. over the internet.  He puts in his credit card number
+	    which is 1234-567-8901.  For security, his computer encrypts the
+	    credit card number so it can be safely transmitted over the internet.
+	    The number now is @#$23ui7yr87#@!48970fsd, which holds no intentional
+	    resemblance to the inital number.  When the information gets to
+	    Ximian, Inc. it'll be decrypted into the inital number.
+	  </para>
+	</example>
+	Encryption can be used in email in two ways: to verify that the sender is
+	the real sender, and to hide the message while in transmission.
+	<application>Evolution</application> has the capability to do both.  
+      </para>
+    </sect2>
+    <sect2 id="encryption-keygen">
+      <title>Generating your PGP key</title>
+      <para>
+	First, you need to create a PGP key.  To do this, you'll need GPG
+	installed.
+      </para>
+      <tip>
+	<title>GPG Versions</title>
+	<para>
+	  This manual covers version 1.0.6 of GPG.  If your version is different,
+	  this may not be entirely accurate.  You may find out your version number
+	  by typing in: <command>gpg --version</command>.
+	</para>
+      </tip>
+      <para>
+	You can start by typing in: <command>gpg --gen-key</command>.  At the
+	first question, select 1.  The next question asks you about key length.
+	The longer the key, more stronger it is.  However, the longer the key, the
+	longer it takes to generate.  This is your choice.  However, 1024 bits
+	(default) should be adequate.  The next question asks you if you want your
+	key to expire.  Expiring keys make your key invalid after a certain amount
+	of time, so old keys don't float around active.  This is the same concept
+	as a coupon at a supermarket.  Next, you'll type in your Real name, your
+	email address, and a comment.  You should not forge this information, as
+	it is used later to verify who you are.  Assuming that all your
+	information is correct, press "O" to continue.  GPG now asks you for a
+	passphrase.  This is a password which you will need to decrypt and encrypt
+	messages.  This can be any length, with any characters in it.  It is case
+	sensitive, which means that it does know the difference between capital
+	letters and lower-case.  Now your key is generated.  It is recommend you
+	surf the internet, read your email, or write a letter in a word
+	processor.  This help creates randomness in the key.
+      </para>
+      <para>
+	Once this is completed, you'll be dropped back to the command line.
+	Now you can view your key information by typing <command>gpg
+	  --list-keys</command>.  You should see something similar to this:
+	<example id="gpg-list-keys">
+	  <title>GPG Listing Keys</title>
+	  <para>
+	    /home/bob/.gnupg/pubring.gpg
+	    ----------------------------
+	    pub 1024D/32j38dk2 2001-06-20 bob &lt;bob@bob.com&gt;
+	    sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]
+	  </para>
+	</example>
+	You'll now need to upload your public key to a keyserver, so that your
+	friends can use your key.  You'll need to know the ID of your key, which
+	is after the 1024D on the line beginning with pub.  For this example, it
+	is 32j38dk2.  You now type in <command>gpg --send-keys --keyserver
+	  wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for 32j38dk2.
+	You will be prompted to type in your password <!-- verify that you need to
+	enter your password here --> and your key will be uploaded for your
+	friends to download.
+      </para>
+    </sect2>
+    <sect2 id="encrypt-evo-integ">
+      <title>Setting up Evolution's Encryption</title>
+      <para>
+	You'll need to open
+	<menuchoice>
+	  <guimenu>Tools</guimenu>
+	  <guimenuitem>Mail Settings</guimenuitem>
+	</menuchoice>
+	Once there, select the account you'd like to associate the key to and click
+	the <guibutton>Edit</guibutton> button.  In the
+	<guilabel>Security</guilabel> tab is a section labeled <guilabel>Pretty
+	  Goog Privacy</guilabel>.  Enter your key ID and click
+	<guibutton>OK</guibutton>.  Your key is now integrated into your identity
+	in <application>Evolution</application>.
+      </para>
+    </sect2>
+    <sect2 id="encrypt-sending">
+      <title>Sending Encrypted Messages</title>
+      <para>
+	You can either sign or encrypt a message.  When you sign a message, verify
+	that you were the one who sent it, and that no one is forging your
+	identity.  Encrypting a message makes it impossible for someone with
+	prying eyes to view it while it's in tranmission.
+      </para>
+    </sect2>
+    
+    <sect2 id="sign-msg">
+      <title>Signing a Message</title>
+      <para>
+	To sign a message, you simply click
+	<menuchoice>
+	  <guimenu>Security</guimenu>
+	  <guimenuitem>PGP Sign</guimenuitem>
+	</menuchoice>
+	.  You will be prompted for your PGP password.  Once you enter it,
+	click <guibutton>OK</guibutton> and your message will be signed.
+      </para>
+    </sect2>
+      
+      <sect2 id="encrypt-msg">
+	<title>Encrypting a Message</title>
+	<para>
+	  Encrypting a message is very similar to signing a message.  You simply
+	  click the menu item 
+	  <menuchoice>
+	    <guimenu>Security</guimenu>
+	    <guimenuitem>PGP Encrypt</guimenuitem>
+	  </menuchoice>
+	</para>
+      </sect2>
+      <sect2 id="unencrypting">
+	<title>Unencrypting a Recieved Message</title>
+	<para>
+	  Sometimes, a friend will send you a message which is encrypted.  In order
+	  for you to read it, you need to unencrypt it.
+	</para>
+	<para>
+	  When you view the encrypted message, <application>Evolution</application>
+	  will prompt you for your PGP password.  You type in your PGP password and
+	  the message is then decrypted.
+	</para>
+      </sect2>
+</sect1>
 </chapter>

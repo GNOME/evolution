@@ -36,10 +36,7 @@
 	the message list view, where  a summary of your email is displayed.
 	If you're running the program for the first time,
 	you'll have one message: a welcome from Ximian.
-
-
-
-<!-- ==============Figure=================================== -->
+	<!-- ==============Figure=================================== -->
     <figure id="usage-mainwindow-fig">
     <title>Evolution Main Window and Inbox</title>
     <screenshot>
@@ -49,17 +46,7 @@
     </screenshot>
     </figure>
 <!-- ==============End of Figure=================================== -->
-  </para>
-  </sect1>
-  <sect1 id="usage-mainwindow-looks">
-    <title>The Way Evolution Looks</title>
-    <para>
-      Both <application>GNOME</application> and <application>
-	Evolution</application>'s appearances can be customized,
-      so your graphics may not look the same as the screenshots.
     </para>
-
-  
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
@@ -77,33 +64,19 @@
        Take a look at the <guilabel>Shortcut Bar</guilabel>
        The shortcut buttons in that category are:
 
-      <variablelist>
-
-<!--  NOT IMPLEMENTED! 
-	<varlistentry>
-	<term> <guibutton>Today:</guibutton></term>
-	<listitem>
-	  <para>
-	This will bring up a summary of any new messages you've
-	received, along with the tasks and appointments you have
-	lined up for today.
-      </para>
-      </listitem>
-      </varlistentry>
--->
-	<varlistentry>
-	  <term> <guibutton>My Evolution</guibutton></term>
-	  <listitem>
+	    <variablelist>
+	      <varlistentry>
+		<term> <guibutton>My Evolution</guibutton></term>
+		<listitem>
 	    <para>
-	      Start your day here.  <guilabel>My Evolution</guilabel>
-              gives you a quick summary of new or important messages,
-              daily appointments and urgent tasks.  You can customize
-              its appearance and content, and use it to access
-              Evolution services.
-	    </para>
-	  </listitem>
-	</varlistentry>
-
+		    Start your day here.  <guilabel>My Evolution</guilabel>
+		    gives you a quick summary of new or important messages,
+		    daily appointments and urgent tasks.  You can customize
+		    its appearance and content, and use it to access
+		    Evolution services.
+		  </para>
+		</listitem>
+	      </varlistentry>
 
 	<varlistentry>
 	  <term> <guibutton>Inbox</guibutton></term>
@@ -166,38 +139,9 @@
 	</varlistentry>
 -->
 
-      </variablelist>
-    </para>
-    <para>
-      If you don't like the shortcut bar, you can use the folder bar
-      or the menu bar to navigate the main window. Press 
-            <keycombo action="simul">
-                 <keycap>Ctrl</keycap> 
-                 <keycap>O</keycap> 
-             </keycombo>
-      to choose from a list of folders you'd like to visit, or use the
-      drop-down folder bar.  You can hide and show the folder bar and
-      the shortcut bar by selecting those items in the
-      <guimenu>View</guimenu> menu.
-    </para>
-
-    <tip>
-       <title>Shortcut Bar Tricks</title>
-       <para>
-         To remove a shortcut from the shortcut bar, right-click on it
-         and select <guimenuitem>Remove</guimenuitem>.  To add one,
-         select <menuchoice> <guimenu>File</guimenu>
-         <guisubmenu>New</guisubmenu> <guimenuitem>Evolution Bar
-         Shortcut</guimenuitem> </menuchoice>.
-      </para>
-       <para>
-         To change the way the shortcut bar looks, right-click in an
-         empty space on the shortcut bar.  From the menu that appears,
-         you can select icon sizes.
-       </para>
-    </tip>
-  </sect2>
-
+	    </variablelist>
+	  </para>
+	</sect2>
   <sect2 id="usage-mainwindow-folderbar">
     <title>Folders and The Folder Bar</title>
     <para>
@@ -372,7 +316,7 @@
 	</para>
       </sect3>
       </sect2>
-  <sect2 id="usage-mainwindow-menubar">
+	  <sect2 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>
       The <interface>menu bar</interface>'s contents will always

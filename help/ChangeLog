@@ -1,3 +1,13 @@
+2001-07-02  Kevin Breit  <battery841@mediaone.net>
+
+	* C/apx-common-tasks.sgml: Created its own file.
+
+	* C/usage-mainwindow.sgml: You name it.
+
+	* C/preface.sgml: Pulled shortcuts from here into its own apx
+
+	* C/evolution.sgml: Reordered entities
+	
 2001-06-30  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Pulled organizing stuff, made its own file.
