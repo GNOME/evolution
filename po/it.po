@@ -9093,11 +9093,14 @@ msgstr "Il server si é disconnesso inaspettatamente: %s"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:326
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Alert from IMAP server %s@%s:\n"
 "%s"
-msgstr "Risposta inaspettata dal server IMAP: %s"
+msgstr ""
+"Avvertenza dal server IMAP %s@%s:\n"
+"%s"
+
 
 #: camel/providers/imap/camel-imap-command.c:395
 #, c-format
@@ -9143,9 +9146,9 @@ msgid "Scanning for changed messages"
 msgstr "Ricerca messaggi modificati"
 
 #: camel/providers/imap/camel-imap-folder.c:1872
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "Errore di ricazione del messaggio"
+msgstr "Impossibile la ricezione del messaggio: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1908
 #: camel/providers/local/camel-maildir-folder.c:212
@@ -9198,9 +9201,9 @@ msgid "Failed to cache message %s: %s"
 msgstr "Impossibile salvare messaggio %s nella cache: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile inserire nella cache %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Checking for new mail"
