@@ -77,7 +77,7 @@ struct _ESearchBar
 	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
 	GtkWidget *entry_box;
-	guint      pending_change;
+	guint      pending_activate;
 
 	/* The currently-selected item & subitem */
 	int        item_id;
@@ -88,11 +88,13 @@ struct _ESearchBarClass
 {
 	GtkHBoxClass parent_class;
 
-	void (*set_menu)       (ESearchBar *, ESearchBarItem *);
-	void (*set_option)     (ESearchBar *, ESearchBarItem *);
+	void (*set_menu)         (ESearchBar *, ESearchBarItem *);
+	void (*set_option)       (ESearchBar *, ESearchBarItem *);
 
-	void (*query_changed)  (ESearchBar *search);
-	void (*menu_activated) (ESearchBar *search, int item);
+	/* signals */
+	void (*search_activated) (ESearchBar *search);
+	void (*query_changed)    (ESearchBar *search);
+	void (*menu_activated)   (ESearchBar *search, int item);
 };
 
 

@@ -1,3 +1,24 @@
+2002-02-24  Chris Toshok  <toshok@ximian.com>
+
+	* e-filter-bar.c (init): preserve behavior - hook search_activated
+	signal to the same function as query_changed.
+
+	* e-search-bar.c (emit_search_activated): new function.
+	(entry_activated_cb): use emit_search_activated instead of
+	emit_query_changed.
+	(subitem_activated_cb): same.
+	(activate_button_clicked_cb): same.
+	(class_init): add the search_activated signal.
+	(idle_activate_hack): rename idle_change_hack to this, and
+	emit_search_activated.
+	(e_search_bar_construct): idle_change_hack -> idle_activate_hack.
+	(e_search_bar_set_subitem_id): emit_search_activated instead of
+	emit_query_changed.
+	(e_search_bar_set_text): same.
+
+	* e-search-bar.h (struct _ESearchBarClass): add a search_activated
+	signal.
+
 2001-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-filter-bar.c (menubar_activated): Mark the dialogue as already
