@@ -1,3 +1,8 @@
+2001-07-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (message_list_select): Made this handle being
+	given a row that's outside the range better.
+
 2001-07-06  Jason Leach  <jleach@ximian.com>
 
 	[Fix bug #1100, default account is stored strangely]

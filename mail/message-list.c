@@ -382,18 +382,23 @@ message_list_select (MessageList *message_list, int base_row,
 		break;
 	case MESSAGE_LIST_SELECT_NEXT:
 		last = e_tree_row_count (message_list->tree);
+		if (last <= base_row)
+			return;
 		break;
 	default:
 		g_warning("Invalid argument to message_list_select");
 		return;
 	}
 
-	if (base_row == -1)
-		base_row = e_tree_row_count(message_list->tree) - 1;
-
+	/* If it's -1, we want the last view row, not the last model row. */
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
-	vrow = e_tree_model_to_view_row (et, base_row);
+	if (base_row == -1)
+		vrow = e_tree_row_count(message_list->tree) - 1;
+	else
+		vrow = e_tree_model_to_view_row (et, base_row);
 
+	if (base_row <= -1)
+		return;
 	/* This means that we'll move at least one message in 'direction'. */
 	if (vrow != last)
 		vrow += direction;
