@@ -37,9 +37,9 @@ extern "C" {
 #include <sys/types.h>
 
 #define CAMEL_STREAM_MEM_TYPE     (camel_stream_mem_get_type ())
-#define CAMEL_STREAM_MEM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_MEM_TYPE, CamelStreamMem))
-#define CAMEL_STREAM_MEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_MEM_TYPE, CamelStreamMemClass))
-#define CAMEL_IS_STREAM_MEM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_MEM_TYPE))
+#define CAMEL_STREAM_MEM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_MEM_TYPE, CamelStreamMem))
+#define CAMEL_STREAM_MEM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_STREAM_MEM_TYPE, CamelStreamMemClass))
+#define CAMEL_IS_STREAM_MEM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_STREAM_MEM_TYPE))
 
 typedef struct _CamelStreamMemClass CamelStreamMemClass;
 
@@ -56,8 +56,8 @@ struct _CamelStreamMemClass {
 	/* Virtual methods */
 };
 
-/* Standard Gtk function */
-GtkType camel_stream_mem_get_type (void);
+/* Standard Camel function */
+CamelType camel_stream_mem_get_type (void);
 
 /* public methods */
 CamelStream *camel_stream_mem_new (void);

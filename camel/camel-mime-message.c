@@ -58,27 +58,26 @@ static char *recipient_names[] = {
 };
 
 static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void finalize (GtkObject *object);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void remove_header (CamelMedium *medium, const char *header_name);
 static int construct_from_parser (CamelMimePart *, CamelMimeParser *);
+static void g_lib_is_uber_crappy_shit(gpointer whocares, gpointer getlost, gpointer blah);
 
 /* Returns the class for a CamelMimeMessage */
-#define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
-#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
-#define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
+#define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
 	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_mime_message_class);
 	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_message_class);
 	int i;
 	
-	parent_class = gtk_type_class (camel_mime_part_get_type ());
+	parent_class = CAMEL_MIME_PART_CLASS(camel_type_get_global_classfuncs (camel_mime_part_get_type ()));
 
 	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	for (i=0;header_names[i];i++)
@@ -92,8 +91,6 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_medium_class->remove_header = remove_header;
 	
 	camel_mime_part_class->construct_from_parser = construct_from_parser;
-
-	gtk_object_class->finalize = finalize;
 }
 
 
@@ -120,39 +117,8 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	mime_message->date_str = NULL;
 }
 
-GtkType
-camel_mime_message_get_type (void)
-{
-	static GtkType camel_mime_message_type = 0;
-	
-	if (!camel_mime_message_type)	{
-		GtkTypeInfo camel_mime_message_info =	
-		{
-			"CamelMimeMessage",
-			sizeof (CamelMimeMessage),
-			sizeof (CamelMimeMessageClass),
-			(GtkClassInitFunc) camel_mime_message_class_init,
-			(GtkObjectInitFunc) camel_mime_message_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_mime_message_type = gtk_type_unique (camel_mime_part_get_type (), &camel_mime_message_info);
-	}
-	
-	return camel_mime_message_type;
-}
-
-/* annoying way to free objects in a hashtable, i mean, its not like anyone
-   would want to store them in a hashtable, really */
-static void g_lib_is_uber_crappy_shit(gpointer whocares, gpointer getlost, gpointer blah)
-{
-	gtk_object_unref((GtkObject *)getlost);
-}
-
 static void           
-finalize (GtkObject *object)
+camel_mime_message_finalize (CamelObject *object)
 {
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (object);
 	
@@ -163,8 +129,33 @@ finalize (GtkObject *object)
 
 	g_hash_table_foreach (message->recipients, g_lib_is_uber_crappy_shit, NULL);
 	g_hash_table_destroy(message->recipients);
+}
 
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+
+CamelType
+camel_mime_message_get_type (void)
+{
+	static CamelType camel_mime_message_type = CAMEL_INVALID_TYPE;
+	
+	if (camel_mime_message_type == CAMEL_INVALID_TYPE)	{
+		camel_mime_message_type = camel_type_register (camel_mime_part_get_type(), "CamelMimeMessage",
+							       sizeof (CamelMimeMessage),
+							       sizeof (CamelMimeMessageClass),
+							       (CamelObjectClassInitFunc) camel_mime_message_class_init,
+							       NULL,
+							       (CamelObjectInitFunc) camel_mime_message_init,
+							       (CamelObjectFinalizeFunc) camel_mime_message_finalize);
+	}
+	
+	return camel_mime_message_type;
+}
+
+/* annoying way to free objects in a hashtable, i mean, its not like anyone
+   would want to store them in a hashtable, really */
+/* peterw: somebody's not bitter :-) */
+static void g_lib_is_uber_crappy_shit(gpointer whocares, gpointer getlost, gpointer blah)
+{
+	camel_object_unref((CamelObject *)getlost);
 }
 
 
@@ -173,7 +164,7 @@ CamelMimeMessage *
 camel_mime_message_new (void) 
 {
 	CamelMimeMessage *mime_message;
-	mime_message = gtk_type_new (CAMEL_MIME_MESSAGE_TYPE);
+	mime_message = CAMEL_MIME_MESSAGE(camel_object_new (CAMEL_MIME_MESSAGE_TYPE));
 	
 	return mime_message;
 }

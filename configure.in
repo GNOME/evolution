@@ -165,30 +165,20 @@ dnl FIXME: support more thread types, pth at least
 
 GNOME_PTHREAD_CHECK
 
-dnl if test "x$PTHREAD_LIB" = "x" ; then
-dnl 	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
-dnl fi
+if test "x$PTHREAD_LIB" = "x" ; then
+	AC_MSG_ERROR([POSIX threads are currently required for Evolution])
+fi
 
 dnl
 dnl Notice that this is a hack, and we wont be able to use this forever, but
 dnl at least for some time
 dnl
 
-dnl THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
-dnl THREADS_CFLAGS="`glib-config --cflags gthread`"
+THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
+THREADS_CFLAGS="`glib-config --cflags gthread`"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
-
-AC_ARG_ENABLE([broken-threads],[  --enable-broken-threads Enable the broken threads in evolution-mail],[
-	use_bt=$enableval
-],[
-	use_bt=no
-])
-
-if test x"$use_bt" = xyes ; then
-	AC_DEFINE(USE_BROKEN_THREADS)
-fi
 
 dnl **************************************************
 dnl * Print check

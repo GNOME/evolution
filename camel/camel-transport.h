@@ -37,9 +37,9 @@ extern "C" {
 #include <camel/camel-service.h>
 
 #define CAMEL_TRANSPORT_TYPE     (camel_transport_get_type ())
-#define CAMEL_TRANSPORT(obj)     (GTK_CHECK_CAST((obj), CAMEL_TRANSPORT_TYPE, CamelTransport))
-#define CAMEL_TRANSPORT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_TRANSPORT_TYPE, CamelTransportClass))
-#define CAMEL_IS_TRANSPORT(o)    (GTK_CHECK_TYPE((o), CAMEL_TRANSPORT_TYPE))
+#define CAMEL_TRANSPORT(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TRANSPORT_TYPE, CamelTransport))
+#define CAMEL_TRANSPORT_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_TRANSPORT_TYPE, CamelTransportClass))
+#define CAMEL_IS_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_TRANSPORT_TYPE))
 
 
 struct _CamelTransport
@@ -75,8 +75,8 @@ gboolean camel_transport_send_to (CamelTransport *transport,
 				  GList *recipients,
 				  CamelException *ex);
 
-/* Standard Gtk function */
-GtkType camel_transport_get_type (void);
+/* Standard Camel function */
+CamelType camel_transport_get_type (void);
 
 #ifdef __cplusplus
 }

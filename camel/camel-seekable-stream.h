@@ -38,9 +38,9 @@ extern "C" {
 #include <unistd.h>
 
 #define CAMEL_SEEKABLE_STREAM_TYPE     (camel_seekable_stream_get_type ())
-#define CAMEL_SEEKABLE_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStream))
-#define CAMEL_SEEKABLE_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStreamClass))
-#define CAMEL_IS_SEEKABLE_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_SEEKABLE_STREAM_TYPE))
+#define CAMEL_SEEKABLE_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStream))
+#define CAMEL_SEEKABLE_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStreamClass))
+#define CAMEL_IS_SEEKABLE_STREAM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SEEKABLE_STREAM_TYPE))
 
 
 typedef enum
@@ -72,8 +72,8 @@ typedef struct {
 			     off_t start, off_t end);
 } CamelSeekableStreamClass;
 
-/* Standard Gtk function */
-GtkType camel_seekable_stream_get_type (void);
+/* Standard Camel function */
+CamelType camel_seekable_stream_get_type (void);
 
 /* public methods */
 off_t    camel_seekable_stream_seek            (CamelSeekableStream *stream, off_t offset,

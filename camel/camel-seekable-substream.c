@@ -27,7 +27,7 @@
 static CamelSeekableStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelSeekableSubStream */
-#define CSS_CLASS(so) CAMEL_SEEKABLE_SUBSTREAM_CLASS (GTK_OBJECT(so)->klass)
+#define CSS_CLASS(so) CAMEL_SEEKABLE_SUBSTREAM_CLASS (CAMEL_OBJECT(so)->klass)
 
 static	int	 stream_read  (CamelStream *stream, char *buffer, unsigned int n);
 static	int	 stream_write (CamelStream *stream, const char *buffer, unsigned int n);
@@ -36,8 +36,6 @@ static	int	 stream_close (CamelStream *stream);
 static	gboolean eos	      (CamelStream *stream);
 static	off_t	 stream_seek  (CamelSeekableStream *stream, off_t offset,
 			       CamelStreamSeekPolicy policy);
-static	void	 finalize     (GtkObject *object);
-
 
 static void
 camel_seekable_substream_class_init (CamelSeekableSubstreamClass *camel_seekable_substream_class)
@@ -46,10 +44,8 @@ camel_seekable_substream_class_init (CamelSeekableSubstreamClass *camel_seekable
 		CAMEL_SEEKABLE_STREAM_CLASS (camel_seekable_substream_class);
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_seekable_substream_class);
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_seekable_substream_class);
 
-	parent_class = gtk_type_class (camel_seekable_stream_get_type ());
+	parent_class = CAMEL_SEEKABLE_STREAM_CLASS (camel_type_get_global_classfuncs (camel_seekable_stream_get_type ()));
 
 	/* virtual method definition */
 
@@ -62,44 +58,35 @@ camel_seekable_substream_class_init (CamelSeekableSubstreamClass *camel_seekable
 
 	camel_seekable_stream_class->seek = stream_seek;
 
-	gtk_object_class->finalize = finalize;
-}
-
-
-GtkType
-camel_seekable_substream_get_type (void)
-{
-	static GtkType camel_seekable_substream_type = 0;
-
-	if (!camel_seekable_substream_type) {
-		GtkTypeInfo camel_seekable_substream_info =
-		{
-			"CamelSeekableSubstream",
-			sizeof (CamelSeekableSubstream),
-			sizeof (CamelSeekableSubstreamClass),
-			(GtkClassInitFunc) camel_seekable_substream_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_seekable_substream_type = gtk_type_unique (camel_seekable_stream_get_type (), &camel_seekable_substream_info);
-	}
-
-	return camel_seekable_substream_type;
 }
 
 static void
-finalize (GtkObject *object)
+camel_seekable_substream_finalize (CamelObject *object)
 {
 	CamelSeekableSubstream *seekable_substream =
 		CAMEL_SEEKABLE_SUBSTREAM (object);
 
 	if (seekable_substream->parent_stream)
-		gtk_object_unref (GTK_OBJECT (seekable_substream->parent_stream));
+		camel_object_unref (CAMEL_OBJECT (seekable_substream->parent_stream));
+}
 
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+
+CamelType
+camel_seekable_substream_get_type (void)
+{
+	static CamelType camel_seekable_substream_type = CAMEL_INVALID_TYPE;
+
+	if (camel_seekable_substream_type == CAMEL_INVALID_TYPE) {
+		camel_seekable_substream_type = camel_type_register (camel_seekable_stream_get_type (), "CamelSeekableSubstream",
+								     sizeof (CamelSeekableSubstream),
+								     sizeof (CamelSeekableSubstreamClass),
+								     (CamelObjectClassInitFunc) camel_seekable_substream_class_init,
+								     NULL,
+								     NULL,
+								     (CamelObjectFinalizeFunc) camel_seekable_substream_finalize);
+	}
+
+	return camel_seekable_substream_type;
 }
 
 /**
@@ -128,11 +115,11 @@ camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStrea
 	g_return_val_if_fail (CAMEL_IS_SEEKABLE_STREAM (parent_stream), NULL);
 
 	/* Create the seekable substream. */
-	seekable_substream = gtk_type_new (camel_seekable_substream_get_type ());
+	seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (camel_object_new (camel_seekable_substream_get_type ()));
 
 	/* Initialize it. */
 	seekable_substream->parent_stream = parent_stream;
-	gtk_object_ref (GTK_OBJECT (parent_stream));
+	camel_object_ref (CAMEL_OBJECT (parent_stream));
 
 	/* Set the bound of the substream. We can ignore any possible error
 	 * here, because if we fail to seek now, it will try again later.

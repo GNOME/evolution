@@ -25,28 +25,44 @@
 #ifndef _MAIL_THREADS_H_
 #define _MAIL_THREADS_H_
 
-#ifdef USE_BROKEN_THREADS
+#include <camel/camel-exception.h>
+#include <stdlib.h>		/*size_t */
+
+/* Returns a g_strdup'ed string that describes what's going to happen,
+ * tersely but specifically.
+ */
+typedef gchar *(*mail_op_describe_func) (gpointer /*input_data*/, gboolean /*gerund*/);
+typedef void (*mail_op_func) (gpointer, gpointer, CamelException *);
+
+typedef struct _mail_operation_spec
+{
+	mail_op_describe_func describe;
+	size_t datasize;
+	mail_op_func setup;
+	mail_op_func callback;
+	mail_op_func cleanup;
+}
+mail_operation_spec;
+
 /* Schedule to operation to happen eventually */
 
-gboolean mail_operation_try( const gchar *description, 
-			     void (*callback)( gpointer ), 
-			     void (*cleanup)( gpointer ),
-			     gpointer user_data );
+gboolean mail_operation_queue (const mail_operation_spec * spec,
+			       gpointer input, gboolean free_in_data);
 
 /* User interface hooks for the other thread */
 
-void mail_op_set_percentage( gfloat percentage );
-void mail_op_hide_progressbar( void );
-void mail_op_show_progressbar( void );
-void mail_op_set_message( gchar *fmt, ... ) G_GNUC_PRINTF( 1, 2 );
-void mail_op_error( gchar *fmt, ... ) G_GNUC_PRINTF( 1, 2 );
-gboolean mail_op_get_password( gchar *prompt, gboolean secret, gchar **dest );
+void mail_op_set_percentage (gfloat percentage);
+void mail_op_hide_progressbar (void);
+void mail_op_show_progressbar (void);
+void
+mail_op_set_message (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
+void mail_op_error (gchar * fmt, ...) G_GNUC_PRINTF (1, 2);
+gboolean mail_op_get_password (gchar * prompt, gboolean secret,
+			       gchar ** dest);
 
 /* Wait for the async operations to finish */
-void mail_operation_wait_for_finish( void );
-
-gboolean mail_operations_are_executing( void );
-
-#endif /* defined USE_BROKEN_THREADS */
+void mail_operation_wait_for_finish (void);
+gboolean mail_operations_are_executing (void);
+void mail_operations_terminate (void);
 
 #endif /* defined _MAIL_THREADS_H_ */

@@ -29,39 +29,30 @@
 
 static void camel_mime_filter_charset_class_init (CamelMimeFilterCharsetClass *klass);
 static void camel_mime_filter_charset_init       (CamelMimeFilterCharset *obj);
+static void camel_mime_filter_charset_finalize   (CamelObject *o);
 
 static CamelMimeFilterClass *camel_mime_filter_charset_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+CamelType
 camel_mime_filter_charset_get_type (void)
 {
-	static guint type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeFilterCharset",
-			sizeof (CamelMimeFilterCharset),
-			sizeof (CamelMimeFilterCharsetClass),
-			(GtkClassInitFunc) camel_mime_filter_charset_class_init,
-			(GtkObjectInitFunc) camel_mime_filter_charset_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_mime_filter_get_type (), &type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_mime_filter_get_type (), "CamelMimeFilterCharset",
+					    sizeof (CamelMimeFilterCharset),
+					    sizeof (CamelMimeFilterCharsetClass),
+					    (CamelObjectClassInitFunc) camel_mime_filter_charset_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_mime_filter_charset_init,
+					    (CamelObjectFinalizeFunc) camel_mime_filter_charset_finalize);
 	}
 	
 	return type;
 }
 
 static void
-finalise(GtkObject *o)
+camel_mime_filter_charset_finalize(CamelObject *o)
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)o;
 
@@ -71,8 +62,6 @@ finalise(GtkObject *o)
 		unicode_iconv_close(f->ic);
 		f->ic = (unicode_iconv_t) -1;
 	}
-
-	((GtkObjectClass *)camel_mime_filter_charset_parent)->finalize (o);
 }
 
 static void
@@ -191,18 +180,13 @@ donothing:
 static void
 camel_mime_filter_charset_class_init (CamelMimeFilterCharsetClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
 	
-	camel_mime_filter_charset_parent = gtk_type_class (camel_mime_filter_get_type ());
-
-	object_class->finalize = finalise;
+	camel_mime_filter_charset_parent = CAMEL_MIME_FILTER_CLASS (camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
 
 	filter_class->reset = reset;
 	filter_class->filter = filter;
 	filter_class->complete = complete;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -221,19 +205,19 @@ camel_mime_filter_charset_init (CamelMimeFilterCharset *obj)
 CamelMimeFilterCharset *
 camel_mime_filter_charset_new (void)
 {
-	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( gtk_type_new (camel_mime_filter_charset_get_type ()));
+	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( camel_object_new (camel_mime_filter_charset_get_type ()));
 	return new;
 }
 
 CamelMimeFilterCharset *
 camel_mime_filter_charset_new_convert(const char *from_charset, const char *to_charset)
 {
-	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( gtk_type_new (camel_mime_filter_charset_get_type ()));
+	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( camel_object_new (camel_mime_filter_charset_get_type ()));
 
 	new->ic = unicode_iconv_open(to_charset, from_charset);
 	if (new->ic == (unicode_iconv_t) -1) {
 		g_warning("Cannot create charset conversion from %s to %s: %s", from_charset, to_charset, strerror(errno));
-		gtk_object_unref((GtkObject *)new);
+		camel_object_unref((CamelObject *)new);
 		new = NULL;
 	} else {
 		new->from = g_strdup(from_charset);

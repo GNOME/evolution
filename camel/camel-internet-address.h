@@ -23,9 +23,9 @@
 
 #include <camel/camel-address.h>
 
-#define CAMEL_INTERNET_ADDRESS(obj)         GTK_CHECK_CAST (obj, camel_internet_address_get_type (), CamelInternetAddress)
-#define CAMEL_INTERNET_ADDRESS_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_internet_address_get_type (), CamelInternetAddressClass)
-#define IS_CAMEL_INTERNET_ADDRESS(obj)      GTK_CHECK_TYPE (obj, camel_internet_address_get_type ())
+#define CAMEL_INTERNET_ADDRESS(obj)         CAMEL_CHECK_CAST (obj, camel_internet_address_get_type (), CamelInternetAddress)
+#define CAMEL_INTERNET_ADDRESS_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_internet_address_get_type (), CamelInternetAddressClass)
+#define IS_CAMEL_INTERNET_ADDRESS(obj)      CAMEL_CHECK_TYPE (obj, camel_internet_address_get_type ())
 
 typedef struct _CamelInternetAddressClass CamelInternetAddressClass;
 

@@ -38,9 +38,9 @@ extern "C" {
 #include <unistd.h>
 
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
-#define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
-#define CAMEL_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
-#define CAMEL_IS_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
+#define CAMEL_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
+#define CAMEL_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
+#define CAMEL_IS_STREAM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
 
 struct _CamelStream
 {
@@ -63,8 +63,8 @@ typedef struct {
 
 } CamelStreamClass;
 
-/* Standard Gtk function */
-GtkType camel_stream_get_type (void);
+/* Standard Camel function */
+CamelType camel_stream_get_type (void);
 
 /* public methods */
 ssize_t    camel_stream_read       (CamelStream *stream, char *buffer, size_t n);

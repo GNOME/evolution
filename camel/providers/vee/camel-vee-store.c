@@ -32,33 +32,22 @@ struct _CamelVeeStorePrivate {
 
 static void camel_vee_store_class_init (CamelVeeStoreClass *klass);
 static void camel_vee_store_init       (CamelVeeStore *obj);
-static void camel_vee_store_finalise   (GtkObject *obj);
 
 static CamelStoreClass *camel_vee_store_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+CamelType
 camel_vee_store_get_type (void)
 {
-	static guint type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelVeeStore",
-			sizeof (CamelVeeStore),
-			sizeof (CamelVeeStoreClass),
-			(GtkClassInitFunc) camel_vee_store_class_init,
-			(GtkObjectInitFunc) camel_vee_store_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_store_get_type (), &type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_store_get_type (), "CamelVeeStore",
+					    sizeof (CamelVeeStore),
+					    sizeof (CamelVeeStoreClass),
+					    (CamelObjectClassInitFunc) camel_vee_store_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_vee_store_init,
+					    NULL);
 	}
 	
 	return type;
@@ -68,18 +57,13 @@ static void
 
 camel_vee_store_class_init (CamelVeeStoreClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelStoreClass *store_class = (CamelStoreClass *) klass;
 	
-	camel_vee_store_parent = gtk_type_class (camel_store_get_type ());
+	camel_vee_store_parent = CAMEL_STORE_CLASS(camel_type_get_global_classfuncs (camel_store_get_type ()));
 
 	/* virtual method overload */
 	store_class->get_folder = vee_get_folder;
 	store_class->get_folder_name = vee_get_folder_name;
-
-	object_class->finalize = camel_vee_store_finalise;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -88,12 +72,6 @@ camel_vee_store_init (CamelVeeStore *obj)
 	struct _CamelVeeStorePrivate *p;
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
-}
-
-static void
-camel_vee_store_finalise (GtkObject *obj)
-{
-	((GtkObjectClass *)(camel_vee_store_parent))->finalize((GtkObject *)obj);
 }
 
 /**
@@ -106,7 +84,7 @@ camel_vee_store_finalise (GtkObject *obj)
 CamelVeeStore *
 camel_vee_store_new (void)
 {
-	CamelVeeStore *new = CAMEL_VEE_STORE ( gtk_type_new (camel_vee_store_get_type ()));
+	CamelVeeStore *new = CAMEL_VEE_STORE ( camel_object_new (camel_vee_store_get_type ()));
 	return new;
 }
 
@@ -115,9 +93,9 @@ vee_get_folder (CamelStore *store, const char *folder_name, gboolean create, Cam
 {
 	CamelFolder *folder;
 
-	folder =  gtk_type_new (camel_vee_folder_get_type());
+	folder =  CAMEL_FOLDER (camel_object_new (camel_vee_folder_get_type()));
 
-	((CamelFolderClass *)((GtkObject *)folder)->klass)->init (folder, store, NULL, folder_name, "/", TRUE, ex);
+	((CamelFolderClass *)(CAMEL_OBJECT_GET_CLASS(folder)))->init (folder, store, NULL, folder_name, "/", TRUE, ex);
 	return folder;
 }
 

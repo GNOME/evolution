@@ -83,7 +83,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_smtp_transport_class);
 	
-	service_class = gtk_type_class (camel_service_get_type ());
+	service_class = CAMEL_SERVICE_CLASS(camel_type_get_global_classfuncs (camel_service_get_type ()));
 
 	/* virtual method overload */
 	camel_service_class->connect = smtp_connect;
@@ -98,32 +98,26 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 }
 
 static void
-camel_smtp_transport_init (gpointer object, gpointer klass)
+camel_smtp_transport_init (gpointer object)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 
 	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
 }
 
-GtkType
+CamelType
 camel_smtp_transport_get_type (void)
 {
-	static GtkType camel_smtp_transport_type = 0;
+	static CamelType camel_smtp_transport_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_smtp_transport_type) {
-		GtkTypeInfo camel_smtp_transport_info =	
-		{
-			"CamelSmtpTransport",
-			sizeof (CamelSmtpTransport),
-			sizeof (CamelSmtpTransportClass),
-			(GtkClassInitFunc) camel_smtp_transport_class_init,
-			(GtkObjectInitFunc) camel_smtp_transport_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_smtp_transport_type = gtk_type_unique (CAMEL_TRANSPORT_TYPE, &camel_smtp_transport_info);
+	if (camel_smtp_transport_type == CAMEL_INVALID_TYPE) {
+		camel_smtp_transport_type = camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSmtpTransport",
+								 sizeof (CamelSmtpTransport),
+								 sizeof (CamelSmtpTransportClass),
+								 (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
+								 NULL,
+								 (CamelObjectInitFunc) camel_smtp_transport_init,
+								 NULL);
 	}
 
 	return camel_smtp_transport_type;
@@ -241,8 +235,8 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 
 	g_free (transport->esmtp_supported_authtypes);
 	transport->esmtp_supported_authtypes = NULL;
-	gtk_object_unref (GTK_OBJECT (transport->ostream));
-	gtk_object_unref (GTK_OBJECT (transport->istream));
+	camel_object_unref (CAMEL_OBJECT (transport->ostream));
+	camel_object_unref (CAMEL_OBJECT (transport->istream));
 	transport->ostream = NULL;
 	transport->istream = NULL;
 
@@ -691,7 +685,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
         
 	camel_stream_filter_remove (filtered_stream, id);
 	camel_stream_flush (CAMEL_STREAM(filtered_stream));
-	gtk_object_unref (GTK_OBJECT(filtered_stream));
+	camel_object_unref (CAMEL_OBJECT(filtered_stream));
 
 	/* terminate the message body */
 

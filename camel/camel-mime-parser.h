@@ -27,9 +27,9 @@
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-stream.h>
 
-#define CAMEL_MIME_PARSER(obj)         GTK_CHECK_CAST (obj, camel_mime_parser_get_type (), CamelMimeParser)
-#define CAMEL_MIME_PARSER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_parser_get_type (), CamelMimeParserClass)
-#define IS_CAMEL_MIME_PARSER(obj)      GTK_CHECK_TYPE (obj, camel_mime_parser_get_type ())
+#define CAMEL_MIME_PARSER(obj)         CAMEL_CHECK_CAST (obj, camel_mime_parser_get_type (), CamelMimeParser)
+#define CAMEL_MIME_PARSER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_parser_get_type (), CamelMimeParserClass)
+#define IS_CAMEL_MIME_PARSER(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_parser_get_type ())
 
 typedef struct _CamelMimeParserClass CamelMimeParserClass;
 

@@ -30,6 +30,8 @@
 
 static GtkObjectClass *mail_display_parent_class;
 
+/* Sigh... gtk_object_set_data is nice to have... */
+extern GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message);
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -61,7 +63,9 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 		gnome_ok_cancel_dialog_modal (
 			"A file by that name already exists.\nOverwrite it?",
 			save_data_eexist_cb, &ok);
+		GDK_THREADS_ENTER();
 		gtk_main ();
+		GDK_THREADS_LEAVE();
 		if (!ok)
 			return FALSE;
 		fd = open (name, O_WRONLY | O_TRUNC);
@@ -86,11 +90,10 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 				       strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
-		gtk_object_unref (GTK_OBJECT (stream_fs));
+		camel_object_unref (CAMEL_OBJECT (stream_fs));
 		return FALSE;
 	}
-	gtk_object_unref (GTK_OBJECT (stream_fs));
-
+	camel_object_unref (CAMEL_OBJECT (stream_fs));
 	return TRUE;
 }
 
@@ -129,7 +132,7 @@ part_for_url (const char *url, CamelMimeMessage *message)
 {
 	GHashTable *urls;
 
-	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	urls = mail_lookup_url_table (message);
 	g_return_val_if_fail (urls != NULL, NULL);
 	return g_hash_table_lookup (urls, url);
 }
@@ -252,7 +255,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	if (strncmp (eb->classid, "cid:", 4) != 0)
 		return FALSE;
 	message = gtk_object_get_data (GTK_OBJECT (html), "message");
-	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	urls = mail_lookup_url_table (message);
 	medium = g_hash_table_lookup (urls, eb->classid);
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 	wrapper = camel_medium_get_content_object (medium);
@@ -283,7 +286,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
-	gtk_object_unref (GTK_OBJECT (cstream));
+	camel_object_unref (CAMEL_OBJECT (cstream));
 
 	/* ...and hydrate the PersistStream from the BonoboStream. */
 	CORBA_exception_init (&ev);
@@ -316,7 +319,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	GHashTable *urls;
 
 	message = gtk_object_get_data (GTK_OBJECT (html), "message");
-	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	urls = mail_lookup_url_table (message);
 
 	user_data = g_hash_table_lookup (urls, url);
 	if (user_data == NULL)
@@ -335,7 +338,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
 		camel_data_wrapper_write_to_stream (data, stream_mem);
 		gtk_html_write (html, handle, ba->data, ba->len);
-		gtk_object_unref (GTK_OBJECT (stream_mem));
+		camel_object_unref (CAMEL_OBJECT (stream_mem));
 	} else if (strncmp (url, "x-evolution-data:", 17) == 0) {
 		GByteArray *ba = user_data;
 
@@ -426,7 +429,7 @@ mail_display_set_message (MailDisplay *mail_display,
 
 	/* Clean up from previous message. */
 	if (mail_display->current_message)
-		gtk_object_unref (GTK_OBJECT (mail_display->current_message));
+		camel_object_unref (CAMEL_OBJECT (mail_display->current_message));
 
 	mail_display->current_message = (CamelMimeMessage*)medium;
 
@@ -435,7 +438,7 @@ mail_display_set_message (MailDisplay *mail_display,
 			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
 
 	if (medium) {
-		gtk_object_ref (GTK_OBJECT (medium));
+		camel_object_ref (CAMEL_OBJECT (medium));
 		gtk_object_set_data (GTK_OBJECT (mail_display->html),
 				     "message", medium);
 		mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
@@ -485,14 +488,10 @@ mail_display_class_init (GtkObjectClass *object_class)
 }
 
 GtkWidget *
-mail_display_new (FolderBrowser *parent_folder_browser)
+mail_display_new (void)
 {
 	MailDisplay *mail_display = gtk_type_new (mail_display_get_type ());
 	GtkWidget *scroll, *html;
-
-	g_assert (parent_folder_browser);
-
-	mail_display->parent_folder_browser = parent_folder_browser;
 
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));

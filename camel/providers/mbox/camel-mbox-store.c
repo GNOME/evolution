@@ -35,9 +35,9 @@
 #include "camel-url.h"
 
 /* Returns the class for a CamelMboxStore */
-#define CMBOXS_CLASS(so) CAMEL_MBOX_STORE_CLASS (GTK_OBJECT(so)->klass)
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CMBOXS_CLASS(so) CAMEL_MBOX_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
@@ -75,25 +75,19 @@ camel_mbox_store_init (gpointer object, gpointer klass)
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
-GtkType
+CamelType
 camel_mbox_store_get_type (void)
 {
-	static GtkType camel_mbox_store_type = 0;
+	static CamelType camel_mbox_store_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_mbox_store_type)	{
-		GtkTypeInfo camel_mbox_store_info =	
-		{
-			"CamelMboxStore",
-			sizeof (CamelMboxStore),
-			sizeof (CamelMboxStoreClass),
-			(GtkClassInitFunc) camel_mbox_store_class_init,
-			(GtkObjectInitFunc) camel_mbox_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_mbox_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_mbox_store_info);
+	if (camel_mbox_store_type == CAMEL_INVALID_TYPE)	{
+		camel_mbox_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelMboxStore",
+							     sizeof (CamelMboxStore),
+							     sizeof (CamelMboxStoreClass),
+							     (CamelObjectClassInitFunc) camel_mbox_store_class_init,
+							     NULL,
+							     (CamelObjectInitFunc) camel_mbox_store_init,
+							     NULL);
 	}
 	
 	return camel_mbox_store_type;
@@ -156,7 +150,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 		return NULL;
 	}
 
-	new_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
+	new_folder =  CAMEL_FOLDER (camel_object_new (CAMEL_MBOX_FOLDER_TYPE));
 	
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, "/", TRUE, ex);

@@ -9,13 +9,17 @@
 	assigned in the summary.
 	(message_list_init_renderers): Init colour column.
 
+2000-08-09  Peter Williams  <peterw@helixcode.com>
+
+	* mail-display.c (part_for_url): Remove a gtk_object_get_data
+
 2000-08-09  Cody Russell  <bratsche@gnome.org>
 
 	* folder-browser-factory.c, mail-view.c: Make the toolbars
 	honor the user's gnomecc settings for detachable toolbars.
 
 2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
-
+  
 	* mail-ops.c (composer_send_cb): Get the from address set in the
 	composer, if that fails ONLY THEN get the default from mail config
 
@@ -42,13 +46,21 @@
 	separator between VFolder and Filter stuff.
 
 	* mail-ops.c (real_view_msg): Set the UID of the message that is
-	being displayed
+  	being displayed
 
 2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Use
 	`GNOME_STOCK_MENU_*' things instead of `GNOME_STOCK_PIXMAP_*'
 	things, that are too big and look bad.
+
+2000-08-09  Peter Williams  <peterw@helixcode.com>
+
+	* mail-view.c (mail_view_create): Save the top window so that on_close
+	can find it [with set_data].
+	(on_close): Recover the top window.
+	
+	* mail-threads.c (read_msg): Destroy the window instead of hiding it.
 
 2000-08-09  Not Zed  <NotZed@HelixCode.com>
 
@@ -144,6 +156,38 @@
 	* mail-view.c: Lets get rid of the last separator in the toolbar
 	until we add n/p
 
+2000-08-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-threads.c (queue_window_delete_event_cb): Callback for
+	"delete_event", just doing nothing.
+	(create_queue_window): Connect it to the "delete_event" signal of
+	the progress dialog.
+
+2000-08-08  Peter Williams  <peterw@helixcode.com>
+
+	* mail-threads.c (remove_next_pending): Sanity check for
+	job queue, which seems to have some issues.
+	(read_msg): Make sure that the next operation isn't started
+	before the last one is cleaned up.
+
+	* mail-callbacks.c (fetch_mail): Fix erroneous free.
+
+	* mail-config-gui.c (mail_config_druid): Wrap the gtk_main call.
+
+	* mail-ops.c (do_flag_messages): Allow specification of whether
+	to set the flags unconditionally or toggle their current state.
+
+	* message-list.c (ml_tree_set_value_at): Toggle the seen status;
+	don't set it unconditionally.
+
+	* mail-callbacks.c (delete_msg): Toggle the deletion status;
+	don't set it unconditionally.
+
+	* mail-tools.c (mail_tool_do_movemail): Fix for undeclared tmpfd.
+
+	* mail-local.c (local_reconfigure_folder): Big rewrite; make into
+	an asynchronous operation. Use some mail tools to make life easy.
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* main.c (main): Move mail_config_init after session_init, since
@@ -226,6 +270,18 @@
 	(create_imap_storage): Updated.
 	(create_news_storage): Updated.
 
+2000-08-07  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops.c (cleanup_edit_messages): New operation: edit_messages
+	For continuing draft messages.
+	(attach_messages): Fix accidental 0 datasize.
+	(do_setup_draftbox): New operation: setup_draftbox. Soooo hacky.
+
+	* mail-callbacks.c: Move fejj's edit message to the async home.
+
+	* component-factory.c (owner_set_cb): Use mail_do_setup_draftbox.
+
+
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-display.c:
@@ -299,9 +355,35 @@
 	* folder-browser-factory.c (control_activate): Remove bonobo 0.15
 	vs 0.15-and-a-half ifdef, since we require post-0.16 now.
 
+2000-08-04  Dan Winship  <danw@helixcode.com>
+
+	* mail-threads.c (mail_operation_wait_for_finish): Don't use
+	"while (gtk_events_pending ()) gtk_main_iteration ();" inside
+	another tight loop, because it makes the thread spin rather than
+	blocking and waiting like it should.
+
 2000-08-04  Peter Williams  <peterw@helixcode.com>
 
-	* mail-ops.c (move_msg): Fixed a pretty silly uninitialization bug.
+	* message-thread.c (do_thread_messages): Uninitialized variable
+	fix.
+
+	* mail-threads.c (read_msg): Small leak fix.
+
+	* component-factory.c (owner_unset_cb): Use mail_operations_
+	terminate() instead of wait_for_finish().
+
+	* mail-threads.c (mail_operation_queue): Centralize the clur
+	handling functions; fix a race condition where the dispatcher
+	would overwrite the closure before the main thread could
+	free the old one.
+	(mail_operations_terminate): New function, wait for ops to
+	finished and kill the other thread.
+	(dispatch): changes to die when terminate is called (abort
+	on NULL spec).
+
+	* mail-ops.c (cleanup_display_message): Fix improper handling
+	of displaying a NULL message (which means clear the message
+	display).
 
 2000-08-04  Ettore Perazzoli  <ettore@helixcode.com>
 
@@ -337,6 +419,20 @@
 
 2000-08-03  Peter Williams  <peterw@helixcode.com>
 
+	* mail-ops.c (op_forward_messages): Use the new dynamic
+	operation naming.
+
+	* message-thread.c (describe_thread_messages): Ditto.
+
+	* message-list.c (describe_regenerate_messagelist): Ditto.
+
+	* mail-threads.c (get_password_clicked): Dynamic generation
+	of descriptive text for mail operations. "Opening a folder" ->
+	"Opening INBOX". Supported only so far, will be implemented
+	quickly.
+	g_strdup() the old_message when changing the queue_window_label's
+	text.
+
 	* main.c (main): One more gconf reference to take out...
 
 	* mail-ops.c (composer_send_cb): Check for an identity before
@@ -366,6 +462,11 @@
 	* mail-config-druid.glade: Make the icon background dark blue
 	like the surrounding area.
 
+2000-08-02  Peter Williams  <peterw@helixcode.com>
+
+	* component-factory.c (owner_unset_cb): Wait for async operations
+	to finish before exiting.
+
 2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-ops.c, message-list.c: Emit "model_pre_change" where
@@ -374,6 +475,12 @@
 2000-08-02  Peter Williams  <peterw@helixcode.com>
 
 	* mail-config.h: #ifdef _MAIL_CONFIG_H protect the header.
+
+2000-08-01  Peter Williams  <peterw@helixcode.com>
+
+	* mail-threads.c: Implement Solaris threads. Attempt
+	to join to the thread upon exit -- hopefully prevents
+	all those nasty zombie processes from popping up :-(
 
 2000-08-01  Dan Winship  <danw@helixcode.com>
 
@@ -591,6 +698,33 @@
 	(main): More "guess the build mistake" fun, this time for the
 	failure to initialize Bonobo case.
 
+2000-07-24  Peter Williams  <peterw@helixcode.com>
+
+	* mail-tools.c (mail_tool_set_uid_flags): Change
+	function to faithfully pass parameters to
+	camel_folder_set_message_flags; this function is
+	somewhat useless now. Other files synced with
+	API change.
+
+	* mail-ops.c (op_display_message): Change "display
+	a message" into "retrieve a messsage" in the
+	description of mail_op_display_message.
+
+	* mail-threads.c (display_timeout): New function.
+	Only display the progress dialog if the operation
+	takes more than a second to perform.
+	(hide_queue_window): New function. Hide the queue
+	window as an idle function... I'm thinking maybe
+	the problem with hiding it was due to us not
+	being in a GTK event sequence? Perhaps it's only
+	the timeout, which was not being cancelled, which
+	is now.
+	
+	* message-list.c (get_message_uid): New function,
+	copy of get_message_info, except gets only the
+	UID, as that's all that most functions want, and
+	we avoid a Camel call.
+
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (create_message_composer): New.
@@ -601,6 +735,94 @@
 	* folder-browser-factory.c (control_activate): Use `_()' instead
 	of `N_()'.
 
+2000-07-21  Peter Williams  <peterw@helixcode.com>
+
+	* message-thread.c (setup_thread_messages): New
+	operation: thread_messages, simple wrapper around
+	thread_messages () and thread_messages_free();
+
+	* message-list.c (cleanup_regenerate_messagelist): 
+	Use new thread_messages operation instead of just
+	calling ... thread_messages :-)
+
+	* folder-browser.c (folder_browser_destroy): Use new
+	sync_folder operation instead of calling camel_folder_sync
+	directly.
+
+	* component-factory.c (create_folder): Changed to use
+	new create_folder operation.
+
+	* mail-ops.c (mail_do_create_folder): New operation: create
+	folder. New operation: sync folder.
+
+	* mail-format.c (cmm_destroyed): Remove the url hashtable from
+	the larger hashtable when it gets destroyed.
+
+	* mail-callbacks.c (fetch_mail): Pass a hook function and data
+	down the chain to pick up the folder_changed and change the view.
+
+	* mail-ops.c: Rename from mail-ops-new.c now that it's a little more
+	solid. 
+	(fetch_mail): Add new options to hook and unhook an event while the
+	filter driver runs. A hack, but all of the operations are to some
+	extent.
+	(cleanup_fetch_mail): Unref the destination folder if not NULL.
+	* mail-tools.c (mail_tool_filter_contents_into): Intermediate the
+	event hook/unhook hack here.
+
+2000-07-20  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops-new.c (setup_send_mail): Fix silly forgetting-to-ref
+	problem on some sends (when not replying). Note the early exit
+	path with a big comment.
+	
+	* message-list.c (message_list_set_folder): Don't call
+	folder_changed, call mail_do_regenerate_messagelist, as
+	the GDK_THREADS_ENTER in the former can deadlock us!
+
+	* folder-browser.c (folder_browser_set_uri): Ah, screw it.
+	Make 'load folder' asynchronous and pretend that it always
+	succeeds.
+
+	* mail-ops-new.c (mail_do_load_folder): New operation, loads
+	a folder into a FolderBrowser.
+	
+	* mail-threads.c (read_msg): Check if the exception is
+	a user cancel; don't complain if it is.
+	(mail_operation_queue): Same.
+	(dispatch_func): Same.
+
+2000-07-20  Peter Williams  <peterw@helixcode.com>
+	
+	* mail-ops-new.c (cleanup_send_mail): Fix evil mistaken
+	unref.
+
+	* test-thread.c: Fit the new mail_operation_spec prototype.
+
+	* mail-callbacks.c (composer_send_cb): Hide the composer upon
+	start of send operation.
+
+	* folder-browser.c: #include "mail-ops-new.h"
+
+	* mail-threads.h: Change text fields of mail_operation_spec to
+	provide two forms of the name.
+
+	* mail-threads.c: Use appropriate new string fields.
+	(dispatch_func): Hide the progressbar by default.
+	
+	* message-list.c (op_regenerate_messagelist): Fix the datasize from
+	0 -> sizeof (regenerate_messagelist_data_t). Add the new gerund and
+	infinitive strings.
+	(do_regenerate_messagelist): Include some code that fell between the
+	cracks.
+
+	* mail-ops-new.c (op_scan_subfolders): Same datasize fix for 
+	scan_subfolders.
+	(op_forward_message): Same.	
+	(all): Add new gerund and inifinitive strings for mail_operation_spec.
+	(cleanup_send_mail): Destroy the composer on success; re-show it on
+	error. I'm so clever!
+	
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c (factory_fn): Updated for the new
@@ -609,6 +831,24 @@
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-thread.c (thread_messages): What if message info is NULL?
+
+2000-07-17  Peter Williams  <peterw@helixcode.com>
+
+	* component-factory.c (real_create_{imap,news}_storage): Instead of
+	directly calling evolution_storage_new_folder, queue up a list of
+	folders to register so that we don't do our CORBA in The Other Thread.
+	(create_{imap,news}_storage): Changes ancillary to the above.
+	(add_new_mailbox): New function to queue up a folder
+	(cleanup_create_info): New function to dequeue the folders and free mem.
+
+	* test-thread.c: s,ENABLE_BROKEN_THREADS,USE_BROKEN_THREADS -- oops
+
+	* mail-format.c: (mail_lookup_url_table): New function to get the url
+	table associated with a CamelMimeMessage because we can no longer 
+	gtk_object_get_data on it.
+
+	* mail-display.c: replace 'gtk_object_get_data( message, "urls" )'
+	with 'mail_lookup_url_table( message )'
 
 2000-07-16  Jeffrey Stedfast <fejj@helixcode.com>
 
@@ -622,6 +862,16 @@
 	Preview]".
 	(real_send_mail): Call it.
 
+2000-07-14  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* message-list.c (message_list_set_folder): Ported to CamelObject:
+	GTK_OBJECT->CAMEL_OBJECT; gtk_signal_connect->camel_object_hook_event;
+	GDK_THREADS_ENTER/LEAVE around "changed" event hooks.
+
+	* folder-browser.c (folder_browser_destroy): likewise.
+	(mail_uri_to_folder): likewise.
+	(folder_browser_load_folder): likewise.
+	
 2000-07-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (evolution_mail_LDADD): Add `GCONF_LIBS'.
@@ -694,6 +944,10 @@
 
 	* mail-display.c (save_data): Change from evolution_dir to
 	g_get_home_dir() for default location of save file.
+
+2000-07-11  Dan Winship  <danw@helixcode.com>
+
+	* Update for CamelFolder API changes
 
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 

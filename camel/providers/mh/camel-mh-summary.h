@@ -21,14 +21,13 @@
 #ifndef _CAMEL_MH_SUMMARY_H
 #define _CAMEL_MH_SUMMARY_H
 
-#include <gtk/gtk.h>
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-exception.h>
 #include <libibex/ibex.h>
 
-#define CAMEL_MH_SUMMARY(obj)	GTK_CHECK_CAST (obj, camel_mh_summary_get_type (), CamelMhSummary)
-#define CAMEL_MH_SUMMARY_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, camel_mh_summary_get_type (), CamelMhSummaryClass)
-#define IS_CAMEL_MH_SUMMARY(obj)      GTK_CHECK_TYPE (obj, camel_mh_summary_get_type ())
+#define CAMEL_MH_SUMMARY(obj)	CAMEL_CHECK_CAST (obj, camel_mh_summary_get_type (), CamelMhSummary)
+#define CAMEL_MH_SUMMARY_CLASS(klass)	CAMEL_CHECK_CLASS_CAST (klass, camel_mh_summary_get_type (), CamelMhSummaryClass)
+#define IS_CAMEL_MH_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_mh_summary_get_type ())
 
 typedef struct _CamelMhSummary	CamelMhSummary;
 typedef struct _CamelMhSummaryClass	CamelMhSummaryClass;
@@ -49,7 +48,7 @@ struct _CamelMhSummaryClass {
 	/* signals */
 };
 
-guint		camel_mh_summary_get_type	(void);
+CamelType	 camel_mh_summary_get_type	(void);
 CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, ibex *index);
 
 /* methods */

@@ -34,7 +34,7 @@
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelService */
-#define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
+#define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, CamelException *ex);
@@ -42,18 +42,13 @@ static gboolean is_connected (CamelService *service);
 static GList *  query_auth_types (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
-static void     finalize (GtkObject *object);
-
 static gboolean check_url (CamelService *service, CamelException *ex);
 
 
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
 {
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_service_class);
-
-	parent_class = gtk_type_class (camel_object_get_type ());
+	parent_class = camel_type_get_global_classfuncs (CAMEL_OBJECT_TYPE);
 
 	/* virtual method definition */
 	camel_service_class->connect = service_connect;
@@ -62,49 +57,38 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
-
-	/* virtual method overload */
-	gtk_object_class->finalize = finalize;
-}
-
-GtkType
-camel_service_get_type (void)
-{
-	static GtkType camel_service_type = 0;
-
-	if (!camel_service_type) {
-		GtkTypeInfo camel_service_info =
-		{
-			"CamelService",
-			sizeof (CamelService),
-			sizeof (CamelServiceClass),
-			(GtkClassInitFunc) camel_service_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_service_type = gtk_type_unique (camel_object_get_type (),
-						      &camel_service_info);
-	}
-
-	return camel_service_type;
 }
 
 static void
-finalize (GtkObject *object)
+camel_service_finalize (CamelObject *object)
 {
 	CamelService *camel_service = CAMEL_SERVICE (object);
 
 	if (camel_service->url)
 		camel_url_free (camel_service->url);
 	if (camel_service->session)
-		gtk_object_unref (GTK_OBJECT (camel_service->session));
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+		camel_object_unref (CAMEL_OBJECT (camel_service->session));
 }
 
+
+
+CamelType
+camel_service_get_type (void)
+{
+	static CamelType camel_service_type = CAMEL_INVALID_TYPE;
+
+	if (camel_service_type == CAMEL_INVALID_TYPE) {
+		camel_service_type = camel_type_register( CAMEL_OBJECT_TYPE, "CamelService",
+							  sizeof (CamelService),
+							  sizeof (CamelServiceClass),
+							  (CamelObjectClassInitFunc) camel_service_class_init,
+							  NULL,
+							  NULL,
+							  camel_service_finalize );
+	}
+
+	return camel_service_type;
+}
 
 static gboolean
 check_url (CamelService *service, CamelException *ex)
@@ -142,7 +126,7 @@ check_url (CamelService *service, CamelException *ex)
 
 /**
  * camel_service_new: create a new CamelService or subtype
- * @type: the GtkType of the class to create
+ * @type: the CamelType of the class to create
  * @session: the session for the service
  * @url: the default URL for the service (may be NULL)
  * @ex: a CamelException
@@ -153,22 +137,22 @@ check_url (CamelService *service, CamelException *ex)
  * Return value: the CamelService, or NULL.
  **/
 CamelService *
-camel_service_new (GtkType type, CamelSession *session, CamelURL *url,
+camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
 		   CamelException *ex)
 {
 	CamelService *service;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
-	service = CAMEL_SERVICE (gtk_object_new (type, NULL));
+	service = CAMEL_SERVICE (camel_object_new (type));
 	service->url = url;
 	if (!url->empty && !check_url (service, ex)) {
-		gtk_object_unref (GTK_OBJECT (service));
+		camel_object_unref (CAMEL_OBJECT (service));
 		return NULL;
 	}
 
 	service->session = session;
-	gtk_object_ref (GTK_OBJECT (session));
+	camel_object_ref (CAMEL_OBJECT (session));
 
 	return service;
 }
@@ -268,7 +252,7 @@ static char *
 get_name (CamelService *service, gboolean brief)
 {
 	g_warning ("CamelService::get_name not implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (service)));
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (service)));
 	return "???";
 }		
 

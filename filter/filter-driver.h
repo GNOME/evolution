@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel-session.h>
 #include <camel/camel-folder.h>
+#include <mail/mail-threads.h>
 
 #include "filter-context.h"
 
@@ -54,7 +55,8 @@ FilterDriver      *filter_driver_new	(FilterContext *ctx, FilterGetFolderFunc fe
   void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */
-int filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox);
+void filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
+		       gboolean self_destruct, gpointer unhook_func, gpointer unhook_data);
 
 #if 0
 /* generate the search query/action string for a filter option */

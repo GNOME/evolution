@@ -31,16 +31,15 @@
 extern "C" {
 #pragma }
 #endif				/* __cplusplus } */
-#include <gtk/gtk.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-search.h>
 #include <libibex/ibex.h>
 #include "camel-mh-summary.h"
 
 #define CAMEL_MH_FOLDER_TYPE     (camel_mh_folder_get_type ())
-#define CAMEL_MH_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_MH_FOLDER_TYPE, CamelMhFolder))
-#define CAMEL_MH_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MH_FOLDER_TYPE, CamelMhFolderClass))
-#define IS_CAMEL_MH_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_MH_FOLDER_TYPE))
+#define CAMEL_MH_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MH_FOLDER_TYPE, CamelMhFolder))
+#define CAMEL_MH_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MH_FOLDER_TYPE, CamelMhFolderClass))
+#define IS_CAMEL_MH_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MH_FOLDER_TYPE))
 
 typedef struct {
 	CamelFolder parent_object;
@@ -64,8 +63,8 @@ typedef struct {
 
 /* public methods */
 
-/* Standard Gtk function */
-GtkType camel_mh_folder_get_type(void);
+/* Standard Camel function */
+CamelType camel_mh_folder_get_type(void);
 
 #ifdef __cplusplus
 }

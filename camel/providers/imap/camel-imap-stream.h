@@ -36,9 +36,9 @@ extern "C" {
 #include <sys/types.h>
 
 #define CAMEL_IMAP_STREAM_TYPE     (camel_imap_stream_get_type ())
-#define CAMEL_IMAP_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_IMAP_STREAM_TYPE, CamelImapStream))
-#define CAMEL_IMAP_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STREAM_TYPE, CamelImapStreamClass))
-#define CAMEL_IS_IMAP_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_IMAP_STREAM_TYPE))
+#define CAMEL_IMAP_STREAM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_STREAM_TYPE, CamelImapStream))
+#define CAMEL_IMAP_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STREAM_TYPE, CamelImapStreamClass))
+#define CAMEL_IS_IMAP_STREAM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_IMAP_STREAM_TYPE))
 
 typedef struct _CamelImapStream CamelImapStream;
 typedef struct _CamelImapStreamClass CamelImapStreamClass;
@@ -58,8 +58,8 @@ struct _CamelImapStreamClass {
 	/* Virtual methods */
 };
 
-/* Standard Gtk function */
-GtkType camel_imap_stream_get_type (void);
+/* Standard Camel function */
+CamelType camel_imap_stream_get_type (void);
 
 /* public methods */
 CamelStream *camel_imap_stream_new (CamelImapFolder *folder, char *command);

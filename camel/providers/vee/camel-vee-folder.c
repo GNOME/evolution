@@ -63,36 +63,26 @@ static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, con
 
 static void camel_vee_folder_class_init (CamelVeeFolderClass *klass);
 static void camel_vee_folder_init       (CamelVeeFolder *obj);
-static void camel_vee_folder_finalise   (GtkObject *obj);
+static void camel_vee_folder_finalise   (CamelObject *obj);
 
 static void vee_folder_build(CamelVeeFolder *vf, CamelException *ex);
 static void vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException *ex);
 
 static CamelFolderClass *camel_vee_folder_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+CamelType
 camel_vee_folder_get_type (void)
 {
-	static guint type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelVeeFolder",
-			sizeof (CamelVeeFolder),
-			sizeof (CamelVeeFolderClass),
-			(GtkClassInitFunc) camel_vee_folder_class_init,
-			(GtkObjectInitFunc) camel_vee_folder_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_folder_get_type (), &type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_folder_get_type (), "CamelVeeFolder",
+					    sizeof (CamelVeeFolder),
+					    sizeof (CamelVeeFolderClass),
+					    (CamelObjectClassInitFunc) camel_vee_folder_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_vee_folder_init,
+					    (CamelObjectFinalizeFunc) camel_vee_folder_finalise);
 	}
 	
 	return type;
@@ -101,10 +91,9 @@ camel_vee_folder_get_type (void)
 static void
 camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelFolderClass *folder_class = (CamelFolderClass *) klass;
 
-	camel_vee_folder_parent = gtk_type_class (camel_folder_get_type ());
+	camel_vee_folder_parent = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs (camel_folder_get_type ()));
 
 	folder_class->init = vee_init;
 	folder_class->sync = vee_sync;
@@ -125,10 +114,6 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->set_message_flags = vee_set_message_flags;
 	folder_class->get_message_user_flag = vee_get_message_user_flag;
 	folder_class->set_message_user_flag = vee_set_message_user_flag;
-
-	object_class->finalize = camel_vee_folder_finalise;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -140,7 +125,7 @@ camel_vee_folder_init (CamelVeeFolder *obj)
 }
 
 static void
-camel_vee_folder_finalise (GtkObject *obj)
+camel_vee_folder_finalise (CamelObject *obj)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)obj;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
@@ -149,11 +134,9 @@ camel_vee_folder_finalise (GtkObject *obj)
 	node = p->folders;
 	while (node) {
 		CamelFolder *f = node->data;
-		gtk_object_unref((GtkObject *)f);
+		camel_object_unref((CamelObject *)f);
 		node = g_list_next(node);
 	}
-	
-	((GtkObjectClass *)(camel_vee_folder_parent))->finalize((GtkObject *)obj);
 }
 
 /**
@@ -166,12 +149,12 @@ camel_vee_folder_finalise (GtkObject *obj)
 CamelVeeFolder *
 camel_vee_folder_new (void)
 {
-	CamelVeeFolder *new = CAMEL_VEE_FOLDER ( gtk_type_new (camel_vee_folder_get_type ()));
+	CamelVeeFolder *new = CAMEL_VEE_FOLDER ( camel_object_new (camel_vee_folder_get_type ()));
 	return new;
 }
 
 static void
-folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
+folder_changed(CamelFolder *sub, gpointer type, CamelVeeFolder *vf)
 {
 	CamelException *ex;
 
@@ -179,7 +162,7 @@ folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
 	vee_folder_build_folder(vf, sub, ex);
 	camel_exception_free(ex);
 	/* FIXME: should only raise follow-on event if the result changed */
-	gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
+	camel_object_trigger_event( CAMEL_OBJECT(vf), "folder_changed", GINT_TO_POINTER(0));
 }
 
 /* track flag changes in the summary */
@@ -203,7 +186,7 @@ message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *mf)
 			camel_flag_set(&vinfo->user_flags, flag->name, TRUE);
 			flag = flag->next;
 		}
-		gtk_signal_emit_by_name((GtkObject *)mf, "message_changed", vinfo->uid);
+		camel_object_trigger_event( CAMEL_OBJECT(mf), "message_changed", vinfo->uid);
 	}
 	g_free(vuid);
 }
@@ -214,17 +197,17 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	CamelException *ex;
 
-	gtk_object_ref((GtkObject *)sub);
+	camel_object_ref((CamelObject *)sub);
 	p->folders = g_list_append(p->folders, sub);
 
-	gtk_signal_connect((GtkObject *)sub, "folder_changed", folder_changed, vf);
-	gtk_signal_connect((GtkObject *)sub, "message_changed", message_changed, vf);
+	camel_object_hook_event ((CamelObject *)sub, "folder_changed", (CamelObjectEventHookFunc) folder_changed, vf);
+	camel_object_hook_event ((CamelObject *)sub, "message_changed", (CamelObjectEventHookFunc) message_changed, vf);
 
 	ex = camel_exception_new();
 	vee_folder_build_folder(vf, sub, ex);
 	camel_exception_free(ex);
 	/* FIXME: should only raise follow-on event if the result changed */
-	gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
+	camel_object_trigger_event( CAMEL_OBJECT(vf), "folder_changed", GINT_TO_POINTER(0));
 }
 
 

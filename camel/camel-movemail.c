@@ -565,8 +565,8 @@ camel_movemail_solaris (int sfd, int dfd, CamelException *ex)
 		}
 	}
 
-	gtk_object_unref((GtkObject *)mp);
-	gtk_object_unref((GtkObject *)ffrom);
+	camel_object_unref((CamelObject *)mp);
+	camel_object_unref((CamelObject *)ffrom);
 
 	return ret;
 
@@ -577,8 +577,8 @@ fail:
 			      g_strerror (errno));
 
 
-	gtk_object_unref((GtkObject *)mp);
-	gtk_object_unref((GtkObject *)ffrom);
+	camel_object_unref((CamelObject *)mp);
+	camel_object_unref((CamelObject *)ffrom);
 
 	return -1;
 }

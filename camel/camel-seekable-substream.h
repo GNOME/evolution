@@ -36,9 +36,9 @@ extern "C" {
 #include <camel/camel-seekable-stream.h>
 
 #define CAMEL_SEEKABLE_SUBSTREAM_TYPE       (camel_seekable_substream_get_type ())
-#define CAMEL_SEEKABLE_SUBSTREAM(obj)       (GTK_CHECK_CAST((obj), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstream))
-#define CAMEL_SEEKABLE_SUBSTREAM_CLASS(k)   (GTK_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstreamClass))
-#define CAMEL_IS_SEEKABLE_SUBSTREAM(o)      (GTK_CHECK_TYPE((o), CAMEL_SEEKABLE_SUBSTREAM_TYPE))
+#define CAMEL_SEEKABLE_SUBSTREAM(obj)       (CAMEL_CHECK_CAST((obj), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstream))
+#define CAMEL_SEEKABLE_SUBSTREAM_CLASS(k)   (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstreamClass))
+#define CAMEL_IS_SEEKABLE_SUBSTREAM(o)      (CAMEL_CHECK_TYPE((o), CAMEL_SEEKABLE_SUBSTREAM_TYPE))
 
 struct _CamelSeekableSubstream
 {
@@ -53,8 +53,8 @@ typedef struct {
 
 } CamelSeekableSubstreamClass;
 
-/* Standard Gtk function */
-GtkType camel_seekable_substream_get_type (void);
+/* Standard Camel function */
+CamelType camel_seekable_substream_get_type (void);
 
 /* public methods */
 

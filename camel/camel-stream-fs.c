@@ -35,7 +35,7 @@
 static CamelSeekableStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelStreamFS */
-#define CSFS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
+#define CSFS_CLASS(so) CAMEL_STREAM_FS_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static ssize_t stream_read   (CamelStream *stream, char *buffer, size_t n);
 static ssize_t stream_write  (CamelStream *stream, const char *buffer, size_t n);
@@ -43,7 +43,6 @@ static int stream_flush  (CamelStream *stream);
 static int stream_close  (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
 			  CamelStreamSeekPolicy policy);
-static void finalize (GtkObject *object);
 
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
@@ -52,10 +51,8 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 		CAMEL_SEEKABLE_STREAM_CLASS (camel_stream_fs_class);
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_stream_fs_class);
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_stream_fs_class);
 
-	parent_class = gtk_type_class (camel_seekable_stream_get_type ());
+	parent_class = CAMEL_SEEKABLE_STREAM_CLASS (camel_type_get_global_classfuncs (camel_seekable_stream_get_type ()));
 
 	/* virtual method overload */
 	camel_stream_class->read = stream_read;
@@ -64,8 +61,6 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->close = stream_close;
 
 	camel_seekable_stream_class->seek = stream_seek;
-
-	gtk_object_class->finalize = finalize;
 }
 
 static void
@@ -76,39 +71,32 @@ camel_stream_fs_init (gpointer object, gpointer klass)
 	stream->fd = -1;
 }
 
-GtkType
-camel_stream_fs_get_type (void)
-{
-	static GtkType camel_stream_fs_type = 0;
-
-	if (!camel_stream_fs_type) {
-		GtkTypeInfo camel_stream_fs_info =
-		{
-			"CamelStreamFs",
-			sizeof (CamelStreamFs),
-			sizeof (CamelStreamFsClass),
-			(GtkClassInitFunc) camel_stream_fs_class_init,
-			(GtkObjectInitFunc) camel_stream_fs_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_stream_fs_type = gtk_type_unique (camel_seekable_stream_get_type (), &camel_stream_fs_info);
-	}
-
-	return camel_stream_fs_type;
-}
-
 static void
-finalize (GtkObject *object)
+camel_stream_fs_finalize (CamelObject *object)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (object);
 
 	if (stream_fs->fd != -1)
 		close (stream_fs->fd);
+}
 
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+
+CamelType
+camel_stream_fs_get_type (void)
+{
+	static CamelType camel_stream_fs_type = CAMEL_INVALID_TYPE;
+
+	if (camel_stream_fs_type == CAMEL_INVALID_TYPE) {
+		camel_stream_fs_type = camel_type_register (camel_seekable_stream_get_type (), "CamelStreamFs",
+							    sizeof (CamelStreamFs),
+							    sizeof (CamelStreamFsClass),
+							    (CamelObjectClassInitFunc) camel_stream_fs_class_init,
+							    NULL,
+							    (CamelObjectInitFunc) camel_stream_fs_init,
+							    (CamelObjectFinalizeFunc) camel_stream_fs_finalize);
+	}
+
+	return camel_stream_fs_type;
 }
 
 /**
@@ -126,7 +114,7 @@ camel_stream_fs_new_with_fd (int fd)
 	CamelStreamFs *stream_fs;
 	off_t offset;
 
-	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
+	stream_fs = CAMEL_STREAM_FS (camel_object_new (camel_stream_fs_get_type ()));
 	stream_fs->fd = fd;
 	offset = lseek (fd, 0, SEEK_CUR);
 	if (offset == -1)

@@ -30,30 +30,26 @@
 static CamelStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelImapStream */
-#define CIS_CLASS(so) CAMEL_IMAP_STREAM_CLASS (GTK_OBJECT(so)->klass)
+#define CIS_CLASS(so) CAMEL_IMAP_STREAM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static ssize_t stream_read (CamelStream *stream, char *buffer, size_t n);
 static int stream_reset (CamelStream *stream);
 static gboolean stream_eos (CamelStream *stream);
 
-static void finalize (GtkObject *object);
+static void finalize (CamelObject *object);
 
 static void
 camel_imap_stream_class_init (CamelImapStreamClass *camel_imap_stream_class)
 {
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_imap_stream_class);
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_imap_stream_class);
 
-	parent_class = gtk_type_class (camel_stream_get_type ());
+	parent_class = CAMEL_STREAM_CLASS(camel_type_get_global_classfuncs (camel_stream_get_type ()));
 
 	/* virtual method overload */
 	camel_stream_class->read  = stream_read;
 	camel_stream_class->reset = stream_reset;
 	camel_stream_class->eos   = stream_eos;
-
-	gtk_object_class->finalize = finalize;
 }
 
 static void
@@ -65,25 +61,19 @@ camel_imap_stream_init (gpointer object, gpointer klass)
 	imap_stream->cache_ptr = NULL;
 }
 
-GtkType
+CamelType
 camel_imap_stream_get_type (void)
 {
-	static GtkType camel_imap_stream_type = 0;
+	static CamelType camel_imap_stream_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_imap_stream_type) {
-		GtkTypeInfo camel_imap_stream_info =
-		{
-			"CamelImapStream",
-			sizeof (CamelImapStream),
-			sizeof (CamelImapStreamClass),
-			(GtkClassInitFunc) camel_imap_stream_class_init,
-			(GtkObjectInitFunc) camel_imap_stream_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_imap_stream_type = gtk_type_unique (camel_stream_get_type (), &camel_imap_stream_info);
+	if (camel_imap_stream_type == CAMEL_INVALID_TYPE) {
+		camel_imap_stream_type = camel_type_register (camel_stream_get_type (), "CamelImapStream",
+							      sizeof (CamelImapStream),
+							      sizeof (CamelImapStreamClass),
+							      (CamelObjectClassInitFunc) camel_imap_stream_class_init,
+							      NULL,
+							      (CamelObjectInitFunc) camel_imap_stream_init,
+							      (CamelObjectFinalizeFunc) finalize);
 	}
 
 	return camel_imap_stream_type;
@@ -94,10 +84,10 @@ camel_imap_stream_new (CamelImapFolder *folder, char *command)
 {
 	CamelImapStream *imap_stream;
 
-	imap_stream = gtk_type_new (camel_imap_stream_get_type ());
+	imap_stream = CAMEL_IMAP_STREAM(camel_object_new (camel_imap_stream_get_type ()));
 
 	imap_stream->folder = folder;
-	gtk_object_ref (GTK_OBJECT (imap_stream->folder));
+	camel_object_ref (CAMEL_OBJECT (imap_stream->folder));
 	
 	imap_stream->command = g_strdup (command);
 	
@@ -105,7 +95,7 @@ camel_imap_stream_new (CamelImapFolder *folder, char *command)
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (object);
 
@@ -113,9 +103,7 @@ finalize (GtkObject *object)
 	g_free (imap_stream->command);
 
 	if (imap_stream->folder)
-		gtk_object_unref (GTK_OBJECT (imap_stream->folder));
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+		camel_object_unref (CAMEL_OBJECT (imap_stream->folder));
 }
 
 static ssize_t
@@ -141,13 +129,13 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			/* we got an error, dump this stuff */
 			g_free (result);
 			imap_stream->cache = NULL;
-			gtk_object_unref (GTK_OBJECT (imap_stream->folder));
+			camel_object_unref (CAMEL_OBJECT (imap_stream->folder));
 			
 			return -1;
 		}
 		
 		/* we don't need the folder anymore... */
-		gtk_object_unref (GTK_OBJECT (imap_stream->folder));
+		camel_object_unref (CAMEL_OBJECT (imap_stream->folder));
 
 		/* parse out the message part */
 		for (p = result; *p && *p != '{' && *p != '\n'; p++);

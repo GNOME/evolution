@@ -37,9 +37,9 @@ extern "C" {
 #include <camel/camel-data-wrapper.h>
 
 #define CAMEL_MULTIPART_TYPE     (camel_multipart_get_type ())
-#define CAMEL_MULTIPART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MULTIPART_TYPE, CamelMultipart))
-#define CAMEL_MULTIPART_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MULTIPART_TYPE, CamelMultipartClass))
-#define CAMEL_IS_MULTIPART(o)    (GTK_CHECK_TYPE((o), CAMEL_MULTIPART_TYPE))
+#define CAMEL_MULTIPART(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MULTIPART_TYPE, CamelMultipart))
+#define CAMEL_MULTIPART_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MULTIPART_TYPE, CamelMultipartClass))
+#define CAMEL_IS_MULTIPART(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MULTIPART_TYPE))
 
 
 struct _CamelMultipart
@@ -72,8 +72,8 @@ typedef struct {
 } CamelMultipartClass;
 
 
-/* Standard Gtk function */
-GtkType camel_multipart_get_type (void);
+/* Standard Camel function */
+CamelType camel_multipart_get_type (void);
 
 
 /* public methods */

@@ -28,7 +28,7 @@ send_cb (EMsgComposer *composer,
 					    stream);
 	camel_stream_close (stream);
 
-	gtk_object_unref (GTK_OBJECT (message));
+	camel_object_unref (CAMEL_OBJECT (message));
 
 #if 0
 	gtk_widget_destroy (GTK_WIDGET (composer));

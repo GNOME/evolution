@@ -22,51 +22,32 @@
 
 
 static void camel_news_address_class_init (CamelNewsAddressClass *klass);
-static void camel_news_address_init       (CamelNewsAddress *obj);
 
 static CamelAddressClass *camel_news_address_parent;
-
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_news_address_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelNewsAddress",
-			sizeof (CamelNewsAddress),
-			sizeof (CamelNewsAddressClass),
-			(GtkClassInitFunc) camel_news_address_class_init,
-			(GtkObjectInitFunc) camel_news_address_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_address_get_type (), &type_info);
-	}
-	
-	return type;
-}
 
 static void
 camel_news_address_class_init (CamelNewsAddressClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_news_address_parent = gtk_type_class (camel_address_get_type ());
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	camel_news_address_parent = CAMEL_ADDRESS_CLASS (camel_type_get_global_classfuncs (camel_address_get_type ()));
 }
 
-static void
-camel_news_address_init (CamelNewsAddress *obj)
+
+CamelType
+camel_news_address_get_type (void)
 {
+	static guint type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_address_get_type (), "CamelNewsAddress",
+					    sizeof (CamelNewsAddress),
+					    sizeof (CamelNewsAddressClass),
+					    (CamelObjectClassInitFunc) camel_news_address_class_init,
+					    NULL,
+					    NULL,
+					    NULL);
+	}
+	
+	return type;
 }
 
 /**
@@ -79,6 +60,6 @@ camel_news_address_init (CamelNewsAddress *obj)
 CamelNewsAddress *
 camel_news_address_new (void)
 {
-	CamelNewsAddress *new = CAMEL_NEWS_ADDRESS ( gtk_type_new (camel_news_address_get_type ()));
+	CamelNewsAddress *new = CAMEL_NEWS_ADDRESS ( camel_object_new (camel_news_address_get_type ()));
 	return new;
 }

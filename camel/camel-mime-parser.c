@@ -303,56 +303,10 @@ static char *states[] = {
 
 static CamelObjectClass *camel_mime_parser_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_mime_parser_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeParser",
-			sizeof (CamelMimeParser),
-			sizeof (CamelMimeParserClass),
-			(GtkClassInitFunc) camel_mime_parser_class_init,
-			(GtkObjectInitFunc) camel_mime_parser_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_object_get_type (), &type_info);
-	}
-	
-	return type;
-}
-
-static void
-finalise(GtkObject *o)
-{
-	struct _header_scan_state *s = _PRIVATE(o);
-#ifdef PURIFY
-	purify_watch_remove_all();
-#endif
-	folder_scan_close(s);
-
-	((GtkObjectClass *)camel_mime_parser_parent)->finalize (o);
-}
-
 static void
 camel_mime_parser_class_init (CamelMimeParserClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_mime_parser_parent = gtk_type_class (camel_object_get_type ());
-
-	object_class->finalize = finalise;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	camel_mime_parser_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
 }
 
 static void
@@ -362,6 +316,34 @@ camel_mime_parser_init (CamelMimeParser *obj)
 
 	s = folder_scan_init();
 	_PRIVATE(obj) = s;
+}
+
+static void
+camel_mime_parser_finalize(CamelObject *o)
+{
+	struct _header_scan_state *s = _PRIVATE(o);
+#ifdef PURIFY
+	purify_watch_remove_all();
+#endif
+	folder_scan_close(s);
+}
+
+CamelType
+camel_mime_parser_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_object_get_type (), "CamelMimeParser",
+					    sizeof (CamelMimeParser),
+					    sizeof (CamelMimeParserClass),
+					    (CamelObjectClassInitFunc) camel_mime_parser_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_mime_parser_init,
+					    (CamelObjectFinalizeFunc) camel_mime_parser_finalize);
+	}
+	
+	return type;
 }
 
 /**
@@ -374,7 +356,7 @@ camel_mime_parser_init (CamelMimeParser *obj)
 CamelMimeParser *
 camel_mime_parser_new (void)
 {
-	CamelMimeParser *new = CAMEL_MIME_PARSER ( gtk_type_new (camel_mime_parser_get_type ()));
+	CamelMimeParser *new = CAMEL_MIME_PARSER ( camel_object_new (camel_mime_parser_get_type ()));
 	return new;
 }
 
@@ -407,7 +389,7 @@ camel_mime_parser_filter_add(CamelMimeParser *m, CamelMimeFilter *mf)
 	if (s->filterid == -1)
 		s->filterid++;
 	new->next = 0;
-	gtk_object_ref((GtkObject *)mf);
+	camel_object_ref((CamelObject *)mf);
 
 	/* yes, this is correct, since 'next' is the first element of the struct */
 	f = (struct _header_scan_filter *)&s->filters;
@@ -435,7 +417,7 @@ camel_mime_parser_filter_remove(CamelMimeParser *m, int id)
 	while (f && f->next) {
 		old = f->next;
 		if (old->id == id) {
-			gtk_object_unref((GtkObject *)old->filter);
+			camel_object_unref((CamelObject *)old->filter);
 			f->next = old->next;
 			g_free(old);
 			/* there should only be a single matching id, but
@@ -1366,7 +1348,7 @@ folder_scan_close(struct _header_scan_state *s)
 	if (s->fd != -1)
 		close(s->fd);
 	if (s->stream) {
-		gtk_object_unref((GtkObject *)s->stream);
+		camel_object_unref((CamelObject *)s->stream);
 	}
 	g_free(s);
 }
@@ -1427,7 +1409,7 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 			close(s->fd);
 		s->fd = fd;
 		if (s->stream) {
-			gtk_object_unref((GtkObject *)s->stream);
+			camel_object_unref((CamelObject *)s->stream);
 			s->stream = NULL;
 		}
 		return 0;
@@ -1447,9 +1429,9 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 		s->inptr = s->inbuf;
 		s->inend[0] = '\n';
 		if (s->stream)
-			gtk_object_unref((GtkObject *)s->stream);
+			camel_object_unref((CamelObject *)s->stream);
 		s->stream = stream;
-		gtk_object_ref((GtkObject *)stream);
+		camel_object_ref((CamelObject *)stream);
 		if (s->fd != -1) {
 			close(s->fd);
 			s->fd = -1;

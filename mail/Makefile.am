@@ -44,6 +44,7 @@ evolution_mail_SOURCES =		\
 	folder-browser-factory.c	\
 	mail-autofilter.c		\
 	mail-autofilter.h		\
+	mail-callbacks.c		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-gui.c		\
@@ -54,8 +55,11 @@ evolution_mail_SOURCES =		\
 	mail-format.c			\
 	mail-identify.c			\
 	mail-ops.c			\
+	mail-ops.h			\
 	mail-threads.c			\
 	mail-threads.h			\
+	mail-tools.c			\
+	mail-tools.h			\
 	mail-types.h			\
 	mail-vfolder.c			\
 	mail-vfolder.h			\
@@ -97,8 +101,12 @@ test_thread_SOURCES =	\
 	mail-threads.h	\
 	test-thread.c
 
-test_thread_LDADD = 			\
-	$(BONOBO_HTML_GNOME_LIBS)	\
+test_thread_LDADD = 				\
+	$(top_builddir)/camel/libcamel.la	\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/libibex/libibex.la	\
+	$(BONOBO_HTML_GNOME_LIBS)		\
+	$(UNICODE_LIBS)				\
 	$(THREADS_LIBS)
 
 test_thread_CFLAGS = -g $(THREADS_CFLAGS)

@@ -214,26 +214,6 @@ recoverable.  Please use this feature with care.</label>
 	<fill>False</fill>
       </child>
     </widget>
-
-    <widget>
-      <class>GtkProgressBar</class>
-      <name>progress_format</name>
-      <value>0</value>
-      <lower>0</lower>
-      <upper>100</upper>
-      <bar_style>GTK_PROGRESS_CONTINUOUS</bar_style>
-      <orientation>GTK_PROGRESS_LEFT_TO_RIGHT</orientation>
-      <activity_mode>False</activity_mode>
-      <show_text>False</show_text>
-      <format>%P %%</format>
-      <text_xalign>0.5</text_xalign>
-      <text_yalign>0.5</text_yalign>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-    </widget>
   </widget>
 </widget>
 

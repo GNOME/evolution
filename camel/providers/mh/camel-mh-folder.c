@@ -49,9 +49,9 @@
 static CamelFolderClass *parent_class = NULL;
 
 /* Returns the class for a CamelMhFolder */
-#define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
+#define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CMHS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static void mh_init(CamelFolder * folder, CamelStore * parent_store,
 		      CamelFolder * parent_folder, const gchar * name,
@@ -78,14 +78,13 @@ static void mh_set_message_flags(CamelFolder * folder, const char *uid, guint32 
 static gboolean mh_get_message_user_flag(CamelFolder * folder, const char *uid, const char *name);
 static void mh_set_message_user_flag(CamelFolder * folder, const char *uid, const char *name, gboolean value);
 
-static void mh_finalize(GtkObject * object);
+static void mh_finalize(CamelObject * object);
 
-static void camel_mh_folder_class_init(CamelMhFolderClass * camel_mh_folder_class)
+static void camel_mh_folder_class_init(CamelObjectClass * camel_mh_folder_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_mh_folder_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS(camel_folder_class);
 
-	parent_class = gtk_type_class(camel_folder_get_type());
+	parent_class = CAMEL_FOLDER_CLASS (camel_type_get_global_classfuncs(camel_folder_get_type()));
 
 	/* virtual method definition */
 
@@ -114,11 +113,9 @@ static void camel_mh_folder_class_init(CamelMhFolderClass * camel_mh_folder_clas
 	camel_folder_class->set_message_flags = mh_set_message_flags;
 	camel_folder_class->get_message_user_flag = mh_get_message_user_flag;
 	camel_folder_class->set_message_user_flag = mh_set_message_user_flag;
-
-	gtk_object_class->finalize = mh_finalize;
 }
 
-static void mh_finalize(GtkObject * object)
+static void mh_finalize(CamelObject * object)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(object);
 
@@ -126,27 +123,20 @@ static void mh_finalize(GtkObject * object)
 	g_free(mh_folder->summary_file_path);
 	g_free(mh_folder->folder_dir_path);
 	g_free(mh_folder->index_file_path);
-
-	GTK_OBJECT_CLASS(parent_class)->finalize(object);
 }
 
-GtkType camel_mh_folder_get_type(void)
+CamelType camel_mh_folder_get_type(void)
 {
-	static GtkType camel_mh_folder_type = 0;
+	static CamelType camel_mh_folder_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_mh_folder_type) {
-		GtkTypeInfo camel_mh_folder_info = {
-			"CamelMhFolder",
-			sizeof(CamelMhFolder),
-			sizeof(CamelMhFolderClass),
-			(GtkClassInitFunc) camel_mh_folder_class_init,
-			(GtkObjectInitFunc) NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_mh_folder_type = gtk_type_unique(CAMEL_FOLDER_TYPE, &camel_mh_folder_info);
+	if (camel_mh_folder_type == CAMEL_INVALID_TYPE) {
+		camel_mh_folder_type = camel_type_register(CAMEL_FOLDER_TYPE, "CamelMhFolder",
+							   sizeof(CamelMhFolder),
+							   sizeof(CamelMhFolderClass),
+							   (CamelObjectClassInitFunc) camel_mh_folder_class_init,
+							   NULL,
+							   (CamelObjectInitFunc) NULL,
+							   (CamelObjectFinalizeFunc) mh_finalize);
 	}
 
 	return camel_mh_folder_type;
@@ -238,7 +228,7 @@ static void mh_expunge(CamelFolder * folder, CamelException * ex)
 	camel_mh_summary_sync(mh->summary, TRUE, ex);
 
 	/* TODO: check it actually changed */
-	gtk_signal_emit_by_name(GTK_OBJECT(folder), "folder_changed", 0);
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GINT_TO_POINTER (0));
 }
 
 static gint mh_get_message_count(CamelFolder * folder)
@@ -301,6 +291,7 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 
 	/* index/summarise the message.  Yes this re-reads it, its just simpler */
 	camel_mh_summary_add(mh_folder->summary, uid, TRUE);
+
 	if (info
 	    && (newinfo = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(mh_folder->summary), uid))) {
 		CamelFlag *flag = info->user_flags;
@@ -316,7 +307,8 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 			tag = tag->next;
 		}
 	}
-	gtk_signal_emit_by_name(GTK_OBJECT(folder), "folder_changed", 0);
+
+	camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", GPOINTER_TO_INT (0));
 	g_free(name);
 	g_free(uid);
 	return;
@@ -330,7 +322,7 @@ fail:
 				     "Cannot append message to mh file: %s", g_strerror(errno));
 	}
 	if (output_stream)
-		gtk_object_unref(GTK_OBJECT(output_stream));
+		camel_object_unref(CAMEL_OBJECT(output_stream));
 	if (name) {
 		unlink(name);
 		g_free(name);
@@ -394,7 +386,7 @@ static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid,
 		errno = EINVAL;
 		goto fail;
 	}
-	gtk_object_unref(GTK_OBJECT(message_stream));
+	camel_object_unref(CAMEL_OBJECT(message_stream));
 	g_free(name);
 
 	return message;
@@ -404,10 +396,10 @@ fail:
 			     name, g_strerror(errno));
 
 	if (message_stream)
-		gtk_object_unref(GTK_OBJECT(message_stream));
+		camel_object_unref(CAMEL_OBJECT(message_stream));
 
 	if (message)
-		gtk_object_unref(GTK_OBJECT(message));
+		camel_object_unref(CAMEL_OBJECT(message));
 
 	g_free(name);
 
@@ -478,7 +470,7 @@ static void mh_set_message_flags(CamelFolder * folder, const char *uid, guint32 
 	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
 
-	gtk_signal_emit_by_name(GTK_OBJECT(folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", uid);
 }
 
 static gboolean mh_get_message_user_flag(CamelFolder * folder, const char *uid, const char *name)
@@ -503,5 +495,5 @@ static void mh_set_message_user_flag(CamelFolder * folder, const char *uid, cons
 	camel_flag_set(&info->user_flags, name, value);
 	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
-	gtk_signal_emit_by_name(GTK_OBJECT(folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", uid);
 }

@@ -22,12 +22,11 @@
 #ifndef _CAMEL_VEE_STORE_H
 #define _CAMEL_VEE_STORE_H
 
-#include <gtk/gtk.h>
 #include <camel/camel-store.h>
 
-#define CAMEL_VEE_STORE(obj)         GTK_CHECK_CAST (obj, camel_vee_store_get_type (), CamelVeeStore)
-#define CAMEL_VEE_STORE_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_vee_store_get_type (), CamelVeeStoreClass)
-#define IS_CAMEL_VEE_STORE(obj)      GTK_CHECK_TYPE (obj, camel_vee_store_get_type ())
+#define CAMEL_VEE_STORE(obj)         CAMEL_CHECK_CAST (obj, camel_vee_store_get_type (), CamelVeeStore)
+#define CAMEL_VEE_STORE_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_store_get_type (), CamelVeeStoreClass)
+#define IS_CAMEL_VEE_STORE(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_store_get_type ())
 
 typedef struct _CamelVeeStore      CamelVeeStore;
 typedef struct _CamelVeeStoreClass CamelVeeStoreClass;

@@ -30,7 +30,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-static CamelStreamBufferClass *parent_class = NULL;
+static CamelStreamClass *parent_class = NULL;
 
 enum {
 	BUF_USER = 1<<0,	/* user-supplied buffer, do not free */
@@ -44,9 +44,6 @@ static int stream_flush (CamelStream *stream);
 static int stream_close (CamelStream *stream);
 static gboolean stream_eos (CamelStream *stream);
 
-static void finalize (GtkObject *object);
-static void destroy (GtkObject *object);
-
 static void init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, char *buf, guint32 size);
 static void init(CamelStreamBuffer *sbuf, CamelStream *s, CamelStreamBufferMode mode);
 
@@ -54,9 +51,8 @@ static void
 camel_stream_buffer_class_init (CamelStreamBufferClass *camel_stream_buffer_class)
 {
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_buffer_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_buffer_class);
 
-	parent_class = gtk_type_class (camel_stream_get_type ());
+	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_stream_get_type ()));
 
 	/* virtual method definition */
 	camel_stream_buffer_class->init = init;
@@ -68,10 +64,6 @@ camel_stream_buffer_class_init (CamelStreamBufferClass *camel_stream_buffer_clas
 	camel_stream_class->flush = stream_flush;
 	camel_stream_class->close = stream_close;
 	camel_stream_class->eos = stream_eos;
-
-	gtk_object_class->finalize = finalize;
-	gtk_object_class->destroy = destroy;
-
 }
 
 static void
@@ -90,46 +82,8 @@ camel_stream_buffer_init (gpointer object, gpointer klass)
 	sbf->linebuf = g_malloc(sbf->linesize);
 }
 
-GtkType
-camel_stream_buffer_get_type (void)
-{
-	static GtkType camel_stream_buffer_type = 0;
-
-	gdk_threads_enter ();
-	if (!camel_stream_buffer_type)	{
-		GtkTypeInfo camel_stream_buffer_info =
-		{
-			"CamelStreamBuffer",
-			sizeof (CamelStreamBuffer),
-			sizeof (CamelStreamBufferClass),
-			(GtkClassInitFunc) camel_stream_buffer_class_init,
-			(GtkObjectInitFunc) camel_stream_buffer_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_stream_buffer_type = gtk_type_unique (camel_stream_get_type (), &camel_stream_buffer_info);
-	}
-	gdk_threads_leave ();
-	return camel_stream_buffer_type;
-}
-
-
 static void
-destroy (GtkObject *object)
-{
-	CamelStreamBuffer *stream_buffer = CAMEL_STREAM_BUFFER (object);
-
-	/* NOP to remove warnings */
-	stream_buffer->buf = stream_buffer->buf;
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-
-static void
-finalize (GtkObject *object)
+camel_stream_buffer_finalize (CamelObject *object)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (object);
 
@@ -137,12 +91,30 @@ finalize (GtkObject *object)
 		g_free(sbf->buf);
 	}
 	if (sbf->stream)
-		gtk_object_unref(GTK_OBJECT(sbf->stream));
+		camel_object_unref(CAMEL_OBJECT(sbf->stream));
 
 	g_free(sbf->linebuf);
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
+
+
+CamelType
+camel_stream_buffer_get_type (void)
+{
+	static CamelType camel_stream_buffer_type = CAMEL_INVALID_TYPE;
+
+	if (camel_stream_buffer_type == CAMEL_INVALID_TYPE)	{
+		camel_stream_buffer_type = camel_type_register (camel_stream_get_type (), "CamelStreamBuffer",
+								sizeof (CamelStreamBuffer),
+								sizeof (CamelStreamBufferClass),
+								(CamelObjectClassInitFunc) camel_stream_buffer_class_init,
+								NULL,
+								(CamelObjectInitFunc) camel_stream_buffer_init,
+								(CamelObjectFinalizeFunc) camel_stream_buffer_finalize);
+	}
+
+	return camel_stream_buffer_type;
+}
+
 
 static void
 set_vbuf(CamelStreamBuffer *sbf, char *buf, CamelStreamBufferMode mode, int size)
@@ -166,9 +138,9 @@ init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, ch
 {
 	set_vbuf(sbf, buf, mode, size);
 	if (sbf->stream)
-		gtk_object_unref(GTK_OBJECT(sbf->stream));
+		camel_object_unref(CAMEL_OBJECT(sbf->stream));
 	sbf->stream = s;
-	gtk_object_ref(GTK_OBJECT(sbf->stream));
+	camel_object_ref(CAMEL_OBJECT(sbf->stream));
 }
 
 static void
@@ -196,8 +168,8 @@ CamelStream *
 camel_stream_buffer_new (CamelStream *stream, CamelStreamBufferMode mode)
 {
 	CamelStreamBuffer *sbf;
-	sbf = gtk_type_new (camel_stream_buffer_get_type ());
-	CAMEL_STREAM_BUFFER_CLASS (GTK_OBJECT(sbf)->klass)->init (sbf, stream, mode);
+	sbf = CAMEL_STREAM_BUFFER (camel_object_new (camel_stream_buffer_get_type ()));
+	CAMEL_STREAM_BUFFER_CLASS (CAMEL_OBJECT_GET_CLASS(sbf))->init (sbf, stream, mode);
 
 	return CAMEL_STREAM (sbf);
 }
@@ -240,8 +212,8 @@ camel_stream_buffer_new (CamelStream *stream, CamelStreamBufferMode mode)
 CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *stream, CamelStreamBufferMode mode, char *buf, guint32 size)
 {
 	CamelStreamBuffer *sbf;
-	sbf = gtk_type_new (camel_stream_buffer_get_type ());
-	CAMEL_STREAM_BUFFER_CLASS (GTK_OBJECT(sbf)->klass)->init_vbuf (sbf, stream, mode, buf, size);
+	sbf = CAMEL_STREAM_BUFFER (camel_object_new (camel_stream_buffer_get_type ()));
+	CAMEL_STREAM_BUFFER_CLASS (CAMEL_OBJECT_GET_CLASS(sbf))->init_vbuf (sbf, stream, mode, buf, size);
 
 	return CAMEL_STREAM (sbf);
 }

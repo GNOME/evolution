@@ -33,7 +33,7 @@
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelDataWrapper */
-#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT (so)->klass)
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 
 static int construct_from_stream(CamelDataWrapper *, CamelStream *);
@@ -42,15 +42,11 @@ static void set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_typ
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
 static GMimeContentField *get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
-static void finalize (GtkObject *object);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 {
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_data_wrapper_class);
-
-	parent_class = gtk_type_class (camel_object_get_type ());
+	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
 
 	/* virtual method definition */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
@@ -60,9 +56,6 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->set_mime_type_field = set_mime_type_field;
 
 	camel_data_wrapper_class->construct_from_stream = construct_from_stream;
-
-	/* virtual method overload */
-	gtk_object_class->finalize = finalize;
 }
 
 static void
@@ -73,35 +66,8 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	camel_data_wrapper->mime_type = gmime_content_field_new (NULL, NULL);
 }
 
-
-
-GtkType
-camel_data_wrapper_get_type (void)
-{
-	static GtkType camel_data_wrapper_type = 0;
-
-	if (!camel_data_wrapper_type) {
-		GtkTypeInfo camel_data_wrapper_info =
-		{
-			"CamelDataWrapper",
-			sizeof (CamelDataWrapper),
-			sizeof (CamelDataWrapperClass),
-			(GtkClassInitFunc) camel_data_wrapper_class_init,
-			(GtkObjectInitFunc) camel_data_wrapper_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_data_wrapper_type = gtk_type_unique (camel_object_get_type (), &camel_data_wrapper_info);
-	}
-
-	return camel_data_wrapper_type;
-}
-
-
 static void
-finalize (GtkObject *object)
+camel_data_wrapper_finalize (CamelObject *object)
 {
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
@@ -109,9 +75,25 @@ finalize (GtkObject *object)
 		gmime_content_field_unref (camel_data_wrapper->mime_type);
 
 	if (camel_data_wrapper->stream)
-		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->stream));
+		camel_object_unref (CAMEL_OBJECT (camel_data_wrapper->stream));
+}
 
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+CamelType
+camel_data_wrapper_get_type (void)
+{
+	static CamelType camel_data_wrapper_type = CAMEL_INVALID_TYPE;
+
+	if (camel_data_wrapper_type == CAMEL_INVALID_TYPE) {
+		camel_data_wrapper_type = camel_type_register (CAMEL_OBJECT_TYPE, "CamelDataWrapper",
+							       sizeof (CamelDataWrapper),
+							       sizeof (CamelDataWrapperClass),
+							       (CamelObjectClassInitFunc) camel_data_wrapper_class_init,
+							       NULL,
+							       (CamelObjectInitFunc) camel_data_wrapper_init,
+							       (CamelObjectFinalizeFunc) camel_data_wrapper_finalize);
+	}
+
+	return camel_data_wrapper_type;
 }
 
 static int
@@ -130,7 +112,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 CamelDataWrapper *
 camel_data_wrapper_new(void)
 {
-	return (CamelDataWrapper *)gtk_type_new(camel_data_wrapper_get_type());
+	return (CamelDataWrapper *)camel_object_new(camel_data_wrapper_get_type());
 }
 
 /**
@@ -160,10 +142,10 @@ static int
 construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	if (data_wrapper->stream)
-		gtk_object_unref((GtkObject *)data_wrapper->stream);
+		camel_object_unref((CamelObject *)data_wrapper->stream);
 
 	data_wrapper->stream = stream;
-	gtk_object_ref (GTK_OBJECT (stream));
+	camel_object_ref (CAMEL_OBJECT (stream));
 	return 0;
 }
 

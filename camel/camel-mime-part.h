@@ -39,9 +39,9 @@ extern "C" {
 #include <camel/camel-mime-parser.h>
 
 #define CAMEL_MIME_PART_TYPE     (camel_mime_part_get_type ())
-#define CAMEL_MIME_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
-#define CAMEL_MIME_PART_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MIME_PART_TYPE, CamelMimePartClass))
-#define CAMEL_IS_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
+#define CAMEL_MIME_PART(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
+#define CAMEL_MIME_PART_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MIME_PART_TYPE, CamelMimePartClass))
+#define CAMEL_IS_MIME_PART(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
 
 enum _CamelMimePartEncodingType {
@@ -82,8 +82,8 @@ typedef struct _CamelMimePartClass {
 	int (*construct_from_parser) (CamelMimePart *, CamelMimeParser *);
 } CamelMimePartClass;
 
-/* Standard Gtk function */
-GtkType camel_mime_part_get_type (void);
+/* Standard Camel function */
+CamelType camel_mime_part_get_type (void);
 
 /* public methods */
 CamelMimePart *  camel_mime_part_new                    (void);

@@ -5,6 +5,14 @@
 
 	* data/Makefile.am (mime_DATA): add evolution.keys
 
+2000-08-09  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in (EVOLUTION_DIR): Remove the warning about camel-async.
+
+2000-08-08  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am (SUBDIRS): Reenable the calendar. Oops.
+
 2000-08-05  Dan Winship  <danw@helixcode.com>
 
 	* tools/verify-evolution-install.sh: Look for oafinfo files in
@@ -84,6 +92,11 @@
 
 	* calendar/gui/event-editor.c: Typo fix
 
+2000-07-20  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in (THREADS_CFLAGS): Make threads mandatory
+	again.
+
 2000-07-19  Fatih Demir	<kabalak@gmx.net>
 	
 	* evolution.desktop & data/evolution.desktop: Added
@@ -96,6 +109,11 @@
 	* configure.in (AC_OUTPUT): Added the doc/devel Makefiles.
 	(EVOLUTION_DIR): Substitute EVOLUTION_DIR for the top_srcdir.
 	Added checks for gtk-doc.
+
+2000-07-13  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* configure.in (end): Bigass warnings for camel-async branch
+	(remove them later).
 
 2000-07-12  Federico Mena Quintero  <federico@helixcode.com>
 

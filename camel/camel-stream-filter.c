@@ -57,65 +57,12 @@ static	int       do_reset      (CamelStream *stream);
 
 static CamelStreamClass *camel_stream_filter_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_stream_filter_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelStreamFilter",
-			sizeof (CamelStreamFilter),
-			sizeof (CamelStreamFilterClass),
-			(GtkClassInitFunc) camel_stream_filter_class_init,
-			(GtkObjectInitFunc) camel_stream_filter_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_stream_get_type (), &type_info);
-	}
-	
-	return type;
-}
-
-static void
-finalise(GtkObject *o)
-{
-	CamelStreamFilter *filter = (CamelStreamFilter *)o;
-	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-	struct _filter *fn, *f;
-
-	f = p->filters;
-	while (f) {
-		fn = f->next;
-		gtk_object_unref((GtkObject *)f->filter);
-		g_free(f);
-		f = fn;
-	}
-	g_free(p->realbuffer);
-	g_free(p);
-	gtk_object_unref((GtkObject *)filter->source);
-
-	GTK_OBJECT_CLASS (camel_stream_filter_parent)->finalize (o);
-}
-
-
 static void
 camel_stream_filter_class_init (CamelStreamFilterClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelStreamClass *camel_stream_class = (CamelStreamClass *) klass;
 
-	camel_stream_filter_parent = gtk_type_class (camel_stream_get_type ());
-
-	object_class->finalize = finalise;
+	camel_stream_filter_parent = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_stream_get_type ()));
 
 	camel_stream_class->read = do_read;
 	camel_stream_class->write = do_write;
@@ -124,7 +71,6 @@ camel_stream_filter_class_init (CamelStreamFilterClass *klass)
 	camel_stream_class->eos = do_eos; 
 	camel_stream_class->reset = do_reset;
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -138,6 +84,45 @@ camel_stream_filter_init (CamelStreamFilter *obj)
 	p->last_was_read = TRUE;
 }
 
+static void
+camel_stream_filter_finalize(CamelObject *o)
+{
+	CamelStreamFilter *filter = (CamelStreamFilter *)o;
+	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
+	struct _filter *fn, *f;
+
+	f = p->filters;
+	while (f) {
+		fn = f->next;
+		camel_object_unref((CamelObject *)f->filter);
+		g_free(f);
+		f = fn;
+	}
+	g_free(p->realbuffer);
+	g_free(p);
+	camel_object_unref((CamelObject *)filter->source);
+}
+
+
+CamelType
+camel_stream_filter_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (CAMEL_STREAM_TYPE, "CamelStreamFilter",
+					    sizeof (CamelStreamFilter),
+					    sizeof (CamelStreamFilterClass),
+					    (CamelObjectClassInitFunc) camel_stream_filter_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_stream_filter_init,
+					    (CamelObjectFinalizeFunc) camel_stream_filter_finalize);
+	}
+	
+	return type;
+}
+
+
 /**
  * camel_stream_filter_new:
  *
@@ -148,10 +133,10 @@ camel_stream_filter_init (CamelStreamFilter *obj)
 CamelStreamFilter *
 camel_stream_filter_new_with_stream(CamelStream *stream)
 {
-	CamelStreamFilter *new = CAMEL_STREAM_FILTER ( gtk_type_new (camel_stream_filter_get_type ()));
+	CamelStreamFilter *new = CAMEL_STREAM_FILTER ( camel_object_new (camel_stream_filter_get_type ()));
 
 	new->source = stream;
-	gtk_object_ref ((GtkObject *)stream);
+	camel_object_ref ((CamelObject *)stream);
 
 	return new;
 }
@@ -179,7 +164,7 @@ camel_stream_filter_add(CamelStreamFilter *filter, CamelMimeFilter *mf)
 	fn = g_malloc(sizeof(*fn));
 	fn->id = p->filterid++;
 	fn->filter = mf;
-	gtk_object_ref((GtkObject *)mf);
+	camel_object_ref((CamelObject *)mf);
 
 	/* sure, we could use a GList, but we wouldn't save much */
 	f = (struct _filter *)&p->filters;
@@ -208,7 +193,7 @@ camel_stream_filter_remove(CamelStreamFilter *filter, int id)
 		fn = f->next;
 		if (fn->id == id) {
 			f->next = fn->next;
-			gtk_object_unref((GtkObject *)fn->filter);
+			camel_object_unref((CamelObject *)fn->filter);
 			g_free(fn);
 		}
 		f = f->next;

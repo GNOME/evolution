@@ -22,12 +22,11 @@
 #ifndef _CAMEL_VEE_FOLDER_H
 #define _CAMEL_VEE_FOLDER_H
 
-#include <gtk/gtk.h>
 #include <camel/camel-folder.h>
 
-#define CAMEL_VEE_FOLDER(obj)         GTK_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)
-#define CAMEL_VEE_FOLDER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_vee_folder_get_type (), CamelVeeFolderClass)
-#define IS_CAMEL_VEE_FOLDER(obj)      GTK_CHECK_TYPE (obj, camel_vee_folder_get_type ())
+#define CAMEL_VEE_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vee_folder_get_type (), CamelVeeFolder)
+#define CAMEL_VEE_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_folder_get_type (), CamelVeeFolderClass)
+#define IS_CAMEL_VEE_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_folder_get_type ())
 
 typedef struct _CamelVeeFolder      CamelVeeFolder;
 typedef struct _CamelVeeFolderClass CamelVeeFolderClass;

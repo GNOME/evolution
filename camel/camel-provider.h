@@ -35,8 +35,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include <camel/camel-types.h>
+#include <camel/camel-object.h>
 
 #define CAMEL_PROVIDER(obj) ((CamelProvider *)(obj))
 
@@ -78,7 +78,7 @@ typedef struct {
 
 	int flags;
 
-	GtkType object_types [CAMEL_NUM_PROVIDER_TYPES];
+	CamelType object_types [CAMEL_NUM_PROVIDER_TYPES];
 
 	GHashTable *service_cache;
 	

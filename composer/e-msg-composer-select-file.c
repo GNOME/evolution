@@ -160,7 +160,9 @@ e_msg_composer_select_file (EMsgComposer *composer,
 	gtk_window_set_title (GTK_WINDOW (info->widget), title);
 	gtk_widget_show (info->widget);
 
+	GDK_THREADS_ENTER();
 	gtk_main ();
+	GDK_THREADS_LEAVE();
 
 	retval = info->selected_file;
 	info->selected_file = NULL;

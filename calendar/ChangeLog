@@ -173,6 +173,9 @@
 	* gui/calendar-model.c: compile fix for Solaris
 	(works under Linux, too; don't know about others)
 
+	* this is a test of whether CVS merge does what I
+	think it will do.
+	
 2000-07-26  Federico Mena Quintero  <federico@helixcode.com>
 
 	OK, it seems that we have all the interesting properties for

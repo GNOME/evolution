@@ -33,15 +33,14 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-folder.h"
 
 /*  #include "camel-store.h" */
 
 #define CAMEL_NNTP_FOLDER_TYPE     (camel_nntp_folder_get_type ())
-#define CAMEL_NNTP_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_NNTP_FOLDER_TYPE, CamelNNTPFolder))
-#define CAMEL_NNTP_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_NNTP_FOLDER_TYPE, CamelNNTPFolderClass))
-#define IS_CAMEL_NNTP_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_NNTP_FOLDER_TYPE))
+#define CAMEL_NNTP_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_FOLDER_TYPE, CamelNNTPFolder))
+#define CAMEL_NNTP_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_NNTP_FOLDER_TYPE, CamelNNTPFolderClass))
+#define IS_CAMEL_NNTP_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_NNTP_FOLDER_TYPE))
 
 
 typedef struct {
@@ -64,8 +63,8 @@ typedef struct {
 
 /* public methods */
 
-/* Standard Gtk function */
-GtkType camel_nntp_folder_get_type (void);
+/* Standard Camel function */
+CamelType camel_nntp_folder_get_type (void);
 
 #ifdef __cplusplus
 }

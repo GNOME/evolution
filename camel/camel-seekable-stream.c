@@ -29,7 +29,7 @@
 static CamelStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelSeekableStream */
-#define CSS_CLASS(so) CAMEL_SEEKABLE_STREAM_CLASS (GTK_OBJECT(so)->klass)
+#define CSS_CLASS(so) CAMEL_SEEKABLE_STREAM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static off_t seek        (CamelSeekableStream *stream, off_t offset,
 			  CamelStreamSeekPolicy policy);
@@ -43,7 +43,7 @@ camel_seekable_stream_class_init (CamelSeekableStreamClass *camel_seekable_strea
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_seekable_stream_class);
 
-	parent_class = gtk_type_class (camel_stream_get_type ());
+	parent_class = CAMEL_STREAM_CLASS( camel_type_get_global_classfuncs( CAMEL_STREAM_TYPE ) );
 
 	/* seekable stream methods */
 	camel_seekable_stream_class->seek = seek;
@@ -63,25 +63,20 @@ camel_seekable_stream_init (void *o)
 	stream->bound_end = CAMEL_STREAM_UNBOUND;
 }
 
-GtkType
+CamelType
 camel_seekable_stream_get_type (void)
 {
-	static GtkType camel_seekable_stream_type = 0;
+	static CamelType camel_seekable_stream_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_seekable_stream_type) {
-		GtkTypeInfo camel_seekable_stream_info =
-		{
-			"CamelSeekableStream",
-			sizeof (CamelSeekableStream),
-			sizeof (CamelSeekableStreamClass),
-			(GtkClassInitFunc) camel_seekable_stream_class_init,
-			(GtkObjectInitFunc) camel_seekable_stream_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_seekable_stream_type = gtk_type_unique (camel_stream_get_type (), &camel_seekable_stream_info);
+	if (camel_seekable_stream_type == CAMEL_INVALID_TYPE) {
+		camel_seekable_stream_type = camel_type_register( CAMEL_STREAM_TYPE,
+								  "CamelSeekableStream",
+								  sizeof( CamelSeekableStream ),
+								  sizeof( CamelSeekableStreamClass ),
+								  (CamelObjectClassInitFunc) camel_seekable_stream_class_init,
+								  NULL,
+								  (CamelObjectInitFunc) camel_seekable_stream_init,
+								  NULL );
 	}
 
 	return camel_seekable_stream_type;

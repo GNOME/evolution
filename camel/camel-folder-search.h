@@ -28,9 +28,9 @@
 #include <libibex/ibex.h>
 #include <camel/camel-folder.h>
 
-#define CAMEL_FOLDER_SEARCH(obj)         GTK_CHECK_CAST (obj, camel_folder_search_get_type (), CamelFolderSearch)
-#define CAMEL_FOLDER_SEARCH_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_folder_search_get_type (), CamelFolderSearchClass)
-#define IS_CAMEL_FOLDER_SEARCH(obj)      GTK_CHECK_TYPE (obj, camel_folder_search_get_type ())
+#define CAMEL_FOLDER_SEARCH(obj)         CAMEL_CHECK_CAST (obj, camel_folder_search_get_type (), CamelFolderSearch)
+#define CAMEL_FOLDER_SEARCH_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_folder_search_get_type (), CamelFolderSearchClass)
+#define IS_CAMEL_FOLDER_SEARCH(obj)      CAMEL_CHECK_TYPE (obj, camel_folder_search_get_type ())
 
 typedef struct _CamelFolderSearchClass CamelFolderSearchClass;
 

@@ -74,7 +74,7 @@ destroy (GtkObject *object)
 
 	attachment = E_MSG_COMPOSER_ATTACHMENT (object);
 
-	gtk_object_unref (GTK_OBJECT (attachment->body));
+	camel_object_unref (CAMEL_OBJECT (attachment->body));
 }
 
 
@@ -168,12 +168,12 @@ e_msg_composer_attachment_new (const gchar *file_name)
 		return NULL;
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, data);
-	gtk_object_unref (GTK_OBJECT (data));
+	camel_object_unref (CAMEL_OBJECT (data));
 	camel_data_wrapper_set_mime_type (wrapper, get_mime_type (file_name));
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-	gtk_object_unref (GTK_OBJECT (wrapper));
+	camel_object_unref (CAMEL_OBJECT (wrapper));
 
 	camel_mime_part_set_disposition (part, "attachment");
 	if (strchr (file_name, '/'))
@@ -209,7 +209,7 @@ e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part)
 
 	new->editor_gui = NULL;
 	new->body = part;
-	gtk_object_ref (GTK_OBJECT (part));
+	camel_object_ref (CAMEL_OBJECT (part));
 	new->guessed_type = FALSE;
 	new->size = 0;
 

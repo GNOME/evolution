@@ -38,9 +38,9 @@ extern "C" {
 #include <stdio.h>
 
 #define CAMEL_STREAM_BUFFER_TYPE     (camel_stream_buffer_get_type ())
-#define CAMEL_STREAM_BUFFER(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBuffer))
-#define CAMEL_STREAM_BUFFER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBufferClass))
-#define CAMEL_IS_STREAM_BUFFER(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_BUFFER_TYPE))
+#define CAMEL_STREAM_BUFFER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBuffer))
+#define CAMEL_STREAM_BUFFER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_STREAM_BUFFER_TYPE, CamelStreamBufferClass))
+#define CAMEL_IS_STREAM_BUFFER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_STREAM_BUFFER_TYPE))
 
 typedef enum
 {
@@ -83,8 +83,8 @@ typedef struct {
 } CamelStreamBufferClass;
 
 
-/* Standard Gtk function */
-GtkType camel_stream_buffer_get_type (void);
+/* Standard Camel function */
+CamelType camel_stream_buffer_get_type (void);
 
 
 /* public methods */

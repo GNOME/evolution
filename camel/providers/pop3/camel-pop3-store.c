@@ -58,7 +58,7 @@
 
 static CamelServiceClass *service_class = NULL;
 
-static void finalize (GtkObject *object);
+static void finalize (CamelObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
@@ -78,18 +78,14 @@ static int pop3_get_response (CamelPop3Store *store, char **ret);
 static void
 camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 {
-	GtkObjectClass *object_class =
-		GTK_OBJECT_CLASS (camel_pop3_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_pop3_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_pop3_store_class);
 	
-	service_class = gtk_type_class (camel_service_get_type ());
+	service_class = CAMEL_SERVICE_CLASS(camel_type_get_global_classfuncs (camel_service_get_type ()));
 
 	/* virtual method overload */
-	object_class->finalize = finalize;
-
 	camel_service_class->connect = pop3_connect;
 	camel_service_class->disconnect = pop3_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
@@ -111,32 +107,26 @@ camel_pop3_store_init (gpointer object, gpointer klass)
 	service->url_flags = (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST);
 }
 
-GtkType
+CamelType
 camel_pop3_store_get_type (void)
 {
-	static GtkType camel_pop3_store_type = 0;
+	static CamelType camel_pop3_store_type = CAMEL_INVALID_TYPE;
 
 	if (!camel_pop3_store_type) {
-		GtkTypeInfo camel_pop3_store_info =	
-		{
-			"CamelPop3Store",
-			sizeof (CamelPop3Store),
-			sizeof (CamelPop3StoreClass),
-			(GtkClassInitFunc) camel_pop3_store_class_init,
-			(GtkObjectInitFunc) camel_pop3_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_pop3_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_pop3_store_info);
+		camel_pop3_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelPop3Store",
+							     sizeof (CamelPop3Store),
+							     sizeof (CamelPop3StoreClass),
+							     (CamelObjectClassInitFunc) camel_pop3_store_class_init,
+							     NULL,
+							     (CamelObjectInitFunc) camel_pop3_store_init,
+							     finalize);
 	}
 
 	return camel_pop3_store_type;
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (object);
 	CamelException ex;
@@ -548,11 +538,11 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 	d(printf ("POP3: Disconnecting from %s\n", service->url->host));
 
 	if (store->ostream) {
-		gtk_object_unref (GTK_OBJECT (store->ostream));
+		camel_object_unref (CAMEL_OBJECT (store->ostream));
 		store->ostream = NULL;
 	}
 	if (store->istream) {
-		gtk_object_unref (GTK_OBJECT (store->istream));
+		camel_object_unref (CAMEL_OBJECT (store->istream));
 		store->istream = NULL;
 	}
 

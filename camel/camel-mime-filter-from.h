@@ -22,12 +22,11 @@
 #ifndef _CAMEL_MIME_FILTER_FROM_H
 #define _CAMEL_MIME_FILTER_FROM_H
 
-#include <gtk/gtk.h>
 #include <camel/camel-mime-filter.h>
 
-#define CAMEL_MIME_FILTER_FROM(obj)         GTK_CHECK_CAST (obj, camel_mime_filter_from_get_type (), CamelMimeFilterFrom)
-#define CAMEL_MIME_FILTER_FROM_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_from_get_type (), CamelMimeFilterFromClass)
-#define IS_CAMEL_MIME_FILTER_FROM(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_from_get_type ())
+#define CAMEL_MIME_FILTER_FROM(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_from_get_type (), CamelMimeFilterFrom)
+#define CAMEL_MIME_FILTER_FROM_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_from_get_type (), CamelMimeFilterFromClass)
+#define IS_CAMEL_MIME_FILTER_FROM(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_from_get_type ())
 
 typedef struct _CamelMimeFilterFrom      CamelMimeFilterFrom;
 typedef struct _CamelMimeFilterFromClass CamelMimeFilterFromClass;

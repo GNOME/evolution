@@ -25,7 +25,6 @@ struct _MailDisplay {
 	EScrollFrame *scroll;
 	GtkHTML *html;
 
-	FolderBrowser *parent_folder_browser;
 	CamelMimeMessage *current_message;
 };
 
@@ -34,7 +33,7 @@ typedef struct {
 } MailDisplayClass;
 
 GtkType        mail_display_get_type    (void);
-GtkWidget *    mail_display_new         (FolderBrowser *parent_folder_browser);
+GtkWidget *    mail_display_new         (void);
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);

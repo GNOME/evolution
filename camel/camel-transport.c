@@ -28,27 +28,21 @@
 #include "camel-exception.h"
 
 /* Returns the class for a CamelTransport */
-#define CT_CLASS(so) CAMEL_TRANSPORT_CLASS (GTK_OBJECT(so)->klass)
+#define CT_CLASS(so) CAMEL_TRANSPORT_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-GtkType
+CamelType
 camel_transport_get_type (void)
 {
-	static GtkType camel_transport_type = 0;
+	static CamelType camel_transport_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_transport_type)	{
-		GtkTypeInfo camel_transport_info =	
-		{
-			"CamelTransport",
-			sizeof (CamelTransport),
-			sizeof (CamelTransportClass),
-			(GtkClassInitFunc) NULL,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_transport_type = gtk_type_unique (CAMEL_SERVICE_TYPE, &camel_transport_info);
+	if (camel_transport_type == CAMEL_INVALID_TYPE)	{
+		camel_transport_type = camel_type_register (CAMEL_SERVICE_TYPE, "CamelTransport",
+							    sizeof (CamelTransport),
+							    sizeof (CamelTransportClass),
+							    NULL,
+							    NULL,
+							    NULL,
+							    NULL);
 	}
 	
 	return camel_transport_type;

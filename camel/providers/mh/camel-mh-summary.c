@@ -18,8 +18,6 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gtk/gtk.h>
-
 #include "camel-mh-summary.h"
 #include <camel/camel-mime-message.h>
 
@@ -43,7 +41,7 @@ static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _header_r
 
 static void camel_mh_summary_class_init	(CamelMhSummaryClass *class);
 static void camel_mh_summary_init	(CamelMhSummary *gspaper);
-static void camel_mh_summary_finalise	(GtkObject *obj);
+static void camel_mh_summary_finalise	(CamelObject *obj);
 
 #define _PRIVATE(x) (((CamelMhSummary *)(x))->priv)
 
@@ -53,23 +51,19 @@ struct _CamelMhSummaryPrivate {
 
 static CamelFolderSummaryClass *parent_class;
 
-guint
+CamelType
 camel_mh_summary_get_type (void)
 {
-	static guint type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMhSummary",
-			sizeof(CamelMhSummary),
-			sizeof(CamelMhSummaryClass),
-			(GtkClassInitFunc)camel_mh_summary_class_init,
-			(GtkObjectInitFunc)camel_mh_summary_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
-		};
-		
-		type = gtk_type_unique(camel_folder_summary_get_type (), &type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register(camel_folder_summary_get_type (), "CamelMhSummary",
+					   sizeof(CamelMhSummary),
+					   sizeof(CamelMhSummaryClass),
+					   (CamelObjectClassInitFunc)camel_mh_summary_class_init,
+					   NULL,
+					   (CamelObjectInitFunc)camel_mh_summary_init,
+					   (CamelObjectFinalizeFunc)camel_mh_summary_finalise);
 	}
 	
 	return type;
@@ -78,17 +72,12 @@ camel_mh_summary_get_type (void)
 static void
 camel_mh_summary_class_init (CamelMhSummaryClass *class)
 {
-	GtkObjectClass *object_class;
 	CamelFolderSummaryClass *sklass = (CamelFolderSummaryClass *) class;
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(camel_folder_summary_get_type ());
-
-	object_class->finalize = camel_mh_summary_finalise;
+	parent_class = CAMEL_FOLDER_SUMMARY_CLASS (camel_type_get_global_classfuncs(camel_folder_summary_get_type ()));
 
 	/* override methods */
 	sklass->message_info_new = message_info_new;
-
 }
 
 static void
@@ -103,13 +92,12 @@ camel_mh_summary_init (CamelMhSummary *o)
 }
 
 static void
-camel_mh_summary_finalise(GtkObject *obj)
+camel_mh_summary_finalise(CamelObject *obj)
 {
 	CamelMhSummary *o = (CamelMhSummary *)obj;
 
 	g_free(o->mh_path);
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	g_free(o->priv);
 }
 
 /**
@@ -121,7 +109,7 @@ camel_mh_summary_finalise(GtkObject *obj)
  **/
 CamelMhSummary	*camel_mh_summary_new	(const char *filename, const char *mhdir, ibex *index)
 {
-	CamelMhSummary *o = (CamelMhSummary *)gtk_type_new(camel_mh_summary_get_type ());
+	CamelMhSummary *o = (CamelMhSummary *)camel_object_new(camel_mh_summary_get_type ());
 
 	camel_folder_summary_set_build_content((CamelFolderSummary *)o, TRUE);
 	camel_folder_summary_set_filename((CamelFolderSummary *)o, filename);
@@ -181,7 +169,7 @@ int		camel_mh_summary_add(CamelMhSummary * mhs, const char *name, int forceindex
 	}
 	mhs->priv->current_uid = (char *)name;
 	camel_folder_summary_add_from_parser((CamelFolderSummary *)mhs, mp);
-	gtk_object_unref((GtkObject *)mp);
+	camel_object_unref((CamelObject *)mp);
 	mhs->priv->current_uid = NULL;
 	camel_folder_summary_set_index((CamelFolderSummary *)mhs, NULL);
 	g_free(filename);

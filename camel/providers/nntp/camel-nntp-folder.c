@@ -52,9 +52,9 @@
 static CamelFolderClass *parent_class=NULL;
 
 /* Returns the class for a CamelNNTPFolder */
-#define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CNNTPS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
+#define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CNNTPS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 
 static void 
@@ -270,21 +270,21 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 
 	message = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)message, message_stream) == -1) {
-		gtk_object_unref (GTK_OBJECT (message));
-		gtk_object_unref (GTK_OBJECT (message_stream));
+		camel_object_unref (CAMEL_OBJECT (message));
+		camel_object_unref (CAMEL_OBJECT (message_stream));
 		camel_exception_setv (ex,
 				      CAMEL_EXCEPTION_FOLDER_INVALID_UID, /* XXX */
 				      "Could not create message for message_id %s.", message_id);
 
 		return NULL;
 	}
-	gtk_object_unref (GTK_OBJECT (message_stream));
+	camel_object_unref (CAMEL_OBJECT (message_stream));
 
 	/* init other fields? */
-	gtk_object_ref (GTK_OBJECT (folder));
+	camel_object_ref (CAMEL_OBJECT (folder));
 
 #if 0
-	gtk_signal_connect (GTK_OBJECT (message), "message_changed", message_changed, folder);
+	gtk_signal_connect (CAMEL_OBJECT (message), "message_changed", message_changed, folder);
 #endif
 
 	return message;
@@ -356,22 +356,19 @@ nntp_folder_get_message_info (CamelFolder *folder, const char *uid)
 }
 
 static void           
-nntp_folder_finalize (GtkObject *object)
+nntp_folder_finalize (CamelObject *object)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (object);
 
 	g_free (nntp_folder->summary_file_path);
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
 camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS (camel_nntp_folder_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_folder_class);
 
-	parent_class = gtk_type_class (camel_folder_get_type ());
+	parent_class = CAMEL_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_folder_get_type ()));
 		
 	/* virtual method definition */
 
@@ -393,30 +390,21 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->free_subfolder_names = nntp_folder_free_subfolder_names;
 	camel_folder_class->search_by_expression = nntp_folder_search_by_expression;
 	camel_folder_class->get_message_info = nntp_folder_get_message_info;
-
-	gtk_object_class->finalize = nntp_folder_finalize;
-	
 }
 
-GtkType
+CamelType
 camel_nntp_folder_get_type (void)
 {
-	static GtkType camel_nntp_folder_type = 0;
+	static CamelType camel_nntp_folder_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_nntp_folder_type)	{
-		GtkTypeInfo camel_nntp_folder_info =	
-		{
-			"CamelNNTPFolder",
-			sizeof (CamelNNTPFolder),
-			sizeof (CamelNNTPFolderClass),
-			(GtkClassInitFunc) camel_nntp_folder_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_nntp_folder_type = gtk_type_unique (CAMEL_FOLDER_TYPE, &camel_nntp_folder_info);
+	if (camel_nntp_folder_type == CAMEL_INVALID_TYPE)	{
+		camel_nntp_folder_type = camel_type_register (CAMEL_FOLDER_TYPE, "CamelNNTPFolder",
+							      sizeof (CamelNNTPFolder),
+							      sizeof (CamelNNTPFolderClass),
+							      (CamelObjectClassInitFunc) camel_nntp_folder_class_init,
+							      NULL,
+							      (CamelObjectInitFunc) NULL,
+							      (CamelObjectFinalizeFunc) nntp_folder_finalize);
 	}
 	
 	return camel_nntp_folder_type;

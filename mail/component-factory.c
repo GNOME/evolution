@@ -35,7 +35,8 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
-#include "mail-threads.h"
+#include "mail-tools.h"
+#include "mail-ops.h"
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-setup.h"
 
@@ -45,7 +46,6 @@ CamelFolder *drafts_folder = NULL;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 static void create_imap_storage (EvolutionShellComponent *shell_component);
-static void real_create_generic_storage( gpointer user_data );
 static void create_news_storage (EvolutionShellComponent *shell_component);
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
@@ -97,41 +97,7 @@ create_folder (EvolutionShellComponent *shell_component,
 	       const Evolution_ShellComponentListener listener,
 	       void *closure)
 {
-	CORBA_Environment ev;
-	CamelStore *store;
-	CamelFolder *folder;
-	CamelException ex;
-	Evolution_ShellComponentListener_Result result;
-
-	camel_exception_init (&ex);
-	if (strcmp (type, "mail") != 0)
-		result = Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
-	else {
-		char *camel_url = g_strdup_printf ("mbox://%s", physical_uri);
-
-		store = camel_session_get_store (session, camel_url, &ex);
-		g_free (camel_url);
-		if (!camel_exception_is_set (&ex)) {
-			folder = camel_store_get_folder (store, "mbox",
-							 TRUE, &ex);
-			gtk_object_unref (GTK_OBJECT (store));
-		} else {
-			folder = NULL;
-		}
-
-		if (!camel_exception_is_set (&ex)) {
-			gtk_object_unref (GTK_OBJECT (folder));
-			result = Evolution_ShellComponentListener_OK;
-		} else {
-			result = Evolution_ShellComponentListener_INVALID_URI;
-		}
-	}
-
-	camel_exception_clear (&ex);
-
-	CORBA_exception_init (&ev);
-	Evolution_ShellComponentListener_report_result (listener, result, &ev);
-	CORBA_exception_free (&ev);
+	mail_do_create_folder (listener, physical_uri, type);
 }
 
 static void
@@ -139,27 +105,12 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
 	      gpointer user_data)
 {
-	CamelException *ex;
-	CamelStore *store;
-	char *url;
-	
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
 	/* GROSS HACK */
 	/*global_shell_client = shell_client;*/
 	
-	ex = camel_exception_new ();
-	url = g_strdup_printf ("mbox://%s/local/Drafts", evolution_dir);
-	store = camel_session_get_store (session, url, ex);
-	g_free (url);
-	if (!camel_exception_is_set (ex)) {
-		drafts_folder = camel_store_get_folder (store, "mbox", TRUE, ex);
-		gtk_object_unref (GTK_OBJECT (store));
-	} else {
-		drafts_folder = NULL;
-	}
-	camel_exception_free (ex);
-	
+	mail_do_setup_draftbox ();
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);
 	create_news_storage (shell_component);
@@ -168,6 +119,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
+	mail_operations_terminate ();
 	gtk_main_quit ();
 }
 
@@ -236,11 +188,6 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 	vfolder_create_storage(shell_component);
 }
 
-struct create_info_s {
-	EvolutionStorage *storage;
-	char *source;
-};
-
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
@@ -249,15 +196,14 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *source = NULL, *server, *p;
-	struct create_info_s *ii;
-	
+
 	config = mail_config_fetch ();
 	if (config->sources) {
 		const MailConfigService *s;
 		s = (MailConfigService *)config->sources->data;
 		source = s->url;
 	}
-	
+
 	if (!source || g_strncasecmp (source, "imap://", 7))
 		return;
 	
@@ -276,106 +222,19 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	
 	server++;
 	for (p = server; *p && *p != '/'; p++);
-	
+
 	server = g_strndup (server, (gint)(p - server));
 	
 	storage = evolution_storage_new (server);
 	g_free (server);
-	
+
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		g_free (source);
 		return;
 	}
-	
-	ii = g_new (struct create_info_s, 1);
-	ii->storage = storage;
-	ii->source = g_strdup (source);
 
-#ifdef USE_BROKEN_THREADS
-	mail_operation_try ("Create IMAP Storage", real_create_generic_storage, g_free, ii);
-#else
-	real_create_generic_storage (ii);
-	g_free (ii);
-#endif
-	/* Note the g_free as our cleanup function deleting the ii struct when we're done */
-}
-
-static void
-real_create_generic_storage (gpointer user_data)
-{	
-	CamelException *ex;
-	EvolutionStorage *storage;
-	char *source;
-	CamelStore *store;
-	CamelFolder *folder;
-	GPtrArray *lsub;
-	int i, max;
-	struct create_info_s *ii;
-	
-	ii = (struct create_info_s *) user_data;
-	storage = ii->storage;
-	source = ii->source;
-	
-#ifdef USE_BROKEN_THREADS
-	mail_op_hide_progressbar ();
-	mail_op_set_message ("Connecting to service...");
-#endif
-	ex = camel_exception_new ();
-	
-	store = camel_session_get_store (session, source, ex);
-	if (!store) {
-		goto cleanup;
-	}
-	
-	camel_service_connect (CAMEL_SERVICE (store), ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		goto cleanup;
-	}
-	
-#ifdef USE_BROKEN_THREADS
-	mail_op_set_message ("Connected. Examining folders...");
-#endif
-	
-	folder = camel_store_get_root_folder (store, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		goto cleanup;
-	}
-	
-	lsub = camel_folder_get_subfolder_names (folder);
-	
-	max = lsub->len;
-	for (i = 0; i < max; i++) {
-		char *path, *buf, *dirname;
-		
-#if 0
-		if (strcmp (dir_sep, "/")) {
-			dirname = e_strreplace ((char *)lsub->pdata[i], dir_sep, "/");
-		} else {
-			dirname = g_strdup ((char *)lsub->pdata[i]);
-		}
-#endif
-		dirname = g_strdup ((char *)lsub->pdata[i]);
-		
-		path = g_strdup_printf ("/%s", dirname);
-		g_free (dirname);
-		buf = g_strdup_printf ("%s/%s", source, path + 1);
-		printf ("buf = %s\n", buf);
-		
-#ifdef USE_BROKEN_THREADS
-		mail_op_set_message ("Adding %s", path);
-#endif
-		
-		evolution_storage_new_folder (storage, path, "mail", buf, "description");
-	}
-	
- cleanup:
-	g_free (ii->source);
-#ifdef USE_BROKEN_THREADS
-	if (camel_exception_is_set (ex))
-		mail_op_error ("%s", camel_exception_get_description (ex));
-#endif
-	camel_exception_free (ex);
+	mail_do_scan_subfolders (source, TRUE, storage);
 }
 
 static void
@@ -386,7 +245,6 @@ create_news_storage (EvolutionShellComponent *shell_component)
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *source=NULL, *server, *p;
-	struct create_info_s *ni;
 
 	config = mail_config_fetch ();
 	if (config->news) {
@@ -419,16 +277,7 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		g_free (source);
 		return;
 	}
-	
-	ni = g_new( struct create_info_s, 1 );
-	ni->storage = storage;
-	ni->source = g_strdup( source );
-	
-#ifdef USE_BROKEN_THREADS
-	mail_operation_try( "Create News Storage", real_create_generic_storage, g_free, ni );
-#else
-	real_create_generic_storage( ni );
-	g_free( ni );
-#endif
-	/* again note the g_free cleanup func */
+
+	mail_do_scan_subfolders (source, FALSE, storage);
 }
+

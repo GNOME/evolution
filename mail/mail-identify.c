@@ -101,7 +101,7 @@ mail_identify_mime_part (CamelMimePart *part)
 		gnome_vfs_mime_sniff_buffer_free (sniffer);
 	} else
 		type = NULL;
-	gtk_object_unref (GTK_OBJECT (memstream));
+	camel_object_unref (CAMEL_OBJECT (memstream));
 
 	if (type)
 		return g_strdup (type);

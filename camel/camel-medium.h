@@ -37,9 +37,9 @@ extern "C" {
 #include <camel/camel-data-wrapper.h>
 
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())
-#define CAMEL_MEDIUM(obj)     (GTK_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
-#define CAMEL_MEDIUM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MEDIUM_TYPE, CamelMediumClass))
-#define CAMEL_IS_MEDIUM(o)    (GTK_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
+#define CAMEL_MEDIUM(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
+#define CAMEL_MEDIUM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MEDIUM_TYPE, CamelMediumClass))
+#define CAMEL_IS_MEDIUM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
 
 
 struct _CamelMedium
@@ -70,8 +70,8 @@ typedef struct {
 
 } CamelMediumClass;
 
-/* Standard Gtk function */
-GtkType camel_medium_get_type (void);
+/* Standard Camel function */
+CamelType camel_medium_get_type (void);
 
 /* Header get/set interface */
 void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, const void *header_value);

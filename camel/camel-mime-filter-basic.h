@@ -23,9 +23,9 @@
 
 #include <camel/camel-mime-filter.h>
 
-#define CAMEL_MIME_FILTER_BASIC(obj)         GTK_CHECK_CAST (obj, camel_mime_filter_basic_get_type (), CamelMimeFilterBasic)
-#define CAMEL_MIME_FILTER_BASIC_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_basic_get_type (), CamelMimeFilterBasicClass)
-#define IS_CAMEL_MIME_FILTER_BASIC(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_basic_get_type ())
+#define CAMEL_MIME_FILTER_BASIC(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_basic_get_type (), CamelMimeFilterBasic)
+#define CAMEL_MIME_FILTER_BASIC_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_basic_get_type (), CamelMimeFilterBasicClass)
+#define IS_CAMEL_MIME_FILTER_BASIC(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_basic_get_type ())
 
 typedef struct _CamelMimeFilterBasicClass CamelMimeFilterBasicClass;
 

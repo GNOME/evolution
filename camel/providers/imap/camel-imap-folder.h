@@ -33,14 +33,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-folder.h"
 #include <camel/camel-folder-search.h>
 
 #define CAMEL_IMAP_FOLDER_TYPE     (camel_imap_folder_get_type ())
-#define CAMEL_IMAP_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolder))
-#define CAMEL_IMAP_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolderClass))
-#define IS_CAMEL_IMAP_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_IMAP_FOLDER_TYPE))
+#define CAMEL_IMAP_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolder))
+#define CAMEL_IMAP_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_IMAP_FOLDER_TYPE, CamelImapFolderClass))
+#define IS_CAMEL_IMAP_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_IMAP_FOLDER_TYPE))
 
 typedef struct {
 	CamelFolder parent_object;
@@ -68,8 +67,8 @@ CamelFolder *camel_imap_folder_new (CamelStore *parent, char *folder_name,
 
 void camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex);
 
-/* Standard Gtk function */
-GtkType camel_imap_folder_get_type (void);
+/* Standard Camel function */
+CamelType camel_imap_folder_get_type (void);
 
 #ifdef __cplusplus
 }

@@ -18,11 +18,21 @@
 	* filter-context.c (filter_context_create_action): Implement,
 	helper to aid filter generation.
 
+2000-08-08  Peter Williams  <peterw@helixcode.com>
+
+	* filter-driver.c (close_folder): Fix an accidental GTK unref
+	of a CamelObject.
+
 2000-08-03  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-folder.c (button_clicked): Use the base name of the
 	Evoluton URI for the button's label.
 	(get_widget): Likewise.
+
+2000-08-03  Peter Williams  <peterw@helixcode.com>
+
+	* filter-driver.c (op_filter_mail): Conform to the new mail-threads
+	interface.
 
 2000-08-01  Not Zed  <NotZed@HelixCode.com>
 
@@ -70,6 +80,22 @@
 	* filter-driver.c (do_delete, filter_driver_run): Update for
 	CamelFolder API changes. (delete_message and get_uids don't take
 	exceptions any more.)
+
+2000-07-21  Peter Williams  <peterw@helixcode.com>
+
+	* filter-driver.c (cleanup_filter_mail): Use the exception
+	provided to us by the async manager instead of allocating
+	our own; use mail_tool_camel_lock_{up,down} around camel
+	operations.
+	(filter_driver_run): Make it return void.
+
+2000-07-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c: Update to make "async".
+
+2000-07-11  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c: Update for CamelFolder API changes
 
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 

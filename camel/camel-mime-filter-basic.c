@@ -22,43 +22,55 @@
 
 #include "camel-mime-utils.h"
 
+static void reset(CamelMimeFilter *mf);
+static void complete(CamelMimeFilter *mf, char *in, size_t len, 
+		     size_t prespace, char **out, 
+		     size_t *outlen, size_t *outprespace);
+static void filter(CamelMimeFilter *mf, char *in, size_t len, 
+		   size_t prespace, char **out, 
+		   size_t *outlen, size_t *outprespace);
+
 static void camel_mime_filter_basic_class_init (CamelMimeFilterBasicClass *klass);
 static void camel_mime_filter_basic_init       (CamelMimeFilterBasic *obj);
 
 static CamelMimeFilterClass *camel_mime_filter_basic_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_mime_filter_basic_get_type (void)
+static void
+camel_mime_filter_basic_class_init (CamelMimeFilterBasicClass *klass)
 {
-	static guint type = 0;
+	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeFilterBasic",
-			sizeof (CamelMimeFilterBasic),
-			sizeof (CamelMimeFilterBasicClass),
-			(GtkClassInitFunc) camel_mime_filter_basic_class_init,
-			(GtkObjectInitFunc) camel_mime_filter_basic_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_mime_filter_get_type (), &type_info);
-	}
-	
-	return type;
+	camel_mime_filter_basic_parent = CAMEL_MIME_FILTER_CLASS(camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
+
+	filter_class->reset = reset;
+	filter_class->filter = filter;
+	filter_class->complete = complete;
 }
 
 static void
-finalise(GtkObject *o)
+camel_mime_filter_basic_init (CamelMimeFilterBasic *obj)
 {
-	((GtkObjectClass *)camel_mime_filter_basic_parent)->finalize (o);
+	obj->state = 0;
+	obj->save = 0;
+}
+
+
+CamelType
+camel_mime_filter_basic_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_mime_filter_get_type (), "CamelMimeFilterBasic",
+					    sizeof (CamelMimeFilterBasic),
+					    sizeof (CamelMimeFilterBasicClass),
+					    (CamelObjectClassInitFunc) camel_mime_filter_basic_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_mime_filter_basic_init,
+					    NULL);
+	}
+	
+	return type;
 }
 
 /* should this 'flush' outstanding state/data bytes? */
@@ -164,30 +176,6 @@ donothing:
 	*outprespace = prespace;
 }
 
-static void
-camel_mime_filter_basic_class_init (CamelMimeFilterBasicClass *klass)
-{
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
-	
-	camel_mime_filter_basic_parent = gtk_type_class (camel_mime_filter_get_type ());
-
-	object_class->finalize = finalise;
-
-	filter_class->reset = reset;
-	filter_class->filter = filter;
-	filter_class->complete = complete;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-}
-
-static void
-camel_mime_filter_basic_init (CamelMimeFilterBasic *obj)
-{
-	obj->state = 0;
-	obj->save = 0;
-}
-
 /**
  * camel_mime_filter_basic_new:
  *
@@ -198,7 +186,7 @@ camel_mime_filter_basic_init (CamelMimeFilterBasic *obj)
 CamelMimeFilterBasic *
 camel_mime_filter_basic_new (void)
 {
-	CamelMimeFilterBasic *new = CAMEL_MIME_FILTER_BASIC ( gtk_type_new (camel_mime_filter_basic_get_type ()));
+	CamelMimeFilterBasic *new = CAMEL_MIME_FILTER_BASIC ( camel_object_new (camel_mime_filter_basic_get_type ()));
 	return new;
 }
 

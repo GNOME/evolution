@@ -7,10 +7,10 @@ providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
 lib_LTLIBRARIES = libcamel.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
-	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR)			\
-	$(UNICODE_CFLAGS)			\
+INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
+	-I$(top_srcdir)/intl			 \
+	$(GLIB_CFLAGS)				 \
+	$(UNICODE_CFLAGS)			 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 

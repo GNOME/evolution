@@ -31,13 +31,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-store.h"
 
 #define CAMEL_MBOX_STORE_TYPE     (camel_mbox_store_get_type ())
-#define CAMEL_MBOX_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_MBOX_STORE_TYPE, CamelMboxStore))
-#define CAMEL_MBOX_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MBOX_STORE_TYPE, CamelMboxStoreClass))
-#define IS_CAMEL_MBOX_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_MBOX_STORE_TYPE))
+#define CAMEL_MBOX_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MBOX_STORE_TYPE, CamelMboxStore))
+#define CAMEL_MBOX_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MBOX_STORE_TYPE, CamelMboxStoreClass))
+#define IS_CAMEL_MBOX_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MBOX_STORE_TYPE))
 
 
 typedef struct {
@@ -55,8 +54,8 @@ typedef struct {
 
 /* public methods */
 
-/* Standard Gtk function */
-GtkType camel_mbox_store_get_type (void);
+/* Standard Camel function */
+CamelType camel_mbox_store_get_type (void);
 
 const gchar *camel_mbox_store_get_toplevel_dir (CamelMboxStore *store);
 

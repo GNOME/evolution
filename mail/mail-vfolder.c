@@ -19,12 +19,12 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail-vfolder.h"
+#include "mail-tools.h"
 #include "mail-autofilter.h"
 
 #include "camel/camel.h"
 
 #include "filter/vfolder-context.h"
-#include "filter/vfolder-rule.h"
 #include "filter/vfolder-editor.h"
 
 #define d(x) x
@@ -171,19 +171,17 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 	vfolder_refresh();
 }
 
+/* THIS IS ANALOGOUS TO mail_tool_uri_to_folder. IT IS NOT ASYNCHRONOUS */
 /* maps the shell's uri to the real vfolder uri and open the folder */
 CamelFolder *
-vfolder_uri_to_folder(const char *uri)
+vfolder_uri_to_folder(const char *uri, CamelException *ex)
 {
-	CamelFolder *mail_uri_to_folder(const char *);
 	void camel_vee_folder_add_folder(CamelFolder *, CamelFolder *);
 
 	struct _vfolder_info *info;
 	char *storeuri, *foldername;
 	VfolderRule *rule;
-	CamelStore *store = NULL;
 	CamelFolder *folder = NULL, *sourcefolder;
-	CamelException *ex;
 	const char *sourceuri;
 	int sources;
 
@@ -202,23 +200,19 @@ vfolder_uri_to_folder(const char *uri)
 
 	storeuri = g_strdup_printf("vfolder:%s/vfolder/%s", evolution_dir, info->name);
 	foldername = g_strdup_printf("mbox?%s", info->query);
-	ex = camel_exception_new ();
-	store = camel_session_get_store (session, storeuri, ex);
-	if (store == NULL)
-		goto cleanup;
 
-	folder = camel_store_get_folder (store, foldername, TRUE, ex);
-	if (folder == NULL)
-		goto cleanup;
+	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, ex);
 
 	sourceuri = NULL;
 	sources = 0;
 	while ( (sourceuri = vfolder_rule_next_source(rule, sourceuri)) ) {
 		d(printf("adding vfolder source: %s\n", sourceuri));
-		sourcefolder = mail_uri_to_folder(sourceuri);
+		sourcefolder = mail_tool_uri_to_folder (sourceuri, ex);
 		if (sourcefolder) {
 			sources++;
+			mail_tool_camel_lock_up ();
 			camel_vee_folder_add_folder(folder, sourcefolder);
+			mail_tool_camel_lock_down ();
 		}
 	}
 	/* if we didn't have any sources, just use Inbox as the default */
@@ -227,12 +221,15 @@ vfolder_uri_to_folder(const char *uri)
 
 		defaulturi = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
 		d(printf("No sources configured/found, using default: %s\n", defaulturi));
-		sourcefolder = mail_uri_to_folder(defaulturi);
+		sourcefolder = mail_tool_uri_to_folder (defaulturi, ex);
 		g_free(defaulturi);
-		if (sourcefolder)
+		if (sourcefolder) {
+			mail_tool_camel_lock_up ();
 			camel_vee_folder_add_folder(folder, sourcefolder);
+			mail_tool_camel_lock_down ();
+		}
 	}
-cleanup:
+
 	g_free(foldername);
 	g_free(storeuri);
 

@@ -42,9 +42,9 @@ extern "C" {
 
 
 #define CAMEL_MIME_MESSAGE_TYPE     (camel_mime_message_get_type ())
-#define CAMEL_MIME_MESSAGE(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessage))
-#define CAMEL_MIME_MESSAGE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessageClass))
-#define CAMEL_IS_MIME_MESSAGE(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_MESSAGE_TYPE))
+#define CAMEL_MIME_MESSAGE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessage))
+#define CAMEL_MIME_MESSAGE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessageClass))
+#define CAMEL_IS_MIME_MESSAGE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MIME_MESSAGE_TYPE))
 
 
 /* specify local time */
@@ -76,8 +76,8 @@ typedef struct {
 
 
 
-/* Standard Gtk function */
-GtkType camel_mime_message_get_type (void);
+/* Standard Camel function */
+CamelType camel_mime_message_get_type (void);
 
 
 /* public methods */

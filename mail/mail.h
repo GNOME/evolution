@@ -31,8 +31,8 @@
 void           folder_browser_factory_init         (void);
 BonoboControl *folder_browser_factory_new_control  (const char *uri);
 
-/* folder-browser */
-CamelFolder *mail_uri_to_folder (const char *uri);
+/* mail-config */
+void mail_config_druid (void);
 
 /* mail-crypto */
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
@@ -60,7 +60,7 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part);
 
-/* mail-ops */
+/* mail-callbacks */
 void fetch_mail (GtkWidget *widget, gpointer user_data);
 void compose_msg (GtkWidget *widget, gpointer user_data);
 void send_to_url (const char *url);
@@ -83,8 +83,12 @@ void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
 
 void configure_folder(BonoboUIHandler *uih, void *user_data, const char *path);
 
+void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
+void composer_send_cb (EMsgComposer *composer, gpointer data);
+void mail_print_msg (MailDisplay *md);
+
 /* mail view */
-GtkWidget *mail_view_create (FolderBrowser *folder_browser);
+GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
 
 /* session */
 void session_init (void);

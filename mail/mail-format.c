@@ -104,8 +104,38 @@ static void write_headers (CamelMimeMessage *message,
 static gboolean call_handler_function (CamelMimePart *part,
 				       struct mail_format_data *mfd);
 
-static void free_urls (gpointer data);
 
+/* no gtk_object_set_data, sorry..... */
+
+static GHashTable *cmm_to_urls = NULL;
+
+static void
+free_url (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+}
+
+static void cmm_destroyed (CamelObject *cmm, gpointer event_data, gpointer user_data)
+{
+	GHashTable *ht;
+
+	g_return_if_fail (cmm);
+
+	ht = g_hash_table_lookup (cmm_to_urls, cmm);
+	g_hash_table_foreach (ht, free_url, NULL);
+	g_hash_table_destroy (ht);
+	g_hash_table_insert (cmm_to_urls, cmm, NULL);
+}
+
+GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message)
+{
+	if (!cmm_to_urls) {
+		cmm_to_urls = g_hash_table_new (g_direct_hash, g_direct_equal);
+		return NULL;
+	}
+
+	return g_hash_table_lookup (cmm_to_urls, mime_message);
+}
 
 /**
  * mail_format_mime_message: 
@@ -128,30 +158,19 @@ mail_format_mime_message (CamelMimeMessage *mime_message,
 	mfd.html = html;
 	mfd.stream = stream;
 	mfd.root = root;
-	mfd.urls = gtk_object_get_data (GTK_OBJECT (root), "urls");
+
+	if (!cmm_to_urls)
+		cmm_to_urls = g_hash_table_new (g_direct_hash, g_direct_equal);
+	mfd.urls = g_hash_table_lookup (cmm_to_urls, root);
+
 	if (!mfd.urls) {
 		mfd.urls = g_hash_table_new (g_str_hash, g_str_equal);
-		gtk_object_set_data_full (GTK_OBJECT (root), "urls",
-					  mfd.urls, free_urls);
+		g_hash_table_insert (cmm_to_urls, root, mfd.urls);
+		camel_object_hook_event (CAMEL_OBJECT (root), "finalize", cmm_destroyed, NULL);
 	}
 
 	write_headers (mime_message, &mfd);
 	call_handler_function (CAMEL_MIME_PART (mime_message), &mfd);
-}
-
-static void
-free_url (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
-}
-
-static void
-free_urls (gpointer data)
-{
-	GHashTable *urls = data;
-
-	g_hash_table_foreach (urls, free_url, NULL);
-	g_hash_table_destroy (urls);
 }
 
 static const char *
@@ -500,7 +519,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
 	} else
 		text = NULL;
 
-	gtk_object_unref (GTK_OBJECT (memstream));
+	camel_object_unref (CAMEL_OBJECT (memstream));
 	return text;
 }
 
@@ -662,7 +681,7 @@ fake_mime_part_from_data (const char *data, int len, const char *type)
 	return part;
 }
 
-static void
+  static void
 destroy_part (GtkObject *root, GtkObject *part)
 {
 	gtk_object_unref (part);
@@ -787,7 +806,7 @@ try_inline_binhex (char *start, struct mail_format_data *mfd)
 }
 
 static void
-free_byte_array (GtkWidget *widget, gpointer user_data)
+free_byte_array (CamelObject *obj, gpointer event_data, gpointer user_data)
 {
 	g_byte_array_free (user_data, TRUE);
 }
@@ -946,8 +965,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
 	g_hash_table_insert (mfd->urls, xed, ba);
-	gtk_signal_connect (GTK_OBJECT (mfd->root), "destroy",
-			    GTK_SIGNAL_FUNC (free_byte_array), ba);
+	camel_object_hook_event (CAMEL_OBJECT (mfd->root), "finalize", free_byte_array, ba);
 	mail_html_write (mfd->html, mfd->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", xed);

@@ -61,6 +61,15 @@
 	(camel_tag_list_size):
 	(camel_tag_list_free): Operations for working with CamelTags.
 
+2000-08-09  Peter Williams  <peterw@helixcode.com>
+
+	* camel-store.c (camel_store_get_folder): Connect beforehand, if
+	necessary.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Default
+	the dir_sep to "/" so that certain functions can safely assume that
+	dir_sep is valid (at least, nonnull).
+
 2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* providers/nntp/camel-nntp-folder.c
@@ -92,35 +101,22 @@
 	* camel-mime-message.c (process_header): Add another subject
 	g_strstrip that fejj's earlier commit missed.
 
+2000-08-08  Peter Williams  <peterw@helixcode.com>
+
+	* camel-provider.h: Remove some GTK stuff that I missed.
+
+	* providers/imap/camel-imap-store.c (imap_noop): Turn this
+	back on with the new timeout interface in CamelSession.
+
+	* camel-session.[ch] (camel_session_register_timeout): New
+	interface for Camel to register timeouts. Basically the
+	GTK timeout interface is copied. We do this because Camel isn't
+	allowed to use GTK anymore.
+	
 2000-08-07  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mh/camel-mh-folder.c (mh_append_message): Only retry
 	another uid if we had a name clash, otherwise fail.
-
-2000-08-04  Not Zed  <NotZed@HelixCode.com>
-
-	* camel-url.c (camel_url_set_protocol): 
-	(camel_url_set_host): 
-	(camel_url_set_path): 
-	(camel_url_set_port): Url editing functions.
-
-2000-08-02  Not Zed  <NotZed@HelixCode.com>
-
-	* providers/mh/camel-mh-summary.c (camel_mh_summary_sync): Expunge
-	from the end, so the index isn't messed up when you remove a
-	message.
-
-	* providers/mh/camel-mh-folder.c (mh_append_message): Fix a bug
-	where it would never open an output file/uid.
-
-	* providers/mbox/camel-mbox-store.c (rename_folder):
-	Implementation for mbox as well.
-
-	* camel-store.c (camel_store_rename_folder): New method to rename folders.
-	(rename_folder): Default implementation.
-
-	* providers/mh/camel-mh-store.c (delete_folder): Implement this.
-	(rename_folder): Implement a rename operation.
 
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
@@ -131,6 +127,14 @@
 
 	* providers/imap/camel-imap-utils.c (imap_parse_list_response): 
 	Check for NIL as a directory separator.
+
+2000-08-07  Peter Williams  <peterw@helixcode.com>
+
+	* providers/nntp/Makefile.am: Reorder the INCLUDES to pull
+	in the camel headers from the local source tree before
+	the ones in $(includedir). This was causing compile problems
+	because the installed, Gtk-based camel-object.h was included
+	before the uninstall Camel-based one.
 
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
@@ -160,6 +164,18 @@
 	* providers/imap/camel-imap-store.c (get_folder): Prevent a coredump
 	when get_folder()ing from a store with dir_sep = NULL.
 
+2000-08-04  Peter Williams  <peterw@helixcode.com>
+
+	* camel-store.h: Include camel-object.h. Ettore said this wasn't
+	compiling.
+
+2000-08-04  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-url.c (camel_url_set_protocol): 
+	(camel_url_set_host): 
+	(camel_url_set_path): 
+	(camel_url_set_port): Url editing functions.
+
 2000-08-04  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_set_message_flags): 
@@ -181,6 +197,24 @@
 
 	* providers/nntp/Makefile.am (INCLUDES): Add -I$(top_srcdir) to
 	pull in libibex/ibex.h
+
+2000-08-02  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-summary.c (camel_mh_summary_sync): Expunge
+	from the end, so the index isn't messed up when you remove a
+	message.
+
+	* providers/mh/camel-mh-folder.c (mh_append_message): Fix a bug
+	where it would never open an output file/uid.
+
+	* providers/mbox/camel-mbox-store.c (rename_folder):
+	Implementation for mbox as well.
+
+	* camel-store.c (camel_store_rename_folder): New method to rename folders.
+	(rename_folder): Default implementation.
+
+	* providers/mh/camel-mh-store.c (delete_folder): Implement this.
+	(rename_folder): Implement a rename operation.
 
 2000-08-02  Dan Winship  <danw@helixcode.com>
 
@@ -540,6 +574,19 @@
 	(imap_get_message_info): Oops. Fix UID parser to allow 0 and 9 to
 	be in the range of valid UID chars.
 
+2000-07-20  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c (camel_object_unref): Add a new global mutex
+	'refcount' held when refcounting operations occur.
+
+2000-07-19  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c (camel_type_lock_up): Correct the recursiveness;
+	the locklevel is stored as a private, so each thread has its own
+	idea of the locklevel. Thus one thread can relock, but a different
+	one will think that it's a level 0 and try to lock the type_system
+	mutex.
+
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c: General cleanup working
@@ -577,6 +624,16 @@
 	Updated to trim out the leading namespace.
 	(imap_get_subfolder_names): Let the subfolder parser trim the
 	namespace off the folder name.
+
+2000-07-17  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c (camel_type_lock_up): New function; the
+	Camel type_system lock is now fakey-recursive, being controlled
+	by a semaphore that goes up and down and is protected by another
+	lock. Theoretically all we need is the lock on the semaphore,
+	but this we catch exceptions "better" (by deadlocking).
+	(camel_type_lock_down): Corresponding to above.
+	(all functions): s,G_LOCK,camel_type_lock_up, etc.
 
 2000-07-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
@@ -617,6 +674,31 @@
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): 
 	One last fix to get rid of hard-coded "/" directory separators
 
+2000-07-14  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c : Implement 'events', which are suspiciously
+	like signals except without all the marshalling baggage, and
+	with quasi-thread-safety.
+	(camel_object_class_declare_event): New func.
+	(camel_object_hook_event): Ditto.
+	(camel_object_trigger_event): Ditto.
+	(obj_class_init): Declare the "finalize" event.
+	(obj_class_finalize): Free the hashtable of events->preps
+	(obj_finalize): Free the hashtable of events->hooklists
+	(camel_object_unref): Trigger the finalize event (ourselves,
+	to prevent massively unpleasant looping things.)
+	
+2000-07-14  Peter Williams  <peterw@helixcode.com>
+	
+	* camel-object.c (make_global_classfuncs): Change to return
+	a CamelObjectClass. Change parents to a GSList and free it
+	when done.
+	(camel_object_new): Don't allocate a classfuncs for every object;
+	merely give it a reference to the global_classfuncs. Convert
+	parents to a GSList and free it when done.
+	(camel_object_unref): Don't free the classfuncs. Free the parents
+	list, which is changed to a GSList.
+
 2000-07-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* string-utils.c (string_unquote): New convenience function
@@ -634,6 +716,30 @@
 	Deals with the case where the user edits the mbox and makes it
 	bigger, without adding new messages.
 
+2000-07-13  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c: Rewritten to not be based on GtkObject,
+	but a tiny threadsafe ripoff thereof. Objects still cannot
+	be shared across threads, but ref/unref/destroy/new/etc
+	will work. Signals are not implemented because doing it
+	robustly would be a major pain in the butt, but class
+	functions are. There's a small demonstration that it doesn't
+	crash in ./temp-test.c: build it with ./make-test.sh.
+	* camel-stream.c, camel-seekable-stream.c, camel-stream-mem.c:
+	moved over to CamelObject. Proof of concept: two levels of
+	subclass and class functions, all working without coredumps.
+	To port to CamelObject:
+	- s,GTK_,CAMEL_,g in the cast checks
+	- s,gtk_type_new,camel_object_new,g
+	- s,GtkType,CamelType,g
+	- Change get_type function over to camel_type_declare
+	- instead of hooking to finalize function, it goes into the
+	  type declaration.
+	- remove signals.
+	- instead of GTK_OBJECT(so)->klass, CAMEL_OBJECT_GET_CLASS(so)
+	- s,gtk_type_class,camel_type_get_global_classfuncs,g
+	- don't chain finalize handlers; it will be done for you
+	
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c: 
@@ -833,6 +939,20 @@
 	* providers/mbox/camel-mbox-folder.c (mbox_append_message): 
 	* providers/imap/camel-imap-folder.c (imap_append_message): 
 	Updated.
+
+2000-07-11  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c: Remove exceptions from a number of methods
+	that work on what ought to be static data: get_parent_folder,
+	get_parent_store, get_message_count, get_unread_message_count,
+	get_permanent_flags, get_message_flags, set_message_flags,
+	get_message_user_flag, set_message_user_flag, get_message_uid,
+	get_uids, get_summary, get_subfolder_names. Turn
+	camel_folder_delete_message into a macro.
+
+	* providers/{mbox,pop3,vee}: Update for CamelFolder changes
+
+	* providers/Makefile.am: Disable imap and nntp for now
 
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 

@@ -59,12 +59,9 @@ static GHashTable *header_name_table;
 static CamelMediumClass *parent_class=NULL;
 
 /* Returns the class for a CamelMimePart */
-#define CMP_CLASS(so) CAMEL_MIME_PART_CLASS (GTK_OBJECT(so)->klass)
-#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
-#define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
-
-/* from GtkObject */
-static void            finalize (GtkObject *object);
+#define CMP_CLASS(so) CAMEL_MIME_PART_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CMD_CLASS(so) CAMEL_MEDIUM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 /* from CamelDataWrapper */
 static int             write_to_stream                 (CamelDataWrapper *data_wrapper, CamelStream *stream);
@@ -106,9 +103,8 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 {
 	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_part_class);
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_part_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
 
-	parent_class = gtk_type_class (camel_medium_get_type ());
+	parent_class = CAMEL_MEDIUM_CLASS (camel_type_get_global_classfuncs (camel_medium_get_type ()));
 	init_header_name_table();
 
 	camel_mime_part_class->construct_from_parser = construct_from_parser;
@@ -122,8 +118,6 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 
 	camel_data_wrapper_class->write_to_stream     = write_to_stream;
 	camel_data_wrapper_class->construct_from_stream= construct_from_stream;
-
-	gtk_object_class->finalize                    = finalize;
 }
 
 static void
@@ -144,35 +138,8 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 }
 
 
-
-
-GtkType
-camel_mime_part_get_type (void)
-{
-	static GtkType camel_mime_part_type = 0;
-	
-	if (!camel_mime_part_type)	{
-		GtkTypeInfo camel_mime_part_info =	
-		{
-			"CamelMimePart",
-			sizeof (CamelMimePart),
-			sizeof (CamelMimePartClass),
-			(GtkClassInitFunc) camel_mime_part_class_init,
-			(GtkObjectInitFunc) camel_mime_part_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_mime_part_type = gtk_type_unique (camel_medium_get_type (), &camel_mime_part_info);
-	}
-	
-	return camel_mime_part_type;
-}
-
-
 static void           
-finalize (GtkObject *object)
+camel_mime_part_finalize (CamelObject *object)
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (object);
 
@@ -185,12 +152,31 @@ finalize (GtkObject *object)
 	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
 	if (mime_part->temp_message_buffer) g_byte_array_free (mime_part->temp_message_buffer, TRUE);
 
-	if (mime_part->content_input_stream) gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));
+	if (mime_part->content_input_stream) camel_object_unref (CAMEL_OBJECT (mime_part->content_input_stream));
 
 	header_raw_clear(&mime_part->headers);
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
+
+
+
+CamelType
+camel_mime_part_get_type (void)
+{
+	static CamelType camel_mime_part_type = CAMEL_INVALID_TYPE;
+	
+	if (camel_mime_part_type == CAMEL_INVALID_TYPE)	{
+		camel_mime_part_type = camel_type_register (CAMEL_MEDIUM_TYPE, "CamelMimePart",
+							    sizeof (CamelMimePart),
+							    sizeof (CamelMimePartClass),
+							    (CamelObjectClassInitFunc) camel_mime_part_class_init,
+							    NULL,
+							    (CamelObjectInitFunc) camel_mime_part_init,
+							    (CamelObjectFinalizeFunc) camel_mime_part_finalize);
+	}
+	
+	return camel_mime_part_type;
+}
+
 
 /* **** */
 
@@ -533,10 +519,10 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 				camel_stream_filter_add(filter_stream, crlf);
-				gtk_object_unref((GtkObject *)crlf);
+				camel_object_unref((CamelObject *)crlf);
 			}
 			camel_stream_filter_add(filter_stream, filter);
-			gtk_object_unref((GtkObject *)filter);
+			camel_object_unref((CamelObject *)filter);
 			stream = (CamelStream *)filter_stream;
 		}
 
@@ -544,7 +530,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		count = camel_data_wrapper_write_to_stream (content, stream);
 		if (filter_stream) {
 			camel_stream_flush((CamelStream *)filter_stream);
-			gtk_object_unref((GtkObject *)filter_stream);
+			camel_object_unref((CamelObject *)filter_stream);
 		}
 		if (count == -1)
 			return -1;
@@ -618,7 +604,7 @@ construct_from_stream(CamelDataWrapper *dw, CamelStream *s)
 	} else {
 		ret = camel_mime_part_construct_from_parser((CamelMimePart *)dw, mp);
 	}
-	gtk_object_unref((GtkObject *)mp);
+	camel_object_unref((CamelObject *)mp);
 	return ret;
 }
 
@@ -675,7 +661,7 @@ camel_mime_part_encoding_from_string (const gchar *string)
 CamelMimePart *
 camel_mime_part_new (void)
 {
-	return (CamelMimePart *)gtk_object_new (CAMEL_MIME_PART_TYPE, NULL);
+	return (CamelMimePart *)camel_object_new (CAMEL_MIME_PART_TYPE);
 }
 
 /**
@@ -705,12 +691,12 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		camel_data_wrapper_set_mime_type (dw, type);
 		stream = camel_stream_mem_new_with_buffer (data, length);
 		camel_data_wrapper_construct_from_stream (dw, stream);
-		gtk_object_unref (GTK_OBJECT (stream));
+		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_medium_set_content_object (medium, dw);
-		gtk_object_unref (GTK_OBJECT (dw));
+		camel_object_unref (CAMEL_OBJECT (dw));
 	} else {
 		if (medium->content)
-			gtk_object_unref (GTK_OBJECT (medium->content));
+			camel_object_unref (CAMEL_OBJECT (medium->content));
 		medium->content = NULL;
 	}
 }

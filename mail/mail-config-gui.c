@@ -1259,7 +1259,9 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 				     GTK_SIGNAL_FUNC (iddialog_ok_clicked),
 				     iddialog);
 
+	/*GDK_THREADS_ENTER ();*/
 	gnome_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
+	/*GDK_THREADS_LEAVE ();*/
 
 	returnid = iddialog->id;
 	g_free (iddialog);
@@ -1356,7 +1358,9 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (sdialog_ok_clicked),
 				    sdialog);
 
+	/*GDK_THREADS_ENTER ();*/
 	gnome_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
+	/*GDK_THREADS_LEAVE ();*/
 
 	returnsource = sdialog->source;
 	g_free (sdialog);
@@ -1452,7 +1456,9 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (ndialog_ok_clicked),
 				    ndialog);
 
+	/*GDK_THREADS_ENTER ();*/
 	gnome_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
+	/*GDK_THREADS_LEAVE ();*/
 
 	returnsource = ndialog->source;
 	g_free (ndialog);
@@ -1679,8 +1685,10 @@ mail_config_druid (void)
 	gtk_signal_connect (GTK_OBJECT (fpage), "finish",
 			    GTK_SIGNAL_FUNC (mail_druid_finish),
 			    dialog);
-
+	
+	GDK_THREADS_ENTER ();
 	gtk_main ();
+	GDK_THREADS_LEAVE ();
 }
 
 /* Main configuration dialog */
@@ -2131,7 +2139,9 @@ mail_config (void)
 			    GTK_SIGNAL_FUNC (mail_config_apply_clicked),
 			    dialog);
 
+	GDK_THREADS_ENTER ();
 	gnome_dialog_run (GNOME_DIALOG (dialog->dialog));
+	GDK_THREADS_LEAVE ();
 
 	/* Clean up */
 	gtk_object_unref (GTK_OBJECT (gui));

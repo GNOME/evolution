@@ -31,14 +31,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-store.h"
 #include "camel-nntp-newsrc.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
-#define CAMEL_NNTP_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
-#define CAMEL_NNTP_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_NNTP_STORE_TYPE, CamelNNTPStoreClass))
-#define IS_CAMEL_NNTP_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_NNTP_STORE_TYPE))
+#define CAMEL_NNTP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
+#define CAMEL_NNTP_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_NNTP_STORE_TYPE, CamelNNTPStoreClass))
+#define IS_CAMEL_NNTP_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_NNTP_STORE_TYPE))
 
 
 typedef struct {
@@ -76,8 +75,8 @@ enum { CAMEL_NNTP_OK, CAMEL_NNTP_ERR, CAMEL_NNTP_FAIL };
 int camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...);
 char *camel_nntp_command_get_additional_data (CamelNNTPStore *store);
 
-/* Standard Gtk function */
-GtkType camel_nntp_store_get_type (void);
+/* Standard Camel function */
+CamelType camel_nntp_store_get_type (void);
 
 #ifdef __cplusplus
 }

@@ -41,25 +41,19 @@ camel_mime_filter_crlf_class_init (CamelMimeFilterCRLFClass *klass)
 	mime_filter_class->reset = reset;
 }
 
-GtkType
+CamelType
 camel_mime_filter_crlf_get_type (void)
 {
-	static GtkType type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeFilterCRLF",
-			sizeof (CamelMimeFilterCRLF),
-			sizeof (CamelMimeFilterCRLFClass),
-			(GtkClassInitFunc) camel_mime_filter_crlf_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_mime_filter_get_type (),
-					&type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_mime_filter_get_type(), "CamelMimeFilterCRLF",
+					    sizeof (CamelMimeFilterCRLF),
+					    sizeof (CamelMimeFilterCRLFClass),
+					    (CamelObjectClassInitFunc) camel_mime_filter_crlf_class_init,
+					    NULL,
+					    NULL,
+					    NULL);
 	}
 
 	return type;
@@ -146,7 +140,7 @@ reset (CamelMimeFilter *f)
 CamelMimeFilter *
 camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction, CamelMimeFilterCRLFMode mode)
 {
-	CamelMimeFilterCRLF *crlf = gtk_type_new (CAMEL_MIME_FILTER_CRLF_TYPE);
+	CamelMimeFilterCRLF *crlf = CAMEL_MIME_FILTER_CRLF(camel_object_new (CAMEL_MIME_FILTER_CRLF_TYPE));
 
 	crlf->direction = direction;
 	crlf->mode = mode;

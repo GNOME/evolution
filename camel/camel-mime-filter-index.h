@@ -24,9 +24,9 @@
 #include <camel/camel-mime-filter.h>
 #include <libibex/ibex.h>
 
-#define CAMEL_MIME_FILTER_INDEX(obj)         GTK_CHECK_CAST (obj, camel_mime_filter_index_get_type (), CamelMimeFilterIndex)
-#define CAMEL_MIME_FILTER_INDEX_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_index_get_type (), CamelMimeFilterIndexClass)
-#define IS_CAMEL_MIME_FILTER_INDEX(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_index_get_type ())
+#define CAMEL_MIME_FILTER_INDEX(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_index_get_type (), CamelMimeFilterIndex)
+#define CAMEL_MIME_FILTER_INDEX_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_index_get_type (), CamelMimeFilterIndexClass)
+#define IS_CAMEL_MIME_FILTER_INDEX(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_index_get_type ())
 
 typedef struct _CamelMimeFilterIndexClass CamelMimeFilterIndexClass;
 

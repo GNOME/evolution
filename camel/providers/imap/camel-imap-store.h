@@ -32,19 +32,19 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-store.h"
 
 #define CAMEL_IMAP_STORE_TYPE     (camel_imap_store_get_type ())
-#define CAMEL_IMAP_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_IMAP_STORE_TYPE, CamelImapStore))
-#define CAMEL_IMAP_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STORE_TYPE, CamelImapStoreClass))
-#define IS_CAMEL_IMAP_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_IMAP_STORE_TYPE))
+#define CAMEL_IMAP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_STORE_TYPE, CamelImapStore))
+#define CAMEL_IMAP_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STORE_TYPE, CamelImapStoreClass))
+#define IS_CAMEL_IMAP_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_IMAP_STORE_TYPE))
 
 typedef enum {
 	IMAP_LEVEL_UNKNOWN,
 	IMAP_LEVEL_IMAP4,
 	IMAP_LEVEL_IMAP4REV1
 } CamelImapServerLevel;
+
 
 typedef struct {
 	CamelStore parent_object;	
@@ -80,8 +80,8 @@ enum { CAMEL_IMAP_OK = 0, CAMEL_IMAP_NO, CAMEL_IMAP_BAD, CAMEL_IMAP_FAIL };
 gint camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
 gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
 
-/* Standard Gtk function */
-GtkType camel_imap_store_get_type (void);
+/* Standard Camel function */
+CamelType camel_imap_store_get_type (void);
 
 const gchar *camel_imap_store_get_toplevel_dir (CamelImapStore *store);
 

@@ -35,52 +35,39 @@ struct _address {
 	char *address;
 };
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_internet_address_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelInternetAddress",
-			sizeof (CamelInternetAddress),
-			sizeof (CamelInternetAddressClass),
-			(GtkClassInitFunc) camel_internet_address_class_init,
-			(GtkObjectInitFunc) camel_internet_address_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_address_get_type (), &type_info);
-	}
-	
-	return type;
-}
-
 static void
 camel_internet_address_class_init (CamelInternetAddressClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelAddressClass *address = (CamelAddressClass *) klass;
 
-	camel_internet_address_parent = gtk_type_class (camel_address_get_type ());
+	camel_internet_address_parent = CAMEL_ADDRESS_CLASS (camel_type_get_global_classfuncs (camel_address_get_type ()));
 
 	address->decode = internet_decode;
 	address->encode = internet_encode;
 	address->remove = internet_remove;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
 camel_internet_address_init (CamelInternetAddress *obj)
 {
+}
+
+CamelType
+camel_internet_address_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_address_get_type (), "CamelInternetAddress",
+					    sizeof (CamelInternetAddress),
+					    sizeof (CamelInternetAddressClass),
+					    (CamelObjectClassInitFunc) camel_internet_address_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_internet_address_init,
+					    NULL);
+	}
+	
+	return type;
 }
 
 static int
@@ -164,7 +151,7 @@ static void   internet_remove		(CamelAddress *a, int index)
 CamelInternetAddress *
 camel_internet_address_new (void)
 {
-	CamelInternetAddress *new = CAMEL_INTERNET_ADDRESS ( gtk_type_new (camel_internet_address_get_type ()));
+	CamelInternetAddress *new = CAMEL_INTERNET_ADDRESS ( camel_object_new (camel_internet_address_get_type ()));
 	return new;
 }
 

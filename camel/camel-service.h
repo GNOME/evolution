@@ -39,9 +39,9 @@ extern "C" {
 #include <netdb.h>
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
-#define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
-#define CAMEL_SERVICE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SERVICE_TYPE, CamelServiceClass))
-#define CAMEL_IS_SERVICE(o)    (GTK_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
+#define CAMEL_SERVICE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
+#define CAMEL_SERVICE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SERVICE_TYPE, CamelServiceClass))
+#define CAMEL_IS_SERVICE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
 
 
 struct _CamelService {
@@ -105,7 +105,7 @@ typedef struct {
 
 
 /* public methods */
-CamelService *      camel_service_new                (GtkType type, 
+CamelService *      camel_service_new                (CamelType type, 
 						      CamelSession *session,
 						      CamelURL *url, 
 						      CamelException *ex);
@@ -131,8 +131,8 @@ struct hostent *    camel_service_gethost            (CamelService *service,
 						      CamelException *ex);
 
 
-/* Standard Gtk function */
-GtkType camel_service_get_type (void);
+/* Standard Camel function */
+CamelType camel_service_get_type (void);
 
 #ifdef __cplusplus
 }

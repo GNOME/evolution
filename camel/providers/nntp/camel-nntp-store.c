@@ -51,9 +51,9 @@
 static CamelServiceClass *service_class = NULL;
 
 /* Returns the class for a CamelNNTPStore */
-#define CNNTPS_CLASS(so) CAMEL_NNTP_STORE_CLASS (GTK_OBJECT(so)->klass)
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CNNTPS_CLASS(so) CAMEL_NNTP_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 
@@ -134,8 +134,8 @@ nntp_store_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
-	gtk_object_unref (GTK_OBJECT (store->ostream));
-	gtk_object_unref (GTK_OBJECT (store->istream));
+	camel_object_unref (CAMEL_OBJECT (store->ostream));
+	camel_object_unref (CAMEL_OBJECT (store->istream));
 	store->ostream = NULL;
 	store->istream = NULL;
 	return TRUE;
@@ -165,7 +165,7 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	/* call the standard routine for that when  */
 	/* it is done ... */
 
-	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
+	new_nntp_folder =  CAMEL_NNTP_FOLDER (camel_object_new (CAMEL_NNTP_FOLDER_TYPE));
 	new_folder = CAMEL_FOLDER (new_nntp_folder);
 	
 	/* XXX We shouldn't be passing NULL here, but it's equivalent to
@@ -186,7 +186,7 @@ nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelException ex;
 
@@ -198,16 +198,12 @@ finalize (GtkObject *object)
 static void
 camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 {
-	GtkObjectClass *object_class =
-		GTK_OBJECT_CLASS (camel_nntp_store_class);
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
 
-	service_class = gtk_type_class (camel_service_get_type ());
+	service_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method overload */
-	object_class->finalize = finalize;
-
 	camel_service_class->connect = nntp_store_connect;
 	camel_service_class->disconnect = nntp_store_disconnect;
 	camel_service_class->get_name = nntp_store_get_name;
@@ -226,25 +222,19 @@ camel_nntp_store_init (gpointer object, gpointer klass)
 	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
 }
 
-GtkType
+CamelType
 camel_nntp_store_get_type (void)
 {
-	static GtkType camel_nntp_store_type = 0;
+	static CamelType camel_nntp_store_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_nntp_store_type)	{
-		GtkTypeInfo camel_nntp_store_info =	
-		{
-			"CamelNNTPStore",
-			sizeof (CamelNNTPStore),
-			sizeof (CamelNNTPStoreClass),
-			(GtkClassInitFunc) camel_nntp_store_class_init,
-			(GtkObjectInitFunc) camel_nntp_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_nntp_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_nntp_store_info);
+	if (camel_nntp_store_type == CAMEL_INVALID_TYPE)	{
+		camel_nntp_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelNNTPStore",
+							     sizeof (CamelNNTPStore),
+							     sizeof (CamelNNTPStoreClass),
+							     (CamelObjectClassInitFunc) camel_nntp_store_class_init,
+							     NULL,
+							     (CamelObjectInitFunc) camel_nntp_store_init,
+							     (CamelObjectFinalizeFunc) finalize);
 	}
 	
 	return camel_nntp_store_type;

@@ -23,48 +23,14 @@
 
 static void camel_address_class_init (CamelAddressClass *klass);
 static void camel_address_init       (CamelAddress *obj);
-static void camel_address_finalise   (GtkObject *obj);
+static void camel_address_finalize   (CamelObject *obj);
 
 static CamelObjectClass *camel_address_parent;
-
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_address_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelAddress",
-			sizeof (CamelAddress),
-			sizeof (CamelAddressClass),
-			(GtkClassInitFunc) camel_address_class_init,
-			(GtkObjectInitFunc) camel_address_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_object_get_type (), &type_info);
-	}
-	
-	return type;
-}
 
 static void
 camel_address_class_init (CamelAddressClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_address_parent = gtk_type_class (camel_object_get_type ());
-
-	object_class->finalize = camel_address_finalise;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	camel_address_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
 }
 
 static void
@@ -74,11 +40,27 @@ camel_address_init (CamelAddress *obj)
 }
 
 static void
-camel_address_finalise (GtkObject *obj)
+camel_address_finalize (CamelObject *obj)
 {
 	camel_address_remove((CamelAddress *)obj, -1);
+}
 
-	((GtkObjectClass *)(camel_address_parent))->finalize((GtkObject *)obj);
+CamelType
+camel_address_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_object_get_type (), "CamelAddress",
+					    sizeof (CamelAddress),
+					    sizeof (CamelAddressClass),
+					    (CamelObjectClassInitFunc) camel_address_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_address_init,
+					    (CamelObjectFinalizeFunc) camel_address_finalize);
+	}
+	
+	return type;
 }
 
 /**
@@ -91,7 +73,7 @@ camel_address_finalise (GtkObject *obj)
 CamelAddress *
 camel_address_new (void)
 {
-	CamelAddress *new = CAMEL_ADDRESS ( gtk_type_new (camel_address_get_type ()));
+	CamelAddress *new = CAMEL_ADDRESS ( camel_object_new (camel_address_get_type ()));
 	return new;
 }
 
@@ -111,7 +93,7 @@ camel_address_decode	(CamelAddress *a, const char *raw)
 {
 	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), -1);
 
-	return ((CamelAddressClass *)((GtkObject *)a)->klass)->decode(a, raw);
+	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->decode(a, raw);
 }
 
 /**
@@ -127,7 +109,7 @@ camel_address_encode	(CamelAddress *a)
 {
 	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), NULL);
 
-	return ((CamelAddressClass *)((GtkObject *)a)->klass)->encode(a);
+	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->encode(a);
 }
 
 /**
@@ -144,8 +126,8 @@ camel_address_remove	(CamelAddress *a, int index)
 
 	if (index == -1) {
 		for (index=a->addresses->len; index>-1; index--)
-			((CamelAddressClass *)((GtkObject *)a)->klass)->remove(a, index);
+			CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->remove(a, index);
 	} else {
-		((CamelAddressClass *)((GtkObject *)a)->klass)->remove(a, index);
+		CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->remove(a, index);
 	}
 }

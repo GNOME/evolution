@@ -46,7 +46,6 @@ typedef struct _CamelMimeParser CamelMimeParser;
 typedef struct _CamelMimePart CamelMimePart;
 typedef struct _CamelMultipart CamelMultipart;
 typedef struct _CamelNewsAddress CamelNewsAddress;
-typedef struct _CamelObject CamelObject;
 typedef struct _CamelSeekableStream CamelSeekableStream;
 typedef struct _CamelSeekableSubstream CamelSeekableSubstream;
 typedef struct _CamelService CamelService;

@@ -36,9 +36,9 @@
 #include "camel-url.h"
 
 /* Returns the class for a CamelMhStore */
-#define CMHS_CLASS(so) CAMEL_MH_STORE_CLASS (GTK_OBJECT(so)->klass)
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
-#define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CMHS_CLASS(so) CAMEL_MH_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static char *get_name(CamelService * service, gboolean brief);
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboolean create, CamelException * ex);
@@ -46,7 +46,7 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex);
 
-static void camel_mh_store_class_init(CamelMhStoreClass * camel_mh_store_class)
+static void camel_mh_store_class_init(CamelObjectClass * camel_mh_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS(camel_mh_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_mh_store_class);
@@ -60,7 +60,7 @@ static void camel_mh_store_class_init(CamelMhStoreClass * camel_mh_store_class)
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
-static void camel_mh_store_init(gpointer object, gpointer klass)
+static void camel_mh_store_init(CamelObject * object)
 {
 	CamelService *service = CAMEL_SERVICE(object);
 	CamelStore *store = CAMEL_STORE(object);
@@ -71,23 +71,18 @@ static void camel_mh_store_init(gpointer object, gpointer klass)
 	store->folders = g_hash_table_new(g_str_hash, g_str_equal);
 }
 
-GtkType camel_mh_store_get_type(void)
+CamelType camel_mh_store_get_type(void)
 {
-	static GtkType camel_mh_store_type = 0;
+	static CamelType camel_mh_store_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_mh_store_type) {
-		GtkTypeInfo camel_mh_store_info = {
-			"CamelMhStore",
-			sizeof(CamelMhStore),
-			sizeof(CamelMhStoreClass),
-			(GtkClassInitFunc) camel_mh_store_class_init,
-			(GtkObjectInitFunc) camel_mh_store_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_mh_store_type = gtk_type_unique(CAMEL_STORE_TYPE, &camel_mh_store_info);
+	if (camel_mh_store_type == CAMEL_INVALID_TYPE) {
+		camel_mh_store_type = camel_type_register(CAMEL_STORE_TYPE, "CamelMhStore",
+							  sizeof(CamelMhStore),
+							  sizeof(CamelMhStoreClass),
+							  (CamelObjectClassInitFunc) camel_mh_store_class_init,
+							  NULL,
+							  (CamelObjectInitFunc) camel_mh_store_init,
+							  NULL);
 	}
 
 	return camel_mh_store_type;
@@ -109,10 +104,9 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
-	printf("getting folder: %s\n", name);
+ 	printf("getting folder: %s\n", name);
 	if (stat(name, &st) == -1) {
-		printf("doesn't exist ...\n");
-
+ 		printf("doesn't exist ...\n");
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     "Could not open folder `%s':" "\n%s", folder_name, g_strerror(errno));
@@ -137,7 +131,7 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 		goto done;
 	}
 
-	new_folder = gtk_type_new(CAMEL_MH_FOLDER_TYPE);
+	new_folder = CAMEL_FOLDER (camel_object_new(CAMEL_MH_FOLDER_TYPE));
 
 	CF_CLASS(new_folder)->init(new_folder, store, NULL, folder_name, "/", TRUE, ex);
 done:

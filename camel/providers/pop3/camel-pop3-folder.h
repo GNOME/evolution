@@ -33,13 +33,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-folder.h"
 
 #define CAMEL_POP3_FOLDER_TYPE     (camel_pop3_folder_get_type ())
-#define CAMEL_POP3_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_POP3_FOLDER_TYPE, CamelPop3Folder))
-#define CAMEL_POP3_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_POP3_FOLDER_TYPE, CamelPop3FolderClass))
-#define IS_CAMEL_POP3_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_POP3_FOLDER_TYPE))
+#define CAMEL_POP3_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_FOLDER_TYPE, CamelPop3Folder))
+#define CAMEL_POP3_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_POP3_FOLDER_TYPE, CamelPop3FolderClass))
+#define IS_CAMEL_POP3_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_POP3_FOLDER_TYPE))
 
 
 typedef struct {
@@ -63,8 +62,8 @@ typedef struct {
 /* public methods */
 CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex);
 
-/* Standard Gtk function */
-GtkType camel_pop3_folder_get_type (void);
+/* Standard Camel function */
+CamelType camel_pop3_folder_get_type (void);
 
 #ifdef __cplusplus
 }

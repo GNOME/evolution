@@ -1,6 +1,9 @@
 #ifndef _MESSAGE_THREAD_H
 #define _MESSAGE_THREAD_H
 
+#include <gnome.h>
+#include "message-list.h"
+
 struct _container {
 	struct _container *next,
 		*parent,
@@ -11,11 +14,10 @@ struct _container {
 	int order;		/* the order of this message in the folder */
 };
 
-struct _container *thread_messages(CamelFolder *folder, GPtrArray *uids);
-void thread_messages_free(struct _container *);
-
-/* for debug only */
-int dump_tree(struct _container *c, int depth);
+void mail_do_thread_messages (MessageList *ml, GPtrArray *uids, 
+			      gboolean use_camel_uidfree,
+			      void (*build) (MessageList *, ETreePath *,
+					     struct _container *, int *));
 
 #endif /* !_MESSAGE_THREAD_H */
 

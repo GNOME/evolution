@@ -33,14 +33,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include "camel-types.h"
 #include "camel-store.h"
 
 #define CAMEL_POP3_STORE_TYPE     (camel_pop3_store_get_type ())
-#define CAMEL_POP3_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_POP3_STORE_TYPE, CamelPop3Store))
-#define CAMEL_POP3_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_POP3_STORE_TYPE, CamelPop3StoreClass))
-#define IS_CAMEL_POP3_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_POP3_STORE_TYPE))
+#define CAMEL_POP3_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_STORE_TYPE, CamelPop3Store))
+#define CAMEL_POP3_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_POP3_STORE_TYPE, CamelPop3StoreClass))
+#define IS_CAMEL_POP3_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_POP3_STORE_TYPE))
 
 
 typedef struct {
@@ -70,8 +69,8 @@ int camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...);
 char *camel_pop3_command_get_additional_data (CamelPop3Store *store,
 					      CamelException *ex);
 
-/* Standard Gtk function */
-GtkType camel_pop3_store_get_type (void);
+/* Standard Camel function */
+CamelType camel_pop3_store_get_type (void);
 
 #ifdef __cplusplus
 }

@@ -30,39 +30,30 @@
 
 static void camel_mime_filter_save_class_init (CamelMimeFilterSaveClass *klass);
 static void camel_mime_filter_save_init       (CamelMimeFilterSave *obj);
+static void camel_mime_filter_save_finalize   (CamelObject *o);
 
 static CamelMimeFilterClass *camel_mime_filter_save_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+CamelType
 camel_mime_filter_save_get_type (void)
 {
-	static guint type = 0;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeFilterSave",
-			sizeof (CamelMimeFilterSave),
-			sizeof (CamelMimeFilterSaveClass),
-			(GtkClassInitFunc) camel_mime_filter_save_class_init,
-			(GtkObjectInitFunc) camel_mime_filter_save_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_mime_filter_get_type (), &type_info);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_mime_filter_get_type (), "CamelMimeFilterSave",
+					    sizeof (CamelMimeFilterSave),
+					    sizeof (CamelMimeFilterSaveClass),
+					    (CamelObjectClassInitFunc) camel_mime_filter_save_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_mime_filter_save_init,
+					    (CamelObjectFinalizeFunc) camel_mime_filter_save_finalize);
 	}
 	
 	return type;
 }
 
 static void
-finalise(GtkObject *o)
+camel_mime_filter_save_finalize(CamelObject *o)
 {
 	CamelMimeFilterSave *f = (CamelMimeFilterSave *)o;
 
@@ -71,8 +62,6 @@ finalise(GtkObject *o)
 		/* FIXME: what do we do with failed writes???? */
 		close(f->fd);
 	}
-
-	((GtkObjectClass *)camel_mime_filter_save_parent)->finalize (o);
 }
 
 static void
@@ -107,17 +96,12 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 static void
 camel_mime_filter_save_class_init (CamelMimeFilterSaveClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
 
-	camel_mime_filter_save_parent = gtk_type_class (camel_mime_filter_get_type ());
-
-	object_class->finalize = finalise;
+	camel_mime_filter_save_parent = CAMEL_MIME_FILTER_CLASS (camel_type_get_global_classfuncs (camel_mime_filter_get_type ()));
 
 	filter_class->reset = reset;
 	filter_class->filter = filter;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -136,7 +120,7 @@ camel_mime_filter_save_init (CamelMimeFilterSave *f)
 CamelMimeFilterSave *
 camel_mime_filter_save_new (void)
 {
-	CamelMimeFilterSave *new = CAMEL_MIME_FILTER_SAVE ( gtk_type_new (camel_mime_filter_save_get_type ()));
+	CamelMimeFilterSave *new = CAMEL_MIME_FILTER_SAVE ( camel_object_new (camel_mime_filter_save_get_type ()));
 	return new;
 }
 
@@ -151,7 +135,7 @@ camel_mime_filter_save_new_name (const char *name, int flags, int mode)
 		if (new->fd != -1) {
 			new->filename = g_strdup(name);
 		} else {
-			gtk_object_unref((GtkObject *)new);
+			camel_object_unref((CamelObject *)new);
 			new = NULL;
 		}
 	}

@@ -7,15 +7,14 @@ providerdir = $(pkglibdir)/camel-providers/$(VERSION)
 provider_LTLIBRARIES = libcamelnntp.la
 provider_DATA = libcamelnntp.urls
 
-INCLUDES = -I.. \
-	-I$(srcdir)/..				\
+INCLUDES = -I../..				\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/libibex			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
-	$(GTK_INCLUDEDIR)			\
+	$(GTK_INCLUDEDIR) 			\
 	-DG_LOG_DOMAIN=\"camel-nntp-provider\"
 
 libcamelnntp_la_SOURCES = 			\

@@ -148,6 +148,17 @@
 	(e_shell_folder_title_bar_set_title): Set both `label' and
 	`button_label'.
 
+2000-07-21  Peter Williams  <peterw@helixcode.com>
+
+	* evolution-shell-client.c (user_select_folder): Don't use
+	g_main_loop to block the caller; this will break when 
+	threads are enabled and GDK_THREADS_ENTER deadlocks. Use
+	gtk_main / gtk_main_exit to enter and exit the main loop,
+	which handles the recursive case correctly.
+	(impl_FolderSelectionListener_selected): Same.
+	(impl_FolderSelectionListener_cancel): Same.
+	(struct _FolderSelectionListenerServant): No more main_loop member.
+
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (storage_set_view_box_button_release_event_cb):

@@ -61,7 +61,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		/* if we can't seek, dont have a stream/etc, then we must cache it */
 	source = camel_mime_parser_stream(mp);
 	if (source) {
-		gtk_object_ref((GtkObject *)source);
+		camel_object_ref((CamelObject *)source);
 		if (CAMEL_IS_SEEKABLE_STREAM (source)) {
 			seekable_source = CAMEL_SEEKABLE_STREAM (source);
 			cache = FALSE;
@@ -135,7 +135,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		d(printf("Small message part, kept in memory!\n"));
 		mem = camel_stream_mem_new_with_byte_array(buffer);
 		camel_data_wrapper_construct_from_stream (dw, mem);
-		gtk_object_unref ((GtkObject *)mem);
+		camel_object_unref ((CamelObject *)mem);
 	} else {
 		CamelStream *sub;
 		CamelStreamFilter *filter;
@@ -159,11 +159,11 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 				camel_stream_filter_add(filter, fch);
 			}
 			camel_data_wrapper_construct_from_stream (dw, (CamelStream *)filter);
-			gtk_object_unref ((GtkObject *)filter);
+			camel_object_unref ((CamelObject *)filter);
 		} else {
 			camel_data_wrapper_construct_from_stream (dw, sub);
 		}
-		gtk_object_unref ((GtkObject *)sub);
+		camel_object_unref ((CamelObject *)sub);
 	}
 
 	camel_mime_parser_filter_remove(mp, decid);
@@ -171,13 +171,13 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	camel_mime_parser_filter_remove(mp, chrid);
 
 	if (fdec)
-		gtk_object_unref((GtkObject *)fdec);
+		camel_object_unref((CamelObject *)fdec);
 	if (fcrlf)
-		gtk_object_unref((GtkObject *)fcrlf);
+		camel_object_unref((CamelObject *)fcrlf);
 	if (fch)
-		gtk_object_unref((GtkObject *)fch);
+		camel_object_unref((CamelObject *)fch);
 	if (source)
-		gtk_object_unref((GtkObject *)source);
+		camel_object_unref((CamelObject *)source);
 
 }
 
@@ -214,7 +214,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 			bodypart = (CamelDataWrapper *)camel_mime_part_new();
 			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
 			camel_multipart_add_part((CamelMultipart *)content, (CamelMimePart *)bodypart);
-			gtk_object_unref ((GtkObject *)bodypart);
+			camel_object_unref ((CamelObject *)bodypart);
 		}
 
 		d(printf("Created multi-part\n"));
@@ -228,7 +228,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 		camel_data_wrapper_set_mime_type_field (content, 
 							camel_mime_part_get_content_type ((CamelMimePart *)dw));
 		camel_medium_set_content_object((CamelMedium *)dw, content);
-		gtk_object_unref ((GtkObject *)content);
+		camel_object_unref ((CamelObject *)content);
 	}
 }
 

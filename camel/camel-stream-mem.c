@@ -30,10 +30,10 @@
 #include <fcntl.h>
 #include <errno.h>
 
-static CamelStreamClass *parent_class = NULL;
+static CamelSeekableStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelStreamMem */
-#define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
+#define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS(CAMEL_OBJECT_GET_CLASS(so))
 
 static ssize_t stream_read (CamelStream *stream, char *buffer, size_t n);
 static ssize_t stream_write (CamelStream *stream, const char *buffer, size_t n);
@@ -41,7 +41,7 @@ static gboolean stream_eos (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
 			  CamelStreamSeekPolicy policy);
 
-static void finalize (GtkObject *object);
+static void camel_stream_mem_finalize (CamelObject *object);
 
 static void
 camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
@@ -50,10 +50,8 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 		CAMEL_SEEKABLE_STREAM_CLASS (camel_stream_mem_class);
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_stream_mem_class);
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_stream_mem_class);
 
-	parent_class = gtk_type_class (camel_stream_get_type ());
+	parent_class = CAMEL_SEEKABLE_STREAM_CLASS( camel_type_get_global_classfuncs( CAMEL_SEEKABLE_STREAM_TYPE ) );
 
 	/* virtual method overload */
 	camel_stream_class->read = stream_read;
@@ -61,12 +59,10 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	camel_stream_class->eos = stream_eos;
 
 	camel_seekable_stream_class->seek = stream_seek;
-
-	gtk_object_class->finalize = finalize;
 }
 
 static void
-camel_stream_mem_init (gpointer object, gpointer klass)
+camel_stream_mem_init (CamelObject *object)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
 
@@ -74,25 +70,20 @@ camel_stream_mem_init (gpointer object, gpointer klass)
 	stream_mem->buffer = 0;
 }
 
-GtkType
+CamelType
 camel_stream_mem_get_type (void)
 {
-	static GtkType camel_stream_mem_type = 0;
+	static CamelType camel_stream_mem_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_stream_mem_type) {
-		GtkTypeInfo camel_stream_mem_info =
-		{
-			"CamelStreamMem",
-			sizeof (CamelStreamMem),
-			sizeof (CamelStreamMemClass),
-			(GtkClassInitFunc) camel_stream_mem_class_init,
-			(GtkObjectInitFunc) camel_stream_mem_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_stream_mem_type = gtk_type_unique (camel_seekable_stream_get_type (), &camel_stream_mem_info);
+	if (camel_stream_mem_type == CAMEL_INVALID_TYPE) {
+		camel_stream_mem_type = camel_type_register( CAMEL_SEEKABLE_STREAM_TYPE,
+							     "CamelStreamMem",
+							     sizeof( CamelStreamMem ),
+							     sizeof( CamelStreamMemClass ),
+							     (CamelObjectClassInitFunc) camel_stream_mem_class_init,
+							     NULL,
+							     (CamelObjectInitFunc) camel_stream_mem_init,
+							     (CamelObjectFinalizeFunc) camel_stream_mem_finalize );
 	}
 
 	return camel_stream_mem_type;
@@ -120,7 +111,7 @@ camel_stream_mem_new_with_byte_array (GByteArray *byte_array)
 {
 	CamelStreamMem *stream_mem;
 
-	stream_mem = gtk_type_new (camel_stream_mem_get_type ());
+	stream_mem = CAMEL_STREAM_MEM( camel_object_new (CAMEL_STREAM_MEM_TYPE) );
 	stream_mem->buffer = byte_array;
 	stream_mem->owner = TRUE;
 
@@ -147,14 +138,17 @@ void camel_stream_mem_set_buffer (CamelStreamMem *s, const char *buffer,
 }
 
 static void
-finalize (GtkObject *object)
+camel_stream_mem_finalize (CamelObject *object)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
 
 	if (stream_mem->buffer && stream_mem->owner)
 		g_byte_array_free (stream_mem->buffer, TRUE);
 
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	/* Will be called automagically in the Camel Type System!
+	 * Wheeee!
+	 * G_TK_OBJECT_CLASS (parent_class)->finalize (object);
+	 */
 }
 
 static ssize_t

@@ -20,9 +20,7 @@ GHashTable *passwords;
  * we deadlock....
  */
 
-#ifdef USE_BROKEN_THREADS
 #define ASYNC_AUTH_CALLBACK
-#endif
 
 #ifndef ASYNC_AUTH_CALLBACK
 static void
@@ -63,7 +61,7 @@ mail_request_dialog (const char *prompt, gboolean secret, const char *key)
 	    ans == NULL)
 		return NULL;
 #else
-	if (!mail_op_get_password (data, secret, &ans))
+	if (!mail_op_get_password (prompt, secret, &ans))
 		return NULL;
 #endif
 
@@ -115,13 +113,99 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	return ans;
 }
 
+/* ******************** */
+
+typedef struct _timeout_data_s {
+	CamelTimeoutCallback cb;
+	gpointer camel_data;
+	gboolean result;
+} timeout_data_t;
+
+static gchar *
+describe_camel_timeout (gpointer in_data, gboolean gerund)
+{
+	/* FIXME this is so wrong */
+
+	if (gerund)
+		return g_strdup ("Keeping connection alive");
+	else
+		return g_strdup ("Keep connection alive");
+}
+
+static void
+noop_camel_timeout (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+}
+
+static void
+do_camel_timeout (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	timeout_data_t *td = (timeout_data_t *) in_data;
+
+	td->result = (td->cb) (td->camel_data);
+}
+
+static const mail_operation_spec spec_camel_timeout =
+{
+	describe_camel_timeout,
+	0,
+	noop_camel_timeout,
+	do_camel_timeout,
+	noop_camel_timeout
+};
+
+static gboolean 
+camel_timeout (gpointer data)
+{
+	timeout_data_t *td = (timeout_data_t *) data;
+
+	if (td->result == FALSE) {
+		g_free (td);
+		return FALSE;
+	}
+
+	mail_operation_queue (&spec_camel_timeout, td, FALSE);
+	return TRUE;
+}
+
+static guint
+register_callback (guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
+{
+	timeout_data_t *td;
+
+	/* We do this because otherwise the timeout can get called
+	 * more often than the dispatch thread can get rid of it,
+	 * leading to timeout calls piling up, and we don't have a
+	 * good way to watch the return values. It's not cool.
+	 */
+	g_return_val_if_fail (interval > 1000, 0);
+
+	td = g_new (timeout_data_t, 1);
+	td->result = TRUE;
+	td->cb = cb;
+	td->camel_data = camel_data;
+
+	return gtk_timeout_add_full (interval, camel_timeout, NULL,
+				     td, g_free);
+}
+
+static gboolean
+remove_callback (guint handle)
+{
+	gtk_timeout_remove (handle);
+	return TRUE;
+}
+
+/* ******************** */
+
 void
 session_init (void)
 {
 	e_setup_base_dir ();
 	camel_init ();
 
-	session = camel_session_new (auth_callback);
+	session = camel_session_new (auth_callback, register_callback, 
+				     remove_callback);
 }
 
 static gboolean

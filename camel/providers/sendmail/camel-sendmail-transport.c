@@ -64,25 +64,19 @@ camel_sendmail_transport_class_init (CamelSendmailTransportClass *camel_sendmail
 	camel_transport_class->send_to = _send_to;
 }
 
-GtkType
+CamelType
 camel_sendmail_transport_get_type (void)
 {
-	static GtkType camel_sendmail_transport_type = 0;
+	static CamelType camel_sendmail_transport_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_sendmail_transport_type)	{
-		GtkTypeInfo camel_sendmail_transport_info =	
-		{
-			"CamelSendmailTransport",
-			sizeof (CamelSendmailTransport),
-			sizeof (CamelSendmailTransportClass),
-			(GtkClassInitFunc) camel_sendmail_transport_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_sendmail_transport_type = gtk_type_unique (CAMEL_TRANSPORT_TYPE, &camel_sendmail_transport_info);
+	if (camel_sendmail_transport_type == CAMEL_INVALID_TYPE)	{
+		camel_sendmail_transport_type = camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSendmailTransport",
+								     sizeof (CamelSendmailTransport),
+								     sizeof (CamelSendmailTransportClass),
+								     (CamelObjectClassInitFunc) camel_sendmail_transport_class_init,
+								     NULL,
+								     (CamelObjectInitFunc) NULL,
+								     NULL);
 	}
 	
 	return camel_sendmail_transport_type;
@@ -148,13 +142,13 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	out = camel_stream_fs_new_with_fd (fd[1]);
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out) == -1
 	    || camel_stream_close(out) == -1) {
-		gtk_object_unref (GTK_OBJECT (out));
+		camel_object_unref (CAMEL_OBJECT (out));
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not send message: %s",
 				      strerror(errno));
 		return FALSE;
 	}
-	gtk_object_unref (GTK_OBJECT (out));
+	camel_object_unref (CAMEL_OBJECT (out));
 
 	/* Wait for sendmail to exit. */
 	while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)

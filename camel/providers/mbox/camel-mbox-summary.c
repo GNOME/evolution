@@ -40,73 +40,58 @@ struct _CamelMboxSummaryPrivate {
 
 #define _PRIVATE(o) (((CamelMboxSummary *)(o))->priv)
 
-static int summary_header_load(CamelFolderSummary *, FILE *);
-static int summary_header_save(CamelFolderSummary *, FILE *);
+static int summary_header_load (CamelFolderSummary *, FILE *);
+static int summary_header_save (CamelFolderSummary *, FILE *);
 
-static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _header_raw *);
-static CamelMessageInfo *message_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
-static CamelMessageInfo *message_info_load(CamelFolderSummary *, FILE *);
-static int message_info_save(CamelFolderSummary *, FILE *, CamelMessageInfo *);
-
+static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _header_raw *);
+static CamelMessageInfo * message_info_new_from_parser (CamelFolderSummary *, CamelMimeParser *);
+static CamelMessageInfo * message_info_load (CamelFolderSummary *, FILE *);
+static int		  message_info_save (CamelFolderSummary *, FILE *, CamelMessageInfo *);
 /*static void		  message_info_free (CamelFolderSummary *, CamelMessageInfo *);*/
 
-static void camel_mbox_summary_class_init(CamelMboxSummaryClass * klass);
-static void camel_mbox_summary_init(CamelMboxSummary *obj);
-static void camel_mbox_summary_finalise(GtkObject * obj);
+static void camel_mbox_summary_class_init (CamelMboxSummaryClass *klass);
+static void camel_mbox_summary_init       (CamelMboxSummary *obj);
+static void camel_mbox_summary_finalise   (CamelObject *obj);
 
 static CamelFolderSummaryClass *camel_mbox_summary_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint camel_mbox_summary_get_type(void)
+CamelType
+camel_mbox_summary_get_type (void)
 {
-	static guint type = 0;
-
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMboxSummary",
-			sizeof(CamelMboxSummary),
-			sizeof(CamelMboxSummaryClass),
-			(GtkClassInitFunc) camel_mbox_summary_class_init,
-			(GtkObjectInitFunc) camel_mbox_summary_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-
-		type = gtk_type_unique(camel_folder_summary_get_type(), &type_info);
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_folder_summary_get_type (), "CamelMboxSummary",
+					    sizeof (CamelMboxSummary),
+					    sizeof (CamelMboxSummaryClass),
+					    (CamelObjectClassInitFunc) camel_mbox_summary_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_mbox_summary_init,
+					    (CamelObjectFinalizeFunc) camel_mbox_summary_finalise);
 	}
-
+	
 	return type;
 }
 
 static void
-camel_mbox_summary_class_init(CamelMboxSummaryClass * klass)
+camel_mbox_summary_class_init (CamelMboxSummaryClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelFolderSummaryClass *sklass = (CamelFolderSummaryClass *) klass;
-
-	camel_mbox_summary_parent = gtk_type_class(camel_folder_summary_get_type());
-
-	object_class->finalize = camel_mbox_summary_finalise;
+	
+	camel_mbox_summary_parent = CAMEL_FOLDER_SUMMARY_CLASS(camel_type_get_global_classfuncs (camel_folder_summary_get_type ()));
 
 	sklass->summary_header_load = summary_header_load;
 	sklass->summary_header_save = summary_header_save;
 
-	sklass->message_info_new = message_info_new;
+	sklass->message_info_new  = message_info_new;
 	sklass->message_info_new_from_parser = message_info_new_from_parser;
 	sklass->message_info_load = message_info_load;
 	sklass->message_info_save = message_info_save;
-	/*sklass->message_info_free = message_info_free; */
-
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	/*sklass->message_info_free = message_info_free;*/
 }
 
 static void
-camel_mbox_summary_init(CamelMboxSummary *obj)
+camel_mbox_summary_init (CamelMboxSummary *obj)
 {
 	struct _CamelMboxSummaryPrivate *p;
 	struct _CamelFolderSummary *s = (CamelFolderSummary *)obj;
@@ -122,13 +107,11 @@ camel_mbox_summary_init(CamelMboxSummary *obj)
 }
 
 static void
-camel_mbox_summary_finalise(GtkObject * obj)
+camel_mbox_summary_finalise (CamelObject *obj)
 {
-	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY(obj);
+	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY (obj);
 
-	g_free(mbs->folder_path);
-
-	((GtkObjectClass *) (camel_mbox_summary_parent))->finalize(GTK_OBJECT(obj));
+	g_free (mbs->folder_path);
 }
 
 /**
@@ -139,203 +122,204 @@ camel_mbox_summary_finalise(GtkObject * obj)
  * Return value: A new CamelMboxSummary widget.
  **/
 CamelMboxSummary *
-camel_mbox_summary_new(const char *filename, const char *mbox_name, ibex * index)
+camel_mbox_summary_new (const char *filename, const char *mbox_name, ibex *index)
 {
-	CamelMboxSummary *new = CAMEL_MBOX_SUMMARY(gtk_type_new(camel_mbox_summary_get_type()));
-
+	CamelMboxSummary *new = CAMEL_MBOX_SUMMARY (camel_object_new (camel_mbox_summary_get_type ()));
+	
 	if (new) {
 		/* ?? */
-		camel_folder_summary_set_build_content(CAMEL_FOLDER_SUMMARY(new), TRUE);
-		camel_folder_summary_set_filename(CAMEL_FOLDER_SUMMARY(new), filename);
-		new->folder_path = g_strdup(mbox_name);
+		camel_folder_summary_set_build_content (CAMEL_FOLDER_SUMMARY (new), TRUE);
+		camel_folder_summary_set_filename (CAMEL_FOLDER_SUMMARY (new), filename);
+		new->folder_path = g_strdup (mbox_name);
 		new->index = index;
 	}
 	return new;
 }
 
 static int
-summary_header_load(CamelFolderSummary *s, FILE * in)
+summary_header_load (CamelFolderSummary *s, FILE *in)
 {
-	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY(s);
+	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY (s);
 
-	if (((CamelFolderSummaryClass *) camel_mbox_summary_parent)->summary_header_load(s, in) == -1)
+	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_load (s, in) == -1)
 		return -1;
 
-	return camel_folder_summary_decode_uint32(in, &mbs->folder_size);
+	return camel_folder_summary_decode_uint32 (in, &mbs->folder_size);
 }
 
 static int
-summary_header_save(CamelFolderSummary *s, FILE * out)
+summary_header_save (CamelFolderSummary *s, FILE *out)
 {
-	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY(s);
+	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY (s);
 
-	if (((CamelFolderSummaryClass *) camel_mbox_summary_parent)->summary_header_save(s, out) == -1)
+	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_save (s, out) == -1)
 		return -1;
 
-	return camel_folder_summary_encode_uint32(out, mbs->folder_size);
+	return camel_folder_summary_encode_uint32 (out, mbs->folder_size);
 }
 
 static int
-header_evolution_decode(const char *in, guint32 * uid, guint32 * flags)
+header_evolution_decode (const char *in, guint32 *uid, guint32 *flags)
 {
-	char *header;
+        char *header;
+	
+        if (in && (header = header_token_decode(in))) {
+                if (strlen (header) == strlen ("00000000-0000")
+                    && sscanf (header, "%08x-%04x", uid, flags) == 2) {
+                        g_free (header);
+                        return *uid;
+                }
+                g_free (header);
+        }
 
-	if (in && (header = header_token_decode(in))) {
-		if (strlen(header) == strlen("00000000-0000")
-		    && sscanf(header, "%08x-%04x", uid, flags) == 2) {
-			g_free(header);
-			return *uid;
-		}
-		g_free(header);
-	}
-
-	return -1;
+        return -1;
 }
 
 static char *
-header_evolution_encode(guint32 uid, guint32 flags)
+header_evolution_encode (guint32 uid, guint32 flags)
 {
-	return g_strdup_printf("%08x-%04x", uid, flags & 0xffff);
+	return g_strdup_printf ("%08x-%04x", uid, flags & 0xffff);
 }
 
 static CamelMessageInfo *
-message_info_new(CamelFolderSummary *s, struct _header_raw *h)
+message_info_new (CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
 
-	mi = ((CamelFolderSummaryClass *) camel_mbox_summary_parent)->message_info_new(s, h);
+	mi = ((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_new (s, h);
 	if (mi) {
 		const char *xev;
 		guint32 uid, flags;
-		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *) mi;
+		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 
-		xev = header_raw_find(&h, "X-Evolution", NULL);
+		xev = header_raw_find (&h, "X-Evolution", NULL);
 		if (xev && header_evolution_decode(xev, &uid, &flags) != -1) {
-			g_free(mi->uid);
-			mi->uid = g_strdup_printf("%u", uid);
+			g_free (mi->uid);
+			mi->uid = g_strdup_printf ("%u", uid);
 			mi->flags = flags;
 		} else {
 			/* to indicate it has no xev header? */
 			mi->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED | CAMEL_MESSAGE_FOLDER_NOXEV;
-			mi->uid = g_strdup_printf("%u", camel_folder_summary_next_uid(s));
+			mi->uid = g_strdup_printf ("%u", camel_folder_summary_next_uid (s));
 		}
 		mbi->frompos = -1;
 	}
-
+	
 	return mi;
 }
 
 static CamelMessageInfo *
-message_info_new_from_parser(CamelFolderSummary *s, CamelMimeParser * mp)
+message_info_new_from_parser (CamelFolderSummary *s, CamelMimeParser *mp)
 {
 	CamelMessageInfo *mi;
-	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY(s);
+	CamelMboxSummary *mbs = CAMEL_MBOX_SUMMARY (s);
 
-	mi = ((CamelFolderSummaryClass *) camel_mbox_summary_parent)->message_info_new_from_parser(s, mp);
+	mi = ((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_new_from_parser (s, mp);
 	if (mi) {
-		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *) mi;
+		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 
-		mbi->frompos = camel_mime_parser_tell_start_from(mp);
+		mbi->frompos = camel_mime_parser_tell_start_from (mp);
 
 		/* do we want to index this message as we add it, as well? */
-		if (mbs->index_force || (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0
+		if (mbs->index_force
+		    || (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0
 		    || !ibex_contains_name(mbs->index, mi->uid)) {
-			camel_folder_summary_set_index(s, mbs->index);
+			
+			camel_folder_summary_set_index (s, mbs->index);
 		} else {
-			camel_folder_summary_set_index(s, NULL);
+			camel_folder_summary_set_index (s, NULL);
 		}
 	}
-
+	
 	return mi;
 }
 
 static CamelMessageInfo *
-message_info_load(CamelFolderSummary *s, FILE * in)
+message_info_load (CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageInfo *mi;
 
-	io(printf("loading mbox message info\n"));
+	io (printf ("loading mbox message info\n"));
 
-	mi = ((CamelFolderSummaryClass *) camel_mbox_summary_parent)->message_info_load(s, in);
+	mi = ((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_load (s, in);
 	if (mi) {
-		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *) mi;
+		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 
-		camel_folder_summary_decode_uint32(in, &mbi->frompos);
+		camel_folder_summary_decode_uint32 (in, &mbi->frompos);
 	}
-
+	
 	return mi;
 }
 
 static int
-message_info_save(CamelFolderSummary *s, FILE * out, CamelMessageInfo * mi)
+message_info_save (CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
-	CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *) mi;
+	CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 
-	io(printf("saving mbox message info\n"));
+	io (printf ("saving mbox message info\n"));
 
-	((CamelFolderSummaryClass *) camel_mbox_summary_parent)->message_info_save(s, out, mi);
+	((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_save (s, out, mi);
 
-	return camel_folder_summary_encode_uint32(out, mbi->frompos);
+	return camel_folder_summary_encode_uint32 (out, mbi->frompos);
 }
 
 static int
-summary_rebuild(CamelMboxSummary *mbs, off_t offset)
+summary_rebuild (CamelMboxSummary *mbs, off_t offset)
 {
-	CamelFolderSummary *s = CAMEL_FOLDER_SUMMARY(mbs);
+	CamelFolderSummary *s = CAMEL_FOLDER_SUMMARY (mbs);
 	CamelMimeParser *mp;
 	int fd;
 	int ok = 0;
 
-	fd = open(mbs->folder_path, O_RDONLY);
+	fd = open (mbs->folder_path, O_RDONLY);
 	if (fd == -1) {
-		printf("%s failed to open: %s", mbs->folder_path, strerror(errno));
+		printf ("%s failed to open: %s", mbs->folder_path, strerror (errno));
 		return -1;
 	}
-
-	mp = camel_mime_parser_new();
-	camel_mime_parser_init_with_fd(mp, fd);
-	camel_mime_parser_scan_from(mp, TRUE);
-	camel_mime_parser_seek(mp, offset, SEEK_SET);
+	
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_init_with_fd (mp, fd);
+	camel_mime_parser_scan_from (mp, TRUE);
+	camel_mime_parser_seek (mp, offset, SEEK_SET);
 
 	if (offset > 0) {
-		if (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
-			if (camel_mime_parser_tell_start_from(mp) != offset) {
-				g_warning
-				    ("The next message didn't start where I expected\nbuilding summary from start");
-				camel_mime_parser_drop_step(mp);
+		if (camel_mime_parser_step (mp, NULL, NULL) == HSCAN_FROM) {
+			if (camel_mime_parser_tell_start_from (mp) != offset) {
+				g_warning ("The next message didn't start where I expected\nbuilding summary from start");
+				camel_mime_parser_drop_step (mp);
 				offset = 0;
-				camel_mime_parser_seek(mp, offset, SEEK_SET);
-				camel_folder_summary_clear(CAMEL_FOLDER_SUMMARY(mbs));
+				camel_mime_parser_seek (mp, offset, SEEK_SET);
+				camel_folder_summary_clear (CAMEL_FOLDER_SUMMARY (mbs));
 			} else {
-				camel_mime_parser_unstep(mp);
+				camel_mime_parser_unstep (mp);
 			}
 		} else {
-			gtk_object_unref(GTK_OBJECT(mp));
+			camel_object_unref (CAMEL_OBJECT (mp));
 			/* end of file - no content? */
 			return -1;
 		}
 	}
 
-	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
+	while (camel_mime_parser_step (mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
 
-		info = camel_folder_summary_add_from_parser(CAMEL_FOLDER_SUMMARY(mbs), mp);
+		info = camel_folder_summary_add_from_parser (CAMEL_FOLDER_SUMMARY (mbs), mp);
 		if (info == NULL) {
-			printf("Could not build info from file?\n");
+			printf ("Could not build info from file?\n");
 			ok = -1;
 			break;
 		}
 
-		g_assert(camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM_END);
+		g_assert (camel_mime_parser_step (mp, NULL, NULL) == HSCAN_FROM_END);
 	}
 
-	gtk_object_unref(GTK_OBJECT(mp));
-
+	camel_object_unref (CAMEL_OBJECT (mp));
+	
 	/* update the file size/mtime in the summary */
 	if (ok != -1) {
 		struct stat st;
 
-		if (stat(mbs->folder_path, &st) == 0) {
+		if (stat (mbs->folder_path, &st) == 0) {
 			mbs->folder_size = st.st_size;
 			s->time = st.st_mtime;
 		}
@@ -627,246 +611,260 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 	char *fromline;
 
 	/* make sure we're in sync */
-	count = camel_folder_summary_count(s);
+	count = camel_folder_summary_count (s);
 	if (count > 0) {
-		CamelMessageInfo *mi = camel_folder_summary_index(s, count - 1);
-
-		camel_mbox_summary_update(mbs, mi->content->endpos);
+		CamelMessageInfo *mi = camel_folder_summary_index (s, count - 1);
+		camel_mbox_summary_update (mbs, mi->content->endpos);
 	} else {
-		camel_mbox_summary_update(mbs, 0);
+		camel_mbox_summary_update (mbs, 0);
 	}
 
 	/* check if we have any work to do */
-	d(printf("Performing sync, %d messages in inbox\n", count));
+	d(printf ("Performing sync, %d messages in inbox\n", count));
 	for (i = 0; quick && i < count; i++) {
-		info = (CamelMboxMessageInfo *) camel_folder_summary_index(s, i);
-		if ((expunge && (info->info.flags & CAMEL_MESSAGE_DELETED))
-		    || (info->info.flags & CAMEL_MESSAGE_FOLDER_NOXEV))
+		info = (CamelMboxMessageInfo *)camel_folder_summary_index (s, i);
+		if ((expunge && (info->info.flags & CAMEL_MESSAGE_DELETED)) ||
+		    (info->info.flags & CAMEL_MESSAGE_FOLDER_NOXEV))
 			quick = FALSE;
 		else
 			work |= (info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0;
 	}
 
-	d(printf("Options: %s %s %s\n", expunge ? "expunge" : "", quick ? "quick" : "", work ? "Work" : ""));
+	d(printf ("Options: %s %s %s\n", expunge ? "expunge" : "", quick ? "quick" : "", work ? "Work" : ""));
 
 	if (quick && !work)
 		return 0;
 
-	fd = open(mbs->folder_path, O_RDWR);
+	fd = open (mbs->folder_path, O_RDWR);
 	if (fd == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Could not open summary %s", mbs->folder_path);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not open summary %s", mbs->folder_path);
 		return -1;
 	}
 
-	mp = camel_mime_parser_new();
-	camel_mime_parser_scan_from(mp, TRUE);
-	camel_mime_parser_init_with_fd(mp, fd);
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mp, TRUE);
+	camel_mime_parser_init_with_fd (mp, fd);
 
 	if (!quick) {
-		tmpname = alloca(strlen(mbs->folder_path) + 5);
-		sprintf(tmpname, "%s.tmp", mbs->folder_path);
-		d(printf("Writing tmp file to %s\n", tmpname));
-	      retry_out:
-		fdout = open(tmpname, O_WRONLY | O_CREAT | O_EXCL, 0600);
+		tmpname = alloca (strlen (mbs->folder_path) + 5);
+		sprintf (tmpname, "%s.tmp", mbs->folder_path);
+		d(printf ("Writing tmp file to %s\n", tmpname));
+	retry_out:
+		fdout = open (tmpname, O_WRONLY | O_CREAT | O_EXCL, 0600);
 		if (fdout == -1) {
 			if (errno == EEXIST)
 				if (unlink(tmpname) != -1)
 					goto retry_out;
-
-			free(tmpname);
+			
+			free (tmpname);
 			tmpname = NULL;
-			g_warning("Something failed (yo!)");
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Cannot open temporary mailbox: %s",
-					     strerror(errno));
+			g_warning ("Something failed (yo!)");
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Cannot open temporary mailbox: %s", strerror (errno));
 			goto error;
 		}
 	}
 
 	for (i = 0; i < count; i++) {
 		off_t frompos, bodypos, lastpos;
-
 		/* This has to be an int, not an off_t, because that's
 		 * what camel_mime_parser_header returns... FIXME.
 		 */
 		int xevoffset;
 
-		info = (CamelMboxMessageInfo *) camel_folder_summary_index(s, i);
+		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
 
-		g_assert(info);
+		g_assert (info);
 
-		d(printf("Looking at message %s\n", info->info.uid));
+		d(printf ("Looking at message %s\n", info->info.uid));
 
 		if (expunge && info->info.flags & CAMEL_MESSAGE_DELETED) {
-			d(printf("Deleting %s\n", info->info.uid));
+			d(printf ("Deleting %s\n", info->info.uid));
 
-			g_assert(!quick);
+			g_assert (!quick);
 			offset -= (info->info.content->endpos - info->frompos);
 			if (mbs->index)
-				ibex_unindex(mbs->index, info->info.uid);
-			camel_folder_summary_remove(s, (CamelMessageInfo *) info);
+				ibex_unindex (mbs->index, info->info.uid);
+			camel_folder_summary_remove (s, (CamelMessageInfo *)info);
 			count--;
 			i--;
 			info = NULL;
 		} else if (info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV | CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			int xevok = FALSE;
 
-			d(printf("Updating header for %s flags = %08x\n", info->info.uid, info->info.flags));
+			d(printf ("Updating header for %s flags = %08x\n", info->info.uid, info->info.flags));
 
 			/* find the next message, header parts */
-			camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
-			if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM) {
-				g_warning("camel_mime_parser_step failed (1)");
+			camel_mime_parser_seek (mp, info->frompos, SEEK_SET);
+			if (camel_mime_parser_step (mp, &buffer, &len) != HSCAN_FROM) {
+				g_warning ("camel_mime_parser_step failed (1)");
 				goto error;
 			}
 
-			if (camel_mime_parser_tell_start_from(mp) != info->frompos) {
-				g_warning("Summary/mbox mismatch, aborting sync");
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Summary mismatch, aborting sync");
+			if (camel_mime_parser_tell_start_from (mp) != info->frompos) {
+				g_warning ("Summary/mbox mismatch, aborting sync");
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      "Summary mismatch, aborting sync");
 				goto error;
 			}
-
-			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END) {
-				g_warning("camel_mime_parser_step failed (2)");
+			
+			if (camel_mime_parser_step (mp, &buffer, &len) == HSCAN_FROM_END) {
+				g_warning ("camel_mime_parser_step failed (2)");
 				goto error;
 			}
 
 			/* Check if the X-Evolution header is valid.  */
 
-			xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
-			if (xev && header_evolution_decode(xev, &uid, &flags) != -1)
+			xev = camel_mime_parser_header (mp, "X-Evolution", &xevoffset);
+			if (xev && header_evolution_decode (xev, &uid, &flags) != -1)
 				xevok = TRUE;
 
-			xevnew = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags & 0xffff);
+			xevnew = header_evolution_encode (strtoul (info->info.uid, NULL, 10), info->info.flags & 0xffff);
 			if (quick) {
 				if (!xevok) {
-					g_warning("The summary told me I had an X-Evolution header, but i dont!");
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Summary mismatch, X-Evolution header missing");
+					g_warning ("The summary told me I had an X-Evolution header, but i dont!");
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      "Summary mismatch, X-Evolution header missing");
 					goto error;
 				}
-				buffer = g_strdup_printf("X-Evolution: %s", xevnew);
-				lastpos = lseek(fd, 0, SEEK_CUR);
-				lseek(fd, xevoffset, SEEK_SET);
+				buffer = g_strdup_printf ("X-Evolution: %s", xevnew);
+				lastpos = lseek (fd, 0, SEEK_CUR);
+				lseek (fd, xevoffset, SEEK_SET);
 				do {
-					len = write(fd, buffer, strlen(buffer));
+					len = write (fd, buffer, strlen (buffer));
 				} while (len == -1 && errno == EINTR);
-				lseek(fd, lastpos, SEEK_SET);
-				g_free(buffer);
+				lseek (fd, lastpos, SEEK_SET);
+				g_free (buffer);
 				if (len == -1) {
-					g_warning("Yahoo!  len == -1");
+					g_warning ("Yahoo!  len == -1");
 					goto error;
 				}
 			} else {
-				frompos = lseek(fdout, 0, SEEK_CUR);
-				fromline = camel_mbox_summary_build_from(camel_mime_parser_headers_raw(mp));
-				write(fdout, fromline, strlen(fromline));
-				g_free(fromline);
-				if (header_write(fdout, camel_mime_parser_headers_raw(mp), xevnew) == -1) {
-					d(printf("Error writing to tmp mailbox\n"));
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Error writing to temp mailbox: %s", strerror(errno));
+				frompos = lseek (fdout, 0, SEEK_CUR);
+				fromline = camel_mbox_summary_build_from (camel_mime_parser_headers_raw (mp));
+				write (fdout, fromline, strlen(fromline));
+				g_free (fromline);
+				if (header_write (fdout, camel_mime_parser_headers_raw (mp), xevnew) == -1) {
+					d(printf ("Error writing to tmp mailbox\n"));
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      "Error writing to temp mailbox: %s",
+							      strerror (errno));
 					goto error;
 				}
-				bodypos = lseek(fdout, 0, SEEK_CUR);
-				d(printf("pos = %d, endpos = %d, bodypos = %d\n",
-					 (int)info->info.content->pos,
-					 (int)info->info.content->endpos,
-					 (int)info->info.content->bodypos));
-				if (copy_block(fd, fdout, info->info.content->bodypos,
-					       info->info.content->endpos - info->info.content->bodypos) == -1) {
-					g_warning("Cannot copy data to output fd");
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Cannot copy data to output fd: %s", strerror(errno));
+				bodypos = lseek (fdout, 0, SEEK_CUR);
+				d(printf ("pos = %d, endpos = %d, bodypos = %d\n",
+					  (int) info->info.content->pos,
+					  (int) info->info.content->endpos,
+					  (int) info->info.content->bodypos));
+				if (copy_block (fd, fdout, info->info.content->bodypos,
+						info->info.content->endpos - info->info.content->bodypos) == -1) {
+					g_warning ("Cannot copy data to output fd");
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      "Cannot copy data to output fd: %s",
+							      strerror (errno));
 					goto error;
 				}
 				info->frompos = frompos;
 				offset = bodypos - info->info.content->bodypos;
 			}
 			info->info.flags &= 0xffff;
-			g_free(xevnew);
+			g_free (xevnew);
 			xevnew = NULL;
-			camel_mime_parser_drop_step(mp);
-			camel_mime_parser_drop_step(mp);
+			camel_mime_parser_drop_step (mp);
+			camel_mime_parser_drop_step (mp);
 		} else {
 			if (!quick) {
-				if (copy_block(fd, fdout, info->frompos, info->info.content->endpos - info->frompos) == -1) {
-					g_warning("Cannot copy data to output fd");
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Cannot copy data to output fd: %s", strerror(errno));
+				if (copy_block (fd, fdout, info->frompos,
+						info->info.content->endpos - info->frompos) == -1) {
+					g_warning ("Cannot copy data to output fd");
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      "Cannot copy data to output fd: %s",
+							      strerror (errno));
 					goto error;
 				}
 				/* update from pos here? */
 				info->frompos += offset;
 			} else {
-				d(printf("Nothing to do for this message\n"));
+				d(printf ("Nothing to do for this message\n"));
 			}
 		}
 		if (!quick && info != NULL && offset != 0) {
-			d(printf("offsetting content: %d\n", (int)offset));
-			camel_folder_summary_offset_content(info->info.content, offset);
-			d(printf("pos = %d, endpos = %d, bodypos = %d\n",
-				 (int)info->info.content->pos,
-				 (int)info->info.content->endpos,
-				 (int)info->info.content->bodypos));
+			d(printf ("offsetting content: %d\n", (int) offset));
+			camel_folder_summary_offset_content (info->info.content, offset);
+			d(printf ("pos = %d, endpos = %d, bodypos = %d\n",
+				  (int) info->info.content->pos,
+				  (int) info->info.content->endpos,
+				  (int) info->info.content->bodypos));
 		}
 	}
 
-	d(printf("Closing folders\n"));
+	d(printf ("Closing folders\n"));
 
-	if (close(fd) == -1) {
-		g_warning("Cannot close source folder: %s", strerror(errno));
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Could not close source folder %s: %s",
-				     mbs->folder_path, strerror(errno));
+	if (close (fd) == -1) {
+		g_warning ("Cannot close source folder: %s", strerror (errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not close source folder %s: %s",
+				      mbs->folder_path, strerror (errno));
 		goto error;
 	}
 
 	if (!quick) {
-		if (close(fdout) == -1) {
-			g_warning("Cannot close tmp folder: %s", strerror(errno));
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Could not close temp folder: %s",
-					     strerror(errno));
+		if (close (fdout) == -1) {
+			g_warning ("Cannot close tmp folder: %s", strerror (errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not close temp folder: %s",
+					      strerror (errno));
 			goto error;
 		}
 
-		if (rename(tmpname, mbs->folder_path) == -1) {
-			g_warning("Cannot rename folder: %s", strerror(errno));
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Could not rename folder: %s",
-					     strerror(errno));
+		if (rename (tmpname, mbs->folder_path) == -1) {
+			g_warning ("Cannot rename folder: %s", strerror (errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not rename folder: %s",
+					      strerror (errno));
 			goto error;
 		}
 		tmpname = NULL;
 
 		if (mbs->index)
-			ibex_save(mbs->index);
+			ibex_save (mbs->index);
 	}
 
-	if (stat(mbs->folder_path, &st) == -1) {
-		g_warning("Hmm...  stat(mbs->folder_path, &st) == -1");
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "Unknown error: %s", strerror(errno));
+	if (stat (mbs->folder_path, &st) == -1) {
+		g_warning ("Hmm...  stat(mbs->folder_path, &st) == -1");
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Unknown error: %s",
+				      strerror (errno));
 		goto error;
 	}
 
-	camel_folder_summary_touch(s);
+	camel_folder_summary_touch (s);
 	s->time = st.st_mtime;
 	mbs->folder_size = st.st_size;
-	camel_folder_summary_save(s);
+	camel_folder_summary_save (s);
 
-	gtk_object_unref(GTK_OBJECT(mp));
-
+	camel_object_unref (CAMEL_OBJECT (mp));
+	
 	return 0;
-      error:
+ error:
 	if (fd != -1)
-		close(fd);
-
+		close (fd);
+	
 	if (fdout != -1)
-		close(fdout);
-
-	g_free(xevnew);
-
+		close (fdout);
+	
+	g_free (xevnew);
+	
 	if (tmpname)
-		unlink(tmpname);
+		unlink (tmpname);
 	if (mp)
-		gtk_object_unref(GTK_OBJECT(mp));
+		camel_object_unref (CAMEL_OBJECT (mp));
 
 	return -1;
 }
+
+	
+	
+	
+	

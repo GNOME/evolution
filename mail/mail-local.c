@@ -1,3 +1,29 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* mail-local.c: Local mailbox support. */
+
+/* 
+ * Author: 
+ *  Michael Zucchi <NotZed@helixcode.com>
+ *  Peter Williams <peterw@helixcode.com>
+ *
+ * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
 
 /*
   code for handling local mail boxes
@@ -24,6 +50,8 @@
 
 #include "mail.h"
 #include "mail-local.h"
+#include "mail-tools.h"
+#include "mail-threads.h"
 
 #define d(x)
 
@@ -105,12 +133,11 @@ save_metainfo(struct _local_meta *meta)
 }
 
 CamelFolder *
-local_uri_to_folder(const char *uri, CamelException *ex)
+mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 {
 	CamelURL *url;
 	char *metapath;
 	char *storename;
-	CamelStore *store;
 	CamelFolder *folder = NULL;
 	struct _local_meta *meta;
 
@@ -136,12 +163,7 @@ local_uri_to_folder(const char *uri, CamelException *ex)
 
 	printf("store name is  %s\n", storename);
 
-	store = camel_session_get_store(session, storename, ex);
-	g_free(storename);
-	if (store) {
-		folder = camel_store_get_folder(store, meta->name, FALSE, ex);
-		gtk_object_unref((GtkObject *)store);
-	}
+	folder = mail_tool_get_folder_from_urlname (storename, meta->name, ex);
 	camel_url_free(url);
 	free_metainfo(meta);
 
@@ -167,36 +189,86 @@ local_uri_to_folder(const char *uri, CamelException *ex)
 
 */
 
-static void update_progress(GtkProgress *progress, char *fmt, float percent)
+static void update_progress(char *fmt, float percent)
 {
 	if (fmt)
-		gtk_progress_set_format_string(progress, fmt);
-	gtk_progress_set_percentage(progress, percent);
-	while( gtk_events_pending() )
-		gtk_main_iteration();
+		mail_op_set_message ("%s", fmt);
+	mail_op_set_percentage (percent);
+}
+
+/* ******************** */
+
+typedef struct reconfigure_folder_input_s {
+	FolderBrowser *fb;
+	gchar *newtype;
+	GtkWidget *frame;
+	GtkWidget *apply;
+	GtkWidget *cancel;
+	GtkOptionMenu *optionlist;
+} reconfigure_folder_input_t;
+
+static gchar *describe_reconfigure_folder (gpointer in_data, gboolean gerund);
+static void setup_reconfigure_folder   (gpointer in_data, gpointer op_data, CamelException *ex);
+static void do_reconfigure_folder      (gpointer in_data, gpointer op_data, CamelException *ex);
+static void cleanup_reconfigure_folder (gpointer in_data, gpointer op_data, CamelException *ex);
+
+static gchar *
+describe_reconfigure_folder (gpointer in_data, gboolean gerund)
+{
+	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+
+	if (gerund)
+		return g_strdup_printf (_("Changing folder \"%s\" to \"%s\" format"),
+					input->fb->uri,
+					input->newtype);
+	else
+		return g_strdup_printf (_("Change folder \"%s\" to \"%s\" format"),
+					input->fb->uri,
+					input->newtype);
 }
 
 static void
-do_local_reconfigure_folder(FolderBrowser *fb, char *newtype, GtkProgress *progress, CamelException *ex)
+setup_reconfigure_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-	CamelStore *fromstore, *tostore;
-	char *fromurl, *tourl, *uri;
-	CamelFolder *fromfolder, *tofolder;
-	GPtrArray *uids;
-	int i;
+	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+
+	if (!IS_FOLDER_BROWSER (input->fb)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "Input has a bad FolderBrowser in reconfigure_folder");
+		return;
+	}
+
+	if (!input->newtype) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No new folder type in reconfigure_folder");
+		return;
+	}
+
+	gtk_object_ref (GTK_OBJECT (input->fb));
+}
+
+static void
+do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+
+	CamelStore *fromstore = NULL, *tostore = NULL;
+	char *fromurl = NULL, *tourl = NULL;
+	CamelFolder *fromfolder = NULL, *tofolder = NULL;
+
 	char *metapath;
 	char *tmpname;
-	CamelURL *url;
+	char *uri;
+	CamelURL *url = NULL;
 	struct _local_meta *meta;
 
-	printf("reconfiguring folder: %s to type %s\n", fb->uri, newtype);
+	printf("reconfiguring folder: %s to type %s\n", input->fb->uri, input->newtype);
 
 	/* get the actual location of the mailbox */
-	url = camel_url_new(fb->uri, ex);
-	if (url == NULL || camel_exception_is_set(ex)) {
-		camel_exception_free(ex);
-		g_warning("%s is not a workable url!", fb->uri);
-		return;
+	url = camel_url_new(input->fb->uri, ex);
+	if (camel_exception_is_set(ex)) {
+		g_warning("%s is not a workable url!", input->fb->uri);
+		goto cleanup;
 	}
 
 	metapath = g_strdup_printf("%s/local-metadata.xml", url->path);
@@ -204,173 +276,158 @@ do_local_reconfigure_folder(FolderBrowser *fb, char *newtype, GtkProgress *progr
 	g_free(metapath);
 
 	/* first, 'close' the old folder */
-	if (fb->folder != NULL) {
-		update_progress(progress, "Closing current folder", 0.0);
-		printf("Closing old folder ...\n");
-		camel_folder_sync(fb->folder, FALSE, ex);
-		gtk_object_unref (GTK_OBJECT (fb->folder));
-		fb->folder = NULL;
+	if (input->fb->folder != NULL) {
+		update_progress("Closing current folder", 0.0);
+
+		mail_tool_camel_lock_up ();
+		camel_folder_sync(input->fb->folder, FALSE, ex);
+		mail_tool_camel_lock_down ();
+		camel_object_unref (CAMEL_OBJECT (input->fb->folder));
+		input->fb->folder = NULL;
 	}
 
 	camel_url_set_protocol(url, meta->format);
 	fromurl = camel_url_to_string(url, TRUE);
-	camel_url_set_protocol(url, newtype);
+	camel_url_set_protocol(url, input->newtype);
 	tourl = camel_url_to_string(url, TRUE);
 
 	printf("opening stores %s and %s\n", fromurl, tourl);
+
+	mail_tool_camel_lock_up ();
 	fromstore = camel_session_get_store(session, fromurl, ex);
-	if (camel_exception_is_set(ex)) {
-		return;
-	}
+	mail_tool_camel_lock_down ();
+
+	if (camel_exception_is_set(ex))
+		goto cleanup;
+
+	mail_tool_camel_lock_up ();
 	tostore = camel_session_get_store(session, tourl, ex);
-	if (camel_exception_is_set(ex)) {
-		return;
-	}
+	mail_tool_camel_lock_down ();
+	if (camel_exception_is_set(ex))
+		goto cleanup;
 
 	/* rename the old mbox and open it again */
 	tmpname = g_strdup_printf("%s_reconfig", meta->name);
-	printf("renaming mbox to mboxtmp, and opening it\n");
-	update_progress(progress, "Renaming old folder and opening", 0.0);
+	printf("renaming %s to %s, and opening it\n", meta->name, tmpname);
+	update_progress("Renaming old folder and opening", 0.0);
+
+	mail_tool_camel_lock_up ();
 	camel_store_rename_folder(fromstore, meta->name, tmpname, ex);
 	if (camel_exception_is_set(ex)) {
-		return;
+		mail_tool_camel_lock_down ();
+		goto cleanup;
 	}
+
 	fromfolder = camel_store_get_folder(fromstore, tmpname, TRUE, ex);
 	if (fromfolder == NULL || camel_exception_is_set(ex)) {
 		/* try and recover ... */
+		camel_exception_clear (ex);
 		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
-		return;
+		mail_tool_camel_lock_down ();
+		goto cleanup;
 	}
 
 	/* create a new mbox */
 	printf("Creating the destination mbox\n");
-	update_progress(progress, "Creating new folder", 0.0);
+	update_progress("Creating new folder", 0.0);
+
 	tofolder = camel_store_get_folder(tostore, meta->name, TRUE, ex);
 	if (tofolder == NULL || camel_exception_is_set(ex)) {
 		printf("cannot open destination folder\n");
 		/* try and recover ... */
+		camel_exception_clear (ex);
 		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
-		return;
+		mail_tool_camel_lock_down ();
+		goto cleanup;
 	}
 
-	/* copy the messages across */
-	uids = camel_folder_get_uids (fromfolder);
-	printf("got %d messages in source\n", uids->len);
-	update_progress(progress, "Copying messages", 0.0);
-	for (i = 0; i < uids->len; i++) {
-		CamelMimeMessage *msg;
-		char *uid = uids->pdata[i];
-		const CamelMessageInfo *info;
+	mail_tool_move_folder_contents (fromfolder, tofolder, FALSE, ex);
 
-		update_progress(progress, NULL, i/uids->len);
-
-		printf("copying message %s\n", uid);
-		msg = camel_folder_get_message(fromfolder, uid, ex);
-		if (camel_exception_is_set(ex)) {
-			/* we're fucked a bit ... */
-			/* need to: delete new folder
-			   rename old back again */
-			g_warning("cannot get message");
-			return;
-		}
-		info = camel_folder_get_message_info(fromfolder, uid);
-		camel_folder_append_message(tofolder, msg, info, ex);
-		if (camel_exception_is_set(ex)) {
-			/* we're fucked a bit ... */
-			/* need to: delete new folder
-			   rename old back again */
-			g_warning("cannot append message");
-			return;
-		}
-		gtk_object_unref((GtkObject *)msg);
-	}
-	update_progress(progress, "Synchronising", 0.0);
-
-	/* sync while we're doing i/o, just to make sure */
-	camel_folder_sync(tofolder, FALSE, ex);
-	if (camel_exception_is_set(ex)) {
-		/* same again */
-	}
-
-	/* delete everything in the old mailbox */
-	printf("deleting old mbox contents\n");
-	for (i = 0; i < uids->len; i++) {
-		char *uid = uids->pdata[i];
-		camel_folder_delete_message(fromfolder, uid);
-	}
-	camel_folder_sync(fromfolder, TRUE, ex);
-	gtk_object_unref((GtkObject *)fromfolder);
-	printf("and old mbox ...\n");
+	printf("delete old mbox ...\n");
 	camel_store_delete_folder(fromstore, tmpname, ex);
+	mail_tool_camel_lock_down ();
 
 	/* switch format */
 	g_free(meta->format);
-	meta->format = g_strdup(newtype);
+	meta->format = g_strdup(input->newtype);
 	if (save_metainfo(meta) == -1) {
-		g_warning("Cannot save folder metainfo, you'll probably find you can't\n"
-			  "open this folder anymore: %s", tourl);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "Cannot save folder metainfo; "
+				      "you'll probably find you can't\n"
+				      "open this folder anymore: %s", tourl);
 	}
 	free_metainfo(meta);
 
 	/* force a reload of the newly formatted folder */
 	printf("opening new source\n");
-	uri = g_strdup(fb->uri);
-	folder_browser_set_uri(fb, uri);
+	uri = g_strdup(input->fb->uri);
+	folder_browser_set_uri(input->fb, uri);
 	g_free(uri);
 
 	/* and unref our copy of the new folder ... */
-	gtk_object_unref((GtkObject *)tofolder);
-	g_free(fromurl);
-	g_free(tourl);
+ cleanup:
+	if (tofolder)
+		camel_object_unref (CAMEL_OBJECT (tofolder));
+	if (fromfolder)
+		camel_object_unref (CAMEL_OBJECT (fromfolder));
+	if (fromstore)
+		camel_object_unref (CAMEL_OBJECT (fromstore));
+	if (tostore)
+		camel_object_unref (CAMEL_OBJECT (tostore));
+	if (fromurl)
+		g_free(fromurl);
+	if (tourl)
+		g_free(tourl);
+	if (url)
+		camel_url_free (url);
 }
 
-struct _reconfig_data {
-	FolderBrowser *fb;
-	GtkProgress *progress;
-	GtkWidget *frame;
-	GtkWidget *apply;
-	GtkWidget *cancel;
-	GtkOptionMenu *optionlist;
+static void
+cleanup_reconfigure_folder  (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
+
+	if (camel_exception_is_set(ex)) {
+		GtkWidget *win = gtk_widget_get_ancestor((GtkWidget *)input->frame, GTK_TYPE_WINDOW);
+		gnome_error_dialog_parented ("If you can no longer open this mailbox, then\n"
+					     "you may need to repair it manually.", GTK_WINDOW (win));
+	}
+
+	gtk_object_unref (GTK_OBJECT (input->fb));
+	g_free (input->newtype);
+}
+
+static const mail_operation_spec op_reconfigure_folder =
+{
+	describe_reconfigure_folder,
+	0,
+	setup_reconfigure_folder,
+	do_reconfigure_folder,
+	cleanup_reconfigure_folder
 };
 
 static void
-reconfigure_clicked(GnomeDialog *d, int button, struct _reconfig_data *data)
+reconfigure_clicked(GnomeDialog *d, int button, reconfigure_folder_input_t *data)
 {
 	if (button == 0) {
 		GtkMenu *menu;
 		int type;
 		char *types[] = { "mh", "mbox" };
-		CamelException *ex;
-
-		ex = camel_exception_new();
 
 		menu = (GtkMenu *)gtk_option_menu_get_menu(data->optionlist);
 		type = g_list_index(GTK_MENU_SHELL(menu)->children, gtk_menu_get_active(menu));
 		if (type < 0 || type > 1)
 			type = 1;
 
-		gtk_progress_set_percentage(data->progress, 0.0);
 		gtk_widget_set_sensitive(data->frame, FALSE);
 		gtk_widget_set_sensitive(data->apply, FALSE);
 		gtk_widget_set_sensitive(data->cancel, FALSE);
 
-		do_local_reconfigure_folder(data->fb, types[type], data->progress, ex);
-		if (camel_exception_is_set(ex)) {
-			GtkWidget *win = gtk_widget_get_ancestor((GtkWidget *)d, GTK_TYPE_WINDOW);
-			char *error;
+		data->newtype = g_strdup (types[type]);
+		mail_operation_queue (&op_reconfigure_folder, data, TRUE);
+	}
 
-			error = g_strdup_printf("A failure occured:\n %s\n\n"
-						"If you can no longer open this mailbox, then\n"
-						"you may need to repair it manually.",
-						camel_exception_get_description(ex));
-			gnome_error_dialog_parented(error, GTK_WINDOW (win));
-			g_free(error);
-		}
-		camel_exception_free(ex);
-	}
-	if (button != -1) {
+	if (button != -1)
 		gnome_dialog_close(d);
-	}
 }
 
 void
@@ -379,33 +436,31 @@ local_reconfigure_folder(FolderBrowser *fb)
 	CamelStore *store;
 	GladeXML *gui;
 	GnomeDialog *gd;
-	struct _reconfig_data *data;
+	reconfigure_folder_input_t *data;
 
 	if (fb->folder == NULL) {
 		g_warning("Trying to reconfigure nonexistant folder");
 		return;
 	}
 
-	data = g_malloc0(sizeof(*data));
+	data = g_new (reconfigure_folder_input_t, 1);
 
 	store = camel_folder_get_parent_store(fb->folder);
 
 	gui = glade_xml_new(EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
 	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
 
-	data->progress = (GtkProgress *)glade_xml_get_widget (gui, "progress_format");
-	gtk_progress_set_show_text(data->progress, TRUE);
 	data->frame = glade_xml_get_widget (gui, "frame_format");
 	data->apply = glade_xml_get_widget (gui, "apply_format");
 	data->cancel = glade_xml_get_widget (gui, "cancel_format");
 	data->optionlist = (GtkOptionMenu *)glade_xml_get_widget (gui, "option_format");
+	data->newtype = NULL;
 	data->fb = fb;
 
 	gtk_label_set_text((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
 			   ((CamelService *)store)->url->protocol);
 
 	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, data);
-	gtk_object_set_data_full((GtkObject *)gd, "data", data, g_free);
 	gtk_widget_show((GtkWidget *)gd);
 	gtk_object_unref((GtkObject *)gui);
 }

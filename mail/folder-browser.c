@@ -14,7 +14,10 @@
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
+#include "mail-tools.h"
 #include "message-list.h"
+#include "mail-threads.h"
+#include "mail-ops.h"
 #include <widgets/e-paned/e-vpaned.h>
 
 #include "mail-vfolder.h"
@@ -29,7 +32,6 @@
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static GtkObjectClass *folder_browser_parent_class;
-
 
 static void
 folder_browser_destroy (GtkObject *object)
@@ -48,10 +50,10 @@ folder_browser_destroy (GtkObject *object)
 		g_free (folder_browser->uri);
 
 	if (folder_browser->folder) {
-		camel_folder_sync (folder_browser->folder, FALSE, NULL);
-		gtk_object_unref (GTK_OBJECT (folder_browser->folder));
+		mail_do_sync_folder (folder_browser->folder);
+		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
 	}
-	
+
 	if (folder_browser->message_list)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));
 
@@ -66,120 +68,31 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-CamelFolder *
-mail_uri_to_folder (const char *name)
-{
-	char *msg;
-	CamelStore *store = NULL;
-	CamelFolder *folder = NULL;
-	CamelException *ex;
-
-	ex = camel_exception_new ();
-
-	if (!strncmp (name, "vfolder:", 8)) {
-		folder = vfolder_uri_to_folder(name);
-	} else if (!strncmp (name, "imap:", 5)) {
-		char *service, *ptr;
-		
-		service = g_strdup_printf ("%s/", name);
-		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
-		ptr++;
-		*ptr = '\0';
-		
-		store = camel_session_get_store (session, service, ex);
-		g_free (service);
-
-		if (store) {
-			CamelURL *url = CAMEL_SERVICE (store)->url;
-			char *folder_name;
-
-			/*dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;*/
-
-			for (ptr = (char *)(name + 7); *ptr && *ptr != '/'; ptr++);
-			if (*ptr == '/') {
-				if (url && url->path) {
-					ptr += strlen (url->path);
-					if (*ptr == '/')
-						ptr++;
-				}
-
-				if (*ptr == '/')
-					ptr++;
-				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
-
-				folder_name = g_strdup (ptr);
-				/*tree_name = g_strdup (ptr);*/
-				/*folder_name = e_strreplace (tree_name, "/", dir_sep);*/
-				
-				folder = camel_store_get_folder (store, folder_name, TRUE, ex);
-				g_free (folder_name);
-			}
-		}
-	} else if (!strncmp(name, "news:", 5)) {
-		store = camel_session_get_store (session, name, ex);
-		if (store) {
-			const char *folder_name;
-
-			folder_name = name + 5;
-
-			folder = camel_store_get_folder (store, folder_name, FALSE, ex);
-		}
-	} else if (!strncmp (name, "file:", 5)) {
-		folder = local_uri_to_folder(name, ex);
-	} else {
-		msg = g_strdup_printf ("Can't open URI %s", name);
-		gnome_error_dialog (msg);
-		g_free (msg);
-	}
-
-	if (camel_exception_get_id (ex)) {
-		msg = g_strdup_printf ("Unable to get folder %s: %s\n", name,
-				       camel_exception_get_description (ex));
-		gnome_error_dialog (msg);
-		if (folder) {
-			gtk_object_unref (GTK_OBJECT (folder));
-			folder = NULL;
-		}
-	}
-	camel_exception_free (ex);
-
-	if (store)
-		gtk_object_unref (GTK_OBJECT (store));
-
-	return folder;
-}
-
-static gboolean
-folder_browser_load_folder (FolderBrowser *fb, const char *name)
-{
-	CamelFolder *new_folder;
-
-	new_folder = mail_uri_to_folder (name);
-	if (!new_folder)
-		return FALSE;
-
-	if (fb->folder)
-		gtk_object_unref (GTK_OBJECT (fb->folder));
-	fb->folder = new_folder;
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (fb->search_entry), camel_folder_has_search_capability (fb->folder));
-	gtk_widget_set_sensitive (GTK_WIDGET (fb->search_menu), camel_folder_has_search_capability (fb->folder));
-
-	message_list_set_folder (fb->message_list, new_folder);
-
-	return TRUE;
-}
+/*
+ * static gboolean
+ * folder_browser_load_folder (FolderBrowser *fb, const char *name)
+ * {
+ * 	CamelFolder *new_folder;
+ * 
+ * 	new_folder = mail_tool_uri_to_folder_noex (name);
+ * 
+ * 	if (!new_folder)
+ * 		return FALSE;
+ * 
+ * 	if (fb->folder)
+ * 		camel_object_unref (CAMEL_OBJECT (fb->folder));
+ * 	fb->folder = new_folder;
+ * 	message_list_set_folder (fb->message_list, new_folder);
+ * 	return TRUE;
+ * }
+ */
 
 #define EQUAL(a,b) (strcmp (a,b) == 0)
 
-gboolean
-folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
+gboolean folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
-	if (folder_browser->uri)
-		g_free (folder_browser->uri);
-
-	folder_browser->uri = g_strdup (uri);
-	return folder_browser_load_folder (folder_browser, folder_browser->uri);
+	mail_do_load_folder (folder_browser, uri);
+	return TRUE;
 }
 
 void
@@ -223,7 +136,7 @@ search_set(FolderBrowser *fb)
 	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
 
 	if (text == NULL || text[0] == 0) {
-		message_list_regenerate (fb->message_list, NULL);
+		mail_do_regenerate_messagelist (fb->message_list, NULL);
 		return;
 	}
 
@@ -243,7 +156,7 @@ search_set(FolderBrowser *fb)
 			str++;
 		}
 	}
-	message_list_regenerate (fb->message_list, out->str);
+	mail_do_regenerate_messagelist (fb->message_list, out->str);
 	g_string_free(out, TRUE);
 }
 
@@ -358,7 +271,7 @@ folder_browser_clear_search (FolderBrowser *fb)
 {
 	gtk_entry_set_text (GTK_ENTRY (fb->search_entry), "");
 	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search_menu), 0);
-	message_list_regenerate (fb->message_list, NULL);
+	mail_do_regenerate_messagelist (fb->message_list, NULL);
 }
 
 static int
@@ -481,7 +394,7 @@ my_folder_browser_init (GtkObject *object)
 	 * Our instance data
 	 */
 	fb->message_list = MESSAGE_LIST (message_list_new (fb));
-	fb->mail_display = MAIL_DISPLAY (mail_display_new (fb));
+	fb->mail_display = MAIL_DISPLAY (mail_display_new ());
 
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
@@ -504,7 +417,3 @@ folder_browser_new (void)
 
 
 E_MAKE_TYPE (folder_browser, "FolderBrowser", FolderBrowser, folder_browser_class_init, folder_browser_init, PARENT_TYPE);
-
-
-
-

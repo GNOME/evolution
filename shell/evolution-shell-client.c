@@ -49,7 +49,6 @@ static gboolean FolderSelectionListener_vtables_initialized = FALSE;
 
 struct _FolderSelectionListenerServant {
 	POA_Evolution_FolderSelectionListener servant;
-	GMainLoop *main_loop;
 	char **uri_return;
 	char **physical_uri_return;
 };
@@ -71,7 +70,7 @@ impl_FolderSelectionListener_selected (PortableServer_Servant servant,
 	if (listener_servant->physical_uri_return != NULL)
 		* (listener_servant->physical_uri_return) = g_strdup (physical_uri);
 
-	g_main_quit (listener_servant->main_loop);
+	gtk_main_quit ();
 }
 
 static void
@@ -88,7 +87,7 @@ impl_FolderSelectionListener_cancel (PortableServer_Servant servant,
 	if (listener_servant->physical_uri_return != NULL)
 		* (listener_servant->physical_uri_return) = NULL;
 
-	g_main_quit (listener_servant->main_loop);
+	gtk_main_quit ();
 }	
 
 static void
@@ -109,7 +108,6 @@ init_FolderSelectionListener_vtables (void)
 
 static Evolution_FolderSelectionListener
 create_folder_selection_listener_interface (char **result,
-					    GMainLoop *main_loop,
 					    char **uri_return,
 					    char **physical_uri_return)
 {
@@ -123,7 +121,6 @@ create_folder_selection_listener_interface (char **result,
 
 	servant = g_new0 (FolderSelectionListenerServant, 1);
 	servant->servant.vepv        = &FolderSelectionListener_vepv;
-	servant->main_loop           = main_loop;
 	servant->uri_return          = uri_return;
 	servant->physical_uri_return = physical_uri_return;
 
@@ -172,21 +169,17 @@ user_select_folder (EvolutionShellClient *shell_client,
 {
 	Evolution_FolderSelectionListener listener_interface;
 	Evolution_Shell corba_shell;
-	GMainLoop *main_loop;
 	CORBA_Environment ev;
 	Evolution_Shell_FolderTypeList corba_type_list;
 	int num_possible_types;
 	char *result;
 
 	result = NULL;
-	main_loop = g_main_new (FALSE);
 
-	listener_interface = create_folder_selection_listener_interface (&result, main_loop,
-									 uri_return, physical_uri_return);
-	if (listener_interface == CORBA_OBJECT_NIL) {
-		g_main_destroy (main_loop);
+	listener_interface = create_folder_selection_listener_interface (&result, uri_return, 
+									 physical_uri_return);
+	if (listener_interface == CORBA_OBJECT_NIL)
 		return;
-	}
 
 	CORBA_exception_init (&ev);
 
@@ -213,7 +206,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 		return;
 	}
 
-	g_main_run (main_loop);
+	gtk_main();
 
 	CORBA_Object_release (listener_interface, &ev);
 

@@ -90,46 +90,14 @@ static CamelMessageContentInfo * summary_build_content_info(CamelFolderSummary *
 
 static void camel_folder_summary_class_init (CamelFolderSummaryClass *klass);
 static void camel_folder_summary_init       (CamelFolderSummary *obj);
-static void camel_folder_summary_finalise   (GtkObject *obj);
+static void camel_folder_summary_finalize   (CamelObject *obj);
 
 static CamelObjectClass *camel_folder_summary_parent;
-
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_folder_summary_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelFolderSummary",
-			sizeof (CamelFolderSummary),
-			sizeof (CamelFolderSummaryClass),
-			(GtkClassInitFunc) camel_folder_summary_class_init,
-			(GtkObjectInitFunc) camel_folder_summary_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_object_get_type (), &type_info);
-	}
-	
-	return type;
-}
 
 static void
 camel_folder_summary_class_init (CamelFolderSummaryClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_folder_summary_parent = gtk_type_class (camel_object_get_type ());
-
-	object_class->finalize = camel_folder_summary_finalise;
+	camel_folder_summary_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
 
 	klass->summary_header_load = summary_header_load;
 	klass->summary_header_save = summary_header_save;
@@ -145,8 +113,6 @@ camel_folder_summary_class_init (CamelFolderSummaryClass *klass)
 	klass->content_info_load = content_info_load;
 	klass->content_info_save = content_info_save;
 	klass->content_info_free = content_info_free;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -172,12 +138,12 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 static void free_o_name(void *key, void *value, void *data)
 {
-	gtk_object_unref((GtkObject *)value);
+	camel_object_unref((CamelObject *)value);
 	g_free(key);
 }
 
 static void
-camel_folder_summary_finalise (GtkObject *obj)
+camel_folder_summary_finalize (CamelObject *obj)
 {
 	struct _CamelFolderSummaryPrivate *p;
 	CamelFolderSummary *s = (CamelFolderSummary *)obj;
@@ -194,17 +160,33 @@ camel_folder_summary_finalise (GtkObject *obj)
 	g_free(s->summary_path);
 
 	if (p->filter_index)
-		gtk_object_unref ((GtkObject *)p->filter_index);
+		camel_object_unref ((CamelObject *)p->filter_index);
 	if (p->filter_64)
-		gtk_object_unref ((GtkObject *)p->filter_64);
+		camel_object_unref ((CamelObject *)p->filter_64);
 	if (p->filter_qp)
-		gtk_object_unref ((GtkObject *)p->filter_qp);
+		camel_object_unref ((CamelObject *)p->filter_qp);
 	if (p->filter_save)
-		gtk_object_unref ((GtkObject *)p->filter_save);
+		camel_object_unref ((CamelObject *)p->filter_save);
 
 	g_free(p);
+}
 
-	((GtkObjectClass *)(camel_folder_summary_parent))->finalize((GtkObject *)obj);
+CamelType
+camel_folder_summary_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_object_get_type (), "CamelFolderSummary",
+					    sizeof (CamelFolderSummary),
+					    sizeof (CamelFolderSummaryClass),
+					    (CamelObjectClassInitFunc) camel_folder_summary_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_folder_summary_init,
+					    (CamelObjectFinalizeFunc) camel_folder_summary_finalize);
+	}
+	
+	return type;
 }
 
 /**
@@ -217,7 +199,7 @@ camel_folder_summary_finalise (GtkObject *obj)
 CamelFolderSummary *
 camel_folder_summary_new (void)
 {
-	CamelFolderSummary *new = CAMEL_FOLDER_SUMMARY ( gtk_type_new (camel_folder_summary_get_type ()));
+	CamelFolderSummary *new = CAMEL_FOLDER_SUMMARY ( camel_object_new (camel_folder_summary_get_type ()));
 	return new;
 }
 
@@ -283,7 +265,7 @@ perform_content_info_load(CamelFolderSummary *s, FILE *in)
 	guint32 count;
 	CamelMessageContentInfo *ci, *part;
 
-	ci = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->content_info_load(s, in);
+	ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_load(s, in);
 	camel_folder_summary_decode_uint32(in, &count);
 	for (i=0;i<count;i++) {
 		part = perform_content_info_load(s, in);
@@ -311,7 +293,7 @@ camel_folder_summary_load(CamelFolderSummary *s)
 		return -1;
 	}
 
-	if ( ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->summary_header_load(s, in) == -1) {
+	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_load(s, in) == -1) {
 		fclose(in);
 		return -1;
 	}
@@ -319,7 +301,7 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	/* now read in each message ... */
 	/* FIXME: check returns */
 	for (i=0;i<s->saved_count;i++) {
-		mi = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_load(s, in);
+		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_load(s, in);
 
 		if (s->build_content) {
 			mi->content = perform_content_info_load(s, in);
@@ -342,7 +324,7 @@ perform_content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentI
 {
 	CamelMessageContentInfo *part;
 
-	((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->content_info_save(s, out, ci);
+	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_save(s, out, ci);
 	camel_folder_summary_encode_uint32(out, my_list_size((struct _node **)&ci->childs));
 	part = ci->childs;
 	while (part) {
@@ -377,7 +359,7 @@ camel_folder_summary_save(CamelFolderSummary *s)
 
 	io(printf("saving header\n"));
 
-	if ( ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->summary_header_save(s, out) == -1) {
+	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_save(s, out) == -1) {
 		fclose(out);
 		return -1;
 	}
@@ -387,7 +369,7 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	count = camel_folder_summary_count(s);
 	for (i=0;i<count;i++) {
 		mi = camel_folder_summary_index(s, i);
-		((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_save(s, out, mi);
+		((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_save(s, out, mi);
 
 		if (s->build_content) {
 			perform_content_info_save(s, out, mi->content);
@@ -425,7 +407,7 @@ CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *s, st
 {
 	CamelMessageInfo *info = NULL;
 
-	info = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_new(s, h);
+	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s))) -> message_info_new(s, h);
 	camel_folder_summary_add(s, info);
 
 	return info;
@@ -441,7 +423,7 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 	/* should this check the parser is in the right state, or assume it is?? */
 
 	if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_EOF) {
-		info = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_new_from_parser(s, mp);
+		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_parser(s, mp);
 
 		camel_mime_parser_unstep(mp);
 
@@ -472,7 +454,7 @@ perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 	CamelMessageContentInfo *pw, *pn;
 
 	pw = ci->childs;
-	((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->content_info_free(s, ci);
+	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_free(s, ci);
 	while (pw) {
 		pn = pw->next;
 		perform_content_info_free(s, pw);
@@ -498,7 +480,7 @@ camel_folder_summary_clear(CamelFolderSummary *s)
 		CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 		CamelMessageContentInfo *ci = mi->content;
 
-		((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_free(s, mi);		
+		((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, mi);		
 		if (s->build_content && ci) {
 			perform_content_info_free(s, ci);
 		}
@@ -516,7 +498,7 @@ void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info)
 
 	g_hash_table_remove(s->messages_uid, info->uid);
 	g_ptr_array_remove(s->messages, info);
-	((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_free(s, info);
+	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, info);
 	if (s->build_content && ci) {
 		perform_content_info_free(s, ci);
 	}
@@ -875,7 +857,7 @@ static CamelMessageInfo * message_info_new_from_parser(CamelFolderSummary *s, Ca
 	case HSCAN_HEADER:
 	case HSCAN_MESSAGE:
 	case HSCAN_MULTIPART:
-		mi = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->message_info_new(s, camel_mime_parser_headers_raw(mp));
+		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new(s, camel_mime_parser_headers_raw(mp));
 		break;
 	default:
 		g_error("Invalid parser state");
@@ -892,7 +874,7 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	case HSCAN_HEADER:
 	case HSCAN_MESSAGE:
 	case HSCAN_MULTIPART:
-		ci = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->content_info_new(s, camel_mime_parser_headers_raw(mp));
+		ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new(s, camel_mime_parser_headers_raw(mp));
 		if (ci) {
 			ci->type = camel_mime_parser_content_type(mp);
 			header_content_type_ref(ci->type);
@@ -1212,7 +1194,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 	state = camel_mime_parser_step(mp, &buffer, &len);
 	body = camel_mime_parser_tell(mp);
 
-	info = ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->content_info_new_from_parser(s, mp);
+	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new_from_parser(s, mp);
 
 	info->pos = camel_mime_parser_tell_start_headers(mp);
 	info->bodypos = body;
@@ -1571,7 +1553,7 @@ int main(int argc, char **argv)
 	int i;
 	ibex *index;
 
-	gtk_init(&argc, &argv);
+	/*g_tk_init(&argc, &argv);*/
 
 #if 0
 	{
@@ -1640,12 +1622,12 @@ int main(int argc, char **argv)
 		for (i=0;i<camel_folder_summary_count(n);i++) {
 			message_info_dump(camel_folder_summary_index(n, i));
 		}
-		gtk_object_unref(n);		
+		camel_object_unref(n);		
 	}
 
 
-	gtk_object_unref(mp);
-	gtk_object_unref(s);
+	camel_object_unref(mp);
+	camel_object_unref(s);
 
 	printf("summarised %d messages\n", camel_folder_summary_count(s));
 #if 0

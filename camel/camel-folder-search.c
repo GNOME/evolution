@@ -48,54 +48,19 @@ static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult
 
 static void camel_folder_search_class_init (CamelFolderSearchClass *klass);
 static void camel_folder_search_init       (CamelFolderSearch *obj);
-static void camel_folder_search_finalise   (GtkObject *obj);
+static void camel_folder_search_finalize   (CamelObject *obj);
 
 static CamelObjectClass *camel_folder_search_parent;
-
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_folder_search_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelFolderSearch",
-			sizeof (CamelFolderSearch),
-			sizeof (CamelFolderSearchClass),
-			(GtkClassInitFunc) camel_folder_search_class_init,
-			(GtkObjectInitFunc) camel_folder_search_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_object_get_type (), &type_info);
-	}
-	
-	return type;
-}
 
 static void
 camel_folder_search_class_init (CamelFolderSearchClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_folder_search_parent = gtk_type_class (camel_object_get_type ());
-
-	object_class->finalize = camel_folder_search_finalise;
+	camel_folder_search_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
 
 	klass->match_all = search_match_all;
 	klass->body_contains = search_body_contains;
 	klass->header_contains = search_header_contains;
-	klass->user_flag = search_user_flag;
 	klass->user_flag = search_user_tag;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -109,16 +74,38 @@ camel_folder_search_init (CamelFolderSearch *obj)
 }
 
 static void
-camel_folder_search_finalise (GtkObject *obj)
+camel_folder_search_finalize (CamelObject *obj)
 {
 	CamelFolderSearch *search = (CamelFolderSearch *)obj;
 	if (search->sexp)
-		gtk_object_unref((GtkObject *)search->sexp);
+		camel_object_unref((CamelObject *)search->sexp);
 
 	g_free(search->last_search);
-
-	((GtkObjectClass *)(camel_folder_search_parent))->finalize((GtkObject *)obj);
 }
+
+CamelType
+camel_folder_search_get_type (void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_object_get_type (), "CamelFolderSearch",
+					    sizeof (CamelFolderSearch),
+					    sizeof (CamelFolderSearchClass),
+					    (CamelObjectClassInitFunc) camel_folder_search_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_folder_search_init,
+					    (CamelObjectFinalizeFunc) camel_folder_search_finalize);
+	}
+	
+	return type;
+}
+
+#ifdef offsetof
+#define CAMEL_STRUCT_OFFSET(type, field)        ((gint) offsetof (type, field))
+#else
+#define CAMEL_STRUCT_OFFSET(type, field)        ((gint) ((gchar*) &((type *) 0)->field))
+#endif
 
 struct {
 	char *name;
@@ -126,34 +113,33 @@ struct {
 	int flags;		/* 0x02 = immediate, 0x01 = always enter */
 } builtins[] = {
 	/* these have default implementations in e-sexp */
-	{ "and", GTK_STRUCT_OFFSET(CamelFolderSearchClass, and), 2 },
-	{ "or", GTK_STRUCT_OFFSET(CamelFolderSearchClass, or), 2 },
-	{ "not", GTK_STRUCT_OFFSET(CamelFolderSearchClass, not), 2 },
-	{ "<", GTK_STRUCT_OFFSET(CamelFolderSearchClass, lt), 2 },
-	{ ">", GTK_STRUCT_OFFSET(CamelFolderSearchClass, gt), 2 },
-	{ "=", GTK_STRUCT_OFFSET(CamelFolderSearchClass, eq), 2 },
+	{ "and", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, and), 2 },
+	{ "or", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, or), 2 },
+	{ "not", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, not), 2 },
+	{ "<", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, lt), 2 },
+	{ ">", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, gt), 2 },
+	{ "=", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, eq), 2 },
 
 	/* these we have to use our own default if there is none */
 	/* they should all be defined in the language? so it poarses, or should they not?? */
-	{ "match-all", GTK_STRUCT_OFFSET(CamelFolderSearchClass, match_all), 3 },
-	{ "body-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
-	{ "header-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
-	{ "user-flag", GTK_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
-	{ "user-tag", GTK_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
+	{ "match-all", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, match_all), 3 },
+	{ "body-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
+	{ "header-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
+	{ "user-tag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
 };
 
 void
 camel_folder_search_construct (CamelFolderSearch *search)
 {
 	int i;
-	CamelFolderSearchClass *klass = (CamelFolderSearchClass *)GTK_OBJECT(search)->klass;
+	CamelFolderSearchClass *klass = (CamelFolderSearchClass *)CAMEL_OBJECT_GET_CLASS(search);
 
 	for (i=0;i<sizeof(builtins)/sizeof(builtins[0]);i++) {
 		void *func;
 		/* c is sure messy sometimes */
 		func = *((void **)(((char *)klass)+builtins[i].offset));
 		if (func == NULL && builtins[i].flags&1) {
-			g_warning("Search class doesn't implement '%s' method: %s", builtins[i].name, gtk_type_name(GTK_OBJECT(search)->klass->type));
+			g_warning("Search class doesn't implement '%s' method: %s", builtins[i].name, camel_type_to_name(CAMEL_OBJECT_GET_CLASS(search)->s.type));
 			func = (void *)search_dummy;
 		}
 		if (func != NULL) {
@@ -181,7 +167,7 @@ camel_folder_search_construct (CamelFolderSearch *search)
 CamelFolderSearch *
 camel_folder_search_new (void)
 {
-	CamelFolderSearch *new = CAMEL_FOLDER_SEARCH ( gtk_type_new (camel_folder_search_get_type ()));
+	CamelFolderSearch *new = CAMEL_FOLDER_SEARCH ( camel_object_new (camel_folder_search_get_type ()));
 
 	camel_folder_search_construct(new);
 	return new;

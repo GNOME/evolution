@@ -30,9 +30,7 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-#ifdef USE_BROKEN_THREADS
 	g_thread_init( NULL );
-#endif
 
 	od_assert_using_oaf ();
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
@@ -59,13 +57,9 @@ main (int argc, char *argv [])
 	mail_config_init ();
 	component_factory_init ();
 
-#ifdef USE_BROKEN_THREADS
 	GDK_THREADS_ENTER ();
-#endif
 	bonobo_main ();
-#ifdef USE_BROKEN_THREADS
 	GDK_THREADS_LEAVE ();
-#endif
 
 	mail_config_write_on_exit ();
 

@@ -248,13 +248,13 @@ build_message (EMsgComposer *composer)
 		camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
 		g_free (fmt);
 		camel_multipart_add_part (body, part);
-		gtk_object_unref (GTK_OBJECT (part));
+		camel_object_unref (CAMEL_OBJECT (part));
 		
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, html, strlen (html), "text/html");
 		g_free (html);
 		camel_multipart_add_part (body, part);
-		gtk_object_unref (GTK_OBJECT (part));
+		camel_object_unref (CAMEL_OBJECT (part));
 	}
 
 	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
@@ -268,7 +268,7 @@ build_message (EMsgComposer *composer)
 		case MSG_FORMAT_ALTERNATIVE:
 			camel_medium_set_content_object (CAMEL_MEDIUM (part),
 							 CAMEL_DATA_WRAPPER (body));
-			gtk_object_unref (GTK_OBJECT (body));
+			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
@@ -276,30 +276,30 @@ build_message (EMsgComposer *composer)
 			break;
 		}
 		camel_multipart_add_part (multipart, part);
-		gtk_object_unref (GTK_OBJECT (part));
+		camel_object_unref (CAMEL_OBJECT (part));
 
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
 
 		camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (multipart));
-		gtk_object_unref (GTK_OBJECT (multipart));
+		camel_object_unref (CAMEL_OBJECT (multipart));
 	} else {
 		CamelDataWrapper *cdw;
 		CamelStream *stream;
 		switch (type) {
 		case MSG_FORMAT_ALTERNATIVE:
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
-			gtk_object_unref (GTK_OBJECT (body));
+			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
 			stream = camel_stream_mem_new_with_buffer (fmt, strlen (fmt));
 			cdw = camel_data_wrapper_new ();
 			camel_data_wrapper_construct_from_stream (cdw, stream);
-			gtk_object_unref (GTK_OBJECT (stream));
+			camel_object_unref (CAMEL_OBJECT (stream));
 			
 			camel_data_wrapper_set_mime_type (cdw, "text/plain");
 
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (cdw));
-			gtk_object_unref (GTK_OBJECT (cdw));
+			camel_object_unref (CAMEL_OBJECT (cdw));
 			g_free (fmt);
 			break;
 

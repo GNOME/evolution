@@ -56,46 +56,34 @@ camel_session_destroy_provider (gpointer key, gpointer value, gpointer user_data
 }
 
 static void
-camel_session_finalise (GtkObject *o)
+camel_session_finalise (CamelObject *o)
 {
 	CamelSession *session = (CamelSession *)o;
 
 	g_hash_table_foreach_remove (session->providers,
 				     camel_session_destroy_provider, NULL);
 	g_hash_table_destroy (session->providers);
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (o);
 }
 
 static void
-camel_session_class_init (CamelServiceClass *camel_service_class)
+camel_session_class_init (CamelSessionClass *camel_session_class)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *)camel_service_class;
-
-	parent_class = gtk_type_class (camel_object_get_type ());
-	object_class->finalize = camel_session_finalise;
+	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
 }
 
-GtkType
+CamelType
 camel_session_get_type (void)
 {
-	static GtkType camel_session_type = 0;
+	static CamelType camel_session_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_session_type) {
-		GtkTypeInfo camel_session_info =
-		{
-			"CamelSession",
-			sizeof (CamelSession),
-			sizeof (CamelSessionClass),
-			(GtkClassInitFunc) camel_session_class_init,
-			(GtkObjectInitFunc) camel_session_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_session_type = gtk_type_unique (camel_object_get_type (),
-						      &camel_session_info);
+	if (camel_session_type == CAMEL_INVALID_TYPE) {
+		camel_session_type = camel_type_register (camel_object_get_type (), "CamelSession",
+							  sizeof (CamelSession),
+							  sizeof (CamelSessionClass),
+							  (CamelObjectClassInitFunc) camel_session_class_init,
+							  NULL,
+							  (CamelObjectInitFunc) camel_session_init,
+							  (CamelObjectFinalizeFunc) camel_session_finalise);
 	}
 
 	return camel_session_type;
@@ -103,11 +91,15 @@ camel_session_get_type (void)
 
 
 CamelSession *
-camel_session_new (CamelAuthCallback authenticator)
+camel_session_new (CamelAuthCallback authenticator,
+		   CamelTimeoutRegisterCallback registrar,
+		   CamelTimeoutRemoveCallback remover)
 {
-	CamelSession *session = gtk_type_new (CAMEL_SESSION_TYPE);
+	CamelSession *session = CAMEL_SESSION (camel_object_new (CAMEL_SESSION_TYPE));
 
 	session->authenticator = authenticator;
+	session->registrar = registrar;
+	session->remover = remover;
 	return session;
 }
 
@@ -191,9 +183,10 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 }
 
 static void
-service_cache_remove (CamelService *service, CamelSession *session)
+service_cache_remove (CamelService *service, gpointer event_data, gpointer user_data)
 {
 	CamelProvider *provider;
+	CamelSession *session = CAMEL_SESSION (user_data);
 
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	g_return_if_fail (service != NULL);
@@ -247,14 +240,14 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	service = g_hash_table_lookup (provider->service_cache, url);
 	if (service != NULL) {
 		camel_url_free (url);
-		gtk_object_ref (GTK_OBJECT (service));
+		camel_object_ref (CAMEL_OBJECT (service));
 		return service;
 	}
 
 	service = camel_service_new (provider->object_types[type], session, url, ex);
 	if (service) {
 		g_hash_table_insert (provider->service_cache, url, service);
-		gtk_signal_connect (GTK_OBJECT (service), "destroy", service_cache_remove, session);
+		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);
 	}
 
 	return service;
@@ -301,4 +294,53 @@ camel_session_query_authenticator (CamelSession *session,
 {
 	return session->authenticator (mode, prompt, secret,
 				       service, item, ex);
+}
+
+/**
+ * camel_session_register_timeout: Register a timeout to be called
+ * periodically.
+ *
+ * @session: the CamelSession
+ * @interval: the number of milliseconds interval between calls
+ * @callback: the function to call
+ * @user_data: extra data to be passed to the callback
+ *
+ * This function will use the registrar callback provided upon
+ * camel_session_new to register the timeout. The callback will
+ * be called every @interval milliseconds until it returns @FALSE.
+ * It will be passed one argument, @user_data.
+ *
+ * Returns a nonzero handle that can be used with 
+ * camel_session_remove_timeout on success, and 0 on failure to 
+ * register the timeout.
+ **/
+
+guint
+camel_session_register_timeout (CamelSession *session,
+				guint32 interval,
+				CamelTimeoutCallback callback,
+				gpointer user_data)
+{
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
+
+	return session->registrar (interval, callback, user_data);
+}
+
+/**
+ * camel_session_remove_timeout: Remove a previously registered
+ * timeout.
+ *
+ * @session: the CamelSession
+ * @handle: a value returned from camel_session_register_timeout
+ *
+ * This function will use the remover callback provided upon
+ * camel_session_new to remove the timeout.
+ *
+ * Returns TRUE on success and FALSE on failure.
+ **/
+
+gboolean camel_session_remove_timeout (CamelSession *session,
+				       guint handle)
+{
+	return session->remover (handle);
 }

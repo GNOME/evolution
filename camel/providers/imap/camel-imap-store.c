@@ -56,7 +56,7 @@
 
 static CamelServiceClass *service_class = NULL;
 
-static void finalize (GtkObject *object);
+static void finalize (CamelObject *object);
 static gboolean imap_create (CamelFolder *folder, CamelException *ex);
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
@@ -74,18 +74,14 @@ static void
 camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 {
 	/* virtual method overload */
-	GtkObjectClass *object_class =
-		GTK_OBJECT_CLASS (camel_imap_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_imap_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_imap_store_class);
 	
-	service_class = gtk_type_class (camel_service_get_type ());
+	service_class = CAMEL_SERVICE_CLASS(camel_type_get_global_classfuncs (camel_service_get_type ()));
 
 	/* virtual method overload */
-	object_class->finalize = finalize;
-
 	camel_service_class->connect = imap_connect;
 	camel_service_class->disconnect = imap_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
@@ -107,37 +103,31 @@ camel_imap_store_init (gpointer object, gpointer klass)
 			      CAMEL_SERVICE_URL_ALLOW_PATH);
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
-	CAMEL_IMAP_STORE (store)->dir_sep = NULL;
+	CAMEL_IMAP_STORE (store)->dir_sep = g_strdup ("/"); /*default*/
 	CAMEL_IMAP_STORE (store)->current_folder = NULL;
 	CAMEL_IMAP_STORE (store)->timeout_id = 0;
 }
 
-GtkType
+CamelType
 camel_imap_store_get_type (void)
 {
-	static GtkType camel_imap_store_type = 0;
+	static CamelType camel_imap_store_type = CAMEL_INVALID_TYPE;
 	
-	if (!camel_imap_store_type) {
-		GtkTypeInfo camel_imap_store_info =	
-		{
-			"CamelImapStore",
-			sizeof (CamelImapStore),
-			sizeof (CamelImapStoreClass),
-			(GtkClassInitFunc) camel_imap_store_class_init,
-			(GtkObjectInitFunc) camel_imap_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_imap_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_imap_store_info);
+	if (camel_imap_store_type == CAMEL_INVALID_TYPE)	{
+		camel_imap_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelImapStore",
+							     sizeof (CamelImapStore),
+							     sizeof (CamelImapStoreClass),
+							     (CamelObjectClassInitFunc) camel_imap_store_class_init,
+							     NULL,
+							     (CamelObjectInitFunc) camel_imap_store_init,
+							     (CamelObjectFinalizeFunc) finalize);
 	}
 	
 	return camel_imap_store_type;
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelException ex;
 	
@@ -239,11 +229,13 @@ imap_connect (CamelService *service, CamelException *ex)
 	gboolean authenticated = FALSE;
 
 	/* FIXME: do we really need this here? */
-	if (store->timeout_id) {
-		gtk_timeout_remove (store->timeout_id);
-		store->timeout_id = 0;
-	}
-	
+	/*
+	 *if (store->timeout_id) {
+	 *	gtk_timeout_remove (store->timeout_id);
+	 *	store->timeout_id = 0;
+	 *}
+	 */
+
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
@@ -399,7 +391,10 @@ imap_connect (CamelService *service, CamelException *ex)
 	g_free (result);
 
 	/* Lets add a timeout so that we can hopefully prevent getting disconnected */
-	store->timeout_id = gtk_timeout_add (600000, imap_noop, store);
+	/* FIXME fast timeout */
+	store->timeout_id = camel_session_register_timeout (camel_service_get_session (service), 
+							    10 * 60 * 1000, imap_noop, service);
+	/*store->timeout_id = gtk_timeout_add (600000, imap_noop, store);*/
 	
 	return TRUE;
 }
@@ -423,27 +418,28 @@ imap_disconnect (CamelService *service, CamelException *ex)
 	
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
-	
+
 	if (store->istream) {
-		gtk_object_unref (GTK_OBJECT (store->istream));
+		camel_object_unref (CAMEL_OBJECT (store->istream));
 		store->istream = NULL;
 	}
-	
+
 	if (store->ostream) {
-		gtk_object_unref (GTK_OBJECT (store->ostream));
+		camel_object_unref (CAMEL_OBJECT (store->ostream));
 		store->ostream = NULL;
 	}
-	
+
 	g_free (store->dir_sep);
 	store->dir_sep = NULL;
-	
+
 	store->current_folder = NULL;
-	
+
 	if (store->timeout_id) {
-		gtk_timeout_remove (store->timeout_id);
+		camel_session_remove_timeout (camel_service_get_session (CAMEL_SERVICE (store)),
+					      store->timeout_id);
 		store->timeout_id = 0;
 	}
-	
+
 	return TRUE;
 }
 
@@ -466,6 +462,8 @@ imap_folder_exists (CamelFolder *folder)
 	
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
+	g_return_val_if_fail (dir_sep, FALSE);
+
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
@@ -510,6 +508,8 @@ imap_create (CamelFolder *folder, CamelException *ex)
         /* create the directory for the subfolder */
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
+	g_return_val_if_fail (dir_sep, FALSE);
+
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
@@ -581,7 +581,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;
 	
 	/* if we're trying to get the top-level dir, we really want the namespace */
-	if (!strcmp (folder_name, dir_sep))
+	if (!dir_sep || !strcmp (folder_name, dir_sep))
 		folder_path = g_strdup (url->path + 1);
 	else
 		folder_path = g_strdup (folder_name);
@@ -599,7 +599,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 			return new_folder;
 		} else {
 			g_free (folder_path);
-			gtk_object_unref (GTK_OBJECT (new_folder));		
+			camel_object_unref (CAMEL_OBJECT (new_folder));		
 			return NULL;
 		}
 	}

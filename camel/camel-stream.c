@@ -29,7 +29,7 @@
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelStream */
-#define CS_CLASS(so) CAMEL_STREAM_CLASS (GTK_OBJECT(so)->klass)
+#define CS_CLASS(so) CAMEL_STREAM_CLASS(CAMEL_OBJECT_GET_CLASS(so))
 
 static int stream_flush   (CamelStream *stream);
 static int stream_close   (CamelStream *stream);
@@ -39,7 +39,7 @@ static gboolean stream_eos (CamelStream *stream);
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
 {
-	parent_class = gtk_type_class (camel_object_get_type ());
+	parent_class = camel_type_get_global_classfuncs( CAMEL_OBJECT_TYPE );
 
 	/* virtual method definition */
 	camel_stream_class->flush = stream_flush;
@@ -47,26 +47,20 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->eos = stream_eos;
 }
 
-GtkType
+CamelType
 camel_stream_get_type (void)
 {
-	static GtkType camel_stream_type = 0;
+	static CamelType camel_stream_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_stream_type)	{
-		GtkTypeInfo camel_stream_info =
-		{
-			"CamelStream",
-			sizeof (CamelStream),
-			sizeof (CamelStreamClass),
-			(GtkClassInitFunc) camel_stream_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_stream_type = gtk_type_unique (camel_object_get_type (),
-						     &camel_stream_info);
+	if (camel_stream_type == CAMEL_INVALID_TYPE) {
+		camel_stream_type = camel_type_register( CAMEL_OBJECT_TYPE,
+							 "CamelStream",
+							 sizeof( CamelStream ),
+							 sizeof( CamelStreamClass ),
+							 (CamelObjectClassInitFunc) camel_stream_class_init,
+							 NULL,
+							 NULL,
+							 NULL );
 	}
 
 	return camel_stream_type;

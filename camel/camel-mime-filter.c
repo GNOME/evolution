@@ -28,73 +28,20 @@ struct _CamelMimeFilterPrivate {
 #define PRE_HEAD (64)
 #define BACK_HEAD (64)
 #define _PRIVATE(o) (((CamelMimeFilter *)(o))->priv)
-#define FCLASS(o) ((CamelMimeFilterClass *)((GtkObject *)(o))->klass)
-
-static void camel_mime_filter_class_init (CamelMimeFilterClass *klass);
-static void camel_mime_filter_init       (CamelMimeFilter *obj);
+#define FCLASS(o) ((CamelMimeFilterClass *)(CAMEL_OBJECT_GET_CLASS(o)))
 
 static CamelObjectClass *camel_mime_filter_parent;
 
-enum SIGNALS {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
-camel_mime_filter_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type) {
-		GtkTypeInfo type_info = {
-			"CamelMimeFilter",
-			sizeof (CamelMimeFilter),
-			sizeof (CamelMimeFilterClass),
-			(GtkClassInitFunc) camel_mime_filter_class_init,
-			(GtkObjectInitFunc) camel_mime_filter_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
-		};
-		
-		type = gtk_type_unique (camel_object_get_type (), &type_info);
-	}
-	
-	return type;
-}
-
-static void
-finalise(GtkObject *o)
-{
-	CamelMimeFilter *f = (CamelMimeFilter *)o;
-	struct _CamelMimeFilterPrivate *p = _PRIVATE(f);
-
-	g_free(f->outreal);
-	g_free(f->backbuf);
-	g_free(p->inbuf);
-	g_free(p);
-
-	((GtkObjectClass *)camel_mime_filter_parent)->finalize (o);
-}
-
-static void
-complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
-{
-	/* default - do nothing */
-}
+static void complete (CamelMimeFilter *mf, char *in, size_t len, 
+		      size_t prespace, char **out, size_t *outlen, 
+		      size_t *outprespace);
 
 static void
 camel_mime_filter_class_init (CamelMimeFilterClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	
-	camel_mime_filter_parent = gtk_type_class (camel_object_get_type ());
-
-	object_class->finalize = finalise;
+	camel_mime_filter_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
 
 	klass->complete = complete;
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -111,6 +58,42 @@ camel_mime_filter_init (CamelMimeFilter *obj)
 	_PRIVATE(obj) = g_malloc0(sizeof(*obj->priv));
 }
 
+static void
+camel_mime_filter_finalize(CamelObject *o)
+{
+	CamelMimeFilter *f = (CamelMimeFilter *)o;
+	struct _CamelMimeFilterPrivate *p = _PRIVATE(f);
+
+	g_free(f->outreal);
+	g_free(f->backbuf);
+	g_free(p->inbuf);
+	g_free(p);
+}
+
+CamelType
+camel_mime_filter_get_type (void)
+{
+	static CamelType camel_mime_filter_type = CAMEL_INVALID_TYPE;
+	
+	if (camel_mime_filter_type == CAMEL_INVALID_TYPE) {
+		camel_mime_filter_type = camel_type_register (CAMEL_OBJECT_TYPE, "CamelMimeFilter",
+							      sizeof (CamelMimeFilter),
+							      sizeof (CamelMimeFilterClass),
+							      (CamelObjectClassInitFunc) camel_mime_filter_class_init,
+							      NULL,
+							      (CamelObjectInitFunc) camel_mime_filter_init,
+							      (CamelObjectFinalizeFunc) camel_mime_filter_finalize);
+	}
+	
+	return camel_mime_filter_type;
+}
+
+static void
+complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
+{
+	/* default - do nothing */
+}
+
 /**
  * camel_mime_filter_new:
  *
@@ -121,7 +104,7 @@ camel_mime_filter_init (CamelMimeFilter *obj)
 CamelMimeFilter *
 camel_mime_filter_new (void)
 {
-	CamelMimeFilter *new = CAMEL_MIME_FILTER ( gtk_type_new (camel_mime_filter_get_type ()));
+	CamelMimeFilter *new = CAMEL_MIME_FILTER ( camel_object_new (camel_mime_filter_get_type ()));
 	return new;
 }
 

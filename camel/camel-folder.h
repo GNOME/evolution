@@ -37,9 +37,9 @@ extern "C" {
 #include <camel/camel-folder-summary.h>
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
-#define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
-#define CAMEL_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_TYPE, CamelFolderClass))
-#define CAMEL_IS_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
+#define CAMEL_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
+#define CAMEL_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_TYPE, CamelFolderClass))
+#define CAMEL_IS_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
 
 struct _CamelFolder
 {
@@ -68,10 +68,12 @@ typedef struct {
 	CamelObjectClass parent_class;
 
 	/* signals */
-	void		(*folder_changed)	(CamelFolder *, int type);
-	void            (*message_changed)      (CamelFolder *,
-						 const char *uid);
-	
+	/* Not anymore! bwahahahah!
+	 * void		(*folder_changed)	(CamelFolder *, int type);
+	 * void            (*message_changed)      (CamelFolder *,
+	 *					 const char *uid);
+	 */
+
 	/* Virtual methods */	
 	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
 			CamelFolder *parent_folder, const gchar *name,
@@ -171,8 +173,8 @@ typedef struct {
 
 
 
-/* Standard Gtk function */
-GtkType camel_folder_get_type (void);
+/* Standard Camel function */
+CamelType camel_folder_get_type (void);
 
 
 /* public methods */

@@ -33,10 +33,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
+#define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(o)))
 static CamelFolderClass *parent_class;
 
-static void pop3_finalize (GtkObject *object);
+static void pop3_finalize (CamelObject *object);
 
 static void pop3_sync (CamelFolder *folder, gboolean expunge,
 		       CamelException *ex);
@@ -56,10 +56,8 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 {
 	CamelFolderClass *camel_folder_class =
 		CAMEL_FOLDER_CLASS (camel_pop3_folder_class);
-	GtkObjectClass *object_class =
-		GTK_OBJECT_CLASS (camel_pop3_folder_class);
 
-	parent_class = gtk_type_class (camel_folder_get_type ());
+	parent_class = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs (camel_folder_get_type ()));
 
 	/* virtual method overload */
 	camel_folder_class->sync = pop3_sync;
@@ -70,12 +68,10 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 
 	camel_folder_class->get_message = pop3_get_message;
 	camel_folder_class->set_message_flags = pop3_set_message_flags;
-
-	object_class->finalize = pop3_finalize;
 }
 
 static void
-camel_pop3_folder_init (gpointer object, gpointer klass)
+camel_pop3_folder_init (gpointer object)
 {
 	CamelFolder *folder = CAMEL_FOLDER (object);
 
@@ -85,32 +81,26 @@ camel_pop3_folder_init (gpointer object, gpointer klass)
 	folder->has_search_capability = FALSE;
 }
 
-GtkType
+CamelType
 camel_pop3_folder_get_type (void)
 {
-	static GtkType camel_pop3_folder_type = 0;
+	static CamelType camel_pop3_folder_type = CAMEL_INVALID_TYPE;
 
 	if (!camel_pop3_folder_type) {
-		GtkTypeInfo camel_pop3_folder_info =	
-		{
-			"CamelPop3Folder",
-			sizeof (CamelPop3Folder),
-			sizeof (CamelPop3FolderClass),
-			(GtkClassInitFunc) camel_pop3_folder_class_init,
-			(GtkObjectInitFunc) camel_pop3_folder_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_pop3_folder_type = gtk_type_unique (CAMEL_FOLDER_TYPE, &camel_pop3_folder_info);
+		camel_pop3_folder_type = camel_type_register (CAMEL_FOLDER_TYPE, "CamelPop3Folder",
+							      sizeof (CamelPop3Folder),
+							      sizeof (CamelPop3FolderClass),
+							      (CamelObjectClassInitFunc) camel_pop3_folder_class_init,
+							      NULL,
+							      (CamelObjectInitFunc) camel_pop3_folder_init,
+							      (CamelObjectFinalizeFunc) pop3_finalize);
 	}
 
 	return camel_pop3_folder_type;
 }
 
 void
-pop3_finalize (GtkObject *object)
+pop3_finalize (CamelObject *object)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
@@ -171,7 +161,7 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 		}
 	}
 
-	pop3_folder = gtk_type_new (CAMEL_POP3_FOLDER_TYPE);
+	pop3_folder = CAMEL_POP3_FOLDER(camel_object_new (CAMEL_POP3_FOLDER_TYPE));
 	CF_CLASS (pop3_folder)->init ((CamelFolder *)pop3_folder, parent,
 				      NULL, "inbox", "/", TRUE, ex);
 	pop3_folder->uids = uids;
@@ -304,7 +294,7 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  CAMEL_STREAM (msgstream));
 
-	gtk_object_unref (GTK_OBJECT (msgstream));
+	camel_object_unref (CAMEL_OBJECT (msgstream));
 
 	return msg;
 }

@@ -43,9 +43,9 @@ extern "C" {
 #include "camel-transport.h"
 
 #define CAMEL_SMTP_TRANSPORT_TYPE     (camel_smtp_transport_get_type ())
-#define CAMEL_SMTP_TRANSPORT(obj)     (GTK_CHECK_CAST((obj), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransport))
-#define CAMEL_SMTP_TRANSPORT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransportClass))
-#define IS_CAMEL_SMTP_TRANSPORT(o)    (GTK_CHECK_TYPE((o), CAMEL_SMTP_TRANSPORT_TYPE))
+#define CAMEL_SMTP_TRANSPORT(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransport))
+#define CAMEL_SMTP_TRANSPORT_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransportClass))
+#define IS_CAMEL_SMTP_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SMTP_TRANSPORT_TYPE))
 
 
 typedef struct {
@@ -69,8 +69,8 @@ typedef struct {
 } CamelSmtpTransportClass;
 
 
-/* Standard Gtk function */
-GtkType camel_smtp_transport_get_type (void);
+/* Standard Camel function */
+CamelType camel_smtp_transport_get_type (void);
 
 #ifdef __cplusplus
 }
