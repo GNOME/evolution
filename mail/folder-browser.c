@@ -496,6 +496,20 @@ vfolder_recipient (GtkWidget *w, FolderBrowser *fb)
 }
 
 void
+vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
+{
+	char *name;
+
+	g_return_if_fail (fb->mail_display->current_message != NULL);
+
+	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
+	if (name) {
+		vfolder_gui_add_from_mlist(fb->mail_display->current_message, name, fb->uri);
+		g_free(name);
+	}
+}
+
+void
 filter_subject (GtkWidget *w, FolderBrowser *fb)
 {
 	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT);
@@ -517,19 +531,14 @@ void
 filter_mlist (GtkWidget *w, FolderBrowser *fb)
 {
 	char *name;
-	char *header_value;
-	const char *header_name;
-	
+
 	g_return_if_fail (fb->mail_display->current_message != NULL);
 
-	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
-	if (name == NULL)
-		return;
-	
-	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
-	
-	g_free (name);
-	g_free (header_value);
+	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
+	if (name) {
+		filter_gui_add_from_mlist(name);
+		g_free(name);
+	}
 }
 
 void
@@ -648,14 +657,17 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	CamelMessageInfo *info;
 	GPtrArray *uids;
 	int enable_mask = 0;
-	int last_item, i;
+	int i;
 	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
 
+#define MLIST_VFOLDER (3)
+#define MLIST_FILTER (8)
 	EPopupMenu filter_menu[] = {
 		{ _("VFolder on Subject"),         NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL,  2 },
 		{ _("VFolder on Sender"),          NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL,  2 },
 		{ _("VFolder on Recipients"),      NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL,  2 },
+		{ _("VFolder on Mailing List"),    NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,  66 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Filter on Subject"),          NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL,  2 },
 		{ _("Filter on Sender"),           NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL,  2 },
@@ -692,8 +704,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 	
-	last_item = (sizeof (filter_menu) / sizeof (*filter_menu)) - 2;
-
 	if (fb->reconfigure) {
 		enable_mask = 0;
 		goto display_menu;
@@ -709,7 +719,7 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		const char *subject, *real, *addr;
 		const CamelInternetAddress *from;
 
-		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message, NULL, NULL);
+		mailing_list_name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
 
 		if ((subject = camel_mime_message_get_subject(fb->mail_display->current_message))
 		    && (subject = strip_re(subject))
@@ -774,16 +784,18 @@ display_menu:
 	/* generate the "Filter on Mailing List menu item name */
 	if (mailing_list_name == NULL) {
 		enable_mask |= 64;
-		filter_menu[last_item].name = g_strdup (_("Filter on Mailing List"));
+		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on Mailing List"));
+		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on Mailing List"));
 	} else {
-		filter_menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
-							       mailing_list_name);
+		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on Mailing List (%s)"), mailing_list_name);
+		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mailing_list_name);
 		g_free(mailing_list_name);
 	}
 
 	e_popup_menu_run (menu, event, enable_mask, 0, fb);
 	
-	g_free(filter_menu[last_item].name);
+	g_free(filter_menu[MLIST_FILTER].name);
+	g_free(filter_menu[MLIST_VFOLDER].name);
 
 	return TRUE;
 }

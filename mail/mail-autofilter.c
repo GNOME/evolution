@@ -265,6 +265,52 @@ filter_rule_from_message(FilterContext *context, CamelMimeMessage *msg, int flag
 	return (FilterRule *)rule;
 }
 
+static void
+rule_from_mlist(FilterRule *rule, RuleContext *context, const char *mlist)
+{
+	FilterPart *part;
+	FilterElement *element;
+	char *rule_name;
+
+	part = rule_context_create_part(context, "mlist");
+	filter_rule_add_part(rule, part);
+	
+	element = filter_part_find_element(part, "mlist-type");
+	filter_option_set_current((FilterOption *)element, "is");
+	
+	element = filter_part_find_element (part, "mlist");
+	filter_input_set_value((FilterInput *)element, mlist);
+	
+	rule_name = g_strdup_printf(_("%s mailing list"), mlist);
+	filter_rule_set_name((FilterRule *) rule, rule_name);
+	g_free (rule_name);
+}
+
+FilterRule *
+vfolder_rule_from_mlist(VfolderContext *context, const char *mlist, const char *source)
+{
+	VfolderRule *rule;
+	
+	rule = vfolder_rule_new ();
+	vfolder_rule_add_source (rule, source);
+	rule_from_mlist((FilterRule *)rule, (RuleContext *)context, mlist);
+
+	return (FilterRule *)rule;
+}
+
+FilterRule *
+filter_rule_from_mlist(FilterContext *context, const char *mlist)
+{
+	FilterFilter *rule;
+	
+	rule = filter_filter_new ();
+	rule_from_mlist((FilterRule *)rule, (RuleContext *)context, mlist);
+	
+	/* should we define the default action? */
+	
+	return (FilterRule *)rule;
+}
+
 void
 filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 {
@@ -290,50 +336,22 @@ filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 }
 
 void
-filter_gui_add_for_mailing_list (CamelMimeMessage *msg,
-				 const char *list_name,
-				 const char *header_name,
-				 const char *header_value)
+filter_gui_add_from_mlist (const char *mlist)
 {
 	FilterContext *fc;
-	FilterRule *rule;
-	FilterPart *part;
-	FilterElement *element;
 	char *userrules, *systemrules;
-	char *rule_name;
+	FilterRule *rule;
 	extern char *evolution_dir;
-	
-	g_return_if_fail (msg != NULL);
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
-	g_return_if_fail (list_name != NULL);
-	g_return_if_fail (header_name != NULL);
-	g_return_if_fail (header_value != NULL);
-	
+
 	fc = filter_context_new ();
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	rule = filter_rule_from_mlist(fc, mlist);
 	
-	rule = (FilterRule *) filter_filter_new ();
-	
-	part = rule_context_create_part ((RuleContext *)fc, "header");
-	filter_rule_add_part ((FilterRule *)rule, part);
-	
-	element = filter_part_find_element (part, "header-field");
-	filter_input_set_value ((FilterInput *)element, header_name);
-	
-	element = filter_part_find_element (part, "header-type");
-	filter_option_set_current ((FilterOption *)element, "is");
-	
-	element = filter_part_find_element (part, "word");
-	filter_input_set_value ((FilterInput *)element, header_value);
-	
-	rule_name = g_strdup_printf (_("%s mailing list"), list_name);
-	filter_rule_set_name ((FilterRule *) rule, rule_name);
-	g_free (rule_name);
+	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 	
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
-	
 	g_free (userrules);
 	g_free (systemrules);
 	gtk_object_unref (GTK_OBJECT (fc));

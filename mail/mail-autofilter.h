@@ -39,15 +39,13 @@ enum {
 
 FilterRule *vfolder_rule_from_message(VfolderContext *context, CamelMimeMessage *msg, int flags, const char *source);
 FilterRule *filter_rule_from_message(FilterContext *context, CamelMimeMessage *msg, int flags);
+FilterRule *vfolder_rule_from_mlist(VfolderContext *context, const char *mlist, const char *source);
+FilterRule *filter_rule_from_mlist(FilterContext *context, const char *mlist);
 
 /* easiest place to put this */
 
 void  filter_gui_add_from_message      (CamelMimeMessage *msg,
 					int               flags);
-
-void  filter_gui_add_for_mailing_list  (CamelMimeMessage *msg,
-					const char       *list_name,
-					const char       *header_name,
-					const char       *header_value);
+void filter_gui_add_from_mlist (const char *mlist);
 
 #endif

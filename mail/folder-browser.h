@@ -85,6 +85,7 @@ void       folder_browser_clear_search         (FolderBrowser         *fb);
 void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);
 void vfolder_sender    (GtkWidget *w, FolderBrowser *fb);
 void vfolder_recipient (GtkWidget *w, FolderBrowser *fb);
+void vfolder_mlist     (GtkWidget *w, FolderBrowser *fb);
 
 void filter_subject    (GtkWidget *w, FolderBrowser *fb);
 void filter_sender     (GtkWidget *w, FolderBrowser *fb);

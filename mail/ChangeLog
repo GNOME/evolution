@@ -1,5 +1,21 @@
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (vfolder_gui_add_from_mlist): Rule to add mlist
+	vfolder.
+
+	* mail-autofilter.c (filter_gui_add_for_mailing_list): Removed.
+	(rule_from_mlist): Build a generic match rule from an mlist.
+	(vfolder_rule_from_mlist): Setup the vfolder rule for an mlist.
+	(filter_rule_from_mlist): Setup a filter rule fro an mlist.
+	(filter_gui_add_from_mlist): GUI thingy to do the work.
+
+	* folder-browser.c (on_right_click): Added vfolder on mailing list
+	to filter menu.
+	(on_right_click): Use header_raw_check_mailign_list instead of
+	mlist magic to get the mailing list name.
+	(filter_mlist): Changed to use new add_from_mlist() call.
+	(vfolder_mlist): New function for vfolder from mlist.
+
 	* mail-send-recv.c (build_dialogue): Only allow downloading if the
 	source is enabled at this time.
 	(mail_autoreceive_setup): Check for enabled sources before setting

@@ -344,6 +344,17 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 	vfolder_gui_add_rule(rule);
 }
 
+void
+vfolder_gui_add_from_mlist(CamelMimeMessage *msg, const char *mlist, const char *source)
+{
+	VfolderRule *rule;
+
+	g_return_if_fail (msg != NULL);
+
+	rule = (VfolderRule*)vfolder_rule_from_mlist(context, mlist, source);
+	vfolder_gui_add_rule(rule);
+}
+
 EvolutionStorage *
 mail_vfolder_get_vfolder_storage (void)
 {
