@@ -525,7 +525,7 @@ e_icon_bar_set_view_type (EIconBar *icon_bar,
 static GdkPixbuf *
 flatten_alpha (GdkPixbuf *image, guint rgb)
 {
-	if (!image->art_pixbuf->has_alpha)
+	if (!image || !image->art_pixbuf->has_alpha)
 		return NULL;
 
 	return gdk_pixbuf_composite_color_simple (
