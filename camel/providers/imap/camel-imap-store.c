@@ -1762,7 +1762,9 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			return NULL;
 		}
-
+		
+		camel_exception_clear (ex);
+		
 		if (!flags & CAMEL_STORE_FOLDER_CREATE) {
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,

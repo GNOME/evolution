@@ -1,3 +1,10 @@
+2004-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_online): If the
+	initial SELECT fails and CREATE is specified, clear the exception
+	before attempting to CREATE, this way we don't have an exception
+	set even if the CREATE passes. Fixes bug #55607.
+
 2004-03-16  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-message.c (camel_mime_message_init): rever previous
