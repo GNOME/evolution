@@ -612,8 +612,8 @@ emfv_popup_delete(GtkWidget *w, EMFolderView *emfv)
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
 	
 	if (uids->len == 1) {
-		if (!message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE))
-			message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
+		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE) && emfv->hide_deleted)
+			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
 	}
 	em_utils_uids_free(uids);
 }
@@ -1835,7 +1835,7 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		else
 			emfv_popup_delete(NULL, emfv);
 
-		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE))
+		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE) && emfv->hide_deleted)
 			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
 		break;
 	case GDK_Menu:

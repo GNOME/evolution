@@ -733,8 +733,10 @@ emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_deleted", state[0] == '0', NULL);
-	if (!(emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)))
+	if (!(emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH))) {
 		message_list_set_hidedeleted(emfv->list, state[0] != '0');
+		emfv->hide_deleted = state[0] != '0';
+	}
 }
 
 static void

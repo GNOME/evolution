@@ -1,3 +1,13 @@
+2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_hide_deleted): Set the hide_deleted
+	bool on EMFolderView.
+
+	* em-folder-view.c (emfv_popup_delete): Fix Sarfraaz Ahmed's fix
+	to only jump to the previous message if hide_deleted is
+	set. Otherwise his fix gets extremely irritating.
+	(emfv_list_key_press): Same.
+
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53914.
@@ -37,11 +47,11 @@
 	width/height
 
 2004-02-13  Sarfraaz Ahmed <asarfraaz@novell.com>
-        
+
 	* em-folder-view.c (emfv_popup_delete): added the code to get
-        the previous mail in a list, if get_next_mail fails. This is a
-        fix for #54195
-        (emfv_list_key_press): Same as above
+	the previous mail in a list, if get_next_mail fails. This is a
+	fix for #54195
+	(emfv_list_key_press): Same as above
 
 2004-02-13  Not Zed  <NotZed@Ximian.com>
 
