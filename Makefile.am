@@ -45,8 +45,6 @@ SUBDIRS = 			\
 	po
 
 
-#	omf-install
-
 # CDE Stuff
 
 if HAVE_DTAPPINTEGRATE

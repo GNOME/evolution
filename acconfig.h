@@ -36,6 +36,9 @@
 /* Sub-version identification string.  */
 #undef SUB_VERSION
 
+/* Base version number (eg. "1.4" for "1.4.7").  */
+#undef BASE_VERSION
+
 /* Preview-release string */
 #undef VERSION_COMMENT
 

@@ -1,3 +1,24 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/Makefile.am: For now, do not install the evolution.1
+	manpage.  Install all the other files with a -$(BASE_VERSION)
+	suffix.
+	(dtappintegrate): Update for the new location of cde_app_root.
+	(dtappunintegrate): Likewise.
+
+	* data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Makefile.am
+	(cdeappmanagerdir): Version using $(BASE_VERSION).
+	* data/cde_app_root/dt/appconfig/types/C/Makefile.am
+	(cdetypesdir): Likewise.
+	* data/cde_app_root/dt/appconfig/icons/C/Makefile.am
+	(cdeiconsdir): Likewise.
+
+	* sounds/Makefile.am (soundsdir): Version using $(BASE_VERSION).
+
+	* configure.in: Define BASE_VERSION.  Set idldir to
+	$datadir/idl/evolution-$BASE_VERSION instead of just
+	$datadir/idl/evolution.
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in (ALL_LINGUAS): Remove fr for now, since it doesn't

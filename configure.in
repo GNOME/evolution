@@ -1005,9 +1005,6 @@ AC_SUBST(IDL_INCLUDES)
 
 AM_PATH_GLIB_2_0
 
-COMPONENT_DIR=$prefix/lib/evolution/components
-AC_SUBST(COMPONENT_DIR)
-
 dnl Utility macro to set compiler flags for a specific lib.
 AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
@@ -1115,14 +1112,24 @@ dnl *******************
 dnl Special directories
 dnl *******************
 
-privlibdir='${libdir}'/evolution/`echo $VERSION | awk -F. '{print $1 "." $2;}'`
+BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
+AC_SUBST(BASE_VERSION)
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION")
+
+privlibdir='${libdir}'/evolution/'${BASE_VERSION}'
 AC_SUBST(privlibdir)
 
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
-idldir="$datadir/idl"
+idldir="$datadir/idl/evolution-$BASE_VERSION"
 AC_SUBST(idldir)
+
+COMPONENT_DIR=$prefix/lib/evolution-$BASE_VERSION/components
+AC_SUBST(COMPONENT_DIR)
+
+evolutionuidir="$datadir/evolution-$BASE_VERSION/ui"
+AC_SUBST(evolutionuidir)
 
 ##################################################
 # Check for gtk-doc.
