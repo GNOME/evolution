@@ -236,15 +236,20 @@ build_hours_menu (GtkWidget **items, int active)
 	int i;
 	char buf[100];
 	struct tm tm;
+	int am_pm_flag;
 
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
+	am_pm_flag = GTK_TOGGLE_BUTTON (time_format_12)->active;
 
 	memset (&tm, 0, sizeof (tm));
 
 	for (i = 0; i < 24; i++) {
 		tm.tm_hour = i;
-		strftime (buf, 100, "%I:%M %p", &tm);
+		if (am_pm_flag)
+			strftime (buf, 100, "%I:%M %p", &tm);
+		else
+			strftime (buf, 100, "%H:%M", &tm);
 
 		items[i] = gtk_menu_item_new_with_label (buf);
 		gtk_object_set_user_data (GTK_OBJECT (items[i]), GINT_TO_POINTER (i));

@@ -1,3 +1,8 @@
+1999-03-26  Tomas Ogren  <stric@ing.umu.se>
+
+	* prop.c (build_hours_menu): Made it respect 12/24h settings..
+	Doesn't show until next time you open the dialog.. yet..
+
 1999-03-24  Tomas Ogren  <stric@ing.umu.se>
 
 	* gncal-week-view.c (gncal_week_view_set): Did some i18n work
