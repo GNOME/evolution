@@ -243,8 +243,11 @@ composer_get_default_charset_setting (void)
 	if (buf == NULL)
 		buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 	
-	charset = e_iconv_charset_name (buf);
-	g_free (buf);
+	if (buf != NULL) {
+		charset = e_iconv_charset_name (buf);
+		g_free (buf);
+	} else
+		charset = e_iconv_locale_name ();
 	
 	return charset ? charset : "us-ascii";
 }
@@ -2092,7 +2095,7 @@ setup_ui (EMsgComposer *composer)
 	/* Populate the Charset Encoding menu and default it to whatever the user
 	   chose as his default charset in the mailer */
 	gconf = gconf_client_get_default ();
-	default_charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+	default_charset = composer_get_default_charset ();
 	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit/EncodingPlaceholder",
 					     default_charset,
 					     menu_changed_charset_cb,

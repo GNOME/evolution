@@ -1,3 +1,13 @@
+2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_get_default_charset_setting): Same as
+	with attachment-bar's get_default_charset().
+	(setup_ui): Instead of pulling the default charset from gconf,
+	call our helper function above.
+
+	* e-msg-composer-attachment-bar.c (get_default_charset): If gconf
+	returns a NULL string, default back to the locale charset.
+
 2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (map_default_cb): Added some debug printfs.

@@ -725,8 +725,12 @@ get_default_charset (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	charset = e_iconv_charset_name (buf);
-	g_free (buf);
+	
+	if (buf != NULL) {
+		charset = e_iconv_charset_name (buf);
+		g_free (buf);
+	} else
+		charset = e_iconv_locale_name ();
 	
 	return charset;
 }
