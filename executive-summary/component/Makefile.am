@@ -73,4 +73,15 @@ evolution_executive_summary_LDADD = 					\
 gladedir = $(datadir)/evolution/glade
 glade_DATA = executive-summary-config.glade
 
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: evolution-executive-summary.pure
+
+evolution-executive-summary.pure: evolution-executive-summary
+	@rm -f evolution-executive-summary.pure
+	$(PLINK) $(evolution_executive_summary_OBJECTS) $(evolution_executive_summary_LDADD) $(LIBS)
+
+endif
+
 EXTRA_DIST = $(glade_DATA)

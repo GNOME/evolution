@@ -1,5 +1,10 @@
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
+	* component/Makefile.am (evolution-executive-summary.pure): Add purify
+	options for the build
+	
+2000-12-08  JP Rosevear  <jpr@helixcode.com>
+
 	* Makefile.am: Remove files from extra_dist since they are already
 	listed
 
