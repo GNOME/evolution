@@ -1224,7 +1224,7 @@ show_current (EItipControl *itip)
 	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
 	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
 		icalcomponent_remove_component (priv->ical_comp, alarm_comp);
-
+		
 		icalcompiter_next (&alarm_iter);
 	}
 
@@ -1235,6 +1235,45 @@ show_current (EItipControl *itip)
 		priv->comp = NULL;
 		return;
 	};
+
+	/* Add default reminder if the config says so */
+	if (calendar_config_get_use_default_reminder ()) {
+		CalComponent *acomp;
+		int interval;
+		CalUnits units;
+		CalAlarmTrigger trigger;
+
+		interval = calendar_config_get_default_reminder_interval ();
+		units = calendar_config_get_default_reminder_units ();
+
+		acomp = cal_component_alarm_new ();
+
+		cal_component_alarm_set_action (acomp, CAL_ALARM_DISPLAY);
+
+		trigger.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+		memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
+
+		trigger.u.rel_duration.is_neg = TRUE;
+
+		switch (units) {
+		case CAL_MINUTES:
+			trigger.u.rel_duration.minutes = interval;
+			break;
+		case CAL_HOURS:	
+			trigger.u.rel_duration.hours = interval;
+			break;
+		case CAL_DAYS:	
+			trigger.u.rel_duration.days = interval;
+			break;
+		default:
+			g_assert_not_reached ();
+		}
+
+		cal_component_alarm_set_trigger (acomp, trigger);
+		cal_component_add_alarm (priv->comp, acomp);
+
+		cal_component_alarm_free (acomp);
+	}
 
 	type = cal_component_get_vtype (priv->comp);
 

@@ -1,3 +1,10 @@
+2002-09-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #26362
+
+	* gui/e-itip-control.c (show current): add a default reminder if
+	default reminders are set in the configuration.
+
 2002-09-11  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_top_canvas_button_press): keep
