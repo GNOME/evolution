@@ -654,6 +654,7 @@ extract_info(EContactEditor *editor)
 	ECard *card = editor->card;
 	if (card) {
 		char *fname;
+		char *string;
 		ECardList *address_list;
 		ECardList *phone_list;
 		ECardList *email_list;
@@ -678,69 +679,86 @@ extract_info(EContactEditor *editor)
 		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fullname"));
 		fname = gtk_editable_get_chars(editable, 0, -1);
+		if (fname && *fname)
+			gtk_object_set(GTK_OBJECT(card),
+				       "full_name", fname,
+				       NULL);
+		g_free(fname);
 
 		iterator = e_card_list_get_iterator(address_list);
 		address = e_card_iterator_get(iterator);
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
-		if (address) {
-			address_copy = e_card_delivery_address_copy(address);
-			if (address_copy->city)
-				g_free(address_copy->city);
-			address_copy->city = gtk_editable_get_chars(editable, 0, -1);
-			e_card_iterator_set(iterator, address_copy);
-			e_card_delivery_address_free(address_copy);
-		} else {
-			address_copy = g_new0(ECardDeliveryAddress, 1);
-			address_copy->city = gtk_editable_get_chars(editable, 0, -1);
-			e_card_list_append(address_list, address_copy);
-			e_card_delivery_address_free(address_copy);
-		}
+		string = gtk_editable_get_chars(editable, 0, -1);
+		if (string && *string) {
+			if (address) {
+				address_copy = e_card_delivery_address_copy(address);
+				if (address_copy->city)
+					g_free(address_copy->city);
+				address_copy->city = string;
+				e_card_iterator_set(iterator, address_copy);
+				e_card_delivery_address_free(address_copy);
+			} else {
+				address_copy = g_new0(ECardDeliveryAddress, 1);
+				address_copy->city = string;
+				e_card_list_append(address_list, address_copy);
+				e_card_delivery_address_free(address_copy);
+			} 
+		} else
+			g_free(string);
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		position = 0;
 		iterator = e_card_list_get_iterator(phone_list);
 		phone = e_card_iterator_get(iterator);
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-phone1"));
-		if (phone) {
-			phone_copy = e_card_phone_copy(phone);
-			if (phone_copy->number)
-				g_free(phone_copy->number);
-			phone_copy->number = gtk_editable_get_chars(editable, 0, -1);
-			e_card_iterator_set(iterator, phone_copy);
-			e_card_phone_free(phone_copy);
-		} else {
-			phone_copy = g_new0(ECardPhone, 1);
-			phone_copy->number = gtk_editable_get_chars(editable, 0, -1);
-			e_card_list_append(phone_list, phone_copy);
-			e_card_phone_free(phone_copy);
-		}
+		string = gtk_editable_get_chars(editable, 0, -1);
+		if (string && *string) {
+			if (phone) {
+				phone_copy = e_card_phone_copy(phone);
+				if (phone_copy->number)
+					g_free(phone_copy->number);
+				phone_copy->number = string;
+				e_card_iterator_set(iterator, phone_copy);
+				e_card_phone_free(phone_copy);
+			} else {
+				phone_copy = g_new0(ECardPhone, 1);
+				phone_copy->number = string;
+				e_card_list_append(phone_list, phone_copy);
+				e_card_phone_free(phone_copy);
+			}
+		} else
+			g_free(string);
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		position = 0;
 		iterator = e_card_list_get_iterator(email_list);
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-email1"));
 		email = gtk_editable_get_chars(editable, 0, -1);
-		if (e_card_iterator_is_valid(iterator))
-			e_card_iterator_set(iterator, email);
-		else
-			e_card_list_append(email_list, email);
+		if (email && *email) {
+			if (e_card_iterator_is_valid(iterator))
+				e_card_iterator_set(iterator, email);
+			else
+				e_card_list_append(email_list, email);
+		}
 		g_free(email);
 		gtk_object_unref(GTK_OBJECT(iterator));
 
 		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-web"));
 		url = gtk_editable_get_chars(editable, 0, -1);
+		if (url && *url)
+			gtk_object_set(GTK_OBJECT(card),
+				       "url", url,
+				       NULL);
+		g_free(url);
 
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
 		title = gtk_editable_get_chars(editable, 0, -1);
+		if (title && *title)
+			gtk_object_set(GTK_OBJECT(card),
+				       "title", title,
+				       NULL);
+		g_free(title);
 
-		gtk_object_set(GTK_OBJECT(card),
-			       "full_name",  fname,
-			       "url",        url,
-			       "title",      title,
-			       NULL);
-		
-		g_free(fname);
-		g_free(url);
 	}
 }

@@ -1,5 +1,10 @@
 2000-04-13  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/contact-editor/e-contact-editor.c (extract_info):
+	Check for 0 length fields when building the outgoing ECard.
+
+2000-04-13  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/backend/pas/pas-book-view.c: Give correct warnings.
 
 	* addressbook/backend/ebook/e-card.c (e_card_set_arg): g_strdup
