@@ -1,3 +1,13 @@
+2004-05-19  Suresh Chandrasekharan  <suresh.chandrasekharan@sun.com>
+
+	Fix for #58738 ja_JP.UTF-8: Evolution crashes when certain 
+	ASCII/non-ASCII combination is used in mail subject
+
+	* camel-mime-utils.c: (camel_header_encode_string) Use 
+	camel_mime_is_lwsp for determining word separators, 
+	according to rfc822 (which's also same for rfc2047). 
+	g_unichar_isspace as word separator is illegal.
+
 2004-05-20  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fixes bug #42295 and the infinite loop part of bug #58766 (these 2

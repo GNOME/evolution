@@ -1331,7 +1331,7 @@ camel_header_encode_string (const unsigned char *in)
 			continue;
 		}
 		
-		if (g_unichar_isspace (c) && !last_was_space) {
+		if (camel_mime_is_lwsp (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
 			if (word && !(last_was_encoded && encoding)) {
 				/* output lwsp between non-encoded words */
@@ -1371,11 +1371,11 @@ camel_header_encode_string (const unsigned char *in)
 		} else if (c >= 256) {
 			encoding = MAX (encoding, 2);
 			last_was_space = FALSE;
-		} else if (!g_unichar_isspace (c)) {
+		} else if (!camel_mime_is_lwsp (c)) {
 			last_was_space = FALSE;
 		}
 		
-		if (!g_unichar_isspace (c) && !word)
+		if (!camel_mime_is_lwsp (c) && !word)
 			word = inptr;
 		
 		inptr = newinptr;
