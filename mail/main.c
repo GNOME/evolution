@@ -32,7 +32,6 @@ main (int argc, char *argv [])
 
 	g_thread_init( NULL );
 
-	od_assert_using_oaf ();
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
 	orb = oaf_init (argc, argv);

@@ -109,7 +109,7 @@ get_text (Bonobo_PersistStream persist, char *format)
 				   format, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Exception getting mail '%s'",
-			   bonobo_exception_get_txt (&ev));
+			   bonobo_exception_get_text (&ev));
 		return NULL;
 	}
 	

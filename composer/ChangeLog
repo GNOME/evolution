@@ -1,3 +1,7 @@
+2000-08-12  Michael Meeks  <michael@helixcode.com>
+
+	* e-msg-composer.c (get_text): get_text not get_txt.
+
 2000-08-11  JP Rosevear  <jpr@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Use
