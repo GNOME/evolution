@@ -93,6 +93,8 @@ typedef struct {
 	
 	guint font_notify_id;
 	guint spell_notify_id;
+	guint mark_citations__notify_id;
+	guint citation_colour_notify_id;
 
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
@@ -282,6 +284,10 @@ config_write_style (void)
 	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",
 		 0xff & (red >> 8), 0xff & (green >> 8), 0xff & (blue >> 8));
 
+	if (gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/mark_citations", NULL))
+		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
+			 gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/citation_colour", NULL));
+
 	if (custom && var_font && fix_font) {
 		fprintf (rc,
 			 "        GtkHTML::fixed_font_name = \"%s\"\n"
@@ -342,14 +348,20 @@ mail_config_init (void)
 	gtk_rc_parse (filename);
 	g_free (filename);
 	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts", 			      
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/GNOME/Spell", 			      
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	gconf_client_add_dir (config->gconf, "/GNOME/Spell",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
 							  gconf_style_changed, NULL, NULL, NULL);
 	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
 							   gconf_style_changed, NULL, NULL, NULL);
+	config->mark_citations__notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/mark_citations",
+								     gconf_style_changed, NULL, NULL, NULL);
+	config->citation_colour_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/citation_colour",
+								     gconf_style_changed, NULL, NULL, NULL);
 	
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
