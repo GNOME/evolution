@@ -1,3 +1,23 @@
+2000-04-29  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (lookup_handler, etc): Improve the builtin vs
+	bonobo selection code.
+	(handle_mystery): Include name and Content-Description in the
+	"mystery data" info, when available
+	(handle_unknown_type): Call mail_identify_mime_part before
+	giving up.
+	(handle_undisplayable): Split out of handle_unknown_type now
+	that handle_unknown_type can try alternate viewers.
+	(handle_via_bonobo): Fall back to handle_undisplayable if the
+	bonobo control fails.
+
+	* mail-identify.c (mail_identify_mime_part): New function to
+	attempt to identify a MIME part that we can't identify based on
+	Content-Type alone.
+
+	* mail-display.c (on_url_requested): redo the mystery data icon
+	display stuff less kludgily.
+
 2000-04-28  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (write_recipients_to_stream, write_headers,

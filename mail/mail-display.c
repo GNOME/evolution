@@ -24,17 +24,6 @@ static GtkObjectClass *mail_display_parent_class;
  *                        Callbacks
  *----------------------------------------------------------------------*/
 
-static CamelStream *
-cid_stream (const char *cid, CamelMimeMessage *message)
-{
-	CamelDataWrapper *data;
-
-	data = gtk_object_get_data (GTK_OBJECT (message), cid);
-	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data), NULL);
-
-	return camel_data_wrapper_get_output_stream (data);
-}	
-
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
@@ -53,24 +42,44 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 {
 	char buf[1024];
 	int nread;
-	CamelStream *output;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (user_data);
 
-	if (strncmp (url, "camel:", 6) == 0) {
-		output = GUINT_TO_POINTER (strtoul (url + 6, NULL, 0));
-		g_return_if_fail (CAMEL_IS_STREAM (output));
+	if (strncmp (url, "x-gnome-icon:", 13) == 0) {
+		const char *name = url + 13;
+		char *path = gnome_pixmap_file (name);
+		int fd;
+
+		g_return_if_fail (path != NULL);
+		fd = open (path, O_RDONLY);
+		g_free (path);
+		g_return_if_fail (fd != -1);
+
+		while (1) {
+			nread = read (fd, buf, sizeof (buf));
+			if (nread < 1)
+				break;
+			gtk_html_write (html, handle, buf, nread);
+		}
+		close (fd);
 	} else if (strncmp (url, "cid:", 4) == 0) {
-		output = cid_stream (url + 4, message);
+		const char *cid = url + 4;
+		CamelDataWrapper *data;
+		CamelStream *output;
+
+		data = gtk_object_get_data (GTK_OBJECT (message), cid);
+		g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
+
+		output = camel_data_wrapper_get_output_stream (data);
 		g_return_if_fail (CAMEL_IS_STREAM (output));
+
+		camel_stream_reset (output);
+		do {
+			nread = camel_stream_read (output, buf, sizeof (buf));
+			if (nread > 0)
+				gtk_html_write (html, handle, buf, nread);
+		} while (!camel_stream_eos (output));
 	} else
 		return;
-
-	camel_stream_reset (output);
-	do {
-		nread = camel_stream_read (output, buf, sizeof (buf));
-		if (nread > 0)
-			gtk_html_write (html, handle, buf, nread);
-	} while (!camel_stream_eos (output));
 }
 
 /* HTML part code */

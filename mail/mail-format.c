@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
+ * Authors:
  *  Matt Loper <matt@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
  *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -25,6 +26,7 @@
 #include <config.h>
 #include "mail-format.h"
 #include "mail-display.h"
+#include "mail-identify.h"
 #include "camel/hash-table-utils.h"
 #include "e-util/e-html-utils.h"
 
@@ -133,7 +135,6 @@ get_cid (CamelMimePart *part, CamelMimeMessage *root)
 typedef void (*mime_handler_fn) (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box);
 
 static GHashTable *mime_function_table, *mime_fallback_table;
-static GHashTable *mime_icon_table;
 
 static void
 setup_function_table (void)
@@ -178,79 +179,19 @@ setup_function_table (void)
 			     handle_multipart_mixed);
 }
 
-static CamelStream *
-icon_stream (char *path)
-{
-	GByteArray *ba;
-	char buf[8192];
-	int fd, nread;
-
-	fd = open (path, O_RDONLY);
-	if (fd == -1)
-		return NULL;
-
-	ba = g_byte_array_new ();
-	while (1) {
-		nread = read (fd, buf, sizeof (buf));
-		if (nread < 1)
-			break;
-		g_byte_array_append (ba, buf, nread);
-	}
-	close (fd);
-	return camel_stream_mem_new_with_byte_array (ba);
-}
-
-static void
-setup_icon_table (void)
-{
-	char *path;
-
-	mime_icon_table = g_hash_table_new (g_strcase_hash,
-					    g_strcase_equal);
-
-	path = gnome_pixmap_file ("gnome-audio2.png");
-	if (path) {
-		g_hash_table_insert (mime_icon_table, "audio",
-				     icon_stream (path));
-		g_free (path);
-	}
-	path = gnome_pixmap_file ("gnome-graphics.png");
-	if (path) {
-		g_hash_table_insert (mime_icon_table, "image",
-				     icon_stream (path));
-		g_free (path);
-	}
-	path = gnome_pixmap_file ("gnome-qeye.png");
-	if (path) {
-		g_hash_table_insert (mime_icon_table, "video",
-				     icon_stream (path));
-		g_free (path);
-	}
-	path = gnome_pixmap_file ("gnome-question.png");
-	if (path) {
-		g_hash_table_insert (mime_icon_table, "unknown",
-				     icon_stream (path));
-		g_free (path);
-	}
-}
-
 static mime_handler_fn
-lookup_handler (CamelMimePart *part, gboolean *generic)
+lookup_handler (const char *mime_type, gboolean *generic)
 {
-	CamelDataWrapper *wrapper;
 	mime_handler_fn handler_function;
 	const char *whole_goad_id, *generic_goad_id;
-	char *mimetype_whole = NULL;
-	char *mimetype_main = NULL;
+	char *mime_type_main;
 
-	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
-
-	if (mime_function_table == NULL) {
+	if (mime_function_table == NULL)
 		setup_function_table ();
-		setup_icon_table ();
-	}
 
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	mime_type_main = g_strdup_printf ("%.*s/*",
+					  (int)strcspn (mime_type, "/"),
+					  mime_type);
 
 	/* OK. There are 6 possibilities, which we try in this order:
 	 *   1) full match in the main table
@@ -265,60 +206,53 @@ lookup_handler (CamelMimePart *part, gboolean *generic)
 	 */
 
 	/* Check for full match in mime_function_table. */
-	mimetype_whole = camel_data_wrapper_get_mime_type (wrapper);
-	g_strdown (mimetype_whole);
-	mimetype_main = g_strdup_printf ("%s/*", wrapper->mime_type->type);
-	g_strdown (mimetype_main);
-
 	handler_function = g_hash_table_lookup (mime_function_table,
-						mimetype_whole);
+						mime_type);
 	if (!handler_function) {
 		handler_function = g_hash_table_lookup (mime_function_table,
-							mimetype_main);
+							mime_type_main);
 		if (handler_function) {
 			/* Optimize this for the next time through. */
 			g_hash_table_insert (mime_function_table,
-					     g_strdup (mimetype_whole),
+					     g_strdup (mime_type),
 					     handler_function);
 		}
 	}
 
 	if (handler_function) {
-		g_free (mimetype_whole);
-		g_free (mimetype_main);
+		g_free (mime_type_main);
 		*generic = FALSE;
 		return handler_function;
 	}
 
-	whole_goad_id = gnome_mime_get_value (mimetype_whole,
-					      "bonobo-goad-id");
-	generic_goad_id = gnome_mime_get_value (mimetype_main,
+	whole_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id");
+	generic_goad_id = gnome_mime_get_value (mime_type_main,
 						"bonobo-goad-id");
 
 	if (whole_goad_id && (!generic_goad_id ||
 			      strcmp (whole_goad_id, generic_goad_id) != 0)) {
 		/* Optimize this for the next time through. */
 		g_hash_table_insert (mime_function_table,
-				     mimetype_whole,
+				     g_strdup (mime_type),
 				     handle_via_bonobo);
-		g_free (mimetype_main);
+		g_free (mime_type_main);
 		*generic = FALSE;
 		return handle_via_bonobo;
 	}
 
 	handler_function = g_hash_table_lookup (mime_fallback_table,
-						mimetype_whole);
-	g_free (mimetype_whole);
+						mime_type);
 	if (handler_function)
 		*generic = FALSE;
 	else {
 		handler_function = g_hash_table_lookup (mime_fallback_table,
-							mimetype_main);
+							mime_type_main);
 		if (!handler_function && generic_goad_id)
 			handler_function = handle_via_bonobo;
 		*generic = TRUE;
 	}
-	g_free (mimetype_main);
+
+	g_free (mime_type_main);
 	return handler_function;
 }
 
@@ -329,10 +263,13 @@ call_handler_function (CamelMimePart *part, CamelMimeMessage *root,
 	CamelDataWrapper *wrapper;
 	mime_handler_fn handler_function = NULL;
 	gboolean generic;
+	char *mime_type;
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-
-	handler_function = lookup_handler (part, &generic);
+	mime_type = camel_data_wrapper_get_mime_type (wrapper);
+	g_strdown (mime_type);
+	handler_function = lookup_handler (mime_type, &generic);
+	g_free (mime_type);
 
 	if (handler_function)
 		(*handler_function) (part, root, box);
@@ -912,31 +849,52 @@ handle_multipart_appledouble (CamelMimePart *part, CamelMimeMessage *root,
 
 static void
 handle_mystery (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box,
-		char *icon_cid, char *id, char *action)
+		char *icon_name, char *id, char *action)
 {
 	GtkHTML *html;
 	GtkHTMLStreamHandle *stream;
-	char *cid;
+	const char *info;
+	char *htmlinfo;
+	GMimeContentField *content_type;
 
-	cid = get_cid (part, root);
 	mail_html_new (&html, &stream, root, TRUE);
-	mail_html_write (html, stream, "<table><tr><td><a href=\"camel:%p\">"
-			 "<img src=\"camel:%p\"></a></td>"
-			 "<td>%s<br><br>Click on the icon to %s."
-			 "</td></tr></table>", get_cid (part, root),
-			 icon_cid, id, action);
+	mail_html_write (html, stream, "<table><tr><td><a href=\"cid:%p\">"
+			 "<img src=\"x-gnome-icon:%s\"></a></td>"
+			 "<td>%s<br>", get_cid (part, root), icon_name, id);
+
+	info = camel_mime_part_get_description (part);
+	if (info) {
+		htmlinfo = e_text_to_html (info, E_TEXT_TO_HTML_CONVERT_URLS);
+		mail_html_write (html, stream, "Description: %s<br>",
+				 htmlinfo);
+		g_free (htmlinfo);
+	}
+
+	content_type = camel_mime_part_get_content_type (part);
+	info = gmime_content_field_get_parameter (content_type, "name");
+	if (!info)
+		info = camel_mime_part_get_filename (part);
+	if (info) {
+		htmlinfo = e_text_to_html (info, 0);
+		mail_html_write (html, stream, "Name: %s<br>",
+				 htmlinfo);
+		g_free (htmlinfo);
+	}
+
+	mail_html_write (html, stream,
+			 "<br>Click on the icon to %s.</td></tr></table>",
+			 action);
 	mail_html_end (html, stream, TRUE, box);
 }
 
 static void
 handle_audio (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
-	char *cid, *id;
+	char *id;
 
-	cid = g_hash_table_lookup (mime_icon_table, "audio");
 	id = g_strdup_printf ("Audio data in \"%s\" format.",
 			      camel_mime_part_get_content_type (part)->subtype);
-	handle_mystery (part, root, box, cid, id, "play it");
+	handle_mystery (part, root, box, "gnome-audio2.png", id, "play it");
 	g_free (id);
 }
 
@@ -963,16 +921,40 @@ handle_message_rfc822 (CamelMimePart *part, CamelMimeMessage *root,
 }
 
 static void
-handle_unknown_type (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
+handle_undisplayable (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
-	char *cid, *id;
+	char *id;
 
-	cid = g_hash_table_lookup (mime_icon_table, "unknown");
 	id = g_strdup_printf ("Unknown data of type \"%s/%s\".",
 			      camel_mime_part_get_content_type (part)->type,
 			      camel_mime_part_get_content_type (part)->subtype);
-	handle_mystery (part, root, box, cid, id, "save it to disk");
+	handle_mystery (part, root, box, "gnome-question.png", id,
+			"save it to disk");
 	g_free (id);
+}
+
+static void
+handle_unknown_type (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
+{
+	char *type;
+
+	/* Don't give up quite yet. */
+	type = mail_identify_mime_part (part);
+	if (type) {
+		mime_handler_fn handler_function;
+		gboolean generic;
+
+		handler_function = lookup_handler (type, &generic);
+		g_free (type);
+		if (handler_function &&
+		    handler_function != handle_unknown_type) {
+			(*handler_function) (part, root, box);
+			return;
+		}
+	}		
+
+	/* OK. Give up. */
+	handle_undisplayable (part, root, box);
 }
 
 static void 
@@ -1028,22 +1010,23 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	if (!goad_id)
 		goad_id = gnome_mime_get_value (type->type, "bonobo-goad-id");
-	if (!goad_id)
-		return;
-
-	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
-	if (!embedded)
-		return;
-	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
-	if (!server) {
-		bonobo_object_destroy (BONOBO_OBJECT (embedded));
+	if (!goad_id) {
+		handle_undisplayable (part, root, box);
 		return;
 	}
+
+	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
+	if (!embedded) {
+		handle_undisplayable (part, root, box);
+		return;
+	}
+	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
 
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		server, "IDL:Bonobo/PersistStream:1.0", NULL);
 	if (persist == CORBA_OBJECT_NIL) {
 		bonobo_object_destroy (BONOBO_OBJECT (embedded));
+		handle_undisplayable (part, root, box);
 		return;
 	}
 
@@ -1069,6 +1052,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		bonobo_object_unref (BONOBO_OBJECT (embedded));
 		CORBA_exception_free (&ev);				
+		handle_undisplayable (part, root, box);
 		return;
 	}
 	CORBA_exception_free (&ev);				
