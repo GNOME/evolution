@@ -910,7 +910,7 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 		listener = p->data;
 		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, unread_count, &ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (ev._major == CORBA_NO_EXCEPTION)
 			continue;
 
 		if (ev._major != CORBA_USER_EXCEPTION)
