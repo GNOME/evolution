@@ -1,3 +1,8 @@
+2004-11-02  JP Rosevear  <jpr@novell.com>
+  
+ 	* gui/e-day-view-config.c (set_twentyfour_hour): make sure the day
+ 	view times redraw themselves if we switch 24/12 hour modes
+	
 2004-10-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #45951
