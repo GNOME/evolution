@@ -177,6 +177,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 
 	if (!password) {
 		char *prompt;
+		char *password_prompt;
 		gboolean remember;
 		char *failed_auth;
 		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE;
@@ -189,8 +190,11 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 			failed_auth = "";
 		}
 
-		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
-					  failed_auth, e_source_peek_name (source), user);
+		password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
+					   e_source_peek_name (source), user);
+
+		prompt = g_strconcat (failed_auth, password_prompt, NULL);
+		g_free (password_prompt);
 
 		remember = get_remember_password (source);
 		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
