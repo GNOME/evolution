@@ -1,5 +1,148 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
+	* backend/ebook/Makefile.am (INCLUDES): Remove cruft.
+	(libebookincludedir): Use privincludedir.
+
+	* backend/ebook/e-book-util.c: #include <string.h>
+	* backend/ebook/e-card-compare.c: Likewise
+	* backend/ebook/load-pine-addressbook.c: Likewise
+	* backend/ebook/test-client.c: Likewise
+
+	* backend/ebook/evolution-vcard-importer.c: #include
+	<e-book-util.h>
+	(factory_fn): Fix this to actually return the importer.
+
+	* backend/ebook/evolution-ldif-importer.c (parseLine): #include
+	<e-book-util.h> and <bonobo/bonobo-main.h>. Use g_ascii_strcmp.
+	
+	* backend/ebook/e-card.c (e_card_email_match_single_string): 
+	(e_card_email_find_number): s/g_str/g_ascii_str/
+	* backend/ebook/e-destination.c (e_destination_equal): Likewise.
+	Also, add an "else return FALSE;"
+
+
+	* backend/pas/Makefile.am (INCLUDES): Remove cruft
+	(ldapschemadir): Use privdatadir
+	(pasincludedir): Use privincludedir.
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_activate):
+	Remove unused variable.
+	* backend/pas/pas-book-view.c (pas_book_view_new): Likewise
+
+
+	* printing/Makefile.am (ecpsdir): Define in terms of privdatadir.
+	(gladedir): Defined in configure.in now.
+
+	* printing/e-contact-print.c: #include <string.h>
+
+	* printing/test-print.c: #include <bonobo/bonobo-main.h>
+	* printing/test-contact-print-style-editor.c: Likewise
+
+
+	* gui/contact-editor/Makefile.am (INCLUDES): Remove some cruft.
+	rename ICONSDIR to IMAGESDIR.
+	(images_DATA): Install arrow.png in imagesdir instead of
+	privdatadir.
+
+	* gui/contact-editor/e-contact-quick-add.c: #include <string.h>
+
+	* gui/contact-editor/e-contact-editor.c: #include <string.h>
+	(e_contact_editor_init): s/EVOLUTION_ICONSDIR/EVOLUTION_IMAGESDIR/
+	(e_contact_editor_new): s/gtk_object_ref/g_object_ref/
+	(_replace_button): Look in imagesdir, not privdatadir
+	(_phone_arrow_pressed): Remove call to deprecated
+	gtk_check_menu_item_set_show_toggle.
+	(_email_arrow_pressed): Likewise
+	(_address_arrow_pressed): Likewise
+	(set_address_field): Remove unused variable
+	(enable_widget):
+	s/gtk_entry_set_editable/gtk_editable_set_editable/
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_init):
+	s/EVOLUTION_ICONSDIR/EVOLUTION_IMAGESDIR
+	(e_contact_editor_address_set_property):
+	s/gtk_entry_set_editable/gtk_editable_set_editable/
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_init):
+	s/EVOLUTION_ICONSDIR/EVOLUTION_IMAGESDIR
+	(e_contact_editor_fullname_set_property): Likewise.
+
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): Remove cruft,
+	s/ICONSDIR/IMAGESDIR/
+	(gladedir, etspecdir): Remove definitions.
+
+	* gui/contact-list-editor/e-contact-list-editor.c: #include
+	<string.h>
+	(e_contact_list_editor_init): s/ICONSDIR/IMAGESDIR/
+	(e_contact_list_editor_new): s/gtk_object_ref/g_object_ref/
+
+	* gui/contact-list-editor/e-contact-list-model.c: #include <string.h>
+
+
+	* gui/merging/Makefile.am (INCLUDES): Remove cruft.
+	* gui/search/Makefile.am (ruledir): Define in terms of privdatadir
+
+
+	* gui/widgets/Makefile.am (INCLUDES): Remove cruft.
+	(gladedir, etspecdir): Remove definitions.
+	(glade_DATA): Empty, so remove it.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c: #include <string.h>
+	(addressbook_get_property): Remove unused variable
+
+	* gui/widgets/e-addressbook-view.c: #include <string.h>
+	(get_selection_model): Add a g_return_val_if_reached.
+
+	* gui/widgets/e-minicard.c: #include string.h, gtkmain.h,
+	gnome-canvas-pixbuf.h
+	(field_changed): s/gtk_object_unref/g_object_unref/
+	(get_left_width): Remove unused variable
+
+	* gui/widgets/e-minicard-control.c: #include <string.h>
+	(pstream_load, pstream_save): Use g_ascii_strcasecmp
+
+	* gui/widgets/e-minicard-view.c: #include <string.h>
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_new): s/gtk_type_new/g_object_new/
+
+
+	* gui/component/select-names/Makefile.am (INCLUDES): Remove cruft.
+	(serverdir, gladedir, etspecdir): Remove definitions
+
+	* gui/component/select-names/e-select-names.c: #include <string.h>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(init_html_mail): Remove deprecated
+	gtk_check_menu_item_set_show_toggle call.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_entry_free):
+	s/gtk_timeout_remove/g_source_remove/
+
+
+	* gui/component/Makefile.am (INCLUDES): Remove cruft, rename
+	ICONSDIR to IMAGESDIR.
+	(serverdir, gladedir): Remove defintions.
+
+	* gui/component/addressbook-component.c (IS_CONTACT_TYPE): use
+	g_ascii_strcasecmp
+	(add_creatable_item): s/ICONSDIR/IMAGESDIR/
+
+	* gui/component/component-factory.c: #include <string.h>
+
+	* gui/component/e-address-widget.c: Likewise.
+	(e_address_widget_destroy): s/gtk_idle_remove/g_source_remove/
+	(e_address_widget_schedule_query): s/gtk_idle_add/g_idle_add/
+
+
+	* conduit/Makefile.am (INCLUDES): Remove cruft
+
+2003-02-05  Dan Winship  <danw@ximian.com>
+
 	* gui/component/addressbook-config.c (main): Replace deprecated
 	glade_gnome_init() with glade_init().
 
