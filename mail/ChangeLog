@@ -1,3 +1,8 @@
+2000-07-06  Dan Winship  <danw@helixcode.com>
+
+	* mail-identify.c: Add a workaround for a small gnome-vfs 0.2 bug
+	so we don't need to require CVS gnome-vfs.
+
 2000-07-06  Not Zed  <NotZed@HelixCode.com>
 
 	* message-thread.c (sort_thread): sort messages based on date for

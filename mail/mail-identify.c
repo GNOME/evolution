@@ -32,6 +32,20 @@
 #include <libgnomevfs/gnome-vfs-mime-sniff-buffer.h>
 #include "mail.h"
 
+/* gnome-vfs 0.2 has a bug that makes memory-based sniff buffers cause
+ * segfaults sometimes. It's fixed in CVS, but we'll work around it for
+ * now until gnome-vfs 0.3 comes out.
+ */
+#define GNOME_VFS_0_2_WORKAROUND
+
+#ifdef GNOME_VFS_0_2_WORKAROUND
+#include <libgnomevfs/gnome-vfs-mime-sniff-buffer-private.h>
+
+static GnomeVFSResult sniffer_seek (gpointer context,
+				    GnomeVFSSeekPosition whence,
+				    GnomeVFSFileOffset offset);
+#endif
+
 /**
  * mail_identify_mime_part:
  * @part: a CamelMimePart
@@ -80,6 +94,9 @@ mail_identify_mime_part (CamelMimePart *part)
 	if (ba->len) {
 		sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (
 			ba->data, ba->len);
+#ifdef GNOME_VFS_0_2_WORKAROUND
+		sniffer->seek = sniffer_seek;
+#endif
 		type = gnome_vfs_get_mime_type_for_buffer (sniffer);
 		gnome_vfs_mime_sniff_buffer_free (sniffer);
 	} else
@@ -99,3 +116,12 @@ mail_identify_mime_part (CamelMimePart *part)
 	/* We give up. */
 	return NULL;
 }
+
+#ifdef GNOME_VFS_0_2_WORKAROUND
+static GnomeVFSResult
+sniffer_seek (gpointer context, GnomeVFSSeekPosition whence,
+	      GnomeVFSFileOffset offset)
+{
+	return GNOME_VFS_ERROR_EOF;
+}
+#endif
