@@ -766,6 +766,11 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	menu->target_type = map->id;
 	menu->id = e_plugin_xml_prop(root, "id");
+	if (menu->id == NULL) {
+		g_warning("Plugin '%s' missing 'id' field in menu for '%s'\n", eph->plugin->name,
+			  ((EPluginHookClass *)G_OBJECT_GET_CLASS(eph))->id);
+		goto error;
+	}
 	node = root->children;
 	while (node) {
 		if (0 == strcmp(node->name, "item")) {

@@ -1,3 +1,11 @@
+2005-02-07  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (emph_construct_menu):
+	* e-menu.c (emph_construct_menu):
+	* e-config.c (emph_construct_menu): Don't let the 'id' field,
+	which identifies the target menu/whatever, to be NULL, otherwise
+	it gets added to all.
+
 2005-02-04  Rodney Dawes  <dobey@novell.com>
 
 	* e-passwords.c (ep_ask_password): Set the border widths for the

@@ -1358,6 +1358,11 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	menu->target_type = map->id;
 	menu->id = e_plugin_xml_prop(root, "id");
+	if (menu->id == NULL) {
+		g_warning("Plugin '%s' missing 'id' field in group for '%s'\n", eph->plugin->name,
+			  ((EPluginHookClass *)G_OBJECT_GET_CLASS(eph))->id);
+		goto error;
+	}
 	menu->check = e_plugin_xml_prop(root, "check");
 	menu->commit = e_plugin_xml_prop(root, "commit");
 	menu->abort = e_plugin_xml_prop(root, "abort");
