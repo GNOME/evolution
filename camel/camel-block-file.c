@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001 Ximian Inc.
+ * Copyright (C) 2001-2003 Ximian Inc.
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -573,8 +573,8 @@ CamelBlock *camel_block_file_get_block(CamelBlockFile *bs, camel_block_t id)
 
 		bl = g_malloc0(sizeof(*bl));
 		bl->id = id;
-		if (lseek(bs->fd, id, SEEK_SET) == -1
-		    || read(bs->fd, bl->data, CAMEL_BLOCK_SIZE) == -1) {
+		if (lseek(bs->fd, id, SEEK_SET) == -1 ||
+		    camel_read (bs->fd, bl->data, CAMEL_BLOCK_SIZE) == -1) {
 			block_file_unuse(bs);
 			CAMEL_BLOCK_FILE_UNLOCK(bs, cache_lock);
 			g_free(bl);

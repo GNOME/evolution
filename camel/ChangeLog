@@ -1,5 +1,10 @@
 2003-07-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-iconv.c: Updated (new copy/paste from e-iconv).
+
+	* camel-block-file.c (camel_block_file_get_block): Use
+	camel_read() rather than libc read.
+
 	* camel-tcp-stream-raw.c (stream_read): Use camel_read().
 	(stream_write): Use camel_write().
 
