@@ -61,6 +61,12 @@
  * what gnome-print uses.
  */
 
+/* GtkHTML prints using a fixed margin. It has code to get the margins from
+ * gnome-print keys, but it's commented out. The corresponding code here
+ * doesn't seem to work either (getting zero margins), so we adopt
+ * gtkhtml's cheat. */
+#define TEMP_MARGIN .05
+
 /* The fonts to use */
 #define REGULAR_FONT "Sans Regular"
 #define BOLD_FONT    "Sans Bold"
@@ -2486,12 +2492,20 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	pc = gnome_print_job_get_context (gpm);
 	gnome_print_config_get_page_size (print_config, &r, &t);
 
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
-	t -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
-	r -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+	/* See top of source for an explanation of this */
+
+	/* gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	 * t -= temp_d;
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	 * r -= temp_d;
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+	 * b = l = TEMP_MARGIN; */
+
+	b = t * TEMP_MARGIN;
+	l = r * TEMP_MARGIN;
+	t *= (1.0 - TEMP_MARGIN);
+	r *= (1.0 - TEMP_MARGIN);
 
 	/* depending on the view, do a different output */
 	switch (default_view) {
@@ -2581,12 +2595,20 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 	pc = gnome_print_job_get_context (gpm);
 	gnome_print_config_get_page_size (print_config, &r, &t);
 
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
-	t -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
-	r -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+	/* See top of source for an explanation of this */
+
+	/* gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	 * t -= temp_d;
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	 * r -= temp_d;
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	 * gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+	 * b = l = TEMP_MARGIN; */
+
+	b = t * TEMP_MARGIN;
+	l = r * TEMP_MARGIN;
+	t *= (1.0 - TEMP_MARGIN);
+	r *= (1.0 - TEMP_MARGIN);
 
 	print_comp_item (pc, comp, client, l, r, t, b);
 	gnome_print_job_close (gpm);

@@ -1,5 +1,14 @@
 2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/print.c (print_calendar): Use fixed margins of 5% of page
+	width/height. This is the same cheat as gtkhtml employs to get
+	around the fact that GNOME_PRINT_KEY_PAGE_MARGIN_* don't return
+	useful values (I think). It sort of sucks, but is better than
+	no margins at all.
+	(print_comp): Ditto.
+
+2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/calendar-config.c (calendar_config_get_default_view): Get
 	default view from correct key.
 
