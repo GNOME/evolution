@@ -641,8 +641,8 @@ nntp_store_get_cached_folder_info (CamelNNTPStore *store, const char *orig_top, 
 	int toplen = strlen(top);
 	
 	for (i = 0; (si = camel_store_summary_index ((CamelStoreSummary *) store->summary, i)); i++) {
-		if ((subscribed_or_flag || (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED)) &&
-		     (root_or_flag || g_ascii_strncasecmp (si->path, top, toplen) == 0)) {
+		if ((subscribed_or_flag || (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED))
+		    && (root_or_flag || strncmp (si->path, top, toplen) == 0)) {
 			if (recursive_flag || strchr (si->path + toplen, '.') == NULL) {
 				/* add the item */
 				fi = nntp_folder_info_from_store_info(store, FALSE, si);
@@ -657,7 +657,7 @@ nntp_store_get_cached_folder_info (CamelNNTPStore *store, const char *orig_top, 
 				   the item we added last, we need to add a portion of this item to
 				   the list as a placeholder */
 				if (!last ||
-				    g_ascii_strncasecmp(si->path, last->full_name, strlen(last->full_name)) != 0 || 
+				    strncmp(si->path, last->full_name, strlen(last->full_name)) != 0 || 
 				    si->path[strlen(last->full_name)] != '.') {
 					tmpname = g_strdup(si->path);
 					*(strchr(tmpname + toplen, '.')) = '\0';
