@@ -1,3 +1,10 @@
+2001-08-20  Pavel Roskin  <proski@gnu.org>
+
+	* gnome-vfs.m4 (GNOME_WITH_VFS): Specify additional includes
+	when testing for rpc/pmap_clnt.h.  Needed for Autoconf 2.50+
+	only - older versions don't try to compile headers and ignore
+	this argument.
+
 2001-08-04  Darin Adler  <darin@bentspoon.com>
 
 	* .cvsignore: Ignore generated .dep file.
