@@ -35,7 +35,6 @@
 #include "mail-ops.h"
 
 typedef struct {
-	gboolean configured;
 	gboolean thread_list;
 	gboolean view_source;
 	gint paned_size;
@@ -201,11 +200,6 @@ config_read (void)
 	
 	mail_config_clear ();
 	
-	/* Configured */
-	str = g_strdup_printf ("=%s/config/General=/General/configured", evolution_dir);
-	config->configured = gnome_config_get_bool (str);
-	g_free (str);
-	
 	/* Accounts */
 	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
 	gnome_config_push_prefix (str);
@@ -325,13 +319,6 @@ mail_config_write (void)
 {
 	gchar *str;
 	gint len, i;
-	
-	/* Configured switch */
-	str = g_strdup_printf ("=%s/config/General=/General/configured", 
-			       evolution_dir);
-	config->configured = TRUE;
-	gnome_config_set_bool (str, config->configured);
-	g_free (str);
 	
 	/* Accounts */
 	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
@@ -456,7 +443,7 @@ mail_config_write_on_exit (void)
 gboolean
 mail_config_is_configured (void)
 {
-	return config->configured;
+	return config->accounts != NULL;
 }
 
 gboolean
@@ -537,8 +524,11 @@ mail_config_get_default_account (void)
 		l = l->next;
 	}
 	
-	/* non are marked as default so return the first one */
-	return (MailConfigAccount *)config->accounts->data;
+	/* none are marked as default so mark the first one as the default */
+	account = config->accounts->data;
+	mail_config_set_default_account (account);
+	
+	return account;
 }
 
 const GSList *

@@ -64,13 +64,10 @@ struct post_send_data {
 	guint32 flags;
 };
 
-static gboolean
-check_configured (FolderBrowser *fb)
+static void
+configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
-	
-	if (mail_config_is_configured ())
-		return TRUE;
 	
 	if (fb) {
 		GtkWidget *dialog;
@@ -83,7 +80,7 @@ check_configured (FolderBrowser *fb)
 						GNOME_STOCK_BUTTON_YES,
 						GNOME_STOCK_BUTTON_NO, NULL);
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET(fb), GTK_TYPE_WINDOW)));
+					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW)));
 		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
@@ -95,10 +92,7 @@ check_configured (FolderBrowser *fb)
 		default:
 			break;
 		}
-		
-		return mail_config_is_configured ();
-	} else
-		return FALSE;
+	}
 }
 
 static gboolean
@@ -107,7 +101,8 @@ check_send_configuration (FolderBrowser *fb)
 	const MailConfigAccount *account;
 	
 	/* Check general */
-	if (!check_configured (fb)) {
+	if (!mail_config_is_configured ()) {
+		configure_mail (fb);
 		return FALSE;
 	}
 	
@@ -162,25 +157,14 @@ fetch_mail (GtkWidget *widget, gpointer user_data)
 {
 	GSList *sources;
 	
-	if (!check_configured (FOLDER_BROWSER (user_data))) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
-							  GTK_TYPE_WINDOW);
-		
-		gnome_error_dialog_parented (_("You have no mail sources "
-					       "configured"),
-					     GTK_WINDOW (win));
+	if (!mail_config_is_configured ()) {
+		configure_mail (FOLDER_BROWSER (user_data));
 		return;
 	}
 	
 	sources = mail_config_get_sources ();
 	
 	if (!sources || !sources->data) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
-							  GTK_TYPE_WINDOW);
-		
-		gnome_error_dialog_parented (_("You have no mail sources "
-					       "configured"),
-					     GTK_WINDOW (win));
 		return;
 	}
 	
@@ -207,6 +191,7 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 	const MailConfigAccount *account;
 	
 	if (!mail_config_is_configured ()) {
+		configure_mail (FOLDER_BROWSER (user_data));
 		return;
 	}
 	
@@ -236,6 +221,11 @@ void
 send_receieve_mail (GtkWidget *widget, gpointer user_data)
 {
 	/* receive first then send, this is a temp fix for POP-before-SMTP */
+	if (!mail_config_is_configured ()) {
+		configure_mail (FOLDER_BROWSER (user_data));
+		return;
+	}
+	
 	fetch_mail (widget, user_data);
 	send_queued_mail (widget, user_data);
 }

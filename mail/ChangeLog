@@ -1,5 +1,23 @@
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-callbacks.c (configure_mail): New function that explains to
+	the user why he can't do the action he requested and then procedes
+	to ask if he'd like to configure his accounts now.
+	(check_send_configuration): If the user doesn't have configured
+	accounts, don't let him continue and call configure_mail().
+	(fetch_mail): Same.
+	(send_queued_mail): Same.
+	(send_receieve_mail): Same.
+
+	* mail-config.c (mail_config_write): Don't save a "is_configured"
+	variable. Instead we'll just check to see if we have accounts - if
+	yes, then configured == TRUE.
+	(mail_config_is_configured): return accounts != NULL.
+	(mail_config_get_default_account): Mark the first account as the
+	default if none are marked.
+
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-account-editor.c (source_auth_type_changed): Set the
 	sensitivity of the Password label too.
 
