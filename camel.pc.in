@@ -4,10 +4,12 @@ libdir=@libdir@
 includedir=@includedir@
 
 camel_providerdir=@camel_providerdir@
+privlibdir=@privlibdir@
+privincludedir=@privincludedir@
 
 Name: camel
 Description: the Evolution mail library
 Version: @VERSION@
 Requires: gal-2.0 >= @GAL_REQUIRED@
-Libs: -L${libdir} -lcamel
-Cflags: -I${includedir}
+Libs: -L${privlibdir} -lcamel
+Cflags: -I${privincludedir}
