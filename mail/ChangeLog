@@ -1,3 +1,8 @@
+2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Set an
+	"evolution:component_alias" property with a value of "mail".
+
 2003-11-10  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (em_format_html_multipart_signed_sign): changed
