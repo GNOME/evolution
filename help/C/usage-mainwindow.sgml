@@ -464,6 +464,71 @@ the workaround described in the note below.
     </sect2>
   </sect1>
 
+  <sect1 id="importing-mail-from-clients">
+    <title>Importing Mail from Individual Mail Clients</title>
+    <para>
+      Chances are, you already have your email in another mail program
+      and don't want to lose the information.  The following section
+      describes how to import mail from specific mail clients.
+    </para>
+    <sect2 id="kmail">
+      <title>Importing Mail from KMail</title>
+      <para>
+	KMail is a full-featured mail client which is shipped with the
+	KDE desktop environment.  KMail uses the standard mbox file
+	format, which means that importing your mail into Evolution is
+	easy.
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Open <application>Ximian Evolution</application>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>File</guimenu>
+		<guimenuitem>Import</guimenuitem>
+	      </menuchoice>
+	      or press
+	      <keycombo action="simul">
+		<keycap>Ctrl</keycap>
+		<keycap>I</keycap>
+	      </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Next</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select <guibutton>Import a Single File</guibutton>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Browse</guibutton> and select the file
+	      you would like to import from.  By default, KMail stores
+	      its information in the Mail directory of your home
+	      directory.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      When prompted for what folder in
+	      <application>Evolution</application> to import to,
+	      select a folder.  You can also create a new folder and
+	      drop it in there.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </sect2>
+  </sect1>
+  
   <sect1 id="ui-intro">
     <title>What's What in Ximian Evolution</title>
     <para>
