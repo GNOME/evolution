@@ -389,17 +389,19 @@ short icaltime_days_in_month(short month,short year)
 
 /* 1-> Sunday, 7->Saturday */
 short icaltime_day_of_week(struct icaltimetype t){
+    struct tm stm;
 
-    time_t tt = icaltime_as_timet(t);
-    struct tm *tm;
+    stm.tm_year = t.year - 1900;
+    stm.tm_mon = t.month - 1;
+    stm.tm_mday = t.day;
+    stm.tm_hour = 0;
+    stm.tm_min = 0;
+    stm.tm_sec = 0;
+    stm.tm_isdst = -1;
 
-    if(t.is_utc == 1){
-	tm = gmtime(&tt);
-    } else {
-	tm = localtime(&tt);
-    }
+    mktime (&stm);
 
-    return tm->tm_wday+1;
+    return stm.tm_wday + 1;
 }
 
 /* Day of the year that the first day of the week (Sunday) is on  */
@@ -450,41 +452,49 @@ short icaltime_week_number(struct icaltimetype ictt)
 
 
 short icaltime_day_of_year(struct icaltimetype t){
-    time_t tt = icaltime_as_timet(t);
-    struct tm *stm;
+    struct tm stm;
 
-    if(t.is_utc==1){
-	stm = gmtime(&tt);
-    } else {
-	stm = localtime(&tt);
-    }
+    stm.tm_year = t.year - 1900;
+    stm.tm_mon = t.month - 1;
+    stm.tm_mday = t.day;
+    stm.tm_hour = 0;
+    stm.tm_min = 0;
+    stm.tm_sec = 0;
+    stm.tm_isdst = -1;
 
-    return stm->tm_yday+1;
-    
+    mktime (&stm);
+
+    return stm.tm_yday + 1;
 }
 
 /* Jan 1 is day #1, not 0 */
 struct icaltimetype icaltime_from_day_of_year(short doy,  short year)
 {
-    struct tm stm; 
-    time_t tt;
-    char *old_tz = set_tz("UTC");
+    static const short days_in_year[2][13] = 
+    { /* jan feb mar apr may  jun  jul  aug  sep  oct  nov  dec */
+      {  0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 }, 
+      {  0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 }
+    };
+    struct icaltimetype tt = { 0 };
+    int is_leap = 0, month;
 
-    /* Get the time of january 1 of this year*/
-    memset(&stm,0,sizeof(struct tm)); 
-    stm.tm_year = year-1900;
-    stm.tm_mday = 1;
+    tt.year = year;
+    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+	is_leap = 1;
 
-    tt = mktime(&stm);
-    unset_tz(old_tz);
+    assert(doy > 0);
+    assert(doy <= days_in_year[is_leap][12]);
 
+    for (month = 11; month >= 0; month--) {
+      if (doy > days_in_year[is_leap][month]) {
+	tt.month = month + 1;
+	tt.day = doy - days_in_year[is_leap][month];
+	return tt;
+      }
+    }
 
-    /* Now add in the days */
-
-    doy--;
-    tt += doy *60*60*24;
-
-    return icaltime_from_timet(tt, 1);
+    /* Shouldn't reach here. */
+    assert (0);
 }
 
 struct icaltimetype icaltime_null_time()
@@ -564,3 +574,74 @@ struct icaldurationtype  icaltime_subtract(struct icaltimetype t1,
 
 
 
+/* Adds (or subtracts) a time from a icaltimetype.
+   NOTE: This function is exactly the same as icaltimezone_adjust_change()
+   except for the type of the first parameter. */
+void
+icaltime_adjust				(struct icaltimetype	*tt,
+					 int		 days,
+					 int		 hours,
+					 int		 minutes,
+					 int		 seconds)
+{
+    int second, minute, hour, day;
+    int minutes_overflow, hours_overflow, days_overflow;
+    int days_in_month;
+
+    /* Add on the seconds. */
+    second = tt->second + seconds;
+    tt->second = second % 60;
+    minutes_overflow = second / 60;
+    if (tt->second < 0) {
+	tt->second += 60;
+	minutes_overflow--;
+    }
+
+    /* Add on the minutes. */
+    minute = tt->minute + minutes + minutes_overflow;
+    tt->minute = minute % 60;
+    hours_overflow = minute / 60;
+    if (tt->minute < 0) {
+	tt->minute += 60;
+	hours_overflow--;
+    }
+
+    /* Add on the hours. */
+    hour = tt->hour + hours + hours_overflow;
+    tt->hour = hour % 24;
+    days_overflow = hour / 24;
+    if (tt->hour < 0) {
+	tt->hour += 24;
+	days_overflow--;
+    }
+
+    /* Add on the days. */
+    day = tt->day + days + days_overflow;
+    if (day > 0) {
+	for (;;) {
+	    days_in_month = icaltime_days_in_month (tt->month, tt->year);
+	    if (day <= days_in_month)
+		break;
+
+	    tt->month++;
+	    if (tt->month >= 13) {
+		tt->year++;
+		tt->month = 1;
+	    }
+
+	    day -= days_in_month;
+	}
+    } else {
+	while (day <= 0) {
+	    if (tt->month == 1) {
+		tt->year--;
+		tt->month = 12;
+	    } else {
+		tt->month--;
+	    }
+
+	    day += icaltime_days_in_month (tt->month, tt->year);
+	}
+    }
+    tt->day = day;
+}

@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.29 2001/05/16 07:16:31 jpr Exp $
+#  $Id: Makefile.am,v 1.30 2001/06/14 02:50:46 damon Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -36,6 +36,8 @@ YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
 
+CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(datadir)/$(PACKAGE)"\"
+
 all: ical.h
 
 INCLUDES =			\
@@ -48,6 +50,8 @@ libical_la_LDFLAGS = -version-info 0:0:0
 
 libical_la_SOURCES =		\
 	$(BUILT_SOURCES)	\
+	icalarray.c		\
+	icalarray.h		\
 	icalattendee.h		\
 	icalattendee.c		\
 	icalcomponent.c		\
@@ -73,6 +77,8 @@ libical_la_SOURCES =		\
 	icalrestriction.h	\
 	icaltime.c		\
 	icaltime.h		\
+	icaltimezone.c		\
+	icaltimezone.h		\
 	icalduration.h		\
 	icalduration.c		\
 	icalperiod.h		\
@@ -114,7 +120,9 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalproperty.h	\
 	$(top_srcdir)/src/libical/icalattendee.h	\
 	$(top_srcdir)/src/libical/pvl.h			\
+	$(top_srcdir)/src/libical/icalarray.h		\
 	$(top_srcdir)/src/libical/icalcomponent.h	\
+	$(top_srcdir)/src/libical/icaltimezone.h	\
 	$(top_srcdir)/src/libical/icalparser.h		\
 	$(top_srcdir)/src/libical/icalmemory.h		\
 	$(top_srcdir)/src/libical/icalerror.h		\

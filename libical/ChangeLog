@@ -1,5 +1,45 @@
 2001-06-13  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icalrecur.c: merged in some new stuff from libical CVS.
+	(icalrecur_add_byrules): If no sign is given set sign to 1 (i.e.
+	default to positive).
+	(icalrecur_iterator_new): when setting up the year days array, handle
+	the case where a year has no occurrences and we have to skip it.
+	Also initialize the last.day and last.month fields.
+	(expand_by_day): set the last day of the year explicitly rather than
+	adding 1 to year and subtracting 1 from day. It is more efficient,
+	and less prone to bugs. Also rewrote a bit.
+	(expand_year_days): added code to handle BY_MONTH_DAY and BY_DAY +
+	BY_MONTH_DAY, and rewrote code to handle BY_DAY + BY_MONTH.
+	(next_year): handled the case where there are no occurrences in the
+	year.
+
+	* src/libical/icaltime.c (icaltime_adjust): new function to adjust a
+	time by a number of days/hours/minutes/seconds.
+	(icaltime_day_of_week): rewrote using a single call to mktime().
+	(icaltime_day_of_year): rewrote using a single call to mktime().
+	(icaltime_from_day_of_year): rewrote in a simpler way. The old version
+	had a bug in it.
+	
+	* src/libical/icaltime.h (struct icaltimetype): added is_daylight
+	flag, so we can try to distinguish between standard and daylight time
+	when the clocks go back. Though this doesn't always resolve the
+	ambiguity.
+
+	* src/libical/icalcomponent.c: added some stuff to handle timezone
+	data connected to the calendar component. Unfinished.
+
+	* src/libical/icalyacc.y: merged in a fix from sourceforge CVS version
+	of libical, so we can handle -ve UTC offsets.
+
+	* src/libical/Makefile.am (CPPFLAGS): added PACKAGE_DATA_DIR define
+	for finding the VTIMEZONE files.
+	(libical_la_SOURCES): added icalarray.[hc] and icaltimezone.[hc].
+	(COMBINEDHEADERS): added icalarray.h and icaltimezone.h to the headers
+	to be combined into ical.h.
+
+2001-06-13  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icaltimezone.[hc]: new files to contain support for
 	timezones.
 

@@ -33,6 +33,8 @@
 #include "icalmemory.h"
 #include "icalenums.h"
 #include "icaltime.h"
+#include "icalarray.h"
+#include "icaltimezone.h"
 #include "icalduration.h"
 #include "icalperiod.h"
 #include "icalparser.h"
@@ -55,6 +57,7 @@ struct icalcomponent_impl
 	pvl_list components;
 	pvl_elem component_iterator;
 	icalcomponent* parent;
+	icalarray* timezones;
 };
 
 /* icalproperty functions that only components get to use */
@@ -65,6 +68,8 @@ void icalcomponent_add_children(struct icalcomponent_impl *impl,va_list args);
 icalcomponent* icalcomponent_new_impl (icalcomponent_kind kind);
 int icalcomponent_property_sorter(void *a, void *b);
 
+static void icalcomponent_rename_tzids_callback(icalparameter *param,
+						void *data);
 
 void icalcomponent_add_children(struct icalcomponent_impl *impl,va_list args)
 {
@@ -108,6 +113,7 @@ icalcomponent_new_impl (icalcomponent_kind kind)
     comp->component_iterator = 0;
     comp->x_name = 0;
     comp->parent = 0;
+    comp->timezones = icaltimezone_array_new ();
 
     return comp;
 }
@@ -219,6 +225,8 @@ icalcomponent_free (icalcomponent* component)
 	    free(c->x_name);
 	}
 
+	icalarray_free (c->timezones);
+
 	c->kind = ICAL_NO_COMPONENT;
 	c->properties = 0;
 	c->property_iterator = 0;
@@ -226,9 +234,11 @@ icalcomponent_free (icalcomponent* component)
 	c->component_iterator = 0;
 	c->x_name = 0;	
 	c->id[0] = 'X';
+	c->timezones = NULL;
 
 	free(c);
     }
+
 }
 
 char*
@@ -531,6 +541,10 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
     cimpl->parent = parent;
 
     pvl_push(impl->components,child);
+
+    /* If the new component is a VTIMEZONE, add it to our array. */
+    if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT)
+      icaltimezone_array_append_from_vtimezone (cimpl->timezones, child);
 }
 
 
@@ -546,6 +560,20 @@ icalcomponent_remove_component (icalcomponent* parent, icalcomponent* child)
    impl = (struct icalcomponent_impl*)parent;
    cimpl = (struct icalcomponent_impl*)child;
    
+    /* If the component is a VTIMEZONE, remove it from our array as well. */
+    if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
+	icaltimezone *zone;
+	int i;
+
+        for (i = 0; i < impl->timezones->num_elements; i++) {
+	    zone = icalarray_element_at (impl->timezones, i);
+	    if (icaltimezone_get_component (zone) == child) {
+	        icalarray_remove_element_at (impl->timezones, i);
+		break;
+	    }
+	}
+    }
+
    for( itr = pvl_head(impl->components);
 	itr != 0;
 	itr = next_itr)
@@ -1485,3 +1513,99 @@ icalcomponent* icalcomponent_new_xdaylight()
 {
     return icalcomponent_new(ICAL_XDAYLIGHT_COMPONENT);
 }
+
+/* Calls the given function for each TZID parameter found in the component. */
+void icalcomponent_foreach_tzid(icalcomponent* comp,
+				void (*callback)(icalparameter *param, void *data),
+				void *callback_data)
+{
+    icalproperty *prop;
+    icalproperty_kind kind;
+    icalparameter *param;
+    icalcomponent *child;
+
+    /* First rename any TZID parameters used in this component. */
+    prop = icalcomponent_get_first_property (comp, ICAL_ANY_PROPERTY);
+    while (prop) {
+        kind = icalproperty_isa (prop);
+
+      /* These are the only properties that can have a TZID. Note that
+	 COMPLETED, CREATED, DTSTAMP & LASTMODIFIED must be in UTC. */
+      if (kind == ICAL_DTSTART_PROPERTY || kind == ICAL_DTEND_PROPERTY
+	  || kind == ICAL_DUE_PROPERTY || kind == ICAL_EXDATE_PROPERTY
+	  || kind == ICAL_RDATE_PROPERTY) {
+	param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+	if (param)
+	    (*callback) (param, callback_data);
+      }
+
+      prop = icalcomponent_get_next_property (comp, ICAL_ANY_PROPERTY);
+    }
+
+    /* Now recursively rename child components. */
+    child = icalcomponent_get_first_component (comp, ICAL_ANY_COMPONENT);
+    while (child) {
+        icalcomponent_foreach_tzid (child, callback, callback_data);
+        child = icalcomponent_get_next_component (comp, ICAL_ANY_COMPONENT);
+    }
+}
+
+
+/* Renames all references to the given TZIDs to a new name. rename_table
+   contains pairs of strings - a current TZID, and the new TZID to rename it
+   to. */
+void icalcomponent_rename_tzids(icalcomponent* comp, icalarray* rename_table)
+{
+    icalcomponent_foreach_tzid (comp, icalcomponent_rename_tzids_callback,
+				rename_table);
+}
+
+
+static void icalcomponent_rename_tzids_callback(icalparameter *param, void *data)
+{
+    icalarray *rename_table = data;
+    const char *tzid;
+    int i;
+
+    tzid = icalparameter_get_tzid (param);
+    if (!tzid)
+        return;
+
+    /* Step through the rename table to see if the current TZID matches
+       any of the ones we want to rename. */
+    for (i = 0; i < rename_table->num_elements - 1; i += 2) {
+        if (!strcmp (tzid, icalarray_element_at (rename_table, i)))
+	    icalparameter_set_tzid (param, icalarray_element_at (rename_table, i + 1));
+    }
+}
+
+
+/* Returns the icaltimezone from the component corresponding to the given
+   TZID, or NULL if the component does not have a corresponding VTIMEZONE. */
+icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
+{
+    struct icalcomponent_impl *impl;
+    icaltimezone *zone;
+    int lower, upper, middle, cmp;
+
+    impl = (struct icalcomponent_impl*)comp;
+
+    /* Do a simple binary search. */
+    lower = middle = 0;
+    upper = impl->timezones->num_elements;
+
+    while (lower < upper) {
+	middle = (lower + upper) >> 1;
+	zone = icalarray_element_at (impl->timezones, middle);
+	cmp = strcmp (tzid, icaltimezone_get_tzid (zone));
+	if (cmp == 0)
+	    return zone;
+	else if (cmp < 0)
+	    upper = middle;
+	else
+	    lower = middle + 1;
+    }
+
+    return NULL;
+}
+

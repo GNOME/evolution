@@ -41,8 +41,8 @@ struct icaltime_span {
 
 struct icaltimetype
 {
-	int year;
-	int month;
+	int year;	/* Actual year, e.g. 2001. */
+	int month;	/* 1 (Jan) to 12 (Dec). */
 	int day;
 	int hour;
 	int minute;
@@ -51,6 +51,8 @@ struct icaltimetype
 	int is_utc; /* 1-> time is in UTC timezone */
 
 	int is_date; /* 1 -> interpret this as date. */
+
+	int is_daylight; /* 1 -> time is in daylight savings time. */
    
 	const char* zone; /*Ptr to Olsen placename. Libical does not own mem*/
 };	
@@ -138,6 +140,9 @@ int icaltime_compare_date_only(struct icaltimetype a, struct icaltimetype b);
 /* Return the number of days in the given month */
 short icaltime_days_in_month(short month,short year);
 
+/* Adds or subtracts a number of days, hours, minutes and seconds. */
+void  icaltime_adjust(struct icaltimetype *tt, int days, int hours,
+		      int minutes, int seconds);
 
 #endif /* !ICALTIME_H */
 
