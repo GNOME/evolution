@@ -1,5 +1,21 @@
 2003-03-14  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #39740
+
+	* gui/e-meeting-model.c (is_cell_editable): check row number is valid
+	before using it as index for the GPtrArray.
+
+2003-03-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #39356
+
+	* gui/Makefile.am:
+	* gui/tasks-migrate.[ch]: removed tasks migration obsolete stuff.
+
+	* gui/calendar-component.c (owner_set_cb): don't call tasks_migrate.
+
+2003-03-14  Rodrigo Moya <rodrigo@ximian.com>
+	
 	* pcs/cal-factory.c (impl_CalFactory_uriList): set_release
 	on the sequence we create.
 

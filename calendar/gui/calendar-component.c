@@ -41,7 +41,6 @@
 #include "control-factory.h"
 #include "calendar-config.h"
 #include "tasks-control.h"
-#include "tasks-migrate.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/comp-editor.h"
 
@@ -507,15 +506,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
-	static gboolean migrated = FALSE;
-	
 	evolution_dir = g_strdup (evolution_homedir);
-
-	if (!migrated) {
-		tasks_migrate ();
-		migrated = TRUE;
-	}
-
 	global_shell_client = shell_client;
 }
 

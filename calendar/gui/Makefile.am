@@ -175,8 +175,6 @@ libevolution_calendar_la_SOURCES =		\
 	tag-calendar.h				\
 	tasks-control.c				\
 	tasks-control.h				\
-	tasks-migrate.c				\
-	tasks-migrate.h				\
 	weekday-picker.c			\
 	weekday-picker.h
 

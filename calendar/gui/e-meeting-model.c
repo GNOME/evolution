@@ -497,6 +497,8 @@ is_cell_editable (ETableModel *etm, int col, int row)
 	
 	if (row == -1)
 		return TRUE;
+	if (row >= priv->attendees->len)
+		return TRUE;
 	
 	ia = g_ptr_array_index (priv->attendees, row);
 	level = e_meeting_attendee_get_edit_level (ia);
