@@ -1,3 +1,7 @@
+1999-02-24  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-checks.m4: Require LibGTop >= 0.100.0.
+
 1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* compiler-flags.m4: Only add the compilation warnings if the
