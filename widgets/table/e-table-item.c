@@ -2112,8 +2112,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #if 0
 		double x1, y1;
 #endif
-		GdkEventButton button;
-
 		if (e->button.button == 5 ||
 		    e->button.button == 4)
 			return FALSE;
@@ -2137,18 +2135,17 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &model_col,
 				       NULL);
 
-			button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
-			button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
+			e->button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
+			e->button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
 
 #if 0
-			button = *(GdkEventButton *)e;
 			button.x = x1;
 			button.y = y1;
 #endif
 
 			if (model_row != -1 && model_col != -1) {
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-						 model_row, model_col, &button);
+						 model_row, model_col, e);
 				d(g_print("Double click\n"));
 			}
 		}
