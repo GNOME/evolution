@@ -111,7 +111,8 @@ mail_incorporate_messages (CamelFolder *folder,
 	char *url, *p, *filename;
 	FILE *logfile;
 	int i;
-
+	time_t last_update = 0;
+	
 	fc = mail_load_evolution_rule_context ();
 	filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
 	
@@ -159,8 +160,17 @@ mail_incorporate_messages (CamelFolder *folder,
 		CamelMimeMessage *message;
 		CamelMessageInfo *info;
 		gboolean free_info;
-		
-		mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
+		gboolean last_message = (i+1 == uids->len);
+		time_t now;
+
+		/*
+		 * Update the time display ever 2 seconds
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)){
+			mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
+			last_update = now;
+		}
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex))
@@ -964,6 +974,7 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	transfer_messages_input_t *input = (transfer_messages_input_t *) in_data;
 	CamelFolder *dest;
 	gint i;
+	time_t last_update = 0;
 	gchar *desc;
 	void (*func) (CamelFolder *, const char *, 
 		      CamelFolder *, 
@@ -986,9 +997,19 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	camel_folder_freeze (dest);
 
 	for (i = 0; i < input->uids->len; i++) {
-		mail_op_set_message (_("%s message %d of %d (uid \"%s\")"), desc,
-				     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+		const gboolean last_message = (i+1 == input->uids->len);
+		time_t now;
 
+		/*
+		 * Update the time display ever 2 seconds
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)){
+			mail_op_set_message (_("%s message %d of %d (uid \"%s\")"), desc,
+					     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+			last_update = now;
+		}
+		
 		(func) (input->source,
 			input->uids->pdata[i], dest,
 			ex);
@@ -1083,6 +1104,7 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 	gint i;
+	time_t last_update = 0;
 
 	mail_tool_camel_lock_up ();
 	camel_folder_freeze (input->source);
@@ -1091,8 +1113,15 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 	mail_tool_camel_lock_down ();
 
 	for (i = 0; i < input->uids->len; i++) {
-		mail_op_set_message ("Marking message %d of %d", i + 1,
-				     input->uids->len);
+		const gboolean last_message = (i+1 == input->uids->len);
+		time_t now;
+
+		time (&now);
+		if (last_message || ((now - last_update) > 2)){
+			mail_op_set_message ("Marking message %d of %d", i + 1,
+					     input->uids->len);
+			last_update = now;
+		}
 
 		if (input->invert) {
 			const CamelMessageInfo *info;
@@ -1480,7 +1509,7 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 	forward_messages_data_t *data = (forward_messages_data_t *) op_data;
-
+	time_t last_update = 0;
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 	int i;
@@ -1489,8 +1518,20 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	mail_tool_camel_lock_up ();
 	for (i = 0; i < input->uids->len; i++) {
-		mail_op_set_message (_("Retrieving message number %d of %d (uid \"%s\")"),
-				     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+		const int last_message = (i+1 == input->uids->len);
+		time_t now;
+
+		/*
+		 * Update the time display ever 2 seconds
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)){
+			mail_op_set_message (_("Retrieving message number %d of %d (uid \"%s\")"),
+					     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+			last_update = now;
+		}
+
+		
 		message =
 			camel_folder_get_message (input->source,
 						  input->uids->pdata[i], ex);

@@ -88,8 +88,7 @@ typedef struct com_msg_s
 	CamelObject *event_obj;
 	gpointer event_event_data;
 	gpointer event_user_data;
-}
-com_msg_t;
+} com_msg_t;
 
 /**
  * Stuff needed for blocking
@@ -234,6 +233,31 @@ f (void)
 }
 #endif
 
+static int
+pipe_write (int fd, const void *buf, size_t count)
+{
+	size_t res;
+
+	do {
+		res = write (fd, buf, count);
+	}
+	while (res == -1 && errno == EINTR);
+
+	return res;
+}
+
+static size_t
+pipe_read (int fd, void *buf, size_t count)
+{
+	size_t res;
+	
+	do {
+		res = read (fd, buf, count);
+	} while (res == -1 && errno == EINTR);
+
+	return res;
+}
+
 /**
  * mail_operation_queue:
  * @spec: describes the operation to be performed
@@ -295,7 +319,7 @@ mail_operation_queue (const mail_operation_spec * spec, gpointer input,
 		check_dispatcher ();
 	} /* else add self to queue */
 
-	write (DISPATCH_WRITER, clur, sizeof (closure_t));
+	pipe_write (DISPATCH_WRITER, clur, sizeof (closure_t));
 	/* dispatch allocates a separate buffer
 	 * to hold the closure; it's in the pipe and
 	 * can safely be freed
@@ -321,7 +345,7 @@ mail_op_set_percentage (gfloat percentage)
 
 	msg.type = PERCENTAGE;
 	msg.percentage = percentage;
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 }
 
 /**
@@ -337,7 +361,7 @@ mail_op_hide_progressbar (void)
 	com_msg_t msg;
 
 	msg.type = HIDE_PBAR;
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 }
 
 /**
@@ -353,7 +377,7 @@ mail_op_show_progressbar (void)
 	com_msg_t msg;
 
 	msg.type = SHOW_PBAR;
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 }
 
 #endif
@@ -379,7 +403,7 @@ mail_op_set_message (gchar * fmt, ...)
 	msg.message = g_strdup_vprintf (fmt, val);
 	va_end (val);
 
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 }
 
 /**
@@ -409,7 +433,7 @@ mail_op_get_password (gchar * prompt, gboolean secret, gchar ** dest)
 	(*dest) = NULL;
 
 	block_prepare (&modal_block);
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 	block_wait (&modal_block);
 
 	return result;
@@ -436,7 +460,7 @@ mail_op_error (gchar * fmt, ...)
 	va_end (val);
 
 	block_prepare (&modal_block);
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 	block_wait (&modal_block);
 }
 
@@ -457,7 +481,7 @@ mail_op_forward_event (CamelObjectEventHookFunc func, CamelObject *o,
 	msg.event_obj = o;
 	msg.event_event_data = event_data;
 	msg.event_user_data = user_data;
-	write (MAIN_WRITER, &msg, sizeof (msg));
+	pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 }
 /**
  * mail_operation_wait_for_finish:
@@ -504,7 +528,7 @@ mail_operations_terminate (void)
 	memset (&clur, 0, sizeof (closure_t));
 	clur.spec = NULL;
 
-	write (DISPATCH_WRITER, &clur, sizeof (closure_t));
+	pipe_write (DISPATCH_WRITER, &clur, sizeof (closure_t));
 
 	close (DISPATCH_WRITER);
 	close (MAIN_READER);
@@ -595,7 +619,7 @@ dispatch (void *unused)
 
 	while (1) {
 		clur = g_new (closure_t, 1);
-		len = read (DISPATCH_READER, clur, sizeof (closure_t));
+		len = pipe_read (DISPATCH_READER, clur, sizeof (closure_t));
 
 		if (len <= 0)
 			break;
@@ -610,7 +634,7 @@ dispatch (void *unused)
 
 		msg.type = STARTING;
 		msg.message = g_strdup (clur->gerund);
-		write (MAIN_WRITER, &msg, sizeof (msg));
+		pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 
 		(clur->spec->callback) (clur->in_data, clur->op_data, clur->ex);
 
@@ -632,7 +656,7 @@ dispatch (void *unused)
 
 		/* Wait for the cleanup to finish before starting our next op */
 		block_prepare (&finish_block);
-		write (MAIN_WRITER, &msg, sizeof (msg));
+		pipe_write (MAIN_WRITER, &msg, sizeof (msg));
 		block_wait (&finish_block);
 	}
 

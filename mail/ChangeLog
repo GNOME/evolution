@@ -1,3 +1,25 @@
+2000-10-08  Miguel de Icaza  <miguel@helixcode.com>
+
+	* mail-threads.c (pipe_write): Repeates writes on EINTRS.
+	(pipe_read): Repeats reads on EINTRS.
+	(mail_operation_queue): Use pipe_write
+	(mail_op_set_percentage): ditto.
+	(mail_op_hide_progressbar): ditto.
+	(mail_op_show_progressbar): ditto.
+	(mail_op_set_message): ditto.
+	(mail_op_get_password): ditto.
+	(mail_op_error): ditto.
+	(mail_op_forward_event): ditto.
+	(mail_operations_terminate): ditto.
+	(dispatch): use pipe_read.
+	(dispatch): use pipe_write
+	(dispatch): ditto.
+
+	* mail-ops.c (mail_incorporate_messages): Only show message being
+	incorporated every 2 seconds, to avoid a bunch of CORBA round trips.
+	(do_transfer_messages): ditto.
+	(do_forward_messages): ditto.
+
 2000-10-07  Miguel de Icaza  <miguel@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Move the functionality to
