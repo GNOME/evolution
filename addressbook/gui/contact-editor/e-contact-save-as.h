@@ -29,10 +29,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-void
-e_contact_save_as(gchar *title, ECard *card);
-void
-e_contact_list_save_as(gchar *title, GList *list);
+void e_contact_save_as      (gchar *title, ECard *card, GtkWindow *parent_window);
+void e_contact_list_save_as (gchar *title, GList *list, GtkWindow *parent_window);
 
 #ifdef __cplusplus
 }

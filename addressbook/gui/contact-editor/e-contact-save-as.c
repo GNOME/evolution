@@ -120,7 +120,7 @@ make_safe_filename (const char *prefix, char *name)
 }
 
 void
-e_contact_save_as(char *title, ECard *card)
+e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 {
 	GtkFileSelection *filesel;
 	char *file;
@@ -145,11 +145,18 @@ e_contact_save_as(char *title, ECard *card)
 			   close_it, info);
 	gtk_signal_connect(GTK_OBJECT(filesel), "delete_event",
 			   delete_it, info);
+
+	if (parent_window) {
+		gtk_window_set_transient_for (GTK_WINDOW (filesel),
+					      parent_window);
+		gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
+	}
+
 	gtk_widget_show(GTK_WIDGET(filesel));
 }
 
 void
-e_contact_list_save_as(char *title, GList *list)
+e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 {
 	GtkFileSelection *filesel;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
@@ -181,6 +188,13 @@ e_contact_list_save_as(char *title, GList *list)
 			   close_it, info);
 	gtk_signal_connect(GTK_OBJECT(filesel), "delete_event",
 			   delete_it, info);
+
+	if (parent_window) {
+		gtk_window_set_transient_for (GTK_WINDOW (filesel),
+					      parent_window);
+		gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
+	}
+
 	gtk_widget_show(GTK_WIDGET(filesel));
 }
 
