@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-08-22 18:50-0400\n"
-"PO-Revision-Date: 2001-08-21 16:41+0200\n"
+"POT-Creation-Date: 2001-08-23 09:43+0200\n"
+"PO-Revision-Date: 2001-08-23 09:52+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1015,9 +1015,9 @@ msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2198
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Nem sikerült '%s' mappaösszegzõfájt törölni: %s"
+msgstr "Nem található widget a mezõhöz: `%s'"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:265
 msgid "Contact Quick-Add"
@@ -2829,23 +2829,23 @@ msgstr "Szundi idõ (percek)"
 msgid "_Edit appointment"
 msgstr "_Találkozó szerkesztése"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:487
+#: calendar/gui/alarm-notify/alarm-queue.c:556
 msgid "No description available."
 msgstr "Nincs leírás."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:700
-#: calendar/gui/alarm-notify/alarm-queue.c:999
-#: calendar/gui/alarm-notify/alarm-queue.c:1055
+#: calendar/gui/alarm-notify/alarm-queue.c:775
+#: calendar/gui/alarm-notify/alarm-queue.c:1074
+#: calendar/gui/alarm-notify/alarm-queue.c:1130
 msgid "Reminder of your appointment at "
 msgstr "A találkozód figyelmeztetõ üzenete:"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:991
+#: calendar/gui/alarm-notify/alarm-queue.c:1066
 msgid "Snooze"
 msgstr "Szundi"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/alarm-notify/alarm-queue.c:1004
-#: calendar/gui/alarm-notify/alarm-queue.c:1059
+#: calendar/gui/alarm-notify/alarm-queue.c:1079
+#: calendar/gui/alarm-notify/alarm-queue.c:1134
 msgid "Ok"
 msgstr "Ok"
 
@@ -3411,7 +3411,6 @@ msgid "Monday"
 msgstr "Hétfõ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "O_verdue tasks:"
 msgstr "_Lejárt határidejû feladatok:"
 
@@ -3522,9 +3521,8 @@ msgid "_General"
 msgstr "_Alap"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Hide completed tasks after"
-msgstr "Befejezett feladatok elrejtése"
+msgstr "_Befejezett feladatok elrejtése"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Mon"
@@ -3654,12 +3652,12 @@ msgstr "Napló bejegyzés - %s"
 msgid "No summary"
 msgstr "Nincs összegzés"
 
-#: calendar/gui/dialogs/comp-editor.c:857 mail/mail-callbacks.c:1490
+#: calendar/gui/dialogs/comp-editor.c:857 mail/mail-callbacks.c:1524
 #: mail/mail-display.c:99
 msgid "Overwrite file?"
 msgstr "Felülírod a fájlt?"
 
-#: calendar/gui/dialogs/comp-editor.c:861 mail/mail-callbacks.c:1496
+#: calendar/gui/dialogs/comp-editor.c:861 mail/mail-callbacks.c:1530
 #: mail/mail-display.c:103
 msgid ""
 "A file by that name already exists.\n"
@@ -4106,7 +4104,7 @@ msgid "Progress"
 msgstr "Folyamatban"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:897
+#: my-evolution/e-summary-preferences.c:898
 msgid "URL:"
 msgstr "URL:"
 
@@ -4838,7 +4836,7 @@ msgid "Print Calendar"
 msgstr "Naptár nyomtatása"
 
 #: calendar/gui/print.c:2288 calendar/gui/print.c:2380
-#: mail/mail-callbacks.c:1921 my-evolution/e-summary.c:511
+#: mail/mail-callbacks.c:1955 my-evolution/e-summary.c:511
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr "Nyomtatási kép"
@@ -4992,9 +4990,8 @@ msgstr ""
 "egyetlen logikai hamis (#f) értéket"
 
 #: calendar/pcs/query.c:805
-#, fuzzy
 msgid "is-completed? expects 0 arguments"
-msgstr "a time-now 0 argumentumot vár"
+msgstr "az is-completed? 0 argumentumot vár"
 
 #: calendar/pcs/query.c:1008
 msgid "Evaluation of the search expression did not yield a boolean value"
@@ -6934,13 +6931,12 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1172
-#, fuzzy
 msgid ""
 "Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Az Evolúció talált egy elõzõ munkafolyamatból származó mentetlen fájlokat.\n"
-"Szeretnéd visszaállítani õket?"
+"Az Evolúció talált az elõzõ munkafolyamatból származó mentetlen fájlokat.\n"
+"Szeretnéd megkísérelni a visszaállításukat?"
 
 #: composer/e-msg-composer.c:1320
 msgid ""
@@ -7432,7 +7428,7 @@ msgstr "Válasz"
 msgid "Score"
 msgstr "Pontszám"
 
-#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1075
+#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1109
 msgid "Sender"
 msgstr "Feladó"
 
@@ -7656,27 +7652,27 @@ msgstr "Leveleket tartalmazó mappa"
 msgid "This folder cannot contain messages."
 msgstr "Ez a mappa nem tartalmazhat leveleket."
 
-#: mail/component-factory.c:341
+#: mail/component-factory.c:344
 msgid "Properties..."
 msgstr "Tulajdonságok..."
 
-#: mail/component-factory.c:341
+#: mail/component-factory.c:344
 msgid "Change this folder's properties"
 msgstr "Mappa tulajdonságainak módosítása"
 
-#: mail/component-factory.c:757
+#: mail/component-factory.c:760
 msgid "New Mail Message"
 msgstr "Új levél"
 
-#: mail/component-factory.c:757
+#: mail/component-factory.c:760
 msgid "New _Mail Message"
 msgstr "Ú_j levél"
 
-#: mail/component-factory.c:789
+#: mail/component-factory.c:792
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nem sikerült az Evolúció levelezõ komponensét inicializálni."
 
-#: mail/component-factory.c:928
+#: mail/component-factory.c:931
 msgid "Cannot register storage with shell"
 msgstr "Nem sikerült regisztrálni a tárolót a héjban"
 
@@ -7900,7 +7896,7 @@ msgstr ""
 
 #: mail/mail-account-gui.c:1585
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "Nem hozhatsz létre két egyezõ nevû postafiókot."
 
 #: mail/mail-accounts.c:145
 msgid " (default)"
@@ -7999,48 +7995,55 @@ msgstr ""
 "Nincs tárgya a levélnek.\n"
 "Tényleg elküldjem?"
 
-#: mail/mail-callbacks.c:253
+#: mail/mail-callbacks.c:262
 msgid ""
-"This message contains only Bcc recipients.\n"
+"Since the contact list you are sending to is configured to hide the list's "
+"addresses, this message will contain only Bcc recipients."
+msgstr "Mivel a címlista úgy van beállítva, hogy rejtse el a tagok címét, a levél csak titkos címzetteket fog tartalmazni."
+
+#: mail/mail-callbacks.c:266
+msgid "This message contains only Bcc recipients."
+msgstr "A levél csak titkos címzetteket tartalmaz."
+
+#: mail/mail-callbacks.c:270
+msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
-"A levél csak titkos címzetteket tartalmaz.\n"
-"Lehetséges, hogy a levélkiszolgáló felfedi a címzetteket az Apparently-TO "
-"fejléc hozzáadásával.\n"
+"Lehetséges, hogy a levélkiszolgáló felfedi a címzetteket az Apparently-To fejléc hozzáadásával.\n"
 "Mégis elküldöd?"
 
-#: mail/mail-callbacks.c:339
+#: mail/mail-callbacks.c:359
 msgid "You must specify recipients in order to send this message."
 msgstr "Meg kell adnod címzetteke, mielõtt elküldhetnéd a levelet."
 
-#: mail/mail-callbacks.c:390
+#: mail/mail-callbacks.c:424
 msgid "You must configure an account before you can send this email."
 msgstr "Be kell állítanod egy azonosítót, mielõtt levelet küldesz."
 
-#: mail/mail-callbacks.c:632
+#: mail/mail-callbacks.c:666
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%Y-%m-%d, %a keltezéssel %%s ezt írta:"
 
-#: mail/mail-callbacks.c:895
+#: mail/mail-callbacks.c:929
 msgid "Forwarded message:\n"
 msgstr "Továbbított levél:\n"
 
-#: mail/mail-callbacks.c:995
+#: mail/mail-callbacks.c:1029
 msgid "Move message(s) to"
 msgstr "Levél(levelek) áthelyezése más mappába"
 
-#: mail/mail-callbacks.c:997
+#: mail/mail-callbacks.c:1031
 msgid "Copy message(s) to"
 msgstr "Levél(levelek) másolása más mappába"
 
-#: mail/mail-callbacks.c:1366
+#: mail/mail-callbacks.c:1400
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Tényleg szerkeszteni szeretnéd mind a %d levelet?"
 
-#: mail/mail-callbacks.c:1388
+#: mail/mail-callbacks.c:1422
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -8048,7 +8051,7 @@ msgstr ""
 "Csak a Piszkozatok mappában lévõ \n"
 "leveleket lehet szerkeszteni."
 
-#: mail/mail-callbacks.c:1422
+#: mail/mail-callbacks.c:1456
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -8056,28 +8059,28 @@ msgstr ""
 "Csak az Elküldött mappában lévõ \n"
 "leveleket lehet újra elküldeni."
 
-#: mail/mail-callbacks.c:1434
+#: mail/mail-callbacks.c:1468
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Tényleg újra akarod küldeni mind a %d üzenetet?"
 
-#: mail/mail-callbacks.c:1455
+#: mail/mail-callbacks.c:1489
 msgid "No Message Selected"
 msgstr "Nincs levél kijelölve"
 
-#: mail/mail-callbacks.c:1540
+#: mail/mail-callbacks.c:1574
 msgid "Save Message As..."
 msgstr "Levél mentése másként..."
 
-#: mail/mail-callbacks.c:1542
+#: mail/mail-callbacks.c:1576
 msgid "Save Messages As..."
 msgstr "Levelek mentése másként..."
 
-#: mail/mail-callbacks.c:1709 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1743 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: mail/mail-callbacks.c:1714
+#: mail/mail-callbacks.c:1748
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8089,11 +8092,11 @@ msgstr ""
 "\n"
 "Tényleg törlöd ezeket a leveleket?"
 
-#: mail/mail-callbacks.c:1721
+#: mail/mail-callbacks.c:1755
 msgid "Do not ask me again."
 msgstr "Ne kérdezze meg többet."
 
-#: mail/mail-callbacks.c:1826
+#: mail/mail-callbacks.c:1860
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -8102,19 +8105,19 @@ msgstr ""
 "Hiba a szûrõinformációk betöltése közben:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1836
+#: mail/mail-callbacks.c:1870
 msgid "Filters"
 msgstr "Szûrõk..."
 
-#: mail/mail-callbacks.c:1882
+#: mail/mail-callbacks.c:1916
 msgid "Print Message"
 msgstr "Levél nyomtatása"
 
-#: mail/mail-callbacks.c:1928
+#: mail/mail-callbacks.c:1962
 msgid "Printing of message failed"
 msgstr "Levél nyomtatása sikertelen"
 
-#: mail/mail-callbacks.c:2012
+#: mail/mail-callbacks.c:2046
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Tényleg külön ablakban akarod megnyitni mind a %d levelet?"
@@ -8300,9 +8303,8 @@ msgid "E_nable"
 msgstr "E_ngedélyezés"
 
 #: mail/mail-config.glade.h:31
-#, fuzzy
 msgid "Each account must have a different name."
-msgstr "Az aktuális fájl mentése más néven"
+msgstr "Minden postafióknak kölönbözõ nevet kell adni."
 
 #: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:96
 #: widgets/misc/e-filter-bar.h:103
@@ -8816,12 +8818,12 @@ msgstr "Nincs /%s mappa."
 msgid "Registering '%s'"
 msgstr "'%s' bejegyzése"
 
-#: mail/mail-local.c:748
+#: mail/mail-local.c:747
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "\"%s\" mappa átalakítása \"%s\" formátumra"
 
-#: mail/mail-local.c:869
+#: mail/mail-local.c:868
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -8830,7 +8832,7 @@ msgstr ""
 "Nem sikerült elmenteni a mappa metainfóját, valószínûleg nem tudod többé "
 "megnyitni ezt mappát: %s"
 
-#: mail/mail-local.c:909
+#: mail/mail-local.c:908
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -8838,11 +8840,11 @@ msgstr ""
 "Ha nem tudod többé megnyitni ezt a postafiókot, \n"
 "akkor esetleg kézzel kell megjavítanod."
 
-#: mail/mail-local.c:1002
+#: mail/mail-local.c:1001
 msgid "You cannot change the format of a non-local folder."
 msgstr "Nem változtathatod meg nem helyi mappák formátumát."
 
-#: mail/mail-local.c:1013
+#: mail/mail-local.c:1012
 #, c-format
 msgid "Reconfigure %s"
 msgstr "%s újrabeállítása"
@@ -8958,9 +8960,9 @@ msgid "Removing folder %s"
 msgstr "%s mappa eltávolítása"
 
 #: mail/mail-ops.c:1552
-#, fuzzy, c-format
+#, c-format
 msgid "Synchronizing '%s'"
-msgstr "Mappaszinkronizálás"
+msgstr "'%s' szinkronizálása"
 
 #: mail/mail-ops.c:1603
 msgid "Refreshing folder"
@@ -9311,19 +9313,19 @@ msgstr "Dictionary.com -- A nap mondása"
 msgid "Quotes of the Day"
 msgstr "A nap mondása"
 
-#: my-evolution/e-summary-preferences.c:877
+#: my-evolution/e-summary-preferences.c:878
 msgid "Add a news feed"
 msgstr "Új hírforrás hozzáadása"
 
-#: my-evolution/e-summary-preferences.c:885
+#: my-evolution/e-summary-preferences.c:886
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Add meg a hozzáadandó hírforrás URL-jét"
 
-#: my-evolution/e-summary-preferences.c:889
+#: my-evolution/e-summary-preferences.c:890
 msgid "Name:"
 msgstr "Név:"
 
-#: my-evolution/e-summary-preferences.c:1421
+#: my-evolution/e-summary-preferences.c:1422
 msgid "Summary Settings"
 msgstr "Összefoglaló beállításai"
 
@@ -9336,13 +9338,12 @@ msgid "<b>Error downloading RDF</b>"
 msgstr "<b>Hiba az RDF letöltése közben</b>"
 
 #: my-evolution/e-summary-rdf.c:479
-#, fuzzy
 msgid "News Feed"
-msgstr "Hírforrások"
+msgstr "Hírforrás"
 
 #: my-evolution/e-summary-tasks.c:213
 msgid "No tasks"
-msgstr "Nincs feladat"
+msgstr "Nincsenek feladatok"
 
 #: my-evolution/e-summary-weather.c:57
 msgid "My Weather"
@@ -10996,11 +10997,12 @@ msgid ""
 "Could not start the Evolution Mailer Wizard interface\n"
 "%s"
 msgstr ""
+"Nem sikerült elindítani az Evolúció Levelezõbeállító Varázsló felületét\n"
+"%s"
 
 #: shell/e-shell-startup-wizard.c:153
-#, fuzzy
 msgid "Cannot initialize the Evolution Mailer Wizard interface"
-msgstr "Nem sikerült inicializálni az Evolúció héjat: %s"
+msgstr "Nem sikerült inicializálni az Evolúció Levelezõbeállító Varázsló felületét"
 
 #: shell/e-shell-startup-wizard.c:558
 msgid ""
@@ -11283,7 +11285,6 @@ msgid "The specified folder cannot be modified or removed"
 msgstr "A megadott mappa nem módosítható vagy törölhetõ"
 
 #: shell/e-storage.c:513
-#, fuzzy
 msgid "Cannot make a folder a child of one of its descendants"
 msgstr "Nem lehet a mappát a saját almappájába áthelyezni."
 
@@ -11565,7 +11566,6 @@ msgid "Configure the calendar's settings"
 msgstr "A naptár beállításai"
 
 #: ui/evolution-calendar.xml.h:4
-#, fuzzy
 msgid "Create a New All Day _Event"
 msgstr "Új egész _napos esemémy létrehozása"
 
@@ -13281,9 +13281,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
 #~ msgid "The message does not appear to be properly formed"
 #~ msgstr "A levél úgy tûnik, nem megfelelõen formázott"
-
-#~ msgid "The message contains only unsupported requests."
-#~ msgstr "A levél kizárólag nem támogatott kéréseket tartalmaz."
 
 #~ msgid "The information contained in this attachment was not valid"
 #~ msgstr "A mellékletben levõ információ nem érvényes"
