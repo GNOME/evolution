@@ -80,6 +80,7 @@ full_rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 	default:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 	case -1:
+		break;
 	}
 }
 
@@ -102,8 +103,8 @@ rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 		}
 	case 1:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
-		break;
 	case -1:
+		break;
 	}
 }
 
@@ -126,8 +127,8 @@ rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
 			rule_editor_clicked (dialog, 0, data);
 	case 2:
 		gnome_dialog_close (GNOME_DIALOG (dialog));
-		break;
 	case -1:
+		break;
 	}
 }
 
