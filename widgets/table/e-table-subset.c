@@ -29,9 +29,12 @@
 #include "e-table-subset.h"
 
 static void etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm);
+static void etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row);
 static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int col, int row);
+static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
+static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 #define d(x)
@@ -87,6 +90,8 @@ etss_destroy (GtkObject *object)
 	if (etss->source) {
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
 				       etss->table_model_pre_change_id);
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_no_change_id);
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
 				       etss->table_model_changed_id);
 		gtk_signal_disconnect (GTK_OBJECT (etss->source),
@@ -223,36 +228,37 @@ etss_value_to_string (ETableModel *etm, int col, const void *value)
 static void
 etss_class_init (GtkObjectClass *object_class)
 {
-	ETableSubsetClass *klass        = (ETableSubsetClass *) object_class;
-	ETableModelClass *table_class   = (ETableModelClass *) object_class;
+	ETableSubsetClass *klass         = (ETableSubsetClass *) object_class;
+	ETableModelClass *table_class    = (ETableModelClass *) object_class;
 
-	etss_parent_class               = gtk_type_class (PARENT_TYPE);
+	etss_parent_class                = gtk_type_class (PARENT_TYPE);
 	
-	object_class->destroy           = etss_destroy;
+	object_class->destroy            = etss_destroy;
 
-	table_class->column_count       = etss_column_count;
-	table_class->row_count          = etss_row_count;
-	table_class->append_row         = etss_append_row;
+	table_class->column_count        = etss_column_count;
+	table_class->row_count           = etss_row_count;
+	table_class->append_row          = etss_append_row;
 
-	table_class->value_at           = etss_value_at;
-	table_class->set_value_at       = etss_set_value_at;
-	table_class->is_cell_editable   = etss_is_cell_editable;
+	table_class->value_at            = etss_value_at;
+	table_class->set_value_at        = etss_set_value_at;
+	table_class->is_cell_editable    = etss_is_cell_editable;
 
-	table_class->has_save_id        = etss_has_save_id;
-	table_class->get_save_id        = etss_get_save_id;
+	table_class->has_save_id         = etss_has_save_id;
+	table_class->get_save_id         = etss_get_save_id;
 
-	table_class->duplicate_value    = etss_duplicate_value;
-	table_class->free_value         = etss_free_value;
-	table_class->initialize_value   = etss_initialize_value;
-	table_class->value_is_empty     = etss_value_is_empty;
-	table_class->value_to_string    = etss_value_to_string;
+	table_class->duplicate_value     = etss_duplicate_value;
+	table_class->free_value          = etss_free_value;
+	table_class->initialize_value    = etss_initialize_value;
+	table_class->value_is_empty      = etss_value_is_empty;
+	table_class->value_to_string     = etss_value_to_string;
 
-	klass->proxy_model_pre_change   = etss_proxy_model_pre_change_real;
-	klass->proxy_model_changed      = etss_proxy_model_changed_real;
-	klass->proxy_model_row_changed  = etss_proxy_model_row_changed_real;
-	klass->proxy_model_cell_changed = etss_proxy_model_cell_changed_real;
-	klass->proxy_model_rows_inserted = NULL;
-	klass->proxy_model_rows_deleted  = NULL;
+	klass->proxy_model_pre_change    = etss_proxy_model_pre_change_real;
+	klass->proxy_model_no_change     = etss_proxy_model_no_change_real;
+	klass->proxy_model_changed       = etss_proxy_model_changed_real;
+	klass->proxy_model_row_changed   = etss_proxy_model_row_changed_real;
+	klass->proxy_model_cell_changed  = etss_proxy_model_cell_changed_real;
+	klass->proxy_model_rows_inserted = etss_proxy_model_rows_inserted_real;
+	klass->proxy_model_rows_deleted  = etss_proxy_model_rows_deleted_real;
 }
 
 static void
@@ -270,6 +276,12 @@ etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)
 }
 
 static void
+etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
 etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm)
 {
 	e_table_model_changed (E_TABLE_MODEL (etss));
@@ -281,6 +293,8 @@ etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row
 	int view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_row_changed (E_TABLE_MODEL (etss), view_row);
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etss));
 }
 
 static void
@@ -289,6 +303,20 @@ etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int co
 	int view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_cell_changed (E_TABLE_MODEL (etss), col, view_row);
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
+etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
+}
+
+static void
+etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+{
+	e_table_model_no_change (E_TABLE_MODEL (etss));
 }
 
 static void
@@ -296,6 +324,13 @@ etss_proxy_model_pre_change (ETableModel *etm, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_pre_change)
 		(ETSS_CLASS(etss)->proxy_model_pre_change) (etss, etm);
+}
+
+static void
+etss_proxy_model_no_change (ETableModel *etm, ETableSubset *etss)
+{
+	if (ETSS_CLASS(etss)->proxy_model_no_change)
+		(ETSS_CLASS(etss)->proxy_model_no_change) (etss, etm);
 }
 
 static void
@@ -354,18 +389,20 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
 
-	etss->table_model_pre_change_id = gtk_signal_connect (GTK_OBJECT (source), "model_pre_change",
-							      GTK_SIGNAL_FUNC (etss_proxy_model_pre_change), etss);
-	etss->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
-						     GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
-	etss->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
-							 GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
-	etss->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
-							  GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
+	etss->table_model_pre_change_id    = gtk_signal_connect (GTK_OBJECT (source), "model_pre_change",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_pre_change), etss);
+	etss->table_model_no_change_id     = gtk_signal_connect (GTK_OBJECT (source), "model_no_change",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_no_change), etss);
+	etss->table_model_changed_id       = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
+	etss->table_model_row_changed_id   = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
+	etss->table_model_cell_changed_id  = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
 	etss->table_model_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_inserted",
-								GTK_SIGNAL_FUNC (etss_proxy_model_rows_inserted), etss);
-	etss->table_model_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_deleted",
-							       GTK_SIGNAL_FUNC (etss_proxy_model_rows_deleted), etss);
+								 GTK_SIGNAL_FUNC (etss_proxy_model_rows_inserted), etss);
+	etss->table_model_rows_deleted_id  = gtk_signal_connect (GTK_OBJECT (source), "model_rows_deleted",
+								 GTK_SIGNAL_FUNC (etss_proxy_model_rows_deleted), etss);
 	
 	return E_TABLE_MODEL (etss);
 }

@@ -77,6 +77,7 @@ typedef struct {
 
 	/*
 	 * These all come after the change has been made.
+	 * No changes, cancel pre_change: no_change
 	 * Major structural changes: model_changed
 	 * Changes only in a row: row_changed
 	 * Only changes in a cell: cell_changed
@@ -85,6 +86,7 @@ typedef struct {
 	 */
 	void        (*model_pre_change)    (ETableModel *etm);
 
+	void        (*model_no_change)     (ETableModel *etm);
 	void        (*model_changed)       (ETableModel *etm);
 	void        (*model_row_changed)   (ETableModel *etm, int row);
 	void        (*model_cell_changed)  (ETableModel *etm, int col, int row);
@@ -144,6 +146,7 @@ char       *e_table_model_value_to_string     (ETableModel *e_table_model,
  * Routines for emitting signals on the e_table
  */
 void        e_table_model_pre_change          (ETableModel *e_table_model);
+void        e_table_model_no_change           (ETableModel *e_table_model);
 void        e_table_model_changed             (ETableModel *e_table_model);
 void        e_table_model_row_changed         (ETableModel *e_table_model,
 					       int          row);

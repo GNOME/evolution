@@ -153,11 +153,15 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 {
 	int i;
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
+	gboolean shift = FALSE;
 
 	/* i is View row */
-	for (i = 0; i < etss->n_map; i++) {
-		if (etss->map_table[i] > model_row)
-			etss->map_table[i] += count;
+	if (model_row != etss->n_map) {
+		for (i = 0; i < etss->n_map; i++) {
+			if (etss->map_table[i] > model_row)
+				etss->map_table[i] += count;
+		}
+		shift = TRUE;
 	}
 
 	/* i is Model row */
@@ -166,6 +170,10 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 			add_row (etw, i);
 		}
 	}
+	if (shift)
+		e_table_model_changed (E_TABLE_MODEL (etw));
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etw));
 }
 
 static void
@@ -173,14 +181,21 @@ etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, int model_ro
 {
 	int i; /* View row */
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
+	gboolean shift = FALSE;
 
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] >= model_row && etss->map_table[i] < model_row + count) {
 			remove_row (etw, i);
 			i--;
-		} else if (etss->map_table[i] >= model_row + count)
+		} else if (etss->map_table[i] >= model_row + count) {
 			etss->map_table[i] -= count;
+			shift = TRUE;
+		}
 	}
+	if (shift)
+		e_table_model_changed (E_TABLE_MODEL (etw));
+	else
+		e_table_model_no_change (E_TABLE_MODEL (etw));
 }
 
 static void

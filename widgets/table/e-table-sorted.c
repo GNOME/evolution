@@ -127,6 +127,9 @@ e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ETableSorted *ets = gtk_type_new (E_TABLE_SORTED_TYPE);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
 
+	if (ets_parent_class->proxy_model_pre_change)
+		(ets_parent_class->proxy_model_pre_change) (etss, source);
+
 	if (e_table_subset_construct (etss, source, 0) == NULL){
 		gtk_object_unref (GTK_OBJECT (ets));
 		return NULL;
@@ -198,17 +201,27 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row,
  	ETableModel *etm = E_TABLE_MODEL(etss);
 	ETableSorted *ets = E_TABLE_SORTED(etss);
 	int i;
+	gboolean full_change = FALSE;
 
-	e_table_model_pre_change (etm);
+	if (count == 0) {
+		e_table_model_no_change (etm);
+		return;
+	}
 
-	for (i = 0; i < etss->n_map; i++) {
-		if (etss->map_table[i] >= row)
-			etss->map_table[i] += count;
+	if (row != etss->n_map) {
+		full_change = TRUE;
+		for (i = 0; i < etss->n_map; i++) {
+			if (etss->map_table[i] >= row) {
+				etss->map_table[i] += count;
+			}
+		}
 	}
 
 	etss->map_table = g_realloc (etss->map_table, (etss->n_map + count) * sizeof(int));
 
 	for (; count > 0; count --) {
+		if (!full_change)
+			e_table_model_pre_change (etm);
 		i = etss->n_map;
 		if (ets->sort_idle_id == 0) {
 			/* this is to see if we're inserting a lot of things between idle loops.
@@ -228,11 +241,17 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row,
 		}
 		etss->map_table[i] = row;
 		etss->n_map++;
+		if (!full_change) {
+			e_table_model_row_inserted (etm, i);
+		}
 
-		e_table_model_row_inserted (etm, i);
 		d(g_print("inserted row %d", row));
 		row++;
 	}
+	if (full_change)
+		e_table_model_changed (etm);
+	else
+		e_table_model_no_change (etm);
 	d(e_table_subset_print_debugging(etss));
 }
 
@@ -245,11 +264,12 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, 
 	int j;
 
 	shift = row == etss->n_map - count;
-	
+
 	for (j = 0; j < count; j++) {
 		for (i = 0; i < etss->n_map; i++){
 			if (etss->map_table[i] == row + j) {
-				e_table_model_pre_change (etm);
+				if (shift)
+					e_table_model_pre_change (etm);
 				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 				etss->n_map --;
 				if (shift)
@@ -264,6 +284,8 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, 
 		}
 
 		e_table_model_changed (etm);
+	} else {
+		e_table_model_no_change (etm);
 	}
 
 	d(g_print("deleted row %d count %d", row, count));

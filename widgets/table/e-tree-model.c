@@ -46,6 +46,7 @@ static GtkObjectClass *parent_class;
 
 enum {
 	PRE_CHANGE,
+	NO_CHANGE,
 	NODE_CHANGED,
 	NODE_DATA_CHANGED,
 	NODE_COL_CHANGED,
@@ -69,6 +70,14 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, pre_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	e_tree_model_signals [NO_CHANGE] =
+		gtk_signal_new ("no_change",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (klass),
+				GTK_SIGNAL_OFFSET (ETreeModelClass, no_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -150,6 +159,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	tree_class->value_to_string      = NULL;
 
 	tree_class->pre_change           = NULL;
+	tree_class->no_change            = NULL;
 	tree_class->node_changed         = NULL;
 	tree_class->node_data_changed    = NULL;
 	tree_class->node_col_changed     = NULL;
@@ -184,6 +194,25 @@ e_tree_model_pre_change  (ETreeModel *tree_model)
 	
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [PRE_CHANGE]);
+}
+
+/**
+ * e_tree_model_node_changed:
+ * @tree_model: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+void
+e_tree_model_no_change  (ETreeModel *tree_model)
+{
+	g_return_if_fail (tree_model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+	
+	gtk_signal_emit (GTK_OBJECT (tree_model),
+			 e_tree_model_signals [NO_CHANGE]);
 }
 
 /**

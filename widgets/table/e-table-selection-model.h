@@ -54,7 +54,6 @@ typedef struct {
 
 	guint model_changed_idle_id;
 
-	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
 

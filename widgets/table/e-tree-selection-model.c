@@ -70,7 +70,10 @@ struct ETreeSelectionModelPriv {
 
 	char *cursor_save_id;
 
+	int          frozen_count;
+
 	int          tree_model_pre_change_id;
+	int          tree_model_no_change_id;
 	int          tree_model_node_changed_id;
 	int          tree_model_node_data_changed_id;
 	int          tree_model_node_col_changed_id;
@@ -342,6 +345,18 @@ update_parents (ETreeSelectionModel *etsm, ETreePath path)
 /* Signal handlers */
 
 static void
+etsm_freeze (ETreeSelectionModel *etsm)
+{
+	etsm->priv->frozen_count ++;
+}
+
+static void
+etsm_unfreeze (ETreeSelectionModel *etsm)
+{
+	etsm->priv->frozen_count --;
+}
+
+static void
 etsm_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
 {
 	g_free (etsm->priv->cursor_save_id);
@@ -352,6 +367,14 @@ etsm_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
 	    etsm->priv->cursor_path) {
 		etsm->priv->cursor_save_id = e_tree_model_get_save_id (etm, etsm->priv->cursor_path);
 	}
+
+	etsm_freeze (etsm);
+}
+
+static void
+etsm_no_change (ETreeModel *etm, ETreeSelectionModel *etsm)
+{
+	etsm_unfreeze (etsm);
 }
 
 static void
@@ -384,6 +407,7 @@ etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+	etsm_unfreeze (etsm);
 }
 
 static void
@@ -391,6 +415,7 @@ etsm_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *et
 {
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+	etsm_unfreeze (etsm);
 }
 
 static void
@@ -398,6 +423,7 @@ etsm_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionM
 {
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+	etsm_unfreeze (etsm);
 }
 
 static void
@@ -454,6 +480,8 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 	gtk_object_ref(GTK_OBJECT(priv->model));
 	priv->tree_model_pre_change_id        = gtk_signal_connect_after (GTK_OBJECT (priv->model), "pre_change",
 									  GTK_SIGNAL_FUNC (etsm_pre_change), etsm);
+	priv->tree_model_no_change_id         = gtk_signal_connect_after (GTK_OBJECT (priv->model), "no_change",
+									  GTK_SIGNAL_FUNC (etsm_no_change), etsm);
 	priv->tree_model_node_changed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_changed",
 									  GTK_SIGNAL_FUNC (etsm_node_changed), etsm);
 	priv->tree_model_node_data_changed_id = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_data_changed",
@@ -477,6 +505,8 @@ drop_model(ETreeSelectionModel *etsm)
 	gtk_signal_disconnect (GTK_OBJECT (priv->model),
 			       priv->tree_model_pre_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (priv->model),
+			       priv->tree_model_no_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->model),
 			       priv->tree_model_node_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (priv->model),
 			       priv->tree_model_node_data_changed_id);
@@ -491,6 +521,7 @@ drop_model(ETreeSelectionModel *etsm)
 	priv->model = NULL;
 
 	priv->tree_model_pre_change_id = 0;
+	priv->tree_model_no_change_id = 0;
 	priv->tree_model_node_changed_id = 0;
 	priv->tree_model_node_data_changed_id = 0;
 	priv->tree_model_node_col_changed_id = 0;
@@ -1194,6 +1225,7 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 
 
 	priv->tree_model_pre_change_id          = 0;
+	priv->tree_model_no_change_id          = 0;
 	priv->tree_model_node_changed_id        = 0;
 	priv->tree_model_node_data_changed_id   = 0;
 	priv->tree_model_node_col_changed_id    = 0;

@@ -460,8 +460,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 		e_tree_memory_path_insert (parent_path, position, new_path);
 		if (!tree_model->priv->frozen)
 			e_tree_model_node_inserted (E_TREE_MODEL(tree_model), parent_path, new_path);
-	}
-	else {
+	} else {
 		priv->root = new_path;
 		if (!tree_model->priv->frozen)
 			e_tree_model_node_changed(E_TREE_MODEL(tree_model), new_path);

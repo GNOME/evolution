@@ -48,6 +48,7 @@ typedef struct {
 	int last_access;
 
 	int              table_model_pre_change_id;
+	int              table_model_no_change_id;
 	int              table_model_changed_id;
 	int              table_model_row_changed_id;
 	int              table_model_cell_changed_id;
@@ -59,6 +60,7 @@ typedef struct {
 	ETableModelClass parent_class;
 
 	void (*proxy_model_pre_change)   (ETableSubset *etss, ETableModel *etm);
+	void (*proxy_model_no_change)   (ETableSubset *etss, ETableModel *etm);
 	void (*proxy_model_changed)      (ETableSubset *etss, ETableModel *etm);
 	void (*proxy_model_row_changed)  (ETableSubset *etss, ETableModel *etm, int row);
 	void (*proxy_model_cell_changed) (ETableSubset *etss, ETableModel *etm, int col, int row);

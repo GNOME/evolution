@@ -55,13 +55,13 @@ struct ETreeModelClass {
 	/*
 	 * Virtual methods
 	 */
-	ETreePath (*get_root)              (ETreeModel *etm);
+	ETreePath  (*get_root)              (ETreeModel *etm);
 
-	ETreePath (*get_parent)            (ETreeModel *etm, ETreePath node);
-	ETreePath (*get_first_child)       (ETreeModel *etm, ETreePath node);
-	ETreePath (*get_last_child)        (ETreeModel *etm, ETreePath node);
-	ETreePath (*get_next)              (ETreeModel *etm, ETreePath node);
-	ETreePath (*get_prev)              (ETreeModel *etm, ETreePath node);
+	ETreePath  (*get_parent)            (ETreeModel *etm, ETreePath node);
+	ETreePath  (*get_first_child)       (ETreeModel *etm, ETreePath node);
+	ETreePath  (*get_last_child)        (ETreeModel *etm, ETreePath node);
+	ETreePath  (*get_next)              (ETreeModel *etm, ETreePath node);
+	ETreePath  (*get_prev)              (ETreeModel *etm, ETreePath node);
 
 	gboolean   (*is_root)              (ETreeModel *etm, ETreePath node);
 	gboolean   (*is_expandable)        (ETreeModel *etm, ETreePath node);
@@ -98,6 +98,7 @@ struct ETreeModelClass {
 	 * Signals
 	 */
 	void       (*pre_change)           (ETreeModel *etm);
+	void       (*no_change)            (ETreeModel *etm);
 	void       (*node_changed)         (ETreeModel *etm, ETreePath node);
 	void       (*node_data_changed)    (ETreeModel *etm, ETreePath node);
 	void       (*node_col_changed)     (ETreeModel *etm, ETreePath node,   int col);
@@ -185,6 +186,7 @@ void        e_tree_model_node_traverse_preorder (ETreeModel     *model,
 ** Routines for emitting signals on the ETreeModel
 */
 void        e_tree_model_pre_change            (ETreeModel     *tree_model);
+void        e_tree_model_no_change             (ETreeModel     *tree_model);
 void        e_tree_model_node_changed          (ETreeModel     *tree_model,
 						ETreePath       node);
 void        e_tree_model_node_data_changed     (ETreeModel     *tree_model,

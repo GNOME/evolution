@@ -52,6 +52,7 @@ struct ETreeTableAdapterPriv {
 	int          last_access;
 
 	int          tree_model_pre_change_id;
+	int          tree_model_no_change_id;
 	int          tree_model_node_changed_id;
 	int          tree_model_node_data_changed_id;
 	int          tree_model_node_col_changed_id;
@@ -392,6 +393,8 @@ etta_destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
 				       etta->priv->tree_model_pre_change_id);
 		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
+				       etta->priv->tree_model_no_change_id);
+		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
 				       etta->priv->tree_model_node_changed_id);
 		gtk_signal_disconnect (GTK_OBJECT (etta->priv->source),
 				       etta->priv->tree_model_node_data_changed_id);
@@ -406,6 +409,7 @@ etta_destroy (GtkObject *object)
 		etta->priv->source = NULL;
 
 		etta->priv->tree_model_pre_change_id = 0;
+		etta->priv->tree_model_no_change_id = 0;
 		etta->priv->tree_model_node_changed_id = 0;
 		etta->priv->tree_model_node_data_changed_id = 0;
 		etta->priv->tree_model_node_col_changed_id = 0;
@@ -618,6 +622,7 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->last_access                     = 0;
 
 	etta->priv->tree_model_pre_change_id        = 0;
+	etta->priv->tree_model_no_change_id        = 0;
 	etta->priv->tree_model_node_changed_id      = 0;
 	etta->priv->tree_model_node_data_changed_id = 0;
 	etta->priv->tree_model_node_col_changed_id  = 0;
@@ -631,6 +636,12 @@ static void
 etta_proxy_pre_change (ETreeModel *etm, ETreeTableAdapter *etta)
 {
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
+}
+
+static void
+etta_proxy_no_change (ETreeModel *etm, ETreeTableAdapter *etta)
+{
+	e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
 static void
@@ -681,7 +692,10 @@ etta_proxy_node_data_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter
 			e_table_model_row_changed(E_TABLE_MODEL(etta), row);
 		else if (row != 0)
 			e_table_model_row_changed(E_TABLE_MODEL(etta), row - 1);
-	}
+		else
+			e_table_model_no_change(E_TABLE_MODEL(etta));
+	} else
+		e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
 static void
@@ -693,7 +707,10 @@ etta_proxy_node_col_changed (ETreeModel *etm, ETreePath path, int col, ETreeTabl
 			e_table_model_cell_changed(E_TABLE_MODEL(etta), col, row);
 		else if (row != 0)
 			e_table_model_cell_changed(E_TABLE_MODEL(etta), col, row - 1);
-	}
+		else
+			e_table_model_no_change(E_TABLE_MODEL(etta));
+	} else
+		e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
 static void
@@ -709,19 +726,26 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 		ETreeTableAdapterNode *parent_node;
 
 		parent_row = find_row_num(etta, parent);
-		if (parent_row == -1)
+		if (parent_row == -1) {
+			e_table_model_no_change(E_TABLE_MODEL(etta));
 			return;
+		}
 
 		parent_node = find_or_create_node(etta, parent);
 		if (parent_node->expandable != e_tree_model_node_is_expandable(etta->priv->source, parent)) {
+			e_table_model_pre_change(E_TABLE_MODEL(etta));
 			parent_node->expandable = e_tree_model_node_is_expandable(etta->priv->source, parent);
 			if (etta->priv->root_visible)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), parent_row);
 			else if (parent_row != 0)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), parent_row - 1);
+			else
+				e_table_model_no_change(E_TABLE_MODEL(etta));
 		}
-		if (!parent_node->expanded)
+		if (!parent_node->expanded) {
+			e_table_model_no_change(E_TABLE_MODEL(etta));
 			return;
+		}
 
 		row = find_first_child_node(etta, parent_row);
 		children = e_tree_model_node_get_first_child(etta->priv->source, parent);
@@ -755,7 +779,8 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 			e_table_model_rows_inserted(E_TABLE_MODEL(etta), row - 1, size);
 		else
 			e_table_model_rows_inserted(E_TABLE_MODEL(etta), 0, size - 1);
-	}
+	} else
+		e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
 static void
@@ -766,13 +791,17 @@ etta_proxy_node_removed (ETableModel *etm, ETreePath parent, ETreePath child, in
 	ETreeTableAdapterNode *parent_node = find_node(etta, parent);
 	if (parent_row != -1 && parent_node) {
 		if (parent_node->expandable != e_tree_model_node_is_expandable(etta->priv->source, parent)) {
+			e_table_model_pre_change(E_TABLE_MODEL(etta));
 			parent_node->expandable = e_tree_model_node_is_expandable(etta->priv->source, parent);
 			if (etta->priv->root_visible)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), parent_row);
 			else if (parent_row != 0)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), parent_row - 1);
+			else
+				e_table_model_no_change(E_TABLE_MODEL(etta));
 		}
 	}
+
 	if (row != -1) {
 		ETreeTableAdapterNode *node = find_node(etta, child);
 		int to_remove = (node ? node->num_visible_children : 0) + 1;
@@ -792,7 +821,8 @@ etta_proxy_node_removed (ETableModel *etm, ETreePath parent, ETreePath child, in
 			e_table_model_rows_deleted(E_TABLE_MODEL(etta), row - 1, to_remove);
 		else
 			e_table_model_rows_deleted(E_TABLE_MODEL(etta), 0, to_remove - 1);
-	}
+	} else
+		e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
 ETableModel *
@@ -819,6 +849,8 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source)
 
 	etta->priv->tree_model_pre_change_id = gtk_signal_connect (GTK_OBJECT (source), "pre_change",
 								   GTK_SIGNAL_FUNC (etta_proxy_pre_change), etta);
+	etta->priv->tree_model_no_change_id = gtk_signal_connect (GTK_OBJECT (source), "no_change",
+								   GTK_SIGNAL_FUNC (etta_proxy_no_change), etta);
 	etta->priv->tree_model_node_changed_id = gtk_signal_connect (GTK_OBJECT (source), "node_changed",
 								     GTK_SIGNAL_FUNC (etta_proxy_node_changed), etta);
 	etta->priv->tree_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (source), "node_data_changed",
@@ -973,18 +1005,20 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 	node = find_or_create_node(etta, path);
 
 	if (expanded != node->expanded) {
-		e_table_model_pre_change (E_TABLE_MODEL(etta));
-
 		node->expanded = expanded;
 		
 		row = find_row_num(etta, path);
 		if (row != -1) {
-			if (etta->priv->root_visible)
-				e_table_model_row_changed(E_TABLE_MODEL(etta), row);
-			else if (row != 0)
-				e_table_model_row_changed(E_TABLE_MODEL(etta), row - 1);
-
 			e_table_model_pre_change (E_TABLE_MODEL(etta));
+
+			if (etta->priv->root_visible) {
+				e_table_model_pre_change (E_TABLE_MODEL(etta));
+				e_table_model_row_changed(E_TABLE_MODEL(etta), row);
+			} else if (row != 0) {
+				e_table_model_pre_change (E_TABLE_MODEL(etta));
+				e_table_model_row_changed(E_TABLE_MODEL(etta), row - 1);
+			}
+
 			if (expanded) {
 				int num_children = array_size_from_path(etta, path) - 1;
 				etta_expand_to(etta, etta->priv->n_map + num_children);
@@ -998,7 +1032,8 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 						e_table_model_rows_inserted(E_TABLE_MODEL(etta), row + 1, num_children);
 					else
 						e_table_model_rows_inserted(E_TABLE_MODEL(etta), row, num_children);
-				}
+				} else
+					e_table_model_no_change(E_TABLE_MODEL(etta));
 			} else {
 				int num_children = node->num_visible_children;
 				g_assert (etta->priv->n_map >= row + 1 + num_children);
@@ -1012,7 +1047,8 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 						e_table_model_rows_deleted(E_TABLE_MODEL(etta), row + 1, num_children);
 					else
 						e_table_model_rows_deleted(E_TABLE_MODEL(etta), row, num_children);
-				}
+				} else
+					e_table_model_no_change(E_TABLE_MODEL(etta));
 			}
 		}
 	}

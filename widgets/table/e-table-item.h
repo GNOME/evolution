@@ -63,6 +63,7 @@ typedef struct {
 	int              header_structure_change_id;
 	int              header_request_width_id;
 	int              table_model_pre_change_id;
+	int              table_model_no_change_id;
 	int              table_model_change_id;
 	int              table_model_row_change_id;
 	int              table_model_cell_change_id;
@@ -106,6 +107,10 @@ typedef struct {
 
 	guint            cursor_on_screen : 1;
 	guint            gtk_grabbed : 1;
+
+	guint            queue_show_cursor : 1;
+
+	int              frozen_count;
 
 	int              cursor_x1;
 	int              cursor_y1;
