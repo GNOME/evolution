@@ -1,3 +1,11 @@
+2003-12-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (impl_createControls): make sure we
+	connect to the "changed" signals after setting the initial selections
+	on the ESourceSelector. Fixes some nasty warnings because of
+	calendar_control_sensitize_calendar_commands being called with
+	no container yet for the control.
+
 2003-12-17  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/dialogs/comp-editor.c: Add the concept of a source client, where
