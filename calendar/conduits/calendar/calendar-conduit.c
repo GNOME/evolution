@@ -938,7 +938,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone), it;
 	struct icalrecurrencetype recur;
 	CalComponentText summary = {NULL, NULL};
-	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
+	CalComponentDateTime dt = {NULL, NULL};
 	GSList *edl = NULL;	
 	char *txt;
 	int pos, i;
@@ -978,21 +978,26 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		free (txt);
 	} 
 
-	if (!is_empty_time (appt.begin)) {
-		it = tm_to_icaltimetype (&appt.begin, FALSE);
+	if (appt.event && !is_empty_time (appt.begin)) {
+		it = tm_to_icaltimetype (&appt.begin, TRUE);
 		dt.value = &it;
+		dt.tzid = NULL;
 		cal_component_set_dtstart (comp, &dt);
-	}
+		cal_component_set_dtend (comp, &dt);
+	} else {
+		dt.tzid = icaltimezone_get_tzid (timezone);
 
-	if (appt.event) {
-		it = tm_to_icaltimetype (&appt.begin, FALSE);
-		icaltime_adjust (&it, 1, 0, 0, 0);
-		dt.value = &it;
-		cal_component_set_dtend (comp, &dt);
-	} else if (!is_empty_time (appt.end)) {
-		it = tm_to_icaltimetype (&appt.end, FALSE);
-		dt.value = &it;
-		cal_component_set_dtend (comp, &dt);
+		if (!is_empty_time (appt.begin)) {
+			it = tm_to_icaltimetype (&appt.begin, FALSE);
+			dt.value = &it;
+			cal_component_set_dtstart (comp, &dt);
+		}
+
+		if (!is_empty_time (appt.end)) {		
+			it = tm_to_icaltimetype (&appt.end, FALSE);
+			dt.value = &it;
+			cal_component_set_dtend (comp, &dt);
+		}
 	}
 
 	/* Recurrence information */

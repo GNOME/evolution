@@ -1,5 +1,11 @@
 2002-09-24  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record):
+	make sure the start/end for no time palm events are DATE values,
+	tidy code slightly
+
+2002-09-24  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c (process_multi_day):
 	convert to date values if the original start and end were both
 	dates
