@@ -1,3 +1,7 @@
+2003-01-25  Chris Toshok  <toshok@ximian.com>
+
+	* e-pilot-settings.[ch]: GObjectify this.
+
 2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-categories-config.c (initialize_categories_config): Enable

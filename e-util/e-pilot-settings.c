@@ -25,7 +25,8 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-pilot-settings.h"
 
 struct _EPilotSettingsPrivate 
@@ -39,43 +40,39 @@ struct _EPilotSettingsPrivate
 static void class_init (EPilotSettingsClass *klass);
 static void init (EPilotSettings *ps);
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 
-GtkType
+GType
 e_pilot_settings_get_type (void)
 {
-  static GtkType type = 0;
+	static GType type = 0;
 
-  if (type == 0)
-    {
-      static const GtkTypeInfo info =
-      {
-        "EPilotSettings",
-        sizeof (EPilotSettings),
-        sizeof (EPilotSettingsClass),
-        (GtkClassInitFunc) class_init,
-        (GtkObjectInitFunc) init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!type) {
+		static GTypeInfo info = {
+                        sizeof (EPilotSettingsClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) class_init,
+                        NULL, NULL,
+                        sizeof (EPilotSettings),
+                        0,
+                        (GInstanceInitFunc) init
+                };
+		type = g_type_register_static (GTK_TYPE_TABLE, "EPilotSettings", &info, 0);
+	}
 
-      type = gtk_type_unique (gtk_table_get_type (), &info);
-    }
-
-  return type;
+	return type;
 }
 
 static void
 class_init (EPilotSettingsClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_table_get_type ());
-
+	parent_class = g_type_class_ref (GTK_TYPE_TABLE);
 }
 
 
@@ -117,7 +114,7 @@ init (EPilotSettings *ps)
 GtkWidget *
 e_pilot_settings_new (void)
 {
-	return gtk_type_new (E_TYPE_PILOT_SETTINGS);
+	return g_object_new (E_TYPE_PILOT_SETTINGS, NULL);
 }
 
 gboolean
