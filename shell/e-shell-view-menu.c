@@ -650,14 +650,6 @@ command_pilot_settings (BonoboUIComponent *uih,
 	launch_pilot_settings (NULL);
 }
 
-static void
-command_pilot_conduit_settings (BonoboUIComponent *uih,
-				void *data,
-				const char *path)
-{
-	launch_pilot_settings ("--cap-id=1");
-}
-
 
 static BonoboUIVerb new_verbs [] = {
 	BONOBO_UI_VERB ("NewFolder", command_new_folder),
@@ -704,7 +696,6 @@ static BonoboUIVerb actions_verbs[] = {
 static BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("Settings", command_settings),
 
-	BONOBO_UI_VERB ("PilotConduitSettings", command_pilot_conduit_settings),
 	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
 
 	BONOBO_UI_VERB_END

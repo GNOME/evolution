@@ -1,3 +1,7 @@
+2003-03-20  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-view-menu.c: remove unused command
+
 2003-03-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-config-upgrade.c (e_config_upgrade): Added some more doco just
