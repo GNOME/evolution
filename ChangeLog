@@ -1,3 +1,8 @@
+2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* tools/killev.c (main): kill the alarm notification service, not
+	the factory, which no longer exists.
+
 2003-11-17  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: make sure server.mk is disted
