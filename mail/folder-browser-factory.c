@@ -117,23 +117,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-/*
- * MOVEME: into bonobo
- */
-static char *
-bonobo_ui_xml_get_parent_path (const char *path)
-{
-	const char *p;
-	char *ret;
-
-	if ((p = strrchr (path, '/')))
-		ret = g_strndup (path, p - path);
-	else
-		ret = g_strdup (path);
-
-	return ret;
-}
-
 static void
 set_pixmap (Bonobo_UIContainer container,
 	    const char        *xml_path,

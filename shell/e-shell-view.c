@@ -742,24 +742,6 @@ stop_progress_bar (EShellView *shell_view)
 
 /* EvolutionShellView interface callbacks.  */
 
-/*
- * MOVEME: into Bonobo.
- */
-static void
-bonobo_ui_container_set_status (Bonobo_UIContainer  container,
-				const char         *text,
-				CORBA_Environment  *opt_ev)
-{
-	char *str;
-
-	g_return_if_fail (text != NULL);
-	g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-	str = g_strdup_printf ("<item name=\"main\">%s</item>", text);
-
-	bonobo_ui_component_set (NULL, container, "/status", str, opt_ev);
-}
-
 static void
 shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 				     const char *message,
