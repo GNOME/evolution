@@ -1,3 +1,9 @@
+2001-11-09    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_auth_loop): If we get a
+	user cancel and that causes us to fail to authenticate, abort
+	rather than loop forever.  Fix for #14951.
+
 2001-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-command.c
