@@ -1,3 +1,12 @@
+2000-02-29  NotZed  <NotZed@HelixCode.com>
+
+	* tests/ui-tests/Makefile.am (filter_LDADD): Added test program.
+
+	* tests/ui-tests/filterdescription.xml, saveoptions.xml: Data
+	files for test program.
+
+	* tests/ui-tests/filter.c (main): Test program for filter ui.
+
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
 	* widgets/shortcut-bar/Makefile.am (test_shortcut_bar_LDADD):

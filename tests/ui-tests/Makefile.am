@@ -6,6 +6,7 @@ INCLUDES =					\
 	-I$(includedir)				\
 	-I$(top_srcdir)/camel/providers/MH	\
 	-I$(top_srcdir)/widgets			\
+	-I$(top_srcdir)/filter			\
 	$(EXTRA_GNOME_CFLAGS)
 
 LDADD =							\
@@ -23,6 +24,15 @@ message_browser_LDADD = \
 	$(EXTRA_GNOME_LIBS) \
 	-lgtkhtml -lgnomeprint ../../mail/html-stream.o
 
+filter_LDADD = \
+	$(top_builddir)/camel/libcamel.la		\
+	$(INTLLIBS)					\
+	$(EXTRA_GNOME_LIBS)				\
+	$(PTHREAD_LIB) 					\
+	$(EXTRA_GNOME_LIBS) 				\
+	$(top_builddir)/filter/libfilter.la		\
+	-lgtkhtml
 
 noinst_PROGRAMS =  	\
-	message-browser	
+	message-browser	\
+	filter

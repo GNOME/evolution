@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<filteroptions>
+  <optionset>
+    <option type="send">
+      <description>Family email</description>
+      <optionrule type="match" rule="from-address">
+        <optionvalue name="sender">
+          <address name="zucchi" email="zucchi@zedzone"/>
+          <address name="foo" email="bar"/>
+        </optionvalue>
+      </optionrule>
+      <optionrule type="match" rule="to-address">
+        <optionvalue name="receipient">
+          <address name="frank" email="frank.zucchi"/>
+        </optionvalue>
+      </optionrule>
+      <optionrule type="match" rule="cc-address">
+          <address name="zucchi" email="zucchi@zedzone"/>
+      </optionrule>
+      <optionrule type="except" rule="except-me"/>
+      <optionrule type="action" rule="copy-me">
+        <optionvalue name="folder">
+          <folder name="SaveMe"/>
+          <folder name="InBox"/>
+        </optionvalue>
+      </optionrule>
+    </option>
+    <option type="receive">
+      <description>Helix Email</description>
+      <optionrule type="match" rule="from-address">
+        <optionvalue name="sender">
+          <address name="primates" email="primates-list@helixcode.com"/>
+        </optionvalue>
+      </optionrule>
+    </option>
+  </optionset>
+</filteroptions>
