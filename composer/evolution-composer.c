@@ -53,11 +53,10 @@ corba_recipientlist_to_glist (const GNOME_Evolution_Composer_RecipientList *cl)
 
 		/* Let's copy this code into yet another place! */
 		if (*recip->name) {
-			str = g_strdup_printf ("\"%s\" <%s>",
-					       recip->name, recip->address);
+			str = camel_internet_address_format_address (recip->name, recip->address);
 		} else
 			str = g_strdup (recip->address);
-
+		
 		gl = g_list_prepend (gl, str);		
 	}
 
@@ -248,12 +247,12 @@ init (EvolutionComposer *composer)
 
 	if (account->id)
 		sig_file = account->id->signature;
-
+	
 	if (sig_file)
 		composer->composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
 	else
 		composer->composer = e_msg_composer_new ();
-		
+	
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "postpone",
@@ -318,7 +317,7 @@ evolution_composer_new (void)
 	POA_GNOME_Evolution_Composer *servant;
 	CORBA_Environment ev;
 	GNOME_Evolution_Composer corba_object;
-
+	
 	servant = (POA_GNOME_Evolution_Composer *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &Composer_vepv;
 

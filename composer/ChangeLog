@@ -1,3 +1,9 @@
+2001-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-composer.c (corba_recipientlist_to_glist): Use the
+	camel-internet-address code to format the address rather than
+	doing it the broken way.
+
 2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-composer.c (impl_Composer_set_headers): Updated. We
