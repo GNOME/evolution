@@ -1,3 +1,8 @@
+2003-12-05  Radek Doulik  <rodo@ximian.com>
+
+	* configure.in: require gtkhtml 3.1.3 (new gtk_html_flush method
+	to be used in mailer)
+
 2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (EVOLUTION_DIR): Remove the Junk folder
