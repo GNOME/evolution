@@ -13,11 +13,15 @@ static void
 create_container (void)
 {
 	GtkWidget *window, *control;
+	BonoboUIHandler *uih;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_widget_show (window);
 
-	control = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0");
+	uih = bonobo_ui_handler_new ();
+	control = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
+					     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
+
 	if (control == NULL){
 		printf ("Could not launch mail control\n");
 		exit (1);
