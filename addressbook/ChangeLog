@@ -1,3 +1,11 @@
+2004-06-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Set window to be invisible
+	initially.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init): Set
+	the type hint to "normal", and show the window after init.
+
 2004-06-23  Not Zed  <NotZed@Ximian.com>
 
 	* gui/widgets/eab-gui-util.c
