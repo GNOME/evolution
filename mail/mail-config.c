@@ -461,7 +461,7 @@ config_read (void)
 	
 	default_num = bonobo_config_get_long_with_default (config->db,
 		"/Mail/Accounts/default_account", 0, NULL);
-
+	
 	mail_config_set_default_account_num (default_num);
 	
 #ifdef ENABLE_NNTP
@@ -1438,6 +1438,8 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 const GSList *
 mail_config_get_accounts (void)
 {
+	g_assert (config != NULL);
+	
 	return config->accounts;
 }
 
@@ -1658,15 +1660,23 @@ remove_account_shortcuts (MailConfigAccount *account)
 const GSList *
 mail_config_remove_account (MailConfigAccount *account)
 {
+	int index;
+	
 	/* Removing the current default, so make the first account the
            default */
-	if (account == mail_config_get_default_account ())
+	if (account == mail_config_get_default_account ()) {
 		config->default_account = 0;
-
+	} else {
+		/* adjust the default to make sure it points to the same one */
+		index = g_slist_index (config->accounts, account);
+		if (config->default_account > index)
+			config->default_account--;
+	}
+	
 	config->accounts = g_slist_remove (config->accounts, account);
 	remove_account_shortcuts (account);
 	account_destroy (account);
-
+	
 	return config->accounts;
 }
 

@@ -633,8 +633,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
-	mail_config_init ();
-
+	
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	vfolder_create_storage (shell_component);
@@ -648,7 +647,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	news = mail_config_get_news ();
 	mail_load_storages (corba_shell, news, FALSE);
 #endif
-
+	
 	mail_local_storage_startup (shell_client, evolution_dir);
 	mail_importer_init (shell_client);
 	

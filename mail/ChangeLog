@@ -1,3 +1,17 @@
+2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_remove_account): Adjust the
+	default_account index correctly.
+
+2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_get_accounts): Added a g_assert to
+	make sure that config wasn't NULL. This is meant to help debug bug
+	#4911 and friends.
+
+	* component-factory.c (owner_set_cb): Do not mail_config_init()
+	here as we've already called this in main() in main.c.
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #958, ShellComponents should not be created by factories, for
@@ -53,6 +67,7 @@
 
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
+>>>>>>> 1.1649
 	* message-browser.c (message_browser_new): s/Evolution/Ximian
 	Evolution/.
 
