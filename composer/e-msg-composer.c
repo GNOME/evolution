@@ -2026,7 +2026,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_freeze (composer->uic, NULL);
 	
 	bonobo_ui_util_set_ui (composer->uic, EVOLUTION_DATADIR,
-			       "evolution-message-composer.xml",
+			       EVOLUTION_UIDIR "/evolution-message-composer.xml",
 			       "evolution-message-composer", NULL);
 	
 	e_pixmaps_update (composer->uic, pixcache);

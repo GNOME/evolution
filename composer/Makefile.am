@@ -44,13 +44,11 @@ $(libcomposer_la_OBJECTS): composer-marshal.h
 
 idl_DATA = $(IDLS)
 
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA =					\
 	e-msg-composer-attachment.glade
 
-iconsdir = $(datadir)/evolution/images
-
-libcomposerincludedir = $(includedir)/composer
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 
 noinst_LIBRARIES = libcomposer.a
 
@@ -68,6 +66,7 @@ INCLUDES =								\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
 	-DEVOLUTION_ICONSDIR=\"$(iconsdir)\"				\
+	-DEVOLUTION_UIDIR=\"$(evolutionuidir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	-DG_DISABLE_DEPRECATED						\
