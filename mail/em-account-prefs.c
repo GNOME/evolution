@@ -486,6 +486,8 @@ em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, 
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, TRUE);
+	atk_object_set_name (gtk_widget_get_accessible (table), _("Mail Accounts Table"));
+
 	
 	/* FIXME: column auto-resize? */
 	/* Is this needed?

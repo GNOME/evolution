@@ -1,3 +1,12 @@
+2005-03-30  Li Yuan  <li.yuan@sun.com>
+
+	* em-account-prefs.c: (em_account_prefs_treeview_new):
+	add a11y name to Mail Accounts Table
+	* mail-config.glade:
+	add a11y name to tables in Mail Preferences page and 
+	Composer Preferences page.
+	Fixes #73914
+
 2005-03-16  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-format-html.c (efh_format_headers): Don't show multiple
