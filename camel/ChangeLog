@@ -1,3 +1,9 @@
+2001-05-09  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_move_messages_to): Pass
+	appropriate parameters to CF_CLASS and add comment explaining why
+	my initial attempt at a solution didn't work.
+
 2001-05-09  Dan Winship  <danw@ximian.com>
 
 	* camel-disco-store.c (camel_disco_set_status): Set the

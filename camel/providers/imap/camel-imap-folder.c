@@ -833,7 +833,9 @@ imap_move_messages_to (CamelFolder *source, GPtrArray *uids,
 {
 	int i;
 
-	CF_CLASS (disco_folder_class)->copy_messages_to (source, uids, destination, ex);
+	/* do it this way (as opposed to camel_folder_copy_messages_to)
+	 * to avoid locking issues */
+	CF_CLASS (source)->copy_messages_to (source, uids, destination, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
