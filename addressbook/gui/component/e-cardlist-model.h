@@ -2,7 +2,7 @@
 #ifndef _E_CARDLIST_MODEL_H_
 #define _E_CARDLIST_MODEL_H_
 
-#include "e-table-model.h"
+#include <gal/e-table/e-table-model.h>
 #include <ebook/e-book.h>
 #include <ebook/e-book-view.h>
 #include <ebook/e-card-simple.h>

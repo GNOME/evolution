@@ -7,7 +7,7 @@
 
 #include <config.h>
 #include <gnome.h>
-#include "e-util/e-unicode.h"
+#include <gal/widgets/e-unicode.h>
 #include "event-editor.h"
 #include "gncal-todo.h"
 

@@ -27,7 +27,7 @@
 #include <string.h>
 #include <glib.h>
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include "camel-folder-search.h"
 #include "string-utils.h"
 

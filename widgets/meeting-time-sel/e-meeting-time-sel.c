@@ -45,8 +45,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-canvas-widget.h>
 
-#include "../../e-util/e-canvas.h"
-#include "../../e-util/e-canvas-utils.h"
+#include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-canvas-utils.h>
 #include "e-meeting-time-sel.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel-list-item.h"

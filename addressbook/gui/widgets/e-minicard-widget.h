@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include "addressbook/backend/ebook/e-card.h"
-#include "e-util/e-canvas.h"
+#include <gal/widgets/e-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

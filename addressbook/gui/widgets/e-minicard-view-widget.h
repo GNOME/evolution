@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include "e-minicard-view.h"
-#include "e-util/e-canvas.h"
+#include <gal/widgets/e-canvas.h>
 #include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus

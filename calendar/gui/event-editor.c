@@ -26,7 +26,7 @@
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
 

@@ -41,8 +41,8 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 
 #include "e-local-folder.h"
 

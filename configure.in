@@ -279,6 +279,22 @@ else
     AC_MSG_ERROR(Did not find gdkpixbuf installed)
 fi
 
+dnl ******************************
+dnl Gnome App Lib checking
+dnl ******************************
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.01)
+if gnome-config --libs gal > /dev/null 2>&1; then 
+    vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
+        awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+    if test "$vers" -ge 1; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least GNOME Application libs 0.01 for this version of Gnumeric)
+    fi
+else
+    AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
+fi
+
 GLIB_CFLAGS="`glib-config --cflags`"
 GLIB_LIBS="`glib-config --libs`"
 
@@ -286,8 +302,8 @@ AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
 
-EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_LIBS $UNICODE_LIBS"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_CFLAGS $UNICODE_CFLAGS"
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS $UNICODE_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS $UNICODE_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
@@ -569,10 +585,6 @@ camel/providers/mh/Makefile
 camel/providers/nntp/Makefile
 composer/Makefile
 widgets/Makefile
-widgets/e-paned/Makefile
-widgets/e-table/Makefile
-widgets/e-text/Makefile
-widgets/e-reflow/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile

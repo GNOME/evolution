@@ -1,3 +1,19 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Removed all the files moved to gal.
+
+	* e-dialog-widgets.c: Fixed the #include lines to deal properly
+	with gal.
+
+	* e-gui-utils.c, e-gui-utils.h: Removed all of the functionality
+	that was moved to gal.
+
+	* e-canvas-utils.c, e-canvas-utils.h, e-canvas-vbox.c,
+	e-canvas-vbox.h, e-canvas.c, e-canvas.h, e-cursors.c, e-cursors.h,
+	e-font.c, e-font.h, e-popup-menu.c, e-popup-menu.h, e-printable.c,
+	e-printable.h, e-unicode.c, e-unicode.h, e-util.c, e-util.h,
+	e-xml-utils.c, e-xml-utils.h: Moved to gal.
+
 2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-font.c: Fixed an uninitialized variable.

@@ -21,7 +21,7 @@
 
 #include <gnome.h>
 #include "e-minicard-label.h"
-#include <e-util/e-canvas.h>
+#include <gal/widgets/e-canvas.h>
 
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *label;

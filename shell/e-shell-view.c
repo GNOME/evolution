@@ -33,9 +33,9 @@
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "widgets/misc/e-clipped-label.h"
-#include "e-util/e-util.h"
-#include "e-util/e-gui-utils.h"
-#include "e-util/e-unicode.h"
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "evolution-shell-view.h"
 
@@ -50,7 +50,7 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-#include <widgets/e-paned/e-hpaned.h>
+#include <gal/e-paned/e-hpaned.h>
 
 
 static BonoboWinClass *parent_class = NULL;

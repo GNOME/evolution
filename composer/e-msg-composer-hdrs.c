@@ -36,8 +36,8 @@
 
 #include "e-msg-composer-address-entry.h"
 #include "e-msg-composer-hdrs.h"
-#include "widgets/e-text/e-entry.h"
-#include "e-util/e-unicode.h"
+#include <gal/e-text/e-entry.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "mail/mail-config.h"
 

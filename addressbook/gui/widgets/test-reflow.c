@@ -48,10 +48,10 @@
 #include "config.h"
 
 #include <gnome.h>
-#include <e-util/e-canvas.h>
-#include "e-reflow.h"
+#include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-reflow.h>
 #include "e-minicard.h"
-#include "e-scroll-frame.h"
+#include <gal/widgets/e-scroll-frame.h>
 
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *reflow;

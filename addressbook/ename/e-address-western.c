@@ -20,7 +20,7 @@
 #else
 
 #include <ename/e-address-western.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 #endif
 

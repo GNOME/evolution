@@ -23,12 +23,12 @@
 #include <config.h>
 #include <gnome.h>
 #include <e-contact-editor-categories.h>
-#include <e-table-scrolled.h>
-#include <e-table.h>
-#include <e-table-simple.h>
-#include <e-cell-text.h>
-#include <e-cell-checkbox.h>
-#include <e-util/e-unicode.h>
+#include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-checkbox.h>
+#include <gal/widgets/e-unicode.h>
 
 static void e_contact_editor_categories_init		(EContactEditorCategories		 *card);
 static void e_contact_editor_categories_class_init	(EContactEditorCategoriesClass	 *klass);

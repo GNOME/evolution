@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-util/e-canvas.h>
+#include <gal/widgets/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-minicard.h"
 #include "e-contact-editor.h"

@@ -22,7 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include "score-editor.h"
 #include "score-context.h"
 #include "score-rule.h"

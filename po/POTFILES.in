@@ -90,10 +90,6 @@ shell/e-shortcuts.c
 shell/e-storage.c
 shell/e-storage-set-view.c
 shell/main.c
-widgets/e-table/e-table-config.glade.h
-widgets/e-table/e-table-field-chooser.glade.h
-widgets/e-table/e-table-group.glade.h
-widgets/e-table/e-table-header-item.c
 widgets/meeting-time-sel/e-meeting-time-sel.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-clipped-label.c

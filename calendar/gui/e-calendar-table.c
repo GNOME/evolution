@@ -29,10 +29,10 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-table/e-table-scrolled.h>
-#include <e-table/e-cell-checkbox.h>
-#include <e-table/e-cell-toggle.h>
-#include <e-table/e-cell-text.h>
+#include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-cell-checkbox.h>
+#include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-text.h>
 #include "e-calendar-table.h"
 #include "calendar-model.h"
 #include "dialogs/task-editor.h"
@@ -43,7 +43,7 @@
 #include "task-assigned.xpm"
 #include "task-assigned-to.xpm"
 
-#include <e-table/check-filled.xpm>
+#include "check-filled.xpm"
 
 
 static void e_calendar_table_class_init (ECalendarTableClass *class);

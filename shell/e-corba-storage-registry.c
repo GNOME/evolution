@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "e-corba-storage.h"
 

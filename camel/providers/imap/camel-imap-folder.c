@@ -34,7 +34,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 #include "camel-imap-folder.h"
 #include "camel-imap-store.h"

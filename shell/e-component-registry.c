@@ -29,7 +29,7 @@
 #include <gtk/gtktypeutils.h>
 #include <bonobo.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-shell-utils.h"
 
 #include "Evolution.h"

@@ -24,7 +24,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <ebook/e-card.h>
-#include <widgets/e-table/e-table-model.h>
+#include <gal/e-table/e-table-model.h>
 
 #ifdef __cplusplus
 extern "C" {

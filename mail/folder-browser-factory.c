@@ -17,8 +17,8 @@
 #include <bonobo/bonobo-control.h> 
 #include <bonobo/bonobo-ui-component.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-gui-utils.h"
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "folder-browser-factory.h"
 

@@ -38,7 +38,7 @@
 #include "mail.h"		/* YUCK FIXME */
 #include "mail-tools.h"
 #include "mail-ops.h"
-#include "e-util/e-gui-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 #include "mail-local-storage.h"
 
 #include "component-factory.h"

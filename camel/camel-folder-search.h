@@ -24,7 +24,7 @@
 
 #include <camel/camel-object.h>
 #include <e-util/e-sexp.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include <libibex/ibex.h>
 #include <camel/camel-folder.h>
 

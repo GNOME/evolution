@@ -32,7 +32,7 @@
 
 #include "Evolution-Addressbook-SelectNames.h"
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-select-names-manager.h"
 
 #include "e-select-names-bonobo.h"

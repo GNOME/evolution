@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-util/e-canvas.h>
+#include <gal/widgets/e-canvas.h>
 #include "e-minicard-view-widget.h"
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
 static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *klass);

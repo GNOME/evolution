@@ -31,7 +31,7 @@
 #include <libgnomeprint/gnome-print-preview.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "gnome-cal.h"

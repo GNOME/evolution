@@ -29,7 +29,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "widgets/misc/e-clipped-label.h"
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"

@@ -1,3 +1,39 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am, contact-editor/Makefile.am,
+	ename/Makefile.am, gui/component/Makefile.am,
+	gui/widgets/Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* backend/ebook/e-card.c, backend/pas/pas-backend-file.c,
+	contact-editor/e-contact-editor-address.c,
+	contact-editor/e-contact-editor-categories.c,
+	contact-editor/e-contact-editor-categories.h,
+	contact-editor/e-contact-editor-fullname.c,
+	contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-save-as.c, ename/e-address-western.c,
+	ename/test-ename-western-gtk.c,
+	gui/component/addressbook-factory.c, gui/component/addressbook.c,
+	gui/component/e-cardlist-model.h, gui/component/e-ldap-storage.c,
+	gui/component/select-names/e-select-names-bonobo.c,
+	gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-table-model.c,
+	gui/component/select-names/e-select-names-table-model.h,
+	gui/component/select-names/e-select-names-text-model.h,
+	gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h,
+	gui/search/e-addressbook-search-dialog.c,
+	gui/widgets/e-addressbook-model.h,
+	gui/widgets/e-addressbook-view.c, gui/widgets/e-minicard-label.c,
+	gui/widgets/e-minicard-view-widget.c,
+	gui/widgets/e-minicard-view-widget.h,
+	gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h,
+	gui/widgets/e-minicard-widget.h, gui/widgets/e-minicard.c,
+	gui/widgets/test-minicard-label.c, gui/widgets/test-reflow.c,
+	printing/e-contact-print.c: Fixed the #include lines to deal
+	properly with gal.
+	
 2000-09-15  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.h,

@@ -1,3 +1,21 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* e-component-registry.c, e-corba-storage-registry.c,
+	e-corba-storage.c, e-folder-type-registry.c, e-folder.c,
+	e-local-folder.c, e-local-storage.c,
+	e-shell-folder-creation-dialog.c,
+	e-shell-folder-selection-dialog.c, e-shell-folder-title-bar.c,
+	e-shell-view.c, e-shell.c, e-shortcuts-view.c, e-shortcuts.c,
+	e-storage-set-view.c, e-storage-set-view.h, e-storage-set.c,
+	e-storage.c, evolution-local-storage.c, evolution-session.c,
+	evolution-shell-client.c, evolution-shell-component-client.c,
+	evolution-shell-component.c, evolution-shell-view.c,
+	evolution-storage-listener.c, evolution-storage.c, main.c: Fixed
+	the #include lines to deal properly with gal.
+
 2000-09-16  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view-menu.c (e_shell_view_menu_setup): use datadir.

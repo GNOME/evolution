@@ -28,7 +28,7 @@
 #include <glib.h>
 #include <gtk/gtktypeutils.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "e-shell-utils.h"
 

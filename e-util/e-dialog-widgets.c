@@ -30,7 +30,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include "e-dialog-widgets.h"
-#include "e-unicode.h"
+#include <gal/widgets/e-unicode.h>
 
 
 

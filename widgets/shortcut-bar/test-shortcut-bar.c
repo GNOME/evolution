@@ -30,7 +30,7 @@
 
 #include "e-shortcut-bar.h"
 
-#include <widgets/e-paned/e-hpaned.h>
+#include <gal/e-paned/e-hpaned.h>
 
 #define NUM_SHORTCUT_TYPES 5
 gchar *shortcut_types[NUM_SHORTCUT_TYPES] = {

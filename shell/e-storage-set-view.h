@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include "e-table/e-table.h"
+#include <gal/e-table/e-table.h>
 #include "e-storage-set.h"
 
 #ifdef __cplusplus

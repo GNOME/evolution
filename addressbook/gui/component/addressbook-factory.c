@@ -13,7 +13,7 @@
 #include <bonobo.h>
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
-#include <e-util/e-cursors.h>
+#include <gal/widgets/e-cursors.h>
 #include <unicode.h>
 
 #include "addressbook.h"

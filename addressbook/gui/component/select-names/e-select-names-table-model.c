@@ -12,7 +12,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-select-names-table-model.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 

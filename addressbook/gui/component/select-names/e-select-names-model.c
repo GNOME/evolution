@@ -13,7 +13,7 @@
 #include <gtk/gtk.h>
 
 #include "e-select-names-model.h"
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "addressbook/backend/ebook/e-card-simple.h"
 
 enum {

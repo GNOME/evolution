@@ -35,7 +35,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include "e-shortcut-bar.h"
 #include "e-clipped-label.h"
 #include "e-vscrolled-bar.h"

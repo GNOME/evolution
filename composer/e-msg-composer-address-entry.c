@@ -26,7 +26,7 @@
    cooler.  */
 
 #include <gnome.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include "e-msg-composer-address-entry.h"
 
 

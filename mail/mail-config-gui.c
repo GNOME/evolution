@@ -33,7 +33,7 @@
 #include <glade/glade.h>
 
 #include "e-util/e-html-utils.h"
-#include "e-util/e-unicode.h"
+#include <gal/widgets/e-unicode.h>
 #include "mail.h"
 #include "mail-threads.h"
 #include "mail-tools.h"

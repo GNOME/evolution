@@ -13,9 +13,6 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
-#include <e-util/e-util.h>
-#include <e-util/e-gui-utils.h>
-#include <e-util/e-popup-menu.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 
@@ -32,8 +29,11 @@
 
 #include "Mail.h"
 
-#include "widgets/e-table/e-table-header-item.h"
-#include "widgets/e-table/e-table-item.h"
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/e-table/e-table-header-item.h>
+#include <gal/e-table/e-table-item.h>
 
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"

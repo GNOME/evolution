@@ -30,7 +30,7 @@
 
 #include <config.h>
 #include <time.h>
-#include "../../e-util/e-canvas.h"
+#include <gal/widgets/e-canvas.h>
 #include "e-meeting-time-sel-list-item.h"
 #include "e-meeting-time-sel.h"
 

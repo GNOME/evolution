@@ -29,8 +29,8 @@
 #include <liboaf/liboaf.h>
 #include <unicode.h>
 
-#include "e-util/e-gui-utils.h"
-#include "e-util/e-cursors.h"
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-cursors.h>
 #include "e-setup.h"
 
 #include "e-shell.h"

@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include "e-msg-composer-address-dialog.h"
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 
 
 enum {

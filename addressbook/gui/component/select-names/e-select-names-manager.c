@@ -16,7 +16,7 @@
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 #include "e-select-names.h"
-#include "widgets/e-text/e-entry.h"
+#include <gal/e-text/e-entry.h>
 
 /* Object argument IDs */
 enum {

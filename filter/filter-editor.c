@@ -22,7 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include "filter-editor.h"
 #include "filter-context.h"
 #include "filter-filter.h"

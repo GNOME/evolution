@@ -5,6 +5,7 @@ INCLUDES = 								\
 	-I$(top_srcdir)/widgets/misc					\
 	-I$(top_srcdir)							\
 	$(BONOBO_GNOME_CFLAGS)						\
+	$(EXTRA_GNOME_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"				\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   		\
@@ -116,11 +117,9 @@ evolution_SOURCES =				\
 evolution_LDADD =						\
 	libeshell.a						\
 	$(top_builddir)/widgets/shortcut-bar/libshortcut-bar.a  \
-	$(top_builddir)/widgets/e-paned/libepaned.a		\
-	$(top_builddir)/widgets/e-text/libetext.a		\
-	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(EXTRA_GNOME_LIBS)					\
 	$(UNICODE_LIBS)						\
 	$(GNOME_PRINT_LIBS)					\
 	$(BONOBO_GNOME_LIBS)

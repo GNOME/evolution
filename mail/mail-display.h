@@ -6,7 +6,7 @@
 #include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
 
-#include "widgets/misc/e-scroll-frame.h"
+#include <gal/widgets/e-scroll-frame.h>
 
 #include "camel/camel-stream.h"
 #include "camel/camel-mime-message.h"

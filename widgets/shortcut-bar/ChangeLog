@@ -1,3 +1,12 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* e-icon-bar.c, e-icon-bar.h, e-shortcut-bar.c,
+	e-shortcut-model.c, test-shortcut-bar.c: Fixed the #include lines
+	to deal properly with gal.
+
 2000-08-16  Larry Ewing  <lewing@helixcode.com>
 
 	* e-icon-bar.c (e_icon_bar_init): remove COLOR_TEXT references.

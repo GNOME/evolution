@@ -10,16 +10,16 @@
 #include <config.h>
 #include <ctype.h>
 #include <gnome.h>
-#include "e-util/e-util.h"
 #include "e-util/e-sexp.h"
-#include "e-util/e-unicode.h"
 #include "folder-browser.h"
 #include "mail.h"
 #include "mail-tools.h"
 #include "message-list.h"
 #include "mail-threads.h"
 #include "mail-ops.h"
-#include <widgets/e-paned/e-vpaned.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+#include <gal/e-paned/e-vpaned.h>
 
 #include "mail-vfolder.h"
 #include "filter/vfolder-rule.h"

@@ -20,7 +20,7 @@
  */
 
 #include <e-contact-save-as.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include <unistd.h>
 #include <fcntl.h>
 

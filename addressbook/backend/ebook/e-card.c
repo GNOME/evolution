@@ -20,7 +20,7 @@
 #include "e-name-western.h"
 #include "e-address-western.h"
 
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))

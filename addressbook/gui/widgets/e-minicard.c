@@ -24,12 +24,12 @@
 #include <gnome.h>
 #include "e-minicard.h"
 #include "e-minicard-label.h"
-#include "e-text.h"
 #include "addressbook/backend/ebook/e-book.h"
-#include <e-util/e-canvas.h>
-#include <e-util/e-util.h>
-#include <e-util/e-canvas-utils.h>
-#include <e-util/e-popup-menu.h>
+#include <gal/e-text/e-text.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-popup-menu.h>
 #include "addressbook/printing/e-contact-print.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"

@@ -17,8 +17,8 @@
 #include "addressbook.h"
 
 #include <ebook/e-book.h>
-#include <e-util/e-util.h>
-#include <e-util/e-unicode.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
@@ -361,7 +361,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_container_freeze (container, NULL);
 
 	fname = bonobo_ui_util_get_ui_fname (
-		"evolution-addressbook.xml");
+		EVOLUTION_DATADIR, "evolution-addressbook.xml");
 	g_warning ("Attempting ui load from '%s'", fname);
 		
 	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");

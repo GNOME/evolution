@@ -23,7 +23,7 @@
 
 #define SHELL
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "filter-folder.h"
 #ifdef SHELL

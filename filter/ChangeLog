@@ -1,3 +1,10 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* filter-editor.c, filter-filter.c, filter-folder.c,
+	filter-input.c, filter-message-search.c, filter-option.c,
+	filter-rule.c, score-editor.c, vfolder-editor.c, vfolder-rule.c:
+	Fixed the #include lines to deal properly with gal.
+
 2000-09-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-message-search.c (body_contains): Modified to only match

@@ -26,7 +26,7 @@
 
 #include <gdk_imlib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "../../e-util/e-canvas.h"
+#include <gal/widgets/e-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

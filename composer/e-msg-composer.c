@@ -49,8 +49,8 @@
 #include "mail/mail-threads.h"
 
 #include "e-util/e-html-utils.h"
-#include "e-util/e-gui-utils.h"
-#include "widgets/misc/e-scroll-frame.h"
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-scroll-frame.h>
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-address-dialog.h"

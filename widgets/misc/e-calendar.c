@@ -31,7 +31,7 @@
  */
 
 #include <config.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include "e-calendar.h"
 
 #define E_CALENDAR_SMALL_FONT	\

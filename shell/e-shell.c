@@ -31,7 +31,7 @@
 #include "Evolution.h"
 
 #include "e-util/e-gui-utils.h"
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "e-component-registry.h"
 #include "e-corba-storage-registry.h"

@@ -8,11 +8,13 @@ INCLUDES =						\
 	-I.. 						\
 	-I$(top_builddir)				\
         -I$(includedir)                                 \
-        $(GNOME_INCLUDEDIR)
+        $(GNOME_INCLUDEDIR)				\
+	$(EXTRA_GNOME_CFLAGS)
 
 gnome_libs =						\
 	$(BONOBO_GNOME_LIBS)				\
-	$(INTLLIBS)
+	$(INTLLIBS)					\
+	$(EXTRA_GNOME_LIBS)
 
 ename_libs = 						\
 	libename.la 					\
@@ -44,7 +46,8 @@ noinst_PROGRAMS =					\
 test_ename_western_SOURCES =				\
 	test-ename-western.c
 
-test_ename_western_LDADD = $(ename_libs)
+test_ename_western_LDADD = $(ename_libs)		\
+	$(EXTRA_GNOME_LIBS)
 
 test_ename_western_gtk_SOURCES =				\
 	test-ename-western-gtk.c

@@ -28,16 +28,16 @@
 
 #include <gnome.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
 
 #include "e-storage-set-view.h"
 
-#include "e-table/e-tree-simple.h"
-#include "e-table/e-cell-tree.h"
-#include "e-table/e-cell-text.h"
+#include <gal/e-table/e-tree-simple.h>
+#include <gal/e-table/e-cell-tree.h>
+#include <gal/e-table/e-cell-text.h>
 
 #include "art/tree-expanded.xpm"
 #include "art/tree-unexpanded.xpm"

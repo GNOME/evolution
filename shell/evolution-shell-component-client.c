@@ -33,7 +33,7 @@
 
 #include <liboaf/liboaf.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "evolution-shell-component-client.h"
 

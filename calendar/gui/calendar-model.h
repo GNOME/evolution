@@ -23,7 +23,7 @@
 #define CALENDAR_MODEL_H
 
 #include <libgnome/gnome-defs.h>
-#include <e-table/e-table-model.h>
+#include <gal/e-table/e-table-model.h>
 #include <cal-client/cal-client.h>
 
 BEGIN_GNOME_DECLS

@@ -31,7 +31,7 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include <ctype.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-simple.h>

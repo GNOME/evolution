@@ -21,9 +21,9 @@
 #include <gconf/gconf.h>
 #endif
 
-#include "e-util/e-gui-utils.h"
-#include "e-util/e-cursors.h"
-#include "e-util/e-unicode.h"
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-cursors.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "component-factory.h"
 #include "mail.h"

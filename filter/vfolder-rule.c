@@ -22,7 +22,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
 #include "shell/evolution-shell-client.h"

@@ -38,9 +38,9 @@
 #include "e-week-view-titles-item.h"
 #include <cal-util/timeutil.h>
 #include "popup-menu.h"
-#include "../e-util/e-canvas.h"
-#include "../widgets/e-text/e-text.h"
-#include "e-util/e-canvas-utils.h"
+#include <gal/widgets/e-canvas.h>
+#include <gal/e-text/e-text.h>
+#include <gal/widgets/e-canvas-utils.h>
 
 /* Images */
 #include "bell.xpm"

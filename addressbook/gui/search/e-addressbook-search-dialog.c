@@ -22,10 +22,10 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-util/e-canvas.h>
+#include <gal/widgets/e-canvas.h>
 #include "e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-minicard-view-widget.h"
-#include "widgets/misc/e-scroll-frame.h"
+#include <gal/widgets/e-scroll-frame.h>
 
 static void e_addressbook_search_dialog_init		 (EAddressbookSearchDialog		 *widget);
 static void e_addressbook_search_dialog_class_init	 (EAddressbookSearchDialogClass	 *klass);

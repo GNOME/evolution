@@ -53,8 +53,8 @@
 #include "e-ldap-storage.h"
 #include "e-ldap-server-dialog.h"
 
-#include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 
 #include <sys/types.h>
 #include <sys/fcntl.h>

@@ -18,19 +18,18 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 LINK_FLAGS =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)					\
 	$(INTLLIBS)						\
 	dialogs/libcal-dialogs.a				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
-	$(top_builddir)/widgets/e-paned/libepaned.a		\
-	$(top_builddir)/widgets/e-text/libetext.a		\
-	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.la			\
@@ -95,7 +94,6 @@ evolution_calendar_LDADD =					\
 	$(top_builddir)/shell/libeshell.a			\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_HTML_GNOME_LIBS)				\
-	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(LINK_FLAGS)
 
@@ -107,6 +105,7 @@ oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	bell.xpm			\
+	check-filled.xpm		\
 	dayview.xpm			\
 	jump.xpm			\
 	monthview.xpm			\

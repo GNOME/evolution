@@ -25,7 +25,7 @@
 #include "filter-option.h"
 #include "filter-part.h"
 #include "e-util/e-sexp.h"
-#include "e-util/e-unicode.h"
+#include <gal/widgets/e-unicode.h>
 
 #define d(x)
 

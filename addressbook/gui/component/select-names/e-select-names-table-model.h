@@ -13,7 +13,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include "e-select-names-model.h"
-#include <widgets/e-table/e-table-model.h>
+#include <gal/e-table/e-table-model.h>
 
 #define E_TYPE_SELECT_NAMES_TABLE_MODEL            (e_select_names_table_model_get_type ())
 #define E_SELECT_NAMES_TABLE_MODEL(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_TABLE_MODEL, ESelectNamesTableModel))

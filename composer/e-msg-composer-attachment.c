@@ -31,7 +31,7 @@
 
 #include <gnome.h>
 #include <camel/camel.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "e-msg-composer-attachment.h"
 

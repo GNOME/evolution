@@ -14,8 +14,8 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <gnome.h>
-#include <widgets/e-paned/e-hpaned.h>
-#include <widgets/e-paned/e-vpaned.h>
+#include <gal/e-paned/e-hpaned.h>
+#include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/alarm-notify-dialog.h"
 #include "alarm.h"

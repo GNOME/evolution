@@ -35,7 +35,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 #include "e-calendar-item.h"
 
 

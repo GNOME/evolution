@@ -33,8 +33,8 @@
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "e-icon-bar.h"
 #include "e-icon-bar-bg-item.h"
-#include "../e-text/e-text.h"
-#include "e-util/e-canvas-utils.h"
+#include <gal/e-text/e-text.h>
+#include <gal/widgets/e-canvas-utils.h>
 
 /* These are the offsets of the icons & text in both views. Note that the
    shadow around icons is drawn in the space between items (as is the

@@ -1,3 +1,17 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* gui/calendar-model.h, gui/e-calendar-table.c, gui/e-day-view.c,
+	gui/e-week-view-event-item.c, gui/e-week-view.c,
+	gui/event-editor.c, gui/gncal-todo.c, gui/gnome-cal.c, gui/main.c,
+	gui/print.c, gui/dialogs/task-editor.c: Fixed the #include lines
+	to deal properly with gal.
+
+	* gui/check-filled.xpm: New file since we can't include it from
+	e-table anymore.
+
 2000-09-16  Michael Meeks  <michael@helixcode.com>
 
 	* gui/Makefile.am (INCLUDES): add datadir

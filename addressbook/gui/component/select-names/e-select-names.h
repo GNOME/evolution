@@ -24,8 +24,8 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <e-util/e-list.h>
-#include <widgets/e-table/e-table.h>
-#include <widgets/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-table-scrolled.h>
 #include "e-select-names-model.h"
 
 #ifdef __cplusplus

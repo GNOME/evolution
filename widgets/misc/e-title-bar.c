@@ -33,7 +33,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-clipped-label.h"
 
 #include "e-title-bar.h"

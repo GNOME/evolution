@@ -1,3 +1,13 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* e-calendar-item.c, e-calendar.c, e-calendar.h, e-title-bar.c:
+	Fixed the #include lines to deal properly with gal.
+
+	* e-scroll-frame.c, e-scroll-frame.h: Moved to gal.
+
 2000-09-11  Damon Chaplin  <damon@helixcode.com>
 
 	* Makefile.am (libemiscwidgets_a_SOURCES): added e-dateedit.[hc]

@@ -11,8 +11,6 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/widgets/e-text			\
-	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
 	-I$(top_srcdir)/addressbook/gui/widgets		\
@@ -53,9 +51,6 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
-	$(top_builddir)/widgets/e-text/libetext.a			\
-	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
 	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a	\

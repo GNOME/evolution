@@ -26,7 +26,7 @@
 
 #include <gtk/gtktable.h>
 #include <libgnomeui/gnome-canvas.h>
-#include "../e-text/e-text.h"
+#include <gal/e-text/e-text.h>
 
 #ifdef __cplusplus
 extern "C" {

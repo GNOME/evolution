@@ -21,7 +21,7 @@
 #include <gtk/gtk.h>
 #include <gnome.h>
 
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "filter-input.h"
 #include "e-util/e-sexp.h"

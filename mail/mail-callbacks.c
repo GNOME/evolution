@@ -39,7 +39,7 @@
 #include "folder-browser.h"
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
-#include "widgets/e-table/e-table.h"
+#include <gal/e-table/e-table.h>
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"

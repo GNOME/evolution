@@ -30,8 +30,8 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-gui-utils.h"
-#include "e-util/e-util.h"
-#include "widgets/misc/e-scroll-frame.h"
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-scroll-frame.h>
 
 #include "e-shell-constants.h"
 #include "e-storage-set-view.h"

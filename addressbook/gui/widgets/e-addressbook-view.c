@@ -25,14 +25,16 @@
 
 #include "e-addressbook-view.h"
 
-#include "e-table-scrolled.h"
-#include "e-table-model.h"
-#include "e-table-col.h"
-#include "e-table-header.h"
-#include "e-cell-text.h"
+#include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-col.h>
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/widgets/e-scroll-frame.h>
+#include <gal/widgets/e-popup-menu.h>
+
 #include "e-addressbook-model.h"
 
-#include <e-scroll-frame.h>
 #include "e-minicard-view-widget.h"
 
 #include "e-contact-editor.h"
@@ -41,7 +43,6 @@
 #include "e-card-simple.h"
 #include "e-card.h"
 #include "e-book.h"
-#include "e-util/e-popup-menu.h"
 
 #include "glade/glade-xml.h"
 

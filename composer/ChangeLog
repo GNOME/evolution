@@ -1,3 +1,13 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* e-msg-composer-address-dialog.c, e-msg-composer-address-entry.c,
+	e-msg-composer-attachment.c, e-msg-composer-hdrs.c,
+	e-msg-composer.c: Fixed the #include lines to deal properly with
+	gal.
+
 2000-09-12  Michael Meeks  <michael@helixcode.com>
 
 	* e-msg-composer.c: Update for new UI handler.

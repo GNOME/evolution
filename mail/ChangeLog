@@ -1,3 +1,13 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* component-factory.c, folder-browser-factory.c, folder-browser.c,
+	mail-callbacks.c, mail-config-gui.c, mail-display.c,
+	mail-display.h, main.c, message-list.c, message-list.h: Fixed the
+	#include lines to deal properly with gal.
+
 2000-09-16  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (INCLUDES): add datadir

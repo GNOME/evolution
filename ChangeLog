@@ -1,3 +1,8 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Added check for gnome-app-lib.  Removed
+	directories that have been moved to gal.
+
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
 	* configure.in, evolution.spec.in: remove spec file. We haven't

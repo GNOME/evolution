@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	$(EXTRA_GNOME_CFLAGS)				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
 	$(UNICODE_CFLAGS)				\
@@ -82,16 +83,14 @@ evolution_mail_SOURCES =		\
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
 	$(top_builddir)/composer/libcomposer.la		\
-	$(top_builddir)/widgets/e-paned/libepaned.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
-	$(top_builddir)/widgets/e-table/libetable.a	\
-	$(top_builddir)/widgets/e-text/libetext.a	\
 	$(CAMEL_OBJS_EXTRA)				\
 	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_VFS_GNOME_LIBS)			\
+	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(THREADS_LIBS)					\
 	$(UNICODE_LIBS)

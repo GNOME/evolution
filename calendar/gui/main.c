@@ -33,7 +33,7 @@
 
 #include <liboaf/liboaf.h>
 
-#include <e-util/e-cursors.h>
+#include <gal/widgets/e-cursors.h>
 #include <cal-util/timeutil.h>
 #include <gui/alarm.h>
 #include <gui/gnome-cal.h>

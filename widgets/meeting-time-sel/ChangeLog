@@ -1,3 +1,12 @@
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
+	$(EXTRA_GNOME_LIBS).  Removed unneeded libraries.
+
+	* e-meeting-time-sel-list-item.c, e-meeting-time-sel.c,
+	e-meeting-time-sel.h: Fixed the #include lines to deal properly
+	with gal.
+
 2000-09-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'.

@@ -24,7 +24,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/ename		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/ename		\
-        $(BONOBO_GNOME_CFLAGS)
+        $(BONOBO_GNOME_CFLAGS)				\
+	$(EXTRA_GNOME_CFLAGS)
 
 lib_LTLIBRARIES = libebook.la
 
@@ -67,6 +68,7 @@ test_client_SOURCES =					\
 test_client_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/e-util/libeutil.la
@@ -77,6 +79,7 @@ test_client_list_SOURCES =				\
 test_client_list_LDADD =				\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -87,6 +90,7 @@ test_card_SOURCES =					\
 test_card_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -98,6 +102,7 @@ load_pine_addressbook_SOURCES =				\
 load_pine_addressbook_LDADD =				\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
@@ -109,6 +114,7 @@ load_gnomecard_addressbook_SOURCES =			\
 load_gnomecard_addressbook_LDADD =			\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la

@@ -11,18 +11,8 @@ INCLUDES =					\
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la
 
 libeutil_la_SOURCES =			\
-	e-canvas-utils.c		\
-	e-canvas-utils.h		\
-	e-canvas-vbox.c			\
-	e-canvas-vbox.h			\
-	e-canvas.c			\
-	e-canvas.h			\
-	e-cursors.c			\
-	e-cursors.h			\
 	e-dialog-widgets.c		\
 	e-dialog-widgets.h		\
-	e-font.c			\
-	e-font.h			\
 	e-gtk-utils.c			\
 	e-gtk-utils.h			\
 	e-gui-utils.c			\
@@ -35,18 +25,8 @@ libeutil_la_SOURCES =			\
 	e-list-iterator.h		\
 	e-list.c			\
 	e-list.h			\
-	e-popup-menu.c			\
-	e-popup-menu.h			\
-	e-printable.c			\
-	e-printable.h			\
 	e-sexp.c			\
-	e-sexp.h			\
-	e-unicode.c			\
-	e-unicode.h			\
-	e-util.c			\
-	e-util.h			\
-	e-xml-utils.c			\
-	e-xml-utils.h
+	e-sexp.h
 
 libeutil_la_LIBADD = $(UNICODE_LIBS)
 

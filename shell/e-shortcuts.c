@@ -51,8 +51,8 @@
 
 #include <string.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 
 #include "shortcut-bar/e-shortcut-bar.h"
 #include "e-shortcuts-view.h"

@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <e-util/e-util.h>
+#include <gal/util/e-util.h>
 
 #include "camel-remote-store.h"
 #include "camel-folder.h"

@@ -29,10 +29,10 @@
 #include <glade/glade-xml.h>
 
 #include "e-util/e-gui-utils.h"
-#include "e-util/e-util.h"
-#include "e-util/e-unicode.h"
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
-#include "widgets/misc/e-scroll-frame.h"
+#include <gal/widgets/e-scroll-frame.h>
 
 #include "e-storage-set.h"
 #include "e-storage-set-view.h"

@@ -7,13 +7,13 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-ui-handler.h>
-#include "e-table/e-table-scrolled.h"
-#include "e-table/e-table-simple.h"
-#include "e-table/e-tree-simple.h"
-#include "e-table/e-cell-text.h"
-#include "e-table/e-cell-toggle.h"
-#include "e-table/e-cell-checkbox.h"
-#include "e-table/e-cell-tree.h"
+#include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-tree-simple.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-checkbox.h>
+#include <gal/e-table/e-cell-tree.h>
 #include "folder-browser.h"
 
 

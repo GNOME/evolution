@@ -1,5 +1,5 @@
 #include <gnome.h>
-#include <e-util/e-unicode.h>
+#include <gal/widgets/e-unicode.h>
 #include <ename/e-name-western.h>
 
 ENameWestern *name;

@@ -26,8 +26,8 @@
 #include "pas-card-cursor.h"
 #include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
-#include <e-util/e-util.h>
-#include <e-util/e-unicode.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"

@@ -49,7 +49,7 @@
 
 #include <bonobo.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 #include "e-local-folder.h"
 
 #include "evolution-local-storage.h"
