@@ -1032,7 +1032,7 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 #ifndef HAVE_LDAP
 		for (;l;l = g_slist_next(l))
 			if (!strncmp("ldap:", e_source_group_peek_base_uri(l->data), 5))
-			sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, source_groups->data);
+				sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, l->data);
 #endif
 		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
 		for (i=0;eabc_new_items[i].path;i++)

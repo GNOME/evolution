@@ -1,3 +1,8 @@
+2004-10-21  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_config_edit_source): fix a past-o for no-ldap case.
+
 2004-10-20  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-component.c
