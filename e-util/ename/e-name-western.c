@@ -8,7 +8,7 @@
  * Authors:
  *   Nat Friedman <nat@ximian.com>
  *
- * Copyright 1999, Ximian, Inc.
+ * Copyright 1999 - 2001, Ximian, Inc.
  */
 
 #include <ctype.h>
@@ -716,7 +716,9 @@ e_name_western_zap_nil (char **str, int *idx)
 		char *new_last, *new_first;	\
 	\
 		new_last = g_strdup (last_start + 1);	\
-		*last_start = 0;	\
+		*last_start = '\0';	\
+	\
+		idxs->last_idx += (last_start - name->last) + 1;	\
 	\
 		new_first = g_strdup_printf ("%s %s %s", name->first, name->middle, name->last);	\
 	\
@@ -729,7 +731,6 @@ e_name_western_zap_nil (char **str, int *idx)
 		name->last = new_last;	\
 	\
 		idxs->middle_idx = -1;	\
-		idxs->last_idx = idxs->first_idx + strlen (name->first) + 1;	\
 	} else {	\
 		char *new_first;	\
 	\
@@ -833,7 +834,7 @@ e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 		/* Spanish */
 		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("y");
 
-                /* German */
+		/* German */
 		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("und");
 
 		/* Italian */
