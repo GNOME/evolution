@@ -65,6 +65,7 @@ enum {
 	PROP_MAILER,
 	PROP_CALURI,
 	PROP_FBURL,
+	PROP_ICSCALENDAR,
 	PROP_NOTE,
 	PROP_RELATED_CONTACTS,
 	PROP_CATEGORIES,
@@ -114,6 +115,7 @@ static void parse_anniversary(ECard *card, VObject *object, char *default_charse
 static void parse_mailer(ECard *card, VObject *object, char *default_charset);
 static void parse_caluri(ECard *card, VObject *object, char *default_charset);
 static void parse_fburl(ECard *card, VObject *object, char *default_charset);
+static void parse_icscalendar(ECard *card, VObject *object, char *default_charset);
 static void parse_note(ECard *card, VObject *object, char *default_charset);
 static void parse_related_contacts(ECard *card, VObject *object, char *default_charset);
 static void parse_categories(ECard *card, VObject *object, char *default_charset);
@@ -158,6 +160,7 @@ struct {
 	{ VCMailerProp,              parse_mailer },
 	{ "CALURI",                  parse_caluri },
 	{ "FBURL",                   parse_fburl },
+	{ "ICSCALENDAR",             parse_icscalendar },
 	{ VCNoteProp,                parse_note },
 	{ XEV_RELATED_CONTACTS,      parse_related_contacts },
 	{ "CATEGORIES",              parse_categories },
@@ -653,6 +656,9 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 
 	if (card->fburl)
 		ADD_PROP_VALUE(vobj, "FBURL", card->fburl);
+
+	if (card->icscalendar)
+		ADD_PROP_VALUE(vobj, "ICSCALENDAR", card->icscalendar);
 	
 	if (card->note) {
 		VObject *noteprop;
@@ -1024,6 +1030,13 @@ parse_fburl(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->fburl);
 	assign_string(vobj, default_charset, &(card->fburl));
+}
+
+static void
+parse_icscalendar(ECard *card, VObject *vobj, char *default_charset)
+{
+	g_free(card->icscalendar);
+	assign_string(vobj, default_charset, &(card->icscalendar));
 }
 
 static void
@@ -1439,6 +1452,13 @@ e_card_class_init (ECardClass *klass)
 	g_object_class_install_property (object_class, PROP_FBURL, 
 					 g_param_spec_string ("fburl",
 							      _("Free/Busy URL"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ICSCALENDAR, 
+					 g_param_spec_string ("icscalendar",
+							      _("ICS Calendar"),
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
@@ -2032,6 +2052,7 @@ e_card_dispose (GObject *object)
 	FREE_IF(card->anniversary);
 	FREE_IF(card->caluri);
 	FREE_IF(card->fburl);
+	FREE_IF(card->icscalendar);
 	FREE_IF(card->note);
 	FREE_IF(card->related_contacts);
 
@@ -2179,6 +2200,10 @@ e_card_set_property (GObject *object,
 	case PROP_FBURL:
 		g_free(card->fburl);
 		card->fburl = g_strdup(g_value_get_string(value));
+		break;
+	case PROP_ICSCALENDAR:
+		g_free(card->icscalendar);
+		card->icscalendar = g_strdup(g_value_get_string(value));
 		break;
 	case PROP_NOTE:
 		g_free (card->note);
@@ -2350,6 +2375,9 @@ e_card_get_property (GObject *object,
 	case PROP_FBURL:
 		g_value_set_string (value, card->fburl);
 		break;
+	case PROP_ICSCALENDAR:
+		g_value_set_string (value, card->icscalendar);
+		break;
 	case PROP_NOTE:
 		g_value_set_string (value, card->note);
 		break;
@@ -2422,6 +2450,7 @@ e_card_init (ECard *card)
 	card->mailer              = NULL;
 	card->caluri              = NULL;
 	card->fburl               = NULL;
+	card->icscalendar         = NULL;
 	card->note                = NULL;
 	card->related_contacts    = NULL;
 	card->categories          = NULL;

@@ -70,6 +70,7 @@ struct _ECard {
 
 	char            *caluri;        /* Calendar URI                     */
 	char            *fburl;         /* Free Busy URL                    */
+	char            *icscalendar;   /* Default server calendar          */
 
 	gint             timezone;      /* number of minutes from UTC as an int */
 

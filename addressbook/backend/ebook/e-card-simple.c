@@ -97,6 +97,7 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_NOTE,               "note",            N_("Note"),          N_("Note"),     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
  	{ E_CARD_SIMPLE_FIELD_CALURI,             "caluri",          N_("Calendar URI"),  N_("CALUri"),   0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",           N_("Free-busy URL"), N_("FBUrl"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ICSCALENDAR,        "icscalendar",     N_("Default server calendar"), N_("icsCalendar"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary",     N_("Anniversary"),   N_("Anniv"),    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",      N_("Birth Date"),    "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",          "",                  "",             0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },

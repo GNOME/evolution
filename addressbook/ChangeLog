@@ -1,3 +1,31 @@
+2003-03-04  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/component/select-names/e-select-names.etspec: reflect prior column addition
+ 
+ 	* gui/component/select-names/e-select-names-bonobo.c
+ 	(entry_get_property_fn): set the arg properly
+ 
+ 	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
+ 	add Icscalendar to field list
+ 
+ 	* backend/pas/pas-backend-ldap.c: add icscalendar to prop list
+ 
+ 	* backend/ebook/e-card.h: add icscalendar data member
+ 
+ 	* backend/ebook/e-card.c: add icscalendar to list and its parse
+ 	routine
+ 	(e_card_get_vobject): add icscalendar prop value
+ 	(parse_icscalendar): parse routine
+ 	(e_card_class_init): add icscalendar arg
+ 	(e_card_destroy): destroy icscalendar member
+ 	(e_card_set_arg): set icscalendar
+ 	(e_card_init): init icscalendar
+ 	(e_card_get_arg): return icscalendar
+ 
+ 	* backend/ebook/e-card-simple.c (field_data): add icscalendar
+ 
+ 	* backend/ebook/e-card-simple.h: ditto
+	
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
