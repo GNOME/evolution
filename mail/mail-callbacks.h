@@ -81,6 +81,7 @@ void resend_msg            (GtkWidget *widget, gpointer user_data);
 void search_msg            (GtkWidget *widget, gpointer user_data);
 void load_images           (GtkWidget *widget, gpointer user_data);
 
+void add_sender_to_addrbook (BonoboUIComponent *uih, void *user_data, const char *path);
 void move_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
 void copy_msg              (BonoboUIComponent *uih, void *user_data, const char *path);
 void add_sender_to_addrbook(BonoboUIComponent *uih, void *user_data, const char *path);

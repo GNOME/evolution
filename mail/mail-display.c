@@ -1247,6 +1247,9 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 	struct _load_content_msg *m;
 	GHashTable *loading;
 	
+	if (GTK_OBJECT_DESTROYED (md))
+		return;
+	
 	loading = g_datalist_get_data (md->data, "loading");
 	if (loading) {
 		if (g_hash_table_lookup (loading, key))
@@ -1350,10 +1353,13 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 void
 mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 {
+	if (GTK_OBJECT_DESTROYED (md))
+		return;
+	
 	md->last_active = NULL;
-	md->redisplay_counter ++;
+	md->redisplay_counter++;
 	/* printf ("md %p redisplay %d\n", md, md->redisplay_counter); */
-
+	
 	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
 		/* This is a hack until there's a clean way to do this. */
@@ -1469,16 +1475,16 @@ mail_display_destroy (GtkObject *object)
 
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
-
+	
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 	mail_display->data = NULL;
 	
 	if (mail_display->idle_id)
-		gtk_timeout_remove(mail_display->idle_id);
-
+		gtk_timeout_remove (mail_display->idle_id);
+	
 	gtk_widget_unref (mail_display->invisible);
-
+	
 	mail_display_parent_class->destroy (object);
 }
 
