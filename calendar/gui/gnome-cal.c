@@ -1028,8 +1028,7 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->views[GNOME_CAL_MONTH_VIEW] = E_CALENDAR_VIEW (priv->month_view);
 	priv->configs[GNOME_CAL_MONTH_VIEW] = e_week_view_config_new (E_WEEK_VIEW (priv->views[GNOME_CAL_MONTH_VIEW]));
 	priv->views[GNOME_CAL_LIST_VIEW] = E_CALENDAR_VIEW (priv->list_view);
-	priv->configs[GNOME_CAL_MONTH_VIEW] = e_cal_list_view_config_new (E_CAL_LIST_VIEW (priv->views[GNOME_CAL_LIST_VIEW]));
-	priv->configs[GNOME_CAL_LIST_VIEW] = NULL;	
+	priv->configs[GNOME_CAL_LIST_VIEW] = e_cal_list_view_config_new (E_CAL_LIST_VIEW (priv->views[GNOME_CAL_LIST_VIEW]));
 
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),

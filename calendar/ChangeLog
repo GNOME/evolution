@@ -1,5 +1,10 @@
 2003-12-15  JP Rosevear <jpr@ximian.com>
 
+	* gui/gnome-cal.c (setup_widgets): set the list view config
+	properly (so we don't blow away the month view config
+
+2003-12-15  JP Rosevear <jpr@ximian.com>
+
 	* gui/gnome-cal.c (setup_widgets): set the calendar for the day
 	view
 
