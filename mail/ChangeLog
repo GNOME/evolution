@@ -1,3 +1,17 @@
+2004-03-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-selector.c (em_folder_selector_construct): Connect to
+	the folder-activated signal.
+	(folder_activated_cb): Call gtk_dialog_response() with
+	GTK_RESPONSE_OK. Fixes bug #54793.
+
+	* em-folder-tree.c (emft_tree_row_activated): New callback to emit
+	the "folder-activated" signal which is needed to fix bug #54793.
+	(emft_tree_button_press): Handle button1 double-clicks too (also
+	for bug #54793).
+	(emft_tree_button_press): On right-click, we also want to select
+	the folder the user right-clicked on. Fixes bug #54772.
+
 2004-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): Fixed some

@@ -83,6 +83,7 @@ struct _EMFolderTreePrivate {
 };
 
 enum {
+	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
 	FOLDER_SELECTED,
 	LAST_SIGNAL
 };
@@ -129,9 +130,10 @@ static void em_folder_tree_finalize (GObject *obj);
 static gboolean emft_save_state (EMFolderTree *emft);
 static void emft_queue_save_state (EMFolderTree *emft);
 
+static void emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, EMFolderTree *emft);
 static void emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
-static gboolean emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft);
+static gboolean emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft);
 static void emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft);
 
 struct _emft_selection_data {
@@ -182,6 +184,17 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeClass, folder_selected),
+			      NULL, NULL,
+			      em_marshal_VOID__STRING_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_STRING,
+			      G_TYPE_STRING);
+	
+	signals[FOLDER_ACTIVATED] =
+		g_signal_new ("folder-activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMFolderTreeClass, folder_activated),
 			      NULL, NULL,
 			      em_marshal_VOID__STRING_STRING,
 			      G_TYPE_NONE, 2,
@@ -395,6 +408,7 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	
 	g_signal_connect (priv->treeview, "row-expanded", G_CALLBACK (emft_tree_row_expanded), emft);
 	g_signal_connect (priv->treeview, "row-collapsed", G_CALLBACK (emft_tree_row_collapsed), emft);
+	g_signal_connect (priv->treeview, "row-activated", G_CALLBACK (emft_tree_row_activated), emft);
 	g_signal_connect (priv->treeview, "button-press-event", G_CALLBACK (emft_tree_button_press), emft);
 	
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->treeview);
@@ -1551,6 +1565,30 @@ emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *
 	emft_queue_save_state (emft);
 }
 
+static void
+emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeViewColumn *column, EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeModel *model = (GtkTreeModel *) priv->model;
+	GtkTreeIter iter;
+	char *path, *uri;
+	
+	if (!gtk_tree_model_get_iter (model, &iter, tree_path))
+		return;
+	
+	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
+			    COL_STRING_URI, &uri, -1);
+	
+	g_free (priv->selected_uri);
+	priv->selected_uri = g_strdup (uri);
+	
+	g_free (priv->selected_path);
+	priv->selected_path = g_strdup (path);
+	
+	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, path, uri);
+	g_signal_emit (emft, signals[FOLDER_ACTIVATED], 0, path, uri);
+}
+
 #if 0
 static void
 emft_popup_view (GtkWidget *item, EMFolderTree *emft)
@@ -2205,13 +2243,13 @@ static EMPopupItem emft_popup_menu[] = {
 };
 
 static gboolean
-emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft)
+emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft)
 {
-	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
 	const char *folder_name;
 	EMPopupTarget *target;
+	GtkTreePath *tree_path;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *menus = NULL;
@@ -2223,11 +2261,25 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	EMPopup *emp;
 	int i;
 	
-	if (event->button != 3)
+	if (event->button != 3 || !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
 		return FALSE;
 	
+	/* select/focus the row that was right-clicked */
+	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
+		return FALSE;
+	
+	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		emft_tree_row_activated (treeview, tree_path, NULL, emft);
+		gtk_tree_path_free (tree_path);
+		return TRUE;
+	}
+	
+	gtk_tree_path_free (tree_path);
+	
 	/* FIXME: we really need the folderinfo to build a proper menu */
-	selection = gtk_tree_view_get_selection (priv->treeview);
+	selection = gtk_tree_view_get_selection (treeview);
 	emft_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FOLDER_PATH, &path,
@@ -2381,7 +2433,7 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 		row = si->row;
 		top = NULL;
 	}
-
+	
 	/* FIXME: this gets all the subfolders of our first loaded
 	 * parent folder - ideally we'd only get what we needed, but
 	 * it's probably not worth the effort */

@@ -175,6 +175,12 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFol
 		gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
 }
 
+static void
+folder_activated_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderSelector *emfs)
+{
+	gtk_dialog_response ((GtkDialog *) emfs, GTK_RESPONSE_OK);
+}
+
 void
 em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const char *title, const char *text)
 {
@@ -204,6 +210,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_widget_show ((GtkWidget *) emft);
 	
 	g_signal_connect (emfs->emft, "folder-selected", G_CALLBACK (folder_selected_cb), emfs);
+	g_signal_connect (emfs->emft, "folder-activated", G_CALLBACK (folder_activated_cb), emfs);
 	gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), (GtkWidget *)emft, TRUE, TRUE, 6);
 	
 	if (text != NULL) {
@@ -234,11 +241,11 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
 	if (emfs->name_entry->text_length > 0) {
 		const char *path, *text;
-
+		
 		text = gtk_entry_get_text (emfs->name_entry);
 		path = em_folder_tree_get_selected_path (emfs->emft);
-
-		if (text && path && !strchr(text, '/'))
+		
+		if (text && path && !strchr (text, '/'))
 			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
 	}
 }

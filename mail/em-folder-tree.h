@@ -54,6 +54,7 @@ struct _EMFolderTreeClass {
 	GtkVBoxClass parent_class;
 	
 	/* signals */
+	void (* folder_activated) (EMFolderTree *emft, const char *path, const char *uri);
 	void (* folder_selected) (EMFolderTree *emft, const char *path, const char *uri);
 };
 
