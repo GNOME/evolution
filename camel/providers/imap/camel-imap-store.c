@@ -1281,7 +1281,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	fi->url = camel_url_to_string (url, 0);
 	camel_url_free (url);
 	
-	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
+	if (flags & IMAP_LIST_FLAG_UNMARKED)
 		fi->unread_message_count = -1;
 	
 	return fi;
@@ -1452,7 +1452,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 			fi->full_name = g_strdup ("INBOX");
 			fi->name = g_strdup ("INBOX");
 			fi->url = uri;
-			fi->unread_message_count = -1;
+			fi->unread_message_count = 0;
 			
 			g_ptr_array_add (folders, fi);
 		}
@@ -1480,7 +1480,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 		 */
 		url = camel_url_new (fi->url, NULL);
 		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (fi->unread_message_count != -1 || (noselect && !g_strcasecmp (noselect, "yes"))) {
+		if (fi->unread_message_count == -1 || (noselect && !g_strcasecmp (noselect, "yes"))) {
 			camel_url_free (url);
 			continue;
 		}
@@ -1490,8 +1490,10 @@ get_folder_info_online (CamelStore *store, const char *top,
 		 * checking INBOX.
 		 */
 		if ((!(imap_store->parameters & IMAP_PARAM_CHECK_ALL))
-		    && (g_strcasecmp (fi->name, "INBOX") != 0))
+		    && (g_strcasecmp (fi->name, "INBOX") != 0)) {
+			fi->unread_message_count = -1;
 			continue;
+		}
 		
 		/* For the current folder, poke it to check for new
 		 * messages and then report that number, rather than

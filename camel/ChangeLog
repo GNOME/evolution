@@ -1,3 +1,14 @@
+2001-10-17    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online):
+	(parse_list_response_as_folder_info): Patch from Danw, Use unread
+	count of -1 to mark unflagged messages.  Make sure any folder we
+	dont lookup explicitly is marked as -1.  Should fix #9947 and
+	friends.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync): Only
+	touch the summary if the timestamp or size changed.
+
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): Set

@@ -399,8 +399,7 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 	/* FIXME: move upstream? */
 
 	if (ret != -1) {
-		if (mbs->folder_size != st.st_size
-		    || s->time != st.st_mtime) {
+		if (mbs->folder_size != st.st_size || s->time != st.st_mtime) {
 			mbs->folder_size = st.st_size;
 			s->time = st.st_mtime;
 			camel_folder_summary_touch(s);
@@ -876,9 +875,11 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 		return -1;
 	}
 
-	camel_folder_summary_touch(s);
-	s->time = st.st_mtime;
-	mbs->folder_size = st.st_size;
+	if (mbs->folder_size != st.st_size || s->time != st.st_mtime) {
+		s->time = st.st_mtime;
+		mbs->folder_size = st.st_size;
+		camel_folder_summary_touch(s);
+	}
 
 	return ((CamelLocalSummaryClass *)camel_mbox_summary_parent)->sync(cls, expunge, changeinfo, ex);
 }
