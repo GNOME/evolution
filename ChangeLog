@@ -1,3 +1,9 @@
+2001-10-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: AC_OUTPUT(default_user/local/Makefile) before
+	AC_OUTPUT()ing the other subdirs of `default_user/local'.  Fix
+	pointed out by Dmitry G. Mastrukov <dmitry@fitmark.net>.
+
 2001-10-07  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Remove movemail check, since it's not relevant any
