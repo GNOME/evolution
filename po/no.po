@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2001-03-15 11:10+0100\n"
-"PO-Revision-Date: 2001-03-13 00:18-05:00\n"
+"POT-Creation-Date: 2001-03-15 13:39-0500\n"
+"PO-Revision-Date: 2001-03-15 13:41-05:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3485,14 +3485,12 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "For lesing og lagring av e-post på IMAP-tjenere."
 
 #: camel/providers/imap/camel-imap-provider.c:59
-#, fuzzy
 msgid "Secure IMAPv4"
-msgstr "IMAPv4"
+msgstr "Sikker IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:61
-#, fuzzy
 msgid "For reading and storing mail on IMAP servers over an SSL connection."
-msgstr "For lesing og lagring av e-post på IMAP-tjenere."
+msgstr "For lesing og lagring av e-post på IMAP-tjenere over en SSL-forbindelse."
 
 #: camel/providers/imap/camel-imap-store.c:263
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -3940,18 +3938,14 @@ msgstr ""
 
 #: camel/providers/pop3/camel-pop3-provider.c:54
 msgid "Secure POP"
-msgstr ""
+msgstr "Sikker POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:56
-#, fuzzy
 msgid ""
 "For connecting to POP servers over an SSL connection. The POP protocol can "
 "also be used to retrieve mail from certain web mail providers and "
 "proprietary email systems."
-msgstr ""
-"For tilkobling til POP-tjenere. POP-protokollen kan også brukes for å hente "
-"e-post fra enkelte e-posttilbydere via web i tillegg til proprietære "
-"e-postsystemer."
+msgstr "For tilkobling til POP-tjenere over en SSL-forbindelse. POP-protokollen kan også brukes for å hente e-post fra enkelte e-posttilbydere via web i tillegg til proprietære e-postsystemer."
 
 #: camel/providers/pop3/camel-pop3-store.c:147
 msgid ""
@@ -4095,14 +4089,13 @@ msgstr "For levering av e-post via en ekstern e-posttjener med SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-provider.c:53
 msgid "Secure SMTP"
-msgstr ""
+msgstr "Sikker SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:55
-#, fuzzy
 msgid ""
 "For delivering mail by connecting to a remote mailhub using SMTP over an SSL "
 "connection.\n"
-msgstr "For levering av e-post via en ekstern e-posttjener med SMTP.\n"
+msgstr "For levering av e-post via en ekstern e-posttjener med SMTP over en SSL-forbindelse.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:147
 msgid "Syntax error, command unrecognized"
@@ -5188,9 +5181,8 @@ msgid "was before"
 msgstr "var før"
 
 #: filter/score-editor.c:126
-#, fuzzy
 msgid "Score Rules"
-msgstr "Rediger poengregel"
+msgstr "Poengregler"
 
 #: mail/component-factory.c:306
 msgid "Cannot initialize Evolution's mail component."
@@ -7740,9 +7732,8 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Slå av/på visning av Fra-feltet"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Slå av/på visning av CC-feltet"
+msgstr "Slå av/på visning av Svar-til feltet"
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
@@ -7769,9 +7760,8 @@ msgid "_Open..."
 msgstr "_Åpne..."
 
 #: ui/evolution-message-composer.xml.h:50
-#, fuzzy
 msgid "_Reply-To Field"
-msgstr "Svar-til:"
+msgstr "Svar-til felt"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Security"
