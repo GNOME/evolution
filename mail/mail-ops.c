@@ -266,6 +266,12 @@ real_fetch_mail( gpointer user_data )
 	camel_exception_free (ex);
 }
 
+static void
+fetch_mail_cleanup (gpointer user_data)
+{
+	/* nothing */
+}
+
 /* FIXME: This is BROKEN! It fetches mail into whatever folder you're
  * currently viewing.
  */
@@ -299,7 +305,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	info = g_new( rfm_t, 1 );
 	info->fb = FOLDER_BROWSER( user_data );
 	info->source_url = url;
-	mail_operation_try( _("Fetching mail"), real_fetch_mail, info );
+	mail_operation_try( _("Fetching mail"), real_fetch_mail, fetch_mail_cleanup, info );
 }
 
 
