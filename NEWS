@@ -16,6 +16,11 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              rows of text (Toshok)
     #42604 - Display not shifted when cursor moved to next address
              line (Toshok)
+    #42606 - Not saving information entered in Notes field of Contact
+             editor (Toshok)
+    #42620 - Crash related to mailing address checkbox. (Toshok)
+    #42625 - Clicking in white space of contact brings up empty
+             contact editor. (Toshok)
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
 
@@ -29,7 +34,7 @@ Other bugs:
   * Addressbook
 
     - 64bit cleanup and warning fixes. (katzj@redhat.com)
-    - Fixed some probably memory corruption (Toshok, sean.gao@sun.com)
+    - Fixed some probable memory corruption (Toshok, sean.gao@sun.com)
 
   * Calendar
 
