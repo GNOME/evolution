@@ -1,3 +1,31 @@
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #8204 and the other bugs caused by allowing invocations on
+	the ::Shell interface to happen before the shell is actually fully
+	initialized.  This is a lame hack and not a nice, complete
+	solution for the problem, but it should do for now.]
+
+	* e-shell.c: New member `is_initialized' in `EShellPrivate'.
+	(init): Initialize to %FALSE.
+	(e_shell_construct): Set `is_initialized' to %TRUE after the
+	initialization sequence is finished.
+	(raise_exception_if_not_ready): New utility function to raise the
+	notReady exception if the shell is not ready.
+	(impl_Shell__get_displayName): Call it.
+	(impl_Shell_getComponentByType): Likewise.
+	(impl_Shell_createNewView): Likewise.
+	(impl_Shell_handleURI): Likewise.
+	(impl_Shell_selectUserFolder): Likewise.
+	(impl_Shell_getLocalStorage): Likewise.
+	(impl_Shell_createStorageSetView): Likewise.
+	(impl_Shell_setLineStatus): Likewise.
+	(e_shell_construct): Print out the repo_id of the exception from
+	`bonobo_get_object()' if it fails.  Also, register on OAF just
+	before displaying the splash.
+
+	* Evolution-Shell.idl: New exception `NotReady'.  All the CORBA
+	methods on ::Shell can now raise this exception.
+
 2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #5990, Remembering Evolution window geometry.]

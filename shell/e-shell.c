@@ -116,7 +116,7 @@ struct _EShellPrivate {
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
 	   to happen while the shell is initializing.  */
-	gboolean is_initialized;
+	unsigned int is_initialized : 1;
 };
 
 
@@ -196,12 +196,32 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 
 /* CORBA interface implementation.  */
 
+static gboolean
+raise_exception_if_not_ready (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	EShell *shell;
+
+	shell = E_SHELL (bonobo_object_from_servant (servant));
+
+	if (! shell->priv->is_initialized) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_NotReady, NULL);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static CORBA_char *
 impl_Shell__get_displayName (PortableServer_Servant servant,
 			     CORBA_Environment *ev)
 {
 	char *display_string;
 	CORBA_char *retval;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
 
 	display_string = DisplayString (gdk_display);
 	if (display_string == NULL) 
@@ -223,6 +243,9 @@ impl_Shell_getComponentByType (PortableServer_Servant servant,
 	EFolderTypeRegistry *folder_type_registry;
 	GNOME_Evolution_ShellComponent corba_component;
 	EShell *shell;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -250,6 +273,9 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 	EShell *shell;
 	EShellView *shell_view;
 	GNOME_Evolution_ShellView shell_view_interface;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -291,6 +317,9 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	EShellPrivate *priv;
 	const char *colon_p;
 	char *schema;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
 
 	shell = E_SHELL (bonobo_object_from_servant (servant));
 	priv = shell->priv;
@@ -355,6 +384,9 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	const char **allowed_type_names;
 	int i;
 
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
@@ -393,6 +425,9 @@ impl_Shell_getLocalStorage (PortableServer_Servant servant,
 	EShell *shell;
 	EShellPrivate *priv;
 
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 	priv = shell->priv;
@@ -412,6 +447,9 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 	EShell *shell;
 	BonoboControl *control;
 
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
@@ -427,6 +465,9 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EShell *shell;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
@@ -899,7 +940,7 @@ e_shell_construct (EShell *shell,
 	
 	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat:");
+		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat: (%s)", ev._repo_id);
 		
 		/* Make sure the DB object is NIL so we don't mess up
 		   (`bonobo_get_object()' might return an undefined value in
@@ -921,6 +962,16 @@ e_shell_construct (EShell *shell,
 		gtk_widget_show (splash);
 	}
 	
+	/* Now we can register into OAF.  Notice that we shouldn't be
+	   registering into OAF until we are sure we can complete.  */
+	
+	/* FIXME: Multi-display stuff.  */
+	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
+		CORBA_exception_free (&ev);
+		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
+	}
+
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
@@ -981,15 +1032,7 @@ e_shell_construct (EShell *shell,
 	
 	g_free (shortcut_path);
 
-	/* Now we can register into OAF.  Notice that we shouldn't be
-	   registering into OAF until we are initialized.  */
-	
-	/* FIXME: Multi-display stuff.  */
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
-		CORBA_exception_free (&ev);
-		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
-	}
+	priv->is_initialized = TRUE;
 
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }

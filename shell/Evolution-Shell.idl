@@ -17,6 +17,7 @@ module Evolution {
 	interface FolderSelectionListener;
 
 	interface Shell : Bonobo::Unknown {
+		exception NotReady {};
 		exception NotFound {};
 		exception UnsupportedSchema {};
 		exception InvalidURI {};
@@ -38,7 +39,7 @@ module Evolution {
 		 * handles @type.
 		 */
 		ShellComponent getComponentByType (in string type)
-			raises (NotFound);
+			raises (NotReady, NotFound);
 
 		/**
 		 * createNewView:
@@ -47,7 +48,7 @@ module Evolution {
 		 * Return value: the new view.
 		 */
 		ShellView createNewView (in string uri)
-			raises (NotFound, UnsupportedSchema, InvalidURI, InternalError);
+			raises (NotReady, NotFound, UnsupportedSchema, InvalidURI, InternalError);
 
 		/**
 		 * handleURI:
@@ -59,7 +60,7 @@ module Evolution {
 		 * the message composer.)
 		 */
 		void handleURI (in string uri)
-			raises (NotFound, UnsupportedSchema, InvalidURI, InternalError);
+			raises (NotReady, NotFound, UnsupportedSchema, InvalidURI, InternalError);
 
 		/**
 		 * selectUserFolder:
@@ -78,7 +79,7 @@ module Evolution {
 				       in string title,
 				       in string default_folder,
 				       in FolderTypeNameList possible_types)
-			raises (Busy);
+			raises (NotReady, Busy);
 
 		/**
 		 * getLocalStorage:
@@ -90,7 +91,8 @@ module Evolution {
 		 *
 		 * Return value: the `Evolution::LocalStorage' interface for
 		 * the local storage.  */
-		Storage getLocalStorage ();
+		Storage getLocalStorage ()
+			raises (NotReady);
 
 		/**
 		 * createStorageSetView:
@@ -100,14 +102,16 @@ module Evolution {
 		 *
 		 * Return value: the newly created control.
 		 */
-		Bonobo::Control createStorageSetView ();
+		Bonobo::Control createStorageSetView ()
+			raises (NotReady);
 
 		/**
 		 * setLineStatus:
 		 *
 		 * Set the shell into on-line or off-line mode.
 		 */
-		void setLineStatus (in boolean online);
+		void setLineStatus (in boolean online)
+			raises (NotReady);
 	};
 
 	interface FolderSelectionListener {
