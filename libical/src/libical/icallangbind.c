@@ -68,7 +68,7 @@ icalproperty* icallangbind_get_property(icalcomponent *c, int n, const char* pro
 		p = icalcomponent_get_next_property(comps[compno],kind)
 		){
 
-		if(strcmp(icalproperty_get_xname(p),prop) == 0){
+		if(strcmp(icalproperty_get_x_name(p),prop) == 0){
 
 		    if(propno == n ){
 			return p;
