@@ -320,8 +320,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	/* Labels and Colours tab */
 	for (i = 0; i < 5; i++) {
-		char *widget_name, *label;
-		const char *p;
+		char *widget_name, *label, *p;
 		
 		widget_name = g_strdup_printf ("txtLabel%d", i);
 		prefs->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
@@ -331,20 +330,12 @@ mail_preferences_construct (MailPreferences *prefs)
 		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
 		g_free (widget_name);
 		
-		if (l != NULL) {
-			text = (const char *) l->data;
-			p = strrchr (text, ':');
-			if (p) {
-				label = g_strndup (text, p - text);
-				gdk_color_parse (p + 1, &colour);
-				rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff) >> 8);
-			} else {
-				label = g_strdup (text);
-				rgb = label_defaults[i].color;
-			}
-			l = l->next;
+		label = l ? (char *) l->data : g_strdup (_(label_defaults[i].name));
+		if ((p = strrchr (label, ':'))) {
+			*p++ = '\0';
+			gdk_color_parse (p, &colour);
+			rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff) >> 8);
 		} else {
-			label = g_strdup (_(label_defaults[i].name));
 			rgb = label_defaults[i].color;
 		}
 		
@@ -355,7 +346,19 @@ mail_preferences_construct (MailPreferences *prefs)
 		
 		colorpicker_set_color (prefs->labels[i].color, rgb);
 		g_signal_connect (prefs->labels[i].color, "color_set", G_CALLBACK (color_set), prefs);
+		
+		if (l != NULL)
+			l = l->next;
 	}
+	
+	/* this is in case somehow the gconf list is longer than 5... */
+	while (l != NULL) {
+		g_free (l->data);
+		l = l->next;
+	}
+	
+	g_slist_free (list);
+	
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);
 }
@@ -379,7 +382,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	GtkWidget *entry, *menu;
 	char *string, buf[20];
 	const char *cstring;
-	GSList *list;
+	GSList *list, *l;
 	guint32 rgb;
 	int i, val;
 	
@@ -455,6 +458,12 @@ mail_preferences_apply (MailPreferences *prefs)
 	}
 	
 	gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, list, NULL);
+	
+	l = list;
+	while (l != NULL) {
+		g_free (l->data);
+		l = l->next;
+	}
 	g_slist_free (list);
 	
 	gconf_client_suggest_sync (prefs->gconf, NULL);

@@ -1,3 +1,11 @@
+2002-11-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): Since the
+	GSList returned from gconf needs to be free'd by us, we don't need
+	to strdup the values. Also make sure we don't leak the GSList
+	itself.
+	(mail_preferences_apply): Don't leak our GSList data.
+
 2002-08-30  Radek Doulik  <rodo@ximian.com>
 
 	* mail-display.c (mail_display_render): don't set margins for raw
