@@ -1,3 +1,7 @@
+2004-05-25  Joop Stakenborg  <pg4i@xs4all.nl>
+
+	* nl.po: fixed attribution to not cause crash.  See #58882.
+
 2004-05-24  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.

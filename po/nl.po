@@ -13183,7 +13183,7 @@ msgstr "een onbekende afzender"
 #. it must contain a single single %%+05d followed by a single '%%s'
 #: mail/em-composer-utils.c:1509
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "Op %a %d-%m-%Y, te %H:%M uur schreef %%s:"
+msgstr "Op %a %d-%m-%Y, om %H:%M %%+05d uur schreef %%s:"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
