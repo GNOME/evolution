@@ -19,6 +19,12 @@
 			<menuitem name="AsTable" verb="ViewAsTable" _label="As _Table"
 		        />
 
+		</submenu>
+
+		<submenu name="Settings">
+
+			<menuitem name="AddressbookConfig" verb="AddressbookConfig" _label="_Addressbook Configuration..."
+		        />
 
 		</submenu>
 

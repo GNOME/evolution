@@ -1,3 +1,11 @@
+2000-12-29  Chris Toshok  <toshok@helixcode.com>
+
+	* evolution-addressbook.xml: add "Settings/Addressbook
+	Configuration..."  Analogous to "Settings/Mail Configuration..." in
+	evolution-mail.
+
+	* evolution-addressbook-ldap.xml: removed.
+	
 2000-12-23  Jason Leach  <jasonleach@usa.net>
 
 	* evolution-mail.xml: Added ellipsis to Settings menu entries that
