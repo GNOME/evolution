@@ -6,6 +6,6 @@ location_info=IDL:GNOME:Calendar:RepositoryLocator:1.0
 
 [IDL:GNOME:Calendar:RepositoryLocator:1.0]
 type=exe
-repo_id=IDL:GNOME/GenericFactoy:1.0
+repo_id=IDL:GNOME/GenericFactory:1.0
 description=Calendar Server
 location_info=gnomecal

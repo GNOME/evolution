@@ -1,3 +1,7 @@
+1999-08-22  Tomas Ogren  <stric@ing.umu.se>
+
+	* gnomecal.gnorba: "GenericFactoy" is wrong...
+
 1999-08-15  Miguel de Icaza  <miguel@gnu.org>
 
 	* calobj.c (ical_gen_uid): Fix the hostname part.
