@@ -160,4 +160,4 @@ factory (BonoboGenericFactory *this,
 	return NULL;
 }
 
-BONOBO_ACTIVATION_SHLIB_FACTORY (FACTORY_ID, "Evolution Summary component", factory, NULL)
+BONOBO_ACTIVATION_SHLIB_FACTORY (FACTORY_ID, "Evolution Summary component factory", factory, NULL)

@@ -1,3 +1,8 @@
+2002-12-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c: Change description passed to
+	BONOBO_ACTIVATION_SHLIB_FACTORY to correctly say we are a factroy.
+
 2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (componentdir): Install in $(COMPONENT_DIR), not in
