@@ -1,3 +1,8 @@
+2001-10-10  Iain Holmes  <iain@ximian.com>
+
+	* my-evolution.glade: Set the minimum length of time for updates to 
+	5 minutes.
+
 2001-10-06  Carlos Perelló Marín <carlos@gnome-db.org>
 
 	* e-summary-preferences.c: Added HispaLinux

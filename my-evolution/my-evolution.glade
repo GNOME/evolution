@@ -778,8 +778,8 @@
 	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 	    <snap>False</snap>
 	    <wrap>False</wrap>
-	    <value>1</value>
-	    <lower>0</lower>
+	    <value>300</value>
+	    <lower>300</lower>
 	    <upper>1e+06</upper>
 	    <step>1</step>
 	    <page>10</page>
@@ -1209,7 +1209,7 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label37</name>
-	      <label>Units: </label>
+	      <label>Show temperatures in:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
@@ -1227,7 +1227,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>radiobutton7</name>
 	      <can_focus>True</can_focus>
-	      <label>M_etric</label>
+	      <label>C_elcius</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>units_group</group>
@@ -1242,7 +1242,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>radiobutton8</name>
 	      <can_focus>True</can_focus>
-	      <label>_Imperial</label>
+	      <label>_Fahrenheit</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>units_group</group>
@@ -1293,8 +1293,8 @@
 	      <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 	      <snap>False</snap>
 	      <wrap>False</wrap>
-	      <value>1</value>
-	      <lower>0</lower>
+	      <value>300</value>
+	      <lower>300</lower>
 	      <upper>1e+06</upper>
 	      <step>1</step>
 	      <page>10</page>
