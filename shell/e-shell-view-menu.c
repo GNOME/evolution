@@ -43,6 +43,8 @@
 
 #include "evolution-shell-component-utils.h"
 
+#include "e-util/e-dialog-utils.h"
+
 #include <glib.h>
 
 #include <gtk/gtksignal.h>
@@ -55,8 +57,6 @@
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-about.h>
-
-#include <gal/widgets/e-gui-utils.h>
 
 
 /* Utility functions.  */

@@ -33,7 +33,7 @@
 
 #include "Evolution-Addressbook-SelectNames.h"
 
-#include <gal/widgets/e-gui-utils.h>
+#include "e-util/e-dialog-utils.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -278,7 +278,7 @@ show_dialog (EShell *shell,
 		/* It would be nice to insensitivize the OK button appropriately
 		   instead of doing this, but unfortunately we can't do this for the
 		   Bonobo control.  */
-		e_notice (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR, _("Please select a user."));
+		e_notice (dialog, GTK_MESSAGE_ERROR, _("Please select a user."));
 	}
 
 	*user_email_address_return = user_email_address;
@@ -461,7 +461,7 @@ shared_folder_discovery_callback (EStorage *storage,
 		else
 			e_shell_create_view (shell, uri, NULL);
 	} else {
-		e_notice (parent ? GTK_WINDOW (parent) : NULL, GTK_MESSAGE_ERROR,
+		e_notice (parent, GTK_MESSAGE_ERROR,
 			  _("Could not open shared folder: %s."),
 			  e_storage_result_to_string (result));
 	}
@@ -514,7 +514,7 @@ discover_folder (EShell *shell,
 
  error:
 	/* FIXME: Be more verbose?  */
-	e_notice (GTK_WINDOW (parent), GTK_MESSAGE_ERROR,
+	e_notice (parent, GTK_MESSAGE_ERROR,
 		  _("Cannot find the specified shared folder."));
 }
 

@@ -25,6 +25,8 @@
 
 #include "evolution-shell-component-utils.h"
 
+#include "e-util/e-dialog-utils.h"
+
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -32,7 +34,6 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo-activation/bonobo-activation.h>
-#include <gal/widgets/e-gui-utils.h>
 
 static void free_pixmaps (void);
 static GSList *inited_arrays = NULL;

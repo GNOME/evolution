@@ -38,11 +38,12 @@
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
 
 #include "e-storage-set.h"
 #include "e-storage-set-view.h"
 #include "e-shell-utils.h"
+
+#include "e-util/e-dialog-utils.h"
 
 #include "e-shell-folder-creation-dialog.h"
 
@@ -122,7 +123,7 @@ async_create_cb (EStorageSet *storage_set,
 						  dialog_data->folder_path,
 						  dialog_data->result_callback_data);
 
-	e_notice (GTK_WINDOW (dialog_data->dialog), GTK_MESSAGE_ERROR,
+	e_notice (dialog_data->dialog, GTK_MESSAGE_ERROR,
 		  _("Cannot create the specified folder:\n%s"),
 		  e_storage_result_to_string (result));
 
@@ -165,7 +166,7 @@ dialog_response_cb (GtkDialog *dialog,
 	folder_name = gtk_entry_get_text(GTK_ENTRY (dialog_data->folder_name_entry));
 
 	if (! e_shell_folder_name_is_valid (folder_name, &reason)) {
-		e_notice (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR,
+		e_notice (dialog, GTK_MESSAGE_ERROR,
 			  _("The specified folder name is not valid: %s"), reason);
 		return;
 	}

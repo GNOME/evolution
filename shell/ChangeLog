@@ -1,5 +1,22 @@
 2003-03-25  Dan Winship  <danw@ximian.com>
 
+	* e-folder-dnd-bridge.c: Update for e_notice move.
+	* e-setup.c: Likewise
+	* e-shell-folder-commands.c: Likewise
+	* e-shell-folder-creation-dialog.c: Likewise
+	* e-shell-offline-sync.c: Likewise
+	* e-shell-shared-folder-picker-dialog.c: Likewise
+	* e-shell-view-menu.c: Likewise
+	* e-shell.c: Likewise
+	* evolution-shell-component-utils.c: Likewise
+
+	* Makefile.am (libeshell_la_LIBADD): libeshell depends on
+	libeutil.
+
+	* e-corba-storage.c: Fix warnings
+
+2003-03-25  Dan Winship  <danw@ximian.com>
+
 	* Evolution-ShellComponent.idl (interactive): add a "new_view_xid"
 	arg, so the component has a window id to make use of as a parent
 	if it needs to pop up a dialog.

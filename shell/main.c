@@ -22,6 +22,7 @@
 
 #include <config.h>
 
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
 
 #include "e-icon-factory.h"
@@ -64,7 +65,6 @@
 #include <gconf/gconf.h>
 #endif
 
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
 
 #include <fcntl.h>

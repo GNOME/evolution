@@ -31,13 +31,12 @@
 #include "e-shell-config.h"
 #include "e-shell-constants.h"
 
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-path.h"
 
 #include <gconf/gconf-client.h>
 
 #include <gtk/gtklabel.h>
-
-#include <gal/widgets/e-gui-utils.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>

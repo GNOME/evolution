@@ -38,6 +38,7 @@
 #include <bonobo/bonobo-listener.h>
 
 #include <gdk/gdkx.h>
+#include <gtk/gtkmain.h>
 
 #include <string.h>
 
@@ -331,7 +332,7 @@ get_folder (EStorage *storage, const char *path)
 			e_storage_async_open_folder (storage, path_dup,
 						     get_folder_cb, &done);
 			while (!done)
-				gtk_main_iteration (TRUE);
+				gtk_main_iteration ();
 		}
 		*p = '/';
 		p = strchr (p + 1, '/');

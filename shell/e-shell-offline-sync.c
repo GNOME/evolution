@@ -31,9 +31,9 @@
 
 #include "Evolution.h"
 
-#include <gconf/gconf-client.h>
+#include "e-util/e-dialog-utils.h"
 
-#include <gal/widgets/e-gui-utils.h>
+#include <gconf/gconf-client.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
@@ -159,7 +159,7 @@ impl_SyncFolderProgressListener_reportFailure (PortableServer_Servant servant,
 
 	/* FIXME -- We probably should give the user more of a chance to do
 	   something about it.  */
-	e_notice (GTK_WINDOW (sync_data->dialog), GTK_MESSAGE_ERROR,
+	e_notice (sync_data->dialog, GTK_MESSAGE_ERROR,
 		  _("Error synchronizing \"%s\":\n%s"), e_folder_get_name (folder), message);
 
 	sync_data->current_folder_finished = TRUE;

@@ -73,7 +73,6 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
 
 #include <gconf/gconf-client.h>
@@ -172,7 +171,7 @@ pop_up_activation_error_dialog (ESplash *splash,
 	char *error_message;
 
 	error_message = e_get_activation_failure_msg (ev);
-	e_notice (GTK_WINDOW (splash), GTK_MESSAGE_ERROR,
+	e_notice (splash, GTK_MESSAGE_ERROR,
 		  _("Cannot activate component %s :\n"
 		    "The error from the activation system is:\n"
 		    "%s"),
@@ -1761,7 +1760,6 @@ e_shell_component_maybe_crashed   (EShell *shell,
 				   EShellView *shell_view)
 {
 	EShellPrivate *priv;
-	GtkWindow *parent_window;
 	EvolutionShellComponentClient *component;
 	GList *p;
 
@@ -1802,12 +1800,7 @@ e_shell_component_maybe_crashed   (EShell *shell,
 
 	priv->crash_type_names = g_list_prepend (priv->crash_type_names, g_strdup (type_name));
 
-	if (shell_view == NULL)
-		parent_window = NULL;
-	else
-		parent_window = GTK_WINDOW (shell_view);
-
-	e_notice (parent_window, GTK_MESSAGE_ERROR,
+	e_notice (shell_view, GTK_MESSAGE_ERROR,
 		  _("The Evolution component that handles folders of type \"%s\"\n"
 		    "has unexpectedly quit. You will need to quit Evolution and restart\n"
 		    "in order to access that data again."),

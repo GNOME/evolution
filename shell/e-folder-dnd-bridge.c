@@ -31,7 +31,7 @@
 #include "e-storage-set-view.h"
 #include "e-shell-constants.h"
 
-#include <gal/widgets/e-gui-utils.h>
+#include "e-util/e-dialog-utils.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>

@@ -133,6 +133,9 @@ libeshell_la_SOURCES = 				\
 	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
+libeshell_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la
+
 # Evolution executable
 
 evolution_SOURCES =				\
