@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-07-22 12:18+0200\n"
+"PO-Revision-Date: 2004-09-09 19:03+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -16263,7 +16263,7 @@ msgstr "_Aggiungi"
 msgid ""
 "Could not connect to {0}. Groupwise account setup is incomplete. You may "
 "need to setup  the account again"
-msgstr ""
+msgstr "Impossibile connettersi a {0}. L'impostazione dell'account groupwise è incompleta. Potrebbe essere necessario reimpostare nuovamente l'account"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -16718,44 +16718,36 @@ msgid "Subject does not contain"
 msgstr "L'oggetto non contiene"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Shell"
-msgstr "Posta di Evolution"
+msgstr "Shell di Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "Interrogazione di Evolution"
+msgstr "Test di Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "Componente delle attività di Evolution"
+msgstr "Componente del test di Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
-#, fuzzy
 msgid "480"
-msgstr "80%"
+msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Default width of the folder bar pane"
-msgstr "Larghezza predefinita della finestra di composizione"
+msgstr "Larghezza predefinita del pannello delle cartelle"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default window height"
-msgstr "Priorità predefinita:"
+msgstr "Altezza predefinita finestra"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
-#, fuzzy
 msgid "Default window width"
-msgstr "Priorità predefinita:"
+msgstr "Larghezza predefinita finestra"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
-#, fuzzy
 msgid "Evolution configuration version"
-msgstr "Controllo di configurazione del calendario di Evolution."
+msgstr "Versione della configurazione di Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 #, fuzzy
@@ -16767,7 +16759,7 @@ msgstr ""
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
+msgstr "Se impostato, Evolution partirà in modalità fuori linea invece che in linea."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -16776,9 +16768,8 @@ msgid ""
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Last upgraded Evolution configuration version"
-msgstr "Controllo di configurazione del calendario di Evolution."
+msgstr "Versione dell'ultimo aggiornamento della configurazione di Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid ""
@@ -16787,7 +16778,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "La barra degli strumenti è visibile"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether Evolution should start up in offline mode"
@@ -16802,27 +16793,24 @@ msgid "Whether to skip the development warning dialog"
 msgstr ""
 
 #: shell/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Active Connections</b>"
-msgstr "<b>Autenticazione</b>"
+msgstr "<b>Connessioni attive</b>"
 
 #: shell/e-active-connection-dialog.glade.h:2
-#, fuzzy
 msgid "Active Connections"
-msgstr "Esegui le azioni"
+msgstr "Connessioni attive"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr ""
+msgstr "Fare clic su OK per chiudere le connessioni ed andare in modalità fuori linea"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
-#, fuzzy
 msgid "(Untitled)"
-msgstr "Senza nome"
+msgstr "(Senza nome)"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "Scegliere il tipo di importatore da eseguire:"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -19691,58 +19679,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completata)"
-
-#~ msgid "_Add Group"
-#~ msgstr "_Aggiungi gruppo..."
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (instabile)"
-
-#~ msgid "Remember this password"
-#~ msgstr "Ricorda questa password"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "Ricorda questa password per il resto della sessione"
-
-#, fuzzy
-#~ msgid "Keep"
-#~ msgstr "Beep"
-
-#~ msgid "New Contacts Group"
-#~ msgstr "Nuovo gruppo contatti"
-
-#~ msgid "Contacts Grou_p"
-#~ msgstr "Grup_po contatti"
-
-#~ msgid "Create a new contacts group"
-#~ msgstr "Crea un nuovo gruppo contatti"
-
-#~ msgid "Add Contacts Group"
-#~ msgstr "Aggiungi gruppo contatti"
-
-#~ msgid "_Add Contacts Group"
-#~ msgstr "_Aggiungi gruppo contatti"
-
-#~ msgid "Add Tasks Group"
-#~ msgstr "Aggiungi gruppo attività"
-
-#~ msgid "L_ocation:"
-#~ msgstr "P_osizione:"
-
-#~ msgid "<b>Organizer</b>"
-#~ msgstr "<b>Organizzatore</b>"
-
-#~ msgid "_Organizer:"
-#~ msgstr "_Organizzatore:"
-
-#~ msgid "New tasks group"
-#~ msgstr "Nuovo gruppo attività"
-
-#~ msgid "Tasks Gro_up"
-#~ msgstr "Gr_uppo attività"
-
-#~ msgid "Create a new tasks group"
-#~ msgstr "Crea un nuovo gruppo attività"
-
-#~ msgid "Got BYE response"
-#~ msgstr "Ottenuta risposta BYE (arrivederci)"
