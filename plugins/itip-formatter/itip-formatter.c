@@ -358,6 +358,12 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		
 		pitip->current_ecal = ecal;
 
+		/* Provide extra info, since its not in the component */
+		/* FIXME Check sequence number of meeting? */
+		/* FIXME Do we need to adjust elsewhere for the delegated calendar item? */
+		if (pitip->method == ICAL_METHOD_REPLY || pitip->method == ICAL_METHOD_REFRESH)
+			adjust_item (pitip, pitip->comp);
+
 		/* We clear everything because we don't really care
 		 * about any other info/warnings now we found an
 		 * existing versions */
@@ -1054,10 +1060,6 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		break;
 	case ICAL_METHOD_REPLY:
 	case ICAL_METHOD_REFRESH:
-		/* Provide extra info, since its not in the component */
-		/* FIXME Check sequence number of meeting? */
-		adjust_item (pitip, pitip->comp);
-
 	case ICAL_METHOD_COUNTER:
 	case ICAL_METHOD_DECLINECOUNTER:
 		/* An attendee sent this */
@@ -1165,7 +1167,39 @@ pitip_free (EMFormatHTMLPObject *pobject)
 {
 	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
 
-	
+	g_free (pitip->vcalendar);
+	pitip->vcalendar = NULL;
+
+	if (pitip->comp) {
+		g_object_unref (pitip->comp);
+		pitip->comp = NULL;
+	}
+
+	if (pitip->top_level) {
+		icalcomponent_free (pitip->top_level);
+		pitip->top_level = NULL;
+	}
+
+	if (pitip->main_comp) {
+		icalcomponent_free (pitip->main_comp);
+		pitip->main_comp = NULL;
+	}
+	pitip->ical_comp = NULL;
+
+	pitip->current = 0;
+	pitip->total = 0;
+
+	g_free (pitip->calendar_uid);
+	pitip->calendar_uid = NULL;
+
+	g_free (pitip->from_address);
+	pitip->from_address = NULL;
+	g_free (pitip->delegator_address);
+	pitip->delegator_address = NULL;
+	g_free (pitip->delegator_name);
+	pitip->delegator_name = NULL;
+	g_free (pitip->my_address);
+	pitip->my_address = NULL;	
 }
 
 void

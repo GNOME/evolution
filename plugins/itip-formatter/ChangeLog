@@ -1,5 +1,11 @@
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (find_cal_opened_cb): move the adjust item work
+	here when we actually have the calendar
+	(pitip_free): implement a free function
+
+2005-01-03  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.h: add response enums
 
 	* itip-view.c (set_buttons): fiddle with button names and response enums
