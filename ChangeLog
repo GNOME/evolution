@@ -1,3 +1,8 @@
+2001-06-21  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Fix the OpenLDAP check to default to "no" if you
+	don't specify anything.
+
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
 	* doc/C/config-setupassist.sgml: Updated for new UI.

@@ -366,18 +366,25 @@ dnl **************************************************
 dnl * ldap related stuff.
 dnl **************************************************
 AC_ARG_WITH(openldap, [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution])
-if test "$with_openldap" != no; then
-	case $with_openldap in
-	/*)
-		LDAP_CFLAGS="-I$with_openldap/include"
-		LDAP_LDFLAGS="-L$with_openldap/lib"
-		;;
-	*)
-		with_openldap=/usr
-	esac
-	AC_DEFINE(HAVE_LDAP)
+AC_CACHE_CHECK([for OpenLDAP], ac_cv_with_openldap, ac_cv_with_openldap="${with_openldap:=no}")
+case $ac_cv_with_openldap in
+no|"")
+	msg_ldap=no
+	;;
+yes)
+	with_openldap=/usr
 	msg_ldap=yes
+	;;
+*)
+	with_openldap=$ac_cv_with_openldap
+	LDAP_CFLAGS="-I$ac_cv_with_openldap/include"
+	LDAP_LDFLAGS="-L$ac_cv_with_openldap/lib"
+	msg_ldap=yes
+	;;
+esac
 
+if test "$msg_ldap" = yes; then
+	AC_DEFINE(HAVE_LDAP)
 	AC_CACHE_CHECK(if OpenLDAP is version 2.x, ac_cv_openldap_version2, [
 		CPPFLAGS_save="$CPPFLAGS"
 		CPPFLAGS="$CPPFLAGS $LDAP_CFLAGS"
@@ -413,8 +420,6 @@ if test "$with_openldap" != no; then
 
 	AC_SUBST(LDAP_CFLAGS)
 	AC_SUBST(LDAP_LIBS)
-else
-	msg_ldap=no
 fi
 AM_CONDITIONAL(ENABLE_LDAP, test $msg_ldap = yes)
 
