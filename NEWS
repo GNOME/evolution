@@ -107,28 +107,28 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Calendar
 
     #15892 -- Running out of disk space can cause loss of calender
-		entries and tasks.
-    #19159 -- Application "evolution-alarm-notify" has crashed.
-    #30057 -- calendar gui does not allow for read-only folders
+		entries and tasks (Rodrigo)
+    #19159 -- Application "evolution-alarm-notify" has crashed (Rodrigo)
+    #30057 -- calendar gui does not allow for read-only folders (Rodrigo)
     #15710 -- Automatically-created reminder always says "Untitled
-		Appointment"
-    #30290 -- Importer Not Ready when importing .ics Ical file
-    #24210 -- Slow calendar.
-    #27961 -- vcalendar LAST-MODIFIED field not updated on change
-    #28310 -- Calendar re-runs alarms
+		Appointment" (Rodrigo)
+    #30290 -- Importer Not Ready when importing .ics Ical file (Rodrigo)
+    #24210 -- Slow calendar. (Rodrigo)
+    #27961 -- vcalendar LAST-MODIFIED field not updated on change (Rodrigo)
+    #28310 -- Calendar re-runs alarms (Rodrigo)
     #14111 -- Gives 'are you sure you want to' prompt when no such
-		action has occurred
-    #30381 -- calendar recurrences "off-by-one"
+		action has occurred (JP)
+    #30381 -- calendar recurrences "off-by-one" (JP)
     #18162 -- double-click on calendar week/month view shouldn't do
-		all-day event
-    #29983 -- new appts using 25 hour day
+		all-day event (JP)
+    #29983 -- new appts using 25 hour day (JP)
 
   * Conduits
 
     #21631 -- Palm calendar event with no time should appear as "All
-		day event"
+		day event" (JP)
     #23763 -- Problem with appointments that cross a day boundary and
-		pilot sync
+		pilot sync (JP)
 
   * gal-0.20.1
 
@@ -146,13 +146,13 @@ Other fixes:
       (Kjartan Maraas)
 
   * Calendar
-    - Don't allow empty attendee addresses for meetings
-    - Better alarm daemon activation
-    - Notification of calendar query errors
-    - Status messages for all operations
+    - Don't allow empty attendee addresses for meetings (JP)
+    - Better alarm daemon activation (Rodrigo)
+    - Notification of calendar query errors (Rodrigo)
+    - Status messages for all operations (Rodrigo)
 
   * Conduits
-    - Fixing linking issues
+    - Fixing linking issues (JP)
 
   * Misc
 
