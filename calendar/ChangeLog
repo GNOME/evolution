@@ -1,3 +1,11 @@
+2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
+
+        Fixes all "alarm daemon doesn't start with session"
+
+        * gui/alarm-notify/notify-main.c (main): use LIBGNOMEUI_MODULE
+        instead of LIBGNOME_MODULE so that the default session client
+        is created in gnome_program_init.
+
 2003-07-29 Harry Lu <harry.lu@sun.com>
 
 	Fixes #46769

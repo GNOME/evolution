@@ -28,6 +28,7 @@
 #include <libgnome/gnome-init.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-client.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-main.h>
@@ -164,7 +165,7 @@ main (int argc, char **argv)
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (GETTEXT_PACKAGE);
 
-	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
+	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
 	gtk_init (&argc, &argv);
 
 	if (bonobo_init (&argc, argv) == FALSE)
