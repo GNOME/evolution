@@ -677,7 +677,9 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	g_return_if_fail (start >= -1);
 	g_return_if_fail (end >= -1);
 
-	/* Get dtstart, dtend, recurrences, and exceptions */
+	/* Get dtstart, dtend, recurrences, and exceptions. Note that
+	   cal_component_get_dtend() will convert a DURATION property to a
+	   DTEND so we don't need to worry about that. */
 
 	cal_component_get_dtstart (comp, &dtstart);
 	cal_component_get_dtend (comp, &dtend);
@@ -705,8 +707,6 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 						    start_zone);
 	if (start == -1)
 		start = dtstart_time;
-
-	/* FIXME: DURATION could be used instead, couldn't it? - Damon */
 
 	/* If there is no DTEND, then use the same as the DTSTART. For
 	   DATE-TIME values that means we will just have a single point in
@@ -2049,6 +2049,10 @@ cal_obj_bysetpos_filter (CalRecurrence *recur,
 		/* Negative values count back from the end of the array. */
 		if (pos < 0)
 			pos += len;
+		/* Positive values need to be decremented since the array is
+		   0-based. */
+		else
+			pos--;
 
 		if (pos >= 0 && pos < len) {
 			occ = &g_array_index (occs, CalObjTime, pos);

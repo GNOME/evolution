@@ -132,6 +132,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>start-time</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -158,6 +159,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>end-time</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -177,6 +179,7 @@
 	<widget>
 	  <class>Custom</class>
 	  <name>start-time</name>
+	  <can_focus>True</can_focus>
 	  <creation_function>make_date_edit</creation_function>
 	  <string1></string1>
 	  <string2></string2>
@@ -202,6 +205,7 @@
 	<widget>
 	  <class>Custom</class>
 	  <name>end-time</name>
+	  <can_focus>True</can_focus>
 	  <creation_function>make_date_edit</creation_function>
 	  <int1>0</int1>
 	  <int2>0</int2>
@@ -467,6 +471,7 @@
 	<class>GtkButton</class>
 	<name>contacts-button</name>
 	<can_focus>True</can_focus>
+	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -504,6 +509,7 @@
 	<class>GtkButton</class>
 	<name>categories-button</name>
 	<can_focus>True</can_focus>
+	<relief>GTK_RELIEF_NORMAL</relief>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>

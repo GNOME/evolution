@@ -461,6 +461,36 @@ comp_editor_get_needs_send (CompEditor *editor)
 	return priv->needs_send;
 }
 
+static void page_mapped_cb (GtkWidget *page_widget,
+			    CompEditorPage *page)
+{
+	GtkWidget *toplevel;
+
+	toplevel = gtk_widget_get_toplevel (page_widget);
+	if (!GTK_IS_WINDOW (toplevel))
+		return;
+
+	if (page->accel_group) {
+		gtk_window_add_accel_group (GTK_WINDOW (toplevel),
+					    page->accel_group);
+	}
+}
+
+static void page_unmapped_cb (GtkWidget *page_widget,
+			      CompEditorPage *page)
+{
+	GtkWidget *toplevel;
+
+	toplevel = gtk_widget_get_toplevel (page_widget);
+	if (!GTK_IS_WINDOW (toplevel))
+		return;
+
+	if (page->accel_group) {
+		gtk_window_remove_accel_group (GTK_WINDOW (toplevel),
+					       page->accel_group);
+	}
+}
+
 /**
  * comp_editor_append_page:
  * @editor: A component editor
@@ -517,6 +547,13 @@ comp_editor_append_page (CompEditor *editor,
 			    GTK_SIGNAL_FUNC (page_summary_changed_cb), editor);
 	gtk_signal_connect (GTK_OBJECT (page), "dates_changed",
 			    GTK_SIGNAL_FUNC (page_dates_changed_cb), editor);
+
+	/* Listen for when the page is mapped/unmapped so we can
+	   install/uninstall the appropriate GtkAccelGroup. */
+	gtk_signal_connect (GTK_OBJECT (page_widget), "map",
+			    GTK_SIGNAL_FUNC (page_mapped_cb), page);
+	gtk_signal_connect (GTK_OBJECT (page_widget), "unmap",
+			    GTK_SIGNAL_FUNC (page_unmapped_cb), page);
 
 	/* The first page is the main page of the editor, so we ask it to focus
 	 * its main widget.
@@ -1023,32 +1060,12 @@ save_as_ok (GtkWidget *widget, gpointer data)
 		FILE *file;
 		gchar *ical_string;
 
-		icalcomponent *top_level;
-		icalcomponent *icalcomp;
-		icalproperty *prop;
-
-		top_level = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
-
-		/* RFC 2445, section 4.7.1 */
-		prop = icalproperty_new_calscale ("GREGORIAN");
-		icalcomponent_add_property (top_level, prop);
-		
-		/* RFC 2445, section 4.7.3 */
-		prop = icalproperty_new_prodid ("-//Ximian//NONSGML Evolution Calendar//EN");
-		icalcomponent_add_property (top_level, prop);
-		
-		/* RFC 2445, section 4.7.4.  This is the iCalendar spec version, *NOT*
-		 * the product version!  Do not change this!
-		 */
-		prop = icalproperty_new_version ("2.0");
-		icalcomponent_add_property (top_level, prop);
-				
-		icalcomp = cal_component_get_icalcomponent (priv->comp);
-		g_assert (icalcomp != NULL);
-
-		icalcomponent_add_component (top_level, icalcomp);
-		
-		ical_string = icalcomponent_as_ical_string (top_level);
+		ical_string = cal_client_get_component_as_string (priv->client, priv->comp);
+		if (ical_string == NULL) {			
+			g_warning ("Couldn't convert item to a string");
+			gtk_main_quit ();
+			return;
+		}
 
 		file = fopen (path, "w");
 		if (file == NULL) {			
@@ -1058,6 +1075,7 @@ save_as_ok (GtkWidget *widget, gpointer data)
 		}
 		
 		fprintf (file, ical_string);
+		g_free (ical_string);
 		fclose (file);
 
 		gtk_main_quit ();

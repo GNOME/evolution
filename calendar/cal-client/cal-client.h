@@ -168,6 +168,11 @@ CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 /* Resolves TZIDs for the recurrence generator. */
 icaltimezone *cal_client_resolve_tzid_cb (const char *tzid, gpointer data);
 
+/* Returns a complete VCALENDAR for a VEVENT/VTODO including all VTIMEZONEs
+   used by the component. It also includes a 'METHOD:PUBLISH' property. */
+char* cal_client_get_component_as_string (CalClient *client,
+					  CalComponent *comp);
+
 
 
 

@@ -336,7 +336,10 @@ schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 static gboolean
 get_widgets (SchedulePage *spage)
 {
+	CompEditorPage *page = COMP_EDITOR_PAGE (spage);
 	SchedulePagePrivate *priv;
+	GSList *accel_groups;
+	GtkWidget *toplevel;
 
 	priv = spage->priv;
 
@@ -345,6 +348,15 @@ get_widgets (SchedulePage *spage)
 	priv->main = GW ("schedule-page");
 	if (!priv->main)
 		return FALSE;
+
+	/* Get the GtkAccelGroup from the toplevel window, so we can install
+	   it when the notebook page is mapped. */
+	toplevel = gtk_widget_get_toplevel (priv->main);
+	accel_groups = gtk_accel_groups_from_object (GTK_OBJECT (toplevel));
+	if (accel_groups) {
+		page->accel_group = accel_groups->data;
+		gtk_accel_group_ref (page->accel_group);
+	}
 
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);

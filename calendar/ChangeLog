@@ -1,3 +1,50 @@
+2001-10-25  Damon Chaplin  <damon@ximian.com>
+
+	* cal-util/cal-recur.c (cal_obj_bysetpos_filter): subtract 1 from
+	any positive BYSETPOS value, since our array is 0-based.
+
+	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): 
+	(recurrence_page_fill_widgets): Outlook (2000) will not accept monthly
+	recurrences like BYDAY=2TU. Instead it uses BYDAY=TU;BYSETPOS=2.
+	So to be compatable with it we now do the same, although we still
+	accept and convert the old format.
+
+	* cal-client/cal-client.c (cal_client_get_component_as_string): new
+	function to return a complete VCALENDAR string containing a VEVENT
+	or VTODO with all the VTIMEZONEs it uses.
+
+	* gui/dialogs/comp-editor.c (save_as_ok): use above function so we
+	save the VTIMEZONE data with the VEVENT/VTODO. Fixes bug #????.
+	Also made sure we output "METHOD:PUBLISH" since Outlook (2000) will
+	not import it otherwise.
+
+	* gui/dialogs/comp-editor.c (page_mapped_cb): 
+	(page_unmapped_cb): install/uninstall the GtkAccelGroup for the page.
+	(comp_editor_append_page): connect to the map/unmap signals to
+	install/uninstall the accelerators. (This is all for bug #11609,
+	though of course it doesn't work too well in GTK+ 1.2 anyway.)
+
+	* gui/dialogs/task-page.c (get_widgets): 
+	* gui/dialogs/task-details-page.c (get_widgets): 
+	* gui/dialogs/schedule-page.c (get_widgets): 
+	* gui/dialogs/recurrence-page.c (get_widgets): 
+	* gui/dialogs/meeting-page.c (get_widgets): 
+	* gui/dialogs/event-page.c (get_widgets): 
+	* gui/dialogs/alarm-page.c (get_widgets): got the GtkAccelGroup from
+	the original window, ref'ed it and placed it in the CompEditorPage
+	struct.
+
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_destroy): unref
+	any GtkAccelGroup for the page.
+
+	* gui/dialogs/task-page.glade: changed '_Confidential' to
+	'Con_fidential' as it clashed with '_Contacts'. It now matches the
+	event editor as well.
+
+	* gui/dialogs/event-page.glade: 
+	* gui/dialogs/task-page.glade: Set CAN_FOCUS to TRUE for the custom
+	EDateEdit widgets, and set them as the accel targets of the labels.
+
 2001-10-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/comp-editor.c (save_comp): show an error message when

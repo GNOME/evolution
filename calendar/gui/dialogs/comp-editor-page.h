@@ -50,6 +50,12 @@ typedef struct {
 
 	/* Some of the pages need the CalClient to access timezone data. */
 	CalClient *client;
+
+	/* The GtkAccelGroup for the page. We install this when the page is
+	   mapped, and uninstall when it is unmapped. libglade would do this
+	   normally, but we create our pages individually so have to do it
+	   ourselves. */
+	GtkAccelGroup *accel_group;
 } CompEditorPage;
 
 typedef struct {

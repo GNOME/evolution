@@ -1983,6 +1983,8 @@ typedef struct _ForeachTZIDCallbackData ForeachTZIDCallbackData;
 struct _ForeachTZIDCallbackData {
 	CalClient *client;
 	GHashTable *timezone_hash;
+	gboolean include_all_timezones;
+	gboolean success;
 };
 
 /* This adds the VTIMEZONE given by the TZID parameter to the GHashTable in
@@ -2004,19 +2006,29 @@ foreach_tzid_callback (icalparameter *param, void *cbdata)
 	if (!tzid)
 		return;
 
-	/* Check if it is in our cache. If it is, it must already be on the
-	   server so return. */
-	if (g_hash_table_lookup (priv->timezones, tzid))
-		return;
-
 	/* Check if we've already added it to the GHashTable. */
 	if (g_hash_table_lookup (data->timezone_hash, tzid))
 		return;
 
-	/* Check if it is a builtin timezone. If it isn't, return. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (!zone)
-		return;
+	if (data->include_all_timezones) {
+		CalClientGetStatus status;
+
+		status = cal_client_get_timezone (data->client, tzid, &zone);
+		if (status != CAL_CLIENT_GET_SUCCESS) {
+			data->success = FALSE;
+			return;
+		}
+	} else {
+		/* Check if it is in our cache. If it is, it must already be
+		   on the server so return. */
+		if (g_hash_table_lookup (priv->timezones, tzid))
+			return;
+
+		/* Check if it is a builtin timezone. If it isn't, return. */
+		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+		if (!zone)
+			return;
+	}
 
 	/* Convert it to a string and add it to the hash. */
 	vtimezone_comp = icaltimezone_get_component (zone);
@@ -2040,8 +2052,18 @@ append_timezone_string (gpointer key, gpointer value, gpointer data)
 }
 
 
-/* This converts the VEVENT/VTODO to a string. It checks if we need to send
-   any builtin timezones to the server along with the object.
+/* This simply frees the hash values. */
+static void
+free_timezone_string (gpointer key, gpointer value, gpointer data)
+{
+	g_free (value);
+}
+
+
+/* This converts the VEVENT/VTODO to a string. If include_all_timezones is
+   TRUE, it includes all the VTIMEZONE components needed for the VEVENT/VTODO.
+   If not, it only includes builtin timezones that may not be on the server.
+
    To do that we check every TZID in the component to see if it is a builtin
    timezone. If it is, we see if it it in our cache. If it is in our cache,
    then we know the server already has it and we don't need to send it.
@@ -2050,8 +2072,9 @@ append_timezone_string (gpointer key, gpointer value, gpointer data)
    complete VCALENDAR object, otherwise we can just send a single VEVENT/VTODO
    as before. */
 static char*
-cal_client_get_component_as_string (CalClient *client,
-				    CalComponent *comp)
+cal_client_get_component_as_string_internal (CalClient *client,
+					     CalComponent *comp,
+					     gboolean include_all_timezones)
 {
 	GHashTable *timezone_hash;
 	GString *vcal_string;
@@ -2065,12 +2088,19 @@ cal_client_get_component_as_string (CalClient *client,
 
 	timezone_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	/* Add any builtin timezones needed to the hash. We use a hash since
-	   we only want to add each timezone once at most. */
+	/* Add any timezones needed to the hash. We use a hash since we only
+	   want to add each timezone once at most. */
 	cbdata.client = client;
 	cbdata.timezone_hash = timezone_hash;
+	cbdata.include_all_timezones = include_all_timezones;
+	cbdata.success = TRUE;
 	icalcomponent_foreach_tzid (cal_component_get_icalcomponent (comp),
 				    foreach_tzid_callback, &cbdata);
+	if (!cbdata.success) {
+		g_hash_table_foreach (timezone_hash, free_timezone_string,
+				      NULL);
+		return NULL;
+	}
 
 	/* Create the start of a VCALENDAR, to add the VTIMEZONES to,
 	   and remember its length so we know if any VTIMEZONEs get added. */
@@ -2078,7 +2108,8 @@ cal_client_get_component_as_string (CalClient *client,
 	g_string_append (vcal_string,
 			 "BEGIN:VCALENDAR\n"
 			 "PRODID:-//Ximian//NONSGML Evolution Calendar//EN\n"
-			 "VERSION:2.0\n");
+			 "VERSION:2.0\n"
+			 "METHOD:PUBLISH\n");
 	initial_vcal_string_len = vcal_string->len;
 
 	/* Now concatenate all the timezone strings. This also frees the
@@ -2091,7 +2122,8 @@ cal_client_get_component_as_string (CalClient *client,
 
 	/* If there were any timezones to send, create a complete VCALENDAR,
 	   else just send the VEVENT/VTODO string. */
-	if (vcal_string->len == initial_vcal_string_len) {
+	if (!include_all_timezones
+	    && vcal_string->len == initial_vcal_string_len) {
 		g_string_free (vcal_string, TRUE);
 	} else {
 		g_string_append (vcal_string, obj_string);
@@ -2105,6 +2137,26 @@ cal_client_get_component_as_string (CalClient *client,
 
 	return obj_string;
 }
+
+/**
+ * cal_client_get_component_as_string:
+ * @client: A calendar client.
+ * @comp: A calendar component object.
+ *
+ * Gets a calendar component as an iCalendar string, with a toplevel
+ * VCALENDAR component and all VTIMEZONEs needed for the component.
+ *
+ * Return value: the component as a complete iCalendar string, or NULL on
+ * failure. The string should be freed after use.
+ **/
+char*
+cal_client_get_component_as_string (CalClient *client,
+				    CalComponent *comp)
+{
+	return cal_client_get_component_as_string_internal (client, comp,
+							    TRUE);
+}
+
 
 /**
  * cal_client_update_object:
@@ -2138,7 +2190,8 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 
 	cal_component_commit_sequence (comp);
 
-	obj_string = cal_client_get_component_as_string (client, comp);
+	obj_string = cal_client_get_component_as_string_internal (client,
+								  comp, FALSE);
 	if (obj_string == NULL)
 		return FALSE;
 

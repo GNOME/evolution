@@ -153,6 +153,7 @@ static void
 comp_editor_page_init (CompEditorPage *page)
 {
 	page->client = NULL;
+	page->accel_group = NULL;
 }
 
 
@@ -169,6 +170,11 @@ comp_editor_page_destroy (GtkObject *object)
 	if (page->client) {
 		gtk_object_ref (GTK_OBJECT (page->client));
 		page->client = NULL;
+	}
+
+	if (page->accel_group) {
+		gtk_accel_group_unref (page->accel_group);
+		page->accel_group = NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
