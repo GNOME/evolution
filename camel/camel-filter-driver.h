@@ -64,15 +64,20 @@ CamelFilterDriver  *camel_filter_driver_new     (CamelFilterGetFolderFunc fetche
 
 /* modifiers */
 void    camel_filter_driver_set_logfile         (CamelFilterDriver *d, FILE *logfile);
-void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, CamelFilterStatusFunc *func, void *data);
+void	camel_filter_driver_set_status_func     (CamelFilterDriver *d, CamelFilterStatusFunc *func,
+						 void *data);
 void	camel_filter_driver_set_default_folder  (CamelFilterDriver *d, CamelFolder *def);
-void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, const char *match, const char *action);
+void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, const char *match,
+						 const char *action);
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 
-void    camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-						 const char *source_url, CamelException *ex);
-void    camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox, CamelException *ex);
+void    camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
+						 CamelMessageInfo *info, const char *uri,
+						 CamelFolder *source, const char *source_url,
+						 CamelException *ex);
+void    camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
+						 CamelException *ex);
 void    camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
 						 GPtrArray *uids, gboolean remove, CamelException *ex);
 

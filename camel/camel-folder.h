@@ -253,7 +253,6 @@ void		   camel_folder_search_free	      (CamelFolder *folder, GPtrArray *);
 CamelMessageInfo *camel_folder_get_message_info		(CamelFolder *folder, const char *uid);
 void		  camel_folder_free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 
-/* FIXME: copy-message-to is not required */
 void               camel_folder_copy_message_to       (CamelFolder *source,
 						       const char *uid,
 						       CamelFolder *dest,

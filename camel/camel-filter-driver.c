@@ -71,7 +71,7 @@ struct _CamelFilterDriverPrivate {
 	
 	/* run-time data */
 	GHashTable *folders;       /* folders that message has been copied to */
-	int closed;		/* close count */
+	int closed;		   /* close count */
 	GHashTable *forwards;      /* addresses that have been forwarded the message */
 	
 	gboolean terminated;       /* message processing was terminated */
@@ -80,10 +80,12 @@ struct _CamelFilterDriverPrivate {
 	
 	CamelMimeMessage *message; /* input message */
 	CamelMessageInfo *info;    /* message summary info */
+	const char *uid;           /* message uid */
+	CamelFolder *source;       /* message source folder */
 	
 	FILE *logfile;             /* log file */
 	
-	EDList rules;		/* list of _filter_rule structs */
+	EDList rules;		   /* list of _filter_rule structs */
 
 	CamelException *ex;
 	
@@ -369,10 +371,14 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				break;
 			
 			p->copied = TRUE;
-			camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			if (p->uid && p->source)
+				camel_folder_copy_message_to (p->source, p->uid, outbox, p->ex);
+			else
+				camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
-			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s", service_url);
+			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s",
+						 service_url);
 			g_free (service_url);
 		}
 	}
@@ -402,10 +408,14 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			p->copied = TRUE;
 			p->deleted = TRUE;  /* a 'move' is a copy & delete */
 			
-			camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			if (p->uid && p->source)
+				camel_folder_copy_message_to (p->source, p->uid, outbox, p->ex);
+			else
+				camel_folder_append_message (outbox, p->message, p->info, p->ex);
 			
 			service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (outbox)));
-			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Move to folder %s", service_url);
+			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Move to folder %s",
+						 service_url);
 			g_free (service_url);
 		}
 	}
@@ -634,7 +644,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 			goto fail;
 		}
 		
-		camel_filter_driver_filter_message (driver, msg, NULL, source_url, ex);
+		camel_filter_driver_filter_message (driver, msg, NULL, NULL, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
@@ -686,11 +696,13 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	for (i = 0; i < uids->len; i++) {
 		int pc = (100 * i)/uids->len;
 
-		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d of %d", i+1, uids->len);
+		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d of %d", i+1,
+			       uids->len);
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
+				       i+1, uids->len);
 			break;
 		}
 		
@@ -699,13 +711,15 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		else
 			info = NULL;
 		
-		camel_filter_driver_filter_message (driver, message, info, source_url, ex);
-
+		camel_filter_driver_filter_message (driver, message, info, uids->pdata[i],
+						    folder, source_url, ex);
+		
 		if (camel_folder_has_summary_capability (folder))
 			camel_folder_free_message_info (folder, info);
 
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
+				       i+1, uids->len);
 			break;
 		}
 		
@@ -718,7 +732,6 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 
 	if (freeuids)
 		camel_folder_free_uids (folder, uids);
-
 	
 	if (p->defaultfolder) {
 		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, "Syncing folder");
@@ -733,8 +746,10 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 }
 
 void
-camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-				    const char *source_url, CamelException *ex)
+camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage *message,
+				    CamelMessageInfo *info, const char *uid,
+				    CamelFolder *source, const char *source_url,
+				    CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
@@ -758,7 +773,9 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->copied = FALSE;
 	p->message = message;
 	p->info = info;
-
+	p->uid = uid;
+	p->source = source;
+	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {
 		d(fprintf (stderr, "applying rule %s\n action %s\n", node->match, node->action));
@@ -794,7 +811,10 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		/* copy it to the default inbox */
 		filtered = TRUE;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
-		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
+		if (p->uid && p->source)
+			camel_folder_copy_message_to (p->source, p->uid, p->defaultfolder, p->ex);
+		else
+			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
 	}
 
 error:	

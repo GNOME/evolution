@@ -1,3 +1,18 @@
+2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.h: Remove the 'FIXME: remove because this isn't
+	required...' comment for copy_message_to since we now need and
+	cherish its existance in the filter-driver code ;-)
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): Now
+	takes a UID and CamelFolder arguments (which can be NULL) to allow
+	for possible optimizations when copying messages between folders
+	on the same store.
+	(camel_filter_driver_filter_mbox): Updated (passes NULL for both
+	since this case can't be optimized anyway).
+	(camel_filter_driver_filter_folder): Updated to pass in the uid
+	and folder of the message.
+
 2001-02-22  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-summary.h (CAMEL_IMAP_SERVER_FLAGS):
