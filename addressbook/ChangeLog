@@ -1,3 +1,23 @@
+2001-06-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_set_arg): Copy dates as they come
+	in.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_changes_foreach_key, pas_backend_file_changes,
+	pas_backend_file_process_remove_card,
+	pas_backend_file_process_modify_card,
+	pas_backend_file_build_all_cards_list, pas_backend_file_get_vcard,
+	pas_backend_file_maybe_upgrade_db): memset DBTs to 0 before using
+	them.
+	(pas_backend_file_build_all_cards_list): Reindented.
+
+	* contact-editor/contact-editor.glade: Replaced GnomeDateEdits
+	with a custom widget that creates an EDateEdit.
+
+	* contact-editor/e-contact-editor.c: Use an EDateEdit here instead
+	of a GnomeDateEdit.
+
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	(Fix bug #655: SelectNames doesn't let you remove addresses after
