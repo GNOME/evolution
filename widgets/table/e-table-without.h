@@ -16,6 +16,13 @@ extern "C" {
 #define E_IS_TABLE_WITHOUT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_WITHOUT_TYPE))
 
 typedef struct _ETableWithoutPrivate ETableWithoutPrivate;
+typedef void *(*ETableWithoutGetKeyFunc)       (ETableModel *source,
+						int          row,
+						void        *closure);
+typedef void *(*ETableWithoutDuplicateKeyFunc) (const void  *key,
+						void        *closure);
+typedef void  (*ETableWithoutFreeKeyFunc)      (void        *key,
+						void        *closure);
 
 typedef struct {
 	ETableSubset base;
@@ -27,15 +34,30 @@ typedef struct {
 	ETableSubsetClass parent_class;
 	
 } ETableWithoutClass;
-
 GtkType      e_table_without_get_type   (void);
-ETableModel *e_table_without_new        (ETableModel   *etm);
-ETableModel *e_table_without_construct  (ETableWithout *etw,
-					 ETableModel   *source);
-void         e_table_without_add        (ETableWithout *etw,
-					 void          *key);
-void         e_table_without_remove     (ETableWithout *etw,
-					 void          *key);
+ETableModel *e_table_without_new        (ETableModel                   *source,
+					 GHashFunc                      hash_func,
+					 GCompareFunc                   compare_func,
+					 ETableWithoutGetKeyFunc        get_key_func,
+					 ETableWithoutDuplicateKeyFunc  duplicate_key_func,
+					 ETableWithoutFreeKeyFunc       free_gotten_key_func,
+					 ETableWithoutFreeKeyFunc       free_duplicated_key_func,
+					 void                          *closure);
+ETableModel *e_table_without_construct  (ETableWithout                 *etw,
+					 ETableModel                   *source,
+					 GHashFunc                      hash_func,
+					 GCompareFunc                   compare_func,
+					 ETableWithoutGetKeyFunc        get_key_func,
+					 ETableWithoutDuplicateKeyFunc  duplicate_key_func,
+					 ETableWithoutFreeKeyFunc       free_gotten_key_func,
+					 ETableWithoutFreeKeyFunc       free_duplicated_key_func,
+					 void                          *closure);
+void         e_table_without_add        (ETableWithout                 *etw,
+					 void                          *key);
+void         e_table_without_add_adopt  (ETableWithout                 *etw,
+					 void                          *key);
+void         e_table_without_remove     (ETableWithout                 *etw,
+					 void                          *key);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
