@@ -119,6 +119,8 @@ int        e_search_bar_get_item_id    (ESearchBar *search_bar);
 void       e_search_bar_set_subitem_id (ESearchBar *search_bar, int id);
 int        e_search_bar_get_subitem_id (ESearchBar *search_bar);
 
+void       e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id);
+
 void       e_search_bar_set_text             (ESearchBar *search_bar, const char *text);
 char      *e_search_bar_get_text             (ESearchBar *search_bar);
 

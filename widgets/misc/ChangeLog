@@ -1,3 +1,8 @@
+2001-08-23  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-search-bar.c (e_search_bar_set_ids): New function to set the
+	item_id and the subitem_id simultaneously.
+
 2001-08-16  Damon Chaplin  <damon@ximian.com>
 
 	* e-dateedit.c: added e_date_edit_get/set_make_time_insensitive()

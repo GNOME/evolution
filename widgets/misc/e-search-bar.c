@@ -875,6 +875,39 @@ e_search_bar_get_subitem_id (ESearchBar *search_bar)
 }
 
 /**
+ * e_search_bar_set_ids:
+ * @search_bar: A search bar.
+ * @item_id: Identifier of the item to set.
+ * @subitem_id: Identifier of the subitem to set.
+ * 
+ * Sets the item and subitem ids for a search bar.  This is intended to switch
+ * to an item that has subitems.
+ **/
+void
+e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
+{
+	int item_row;
+	GtkWidget *item_widget;
+	ESearchBarSubitem *subitems;
+
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	item_row = find_id (search_bar->option_menu, item_id, "EsbChoiceId", &item_widget);
+	g_return_if_fail (item_row != -1);
+	g_assert (item_widget != NULL);
+
+	subitems = gtk_object_get_data (GTK_OBJECT (item_widget), "EsbChoiceSubitems");
+	g_return_if_fail (subitems != NULL);
+
+	search_bar->item_id = item_id;
+	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->option), item_row);
+
+	activate_by_subitems (search_bar, item_id, subitems);
+	e_search_bar_set_subitem_id (search_bar, subitem_id);
+}
+
+/**
  * e_search_bar_set_text:
  * @search_bar: A search bar.
  * @text: Text to set in the search bar's entry line.
