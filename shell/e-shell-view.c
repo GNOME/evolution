@@ -34,6 +34,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <libgnomeui/gnome-app.h>
 #include <bonobo/bonobo-socket.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
@@ -100,9 +101,10 @@ struct _EShellViewPrivate {
 	GtkWidget *storage_set_view_box;
 
 	/* The status bar widgetry.  */
+	GtkWidget *status_bar;
 	GtkWidget *offline_toggle;
 	GtkWidget *offline_toggle_pixmap;
-	GtkWidget *progress_bar;
+	GtkWidget *task_bar;
 
 	/* The view we have already open.  */
 	GHashTable *uri_to_control;
@@ -115,12 +117,6 @@ struct _EShellViewPrivate {
 	/* Status of the shortcut and folder bars.  */
 	EShellViewSubwindowMode shortcut_bar_mode;
 	EShellViewSubwindowMode folder_bar_mode;
-
-	/* Timeout ID for the progress bar.  */
-	int progress_bar_timeout_id;
-
-	/* Status of the progress bar.  */
-	int progress_bar_value;
 
 	/* List of sockets we created.  */
 	GList *sockets;
@@ -617,7 +613,6 @@ static void
 setup_offline_toggle (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
-	BonoboControl *control;
 	GtkWidget *toggle;
 	GtkWidget *pixmap;
 
@@ -637,46 +632,78 @@ setup_offline_toggle (EShellView *shell_view)
 	gtk_widget_show (toggle);
 	gtk_widget_show (pixmap);
 
-	control = bonobo_control_new (toggle);
-	g_return_if_fail (control != NULL);
-
-	bonobo_ui_component_object_set (priv->ui_component, "/status/OfflineToggle",
-					BONOBO_OBJREF (control),
-					NULL);
-	bonobo_object_unref (BONOBO_OBJECT (control));
-
 	priv->offline_toggle        = toggle;
 	priv->offline_toggle_pixmap = pixmap;
 
 	update_offline_toggle_status (shell_view);
+
+	g_assert (priv->status_bar != NULL);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->offline_toggle, FALSE, TRUE, 0);
 }
 
 static void
-setup_progress_bar (EShellView *shell_view)
+setup_task_bar (EShellView *task_bar)
 {
 	EShellViewPrivate *priv;
-	GtkProgressBar *progress_bar;
-	BonoboControl  *control;
+
+	priv = task_bar->priv;
+
+	priv->task_bar = e_task_bar_new ();
+
+	g_assert (priv->status_bar != NULL);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->task_bar, TRUE, TRUE, 0);
+	gtk_widget_show (priv->task_bar);
+}
+
+static void
+create_status_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
 
 	priv = shell_view->priv;
 
-	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
+	priv->status_bar = gtk_hbox_new (FALSE, 2);
+	gtk_widget_show (priv->status_bar);
 
-	gtk_progress_bar_set_orientation (progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
-	gtk_progress_bar_set_bar_style (progress_bar, GTK_PROGRESS_CONTINUOUS);
-	
-	priv->progress_bar = GTK_WIDGET (progress_bar);
-	gtk_widget_show (priv->progress_bar);
-
-	control = bonobo_control_new (priv->progress_bar);
-	g_return_if_fail (control != NULL);
-
-	bonobo_ui_component_object_set (priv->ui_component, "/status/Progress",
-					BONOBO_OBJREF (control),
-					NULL);
-	bonobo_object_unref (BONOBO_OBJECT (control));
+	setup_offline_toggle (shell_view);
+	setup_task_bar (shell_view);
 }
 
+
+/* Menu hints for the status bar.  */
+
+static void
+ui_engine_add_hint_callback (BonoboUIEngine *engine,
+			     const char *str,
+			     void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	g_print ("Hint -- %s\n", str);
+
+	/* FIXME: Implement me.  */
+}
+
+static void
+setup_statusbar_hints (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	g_assert (priv->status_bar != NULL);
+
+	gtk_signal_connect (GTK_OBJECT (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view))), "add_hint",
+			    GTK_SIGNAL_FUNC (ui_engine_add_hint_callback), shell_view);
+}
+
+
 void
 e_shell_view_set_current_shortcuts_group_num (EShellView *shell_view, int group_num)
 {
@@ -711,16 +738,9 @@ static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	GtkWidget *contents_vbox;
 
 	priv = shell_view->priv;
-
-	/* The offline/online button toggle.  */
-
-	setup_offline_toggle (shell_view);
-
-	/* The progress bar.  */
-
-	setup_progress_bar (shell_view);       
 
 	/* The shortcut bar.  */
 
@@ -773,7 +793,19 @@ setup_widgets (EShellView *shell_view)
 	e_paned_pack2 (E_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	bonobo_window_set_contents (BONOBO_WINDOW (shell_view), priv->hpaned);
+	/* The status bar.  */
+
+	create_status_bar (shell_view);
+	setup_statusbar_hints (shell_view);
+
+	/* The contents.  */
+
+	contents_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->hpaned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->status_bar, FALSE, TRUE, 0);
+	gtk_widget_show (contents_vbox);
+
+	bonobo_window_set_contents (BONOBO_WINDOW (shell_view), contents_vbox);
 
 	/* Show stuff.  */
 
@@ -786,6 +818,7 @@ setup_widgets (EShellView *shell_view)
 	gtk_widget_show (priv->view_hpaned);
 	gtk_widget_show (priv->view_vbox);
 	gtk_widget_show (priv->view_title_bar);
+	gtk_widget_show (priv->status_bar);
 
 	/* By default, both the folder bar and shortcut bar are visible.  */
 	priv->shortcut_bar_mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
@@ -839,15 +872,9 @@ destroy (GtkObject *object)
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
 
-	gtk_widget_destroy (priv->offline_toggle);
-	gtk_widget_destroy (priv->progress_bar);
-
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 
 	g_free (priv->uri);
-
-	if (priv->progress_bar_timeout_id != 0)
-		gtk_timeout_remove (priv->progress_bar_timeout_id);
 
 	g_free (priv);
 
@@ -929,9 +956,10 @@ init (EShellView *shell_view)
 	priv->storage_set_view_box    = NULL;
 	priv->shortcut_bar            = NULL;
 
-	priv->progress_bar            = NULL;
+	priv->status_bar              = NULL;
 	priv->offline_toggle          = NULL;
 	priv->offline_toggle_pixmap   = NULL;
+	priv->task_bar                = NULL;
 
 	priv->shortcut_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
 	priv->folder_bar_mode         = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
@@ -941,14 +969,13 @@ init (EShellView *shell_view)
 
 	priv->uri_to_control          = g_hash_table_new (g_str_hash, g_str_equal);
 
-	priv->progress_bar_timeout_id = 0;
-	priv->progress_bar_value      = 0;
 	priv->sockets		      = NULL;
 
 	shell_view->priv = priv;
 }
 
 
+#if 0
 /* Progress bar handling.  */
 
 #define PROGRESS_BAR_TIMEOUT 80
@@ -1013,6 +1040,8 @@ stop_progress_bar (EShellView *shell_view)
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), 0);
 }
 
+#endif
+
 
 /* EvolutionShellView interface callbacks.  */
 
@@ -1045,10 +1074,12 @@ corba_interface_set_message_cb (EvolutionShellView *shell_view,
 
 	g_free (status);
 
+#if 0
 	if (busy)
 		start_progress_bar (E_SHELL_VIEW (data));
 	else
 		stop_progress_bar (E_SHELL_VIEW (data));
+#endif
 }
 
 static void
@@ -1063,7 +1094,9 @@ corba_interface_unset_message_cb (EvolutionShellView *shell_view,
 
 	bonobo_ui_component_set_status (view->priv->ui_component, "", NULL);
 
+#if 0
 	stop_progress_bar (E_SHELL_VIEW (data));
+#endif
 }
 
 static void
@@ -1222,6 +1255,11 @@ e_shell_view_construct (EShellView *shell_view,
 	return view;
 }
 
+/* WARNING: Don't use `e_shell_view_new()' to create new views for the shell
+   unless you know what you are doing; this is just the standard GTK+
+   constructor thing and it won't allow the shell to do the required
+   bookkeeping for the created views.  Instead, the right way to create a new
+   view is calling `e_shell_new_view()'.  */
 EShellView *
 e_shell_view_new (EShell *shell)
 {
@@ -1644,7 +1682,6 @@ get_type_for_folder (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	EStorageSet *storage_set;
-	EFolderTypeRegistry *folder_type_registry;
 	EFolder *folder;
 
 	priv = shell_view->priv;
@@ -1655,8 +1692,6 @@ get_type_for_folder (EShellView *shell_view,
 		return NULL;
 
 	*physical_uri_return = e_folder_get_physical_uri (folder);
-
-	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
 
 	return e_folder_get_type_string (folder);
 }
@@ -1989,6 +2024,15 @@ e_shell_view_get_folder_bar_mode (EShellView *shell_view)
 }
 
 
+ETaskBar *
+e_shell_view_get_task_bar (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return E_TASK_BAR (shell_view->priv->task_bar);
+}
+
 EShell *
 e_shell_view_get_shell (EShellView *shell_view)
 {

@@ -24,9 +24,9 @@
 #ifndef _E_SHELL_VIEW_H_
 #define _E_SHELL_VIEW_H_
 
-#include <bonobo/bonobo-win.h>
+#include "e-task-bar.h"
 
-#include "e-shell.h"
+#include <bonobo/bonobo-win.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,6 +43,8 @@ extern "C" {
 typedef struct _EShellView        EShellView;
 typedef struct _EShellViewPrivate EShellViewPrivate;
 typedef struct _EShellViewClass   EShellViewClass;
+
+#include "e-shell.h"
 
 enum _EShellViewSubwindowMode {
 	E_SHELL_VIEW_SUBWINDOW_HIDDEN,
@@ -66,6 +68,12 @@ struct _EShellViewClass {
 };
 
 
+/* WARNING: Don't use `e_shell_view_new()' to create new views for the shell
+   unless you know what you are doing; this is just the standard GTK+
+   constructor thing and it won't allow the shell to do the required
+   bookkeeping for the created views.  Instead, the right way to create a new
+   view is calling `e_shell_new_view()'.  */
+
 GtkType     e_shell_view_get_type   (void);
 EShellView *e_shell_view_construct  (EShellView *shell_view,
 				     EShell     *shell);
@@ -84,7 +92,7 @@ void                     e_shell_view_set_folder_bar_mode  (EShellView          
 							    EShellViewSubwindowMode  mode);
 EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode  (EShellView              *shell_view);
 
-
+ETaskBar          *e_shell_view_get_task_bar             (EShellView *shell_view);
 EShell            *e_shell_view_get_shell                (EShellView *shell_view);
 BonoboUIComponent *e_shell_view_get_bonobo_ui_component  (EShellView *shell_view);
 BonoboUIContainer *e_shell_view_get_bonobo_ui_container  (EShellView *shell_view);

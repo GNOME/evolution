@@ -10,6 +10,8 @@
 
 #include <Bonobo.idl>
 
+#include <Evolution-Icon.idl>
+#include <Evolution-Activity.idl>
 #include <Evolution-Session.idl>
 #include <Evolution-ShellComponent.idl>
 #include <Evolution-ShellComponentDnd.idl>

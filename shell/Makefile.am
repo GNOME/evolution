@@ -1,6 +1,6 @@
 SUBDIRS = glade importer
 
-INCLUDES = 								\
+INCLUDES = -O								\
 	-I$(top_srcdir)/widgets						\
 	-I$(top_srcdir)/widgets/misc					\
 	-I$(top_srcdir)							\
@@ -16,15 +16,17 @@ INCLUDES = 								\
 # CORBA stuff
 
 IDLS = \
-	Evolution-LocalStorage.idl	\
-	Evolution-Offline.idl		\
-	Evolution-Session.idl		\
-	Evolution-Shell.idl		\
-	Evolution-ShellComponent.idl	\
-	Evolution-ShellComponentDnd.idl	\
-	Evolution-ShellView.idl		\
-	Evolution-Storage.idl		\
-	Evolution-StorageSetView.idl	\
+	Evolution-Activity.idl			\
+	Evolution-Icon.idl			\
+	Evolution-LocalStorage.idl		\
+	Evolution-Offline.idl			\
+	Evolution-Session.idl			\
+	Evolution-Shell.idl			\
+	Evolution-ShellComponent.idl		\
+	Evolution-ShellComponentDnd.idl		\
+	Evolution-ShellView.idl			\
+	Evolution-Storage.idl			\
+	Evolution-StorageSetView.idl		\
 	Evolution.idl
 
 IDL_GENERATED = \
@@ -88,6 +90,8 @@ libeshell_la_SOURCES = 				\
 bin_PROGRAMS = evolution
 
 evolution_SOURCES =				\
+	e-activity-handler.c			\
+	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-corba-storage-registry.c		\
@@ -139,6 +143,10 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
+	e-task-bar.c				\
+	e-task-bar.h				\
+	e-task-widget.c				\
+	e-task-widget.h				\
 	evolution-storage-set-view.c		\
 	evolution-storage-set-view.h		\
 	evolution-storage-set-view-factory.c	\
@@ -155,6 +163,29 @@ evolution_LDADD =						\
 	$(GTKHTML_LIBS)						\
 	$(BONOBO_GNOME_LIBS)
 
+# Test component
+
+noinst_PROGRAMS =			\
+	evolution-test-component
+
+evolution_test_component_SOURCES =	\
+	evolution-test-component.c
+
+evolution_test_component_LDADD = 	\
+	libeshell.la			\
+	$(EXTRA_GNOME_LIBS)		\
+	$(GNOME_PRINT_LIBS)		\
+	$(GTKHTML_LIBS)			\
+	$(BONOBO_GNOME_LIBS)
+
+install-test-component: evolution-test-component
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
+	$(mkinstalldirs) $(DESTDIR)$(oafdir)
+	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oafinfo $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oafinfo
+
+# Misc stuff
+
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Shell.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
@@ -164,7 +195,12 @@ etspec_DATA = e-storage-set-view.etspec
 
 @XML_I18N_MERGE_OAF_RULE@
 
-EXTRA_DIST = $(IDLS) $(oaf_in_files) $(oaf_DATA) $(etspec_DATA)
+EXTRA_DIST = 					\
+	$(IDLS)					\
+	$(oaf_in_files)				\
+	$(oaf_DATA)				\
+	$(etspec_DATA)				\
+	GNOME_Evolution_TestComponent.oafinfo
 
 # Purify support
 

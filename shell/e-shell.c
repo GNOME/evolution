@@ -38,6 +38,7 @@
 
 #include "Evolution.h"
 
+#include "e-activity-handler.h"
 #include "e-component-registry.h"
 #include "e-corba-storage-registry.h"
 #include "e-folder-type-registry.h"
@@ -74,6 +75,9 @@ struct _EShellPrivate {
 	EComponentRegistry *component_registry;
 
 	ECorbaStorageRegistry *corba_storage_registry;
+
+	/* ::Activity interface handler.  */
+	EActivityHandler *activity_handler;
 
 	/* This object handles going off-line.  If the pointer is not NULL, it
 	   means we have a going-off-line process in progress.  */
@@ -342,6 +346,26 @@ register_shell (EShell *shell,
 
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 	return oaf_active_server_register (iid, corba_object);
+}
+
+
+/* Set up the ::Activity interface.  */
+
+static void
+setup_activity_interface (EShell *shell)
+{
+	EActivityHandler *activity_handler;
+	EShellPrivate *priv;
+
+	priv = shell->priv;
+
+	activity_handler = e_activity_handler_new ();
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell),
+				     BONOBO_OBJECT (activity_handler));
+
+	bonobo_object_ref (BONOBO_OBJECT (activity_handler));
+	priv->activity_handler = activity_handler;
 }
 
 
@@ -618,6 +642,9 @@ destroy (GtkObject *object)
 	if (priv->corba_storage_registry != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
 
+	if (priv->activity_handler != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler));
+
 	/* FIXME.  Maybe we should do something special here.  */
 	if (priv->offline_handler != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->offline_handler));
@@ -705,6 +732,7 @@ init (EShell *shell)
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;
 	priv->corba_storage_registry = NULL;
+	priv->activity_handler       = NULL;
 	priv->offline_handler        = NULL;
 	priv->crash_type_names       = NULL;
 	priv->line_status            = E_SHELL_LINE_STATUS_ONLINE;
@@ -775,7 +803,12 @@ e_shell_construct (EShell               *shell,
 	/* The local storage depends on the component registry.  */
 	setup_local_storage (shell);
 
-	/* Now that we have a local storage, we can tell the components we are here.  */
+	/* Set up the ::Activity interface.  This must be done before we notify
+	   the components, as they might want to use it.  */
+	setup_activity_interface (shell);
+
+	/* Now that we have a local storage and an ::Activity interface, we can
+	   tell the components we are here.  */
 	set_owner_on_components (shell);
 
 	/* Run the intelligent importers to find see if any data needs 
@@ -858,9 +891,13 @@ e_shell_new_view (EShell *shell,
 		  const char *uri)
 {
 	EShellView *view;
+	EShellPrivate *priv;
+	ETaskBar *task_bar;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	priv = shell->priv;
 
 	view = e_shell_view_new (shell);
 
@@ -874,6 +911,9 @@ e_shell_new_view (EShell *shell,
 		e_shell_view_display_uri (E_SHELL_VIEW (view), uri);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
+
+	task_bar = e_shell_view_get_task_bar (view);
+	e_activity_handler_attach_task_bar (priv->activity_handler, task_bar);
 
 	return view;
 }
@@ -1130,7 +1170,7 @@ e_shell_restore_from_settings (EShell *shell)
 		EShellView *view;
 
 		/* FIXME: restore the URI here.  There should be an
-                   e_shell_view_new_from_configuration() thingie.  */
+                   e_shell_new_view_from_configuration() thingie.  */
 		view = e_shell_new_view (shell, NULL);
 
 		if (! e_shell_view_load_settings (view, i))

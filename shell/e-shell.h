@@ -37,6 +37,7 @@ typedef struct _EShellPrivate EShellPrivate;
 typedef struct _EShellClass   EShellClass;
 
 #include "Evolution.h"
+
 #include "e-shortcuts.h"
 #include "e-shell-view.h"
 #include "e-local-storage.h"

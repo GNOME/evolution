@@ -44,9 +44,12 @@ extern "C" {
 
 typedef struct _ELocalFolder        ELocalFolder;
 typedef struct _ELocalFolderClass   ELocalFolderClass;
+typedef struct _ELocalFolderPrivate ELocalFolderPrivate;
 
 struct _ELocalFolder {
 	EFolder parent;
+
+	ELocalFolderPrivate *priv;
 };
 
 struct _ELocalFolderClass {
@@ -55,15 +58,25 @@ struct _ELocalFolderClass {
 
 
 GtkType   e_local_folder_get_type       (void);
-void      e_local_folder_construct      (ELocalFolder *local_folder,
-					 const char   *name,
-					 const char   *type,
-					 const char   *description);
-EFolder  *e_local_folder_new            (const char   *name,
-					 const char   *type,
-					 const char   *description);
-EFolder  *e_local_folder_new_from_path  (const char   *physical_path);
-gboolean  e_local_folder_save           (ELocalFolder *local_folder);
+void      e_local_folder_construct      (ELocalFolder  *local_folder,
+					 const char    *name,
+					 const char    *type,
+					 const char    *description);
+EFolder  *e_local_folder_new            (const char    *name,
+					 const char    *type,
+					 const char    *description);
+EFolder  *e_local_folder_new_from_path  (const char    *physical_path);
+gboolean  e_local_folder_save           (ELocalFolder  *local_folder);
+
+void      e_local_folder_add_i18n_info  (ELocalFolder  *local_folder,
+					 const char    *language_id,
+					 const char    *name,
+					 const char    *description);
+gboolean  e_local_folder_get_i18n_info  (ELocalFolder  *local_folder,
+					 const char    *language_id,
+					 const char   **language_id_return,
+					 const char   **name_return,
+					 const char   **description_return);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,61 @@
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Add rules to build the test component and an
+	`install-test-component' target to install it.
+
+	* GNOME_Evolution_TestComponent.oafinfo: New OAF file for the test
+	component.
+
+	* evolution-test-component.c: New component, currently to test the
+	activity interfaces.  We will be able use it for testing more
+	things in the future.
+
+	* e-shell.c: New member `activity_handler' in `EShellViewPrivate'.
+	(init): Init here.
+	(class_init): Unref.
+	(setup_activity_interface): New helper function to create an
+	`EActivityHandler' object and aggregate it to the `EShell'.
+	(e_shell_construct): Call here.
+	(e_shell_new_view): Attach the task bar of the newly created view
+	to the activity handler by using
+	`e_activity_handler_attach_task_bar()'.
+
+	* e-shell-view.c: Removed old progress bar code.  New members
+	`status_bar' and `task_bar' in EShellViewPrivagte; removed member
+	`progress_bar'.
+	(init): Initialize the new fields; remove initialization for
+	`progress_bar'.
+	(impl_destroy): Handle the new fields here too.
+	(setup_task_bar): New helper function to set up an ETaskBar.
+	(create_status_bar): New helper function to create the status bar
+	with an ETaskBar in it.
+	(ui_engine_add_hint_callback): New callback for the "add_int"
+	BonoboUIEngine signal.
+	(setup_statusbar_hints): New helper function to set up the menu
+	hints for the status bar; connect `ui_engine_add_hint_callback()'
+	here.
+	(setup_widgets): Call `create_status_bar()' and
+	`setup_statusbar_hints()'; pack the status bar in a vbox instead
+	of using the Bonobo status bar stuff, which is kinda broken.
+	(e_shell_view_get_task_bar): New.
+	(get_type_for_folder): No use to get the EFolderTypeRegistry here.
+
+	* Evolution.idl: #include <Evolution-Activity.idl> and
+	<Evolution-Icon.idl>.
+
+	* Evolution-Activity.idl: New.
+
+	* Evolution-Icon.idl: New.
+
+	* e-activity-handler.c: New.
+	* e-activity-handler.h: New.
+
+	* e-task-bar.c: New.
+	* e-task-bar.h: New.
+
+	* e-task-widget.c: New.
+	* e-task-widget.h: New.
+
 2001-06-21  Jason Leach  <jleach@ximian.com>
 
 	* evolution-storage.c (evolution_storage_deregister_on_shell): New
