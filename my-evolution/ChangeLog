@@ -1,3 +1,14 @@
+2001-12-10  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-rdf.c (e_summary_rdf_init): Set the initial sites to
+	Linux Today and Salon.
+
+	* e-summary-preferences.c (make_initial_rdf_list): Ditto
+
+2001-12-10  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Apply damon's change.
+
 2001-12-06  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (rdfs): Remove the perl.com one.

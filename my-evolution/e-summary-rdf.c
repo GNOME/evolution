@@ -641,7 +641,8 @@ e_summary_rdf_init (ESummary *summary)
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
 	if (prefs == NULL) {
-		e_summary_rdf_add_uri (summary, "http://www.cnn.com/cnn.rss");
+		e_summary_rdf_add_uri (summary, "http://linuxtoday.com/backend/my-netscape.rdf");
+		e_summary_rdf_add_uri (summary, "http://www.salon.com/feed/RDF/salon_use.rdf");
 		timeout = 600;
 	} else {
 		GList *p;
