@@ -1,7 +1,7 @@
 Makefile.in
 Makefile
 .deps
-e-calendar.conduit
+*.conduit
 *.lo
 .libs
 libecalendar_conduit.la

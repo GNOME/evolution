@@ -6,4 +6,4 @@ Makefile
 *.la
 e-todo-conduit-control-applet
 e-todo-conduit-control-applet.desktop
-e-todo.conduit
+*.conduit
