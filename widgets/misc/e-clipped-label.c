@@ -82,7 +82,7 @@ e_clipped_label_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		parent_class = gtk_type_class (GTK_TYPE_MISC);
+		parent_class = g_type_class_ref(GTK_TYPE_MISC);
 		e_clipped_label_type = gtk_type_unique (GTK_TYPE_MISC,
 							&e_clipped_label_info);
 	}

@@ -55,7 +55,7 @@ main (int argc, char **argv)
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
 	gtk_window_set_policy (GTK_WINDOW (app), FALSE, TRUE, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (app), "delete_event", GTK_SIGNAL_FUNC (delete_event_cb), NULL);
+	g_signal_connect((app), "delete_event", G_CALLBACK (delete_event_cb), NULL);
 
 	title_bar = e_title_bar_new ("This is a very annoyingly long title bar");
 	gtk_widget_show (title_bar);

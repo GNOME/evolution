@@ -42,7 +42,7 @@ static BonoboWidgetClass *parent_class = NULL;
 static void
 class_init (GtkObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	/* No method to override.  */
 }

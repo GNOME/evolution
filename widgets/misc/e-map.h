@@ -26,10 +26,10 @@
 #include <gtk/gtkwidget.h>
 
 #define TYPE_E_MAP            (e_map_get_type ())
-#define E_MAP(obj)            (GTK_CHECK_CAST ((obj), TYPE_E_MAP, EMap))
-#define E_MAP_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_E_MAP, EMapClass))
-#define IS_E_MAP(obj)         (GTK_CHECK_TYPE ((obj), TYPE_E_MAP))
-#define IS_E_MAP_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_E_MAP))
+#define E_MAP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_E_MAP, EMap))
+#define E_MAP_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_E_MAP, EMapClass))
+#define IS_E_MAP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_E_MAP))
+#define IS_E_MAP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_E_MAP))
 
 typedef struct _EMap EMap;
 typedef struct _EMapClass EMapClass;

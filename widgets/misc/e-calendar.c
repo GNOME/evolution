@@ -139,8 +139,8 @@ e_calendar_class_init (ECalendarClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	parent_class = gtk_type_class (E_CANVAS_TYPE);
-	grandparent_class = gtk_type_class (GTK_TYPE_LAYOUT);
+	parent_class = g_type_class_ref(E_CANVAS_TYPE);
+	grandparent_class = g_type_class_ref(GTK_TYPE_LAYOUT);
 
 	object_class->destroy = e_calendar_destroy;
 
@@ -189,10 +189,10 @@ e_calendar_init (ECalendar *cal)
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
-				   GTK_SIGNAL_FUNC (e_calendar_on_prev_pressed),
+				   G_CALLBACK (e_calendar_on_prev_pressed),
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
-				   GTK_SIGNAL_FUNC (e_calendar_on_prev_released),
+				   G_CALLBACK (e_calendar_on_prev_released),
 				   GTK_OBJECT (cal));
 
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (cal));
@@ -202,7 +202,7 @@ e_calendar_init (ECalendar *cal)
 	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
 	gtk_widget_show (pixmap);
 	gdk_pixmap_unref (gdk_pixmap);
-	gdk_bitmap_unref (gdk_mask);
+	g_object_unref (gdk_mask);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	cal->prev_item = gnome_canvas_item_new (canvas_group,
@@ -215,10 +215,10 @@ e_calendar_init (ECalendar *cal)
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
-				   GTK_SIGNAL_FUNC (e_calendar_on_next_pressed),
+				   G_CALLBACK (e_calendar_on_next_pressed),
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
-				   GTK_SIGNAL_FUNC (e_calendar_on_next_released),
+				   G_CALLBACK (e_calendar_on_next_released),
 				   GTK_OBJECT (cal));
 
 	gdk_pixmap = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap,
@@ -227,7 +227,7 @@ e_calendar_init (ECalendar *cal)
 	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
 	gtk_widget_show (pixmap);
 	gdk_pixmap_unref (gdk_pixmap);
-	gdk_bitmap_unref (gdk_mask);
+	g_object_unref (gdk_mask);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	cal->next_item = gnome_canvas_item_new (canvas_group,
@@ -320,7 +320,7 @@ e_calendar_size_request		(GtkWidget      *widget,
 	cal = E_CALENDAR (widget);
 	style = GTK_WIDGET (cal)->style;
 
-	gtk_object_get (GTK_OBJECT (cal->calitem),
+	g_object_get((cal->calitem),
 			"row_height", &row_height,
 			"column_width", &col_width,
 			NULL);

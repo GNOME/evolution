@@ -32,10 +32,10 @@
 #include <gal/e-table/e-cell-text.h>
 
 #define E_CELL_PERCENT_TYPE        (e_cell_percent_get_type ())
-#define E_CELL_PERCENT(o)          (GTK_CHECK_CAST ((o), E_CELL_PERCENT_TYPE, ECellPercent))
-#define E_CELL_PERCENT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_PERCENT_TYPE, ECellPercentClass))
-#define E_IS_CELL_NUMBER(o)       (GTK_CHECK_TYPE ((o), E_CELL_PERCENT_TYPE))
-#define E_IS_CELL_NUMBER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_PERCENT_TYPE))
+#define E_CELL_PERCENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PERCENT_TYPE, ECellPercent))
+#define E_CELL_PERCENT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_CELL_PERCENT_TYPE, ECellPercentClass))
+#define E_IS_CELL_NUMBER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_PERCENT_TYPE))
+#define E_IS_CELL_NUMBER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_PERCENT_TYPE))
 
 typedef struct {
 	ECellText base;

@@ -76,7 +76,7 @@ class_init (EUrlEntryClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_hbox_get_type ());
+	parent_class = g_type_class_ref(gtk_hbox_get_type ());
 	
 	object_class->destroy = destroy;
 }
@@ -111,8 +111,8 @@ init (EUrlEntry *url_entry)
 	gtk_widget_show (priv->button);
 	gtk_widget_show (priv->entry);
 	
-	gtk_signal_connect (GTK_OBJECT (priv->button), "clicked",
-			    GTK_SIGNAL_FUNC (button_clicked_cb), url_entry);
+	g_signal_connect((priv->button), "clicked",
+			    G_CALLBACK (button_clicked_cb), url_entry);
 }
 
 static void

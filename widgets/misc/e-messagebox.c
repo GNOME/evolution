@@ -81,7 +81,7 @@ e_message_box_class_init (EMessageBoxClass *klass)
 	
 	gobject_class = (GObjectClass *) klass;
 	object_class = (GtkObjectClass *) klass;
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = g_type_class_ref(gnome_dialog_get_type ());
 	
 	gobject_class->finalize = e_message_box_finalize;
 
@@ -216,7 +216,7 @@ e_message_box_construct (EMessageBox *messagebox,
 	/* Add some extra space on the right to balance the pixmap */
 	if (pixmap) {
 		alignment = gtk_alignment_new (0., 0., 0., 0.);
-		gtk_widget_set_usize (alignment, GNOME_PAD, -1);
+		gtk_widget_set_size_request (alignment, GNOME_PAD, -1);
 		gtk_widget_show (alignment);
 		
 		gtk_box_pack_start (GTK_BOX (hbox), alignment, FALSE, FALSE, 0);

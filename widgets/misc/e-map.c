@@ -167,7 +167,7 @@ e_map_class_init (EMapClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_WIDGET);
+	parent_class = g_type_class_ref(GTK_TYPE_WIDGET);
 
 	gobject_class->finalize = e_map_finalize;
 
@@ -177,7 +177,7 @@ e_map_class_init (EMapClass *class)
 	widget_class->set_scroll_adjustments_signal = gtk_signal_new ("set_scroll_adjustments",
 								      GTK_RUN_LAST,
 								      GTK_CLASS_TYPE (object_class),
-								      GTK_SIGNAL_OFFSET (EMapClass, set_scroll_adjustments),
+								      G_STRUCT_OFFSET (EMapClass, set_scroll_adjustments),
 								      gtk_marshal_NONE__POINTER_POINTER,
 								      GTK_TYPE_NONE, 2,
 								      GTK_TYPE_ADJUSTMENT,
@@ -253,21 +253,21 @@ e_map_finalize (GObject *object)
 	view = E_MAP (object);
 	priv = view->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->hadj));
+	g_object_unref((priv->hadj));
 	priv->hadj = NULL;
 
-	gtk_object_unref (GTK_OBJECT (priv->vadj));
+	g_object_unref((priv->vadj));
 	priv->vadj = NULL;
 
 	if (priv->map_pixbuf)
 	{
-		gdk_pixbuf_unref (priv->map_pixbuf);
+		g_object_unref (priv->map_pixbuf);
 		priv->map_pixbuf = NULL;
 	}
 
 	if (priv->map_render_pixbuf)
 	{
-		gdk_pixbuf_unref (priv->map_render_pixbuf);
+		g_object_unref (priv->map_render_pixbuf);
 		priv->map_render_pixbuf = NULL;
 	}
 
@@ -506,13 +506,13 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->hadj && priv->hadj != hadj)
 	{
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->hadj), view);
-		gtk_object_unref (GTK_OBJECT (priv->hadj));
+		g_object_unref((priv->hadj));
 	}
 
 	if (priv->vadj && priv->vadj != vadj)
 	{
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->vadj), view);
-		gtk_object_unref (GTK_OBJECT (priv->vadj));
+		g_object_unref((priv->vadj));
 	}
 
 	need_adjust = FALSE;
@@ -520,10 +520,10 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->hadj != hadj)
 	{
 		priv->hadj = hadj;
-		gtk_object_ref (GTK_OBJECT (priv->hadj));
+		g_object_ref((priv->hadj));
 		gtk_object_sink (GTK_OBJECT (priv->hadj));
 
-		gtk_signal_connect (GTK_OBJECT (priv->hadj), "value_changed", GTK_SIGNAL_FUNC (adjustment_changed_cb), view);
+		g_signal_connect((priv->hadj), "value_changed", G_CALLBACK (adjustment_changed_cb), view);
 
 		need_adjust = TRUE;
 	}
@@ -531,10 +531,10 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 	if (priv->vadj != vadj)
 	{
 		priv->vadj = vadj;
-		gtk_object_ref (GTK_OBJECT (priv->vadj));
+		g_object_ref((priv->vadj));
 		gtk_object_sink (GTK_OBJECT (priv->vadj));
 
-		gtk_signal_connect (GTK_OBJECT (priv->vadj), "value_changed", GTK_SIGNAL_FUNC (adjustment_changed_cb), view);
+		g_signal_connect((priv->vadj), "value_changed", G_CALLBACK (adjustment_changed_cb), view);
 
 		need_adjust = TRUE;
 	}
@@ -974,7 +974,7 @@ load_map_background (EMap *view, gchar *name)
 	if (!pb0)
 		return FALSE;
 
-	if (priv->map_pixbuf) gdk_pixbuf_unref (priv->map_pixbuf);
+	if (priv->map_pixbuf) g_object_unref (priv->map_pixbuf);
 	priv->map_pixbuf = pb0;
 	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
 
@@ -1018,7 +1018,7 @@ update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays
 
 	/* Reallocate the pixbuf */
 
-	if (priv->map_render_pixbuf) gdk_pixbuf_unref (priv->map_render_pixbuf);
+	if (priv->map_render_pixbuf) g_object_unref (priv->map_render_pixbuf);
 	priv->map_render_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE,	/* No alpha */
 						  8, width, height);
 

@@ -81,8 +81,8 @@ main (int argc, char **argv)
 	dialog = e_multi_config_dialog_new ();
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
-	gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_callback), NULL);
+	g_signal_connect((dialog), "delete_event",
+			    G_CALLBACK (delete_event_callback), NULL);
 
 	add_pages (E_MULTI_CONFIG_DIALOG (dialog));
 

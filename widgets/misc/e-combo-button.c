@@ -88,7 +88,7 @@ create_pixmap_widget_from_pixbuf (GdkPixbuf *pixbuf)
 	pixmap_widget = gtk_pixmap_new (pixmap, mask);
 
 	gdk_pixmap_unref (pixmap);
-	gdk_bitmap_unref (mask);
+	g_object_unref (mask);
 
 	return pixmap_widget;
 }
@@ -103,7 +103,7 @@ create_empty_pixmap_widget (void)
 
 	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
 
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	return pixmap_widget;
 }
@@ -118,7 +118,7 @@ create_arrow_pixmap_widget (void)
 
 	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
 
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	return pixmap_widget;
 }
@@ -134,7 +134,7 @@ set_icon (EComboButton *combo_button,
 	priv = combo_button->priv;
 
 	if (priv->icon != NULL)
-		gdk_pixbuf_unref (priv->icon);
+		g_object_unref (priv->icon);
 
 	if (pixbuf == NULL) {
 		priv->icon = NULL;
@@ -142,7 +142,7 @@ set_icon (EComboButton *combo_button,
 		return;
 	}
 
-	priv->icon = gdk_pixbuf_ref (pixbuf);
+	priv->icon = g_object_ref (pixbuf);
 
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 128);
 	gtk_pixmap_set (GTK_PIXMAP (priv->icon_pixmap), pixmap, mask);
@@ -278,7 +278,7 @@ impl_destroy (GtkObject *object)
 	}
 
 	if (priv->icon != NULL) {
-		gdk_pixbuf_unref (priv->icon);
+		g_object_unref (priv->icon);
 		priv->icon = NULL;
 	}
 
@@ -412,7 +412,7 @@ class_init (GtkObjectClass *object_class)
 	GtkWidgetClass *widget_class;
 	GtkButtonClass *button_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->destroy = impl_destroy;
 
@@ -427,7 +427,7 @@ class_init (GtkObjectClass *object_class)
 	signals[ACTIVATE_DEFAULT] = gtk_signal_new ("activate_default",
 						    GTK_RUN_FIRST,
 						    GTK_CLASS_TYPE (object_class),
-						    GTK_SIGNAL_OFFSET (EComboButtonClass, activate_default),
+						    G_STRUCT_OFFSET (EComboButtonClass, activate_default),
 						    gtk_marshal_NONE__NONE,
 						    GTK_TYPE_NONE, 0);
 }
@@ -542,8 +542,8 @@ e_combo_button_set_menu (EComboButton *combo_button,
 
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (combo_button), menu_detacher);
 
-	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
-			    GTK_SIGNAL_FUNC (menu_deactivate_callback),
+	g_signal_connect((menu), "deactivate",
+			    G_CALLBACK (menu_deactivate_callback),
 			    combo_button);
 }
 

@@ -33,10 +33,10 @@
 #include <gal/e-table/e-cell-popup.h>
 
 #define E_CELL_DATE_EDIT_TYPE        (e_cell_date_edit_get_type ())
-#define E_CELL_DATE_EDIT(o)          (GTK_CHECK_CAST ((o), E_CELL_DATE_EDIT_TYPE, ECellDateEdit))
-#define E_CELL_DATE_EDIT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CELL_DATE_EDIT_TYPE, ECellDateEditClass))
-#define E_IS_CELL_DATE_EDIT(o)       (GTK_CHECK_TYPE ((o), E_CELL_DATE_EDIT_TYPE))
-#define E_IS_CELL_DATE_EDIT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_DATE_EDIT_TYPE))
+#define E_CELL_DATE_EDIT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_DATE_EDIT_TYPE, ECellDateEdit))
+#define E_CELL_DATE_EDIT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_CELL_DATE_EDIT_TYPE, ECellDateEditClass))
+#define E_IS_CELL_DATE_EDIT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_DATE_EDIT_TYPE))
+#define E_IS_CELL_DATE_EDIT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_DATE_EDIT_TYPE))
 
 
 typedef struct _ECellDateEdit ECellDateEdit;

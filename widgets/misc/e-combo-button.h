@@ -38,10 +38,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_COMBO_BUTTON			(e_combo_button_get_type ())
-#define E_COMBO_BUTTON(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_COMBO_BUTTON, EComboButton))
-#define E_COMBO_BUTTON_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_COMBO_BUTTON, EComboButtonClass))
-#define E_IS_COMBO_BUTTON(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_COMBO_BUTTON))
-#define E_IS_COMBO_BUTTON_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_COMBO_BUTTON))
+#define E_COMBO_BUTTON(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMBO_BUTTON, EComboButton))
+#define E_COMBO_BUTTON_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_COMBO_BUTTON, EComboButtonClass))
+#define E_IS_COMBO_BUTTON(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_COMBO_BUTTON))
+#define E_IS_COMBO_BUTTON_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_COMBO_BUTTON))
 
 
 typedef struct _EComboButton        EComboButton;

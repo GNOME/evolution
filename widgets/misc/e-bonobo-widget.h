@@ -31,10 +31,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_BONOBO_WIDGET			(e_bonobo_widget_get_type ())
-#define E_BONOBO_WIDGET(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_BONOBO_WIDGET, EBonoboWidget))
-#define E_BONOBO_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_BONOBO_WIDGET, EBonoboWidgetClass))
-#define E_IS_BONOBO_WIDGET(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_BONOBO_WIDGET))
-#define E_IS_BONOBO_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_BONOBO_WIDGET))
+#define E_BONOBO_WIDGET(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_BONOBO_WIDGET, EBonoboWidget))
+#define E_BONOBO_WIDGET_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_BONOBO_WIDGET, EBonoboWidgetClass))
+#define E_IS_BONOBO_WIDGET(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_BONOBO_WIDGET))
+#define E_IS_BONOBO_WIDGET_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_BONOBO_WIDGET))
 
 
 typedef struct _EBonoboWidget        EBonoboWidget;

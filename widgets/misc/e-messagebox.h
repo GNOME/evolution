@@ -23,15 +23,17 @@
 #ifndef __E_MESSAGE_BOX_H__
 #define __E_MESSAGE_BOX_H__
 
+#warning "e_messagebox is deprecated, use gtk_message_box instead"
+
 #include <glib.h>
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-dialog.h>
 
 #define E_TYPE_MESSAGE_BOX            (e_message_box_get_type ())
-#define E_MESSAGE_BOX(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_MESSAGE_BOX, EMessageBox))
-#define E_MESSAGE_BOX_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_MESSAGE_BOX, EMessageBoxClass))
-#define E_IS_MESSAGE_BOX(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_MESSAGE_BOX))
-#define E_IS_MESSAGE_BOX_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_MESSAGE_BOX))
+#define E_MESSAGE_BOX(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MESSAGE_BOX, EMessageBox))
+#define E_MESSAGE_BOX_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MESSAGE_BOX, EMessageBoxClass))
+#define E_IS_MESSAGE_BOX(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MESSAGE_BOX))
+#define E_IS_MESSAGE_BOX_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_MESSAGE_BOX))
 #define E_MESSAGE_BOX_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), E_TYPE_MESSAGE_BOX, EMessageBoxClass))
 
 

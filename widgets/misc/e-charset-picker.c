@@ -33,6 +33,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -115,7 +116,7 @@ select_item (GtkMenuShell *menu_shell, GtkWidget *item)
 static void
 activate (GtkWidget *item, gpointer menu)
 {
-	gtk_object_set_data (GTK_OBJECT (menu), "activated_item", item);
+	g_object_set_data(G_OBJECT(menu), "activated_item", item);
 }
 
 static GtkWidget *
@@ -138,14 +139,14 @@ add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 	}
 	
 	item = gtk_menu_item_new_with_label (label);
-	gtk_object_set_data_full (GTK_OBJECT (item), "charset",
+	g_object_set_data_full(G_OBJECT(item), "charset",
 				  charset->name, free_name ? g_free : NULL);
 	g_free (label);
 
 	gtk_widget_show (item);
-	gtk_menu_append (GTK_MENU (menu), item);
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (activate), menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+	g_signal_connect((item), "activate",
+			    G_CALLBACK (activate), menu);
 
 	return item;
 }
@@ -160,14 +161,14 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 	ic = iconv_open ("UTF-8", new_charset);
 	if (ic == (iconv_t)-1) {
 		GtkWidget *window = gtk_widget_get_ancestor (other, GTK_TYPE_WINDOW);
-		e_notice (GTK_WINDOW (window), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (window), GTK_MESSAGE_ERROR,
 			  _("Unknown character set: %s"), new_charset);
 		return FALSE;
 	}
 	iconv_close (ic);
 
 	/* Temporarily remove the "Other..." item */
-	gtk_object_ref (GTK_OBJECT (other));
+	g_object_ref((other));
 	gtk_container_remove (GTK_CONTAINER (menu), other);
 
 	/* Create new menu item */
@@ -175,13 +176,13 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 	item = add_charset (menu, &charset, TRUE);
 
 	/* And re-add "Other..." */
-	gtk_menu_append (GTK_MENU (menu), other);
-	gtk_object_unref (GTK_OBJECT (other));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), other);
+	g_object_unref((other));
 
-	gtk_object_set_data_full (GTK_OBJECT (menu), "other_charset",
+	g_object_set_data_full(G_OBJECT(menu), "other_charset",
 				  g_strdup (new_charset), g_free);
 
-	gtk_object_set_data (GTK_OBJECT (menu), "activated_item", item);
+	g_object_set_data(G_OBJECT(menu), "activated_item", item);
 	select_item (GTK_MENU_SHELL (menu), item);
 	return TRUE;
 }
@@ -201,7 +202,7 @@ activate_other (GtkWidget *item, gpointer menu)
 	char *old_charset, *new_charset;
 
 	window = gtk_widget_get_ancestor (item, GTK_TYPE_WINDOW);
-	old_charset = gtk_object_get_data (GTK_OBJECT (menu), "other_charset");
+	old_charset = g_object_get_data(G_OBJECT(menu), "other_charset");
 	dialog = gnome_request_dialog (FALSE,
 				       _("Enter the character set to use"),
 				       old_charset, 0, other_charset_callback,
@@ -215,7 +216,7 @@ activate_other (GtkWidget *item, gpointer menu)
 	}
 
 	/* Revert to previous selection */
-	select_item (GTK_MENU_SHELL (menu), gtk_object_get_data (GTK_OBJECT (menu), "activated_item"));
+	select_item (GTK_MENU_SHELL (menu), g_object_get_data(G_OBJECT(menu), "activated_item"));
 }
 
 /**
@@ -263,7 +264,7 @@ e_charset_picker_new (const char *default_charset)
 	}
 
 	/* do the Unknown/Other section */
-	gtk_menu_append (GTK_MENU (menu), gtk_menu_item_new ());
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), gtk_menu_item_new ());
 
 	if (def == num_charsets) {
 		ECharset other = { NULL, E_CHARSET_UNKNOWN, NULL };
@@ -273,15 +274,15 @@ e_charset_picker_new (const char *default_charset)
 		item = add_charset (menu, &other, TRUE);
 		activate (item, menu);
 		select_item (GTK_MENU_SHELL (menu), item);
-		gtk_object_set_data_full (GTK_OBJECT (menu), "other_charset",
+		g_object_set_data_full(G_OBJECT(menu), "other_charset",
 					  g_strdup (default_charset), g_free);
 		def++;
 	}
 
 	item = gtk_menu_item_new_with_label (_("Other..."));
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (activate_other), menu);
-	gtk_menu_append (GTK_MENU (menu), item);
+	g_signal_connect((item), "activate",
+			    G_CALLBACK (activate_other), menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
 	gtk_widget_show_all (menu);
 	return menu;
@@ -303,7 +304,7 @@ e_charset_picker_get_charset (GtkWidget *menu)
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	charset = gtk_object_get_data (GTK_OBJECT (item), "charset");
+	charset = g_object_get_data(G_OBJECT(item), "charset");
 
 	return g_strdup (charset);
 }

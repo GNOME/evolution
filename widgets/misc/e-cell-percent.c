@@ -119,7 +119,7 @@ e_cell_percent_class_init (GtkObjectClass *object_class)
 {
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	ectc->get_text  = ecp_get_text;
 	ectc->free_text = ecp_free_text;

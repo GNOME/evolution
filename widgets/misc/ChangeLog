@@ -1,3 +1,9 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* e-charset-picker.c: Add include of gnome-dialog.h
+
+	* *.[ch]: ran fix.sh script over everything.
+
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
 	* e-combo-button.c (impl_button_press_event): Dont grab_add

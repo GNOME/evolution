@@ -267,7 +267,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	parent_class = g_type_class_ref(gnome_canvas_item_get_type());
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
@@ -340,14 +340,14 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		gtk_signal_new ("date_range_changed",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECalendarItemClass, date_range_changed),
+				G_STRUCT_OFFSET (ECalendarItemClass, date_range_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	e_calendar_item_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECalendarItemClass, selection_changed),
+				G_STRUCT_OFFSET (ECalendarItemClass, selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -2783,9 +2783,9 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 		submenu = gtk_menu_new ();
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
 
-		gtk_object_set_data (GTK_OBJECT (submenu), "year",
+		g_object_set_data(G_OBJECT(submenu), "year",
 				     GINT_TO_POINTER (year));
-		gtk_object_set_data (GTK_OBJECT (submenu), "month_offset",
+		g_object_set_data(G_OBJECT(submenu), "month_offset",
 				     GINT_TO_POINTER (month_offset));
 
 		for (month = 0; month < 12; month++) {
@@ -2806,17 +2806,17 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 			gtk_widget_show (label);
 			gtk_container_add (GTK_CONTAINER (menuitem), label);
 
-			gtk_object_set_data (GTK_OBJECT (menuitem), "month",
+			g_object_set_data(G_OBJECT(menuitem), "month",
 					     GINT_TO_POINTER (month));
 
-			gtk_signal_connect (GTK_OBJECT (menuitem), "activate",
-					    GTK_SIGNAL_FUNC (e_calendar_item_on_menu_item_activate), calitem);
+			g_signal_connect((menuitem), "activate",
+					    G_CALLBACK (e_calendar_item_on_menu_item_activate), calitem);
 		}
 	}
 
 	/* Run the menu modal so we can destroy it after. */
-	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
-			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+	g_signal_connect((menu), "deactivate",
+			    G_CALLBACK (gtk_main_quit), NULL);
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL,
 			e_calendar_item_position_menu, calitem,
 			event->button, event->time);
@@ -2833,9 +2833,9 @@ e_calendar_item_on_menu_item_activate	(GtkWidget	*menuitem,
 {
 	gint year, month_offset, month;
 
-	year = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (menuitem->parent), "year"));
-	month_offset = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (menuitem->parent), "month_offset"));
-	month = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (menuitem), "month"));
+	year = GPOINTER_TO_INT (g_object_get_data(G_OBJECT(menuitem->parent), "year"));
+	month_offset = GPOINTER_TO_INT (g_object_get_data(G_OBJECT(menuitem->parent), "month_offset"));
+	month = GPOINTER_TO_INT (g_object_get_data(G_OBJECT(menuitem), "month"));
 
 	month -= month_offset;
 	e_calendar_item_normalize_date (calitem, &year, &month);
@@ -2918,7 +2918,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 
 	/* We ref the calitem & check in case it gets destroyed, since we
 	   were getting a free memory write here. */
-	gtk_object_ref (GTK_OBJECT (calitem));
+	g_object_ref((calitem));
 
 	if (calitem->date_range_changed) {
 		calitem->date_range_changed = FALSE;
@@ -2932,7 +2932,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 				 e_calendar_item_signals[SELECTION_CHANGED]);
 	}
 
-	gtk_object_unref (GTK_OBJECT (calitem));
+	g_object_unref((calitem));
 
 	GDK_THREADS_LEAVE ();
 	return FALSE;

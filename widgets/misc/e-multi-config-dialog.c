@@ -295,7 +295,7 @@ class_init (EMultiConfigDialogClass *class)
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = impl_response;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 #define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
@@ -328,7 +328,7 @@ fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
 								       1,
 								       colors[i], colors[i]);
 		e_table_model_set_value_at (dialog->priv->list_e_table_model, i + 2, row, pixbuf);
-		gdk_pixbuf_unref(pixbuf);
+		g_object_unref(pixbuf);
 	}
 }
 

@@ -70,19 +70,19 @@ class_init (EConfigPageClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	signals[APPLY] = gtk_signal_new ("apply",
 					 GTK_RUN_LAST,
 					 GTK_CLASS_TYPE (object_class),
-					 GTK_SIGNAL_OFFSET (EConfigPageClass, apply),
+					 G_STRUCT_OFFSET (EConfigPageClass, apply),
 					 gtk_marshal_NONE__NONE,
 					 GTK_TYPE_NONE, 0);
 
 	signals[CHANGED] = gtk_signal_new ("changed",
 					   GTK_RUN_FIRST,
 					   GTK_CLASS_TYPE (object_class),
-					   GTK_SIGNAL_OFFSET (EConfigPageClass, changed),
+					   G_STRUCT_OFFSET (EConfigPageClass, changed),
 					   gtk_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
 }

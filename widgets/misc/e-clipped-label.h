@@ -37,9 +37,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define E_CLIPPED_LABEL(obj)          GTK_CHECK_CAST (obj, e_clipped_label_get_type (), EClippedLabel)
-#define E_CLIPPED_LABEL_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_clipped_label_get_type (), EClippedLabelClass)
-#define E_IS_CLIPPED_LABEL(obj)       GTK_CHECK_TYPE (obj, e_clipped_label_get_type ())
+#define E_CLIPPED_LABEL(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_clipped_label_get_type (), EClippedLabel)
+#define E_CLIPPED_LABEL_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_clipped_label_get_type (), EClippedLabelClass)
+#define E_IS_CLIPPED_LABEL(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_clipped_label_get_type ())
 
 
 typedef struct _EClippedLabel       EClippedLabel;

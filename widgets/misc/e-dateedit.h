@@ -46,10 +46,10 @@
 #include <gtk/gtkwidget.h>
  
 #define E_TYPE_DATE_EDIT            (e_date_edit_get_type ())
-#define E_DATE_EDIT(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_DATE_EDIT, EDateEdit))
-#define E_DATE_EDIT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_EDIT, EDateEditClass))
-#define E_IS_DATE_EDIT(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_DATE_EDIT))
-#define E_IS_DATE_EDIT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_DATE_EDIT))
+#define E_DATE_EDIT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_EDIT, EDateEdit))
+#define E_DATE_EDIT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_EDIT, EDateEditClass))
+#define E_IS_DATE_EDIT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_DATE_EDIT))
+#define E_IS_DATE_EDIT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_DATE_EDIT))
 
 typedef struct _EDateEdit        EDateEdit;
 typedef struct _EDateEditPrivate EDateEditPrivate;

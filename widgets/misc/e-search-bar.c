@@ -310,7 +310,7 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		if (esb->entry == NULL) {
 			esb->entry = gtk_entry_new();
-			gtk_widget_set_usize (esb->entry, 4, -1);
+			gtk_widget_set_size_request (esb->entry, 4, -1);
 			g_object_ref (esb->entry);
 			g_signal_connect (esb->entry, "changed",
 					  G_CALLBACK (entry_changed_cb), esb);
@@ -395,7 +395,7 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 					  esb);
 
 			gtk_widget_show (menu_item);
-			gtk_menu_append (GTK_MENU (menu), menu_item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 		}
 
 		gtk_option_menu_remove_menu (GTK_OPTION_MENU (esb->suboption));
@@ -636,7 +636,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 			gtk_widget_set_sensitive (item, FALSE);
 		}
 
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
 		g_object_set_data (G_OBJECT (item), "EsbChoiceId", GINT_TO_POINTER(items[i].id));
 

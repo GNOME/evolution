@@ -39,9 +39,9 @@ extern "C" {
  * to got to the current day.
  */
 
-#define E_CALENDAR(obj)          GTK_CHECK_CAST (obj, e_calendar_get_type (), ECalendar)
-#define E_CALENDAR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_calendar_get_type (), ECalendarClass)
-#define E_IS_CALENDAR(obj)       GTK_CHECK_TYPE (obj, e_calendar_get_type ())
+#define E_CALENDAR(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_get_type (), ECalendar)
+#define E_CALENDAR_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_get_type (), ECalendarClass)
+#define E_IS_CALENDAR(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_get_type ())
 
 
 typedef struct _ECalendar       ECalendar;

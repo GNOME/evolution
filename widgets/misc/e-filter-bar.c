@@ -251,7 +251,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		}
 	}
 	
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (esb), "menu_activated");
+	g_signal_stop_emission_by_name((esb), "menu_activated");
 }
 
 static void
@@ -618,7 +618,7 @@ class_init (EFilterBarClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	gtk_object_class = GTK_OBJECT_CLASS (klass);
 	
-	parent_class = gtk_type_class (e_search_bar_get_type ());
+	parent_class = g_type_class_ref(e_search_bar_get_type ());
 	
 	object_class->dispose = dispose;
 	
@@ -634,7 +634,7 @@ class_init (EFilterBarClass *klass)
 		gtk_signal_new ("query_changed",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (EFilterBarClass, query_changed),
+				G_STRUCT_OFFSET (EFilterBarClass, query_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	
@@ -642,7 +642,7 @@ class_init (EFilterBarClass *klass)
 		gtk_signal_new ("menu_activated",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (EFilterBarClass, menu_activated),
+				G_STRUCT_OFFSET (EFilterBarClass, menu_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
