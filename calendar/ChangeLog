@@ -1,3 +1,10 @@
+2002-02-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/cal-search-bar.c (cal_search_bar_class_init): change
+	query_changed to search_activated.
+	(cal_search_bar_search_activated): rename
+	cal_search_bar_query_changed to this.
+
 2002-02-19  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-itip-control.c (send_item): pass extra itip_send_comp

@@ -77,7 +77,7 @@ static void cal_search_bar_class_init (CalSearchBarClass *class);
 static void cal_search_bar_init (CalSearchBar *cal_search);
 static void cal_search_bar_destroy (GtkObject *object);
 
-static void cal_search_bar_query_changed (ESearchBar *search);
+static void cal_search_bar_search_activated (ESearchBar *search);
 static void cal_search_bar_menu_activated (ESearchBar *search, int item);
 
 static ESearchBarClass *parent_class = NULL;
@@ -159,7 +159,7 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	class->sexp_changed = NULL;
 	class->category_changed = NULL;
 
-	e_search_bar_class->query_changed = cal_search_bar_query_changed;
+	e_search_bar_class->search_activated = cal_search_bar_search_activated;
 	e_search_bar_class->menu_activated = cal_search_bar_menu_activated;
 
 	object_class->destroy = cal_search_bar_destroy;
@@ -358,9 +358,9 @@ regen_query (CalSearchBar *cal_search)
 	}
 }
 
-/* query_changed handler for the calendar search bar */
+/* search_activated handler for the calendar search bar */
 static void
-cal_search_bar_query_changed (ESearchBar *search)
+cal_search_bar_search_activated (ESearchBar *search)
 {
 	CalSearchBar *cal_search;
 
