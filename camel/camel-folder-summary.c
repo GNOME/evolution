@@ -1575,7 +1575,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	     && (strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
 	
-	charset = camel_charset_canonicalname (charset);
+	charset = camel_charset_canonical_name (charset);
 	
 	subject = summary_format_string(h, "subject", charset);
 	from = summary_format_address(h, "from");
