@@ -1,3 +1,13 @@
+2004-04-18  JP Rosevear <jpr@ximian.com>
+
+	Fixes #53124
+	
+	* gui/e-tasks.c: remove preview pieces, they are in their own
+	class now; use the new class for preview
+
+	* gui/e-cal-component-preview.[hc]: implement a preview area for
+	tasks and events
+
 2004-04-17  Trent Lloyd  <lathiat@sixlabs.org>
 
 	* gui/e-calendar-view.c: include libecal/e-cal-component.h to kill
