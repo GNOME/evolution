@@ -1,3 +1,7 @@
+2000-12-24  Not Zed  <NotZed@HelixCode.com>
+
+	* Merge from camel-mt-branch.
+
 2000-12-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (filter_date): Changed this to do different
@@ -45,6 +49,80 @@
 	display every 2 seconds.
 
 	* mail-ops.c (do_view_messages): Only update display every 2 seconds.
+
+2000-12-23  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.h (MessageList): Add a specific hide data lock.
+
+	* message-list.c (message_list_drag_data_get): Do not use
+	cursor_uid, but get all currentlys elected messages directly off
+	the message-list.
+	(message_list_destroy): Removed mail_tool_camel_lock stuff.
+	(on_click): "
+	(message_list_hide_add, message_list_hide_uids, hide_load_state,
+	hide_save_state, message_list_hide_clear): ", but use a specfic
+	lock for the hide data.
+	(do_regenerate_messagelist): remove mail_tool_camel_lock stuff,
+	add hide_lock where required.
+	(message_list_init): Setup the hide_lock.
+	(message_list_destroy): Free the hide_lock.
+
+2000-12-22  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-ops.c (mail_do_sync_folder): Run sync in different thread
+	each time.  Just a quick litlte hack to check multithreading.
+	There are now few operations that single-queue.  Need to work out
+	a way to make the allocation of threads & resources easier, so we
+	dont get overwhelmed with threads, but we dont block when we dont
+	have to, either.
+
+	* message-list.c (main_folder_changed): If we have only changed
+	events, then process them directly.
+	(mail_do_regenerate_messagelist): Run regenerate in a new thread
+	each time, another quick hack to check mutlithreading.
+
+	* mail-view.c (view_delete_msg): Call camel folder set message
+	flags directly.  mail_do_set_message_flags() is now completely
+	unused.
+
+	* folder-browser.c (mark_msg_seen): Call camel folder
+	set_message_flags directly.
+
+	* mail-callbacks.c (flag_messages): New function, that just sets
+	flags of all selected messages, without all that messy thread
+	stuff (setting flags is	in-memory).
+	(mark_as_seen): Use flag_messages().
+	(mark_as_unseen): "
+	(undelete_msg): "
+	(delete_msg): "
+
+2000-12-20  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_select): Free messageinfo lookups.
+	(message_list_drag_data_get): "
+	(subtree_unread): "
+	(subtree_size): "
+	(subtree_earliest): "
+	(ml_tree_value_at): "  Also, keep the message info around in a
+	static variable, and ref'd, so that any internal references we
+	have to it dont vanish while we're not looking.  This has a couple
+	of problems ... esp since we never unref the last access, although
+	camel-folder-summary wont check this when its unref'd, so we're
+	'safe'.
+	(save_node_state): free messageinfo lookups.
+	(on_click): "
+	(get_message_info): deconstify return.
+
+	* mail-tools.c (mail_tool_move_folder_contents): Free messageinfo
+	lookups.
+
+	* mail-ops.c (do_filter_ondemand): Free messageinfo lookups.
+	(do_flag_messages): "
+	(do_fetch_mail): Remove mail_tool_lock stuff.
+	(mail_operation_run): Quick hack to run an operation
+	asynchrounously, in a brand-new thread.
+
+	* folder-browser.c (on_right_click): Free messageinfo lookups.
 
 2000-12-16  Not Zed  <NotZed@HelixCode.com>
 

@@ -284,10 +284,10 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	/* Copy the messages */
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *msg;
-		const CamelMessageInfo *info = NULL;
+		CamelMessageInfo *info = NULL;
 		const gboolean last_message = (i+1 == uids->len);
 		time_t now;
-		
+
 		/* Info */
 
 		/*
@@ -317,6 +317,9 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		if (summary_capability)
 			info = camel_folder_get_message_info (source, uids->pdata[i]);
 		camel_folder_append_message (dest, msg, info, ex);
+		if (summary_capability)
+			camel_folder_free_message_info(source, info);
+
 		if (camel_exception_is_set (ex)) {
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto cleanup;

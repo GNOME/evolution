@@ -2,7 +2,9 @@
 #ifndef _MESSAGE_LIST_H_
 #define _MESSAGE_LIST_H_
 
-#include <gnome.h>
+/*#include <gnome.h>*/
+#include <gtk/gtk.h>
+
 #include "mail-types.h"
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-simple.h>
@@ -62,7 +64,7 @@ struct _MessageList {
 	struct _EMemPool *uid_pool;
 
 	/* UID's to hide.  Keys in the mempool */
-	/* IMPORTANT: You MUST have obtained the camel lock, to operate on these structures */
+	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;
 	struct _EMemPool *hidden_pool;
 	int hide_unhidden, /* total length, before hiding */
@@ -80,6 +82,9 @@ struct _MessageList {
 
 	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;
+
+	/* locks */
+	GMutex *hide_lock;	/* for any 'hide' info above */
 };
 
 typedef struct {
@@ -122,5 +127,8 @@ void	       message_list_hide_clear(MessageList *ml);
 
 void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
 void	       message_list_set_search(MessageList *ml, const char *search);
+
+#define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
+#define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
 
 #endif /* _MESSAGE_LIST_H_ */

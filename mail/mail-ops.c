@@ -37,6 +37,9 @@
 #include "folder-browser.h"
 #include "e-util/e-html-utils.h"
 
+/* temporary 'hack' */
+int mail_operation_run(const mail_operation_spec *op, void *in, int free);
+
 /* ** FETCH MAIL ********************************************************** */
 
 typedef struct fetch_mail_input_s
@@ -244,9 +247,6 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	filter_driver_set_logfile (filter, logfile);
 	filter_driver_set_status_func (filter, mail_op_report_status, NULL);
 	
-	/* why on earth we 'up' a lock to get it, ... */
-	mail_tool_camel_lock_up ();
-	
 	camel_folder_freeze (input->destination);
 	
 	if (!strncmp (input->source_url, "mbox:", 5)) {
@@ -314,8 +314,6 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		fclose (logfile);
 
 	camel_folder_thaw (input->destination);
-
-	mail_tool_camel_lock_down ();
 
 	/*camel_object_unref (CAMEL_OBJECT (input->destination));*/
 	gtk_object_unref (GTK_OBJECT (filter));
@@ -458,10 +456,12 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		CamelMessageInfo *info;
 		
 		message = camel_folder_get_message (input->source, input->uids->pdata[i], ex);
-		info = (CamelMessageInfo *) camel_folder_get_message_info (input->source, input->uids->pdata[i]);
+		info = camel_folder_get_message_info (input->source, input->uids->pdata[i]);
 		
 		/* filter the message - use "incoming" rules since we don't want special "demand" filters? */
 		filter_driver_filter_message (driver, message, info, "", FILTER_SOURCE_INCOMING, ex);
+
+		camel_folder_free_message_info(input->source, info);
 	}
 	
 	if (logfile)
@@ -1178,12 +1178,13 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		}
 
 		if (input->invert) {
-			const CamelMessageInfo *info;
+			CamelMessageInfo *info;
 
 			mail_tool_camel_lock_up ();
 			info = camel_folder_get_message_info (input->source, input->uids->pdata[i]);
 			camel_folder_set_message_flags (input->source, input->uids->pdata[i],
 							input->mask, ~info->flags);
+			camel_folder_free_message_info(input->source, info);
 			mail_tool_camel_lock_down ();
 		} else {
 			mail_tool_set_uid_flags (input->source, input->uids->pdata[i],
@@ -1985,7 +1986,8 @@ mail_do_sync_folder (CamelFolder *folder)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	mail_operation_queue (&op_sync_folder, folder, FALSE);
+	/*mail_operation_queue (&op_sync_folder, folder, FALSE);*/
+	mail_operation_run (&op_sync_folder, folder, FALSE);
 }
 
 /* ** DISPLAY MESSAGE ***************************************************** */
@@ -2112,8 +2114,86 @@ mail_do_display_message (MessageList *ml, MailDisplay *md, const char *uid,
 	input->uid = g_strdup (uid);
 	input->timeout = timeout;
 
-	mail_operation_queue (&op_display_message, input, TRUE);
+	/* this is only temporary */
+	/*mail_operation_queue (&op_display_message, input, TRUE);*/
+	mail_operation_run (&op_display_message, input, TRUE);
 }
+
+/* dum de dum, below is an entirely async 'operation' thingy */
+struct _op_data {
+	void *out;
+	void *in;
+	CamelException *ex;
+	const mail_operation_spec *op;
+	int pipe[2];
+	int free;
+	GIOChannel *channel;
+};
+
+static void *
+runthread(void *oin)
+{
+	struct _op_data *o = oin;
+
+	o->op->callback(o->in, o->out, o->ex);
+
+	printf("thread run, sending notificaiton\n");
+
+	write(o->pipe[1], "", 1);
+
+	return oin;
+}
+
+static gboolean
+runcleanup(GIOChannel *source, GIOCondition cond, void *d)
+{
+	struct _op_data *o = d;
+
+	printf("ggot notification, blup\n");
+
+	o->op->cleanup(o->in, o->out, o->ex);
+
+	/*close(o->pipe[0]);*/
+	close(o->pipe[1]);
+
+	if (o->free)
+		g_free(o->in);
+	g_free(o->out);
+	camel_exception_free(o->ex);
+	g_free(o);
+
+	g_io_channel_unref(source);
+
+	return FALSE;
+}
+
+#include <pthread.h>
+
+/* quick hack, like queue, but it runs it instantly in a new thread ! */
+int
+mail_operation_run(const mail_operation_spec *op, void *in, int free)
+{
+	struct _op_data *o;
+	pthread_t id;
+
+	o = g_malloc0(sizeof(*o));
+	o->op = op;
+	o->in = in;
+	o->out = g_malloc0(op->datasize);
+	o->ex = camel_exception_new();
+	o->free = free;
+	pipe(o->pipe);
+
+	o->channel = g_io_channel_unix_new(o->pipe[0]);
+	g_io_add_watch(o->channel, G_IO_IN, (GIOFunc)runcleanup, o);
+
+	o->op->setup(o->in, o->out, o->ex);
+
+	pthread_create(&id, 0, runthread, o);
+
+	return TRUE;
+}
+
 
 /* ** EDIT MESSAGES ******************************************************* */
 

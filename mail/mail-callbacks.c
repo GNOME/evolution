@@ -620,36 +620,40 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 	e_table_invert_selection (ml->table);
 }
 
+/* flag all selected messages */
+static void
+flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
+{
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	int i;
+
+	if (ml->folder == NULL)
+		return;
+
+	/* could just use specific callback but i'm lazy */
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	camel_folder_freeze(ml->folder);
+	for (i=0;i<uids->len;i++) {
+		camel_folder_set_message_flags(ml->folder, uids->pdata[i], mask, set);
+		g_free(uids->pdata[i]);
+	}
+	camel_folder_thaw(ml->folder);
+
+	g_ptr_array_free(uids, TRUE);
+}
+
 void
 mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-        FolderBrowser *fb = FOLDER_BROWSER(user_data);
-        MessageList *ml = fb->message_list;
-	GPtrArray *uids;
-	
-	if (ml->folder == NULL)
-		return;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	mail_do_flag_messages (ml->folder, uids, FALSE,
-			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 void
 mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-        FolderBrowser *fb = FOLDER_BROWSER(user_data);
-        MessageList *ml = fb->message_list;
-	GPtrArray *uids;
-	
-	if (ml->folder == NULL)
-		return;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	mail_do_flag_messages (ml->folder, uids, FALSE,
-			       CAMEL_MESSAGE_SEEN, 0);
+	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, 0);
 }
 				   
 void
@@ -764,65 +768,13 @@ save_msg (GtkWidget *widget, gpointer user_data)
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
-	FolderBrowser *fb = user_data;
-	MessageList *ml = fb->message_list;
-	GPtrArray *uids;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	
-	/*
-	 * Toggling a flag is an "instantaneous" operation, so if
-	 * we're only doing one, just do it and return, rather than
-	 * queueing it for the other thread. This makes the "Delete"
-	 * key work correctly (move to the next message) again.
-	 * - Dan
-	 */
-	if (uids->len == 1) {
-		char *uid = uids->pdata[0];
-		
-		mail_tool_camel_lock_up ();
-		camel_folder_set_message_flags (ml->folder, uid,
-						CAMEL_MESSAGE_DELETED,
-						CAMEL_MESSAGE_DELETED);
-		mail_tool_camel_lock_down ();
-	} else {
-		mail_do_flag_messages (ml->folder, uids, FALSE,
-				       CAMEL_MESSAGE_DELETED,
-				       CAMEL_MESSAGE_DELETED);
-	}
+	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 }
 
 void
 undelete_msg (GtkWidget *button, gpointer user_data)
 {
-	FolderBrowser *fb = user_data;
-	MessageList *ml = fb->message_list;
-	GPtrArray *uids;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (ml, enumerate_msg, uids);
-	
-	/*
-	 * Toggling a flag is an "instantaneous" operation, so if
-	 * we're only doing one, just do it and return, rather than
-	 * queueing it for the other thread. This makes the "Delete"
-	 * key work correctly (move to the next message) again.
-	 * - Dan
-	 */
-	if (uids->len == 1) {
-		char *uid = uids->pdata[0];
-		
-		mail_tool_camel_lock_up ();
-		camel_folder_set_message_flags (ml->folder, uid,
-						CAMEL_MESSAGE_DELETED,
-						0);
-		mail_tool_camel_lock_down ();
-	} else {
-		mail_do_flag_messages (ml->folder, uids, FALSE,
-				       CAMEL_MESSAGE_DELETED,
-				       0);
-	}
+	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, 0);
 }
 
 void
