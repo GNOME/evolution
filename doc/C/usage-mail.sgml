@@ -1,4 +1,6 @@
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <abstract>
@@ -1162,8 +1164,8 @@ with quoted materials and the relevant replies interspersed-->
 	help you keep your private messages secret.  To do that, it
 	makes use of the external application
 	<application>gpg</application>, an implementation of strong
-	<glossterm linkend="public-key-encryption">Public Key
-	Encryption</glossterm>.
+	<!-- <glossterm linkend="public-key-encryption"> --> Public Key
+	Encryption <!-- </glossterm> -->.
       </para>
 
 	<note id="pub-priv">
