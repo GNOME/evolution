@@ -1,3 +1,11 @@
+2005-01-12 Chenthill Palanisamy <pchenthill@novell.com>
+
+	* e-send-options.c: (e_send_options_get_widgets_data),
+	(e_send_options_fill_widgets_with_data): Get the value
+	for the autodelete toggle button
+	(page_changed_cb): Do not hide the classification label 
+	and its combo box here. 
+
 2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* e-send-options.c: (e_send_options_get_widgets_data),

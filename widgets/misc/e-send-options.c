@@ -126,6 +126,8 @@ e_send_options_get_widgets_data (ESendOptionsDialog *sod)
 
 	sopts->tracking_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->create_sent));
 	
+	sopts->autodelete = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->autodelete));
+	
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delivered)))
 		sopts->track_when = E_DELIVERED;
 	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delivered_opened)))
@@ -189,6 +191,11 @@ e_send_options_fill_widgets_with_data (ESendOptionsDialog *sod)
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->create_sent), FALSE);
 	
+	if (sopts->autodelete)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->autodelete), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->autodelete), FALSE);
+		
 	switch (sopts->track_when) {
 		case E_DELIVERED:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->delivered), TRUE);
@@ -341,8 +348,6 @@ page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, gpointer
 		} else if (num == 2) {
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
-			gtk_widget_hide (priv->classification_label);
-			gtk_widget_hide (priv->classification);
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
 			
 			gtk_widget_show (priv->accepted_label);
