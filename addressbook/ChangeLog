@@ -1,3 +1,28 @@
+2004-04-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Add "wants HTML" checkbox.
+
+	* gui/contact-editor/contact-editor.c (email_location_to_index)
+	(email_entry_changed)
+	(set_entry_changed_signal_email)
+	(file_save_cb)
+	(file_close_cb)
+	(file_save_as_cb)
+	(file_send_as_cb)
+	(file_send_to_cb)
+	(contact_deleted_cb)
+	(delete_cb)
+	(print_cb)
+	(print_envelope_cb)
+	(tb_save_and_close_cb)
+	(verbs)
+	(pixmaps)
+	(create_ui): Remove unused funcs.
+	(command_state_changed): Remove bonobo calls.
+	(e_contact_editor_init): Remove bonobo stuff.
+	(fill_in_email)
+	(fill_in_im): Remove unused vars.
+
 2004-04-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (book_loaded_cb): new
