@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2002-05-20 22:14+0200\n"
-"PO-Revision-Date: 2002-05-20 22:20+0200\n"
+"PO-Revision-Date: 2002-05-21 20:02+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1356,7 +1356,7 @@ msgstr "K_ontakter..."
 #: calendar/gui/dialogs/event-page.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr "Ka_tegorier..."
+msgstr "Kate_gorier..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "Collaboration"
@@ -1421,7 +1421,7 @@ msgstr "Telefontyper"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "S_pouse:"
-msgstr "Ekte_felle:"
+msgstr "E_ktefelle:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "This is the _mailing address"
@@ -3679,7 +3679,7 @@ msgstr "Nytt møte"
 
 #: calendar/gui/component-factory.c:696
 msgid "_Meeting"
-msgstr "_Møte"
+msgstr "Mø_te"
 
 #: calendar/gui/component-factory.c:700
 msgid "New task"
@@ -3703,7 +3703,7 @@ msgstr "Ny avtale"
 
 #: calendar/gui/component-factory.c:708
 msgid "_Appointment"
-msgstr "_Avtale"
+msgstr "A_vtale"
 
 #: calendar/gui/control-factory.c:123
 #, c-format
@@ -3916,7 +3916,7 @@ msgstr "Sammendrag:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "_Options..."
-msgstr "_Alternativer..."
+msgstr "Alte_rnativer..."
 
 #: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "after"
@@ -4351,7 +4351,7 @@ msgstr "Møte"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "A_ll day event"
-msgstr "Varer he_le dagen"
+msgstr "Varer hele _dagen"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "B_usy"
@@ -4366,7 +4366,7 @@ msgstr "Klassifisering"
 #: calendar/gui/dialogs/event-page.glade.h:5
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "Con_fidential"
-msgstr "Kon_fidensiell"
+msgstr "Ko_nfidensiell"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:4
@@ -4379,7 +4379,7 @@ msgstr "L_edig"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "L_ocation:"
-msgstr "Pl_assering:"
+msgstr "_Plassering:"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -4389,7 +4389,7 @@ msgstr "Pri_vat"
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Pu_blic"
-msgstr "Of_fentlig"
+msgstr "Offen_tlig"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -4794,7 +4794,7 @@ msgstr "S_kriv ut..."
 #: calendar/gui/e-week-view.c:3478 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr "Klipp _ut"
+msgstr "Kli_pp ut"
 
 #: calendar/gui/e-calendar-table.c:979 calendar/gui/e-day-view.c:3602
 #: calendar/gui/e-week-view.c:3479 ui/evolution-addressbook.xml.h:34
@@ -25616,7 +25616,7 @@ msgstr "Opprett eller rediger definisjoner av virtuelle mapper"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr "_Tøm søppelkurven"
+msgstr "Tø_m søppelkurven"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Forget _Passwords"
@@ -25757,7 +25757,7 @@ msgstr "M_appe"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr "Re_verser utvalg"
+msgstr "_Reverser utvalg"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
@@ -25769,7 +25769,7 @@ msgstr "Meldingsliste med _tråder"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
-msgstr "Le_gg til sender i adressebok"
+msgstr "L_egg til sender i adressebok"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
@@ -25869,7 +25869,7 @@ msgstr "Vis forrige uleste melding"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "F_orward"
-msgstr "_Videresend"
+msgstr "V_ideresend"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -26145,7 +26145,7 @@ msgstr "_Sitert"
 
 #: ui/evolution-mail-message.xml.h:111 ui/evolution.xml.h:57
 msgid "_Tools"
-msgstr "_Verktøy"
+msgstr "Ve_rktøy"
 
 #: ui/evolution-mail-message.xml.h:112
 msgid "_Undelete"
@@ -26444,7 +26444,7 @@ msgstr "Om Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
-msgstr "Legg til på _snarveilinje"
+msgstr "Legg til på s_narveilinje"
 
 #: ui/evolution.xml.h:3
 msgid "Change the name of this folder"
@@ -26568,7 +26568,7 @@ msgstr "_Kopier..."
 
 #: ui/evolution.xml.h:44
 msgid "_Folder Bar"
-msgstr "_Mappelinje"
+msgstr "Ma_ppelinje"
 
 #: ui/evolution.xml.h:45
 msgid "_Go to Folder..."
@@ -27525,9 +27525,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "Create an event for the whole day"
 #~ msgstr "Opprett en hendelse for hele dagen"
-
-#~ msgid "_Appointment..."
-#~ msgstr "_Avtale..."
 
 #~ msgid "_Meeting..."
 #~ msgstr "_Møte..."
