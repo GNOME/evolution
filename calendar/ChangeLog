@@ -1,3 +1,17 @@
+2004-07-31  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-day-view.c (e_day_view_finish_long_event_resize): guard
+	with is_instance instead of has_recurrences because most of the
+	backends don't support this yet
+	(e_day_view_finish_resize): ditto
+	(e_day_view_change_event_time): ditto
+	(e_day_view_on_editing_stopped): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+
+	* gui/e-week-view.c (e_week_view_change_event_time): ditto
+	(e_week_view_on_editing_stopped): ditto
+	
 2004-07-30  Harish Krishnaswamy  <kharish@novell.com>
 	
 	* gui/e-tasks.c: (client_cal_opened_cb),

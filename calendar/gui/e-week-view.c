@@ -3247,7 +3247,7 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 
- 	if (e_cal_component_has_recurrences (comp)) {
+ 	if (e_cal_component_is_instance (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL)) {
  			gtk_widget_queue_draw (week_view->main_canvas);
 			goto out;
@@ -3372,7 +3372,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
 			
-			if (e_cal_component_has_recurrences (comp)) {
+			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					goto out;
 				}

@@ -3910,7 +3910,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		e_cal_component_set_dtend (comp, &date);
 	}
 	
- 	if (e_cal_component_has_recurrences (comp)) {
+ 	if (e_cal_component_is_instance (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
@@ -3990,7 +3990,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_has_recurrences (comp)) {
+ 	if (e_cal_component_is_instance (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
@@ -5842,7 +5842,7 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_has_recurrences (comp)) {
+ 	if (e_cal_component_is_instance (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
@@ -6055,7 +6055,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
-			if (e_cal_component_has_recurrences (comp)) {
+			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					goto out;
 				}
@@ -7160,7 +7160,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (e_cal_component_has_recurrences (comp)) {
+			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL))
 					return;
 			}
@@ -7348,7 +7348,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (e_cal_component_has_recurrences (comp)) {
+			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					g_object_unref (comp);
 					return;
