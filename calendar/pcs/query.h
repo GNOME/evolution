@@ -23,7 +23,8 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
-#include "cal-backend.h"
+#include "cal-common.h"
+#include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
 

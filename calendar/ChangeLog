@@ -1,3 +1,14 @@
+2002-04-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend.[ch] (cal_backend_get_query): new method.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_query): new method.
+
+	* pcs/cal.c (impl_Cal_get_query): call the CalBackend's implementation
+	instead of calling query_new directly.
+
+	* pcs/query.[ch]: fixed headers.
+
 2002-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): use the default uri for

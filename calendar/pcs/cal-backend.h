@@ -30,6 +30,7 @@
 #include "evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
+#include "query.h"
 
 BEGIN_GNOME_DECLS
 
@@ -80,6 +81,10 @@ struct _CalBackendClass {
 
 	gboolean (* is_loaded) (CalBackend *backend);
 
+	Query *(* get_query) (CalBackend *backend,
+			      GNOME_Evolution_Calendar_QueryListener ql,
+			      const char *sexp);
+
 	/* Mode relate virtual methods */
 	CalMode (* get_mode) (CalBackend *backend);
 	void    (* set_mode) (CalBackend *backend, CalMode mode);	
@@ -126,6 +131,10 @@ CalBackendOpenStatus cal_backend_open (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
+
+Query *cal_backend_get_query (CalBackend *backend,
+			      GNOME_Evolution_Calendar_QueryListener ql,
+			      const char *sexp);
 
 CalMode cal_backend_get_mode (CalBackend *backend);
 void cal_backend_set_mode (CalBackend *backend, CalMode mode);
