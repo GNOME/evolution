@@ -732,7 +732,7 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 	string = e_card_simple_get(e_minicard->simple, field);
 
 	/* Magically convert embedded XML into an address. */
-	if (!strncmp (string, "<?xml", 4)) {
+	if (!strncmp (string, "<?xml", 5)) {
 		EDestination *dest = e_destination_import (string);
 		if (dest != NULL) {
 			gchar *new_string = g_strdup (e_destination_get_address (dest));

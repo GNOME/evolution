@@ -1,4 +1,12 @@
-2001-10-29  Jon Trowbridge  <trow@ximian.com>
+2001-10-29  Jon Trowbridge  <trow@ximian.com.
+
+	* gui/widgets/e-minicard.c (add_field): Five characters, not four!
+	
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_value_at): Convert xml-ified destinations into proper
+	addresses.
+
+2001-10-29  Jon Trowbridge  <trow@ximian.com.
 
 	* gui/component/select-names/e-select-names-bonobo.c (init):
 	Connect to manager's "ok" signal.

@@ -111,10 +111,22 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	const char *value;
+
 	if ( col >= COLS || row >= e_addressbook_model_card_count (priv->model) )
 		return NULL;
 
 	value = e_card_simple_get_const(priv->simples[row], col);
+
+	if (value && !strncmp (value, "<?xml", 5)) {
+		EDestination *dest = e_destination_import (value);
+		if (dest) {
+			g_free ((gchar *) value);
+			value = g_strdup (e_destination_get_address (dest));
+			gtk_object_unref (GTK_OBJECT (dest));
+		}
+	}
+
+
 	return (void *)(value ? value : "");
 }
 
