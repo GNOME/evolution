@@ -30,6 +30,8 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
+#include "e-pub-utils.h"
+#include "calendar-config-keys.h"
 #include "calendar-config.h"
 #include "calendar-component.h"
 #include "calendar-commands.h"
@@ -59,6 +61,7 @@ struct _CalendarComponentPrivate {
 	char *config_directory;
 
 	GConfClient *gconf_client;
+	int gconf_notify_id;
 	ESourceList *source_list;
 	GSList *source_selection;
 	
@@ -435,6 +438,25 @@ config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *
 	update_primary_selection (data);
 }
 
+static gboolean
+init_calendar_publishing_cb (gpointer data)
+{	
+	/* Publish if it is time to publish again */
+	e_pub_publish (FALSE);
+
+	return FALSE;
+}
+
+static void
+conf_changed_callback (GConfClient *client,
+		       unsigned int connection_id,
+		       GConfEntry *entry,
+		       void *user_data)
+{
+	/* publish config changed, so publish */
+	e_pub_publish (TRUE);
+}
+
 /* GObject methods.  */
 
 static void
@@ -582,6 +604,24 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static void
+init_calendar_publishing (CalendarComponent *calendar_component)
+{
+	guint idle_id = 0;
+	CalendarComponentPrivate *priv;
+	
+	priv = calendar_component->priv;
+	
+	gconf_client_add_dir (priv->gconf_client, CALENDAR_CONFIG_PUBLISH, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+
+	priv->gconf_notify_id
+		= gconf_client_notify_add (priv->gconf_client, CALENDAR_CONFIG_PUBLISH,
+					   (GConfClientNotifyFunc) conf_changed_callback, NULL,
+					   NULL, NULL);
+	
+	idle_id = g_idle_add ((GSourceFunc) init_calendar_publishing_cb, GINT_TO_POINTER (idle_id));
+}
+
+static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
@@ -629,6 +669,9 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_widget_show (statusbar_widget);
 	statusbar_control = bonobo_control_new (statusbar_widget);
 
+	/* Initialize Calendar Publishing */
+	init_calendar_publishing (calendar_component);
+	
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
 	g_signal_connect_object (priv->source_selector, "selection_changed",

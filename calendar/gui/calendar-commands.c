@@ -60,6 +60,7 @@
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
 #include "itip-utils.h"
+#include "e-pub-utils.h"
 #include "evolution-shell-component-utils.h"
 
 /* Focusing information for the calendar view.  We have to keep track of this
@@ -319,36 +320,7 @@ delete_occurrence_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 static void
 publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
-	GnomeCalendar *gcal;
-	GList *client_list, *cl;
-	GList *comp_list = NULL;
-	icaltimezone *utc;
-	time_t start = time (NULL), end;
-
-	gcal = GNOME_CALENDAR (data);
-
-	utc = icaltimezone_get_utc_timezone ();
-	start = time_day_begin_with_zone (start, utc);
-	end = time_add_week_with_zone (start, 6, utc);
-
-	/* FIXME Should we aggregate the data? */
-	client_list = e_cal_model_get_client_list (gnome_calendar_get_calendar_model (gcal));
-	for (cl = client_list; cl != NULL; cl = cl->next) {
-		if (e_cal_get_free_busy ((ECal *) cl->data, NULL, start, end, &comp_list, NULL)) {
-			GList *l;
-
-			for (l = comp_list; l; l = l->next) {
-				ECalComponent *comp = E_CAL_COMPONENT (l->data);
-				itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, (ECal *) cl->data, NULL);
-
-				g_object_unref (comp);
-			}
-
-			g_list_free (comp_list);
-		}
-	}
-
-	g_list_free (client_list);
+	e_pub_publish (TRUE);
 }
 
 static void

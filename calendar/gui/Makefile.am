@@ -166,6 +166,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-meeting-utils.h			\
 	e-mini-calendar-config.c		\
 	e-mini-calendar-config.h		\
+	e-pub-utils.c				\
+	e-pub-utils.h				\
 	e-select-names-editable.c		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\

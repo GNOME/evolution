@@ -70,6 +70,9 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_DEFAULT_REMINDER_INTERVAL CALENDAR_CONFIG_PREFIX "/other/default_reminder_interval"
 #define CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS CALENDAR_CONFIG_PREFIX "/other/default_reminder_units"
 
+/* Free/Busy settings */
+#define CALENDAR_CONFIG_PUBLISH CALENDAR_CONFIG_PREFIX"/publish/uris"
+
 G_END_DECLS
 
 #endif

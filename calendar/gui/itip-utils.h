@@ -31,5 +31,10 @@ const gchar *itip_strip_mailto (const gchar *address);
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
 			 ECal *client, icalcomponent *zones);
 
+gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username, 
+			    gchar* password, ECalComponent **pub_comp);
+
+gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client, 
+			     gboolean cloned, ECalComponent **clone);
 
 #endif

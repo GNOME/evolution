@@ -41,6 +41,7 @@
 #include "e-cal-view.h"
 #include "e-comp-editor-registry.h"
 #include "itip-utils.h"
+#include "e-pub-utils.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -1127,34 +1128,7 @@ on_forward (GtkWidget *widget, gpointer user_data)
 static void
 on_publish (GtkWidget *widget, gpointer user_data)
 {
-	ECalendarView *cal_view;
-	icaltimezone *utc;
-	time_t start = time (NULL), end;
-	GList *comp_list = NULL, *client_list, *cl;
-
-	cal_view = E_CALENDAR_VIEW (user_data);
-
-	utc = icaltimezone_get_utc_timezone ();
-	start = time_day_begin_with_zone (start, utc);
-	end = time_add_week_with_zone (start, 6, utc);
-
-	client_list = e_cal_model_get_client_list (cal_view->priv->model);
-	for (cl = client_list; cl != NULL; cl = cl->next) {
-		if (e_cal_get_free_busy ((ECal *) cl->data, NULL, start, end, &comp_list, NULL)) {
-			GList *l;
-
-			for (l = comp_list; l; l = l->next) {
-				ECalComponent *comp = E_CAL_COMPONENT (l->data);
-				itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, (ECal *) cl->data, NULL);
-
-				g_object_unref (comp);
-			}
-
-			g_list_free (comp_list);
-		}
-	}
-
-	g_list_free (client_list);
+	e_pub_publish (TRUE);
 }
 
 static void

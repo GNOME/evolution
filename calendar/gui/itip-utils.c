@@ -37,6 +37,10 @@
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
+#include <libsoup/soup-session-async.h>
+#include <libsoup/soup-message.h>
+#include <libsoup/soup-uri.h>
+#include "e-util/e-passwords.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
 
@@ -977,3 +981,220 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	return retval;
 }
 
+gboolean
+itip_publish_begin (ECalComponent *pub_comp, ECal *client, 
+		    gboolean cloned, ECalComponent **clone)
+{
+	icalcomponent *icomp =NULL, *icomp_clone = NULL;
+	icalproperty *prop;
+		
+	if (e_cal_component_get_vtype (pub_comp) == E_CAL_COMPONENT_FREEBUSY) {
+				
+		if (!cloned) {
+			*clone = e_cal_component_clone (pub_comp);
+			cloned = TRUE;
+		} else {
+			
+			icomp = e_cal_component_get_icalcomponent (pub_comp);
+			icomp_clone = e_cal_component_get_icalcomponent (*clone);
+			for (prop = icalcomponent_get_first_property (icomp,
+						      ICAL_FREEBUSY_PROPERTY);
+	     			prop != NULL;
+	     			prop = icalcomponent_get_next_property (icomp, 
+						       ICAL_FREEBUSY_PROPERTY))
+			{
+				icalproperty *p;
+		
+				p = icalproperty_new_clone (prop);
+				icalcomponent_add_property (icomp_clone, p);
+			}
+		}		
+	}
+
+	return TRUE;
+}
+
+static void
+fb_sort (struct icalperiodtype *ipt, int fb_count)
+{
+	int i,j;
+	
+	if (ipt == NULL || fb_count == 0)
+		return;
+	
+	for (i = 0; i < fb_count-1; i++) {
+		for (j = i+1; j < fb_count; j++) {
+			struct icalperiodtype temp;
+				
+			if (icaltime_compare (ipt[i].start, ipt[j].start) < 0)
+				continue;
+			
+			if (icaltime_compare (ipt[i].start, ipt[j].start) == 0){
+				if (icaltime_compare (ipt[i].end, 
+						     ipt[j].start) < 0)
+					continue;
+			}
+			temp = ipt[i];
+			ipt[i] = ipt[j];
+			ipt[j] = temp;
+		}
+	}
+}
+
+static icalcomponent *
+comp_fb_normalize (icalcomponent *icomp)
+{
+	icalcomponent *iclone;
+	icalproperty *prop, *p;
+	const char *uid,  *comment;
+	struct icaltimetype itt;
+	int fb_count, i = 0, j;
+	struct icalperiodtype *ipt;
+	
+	iclone = icalcomponent_new (ICAL_VFREEBUSY_COMPONENT);
+	
+	prop = icalcomponent_get_first_property (icomp, 
+						 ICAL_ORGANIZER_PROPERTY);
+	p = icalproperty_new_clone (prop);
+	icalcomponent_add_property (iclone, p);
+	
+	itt = icalcomponent_get_dtstart (icomp);
+	icalcomponent_set_dtstart (iclone, itt);
+	
+	itt = icalcomponent_get_dtend (icomp);
+	icalcomponent_set_dtend (iclone, itt);
+	
+	fb_count =  icalcomponent_count_properties (icomp, 
+						    ICAL_FREEBUSY_PROPERTY);
+	ipt = g_new0 (struct icalperiodtype, fb_count+1);
+	
+	for (prop = icalcomponent_get_first_property (icomp, 
+						      ICAL_FREEBUSY_PROPERTY);
+		prop != NULL;
+		prop = icalcomponent_get_next_property (icomp, 
+							ICAL_FREEBUSY_PROPERTY))
+	{
+		ipt[i] = icalproperty_get_freebusy (prop);
+		i++;
+	}
+	
+	fb_sort (ipt, fb_count);
+	
+	for (j = 0; j <= fb_count-1; j++) {
+		icalparameter *param;
+		
+		prop = icalproperty_new_freebusy (ipt[j]);
+		param = icalparameter_new_fbtype (ICAL_FBTYPE_BUSY);
+		icalproperty_add_parameter (prop, param);
+		icalcomponent_add_property (iclone, prop);
+	}
+	g_free (ipt);
+	
+	/* Should I strip this RFC 2446 says there must not be a UID
+		if the METHOD is PUBLISH?? */
+	uid = icalcomponent_get_uid (icomp);
+	if (uid)
+		icalcomponent_set_uid (iclone, uid);
+
+	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+					     icaltimezone_get_utc_timezone ());
+	icalcomponent_set_dtstamp (iclone, itt);	
+	
+	prop = icalcomponent_get_first_property (icomp, ICAL_URL_PROPERTY);
+	p = icalproperty_new_clone (prop);
+	icalcomponent_add_property (iclone, p);
+	
+	comment =  icalcomponent_get_comment (icomp);
+	if (comment)
+		icalcomponent_set_comment (iclone, comment);
+
+	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
+	{		
+		p = icalproperty_new_clone (prop);
+		icalcomponent_add_property (iclone, p);
+	}
+	
+	return iclone;
+
+	g_object_unref (iclone);
+	return NULL;
+}
+
+gboolean
+itip_publish_comp (ECal *client, gchar *uri, gchar *username, 
+		   gchar *password, ECalComponent **pub_comp)
+{
+	icalcomponent *toplevel = NULL, *icalcomp = NULL;
+	icalcomponent *icomp = NULL;
+	SoupSession *session;
+	SoupMessage *msg;
+	SoupUri *real_uri;
+	char *ical_string;
+	char *prompt;
+	gboolean remember = FALSE;
+	
+	toplevel = e_cal_util_new_top_level ();
+	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);
+	
+	e_cal_component_set_url (*pub_comp, uri);
+	
+	icalcomp = e_cal_component_get_icalcomponent (*pub_comp);
+	
+	icomp = comp_fb_normalize (icalcomp);	
+
+	icalcomponent_add_component (toplevel, icomp);
+	ical_string = icalcomponent_as_ical_string (toplevel);
+
+	/* Publish the component */
+	session = soup_session_async_new ();
+
+	/* add username and password to the uri */	
+	if (strlen (password) == 0) {
+		prompt = g_strdup_printf (_("Enter the password for %s"), uri);
+		password = e_passwords_ask_password (_("Enter password"), 
+						     "Calendar", NULL, 
+						     prompt, TRUE, 
+						   E_PASSWORDS_DO_NOT_REMEMBER,
+						     &remember, NULL);
+
+		g_free (prompt);
+	}
+
+	real_uri = soup_uri_new (uri);
+	if (!real_uri) {
+		g_warning (G_STRLOC ": Invalid URL: %s", uri);
+		g_object_unref (session);
+		return FALSE;
+	}
+	
+	real_uri->user = g_strdup (username);
+	real_uri->passwd = g_strdup (password);
+		
+	/* build the SOAP message */
+	msg = soup_message_new_from_uri (SOUP_METHOD_PUT, real_uri);
+	if (!msg) {
+		g_warning (G_STRLOC ": Could not build SOAP message");
+		g_object_unref (session);
+		return FALSE;
+	}
+	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);	
+	soup_message_set_request (msg, "text/calendar", SOUP_BUFFER_USER_OWNED,
+				  ical_string, strlen (ical_string));
+	
+	/* send message to server */
+	soup_session_send_message (session, msg);
+	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+		g_warning(G_STRLOC ": Could not publish Free/Busy: %d: %s", 
+			  msg->status_code, 
+			  soup_status_get_phrase (msg->status_code));
+		g_object_unref (session);
+		return FALSE;
+	}
+	
+	soup_uri_free (real_uri);
+	g_object_unref (session);
+	
+	return TRUE;
+}

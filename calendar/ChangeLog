@@ -1,3 +1,66 @@
+ 2004-01-12 Gary Ekker <gekker@novell.com>
+ 
+ 	* gui/Makefile.am: add e-pub-utils.[ch]
+ 	for Free/Busy publishing
+ 	
+ 	* gui/apps_evolution_calendar.schemas.in.in: add schema for
+ 	/apps/evo/calendar/free_busy key
+ 	
+ 	* gui/calendar-commands.c (publish_freebusy_cmd): change to
+ 	publish component rather than attach as email
+ 	
+ 	* gui/calendar-config-keys.h: add free_busy/urls key definition
+ 	
+ 	* gui/calendar-config.[ch] (calendar_config_get_free_busy): new
+   	method for retrieving FB gconf key
+ 	(calendar_config_set_free_busy): new method for saving FB
+ 	gconf key
+ 	
+ 	* gui/e-cal-view.c (on_publish): change to publish component
+ 	rather than attach as email
+ 	
+ 	* gui/itip-utils.[ch] (itip_publish_begin): new method to process 
+ 	e_cal_components and aggregate the data if we are publishing
+ 	for multiple calendars
+ 	(itip_publish_comp): new method to publish the ical data to an
+ 	http server via libsoup
+ 	(comp_fb_normalize): new static method to ensure rfc 2446 compliant 
+ 	data before publishing icalcomponent_get_uid
+ 	(fb_sort): new static method to sort FB properties in ascending order
+ 	
+ 	* gui/dialogs/Makefile.am: add url-editor-dialog.[ch] and 
+ 	url-editor-dialog.glade for configure FB publishing
+ 	
+ 	* gui/dialogs/cal-prefs-dialog.[ch] (cal_prefs_dialog_url_add_clicked):
+ 	(cal_prefs_dialog_url_edit_clicked):new method for events in FB tab 
+ 	of cal-prefs-dialog
+ 	(cal_prefs_dialog_url_remove_clicked): ditto
+ 	(cal_prefs_dialog_url_enable_clicked): ditto
+ 	(cal_prefs_dialog_url_url_list_change): ditto
+ 	(cal_prefs_dialog_url_url_list_enable_toggled): ditto
+ 	(cal_prefs_dialog_url_url_list_double_click): ditto
+ 	(show_fb_config): new method for updating dialog with FB specific
+ 	data in gconf
+ 	(update_fb_config): new method for updating gconf with FB specific
+ 	data from dialogs
+ 	(setup_changes): detect changes in url_list gtk_tree_view
+ 	(get_widgets): include new dialog widgets for FB config
+ 	(init_widgets): connect signals for new FB config widgets
+ 	
+ 	* gui/dialogs/cal-prefs-dialog.glade: add new widgets for FB config
+ 	
+ 	* gui/dialogs/url-editor-dialog.[ch]: add files for FB url-editor dialog
+ 	
+ 	* gui/dialogs/url-editor-dialog.glade: ditto
+ 	
+ 	* gui/e-pub-utils.[ch]: add files with FB publishing utilities
+ 
+ 	* gui/calendar-component.c (init_calendar_publishing): sets up
+ 	listeners to publish calendar, g_idle_add, and on gconf change
+ 	(init_calendar_publishing_cb): ditto
+ 	(conf_changed_callback): ditto
+ 	(impl_createControls): ditto
+	
 2004-01-12  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): sync the source

@@ -355,5 +355,17 @@
         <short>Programs that can run as part of alarms</short>
       </locale>
     </schema>
+    
+    <schema>
+      <key>/schemas/apps/evolution/calendar/publish/uris</key>
+      <applyto>/apps/evolution/calendar/publish/uris</applyto>
+      <owner>evolution-calendar</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
+      <locale name="C">
+        <short>List of urls for free/busy publishing</short>
+      </locale>
+    </schema>    
   </schemalist>
 </gconfschemafile>

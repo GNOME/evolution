@@ -202,6 +202,9 @@ void     calendar_config_set_default_reminder_interval (int interval);
 CalUnits calendar_config_get_default_reminder_units (void);
 void     calendar_config_set_default_reminder_units (CalUnits units);
 
+/* Free/Busy Settings */
+GSList * calendar_config_get_free_busy (void);
+void calendar_config_set_free_busy (GSList * url_list);
 
 /* Convenience functions to configure common properties of ECalendar,
    EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */
