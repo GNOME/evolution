@@ -246,6 +246,7 @@ static void scroll_off (ETree *et);
 static void scroll_on (ETree *et, guint scroll_direction);
 static void hover_off (ETree *et);
 static void hover_on (ETree *et, int x, int y);
+static void context_destroyed (gpointer data, GObject *ctx);
 
 static void
 et_disconnect_from_etta (ETree *et)
@@ -421,6 +422,10 @@ et_dispose (GObject *object)
 
 		if (et->priv->site)
 			e_tree_drag_source_unset (et);
+
+		if (et->priv->last_drop_context)
+			g_object_weak_unref (G_OBJECT(et->priv->last_drop_context), context_destroyed, et);
+		et->priv->last_drop_context = NULL;
 
 		gtk_widget_destroy (GTK_WIDGET (et->priv->table_canvas));
 
@@ -2806,7 +2811,7 @@ collapse_drag (ETree *et, ETreePath drop)
 }
 
 static void
-context_destroyed (gpointer data)
+context_destroyed (gpointer data, GObject *ctx)
 {
 	ETree *et = data;
 	if (et->priv) {
@@ -2824,10 +2829,15 @@ context_destroyed (gpointer data)
 static void
 context_connect (ETree *et, GdkDragContext *context)
 {
-	if (g_dataset_get_data (context, "e-tree") == NULL) {
+	if (context == et->priv->last_drop_context)
+       		return;
+	
+	if (et->priv->last_drop_context) 
+		g_object_weak_unref (G_OBJECT(et->priv->last_drop_context), context_destroyed, et);
+	else
 		g_object_ref (et);
-		g_dataset_set_data_full (context, "e-tree", et, context_destroyed);
-	}
+
+	g_object_weak_ref (G_OBJECT(context), context_destroyed, et);
 }
 
 static void
@@ -2864,8 +2874,8 @@ et_drag_motion(GtkWidget *widget,
 	et->priv->last_drop_x = x;
 	et->priv->last_drop_y = y;
 	et->priv->last_drop_time = time;
-	et->priv->last_drop_context = context;
 	context_connect (et, context);
+	et->priv->last_drop_context = context;
 
 	if (et->priv->hover_idle_id != 0) {
 		if (abs (et->priv->hover_x - x) > 3 ||
