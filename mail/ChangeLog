@@ -1,5 +1,12 @@
 2002-04-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-tag-followup.c (message_tag_followup_append_message):
+	Convert UTF-8 to gtkstrings since we are using a clist and not an
+	E-widget that takes UTF-8.
+
+	* mail-display.c (mail_display_add_url): If the data-urls is NULL,
+	add a data-urls hash to the datalist. This finishes up bug #90.
+
 	* mail-account-gui.c (save_service): Strip leading/trailing
 	whitespace from the username because users sometimes accidently
 	add extra spaces here and there. Fixes bug #24009 (along with a

@@ -2210,33 +2210,32 @@ set_status_message (const char *message, int busy)
 {
 	EList *controls;
 	EIterator *it;
-
+	
 	controls = folder_browser_factory_get_control_list ();
 	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
 		BonoboControl *control;
 		GNOME_Evolution_ShellView shell_view_interface;
 		CORBA_Environment ev;
-
+		
 		control = BONOBO_CONTROL (e_iterator_get (it));
-
+		
 		shell_view_interface = gtk_object_get_data (GTK_OBJECT (control), "mail_threads_shell_view_interface");
-
+		
 		if (shell_view_interface == CORBA_OBJECT_NIL)
 			shell_view_interface = retrieve_shell_view_interface_from_control (control);
-
+		
 		CORBA_exception_init (&ev);
-
+		
 		if (shell_view_interface != CORBA_OBJECT_NIL) {
-
 			if (message != NULL)
 				GNOME_Evolution_ShellView_setMessage (shell_view_interface,
 								      message[0] ? message: "",
 								      busy,
 								      &ev);
 		}
-
+		
 		CORBA_exception_free (&ev);
-
+		
 		/* yeah we only set the first one.  Why?  Because it seems to leave
 		   random ones lying around otherwise.  Shrug. */
 		break;
@@ -2345,6 +2344,20 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
 }
 
+static void
+free_url (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	if (data)
+		g_byte_array_free (value, TRUE);
+}
+
+static void
+free_data_urls (gpointer urls)
+{
+	g_hash_table_foreach (urls, free_url, GINT_TO_POINTER (1));
+	g_hash_table_destroy (urls);
+}
 
 char *
 mail_display_add_url (MailDisplay *md, const char *kind, char *url, gpointer data)
@@ -2353,7 +2366,12 @@ mail_display_add_url (MailDisplay *md, const char *kind, char *url, gpointer dat
 	gpointer old_key, old_value;
 	
 	urls = g_datalist_get_data (md->data, kind);
-	g_return_val_if_fail (urls != NULL, NULL);
+	if (!urls) {
+		urls =  g_hash_table_new (g_str_hash, g_str_equal);
+		g_datalist_set_data_full (md->data, "data_urls", urls,
+					  free_data_urls);
+	}
+	
 	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
 		g_free (url);
 		url = old_key;

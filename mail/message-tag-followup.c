@@ -31,8 +31,11 @@
 
 #include <glade/glade.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-pixmap.h>
 
+#include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
 
 #include "message-tag-followup.h"
@@ -377,9 +380,12 @@ message_tag_followup_append_message (MessageTagFollowUp *editor,
 	
 	g_return_if_fail (IS_MESSAGE_TAG_FOLLOWUP (editor));
 	
-	text[0] = (char *) from;
-	text[1] = (char *) subject;
+	text[0] = e_utf8_to_gtk_string (GTK_WIDGET (editor->message_list), from);
+	text[1] = e_utf8_to_gtk_string (GTK_WIDGET (editor->message_list), subject);
 	text[2] = NULL;
 	
 	gtk_clist_append (editor->message_list, text);
+	
+	g_free (text[0]);
+	g_free (text[1]);
 }
