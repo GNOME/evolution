@@ -1,3 +1,8 @@
+2000-11-21  Radek Doulik  <rodo@helixcode.com>
+
+	* component/e-summary.c (e_summary_rebuild_page): use html_engine_is_selection_active
+	added some includes
+
 2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* component/e-summary-factory.c: (control_activate_cb),

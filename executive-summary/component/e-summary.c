@@ -29,7 +29,10 @@
 #include <bonobo.h>
 
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
+#include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlselection.h>
 #include <gal/util/e-util.h>
 
 #include "e-summary.h"
@@ -346,7 +349,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	/* If there is a selection, don't redraw the page so that the selection
 	   isn't cleared */
 	if (GTK_HTML (priv->html)->in_selection == TRUE ||
-	    GTK_HTML (priv->html)->engine->active_selection == TRUE)
+	    html_engine_is_selection_active (GTK_HTML (priv->html)->engine) == TRUE)
 		return TRUE;
 
 	gtk_layout_freeze (GTK_LAYOUT (priv->html));
