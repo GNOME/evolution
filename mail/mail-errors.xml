@@ -312,7 +312,11 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
  </error>
 
  <error id="gw-accountsetup-error" type="error">
- <primary>Could not connect to {0}. Groupwise account setup is incomplete. You may need to setup  the account again</primary>
+ <primary><span weight="bold" size="larger">Unable to connect to the GroupWise
+server.</span></primary>
+<secondary>
+Please check your account settings and try again.
+</secondary>
 </error>
 
 </error-list>
