@@ -44,6 +44,7 @@ typedef struct {
 
 	/* Signals */
 	void        (*row_selection)  (ETableGroup *etg, int row, gboolean selected);
+	void        (*cursor_change)  (ETableGroup *etg, int row);
 	void        (*double_click)   (ETableGroup *etg, int row);
 
 	/* Virtual functions. */
@@ -51,8 +52,11 @@ typedef struct {
 	void (*add_all) (ETableGroup *etg);
 	gboolean (*remove) (ETableGroup *etg, gint row);
 	gint (*get_count) (ETableGroup *etg);
+	gint (*row_count) (ETableGroup *etg);
 	void (*increment) (ETableGroup *etg, gint position, gint amount);
 	void (*set_focus) (ETableGroup *etg, EFocus direction, gint view_col);
+	void (*select_row) (ETableGroup *etg, gint row);
+	void (*unfocus)   (ETableGroup *etg);
 	gboolean (*get_focus) (ETableGroup *etg);
 	gint (*get_focus_column) (ETableGroup *etg);
 	ETableCol *(*get_ecol) (ETableGroup *etg);
@@ -68,9 +72,13 @@ gint             e_table_group_get_count (ETableGroup      *etg);
 void             e_table_group_increment (ETableGroup      *etg,
 					  gint              position,
 					  gint              amount);
+gint             e_table_group_row_count (ETableGroup      *etg);
 void             e_table_group_set_focus (ETableGroup      *etg,
 					  EFocus            direction,
 					  gint              view_col);
+void             e_table_group_select_row (ETableGroup     *etg,
+					   gint             row);
+void             e_table_group_unfocus   (ETableGroup      *etg);
 gboolean         e_table_group_get_focus (ETableGroup      *etg);
 gint             e_table_group_get_focus_column (ETableGroup      *etg);
 ETableHeader    *e_table_group_get_header (ETableGroup     *etg);
@@ -92,6 +100,8 @@ void             e_table_group_construct (GnomeCanvasGroup *parent,
 void             e_table_group_row_selection (ETableGroup      *etg,
 					      gint              row,
 					      gboolean          selected);
+void             e_table_group_cursor_change (ETableGroup      *etg,
+					      gint              row);
 void             e_table_group_double_click  (ETableGroup      *etg,
 					      gint              row);
 

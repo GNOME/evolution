@@ -1,3 +1,13 @@
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c, e-table-group-container.h,
+	e-table-group-leaf.c, e-table-group-leaf.h, e-table-group.c,
+	e-table-group.h, e-table-item.c, e-table-item.h, e-table.c,
+	e-table.h, test-check.c, test-cols.c, test-table.c: Fixed a bunch
+	of selection bugs.  Removed "spreadsheet" argument (for now.)
+	Added "cursor_mode" argument.  Added "cursor_change" signal.
+	Temporarily removed "selection_mode" argument.
+
 2000-05-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-container.c: Fixed setting of arguments.

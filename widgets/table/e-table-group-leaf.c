@@ -32,7 +32,7 @@ enum {
 	ARG_FROZEN,
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
-	ARG_MODE_SPREADSHEET,
+	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 };
 
@@ -91,6 +91,13 @@ etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupL
 }
 
 static void
+etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+{
+	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
+		e_table_group_cursor_change (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
+}
+
+static void
 etgl_double_click (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
@@ -124,13 +131,15 @@ etgl_realize (GnomeCanvasItem *item)
 							 "ETableModel", etgl->subset,
 							 "drawgrid", etgl->draw_grid,
 							 "drawfocus", etgl->draw_focus,
-							 "spreadsheet", etgl->mode_spreadsheet,
+							 "cursor_mode", etgl->cursor_mode,
 							 "minimum_width", etgl->minimum_width,
 							 "length_threshold", etgl->length_threshold,
 							 NULL));
 	
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
 			    GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
+	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_change",
+			    GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
 			    GTK_SIGNAL_FUNC(etgl_double_click), etgl);
 	e_canvas_item_request_reflow(item);
@@ -164,6 +173,13 @@ etgl_increment (ETableGroup *etg, gint position, gint amount)
 	e_table_subset_variable_increment (etgl->subset, position, amount);
 }
 
+static int
+etgl_row_count (ETableGroup *etg)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	return e_table_model_row_count(E_TABLE_MODEL(etgl->subset));
+}
+
 static void
 etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
@@ -173,6 +189,20 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	} else {
 		e_table_item_focus (etgl->item, view_col, 0);
 	}
+}
+
+static void
+etgl_select_row (ETableGroup *etg, gint row)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_item_focus(etgl->item, 0, row);
+}
+
+static void
+etgl_unfocus (ETableGroup *etg)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_item_unfocus (etgl->item);
 }
 
 static gint
@@ -231,11 +261,11 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_MODE_SPREADSHEET:
-		etgl->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
+	case ARG_CURSOR_MODE:
+		etgl->cursor_mode = GTK_VALUE_INT (*arg);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
-					"spreadsheet", GTK_VALUE_BOOL (*arg),
+					"cursor_mode", GTK_VALUE_INT (*arg),
 					NULL);
 		}
 		break;
@@ -286,16 +316,19 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->add = etgl_add;
 	e_group_class->add_all = etgl_add_all;
 	e_group_class->remove = etgl_remove;
-	e_group_class->increment = etgl_increment;
-	e_group_class->set_focus = etgl_set_focus;
+	e_group_class->increment  = etgl_increment;
+	e_group_class->row_count  = etgl_row_count;
+	e_group_class->set_focus  = etgl_set_focus;
+	e_group_class->select_row = etgl_select_row;
+	e_group_class->unfocus    = etgl_unfocus;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
-	gtk_object_add_arg_type ("ETableGroupLeaf::spreadsheet", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETableGroupLeaf::cursor_mode", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETableGroupLeaf::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
@@ -323,7 +356,7 @@ etgl_init (GtkObject *object)
 	
 	etgl->draw_grid = 1;
 	etgl->draw_focus = 1;
-	etgl->mode_spreadsheet = 1;
+	etgl->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	etgl->length_threshold = -1;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);

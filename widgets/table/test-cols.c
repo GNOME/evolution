@@ -214,7 +214,10 @@ multi_cols_test (void)
 		"ETableModel", e_table_model,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
+		"cursor_mode", E_TABLE_CURSOR_SIMPLE,
+#if 0
 		"spreadsheet", TRUE,
+#endif
 		NULL);
 
 	e_canvas_item_move_absolute (item, 0, 30);
@@ -233,7 +236,10 @@ multi_cols_test (void)
 		"ETableModel", e_table_model,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
+#if 0
 		"spreadsheet", TRUE,
+#endif
+		"cursor_mode", E_TABLE_CURSOR_SIMPLE,
 		NULL);
 	e_canvas_item_move_absolute (item, 300, 30);
 }

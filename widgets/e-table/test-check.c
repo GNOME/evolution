@@ -194,7 +194,10 @@ check_test (void)
 		"ETableModel", e_table_model,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
+#if 0
 		"spreadsheet", TRUE,
+#endif
+		"cursor_mode", E_TABLE_CURSOR_SIMPLE,
 		NULL);
 	e_canvas_item_move_absolute (item, 0, 30);
 }

@@ -284,7 +284,9 @@ table_browser_test (void)
 		"ETableModel", e_table_model,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
+#if 0
 		"spreadsheet", TRUE,
+#endif
 		NULL);
 }
 

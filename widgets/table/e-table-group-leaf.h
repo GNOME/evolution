@@ -31,7 +31,7 @@ typedef struct {
 
 	guint draw_grid : 1;
 	guint draw_focus : 1;
-	guint mode_spreadsheet : 1;
+	ETableCursorMode cursor_mode;
 } ETableGroupLeaf;
 
 typedef struct {

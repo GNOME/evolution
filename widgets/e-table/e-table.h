@@ -9,6 +9,7 @@
 #include "e-table-header.h"
 #include "e-table-group.h"
 #include "e-table-sort-info.h"
+#include "e-table-item.h"
 
 BEGIN_GNOME_DECLS
 
@@ -51,13 +52,15 @@ typedef struct {
 	 */
 	guint draw_grid : 1;
 	guint draw_focus : 1;
-	guint spreadsheet : 1;
+
+	ETableCursorMode cursor_mode;
 } ETable;
 
 typedef struct {
 	GtkTableClass parent_class;
 
 	void        (*row_selection)      (ETable *et, int row, gboolean selected);
+	void        (*cursor_change)      (ETable *et, int row);
 	void        (*double_click)       (ETable *et, int row);
 } ETableClass;
 

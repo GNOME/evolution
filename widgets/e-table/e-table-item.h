@@ -12,6 +12,13 @@
 #define E_IS_TABLE_ITEM(o)       (GTK_CHECK_TYPE ((o), E_TABLE_ITEM_TYPE))
 #define E_IS_TABLE_ITEM_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_ITEM_TYPE))
 
+/* list selection modes */
+typedef enum
+{
+	E_TABLE_CURSOR_LINE,
+	E_TABLE_CURSOR_SIMPLE,
+} ETableCursorMode;
+
 typedef struct {
 	GnomeCanvasItem  parent;
 	ETableModel     *table_model;
@@ -40,12 +47,12 @@ typedef struct {
 
 	unsigned int     draw_grid:1;
 	unsigned int     draw_focus:1;
-	unsigned int     mode_spreadsheet:1;
 	unsigned int     renderers_can_change_size:1;
 	unsigned int     cell_views_realized:1;
 	
-	int              focused_col, focused_row;
-
+	guint needs_redraw : 1;
+	guint needs_compute_height : 1;
+	guint needs_compute_width : 1;
 	/*
 	 * Realized views, per column
 	 */
@@ -61,29 +68,35 @@ typedef struct {
 	 * the size
 	 */
 	int              length_threshold;
+	
+	gint             cursor_row;
+	gint             cursor_col;
+	ETableCursorMode cursor_mode;
 
+#if 0
 	GSList          *selection;
-	GtkSelectionMode selection_mode;
+	gint             selection_count;
 
+	GtkSelectionMode selection_mode;
+#endif
 	/*
 	 * During edition
 	 */
 	int              editing_col, editing_row;
 	void            *edit_ctx;
 
-	guint needs_redraw : 1;
-	guint needs_compute_height : 1;
-	guint needs_compute_width : 1;
 } ETableItem;
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	void        (*row_selection) (ETableItem *eti, int row, gboolean selected);
+	void        (*cursor_change) (ETableItem *eti, int row);
 	void        (*double_click)  (ETableItem *eti, int row);
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);
+
 
 /*
  * Focus
@@ -93,6 +106,7 @@ void       e_table_item_unfocus  (ETableItem *eti);
 
 gint       e_table_item_get_focused_column (ETableItem *eti);
 
+#if 0
 /*
  * Selection
  */
@@ -109,6 +123,7 @@ void             e_table_item_set_selection_mode (ETableItem *e_table_Item,
 						  GtkSelectionMode selection_mode);
 gboolean         e_table_item_is_row_selected    (ETableItem *e_table_Item,
 						  int row);
+#endif
 
 void             e_table_item_leave_edit         (ETableItem *eti);
 void             e_table_item_enter_edit         (ETableItem *eti, int col, int row);

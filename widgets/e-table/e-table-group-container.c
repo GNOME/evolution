@@ -36,7 +36,7 @@ enum {
 	ARG_FROZEN,
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
-	ARG_MODE_SPREADSHEET,
+	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 };
 
@@ -211,7 +211,8 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 						old_col = 0;
 					if (start_col == -1)
 						start_col = e_table_header_count (e_table_group_get_header (child)) - 1;
-
+					
+					e_table_group_unfocus(child);
 					if (direction == E_FOCUS_END)
 						list = list->prev;
 					else
@@ -229,6 +230,23 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 						return 0;
 					}
 				}
+			}
+			if (direction == E_FOCUS_END)
+				list = g_list_last(etgc->children);
+			else
+				list = etgc->children;
+			if (list) {
+				ETableGroupContainerChildNode *child_node;
+				ETableGroup                   *child;
+
+				child_node = (ETableGroupContainerChildNode *)list->data;
+				child = child_node->child;
+
+				if (start_col == -1)
+					start_col = e_table_header_count (e_table_group_get_header (child)) - 1;
+
+				e_table_group_set_focus (child, direction, start_col);
+				return 1;
 			}
 		}
 		return_val = FALSE;
@@ -292,6 +310,13 @@ child_row_selection (ETableGroup *etg, int row, gboolean selected,
 }
 
 static void
+child_cursor_change (ETableGroup *etg, int row,
+		    ETableGroupContainer *etgc)
+{
+	e_table_group_cursor_change (E_TABLE_GROUP (etgc), row);
+}
+
+static void
 child_double_click (ETableGroup *etg, int row,
 		    ETableGroupContainer *etgc)
 {
@@ -344,11 +369,13 @@ etgc_add (ETableGroup *etg, gint row)
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(child),
 			      "drawgrid", etgc->draw_grid,
 			      "drawfocus", etgc->draw_focus,
-			      "spreadsheet", etgc->mode_spreadsheet,
+			      "cursor_mode", etgc->cursor_mode,
 			      "length_threshold", etgc->length_threshold,
 			      NULL);
 	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
 			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
+	gtk_signal_connect (GTK_OBJECT (child), "cursor_change",
+			    GTK_SIGNAL_FUNC (child_cursor_change), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "double_click",
 			    GTK_SIGNAL_FUNC (child_double_click), etgc);
 	child_node->child = child;
@@ -401,6 +428,20 @@ etgc_remove (ETableGroup *etg, gint row)
 	return FALSE;
 }
 
+static int
+etgc_row_count (ETableGroup *etg)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	GList *list;
+	gint count = 0;
+	for (list = etgc->children; list; list = g_list_next(list)) {
+		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
+		gint this_count = e_table_group_row_count(group);
+		count += this_count;
+	}
+	return count;
+}
+
 static void
 etgc_increment (ETableGroup *etg, gint position, gint amount)
 {
@@ -410,6 +451,22 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 	for (list = etgc->children ; list; list = g_list_next (list))
 		e_table_group_increment (((ETableGroupContainerChildNode *)list->data)->child,
 					 position, amount);
+}
+
+static void
+etgc_select_row (ETableGroup *etg, gint row)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	GList *list;
+	for (list = etgc->children; list; list = g_list_next(list)) {
+		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
+		gint this_count = e_table_group_row_count(group);
+		if (row < this_count) {
+			e_table_group_select_row(group, row);
+			return;
+		}
+		row -= this_count;
+	}
 }
 
 static void
@@ -423,6 +480,16 @@ etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 		else
 			e_table_group_set_focus (((ETableGroupContainerChildNode *)etgc->children->data)->child,
 						 direction, view_col);
+	}
+}
+
+static void
+etgc_unfocus (ETableGroup *etg)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	GList *list;
+	for (list = etgc->children; list; list = g_list_next(list)) {
+		e_table_group_unfocus (((ETableGroupContainerChildNode *)list->data)->child);
 	}
 }
 
@@ -504,12 +571,12 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_MODE_SPREADSHEET:
-		etgc->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
+	case ARG_CURSOR_MODE:
+		etgc->cursor_mode = GTK_VALUE_INT (*arg);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"spreadsheet", GTK_VALUE_BOOL (*arg),
+					"cursor_mode", GTK_VALUE_INT (*arg),
 					NULL);
 		}
 		break;
@@ -562,16 +629,19 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->add = etgc_add;
 	e_group_class->add_all = etgc_add_all;
 	e_group_class->remove = etgc_remove;
-	e_group_class->increment = etgc_increment;
-	e_group_class->set_focus = etgc_set_focus;
+	e_group_class->increment  = etgc_increment;
+	e_group_class->row_count  = etgc_row_count;
+	e_group_class->set_focus  = etgc_set_focus;
+	e_group_class->select_row = etgc_select_row;
+	e_group_class->unfocus    = etgc_unfocus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableGroupContainer::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
-	gtk_object_add_arg_type ("ETableGroupContainer::spreadsheet", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETableGroupContainer::cursor_mode", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
@@ -676,7 +746,7 @@ etgc_init (GtkObject *object)
 
 	container->draw_grid = 1;
 	container->draw_focus = 1;
-	container->mode_spreadsheet = 1;
+	container->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	container->length_threshold = -1;
 }
 

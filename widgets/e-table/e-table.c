@@ -40,6 +40,7 @@ static GtkObjectClass *e_table_parent_class;
 
 enum {
 	ROW_SELECTION,
+	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	LAST_SIGNAL
 };
@@ -48,7 +49,7 @@ enum {
 	ARG_0,
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
-	ARG_MODE_SPREADSHEET,
+	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
 };
 
@@ -105,7 +106,7 @@ e_table_init (GtkObject *object)
 
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
-	e_table->spreadsheet = 1;
+	e_table->cursor_mode = E_TABLE_CURSOR_SIMPLE;
 	e_table->length_threshold = 200;
 	
 	e_table->need_rebuild = 0;
@@ -190,6 +191,14 @@ group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
 }
 
 static void
+group_cursor_change (ETableGroup *etg, int row, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [CURSOR_CHANGE],
+			 row);
+}
+
+static void
 group_double_click (ETableGroup *etg, int row, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
@@ -213,11 +222,13 @@ changed_idle (gpointer data)
 		gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
 				      "drawgrid", et->draw_grid,
 				      "drawfocus", et->draw_focus,
-				      "spreadsheet", et->spreadsheet,
+				      "cursor_mode", et->cursor_mode,
 				      "length_threshold", et->length_threshold,
 				      NULL);
 		gtk_signal_connect (GTK_OBJECT (et->group), "row_selection",
 				    GTK_SIGNAL_FUNC (group_row_selection), et);
+		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
+				    GTK_SIGNAL_FUNC (group_cursor_change), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
 				    GTK_SIGNAL_FUNC (group_double_click), et);
 		e_table_fill_table (et, et->model);
@@ -294,12 +305,14 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_table->group),
 			      "drawgrid", e_table->draw_grid,
 			      "drawfocus", e_table->draw_focus,
-			      "spreadsheet", e_table->spreadsheet,
+			      "cursor_mode", e_table->cursor_mode,
 			      "length_threshold", e_table->length_threshold,
 			      NULL);
 
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "row_selection",
 			    GTK_SIGNAL_FUNC(group_row_selection), e_table);
+	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_change",
+			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
 			    GTK_SIGNAL_FUNC(group_double_click), e_table);
 	
@@ -629,7 +642,7 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 void
 e_table_select_row (ETable *e_table, int row)
 {
-	
+	e_table_group_select_row(e_table->group, row);
 }
 
 static void
@@ -686,11 +699,11 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_MODE_SPREADSHEET:
-		etable->spreadsheet = GTK_VALUE_BOOL (*arg);
+	case ARG_CURSOR_MODE:
+		etable->cursor_mode = GTK_VALUE_INT (*arg);
 		if (etable->group) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etable->group),
-					"spreadsheet", GTK_VALUE_BOOL (*arg),
+					"cursor_mode", GTK_VALUE_INT (*arg),
 					NULL);
 		}
 		break;
@@ -708,6 +721,7 @@ e_table_class_init (GtkObjectClass *object_class)
 	object_class->get_arg = et_get_arg;
 	
 	klass->row_selection = NULL;
+	klass->cursor_change = NULL;
 	klass->double_click = NULL;
 
 	et_signals [ROW_SELECTION] =
@@ -717,6 +731,14 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	et_signals [CURSOR_CHANGE] =
+		gtk_signal_new ("cursor_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, cursor_change),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	et_signals [DOUBLE_CLICK] =
 		gtk_signal_new ("double_click",
@@ -732,8 +754,8 @@ e_table_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETable::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_FOCUS);
-	gtk_object_add_arg_type ("ETable::spreadsheet", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+	gtk_object_add_arg_type ("ETable::cursor_mode", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 	

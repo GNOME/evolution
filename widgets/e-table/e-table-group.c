@@ -29,6 +29,7 @@ static GnomeCanvasGroupClass *etg_parent_class;
 
 enum {
 	ROW_SELECTION,
+	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	LAST_SIGNAL
 };
@@ -132,6 +133,18 @@ e_table_group_get_count (ETableGroup *etg)
 		return 0;
 }
 
+gint
+e_table_group_row_count (ETableGroup *etg)
+{
+	g_return_val_if_fail (etg != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), 0);
+
+	if (ETG_CLASS (etg)->row_count)
+		return ETG_CLASS (etg)->row_count (etg);
+	else
+		return 0;
+}
+
 void
 e_table_group_increment (ETableGroup *etg,
 			 gint position,
@@ -154,6 +167,27 @@ e_table_group_set_focus (ETableGroup *etg,
 
 	if (ETG_CLASS (etg)->set_focus)
 		ETG_CLASS (etg)->set_focus (etg, direction, row);
+}
+
+void
+e_table_group_select_row (ETableGroup *etg,
+			  gint row)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->select_row)
+		ETG_CLASS (etg)->select_row (etg, row);
+}
+
+void
+e_table_group_unfocus (ETableGroup *etg)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->unfocus)
+		ETG_CLASS (etg)->unfocus (etg);
 }
 
 gboolean
@@ -201,6 +235,17 @@ e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean sele
 	gtk_signal_emit (GTK_OBJECT (e_table_group),
 			 etg_signals [ROW_SELECTION],
 			 row, selected);
+}
+
+void
+e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
+{
+	g_return_if_fail (e_table_group != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_group),
+			 etg_signals [CURSOR_CHANGE],
+			 row);
 }
 
 void
@@ -263,14 +308,18 @@ etg_class_init (GtkObjectClass *object_class)
 	item_class->event = etg_event;
 
 	klass->row_selection = NULL;
+	klass->cursor_change = NULL;
 	klass->double_click = NULL;
 	
 	klass->add = NULL;
 	klass->add_all = NULL;
 	klass->remove = NULL;
 	klass->get_count = NULL;
+	klass->row_count = NULL;
 	klass->increment = NULL;
 	klass->set_focus = NULL;
+	klass->select_row = NULL;
+	klass->unfocus = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 
@@ -284,6 +333,14 @@ etg_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
+	etg_signals [CURSOR_CHANGE] =
+		gtk_signal_new ("cursor_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableGroupClass, cursor_change),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
 	etg_signals [DOUBLE_CLICK] =
 		gtk_signal_new ("double_click",
 				GTK_RUN_LAST,
@@ -296,4 +353,3 @@ etg_class_init (GtkObjectClass *object_class)
 }
 
 E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE);
-

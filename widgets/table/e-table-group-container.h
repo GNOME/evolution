@@ -6,6 +6,7 @@
 #include "e-table-model.h"
 #include "e-table-header.h"
 #include "e-table-group.h"
+#include "e-table-item.h"
 
 #define E_TABLE_GROUP_CONTAINER_TYPE        (e_table_group_container_get_type ())
 #define E_TABLE_GROUP_CONTAINER(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainer))
@@ -42,7 +43,7 @@ typedef struct {
 
 	guint draw_grid : 1;
 	guint draw_focus : 1;
-	guint mode_spreadsheet : 1;
+	ETableCursorMode cursor_mode;
 
 	/*
 	 * State: the ETableGroup is open or closed
