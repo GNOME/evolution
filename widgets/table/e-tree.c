@@ -167,6 +167,8 @@ struct ETreePriv {
 	ETreePath drag_path;
 	int drag_col;
 	ETreeDragSourceSite *site;
+
+	GList *expanded_list;
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -258,6 +260,7 @@ et_destroy (GtkObject *object)
 
 	scroll_off (et);
 	hover_off (et);
+	e_free_string_list (et->priv->expanded_list);
 
 	et_disconnect_from_etta (et);
 
@@ -340,6 +343,8 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drag_row                           = -1;
 	e_tree->priv->drag_path                          = NULL;
 	e_tree->priv->drag_col                           = -1;
+
+	e_tree->priv->expanded_list                      = NULL;
 
 	e_tree->priv->site                               = NULL;
 	e_tree->priv->do_drag                            = FALSE;
@@ -2355,7 +2360,11 @@ hover_timeout (gpointer data)
 
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	if (path && e_tree_model_node_is_expandable (E_TREE_MODEL (et->priv->sorted), path)) {
-		e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+		if (!e_tree_table_adapter_node_is_expanded (et->priv->etta, path)) {
+			if (e_tree_model_has_save_id (E_TREE_MODEL (et->priv->sorted)) && e_tree_model_has_get_node_by_id (E_TREE_MODEL (et->priv->sorted)))
+				et->priv->expanded_list = g_list_prepend (et->priv->expanded_list, e_tree_model_get_save_id (E_TREE_MODEL (et->priv->sorted), path));
+			e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+		}
 	}
 
 	return TRUE;
@@ -2381,6 +2390,41 @@ hover_off (ETree *et)
 }
 
 static void
+collapse_drag (ETree *et, ETreePath drop)
+{
+	GList *list;
+
+	/* We only want to leave open parents of the node dropped in.  Not the node itself. */
+	if (drop) {
+		drop = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), drop);
+	}
+
+	for (list = et->priv->expanded_list; list; list = list->next) {
+		char *save_id = list->data;
+		ETreePath path;
+
+		path = e_tree_model_get_node_by_id (E_TREE_MODEL (et->priv->sorted), save_id);
+		if (path) {
+			ETreePath search;
+			gboolean found = FALSE;
+
+			for (search = drop; search; search = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), search)) {
+				if (path == search) {
+					found = TRUE;
+					break;
+				}
+			}
+
+			if (!found)
+				e_tree_table_adapter_node_set_expanded (et->priv->etta, path, FALSE);
+		}
+		g_free (save_id);
+	}
+	g_list_free (et->priv->expanded_list);
+	et->priv->expanded_list = NULL;
+}
+
+static void
 context_destroyed (gpointer data)
 {
 	ETree *et = data;
@@ -2389,6 +2433,7 @@ context_destroyed (gpointer data)
 		et->priv->last_drop_y       = 0;
 		et->priv->last_drop_time    = 0;
 		et->priv->last_drop_context = NULL;
+		collapse_drag (et, NULL);
 		scroll_off (et);
 		hover_off (et);
 	}
@@ -2481,6 +2526,7 @@ et_drag_drop(GtkWidget *widget,
 	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
+	ETreePath sorted_path;
 	y -= widget->allocation.y;
 	x -= widget->allocation.x;
 	e_tree_get_cell_at(et,
@@ -2488,8 +2534,8 @@ et_drag_drop(GtkWidget *widget,
 			   y,
 			   &row,
 			   &col);
-	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+	sorted_path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
+	path = e_tree_sorted_view_to_model_path(et->priv->sorted, sorted_path);
 
 	if (row != et->priv->drop_row && col != et->priv->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
@@ -2513,6 +2559,7 @@ et_drag_drop(GtkWidget *widget,
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
 	et->priv->drop_col = col;
+
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [TREE_DRAG_DROP],
 			 et->priv->drop_row,
@@ -2523,9 +2570,12 @@ et_drag_drop(GtkWidget *widget,
 			 y,
 			 time,
 			 &ret_val);
+
 	et->priv->drop_row = -1;
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;
+
+	collapse_drag (et, sorted_path); 
 
 	scroll_off (et);
 	return ret_val;
