@@ -82,6 +82,8 @@ struct _PASBackendLDAPPrivate {
 	gboolean evolutionPersonSupported;
 	gboolean evolutionPersonChecked;
 
+	gboolean writable;
+
 	/* whether or not there's a request in process on our LDAP* */
 	LDAPOp *current_op;
 	GList *pending_ops;
@@ -2037,8 +2039,8 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 	pas_book_respond_authenticate_user (book,
 				    ldap_error_to_response (ldap_error));
 
-	if (ldap_error == LDAP_SUCCESS)
-		pas_book_report_writable (book, TRUE);
+	bl->priv->writable = (ldap_error == LDAP_SUCCESS);
+	pas_book_report_writable (book, bl->priv->writable);
 
 	if (!bl->priv->evolutionPersonChecked)
 		check_schema_support (bl);
@@ -2237,6 +2239,8 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	}
+
+	pas_book_report_writable (book, bl->priv->writable);
 
 	return TRUE;
 }
