@@ -776,7 +776,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		
 		if (remove)
 			camel_folder_set_message_flags (folder, uids->pdata[i],
-							CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+							CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
@@ -880,7 +880,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	
 	/* *Now* we can set the DELETED flag... */
 	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED | CAMEL_MESSAGE_SEEN;
 	
 	/* Logic: if !Moved and there exists a default folder... */
 	if (!(p->copied && p->deleted) && p->defaultfolder) {

@@ -448,7 +448,7 @@ vee_get_message(CamelFolder *folder, const char *uid, CamelException *ex)
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "No such message %s in %s", uid,
+				     _("No such message %s in %s"), uid,
 				     folder->name);
 	}
 

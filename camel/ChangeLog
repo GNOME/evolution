@@ -1,3 +1,7 @@
+2001-04-05  Not Zed  <NotZed@Ximian.com>
+
+	* merge from evolution-0-10-branch to evolution-0-10-merge-0
+
 2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added tests/ back in
@@ -299,6 +303,101 @@
 	* providers/smtp/camel-smtp-transport.c: #ifdef HAVE_CONFIG_H, mark
 	strings for translations.
 	
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* camel-url.c (camel_url_to_string): change "gboolean show_passwd"
+	to "guint32 flags".
+
+	* tests/misc/url.c (main): Update calls to camel_url_to_string
+
+	* providers/imap/camel-imap-store.c (construct): Call
+	camel_url_to_string with flags to hide password, authtype, and
+	params to create the base_url.
+	(etc): Update for the fact that the base_url no longer has the "/"
+	at the end.
+
+	* camel-service.c (construct): Update calls to camel_url_to_string
+	(pass CAMEL_URL_HIDE_PASSWORD)
+
+2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_text): Ignore whitespace
+	between encoded words (there were a few cases where it didn't
+	before).
+	(header_encode_string): Preserve whitespace between words that are
+	to be encoded by encoding them too.
+	(header_encode_phrase): Same here but with phrases.
+
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* camel-filter-driver.c: Added #include <config.h>. Marked
+	a bunch of strings for translation.
+	* camel-folder-search.c: Added #include <config.h>.
+	* camel-folder-summary.c: Same here.
+	* camel-movemail.c: Marked strings for translation.
+	* camel-provider.c: Same here.
+	* camel-search-private.c: #include <config.h>
+	* camel-vee-folder.c: Mark string for translation.
+	* providers/local/camel-mbox-summary.c: #include <config.h>
+	
+2001-04-03  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
+	change any flags or expunge, send a NOOP to give the server a
+	chance to send EXISTS, etc, messages.
+	(imap_get_message): If the server_level < IMAP4rev1, always fetch
+	messages all-at-once, since they don't support the [#.MIME]
+	syntax.
+
+2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Don't
+	blindly append "/INBOX", construct a CamelURL and set the path
+	that way.
+	(parse_list_response_as_folder_info): Don't blindly append
+	"/<foldername>", construct a CamelURL and set the path that way
+	instead.
+	(get_folders_offline): And again here.
+
+2001-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (struct _status_stack): change stamp to
+	unsigned to avoid overflow.
+	(camel_operation_end):
+	(camel_operation_progress_count):
+	(camel_operation_progress): Double the delay before transient
+	events start showing their own progress.
+
+2001-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message): Change
+	the pop download into a transient event.
+
+	* camel-operation.c (stamp): Get a timestamp that changes 4x a
+	second (or rather, arbitrarily more often than 1/second).
+	(camel_operation_progress): Use stamp() for time updates.
+	(camel_operation_progress_count): "
+	(camel_operation_start): Store the status as a struct status_stack
+	item.
+	(camel_operation_start_transient): New function to start a
+	transient event, which is only reported if it runs for too
+	long/and is reset afterwards.
+	(camel_operation_progress):
+	(camel_operation_progress_count): Fix for status_stack changes,
+	and account for transient updates. 
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): When
+	we remove things (set deleted), always set seen too, to mirror
+	interface behaviour when you delete.
+	(camel_filter_driver_filter_message): And same here too.
+
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server,
+	query_auth_types, pop3_connect): Move things around here to make
+	this all work right again (so you don't get prompted for a
+	password when checking the supported authtypes.)
+
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* camel-url.c (camel_url_to_string): change "gboolean show_passwd"

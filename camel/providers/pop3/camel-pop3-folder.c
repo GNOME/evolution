@@ -286,7 +286,7 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 	}
 
-	camel_operation_start(NULL, _("Retrieving POP message %d"), num);
+	camel_operation_start_transient(NULL, _("Retrieving POP message %d"), num);
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, ex, "RETR %d", num);
