@@ -1,3 +1,11 @@
+2000-10-06  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-grouplist.c: new file.
+
+	* providers/nntp/camel-nntp-grouplist.h: new file.
+
+	* providers/nntp/camel-nntp-types.h: new file.
+
 2000-10-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.c (quoted_encode): Fix so that we don't encode
