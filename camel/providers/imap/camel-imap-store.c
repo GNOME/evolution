@@ -106,12 +106,20 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_remote_store_class->keepalive = imap_keepalive;
 }
 
+static gboolean
+free_sub (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	return TRUE;
+}
+
 static void
 camel_imap_store_finalize (CamelObject *object)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
 
-	g_hash_table_foreach (imap_store->subscribed_folders, (GHFunc)g_free, NULL);
+	g_hash_table_foreach_remove (imap_store->subscribed_folders,
+				     free_sub, NULL);
 	g_hash_table_destroy (imap_store->subscribed_folders);
 }
 
@@ -648,8 +656,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		return NULL;
 
 	if (subscribed_only) {
-		g_hash_table_foreach (imap_store->subscribed_folders,
-				      (GHFunc)g_free, NULL);
+		g_hash_table_foreach_remove (imap_store->subscribed_folders,
+					     free_sub, NULL);
 	}
 
 	/* Turn responses into CamelFolderInfo and remove any

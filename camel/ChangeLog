@@ -1,5 +1,8 @@
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-store.c (get_folder_info): Remove old
+	subbed folders from hash table after freeing them.
+
 	* providers/imap/camel-imap-folder.c (imap_get_full_name): Deal
 	correctly with namespace == ""
 
