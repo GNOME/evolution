@@ -114,6 +114,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
+	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(BONOBO_HTML_GNOME_LIBS)
 
