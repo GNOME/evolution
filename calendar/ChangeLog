@@ -3,6 +3,7 @@
 	* cal-client/cal-client.c (cal_client_get_object): Fixed inline
 	docs.
 	(cal_client_new): Ditto.
+	(cal_client_get_n_objects): Added inline docs.
 
 2000-07-14  Federico Mena Quintero  <federico@helixcode.com>
 

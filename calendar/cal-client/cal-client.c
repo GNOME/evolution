@@ -550,6 +550,16 @@ cal_client_create_calendar (CalClient *client, const char *str_uri)
 	return load_or_create (client, str_uri, FALSE);
 }
 
+/**
+ * cal_client_get_n_objects:
+ * @client: A calendar client.
+ * @type: Type of objects that will be counted.
+ * 
+ * Counts the number of calendar components of the specified @type.  This can be
+ * used to count how many events, to-dos, or journals there are, for example.
+ * 
+ * Return value: Number of components.
+ **/
 int
 cal_client_get_n_objects (CalClient *client, CalObjType type)
 {
