@@ -49,7 +49,7 @@ rule_match_recipients(RuleContext *context, FilterRule *rule, CamelInternetAddre
 		element = filter_part_find_element(part, "recipient");
 		filter_input_set_value((FilterInput *)element, addr);
 
-		namestr = g_strdup_printf("Mail to %s", real?real:addr);
+		namestr = g_strdup_printf("Mail to %s", real&&real[0]?real:addr);
 		filter_rule_set_name(rule, namestr);
 		g_free(namestr);
 	}
