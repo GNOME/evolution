@@ -61,6 +61,7 @@ typedef struct {
 	ECellDateEditValue *dtend;
 	ECellDateEditValue *due;
 	ECellDateEditValue *completed;
+	gchar *color;
 } ECalModelComponent;
 
 typedef struct {
