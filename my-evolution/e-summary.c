@@ -95,6 +95,8 @@ struct _ESummaryPrivate {
 
 	GList *connections;
 
+	guint pending_reload_tag;
+
 	gpointer alarm;
 
 	gboolean frozen;
@@ -128,6 +130,11 @@ destroy (GtkObject *object)
 		return;
 	}
 
+	if (priv->pending_reload_tag) {
+		gtk_timeout_remove (priv->pending_reload_tag);
+		priv->pending_reload_tag = 0;
+	}
+		
 	if (summary->mail) {
 		e_summary_mail_free (summary);
 	}
@@ -471,6 +478,7 @@ e_summary_init (ESummary *summary)
 
 	priv->frozen = FALSE;
 	priv->redraw_pending = FALSE;
+	priv->pending_reload_tag = 0;
 
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->html_scroller),
@@ -743,12 +751,10 @@ e_summary_reconfigure (ESummary *summary)
 	}
 }
 
-void
-e_summary_reload (BonoboUIComponent *component,
-		  gpointer userdata,
-		  const char *cname)
+static gint
+e_summary_reload_timeout (gpointer closure)
 {
-	ESummary *summary = userdata;
+	ESummary *summary = closure;
 
 	if (summary->rdf != NULL) {
 		e_summary_rdf_update (summary);
@@ -757,6 +763,38 @@ e_summary_reload (BonoboUIComponent *component,
 	if (summary->weather != NULL) {
 		e_summary_weather_update (summary);
 	}
+
+	summary->priv->pending_reload_tag = 0;
+
+	return FALSE;
+}
+
+void
+e_summary_reload (BonoboUIComponent *component,
+		  gpointer userdata,
+		  const char *cname)
+{
+	ESummary *summary = userdata;
+
+	/*
+	  This is an evil hack to work around a bug in gnome-vfs:
+	  gnome-vfs seems to not properly lock partially-constructed
+	  objects, so if you gnome_vfs_async_open and then immediately
+	  gnome_vfs_async_cancel, it is possible to start to destroy
+	  an object before it is totally constructed.  Hilarity ensures.
+
+	  This is an evil and stupid hack, but it slows down our reload
+	  requests enough the gnome-vfs should be able to keep up.  And
+	  given that these are not instantaneous operations to begin 
+	  with, the users should be none the wiser. -JT
+	*/
+
+	if (summary->priv->pending_reload_tag) {
+		gtk_timeout_remove (summary->priv->pending_reload_tag);
+	}
+
+	summary->priv->pending_reload_tag =
+		gtk_timeout_add (80, e_summary_reload_timeout, summary);
 }
 
 int 
