@@ -119,6 +119,9 @@ create_ldap_folder (EvolutionStorage *storage,
 	if (strcmp (type, "contacts"))
 		return GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
 
+	if (strcmp (parent_physical_uri, "")) /* ldap servers can't have subfolders */
+		return GNOME_Evolution_Storage_INVALID_URI;
+
 	addressbook_create_new_source (path + 1, NULL);
 
 	return GNOME_Evolution_Storage_OK;
