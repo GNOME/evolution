@@ -1,5 +1,8 @@
 2004-02-20  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (mail_vfolder_add_uri): fix for vfolder-rule api
+	changes.
+
 	* mail-folder-cache.c (unset_folder_info, setup_folder)
 	(rename_folders): switch the sense of the no select checks.  TEST!
 

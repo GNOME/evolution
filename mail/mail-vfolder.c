@@ -427,9 +427,9 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 		/* dont auto-add any sent/drafts folders etc, they must be explictly listed as a source */
 		if (rule->source
 		    && !is_ignore
-		    && ((!strcmp(rule->source, "local") && !remote)
-			|| (!strcmp(rule->source, "remote_active") && remote)
-			|| (!strcmp(rule->source, "local_remote_active"))))
+		    && ((((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL && !remote)
+			|| (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
+			|| (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 		
 		/* we check using the store uri_cmp since its more accurate */
@@ -660,9 +660,11 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	if (rule->source) {
 		LOCK();
 		for (i=0;i<2;i++) {
-			if (i==0 && (!strcmp(rule->source, "local") || !strcmp(rule->source, "local_remote_active")))
+			if (i==0 && (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL
+				     || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE))
 				l = source_folders_local;
-			else if (i==1 && (!strcmp(rule->source, "remote_active") || !strcmp(rule->source, "local_remote_active")))
+			else if (i==1 && (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE
+				     || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE))
 				l = source_folders_remote;
 			else
 				l = NULL;
