@@ -14,6 +14,9 @@
 #include <lber.h>
 #include <gtk/gtksignal.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+
 #ifdef DEBUG
 #define LDAP_DEBUG
 #define LDAP_DEBUG_ADD
@@ -245,7 +248,6 @@ view_destroy(GtkObject *object, gpointer data)
 				   ldap connection.  remove the idle
 				   handler and anbandon the msg id */
 				g_source_remove(view->search_idle);
-				pas_book_view_notify_status_message (view->book_view, "Abandoning pending search.");
 				if (view->search_msgid != -1)
 					ldap_abandon (bl->priv->ldap, view->search_msgid);
 
@@ -462,7 +464,7 @@ ldap_op_process_current (PASBackend *backend)
 
 	if (!bl->priv->connected) {
 		if (op->view)
-			pas_book_view_notify_status_message (op->view, "Connecting to LDAP server...");
+			pas_book_view_notify_status_message (op->view, _("Connecting to LDAP server..."));
 		pas_backend_ldap_connect(bl);
 	}
 
@@ -472,8 +474,8 @@ ldap_op_process_current (PASBackend *backend)
 	}
 	else {
 		if (op->view) {
+			pas_book_view_notify_status_message (op->view, _("Unable to connect to LDAP server."));
 			pas_book_view_notify_complete (op->view);
-			pas_book_view_notify_status_message (op->view, "Unable to connect to LDAP server.");
 		}
 
 		ldap_op_finished (op);
@@ -488,7 +490,7 @@ ldap_op_process (LDAPOp *op)
 	if (bl->priv->current_op) {
 		/* operation in progress.  queue this op for later and return. */
 		if (op->view)
-			pas_book_view_notify_status_message (op->view, "Waiting for connection to ldap server...");
+			pas_book_view_notify_status_message (op->view, _("Waiting for connection to LDAP server..."));
 		bl->priv->pending_ops = g_list_append (bl->priv->pending_ops, op);
 	}
 	else {
@@ -857,13 +859,10 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	ldap_mods = (LDAPMod**)mod_array->pdata;
 
 	if (op->view)
-		pas_book_view_notify_status_message (op->view, "Adding card to LDAP server...");
+		pas_book_view_notify_status_message (op->view, _("Adding card to LDAP server..."));
 
 	/* actually perform the ldap add */
 	ldap_error = ldap_add_s (ldap, dn, ldap_mods);
-
-	if (op->view)
-		pas_book_view_notify_status_message (op->view, "");
 
 	if (ldap_error == LDAP_SUCCESS) {
 		/* the card was created, let's let the views know about it */
@@ -889,6 +888,9 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	else {
 		ldap_perror (ldap, "ldap_add_s");
 	}
+
+	if (op->view)
+		pas_book_view_notify_complete (op->view);
 
 	/* and clean up */
 	free_mods (mod_array);
@@ -953,6 +955,9 @@ remove_card_handler (PASBackend *backend, LDAPOp *op)
 	int ldap_error;
 	ECardSimple *simple;
 
+	if (op->view)
+		pas_book_view_notify_status_message (op->view, _("Removing card from LDAP server..."));
+
 	simple = search_for_dn (bl, remove_op->id);
 
 	if (simple) {
@@ -990,6 +995,9 @@ remove_card_handler (PASBackend *backend, LDAPOp *op)
 
 	pas_book_respond_remove (remove_op->op.book,
 				 response);
+
+	if (op->view)
+		pas_book_view_notify_complete (op->view);
 
 	/* we're synchronous */
 	return TRUE;
@@ -1052,6 +1060,9 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 	ldap = bl->priv->ldap;
 
+	if (op->view)
+		pas_book_view_notify_status_message (op->view, _("Modifying card from LDAP server..."));
+
 	current_card = search_for_dn (bl, id);
 
 	if (current_card) {
@@ -1113,6 +1124,9 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 	response = ldap_error_to_response (ldap_error);
 	pas_book_respond_modify (modify_op->op.book,
 				 response);
+
+	if (op->view)
+		pas_book_view_notify_complete (op->view);
 
 	/* we're synchronous */
 	return TRUE;
@@ -1975,12 +1989,12 @@ poll_ldap (LDAPSearchOp *op)
 	GList   *cards = NULL;
 	static int received = 0;
 
-	pas_book_view_notify_status_message (view->book_view, "Receiving LDAP search results...");
+	pas_book_view_notify_status_message (view->book_view, _("Receiving LDAP search results..."));
 
 	rc = ldap_result (ldap, view->search_msgid, 0, NULL, &res);
 	
 	if (rc == -1 && received == 0) {
-		pas_book_view_notify_status_message (view->book_view, "Restarting search.");
+		pas_book_view_notify_status_message (view->book_view, _("Restarting search."));
 		/* connection went down and we never got any. */
 		bl->priv->connected = FALSE;
 
@@ -1994,7 +2008,6 @@ poll_ldap (LDAPSearchOp *op)
 		pas_book_view_notify_complete (view->book_view);
 		ldap_op_finished ((LDAPOp*)op);
 		received = 0;
-		pas_book_view_notify_status_message (view->book_view, "Search complete.");
 		return FALSE;
 	}
 
@@ -2031,7 +2044,7 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 	LDAPSearchOp *search_op = (LDAPSearchOp*) op;
 
 	if (op->view)
-		pas_book_view_notify_status_message (op->view, "Searching...");
+		pas_book_view_notify_status_message (op->view, _("Searching..."));
 
 	/* it might not be NULL if we've been restarted */
 	if (search_op->ldap_query == NULL)

@@ -15,6 +15,9 @@
 #include <time.h>
 #include <db.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+
 #include <e-util/e-db3-utils.h>
 
 #if DB_VERSION_MAJOR != 3 || \
@@ -251,9 +254,9 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		search_needed = FALSE;
 
 	if (search_needed)
-		pas_book_view_notify_status_message (view->book_view, "Searching...");
+		pas_book_view_notify_status_message (view->book_view, _("Searching..."));
 	else
-		pas_book_view_notify_status_message (view->book_view, "Loading...");
+		pas_book_view_notify_status_message (view->book_view, _("Loading..."));
 
 	if (view->card_sexp)
 		gtk_object_unref (GTK_OBJECT(view->card_sexp));
@@ -262,8 +265,8 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	
 	if (!view->card_sexp) {
 		/* need a different error message here. */
+		pas_book_view_notify_status_message (view->book_view, _("Error in search expression."));
 		pas_book_view_notify_complete (view->book_view);
-		pas_book_view_notify_status_message (view->book_view, "Error in search expression.");
 		return;
 	}
 
@@ -323,7 +326,6 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		pas_book_view_notify_add (view->book_view, cards);
 
 	pas_book_view_notify_complete (view->book_view);
-	pas_book_view_notify_status_message (view->book_view, "Search complete");
 
 	/*
 	** It's fine to do this now since the data has been handed off.

@@ -224,6 +224,7 @@ sequence_complete (EBookView *book_view,
 		   EAddressbookModel *model)
 {
 	model->search_in_progress = FALSE;
+	status_message (book_view, NULL, model);
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_addressbook_model_signals [STOP_STATE_CHANGED]);
 }

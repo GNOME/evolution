@@ -20,7 +20,9 @@ INCLUDES =							\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\"
+
 
 bin_PROGRAMS =	\
 	evolution-addressbook

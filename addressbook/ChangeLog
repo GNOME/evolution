@@ -1,3 +1,34 @@
+2001-09-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/Makefile.am (INCLUDES): add -DEVOLUTION_IMAGESDIR.
+
+	* gui/widgets/e-addressbook-view.c (card_deleted_cb): remove
+	status messages from here.
+	(e_addressbook_view_delete_selection): same.
+
+	* gui/widgets/e-addressbook-model.c (sequence_complete): emit a
+	NULL status message along with the stop_state_changed.  The null
+	status message will clear the status bar for this view.
+
+	* gui/component/addressbook.c (set_status_message): use the
+	EvolutionActivityClient stuff.
+
+	* backend/pas/pas-backend-ldap.c (view_destroy): remove status
+	message for abandoning a search.
+	(ldap_op_process_current): wrap status messages in _().
+	(ldap_op_process): same.
+	(create_card_handler): same, and remove the notify_status for ""
+	and add a notify_complete call after the card is added.
+	(remove_card_handler): same.
+	(modify_card_handler): same.
+	(poll_ldap): wrap status messages with _(), and remove the "Search
+	Complete" message.
+	(ldap_search_handler): wrap status message.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): use
+	_() on status messages, and make sure the last notify_* called is
+	notify_complete.
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #958, ShellComponents should not be created by factories, for

@@ -28,10 +28,12 @@
 #include "select-names/e-select-names-manager.h"
 
 #include "evolution-shell-component-utils.h"
+#include "evolution-activity-client.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "addressbook-config.h"
 #include "addressbook.h"
+#include "addressbook-component.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/e-addressbook-util.h"
@@ -40,6 +42,10 @@
 #include <ebook/e-book.h>
 #include <widgets/misc/e-search-bar.h>
 #include <widgets/misc/e-filter-bar.h>
+
+/* This is used for the addressbook status bar */
+#define EVOLUTION_CONTACTS_PROGRESS_IMAGE "evolution-contacts-mini.png"
+static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 #define d(x)
 
@@ -51,6 +57,7 @@ typedef struct {
 	EAddressbookView *view;
 	ESearchBar *search;
 	GtkWidget *vbox;
+	EvolutionActivityClient *activity;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
 	char *uri;
@@ -779,27 +786,29 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 static void
 set_status_message (EAddressbookView *eav, const char *message, AddressbookView *view)
 {
-	CORBA_Environment ev;
-	GNOME_Evolution_ShellView shell_view_interface;
 
-	CORBA_exception_init (&ev);
-
-	shell_view_interface = retrieve_shell_view_interface_from_control (view->control);
-	if (!shell_view_interface) {
-		CORBA_exception_free (&ev);
-		return;
+	if (!message || !*message) {
+		if (view->activity) {
+			gtk_object_unref (GTK_OBJECT (view->activity));
+			view->activity = NULL;
+		}
 	}
+	else if (!view->activity) {
+		int display;
+		char *clientid = g_strdup_printf ("%p", view);
 
-	if (message == NULL || message[0] == 0) {
-		GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
+		if (progress_icon[0] == NULL)
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE);
+
+		view->activity = evolution_activity_client_new (addressbook_component_get_shell_client(), clientid,
+								progress_icon, message, TRUE, &display);
+
+		g_free (clientid);
 	}
 	else {
-		GNOME_Evolution_ShellView_setMessage (shell_view_interface,
-						      message,
-						      e_addressbook_view_can_stop (view->view), &ev);
+		evolution_activity_client_update (view->activity, message, -1.0);
 	}
 
-	CORBA_exception_free (&ev);
 }
 
 static void

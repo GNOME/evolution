@@ -796,8 +796,6 @@ table_drag_data_get (ETable             *table,
 {
 	EAddressbookView *view = user_data;
 
-	printf ("table_drag_data_get (row %d, col %d)\n", row, col);
-
 	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object))
 		return;
 
@@ -1246,10 +1244,6 @@ e_addressbook_view_print(EAddressbookView *view)
 static void
 card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 {
-	EAddressbookView *view = user_data;
-
-	emit_status_message (view, _("Done."));
-
 	if (status != E_BOOK_STATUS_SUCCESS) {
 		e_addressbook_error_dialog (_("Error removing card"), status);
 	}
@@ -1279,8 +1273,6 @@ e_addressbook_view_delete_selection(EAddressbookView *view)
 	ESelectionModel *model = get_selection_model (view);
 
 	g_return_if_fail (model);
-
-	emit_status_message (view, _("Removing cards..."));
 
 	e_selection_model_foreach (model,
 				   do_remove,
