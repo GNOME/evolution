@@ -1,4 +1,22 @@
+2003-06-05  Not Zed  <NotZed@Ximian.com>
+
+	** For #42691.
+
+	* gui/component/select-names/Makefile.am (%.server.in): implicit
+	rule for .in file.
+	(BUILT_SOURCES): added server_DATA.
+
+	* gui/component/Makefile.am (%.server.in): use implicit rule for
+	.in file.
+	(BUILT_SOURCES): added, just server_DATA.
+	(CLEANFILES): added
+
+	* backend/ebook/Makefile.am (BUILT_SOURCES): add server_DATA.
+
 2003-06-04  Rodrigo Moya <rodrigo@ximian.com>
 
-	* backend/ebook/ebook.c (e_book_do_response_open): adapted to
-	changes in EComponentListener API.
+ 	* backend/ebook/ebook.c (e_book_do_response_open): adapted to
+ 	changes in EComponentListener API.
+
+** See ChangeLog.pre-1-4 for older changes
+

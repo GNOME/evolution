@@ -19,7 +19,7 @@ $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
@@ -108,7 +108,7 @@ EXTRA_DIST = 			\
 	$(etspec_DATA)		\
 	e-select-names-marshal.list
 
-BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -78,14 +78,16 @@ install-data-local:
 	fi
 
 server_in_files = GNOME_Evolution_Addressbook.server.in.in
-
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
 glade_DATA = ldap-config.glade
+
+BUILT_SOURCES = $(server_DATA)
+CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
