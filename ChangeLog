@@ -1,3 +1,10 @@
+2004-11-09  Rodney Dawes  <dobey@novell.com>
+
+	* configure.in: Add AC_SUBST for plugins_base also
+
+	* plugins/Makefile.am: Add plugins_base to DIST_SUBDIRS so that we
+	dist the plug-ins we actually build by default
+
 2004-11-04  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: added mailing-list-actions plugin.

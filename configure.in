@@ -1363,6 +1363,7 @@ xbase)
 esac
 AC_SUBST(plugins_enabled)
 AC_SUBST(plugins_all)
+AC_SUBST(plugins_base)
 
 if echo ${plugins_enabled} | grep -q "audio-inline"
 then
