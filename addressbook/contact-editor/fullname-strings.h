@@ -5,11 +5,11 @@
  */
 
 gchar *s = N_("Check Full Name");
-gchar *s = N_("Title:");
-gchar *s = N_("First:");
-gchar *s = N_("Middle:");
-gchar *s = N_("Last:");
-gchar *s = N_("Suffix:");
+gchar *s = N_("_Title:");
+gchar *s = N_("_First:");
+gchar *s = N_("_Middle:");
+gchar *s = N_("_Last:");
+gchar *s = N_("_Suffix:");
 gchar *s = N_("\n"
               "Mr.\n"
               "Mrs.\n"

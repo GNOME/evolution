@@ -14,6 +14,13 @@
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
+  <backup_source_files>True</backup_source_files>
+  <main_source_file>interface.c</main_source_file>
+  <main_header_file>interface.h</main_header_file>
+  <handler_source_file>callbacks.c</handler_source_file>
+  <handler_header_file>callbacks.h</handler_header_file>
+  <support_source_file>support.c</support_source_file>
+  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>fullname-strings.h</translatable_strings_file>
 </project>
@@ -45,40 +52,6 @@
     </child>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>hbuttonbox1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button1</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button2</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
       <class>GtkTable</class>
       <name>table-checkfullname</name>
       <border_width>8</border_width>
@@ -96,7 +69,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel1</name>
-	<label>Title:</label>
+	<label>_Title:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -122,7 +95,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel2</name>
-	<label>First:</label>
+	<label>_First:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -148,7 +121,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel3</name>
-	<label>Middle:</label>
+	<label>_Middle:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -174,7 +147,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel4</name>
-	<label>Last:</label>
+	<label>_Last:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -200,7 +173,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel5</name>
-	<label>Suffix:</label>
+	<label>_Suffix:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -376,6 +349,40 @@ Esq.
 	  <xfill>True</xfill>
 	  <yfill>False</yfill>
 	</child>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>hbuttonbox1</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button1</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button2</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>
   </widget>
