@@ -60,12 +60,15 @@ struct _CamelService {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	gboolean  (*connect) (CamelService *service, CamelException *ex);
-	gboolean  (*connect_with_url) (CamelService *service, Gurl *url,
-				       CamelException *ex);
-	gboolean  (*disconnect) (CamelService *service, CamelException *ex);
+	gboolean  (*connect)           (CamelService *service, 
+					CamelException *ex);
+	gboolean  (*connect_with_url)  (CamelService *service, 
+					Gurl *url,
+					CamelException *ex);
+	gboolean  (*disconnect)        (CamelService *service, 
+					CamelException *ex);
 
-	gboolean  (*is_connected) (CamelService *service);
+	gboolean  (*is_connected)      (CamelService *service);
 
 } CamelServiceClass;
 
@@ -79,16 +82,22 @@ typedef struct {
 
 
 /* public methods */
-CamelService *camel_service_new (GtkType type, CamelSession *session,
-				 Gurl *url, CamelException *ex);
+CamelService *      camel_service_new                (GtkType type, 
+						      CamelSession *session,
+						      Gurl *url, 
+						      CamelException *ex);
 
-gboolean camel_service_connect (CamelService *service, CamelException *ex);
-gboolean camel_service_connect_with_url (CamelService *service, char *url,
-					 CamelException *ex);
-gboolean camel_service_disconnect (CamelService *service, CamelException *ex);
-gboolean camel_service_is_connected (CamelService *service);
-char *camel_service_get_url (CamelService *service);
-CamelSession *camel_service_get_session (CamelService *service);
+gboolean            camel_service_connect            (CamelService *service, 
+						      CamelException *ex);
+gboolean            camel_service_connect_with_url   (CamelService *service, 
+						      char *url,
+						      CamelException *ex);
+gboolean            camel_service_disconnect         (CamelService *service, 
+                                                      CamelException *ex);
+gboolean            camel_service_is_connected       (CamelService *service);
+
+char *              camel_service_get_url            (CamelService *service);
+CamelSession *      camel_service_get_session        (CamelService *service);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
