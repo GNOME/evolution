@@ -79,6 +79,7 @@ void camel_filter_driver_set_default_folder   (CamelFilterDriver *d, CamelFolder
 
 void camel_filter_driver_add_rule             (CamelFilterDriver *d, const char *name, const char *match,
 					       const char *action);
+int  camel_filter_driver_remove_rule_by_name  (CamelFilterDriver *d, const char *name);
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
 

@@ -337,6 +337,30 @@ camel_filter_driver_add_rule(CamelFilterDriver *d, const char *name, const char 
 	e_dlist_addtail(&p->rules, (EDListNode *)node);
 }
 
+int
+camel_filter_driver_remove_rule_by_name (CamelFilterDriver *d, const char *name)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
+	struct _filter_rule *node;
+	
+	node = (struct _filter_rule *) p->rules.head;
+	while (node) {
+		if (!strcmp (node->name, name)) {
+			e_dlist_remove ((EDListNode *) node);
+			g_free (node->match);
+			g_free (node->action);
+			g_free (node->name);
+			g_free (node);
+			
+			return 0;
+		}
+		
+		node = node->next;
+	}
+	
+	return -1;
+}
+
 static void
 report_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, ...)
 {
@@ -737,7 +761,6 @@ static gboolean
 run_only_once (gpointer key, char *action, struct _run_only_once *data)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (data->driver);
-	CamelFilterDriver *driver = data->driver;
 	CamelException *ex = data->ex;
 	ESExpResult *r;
 	

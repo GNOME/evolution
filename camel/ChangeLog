@@ -1,3 +1,8 @@
+2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_remove_rule_by_name):
+	New function to remove a filter rule by name.
+
 2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (do_beep): As a temporary solution, just
