@@ -48,6 +48,8 @@ typedef struct _ESummaryMailFolder {
 
 	int count;
 	int unread;
+
+	gboolean init;
 } ESummaryMailFolder;
 
 const char *
@@ -116,8 +118,6 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = mail->shown; p; p = p->next) {
-		ESummaryMailFolder *f = p->data;
-
 		folder_gen_html (summary, p->data, string);
 	}
 
@@ -176,22 +176,21 @@ new_folder_cb (EvolutionStorageListener *listener,
 	mail_folder->name = g_strdup (path);
 	mail_folder->count = -1;
 	mail_folder->unread = -1;
+	mail_folder->init = FALSE;
 
 	g_hash_table_insert (mail->folders, mail_folder->path, mail_folder);
-	
-	/* Are we supposed to display this folder? */
+
 	for (p = summary->preferences->display_folders; p; p = p->next) {
 		char *uri;
 
 		uri = g_strconcat ("file://", p->data, NULL);
-		if (strcmp (uri, mail_folder->path) == 0) {
+		if (strcmp (uri, folder->physicalUri) == 0) {
 			mail->shown = g_list_append (mail->shown, mail_folder);
+			e_summary_mail_get_info (mail, mail_folder->path, 
+						 mail->listener);
 		}
-
 		g_free (uri);
 	}
-
-	e_summary_mail_get_info (mail, mail_folder->path, mail->listener);
 }
 
 static void
@@ -269,6 +268,7 @@ mail_change_notify (BonoboListener *listener,
 
 	folder->count = count->count;
 	folder->unread = count->unread;
+	folder->init = TRUE;
 
 	/* Are we displaying this folder? */
 	for (p = summary->preferences->display_folders; p; p = p->next) {
@@ -401,29 +401,6 @@ e_summary_mail_init (ESummary *summary,
 	return;
 }
 
-static void
-maybe_add_to_shown (gpointer key,
-		    gpointer value,
-		    gpointer user_data)
-{
-	ESummary *summary = user_data;
-	ESummaryMailFolder *folder = value;
-	ESummaryMail *mail = summary->mail;
-	GList *p;
-
-	/* Are we supposed to display this folder? */
-	for (p = summary->preferences->display_folders; p; p = p->next) {
-		char *uri;
-		
-		uri = g_strconcat ("file://", p->data, NULL);
-		if (strcmp (uri, folder->path) == 0) {
-			mail->shown = g_list_append (mail->shown, folder);
-		}
-		
-		g_free (uri);
-	}
-}
-
 void
 e_summary_mail_reconfigure (ESummary *summary)
 {
@@ -436,10 +413,6 @@ e_summary_mail_reconfigure (ESummary *summary)
 	mail = summary->mail;
 	old = mail->shown;
 	mail->shown = NULL;
-#if 0
-	g_hash_table_foreach (mail->folders, maybe_add_to_shown, summary);
-	e_summary_mail_generate_html (summary);
-#endif
 
 	for (p = summary->preferences->display_folders; p; p = p->next) {
 		ESummaryMailFolder *folder;
@@ -448,6 +421,10 @@ e_summary_mail_reconfigure (ESummary *summary)
 		uri = g_strconcat ("file://", p->data, NULL);
 		folder = g_hash_table_lookup (mail->folders, uri);
 		if (folder != NULL) {
+			if (folder->init == FALSE) {
+				e_summary_mail_get_info (mail, folder->path, 
+							 mail->listener);
+			}
 			mail->shown = g_list_append (mail->shown, folder);
 		}
 

@@ -1,3 +1,11 @@
+2001-09-19  Iain Holmes  <iain@ximian.com>
+
+	* component-factory.c (create_view): Remove spew.
+	
+	* e-summary-mail.c (e_summary_mail_reconfigure): Get mail info if we
+	don't already have it.
+	(new_folder_cb): Only get mail info if the folder is being displayed.
+
 2001-09-19  Larry Ewing  <lewing@ximian.com>
 
 	* e-summary-tasks.c (generate_html): be sure to unref the

@@ -47,8 +47,6 @@ create_view (EvolutionShellComponent *shell,
 	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
 
-
-	g_print ("folder_type: %s\n", folder_type);
 	if (g_strcasecmp (folder_type, "Summary") != 0) {
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 	}
