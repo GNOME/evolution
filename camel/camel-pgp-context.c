@@ -901,6 +901,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		argv[i++] = "--verify";
 		
 		argv[i++] = "--no-tty";
+		argv[i++] = "--no-auto-key-retrieve";
 		/*argv[i++] = "--verbose";*/
 		/*argv[i++] = "--yes";*/
 		/*argv[i++] = "--batch";*/
