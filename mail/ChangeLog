@@ -2,11 +2,9 @@
 
 	* mail-callbacks.c (mail_generate_reply): If we are trying to
 	reply to a list, first check that we can by getting the mlist
-	token. If not, then change the mode to REPLY_ALL. If we can reply
-	to list, the make sure we free the CamelMessageInfo when we're
-	done so we don't leak. Also added a check to see if the mlist
-	token could be found in the Reply-To ehader (since some mailing
-	lists override the Reply-To with their address).
+	token (makes it easier to fix the mem leak). If not, then change
+	the mode to REPLY_ALL. If we can reply to list, the make sure we
+	free the CamelMessageInfo when we're done so we don't leak.
 
 2002-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 

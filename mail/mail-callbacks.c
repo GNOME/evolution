@@ -1095,26 +1095,11 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		
 		d(printf ("we are looking for the mailing list called: %s\n", mlist));
 		
-		i = max = 0;
-		
-		/* some mailing-lists set the Reply-To to the list address */
-		reply_to = camel_mime_message_get_reply_to (message);
-		if (reply_to) {
-			max = camel_address_length (CAMEL_ADDRESS (reply_to));
-			for (i = 0; i < max; i++) {
-				camel_internet_address_get (reply_to, i, &name, &address);
-				if (!g_strncasecmp (address, mlist, len))
-					break;
-			}
-		}
-		
-		if (i == max) {
-			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
-			for (i = 0; i < max; i++) {
-				camel_internet_address_get (to_addrs, i, &name, &address);
-				if (!g_strncasecmp (address, mlist, len))
-					break;
-			}
+		max = camel_address_length (CAMEL_ADDRESS (to_addrs));
+		for (i = 0; i < max; i++) {
+			camel_internet_address_get (to_addrs, i, &name, &address);
+			if (!g_strncasecmp (address, mlist, len))
+				break;
 		}
 		
 		if (i == max) {
