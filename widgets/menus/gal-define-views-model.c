@@ -28,18 +28,15 @@ static void gal_define_views_model_get_arg (GtkObject *object, GtkArg *arg, guin
 enum {
 	ARG_0,
 	ARG_EDITABLE,
+	ARG_COLLECTION
 };
 
 static void
 gdvm_destroy(GtkObject *object)
 {
 	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
-	int i;
 
-	for ( i = 0; i < model->data_count; i++ ) {
-		gtk_object_unref(GTK_OBJECT(model->data[i]));
-	}
-	g_free(model->data);
+	gtk_object_unref(GTK_OBJECT(model->collection));
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -54,7 +51,10 @@ static int
 gdvm_row_count (ETableModel *etc)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
-	return views->data_count;
+	if (views->collection)
+		return gal_view_collection_get_count(views->collection);
+	else
+		return 0;
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
@@ -63,10 +63,8 @@ gdvm_value_at (ETableModel *etc, int col, int row)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
 	const char *value;
-	if (col != 0 || row < 0 || row > views->data_count)
-		return NULL;
 
-	value = gal_view_get_title (views->data[row]);
+	value = gal_view_get_title (gal_view_collection_get_view(views->collection, row));
 
 	return (void *)(value ? value : "");
 }
@@ -77,9 +75,7 @@ gdvm_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
 	if (views->editable) {
-		if (col != 0 || row < 0 || row > views->data_count)
-			return;
-		gal_view_set_title(views->data[row], val);
+		gal_view_set_title(gal_view_collection_get_view(views->collection, row), val);
 		e_table_model_cell_changed(etc, col, row);
 	}
 }
@@ -142,11 +138,8 @@ gal_define_views_model_append (GalDefineViewsModel *model,
 	ETableModel *etm = E_TABLE_MODEL(model);
 
 	e_table_model_pre_change(etm);
-	model->data = g_renew(GalView *, model->data, model->data_count + 1);
-	model->data[model->data_count] = view;
-	model->data_count++;
-	gtk_object_ref(GTK_OBJECT(view));
-	e_table_model_row_inserted(etm, model->data_count - 1);
+	gal_view_collection_append(model->collection, view);
+	e_table_model_row_inserted(etm, gal_view_collection_get_count(model->collection) - 1);
 }
 
 static void
@@ -162,6 +155,8 @@ gal_define_views_model_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("GalDefineViewsModel::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
+	gtk_object_add_arg_type ("GalDefineViewsModel::collection", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_COLLECTION);
 
 	model_class->column_count     = gdvm_col_count;
 	model_class->row_count        = gdvm_row_count;
@@ -181,9 +176,7 @@ gal_define_views_model_init (GtkObject *object)
 {
 	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
 
-	model->data           = NULL;
-	model->data_count     = 0;
-	model->editable       = TRUE;
+	model->collection = NULL;
 }
 
 static void
@@ -197,20 +190,36 @@ gal_define_views_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_EDITABLE:
 		model->editable = GTK_VALUE_BOOL (*arg);
 		break;
+
+	case ARG_COLLECTION:
+		if (GTK_VALUE_OBJECT (*arg))
+			model->collection = GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT (*arg));
+		else
+			model->collection = NULL;
+		e_table_model_changed(E_TABLE_MODEL(o));
+		break;
 	}
 }
 
 static void
 gal_define_views_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
-	GalDefineViewsModel *gal_define_views_model;
+	GalDefineViewsModel *model;
 
-	gal_define_views_model = GAL_DEFINE_VIEWS_MODEL (object);
+	model = GAL_DEFINE_VIEWS_MODEL (object);
 
 	switch (arg_id) {
 	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = gal_define_views_model->editable;
+		GTK_VALUE_BOOL (*arg) = model->editable;
 		break;
+
+	case ARG_COLLECTION:
+		if (model->collection)
+			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(model->collection);
+		else
+			GTK_VALUE_OBJECT (*arg) = NULL;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -271,7 +280,7 @@ GalView *
 gal_define_views_model_get_view (GalDefineViewsModel *model,
 				 int n)
 {
-	return model->data[n];
+	return gal_view_collection_get_view(model->collection, n);
 }
 
 /**
@@ -286,10 +295,7 @@ gal_define_views_model_delete_view (GalDefineViewsModel *model,
 				    int n)
 {
 	e_table_model_pre_change(E_TABLE_MODEL(model));
-	gtk_object_unref(GTK_OBJECT(model->data[n]));
-	model->data_count --;
-	memmove(model->data + n, model->data + n + 1, (model->data_count - n) * sizeof(*model->data));
-	model->data = g_renew(GalView *, model->data, model->data_count);
+	gal_view_collection_delete_view(model->collection, n);
 	e_table_model_row_deleted(E_TABLE_MODEL(model), n);
 }
 
@@ -305,13 +311,6 @@ gal_define_views_model_copy_view (GalDefineViewsModel *model,
 				  int n)
 {
 	ETableModel *etm = E_TABLE_MODEL(model);
-	GalView *view;
-
-	view = gal_view_clone (model->data[n]);
-
-	e_table_model_pre_change(etm);
-	model->data = g_renew(GalView *, model->data, model->data_count + 1);
-	model->data[model->data_count] = view;
-	model->data_count++;
-	e_table_model_row_inserted(etm, model->data_count - 1);
+	gal_view_collection_copy_view(model->collection, n);
+	e_table_model_row_inserted(etm, gal_view_collection_get_count(model->collection) - 1);
 }

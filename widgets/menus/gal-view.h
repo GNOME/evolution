@@ -21,36 +21,46 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	void        (*edit)       (GalView    *view);
-	void        (*load)       (GalView    *view,
-				   const char *filename);
-	void        (*save)       (GalView    *view,
-				   const char *filename);
-	const char *(*get_title)  (GalView    *view);
-	void        (*set_title)  (GalView    *view,
-				   const char *title);
-	GalView    *(*clone)      (GalView    *view);
+	void        (*edit)           (GalView    *view);
+	void        (*load)           (GalView    *view,
+				       const char *filename);
+	void        (*save)           (GalView    *view,
+				       const char *filename);
+	const char *(*get_title)      (GalView    *view);
+	void        (*set_title)      (GalView    *view,
+				       const char *title);
+	const char *(*get_type_code)  (GalView    *view);
+	GalView    *(*clone)          (GalView    *view);
+
+	/* Signals */
+	void        (*changed)        (GalView    *view);
 } GalViewClass;
 
 /* Standard functions */
-GtkType     gal_view_get_type   (void);
+GtkType     gal_view_get_type       (void);
 
 /* Open an editor dialog for this view. */
-void        gal_view_edit       (GalView    *view);
+void        gal_view_edit           (GalView    *view);
 
 /* xml load and save functions */
-void        gal_view_load       (GalView    *view,
-				 const char *filename);
-void        gal_view_save       (GalView    *view,
-				 const char *filename);
+void        gal_view_load           (GalView    *view,
+				     const char *filename);
+void        gal_view_save           (GalView    *view,
+				     const char *filename);
 
 /* Title functions */
-const char *gal_view_get_title  (GalView    *view);
-void        gal_view_set_title  (GalView    *view,
-				 const char *title);
+const char *gal_view_get_title      (GalView    *view);
+void        gal_view_set_title      (GalView    *view,
+				     const char *title);
+
+/* View type. */
+const char *gal_view_get_type_code  (GalView    *view);
 
 /* Cloning the view */
-GalView    *gal_view_clone      (GalView    *view);
+GalView    *gal_view_clone          (GalView    *view);
+
+/* Changed signal */
+void        gal_view_changed        (GalView    *view);
 
 
 #endif /* _GAL_VIEW_H_ */

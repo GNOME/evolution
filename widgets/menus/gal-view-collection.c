@@ -13,6 +13,7 @@
 #include <gal/util/e-xml-utils.h>
 #include <gnome-xml/parser.h>
 #include "gal-view-collection.h"
+#include <ctype.h>
 
 #define GVC_CLASS(e) ((GalViewCollectionClass *)((GtkObject *)e)->klass)
 
@@ -201,6 +202,13 @@ gal_view_collection_add_factory              (GalViewCollection *collection,
 	collection->factory_list = g_list_prepend(collection->factory_list, factory);
 }
 
+static void
+view_changed (GalView *view,
+	      GalViewCollectionItem *item)
+{
+	item->changed = TRUE;
+}
+
 static GalViewCollectionItem *
 load_single_file (GalViewCollection *collection,
 		  gchar *dir,
@@ -235,6 +243,9 @@ load_single_file (GalViewCollection *collection,
 		if (factory) {
 			item->view = gal_view_factory_new_view (factory, item->filename);
 			gal_view_load(item->view, item->filename);
+			gal_view_set_title (item->view, item->title);
+			gtk_signal_connect(GTK_OBJECT(item->view), "changed",
+					   GTK_SIGNAL_FUNC(view_changed), item);
 		}
 	}
 	return item;
@@ -251,6 +262,8 @@ load_single_dir (GalViewCollection *collection,
 	char *filename = g_concat_dir_and_file(dir, "galview.xml");
 
 	doc = xmlParseFile(filename);
+	if (!doc)
+		return;
 	root = xmlDocGetRootElement(doc);
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		gchar *id = e_xml_get_string_prop_by_name(child, "id");
@@ -258,11 +271,12 @@ load_single_dir (GalViewCollection *collection,
 		int i;
 
 		for (i = 0; i < collection->view_count; i++) {
-			if (!strcmp(id, collection->view_data[i]->id))
+			if (!strcmp(id, collection->view_data[i]->id)) {
 				if (!local)
 					collection->view_data[i]->built_in = TRUE;
-			found = TRUE;
-			break;
+				found = TRUE;
+				break;
+			}
 		}
 		if (!found) {
 			for (i = 0; i < collection->removed_view_count; i++) {
@@ -349,4 +363,152 @@ gal_view_collection_save              (GalViewCollection *collection)
 	xmlSaveFile(filename, doc);
 	xmlFreeDoc(doc);
 	g_free(filename);
+}
+
+/**
+ * gal_view_collection_get_count
+ * @collection: The view collection to count
+ *
+ * Calculates the number of views in the given collection.
+ *
+ * Returns: The number of views in the collection.
+ */
+gint
+gal_view_collection_get_count (GalViewCollection *collection)
+{
+	return collection->view_count;
+}
+
+/**
+ * gal_view_collection_get_view
+ * @collection: The view collection to query
+ * @n: The view to get.
+ *
+ * Calculates the number of views in the given collection.
+ *
+ * Returns: The nth view in the collection
+ */
+GalView *
+gal_view_collection_get_view (GalViewCollection *collection,
+			      int n)
+{
+	g_return_val_if_fail(n < collection->view_count, NULL);
+	g_return_val_if_fail(n >= 0, NULL);
+
+	return collection->view_data[n]->view;
+}
+
+static char *
+gal_view_generate_string (GalViewCollection *collection,
+			  GalView           *view,
+			  int which)
+{
+	char *ret_val;
+	char *pointer;
+
+	if (which == 1)
+		ret_val = g_strdup(gal_view_get_title(view));
+	else
+		ret_val = g_strdup_printf("%s_%d", gal_view_get_title(view), which);
+	for (pointer = ret_val; *pointer; pointer++) {
+		if (!isalnum((guint) *pointer)) {
+			*pointer = '_';
+		}
+	}
+	return ret_val;
+}
+
+static gint
+gal_view_check_string (GalViewCollection *collection,
+		       char *string)
+{
+	int i;
+
+	for (i = 0; i < collection->view_count; i++) {
+		if (!strcmp(string, collection->view_data[i]->id))
+			return FALSE;
+	}
+	return TRUE;
+}
+
+static char *
+gal_view_generate_id (GalViewCollection *collection,
+		      GalView           *view)
+{
+	int i;
+	for (i = 1; TRUE; i++) {
+		char *try;
+
+		try = gal_view_generate_string(collection, view, i);
+		if (gal_view_check_string(collection, try))
+			return try;
+		g_free(try);
+	}
+}
+
+void
+gal_view_collection_append                   (GalViewCollection *collection,
+					      GalView           *view)
+{
+	GalViewCollectionItem *item;
+	item = g_new(GalViewCollectionItem, 1);
+	item->ever_changed = TRUE;
+	item->changed = TRUE;
+	item->built_in = FALSE;
+	item->title = g_strdup(gal_view_get_title(view));
+	item->type = g_strdup(gal_view_get_type_code(view));
+	item->id = gal_view_generate_id(collection, view);
+	item->filename = g_strdup_printf("%s.galview", item->id);
+	item->view = view;
+	gtk_object_ref(GTK_OBJECT(view));
+
+	gtk_signal_connect(GTK_OBJECT(item->view), "changed",
+			   GTK_SIGNAL_FUNC(view_changed), item);
+
+	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+	collection->view_data[collection->view_count] = item;
+	collection->view_count ++;
+}
+
+void
+gal_view_collection_delete_view              (GalViewCollection *collection,
+					      int                i)
+{
+	GalViewCollectionItem *item = collection->view_data[i];
+	memmove(collection->view_data + i, collection->view_data + i + 1, (collection->view_count - i - 1) * sizeof(GalViewCollectionItem *));
+	if (item->built_in) {
+		g_free(item->filename);
+		item->filename = NULL;
+
+		collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
+		collection->removed_view_data[collection->removed_view_count] = item;
+		collection->removed_view_count ++;
+	} else {
+		gal_view_collection_item_free (item);
+	}
+}
+
+void
+gal_view_collection_copy_view                (GalViewCollection *collection,
+					      int                i)
+{
+	GalViewCollectionItem *item;
+	GalView *view = collection->view_data[i]->view;
+
+	item = g_new(GalViewCollectionItem, 1);
+	item->ever_changed = TRUE;
+	item->changed = FALSE;
+	item->built_in = FALSE;
+	item->title = g_strdup(gal_view_get_title(view));
+	item->type = g_strdup(gal_view_get_type_code(view));
+	item->id = gal_view_generate_id(collection, view);
+	item->filename = g_strdup_printf("%s.galview", item->id);
+	item->view = gal_view_clone(view);
+
+	gtk_signal_connect(GTK_OBJECT(item->view), "changed",
+			   GTK_SIGNAL_FUNC(view_changed), item);
+
+	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+	collection->view_data[collection->view_count] = item;
+	collection->view_count ++;
 }

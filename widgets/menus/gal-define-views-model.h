@@ -3,7 +3,8 @@
 #define _GAL_DEFINE_VIEWS_MODEL_H_
 
 #include <gal/e-table/e-table-model.h>
-#include "gal-view.h"
+#include <gal/menus/gal-view.h>
+#include <gal/menus/gal-view-collection.h>
 
 #define GAL_DEFINE_VIEWS_MODEL_TYPE        (gal_define_views_model_get_type ())
 #define GAL_DEFINE_VIEWS_MODEL(o)          (GTK_CHECK_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
@@ -22,8 +23,7 @@ typedef struct {
 	ETableModel parent;
 
 	/* item specific fields */
-	GalView **data;
-	int data_count;
+	GalViewCollection *collection;
 
 	guint editable : 1;
 } GalDefineViewsModel;

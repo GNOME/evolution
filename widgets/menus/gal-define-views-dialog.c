@@ -216,6 +216,8 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	GtkWidget *widget;
 	GtkWidget *etable;
 
+	dialog->collection = NULL;
+
 	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL);
 	dialog->gui = gui;
 
@@ -242,6 +244,9 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	etable = glade_xml_get_widget(dialog->gui, "custom-table");
 	if (etable) {
 		dialog->model = gtk_object_get_data(GTK_OBJECT(etable), "GalDefineViewsDialog::model");
+		gtk_object_set(GTK_OBJECT(dialog->model),
+			       "collection", dialog->collection,
+			       NULL);
 	}
 	
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
@@ -262,9 +267,12 @@ gal_define_views_dialog_destroy (GtkObject *object) {
  * Returns: The GalDefineViewsDialog.
  */
 GtkWidget*
-gal_define_views_dialog_new (void)
+gal_define_views_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget = GTK_WIDGET (gtk_type_new (gal_define_views_dialog_get_type ()));
+	gtk_object_set(GTK_OBJECT(widget),
+		       "collection", collection,
+		       NULL);
 	return widget;
 }
 
@@ -281,6 +289,11 @@ gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			dialog->collection = GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT(*arg));
 		else
 			dialog->collection = NULL;
+		if (dialog->model) {
+			gtk_object_set(GTK_OBJECT(dialog->model),
+				       "collection", GTK_VALUE_OBJECT(*arg),
+				       NULL);
+		}
 		break;
 
 	default:

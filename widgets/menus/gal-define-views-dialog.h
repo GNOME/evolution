@@ -64,7 +64,7 @@ struct _GalDefineViewsDialogClass
 	GnomeDialogClass parent_class;
 };
 
-GtkWidget               *gal_define_views_dialog_new          (void);
+GtkWidget               *gal_define_views_dialog_new          (GalViewCollection *collection);
 GtkType                  gal_define_views_dialog_get_type     (void);
 
 #ifdef __cplusplus

@@ -52,6 +52,12 @@ gal_view_etable_set_title       (GalView *view,
 	GAL_VIEW_ETABLE(view)->title = g_strdup(title);
 }
 
+static const char *
+gal_view_etable_get_type_code (GalView *view)
+{
+	return "etable";
+}
+
 static GalView *
 gal_view_etable_clone       (GalView *view)
 {
@@ -83,17 +89,18 @@ gal_view_etable_destroy         (GtkObject *object)
 static void
 gal_view_etable_class_init      (GtkObjectClass *object_class)
 {
-	GalViewClass *gal_view_class = GAL_VIEW_CLASS(object_class);
-	gal_view_etable_parent_class = gtk_type_class (PARENT_TYPE);
+	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
+	gal_view_etable_parent_class  = gtk_type_class (PARENT_TYPE);
 
-	gal_view_class->edit         = gal_view_etable_edit     ;
-	gal_view_class->load         = gal_view_etable_load     ;
-	gal_view_class->save         = gal_view_etable_save     ;
-	gal_view_class->get_title    = gal_view_etable_get_title;
-	gal_view_class->set_title    = gal_view_etable_set_title;
-	gal_view_class->clone        = gal_view_etable_clone    ;
+	gal_view_class->edit          = gal_view_etable_edit         ;
+	gal_view_class->load          = gal_view_etable_load         ;
+	gal_view_class->save          = gal_view_etable_save         ;
+	gal_view_class->get_title     = gal_view_etable_get_title    ;
+	gal_view_class->set_title     = gal_view_etable_set_title    ;
+	gal_view_class->get_type_code = gal_view_etable_get_type_code;
+	gal_view_class->clone         = gal_view_etable_clone        ;
 
-	object_class->destroy        = gal_view_etable_destroy  ;
+	object_class->destroy         = gal_view_etable_destroy      ;
 }
 
 static void

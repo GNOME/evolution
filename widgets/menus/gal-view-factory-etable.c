@@ -32,6 +32,12 @@ gal_view_factory_etable_new_view        (GalViewFactory *factory,
 	return gal_view_etable_new(GAL_VIEW_FACTORY_ETABLE(factory)->spec, name);
 }
 
+static const char *
+gal_view_factory_etable_get_type_code (GalViewFactory *factory)
+{
+	return "etable";
+}
+
 static void
 gal_view_factory_etable_destroy         (GtkObject *object)
 {
@@ -45,12 +51,13 @@ static void
 gal_view_factory_etable_class_init      (GtkObjectClass *object_class)
 {
 	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_etable_parent_class = gtk_type_class (PARENT_TYPE);
-	
-	view_factory_class->get_title = gal_view_factory_etable_get_title;
-	view_factory_class->new_view  = gal_view_factory_etable_new_view;
+	gal_view_factory_etable_parent_class    = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy         = gal_view_factory_etable_destroy;
+	view_factory_class->get_title           = gal_view_factory_etable_get_title;
+	view_factory_class->new_view            = gal_view_factory_etable_new_view;
+	view_factory_class->get_type_code       = gal_view_factory_etable_get_type_code;
+
+	object_class->destroy                   = gal_view_factory_etable_destroy;
 }
 
 static void
