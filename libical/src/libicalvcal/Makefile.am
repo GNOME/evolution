@@ -26,12 +26,12 @@ libicalvcal_evolution_la_SOURCES =	\
 
 libicalvcal_evolutionincludedir = $(privincludedir)/libical
 
-#libicalvcal_evolutioninclude_HEADERS =	\
-#	icalvcal.h		\
-#	port.h			\
-#	vcc.h			\
-#	vobject.h		\
-#	vcaltmp.h
+libicalvcal_evolutioninclude_HEADERS =	\
+	icalvcal.h		\
+	port.h			\
+	vcc.h			\
+	vobject.h		\
+	vcaltmp.h
 
 EXTRA_DIST =		\
 	README.TXT	\
