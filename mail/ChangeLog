@@ -1,3 +1,22 @@
+2004-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* default/C/Inbox: 
+	* default/C/Makefile.am: 
+	* default/Makefile.am: Startup files/folders.
+
+	* em-migrate.c (emm_setup_initial): initial implementation of
+	startup setup.
+	(cp): Fix the test, we want exists AND size>0, not exists OR
+	size>0.
+	(cp): Fix the open, we can't use O_EXCL with empty, but present
+	files.  Another hack fix for #52880.
+
+	** See bug #52896.
+
+	* em-format-html-display.c (efhd_html_button_press_event): do this
+	based on get_object_at rather than get_point_at, so we get the
+	offset properly.
+
 2004-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c: Make vfolder_store 'global'.

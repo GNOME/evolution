@@ -1,4 +1,4 @@
-SUBDIRS = # importers FIXME
+SUBDIRS = default # importers FIXME
 
 libexec_PROGRAMS =				\
 	evolution-mbox-upgrade

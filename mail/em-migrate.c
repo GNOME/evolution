@@ -1245,13 +1245,13 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat (dest, &st) != -1 && st.st_size > 0)
+	if (stat (dest, &st) == 0 && st.st_size > 0)
 		return -1;
 	
 	if ((fd[0] = open (src, O_RDONLY)) == -1)
 		return -1;
 	
-	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+	if ((fd[1] = open (dest, O_WRONLY | O_CREAT, 0666)) == -1) {
 		errnosav = errno;
 		close (fd[0]);
 		errno = errnosav;
@@ -1836,6 +1836,71 @@ emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
 	return retval;
 }
 
+static int
+emm_setup_initial(const char *evolution_dir)
+{
+	DIR *dir;
+	struct dirent *d;
+	struct stat st;
+	char *base, *local, *lang;
+
+	/* special-case - this means brand new install of evolution */
+	/* FIXME: create default folders and stuff... */
+
+	base = e_iconv_locale_language();
+	if (base) {
+		lang = g_alloca(strlen(base)+1);
+		strcpy(lang, base);
+	} else
+		lang = NULL;
+
+	d(printf("Setting up initial mail tree\n"));
+	
+	base = g_build_filename(evolution_dir, "/mail/local", NULL);
+	if (camel_mkdir(base, 0777) == -1 && errno != EEXIST) {
+		g_free(base);
+		return -1;
+	}
+
+	/* e.g. try en-AU then en, etc */
+	while (lang != NULL) {
+		local = g_build_filename(EVOLUTION_PRIVDATADIR "/default", lang, "mail/local", NULL);
+		if (stat(local, &st) == 0)
+			goto gotlocal;
+
+		g_free(local);
+		if (strlen(lang)>2 && lang[2] == '-')
+			lang[2] = 0;
+		else
+			lang = NULL;
+	}
+
+	local = g_build_filename(EVOLUTION_PRIVDATADIR "/default/C/mail/local", NULL);
+gotlocal:
+
+	dir = opendir(local);
+	if (dir) {
+		while ((d = readdir(dir))) {
+			char *src, *dest;
+
+			if (!strcmp(d->d_name, ".") || !strcmp(d->d_name, ".."))
+				continue;
+
+			src = g_build_filename(local, d->d_name, NULL);
+			dest = g_build_filename(base, d->d_name, NULL);
+
+			cp(src, dest, FALSE);
+			g_free(dest);
+			g_free(src);
+		}
+		closedir(dir);
+	}
+
+	g_free(local);
+	g_free(base);
+
+	return 0;
+}
 
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
@@ -1857,12 +1922,8 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 	
 	g_free (path);
 	
-	if (major == 0) {
-		/* special-case - this means brand new install of evolution */
-		/* FIXME: create default folders and stuff... */
-		
-		return 0;
-	}
+	if (major == 0)
+		return emm_setup_initial(evolution_dir);
 	
 	if (major == 1 && minor < 5) {
 		xmlDocPtr config_xmldb = NULL, filters, vfolders;
