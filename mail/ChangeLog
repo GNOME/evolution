@@ -1,3 +1,7 @@
+2004-01-04  David Woodhouse  <dwmw2@infradead.org>
+
+	* em-format-html-display.c: Mail warning grammar typo fix.
+
 2003-12-22  David Moore  <davmre@bellsouth.net>
   
   	* em-popup.c (emp_part_popup_set_background): Implemented; sets an 

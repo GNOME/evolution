@@ -609,7 +609,7 @@ static const struct {
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
-	{ NULL, N_("Unencrypted"), N_("This message is not encrypted.  It's content may be viewed in transit across The Internet.") },
+	{ NULL, N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across the Internet.") },
 	{ "pgp-signature-ok.png", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
 	{ "pgp-signature-ok.png", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
 	{ "pgp-signature-ok.png", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
