@@ -1056,7 +1056,7 @@ drag_data_get_cb (GtkWidget *widget,
 		g_object_set_data_full ((GObject *) widget, "uri-list", uri_list, g_free);		
 		break;
 	case DND_TARGET_TYPE_PART_MIME_TYPE:
-		if (header_content_type_is (part->content_type, "text", "*")) {
+		if (header_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*")) {
 		        GByteArray *ba;
 			
 			ba = mail_format_get_data_wrapper_text ((CamelDataWrapper *) part, NULL);
@@ -1067,16 +1067,16 @@ drag_data_get_cb (GtkWidget *widget,
 			}
 		} else {
 			CamelDataWrapper *wrapper;
-			CamelStreamMem *cstream;
+			CamelStreamMem *mem;
 			
-			cstream = (CamelStreamMem *) camel_stream_mem_new ();
+			mem = (CamelStreamMem *) camel_stream_mem_new ();
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-			camel_data_wrapper_write_to_stream (wrapper, (CamelStream *)cstream);
+			camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mem);
 			
 			gtk_selection_data_set (selection_data, selection_data->target, 8,
-						cstream->buffer->data, cstream->buffer->len);
+						mem->buffer->data, mem->buffer->len);
 			
-			camel_object_unref (cstream);
+			camel_object_unref (mem);
 		}
 		break;
 	default:
@@ -1120,7 +1120,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		if (!camel_data_wrapper_is_offline (content)) {
 			pbl->mstream = camel_stream_mem_new ();
-			camel_data_wrapper_write_to_stream (content, pbl->mstream);
+			camel_data_wrapper_decode_to_stream (content, pbl->mstream);
 			camel_stream_reset (pbl->mstream);
 		}
 	}
@@ -1149,7 +1149,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	}
 	
 	/* Drag & Drop */
-	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (part->content_type);
+	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (((CamelDataWrapper *) part)->mime_type);
 	camel_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
 	
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
@@ -1245,7 +1245,7 @@ do_external_viewer (GtkHTML *html, GtkHTMLEmbedded *eb,
 	/* Write the data to a CamelStreamMem... */
 	cstream = (CamelStreamMem *) camel_stream_mem_new ();
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
- 	camel_data_wrapper_write_to_stream (wrapper, (CamelStream *)cstream);
+ 	camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *)cstream);
 	
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (cstream->buffer->data, cstream->buffer->len, TRUE, FALSE);
@@ -1390,9 +1390,9 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		html_stream = mail_display_stream_new (html, handle);
 		
 		if (header_content_type_is (content_type, "text", "*")) {
-			mail_format_data_wrapper_write_to_stream (wrapper, md, html_stream);
+			mail_format_data_wrapper_write_to_stream (wrapper, TRUE, md, html_stream);
 		} else {
-			camel_data_wrapper_write_to_stream (wrapper, html_stream);
+			camel_data_wrapper_decode_to_stream (wrapper, html_stream);
 		}
 		
 		camel_object_unref (html_stream);
@@ -1693,7 +1693,7 @@ try_part_urls (struct _load_content_msg *m)
 		}
 		
 		html_stream = mail_display_stream_new (m->html, m->handle);
-		camel_data_wrapper_write_to_stream (data, html_stream);
+		camel_data_wrapper_decode_to_stream (data, html_stream);
 		camel_object_unref (html_stream);
 		
 		gtk_html_end (m->html, m->handle, GTK_HTML_STREAM_OK);

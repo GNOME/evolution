@@ -34,6 +34,7 @@ GByteArray *mail_format_get_data_wrapper_text (CamelDataWrapper *data,
 					       MailDisplay *mail_display);
 
 ssize_t mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper,
+						  gboolean decode,
 						  MailDisplay *mail_display,
 						  CamelStream *stream);
 

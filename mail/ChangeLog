@@ -1,3 +1,35 @@
+2003-08-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_multipart_encrypted): Updated for
+	CamelMimePart::content_type changes.
+
+	* mail-ops.c (save_part_save): Use
+	camel_data_wrapper_decode_to_stream() here.
+
+	* mail-display.c (drag_data_get_cb): Updated for
+	CamelMimePart::content_type changes.
+	(do_attachment_header): Same.
+
+2003-07-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_format_raw_message): Updated to pass FALSE
+	as the 'decode' param to
+	mail_format_data_wrapper_write_to_stream().
+	(mail_format_data_wrapper_write_to_stream): Now takes a boolean
+	arg telling whether to decode or not. Also reworked the charset
+	logic now that camel doesn't handle this for us any longer.
+	(mail_format_get_data_wrapper_text): Updated.
+	(handle_text_plain): Same.
+	(handle_text_enriched): Here too.
+
+	* mail-display.c (do_attachment_header): Call decode_to_stream
+	here instead of write_to_stream.
+	(do_external_viewer): Same.
+	(on_url_requested): Same. Also updated for
+	mail_format_data_wrapper_write_to_stream().
+	(try_part_urls): Call decode_to_stream.
+	(drag_data_get_cb): Same.
+
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #47224.  Hook onto clicked rather than button_pressed,
