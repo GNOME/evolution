@@ -1,5 +1,25 @@
 2004-02-09  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (tree_drag_data_delete): merged in code from
+	em_folder_tree_model_drag_data_delete.
+	(tree_drag_data_get): similar.
+	(tree_drag_data_received): similar.
+	(drag_text_uri_list): removed, use em_utils_selection_set_urilist
+	in tree_drag_data_get instead.
+	(em_folder_tree_enable_drag_and_drop): merged in
+	em_folder_tree_model_set_drag_drop_types.
+	(tree_drag_motion): merge in drop_possible, handle qualifiers, and
+	return the right type.
+	(em_folder_tree_model_row_drop_target): rename to
+	emft_drop_target, and make private.  Beefed up substantially,
+	handles illogical drops, dropping on to special folders and
+	properly handling vfolder uri's (at least within the same tree
+	instance).
+
+	* em-folder-tree-model.c: Moved all of the DND stuff to
+	em-folder-tree, where it belongs, made it all static.  Should
+	allow for some sharing of code too.
+
 	* em-format-quote.c (emfq_format_message): just print the \n after
 	the credits in the same printf, rather than adding an else.  Add a
 	<br> too, otherwise it has no effect.

@@ -88,10 +88,39 @@ enum {
 	LAST_SIGNAL
 };
 
+/* Drag & Drop types */
+enum DndDragType {
+	DND_DRAG_TYPE_FOLDER,          /* drag an evo folder */
+	DND_DRAG_TYPE_TEXT_URI_LIST,   /* drag to an mbox file */
+	NUM_DRAG_TYPES
+};
+
+enum DndDropType {
+	DND_DROP_TYPE_UID_LIST,        /* drop a list of message uids */
+	DND_DROP_TYPE_FOLDER,          /* drop an evo folder */
+	DND_DROP_TYPE_MESSAGE_RFC822,  /* drop a message/rfc822 stream */
+	DND_DROP_TYPE_TEXT_URI_LIST,   /* drop an mbox file */
+	NUM_DROP_TYPES
+};
+
+static GtkTargetEntry drag_types[] = {
+	{ "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
+	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
+};
+
+static GtkTargetEntry drop_types[] = {
+	{ "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
+	{ "x-folder",         0, DND_DROP_TYPE_FOLDER         },
+	{ "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
+	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
+};
+
+static GdkAtom drag_atoms[NUM_DRAG_TYPES];
+static GdkAtom drop_atoms[NUM_DROP_TYPES];
+
 static guint signals[LAST_SIGNAL] = { 0 };
 
 extern CamelSession *session;
-
 
 static void em_folder_tree_class_init (EMFolderTreeClass *klass);
 static void em_folder_tree_init (EMFolderTree *emft);
@@ -111,7 +140,6 @@ struct _emft_selection_data {
 	GtkTreeIter *iter;
 	gboolean set;
 };
-
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -161,7 +189,6 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
 }
-
 
 static gboolean
 subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
@@ -321,7 +348,6 @@ em_folder_tree_destroy (GtkObject *obj)
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
-
 static GtkTreeView *
 folder_tree_new (EMFolderTreeModel *model)
 {
@@ -381,7 +407,6 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_box_pack_start ((GtkBox *) emft, scrolled, TRUE, TRUE, 0);
 }
 
-
 GtkWidget *
 em_folder_tree_new (void)
 {
@@ -394,7 +419,6 @@ em_folder_tree_new (void)
 	
 	return (GtkWidget *) emft;
 }
-
 
 struct _gsbn {
 	struct _EMFolderTreeModelStoreInfo *si;
@@ -463,7 +487,6 @@ emft_expand_node (const char *key, gpointer value, EMFolderTree *emft)
 	gtk_tree_path_free (path);
 }
 
-
 static void
 emft_loading_row_cb (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
 {
@@ -490,7 +513,6 @@ emft_loading_row_cb (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIt
 	g_free (key);
 }
 
-
 GtkWidget *
 em_folder_tree_new_with_model (EMFolderTreeModel *model)
 {
@@ -507,7 +529,6 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	
 	return (GtkWidget *) emft;
 }
-
 
 static void
 tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
@@ -530,43 +551,540 @@ tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 }
 
 static void
-tree_drag_data_delete (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	GtkTreePath *path;
+	GtkTreePath *src_path;
+	const char *full_name;
+	gboolean is_store;
+	CamelStore *store;
+	CamelException ex;
+	GtkTreeIter iter;
+	char *path;
 	
-	if (!priv->drag_row || (path = gtk_tree_row_reference_get_path (priv->drag_row)))
+	if (!priv->drag_row || (src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
 	
-	em_folder_tree_model_drag_data_delete (priv->model, path);
-	gtk_tree_path_free (path);
+	if (!gtk_tree_model_get_iter((GtkTreeModel *)priv->model, &iter, src_path))
+		goto fail;
+
+	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
+			   COL_POINTER_CAMEL_STORE, &store,
+			   COL_STRING_FOLDER_PATH, &path,
+			   COL_BOOL_IS_STORE, &is_store, -1);
+	
+	if (is_store)
+		goto fail;
+	
+	full_name = path[0] == '/' ? path + 1 : path;
+	
+	camel_exception_init(&ex);
+	camel_store_delete_folder(store, full_name, &ex);
+	if (camel_exception_is_set(&ex))
+		camel_exception_clear(&ex);
+fail:
+	gtk_tree_path_free(src_path);
 }
 
 static void
-tree_drag_data_get (GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
+tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	GtkTreePath *path;
+	GtkTreePath *src_path;
+	const char *full_name;
+	CamelFolder *folder;
+	CamelStore *store;
+	CamelException ex;
+	GtkTreeIter iter;
+	char *path, *uri;
 	
-	if (!priv->drag_row || !(path = gtk_tree_row_reference_get_path (priv->drag_row)))
+	if (!priv->drag_row || !(src_path = gtk_tree_row_reference_get_path(priv->drag_row)))
 		return;
 	
-	em_folder_tree_model_drag_data_get (priv->model, context, path, selection, info);
-	gtk_tree_path_free (path);
+	if (!gtk_tree_model_get_iter((GtkTreeModel *)priv->model, &iter, src_path))
+		goto fail;
+	
+	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
+			   COL_POINTER_CAMEL_STORE, &store,
+			   COL_STRING_FOLDER_PATH, &path,
+			   COL_STRING_URI, &uri, -1);
+	
+	/* make sure user isn't trying to drag on a placeholder row */
+	if (path == NULL)
+		goto fail;
+	
+	full_name = path[0] == '/' ? path + 1 : path;
+	
+	camel_exception_init(&ex);
+	
+	switch (info) {
+	case DND_DRAG_TYPE_FOLDER:
+		/* dragging to a new location in the folder tree */
+		printf ("dragging uri: %s\n", uri);
+		gtk_selection_data_set(selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
+		break;
+	case DND_DRAG_TYPE_TEXT_URI_LIST:
+		/* dragging to nautilus or something, probably */
+		if ((folder = camel_store_get_folder(store, full_name, 0, &ex))) {
+			GPtrArray *uids = camel_folder_get_uids(folder);
+
+			em_utils_selection_set_urilist(selection, folder, uids);
+			camel_folder_free_uids(folder, uids);
+			camel_object_unref(folder);
+		}
+		break;
+	default:
+		abort();
+	}
+	
+	if (camel_exception_is_set(&ex))
+		camel_exception_clear(&ex);
+fail:
+	gtk_tree_path_free(src_path);
+}
+
+/* Drop handling */
+struct _DragDataReceivedAsync {
+	struct _mail_msg msg;
+	
+	/* input data */
+	GdkDragContext *context;
+
+	union {
+		CamelStreamMem *rfc822;
+		char *folder;
+		char **urilist;
+		struct {
+			char *uri;
+			GPtrArray *uids;
+		} uidlist;
+	} selection;
+
+	CamelStore *store;
+	char *full_name;
+	gboolean move;
+	guint info;
+	
+	/* output data */
+	gboolean moved;
+};
+
+static void
+emft_drop_uid_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
+{
+	CamelFolder *src;
+
+	d(printf(" * drop uid list from '%s'\n", m->selection.uidlist.uri));
+
+	if (!(src = mail_tool_uri_to_folder(m->selection.uidlist.uri, 0, &m->msg.ex)))
+		return;
+	
+	camel_folder_transfer_messages_to(src, m->selection.uidlist.uids, dest, NULL, m->move, &m->msg.ex);
+	camel_object_unref(src);
+	
+	m->moved = m->move && !camel_exception_is_set(&m->msg.ex);
 }
 
 static void
-tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int y, GtkSelectionData *selection,
-			 guint info, guint time, EMFolderTree *emft)
+emft_drop_folder(struct _DragDataReceivedAsync *m)
+{
+	CamelFolder *src;
+	char *new_name;
+
+	d(printf(" * Drop folder '%s' onto '%s'\n", m->selection.folder, m->full_name));
+
+	if (!(src = mail_tool_uri_to_folder(m->selection.folder, 0, &m->msg.ex)))
+		return;
+	
+	/* handles dropping to the root properly */
+	if (m->full_name[0])
+		new_name = g_strdup_printf("%s/%s", m->full_name, src->name);
+	else
+		new_name = g_strdup(src->name);
+	
+	if (src->parent_store == m->store && m->move) {
+		/* simple case, rename */
+		camel_store_rename_folder(m->store, src->full_name, new_name, &m->msg.ex);
+		m->moved = !camel_exception_is_set (&m->msg.ex);
+	} else {
+		CamelFolder *dest;
+
+		/* FIXME: should check we're not coming from a vfolder, otherwise bad stuff could happen */
+		
+		/* copy the folder to the new location */
+		if ((dest = camel_store_get_folder(m->store, new_name, CAMEL_STORE_FOLDER_CREATE, &m->msg.ex))) {
+			GPtrArray *uids;
+			
+			uids = camel_folder_get_uids (src);
+			camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, &m->msg.ex);
+			camel_folder_free_uids (src, uids);
+			
+			camel_object_unref (dest);
+		}
+	}
+	
+	g_free(new_name);
+	camel_object_unref(src);
+}
+
+static gboolean
+emft_import_message_rfc822 (CamelFolder *dest, CamelStream *stream, gboolean scan_from, CamelException *ex)
+{
+	CamelMimeParser *mp;
+	
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mp, scan_from);
+	camel_mime_parser_init_with_stream (mp, stream);
+	
+	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+		CamelMessageInfo *info;
+		CamelMimeMessage *msg;
+		
+		msg = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
+			camel_object_unref (msg);
+			camel_object_unref (mp);
+			return FALSE;
+		}
+		
+		/* append the message to the folder... */
+		info = g_new0 (CamelMessageInfo, 1);
+		camel_folder_append_message (dest, msg, info, NULL, ex);
+		camel_object_unref (msg);
+		
+		if (camel_exception_is_set (ex)) {
+			camel_object_unref (mp);
+			return FALSE;
+		}
+		
+		/* skip over the FROM_END state */
+		camel_mime_parser_step (mp, 0, 0);
+	}
+	
+	camel_object_unref (mp);
+	
+	return TRUE;
+}
+
+static void
+emft_drop_message_rfc822(struct _DragDataReceivedAsync *m, CamelFolder *dest)
+{
+	gboolean scan_from;
+
+	d(printf(" * drop message/rfc822\n"));
+
+	scan_from = m->selection.rfc822->buffer->len > 5
+		&& !strncmp(m->selection.rfc822->buffer->data, "From ", 5);
+	emft_import_message_rfc822(dest, (CamelStream *)m->selection.rfc822, scan_from, &m->msg.ex);
+}
+
+static void
+emft_drop_text_uri_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
+{
+	CamelStream *stream;
+	CamelURL *url;
+	int fd, i, go=1;
+
+	d(printf(" * drop uri list\n"));
+
+	for (i = 0; go && m->selection.urilist[i] != NULL; i++) {
+		d(printf("   - '%s'\n", (char *)m->selection.urilist[i]));
+
+		url = camel_url_new(m->selection.urilist[i], NULL);
+		if (url == NULL)
+			continue;
+
+		if (strcmp(url->protocol, "file") == 0
+		    && (fd = open(url->path, O_RDONLY)) != -1) {
+			stream = camel_stream_fs_new_with_fd(fd);
+			go = emft_import_message_rfc822(dest, stream, TRUE, &m->msg.ex);
+			camel_object_unref(stream);
+		}
+		camel_url_free(url);
+	}
+}
+
+static void
+emft_drop_async_drop (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	CamelFolder *folder;
+	
+	/* for types other than folder, we can't drop to the root path */
+	if (m->info == DND_DROP_TYPE_FOLDER) {
+		/* copy or move (aka rename) a folder */
+		emft_drop_folder(m);
+	} else if (m->full_name[0] == 0) {
+		camel_exception_set (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Cannot drop message(s) into toplevel store"));
+	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &mm->ex))) {
+		switch (m->info) {
+		case DND_DROP_TYPE_UID_LIST:
+			/* import a list of uids from another evo folder */
+			emft_drop_uid_list(m, folder);
+			break;
+		case DND_DROP_TYPE_MESSAGE_RFC822:
+			/* import a message/rfc822 stream */
+			emft_drop_message_rfc822(m, folder);
+			break;
+		case DND_DROP_TYPE_TEXT_URI_LIST:
+			/* import an mbox, maildir, or mh folder? */
+			emft_drop_text_uri_list(m, folder);
+			break;
+		default:
+			abort();
+		}
+		camel_object_unref(folder);
+	}
+}
+
+static void
+emft_drop_async_done (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	gboolean success, delete;
+	
+	success = !camel_exception_is_set (&mm->ex);
+	delete = success && m->move && !m->moved;
+	
+	gtk_drag_finish (m->context, success, delete, GDK_CURRENT_TIME);
+}
+
+static void
+emft_drop_async_free (struct _mail_msg *mm)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	
+	g_object_unref(m->context);
+	camel_object_unref(m->store);
+	g_free(m->full_name);
+
+	switch (m->info) {
+	case DND_DROP_TYPE_FOLDER:
+		g_free(m->selection.folder);
+		break;
+	case DND_DROP_TYPE_UID_LIST:
+		g_free(m->selection.uidlist.uri);
+		em_utils_uids_free(m->selection.uidlist.uids);
+		break;
+	case DND_DROP_TYPE_MESSAGE_RFC822:
+		camel_object_unref(m->selection.rfc822);
+		break;
+	case DND_DROP_TYPE_TEXT_URI_LIST:
+		g_strfreev(m->selection.urilist);
+		break;
+	default:
+		abort();
+	}
+}
+
+static struct _mail_msg_op emft_drop_async_op = {
+	NULL,
+	emft_drop_async_drop,
+	emft_drop_async_done,
+	emft_drop_async_free,
+};
+
+static void
+tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeViewDropPosition pos;
-	GtkTreePath *path;
+	GtkTreePath *dest_path;
+	struct _DragDataReceivedAsync *m;
+	const char *full_name;
+	CamelStore *store;
+	GtkTreeIter iter;
+	char *path, *tmp;
+	int i;
 	
-	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
+	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &dest_path, &pos))
 		return;
 	
-	em_folder_tree_model_drag_data_received (priv->model, context, path, selection, info);
+	/*em_folder_tree_model_drag_data_received (priv->model, context, path, selection, info);*/
+
+	/* this means we are receiving no data */
+	if (!selection->data || selection->length == -1) {
+		gtk_drag_finish(context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
+	}
+	
+	if (!gtk_tree_model_get_iter((GtkTreeModel *)priv->model, &iter, dest_path)) {
+		gtk_drag_finish(context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
+	}
+	
+	gtk_tree_model_get((GtkTreeModel *)priv->model, &iter,
+			   COL_POINTER_CAMEL_STORE, &store,
+			   COL_STRING_FOLDER_PATH, &path, -1);
+	
+	/* make sure user isn't try to drop on a placeholder row */
+	if (path == NULL) {
+		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		return;
+	}
+	
+	full_name = path[0] == '/' ? path + 1 : path;
+
+	m = mail_msg_new (&emft_drop_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
+	m->context = context;
+	g_object_ref(context);
+	m->store = store;
+	camel_object_ref(store);
+	m->full_name = g_strdup (full_name);
+	m->move = context->action == GDK_ACTION_MOVE;
+	m->info = info;
+
+	switch (info) {
+	case DND_DROP_TYPE_FOLDER:
+		m->selection.folder = g_strdup(selection->data);
+		break;
+	case DND_DROP_TYPE_UID_LIST:
+		em_utils_selection_get_uidlist(selection, &m->selection.uidlist.uri, &m->selection.uidlist.uids);
+		break;
+	case DND_DROP_TYPE_MESSAGE_RFC822:
+		m->selection.rfc822 = (CamelStreamMem *)camel_stream_mem_new_with_buffer(selection->data, selection->length);
+		break;
+	case DND_DROP_TYPE_TEXT_URI_LIST:
+		tmp = g_strndup(selection->data, selection->length);
+		m->selection.urilist = g_strsplit(tmp, "\n", 0);
+		g_free(tmp);
+		for (i=0;m->selection.urilist[i];i++)
+			g_strstrip(m->selection.urilist[i]);
+		break;
+	default:
+		abort();
+	}
+	
+	e_thread_put (mail_thread_new, (EMsg *) m);
+}
+
+static GdkAtom
+emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
+{
+	struct _EMFolderTreePrivate *p = emft->priv;
+	gboolean is_store;
+	GtkTreeIter iter;
+	GList *targets;
+	char *uri, *src_uri = NULL;
+
+	/* This is a bit of a mess, but should handle all the cases properly */
+
+	if (!gtk_tree_model_get_iter((GtkTreeModel *)p->model, &iter, path))
+		return GDK_NONE;
+	
+	gtk_tree_model_get((GtkTreeModel *)p->model, &iter, COL_BOOL_IS_STORE, &is_store, COL_STRING_URI, &uri, -1);
+
+	if (p->drag_row) {
+		GtkTreePath *src_path = gtk_tree_row_reference_get_path(p->drag_row);
+
+		if (src_path) {
+			if (gtk_tree_model_get_iter((GtkTreeModel *)p->model, &iter, src_path))
+				gtk_tree_model_get((GtkTreeModel *)p->model, &iter,
+						   COL_STRING_URI, &src_uri, -1);
+
+			/* can't dnd onto itself or below itself - bad things happen,
+			   no point dragging to where we were either */
+			if (gtk_tree_path_compare(path, src_path) == 0
+			    || gtk_tree_path_is_descendant(path, src_path)
+			    || (gtk_tree_path_is_ancestor(path, src_path)
+				&& gtk_tree_path_get_depth(path) == gtk_tree_path_get_depth(src_path)-1)) {
+				gtk_tree_path_free(src_path);
+				return GDK_NONE;
+			}
+			
+			gtk_tree_path_free(src_path);
+		}
+	}
+	
+	targets = context->targets;
+
+	/* Check for special sources, and vfolder stuff */
+	if (src_uri) {
+		CamelURL *url;
+		char *path;
+
+		/* FIXME: this is a total hack, but i think all we can do at present */
+		/* Check for dragging from spethal folders which can't be moved/copied */
+		url = camel_url_new(src_uri, NULL);
+		path = url->fragment?url->fragment:url->path;
+		printf("checking url src path '%s'\n", path);
+		if (path
+		    && 	(strcmp(path, CAMEL_VTRASH_NAME) == 0
+			 || strcmp(path, CAMEL_VJUNK_NAME) == 0
+			 || strcmp(path, CAMEL_UNMATCHED_NAME) == 0
+			 /* Dont allow drag from maildir 'inbox' */
+			 || strcmp(path, ".") == 0)) {
+			camel_url_free(url);
+			return GDK_NONE;
+		}
+		camel_url_free(url);
+
+		if (uri) {
+			/* Check for dragging folders into spethal folders */
+			url = camel_url_new(uri, NULL);
+			path = url->fragment?url->fragment:url->path;
+			printf("checking url dest path '%s'\n", path);
+			if (path && path[0]
+			    && (strcmp(path, CAMEL_VTRASH_NAME) == 0
+				|| strcmp(path, CAMEL_VJUNK_NAME) == 0
+				|| strcmp(path, CAMEL_UNMATCHED_NAME) == 0)) {
+				camel_url_free(url);
+				return GDK_NONE;
+			}
+			camel_url_free(url);
+		}
+
+		if (strncmp(src_uri, "vfolder:", 8) == 0) {
+			/* TODO: not sure if this is legal, but it works, force move only for vfolders */
+			context->suggested_action = GDK_ACTION_MOVE;
+
+			if (uri && strncmp(uri, "vfolder:", 8) == 0) {
+				GdkAtom xfolder;
+
+				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+				while (targets != NULL) {
+					if (targets->data == (gpointer) xfolder)
+						return xfolder;
+			
+					targets = targets->next;
+				}
+			}
+
+			return GDK_NONE;
+		}
+	}
+
+	/* can't drag anything but a vfolder into a vfolder */
+	if (uri && strncmp(uri, "vfolder:", 8) == 0)
+		return GDK_NONE;
+
+	/* Now we either have a store or a normal folder */
+		
+	if (is_store) {
+		GdkAtom xfolder;
+
+		xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+		while (targets != NULL) {
+			if (targets->data == (gpointer) xfolder)
+				return xfolder;
+			
+			targets = targets->next;
+		}
+	} else {
+		int i;
+
+		while (targets != NULL) {
+			for (i = 0; i < NUM_DROP_TYPES; i++) {
+				if (targets->data == (gpointer) drop_atoms[i])
+					return drop_atoms[i];
+			}
+			
+			targets = targets->next;
+		}
+	}
+	
+	return GDK_NONE;
 }
 
 static gboolean
@@ -581,7 +1099,7 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 	
-	target = em_folder_tree_model_row_drop_target (priv->model, context, path);
+	target = emft_drop_target(emft, context, path);
 	gtk_tree_path_free (path);
 	if (target == GDK_NONE)
 		return FALSE;
@@ -598,14 +1116,14 @@ tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 		gtk_tree_row_reference_free (priv->drag_row);
 		priv->drag_row = NULL;
 	}
-	
+
 	/* FIXME: undo anything done in drag-begin */
 }
 
 static void
 tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *emft)
 {
-	/* FIXME: unhighlight target row? */
+	gtk_tree_view_set_drag_dest_row(emft->priv->treeview, NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
 static gboolean
@@ -614,32 +1132,63 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *path;
-	GdkDragAction action;
+	GdkDragAction action = 0;
+	GdkAtom target;
+	int i;
 	
-	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
+	if (!gtk_tree_view_get_dest_row_at_pos(priv->treeview, x, y, &path, &pos))
 		return FALSE;
-	
-	/* FIXME: highlight target row? */
-	
-	action = em_folder_tree_model_row_drop_possible (priv->model, context, path);
-	gtk_tree_path_free (path);
-	
-	gdk_drag_status (context, action, time);
-	
-	return action;
-}
 
+	target = emft_drop_target(emft, context, path);
+	if (target != GDK_NONE) {
+		for (i=0; i<NUM_DROP_TYPES; i++) {
+			if (drop_atoms[i] == target) {
+				switch (i) {
+				case DND_DROP_TYPE_FOLDER:
+					action = context->suggested_action;
+					if (context->actions & GDK_ACTION_MOVE)
+						action = GDK_ACTION_MOVE;
+					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_AFTER);
+					break;
+				default:
+					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
+					action = context->suggested_action;
+					break;
+				}
+				break;
+			}
+		}
+	}
+
+	gtk_tree_path_free(path);
+	
+	gdk_drag_status(context, action, time);
+	
+	return action != 0;
+}
 
 void
 em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv;
+	int i;
+	static int setup;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
 	priv = emft->priv;
+	if (!setup) {
+		for (i=0; i<NUM_DRAG_TYPES; i++)
+			drag_atoms[i] = gdk_atom_intern(drag_types[i].target, FALSE);
 	
-	em_folder_tree_model_set_drag_drop_types (priv->model, (GtkWidget *) priv->treeview);
+		for (i=0; i<NUM_DROP_TYPES; i++)
+			drop_atoms[i] = gdk_atom_intern(drop_types[i].target, FALSE);
+
+		setup = 1;
+	}
+
+	gtk_drag_source_set((GtkWidget *)priv->treeview, GDK_BUTTON1_MASK, drag_types, NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_dest_set((GtkWidget *)priv->treeview, GTK_DEST_DEFAULT_ALL, drop_types, NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	
 	g_signal_connect (priv->treeview, "drag-begin", G_CALLBACK (tree_drag_begin), emft);
 	g_signal_connect (priv->treeview, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), emft);
@@ -650,7 +1199,6 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 	g_signal_connect (priv->treeview, "drag-leave", G_CALLBACK (tree_drag_leave), emft);
 	g_signal_connect (priv->treeview, "drag-motion", G_CALLBACK (tree_drag_motion), emft);
 }
-
 
 void
 em_folder_tree_set_multiselect (EMFolderTree *tree, gboolean mode)
