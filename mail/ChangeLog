@@ -1,5 +1,8 @@
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-view.c: Use E_ICON_SIZE_* enums for the menu/toolbar
+	icon sizes.
+
 	* message-tag-followup.c (construct): Same.
 
 	* message-list.c (message_list_init_images): Same.
