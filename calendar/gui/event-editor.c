@@ -951,7 +951,7 @@ dialog_to_comp_object (EventEditor *ee)
 	
 	date.value = g_new (struct icaltimetype, 1);
 	t = e_dialog_dateedit_get (priv->start_time);
-	*date.value = icaltime_from_timet (t, FALSE, TRUE);
+	*date.value = icaltime_from_timet (t, FALSE, FALSE);
 	date.tzid = NULL;
 	cal_component_set_dtstart (comp, &date);
 
@@ -962,7 +962,7 @@ dialog_to_comp_object (EventEditor *ee)
 	if (all_day_event)
 		t = time_day_end (t);
 
-	*date.value = icaltime_from_timet (t, FALSE, TRUE);
+	*date.value = icaltime_from_timet (t, FALSE, FALSE);
 	cal_component_set_dtend (comp, &date);
 	g_free (date.value);
 
