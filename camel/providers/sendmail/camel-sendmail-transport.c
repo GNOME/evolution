@@ -114,7 +114,8 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	sigaddset (&mask, SIGCHLD);
 	sigprocmask (SIG_BLOCK, &mask, &omask);
 
-	switch (fork ()) {
+	pid = fork ();
+	switch (pid) {
 	case -1:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not fork sendmail: "

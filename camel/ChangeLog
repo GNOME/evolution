@@ -1,5 +1,8 @@
 2000-04-08  Dan Winship  <danw@helixcode.com>
 
+	* providers/sendmail/camel-sendmail-transport.c (_send_internal):
+	actually record the pid returned by fork(). Noticed by clahey.
+
 	* providers/smtp/camel-smtp-transport.c: #include <sys/param.h>
 	for MAXHOSTNAMELEN. (This is a stopgap: some of the uses of
 	MAXHOSTNAMELEN are wrong anyway...)
