@@ -375,29 +375,19 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_free (prompt);
 	
 	if (accept) {
-#if 0
-		/* this code would work, except guess what? mozilla
-                   again changed api - these are all deprecated
-                   functions again. */
-		CERTCertificate *temp;
-		CERTCertTrust *trust;
-		PK11SlotInfo *slot;
-		char *nickname;
+		SECItem *certs[1];
+		SECStatus ret;
 		
-		nickname = CERT_MakeCANickname (cert);
+		if (!cert->trust)
+			cert->trust = PORT_ZAlloc (sizeof (CERTCertTrust));
 		
-		slot = PK11_GetInternalKeySlot ();
+		cert->trust->sslFlags = CERTDB_VALID_PEER | CERTDB_TRUSTED;
 		
-		trust = PORT_ZAlloc (sizeof (CERTCertTrust));
-		trust->sslFlags = CERTDB_TRUSTED_CA | CERTDB_VALID_CA;
+		certs[0] = &cert->derCert;
 		
-		temp = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), &cert->derCert, NULL, PR_FALSE, PR_TRUE);
+		CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageSSLServer, 1, certs,
+				  NULL, TRUE, FALSE, cert->nickname);
 		
-		CERT_AddTempCertToPerm (temp, nickname, trust);
-		
-		CERT_DestroyCertificate (temp);
-		PORT_Free (nickname);
-#endif		
 		return SECSuccess;
 	}
 	

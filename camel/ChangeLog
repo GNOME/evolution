@@ -1,11 +1,17 @@
+2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): Import the certificate if
+	the user accepts it.
+
 2001-10-02    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-provider.c (local_url_hash,
 	local_url_equal): for hashing/comparing local url's, we ignore
 	trailing /'s in paths (maybe shuld handle multiple /'s too).
-	(camel_provider_module_init): Use local_url_hash/equal for all functions.
+	(camel_provider_module_init): Use local_url_hash/equal for all
+	functions.
 
-	* camel-sasl-digest-md5.c (digest_response):  Change to
+	* camel-sasl-digest-md5.c (digest_response): Change to
 	camel_charset_iconv_open/close.
 
 	* camel-pgp-context.c (pgp_verify): Change to
