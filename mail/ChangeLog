@@ -1,3 +1,11 @@
+2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c: Updated header comment and fixed some ref/unref
+	count problems in the various functions. Also fixed some other
+	little things.
+	(pgp_mime_part_encrypt): Do some canonical CRLF action before
+	encrypting.
+
 2001-01-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (message_list_get_layout): Added

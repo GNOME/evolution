@@ -1,20 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * mail-crypto.c: OpenPGP en/decryption & signature code
+ *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- * FIXME FIXME FIXME: This should be in its own library or component
- */
-
-/*
- * Authors:
- *  Nathan Thompson-Amato <ndt@jps.net>
- *  Dan Winship <danw@helixcode.com>
- *  Jeffrey Stedfast <fejj@helixcode.com>
- *
- *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
- *  Copyright 2000, Nathan Thompson-Amato
- *  Copyright 1999, 2000, Anthony Mulcahy
+ *  Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -31,6 +19,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
  */
+
 
 #include <config.h>
 
@@ -77,7 +66,7 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	
 	/* check that we have a protocol param with the value: "application/pgp-signed" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "\"application/pgp-signed\""))
+	if (!param || g_strcasecmp (param, "application/pgp-signed"))
 		return FALSE;
 	
 	/* check that we have exactly 2 subparts */
@@ -122,7 +111,7 @@ mail_crypto_is_rfc2015_encrypted (CamelMimePart *mime_part)
 	
 	/* check that we have a protocol param with the value: "application/pgp-encrypted" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "\"application/pgp-encrypted\""))
+	if (!param || g_strcasecmp (param, "application/pgp-encrypted"))
 		return FALSE;
 	
 	/* check that we have at least 2 subparts */
@@ -135,14 +124,14 @@ mail_crypto_is_rfc2015_encrypted (CamelMimePart *mime_part)
 	/* The first part should be application/pgp-encrypted */
 	part = camel_multipart_get_part (mp, 0);
 	type = camel_mime_part_get_content_type (part);
-	if (!header_content_type_is (type, "application","pgp-encrypted"))
+	if (!header_content_type_is (type, "application", "pgp-encrypted"))
 		return FALSE;
 	
 	/* The second part should be application/octet-stream - this
            is the one we care most about */
 	part = camel_multipart_get_part (mp, 1);
 	type = camel_mime_part_get_content_type (part);
-	if (!header_content_type_is (type, "application","octet-stream"))
+	if (!header_content_type_is (type, "application", "octet-stream"))
 		return FALSE;
 	
 	return TRUE;
@@ -171,10 +160,11 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	CamelStream *stream;
 	GByteArray *array;
 	gchar *cleartext, *signature;
-	gchar *hash_type;
+	gchar *hash_type = NULL;
 	gint clearlen;
 	
 	g_return_if_fail (*mime_part != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
 	g_return_if_fail (userid != NULL);
 	g_return_if_fail (hash != PGP_HASH_TYPE_NONE);
 	
@@ -229,8 +219,9 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 		hash_type = "pgp-sha1";
 		break;
 	default:
-		hash_type = NULL;
+		g_assert_not_reached ();
 	}
+	
 	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
 	header_content_type_set_param (mime_type, "micalg", hash_type);
 	header_content_type_set_param (mime_type, "protocol", "application/pgp-signature");
@@ -243,6 +234,7 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	camel_object_unref (CAMEL_OBJECT (signed_part));
 	
 	/* replace the input part with the output part */
+	camel_object_unref (CAMEL_OBJECT (*mime_part));
 	*mime_part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (*mime_part),
 					 CAMEL_DATA_WRAPPER (multipart));
@@ -274,6 +266,7 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	gboolean valid = FALSE;
 	
 	g_return_val_if_fail (mime_part != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), FALSE);
 	
 	if (!mail_crypto_is_rfc2015_signed (mime_part))
 		return FALSE;
@@ -327,19 +320,27 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 	CamelMultipart *multipart;
 	CamelMimePart *part, *version_part, *encrypted_part;
 	CamelContentType *mime_type;
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilter *crlf_filter;
 	CamelStream *stream;
 	GByteArray *contents;
 	gchar *ciphertext;
 	
 	g_return_if_fail (*mime_part != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
 	g_return_if_fail (recipients != NULL);
 	
 	part = *mime_part;
 	
 	/* get the contents */
-	contents = g_byte_array_new ();
+        contents = g_byte_array_new ();
 	stream = camel_stream_mem_new_with_byte_array (contents);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), stream);
+	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
+						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	/* pgp encrypt */
@@ -377,13 +378,11 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 	camel_object_unref (CAMEL_OBJECT (encrypted_part));
 	
 	/* replace the input part with the output part */
+	camel_object_unref (CAMEL_OBJECT (*mime_part));
 	*mime_part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (*mime_part),
 					 CAMEL_DATA_WRAPPER (multipart));
 	camel_object_unref (CAMEL_OBJECT (multipart));
-	
-	/* destroy the original part */
-	camel_object_unref (CAMEL_OBJECT (part));
 }
 
 
@@ -408,6 +407,7 @@ pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	int cipherlen, clearlen;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
 	
 	/* make sure the mime part is a multipart/encrypted */
 	if (!mail_crypto_is_rfc2015_encrypted (mime_part))
