@@ -1,3 +1,7 @@
+2001-07-10  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: Correct the Register RDF url.
+
 2001-07-09  Iain Holmes  <iain@ximian.com>
 
 	* e-summary.c (e_summary_init): Connect a calendar alarm to be notified

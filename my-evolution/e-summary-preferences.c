@@ -449,7 +449,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.securityfocus.com/topnews-rss.html", "Security Focus"},
 	{"http://www.segfault.org/stories.xml", "Segfault"},
 	{"http://www.slashdot.org/slashdot.rdf", "Slashdot"},
-	{"http://www.theregister.co.uk/tonys/slashdot.org", "The Register"},
+	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register"},
 	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek"},
 	{"http://www.tomalak.org/recentTodaysLinks.xml", "Tomalak's Realm"},
 	{"http://www.webreference.com/webreference.rdf", "Web Reference"},
