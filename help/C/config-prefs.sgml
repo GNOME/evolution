@@ -229,7 +229,8 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
-              automatically and how often. 
+              automatically and how often, as well as other message
+              retrieval options.
 
               <variablelist>
                 <varlistentry>
@@ -253,7 +254,19 @@ smtp.omniport.com:143
 	                      this option.
                            </para>
 			  </listitem>
-			</itemizedlist>
+		
+			
+                           <listitem>
+			    <para>Store Store status headers in
+			    Elm/Pine/Mutt format: If you would like to
+			    use the X-Status header format used by the
+			    mail clients Elm, Pine, and Mutt, select
+			    this option. This option is useful if you
+			    plan to check your mail with those clients
+			    from time to time.
+                           </para>
+			  </listitem>
+	               </itemizedlist>
                       </para>
 		    </listitem>
                   </varlistentry> 
@@ -345,6 +358,16 @@ smtp.omniport.com:143
 	    server: If you'd like your filters to work on this account
 	    as well as on locally downloaded mail, check this box.</para>
 	  </listitem>
+
+	   <listitem>
+	    <para>Store Store status headers in Elm/Pine/Mutt format:
+	    If you would like to use the X-Status header format used
+	    by the mail clients Elm, Pine, and Mutt, select this
+	    option. This option is useful if you plan to check your
+	    mail with those clients from time to time.
+	   </para>
+	  </listitem>
+
 	</itemizedlist>
                      </para>
                    </listitem>

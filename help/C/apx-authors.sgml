@@ -17,9 +17,10 @@
     </para>
 
     <para>
-     Ximian would like to thank Miles Lane for his contributions in
-     quality assurance, and the staff of the El Pelon Taqueria, on
-     Peterborough St. in Boston, for sustenance.
+     Ximian would like to thank everyone who helped out with the bug
+     tracking process, particularly Miles Lane, and also the staff of
+     El Pelon Taqueria, on Peterborough St. in Boston, for
+     sustenance.
     </para>
 
    <para>
@@ -31,7 +32,7 @@
       url="http://bugzilla.ximian.com" type="http">Ximian bug tracking
       database</ulink>. Instructions for submitting bug reports can be
       found on-line at the same location. You can also use the GNOME
-      bug report tool, <command>bug-buddy,</command> to submit your
+      bug report tool, <command>bug-buddy</command>, to submit your
       defect reports.
     </para>
     <para>

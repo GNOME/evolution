@@ -17,22 +17,13 @@
     </para>
   </abstract>
   
+
   <para>
-    A number of often-requested features will not make it into
-    Ximian Evolution 1.0, but we plan to include them for version
-    1.1.  Some of them are:
-    <simplelist>
-      <member>Direct import of Microsoft Outlook contact cards</member>
-      <member>Synchronization of email with handheld devices</member>
-      <member>S/MIME support</member>
-      <member>Read foreign mail folders without importing them</member>
-      <member>Import of WINMAIL.DAT attachments</member>
-      <member>Playing a sound to indicate new mail arriving</member>
-    </simplelist>
-  </para>
-  <para>
-     A more complete list of feature requests and other issues with
+     A complete list of feature requests and other issues with
     Evolution is available online in the Ximian bug tracking system.
+    You can learn more about the Ximian Evolution development process
+    at <ulink
+    url="http://developer.ximian.com">developer.ximian.com</ulink>.
   </para>
   
 </appendix>

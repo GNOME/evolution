@@ -267,35 +267,6 @@
       </orderedlist>
     </para>
     <para>
-      You can refine searches by doing several in
-      succession, or start over by pressing the <guibutton>Show
-	All</guibutton> button.
-    </para>
-    <para>
-      If there are no matches, the card display will be
-      blank. When you'd like to see all the cards again, press
-      <guilabel>Show All</guilabel>.
-    </para>
-    <example id="contact-quicksearch-ex">
-      <title>Refining a Quick Search</title>
-      <para>
-	Tom comes back from lunch and finds a note on his
-	keyboard: "Curtis in sales called for you, but he didn't
-	leave a number, and I forgot to write down the name of the
-	company he works for. He said it was important, though."
-	Tom is not at all annoyed.
-      </para>
-      <para>
-	He opens his contacts folder, and runs a quick search for
-	"Curtis." There are eighteen different people with that name
-	in the file. He then enters "Sales," and
-	<application>Evolution</application> narrows it down to the
-	right Curtis. He only becomes annoyed when he discovers that
-	the call was not actually important.
-      </para>
-    </example>
-    
-    <para>
       To perform a complex search through your contacts:
       <orderedlist numeration="arabic">
 	<listitem>

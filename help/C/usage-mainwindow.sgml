@@ -111,17 +111,9 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Organization: The company where you work (optional).
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Signature file: If you'd like to use an email
-	      <glossterm linkend="signature">signature</glossterm>,
-	      select your signature file here.  Normally, the
-	      signature will be the contents of the
-	      <filename>.signature</filename> file in your home
-	      directory.
+	      Organization: The company where you work, or the
+	      organization you represent when you send email
+	      (optional).
 	    </para>
 	  </listitem>
 	</itemizedlist>
@@ -170,10 +162,11 @@
 
 		<listitem>
 		  <para>
-		    Standard Unix mbox spools: If you want to read and
-		    store mail in the mail spool on your local system,
-		    choose this option. You'll need to provide the
-		    path to the mail spool you want to use.
+		    Standard Unix mbox spools: If you want
+		    to read and store mail in the mail spool on your
+		    local system, choose this option. You'll need to
+		    provide the path to the mail spool
+		    you want to use.
 		  </para>
 		</listitem>
 
@@ -184,6 +177,14 @@
 		    program, you'll want to use this option.  You'll need
 		    to provide the path to the mail directory you want to
 		    use.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    MH format mail directories: If you download your
+		    mail using mh or another MH-style program, you'll
+		    want to use this option.  You'll need to provide
+		    the path to the mail directory you want to use.
 		  </para>
 		</listitem>
 
@@ -197,6 +198,18 @@
 		    spools</guimenuitem> option instead. You'll need
 		    to provide the path to the mail spool you want to
 		    use.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+		    Directory Tree of mbox files: If you wish to use a
+		    directory tree full of mbox files, select this
+		    option and enter the directory you wish to
+		    use. This option is useful if you wish to use pine
+		    or other email clients at the same time as
+		    Evolution, while storing mail on your local system
+		    in mbox format.
 		  </para>
 		</listitem>
 
@@ -249,12 +262,12 @@
 			</para>
 		      </listitem>
 		    </itemizedlist>
-
-      </para>
+              </para>
+      <para>
       <tip id="exchange-info">
-	<title>Can Ximian Evolution Talk to Microsoft Exchange?</title>
-	<para>
-           If you have purchased the Ximian Connector for Microsoft
+	<title>Ximian Evolution Talk to Microsoft Exchange?</title>
+         <para>
+	   If you have purchased Ximian Connector for Microsoft
 	   Exchange, you can access Microsoft Exchange 2000 servers
 	   natively.  If you do not have the Connector, or if you use
 	   an older version of Microsoft Exchange, talk to your system
@@ -262,6 +275,7 @@
 	   like POP and IMAP.
 	</para>
       </tip> 
+</para>
     </sect2>
     <sect2 id="more-mail-options">
       <title>More Mail Configuration Options</title>
@@ -615,7 +629,7 @@ the workaround described in the note below.
   </sect1>
 
   <sect1 id="importing-mail-from-clients">
-    <title>Importing Mail from Individual Mail Clients</title>
+    <title>Importing Mail from Other Mail Clients</title>
     <para>
       Chances are, you already have your email in another mail program
       and don't want to lose the information.  The following section
@@ -884,25 +898,7 @@ the workaround described in the note below.
 	      and shared over a network.
 	   </para>
 	  </listitem>
-	</varlistentry>
-
-<!-- NOT IMPLEMENTED YET
-
-
-	<varlistentry>
-	  <term> <guibutton>Notes:</guibutton></term>
-	<listitem>
-	  <para> The note pad is your catch-all tool: use it to take
-	    messages from phone conversations, keep small things
-	    organized, write <glossterm linkend="haiku">haiku</glossterm>, or whatever
-	    you like. This feature is not yet implemented, but will be
-	    soon. See <xref linkend="usage-notes"> for more
-	    information.
-	  </para>
-	</listitem>
-	</varlistentry>
--->
-	  
+	</varlistentry>	  
 	</variablelist>
       </para>
     </sect2>
@@ -1264,14 +1260,9 @@ Shows your pending tasks
 	    <para>
               It supports multiple mail sources, including <glossterm
               linkend="imap">IMAP</glossterm>, <glossterm
-              linkend="pop">POP3</glossterm>, local
-              <filename>mbox</filename> and <filename>mh</filename>
+              linkend="pop">POP3</glossterm>, and local
+              <filename>mbox</filename> or <filename>mh</filename>
               spools and files created by other mail programs.
-
-<!-- NOT FOR 1.0, but maybe later 
-              and even NNTP messages (newsgroups), which aren't
-              technically email.
--->
             </para>
 	  </listitem>
 	  <listitem>
