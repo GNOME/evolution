@@ -913,11 +913,11 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 				AC_DEFINE(HAVE_SSL)
 				if test "$enable_nss" = "static"; then
 					msg_ssl="yes (Mozilla NSS:static)"
-					msg_smime="yes (Mozilla NSS:static)"
 		 		else
 					msg_ssl="yes (Mozilla NSS)"
-					msg_smime="yes (Mozilla NSS)"
 				fi # static_nss
+				msg_smime="yes (Mozilla NSS)"
+				enable_smime="yes"
 				MANUAL_NSS_LIBS="-L$with_nss_libs $nsslibs"
 			else
 				MANUAL_NSS_CFLAGS=""
@@ -1120,6 +1120,21 @@ EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.2 >= $GAL_REQUIRED $mozi
 	              $THREADS_LIBS $KRB4_LDFLAGS $KRB5_LDFLAGS $MANUAL_NSS_LIBS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
+
+if test "x$mozilla_nss" != "x"; then
+   EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
+   MOZILLA_L_DIR=`pkg-config --libs-only-L $mozilla_nss`
+else
+	if test "x$MOZILLA_MANUAL_LIBS" != "x"; then
+	   MOZILLA_L_DIR="-L$with_nss_lib"
+	fi
+fi
+
+EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
+                      $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS,
+	              $MOZILLA_L_DIR -lcertdb -lcryptohi -lsecutil -lnsspki -lpk11wrap -lnssdev -lnssb $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
+AC_SUBST(CERT_UI_CFLAGS)
+AC_SUBST(CERT_UI_LIBS)
 
 EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED)
 AC_SUBST(E_NAME_CFLAGS)
@@ -1434,6 +1449,7 @@ mail/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
+smime/tests/Makefile
 tools/Makefile
 evolution-shell.pc
 evolution-addressbook.pc
