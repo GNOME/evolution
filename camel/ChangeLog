@@ -1,3 +1,9 @@
+2001-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_raw_check_mailing_list): regex
+	doesn't set errno and regcomp returns 0 on success and any other
+	value for an error (so don't *just* check for -1).
+
 2001-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-cipher-context.c: Check to make sure the context is a

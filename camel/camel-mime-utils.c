@@ -3056,11 +3056,21 @@ header_raw_check_mailing_list(struct _header_raw **list)
 	const char *v;
 	regex_t pattern;
 	regmatch_t match[2];
-	int i;
-
-	for (i=0;i<sizeof(mail_list_magic)/sizeof(mail_list_magic[0]);i++) {
-		if (regcomp(&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE) == -1) {
-			g_warning("Internal error, compiling regex failed: %s: %s", mail_list_magic[i].pattern, strerror(errno));
+	int i, errcode;
+	
+	for (i = 0; i < sizeof (mail_list_magic) / sizeof (mail_list_magic[0]); i++) {
+		if ((errcode = regcomp (&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE)) != 0) {
+			char *errstr;
+			size_t len;
+			
+			len = regerror (errcode, pattern, NULL, 0);
+			errstr = g_malloc0 (len + 1);
+			regerror (errcode, pattern, errstr, len);
+			
+			g_warning ("Internal error, compiling regex failed: %s: %s",
+				   mail_list_magic[i].pattern, errstr);
+			g_free (errstr);
+			
 			continue;
 		}
 
