@@ -28,14 +28,15 @@
  * GnomeIconList widget - scrollable icon list
  *
  * Authors:
- *    Federico Mena <federico@nuclecu.unam.mx>
- *    Miguel de Icaza <miguel@nuclecu.unam.mx>
+ *    Federico Mena <federico@ximian.com>
+ *    Miguel de Icaza <miguel@ximian.com>
  *
  * Rewrote from scratch from the code written by Federico Mena
- * <federico@nuclecu.unam.mx> to be based on a GnomeCanvas, and
+ * <federico@ximian.com> to be based on a GnomeCanvas, and
  * to support banding selection and allow inline icon renaming.
  *
- * Redone somewhat by Elliot to support gdk-pixbuf, and to use GArray instead of GList for item storage.
+ * Redone somewhat by Elliot to support gdk-pixbuf, and to use GArray instead of
+ * GList for item storage.
  */
 
 #include <config.h>

@@ -28,8 +28,8 @@
  *
  *
  * Authors:
- *   Federico Mena   <federico@nuclecu.unam.mx>
- *   Miguel de Icaza <miguel@nuclecu.unam.mx>
+ *   Federico Mena   <federico@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
  */
 
 #ifndef _E_ICON_LIST_H_
