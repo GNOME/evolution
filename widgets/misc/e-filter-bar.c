@@ -150,6 +150,8 @@ do_advanced (ESearchBar *esb)
 		
 		w = filter_rule_get_widget (rule, efb->context);
 		filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+		gtk_container_set_border_width (GTK_CONTAINER (w), 12);
+
 		/* FIXME: get the toplevel window... */
 		dialog = gtk_dialog_new_with_buttons (_("Advanced Search"), NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 						      GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
@@ -157,12 +159,14 @@ do_advanced (ESearchBar *esb)
 						      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 		
 		efb->save_dialog = dialog;
+		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 		
 		gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 		gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
-		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
+		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 		
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 3);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
 		
 		g_object_ref (rule);
 		g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
@@ -210,11 +214,16 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			
 			w = filter_rule_get_widget (rule, efb->context);
 			filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+			gtk_container_set_border_width (GTK_CONTAINER (w), 12);
+
 			/* FIXME: get the toplevel window... */
 			dialog = gtk_dialog_new_with_buttons (_("Save Search"), NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 			efb->save_dialog = dialog;
+			gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+			gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
+			gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 			
 			gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
 			

@@ -1,3 +1,11 @@
+2004-04-09  Rodney Dawes  <dobey@ximian.com>
+
+	* e-charset-picker.c: Include gtkhbox.h in here to avoid the warnings
+	(activate_other):
+	(e_charset_picker_dialog): Make these dialogs be more HIG-compliant
+	* e-filter-bar.c (do_advanced):
+	(menubar_activated): Make these dialogs be more HIG-compliant
+
 2004-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* e-info-label.c (e_info_label_set_info): ugh, fix some last

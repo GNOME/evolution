@@ -1,3 +1,17 @@
+2004-04-09  Rodney Dawes  <dobey@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c
+	(e_timezone_dialog_construct): Set the border widths on the dialog's
+	vbox and action area to be HIG-complaint
+	Get rid of the timezone preview widget in here
+	Point the internal 'table' to the right widget
+	(on_map_motion): Get rid of the extra-hacky code to set the preview
+	widget's label to the timezone, now that that widget is gone
+	(on_map_leave): Update the comment to not reference the preview
+	widget that is now gone
+	Get rid of the code to set the preview widget's label to empty string
+	* e-timezone-dialog/e-timezone-dialog.glade: Update for HIG-compliance
+
 2004-02-26  JP Rosevear <jpr@ximian.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c

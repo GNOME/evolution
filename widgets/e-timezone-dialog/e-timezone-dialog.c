@@ -58,7 +58,6 @@ struct _ETimezoneDialogPrivate {
 	GtkWidget *app;
 	GtkWidget *table;
 	GtkWidget *map_window;
-	GtkWidget *timezone_preview;
 	GtkWidget *timezone_combo;
 };
 
@@ -246,6 +245,9 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 		goto error;
 	}
 
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (priv->app)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (priv->app)->action_area), 12);
+
 	priv->map = e_map_new ();
 	map = GTK_WIDGET (priv->map);
 	gtk_widget_set_events (map, gtk_widget_get_events (map)
@@ -293,13 +295,11 @@ get_widgets (ETimezoneDialog *etd)
 	priv->app		= GW ("timezone-dialog");
 	priv->map_window	= GW ("map-window");
 	priv->timezone_combo	= GW ("timezone-combo");
-	priv->timezone_preview	= GW ("timezone-preview");
-	priv->table             = GW ("table1");
+	priv->table             = GW ("timezone-table");
 
 	return (priv->app
 		&& priv->map_window
 		&& priv->timezone_combo
-		&& priv->timezone_preview
 		&& priv->table);
 }
 
@@ -366,9 +366,6 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
-	char *old_zone_name;
-	const char *new_zone_name;
-	icaltimezone *new_zone;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
@@ -387,16 +384,6 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA);
 
-	gtk_label_get (GTK_LABEL (priv->timezone_preview), &old_zone_name);
-	new_zone = get_zone_from_point (etd, priv->point_hover);
-	if (new_zone) {
-		new_zone_name = zone_display_name (new_zone);
-		if (strcmp (old_zone_name, new_zone_name)) {
-			gtk_label_set_text (GTK_LABEL (priv->timezone_preview),
-					    new_zone_name);
-		}
-	}
-
 	return TRUE;
 }
 
@@ -406,14 +393,13 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	char *old_zone;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	/* We only want to reset the hover point and the preview text if this
-	   is a normal leave event. For some reason we are getting leave events
-	   when the button is pressed in the map, which causes problems. */
+	/* We only want to reset the hover point if this is a normal leave
+	   event. For some reason we are getting leave events when the
+	   button is pressed in the map, which causes problems. */
 	if (event->mode != GDK_CROSSING_NORMAL)
 		return FALSE;
 
@@ -422,11 +408,6 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 	priv->point_hover = NULL;
-
-	/* Clear the timezone preview label, if it isn't already empty. */
-	gtk_label_get (GTK_LABEL (priv->timezone_preview), &old_zone);
-	if (strcmp (old_zone, ""))
-		gtk_label_set_text (GTK_LABEL (priv->timezone_preview), "");
 
 	return FALSE;
 }
