@@ -1,3 +1,25 @@
+# CORBA stuff
+
+IDLS = \
+	Evolution-Addressbook-SelectNames.idl
+
+IDL_GENERATED = \
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
+
+Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
+
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
+		-I$(srcdir) $(srcdir)/Evolution-Addressbook-SelectNames.idl
+
+oafdir = $(datadir)/oaf
+oaf_DATA = evolution-addressbook-select-names.oafinfo
+
+#
+
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
@@ -25,6 +47,11 @@ INCLUDES =						\
 lib_LTLIBRARIES = libeselectnames.la
 
 libeselectnames_la_SOURCES = 		\
+	$(IDL_GENERATED)		\
+	e-select-names-bonobo.c		\
+	e-select-names-bonobo.h		\
+	e-select-names-factory.c	\
+	e-select-names-factory.h	\
 	e-select-names-manager.c	\
 	e-select-names-manager.h	\
 	e-select-names-model.c		\
@@ -35,7 +62,6 @@ libeselectnames_la_SOURCES = 		\
 	e-select-names-text-model.h	\
 	e-select-names.c		\
 	e-select-names.h
-
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = select-names.glade

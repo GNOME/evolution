@@ -1,0 +1,29 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:factory:addressbook:select-names:b39eb1a1-f341-4d5a-9a91-e2616e206b2e"
+            type="exe"
+            location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Factory for the Addressbook's name selection interface"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:addressbook:select-names:39301deb-174b-40d1-8a6e-5edc300f7b61"
+            type="factory"
+            location="OAFIID:factory:addressbook:select-names:b39eb1a1-f341-4d5a-9a91-e2616e206b2e">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Evolution/Addressbook/SelectNames"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Evolution's addressbook name selection interface."/>
+
+</oaf_server>
+
+</oaf_info>

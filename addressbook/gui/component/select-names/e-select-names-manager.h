@@ -35,16 +35,16 @@ struct _ESelectNamesManagerClass {
 
 ESelectNamesManager *e_select_names_manager_new               (void);
 void                 e_select_names_manager_add_section       (ESelectNamesManager *manager,
-							       char *id,
-							       char *title);
+							       const char *id,
+							       const char *title);
 GtkWidget           *e_select_names_manager_create_entry      (ESelectNamesManager *manager,
-							       char *id);
+							       const char *id);
 void                 e_select_names_manager_activate_dialog   (ESelectNamesManager *manager,
-							       char *id);
+							       const char *id);
 
 /* Of type ECard */
 EList               *e_select_names_manager_get_cards         (ESelectNamesManager *manager,
-							       char *id);
+							       const char *id);
 
 /* Standard Gtk function */			      
 GtkType              e_select_names_manager_get_type          (void);

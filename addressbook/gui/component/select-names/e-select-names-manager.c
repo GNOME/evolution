@@ -182,8 +182,8 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 }
 
 void                          e_select_names_manager_add_section               (ESelectNamesManager *manager,
-										char *id,
-										char *title)
+										const char *id,
+										const char *title)
 {
 	ESelectNamesManagerSection *section;
 	
@@ -196,7 +196,7 @@ void                          e_select_names_manager_add_section               (
 }
 
 GtkWidget                    *e_select_names_manager_create_entry              (ESelectNamesManager *manager,
-										char *id)
+										const char *id)
 {
 	GtkWidget *entry;
 	ETextModel *model;
@@ -218,7 +218,7 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 }
 
 void                          e_select_names_manager_activate_dialog           (ESelectNamesManager *manager,
-										char *id)
+										const char *id)
 {
 	ESelectNames *names = E_SELECT_NAMES(e_select_names_new());
 	EIterator *iterator;
@@ -232,7 +232,7 @@ void                          e_select_names_manager_activate_dialog           (
 
 /* Of type ECard */
 EList                    *e_select_names_manager_get_cards                 (ESelectNamesManager *manager,
-									    char *id)
+									    const char *id)
 {
 	EIterator *iterator;
 	iterator = e_list_get_iterator(manager->sections);

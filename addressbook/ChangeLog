@@ -1,3 +1,28 @@
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/addressbook-factory.c (main): Start up the factory
+	for `Evolution::Addressbook::SelectNames'.
+
+	* gui/component/select-names/evolution-addressbook-select-names.oafinfo:
+	New.
+
+	* gui/component/select-names/e-select-names-factory.c: New.
+	* gui/component/select-names/e-select-names-factory.h: New.
+
+	* gui/component/select-names/e-select-names-bonobo.c: New.
+	* gui/component/select-names/e-select-names-bonobo.h: New.
+
+	* gui/component/addressbook-factory.c (main): Call
+	`e_select_names_factory_init()'.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_add_section): Made const-aware.
+	(e_select_names_manager_create_entry): Made const-aware.
+	(e_select_names_manager_activate_dialog): Made const-aware.
+
+	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
+	New.
+
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/e-addressbook-model.c,

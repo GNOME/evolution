@@ -74,6 +74,8 @@ main (int argc, char **argv)
 	addressbook_factory_init ();
 	addressbook_component_factory_init ();
 
+	e_select_names_factory_init ();
+
 	e_cursors_init();
 
 	bonobo_main ();
