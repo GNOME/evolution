@@ -5,10 +5,10 @@
   */
 
 
-#include "camel.h"
-#include "camel-exception.h"
-#include "camel-folder-summary.h"
-#include "md5-utils.h"
+#include <camel/camel.h>
+#include <camel/camel-exception.h>
+#include <camel/camel-folder.h>
+#include <camel/md5-utils.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -47,15 +47,15 @@ search_cb(CamelFolder *folder, int id, gboolean complete, GList *matches, struct
 		if (camel_exception_get_id (sd->ex)) {
 			printf ("Cannot get message\n"
 				"Full description : %s\n", camel_exception_get_description (sd->ex));
+		} else {
+		
+			camel_folder_append_message(sd->outbox, m, sd->ex);
+			
+			if (camel_exception_get_id (sd->ex)) {
+				printf ("Cannot save message\n"
+					"Full description : %s\n", camel_exception_get_description (sd->ex));
+			}
 		}
-		
-		camel_folder_append_message(sd->outbox, m, sd->ex);
-		
-		if (camel_exception_get_id (sd->ex)) {
-			printf ("Cannot save message\n"
-				"Full description : %s\n", camel_exception_get_description (sd->ex));
-		}
-		
 		n = g_list_next(n);
 	}
 
