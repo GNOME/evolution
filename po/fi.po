@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-13 21:27+0300\n"
+"POT-Creation-Date: 2004-06-16 21:25+0300\n"
 "PO-Revision-Date: 2004-06-13 21:10+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
@@ -745,8 +745,7 @@ msgstr "<b>Työ</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
-#: addressbook/gui/widgets/eab-contact-display.c:334
-#: addressbook/gui/widgets/eab-contact-display.c:353
+#: addressbook/gui/widgets/eab-contact-display.c:331
 msgid "AIM"
 msgstr "AIM"
 
@@ -921,8 +920,8 @@ msgstr ""
 "poistaa tämän yhteystiedon?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: addressbook/gui/widgets/eab-contact-display.c:343
-#: addressbook/gui/widgets/eab-contact-display.c:364
+#: addressbook/gui/widgets/eab-contact-display.c:350
+#: addressbook/gui/widgets/eab-contact-display.c:365
 msgid "Address"
 msgstr "Osoite"
 
@@ -1910,31 +1909,28 @@ msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:179
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/widgets/eab-contact-display.c:337
-#: addressbook/gui/widgets/eab-contact-display.c:356
+#: addressbook/gui/widgets/eab-contact-display.c:334
 msgid "Jabber"
 msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:180
-#: addressbook/gui/widgets/eab-contact-display.c:339
-#: addressbook/gui/widgets/eab-contact-display.c:358
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:181
-#: addressbook/gui/widgets/eab-contact-display.c:338
-#: addressbook/gui/widgets/eab-contact-display.c:357
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "MSN"
 msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/widgets/eab-contact-display.c:336
-#: addressbook/gui/widgets/eab-contact-display.c:355
+#: addressbook/gui/widgets/eab-contact-display.c:333
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
+#: addressbook/gui/widgets/eab-contact-display.c:332
 msgid "GroupWise"
 msgstr "Groupwise"
 
@@ -1968,20 +1964,20 @@ msgstr "Muokattavat kentät"
 msgid "Changed"
 msgstr "Muutettu"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2353
+#: addressbook/gui/contact-editor/e-contact-editor.c:2356
 msgid "This contact belongs to these categories:"
 msgstr "Tämä yhteystieto kuuluu näihin ryhmiin:"
 
 #. Create the selector
-#: addressbook/gui/contact-editor/e-contact-editor.c:2430
+#: addressbook/gui/contact-editor/e-contact-editor.c:2433
 msgid "Please select an image for this contact"
 msgstr "Valitse kuva tälle yhteystiedolle"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2434
+#: addressbook/gui/contact-editor/e-contact-editor.c:2437
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2637
+#: addressbook/gui/contact-editor/e-contact-editor.c:2640
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -1989,11 +1985,11 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2665
+#: addressbook/gui/contact-editor/e-contact-editor.c:2668
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2724
+#: addressbook/gui/contact-editor/e-contact-editor.c:2727
 msgid ""
 "The contact cannot be saved to the selected address book. Do you want to "
 "discard changes?"
@@ -2001,12 +1997,12 @@ msgstr ""
 "Yhteystietoa ei voida tallentaa valittuun osoitekirjaan. Haluatko hylätä "
 "muutokset?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2728
-#: addressbook/gui/contact-editor/e-contact-editor.c:2752
+#: addressbook/gui/contact-editor/e-contact-editor.c:2731
+#: addressbook/gui/contact-editor/e-contact-editor.c:2755
 msgid "_Discard"
 msgstr "Hylkää"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2747
+#: addressbook/gui/contact-editor/e-contact-editor.c:2750
 msgid ""
 "You are moving the contact from one address book to another, but it cannot "
 "be removed from the source. Do you want to save a copy instead?"
@@ -2028,7 +2024,7 @@ msgstr "Palvelu"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
-#: calendar/gui/e-cal-list-view.etspec.h:2
+#: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Location"
 msgstr "Sijainti"
 
@@ -2289,80 +2285,75 @@ msgid "map"
 msgstr "kartta"
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
-#: addressbook/gui/widgets/eab-contact-display.c:525
+#: addressbook/gui/widgets/eab-contact-display.c:526
 msgid "List Members"
 msgstr "Listan jäsenet"
 
-#: addressbook/gui/widgets/eab-contact-display.c:321
-#: addressbook/gui/widgets/eab-contact-display.c:323
+#: addressbook/gui/widgets/eab-contact-display.c:322
+#: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: addressbook/gui/widgets/eab-contact-display.c:332
+#: addressbook/gui/widgets/eab-contact-display.c:345
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Organization"
 msgstr "Organisaatio"
 
-#: addressbook/gui/widgets/eab-contact-display.c:333
+#: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "Position"
 msgstr "Asema"
 
-#: addressbook/gui/widgets/eab-contact-display.c:335
-#: addressbook/gui/widgets/eab-contact-display.c:354
-msgid "Groupwise"
-msgstr "Groupwise"
-
-#: addressbook/gui/widgets/eab-contact-display.c:340
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Video Conferencing"
 msgstr "Videoneuvottelu"
 
-#: addressbook/gui/widgets/eab-contact-display.c:341
-#: addressbook/gui/widgets/eab-contact-display.c:362
+#: addressbook/gui/widgets/eab-contact-display.c:348
+#: addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Phone"
 msgstr "Puhelin"
 
-#: addressbook/gui/widgets/eab-contact-display.c:342
+#: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Fax"
 msgstr "Fax"
 
-#: addressbook/gui/widgets/eab-contact-display.c:346
+#: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "work"
 msgstr "työ"
 
-#: addressbook/gui/widgets/eab-contact-display.c:359
+#: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "WWW"
 msgstr "WWW"
 
-#: addressbook/gui/widgets/eab-contact-display.c:360
-#: addressbook/gui/widgets/eab-contact-display.c:579
+#: addressbook/gui/widgets/eab-contact-display.c:361
+#: addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:363
+#: addressbook/gui/widgets/eab-contact-display.c:364
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Mobile Phone"
 msgstr "Matkapuhelin"
 
-#: addressbook/gui/widgets/eab-contact-display.c:367
+#: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "personal"
 msgstr "henkilökohtainen"
 
-#: addressbook/gui/widgets/eab-contact-display.c:374
+#: addressbook/gui/widgets/eab-contact-display.c:375
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Note"
 msgstr "Huomio"
 
-#: addressbook/gui/widgets/eab-contact-display.c:540
+#: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "Job Title"
 msgstr "Tehtävänimike"
 
-#: addressbook/gui/widgets/eab-contact-display.c:544
+#: addressbook/gui/widgets/eab-contact-display.c:545
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "Sähköposti"
 
-#: addressbook/gui/widgets/eab-contact-display.c:571
+#: addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home page"
 msgstr "Kotisivu"
 
@@ -2739,7 +2730,7 @@ msgstr "Edistyneet..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:238
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 #: calendar/gui/e-meeting-list-view.c:227
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
@@ -2869,6 +2860,8 @@ msgid "Car Phone"
 msgstr "Autopuhelin"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:1
 msgid "Categories"
 msgstr "Ryhmät"
 
@@ -4651,27 +4644,27 @@ msgstr "_Alkamisaika:"
 msgid "None"
 msgstr "Määrittelemätön"
 
-#: calendar/gui/dialogs/meeting-page.c:420
+#: calendar/gui/dialogs/meeting-page.c:422
 msgid "The organizer selected no longer has an account."
 msgstr "Valitulla järjestäjällä ei enää ole käyttäjätiliä"
 
-#: calendar/gui/dialogs/meeting-page.c:426
+#: calendar/gui/dialogs/meeting-page.c:428
 msgid "An organizer is required."
 msgstr "Järjestäjä vaaditaan."
 
-#: calendar/gui/dialogs/meeting-page.c:441
+#: calendar/gui/dialogs/meeting-page.c:443
 msgid "At least one attendee is required."
 msgstr "Vähintään yksi läsnäolija vaaditaan."
 
-#: calendar/gui/dialogs/meeting-page.c:651
+#: calendar/gui/dialogs/meeting-page.c:677
 msgid "_Delegate To..."
 msgstr "_Valtuuta..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:655
+#: calendar/gui/dialogs/meeting-page.c:681
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
-#: mail/em-folder-tree.c:2583 mail/em-folder-view.c:919
+#: mail/em-folder-tree.c:2584 mail/em-folder-view.c:919
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -4721,7 +4714,7 @@ msgid "RSVP"
 msgstr "Kuittauspyyntö"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-meeting-list-view.c:248
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/message-list.etspec.h:12
 msgid "Status"
@@ -5275,7 +5268,7 @@ msgid "Free"
 msgstr "Vapaa"
 
 #: calendar/gui/e-calendar-table.c:427 calendar/gui/e-cal-model-calendar.c:166
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:401
 msgid "Busy"
 msgstr "Varattu"
 
@@ -5358,7 +5351,7 @@ msgid "_Delete Selected Tasks"
 msgstr "_Poista valitut tehtävät"
 
 #: calendar/gui/e-calendar-table.c:1350
-#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Lisää tehtävä näpäyttämällä tästä"
 
@@ -5367,33 +5360,33 @@ msgstr "Lisää tehtävä näpäyttämällä tästä"
 msgid "% Complete"
 msgstr "% valmiina"
 
-#: calendar/gui/e-calendar-table.etspec.h:4 camel/camel-filter-driver.c:1178
+#: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
 msgstr "Valmis"
 
-#: calendar/gui/e-calendar-table.etspec.h:5
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
 msgstr "Valmistumispäivä"
 
-#: calendar/gui/e-calendar-table.etspec.h:6
+#: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
 msgstr "Eräpäivä"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Priority"
 msgstr "Prioriteetti"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
 msgstr "Aloituspäivä"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
-#: calendar/gui/e-cal-list-view.etspec.h:4 mail/mail-security.glade.h:5
+#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-cal-list-view.etspec.h:5 mail/mail-security.glade.h:5
 msgid "Summary"
 msgstr "Kuvaus"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
 msgstr "Tehtävän tyyppi"
 
@@ -5469,11 +5462,11 @@ msgstr "Siirry _päivään..."
 msgid "_Settings..."
 msgstr "_Asetukset..."
 
-#: calendar/gui/e-cal-list-view.etspec.h:1
+#: calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
 msgstr "Päättymispäivä"
 
-#: calendar/gui/e-cal-list-view.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
 msgstr "Aloituspäivä"
 
@@ -5483,7 +5476,7 @@ msgstr "Aloituspäivä"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1704 camel/camel-gpg-context.c:1755
+#: camel/camel-gpg-context.c:1705 camel/camel-gpg-context.c:1756
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1379
 #: camel/providers/imap4/camel-imap4-engine.c:1406
@@ -6104,7 +6097,7 @@ msgid "Needs Action"
 msgstr "Vaatii toimenpiteitä"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:400
 msgid "Tentative"
 msgstr "Alustava"
 
@@ -6117,73 +6110,73 @@ msgstr "Valtuutettu"
 msgid "In Process"
 msgstr "Työn alla"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:402 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Poissa konttorilta"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:403
 msgid "No Information"
 msgstr "Ei tietoa"
 
-#: calendar/gui/e-meeting-time-sel.c:417
+#: calendar/gui/e-meeting-time-sel.c:419
 msgid "Add attendees from addressbook"
 msgstr "Lisää osanottajia osoitekirjasta"
 
-#: calendar/gui/e-meeting-time-sel.c:440
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "_Options"
 msgstr "_Asetukset"
 
-#: calendar/gui/e-meeting-time-sel.c:457
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "Näytä vain _työtunnit"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "Näytä _etäänpää"
 
-#: calendar/gui/e-meeting-time-sel.c:482
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "_Päivitä vapaa/varattu"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "_Automaattinen valinta"
 
-#: calendar/gui/e-meeting-time-sel.c:530
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:547
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "_Kaikki henkilöt ja resurssit"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "Kaikki _henkilöt ja yksi resurssi"
 
-#: calendar/gui/e-meeting-time-sel.c:565
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "_Vaaditut henkilöt"
 
-#: calendar/gui/e-meeting-time-sel.c:574
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "Vaaditut henkilöt ja _yksi resurssi"
 
-#: calendar/gui/e-meeting-time-sel.c:593
+#: calendar/gui/e-meeting-time-sel.c:595
 msgid "Meeting _start time:"
 msgstr "Kokouksen alkamisaika:"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:615
 msgid "Meeting _end time:"
 msgstr "Kokouksen päättymisaika:"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel.c:2060
+#: calendar/gui/e-meeting-time-sel.c:2077
 #: calendar/gui/e-meeting-time-sel-item.c:452
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
@@ -6194,7 +6187,7 @@ msgstr "%A, %B %d, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
-#: calendar/gui/e-meeting-time-sel.c:2093
+#: calendar/gui/e-meeting-time-sel.c:2110
 #: calendar/gui/e-meeting-time-sel-item.c:456 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
@@ -8657,8 +8650,8 @@ msgstr ""
 "käyttäjälle: \"%s\""
 
 #: camel/camel-gpg-context.c:791 camel/camel-gpg-context.c:1283
-#: camel/camel-gpg-context.c:1440 camel/camel-gpg-context.c:1531
-#: camel/camel-gpg-context.c:1638 camel/providers/nntp/camel-nntp-store.c:1231
+#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1532
+#: camel/camel-gpg-context.c:1639 camel/providers/nntp/camel-nntp-store.c:1231
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
@@ -8699,16 +8692,16 @@ msgstr "%s salaus GnuPG:llä epäonnistui: %s\n"
 msgid "Could not generate signing data: %s"
 msgstr "Allekirjoitustietoa ei voitu luoda: %s"
 
-#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1703
-#: camel/camel-gpg-context.c:1754
+#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1704
+#: camel/camel-gpg-context.c:1755
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "gpg:n suoritus epäonnistui: %s"
 
-#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1433
-#: camel/camel-gpg-context.c:1524 camel/camel-gpg-context.c:1547
-#: camel/camel-gpg-context.c:1631 camel/camel-gpg-context.c:1655
-#: camel/camel-gpg-context.c:1725 camel/camel-gpg-context.c:1776
+#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1434
+#: camel/camel-gpg-context.c:1525 camel/camel-gpg-context.c:1548
+#: camel/camel-gpg-context.c:1632 camel/camel-gpg-context.c:1656
+#: camel/camel-gpg-context.c:1726 camel/camel-gpg-context.c:1777
 msgid "Failed to execute gpg."
 msgstr "gpg:n suoritus epäonnistui."
 
@@ -8716,33 +8709,33 @@ msgstr "gpg:n suoritus epäonnistui."
 msgid "This is a digitally signed message part"
 msgstr "Digitaalisesti allekirjoitettu viestin osa"
 
-#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1409
-#: camel/camel-smime-context.c:721 camel/camel-smime-context.c:732
-#: camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1406
+#: camel/camel-gpg-context.c:1412 camel/camel-smime-context.c:721
+#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Viestin allekirjoitusta ei voida tarkistaa: virheellinen viestin muoto"
 
-#: camel/camel-gpg-context.c:1416
+#: camel/camel-gpg-context.c:1420
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
 "Viestin allekirjoitusta ei voida varmentaa: väliaikaistiedostoa ei voitu "
 "luoda: %s"
 
-#: camel/camel-gpg-context.c:1507
+#: camel/camel-gpg-context.c:1508
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Salaustieto ei voitu luoda: %s"
 
-#: camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1566
 msgid "This is a digitally encrypted message part"
 msgstr "Digitaalisesti salattu viestin osa"
 
-#: camel/camel-gpg-context.c:1662 camel/camel-smime-context.c:994
+#: camel/camel-gpg-context.c:1663 camel/camel-smime-context.c:994
 msgid "Encrypted content"
 msgstr "Salattu sisältö"
 
-#: camel/camel-gpg-context.c:1681
+#: camel/camel-gpg-context.c:1682
 msgid "Unable to parse message content"
 msgstr "Viestin sisältöä ei voitu tulkita"
 
@@ -9164,12 +9157,12 @@ msgstr "Isäntänimeä ei löytynyt: säiettä ei voida luoda: %s"
 #: camel/camel-service.c:798
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr "Nimenratkaisu epäonnistui: %s: palvelinta ei löydy"
+msgstr "Palvelimen %s osoitteen haku epäonnistui: palvelinta ei löydy"
 
 #: camel/camel-service.c:801
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr "Nimenratkaisu epäonnistui: %s: tuntematon syy"
+msgstr "Palvelimen %s osoitteen haku epäonnistui: tuntematon syy"
 
 #: camel/camel-service.c:855
 msgid "Resolving address"
@@ -9177,11 +9170,11 @@ msgstr "Etsitään osoitetta"
 
 #: camel/camel-service.c:924
 msgid "Host lookup failed: host not found"
-msgstr "Nimenratkaisu epäonnistui: palvelinta ei löydy"
+msgstr "Palvelimen osoitteen haku epäonnistui: palvelinta ei löydy"
 
 #: camel/camel-service.c:927
 msgid "Host lookup failed: unknown reason"
-msgstr "Nimenratkaisu epäonnistui: tuntematon syy"
+msgstr "Palvelimen osoitteen haku epäonnistui: tuntematon syy"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -10214,7 +10207,7 @@ msgstr "Haetaan uusia viestejä"
 
 #: camel/providers/imap/camel-imap-provider.c:48
 msgid "Connection to Server"
-msgstr "Yhdistetään palvelimeen"
+msgstr "Yhteys palvelimeen"
 
 #: camel/providers/imap/camel-imap-provider.c:50
 msgid "Use custom command to connect to server"
@@ -11410,93 +11403,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-palvelin %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP postinvälitys %s:n kautta"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
 msgstr "Viestiä ei voida lähettää: palveluun ei ole yhteyttä."
 
-#: camel/providers/smtp/camel-smtp-transport.c:692
+#: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
 msgstr "Viestiä ei voida lähettää: lähettäjän osoite on epäkelpo."
 
-#: camel/providers/smtp/camel-smtp-transport.c:696
+#: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
 msgstr "Lähetetään viestiä"
 
-#: camel/providers/smtp/camel-smtp-transport.c:711
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
 msgstr "Viestiä ei voida lähettää: vastaanottajia ei ole määritelty."
 
-#: camel/providers/smtp/camel-smtp-transport.c:722
+#: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Viestiä ei voida lähettää: yksi tai useampi viallinen vastaanottaja"
 
-#: camel/providers/smtp/camel-smtp-transport.c:894
+#: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
 msgstr "SMTP tervehdys"
 
-#: camel/providers/smtp/camel-smtp-transport.c:943
+#: camel/providers/smtp/camel-smtp-transport.c:934
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "Komento HELO epäonnistui: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:960
+#: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO command failed"
 msgstr "Komento HELO epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1026
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr "SMTP-todennus"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr "Virhe luotaessa SASL todennusobjektia"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1049
-#: camel/providers/smtp/camel-smtp-transport.c:1060
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "Komento AUTH epäonnistui: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1066
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH command failed"
 msgstr "Komento AUTH epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1128
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "Virheelinen todennusvastaus palvelimelta.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1153
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "Komento MAIL FROM epäonnistui: : %s: sähköpostia ei lähetetty"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1170
+#: camel/providers/smtp/camel-smtp-transport.c:1161
 msgid "MAIL FROM command failed"
 msgstr "Komento MAIL FROM epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1194
+#: camel/providers/smtp/camel-smtp-transport.c:1185
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "Komento RCPT TO epäonnistui: %s: sähköpostia ei lähetetty"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
-#: camel/providers/smtp/camel-smtp-transport.c:1310
-#: camel/providers/smtp/camel-smtp-transport.c:1329
+#: camel/providers/smtp/camel-smtp-transport.c:1243
+#: camel/providers/smtp/camel-smtp-transport.c:1301
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "Komento DATA epäonnistui: %s: sähköpostia ei lähetetty"
@@ -11504,26 +11497,26 @@ msgstr "Komento DATA epäonnistui: %s: sähköpostia ei lähetetty"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1269
-#: camel/providers/smtp/camel-smtp-transport.c:1345
+#: camel/providers/smtp/camel-smtp-transport.c:1260
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 msgid "DATA command failed"
 msgstr "Komento DATA epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1368
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "Komento RSET epäonnistui: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1375
 msgid "RSET command failed"
 msgstr "Komento RSET epäonnistui"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1407
+#: camel/providers/smtp/camel-smtp-transport.c:1398
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "Komento QUIT epäonnistui: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1421
+#: camel/providers/smtp/camel-smtp-transport.c:1412
 msgid "QUIT command failed"
 msgstr "Komento QUIT epäonnistui"
 
@@ -11636,16 +11629,16 @@ msgstr[1] "<b>%d</b> tiedostoa liitetty"
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Piilota _liitepalkki (tiputa liitteitä tähän)"
 
-#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3224
+#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3208
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Näytä _liitepalkki (tiputa liitteitä tähän)"
 
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3113
-#: composer/e-msg-composer.c:3114
+#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3100
+#: composer/e-msg-composer.c:3101
 msgid "Compose a message"
 msgstr "Kirjoita viesti"
 
-#: composer/e-msg-composer.c:4270
+#: composer/e-msg-composer.c:4254
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12562,19 +12555,24 @@ msgstr "Lisää allekirjoitus-skripti"
 msgid "Signature(s)"
 msgstr "Allekirjoitukset"
 
-#: mail/em-composer-utils.c:888
+#: mail/em-composer-utils.c:887
 msgid "-------- Forwarded Message --------"
 msgstr "------- Välitetty viesti ---------"
 
-#: mail/em-composer-utils.c:1495
+#: mail/em-composer-utils.c:1500
 msgid "an unknown sender"
 msgstr "Tuntematon lähettäjä"
 
-#. translators: attribution string used when quoting messages,
-#. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-composer-utils.c:1505
-msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "%a, %d-%m-%Y kello %H:%M %%+05d, %%s kirjoitti:"
+#. Note to translators: this is the attribution string used when quoting messages.
+#. * each ${Variable} gets replaced with a value. To see a full list of available
+#. * variables, see em-composer-utils.c:1514
+#: mail/em-composer-utils.c:1547
+msgid ""
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} wrote:"
+msgstr ""
+"${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kello ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} kirjoitti:"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
@@ -12610,7 +12608,7 @@ msgstr "<Valitse kansio näpäyttämällä tästä>"
 msgid "Create New Folder"
 msgstr "Luo uusi kansio"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2309
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2310
 #: mail/mail-component.c:719
 msgid "Specify where to create the folder:"
 msgstr "Määrittele mihin kansio luodaan:"
@@ -12680,52 +12678,52 @@ msgstr "_Kopioi"
 msgid "Creating folder `%s'"
 msgstr "Luodaan kansiota %s"
 
-#: mail/em-folder-tree.c:2309 mail/mail-component.c:719
+#: mail/em-folder-tree.c:2310 mail/mail-component.c:719
 msgid "Create folder"
 msgstr "Luo uusi kansio"
 
-#: mail/em-folder-tree.c:2498
+#: mail/em-folder-tree.c:2499
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Nimeä '%s' uudelleen: "
 
-#: mail/em-folder-tree.c:2500
+#: mail/em-folder-tree.c:2501
 msgid "Rename Folder"
 msgstr "Nimeä kansio uudestaan"
 
-#: mail/em-folder-tree.c:2571 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2572 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Näytä"
 
-#: mail/em-folder-tree.c:2572
+#: mail/em-folder-tree.c:2573
 msgid "Open in _New Window"
 msgstr "Avaa _uudessa ikkunassa"
 
-#: mail/em-folder-tree.c:2576
+#: mail/em-folder-tree.c:2577
 msgid "_Copy..."
 msgstr "_Kopioi..."
 
-#: mail/em-folder-tree.c:2577
+#: mail/em-folder-tree.c:2578
 msgid "_Move..."
 msgstr "_Siirrä..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2581
+#: mail/em-folder-tree.c:2582
 msgid "_New Folder..."
 msgstr "_Uusi kansio..."
 
-#: mail/em-folder-tree.c:2584
+#: mail/em-folder-tree.c:2585
 msgid "_Rename..."
 msgstr "_Nimeä uudestaan..."
 
-#: mail/em-folder-tree.c:2587 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2588 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Ominaisuudet..."
 
 #: mail/em-folder-tree-model.c:199 mail/em-folder-tree-model.c:201
-#: mail/mail-vfolder.c:888
+#: mail/mail-vfolder.c:869
 msgid "VFolders"
 msgstr "vKansiot"
 
@@ -13041,7 +13039,7 @@ msgstr "Muotoillaan viestiä"
 
 #. pseudo-header
 #: mail/em-format-html.c:1523 mail/em-format-quote.c:309
-#: mail/em-mailer-prefs.c:930
+#: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Postittaja"
 
@@ -15558,7 +15556,7 @@ msgstr ""
 msgid "Saving attachment"
 msgstr "Tallennetaan liite"
 
-#: mail/mail-ops.c:2015
+#: mail/mail-ops.c:2010
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15567,17 +15565,17 @@ msgstr ""
 "Tulostiedostoa ei voida luoda: %s:\n"
 "%s"
 
-#: mail/mail-ops.c:2045
+#: mail/mail-ops.c:2020
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Tietoa ei voitu kirjoittaa: %s"
 
-#: mail/mail-ops.c:2193
+#: mail/mail-ops.c:2168
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Yhteyttä %s katkaistaan"
 
-#: mail/mail-ops.c:2193
+#: mail/mail-ops.c:2168
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Otetaan uudelleen yhteyttää %s"
@@ -15713,15 +15711,15 @@ msgstr "Päivitetään vKansioita %s:%s"
 msgid "Updating vFolders for '%s'"
 msgstr "Päivitetään vKansioita %s"
 
-#: mail/mail-vfolder.c:958
+#: mail/mail-vfolder.c:939
 msgid "vFolders"
 msgstr "vKansiot"
 
-#: mail/mail-vfolder.c:997
+#: mail/mail-vfolder.c:978
 msgid "Edit VFolder"
 msgstr "Muokkaa vKansiota"
 
-#: mail/mail-vfolder.c:1081
+#: mail/mail-vfolder.c:1062
 msgid "New VFolder"
 msgstr "Uusi vKansio"
 
@@ -18659,3 +18657,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmiina)"
+
+#~ msgid "Groupwise"
+#~ msgstr "Groupwise"
+
+#~ msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
+#~ msgstr "%a, %d-%m-%Y kello %H:%M %%+05d, %%s kirjoitti:"
