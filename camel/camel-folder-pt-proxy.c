@@ -53,9 +53,9 @@ enum CamelFolderFunc {
 static CamelFuncDef _camel_func_def [CAMEL_FOLDER__LAST_FUNC];
 
 
-static void _init_with_store (CamelFolder *folder, 
-			      CamelStore *parent_store, 
-			      CamelException *ex);
+static void _init (CamelFolder *folder, CamelStore *parent_store, 
+		   CamelFolder *parent_folder, const gchar *name,
+		   gchar separator, CamelException *ex);
 static void _open_async (CamelFolder *folder, 
 			 CamelFolderOpenMode mode, 
 			 CamelFolderAsyncCallback callback, 
@@ -78,10 +78,10 @@ static void _set_name (CamelFolder *folder,
 
 static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
 static const gchar *_get_full_name (CamelFolder *folder, CamelException *ex);
-static gboolean _can_hold_folders (CamelFolder *folder, CamelException *ex);
-static gboolean _can_hold_messages(CamelFolder *folder, CamelException *ex);
+static gboolean _can_hold_folders (CamelFolder *folder);
+static gboolean _can_hold_messages(CamelFolder *folder);
 static gboolean _exists (CamelFolder  *folder, CamelException *ex);
-static gboolean _is_open (CamelFolder *folder, CamelException *ex);
+static gboolean _is_open (CamelFolder *folder);
 static CamelFolder *_get_subfolder (CamelFolder *folder, const gchar *folder_name, CamelException *ex);
 static gboolean _create (CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
@@ -114,7 +114,7 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	parent_class = gtk_type_class (camel_folder_get_type ());
 	
 	/* virtual method definition */
-	camel_folder_class->init_with_store = _init_with_store;
+	camel_folder_class->init = _init;
 	camel_folder_class->open = _open;
 	camel_folder_class->close = _close;
 #ifdef FOLDER_ASYNC_TEST
@@ -273,20 +273,21 @@ _proxy_cb_user_data (_ProxyCbUserData *pud,
 
 /* ******** */
 
-/* thread->init_with_store implementation */
-static void 
-_init_with_store (CamelFolder *folder, 
-		  CamelStore *parent_store, 
-		  CamelException *ex)
+/* thread->init implementation */
+static void
+_init (CamelFolder *folder, CamelStore *parent_store, 
+       CamelFolder *parent_folder, const gchar *name,
+       gchar separator, CamelException *ex)
 {
 
-	parent_class->init_with_store (folder, parent_store, ex);
+	parent_class->init (folder, parent_store, parent_folder,
+			    name, separator, ex);
 	if (ex->id != CAMEL_EXCEPTION_NONE)
 		return;
 #warning use proxy store here  
-	CF_CLASS (folder)->init_with_store (CAMEL_FOLDER_PT_PROXY (folder)->real_folder, 
-					    parent_store, 
-					    ex);
+	CF_CLASS (folder)->init (CAMEL_FOLDER_PT_PROXY (folder)->real_folder, 
+				 parent_store, parent_folder, name,
+				 separator, ex);
 }
 
 
@@ -518,26 +519,26 @@ _get_full_name (CamelFolder *folder, CamelException *ex)
 
 
 static gboolean
-_can_hold_folders (CamelFolder *folder, CamelException *ex)
+_can_hold_folders (CamelFolder *folder)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		can_hold_folders (proxy_folder->real_folder, ex);
+		can_hold_folders (proxy_folder->real_folder);
 }
 
 
 
 
 static gboolean
-_can_hold_messages (CamelFolder *folder, CamelException *ex)
+_can_hold_messages (CamelFolder *folder)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		can_hold_messages (proxy_folder->real_folder, ex);
+		can_hold_messages (proxy_folder->real_folder);
 }
 
 
@@ -556,13 +557,13 @@ _exists (CamelFolder *folder, CamelException *ex)
 
 
 static gboolean
-_is_open (CamelFolder *folder, CamelException *ex)
+_is_open (CamelFolder *folder)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		is_open (proxy_folder->real_folder, ex);
+		is_open (proxy_folder->real_folder);
 } 
 
 

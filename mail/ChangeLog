@@ -1,3 +1,8 @@
+2000-02-24  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_set_folder): update for CamelFolder
+	changes
+
 2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Changed this to not use the "x" and "y"

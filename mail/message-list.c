@@ -467,7 +467,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	g_return_if_fail (camel_folder != NULL);
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (CAMEL_IS_FOLDER (camel_folder));
-	g_return_if_fail (camel_folder_has_summary_capability (camel_folder, &ex));
+	g_return_if_fail (camel_folder_has_summary_capability (camel_folder));
 	
 	
 	camel_exception_init (&ex);
