@@ -138,10 +138,6 @@
                         <menuitem name="SecuritySMimeEncrypt" verb="" _label="S/MIME Encrypt"/>
                 </submenu>
 		
-		<submenu name="Debug" _label="_Debug" hidden="1">
-			<menuitem name="DebugDumpXml" verb=""/>
-		</submenu>
-		
 	</menu>
 	
 	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">

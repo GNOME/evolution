@@ -1,3 +1,11 @@
+2001-10-01  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-message-composer.xml: removed hidden Debug submenu,
+	it was causing empty little popup menu appear, which was somewhat
+	confusing, I hope Michael doesn't need it anymore
+
+	* evolution-signature-editor.xml: removed hidden Debug submenu
+
 2001-09-28  Iain Holmes  <iain@ximian.com>
 
 	* evolution.xml: Change the name of the Import label.
