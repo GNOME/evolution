@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-14 14:06+0100\n"
-"PO-Revision-Date: 2001-02-14 14:10CET\n"
+"POT-Creation-Date: 2001-02-19 13:26+0100\n"
+"PO-Revision-Date: 2001-02-19 13:28CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
 "MIME-Version: 1.0\n"
@@ -454,6 +454,14 @@ msgstr "Nie je mo¾né spusti» wombat"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Adresa z pilota"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
+msgid "Configure the address conduit"
+msgstr "Nastavenie spojky pre adresár"
+
+#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
+msgid "Evolution Address conduit "
+msgstr "Spojka pre adresár Evolution"
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -1425,6 +1433,7 @@ msgid "label26"
 msgstr "label26"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
 msgid "Evolution Calendar Conduit"
 msgstr "Spojka kalendára Evolution"
 
@@ -1442,6 +1451,15 @@ msgstr "Chyba pri komunikácii s kalendárovým serverom"
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Calendar pilota"
 
+#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
+msgid "Configure the Evolution Calendar conduit"
+msgstr "Nastavenie spojky kalendára Evolution"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
+msgid "Configure the Evolution ToDo conduit"
+msgstr "Nastavenie spojky ToDo pre Evolution"
+
+#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
 #: calendar/conduits/todo/todo-conduit-control-applet.c:127
 msgid "Evolution ToDo Conduit"
 msgstr "Spojka ToDo pre Evolution"
@@ -2946,8 +2964,8 @@ msgid ""
 "Evolution has taken the tasks that were in your calendar folder and "
 "automatically migrated them to the new tasks folder."
 msgstr ""
-"Evolution automaticky previedol úlohy z prieèinku kalendára do nového prieèinku "
-"úloh."
+"Evolution automaticky previedol úlohy z prieèinku kalendára do nového "
+"prieèinku úloh."
 
 #: calendar/gui/tasks-migrate.c:109
 msgid ""
@@ -2956,8 +2974,8 @@ msgid ""
 "Some of the tasks could not be migrated, so this process may be attempted "
 "again in the future."
 msgstr ""
-"Evolution sa pokúsil automaticky previes» úlohy z prieèinku kalendára do nového "
-"prieèinku úloh.\n"
+"Evolution sa pokúsil automaticky previes» úlohy z prieèinku kalendára do "
+"nového prieèinku úloh.\n"
 "Niektoré úlohy nebolo mo¾né prenies», tak¾e sa o to pokúsi neskôr."
 
 #: calendar/gui/tasks-migrate.c:121
@@ -2975,19 +2993,19 @@ msgid ""
 "The method required to load `%s' is not supported; no items from the "
 "calendar folder will be migrated to the tasks folder."
 msgstr ""
-"Metóda pre naèítanie `%s' nie je podporovaná, ¾iadne polo¾ky z "
-"prieèinku kalendára nebudú prenesené do prieèinku úloh."
+"Metóda pre naèítanie `%s' nie je podporovaná, ¾iadne polo¾ky z prieèinku "
+"kalendára nebudú prenesené do prieèinku úloh."
 
 #: calendar/gui/weekday-picker.c:313 calendar/gui/weekday-picker.c:408
 msgid "SMTWTFS"
 msgstr "NPUS©PS"
 
-#: camel/camel-filter-driver.c:767
+#: camel/camel-filter-driver.c:773
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Chyba pri spracovávaní filtra: %s: %s"
 
-#: camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:778
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba pri vykonávaní filtra: %s: %s"
@@ -4184,7 +4202,8 @@ msgstr "Ulo¾i» zmeny do správy..."
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Chyba pri ukladaní do prieèinku 'Koncepty': %s"
 
-#: composer/e-msg-composer.c:819 shell/e-shell-view-menu.c:192
+#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
+#: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -4322,7 +4341,7 @@ msgstr "Presunú» %s do nasledujúceho riadku"
 msgid "Configure %s"
 msgstr "Nastavenie %s"
 
-#: executive-summary/component/e-summary.c:916
+#: executive-summary/component/e-summary.c:913
 #, c-format
 msgid ""
 "Cannot open the HTML file:\n"
@@ -4331,7 +4350,7 @@ msgstr ""
 "Nie je mo¾né otvori» súbor HTML:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:930
+#: executive-summary/component/e-summary.c:927
 #, c-format
 msgid ""
 "Error reading data:\n"
@@ -4340,7 +4359,7 @@ msgstr ""
 "Chyba pri èítaní dát:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:948
+#: executive-summary/component/e-summary.c:945
 msgid "File does not have a place for the services.\n"
 msgstr "Súbor nemá miesto pre slu¾by.\n"
 
@@ -7723,4 +7742,8 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 #: wombat/wombat.c:207
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
+
+#: evolution.desktop.in.h:2
+msgid "The Evolution groupware suite"
+msgstr "Sada nástrojov pre pracovné skupiny Evolution"
 
