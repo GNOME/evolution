@@ -1,5 +1,10 @@
 2001-09-08  Chris Toshok  <toshok@ximian.com>
 
+	(make_contact_editor_cb): show the right contact editor (the list
+	editor for list cards).
+	
+2001-09-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-popup.c
 	(popup_menu_card): do the EDestination xml magic on email
 	addresses we put in the popup.

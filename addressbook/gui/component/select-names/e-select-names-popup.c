@@ -99,12 +99,19 @@ make_contact_editor_cb (EBook *book, gpointer user_data)
 {
 	if (book) {
 		EDestination *dest = E_DESTINATION (user_data);
-		EContactEditor *ce;
 		ECard *card;
 
 		card = (ECard *) e_destination_get_card (dest);
-		ce = e_addressbook_show_contact_editor (book, card, FALSE, TRUE);
-		e_contact_editor_raise (ce);
+		if (e_card_evolution_list (card)) {
+			EContactListEditor *ce;
+			ce = e_addressbook_show_contact_list_editor (book, card, FALSE, TRUE);
+			e_contact_list_editor_raise (ce);
+		}
+		else {
+			EContactEditor *ce;
+			ce = e_addressbook_show_contact_editor (book, card, FALSE, TRUE);
+			e_contact_editor_raise (ce);
+		}
 		gtk_object_unref (GTK_OBJECT (dest));
 	}
 }
