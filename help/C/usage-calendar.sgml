@@ -144,10 +144,8 @@
          network. <guilabel>Public</guilabel> is the default category,
          and a public appointment can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
-         level of security, and <guilabel>Confidential</guilabel> a
-         higher level.  <!-- FIXME --> Exact determinations and
-         implementations of this feature have yet to be
-         determined. <!-- FIXME -->
+         level of security, and <guilabel>Confidential</guilabel> an even 
+         higher level.
       </para>
       <para>
         <application>Evolution</application> lets you categorize your

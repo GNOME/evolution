@@ -1,3 +1,7 @@
+2001-08-29  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-exec-summary.sgml: Rewrote this file to be...more up to date.
+
 2001-08-28  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Renamed a xref to make it work.

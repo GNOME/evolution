@@ -419,11 +419,6 @@
            right.  From the dialog box that appears, you can check as
            many or as few categories as you like.
         </para>
-	<para>
-           Then, you can refer to all the cards in that category by:
-           <!-- FIXME --> Waiting for Evolution to support the
-           operation.
-         </para>
 
        <!-- FIXME: Feature Not Implemented
 	<para>
@@ -554,6 +549,7 @@
  -->
 
     </sect1>
+
     <!---  FIXME this feature not yet implemented 
   <sect1 id="usage-contact-automation-extra">
   <title>Map It!</title>
