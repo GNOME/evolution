@@ -1093,6 +1093,18 @@ rfc2047_decode_word(const char *in, size_t len)
 	return decoded;
 }
 
+/* grrr, glib should have this ! */
+static GString *
+g_string_append_len(GString *st, const char *s, size_t l)
+{
+	char *tmp;
+
+	tmp = alloca(l+1);
+	tmp[l]=0;
+	memcpy(tmp, s, l);
+	return g_string_append(st, tmp);
+}
+
 /* ok, a lot of mailers are BROKEN, and send iso-latin1 encoded
    headers, when they should just be sticking to US-ASCII
    according to the rfc's.  Anyway, since the conversion to utf-8
@@ -2630,6 +2642,73 @@ header_msgid_decode(const char *in)
 		return NULL;
 
 	return header_msgid_decode_internal(&in);
+}
+
+char *
+header_contentid_decode (const char *in)
+{
+	const char *inptr = in;
+	gboolean at = FALSE;
+	GString *addr;
+	char *buf;
+	
+	d(printf("decoding Content-ID: '%s'\n", in));
+	
+	header_decode_lwsp (&inptr);
+	
+	/* some lame mailers quote the Content-Id */
+	if (*inptr == '"')
+		inptr++;
+	
+	/* make sure the content-id is not "" which can happen if we get a
+	 * content-id such as <.@> (which Eudora likes to use...) */
+	if ((buf = header_msgid_decode (inptr)) != NULL && *buf)
+		return buf;
+	
+	g_free (buf);
+	
+	/* ugh, not a valid msg-id - try to get something useful out of it then? */
+	inptr = in;
+	header_decode_lwsp (&inptr);
+	if (*inptr == '<') {
+		inptr++;
+		header_decode_lwsp (&inptr);
+	}
+	
+	/* Eudora has been known to use <.@> as a content-id */
+	if (!(buf = header_decode_word (&inptr)) && !strchr (".@", *inptr))
+		return NULL;
+	
+	addr = g_string_new ("");
+	header_decode_lwsp (&inptr);
+	while (buf != NULL || *inptr == '.' || (*inptr == '@' && !at)) {
+		if (buf != NULL) {
+			g_string_append (addr, buf);
+			g_free (buf);
+			buf = NULL;
+		}
+		
+		if (!at) {
+			if (*inptr == '.') {
+				g_string_append_c (addr, *inptr++);
+				buf = header_decode_word (&inptr);
+			} else if (*inptr == '@') {
+				g_string_append_c (addr, *inptr++);
+				buf = header_decode_word (&inptr);
+				at = TRUE;
+			}
+		} else if (strchr (".[]", *inptr)) {
+			g_string_append_c (addr, *inptr++);
+			buf = header_decode_atom (&inptr);
+		}
+		
+		header_decode_lwsp (&inptr);
+	}
+	
+	buf = addr->str;
+	g_string_free (addr, FALSE);
+	
+	return buf;
 }
 
 void
