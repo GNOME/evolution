@@ -149,7 +149,7 @@ gvm_finalize (GObject *object)
 	gal_view_menus_unmerge (gvm, NULL);
 
 	if (gvm->priv->define_views_dialog)
-		g_object_weak_unref (gvm->priv->define_views_dialog, clear_define_views_dialog, gvm);
+		g_object_weak_unref (G_OBJECT (gvm->priv->define_views_dialog), clear_define_views_dialog, gvm);
 
 	g_free(gvm->priv);
 
@@ -208,12 +208,12 @@ gal_view_menus_construct (GalViewMenus      *gvm,
 }
 
 static void
-dialog_clicked(GtkWidget *dialog, int button, GalViewMenus *menus)
+dialog_response(GtkWidget *dialog, int id, GalViewMenus *menus)
 {
-	if (button == 0) {
+	if (id == GTK_RESPONSE_OK) {
 		gal_view_collection_save(menus->priv->instance->collection);
 	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
 
 static void
@@ -226,7 +226,7 @@ define_views(BonoboUIComponent *component,
 	} else {
 		GtkWidget *dialog = gal_define_views_dialog_new(menus->priv->instance->collection);
 
-		g_signal_connect (dialog, "clicked", G_CALLBACK (dialog_clicked), menus);
+		g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), menus);
 		menus->priv->define_views_dialog = dialog;
 		g_object_weak_ref (G_OBJECT (dialog), clear_define_views_dialog, menus);
 		gtk_widget_show(dialog);

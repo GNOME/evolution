@@ -1,3 +1,10 @@
+2002-11-14  Chris Toshok  <toshok@ximian.com>
+
+	* menus/gal-view-menus.c (define_views): use GtkDialog's
+	::response instead of GnomeDialog's ::clicked.
+	(dialog_response): use response id's.
+	(gvm_finalize): fix warning.
+
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* menus/gal-view-menus.h
