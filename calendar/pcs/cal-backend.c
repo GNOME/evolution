@@ -43,9 +43,19 @@ typedef struct {
 
 /* Private part of the CalBackend structure */
 struct _CalBackendPrivate {
-	/* List of Cal objects with their listeners */
+	/* The uri for this backend */
+	char *uri;
+
+	/* The kind of components for this backend */
+	icalcomponent_kind kind;
+	
+	/* List of Cal objects */
+	GMutex *clients_mutex;
 	GList *clients;
 
+	GMutex *queries_mutex;
+	EList *queries;
+	
 	/* Hash table of live categories, temporary hash of
 	 * added/removed categories, and idle handler for sending
 	 * category_changed.
@@ -55,13 +65,18 @@ struct _CalBackendPrivate {
 	guint category_idle_id;
 };
 
+/* Property IDs */
+enum props {
+	PROP_0,
+	PROP_URI,
+	PROP_KIND
+};
+
 /* Signal IDs */
 enum {
 	LAST_CLIENT_GONE,
-	CAL_ADDED,
 	OPENED,
-	OBJ_UPDATED,
-	OBJ_REMOVED,
+	REMOVED,
 	LAST_SIGNAL
 };
 static guint cal_backend_signals[LAST_SIGNAL];
@@ -69,8 +84,6 @@ static guint cal_backend_signals[LAST_SIGNAL];
 static void cal_backend_class_init (CalBackendClass *class);
 static void cal_backend_init (CalBackend *backend);
 static void cal_backend_finalize (GObject *object);
-
-static char *get_object (CalBackend *backend, const char *uid);
 
 static void notify_categories_changed (CalBackend *backend);
 
@@ -111,6 +124,51 @@ cal_backend_get_type (void)
 	return cal_backend_type;
 }
 
+static void
+cal_backend_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+{
+	CalBackend *backend;
+	CalBackendPrivate *priv;
+	
+	backend = CAL_BACKEND (object);
+	priv = backend->priv;
+	
+	switch (property_id) {
+	case PROP_URI:
+		g_free (priv->uri);
+		priv->uri = g_value_dup_string (value);
+		break;
+	case PROP_KIND:
+		priv->kind = g_value_get_ulong (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+cal_backend_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+{
+ 	CalBackend *backend;
+	CalBackendPrivate *priv;
+	
+	backend = CAL_BACKEND (object);
+	priv = backend->priv;
+
+	switch (property_id) {
+	case PROP_URI:
+		g_value_set_string (value, cal_backend_get_uri (backend));
+		break;
+	case PROP_KIND:
+		g_value_set_ulong (value, cal_backend_get_kind (backend));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 /* Class initialization function for the calendar backend */
 static void
 cal_backend_class_init (CalBackendClass *class)
@@ -121,6 +179,21 @@ cal_backend_class_init (CalBackendClass *class)
 
 	object_class = (GObjectClass *) class;
 
+	object_class->set_property = cal_backend_set_property;
+	object_class->get_property = cal_backend_get_property;
+	object_class->finalize = cal_backend_finalize;
+
+	g_object_class_install_property (object_class, PROP_URI, 
+					 g_param_spec_string ("uri", NULL, NULL, "",
+							      G_PARAM_READABLE | G_PARAM_WRITABLE
+							      | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (object_class, PROP_KIND, 
+					 g_param_spec_ulong ("kind", NULL, NULL, 
+							     ICAL_NO_COMPONENT, ICAL_XLICMIMEPART_COMPONENT, 
+							     ICAL_NO_COMPONENT,
+							     G_PARAM_READABLE | G_PARAM_WRITABLE
+							     | G_PARAM_CONSTRUCT_ONLY));	
 	cal_backend_signals[LAST_CLIENT_GONE] =
 		g_signal_new ("last_client_gone",
 			      G_TYPE_FROM_CLASS (class),
@@ -129,15 +202,6 @@ cal_backend_class_init (CalBackendClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	cal_backend_signals[CAL_ADDED] =
-		g_signal_new ("cal_added",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, cal_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
 	cal_backend_signals[OPENED] =
 		g_signal_new ("opened",
 			      G_TYPE_FROM_CLASS (class),
@@ -147,56 +211,43 @@ cal_backend_class_init (CalBackendClass *class)
 			      g_cclosure_marshal_VOID__ENUM,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
-	cal_backend_signals[OBJ_UPDATED] =
-		g_signal_new ("obj_updated",
+	cal_backend_signals[REMOVED] =
+		g_signal_new ("removed",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, obj_updated),
+			      G_STRUCT_OFFSET (CalBackendClass, removed),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
+			      g_cclosure_marshal_VOID__ENUM,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
-	cal_backend_signals[OBJ_REMOVED] =
-		g_signal_new ("obj_removed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, obj_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
-
-	object_class->finalize = cal_backend_finalize;
+			      G_TYPE_INT);
 
 	class->last_client_gone = NULL;
 	class->opened = NULL;
 	class->obj_updated = NULL;
-	class->obj_removed = NULL;
 
-	class->get_uri = NULL;
 	class->get_cal_address = NULL;
 	class->get_alarm_email_address = NULL;
 	class->get_static_capabilities = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
 	class->is_read_only = NULL;
-	class->get_query = NULL;
+	class->start_query = NULL;
 	class->get_mode = NULL;
 	class->set_mode = NULL;	
-	class->get_n_objects = NULL;
-	class->get_object = get_object;
-	class->get_object_component = NULL;
-	class->get_timezone_object = NULL;
-	class->get_uids = NULL;
-	class->get_objects_in_range = NULL;
+	class->get_object = NULL;
+	class->get_default_object = NULL;
+	class->get_object_list = NULL;
 	class->get_free_busy = NULL;
 	class->get_changes = NULL;
-	class->get_alarms_in_range = NULL;
-	class->get_alarms_for_object = NULL;
 	class->discard_alarm = NULL;
-	class->update_objects = NULL;
+	class->create_object = NULL;
+	class->modify_object = NULL;
 	class->remove_object = NULL;
-	class->send_object = NULL;
+	class->receive_objects = NULL;
+	class->send_objects = NULL;
+	class->get_timezone = NULL;
+	class->add_timezone = NULL;
+	class->set_default_timezone = NULL;
 }
 
 /* Object initialization func for the calendar backend */
@@ -208,6 +259,13 @@ cal_backend_init (CalBackend *backend)
 	priv = g_new0 (CalBackendPrivate, 1);
 	backend->priv = priv;
 
+	priv->clients = NULL;
+	priv->clients_mutex = g_mutex_new ();
+
+	/* FIXME bonobo_object_ref/unref? */
+	priv->queries = e_list_new((EListCopyFunc) g_object_ref, (EListFreeFunc) g_object_unref, NULL);
+	priv->queries_mutex = g_mutex_new ();
+	
 	priv->categories = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->changed_categories = g_hash_table_new (g_str_hash, g_str_equal);
 }
@@ -242,11 +300,16 @@ cal_backend_finalize (GObject *object)
 
 	g_assert (priv->clients == NULL);
 
+	g_object_unref (priv->queries);
+
 	g_hash_table_foreach_remove (priv->changed_categories, prune_changed_categories, NULL);
 	g_hash_table_destroy (priv->changed_categories);
 
 	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
 	g_hash_table_destroy (priv->categories);
+
+	g_mutex_free (priv->clients_mutex);
+	g_mutex_free (priv->queries_mutex);
 
 	if (priv->category_idle_id)
 		g_source_remove (priv->category_idle_id);
@@ -270,12 +333,129 @@ cal_backend_finalize (GObject *object)
 const char *
 cal_backend_get_uri (CalBackend *backend)
 {
+	CalBackendPrivate *priv;
+	
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	g_assert (CLASS (backend)->get_uri != NULL);
-	return (* CLASS (backend)->get_uri) (backend);
+	priv = backend->priv;
+	
+	return priv->uri;
 }
+
+icalcomponent_kind
+cal_backend_get_kind (CalBackend *backend)
+{
+	CalBackendPrivate *priv;
+	
+	g_return_val_if_fail (backend != NULL, ICAL_NO_COMPONENT);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), ICAL_NO_COMPONENT);
+
+	priv = backend->priv;
+	
+	return priv->kind;
+}
+
+static void
+cal_destroy_cb (gpointer data, GObject *where_cal_was)
+{
+	CalBackend *backend = CAL_BACKEND (data);
+
+	cal_backend_remove_client (backend, (Cal *) where_cal_was);
+}
+
+static void
+listener_died_cb (gpointer cnx, gpointer data)
+{
+	Cal *cal = CAL (data);
+
+	cal_backend_remove_client (cal_get_backend (cal), cal);
+}
+
+static void
+last_client_gone (CalBackend *backend)
+{
+	g_signal_emit (backend, cal_backend_signals[LAST_CLIENT_GONE], 0);
+}
+
+void
+cal_backend_add_client (CalBackend *backend, Cal *cal)
+{
+	CalBackendPrivate *priv;
+	
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = backend->priv;
+	
+	bonobo_object_set_immortal (BONOBO_OBJECT (cal), TRUE);
+
+	g_object_weak_ref (G_OBJECT (cal), cal_destroy_cb, backend);
+
+	ORBit_small_listen_for_broken (cal_get_listener (cal), G_CALLBACK (listener_died_cb), cal);
+
+	g_mutex_lock (priv->clients_mutex);
+	priv->clients = g_list_append (priv->clients, cal);
+	g_mutex_unlock (priv->clients_mutex);
+
+	/* Tell the new client about the list of categories.
+	 * (Ends up telling all the other clients too, but *shrug*.)
+	 */
+	/* FIXME This doesn't seem right at all */
+	notify_categories_changed (backend);
+}
+
+void
+cal_backend_remove_client (CalBackend *backend, Cal *cal)
+{
+	CalBackendPrivate *priv;
+	
+	/* XXX this needs a bit more thinking wrt the mutex - we
+	   should be holding it when we check to see if clients is
+	   NULL */
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = backend->priv;
+
+	/* Disconnect */
+	g_mutex_lock (priv->clients_mutex);
+	priv->clients = g_list_remove (priv->clients, cal);
+	g_mutex_unlock (priv->clients_mutex);
+
+	/* When all clients go away, notify the parent factory about it so that
+	 * it may decide whether to kill the backend or not.
+	 */
+	if (!priv->clients)
+		last_client_gone (backend);
+}
+
+void
+cal_backend_add_query (CalBackend *backend, Query *query)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	g_mutex_lock (backend->priv->queries_mutex);
+
+	e_list_append (backend->priv->queries, query);
+	
+	g_mutex_unlock (backend->priv->queries_mutex);
+}
+
+EList *
+cal_backend_get_queries (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	return g_object_ref (backend->priv->queries);
+}
+
 
 /**
  * cal_backend_get_cal_address:
@@ -286,92 +466,44 @@ cal_backend_get_uri (CalBackend *backend)
  *
  * Return value: The cal address associated with the calendar.
  **/
-const char *
-cal_backend_get_cal_address (CalBackend *backend)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_cal_address != NULL);
-	return (* CLASS (backend)->get_cal_address) (backend);
-}
-
-const char *
-cal_backend_get_alarm_email_address (CalBackend *backend)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_alarm_email_address != NULL);
-	return (* CLASS (backend)->get_alarm_email_address) (backend);
-}
-
-const char *
-cal_backend_get_ldap_attribute (CalBackend *backend)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_ldap_attribute != NULL);
-	return (* CLASS (backend)->get_ldap_attribute) (backend);
-}
-
-const char *
-cal_backend_get_static_capabilities (CalBackend *backend)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_static_capabilities != NULL);
-	return (* CLASS (backend)->get_static_capabilities) (backend);
-}
-
-/* Callback used when a Cal is destroyed */
-static void
-cal_destroy_cb (gpointer data, GObject *where_cal_was)
-{
-	CalBackend *backend = CAL_BACKEND (data);
-	CalBackendPrivate *priv = backend->priv;
-
-	priv->clients = g_list_remove (priv->clients, where_cal_was);
-
-	/* When all clients go away, notify the parent factory about it so that
-	 * it may decide whether to kill the backend or not.
-	 */
-	if (!priv->clients)
-		cal_backend_last_client_gone (backend);
-}
-
-/**
- * cal_backend_add_cal:
- * @backend: A calendar backend.
- * @cal: A calendar client interface object.
- *
- * Adds a calendar client interface object to a calendar @backend.
- * The calendar backend must already have an open calendar.
- **/
 void
-cal_backend_add_cal (CalBackend *backend, Cal *cal)
+cal_backend_get_cal_address (CalBackend *backend, Cal *cal)
 {
-	CalBackendPrivate *priv = backend->priv;
-
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
-	g_return_if_fail (IS_CAL (cal));
 
-	/* we do not keep a (strong) reference to the Cal since the
-	 * Calendar user agent owns it */
-	g_object_weak_ref (G_OBJECT (cal), cal_destroy_cb, backend);
+	g_assert (CLASS (backend)->get_cal_address != NULL);
+	(* CLASS (backend)->get_cal_address) (backend, cal);
+}
 
-	priv->clients = g_list_prepend (priv->clients, cal);
+void
+cal_backend_get_alarm_email_address (CalBackend *backend, Cal *cal)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	/* Tell the new client about the list of categories.
-	 * (Ends up telling all the other clients too, but *shrug*.)
-	 */
-	notify_categories_changed (backend);
+	g_assert (CLASS (backend)->get_alarm_email_address != NULL);
+	(* CLASS (backend)->get_alarm_email_address) (backend, cal);
+}
 
-	/* notify backend that a new Cal has been added */
-	g_signal_emit (backend, cal_backend_signals[CAL_ADDED], 0, cal);
+void
+cal_backend_get_ldap_attribute (CalBackend *backend, Cal *cal)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	g_assert (CLASS (backend)->get_ldap_attribute != NULL);
+	(* CLASS (backend)->get_ldap_attribute) (backend, cal);
+}
+
+void
+cal_backend_get_static_capabilities (CalBackend *backend, Cal *cal)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	g_assert (CLASS (backend)->get_static_capabilities != NULL);
+	(* CLASS (backend)->get_static_capabilities) (backend, cal);
 }
 
 /**
@@ -387,19 +519,24 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
  *
  * Return value: An operation status code.
  **/
-CalBackendOpenStatus
-cal_backend_open (CalBackend *backend, const char *uristr, gboolean only_if_exists)
+void
+cal_backend_open (CalBackend *backend, Cal *cal, gboolean only_if_exists)
 {
-	CalBackendOpenStatus result;
-
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_OPEN_ERROR);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_OPEN_ERROR);
-	g_return_val_if_fail (uristr != NULL, CAL_BACKEND_OPEN_ERROR);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
 	g_assert (CLASS (backend)->open != NULL);
-	result = (* CLASS (backend)->open) (backend, uristr, only_if_exists);
+	(* CLASS (backend)->open) (backend, cal, only_if_exists);
+}
 
-	return result;
+void
+cal_backend_remove (CalBackend *backend, Cal *cal)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	g_assert (CLASS (backend)->remove != NULL);
+	(* CLASS (backend)->remove) (backend, cal);
 }
 
 /**
@@ -433,44 +570,24 @@ cal_backend_is_loaded (CalBackend *backend)
  *
  * Return value: TRUE if the calendar is read only, FALSE otherwise.
  */
-gboolean
-cal_backend_is_read_only (CalBackend *backend)
+void
+cal_backend_is_read_only (CalBackend *backend, Cal *cal)
 {
-	gboolean result;
-
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
 	g_assert (CLASS (backend)->is_read_only != NULL);
-	result = (* CLASS (backend)->is_read_only) (backend);
-
-	return result;	
+	(* CLASS (backend)->is_read_only) (backend, cal);
 }
 
-/**
- * cal_backend_get_query:
- * @backend: A calendar backend.
- * @ql: The query listener.
- * @sexp: Search expression.
- *
- * Create a query object for this backend.
- */
-Query *
-cal_backend_get_query (CalBackend *backend,
-		       GNOME_Evolution_Calendar_QueryListener ql,
-		       const char *sexp)
+void 
+cal_backend_start_query (CalBackend *backend, Query *query)
 {
-	Query *result;
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-
-	if (CLASS (backend)->get_query != NULL)
-		result = (* CLASS (backend)->get_query) (backend, ql, sexp);
-	else
-		result = query_new (backend, ql, sexp);
-
-	return result;
+	g_assert (CLASS (backend)->start_query != NULL);
+	(* CLASS (backend)->start_query) (backend, query);
 }
 
 /**
@@ -514,206 +631,56 @@ cal_backend_set_mode (CalBackend *backend, CalMode mode)
 	(* CLASS (backend)->set_mode) (backend, mode);
 }
 
-/**
- * cal_backend_get_n_objects:
- * @backend: A calendar backend.
- * @type: Types of objects that will be included in the count.
- * 
- * Queries the number of calendar objects of a particular type.
- * 
- * Return value: Number of objects of the specified @type.
- **/
-int
-cal_backend_get_n_objects (CalBackend *backend, CalObjType type)
+void
+cal_backend_get_default_object (CalBackend *backend, Cal *cal)
 {
-	g_return_val_if_fail (backend != NULL, -1);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), -1);
-
-	g_assert (CLASS (backend)->get_n_objects != NULL);
-	return (* CLASS (backend)->get_n_objects) (backend, type);
-}
-
-/* Default cal_backend_get_object implementation */
-static char *
-get_object (CalBackend *backend, const char *uid)
-{
-	CalComponent *comp;
-
-	comp = cal_backend_get_object_component (backend, uid);
-	if (!comp)
-		return NULL;
-
-	return cal_component_get_as_string (comp);
-}
-
-char *
-cal_backend_get_default_object (CalBackend *backend, CalObjType type)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
 	g_assert (CLASS (backend)->get_default_object != NULL);
-	return (* CLASS (backend)->get_default_object) (backend, type);
+	(* CLASS (backend)->get_default_object) (backend, cal);
 }
 
 /**
  * cal_backend_get_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier for a calendar object.
+ * @rid: ID for the object's recurrence to get.
  *
  * Queries a calendar backend for a calendar object based on its unique
- * identifier.
+ * identifier and its recurrence ID (if a recurrent appointment).
  *
  * Return value: The string representation of a complete calendar wrapping the
  * the sought object, or NULL if no object had the specified UID.
  **/
-char *
-cal_backend_get_object (CalBackend *backend, const char *uid)
+void
+cal_backend_get_object (CalBackend *backend, Cal *cal, const char *uid, const char *rid)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (uid != NULL);
 
 	g_assert (CLASS (backend)->get_object != NULL);
-	return (* CLASS (backend)->get_object) (backend, uid);
+	(* CLASS (backend)->get_object) (backend, cal, uid, rid);
 }
 
 /**
- * cal_backend_get_object_component:
- * @backend: A calendar backend.
- * @uid: Unique identifier for a calendar object.
- *
- * Queries a calendar backend for a calendar object based on its unique
- * identifier. It returns the CalComponent rather than the string
- * representation.
- *
- * Return value: The CalComponent of the sought object, or NULL if no object
- * had the specified UID.
- **/
-CalComponent *
-cal_backend_get_object_component (CalBackend *backend, const char *uid)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
-
-	g_assert (CLASS (backend)->get_object_component != NULL);
-	return (* CLASS (backend)->get_object_component) (backend, uid);
-}
-
-/**
- * cal_backend_get_timezone_object:
- * @backend: A calendar backend.
- * @tzid: Unique identifier for a calendar VTIMEZONE object.
- *
- * Queries a calendar backend for a VTIMEZONE calendar object based on its
- * unique TZID identifier.
- *
- * Return value: The string representation of a VTIMEZONE component, or NULL
- * if no VTIMEZONE object had the specified TZID.
- **/
-char *
-cal_backend_get_timezone_object (CalBackend *backend, const char *tzid)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (tzid != NULL, NULL);
-
-	g_assert (CLASS (backend)->get_timezone_object != NULL);
-	return (* CLASS (backend)->get_timezone_object) (backend, tzid);
-}
-
-/**
- * cal_backend_get_type_by_uid
- * @backend: A calendar backend.
- * @uid: Unique identifier for a Calendar object.
- *
- * Returns the type of the object identified by the @uid argument
- */
-CalObjType
-cal_backend_get_type_by_uid (CalBackend *backend, const char *uid)
-{
-	icalcomponent *icalcomp;
-	char *comp_str;
-	CalObjType type = CAL_COMPONENT_NO_TYPE;
-
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_COMPONENT_NO_TYPE);
-	g_return_val_if_fail (uid != NULL, CAL_COMPONENT_NO_TYPE);
-
-	comp_str = cal_backend_get_object (backend, uid);
-	if (!comp_str)
-		return CAL_COMPONENT_NO_TYPE;
-
-	icalcomp = icalparser_parse_string (comp_str);
-	if (icalcomp) {
-		switch (icalcomponent_isa (icalcomp)) {
-		case ICAL_VEVENT_COMPONENT :
-			type = CALOBJ_TYPE_EVENT;
-			break;
-		case ICAL_VTODO_COMPONENT :
-			type = CALOBJ_TYPE_TODO;
-			break;
-		case ICAL_VJOURNAL_COMPONENT :
-			type = CALOBJ_TYPE_JOURNAL;
-			break;
-		default :
-			type = CAL_COMPONENT_NO_TYPE;
-		}
-
-		icalcomponent_free (icalcomp);
-	}
-
-	g_free (comp_str);
-
-	return type;
-}
-
-/**
- * cal_backend_get_uids:
- * @backend: A calendar backend.
- * @type: Bitmask with types of objects to return.
- *
- * Builds a list of unique identifiers corresponding to calendar objects whose
- * type matches one of the types specified in the @type flags.
- *
- * Return value: A list of strings that are the sought UIDs.  The list should be
- * freed using the cal_obj_uid_list_free() function.
- **/
-GList *
-cal_backend_get_uids (CalBackend *backend, CalObjType type)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_uids != NULL);
-	return (* CLASS (backend)->get_uids) (backend, type);
-}
-
-
-/**
- * cal_backend_get_objects_in_range:
- * @backend: A calendar backend.
- * @type: Bitmask with types of objects to return.
- * @start: Start time for query.
- * @end: End time for query.
+ * cal_backend_get_object_list:
+ * @backend: 
+ * @type: 
  * 
- * Builds a list of unique identifiers corresponding to calendar objects of the
- * specified type that occur or recur within the specified time range.
  * 
- * Return value: A list of UID strings.  The list should be freed using the
- * cal_obj_uid_list_free() function.
+ * 
+ * Return value: 
  **/
-GList *
-cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
-				  time_t start, time_t end)
+void
+cal_backend_get_object_list (CalBackend *backend, Cal *cal, const char *sexp)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (start != -1 && end != -1, NULL);
-	g_return_val_if_fail (start <= end, NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	g_assert (CLASS (backend)->get_objects_in_range != NULL);
-	return (* CLASS (backend)->get_objects_in_range) (backend, type, start, end);
+	g_assert (CLASS (backend)->get_object_list != NULL);
+	return (* CLASS (backend)->get_object_list) (backend, cal, sexp);
 }
 
 /**
@@ -727,16 +694,16 @@ cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
  * 
  * Return value: a list of CalObj's
  **/
-GList *
-cal_backend_get_free_busy (CalBackend *backend, GList *users, time_t start, time_t end)
+void
+cal_backend_get_free_busy (CalBackend *backend, Cal *cal, GList *users, time_t start, time_t end)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (start != -1 && end != -1, NULL);
-	g_return_val_if_fail (start <= end, NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (start != -1 && end != -1);
+	g_return_if_fail (start <= end);
 
 	g_assert (CLASS (backend)->get_free_busy != NULL);
-	return (* CLASS (backend)->get_free_busy) (backend, users, start, end);
+	(* CLASS (backend)->get_free_busy) (backend, cal, users, start, end);
 }
 
 /**
@@ -750,91 +717,15 @@ cal_backend_get_free_busy (CalBackend *backend, GList *users, time_t start, time
  * 
  * Return value: A list of the objects that changed and the type of change
  **/
-GNOME_Evolution_Calendar_CalObjChangeSeq *
-cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id) 
+void
+cal_backend_get_changes (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id) 
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (change_id != NULL, NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (change_id != NULL);
 
 	g_assert (CLASS (backend)->get_changes != NULL);
-	return (* CLASS (backend)->get_changes) (backend, type, change_id);
-}
-
-/**
- * cal_backend_get_alarms_in_range:
- * @backend: A calendar backend.
- * @start: Start time for query.
- * @end: End time for query.
- * @valid_range: Return value that says whether the range is valid or not.
- * 
- * Builds a sorted list of the alarms that trigger in the specified time range.
- * 
- * Return value: A sequence of component alarm instances structures, or NULL
- * if @valid_range returns FALSE.
- **/
-GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end,
-				 gboolean *valid_range)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (valid_range != NULL, NULL);
-
-	g_assert (CLASS (backend)->get_alarms_in_range != NULL);
-
-	if (!(start != -1 && end != -1 && start <= end)) {
-		*valid_range = FALSE;
-		return NULL;
-	} else {
-		*valid_range = TRUE;
-		return (* CLASS (backend)->get_alarms_in_range) (backend, start, end);
-	}
-}
-
-/**
- * cal_backend_get_alarms_for_object:
- * @backend: A calendar backend.
- * @uid: Unique identifier for a calendar object.
- * @start: Start time for query.
- * @end: End time for query.
- * @result: Return value for the result code for the operation.
- * 
- * Builds a sorted list of the alarms of the specified event that trigger in a
- * particular time range.
- * 
- * Return value: A structure of the component's alarm instances, or NULL if @result
- * returns something other than #CAL_BACKEND_GET_ALARMS_SUCCESS.
- **/
-GNOME_Evolution_Calendar_CalComponentAlarms *
-cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
-				   time_t start, time_t end,
-				   CalBackendGetAlarmsForObjectResult *result)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (uid != NULL, NULL);
-	g_return_val_if_fail (result != NULL, NULL);
-
-	g_assert (CLASS (backend)->get_alarms_for_object != NULL);
-
-	if (!(start != -1 && end != -1 && start <= end)) {
-		*result = CAL_BACKEND_GET_ALARMS_INVALID_RANGE;
-		return NULL;
-	} else {
-		gboolean object_found;
-		GNOME_Evolution_Calendar_CalComponentAlarms *alarms;
-
-		alarms = (* CLASS (backend)->get_alarms_for_object) (backend, uid, start, end,
-								     &object_found);
-
-		if (object_found)
-			*result = CAL_BACKEND_GET_ALARMS_SUCCESS;
-		else
-			*result = CAL_BACKEND_GET_ALARMS_NOT_FOUND;
-
-		return alarms;
-	}
+	(* CLASS (backend)->get_changes) (backend, cal, type, change_id);
 }
 
 /**
@@ -846,92 +737,82 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * Discards an alarm from the given component. This allows the specific backend
  * to do whatever is needed to really discard the alarm.
  *
- * Return value: a #CalBackendResult value, which indicates the
- * result of the operation.
  **/
-CalBackendResult
-cal_backend_discard_alarm (CalBackend *backend, const char *uid, const char *auid)
+void
+cal_backend_discard_alarm (CalBackend *backend, Cal *cal, const char *uid, const char *auid)
 {
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (uid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (auid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (CLASS (backend)->discard_alarm != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (auid != NULL);
 
-	return (* CLASS (backend)->discard_alarm) (backend, uid, auid);
+	g_assert (CLASS (backend)->discard_alarm != NULL);
+	(* CLASS (backend)->discard_alarm) (backend, cal, uid, auid);
 }
 
-/**
- * cal_backend_update_objects:
- * @backend: A calendar backend.
- * @calobj: String representation of the new calendar object(s).
- * 
- * Updates an object in a calendar backend.  It will replace any existing
- * object that has the same UID as the specified one.  The backend will in
- * turn notify all of its clients about the change.
- * 
- * Return value: a #CalBackendResult value, which indicates the
- * result of the operation.
- **/
-CalBackendResult
-cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod)
+void
+cal_backend_create_object (CalBackend *backend, Cal *cal, const char *calobj)
 {
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (calobj != NULL);
 
-	g_assert (CLASS (backend)->update_objects != NULL);
-	return (* CLASS (backend)->update_objects) (backend, calobj, mod);
+	g_assert (CLASS (backend)->create_object != NULL);
+	(* CLASS (backend)->create_object) (backend, cal, calobj);
+}
+
+void
+cal_backend_modify_object (CalBackend *backend, Cal *cal, const char *calobj, CalObjModType mod)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (calobj != NULL);
+
+	g_assert (CLASS (backend)->modify_object != NULL);
+	(* CLASS (backend)->modify_object) (backend, cal, calobj, mod);
 }
 
 /**
  * cal_backend_remove_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier of the object to remove.
+ * @rid: A recurrence ID.
  * 
  * Removes an object in a calendar backend.  The backend will notify all of its
  * clients about the change.
  * 
- * Return value: a #CalBackendResult value, which indicates the
- * result of the operation.
- **/
-CalBackendResult
-cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod)
-{
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
-	g_return_val_if_fail (uid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
-
-	g_assert (CLASS (backend)->remove_object != NULL);
-	return (* CLASS (backend)->remove_object) (backend, uid, mod);
-}
-
-CalBackendSendResult
-cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
-			 GNOME_Evolution_Calendar_UserList **user_list, char error_msg[256])
-{
-	g_return_val_if_fail (backend != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_SEND_INVALID_OBJECT);
-	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
-
-	g_assert (CLASS (backend)->send_object != NULL);
-	return (* CLASS (backend)->send_object) (backend, calobj, new_calobj, user_list, error_msg);
-}
-
-/**
- * cal_backend_last_client_gone:
- * @backend: A calendar backend.
- * 
- * Emits the "last_client_gone" signal of a calendar backend.  This function is
- * to be used only by backend implementations.
  **/
 void
-cal_backend_last_client_gone (CalBackend *backend)
+cal_backend_remove_object (CalBackend *backend, Cal *cal, const char *uid, const char *rid, CalObjModType mod)
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (uid != NULL);
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE], 0);
+	g_assert (CLASS (backend)->remove_object != NULL);
+	(* CLASS (backend)->remove_object) (backend, cal, uid, rid, mod);
+}
+
+void
+cal_backend_receive_objects (CalBackend *backend, Cal *cal, const char *calobj)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (calobj != NULL);
+
+	g_assert (CLASS (backend)->receive_objects != NULL);
+	return (* CLASS (backend)->receive_objects) (backend, cal, calobj);
+}
+
+void
+cal_backend_send_objects (CalBackend *backend, Cal *cal, const char *calobj)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (calobj != NULL);
+
+	g_assert (CLASS (backend)->send_objects != NULL);
+	return (* CLASS (backend)->send_objects) (backend, cal, calobj);
 }
 
 /**
@@ -943,7 +824,7 @@ cal_backend_last_client_gone (CalBackend *backend)
  * only by backend implementations.
  **/
 void
-cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status)
+cal_backend_opened (CalBackend *backend, int status)
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
@@ -952,44 +833,15 @@ cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status)
 		       0, status);
 }
 
-/**
- * cal_backend_obj_updated:
- * @backend: A calendar backend.
- * @uid: Unique identifier of the component that was updated.
- * 
- * Emits the "obj_updated" signal of a calendar backend.  This function is to be
- * used only by backend implementations.
- **/
 void
-cal_backend_obj_updated (CalBackend *backend, const char *uid)
+cal_backend_removed (CalBackend *backend, int status)
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
-	g_return_if_fail (uid != NULL);
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OBJ_UPDATED],
-		       0, uid);
+	g_signal_emit (G_OBJECT (backend), cal_backend_signals[REMOVED],
+		       0, status);
 }
-
-/**
- * cal_backend_obj_removed:
- * @backend: A calendar backend.
- * @uid: Unique identifier of the component that was removed.
- * 
- * Emits the "obj_removed" signal of a calendar backend.  This function is to be
- * used only by backend implementations.
- **/
-void
-cal_backend_obj_removed (CalBackend *backend, const char *uid)
-{
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
-	g_return_if_fail (uid != NULL);
-
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OBJ_REMOVED],
-		       0, uid);
-}
-
 
 /**
  * cal_backend_get_timezone:
@@ -1002,37 +854,16 @@ cal_backend_obj_removed (CalBackend *backend, const char *uid)
  * 
  * Returns: The icaltimezone* corresponding to the given TZID, or NULL.
  **/
-icaltimezone*
-cal_backend_get_timezone (CalBackend *backend, const char *tzid)
+void
+cal_backend_get_timezone (CalBackend *backend, Cal *cal, const char *tzid)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-	g_return_val_if_fail (tzid != NULL, NULL);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (tzid != NULL);
 
 	g_assert (CLASS (backend)->get_timezone != NULL);
-	return (* CLASS (backend)->get_timezone) (backend, tzid);
+	(* CLASS (backend)->get_timezone) (backend, cal, tzid);
 }
-
-
-/**
- * cal_backend_get_default_timezone:
- * @backend: A calendar backend.
- * 
- * Returns the default timezone for the calendar, which is used to resolve
- * DATE and floating DATE-TIME values.
- * 
- * Returns: The default icaltimezone* for the calendar.
- **/
-icaltimezone*
-cal_backend_get_default_timezone (CalBackend *backend)
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	g_assert (CLASS (backend)->get_default_timezone != NULL);
-	return (* CLASS (backend)->get_default_timezone) (backend);
-}
-
 
 /**
  * cal_backend_set_default_timezone:
@@ -1045,17 +876,54 @@ cal_backend_get_default_timezone (CalBackend *backend)
  * Returns: TRUE if the VTIMEZONE data for the timezone was found, or FALSE if
  * not.
  **/
-gboolean
-cal_backend_set_default_timezone (CalBackend *backend, const char *tzid)
+void
+cal_backend_set_default_timezone (CalBackend *backend, Cal *cal, const char *tzid)
 {
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-	g_return_val_if_fail (tzid != NULL, FALSE);
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (tzid != NULL);
 
 	g_assert (CLASS (backend)->set_default_timezone != NULL);
-	return (* CLASS (backend)->set_default_timezone) (backend, tzid);
+	(* CLASS (backend)->set_default_timezone) (backend, cal, tzid);
 }
 
+/**
+ * cal_backend_add_timezone
+ * @backend: A calendar backend.
+ * @tzobj: The timezone object, in a string.
+ *
+ * Add a timezone object to the given backend.
+ *
+ * Returns: TRUE if successful, or FALSE if not.
+ */
+void
+cal_backend_add_timezone (CalBackend *backend, Cal *cal, const char *tzobj)
+{
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (tzobj != NULL);
+	g_return_if_fail (CLASS (backend)->add_timezone != NULL);
+
+	(* CLASS (backend)->add_timezone) (backend, cal, tzobj);
+}
+
+icaltimezone *
+cal_backend_internal_get_default_timezone (CalBackend *backend)
+{
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (CLASS (backend)->internal_get_default_timezone != NULL, NULL);
+
+	return (* CLASS (backend)->internal_get_default_timezone) (backend);
+}
+
+icaltimezone *
+cal_backend_internal_get_timezone (CalBackend *backend, const char *tzid)
+{
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (tzid != NULL, NULL);
+	g_return_val_if_fail (CLASS (backend)->internal_get_timezone != NULL, NULL);
+
+	return (* CLASS (backend)->internal_get_timezone) (backend, tzid);
+}
 
 /**
  * cal_backend_notify_mode:
@@ -1076,44 +944,6 @@ cal_backend_notify_mode (CalBackend *backend,
 
 	for (l = priv->clients; l; l = l->next)
 		cal_notify_mode (l->data, status, mode);
-}
-
-/**
- * cal_backend_notify_update:
- * @backend: A calendar backend.
- * @uid: UID of object that was updated.
- * 
- * Notifies each of the backend's listeners about an update to a
- * calendar object.
- **/
-void
-cal_backend_notify_update (CalBackend *backend, const char *uid)
-{
-	CalBackendPrivate *priv = backend->priv;
-	GList *l;
-
-	cal_backend_obj_updated (backend, uid);
-	for (l = priv->clients; l; l = l->next)
-		cal_notify_update (l->data, uid);
-}
-
-/**
- * cal_backend_notify_remove:
- * @backend: A calendar backend.
- * @uid: UID of object that was removed.
- * 
- * Notifies each of the backend's listeners about a calendar object
- * that was removed.
- **/
-void
-cal_backend_notify_remove (CalBackend *backend, const char *uid)
-{
-	CalBackendPrivate *priv = backend->priv;
-	GList *l;
-
-	cal_backend_obj_removed (backend, uid);
-	for (l = priv->clients; l; l = l->next)
-		cal_notify_remove (l->data, uid);
 }
 
 /**

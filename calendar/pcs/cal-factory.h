@@ -22,6 +22,7 @@
 #define CAL_FACTORY_H
 
 #include <bonobo/bonobo-object.h>
+#include <libical/ical.h>
 
 #include "pcs/evolution-calendar.h"
 
@@ -60,11 +61,12 @@ struct _CalFactoryClass {
 GType       cal_factory_get_type        (void);
 CalFactory *cal_factory_new             (void);
 
-gboolean    cal_factory_oaf_register    (CalFactory *factory, const char *iid);
-void        cal_factory_register_method (CalFactory *factory,
-					 const char *method,
-					 GType       backend_type);
-int         cal_factory_get_n_backends  (CalFactory *factory);
+gboolean    cal_factory_register_storage (CalFactory *factory, const char *iid);
+void        cal_factory_register_method  (CalFactory *factory,
+					  const char *method,
+					  icalcomponent_kind kind,
+					  GType       backend_type);
+int         cal_factory_get_n_backends   (CalFactory *factory);
 void        cal_factory_dump_active_backends   (CalFactory *factory);
 
 G_END_DECLS

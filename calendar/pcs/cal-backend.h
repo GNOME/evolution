@@ -24,6 +24,7 @@
 #ifndef CAL_BACKEND_H
 #define CAL_BACKEND_H
 
+#include <e-util/e-list.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
 #include "pcs/evolution-calendar.h"
@@ -42,37 +43,6 @@ G_BEGIN_DECLS
 #define IS_CAL_BACKEND(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_BACKEND_TYPE))
 #define IS_CAL_BACKEND_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_BACKEND_TYPE))
 
-/* Open status values */
-typedef enum {
-	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
-	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
-	CAL_BACKEND_OPEN_NOT_FOUND,
-	CAL_BACKEND_OPEN_PERMISSION_DENIED,
-} CalBackendOpenStatus;
-
-/* Update and Remove result values */
-typedef enum {
-	CAL_BACKEND_RESULT_SUCCESS,
-	CAL_BACKEND_RESULT_INVALID_OBJECT,
-	CAL_BACKEND_RESULT_NOT_FOUND,
-	CAL_BACKEND_RESULT_PERMISSION_DENIED
-} CalBackendResult;
-
-/* Send result values */
-typedef enum {
-	CAL_BACKEND_SEND_SUCCESS,
-	CAL_BACKEND_SEND_INVALID_OBJECT,
-	CAL_BACKEND_SEND_BUSY,
-	CAL_BACKEND_SEND_PERMISSION_DENIED,
-} CalBackendSendResult;
-
-/* Result codes for ::get_alarms_in_range() */
-typedef enum {
-	CAL_BACKEND_GET_ALARMS_SUCCESS,
-	CAL_BACKEND_GET_ALARMS_NOT_FOUND,
-	CAL_BACKEND_GET_ALARMS_INVALID_RANGE
-} CalBackendGetAlarmsForObjectResult;
-
 typedef struct _CalBackendPrivate CalBackendPrivate;
 
 struct _CalBackend {
@@ -88,153 +58,115 @@ struct _CalBackendClass {
 	void (* last_client_gone) (CalBackend *backend);
 	void (* cal_added) (CalBackend *backend, Cal *cal);
 
-	void (* opened) (CalBackend *backend, CalBackendOpenStatus status);
+	gboolean (* is_loaded) (CalBackend *backend);
+
+	/* FIXME What to pass back here */
+	void (* opened) (CalBackend *backend, int status);
+	void (* removed) (CalBackend *backend, int status);
 	void (* obj_updated) (CalBackend *backend, const char *uid);
-	void (* obj_removed) (CalBackend *backend, const char *uid);
 
 	/* Virtual methods */
-	const char *(* get_uri) (CalBackend *backend);
-
-	const char *(* get_cal_address) (CalBackend *backend);
-	const char *(* get_alarm_email_address) (CalBackend *backend);
-	const char *(* get_ldap_attribute) (CalBackend *backend);
+	void (* is_read_only) (CalBackend *backend, Cal *cal);
+	void (* get_cal_address) (CalBackend *backend, Cal *cal);
+	void (* get_alarm_email_address) (CalBackend *backend, Cal *cal);
+	void (* get_ldap_attribute) (CalBackend *backend, Cal *cal);
+	void (* get_static_capabilities) (CalBackend *backend, Cal *cal);
 	
-	const char *(* get_static_capabilities) (CalBackend *backend);
-	
-	CalBackendOpenStatus (* open) (CalBackend *backend, const char *uristr,
-				       gboolean only_if_exists);
+	void (* open) (CalBackend *backend, Cal *cal, gboolean only_if_exists);
+	void (* remove) (CalBackend *backend, Cal *cal);
 
-	gboolean (* is_loaded) (CalBackend *backend);
-	gboolean (* is_read_only) (CalBackend *backend);
+	/* Object related virtual methods */
+	void (* create_object) (CalBackend *backend, Cal *cal, const char *calobj);
+	void (* modify_object) (CalBackend *backend, Cal *cal, const char *calobj, CalObjModType mod);
+	void (* remove_object) (CalBackend *backend, Cal *cal, const char *uid, const char *rid, CalObjModType mod);
 
-	Query *(* get_query) (CalBackend *backend,
-			      GNOME_Evolution_Calendar_QueryListener ql,
-			      const char *sexp);
+	void (* discard_alarm) (CalBackend *backend, Cal *cal, const char *uid, const char *auid);
+
+	void (* receive_objects) (CalBackend *backend, Cal *cal, const char *calobj);
+	void (* send_objects) (CalBackend *backend, Cal *cal, const char *calobj);
+
+	void (* get_default_object) (CalBackend *backend, Cal *cal);
+	void (* get_object) (CalBackend *backend, Cal *cal, const char *uid, const char *rid);	
+	void (* get_object_list) (CalBackend *backend, Cal *cal, const char *sexp);
+
+	/* Timezone related virtual methods */
+	void (* get_timezone) (CalBackend *backend, Cal *cal, const char *tzid);
+	void (* add_timezone) (CalBackend *backend, Cal *cal, const char *object);
+	void (* set_default_timezone) (CalBackend *backend, Cal *cal, const char *tzid);
+
+	void (* start_query) (CalBackend *backend, Query *query);
 
 	/* Mode relate virtual methods */
 	CalMode (* get_mode) (CalBackend *backend);
-	void    (* set_mode) (CalBackend *backend, CalMode mode);	
+	void    (* set_mode) (CalBackend *backend, CalMode mode);
 
-	/* General object acquirement and information related virtual methods */
-	int (* get_n_objects) (CalBackend *backend, CalObjType type);
-	char *(* get_default_object) (CalBackend *backend, CalObjType type);
-	char *(* get_object) (CalBackend *backend, const char *uid);
-	CalComponent *(* get_object_component) (CalBackend *backend, const char *uid);
-	char *(* get_timezone_object) (CalBackend *backend, const char *tzid);
-	GList *(* get_uids) (CalBackend *backend, CalObjType type);
+	void (* get_free_busy) (CalBackend *backend, Cal *cal, GList *users, time_t start, time_t end);
+	void (* get_changes) (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id);
 
-	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
-					 time_t start, time_t end);
-	GList *(* get_free_busy) (CalBackend *backend, GList *users, time_t start, time_t end);
-
-	/* Change related virtual methods */
-	GNOME_Evolution_Calendar_CalObjChangeSeq * (* get_changes) (
-		CalBackend *backend, CalObjType type, const char *change_id);
-
-	/* Alarm related virtual methods */
-	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *(* get_alarms_in_range) (
-		CalBackend *backend, time_t start, time_t end);
-	GNOME_Evolution_Calendar_CalComponentAlarms *(* get_alarms_for_object) (
-		CalBackend *backend, const char *uid,
-		time_t start, time_t end, gboolean *object_found);
-	CalBackendResult (* discard_alarm) (CalBackend *backend, const char *uid, const char *auid);
-
-	/* Object manipulation virtual methods */
-	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj, CalObjModType mod);
-	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid, CalObjModType mod);
-
-	CalBackendSendResult (* send_object) (CalBackend *backend, const char *calobj, char **new_calobj,
-					      GNOME_Evolution_Calendar_UserList **user_list,
-					      char error_msg[256]);
-
-	/* Timezone related virtual methods */
-	icaltimezone *(* get_timezone) (CalBackend *backend, const char *tzid);
-	icaltimezone *(* get_default_timezone) (CalBackend *backend);
-	gboolean (* set_default_timezone) (CalBackend *backend, const char *tzid);
+	/* Internal methods for use only in the pcs */
+	icaltimezone *(* internal_get_default_timezone) (CalBackend *backend);
+	icaltimezone *(* internal_get_timezone) (CalBackend *backend, const char *tzid);
 };
 
 GType cal_backend_get_type (void);
 
 const char *cal_backend_get_uri (CalBackend *backend);
+icalcomponent_kind cal_backend_get_kind (CalBackend *backend);
 
-const char *cal_backend_get_cal_address (CalBackend *backend);
-const char *cal_backend_get_alarm_email_address (CalBackend *backend);
-const char *cal_backend_get_ldap_attribute (CalBackend *backend);
+void cal_backend_add_client (CalBackend *backend, Cal *cal);
+void cal_backend_remove_client (CalBackend *backend, Cal *cal);
 
-const char *cal_backend_get_static_capabilities (CalBackend *backend);
+void cal_backend_add_query (CalBackend *backend, Query *query);
+EList *cal_backend_get_queries (CalBackend *backend);
 
-void cal_backend_add_cal (CalBackend *backend, Cal *cal);
+void cal_backend_is_read_only (CalBackend *backend, Cal *cal);
+void cal_backend_get_cal_address (CalBackend *backend, Cal *cal);
+void cal_backend_get_alarm_email_address (CalBackend *backend, Cal *cal);
+void cal_backend_get_ldap_attribute (CalBackend *backend, Cal *cal);
+void cal_backend_get_static_capabilities (CalBackend *backend, Cal *cal);
 
-CalBackendOpenStatus cal_backend_open (CalBackend *backend, const char *uristr,
-				       gboolean only_if_exists);
+void cal_backend_open (CalBackend *backend, Cal *cal, gboolean only_if_exists);
+void cal_backend_remove (CalBackend *backend, Cal *cal);
+
+void cal_backend_create_object (CalBackend *backend, Cal *cal, const char *calobj);
+void cal_backend_modify_object (CalBackend *backend, Cal *cal, const char *calobj, CalObjModType mod);
+void cal_backend_remove_object (CalBackend *backend, Cal *cal, const char *uid, const char *rid, CalObjModType mod);
+
+void cal_backend_discard_alarm (CalBackend *backend, Cal *cal, const char *uid, const char *auid);
+
+void cal_backend_receive_objects (CalBackend *backend, Cal *cal, const char *calobj);
+void cal_backend_send_objects (CalBackend *backend, Cal *cal, const char *calobj);
+
+void cal_backend_get_default_object (CalBackend *backend, Cal *cal);
+void cal_backend_get_object (CalBackend *backend, Cal *cal, const char *uid, const char *rid);
+void cal_backend_get_object_list (CalBackend *backend, Cal *cal, const char *sexp);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
 
-gboolean cal_backend_is_read_only (CalBackend *backend);
-
-Query *cal_backend_get_query (CalBackend *backend,
-			      GNOME_Evolution_Calendar_QueryListener ql,
-			      const char *sexp);
+void cal_backend_start_query (CalBackend *backend, Query *query);
 
 CalMode cal_backend_get_mode (CalBackend *backend);
 void cal_backend_set_mode (CalBackend *backend, CalMode mode);
 
-int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
+void cal_backend_get_timezone (CalBackend *backend, Cal *cal, const char *tzid);
+void cal_backend_add_timezone (CalBackend *backend, Cal *cal, const char *object);
+void cal_backend_set_default_timezone (CalBackend *backend, Cal *cal, const char *tzid);
 
-char *cal_backend_get_default_object (CalBackend *backend, CalObjType type);
+void cal_backend_get_changes (CalBackend *backend, Cal *cal, CalObjType type, const char *change_id);
+void cal_backend_get_free_busy (CalBackend *backend, Cal *cal, GList *users, time_t start, time_t end);
 
-char *cal_backend_get_object (CalBackend *backend, const char *uid);
-
-CalComponent *cal_backend_get_object_component (CalBackend *backend, const char *uid);
-
-gboolean cal_backend_set_default_timezone (CalBackend *backend, const char *tzid);
-
-char *cal_backend_get_timezone_object (CalBackend *backend, const char *tzid);
-
-CalObjType cal_backend_get_type_by_uid (CalBackend *backend, const char *uid);
-
-GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
-
-GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
-					 time_t start, time_t end);
-
-GList *cal_backend_get_free_busy (CalBackend *backend, GList *users, time_t start, time_t end);
-
-GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (
-	CalBackend *backend, CalObjType type, const char *change_id);
-
-GNOME_Evolution_Calendar_CalComponentAlarmsSeq *cal_backend_get_alarms_in_range (
-	CalBackend *backend, time_t start, time_t end, gboolean *valid_range);
-
-GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
-	CalBackend *backend, const char *uid,
-	time_t start, time_t end,
-	CalBackendGetAlarmsForObjectResult *result);
-
-CalBackendResult cal_backend_discard_alarm (CalBackend *backend, const char *uid, const char *auid);
-
-
-CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod);
-
-CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod);
-
-CalBackendSendResult cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
-					      GNOME_Evolution_Calendar_UserList **user_list, 
-					      char error_msg[256]);
-
-icaltimezone* cal_backend_get_timezone (CalBackend *backend, const char *tzid);
-icaltimezone* cal_backend_get_default_timezone (CalBackend *backend);
+icaltimezone* cal_backend_internal_get_default_timezone (CalBackend *backend);
+icaltimezone* cal_backend_internal_get_timezone (CalBackend *backend, const char *tzid);
 
 void cal_backend_last_client_gone (CalBackend *backend);
-void cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status);
-void cal_backend_obj_updated (CalBackend *backend, const char *uid);
-void cal_backend_obj_removed (CalBackend *backend, const char *uid);
+
+/* FIXME what to do about status */
+void cal_backend_opened (CalBackend *backend, int status);
+void cal_backend_removed (CalBackend *backend, int status);
 
 void cal_backend_notify_mode      (CalBackend *backend,
 				   GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
 				   GNOME_Evolution_Calendar_CalMode mode);
-void cal_backend_notify_update    (CalBackend *backend, const char *uid);
-void cal_backend_notify_remove    (CalBackend *backend, const char *uid);
 void cal_backend_notify_error     (CalBackend *backend, const char *message);
 void cal_backend_ref_categories   (CalBackend *backend, GSList *categories);
 void cal_backend_unref_categories (CalBackend *backend, GSList *categories);

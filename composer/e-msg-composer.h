@@ -134,9 +134,9 @@ void                     e_msg_composer_show_attachments                 (EMsgCo
 									  gboolean           show);
 void                     e_msg_composer_set_headers                      (EMsgComposer      *composer,
 									  const char        *from,
-									  EDestination     **to,
-									  EDestination     **cc,
-									  EDestination     **bcc,
+									  EABDestination     **to,
+									  EABDestination     **cc,
+									  EABDestination     **bcc,
 									  const char        *subject);
 void                     e_msg_composer_set_body_text                    (EMsgComposer      *composer,
 									  const char        *text);
@@ -173,10 +173,10 @@ gboolean                 e_msg_composer_get_view_bcc                     (EMsgCo
 void                     e_msg_composer_set_view_bcc                     (EMsgComposer      *composer,
 									  gboolean           view_bcc);
 
-EDestination           **e_msg_composer_get_recipients                   (EMsgComposer *composer);
-EDestination           **e_msg_composer_get_to                           (EMsgComposer *composer);
-EDestination           **e_msg_composer_get_cc                           (EMsgComposer *composer);
-EDestination           **e_msg_composer_get_bcc                          (EMsgComposer *composer);
+EABDestination         **e_msg_composer_get_recipients                   (EMsgComposer *composer);
+EABDestination         **e_msg_composer_get_to                           (EMsgComposer *composer);
+EABDestination         **e_msg_composer_get_cc                           (EMsgComposer *composer);
+EABDestination         **e_msg_composer_get_bcc                          (EMsgComposer *composer);
 const char              *e_msg_composer_get_subject                      (EMsgComposer *composer);
 
 EAccount                *e_msg_composer_get_preferred_account            (EMsgComposer      *composer);

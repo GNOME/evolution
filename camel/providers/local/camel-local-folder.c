@@ -251,7 +251,9 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	}
 	camel_object_set(lf, NULL, CAMEL_OBJECT_STATE_FILE, statepath, NULL);
 	g_free (statepath);
-	
+
+	lf->flags = flags;
+
 	if (camel_object_state_read(lf) == -1) {
 		/* FIXME: load defaults? */
 	}
@@ -269,7 +271,8 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	   the old-format 'ibex' files that might be lying around */
 	unlink(lf->index_path);
 
-#if 0
+	/* FIXME: Need to run indexing off of the setv method */
+#if 1
 	forceindex = FALSE;
 #else
 	/* if we have no/invalid index file, force it */
@@ -292,8 +295,8 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 			camel_text_index_remove(lf->index_path);
 		forceindex = FALSE;
 	}
-#endif
 	lf->flags = flags;
+#endif
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
 	if (camel_local_summary_load((CamelLocalSummary *)folder->summary, forceindex, ex) == -1) {
@@ -404,7 +407,9 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 
 			break; }
 
-		case CAMEL_LOCAL_FOLDER_INDEX_BODY:
+		case CAMEL_LOCAL_FOLDER_ARG_INDEX_BODY:
+			printf("getv:'%s' flags %08x\n", ((CamelFolder *)object)->full_name, ((CamelLocalFolder *)object)->flags);
+
 			/* FIXME: remove this from sotre flags */
 			*arg->ca_int = (((CamelLocalFolder *)folder)->flags & CAMEL_STORE_FOLDER_BODY_INDEX) != 0;
 			break;
@@ -431,9 +436,16 @@ local_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
 		tag = arg->tag;
 
 		switch (tag & CAMEL_ARG_TAG) {
-		case CAMEL_LOCAL_FOLDER_INDEX_BODY:
+		case CAMEL_LOCAL_FOLDER_ARG_INDEX_BODY:
 			/* FIXME: implement */
+			/* TODO: When turning on (off?) the index, we want to launch a task for it,
+			   and make sure we dont have multiple tasks doing the same job */
 			printf("setting folder indexing %s\n", arg->ca_int?"on":"off");
+			if (arg->ca_int)
+				((CamelLocalFolder *)object)->flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
+			else
+				((CamelLocalFolder *)object)->flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
+			printf("setv:'%s' flags %08x\n", ((CamelFolder *)object)->full_name, ((CamelLocalFolder *)object)->flags);
 			break;
 		default:
 			continue;
@@ -493,6 +505,8 @@ local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	if (camel_local_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
 		return;
+
+	camel_object_state_write(lf);
 
 	/* if sync fails, we'll pass it up on exit through ex */
 	camel_local_summary_sync((CamelLocalSummary *)folder->summary, expunge, lf->changes, ex);

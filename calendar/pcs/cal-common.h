@@ -34,6 +34,12 @@ typedef struct _CalBackendClass CalBackendClass;
 typedef struct _Cal Cal;
 typedef struct _CalClass CalClass;
 
+typedef struct _Query Query;
+typedef struct _QueryClass QueryClass;
+
+typedef struct _CalBackendObjectSExp CalBackendObjectSExp;
+typedef struct _CalBackendObjectSExpClass CalBackendObjectSExpClass;
+
 
 
 G_END_DECLS

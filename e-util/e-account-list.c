@@ -447,6 +447,9 @@ e_account_list_find(EAccountList *accounts, e_account_find_t type, const char *k
 		case E_ACCOUNT_FIND_NAME:
 			found = strcmp(account->name, key) == 0;
 			break;
+		case E_ACCOUNT_FIND_UID:
+			found = strcmp(account->uid, key) == 0;
+			break;
 		case E_ACCOUNT_FIND_ID_NAME:
 			if (account->id)
 				found = strcmp(account->id->name, key) == 0;

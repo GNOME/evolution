@@ -60,6 +60,9 @@ int camel_argv_build(CamelArgV *tv)
 		case CAMEL_ARG_PTR:
 			a->ca_ptr = va_arg(tv->ap, void *);
 			break;
+		case CAMEL_ARG_BOO:
+			a->ca_int = va_arg(tv->ap, int) != 0;
+			break;
 		default:
 			printf("Error, unknown type, truncating result\n");
 			more = FALSE;
@@ -96,6 +99,7 @@ int camel_arggetv_build(CamelArgGetV *tv)
 			*a->ca_object = NULL;
 			break;
 		case CAMEL_ARG_INT:
+		case CAMEL_ARG_BOO:
 			a->ca_int = va_arg(tv->ap, int *);
 			*a->ca_int = 0;
 			break;

@@ -112,13 +112,14 @@ static void
 set_menu_sens (TaskEditor *te) 
 {
 	TaskEditorPrivate *priv;
-	gboolean sens, existing, user, read_only;
+	gboolean sens, existing, user, read_only = TRUE;
 	
 	priv = te->priv;
 
  	existing = comp_editor_get_existing_org (COMP_EDITOR (te));
  	user = comp_editor_get_user_org (COMP_EDITOR (te));
-	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (te)));
+	
+	cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (te)), &read_only, NULL);
  
   	sens = cal_client_get_static_capability (comp_editor_get_cal_client (COMP_EDITOR (te)),
 						 CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)

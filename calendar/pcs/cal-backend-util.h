@@ -29,13 +29,6 @@
 G_BEGIN_DECLS
 
 /*
- * CORBA utility functions
- */
-
-void cal_backend_util_fill_alarm_instances_seq (
-	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms);
-
-/*
  * Functions for accessing mail configuration
  */
 

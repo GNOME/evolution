@@ -1,9 +1,10 @@
 /* Evolution calendar factory
  *
- * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2000-2003 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Authors: 
+ *   Federico Mena-Quintero <federico@ximian.com>
+ *   JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,16 +20,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
-#include <ctype.h>
-#include <stdio.h>
 #include <bonobo-activation/bonobo-activation.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-main.h>
 #include "e-util/e-url.h"
 #include "evolution-calendar.h"
-#include "cal.h"
 #include "cal-backend.h"
+#include "cal.h"
 #include "cal-factory.h"
-#include "job.h"
 
 #define PARENT_TYPE                BONOBO_TYPE_OBJECT
 #define DEFAULT_CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
@@ -50,13 +49,6 @@ struct _CalFactoryPrivate {
 	guint registered : 1;
 };
 
-typedef struct 
-{
-	CalFactory *factory;	
-	GNOME_Evolution_Calendar_CalMode mode;	
-	GNOME_Evolution_Calendar_StringSeq *list;
-} CalFactoryUriData;
-
 /* Signal IDs */
 enum SIGNALS {
 	LAST_CALENDAR_GONE,
@@ -65,76 +57,61 @@ enum SIGNALS {
 
 static guint signals[LAST_SIGNAL];
 
-/* Frees a method/GType * pair from the methods hash table */
-static void
-free_method (gpointer key, gpointer value, gpointer data)
-{
-	char *method;
-	GType *type;
-
-	method = key;
-	type = value;
-
-	g_free (method);
-	g_free (type);
-}
-
-/* Frees a uri/backend pair from the backends hash table */
-static void
-free_backend (gpointer key, gpointer value, gpointer data)
-{
-	char *uri;
-	CalBackend *backend;
-
-	uri = key;
-	backend = value;
-
-	g_free (uri);
-	g_object_unref (backend);
-}
-
 /* Opening calendars */
+static icalcomponent_kind
+calobjtype_to_icalkind (const GNOME_Evolution_Calendar_CalObjType type)
+{
+	switch (type){
+	case GNOME_Evolution_Calendar_TYPE_EVENT:
+		return ICAL_VEVENT_COMPONENT;
+	case GNOME_Evolution_Calendar_TYPE_TODO:
+		return ICAL_VTODO_COMPONENT;
+	case GNOME_Evolution_Calendar_TYPE_JOURNAL:
+		return ICAL_VJOURNAL_COMPONENT;
+	}
+	
+	return ICAL_NO_COMPONENT;
+}
+
+static GType
+get_backend_type (GHashTable *methods, const char *method, icalcomponent_kind kind)
+{
+	GHashTable *kinds;
+	GType type;
+	
+	kinds = g_hash_table_lookup (methods, method);
+	if (!kinds)
+		return 0;
+
+	type = GPOINTER_TO_INT (g_hash_table_lookup (kinds, GINT_TO_POINTER (kind)));
+
+	return type;
+}
 
 /* Looks up a calendar backend in a factory's hash table of uri->cal.  If
  * *non-NULL, orig_uri_return will be set to point to the original key in the
  * *hash table.
  */
 static CalBackend *
-lookup_backend (CalFactory *factory, const char *uristr, char **orig_uri_return)
+lookup_backend (CalFactory *factory, const char *uristr)
 {
 	CalFactoryPrivate *priv;
 	EUri *uri;
+	CalBackend *backend;
 	char *tmp;
-	gboolean found;
-	gpointer orig_key;
-	gpointer data;
 
 	priv = factory->priv;
 
 	uri = e_uri_new (uristr);
-	if (!uri) {
-		if (orig_uri_return)
-			*orig_uri_return = NULL;
-
+	if (!uri)
 		return NULL;
-	}
 
 	tmp = e_uri_to_string (uri, FALSE);
-	found = g_hash_table_lookup_extended (priv->backends, tmp, &orig_key, &data);
+	backend = g_hash_table_lookup (priv->backends, tmp);
 	g_free (tmp);
 	e_uri_free (uri);
 
-	if (found) {
-		if (orig_uri_return)
-			*orig_uri_return = orig_key;
-
-		return CAL_BACKEND (data);
-	} else {
-		if (orig_uri_return)
-			*orig_uri_return = NULL;
-
-		return NULL;
-	}
+	return backend;
 }
 
 /* Callback used when a backend loses its last connected client */
@@ -145,7 +122,6 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 	CalFactoryPrivate *priv;
 	CalBackend *ret_backend;
 	const char *uristr;
-	char *orig_uristr;
 
 	fprintf (stderr, "backend_last_client_gone_cb() called!\n");
 
@@ -157,14 +133,11 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 	uristr = cal_backend_get_uri (backend);
 	g_assert (uristr != NULL);
 
-	ret_backend = lookup_backend (factory, uristr, &orig_uristr);
+	ret_backend = lookup_backend (factory, uristr);
 	g_assert (ret_backend != NULL);
 	g_assert (ret_backend == backend);
 
-	g_hash_table_remove (priv->backends, orig_uristr);
-	g_free (orig_uristr);
-
-	g_object_unref (backend);
+	g_hash_table_remove (priv->backends, uristr);
 
 	/* Notify upstream if there are no more backends */
 
@@ -172,405 +145,92 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 		g_signal_emit (G_OBJECT (factory), signals[LAST_CALENDAR_GONE], 0);
 }
 
-/* Adds a backend to the calendar factory's hash table */
-static void
-add_backend (CalFactory *factory, const char *uristr, CalBackend *backend)
-{
-	CalFactoryPrivate *priv;
-	EUri *uri;
-	char *tmp;
-
-	priv = factory->priv;
-
-	uri = e_uri_new (uristr);
-	if (!uri)
-		return;
-
-	tmp = e_uri_to_string (uri, FALSE);
-	g_hash_table_insert (priv->backends, tmp, backend);
-	e_uri_free (uri);
-
-	g_signal_connect (G_OBJECT (backend), "last_client_gone",
-			  G_CALLBACK (backend_last_client_gone_cb),
-			  factory);
-}
-
-/* Tries to launch a backend for the method of the specified URI.  If there is
- * no such method registered in the factory, it sends the listener the
- * MethodNotSupported error code.
- */
-static CalBackend *
-launch_backend_for_uri (CalFactory *factory,
-			const char *uristr,
-			GNOME_Evolution_Calendar_Listener listener)
-{
-	CalFactoryPrivate *priv;
-	const char *method;
-	GType *type;
-	CalBackend *backend;
-	EUri *uri;
-
-	priv = factory->priv;
-
-	uri = e_uri_new (uristr);
-	if (!uri)
-		return NULL;
-
-	method = uri->protocol;
-	type = g_hash_table_lookup (priv->methods, method);
-	e_uri_free (uri);
-
-	if (!type) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_METHOD_NOT_SUPPORTED,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("launch_backend_for_uri(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	backend = g_object_new (*type, NULL);
-	if (!backend)
-		g_message ("launch_backend_for_uri(): could not launch the backend");
-
-	return backend;
-}
-
-/* Opens a calendar backend and puts it in the factory's backend hash table */
-static CalBackend *
-open_backend (CalFactory *factory, const char *uristr, gboolean only_if_exists,
-	      GNOME_Evolution_Calendar_Listener listener)
-{
-	CalFactoryPrivate *priv;
-	CalBackend *backend;
-	CalBackendOpenStatus status;
-	CORBA_Environment ev;
-
-	priv = factory->priv;
-
-	backend = launch_backend_for_uri (factory, uristr, listener);
-	if (!backend)
-		return NULL;
-
-	status = cal_backend_open (backend, uristr, only_if_exists);
-
-	switch (status) {
-	case CAL_BACKEND_OPEN_SUCCESS:
-		add_backend (factory, uristr, backend);
-		return backend;
-
-	case CAL_BACKEND_OPEN_ERROR:
-		g_object_unref (backend);
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_ERROR,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("open_backend(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-
-	case CAL_BACKEND_OPEN_NOT_FOUND:
-		g_object_unref (backend);
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_NOT_FOUND,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("open_backend(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-
-	case CAL_BACKEND_OPEN_PERMISSION_DENIED :
-		g_object_unref (backend);
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_PERMISSION_DENIED,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("open_backend(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-
-	default:
-		g_assert_not_reached ();
-		return NULL;
-	}
-}
-
-/* Adds a listener to a calendar backend by creating a calendar client interface
- * object.
- */
-static void
-add_calendar_client (CalFactory *factory,
-		     CalBackend *backend,
-		     GNOME_Evolution_Calendar_Listener listener)
-{
-	Cal *cal;
-	CORBA_Environment ev;
-
-	cal = cal_new (backend, listener);
-	if (!cal) {
-		g_message ("add_calendar_client(): could not create the calendar client interface");
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_ERROR,
-			CORBA_OBJECT_NIL,
-			&ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("add_calendar_client(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	cal_backend_add_cal (backend, cal);
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-		listener,
-		GNOME_Evolution_Calendar_Listener_SUCCESS,
-		BONOBO_OBJREF (cal),
-		&ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("add_calendar_client(): could not notify the listener");
-		bonobo_object_unref (BONOBO_OBJECT (cal));
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-/* Add a uri to a string list */
-static void
-add_uri (gpointer key, gpointer value, gpointer data)
-{
-	CalFactoryUriData *cfud = data;
-	CalFactory *factory = cfud->factory;	
-	GNOME_Evolution_Calendar_StringSeq *list = cfud->list;
-	GNOME_Evolution_Calendar_CalMode mode = cfud->mode;
-	char *uri_string = key;
-	CalBackend *backend;
-
-	switch (mode) {
-	case GNOME_Evolution_Calendar_MODE_LOCAL:
-		backend = lookup_backend (factory, uri_string, NULL);
-		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_LOCAL)
-			return;
-		break;		
-	case GNOME_Evolution_Calendar_MODE_REMOTE:
-		backend = lookup_backend (factory, uri_string, NULL);
-		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_REMOTE)
-			return;
-		break;		
-	case GNOME_Evolution_Calendar_MODE_ANY:
-		break;
-	}
-	
-	list->_buffer[list->_length] = CORBA_string_dup (uri_string);
-	list->_length++;
-}
-
-/* Job data */
-typedef struct {
-	CalFactory *factory;
-	char *uri;
-	gboolean only_if_exists;
-	GNOME_Evolution_Calendar_Listener listener;
-} OpenJobData;
-
-/* Job handler for the open calendar command */
-static void
-open_fn (gpointer data)
-{
-	OpenJobData *jd;
-	CalFactory *factory;
-	gboolean only_if_exists;
-	GNOME_Evolution_Calendar_Listener listener;
-	CalBackend *backend;
-	CORBA_Environment ev;
-	char *uri_string;
-
-	jd = data;
-	g_assert (jd->uri != NULL);
-
-	/* Check the URI */
-	uri_string = g_strdup (jd->uri);
-	g_free (jd->uri);
-
-	only_if_exists = jd->only_if_exists;
-	factory = jd->factory;
-	listener = jd->listener;
-	g_free (jd);
-
-	if (!uri_string) {
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_ERROR,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("open_fn(): Could not notify the listener!");
-
-		CORBA_exception_free (&ev);
-		goto out;
-	}
-
-	/* Look up the backend and create it if needed */
-
-	backend = lookup_backend (factory, uri_string, NULL);
-
-	if (!backend)
-		backend = open_backend (factory, uri_string, only_if_exists, listener);
-	
-	g_free (uri_string);
-	
-	if (backend)
-		add_calendar_client (factory, backend, listener);
-
- out:
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("open_fn(): could not release the listener");
-
-	CORBA_exception_free (&ev);
-}
-
 
 
-static void
-impl_CalFactory_open (PortableServer_Servant servant,
-		      const CORBA_char *str_uri,
-		      CORBA_boolean only_if_exists,
-		      GNOME_Evolution_Calendar_Listener listener,
-		      CORBA_Environment *ev)
+static GNOME_Evolution_Calendar_Cal
+impl_CalFactory_getCal (PortableServer_Servant servant,
+			const CORBA_char *str_uri,
+			const GNOME_Evolution_Calendar_CalObjType type,
+			const GNOME_Evolution_Calendar_Listener listener,
+			CORBA_Environment *ev)
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
+	Cal *cal = CORBA_OBJECT_NIL;
+	CalBackend *backend;
 	CORBA_Environment ev2;
-	gboolean result;
-	OpenJobData *jd;
 	GNOME_Evolution_Calendar_Listener listener_copy;
-	GType *type;
+	GType backend_type;
 	EUri *uri;
-
+	char *uri_string;
+	
 	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
-	/* check URI to see if we support it */
-
+	/* Parse the uri */
 	uri = e_uri_new (str_uri);
 	if (!uri) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI,
-				     NULL);
-		return;
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI);
+
+		return CORBA_OBJECT_NIL;
 	}
+	uri_string = e_uri_to_string (uri, FALSE);	
 
-	type = g_hash_table_lookup (priv->methods, uri->protocol);
-
-	e_uri_free (uri);
-	if (!type) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod,
-				     NULL);
-		return;
+	/* Find the associated backend type (if any) */
+	backend_type = get_backend_type (priv->methods, uri->protocol, calobjtype_to_icalkind (type));
+	if (!backend_type) {
+		/* FIXME Distinguish between method and kind failures? */
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod);
+		goto cleanup;
 	}
 		
-	/* duplicate the listener object */
-	CORBA_exception_init (&ev2);
-	result = CORBA_Object_is_nil (listener, &ev2);
-
-	if (ev2._major != CORBA_NO_EXCEPTION || result) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CalFactory_NilListener,
-				     NULL);
-
-		CORBA_exception_free (&ev2);
-		return;
-	}
-	CORBA_exception_free (&ev2);
-
+	/* Duplicate the listener object */
 	CORBA_exception_init (&ev2);
 	listener_copy = CORBA_Object_duplicate (listener, &ev2);
 
-	if (ev2._major != CORBA_NO_EXCEPTION) {
-		g_message ("CalFactory_open(): could not duplicate the listener");
+	if (BONOBO_EX (&ev2)) {
+		g_warning (G_STRLOC ": could not duplicate the listener");
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CalFactory_NilListener);
 		CORBA_exception_free (&ev2);
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CalFactory_NilListener,
-				     NULL);
-		return;
+		goto cleanup;
 	}
-
 	CORBA_exception_free (&ev2);
 
-	/* add new asynchronous job */
-	jd = g_new (OpenJobData, 1);
-	jd->factory = factory;
-	jd->uri = g_strdup (str_uri);
-	jd->only_if_exists = only_if_exists;
-	jd->listener = listener_copy;
+	/* Look for an existing backend */
+	backend = lookup_backend (factory, uri_string);
+	if (!backend) {
+		/* There was no existing backend, create a new one */
+		backend = g_object_new (backend_type, "uri", uri_string, "kind", calobjtype_to_icalkind (type), NULL);
+		if (!backend) {
+			g_warning (G_STRLOC ": could not instantiate backend");
+			bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod);
+			goto cleanup;
+		}
 
-	job_add (open_fn, jd);
-}
+		/* Track the backend */
+		g_hash_table_insert (priv->backends, g_strdup (uri_string), backend);
 
-static GNOME_Evolution_Calendar_StringSeq *
-impl_CalFactory_uriList (PortableServer_Servant servant,
-			 GNOME_Evolution_Calendar_CalMode mode,
-			 CORBA_Environment *ev)
-{
-	CalFactory *factory;
-	CalFactoryPrivate *priv;
-	CalFactoryUriData cfud;
-	GNOME_Evolution_Calendar_StringSeq *list;
-
-	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
-
-	list = GNOME_Evolution_Calendar_StringSeq__alloc ();
-	CORBA_sequence_set_release (list, TRUE);
-	list->_length = 0;
-	list->_maximum = g_hash_table_size (priv->backends); 
-	list->_buffer = CORBA_sequence_CORBA_string_allocbuf (list->_maximum);
-
-	cfud.factory = factory;	
-	cfud.mode = mode;	
-	cfud.list = list;
-	g_hash_table_foreach (priv->backends, add_uri, &cfud);
+		g_signal_connect (G_OBJECT (backend), "last_client_gone",
+				  G_CALLBACK (backend_last_client_gone_cb),
+				  factory);
+	}
 	
-	return list;	
+	/* Create the corba calendar */
+	cal = cal_new (backend, uri_string, listener);
+	if (!cal) {
+		g_warning (G_STRLOC ": could not create the corba calendar");
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod);
+		goto cleanup;
+	}
 
+	/* Let the backend know about its clients corba clients */
+	cal_backend_add_client (backend, cal);
+	
+ cleanup:
+	e_uri_free (uri);
+	g_free (uri_string);
+
+	return CORBA_Object_duplicate (BONOBO_OBJREF (cal), ev);
 }
 
 
@@ -589,7 +249,9 @@ cal_factory_new (void)
 {
 	CalFactory *factory;
 
-	factory = g_object_new (CAL_FACTORY_TYPE, NULL);
+	factory = g_object_new (CAL_FACTORY_TYPE, 
+				"poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL), 
+				NULL);
 
 	return factory;
 }
@@ -607,13 +269,10 @@ cal_factory_finalize (GObject *object)
 	factory = CAL_FACTORY (object);
 	priv = factory->priv;
 
-	g_hash_table_foreach (priv->methods, free_method, NULL);
 	g_hash_table_destroy (priv->methods);
 	priv->methods = NULL;
 
 	/* Should we assert that there are no more backends? */
-
-	g_hash_table_foreach (priv->backends, free_backend, NULL);
 	g_hash_table_destroy (priv->backends);
 	priv->backends = NULL;
 
@@ -652,8 +311,7 @@ cal_factory_class_init (CalFactoryClass *klass)
 	object_class->finalize = cal_factory_finalize;
 
 	/* Epv methods */
-	epv->open = impl_CalFactory_open;
-	epv->uriList = impl_CalFactory_uriList;
+	epv->getCal = impl_CalFactory_getCal;
 }
 
 /* Object initialization function for the calendar factory */
@@ -665,8 +323,10 @@ cal_factory_init (CalFactory *factory, CalFactoryClass *klass)
 	priv = g_new0 (CalFactoryPrivate, 1);
 	factory->priv = priv;
 
-	priv->methods = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->backends = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->methods = g_hash_table_new_full (g_str_hash, g_str_equal, 
+					       (GDestroyNotify) g_free, (GDestroyNotify) g_hash_table_destroy);
+	priv->backends = g_hash_table_new_full (g_str_hash, g_str_equal, 
+						(GDestroyNotify) g_free, (GDestroyNotify) g_object_unref);
 	priv->registered = FALSE;
 }
 
@@ -675,23 +335,8 @@ BONOBO_TYPE_FUNC_FULL (CalFactory,
 		       PARENT_TYPE,
 		       cal_factory);
 
-/* Returns the lowercase version of a string */
-static char *
-str_tolower (const char *s)
-{
-	char *str;
-	unsigned char *p;
-
-	str = g_strdup (s);
-	for (p = str; *p; p++)
-		if (isalpha (*p))
-			*p = tolower (*p);
-
-	return str;
-}
-
 /**
- * cal_factory_oaf_register:
+ * cal_factory_register_storage:
  * @factory: A calendar factory.
  * @iid: OAFIID for the factory to be registered.
  * 
@@ -701,7 +346,7 @@ str_tolower (const char *s)
  * Return value: TRUE on success, FALSE otherwise.
  **/
 gboolean
-cal_factory_oaf_register (CalFactory *factory, const char *iid)
+cal_factory_register_storage (CalFactory *factory, const char *iid)
 {
 	CalFactoryPrivate *priv;
 	Bonobo_RegistrationResult result;
@@ -729,19 +374,16 @@ cal_factory_oaf_register (CalFactory *factory, const char *iid)
 		return TRUE;
 
 	case Bonobo_ACTIVATION_REG_NOT_LISTED:
-		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
-			   "not listed");
+		g_warning (G_STRLOC ": cannot register the calendar factory (not listed)");
 		break;
 
 	case Bonobo_ACTIVATION_REG_ALREADY_ACTIVE:
-		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
-			   "already active");
+		g_warning (G_STRLOC ": cannot register the calendar factory (already active)");
 		break;
 
 	case Bonobo_ACTIVATION_REG_ERROR:
 	default:
-		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
-			   "generic error");
+		g_warning (G_STRLOC ": cannot register the calendar factory (generic error)");
 		break;
 	}
 
@@ -762,12 +404,13 @@ cal_factory_oaf_register (CalFactory *factory, const char *iid)
  * the appropriate type.
  **/
 void
-cal_factory_register_method (CalFactory *factory, const char *method, GType backend_type)
+cal_factory_register_method (CalFactory *factory, const char *method, icalcomponent_kind kind, GType backend_type)
 {
 	CalFactoryPrivate *priv;
-	GType *type;
 	char *method_str;
-
+	GHashTable *kinds;
+	GType type;
+	
 	g_return_if_fail (factory != NULL);
 	g_return_if_fail (IS_CAL_FACTORY (factory));
 	g_return_if_fail (method != NULL);
@@ -776,37 +419,39 @@ cal_factory_register_method (CalFactory *factory, const char *method, GType back
 
 	priv = factory->priv;
 
-	method_str = str_tolower (method);
+	method_str = g_ascii_strdown (method, -1);
 
-	type = g_hash_table_lookup (priv->methods, method_str);
-	if (type) {
-		g_message ("cal_factory_register_method(): Method `%s' already registered!",
-			   method_str);
-		g_free (method_str);
-		return;
-	}
+	kinds = g_hash_table_lookup (priv->methods, method_str);
+	if (kinds) {
+		type = GPOINTER_TO_INT (g_hash_table_lookup (kinds, GINT_TO_POINTER (kind)));
+		if (type) {
+			g_warning (G_STRLOC ": method `%s' already registered", method_str);
+			g_free (method_str);
 
-	type = g_new (GType, 1);
-	*type = backend_type;
-
-	g_hash_table_insert (priv->methods, method_str, type);
+			return;
+		}		
+	} else {
+		kinds = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
+		g_hash_table_insert (priv->methods, method_str, kinds);
+	}	
+	
+	g_hash_table_insert (kinds, GINT_TO_POINTER (kind), GINT_TO_POINTER (backend_type));
 }
 
 /**
- * cal_factory_get_n_backends:
+ * cal_factory_get_n_backends
  * @factory: A calendar factory.
- * 
- * Queries the number of running calendar backends in a calendar factory.
- * 
- * Return value: Number of running backends.
- **/
+ *
+ * Get the number of backends currently active in the given factory.
+ *
+ * Returns: the number of backends.
+ */
 int
 cal_factory_get_n_backends (CalFactory *factory)
 {
 	CalFactoryPrivate *priv;
 
-	g_return_val_if_fail (factory != NULL, -1);
-	g_return_val_if_fail (IS_CAL_FACTORY (factory), -1);
+	g_return_val_if_fail (IS_CAL_FACTORY (factory), 0);
 
 	priv = factory->priv;
 	return g_hash_table_size (priv->backends);

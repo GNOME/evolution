@@ -439,6 +439,7 @@ cobject_state_read(CamelObject *obj, FILE *fp)
 
 			switch(argv->argv[argv->argc].tag & CAMEL_ARG_TYPE) {
 			case CAMEL_ARG_INT:
+			case CAMEL_ARG_BOO:
 				if (camel_file_util_decode_uint32(fp, &argv->argv[argv->argc].ca_int) == -1)
 					goto cleanup;
 				break;
@@ -535,6 +536,7 @@ cobject_state_write(CamelObject *obj, FILE *fp)
 
 		switch (arg->tag & CAMEL_ARG_TYPE) {
 		case CAMEL_ARG_INT:
+		case CAMEL_ARG_BOO:
 			if (camel_file_util_encode_uint32(fp, arg->ca_int) == -1)
 				goto abort;
 			break;
@@ -547,6 +549,13 @@ cobject_state_write(CamelObject *obj, FILE *fp)
 
 	res = 0;
 abort:
+	for (i=0;i<argv->argc;i++) {
+		CamelArg *arg = &argv->argv[i];
+
+		if ((argv->argv[i].tag & CAMEL_ARG_TYPE) == CAMEL_ARG_STR)
+			camel_object_free(obj, arg->tag, arg->ca_str);
+	}
+
 	g_free(argv);
 	g_free(arggetv);
 

@@ -46,8 +46,6 @@ static void rule_copy (FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget(FilterRule *fr, RuleContext *f);
 
-extern EvolutionShellClient *global_shell_client;
-
 static void vfolder_rule_class_init (VfolderRuleClass *klass);
 static void vfolder_rule_init (VfolderRule *vr);
 static void vfolder_rule_finalise (GObject *obj);
@@ -433,9 +431,13 @@ source_add (GtkWidget *widget, struct _source_data *data)
 	
 	window = gtk_widget_get_toplevel (widget);
 	gtk_widget_set_sensitive (window, FALSE);
-	
+
+#if 0				/* EPFIXME */
 	evolution_shell_client_user_select_folder (global_shell_client, GTK_WINDOW (window),
 						   _("Select Folder"), "", allowed_types, &folder);
+#else
+	folder = NULL;
+#endif
 	
 	gtk_widget_set_sensitive (window, TRUE);
 	

@@ -776,7 +776,7 @@ CamelFolderInfo *
 camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			 char separator, gboolean short_names)
 {
-	CamelFolderInfo *fi, *pfi, *top = NULL;
+	CamelFolderInfo *fi, *pfi, *top = NULL, *tail = NULL;
 	GHashTable *hash;
 	char *name, *p, *pname;
 	int i, nlen;
@@ -854,9 +854,15 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				g_hash_table_insert (hash, pname, pfi);
 				g_ptr_array_add (folders, pfi);
 			}
-			fi->sibling = pfi->child;
+			tail = pfi->child;
+			if (tail == NULL) {
+				pfi->child = fi;
+			} else {
+				while (tail->sibling)
+					tail = tail->sibling;
+				tail->sibling = fi;
+			}
 			fi->parent = pfi;
-			pfi->child = fi;
 		} else if (!top)
 			top = fi;
 	}
@@ -864,13 +870,18 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	g_hash_table_destroy (hash);
 
 	/* Link together the top-level folders */
+	tail = top;
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
 		if (fi->parent || fi == top)
 			continue;
-		if (top)
-			fi->sibling = top;
-		top = fi;
+		if (tail == NULL) {
+			tail = fi;
+			top = fi;
+		} else {
+			tail->sibling = fi;
+			tail = fi;
+		}
 	}
 	
 	return top;

@@ -100,6 +100,5 @@ char     *e_account_to_xml       (EAccount   *account);
 
 char     *e_account_uid_from_xml (const char *xml);
 
-char     *e_account_gen_uid      (void);
 
 #endif /* __E_ACCOUNT__ */

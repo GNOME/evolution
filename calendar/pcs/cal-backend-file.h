@@ -22,7 +22,7 @@
 #ifndef CAL_BACKEND_FILE_H
 #define CAL_BACKEND_FILE_H
 
-#include "pcs/cal-backend.h"
+#include "pcs/cal-backend-sync.h"
 
 G_BEGIN_DECLS
 
@@ -42,17 +42,21 @@ typedef struct _CalBackendFileClass CalBackendFileClass;
 typedef struct _CalBackendFilePrivate CalBackendFilePrivate;
 
 struct _CalBackendFile {
-	CalBackend backend;
+	CalBackendSync backend;
 
 	/* Private data */
 	CalBackendFilePrivate *priv;
 };
 
 struct _CalBackendFileClass {
-	CalBackendClass parent_class;
+	CalBackendSyncClass parent_class;
 };
 
-GType cal_backend_file_get_type (void);
+GType       cal_backend_file_get_type      (void);
+
+void        cal_backend_file_set_file_name (CalBackendFile *cbfile,
+					    const char     *file_name);
+const char *cal_backend_file_get_file_name (CalBackendFile *cbfile);
 
 
 

@@ -2294,7 +2294,7 @@ enum {
 static void
 update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs)
 {
-	EDestination *dest, **destv = NULL;
+	EABDestination *dest, **destv = NULL;
 	CamelInternetAddress *iaddr;
 	GList *list, *tail, *node;
 	int i, n = 0;
@@ -2310,14 +2310,14 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 				if (!camel_internet_address_get (iaddr, i, &name, &addr))
 					continue;
 				
-				dest = e_destination_new ();
-				e_destination_set_auto_recipient (dest, TRUE);
+				dest = eab_destination_new ();
+				eab_destination_set_auto_recipient (dest, TRUE);
 				
 				if (name)
-					e_destination_set_name (dest, name);
+					eab_destination_set_name (dest, name);
 				
 				if (addr)
-					e_destination_set_email (dest, addr);
+					eab_destination_set_email (dest, addr);
 				
 				node = g_list_alloc ();
 				node->data = dest;
@@ -2352,9 +2352,9 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 	
 	if (destv) {
 		for (i = 0; destv[i]; i++) {
-			if (!e_destination_is_auto_recipient (destv[i])) {
+			if (!eab_destination_is_auto_recipient (destv[i])) {
 				node = g_list_alloc ();
-				node->data = e_destination_copy (destv[i]);
+				node->data = eab_destination_copy (destv[i]);
 				node->next = NULL;
 				
 				if (tail) {
@@ -2370,10 +2370,10 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 			}
 		}
 		
-		e_destination_freev (destv);
+		eab_destination_freev (destv);
 	}
 	
-	destv = e_destination_list_to_vector_sized (list, n);
+	destv = eab_destination_list_to_vector_sized (list, n);
 	g_list_free (list);
 	
 	switch (mode) {
@@ -2387,7 +2387,7 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 		g_assert_not_reached ();
 	}
 	
-	e_destination_freev (destv);
+	eab_destination_freev (destv);
 }
 
 static void
@@ -3580,7 +3580,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
 	const char *format, *subject, *postto;
-	EDestination **Tov, **Ccv, **Bccv;
+	EABDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
 	struct _camel_header_raw *headers;
@@ -3657,13 +3657,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			const char *name, *addr;
 			
 			if (camel_internet_address_get (to, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
+				EABDestination *dest = eab_destination_new ();
+				eab_destination_set_name (dest, name);
+				eab_destination_set_email (dest, addr);
 				To = g_list_append (To, dest);
 			}
 		}
-		Tov = e_destination_list_to_vector (To);
+		Tov = eab_destination_list_to_vector (To);
 		g_list_free (To);
 		
 		len = CAMEL_ADDRESS (cc)->addresses->len;
@@ -3671,18 +3671,18 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			const char *name, *addr;
 			
 			if (camel_internet_address_get (cc, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
+				EABDestination *dest = eab_destination_new ();
+				eab_destination_set_name (dest, name);
+				eab_destination_set_email (dest, addr);
 				
 				if (g_hash_table_lookup (auto_cc, addr))
-					e_destination_set_auto_recipient (dest, TRUE);
+					eab_destination_set_auto_recipient (dest, TRUE);
 				
 				Cc = g_list_append (Cc, dest);
 			}
 		}
 		
-		Ccv = e_destination_list_to_vector (Cc);
+		Ccv = eab_destination_list_to_vector (Cc);
 		g_hash_table_foreach (auto_cc, auto_recip_free, NULL);
 		g_hash_table_destroy (auto_cc);
 		g_list_free (Cc);
@@ -3692,18 +3692,18 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			const char *name, *addr;
 			
 			if (camel_internet_address_get (bcc, i, &name, &addr)) {
-				EDestination *dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, addr);
+				EABDestination *dest = eab_destination_new ();
+				eab_destination_set_name (dest, name);
+				eab_destination_set_email (dest, addr);
 				
 				if (g_hash_table_lookup (auto_bcc, addr))
-					e_destination_set_auto_recipient (dest, TRUE);
+					eab_destination_set_auto_recipient (dest, TRUE);
 				
 				Bcc = g_list_append (Bcc, dest);
 			}
 		}
 		
-		Bccv = e_destination_list_to_vector (Bcc);
+		Bccv = eab_destination_list_to_vector (Bcc);
 		g_hash_table_foreach (auto_bcc, auto_recip_free, NULL);
 		g_hash_table_destroy (auto_bcc);
 		g_list_free (Bcc);
@@ -3719,9 +3719,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	
 	g_free (account_name);
 	
-	e_destination_freev (Tov);
-	e_destination_freev (Ccv);
-	e_destination_freev (Bccv);
+	eab_destination_freev (Tov);
+	eab_destination_freev (Ccv);
+	eab_destination_freev (Bccv);
 	
 	/* Restore the format editing preference */
 	format = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
@@ -3843,9 +3843,9 @@ add_recipients (GList *list, const char *recips, gboolean decode)
 	
 	for (i = 0; i < num; i++) {
 		if (camel_internet_address_get (cia, i, &name, &addr)) {
-			EDestination *dest = e_destination_new ();
-			e_destination_set_name (dest, name);
-			e_destination_set_email (dest, addr);
+			EABDestination *dest = eab_destination_new ();
+			eab_destination_set_name (dest, name);
+			eab_destination_set_email (dest, addr);
 			
 			list = g_list_append (list, dest);
 		}
@@ -3859,7 +3859,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 {
 	EMsgComposerHdrs *hdrs;
 	GList *to = NULL, *cc = NULL, *bcc = NULL;
-	EDestination **tov, **ccv, **bccv;
+	EABDestination **tov, **ccv, **bccv;
 	char *subject = NULL, *body = NULL;
 	char *header, *content, *buf;
 	size_t nread, nwritten;
@@ -3964,9 +3964,9 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	
 	g_free (buf);
 	
-	tov  = e_destination_list_to_vector (to);
-	ccv  = e_destination_list_to_vector (cc);
-	bccv = e_destination_list_to_vector (bcc);
+	tov  = eab_destination_list_to_vector (to);
+	ccv  = eab_destination_list_to_vector (cc);
+	bccv = eab_destination_list_to_vector (bcc);
 	
 	g_list_free (to);
 	g_list_free (cc);
@@ -3978,9 +3978,9 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	e_msg_composer_hdrs_set_cc (hdrs, ccv);
 	e_msg_composer_hdrs_set_bcc (hdrs, bccv);
 	
-	e_destination_freev (tov);
-	e_destination_freev (ccv);
-	e_destination_freev (bccv);
+	eab_destination_freev (tov);
+	eab_destination_freev (ccv);
+	eab_destination_freev (bccv);
 	
 	if (subject) {
 		e_msg_composer_hdrs_set_subject (hdrs, subject);
@@ -4053,9 +4053,9 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 void 
 e_msg_composer_set_headers (EMsgComposer *composer,
 			    const char *from,
-			    EDestination **to,
-			    EDestination **cc,
-			    EDestination **bcc,
+			    EABDestination **to,
+			    EABDestination **cc,
+			    EABDestination **bcc,
 			    const char *subject)
 {
 	EMsgComposerHdrs *hdrs;
@@ -4829,7 +4829,7 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 }
 
 
-EDestination **
+EABDestination **
 e_msg_composer_get_recipients (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
@@ -4837,7 +4837,7 @@ e_msg_composer_get_recipients (EMsgComposer *composer)
 	return composer->hdrs ? e_msg_composer_hdrs_get_recipients (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
-EDestination **
+EABDestination **
 e_msg_composer_get_to (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
@@ -4845,7 +4845,7 @@ e_msg_composer_get_to (EMsgComposer *composer)
 	return composer->hdrs ? e_msg_composer_hdrs_get_to (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
-EDestination **
+EABDestination **
 e_msg_composer_get_cc (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
@@ -4853,7 +4853,7 @@ e_msg_composer_get_cc (EMsgComposer *composer)
 	return composer->hdrs ? e_msg_composer_hdrs_get_cc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
-EDestination **
+EABDestination **
 e_msg_composer_get_bcc (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);

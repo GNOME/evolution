@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-object.h>
 #include "pcs/evolution-calendar.h"
 #include "pcs/cal-common.h"
+#include "pcs/query.h"
 
 G_BEGIN_DECLS
 
@@ -58,13 +59,48 @@ Cal *cal_construct (Cal *cal,
 		    CalBackend *backend,
 		    GNOME_Evolution_Calendar_Listener listener);
 
-Cal *cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener);
+Cal *cal_new (CalBackend *backend, const char *uri, GNOME_Evolution_Calendar_Listener listener);
+
+CalBackend *cal_get_backend (Cal *cal);
+GNOME_Evolution_Calendar_Listener cal_get_listener (Cal *cal);
+
+void cal_notify_read_only (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, gboolean read_only);
+void cal_notify_cal_address (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *address);
+void cal_notify_alarm_email_address (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *address);
+void cal_notify_ldap_attribute (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *attribute);
+void cal_notify_static_capabilities (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *capabilities);
+
+void cal_notify_open (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
+void cal_notify_remove (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
+
+void cal_notify_object_created (Cal *cal, GNOME_Evolution_Calendar_CallStatus status,
+				const char *uid, const char *object);
+void cal_notify_object_modified (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+				 const char *old_object, const char *object);
+void cal_notify_object_removed (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+				const char *uid, const char *object);
+void cal_notify_alarm_discarded (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
+
+void cal_notify_objects_received (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+				  GList *created, GList *modified, GList *removed);
+void cal_notify_objects_sent (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
+
+void cal_notify_default_object (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, char *object);
+void cal_notify_object (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, char *object);
+void cal_notify_object_list (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, GList *objects);
+
+void cal_notify_query (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, Query *query);
+
+void cal_notify_timezone_requested (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *object);
+void cal_notify_timezone_added (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *tzid);
+void cal_notify_default_timezone_set (Cal *cal, GNOME_Evolution_Calendar_CallStatus status);
+
+void cal_notify_changes (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, GList *adds, GList *modifies, GList *deletes);
+void cal_notify_free_busy (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, GList *freebusy);
 
 void cal_notify_mode (Cal *cal, 
 		      GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
 		      GNOME_Evolution_Calendar_CalMode mode);
-void cal_notify_update (Cal *cal, const char *uid);
-void cal_notify_remove (Cal *cal, const char *uid);
 void cal_notify_error (Cal *cal, const char *message);
 
 void cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *categories);

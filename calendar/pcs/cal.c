@@ -25,10 +25,10 @@
 #endif
 
 #include <libical/ical.h>
+#include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-exception.h>
-#include "cal.h"
 #include "cal-backend.h"
-#include "query.h"
+#include "cal.h"
 
 #define PARENT_TYPE         BONOBO_TYPE_OBJECT
 
@@ -42,7 +42,6 @@ struct _CalPrivate {
 	/* Listener on the client we notify */
 	GNOME_Evolution_Calendar_Listener listener;
 };
-
 
 /* Cal::get_uri method */
 static CORBA_char *
@@ -63,8 +62,35 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 	return str_uri_copy;
 }
 
+static void
+impl_Cal_open (PortableServer_Servant servant,
+	       CORBA_boolean only_if_exists,
+	       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cal_backend_open (priv->backend, cal, only_if_exists);
+}
+
+static void
+impl_Cal_remove (PortableServer_Servant servant,
+		 CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cal_backend_remove (priv->backend, cal);
+}
+
 /* Cal::isReadOnly method */
-static CORBA_boolean
+static void
 impl_Cal_isReadOnly (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
@@ -74,109 +100,63 @@ impl_Cal_isReadOnly (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	return cal_backend_is_read_only (priv->backend);
+	cal_backend_is_read_only (priv->backend, cal);
 }
 		       
 /* Cal::getEmailAddress method */
-static CORBA_char *
+static void
 impl_Cal_getCalAddress (PortableServer_Servant servant,
-			  CORBA_Environment *ev)
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	const char *str_cal_address;
-	CORBA_char *str_cal_address_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	str_cal_address = cal_backend_get_cal_address (priv->backend);
-	if (str_cal_address == NULL) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return CORBA_OBJECT_NIL;
-	}
-
-	str_cal_address_copy = CORBA_string_dup (str_cal_address);
-
-	return str_cal_address_copy;
+	cal_backend_get_cal_address (priv->backend, cal);
 }
 		       
 /* Cal::get_alarm_email_address method */
-static CORBA_char *
+static void
 impl_Cal_getAlarmEmailAddress (PortableServer_Servant servant,
 			       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	const char *str_email_address;
-	CORBA_char *str_email_address_copy;
-	
+
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
-	
-	str_email_address = cal_backend_get_alarm_email_address (priv->backend);
-	if (str_email_address == NULL) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return CORBA_OBJECT_NIL;
-	}
 
-	str_email_address_copy = CORBA_string_dup (str_email_address);
-
-	return str_email_address_copy;
+	cal_backend_get_alarm_email_address (priv->backend, cal);
 }
 		       
 /* Cal::get_ldap_attribute method */
-static CORBA_char *
+static void
 impl_Cal_getLdapAttribute (PortableServer_Servant servant,
 			   CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	const char *str_ldap_attr;
-	CORBA_char *str_ldap_attr_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	str_ldap_attr = cal_backend_get_ldap_attribute (priv->backend);
-	if (str_ldap_attr == NULL) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return CORBA_OBJECT_NIL;
-	}
-
-	str_ldap_attr_copy = CORBA_string_dup (str_ldap_attr);
-
-	return str_ldap_attr_copy;
+	cal_backend_get_ldap_attribute (priv->backend, cal);
 }
 
 /* Cal::getSchedulingInformation method */
-static CORBA_char *
+static void
 impl_Cal_getStaticCapabilities (PortableServer_Servant servant,
 				CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	const char *cap;
-	CORBA_char *cap_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	cap = cal_backend_get_static_capabilities (priv->backend);
-	cap_copy = CORBA_string_dup (cap == NULL ? "" : cap);
-
-	return cap_copy;
-}
-
-/* Converts a calendar object type from its CORBA representation to our own
- * representation.
- */
-static CalObjType
-uncorba_obj_type (GNOME_Evolution_Calendar_CalObjType type)
-{
-	return (((type & GNOME_Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
-		| ((type & GNOME_Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
-		| ((type & GNOME_Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
+	cal_backend_get_static_capabilities (priv->backend, cal);
 }
 
 /* Cal::setMode method */
@@ -194,208 +174,68 @@ impl_Cal_setMode (PortableServer_Servant servant,
 	cal_backend_set_mode (priv->backend, mode);
 }
 
-/* Cal::countObjects method */
-static CORBA_long
-impl_Cal_countObjects (PortableServer_Servant servant,
-		       GNOME_Evolution_Calendar_CalObjType type,
-		       CORBA_Environment *ev)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	int t;
-	int n;
-
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	t = uncorba_obj_type (type);
-	n = cal_backend_get_n_objects (priv->backend, t);
-	return n;
-}
-
-static GNOME_Evolution_Calendar_CalObj
+static void
 impl_Cal_getDefaultObject (PortableServer_Servant servant,
- 			     GNOME_Evolution_Calendar_CalObjType type,
- 			     CORBA_Environment *ev)
+			   CORBA_Environment *ev)
 {
  	Cal *cal;
  	CalPrivate *priv;
- 	GNOME_Evolution_Calendar_CalObj calobj_copy;
- 	char *calobj;
- 	
  
  	cal = CAL (bonobo_object_from_servant (servant));
  	priv = cal->priv;
  
- 	calobj = cal_backend_get_default_object (priv->backend, type);
- 	calobj_copy = CORBA_string_dup (calobj);
- 	g_free (calobj);
- 
- 	return calobj_copy;
+ 	cal_backend_get_default_object (priv->backend, cal);
 }
 
 /* Cal::getObject method */
-static GNOME_Evolution_Calendar_CalObj
+static void
 impl_Cal_getObject (PortableServer_Servant servant,
 		    const CORBA_char *uid,
+		    const CORBA_char *rid,
 		    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	char *calobj;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	calobj = cal_backend_get_object (priv->backend, uid);
-
-	if (calobj) {
-		CORBA_char *calobj_copy;
-
-		calobj_copy = CORBA_string_dup (calobj);
-		g_free (calobj);
-		return calobj_copy;
-	} else {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-
-		return NULL;
-	}
+	cal_backend_get_object (priv->backend, cal, uid, rid);
 }
 
-static GNOME_Evolution_Calendar_CalObjUIDSeq *
-build_uid_seq (GList *uids)
-{
-	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
-	GList *l;
-	int n, i;
-
-	n = g_list_length (uids);
-
-	seq = GNOME_Evolution_Calendar_CalObjUIDSeq__alloc ();
-	CORBA_sequence_set_release (seq, TRUE);
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjUID_allocbuf (n);
-
-	/* Fill the sequence */
-
-	for (i = 0, l = uids; l; i++, l = l->next) {
-		char *uid;
-
-		uid = l->data;
-		seq->_buffer[i] = CORBA_string_dup (uid);
-	}
-
-	return seq;
-}
-
-/* Cal::getUIDs method */
-static GNOME_Evolution_Calendar_CalObjUIDSeq *
-impl_Cal_getUIDs (PortableServer_Servant servant,
-		  GNOME_Evolution_Calendar_CalObjType type,
-		  CORBA_Environment *ev)
+/* Cal::getObjectsInRange method */
+static void
+impl_Cal_getObjectList (PortableServer_Servant servant,
+			const CORBA_char *query,
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	GList *uids;
-	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
-	int t;
-
+	
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	t = uncorba_obj_type (type);
-
-	uids = cal_backend_get_uids (priv->backend, t);
-	seq = build_uid_seq (uids);
-
-	cal_obj_uid_list_free (uids);
-
-	return seq;
+	cal_backend_get_object_list (priv->backend, cal, query);
 }
 
 /* Cal::getChanges method */
-static GNOME_Evolution_Calendar_CalObjChangeSeq *
+static void
 impl_Cal_getChanges (PortableServer_Servant servant,
 		     GNOME_Evolution_Calendar_CalObjType type,
 		     const CORBA_char *change_id,
 		     CORBA_Environment *ev)
 {
-	Cal *cal;
-	CalPrivate *priv;
-	int t;
+       Cal *cal;
+       CalPrivate *priv;
 
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
+       cal = CAL (bonobo_object_from_servant (servant));
+       priv = cal->priv;
 
-	t = uncorba_obj_type (type);
-	
-	return cal_backend_get_changes (priv->backend, t, change_id);
-}
-
-/* Cal::getObjectsInRange method */
-static GNOME_Evolution_Calendar_CalObjUIDSeq *
-impl_Cal_getObjectsInRange (PortableServer_Servant servant,
-			    GNOME_Evolution_Calendar_CalObjType type,
-			    GNOME_Evolution_Calendar_Time_t start,
-			    GNOME_Evolution_Calendar_Time_t end,
-			    CORBA_Environment *ev)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	int t;
-	time_t t_start, t_end;
-	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
-	GList *uids;
-
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	t = uncorba_obj_type (type);
-	t_start = (time_t) start;
-	t_end = (time_t) end;
-
-	if (t_start > t_end || t_start == -1 || t_end == -1) {
-		bonobo_exception_set (ev,  ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
-		return NULL;
-	}
-
-	uids = cal_backend_get_objects_in_range (priv->backend, t, t_start, t_end);
-	seq = build_uid_seq (uids);
-
-	cal_obj_uid_list_free (uids);
-
-	return seq;
-}
-
-static GNOME_Evolution_Calendar_CalObjSeq *
-build_fb_seq (GList *obj_list)
-{
-	GNOME_Evolution_Calendar_CalObjSeq *seq;
-	GList *l;
-	int n, i;
-
-	n = g_list_length (obj_list);
-
-	seq = GNOME_Evolution_Calendar_CalObjSeq__alloc ();
-	CORBA_sequence_set_release (seq, TRUE);
-	seq->_maximum = n;
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObj_allocbuf (n);
-
-	/* Fill the sequence */
-
-	for (i = 0, l = obj_list; l; i++, l = l->next) {
-		char *calobj;
-
-		calobj = l->data;
-		seq->_buffer[i] = CORBA_string_dup (calobj);
-	}
-
-	return seq;
+       cal_backend_get_changes (priv->backend, cal, type, change_id);
 }
 
 /* Cal::getFreeBusy method */
-static GNOME_Evolution_Calendar_CalObjSeq *
+static void
 impl_Cal_getFreeBusy (PortableServer_Servant servant,
 		      const GNOME_Evolution_Calendar_UserList *user_list,
 		      const GNOME_Evolution_Calendar_Time_t start,
@@ -404,21 +244,10 @@ impl_Cal_getFreeBusy (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	time_t t_start, t_end;
 	GList *users = NULL;
-	GList *obj_list;
-	GNOME_Evolution_Calendar_CalObjSeq *seq;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
-
-	t_start = (time_t) start;
-	t_end = (time_t) end;
-
-	if (t_start > t_end || t_start == -1 || t_end == -1) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
-		return build_fb_seq (NULL);
-	}
 
 	/* convert the CORBA user list to a GList */
 	if (user_list) {
@@ -429,87 +258,7 @@ impl_Cal_getFreeBusy (PortableServer_Servant servant,
 	}
 
 	/* call the backend's get_free_busy method */
-	obj_list = cal_backend_get_free_busy (priv->backend, users, t_start, t_end);
-	seq = build_fb_seq (obj_list);	
-	g_list_free (users);
-
-        if (obj_list == NULL)
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-
-        return seq;
-}
-
-/* Cal::getAlarmsInRange method */
-static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-impl_Cal_getAlarmsInRange (PortableServer_Servant servant,
-			   GNOME_Evolution_Calendar_Time_t start,
-			   GNOME_Evolution_Calendar_Time_t end,
-			   CORBA_Environment *ev)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	time_t t_start, t_end;
-	gboolean valid_range;
-	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
-
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	t_start = (time_t) start;
-	t_end = (time_t) end;
-
-	seq = cal_backend_get_alarms_in_range (priv->backend, t_start, t_end, &valid_range);
-	if (!valid_range) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
-		return NULL;
-	}
-
-	if (!seq) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return NULL;
-	}
-
-	return seq;
-}
-
-/* Cal::getAlarmsForObject method */
-static GNOME_Evolution_Calendar_CalComponentAlarms *
-impl_Cal_getAlarmsForObject (PortableServer_Servant servant,
-			     const CORBA_char *uid,
-			     GNOME_Evolution_Calendar_Time_t start,
-			     GNOME_Evolution_Calendar_Time_t end,
-			     CORBA_Environment * ev)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	time_t t_start, t_end;
-	GNOME_Evolution_Calendar_CalComponentAlarms *alarms;
-	CalBackendGetAlarmsForObjectResult result;
-
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	t_start = (time_t) start;
-	t_end = (time_t) end;
-
-	alarms = cal_backend_get_alarms_for_object (priv->backend, uid, t_start, t_end, &result);
-
-	switch (result) {
-	case CAL_BACKEND_GET_ALARMS_SUCCESS:
-		return alarms;
-
-	case CAL_BACKEND_GET_ALARMS_NOT_FOUND:
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return NULL;
-
-	case CAL_BACKEND_GET_ALARMS_INVALID_RANGE:
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
-		return NULL;
-
-	default:
-		g_assert_not_reached ();
-		return NULL;
-	}
+	cal_backend_get_free_busy (priv->backend, cal, users, start, end);
 }
 
 /* Cal::discardAlarm method */
@@ -521,158 +270,154 @@ impl_Cal_discardAlarm (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CalBackendResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_discard_alarm (priv->backend, uid, auid);
-	if (result == CAL_BACKEND_RESULT_NOT_FOUND)
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+	cal_backend_discard_alarm (priv->backend, cal, uid, auid);
 }
 
-/* Cal::updateObjects method */
 static void
-impl_Cal_updateObjects (PortableServer_Servant servant,
-			const CORBA_char *calobj,
-			const GNOME_Evolution_Calendar_CalObjModType mod,
-			CORBA_Environment *ev)
+impl_Cal_createObject (PortableServer_Servant servant,
+		       const CORBA_char *calobj,
+		       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CalBackendResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_update_objects (priv->backend, calobj, mod);
-	switch (result) {
-	case CAL_BACKEND_RESULT_INVALID_OBJECT :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
-		break;
-	case CAL_BACKEND_RESULT_NOT_FOUND :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		break;
-	case CAL_BACKEND_RESULT_PERMISSION_DENIED :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
-		break;
-	default :
-		break;
-	}
+	cal_backend_create_object (priv->backend, cal, calobj);
+}
+
+static void
+impl_Cal_modifyObject (PortableServer_Servant servant,
+		       const CORBA_char *calobj,
+		       const GNOME_Evolution_Calendar_CalObjModType mod,
+		       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cal_backend_modify_object (priv->backend, cal, calobj, mod);
 }
 
 /* Cal::removeObject method */
 static void
 impl_Cal_removeObject (PortableServer_Servant servant,
 		       const CORBA_char *uid,
+		       const CORBA_char *rid,
 		       const GNOME_Evolution_Calendar_CalObjModType mod,
 		       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CalBackendResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_remove_object (priv->backend, uid, mod);
-	switch (result) {
-	case CAL_BACKEND_RESULT_INVALID_OBJECT :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
-		break;
-	case CAL_BACKEND_RESULT_NOT_FOUND :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		break;
-	case CAL_BACKEND_RESULT_PERMISSION_DENIED :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
-		break;
-	default :
-		break;
-	}
+	cal_backend_remove_object (priv->backend, cal, uid, rid, mod);
 }
 
-/* Cal::sendObject method */
-static GNOME_Evolution_Calendar_CalObj
-impl_Cal_sendObject (PortableServer_Servant servant,
-		     const CORBA_char *calobj,
-		     GNOME_Evolution_Calendar_UserList **user_list,
-		     CORBA_Environment *ev)
+static void
+impl_Cal_receiveObjects (PortableServer_Servant servant, const CORBA_char *calobj, CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CORBA_char *calobj_copy;
-	char *new_calobj;
-	GNOME_Evolution_Calendar_Cal_Busy *err;
-	CalBackendSendResult result;
-	char error_msg[256];
-	
+
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_send_object (priv->backend, calobj, &new_calobj, user_list, error_msg);
-	switch (result) {
-	case CAL_BACKEND_SEND_SUCCESS:
-		calobj_copy = CORBA_string_dup (new_calobj);
-		g_free (new_calobj);
+	cal_backend_receive_objects (priv->backend, cal, calobj);
+}
 
-		return calobj_copy;
+static void
+impl_Cal_sendObjects (PortableServer_Servant servant, const CORBA_char *calobj, CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
 
-	case CAL_BACKEND_SEND_INVALID_OBJECT:
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
-		break;
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
 
-	case CAL_BACKEND_SEND_BUSY:
-		err = GNOME_Evolution_Calendar_Cal_Busy__alloc ();
-		err->errorMsg = CORBA_string_dup (error_msg);
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Calendar_Cal_Busy, err);
-		break;
-
-	case CAL_BACKEND_SEND_PERMISSION_DENIED:
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
-		break;
-
-	default :
-		g_assert_not_reached ();
-	}
-
-	return NULL;
+	cal_backend_send_objects (priv->backend, cal, calobj);
 }
 
 /* Cal::getQuery implementation */
-static GNOME_Evolution_Calendar_Query
+static void
 impl_Cal_getQuery (PortableServer_Servant servant,
 		   const CORBA_char *sexp,
 		   GNOME_Evolution_Calendar_QueryListener ql,
 		   CORBA_Environment *ev)
 {
+
 	Cal *cal;
 	CalPrivate *priv;
 	Query *query;
-	CORBA_Environment ev2;
-	GNOME_Evolution_Calendar_Query query_copy;
+	CalBackendObjectSExp *obj_sexp;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	/* we handle this entirely here, since it doesn't require any
+	   backend involvement now that we have pas_book_view_start to
+	   actually kick off the search. */
+
+	obj_sexp = cal_backend_object_sexp_new (sexp);
+	if (!obj_sexp) {
+		cal_notify_query (cal, GNOME_Evolution_Calendar_InvalidQuery, NULL);
+
+		return;
+	}
+
+	query = query_new (priv->backend, ql, obj_sexp);
+	if (!query) {
+		g_object_unref (obj_sexp);
+		cal_notify_query (cal, GNOME_Evolution_Calendar_OtherError, NULL);
+
+		return;
+	}
+
+	cal_backend_add_query (priv->backend, query);
+
+	cal_notify_query (cal, GNOME_Evolution_Calendar_Success, query);
+
+	g_object_unref (query);
+}
+
+
+/* Cal::getTimezone method */
+static void
+impl_Cal_getTimezone (PortableServer_Servant servant,
+		      const CORBA_char *tzid,
+		      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	query = cal_backend_get_query (priv->backend, ql, sexp);
-	if (!query) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
-		return CORBA_OBJECT_NIL;
-	}
+	cal_backend_get_timezone (priv->backend, cal, tzid);
+}
 
-	CORBA_exception_init (&ev2);
-	query_copy = CORBA_Object_duplicate (BONOBO_OBJREF (query), &ev2);
-	if (BONOBO_EX (&ev2)) {
-		bonobo_object_unref (query);
-		CORBA_exception_free (&ev2);
-		g_message ("Cal_get_query(): Could not duplicate the query reference");
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
-		return CORBA_OBJECT_NIL;
-	}
+/* Cal::addTimezone method */
+static void
+impl_Cal_addTimezone (PortableServer_Servant servant,
+		      const CORBA_char *tz,
+		      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
 
-	CORBA_exception_free (&ev2);
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
 
-	return query_copy;
+	cal_backend_add_timezone (priv->backend, cal, tz);
 }
 
 /* Cal::setDefaultTimezone method */
@@ -683,43 +428,11 @@ impl_Cal_setDefaultTimezone (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	gboolean zone_set;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	zone_set = cal_backend_set_default_timezone (priv->backend, tzid);
-
-	if (!zone_set) {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-	}
-}
-
-/* Cal::getTimezoneObject method */
-static GNOME_Evolution_Calendar_CalObj
-impl_Cal_getTimezoneObject (PortableServer_Servant servant,
-			    const CORBA_char *tzid,
-			    CORBA_Environment *ev)
-{
-	Cal *cal;
-	CalPrivate *priv;
-	char *calobj;
-
-	cal = CAL (bonobo_object_from_servant (servant));
-	priv = cal->priv;
-
-	calobj = cal_backend_get_timezone_object (priv->backend, tzid);
-
-	if (calobj) {
-		CORBA_char *calobj_copy;
-
-		calobj_copy = CORBA_string_dup (calobj);
-		g_free (calobj);
-		return calobj_copy;
-	} else {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		return NULL;
-	}
+	cal_backend_set_default_timezone (priv->backend, cal, tzid);
 }
 
 /**
@@ -762,7 +475,7 @@ cal_construct (Cal *cal,
 	CORBA_exception_free (&ev);
 
 	priv->backend = backend;
-
+	
 	return cal;
 }
 
@@ -778,23 +491,43 @@ cal_construct (Cal *cal,
  * if its corresponding CORBA object could not be created.
  **/
 Cal *
-cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
+cal_new (CalBackend *backend, const char *uri, GNOME_Evolution_Calendar_Listener listener)
 {
 	Cal *cal, *retval;
 
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	cal = CAL (g_object_new (CAL_TYPE, NULL));
+	cal = CAL (g_object_new (CAL_TYPE, 
+				 "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
+				 NULL));
 
 	retval = cal_construct (cal, backend, listener);
 	if (!retval) {
-		g_message ("cal_new(): could not construct the calendar client interface");
+		g_message (G_STRLOC ": could not construct the calendar client interface");
 		bonobo_object_unref (BONOBO_OBJECT (cal));
 		return NULL;
 	}
 
 	return retval;
+}
+
+CalBackend *
+cal_get_backend (Cal *cal)
+{
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (IS_CAL (cal), NULL);
+
+	return cal->priv->backend;
+}
+
+GNOME_Evolution_Calendar_Listener
+cal_get_listener (Cal *cal)
+{
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (IS_CAL (cal), NULL);
+
+	return cal->priv->listener;
 }
 
 /* Destroy handler for the calendar */
@@ -812,11 +545,11 @@ cal_finalize (GObject *object)
 	priv = cal->priv;
 
 	priv->backend = NULL;
-
+	
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (priv->listener, &ev);
 	if (BONOBO_EX (&ev))
-		g_message ("cal_destroy(): could not release the listener");
+		g_message (G_STRLOC ": could not release the listener");
 
 	priv->listener = NULL;
 	CORBA_exception_free (&ev);
@@ -843,27 +576,28 @@ cal_class_init (CalClass *klass)
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
+	epv->open = impl_Cal_open;
+	epv->remove = impl_Cal_remove;
 	epv->isReadOnly = impl_Cal_isReadOnly;
 	epv->getCalAddress = impl_Cal_getCalAddress;
  	epv->getAlarmEmailAddress = impl_Cal_getAlarmEmailAddress;
  	epv->getLdapAttribute = impl_Cal_getLdapAttribute;
  	epv->getStaticCapabilities = impl_Cal_getStaticCapabilities;
 	epv->setMode = impl_Cal_setMode;
-	epv->countObjects = impl_Cal_countObjects;
 	epv->getDefaultObject = impl_Cal_getDefaultObject;
 	epv->getObject = impl_Cal_getObject;
+	epv->getTimezone = impl_Cal_getTimezone;
+	epv->addTimezone = impl_Cal_addTimezone;
 	epv->setDefaultTimezone = impl_Cal_setDefaultTimezone;
-	epv->getTimezoneObject = impl_Cal_getTimezoneObject;
-	epv->getUIDs = impl_Cal_getUIDs;
+	epv->getObjectList = impl_Cal_getObjectList;
 	epv->getChanges = impl_Cal_getChanges;
-	epv->getObjectsInRange = impl_Cal_getObjectsInRange;
 	epv->getFreeBusy = impl_Cal_getFreeBusy;
-	epv->getAlarmsInRange = impl_Cal_getAlarmsInRange;
-	epv->getAlarmsForObject = impl_Cal_getAlarmsForObject;
 	epv->discardAlarm = impl_Cal_discardAlarm;
-	epv->updateObjects = impl_Cal_updateObjects;
+	epv->createObject = impl_Cal_createObject;
+	epv->modifyObject = impl_Cal_modifyObject;
 	epv->removeObject = impl_Cal_removeObject;
-	epv->sendObject = impl_Cal_sendObject;
+	epv->receiveObjects = impl_Cal_receiveObjects;
+	epv->sendObjects = impl_Cal_sendObjects;
 	epv->getQuery = impl_Cal_getQuery;
 }
 
@@ -881,6 +615,631 @@ cal_init (Cal *cal, CalClass *klass)
 }
 
 BONOBO_TYPE_FUNC_FULL (Cal, GNOME_Evolution_Calendar_Cal, PARENT_TYPE, cal);
+
+void 
+cal_notify_read_only (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, gboolean read_only)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyReadOnly (priv->listener, status, read_only, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of read only");
+
+	CORBA_exception_free (&ev);	
+}
+
+void 
+cal_notify_cal_address (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *address)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCalAddress (priv->listener, status, address ? address : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of cal address");
+
+	CORBA_exception_free (&ev);	
+}
+
+void
+cal_notify_alarm_email_address (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *address)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyAlarmEmailAddress (priv->listener, status, address ? address : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of alarm address");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_ldap_attribute (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *attribute)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyLDAPAttribute (priv->listener, status, attribute ? attribute : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of ldap attribute");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_static_capabilities (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *capabilities)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyStaticCapabilities (priv->listener, status,
+								    capabilities ? capabilities : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of static capabilities");
+
+	CORBA_exception_free (&ev);
+}
+
+void 
+cal_notify_open (Cal *cal, GNOME_Evolution_Calendar_CallStatus status)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCalOpened (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of open");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_remove (Cal *cal, GNOME_Evolution_Calendar_CallStatus status)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCalRemoved (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of remove");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_object_created (Cal *cal, GNOME_Evolution_Calendar_CallStatus status,
+			   const char *uid, const char *object)
+{
+	CalPrivate *priv;
+	EList *queries;
+	EIterator *iter;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	queries = cal_backend_get_queries (priv->backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		Query *query = QUERY (e_iterator_get (iter));
+		
+		bonobo_object_dup_ref (BONOBO_OBJREF (query), NULL);
+		
+		if (!query_object_matches (query, object))
+			continue;
+		
+		query_notify_objects_added_1 (query, object);
+
+		bonobo_object_release_unref (BONOBO_OBJREF (query), NULL);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjectCreated (priv->listener, status, uid ? uid : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of object creation");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_object_modified (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+			    const char *old_object, const char *object)
+{
+	CalPrivate *priv;
+	EList *queries;
+	EIterator *iter;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	queries = cal_backend_get_queries (priv->backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		Query *query = QUERY (e_iterator_get (iter));
+		gboolean old_match, new_match;
+		
+		bonobo_object_dup_ref (BONOBO_OBJREF (query), NULL);
+
+		old_match = query_object_matches (query, old_object);
+		new_match = query_object_matches (query, object);
+		if (old_match && new_match)
+			query_notify_objects_modified_1 (query, object);
+		else if (new_match)
+			query_notify_objects_added_1 (query, object);
+		else /* if (old_match) */ {
+			icalcomponent *comp;
+
+			comp = icalcomponent_new_from_string ((char *)old_object);
+			query_notify_objects_removed_1 (query, icalcomponent_get_uid (comp));
+			icalcomponent_free (comp);
+		}
+		query_notify_query_done (query, GNOME_Evolution_Calendar_Success);
+
+		bonobo_object_release_unref (BONOBO_OBJREF (query), NULL);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjectModified (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of object creation");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_object_removed (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+			   const char *uid, const char *object)
+{
+	CalPrivate *priv;
+	EList *queries;
+	EIterator *iter;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	queries = cal_backend_get_queries (priv->backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		Query *query = QUERY (e_iterator_get (iter));
+
+		bonobo_object_dup_ref (BONOBO_OBJREF (query), NULL);
+
+		if (!query_object_matches (query, object))
+			continue;
+
+		query_notify_objects_removed_1 (query, uid);
+
+		bonobo_object_release_unref (BONOBO_OBJREF (query), NULL);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjectRemoved (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of object removal");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_objects_received (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+			     GList *created, GList *modified, GList *removed)
+{
+	CalPrivate *priv;
+	EList *queries;
+	EIterator *iter;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	queries = cal_backend_get_queries (priv->backend);
+	iter = e_list_get_iterator (queries);
+
+	while (e_iterator_is_valid (iter)) {
+		Query *query = QUERY (e_iterator_get (iter));
+
+		bonobo_object_dup_ref (BONOBO_OBJREF (query), NULL);
+
+		query_notify_objects_added (query, created);
+		query_notify_objects_modified (query, modified);
+		query_notify_objects_removed (query, removed);
+
+		bonobo_object_release_unref (BONOBO_OBJREF (query), NULL);
+
+		e_iterator_next (iter);
+	}
+	g_object_unref (iter);
+	g_object_unref (queries);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjectsReceived (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of objects received");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_alarm_discarded (Cal *cal, GNOME_Evolution_Calendar_CallStatus status)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyAlarmDiscarded (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of alarm discarded");
+
+	CORBA_exception_free (&ev);	
+}
+
+void
+cal_notify_objects_sent (Cal *cal, GNOME_Evolution_Calendar_CallStatus status)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyObjectsSent (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of objects sent");
+
+	CORBA_exception_free (&ev);	
+}
+
+void
+cal_notify_default_object (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, char *object)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Calendar_Listener_notifyDefaultObjectRequested (priv->listener, status, 
+									object ? object : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of default object");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_object (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, char *object)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Calendar_Listener_notifyObjectRequested (priv->listener, status,
+								 object ? object : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of object");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_object_list (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, GList *objects)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_stringlist seq;
+	GList *l;
+	int i;
+	
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	seq._maximum = g_list_length (objects);
+	seq._length = 0;
+	seq._buffer = GNOME_Evolution_Calendar_stringlist_allocbuf (seq._maximum);
+
+	for (l = objects, i = 0; l; l = l->next, i++) {
+		seq._buffer[i] = CORBA_string_dup (l->data);
+		seq._length++;
+	}
+
+	GNOME_Evolution_Calendar_Listener_notifyObjectListRequested (priv->listener, status, &seq, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of object list");
+
+	CORBA_exception_free (&ev);	
+
+	CORBA_free(seq._buffer);
+}
+
+void
+cal_notify_query (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, Query *query)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyQuery (priv->listener, status, BONOBO_OBJREF (query), &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message (G_STRLOC ": could not notify the listener of query");
+
+	CORBA_exception_free (&ev);	
+}
+
+void
+cal_notify_timezone_requested (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *object)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyTimezoneRequested (priv->listener, status, object ? object : "", &ev);
+
+	if (BONOBO_EX (&ev))
+		g_warning (G_STRLOC ": could not notify the listener of timezone requested");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_timezone_added (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, const char *tzid)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyTimezoneAdded (priv->listener, status, tzid, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_warning (G_STRLOC ": could not notify the listener of timezone added");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_default_timezone_set (Cal *cal, GNOME_Evolution_Calendar_CallStatus status)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyDefaultTimezoneSet (priv->listener, status, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_warning (G_STRLOC ": could not notify the listener of default timezone set");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_changes (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, 
+		    GList *adds, GList *modifies, GList *deletes)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObjChangeSeq seq;
+	GList *l;	
+	int n, i;
+
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	n = g_list_length (adds) + g_list_length (modifies) + g_list_length (deletes);
+	seq._maximum = n;
+	seq._length = n;
+	seq._buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjChange_allocbuf (n);
+
+	i = 0;
+	for (l = adds; l; i++, l = l->next) {
+		GNOME_Evolution_Calendar_CalObjChange *change = &seq._buffer[i];
+		
+		change->calobj = CORBA_string_dup (l->data);
+		change->type = GNOME_Evolution_Calendar_ADDED;
+	}
+
+	for (l = modifies; l; i++, l = l->next) {
+		GNOME_Evolution_Calendar_CalObjChange *change = &seq._buffer[i];
+
+		change->calobj = CORBA_string_dup (l->data);
+		change->type = GNOME_Evolution_Calendar_MODIFIED;
+	}
+
+	for (l = deletes; l; i++, l = l->next) {
+		GNOME_Evolution_Calendar_CalObjChange *change = &seq._buffer[i];
+
+		change->calobj = CORBA_string_dup (l->data);
+		change->type = GNOME_Evolution_Calendar_DELETED;
+	}
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyDefaultTimezoneSet (priv->listener, status, &ev);
+
+	CORBA_free (seq._buffer);
+
+	if (BONOBO_EX (&ev))
+		g_warning (G_STRLOC ": could not notify the listener of default timezone set");
+
+	CORBA_exception_free (&ev);
+}
+
+void
+cal_notify_free_busy (Cal *cal, GNOME_Evolution_Calendar_CallStatus status, GList *freebusy)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObjSeq seq;
+	GList *l;
+	int n, i;
+	
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	n = g_list_length (freebusy);
+	seq._maximum = n;
+	seq._length = n;
+	seq._buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObj_allocbuf (n);
+
+	for (i = 0, l = freebusy; l; i++, l = l->next)
+		seq._buffer[i] = CORBA_string_dup (l->data);
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyDefaultTimezoneSet (priv->listener, status, &ev);
+
+	CORBA_free (seq._buffer);
+
+	if (BONOBO_EX (&ev))
+		g_warning (G_STRLOC ": could not notify the listener of freebusy");
+
+	CORBA_exception_free (&ev);
+}
 
 /**
  * cal_notify_mode:
@@ -912,68 +1271,6 @@ cal_notify_mode (Cal *cal,
 			   "about a mode change");
 
 	CORBA_exception_free (&ev);	
-}
-
-/**
- * cal_notify_update:
- * @cal: A calendar client interface.
- * @uid: UID of object that was updated.
- * 
- * Notifies a listener attached to a calendar client interface object about an
- * update to a calendar object.
- **/
-void
-cal_notify_update (Cal *cal, const char *uid)
-{
-	CalPrivate *priv;
-	CORBA_Environment ev;
-
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (IS_CAL (cal));
-	g_return_if_fail (uid != NULL);
-
-	priv = cal->priv;
-	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Listener_notifyObjUpdated (priv->listener, (char *) uid, &ev);
-
-	if (BONOBO_EX (&ev))
-		g_message ("cal_notify_update(): could not notify the listener "
-			   "about an updated object");
-
-	CORBA_exception_free (&ev);
-}
-
-/**
- * cal_notify_remove:
- * @cal: A calendar client interface.
- * @uid: UID of object that was removed.
- * 
- * Notifies a listener attached to a calendar client interface object about a
- * calendar object that was removed.
- **/
-void
-cal_notify_remove (Cal *cal, const char *uid)
-{
-	CalPrivate *priv;
-	CORBA_Environment ev;
-
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (IS_CAL (cal));
-	g_return_if_fail (uid != NULL);
-
-	priv = cal->priv;
-	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Listener_notifyObjRemoved (priv->listener, (char *) uid, &ev);
-
-	if (BONOBO_EX (&ev))
-		g_message ("cal_notify_remove(): could not notify the listener "
-			   "about a removed object");
-
-	CORBA_exception_free (&ev);
 }
 
 /**
