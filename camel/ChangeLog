@@ -1,3 +1,19 @@
+2002-04-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-http-stream.c (http_get_headers): Don't get the statuscode
+	here anymore.
+	(http_method_invoke): Use a User-Agent header and do basic proxy
+	authentication.
+	(stream_read): Handle redirects.
+	(camel_http_stream_set_user_agent): New function to allow client
+	to set the User-Agent string.
+	(camel_http_stream_set_proxy): New function for setting the proxy
+	server.
+	(camel_http_stream_set_proxy_authrealm): New function for setting
+	the proxy auth realm.
+	(camel_http_stream_set_proxy_authpass): New function for setting
+	the proxy auth password.
+
 2002-04-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (message_info_new): Simplified since we

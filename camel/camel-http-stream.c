@@ -32,6 +32,8 @@
 #include <errno.h>
 
 #include "camel-http-stream.h"
+
+#include "camel-mime-utils.h"
 #include "camel-stream-buffer.h"
 #include "camel-tcp-stream-raw.h"
 #ifdef HAVE_SSL
@@ -77,22 +79,11 @@ camel_http_stream_init (gpointer object, gpointer klass)
 	http->headers = NULL;
 	http->service = NULL;
 	http->url = NULL;
+	http->proxy = NULL;
+	http->authrealm = NULL;
+	http->authpass = NULL;
+	http->statuscode = 0;
 	http->raw = NULL;
-}
-
-static void
-headers_free (struct _header_raw *headers)
-{
-	struct _header_raw *node, *next;
-	
-	node = headers;
-	while (node) {
-		next = node->next;
-		g_free (node->name);
-		g_free (node->value);
-		g_free (node);
-		node = next;
-	}
 }
 
 static void
@@ -107,13 +98,19 @@ camel_http_stream_finalize (CamelObject *object)
 		header_content_type_unref (http->content_type);
 	
 	if (http->headers)
-		headers_free (http->headers);
+		header_raw_clear (&http->headers);
 	
 	if (http->service)
 		camel_object_unref (CAMEL_OBJECT (http->service));
 	
 	if (http->url)
 		camel_url_free (http->url);
+	
+	if (http->proxy)
+		camel_url_free (http->proxy);
+	
+	g_free (http->authrealm);
+	g_free (http->authpass);
 	
 	if (http->raw)
 		camel_object_unref (CAMEL_OBJECT (http->raw));
@@ -229,24 +226,37 @@ http_next_token (const unsigned char *in)
 }
 
 static int
-http_get_headers (CamelHttpStream *http)
+http_get_statuscode (CamelHttpStream *http)
 {
-	struct _header_raw *headers, *node, *tail;
-	const char *type, *token;
-	char buffer[4096], *buf;
-	int status, len, err;
+	const char *token;
+	char buffer[4096];
 	
 	if (camel_stream_buffer_gets (CAMEL_STREAM_BUFFER (http->raw), buffer, sizeof (buffer)) <= 0)
 		return -1;
 	
+	/* parse the HTTP status code */
 	if (!strncasecmp (buffer, "HTTP/", 5)) {
 		token = http_next_token (buffer);
-		status = header_decode_int (&token);
-		/* FIXME: don't just check for 200 */
-		if (status != 200 /* OK */)
-			goto exception;
-	} else
-		goto exception;
+		http->statuscode = header_decode_int (&token);
+		return http->statuscode;
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (http->raw));
+	http->raw = NULL;
+	
+	return -1;
+}
+
+static int
+http_get_headers (CamelHttpStream *http)
+{
+	struct _header_raw *headers, *node, *tail;
+	const char *type;
+	char *buf;
+	int len, err;
+	
+	if (http->parser)
+		camel_object_unref (CAMEL_OBJECT (http->parser));
 	
 	http->parser = camel_mime_parser_new ();
 	camel_mime_parser_init_with_stream (http->parser, http->raw);
@@ -254,7 +264,6 @@ http_get_headers (CamelHttpStream *http)
 	switch (camel_mime_parser_step (http->parser, &buf, &len)) {
 	case HSCAN_MESSAGE:
 	case HSCAN_HEADER:
-	case HSCAN_MULTIPART:
 		/* we have the headers, build them into 'us' */
 		headers = camel_mime_parser_headers_raw (http->parser);
 		
@@ -268,7 +277,7 @@ http_get_headers (CamelHttpStream *http)
 			http->content_type = NULL;
 		
 		if (http->headers)
-			headers_free (http->headers);
+			header_raw_clear (&http->headers);
 		
 		http->headers = NULL;
 		tail = (struct _header_raw *) &http->headers;
@@ -326,15 +335,36 @@ http_method_invoke (CamelHttpStream *http)
 	}
 	
 	url = camel_url_to_string (http->url, 0);
-	if (camel_stream_printf (http->raw, "%s %s HTTP/1.0\r\nHost: %s\r\n\r\n",
-				 method, http->url->path ? http->url->path : "/",
-				 http->url->host) == -1 ||
-	    camel_stream_flush (http->raw) == -1) {
+	if (camel_stream_printf (http->raw, "%s %s HTTP/1.0\r\nUser-Agent: %s\r\nHost: %s\r\n",
+				 method, http->user_agent ? http->user_agent : "CamelHttpStream/1.0",
+				 http->proxy ? url : http->url->path,
+				 http->url->host) == -1) {
+		camel_object_unref (CAMEL_OBJECT (http->raw));
+		http->raw = NULL;
+		g_free (url);
+		return -1;
+	}
+	g_free (url);
+	
+	if (http->authrealm && camel_stream_printf (http->raw, "WWW-Authenticate: %s\r\n", http->authrealm) == -1) {
 		camel_object_unref (CAMEL_OBJECT (http->raw));
 		http->raw = NULL;
 		return -1;
 	}
-	g_free (url);
+	
+	if (http->authpass && http->proxy && camel_stream_printf (http->raw, "Proxy-Authorization: Basic %s\r\n",
+								  http->authpass) == -1) {
+		camel_object_unref (CAMEL_OBJECT (http->raw));
+		http->raw = NULL;
+		return -1;
+	}
+	
+	/* end the headers */
+	if (camel_stream_write (http->raw, "\r\n", 2) == -1 || camel_stream_flush (http->raw) == -1) {
+		camel_object_unref (CAMEL_OBJECT (http->raw));
+		http->raw = NULL;
+		return -1;
+	}
 	
 	return 0;
 }
@@ -351,16 +381,52 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		return -1;
 	}
 	
+ redirect:
+	
 	if (!http->raw) {
-		http->raw = http_connect (http->service, http->url);
+		http->raw = http_connect (http->service, http->proxy ? http->proxy : http->url);
 		if (!http->raw)
 			return -1;
 		
 		if (http_method_invoke (http) == -1)
 			return -1;
 		
+		if (http_get_statuscode (http) == -1)
+			return -1;
+		
 		if (http_get_headers (http) == -1)
 			return -1;
+		
+		switch (http->statuscode) {
+		case 200:
+		case 206:
+			/* we are OK to go... */
+			break;
+		case 301:
+		case 302:
+			/* redirect... */
+			camel_url_free (http->url);
+			http->url = camel_url_new (header_raw_find (&http->headers, "Location", NULL), NULL);
+			
+			camel_object_unref (CAMEL_OBJECT (http->parser));
+			camel_object_unref (CAMEL_OBJECT (http->raw));
+			header_content_type_unref (http->content_type);
+			header_raw_clear (&http->headers);
+			http->parser = NULL;
+			http->raw = NULL;
+			
+			goto redirect;
+			break;
+		case 407:
+			/* failed proxy authentication? */
+		default:
+			/* unknown error */
+			camel_object_unref (CAMEL_OBJECT (http->parser));
+			camel_object_unref (CAMEL_OBJECT (http->raw));
+			http->parser = NULL;
+			http->raw = NULL;
+			return -1;
+		}
 	}
 	
 	nread = camel_mime_parser_read (http->parser, &parser_buf, n);
@@ -440,4 +506,43 @@ camel_http_stream_get_content_type (CamelHttpStream *http_stream)
 		header_content_type_ref (http_stream->content_type);
 	
 	return http_stream->content_type;
+}
+
+
+void
+camel_http_stream_set_user_agent (CamelHttpStream *http_stream, const char *user_agent)
+{
+	g_return_if_fail (CAMEL_IS_HTTP_STREAM (http_stream));
+	
+	g_free (http_stream->user_agent);
+	http_stream->user_agent = g_strdup (user_agent);
+}
+
+void
+camel_http_stream_set_proxy (CamelHttpStream *http_stream, const char *proxy_url)
+{
+	g_return_if_fail (CAMEL_IS_HTTP_STREAM (http_stream));
+	
+	if (http_stream->proxy)
+		camel_url_free (http_stream->proxy);
+	
+	http_stream->proxy = camel_url_new (proxy_url, NULL);
+}
+
+void
+camel_http_stream_set_proxy_authrealm (CamelHttpStream *http_stream, const char *proxy_authrealm)
+{
+	g_return_if_fail (CAMEL_IS_HTTP_STREAM (http_stream));
+	
+	g_free (http_stream->authrealm);
+	http_stream->authrealm = g_strdup (proxy_authrealm);
+}
+
+void
+camel_http_stream_set_proxy_authpass (CamelHttpStream *http_stream, const char *proxy_authpass)
+{
+	g_return_if_fail (CAMEL_IS_HTTP_STREAM (http_stream));
+	
+	g_free (http_stream->authpass);
+	http_stream->authpass = g_strdup (proxy_authpass);
 }
