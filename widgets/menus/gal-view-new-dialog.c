@@ -20,7 +20,8 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 #include "gal-view-new-dialog.h"
 #include "gal-define-views-model.h"
 #include <gal/widgets/e-unicode.h>
@@ -91,7 +92,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL);
+	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL, PACKAGE);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");

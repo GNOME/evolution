@@ -20,7 +20,8 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 #include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
@@ -218,7 +219,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL);
+	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");

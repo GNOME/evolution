@@ -654,8 +654,8 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 static void
 setup_gui (ETableConfig *config)
 {
-	GladeXML *gui = glade_xml_new (
-		ETABLE_GLADEDIR "/e-table-config.glade", NULL);
+	GladeXML *gui = glade_xml_new_with_domain (
+		ETABLE_GLADEDIR "/e-table-config.glade", NULL, PACKAGE);
 	
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");

@@ -21,7 +21,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
@@ -127,7 +127,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL);
+	gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, PACKAGE);
 	etfc->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");
