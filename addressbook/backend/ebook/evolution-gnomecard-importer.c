@@ -70,7 +70,7 @@ ebook_create (GnomeCardImporter *gci)
 /* EvolutionImporter methods */
 static void
 process_item_fn (EvolutionImporter *importer,
-		 GNOME_Evolution_ImporterListener listener,
+		 CORBA_Object listener,
 		 void *closure,
 		 CORBA_Environment *ev)
 {
