@@ -114,6 +114,9 @@
      accel="*Control**Shift*v"
      pixtype="pixbuf"/>
 
+    <cmd name="MessageEdit"
+     _tip="Open the selected message in the composer for editing"/>
+
     <cmd name="MessageOpen"
      _tip="Open the selected message in a new window"
      accel="*Control*o"/>
@@ -139,9 +142,6 @@
      _tip="Compose a reply to the sender of the selected message"
      accel="*Control*r"
      pixtype="pixbuf"/>
-
-    <cmd name="MessageResend"
-     _tip="Open the selected message in the composer to re-send it"/>
 
     <cmd name="MessageSaveAs"
      _tip="Save the message as a text file"
@@ -336,7 +336,7 @@
 
           <menuitem name="MessagePostReply" verb="" _label="Post a Repl_y"/>
 
-          <menuitem name="MessageResend" verb="" _label="_Resend..."/>
+          <menuitem name="MessageEdit" verb="" _label="_Edit as New Message..."/>
 
 	  <separator f="" name="emaillist3"/>
 

@@ -1,3 +1,8 @@
+2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	* evolution-mail-message.xml: Rename MessageResend to MessageEdit
+	since that's actually what it does.
+
 2004-05-06  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-message.xml: Make some more toolbar and menu items
