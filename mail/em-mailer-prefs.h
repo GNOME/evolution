@@ -62,8 +62,6 @@ struct _EMMailerPrefs {
 	
 	GNOME_Evolution_Shell shell;
 	
-	EvolutionConfigControl *control;
-	
 	GladeXML *gui;
 	GConfClient *gconf;
 	

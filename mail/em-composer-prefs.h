@@ -58,8 +58,6 @@ struct _ESignature;
 struct _EMComposerPrefs {
 	GtkVBox parent_object;
 	
-	EvolutionConfigControl *control;
-	
 	GConfClient *gconf;
 	
 	GladeXML *gui;
