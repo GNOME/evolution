@@ -12,13 +12,6 @@
 #define GAL_IS_DEFINE_VIEWS_MODEL(o)       (GTK_CHECK_TYPE ((o), GAL_DEFINE_VIEWS_MODEL_TYPE))
 #define GAL_IS_DEFINE_VIEWS_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_DEFINE_VIEWS_MODEL_TYPE))
 
-/* Virtual Column list:
-   0   Email
-   1   Full Name
-   2   Street
-   3   Phone
-*/
-
 typedef struct {
 	ETableModel parent;
 
