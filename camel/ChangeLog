@@ -3,6 +3,9 @@
 	* camel-gpg-context.c (gpg_ctx_op_step): Loop on our reads while
 	errno is EINTR or EAGAIN. Also make sure to completely read stdout
 	and stderr by keeping better state.
+	(gpg_ctx_parse_status): In the case of a NODATA response from gpg,
+	try to use the diagnostics that gpg may have written to its
+	stderr.
 
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -778,8 +778,12 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		return -1;
 	} else if (!strncmp (status, "NODATA", 6)) {
 		/* this is an error */
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("No data provided"));
+		if (gpg->diagnostics->len)
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "%.*s",
+					      gpg->diagnostics->len, gpg->diagnostics->data);
+		else
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("No data provided"));
 		return -1;
 	} else {
 		/* check to see if we are complete */
@@ -1023,7 +1027,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		char buffer[4096];
 		ssize_t nread;
 		
-		d(printf ("writing to gpg's stdin..."));
+		d(printf ("writing to gpg's stdin...\n"));
 		
 		/* write our stream to gpg's stdin */
 		nread = camel_stream_read (gpg->istream, buffer, sizeof (buffer));
@@ -1039,11 +1043,14 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 					nwritten += w;
 			} while (nwritten < nread && w != -1);
 			
+			d(printf ("wrote %d (out of %d) bytes to gpg's stdin\n", nwritten, nread));
+			
 			if (w == -1)
 				goto exception;
 		}
 		
 		if (camel_stream_eos (gpg->istream)) {
+			d(printf ("closing gpg's stdin\n"));
 			close (gpg->stdin);
 			gpg->stdin = -1;
 		}
