@@ -1,3 +1,13 @@
+2000-03-03  bertrand  <bertrand@helixcode.com>
+
+	* tests/ui-tests/message-browser.c (main): initialize
+	gdkrgb. Push visual/colormap.
+	(on_url_requested): in the case where a camel url is requested, 
+	write the camel stream to gtkhtml. 
+
+	* tests/ui-tests/Makefile.am (filter_LDADD): add
+	gnomeprint in the lib list. 
+
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* shell/Makefile.am (INCLUDES): use `top_srcdir' instead of

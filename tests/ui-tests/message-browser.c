@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*--------------------------------*-C-*---------------------------------*
  *
  *  Copyright 2000, Matt Loper <matt@helixcode.com>.
@@ -301,6 +302,40 @@ on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 }
 
 
+static void
+on_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStreamHandle handle, gpointer data)
+{
+	CamelStream *stream;
+	gchar tmp_buffer[4096];
+	gint nb_bytes_read;
+	
+	printf ("url _%s_ (%p) requested\n", url, url);
+
+	if (sscanf (url, "camel://%p", &stream) == 1)
+	{
+		
+		do {
+	  
+			/* read next chunk of text */
+			nb_bytes_read = camel_stream_read (stream,
+							   tmp_buffer,
+							   4096);
+			
+			/* If there's any text, write it to the stream */
+			if (nb_bytes_read > 0) {
+				gtk_html_write (html, handle, tmp_buffer, nb_bytes_read);
+			}
+			
+			
+		} while (!camel_stream_eos (stream));
+		
+		
+	}
+
+}
+
+
+
 static GtkWidget*
 get_gtk_html_contents_window (CamelDataWrapper* data)
 {
@@ -318,6 +353,11 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
 		gtk_signal_connect (GTK_OBJECT (html_widget),
 				    "link_clicked",
 				    GTK_SIGNAL_FUNC (on_link_clicked),
+				    NULL);		
+
+		gtk_signal_connect (GTK_OBJECT (html_widget),
+				    "url_requested",
+				    GTK_SIGNAL_FUNC (on_url_requested),
 				    NULL);		
 
 		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
@@ -554,6 +594,12 @@ main (int argc, char *argv[])
 
 	/* initialization */
 	gnome_init ("MessageBrowser", "1.0", argc, argv);
+
+	gdk_rgb_init ();
+
+	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_set_default_visual (gdk_rgb_get_visual ());
+
 	app = gnome_app_new ("Message Browser Test", NULL);
 	gnome_app_create_menus (GNOME_APP (app), main_menu);
 
