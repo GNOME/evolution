@@ -5458,7 +5458,7 @@ msgstr "Operación no implementada: añadir mensaje: para %s"
 #: camel/camel-folder.c:1039
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr "Operación no implementada: búsqueda según la expresión %s%s"
+msgstr "Operación no implementada: búsqueda según la expresión %s"
 
 #: camel/camel-folder.c:1219
 msgid "Moving messages"
@@ -6031,7 +6031,7 @@ msgstr "No puedo borrar la carpeta: %s: Operación no válida"
 #: camel/camel-vee-store.c:286
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "No puedo borrar la carpeta: %s: No existe%s"
+msgstr "No puedo borrar la carpeta: %s: No existe tal"
 
 #: camel/camel-vee-store.c:298
 #, c-format
