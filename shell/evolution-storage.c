@@ -69,6 +69,7 @@ enum {
 	CREATE_FOLDER,
 	REMOVE_FOLDER,
 	UPDATE_FOLDER,
+	XFER_FOLDER,
 
 	LAST_SIGNAL
 };
@@ -294,7 +295,6 @@ impl_Storage_async_remove_folder (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
-
 	CORBA_Object obj_dup;
 
 	bonobo_object = bonobo_object_from_servant (servant);
@@ -313,7 +313,16 @@ impl_Storage_async_xfer_folder (PortableServer_Servant servant,
 				const Bonobo_Listener listener,
 				CORBA_Environment *ev)
 {
-	g_print ("FIXME: impl_Storage_async_xfer_folder -- implement me!\n");
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	CORBA_Object obj_dup;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	obj_dup = CORBA_Object_duplicate (listener, ev);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_FOLDER],
+			 obj_dup, source_path, destination_path, remove_source);
 }
 
 static void
@@ -521,7 +530,8 @@ class_init (EvolutionStorageClass *klass)
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    create_folder),
 						 e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
-						 GTK_TYPE_INT, 4,
+						 GTK_TYPE_INT, 5,
+						 GTK_TYPE_POINTER,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING,
@@ -533,9 +543,22 @@ class_init (EvolutionStorageClass *klass)
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    remove_folder),
 						 e_marshal_NONE__POINTER_POINTER_POINTER,
-						 GTK_TYPE_INT, 2,
+						 GTK_TYPE_INT, 3,
+						 GTK_TYPE_POINTER,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING);
+
+	signals[XFER_FOLDER] = gtk_signal_new ("xfer_folder",
+					       GTK_RUN_LAST,
+					       object_class->type,
+					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								  xfer_folder),
+					       e_marshal_NONE__POINTER_POINTER_POINTER_BOOL,
+					       GTK_TYPE_INT, 4,
+					       GTK_TYPE_POINTER,
+					       GTK_TYPE_STRING,
+					       GTK_TYPE_STRING,
+					       GTK_TYPE_BOOL);
 	
 	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
 						 GTK_RUN_FIRST,

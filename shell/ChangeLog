@@ -1,5 +1,12 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (impl_Storage_async_xfer_folder): Implement.
+	(class_init): Add the signal "xfer_folder" signal.
+
+	* evolution-storage.h: New signal "xfer_folder".
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-corba-storage.c
 	(async_xfer_folder): New, implementation for the
 	::async_xfer_folder method.

@@ -94,6 +94,12 @@ struct _EvolutionStorageClass {
 			       const char *path,
 			       const char *physical_uri);
 
+	void (*xfer_folder) (EvolutionStorage *storage,
+			     const Bonobo_Listener listener,
+			     const char *source_path,
+			     const char *destination_path,
+			     gboolean remove_source);
+
 	void (*update_folder) (EvolutionStorage *storage,
 			       const char *path,
 			       int unread_count);
