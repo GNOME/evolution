@@ -1805,10 +1805,10 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 static gboolean
 _blink_scroll_timeout (gpointer data)
 {
-	CurrentCell *cell = CURRENT_CELL(data);
 	ECellTextView *text_view = (ECellTextView *) data;
 	ECellText *ect = E_CELL_TEXT (((ECellView *)text_view)->ecell);
 	CellEdit *edit = text_view->edit;
+	CurrentCell *cell = CURRENT_CELL(edit);
 	ECellTextLineBreaks *linebreaks = cell->breaks;
 
 	gulong current_time;
