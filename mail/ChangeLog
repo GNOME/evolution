@@ -1,3 +1,12 @@
+2001-03-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (transport_auth_type_changed): Allow the
+	authtype to be NULL.
+	(transport_auth_init): If the provider allows authtypes but
+	doesn't *need* one, create a "None" menu item that the user can
+	choose. This should fix the bug people have been seeing recently
+	since dan removed the no_authtype authmech from the smtp provider.
+
 2001-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* openpgp-utils.c (openpgp_verify): Default to iso-8859-1 as the

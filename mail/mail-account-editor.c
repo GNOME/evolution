@@ -407,9 +407,10 @@ transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
 	
-	gtk_object_set_data (GTK_OBJECT (editor), "transport_authmech", authtype->authproto);
+	gtk_object_set_data (GTK_OBJECT (editor), "transport_authmech",
+			     authtype ? authtype->authproto : NULL);
 	
-	if (authtype->need_password)
+	if (authtype && authtype->need_password)
 		sensitive = TRUE;
 	else
 		sensitive = FALSE;
@@ -442,6 +443,25 @@ transport_auth_init (MailAccountEditor *editor, CamelURL *url)
 	}
 	
 	menu = gtk_menu_new ();
+	
+	if (CAMEL_PROVIDER_ALLOWS (editor->transport, CAMEL_URL_ALLOW_AUTH) &&
+	    !CAMEL_PROVIDER_NEEDS (editor->transport, CAMEL_URL_NEED_AUTH)) {
+		/* It allows auth, but doesn't require it so give the user a
+		   way to say he doesn't need it */
+		item = gtk_menu_item_new_with_label (_("None"));
+		gtk_object_set_data (GTK_OBJECT (item), "authtype", NULL);
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (transport_auth_type_changed),
+				    editor);
+		
+		gtk_menu_append (GTK_MENU (menu), item);
+		
+		gtk_widget_show (item);
+		
+		authmech = item;
+		history = i;
+		i++;
+	}
 	
 	if (authtypes) {
 		GList *l;
