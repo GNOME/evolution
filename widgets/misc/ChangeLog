@@ -1,3 +1,8 @@
+2001-05-07  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* misc/e-filter-bar.h: xgettext does not find N_() in #defines. So
+	created fake enum. Also removed spaces before "..."
+
 2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-calendar-item.c, e-calendar.c, e-cell-date-edit.c,
