@@ -1,3 +1,11 @@
+2001-12-16  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
+	signals.
+	(init): Store the handles when we connect to the 'changed' and
+	'ok' signals.  (Fixed bug #16852)
+
 2001-12-15  JP Rosevear  <jpr@ximian.com>
  
  	* conduit/address-conduit.c (e_addr_context_destroy): don't free

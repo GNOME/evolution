@@ -48,6 +48,8 @@ static BonoboObjectClass *parent_class = NULL;
 struct _ESelectNamesBonoboPrivate {
 	ESelectNamesManager *manager;
 	BonoboEventSource *event_source;
+	guint manager_changed_tag;
+	guint manager_ok_tag;
 };
 
 enum _EntryPropertyID {
@@ -364,6 +366,9 @@ impl_destroy (GtkObject *object)
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
 
+	gtk_signal_disconnect (GTK_OBJECT (priv->manager), priv->manager_changed_tag);
+	gtk_signal_disconnect (GTK_OBJECT (priv->manager), priv->manager_ok_tag);
+
 	if (priv->manager->names) {
 		gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
 		priv->manager->names = NULL;
@@ -431,15 +436,17 @@ init (ESelectNamesBonobo *select_names)
 	priv->manager = e_select_names_manager_new ();
 	priv->event_source = NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "changed",
-			    GTK_SIGNAL_FUNC (manager_changed_cb),
-			    select_names);
+	priv->manager_changed_tag =
+		gtk_signal_connect (GTK_OBJECT (priv->manager),
+				    "changed",
+				    GTK_SIGNAL_FUNC (manager_changed_cb),
+				    select_names);
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "ok",
-			    GTK_SIGNAL_FUNC (manager_ok_cb),
-			    select_names);
+	priv->manager_ok_tag =
+		gtk_signal_connect (GTK_OBJECT (priv->manager),
+				    "ok",
+				    GTK_SIGNAL_FUNC (manager_ok_cb),
+				    select_names);
 
 	select_names->priv = priv;
 }
