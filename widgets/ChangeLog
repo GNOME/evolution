@@ -1,4 +1,19 @@
+1999-12-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header.c (e_table_header_index): fixed api.
+
 1999-12-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* test-cols.c (multi_cols_test): Update to simplified API.
+	* test-check.c (check_test): ditto
+	* test-table.c (table_browser_test): ditto
+
+	* e-table-simple.c (e_table_simple_class_init): Kill column_name method.
+
+	* e-table-model.h: Kill column_name method.
+
+	* e-table-col.c (e_table_col_new): Instead of using a column name,
+	use a column index.
 
 	* e-cell-text.c (ect_draw): Keep track of the originally allocated
 	piece of code.

@@ -213,7 +213,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
 
 	/* Center the thing */
-	xtra = (clip.width - gdk_string_measure (ethi->font, col->id))/2;
+	xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
 
 	if (xtra < 0)
 		xtra = 0;
@@ -224,7 +224,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	gdk_draw_text (
 		drawable, ethi->font,
 		ethi->gc, x, y + ethi->height - PADDING,
-		col->id, strlen (col->id));
+		col->text, strlen (col->text));
 }
 
 static void

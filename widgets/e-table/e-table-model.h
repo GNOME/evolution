@@ -20,7 +20,6 @@ typedef struct {
 	 * Virtual methods
 	 */
 	int         (*column_count)     (ETableModel *etm);
-	const char *(*column_name)      (ETableModel *etm, int col);
 	int         (*row_count)        (ETableModel *etm);
 	void       *(*value_at)         (ETableModel *etm, int col, int row);
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);

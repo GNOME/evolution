@@ -33,14 +33,6 @@ e_table_model_column_count (ETableModel *e_table_model)
 	return ETM_CLASS (e_table_model)->column_count (e_table_model);
 }
 
-const char *
-e_table_model_column_name (ETableModel *e_table_model, int col)
-{
-	g_return_val_if_fail (e_table_model != NULL, NULL);
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
-
-	return ETM_CLASS (e_table_model)->column_name (e_table_model, col);
-}
 
 int
 e_table_model_row_count (ETableModel *e_table_model)

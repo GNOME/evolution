@@ -127,14 +127,6 @@ col_count (ETableModel *etc, void *data)
 	return cols;
 }
 
-static const char *
-col_name (ETableModel *etc, int col, void *data)
-{
-	g_assert (col < cols);
-
-	return column_labels [col];
-}
-
 static int
 row_count (ETableModel *etc, void *data)
 {
@@ -189,7 +181,7 @@ table_browser_test (void)
 	 * Data model
 	 */
 	e_table_model = e_table_simple_new (
-		col_count, col_name, row_count, value_at,
+		col_count, row_count, value_at,
 		set_value_at, is_cell_editable, NULL);
 
 	/*
@@ -200,7 +192,7 @@ table_browser_test (void)
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
-			column_labels [i], column_labels [i],
+			i, column_labels [i],
 			80, 20, cell_left_just,
 			g_str_equal, TRUE);
 

@@ -22,14 +22,6 @@ simple_column_count (ETableModel *etm)
 	return simple->col_count (etm, simple->data);
 }
 
-static const char *
-simple_column_name (ETableModel *etm, int col)
-{
-	ETableSimple *simple = (ETableSimple *)etm;
-
-	return simple->col_name (etm, col, simple->data);
-}
-
 static int
 simple_row_count (ETableModel *etm)
 {
@@ -68,7 +60,6 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
 	model_class->column_count = simple_column_count;
-	model_class->column_name = simple_column_name;
 	model_class->row_count = simple_row_count;
 	model_class->value_at = simple_value_at;
 	model_class->set_value_at = simple_set_value_at;
@@ -100,7 +91,6 @@ e_table_simple_get_type (void)
 
 ETableModel *
 e_table_simple_new (ETableSimpleColumnCountFn col_count,
-		    ETableSimpleColumnNameFn col_name,
 		    ETableSimpleRowCountFn row_count,
 		    ETableSimpleValueAtFn value_at,
 		    ETableSimpleSetValueAtFn set_value_at,
@@ -112,7 +102,6 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et = gtk_type_new (e_table_simple_get_type ());
 
 	et->col_count = col_count;
-	et->col_name = col_name;
 	et->row_count = row_count;
 	et->value_at = value_at;
 	et->set_value_at = set_value_at;

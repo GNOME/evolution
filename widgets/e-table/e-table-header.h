@@ -40,7 +40,7 @@ ETableCol * e_table_header_get_column    (ETableHeader *eth,
 					  int column);
 int         e_table_header_count         (ETableHeader *eth);
 int         e_table_header_index         (ETableHeader *eth,
-					  const char *identifier);
+					  int col);
 int         e_table_header_get_index_at  (ETableHeader *eth,
 					  int x_offset);
 ETableCol **e_table_header_get_columns   (ETableHeader *eth);

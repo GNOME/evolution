@@ -170,22 +170,15 @@ e_table_header_count (ETableHeader *eth)
 }
 
 int
-e_table_header_index (ETableHeader *eth, const char *identifier)
+e_table_header_index (ETableHeader *eth, int col)
 {
 	int i;
 	
-	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
-	g_return_val_if_fail (identifier != NULL, 0);
+	g_return_val_if_fail (eth != NULL, -1);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
+	g_return_val_if_fail (col < eth->col_count, -1);
 
-	for (i = 0; i < eth->col_count; i++){
-		ETableCol *tc = eth->columns [i];
-		
-		if (strcmp (tc->id, identifier) == 0)
-			return i;
-	}
-
-	return -1;
+	return eth->columns [col]->col_idx;
 }
 
 int

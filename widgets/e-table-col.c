@@ -21,8 +21,6 @@ etc_destroy (GtkObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
-	printf ("Destroying columns: %s %s\n", etc->id, etc->text);
-	g_free (etc->id);
 	g_free (etc->text);
 	
 	(*parent_class->destroy)(object);
@@ -38,12 +36,11 @@ e_table_col_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, NULL, PARENT_TYPE);
 
 ETableCol *
-e_table_col_new (const char *id, const char *text, int width, int min_width,
+e_table_col_new (int col_idx, const char *text, int width, int min_width,
 		 ECell *ecell, GCompareFunc compare, gboolean resizable)
 {
 	ETableCol *etc;
 	
-	g_return_val_if_fail (id != NULL, NULL);
 	g_return_val_if_fail (width >= 0, NULL);
 	g_return_val_if_fail (min_width >= 0, NULL);
 	g_return_val_if_fail (width >= min_width, NULL);
@@ -51,7 +48,7 @@ e_table_col_new (const char *id, const char *text, int width, int min_width,
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
 
-	etc->id = g_strdup (id);
+	etc->col_idx = col_idx;
 	etc->text = g_strdup (text);
 	etc->width = width;
 	etc->min_width = min_width;

@@ -16,14 +16,14 @@ typedef struct _ETableCol ETableCol;
  */
 struct _ETableCol {
 	GtkObject    base;
-	char        *id, *text;
+	char        *text;
 	short        width;
 	short        min_width;
 	short        x;
 	GCompareFunc compare;
 	unsigned int selected:1;
 	unsigned int resizeable:1;
-
+	int          col_idx;
 
 	ECell             *ecell;
 };
@@ -33,7 +33,7 @@ typedef struct {
 } ETableColClass;
 
 GtkType    e_table_col_get_type (void);
-ETableCol *e_table_col_new      (const char *id, const char *text,
+ETableCol *e_table_col_new      (int col_idx, const char *text,
 				 int width, int min_width,
 				 ECell *ecell, GCompareFunc compare,
 				 gboolean resizable);

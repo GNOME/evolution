@@ -4,7 +4,6 @@
 #include "e-table-model.h"
 
 typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm, void *data);
-typedef	const char *(*ETableSimpleColumnNameFn)     (ETableModel *etm, int col, void *data);
 typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *data);
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, const void *val, void *data);
@@ -14,7 +13,6 @@ typedef struct {
 	ETableModel parent;
 
 	ETableSimpleColumnCountFn    col_count;
-	ETableSimpleColumnNameFn     col_name;
 	ETableSimpleRowCountFn       row_count;
 	ETableSimpleValueAtFn        value_at;
 	ETableSimpleSetValueAtFn     set_value_at;
@@ -29,7 +27,6 @@ typedef struct {
 GtkType e_table_simple_get_type (void);
 
 ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
-				 ETableSimpleColumnNameFn col_name,
 				 ETableSimpleRowCountFn row_count,
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
