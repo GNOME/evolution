@@ -63,6 +63,7 @@ enum {
 	ARG_HEIGHT,
 	ARG_EMPTY_MESSAGE,
 	ARG_MODEL,
+	ARG_COLUMN_WIDTH,
 };
 
 enum {
@@ -587,6 +588,21 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		connect_model (reflow, (EReflowModel *) GTK_VALUE_OBJECT (*arg));
 		break;
+	case ARG_COLUMN_WIDTH:
+		if (reflow->column_width != GTK_VALUE_INT (*arg)) {
+			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
+
+			reflow->column_width = GTK_VALUE_INT (*arg);
+			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
+			adjustment->page_increment = adjustment->page_size - adjustment->step_increment;
+			gtk_adjustment_changed(adjustment);
+			e_reflow_resize_children(item);
+			e_canvas_item_request_reflow(item);
+
+			reflow->need_column_resize = TRUE;
+			gnome_canvas_item_request_update(item);
+		}
+		break;
 	}
 }
 
@@ -612,6 +628,9 @@ e_reflow_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = (GtkObject *) reflow->model;
+		break;
+	case ARG_COLUMN_WIDTH:
+		GTK_VALUE_INT (*arg) = reflow->column_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -1217,6 +1236,8 @@ e_reflow_class_init (EReflowClass *klass)
 				 GTK_ARG_READWRITE, ARG_EMPTY_MESSAGE);
 	gtk_object_add_arg_type ("EReflow::model", E_REFLOW_MODEL_TYPE,
 				 GTK_ARG_READWRITE, ARG_MODEL);
+	gtk_object_add_arg_type ("EReflow::column_width", GTK_TYPE_INT,
+				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
 
 	signals [SELECTION_EVENT] =
 		gtk_signal_new ("selection_event",
