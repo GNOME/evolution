@@ -57,7 +57,6 @@ typedef enum {
 
 
 typedef void (*CamelFolderAsyncCallback) ();
-typedef void (CamelSearchFunc)(CamelFolder *folder, int id, gboolean complete, GList *matches, void *data);
 
 /* these structs from camel-folder-summary.h ... (remove comment after cleanup soon) */
 /* TODO: perhaps they should be full-block objects? */

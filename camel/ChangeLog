@@ -10,6 +10,7 @@
 	api.
 	(struct _searchcontext): Removed cancelled flag.
 	(find_context): Removed.
+	(func_header_contains): Debug out some search stuff.
 
 	* providers/mbox/camel-mbox-search.h
 	(camel_mbox_folder_search_by_expression): Moved back to sync api.
@@ -23,6 +24,9 @@
 	(camel_mbox_summary_remove_uid): Remove a message summary entry by
 	uid.
 	(index_folder): Restore flags from X-Evolution header, if they are set.
+	(index_folder): Make sure we index using a decimal uid, since
+	thats what everything else indexes off (oops).
+	Upped SUMMARY_VERSION as a result.
 
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid):
 	Connect to the message_changed signal.
@@ -48,6 +52,8 @@
 	(CamelFolderClass): New function summary_get_by_uid() to get a single
 	summary.
 	(*search*): Moved back to synchronous search api ... *sigh*
+	
+	* camel-folder.h: Removed CamelSearchFunc.
 
 	* camel-mime-message.c (set_flag): Removed.
 	(camel_mime_message_set_flag): Removed.

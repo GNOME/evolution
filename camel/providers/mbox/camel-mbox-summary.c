@@ -47,7 +47,7 @@
 
 #define d(x)
 
-#define CAMEL_MBOX_SUMMARY_VERSION 2
+#define CAMEL_MBOX_SUMMARY_VERSION 3
 
 static int safe_write(int fd, char *buffer, size_t towrite);
 static void camel_mbox_summary_add(CamelMboxSummary *s, CamelMboxMessageInfo *info);
@@ -807,7 +807,7 @@ static int index_folder(CamelMboxSummary *s, int startoffset)
 				}
 
 				/* setup index name for this uid */
-				sprintf(name, "%x", newuid);
+				sprintf(name, "%u", newuid);
 				camel_mime_filter_index_set_name(mfi, name);
 				/* remove all references to this name from the index */
 				if (s->index)

@@ -240,7 +240,7 @@ func_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, voi
 			for (i=1;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING
 				    && strstr(header, argv[i]->value.string)) {
-					printf("%s got a match with %s of %s\n", ctx->message_current->info.uid, header, argv[i]->value.string);
+					r(printf("%s got a match with %s of %s\n", ctx->message_current->info.uid, header, argv[i]->value.string));
 					truth = TRUE;
 					break;
 				}
