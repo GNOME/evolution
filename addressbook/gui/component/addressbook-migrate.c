@@ -814,7 +814,7 @@ migration_context_new (AddressbookComponent *component)
 	/* set up the mapping from old uris to new uids */
 	context->folder_uid_map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
 
-	context->source_list = addressbook_component_peek_source_list (component);
+	e_book_get_addressbooks (&context->source_list, NULL);
 
 	context->component = component;
 
@@ -827,6 +827,9 @@ migration_context_free (MigrationContext *context)
 	e_source_list_sync (context->source_list, NULL);
 
 	g_hash_table_destroy (context->folder_uid_map);
+
+	g_object_unref (context->source_list);
+
 	g_free (context);
 }
 

@@ -271,8 +271,7 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 		if (!e_source_peek_group (source))
 			e_source_group_add_source (dialog->source_group, source, -1);
 
-		e_source_list_sync (addressbook_component_peek_source_list (
-			addressbook_component_peek ()), NULL);
+		e_source_list_sync (dialog->source_list, NULL);
 	}
 }
 

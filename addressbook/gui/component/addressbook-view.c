@@ -1120,6 +1120,9 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		g_object_set(view,
 			     "book", book,
 			     NULL);
+
+		if (view->model)
+			eab_model_force_folder_bar_message (view->model);
 	}
 	else {
 		eab_load_error_dialog (NULL /* XXX */, source, status);

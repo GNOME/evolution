@@ -1,5 +1,18 @@
 2004-04-14  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-view.c (book_open_cb): force the info
+	label to update its contents here if the load was successful.
+
+	* gui/component/addressbook-migrate.c (migration_context_new): use
+	e_book_get_addressbooks instead of getting source_list from the
+	component.
+	(migration_context_free): unref the source_list.
+
+	* gui/component/addressbook-config.c (dialog_to_source): sync the
+	dialog->source_list, since we have it.
+
+2004-04-14  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c: rip out tons of functions - they
 	all live in addressbook-view.c now.  the only thing left in this
 	file is the addressbook_load* calls that do authentication.
