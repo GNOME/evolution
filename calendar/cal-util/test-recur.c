@@ -147,17 +147,26 @@ generate_occurrences	(icalcomponent	*icalcomp)
 
 		g_print ("#############################################################################\n");
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
+		g_print ("Instances:\n");
 
 		occurrences = 0;
+		/* I use specific times when I am trying to pin down a bug seen
+		   in one of the calendar views. */
 #if 0
-		cal_recur_generate_instances (comp, 972950400, 976492800,
+		cal_recur_generate_instances (comp, 982022400, 982108800,
 					      occurrence_cb, &occurrences);
 #else
 		cal_recur_generate_instances (comp, -1, -1,
 					      occurrence_cb, &occurrences);
 #endif
 
+		/* Print the component again so we can see the
+		   X-EVOLUTION-ENDDATE parameter (only set if COUNT is used).
+		*/
+		g_print ("#############################################################################\n");
+#if 0
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
+#endif
 	}
 }
 

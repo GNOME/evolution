@@ -1,5 +1,15 @@
 2000-12-11  Damon Chaplin  <damon@helixcode.com>
 
+	* cal-util/cal-recur.c (generate_instances_for_chunk): updated the
+	tests on the start & end time just before calling the callback. It
+	was skipping occurrences that started before the required interval's
+	start time, which was wrong. We want all occurrences that intersect
+	the interval.
+	(cal_obj_time_weekday): removed the CalRecurrence* argument, since it
+	isn't needed.
+
+2000-12-11  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/event-editor.c: added changed flags and added calls to a new
 	function event_editor_set_changed() to set & reset this flag.
 	Added prompt_to_save_changed() which is called when the user

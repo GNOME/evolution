@@ -431,8 +431,7 @@ static void cal_obj_time_add_seconds		(CalObjTime *cotime,
 static gint cal_obj_time_compare		(CalObjTime *cotime1,
 						 CalObjTime *cotime2,
 						 CalObjTimeComparison type);
-static gint cal_obj_time_weekday		(CalObjTime *cotime,
-						 CalRecurrence *recur);
+static gint cal_obj_time_weekday		(CalObjTime *cotime);
 static gint cal_obj_time_weekday_offset		(CalObjTime *cotime,
 						 CalRecurrence *recur);
 static gint cal_obj_time_day_of_year		(CalObjTime *cotime);
@@ -461,8 +460,7 @@ static void cal_recur_set_rule_end_date		(icalproperty	*prop,
 
 
 #ifdef CAL_OBJ_DEBUG
-static char* cal_obj_time_to_string		(CalObjTime	*cotime,
-						 RecurData	*recur_data);
+static char* cal_obj_time_to_string		(CalObjTime	*cotime);
 #endif
 
 
@@ -932,6 +930,15 @@ cal_recur_free (CalRecurrence *r)
 /* Generates one year's worth of recurrence instances.  Returns TRUE if all the
  * callback invocations returned TRUE, or FALSE when any one of them returns
  * FALSE, i.e. meaning that the instance generation should be stopped.
+ *
+ * This should only output instances whose start time is between chunk_start
+ * and chunk_end (inclusive), or we may generate duplicates when we do the next
+ * chunk. (This applies mainly to weekly recurrences, since weeks can span 2
+ * years.)
+ *
+ * It should also only output instances that are on or after the event's
+ * DTSTART property and that intersect the required interval, between
+ * interval_start and interval_end.
  */
 static gboolean
 generate_instances_for_chunk (CalComponent	*comp,
@@ -1096,7 +1103,10 @@ generate_instances_for_chunk (CalComponent	*comp,
 		/* Convert each CalObjTime into a start & end time_t, and
 		   check it is within the bounds of the event & interval. */
 		occ = &g_array_index (occs, CalObjTime, i);
-
+#if 0
+		g_print ("Checking occurrence: %s\n",
+			 cal_obj_time_to_string (occ));
+#endif
 		start_tm.tm_year  = occ->year - 1900;
 		start_tm.tm_mon   = occ->month;
 		start_tm.tm_mday  = occ->day;
@@ -1113,14 +1123,18 @@ generate_instances_for_chunk (CalComponent	*comp,
 		}
 
 		/* Check to ensure that the start time is at or after the
-		   events DTSTART time, that it is not after the end of the
-		   interval we are generating instances for, and that it is
-		   inside the chunk that we are currently working on. */
+		   event's DTSTART time, and that it is inside the chunk that
+		   we are currently working on. (Note that the chunk_end time
+		   is never after the interval end time, so this also tests
+		   that we don't go past the end of the required interval). */
 		if (start_time < comp_dtstart
-		    || start_time < interval_start
 		    || cal_obj_time_compare_func (occ, chunk_start) < 0
-		    || cal_obj_time_compare_func (occ, chunk_end) > 0)
+		    || cal_obj_time_compare_func (occ, chunk_end) > 0) {
+#if 0
+			g_print ("  start time invalid\n");
+#endif
 			continue;
+		}
 
 		if (occ->is_rdate) {
 			if (!cal_object_get_rdate_end (occ, rdate_periods)) {
@@ -1148,10 +1162,14 @@ generate_instances_for_chunk (CalComponent	*comp,
 			break;
 		}
 
-		/* Check that the occurrence ends after the start of the
-		   current chunk. */
-		if (cal_obj_time_compare_func (occ, chunk_start) <= 0)
+		/* Check that the end time is after the interval start, so we
+		   know that it intersects the required interval. */
+		if (end_time <= interval_start) {
+#if 0
+			g_print ("  end time invalid\n");
+#endif
 			continue;
+		}
 
 		cb_status = (*cb) (comp, start_time, end_time, cb_data);
 		if (!cb_status)
@@ -2064,10 +2082,8 @@ cal_obj_weekly_find_next_position (CalObjTime *cotime,
 	cal_obj_time_add_days (&week_start, -recur_data->weekday_offset);
 
 #ifdef CAL_OBJ_DEBUG
-	g_print ("Next  day: %s\n",
-		 cal_obj_time_to_string (cotime, recur_data));
-	g_print ("Week Start: %s\n",
-		 cal_obj_time_to_string (&week_start, recur_data));
+	g_print ("Next  day: %s\n", cal_obj_time_to_string (cotime));
+	g_print ("Week Start: %s\n", cal_obj_time_to_string (&week_start));
 #endif
 
 	if (event_end && cal_obj_time_compare (&week_start, event_end,
@@ -2077,7 +2093,7 @@ cal_obj_weekly_find_next_position (CalObjTime *cotime,
 						  CALOBJ_DAY) > 0) {
 #ifdef CAL_OBJ_DEBUG
 		g_print ("Interval end reached: %s\n",
-			 cal_obj_time_to_string (interval_end, recur_data));
+			 cal_obj_time_to_string (interval_end));
 #endif
 		return TRUE;
 	}
@@ -2743,7 +2759,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 				/* Expand to every Mon/Tue/etc. in the year. */
 				occ->month = 0;
 				occ->day = 1;
-				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				first_weekday = cal_obj_time_weekday (occ);
 				offset = (weekday + 7 - first_weekday) % 7;
 				cal_obj_time_add_days (occ, offset);
 
@@ -2756,7 +2772,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 				/* Add the nth Mon/Tue/etc. in the year. */
 				occ->month = 0;
 				occ->day = 1;
-				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				first_weekday = cal_obj_time_weekday (occ);
 				offset = (weekday + 7 - first_weekday) % 7;
 				offset += (week_num - 1) * 7;
 				cal_obj_time_add_days (occ, offset);
@@ -2767,7 +2783,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 				/* Add the -nth Mon/Tue/etc. in the year. */
 				occ->month = 11;
 				occ->day = 31;
-				last_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				last_weekday = cal_obj_time_weekday (occ);
 				offset = (last_weekday + 7 - weekday) % 7;
 				offset += (week_num - 1) * 7;
 				cal_obj_time_add_days (occ, -offset);
@@ -2821,7 +2837,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 			if (week_num == 0) {
 				/* Expand to every Mon/Tue/etc. in the month.*/
 				occ->day = 1;
-				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				first_weekday = cal_obj_time_weekday (occ);
 				offset = (weekday + 7 - first_weekday) % 7;
 				cal_obj_time_add_days (occ, offset);
 
@@ -2834,7 +2850,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 			} else if (week_num > 0) {
 				/* Add the nth Mon/Tue/etc. in the month. */
 				occ->day = 1;
-				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				first_weekday = cal_obj_time_weekday (occ);
 				offset = (weekday + 7 - first_weekday) % 7;
 				offset += (week_num - 1) * 7;
 				cal_obj_time_add_days (occ, offset);
@@ -2845,7 +2861,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 				/* Add the -nth Mon/Tue/etc. in the month. */
 				occ->day = time_days_in_month (occ->year,
 							       occ->month);
-				last_weekday = cal_obj_time_weekday (occ, recur_data->recur);
+				last_weekday = cal_obj_time_weekday (occ);
 				offset = (last_weekday + 7 - weekday) % 7;
 				offset += (week_num - 1) * 7;
 				cal_obj_time_add_days (occ, -offset);
@@ -2931,7 +2947,7 @@ cal_obj_byday_filter		(RecurData  *recur_data,
 	len = occs->len;
 	for (i = 0; i < len; i++) {
 		occ = &g_array_index (occs, CalObjTime, i);
-		weekday = cal_obj_time_weekday (occ, recur_data->recur);
+		weekday = cal_obj_time_weekday (occ);
 
 		/* See if the weekday on its own is set. */
 		if (recur_data->weekdays[weekday])
@@ -3401,8 +3417,8 @@ cal_obj_time_compare_func (const void *arg1,
 		retval = 0;
 
 #if 0
-	g_print ("%s - ", cal_obj_time_to_string (cotime1, NULL));
-	g_print ("%s : %i\n", cal_obj_time_to_string (cotime2, NULL), retval);
+	g_print ("%s - ", cal_obj_time_to_string (cotime1));
+	g_print ("%s : %i\n", cal_obj_time_to_string (cotime2), retval);
 #endif
 
 	return retval;
@@ -3437,8 +3453,7 @@ cal_obj_date_only_compare_func (const void *arg1,
 
 /* Returns the weekday of the given CalObjTime, from 0 (Mon) - 6 (Sun). */
 static gint
-cal_obj_time_weekday		(CalObjTime *cotime,
-				 CalRecurrence *recur)
+cal_obj_time_weekday		(CalObjTime *cotime)
 {
 	GDate date;
 	gint weekday;
@@ -3555,16 +3570,14 @@ cal_object_time_from_time (CalObjTime *cotime,
    buffer so beware. */
 #ifdef CAL_OBJ_DEBUG
 static char*
-cal_obj_time_to_string		(CalObjTime	*cotime,
-				 RecurData	*recur_data)
+cal_obj_time_to_string		(CalObjTime	*cotime)
 {
 	static char buffer[20];
 	char *weekdays[] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
 			     "   " };
-	gint weekday = 7;
+	gint weekday;
 
-	if (recur_data)
-		weekday = cal_obj_time_weekday (cotime, recur_data->recur);
+	weekday = cal_obj_time_weekday (cotime);
 
 	sprintf (buffer, "%s %02i/%02i/%04i %02i:%02i:%02i",
 		 weekdays[weekday],
