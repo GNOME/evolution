@@ -441,6 +441,8 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s_ptr, &lc_ptr)) {
 		lc = lc_ptr;
 		lc->refcount++;
+
+		e_uri_free (uri);
 	} else {
 		client = cal_client_new ();
 
@@ -461,6 +463,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 				g_hash_table_insert (priv->uri_client_hash,
 						     g_strdup (str_uri), lc);
 			} else {
+				e_uri_free (uri);
 				g_free (lc);
 				g_object_unref (G_OBJECT (client));
 				client = NULL;

@@ -986,6 +986,69 @@ alarm_queue_init (void)
 	alarm_queue_inited = TRUE;
 }
 
+/* Called from g_hash_table_foreach(); adds a component UID to a list */
+static void
+add_uid_cb (gpointer key, gpointer value, gpointer data)
+{
+	GSList **uids;
+	const char *uid;
+
+	uids = data;
+	uid = key;
+
+	*uids = g_slist_prepend (*uids, (char *) uid);
+}
+
+/* Removes all the alarms queued for a particular calendar client */
+static void
+remove_client_alarms (ClientAlarms *ca)
+{
+	GSList *uids;
+	GSList *l;
+
+	/* First we build a list of UIDs so that we can remove them one by one */
+
+	uids = NULL;
+	g_hash_table_foreach (ca->uid_alarms_hash, add_uid_cb, &uids);
+
+	for (l = uids; l; l = l->next) {
+		const char *uid;
+
+		uid = l->data;
+
+		remove_comp (ca, uid);
+	}
+
+	g_slist_free (uids);
+
+	/* The hash table should be empty now */
+
+	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
+}
+
+static void
+free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	ClientAlarms *ca = value;
+
+	if (ca) {
+		remove_client_alarms (ca);
+
+		/* Clean up */
+
+		g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, ca);
+
+		g_object_unref (ca->client);
+		ca->client = NULL;
+
+		g_hash_table_destroy (ca->uid_alarms_hash);
+		ca->uid_alarms_hash = NULL;
+
+		g_free (ca);
+	}
+}
+
 /**
  * alarm_queue_done:
  *
@@ -1001,6 +1064,7 @@ alarm_queue_done (void)
 	/* All clients must be unregistered by now */
 	g_return_if_fail (g_hash_table_size (client_alarms_hash) == 0);
 
+	g_hash_table_foreach (client_alarms_hash, (GHFunc) free_client_alarms_cb, NULL);
 	g_hash_table_destroy (client_alarms_hash);
 	client_alarms_hash = NULL;
 
@@ -1066,46 +1130,6 @@ alarm_queue_add_client (CalClient *client)
 		load_alarms_for_today (ca);
 		load_missed_alarms (ca);
 	}
-}
-
-/* Called from g_hash_table_foreach(); adds a component UID to a list */
-static void
-add_uid_cb (gpointer key, gpointer value, gpointer data)
-{
-	GSList **uids;
-	const char *uid;
-
-	uids = data;
-	uid = key;
-
-	*uids = g_slist_prepend (*uids, (char *) uid);
-}
-
-/* Removes all the alarms queued for a particular calendar client */
-static void
-remove_client_alarms (ClientAlarms *ca)
-{
-	GSList *uids;
-	GSList *l;
-
-	/* First we build a list of UIDs so that we can remove them one by one */
-
-	uids = NULL;
-	g_hash_table_foreach (ca->uid_alarms_hash, add_uid_cb, &uids);
-
-	for (l = uids; l; l = l->next) {
-		const char *uid;
-
-		uid = l->data;
-
-		remove_comp (ca, uid);
-	}
-
-	g_slist_free (uids);
-
-	/* The hash table should be empty now */
-
-	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
 }
 
 /**
