@@ -73,8 +73,6 @@ struct _EMsgComposer {
 
 	Bonobo_PropertyBag     property_bag;
 	
-	char *sig_file;
-	
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html     : 1;
 	gboolean pgp_sign      : 1;
@@ -102,8 +100,7 @@ struct _EMsgComposerClass {
 GtkType           e_msg_composer_get_type             (void);
 void              e_msg_composer_construct            (EMsgComposer     *composer);
 EMsgComposer     *e_msg_composer_new                  (void);
-EMsgComposer     *e_msg_composer_new_with_sig_file    (const char       *sig_file,
-						       gboolean          send_html);
+EMsgComposer     *e_msg_composer_new_with_sig_file    (void);
 EMsgComposer     *e_msg_composer_new_with_message     (CamelMimeMessage *msg);
 EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);
 void              e_msg_composer_show_attachments     (EMsgComposer     *composer,
@@ -122,9 +119,7 @@ void              e_msg_composer_add_header           (EMsgComposer     *compose
 void              e_msg_composer_attach               (EMsgComposer     *composer,
 						       CamelMimePart    *attachment);
 CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
-void              e_msg_composer_set_sig_file         (EMsgComposer     *composer,
-						       const char       *sig_file);
-const char       *e_msg_composer_get_sig_file         (EMsgComposer     *composer);
+void              e_msg_composer_show_sig_file        (EMsgComposer     *composer);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
 void              e_msg_composer_set_send_html        (EMsgComposer     *composer,
 						       gboolean          send_html);

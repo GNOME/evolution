@@ -638,7 +638,7 @@ read_file_content (gint fd)
 }
 
 static char *
-get_file_content (char *file_name, gboolean convert, guint flags)
+get_file_content (const gchar *file_name, gboolean convert, guint flags)
 {
 	gint fd;
 	char *raw;
@@ -682,20 +682,11 @@ get_file_content (char *file_name, gboolean convert, guint flags)
 static char *
 get_sig_file_content (const char *sigfile, gboolean in_html)
 {
-	gchar *file_name;
-	gchar *htmlsig = NULL;
-
 	if (!sigfile || !*sigfile) {
 		return NULL;
 	}
 
-	file_name = in_html ? g_strconcat (sigfile, ".html", NULL) : (gchar *) sigfile;
-	
-	htmlsig = get_file_content (file_name, !in_html, 0);
-
-	if (in_html) g_free (file_name);
-
-	return htmlsig;
+	return get_file_content (sigfile, !in_html, 0);
 }
 
 static void
@@ -728,19 +719,37 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
+static const gchar *
+get_sig_file (EMsgComposer *composer)
+{
+
+	return NULL;
+}
+
 static gchar *
 get_signature_html (EMsgComposer *composer)
 {
-	gboolean format_html = composer->send_html;
-	gchar *text, *html = NULL;
+	gboolean format_html = FALSE;
+	gchar *text, *html = NULL, *sig_file = NULL;
 
-	text = get_sig_file_content (composer->sig_file, format_html);
-	/* if we tried HTML sig and it's not available, try also non HTML signature */
-	if (format_html && !text) {
-		format_html = FALSE;
-		text        = get_sig_file_content (composer->sig_file, format_html);
+	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
+		MailConfigIdentity *id;
+
+		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
+		if (composer->send_html) {
+			if  (id->has_html_signature) {
+				sig_file = id->html_signature;
+				format_html = TRUE;
+			} else
+				sig_file = id->signature;
+		} else
+			sig_file = id->signature;
 	}
 
+	if (!sig_file)
+		return NULL;
+
+	text = get_sig_file_content (sig_file, format_html);
 	if (text) {
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
@@ -1160,7 +1169,7 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete", &ev);
 	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
 	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "orig", "0", &ev);
-	e_msg_composer_set_sig_file (composer, composer->sig_file);
+	e_msg_composer_show_sig_file (composer);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "style-normal", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
@@ -1558,7 +1567,7 @@ from_changed_cb (EMsgComposerHdrs *hdrs,
 
 	composer = E_MSG_COMPOSER (data);
 
-	e_msg_composer_set_sig_file (composer, hdrs->account->id->signature);
+	e_msg_composer_show_sig_file (composer);
 }
 
 
@@ -2053,14 +2062,13 @@ e_msg_composer_new (void)
  * Return value: A pointer to the newly created widget
  **/
 EMsgComposer *
-e_msg_composer_new_with_sig_file (const char *sig_file, gboolean send_html)
+e_msg_composer_new_with_sig_file ()
 {
 	EMsgComposer *new;
 
 	new = create_composer ();
 	if (new) {
-		new->sig_file = g_strdup (sig_file);
-		e_msg_composer_set_send_html (new, send_html);
+		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
 		set_editor_text (new, "");
 	}
 
@@ -2679,7 +2687,7 @@ delete_old_signature (EMsgComposer *composer)
  * Set a signature
  **/
 void
-e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
+e_msg_composer_show_sig_file (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
 	gchar *html;
@@ -2696,12 +2704,6 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Set signature", "Reset signature", &ev);
 
 	delete_old_signature (composer);
-
-	if (composer->sig_file != sig_file && (!sig_file || !composer->sig_file || strcmp (composer->sig_file, sig_file))) {
-		g_free (composer->sig_file);
-		composer->sig_file = g_strdup (sig_file);
-	}
-
 	html = get_signature_html (composer);
 	if (html) {
 		if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
@@ -2718,24 +2720,6 @@ e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 	CORBA_exception_free (&ev);
 	composer->in_signature_insert = FALSE;
 }
-
-/**
- * e_msg_composer_get_sig_file:
- * @composer: A message composer widget
- * 
- * Get the signature file
- * 
- * Return value: The signature file.
- **/
-const char *
-e_msg_composer_get_sig_file (EMsgComposer *composer)
-{
-	g_return_val_if_fail (composer != NULL, NULL);
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-	
-	return composer->sig_file;
-}
-
 
 /**
  * e_msg_composer_set_send_html:
@@ -2771,8 +2755,7 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 				    composer->send_html, NULL);
 
 	set_config (composer, "FormatHTML", composer->send_html);
-	if (composer->sig_file)
-		e_msg_composer_set_sig_file (composer, composer->sig_file);
+	e_msg_composer_show_sig_file (composer);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
 	CORBA_exception_free (&ev);
 }

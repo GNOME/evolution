@@ -257,19 +257,9 @@ static void
 init (EvolutionComposer *composer)
 {
 	const MailConfigAccount *account;
-	gboolean send_html;
-	gchar *sig_file = NULL;
 
-	account = mail_config_get_default_account ();
-	send_html = mail_config_get_send_html ();
-
-	if (account->id)
-		sig_file = account->id->signature;
-	
-	if (sig_file)
-		composer->composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
-	else
-		composer->composer = e_msg_composer_new ();
+	account            = mail_config_get_default_account ();
+	composer->composer = e_msg_composer_new_with_sig_file ();
 	
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);
