@@ -500,6 +500,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	txt = get_entry_text (address, entryCompany);
 	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
+	if (i == 0)
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, txt);	
 	g_free (txt);
 
 	/* Address */

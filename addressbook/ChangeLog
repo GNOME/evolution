@@ -1,5 +1,10 @@
 2001-10-01  JP Rosevear  <jpr@ximian.com>
 
+	* conduit/address-conduit.c (ecard_from_remote_record): if there
+	was no first name or last name, file as the company.
+
+2001-10-01  JP Rosevear  <jpr@ximian.com>
+	
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_changes_foreach_key): if there is a db error,
 	assume deletion
