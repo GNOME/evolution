@@ -2538,18 +2538,18 @@ static EMPopupItem emft_popup_menu[] = {
 
 	{ EM_POPUP_BAR, "10.emc" },
 #endif
-	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy"), G_CALLBACK (emft_popup_copy), NULL, "stock_folder-copy", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move"), G_CALLBACK (emft_popup_move), NULL, "stock_folder-move", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy..."), G_CALLBACK (emft_popup_copy), NULL, "stock_folder-copy", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move..."), G_CALLBACK (emft_popup_move), NULL, "stock_folder-move", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
 	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "stock_folder", EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
 	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "stock_delete", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename"), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename..."), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "80.emc" },
-	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties..."), G_CALLBACK (emft_popup_properties), NULL, "stock_folder-properties", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties"), G_CALLBACK (emft_popup_properties), NULL, "stock_folder-properties", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
 
 static gboolean

@@ -1,5 +1,10 @@
 2004-06-05  Christian Neumair  <chris@gnome-de.org>
 
+	* em-folder-tree.c: Shuffle usage of trailing "..." in menus according
+	to the HIG.
+
+2004-06-05  Christian Neumair  <chris@gnome-de.org>
+
 	* mail-component.c (view_changed_cb): Use ngettext for message count
 	information.
 
