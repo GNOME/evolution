@@ -1,3 +1,9 @@
+2003-07-03  Antonio Xu <antonio.xu@sun.com>
+
+	Fixes #45767
+	
+	* conduits/todo/Makefile.am: removed libwombat from the build.
+
 2003-07-02  Harry Lu <harry.lu@sun.com>
 
  	Fixes #44485
