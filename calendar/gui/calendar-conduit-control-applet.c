@@ -32,18 +32,21 @@ GtkWidget *dialogWindow=NULL;
 gboolean activated,org_activation_state;
 GnomePilotConduitMgmt *conduit;
 
-static void doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg);
-static void doRevertSettings(GtkWidget *widget, ConduitCfg *conduitCfg);
-static void doSaveSettings(GtkWidget *widget, ConduitCfg *conduitCfg);
+static void doTrySettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
+static void doRevertSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
+static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg);
 
 static void readStateCfg(GtkWidget *w);
 static void setStateCfg(GtkWidget *w);
 
-gchar *pilotId;
+GCalConduitCfg *origState = NULL;
+GCalConduitCfg *curState = NULL;
+
+gint pilotId;
 CORBA_Environment ev;
 
 static void
-doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doTrySettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
 {
     readStateCfg(cfgStateWindow);
     if(activated)
@@ -53,15 +56,15 @@ doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg)
 }
 
 static void
-doSaveSettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doSaveSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
 {
     doTrySettings(widget, conduitCfg);
-    save_configuration(NULL);
+    gcalconduit_save_configuration(conduitCfg);
 }
 
 
 static void
-doRevertSettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doRevertSettings(GtkWidget *widget, GCalConduitCfg *conduitCfg)
 {
     activated = org_activation_state;
     setStateCfg(cfgStateWindow);
@@ -203,7 +206,7 @@ pilot_capplet_setup(void)
     gtk_signal_connect(GTK_OBJECT(capplet), "revert",
 			GTK_SIGNAL_FUNC(doRevertSettings), NULL);
     gtk_signal_connect(GTK_OBJECT(capplet), "ok",
-			GTK_SIGNAL_FUNC(doSaveSettings), NULL);
+			GTK_SIGNAL_FUNC(doSaveSettings), curState);
     gtk_signal_connect(GTK_OBJECT(capplet), "help",
 			GTK_SIGNAL_FUNC(about_cb), NULL);
 
@@ -224,28 +227,29 @@ void run_error_dialog(gchar *mesg,...) {
   va_end(ap);
 }
 
-gchar *get_pilot_id_from_gpilotd() {
-  gchar **pilots;
-  int i;
+gint get_pilot_id_from_gpilotd() {
+	gint *pilots;
+	int i;
   
-  i=0;
-  gpilotd_get_pilots(&pilots);
-  if(pilots) {
-    while(pilots[i]) { g_message("pilot %d = \"%s\"",i,pilots[i]); i++; }
-    if(i==0) {
-      run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
-      return NULL;
-    } else
-      if(i==1) 
-	return pilots[0];
-      else {
-	g_message("too many pilots...");
-	return pilots[0];
-      }
-  } else {
-    run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
-    return NULL;
-  }  
+	i=0;
+	gpilotd_get_pilot_ids(&pilots);
+	if(pilots) {
+		while(pilots[i]!=-1) { g_message("pilot %d = \"%d\"",i,pilots[i]); i++; }
+		if(i==0) {
+			run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+			return -1;
+		} else {
+			if(i==1) 
+				return pilots[0];
+			else {
+				g_message("too many pilots...");
+				return pilots[0];
+			}
+		}
+	} else {
+		run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+		return -1;
+	}    
 }
 
 int
@@ -276,6 +280,11 @@ main( int argc, char *argv[] )
     
 	pilotId = get_pilot_id_from_gpilotd();
 	if(!pilotId) return -1;
+
+	/* put all code to set things up in here */
+	gcalconduit_load_configuration(&origState,pilotId);
+	curState = gcalconduit_dupe_configuration(origState);
+
 	org_activation_state = activated = gpilotd_conduit_mgmt_is_enabled(conduit,pilotId);
     
 	pilot_capplet_setup();
@@ -283,6 +292,5 @@ main( int argc, char *argv[] )
 
 	/* done setting up, now run main loop */
 	capplet_gtk_main();
-	g_free(pilotId);
 	return 0;
 }    

@@ -11,7 +11,6 @@ help_base = $(datadir)/gnome/help/cal
 if HAVE_GNOME_PILOT
 bin_PROGRAMS = 				\
 	gnomecal 			\
-	todo-conduit-control-applet 	\
 	calendar-conduit-control-applet	\
 	calendar-pilot-sync
 else
@@ -158,34 +157,34 @@ calendar_conduit_control_applet_LDADD = \
         $(INTLLIBS) 
 
 #todo_conduit
-todo_conduitsdir=$(libdir)/gnome-pilot/conduits
+#todo_conduitsdir=$(libdir)/gnome-pilot/conduits
 
-todo_conduits_LTLIBRARIES = libtodo_conduit.la
+#todo_conduits_LTLIBRARIES = libtodo_conduit.la
 
-libtodo_conduit_la_LDFLAGS = \
-	-rpath $(libdir)
+#libtodo_conduit_la_LDFLAGS = \
+#	-rpath $(libdir)
 
-libtodo_conduit_la_LIBADD = \
-	$(GNOME_LIBDIR) \
-	$(GNOME_LIBS)
+#libtodo_conduit_la_LIBADD = \
+#	$(GNOME_LIBDIR) \
+#	$(GNOME_LIBS)
 
-libtodo_conduit_la_SOURCES = \
-	todo-conduit.c
+#libtodo_conduit_la_SOURCES = \
+#	todo-conduit.c
 
-todo-conduit.c:	GnomeCal.h
+#todo-conduit.c:	GnomeCal.h
 
-todo_conduit_control_applet_SOURCES = \
-	todo-conduit-control-applet.c
+#todo_conduit_control_applet_SOURCES = \
+#	todo-conduit-control-applet.c
 
-todo_conduit_control_applet_LDADD = \
-	$(CAPPLET_LIBS) \
-	$(GNOME_LIBDIR) \
-        $(GNOME_CAPPLET_LIBS) \
-        $(PISOCK_LIBS) \
-        $(GNOMEUI_LIBS) \
-        $(PISOCK_LIBS) \
-	$(GNOME_PILOT_LIBS) \
-        $(INTLLIBS) 
+#todo_conduit_control_applet_LDADD = \
+#	$(CAPPLET_LIBS) \
+#	$(GNOME_LIBDIR) \
+#	$(GNOME_CAPPLET_LIBS) \
+#	$(PISOCK_LIBS) \
+#	$(GNOMEUI_LIBS) \
+#	$(PISOCK_LIBS) \
+#	$(GNOME_PILOT_LIBS) \
+#	$(INTLLIBS) 
 endif
 
 gnomecal_LDADD = $(LINK_FLAGS)

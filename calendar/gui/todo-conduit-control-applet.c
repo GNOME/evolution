@@ -38,7 +38,7 @@ static void doSaveSettings(GtkWidget *widget, ConduitCfg *conduitCfg);
 static void readStateCfg(GtkWidget *w);
 static void setStateCfg(GtkWidget *w);
 
-gchar *pilotId;
+gint pilotId;
 CORBA_Environment ev;
 
 static void
@@ -223,28 +223,29 @@ void run_error_dialog(gchar *mesg,...) {
   va_end(ap);
 }
 
-gchar *get_pilot_id_from_gpilotd() {
-  gchar **pilots;
-  int i;
+gint get_pilot_id_from_gpilotd() {
+	gint *pilots;
+	int i;
   
-  i=0;
-  gpilotd_get_pilots(&pilots);
-  if(pilots) {
-    while(pilots[i]) { g_message("pilot %d = \"%s\"",i,pilots[i]); i++; }
-    if(i==0) {
-      run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
-      return NULL;
-    } else
-      if(i==1) 
-	return pilots[0];
-      else {
-	g_message("too many pilots...");
-	return pilots[0];
-      }
-  } else {
-    run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
-    return NULL;
-  }  
+	i=0;
+	gpilotd_get_pilot_ids(&pilots);
+	if(pilots) {
+		while(pilots[i]!=-1) { g_message("pilot %d = \"%d\"",i,pilots[i]); i++; }
+		if(i==0) {
+			run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+			return -1;
+		} else {
+			if(i==1) 
+				return pilots[0];
+			else {
+				g_message("too many pilots...");
+				return pilots[0];
+			}
+		}
+	} else {
+		run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+		return -1;
+	}    
 }
 
 int
@@ -282,6 +283,5 @@ main( int argc, char *argv[] )
 
     /* done setting up, now run main loop */
     capplet_gtk_main();
-    g_free(pilotId);
     return 0;
 }    
