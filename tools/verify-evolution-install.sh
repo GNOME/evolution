@@ -424,7 +424,7 @@ check_oafinfo oafd oaf
 check_config GCONF_CONFIG gconf-config GConf
 check_prefix GCONF_CONFIG GConf
 versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
-if which gconfd-1 </dev/null >/dev/null 2>/dev/null; then
+if type gconfd-1 </dev/null >/dev/null 2>/dev/null; then
     check_oafinfo gconfd-1 GConf
     check_bin gconfd-1
 else
