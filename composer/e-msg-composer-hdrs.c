@@ -154,7 +154,8 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 		while (accounts) {
 			const MailConfigAccount *account;
 			char *label;
-			
+			char *native_label;
+
 			account = accounts->data;
 			
 			/* this should never ever fail */
@@ -169,7 +170,10 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 			else
 				label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
 			    
-			item = gtk_menu_item_new_with_label (label);
+
+			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
+			item = gtk_menu_item_new_with_label (native_label);
+			g_free (native_label);
 			g_free (label);
 			
 			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
