@@ -1,3 +1,12 @@
+2000-04-26  NotZed  <NotZed@HelixCode.com>
+
+	* e-msg-composer.c (build_message): Use camel_mime_part_set_text()
+	to set the text rather than messing with data wrappers.
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Change
+	for new camel-stream interfaces.
+	(attach_to_multipart): Also set base64 encoding by default.
+
 2000-04-25  Radek Doulik  <rodo@helixcode.com>
 
 	* e-msg-composer.c (create_editor): use uih here

@@ -155,13 +155,10 @@ build_message (EMsgComposer *composer)
 	body_part = camel_mime_body_part_new ();
 
 	text = get_editor_text (BONOBO_WIDGET (composer->editor));
-	sdr = camel_simple_data_wrapper_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (sdr),
+	/* set text sets text/plain */
+	camel_mime_part_set_text((CamelMimePart *)body_part, text);
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (camel_medium_get_content_object((CamelMedium *)body_part)),
 					  "text/html");
-	camel_simple_data_wrapper_set_text (sdr, text);
-	camel_medium_set_content_object (CAMEL_MEDIUM (body_part),
-					 CAMEL_DATA_WRAPPER (sdr));
-	gtk_object_unref (GTK_OBJECT (sdr));
 	g_free (text);
 
 	camel_multipart_add_part (multipart, body_part);

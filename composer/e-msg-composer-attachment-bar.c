@@ -622,13 +622,13 @@ attach_to_multipart (CamelMultipart *multipart,
 	content = CAMEL_DATA_WRAPPER (gtk_object_new (CAMEL_SIMPLE_DATA_WRAPPER_TYPE,
 						      NULL));
 	camel_data_wrapper_set_mime_type (content, attachment->mime_type);
-	stream = camel_stream_fs_new_with_name (attachment->file_name,
-						CAMEL_STREAM_FS_READ);
+	stream = camel_stream_fs_new_with_name (attachment->file_name, O_RDONLY, 0);
 	camel_data_wrapper_construct_from_stream (content, stream);
 	camel_stream_close (stream);
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), content);
 
-	/* FIXME: What about Content-Transfer-Encoding? */
+	/* TODO: could possibly select an appropriate encoder based on the content */
+	camel_mime_part_set_encoding((CamelMimePart *)part, CAMEL_MIME_PART_ENCODING_BASE64);
 
 	camel_multipart_add_part (multipart, part);
 }
