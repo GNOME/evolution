@@ -1,3 +1,7 @@
+2002-04-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Change VERSION to 1.0.4.99.
+
 == Version 1.0.4. ==
 
 2002-04-18  Ettore Perazzoli  <ettore@ximian.com>
