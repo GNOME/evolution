@@ -153,6 +153,7 @@
 
 	  <child>
 	    <widget class="GtkLabel" id="label-location">
+	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">Location:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
@@ -176,6 +177,7 @@
 
 	  <child>
 	    <widget class="GtkOptionMenu" id="optmenu-location">
+	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="history">-1</property>
 	    </widget>

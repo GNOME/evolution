@@ -1,4 +1,29 @@
+2004-02-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/im.glade: set the location label/option menu
+	to visible.
+
+	* gui/contact-editor/e-contact-editor.c (add_im_clicked): build up
+	the vcard attributes manually so we can set the TYPE= parameter to
+	the location the user specifies.
+	(edit_im_clicked): same.  Also, use COLUMN_IM_LOCATION_TYPE, which
+	is not localized to pass the location to the editor.
+	(remove_im_clicked): reindent.
+	(im_treeview_drag_data_get_cb): same.
+	(im_treeview_drag_data_rcv_cb): same.
+	(setup_im_treeview): add another column for the (non-localized)
+	location type, and reindent.
+	(add_im_field): use the new attribute api for EContact so we can
+	get the location of each account, and set things appropriately on
+	the store.
+
+	* gui/contact-editor/e-contact-editor-im.c
+	(e_contact_editor_im_class_init): reindent.
+	(e_contact_editor_im_new): same.
+	(fill_in_info): same.
+
 2004-02-25 Sivaiah Nallagatla <snallagatla@novell.com>
+
 	* gui/contact-editor/e-contact-editor-im.c : added 
 	groupwise im related label and icon image file name
 	

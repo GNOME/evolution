@@ -124,17 +124,17 @@ e_contact_editor_im_class_init (EContactEditorImClass *klass)
 
 	g_object_class_install_property (object_class, PROP_LOCATION, 
 					 g_param_spec_string ("location",
-							   _("Location"),
-							   /*_( */"XXX blurb" /*)*/,
-							   "HOME",
-							   G_PARAM_READWRITE));
+							      _("Location"),
+							      /*_( */"XXX blurb" /*)*/,
+							      "HOME",
+							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_USERNAME, 
 					 g_param_spec_string ("username",
-							   _("Username"),
-							   /*_( */"XXX blurb" /*)*/,
-							   NULL,
-							   G_PARAM_READWRITE));
+							      _("Username"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE, 
 					 g_param_spec_boolean ("editable",
@@ -327,8 +327,8 @@ e_contact_editor_im_new (EContactField service, const char *location, const char
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_IM, NULL);
 	g_object_set (widget,
 		      "service", GINT_TO_POINTER(service),
-			  "location", location,
-			  "username", username,
+		      "location", location,
+		      "username", username,
 		      NULL);
 	return widget;
 }
@@ -460,8 +460,8 @@ fill_in_info(EContactEditorIm *editor)
 
 	if (optmenu != NULL)
 		gtk_option_menu_set_history(GTK_OPTION_MENU(optmenu),
-									(editor->location == NULL ? 2 :
-									 !strcmp(editor->location, "WORK") ? 1 : 0));
+					    (editor->location == NULL ? 2 :
+					     !strcmp(editor->location, "WORK") ? 1 : 0));
 }
 
 static char *

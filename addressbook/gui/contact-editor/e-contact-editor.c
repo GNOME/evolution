@@ -85,6 +85,7 @@ enum {
 	COLUMN_IM_SERVICE,
 	COLUMN_IM_SCREENNAME,
 	COLUMN_IM_LOCATION,
+	COLUMN_IM_LOCATION_TYPE,
 	COLUMN_IM_SERVICE_FIELD,
 	NUM_IM_COLUMNS
 };
@@ -318,6 +319,7 @@ add_im_clicked(GtkWidget *widget, EContactEditor *editor)
 {
 	GtkDialog *dialog;
 	int result;
+	EVCardAttribute *new_attr;
 
 	dialog = GTK_DIALOG(e_contact_editor_im_new(E_CONTACT_IM_AIM, "HOME", NULL));
 
@@ -326,25 +328,31 @@ add_im_clicked(GtkWidget *widget, EContactEditor *editor)
 	gtk_widget_hide(GTK_WIDGET(dialog));
 
 	if (result == GTK_RESPONSE_OK) {
-		GList *old_list, *new_list = NULL, *l;
+		GList *new_list = NULL;
 		EContactField service;
 		const char *screenname;
+		const char *location;
 
 		g_object_get(dialog,
-					 "service", &service,
-					 "username", &screenname,
-					 NULL);
+			     "service", &service,
+			     "location", &location,
+			     "username", &screenname,
+			     NULL);
 
-		old_list = e_contact_get(editor->contact, service);
+		new_list = e_contact_get_attributes (editor->contact, service);
 
-		for (l = old_list; l != NULL; l = l->next)
-			new_list = g_list_append(new_list, g_strdup(l->data));
+		new_attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (service));
+		if (location)
+			e_vcard_attribute_add_param_with_value (new_attr,
+								e_vcard_attribute_param_new (EVC_TYPE),
+								location);
+		e_vcard_attribute_add_value (new_attr, screenname);
 
-		new_list = g_list_append(new_list, g_strdup(screenname));
+		new_list = g_list_append(new_list, new_attr);
 
-		e_contact_set(editor->contact, service, new_list);
+		e_contact_set_attributes (editor->contact, service, new_list);
 
-		g_list_foreach(new_list, (GFunc)g_free, NULL);
+		e_vcard_attribute_free (new_attr);
 		g_list_free(new_list);
 
 		set_im_fields(editor);
@@ -366,6 +374,7 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 	const char *old_location, *location;
 	const char *old_screenname, *screenname;
 	int result;
+	EVCardAttribute *new_attr;
 
 	treeview = glade_xml_get_widget(editor->gui, "treeview-im");
 
@@ -376,10 +385,10 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 	} 
 	
 	gtk_tree_model_get(GTK_TREE_MODEL(editor->im_model), &iter,
-					   COLUMN_IM_SERVICE_FIELD, &old_service,
-					   COLUMN_IM_LOCATION, &old_location,
-					   COLUMN_IM_SCREENNAME, &old_screenname,
-					   -1);
+			   COLUMN_IM_SERVICE_FIELD, &old_service,
+			   COLUMN_IM_LOCATION_TYPE, &old_location,
+			   COLUMN_IM_SCREENNAME, &old_screenname,
+			   -1);
 
 	dialog = GTK_DIALOG(e_contact_editor_im_new(old_service, old_location, old_screenname));
 
@@ -389,58 +398,72 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 
 	if (result == GTK_RESPONSE_OK) {
 		GList *old_list, *new_list = NULL, *l;
+		gboolean found;
 
 		g_object_get(dialog,
-					 "service", &service,
-					 "location", &location,
-					 "username", &screenname,
-					 NULL);
+			     "service", &service,
+			     "location", &location,
+			     "username", &screenname,
+			     NULL);
 
 		if (service == old_service &&
-			(location == old_location ||
-			 (location != NULL && old_location == NULL) ||
-			 (location == NULL && old_location != NULL) ||
-			 !strcmp(old_location, location)) &&
-			!strcmp(screenname, old_screenname)) {
+		    (location == old_location ||
+		     (location != NULL && old_location == NULL) ||
+		     (location == NULL && old_location != NULL) ||
+		     !strcmp(old_location, location)) &&
+		    !strcmp(screenname, old_screenname)) {
 
 			gtk_widget_destroy(GTK_WIDGET(dialog));
 			return;
 		}
 
 		/* Remove the old. */
-		old_list = e_contact_get(editor->contact, old_service);
+		old_list = e_contact_get_attributes (editor->contact, old_service);
+		found = FALSE;
 
 		for (l = old_list; l != NULL; l = l->next) {
-			const char *temp_screenname = (const char *)l->data;
-
-			if (strcmp(temp_screenname, old_screenname))
-				new_list = g_list_append(new_list, g_strdup(temp_screenname));
+			EVCardAttribute *attr = l->data;
+			
+			if (!found
+			    && !strcmp(e_vcard_attribute_get_value (attr), old_screenname)
+			    && e_vcard_attribute_has_type (attr, old_location)) {
+				e_vcard_attribute_free (attr);
+				found = TRUE;
+			}
+			else {
+				new_list = g_list_append(new_list, attr);
+			}
 		}
+		g_list_free (old_list);
 
-		if (service == old_service)
-			new_list = g_list_append(new_list, g_strdup(screenname));
+		/* create a new attribute based on the new screenname */
+		new_attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (service));
+		if (location)
+			e_vcard_attribute_add_param_with_value (new_attr,
+								e_vcard_attribute_param_new (EVC_TYPE),
+								location);
+		e_vcard_attribute_add_value (new_attr, screenname);
 
-		e_contact_set(editor->contact, old_service, new_list);
+		if (service == old_service) {
+			/* we're just appending it to the same list again */
+			new_list = g_list_append(new_list, new_attr);
 
-		g_list_foreach(new_list, (GFunc)g_free, NULL);
-		g_list_free(new_list);
-
-		if (old_service != service)
-		{
+			e_contact_set_attributes (editor->contact, old_service, new_list);
+		}
+		else {
+			/* we're appending it to a different list, so
+			   we need to write out the old service's list
+			   and then get the new service's list, then
+			   add the new attribute to that.  so
+			   confusing! */
+			e_contact_set_attributes (editor->contact, old_service, new_list);
+		
 			/* We have to add this elsewhere. */
-			new_list = NULL;
+			new_list = e_contact_get_attributes (editor->contact, service);
 
-			old_list = e_contact_get(editor->contact, service);
+			new_list = g_list_append(new_list, new_attr);
 
-			for (l = old_list; l != NULL; l = l->next)
-				new_list = g_list_append(new_list, g_strdup(l->data));
-
-			new_list = g_list_append(new_list, g_strdup(screenname));
-
-			e_contact_set(editor->contact, service, new_list);
-
-			g_list_foreach(new_list, (GFunc)g_free, NULL);
-			g_list_free(new_list);
+			e_contact_set_attributes (editor->contact, service, new_list);
 		}
 
 		set_im_fields(editor);
@@ -483,8 +506,7 @@ remove_im_clicked(GtkWidget *widget, EContactEditor *editor)
 
 	e_contact_set(editor->contact, old_service, new_list);
 
-	if (new_list != NULL)
-	{
+	if (new_list != NULL) {
 		g_list_foreach(new_list, (GFunc)g_free, NULL);
 		g_list_free(new_list);
 	}
@@ -553,12 +575,12 @@ im_treeview_drag_data_get_cb(GtkWidget *widget, GdkDragContext *dc,
 		str = g_string_new(NULL);
 
 		g_string_printf(str,
-			"MIME-Version: 1.0\r\n"
-			"Content-Type: application/x-im-contact\r\n"
-			"X-IM-Protocol: %s\r\n"
-			"X-IM-Username: %s\r\n",
-			protocol,
-			screenname);
+				"MIME-Version: 1.0\r\n"
+				"Content-Type: application/x-im-contact\r\n"
+				"X-IM-Protocol: %s\r\n"
+				"X-IM-Username: %s\r\n",
+				protocol,
+				screenname);
 
 		if (alias && *alias)
 			g_string_append_printf(str, "X-IM-Alias: %s\r\n", alias);
@@ -568,10 +590,10 @@ im_treeview_drag_data_get_cb(GtkWidget *widget, GdkDragContext *dc,
 		mime_str = g_string_free(str, FALSE);
 
 		gtk_selection_data_set(data,
-			gdk_atom_intern("application/x-im-contact", FALSE),
-			8,
-			mime_str,
-			strlen(mime_str) + 1);
+				       gdk_atom_intern("application/x-im-contact", FALSE),
+				       8,
+				       mime_str,
+				       strlen(mime_str) + 1);
 
 		g_free(mime_str);
 		gtk_tree_path_free(sourcerow);
@@ -580,8 +602,8 @@ im_treeview_drag_data_get_cb(GtkWidget *widget, GdkDragContext *dc,
 
 static void
 im_treeview_drag_data_rcv_cb(GtkWidget *widget, GdkDragContext *dc,
-							 guint x, guint y, GtkSelectionData *sd,
-							 guint info, guint t, EContactEditor *editor)
+			     guint x, guint y, GtkSelectionData *sd,
+			     guint info, guint t, EContactEditor *editor)
 {
 	if (sd->target == gdk_atom_intern("application/x-im-contact", FALSE) && sd->data) {
 		CamelMimeParser *parser;
@@ -700,14 +722,14 @@ setup_im_treeview(EContactEditor *editor)
 		return;
 
 	editor->im_model = gtk_list_store_new(NUM_IM_COLUMNS,
-										  GDK_TYPE_PIXBUF, G_TYPE_STRING,
-										  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+					      GDK_TYPE_PIXBUF, G_TYPE_STRING,
+					      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),
-							GTK_TREE_MODEL(editor->im_model));
+				GTK_TREE_MODEL(editor->im_model));
 
 	g_signal_connect(G_OBJECT(treeview), "button-press-event",
-					 G_CALLBACK(im_button_press_cb), editor);
+			 G_CALLBACK(im_button_press_cb), editor);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Service"));
@@ -716,38 +738,47 @@ setup_im_treeview(EContactEditor *editor)
 	renderer = gtk_cell_renderer_pixbuf_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer,
-									   "pixbuf", COLUMN_IM_ICON);
+					   "pixbuf", COLUMN_IM_ICON);
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer,
-									   "text", COLUMN_IM_SERVICE);
+					   "text", COLUMN_IM_SERVICE);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Account Name"));
 	gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview), column, -1);
-
+	
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer,
-									   "text", COLUMN_IM_SCREENNAME);
+					   "text", COLUMN_IM_SCREENNAME);
+
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Location"));
+	gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview), column, -1);
+	
+	renderer = gtk_cell_renderer_text_new();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute(column, renderer,
+					   "text", COLUMN_IM_LOCATION);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	g_signal_connect(G_OBJECT(selection), "changed",
-					 G_CALLBACK(im_selected_cb), editor);
+			 G_CALLBACK(im_selected_cb), editor);
 
 	/* Setup drag-and-drop */
 	gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(treeview),
-										   GDK_BUTTON1_MASK, gte, 1,
-										   GDK_ACTION_COPY);
+					       GDK_BUTTON1_MASK, gte, 1,
+					       GDK_ACTION_COPY);
 	gtk_tree_view_enable_model_drag_dest(GTK_TREE_VIEW(treeview),
-										 gte, 1,
-										 GDK_ACTION_COPY | GDK_ACTION_MOVE);
+					     gte, 1,
+					     GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	g_signal_connect(G_OBJECT(treeview), "drag-data-get",
-					 G_CALLBACK(im_treeview_drag_data_get_cb), editor);
+			 G_CALLBACK(im_treeview_drag_data_get_cb), editor);
 	g_signal_connect(G_OBJECT(treeview), "drag-data-received",
-					 G_CALLBACK(im_treeview_drag_data_rcv_cb), editor);
+			 G_CALLBACK(im_treeview_drag_data_rcv_cb), editor);
 }
 
 static void
@@ -2802,8 +2833,10 @@ set_fields(EContactEditor *editor)
 }
 
 static void
-add_im_field(EContactEditor *editor, EContactField field, const char *service,
-			 const char *desc)
+add_im_field(EContactEditor *editor,
+	     EContactField field,
+	     const char *service,
+	     const char *desc)
 {
 	GList *list;
 	GList *l;
@@ -2813,7 +2846,7 @@ add_im_field(EContactEditor *editor, EContactField field, const char *service,
 	char *icon_path;
 	char *buf;
 
-	list = e_contact_get(editor->contact, field);
+	list = e_contact_get_attributes (editor->contact, field);
 
 	buf = g_strdup_printf("im-%s.png", service);
 	icon_path = g_concat_dir_and_file(EVOLUTION_IMAGESDIR, buf);
@@ -2824,18 +2857,39 @@ add_im_field(EContactEditor *editor, EContactField field, const char *service,
 	if (pixbuf != NULL)
 		scale = gdk_pixbuf_scale_simple(pixbuf, 16, 16, GDK_INTERP_BILINEAR);
 
-	for (l = list; l != NULL; l = l->next)
-	{
-		const char *account_name = (const char *)l->data;
+	for (l = list; l != NULL; l = l->next) {
+		EVCardAttribute *attr = l->data;
+		char *account_name;
+		char *location;
+		char *location_type;
+
+		account_name = e_vcard_attribute_get_value (attr);
+		if (!account_name)
+			continue;
+
+		if (e_vcard_attribute_has_type (attr, "HOME")) {
+			location_type = "HOME";
+			location = _("Home");
+		}
+		else if (e_vcard_attribute_has_type (attr, "WORK")) {
+			location_type = "WORK";
+			location = _("Work");
+		}
+		else {
+			location_type = NULL;
+			location = _("Other");
+		}
 
 		gtk_list_store_append(editor->im_model, &iter);
 
 		gtk_list_store_set(editor->im_model, &iter,
-						   COLUMN_IM_ICON, scale,
-						   COLUMN_IM_SERVICE,  desc,
-						   COLUMN_IM_SCREENNAME, account_name,
-						   COLUMN_IM_SERVICE_FIELD, field,
-						   -1);
+				   COLUMN_IM_ICON, scale,
+				   COLUMN_IM_SERVICE,  desc,
+				   COLUMN_IM_LOCATION, location,
+				   COLUMN_IM_LOCATION_TYPE, location_type,
+				   COLUMN_IM_SCREENNAME, account_name,
+				   COLUMN_IM_SERVICE_FIELD, field,
+				   -1);
 	}
 
 	if (scale != NULL)
