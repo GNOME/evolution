@@ -43,6 +43,8 @@
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include <addressbook/backend/ebook/e-card-compare.h>
 
+#define MINIMUM_QUERY_LENGTH 3
+
 typedef struct {
 	EBook *book;
 	guint book_view_tag;
@@ -998,6 +1000,10 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 	if (comp->priv->books_not_ready == 0) {
 		gchar *sexp;
 	
+		if (strlen (query_text) < MINIMUM_QUERY_LENGTH)
+			return;
+
+
 		g_free (comp->priv->query_text);
 		comp->priv->query_text = g_strdup (query_text);
 

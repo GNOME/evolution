@@ -1,5 +1,12 @@
 2002-09-11  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): institute an arbitrary
+	minimum limit on the number of characters before we actually try
+	to autocomplete.  It's 3, btw.
+
+2002-09-11  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes the other half of #17336 ]
 	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
 	parse the name when we're asked to set it, so the full name
