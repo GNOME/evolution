@@ -1,3 +1,15 @@
+2000-02-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client.c (cal_loaded): Handle the cal_loaded signal from the
+	listener.  Store the calendar client interface object, and emit
+	our own cal_loaded signal.
+	(cal_client_load_calendar): Connect to the listener's signals.
+	(cal_client_class_init): Added the "obj_added", "obj_removed",
+	öbj_changed" signals.
+	(obj_added_cb): Handle the signal from the listener.
+	(obj_removed_cb): Likewise.
+	(obj_changed_cb): Likewise.
+
 2000-01-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am (gnomecal_SOURCES): Added cal-client.[ch] and

@@ -54,7 +54,13 @@ struct _CalClient {
 struct _CalClientClass {
 	GtkObjectClass parent_class;
 
+	/* Notification signals */
+
 	void (* cal_loaded) (CalClient *client, CalClientLoadStatus status);
+
+	void (* obj_added) (CalClient *client, const char *str_obj);
+	void (* obj_removed) (CalClient *client, const char *uid);
+	void (* obj_changed) (CalClient *client, const char *str_obj);
 };
 
 GtkType cal_client_get_type (void);

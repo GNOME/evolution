@@ -56,6 +56,8 @@ struct _CalListener {
 struct _CalListenerClass {
 	BonoboObjectClass parent_class;
 
+	/* Notification signals */
+
 	void (* cal_loaded) (CalListener *listener,
 			     CalListenerLoadStatus status,
 			     Evolution_Calendar_Cal cal);

@@ -44,6 +44,9 @@ typedef struct {
 
 	/* Our calendar listener */
 	CalListener *listener;
+
+	/* The calendar client interface object we are contacting */
+	Evolution_Calendar_Cal cal;
 } CalClientPrivate;
 
 
@@ -51,6 +54,9 @@ typedef struct {
 /* Signal IDs */
 enum {
 	CAL_LOADED,
+	OBJ_ADDED,
+	OBJ_REMOVED,
+	OBJ_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -114,6 +120,30 @@ cal_client_class_init (CalClientClass *class)
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_ENUM);
+	cal_client_signals[OBJ_ADDED] =
+		gtk_signal_new ("obj_added",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, obj_added),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	cal_client_signals[OBJ_REMOVED] =
+		gtk_signal_new ("obj_removed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, obj_removed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	cal_client_signals[OBJ_CHANGED] =
+		gtk_signal_new ("obj_changed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, obj_changed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, cal_client_signals, LAST_SIGNAL);
 
@@ -152,6 +182,93 @@ cal_client_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
+
+/* Signal handlers for the listener's signals */
+
+/* Handle the cal_loaded signal from the listener */
+static void
+cal_loaded_cb (CalListener *listener,
+	       CalListenerLoadStatus status,
+	       Evolution_Calendar_Cal cal,
+	       gpointer data)
+{
+	CalClient *client;
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_Cal cal_copy;
+
+	client = CAL_CLIENT (data);
+	priv = client->priv;
+
+	g_assert (priv->state == LOAD_STATE_LOADING);
+
+	switch (status) {
+	case CAL_LISTENER_LOAD_SUCCESS:
+		CORBA_exception_init (&ev);
+		cal_copy = CORBA_Object_duplicate (cal, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_message ("cal_loaded(): could not duplicate the calendar client interface");
+			CORBA_exception_free (&ev);
+			goto error;
+		}
+		CORBA_exception_free (&ev);
+
+		priv->cal = cal_copy;
+		priv->load_status = LOAD_STATE_LOADED;
+
+		gtk_signal_emit (client, cal_client_signals[CAL_LOADED], CAL_CLIENT_LOAD_SUCCESS);
+		goto out;
+
+	case CAL_LISTENER_LOAD_ERROR:
+		goto error;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+ error:
+
+	gtk_object_unref (priv->listener);
+	priv->listener = NULL;
+	priv->load_state = LOAD_STATE_NOT_LOADED;
+
+	gtk_signal_emit (client, cal_client_signals[CAL_LOADED], CAL_CLIENT_LOAD_ERROR);
+
+ out:
+	g_assert (priv->load_state != CAL_STATE_LOADING);
+}
+
+/* Handle the obj_added signal from the listener */
+static void
+obj_added_cb (CalListener *listener, Evolution_Calendar_CalObj calobj, gpointer data)
+{
+	CalClient *client;
+
+	client = CAL_CLIENT (data);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_ADDED], calobj);
+}
+
+/* Handle the obj_removed signal from the listener */
+static void
+obj_removed_cb (CalListener *listener, Evolution_Calendar_CalObjUID uid, gpointer data)
+{
+	CalClient *client;
+
+	client = CAL_CLIENT (data);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
+}
+
+/* Handle the obj_changed signal from the listener */
+static void
+obj_changed_cb (CalListener *listener, Evolution_Calendar_CalObj calobj, gpointer data)
+{
+	CalClient *client;
+
+	client = CAL_CLIENT (data);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_CHANGED], calobj);
 }
 
 
@@ -271,6 +388,19 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 		g_message ("cal_client_load_calendar(): could not create the listener");
 		return FALSE;
 	}
+
+	gtk_signal_connect (GTK_OBJECT (priv->listener), "cal_loaded",
+			    GTK_SIGNAL_FUNC (cal_loaded_cb),
+			    client);
+	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_added",
+			    GTK_SIGNAL_FUNC (obj_added_cb),
+			    client);
+	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb),
+			    client);
+	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_changed",
+			    GTK_SIGNAL_FUNC (obj_changed_cb),
+			    client);
 
 	corba_listener = (Evolution_Calendar_Listener) bonobo_object_corba_objref (
 		BONOBO_OBJECT (priv->listener));
