@@ -237,6 +237,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 		g_object_set(dialog->model,
 			     "collection", dialog->collection,
 			     NULL);
+		gtk_widget_show_all (etable);
 	}
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
