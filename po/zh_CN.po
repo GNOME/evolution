@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-11 00:37+0800\n"
+"POT-Creation-Date: 2005-01-11 14:39+0800\n"
 "PO-Revision-Date: 2004-12-24 17:54+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -461,13 +461,11 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "匿名访问 LDAP 服务器"
 
 #: addressbook/gui/component/addressbook.c:185
-#: camel/providers/groupwise/camel-gw-listener.c:494
 #: plugins/groupwise-account-setup/camel-gw-listener.c:494
 msgid "Failed to authenticate.\n"
 msgstr "认证失败。\n"
 
 #: addressbook/gui/component/addressbook.c:192
-#: camel/providers/groupwise/camel-gw-listener.c:483
 #: plugins/groupwise-account-setup/camel-gw-listener.c:483
 #, c-format
 msgid "%sEnter password for %s (user %s)"
@@ -2721,9 +2719,6 @@ msgstr "不支持的协议"
 #: calendar/gui/e-cal-component-preview.c:232
 #: calendar/gui/e-calendar-table.c:457 calendar/gui/e-cal-model-tasks.c:347
 #: calendar/gui/e-cal-model-tasks.c:660 calendar/gui/print.c:2352
-#: camel/camel-net-utils.c:446 camel/camel-net-utils.c:608
-#: camel/camel-net-utils.c:739 camel/providers/pop3/camel-pop3-store.c:439
-#: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "已经取消"
 
@@ -3480,12 +3475,6 @@ msgid "Number of columns:"
 msgstr "列数："
 
 #: addressbook/printing/e-contact-print.glade.h:23
-#: camel/providers/groupwise/camel-groupwise-provider.c:59
-#: camel/providers/imap4/camel-imap4-provider.c:49
-#: camel/providers/imap/camel-imap-provider.c:64
-#: camel/providers/local/camel-local-provider.c:43
-#: camel/providers/local/camel-local-provider.c:79
-#: camel/providers/local/camel-local-provider.c:99
 msgid "Options"
 msgstr "选项"
 
@@ -4296,8 +4285,6 @@ msgstr "是否在日期浏览器中显示周数"
 
 #: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
-#: camel/providers/groupwise/camel-gw-listener.c:405
-#: camel/providers/groupwise/camel-gw-listener.c:435
 #: plugins/groupwise-account-setup/camel-gw-listener.c:405
 #: plugins/groupwise-account-setup/camel-gw-listener.c:435
 msgid "Calendar"
@@ -4430,7 +4417,7 @@ msgstr "注释含有"
 msgid "Location contains"
 msgstr "位置含有"
 
-#: calendar/gui/cal-search-bar.c:350 camel/camel-vee-store.c:343
+#: calendar/gui/cal-search-bar.c:350
 msgid "Unmatched"
 msgstr "无匹配"
 
@@ -4446,13 +4433,7 @@ msgstr "打开日历的方法不支持"
 msgid "Permission denied to open the calendar"
 msgstr "没有权限打开日历"
 
-#: calendar/gui/comp-editor-factory.c:437
-#: camel/providers/imap4/camel-imap4-store.c:288
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/pop3/camel-pop3-store.c:526
-#: camel/providers/pop3/camel-pop3-store.c:533
-#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1259
+#: calendar/gui/comp-editor-factory.c:437 shell/e-shell.c:1259
 msgid "Unknown error"
 msgstr "未知的错误"
 
@@ -5327,7 +5308,7 @@ msgstr "开始时间(_S)："
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1356
+#: plugins/itip-formatter/itip-formatter.c:1362
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5981,7 +5962,7 @@ msgid "C_ut"
 msgstr "剪切(_U)"
 
 #: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1396
-#: composer/e-msg-composer.c:2903 mail/em-folder-tree.c:1028
+#: composer/e-msg-composer.c:2903 mail/em-folder-tree.c:1036
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
@@ -6013,7 +5994,7 @@ msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
-#: mail/em-folder-tree.c:2746 mail/em-folder-view.c:952
+#: mail/em-folder-tree.c:2754 mail/em-folder-view.c:952
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -6033,8 +6014,7 @@ msgstr "单击以添加任务"
 msgid "% Complete"
 msgstr "% 完成"
 
-#: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
-#: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:611
+#: calendar/gui/e-calendar-table.etspec.h:5 mail/mail-send-recv.c:611
 msgid "Complete"
 msgstr "完成"
 
@@ -6143,18 +6123,8 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-list-view.c:139
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
-#: camel/camel-gpg-context.c:1767 camel/camel-gpg-context.c:1818
-#: camel/camel-tcp-stream-openssl.c:631
-#: camel/providers/imap4/camel-imap4-engine.c:1465
-#: camel/providers/imap4/camel-imap4-engine.c:1504
-#: camel/providers/imap4/camel-imap4-engine.c:1549
-#: camel/providers/imap4/camel-imap4-engine.c:1605
-#: camel/providers/imap4/camel-imap4-store.c:1241
-#: camel/providers/imap4/camel-imap4-utils.c:575
-#: camel/providers/smtp/camel-smtp-transport.c:163
-#: camel/providers/smtp/camel-smtp-transport.c:218 mail/em-utils.c:1157
-#: plugins/itip-formatter/itip-formatter.c:249
-#: plugins/itip-formatter/itip-formatter.c:1378
+#: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:249
+#: plugins/itip-formatter/itip-formatter.c:1384
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6361,19 +6331,19 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1369
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1375
 msgid "Accepted"
 msgstr "接受"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1372
+#: plugins/itip-formatter/itip-formatter.c:1378
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1375
+#: plugins/itip-formatter/itip-formatter.c:1381
 msgid "Declined"
 msgstr "拒绝"
 
@@ -6590,7 +6560,7 @@ msgid "Attendee status updated\n"
 msgstr "更新参与者状态\n"
 
 #: calendar/gui/e-itip-control.c:1979
-#: plugins/itip-formatter/itip-formatter.c:838
+#: plugins/itip-formatter/itip-formatter.c:844
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "由于条目不再存在而无法更新参与者状态"
 
@@ -6880,7 +6850,6 @@ msgstr "销毁"
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:410
 #: calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
-#: camel/providers/groupwise/camel-gw-listener.c:406
 #: plugins/groupwise-account-setup/camel-gw-listener.c:406
 msgid "Tasks"
 msgstr "任务"
@@ -9020,3173 +8989,6 @@ msgstr "太平洋/沃利斯"
 msgid "Pacific/Yap"
 msgstr "太平洋/雅浦"
 
-#: camel/camel-cipher-context.c:103
-msgid "Signing is not supported by this cipher"
-msgstr "该密码不支持签名"
-
-#: camel/camel-cipher-context.c:129
-msgid "Signing message"
-msgstr "签名信件"
-
-#: camel/camel-cipher-context.c:146
-msgid "Verifying is not supported by this cipher"
-msgstr "该密码不支持验证"
-
-#: camel/camel-cipher-context.c:172
-msgid "Verifying message"
-msgstr "校验信件"
-
-#: camel/camel-cipher-context.c:190
-msgid "Encryption is not supported by this cipher"
-msgstr "该密码不支持加密"
-
-#: camel/camel-cipher-context.c:216
-msgid "Encrypting message"
-msgstr "加密信件"
-
-#: camel/camel-cipher-context.c:233
-msgid "Decryption is not supported by this cipher"
-msgstr "该密码不支持解密"
-
-#: camel/camel-cipher-context.c:255
-msgid "Decrypting message"
-msgstr "解密信件"
-
-#: camel/camel-cipher-context.c:272
-msgid "You may not import keys with this cipher"
-msgstr "您不能用此密码导入密钥"
-
-#: camel/camel-cipher-context.c:302
-msgid "You may not export keys with this cipher"
-msgstr "您不能用此密码导出密钥"
-
-#: camel/camel-data-cache.c:134
-msgid "Unable to create cache path"
-msgstr "无法创建缓冲路径"
-
-#: camel/camel-data-cache.c:376
-#, c-format
-msgid "Could not remove cache entry: %s: %s"
-msgstr "无法删除缓冲条目：%s：%s"
-
-#: camel/camel-disco-diary.c:195
-#, c-format
-msgid ""
-"Could not write log entry: %s\n"
-"Further operations on this server will not be replayed when you\n"
-"reconnect to the network."
-msgstr ""
-"无法写入日志条目：%s\n"
-"当您重新连接到网络时本服务器\n"
-"上进一步的操作不会重做。"
-
-#: camel/camel-disco-diary.c:258
-#, c-format
-msgid ""
-"Could not open `%s':\n"
-"%s\n"
-"Changes made to this folder will not be resynchronized."
-msgstr ""
-"无法打开“%s”：\n"
-"%s\n"
-"对该文件夹的修改不会被重新同步。"
-
-#: camel/camel-disco-diary.c:294
-msgid "Resynchronizing with server"
-msgstr "重新与服务器同步"
-
-#: camel/camel-disco-folder.c:42 camel/providers/imap4/camel-imap4-folder.c:61
-msgid "Copy folder content locally for offline operation"
-msgstr "将文件夹内容复制到本地以进行脱机操作"
-
-#: camel/camel-disco-folder.c:104
-msgid "Downloading new messages for offline mode"
-msgstr "下载新信件以进行脱机操作"
-
-#: camel/camel-disco-folder.c:467
-#, c-format
-msgid "Preparing folder '%s' for offline"
-msgstr "准备脱机文件夹“%s”"
-
-#: camel/camel-disco-store.c:405
-msgid "You must be working online to complete this operation"
-msgstr "您必须在线工作以便完成该操作"
-
-#: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:512
-#: camel/camel-process.c:48
-#, c-format
-msgid "Failed to create pipe to '%s': %s"
-msgstr "创建到“%s”的管道失败：%s"
-
-#: camel/camel-filter-driver.c:713 camel/camel-process.c:90
-#, c-format
-msgid "Failed to create child process '%s': %s"
-msgstr "创建子进程“%s”失败：%s"
-
-#: camel/camel-filter-driver.c:756
-#, c-format
-msgid "Invalid message stream received from %s: %s"
-msgstr "收到 %s 发来的无效信件流：%s"
-
-#: camel/camel-filter-driver.c:945 camel/camel-filter-driver.c:954
-msgid "Syncing folders"
-msgstr "同步文件夹"
-
-#: camel/camel-filter-driver.c:1043 camel/camel-filter-driver.c:1420
-#, c-format
-msgid "Error parsing filter: %s: %s"
-msgstr "解析过滤规则出错：%s：%s"
-
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
-#, c-format
-msgid "Error executing filter: %s: %s"
-msgstr "执行过滤规则错误：%s：%s"
-
-#: camel/camel-filter-driver.c:1119
-msgid "Unable to open spool folder"
-msgstr "无法打开脱机文件夹"
-
-#: camel/camel-filter-driver.c:1128
-msgid "Unable to process spool folder"
-msgstr "无法处理脱机文件夹"
-
-#: camel/camel-filter-driver.c:1143
-#, c-format
-msgid "Getting message %d (%d%%)"
-msgstr "获取第%d封信(%d%%)"
-
-#: camel/camel-filter-driver.c:1147
-msgid "Cannot open message"
-msgstr "无法打开信件"
-
-#: camel/camel-filter-driver.c:1148 camel/camel-filter-driver.c:1160
-#, c-format
-msgid "Failed on message %d"
-msgstr "在第%d封信失败"
-
-#: camel/camel-filter-driver.c:1174 camel/camel-filter-driver.c:1265
-msgid "Syncing folder"
-msgstr "同步文件夹"
-
-#: camel/camel-filter-driver.c:1235
-#, c-format
-msgid "Getting message %d of %d"
-msgstr "获取第%d封信，共%d封"
-
-#: camel/camel-filter-driver.c:1250
-#, c-format
-msgid "Failed at message %d of %d"
-msgstr "在第%d封信失败，共%d封"
-
-#: camel/camel-filter-search.c:135
-msgid "Failed to retrieve message"
-msgstr "获取信件失败"
-
-#: camel/camel-filter-search.c:385
-msgid "Invalid arguments to (system-flag)"
-msgstr "(system-flag)参数无效"
-
-#: camel/camel-filter-search.c:400
-msgid "Invalid arguments to (user-tag)"
-msgstr "(user-tag)参数无效"
-
-#: camel/camel-filter-search.c:548
-#, c-format
-msgid "Failed to create create child process '%s': %s"
-msgstr "创建子进程“%s”失败：%s"
-
-#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
-#, c-format
-msgid "Error executing filter search: %s: %s"
-msgstr "执行过滤规则搜索错误：%s：%s"
-
-#: camel/camel-folder.c:610
-#, c-format
-msgid "Unsupported operation: append message: for %s"
-msgstr "不支持的操作：附加信件：为 %s"
-
-#: camel/camel-folder.c:1200
-#, c-format
-msgid "Unsupported operation: search by expression: for %s"
-msgstr "不支持的操作：按表达式搜索：搜索 %s"
-
-#: camel/camel-folder.c:1240
-#, c-format
-msgid "Unsupported operation: search by uids: for %s"
-msgstr "不支持的操作：按 uid 搜索：搜索 %s"
-
-#: camel/camel-folder.c:1352
-msgid "Moving messages"
-msgstr "移动信件"
-
-#: camel/camel-folder.c:1352
-msgid "Copying messages"
-msgstr "复制信件"
-
-#: camel/camel-folder.c:1601
-msgid "Learning junk"
-msgstr "学习垃圾邮件"
-
-#: camel/camel-folder.c:1618
-msgid "Learning non-junk"
-msgstr "学习非垃圾邮件"
-
-#: camel/camel-folder.c:1637
-msgid "Filtering new message(s)"
-msgstr "过滤新信件"
-
-#: camel/camel-folder-search.c:357 camel/camel-folder-search.c:478
-#, c-format
-msgid ""
-"Cannot parse search expression: %s:\n"
-"%s"
-msgstr ""
-"无法解析搜索表达式：%s：\n"
-"%s"
-
-#: camel/camel-folder-search.c:367 camel/camel-folder-search.c:488
-#, c-format
-msgid ""
-"Error executing search expression: %s:\n"
-"%s"
-msgstr ""
-"执行搜索表达式错误：%s：\n"
-"%s"
-
-#: camel/camel-folder-search.c:674 camel/camel-folder-search.c:707
-msgid "(match-all) requires a single bool result"
-msgstr "(match-all) 需要一个布尔结果"
-
-#: camel/camel-folder-search.c:757
-msgid "(match-threads) not allowed inside match-all"
-msgstr "(match-threads) 不允许在 match-all 中使用"
-
-#: camel/camel-folder-search.c:760 camel/camel-folder-search.c:764
-msgid "(match-threads) requires a match type string"
-msgstr "(match-threads) 需要一个匹配类型字符串"
-
-#: camel/camel-folder-search.c:786
-msgid "(match-threads) expects an array result"
-msgstr "(match-threads) 需要一个数组结果"
-
-#: camel/camel-folder-search.c:792
-msgid "(match-threads) requires the folder set"
-msgstr "(match-threads) 需要文件夹集"
-
-#: camel/camel-folder-search.c:881
-#, c-format
-msgid "Performing query on unknown header: %s"
-msgstr "对未知的头进行查询：%s"
-
-#: camel/camel-gpg-context.c:735
-#, c-format
-msgid ""
-"Unexpected GnuPG status message encountered:\n"
-"\n"
-"%s"
-msgstr ""
-"遇到了意外的 GnuPG 状态消息：\n"
-"\n"
-"%s"
-
-#: camel/camel-gpg-context.c:749
-msgid "Failed to parse gpg userid hint."
-msgstr "解析 gpg userid 提示失败。"
-
-#: camel/camel-gpg-context.c:773
-msgid "Failed to parse gpg passphrase request."
-msgstr "解析 gpg 密码句请求失败。"
-
-#: camel/camel-gpg-context.c:787
-#, c-format
-msgid ""
-"You need a passphrase to unlock the key for\n"
-"user: \"%s\""
-msgstr ""
-"您需要一个密码句用来解锁以下用户：\n"
-"“%s”"
-
-#: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
-#: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1262
-#: mail/mail-ops.c:720 mail/mail-send-recv.c:607
-msgid "Cancelled."
-msgstr "已取消。"
-
-#: camel/camel-gpg-context.c:822
-msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "解锁密钥失败：给出了 3 个错误的密码句。"
-
-#: camel/camel-gpg-context.c:828
-#, c-format
-msgid "Unexpected response from GnuPG: %s"
-msgstr "来自 GnuPG 的意外应答：%s"
-
-#: camel/camel-gpg-context.c:880
-msgid "Failed to encrypt: No valid recipients specified."
-msgstr "加密失败：没有指定有效的收件人。"
-
-#: camel/camel-gpg-context.c:1157
-#, c-format
-msgid ""
-"Failed to GPG %s: %s\n"
-"\n"
-"%s"
-msgstr ""
-"GPG %s 失败：%s\n"
-"\n"
-"%s"
-
-#: camel/camel-gpg-context.c:1162
-#, c-format
-msgid "Failed to GPG %s: %s\n"
-msgstr "GPG %s 失败：%s\n"
-
-#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:389
-#, c-format
-msgid "Could not generate signing data: %s"
-msgstr "无法生成签名数据：%s"
-
-#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1766
-#: camel/camel-gpg-context.c:1817
-#, c-format
-msgid "Failed to execute gpg: %s"
-msgstr "执行 gpg 失败：%s"
-
-#: camel/camel-gpg-context.c:1331 camel/camel-gpg-context.c:1491
-#: camel/camel-gpg-context.c:1582 camel/camel-gpg-context.c:1605
-#: camel/camel-gpg-context.c:1694 camel/camel-gpg-context.c:1718
-#: camel/camel-gpg-context.c:1788 camel/camel-gpg-context.c:1839
-msgid "Failed to execute gpg."
-msgstr "执行 gpg 失败。"
-
-#: camel/camel-gpg-context.c:1350
-msgid "This is a digitally signed message part"
-msgstr "这是信件的数字签名部分"
-
-#: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
-#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:692
-#: camel/camel-smime-context.c:703 camel/camel-smime-context.c:710
-msgid "Cannot verify message signature: Incorrect message format"
-msgstr "无法校验信件签名：信件格式不对"
-
-#: camel/camel-gpg-context.c:1477
-#, c-format
-msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "无法校验信件签名：无法创建临时文件：%s"
-
-#: camel/camel-gpg-context.c:1565
-#, c-format
-msgid "Could not generate encrypting data: %s"
-msgstr "无法生成加密数据：%s"
-
-#: camel/camel-gpg-context.c:1623
-msgid "This is a digitally encrypted message part"
-msgstr "这是信件的数字加密部分"
-
-#: camel/camel-gpg-context.c:1674
-msgid "Failed to decrypt MIME part: protocol error"
-msgstr "解密 MIME 部分失败：协议错误"
-
-#: camel/camel-gpg-context.c:1725 camel/camel-smime-context.c:966
-msgid "Encrypted content"
-msgstr "加密内容"
-
-#: camel/camel-gpg-context.c:1744
-msgid "Unable to parse message content"
-msgstr "无法分析信件内容"
-
-#: camel/camel-lock.c:92 camel/camel-lock.c:113
-#, c-format
-msgid "Could not create lock file for %s: %s"
-msgstr "无法为 %s 创建锁定文件：%s"
-
-#: camel/camel-lock.c:154
-#, c-format
-msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "对 %s 获取锁文件的尝试超时。请稍后再试。"
-
-#: camel/camel-lock.c:209
-#, c-format
-msgid "Failed to get lock using fcntl(2): %s"
-msgstr "用 fcntl(2) 获取锁失败：%s"
-
-#: camel/camel-lock.c:272
-#, c-format
-msgid "Failed to get lock using flock(2): %s"
-msgstr "用 flock(2) 获取锁失败：%s"
-
-#: camel/camel-lock-client.c:100
-#, c-format
-msgid "Cannot build locking helper pipe: %s"
-msgstr "无法创建锁定助手管道：%s"
-
-#: camel/camel-lock-client.c:113
-#, c-format
-msgid "Cannot fork locking helper: %s"
-msgstr "无法创建锁定助手进程：%s"
-
-#: camel/camel-lock-client.c:191 camel/camel-lock-client.c:214
-#, c-format
-msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr "无法锁定“%s”：lock-helper 协议错误"
-
-#: camel/camel-lock-client.c:204
-#, c-format
-msgid "Could not lock '%s'"
-msgstr "无法锁定“%s”"
-
-#: camel/camel-movemail.c:104
-#, c-format
-msgid "Could not check mail file %s: %s"
-msgstr "无法检查邮件文件 %s：%s"
-
-#: camel/camel-movemail.c:117
-#, c-format
-msgid "Could not open mail file %s: %s"
-msgstr "无法打开邮件文件 %s：%s"
-
-#: camel/camel-movemail.c:125
-#, c-format
-msgid "Could not open temporary mail file %s: %s"
-msgstr "无法打开临时邮件文件 %s：%s"
-
-#: camel/camel-movemail.c:154
-#, c-format
-msgid "Failed to store mail in temp file %s: %s"
-msgstr "将邮件存储到临时文件 %s 失败：%s"
-
-#: camel/camel-movemail.c:184
-#, c-format
-msgid "Could not create pipe: %s"
-msgstr "无法创建管道：%s"
-
-#: camel/camel-movemail.c:196
-#, c-format
-msgid "Could not fork: %s"
-msgstr "无法创建进程：%s"
-
-#: camel/camel-movemail.c:234
-#, c-format
-msgid "Movemail program failed: %s"
-msgstr "移动邮件程序失败：%s"
-
-#: camel/camel-movemail.c:235
-msgid "(Unknown error)"
-msgstr "(未知的错误)"
-
-#: camel/camel-movemail.c:258
-#, c-format
-msgid "Error reading mail file: %s"
-msgstr "阅读邮件文件错误：%s"
-
-#: camel/camel-movemail.c:269
-#, c-format
-msgid "Error writing mail temp file: %s"
-msgstr "写入邮件临时文件错误：%s"
-
-#: camel/camel-movemail.c:462 camel/camel-movemail.c:529
-#, c-format
-msgid "Error copying mail temp file: %s"
-msgstr "复制邮件临时文件错误：%s"
-
-#: camel/camel-multipart-signed.c:559
-msgid "parse error"
-msgstr "解析错误"
-
-#: camel/camel-net-utils.c:465
-msgid "cannot create thread"
-msgstr "无法创建线索"
-
-#: camel/camel-net-utils.c:612
-#, c-format
-msgid "Resolving: %s"
-msgstr "解析：%s"
-
-#: camel/camel-net-utils.c:634
-msgid "Host lookup failed"
-msgstr "主机查阅失败"
-
-#: camel/camel-net-utils.c:636
-#, c-format
-msgid "Host lookup failed: %s: %s"
-msgstr "主机查阅失败：%s：%s"
-
-#: camel/camel-net-utils.c:743
-msgid "Resolving address"
-msgstr "解析地址"
-
-#: camel/camel-net-utils.c:763
-msgid "Name lookup failed"
-msgstr "名称查阅失败"
-
-#: camel/camel-net-utils.c:766
-#, c-format
-msgid "Name lookup failed: %s"
-msgstr "名称查阅失败：%s"
-
-#: camel/camel-provider.c:59
-msgid "Virtual folder email provider"
-msgstr "虚拟文件夹电子邮件提供者"
-
-#: camel/camel-provider.c:61
-msgid "For reading mail as a query of another set of folders"
-msgstr "关于将读入邮件作为对另一组文件夹的查询"
-
-#: camel/camel-provider.c:185
-#, c-format
-msgid "Could not load %s: Module loading not supported on this system."
-msgstr "无法装入 %s：本系统不支持模块装入。"
-
-#: camel/camel-provider.c:194
-#, c-format
-msgid "Could not load %s: %s"
-msgstr "无法装入 %s：%s"
-
-#: camel/camel-provider.c:202
-#, c-format
-msgid "Could not load %s: No initialization code in module."
-msgstr "无法装入 %s：模块中没有初始化代码。"
-
-#: camel/camel-provider.c:374 camel/camel-session.c:161
-#, c-format
-msgid "No provider available for protocol `%s'"
-msgstr "协议“%s”没有可用的提供者"
-
-#: camel/camel-sasl-anonymous.c:35
-msgid "Anonymous"
-msgstr "匿名"
-
-#: camel/camel-sasl-anonymous.c:37
-msgid "This option will connect to the server using an anonymous login."
-msgstr "该选项将连接到匿名登录的服务器上。"
-
-#: camel/camel-sasl-anonymous.c:112 camel/camel-sasl-plain.c:88
-msgid "Authentication failed."
-msgstr "认证失败。"
-
-#: camel/camel-sasl-anonymous.c:121
-#, c-format
-msgid ""
-"Invalid email address trace information:\n"
-"%s"
-msgstr ""
-"无效的电子邮件跟踪信息：\n"
-"%s"
-
-#: camel/camel-sasl-anonymous.c:133
-#, c-format
-msgid ""
-"Invalid opaque trace information:\n"
-"%s"
-msgstr ""
-"无效的诲涩跟踪信息：\n"
-"%s"
-
-#: camel/camel-sasl-anonymous.c:145
-#, c-format
-msgid ""
-"Invalid trace information:\n"
-"%s"
-msgstr ""
-"无效的跟踪信息：\n"
-"%s"
-
-#: camel/camel-sasl-cram-md5.c:36
-msgid "CRAM-MD5"
-msgstr "CRAM-MD5"
-
-#: camel/camel-sasl-cram-md5.c:38
-msgid ""
-"This option will connect to the server using a secure CRAM-MD5 password, if "
-"the server supports it."
-msgstr "如果服务器支持的话，该选项将用安全 CRAM-MD5 密码连接到服务器。"
-
-#: camel/camel-sasl-digest-md5.c:49
-msgid "DIGEST-MD5"
-msgstr "DIGEST-MD5"
-
-#: camel/camel-sasl-digest-md5.c:51
-msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, "
-"if the server supports it."
-msgstr "如果服务器支持的话，该选项将用安全 DIGEST-MD5 密码连接到服务器。"
-
-#: camel/camel-sasl-digest-md5.c:814
-msgid "Server challenge too long (>2048 octets)\n"
-msgstr "服务器质询过长 (>2048张八开纸)\n"
-
-#: camel/camel-sasl-digest-md5.c:823
-msgid "Server challenge invalid\n"
-msgstr "服务器质询无效\n"
-
-#: camel/camel-sasl-digest-md5.c:829
-msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "服务器质询含有无效的“品质保护”标志\n"
-
-#: camel/camel-sasl-digest-md5.c:859
-msgid "Server response did not contain authorization data\n"
-msgstr "服务器应答不含有认证数据\n"
-
-#: camel/camel-sasl-digest-md5.c:877
-msgid "Server response contained incomplete authorization data\n"
-msgstr "服务器应达含有不完整的认证数据\n"
-
-#: camel/camel-sasl-digest-md5.c:887
-msgid "Server response does not match\n"
-msgstr "服务器应答不匹配\n"
-
-#: camel/camel-sasl-gssapi.c:53
-msgid "GSSAPI"
-msgstr "GSSAPI"
-
-#: camel/camel-sasl-gssapi.c:55
-msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr "该选项将用 Kerberos 5 认证连接到服务器。"
-
-#: camel/camel-sasl-gssapi.c:153
-msgid ""
-"The specified mechanism is not supported by the provided credential, or is "
-"unrecognized by the implementation."
-msgstr "所提供的证书不支持指定的机制，或者无法被实现所识别。"
-
-#: camel/camel-sasl-gssapi.c:158
-msgid "The provided target_name parameter was ill-formed."
-msgstr "提供的 target_name 参数格式不对。"
-
-#: camel/camel-sasl-gssapi.c:161
-msgid ""
-"The provided target_name parameter contained an invalid or unsupported type "
-"of name."
-msgstr "提供的 target_name 参数包含无效或不支持的名称类型。"
-
-#: camel/camel-sasl-gssapi.c:165
-msgid ""
-"The input_token contains different channel bindings to those specified via "
-"the input_chan_bindings parameter."
-msgstr ""
-"input_token 包含的通道绑定与通过 input_chan_bindings 参数指定的通道不同。"
-
-#: camel/camel-sasl-gssapi.c:170
-msgid ""
-"The input_token contains an invalid signature, or a signature that could not "
-"be verified."
-msgstr "input_token 包含无效的签名，或者无法验证签名。"
-
-#: camel/camel-sasl-gssapi.c:174
-msgid ""
-"The supplied credentials were not valid for context initiation, or the "
-"credential handle did not reference any credentials."
-msgstr "提供的证书由于上下文的原因无效，或者证书句柄没有引用证书。"
-
-#: camel/camel-sasl-gssapi.c:179
-msgid "The supplied context handle did not refer to a valid context."
-msgstr "提供的上下文句柄所引用的上下文无效。"
-
-#: camel/camel-sasl-gssapi.c:182
-msgid "The consistency checks performed on the input_token failed."
-msgstr "对 input_token 执行完整性检查失败。"
-
-#: camel/camel-sasl-gssapi.c:185
-msgid "The consistency checks performed on the credential failed."
-msgstr "对证书执行完整性检查失败。"
-
-#: camel/camel-sasl-gssapi.c:188
-msgid "The referenced credentials have expired."
-msgstr "引用的证书已过期。"
-
-#: camel/camel-sasl-gssapi.c:194 camel/camel-sasl-gssapi.c:242
-#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
-#: camel/camel-sasl-kerberos4.c:226
-#: camel/providers/imap/camel-imap-store.c:1213
-msgid "Bad authentication response from server."
-msgstr "来自服务器的无效认证应答。"
-
-#: camel/camel-sasl-gssapi.c:303
-msgid "Unsupported security layer."
-msgstr "不支持的安全层。"
-
-#: camel/camel-sasl-kerberos4.c:42
-msgid "Kerberos 4"
-msgstr "Kerberos 4"
-
-#: camel/camel-sasl-kerberos4.c:44
-msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr "该选项将用 Kerberos 4 认证连接到服务器。"
-
-#: camel/camel-sasl-kerberos4.c:169
-#, c-format
-msgid ""
-"Could not get Kerberos ticket:\n"
-"%s"
-msgstr ""
-"无法获取 Kerberos 标签：\n"
-"%s"
-
-#: camel/camel-sasl-login.c:33
-msgid "Login"
-msgstr "Login"
-
-#: camel/camel-sasl-login.c:35 camel/camel-sasl-plain.c:35
-msgid "This option will connect to the server using a simple password."
-msgstr "该选项将以普通密码连接到服务器。"
-
-#: camel/camel-sasl-login.c:128
-msgid "Unknown authentication state."
-msgstr "未知的认证状态。"
-
-#: camel/camel-sasl-ntlm.c:32
-msgid "NTLM / SPA"
-msgstr "NTLM / SPA"
-
-#: camel/camel-sasl-ntlm.c:34
-msgid ""
-"This option will connect to a Windows-based server using NTLM / Secure "
-"Password Authentication."
-msgstr "该选项将使用 NTLM / Secure 口令认证连接到基于 Windows 的服务器。"
-
-#: camel/camel-sasl-plain.c:33
-msgid "PLAIN"
-msgstr "PLAIN"
-
-#: camel/camel-sasl-popb4smtp.c:37
-msgid "POP before SMTP"
-msgstr "在 SMTP 之前 POP"
-
-#: camel/camel-sasl-popb4smtp.c:39
-msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr "该选项将在尝试 SMTP 之前允许 POP 连接"
-
-#: camel/camel-sasl-popb4smtp.c:104
-msgid "POP Source URI"
-msgstr "POP 源 URI"
-
-#: camel/camel-sasl-popb4smtp.c:107
-msgid "POP Before SMTP auth using an unknown transport"
-msgstr "以未知的传输进行 SMTP 之前的 POP 授权"
-
-#: camel/camel-sasl-popb4smtp.c:112
-msgid "POP Before SMTP auth using a non-pop source"
-msgstr "以非 pop 源进行 SMTP 之前的 POP 授权"
-
-#: camel/camel-search-private.c:151
-#, c-format
-msgid "Regular expression compilation failed: %s: %s"
-msgstr "常规表达式编译失败：%s：%s"
-
-#: camel/camel-service.c:272
-#, c-format
-msgid "URL '%s' needs a username component"
-msgstr "URL“%s”需要用户名组件"
-
-#: camel/camel-service.c:276
-#, c-format
-msgid "URL '%s' needs a host component"
-msgstr "URL“%s”需要主机组件"
-
-#: camel/camel-service.c:280
-#, c-format
-msgid "URL '%s' needs a path component"
-msgstr "URL“%s”需要路径组件"
-
-#: camel/camel-session.c:283
-#, c-format
-msgid ""
-"Could not create directory %s:\n"
-"%s"
-msgstr ""
-"无法创建目录 %s：\n"
-"%s"
-
-#: camel/camel-smime-context.c:231
-#, c-format
-msgid "Cannot find certificate for '%s'"
-msgstr "找不到“%s”的证书"
-
-#: camel/camel-smime-context.c:237
-msgid "Cannot create CMS message"
-msgstr "无法创建 CMS 信件"
-
-#: camel/camel-smime-context.c:242
-msgid "Cannot create CMS signed data"
-msgstr "无法创建 CMS 签名数据"
-
-#: camel/camel-smime-context.c:248
-msgid "Cannot attach CMS signed data"
-msgstr "无法附加 CMS 签名数据"
-
-#: camel/camel-smime-context.c:255
-msgid "Cannot attach CMS data"
-msgstr "无法附加 CMS 数据"
-
-#: camel/camel-smime-context.c:261
-msgid "Cannot create CMS Signer information"
-msgstr "无法创建 CMS 签名者信息"
-
-#: camel/camel-smime-context.c:267
-msgid "Cannot find certificate chain"
-msgstr "找不到证书链"
-
-#: camel/camel-smime-context.c:273
-msgid "Cannot add CMS Signing time"
-msgstr "无法添加 CMS 签名时间"
-
-#: camel/camel-smime-context.c:295 camel/camel-smime-context.c:307
-#, c-format
-msgid "Encryption certificate for '%s' does not exist"
-msgstr "“%s”的加密证书不存在"
-
-#: camel/camel-smime-context.c:314
-msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr "无法添加 SMIMEEncKeyPrefs 属性"
-
-#: camel/camel-smime-context.c:319
-msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr "无法添加 MS SMIMEEncKeyPrefs 属性"
-
-#: camel/camel-smime-context.c:324
-msgid "Cannot add encryption certificate"
-msgstr "无法添加加密证书"
-
-#: camel/camel-smime-context.c:330
-msgid "Cannot add CMS Signer information"
-msgstr "无法添加 CMS 签名者信息"
-
-#: camel/camel-smime-context.c:400 camel/camel-smime-context.c:848
-msgid "Cannot create encoder context"
-msgstr "无法创建编码器上下文"
-
-#: camel/camel-smime-context.c:406
-msgid "Failed to add data to CMS encoder"
-msgstr "将数据添加到 CMS 编码器失败"
-
-#: camel/camel-smime-context.c:411 camel/camel-smime-context.c:865
-msgid "Failed to encode data"
-msgstr "编码数据失败"
-
-#: camel/camel-smime-context.c:484
-msgid "Unverified"
-msgstr "未校验"
-
-#: camel/camel-smime-context.c:486
-msgid "Good signature"
-msgstr "完好签名"
-
-#: camel/camel-smime-context.c:488
-msgid "Bad signature"
-msgstr "无效签名"
-
-#: camel/camel-smime-context.c:490
-msgid "Content tampered with or altered in transit"
-msgstr "内容在传送过程中被篡改"
-
-#: camel/camel-smime-context.c:492
-msgid "Signing certificate not found"
-msgstr "签名证书找不到"
-
-#: camel/camel-smime-context.c:494
-msgid "Signing certificate not trusted"
-msgstr "签名证书不可信"
-
-#: camel/camel-smime-context.c:496
-msgid "Signature algorithm unknown"
-msgstr "签名算法未知"
-
-#: camel/camel-smime-context.c:498
-msgid "Signature algorithm unsupported"
-msgstr "签名算法不支持"
-
-#: camel/camel-smime-context.c:500
-msgid "Malformed signature"
-msgstr "签名格式不对"
-
-#: camel/camel-smime-context.c:502
-msgid "Processing error"
-msgstr "处理错误"
-
-#: camel/camel-smime-context.c:539
-msgid "No signed data in signature"
-msgstr "签名中没有签名数据"
-
-#: camel/camel-smime-context.c:546
-msgid "Digests missing from enveloped data"
-msgstr "信封数据缺少摘要"
-
-#: camel/camel-smime-context.c:559 camel/camel-smime-context.c:569
-msgid "Cannot calculate digests"
-msgstr "无法计算摘要"
-
-#: camel/camel-smime-context.c:574
-msgid "Cannot set message digests"
-msgstr "无法设置信件摘要"
-
-#: camel/camel-smime-context.c:584 camel/camel-smime-context.c:589
-msgid "Certificate import failed"
-msgstr "证书导入失败"
-
-#: camel/camel-smime-context.c:599
-msgid "Certificate is the only message, cannot verify certificates"
-msgstr "只有证书的信件，无法校验证书"
-
-#: camel/camel-smime-context.c:602
-msgid "Certificate is the only message, certificates imported and verified"
-msgstr "只有证书的信件，证书已导入并校验"
-
-#: camel/camel-smime-context.c:606
-msgid "Cannot find signature digests"
-msgstr "找不到签名摘要"
-
-#: camel/camel-smime-context.c:622
-#, c-format
-msgid "Signer: %s <%s>: %s\n"
-msgstr "签名者：%s <%s>：%s\n"
-
-#: camel/camel-smime-context.c:723
-msgid "Decoder failed"
-msgstr "解码器失败"
-
-#: camel/camel-smime-context.c:775
-#, c-format
-msgid "Cannot find certificate for `%s'"
-msgstr "找不到“%s”的证书"
-
-#: camel/camel-smime-context.c:782
-msgid "Cannot find common bulk encryption algorithm"
-msgstr "找不到公共批量加密算法"
-
-#. PORT_GetError(); ??
-#: camel/camel-smime-context.c:791
-msgid "Cannot allocate slot for encryption bulk key"
-msgstr "无法为加密批量密钥分配密钥槽"
-
-#: camel/camel-smime-context.c:802
-msgid "Cannot create CMS Message"
-msgstr "无法创建 CMS 信件"
-
-#: camel/camel-smime-context.c:808
-msgid "Cannot create CMS Enveloped data"
-msgstr "无法创建 CMS 信封数据"
-
-#: camel/camel-smime-context.c:814
-msgid "Cannot attach CMS Enveloped data"
-msgstr "无法附加 CMS 信封数据"
-
-#: camel/camel-smime-context.c:820
-msgid "Cannot attach CMS data object"
-msgstr "无法附加 CMS 数据对象"
-
-#: camel/camel-smime-context.c:829
-msgid "Cannot create CMS Recipient information"
-msgstr "无法创建 CMS 收件人信息"
-
-#: camel/camel-smime-context.c:834
-msgid "Cannot add CMS Recipient information"
-msgstr "无法添加 CMS 收件人信息"
-
-#: camel/camel-smime-context.c:859
-msgid "Failed to add data to encoder"
-msgstr "将数据添加到编码器失败"
-
-#: camel/camel-smime-context.c:946
-#, c-format
-msgid "Decoder failed, error %d"
-msgstr "解码器失败，错误号 %d"
-
-#: camel/camel-smime-context.c:953
-msgid "S/MIME Decrypt: No encrypted content found"
-msgstr "S/MIME 解密：没有找到加密内容"
-
-#: camel/camel-smime-context.c:980
-msgid "import keys: unimplemented"
-msgstr "导入密钥：尚未实现"
-
-#: camel/camel-smime-context.c:988
-msgid "export keys: unimplemented"
-msgstr "导出密钥：尚未实现"
-
-#: camel/camel-store.c:214
-msgid "Cannot get folder: Invalid operation on this store"
-msgstr "无法获取文件夹：对该存储的无效操作"
-
-#: camel/camel-store.c:244
-#, c-format
-msgid "Cannot create folder `%s': folder exists"
-msgstr "无法创建文件夹：%s：文件夹已存在"
-
-#: camel/camel-store.c:298
-msgid "Cannot create folder: Invalid operation on this store"
-msgstr "无法创建文件夹：对该存储的无效操作"
-
-#: camel/camel-store.c:326
-#, c-format
-msgid "Cannot create folder: %s: folder exists"
-msgstr "无法创建文件夹：%s：文件夹已存在"
-
-#: camel/camel-store.c:390 camel/camel-vee-store.c:367
-#, c-format
-msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "无法删除文件夹：%s：无效操作"
-
-#: camel/camel-store.c:440 camel/camel-vee-store.c:404
-#: camel/providers/local/camel-maildir-store.c:233
-#, c-format
-msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "无法重命名文件夹：%s：无效操作"
-
-#: camel/camel-store.c:778
-msgid "Trash"
-msgstr "回收站"
-
-#: camel/camel-store.c:780 mail/em-filter-i18n.h:35
-#: mail/mail-config.glade.h:93 ui/evolution-mail-message.xml.h:48
-msgid "Junk"
-msgstr "垃圾"
-
-#: camel/camel-tcp-stream-openssl.c:568
-msgid "Unable to get issuer's certificate"
-msgstr "无法获取发行者的证书"
-
-#: camel/camel-tcp-stream-openssl.c:570
-msgid "Unable to get Certificate Revocation List"
-msgstr "无法获取证书吊销列表签名"
-
-#: camel/camel-tcp-stream-openssl.c:572
-msgid "Unable to decrypt certificate signature"
-msgstr "无法解密认证签名"
-
-#: camel/camel-tcp-stream-openssl.c:574
-msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr "无法解密证书吊销列表签名"
-
-#: camel/camel-tcp-stream-openssl.c:576
-msgid "Unable to decode issuer's public key"
-msgstr "无法对发行者的公钥进行解码"
-
-#: camel/camel-tcp-stream-openssl.c:578
-msgid "Certificate signature failure"
-msgstr "证书签名失败"
-
-#: camel/camel-tcp-stream-openssl.c:580
-msgid "Certificate Revocation List signature failure"
-msgstr "证书吊销列表签名失败"
-
-#: camel/camel-tcp-stream-openssl.c:582
-msgid "Certificate not yet valid"
-msgstr "证书未生效"
-
-#: camel/camel-tcp-stream-openssl.c:584
-msgid "Certificate has expired"
-msgstr "证书已过期"
-
-#: camel/camel-tcp-stream-openssl.c:586
-msgid "CRL not yet valid"
-msgstr "CRL 尚且无效"
-
-#: camel/camel-tcp-stream-openssl.c:588
-msgid "CRL has expired"
-msgstr "CRL 已过期"
-
-#: camel/camel-tcp-stream-openssl.c:593
-msgid "Error in CRL"
-msgstr "CRL 错误"
-
-#: camel/camel-tcp-stream-openssl.c:595
-msgid "Out of memory"
-msgstr "内存耗尽"
-
-#: camel/camel-tcp-stream-openssl.c:597
-msgid "Zero-depth self-signed certificate"
-msgstr "零深度自签名证书"
-
-#: camel/camel-tcp-stream-openssl.c:599
-msgid "Self-signed certificate in chain"
-msgstr "链中的自签名证书"
-
-#: camel/camel-tcp-stream-openssl.c:601
-msgid "Unable to get issuer's certificate locally"
-msgstr "无法在本地获取发行者的证书"
-
-#: camel/camel-tcp-stream-openssl.c:603
-msgid "Unable to verify leaf signature"
-msgstr "无法校验叶子签名"
-
-#: camel/camel-tcp-stream-openssl.c:605
-msgid "Certificate chain too long"
-msgstr "证书链过长"
-
-#: camel/camel-tcp-stream-openssl.c:607
-msgid "Certificate Revoked"
-msgstr "证书已撤销"
-
-#: camel/camel-tcp-stream-openssl.c:609
-msgid "Invalid Certificate Authority (CA)"
-msgstr "无效的证书颁发机构(CA)"
-
-#: camel/camel-tcp-stream-openssl.c:611
-msgid "Path length exceeded"
-msgstr "超长的路径长度"
-
-#: camel/camel-tcp-stream-openssl.c:613
-msgid "Invalid purpose"
-msgstr "无效目的"
-
-#: camel/camel-tcp-stream-openssl.c:615
-msgid "Certificate untrusted"
-msgstr "不信任的证书"
-
-#: camel/camel-tcp-stream-openssl.c:617
-msgid "Certificate rejected"
-msgstr "已拒绝的证书"
-
-#: camel/camel-tcp-stream-openssl.c:620
-msgid "Subject/Issuer mismatch"
-msgstr "主题/发行者不匹配"
-
-#: camel/camel-tcp-stream-openssl.c:622
-msgid "AKID/SKID mismatch"
-msgstr "AKID/SKID 不匹配"
-
-#: camel/camel-tcp-stream-openssl.c:624
-msgid "AKID/Issuer serial mismatch"
-msgstr "AKID/发行者序列号不匹配"
-
-#: camel/camel-tcp-stream-openssl.c:626
-msgid "Key usage does not support certificate signing"
-msgstr "密钥不支持证书签名"
-
-#: camel/camel-tcp-stream-openssl.c:629
-msgid "Error in application verification"
-msgstr "应用程序验证错误"
-
-#: camel/camel-tcp-stream-openssl.c:696 camel/camel-tcp-stream-ssl.c:827
-#, c-format
-msgid ""
-"Issuer:            %s\n"
-"Subject:           %s\n"
-"Fingerprint:       %s\n"
-"Signature:         %s"
-msgstr ""
-"提交者：        %s\n"
-"主题：          %s\n"
-"指纹：          %s\n"
-"签名：          %s"
-
-#: camel/camel-tcp-stream-openssl.c:702 camel/camel-tcp-stream-ssl.c:833
-msgid "GOOD"
-msgstr "好"
-
-#: camel/camel-tcp-stream-openssl.c:702 camel/camel-tcp-stream-ssl.c:833
-msgid "BAD"
-msgstr "坏"
-
-#: camel/camel-tcp-stream-openssl.c:704
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"来自 %s 的错误证书：\n"
-"\n"
-"%s\n"
-"\n"
-"%s\n"
-"\n"
-"您仍然希望接受吗？"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:837
-#, c-format
-msgid ""
-"SSL Certificate check for %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept?"
-msgstr ""
-"为 %s 检查 SSL 证书：\n"
-"\n"
-"%s\n"
-"\n"
-"您希望接受吗？"
-
-#: camel/camel-tcp-stream-ssl.c:881
-#, c-format
-msgid ""
-"Certificate problem: %s\n"
-"Issuer: %s"
-msgstr ""
-"证书问题：%s\n"
-"发行者：%s"
-
-#: camel/camel-tcp-stream-ssl.c:933
-#, c-format
-msgid ""
-"Bad certificate domain: %s\n"
-"Issuer: %s"
-msgstr ""
-"无效的证书域名：%s\n"
-"发行者：%s"
-
-#: camel/camel-tcp-stream-ssl.c:951
-#, c-format
-msgid ""
-"Certificate expired: %s\n"
-"Issuer: %s"
-msgstr ""
-"证书过期：%s\n"
-"发行者：%s"
-
-#: camel/camel-tcp-stream-ssl.c:968
-#, c-format
-msgid ""
-"Certificate revocation list expired: %s\n"
-"Issuer: %s"
-msgstr ""
-"证书撤销列表已过期：%s\n"
-"发行者：%s"
-
-#: camel/camel-url.c:293
-#, c-format
-msgid "Could not parse URL `%s'"
-msgstr "无法解析 URL“%s”"
-
-#: camel/camel-vee-folder.c:476
-#, c-format
-msgid "Error storing `%s': %s"
-msgstr "存储“%s”错误：%s"
-
-#: camel/camel-vee-folder.c:518
-#, c-format
-msgid "No such message %s in %s"
-msgstr "在 %2$s 中没有信件 %1$s"
-
-#: camel/camel-vee-folder.c:643 camel/camel-vee-folder.c:649
-msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "无法将信件移动或复制到虚拟文件夹中"
-
-#: camel/camel-vee-store.c:390
-#, c-format
-msgid "Cannot delete folder: %s: No such folder"
-msgstr "无法删除文件夹：%s：没有该文件夹"
-
-#: camel/camel-vee-store.c:412
-#, c-format
-msgid "Cannot rename folder: %s: No such folder"
-msgstr "无法重命名文件夹：%s：没有该文件夹"
-
-#: camel/camel-vtrash-folder.c:47
-msgid "Cannot copy messages to the Trash folder"
-msgstr "无法将信件复制到回收站文件夹"
-
-#: camel/camel-vtrash-folder.c:49
-msgid "Cannot copy messages to the Junk folder"
-msgstr "无法将信件复制到垃圾邮件文件夹"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:54
-#: camel/providers/imap4/camel-imap4-provider.c:36
-msgid "Checking for new mail"
-msgstr "检查新邮件"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:56
-#: camel/providers/imap4/camel-imap4-provider.c:38
-msgid "Check for new messages in all folders"
-msgstr "在所有文件夹中检查新信件"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:61
-msgid "Apply filters to new messages in Inbox on this server"
-msgstr "应用过滤规则到此服务器上收件箱中的新信件"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:63
-#: camel/providers/imap4/camel-imap4-provider.c:53
-msgid "Check new messages for Junk contents"
-msgstr "检查新信件的垃圾内容"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:65
-#: camel/providers/imap4/camel-imap4-provider.c:55
-msgid "Only check for Junk messages in the INBOX folder"
-msgstr "仅在收件箱中检查垃圾邮件"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:67
-msgid "Automatically synchronize account locally"
-msgstr "自动将远程邮件同步到本地"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:72
-msgid "Address Book and Calendar"
-msgstr "地址簿和日历"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:75
-msgid "Post Office Agent:"
-msgstr "邮局代理："
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:78
-msgid "Post Office Agent SOAP Port:"
-msgstr "邮局代理 SOAP 端口："
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:81
-msgid "Use Secure Connection (SSL)"
-msgstr "使用安全连接(SSL)"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:94
-msgid "Novell GroupWise"
-msgstr "Novell GroupWise"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:96
-msgid "For accessing Novell Groupwise servers"
-msgstr "访问 Novell GroupWise 服务器"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:111
-#: camel/providers/imap4/camel-imap4-provider.c:81
-#: camel/providers/imap/camel-imap-provider.c:96
-#: camel/providers/imapp/camel-imapp-provider.c:66
-#: camel/providers/nntp/camel-nntp-provider.c:72
-#: camel/providers/pop3/camel-pop3-provider.c:72
-msgid "Password"
-msgstr "密码"
-
-#: camel/providers/groupwise/camel-groupwise-provider.c:113
-#: camel/providers/imap/camel-imap-provider.c:98
-#: camel/providers/imapp/camel-imapp-provider.c:68
-msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "该选项将使用普通文本密码连接到 IMAP 服务器。"
-
-#: camel/providers/groupwise/camel-gw-listener.c:436
-#: plugins/groupwise-account-setup/camel-gw-listener.c:436
-msgid "Checklist"
-msgstr "待办清单"
-
-#: camel/providers/imap4/camel-imap4-command.c:551
-#: camel/providers/imap4/camel-imap4-command.c:558
-#, c-format
-msgid "Failed sending command to IMAP server %s: %s"
-msgstr "向 IMAP 服务器 %s 发送命令失败：%s"
-
-#: camel/providers/imap4/camel-imap4-command.c:661
-#, c-format
-msgid "Unexpected response from IMAP4 server %s: %s"
-msgstr "来自 IMAP4 服务器 %s 的意外响应：%s"
-
-#: camel/providers/imap4/camel-imap4-engine.c:216
-#, c-format
-msgid "Unexpected greeting from IMAP server %s."
-msgstr "来自 IMAP 服务器 %s 的意外应答。"
-
-#: camel/providers/imap4/camel-imap4-engine.c:410
-#, c-format
-msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "无法选择文件夹“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-engine.c:416
-#, c-format
-msgid "Cannot select folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-engine.c:1464
-#: camel/providers/imap4/camel-imap4-engine.c:1503
-#: camel/providers/imap4/camel-imap4-engine.c:1548
-#: camel/providers/imap4/camel-imap4-engine.c:1604
-#, c-format
-msgid "IMAP4 server %s unexpectedly disconnected: %s"
-msgstr "IMAP4 服务器 %s 意外断开连接：%s"
-
-#: camel/providers/imap4/camel-imap4-folder.c:359
-#, c-format
-msgid "Cannot access folder `%s': %s"
-msgstr "无法访问文件夹“%s”：%s"
-
-#: camel/providers/imap4/camel-imap4-folder.c:418
-#, c-format
-msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "无法将标志与文件夹“%s”同步：未知"
-
-#: camel/providers/imap4/camel-imap4-folder.c:424
-#, c-format
-msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "无法将标志与文件夹“%s”同步：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-folder.c:565
-#, c-format
-msgid "Cannot expunge folder `%s': Unknown"
-msgstr "无法销毁文件夹“%s”：未知"
-
-#: camel/providers/imap4/camel-imap4-folder.c:570
-#, c-format
-msgid "Cannot expunge folder `%s': Bad command"
-msgstr "无法销毁文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-folder.c:749
-#: camel/providers/nntp/camel-nntp-folder.c:157
-#: camel/providers/nntp/camel-nntp-folder.c:233
-#: camel/providers/nntp/camel-nntp-folder.c:372
-#: camel/providers/pop3/camel-pop3-folder.c:263
-#: camel/providers/pop3/camel-pop3-folder.c:431
-#: camel/providers/pop3/camel-pop3-folder.c:492
-#: camel/providers/pop3/camel-pop3-folder.c:510
-msgid "User cancelled"
-msgstr "用户已取消"
-
-#: camel/providers/imap4/camel-imap4-folder.c:754
-#: camel/providers/nntp/camel-nntp-folder.c:148
-#: camel/providers/nntp/camel-nntp-folder.c:150
-#: camel/providers/nntp/camel-nntp-folder.c:159
-#: camel/providers/nntp/camel-nntp-folder.c:235
-#: camel/providers/pop3/camel-pop3-folder.c:434
-#: camel/providers/pop3/camel-pop3-folder.c:495
-#: camel/providers/pop3/camel-pop3-folder.c:502
-#: camel/providers/pop3/camel-pop3-folder.c:513
-#, c-format
-msgid "Cannot get message %s: %s"
-msgstr "无法获取信件 %s：%s"
-
-#: camel/providers/imap4/camel-imap4-folder.c:772
-msgid "This message is not available in offline mode."
-msgstr "该信件无法在脱机模式中使用。"
-
-#: camel/providers/imap4/camel-imap4-folder.c:826
-#, c-format
-msgid "Cannot get message %s from folder `%s': No such message"
-msgstr "无法从文件夹“%2$s”获取信件 %1$s：没有这样的信件"
-
-#: camel/providers/imap4/camel-imap4-folder.c:831
-#, c-format
-msgid "Cannot get message %s from folder `%s': Bad command"
-msgstr "无法从文件夹“%2$s”获取信件 %1$s：命令无效"
-
-#: camel/providers/imap4/camel-imap4-folder.c:873
-msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "无法在脱机模式下将信件追加到 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-folder.c:966
-#, c-format
-msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "无法将信件追加到文件夹“%s”：未知错误"
-
-#: camel/providers/imap4/camel-imap4-folder.c:995
-#, c-format
-msgid "Cannot append message to folder `%s': Bad command"
-msgstr "无法将信件追加到文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1038
-msgid "Cannot move messages to or from IMAP folders in offline mode."
-msgstr "无法在脱机模式下将信件移入或移出 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1041
-msgid "Cannot copy messages to or from IMAP folders in offline mode."
-msgstr "无法在脱机模式下将信件复制入或复制出 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1086
-#, c-format
-msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：未知"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1090
-#, c-format
-msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：未知"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1098
-#, c-format
-msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-folder.c:1102
-#, c-format
-msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-provider.c:41
-#: camel/providers/imap/camel-imap-provider.c:56
-#: camel/providers/nntp/camel-nntp-provider.c:42
-msgid "Folders"
-msgstr "文件夹"
-
-#: camel/providers/imap4/camel-imap4-provider.c:43
-msgid "Show only subscribed folders"
-msgstr "只显示订阅了的文件夹"
-
-#: camel/providers/imap4/camel-imap4-provider.c:45
-msgid "Override server-supplied folder namespace"
-msgstr "覆盖服务器提供的文件夹命名空间"
-
-#: camel/providers/imap4/camel-imap4-provider.c:47
-#: camel/providers/imap/camel-imap-provider.c:62
-msgid "Namespace"
-msgstr "命名空间"
-
-#: camel/providers/imap4/camel-imap4-provider.c:51
-msgid "Apply filters to new messages in INBOX on this server"
-msgstr "应用过滤规则到本服务器上收件箱中的新信件"
-
-#: camel/providers/imap4/camel-imap4-provider.c:57
-msgid "Automatically synchronize remote mail locally"
-msgstr "自动将远程邮件同步到本地"
-
-#: camel/providers/imap4/camel-imap4-provider.c:64
-msgid "IMAPv4rev1"
-msgstr "IMAPv4rev1"
-
-#: camel/providers/imap4/camel-imap4-provider.c:66
-msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "IMAPv4rev1 服务器上的邮件的读写。试验性！"
-
-#: camel/providers/imap4/camel-imap4-provider.c:83
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr "该选项将使用纯文本密码连接到 IMAPv4rev1 服务器。"
-
-#: camel/providers/imap4/camel-imap4-store.c:203
-#: camel/providers/imap/camel-imap-store.c:421
-#, c-format
-msgid "IMAP server %s"
-msgstr "IMAP 服务器 %s"
-
-#: camel/providers/imap4/camel-imap4-store.c:205
-#: camel/providers/imap/camel-imap-store.c:423
-#, c-format
-msgid "IMAP service for %s on %s"
-msgstr "%2$s 为 %1$s 提供的 IMAP 服务"
-
-#: camel/providers/imap4/camel-imap4-store.c:235
-#: camel/providers/imap4/camel-imap4-store.c:250
-#: camel/providers/imap/camel-imap-store.c:533
-#: camel/providers/imap/camel-imap-store.c:548
-#: camel/providers/nntp/camel-nntp-store.c:198
-#: camel/providers/nntp/camel-nntp-store.c:213
-#: camel/providers/pop3/camel-pop3-store.c:167
-#: camel/providers/pop3/camel-pop3-store.c:182
-#: camel/providers/smtp/camel-smtp-transport.c:255
-#: camel/providers/smtp/camel-smtp-transport.c:270
-#, c-format
-msgid "Could not connect to %s: %s"
-msgstr "无法连接到 %s：%s"
-
-#: camel/providers/imap4/camel-imap4-store.c:236
-#: camel/providers/imap/camel-imap-store.c:534
-#: camel/providers/nntp/camel-nntp-store.c:199
-#: camel/providers/pop3/camel-pop3-store.c:168
-#: camel/providers/smtp/camel-smtp-transport.c:256
-msgid "SSL unavailable"
-msgstr "SSL 不可用"
-
-#: camel/providers/imap4/camel-imap4-store.c:247
-#: camel/providers/imap/camel-imap-store.c:545
-#: camel/providers/imap/camel-imap-store.c:808
-#: camel/providers/imapp/camel-imapp-store.c:248
-#: camel/providers/nntp/camel-nntp-store.c:210
-#: camel/providers/nntp/camel-nntp-store.c:229
-#: camel/providers/pop3/camel-pop3-store.c:179
-#: camel/providers/smtp/camel-smtp-transport.c:267
-msgid "Connection cancelled"
-msgstr "连接已取消"
-
-#: camel/providers/imap4/camel-imap4-store.c:274
-#: camel/providers/imap4/camel-imap4-store.c:287
-#: camel/providers/imap/camel-imap-store.c:652
-#: camel/providers/imap/camel-imap-store.c:674
-#, c-format
-msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "以安全模式连接到 IMAP 服务器 %s 失败：%s"
-
-#: camel/providers/imap4/camel-imap4-store.c:275
-#: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/pop3/camel-pop3-store.c:243
-msgid "SSL negotiations failed"
-msgstr "SSL 协商失败"
-
-#: camel/providers/imap4/camel-imap4-store.c:378
-#, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
-msgstr "无法使用 %2$s 身份验证算法对 IMAP 服务器 %1$s 进行身份验证"
-
-#: camel/providers/imap4/camel-imap4-store.c:423
-#, c-format
-msgid "%sPlease enter the IMAP password for %s on host %s"
-msgstr "%s请输入 %s@%s 的 IMAP 密码"
-
-#: camel/providers/imap4/camel-imap4-store.c:493
-#, c-format
-msgid "Cannot authenticate to IMAP server %s using %s"
-msgstr "无法使用 %2$s 认证到 IMAP 服务器 %1$s"
-
-#: camel/providers/imap4/camel-imap4-store.c:656
-#: camel/providers/imap4/camel-imap4-store.c:769
-msgid "Cannot create IMAP folders in offline mode."
-msgstr "无法在脱机模式下创建 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-store.c:695
-#, c-format
-msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-msgstr "无法获取 IMAP 服务器 %2$s 上的文件夹 %1$s：未知"
-
-#: camel/providers/imap4/camel-imap4-store.c:759
-#: camel/providers/imap/camel-imap-store.c:1861
-#: camel/providers/imap/camel-imap-store.c:2239
-#, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "文件夹名“%s”无效，原因是其中含有字符“%c”"
-
-#: camel/providers/imap4/camel-imap4-store.c:817
-#, c-format
-msgid "Cannot create folder `%s': Invalid mailbox name"
-msgstr "无法创建文件夹“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-store.c:823
-#, c-format
-msgid "Cannot create folder `%s': Bad command"
-msgstr "无法创建文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-store.c:855
-#, c-format
-msgid "Cannot delete folder `%s': Special folder"
-msgstr "无法删除文件夹“%s”：特殊文件夹"
-
-#: camel/providers/imap4/camel-imap4-store.c:862
-msgid "Cannot delete IMAP folders in offline mode."
-msgstr "无法在脱机模式下删除 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-store.c:921
-#, c-format
-msgid "Cannot delete folder `%s': Invalid mailbox name"
-msgstr "无法删除文件夹“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-store.c:926
-#, c-format
-msgid "Cannot delete folder `%s': Bad command"
-msgstr "无法删除文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-store.c:947
-#, c-format
-msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "无法将文件夹“%s”重命名为“%s”：特殊文件夹"
-
-#: camel/providers/imap4/camel-imap4-store.c:954
-msgid "Cannot rename IMAP folders in offline mode."
-msgstr "无法在脱机模式下重命名 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-store.c:985
-#, c-format
-msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "无法将文件夹“%s”重命名为“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-store.c:990
-#, c-format
-msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "无法将文件夹“%s”重命名为“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-store.c:1239
-#, c-format
-msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr "无法在 IMAP 服务器 %3$s 上为模式“%2$s”获取 %1$s 信息：%4$s"
-
-#: camel/providers/imap4/camel-imap4-store.c:1241
-msgid "Bad command"
-msgstr "无效命令"
-
-#: camel/providers/imap4/camel-imap4-store.c:1280
-msgid "Cannot subscribe to IMAP folders in offline mode."
-msgstr "无法在脱机模式下订阅 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-store.c:1325
-#, c-format
-msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-msgstr "无法订阅文件夹“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-store.c:1330
-#, c-format
-msgid "Cannot subscribe to folder `%s': Bad command"
-msgstr "无法订阅文件夹“%s”：无效的命令"
-
-#: camel/providers/imap4/camel-imap4-store.c:1353
-msgid "Cannot unsubscribe from IMAP folders in offline mode."
-msgstr "无法在脱机模式下退订 IMAP 文件夹。"
-
-#: camel/providers/imap4/camel-imap4-store.c:1398
-#, c-format
-msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-msgstr "无法退订文件夹“%s”：无效的邮箱名"
-
-#: camel/providers/imap4/camel-imap4-store.c:1403
-#, c-format
-msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr "无法退订文件夹“%s”：无效的命令"
-
-#. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap4/camel-imap4-summary.c:1266
-#: camel/providers/imap/camel-imap-folder.c:573
-msgid "Scanning for changed messages"
-msgstr "扫描更改了的信件"
-
-#: camel/providers/imap4/camel-imap4-summary.c:1290
-msgid "Fetching envelopes for new messages"
-msgstr "获取新新信件的信封"
-
-#: camel/providers/imap4/camel-imap4-utils.c:368
-#, c-format
-msgid "Unexpected token in response from IMAP server %s: "
-msgstr "来自 IMAP4 服务器 %s 的意外响应："
-
-#: camel/providers/imap4/camel-imap4-utils.c:391
-msgid "No data"
-msgstr "无数据"
-
-#: camel/providers/imap4/camel-imap4-utils.c:574
-#, c-format
-msgid "IMAP server %s unexpectedly disconnected: %s"
-msgstr "IMAP4 服务器 %s 意外断开连接：%s"
-
-#: camel/providers/imap/camel-imap-command.c:218
-#: camel/providers/imap/camel-imap-command.c:257
-#: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3200
-msgid "Operation cancelled"
-msgstr "操作已取消"
-
-#: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3203
-#, c-format
-msgid "Server unexpectedly disconnected: %s"
-msgstr "服务器意外地中止了连接：%s"
-
-#. for imap ALERT codes, account user@host
-#: camel/providers/imap/camel-imap-command.c:320
-#, c-format
-msgid ""
-"Alert from IMAP server %s@%s:\n"
-"%s"
-msgstr ""
-"来自 IMAP 服务器 %s@%s 的提醒：\n"
-"%s"
-
-#: camel/providers/imap/camel-imap-command.c:389
-#, c-format
-msgid "Unexpected response from IMAP server: %s"
-msgstr "来自 IMAP 服务器的意外应答：%s"
-
-#: camel/providers/imap/camel-imap-command.c:399
-#, c-format
-msgid "IMAP command failed: %s"
-msgstr "IMAP 命令失败：%s"
-
-#: camel/providers/imap/camel-imap-command.c:457
-msgid "Server response ended too soon."
-msgstr "服务器应答结束太快。"
-
-#: camel/providers/imap/camel-imap-command.c:649
-#, c-format
-msgid "IMAP server response did not contain %s information"
-msgstr "IMAP 服务器应答不含有 %s 信息"
-
-#: camel/providers/imap/camel-imap-command.c:685
-#, c-format
-msgid "Unexpected OK response from IMAP server: %s"
-msgstr "来自 IMAP 服务器意外的 OK 应答：%s"
-
-#: camel/providers/imap/camel-imap-folder.c:226
-#, c-format
-msgid "Could not create directory %s: %s"
-msgstr "无法创建目录 %s：%s"
-
-#: camel/providers/imap/camel-imap-folder.c:245
-#, c-format
-msgid "Could not load summary for %s"
-msgstr "无法为 %s 装入概要"
-
-#: camel/providers/imap/camel-imap-folder.c:330
-msgid "Folder was destroyed and recreated on server."
-msgstr "文件夹已被删除并在服务器上重建了。"
-
-#: camel/providers/imap/camel-imap-folder.c:1939
-#, c-format
-msgid "Unable to retrieve message: %s"
-msgstr "无法获取信件：%s"
-
-#: camel/providers/imap/camel-imap-folder.c:1979
-#, c-format
-msgid ""
-"Cannot get message: %s\n"
-"  %s"
-msgstr ""
-"无法获取信件：%s\n"
-"  %s"
-
-#: camel/providers/imap/camel-imap-folder.c:1979
-#: camel/providers/local/camel-maildir-folder.c:245
-#: camel/providers/local/camel-mbox-folder.c:403
-#: camel/providers/local/camel-mh-folder.c:203
-msgid "No such message"
-msgstr "没有该信件"
-
-#: camel/providers/imap/camel-imap-folder.c:2021
-#: camel/providers/imap/camel-imap-folder.c:2623
-#: camel/providers/nntp/camel-nntp-folder.c:221
-msgid "This message is not currently available"
-msgstr "该信件目前不可用"
-
-#: camel/providers/imap/camel-imap-folder.c:2287
-#: camel/providers/imap/camel-imap-folder.c:2357
-msgid "Fetching summary information for new messages"
-msgstr "从新信件中获取概要信息"
-
-#: camel/providers/imap/camel-imap-folder.c:2464
-#, c-format
-msgid "Incomplete server response: no information provided for message %d"
-msgstr "不完整的服务器响应：没有为第%d封信提供信息"
-
-#: camel/providers/imap/camel-imap-folder.c:2472
-#, c-format
-msgid "Incomplete server response: no UID provided for message %d"
-msgstr "不完整的服务器响应：没有为第%d封信提供 UID"
-
-#: camel/providers/imap/camel-imap-folder.c:2485
-#, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
-msgstr "意外的服务器响应：为第%d封信和第%d封信提供了同样的 UID"
-
-#: camel/providers/imap/camel-imap-folder.c:2661
-msgid "Could not find message body in FETCH response."
-msgstr "无法在 FETCH 应答中找到信体。"
-
-#: camel/providers/imap/camel-imap-message-cache.c:156
-#, c-format
-msgid "Could not open cache directory: %s"
-msgstr "无法打开缓冲器目录：%s"
-
-#: camel/providers/imap/camel-imap-message-cache.c:253
-#: camel/providers/imap/camel-imap-message-cache.c:310
-#: camel/providers/imap/camel-imap-message-cache.c:341
-#: camel/providers/imap/camel-imap-message-cache.c:373
-#, c-format
-msgid "Failed to cache message %s: %s"
-msgstr "缓存信件 %s 失败：%s"
-
-#: camel/providers/imap/camel-imap-message-cache.c:418
-#, c-format
-msgid "Failed to cache %s: %s"
-msgstr "缓存 %s 失败：%s"
-
-#: camel/providers/imap/camel-imap-provider.c:44 mail/em-account-editor.c:2078
-#: mail/em-account-editor.c:2156
-msgid "Checking for New Mail"
-msgstr "检查新邮件"
-
-#: camel/providers/imap/camel-imap-provider.c:46
-msgid "C_heck for new messages in all folders"
-msgstr "在所有文件夹中检查新信件(_H)"
-
-#: camel/providers/imap/camel-imap-provider.c:49
-msgid "Connection to Server"
-msgstr "连接服务器"
-
-#: camel/providers/imap/camel-imap-provider.c:51
-msgid "_Use custom command to connect to server"
-msgstr "使用自定义命令连接到服务器(_U)"
-
-#: camel/providers/imap/camel-imap-provider.c:53
-msgid "Command:"
-msgstr "命令："
-
-#: camel/providers/imap/camel-imap-provider.c:58
-msgid "_Show only subscribed folders"
-msgstr "只显示订阅了的文件夹(_S)"
-
-#: camel/providers/imap/camel-imap-provider.c:60
-msgid "O_verride server-supplied folder namespace"
-msgstr "覆盖服务器提供的文件夹命名空间(_V)"
-
-#: camel/providers/imap/camel-imap-provider.c:66
-msgid "_Apply filters to new messages in INBOX on this server"
-msgstr "应用过滤规则到本服务器上收件箱中的新信件(_A)"
-
-#: camel/providers/imap/camel-imap-provider.c:68
-msgid "Check new messages for _Junk contents"
-msgstr "检查新信件的垃圾内容(_J)"
-
-#: camel/providers/imap/camel-imap-provider.c:70
-msgid "Only check for Junk messa_ges in the INBOX folder"
-msgstr "仅在收件箱中检查垃圾邮件(_G)"
-
-#: camel/providers/imap/camel-imap-provider.c:72
-msgid "Automatically synchroni_ze remote mail locally"
-msgstr "自动将远程邮件同步到本地(_Z)"
-
-#: camel/providers/imap/camel-imap-provider.c:79
-msgid "IMAP"
-msgstr "IMAP"
-
-#: camel/providers/imap/camel-imap-provider.c:81
-msgid "For reading and storing mail on IMAP servers."
-msgstr "IMAP 服务器上的邮件的读写。"
-
-#: camel/providers/imap/camel-imap-store.c:653
-#: camel/providers/smtp/camel-smtp-transport.c:323
-msgid "STARTTLS not supported"
-msgstr "不支持 STARTTLS"
-
-#: camel/providers/imap/camel-imap-store.c:811
-#, c-format
-msgid "Could not connect with command \"%s\": %s"
-msgstr "无法使用命令“%s”连接：%s"
-
-#: camel/providers/imap/camel-imap-store.c:1245
-#, c-format
-msgid "IMAP server %s does not support requested authentication type %s"
-msgstr "IMAP 服务器 %s 不支持要求的验证类型 %s"
-
-#: camel/providers/imap/camel-imap-store.c:1255
-#: camel/providers/smtp/camel-smtp-transport.c:489
-#, c-format
-msgid "No support for authentication type %s"
-msgstr "不支持验证类型 %s"
-
-#: camel/providers/imap/camel-imap-store.c:1278
-#: camel/providers/imapp/camel-imapp-store.c:364
-#, c-format
-msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr "%s请为 %s@%s 输入 IMAP 密码"
-
-#: camel/providers/imap/camel-imap-store.c:1292
-msgid "You didn't enter a password."
-msgstr "您没有输入密码。"
-
-#: camel/providers/imap/camel-imap-store.c:1321
-#, c-format
-msgid ""
-"Unable to authenticate to IMAP server.\n"
-"%s\n"
-"\n"
-msgstr ""
-"无法认证到 IMAP 服务器。\n"
-"%s\n"
-"\n"
-
-#: camel/providers/imap/camel-imap-store.c:1843
-#: camel/providers/imap/camel-imap-store.c:2033
-#, c-format
-msgid "No such folder %s"
-msgstr "没有文件夹 %s"
-
-#: camel/providers/imap/camel-imap-store.c:1919
-#: camel/providers/imap/camel-imap-store.c:2300
-msgid "The parent folder is not allowed to contain subfolders"
-msgstr "父文件夹不允许含有子文件夹"
-
-#: camel/providers/imap/camel-imap-store.c:1974
-#: camel/providers/local/camel-maildir-store.c:140
-#: camel/providers/local/camel-mbox-store.c:210
-#: camel/providers/local/camel-mh-store.c:237
-#, c-format
-msgid "Cannot create folder `%s': folder exists."
-msgstr "无法创建文件夹：%s：文件夹已存在。"
-
-#: camel/providers/imap/camel-imap-store.c:2250
-#, c-format
-msgid "Unknown parent folder: %s"
-msgstr "未知的父文件夹：%s"
-
-#: camel/providers/imapp/camel-imapp-provider.c:40
-#: camel/providers/pop3/camel-pop3-provider.c:39
-msgid "Message storage"
-msgstr "信件存储"
-
-#: camel/providers/imapp/camel-imapp-provider.c:48
-msgid "IMAP+"
-msgstr "IMAP+"
-
-#: camel/providers/imapp/camel-imapp-provider.c:50
-msgid ""
-"Experimental IMAP 4(.1) client\n"
-"This is untested and unsupported code, you want to use plain imap instead.\n"
-"\n"
-" !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-msgstr ""
-"试验性 IMAP4(.1) 客户\n"
-"其中含有未测试和不支持的代码，您可能想要使用纯 IMAP。\n"
-"\n"
-" !!! 不要对日常邮件使用此功能 !!!\n"
-
-#: camel/providers/imapp/camel-imapp-store.c:251
-#, c-format
-msgid "Could not connect to %s (port %s): %s"
-msgstr "无法连接到 %s (端口 %s)：%s"
-
-#: camel/providers/imapp/camel-imapp-store.c:348
-#, c-format
-msgid "Could not connect to POP server on %s"
-msgstr "无法连接到 %s 上的 POP 服务器"
-
-#: camel/providers/local/camel-local-folder.c:179
-msgid "Index message body data"
-msgstr "索引信体数据"
-
-#. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:391
-#, c-format
-msgid "~%s (%s)"
-msgstr "~%s (%s)"
-
-#. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:395
-#: camel/providers/local/camel-local-folder.c:398
-#, c-format
-msgid "mailbox:%s (%s)"
-msgstr "邮件箱：%s (%s)"
-
-#. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:402
-#, c-format
-msgid "%s (%s)"
-msgstr "%s (%s)"
-
-#: camel/providers/local/camel-local-provider.c:45
-msgid "Use the `.folders' folder summary file (exmh)"
-msgstr "使用“.folders”文件夹概览文件(exmh)"
-
-#: camel/providers/local/camel-local-provider.c:52
-msgid "MH-format mail directories"
-msgstr "MH-格式的邮件目录"
-
-#: camel/providers/local/camel-local-provider.c:53
-msgid "For storing local mail in MH-like mail directories."
-msgstr "在类似于 MH 的邮件目录中存储本地邮件。"
-
-#: camel/providers/local/camel-local-provider.c:68
-msgid "Local delivery"
-msgstr "本地发送"
-
-#: camel/providers/local/camel-local-provider.c:69
-msgid ""
-"For retrieving (moving) local mail from standard mbox formated spools into "
-"folders managed by Evolution."
-msgstr ""
-"对于将本地邮件从标准 mbox 格式脱机文件夹获取(移动)到由 Evolution 管理的文件"
-"夹。"
-
-#: camel/providers/local/camel-local-provider.c:81
-#: camel/providers/local/camel-local-provider.c:100
-msgid "Apply filters to new messages in INBOX"
-msgstr "将过滤规则应用到收件箱中的新信件"
-
-#: camel/providers/local/camel-local-provider.c:88
-msgid "Maildir-format mail directories"
-msgstr "Maildir 格式的邮件目录"
-
-#: camel/providers/local/camel-local-provider.c:89
-msgid "For storing local mail in maildir directories."
-msgstr "在 maildir 邮件目录中存储本地邮件。"
-
-#: camel/providers/local/camel-local-provider.c:101
-msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr "以 Elm/Pine/Mutt 格式存储状态头"
-
-#: camel/providers/local/camel-local-provider.c:108
-msgid "Standard Unix mbox spool or directory"
-msgstr "标准 Unix mbox 脱机或目录"
-
-#: camel/providers/local/camel-local-provider.c:109
-msgid ""
-"For reading and storing local mail in external standard mbox spool files.\n"
-"May also be used to read a tree of Elm, Pine, or Mutt style folders."
-msgstr ""
-"对于读取和存储外部标准 mbox 脱机文件中的本地邮件。\n"
-"也可用于读取 Elm、Pine 或 Mutt 风格的文件夹树。"
-
-#: camel/providers/local/camel-local-store.c:143
-#: camel/providers/local/camel-local-store.c:254
-#: camel/providers/local/camel-mbox-store.c:353
-#: camel/providers/local/camel-spool-store.c:117
-#, c-format
-msgid "Store root %s is not an absolute path"
-msgstr "存储根目录 %s 不是绝对路径"
-
-#: camel/providers/local/camel-local-store.c:150
-#, c-format
-msgid "Store root %s is not a regular directory"
-msgstr "存储根目录 %s 不是普通目录"
-
-#: camel/providers/local/camel-local-store.c:159
-#: camel/providers/local/camel-local-store.c:167
-#: camel/providers/local/camel-local-store.c:265
-#, c-format
-msgid "Cannot get folder: %s: %s"
-msgstr "无法获取文件夹：%s：%s"
-
-#: camel/providers/local/camel-local-store.c:179
-msgid "Local stores do not have an inbox"
-msgstr "本地存储没有收件箱"
-
-#: camel/providers/local/camel-local-store.c:225
-#, c-format
-msgid "Local mail file %s"
-msgstr "本地邮件文件 %s"
-
-#: camel/providers/local/camel-local-store.c:334
-#, c-format
-msgid "Could not rename folder %s to %s: %s"
-msgstr "无法将文件夹 %s 改名为 %s：%s"
-
-#: camel/providers/local/camel-local-store.c:399
-#, c-format
-msgid "Could not rename '%s': %s"
-msgstr "无法重命名“%s”：%s"
-
-#: camel/providers/local/camel-local-store.c:424
-#: camel/providers/local/camel-mbox-store.c:282
-#, c-format
-msgid "Could not delete folder summary file `%s': %s"
-msgstr "无法删除文件夹概要文件“%s”：%s"
-
-#: camel/providers/local/camel-local-store.c:434
-#: camel/providers/local/camel-mbox-store.c:294
-#, c-format
-msgid "Could not delete folder index file `%s': %s"
-msgstr "无法删除文件夹索引文件“%s”：%s"
-
-#: camel/providers/local/camel-local-store.c:457
-#: camel/providers/local/camel-mbox-store.c:318
-#, c-format
-msgid "Could not delete folder meta file `%s': %s"
-msgstr "无法删除文件夹元文件“%s”：%s"
-
-#: camel/providers/local/camel-local-summary.c:406
-#, c-format
-msgid "Could not save summary: %s: %s"
-msgstr "无法保存概要：%s：%s"
-
-#: camel/providers/local/camel-local-summary.c:464
-msgid "Unable to add message to summary: unknown reason"
-msgstr "无法将信件添加到概要中：未知的原因"
-
-#. Inbox is always first
-#. translators: standard local mailbox names
-#: camel/providers/local/camel-maildir-folder.c:75
-#: camel/providers/local/camel-maildir-store.c:233
-#: camel/providers/local/camel-maildir-store.c:249
-#: camel/providers/local/camel-spool-store.c:452
-#: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
-#: mail/mail-component.c:138
-msgid "Inbox"
-msgstr "收件箱"
-
-#: camel/providers/local/camel-maildir-folder.c:215
-msgid "Maildir append message cancelled"
-msgstr "邮件目录附加已放弃"
-
-#: camel/providers/local/camel-maildir-folder.c:218
-#, c-format
-msgid "Cannot append message to maildir folder: %s: %s"
-msgstr "无法将信件附加到邮件目录文件夹：%s：%s"
-
-#: camel/providers/local/camel-maildir-folder.c:244
-#: camel/providers/local/camel-maildir-folder.c:258
-#: camel/providers/local/camel-maildir-folder.c:267
-#: camel/providers/local/camel-mbox-folder.c:402
-#: camel/providers/local/camel-mbox-folder.c:421
-#: camel/providers/local/camel-mbox-folder.c:452
-#: camel/providers/local/camel-mbox-folder.c:460
-#: camel/providers/local/camel-mh-folder.c:202
-#: camel/providers/local/camel-mh-folder.c:213
-#: camel/providers/local/camel-mh-folder.c:222
-#, c-format
-msgid ""
-"Cannot get message: %s from folder %s\n"
-"  %s"
-msgstr ""
-"无法从文件夹 %2$s 获取信件：%1$s\n"
-"  %3$s"
-
-#: camel/providers/local/camel-maildir-folder.c:268
-msgid "Invalid message contents"
-msgstr "无效的信件内容"
-
-#: camel/providers/local/camel-maildir-store.c:110
-#: camel/providers/local/camel-mbox-store.c:152
-#: camel/providers/local/camel-mh-store.c:205
-#, c-format
-msgid "Cannot get folder `%s': %s"
-msgstr "无法获取文件夹“%s”：%s"
-
-#: camel/providers/local/camel-maildir-store.c:114
-#: camel/providers/local/camel-mbox-store.c:160
-#: camel/providers/local/camel-mh-store.c:212
-#, c-format
-msgid "Cannot get folder `%s': folder does not exist."
-msgstr "无法获得文件夹“%s”：文件夹不存在。"
-
-#: camel/providers/local/camel-maildir-store.c:122
-#: camel/providers/local/camel-mbox-store.c:182
-#: camel/providers/local/camel-mbox-store.c:194
-#, c-format
-msgid "Cannot create folder `%s': %s"
-msgstr "无法创建文件夹“%s”：%s"
-
-#: camel/providers/local/camel-maildir-store.c:137
-#, c-format
-msgid "Cannot get folder `%s': not a maildir directory."
-msgstr "无法获取文件夹“%s”：不是 maildir 目录。"
-
-#: camel/providers/local/camel-maildir-store.c:176
-#: camel/providers/local/camel-maildir-store.c:214
-#: camel/providers/local/camel-mh-store.c:261
-#, c-format
-msgid "Could not delete folder `%s': %s"
-msgstr "无法删除文件夹“%s”：%s"
-
-#: camel/providers/local/camel-maildir-store.c:178
-msgid "not a maildir directory"
-msgstr "不是 maildir 目录"
-
-#: camel/providers/local/camel-maildir-store.c:356
-#: camel/providers/local/camel-spool-store.c:319
-#: camel/providers/local/camel-spool-store.c:333
-#, c-format
-msgid "Could not scan folder `%s': %s"
-msgstr "无法扫描文件夹“%s”：%s"
-
-#: camel/providers/local/camel-maildir-summary.c:425
-#: camel/providers/local/camel-maildir-summary.c:556
-#, c-format
-msgid "Cannot open maildir directory path: %s: %s"
-msgstr "无法打开邮件目录路径：%s：%s"
-
-#: camel/providers/local/camel-maildir-summary.c:549
-msgid "Checking folder consistency"
-msgstr "检查文件夹一致性"
-
-#: camel/providers/local/camel-maildir-summary.c:652
-msgid "Checking for new messages"
-msgstr "检查新信件"
-
-#: camel/providers/local/camel-maildir-summary.c:741
-#: camel/providers/local/camel-mbox-summary.c:416
-#: camel/providers/local/camel-mbox-summary.c:589
-#: camel/providers/local/camel-mbox-summary.c:680
-#: camel/providers/local/camel-spool-summary.c:140
-msgid "Storing folder"
-msgstr "存储文件夹"
-
-#: camel/providers/local/camel-mbox-folder.c:210
-#: camel/providers/local/camel-spool-folder.c:176
-#, c-format
-msgid "Cannot create folder lock on %s: %s"
-msgstr "无法在 %s 创建文件夹锁：%s"
-
-#: camel/providers/local/camel-mbox-folder.c:269
-#, c-format
-msgid "Cannot open mailbox: %s: %s\n"
-msgstr "无法打开邮件箱：%s：%s\n"
-
-#: camel/providers/local/camel-mbox-folder.c:329
-msgid "Mail append cancelled"
-msgstr "邮件追加取消"
-
-#: camel/providers/local/camel-mbox-folder.c:332
-#, c-format
-msgid "Cannot append message to mbox file: %s: %s"
-msgstr "无法将信件附加到邮件箱文件：%s：%s"
-
-#: camel/providers/local/camel-mbox-folder.c:453
-msgid "The folder appears to be irrecoverably corrupted."
-msgstr "文件夹好像已经被不可恢复地破坏了。"
-
-#: camel/providers/local/camel-mbox-folder.c:461
-#: camel/providers/local/camel-mh-folder.c:223
-msgid "Message construction failed."
-msgstr "信件构建失败。"
-
-#: camel/providers/local/camel-mbox-store.c:174
-#: camel/providers/local/camel-mbox-store.c:359
-msgid "Cannot create a folder by this name."
-msgstr "无法以此名称创建文件夹。"
-
-#: camel/providers/local/camel-mbox-store.c:204
-#, c-format
-msgid "Cannot get folder `%s': not a regular file."
-msgstr "无法获取文件夹“%s”：不是普通文件"
-
-#: camel/providers/local/camel-mbox-store.c:234
-#: camel/providers/local/camel-mbox-store.c:245
-#: camel/providers/local/camel-mbox-store.c:268
-#, c-format
-msgid ""
-"Could not delete folder `%s':\n"
-"%s"
-msgstr ""
-"无法删除文件夹“%s”：\n"
-"%s"
-
-#: camel/providers/local/camel-mbox-store.c:253
-#, c-format
-msgid "`%s' is not a regular file."
-msgstr "“%s”并不是普通文件。"
-
-#: camel/providers/local/camel-mbox-store.c:260
-#, c-format
-msgid "Folder `%s' is not empty. Not deleted."
-msgstr "文件夹“%s”非空。没有删除。"
-
-#: camel/providers/local/camel-mbox-store.c:372
-#, c-format
-msgid "Cannot create directory `%s': %s."
-msgstr "无法创建目录“%s”：%s"
-
-#: camel/providers/local/camel-mbox-store.c:386
-#, c-format
-msgid "Cannot create folder: %s: %s"
-msgstr "无法创建文件夹：%s：%s"
-
-#: camel/providers/local/camel-mbox-store.c:388
-msgid "Folder already exists"
-msgstr "文件夹已经存在"
-
-#: camel/providers/local/camel-mbox-store.c:470
-msgid "The new folder name is illegal."
-msgstr "指定的文件夹名称不合法。"
-
-#: camel/providers/local/camel-mbox-store.c:483
-#, c-format
-msgid "Could not rename `%s': `%s': %s"
-msgstr "无法重命名“%s”：“%s”：%s"
-
-#: camel/providers/local/camel-mbox-store.c:558
-#, c-format
-msgid "Could not rename '%s' to %s: %s"
-msgstr "无法将“%s”重命名为 %s：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:422
-#, c-format
-msgid "Could not open folder: %s: %s"
-msgstr "无法打开文件夹：%s：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:470
-#, c-format
-msgid "Fatal mail parser error near position %ld in folder %s"
-msgstr "在文件夹 %2$s 中邻近 %1$ld 的位置出现致命的解析错误"
-
-#: camel/providers/local/camel-mbox-summary.c:526
-#, c-format
-msgid "Cannot check folder: %s: %s"
-msgstr "无法检查文件夹：%s：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:594
-#: camel/providers/local/camel-mbox-summary.c:685
-#: camel/providers/local/camel-spool-summary.c:145
-#, c-format
-msgid "Could not open file: %s: %s"
-msgstr "无法打开文件：%s：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:606
-#: camel/providers/local/camel-spool-summary.c:165
-#, c-format
-msgid "Cannot open temporary mailbox: %s"
-msgstr "无法打开临时邮件箱：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:619
-#: camel/providers/local/camel-mbox-summary.c:783
-#, c-format
-msgid "Could not close source folder %s: %s"
-msgstr "无法关闭来源文件夹 %s：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:628
-#, c-format
-msgid "Could not close temp folder: %s"
-msgstr "无法关闭临时文件夹：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:639
-#, c-format
-msgid "Could not rename folder: %s"
-msgstr "无法重命名文件夹：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:723
-#: camel/providers/local/camel-mbox-summary.c:731
-#: camel/providers/local/camel-mbox-summary.c:925
-#: camel/providers/local/camel-mbox-summary.c:933
-msgid "Summary and folder mismatch, even after a sync"
-msgstr "即使同步后，概要和文件夹仍然不匹配"
-
-#: camel/providers/local/camel-mbox-summary.c:859
-#: camel/providers/local/camel-spool-summary.c:337
-#, c-format
-msgid "Unknown error: %s"
-msgstr "未知的错误：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:894
-#, c-format
-msgid "Could not store folder: %s"
-msgstr "无法存储文件夹：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:988
-#: camel/providers/local/camel-mbox-summary.c:1014
-#, c-format
-msgid "Error writing to temp mailbox: %s"
-msgstr "写入临时文件夹错误：%s"
-
-#: camel/providers/local/camel-mbox-summary.c:1005
-#, c-format
-msgid "Writing to tmp mailbox failed: %s: %s"
-msgstr "写入临时文件夹失败：%s：%s"
-
-#: camel/providers/local/camel-mh-folder.c:175
-msgid "MH append message cancelled"
-msgstr "已取消 MH 附件信件"
-
-#: camel/providers/local/camel-mh-folder.c:178
-#, c-format
-msgid "Cannot append message to mh folder: %s: %s"
-msgstr "无法将信件附加到 mh 文件夹：%s：%s"
-
-#: camel/providers/local/camel-mh-store.c:220
-#, c-format
-msgid "Could not create folder `%s': %s"
-msgstr "无法创建文件夹“%s”：%s"
-
-#: camel/providers/local/camel-mh-store.c:232
-#, c-format
-msgid "Cannot get folder `%s': not a directory."
-msgstr "无法获取文件夹“%s”：不是目录。"
-
-#: camel/providers/local/camel-mh-summary.c:247
-#, c-format
-msgid "Cannot open MH directory path: %s: %s"
-msgstr "无法打开 MH 目录：%s：%s"
-
-#: camel/providers/local/camel-spool-store.c:123
-#, c-format
-msgid "Spool `%s' cannot be opened: %s"
-msgstr "无法打开脱机文件“%s”：%s"
-
-#: camel/providers/local/camel-spool-store.c:135
-#, c-format
-msgid "Spool `%s' is not a regular file or directory"
-msgstr "脱机文件“%s”不是普通文件或目录"
-
-#: camel/providers/local/camel-spool-store.c:154
-#, c-format
-msgid "Folder `%s/%s' does not exist."
-msgstr "文件夹“%s/%s”不存在。"
-
-#: camel/providers/local/camel-spool-store.c:164
-#, c-format
-msgid ""
-"Could not open folder `%s':\n"
-"%s"
-msgstr ""
-"无法打开文件夹“%s”：\n"
-"%s"
-
-#: camel/providers/local/camel-spool-store.c:168
-#, c-format
-msgid "Folder `%s' does not exist."
-msgstr "文件夹“%s”不存在。"
-
-#: camel/providers/local/camel-spool-store.c:173
-#, c-format
-msgid ""
-"Could not create folder `%s':\n"
-"%s"
-msgstr ""
-"无法创建文件夹“%s”：\n"
-"%s"
-
-#: camel/providers/local/camel-spool-store.c:181
-#, c-format
-msgid "`%s' is not a mailbox file."
-msgstr "“%s”不是邮件箱文件。"
-
-#: camel/providers/local/camel-spool-store.c:198
-msgid "Store does not support an INBOX"
-msgstr "存储并不支持收件箱"
-
-#: camel/providers/local/camel-spool-store.c:210
-#, c-format
-msgid "Spool mail file %s"
-msgstr "脱机邮件文件 %s"
-
-#: camel/providers/local/camel-spool-store.c:210
-#, c-format
-msgid "Spool folder tree %s"
-msgstr "脱机文件夹树 %s"
-
-#: camel/providers/local/camel-spool-store.c:218
-msgid "Spool folders cannot be renamed"
-msgstr "脱机文件夹无法改名"
-
-#: camel/providers/local/camel-spool-store.c:226
-msgid "Spool folders cannot be deleted"
-msgstr "脱机文件夹无法删除"
-
-#: camel/providers/local/camel-spool-summary.c:178
-#: camel/providers/local/camel-spool-summary.c:188
-#: camel/providers/local/camel-spool-summary.c:198
-#, c-format
-msgid "Could not sync temporary folder %s: %s"
-msgstr "无法同步临时文件夹 %s：%s"
-
-#: camel/providers/local/camel-spool-summary.c:214
-#, c-format
-msgid "Could not sync spool folder %s: %s"
-msgstr "无法同步脱机文件夹 %s：%s"
-
-#: camel/providers/local/camel-spool-summary.c:245
-#: camel/providers/local/camel-spool-summary.c:264
-#: camel/providers/local/camel-spool-summary.c:277
-#, c-format
-msgid ""
-"Could not sync spool folder %s: %s\n"
-"Folder may be corrupt, copy saved in `%s'"
-msgstr ""
-"无法同步脱机文件夹 %s：%s\n"
-"文件夹可能已损坏，副本保存在“%s”"
-
-#: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1144
-#, c-format
-msgid "Please enter the NNTP password for %s@%s"
-msgstr "请输入 %s@%s 的 NNTP 密码"
-
-#: camel/providers/nntp/camel-nntp-auth.c:64
-msgid "Server rejected username"
-msgstr "服务器拒绝了密码"
-
-#: camel/providers/nntp/camel-nntp-auth.c:70
-msgid "Failed to send username to server"
-msgstr "向服务器发送用户名失败"
-
-#: camel/providers/nntp/camel-nntp-auth.c:79
-msgid "Server rejected username/password"
-msgstr "服务器拒绝了用户名/密码"
-
-#: camel/providers/nntp/camel-nntp-folder.c:177
-#: camel/providers/nntp/camel-nntp-folder.c:209
-#, c-format
-msgid "Internal error: uid in invalid format: %s"
-msgstr "内部错误：uid 的格式无效：%s"
-
-#: camel/providers/nntp/camel-nntp-folder.c:329
-#: camel/providers/nntp/camel-nntp-folder.c:332
-#: camel/providers/nntp/camel-nntp-folder.c:374
-#: camel/providers/nntp/camel-nntp-folder.c:376
-#, c-format
-msgid "Posting failed: %s"
-msgstr "发表失败：%s"
-
-#: camel/providers/nntp/camel-nntp-folder.c:394
-msgid "You cannot post NNTP messages while working offline!"
-msgstr "您离线时无法投递 NNTP 信件！"
-
-#: camel/providers/nntp/camel-nntp-folder.c:405
-msgid "You cannot copy messages from a NNTP folder!"
-msgstr "您无法从 NNTP 文件夹复制信件！"
-
-#: camel/providers/nntp/camel-nntp-grouplist.c:44
-msgid "Could not get group list from server."
-msgstr "无法从服务器获取组列表。"
-
-#: camel/providers/nntp/camel-nntp-grouplist.c:97
-#: camel/providers/nntp/camel-nntp-grouplist.c:106
-#, c-format
-msgid "Unable to load grouplist file for %s: %s"
-msgstr "无法装入 %s 的组列表文件：%s"
-
-#: camel/providers/nntp/camel-nntp-grouplist.c:157
-#, c-format
-msgid "Unable to save grouplist file for %s: %s"
-msgstr "无法保存 %s 的组列表文件：%s"
-
-#: camel/providers/nntp/camel-nntp-provider.c:44
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr "以短格式显示文件夹(如 c.o.linux 而不是 comp.os.linux)"
-
-#: camel/providers/nntp/camel-nntp-provider.c:46
-msgid "In the subscription dialog, show relative folder names"
-msgstr "在订阅对话框中显示相对文件夹名称"
-
-#: camel/providers/nntp/camel-nntp-provider.c:53
-msgid "USENET news"
-msgstr "USENET 新闻"
-
-#: camel/providers/nntp/camel-nntp-provider.c:55
-msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "这是一个从 USENET 新闻组和向 USENET 新闻组发布邮件的提供者。"
-
-#: camel/providers/nntp/camel-nntp-provider.c:74
-msgid ""
-"This option will authenticate with the NNTP server using a plaintext "
-"password."
-msgstr "该选项将以明文密码向进行 NNTP 服务器进行认证。"
-
-#: camel/providers/nntp/camel-nntp-store.c:232
-#, c-format
-msgid "Could not read greeting from %s: %s"
-msgstr "无法阅读来自 %s 的欢迎信息：%s"
-
-#: camel/providers/nntp/camel-nntp-store.c:244
-#, c-format
-msgid "NNTP server %s returned error code %d: %s"
-msgstr "NNTP 服务器 %s 返回错误码 %d：%s"
-
-#: camel/providers/nntp/camel-nntp-store.c:420
-#, c-format
-msgid "USENET News via %s"
-msgstr "USENET 新闻 %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:799
-#, c-format
-msgid ""
-"Error retrieving newsgroups:\n"
-"\n"
-"%s"
-msgstr ""
-"收取新闻组出错：\n"
-"\n"
-"%s"
-
-#: camel/providers/nntp/camel-nntp-store.c:893
-msgid ""
-"You cannot subscribe to this newsgroup:\n"
-"\n"
-"No such newsgroup. The selected item is a probably a parent folder."
-msgstr ""
-"您无法订阅此新闻组：\n"
-"\n"
-"没有这样的新闻组。选中项目可能是父文件夹。"
-
-#: camel/providers/nntp/camel-nntp-store.c:925
-msgid ""
-"You cannot unsubscribe to this newsgroup:\n"
-"\n"
-"newsgroup does not exist!"
-msgstr ""
-"您无法订阅此新闻组：\n"
-"\n"
-"新闻组不存在！"
-
-#: camel/providers/nntp/camel-nntp-store.c:950
-msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr "您无法在新闻存储中创建文件夹：应该订阅。"
-
-#: camel/providers/nntp/camel-nntp-store.c:958
-msgid "You cannot rename a folder in a News store."
-msgstr "您无法在新闻存储中重命名文件夹。"
-
-#: camel/providers/nntp/camel-nntp-store.c:966
-msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "您无法在新闻存储中删除文件夹：应该退订。"
-
-#: camel/providers/nntp/camel-nntp-store.c:1136
-msgid "Authentication requested but no username provided"
-msgstr "请求了身份验证，但未提供用户名"
-
-#: camel/providers/nntp/camel-nntp-store.c:1148
-#, c-format
-msgid "Cannot authenticate to server: %s"
-msgstr "无法认证到服务器：%s"
-
-#: camel/providers/nntp/camel-nntp-store.c:1264
-#, c-format
-msgid "NNTP Command failed: %s"
-msgstr "NNTP 命令失败：%s"
-
-#: camel/providers/nntp/camel-nntp-store.c:1320
-msgid "Not connected."
-msgstr "未连接。"
-
-#: camel/providers/nntp/camel-nntp-store.c:1373
-#, c-format
-msgid "No such folder: %s"
-msgstr "没有文件夹：%s"
-
-#: camel/providers/nntp/camel-nntp-summary.c:221
-#: camel/providers/nntp/camel-nntp-summary.c:317
-#, c-format
-msgid "%s: Scanning new messages"
-msgstr "%s：正在扫描新信件"
-
-#: camel/providers/nntp/camel-nntp-summary.c:228
-#, c-format
-msgid "Unexpected server response from xover: %s"
-msgstr "来自 xover 的意外服务器应答：%s"
-
-#: camel/providers/nntp/camel-nntp-summary.c:331
-#, c-format
-msgid "Unexpected server response from head: %s"
-msgstr "来自 head 的意外服务器应答：%s"
-
-#: camel/providers/nntp/camel-nntp-summary.c:371
-msgid "Use cancel"
-msgstr "使用取消"
-
-#: camel/providers/nntp/camel-nntp-summary.c:373
-#, c-format
-msgid "Operation failed: %s"
-msgstr "操作失败：%s"
-
-#: camel/providers/pop3/camel-pop3-folder.c:247
-msgid "Retrieving POP summary"
-msgstr "正在获取 POP 概要"
-
-#: camel/providers/pop3/camel-pop3-folder.c:266
-#, c-format
-msgid "Cannot get POP summary: %s"
-msgstr "无法获取 POP 摘要：%s"
-
-#: camel/providers/pop3/camel-pop3-folder.c:309
-msgid "Expunging deleted messages"
-msgstr "彻底销毁已删除的信件"
-
-#: camel/providers/pop3/camel-pop3-folder.c:405
-#, c-format
-msgid "No message with uid %s"
-msgstr "没有 uid 为 %s 的信件"
-
-#. Sigh, most of the crap in this function is so that the cancel button
-#. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:412
-#, c-format
-msgid "Retrieving POP message %d"
-msgstr "正在获取 POP 信件 %d"
-
-#: camel/providers/pop3/camel-pop3-folder.c:502 composer/e-msg-composer.c:1233
-#: composer/e-msg-composer.c:1254
-msgid "Unknown reason"
-msgstr "未知原因"
-
-#: camel/providers/pop3/camel-pop3-provider.c:41
-msgid "Leave messages on server"
-msgstr "在服务器上保留信件"
-
-#: camel/providers/pop3/camel-pop3-provider.c:44
-#, c-format
-msgid "Delete after %s day(s)"
-msgstr "%s 天之后删除"
-
-#: camel/providers/pop3/camel-pop3-provider.c:47
-msgid "Disable support for all POP3 extensions"
-msgstr "禁用所有 POP3 扩展的支持"
-
-#: camel/providers/pop3/camel-pop3-provider.c:55
-msgid "POP"
-msgstr "POP"
-
-#: camel/providers/pop3/camel-pop3-provider.c:57
-msgid "For connecting to and downloading mail from POP servers."
-msgstr "关于连接到 POP 服务器和从 POP 服务器下载邮件。"
-
-#: camel/providers/pop3/camel-pop3-provider.c:74
-msgid ""
-"This option will connect to the POP server using a plaintext password. This "
-"is the only option supported by many POP servers."
-msgstr ""
-"该选项使 Evolution 在连接到 POP 服务器时使用明文密码。这是许多 POP 服务器唯一"
-"支持的选项。"
-
-#: camel/providers/pop3/camel-pop3-provider.c:84
-msgid ""
-"This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that "
-"claim to support it."
-msgstr ""
-"该选项使 Evolution 在连接到 POP 服务器时使用 APOP 协议。即使是声称支持这一功"
-"能的服务器，也不一定能使所有用户工作。"
-
-#: camel/providers/pop3/camel-pop3-store.c:202
-#, c-format
-msgid "Failed to read a valid greeting from POP server %s"
-msgstr "从 POP 服务器 %s 读取欢迎词失败"
-
-#: camel/providers/pop3/camel-pop3-store.c:215
-#: camel/providers/pop3/camel-pop3-store.c:232
-#: camel/providers/pop3/camel-pop3-store.c:242
-#, c-format
-msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "以安全模式连接到 POP 服务器 %s 失败：%s"
-
-#: camel/providers/pop3/camel-pop3-store.c:216
-msgid "STLS not supported"
-msgstr "不支持 STLS"
-
-#: camel/providers/pop3/camel-pop3-store.c:354
-#, c-format
-msgid "Could not connect to POP server %s"
-msgstr "无法连接到 POP 服务器 %s"
-
-#: camel/providers/pop3/camel-pop3-store.c:395
-#: camel/providers/pop3/camel-pop3-store.c:509
-#, c-format
-msgid ""
-"Unable to connect to POP server %s: No support for requested authentication "
-"mechanism."
-msgstr "无法连接到 POP 服务器 %s：不支持请求认证机制。"
-
-#: camel/providers/pop3/camel-pop3-store.c:411
-#, c-format
-msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "使用SASL“%s”登录 POP 服务器 %s 失败：%s"
-
-#: camel/providers/pop3/camel-pop3-store.c:423
-#, c-format
-msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr "无法登录到 POP 服务器 %s：SASL 协议错误"
-
-#: camel/providers/pop3/camel-pop3-store.c:442
-#, c-format
-msgid "Failed to authenticate on POP server %s: %s"
-msgstr "认证到 POP 服务器 %s 失败：%s"
-
-#: camel/providers/pop3/camel-pop3-store.c:468
-#, c-format
-msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%s请输入 %s@%s 的 POP 密码"
-
-#: camel/providers/pop3/camel-pop3-store.c:523
-#: camel/providers/pop3/camel-pop3-store.c:536
-#, c-format
-msgid ""
-"Unable to connect to POP server %s.\n"
-"Error sending password: %s"
-msgstr ""
-"无法连接到 POP 服务器 %s。\n"
-"发送密码错误：%s"
-
-#: camel/providers/pop3/camel-pop3-store.c:530
-#, c-format
-msgid ""
-"Unable to connect to POP server %s.\n"
-"Error sending username: %s"
-msgstr ""
-"无法连接到 POP 服务器 %s。\n"
-"发送用户名错误：%s"
-
-#: camel/providers/pop3/camel-pop3-store.c:635
-#, c-format
-msgid "No such folder `%s'."
-msgstr "没有文件夹“%s”。"
-
-#: camel/providers/sendmail/camel-sendmail-provider.c:37
-msgid "Sendmail"
-msgstr "Sendmail"
-
-#: camel/providers/sendmail/camel-sendmail-provider.c:39
-msgid ""
-"For delivering mail by passing it to the \"sendmail\" program on the local "
-"system."
-msgstr "将邮件传递到本地系统的“sendmail”来发送邮件。"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:114
-msgid "Could not parse recipient list"
-msgstr "无法解析收件人列表"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:145
-#, c-format
-msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "无法创建到 sendmail 的管道：%s：邮件未发送"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:166
-#, c-format
-msgid "Could not fork sendmail: %s: mail not sent"
-msgstr "无法创建 sendmail 进程：%s：邮件未发送"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:206
-#, c-format
-msgid "Could not send message: %s"
-msgstr "无法发送信件：%s"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:234
-#, c-format
-msgid "sendmail exited with signal %s: mail not sent."
-msgstr "sendmail 以信号 %s 退出：邮件未发送。"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:241
-#, c-format
-msgid "Could not execute %s: mail not sent."
-msgstr "无法执行 %s：邮件未发送。"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:246
-#, c-format
-msgid "sendmail exited with status %d: mail not sent."
-msgstr "sendmail 以状态码 %d 退出：邮件未发送。"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:260
-msgid "sendmail"
-msgstr "sendmail"
-
-#: camel/providers/sendmail/camel-sendmail-transport.c:262
-msgid "Mail delivery via the sendmail program"
-msgstr "通过 sendmail 程序发送邮件"
-
-#: camel/providers/smtp/camel-smtp-provider.c:38
-msgid "SMTP"
-msgstr "SMTP"
-
-#: camel/providers/smtp/camel-smtp-provider.c:40
-msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr "要投递邮件，应该使用 SMTP 连接到远程的邮件交换服务器。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:165
-msgid "Syntax error, command unrecognized"
-msgstr "语法错误，无法识别的命令"
-
-#: camel/providers/smtp/camel-smtp-transport.c:167
-msgid "Syntax error in parameters or arguments"
-msgstr "参数语法错误"
-
-#: camel/providers/smtp/camel-smtp-transport.c:169
-msgid "Command not implemented"
-msgstr "命令尚未实现"
-
-#: camel/providers/smtp/camel-smtp-transport.c:171
-msgid "Command parameter not implemented"
-msgstr "命令参数尚未实现"
-
-#: camel/providers/smtp/camel-smtp-transport.c:173
-msgid "System status, or system help reply"
-msgstr "系统状态，或系统求助就绪"
-
-#: camel/providers/smtp/camel-smtp-transport.c:175
-msgid "Help message"
-msgstr "帮助信件"
-
-#: camel/providers/smtp/camel-smtp-transport.c:177
-msgid "Service ready"
-msgstr "服务就绪"
-
-#: camel/providers/smtp/camel-smtp-transport.c:179
-msgid "Service closing transmission channel"
-msgstr "服务正在关闭传输通道"
-
-#: camel/providers/smtp/camel-smtp-transport.c:181
-msgid "Service not available, closing transmission channel"
-msgstr "服务不可用，正在关闭传输通道"
-
-#: camel/providers/smtp/camel-smtp-transport.c:183
-msgid "Requested mail action okay, completed"
-msgstr "邮件动作请求确认，已完成"
-
-#: camel/providers/smtp/camel-smtp-transport.c:185
-msgid "User not local; will forward to <forward-path>"
-msgstr "用户不在本地；将转发到 <转发路径>"
-
-#: camel/providers/smtp/camel-smtp-transport.c:187
-msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "邮件动作请求未发生：邮件箱无效"
-
-#: camel/providers/smtp/camel-smtp-transport.c:189
-msgid "Requested action not taken: mailbox unavailable"
-msgstr "动作请求未发生：邮件箱无效"
-
-#: camel/providers/smtp/camel-smtp-transport.c:191
-msgid "Requested action aborted: error in processing"
-msgstr "动作请求已放弃：处理中出错"
-
-#: camel/providers/smtp/camel-smtp-transport.c:193
-msgid "User not local; please try <forward-path>"
-msgstr "用户不在本地；请尝试 <转发路径>"
-
-#: camel/providers/smtp/camel-smtp-transport.c:195
-msgid "Requested action not taken: insufficient system storage"
-msgstr "动作请求未发生：系统存储空间不足"
-
-#: camel/providers/smtp/camel-smtp-transport.c:197
-msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr "邮件动作请求已放弃：超定额德存储分配"
-
-#: camel/providers/smtp/camel-smtp-transport.c:199
-msgid "Requested action not taken: mailbox name not allowed"
-msgstr "动作请求未发生：不允许的邮件箱名称"
-
-#: camel/providers/smtp/camel-smtp-transport.c:201
-msgid "Start mail input; end with <CRLF>.<CRLF>"
-msgstr "开始输入邮件；以 <CRLF>.<CRLF> 结束"
-
-#: camel/providers/smtp/camel-smtp-transport.c:203
-msgid "Transaction failed"
-msgstr "事务失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:207
-msgid "A password transition is needed"
-msgstr "必须传输密码"
-
-#: camel/providers/smtp/camel-smtp-transport.c:209
-msgid "Authentication mechanism is too weak"
-msgstr "认证机制太弱"
-
-#: camel/providers/smtp/camel-smtp-transport.c:211
-msgid "Encryption required for requested authentication mechanism"
-msgstr "请求的认证机制必须加密"
-
-#: camel/providers/smtp/camel-smtp-transport.c:213
-msgid "Temporary authentication failure"
-msgstr "临时认证失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:215
-msgid "Authentication required"
-msgstr "必须认证"
-
-#: camel/providers/smtp/camel-smtp-transport.c:292
-msgid "Welcome response error"
-msgstr "欢迎应答错误"
-
-#: camel/providers/smtp/camel-smtp-transport.c:322
-#: camel/providers/smtp/camel-smtp-transport.c:355
-#, c-format
-msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "以安全模式连接 SMTP 服务器 %s 失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:331
-#, c-format
-msgid "STARTTLS command failed: %s"
-msgstr "STARTTLS 命令失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:346
-msgid "STARTTLS command failed"
-msgstr "STARTTLS 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:479
-#, c-format
-msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "SMTP 服务器 %s 不支持请求的认证类型 %s。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:517
-#, c-format
-msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%s请为 %s@%s 输入 SMTP 密码"
-
-#: camel/providers/smtp/camel-smtp-transport.c:536
-#, c-format
-msgid ""
-"Unable to authenticate to SMTP server.\n"
-"%s\n"
-"\n"
-msgstr ""
-"无法认证到 SMTP 服务器。\n"
-"%s\n"
-"\n"
-
-#: camel/providers/smtp/camel-smtp-transport.c:660
-#, c-format
-msgid "SMTP server %s"
-msgstr "SMTP 服务器 %s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:662
-#, c-format
-msgid "SMTP mail delivery via %s"
-msgstr "通过 %s 发送 SMTP 邮件"
-
-#: camel/providers/smtp/camel-smtp-transport.c:680
-msgid "Cannot send message: service not connected."
-msgstr "无法发送信件：服务未连接。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:686
-msgid "Cannot send message: sender address not valid."
-msgstr "无法发送信件：发件人地址不合法。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:690
-msgid "Sending message"
-msgstr "发送信件"
-
-#: camel/providers/smtp/camel-smtp-transport.c:705
-msgid "Cannot send message: no recipients defined."
-msgstr "无法发送信件：没有定义收件人。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:716
-msgid "Cannot send message: one or more invalid recipients"
-msgstr "无法发送信件：一个或多个非法收件人"
-
-#: camel/providers/smtp/camel-smtp-transport.c:885
-msgid "SMTP Greeting"
-msgstr "SMTP 欢迎"
-
-#: camel/providers/smtp/camel-smtp-transport.c:911
-#, c-format
-msgid "HELO command failed: %s"
-msgstr "HELO 命令失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:928
-msgid "HELO command failed"
-msgstr "HELO 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:994
-msgid "SMTP Authentication"
-msgstr "SMTP 认证"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1000
-msgid "Error creating SASL authentication object."
-msgstr "创建 SASL 认证对象错误。"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1017
-#: camel/providers/smtp/camel-smtp-transport.c:1028
-#, c-format
-msgid "AUTH command failed: %s"
-msgstr "AUTH 命令失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1034
-msgid "AUTH command failed"
-msgstr "AUTH 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1096
-msgid "Bad authentication response from server.\n"
-msgstr "来自服务器的错误认证应答。\n"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1121
-#, c-format
-msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr "MAIL FROM 命令失败：%s：邮件未发送"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1138
-msgid "MAIL FROM command failed"
-msgstr "MAIL FROM 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1162
-#, c-format
-msgid "RCPT TO command failed: %s: mail not sent"
-msgstr "RCPT TO 命令失败：%s：邮件未发送"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1181
-#, c-format
-msgid "RCPT TO <%s> failed"
-msgstr "RCPT TO <%s> 失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1220
-#: camel/providers/smtp/camel-smtp-transport.c:1278
-#: camel/providers/smtp/camel-smtp-transport.c:1297
-#, c-format
-msgid "DATA command failed: %s: mail not sent"
-msgstr "DATA 命令失败：%s：邮件未发送"
-
-#. we should have gotten instructions on how to use the DATA command:
-#. * 354 Enter mail, end with "." on a line by itself
-#.
-#: camel/providers/smtp/camel-smtp-transport.c:1237
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-msgid "DATA command failed"
-msgstr "DATP 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1336
-#, c-format
-msgid "RSET command failed: %s"
-msgstr "RSET 命令失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1352
-msgid "RSET command failed"
-msgstr "RSET 命令失败"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1375
-#, c-format
-msgid "QUIT command failed: %s"
-msgstr "QUIT 命令失败：%s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1389
-msgid "QUIT command failed"
-msgstr "QUIT 命令失败"
-
 #: composer/e-msg-composer-attachment-bar.c:101
 #, c-format
 msgid "%.0fK"
@@ -12206,7 +9008,7 @@ msgstr "%.0fG"
 msgid "attachment"
 msgstr "附件"
 
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2750
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2758
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "属性(_P)"
@@ -12255,6 +9057,10 @@ msgid ""
 "account"
 msgstr "无法对寄出的信件加密：未对此账户设置加密证书"
 
+#: composer/e-msg-composer.c:1233 composer/e-msg-composer.c:1254
+msgid "Unknown reason"
+msgstr "未知原因"
+
 #: composer/e-msg-composer.c:1291
 msgid "Could not open file"
 msgstr "无法打开文件"
@@ -12297,13 +9103,13 @@ msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
-#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1029
-#: mail/em-folder-tree.c:2247 mail/em-folder-view.c:823
+#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1037
+#: mail/em-folder-tree.c:2255 mail/em-folder-view.c:823
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: composer/e-msg-composer.c:2906 mail/em-folder-tree.c:1031
+#: composer/e-msg-composer.c:2906 mail/em-folder-tree.c:1039
 #: mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
@@ -13075,6 +9881,10 @@ msgstr "自动检查新邮件的间隔(_N)"
 msgid "Receiving Options"
 msgstr "接收选项"
 
+#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
+msgid "Checking for New Mail"
+msgstr "检查新邮件"
+
 #: mail/em-account-editor.c:2500 mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "账户编辑器"
@@ -13261,6 +10071,11 @@ msgstr "不是"
 msgid "is not Flagged"
 msgstr "未标志"
 
+#: mail/em-filter-i18n.h:35 mail/mail-config.glade.h:93
+#: ui/evolution-mail-message.xml.h:48
+msgid "Junk"
+msgstr "垃圾"
+
 #: mail/em-filter-i18n.h:36
 msgid "Junk Test"
 msgstr "垃圾测试"
@@ -13417,7 +10232,7 @@ msgstr "<单击此处以便选择文件夹>"
 msgid "Create New Folder"
 msgstr "创建新文件夹"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2463
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
 #: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:323
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
@@ -13430,102 +10245,102 @@ msgstr "创建"
 msgid "Folder _name:"
 msgstr "文件夹名称(_N)："
 
-#: mail/em-folder-tree.c:670
+#: mail/em-folder-tree.c:678
 #, fuzzy
 msgid "Mail Folder Tree"
 msgstr "邮件文件夹(_F)"
 
-#: mail/em-folder-tree.c:903
+#: mail/em-folder-tree.c:911
 #, c-format
 msgid "Moving folder %s"
 msgstr "移动文件夹“%s”"
 
-#: mail/em-folder-tree.c:905
+#: mail/em-folder-tree.c:913
 #, c-format
 msgid "Copying folder %s"
 msgstr "复制文件夹 %s"
 
-#: mail/em-folder-tree.c:912 mail/message-list.c:1617
+#: mail/em-folder-tree.c:920 mail/message-list.c:1617
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "把信件移动到文件夹 %s"
 
-#: mail/em-folder-tree.c:914 mail/message-list.c:1619
+#: mail/em-folder-tree.c:922 mail/message-list.c:1619
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "把信件复制到文件夹 %s"
 
-#: mail/em-folder-tree.c:930
+#: mail/em-folder-tree.c:938
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "无法将信件放到顶级文件夹存储"
 
-#: mail/em-folder-tree.c:1026 ui/evolution-mail-message.xml.h:110
+#: mail/em-folder-tree.c:1034 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
 msgstr "复制到文件夹(_C)"
 
-#: mail/em-folder-tree.c:1027 ui/evolution-mail-message.xml.h:119
+#: mail/em-folder-tree.c:1035 ui/evolution-mail-message.xml.h:119
 msgid "_Move to Folder"
 msgstr "移动到文件夹(_M)"
 
-#: mail/em-folder-tree.c:1726 mail/mail-ops.c:1017
+#: mail/em-folder-tree.c:1734 mail/mail-ops.c:1017
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
-#: mail/em-folder-tree.c:2233 mail/em-folder-tree.c:2247
+#: mail/em-folder-tree.c:2241 mail/em-folder-tree.c:2255
 #: mail/em-folder-view.c:823 mail/em-folder-view.c:838
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "选择文件夹"
 
-#: mail/em-folder-tree.c:2233 mail/em-folder-view.c:838
+#: mail/em-folder-tree.c:2241 mail/em-folder-view.c:838
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2274 plugins/shared-folder/share-folder-common.c:128
+#: mail/em-folder-tree.c:2282 plugins/shared-folder/share-folder-common.c:128
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2463 mail/mail-component.c:732
+#: mail/em-folder-tree.c:2471 mail/mail-component.c:732
 #: plugins/shared-folder/share-folder-common.c:323
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: mail/em-folder-tree.c:2656
+#: mail/em-folder-tree.c:2664
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "把文件夹“%s”重命名为："
 
-#: mail/em-folder-tree.c:2658
+#: mail/em-folder-tree.c:2666
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2734 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2742 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "查看(_V)"
 
-#: mail/em-folder-tree.c:2735
+#: mail/em-folder-tree.c:2743
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: mail/em-folder-tree.c:2739
+#: mail/em-folder-tree.c:2747
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: mail/em-folder-tree.c:2740
+#: mail/em-folder-tree.c:2748
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2744
+#: mail/em-folder-tree.c:2752
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: mail/em-folder-tree.c:2747
+#: mail/em-folder-tree.c:2755
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
@@ -13538,6 +10353,13 @@ msgstr "虚拟文件夹"
 #: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
 msgstr "不匹配"
+
+#. Inbox is always first
+#. translators: standard local mailbox names
+#: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:138
+msgid "Inbox"
+msgstr "收件箱"
 
 #: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
@@ -14971,7 +11793,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1628
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1634
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -16254,6 +13076,10 @@ msgstr "发送第%d封信，共%d封"
 msgid "Failed to send %d of %d messages"
 msgstr "在第%d封信失败，共%d封"
 
+#: mail/mail-ops.c:720 mail/mail-send-recv.c:607
+msgid "Cancelled."
+msgstr "已取消。"
+
 #: mail/mail-ops.c:722
 msgid "Complete."
 msgstr "完成。"
@@ -16747,99 +13573,108 @@ msgstr "立即同步好友列表(_B)"
 msgid "Unsubscribing from folder \"%s\""
 msgstr "无法退订文件夹“%s”"
 
-#: plugins/itip-formatter/itip-formatter.c:746
+#: plugins/groupwise-account-setup/camel-gw-listener.c:436
+msgid "Checklist"
+msgstr "待办清单"
+
+#: plugins/itip-formatter/itip-formatter.c:697
+#, fuzzy
+msgid "Unable to parse item"
+msgstr "无法分析信件内容"
+
+#: plugins/itip-formatter/itip-formatter.c:750
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "无法打开日历“%s”。"
 
-#: plugins/itip-formatter/itip-formatter.c:757
+#: plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:761
+#: plugins/itip-formatter/itip-formatter.c:765
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:766
+#: plugins/itip-formatter/itip-formatter.c:770
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:771
+#: plugins/itip-formatter/itip-formatter.c:775
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:819
+#: plugins/itip-formatter/itip-formatter.c:825
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "因为无效状态而无法更新参与者状态！\n"
 
-#: plugins/itip-formatter/itip-formatter.c:830
+#: plugins/itip-formatter/itip-formatter.c:836
 #, c-format
 msgid "Unable to update attendee statusAttendee status updated. %s"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:834
+#: plugins/itip-formatter/itip-formatter.c:840
 #, fuzzy
 msgid "Attendee status updated"
 msgstr "更新参与者状态\n"
 
-#: plugins/itip-formatter/itip-formatter.c:959
+#: plugins/itip-formatter/itip-formatter.c:965
 #, fuzzy
 msgid "The calendar attached is not valid"
 msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: plugins/itip-formatter/itip-formatter.c:960
+#: plugins/itip-formatter/itip-formatter.c:966
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:994
-#: plugins/itip-formatter/itip-formatter.c:1050
+#: plugins/itip-formatter/itip-formatter.c:1000
+#: plugins/itip-formatter/itip-formatter.c:1056
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:995
-#: plugins/itip-formatter/itip-formatter.c:1051
+#: plugins/itip-formatter/itip-formatter.c:1001
+#: plugins/itip-formatter/itip-formatter.c:1057
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1006
+#: plugins/itip-formatter/itip-formatter.c:1012
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1007
+#: plugins/itip-formatter/itip-formatter.c:1013
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1619
+#: plugins/itip-formatter/itip-formatter.c:1625
 #, fuzzy
 msgid "Meetings and Tasks"
 msgstr "日历和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1642
+#: plugins/itip-formatter/itip-formatter.c:1648
 msgid "_Delete message after acting"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1652
+#: plugins/itip-formatter/itip-formatter.c:1658
 #, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">配置</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1665
+#: plugins/itip-formatter/itip-formatter.c:1671
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -20389,6 +17224,2078 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#~ msgid "Signing is not supported by this cipher"
+#~ msgstr "该密码不支持签名"
+
+#~ msgid "Signing message"
+#~ msgstr "签名信件"
+
+#~ msgid "Verifying is not supported by this cipher"
+#~ msgstr "该密码不支持验证"
+
+#~ msgid "Verifying message"
+#~ msgstr "校验信件"
+
+#~ msgid "Encryption is not supported by this cipher"
+#~ msgstr "该密码不支持加密"
+
+#~ msgid "Encrypting message"
+#~ msgstr "加密信件"
+
+#~ msgid "Decryption is not supported by this cipher"
+#~ msgstr "该密码不支持解密"
+
+#~ msgid "Decrypting message"
+#~ msgstr "解密信件"
+
+#~ msgid "You may not import keys with this cipher"
+#~ msgstr "您不能用此密码导入密钥"
+
+#~ msgid "You may not export keys with this cipher"
+#~ msgstr "您不能用此密码导出密钥"
+
+#~ msgid "Unable to create cache path"
+#~ msgstr "无法创建缓冲路径"
+
+#~ msgid "Could not remove cache entry: %s: %s"
+#~ msgstr "无法删除缓冲条目：%s：%s"
+
+#~ msgid ""
+#~ "Could not write log entry: %s\n"
+#~ "Further operations on this server will not be replayed when you\n"
+#~ "reconnect to the network."
+#~ msgstr ""
+#~ "无法写入日志条目：%s\n"
+#~ "当您重新连接到网络时本服务器\n"
+#~ "上进一步的操作不会重做。"
+
+#~ msgid ""
+#~ "Could not open `%s':\n"
+#~ "%s\n"
+#~ "Changes made to this folder will not be resynchronized."
+#~ msgstr ""
+#~ "无法打开“%s”：\n"
+#~ "%s\n"
+#~ "对该文件夹的修改不会被重新同步。"
+
+#~ msgid "Resynchronizing with server"
+#~ msgstr "重新与服务器同步"
+
+#~ msgid "Copy folder content locally for offline operation"
+#~ msgstr "将文件夹内容复制到本地以进行脱机操作"
+
+#~ msgid "Downloading new messages for offline mode"
+#~ msgstr "下载新信件以进行脱机操作"
+
+#~ msgid "Preparing folder '%s' for offline"
+#~ msgstr "准备脱机文件夹“%s”"
+
+#~ msgid "You must be working online to complete this operation"
+#~ msgstr "您必须在线工作以便完成该操作"
+
+#~ msgid "Failed to create pipe to '%s': %s"
+#~ msgstr "创建到“%s”的管道失败：%s"
+
+#~ msgid "Failed to create child process '%s': %s"
+#~ msgstr "创建子进程“%s”失败：%s"
+
+#~ msgid "Invalid message stream received from %s: %s"
+#~ msgstr "收到 %s 发来的无效信件流：%s"
+
+#~ msgid "Syncing folders"
+#~ msgstr "同步文件夹"
+
+#~ msgid "Error parsing filter: %s: %s"
+#~ msgstr "解析过滤规则出错：%s：%s"
+
+#~ msgid "Error executing filter: %s: %s"
+#~ msgstr "执行过滤规则错误：%s：%s"
+
+#~ msgid "Unable to open spool folder"
+#~ msgstr "无法打开脱机文件夹"
+
+#~ msgid "Unable to process spool folder"
+#~ msgstr "无法处理脱机文件夹"
+
+#~ msgid "Getting message %d (%d%%)"
+#~ msgstr "获取第%d封信(%d%%)"
+
+#~ msgid "Cannot open message"
+#~ msgstr "无法打开信件"
+
+#~ msgid "Failed on message %d"
+#~ msgstr "在第%d封信失败"
+
+#~ msgid "Syncing folder"
+#~ msgstr "同步文件夹"
+
+#~ msgid "Getting message %d of %d"
+#~ msgstr "获取第%d封信，共%d封"
+
+#~ msgid "Failed at message %d of %d"
+#~ msgstr "在第%d封信失败，共%d封"
+
+#~ msgid "Failed to retrieve message"
+#~ msgstr "获取信件失败"
+
+#~ msgid "Invalid arguments to (system-flag)"
+#~ msgstr "(system-flag)参数无效"
+
+#~ msgid "Invalid arguments to (user-tag)"
+#~ msgstr "(user-tag)参数无效"
+
+#~ msgid "Failed to create create child process '%s': %s"
+#~ msgstr "创建子进程“%s”失败：%s"
+
+#~ msgid "Error executing filter search: %s: %s"
+#~ msgstr "执行过滤规则搜索错误：%s：%s"
+
+#~ msgid "Unsupported operation: append message: for %s"
+#~ msgstr "不支持的操作：附加信件：为 %s"
+
+#~ msgid "Unsupported operation: search by expression: for %s"
+#~ msgstr "不支持的操作：按表达式搜索：搜索 %s"
+
+#~ msgid "Unsupported operation: search by uids: for %s"
+#~ msgstr "不支持的操作：按 uid 搜索：搜索 %s"
+
+#~ msgid "Moving messages"
+#~ msgstr "移动信件"
+
+#~ msgid "Copying messages"
+#~ msgstr "复制信件"
+
+#~ msgid "Learning junk"
+#~ msgstr "学习垃圾邮件"
+
+#~ msgid "Learning non-junk"
+#~ msgstr "学习非垃圾邮件"
+
+#~ msgid "Filtering new message(s)"
+#~ msgstr "过滤新信件"
+
+#~ msgid ""
+#~ "Cannot parse search expression: %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法解析搜索表达式：%s：\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Error executing search expression: %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "执行搜索表达式错误：%s：\n"
+#~ "%s"
+
+#~ msgid "(match-all) requires a single bool result"
+#~ msgstr "(match-all) 需要一个布尔结果"
+
+#~ msgid "(match-threads) not allowed inside match-all"
+#~ msgstr "(match-threads) 不允许在 match-all 中使用"
+
+#~ msgid "(match-threads) requires a match type string"
+#~ msgstr "(match-threads) 需要一个匹配类型字符串"
+
+#~ msgid "(match-threads) expects an array result"
+#~ msgstr "(match-threads) 需要一个数组结果"
+
+#~ msgid "(match-threads) requires the folder set"
+#~ msgstr "(match-threads) 需要文件夹集"
+
+#~ msgid "Performing query on unknown header: %s"
+#~ msgstr "对未知的头进行查询：%s"
+
+#~ msgid ""
+#~ "Unexpected GnuPG status message encountered:\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "遇到了意外的 GnuPG 状态消息：\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Failed to parse gpg userid hint."
+#~ msgstr "解析 gpg userid 提示失败。"
+
+#~ msgid "Failed to parse gpg passphrase request."
+#~ msgstr "解析 gpg 密码句请求失败。"
+
+#~ msgid ""
+#~ "You need a passphrase to unlock the key for\n"
+#~ "user: \"%s\""
+#~ msgstr ""
+#~ "您需要一个密码句用来解锁以下用户：\n"
+#~ "“%s”"
+
+#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
+#~ msgstr "解锁密钥失败：给出了 3 个错误的密码句。"
+
+#~ msgid "Unexpected response from GnuPG: %s"
+#~ msgstr "来自 GnuPG 的意外应答：%s"
+
+#~ msgid "Failed to encrypt: No valid recipients specified."
+#~ msgstr "加密失败：没有指定有效的收件人。"
+
+#~ msgid ""
+#~ "Failed to GPG %s: %s\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "GPG %s 失败：%s\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Failed to GPG %s: %s\n"
+#~ msgstr "GPG %s 失败：%s\n"
+
+#~ msgid "Could not generate signing data: %s"
+#~ msgstr "无法生成签名数据：%s"
+
+#~ msgid "Failed to execute gpg: %s"
+#~ msgstr "执行 gpg 失败：%s"
+
+#~ msgid "Failed to execute gpg."
+#~ msgstr "执行 gpg 失败。"
+
+#~ msgid "This is a digitally signed message part"
+#~ msgstr "这是信件的数字签名部分"
+
+#~ msgid "Cannot verify message signature: Incorrect message format"
+#~ msgstr "无法校验信件签名：信件格式不对"
+
+#~ msgid "Cannot verify message signature: could not create temp file: %s"
+#~ msgstr "无法校验信件签名：无法创建临时文件：%s"
+
+#~ msgid "Could not generate encrypting data: %s"
+#~ msgstr "无法生成加密数据：%s"
+
+#~ msgid "This is a digitally encrypted message part"
+#~ msgstr "这是信件的数字加密部分"
+
+#~ msgid "Failed to decrypt MIME part: protocol error"
+#~ msgstr "解密 MIME 部分失败：协议错误"
+
+#~ msgid "Encrypted content"
+#~ msgstr "加密内容"
+
+#~ msgid "Could not create lock file for %s: %s"
+#~ msgstr "无法为 %s 创建锁定文件：%s"
+
+#~ msgid "Timed out trying to get lock file on %s. Try again later."
+#~ msgstr "对 %s 获取锁文件的尝试超时。请稍后再试。"
+
+#~ msgid "Failed to get lock using fcntl(2): %s"
+#~ msgstr "用 fcntl(2) 获取锁失败：%s"
+
+#~ msgid "Failed to get lock using flock(2): %s"
+#~ msgstr "用 flock(2) 获取锁失败：%s"
+
+#~ msgid "Cannot build locking helper pipe: %s"
+#~ msgstr "无法创建锁定助手管道：%s"
+
+#~ msgid "Cannot fork locking helper: %s"
+#~ msgstr "无法创建锁定助手进程：%s"
+
+#~ msgid "Could not lock '%s': protocol error with lock-helper"
+#~ msgstr "无法锁定“%s”：lock-helper 协议错误"
+
+#~ msgid "Could not lock '%s'"
+#~ msgstr "无法锁定“%s”"
+
+#~ msgid "Could not check mail file %s: %s"
+#~ msgstr "无法检查邮件文件 %s：%s"
+
+#~ msgid "Could not open mail file %s: %s"
+#~ msgstr "无法打开邮件文件 %s：%s"
+
+#~ msgid "Could not open temporary mail file %s: %s"
+#~ msgstr "无法打开临时邮件文件 %s：%s"
+
+#~ msgid "Failed to store mail in temp file %s: %s"
+#~ msgstr "将邮件存储到临时文件 %s 失败：%s"
+
+#~ msgid "Could not create pipe: %s"
+#~ msgstr "无法创建管道：%s"
+
+#~ msgid "Could not fork: %s"
+#~ msgstr "无法创建进程：%s"
+
+#~ msgid "Movemail program failed: %s"
+#~ msgstr "移动邮件程序失败：%s"
+
+#~ msgid "(Unknown error)"
+#~ msgstr "(未知的错误)"
+
+#~ msgid "Error reading mail file: %s"
+#~ msgstr "阅读邮件文件错误：%s"
+
+#~ msgid "Error writing mail temp file: %s"
+#~ msgstr "写入邮件临时文件错误：%s"
+
+#~ msgid "Error copying mail temp file: %s"
+#~ msgstr "复制邮件临时文件错误：%s"
+
+#~ msgid "parse error"
+#~ msgstr "解析错误"
+
+#~ msgid "cannot create thread"
+#~ msgstr "无法创建线索"
+
+#~ msgid "Resolving: %s"
+#~ msgstr "解析：%s"
+
+#~ msgid "Host lookup failed"
+#~ msgstr "主机查阅失败"
+
+#~ msgid "Host lookup failed: %s: %s"
+#~ msgstr "主机查阅失败：%s：%s"
+
+#~ msgid "Resolving address"
+#~ msgstr "解析地址"
+
+#~ msgid "Name lookup failed"
+#~ msgstr "名称查阅失败"
+
+#~ msgid "Name lookup failed: %s"
+#~ msgstr "名称查阅失败：%s"
+
+#~ msgid "Virtual folder email provider"
+#~ msgstr "虚拟文件夹电子邮件提供者"
+
+#~ msgid "For reading mail as a query of another set of folders"
+#~ msgstr "关于将读入邮件作为对另一组文件夹的查询"
+
+#~ msgid "Could not load %s: Module loading not supported on this system."
+#~ msgstr "无法装入 %s：本系统不支持模块装入。"
+
+#~ msgid "Could not load %s: %s"
+#~ msgstr "无法装入 %s：%s"
+
+#~ msgid "Could not load %s: No initialization code in module."
+#~ msgstr "无法装入 %s：模块中没有初始化代码。"
+
+#~ msgid "No provider available for protocol `%s'"
+#~ msgstr "协议“%s”没有可用的提供者"
+
+#~ msgid "Anonymous"
+#~ msgstr "匿名"
+
+#~ msgid "This option will connect to the server using an anonymous login."
+#~ msgstr "该选项将连接到匿名登录的服务器上。"
+
+#~ msgid "Authentication failed."
+#~ msgstr "认证失败。"
+
+#~ msgid ""
+#~ "Invalid email address trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无效的电子邮件跟踪信息：\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Invalid opaque trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无效的诲涩跟踪信息：\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Invalid trace information:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无效的跟踪信息：\n"
+#~ "%s"
+
+#~ msgid "CRAM-MD5"
+#~ msgstr "CRAM-MD5"
+
+#~ msgid ""
+#~ "This option will connect to the server using a secure CRAM-MD5 password, "
+#~ "if the server supports it."
+#~ msgstr "如果服务器支持的话，该选项将用安全 CRAM-MD5 密码连接到服务器。"
+
+#~ msgid "DIGEST-MD5"
+#~ msgstr "DIGEST-MD5"
+
+#~ msgid ""
+#~ "This option will connect to the server using a secure DIGEST-MD5 "
+#~ "password, if the server supports it."
+#~ msgstr "如果服务器支持的话，该选项将用安全 DIGEST-MD5 密码连接到服务器。"
+
+#~ msgid "Server challenge too long (>2048 octets)\n"
+#~ msgstr "服务器质询过长 (>2048张八开纸)\n"
+
+#~ msgid "Server challenge invalid\n"
+#~ msgstr "服务器质询无效\n"
+
+#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
+#~ msgstr "服务器质询含有无效的“品质保护”标志\n"
+
+#~ msgid "Server response did not contain authorization data\n"
+#~ msgstr "服务器应答不含有认证数据\n"
+
+#~ msgid "Server response contained incomplete authorization data\n"
+#~ msgstr "服务器应达含有不完整的认证数据\n"
+
+#~ msgid "Server response does not match\n"
+#~ msgstr "服务器应答不匹配\n"
+
+#~ msgid "GSSAPI"
+#~ msgstr "GSSAPI"
+
+#~ msgid ""
+#~ "This option will connect to the server using Kerberos 5 authentication."
+#~ msgstr "该选项将用 Kerberos 5 认证连接到服务器。"
+
+#~ msgid ""
+#~ "The specified mechanism is not supported by the provided credential, or "
+#~ "is unrecognized by the implementation."
+#~ msgstr "所提供的证书不支持指定的机制，或者无法被实现所识别。"
+
+#~ msgid "The provided target_name parameter was ill-formed."
+#~ msgstr "提供的 target_name 参数格式不对。"
+
+#~ msgid ""
+#~ "The provided target_name parameter contained an invalid or unsupported "
+#~ "type of name."
+#~ msgstr "提供的 target_name 参数包含无效或不支持的名称类型。"
+
+#~ msgid ""
+#~ "The input_token contains different channel bindings to those specified "
+#~ "via the input_chan_bindings parameter."
+#~ msgstr ""
+#~ "input_token 包含的通道绑定与通过 input_chan_bindings 参数指定的通道不同。"
+
+#~ msgid ""
+#~ "The input_token contains an invalid signature, or a signature that could "
+#~ "not be verified."
+#~ msgstr "input_token 包含无效的签名，或者无法验证签名。"
+
+#~ msgid ""
+#~ "The supplied credentials were not valid for context initiation, or the "
+#~ "credential handle did not reference any credentials."
+#~ msgstr "提供的证书由于上下文的原因无效，或者证书句柄没有引用证书。"
+
+#~ msgid "The supplied context handle did not refer to a valid context."
+#~ msgstr "提供的上下文句柄所引用的上下文无效。"
+
+#~ msgid "The consistency checks performed on the input_token failed."
+#~ msgstr "对 input_token 执行完整性检查失败。"
+
+#~ msgid "The consistency checks performed on the credential failed."
+#~ msgstr "对证书执行完整性检查失败。"
+
+#~ msgid "The referenced credentials have expired."
+#~ msgstr "引用的证书已过期。"
+
+#~ msgid "Bad authentication response from server."
+#~ msgstr "来自服务器的无效认证应答。"
+
+#~ msgid "Unsupported security layer."
+#~ msgstr "不支持的安全层。"
+
+#~ msgid "Kerberos 4"
+#~ msgstr "Kerberos 4"
+
+#~ msgid ""
+#~ "This option will connect to the server using Kerberos 4 authentication."
+#~ msgstr "该选项将用 Kerberos 4 认证连接到服务器。"
+
+#~ msgid ""
+#~ "Could not get Kerberos ticket:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法获取 Kerberos 标签：\n"
+#~ "%s"
+
+#~ msgid "Login"
+#~ msgstr "Login"
+
+#~ msgid "This option will connect to the server using a simple password."
+#~ msgstr "该选项将以普通密码连接到服务器。"
+
+#~ msgid "Unknown authentication state."
+#~ msgstr "未知的认证状态。"
+
+#~ msgid "NTLM / SPA"
+#~ msgstr "NTLM / SPA"
+
+#~ msgid ""
+#~ "This option will connect to a Windows-based server using NTLM / Secure "
+#~ "Password Authentication."
+#~ msgstr "该选项将使用 NTLM / Secure 口令认证连接到基于 Windows 的服务器。"
+
+#~ msgid "PLAIN"
+#~ msgstr "PLAIN"
+
+#~ msgid "POP before SMTP"
+#~ msgstr "在 SMTP 之前 POP"
+
+#~ msgid "This option will authorise a POP connection before attempting SMTP"
+#~ msgstr "该选项将在尝试 SMTP 之前允许 POP 连接"
+
+#~ msgid "POP Source URI"
+#~ msgstr "POP 源 URI"
+
+#~ msgid "POP Before SMTP auth using an unknown transport"
+#~ msgstr "以未知的传输进行 SMTP 之前的 POP 授权"
+
+#~ msgid "POP Before SMTP auth using a non-pop source"
+#~ msgstr "以非 pop 源进行 SMTP 之前的 POP 授权"
+
+#~ msgid "Regular expression compilation failed: %s: %s"
+#~ msgstr "常规表达式编译失败：%s：%s"
+
+#~ msgid "URL '%s' needs a username component"
+#~ msgstr "URL“%s”需要用户名组件"
+
+#~ msgid "URL '%s' needs a host component"
+#~ msgstr "URL“%s”需要主机组件"
+
+#~ msgid "URL '%s' needs a path component"
+#~ msgstr "URL“%s”需要路径组件"
+
+#~ msgid ""
+#~ "Could not create directory %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法创建目录 %s：\n"
+#~ "%s"
+
+#~ msgid "Cannot find certificate for '%s'"
+#~ msgstr "找不到“%s”的证书"
+
+#~ msgid "Cannot create CMS message"
+#~ msgstr "无法创建 CMS 信件"
+
+#~ msgid "Cannot create CMS signed data"
+#~ msgstr "无法创建 CMS 签名数据"
+
+#~ msgid "Cannot attach CMS signed data"
+#~ msgstr "无法附加 CMS 签名数据"
+
+#~ msgid "Cannot attach CMS data"
+#~ msgstr "无法附加 CMS 数据"
+
+#~ msgid "Cannot create CMS Signer information"
+#~ msgstr "无法创建 CMS 签名者信息"
+
+#~ msgid "Cannot find certificate chain"
+#~ msgstr "找不到证书链"
+
+#~ msgid "Cannot add CMS Signing time"
+#~ msgstr "无法添加 CMS 签名时间"
+
+#~ msgid "Encryption certificate for '%s' does not exist"
+#~ msgstr "“%s”的加密证书不存在"
+
+#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
+#~ msgstr "无法添加 SMIMEEncKeyPrefs 属性"
+
+#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
+#~ msgstr "无法添加 MS SMIMEEncKeyPrefs 属性"
+
+#~ msgid "Cannot add encryption certificate"
+#~ msgstr "无法添加加密证书"
+
+#~ msgid "Cannot add CMS Signer information"
+#~ msgstr "无法添加 CMS 签名者信息"
+
+#~ msgid "Cannot create encoder context"
+#~ msgstr "无法创建编码器上下文"
+
+#~ msgid "Failed to add data to CMS encoder"
+#~ msgstr "将数据添加到 CMS 编码器失败"
+
+#~ msgid "Failed to encode data"
+#~ msgstr "编码数据失败"
+
+#~ msgid "Unverified"
+#~ msgstr "未校验"
+
+#~ msgid "Good signature"
+#~ msgstr "完好签名"
+
+#~ msgid "Bad signature"
+#~ msgstr "无效签名"
+
+#~ msgid "Content tampered with or altered in transit"
+#~ msgstr "内容在传送过程中被篡改"
+
+#~ msgid "Signing certificate not found"
+#~ msgstr "签名证书找不到"
+
+#~ msgid "Signing certificate not trusted"
+#~ msgstr "签名证书不可信"
+
+#~ msgid "Signature algorithm unknown"
+#~ msgstr "签名算法未知"
+
+#~ msgid "Signature algorithm unsupported"
+#~ msgstr "签名算法不支持"
+
+#~ msgid "Malformed signature"
+#~ msgstr "签名格式不对"
+
+#~ msgid "Processing error"
+#~ msgstr "处理错误"
+
+#~ msgid "No signed data in signature"
+#~ msgstr "签名中没有签名数据"
+
+#~ msgid "Digests missing from enveloped data"
+#~ msgstr "信封数据缺少摘要"
+
+#~ msgid "Cannot calculate digests"
+#~ msgstr "无法计算摘要"
+
+#~ msgid "Cannot set message digests"
+#~ msgstr "无法设置信件摘要"
+
+#~ msgid "Certificate import failed"
+#~ msgstr "证书导入失败"
+
+#~ msgid "Certificate is the only message, cannot verify certificates"
+#~ msgstr "只有证书的信件，无法校验证书"
+
+#~ msgid "Certificate is the only message, certificates imported and verified"
+#~ msgstr "只有证书的信件，证书已导入并校验"
+
+#~ msgid "Cannot find signature digests"
+#~ msgstr "找不到签名摘要"
+
+#~ msgid "Signer: %s <%s>: %s\n"
+#~ msgstr "签名者：%s <%s>：%s\n"
+
+#~ msgid "Decoder failed"
+#~ msgstr "解码器失败"
+
+#~ msgid "Cannot find certificate for `%s'"
+#~ msgstr "找不到“%s”的证书"
+
+#~ msgid "Cannot find common bulk encryption algorithm"
+#~ msgstr "找不到公共批量加密算法"
+
+#~ msgid "Cannot allocate slot for encryption bulk key"
+#~ msgstr "无法为加密批量密钥分配密钥槽"
+
+#~ msgid "Cannot create CMS Message"
+#~ msgstr "无法创建 CMS 信件"
+
+#~ msgid "Cannot create CMS Enveloped data"
+#~ msgstr "无法创建 CMS 信封数据"
+
+#~ msgid "Cannot attach CMS Enveloped data"
+#~ msgstr "无法附加 CMS 信封数据"
+
+#~ msgid "Cannot attach CMS data object"
+#~ msgstr "无法附加 CMS 数据对象"
+
+#~ msgid "Cannot create CMS Recipient information"
+#~ msgstr "无法创建 CMS 收件人信息"
+
+#~ msgid "Cannot add CMS Recipient information"
+#~ msgstr "无法添加 CMS 收件人信息"
+
+#~ msgid "Failed to add data to encoder"
+#~ msgstr "将数据添加到编码器失败"
+
+#~ msgid "Decoder failed, error %d"
+#~ msgstr "解码器失败，错误号 %d"
+
+#~ msgid "S/MIME Decrypt: No encrypted content found"
+#~ msgstr "S/MIME 解密：没有找到加密内容"
+
+#~ msgid "import keys: unimplemented"
+#~ msgstr "导入密钥：尚未实现"
+
+#~ msgid "export keys: unimplemented"
+#~ msgstr "导出密钥：尚未实现"
+
+#~ msgid "Cannot get folder: Invalid operation on this store"
+#~ msgstr "无法获取文件夹：对该存储的无效操作"
+
+#~ msgid "Cannot create folder `%s': folder exists"
+#~ msgstr "无法创建文件夹：%s：文件夹已存在"
+
+#~ msgid "Cannot create folder: Invalid operation on this store"
+#~ msgstr "无法创建文件夹：对该存储的无效操作"
+
+#~ msgid "Cannot create folder: %s: folder exists"
+#~ msgstr "无法创建文件夹：%s：文件夹已存在"
+
+#~ msgid "Cannot delete folder: %s: Invalid operation"
+#~ msgstr "无法删除文件夹：%s：无效操作"
+
+#~ msgid "Cannot rename folder: %s: Invalid operation"
+#~ msgstr "无法重命名文件夹：%s：无效操作"
+
+#~ msgid "Trash"
+#~ msgstr "回收站"
+
+#~ msgid "Unable to get issuer's certificate"
+#~ msgstr "无法获取发行者的证书"
+
+#~ msgid "Unable to get Certificate Revocation List"
+#~ msgstr "无法获取证书吊销列表签名"
+
+#~ msgid "Unable to decrypt certificate signature"
+#~ msgstr "无法解密认证签名"
+
+#~ msgid "Unable to decrypt Certificate Revocation List signature"
+#~ msgstr "无法解密证书吊销列表签名"
+
+#~ msgid "Unable to decode issuer's public key"
+#~ msgstr "无法对发行者的公钥进行解码"
+
+#~ msgid "Certificate signature failure"
+#~ msgstr "证书签名失败"
+
+#~ msgid "Certificate Revocation List signature failure"
+#~ msgstr "证书吊销列表签名失败"
+
+#~ msgid "Certificate not yet valid"
+#~ msgstr "证书未生效"
+
+#~ msgid "Certificate has expired"
+#~ msgstr "证书已过期"
+
+#~ msgid "CRL not yet valid"
+#~ msgstr "CRL 尚且无效"
+
+#~ msgid "CRL has expired"
+#~ msgstr "CRL 已过期"
+
+#~ msgid "Error in CRL"
+#~ msgstr "CRL 错误"
+
+#~ msgid "Out of memory"
+#~ msgstr "内存耗尽"
+
+#~ msgid "Zero-depth self-signed certificate"
+#~ msgstr "零深度自签名证书"
+
+#~ msgid "Self-signed certificate in chain"
+#~ msgstr "链中的自签名证书"
+
+#~ msgid "Unable to get issuer's certificate locally"
+#~ msgstr "无法在本地获取发行者的证书"
+
+#~ msgid "Unable to verify leaf signature"
+#~ msgstr "无法校验叶子签名"
+
+#~ msgid "Certificate chain too long"
+#~ msgstr "证书链过长"
+
+#~ msgid "Certificate Revoked"
+#~ msgstr "证书已撤销"
+
+#~ msgid "Invalid Certificate Authority (CA)"
+#~ msgstr "无效的证书颁发机构(CA)"
+
+#~ msgid "Path length exceeded"
+#~ msgstr "超长的路径长度"
+
+#~ msgid "Invalid purpose"
+#~ msgstr "无效目的"
+
+#~ msgid "Certificate untrusted"
+#~ msgstr "不信任的证书"
+
+#~ msgid "Certificate rejected"
+#~ msgstr "已拒绝的证书"
+
+#~ msgid "Subject/Issuer mismatch"
+#~ msgstr "主题/发行者不匹配"
+
+#~ msgid "AKID/SKID mismatch"
+#~ msgstr "AKID/SKID 不匹配"
+
+#~ msgid "AKID/Issuer serial mismatch"
+#~ msgstr "AKID/发行者序列号不匹配"
+
+#~ msgid "Key usage does not support certificate signing"
+#~ msgstr "密钥不支持证书签名"
+
+#~ msgid "Error in application verification"
+#~ msgstr "应用程序验证错误"
+
+#~ msgid ""
+#~ "Issuer:            %s\n"
+#~ "Subject:           %s\n"
+#~ "Fingerprint:       %s\n"
+#~ "Signature:         %s"
+#~ msgstr ""
+#~ "提交者：        %s\n"
+#~ "主题：          %s\n"
+#~ "指纹：          %s\n"
+#~ "签名：          %s"
+
+#~ msgid "GOOD"
+#~ msgstr "好"
+
+#~ msgid "BAD"
+#~ msgstr "坏"
+
+#~ msgid ""
+#~ "Bad certificate from %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Do you wish to accept anyway?"
+#~ msgstr ""
+#~ "来自 %s 的错误证书：\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "您仍然希望接受吗？"
+
+#~ msgid ""
+#~ "SSL Certificate check for %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Do you wish to accept?"
+#~ msgstr ""
+#~ "为 %s 检查 SSL 证书：\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "您希望接受吗？"
+
+#~ msgid ""
+#~ "Certificate problem: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "证书问题：%s\n"
+#~ "发行者：%s"
+
+#~ msgid ""
+#~ "Bad certificate domain: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "无效的证书域名：%s\n"
+#~ "发行者：%s"
+
+#~ msgid ""
+#~ "Certificate expired: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "证书过期：%s\n"
+#~ "发行者：%s"
+
+#~ msgid ""
+#~ "Certificate revocation list expired: %s\n"
+#~ "Issuer: %s"
+#~ msgstr ""
+#~ "证书撤销列表已过期：%s\n"
+#~ "发行者：%s"
+
+#~ msgid "Could not parse URL `%s'"
+#~ msgstr "无法解析 URL“%s”"
+
+#~ msgid "Error storing `%s': %s"
+#~ msgstr "存储“%s”错误：%s"
+
+#~ msgid "No such message %s in %s"
+#~ msgstr "在 %2$s 中没有信件 %1$s"
+
+#~ msgid "Cannot copy or move messages into a Virtual Folder"
+#~ msgstr "无法将信件移动或复制到虚拟文件夹中"
+
+#~ msgid "Cannot delete folder: %s: No such folder"
+#~ msgstr "无法删除文件夹：%s：没有该文件夹"
+
+#~ msgid "Cannot rename folder: %s: No such folder"
+#~ msgstr "无法重命名文件夹：%s：没有该文件夹"
+
+#~ msgid "Cannot copy messages to the Trash folder"
+#~ msgstr "无法将信件复制到回收站文件夹"
+
+#~ msgid "Cannot copy messages to the Junk folder"
+#~ msgstr "无法将信件复制到垃圾邮件文件夹"
+
+#~ msgid "Checking for new mail"
+#~ msgstr "检查新邮件"
+
+#~ msgid "Check for new messages in all folders"
+#~ msgstr "在所有文件夹中检查新信件"
+
+#~ msgid "Apply filters to new messages in Inbox on this server"
+#~ msgstr "应用过滤规则到此服务器上收件箱中的新信件"
+
+#~ msgid "Check new messages for Junk contents"
+#~ msgstr "检查新信件的垃圾内容"
+
+#~ msgid "Only check for Junk messages in the INBOX folder"
+#~ msgstr "仅在收件箱中检查垃圾邮件"
+
+#~ msgid "Automatically synchronize account locally"
+#~ msgstr "自动将远程邮件同步到本地"
+
+#~ msgid "Address Book and Calendar"
+#~ msgstr "地址簿和日历"
+
+#~ msgid "Post Office Agent:"
+#~ msgstr "邮局代理："
+
+#~ msgid "Post Office Agent SOAP Port:"
+#~ msgstr "邮局代理 SOAP 端口："
+
+#~ msgid "Use Secure Connection (SSL)"
+#~ msgstr "使用安全连接(SSL)"
+
+#~ msgid "Novell GroupWise"
+#~ msgstr "Novell GroupWise"
+
+#~ msgid "For accessing Novell Groupwise servers"
+#~ msgstr "访问 Novell GroupWise 服务器"
+
+#~ msgid "Password"
+#~ msgstr "密码"
+
+#~ msgid ""
+#~ "This option will connect to the IMAP server using a plaintext password."
+#~ msgstr "该选项将使用普通文本密码连接到 IMAP 服务器。"
+
+#~ msgid "Failed sending command to IMAP server %s: %s"
+#~ msgstr "向 IMAP 服务器 %s 发送命令失败：%s"
+
+#~ msgid "Unexpected response from IMAP4 server %s: %s"
+#~ msgstr "来自 IMAP4 服务器 %s 的意外响应：%s"
+
+#~ msgid "Unexpected greeting from IMAP server %s."
+#~ msgstr "来自 IMAP 服务器 %s 的意外应答。"
+
+#~ msgid "Cannot select folder `%s': Invalid mailbox name"
+#~ msgstr "无法选择文件夹“%s”：无效的邮箱名"
+
+#~ msgid "Cannot select folder `%s': Bad command"
+#~ msgstr "无法选择文件夹“%s”：无效的命令"
+
+#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
+#~ msgstr "IMAP4 服务器 %s 意外断开连接：%s"
+
+#~ msgid "Cannot access folder `%s': %s"
+#~ msgstr "无法访问文件夹“%s”：%s"
+
+#~ msgid "Cannot sync flags to folder `%s': Unknown"
+#~ msgstr "无法将标志与文件夹“%s”同步：未知"
+
+#~ msgid "Cannot sync flags to folder `%s': Bad command"
+#~ msgstr "无法将标志与文件夹“%s”同步：无效的命令"
+
+#~ msgid "Cannot expunge folder `%s': Unknown"
+#~ msgstr "无法销毁文件夹“%s”：未知"
+
+#~ msgid "Cannot expunge folder `%s': Bad command"
+#~ msgstr "无法销毁文件夹“%s”：无效的命令"
+
+#~ msgid "User cancelled"
+#~ msgstr "用户已取消"
+
+#~ msgid "Cannot get message %s: %s"
+#~ msgstr "无法获取信件 %s：%s"
+
+#~ msgid "This message is not available in offline mode."
+#~ msgstr "该信件无法在脱机模式中使用。"
+
+#~ msgid "Cannot get message %s from folder `%s': No such message"
+#~ msgstr "无法从文件夹“%2$s”获取信件 %1$s：没有这样的信件"
+
+#~ msgid "Cannot get message %s from folder `%s': Bad command"
+#~ msgstr "无法从文件夹“%2$s”获取信件 %1$s：命令无效"
+
+#~ msgid "Cannot append messages to IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下将信件追加到 IMAP 文件夹。"
+
+#~ msgid "Cannot append message to folder `%s': Unknown error"
+#~ msgstr "无法将信件追加到文件夹“%s”：未知错误"
+
+#~ msgid "Cannot append message to folder `%s': Bad command"
+#~ msgstr "无法将信件追加到文件夹“%s”：无效的命令"
+
+#~ msgid "Cannot move messages to or from IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下将信件移入或移出 IMAP 文件夹。"
+
+#~ msgid "Cannot copy messages to or from IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下将信件复制入或复制出 IMAP 文件夹。"
+
+#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
+#~ msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：未知"
+
+#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
+#~ msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：未知"
+
+#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
+#~ msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：无效的命令"
+
+#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
+#~ msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：无效的命令"
+
+#~ msgid "Folders"
+#~ msgstr "文件夹"
+
+#~ msgid "Show only subscribed folders"
+#~ msgstr "只显示订阅了的文件夹"
+
+#~ msgid "Override server-supplied folder namespace"
+#~ msgstr "覆盖服务器提供的文件夹命名空间"
+
+#~ msgid "Namespace"
+#~ msgstr "命名空间"
+
+#~ msgid "Apply filters to new messages in INBOX on this server"
+#~ msgstr "应用过滤规则到本服务器上收件箱中的新信件"
+
+#~ msgid "Automatically synchronize remote mail locally"
+#~ msgstr "自动将远程邮件同步到本地"
+
+#~ msgid "IMAPv4rev1"
+#~ msgstr "IMAPv4rev1"
+
+#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
+#~ msgstr "IMAPv4rev1 服务器上的邮件的读写。试验性！"
+
+#~ msgid ""
+#~ "This option will connect to the IMAPv4rev1 server using a plaintext "
+#~ "password."
+#~ msgstr "该选项将使用纯文本密码连接到 IMAPv4rev1 服务器。"
+
+#~ msgid "IMAP server %s"
+#~ msgstr "IMAP 服务器 %s"
+
+#~ msgid "IMAP service for %s on %s"
+#~ msgstr "%2$s 为 %1$s 提供的 IMAP 服务"
+
+#~ msgid "Could not connect to %s: %s"
+#~ msgstr "无法连接到 %s：%s"
+
+#~ msgid "SSL unavailable"
+#~ msgstr "SSL 不可用"
+
+#~ msgid "Connection cancelled"
+#~ msgstr "连接已取消"
+
+#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
+#~ msgstr "以安全模式连接到 IMAP 服务器 %s 失败：%s"
+
+#~ msgid "SSL negotiations failed"
+#~ msgstr "SSL 协商失败"
+
+#~ msgid ""
+#~ "Cannot authenticate to IMAP server %s using the %s authentication "
+#~ "mechanism"
+#~ msgstr "无法使用 %2$s 身份验证算法对 IMAP 服务器 %1$s 进行身份验证"
+
+#~ msgid "%sPlease enter the IMAP password for %s on host %s"
+#~ msgstr "%s请输入 %s@%s 的 IMAP 密码"
+
+#~ msgid "Cannot authenticate to IMAP server %s using %s"
+#~ msgstr "无法使用 %2$s 认证到 IMAP 服务器 %1$s"
+
+#~ msgid "Cannot create IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下创建 IMAP 文件夹。"
+
+#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
+#~ msgstr "无法获取 IMAP 服务器 %2$s 上的文件夹 %1$s：未知"
+
+#~ msgid ""
+#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
+#~ msgstr "文件夹名“%s”无效，原因是其中含有字符“%c”"
+
+#~ msgid "Cannot create folder `%s': Invalid mailbox name"
+#~ msgstr "无法创建文件夹“%s”：无效的邮箱名"
+
+#~ msgid "Cannot create folder `%s': Bad command"
+#~ msgstr "无法创建文件夹“%s”：无效的命令"
+
+#~ msgid "Cannot delete folder `%s': Special folder"
+#~ msgstr "无法删除文件夹“%s”：特殊文件夹"
+
+#~ msgid "Cannot delete IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下删除 IMAP 文件夹。"
+
+#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
+#~ msgstr "无法删除文件夹“%s”：无效的邮箱名"
+
+#~ msgid "Cannot delete folder `%s': Bad command"
+#~ msgstr "无法删除文件夹“%s”：无效的命令"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
+#~ msgstr "无法将文件夹“%s”重命名为“%s”：特殊文件夹"
+
+#~ msgid "Cannot rename IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下重命名 IMAP 文件夹。"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
+#~ msgstr "无法将文件夹“%s”重命名为“%s”：无效的邮箱名"
+
+#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
+#~ msgstr "无法将文件夹“%s”重命名为“%s”：无效的命令"
+
+#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
+#~ msgstr "无法在 IMAP 服务器 %3$s 上为模式“%2$s”获取 %1$s 信息：%4$s"
+
+#~ msgid "Bad command"
+#~ msgstr "无效命令"
+
+#~ msgid "Cannot subscribe to IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下订阅 IMAP 文件夹。"
+
+#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
+#~ msgstr "无法订阅文件夹“%s”：无效的邮箱名"
+
+#~ msgid "Cannot subscribe to folder `%s': Bad command"
+#~ msgstr "无法订阅文件夹“%s”：无效的命令"
+
+#~ msgid "Cannot unsubscribe from IMAP folders in offline mode."
+#~ msgstr "无法在脱机模式下退订 IMAP 文件夹。"
+
+#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
+#~ msgstr "无法退订文件夹“%s”：无效的邮箱名"
+
+#~ msgid "Cannot unsubscribe from folder `%s': Bad command"
+#~ msgstr "无法退订文件夹“%s”：无效的命令"
+
+#~ msgid "Scanning for changed messages"
+#~ msgstr "扫描更改了的信件"
+
+#~ msgid "Fetching envelopes for new messages"
+#~ msgstr "获取新新信件的信封"
+
+#~ msgid "Unexpected token in response from IMAP server %s: "
+#~ msgstr "来自 IMAP4 服务器 %s 的意外响应："
+
+#~ msgid "No data"
+#~ msgstr "无数据"
+
+#~ msgid "IMAP server %s unexpectedly disconnected: %s"
+#~ msgstr "IMAP4 服务器 %s 意外断开连接：%s"
+
+#~ msgid "Operation cancelled"
+#~ msgstr "操作已取消"
+
+#~ msgid "Server unexpectedly disconnected: %s"
+#~ msgstr "服务器意外地中止了连接：%s"
+
+#~ msgid ""
+#~ "Alert from IMAP server %s@%s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "来自 IMAP 服务器 %s@%s 的提醒：\n"
+#~ "%s"
+
+#~ msgid "Unexpected response from IMAP server: %s"
+#~ msgstr "来自 IMAP 服务器的意外应答：%s"
+
+#~ msgid "IMAP command failed: %s"
+#~ msgstr "IMAP 命令失败：%s"
+
+#~ msgid "Server response ended too soon."
+#~ msgstr "服务器应答结束太快。"
+
+#~ msgid "IMAP server response did not contain %s information"
+#~ msgstr "IMAP 服务器应答不含有 %s 信息"
+
+#~ msgid "Unexpected OK response from IMAP server: %s"
+#~ msgstr "来自 IMAP 服务器意外的 OK 应答：%s"
+
+#~ msgid "Could not create directory %s: %s"
+#~ msgstr "无法创建目录 %s：%s"
+
+#~ msgid "Could not load summary for %s"
+#~ msgstr "无法为 %s 装入概要"
+
+#~ msgid "Folder was destroyed and recreated on server."
+#~ msgstr "文件夹已被删除并在服务器上重建了。"
+
+#~ msgid "Unable to retrieve message: %s"
+#~ msgstr "无法获取信件：%s"
+
+#~ msgid ""
+#~ "Cannot get message: %s\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "无法获取信件：%s\n"
+#~ "  %s"
+
+#~ msgid "No such message"
+#~ msgstr "没有该信件"
+
+#~ msgid "This message is not currently available"
+#~ msgstr "该信件目前不可用"
+
+#~ msgid "Fetching summary information for new messages"
+#~ msgstr "从新信件中获取概要信息"
+
+#~ msgid "Incomplete server response: no information provided for message %d"
+#~ msgstr "不完整的服务器响应：没有为第%d封信提供信息"
+
+#~ msgid "Incomplete server response: no UID provided for message %d"
+#~ msgstr "不完整的服务器响应：没有为第%d封信提供 UID"
+
+#~ msgid ""
+#~ "Unexpected server response: Identical UIDs provided for messages %d and %d"
+#~ msgstr "意外的服务器响应：为第%d封信和第%d封信提供了同样的 UID"
+
+#~ msgid "Could not find message body in FETCH response."
+#~ msgstr "无法在 FETCH 应答中找到信体。"
+
+#~ msgid "Could not open cache directory: %s"
+#~ msgstr "无法打开缓冲器目录：%s"
+
+#~ msgid "Failed to cache message %s: %s"
+#~ msgstr "缓存信件 %s 失败：%s"
+
+#~ msgid "Failed to cache %s: %s"
+#~ msgstr "缓存 %s 失败：%s"
+
+#~ msgid "C_heck for new messages in all folders"
+#~ msgstr "在所有文件夹中检查新信件(_H)"
+
+#~ msgid "Connection to Server"
+#~ msgstr "连接服务器"
+
+#~ msgid "_Use custom command to connect to server"
+#~ msgstr "使用自定义命令连接到服务器(_U)"
+
+#~ msgid "Command:"
+#~ msgstr "命令："
+
+#~ msgid "_Show only subscribed folders"
+#~ msgstr "只显示订阅了的文件夹(_S)"
+
+#~ msgid "O_verride server-supplied folder namespace"
+#~ msgstr "覆盖服务器提供的文件夹命名空间(_V)"
+
+#~ msgid "_Apply filters to new messages in INBOX on this server"
+#~ msgstr "应用过滤规则到本服务器上收件箱中的新信件(_A)"
+
+#~ msgid "Check new messages for _Junk contents"
+#~ msgstr "检查新信件的垃圾内容(_J)"
+
+#~ msgid "Only check for Junk messa_ges in the INBOX folder"
+#~ msgstr "仅在收件箱中检查垃圾邮件(_G)"
+
+#~ msgid "Automatically synchroni_ze remote mail locally"
+#~ msgstr "自动将远程邮件同步到本地(_Z)"
+
+#~ msgid "IMAP"
+#~ msgstr "IMAP"
+
+#~ msgid "For reading and storing mail on IMAP servers."
+#~ msgstr "IMAP 服务器上的邮件的读写。"
+
+#~ msgid "STARTTLS not supported"
+#~ msgstr "不支持 STARTTLS"
+
+#~ msgid "Could not connect with command \"%s\": %s"
+#~ msgstr "无法使用命令“%s”连接：%s"
+
+#~ msgid "IMAP server %s does not support requested authentication type %s"
+#~ msgstr "IMAP 服务器 %s 不支持要求的验证类型 %s"
+
+#~ msgid "No support for authentication type %s"
+#~ msgstr "不支持验证类型 %s"
+
+#~ msgid "%sPlease enter the IMAP password for %s@%s"
+#~ msgstr "%s请为 %s@%s 输入 IMAP 密码"
+
+#~ msgid "You didn't enter a password."
+#~ msgstr "您没有输入密码。"
+
+#~ msgid ""
+#~ "Unable to authenticate to IMAP server.\n"
+#~ "%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "无法认证到 IMAP 服务器。\n"
+#~ "%s\n"
+#~ "\n"
+
+#~ msgid "No such folder %s"
+#~ msgstr "没有文件夹 %s"
+
+#~ msgid "The parent folder is not allowed to contain subfolders"
+#~ msgstr "父文件夹不允许含有子文件夹"
+
+#~ msgid "Cannot create folder `%s': folder exists."
+#~ msgstr "无法创建文件夹：%s：文件夹已存在。"
+
+#~ msgid "Unknown parent folder: %s"
+#~ msgstr "未知的父文件夹：%s"
+
+#~ msgid "Message storage"
+#~ msgstr "信件存储"
+
+#~ msgid "IMAP+"
+#~ msgstr "IMAP+"
+
+#~ msgid ""
+#~ "Experimental IMAP 4(.1) client\n"
+#~ "This is untested and unsupported code, you want to use plain imap "
+#~ "instead.\n"
+#~ "\n"
+#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
+#~ msgstr ""
+#~ "试验性 IMAP4(.1) 客户\n"
+#~ "其中含有未测试和不支持的代码，您可能想要使用纯 IMAP。\n"
+#~ "\n"
+#~ " !!! 不要对日常邮件使用此功能 !!!\n"
+
+#~ msgid "Could not connect to %s (port %s): %s"
+#~ msgstr "无法连接到 %s (端口 %s)：%s"
+
+#~ msgid "Could not connect to POP server on %s"
+#~ msgstr "无法连接到 %s 上的 POP 服务器"
+
+#~ msgid "Index message body data"
+#~ msgstr "索引信体数据"
+
+#~ msgid "~%s (%s)"
+#~ msgstr "~%s (%s)"
+
+#~ msgid "mailbox:%s (%s)"
+#~ msgstr "邮件箱：%s (%s)"
+
+#~ msgid "%s (%s)"
+#~ msgstr "%s (%s)"
+
+#~ msgid "Use the `.folders' folder summary file (exmh)"
+#~ msgstr "使用“.folders”文件夹概览文件(exmh)"
+
+#~ msgid "MH-format mail directories"
+#~ msgstr "MH-格式的邮件目录"
+
+#~ msgid "For storing local mail in MH-like mail directories."
+#~ msgstr "在类似于 MH 的邮件目录中存储本地邮件。"
+
+#~ msgid "Local delivery"
+#~ msgstr "本地发送"
+
+#~ msgid ""
+#~ "For retrieving (moving) local mail from standard mbox formated spools "
+#~ "into folders managed by Evolution."
+#~ msgstr ""
+#~ "对于将本地邮件从标准 mbox 格式脱机文件夹获取(移动)到由 Evolution 管理的文"
+#~ "件夹。"
+
+#~ msgid "Apply filters to new messages in INBOX"
+#~ msgstr "将过滤规则应用到收件箱中的新信件"
+
+#~ msgid "Maildir-format mail directories"
+#~ msgstr "Maildir 格式的邮件目录"
+
+#~ msgid "For storing local mail in maildir directories."
+#~ msgstr "在 maildir 邮件目录中存储本地邮件。"
+
+#~ msgid "Store status headers in Elm/Pine/Mutt format"
+#~ msgstr "以 Elm/Pine/Mutt 格式存储状态头"
+
+#~ msgid "Standard Unix mbox spool or directory"
+#~ msgstr "标准 Unix mbox 脱机或目录"
+
+#~ msgid ""
+#~ "For reading and storing local mail in external standard mbox spool "
+#~ "files.\n"
+#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
+#~ msgstr ""
+#~ "对于读取和存储外部标准 mbox 脱机文件中的本地邮件。\n"
+#~ "也可用于读取 Elm、Pine 或 Mutt 风格的文件夹树。"
+
+#~ msgid "Store root %s is not an absolute path"
+#~ msgstr "存储根目录 %s 不是绝对路径"
+
+#~ msgid "Store root %s is not a regular directory"
+#~ msgstr "存储根目录 %s 不是普通目录"
+
+#~ msgid "Cannot get folder: %s: %s"
+#~ msgstr "无法获取文件夹：%s：%s"
+
+#~ msgid "Local stores do not have an inbox"
+#~ msgstr "本地存储没有收件箱"
+
+#~ msgid "Local mail file %s"
+#~ msgstr "本地邮件文件 %s"
+
+#~ msgid "Could not rename folder %s to %s: %s"
+#~ msgstr "无法将文件夹 %s 改名为 %s：%s"
+
+#~ msgid "Could not rename '%s': %s"
+#~ msgstr "无法重命名“%s”：%s"
+
+#~ msgid "Could not delete folder summary file `%s': %s"
+#~ msgstr "无法删除文件夹概要文件“%s”：%s"
+
+#~ msgid "Could not delete folder index file `%s': %s"
+#~ msgstr "无法删除文件夹索引文件“%s”：%s"
+
+#~ msgid "Could not delete folder meta file `%s': %s"
+#~ msgstr "无法删除文件夹元文件“%s”：%s"
+
+#~ msgid "Could not save summary: %s: %s"
+#~ msgstr "无法保存概要：%s：%s"
+
+#~ msgid "Unable to add message to summary: unknown reason"
+#~ msgstr "无法将信件添加到概要中：未知的原因"
+
+#~ msgid "Maildir append message cancelled"
+#~ msgstr "邮件目录附加已放弃"
+
+#~ msgid "Cannot append message to maildir folder: %s: %s"
+#~ msgstr "无法将信件附加到邮件目录文件夹：%s：%s"
+
+#~ msgid ""
+#~ "Cannot get message: %s from folder %s\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "无法从文件夹 %2$s 获取信件：%1$s\n"
+#~ "  %3$s"
+
+#~ msgid "Invalid message contents"
+#~ msgstr "无效的信件内容"
+
+#~ msgid "Cannot get folder `%s': %s"
+#~ msgstr "无法获取文件夹“%s”：%s"
+
+#~ msgid "Cannot get folder `%s': folder does not exist."
+#~ msgstr "无法获得文件夹“%s”：文件夹不存在。"
+
+#~ msgid "Cannot create folder `%s': %s"
+#~ msgstr "无法创建文件夹“%s”：%s"
+
+#~ msgid "Cannot get folder `%s': not a maildir directory."
+#~ msgstr "无法获取文件夹“%s”：不是 maildir 目录。"
+
+#~ msgid "Could not delete folder `%s': %s"
+#~ msgstr "无法删除文件夹“%s”：%s"
+
+#~ msgid "not a maildir directory"
+#~ msgstr "不是 maildir 目录"
+
+#~ msgid "Could not scan folder `%s': %s"
+#~ msgstr "无法扫描文件夹“%s”：%s"
+
+#~ msgid "Cannot open maildir directory path: %s: %s"
+#~ msgstr "无法打开邮件目录路径：%s：%s"
+
+#~ msgid "Checking folder consistency"
+#~ msgstr "检查文件夹一致性"
+
+#~ msgid "Checking for new messages"
+#~ msgstr "检查新信件"
+
+#~ msgid "Storing folder"
+#~ msgstr "存储文件夹"
+
+#~ msgid "Cannot create folder lock on %s: %s"
+#~ msgstr "无法在 %s 创建文件夹锁：%s"
+
+#~ msgid "Cannot open mailbox: %s: %s\n"
+#~ msgstr "无法打开邮件箱：%s：%s\n"
+
+#~ msgid "Mail append cancelled"
+#~ msgstr "邮件追加取消"
+
+#~ msgid "Cannot append message to mbox file: %s: %s"
+#~ msgstr "无法将信件附加到邮件箱文件：%s：%s"
+
+#~ msgid "The folder appears to be irrecoverably corrupted."
+#~ msgstr "文件夹好像已经被不可恢复地破坏了。"
+
+#~ msgid "Message construction failed."
+#~ msgstr "信件构建失败。"
+
+#~ msgid "Cannot create a folder by this name."
+#~ msgstr "无法以此名称创建文件夹。"
+
+#~ msgid "Cannot get folder `%s': not a regular file."
+#~ msgstr "无法获取文件夹“%s”：不是普通文件"
+
+#~ msgid ""
+#~ "Could not delete folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法删除文件夹“%s”：\n"
+#~ "%s"
+
+#~ msgid "`%s' is not a regular file."
+#~ msgstr "“%s”并不是普通文件。"
+
+#~ msgid "Folder `%s' is not empty. Not deleted."
+#~ msgstr "文件夹“%s”非空。没有删除。"
+
+#~ msgid "Cannot create directory `%s': %s."
+#~ msgstr "无法创建目录“%s”：%s"
+
+#~ msgid "Cannot create folder: %s: %s"
+#~ msgstr "无法创建文件夹：%s：%s"
+
+#~ msgid "Folder already exists"
+#~ msgstr "文件夹已经存在"
+
+#~ msgid "The new folder name is illegal."
+#~ msgstr "指定的文件夹名称不合法。"
+
+#~ msgid "Could not rename `%s': `%s': %s"
+#~ msgstr "无法重命名“%s”：“%s”：%s"
+
+#~ msgid "Could not rename '%s' to %s: %s"
+#~ msgstr "无法将“%s”重命名为 %s：%s"
+
+#~ msgid "Could not open folder: %s: %s"
+#~ msgstr "无法打开文件夹：%s：%s"
+
+#~ msgid "Fatal mail parser error near position %ld in folder %s"
+#~ msgstr "在文件夹 %2$s 中邻近 %1$ld 的位置出现致命的解析错误"
+
+#~ msgid "Cannot check folder: %s: %s"
+#~ msgstr "无法检查文件夹：%s：%s"
+
+#~ msgid "Could not open file: %s: %s"
+#~ msgstr "无法打开文件：%s：%s"
+
+#~ msgid "Cannot open temporary mailbox: %s"
+#~ msgstr "无法打开临时邮件箱：%s"
+
+#~ msgid "Could not close source folder %s: %s"
+#~ msgstr "无法关闭来源文件夹 %s：%s"
+
+#~ msgid "Could not close temp folder: %s"
+#~ msgstr "无法关闭临时文件夹：%s"
+
+#~ msgid "Could not rename folder: %s"
+#~ msgstr "无法重命名文件夹：%s"
+
+#~ msgid "Summary and folder mismatch, even after a sync"
+#~ msgstr "即使同步后，概要和文件夹仍然不匹配"
+
+#~ msgid "Unknown error: %s"
+#~ msgstr "未知的错误：%s"
+
+#~ msgid "Could not store folder: %s"
+#~ msgstr "无法存储文件夹：%s"
+
+#~ msgid "Error writing to temp mailbox: %s"
+#~ msgstr "写入临时文件夹错误：%s"
+
+#~ msgid "Writing to tmp mailbox failed: %s: %s"
+#~ msgstr "写入临时文件夹失败：%s：%s"
+
+#~ msgid "MH append message cancelled"
+#~ msgstr "已取消 MH 附件信件"
+
+#~ msgid "Cannot append message to mh folder: %s: %s"
+#~ msgstr "无法将信件附加到 mh 文件夹：%s：%s"
+
+#~ msgid "Could not create folder `%s': %s"
+#~ msgstr "无法创建文件夹“%s”：%s"
+
+#~ msgid "Cannot get folder `%s': not a directory."
+#~ msgstr "无法获取文件夹“%s”：不是目录。"
+
+#~ msgid "Cannot open MH directory path: %s: %s"
+#~ msgstr "无法打开 MH 目录：%s：%s"
+
+#~ msgid "Spool `%s' cannot be opened: %s"
+#~ msgstr "无法打开脱机文件“%s”：%s"
+
+#~ msgid "Spool `%s' is not a regular file or directory"
+#~ msgstr "脱机文件“%s”不是普通文件或目录"
+
+#~ msgid "Folder `%s/%s' does not exist."
+#~ msgstr "文件夹“%s/%s”不存在。"
+
+#~ msgid ""
+#~ "Could not open folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法打开文件夹“%s”：\n"
+#~ "%s"
+
+#~ msgid "Folder `%s' does not exist."
+#~ msgstr "文件夹“%s”不存在。"
+
+#~ msgid ""
+#~ "Could not create folder `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "无法创建文件夹“%s”：\n"
+#~ "%s"
+
+#~ msgid "`%s' is not a mailbox file."
+#~ msgstr "“%s”不是邮件箱文件。"
+
+#~ msgid "Store does not support an INBOX"
+#~ msgstr "存储并不支持收件箱"
+
+#~ msgid "Spool mail file %s"
+#~ msgstr "脱机邮件文件 %s"
+
+#~ msgid "Spool folder tree %s"
+#~ msgstr "脱机文件夹树 %s"
+
+#~ msgid "Spool folders cannot be renamed"
+#~ msgstr "脱机文件夹无法改名"
+
+#~ msgid "Spool folders cannot be deleted"
+#~ msgstr "脱机文件夹无法删除"
+
+#~ msgid "Could not sync temporary folder %s: %s"
+#~ msgstr "无法同步临时文件夹 %s：%s"
+
+#~ msgid "Could not sync spool folder %s: %s"
+#~ msgstr "无法同步脱机文件夹 %s：%s"
+
+#~ msgid ""
+#~ "Could not sync spool folder %s: %s\n"
+#~ "Folder may be corrupt, copy saved in `%s'"
+#~ msgstr ""
+#~ "无法同步脱机文件夹 %s：%s\n"
+#~ "文件夹可能已损坏，副本保存在“%s”"
+
+#~ msgid "Please enter the NNTP password for %s@%s"
+#~ msgstr "请输入 %s@%s 的 NNTP 密码"
+
+#~ msgid "Server rejected username"
+#~ msgstr "服务器拒绝了密码"
+
+#~ msgid "Failed to send username to server"
+#~ msgstr "向服务器发送用户名失败"
+
+#~ msgid "Server rejected username/password"
+#~ msgstr "服务器拒绝了用户名/密码"
+
+#~ msgid "Internal error: uid in invalid format: %s"
+#~ msgstr "内部错误：uid 的格式无效：%s"
+
+#~ msgid "Posting failed: %s"
+#~ msgstr "发表失败：%s"
+
+#~ msgid "You cannot post NNTP messages while working offline!"
+#~ msgstr "您离线时无法投递 NNTP 信件！"
+
+#~ msgid "You cannot copy messages from a NNTP folder!"
+#~ msgstr "您无法从 NNTP 文件夹复制信件！"
+
+#~ msgid "Could not get group list from server."
+#~ msgstr "无法从服务器获取组列表。"
+
+#~ msgid "Unable to load grouplist file for %s: %s"
+#~ msgstr "无法装入 %s 的组列表文件：%s"
+
+#~ msgid "Unable to save grouplist file for %s: %s"
+#~ msgstr "无法保存 %s 的组列表文件：%s"
+
+#~ msgid ""
+#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+#~ msgstr "以短格式显示文件夹(如 c.o.linux 而不是 comp.os.linux)"
+
+#~ msgid "In the subscription dialog, show relative folder names"
+#~ msgstr "在订阅对话框中显示相对文件夹名称"
+
+#~ msgid "USENET news"
+#~ msgstr "USENET 新闻"
+
+#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
+#~ msgstr "这是一个从 USENET 新闻组和向 USENET 新闻组发布邮件的提供者。"
+
+#~ msgid ""
+#~ "This option will authenticate with the NNTP server using a plaintext "
+#~ "password."
+#~ msgstr "该选项将以明文密码向进行 NNTP 服务器进行认证。"
+
+#~ msgid "Could not read greeting from %s: %s"
+#~ msgstr "无法阅读来自 %s 的欢迎信息：%s"
+
+#~ msgid "NNTP server %s returned error code %d: %s"
+#~ msgstr "NNTP 服务器 %s 返回错误码 %d：%s"
+
+#~ msgid "USENET News via %s"
+#~ msgstr "USENET 新闻 %s"
+
+#~ msgid ""
+#~ "Error retrieving newsgroups:\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "收取新闻组出错：\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "You cannot subscribe to this newsgroup:\n"
+#~ "\n"
+#~ "No such newsgroup. The selected item is a probably a parent folder."
+#~ msgstr ""
+#~ "您无法订阅此新闻组：\n"
+#~ "\n"
+#~ "没有这样的新闻组。选中项目可能是父文件夹。"
+
+#~ msgid ""
+#~ "You cannot unsubscribe to this newsgroup:\n"
+#~ "\n"
+#~ "newsgroup does not exist!"
+#~ msgstr ""
+#~ "您无法订阅此新闻组：\n"
+#~ "\n"
+#~ "新闻组不存在！"
+
+#~ msgid "You cannot create a folder in a News store: subscribe instead."
+#~ msgstr "您无法在新闻存储中创建文件夹：应该订阅。"
+
+#~ msgid "You cannot rename a folder in a News store."
+#~ msgstr "您无法在新闻存储中重命名文件夹。"
+
+#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
+#~ msgstr "您无法在新闻存储中删除文件夹：应该退订。"
+
+#~ msgid "Authentication requested but no username provided"
+#~ msgstr "请求了身份验证，但未提供用户名"
+
+#~ msgid "Cannot authenticate to server: %s"
+#~ msgstr "无法认证到服务器：%s"
+
+#~ msgid "NNTP Command failed: %s"
+#~ msgstr "NNTP 命令失败：%s"
+
+#~ msgid "Not connected."
+#~ msgstr "未连接。"
+
+#~ msgid "No such folder: %s"
+#~ msgstr "没有文件夹：%s"
+
+#~ msgid "%s: Scanning new messages"
+#~ msgstr "%s：正在扫描新信件"
+
+#~ msgid "Unexpected server response from xover: %s"
+#~ msgstr "来自 xover 的意外服务器应答：%s"
+
+#~ msgid "Unexpected server response from head: %s"
+#~ msgstr "来自 head 的意外服务器应答：%s"
+
+#~ msgid "Use cancel"
+#~ msgstr "使用取消"
+
+#~ msgid "Operation failed: %s"
+#~ msgstr "操作失败：%s"
+
+#~ msgid "Retrieving POP summary"
+#~ msgstr "正在获取 POP 概要"
+
+#~ msgid "Cannot get POP summary: %s"
+#~ msgstr "无法获取 POP 摘要：%s"
+
+#~ msgid "Expunging deleted messages"
+#~ msgstr "彻底销毁已删除的信件"
+
+#~ msgid "No message with uid %s"
+#~ msgstr "没有 uid 为 %s 的信件"
+
+#~ msgid "Retrieving POP message %d"
+#~ msgstr "正在获取 POP 信件 %d"
+
+#~ msgid "Leave messages on server"
+#~ msgstr "在服务器上保留信件"
+
+#~ msgid "Delete after %s day(s)"
+#~ msgstr "%s 天之后删除"
+
+#~ msgid "Disable support for all POP3 extensions"
+#~ msgstr "禁用所有 POP3 扩展的支持"
+
+#~ msgid "POP"
+#~ msgstr "POP"
+
+#~ msgid "For connecting to and downloading mail from POP servers."
+#~ msgstr "关于连接到 POP 服务器和从 POP 服务器下载邮件。"
+
+#~ msgid ""
+#~ "This option will connect to the POP server using a plaintext password. "
+#~ "This is the only option supported by many POP servers."
+#~ msgstr ""
+#~ "该选项使 Evolution 在连接到 POP 服务器时使用明文密码。这是许多 POP 服务器"
+#~ "唯一支持的选项。"
+
+#~ msgid ""
+#~ "This option will connect to the POP server using an encrypted password "
+#~ "via the APOP protocol. This may not work for all users even on servers "
+#~ "that claim to support it."
+#~ msgstr ""
+#~ "该选项使 Evolution 在连接到 POP 服务器时使用 APOP 协议。即使是声称支持这一"
+#~ "功能的服务器，也不一定能使所有用户工作。"
+
+#~ msgid "Failed to read a valid greeting from POP server %s"
+#~ msgstr "从 POP 服务器 %s 读取欢迎词失败"
+
+#~ msgid "Failed to connect to POP server %s in secure mode: %s"
+#~ msgstr "以安全模式连接到 POP 服务器 %s 失败：%s"
+
+#~ msgid "STLS not supported"
+#~ msgstr "不支持 STLS"
+
+#~ msgid "Could not connect to POP server %s"
+#~ msgstr "无法连接到 POP 服务器 %s"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s: No support for requested "
+#~ "authentication mechanism."
+#~ msgstr "无法连接到 POP 服务器 %s：不支持请求认证机制。"
+
+#~ msgid "SASL `%s' Login failed for POP server %s: %s"
+#~ msgstr "使用SASL“%s”登录 POP 服务器 %s 失败：%s"
+
+#~ msgid "Cannot login to POP server %s: SASL Protocol error"
+#~ msgstr "无法登录到 POP 服务器 %s：SASL 协议错误"
+
+#~ msgid "Failed to authenticate on POP server %s: %s"
+#~ msgstr "认证到 POP 服务器 %s 失败：%s"
+
+#~ msgid "%sPlease enter the POP password for %s on host %s"
+#~ msgstr "%s请输入 %s@%s 的 POP 密码"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s.\n"
+#~ "Error sending password: %s"
+#~ msgstr ""
+#~ "无法连接到 POP 服务器 %s。\n"
+#~ "发送密码错误：%s"
+
+#~ msgid ""
+#~ "Unable to connect to POP server %s.\n"
+#~ "Error sending username: %s"
+#~ msgstr ""
+#~ "无法连接到 POP 服务器 %s。\n"
+#~ "发送用户名错误：%s"
+
+#~ msgid "No such folder `%s'."
+#~ msgstr "没有文件夹“%s”。"
+
+#~ msgid "Sendmail"
+#~ msgstr "Sendmail"
+
+#~ msgid ""
+#~ "For delivering mail by passing it to the \"sendmail\" program on the "
+#~ "local system."
+#~ msgstr "将邮件传递到本地系统的“sendmail”来发送邮件。"
+
+#~ msgid "Could not parse recipient list"
+#~ msgstr "无法解析收件人列表"
+
+#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
+#~ msgstr "无法创建到 sendmail 的管道：%s：邮件未发送"
+
+#~ msgid "Could not fork sendmail: %s: mail not sent"
+#~ msgstr "无法创建 sendmail 进程：%s：邮件未发送"
+
+#~ msgid "Could not send message: %s"
+#~ msgstr "无法发送信件：%s"
+
+#~ msgid "sendmail exited with signal %s: mail not sent."
+#~ msgstr "sendmail 以信号 %s 退出：邮件未发送。"
+
+#~ msgid "Could not execute %s: mail not sent."
+#~ msgstr "无法执行 %s：邮件未发送。"
+
+#~ msgid "sendmail exited with status %d: mail not sent."
+#~ msgstr "sendmail 以状态码 %d 退出：邮件未发送。"
+
+#~ msgid "sendmail"
+#~ msgstr "sendmail"
+
+#~ msgid "Mail delivery via the sendmail program"
+#~ msgstr "通过 sendmail 程序发送邮件"
+
+#~ msgid "SMTP"
+#~ msgstr "SMTP"
+
+#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
+#~ msgstr "要投递邮件，应该使用 SMTP 连接到远程的邮件交换服务器。"
+
+#~ msgid "Syntax error, command unrecognized"
+#~ msgstr "语法错误，无法识别的命令"
+
+#~ msgid "Syntax error in parameters or arguments"
+#~ msgstr "参数语法错误"
+
+#~ msgid "Command not implemented"
+#~ msgstr "命令尚未实现"
+
+#~ msgid "Command parameter not implemented"
+#~ msgstr "命令参数尚未实现"
+
+#~ msgid "System status, or system help reply"
+#~ msgstr "系统状态，或系统求助就绪"
+
+#~ msgid "Help message"
+#~ msgstr "帮助信件"
+
+#~ msgid "Service ready"
+#~ msgstr "服务就绪"
+
+#~ msgid "Service closing transmission channel"
+#~ msgstr "服务正在关闭传输通道"
+
+#~ msgid "Service not available, closing transmission channel"
+#~ msgstr "服务不可用，正在关闭传输通道"
+
+#~ msgid "Requested mail action okay, completed"
+#~ msgstr "邮件动作请求确认，已完成"
+
+#~ msgid "User not local; will forward to <forward-path>"
+#~ msgstr "用户不在本地；将转发到 <转发路径>"
+
+#~ msgid "Requested mail action not taken: mailbox unavailable"
+#~ msgstr "邮件动作请求未发生：邮件箱无效"
+
+#~ msgid "Requested action not taken: mailbox unavailable"
+#~ msgstr "动作请求未发生：邮件箱无效"
+
+#~ msgid "Requested action aborted: error in processing"
+#~ msgstr "动作请求已放弃：处理中出错"
+
+#~ msgid "User not local; please try <forward-path>"
+#~ msgstr "用户不在本地；请尝试 <转发路径>"
+
+#~ msgid "Requested action not taken: insufficient system storage"
+#~ msgstr "动作请求未发生：系统存储空间不足"
+
+#~ msgid "Requested mail action aborted: exceeded storage allocation"
+#~ msgstr "邮件动作请求已放弃：超定额德存储分配"
+
+#~ msgid "Requested action not taken: mailbox name not allowed"
+#~ msgstr "动作请求未发生：不允许的邮件箱名称"
+
+#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
+#~ msgstr "开始输入邮件；以 <CRLF>.<CRLF> 结束"
+
+#~ msgid "Transaction failed"
+#~ msgstr "事务失败"
+
+#~ msgid "A password transition is needed"
+#~ msgstr "必须传输密码"
+
+#~ msgid "Authentication mechanism is too weak"
+#~ msgstr "认证机制太弱"
+
+#~ msgid "Encryption required for requested authentication mechanism"
+#~ msgstr "请求的认证机制必须加密"
+
+#~ msgid "Temporary authentication failure"
+#~ msgstr "临时认证失败"
+
+#~ msgid "Authentication required"
+#~ msgstr "必须认证"
+
+#~ msgid "Welcome response error"
+#~ msgstr "欢迎应答错误"
+
+#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
+#~ msgstr "以安全模式连接 SMTP 服务器 %s 失败：%s"
+
+#~ msgid "STARTTLS command failed: %s"
+#~ msgstr "STARTTLS 命令失败：%s"
+
+#~ msgid "STARTTLS command failed"
+#~ msgstr "STARTTLS 命令失败"
+
+#~ msgid "SMTP server %s does not support requested authentication type %s."
+#~ msgstr "SMTP 服务器 %s 不支持请求的认证类型 %s。"
+
+#~ msgid "%sPlease enter the SMTP password for %s on host %s"
+#~ msgstr "%s请为 %s@%s 输入 SMTP 密码"
+
+#~ msgid ""
+#~ "Unable to authenticate to SMTP server.\n"
+#~ "%s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "无法认证到 SMTP 服务器。\n"
+#~ "%s\n"
+#~ "\n"
+
+#~ msgid "SMTP server %s"
+#~ msgstr "SMTP 服务器 %s"
+
+#~ msgid "SMTP mail delivery via %s"
+#~ msgstr "通过 %s 发送 SMTP 邮件"
+
+#~ msgid "Cannot send message: service not connected."
+#~ msgstr "无法发送信件：服务未连接。"
+
+#~ msgid "Cannot send message: sender address not valid."
+#~ msgstr "无法发送信件：发件人地址不合法。"
+
+#~ msgid "Sending message"
+#~ msgstr "发送信件"
+
+#~ msgid "Cannot send message: no recipients defined."
+#~ msgstr "无法发送信件：没有定义收件人。"
+
+#~ msgid "Cannot send message: one or more invalid recipients"
+#~ msgstr "无法发送信件：一个或多个非法收件人"
+
+#~ msgid "SMTP Greeting"
+#~ msgstr "SMTP 欢迎"
+
+#~ msgid "HELO command failed: %s"
+#~ msgstr "HELO 命令失败：%s"
+
+#~ msgid "HELO command failed"
+#~ msgstr "HELO 命令失败"
+
+#~ msgid "SMTP Authentication"
+#~ msgstr "SMTP 认证"
+
+#~ msgid "Error creating SASL authentication object."
+#~ msgstr "创建 SASL 认证对象错误。"
+
+#~ msgid "AUTH command failed: %s"
+#~ msgstr "AUTH 命令失败：%s"
+
+#~ msgid "AUTH command failed"
+#~ msgstr "AUTH 命令失败"
+
+#~ msgid "Bad authentication response from server.\n"
+#~ msgstr "来自服务器的错误认证应答。\n"
+
+#~ msgid "MAIL FROM command failed: %s: mail not sent"
+#~ msgstr "MAIL FROM 命令失败：%s：邮件未发送"
+
+#~ msgid "MAIL FROM command failed"
+#~ msgstr "MAIL FROM 命令失败"
+
+#~ msgid "RCPT TO command failed: %s: mail not sent"
+#~ msgstr "RCPT TO 命令失败：%s：邮件未发送"
+
+#~ msgid "RCPT TO <%s> failed"
+#~ msgstr "RCPT TO <%s> 失败"
+
+#~ msgid "DATA command failed: %s: mail not sent"
+#~ msgstr "DATA 命令失败：%s：邮件未发送"
+
+#~ msgid "DATA command failed"
+#~ msgstr "DATP 命令失败"
+
+#~ msgid "RSET command failed: %s"
+#~ msgstr "RSET 命令失败：%s"
+
+#~ msgid "RSET command failed"
+#~ msgstr "RSET 命令失败"
+
+#~ msgid "QUIT command failed: %s"
+#~ msgstr "QUIT 命令失败：%s"
+
+#~ msgid "QUIT command failed"
+#~ msgstr "QUIT 命令失败"
 
 #, fuzzy
 #~ msgid "Meetings"
