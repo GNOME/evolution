@@ -1601,7 +1601,30 @@ static int load_accounts_1_0(xmlDocPtr doc)
  *
  * The tracked version is upgraded to the latest even if no
  * configuration upgrades are required for that version.
+ *
+ * Further information about how this is intended to work:
+ *
+ * There are 3 basic steps, numbered in the comments below.
+ * 1. Determine the current config verison
+ * 2. Upgrade to the current source version
+ * 3. Save the version number, as defined by CONF_MAJOR, CONF_MINOR,
+ *    CONF_REVISION.  These are all treated as integers, so 10 is
+ *    greater than 9.
+ *
+ * 1 and 3 should not need changing.  After an upgrade to 1.3.x and
+ * until the config system changes again (!), step one becomes
+ * trivial.  Any changes to part 2 should be added to the end of the
+ * section, or as required.  This allows for very fine-grained version
+ * upgrades, including pre-release and patch-level changes to fix
+ * config problems which may have lasted for a single version or
+ * patch, in which case CONF_REVISION can be bumped.
  * 
+ * At any time, the CONF_VERSION/MAJOR/REVISION can be increased to
+ * match the source release, even if no new configuration changes will
+ * be required from the previous version.  This should be done at each
+ * release in case bugs in that configuration version are required to
+ * be fixed at any time in the future.
+ *
  * Return value: -1 on an error.
  **/
 int
@@ -1617,7 +1640,7 @@ e_config_upgrade(const char *edir)
 
 	evolution_dir = edir;
 
-	/* determine existing version */
+	/* 1. determine existing version */
 	gconf = gconf_client_get_default();
 	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);
 	if (val) {
@@ -1647,6 +1670,8 @@ e_config_upgrade(const char *edir)
 		if (tmp)
 			xmlFree(tmp);
 	}
+
+	/* 2. Now perform any upgrade duties */
 
 	d(printf("current config version is '%u.%u.%u'\n", major, minor, revision));
 
@@ -1681,7 +1706,7 @@ e_config_upgrade(const char *edir)
 		}
 	}
 
-	/* we're done, update our version info if its changed */
+	/* 3. we're done, update our version info if its changed */
 	if (major < CONF_MAJOR
 	    || minor < CONF_MINOR
 	    || revision < CONF_REVISION) {

@@ -151,7 +151,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
  * evolution_importer_client_load_file:
  * @client: The EvolutionImporterClient.
  * @filename: The file to load.
- * @folderpath: The full path to the folder, or NULL for Inbox.
+ * @physical_uri: The physical URI of the folder to import data into.
  *
  * Loads and initialises the importer.
  *
@@ -160,7 +160,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
 gboolean
 evolution_importer_client_load_file (EvolutionImporterClient *client,
 				     const char *filename,
-				     const char *folderpath)
+				     const char *physical_uri)
 {
 	GNOME_Evolution_Importer corba_importer;
 	gboolean result;
@@ -174,7 +174,7 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 	corba_importer = client->objref;
 	result = GNOME_Evolution_Importer_loadFile (corba_importer,
 						    filename,
-						    folderpath ? folderpath : "",
+						    physical_uri ? physical_uri : "",
 						    &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Oh there *WAS* an exception.\nIt was %s",

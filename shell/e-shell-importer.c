@@ -476,7 +476,7 @@ show_error (const char *message,
 }
 
 static void
-start_import (const char *folderpath,
+start_import (const char *physical_uri,
 	      const char *filename,
 	      const char *iid)
 {
@@ -546,12 +546,7 @@ start_import (const char *folderpath,
 	}
 	g_free (real_iid);
 
-	/* NULL for folderpath means use Inbox */
-	if (*folderpath == '/') {
-		folderpath = strchr (folderpath + 1, '/');
-	}
-
-	if (evolution_importer_client_load_file (icd->client, filename, folderpath) == FALSE) {
+	if (evolution_importer_client_load_file (icd->client, filename, physical_uri) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		show_error (label, _("Evolution Error"));
 
@@ -959,15 +954,19 @@ folder_selected (EShellFolderSelectionDialog *dialog,
 		 const char *path,
 		 ImportData *data)
 {
+	EFolder *folder;
 	char *filename, *iid;
 
 	iid = g_strdup (data->choosen_iid);
 	filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
 
+	folder = e_storage_set_get_folder (e_shell_get_storage_set (data->shell), path);
+	g_assert (folder != NULL);
+
 	gtk_widget_destroy (data->dialog);
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
-	start_import (path, filename, iid);
+	start_import (e_folder_get_physical_uri (folder), filename, iid);
 
 	g_free (iid);
 	g_free (filename);

@@ -1,3 +1,21 @@
+2003-03-19  Not Zed  <NotZed@Ximian.com>
+
+	* e-config-upgrade.c (e_config_upgrade): Added some more doco just
+	to make it clear how it was intended to be used/expanded.
+
+2003-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importer/evolution-importer.c
+	(impl_GNOME_Evolution_Importer_loadFile): Get a physical_uri arg
+	instead of a folderpath arg.
+
+	* importer/evolution-importer-client.c
+	(evolution_importer_client_load_file): Get a physical_uri arg.
+
+	* e-shell-importer.c (start_import): Get a physical_uri arg
+	instead of a folderpath.
+	(folder_selected): Updated accordingly.
+
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-importer.c (get_name_from_component_info): Look for the
