@@ -114,7 +114,8 @@ get_text (Bonobo_PersistStream persist, char *format)
 	CORBA_exception_init (&ev);
 
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
-	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), format, &ev);
+	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
+				   format, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return NULL;
@@ -713,7 +714,7 @@ static GnomeUIInfo file_tree[] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send the message"),
 				send_cb, GNOME_STOCK_MENU_MAIL_SND),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_EXIT_ITEM (exit_cb, NULL),
+	GNOMEUIINFO_MENU_CLOSE_ITEM (exit_cb, NULL),
 	GNOMEUIINFO_END
 };
 
@@ -772,7 +773,6 @@ create_toolbar (EMsgComposer *composer)
 	bonobo_ui_handler_toolbar_add_list (uih, "/Toolbar", list);
 }
 
-
 /* GtkObject methods.  */
 
 static void
@@ -822,7 +822,6 @@ destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-
 static void
 class_init (EMsgComposerClass *klass)
 {
@@ -873,7 +872,6 @@ init (EMsgComposer *composer)
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
 }
 
-
 GtkType
 e_msg_composer_get_type (void)
 {
@@ -897,7 +895,6 @@ e_msg_composer_get_type (void)
 	return type;
 }
 
-
 /**
  * e_msg_composer_construct:
  * @composer: A message composer widget
@@ -1121,8 +1118,6 @@ e_msg_composer_new_from_url (const char *url)
 	return GTK_WIDGET (composer);
 }
 
-
-
 /**
  * e_msg_composer_show_attachments:
  * @composer: A message composer widget
@@ -1141,7 +1136,6 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 	show_attachments (composer, show);
 }
 
-
 /**
  * e_msg_composer_set_headers:
  * @composer: a composer object
