@@ -130,11 +130,8 @@ storage_activate (BonoboControl *control, gboolean activate,
 	camel_exception_clear (&ex);
 
 	storage = g_hash_table_lookup (storages_hash, store);
-	if (storage &&
-	    !gtk_object_get_data (GTK_OBJECT (storage), "connected")) {
-		mail_note_store (CAMEL_STORE(store), storage,
-				 CORBA_OBJECT_NIL, NULL, NULL);
-	}
+	if (storage && !gtk_object_get_data (GTK_OBJECT (storage), "connected"))
+		mail_note_store (CAMEL_STORE(store), storage, CORBA_OBJECT_NIL, NULL, NULL);
 	camel_object_unref (CAMEL_OBJECT (store));
 }	
 
@@ -1207,6 +1204,10 @@ mail_remove_storage (CamelStore *store)
 	
 	storage = g_hash_table_lookup (storages_hash, store);
 	g_hash_table_remove (storages_hash, store);
+
+	/* so i guess potentially we could have a race, add a store while one
+	   being removed.  ?? */
+	mail_note_store_remove(store);
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));

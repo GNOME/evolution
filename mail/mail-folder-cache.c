@@ -172,7 +172,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		}
 
 		if (strstr(fi->url, ";noselect") == NULL)
-			mail_vfolder_add_uri(store, fi->url);
+			mail_vfolder_add_uri(store, fi->url, FALSE);
 
 		camel_object_unref((CamelObject *)store);
 	}
@@ -205,7 +205,7 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
 
-	(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
+	d(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
 	mfi->folder = NULL;
 }
 
@@ -214,7 +214,7 @@ folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
 
-	(printf("Folder deleted '%s'!\n", ((CamelFolder *)o)->full_name));
+	d(printf("Folder deleted '%s'!\n", ((CamelFolder *)o)->full_name));
 	mfi->folder = NULL;
 }
 
@@ -241,7 +241,7 @@ void mail_note_folder(CamelFolder *folder)
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
 	if (si == NULL) {
-		g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?\n", folder->full_name, store);
+		/*g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?", folder->full_name, store);*/
 		UNLOCK(info_lock);
 		return;
 	}
@@ -313,7 +313,7 @@ real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 	d(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
 	
 	if (strstr(fi->url, ";noselect") == NULL)
-		mail_vfolder_remove_uri(store, fi->url);
+		mail_vfolder_delete_uri(store, fi->url);
 
 	camel_object_unref((CamelObject *)store);
 	camel_folder_info_free(fi);
@@ -344,13 +344,28 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 		store_folder_unsubscribed(o, event_data, data);
 }
 
+static void
+unset_folder_info(char *path, struct _folder_info *mfi, void *data)
+{
+	if (mfi->folder) {
+		CamelFolder *folder = mfi->folder;
+
+		camel_object_unhook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
+		camel_object_unhook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
+		camel_object_unhook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
+		camel_object_unhook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
+	}
+
+	if (strstr(mfi->uri, ";noselect") == NULL)
+		mail_vfolder_add_uri(mfi->store_info->store, mfi->uri, TRUE);
+}
 
 static void
-free_folder_info(char *path, struct _folder_info *info, void *data)
+free_folder_info(char *path, struct _folder_info *mfi, void *data)
 {
-	g_free(info->path);
-	g_free(info->full_name);
-	g_free(info->uri);
+	g_free(mfi->path);
+	g_free(mfi->full_name);
+	g_free(mfi->uri);
 }
 
 static void
@@ -364,6 +379,14 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		g_hash_table_remove(stores, store);
+
+		camel_object_unhook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
+		camel_object_unhook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_unhook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_unhook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		camel_object_unhook_event((CamelObject *)store, "finalize", store_finalised, NULL);
+
+		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info, NULL);
 		UNLOCK(info_lock);
 		mail_async_event_destroy(si->async_event);
 		LOCK(info_lock);
@@ -377,7 +400,7 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 static void
 create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
-	printf("Setup new folder: %s\n", fi->url);
+	d(printf("Setup new folder: %s\n", fi->url));
 
 	setup_folder(fi, si);
 
@@ -406,6 +429,18 @@ update_folders(CamelStore *store, CamelFolderInfo *info, void *data)
 	if (ud->done)
 		ud->done(store, info, ud->data);
 	g_free(ud);
+}
+
+void
+mail_note_store_remove(CamelStore *store)
+{
+	g_assert(CAMEL_IS_STORE(store));
+
+	if (stores == NULL)
+		return;
+
+	/* same action */
+	store_finalised((CamelObject *)store, NULL, NULL);
 }
 
 void

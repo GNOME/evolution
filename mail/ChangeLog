@@ -1,3 +1,25 @@
+2001-10-18    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (vfolder_adduri): Added remove flag - its not
+	adduri, its removeuri, its less typing than creating a removeuri.
+	(vfolder_adduri_do): Implement the remove flag.
+	(mail_vfolder_remove_uri): Changed to mail_vfolder_delte_uri, to
+	indicate its actually been deleted.
+	(mail_vfolder_add_uri): Added remove flag.
+	(rule_changed): When adding existing folders to a new rule, strdup
+	the list data.
+
+	* mail-folder-cache.c (store_finalised): Unhook from all events
+	when done.
+	(mail_note_store_remove): Remove a store from being noted.
+	(free_folder_info): Also if we have a folder, unhook all events.
+	Also remove the uri from vfolders.
+	(mail_note_folder): Remove warning about adding folders to stores
+	that aren't added yet - we might actually be removing the store.
+
+	* component-factory.c (mail_remove_storage): Call
+	mail_note_store_remove when we remove the storage.
+
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (providers_config): Don't make the mail

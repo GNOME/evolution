@@ -21,14 +21,13 @@ void vfolder_gui_add_rule (VfolderRule *rule);
 void vfolder_gui_add_from_message (CamelMimeMessage *msg, int flags, const char *source);
 void vfolder_gui_add_from_mlist (CamelMimeMessage *msg, const char *mlist, const char *source);
 
-/* add a uri that is now available to vfolders */
-void mail_vfolder_add_uri(CamelStore *store, const char *uri);
+/* add a uri that is now (un)available to vfolders in a transient manner */
+void mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove);
 
-/* remove a uri that should be removed from vfolders */
-void mail_vfolder_remove_uri(CamelStore *store, const char *uri);
+/* remove a uri that should be removed from vfolders permanently */
+void mail_vfolder_delete_uri(CamelStore *store, const char *uri);
 
-EvolutionStorage *mail_vfolder_get_vfolder_storage (void);
-
+/* close up, clean up */
 void mail_vfolder_shutdown (void);
 
 #endif

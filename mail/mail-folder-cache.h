@@ -35,6 +35,9 @@ void
 mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
 		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data);
 
+/* de-note a store */
+void mail_note_store_remove(CamelStore *store);
+
 /* When a folder has been opened, notify it for watching.
    The folder must have already been created on the store (which has already been noted)
    before the folder can be opened
