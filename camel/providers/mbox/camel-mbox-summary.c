@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <netinet/in.h>
 
 static CamelFolderSummaryClass *parent_class = NULL;
 
