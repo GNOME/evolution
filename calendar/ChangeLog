@@ -1,3 +1,20 @@
+2000-06-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (CalendarModelPrivate): Added the array of
+	objects and the hash table of UID->array index.
+	(calendar_model_row_count): Return the length directly from the
+	array instead of asking the Wombat.
+	(calendar_model_value_at): Implemented.
+	(calendar_model_new): Create an empty model.  We provide a new
+	setter function now.
+	(calendar_model_construct): Removed function.
+	(calendar_model_set_cal_client): New function to set the calendar
+	client and object type at any time.  This lets us reuse a calendar
+	model object.
+
+	* cal-util/calobj.h (iCalObjectField): Just report whether the
+	object has alarms; not every single alarm.
+
 2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am (SHELL_OBJS): Removed.
