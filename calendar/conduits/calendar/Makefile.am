@@ -23,7 +23,7 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/libwombat/libwombat-static.la		 	\
-	$(top_builddir)/e-util/libeconduit.la	 			\
+	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-calendar.conduit: e-calendar.conduit.in Makefile
