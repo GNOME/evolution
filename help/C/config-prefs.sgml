@@ -14,8 +14,8 @@
          <title>Mail Settings</title>
         <para>
         To change your mail settings, select <menuchoice>
-        <guimenu>Settings</guimenu> <guimenuitem>Mail
-        configuration</guimenuitem></menuchoice> in the Inbox.  This
+        <guimenu>Tools</guimenu> <guimenuitem>Mail
+        Settings</guimenuitem></menuchoice> in the Inbox.  This
         will open the <interface>mail preferences window</interface>,
         illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
         preferences are separated into several categories:

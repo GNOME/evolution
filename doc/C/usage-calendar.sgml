@@ -195,16 +195,14 @@ lack of time, resources, and interest.
       </tip>
 
       <para>
-	 The purpose of categories is to let the user view all appointments which have
+	 The purpose of categories is to let you view all appointments which have
 	 similar activities.  To do this, change <guilabel>Any field contains</guilabel>
 	 to <guilabel>Has category</guilabel> and enter your category at right.
       </para>
 
       <para>
-	At the bottom right of the <guilabel>Classification</guilabel> section
-	is the categories button and input box.  Clicking the button will bring up
-	a box with a listing of categories.  To the left of the category is a checkbox
-	that allows the category to be associated with the respective event.
+	Clicking on the <guibutton>Categories</guibutton> button opens up the category
+	list.  To assocate a category to an event, simply click the check box. 
       </para>
       <para>
 	Once you've selected your categories, click <guibutton>OK</guibutton> to
