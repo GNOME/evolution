@@ -28,18 +28,22 @@ typedef struct _ECardClass ECardClass;
 
 struct _ECard {
 	GtkObject object;
-#if 0
+
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
-
-	GList           *del_addrs;  	/* Delivery addresses (ECardAddr *) */
+	GList           *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
+#if 0
 	GList           *del_labels;    /* Delivery address labels
 					 * (ECardAddrLabel *)               */
+#endif
 	GList           *phone;         /* Phone numbers (ECardPhone *)     */
 	GList           *email;         /* Email addresses (char *)         */
+#if 0
 	char            *url;	        /* The person's web page.           */
-	
+
+#endif
 	ECardDate       *bday;	        /* The person's birthday.           */
+#if 0
 
 	ECardOrg        *org;	        /* The person's organization.       */
 	char            *title;	        /* The person's title w/in his org  */
@@ -75,6 +79,7 @@ struct _ECard {
 
 struct _ECardClass {
 	GtkObjectClass parent_class;
+	GHashTable    *attribute_jump_table;
 };
 
 

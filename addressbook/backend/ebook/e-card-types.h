@@ -108,6 +108,8 @@ typedef struct {
 	GList            *l;
 } ECardList;
 
+#endif
+
 /* IDENTIFICATION PROPERTIES */
 
 
@@ -119,6 +121,7 @@ typedef struct {
 	char            *suffix;        /* Esq. */
 } ECardName;
 
+#if 0
 typedef struct {
 	CardProperty prop;
 	
@@ -127,6 +130,7 @@ typedef struct {
 	char *data;
 
 } ECardPhoto;
+#endif
 
 typedef struct {
 	int year;
@@ -134,29 +138,30 @@ typedef struct {
 	int day;
 } ECardDate;
 
-
 /* TELECOMMUNICATIONS ADDRESSING PROPERTIES */
 
 typedef enum {
-	PHONE_PREF  = 1 << 0,
-	PHONE_WORK  = 1 << 1,
-	PHONE_HOME  = 1 << 2,
-	PHONE_VOICE = 1 << 3,
-	PHONE_FAX   = 1 << 4,
-	PHONE_MSG   = 1 << 5,
-	PHONE_CELL  = 1 << 6,
-	PHONE_PAGER = 1 << 7,
-	PHONE_BBS   = 1 << 8,
-	PHONE_MODEM = 1 << 9,
-	PHONE_CAR   = 1 << 10,
-	PHONE_ISDN  = 1 << 11,
-	PHONE_VIDEO = 1 << 12 
+	E_CARD_PHONE_PREF  = 1 << 0,
+	E_CARD_PHONE_WORK  = 1 << 1,
+	E_CARD_PHONE_HOME  = 1 << 2,
+	E_CARD_PHONE_VOICE = 1 << 3,
+	E_CARD_PHONE_FAX   = 1 << 4,
+	E_CARD_PHONE_MSG   = 1 << 5,
+	E_CARD_PHONE_CELL  = 1 << 6,
+	E_CARD_PHONE_PAGER = 1 << 7,
+	E_CARD_PHONE_BBS   = 1 << 8,
+	E_CARD_PHONE_MODEM = 1 << 9,
+	E_CARD_PHONE_CAR   = 1 << 10,
+	E_CARD_PHONE_ISDN  = 1 << 11,
+	E_CARD_PHONE_VIDEO = 1 << 12 
 } ECardPhoneFlags;
 
 typedef struct {
 	ECardPhoneFlags  flags;
-	char            *data;
+	char            *number;
 } ECardPhone;
+
+#if 0
 
 typedef struct {
 	int sign;      /* 1 or -1 */
@@ -171,7 +176,7 @@ typedef struct {
 	float lat;
 } ECardGeoPos;
 
-
+#endif
 /* DELIVERY ADDRESSING PROPERTIES */
 
 typedef enum {
@@ -181,12 +186,12 @@ typedef enum {
 	ADDR_PARCEL = 1 << 3, 
 	ADDR_DOM    = 1 << 4,
 	ADDR_INTL   = 1 << 5 
-} ECardAddrFlags;
+} ECardAddressFlags;
 
 typedef struct {
-	ECardAddrFlags  flags;
+	ECardAddressFlags  flags;
 
-	char           *pobox;
+	char           *po;
 	char           *ext;
 	char           *street;
 	char           *city;
@@ -195,10 +200,11 @@ typedef struct {
 	char           *country;
 
 	char           *description;
-} ECardAddr;
+} ECardDeliveryAddress;
 
+#if 0
 typedef struct {
-	ECardAddrFlags  flags;
+	ECardAddressFlags  flags;
 	char           *data;
 } ECardAddrLabel;
 

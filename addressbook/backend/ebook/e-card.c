@@ -18,13 +18,49 @@
 #include <e-card.h>
 #include <e-card-pairs.h>
 
-#define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
-#define str_val(obj) the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1)
-#define has(obj,prop) (vo = isAPropertyOf (obj, prop))
+#define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
+#define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
+#define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
 
 #if 0
 static VObject *card_convert_to_vobject (ECard *crd);
 #endif
+static void parse(ECard *card, VObject *vobj);
+static void e_card_init (ECard *card);
+static void e_card_class_init (ECardClass *klass);
+
+static void e_card_destroy (GtkObject *object);
+
+static void assign_string(VObject *vobj, char **string);
+
+static void e_card_name_free(ECardName *name);
+char *e_v_object_get_child_value(VObject *vobj, char *name);
+static ECardDate e_card_date_from_string (char *str);
+
+static void parse_bday(ECard *card, VObject *object);
+static void parse_full_name(ECard *card, VObject *object);
+static void parse_name(ECard *card, VObject *object);
+static void parse_email(ECard *card, VObject *object);
+static void parse_phone(ECard *card, VObject *object);
+static void parse_address(ECard *card, VObject *object);
+
+static ECardPhoneFlags get_phone_flags (VObject *vobj);
+static ECardAddressFlags get_address_flags (VObject *vobj);
+
+typedef void (* ParsePropertyFunc) (ECard *card, VObject *object);
+
+struct {
+	char *key;
+	ParsePropertyFunc function;
+} attribute_jump_array[] = 
+{
+	{ VCFullNameProp, parse_full_name },
+	{ VCNameProp, parse_name },
+	{ VCBirthDateProp, parse_bday },
+	{ VCEmailAddressProp, parse_email },
+	{ VCTelephoneProp, parse_phone },
+	{ VCAdrProp, parse_address }
+};
 
 /**
  * e_card_get_type:
@@ -45,12 +81,8 @@ e_card_get_type (void)
 			"ECard",
 			sizeof (ECard),
 			sizeof (ECardClass),
-			NULL,
-			NULL,
-#if 0
 			(GtkClassInitFunc) e_card_class_init,
 			(GtkObjectInitFunc) e_card_init,
-#endif
 			NULL, /* reserved_1 */
 			NULL, /* reserved_2 */
 			(GtkClassInitFunc) NULL
@@ -64,7 +96,16 @@ e_card_get_type (void)
 
 ECard         *e_card_new (char *vcard)
 {
-	return E_CARD(gtk_type_new(e_card_get_type()));
+	ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+	VObject *vobj = Parse_MIME(vcard, strlen(vcard));
+	while(vobj) {
+		VObject *next;
+		parse(card, vobj);
+		next = nextVObjectInList(vobj);
+		cleanVObject(vobj);
+		vobj = next;
+	}
+	return card;
 }
 
 char          *e_card_get_id (ECard *card)
@@ -77,21 +118,183 @@ char          *e_card_get_vcard (ECard *card)
 	return NULL;
 }
 
+static void
+parse_name(ECard *card, VObject *vobj)
+{
+	if ( card->name ) {
+		e_card_name_free(card->name);
+	}
+	card->name = g_new(ECardName, 1);
 
-#if 0
+	card->name->family     = e_v_object_get_child_value (vobj, VCFamilyNameProp);
+	card->name->given      = e_v_object_get_child_value (vobj, VCGivenNameProp);
+	card->name->additional = e_v_object_get_child_value (vobj, VCAdditionalNamesProp);
+	card->name->prefix     = e_v_object_get_child_value (vobj, VCNamePrefixesProp);
+	card->name->suffix     = e_v_object_get_child_value (vobj, VCNameSuffixesProp);
+}
+
+static void
+parse_full_name(ECard *card, VObject *vobj)
+{
+	if ( card->fname )
+		g_free(card->fname);
+	assign_string(vobj, &(card->fname));
+}
+
+static void
+parse_email(ECard *card, VObject *vobj)
+{
+	char *next_email;
+	assign_string(vobj, &next_email);
+	card->email = g_list_append(card->email, next_email);
+}
+
+static void
+parse_bday(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		if ( card->bday )
+			g_free(card->bday);
+		card->bday = g_new(ECardDate, 1);
+		*(card->bday) = e_card_date_from_string(str);
+		free(str);
+	}
+}
+
+static void
+parse_phone(ECard *card, VObject *vobj)
+{
+	ECardPhone *next_phone = g_new(ECardPhone, 1);
+	assign_string(vobj, &(next_phone->number));
+	next_phone->flags = get_phone_flags(vobj);
+	card->phone = g_list_append(card->phone, next_phone);
+}
+
+static void
+parse_address(ECard *card, VObject *vobj)
+{
+	ECardDeliveryAddress *next_addr = g_new(ECardDeliveryAddress, 1);
+
+	next_addr->flags   = get_address_flags (vobj);
+	next_addr->po      = e_v_object_get_child_value (vobj, VCPostalBoxProp);
+	next_addr->ext     = e_v_object_get_child_value (vobj, VCExtAddressProp);
+	next_addr->street  = e_v_object_get_child_value (vobj, VCStreetAddressProp);
+	next_addr->city    = e_v_object_get_child_value (vobj, VCCityProp);
+	next_addr->region  = e_v_object_get_child_value (vobj, VCRegionProp);
+	next_addr->code    = e_v_object_get_child_value (vobj, VCPostalCodeProp);
+	next_addr->country = e_v_object_get_child_value (vobj, VCCountryNameProp);
+	next_addr->description = e_v_object_get_child_value (vobj, VCDescriptionProp);
+
+	card->address = g_list_append(card->address, next_addr);
+}
+
+static void
+parse_attribute(ECard *card, VObject *vobj)
+{
+	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_CLASS(GTK_OBJECT(card)->klass)->attribute_jump_table, vObjectName(vobj));
+	if ( function )
+		function(card, vobj);
+}
+
+static void
+parse(ECard *card, VObject *vobj)
+{
+	VObjectIterator iterator;
+	initPropIterator(&iterator, vobj);
+	while(moreIteration (&iterator)) {
+		parse_attribute(card, nextVObject(&iterator));
+	}
+}
+
+static void
+e_card_class_init (ECardClass *klass)
+{
+	int i;
+	GtkObjectClass *object_class;
+
+	object_class = GTK_OBJECT_CLASS(klass);
+
+	klass->attribute_jump_table = g_hash_table_new(g_str_hash, g_str_equal);
+
+	for ( i = 0; i < sizeof(attribute_jump_array) / sizeof(attribute_jump_array[0]); i++ ) {
+		g_hash_table_insert(klass->attribute_jump_table, attribute_jump_array[i].key, attribute_jump_array[i].function);
+	}
+
+	object_class->destroy = e_card_destroy;
+}
+
+static void
+e_card_phone_free (ECardPhone *phone)
+{
+	if ( phone ) {
+		if ( phone->number )
+			g_free(phone->number);
+		g_free(phone);
+	}
+}
+
+static void
+e_card_delivery_address_free (ECardDeliveryAddress *addr)
+{
+	if ( addr ) {
+		if ( addr->po )
+			g_free(addr->po);
+		if ( addr->ext )
+			g_free(addr->ext);
+		if ( addr->street )
+			g_free(addr->street);
+		if ( addr->city )
+			g_free(addr->city);
+		if ( addr->region )
+			g_free(addr->region);
+		if ( addr->code )
+			g_free(addr->code);
+		if ( addr->country )
+			g_free(addr->country);
+		if ( addr->description )
+			g_free(addr->description);
+		g_free(addr);
+	}
+}
 
 /*
  * ECard lifecycle management and vCard loading/saving.
  */
 
-/**
- * e_card_new:
- */
-ECard *
-e_card_new (void)
+static void
+e_card_destroy (GtkObject *object)
 {
-	ECard *c;
-	
+	ECard *card = E_CARD(object);
+	if ( card->fname )
+		g_free(card->fname);
+	if ( card->name )
+		e_card_name_free(card->name);
+	if ( card->bday )
+		g_free(card->bday);
+	g_list_foreach(card->email, (GFunc)g_free, NULL);
+	g_list_free(card->email);
+	g_list_foreach(card->phone, (GFunc)e_card_phone_free, NULL);
+	g_list_free(card->phone);
+	g_list_foreach(card->address, (GFunc)e_card_delivery_address_free, NULL);
+	g_list_free(card->address);
+}
+
+/**
+ * e_card_init:
+ */
+static void
+e_card_init (ECard *card)
+{
+
+	card->fname = NULL;
+	card->name = NULL;
+	card->bday = NULL;
+	card->email = NULL;
+	card->phone = NULL;
+	card->address = NULL;
+#if 0
+
 	c = g_new0 (ECard, 1);
 	
 	c->fname      = 
@@ -144,8 +347,18 @@ e_card_new (void)
 	c->key.prop.type 	= PROP_KEY;
 	
 	return c;
+#endif
 }
 
+static void
+assign_string(VObject *vobj, char **string)
+{
+	char *str = (vObjectValueType (vobj) ? fakeCString (vObjectUStringZValue (vobj)) : calloc(1, 1));
+	*string = g_strdup(str);
+	free(str);
+}
+
+#if 0
 static void
 e_card_str_free (CardStrProperty *sp)
 {
@@ -436,20 +649,6 @@ get_addr_type (VObject *o)
 	return ret;
 }
 
-static int 
-get_phone_type (VObject *o)
-{
-	VObject *vo;
-	int ret = 0;
-	int i;
-	
-	for (i = 0; phone_pairs[i].str; i++)
-	  if (has (o, phone_pairs[i].str))
-	    ret |= phone_pairs[i].id;
-	
-	return ret;
-}
-
 static enum EMailType 
 get_email_type (VObject *o)
 {
@@ -607,69 +806,6 @@ e_card_get_name (VObject *o)
 	name->suffix     = e_card_prop_get_substr (o, VCNameSuffixesProp);
 
 	return name;
-}
-
-static CardBDay 
-strtoCardBDay (char *str)
-{
-	char *s;
-	int i;
-	CardBDay bday;
-
-	bday.year = 0;
-	bday.month = 0;
-	bday.day = 0;
-	
-	if (strchr (str, '-')) {
-		for (s = strtok (str, "-"), i = 0; s; 
-		     s = strtok (NULL, "-"), i++)
-		  switch (i) {
-		   case 0:
-			  bday.year = atoi (s);
-			  break;
-		   case 1:
-			  bday.month = atoi (s);
-			  break;
-		   case 2:
-			  bday.day = atoi (s);
-			  break;
-		   default:
-			  g_warning ("? < Too many values for BDay property.");
-		  }
-		
-		if (i < 2)
-		  g_warning ("? < Too few values for BDay property.");
-	} else {
-		if (strlen (str) >= 8) {
-			bday.day = atoi (str + 6);
-			str[6] = 0;
-			bday.month = atoi (str + 4);
-			str[4] = 0;
-			bday.year = atoi (str);
-		} else
-		  g_warning ("? < Bad format for BDay property.");
-	}
-	
-	return bday;
-}
-
-static ECardDelAddr *
-e_card_get_del_addr (VObject *o)
-{
-	ECardDelAddr *addr;
-	
-	addr = g_new0 (ECardDelAddr, 1);
-	
-	addr->type    = get_addr_type (o);
-	addr->po      = e_card_prop_get_substr (o, VCPostalBoxProp);
-	addr->ext     = e_card_prop_get_substr (o, VCExtAddressProp);
-	addr->street  = e_card_prop_get_substr (o, VCStreetAddressProp);
-	addr->city    = e_card_prop_get_substr (o, VCCityProp);
-	addr->region  = e_card_prop_get_substr (o, VCRegionProp);
-	addr->code    = e_card_prop_get_substr (o, VCPostalBoxProp);
-	addr->country = e_card_prop_get_substr (o, VCCountryNameProp);
-	
-	return addr;
 }
 
 static CardDelLabel *
@@ -1912,3 +2048,126 @@ card_save (Card *crd, FILE *fp)
 	cleanVObject (object);
 }
 #endif
+
+static ECardDate
+e_card_date_from_string (char *str)
+{
+	ECardDate date;
+	int length;
+
+	date.year = 0;
+	date.month = 0;
+	date.day = 0;
+
+	length = strlen(str);
+	
+	if (length == 10 ) {
+		date.year = str[0] * 1000 + str[1] * 100 + str[2] * 10 + str[3] - '0' * 1111;
+		date.month = str[5] * 10 + str[6] - '0' * 11;
+		date.day = str[8] * 10 + str[9] - '0' * 11;
+	} else if ( length == 8 ) {
+		date.year = str[0] * 1000 + str[1] * 100 + str[2] * 10 + str[3] - '0' * 1111;
+		date.month = str[4] * 10 + str[5] - '0' * 11;
+		date.day = str[6] * 10 + str[7] - '0' * 11;
+	}
+	
+	return date;
+}
+
+static void
+e_card_name_free(ECardName *name)
+{
+	if ( name ) {
+		if ( name->prefix )
+			g_free(name->prefix);
+		if ( name->given )
+			g_free(name->given);
+		if ( name->additional )
+			g_free(name->additional);
+		if ( name->family )
+			g_free(name->family);
+		if ( name->suffix )
+			g_free(name->suffix);
+		g_free ( name );
+	}
+}
+
+char *
+e_v_object_get_child_value(VObject *vobj, char *name)
+{
+	char *ret_val;
+	VObjectIterator iterator;
+	initPropIterator(&iterator, vobj);
+	while(moreIteration (&iterator)) {
+		VObject *attribute = nextVObject(&iterator);
+		const char *id = vObjectName(attribute);
+		if ( ! strcmp(id, name) ) {
+			assign_string(attribute, &ret_val);
+			return ret_val;
+		}
+	}
+	ret_val = g_new(char, 1);
+	*ret_val = 0;
+	return ret_val;
+}
+
+static ECardPhoneFlags
+get_phone_flags (VObject *vobj)
+{
+	ECardPhoneFlags ret = 0;
+	int i;
+
+	struct { 
+		char *id;
+		ECardPhoneFlags flag;
+	} phone_pairs[] = {
+		{ VCPreferredProp, E_CARD_PHONE_PREF },
+		{ VCWorkProp,      E_CARD_PHONE_WORK },
+		{ VCHomeProp,      E_CARD_PHONE_HOME },
+		{ VCVoiceProp,     E_CARD_PHONE_VOICE },
+		{ VCFaxProp,       E_CARD_PHONE_FAX },
+		{ VCMessageProp,   E_CARD_PHONE_MSG },
+		{ VCCellularProp,  E_CARD_PHONE_CELL },
+		{ VCPagerProp,     E_CARD_PHONE_PAGER },
+		{ VCBBSProp,       E_CARD_PHONE_BBS },
+		{ VCModemProp,     E_CARD_PHONE_MODEM },
+		{ VCCarProp,       E_CARD_PHONE_CAR },
+		{ VCISDNProp,      E_CARD_PHONE_ISDN },
+		{ VCVideoProp,     E_CARD_PHONE_VIDEO },
+	};
+	
+	for (i = 0; i < sizeof(phone_pairs) / sizeof(phone_pairs[0]); i++) {
+		if (isAPropertyOf (vobj, phone_pairs[i].id)) {
+			ret |= phone_pairs[i].flag;
+		}
+	}
+	
+	return ret;
+}
+
+static ECardAddressFlags
+get_address_flags (VObject *vobj)
+{
+	ECardAddressFlags ret = 0;
+	int i;
+
+	struct { 
+		char *id;
+		ECardAddressFlags flag;
+	} addr_pairs[] = {
+		{ VCDomesticProp, ADDR_DOM },
+		{ VCInternationalProp, ADDR_INTL },
+		{ VCPostalProp, ADDR_POSTAL },
+		{ VCParcelProp, ADDR_PARCEL },
+		{ VCHomeProp, ADDR_HOME },
+		{ VCWorkProp, ADDR_WORK },
+	};
+	
+	for (i = 0; i < sizeof(addr_pairs) / sizeof(addr_pairs[0]); i++) {
+		if (isAPropertyOf (vobj, addr_pairs[i].id)) {
+			ret |= addr_pairs[i].flag;
+		}
+	}
+	
+	return ret;
+}

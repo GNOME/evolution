@@ -1,3 +1,13 @@
+2000-03-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h,
+	addressbook/backend/ebook/e-card-types.h,
+	addressbook/backend/ebook/e-card-pairs.h,
+	addressbook/backend/ebook/test-card.c: Added parsing and testing
+	for name, full name, birthday, telephone, email, and street
+	address properties.
+
 2000-03-22  NotZed  <NotZed@HelixCode.com>
 
 	* e-util/e-sexp.h: Formatting cleanup.
@@ -5,6 +15,13 @@
 2000-03-07  NotZed  <NotZed@HelixCode.com>
 
 	* e-util/Makefile.am (libeutil_la_SOURCES): s-sexp.h -> e-sexp.h.
+
+2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/.cvsignore,
+	addressbook/backend/pas/.cvsignore,
+	addressbook/backend/idl/.cvsignore,
+	addressbook/backend/.cvsignore: Updated .cvsignore files.
 
 2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
 

@@ -26,8 +26,8 @@
 #include "libversit/vcc.h"
 #include <e-card.h>
 
-#if 0
 
+#if 0
 struct pair
 {
 	char *str;
@@ -96,22 +96,6 @@ struct pair photo_pairs[] = {
 		{ VCQuickTimeProp, PHOTO_QTIME },
 		{ NULL, 0 } };
 
-struct pair phone_pairs[] = {
-		{ VCPreferredProp, PHONE_PREF },
-		{ VCWorkProp, PHONE_WORK },
-		{ VCHomeProp, PHONE_HOME },
-		{ VCVoiceProp, PHONE_VOICE },
-		{ VCFaxProp, PHONE_FAX },
-		{ VCMessageProp, PHONE_MSG },
-		{ VCCellularProp, PHONE_CELL },
-		{ VCPagerProp, PHONE_PAGER },
-		{ VCBBSProp, PHONE_BBS },
-		{ VCModemProp, PHONE_MODEM },
-		{ VCCarProp, PHONE_CAR },
-		{ VCISDNProp, PHONE_ISDN },
-		{ VCVideoProp, PHONE_VIDEO },
-		{ NULL, 0 } };
-#if 0
 struct pair email_pairs[] = {
 		{ VCAOLProp, EMAIL_AOL },
 		{ VCAppleLinkProp, EMAIL_APPLE_LINK },
@@ -126,7 +110,7 @@ struct pair email_pairs[] = {
 		{ VCTLXProp, EMAIL_TLX },
 		{ VCX400Prop, EMAIL_X400 },
 		{ NULL, 0 } };
-#endif
+
 struct pair sound_pairs[] = {
 		{ VCAIFFProp, SOUND_AIFF },
 		{ VCPCMProp, SOUND_PCM },
