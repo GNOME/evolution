@@ -21,6 +21,9 @@
  */
 
 #include <config.h>
+#include <gnome.h>
+
+#include "e-addressbook-view.h"
 
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
@@ -34,7 +37,6 @@
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
 
-#include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
 
 #include "e-minicard-view-widget.h"
@@ -432,7 +434,7 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, CardAndView
 }
 
 static void
-table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
+table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EAddressbookView *view)
 {
 	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
 		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
