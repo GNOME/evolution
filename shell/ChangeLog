@@ -1,3 +1,10 @@
+2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-shell-view-menu.c: added ForgetPasswords menu item.
+	(command_forget_passwords): callback for the new menu item.
+
+	* e-shell-window-commands.c: (command_forget_passwords): ditto.
+
 2004-01-15  JP Rosevear <jpr@ximian.com>
 
 	* main.c (kill_dataserver): kill the correct binary, tidy includes

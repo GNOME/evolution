@@ -44,6 +44,7 @@
 #include "evolution-shell-component-utils.h"
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-passwords.h"
 
 #include <glib.h>
 
@@ -309,6 +310,14 @@ command_send_receive (BonoboUIComponent *ui_component,
 	shell = e_shell_view_get_shell (shell_view);
 
 	e_shell_send_receive (shell);
+}
+
+static void
+command_forget_passwords (BonoboUIComponent *ui_component,
+			  void *data,
+			  const char *path)
+{
+	e_passwords_forget_passwords();
 }
 
 static void
@@ -689,6 +698,7 @@ static BonoboUIVerb folder_verbs [] = {
 
 static BonoboUIVerb actions_verbs[] = {
 	BONOBO_UI_VERB ("SendReceive", command_send_receive),
+	BONOBO_UI_VERB ("ForgetPasswords", command_forget_passwords),
 
 	BONOBO_UI_VERB_END
 };
