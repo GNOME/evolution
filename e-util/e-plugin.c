@@ -1,4 +1,8 @@
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
@@ -113,8 +117,15 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 	int res = -1;
+	char *localedir;
 
 	ep->domain = e_plugin_xml_prop(root, "domain");
+	if (ep->domain
+	    && (localedir = e_plugin_xml_prop(root, "localedir"))) {
+		bindtextdomain(ep->domain, localedir);
+		g_free(localedir);
+	}
+
 	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
 
 	pd(printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id));

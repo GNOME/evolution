@@ -200,7 +200,7 @@ void e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f);
 
 EPopup *e_popup_construct(EPopup *, const char *menuid);
 
-void e_popup_add_items(EPopup *, GSList *items, EPopupItemsFunc freefunc, void *data);
+void e_popup_add_items(EPopup *, GSList *items, const char *domain, EPopupItemsFunc freefunc, void *data);
 
 void e_popup_add_static_items(EPopup *emp, EPopupTarget *target);
 /* do not call e_popup_create_menu, it can leak structures if not used right */

@@ -1,3 +1,17 @@
+2004-12-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin.c: include config.h.
+
+2004-12-17  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (e_popup_add_items): add a translation domain to api.
+	(e_popup_create_menu): translate the label using the supplied
+	domain.
+	(emph_popup_factory): pass domain to popup_add_items.
+
+	* e-plugin.c (ep_construct): if we have a localedir set, then
+	bindtextdomain so gettext can find it.
+
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #30992

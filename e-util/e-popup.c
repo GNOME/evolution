@@ -69,6 +69,7 @@ struct _menu_node {
 	EPopup *popup;
 
 	GSList *menu;
+	char *domain;
 	EPopupItemsFunc freefunc;
 	void *data;
 
@@ -106,6 +107,8 @@ ep_finalise(GObject *o)
 
 		if (mnode->freefunc)
 			mnode->freefunc(emp, mnode->menu, mnode->data);
+
+		g_free(mnode->domain);
 
 		/* free item activate callback data */
 		inode = mnode->items;
@@ -219,6 +222,7 @@ EPopup *e_popup_construct(EPopup *ep, const char *menuid)
  * e_popup_add_items:
  * @emp: An EPopup derived object.
  * @items: A list of EPopupItem's to add to the current popup menu.
+ * @domain: Translation domain for translating labels.
  * @freefunc: A function which will be called when the items are no
  * longer needed.
  * @data: user-data passed to @freefunc, and passed to all activate
@@ -230,12 +234,13 @@ EPopup *e_popup_construct(EPopup *ep, const char *menuid)
  * built to create a complex heirarchy of menus.
  **/
 void
-e_popup_add_items(EPopup *emp, GSList *items, EPopupItemsFunc freefunc, void *data)
+e_popup_add_items(EPopup *emp, GSList *items, const char *domain, EPopupItemsFunc freefunc, void *data)
 {
 	struct _menu_node *node;
 
 	node = g_malloc0(sizeof(*node));
 	node->menu = items;
+	node->domain = g_strdup(domain);
 	node->freefunc = freefunc;
 	node->data = data;
 	node->popup = emp;
@@ -424,7 +429,7 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 		}
 
 		if (item->label) {
-			label = gtk_label_new_with_mnemonic(_(item->label));
+			label = gtk_label_new_with_mnemonic(dgettext(inode->menu->domain, item->label));
 			gtk_misc_set_alignment((GtkMisc *)label, 0.0, 0.5);
 			gtk_widget_show(label);
 			gtk_container_add((GtkContainer *)menuitem, label);
@@ -643,7 +648,7 @@ emph_popup_factory(EPopup *emp, void *data)
 		return;
 
 	if (menu->items)
-		e_popup_add_items(emp, menu->items, NULL, menu->hook);
+		e_popup_add_items(emp, menu->items, menu->hook->hook.plugin->domain, NULL, menu->hook);
 }
 
 static void
