@@ -871,6 +871,7 @@ e_shell_window_new (EShell *shell,
 
 	setup_widgets (window);
 
+	update_send_receive_sensitivity (window);
 	g_signal_connect_object (shell, "line_status_changed", G_CALLBACK (shell_line_status_changed_callback), window, 0);
 
 	gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);

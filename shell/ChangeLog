@@ -1,3 +1,10 @@
+2005-02-23  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #33287
+ 	
+ 	* e-shell-window.c (e_shell_window_new): set the send/receive
+ 	sensitivity when we first start up
+	
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* e-shell-window-commands.c:
