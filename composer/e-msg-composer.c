@@ -65,6 +65,8 @@
 #include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
 
+/*#include <addressbook/backend/ebook/e-card.h>*/
+
 #include "widgets/misc/e-charset-picker.h"
 
 #include "camel/camel.h"
@@ -107,11 +109,13 @@ static guint signals[LAST_SIGNAL] = { 0 };
 enum {
 	DND_TYPE_MESSAGE_RFC822,
 	DND_TYPE_TEXT_URI_LIST,
+	DND_TYPE_TEXT_VCARD,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
+	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
 static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -340,7 +344,7 @@ build_message (EMsgComposer *composer)
 	
 	if (composer->send_html) {
 		clear_current_images (composer);
-		
+
 		data = get_text (composer->persist_stream_interface, "text/html");		
 		if (!data) {
 			/* The component has probably died */
@@ -394,7 +398,7 @@ build_message (EMsgComposer *composer)
 			
 			add_inlined_images (composer, html_with_images);
 			clear_current_images (composer);
-			
+
 			current = CAMEL_DATA_WRAPPER (html_with_images);
 		} else
 			current = CAMEL_DATA_WRAPPER (body);
@@ -408,7 +412,7 @@ build_message (EMsgComposer *composer)
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
 							  "multipart/alternative");
 		}
-		
+
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
 		
@@ -424,16 +428,16 @@ build_message (EMsgComposer *composer)
 		
 		if (composer->is_alternative) {
 			int i;
-			
+
 			for (i = camel_multipart_get_number (multipart); i > 1; i--) {
 				part = camel_multipart_get_part (multipart, i - 1);
 				camel_medium_remove_header (CAMEL_MEDIUM (part), "Content-Disposition");
 			}
 		}
-		
+
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
-	
+
 	if (composer->pgp_sign || composer->pgp_encrypt) {
 		part = camel_mime_part_new ();
 		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);
@@ -454,8 +458,6 @@ build_message (EMsgComposer *composer)
 				from = e_msg_composer_hdrs_get_from (hdrs);
 				camel_internet_address_get (from, 0, NULL, &pgpid);
 			}
-			
-			printf ("build_message(): pgpid = '%s'\n", pgpid);
 			
 			mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
 			
@@ -1769,8 +1771,6 @@ setup_ui (EMsgComposer *composer)
 	g_free (default_charset);
 	
 	if (!session || !camel_session_is_online (session)) {
-		char *tooltip;
-		
 		/* Move the accelerator from Send to Send Later */
 		bonobo_ui_component_set_prop (
 			composer->uic, "/commands/FileSend",
@@ -2096,6 +2096,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		    guint info, guint time)
 {
 	gchar *tmp, *filename, **filenames;
+	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
 	int i;
@@ -2133,6 +2134,17 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		g_free (filenames);
 		break;
+	case DND_TYPE_TEXT_VCARD:
+		mime_part = camel_mime_part_new ();
+		camel_mime_part_set_content (mime_part, selection->data,
+					     selection->length, "text/x-vcard");
+		camel_mime_part_set_disposition (mime_part, "inline");
+		
+		e_msg_composer_attachment_bar_attach_mime_part
+			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+			 mime_part);
+		
+		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
 		break;
 	}
