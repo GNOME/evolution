@@ -69,7 +69,7 @@ typedef struct {
 	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper, CamelStream *stream);
 	CamelStream *       (*get_output_stream)      (CamelDataWrapper *data_wrapper);
 
-	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper, gchar * mime_type);
+	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper, const gchar * mime_type);
 	gchar *             (*get_mime_type)          (CamelDataWrapper *data_wrapper);
 	GMimeContentField * (*get_mime_type_field)    (CamelDataWrapper *data_wrapper);
 	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type_field);
@@ -93,7 +93,7 @@ GtkType camel_data_wrapper_get_type (void);
 
 
 void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
+void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type);
 gchar *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
 GMimeContentField *camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper);
 void camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);

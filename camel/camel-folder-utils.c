@@ -35,7 +35,7 @@
 /*  Active Message List utilities */
 
 /* */
-gint
+static gint
 camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
 {
 	CamelMimeMessage *m_a = CAMEL_MIME_MESSAGE (a);
@@ -60,15 +60,14 @@ camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
  * 
  * Return value: the list of expunged messages.
  **/
-GList *
+static GList *
 camel_aml_expunge_messages (GList *aml, 
 			    CamelFolder *folder)
 {
-	CamelMimeMessage *message;
-	GList *message_node;
-	GList *next_message_node;
-	guint nb_expunged = 0;  
-	GList *expunged_messages;
+	CamelMimeMessage *message = NULL;
+	GList *message_node = NULL;
+	GList *next_message_node = NULL;
+	GList *expunged_messages = NULL;
 	
 
 	message_node = aml;

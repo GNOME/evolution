@@ -55,6 +55,7 @@ static void
 camel_mime_body_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimeBodyPart *camel_mime_body_part = CAMEL_MIME_BODY_PART (object);
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "mime/body-part");
 }
 
 
@@ -91,6 +92,7 @@ camel_mime_body_part_new ()
 	CAMEL_LOG_FULL_DEBUG ("CamelMimeBodyPart:: Entering new()\n");
 	
 	mime_body_part = (CamelMimeBodyPart *)gtk_type_new (CAMEL_MIME_BODY_PART_TYPE);
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimeBodyPart:: Leaving new()\n");
 	return mime_body_part;
 }

@@ -144,9 +144,11 @@ camel_mime_message_init (gpointer object, gpointer klass)
 {
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 	
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "mime/message");
+
 	camel_mime_message->recipients =  camel_recipient_table_new ();
 	camel_mime_message->flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
-	
+
 	camel_mime_message->received_date = NULL;
 	camel_mime_message->sent_date = NULL;
 	camel_mime_message->subject = NULL;

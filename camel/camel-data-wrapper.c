@@ -39,11 +39,11 @@ static GtkObjectClass *parent_class=NULL;
 static void _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static CamelStream *_get_input_stream (CamelDataWrapper *data_wrapper);
 static void _set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-CamelStream *_get_output_stream (CamelDataWrapper *data_wrapper);
+static CamelStream *_get_output_stream (CamelDataWrapper *data_wrapper);
 
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
+static void _set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type);
 static gchar *_get_mime_type (CamelDataWrapper *data_wrapper);
 static GMimeContentField *_get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void _set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
@@ -130,15 +130,15 @@ _finalize (GtkObject *object)
 
 
 
-void 
+static void 
 _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
-	data_wrapper->input_stream;
+	data_wrapper->input_stream = stream;
 }
 
 
-CamelStream * 
+static CamelStream * 
 _get_input_stream (CamelDataWrapper *data_wrapper)
 {
 	g_assert (data_wrapper);
@@ -146,15 +146,15 @@ _get_input_stream (CamelDataWrapper *data_wrapper)
 }
 
 
-void 
+static void 
 _set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	g_assert (data_wrapper);
-	data_wrapper->output_stream;
+	data_wrapper->output_stream = stream;
 }
 
 
-CamelStream * 
+static CamelStream * 
 _get_output_stream (CamelDataWrapper *data_wrapper)
 {
 	g_assert (data_wrapper);
@@ -228,7 +228,7 @@ camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelS
 
 
 static void
-_set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type)
+_set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type)
 {
 	CAMEL_LOG_FULL_DEBUG ( "CamelDataWrapper::set_mime_type Entering\n");
 	g_assert (mime_type);
@@ -237,7 +237,7 @@ _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type)
 }
 
 void 
-camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type)
+camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type)
 {
 	CDW_CLASS(data_wrapper)->set_mime_type (data_wrapper, mime_type);
 }
@@ -295,5 +295,5 @@ _get_stream (CamelDataWrapper *data_wrapper)
 CamelStream *
 camel_data_wrapper_get_stream (CamelDataWrapper *data_wrapper)
 {
-	CDW_CLASS(data_wrapper)->get_stream (data_wrapper);
+	return CDW_CLASS(data_wrapper)->get_stream (data_wrapper);
 }

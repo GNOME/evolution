@@ -1,5 +1,19 @@
 2000-02-09  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-mime-message.c (camel_mime_message_init): 
+	set the mime type to "mime/message".
+	--- THIS IS NOT THE CONTENT TYPE ---
+
+	* camel/camel-mime-body-part.c (camel_mime_body_part_init): 
+	set the mime type to "body-part". 
+	--- THIS IS NOT THE CONTENT TYPE ---
+
+	* camel/camel-data-wrapper.c (camel_data_wrapper_set_mime_type): 
+	mime_type is const. 
+	(_set_input_stream): really set the input stream
+	(_set_output_stream): really set the output stream
+	various other typo fixes.
+
 	* tests/ui-tests/message-browser.c: various typo
 	fixes in the ctree construction. 
 

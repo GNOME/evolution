@@ -56,7 +56,7 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 
 			g_print ("handling part %d\n", i);
 			handle_tree_item (CAMEL_DATA_WRAPPER (body_part),
-					  subtree);
+					  GTK_WIDGET (subtree));
 		}	
 	}
 }
