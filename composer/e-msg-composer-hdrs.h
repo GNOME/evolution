@@ -24,7 +24,7 @@
 #ifndef ___E_MSG_COMPOSER_HDRS_H__
 #define ___E_MSG_COMPOSER_HDRS_H__
 
-#include <gnome.h>
+#include <gtk/gtktable.h>
 #include <camel/camel-mime-message.h>
 #include <mail/mail-config.h>
 

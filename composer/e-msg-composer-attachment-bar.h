@@ -24,7 +24,6 @@
 #ifndef __E_MSG_COMPOSER_ATTACHMENT_BAR_H__
 #define __E_MSG_COMPOSER_ATTACHMENT_BAR_H__
 
-#include <gnome.h>
 #include "e-icon-list.h"
 #include <camel/camel-multipart.h>
 

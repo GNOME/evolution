@@ -21,13 +21,16 @@
  * Author: Dan Winship <danw@helixcode.com>
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
-#include <bonobo.h>
-#include <camel/camel.h>
+#include <gtk/gtksignal.h>
+#include <bonobo/bonobo-item-handler.h>
+#include <bonobo/bonobo-generic-factory.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <bonobo/bonobo-item-handler.h>
+#include <camel/camel.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
 

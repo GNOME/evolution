@@ -29,7 +29,6 @@
 
 #include <sys/stat.h>
 
-#include <gnome.h>
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnomevfs/gnome-vfs-mime.h>

@@ -21,8 +21,16 @@
  * Author: Ettore Perazzoli
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gnome.h>
+#endif
+
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>

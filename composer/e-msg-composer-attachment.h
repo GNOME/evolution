@@ -23,10 +23,9 @@
 #ifndef __E_MSG_COMPOSER_ATTACHMENT_H__
 #define __E_MSG_COMPOSER_ATTACHMENT_H__
 
-#include <gnome.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -27,8 +27,8 @@
 typedef struct _EMsgComposer       EMsgComposer;
 typedef struct _EMsgComposerClass  EMsgComposerClass;
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-win.h>
+#include <bonobo/bonobo-ui-component.h>
 
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"

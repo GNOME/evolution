@@ -25,19 +25,19 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <camel/camel.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-widget.h>
 
-#include <bonobo.h>
-
+#include <libgnomeui/gnome-uidefs.h>
 #include <liboaf/liboaf.h>
 
 #include "Composer.h"
 
-#include "e-msg-composer-hdrs.h"
 #include <gal/e-text/e-entry.h>
 #include <gal/widgets/e-unicode.h>
 
+#include <camel/camel.h>
+#include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 
 

@@ -39,13 +39,26 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <errno.h>
 
-#include <bonobo.h>
+#include <errno.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-stream-memory.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
+#include <libgnomevfs/gnome-vfs.h>
+
 #include <glade/glade.h>
-#include <gnome.h>
-#include <libgnorba/gnorba.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-scroll-frame.h>
 #include <gtkhtml/gtkhtml.h>
 
 #include "camel/camel.h"
@@ -58,8 +71,6 @@
 #include "mail/mail-mt.h"
 
 #include "e-util/e-html-utils.h"
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-scroll-frame.h>
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment-bar.h"
@@ -68,8 +79,6 @@
 
 #include "Editor.h"
 #include "listener.h"
-
-#include <libgnomevfs/gnome-vfs.h>
 
 #define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor"
 

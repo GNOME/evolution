@@ -1,3 +1,18 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-icon-list.c: Replace #include <gtk/gtk.h>
+	* e-msg-composer-attachment-bar.c: Replace #include <gnome.h>
+	* e-msg-composer-attachment-bar.h: Remove #include <gnome.h>
+	* e-msg-composer-attachment.c: Remove #include <gnome.h>
+	* e-msg-composer-attachment.h: Same here.
+	* e-msg-composer-hdrs.c: Replace #include <gnome.h> and <bonobo.h>
+	* e-msg-composer-hdrs.h: Replace #include <gnome.h>
+	* e-msg-composer-file.c: #include <gtk/gtkmain.h>, <gtk/gtksignal.h>
+	* e-msg-composer.c: Replace #include <bonobo.h>, <gnome.h>
+	* e-msg-composer.h: Replace #include <gnome.h> and <bonobo.h>
+	* evolution-composer.c: Replace #include <bonobo.h>
+	* listener.c: Same here.
+	
 2001-03-28  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (save_draft): Use the drafts folder specified

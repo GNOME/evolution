@@ -20,8 +20,12 @@
     Boston, MA 02111-1307, USA.
 */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <bonobo.h>
+#endif
+
+#include <bonobo/bonobo-arg.h>
+#include <bonobo/bonobo-object.h>
 
 #include "listener.h"
 

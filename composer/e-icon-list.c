@@ -39,14 +39,20 @@
  * GList for item storage.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <string.h>
 #include <stdio.h>
-#include <gtk/gtk.h>
-#include "e-icon-list.h"
+#include <gtk/gtkmain.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-icon-item.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include "e-icon-list.h"
 
 #include "bad-icon.xpm"
 
