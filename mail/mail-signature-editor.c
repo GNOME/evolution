@@ -37,7 +37,7 @@
 #include "mail-signature-editor.h"
 #include "mail-config.h"
 
-#define d(x) x
+#define d(x) 
 
 
 struct _ESignatureEditor {

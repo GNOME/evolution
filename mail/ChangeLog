@@ -1,3 +1,13 @@
+2003-05-27  Not Zed  <NotZed@Ximian.com>
+
+	* message-tag-editor.c (message_tag_editor_init): set the default
+	open size to something reasonable.  For #43410.
+
+	* mail-signature-editor.c (d): turn off debugging.
+
+	* mail-config.c (mail_config_signature_add): save new signature in
+	signature list.  For #43688.
+
 2003-05-21  Radek Doulik  <rodo@ximian.com>
 
 	* mail-signature-editor.c (menu_file_save_cb): set signature html

@@ -1376,6 +1376,7 @@ mail_config_signature_add (MailConfigSignature *sig)
 	g_assert (g_slist_find (config->signatures, sig) == NULL);
 	
 	config->signatures = g_slist_append (config->signatures, sig);
+	config_write_signatures ();
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_ADDED, sig);
 }
 

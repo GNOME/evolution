@@ -78,7 +78,7 @@ message_tag_editor_class_init (MessageTagEditorClass *klass)
 static void
 message_tag_editor_init (MessageTagEditor *editor)
 {
-	g_object_set (editor, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
+	gtk_window_set_default_size((GtkWindow *)editor, 400, 500);
 	gtk_dialog_add_buttons (GTK_DIALOG (editor),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
