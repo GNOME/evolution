@@ -4,6 +4,7 @@ images_DATA = \
 	16_customize.png		\
 	16_cut.png			\
 	16_paste.png			\
+	about-box.png			\
 	apply-filters-16.xpm		\
 	bcg.png				\
 	configure_16_addressbook.xpm	\
@@ -28,6 +29,7 @@ images_DATA = \
 	import.xpm			\
 	inbox-16.png			\
 	inbox-full-16.png		\
+	meeting-request.png 		\
 	alarm.png			\
 	meeting-request.png		\
 	move_message.xpm		\
@@ -37,9 +39,9 @@ images_DATA = \
 	outbox-16.png 			\
 	outbox-full-16.png 		\
 	pattern.png			\
-	pgp-signature-bad.png		\
-	pgp-signature-nokey.png		\
-	pgp-signature-ok.png		\
+	pgp-signature-bad.png 		\
+	pgp-signature-nokey.png 	\
+	pgp-signature-ok.png 		\
 	print.xpm			\
 	print-preview.xpm		\
 	rdf.png				\
@@ -127,7 +129,7 @@ images_DATA = \
 	task.png			\
 	thankyou.png			\
 	timezone-16.xpm			\
-   	timezone-48.png 		\
+	timezone-48.png 		\
 	undelete_message-16.png		\
 	wax-seal.png			\
 	wax-seal-broken.png		\

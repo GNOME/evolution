@@ -1,3 +1,9 @@
+2001-10-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (images_DATA): Add `about-box.png'.
+
+	* about-box.png: New image for the about box from Jakub.
+
 2001-10-18  Larry Ewing  <lewing@ximian.com>
 
 	* Makefile.am (images_DATA): add alarm.png for the new alarm
