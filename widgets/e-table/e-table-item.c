@@ -62,6 +62,7 @@ static int eti_row_height (ETableItem *eti, int row);
 static void e_table_item_unselect_row (ETableItem *eti, int row);
 static void e_table_item_select_row (ETableItem *eti, int row);
 static void eti_selection (GnomeCanvasItem *item, int flags, gpointer user_data);
+static int eti_selection_compare (GnomeCanvasItem *item, gpointer data1, gpointer data2, int flags);
 static void e_table_item_focus (ETableItem *eti, int col, int row, gboolean add_selection);
 static void
 eti_request_region_show (ETableItem *eti,
@@ -894,6 +895,7 @@ eti_init (GnomeCanvasItem *item)
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 	e_canvas_item_set_selection_callback (GNOME_CANVAS_ITEM (eti), eti_selection);
+	e_canvas_item_set_selection_compare_callback (GNOME_CANVAS_ITEM (eti), eti_selection_compare);
 }
 
 #define gray50_width 2
@@ -1239,8 +1241,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	gint return_val = TRUE;
 
 	switch (e->type){
-	case GDK_BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE: {
+	case GDK_BUTTON_PRESS: {
 		double x1, y1;
 		int col, row;
 		gint shifted = e->button.state & GDK_SHIFT_MASK;
@@ -1258,11 +1259,21 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				/*
 				 * Focus the cell, and select the row
 				 */
-				e_table_item_leave_edit (eti);
-				e_table_item_focus (eti, col, view_to_model_row(eti, row), shifted);
+				if (e_table_item_is_row_selected(eti, view_to_model_row(eti, row))) {
+					int nums[2];
+					e_table_item_leave_edit (eti);
+					nums[0] = view_to_model_row(eti, row);
+					nums[1] = 0;
+					e_canvas_item_remove_selection(GNOME_CANVAS_ITEM(eti), nums);
+				} else {
+					e_table_item_leave_edit (eti);
+					e_table_item_focus (eti, col, view_to_model_row(eti, row), shifted);
+				}
 			}
 
 			if (eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
+
+				e_table_item_focus (eti, col, view_to_model_row(eti, row), shifted);
 				
 				ecol = e_table_header_get_column (eti->header, col);
 				ecell_view = eti->cell_views [col];
@@ -1270,7 +1281,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				/*
 				 * Adjust the event positions
 				 */
-				e->button.x = x1; 
+				e->button.x = x1;
 				e->button.y = y1;
 				
 				e_cell_event (ecell_view, e, ecol->col_idx, col, row);
@@ -1681,6 +1692,20 @@ eti_selection (GnomeCanvasItem *item, int flags, gpointer data)
 		g_free(data);
 	}
 }
+
+static gint
+eti_selection_compare (GnomeCanvasItem *item, gpointer data1, gpointer data2, int flags)
+{
+	int *val1 = (int *) data1;
+	int *val2 = (int *) data2;
+	if (*val1 < *val2)
+		return -1;
+	else if (*val1 == *val2)
+		return 0;
+	else
+		return 1;
+}
+
 
 void
 e_table_item_enter_edit (ETableItem *eti, int col, int row)

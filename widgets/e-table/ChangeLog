@@ -1,3 +1,8 @@
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-item.c: Added a reflow_compare callback and did removal
+	if you do shift-click on a selected row that's not the cursor.
+
 2000-06-29  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-click-to-add.c: Made this appear a bit better.
