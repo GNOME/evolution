@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-11 14:39+0800\n"
+"POT-Creation-Date: 2005-01-12 00:45+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -10229,7 +10229,7 @@ msgid "Create New Folder"
 msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:323
+#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:332
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -10293,13 +10293,13 @@ msgstr "选择文件夹"
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2282 plugins/shared-folder/share-folder-common.c:128
+#: mail/em-folder-tree.c:2282 plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
 #: mail/em-folder-tree.c:2471 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:323
+#: plugins/shared-folder/share-folder-common.c:332
 msgid "Create folder"
 msgstr "创建文件夹"
 
@@ -14255,15 +14255,15 @@ msgstr "共享对象(_S)..."
 msgid "_Sharing"
 msgstr "共享(_S)"
 
-#: plugins/shared-folder/share-folder-common.c:294
+#: plugins/shared-folder/share-folder-common.c:303
 msgid "Users"
 msgstr "用户"
 
-#: plugins/shared-folder/share-folder-common.c:295
+#: plugins/shared-folder/share-folder-common.c:304
 msgid "Enter the users and set permissions"
 msgstr "输入用户及设定权限"
 
-#: plugins/shared-folder/share-folder-common.c:374
+#: plugins/shared-folder/share-folder-common.c:382
 msgid "Sharing"
 msgstr "共享"
 
@@ -17208,4 +17208,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
-
