@@ -1,3 +1,8 @@
+2001-02-11  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: rework ldap check logic so it'll work to
+	--disable-ldap if you've previously configured with --enable-ldap.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt> 
 
 	* data/evolution.keys, evolution.desktop: removed, they are generated.

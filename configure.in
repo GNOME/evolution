@@ -163,8 +163,9 @@ if test x$ac_cv_lib_ldap_ldap_open = xyes; then
 	msg_ldap=Yes
 else
 	msg_ldap=No
+        enable_ldap=no
 fi
-AM_CONDITIONAL(ENABLE_LDAP, test x$ac_cv_lib_ldap_ldap_open = xyes)
+AM_CONDITIONAL(ENABLE_LDAP, test x$enable_ldap = xyes)
 
 dnl **************************************************
 dnl NNTP support.
