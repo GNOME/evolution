@@ -66,6 +66,7 @@
 #include "e-cal-list-view.h"
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
+#include "e-cal-menu.h"
 
 /* Focusing information for the calendar view.  We have to keep track of this
  * ourselves because with Bonobo controls, we may get unpaired focus_out events.
@@ -383,6 +384,37 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	gtk_widget_destroy (dialog);
 }
 
+struct _sensitize_item {
+	char *command;
+	guint32 enable;
+};
+
+static void
+sensitize_items(BonoboUIComponent *uic, struct _sensitize_item *items, guint32 mask)
+{
+	while (items->command) {
+		char command[32];
+
+		g_assert(strlen(items->command)<21);
+		sprintf(command, "/commands/%s", items->command);
+
+		bonobo_ui_component_set_prop (uic, command, "sensitive",
+					      (items->enable & mask) == 0 ? "1" : "0",
+					      NULL);
+		items++;
+	}
+}
+
+static struct _sensitize_item calendar_sensitize_table[] = {
+	{ "EventOpen", E_CAL_MENU_SELECT_ONE },
+	{ "Cut", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Copy", E_CAL_MENU_SELECT_ANY },
+	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Delete", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_NONRECURRING },
+	{ "DeleteOccurrence", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
+	{ "DeleteAllOccurrences", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
+	{ 0 }
+};
 
 /* Sensitizes the UI Component menu/toolbar calendar commands based on the
  * number of selected events. (This will always be 0 or 1 currently.)  If enable
@@ -393,13 +425,13 @@ void
 calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalendar *gcal, gboolean enable)
 {
 	BonoboUIComponent *uic;
-	ECalendarViewEvent *event;
-	GList *list;
-	int n_selected;
 	GtkWidget *view;
-	ECal *e_cal;
-	gboolean selected_read_only = FALSE, default_read_only = FALSE, has_recurrences;
-	
+	ECalMenu *menu;
+	ECalModel *model;
+	GPtrArray *events;
+	GList *selected, *l;
+	ECalMenuTargetSelect *t;
+
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
@@ -407,60 +439,42 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 		return;
 	
 	view = gnome_calendar_get_current_view_widget (gcal);
-	list = e_calendar_view_get_selected_events (E_CALENDAR_VIEW (view));
 
-	n_selected = enable ? g_list_length (list) : 0;
+	menu = gnome_calendar_get_calendar_menu (gcal);
+	model = e_calendar_view_get_model((ECalendarView *)view);
+	events = g_ptr_array_new();
+	selected = e_calendar_view_get_selected_events((ECalendarView *)view);
+	for (l=selected;l;l=g_list_next(l)) {
+		ECalendarViewEvent *event = l->data;
+		if (event)
+			g_ptr_array_add(events, e_cal_model_copy_component_data(event->comp_data));
+	}
+	g_list_free(selected);
 
-	event = (ECalendarViewEvent *) list ? list->data : NULL;
-	if (event && event->comp_data)
-		e_cal_is_read_only (event->comp_data->client, &selected_read_only, NULL);
-	else
-		selected_read_only = TRUE;
+	t = e_cal_menu_target_new_select(menu, model, events);
+	if (!enable)
+		t->target.mask = ~0;
 
+	sensitize_items(uic, calendar_sensitize_table, t->target.mask);
+#if 0
 	/* retrieve read-onlyness of the default client */
 	e_cal = e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal));
 	if (e_cal)
 		e_cal_is_read_only (e_cal, &default_read_only, NULL);
 	else
 		default_read_only = TRUE;
+#endif
 
-	bonobo_ui_component_set_prop (uic, "/commands/EventOpen", "sensitive",
-				      n_selected != 1 ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
-				      n_selected == 0 || selected_read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
-				      n_selected == 0 ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
-				      default_read_only ? "0" : "1",
-				      NULL);
-
-	/* occurrence-related menu items */
-	has_recurrences = FALSE;
-	if (n_selected > 0 && !selected_read_only) {
-		if (list) {
-			event = (ECalendarViewEvent *) list->data;
-			if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
-				has_recurrences = TRUE;
-		}
-	}
-
-	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 || selected_read_only || has_recurrences ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/DeleteOccurrence", "sensitive",
-				      has_recurrences ? "1" : "0",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/DeleteAllOccurrences", "sensitive",
-				      has_recurrences ? "1" : "0",
-				      NULL);
-
-	/* free memory */
-	if (list)
-		g_list_free (list);
+	e_menu_update_target((EMenu *)menu, (EMenuTarget *)t);
 }
+
+static struct _sensitize_item taskpad_sensitize_table[] = {
+	{ "Cut", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Copy", E_CAL_MENU_SELECT_ANY },
+	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Delete", E_CAL_MENU_SELECT_EDITABLE },
+	{ 0 }
+};
 
 /* Sensitizes the UI Component menu/toolbar tasks commands based on the number
  * of selected tasks.  If enable is FALSE, all will be disabled.  Otherwise, the
@@ -470,37 +484,30 @@ static void
 sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolean enable)
 {
 	BonoboUIComponent *uic;
-	int n_selected;
 	ECalendarTable *task_pad;
 	ECalModel *model;
-	ECal *e_cal;
-	gboolean read_only = TRUE;
-	
+	GSList *selected, *l;
+	ECalMenu *menu;
+	GPtrArray *events;
+	ECalMenuTargetSelect *t;
+
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
-	task_pad = gnome_calendar_get_task_pad (gcal);
+	menu = gnome_calendar_get_calendar_menu (gcal);
+	task_pad = gnome_calendar_get_task_pad(gcal);
 	model = e_calendar_table_get_model (task_pad);
-	e_cal = e_cal_model_get_default_client (model);
-	
-	if (e_cal)
-		e_cal_is_read_only (e_cal, &read_only, NULL);
-	else
-		read_only = TRUE;
+	selected = e_calendar_table_get_selected(task_pad);
+	events = g_ptr_array_new();
+	for (l=selected;l;l=g_slist_next(l))
+		g_ptr_array_add(events, e_cal_model_copy_component_data((ECalModelComponent *)l->data));
+	g_slist_free(selected);
 
-	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
-				      n_selected == 0 ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
-				      enable && !read_only ? "1" : "0",
-				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 || read_only ? "0" : "1",
-				      NULL);
+	t = e_cal_menu_target_new_select(menu, model, events);
+	if (!enable)
+		t->target.mask = ~0;
+
+	sensitize_items(uic, taskpad_sensitize_table, t->target.mask);
 }
 
 /* Callback used when the selection in the calendar views changes */
@@ -510,6 +517,8 @@ gcal_calendar_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
 	BonoboControl *control;
 
 	control = BONOBO_CONTROL (data);
+
+	printf("calendar selection changed\n");
 
 	calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 }
@@ -659,6 +668,9 @@ calendar_control_activate (BonoboControl *control,
 	g_signal_connect (gcal, "taskpad_focus_change",
 			  G_CALLBACK (gcal_taskpad_focus_change_cb), control);
 
+	e_menu_activate((EMenu *)gnome_calendar_get_calendar_menu (gcal), uic, 1);
+	e_menu_activate((EMenu *)gnome_calendar_get_taskpad_menu (gcal), uic, 1);
+
 	calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 	sensitize_taskpad_commands (gcal, control, TRUE);
 
@@ -679,6 +691,9 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
+
+	e_menu_activate((EMenu *)gnome_calendar_get_calendar_menu (gcal), uic, 0);
+	e_menu_activate((EMenu *)gnome_calendar_get_taskpad_menu (gcal), uic, 0);
 
 	gnome_calendar_set_ui_component (gcal, NULL);
 

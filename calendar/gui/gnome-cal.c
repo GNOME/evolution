@@ -79,6 +79,7 @@
 #include "ea-calendar.h"
 #include "common/authentication.h"
 #include "e-cal-popup.h"
+#include "e-cal-menu.h"
 
 /* FIXME glib 2.4 and above has this */
 #ifndef G_MAXINT32
@@ -127,7 +128,11 @@ struct _GnomeCalendarPrivate {
 
 	/* Activity */
 	EActivityHandler *activity_handler;
-	
+
+	/* plugin menu managers */
+	ECalMenu    *calendar_menu;
+	ECalMenu    *taskpad_menu;
+
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
 	char        *sexp;
@@ -1361,6 +1366,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	setup_config (gcal);
 	setup_widgets (gcal);
 
+	priv->calendar_menu = e_cal_menu_new("com.novell.evolution.calendar.view");
+	priv->taskpad_menu = e_cal_menu_new("com.novell.evolution.calendar.taskpad");
+
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */
 	priv->todo_sexp = g_strdup ("#t");
@@ -1484,6 +1492,16 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->view_menus) {
 			g_object_unref (priv->view_menus);
 			priv->view_menus = NULL;
+		}
+
+		if (priv->calendar_menu) {
+			g_object_unref (priv->calendar_menu);
+			priv->calendar_menu = NULL;
+		}
+
+		if (priv->taskpad_menu) {
+			g_object_unref (priv->taskpad_menu);
+			priv->taskpad_menu = NULL;
 		}
 
 		g_free (priv);
@@ -3331,4 +3349,18 @@ gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal)
  	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
  
  	return GTK_WIDGET(gcal->priv->notebook);
+}
+
+ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return gcal->priv->taskpad_menu;
+}
+
+ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
+{
+ 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+ 
+ 	return gcal->priv->calendar_menu;
 }

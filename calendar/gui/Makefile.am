@@ -115,6 +115,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-alarm-list.h				\
 	e-cal-component-preview.c		\
 	e-cal-component-preview.h		\
+	e-cal-menu.c				\
+	e-cal-menu.h				\
 	e-cal-model-calendar.h			\
 	e-cal-model-calendar.c			\
 	e-cal-model-calendar.h			\

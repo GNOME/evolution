@@ -746,6 +746,21 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 }
 
 /**
+ * e_calendar_table_get_selected:
+ * @cal_table: 
+ * 
+ * Get the currently selected ECalModelComponent's on the table.
+ * 
+ * Return value: A GSList of the components, which should be
+ * g_slist_free'd when finished with.
+ **/
+GSList *
+e_calendar_table_get_selected (ECalendarTable *cal_table)
+{
+	return get_selected_objects(cal_table);
+}
+
+/**
  * e_calendar_table_cut_clipboard:
  * @cal_table: A calendar table.
  *

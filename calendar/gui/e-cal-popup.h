@@ -53,7 +53,8 @@ enum _e_cal_popup_target_t {
  * enum _e_cal_popup_target_select_t - ECalPopupTargetSelect qualifiers.
  * 
  * @E_CAL_POPUP_SELECT_ONE: Only one item is selected.
- * @E_CAL_POPUP_SELECT_MANY: One ore more items are selected.
+ * @E_CAL_POPUP_SELECT_MANY: More than one item selected.
+ * @E_CAL_POPUP_SELECT_ANY: One ore more items are selected.
  * @E_CAL_POPUP_SELECT_EDITABLE: The selection is editable.
  * @E_CAL_POPUP_SELECT_RECURRING: Is a recurring event.
  * @E_CAL_POPUP_SELECT_NONRECURRING: Is not a recurring event.
@@ -61,22 +62,24 @@ enum _e_cal_popup_target_t {
  * @E_CAL_POPUP_SELECT_ORGANIZER: The user is the organiser of the event.
  * @E_CAL_POPUP_SELECT_NOTEDITING: The event is not being edited already.  Not implemented.
  * @E_CAL_POPUP_SELECT_NOTMEETING: The event is not a meeting.
- * 
+ * @E_CAL_POPUP_SELECT_ASSIGNABLE: An assignable task.
+ * @E_CAL_POPUP_SELECT_HASURL: A task that contains a URL.
  **/
 enum _e_cal_popup_target_select_t {
 	E_CAL_POPUP_SELECT_ONE = 1<<0,
 	E_CAL_POPUP_SELECT_MANY = 1<<1,
-	E_CAL_POPUP_SELECT_EDITABLE = 1<<2,
-	E_CAL_POPUP_SELECT_RECURRING = 1<<3,
-	E_CAL_POPUP_SELECT_NONRECURRING = 1<<4,
-	E_CAL_POPUP_SELECT_INSTANCE = 1<<5,
+	E_CAL_POPUP_SELECT_ANY = 1<<2,
+	E_CAL_POPUP_SELECT_EDITABLE = 1<<3,
+	E_CAL_POPUP_SELECT_RECURRING = 1<<4,
+	E_CAL_POPUP_SELECT_NONRECURRING = 1<<5,
+	E_CAL_POPUP_SELECT_INSTANCE = 1<<6,
 
-	E_CAL_POPUP_SELECT_ORGANIZER = 1<<6,
-	E_CAL_POPUP_SELECT_NOTEDITING = 1<<7,
-	E_CAL_POPUP_SELECT_NOTMEETING = 1<<8,
+	E_CAL_POPUP_SELECT_ORGANIZER = 1<<7,
+	E_CAL_POPUP_SELECT_NOTEDITING = 1<<8,
+	E_CAL_POPUP_SELECT_NOTMEETING = 1<<9,
 
-	E_CAL_POPUP_SELECT_ASSIGNABLE = 1<<9,
-	E_CAL_POPUP_SELECT_HASURL = 1<<10,
+	E_CAL_POPUP_SELECT_ASSIGNABLE = 1<<10,
+	E_CAL_POPUP_SELECT_HASURL = 1<<11,
 };
 
 /**

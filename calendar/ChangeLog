@@ -1,3 +1,29 @@
+2004-10-14  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cal-menu.c (e_cal_menu_target_new_select): dont access a
+	NULL client.
+
+	* gui/gnome-cal.c (gnome_calendar_get_taskpad_menu)
+	(gnome_calendar_get_calendar_menu): accessors to get the menu
+	managers.
+	(gnome_calendar_init): setup menu managers.
+
+2004-10-13  Not Zed  <NotZed@Ximian.com>
+
+	* gui/calendar-commands.c (calendar_control_activate)
+	(calendar_control_deactivate): activate and deactivate the
+	calendar and taskpad menu handlers.
+	(sensitize_items): helper to sensitise items based on target
+	masks.
+	(calendar_control_sensitize_calendar_commands): update the
+	calendar menu manager target appropriately.
+	(sensitize_taskpad_commands): same for the taskpad.
+
+	* gui/e-cal-menu.[ch]: Targets for main menu management.
+
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select): fix cast.
+	Also include the tasks stuff in the hook metadata.
+
 2004-10-15  JP Rosevear  <jpr@novell.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): remove

@@ -129,6 +129,8 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	ECal *client;
 	gboolean read_only;
 
+	/* FIXME: This is duplicated in e-cal-menu */
+
 	t->model = model;
 	g_object_ref(t->model);
 	t->events = events;
@@ -136,8 +138,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	if (t->events->len == 0) {
 		client = e_cal_model_get_default_client(t->model);
 	} else {
-		ECalModelComponent *comp_data = (ECalendarViewEvent *)t->events->pdata[0];
+		ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[0];
 
+		mask &= ~E_CAL_POPUP_SELECT_ANY;
 		if (t->events->len == 1)
 			mask &= ~E_CAL_POPUP_SELECT_ONE;
 		else
@@ -257,6 +260,8 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "organizer", E_CAL_POPUP_SELECT_ORGANIZER },
 	{ "not-editing", E_CAL_POPUP_SELECT_NOTEDITING },
 	{ "not-meeting", E_CAL_POPUP_SELECT_NOTMEETING },
+	{ "assignable", E_CAL_POPUP_SELECT_ASSIGNABLE },
+	{ "hasurl", E_CAL_POPUP_SELECT_HASURL },
 	{ 0 }
 };
 

@@ -135,6 +135,9 @@ GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
 
+struct _ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
+struct _ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
+
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 
