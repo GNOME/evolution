@@ -588,7 +588,6 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 {
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
-	CamelStream *message_stream;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilterSmtp *mimefilter;
 	gint id;
@@ -618,13 +617,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 		return FALSE;
 	}
 	
-	/* now to send the actual data */
-	message_stream = gtk_type_new(camel_stream_get_type());
-	camel_data_wrapper_write_to_stream(CAMEL_DATA_WRAPPER(message), message_stream);
-	
 	/* setup stream filtering */
 	mimefilter = camel_mime_filter_smtp_new();
-        filtered_stream = camel_stream_filter_new_with_stream(message_stream);
+        filtered_stream = camel_stream_filter_new_with_stream(transport->ostream);
 	id = camel_stream_filter_add(filtered_stream, CAMEL_MIME_FILTER(mimefilter));
 
 	if (camel_stream_write_to_stream(CAMEL_STREAM(filtered_stream), transport->ostream) == -1) {

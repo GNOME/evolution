@@ -3,6 +3,9 @@
 	* camel-mime-filter-smtp.c: filter: Updated to check for
 	\r's.
 
+	* providers/smtp/camel-smtp-transport.c: smtp_data: Fixed the 
+	filtered stream
+
 2000-05-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-filter-from.c: Undid previous changes
