@@ -24,7 +24,7 @@
 
 #include "rule-context.h"
 
-#define d(x) x
+#define d(x)
 
 static int	load(RuleContext *f, const char *system, const char *user,
 		     RCRegisterFunc on_demand_cb, gpointer user_data);
@@ -178,7 +178,7 @@ rule_context_set_error(RuleContext *f, char *error)
 int		rule_context_load(RuleContext *f, const char *system, const char *user, 
 				  RCRegisterFunc on_demand_cb, gpointer user_data )
 {
-	printf("rule_context: loading %s %s\n", system, user);
+	d(printf("rule_context: loading %s %s\n", system, user));
 
 	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user,
 								   on_demand_cb,
@@ -247,7 +247,7 @@ static int	load(RuleContext *f, const char *system, const char *user,
 				d(printf("loading rules ...\n"));
 				rule = set->childs;
 				while (rule) {
-					printf("checking node: %s\n", rule->name);
+					d(printf("checking node: %s\n", rule->name));
 					if (!strcmp(rule->name, "rule")) {
 						FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
 						if (filter_rule_xml_decode(part, rule, f) == 0) {

@@ -26,7 +26,7 @@
 #include "filter-datespec.h"
 #include "e-util/e-sexp.h"
 
-#define d(x) x
+#define d(x)
 
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);

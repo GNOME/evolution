@@ -1,3 +1,8 @@
+2000-09-12  Dan Winship  <danw@helixcode.com>
+
+	* rule-context.c (d): 
+	* filter-datespec.c (d): Turn off debugging output.
+
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c: We now use a "copied" variable to record
