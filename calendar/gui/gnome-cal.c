@@ -1551,6 +1551,17 @@ method_error (GnomeCalendar *gcal, const char *uri)
 	g_free (msg);
 }
 
+/* Displays an error to indicate permission problems */
+static void
+permission_error (GnomeCalendar *gcal, const char *uri)
+{
+	char *msg;
+
+	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), uri);
+	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	g_free (msg);
+}
+
 /* Callback from the calendar client when a calendar is loaded */
 static void
 client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
@@ -1587,6 +1598,10 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 
 	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
 		method_error (gcal, cal_client_get_uri (client));
+		break;
+
+	case CAL_CLIENT_OPEN_PERMISSION_DENIED :
+		permission_error (gcal, cal_client_get_uri (client));
 		break;
 
 	default:

@@ -223,7 +223,8 @@ module Calendar {
 			NOT_FOUND,		/* Requested opening in only_if_exists mode
 						 * when the URI did not exist.
 						 */
-			METHOD_NOT_SUPPORTED	/* A method handler is not registered */
+			METHOD_NOT_SUPPORTED,	/* A method handler is not registered */
+			PERMISSION_DENIED
 		};
 
 		/* Return status when setting calendar mode */

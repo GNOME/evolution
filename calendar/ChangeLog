@@ -1,5 +1,24 @@
 2002-05-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (client_cal_opened_cb): added support for
+	CAL_CLIENT_OPEN_PERMISSION_DENIED error code.
+	(permission_error): new function to display 'Permission Denied'
+	error message when opening the calendar.
+
+	* gui/e-tasks.c: likewise.
+
+	* idl/evolution-calendar.idl: added PERMISSION_DENIED to Listener's
+	OpenStatus enumeration.
+
+	* cal-client/cal-client.c (cal_opened_cb): added code for retrieving
+	'Permission Denied' errors, and convert it to CalClientOpenStatus
+	values.
+
+	* pcs/cal-factory.c (open_backend): added code for informing of
+	'Permission Denied' errors.
+
+2002-05-16  Rodrigo Moya <rodrigo@ximian.com>
+
 	* idl/evolution-calendar.idl: added PermissionDenied exception and
 	make it be raised in open, updateObjects and removeObject.
 

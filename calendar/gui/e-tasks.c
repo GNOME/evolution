@@ -406,6 +406,17 @@ method_error				(ETasks		*tasks,
 	g_free (msg);
 }
 
+/* Displays an error to indicate permission problems */
+static void
+permission_error (ETasks *tasks, const char *uri)
+{
+	char *msg;
+
+	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), uri);
+	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
+	g_free (msg);
+}
+
 /* Callback from the calendar client when a calendar is opened */
 static void
 cal_opened_cb				(CalClient	*client,
@@ -444,6 +455,10 @@ cal_opened_cb				(CalClient	*client,
 
 	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
 		method_error (tasks, cal_client_get_uri (client));
+		break;
+
+	case CAL_CLIENT_OPEN_PERMISSION_DENIED:
+		permission_error (tasks, cal_client_get_uri (client));
 		break;
 
 	default:

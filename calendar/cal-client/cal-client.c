@@ -408,6 +408,10 @@ cal_opened_cb (CalListener *listener,
 		client_status = CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED;
 		goto error;
 
+	case GNOME_Evolution_Calendar_Listener_PERMISSION_DENIED :
+		client_status = CAL_CLIENT_OPEN_PERMISSION_DENIED;
+		goto error;
+
 	default:
 		g_assert_not_reached ();
 	}
