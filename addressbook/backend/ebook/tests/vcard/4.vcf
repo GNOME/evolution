@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:2.1
+X-EVOLUTION-FILE-AS:address, canada
+FN:canada address
+N:address;canada
+ADR;WORK:;;92 Main St. N.;Newmarket;ON;L3Y 4A1;Canada
+ADR;HOME;PREF:;;92 Main St. N.;Newmarket;ON;L3Y 4A1;Canada
+LABEL;QUOTED-PRINTABLE;WORK:92 Main St. N.=0ANewmarket, ON L3Y 4A1=0ACanada
+LABEL;QUOTED-PRINTABLE;HOME;PREF:92 Main St. N.=0ANewmarket, ON L3Y 4A1=0ACanada
+UID:pas-id-3E84C16E00000001
+END:VCARD
