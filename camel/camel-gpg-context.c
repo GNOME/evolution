@@ -185,6 +185,7 @@ struct _GpgCtx {
 	unsigned char *statusptr;
 	unsigned int statusleft;
 	
+	char *need_id;
 	char *passwd;
 	
 	CamelStream *istream;
@@ -255,6 +256,7 @@ gpg_ctx_new (CamelSession *session)
 	gpg->bad_passwds = 0;
 	gpg->need_passwd = FALSE;
 	gpg->send_passwd = FALSE;
+	gpg->need_id = NULL;
 	gpg->passwd = NULL;
 	
 	gpg->validsig = FALSE;
@@ -420,8 +422,12 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 	
 	g_free (gpg->statusbuf);
 	
-	if (gpg->passwd)
+	g_free (gpg->need_id);
+	
+	if (gpg->passwd) {
+		memset (gpg->passwd, 0, strlen (gpg->passwd));
 		g_free (gpg->passwd);
+	}
 	
 	if (gpg->istream)
 		camel_object_unref (gpg->istream);
@@ -731,8 +737,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		
 		g_hash_table_insert (gpg->userid_hint, hint, user);
 	} else if (!strncmp (status, "NEED_PASSPHRASE ", 16)) {
-		char *prompt, *userid, *passwd;
-		const char *name;
+		char *userid;
 		
 		status += 16;
 		
@@ -743,14 +748,20 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			return -1;
 		}
 		
-		name = g_hash_table_lookup (gpg->userid_hint, userid);
+		g_free (gpg->need_id);
+		gpg->need_id = userid;
+	} else if (!strncmp (status, "GET_HIDDEN passphrase.enter", 27)) {
+		char *prompt, *passwd;
+		const char *name;
+		
+		name = g_hash_table_lookup (gpg->userid_hint, gpg->need_id);
 		if (!name)
-			name = userid;
+			name = gpg->need_id;
 		
 		prompt = g_strdup_printf (_("You need a passphrase to unlock the key for\n"
 					    "user: \"%s\""), name);
 		
-		if ((passwd = camel_session_get_password (gpg->session, prompt, FALSE, TRUE, NULL, userid, ex)) && !gpg->utf8) {
+		if ((passwd = camel_session_get_password (gpg->session, prompt, FALSE, TRUE, NULL, gpg->userid, ex)) && !gpg->utf8) {
 			char *opasswd = passwd;
 			
 			if ((passwd = g_locale_to_utf8 (passwd, -1, &nread, &nwritten, NULL))) {
@@ -761,9 +772,6 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			}
 		}
 		g_free (prompt);
-		
-		g_free (gpg->userid);
-		gpg->userid = userid;
 		
 		if (passwd == NULL) {
 			if (!camel_exception_is_set (ex))
@@ -1221,16 +1229,16 @@ gpg_ctx_op_wait (struct _GpgCtx *gpg)
 static int
 gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
-	struct _GpgCtx *gpg;
+	struct _GpgCtx *gpg = NULL;
 	CamelStream *ostream = camel_stream_mem_new(), *istream;
 	CamelDataWrapper *dw;
 	CamelContentType *ct;
 	int res = -1;
 	CamelMimePart *sigpart;
 	CamelMultipartSigned *mps;
-
+	
 	/* Note: see rfc2015 or rfc3156, section 5 */
-
+	
 	/* FIXME: stream this, we stream output at least */
 	istream = camel_stream_mem_new();
 	if (camel_cipher_canonical_to_stream(ipart, CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM,
@@ -1311,7 +1319,9 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	camel_medium_set_content_object((CamelMedium *)opart, (CamelDataWrapper *)mps);
 fail:
 	camel_object_unref(ostream);
-	gpg_ctx_free (gpg);
+	
+	if (gpg)
+		gpg_ctx_free (gpg);
 	
 	return res;
 }
