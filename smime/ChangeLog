@@ -1,3 +1,9 @@
+2004-06-17  JP Rosevear  <jpr@novell.com>
+
+	Fixes #56458
+	
+	* gui/smime-ui.glade: make the buttons vertical
+
 2004-06-17  Not Zed  <NotZed@Ximian.com>
 
 	** See #59885.
