@@ -1,5 +1,14 @@
 2004-07-12  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #61299 ]
+
+	* gui/component/addressbook.c (addressbook_load_default_book):
+	don't pass @closure to load_source_cb, since that expects to get a
+	LoadSourceData*. also, don't always call e_book_async_open.  only
+	do that when the book is non-NULL.
+
+2004-07-12  Chris Toshok  <toshok@ximian.com>
+
 	[ part of fix for bug #56520 ]
 	
 	* gui/contact-list-editor/e-contact-list-editor.c
