@@ -1,3 +1,8 @@
+2001-07-23  Jason Leach  <jleach@ximian.com>
+
+	* e-summary-preferences.c: Update the url (and site name) for the
+	KDE rdf.  Bug #5145.
+
 2001-07-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c: Make the "My Evolution" folder
