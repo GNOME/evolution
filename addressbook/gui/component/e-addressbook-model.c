@@ -263,7 +263,8 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static gboolean
 get_view(EAddressbookModel *model)
 {
-	e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+	if (model->book && model->query)
+		e_book_get_book_view(model->book, model->query, book_view_loaded, model);
 
 	model->get_view_idle = 0;
 	return FALSE;

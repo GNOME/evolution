@@ -176,7 +176,8 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static gboolean
 get_view(EMinicardView *view)
 {
-	e_book_get_book_view(view->book, view->query, book_view_loaded, view);
+	if (view->book && view->query)
+		e_book_get_book_view(view->book, view->query, book_view_loaded, view);
 
 	view->get_view_idle = 0;
 	return FALSE;

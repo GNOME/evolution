@@ -1,3 +1,13 @@
+2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Make the addressbook create the
+	correct file uri.  Added a default query.  Initialize view->model
+	and view->view to NULL.
+
+	* gui/component/e-addressbook-model.c,
+	gui/minicard/e-minicard-view.c: Only call get_book_view if both
+	book and query and non-null.
+
 2000-05-06  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook.c (control_deactivate): remove the

@@ -549,8 +549,11 @@ set_prop (BonoboPropertyBag *bag,
 
 		uri_data = e_read_file(uri_file);
 
-		if (!uri_data)
-			uri_data = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
+		if (!uri_data) {
+			char *file_name = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
+			uri_data = g_strdup_printf("file://%s", file_name);
+			g_free(file_name);
+		}
 		
 		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
 			{
@@ -736,8 +739,12 @@ change_view_type (AddressbookView *view, AddressbookViewType view_type)
 
 	if (view_type == view->view_type)
 		return;
+	
+	if (view->view_type != ADDRESSBOOK_VIEW_NONE)
+		query = get_query(view);
+	else
+		query = g_strdup("(contains \"full_name\" \"\")");
 
-	query = get_query(view);
 
 	switch (view_type) {
 	case ADDRESSBOOK_VIEW_MINICARD:
@@ -787,6 +794,9 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 
 	/* Create the control. */
 	view->control = bonobo_control_new(view->vbox);
+
+	view->model = NULL;
+	view->view = NULL;
 
 	/* create the initial view */
 	change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
