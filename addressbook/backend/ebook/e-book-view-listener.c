@@ -477,7 +477,7 @@ e_book_view_listener_dispose (GObject *object)
 }
 
 static void
-corba_class_init (void)
+corba_class_init (EBookViewListenerClass *klass)
 {
 	POA_GNOME_Evolution_Addressbook_BookViewListener__vepv *vepv;
 	POA_GNOME_Evolution_Addressbook_BookViewListener__epv *epv;
@@ -489,7 +489,7 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookViewListener__epv, 1);
+	epv = &klass->epv;
 	epv->notifyCardChanged      = impl_BookViewListener_notify_card_changed;
 	epv->notifyCardRemoved      = impl_BookViewListener_notify_card_removed;
 	epv->notifyCardAdded        = impl_BookViewListener_notify_card_added;
@@ -519,32 +519,11 @@ e_book_view_listener_class_init (EBookViewListenerClass *klass)
 
 	object_class->dispose = e_book_view_listener_dispose;
 
-	corba_class_init ();
+	corba_class_init (klass);
 }
 
-/**
- * e_book_view_listener_get_type:
- */
-GType
-e_book_view_listener_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo info = {
-			sizeof (EBookViewListenerClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc)  e_book_view_listener_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EBookViewListener),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) e_book_view_listener_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT, "EBookViewListener", &info, 0);
-	}
-
-	return type;
-}
+BONOBO_TYPE_FUNC_FULL (
+		       EBookViewListener,
+		       GNOME_Evolution_Addressbook_BookViewListener,
+		       BONOBO_TYPE_OBJECT,
+		       e_book_view_listener);

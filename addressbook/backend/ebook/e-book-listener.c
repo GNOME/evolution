@@ -783,7 +783,7 @@ e_book_listener_dispose (GObject *object)
 }
 
 static void
-corba_class_init (void)
+corba_class_init (EBookListenerClass *klass)
 {
 	POA_GNOME_Evolution_Addressbook_BookListener__vepv *vepv;
 	POA_GNOME_Evolution_Addressbook_BookListener__epv *epv;
@@ -795,7 +795,7 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookListener__epv, 1);
+	epv = &klass->epv;
 
 	epv->notifyOpenBookProgress     = impl_BookListener_report_open_book_progress;
 	epv->notifyBookOpened           = impl_BookListener_respond_open_book;
@@ -834,32 +834,11 @@ e_book_listener_class_init (EBookListenerClass *klass)
 
 	object_class->dispose = e_book_listener_dispose;
 
-	corba_class_init ();
+	corba_class_init (klass);
 }
 
-/**
- * e_book_listener_get_type:
- */
-GType
-e_book_listener_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo info = {
-			sizeof (EBookListenerClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc)  e_book_listener_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EBookListener),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) e_book_listener_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT, "EBookListener", &info, 0);
-	}
-
-	return type;
-}
+BONOBO_TYPE_FUNC_FULL (
+		       EBookListener,
+		       GNOME_Evolution_Addressbook_BookListener,
+		       BONOBO_TYPE_OBJECT,
+		       e_book_listener);

@@ -197,7 +197,8 @@ set_default_book_uri_local (void)
 		g_free (default_book_uri);
 
 	filename = g_build_filename (g_get_home_dir(),
-				     "evolution/local/Contacts/addressbook.db");
+				     "evolution/local/Contacts/addressbook.db",
+				     NULL);
 	default_book_uri = g_strdup_printf ("file://%s", filename);
 	g_free (filename);
 }

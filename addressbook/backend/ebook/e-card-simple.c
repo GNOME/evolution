@@ -386,8 +386,8 @@ e_card_simple_set_property (GObject *object,
 		g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
 		g_list_free(simple->temp_fields);
 		simple->temp_fields = NULL;
-		if (g_value_get_pointer (value))
-			simple->card = E_CARD(g_value_get_pointer (value));
+		if (g_value_get_object (value))
+			simple->card = E_CARD(g_value_get_object (value));
 		else
 			simple->card = NULL;
 		if(simple->card)
@@ -414,7 +414,7 @@ e_card_simple_get_property (GObject *object,
 	switch (prop_id) {
 	case PROP_CARD:
 		e_card_simple_sync_card(simple);
-		g_value_set_pointer (value, simple->card);
+		g_value_set_object (value, simple->card);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

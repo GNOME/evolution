@@ -1,3 +1,32 @@
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/test-client-list.c (main): don't call
+	bonobo_activation_init directly.
+
+	* backend/ebook/test-client.c (get_card_cb): don't unref the card
+	here since we never reffed it.
+	(main): no need to call bonobo_activation_init, as
+	gnome_program_init did it for us.
+
+	* backend/ebook/e-card-simple.c (e_card_simple_get_property):
+	s/g_value_{set,get}_pointer/g_value_{set,get}_object
+
+	* backend/ebook/e-book-util.c (set_default_book_uri_local): make
+	sure to terminate args with NULL for g_build_filename.
+
+	* backend/ebook/e-book-listener.c: nuke e_book_listener_get_type
+	and use the BONOBO_TYPE_FUNC_FULL macro.
+
+	* backend/ebook/e-book-listener.h: add the epv to
+	EBookListenerClass so BONOBO_TYPE_FUNC_FULL works.
+
+	* backend/ebook/e-book-view-listener.c: nuke
+	e_book_view_listener_get_type and use the BONOBO_TYPE_FUNC_FULL
+	macro.
+
+	* backend/ebook/e-book-view-listener.h: add the epv to
+	EBookViewListenerClass so BONOBO_TYPE_FUNC_FULL works.
+
 2002-11-02  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book-types.h: just include glib.h instead of the

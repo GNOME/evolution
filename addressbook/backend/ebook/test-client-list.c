@@ -58,7 +58,6 @@ main (int argc, char **argv)
 {
 	gnome_program_init("test-client-list", "0.0", LIBGNOME_MODULE, argc, argv, NULL);
 
-	bonobo_activation_init (argc, argv);
 	init_bonobo (&argc, argv);
 
 	g_idle_add (ebook_create, NULL);

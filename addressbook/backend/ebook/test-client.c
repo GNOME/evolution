@@ -60,7 +60,6 @@ get_card_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
 	vcard = e_card_get_vcard_assume_utf8(card);
 	printf ("Card added: [%s]\n", vcard);
 	g_free(vcard);
-	g_object_unref(card);
 
 	printf ("Getting cards..\n");
 	e_book_get_cursor(book, "", get_cursor_cb, NULL);
@@ -173,7 +172,6 @@ main (int argc, char **argv)
 
 	gnome_program_init("test-client", "0.0", LIBGNOME_MODULE, argc, argv, NULL);
 
-	bonobo_activation_init (argc, argv);
 	init_bonobo (&argc, argv);
 
 	cardstr = NULL;

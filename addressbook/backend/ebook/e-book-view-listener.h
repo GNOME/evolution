@@ -37,6 +37,8 @@ struct _EBookViewListener {
 struct _EBookViewListenerClass {
 	BonoboObjectClass parent;
 
+	POA_GNOME_Evolution_Addressbook_BookViewListener__epv epv;
+
 	/*
 	 * Signals
 	 */
