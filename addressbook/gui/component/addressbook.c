@@ -532,10 +532,8 @@ set_prop (BonoboPropertyBag *bag,
 			uri_data = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
 		}
-		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
+		if (! e_book_load_uri (view->book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");
-		else
-			view->book = book;
 
 		
 		g_free(uri_data);
@@ -780,6 +778,9 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
 
 	gtk_widget_show_all( view->vbox );
+
+	/* create the view's ebook */
+	view->book = e_book_new ();
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 

@@ -3,6 +3,7 @@
 	* gui/component/addressbook.c (set_prop): don't create a new
 	ebook.  instead, unload the current uri (if there is one) and load
 	the new one.
+	(addressbook_factory): create the ebook once.
 
 2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
 
