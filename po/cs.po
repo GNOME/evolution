@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-03-23 11:49+0100\n"
-"PO-Revision-Date: 2003-03-23 18:04+0100\n"
+"POT-Creation-Date: 2003-03-24 03:40+0100\n"
+"PO-Revision-Date: 2003-03-24 12:56+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgid "Email"
 msgstr "E-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1773
+#: addressbook/gui/contact-editor/e-contact-editor.c:1754
 msgid "Primary"
 msgstr "Hlavní"
 
@@ -63,7 +63,7 @@ msgstr "Hl."
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/backend/ebook/e-card.c:1413
-#: addressbook/gui/contact-editor/e-contact-editor.c:1758
+#: addressbook/gui/contact-editor/e-contact-editor.c:1739
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
 msgstr "Asistent"
@@ -71,8 +71,8 @@ msgstr "Asistent"
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1759
-#: addressbook/gui/contact-editor/e-contact-editor.c:1830
+#: addressbook/gui/contact-editor/e-contact-editor.c:1740
+#: addressbook/gui/contact-editor/e-contact-editor.c:1811
 msgid "Business"
 msgstr "Práce"
 
@@ -82,12 +82,12 @@ msgid "Bus"
 msgstr "Pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1762
+#: addressbook/gui/contact-editor/e-contact-editor.c:1743
 msgid "Callback"
 msgstr "Zpětný dotaz"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1764
+#: addressbook/gui/contact-editor/e-contact-editor.c:1745
 msgid "Company"
 msgstr "Společnost"
 
@@ -98,8 +98,8 @@ msgstr "Spol."
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1765
-#: addressbook/gui/contact-editor/e-contact-editor.c:1831
+#: addressbook/gui/contact-editor/e-contact-editor.c:1746
+#: addressbook/gui/contact-editor/e-contact-editor.c:1812
 msgid "Home"
 msgstr "Domů"
 
@@ -115,18 +115,18 @@ msgstr "Org."
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: addressbook/gui/contact-editor/e-contact-editor.c:1769
+#: addressbook/gui/contact-editor/e-contact-editor.c:1750
 msgid "Mobile"
 msgstr "Mobilní"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1763
+#: addressbook/gui/contact-editor/e-contact-editor.c:1744
 msgid "Car"
 msgstr "Auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#: addressbook/gui/contact-editor/e-contact-editor.c:1761
+#: addressbook/gui/contact-editor/e-contact-editor.c:1742
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Fax"
 msgstr "Fax - práce"
@@ -136,13 +136,13 @@ msgid "Bus Fax"
 msgstr "Fax - pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1767
+#: addressbook/gui/contact-editor/e-contact-editor.c:1748
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Fax"
 msgstr "Fax - domů"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1760
+#: addressbook/gui/contact-editor/e-contact-editor.c:1741
 msgid "Business 2"
 msgstr "Práce 2"
 
@@ -151,43 +151,43 @@ msgid "Bus 2"
 msgstr "Pr. 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1766
+#: addressbook/gui/contact-editor/e-contact-editor.c:1747
 msgid "Home 2"
 msgstr "Domů 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1768
+#: addressbook/gui/contact-editor/e-contact-editor.c:1749
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1770
-#: addressbook/gui/contact-editor/e-contact-editor.c:1832
+#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1813
 msgid "Other"
 msgstr "Další"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1771
+#: addressbook/gui/contact-editor/e-contact-editor.c:1752
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Other Fax"
 msgstr "Další fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1772
+#: addressbook/gui/contact-editor/e-contact-editor.c:1753
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1774
+#: addressbook/gui/contact-editor/e-contact-editor.c:1755
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Radio"
 msgstr "Rádio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1775
+#: addressbook/gui/contact-editor/e-contact-editor.c:1756
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Telex"
 msgstr "Telex"
@@ -199,14 +199,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:482
-#: addressbook/gui/contact-editor/e-contact-editor.c:1803
+#: addressbook/gui/contact-editor/e-contact-editor.c:1784
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 2"
 msgstr "2. e-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:492
-#: addressbook/gui/contact-editor/e-contact-editor.c:1804
+#: addressbook/gui/contact-editor/e-contact-editor.c:1785
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Email 3"
 msgstr "3. e-mail"
@@ -629,27 +629,27 @@ msgstr "Není možné dotázat se na kořenový DSE"
 msgid "The server responded with no supported search bases"
 msgstr "V odpovědi serveru nejsou podporované základy vyhledávání"
 
-#: addressbook/gui/component/addressbook-config.c:1191
+#: addressbook/gui/component/addressbook-config.c:1193
 msgid "This server does not support LDAPv3 schema information"
 msgstr "Tento server nepodporuje schéma informací LDAPv3"
 
-#: addressbook/gui/component/addressbook-config.c:1213
+#: addressbook/gui/component/addressbook-config.c:1215
 msgid "Error retrieving schema information"
 msgstr "Chyba při načítání informací o schématu"
 
-#: addressbook/gui/component/addressbook-config.c:1221
+#: addressbook/gui/component/addressbook-config.c:1223
 msgid "Server did not respond with valid schema information"
 msgstr "Server neodpověděl platnou informací o schématu"
 
-#: addressbook/gui/component/addressbook-config.c:1632
+#: addressbook/gui/component/addressbook-config.c:1637
 msgid "Account Name"
 msgstr "Název účtu"
 
-#: addressbook/gui/component/addressbook-config.c:1634
+#: addressbook/gui/component/addressbook-config.c:1639
 msgid "Server Name"
 msgstr "Jméno serveru"
 
-#: addressbook/gui/component/addressbook-config.c:1671
+#: addressbook/gui/component/addressbook-config.c:1676
 msgid "LDAP was not enabled in this build of Evolution"
 msgstr "LDAP není v tomto sestavení Evolution povolen"
 
@@ -795,7 +795,7 @@ msgstr "(žádný)"
 
 #: addressbook/gui/component/e-address-popup.c:472
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#: addressbook/gui/contact-editor/e-contact-editor.c:1802
+#: addressbook/gui/contact-editor/e-contact-editor.c:1783
 msgid "Primary Email"
 msgstr "Hlavní e-mail"
 
@@ -863,67 +863,47 @@ msgid "*"
 msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
-msgid "1234"
-msgstr "1234"
-
-#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
 msgstr "2:30"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
 msgstr "3268"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
-msgid "380"
-msgstr "380"
-
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "5:00"
 msgstr "5:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "636"
 msgstr "636"
 
-#: addressbook/gui/component/ldap-config.glade.h:13
-msgid "666"
-msgstr "666"
+#: addressbook/gui/component/ldap-config.glade.h:11
+msgid "Add LDAP Server"
+msgstr "Přidat server LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:14
-msgid "<- _Remove"
-msgstr "<- _Odstranit"
-
-#: addressbook/gui/component/ldap-config.glade.h:15
-msgid "<< Fewer Options"
-msgstr "<< Méně voleb"
-
-#: addressbook/gui/component/ldap-config.glade.h:16
-msgid "Add (or Edit) Attribute Mappings"
-msgstr "Přidat (nebo upravit) mapování atributů"
-
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:12
 msgid "Addressbook Sources"
 msgstr "Zdroje adresáře"
 
-#: addressbook/gui/component/ldap-config.glade.h:18 mail/mail-account-gui.c:62
+#: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:62
 #: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Vždy"
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Anonymously"
 msgstr "Anonymně"
 
-#: addressbook/gui/component/ldap-config.glade.h:20
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
@@ -937,59 +917,55 @@ msgstr ""
 "Pro uložení nastavení, které jste zde uvedl(-a), klikněte\n"
 "na tlačítko \"Dokončit\""
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
 msgstr "Připojení"
 
-#: addressbook/gui/component/ldap-config.glade.h:25
-msgid "DN Customization"
-msgstr "Úprava RJ"
-
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "De_lete"
 msgstr "_Smazat"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid "Distinguished _name:"
 msgstr "Distinguished _name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:22
+msgid "Edit LDAP Server"
+msgstr "Upravit server LDAP"
+
+#: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Email Address:"
 msgstr "E-mailová adresa:"
 
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Evolution will use this DN to authenticate you with the server"
-msgstr "Evolution bude používat toto RJ k vašemu ověření na serveru"
+msgstr "Evolution bude používat toto DN k vašemu ověření na serveru"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:25
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution bude používat tuto e-mailovou adresu k vašemu ověření na serveru"
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Finished"
 msgstr "Ukončeno"
 
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:27
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "Obecné"
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:28
 msgid "LDAP Configuration Assistant"
 msgstr "Pomocník nastavení LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:34
-msgid "Mappings"
-msgstr "Zobrazení"
-
-#: addressbook/gui/component/ldap-config.glade.h:35 mail/mail-account-gui.c:64
+#: addressbook/gui/component/ldap-config.glade.h:29 mail/mail-account-gui.c:64
 #: mail/mail-config.glade.h:76
 msgid "Never"
 msgstr "Nikdy"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -1005,54 +981,26 @@ msgstr ""
 "Zeptejte se svého systémového administrátora, zda váš LDAP server používá "
 "tyto protokoly. "
 
-#: addressbook/gui/component/ldap-config.glade.h:39
-msgid "Objectclasses"
-msgstr "Třídy objektů"
-
-#: addressbook/gui/component/ldap-config.glade.h:40
-msgid "Objectclasses Used in Evolution:"
-msgstr "Třídy objektů používané v Evolution:"
-
-#: addressbook/gui/component/ldap-config.glade.h:41
-msgid "Objectclasses Used on Server:"
-msgstr "Třídy objektů používané na serveru:"
-
-#: addressbook/gui/component/ldap-config.glade.h:42
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid "One"
 msgstr "Jeden"
 
-#: addressbook/gui/component/ldap-config.glade.h:43
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
-msgstr ""
-"Vyberte prosím atribut Evolution a atribut\n"
-"LDAP, ke kterému má být přiřazen."
-
-#: addressbook/gui/component/ldap-config.glade.h:45
-msgid "R_estore Defaults"
-msgstr "O_bnovit výchozí hodnoty"
-
-#: addressbook/gui/component/ldap-config.glade.h:46
-msgid "Re_store Defaults"
-msgstr "Ob_novit výchozí hodnoty"
-
-#: addressbook/gui/component/ldap-config.glade.h:47
+#: addressbook/gui/component/ldap-config.glade.h:34
 msgid "S_earch scope: "
 msgstr "_Rozsah vyhledávání: "
 
 #. No time range is set, so don't start a query
-#: addressbook/gui/component/ldap-config.glade.h:48
+#: addressbook/gui/component/ldap-config.glade.h:35
 #: calendar/gui/calendar-model.c:1975 calendar/gui/e-day-view.c:1670
 #: calendar/gui/e-week-view.c:1223
 msgid "Searching"
 msgstr "Vyhledávání"
 
-#: addressbook/gui/component/ldap-config.glade.h:49
+#: addressbook/gui/component/ldap-config.glade.h:36
 msgid "Selected:"
 msgstr "Vybráno:"
 
-#: addressbook/gui/component/ldap-config.glade.h:50
+#: addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if\n"
@@ -1061,7 +1009,7 @@ msgstr ""
 "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy,\n"
 "pokud LDAP server podporuje SSL nebo TLS."
 
-#: addressbook/gui/component/ldap-config.glade.h:52
+#: addressbook/gui/component/ldap-config.glade.h:39
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a \n"
@@ -1077,7 +1025,7 @@ msgstr ""
 "v práci za firewallem, není třeba použít SSL/TLS, protože spojení je již "
 "bezpečné."
 
-#: addressbook/gui/component/ldap-config.glade.h:56
+#: addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This \n"
@@ -1090,7 +1038,7 @@ msgstr ""
 "že vaše spojení nebude zabezpečené a můžete se stát terčem bezpečnostního "
 "útoku."
 
-#: addressbook/gui/component/ldap-config.glade.h:59
+#: addressbook/gui/component/ldap-config.glade.h:46
 msgid ""
 "Selecting this option will let you change Evolution's default settings for "
 "LDAP\n"
@@ -1100,38 +1048,38 @@ msgstr ""
 "vyhledávání\n"
 "v LDAP a pro vytváření a úpravu kontaktů."
 
-#: addressbook/gui/component/ldap-config.glade.h:61
+#: addressbook/gui/component/ldap-config.glade.h:48
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 "Zadání zobrazovaného názvu je posledním krokem v nastavení LDAP serveru."
 
-#: addressbook/gui/component/ldap-config.glade.h:62
+#: addressbook/gui/component/ldap-config.glade.h:49
 msgid "Step 1: Server Information"
 msgstr "Krok 1: Informace o serveru"
 
-#: addressbook/gui/component/ldap-config.glade.h:63
+#: addressbook/gui/component/ldap-config.glade.h:50
 msgid "Step 2: Connecting to Server"
 msgstr "Krok 2: Připojení k serveru"
 
-#: addressbook/gui/component/ldap-config.glade.h:64
+#: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Step 3: Searching the Directory"
 msgstr "Krok 3: Prohledávání adresáře"
 
-#: addressbook/gui/component/ldap-config.glade.h:65
+#: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Step 4: Display Name"
 msgstr "Krok 4: Zobrazení jména"
 
-#: addressbook/gui/component/ldap-config.glade.h:66
+#: addressbook/gui/component/ldap-config.glade.h:53
 msgid "Sub"
 msgstr "Sub"
 
-#: addressbook/gui/component/ldap-config.glade.h:67
+#: addressbook/gui/component/ldap-config.glade.h:54
 msgid "Supported Search Bases"
 msgstr "Podporované základy vyhledávání"
 
-#: addressbook/gui/component/ldap-config.glade.h:68
+#: addressbook/gui/component/ldap-config.glade.h:55
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1141,7 +1089,7 @@ msgstr ""
 "Prvním krokem v nastavení LDAP serveru je zadání jména a informací o vašem\n"
 "přihlášení. Pokud si nejste jisti, zeptejte se svého správce systému."
 
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:57
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1154,7 +1102,7 @@ msgstr ""
 "a jak dlouho by mělo trvat. Pokud potřebujete tyto volby změnit,\n"
 "požádejte svého systémového administrátora."
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:60
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1165,7 +1113,7 @@ msgstr ""
 "vaše hledání. Pokud je ponecháte prázdné, prohledávání začne v kořeni "
 "adresářového stromu."
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:62
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
@@ -1181,7 +1129,7 @@ msgstr ""
 "Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod vyhledávací "
 "základnou.\n"
 
-#: addressbook/gui/component/ldap-config.glade.h:79
+#: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1198,14 +1146,14 @@ msgstr ""
 "kontaktujte\n"
 "prosím svého správce systému."
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 "Toto je plný název vašeho LDAP serveru. Například  \"ldap.mycompany.com\"."
 
-#: addressbook/gui/component/ldap-config.glade.h:86
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
@@ -1214,7 +1162,7 @@ msgstr ""
 "Toto je maximální počet vstupů, které mohou být staženy. Pokud nastavíte "
 "toto číslo příliš vysoké, zpomalí se váš adresář."
 
-#: addressbook/gui/component/ldap-config.glade.h:88
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1223,7 +1171,7 @@ msgstr ""
 "Toto je metoda, kterou Evolution použije pro vaše ověření. Uvědomte si, že "
 "použití volby \"E-mailová adresa\" vyžaduje anonymní přístup k serveru LDAP."
 
-#: addressbook/gui/component/ldap-config.glade.h:89
+#: addressbook/gui/component/ldap-config.glade.h:76
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
@@ -1233,7 +1181,7 @@ msgstr ""
 "Evolution.\n"
 "Bude se používat pouze pro zobrazování."
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1244,42 +1192,28 @@ msgstr ""
 "Seznam standardních portů je předvyplněn. Váš správce systému vám sdělí,\n"
 "které číslo portu máte zadat."
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:81
 msgid "This option controls how long a search will be run."
 msgstr "Tato volba kontroluje dobu trvání prováděného dotazu."
 
-#: addressbook/gui/component/ldap-config.glade.h:95
-msgid ""
-"To add an attribute to the DN, select it from the list and click the \"Add "
-"Attribute\" button.\n"
-"Any values that you add to the DN will become required values for any new "
-"contacts\n"
-"that you add to the directory on the LDAP server. "
-msgstr ""
-"Chcete-li přidat atribut k RJ, vyberte jej na seznamu a stiskněte tlačítko "
-"\"Přidat atribut\".\n"
-"Každá hodnota, kterou přidáte k RJ, se stane vyžadovanou hodnotou pro každý "
-"nový kontakt,\n"
-"který přidáte do adresáře na LDAP serveru."
-
-#: addressbook/gui/component/ldap-config.glade.h:98
+#: addressbook/gui/component/ldap-config.glade.h:82
 msgid "U_se SSL/TLS:"
 msgstr "Použít _SSL/TLS:"
 
-#: addressbook/gui/component/ldap-config.glade.h:99
+#: addressbook/gui/component/ldap-config.glade.h:83
 msgid "Using distinguished name (DN)"
 msgstr "Použít distinguished name (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:100
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid "Using email address"
 msgstr "Použít e-mailovou adresu"
 
-#: addressbook/gui/component/ldap-config.glade.h:101
-#: mail/mail-account-gui.c:63 mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:85 mail/mail-account-gui.c:63
+#: mail/mail-config.glade.h:132
 msgid "Whenever Possible"
 msgstr "Kdykoliv je možné"
 
-#: addressbook/gui/component/ldap-config.glade.h:102
+#: addressbook/gui/component/ldap-config.glade.h:86
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:14
@@ -1287,43 +1221,15 @@ msgstr "Kdykoliv je možné"
 msgid "_Add"
 msgstr "_Přidat"
 
-#: addressbook/gui/component/ldap-config.glade.h:103
-msgid "_Add ->"
-msgstr "_Přidat ->"
-
-#: addressbook/gui/component/ldap-config.glade.h:104
-msgid "_Add Mapping"
-msgstr "_Přidat mapování"
-
-#: addressbook/gui/component/ldap-config.glade.h:105
-msgid "_Add to DN"
-msgstr "Přid_at k RJ"
-
-#: addressbook/gui/component/ldap-config.glade.h:106
-msgid "_Always"
-msgstr "_Vždy"
-
-#: addressbook/gui/component/ldap-config.glade.h:107
-msgid "_Delete Mapping"
-msgstr "_Smazat mapování"
-
-#: addressbook/gui/component/ldap-config.glade.h:108
+#: addressbook/gui/component/ldap-config.glade.h:87
 msgid "_Display name:"
 msgstr "_Zobrazit jméno:"
 
-#: addressbook/gui/component/ldap-config.glade.h:109
-msgid "_Distinguished Name (DN):"
-msgstr "_Distinguished Name (DN):"
-
-#: addressbook/gui/component/ldap-config.glade.h:110
-msgid "_Don't use SSL/TLS"
-msgstr "_Nepoužívat SSL/TLS"
-
-#: addressbook/gui/component/ldap-config.glade.h:111
+#: addressbook/gui/component/ldap-config.glade.h:88
 msgid "_Download limit:"
 msgstr "_Omezení stahování:"
 
-#: addressbook/gui/component/ldap-config.glade.h:112 filter/filter.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:16
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6
@@ -1333,91 +1239,39 @@ msgstr "_Omezení stahování:"
 msgid "_Edit"
 msgstr "_Úpravy"
 
-#: addressbook/gui/component/ldap-config.glade.h:113
-msgid "_Edit Mapping"
-msgstr "_Upravit mapování"
-
-#: addressbook/gui/component/ldap-config.glade.h:114
-msgid "_Evolution attribute:"
-msgstr "Atribut _Evolution:"
-
-#: addressbook/gui/component/ldap-config.glade.h:115
-msgid "_If necessary "
-msgstr "_Pokud je to nezbytné"
-
-#: addressbook/gui/component/ldap-config.glade.h:116
-msgid "_LDAP attribute:"
-msgstr "Atribut _LDAP:"
-
-#: addressbook/gui/component/ldap-config.glade.h:117
-msgid "_LDAP attributes:"
-msgstr "Vlastnosti _LDAP:"
-
-#: addressbook/gui/component/ldap-config.glade.h:118
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid "_Log in method:"
 msgstr "_Metoda přihlášení:"
 
-#: addressbook/gui/component/ldap-config.glade.h:119
-msgid "_More Options >>"
-msgstr "_Více voleb >>"
-
-#: addressbook/gui/component/ldap-config.glade.h:120
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid "_Port number:"
 msgstr "Číslo _portu:"
 
-#: addressbook/gui/component/ldap-config.glade.h:121
-msgid "_Restore Defaults"
-msgstr "_Obnovit výchozí hodnoty"
-
-#: addressbook/gui/component/ldap-config.glade.h:122
+#: addressbook/gui/component/ldap-config.glade.h:92
 msgid "_Search base:"
 msgstr "_Základ vyhledávání:"
 
-#: addressbook/gui/component/ldap-config.glade.h:123
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid "_Server name:"
 msgstr "Název _serveru:"
 
-#: addressbook/gui/component/ldap-config.glade.h:124
+#: addressbook/gui/component/ldap-config.glade.h:94
 msgid "_Timeout (minutes):"
 msgstr "_Prodleva (minuty):"
 
-#: addressbook/gui/component/ldap-config.glade.h:125
-msgid "account-druid"
-msgstr "průvodce-účtem"
-
-#: addressbook/gui/component/ldap-config.glade.h:126
-msgid "account-editor"
-msgstr "editor účtu"
-
-#: addressbook/gui/component/ldap-config.glade.h:127
+#: addressbook/gui/component/ldap-config.glade.h:95
 msgid "cards"
 msgstr "karty"
 
-#: addressbook/gui/component/ldap-config.glade.h:128
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid "connecting-tab"
 msgstr "připojovací-karta"
 
-#: addressbook/gui/component/ldap-config.glade.h:129
-msgid "dn-customization-tab"
-msgstr "karta-nastavení-rj"
-
-#: addressbook/gui/component/ldap-config.glade.h:130
-msgid "edit_server_window_simple"
-msgstr "edit_server_window_simple"
-
-#: addressbook/gui/component/ldap-config.glade.h:131
+#: addressbook/gui/component/ldap-config.glade.h:97
 msgid "general-tab"
 msgstr "obecný přehled"
 
-#: addressbook/gui/component/ldap-config.glade.h:132
-msgid "mappings-tab"
-msgstr "přehled mapování"
-
-#: addressbook/gui/component/ldap-config.glade.h:133
-msgid "objectclasses-tab"
-msgstr "přehled tříd objektů"
-
-#: addressbook/gui/component/ldap-config.glade.h:134
+#: addressbook/gui/component/ldap-config.glade.h:98
 msgid "searching-tab"
 msgstr "vyhledávací přehled"
 
@@ -1539,7 +1393,7 @@ msgstr "Spolupráce"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#: addressbook/gui/contact-editor/e-contact-editor.c:1352
+#: addressbook/gui/contact-editor/e-contact-editor.c:1341
 msgid "Contact Editor"
 msgstr "Editor kontaktů"
 
@@ -1640,7 +1494,7 @@ msgstr "Adresa _webové stránky:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:102
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
-#: addressbook/gui/contact-editor/e-contact-editor.c:187
+#: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:318
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
@@ -2672,7 +2526,7 @@ msgstr "Zambie"
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:159
+#: addressbook/gui/contact-editor/e-contact-editor.c:156
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
 #: addressbook/gui/widgets/e-addressbook-model.c:304
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
@@ -2682,38 +2536,38 @@ msgstr "Zimbabwe"
 msgid "Book"
 msgstr "Kniha"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:166
+#: addressbook/gui/contact-editor/e-contact-editor.c:163
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:149
 #: addressbook/gui/widgets/e-minicard-widget.c:93
 #: addressbook/gui/widgets/e-minicard.c:186
 msgid "Card"
 msgstr "Karta"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:173
+#: addressbook/gui/contact-editor/e-contact-editor.c:170
 msgid "Is New Card"
 msgstr "Nová karta"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:180
+#: addressbook/gui/contact-editor/e-contact-editor.c:177
 msgid "Writable Fields"
 msgstr "Zapisovatelná pole"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:194
+#: addressbook/gui/contact-editor/e-contact-editor.c:191
 msgid "Changed"
 msgstr "Změněno"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:845
+#: addressbook/gui/contact-editor/e-contact-editor.c:834
 msgid "Category editor not available."
 msgstr "Editor kategorie není dostupný"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:853
+#: addressbook/gui/contact-editor/e-contact-editor.c:842
 msgid "This contact belongs to these categories:"
 msgstr "Tento kontakt patří do těchto kategorií"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1027
+#: addressbook/gui/contact-editor/e-contact-editor.c:1016
 msgid "Save Contact as VCard"
 msgstr "Uložit kontakt jako VCard?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1073
+#: addressbook/gui/contact-editor/e-contact-editor.c:1062
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2721,7 +2575,7 @@ msgstr ""
 "Opravdu chcete\n"
 "smazat tyto kontakty?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1076
+#: addressbook/gui/contact-editor/e-contact-editor.c:1065
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2729,11 +2583,11 @@ msgstr ""
 "Opravdu chcete\n"
 "smazat tento kontakt?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1776
+#: addressbook/gui/contact-editor/e-contact-editor.c:1757
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2380
+#: addressbook/gui/contact-editor/e-contact-editor.c:2368
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nelze najít udělátko k políčku `%s'"
@@ -6453,7 +6307,7 @@ msgid "Contacts: "
 msgstr "Kontakty: "
 
 #: calendar/gui/print.c:2533 calendar/gui/print.c:2619
-#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2950
+#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2949
 #: my-evolution/e-summary.c:618
 msgid "Print Preview"
 msgstr "Prohlížení před tiskem"
@@ -11481,7 +11335,7 @@ msgstr "vrací méně než"
 msgid "Score"
 msgstr "Skóre"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1819
 msgid "Sender"
 msgstr "Odesílatel"
 
@@ -12229,11 +12083,11 @@ msgstr ""
 "a byla aktualizována."
 
 #. Add the "Don't show this message again." checkbox
-#: mail/mail-callbacks.c:102 widgets/misc/e-messagebox.c:226
+#: mail/mail-callbacks.c:101 widgets/misc/e-messagebox.c:226
 msgid "Don't show this message again."
 msgstr "Příště tuto zprávu nezobrazovat."
 
-#: mail/mail-callbacks.c:191
+#: mail/mail-callbacks.c:190
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -12245,7 +12099,7 @@ msgstr ""
 "posílat, přijímat nebo psát poštu.\n"
 "Chcete ho nastavit nyní?"
 
-#: mail/mail-callbacks.c:213
+#: mail/mail-callbacks.c:212
 msgid ""
 "You need to configure an account\n"
 "before you can compose mail."
@@ -12253,7 +12107,7 @@ msgstr ""
 "Než začnete psát zprávu,\n"
 "musíte nastavit účet."
 
-#: mail/mail-callbacks.c:227
+#: mail/mail-callbacks.c:226
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -12261,7 +12115,7 @@ msgstr ""
 "Než začnete psát zprávu,\n"
 "musíte nastavit identitu."
 
-#: mail/mail-callbacks.c:234
+#: mail/mail-callbacks.c:233
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -12270,7 +12124,7 @@ msgstr ""
 "musíte nastavit způsob přenosu."
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:256
+#: mail/mail-callbacks.c:255
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
@@ -12278,11 +12132,11 @@ msgstr ""
 "Posíláte zprávu ve formátu HTML. Ujistěte se, že následující příjemci\n"
 "si přejí a mohou dostávat zprávy ve formátu HTML:\n"
 
-#: mail/mail-callbacks.c:268
+#: mail/mail-callbacks.c:267
 msgid "Send anyway?"
 msgstr "Přesto poslat?"
 
-#: mail/mail-callbacks.c:289
+#: mail/mail-callbacks.c:288
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -12290,7 +12144,7 @@ msgstr ""
 "Tato zpráva nemá předmět.\n"
 "Opravdu ji chcete poslat?"
 
-#: mail/mail-callbacks.c:315
+#: mail/mail-callbacks.c:314
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
@@ -12298,11 +12152,11 @@ msgstr ""
 "Protože je seznam kontaktů, na který posíláte zprávu, nastavený tak, aby "
 "skrýval adresy, tato zpráva bude obsahovat pouze adresáty ve skryté kopii."
 
-#: mail/mail-callbacks.c:319
+#: mail/mail-callbacks.c:318
 msgid "This message contains only Bcc recipients."
 msgstr "Tato zpráva je určena pouze skrytým příjemcům."
 
-#: mail/mail-callbacks.c:324
+#: mail/mail-callbacks.c:323
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
@@ -12312,11 +12166,11 @@ msgstr ""
 "Apparently-To.\n"
 "Přesto poslat?"
 
-#: mail/mail-callbacks.c:472
+#: mail/mail-callbacks.c:471
 msgid "You must specify recipients in order to send this message."
 msgstr "Aby mohla být tato zpráva odeslána, je nutné určit příjemce."
 
-#: mail/mail-callbacks.c:724
+#: mail/mail-callbacks.c:723
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12324,28 +12178,28 @@ msgstr ""
 "Není možné otevřít složku konceptů pro tento účet.\n"
 "Chcete použít výchozí složku konceptů?"
 
-#: mail/mail-callbacks.c:1189
+#: mail/mail-callbacks.c:1188
 msgid "an unknown sender"
 msgstr "neznámý odesílatel"
 
-#: mail/mail-callbacks.c:1193
+#: mail/mail-callbacks.c:1192
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "V %a, %d. %m. %Y v %H:%M, %%s napsal:"
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:143
+#: mail/mail-callbacks.c:1699 mail/message-browser.c:143
 msgid "Move message(s) to"
 msgstr "Přesunout zprávu(y) do"
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:145
+#: mail/mail-callbacks.c:1701 mail/message-browser.c:145
 msgid "Copy message(s) to"
 msgstr "Kopírovat zprávu(y) do"
 
-#: mail/mail-callbacks.c:2346
+#: mail/mail-callbacks.c:2345
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Opravdu chcete upravit všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2362
+#: mail/mail-callbacks.c:2361
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12353,7 +12207,7 @@ msgstr ""
 "Upravovat můžete pouze zprávy uložené\n"
 "ve složce Koncepty."
 
-#: mail/mail-callbacks.c:2395
+#: mail/mail-callbacks.c:2394
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12361,16 +12215,16 @@ msgstr ""
 "Pouze zprávy ze složky Odeslané je možné\n"
 "znovu poslat."
 
-#: mail/mail-callbacks.c:2405
+#: mail/mail-callbacks.c:2404
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Opravdu chcete přeposlat všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2426
+#: mail/mail-callbacks.c:2425
 msgid "No Message Selected"
 msgstr "Žádná vybraná zpráva"
 
-#: mail/mail-callbacks.c:2467
+#: mail/mail-callbacks.c:2466
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12379,7 +12233,7 @@ msgstr ""
 "Nelze uložit do `%s'\n"
 " %s"
 
-#: mail/mail-callbacks.c:2472
+#: mail/mail-callbacks.c:2471
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12388,15 +12242,15 @@ msgstr ""
 "`%s' již existuje.\n"
 "Chcete jej přepsat?"
 
-#: mail/mail-callbacks.c:2513
+#: mail/mail-callbacks.c:2512
 msgid "Save Message As..."
 msgstr "Uložit zprávu jako..."
 
-#: mail/mail-callbacks.c:2515
+#: mail/mail-callbacks.c:2514
 msgid "Save Messages As..."
 msgstr "Uložit zprávy jako..."
 
-#: mail/mail-callbacks.c:2689
+#: mail/mail-callbacks.c:2688
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12408,7 +12262,7 @@ msgstr ""
 "\n"
 "Opravdu vymazat tyto zprávy?"
 
-#: mail/mail-callbacks.c:2784
+#: mail/mail-callbacks.c:2783
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12417,24 +12271,24 @@ msgstr ""
 "Chyba při načítání informací o filtrech:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2792
+#: mail/mail-callbacks.c:2791
 msgid "Filters"
 msgstr "Filtry"
 
-#: mail/mail-callbacks.c:2833
+#: mail/mail-callbacks.c:2832
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
 
-#: mail/mail-callbacks.c:2889
+#: mail/mail-callbacks.c:2888
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: mail/mail-callbacks.c:2956
+#: mail/mail-callbacks.c:2955
 msgid "Printing of message failed"
 msgstr "Tisk zprávy selhal"
 
-#: mail/mail-callbacks.c:3148
+#: mail/mail-callbacks.c:3147
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Opravdu chcete otevřít všechny zprávy (%d) v samostatných oknech?"
@@ -28022,6 +27876,76 @@ msgstr "Osobní adresářový server"
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Generátor kalendáře pro Osobní kalendářový server."
 
+#~ msgid "<- _Remove"
+#~ msgstr "<- _Odstranit"
+
+#~ msgid "<< Fewer Options"
+#~ msgstr "<< Méně voleb"
+
+#~ msgid "Add (or Edit) Attribute Mappings"
+#~ msgstr "Přidat (nebo upravit) mapování atributů"
+
+#~ msgid "Mappings"
+#~ msgstr "Zobrazení"
+
+#~ msgid "Objectclasses"
+#~ msgstr "Třídy objektů"
+
+#~ msgid "Objectclasses Used in Evolution:"
+#~ msgstr "Třídy objektů používané v Evolution:"
+
+#~ msgid "Objectclasses Used on Server:"
+#~ msgstr "Třídy objektů používané na serveru:"
+
+#~ msgid ""
+#~ "Please select an Evolution attribute and an\n"
+#~ "LDAP attribute to associate with it."
+#~ msgstr ""
+#~ "Vyberte prosím atribut Evolution a atribut\n"
+#~ "LDAP, ke kterému má být přiřazen."
+
+#~ msgid "R_estore Defaults"
+#~ msgstr "O_bnovit výchozí hodnoty"
+
+#~ msgid "Re_store Defaults"
+#~ msgstr "Ob_novit výchozí hodnoty"
+
+#~ msgid "_Add ->"
+#~ msgstr "_Přidat ->"
+
+#~ msgid "_Add Mapping"
+#~ msgstr "_Přidat mapování"
+
+#~ msgid "_Always"
+#~ msgstr "_Vždy"
+
+#~ msgid "_Delete Mapping"
+#~ msgstr "_Smazat mapování"
+
+#~ msgid "_Don't use SSL/TLS"
+#~ msgstr "_Nepoužívat SSL/TLS"
+
+#~ msgid "_Edit Mapping"
+#~ msgstr "_Upravit mapování"
+
+#~ msgid "_Evolution attribute:"
+#~ msgstr "Atribut _Evolution:"
+
+#~ msgid "_If necessary "
+#~ msgstr "_Pokud je to nezbytné"
+
+#~ msgid "_LDAP attribute:"
+#~ msgstr "Atribut _LDAP:"
+
+#~ msgid "_LDAP attributes:"
+#~ msgstr "Vlastnosti _LDAP:"
+
+#~ msgid "_More Options >>"
+#~ msgstr "_Více voleb >>"
+
+#~ msgid "_Restore Defaults"
+#~ msgstr "_Obnovit výchozí hodnoty"
+
 #~ msgid "Can't get storage list from registry: %s"
 #~ msgstr "Nelze získat seznam ukládání z registru: %s"
 
@@ -28463,9 +28387,6 @@ msgstr "Generátor kalendáře pro Osobní kalendářový server."
 
 #~ msgid "Invalid password."
 #~ msgstr "Neplatné heslo."
-
-#~ msgid "page"
-#~ msgstr "strana"
 
 #~ msgid "%s: Inbox"
 #~ msgstr "%s: Příchozí"
