@@ -1,5 +1,7 @@
 2001-08-16  Not Zed  <NotZed@Ximian.com>
 
+	* dumpindex.c (main): Force open of internal data before using it.
+
 	* ibex_block.c (ibex_use): Use a next pointer so we keep the list
 	intact as we scan it.
 

@@ -51,6 +51,9 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	/* force real-open of the ibex internals */
+	ibex_contains_name(ib, "dummy");
+
 	ibex_hash_dump(ib->words->wordindex);
 	ibex_hash_dump(ib->words->nameindex);
 
