@@ -3842,10 +3842,14 @@ camel_header_raw_check_mailing_list(struct _camel_header_raw **list)
 {
 	const char *v;
 	regmatch_t match[3];
-	int i;
+	int i, j;
 	
 	for (i = 0; i < sizeof (mail_list_magic) / sizeof (mail_list_magic[0]); i++) {
 		v = camel_header_raw_find (list, mail_list_magic[i].name, NULL);
+		for (j=0;j<3;j++) {
+			match[j].rm_so = -1;
+			match[j].rm_eo = -1;
+		}
 		if (v != NULL && regexec (&mail_list_magic[i].regex, v, 3, match, 0) == 0 && match[1].rm_so != -1) {
 			char *list;
 			int len1, len2;
