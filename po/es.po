@@ -100,7 +100,7 @@ msgstr "Comp"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1723
 #: addressbook/gui/contact-editor/e-contact-editor.c:1785
 msgid "Home"
-msgstr "Inicio"
+msgstr "Casa"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
 #: addressbook/gui/widgets/e-addressbook-view.c:341
