@@ -201,6 +201,9 @@ clist_row_selected (GtkCList *clist, gint row, gint column, GdkEventButton *even
 
 	int i;
 
+	gtk_widget_set_sensitive (todo->edit_button, (todo->clist->selection != NULL));
+	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->selection != NULL));
+
 	if (!event)
 		return;
 
@@ -351,6 +354,6 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 
 	gtk_clist_thaw (todo->clist);
 
-	gtk_widget_set_sensitive (todo->edit_button, (todo->clist->rows > 0));
-	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->rows > 0));
+	gtk_widget_set_sensitive (todo->edit_button, (todo->clist->selection != NULL));
+	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->selection != NULL));
 }

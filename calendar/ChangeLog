@@ -1,5 +1,10 @@
 1998-10-08  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-todo.c (clist_row_selected): Set the sensitivity of the
+	edit/delete buttons.
+	(gncal_todo_update): Likewise.  Thanks to Dirk Luetjens for the
+	bug report.
+
 	* layout.c: Do some cleanup; now we pass a struct with the layout
 	algorithm's state instead of passing a trillion parameters around.
 
