@@ -128,8 +128,8 @@ title_button_box_realize_cb (GtkWidget *widget,
 }
 
 
-/* This is used to make the labels white.  Yes, yes, I know I shouldn't do
-   this.  Yes, yes, I know it's evil.  */
+#if 0				/* This code is kinda broken in some subtle way
+				   I haven't been able to figure out.  */
 
 static void
 label_realize_callback (GtkWidget *widget,
@@ -171,6 +171,8 @@ make_bold (GtkWidget *widget)
 	gtk_signal_connect (GTK_OBJECT (widget), "realize",
 			    GTK_SIGNAL_FUNC (label_realize_callback), NULL);
 }
+
+#endif
 
 static void
 set_title_bar_label_style (GtkWidget *widget)
@@ -489,14 +491,14 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 	set_title_bar_label_style (priv->label);
-	make_bold (priv->label);
+	/* make_bold (priv->label); */
 
 	priv->button_label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
 	gtk_widget_show (priv->button_label);
 	set_title_bar_label_style (priv->button_label);
-	make_bold (priv->label);
+	/* make_bold (priv->label); */
 
 	priv->folder_bar_label = e_clipped_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);

@@ -1,3 +1,13 @@
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-title-bar.c (label_realize_callback): `#if 0'ed
+	out.
+	(make_bold): Likewise.
+	(e_shell_folder_title_bar_construct): Don't call it.
+
+	* e-local-storage.c (component_async_remove_folder_callback): Only
+	remove the directory if the component succeeds.
+
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
 	* e-local-storage.c (async_xfer_folder_callback): Fix the improper

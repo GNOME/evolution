@@ -466,9 +466,6 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 
 	callback_data = (AsyncRemoveFolderCallbackData *) data;
 
-	result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage),
-					  callback_data->path);
-
 	storage_result = shell_component_result_to_storage_result (result);
 
 	/* If result == HASSUBFOLDERS then recurse delete the subfolders dir? */
@@ -478,6 +475,9 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 		ELocalStoragePrivate *priv;
 
 		priv = E_LOCAL_STORAGE (callback_data->storage)->priv;
+
+		result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage),
+						  callback_data->path);
 
 		e_storage_removed_folder (E_STORAGE (callback_data->storage),
 					  callback_data->path);
