@@ -1,5 +1,12 @@
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
+	* camel-filter-search.c (check_header): Implement a pseudo-header
+	"x-camel-mlist" which just looks up in the message info for a
+	match.
+
+	* camel-folder-search.c (check_header): Add pseudo-header
+	"x-camel-mlist" which can be used to match on mailing list.
+
 	* providers/imap/camel-imap-folder.c (imap_sync): Add some
 	internal progress reporting.
 	(imap_rescan): Do some progress reporting.

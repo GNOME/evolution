@@ -544,6 +544,8 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 			header = camel_message_info_to(search->current);
 		} else if (!strcasecmp(headername, "cc")) {
 			header = camel_message_info_cc(search->current);
+		} else if (!strcasecmp(headername, "x-camel-mlist")) {
+			header = camel_message_info_mlist(search->current);
 		} else {
 			e_sexp_resultv_free(f, argc, argv);
 			e_sexp_fatal_error(f, _("Performing query on unknown header: %s"), headername);
@@ -849,4 +851,3 @@ search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, 
 	r->value.number = time (NULL);
 	return r;
 }
-

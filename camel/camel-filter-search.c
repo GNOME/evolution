@@ -104,7 +104,13 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	int i;
 
 	if (argc > 1 && argv[0]->type == ESEXP_RES_STRING) {
-		const char *header = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string);
+		char *name = argv[0]->value.string;
+		const char *header;
+
+		if (strcasecmp(name, "x-camel-mlist") == 0)
+			header = camel_message_info_mlist(fms->info);
+		else
+			header = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string);
 
 		if (header) {
 			for (i=1;i<argc && !matched;i++) {
