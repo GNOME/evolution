@@ -944,7 +944,9 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 		memcpy(host, txt, port-txt);
 		host[port-txt] = 0;
 	} else {
-		host = (char *)txt;
+		/* "" is converted to NULL, but if we set NULL on the url,
+		   camel_url_to_string strips lots of details */
+		host = (char *)(txt?txt:"");
 	}
 	camel_url_set_host(url, host);
 }
