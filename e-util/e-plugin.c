@@ -10,9 +10,9 @@
 #include "e-msgport.h"
 
 /* plugin debug */
-#define pd(x) x
+#define pd(x)
 /* plugin hook debug */
-#define phd(x) x
+#define phd(x)
 
 /*
 <camel-plugin
@@ -117,7 +117,7 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 	ep->domain = e_plugin_xml_prop(root, "domain");
 	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
 
-	printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id);
+	pd(printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id));
 
 	node = root->children;
 	while (node) {
@@ -344,7 +344,7 @@ ep_load(const char *filename)
 	res = 0;
 fail:
 	if (cache) {
-		printf("Caching plugin description '%s' for unknown future hooks\n", filename);
+		pd(printf("Caching plugin description '%s' for unknown future hooks\n", filename));
 		e_dlist_addtail(&ep_plugin_docs, (EDListNode *)pdoc);
 	} else {
 		xmlFreeDoc(pdoc->doc);
@@ -363,7 +363,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 	int res = 0;
 	GSList *l, *p;
 
-	printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id);
+	phd(printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id));
 
 	l = ep->hooks_pending;
 	p = NULL;
@@ -373,7 +373,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 		char *class = xmlGetProp(node, "class");
 		EPluginHook *hook;
 
-		printf(" checking pending hook '%s'\n", class?class:"<unknown>");
+		phd(printf(" checking pending hook '%s'\n", class?class:"<unknown>"));
 
 		if (class) {
 			if (strcmp(class, type->id) == 0) {
@@ -448,7 +448,7 @@ e_plugin_load_plugins(void)
 		struct dirent *d;
 		char *path = l->data;
 
-		printf("scanning plugin dir '%s'\n", path);
+		pd(printf("scanning plugin dir '%s'\n", path));
 
 		dir = opendir(path);
 		if (dir == NULL) {
@@ -1015,7 +1015,7 @@ e_plugin_hook_register_type(GType type)
 					cache |= (((EPlugin *)l->data)->hooks_pending != NULL);
 
 				if (!cache) {
-					printf("Gargabe collecting plugin description\n");
+					pd(printf("Gargabe collecting plugin description\n"));
 					e_dlist_remove((EDListNode *)pdoc);
 					xmlFreeDoc(pdoc->doc);
 					g_free(pdoc);

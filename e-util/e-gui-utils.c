@@ -40,10 +40,7 @@ GtkWidget *e_create_image_widget(gchar *name,
 	GtkWidget *w;
 	
 	if (string1) {
-		pixbuf = e_icon_factory_get_icon (string1, E_ICON_SIZE_DIALOG);
-		
-		w = gtk_image_new_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
+		w = e_icon_factory_get_image (string1, E_ICON_SIZE_DIALOG);
 
 		gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.5);
 

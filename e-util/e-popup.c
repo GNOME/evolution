@@ -44,6 +44,8 @@
 
 #include <libgnome/gnome-i18n.h>
 
+#define d(x)
+
 struct _EPopupFactory {
 	struct _EPopupFactory *next, *prev;
 
@@ -139,7 +141,7 @@ ep_target_free(EPopup *ep, EPopupTarget *t)
 static void
 ep_class_init(GObjectClass *klass)
 {
-	printf("EPopup class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EPopup class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	klass->finalize = ep_finalise;
 	((EPopupClass *)klass)->target_free = ep_target_free;
@@ -376,16 +378,13 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 		switch (item->type & E_POPUP_TYPE_MASK) {
 		case E_POPUP_ITEM:
 			if (item->image) {
-				GdkPixbuf *pixbuf;
 				GtkWidget *image;
 
 				/* work-around e-icon-factory not doing GTK_STOCK stuff */
 				if (strncmp((char *)item->image, "gtk-", 4) == 0) {
 					image = gtk_image_new_from_stock((char *)item->image, GTK_ICON_SIZE_MENU);
 				} else {
-					pixbuf = e_icon_factory_get_icon((char *)item->image, E_ICON_SIZE_MENU);
-					image = gtk_image_new_from_pixbuf(pixbuf);
-					g_object_unref(pixbuf);
+					image = e_icon_factory_get_image((char *)item->image, E_ICON_SIZE_MENU);
 				}
 
 				gtk_widget_show(image);
@@ -636,7 +635,7 @@ emph_popup_factory(EPopup *emp, void *data)
 {
 	struct _EPopupHookMenu *menu = data;
 
-	printf("popup factory called %s mask %08x\n", menu->id?menu->id:"all menus", emp->target->mask);
+	d(printf("popup factory called %s mask %08x\n", menu->id?menu->id:"all menus", emp->target->mask));
 
 	/* If we're disabled, then don't add the menu's. */
 	if (emp->target->type != menu->target_type
@@ -672,7 +671,7 @@ emph_construct_item(EPluginHook *eph, EPopupHookMenu *menu, xmlNodePtr root, EPo
 {
 	struct _EPopupItem *item;
 
-	printf("  loading menu item\n");
+	d(printf("  loading menu item\n"));
 	item = g_malloc0(sizeof(*item));
 	if ((item->type = e_plugin_hook_id(root, emph_item_types, "type")) == -1
 	    || item->type == E_POPUP_IMAGE)
@@ -689,12 +688,12 @@ emph_construct_item(EPluginHook *eph, EPopupHookMenu *menu, xmlNodePtr root, EPo
 	if (item->user_data == NULL)
 		goto error;
 
-	printf("   path=%s\n", item->path);
-	printf("   label=%s\n", item->label);
+	d(printf("   path=%s\n", item->path));
+	d(printf("   label=%s\n", item->label));
 
 	return item;
 error:
-	printf("error!\n");
+	d(printf("error!\n"));
 	emph_free_item(item);
 	return NULL;
 }
@@ -708,7 +707,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	EPopupHookClass *klass = (EPopupHookClass *)G_OBJECT_GET_CLASS(eph);
 	char *tmp;
 
-	printf(" loading menu\n");
+	d(printf(" loading menu\n"));
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EPopupHook *)eph;
 
@@ -746,7 +745,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	xmlNodePtr node;
 	EPopupClass *klass;
 
-	printf("loading popup hook\n");
+	d(printf("loading popup hook\n"));
 
 	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
@@ -792,7 +791,7 @@ emph_class_init(EPluginHookClass *klass)
 	/* this is actually an abstract implementation but list it anyway */
 	klass->id = "org.gnome.evolution.popup:1.0";
 
-	printf("EPopupHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EPopupHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	((EPopupHookClass *)klass)->target_map = g_hash_table_new(g_str_hash, g_str_equal);
 	((EPopupHookClass *)klass)->popup_class = g_type_class_ref(e_popup_get_type());

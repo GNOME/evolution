@@ -36,6 +36,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
 
+#define d(x)
+
 struct _EMenuFactory {
 	struct _EMenuFactory *next, *prev;
 
@@ -129,9 +131,8 @@ em_target_free(EMenu *ep, EMenuTarget *t)
 static void
 em_class_init(GObjectClass *klass)
 {
-	printf("EMenu class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EMenu class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
-	printf("e menu class init\n");
 	klass->finalize = em_finalise;
 	((EMenuClass *)klass)->target_free = em_target_free;
 }
@@ -140,7 +141,7 @@ static void
 em_base_init(GObjectClass *klass)
 {
 	/* each class instance must have its own list, it isn't inherited */
-	printf("%p: list init\n", klass);
+	d(printf("%p: list init\n", klass));
 	e_dlist_init(&((EMenuClass *)klass)->factories);
 }
 
@@ -186,24 +187,24 @@ EMenu *e_menu_construct(EMenu *em, const char *menuid)
 	struct _EMenuFactory *f;
 	EMenuClass *klass;
 
-	printf("constructing menu '%s'\n", menuid);
+	d(printf("constructing menu '%s'\n", menuid));
 
 	klass = (EMenuClass *)G_OBJECT_GET_CLASS(em);
 
-	printf("   class is %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("   class is %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	em->menuid = g_strdup(menuid);
 
 	/* setup the menu itself based on factories */
 	f = (struct _EMenuFactory *)klass->factories.head;
 	if (f->next == NULL) {
-		printf("%p no factories registered on menu\n", klass);
+		d(printf("%p no factories registered on menu\n", klass));
 	}
 
 	while (f->next) {
 		if (f->menuid == NULL
 		    || !strcmp(f->menuid, em->menuid)) {
-			printf("  calling factory\n");
+			d(printf("  calling factory\n"));
 			f->factory(em, f->factory_data);
 		}
 		f = f->next;
@@ -381,7 +382,7 @@ void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, int act)
 				EMenuItem *item = inode->item;
 				BonoboUIVerb *verb;
 
-				printf("adding menu verb '%s'\n", item->verb);
+				d(printf("adding menu verb '%s'\n", item->verb));
 
 				switch (item->type & E_MENU_TYPE_MASK) {
 				case E_MENU_ITEM:
@@ -457,7 +458,7 @@ void e_menu_update_target(EMenu *em, void *tp)
 			EMenuItem *item = l->data;
 			int state;
 
-			printf("checking item '%s' mask %08x against target %08x\n", item->verb, item->enable, mask);
+			d(printf("checking item '%s' mask %08x against target %08x\n", item->verb, item->enable, mask));
 
 			state = (item->enable & mask) == 0;
 			bonobo_ui_component_set_prop(em->uic, item->path, "sensitive", state?"1":"0", NULL);
@@ -489,7 +490,7 @@ e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc
 {
 	struct _EMenuFactory *f = g_malloc0(sizeof(*f));
 
-	printf("%p adding factory '%s' to class '%s'\n", klass, menuid?menuid:"<all menus>", g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("%p adding factory '%s' to class '%s'\n", klass, menuid?menuid:"<all menus>", g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	f->menuid = g_strdup(menuid);
 	f->factory = func;
@@ -502,7 +503,7 @@ e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc
 
 		j = (struct _EMenuFactory *)klass->factories.head;
 		if (j->next == NULL) {
-			printf("%p no factories registered on menu???\n", klass);
+			d(printf("%p no factories registered on menu???\n", klass));
 		}
 	}
 
@@ -623,7 +624,7 @@ emph_menu_activate(EMenu *em, EMenuItem *item, void *data)
 {
 	EMenuHook *hook = data;
 
-	printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target);
+	d(printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target));
 
 	e_plugin_invoke(hook->hook.plugin, item->user_data, em->target);
 }
@@ -634,7 +635,7 @@ emph_menu_toggle_activate(EMenu *em, EMenuItem *item, int state, void *data)
 	EMenuHook *hook = data;
 
 	/* FIXME: where does the toggle state go? */
-	printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target);
+	d(printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target));
 
 	e_plugin_invoke(hook->hook.plugin, item->user_data, em->target);
 }
@@ -644,7 +645,7 @@ emph_menu_factory(EMenu *emp, void *data)
 {
 	struct _EMenuHookMenu *menu = data;
 
-	printf("menu factory, adding %d items\n", g_slist_length(menu->items));
+	d(printf("menu factory, adding %d items\n", g_slist_length(menu->items)));
 
 	if (menu->items)
 		e_menu_add_items(emp, menu->items, menu->uis, menu->pixmaps, NULL, menu->hook);
@@ -695,7 +696,7 @@ emph_construct_item(EPluginHook *eph, EMenuHookMenu *menu, xmlNodePtr root, EMen
 {
 	struct _EMenuItem *item;
 
-	printf("  loading menu item\n");
+	d(printf("  loading menu item\n"));
 	item = g_malloc0(sizeof(*item));
 	item->type = e_plugin_hook_id(root, emph_item_types, "type");
 	item->path = e_plugin_xml_prop(root, "path");
@@ -711,12 +712,12 @@ emph_construct_item(EPluginHook *eph, EMenuHookMenu *menu, xmlNodePtr root, EMen
 	if (item->type == -1 || item->user_data == NULL)
 		goto error;
 
-	printf("   path=%s\n", item->path);
-	printf("   verb=%s\n", item->verb);
+	d(printf("   path=%s\n", item->path));
+	d(printf("   verb=%s\n", item->verb));
 
 	return item;
 error:
-	printf("error!\n");
+	d(printf("error!\n"));
 	emph_free_item(item);
 	return NULL;
 }
@@ -726,7 +727,7 @@ emph_construct_pixmap(EPluginHook *eph, EMenuHookMenu *menu, xmlNodePtr root)
 {
 	struct _EMenuPixmap *pixmap;
 
-	printf("  loading menu pixmap\n");
+	d(printf("  loading menu pixmap\n"));
 	pixmap = g_malloc0(sizeof(*pixmap));
 	pixmap->command = e_plugin_xml_prop(root, "command");
 	pixmap->name = e_plugin_xml_prop(root, "pixmap");
@@ -737,7 +738,7 @@ emph_construct_pixmap(EPluginHook *eph, EMenuHookMenu *menu, xmlNodePtr root)
 
 	return pixmap;
 error:
-	printf("error!\n");
+	d(printf("error!\n"));
 	emph_free_pixmap(pixmap);
 	return NULL;
 }
@@ -751,7 +752,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	EMenuHookClass *klass = (EMenuHookClass *)G_OBJECT_GET_CLASS(eph);
 	char *tmp;
 
-	printf(" loading menu\n");
+	d(printf(" loading menu\n"));
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EMenuHook *)eph;
 
@@ -795,7 +796,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	return menu;
 error:
-	printf("error loading menu hook\n");
+	d(printf("error loading menu hook\n"));
 	emph_free_menu(menu);
 	return NULL;
 }
@@ -806,7 +807,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	xmlNodePtr node;
 	EMenuClass *klass;
 
-	printf("loading menu hook\n");
+	d(printf("loading menu hook\n"));
 
 	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
 		return -1;

@@ -44,6 +44,8 @@
 
 #include <libgnome/gnome-i18n.h>
 
+#define d(x)
+
 struct _EEventFactory {
 	struct _EEventFactory *next, *prev;
 
@@ -121,7 +123,7 @@ ep_target_free(EEvent *ep, EEventTarget *t)
 static void
 ep_class_init(GObjectClass *klass)
 {
-	printf("EEvent class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EEvent class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	klass->finalize = ep_finalise;
 	((EEventClass *)klass)->target_free = ep_target_free;
@@ -255,7 +257,7 @@ e_event_emit(EEvent *emp, const char *id, EEventTarget *target)
 	struct _EEventPrivate *p = emp->priv;
 	GSList *events;
 
-	printf("emit event %s\n", id);
+	d(printf("emit event %s\n", id));
 
 	g_assert(emp->target == NULL);
 
@@ -284,7 +286,7 @@ e_event_emit(EEvent *emp, const char *id, EEventTarget *target)
 		struct _event_info *info = events->data;
 		EEventItem *event = info->item;
 
-		printf("event '%s' mask %08x target %08x\n", event->id, event->enable, target->mask);
+		d(printf("event '%s' mask %08x target %08x\n", event->id, event->enable, target->mask));
 
 		if (event->enable & target->mask)
 			continue;
@@ -466,7 +468,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	g_return_val_if_fail(((EEventHookClass *)G_OBJECT_GET_CLASS(eph))->event != NULL, -1);
 
-	printf("loading event hook\n");
+	d(printf("loading event hook\n"));
 
 	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
@@ -510,7 +512,7 @@ emph_class_init(EPluginHookClass *klass)
 	/* this is actually an abstract implementation but list it anyway */
 	klass->id = "org.gnome.evolution.event:1.0";
 
-	printf("EEventHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EEventHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	((EEventHookClass *)klass)->target_map = g_hash_table_new(g_str_hash, g_str_equal);
 }

@@ -1,5 +1,23 @@
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
+	* e-gui-utils.c (e_create_image_widget): get the image directly
+	from the icon factory
+
+	* e-config.c: insert debug defines so we can
+	turn spew on and off
+
+	* e-event.c: insert debug defines so we can turn spew on and off	
+
+	* e-menu.c: insert debug defines so we can turn spew on and off		
+	
+	* e-plugin.c: insert debug defines and set to off for now
+
+	* e-popup.c: insert debug defines so we can turn spew on and off
+	(e_popup_create_menu): get the image directly from the icon
+	factory
+
+2004-11-26  JP Rosevear  <jpr@novell.com>
+	
 	* e-icon-factory.h: add proto
 
 	* e-icon-factory.c (e_icon_factory_init): cast to kill warning
