@@ -53,8 +53,6 @@ static const gchar *space_tags[] = { "br", NULL };
 
 GtkObjectClass *parent_class = NULL;
 
-static FILE *out = NULL;
-
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 typedef enum {
@@ -452,12 +450,6 @@ e_searching_tokenizer_get_type (void)
 HTMLTokenizer *
 e_searching_tokenizer_new (void)
 {
-	if (out == NULL) {
-		out = fopen ("/tmp/tokbarn", "w");
-		setvbuf (out, NULL, _IONBF, 0);
-		fprintf (out, "New!\n");
-	};
-	
 	return (HTMLTokenizer *) gtk_type_new (E_TYPE_SEARCHING_TOKENIZER);
 }
 

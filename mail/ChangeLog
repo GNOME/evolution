@@ -1,3 +1,8 @@
+2001-05-11  Jon Trowbridge  <trow@ximian.com>
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_new): 
+	Remove a snippet of debugging code I left in by mistake.
+
 2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_inlined): If the cursor_uid is NULL,
