@@ -524,30 +524,40 @@ query_auth_types (CamelService *service, CamelException *ex)
 	return g_list_prepend (types, &camel_imap_password_authtype);
 }
 
-/* call refresh folder directly, bypassing the folder lock */
 static void
-refresh_folder_info (gpointer key, gpointer value, gpointer data)
+copy_folder(char *key, CamelFolder *folder, GPtrArray *out)
 {
-	CamelFolder *folder = CAMEL_FOLDER (value);
-
-	CAMEL_IMAP_FOLDER (folder)->need_rescan = TRUE;
-	CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, data);
+	g_ptr_array_add(out, folder);
+	camel_object_ref((CamelObject *)folder);
 }
 
 /* This is a little 'hack' to avoid the deadlock conditions that would otherwise
    ensue when calling camel_folder_refresh_info from inside a lock */
 /* NB: on second thougts this is probably not entirely safe, but it'll do for now */
+/* No, its definetly not safe.  So its been changed to copy the folders first */
 /* the alternative is to:
    make the camel folder->lock recursive (which should probably be done)
    or remove it from camel_folder_refresh_info, and use another locking mechanism */
 static void
 imap_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
 {
+	GPtrArray *folders;
+	int i;
+
+	folders = g_ptr_array_new();
 	CAMEL_STORE_LOCK(store, cache_lock);
-
-	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
-
+	g_hash_table_foreach (CAMEL_STORE (store)->folders, (GHFunc)copy_folder, folders);
 	CAMEL_STORE_UNLOCK(store, cache_lock);
+
+	for (i=0;i<folders->len;i++) {
+		CamelFolder *folder = folders->pdata[i];
+
+		CAMEL_IMAP_FOLDER (folder)->need_rescan = TRUE;
+		if (!camel_exception_is_set(ex))
+			CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
+		camel_object_unref((CamelObject *)folder);
+	}
+	g_ptr_array_free(folders, TRUE);
 }	
 
 static gboolean
@@ -975,7 +985,7 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	CamelImapResponse *response;
 
 	if (store->connected && clean) {
-		response = camel_imap_command (store, NULL, ex, "LOGOUT");
+		response = camel_imap_command (store, NULL, NULL, "LOGOUT");
 		camel_imap_response_free (store, response);
 	}
 	imap_disconnect_offline (service, clean, ex);

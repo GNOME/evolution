@@ -1,3 +1,18 @@
+2002-05-15  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (refresh_folder_info): removed.
+	(imap_store_refresh_folders): Copy the folders first, then refresh
+	them, outside of the cache_lock, which could cause deadlocks
+	because of a workaround for crappo exchange.
+	(imap_disconnect_online): Dont pass an exception to LOGOUT
+	command.  The required response 'BYE' always sets an exception
+	when we call LOGOUT.  This also interfered with a lot of other
+	processing causing partial failures and messed up offline/online
+	state.
+
+	* camel-disco-folder.c (disco_prepare_for_offline): Do progress
+	reporting.
+
 2002-05-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #24136.

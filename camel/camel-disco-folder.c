@@ -275,21 +275,33 @@ disco_prepare_for_offline (CamelDiscoFolder *disco_folder,
 	GPtrArray *uids;
 	int i;
 
+	camel_operation_start(NULL, _("Preparing folder '%s' for offline"), folder->full_name);
+
 	if (expression)
 		uids = camel_folder_search_by_expression (folder, expression, ex);
 	else
 		uids = camel_folder_get_uids (folder);
-	if (!uids)
+
+	if (!uids) {
+		camel_operation_end(NULL);
 		return;
+	}
+
 	for (i = 0; i < uids->len; i++) {
+		int pc = i * 100 / uids->len;
+
 		camel_disco_folder_cache_message (disco_folder, uids->pdata[i], ex);
+		camel_operation_progress(NULL, pc);
 		if (camel_exception_is_set (ex))
 			break;
 	}
+
 	if (expression)
 		camel_folder_search_free (folder, uids);
 	else
 		camel_folder_free_uids (folder, uids);
+
+	camel_operation_end(NULL);
 }
 
 /**
