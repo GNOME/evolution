@@ -1,3 +1,11 @@
+2001-09-07  Iain Holmes  <iain@ximian.com>
+
+	* pine-importer.c:
+	netscape-importer.c:
+	elm-importer.c:
+	evolution-gnomecard-importer.c (create_checkboxes_control): New control
+	layout.
+
 2001-09-05  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* pine-importer.c: Fix a typo.

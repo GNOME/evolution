@@ -450,6 +450,10 @@ pine_import_file (PineImporter *importer,
 		return FALSE;
 	}
 
+	if (folder == TRUE) {
+		return FALSE;
+	}
+	
 	importer->listener = evolution_importer_listener_new (importer_cb,
 							      importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
@@ -506,6 +510,7 @@ import_next (PineImporter *importer)
 
 	if (importer->dir_list) {
 		char *folder;
+		gboolean another;
 
 		data = importer->dir_list->data;
 
@@ -535,7 +540,7 @@ import_next (PineImporter *importer)
 		g_free (data);
 		importer->dir_list = importer->dir_list->next;
 	}
-
+	
 }
 
 /* Pine uses sent-mail and saved-mail whereas Evolution uses Sent and Drafts */
@@ -726,13 +731,10 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (PineImporter *importer)
 {
-	GtkWidget *container, *vbox;
+	GtkWidget *hbox;
 	BonoboControl *control;
 
-	container = gtk_frame_new (_("Import"));
-	vbox = gtk_vbox_new (FALSE, 2);
-	gtk_container_set_border_width (GTK_CONTAINER (container), 2);
-	gtk_container_add (GTK_CONTAINER (container), vbox);
+	hbox = gtk_hbox_new (FALSE, 2);
 
 	importer->mail = gtk_check_button_new_with_label (_("Mail"));
 	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",
@@ -744,16 +746,11 @@ create_checkboxes_control (PineImporter *importer)
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_address);
 
-	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->address, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), importer->mail, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), importer->address, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
-				      importer->do_mail);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->address),
-				      importer->do_address);
-
-	gtk_widget_show_all (container);
-	control = bonobo_control_new (container);
+	gtk_widget_show_all (hbox);
+	control = bonobo_control_new (hbox);
 	return control;
 }
 
@@ -793,7 +790,7 @@ factory_fn (BonoboGenericFactory *_factory,
 
 	importer = evolution_intelligent_importer_new (pine_can_import,
 						       pine_create_structure,
-						       _("Pine mail"),
+						       _("Pine"),
 						       _(message), pine);
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
 			    GTK_SIGNAL_FUNC (pine_destroy_cb), pine);

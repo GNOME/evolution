@@ -520,26 +520,20 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (ElmImporter *importer)
 {
-	GtkWidget *container, *vbox;
+	GtkWidget *hbox;
 	BonoboControl *control;
 
-	container = gtk_frame_new (_("Import"));
-	vbox = gtk_vbox_new (FALSE, 2);
-	gtk_container_set_border_width (GTK_CONTAINER (container), 2);
-	gtk_container_add (GTK_CONTAINER (container), vbox);
+	hbox = gtk_vbox_new (FALSE, 2);
 
 	importer->mail = gtk_check_button_new_with_label (_("Mail"));
 	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_mail);
 
-	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), importer->mail, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
-				      importer->do_mail);
-
-	gtk_widget_show_all (container);
-	control = bonobo_control_new (container);
+	gtk_widget_show_all (hbox);
+	control = bonobo_control_new (hbox);
 	return control;
 }
 
@@ -580,7 +574,7 @@ factory_fn (BonoboGenericFactory *_factory,
 
 	importer = evolution_intelligent_importer_new (elm_can_import,
 						       elm_create_structure,
-						       _("Elm mail"),
+						       _("Elm"),
 						       _(message), elm);
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
 			    GTK_SIGNAL_FUNC (elm_destroy_cb), elm);
