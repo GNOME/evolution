@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:45+0300\n"
+"POT-Creation-Date: 2003-09-15 16:23+0300\n"
 "PO-Revision-Date: 2003-09-10 00:43+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Gnome Finnish Translation Team <laatu@gnome-fi.org>\n"
@@ -4870,7 +4870,7 @@ msgstr "ensimmäinen"
 
 #: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
-msgstr "sekunti"
+msgstr "toinen"
 
 #: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
@@ -13808,7 +13808,7 @@ msgstr "Ei vaadita vastausta"
 
 #: mail/message-tag-followup.c:69 ui/evolution-mail-message.xml.h:72
 msgid "Reply"
-msgstr "Vastaa ryhmään"
+msgstr "Vastaa"
 
 #: mail/message-tag-followup.c:70 ui/evolution-mail-message.xml.h:73
 msgid "Reply to All"
@@ -25618,8 +25618,8 @@ msgstr "(Ei nimeä)"
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Ximian Evolution on yhteydellisesä tilassa. Paina nappia siirtyäksesi yhteydettömään"
-"tilaan."
+"Ximian Evolution on yhteydellisessä tilassa. Paina nappia siirtyäksesi "
+"yhteydettömään tilaan."
 
 #: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
