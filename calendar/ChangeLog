@@ -1,3 +1,18 @@
+2004-11-25  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/calendar-component.c: 
+	(new_calendar_cb), (edit_calendar_cb): Use modified_setup_edit_calendar call.
+	(popup_event_cb): If source is null (Rt click on a source group), show the new 
+	calendar popup menu item. Else, do not show the new calendar option. 
+	* gui/dialogs/calendar-setup.[ch] (eccp_get_source_type): Compare the
+	source_groups by their uid and not the pointers, so that the correct option
+	is activated on the combo box.
+	(calendar_setup_edit_calendar) : add a source_group parameter to the function.
+	(calendar_setup_new_calendar): Use modified signature of the above function.
+	* gui/e-calendar-view.c (on_edit_appointment): check the icalcomponent
+	to see if it is a meeting and set the argument to e_calendar_view_edit_appointment
+	correctly.
+
 2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
 		
 	* gui/dialogs/event-deitor.c (show_meeting): removed the

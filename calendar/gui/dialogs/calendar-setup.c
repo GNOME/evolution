@@ -198,7 +198,7 @@ eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 
 			gtk_list_store_append (store, &iter);
 			gtk_list_store_set (store, &iter, 0, e_source_group_peek_name (group), 1, group, -1);
-			if (sdialog->source_group == group)
+			if (!strcmp (e_source_group_peek_uid (sdialog->source_group), e_source_group_peek_uid (group)))
 				active = i;
 			i++;
 		}
@@ -347,7 +347,7 @@ static ECalConfigItem ectp_items[] = {
  * Show calendar properties for @source.
  **/
 void
-calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source)
+calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourceGroup *group)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	char *xml;
@@ -380,6 +380,8 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source)
 
 		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
 		g_object_unref (gconf);
+		if (group)
+			sdialog->source_group = (ESourceGroup *)group;
 	}
 
 	/* HACK: doesn't work if you don't do this */
@@ -407,7 +409,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source)
 void
 calendar_setup_new_calendar (struct _GtkWindow *parent)
 {
-	calendar_setup_edit_calendar (parent, NULL);
+	calendar_setup_edit_calendar (parent, NULL, NULL);
 }
 
 void

@@ -995,7 +995,8 @@ on_edit_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 
 		if (event)
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-						     event->comp_data->icalcomp, FALSE);
+						     event->comp_data->icalcomp, 
+						     icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY));
 
 		g_list_free (selected);
 	}
