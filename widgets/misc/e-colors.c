@@ -60,8 +60,14 @@ e_color_alloc_name (const char *name, GdkColor *c)
 void
 e_color_init (void)
 {
-	GdkColormap *colormap = gtk_widget_get_default_colormap ();
-	
+	GdkColormap *colormap;
+
+	/* It's surprisingly easy to end up calling this twice.  Survive.  */
+	if (e_color_inited)
+		return;
+
+	colormap = gtk_widget_get_default_colormap ();
+
 	/* Initialize the color context */
 	e_color_context = gdk_color_context_new (
 		gtk_widget_get_default_visual (), colormap);
