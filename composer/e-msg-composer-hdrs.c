@@ -168,8 +168,15 @@ static void
 from_changed (GtkWidget *item, gpointer data)
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
+	const char *reply_to;
 	
 	hdrs->account = gtk_object_get_data (GTK_OBJECT (item), "account");
+	
+	/* we do this rather than calling e_msg_composer_hdrs_set_reply_to()
+	   because we don't want to change the visibility of the header */
+	reply_to = hdrs->account->id->reply_to;
+	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
+	
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals [FROM_CHANGED]);
 }
 
@@ -828,11 +835,10 @@ void
 e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 				  const char *reply_to)
 {
-	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->reply_to.entry),
-				    "text", reply_to, NULL);
+	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
+	
 	if (reply_to && *reply_to)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 }
@@ -919,27 +925,20 @@ CamelInternetAddress *
 e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 {
 	CamelInternetAddress *addr;
-	char *reply_to;
+	const char *reply_to;
 	
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	gtk_object_get (GTK_OBJECT (hdrs->priv->reply_to.entry),
-			"text", &reply_to, NULL);
+	reply_to = e_entry_get_text (E_ENTRY (hdrs->priv->reply_to.entry));
 	
-	if (!reply_to || *reply_to == '\0') {
-		g_free (reply_to);
+	if (!reply_to || *reply_to == '\0')
 		return NULL;
-	}
 	
 	addr = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) == -1) {
-		g_free (reply_to);
 		camel_object_unref (CAMEL_OBJECT (addr));
 		return NULL;
 	}
-	
-	g_free (reply_to);
 	
 	return addr;
 }

@@ -1,3 +1,13 @@
+2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (from_changed): Change the Reply-To header
+	contents.
+	(e_msg_composer_hdrs_set_reply_to): The Reply-To entry was an
+	EEntry, not a bonobo control so fix this to set the text using
+	e_entry_set_text.
+	(e_msg_composer_hdrs_get_reply_to): Use e_entry_get_text here for
+	the same reason.
+
 2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (set_editor_text): No need to query for the
