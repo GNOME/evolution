@@ -18,9 +18,11 @@ void calendar_add_object    (Calendar *cal, iCalObject *obj);
 void calendar_remove_object (Calendar *cal, iCalObject *obj);
 void calendar_destroy       (Calendar *cal);
 
-GList *calendar_get_events_in_range  (Calendar *cal, time_t start, time_t end);
-GList *calendar_get_todo_in_range    (Calendar *cal, time_t start, time_t end);
-GList *calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end);
+GList *calendar_get_events_in_range  (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func);
+GList *calendar_get_todo_in_range    (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func);
+GList *calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func);
+
+gint calendar_compare_by_dtstart (gpointer a, gpointer b);
 
 END_GNOME_DECLS
 

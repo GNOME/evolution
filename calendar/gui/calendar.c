@@ -86,7 +86,7 @@ calendar_destroy (Calendar *cal)
 }
 
 static GList *
-calendar_get_objects_in_range (GList *objects, time_t start, time_t end)
+calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompareFunc sort_func)
 {
 	GList *new_events = 0;
 
@@ -94,25 +94,42 @@ calendar_get_objects_in_range (GList *objects, time_t start, time_t end)
 		iCalObject *object = objects->data;
 		
 		if ((start <= object->dtstart) && (end >= object->dtend))
-			new_events = g_list_prepend (new_events, object);
+			if (sort_func)
+				new_events = g_list_insert_sorted (new_events, object, sort_func);
+			else
+				new_events = g_list_prepend (new_events, object);
 	}
 
 	return new_events;
 }
 
 GList *
-calendar_get_events_in_range (Calendar *cal, time_t start, time_t end)
+calendar_get_events_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
 {
-	return calendar_get_objects_in_range (cal->events, start, end);
+	return calendar_get_objects_in_range (cal->events, start, end, sort_func);
 }
 
 GList *
-calendar_get_todo_in_range (Calendar *cal, time_t start, time_t end)
+calendar_get_todo_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
 {
-	return calendar_get_objects_in_range (cal->todo, start, end);
+	return calendar_get_objects_in_range (cal->todo, start, end, sort_func);
 }
 GList *
-calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end)
+calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
 {
-	return calendar_get_objects_in_range (cal->journal, start, end);
+	return calendar_get_objects_in_range (cal->journal, start, end, sort_func);
+}
+
+gint
+calendar_compare_by_dtstart (gpointer a, gpointer b)
+{
+	iCalObject *obj1, *obj2;
+	time_t diff;
+
+	obj1 = a;
+	obj2 = b;
+
+	diff = obj1->dtstart - obj2->dtstart;
+
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }

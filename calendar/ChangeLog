@@ -1,3 +1,15 @@
+1998-04-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* calendar.c (calendar_get_objects_in_range):
+	(calendar_get_events_in_range): 
+	(calendar_get_journal_in_range): 
+	(calendar_get_journal_in_range): These functions now take a
+	sort_func parameter, which is of type GCompareFunc.  If the
+	specified value is non-NULL, it will return a sorted list.
+	Otherwise, it will return an unordered list.
+	(calendar_compare_by_dtstart): Provide a generic sorting routine
+	for calendar objects.
+
 Tue Mar 31 23:46:50 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* timeutil.c (format_simple_hour): `buf' now static.
