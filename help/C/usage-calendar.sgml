@@ -196,9 +196,22 @@
               </para>
 	    </listitem>
 	  </varlistentry>
-	</variablelist>
-	    
+	</variablelist>	    
       </para>
+
+
+       <note id="reminders-when-not-running-evo">
+         <title>Reminders Without Evolution</title>
+         <para>
+            If you have stored reminders in a local calendar, they
+          will work from the moment you log in. However, for reminders
+          stored on an Exchange server, you must run Evolution at
+          least once after logging in. No matter where the reminders
+          are stored, you can quit Evolution and still be reminded of
+          an upcoming appointment.
+         </para>
+        </note>
+
       <para>
          <guilabel>Classification</guilabel> 
          only applies to calendars on a

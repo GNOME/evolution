@@ -1,3 +1,13 @@
+2002-05-06  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: minor feature change in Evolution w/r/t Exchange calendars.
+
+	* C/usage-exchange.sgml: minor feature change in Evolution w/r/t Exchange calendars.
+
+	* C/usage-calendar.sgml: minor feature change in Evolution w/r/t Exchange calendars.
+
+	* C/usage-mainwindow.sgml: validation issue.
+
 2002-04-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: use gpg --import, as per bug 23113

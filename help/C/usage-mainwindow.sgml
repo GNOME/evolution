@@ -309,18 +309,25 @@
 	  </listitem>
 
 	  <listitem>
-	    <para>Exchange Server: If your active directory user name
+	    <para>Mailbox Name is Different from Login Name: If your active directory user name
 	    is different from your Exchange mailbox name, check this
 	    box and enter your mailbox name here.
 	    </para>
 	  </listitem>
-
+	  <listitem>
+	    <para>
+	      Override Outlook Web Access Path: In most cases,
+	      the URL for web access is
+	      "http://server.company.com/exchange." If your
+	      system has a path that is not "exchange," check
+	      the box and enter the custom path here.
+	     </para>
+	  </listitem>
 	  <listitem>
 	    <para>Create a Global Address List folder: If you want to
 	    use your organization's Active Directory or Global Address
 	    List, leave this box checked. </para>
 	  </listitem>
-
 	  <listitem>
 	    <para>
               Active Directory Server Name: Enter the Active Directory
@@ -384,7 +391,6 @@
   </varlistentry>
  </variablelist>
 
-         <note id="imap-namespace">
          <note id="imap-namespace">
             <title>What's an IMAP Namespace?</title>
                 <para>

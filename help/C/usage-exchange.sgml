@@ -400,6 +400,16 @@ There are, however, some features which are not available:
                       mailbox name here.
                      </para>
 		  </listitem>
+	          <listitem>
+		    <para>
+                      Override Outlook Web Access Path: In most cases,
+                      the URL for web access is
+                      "http://server.company.com/exchange." If your
+                      system has a path that is not "exchange," check
+                      the box and enter the custom path here.
+                     </para>
+		  </listitem>
+
 		  <listitem>
 		    <para>
                      Active Directory: If you would like to use the
@@ -529,7 +539,7 @@ There are, however, some features which are not available:
 		       </listitem>
 		    </varlistentry>
 		    <varlistentry>
-		      <term>Exchange Server</term>
+		      <term>Mailbox Name and Web Access Path</term>
 		       <listitem>
 			 <para>
 			   If your Exchange server requires you to use a
@@ -537,6 +547,12 @@ There are, however, some features which are not available:
 			   log in, select the second check-box and enter
 			   the mailbox name.  Check with your system
 			   administrator to be sure.
+			 </para>
+	                 <para>
+			   In most cases, the URL for web access is
+			  "http://server.company.com/exchange." If your
+			  system has a path that is not "exchange," check
+			  the box and enter the custom path here.
 			 </para>
 		       </listitem>
 		    </varlistentry>
@@ -660,6 +676,16 @@ There are, however, some features which are not available:
 	</screenshot>
       </figure>
 
+       <note id="reminders-in-exchange">
+         <title>Reminders In Exchange</title>
+         <para>
+          Reminders for appointments in your Exchange calendar will
+          not work until you have run Evolution at least once after
+          logging in. This is different from locally stored reminders,
+          which will work from the moment you log in, regardless of
+          whether you have run Evolution in the session.
+         </para>
+        </note>
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
@@ -706,3 +732,4 @@ There are, however, some features which are not available:
       </tip>
     </sect1>
 </chapter>
+
