@@ -433,7 +433,7 @@ child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int
 }
 
 static struct layout_row *
-layout_get_rows (GncalFullDay *fullday)
+layout_get_rows (GncalFullDay *fullday, int *rowcount)
 {
 	struct layout_row *rows;
 	int max_i;
@@ -444,6 +444,7 @@ layout_get_rows (GncalFullDay *fullday)
 
 	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
 
+	*rowcount = f_rows;
 	rows = g_new0 (struct layout_row, f_rows);
 	max_i = 0;
 
@@ -464,6 +465,16 @@ layout_get_rows (GncalFullDay *fullday)
 		rows[i].slots = g_new0 (int, max_i);
 
 	return rows;
+}
+
+static void
+layout_kill_rows (struct layout_row *rows, int f_rows)
+{
+	int i;
+	
+	for (i = 0; i < f_rows; i++)
+		g_free (rows [i].slots);
+	g_free (rows);
 }
 
 static void
@@ -573,9 +584,9 @@ layout_children (GncalFullDay *fullday)
 	struct layout_row *rows;
 	GList *children;
 	GtkWidget *widget;
-	int left_x;
+	int left_x, rowcount;
 
-	rows = layout_get_rows (fullday);
+	rows = layout_get_rows (fullday, &rowcount);
 
 	widget = GTK_WIDGET (fullday);
 
@@ -584,7 +595,7 @@ layout_children (GncalFullDay *fullday)
 	for (children = fullday->children; children; children = children->next)
 		layout_child (fullday, children->data, rows, left_x);
 
-	g_free (rows);
+	layout_kill_rows (rows, rowcount);
 }
 
 guint

@@ -83,7 +83,7 @@ setup_widgets (GnomeCalendar *gcal)
 	
 	gcal->notebook  = gtk_notebook_new ();
 	gcal->week_view = gncal_week_view_new (gcal, now);
-	gcal->year_view = gncal_year_view_new ();
+	gcal->year_view = gncal_year_view_new (now);
 	gcal->task_view = tasks_create (gcal);
 
 	setup_day_view (gcal);

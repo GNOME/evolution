@@ -383,7 +383,7 @@ load_recurrence (iCalObject *o, char *str)
 }
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
-#define str_val(obj) fakeCString (vObjectUStringZValue (obj))
+#define str_val(obj) the_str = fakeCString (vObjectUStringZValue (obj))
 #define has(obj,prop) (vo = isAPropertyOf (obj, prop))
 
 /* FIXME: we need to load the recurrence properties */
@@ -394,6 +394,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	iCalObject *ical;
 	VObject *vo;
 	VObjectIterator i;
+	char *the_str;
 
 	ical = g_new0 (iCalObject, 1);
 	
@@ -405,97 +406,128 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		return 0;
 
 	/* uid */
-	if (has (o, VCUniqueStringProp))
+	if (has (o, VCUniqueStringProp)){
 		ical->uid = g_strdup (str_val (vo));
-
+		free (the_str);
+	}
+	
 	/* seq */
-	if (has (o, VCSequenceProp))
+	if (has (o, VCSequenceProp)){
 		ical->seq = atoi (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->seq = 0;
 	
 	/* dtstart */
-	if (has (o, VCDTstartProp))
+	if (has (o, VCDTstartProp)){
 		ical->dtstart = time_from_isodate (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->dtstart = 0;
 
 	/* dtend */
-	if (has (o, VCDTendProp))
+	if (has (o, VCDTendProp)){
 		ical->dtend = time_from_isodate (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->dtend = 0;
 
 	/* dcreated */
-	if (has (o, VCDCreatedProp))
+	if (has (o, VCDCreatedProp)){
 		ical->created = time_from_isodate (str_val (vo));
+		free (the_str);
+	}
 	
 	/* completed */
-	if (has (o, VCCompletedProp))
+	if (has (o, VCCompletedProp)){
 		ical->completed = time_from_isodate (str_val (vo));
+		free (the_str);
+	}
 	
 	/* last_mod */
-	if (has (o, VCLastModifiedProp))
+	if (has (o, VCLastModifiedProp)){
 		ical->last_mod = time_from_isodate (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->last_mod = now;
 
 	/* exdate */
-	if (has (o, VCExpDateProp))
+	if (has (o, VCExpDateProp)){
 		ical->exdate = set_date_list (str_val (vo));
+		free (the_str);
+	}
 
 	/* description/comment */
-	if (has (o, VCDescriptionProp))
+	if (has (o, VCDescriptionProp)){
 		ical->comment = g_strdup (str_val (vo));
+		free (the_str);
+	}
 	
 	/* summary */
-	if (has (o, VCSummaryProp))
+	if (has (o, VCSummaryProp)){
 		ical->summary = g_strdup (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->summary = g_strdup ("");
 
 	/* status */
-	if (has (o, VCStatusProp))
+	if (has (o, VCStatusProp)){
 		ical->status = g_strdup (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->status = g_strdup ("NEEDS ACTION");
 
-	if (has (o, VCClassProp))
+	if (has (o, VCClassProp)){
 		ical->class = g_strdup (str_val (vo));
-	else
+		free (the_str);
+	} else
 		ical->class = "PUBLIC";
 
 	/* categories */
-	if (has (o, VCCategoriesProp))
+	if (has (o, VCCategoriesProp)){
 		ical->categories = set_list (str_val (vo), ",");
-
+		free (the_str);
+	}
+	
 	/* resources */
-	if (has (o, VCResourcesProp))
+	if (has (o, VCResourcesProp)){
 		ical->resources = set_list (str_val (vo), ";");
+		free (the_str);
+	}
 	
 	/* priority */
-	if (has (o, VCPriorityProp))
+	if (has (o, VCPriorityProp)){
 		ical->priority = atoi (str_val (vo));
-
+		free (the_str);
+	}
+	
 	/* tranparency */
-	if (has (o, VCTranspProp))
+	if (has (o, VCTranspProp)){
 		ical->transp = atoi (str_val (vo)) ? ICAL_TRANSPARENT : ICAL_OPAQUE;
+		free (the_str);
+	}
 
 	/* related */
-	if (has (o, VCRelatedToProp))
+	if (has (o, VCRelatedToProp)){
 		ical->related = set_list (str_val (vo), ";");
-
+		free (the_str);
+	}
+	
 	/* attach */
 	initPropIterator (&i, o);
 	while (moreIteration (&i)){
 		vo = nextVObject (&i);
-		if (strcmp (vObjectName (vo), VCAttachProp) == 0)
+		if (strcmp (vObjectName (vo), VCAttachProp) == 0){
 			ical->attach = g_list_prepend (ical->attach, g_strdup (str_val (vo)));
+			free (the_str);
+		}
 	}
 
 	/* url */
-	if (has (o, VCURLProp))
+	if (has (o, VCURLProp)){
 		ical->url = g_strdup (str_val (vo));
+		free (the_str);
+	}
 	
 	/* FIXME: dalarm */
 	if (has (o, VCDAlarmProp))
@@ -514,12 +546,13 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		;
 
 	/* FIXME: rrule */
-	if (has (o, VCRRuleProp))
+	if (has (o, VCRRuleProp)){
 		if (!load_recurrence (ical, str_val (vo))) {
 			ical_object_destroy (ical);
 			return NULL;
 		}
-	
+		free (the_str);
+	}
 	return ical;
 }
 

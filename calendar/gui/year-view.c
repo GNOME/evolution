@@ -101,7 +101,8 @@ gncal_year_view_new (int year)
 				       (gpointer *) yview);
 		  
 		  my_tm.tm_mon = i;
-		  strftime(monthbuff, 40, "%B", &my_tm);
+		  my_tm.tm_year = year;
+		  strftime(monthbuff, sizeof (monthbuff)-1, "%B", &my_tm);
 		  label = gtk_label_new(monthbuff);
 		
 		  gtk_container_add(GTK_CONTAINER(frame), vbox);

@@ -1,3 +1,14 @@
+1998-04-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-full-day.c (layout_kill_rows): Routine to destory rows
+	array properly.
+
+	* gncal-year-view.c (gncal_year_view_new): Add missing year in
+	call to strftime.
+
+	* calobj.c (ical_object_create_from_vobject): Fixed memory leaks
+	from the return values of versit's fakeCString.
+
 1998-04-14  Arturo Espinosa Aldama  <arturo@nuclecu.unam.mx>
 
 	* gncal-year-view.[hc]: New widget for the year view.
