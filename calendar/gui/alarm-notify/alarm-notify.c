@@ -77,15 +77,11 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 }
 
 static void
-free_client_hash (gpointer key, gpointer value, gpointer user_data)
+dequeue_client (gpointer key, gpointer value, gpointer user_data)
 {
-	char *uri = key;
 	ECal *client = value;
 
 	alarm_queue_remove_client (client);
-
-	g_free (uri);
-	g_object_unref (client);
 }
 
 /* Finalize handler for the alarm notify system */
@@ -101,7 +97,7 @@ alarm_notify_finalize (GObject *object)
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
 
-	g_hash_table_foreach (priv->uri_client_hash, (GHFunc) free_client_hash, NULL);
+	g_hash_table_foreach (priv->uri_client_hash, dequeue_client, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
 
 	g_free (priv);
@@ -142,14 +138,8 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	if (status == E_CALENDAR_STATUS_OK)
 		alarm_queue_add_client (client);
 	else {
-		gpointer orig_key, orig_value;
-
-		if (g_hash_table_lookup_extended (priv->uri_client_hash, e_cal_get_uri (client), &orig_key, &orig_value)) {
-			g_hash_table_remove (priv->uri_client_hash, orig_key);
-			g_free (orig_key);
-		}
-
-		g_object_unref (client);
+		g_hash_table_remove (priv->uri_client_hash,
+				     e_cal_get_uri (client));
 	}
 }
 
@@ -193,15 +183,13 @@ void
 alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri)
 {
 	AlarmNotifyPrivate *priv;
-	gpointer orig_key, orig_value;
+	ECal *client;
 
 	priv = an->priv;
 
-	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &orig_key, &orig_value)) {
-		alarm_queue_remove_client (E_CAL (orig_value));
-
+	client = g_hash_table_lookup (priv->uri_client_hash, str_uri);
+	if (client) {
+		alarm_queue_remove_client (client);
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
-		g_free (orig_key);
-		g_object_unref (orig_value);
 	}
 }
