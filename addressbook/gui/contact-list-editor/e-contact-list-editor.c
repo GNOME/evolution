@@ -518,18 +518,18 @@ BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps[] = {
-	E_PIXMAP ("/commands/ContactListEditorSave", "stock_save", 16),
-	E_PIXMAP ("/commands/ContactListEditorSaveClose", "stock_save", 16),
-	E_PIXMAP ("/commands/ContactListEditorSaveAs", "stock_save_as", 16),
+	E_PIXMAP ("/commands/ContactListEditorSave", "stock_save", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactListEditorSaveClose", "stock_save", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactListEditorSaveAs", "stock_save_as", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/commands/ContactListEditorDelete", "stock_delete", 16),
+	E_PIXMAP ("/commands/ContactListEditorDelete", "stock_delete", E_ICON_SIZE_MENU),
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-	E_PIXMAP ("/commands/ContactListEditorPrint", "stock_print", 16),
-	E_PIXMAP ("/commands/ContactListEditorPrintEnvelope", "stock_print", 16),
+	E_PIXMAP ("/commands/ContactListEditorPrint", "stock_print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactListEditorPrintEnvelope", "stock_print", E_ICON_SIZE_MENU),
 #endif
-	E_PIXMAP ("/Toolbar/ContactListEditorSaveClose", "stock_save", 24),
-	E_PIXMAP ("/Toolbar/ContactListEditorDelete", "stock_delete", 24),
-	E_PIXMAP ("/Toolbar/ContactListEditorPrint", "stock_print", 24),
+	E_PIXMAP ("/Toolbar/ContactListEditorSaveClose", "stock_save", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactListEditorDelete", "stock_delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactListEditorPrint", "stock_print", E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };
