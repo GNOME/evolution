@@ -693,6 +693,7 @@ addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
 shell/Makefile
 shell/glade/Makefile
+shell/importer/Makefile
 mail/Makefile
 data/Makefile
 libversit/Makefile
