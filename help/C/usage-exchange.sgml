@@ -269,7 +269,24 @@ There are, however, some features which are not available:
     <para>
       Once you have installed the Connector, you need to set up access
       for your <application>Exchange</application> account on both the
-      <application>Exchange</application> server and within Evolution.
+      <application>Exchange</application> server and within
+      Evolution. If you are not sure of the information you need to
+      set up your Exchange account, ask your system administrator, or
+      use the Ximian Connector Tester utility, which is installed
+      alongside the Ximian Connector.  To start it, select
+      <menuchoice>
+        <guimenu>
+         Programs
+       </guimenu>
+       <guisubmenu>
+         Internet
+      </guisubmenu>
+      <guimenuitem>
+         Ximian Connector Tester
+</guimenuitem>
+</menuchoice>.  The utility will help you determine if your Exchange
+server is compatible with the Ximian Connector, and locate your Active
+Directory server.
     </para>
 
        <sect2 id="config-server">
