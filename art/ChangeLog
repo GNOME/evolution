@@ -1,3 +1,11 @@
+2001-07-20    <tigert@ximian.com>
+
+	* evolution-calendar.png, evolution-contacts.png, 
+	evolution-inbox.png, evolution-tasks.png, evolution-today.png:
+	Took out the colored background circles from the icons, apparently
+	people found them confusing rather than useful, especially on small
+	icons -mode of the shortcutbar.
+
 2001-07-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: install the 2 new category icons
