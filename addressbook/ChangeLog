@@ -1,3 +1,30 @@
+2000-12-21  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (cursor_cb): Ref the cards that get put
+	in the change list
+	(next_changed_item): util function to get the real next changed item
+	(compute_status): really compute the status of the record
+	(local_record_from_uid): Set the id of the temporary card
+	(check_for_slow_setting): Make this check a little saner
+	(card_added): Only record the CardObjectChange if the card is not
+	archived
+	(card_changed): ditto
+	(card_removed): ditto
+	(set_status_cleared): actually clear the status
+	(for_each_modified): Clean out cruft and use next_changed_item
+	(add_record): Set the new id properly in our local card copy
+	(replace_record): handle the case where the record has been deleted
+	and we need to call add.  need to update the changed_hash entry
+	(delete_record): Don't panic if the card is not found, its already
+	been deleted.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_copy): 
+	The change_context no longer has a del_cards member
+	(pas_backend_file_book_view_free): ditto
+	(pas_backend_file_process_get_changes): ditto
+	(pas_backend_file_changes_foreach_key): just record the id
+	(pas_backend_file_changes): notify_remove needs an id not a vcard
+
 2000-12-20  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.c (match): Use my own wrapper

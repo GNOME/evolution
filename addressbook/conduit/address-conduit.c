@@ -70,7 +70,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 typedef struct {
 	EBookStatus status;
 	char *id;
-} add_card_cons;
+} CardObjectChangeStatus;
 
 typedef enum {
 	CARD_ADDED,
@@ -80,7 +80,7 @@ typedef enum {
 
 typedef struct 
 {
-	char *uid;
+	ECard *card;
 	CardObjectChangeType type;
 } CardObjectChange;
 
@@ -154,7 +154,7 @@ e_addr_context_destroy (EAddrConduitContext **ctxt)
 static void
 add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
 {
-	add_card_cons *cons = (add_card_cons*)closure;
+	CardObjectChangeStatus *cons = closure;
 
 	cons->status = status;
 	cons->id = g_strdup (id);
@@ -182,8 +182,12 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 
 		length = e_card_cursor_get_length (cursor);
 		ctxt->cards = NULL;
-		for (i = 0; i < length; i ++)
-			ctxt->cards = g_list_append (ctxt->cards, e_card_cursor_get_nth (cursor, i));
+		for (i = 0; i < length; i ++) {
+			ECard *card = e_card_cursor_get_nth (cursor, i);
+			
+			gtk_object_ref (GTK_OBJECT (card));
+			ctxt->cards = g_list_append (ctxt->cards, card);
+		}
 
 		gtk_main_quit(); /* end the sub event loop */
 	}
@@ -245,6 +249,22 @@ map_name (EAddrConduitContext *ctxt)
 	return filename;
 }
 
+static GList *
+next_changed_item (EAddrConduitContext *ctxt, GList *changes) 
+{
+	CardObjectChange *coc;
+	GList *l;
+	
+	for (l = changes; l != NULL; l = l->next) {
+		coc = l->data;
+		
+		if (g_hash_table_lookup (ctxt->changed_hash, e_card_get_id (coc->card)))
+			return l;
+	}
+	
+	return NULL;
+}
+
 static char *
 get_entry_text (struct Address address, int field)
 {
@@ -257,9 +277,29 @@ get_entry_text (struct Address address, int field)
 static void
 compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
 {
+	CardObjectChange *coc;
+
 	local->local.archived = FALSE;
 	local->local.secret = FALSE;
-	local->local.attr = GnomePilotRecordNothing;
+
+	coc = g_hash_table_lookup (ctxt->changed_hash, uid);
+	
+	if (coc == NULL) {
+		local->local.attr = GnomePilotRecordNothing;
+		return;
+	}
+	
+	switch (coc->type) {
+	case CARD_ADDED:
+		local->local.attr = GnomePilotRecordNew;
+		break;	
+	case CARD_MODIFIED:
+		local->local.attr = GnomePilotRecordModified;
+		break;
+	case CARD_DELETED:
+		local->local.attr = GnomePilotRecordDeleted;
+		break;
+	}
 }
 
 static GnomePilotRecord
@@ -362,9 +402,9 @@ local_record_from_uid (EAddrLocalRecord *local,
 		       char *uid,
 		       EAddrConduitContext *ctxt)
 {
-	ECard *ecard;
+	ECard *ecard = NULL;
 
-	g_assert(local!=NULL);
+	g_assert (local != NULL);
 
 	ecard = e_book_get_card (ctxt->ebook, uid);
 
@@ -372,7 +412,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		local_record_from_ecard (local, ecard, ctxt);
 	} else {
 		ecard = e_card_new ("");
-		ecard_set_id (ecard, uid);
+		e_card_set_id (ecard, uid);
 		local_record_from_ecard (local, ecard, ctxt);
 	}
 }
@@ -492,11 +532,9 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	int count, map_count;
 
   	count = g_list_length (ctxt->cards);
-
 	map_count = g_hash_table_size (ctxt->map->pid_map);
 	
-  	/* If there are no objects or objects but no log */
-	if ((count == 0) || (count > 0 && map_count == 0)) {
+	if (map_count == 0) {
 		GnomePilotConduitStandard *conduit;
 		LOG ("    doing slow sync\n");
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
@@ -512,14 +550,15 @@ card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
 	const GList *l;
 
 	for (l = cards; l != NULL; l = l->next) {
-		ECard *card = l->data;
 		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
 		
-		coc->uid = g_strdup (e_card_get_id (card));
+		coc->card = E_CARD (l->data);
 		coc->type = CARD_ADDED;
 
+		gtk_object_ref (GTK_OBJECT (coc->card));
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
-		g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
+			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
 	}
 }
 
@@ -529,14 +568,15 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 	const GList *l;
 
 	for (l = cards; l != NULL; l = l->next) {
-		ECard *card = l->data;
 		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
-	
-		coc->uid = g_strdup (e_card_get_id (card));
+		
+		coc->card = E_CARD (l->data);
 		coc->type = CARD_MODIFIED;
-		g_print ("UID **** %s\n", coc->uid);
+
+		gtk_object_ref (GTK_OBJECT (coc->card));
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
-		g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
+			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
 	}	
 }
 
@@ -546,11 +586,13 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 {
 	CardObjectChange *coc = g_new0 (CardObjectChange, 1);
 	
-	coc->uid = g_strdup (id);
+	coc->card = e_card_new ("");
+	e_card_set_id (coc->card, id);
 	coc->type = CARD_DELETED;
 
 	ctxt->changed = g_list_prepend (ctxt->changed, coc);
-	g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+	if (!e_pilot_map_uid_is_archived (ctxt->map, id))
+		g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
 }
 
 static void
@@ -693,6 +735,8 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 {
 	LOG ("set_status_cleared: clearing status\n");
 	
+	g_hash_table_remove (ctxt->changed_hash, e_card_get_id (local->ecard));
+	
         return 0;
 }
 
@@ -749,7 +793,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   EAddrLocalRecord **local,
 		   EAddrConduitContext *ctxt)
 {
-	static GList *changes, *iterator;
+	static GList *iterator;
 	static int count;
 
 	g_return_val_if_fail (local != NULL, 0);
@@ -757,39 +801,36 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	if (*local == NULL) {
 		LOG ("beginning for_each_modified: beginning\n");
 		
-		changes = ctxt->changed;
+		iterator = ctxt->changed;
 		
 		count = 0;
 		
-		if (changes != NULL) {
-			CardObjectChange *coc = changes->data;
+		iterator = next_changed_item (ctxt, iterator);
+		if (iterator != NULL) {
+			CardObjectChange *coc = iterator->data;
 			
-			LOG ("iterating over %d records", g_list_length (changes));
+			LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
 			 
 			*local = g_new0 (EAddrLocalRecord, 1);
-			local_record_from_uid (*local, coc->uid, ctxt);
-
-			iterator = changes;
+			local_record_from_ecard (*local, coc->card, ctxt);
 		} else {
 			LOG ("no events");
-			(*local) = NULL;
-			return 0;
+
+			*local = NULL;
 		}
 	} else {
 		count++;
-		if (g_list_next (iterator)) {
-			CardObjectChange *coc;
-
-			iterator = g_list_next (iterator);
-			coc = iterator->data;
+		iterator = g_list_next (iterator);
+		if (iterator && (iterator = next_changed_item (ctxt, iterator))) {
+			CardObjectChange *coc = iterator->data;
 
 			*local = g_new0 (EAddrLocalRecord, 1);
-			local_record_from_uid (*local, coc->uid, ctxt);
+			local_record_from_ecard (*local, coc->card, ctxt);
 		} else {
 			LOG ("for_each_modified ending");
 
-    			/* Tell the pilot the iteration is over */
-			(*local) = NULL;
+    			/* Signal the iteration is over */
+			*local = NULL;
 
 			return 0;
 		}
@@ -834,7 +875,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    EAddrConduitContext *ctxt)
 {
 	ECard *ecard;
-	add_card_cons cons;
+	CardObjectChangeStatus cons;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
@@ -842,7 +883,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
 	ecard = ecard_from_remote_record (ctxt, remote, NULL);
-
+	
 	/* add the ecard to the server */
 	e_book_add_card (ctxt->ebook, ecard, add_card_cb, &cons);
 
@@ -853,10 +894,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 		return -1;
 	}
 
-	e_card_set_id (ecard,  cons.id);
-	ctxt->cards = g_list_append (ctxt->cards, ecard);
-	g_free (cons.id);
-
+	e_card_set_id (ecard, cons.id);
 	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);
 
 	return retval;
@@ -870,6 +908,9 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 {
 	ECard *new_ecard;
 	EBookStatus commit_status;
+	CardObjectChange *coc;
+	CardObjectChangeStatus cons;
+	char *old_id;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
@@ -877,18 +918,40 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("replace_record: replace %s with %s\n",
 	     print_local (local), print_remote (remote));
 
+	old_id = g_strdup (e_card_get_id (local->ecard));
+	coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
+	
 	new_ecard = ecard_from_remote_record (ctxt, remote, local->ecard);
 	gtk_object_unref (GTK_OBJECT (local->ecard));
 	local->ecard = new_ecard;
 
-	e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
+	if (coc && coc->type == CARD_DELETED)
+		e_book_add_card (ctxt->ebook, local->ecard, add_card_cb, &cons);
+	else
+		e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
 	
 	gtk_main (); /* enter sub mainloop */
+
+	/* Adding a record causes wombat to assign a new uid so we must tidy */
+	if (coc && coc->type == CARD_DELETED) {
+		gboolean arch = e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (local->ecard));
+		
+		e_card_set_id (local->ecard, cons.id);
+		e_pilot_map_insert (ctxt->map, remote->ID, cons.id, arch);
+
+		coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
+		if (coc) {
+			g_hash_table_remove (ctxt->changed_hash, e_card_get_id (coc->card));
+			coc->card = local->ecard;
+			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
+			
+		}
+		
+		commit_status = cons.status;
+	}
 	
 	if (commit_status != E_BOOK_STATUS_SUCCESS)
 		WARN ("replace_record: failed to update card in ebook\n");
-
-	gtk_object_unref (GTK_OBJECT (new_ecard));
 
 	return retval;
 }
@@ -910,7 +973,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	
 	gtk_main (); /* enter sub mainloop */
 	
-	if (commit_status != E_BOOK_STATUS_SUCCESS)
+	if (commit_status != E_BOOK_STATUS_SUCCESS && commit_status != E_BOOK_STATUS_CARD_NOT_FOUND)
 		WARN ("delete_record: failed to delete card in ebook\n");
 
 	return retval;

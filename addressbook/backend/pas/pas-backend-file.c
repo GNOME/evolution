@@ -75,7 +75,6 @@ struct _PasBackendFileChangeContext {
 	GList *add_ids;
 	GList *mod_cards;
 	GList *mod_ids;
-	GList *del_cards;
 	GList *del_ids;
 };
 
@@ -104,7 +103,6 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 		new_book_view->change_context->add_ids = book_view->change_context->add_ids;
 		new_book_view->change_context->mod_cards = book_view->change_context->mod_cards;
 		new_book_view->change_context->mod_ids = book_view->change_context->mod_ids;
-		new_book_view->change_context->del_cards = book_view->change_context->del_cards;
 		new_book_view->change_context->del_ids = book_view->change_context->del_ids;
 	} else
 		new_book_view->change_context = NULL;
@@ -126,13 +124,11 @@ pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure
 		g_list_foreach (book_view->change_context->add_ids, (GFunc)g_free, NULL);
 		g_list_foreach (book_view->change_context->mod_cards, (GFunc)g_free, NULL);
 		g_list_foreach (book_view->change_context->mod_ids, (GFunc)g_free, NULL);
-		g_list_foreach (book_view->change_context->del_cards, (GFunc)g_free, NULL);
 		g_list_foreach (book_view->change_context->del_ids, (GFunc)g_free, NULL);
 		g_list_free (book_view->change_context->add_cards);
 		g_list_free (book_view->change_context->add_ids);
 		g_list_free (book_view->change_context->mod_cards);
 		g_list_free (book_view->change_context->mod_ids);
-		g_list_free (book_view->change_context->del_cards);
 		g_list_free (book_view->change_context->del_ids);
 	}
 	g_free(book_view->change_context);
@@ -548,13 +544,8 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	
 	if (db_error == 1) {
-		ECard *ecard;
 		char *id = id_dbt.data;
 		
-		ecard = e_card_new ("");
-		e_card_set_id (ecard, id);
-		
-		ctx->del_cards = g_list_append (ctx->del_cards, e_card_get_vcard (ecard));
 		ctx->del_ids = g_list_append (ctx->del_ids, strdup(id));
 	}
 }
@@ -576,7 +567,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	if (!bf->priv->loaded)
 		return;
 
-	/* Find the changed ids - FIX ME, patch should not be hard coded */
+	/* Find the changed ids - FIX ME, path should not be hard coded */
 	filename = g_strdup_printf ("%s/evolution/local/Contacts/%s.db", g_get_home_dir (), view->change_id);
 	ehash = e_dbhash_new (filename);
 	g_free (filename);
@@ -640,9 +631,9 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		if (ctx->mod_cards != NULL)
 			pas_book_view_notify_change (view->book_view, ctx->mod_cards);
 
-		for (v = ctx->del_cards; v != NULL; v = v->next){
-			char *vcard = v->data;
-			pas_book_view_notify_remove (view->book_view, vcard);
+		for (v = ctx->del_ids; v != NULL; v = v->next){
+			char *id = v->data;
+			pas_book_view_notify_remove (view->book_view, id);
 		}
 		
 		pas_book_view_notify_complete (view->book_view);
@@ -1059,7 +1050,6 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	ctx.add_ids = NULL;
 	ctx.mod_cards = NULL;
 	ctx.mod_ids = NULL;
-	ctx.del_cards = NULL;
 	ctx.del_ids = NULL;
 	view.search = NULL;
 	view.search_sexp = NULL;
