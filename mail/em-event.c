@@ -71,8 +71,8 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 	case EM_EVENT_TARGET_MESSAGE: {
 		EMEventTargetMessage *s = (EMEventTargetMessage *)t;
 
-		g_object_unref(s->folder);
-		g_object_unref(s->message);
+		camel_object_unref(s->folder);
+		camel_object_unref(s->message);
 		g_free(s->uid);
 		break; }
 	}

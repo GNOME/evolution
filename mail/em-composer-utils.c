@@ -1762,7 +1762,14 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	g_return_if_fail(message != NULL);
 
-	/* EVENT: message.replying definition */
+	/**
+	 * @Event: message.replying
+	 * @Title: Message being replied to
+	 * @Target: EMEventTargetMessage
+	 * 
+	 * message.replying is emitted when a user starts replying to a message.
+	 */
+
 	eme = em_event_peek();
 	target = em_event_target_new_message(eme, folder, message, uid,
 					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL : 0);

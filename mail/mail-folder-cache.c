@@ -245,7 +245,13 @@ real_flush_updates(void *o, void *event_data, void *data)
 			EMEvent *e = em_event_peek();
 			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new?EM_EVENT_FOLDER_NEWMAIL:0);
 
-			/* EVENT: folder.changed definition */
+			/**
+			 * @Event: folder.changed
+			 * @Title: Folder changed
+			 * @Target: EMEventTargetFolder
+			 * 
+			 * folder.changed is emitted whenever a folder changes.  There is no detail on how the folder has changed.
+			 */
 			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
 		}
 

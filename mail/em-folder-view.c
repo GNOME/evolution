@@ -78,6 +78,7 @@
 #include "em-composer-utils.h"
 #include "em-marshal.h"
 #include "em-menu.h"
+#include "em-event.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/htmlobject.h>
@@ -1986,6 +1987,8 @@ static void
 emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	EMFolderView *emfv = data;
+	EMEvent *eme;
+	EMEventTargetMessage *target;
 	
 	if (emfv->preview == NULL) {
 		emfv->priv->nomarkseen = FALSE;
@@ -1993,7 +1996,19 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 		emfv_enable_menus(emfv);
 		return;
 	}
-	
+		
+	/**
+	 * @Event: message.reading
+	 * @Title: Viewing a message
+	 * @Target: EMEventTargetMessage
+	 * 
+	 * message.reading is emitted whenever a user views a message.
+	 */
+	/* TODO: do we emit a message.reading with no message when we're looking at nothing or don't care? */
+	eme = em_event_peek();
+	target = em_event_target_new_message(eme, folder, msg, uid, 0);
+	e_event_emit((EEvent *)eme, "message.reading", (EEventTarget *)target);
+
 	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
 	
 	if (emfv->priv->seen_id)

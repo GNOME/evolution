@@ -1,3 +1,10 @@
+2004-10-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-event.c (eme_target_free): duh, they're camel not gobjects.
+
+	* em-folder-view.c (emfv_list_done_message_selected): added a
+	message.reading event.
+
 2004-10-22  Nat Friedman  <nat@novell.com>
 
 	* em-event.c: Add a REPLY_ALL flag to the Message target.
