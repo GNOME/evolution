@@ -1,3 +1,27 @@
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
+	*Please* add accessor functions instead of just object arguments!
+
+	* e-search-bar.c (e_search_bar_set_option_choice): New function.
+	(e_search_bar_set_suboption_choice): New function.
+	(e_search_bar_set_text): New function.
+	(impl_set_arg): Use the functions above instead of setting things
+	directly.
+	(add_dropdown): If the item is a separator, set it as insensitive.
+	(activate_by_subitems): Handle the translate field in the subitem
+	structure.  Also, allow the creation of separators by having NULL
+	text strings in the subitems.
+	(set_option): If the item is a separator, set it as insensitive.
+	(set_option): Do not use the subitem_garbage hack.  Do proper
+	memory management instead.
+	(e_search_bar_set_suboption): New function to change the suboption
+	items in a search bar.
+
+	* e-search-bar.h (ESearchBarSubitem): Added a `translate' field.
+	This API sucks so much it is not funny.
+	(ESearchBar): Removed the subitem_garbage hack.  Please do proper
+	memory management.
+
 2001-08-14  Jon Trowbridge  <trow@ximian.com>
 
 	* e-search-bar.c (activate_by_subitems): Oops... initial

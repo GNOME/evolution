@@ -162,7 +162,19 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		esb->suboption_menu = menu = gtk_menu_new ();
 		for (i = 0; subitems[i].id != -1; ++i) {
-			menu_item = gtk_menu_item_new_with_label (_(subitems[i].text));
+			if (subitems[i].text) {
+				char *str;
+
+				if (subitems[i].translate)
+					str = _(subitems[i].text);
+				else
+					str = subitems[i].text;
+
+				menu_item = gtk_menu_item_new_with_label (str);
+			} else {
+				menu_item = gtk_menu_item_new ();
+				gtk_widget_set_sensitive (menu_item, FALSE);
+			}
 
 			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbItemId", GINT_TO_POINTER (item_id));
 			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbSubitemId", GINT_TO_POINTER (subitems[i].id));
@@ -257,19 +269,6 @@ copy_subitems (ESearchBarSubitem *subitems)
 }
 
 static void
-free_subitems (ESearchBarSubitem *subitems)
-{
-	gint i;
-
-	if (subitems != NULL) {
-		for (i=0; subitems[i].id != -1; ++i) {
-			g_free (subitems[i].text);
-		}
-		g_free (subitems);
-	}
-}
-
-static void
 add_dropdown (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu = esb->dropdown_menu;
@@ -283,9 +282,10 @@ add_dropdown (ESearchBar *esb, ESearchBarItem *items)
 			item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
 		} else
 			item = gtk_menu_item_new_with_label (str);
-	}
-	else
+	} else {
 		item = gtk_menu_item_new();
+		gtk_widget_set_sensitive (item, FALSE);
+	}
 	
 	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
@@ -328,6 +328,37 @@ set_dropdown (ESearchBar *esb,
 	}
 }
 
+/* Frees an array of subitem information */
+static void
+free_subitems (ESearchBarSubitem *subitems)
+{
+	ESearchBarSubitem *s;
+
+	g_assert (subitems != NULL);
+
+	for (s = subitems; s->id != -1; s++) {
+		if (s->text)
+			g_free (s->text);
+	}
+
+	g_free (subitems);
+}
+
+/* Callback used when an option item is destroyed.  We have to destroy its
+ * suboption items.
+ */
+static void
+option_item_destroy_cb (GtkObject *object, gpointer data)
+{
+	ESearchBarSubitem *subitems;
+
+	subitems = data;
+
+	g_assert (subitems != NULL);
+	free_subitems (subitems);
+	gtk_object_set_data (object, "EsbChoiceSubitems", NULL);
+}
+
 static void
 set_option (ESearchBar *esb, ESearchBarItem *items)
 {
@@ -357,9 +388,10 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 				item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
 			} else
 				item = gtk_menu_item_new_with_label (str);
-		}
-		else
+		} else {
 			item = gtk_menu_item_new ();
+			gtk_widget_set_sensitive (item, FALSE);
+		}
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
@@ -367,14 +399,13 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		if (items[i].subitems != NULL) {
 			subitems = copy_subitems (items[i].subitems);
-			esb->subitem_garbage = g_list_prepend (esb->subitem_garbage, subitems);
+			gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", subitems);
+			gtk_signal_connect (GTK_OBJECT (item), "destroy",
+					    GTK_SIGNAL_FUNC (option_item_destroy_cb), subitems);
 		}
 
-		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", subitems);
-
-		if (i == 0) {
+		if (i == 0)
 			activate_by_subitems (esb, items[i].id, subitems);
-		}
 
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (option_activated_cb),
@@ -476,30 +507,18 @@ static void
 impl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ESearchBar *esb = E_SEARCH_BAR(object);
-	int row;
 	
 	switch (arg_id) {
 	case ARG_OPTION_CHOICE:
-		esb->option_choice = GTK_VALUE_ENUM(*arg);
-		row = find_id (esb->option_menu, esb->option_choice, "EsbChoiceId", NULL);
-		if (row == -1)
-			row = 0;
-		gtk_option_menu_set_history (GTK_OPTION_MENU (esb->option), row);
-		emit_query_changed (esb);
+		e_search_bar_set_option_choice (esb, GTK_VALUE_ENUM (*arg));
 		break;
 
 	case ARG_SUBOPTION_CHOICE:
-		esb->suboption_choice = GTK_VALUE_ENUM (*arg);
-		row = find_id (esb->suboption_menu, esb->suboption_choice, "EsbSubitemId", NULL);
-		if (row == -1)
-			row = 0;
-		gtk_option_menu_set_history (GTK_OPTION_MENU (esb->suboption), row);
-		emit_query_changed (esb);
+		e_search_bar_set_suboption_choice (esb, GTK_VALUE_ENUM (*arg));
 		break;
 		
 	case ARG_TEXT:
-		e_utf8_gtk_editable_set_text (GTK_EDITABLE (esb->entry), GTK_VALUE_STRING (*arg));
-		emit_query_changed (esb);
+		e_search_bar_set_text (esb, GTK_VALUE_STRING (*arg));
 		break;
 		
 	default:
@@ -521,9 +540,6 @@ impl_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (esb->entry));
 	if (esb->suboption)
 		gtk_object_unref (GTK_OBJECT (esb->suboption));
-	
-	g_list_foreach (esb->subitem_garbage, (GFunc) free_subitems, NULL);
-	g_list_free (esb->subitem_garbage);
 	
 	if (esb->pending_change) {
 		gtk_idle_remove (esb->pending_change);
@@ -667,6 +683,50 @@ e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items)
 	((ESearchBarClass *)((GtkObject *)search_bar)->klass)->set_option (search_bar, option_items);
 }
 
+/**
+ * e_search_bar_set_suboption:
+ * @search_bar: A search bar.
+ * @option_id: Identifier of the main option menu item under which the subitems
+ * are to be set.
+ * @subitems: Array of subitem information.
+ * 
+ * Sets the items for the secondary option menu of a search bar.
+ **/
+void
+e_search_bar_set_suboption (ESearchBar *search_bar, int option_id, ESearchBarSubitem *subitems)
+{
+	int row;
+	GtkWidget *item;
+	ESearchBarSubitem *old_subitems;
+	ESearchBarSubitem *new_subitems;
+
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	row = find_id (search_bar->option_menu, option_id, "EsbChoiceId", &item);
+	g_return_if_fail (row != -1);
+	g_assert (item != NULL);
+
+	old_subitems = gtk_object_get_data (GTK_OBJECT (item), "EsbChoiceSubitems");
+	if (old_subitems) {
+		/* This was connected in set_option() */
+		gtk_signal_disconnect_by_data (GTK_OBJECT (item), old_subitems);
+		free_subitems (old_subitems);
+		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", NULL);
+	}
+
+	if (subitems) {
+		new_subitems = copy_subitems (subitems);
+		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", new_subitems);
+		gtk_signal_connect (GTK_OBJECT (item), "destroy",
+				    GTK_SIGNAL_FUNC (option_item_destroy_cb), new_subitems);
+	} else
+		new_subitems = NULL;
+
+	if (search_bar->option_choice == option_id)
+		activate_by_subitems (search_bar, option_id, new_subitems);
+}
+
 GtkWidget *
 e_search_bar_new (ESearchBarItem *menu_items,
 		  ESearchBarItem *option_items)
@@ -718,6 +778,29 @@ e_search_bar_get_type (void)
 }
 
 /**
+ * e_search_bar_set_option_choice:
+ * @search_bar: A search bar.
+ * @id: Identifier of the item to set.
+ * 
+ * Sets the active item in the options menu of a search bar.
+ **/
+void
+e_search_bar_set_option_choice (ESearchBar *search_bar, int id)
+{
+	int row;
+
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	row = find_id (search_bar->option_menu, id, "EsbChoiceId", NULL);
+	g_return_if_fail (row != -1);
+
+	search_bar->option_choice = id;
+	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->option), row);
+	emit_query_changed (search_bar);
+}
+
+/**
  * e_search_bar_get_option_choice:
  * @search_bar: A search bar.
  * 
@@ -732,6 +815,22 @@ e_search_bar_get_option_choice (ESearchBar *search_bar)
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
 	
 	return search_bar->option_choice;
+}
+
+void
+e_search_bar_set_suboption_choice (ESearchBar *search_bar, int id)
+{
+	int row;
+
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	row = find_id (search_bar->suboption_menu, id, "EsbSubitemId", NULL);
+	g_return_if_fail (row != -1);
+
+	search_bar->suboption_choice = id;
+	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->suboption), row);
+	emit_query_changed (search_bar);
 }
 
 /**
@@ -751,6 +850,23 @@ e_search_bar_get_suboption_choice (ESearchBar *search_bar)
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
 	
 	return search_bar->suboption_choice;
+}
+
+/**
+ * e_search_bar_set_text:
+ * @search_bar: A search bar.
+ * @text: Text to set in the search bar's entry line.
+ * 
+ * Sets the text string inside the entry line of a search bar.
+ **/
+void
+e_search_bar_set_text (ESearchBar *search_bar, const char *text)
+{
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	e_utf8_gtk_editable_set_text (GTK_EDITABLE (search_bar->entry), text);
+	emit_query_changed (search_bar);
 }
 
 /**

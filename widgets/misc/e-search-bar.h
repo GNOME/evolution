@@ -47,6 +47,7 @@ extern "C" {
 typedef struct {
 	char *text;
 	int id;
+	gboolean translate; /* whether to translate the text */
 } ESearchBarSubitem;
 	
 typedef struct {
@@ -76,7 +77,6 @@ struct _ESearchBar
 	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
 	GtkWidget *entry_box;
-	GList     *subitem_garbage;
 	guint      pending_change;
 
 	int        option_choice;
@@ -100,6 +100,9 @@ void       e_search_bar_set_menu   (ESearchBar *search_bar, ESearchBarItem *menu
 void	   e_search_bar_add_menu   (ESearchBar *search_bar, ESearchBarItem *menu_item);
 
 void       e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items);
+void       e_search_bar_set_suboption (ESearchBar *search_bar, int option_id,
+				       ESearchBarSubitem *subitems);
+
 void       e_search_bar_construct  (ESearchBar     *search_bar,
 				    ESearchBarItem *menu_items,
 				    ESearchBarItem *option_items);
@@ -108,8 +111,13 @@ GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 
 void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
+void       e_search_bar_set_option_choice    (ESearchBar *search_bar, int id);
 int        e_search_bar_get_option_choice    (ESearchBar *search_bar);
+
+void       e_search_bar_set_suboption_choice (ESearchBar *search_bar, int id);
 int        e_search_bar_get_suboption_choice (ESearchBar *search_bar);
+
+void       e_search_bar_set_text             (ESearchBar *search_bar, const char *text);
 char      *e_search_bar_get_text             (ESearchBar *search_bar);
 
 #ifdef __cplusplus
