@@ -253,7 +253,7 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 		any_field = !strcmp(propname, "x-evolution-any-field");
 		for (i = 0; i < num_prop_infos; i ++) {
 			if (any_field
-			    || strcmp (prop_info_table[i].query_prop, propname)) {
+			    || !strcmp (prop_info_table[i].query_prop, propname)) {
 				info = &prop_info_table[i];
 				
 				if (info->prop_type == PROP_TYPE_NORMAL) {

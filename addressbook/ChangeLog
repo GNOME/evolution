@@ -1,3 +1,11 @@
+2000-08-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/pas/pas-backend-file.c: Fixed a typo that cause the
+	wrong field to be searched.
+
+	* gui/component/select-names/e-select-names.c: Made the select
+	names dialog only display entries with email addresses.
+
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/contact-editor.glade: Fixed a typo in the name of

@@ -109,7 +109,7 @@ set_book(EBook *book, EBookStatus status, ETableModel *model)
 {
 	gtk_object_set(GTK_OBJECT(model),
 		       "book", book,
-		       "query", "(not (is \"email\" \"\"))",
+		       "query", "(contains \"email\" \"\")",
 		       NULL);
 	gtk_object_unref(GTK_OBJECT(book));
 }
