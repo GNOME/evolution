@@ -52,6 +52,41 @@ typedef struct _CamelMimeDisposition {
 	unsigned int refcount;
 } CamelMimeDisposition;
 
+enum _header_address_type {
+	HEADER_ADDRESS_NONE,	/* uninitialised */
+	HEADER_ADDRESS_NAME,
+	HEADER_ADDRESS_GROUP
+};
+
+struct _header_address {
+	struct _header_address *next;
+	enum _header_address_type type;
+	char *name;
+	union {
+		char *addr;
+		struct _header_address *members;
+	} v;
+	unsigned int refcount;
+};
+
+/* Address lists */
+struct _header_address *header_address_new(void);
+struct _header_address *header_address_new_name(const char *name, const char *addr);
+struct _header_address *header_address_new_group(const char *name);
+void header_address_ref(struct _header_address *);
+void header_address_unref(struct _header_address *);
+void header_address_set_name(struct _header_address *, const char *name);
+void header_address_set_addr(struct _header_address *, const char *addr);
+void header_address_set_members(struct _header_address *, struct _header_address *group);
+void header_address_add_member(struct _header_address *, struct _header_address *member);
+void header_address_list_append_list(struct _header_address **l, struct _header_address **h);
+void header_address_list_append(struct _header_address **, struct _header_address *);
+void header_address_list_clear(struct _header_address **);
+
+struct _header_address *header_address_decode(const char *in);
+struct _header_address *header_mailbox_decode(const char *in);
+char *header_address_list_format(struct _header_address *a);
+
 /* structured header prameters */
 char *header_param(struct _header_param *p, const char *name);
 struct _header_param *header_set_param(struct _header_param **l, const char *name, const char *value);
@@ -101,6 +136,9 @@ char *header_format_date(time_t time, int offset);
 
 /* decode a message id */
 char *header_msgid_decode(const char *in);
+
+/* decode the mime-type header */
+void header_mime_decode(const char *in, int *maj, int *min);
 
 /* do incremental base64/quoted-printable (de/en)coding */
 int base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save);

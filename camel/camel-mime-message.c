@@ -485,17 +485,23 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 {
 	char *buf;
 	int len;
+	int state;
 
 	d(printf("constructing mime-message\n"));
+
+	d(printf("mime_message::construct_from_parser()\n"));
 
 	/* let the mime-part construct the guts ... */
 	((CamelMimePartClass *)parent_class)->construct_from_parser(dw, mp);
 
 	/* ... then clean up the follow-on state */
-	if (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MESSAGE_END) {
-		g_warning("Bad parser state: Expecing MESSAGE_END, got: %d", camel_mime_parser_state(mp));
+	state = camel_mime_parser_step(mp, &buf, &len);
+	if (!(state == HSCAN_MESSAGE_END || state == HSCAN_EOF)) {
+		g_warning("Bad parser state: Expecing MESSAGE_END or EOF, got: %d", camel_mime_parser_state(mp));
 		camel_mime_parser_unstep(mp);
 	}
+
+	d(printf("mime_message::construct_from_parser() leaving\n"));
 }
 
 #ifdef WHPT

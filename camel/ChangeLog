@@ -1,5 +1,25 @@
 2000-04-24  NotZed  <NotZed@HelixCode.com>
 
+	* camel-mime-message.c (construct_from_parser): Allow MESSAGE_END
+	_or_ EOF as valid termination conditions.
+
+	* providers/mbox/camel-mbox-summary.c (message_struct_new): Decode
+	and then re-encode the addresses, so they are consistently
+	formatted.
+
+	* camel-mime-utils.c (header_decode_mailbox): Store the address in
+	a _header_address.  And try to get a comment-stored name if there
+	is one.
+	(header_decode_address): Actually return an address.
+	(header_to_decode): Renamed to header_address_decode()
+	(header_mailbox_decode): New function to get a single mailbox.
+	(header_mime_decode): Return the major/minor value, as
+	appropriate.
+	(header_address_new, and friends): Whole bunch of utility
+	functions for working with the address thingies.
+	(header_decode_domain): Free the string header, and dont expand
+	'.' into ' . '.
+
 	* camel.c (camel_init): No longer call
 	data_wrapper_repository_init.
 
@@ -23,6 +43,9 @@
 	* camel-mime-part-utils.c
 	(camel_mime_part_construct_content_from_parser): Create the
 	contents of multipart and simple messages.
+	(camel_mime_part_construct_content_from_parser): Oops, this was
+	totally screwed up, try creating the right cotnent on the right
+	object.
 
 	* camel-multipart.c (construct_from_parser): Moved to
 	camel-mime-part-utils.

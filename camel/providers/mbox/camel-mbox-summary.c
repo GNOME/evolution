@@ -345,13 +345,29 @@ static CamelMboxMessageInfo *
 message_struct_new(CamelMimeParser *mp, CamelMboxMessageContentInfo *parent, int start, int body, off_t xev_offset)
 {
 	CamelMboxMessageInfo *ms;
+	struct _header_address *addr;
+	const char *text;
 
 	ms = g_malloc0(sizeof(*ms));
 
 	/* FIXME: what about cc, sender vs from? */
 	ms->info.subject = header_decode_string(camel_mime_parser_header(mp, "subject", NULL));
-	ms->info.from = g_strdup(camel_mime_parser_header(mp, "from", NULL));
-	ms->info.to = g_strdup(camel_mime_parser_header(mp, "to", NULL));
+	text = camel_mime_parser_header(mp, "from", NULL);
+	addr = header_address_decode(text);
+	if (addr) {
+		ms->info.from = header_address_list_format(addr);
+		header_address_list_clear(&addr);
+	} else {
+		ms->info.from = g_strdup(text);
+	}
+	text = camel_mime_parser_header(mp, "to", NULL);
+	addr = header_address_decode(text);
+	if (addr) {
+		ms->info.to = header_address_list_format(addr);
+		header_address_list_clear(&addr);
+	} else {
+		ms->info.to = g_strdup(text);
+	}
 
 	ms->info.date_sent = header_decode_date(camel_mime_parser_header(mp, "date", NULL), NULL);
 	ms->info.date_received = 0;

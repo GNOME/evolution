@@ -35,10 +35,10 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-mime-part.h"
-#include "camel-recipient.h"
-
+#include <camel/camel-types.h>
+#include <camel/camel-mime-part.h>
+#include <camel/camel-recipient.h>
+#include <camel/camel-mime-utils.h>
 
 #define CAMEL_RECIPIENT_TYPE_TO "To"
 #define CAMEL_RECIPIENT_TYPE_CC "Cc"

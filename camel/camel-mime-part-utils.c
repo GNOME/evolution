@@ -104,7 +104,6 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 	buffer = g_byte_array_new();
 
-		/* write to a memory buffer or something??? */
 	start = camel_mime_parser_tell(mp);
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
 		if (buffer) {
@@ -174,11 +173,12 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
 		content = (CamelDataWrapper *)camel_simple_data_wrapper_new();
+		simple_data_wrapper_construct_from_parser(content, mp);
 		break;
 	case HSCAN_MESSAGE:
 		d(printf("Creating message part\n"));
 		content = (CamelDataWrapper *)camel_mime_message_new();
-		simple_data_wrapper_construct_from_parser(content, mp);
+		camel_mime_part_construct_from_parser((CamelMimePart *)content, mp);
 		break;
 	case HSCAN_MULTIPART: {
 		CamelDataWrapper *bodypart;
@@ -193,8 +193,10 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 			camel_mime_parser_unstep(mp);
 			bodypart = (CamelDataWrapper *)camel_mime_body_part_new();
 			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
-			camel_multipart_add_part((CamelMultipart *)dw, (CamelMimeBodyPart *)bodypart);
+			camel_multipart_add_part((CamelMultipart *)content, (CamelMimeBodyPart *)bodypart);
 		}
+
+		d(printf("Created multi-part\n"));
 		break; }
 	default:
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));

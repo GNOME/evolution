@@ -546,7 +546,7 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	char *buf;
 	int len;
 
-	d(printf("constructing mime-part\n"));
+	d(printf("mime_part::construct_from_parser()\n"));
 
 	switch (camel_mime_parser_step(mp, &buf, &len)) {
 	case HSCAN_HEADER:
@@ -563,6 +563,8 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	default:
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
 	}
+
+	d(printf("mime_part::construct_from_parser() leaving\n"));
 }
 
 void
@@ -575,6 +577,8 @@ static void
 construct_from_stream(CamelDataWrapper *dw, CamelStream *s)
 {
 	CamelMimeParser *mp;
+
+	printf("mime_part::construct_from_stream()\n");
 
 	mp = camel_mime_parser_new();
 	if (camel_mime_parser_init_with_stream(mp, s) == -1) {

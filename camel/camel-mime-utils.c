@@ -1195,6 +1195,7 @@ header_decode_domain(const char **in)
 {
 	const char *inptr = *in, *start;
 	int go = TRUE;
+	char *ret;
 	GString *domain = g_string_new("");
 
 				/* domain ref | domain literal */
@@ -1226,7 +1227,7 @@ header_decode_domain(const char **in)
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '.') { /* next sub-domain? */
-			g_string_append(domain, " . ");
+			g_string_append_c(domain, '.');
 			inptr++;
 			header_decode_lwsp(&inptr);
 		} else
@@ -1235,8 +1236,9 @@ header_decode_domain(const char **in)
 
 	*in = inptr;
 
-	/* FIXME:L free string header */
-	return domain->str;
+	ret = domain->str;
+	g_string_free(domain, FALSE);
+	return ret;
 }
 
 static char *
@@ -1301,15 +1303,15 @@ header_decode_addrspec(const char **in)
    *(word) '<' [ *('@' domain ) ':' ] word *( '.' word) @ domain
    */
 
-/* FIXME: what does this return? */
-
-static void
+static struct _header_address *
 header_decode_mailbox(const char **in)
 {
 	const char *inptr = *in;
 	char *pre;
 	int closeme = FALSE;
 	GString *addr;
+	GString *name = NULL;
+	struct _header_address *address = NULL;
 
 	addr = g_string_new("");
 
@@ -1317,10 +1319,18 @@ header_decode_mailbox(const char **in)
 	pre = header_decode_word(&inptr);
 	header_decode_lwsp(&inptr);
 	if (!(*inptr == '.' || *inptr == '@' || *inptr==',' || *inptr=='\0')) {	/* ',' and '\0' required incase it is a simple address, no @ domain part (buggy writer) */
-		/* FIXME: rfc 2047 decode each word */
+		name = g_string_new("");
 		while (pre) {
+			char *text;
+
+			text = header_decode_string(pre);
+			g_string_append(name, text);
+			g_free(pre);
+
 			/* rfc_decode(pre) */
 			pre = header_decode_word(&inptr);
+			if (pre)
+				g_string_append_c(name, ' ');
 		}
 		header_decode_lwsp(&inptr);
 		if (*inptr == '<') {
@@ -1359,11 +1369,13 @@ header_decode_mailbox(const char **in)
 	/* should be at word '.' localpart */
 	while (*inptr == '.' && pre) {
 		inptr++;
+		g_free(pre);
 		pre = header_decode_word(&inptr);
 		g_string_append_c(addr, '.');
 		g_string_append(addr, pre);
 		header_decode_lwsp(&inptr);
 	}
+	g_free(pre);
 
 	/* now at '@' domain part */
 	if (*inptr == '@') {
@@ -1384,20 +1396,41 @@ header_decode_mailbox(const char **in)
 		} else {
 			g_warning("invalid route address, no closing '>': %s", *in);
 		} 
+	} else if (name == NULL) { /* check for comment after address */
+		char *text, *tmp;
+		const char *comment = inptr;
+
+		header_decode_lwsp(&inptr);
+		if (inptr-comment > 3) { /* just guess ... */
+			tmp = g_strndup(comment, inptr-comment);
+			text = header_decode_string(tmp);
+			name = g_string_new(text);
+			g_free(tmp);
+			g_free(text);
+		}
 	}
 
 	*in = inptr;
 
+	if (addr->len > 0) {
+		address = header_address_new_name(name?name->str:"", addr->str);
+	}
+
+	g_string_free(addr, TRUE);
+	if (name)
+		g_string_free(name, TRUE);
+
 	d(printf("got mailbox: %s\n", addr->str));
+	return address;
 }
 
-/* FIXME: what does this return? */
-static void
+static struct _header_address *
 header_decode_address(const char **in)
 {
 	const char *inptr = *in;
 	char *pre;
 	GString *group = g_string_new("");
+	struct _header_address *addr = NULL, *member;
 
 	/* pre-scan, trying to work out format, discard results */
 	header_decode_lwsp(&inptr);
@@ -1409,6 +1442,7 @@ header_decode_address(const char **in)
 	header_decode_lwsp(&inptr);
 	if (*inptr == ':') {
 		d(printf("group detected: %s\n", group->str));
+		addr = header_address_new_group(group->str);
 		/* that was a group spec, scan mailbox's */
 		inptr++;
 		/* FIXME: check rfc 2047 encodings of words, here or above in the loop */
@@ -1416,7 +1450,9 @@ header_decode_address(const char **in)
 		if (*inptr != ';') {
 			int go = TRUE;
 			do {
-				header_decode_mailbox(&inptr);
+				member = header_decode_mailbox(&inptr);
+				if (member)
+					header_address_add_member(addr, member);
 				header_decode_lwsp(&inptr);
 				if (*inptr == ',')
 					inptr++;
@@ -1432,17 +1468,13 @@ header_decode_address(const char **in)
 			inptr++;
 		}
 		*in = inptr;
-/*	} else if (*inptr == '.' || *inptr == '<' || *inptr == '@') {*/
 	} else {
-		/* back-track, and rescan.  not worth the code duplication to do this faster */
-		/* this will detect invalid input */
-		header_decode_mailbox(in);
-	}/* else {
-		g_warning("Cannot scan address at '%c': %s", *inptr, *in);
-		}*/
+		addr = header_decode_mailbox(in);
+	}
 
-	/* FIXME: store gropu somewhere */
 	g_string_free(group, TRUE);
+
+	return addr;
 }
 
 char *
@@ -1481,21 +1513,33 @@ header_msgid_decode(const char *in)
 	return msgid;
 }
 
-void
-header_to_decode(const char *in)
+struct _header_address *
+header_mailbox_decode(const char *in)
+{
+	if (in == NULL)
+		return NULL;
+
+	return header_decode_mailbox(&in);
+}
+
+struct _header_address *
+header_address_decode(const char *in)
 {
 	const char *inptr = in, *last;
+	struct _header_address *list = NULL, *addr;
 
 	d(printf("decoding To: '%s'\n", in));
 
 #warning header_to_decode needs to return some structure
 
 	if (in == NULL)
-		return;
+		return NULL;
 
 	do {
 		last = inptr;
-		header_decode_address(&inptr);
+		addr = header_decode_address(&inptr);
+		if (addr)
+			header_address_list_append(&list, addr);
 		header_decode_lwsp(&inptr);
 		if (*inptr == ',')
 			inptr++;
@@ -1510,32 +1554,36 @@ header_to_decode(const char *in)
 	if (inptr == last) {
 		g_warning("detected invalid input loop at : %s", last);
 	}
+
+	return list;
 }
 
 void
-header_mime_decode(const char *in)
+header_mime_decode(const char *in, int *maj, int *min)
 {
 	const char *inptr = in;
 	int major=-1, minor=-1;
 
 	d(printf("decoding MIME-Version: '%s'\n", in));
 
-#warning header_mime_decode needs to return the version
-
-	if (in == NULL)
-		return;
-
-	header_decode_lwsp(&inptr);
-	if (isdigit(*inptr)) {
-		major = header_decode_int(&inptr);
+	if (in != NULL) {
 		header_decode_lwsp(&inptr);
-		if (*inptr == '.') {
-			inptr++;
+		if (isdigit(*inptr)) {
+			major = header_decode_int(&inptr);
 			header_decode_lwsp(&inptr);
-			if (isdigit(*inptr))
-				minor = header_decode_int(&inptr);
+			if (*inptr == '.') {
+				inptr++;
+				header_decode_lwsp(&inptr);
+				if (isdigit(*inptr))
+					minor = header_decode_int(&inptr);
+			}
 		}
 	}
+
+	if (maj)
+		*maj = major;
+	if (min)
+		*min = minor;
 
 	d(printf("major = %d, minor = %d\n", major, minor));
 }
@@ -2081,6 +2129,185 @@ header_raw_clear(struct _header_raw **list)
 }
 
 
+/* ok, here's the address stuff, what a mess ... */
+struct _header_address *header_address_new(void)
+{
+	struct _header_address *h;
+	h = g_malloc0(sizeof(*h));
+	h->type = HEADER_ADDRESS_NONE;
+	h->refcount = 1;
+	return h;
+}
+
+struct _header_address *header_address_new_name(const char *name, const char *addr)
+{
+	struct _header_address *h;
+
+	h = header_address_new();
+	h->type = HEADER_ADDRESS_NAME;
+	h->name = g_strdup(name);
+	h->v.addr = g_strdup(addr);
+	return h;
+}
+
+struct _header_address *header_address_new_group(const char *name)
+{
+	struct _header_address *h;
+
+	h = header_address_new();
+	h->type = HEADER_ADDRESS_GROUP;
+	h->name = g_strdup(name);
+	return h;
+}
+
+void header_address_ref(struct _header_address *h)
+{
+	if (h)
+		h->refcount++;
+}
+
+void header_address_unref(struct _header_address *h)
+{
+	if (h) {
+		if (h->refcount <= 1) {
+			if (h->type == HEADER_ADDRESS_GROUP) {
+				header_address_list_clear(&h->v.members);
+			} else if (h->type == HEADER_ADDRESS_NAME) {
+				g_free(h->v.addr);
+			}
+			g_free(h->name);
+			g_free(h);
+		} else {
+			h->refcount--;
+		}
+	}
+}
+
+void header_address_set_name(struct _header_address *h, const char *name)
+{
+	if (h) {
+		g_free(h->name);
+		h->name = g_strdup(name);
+	}
+}
+
+void header_address_set_addr(struct _header_address *h, const char *addr)
+{
+	if (h) {
+		if (h->type == HEADER_ADDRESS_NAME
+		    || h->type == HEADER_ADDRESS_NONE) {
+			h->type = HEADER_ADDRESS_NAME;
+			g_free(h->v.addr);
+			h->v.addr = g_strdup(addr);
+		} else {
+			g_warning("Trying to set the address on a group");
+		}
+	}
+}
+
+void header_address_set_members(struct _header_address *h, struct _header_address *group)
+{
+	if (h) {
+		if (h->type == HEADER_ADDRESS_GROUP
+		    || h->type == HEADER_ADDRESS_NONE) {
+			h->type = HEADER_ADDRESS_GROUP;
+			header_address_list_clear(&h->v.members);
+			/* should this ref them? */
+			h->v.members = group;
+		} else {
+			g_warning("Trying to set the members on a name, not group");
+		}
+	}
+}
+
+void header_address_add_member(struct _header_address *h, struct _header_address *member)
+{
+	if (h) {
+		if (h->type == HEADER_ADDRESS_GROUP
+		    || h->type == HEADER_ADDRESS_NONE) {
+			h->type = HEADER_ADDRESS_GROUP;
+			header_address_list_append(&h->v.members, member);
+		}		    
+	}
+}
+
+void header_address_list_append_list(struct _header_address **l, struct _header_address **h)
+{
+	if (l) {
+		struct _header_address *n = (struct _header_address *)l;
+
+		while (n->next)
+			n = n->next;
+		n->next = *h;
+	}
+}
+
+
+void header_address_list_append(struct _header_address **l, struct _header_address *h)
+{
+	if (h) {
+		header_address_list_append_list(l, &h);
+		h->next = NULL;
+	}
+}
+
+void header_address_list_clear(struct _header_address **l)
+{
+	struct _header_address *a, *n;
+	a = (struct _header_address *)l;
+	while (a && a->next) {
+		n = a->next;
+		a = n->next;
+		header_address_unref(n);
+	}
+}
+
+static void
+header_address_list_format_append(GString *out, struct _header_address *a)
+{
+	char *text;
+
+	while (a) {
+		switch (a->type) {
+		case HEADER_ADDRESS_NAME:
+#warning needs to rfc2047 encode address phrase
+			/* FIXME: 2047 encoding?? */
+			if (a->name)
+				g_string_sprintfa(out, "\"%s\" <%s>", a->name, a->v.addr);
+			else
+				g_string_sprintfa(out, "<%s>", a->v.addr);
+			break;
+		case HEADER_ADDRESS_GROUP:
+			text = header_encode_string(a->name);
+			g_string_sprintfa(out, "%s:\n ", text);
+			header_address_list_format_append(out, a->v.members);
+			g_string_sprintfa(out, ";");
+			break;
+		default:
+			g_warning("Invalid address type");
+			break;
+		}
+		a = a->next;
+	}
+}
+
+/* FIXME: need a 'display friendly' version, as well as a 'rfc friendly' version? */
+char *
+header_address_list_format(struct _header_address *a)
+{
+	GString *out;
+	char *ret;
+
+	if (a == NULL)
+		return NULL;
+
+	out = g_string_new("");
+
+	header_address_list_format_append(out, a);
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;
+}
 
 #ifdef BUILD_TABLE
 
