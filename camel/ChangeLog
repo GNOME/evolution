@@ -1,5 +1,8 @@
 2001-03-29  Not Zed  <NotZed@Ximian.com>
 
+	* camel-folder-search.c (search_body_contains): Optimise the match
+	"" case, just match everything in the folder (if we have it).
+
 	* camel-vtrash-folder.c (vtrash_move_messages_to): Access the
 	folder directly from the message info.
 	(vtrash_move_messages_to): I think we also need to call the real

@@ -653,7 +653,9 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 	if (search->current) {
 		int truth = FALSE;
 
-		if (search->body_index) {
+		if (argc == 1 && argv[0]->value.string[0] == 0 && search->folder) {
+			truth = TRUE;
+		} else if (search->body_index) {
 			for (i=0;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING) {
 					truth = ibex_find_name(search->body_index, (char *)camel_message_info_uid(search->current),
@@ -677,7 +679,14 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 	} else {
 		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 
-		if (search->body_index) {
+		if (argc == 1 && argv[0]->value.string[0] == 0 && search->folder) {
+			/* optimise the match "" case - match everything */
+			r->value.ptrarray = g_ptr_array_new();
+			for (i=0;i<search->summary->len;i++) {
+				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
+				g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
+			}
+		} else if (search->body_index) {
 			if (argc==1) {
 				/* common case */
 				r->value.ptrarray = ibex_find(search->body_index, argv[0]->value.string);
