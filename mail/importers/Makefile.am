@@ -91,8 +91,9 @@ server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
 %.server.in: %.server.in.in
-	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
-
+	sed -e "s|\@BINDIR\@|$(bindir)|"				\
+	    -e "s|\@VERSION\@|$(BASE_VERSION)|"				\
+	    $< > $@
 
 EXTRA_DIST = $(server_in_files) $(server_DATA)
 

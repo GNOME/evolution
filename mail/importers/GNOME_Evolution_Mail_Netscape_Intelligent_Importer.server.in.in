@@ -1,8 +1,8 @@
 <oaf_info>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer_Factory"
-	    type="shlib"
-	    location="@COMPONENTDIR@/libevolution-mail.so">
+	    type="exe"
+	    location="@BINDIR@/evolution-@VERSION@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>

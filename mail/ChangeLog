@@ -1,3 +1,16 @@
+2003-04-16  Not Zed  <NotZed@Ximian.com>
+
+	* importers/Makefile.am (%.server.in): Remove COMPONENTDIR and set
+	BINDIR and VERSION instead.
+
+	* (importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in,
+	importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in,
+	importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in,
+	importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in,
+	importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in:) :
+	Convert the type back to exe, and point to the main evolution
+	executable.  Fixes #41164.
+
 2003-04-16  Jeremy Katz  <katzj@redhat.com>
 
 	* evolution-mail.schemas: schema keys can't be directories (#41419)
