@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-04 23:53+0200\n"
+"POT-Creation-Date: 2000-04-06 10:59+0200\n"
 "PO-Revision-Date: 2000-04-05 00:01+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -240,50 +240,52 @@ msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
-msgstr "Et unntak oppstod under forsøk på å laste data inn i komponenten med PersistStream"
+msgstr ""
+"Et unntak oppstod under forsøk på å laste data inn i komponenten med "
+"PersistStream"
 
-#: mail/mail-display.c:235
+#: mail/mail-display.c:234
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "%s komponenten støtter ikke PersistStream!\n"
 
-#: mail/message-list.c:343
+#: mail/message-list.c:388
 msgid "Online status"
 msgstr "Pålogget status"
 
-#: mail/message-list.c:349
+#: mail/message-list.c:394
 msgid "Message status"
 msgstr "Meldingsstatus"
 
-#: mail/message-list.c:355
+#: mail/message-list.c:400
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:361
+#: mail/message-list.c:406
 msgid "Attachment"
 msgstr "Vedlegg"
 
-#: mail/message-list.c:367
+#: mail/message-list.c:412
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:373
+#: mail/message-list.c:418
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:379
+#: mail/message-list.c:424
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:385
+#: mail/message-list.c:430
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:390
+#: mail/message-list.c:435
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:396
+#: mail/message-list.c:441
 msgid "Size"
 msgstr "Størrelse"
 
@@ -512,7 +514,7 @@ msgstr "Hovedsnarveier"
 msgid "Other Shortcuts"
 msgstr "Andre snarveier"
 
-#: shell/e-shortcut.c:466
+#: shell/e-shortcut.c:467
 msgid "New group"
 msgstr "Ny gruppe"
 
