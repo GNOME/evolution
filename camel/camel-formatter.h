@@ -61,9 +61,9 @@ CamelFormatter* camel_formatter_new (void);
 
 /* The main job of CamelFormatter is to take a mime message, and
    produce html from it. */
-void     camel_formatter_make_html (CamelFormatter* cmf,
-				    CamelMimeMessage *msg,
-				    CamelStream* stream_out);
+void camel_formatter_mime_message_to_html (CamelFormatter* formatter,
+					   CamelMimeMessage* mime_message,
+					   CamelStream* stream);
 
 
 #ifdef __cplusplus

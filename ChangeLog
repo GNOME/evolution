@@ -1,3 +1,9 @@
+2000-01-26  Matt Loper  <matt.loper@splashtech.com>
+
+	* camel/camel-formatter.c: By looking up a mimetype in a
+	hashtable, we can now get a handler function for an arbitrary
+	mimetype.
+
 2000-01-26  bertrand  <bertrand@helixcode.com>
 
 	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_recalc_item_positions): 
