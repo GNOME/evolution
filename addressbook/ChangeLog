@@ -1,5 +1,10 @@
 2001-06-26  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/search/addresstypes.xml: Added category searching to the
+	advanced search dialog here.
+	
+2001-06-26  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/pas/pas-backend-file.c (compare_category): Added
 	category searching to the file backend.
 
