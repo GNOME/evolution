@@ -242,17 +242,19 @@ camel_tcp_stream_openssl_enable_ssl (CamelTcpStreamOpenSSL *stream)
 {
 	SSL *ssl;
 	
-	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_OPENSSL (ssl), -1);
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_OPENSSL (stream), -1);
 	
-	if (stream->priv->sockfd && !stream->priv->ssl_mode) {
+	if (stream->priv->sockfd != -1 && !stream->priv->ssl_mode) {
 		ssl = open_ssl_connection (stream->priv->service, stream->priv->sockfd, stream);
-		if (ssl == NULL)
+		if (ssl == NULL) {
+			stream->priv->sockfd = -1;
 			return -1;
+		}
 		
-		ssl->priv->ssl = ssl;
+		stream->priv->ssl = ssl;
 	}
 	
-	ssl->priv->ssl_mode = TRUE;
+	stream->priv->ssl_mode = TRUE;
 	
 	return 0;
 }
@@ -355,19 +357,19 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		fd_set rdset, wrset;
 		int error, flags, fdmax;
 		
-		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
-		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
+		flags = fcntl (openssl->priv->sockfd, F_GETFL);
+		fcntl (openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
 		
-		fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
+		fdmax = MAX (openssl->priv->sockfd, cancel_fd) + 1;
 		do {
 			FD_ZERO (&rdset);
 			FD_ZERO (&wrset);
-			FD_SET (tcp_stream_openssl->priv->sockfd, &wrset);
+			FD_SET (openssl->priv->sockfd, &wrset);
 			FD_SET (cancel_fd, &rdset);
 			
 			select (fdmax, &rdset, &wrset, 0, NULL);
 			if (FD_ISSET (cancel_fd, &rdset)) {
-				fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+				fcntl (openssl->priv->sockfd, F_SETFL, flags);
 				errno = EINTR;
 				return -1;
 			}
@@ -387,7 +389,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 					w = 0;
 				} else {
 					error = errno;
-					fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+					fcntl (openssl->priv->sockfd, F_SETFL, flags);
 					errno = error;
 					return -1;
 				}
@@ -395,7 +397,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				written += w;
 		} while (w >= 0 && written < n);
 		
-		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+		fcntl (openssl->priv->sockfd, F_SETFL, flags);
 	}
 	
 	return written;
