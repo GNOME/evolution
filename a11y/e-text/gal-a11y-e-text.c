@@ -360,9 +360,13 @@ et_insert_text (AtkEditableText *text,
 		gint *position)
 {
 	/* Utf8 unimplemented */
+	char *result;
 
 	const char *full_text = et_get_full_text (ATK_TEXT (text));
-	char *result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
+	if (full_text == NULL)
+		return;
+
+	result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
 
 	et_set_full_text (text, result);
 
@@ -376,15 +380,22 @@ et_copy_text (AtkEditableText *text,
 	      gint start_pos,
 	      gint end_pos)
 {
-	/* Unimplemented */
-}
+	GObject *obj;
+	EText *etext;
 
-static void
-et_cut_text (AtkEditableText *text,
-	     gint start_pos,
-	     gint end_pos)
-{
-	/* Unimplemented */
+	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return;
+
+	g_return_if_fail (E_IS_TEXT (obj));
+	etext = E_TEXT (obj);
+
+	if (start_pos != end_pos) {
+		etext->selection_start = start_pos;
+		etext->selection_end = end_pos;
+		e_text_copy_clipboard (etext);
+	}
 }
 
 static void
@@ -392,16 +403,52 @@ et_delete_text (AtkEditableText *text,
 		gint start_pos,
 		gint end_pos)
 {
-	/* Unimplemented */
+	GObject *obj;
+	EText *etext;
+
+	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text));
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return;
+
+	g_return_if_fail (E_IS_TEXT (obj));
+	etext = E_TEXT (obj);
+
+	etext->selection_start = start_pos;
+	etext->selection_end = end_pos;
+
+	e_text_delete_selection (etext);
+}
+
+static void
+et_cut_text (AtkEditableText *text,
+	     gint start_pos,
+	     gint end_pos)
+{
+	et_copy_text (text, start_pos, end_pos);
+	et_delete_text (text, start_pos, end_pos);
 }
 
 static void
 et_paste_text (AtkEditableText *text,
 	       gint position)
 {
-	/* Unimplemented */
-}
+	GObject *obj;
+	EText *etext;
 
+	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return;
+
+	g_return_if_fail (E_IS_TEXT (obj));
+	etext = E_TEXT (obj);
+
+	gtk_object_set (GTK_OBJECT (etext),
+			"cursor_pos", position,
+			NULL);
+	e_text_paste_clipboard (etext);
+}
 
 static void
 et_atk_component_iface_init (AtkComponentIface *iface)
