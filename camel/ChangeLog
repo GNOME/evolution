@@ -1,5 +1,8 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-store.c (add_special_info): Free fi->path if we are gonna
+	replace it with the vinfo path.
+
 	* providers/local/camel-mbox-store.c (create_folder): Treat
 	parent_name == NULL and parent_name == "" the same.
 

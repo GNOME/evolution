@@ -726,6 +726,7 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 		g_free (vinfo->full_name);
 		g_free (vinfo->name);
 		g_free (vinfo->url);
+		g_free (vinfo->path);
 	} else {
 		/* There wasn't a Trash/Junk folder so create a new folder entry */
 		vinfo = g_new0 (CamelFolderInfo, 1);
