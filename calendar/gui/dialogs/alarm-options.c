@@ -58,6 +58,7 @@ typedef struct {
 	GtkWidget *button_cancel;
 
 	/* Alarm repeat widgets */
+	gboolean repeat;
 	GtkWidget *repeat_toggle;
 	GtkWidget *repeat_group;
 	GtkWidget *repeat_quantity;
@@ -425,7 +426,8 @@ alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 
 	/* Sensitivity */
 
-	if (repeat.repetitions == 0) {
+	if (dialog->repeat || repeat.repetitions == 0) {
+		gtk_widget_set_sensitive (dialog->repeat_toggle, dialog->repeat);
 		gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
 		e_dialog_toggle_set (dialog->repeat_toggle, FALSE);
 		return;
@@ -746,12 +748,13 @@ dialog_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
  * Return value: TRUE if the dialog could be created, FALSE otherwise.
  **/
 gboolean
-alarm_options_dialog_run (CalComponentAlarm *alarm)
+alarm_options_dialog_run (CalComponentAlarm *alarm, gboolean repeat)
 {
 	Dialog dialog;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
+	dialog.repeat = repeat;
 	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL);
 	if (!dialog.xml) {
 		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");

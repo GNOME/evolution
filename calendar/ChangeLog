@@ -1,3 +1,14 @@
+2003-01-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/alarm-page.c (button_options_clicked_cb): indicate
+	whether the options dialog should allow repeating
+
+	* gui/dialogs/alarm-options.h: update proto
+
+	* gui/dialogs/alarm-options.c (alarm_to_repeat_widgets): if
+	repeating is not allowed, sensitize the widgets appropriately
+	(alarm_options_dialog_run): store the repeat param
+
 2003-01-16  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_append_row): guard against

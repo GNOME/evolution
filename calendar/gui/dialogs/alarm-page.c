@@ -838,14 +838,16 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-
+	gboolean repeat;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
 	cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	if (!alarm_options_dialog_run (priv->alarm))
+	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");	
+	if (!alarm_options_dialog_run (priv->alarm, repeat))
 		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 }
 
