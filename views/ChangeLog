@@ -1,3 +1,8 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* addressbook/galview.xml, mail/galview.xml, tasks/galview.xml:
+	Translate the titles here.
+
 2001-03-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* addressbook/By_Company.galview: New view.
