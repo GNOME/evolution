@@ -72,7 +72,7 @@ EXTRA_DIST = \
 	recur.xpm
 
 
-Productivitydir = $(datadir)/gnome/apps/Productivity
+Productivitydir = $(datadir)/gnome/apps/Applications
 
 Productivity_DATA = gncal.desktop
 
