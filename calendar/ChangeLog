@@ -1,3 +1,16 @@
+2005-01-05  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-day-view.c (e_day_view_find_event_from_uid): added a new
+	argument to pass the calendar client, since it might happen to have
+	events with the same UID on different calendars.
+	(e_day_view_do_key_press, model_rows_deleted_cb): added new argument
+	to e_day_view_find_event_from_uid.
+
+	* gui/e-week-view.c (e_week_view_find_event_from_uid): same as
+	e-day-view.c.
+	(e_week_view_do_key_press, model_rows_deleted_cb): added new argument
+	to e_week_view_find_event_from_uid.
+
 2005-01-04  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-component-preview.c (write_html): use the new e-categories

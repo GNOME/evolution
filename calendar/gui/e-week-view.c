@@ -161,6 +161,7 @@ static void e_week_view_on_editing_started (EWeekView *week_view,
 static void e_week_view_on_editing_stopped (EWeekView *week_view,
 					    GnomeCanvasItem *item);
 static gboolean e_week_view_find_event_from_uid (EWeekView	  *week_view,
+						 ECal             *client,
 						 const gchar	  *uid,
 						 const gchar      *rid,
 						 gint		  *event_num_return);
@@ -417,7 +418,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 		}
 
-		if (e_week_view_find_event_from_uid (week_view, uid, rid, &event_num))
+		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
 	}
 
@@ -3360,6 +3361,7 @@ e_week_view_find_event_from_item (EWeekView	  *week_view,
    see if any events with the uid exist. */
 static gboolean
 e_week_view_find_event_from_uid (EWeekView	  *week_view,
+				 ECal             *client,
 				 const gchar	  *uid,
 				 const gchar      *rid,
 				 gint		  *event_num_return)
@@ -3377,6 +3379,9 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
+
+		if (event->comp_data->client != client)
+			continue;
 
 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
@@ -3725,7 +3730,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	if (e_week_view_find_event_from_uid (week_view, uid, NULL, &event_num)) {
+	if (e_week_view_find_event_from_uid (week_view, ecal, uid, NULL, &event_num)) {
 		EWeekViewEvent *event;
 		EWeekViewEventSpan *span;
 

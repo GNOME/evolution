@@ -285,6 +285,7 @@ static ECalendarViewPosition e_day_view_convert_position_in_main_canvas (EDayVie
 								    gint *row_return,
 								    gint *event_num_return);
 static gboolean e_day_view_find_event_from_uid (EDayView *day_view,
+						ECal *client,
 						const gchar *uid,
 						const gchar *rid,
 						gint *day_return,
@@ -622,7 +623,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 		}
 
-		if (e_day_view_find_event_from_uid (day_view, uid, rid, &day, &event_num))
+		if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
 	}
 	
@@ -1908,6 +1909,7 @@ e_day_view_find_event_from_item (EDayView *day_view,
    see if any events with the uid exist. */
 static gboolean
 e_day_view_find_event_from_uid (EDayView *day_view,
+				ECal *client,
 				const gchar *uid,
 				const gchar *rid,
 				gint *day_return,
@@ -1925,6 +1927,9 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
+
+			if (event->comp_data->client != client)
+				continue;
 
 			u = icalcomponent_get_uid (event->comp_data->icalcomp);
 			if (u && !strcmp (uid, u)) {
@@ -4812,7 +4817,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	if (e_day_view_find_event_from_uid (day_view, uid, NULL, &day, &event_num)) {
+	if (e_day_view_find_event_from_uid (day_view, ecal, uid, NULL, &day, &event_num)) {
 		e_day_view_start_editing_event (day_view, day, event_num,
 						initial_text);
 	} else {
