@@ -256,7 +256,7 @@ camel_mime_message_set_subject (CamelMimeMessage *mime_message,
 	g_assert (mime_message);
 
 	g_free(mime_message->subject);
-	mime_message->subject = g_strdup(subject);
+	mime_message->subject = g_strchomp(g_strdup(subject));
 	text = header_encode_string(subject);
 	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "Subject", text);
 	g_free(text);

@@ -1,3 +1,12 @@
+2000-08-02  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-message.c (camel_mime_message_set_subject): Trim
+	trailing space from the subject. I've now seen replies from two
+	different people that tricked the threading code by (a) not having
+	References/In-Reply-To, and (b) adding an extra space to the end
+	of the subject line so the subject-based threading fails too. Who
+	writes these broken mailers anyway?
+
 2000-08-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): When forced
