@@ -1,3 +1,9 @@
+2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (setup_mime_tables): Don't setup a handler for
+	multipart/digest.
+	(handle_multipart_digest): Removed.
+
 2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Removed folder-browser-window from the build.

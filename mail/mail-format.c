@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Authors:
- *  Dan Winship <danw@ximian.com>
+ * Authors: Dan Winship <danw@ximian.com>
+ *          Jeffrey Stedfast <fejj@ximian.com>
  *
  *  Copyright 2000, 2001 Ximian, Inc.
  *
@@ -21,12 +21,13 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
+#include <ctype.h>
 #include <fcntl.h>
 
 #include <liboaf/liboaf.h>
@@ -90,9 +91,6 @@ static gboolean handle_multipart_encrypted   (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 static gboolean handle_multipart_signed      (CamelMimePart *part,
-					      const char *mime_type,
-					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
-static gboolean handle_multipart_digest      (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 static gboolean handle_message_rfc822        (CamelMimePart *part,
@@ -345,8 +343,6 @@ setup_mime_tables (void)
 			     handle_multipart_encrypted);
 	g_hash_table_insert (mime_function_table, "multipart/signed",
 			     handle_multipart_signed);
-	g_hash_table_insert (mime_function_table, "multipart/digest",
-			     handle_multipart_digest);
 	
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
@@ -1143,7 +1139,7 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	for (text = ba->data, end = text + ba->len; text < end; text++) {
-		if (!isspace ((unsigned char)*text))
+		if (!isspace ((unsigned char) *text))
 			break;
 	}
 	
@@ -1714,23 +1710,6 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 		output = format_mime_part (part, md, html, stream);
 	}
 
-	return TRUE;
-}
-
-static gboolean
-handle_multipart_digest (CamelMimePart *part, const char *mime_type,
-			 MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
-{
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
-	
-	gtk_html_stream_printf (stream, "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"digest:\"><img align=\"middle\" src=\"%s\"></a>"
-				"&nbsp;<a href=\"digest:\">%s</a>",
-				mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/envelope.png"),
-				U_("View messages..."));
-	
 	return TRUE;
 }
 
