@@ -38,13 +38,14 @@ gmime_write_header_pair_to_stream (CamelStream *stream, const gchar* name, const
 #warning use g_strdup_printf instead
  
 	if (!value) return;
-	len = strlen (name) + strlen (value) +3;
-	/* 3 is for ": " and "\n" */
+	len = strlen (name) + strlen (value) +4;
+	/* 4 is for ": " and "\n\0" */
 	strtmp = g_new (gchar, len);
-	
 	sprintf (strtmp, "%s: %s\n", name, value);
+	
 	camel_stream_write (stream, strtmp, len);
 	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:\n  writing %s\n", strtmp);
+	
 	g_free (strtmp);
 	CAMEL_LOG_FULL_DEBUG ( "gmime_write_header_pair_to_stream:: Leaving\n");
 
@@ -157,10 +158,12 @@ get_header_table_from_stream (CamelStream *stream)
 	GString *header_line=NULL;
 	gchar *str_header_line;
 	GHashTable *header_table;
+	gint nb_char_read;
+
 #warning Correct a bug here. Should use return value of camel_stream_read instead of looking for next_char!=-1
 	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Entering get_header_table_from_stream\n");
 	header_table = g_hash_table_new (g_str_hash, g_str_equal);
-	camel_stream_read (stream, &next_char, 1);
+	nb_char_read = camel_stream_read (stream, &next_char, 1);
 	do {
 		header_line = g_string_new ("");
 		end_of_header_line = FALSE;
@@ -168,33 +171,35 @@ get_header_table_from_stream (CamelStream *stream)
 		
 		/* read a whole header line */
 		do {
-			switch (next_char) {
-			case -1:
+			if (nb_char_read>0) {
+				switch (next_char) {
+					
+				case '\n': /* a blank line means end of headers */
+					if (crlf) {
+						end_of_headers=TRUE;
+						end_of_header_line = TRUE;
+					}
+					else crlf = TRUE;
+					break;
+				case ' ':
+				case '\t':
+					if (crlf) {
+						crlf = FALSE; 
+						next_char = ' ';
+					}
+					
+				default:
+					if (!crlf) header_line = g_string_append_c (header_line, next_char);
+					else end_of_header_line = TRUE;
+				}
+			} else {
 				end_of_file=TRUE;
 				end_of_header_line = TRUE;
-				break;
-			case '\n': /* a blank line means end of headers */
-				if (crlf) {
-					end_of_headers=TRUE;
-					end_of_header_line = TRUE;
-				}
-				else crlf = TRUE;
-				break;
-			case ' ':
-			case '\t':
-				if (crlf) {
-					crlf = FALSE; 
-					next_char = ' ';
-				}
-				
-			default:
-				if (!crlf) header_line = g_string_append_c (header_line, next_char);
-				else end_of_header_line = TRUE;
 			}
 			/* if we have read a whole header line, we have also read
 			   the first character of the next line to be sure the 
 			   crlf was not followed by a space or a tab char */
-			if (!end_of_header_line) camel_stream_read (stream, &next_char, 1);
+			if (!end_of_header_line) nb_char_read = camel_stream_read (stream, &next_char, 1);
 
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) {

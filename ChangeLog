@@ -1,4 +1,9 @@
-1999-08-01  root  <guiheneu@jean.joudboeuf.fr>
+1999-08-02  root  <guiheneu@linoleum.inria.fr>
+
+	* camel/gmime-utils.c (gmime_write_header_pair_to_stream): 
+	corrected a bug with memory not allocated for '\0' in strtmp
+
+1999-08-01 bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (gmime_read_line_from_stream): 
 	do not return NULL when line is empty. 

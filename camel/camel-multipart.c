@@ -27,6 +27,7 @@
 #include "camel-log.h"
 #include "gmime-content-field.h"
 #include "gmime-utils.h"
+#include "camel-stream-mem.h"
 
 
 static void _add_part (CamelMultipart *multipart, CamelMimeBodyPart *part);
@@ -80,6 +81,8 @@ camel_multipart_init (gpointer   object,  gpointer   klass)
 	CamelMultipart *multipart = CAMEL_MULTIPART (object);
 	camel_data_wrapper_set_mime_type ( CAMEL_DATA_WRAPPER (multipart), "multipart");
 	camel_multipart_set_boundary (multipart, "__camel_boundary__");
+	multipart->preface = NULL;
+	multipart->postface = NULL;
 	
 }
 
@@ -357,7 +360,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 /**
  * _read_part: read one part in a multipart environement.
- * @part: GString to add the part to
+ * @new_part_stream: stream to add the part to
  * @stream: the stream  to read the lines from.
  * @normal_boundary: end of part bundary.
  * @end_boundary: end of multipart boundary.
@@ -371,7 +374,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
  **/
 
 static gboolean
-_read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gchar *end_boundary)
+_read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_boundary, gchar *end_boundary)
 {
 	gchar *new_line;
 	gboolean end_of_part = FALSE;
@@ -399,7 +402,8 @@ _read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gcha
 					pending_crlf = TRUE;
 					new_line[line_length-1]='\0';
 				}
-				new_part = g_string_append (new_part, new_line);
+				//new_part = g_string_append (new_part, new_line);
+				
 			}
 		}
 
@@ -412,7 +416,8 @@ _read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gcha
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
 		last_part   = (strcmp (new_line, end_boundary) == 0);
 		if (!end_of_part && !last_part) 
-			new_part = g_string_append (new_part, new_line);
+			/* new_part = g_string_append (new_part, new_line); */
+			camel_stream_write_string (new_part_stream, new_line);
 		new_line = gmime_read_line_from_stream (stream);
 	}
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
@@ -426,7 +431,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	const gchar *boundary;
 	gchar *real_boundary_line;
 	gchar *end_boundary_line;
-	GString *new_part;
+	CamelStream *new_part_stream;
 	gboolean end_of_multipart;
 	CamelMimeBodyPart *body_part;
 
@@ -437,29 +442,34 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	real_boundary_line = g_strdup_printf ("--%s", boundary);
 	end_boundary_line = g_strdup_printf ("--%s--", boundary);
 
-	new_part = g_string_new ("");
+	//new_part = g_string_new ("");
+	
 	
 	/* read the prefix if any */
-	end_of_multipart = _read_part (new_part, stream, real_boundary_line, end_boundary_line);
+	//end_of_multipart = _read_part (new_part, stream, real_boundary_line, end_boundary_line);
 	if (multipart->preface) g_free (multipart->preface);
-	if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str);
+	//if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str);
 	
 	/* read all the real parts */
 	while (!end_of_multipart) {
 		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream, detected a new part\n");
-		g_string_assign (new_part, "");
+		new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
 		body_part = camel_mime_body_part_new ();
-		//camel_data_wrapper_construct_from_stream ();
+		
+		end_of_multipart = _read_part ( new_part_stream, stream, real_boundary_line, end_boundary_line);
+		camel_stream_seek (new_part_stream, 0, CAMEL_STREAM_SET);
+		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (body_part), new_part_stream);
 		camel_multipart_add_part (multipart, body_part);
-		end_of_multipart = _read_part (new_part, stream, real_boundary_line, end_boundary_line);
+		gtk_object_destroy (GTK_OBJECT (new_part_stream));
+		
 	}
 
-	g_string_assign (new_part, "");
-	_read_part (new_part, stream, real_boundary_line, end_boundary_line);
+	//g_string_assign (new_part, "");
+	//_read_part (new_part, stream, real_boundary_line, end_boundary_line);
 	if (multipart->postface) g_free (multipart->postface);
-	if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str);
+	//if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str);
 
-	g_string_free (new_part, TRUE);
+	//g_string_free (new_part, TRUE);
 	g_free (real_boundary_line);
 	g_free (end_boundary_line);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_construct_from_stream\n");

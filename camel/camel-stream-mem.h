@@ -43,7 +43,8 @@ extern "C" {
 typedef enum 
 {
 	CAMEL_STREAM_MEM_READ   =   1,
-	CAMEL_STREAM_MEM_WRITE  =   2
+	CAMEL_STREAM_MEM_WRITE  =   2,
+	CAMEL_STREAM_MEM_RW     =   3
 } CamelStreamMemMode;
 
 
@@ -72,7 +73,7 @@ GtkType camel_stream_mem_get_type (void);
 
 
 /* public methods */
-
+CamelStream *camel_stream_mem_new (CamelStreamMemMode mode);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

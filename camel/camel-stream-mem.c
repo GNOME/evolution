@@ -96,6 +96,15 @@ camel_stream_mem_get_type (void)
 }
 
 
+CamelStream *
+camel_stream_mem_new (CamelStreamMemMode mode)
+{
+  CamelStreamMem *stream_mem;
+
+  stream_mem = gtk_type_new (camel_stream_mem_get_type ());
+  stream_mem->mode = mode;
+  return CAMEL_STREAM (stream_mem);
+}
 
 
 /**
