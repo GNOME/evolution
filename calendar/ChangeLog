@@ -1,5 +1,9 @@
 2000-04-25  Seth Alves  <alves@hungry.com>
 
+	* gui/gnome-cal.c (gnome_calendar_destroy): hook for widget
+	destroy -- used to unref the CalClient so wombat knows we are gone.
+	(gnome_calendar_class_init): added a class init for this widget.
+
 	* gui/e-day-view.c (e_day_view_update_event): allow for null ico
 
 	* gui/e-week-view.c (e_week_view_update_event): allow for null ico

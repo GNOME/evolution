@@ -30,6 +30,9 @@
 
 
 
+static void gnome_calendar_class_init (GnomeCalendar *class);
+static void gnome_calendar_destroy (GtkObject *object);
+
 static void gnome_calendar_update_view_times (GnomeCalendar *gcal,
 					      GtkWidget *page);
 static void gnome_calendar_update_gtk_calendar (GnomeCalendar *gcal);
@@ -40,6 +43,8 @@ static void gnome_calendar_on_month_changed (GtkCalendar   *calendar,
 
 static GtkVBoxClass *parent_class;
 
+
+
 guint
 gnome_calendar_get_type (void)
 {
@@ -49,7 +54,7 @@ gnome_calendar_get_type (void)
 			"GnomeCalendar",
 			sizeof(GnomeCalendar),
 			sizeof(GnomeCalendarClass),
-			(GtkClassInitFunc) NULL,
+			(GtkClassInitFunc) gnome_calendar_class_init,
 			(GtkObjectInitFunc) NULL,
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL,
@@ -64,6 +69,33 @@ gnome_calendar_get_type (void)
 	}
 	return gnome_calendar_type;
 }
+
+
+static void
+gnome_calendar_class_init (GnomeCalendar *class)
+{
+	GtkObjectClass    *object_class;
+	object_class = (GtkObjectClass *) class;
+	object_class->destroy = gnome_calendar_destroy;
+}
+
+
+static void
+gnome_calendar_destroy (GtkObject *object)
+{
+	GnomeCalendar *gcal;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (object));
+
+	gcal = GNOME_CALENDAR (object);
+
+	gtk_object_unref (GTK_OBJECT (gcal->client));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
 
 static void
 setup_widgets (GnomeCalendar *gcal)

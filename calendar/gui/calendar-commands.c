@@ -338,16 +338,6 @@ close_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	all_calendars = g_list_remove (all_calendars, gcal);
 
-	/* DELETE
-	   FIXME -- what do i do here?
-	if (gcal->cal->modified){
-		if (!gcal->cal->filename)
-			save_calendar_cmd (widget, gcal);
-		else
-			calendar_save (gcal->cal, gcal->cal->filename);
-	}
-	*/
-
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
 
