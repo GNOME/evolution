@@ -1,5 +1,5 @@
 
-zoneinfodatadir = $(datadir)/$(PACKAGE)/zoneinfo
+zoneinfodatadir = $(privdatadir)/zoneinfo
 
 zoneinfodata_DATA = zones.tab
 
@@ -22,9 +22,9 @@ DIRS = \
 install-data-local:
 	@$(NORMAL_INSTALL)
 	for dir in $(DIRS); do \
-	  $(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)/zoneinfo/$$dir; \
+	  $(mkinstalldirs) $(DESTDIR)$(zoneinfodatadir)/$$dir; \
 	  for tzfile in $(srcdir)/$$dir/*.ics; do \
-	    $(INSTALL_DATA) $$tzfile $(DESTDIR)$(datadir)/$(PACKAGE)/zoneinfo/$$dir; \
+	    $(INSTALL_DATA) $$tzfile $(DESTDIR)$(zoneinfodatadir)/$$dir; \
 	  done \
 	done
 

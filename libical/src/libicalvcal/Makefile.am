@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libicalvcal-evolution.la
+privlib_LTLIBRARIES = libicalvcal-evolution.la
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -19,7 +19,7 @@ libicalvcal_evolution_la_SOURCES =	\
 	vcaltmp.h		\
 	vcaltmp.c
 
-#libicalvcalincludedir = $(includedir)/evolution/libicalvcal
+#libicalvcalincludedir = $(privincludedir)/libicalvcal
 
 #libicalvcalinclude_HEADERS =	\
 #	icalvcal.h		\

@@ -7,6 +7,11 @@ dnl Set the aux dir to .. (the toplevel evolution directory) so ylwrap
 dnl is found in the correct directory for automake >= 1.5
 AC_CONFIG_AUX_DIR(..)
 
+dnl subst in evolution's private directories
+AC_SUBST(privlibdir)
+AC_SUBST(privincludedir)
+AC_SUBST(privdatadir)
+
 dnl  Initialize maintainer mode
 AM_MAINTAINER_MODE
 
@@ -25,10 +30,10 @@ AC_SUBST(AR)
 AC_CHECK_PROGS(AR, ar aal, ar)
 AC_CHECK_PROGS(PERL, perl5 perl)  
 
-dnl AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1)
-AC_DEFINE(ICAL_SAFESAVES,1)
-AC_DEFINE(ICAL_UNIX_NEWLINE,1)
-dnl AC_DEFINE(ICAL_NO_EMPTY_ARRAY_DECL)
+dnl AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1,[Define to make icalerror_* calls abort instead of internally signalling an error])
+AC_DEFINE(ICAL_SAFESAVES,1,[Define to make icalcluster_commit() save to a temp file and mv to the original file instead of writing to the orig file directly])
+AC_DEFINE(ICAL_UNIX_NEWLINE,1,[Define to terminate lines with "\n" instead of "\r\n"])
+dnl AC_DEFINE(ICAL_NO_EMPTY_ARRAY_DECL,1,[Define to 1 if your compile does not like lines like: struct something foo[]])
 
 dnl Checks for libraries.
 dnl Replace `main' with a function in -lical:
@@ -51,7 +56,7 @@ dnl * Check for Python
 dnl **************************************************
 python_val=false
 AC_ARG_ENABLE(python-bindings, 
-[  --enable-python-bindings=[yes/no] Enable python bindings],,enable_python_bindings=yes)
+[  --enable-python-bindings=[yes/no] Enable python bindings],,enable_python_bindings=no)
 if test "x$enable_python_bindings" = "xyes"; then
 	python_val=true
 else
