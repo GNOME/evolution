@@ -1,3 +1,12 @@
+2003-09-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Don't set inend until after
+	we've appended the '\n', this fixes bug #48345. Instead of passing
+	inend to handle_uuencode(), scan for a "\nend\n" and use that as
+	the max end boundary - fixes bug #48184. Also don't bother
+	checking lineptr against "begin ..." if inptr == inend, since it
+	couldn't possibly be the start of a uuencoded blob.
+
 2003-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Allow the user to

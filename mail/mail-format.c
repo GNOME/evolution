@@ -1262,7 +1262,12 @@ handle_uuencode (const char **in, const char *inend)
 			 * encounters the end of the encoded data, not
 			 * when it encounters "^end\n" so we need to
 			 * check the next line and if it is "end\n",
-			 * then skip it. */
+			 * then skip it (or, if it is a "`\n" we need
+			 * to skip that and then check the next line
+			 * for "end\n").
+			 */
+			
+		uu_end:
 			if (inptr < inend) {
 				lineptr = inptr;
 				
@@ -1274,6 +1279,8 @@ handle_uuencode (const char **in, const char *inend)
 				
 				if (strncmp (lineptr, "end\n", 4) != 0)
 					inptr = lineptr;
+				else if (strncmp (lineptr, "`\n", 2) == 0)
+					goto uu_end;
 			}
 			
 			break;
@@ -1358,6 +1365,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		
 		inend = text->data + text->len;
 		g_byte_array_append (text, "\n", 1);
+		inend = text->data + text->len - 1;
 		inptr = text->data;
 		
 		while (inptr < inend) {
@@ -1366,8 +1374,10 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 			while (*inptr != '\n')
 				inptr++;
 			
-			if (inptr != inend)
-				inptr++;
+			if (inptr == inend)
+				goto plain_text;
+			
+			inptr++;
 			
 			if (!strncmp (lineptr, "begin ", 6) && lineptr[6] >= '0' && lineptr[6] <= '7') {
 				const char *q, *p = lineptr + 7;
@@ -1392,7 +1402,12 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 				camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
 				
 				/* create the fake part... */
-				uu_part = handle_uuencode (&inptr, inend);
+				if (!(q = strstr (inptr, "\nend\n")))
+					q = inend;
+				else
+					q += 5;
+				
+				uu_part = handle_uuencode (&inptr, q);
 				camel_mime_part_set_filename (uu_part, filename);
 				g_free (filename);
 				
