@@ -75,6 +75,8 @@ struct _TasksComponentPrivate {
 	ECal *create_ecal;
 
 	GList *notifications;
+
+	EActivityHandler *activity_handler;
 };
 
 /* Utility functions.  */
@@ -506,8 +508,8 @@ impl_createControls (PortableServer_Servant servant,
 {
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
-	GtkWidget *selector_scrolled_window;
-	BonoboControl *sidebar_control;
+	GtkWidget *selector_scrolled_window, *statusbar_widget;
+	BonoboControl *sidebar_control, *statusbar_control;
 	guint not;
 	
 	priv = component->priv;
@@ -565,15 +567,12 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
 
-	/* The tasks component doesn't use the status bar so just return an empty label.  */
-	{
-		GtkWidget *label = gtk_label_new ("");
-		BonoboControl *control;
-
-		gtk_widget_show (label);
-		control = bonobo_control_new (label);
-		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
-	}
+	/* Create the task bar */
+	statusbar_widget = e_task_bar_new ();
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+	gtk_widget_show (statusbar_widget);
+	statusbar_control = bonobo_control_new (statusbar_widget);
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 }
 
 static GNOME_Evolution_CreatableItemTypeList *
@@ -777,6 +776,8 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/tasks/sources");
 
+	priv->activity_handler = e_activity_handler_new ();
+
 	component->priv = priv;
 }
 
@@ -817,6 +818,12 @@ ESourceList *
 tasks_component_peek_source_list (TasksComponent *component)
 {
 	return component->priv->source_list;	
+}
+
+EActivityHandler *
+tasks_component_peek_activity_handler (TasksComponent *component)
+{
+	return component->priv->activity_handler;
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

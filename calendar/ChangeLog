@@ -1,3 +1,18 @@
+2004-01-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/tasks-component.[ch]
+	(tasks_component_peek_activity_handler): new function.
+	(impl_createControls): create a task bar also for the tasks
+	component. We can't rely on the calendar component's one.
+	(tasks_component_init): create the private activity handler.
+
+	* gui/e-calendar-table.c (e_calendar_table_set_status_message):
+	use the tasks component's activity handler.
+
+	* gui/e-tasks.c (on_url_cb): new callback to display status
+	bar messages when mousing over links.
+	(setup_widgets): connect to "on_url" signal on the HTML widget.
+
 2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/comp-editor.c: reverted my changes made on Jan 8th.

@@ -303,6 +303,20 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer data)
         }
 }
 
+static void
+on_url_cb (GtkHTML *html, const char *url, gpointer data)
+{
+	char *msg;
+	ETasks *tasks = data;
+
+	if (url && *url) {
+		msg = g_strdup_printf (_("Click to open %s"), url);
+		e_calendar_table_set_status_message (e_tasks_get_calendar_table (tasks), msg);
+		g_free (msg);
+	} else
+		e_calendar_table_set_status_message (e_tasks_get_calendar_table (tasks), NULL);
+}
+
 /* Callback used when the cursor changes in the table */
 static void
 table_cursor_change_cb (ETable *etable, int row, gpointer data)
@@ -557,6 +571,8 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK (url_requested_cb), NULL);
 	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
 			  G_CALLBACK (on_link_clicked), tasks);
+	g_signal_connect (G_OBJECT (priv->html), "on_url",
+			  G_CALLBACK (on_url_cb), tasks);
 
 	gtk_widget_pop_colormap ();
 	scroll = gtk_scrolled_window_new (NULL, NULL);

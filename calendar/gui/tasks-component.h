@@ -25,6 +25,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <libedataserver/e-source-list.h>
+#include <shell/e-activity-handler.h>
 #include "Evolution.h"
 
 
@@ -52,11 +53,12 @@ struct _TasksComponentClass {
 };
 
 
-GType           tasks_component_get_type  (void);
-TasksComponent *tasks_component_peek  (void);
+GType             tasks_component_get_type  (void);
+TasksComponent   *tasks_component_peek  (void);
 
-const char     *tasks_component_peek_base_directory (TasksComponent *component);
-const char     *tasks_component_peek_config_directory (TasksComponent *component);
-ESourceList    *tasks_component_peek_source_list (TasksComponent *component);
+const char       *tasks_component_peek_base_directory (TasksComponent *component);
+const char       *tasks_component_peek_config_directory (TasksComponent *component);
+ESourceList      *tasks_component_peek_source_list (TasksComponent *component);
+EActivityHandler *tasks_component_peek_activity_handler (TasksComponent *component);
 
 #endif /* _TASKS_COMPONENT_H_ */
