@@ -1605,7 +1605,7 @@ msgstr ""
 
 #: calendar/gui/todo-conduit-control-applet.c:115
 msgid "Configuration utility for the todo conduit.\n"
-msgstr "Utilità di confugurazione per FIXME"
+msgstr "Utilità di confugurazione per FIXME\n"
 
 #: calendar/gui/todo-conduit-control-applet.c:116
 msgid "gnome-unknown.xpm"
