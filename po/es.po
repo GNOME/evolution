@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.7.0\n"
-"POT-Creation-Date: 2001-01-15 19:48+0100\n"
+"POT-Creation-Date: 2001-01-15 21:20+0100\n"
 "PO-Revision-Date: 2000-09-26 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -2079,9 +2079,8 @@ msgid "Geographical Position"
 msgstr "Posición geográfica"
 
 #: calendar/gui/e-calendar-table.c:160
-#, fuzzy
 msgid "Precent complete"
-msgstr "Marcar la tarea como completa"
+msgstr "Porcentaje completado"
 
 #: calendar/gui/e-calendar-table.c:162
 msgid "Summary"
@@ -2195,10 +2194,12 @@ msgid "Category:"
 msgstr "Categorías:"
 
 #: calendar/gui/e-tasks.c:333
+#, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "No puedo cargar las tareas en `%s'"
 
 #: calendar/gui/e-tasks.c:345
+#, c-format
 msgid "Could not create a tasks file in `%s'"
 msgstr "No puedo crear un archivo de tareas en `%s'"
 
@@ -2408,10 +2409,12 @@ msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
 #: calendar/gui/gnome-cal.c:709
+#, c-format
 msgid "Could not load the folder in `%s'"
 msgstr "No puedo cargar la carpeta en `%s'"
 
 #: calendar/gui/gnome-cal.c:720
+#, c-format
 msgid "Could not create a folder in `%s'"
 msgstr "No puedo crear una carpeta en `%s'"
 
@@ -2778,7 +2781,6 @@ msgstr "%s servico para %s en %s"
 #: camel/camel-remote-store.c:315
 msgid "Connection cancelled"
 msgstr "Conexión cancelada"
-
 
 #: camel/camel-remote-store.c:318 camel/camel-remote-store.c:331
 #: camel/providers/smtp/camel-smtp-transport.c:160
@@ -6560,8 +6562,8 @@ msgid "Reply to _Sender"
 msgstr "Resp. _Remitente"
 
 #: po/tmp/evolution-mail.xml.h:42
-msgid "Source"
-msgstr "Fuente"
+msgid "S_ource"
+msgstr "F_uente"
 
 #: po/tmp/evolution-mail.xml.h:43 po/tmp/evolution-subscribe.xml.h:12
 msgid "Select _All"
@@ -6596,8 +6598,8 @@ msgid "_Apply Filters"
 msgstr "_Aplicar filtro"
 
 #: po/tmp/evolution-mail.xml.h:51
-msgid "_Configure Folder"
-msgstr "_Configurar carpeta"
+msgid "_Configure Folder..."
+msgstr "_Configurar carpeta..."
 
 #: po/tmp/evolution-mail.xml.h:52
 msgid "_Copy to Folder..."
@@ -6900,8 +6902,8 @@ msgid "_Go to Folder..."
 msgstr "_Ir a la carpeta..."
 
 #: po/tmp/evolution.xml.h:30
-msgid "_Import file"
-msgstr "_Importar archivo"
+msgid "_Import file..."
+msgstr "_Importar archivo..."
 
 #: po/tmp/evolution.xml.h:31
 msgid "_Index"
