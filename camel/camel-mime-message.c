@@ -54,6 +54,9 @@ static GList *_get_recipients (CamelMimeMessage *mime_message, GString *recipien
 static void _set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value);
 static gboolean _get_flag (CamelMimeMessage *mime_message, GString *flag);
 
+static void _set_message_number (CamelMimeMessage *mime_message, guint number);
+static guint _get_message_number (CamelMimeMessage *mime_message);
+
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 
@@ -85,6 +88,8 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->get_recipients = _get_recipients;
 	camel_mime_message_class->set_flag = _set_flag;
 	camel_mime_message_class->get_flag = _get_flag;
+	camel_mime_message_class->set_message_number = _set_message_number;
+	camel_mime_message_class->get_message_number = _get_message_number;
 	
 	/* virtual method overload */
 }
@@ -439,7 +444,22 @@ get_flag (CamelMimeMessage *mime_message, GString *flag)
 
 
 
+static void 
+_set_message_number (CamelMimeMessage *mime_message, guint number)
+{
+	mime_message->message_number = number;
+}
+
+static guint 
+_get_message_number (CamelMimeMessage *mime_message)
+{
+	return mime_message->message_number;
+}
 
 
 
-
+guint
+get_message_number (CamelMimeMessage *mime_message)
+{
+	return CMM_CLASS (mime_message)->get_message_number;
+}

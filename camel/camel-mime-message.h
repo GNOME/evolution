@@ -119,6 +119,8 @@ GList *get_recipients (CamelMimeMessage *mime_message, GString *recipient_type);
 void set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value);
 gboolean get_flag (CamelMimeMessage *mime_message, GString *flag);
 
+guint get_message_number (CamelMimeMessage *mime_message);
+
 
 #ifdef __cplusplus
 }
