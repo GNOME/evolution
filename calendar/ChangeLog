@@ -1,3 +1,14 @@
+2000-03-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar.c: Random #ifdefs to make it build, although this
+	file is going away.
+
+	* gui/Makefile.am: Removed referenes to calobj.[ch] and timeutil.[ch].
+
+	* gui/calendar-conduit.c: Fixup includes.
+
+	* gui/calendar-conduit.h: Fixup includes.
+
 2000-03-09  Seth Alves  <alves@hungry.com>
 
 	* gui/gnome-cal.h: replaced "Calendar *cal" with "CalClient *calc"

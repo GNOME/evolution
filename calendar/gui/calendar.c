@@ -17,11 +17,10 @@
 #include <config.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <cal-util/timeutil.h>
 #include "calendar.h"
 #include "alarm.h"
-#include "timeutil.h"
 #include "libversit/vcc.h"
-#include "icalendar.h"
 
 #ifdef HAVE_TZNAME
 extern char *tzname[2];
@@ -41,10 +40,13 @@ calendar_new (char *title,CalendarNewOptions options)
 	cal = g_new0 (Calendar, 1);
 
 	cal->title = g_strdup (title);
+
+#if 0
 	if (options & CALENDAR_USE_ICAL)
 	  cal->format = CAL_ICAL;
 	else
 	  cal->format = CAL_VCAL;
+#endif
 
 	if ((calendar_day_begin == 0) || (calendar_day_end == 0))
 		calendar_set_day ();
@@ -325,15 +327,17 @@ calendar_load (Calendar *cal, char *fname)
 	cal->file_time = s.st_mtime;
 
 	calendar_set_day ();
-
+#if 0
 	switch (cal->format) {
 	case CAL_VCAL:
+#endif
 		vcal = Parse_MIME_FromFileName (fname);
 		if (!vcal)
 			return "Could not load the calendar";
 		calendar_load_from_vobject (cal, vcal);
 		cleanVObject (vcal);
 		cleanStrTbl ();
+#if 0
 		break;
 		/*
 	case CAL_ICAL:
@@ -343,6 +347,7 @@ calendar_load (Calendar *cal, char *fname)
 	default:
 		return "Unknown calendar format";
 	}
+#endif
 
 	return NULL;
 }

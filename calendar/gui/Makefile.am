@@ -1,5 +1,3 @@
-
-
 idldir = $(datadir)/idl
 idl_DATA = 			\
 	GnomeCal.idl
@@ -95,25 +93,13 @@ gnomecal_SOURCES =				\
 	main.c					\
 	main.h
 
-
-#	calobj.c				\
-#	calobj.h				\
-#	icalendar.c				\
-#	icalendar.h				\
-#	timeutil.c				\
-#	timeutil.h				\
-
 calendar_pilot_sync_SOURCES =	\
 	GnomeCal-common.c	\
 	GnomeCal-stubs.c	\
 	alarm.c			\
 	calendar-pilot-sync.c	\
-	calobj.c		\
-	calobj.h		\
 	calendar.c		\
-	calendar.h		\
-	timeutil.c		\
-	timeutil.h
+	calendar.h
 
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
@@ -139,10 +125,8 @@ libcalendar_conduit_la_SOURCES =		\
 	GnomeCal-stubs.c			\
 	calendar-conduit.h			\
 	calendar-conduit.c			\
-	calobj.c				\
 	alarm.c					\
-	calendar.c				\
-	timeutil.c
+	calendar.c
 
 libcalendar_conduit_la_LDFLAGS = \
 	-rpath $(libdir)

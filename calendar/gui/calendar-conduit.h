@@ -6,16 +6,13 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <pi-datebook.h>
 #include <gnome.h>
-
-#include "GnomeCal.h"
-#include "calobj.h"
-#include "calendar.h"
-#include "timeutil.h"
-
+#include <pi-datebook.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
+#include <cal-util/calobj.h>
+#include <cal-util/timeutil.h>
+#include "GnomeCal.h"
 
 /* This is the local record structure for the GnomeCal conduit. */
 typedef struct _GCalLocalRecord GCalLocalRecord;

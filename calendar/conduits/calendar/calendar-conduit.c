@@ -1,33 +1,23 @@
 /* $Id$ */
 
-#include <glib.h>
-#include <gnome.h>
-
-#include <pi-source.h>
-#include <pi-socket.h>
-#include <pi-file.h>
-#include <pi-dlp.h>
-#include <pi-version.h>
-
+#include <config.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <utime.h>
 #include <unistd.h>
 #include <pwd.h>
 #include <signal.h>
 #include <errno.h>
-
+#include <pi-source.h>
+#include <pi-socket.h>
+#include <pi-file.h>
+#include <pi-dlp.h>
 #include <libgnorba/gnorba.h>
 #include <libgnorba/gnome-factory.h>
-
+#include <pi-version.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 
 #include "GnomeCal.h"
-#include "calobj.h"
-/*#include "calendar.h" DELETE */
-#include "timeutil.h"
-
 #include "calendar-conduit.h"
 
 int debug_alarms = 0;  /* needed to satisfy some other part of gncal */
