@@ -445,7 +445,8 @@ remove_card(EBookView *book_view,
 	for ( i = 0; i < model->data_count; i++) {
 		if (!strcmp(e_card_get_id(model->data[i]), id) ) {
 			gtk_object_unref(GTK_OBJECT(model->data[i]));
-			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECardSimple *));
+			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
+			model->data_count --;
 			found = TRUE;
 		}
 	}

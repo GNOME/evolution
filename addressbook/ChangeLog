@@ -1,3 +1,8 @@
+2001-05-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-minicard-view-model.c (remove_card): Fix a small
+	error not decreasing the data_count here.
+
 2001-05-13  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.h: add prototype for
