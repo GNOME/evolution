@@ -69,6 +69,8 @@ struct _ECard {
 
 	EList       *arbitrary;     /* Arbitrary fields.                */
 
+	guint32         pilot_id;       /* id of the corresponding pilot */
+
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 

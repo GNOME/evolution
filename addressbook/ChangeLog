@@ -1,3 +1,12 @@
+2000-07-24  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/ebook/e-card.h: add pilot_id.
+
+	* backend/ebook/e-card.c (e_card_get_vcard): add support for
+	X-EVOLUTION-PILOTD vcard field.
+	(e_card_class_init): add pilot_id arg.
+	(e_card_set_arg): handle pilot_id arg.
+
 2000-07-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-book-view-listener.c: Remove the idle handler

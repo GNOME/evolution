@@ -55,7 +55,8 @@ enum {
 	ARG_CATEGORIES,
 	ARG_CATEGORY_LIST,
 	ARG_ARBITRARY,
-	ARG_ID
+	ARG_ID,
+	ARG_PILOTID
 };
 
 #if 0
@@ -444,7 +445,13 @@ char
 
 	if (card->id)
 		addPropValue (vobj, VCUniqueStringProp, card->id);
-	
+
+	if (card->pilot_id) {
+		gchar *pilotid_str;
+		pilotid_str = g_strdup_printf ("%d", card->pilot_id);
+		addPropValue (vobj, "X-EVOLUTION-PILOTID", pilotid_str);
+		g_free (pilotid_str);
+	}
 #if 0
 	
 	
@@ -971,6 +978,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
+	gtk_object_add_arg_type ("ECard::pilot_id",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_PILOTID);
 
 
 	object_class->destroy = e_card_destroy;
@@ -1403,6 +1412,9 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ID:
 		g_free(card->id);
 		card->id = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_PILOTID:
+		card->pilot_id = GTK_VALUE_INT(*arg);
 		break;
 	default:
 		return;
