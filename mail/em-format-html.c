@@ -231,8 +231,10 @@ em_format_html_get_type(void)
 		path = alloca(strlen(base_directory)+16);
 		sprintf(path, "%s/cache", base_directory);
 		emfh_http_cache = camel_data_cache_new(path, 0, NULL);
-		camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
-		camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
+		if (emfh_http_cache) {
+			camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
+			camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
+		}
 	}
 
 	return type;

@@ -1,5 +1,10 @@
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52891.
+
+	* em-format-html.c (em_format_html_get_type): protect against http
+	cache not being able to be created.
+
 	** See bug #52878.
 
 	* em-folder-view.c (emfv_finalise): unhook message_changed too.
