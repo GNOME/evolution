@@ -1,3 +1,8 @@
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): Set
+	the title of our GalViewCollection.
+
 2002-06-04  Not Zed  <NotZed@Ximian.com>
 
 	* mail-accounts.c (mail_accounts_tab_construct): Duh, we want to
