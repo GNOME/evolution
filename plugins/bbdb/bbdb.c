@@ -444,7 +444,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	stuff->check_gaim = check_gaim;
 
 	/* Synchronize now button. */
-	button = gtk_button_new_with_label (_("Synchronize with _buddy list now"));
+	button = gtk_button_new_with_mnemonic (_("Synchronize with _buddy list now"));
 	g_signal_connect (GTK_BUTTON (button), "clicked", G_CALLBACK (synchronize_button_clicked_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), button, FALSE, FALSE, 0);
 	

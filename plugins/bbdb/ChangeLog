@@ -1,3 +1,9 @@
+2004-10-27  Nat Friedman  <nat@novell.com>
+
+	* bbdb.c (bbdb_page_factory): Use _with_mnemonic for the button.
+
+	* Makefile.am: Don't build the test program by default.
+
 2004-10-25  Nat Friedman  <nat@novell.com>
 
 	* bbdb.c (e_plugin_lib_enable): Sync the Gaim buddy list.  Set a
