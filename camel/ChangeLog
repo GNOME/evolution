@@ -1,3 +1,15 @@
+2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* camel-folder.c (folder_changed): check recent messages for junk
+	mail
+
+	* camel-session.c (camel_session_check_junk): new wrapper method
+	for check_junk flag
+	(camel_session_set_check_junk): ditto
+
+	* camel-session.h (struct _CamelSession): added check_junk flag
+	(if to check incoming mail for junk messages)
+
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (add_special_info): Free fi->path if we are gonna

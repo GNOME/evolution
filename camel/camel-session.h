@@ -62,6 +62,7 @@ struct _CamelSession
 	gboolean online;
 
 	CamelJunkPlugin *junk_plugin;
+	gboolean check_junk;
 };
 
 #ifdef ENABLE_THREADS
@@ -178,6 +179,9 @@ void               camel_session_set_online         (CamelSession *session,
 CamelFilterDriver *camel_session_get_filter_driver  (CamelSession *session,
 						     const char *type,
 						     CamelException *ex);
+
+gboolean           camel_session_check_junk         (CamelSession *session);
+void               camel_session_set_check_junk     (CamelSession *session, gboolean check_junk);
 
 #ifdef ENABLE_THREADS
 struct _CamelSessionThreadOps {

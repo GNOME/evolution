@@ -41,6 +41,7 @@
 #include "camel-filter-driver.h"
 #include "camel-private.h"
 #include "camel-vtrash-folder.h"
+#include "filter/filter-rule.h"
 
 #define d(x) 
 #define w(x)
@@ -1647,9 +1648,10 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		CamelSession *session = ((CamelService *)folder->parent_store)->session;
 		CamelFilterDriver *driver = NULL;
 
-		if ((folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT)
+		if (((folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) || camel_session_check_junk (session))
 		    && changed->uid_recent->len > 0)
-			driver = camel_session_get_filter_driver(session, "incoming", NULL);
+			driver = camel_session_get_filter_driver(session,
+								 (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) ? FILTER_SOURCE_INCOMING : FILTER_SOURCE_JUNKTEST, NULL);
 		
 		CAMEL_FOLDER_LOCK(folder, change_lock);
 

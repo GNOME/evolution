@@ -870,3 +870,32 @@ void camel_session_thread_wait(CamelSession *session, int id)
 
 	CS_CLASS (session)->thread_wait(session, id);
 }
+
+/**
+ * camel_session_check_junk:
+ * @session: 
+ * 
+ * Do we have to check incoming messages to be junk?
+ **/
+gboolean
+camel_session_check_junk (CamelSession *session)
+{
+	g_assert(CAMEL_IS_SESSION(session));
+
+	return session->check_junk;
+}
+
+/**
+ * camel_session_set_check_junk:
+ * @session: 
+ * @check_junk: 
+ * 
+ * Set check_junk flag, if set, incoming mail will be checked for being junk.
+ **/
+void
+camel_session_set_check_junk (CamelSession *session, gboolean check_junk)
+{
+	g_assert(CAMEL_IS_SESSION(session));
+
+	session->check_junk = check_junk;
+}

@@ -694,7 +694,6 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 		  const char *url_base, gboolean unread_count)
 {
 	CamelFolderInfo *fi, *vinfo, *parent;
-	CamelProvider *provider;
 	char *uri, *path;
 	CamelURL *url;
 	
