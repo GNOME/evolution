@@ -1,6 +1,6 @@
-/*
- * Author:
- *   Nat Friedman (nat@helixcode.com)
+/* Wombat personal information server - main file
+ *
+ * Author: Nat Friedman <nat@helixcode.com>
  *
  * Copyright 2000, Helix Code, Inc.
  */
@@ -14,10 +14,8 @@
 #endif
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnorba/gnorba.h>
-#include <cal-factory.h>
-#include <calobj.h>
+#include "calendar/pcs/cal-factory.h"
 
-CORBA_Environment ev;
 CORBA_ORB orb;
 
 static void
@@ -43,8 +41,9 @@ static void
 setup_pcs (int argc, char **argv)
 {
 	CalFactory *factory;
-	int result;
 	CORBA_Object object;
+	CORBA_Environment ev;
+	int result;
 
 	factory = cal_factory_new ();
 
@@ -103,16 +102,28 @@ setup_vfs (int argc, char **argv)
 static void
 init_bonobo (int argc, char **argv)
 {
+	CORBA_Environment ev;
+
 	CORBA_exception_init (&ev);
 
 	gnome_CORBA_init_with_popt_table (
 		"Personal Addressbook Server", "0.0",
 		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
 
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("init_bonobo(): could not initialize GOAD");
+		CORBA_exception_free (&ev);
+		exit (1);
+	}
+
+	CORBA_exception_free (&ev);
+
 	orb = gnome_CORBA_ORB ();
 
-	if (bonobo_init (orb, NULL, NULL) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
+	if (!bonobo_init (orb, NULL, NULL)) {
+		g_message ("init_bonobo(): could not initialize Bonobo");
+		exit (1);
+	}
 }
 
 int

@@ -1,3 +1,17 @@
+2000-04-16  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am (INCLUDES): Removed spurious calendar directories
+	from the include path.  Added "wombat" log domain for glib.
+	(wombat_LDADD): Link libpcs.a instead of the old shared library.
+
+	* wombat.c: cal-factory.h is an internal include file.  * wombat.c
+	(setup_pcs): We should NOT share a CORBA_environment across all
+	functions!  Use our own CORBA_environment.
+	(init_bonobo): Use our own CORBA_environment.  Free the exception
+	after initializing GOAD, and present some error messages if
+	necessary.  (Should g_message()s for exceptional situations be
+	marked for translation?).
+
 2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Added
