@@ -1,6 +1,11 @@
 2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-preferences.c (mail_preferences_construct): 
+	* mail-preferences.c (mail_preferences_construct): Same as below.
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): gconf can
+	return empty string if the charset has not been set, so if the
+	charset string is empty, default the charset to the user's locale
+	charset. Partial fix for bug #47638.
 
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
