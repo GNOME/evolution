@@ -408,6 +408,8 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		for (b = e->buttons;b;b=b->next) {
 			if (b->stock) {
 				if (b->label) {
+					/* FIXME: So although this looks like it will work, it wont.
+					   Need to do it the hard way ... */
 					w = gtk_button_new_from_stock(b->stock);
 					gtk_button_set_label((GtkButton *)w, b->label);
 					gtk_widget_show(w);
