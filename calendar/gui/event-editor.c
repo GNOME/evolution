@@ -2382,7 +2382,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 		cal_component_set_description_list (comp, &l);
 	}
 
-	if (!str)
+	if (str)
 		g_free (str);
 
 	/* Dates */
