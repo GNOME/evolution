@@ -1,3 +1,10 @@
+2000-12-15  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Removed getdate.y.
+	We no longer use it; it is a relic from Gnomecal.
+
+	* gui/getdate.y: Removed file.
+
 2000-12-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	Fixes bug #955.

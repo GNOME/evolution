@@ -97,7 +97,6 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	event-editor.c				\
 	event-editor.h				\
-	getdate.y				\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	gnome-month-item.c			\
