@@ -536,9 +536,11 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+#if 0
 	view_row = model_to_view_row(eti, eti->cursor_row);
 	if (view_row >= 0 && eti->cursor_col >= 0)
 		eti_request_region_show (eti, eti->cursor_col, view_row, eti->cursor_col, view_row);
+#endif
 }
 
 /*
