@@ -14,12 +14,14 @@
 
   <child>
     <widget class="GtkVBox" id="vbox37">
+      <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkNotebook" id="account-editor-notebook">
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="show_tabs">True</property>
@@ -33,7 +35,7 @@
 	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkHBox" id="hbox100">
@@ -233,7 +235,7 @@
 	    <widget class="GtkHButtonBox" id="hbuttonbox20">
 	      <property name="visible">True</property>
 	      <property name="layout_style">GTK_BUTTONBOX_END</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkButton" id="account-editor-cancel-button">
@@ -285,7 +287,7 @@
 
   <child>
     <widget class="GnomeDruid" id="account-druid">
-      <property name="border_width">4</property>
+      <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="show_help">False</property>
 
@@ -297,9 +299,7 @@
 	  <property name="text" translatable="yes">This assistant will help you to access online directory services
 using LDAP (Lightweight Directory Access Protocol) servers. 
 
-Adding a new LDAP server requires some specialized information
-about the server. Please contact your system administrator if you 
-need help finding this information.</property>
+Adding a new LDAP server requires some specialized information about the server. Please contact your system administrator if you need help finding this information.</property>
 	</widget>
       </child>
 
@@ -317,10 +317,10 @@ need help finding this information.</property>
 
 	      <child>
 		<widget class="GtkVBox" id="account-druid-general-vbox">
-		  <property name="border_width">3</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">3</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label158">
@@ -380,10 +380,10 @@ information. Please ask your system administrator if you are unsure of this info
 
 	      <child>
 		<widget class="GtkVBox" id="account-druid-connecting-vbox">
-		  <property name="border_width">3</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">3</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label174">
@@ -444,10 +444,10 @@ your connection. Ask your system administrator if your LDAP server uses these pr
 
 	      <child>
 		<widget class="GtkVBox" id="account-druid-searching-vbox">
-		  <property name="border_width">3</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">3</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label254">
@@ -508,10 +508,10 @@ need to change these options.</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox21">
-		  <property name="border_width">3</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">3</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label198">
@@ -747,7 +747,7 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
     <widget class="GtkVBox" id="addressbook-sources-vbox">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="hbuttonbox27">
@@ -800,9 +800,10 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 
       <child>
 	<widget class="GtkHBox" id="addressbook-sources">
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="Custom" id="sourcesTable">
@@ -851,7 +852,7 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 		<widget class="GtkVButtonBox" id="vbuttonbox18">
 		  <property name="visible">True</property>
 		  <property name="layout_style">GTK_BUTTONBOX_START</property>
-		  <property name="spacing">0</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkButton" id="addSource">
@@ -976,17 +977,17 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
       <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">3</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkTable" id="table36">
-	  <property name="border_width">3</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="n_rows">3</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">3</property>
-	  <property name="column_spacing">3</property>
+	  <property name="row_spacing">6</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label534">
@@ -997,7 +998,7 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -1022,7 +1023,7 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -1127,13 +1128,13 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	      <child>
 		<widget class="GtkLabel" id="label553">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Email Address:</property>
+		  <property name="label" translatable="yes">Email address:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1539,19 +1540,20 @@ It is for display purposes only. </property>
 
   <child>
     <widget class="GtkVBox" id="connecting-tab">
+      <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkTable" id="table14">
-	  <property name="border_width">3</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="n_rows">2</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">3</property>
-	  <property name="column_spacing">3</property>
+	  <property name="row_spacing">6</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label175">
@@ -1562,7 +1564,7 @@ It is for display purposes only. </property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -1724,7 +1726,7 @@ It is for display purposes only. </property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -1997,17 +1999,17 @@ exploits. </property>
       <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">3</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkTable" id="table30">
-	  <property name="border_width">3</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="n_rows">4</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">3</property>
-	  <property name="column_spacing">3</property>
+	  <property name="row_spacing">6</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label455">
@@ -2018,7 +2020,7 @@ exploits. </property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -2042,7 +2044,7 @@ exploits. </property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -2165,7 +2167,7 @@ exploits. </property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">1</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -2317,7 +2319,7 @@ exploits. </property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
+	      <property name="xalign">1</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
@@ -2602,7 +2604,7 @@ too large will slow down your addressbook.</property>
     <widget class="GtkVBox" id="dialog-vbox5">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area5">
