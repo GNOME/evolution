@@ -1,3 +1,12 @@
+2000-10-17  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Remove
+	cached info at the end of the summary when the folder shrinks
+	between sessions. Also remove an untrue comment.
+
+	* providers/imap/camel-imap-store.c (get_folder): Fix up
+	summary_file to not include the namespace twice.
+
 2000-10-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-part.c (set_header): Encode the header value.
@@ -68,7 +77,6 @@
 	the possibility of not getting a LIST response back for the top
 	level.
 
->>>>>>> 1.531
 2000-10-12  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-summary.c: Simple subclass of
@@ -118,7 +126,6 @@
 	(camel-mime-parser.c doesn't use this code because of the MEMPOOL
 	optimization, so nothing was ever actually calling it before.)
 
->>>>>>> 1.529
 2000-10-11  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.h (struct _CamelMimePart): Removed
