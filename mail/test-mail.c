@@ -26,7 +26,7 @@ create_container (void)
 	gtk_widget_show (GTK_WIDGET (window));
 
 	uih = bonobo_ui_handler_new ();
-	control = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
+	control = bonobo_widget_new_control ("control:evolution-mail",
 				     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
 
 	
