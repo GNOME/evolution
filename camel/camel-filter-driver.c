@@ -531,7 +531,7 @@ close_folder (void *key, void *value, void *data)
 	camel_folder_thaw (folder);
 	camel_object_unref (CAMEL_OBJECT (folder));
 
-	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders)* 100 / p->closed, "Syncing folders");
+	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders)* 100 / p->closed, _("Syncing folders"));
 }
 
 /* flush/close all folders */
@@ -540,7 +540,7 @@ close_folders (CamelFilterDriver *driver)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 
-	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 0, "Syncing folders");
+	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 0, _("Syncing folders"));
 
 	p->closed = 0;
 	g_hash_table_foreach (p->folders, close_folder, driver);
@@ -745,12 +745,12 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	for (i = 0; i < uids->len; i++) {
 		int pc = (100 * i)/uids->len;
 
-		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d of %d", i+1,
+		report_status (driver, CAMEL_FILTER_STATUS_START, pc, _("Getting message %d of %d"), i+1,
 			       uids->len);
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (!message || camel_exception_is_set (ex)) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed at message %d of %d"),
 				       i+1, uids->len);
 			status = -1;
 			break;
@@ -768,7 +768,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			camel_folder_free_message_info (folder, info);
 
 		if (camel_exception_is_set (ex) || status == -1) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed at message %d of %d"),
 				       i+1, uids->len);
 			status = -1;
 			break;
@@ -785,12 +785,12 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		camel_folder_free_uids (folder, uids);
 	
 	if (p->defaultfolder) {
-		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, "Syncing folder");
+		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
 		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	}
 
 	if (i == uids->len)
-		report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
+		report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
 	g_free (source_url);
 	
