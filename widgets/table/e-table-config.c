@@ -1182,7 +1182,10 @@ e_table_config_new (const char          *header,
 		return NULL;
 	}
 
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
+					   GTK_RESPONSE_APPLY, FALSE);
 	gtk_widget_show (config->dialog_toplevel);
+
 	return E_TABLE_CONFIG (config);
 }
 
