@@ -1,11 +1,17 @@
-Evolution 1.0.3
----------------
+Evolution 1.0.3, ???
+--------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Summary
+
+    #18025 -- Executive-summary crash upon switching to offline mode
+              (Ettore)
 
   * Calendar
 
     #19054 -- Minimum number of alarm repetitions should be 1 (Federico)
+
 
 Evolution 1.0.2, 01-24-2002
 ---------------------------
