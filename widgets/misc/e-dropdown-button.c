@@ -168,6 +168,15 @@ init (EDropdownButton *dropdown_button)
 }
 
 
+/**
+ * e_dropdown_button_construct:
+ * @dropdown_button: A pointer to an %EDropdownButton object
+ * @label_text: Text to display in the button
+ * @menu: The menu to pop up when the button is pressed
+ * 
+ * Construct the @dropdown_button with the specified @label_text and the
+ * associated @menu.
+ **/
 void
 e_dropdown_button_construct (EDropdownButton *dropdown_button,
 			     const char *label_text,
@@ -211,12 +220,13 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 
 /**
  * e_dropdown_button_new:
- * @label_text: 
- * @menu: 
+ * @label_text: Text to display in the button
+ * @menu: The menu to pop up when the button is pressed
  * 
- * Create a new dropdown button.
+ * Create a new dropdown button.  When the button is clicked, the specified
+ * @menu will be popped up.
  * 
- * Return value: 
+ * Return value: A pointer to the newly created %EDropdownButton.
  **/
 GtkWidget *
 e_dropdown_button_new (const char *label_text,
