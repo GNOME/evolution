@@ -3064,7 +3064,7 @@ reminder_add_cb (GtkWidget *widget, EventEditor *ee)
 	else
 		trigger.u.rel_duration.is_neg = 0;
 	
-	switch (e_dialog_option_menu_get (priv->reminder_relative, reminder_relative_map)) {
+	switch (e_dialog_option_menu_get (priv->reminder_value_units, reminder_value_map)) {
 	case MINUTES:
 		trigger.u.rel_duration.minutes =  e_dialog_spin_get_int (priv->reminder_interval_value);
 		break;

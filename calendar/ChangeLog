@@ -1,3 +1,19 @@
+2001-05-09  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor.c (reminder_add_cb): switch on the correct
+	widget and map
+
+2001-05-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (e_itip_control_factory): unref the
+	property bag when we finish with it
+
+	* gui/evolution-calendar-control.c (calendar_properties_init): ditto
+
+	* gui/control-factory.c (calendar_properties_init): ditto
+
+	* gui/calendar-summary.c (create_summary_view): ditto
+
 2001-05-08  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_free):
