@@ -1,3 +1,8 @@
+2004-04-22  Kidd Wang  <kidd.wang@sun.com>
+
+	* calendar/ea-week-view.c: (ea_week_view_get_n_children): If the
+	week view has no spans, there is no visible events in the view.
+
 2004-03-15  JP Rosevear  <jpr@ximian.com>
 
 	* calendar/ea-cal-view.h: fix include
