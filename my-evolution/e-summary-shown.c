@@ -477,28 +477,6 @@ make_table (GHashTable *data_model,
 	td->contents = NULL;
 	return td;
 }
-
-static GtkWidget *
-construct_pixmap_button (const char *text,
-			 const char *image)
-{
-	GtkWidget *box, *button, *image_widget, *label;
-
-	box = gtk_hbox_new (FALSE, 1);
-
-	image_widget = gtk_image_new_from_stock (image, 48);
-	gtk_box_pack_start (GTK_BOX (box), image_widget, FALSE, FALSE, 0);
-	
-	label = gtk_label_new (text);
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
-
-	button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (button), box);
-
-	gtk_widget_show_all (box);
-
-	return button;
-}
 	
 static void
 e_summary_shown_init (ESummaryShown *shown)
@@ -527,13 +505,13 @@ e_summary_shown_init (ESummaryShown *shown)
 	gtk_box_pack_start (GTK_BOX (shown), align, FALSE, FALSE, 3);
 
 	/* Fixme: nice GFX version */
-	priv->add = construct_pixmap_button (_("Add"), GTK_STOCK_GO_FORWARD);
+	priv->add = gtk_button_new_from_stock (GTK_STOCK_ADD);
 	gtk_widget_set_sensitive (priv->add, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->add, TRUE, FALSE, 0);
 	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked), shown);
 
 	/* Fixme: Ditto */
-	priv->remove = construct_pixmap_button (_("Remove"), GTK_STOCK_GO_BACK);
+	priv->remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
 	gtk_widget_set_sensitive (priv->remove, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->remove, TRUE, FALSE, 0);
 	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked), shown);

@@ -1,3 +1,7 @@
+2003-04-12  Rodney Dawes  <dobey@ximian.com>
+
+	* e-summary-shown.c: Remove construct_pixmap_button (), use stock buttons
+	
 2003-04-09  Larry Ewing  <lewing@ximian.com>
 
 	* e-summary.c (e_summary_init): remove call to
