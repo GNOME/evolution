@@ -1,3 +1,9 @@
+2001-12-10  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_display_name): if all
+	we have is the TZID, see if it is one of our TZIDs and if so get the
+	city name out of it. Fixes bug #16571.
+
 2001-11-13  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_tzid): initialize the
