@@ -23,17 +23,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
-#include <unicode.h>
+#include <gal/unicode/gunicode.h>
 
 #include "e-html-utils.h"
 
 static char *
 check_size (char **buffer, int *buffer_size, char *out, int len)
 {
-	if (out + len > *buffer + *buffer_size) {
+	if (out + len + 1> *buffer + *buffer_size) {
 		int index = out - *buffer;
 
-		*buffer_size *= 2;
+		*buffer_size = MAX (index + len + 1, *buffer_size * 2);
 		*buffer = g_realloc (*buffer, *buffer_size);
 		out = *buffer + index;
 	}
@@ -122,7 +122,7 @@ email_address_extract (const unsigned char **text)
 static gboolean
 is_citation (const unsigned char *c, gboolean saw_citation)
 {
-	unicode_char_t u;
+	gunichar u;
 	gint i;
 
 	/* A line that starts with a ">" is a citation, unless it's
@@ -150,11 +150,11 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 	}
 
 	/* Check for "Rupert> " and the like... */
-	for (i = 0; c && *c && *c != '\n' && i < 10; i ++, c = unicode_next_utf8 (c)) {
-		unicode_get_utf8 (c, &u);
+	for (i = 0; c && *c && *c != '\n' && i < 10; i ++, c = g_utf8_next_char (c)) {
+		u = g_utf8_get_char (c);
 		if (u == '>')
 			return TRUE;
-		if (!unicode_isalnum (u))
+		if (!g_unichar_isalnum (u))
 			return FALSE;
 	}
 	return FALSE;
@@ -219,8 +219,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	col = 0;
 
-	for (cur = input; cur && *cur; cur = unicode_next_utf8 (cur)) {
-		unicode_char_t u;
+	for (cur = input; cur && *cur; cur = g_utf8_next_char (cur)) {
+		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
 			saw_citation = is_citation (cur, saw_citation);
@@ -247,8 +247,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				cur++;
 		}
 
-		unicode_get_utf8 (cur, &u);
-		if (unicode_isalpha (u) &&
+		u = g_utf8_get_char (cur);
+		if (g_unichar_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
@@ -265,7 +265,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				}
 			} else if (!strncasecmp (cur, "www.", 4) &&
 				   (*(cur + 4) < 0x80) &&
-				   unicode_isalnum (*(cur + 4))) {
+				   g_unichar_isalnum (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
 				dispurl = e_text_to_html (tmpurl, 0);
 				refurl = g_strdup_printf ("http://%s",
@@ -287,10 +287,10 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 			if (!*cur)
 				break;
-			unicode_get_utf8 (cur, &u);
+			u = g_utf8_get_char (cur);
 		}
 
-		if (unicode_isalpha (u)
+		if (g_unichar_isalpha (u)
 		    && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)
 		    && is_email_address (cur)) {
 			gchar *addr = NULL, *dispaddr = NULL;
@@ -311,11 +311,11 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 			if (!*cur)
 				break;
-			unicode_get_utf8 (cur, &u);
+			u = g_utf8_get_char (cur);
 			
 		}
 
-		if (u == (unicode_char_t)-1) {
+		if (u == (gunichar)-1) {
 			/* Sigh. Someone sent undeclared 8-bit data.
 			 * Assume it's iso-8859-1.
 			 */

@@ -1,3 +1,10 @@
+2001-04-24  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (check_size): If the buffer is too small, making
+	it twice as big does not guarantee it will be big enough. "Duh".
+	Also, a bunch of the check_size calls don't seem to be taking
+	trailing NULs into account, so add in a +1 here.
+
 2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-gui-utils.c, e-memory, e-msgport.c, e-pilot-map, e-sexp.c:
