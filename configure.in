@@ -649,7 +649,7 @@ executive-summary/Makefile
 executive-summary/evolution-services/Makefile
 executive-summary/widgets/Makefile
 executive-summary/idl/Makefile
- executive-summary/component/Makefile
+executive-summary/component/Makefile
 executive-summary/test-service/Makefile
 camel/Makefile
 camel/providers/Makefile
@@ -702,6 +702,7 @@ calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
+cmdline/Makefile
 filter/Makefile
 wombat/Makefile
 composer/Makefile
