@@ -154,12 +154,12 @@ void                     e_msg_composer_set_view_from                    (EMsgCo
 gboolean                 e_msg_composer_get_view_replyto                 (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_replyto                 (EMsgComposer      *composer,
 									  gboolean           view_replyto);
-gboolean                 e_msg_composer_get_view_bcc                     (EMsgComposer      *composer);
-void                     e_msg_composer_set_view_bcc                     (EMsgComposer      *composer,
-									  gboolean           view_bcc);
 gboolean                 e_msg_composer_get_view_cc                      (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_cc                      (EMsgComposer      *composer,
 									  gboolean           view_cc);
+gboolean                 e_msg_composer_get_view_bcc                     (EMsgComposer      *composer);
+void                     e_msg_composer_set_view_bcc                     (EMsgComposer      *composer,
+									  gboolean           view_bcc);
 
 EDestination           **e_msg_composer_get_recipients                   (EMsgComposer *composer);
 EDestination           **e_msg_composer_get_to                           (EMsgComposer *composer);
@@ -169,7 +169,7 @@ char                    *e_msg_composer_get_subject                      (EMsgCo
 
 const MailConfigAccount *e_msg_composer_get_preferred_account            (EMsgComposer      *composer);
 void                     e_msg_composer_clear_inlined_table              (EMsgComposer      *composer);
-gchar                   *e_msg_composer_guess_mime_type                  (const gchar       *file_name);
+char                    *e_msg_composer_guess_mime_type                  (const gchar       *file_name);
 void                     e_msg_composer_set_changed                      (EMsgComposer      *composer);
 void                     e_msg_composer_unset_changed                    (EMsgComposer      *composer);
 gboolean                 e_msg_composer_is_dirty                         (EMsgComposer      *composer);
@@ -191,13 +191,13 @@ gboolean                 e_msg_composer_get_smime_sign                   (EMsgCo
 void                     e_msg_composer_set_smime_encrypt                (EMsgComposer      *composer,
 									  gboolean           smime_encrypt);
 gboolean                 e_msg_composer_get_smime_encrypt                (EMsgComposer      *composer);
-gchar                   *e_msg_composer_get_sig_file_content             (const char        *sigfile,
+char                    *e_msg_composer_get_sig_file_content             (const char        *sigfile,
 									  gboolean           in_html);
 void                     e_msg_composer_add_message_attachments          (EMsgComposer      *composer,
 									  CamelMimeMessage  *message,
 									  gboolean           just_inlines);
 void                     e_msg_composer_ignore                           (EMsgComposer      *composer,
-									  const gchar       *str);
+									  const char        *str);
 void                     e_msg_composer_drop_editor_undo                 (EMsgComposer      *composer);
 
 gboolean                 e_msg_composer_request_close_all                (void);

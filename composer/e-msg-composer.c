@@ -833,7 +833,6 @@ prepare_engine (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
 	
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	/* printf ("prepare_engine\n"); */
@@ -3348,7 +3347,7 @@ e_msg_composer_new_redirect (CamelMimeMessage *message, const char *resent_from)
 	EMsgComposer *composer;
 	const char *subject;
 	
-	g_return_val_if_fail (message != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 	
 	composer = e_msg_composer_new_with_message (message);
 	subject = camel_mime_message_get_subject (message);
@@ -3506,6 +3505,7 @@ e_msg_composer_new_from_url (const char *url_in)
 	return composer;
 }
 
+
 /**
  * e_msg_composer_show_attachments:
  * @composer: A message composer widget
@@ -3518,11 +3518,11 @@ void
 e_msg_composer_show_attachments (EMsgComposer *composer,
 				 gboolean show)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	show_attachments (composer, show);
 }
+
 
 /**
  * e_msg_composer_set_headers:
@@ -3547,6 +3547,7 @@ e_msg_composer_set_headers (EMsgComposer *composer,
 	EMsgComposerHdrs *hdrs;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	
 	e_msg_composer_hdrs_set_to (hdrs, to);
@@ -3831,9 +3832,8 @@ void
 e_msg_composer_show_sig_file (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-	gchar *html;
-
-	g_return_if_fail (composer != NULL);
+	char *html;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	/* printf ("e_msg_composer_show_sig_file\n"); */
@@ -3882,31 +3882,31 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 			      gboolean send_html)
 {
 	CORBA_Environment ev;
-
-	g_return_if_fail (composer != NULL);
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	if (composer->send_html && send_html)
 		return;
-	if (! composer->send_html && ! send_html)
+	if (!composer->send_html && !send_html)
 		return;
-
+	
 	composer->send_html = send_html;
-
+	
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "block-redraw", &ev);
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/FormatHtml",
 		"state", composer->send_html ? "1" : "0", NULL);
-
+	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), "FormatHTML",
 				    composer->send_html, NULL);
-
+	
 	set_config (composer, "FormatHTML", composer->send_html);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
 	CORBA_exception_free (&ev);
 }
+
 
 /**
  * e_msg_composer_get_send_html:
@@ -3919,9 +3919,8 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 gboolean
 e_msg_composer_get_send_html (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-
+	
 	return composer->send_html;
 }
 
@@ -3937,7 +3936,6 @@ e_msg_composer_get_preferred_account (EMsgComposer *composer)
 {
 	EMsgComposerHdrs *hdrs;
 	
-	g_return_val_if_fail (composer != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
@@ -3956,7 +3954,6 @@ e_msg_composer_get_preferred_account (EMsgComposer *composer)
 void
 e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if (composer->pgp_sign && pgp_sign)
@@ -3981,7 +3978,6 @@ e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 gboolean
 e_msg_composer_get_pgp_sign (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->pgp_sign;
@@ -3998,7 +3994,6 @@ e_msg_composer_get_pgp_sign (EMsgComposer *composer)
 void
 e_msg_composer_set_pgp_encrypt (EMsgComposer *composer, gboolean pgp_encrypt)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if (composer->pgp_encrypt && pgp_encrypt)
@@ -4024,7 +4019,6 @@ e_msg_composer_set_pgp_encrypt (EMsgComposer *composer, gboolean pgp_encrypt)
 gboolean
 e_msg_composer_get_pgp_encrypt (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->pgp_encrypt;
@@ -4041,7 +4035,6 @@ e_msg_composer_get_pgp_encrypt (EMsgComposer *composer)
 void
 e_msg_composer_set_smime_sign (EMsgComposer *composer, gboolean smime_sign)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if (composer->smime_sign && smime_sign)
@@ -4066,7 +4059,6 @@ e_msg_composer_set_smime_sign (EMsgComposer *composer, gboolean smime_sign)
 gboolean
 e_msg_composer_get_smime_sign (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->smime_sign;
@@ -4083,7 +4075,6 @@ e_msg_composer_get_smime_sign (EMsgComposer *composer)
 void
 e_msg_composer_set_smime_encrypt (EMsgComposer *composer, gboolean smime_encrypt)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if (composer->smime_encrypt && smime_encrypt)
@@ -4109,167 +4100,9 @@ e_msg_composer_set_smime_encrypt (EMsgComposer *composer, gboolean smime_encrypt
 gboolean
 e_msg_composer_get_smime_encrypt (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->smime_encrypt;
-}
-
-
-/**
- * e_msg_composer_set_view_bcc:
- * @composer: A message composer widget
- * @state: whether to show or hide the bcc view
- *
- * Controls the state of the BCC display
- */
-void
-e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
-{
-	g_return_if_fail (composer != NULL);
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	if ((composer->view_bcc && view_bcc) ||
-	    (!composer->view_bcc && !view_bcc))
-		return;
-
-	composer->view_bcc = view_bcc;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewBCC",
-		"state", composer->view_bcc ? "1" : "0", NULL);
-	set_config (composer, "ViewBCC", composer->view_bcc);
-	e_msg_composer_set_hdrs_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
-		 
-}
-
-/**
- * e_msg_composer_get_view_bcc:
- * @composer: A message composer widget
- * 
- * Get the status of the "View BCC header" flag.
- * 
- * Return value: The status of the "View BCC header" flag.
- **/
-gboolean
-e_msg_composer_get_view_bcc (EMsgComposer *composer)
-{
-	g_return_val_if_fail (composer != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	
-	return composer->view_bcc;
-}
-
-/**
- * e_msg_composer_set_view_cc:
- * @composer: A message composer widget
- * @state: whether to show or hide the cc view
- *
- * Controls the state of the CC display
- */
-void
-e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
-{
-	g_return_if_fail (composer != NULL);
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	if ((composer->view_cc && view_cc) ||
-	    (!composer->view_cc && !view_cc))
-		return;
-
-	composer->view_cc = view_cc;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewCC",
-		"state", composer->view_cc ? "1" : "0", NULL);
-	set_config (composer, "ViewCC", composer->view_cc);
-	e_msg_composer_set_hdrs_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
-}
-
-EDestination **
-e_msg_composer_get_recipients (EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	return composer->hdrs ? e_msg_composer_hdrs_get_recipients (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
-}
-
-EDestination **
-e_msg_composer_get_to(EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	return composer->hdrs ? e_msg_composer_hdrs_get_to (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
-}
-
-EDestination **
-e_msg_composer_get_cc(EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	return composer->hdrs ? e_msg_composer_hdrs_get_cc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
-}
-
-EDestination **
-e_msg_composer_get_bcc(EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	return composer->hdrs ? e_msg_composer_hdrs_get_bcc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
-}
-
-char *
-e_msg_composer_get_subject(EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
-	return composer->hdrs ? e_msg_composer_hdrs_get_subject(E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
-}
-
-/**
- * e_msg_composer_get_view_cc:
- * @composer: A message composer widget
- * 
- * Get the status of the "View CC header" flag.
- * 
- * Return value: The status of the "View CC header" flag.
- **/
-gboolean
-e_msg_composer_get_view_cc (EMsgComposer *composer)
-{
-	g_return_val_if_fail (composer != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	
-	return composer->view_cc;
-}
-
-/**
- * e_msg_composer_set_view_from:
- * @composer: A message composer widget
- * @state: whether to show or hide the From selector
- *
- * Controls the state of the From selector
- */
-void
-e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
-{
-	g_return_if_fail (composer != NULL);
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	if ((composer->view_from && view_from) ||
-	    (!composer->view_from && !view_from))
-		return;
-
-	composer->view_from = view_from;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewFrom",
-		"state", composer->view_from ? "1" : "0", NULL);
-	set_config (composer, "ViewFrom", composer->view_from);
-	e_msg_composer_set_hdrs_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
 }
 
 /**
@@ -4283,11 +4116,11 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 gboolean
 e_msg_composer_get_view_from (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->view_from;
 }
+
 
 /**
  * e_msg_composer_set_view_from:
@@ -4297,24 +4130,24 @@ e_msg_composer_get_view_from (EMsgComposer *composer)
  * Controls the state of the From selector
  */
 void
-e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
+e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	if ((composer->view_replyto && view_replyto) ||
-	    (!composer->view_replyto && !view_replyto))
+	if ((composer->view_from && view_from) ||
+	    (!composer->view_from && !view_from))
 		return;
 	
-	composer->view_replyto = view_replyto;
+	composer->view_from = view_from;
 	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewReplyTo",
-		"state", composer->view_replyto ? "1" : "0", NULL);
-	set_config (composer, "ViewReplyTo", composer->view_replyto);
-	e_msg_composer_set_hdrs_visible
+		composer->uic, "/commands/ViewFrom",
+		"state", composer->view_from ? "1" : "0", NULL);
+	set_config (composer, "ViewFrom", composer->view_from);
+	e_msg_composer_hdrs_set_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
+
 
 /**
  * e_msg_composer_get_view_replyto:
@@ -4327,11 +4160,167 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 gboolean
 e_msg_composer_get_view_replyto (EMsgComposer *composer)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	
 	return composer->view_replyto;
 }
+
+
+/**
+ * e_msg_composer_set_view_replyto:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the Reply-To selector
+ *
+ * Controls the state of the Reply-To selector
+ */
+void
+e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_replyto && view_replyto) ||
+	    (!composer->view_replyto && !view_replyto))
+		return;
+	
+	composer->view_replyto = view_replyto;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewReplyTo",
+		"state", composer->view_replyto ? "1" : "0", NULL);
+	set_config (composer, "ViewReplyTo", composer->view_replyto);
+	e_msg_composer_hdrs_set_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+}
+
+
+/**
+ * e_msg_composer_get_view_cc:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View CC header" flag.
+ * 
+ * Return value: The status of the "View CC header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_cc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_cc;
+}
+
+
+/**
+ * e_msg_composer_set_view_cc:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the cc view
+ *
+ * Controls the state of the CC display
+ */
+void
+e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_cc && view_cc) ||
+	    (!composer->view_cc && !view_cc))
+		return;
+	
+	composer->view_cc = view_cc;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewCC",
+		"state", composer->view_cc ? "1" : "0", NULL);
+	set_config (composer, "ViewCC", composer->view_cc);
+	e_msg_composer_hdrs_set_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+}
+
+
+/**
+ * e_msg_composer_get_view_bcc:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View BCC header" flag.
+ * 
+ * Return value: The status of the "View BCC header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_bcc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_bcc;
+}
+
+
+/**
+ * e_msg_composer_set_view_bcc:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the bcc view
+ *
+ * Controls the state of the BCC display
+ */
+void
+e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_bcc && view_bcc) ||
+	    (!composer->view_bcc && !view_bcc))
+		return;
+	
+	composer->view_bcc = view_bcc;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewBCC",
+		"state", composer->view_bcc ? "1" : "0", NULL);
+	set_config (composer, "ViewBCC", composer->view_bcc);
+	e_msg_composer_hdrs_set_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));		 
+}
+
+
+EDestination **
+e_msg_composer_get_recipients (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	return composer->hdrs ? e_msg_composer_hdrs_get_recipients (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+}
+
+EDestination **
+e_msg_composer_get_to(EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	return composer->hdrs ? e_msg_composer_hdrs_get_to (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+}
+
+EDestination **
+e_msg_composer_get_cc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	return composer->hdrs ? e_msg_composer_hdrs_get_cc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+}
+
+EDestination **
+e_msg_composer_get_bcc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	return composer->hdrs ? e_msg_composer_hdrs_get_bcc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+}
+
+char *
+e_msg_composer_get_subject (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	
+	return composer->hdrs ? e_msg_composer_hdrs_get_subject(E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+}
+
 
 /**
  * e_msg_composer_guess_mime_type:
@@ -4339,8 +4328,8 @@ e_msg_composer_get_view_replyto (EMsgComposer *composer)
  *
  * Returns the guessed mime type of the file given by #file_name.
  **/
-gchar *
-e_msg_composer_guess_mime_type (const gchar *file_name)
+char *
+e_msg_composer_guess_mime_type (const char *file_name)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult result;
@@ -4350,7 +4339,7 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	if (result == GNOME_VFS_OK) {
-		gchar *type;
+		char *type;
 		
 		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
 		gnome_vfs_file_info_unref (info);
@@ -4360,6 +4349,7 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 		return NULL;
 	}
 }
+
 
 /**
  * e_msg_composer_set_changed:
@@ -4371,11 +4361,11 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 void
 e_msg_composer_set_changed (EMsgComposer *composer)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	composer->has_changed = TRUE;
 }
+
 
 /**
  * e_msg_composer_unset_changed:
@@ -4387,11 +4377,11 @@ e_msg_composer_set_changed (EMsgComposer *composer)
 void
 e_msg_composer_unset_changed (EMsgComposer *composer)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	composer->has_changed = FALSE;
 }
+
 
 gboolean
 e_msg_composer_is_dirty (EMsgComposer *composer)
@@ -4404,29 +4394,29 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 		|| (GNOME_GtkHTML_Editor_Engine_hasUndo (composer->editor_engine, &ev) &&
 		    !GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "is-saved", &ev));
 	CORBA_exception_free (&ev);
-
+	
 	return rv;
 }
+
 
 void
 e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
 {
-	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	composer->enable_autosave = enabled;
 }
 
-static gchar *
-next_word (const gchar *s, const gchar **sr)
+static char *
+next_word (const char *s, const char **sr)
 {
 	if (!s || !*s)
 		return NULL;
 	else {
-		const gchar *begin;
+		const char *begin;
 		gunichar uc;
 		gboolean cited;
-
+		
 		do {
 			begin = s;
 			cited = FALSE;
@@ -4435,14 +4425,14 @@ next_word (const gchar *s, const gchar **sr)
 				return NULL;
 			s  = g_utf8_next_char (s);
 		} while (!html_selection_spell_word (uc, &cited) && !cited && s);
-
+		
 		/* we are at beginning of word */
 		if (s && *s) {
 			gboolean cited_end;
-
+			
 			cited_end = FALSE;
 			uc = g_utf8_get_char (s);
-
+			
 			/* go to end of word */
 			while (html_selection_spell_word (uc, &cited_end) || (!cited && cited_end)) {
 				cited_end = FALSE;
@@ -4458,15 +4448,16 @@ next_word (const gchar *s, const gchar **sr)
 	}
 }
 
+
 void
-e_msg_composer_ignore (EMsgComposer *composer, const gchar *str)
+e_msg_composer_ignore (EMsgComposer *composer, const char *str)
 {
 	CORBA_Environment ev;
-	gchar *word;
-
+	char *word;
+	
 	if (!str)
 		return;
-
+	
 	CORBA_exception_init (&ev);
 	while ((word = next_word (str, &str))) {
 		/* printf ("ignore word %s\n", word); */
@@ -4476,27 +4467,28 @@ e_msg_composer_ignore (EMsgComposer *composer, const gchar *str)
 	CORBA_exception_free (&ev);
 }
 
+
 void
 e_msg_composer_drop_editor_undo (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_dropUndo (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
 }
 
-
+
 gboolean
 e_msg_composer_request_close_all (void)
 {
 	GSList *p, *pnext;
-
+	
 	for (p = all_composers; p != NULL; p = pnext) {
 		pnext = p->next;
 		do_exit (E_MSG_COMPOSER (p->data));
 	}
-
+	
 	if (all_composers == NULL)
 		return TRUE;
 	else

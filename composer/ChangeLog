@@ -1,3 +1,10 @@
+2002-07-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c: Removed a lot of extra g_return_if_fail's that
+	we don't need (if we are going to check if the pointer is a a
+	composer widget using the gtk type-check macros, then there is no
+	need to first check that it isn't NULL).
+
 2002-07-22  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c: removed Insert File menu item
