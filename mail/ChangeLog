@@ -1,3 +1,8 @@
+2002-03-26  Not Zed  <NotZed@Ximian.com>
+
+	* local-config.glade: New version from anna, with fixed widget
+	names.
+
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (send_receive_cb): New, callback for the
