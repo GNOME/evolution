@@ -11,6 +11,10 @@
 	set *or* if there was an exception this way if the user's download
 	gets interrupted, he won't have to download all the messages
 	again.
+	(fetch_mail_fetch): Oh yea, and just so if we get an exception
+	with `delete' turned on, the next time the user checks mail and an
+	exception *doesn't* occur, it will go back and mark all the
+	messages for deletion.
 
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
