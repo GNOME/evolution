@@ -1,5 +1,7 @@
 2000-03-31  Dan Winship  <danw@helixcode.com>
 
+	* camel-stream-mem.c: implement unimplemented methods
+
 	* gmime-content-field.c
 	(gmime_content_field_construct_from_string):
 	* data-wrapper-repository.c

@@ -143,12 +143,10 @@ _finalize (GtkObject *object)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
 
+	if (stream_mem->buffer)
+		g_byte_array_free (stream_mem->buffer, TRUE);
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamMem::finalize\n");
-	g_byte_array_free (stream_mem->buffer, TRUE);
-	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamMem::finalize\n");
 }
 
 
@@ -215,7 +213,8 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 static void
 _flush (CamelStream *stream)
 {
-	g_warning ("Not implemented yet");
+	/* Nothing to do. */
+	return;
 }
 
 
@@ -231,8 +230,9 @@ _flush (CamelStream *stream)
 static gint 
 _available (CamelStream *stream)
 {
-	g_warning ("Not implemented yet");
-	return -1;
+	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
+
+	return camel_stream_mem->buffer->len - camel_stream_mem->position;
 }
 
 
@@ -240,15 +240,12 @@ _available (CamelStream *stream)
  * _eos: test if there are bytes left to read
  * @stream: the stream
  * 
- * 
- * 
  * Return value: true if all stream has been read
  **/
 static gboolean
 _eos (CamelStream *stream)
 {
-	g_warning ("Not implemented yet");
-	return FALSE;
+	return _available (stream) == 0;
 }
 
 
@@ -261,7 +258,11 @@ _eos (CamelStream *stream)
 static void
 _close (CamelStream *stream)
 {
-	g_warning ("Not implemented yet");
+	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
+
+	if (stream_mem->buffer)
+		g_byte_array_free (stream_mem->buffer, TRUE);
+	stream_mem->buffer = NULL;
 }
 
 
