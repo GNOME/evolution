@@ -344,6 +344,7 @@ shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
 smime/lib/e-cert.c
+smime/lib/e-cert-db.c
 smime/gui/certificate-manager.c
 smime/gui/smime-ui.glade
 tools/evolution-launch-composer.c

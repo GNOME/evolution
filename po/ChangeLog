@@ -1,3 +1,7 @@
+2003-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* POTFILES.in: add smime/lib/e-cert-db.c
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* POTFILES.in: update
