@@ -822,7 +822,7 @@ eti_realize (GnomeCanvasItem *item)
 	/* This sets it to gray */
 /*	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]); */
 #else
-	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->black);
+	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->dark [GTK_STATE_NORMAL]);
 #endif
 	eti->focus_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);

@@ -171,9 +171,10 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 			"height", &height,
 			"width", &width,
 			NULL);
+	/* I have no idea why this needs to be -1, but it works. */
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->table_canvas),
-		0, 0, MAX(width, alloc->width), MAX (height, alloc->height));
+		0, 0, MAX((int)width, alloc->width) - 1, MAX ((int)height, alloc->height) - 1);
 }
 
 static void

@@ -1,5 +1,14 @@
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-header.c: Account for extra pixel at right end of
+	ETable.
+
+	* e-table-item.c: Make grid less intrusive.
+
+	* e-table.c: Make scrollbars disappear when appropriate.
+
+2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-header-item.c: Made dragging columns work.
 
 2000-05-23  Christopher James Lahey  <clahey@helixcode.com>

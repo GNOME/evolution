@@ -511,7 +511,8 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	for (i = 0; i < idx; i++) {
 		left_width += eth->columns[i]->width;
 	}
-	usable_width = eth->width - left_width;
+	/* - 1 to account for the last pixel border. */
+	usable_width = eth->width - left_width - 1;
 
 	if (eth->sort_info)
 		usable_width -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
@@ -631,7 +632,8 @@ eth_calc_widths (ETableHeader *eth)
 	int extra, extra_left;
 	double expansion;
 	int last_resizeable = -1;
-	extra = eth->width;
+	/* - 1 to account for the last pixel border. */
+	extra = eth->width - 1;
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width;
