@@ -1,3 +1,8 @@
+2000-08-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (describe_fetch_mail): Use camel_service_get_name
+	rather than showing the URL to the user.
+
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
 	* mail-threads.c (get_password_clicked): Fix the case when the

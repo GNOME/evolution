@@ -60,13 +60,20 @@ static gchar *
 describe_fetch_mail (gpointer in_data, gboolean gerund)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
+	CamelStore *source;
+	char *name;
+
+	source = camel_session_get_store (session, input->source_url, NULL);
+	if (source) {
+		name = camel_service_get_name (CAMEL_SERVICE (source), FALSE);
+		camel_object_unref (CAMEL_OBJECT (source));
+	} else
+		name = input->source_url;
 
 	if (gerund)
-		return g_strdup_printf ("Fetching email from %s",
-					input->source_url);
+		return g_strdup_printf ("Fetching email from %s", name);
 	else
-		return g_strdup_printf ("Fetch email from %s",
-					input->source_url);
+		return g_strdup_printf ("Fetch email from %s", name);
 }
 
 static void
