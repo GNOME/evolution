@@ -4,6 +4,13 @@
 	Duplicated the very much hack in imap_store_refresh_folders() to
 	avoid a deadlock in #27959.  A decent fix has to wait for a
 	rewrite.
+	(get_folder_online): Move folders to a subdirectory of
+	storage_path, rather than in it.  Bye bye everyones settings.  See
+	24947.
+	(get_folder_offline): And here too.
+	(delete_folder): And here too.
+	(rename_folder): and here too.
+	(get_folder_info_offline): And here too.  I love code reuse.
 
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 

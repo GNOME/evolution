@@ -1310,7 +1310,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
 	CamelFolder *new_folder;
-	char *folder_dir;
+	char *folder_dir, *storage_path;
 	
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
@@ -1345,8 +1345,10 @@ get_folder_online (CamelStore *store, const char *folder_name,
 			return NULL;
 		}
 	}
-	
-	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
+
+	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+	folder_dir = e_path_to_physical (storage_path, folder_name);
+	g_free(storage_path);
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
 	if (new_folder) {
@@ -1378,7 +1380,7 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder;
-	char *folder_dir;
+	char *folder_dir, *storage_path;
 	
 	if (!imap_store->connected &&
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
@@ -1387,7 +1389,9 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	if (!g_strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 	
-	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
+	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+	folder_dir = e_path_to_physical (storage_path, folder_name);
+	g_free(storage_path);
 	if (!folder_dir || access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
@@ -1434,13 +1438,15 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		CamelImapMessageCache *cache;
 		char *summary_file;
 		char *journal_file;
-		char *folder_dir;
+		char *folder_dir, *storage_path;
 		CamelFolderInfo *fi;
 		const char *name;
 		
 		camel_imap_response_free (imap_store, response);
 		
-		folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
+		storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+		folder_dir = e_path_to_physical (storage_path, folder_name);
+		g_free(storage_path);
 		if (access (folder_dir, F_OK) != 0) {
 			g_free (folder_dir);
 			return;
@@ -1540,7 +1546,7 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
-	char *oldpath, *newpath;
+	char *oldpath, *newpath, *storage_path;
 	CamelFolderInfo *fi;
 	guint32 flags;
 	
@@ -1593,9 +1599,11 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	
 	camel_store_free_folder_info (store, fi);
 	
-	oldpath = e_path_to_physical (imap_store->storage_path, old_name);
-	newpath = e_path_to_physical (imap_store->storage_path, new_name);
-	
+	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+	oldpath = e_path_to_physical (storage_path, old_name);
+	newpath = e_path_to_physical (storage_path, new_name);
+	g_free(storage_path);
+
 	/* So do we care if this didn't work?  Its just a cache? */
 	if (rename (oldpath, newpath) == -1) {
 		g_warning ("Could not rename message cache '%s' to '%s': %s: cache reset",
@@ -2067,6 +2075,7 @@ get_folder_info_offline (CamelStore *store, const char *top,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolderInfo *fi;
 	GPtrArray *folders;
+	char *storage_path;
 
 	if (!imap_store->connected &&
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
@@ -2084,7 +2093,8 @@ get_folder_info_offline (CamelStore *store, const char *top,
 
 	/* A kludge to avoid having to pass a struct to the callback */
 	g_ptr_array_add (folders, imap_store);
-	if (!e_path_find_folders (imap_store->storage_path, get_one_folder_offline, folders)) {
+	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+	if (!e_path_find_folders (storage_path, get_one_folder_offline, folders)) {
 		camel_disco_store_check_online (CAMEL_DISCO_STORE (imap_store), ex);
 		fi = NULL;
 	} else {
@@ -2092,6 +2102,7 @@ get_folder_info_offline (CamelStore *store, const char *top,
 		fi = camel_folder_info_build (folders, "",
 					      imap_store->dir_sep, TRUE);
 	}
+	g_free(storage_path);
 
 	g_ptr_array_free (folders, TRUE);
 	return fi;
