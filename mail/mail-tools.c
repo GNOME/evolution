@@ -167,12 +167,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	return dest_path;
 }
 
-void
-mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, guint32 set)
-{
-	camel_folder_set_message_flags (folder, uid, mask, set);
-}
-
 char *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
@@ -371,6 +365,69 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 		}
 		
 		g_free (text);
+		return ret_text;
+	}
+	
+	return NULL;
+}
+
+/**
+ * mail_tool_forward_message:
+ * @message: mime message to quote
+ *
+ * Returns an allocated buffer containing the forwarded message.
+ */
+gchar *
+mail_tool_forward_message (CamelMimeMessage *message)
+{
+	CamelDataWrapper *contents;
+	gboolean want_plain, is_html;
+	gchar *text;
+	
+	want_plain = !mail_config_get_send_html ();
+	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	text = mail_get_message_body (contents, want_plain, &is_html);
+	
+	/* Set the quoted reply text. */
+	if (text) {
+		gchar *ret_text, *credits = NULL;
+		const CamelInternetAddress *cia;
+		const char *subject;
+		char *buf, *from, *to;
+		
+		/* create credits */
+		cia = camel_mime_message_get_from (message);
+		buf = camel_address_format (CAMEL_ADDRESS (cia));
+		from = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_free (buf);
+		
+		cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		buf = camel_address_format (CAMEL_ADDRESS (cia));
+		to = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		g_free (buf);
+		
+		subject = camel_mime_message_get_subject (message);
+		
+		credits = g_strdup_printf (_("-----Forwarded Message-----<br>"
+					     "<b>From:</b> %s<br>"
+					     "<b>To:</b> %s<br>"
+					     "<b>Subject:</b> %s<br>"),
+					   from, to, subject);
+		g_free (from);
+		g_free (to);
+		
+		if (!is_html) {
+			/* Now convert that to HTML. */
+			ret_text = e_text_to_html (text, E_TEXT_TO_HTML_PRE);
+			g_free (text);
+			text = ret_text;
+		}
+		
+		ret_text = g_strdup_printf ("%s<br>%s\n", credits, text);
+		
+		g_free (credits);
+		g_free (text);
+		
 		return ret_text;
 	}
 	

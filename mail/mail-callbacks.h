@@ -42,9 +42,18 @@ void send_receive_mail     (GtkWidget *widget, gpointer user_data);
 
 void compose_msg           (GtkWidget *widget, gpointer user_data);
 void send_to_url           (const char *url);
-void forward_messages      (CamelFolder *folder, GPtrArray *uids, gboolean doinline);
+
+enum {
+	FORWARD_INLINE,
+	FORWARD_QUOTED,
+	FORWARD_ATTACHED
+};
+
+void forward_messages      (CamelFolder *folder, GPtrArray *uids, int flag);
 void forward_inlined       (GtkWidget *widget, gpointer user_data);
+void forward_quoted        (GtkWidget *widget, gpointer user_data);
 void forward_attached      (GtkWidget *widget, gpointer user_data);
+
 void reply_to_sender       (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);
 void delete_msg            (GtkWidget *widget, gpointer user_data);

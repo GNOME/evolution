@@ -722,54 +722,80 @@ forward_get_composer (const char *subject)
 	} else {
 		g_warning("Could not create composer");
 	}
-
+	
 	return composer;
 }
 
 static void
-do_forward_inline(CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_forward_inline (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
 	char *subject;
 	char *text;
-
+	
 	if (message) {
-		subject = mail_tool_generate_forward_subject(message);
-		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
-
+		subject = mail_tool_generate_forward_subject (message);
+		text = mail_tool_forward_message (message);
+		
 		if (text) {
-			EMsgComposer *composer = forward_get_composer(subject);
+			EMsgComposer *composer = forward_get_composer (subject);
 			if (composer) {
-				e_msg_composer_set_body_text(composer, text);
-				gtk_widget_show(GTK_WIDGET(composer));
-				e_msg_composer_unset_changed(composer);
+				e_msg_composer_set_body_text (composer, text);
+				gtk_widget_show (GTK_WIDGET (composer));
+				e_msg_composer_unset_changed (composer);
 			}
-			g_free(text);
+			g_free (text);
 		}
-
-		g_free(subject);
+		
+		g_free (subject);
 	}
 }
 
 static void
-do_forward_attach(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data)
+do_forward_quoted (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+{
+	char *subject;
+	char *text;
+	
+	if (message) {
+		subject = mail_tool_generate_forward_subject (message);
+		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
+		
+		if (text) {
+			EMsgComposer *composer = forward_get_composer (subject);
+			if (composer) {
+				e_msg_composer_set_body_text (composer, text);
+				gtk_widget_show (GTK_WIDGET (composer));
+				e_msg_composer_unset_changed (composer);
+			}
+			g_free (text);
+		}
+		
+		g_free (subject);
+	}
+}
+
+static void
+do_forward_attach (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, char *subject, void *data)
 {
 	if (part) {
-		EMsgComposer *composer = forward_get_composer(subject);
+		EMsgComposer *composer = forward_get_composer (subject);
 		if (composer) {
-			e_msg_composer_attach(composer, part);
-			gtk_widget_show(GTK_WIDGET(composer));
-			e_msg_composer_unset_changed(composer);
+			e_msg_composer_attach (composer, part);
+			gtk_widget_show (GTK_WIDGET (composer));
+			e_msg_composer_unset_changed (composer);
 		}
 	}
 }
 
 void
-forward_messages (CamelFolder *folder, GPtrArray *uids, gboolean doinline)
+forward_messages (CamelFolder *folder, GPtrArray *uids, int flags)
 {
-	if (doinline && uids->len == 1) {
-		mail_get_message(folder, uids->pdata[0], do_forward_inline, NULL, mail_thread_new);
+	if (flags == FORWARD_INLINE && uids->len == 1) {
+		mail_get_message (folder, uids->pdata[0], do_forward_inline, NULL, mail_thread_new);
+	} else if (flags == FORWARD_QUOTED && uids->len == 1) {
+		mail_get_message (folder, uids->pdata[0], do_forward_quoted, NULL, mail_thread_new);
 	} else {
-		mail_build_attachment(folder, uids, do_forward_attach, NULL);
+		mail_build_attachment (folder, uids, do_forward_attach, NULL);
 	}
 }
 
@@ -784,7 +810,23 @@ forward_inlined (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	g_ptr_array_add (uids, g_strdup (fb->message_list->cursor_uid));
-	forward_messages (fb->message_list->folder, uids, TRUE);
+	forward_messages (fb->message_list->folder, uids, FORWARD_INLINE);
+	g_free (uids->pdata[0]);
+	g_ptr_array_free (uids, TRUE);
+}
+
+void
+forward_quoted (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GPtrArray *uids;
+	
+	if (!check_send_configuration (fb))
+		return;
+	
+	uids = g_ptr_array_new ();
+	g_ptr_array_add (uids, g_strdup (fb->message_list->cursor_uid));
+	forward_messages (fb->message_list->folder, uids, FORWARD_QUOTED);
 	g_free (uids->pdata[0]);
 	g_ptr_array_free (uids, TRUE);
 }
@@ -794,13 +836,13 @@ forward_attached (GtkWidget *widget, gpointer user_data)
 {
 	GPtrArray *uids;
 	FolderBrowser *fb = (FolderBrowser *)user_data;
-
+	
 	if (!check_send_configuration (fb))
 		return;
-
-	uids = g_ptr_array_new();
-	message_list_foreach(fb->message_list, enumerate_msg, uids);
-	forward_messages(fb->message_list->folder, uids, FALSE);
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	mail_build_attachment (fb->message_list->folder, uids, do_forward_attach, NULL);
 }
 
 static void

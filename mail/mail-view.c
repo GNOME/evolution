@@ -101,10 +101,10 @@ view_forward_msg (GtkWidget *widget, gpointer user_data)
 {
 	mail_view_data *data = (mail_view_data *) user_data;
 	GPtrArray *uids;
-
-	uids = g_ptr_array_new();
-	g_ptr_array_add(uids, g_strdup (data->uid));
-	forward_messages(data->source, uids, FALSE);
+	
+	uids = g_ptr_array_new ();
+	g_ptr_array_add (uids, g_strdup (data->uid));
+	forward_messages (data->source, uids, FORWARD_ATTACHED);
 }
 
 static void

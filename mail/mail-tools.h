@@ -76,4 +76,6 @@ mail_lookup_url_table (CamelMimeMessage *mime_message);
 
 gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
 
+gchar *mail_tool_forward_message (CamelMimeMessage *message);
+
 #endif

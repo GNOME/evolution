@@ -1,3 +1,20 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-factory.c: Set the Forward->Quoted callback.
+	Also set the forward->Attachment callback.
+
+	* mail-view.c (view_forward_msg): Specify FORWARD_ATTACHED.
+
+	* mail-callbacks.c (forward_attached): Don't call
+	forward_messages() anymore...never really needed to. Just handle
+	it directly.
+	(forward_inlined): Specify FORWARD_INLINE as the flag argument.
+	(forward_quoted): New function sorta like forward_inlined except
+	this forwards the message quoted.
+
+	* mail-tools.c (mail_tool_forward_message): New function to
+	prepare a message to be forwarded.
+
 2001-03-08  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-format.c (write_field_row_begin): Added.  Table row HTML
