@@ -1,5 +1,31 @@
 2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c New members `drag_data',
+	`drag_corba_source_interface' and `drag_corba_source_context in
+	`EStorageSetViewPrivate'.
+	(init): Init the new members.
+	(destroy): Clean up the new members.
+	(table_drag_begin): Query for the
+	`EvolutionShellComponentDnd::SourceFolder' interface on the
+	handler for the folder we are dragging from, and initialize all
+	the CORBA context information for the drag, after invoking
+	`::beginDrag()' on it.
+	(convert_gdk_drag_action_to_corba): New helper function.
+	(table_drag_data_get): Get the data using
+	`::SourceFolder::getData'.
+	(table_drag_end): New, override for the "ETable::table_drag_end"
+	signal.  Invoke `::endDrag' on the SourceFolder interface,
+	unref/release the interface, and clean up the source context.
+	(table_drag_data_delete): New, override for the
+	"ETable::table_drag_data_delete" signal.
+	(class_init): Install `table_drag_end' and
+	`table_drag_data_delete'.
+
+	* Evolution-ShellComponentDnd.idl: Derive `::DestinationFolder'
+	and `SourceFolder' from `Bonobo::Unknown'.
+
+2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (table_drag_data_get): Don't get the
 	selection through
 	`evolution_shell_component_client_get_dnd_selection()'.

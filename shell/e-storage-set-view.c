@@ -76,6 +76,19 @@ struct _EStorageSetViewPrivate {
 
 	gboolean show_folders;
 
+	/* The `Evolution::ShellComponentDnd::SourceFolder' interface for the
+	   folder we are dragging from, or CORBA_OBJECT_NIL if no dragging is
+	   happening.  */
+	GNOME_Evolution_ShellComponentDnd_SourceFolder drag_corba_source_interface;
+
+	/* Source context information.  NULL if no dragging is in progress.  */
+	GNOME_Evolution_ShellComponentDnd_SourceFolder_Context *drag_corba_source_context;
+
+	/* The data.  */
+	GNOME_Evolution_ShellComponentDnd_Data *drag_corba_data;
+
+	/* When dragging, the X/Y coordinates of the point we drag from, as
+	   well as the corresponding row/column numbers in the table.  */
 	int drag_x, drag_y;
 	int drag_column, drag_row;
 };
@@ -255,6 +268,25 @@ get_folder_at_row (EStorageSetView *storage_set_view,
 	g_assert (folder != NULL);
 
 	return folder;
+}
+
+static GNOME_Evolution_ShellComponentDnd_Action
+convert_gdk_drag_action_to_corba (GdkDragAction action)
+{
+	GNOME_Evolution_ShellComponentDnd_Action retval;
+
+	retval = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
+
+	if (action & GDK_ACTION_COPY)
+		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_COPY;
+	if (action & GDK_ACTION_MOVE)
+		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	if (action & GDK_ACTION_LINK)
+		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_LINK;
+	if (action & GDK_ACTION_ASK)
+		retval |= GNOME_Evolution_ShellComponentDnd_ACTION_ASK;
+
+	return retval;
 }
 
 
@@ -556,6 +588,29 @@ destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
+	if (priv->drag_corba_source_interface != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		g_assert (priv->drag_corba_source_context != NULL);
+
+		GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag (priv->drag_corba_source_interface,
+									priv->drag_corba_source_context,
+									&ev);
+
+		Bonobo_Unknown_unref (priv->drag_corba_source_interface, &ev);
+		CORBA_Object_release (priv->drag_corba_source_interface, &ev);
+
+		CORBA_exception_free (&ev);
+	}
+
+	if (priv->drag_corba_source_context != NULL)
+		CORBA_free (priv->drag_corba_source_context);
+
+	if (priv->drag_corba_data != NULL)
+		CORBA_free (priv->drag_corba_data);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -644,6 +699,8 @@ motion_notify_event (GtkWidget *widget,
 
 /* ETable methods.  */
 
+/* -- Source-side DnD.  */
+
 static void
 table_drag_begin (ETable *etable,
 		  int row, int col,
@@ -652,6 +709,13 @@ table_drag_begin (ETable *etable,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreePath *node;
+	EFolder *folder;
+	EFolderTypeRegistry *folder_type_registry;
+	EvolutionShellComponentClient *component_client;
+	GNOME_Evolution_ShellComponent corba_component;
+	GNOME_Evolution_ShellComponentDnd_ActionSet possible_actions;
+	GNOME_Evolution_ShellComponentDnd_Action suggested_action;
+	CORBA_Environment ev;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etable);
 	priv = storage_set_view->priv;
@@ -659,6 +723,87 @@ table_drag_begin (ETable *etable,
 	node = e_tree_model_node_at_row (priv->etree_model, row);
 
 	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
+
+	g_assert (priv->drag_corba_source_interface == CORBA_OBJECT_NIL);
+
+	folder = get_folder_at_row (storage_set_view, row);
+	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
+	component_client = e_folder_type_registry_get_handler_for_type (folder_type_registry,
+									e_folder_get_type_string (folder));
+
+	g_assert (component_client != NULL);
+
+	/* Query the `ShellComponentDnd::SourceFolder' interface on the
+	   component.  */
+
+	CORBA_exception_init (&ev);
+
+	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (component_client));
+	priv->drag_corba_source_interface = Bonobo_Unknown_queryInterface (corba_component,
+									   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
+									   &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
+
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	GNOME_Evolution_ShellComponentDnd_SourceFolder_beginDrag (priv->drag_corba_source_interface,
+								  e_folder_get_physical_uri (folder),
+								  e_folder_get_type_string (folder),
+								  &possible_actions,
+								  &suggested_action,
+								  &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		Bonobo_Unknown_unref (priv->drag_corba_source_interface, &ev);
+		CORBA_Object_release (priv->drag_corba_source_interface, &ev);
+
+		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
+
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	if (priv->drag_corba_source_context != NULL)
+		CORBA_free (priv->drag_corba_source_context);
+
+	priv->drag_corba_source_context = GNOME_Evolution_ShellComponentDnd_SourceFolder_Context__alloc ();
+	priv->drag_corba_source_context->physical_uri     = CORBA_string_dup (e_folder_get_physical_uri (folder));
+	priv->drag_corba_source_context->folder_type      = CORBA_string_dup (e_folder_get_type_string (folder));
+	priv->drag_corba_source_context->possible_actions = possible_actions;
+	priv->drag_corba_source_context->suggested_action = suggested_action;
+}
+
+static void
+table_drag_end (ETable *table,
+		int row,
+		int col,
+		GdkDragContext *context)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	CORBA_Environment ev;
+
+	storage_set_view = E_STORAGE_SET_VIEW (table);
+	priv = storage_set_view->priv;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag (priv->drag_corba_source_interface,
+								priv->drag_corba_source_context,
+								&ev);
+
+	CORBA_free (priv->drag_corba_source_context);
+	priv->drag_corba_source_context = NULL;
+
+	Bonobo_Unknown_unref (priv->drag_corba_source_interface, &ev);
+	CORBA_Object_release (priv->drag_corba_source_interface, &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -672,12 +817,7 @@ table_drag_data_get (ETable *etable,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	EFolder *folder;
-	EFolderTypeRegistry *folder_type_registry;
-	EvolutionShellComponentClient *component_client;
-	char *selection;
-	int selection_length;
-	int format;
+	CORBA_Environment ev;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etable);
 	priv = storage_set_view->priv;
@@ -689,30 +829,56 @@ table_drag_data_get (ETable *etable,
 
 	g_assert (info > 0);
 
-	folder = get_folder_at_row (storage_set_view, drag_row);
-	g_assert (folder != NULL);
-
-	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
-	g_assert (folder_type_registry != NULL);
-
-	component_client = e_folder_type_registry_get_handler_for_type (folder_type_registry,
-									e_folder_get_type_string (folder));
-	g_assert (component_client != NULL);
-
-#if 0
-	evolution_shell_component_client_get_dnd_selection (component_client,
-							    e_folder_get_physical_uri (folder),
-							    info,
-							    &format, &selection, &selection_length);
-	if (selection == NULL)
+	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
 		return;
-#endif
 
-	gtk_selection_data_set (selection_data, selection_data->target,
-				format, selection, selection_length);
+	CORBA_exception_init (&ev);
 
-	g_free (selection);
+	GNOME_Evolution_ShellComponentDnd_SourceFolder_getData (priv->drag_corba_source_interface,
+								priv->drag_corba_source_context,
+								convert_gdk_drag_action_to_corba (context->action),
+								"", /* FIXME type! */
+								& priv->drag_corba_data,
+								&ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		gtk_selection_data_set (selection_data, selection_data->target, 8, "", 1);
+	else
+		gtk_selection_data_set (selection_data,
+					priv->drag_corba_data->target,
+					priv->drag_corba_data->format,
+					priv->drag_corba_data->bytes._buffer,
+					priv->drag_corba_data->bytes._length);
+
+	CORBA_exception_free (&ev);
 }
+
+static void
+table_drag_data_delete (ETable *table,
+			int row,
+			int col,
+			GdkDragContext *context)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	CORBA_Environment ev;
+
+	storage_set_view = E_STORAGE_SET_VIEW (table);
+	priv = storage_set_view->priv;
+
+	if (priv->drag_corba_source_interface == CORBA_OBJECT_NIL)
+		return;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_ShellComponentDnd_SourceFolder_deleteData (priv->drag_corba_source_interface,
+								   priv->drag_corba_source_context,
+								   &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+/* -- Destination-side DnD.  */
 
 static gboolean
 table_drag_motion (ETable *table,
@@ -723,6 +889,12 @@ table_drag_motion (ETable *table,
 		   int y,
 		   unsigned int time)
 {
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (table);
+	priv = storage_set_view->priv;
+
 	gdk_drag_status (context, GDK_ACTION_MOVE, time);
 
 	return TRUE;
@@ -1117,7 +1289,9 @@ class_init (EStorageSetViewClass *klass)
 	etable_class->right_click              = right_click;
 	etable_class->cursor_activated         = cursor_activated;
 	etable_class->table_drag_begin         = table_drag_begin;
+	etable_class->table_drag_end           = table_drag_end;
 	etable_class->table_drag_data_get      = table_drag_data_get;
+	etable_class->table_drag_data_delete   = table_drag_data_delete;
 	etable_class->table_drag_motion        = table_drag_motion;
 	etable_class->table_drag_drop          = table_drag_drop;
 	etable_class->table_drag_data_received = table_drag_data_received;
@@ -1167,15 +1341,25 @@ init (EStorageSetView *storage_set_view)
 
 	priv = g_new (EStorageSetViewPrivate, 1);
 
-	priv->storage_set         = NULL;
-	priv->path_to_etree_node  = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->type_name_to_pixbuf = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->selected_row_path   = NULL;
-	priv->show_folders        = TRUE;
-	priv->drag_x              = 0;
-	priv->drag_y              = 0;
-	priv->drag_column         = 0;
-	priv->drag_row            = 0;
+	priv->storage_set                                 = NULL;
+	priv->path_to_etree_node                          = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->type_name_to_pixbuf                         = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->selected_row_path                           = NULL;
+	priv->show_folders                                = TRUE;
+
+	priv->drag_corba_source_interface                 = CORBA_OBJECT_NIL;
+
+	priv->drag_corba_source_context->physical_uri     = NULL;
+	priv->drag_corba_source_context->folder_type      = NULL;
+	priv->drag_corba_source_context->possible_actions = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
+	priv->drag_corba_source_context->suggested_action = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
+
+	priv->drag_corba_data                             = NULL;
+
+	priv->drag_x                                      = 0;
+	priv->drag_y                                      = 0;
+	priv->drag_column                                 = 0;
+	priv->drag_row                                    = 0;
 
 	storage_set_view->priv = priv;
 }

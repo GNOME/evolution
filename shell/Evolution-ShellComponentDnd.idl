@@ -25,13 +25,13 @@ module ShellComponentDnd {
 
 	struct Data {
 		short format;
-		short info;
+		short target;
 		sequence <octet> bytes;
 	};
 
 	exception NoData {};
 
-	interface SourceFolder {
+	interface SourceFolder : Bonobo::Unknown {
 		struct Context {
 			string physical_uri;
 			string folder_type;
@@ -61,11 +61,12 @@ module ShellComponentDnd {
 		   delete it.  */
 		void deleteData (in Context source_context);
 
-		/* The drag is over.  */
+		/* The drag is over.  This should also clean up the data if
+		   there was a `getData()' but no `deleteData()' after it.  */
 		void endDrag (in Context source_context);
 	};
 
-	interface DestinationFolder {
+	interface DestinationFolder : Bonobo::Unknown {
 		struct Context {
 			string dnd_type;
 			ActionSet possible_actions;
@@ -75,7 +76,8 @@ module ShellComponentDnd {
 		/* The user is moving a dragged object over our folder.  This
 		   will return %FALSE if the specified object cannot be
 		   dropped; otherwise, it will return %TRUE and then set the
-		   @action we want to be performed when the drop happens.  */
+		   @default_action and @non_default_action we want to be
+		   performed when the drop happens.  */
 		boolean handleMotion (in Context destination_context,
 				      out Action default_action,
 				      out Action non_default_action);
