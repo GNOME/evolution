@@ -43,33 +43,46 @@ static const char *identify_by_magic (CamelDataWrapper *data, MailDisplay *md);
  *
  * Try to identify the MIME type of the data in @part (which presumably
  * doesn't have a useful Content-Type).
+ *
+ * Return value: the MIME type, which the caller must free, or %NULL
+ * if it could not be identified.
  **/
 char *
 mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 {
-	const char *filename, *type;
+	const char *filename, *name_type = NULL, *magic_type = NULL;
 	CamelDataWrapper *data;
 
-	/* If the MIME part data is online, try file magic first,
-	 * since it's more reliable.
-	 */
-	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	if (!camel_data_wrapper_is_offline (data)) {
-		type = identify_by_magic (data, md);
-		if (type)
-			return g_strdup (type);
-	}
-
-	/* Try identifying based on name in Content-Type or
-	 * filename in Content-Disposition.
-	 */
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
-		type = gnome_vfs_mime_type_from_name_or_default (filename,
-								 NULL);
-		if (type)
-			return g_strdup (type);
+		/* GNOME-VFS will misidentify TNEF attachments as MPEG */
+		if (!strcmp (filename, "winmail.dat"))
+			return g_strdup ("application/vnd.ms-tnef");
+
+		name_type = gnome_vfs_mime_type_from_name_or_default (filename, NULL);
 	}
+
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	if (!camel_data_wrapper_is_offline (data))
+		magic_type = identify_by_magic (data, md);
+
+	/* If GNOME-VFS doesn't recognize the data by magic, but it
+	 * contains English words, it will call it text/plain. If the
+	 * filename-based check came up with something different, use
+	 * that instead.
+	 */
+	if (magic_type && name_type && !strcmp (magic_type, "text/plain"))
+		return g_strdup (name_type);
+
+	/* If the MIME part data was online, and the magic check
+	 * returned something, use that, since it's more reliable.
+	 */
+	if (magic_type)
+		return g_strdup (magic_type);
+
+	/* Otherwise try guessing based on the filename */
+	if (name_type)
+		return g_strdup (name_type);
 
 	/* Another possibility to try is the x-mac-type / x-mac-creator
 	 * parameter to Content-Type used by some Mac email clients. That

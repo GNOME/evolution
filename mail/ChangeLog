@@ -1,3 +1,12 @@
+2001-08-21  Dan Winship  <danw@ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): Don't trust gnome-vfs
+	when it says "text/plain" if gnome_vfs_mime_type_from_name says
+	something different. Fixes a problem with recognizing icalendar
+	attachments labeled "application/octet-stream". Also, don't bother
+	asking gnome-vfs about winmail.dat attachments, since it will
+	often claim that they're MPEGs due to some mis-magic. 
+
 2001-08-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (mail_session_forget_password): zero-ize the
