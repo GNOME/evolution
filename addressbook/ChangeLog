@@ -1,3 +1,8 @@
+2000-07-10  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/select-names/Makefile.am (EXTRA_DIST): add idl
+	file to EXTRA_DIST
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): Remove the
