@@ -1,3 +1,28 @@
+2001-12-09  Jon Trowbridge  <trow@ximian.com>
+
+	* message-list.c: #include "art/mail-need-reply.xpm".
+	(ml_tree_value_at): Adjust magic numbers, show "Need Reply" icon
+	if the message needs reply.
+	(message_list_create_extras): Adjust magic numbers to add new
+	icon.
+	(on_click): Changed to toggle between unread, read, and need reply
+	when the status icon is clicked.
+
+	* mail-callbacks.c (mark_as_needing_reply): Added.
+	(mark_as_not_needing_reply): Added.  Add "set" value to struct
+	post_send_data.
+	(composer_sent_cb): Use both "flags" and "set" elements of
+	post_send_data when setting message flags.
+	(mail_reply): Clear "Needs Reply" flag when we actually reply to a
+	message.
+
+	* folder-browser.c: Changed flag values to be given by
+	bit-shifting (1<<5) vs. base-ten (32).  Added
+	CAN_MARK_DOESNT_NEED_REPLY flag.  Added "Mark as Needing Reply"
+	and "Mark as Not Needing Reply" elements to context menu.
+	(on_right_click): Hide "Mark as (Not) Needing Reply" context menu
+	elements as appropriate.
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (stream_write_or_redisplay_when_loaded): Check

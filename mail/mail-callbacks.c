@@ -118,7 +118,7 @@ e_gnome_ok_cancel_dialog_parented (const char *message, GnomeReplyCallback callb
 struct post_send_data {
 	CamelFolder *folder;
 	gchar *uid;
-	guint32 flags;
+	guint32 flags, set;
 };
 
 static void
@@ -420,7 +420,7 @@ composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *dat
 	if (sent) {
 		if (send->psd) {
 			camel_folder_set_message_flags (send->psd->folder, send->psd->uid,
-							send->psd->flags, send->psd->flags);
+							send->psd->flags, send->psd->set);
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 	} else {
@@ -646,7 +646,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	camel_object_unref (CAMEL_OBJECT (message));
 	
 	if (psd)
-		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
+		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->set);
 	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
@@ -1024,7 +1024,8 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
 	psd->uid = g_strdup (uid);
-	psd->flags = CAMEL_MESSAGE_ANSWERED;
+	psd->flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_NEEDS_REPLY;
+	psd->set = CAMEL_MESSAGE_ANSWERED;
 	
 	composer = mail_generate_reply (folder, msg, uid, mode);
 	if (!composer)
@@ -1661,6 +1662,25 @@ void
 toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
+}
+
+void
+mark_as_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY, CAMEL_MESSAGE_NEEDS_REPLY);
+}
+
+void
+mark_as_not_needing_reply (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY, 0);
+}
+
+void
+toggle_need_reply (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_NEEDS_REPLY);
 }
 
 void

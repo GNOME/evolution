@@ -202,6 +202,7 @@ EXTRA_DIST = \
 	check-filled.xpm		\
 	empty.xpm			\
 	jump.xpm			\
+	mail-need-reply.xpm		\
 	mail-new.xpm			\
 	mail-read.xpm			\
 	mail-replied.xpm		\

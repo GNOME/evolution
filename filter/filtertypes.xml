@@ -463,6 +463,9 @@
    <option value="Seen">
     <title>Read</title>
    </option>
+   <option value="NeedsReply">
+     <title>Needs Reply</title>
+   </option>
   </input>
  </part>
 

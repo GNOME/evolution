@@ -18,7 +18,6 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \
-	$(OPENSSL_CFLAGS)			 \
 	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
@@ -201,8 +200,7 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 	$(CAMEL_LIBS)				\
 	$(KRB4_LDFLAGS)				\
 	$(NSPR_LDFLAGS)				\
-	$(NSS_LDFLAGS)				\
-	$(OPENSSL_LDFLAGS)
+	$(NSS_LDFLAGS)
 
 libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)

@@ -2348,6 +2348,7 @@ struct flag_names_t {
 	{ "flagged", CAMEL_MESSAGE_FLAGGED },
 	{ "seen", CAMEL_MESSAGE_SEEN },
 	{ "attachments", CAMEL_MESSAGE_ATTACHMENTS },
+	{ "needsreply", CAMEL_MESSAGE_NEEDS_REPLY },
 	{ NULL, 0 }
 };
 

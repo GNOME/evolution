@@ -1,3 +1,10 @@
+2001-12-09  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-folder-summary.c: Add "NeedsReply" to the flag_names array
+	for CAMEL_MESSAGE_NEEDS_REPLY.
+
+	* camel-folder-summary.h: Added CAMEL_MESSAGE_NEEDS_REPLY flag.
+
 2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c (search_body_contains): Don't use regex

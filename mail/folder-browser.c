@@ -1412,15 +1412,17 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 }
 
 enum {
-	SELECTION_SET   = 2,
-	CAN_MARK_READ   = 4,
-	CAN_MARK_UNREAD = 8,
-	CAN_DELETE      = 16,
-	CAN_UNDELETE    = 32,
-	IS_MAILING_LIST = 64,
-	CAN_RESEND      = 128,
-	CAN_MARK_IMPORTANT = 256,
-	CAN_MARK_UNIMPORTANT = 512
+	SELECTION_SET              = 1<<1,
+	CAN_MARK_READ              = 1<<2,
+	CAN_MARK_UNREAD            = 1<<3,
+	CAN_DELETE                 = 1<<4,
+	CAN_UNDELETE               = 1<<5,
+	IS_MAILING_LIST            = 1<<6,
+	CAN_RESEND                 = 1<<7,
+	CAN_MARK_IMPORTANT         = 1<<8,
+	CAN_MARK_UNIMPORTANT       = 1<<9,
+	CAN_MARK_NEEDS_REPLY       = 1<<10,
+	CAN_MARK_DOESNT_NEED_REPLY = 1<<11
 };
 
 #define MLIST_VFOLDER (3)
@@ -1460,6 +1462,8 @@ static EPopupMenu context_menu[] = {
 	{ N_("Mark as U_nread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
 	{ N_("Mark as Unim_portant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
+	{ N_("Mark as Needing Reply"),      NULL, GTK_SIGNAL_FUNC (mark_as_needing_reply), NULL, CAN_MARK_NEEDS_REPLY },
+	{ N_("Mark as Not Needing Reply"),  NULL, GTK_SIGNAL_FUNC (mark_as_not_needing_reply), NULL, CAN_MARK_DOESNT_NEED_REPLY },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1550,6 +1554,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unseen = FALSE;
 		gboolean have_important = FALSE;
 		gboolean have_unimportant = FALSE;
+		gboolean have_needs_reply = FALSE;
+		gboolean have_doesnt_need_reply = FALSE;
 		
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
@@ -1570,6 +1576,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_important = TRUE;
 			else
 				have_unimportant = TRUE;
+
+			if (info->flags & CAMEL_MESSAGE_NEEDS_REPLY)
+				have_needs_reply = TRUE;
+			else
+				have_doesnt_need_reply = TRUE;
 			
 			camel_folder_free_message_info (fb->folder, info);
 			
@@ -1591,6 +1602,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			enable_mask |= CAN_MARK_IMPORTANT;
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
+
+		if (!have_needs_reply)
+			enable_mask |= CAN_MARK_DOESNT_NEED_REPLY;
+		if (!have_doesnt_need_reply)
+			enable_mask |= CAN_MARK_NEEDS_REPLY;
 		
 		/*
 		 * Hide items that wont get used.
@@ -1614,6 +1630,13 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				hide_mask |= CAN_MARK_IMPORTANT;
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
+		}
+
+		if (!(have_needs_reply && have_doesnt_need_reply)) {
+			if (have_needs_reply)
+				hide_mask |= CAN_MARK_NEEDS_REPLY;
+			else
+				hide_mask |= CAN_MARK_DOESNT_NEED_REPLY;
 		}
 	}
 	

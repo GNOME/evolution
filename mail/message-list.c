@@ -47,6 +47,7 @@
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
+#include "art/mail-need-reply.xpm"
 #include "art/attachment.xpm"
 #include "art/priority-high.xpm"
 #include "art/empty.xpm"
@@ -137,6 +138,7 @@ static struct {
 	{ mail_new_xpm,		NULL },
 	{ mail_read_xpm,	NULL },
 	{ mail_replied_xpm,	NULL },
+	{ mail_need_reply_xpm,  NULL },
 /* FIXME: Replace these with pixmaps for multiple_read and multiple_unread */
     	{ mail_new_xpm,		NULL },
     	{ mail_read_xpm,	NULL },
@@ -792,12 +794,14 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
 			if (subtree_unread(message_list, child))
-				return (void *)3;
-			else
 				return (void *)4;
+			else
+				return (void *)5;
 		}
 
-		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
+		if (msg_info->flags & CAMEL_MESSAGE_NEEDS_REPLY)
+			return GINT_TO_POINTER (3);
+		else if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
 			return GINT_TO_POINTER (1);
@@ -962,28 +966,28 @@ message_list_create_extras (void)
 
 	extras = e_table_extras_new();
 	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
-	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
-	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
+	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [14].pixbuf);
+	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [7].pixbuf);
+	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [8].pixbuf);
 	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
 	
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 6; i++)
 		images [i] = states_pixmaps [i].pixbuf;
 
-	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 5, images));
+	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 6, images));
 
 	for (i = 0; i < 2; i++)
-		images [i] = states_pixmaps [i + 5].pixbuf;
+		images [i] = states_pixmaps [i + 6].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
-	images [1] = states_pixmaps [7].pixbuf;
+	images [1] = states_pixmaps [8].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 
 	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 7].pixbuf;
+		images[i] = states_pixmaps [i + 8].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
 	
@@ -2024,29 +2028,51 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	int flag;
 	CamelMessageInfo *info;
 
-	if (col == COL_MESSAGE_STATUS)
-		flag = CAMEL_MESSAGE_SEEN;
-	else if (col == COL_FLAGGED)
+	if (col == COL_MESSAGE_STATUS) {
+		guint32 msg_flags;
+
+		info = get_message_info (list, path);
+		if (info == NULL) {
+			return FALSE;
+		}
+
+		msg_flags = camel_folder_get_message_flags (list->folder, camel_message_info_uid (info));
+
+		if (msg_flags & CAMEL_MESSAGE_NEEDS_REPLY) {
+			flag = 0;
+		} else if (msg_flags & CAMEL_MESSAGE_SEEN) {
+			flag = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_NEEDS_REPLY;
+		} else {
+			flag = CAMEL_MESSAGE_SEEN;
+		}
+
+		camel_folder_set_message_flags (list->folder, camel_message_info_uid (info),
+						CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_NEEDS_REPLY, flag);
+
+		if (flag & CAMEL_MESSAGE_SEEN && list->seen_id) {
+			gtk_timeout_remove (list->seen_id);
+			list->seen_id = 0;
+		}
+
+		return TRUE;
+	}
+
+	if (col == COL_FLAGGED)
 		flag = CAMEL_MESSAGE_FLAGGED;
 	else
 		return FALSE;
-	
+
 	info = get_message_info (list, path);
 	if (info == NULL) {
 		return FALSE;
 	}
-	
+
 	/* If a message was marked as deleted and the user flags it as important, undelete it */
 	if (col == COL_FLAGGED && (info->flags & CAMEL_MESSAGE_DELETED))
 		flag |= CAMEL_MESSAGE_DELETED;
 	
 	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);
-	
-	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
-		gtk_timeout_remove (list->seen_id);
-		list->seen_id = 0;
-	}
-	
+
 	return TRUE;
 }
 
