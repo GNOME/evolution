@@ -1,3 +1,15 @@
+2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (sig_add_script_cb): Set the "script" data
+	on the GtkEntry to NULL.
+	(sig_add_script_response): If the "script" data on the GtkEntry
+	object is non-NULL, then we are editing an existing signature, so
+	just change the values in place and don't add it to the signature
+	db.
+	(sig_edit_cb): If sig->script is non-NULL, then we are editing a
+	script signature, so pop up the script dialog instead. Fixes bug
+	#38929.
+
 2003-04-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (spell_load_values): use e_iconv_locale_language
