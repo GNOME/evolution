@@ -1,3 +1,13 @@
+2004-07-30  Harish Krishnaswamy  <kharish@novell.com>
+	
+	* gui/e-tasks.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	Handle E_CALENDAR_STATUS_BUSY conditions and do not 
+	remove the source from the gnome-calendar. The fix
+	for #59335 exposed this problem.
+
 2004-07-28  Larry Ewing  <lewing@novell.com>
 
 	* gui/dialogs/calendar-setup.c (dialog_hide_unused_options): hide

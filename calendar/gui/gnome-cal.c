@@ -2013,6 +2013,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	else
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 
+	if (status == E_CALENDAR_STATUS_BUSY)
+		return;
 	if (status != E_CALENDAR_STATUS_OK) {
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
@@ -2084,6 +2086,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
 	else
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+
+	if (status == E_CALENDAR_STATUS_BUSY)
+		return;
 
 	if (status != E_CALENDAR_STATUS_OK) {
 		/* Make sure the source doesn't disappear on us */
