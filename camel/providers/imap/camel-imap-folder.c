@@ -998,18 +998,18 @@ get_header_field (gchar *header, gchar *field)
 	index = (char *) e_strstrcase (header, field);
 	if (index == NULL)
 		return NULL;
-
+	
 	p = index + strlen (field) + 1;
 	for (q = p; *q; q++)
-		if (*q == '\n' && (*(q + 1) != ' ' || *(q + 1) != '\t'))
+		if (*q == '\n' && (*(q + 1) != ' ' && *(q + 1) != '\t'))
 			break;
-
+	
 	part = g_strndup (p, (gint)(q - p));
-
+	
 	/* it may be wrapped on multiple lines, so lets strip out \n's */
 	for (p = part; *p; ) {
-		if (*p == '\r' || *p == '\n')
-			memmove (p, p + 1, strlen (p) - 1);
+		if (*p == '\n')
+			memmove (p, p + 1, strlen (p));
 		else
 			p++;
 	}
