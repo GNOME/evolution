@@ -9,6 +9,24 @@
 	* e-shortcuts-view.c (destroy): unref the shortcuts, causing a
 	massive ripple chain ref-count reaction.
 
+2000-08-03  JP Rosevear  <jpr@helixcode.com>
+
+	* e-shell.h: Remove gconf references
+
+	* e-shell-view.h: Remove gconf references
+
+	* main.c (idle_cb): Remove gconf references
+
+	* Makefile.am: Remove gconf cflags and libs 
+
+	* e-shell-view.c (e_shell_view_load_settings): Change to use
+	gnome-config
+	(e_shell_view_save_settings): ditto
+
+	* e-shell.c (e_shell_restore_from_settings): Change to
+	use gnome_config
+	(save_settings_for_views): ditto
+
 2000-08-03  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (destroy): unref the UI handler.

@@ -1,3 +1,4 @@
+
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* mail-config.c: Mail configuration dialogs/wizard. */
 
@@ -468,8 +469,7 @@ read_config ()
 	clear_config ();
 
 	/* Configured */
-	str = g_strdup_printf ("=%s/config/General=/General/configured", 
-			       evolution_dir);
+	str = g_strdup_printf ("=%s/config/General=/General/configured", evolution_dir);
 	config->configured = gnome_config_get_bool (str);
 	g_free (str);
 	
@@ -1762,7 +1762,7 @@ mail_config_druid (void)
 	GnomeDruidPageStart *spage;
 	GnomeDruidPageFinish *fpage;
 	GnomeDruidPageStandard *dpage;
-	GSList *sources=NULL, *news=NULL, *transports=NULL;
+	GSList *sources, *news, *transports;
 	GdkImlibImage *mail_logo, *identity_logo;
 	GdkImlibImage *source_logo, *transport_logo;
 
@@ -2137,7 +2137,7 @@ mail_config (void)
 	GladeXML *gui;
 	GtkCList *clist;
 	GtkWidget *button, *tvbox;
-	GSList *sources = NULL, *news = NULL, *transports = NULL;
+	GSList *sources, *news, *transports;
 	gint len, row;
 
 	read_config ();

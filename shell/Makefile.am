@@ -5,7 +5,6 @@ INCLUDES = 								\
 	-I$(top_srcdir)/widgets/misc					\
 	-I$(top_srcdir)							\
 	$(BONOBO_GNOME_CFLAGS)						\
-	$(GCONF_CFLAGS)							\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"				\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   		\
@@ -111,8 +110,7 @@ evolution_LDADD =						\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(BONOBO_GNOME_LIBS)					\
-	$(GCONF_LIBS)
+	$(BONOBO_GNOME_LIBS)
 
 # Purify support
 
@@ -127,3 +125,5 @@ evolution.pure: evolution
 	$(PLINK) $(evolution_LDFLAGS) $(evolution_OBJECTS) $(evolution_LDADD) $(LIBS)
 
 endif
+
+

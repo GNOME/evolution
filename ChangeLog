@@ -1,3 +1,7 @@
+2000-08-03  JP Rosevear  <jpr@helixcode.com>
+
+	* configure.in: Remove gconf check
+
 2000-08-03 Alastair McKinstry <mckinstry@computer.org>
 
 	* configure.in (ALL_LINGUAS): Add Irish translation

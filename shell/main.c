@@ -109,18 +109,11 @@ static gint
 idle_cb (gpointer data)
 {
 	GtkWidget *view;
-	GConfClient *gconf_client;
 	char *evolution_directory;
 
 	evolution_directory = (char *) data;
 
-#ifdef HAVE_GCONF_CLIENT_GET_DEFAULT
-	gconf_client = gconf_client_get_default ();
-#else
-	gconf_client = gconf_client_new ();
-#endif
-
-	shell = e_shell_new (evolution_directory, gconf_client);
+	shell = e_shell_new (evolution_directory);
 	g_free (evolution_directory);
 
 	if (shell == NULL) {
@@ -140,15 +133,12 @@ idle_cb (gpointer data)
 	if (!getenv ("EVOLVE_ME_HARDER"))
 		development_warning ();
 
-	gtk_object_unref (GTK_OBJECT (gconf_client));
-
 	return FALSE;
 }
 
 int
 main (int argc, char **argv)
 {
-	GConfError *err = NULL;
 	char *evolution_directory;
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
@@ -160,12 +150,6 @@ main (int argc, char **argv)
 	glade_gnome_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
-
-	if (! gconf_init (argc, argv, &err)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the configuration system."));
-		exit (1);
-	}
 
 	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
@@ -187,3 +171,4 @@ main (int argc, char **argv)
 
 	return 0;
 }
+

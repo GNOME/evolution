@@ -50,6 +50,7 @@ main (int argc, char *argv [])
 #ifdef GTKHTML_HAVE_GCONF
 	gconf_init (argc, argv, NULL);
 #endif
+
 	glade_gnome_init ();
 
 	session_init ();

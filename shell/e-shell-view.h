@@ -92,10 +92,8 @@ GtkWidget               *e_shell_view_get_appbar             (EShellView        
 const char              *e_shell_view_get_current_uri        (EShellView              *shell_view);
 
 gboolean                 e_shell_view_save_settings	     (EShellView              *shell_view,
-							      GConfClient             *gconf_client,
 							      const char              *prefix);
 gboolean                 e_shell_view_load_settings	     (EShellView              *shell_view,
-							      GConfClient             *gconf_client,
 							      const char              *prefix);
 
 #ifdef __cplusplus

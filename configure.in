@@ -432,20 +432,6 @@ if test "x$enable_oaf" = "xyes"; then
 	BONOBO_GNOME_CFLAGS="`oaf-config --cflags ` $BONOBO_GNOME_CFLAGS"
 fi
 
-dnl *****
-dnl GConf
-dnl *****
-
-AM_PATH_GCONF(0.5.0,,,gconf-gtk)
-
-saved_CFLAGS="$CFLAGS"
-saved_LDFLAGS="$LDFLAGS"
-CFLAGS="$CFLAGS $GCONF_CFLAGS"
-LDFLAGS="$LDFLAGS $GCONF_LIBS"
-AC_CHECK_FUNCS(gconf_client_get_default)
-CFLAGS="$saved_CFLAGS"
-LDFLAGS="$saved_LDFLAGS"
-
 dnl ********
 dnl Kerberos
 dnl ********
