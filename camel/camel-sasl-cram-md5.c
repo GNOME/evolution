@@ -35,7 +35,8 @@ static CamelSaslClass *parent_class = NULL;
 static GByteArray *cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex);
 
 enum {
-	STATE_AUTH
+	STATE_AUTH,
+	STATE_FINAL
 };
 
 struct _CamelSaslCramMd5Private {
@@ -170,6 +171,8 @@ cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 		g_free (enc);
 		
 		break;
+	case STATE_FINAL:
+		sasl->authenticated = TRUE;
 	default:
 		break;
 	}

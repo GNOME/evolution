@@ -1,5 +1,16 @@
 2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Added camel-sasl-anonymous.[c,h] to the build.
+
+	* camel-sasl-anonymous.[c,h]: new SASL class for ANONYMOUS
+
+	* camel-sasl-plain.c (plain_challenge): Oops, have a state for
+	setting sasl->authenticated = TRUE;
+
+	* camel-sasl-cram-md5.c (cram_md5_challenge): Same here.
+
+2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-utils.c (header_decode_date): A fix for broken
 	mailers that send 2-digit years (ie "Wed, 28 Feb 01
 	04:59:41"). Fixes bug #1633.

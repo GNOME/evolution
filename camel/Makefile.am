@@ -50,6 +50,7 @@ libcamel_la_SOURCES = 				\
 	camel-provider.c			\
 	camel-remote-store.c			\
 	camel-sasl.c				\
+	camel-sasl-anonymous.c			\
 	camel-sasl-cram-md5.c			\
 	camel-sasl-kerberos4.c			\
 	camel-sasl-plain.c			\
@@ -113,6 +114,7 @@ libcamelinclude_HEADERS =			\
 	camel-provider.h			\
 	camel-remote-store.h			\
 	camel-sasl.h				\
+	camel-sasl-anonymous.h			\
 	camel-sasl-cram-md5.h			\
 	camel-sasl-kerberos4.h			\
 	camel-sasl-plain.h			\

@@ -32,7 +32,8 @@ static CamelSaslClass *parent_class = NULL;
 static GByteArray *plain_challenge (CamelSasl *sasl, const char *token, CamelException *ex);
 
 enum {
-	STATE_LOGIN
+	STATE_LOGIN,
+	STATE_FINAL
 };
 
 struct _CamelSaslPlainPrivate {
@@ -122,6 +123,9 @@ plain_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 		g_byte_array_append (buf, sasl_plain->auth_id, strlen (sasl_plain->auth_id));
 		g_byte_array_append (buf, "", 1);
 		g_byte_array_append (buf, sasl_plain->passwd, strlen (sasl_plain->passwd));
+		break;
+	case STATE_FINAL:
+		sasl->authenticated = TRUE;
 		break;
 	default:
 		break;
