@@ -1,3 +1,8 @@
+2003-12-17  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-message.xml:
+	* evolution-mail-messagedisplay.xml: Fix bug #49949
+
 2003-12-17  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: add ContactsViewPreview command, a

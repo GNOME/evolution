@@ -380,7 +380,7 @@
     </submenu>
   </menu>
 
-  <dockitem name="Toolbar">
+  <dockitem name="Toolbar" behavior="exclusive">
 
     <placeholder name="MailMessageToolbar">
       <toolitem name="MessageReplySender" verb=""
@@ -422,6 +422,8 @@
        _label="Not Junk"
        pixtype="pixbuf"/>
     </placeholder>
+
+    <separator f="" name="emailmessage"/>
 
     <placeholder name="MailNextButtons">
       <toolitem name="MailPrevious" verb=""
