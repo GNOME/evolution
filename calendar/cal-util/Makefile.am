@@ -11,6 +11,7 @@ INCLUDES =						\
 lib_LTLIBRARIES = libcal-util.la
 
 libcal_util_la_SOURCES = \
+	cal-recur.c	\
 	cal-util.c	\
 	calobj.c	\
 	timeutil.c
@@ -18,6 +19,7 @@ libcal_util_la_SOURCES = \
 libcal_utilincludedir = $(includedir)/evolution/cal-util
 
 libcal_utilinclude_HEADERS =	\
+	cal-recur.h		\
 	cal-util.h		\
 	calobj.h		\
 	timeutil.h

@@ -277,6 +277,10 @@ gboolean    ical_object_compare_dates (iCalObject *ico1, iCalObject *ico2);
 /* Generates a new uid for a calendar object. Should be g_free'd eventually. */
 char	   *ical_gen_uid (void);
 
+/* This resets any recurrence rules of the iCalObject. */
+void	    ical_object_reset_recurrence (iCalObject *ico);
+
+
 END_GNOME_DECLS
 
 #endif

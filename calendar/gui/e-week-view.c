@@ -2659,6 +2659,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
+	iCalObject *ico;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -2668,9 +2669,13 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	ical_object_add_exdate (event->ico, event->start);
-	gnome_calendar_object_changed (week_view->calendar, event->ico,
-				       CHANGE_DATES);
+	/* We must duplicate the iCalObject, or we won't know it has changed
+	   when we get the "update_event" callback. */
+	ico = ical_object_duplicate (event->ico);
+
+	ical_object_add_exdate (ico, event->start);
+	gnome_calendar_object_changed (week_view->calendar, ico, CHANGE_DATES);
+	ical_object_unref (ico);
 }
 
 
@@ -2697,7 +2702,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	iCalObject *ico;
+	iCalObject *ico, *new_ico;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -2707,24 +2712,27 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 	
+	/* For the recurring object, we add a exception to get rid of the
+	   instance. */
+	ico = ical_object_duplicate (event->ico);
+	ical_object_add_exdate (ico, event->start);
+
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
 	   the start & end times to the instances times. */
-	ico = ical_object_duplicate (event->ico);
-	g_free (ico->uid);
-	ico->uid = ical_gen_uid ();
-	g_free (ico->recur);
-	ico->recur = 0;
-	ico->dtstart = event->start;
-	ico->dtend   = event->end;
+	new_ico = ical_object_duplicate (event->ico);
+	g_free (new_ico->uid);
+	new_ico->uid = ical_gen_uid ();
+	ical_object_reset_recurrence (new_ico);
+	new_ico->dtstart = event->start;
+	new_ico->dtend   = event->end;
 	
-	/* For the recurring object, we add a exception to get rid of the
-	   instance. */
-	ical_object_add_exdate (event->ico, event->start);
-
-	gnome_calendar_object_changed (week_view->calendar, event->ico,
-				       CHANGE_ALL);
-	gnome_calendar_add_object (week_view->calendar, ico);
-
+	/* Now update both iCalObjects. Note that we do this last since at
+	   present the updates happen synchronously so our event may disappear.
+	*/
+	gnome_calendar_object_changed (week_view->calendar, ico, CHANGE_ALL);
 	ical_object_unref (ico);
+
+	gnome_calendar_add_object (week_view->calendar, new_ico);
+	ical_object_unref (new_ico);
 }

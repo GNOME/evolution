@@ -157,6 +157,14 @@ ical_object_destroy (iCalObject *ico)
 	g_free (ico);
 }
 
+/* This resets any recurrence rules of the iCalObject. */
+void
+ical_object_reset_recurrence (iCalObject *ico)
+{
+	free_if_defined  (ico->recur);
+	lfree_if_defined (ico->exdate);
+}
+
 static GList *
 set_list (char *str)
 {

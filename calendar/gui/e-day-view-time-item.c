@@ -72,6 +72,14 @@ static void e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 						  GdkEvent *event);
 static void e_day_view_time_item_on_set_divisions (GtkWidget *item,
 						   EDayViewTimeItem *dvtmitem);
+static void e_day_view_time_item_on_button_press (EDayViewTimeItem *dvtmitem,
+						  GdkEvent *event);
+static void e_day_view_time_item_on_button_release (EDayViewTimeItem *dvtmitem,
+						    GdkEvent *event);
+static void e_day_view_time_item_on_motion_notify (EDayViewTimeItem *dvtmitem,
+						   GdkEvent *event);
+static gint e_day_view_time_item_convert_position_to_row (EDayViewTimeItem *dvtmitem,
+							  gint y);
 
 
 static GnomeCanvasItemClass *parent_class;
@@ -134,9 +142,9 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 
 
 static void
-e_day_view_time_item_init (EDayViewTimeItem *dvtmitm)
+e_day_view_time_item_init (EDayViewTimeItem *dvtmitem)
 {
-
+	dvtmitem->dragging_selection = FALSE;
 }
 
 
@@ -332,14 +340,22 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if (event->button.button == 3) {
+		if (event->button.button == 1) {
+			e_day_view_time_item_on_button_press (dvtmitem, event);
+		} else if (event->button.button == 3) {
 			e_day_view_time_item_show_popup_menu (dvtmitem, event);
 			return TRUE;
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
+		if (event->button.button == 1)
+			e_day_view_time_item_on_button_release (dvtmitem,
+								event);
+		break;
 
 	case GDK_MOTION_NOTIFY:
+		e_day_view_time_item_on_motion_notify (dvtmitem, event);
+		break;
 
 	default:
 		break;
@@ -360,8 +376,6 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 	gchar buffer[256];
 	GSList *group = NULL;
 	gint current_divisions, i;
-
-	g_print ("In e_day_view_time_item_show_popup_menu\n");
 
 	day_view = dvtmitem->day_view;
 	g_return_if_fail (day_view != NULL);
@@ -412,4 +426,106 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 	divisions = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item),
 							  "divisions"));
 	e_day_view_set_mins_per_row (day_view, divisions);
+}
+
+
+static void
+e_day_view_time_item_on_button_press (EDayViewTimeItem *dvtmitem,
+				      GdkEvent *event)
+{
+	EDayView *day_view;
+	GnomeCanvas *canvas;
+	gint row;
+
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	canvas = GNOME_CANVAS_ITEM (dvtmitem)->canvas;
+
+	row = e_day_view_time_item_convert_position_to_row (dvtmitem,
+							    event->button.y);
+
+	if (row == -1)
+		return;
+
+	if (!GTK_WIDGET_HAS_FOCUS (day_view))
+		gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
+	if (gdk_pointer_grab (GTK_LAYOUT (canvas)->bin_window, FALSE,
+			      GDK_POINTER_MOTION_MASK
+			      | GDK_BUTTON_RELEASE_MASK,
+			      FALSE, NULL, event->button.time) == 0) {
+		e_day_view_start_selection (day_view, -1, row);
+		dvtmitem->dragging_selection = TRUE;
+	}
+}
+
+
+static void
+e_day_view_time_item_on_button_release (EDayViewTimeItem *dvtmitem,
+					GdkEvent *event)
+{
+	EDayView *day_view;
+
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	if (dvtmitem->dragging_selection) {
+		gdk_pointer_ungrab (event->button.time);
+		e_day_view_finish_selection (day_view);
+		e_day_view_stop_auto_scroll (day_view);
+	}
+
+	dvtmitem->dragging_selection = FALSE;
+}
+
+
+static void
+e_day_view_time_item_on_motion_notify (EDayViewTimeItem *dvtmitem,
+				       GdkEvent *event)
+{
+	EDayView *day_view;
+	GnomeCanvas *canvas;
+	gdouble window_y;
+	gint y, row;
+
+	if (!dvtmitem->dragging_selection)
+		return;
+
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	canvas = GNOME_CANVAS_ITEM (dvtmitem)->canvas;
+
+	y = event->motion.y;
+	row = e_day_view_time_item_convert_position_to_row (dvtmitem, y);
+
+	if (row != -1) {
+		gnome_canvas_world_to_window (canvas, 0, event->motion.y,
+					      NULL, &window_y);
+		e_day_view_update_selection (day_view, -1, row);
+		e_day_view_check_auto_scroll (day_view, -1, (gint) window_y);
+	}
+}
+
+
+/* Returns the row corresponding to the y position, or -1. */
+static gint
+e_day_view_time_item_convert_position_to_row (EDayViewTimeItem *dvtmitem,
+					      gint y)
+{
+	EDayView *day_view;
+	gint row;
+
+	day_view = dvtmitem->day_view;
+	g_return_val_if_fail (day_view != NULL, -1);
+
+	if (y < 0)
+		return -1;
+
+	row = y / day_view->row_height;
+	if (row >= day_view->rows)
+		return -1;
+
+	return row;
 }

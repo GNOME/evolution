@@ -330,11 +330,11 @@ struct _EDayView
 	gint popup_event_day;
 	gint popup_event_num;
 
-	/* The currently selected region. If selection_start_col is -1 there is
+	/* The currently selected region. If selection_start_day is -1 there is
 	   no current selection. If start_row or end_row is -1 then the
 	   selection is in the top canvas. */
-	gint selection_start_col;
-	gint selection_end_col;
+	gint selection_start_day;
+	gint selection_end_day;
 	gint selection_start_row;
 	gint selection_end_row;
 
@@ -481,6 +481,19 @@ gboolean   e_day_view_find_long_event_days	(EDayView	*day_view,
 						 EDayViewEvent	*event,
 						 gint		*start_day,
 						 gint		*end_day);
+
+void	   e_day_view_start_selection		(EDayView	*day_view,
+						 gint		 day,
+						 gint		 row);
+void	   e_day_view_update_selection		(EDayView	*day_view,
+						 gint		 day,
+						 gint		 row);
+void	   e_day_view_finish_selection		(EDayView	*day_view);
+
+void	   e_day_view_check_auto_scroll		(EDayView	*day_view,
+						 gint		 event_x,
+						 gint		 event_y);
+void	   e_day_view_stop_auto_scroll		(EDayView	*day_view);
 
 #ifdef __cplusplus
 }

@@ -50,6 +50,9 @@ typedef struct {
 
 	/* The width of the time column. */
 	gint column_width;
+
+	/* TRUE if we are currently dragging the selection times. */
+	gboolean dragging_selection;
 } EDayViewTimeItem;
 
 typedef struct {

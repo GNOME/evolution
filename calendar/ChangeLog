@@ -1,3 +1,28 @@
+2000-05-20  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/cal-recur.[hc]: new files to implement iCalendar recurrence
+	rules. These are only part finished, but people may like to check that
+	the architecture seems OK.
+
+2000-05-17  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): 
+	* gui/e-week-view.c (e_week_view_on_delete_occurrence): use a copy of
+	the iCalObject so we detect the change in the "update_event" callback.
+	Maybe we should just update the view ourselves and then we wouldn't
+	need to detect any change in the callback.
+
+	* cal-util/calobj.c (ical_object_reset_recurrence): new function to
+	get rid of any recurrence rules. Used when we 'unrecur' an event.
+
+	* gui/e-day-view.c (e_day_view_key_press): don't add a new event if it
+	won't fit, or we end up adding a new event for each key press.
+	(e_day_view_update_event_label): don't update it if it doesn't have
+	an EText item (i.e. it isn't visible).
+
+	* gui/e-day-view-time-item.c: allow selection of times using this
+	column.
+
 2000-05-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/timeutil.c (time_add_minutes): Fixed warning message.

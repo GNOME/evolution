@@ -92,6 +92,7 @@ static gint e_day_view_focus_out (GtkWidget *widget,
 				  GdkEventFocus *event);
 static gint e_day_view_key_press (GtkWidget *widget,
 				  GdkEventKey *event);
+static gboolean e_day_view_check_if_new_event_fits (EDayView *day_view);
 
 static void e_day_view_on_canvas_realized (GtkWidget *widget,
 					   EDayView *day_view);
@@ -121,9 +122,6 @@ static gboolean e_day_view_convert_event_coords (EDayView *day_view,
 						 GdkWindow *window,
 						 gint *x_return,
 						 gint *y_return);
-static void e_day_view_update_selection (EDayView *day_view,
-					 gint row,
-					 gint col);
 static void e_day_view_update_long_event_resize (EDayView *day_view,
 						 gint day);
 static void e_day_view_update_resize (EDayView *day_view,
@@ -271,11 +269,8 @@ static gboolean e_day_view_convert_time_to_grid_position (EDayView *day_view,
 							  gint *col,
 							  gint *row);
 
-static void e_day_view_check_auto_scroll (EDayView *day_view,
-					  gint event_y);
 static void e_day_view_start_auto_scroll (EDayView *day_view,
 					  gboolean scroll_up);
-static void e_day_view_stop_auto_scroll (EDayView *day_view);
 static gboolean e_day_view_auto_scroll_handler (gpointer data);
 
 static void e_day_view_on_new_appointment (GtkWidget *widget,
@@ -470,9 +465,9 @@ e_day_view_init (EDayView *day_view)
 	day_view->resize_bars_event_num = -1;
 
 	day_view->selection_start_row = -1;
-	day_view->selection_start_col = -1;
+	day_view->selection_start_day = -1;
 	day_view->selection_end_row = -1;
-	day_view->selection_end_col = -1;
+	day_view->selection_end_day = -1;
 	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
 	day_view->selection_in_top_canvas = FALSE;
 
@@ -1098,9 +1093,10 @@ e_day_view_update_event		(EDayView	*day_view,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-#if 0
+#if 1
 	/* FIXME: Just for testing. */
 	chdir ("/home/damon/tmp");
+	g_log_set_always_fatal (G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL);
 
 	g_print ("In e_day_view_update_event day_view:%p uid:%s\n",
 		 day_view, uid);
@@ -1146,6 +1142,7 @@ e_day_view_update_event		(EDayView	*day_view,
 						EDayViewEvent, event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
+			g_print ("updated object's dates unchanged\n");
 			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
 			ical_object_unref (ico);
 			gtk_widget_queue_draw (day_view->top_canvas);
@@ -1155,6 +1152,7 @@ e_day_view_update_event		(EDayView	*day_view,
 
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
+		g_print ("dates changed - removing occurrences\n");
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb,
 						   NULL);
@@ -1269,7 +1267,7 @@ e_day_view_remove_event	(EDayView	*day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-#if 0
+#if 1
 	g_print ("In e_day_view_remove_event day_view:%p uid:%s\n",
 		 day_view, uid);
 #endif
@@ -1290,6 +1288,11 @@ e_day_view_remove_event_cb (EDayView *day_view,
 			    gpointer data)
 {
 	EDayViewEvent *event;
+
+#if 1
+	g_print ("In e_day_view_remove_event_cb day:%i event_num:%i\n",
+		 day, event_num);
+#endif
 
 	if (day == E_DAY_VIEW_LONG_EVENT)
 		event = &g_array_index (day_view->long_events,
@@ -1334,6 +1337,10 @@ e_day_view_update_event_label (EDayView *day_view,
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
+	/* If the event isn't visible just return. */
+	if (!event->canvas_item)
+		return;
+
 	text = event->ico->summary ? event->ico->summary : "";
 
 	if (day_view->editing_event_day == day
@@ -1373,6 +1380,10 @@ e_day_view_update_long_event_label (EDayView *day_view,
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
+
+	/* If the event isn't visible just return. */
+	if (!event->canvas_item)
+		return;
 
 	gnome_canvas_item_set (event->canvas_item,
 			       "text", event->ico->summary ? event->ico->summary : "",
@@ -1527,19 +1538,19 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	}
 
 	if (start_row != day_view->selection_start_row
-	    || start_col != day_view->selection_start_col) {
+	    || start_col != day_view->selection_start_day) {
 		need_redraw = TRUE;
 		day_view->selection_in_top_canvas = FALSE;
 		day_view->selection_start_row = start_row;
-		day_view->selection_start_col = start_col;
+		day_view->selection_start_day = start_col;
 	}
 
 	if (end_row != day_view->selection_end_row
-	    || end_col != day_view->selection_end_col) {
+	    || end_col != day_view->selection_end_day) {
 		need_redraw = TRUE;
 		day_view->selection_in_top_canvas = FALSE;
 		day_view->selection_end_row = end_row;
-		day_view->selection_end_col = end_col;
+		day_view->selection_end_day = end_col;
 	}
 
 	if (need_redraw) {
@@ -1557,9 +1568,9 @@ e_day_view_get_selected_time_range	(EDayView	*day_view,
 {
 	gint start_col, start_row, end_col, end_row;
 
-	start_col = day_view->selection_start_col;
+	start_col = day_view->selection_start_day;
 	start_row = day_view->selection_start_row;
-	end_col = day_view->selection_end_col;
+	end_col = day_view->selection_end_day;
 	end_row = day_view->selection_end_row;
 
 	if (start_col == -1) {
@@ -1799,16 +1810,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
-			day_view->selection_start_row = -1;
-			day_view->selection_start_col = day;
-			day_view->selection_end_row = -1;
-			day_view->selection_end_col = day;
-			day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
-			day_view->selection_in_top_canvas = TRUE;
-
-			/* FIXME: Optimise? */
-			gtk_widget_queue_draw (day_view->top_canvas);
-			gtk_widget_queue_draw (day_view->main_canvas);
+			e_day_view_start_selection (day_view, day, -1);
 		}
 	} else if (event->button == 3) {
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
@@ -1912,16 +1914,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 				      GDK_POINTER_MOTION_MASK
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
-			day_view->selection_start_row = row;
-			day_view->selection_start_col = day;
-			day_view->selection_end_row = row;
-			day_view->selection_end_col = day;
-			day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
-			day_view->selection_in_top_canvas = FALSE;
-
-			/* FIXME: Optimise? */
-			gtk_widget_queue_draw (day_view->top_canvas);
-			gtk_widget_queue_draw (day_view->main_canvas);
+			e_day_view_start_selection (day_view, day, row);
 		}
 	} else if (event->button == 3) {
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
@@ -2257,7 +2250,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	};
 
 	have_selection = GTK_WIDGET_HAS_FOCUS (day_view)
-		&& day_view->selection_start_col != -1;
+		&& day_view->selection_start_day != -1;
 
 	if (event_num == -1) {
 		items = 1;
@@ -2352,6 +2345,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	iCalObject *ico;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2359,9 +2353,13 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	ical_object_add_exdate (event->ico, event->start);
-	gnome_calendar_object_changed (day_view->calendar, event->ico,
-				       CHANGE_DATES);
+	/* We must duplicate the iCalObject, or we won't know it has changed
+	   when we get the "update_event" callback. */
+	ico = ical_object_duplicate (event->ico);
+
+	ical_object_add_exdate (ico, event->start);
+	gnome_calendar_object_changed (day_view->calendar, ico, CHANGE_DATES);
+	ical_object_unref (ico);
 }
 
 
@@ -2389,7 +2387,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	iCalObject *ico;
+	iCalObject *ico, *new_ico;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2397,26 +2395,29 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 	
+	/* For the recurring object, we add a exception to get rid of the
+	   instance. */
+	ico = ical_object_duplicate (event->ico);
+	ical_object_add_exdate (ico, event->start);
+
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
 	   the start & end times to the instances times. */
-	ico = ical_object_duplicate (event->ico);
-	g_free (ico->uid);
-	ico->uid = ical_gen_uid ();
-	g_free (ico->recur);
-	ico->recur = 0;
-	ico->dtstart = event->start;
-	ico->dtend   = event->end;
-	
-	/* For the recurring object, we add a exception to get rid of the
-	   instance. */
-	ical_object_add_exdate (event->ico, event->start);
+	new_ico = ical_object_duplicate (event->ico);
+	g_free (new_ico->uid);
+	new_ico->uid = ical_gen_uid ();
+	ical_object_reset_recurrence (new_ico);
+	new_ico->dtstart = event->start;
+	new_ico->dtend   = event->end;
 
-	gnome_calendar_object_changed (day_view->calendar, event->ico,
-				       CHANGE_ALL);
-	gnome_calendar_add_object (day_view->calendar, ico);
-
+	/* Now update both iCalObjects. Note that we do this last since at
+	   present the updates happen synchronously so our event may disappear.
+	*/
+	gnome_calendar_object_changed (day_view->calendar, ico, CHANGE_ALL);
 	ical_object_unref (ico);
+
+	gnome_calendar_add_object (day_view->calendar, new_ico);
+	ical_object_unref (new_ico);
 }
 
 
@@ -2443,9 +2444,8 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 					 EDayView *day_view)
 {
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
-		day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
 		gdk_pointer_ungrab (event->time);
-		e_day_view_update_calendar_selection_time (day_view);
+		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 		e_day_view_finish_long_event_resize (day_view);
 		gdk_pointer_ungrab (event->time);
@@ -2468,10 +2468,9 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 					  EDayView *day_view)
 {
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
-		day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
 		gdk_pointer_ungrab (event->time);
+		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
-		e_day_view_update_calendar_selection_time (day_view);
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 		e_day_view_finish_resize (day_view);
 		gdk_pointer_ungrab (event->time);
@@ -2536,7 +2535,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 					event_num);
 
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
-		e_day_view_update_selection (day_view, -1, day);
+		e_day_view_update_selection (day_view, day, -1);
 		return TRUE;
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
@@ -2620,9 +2619,6 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 					      &event_x, &event_y))
 		return FALSE;
 
-	day_view->last_mouse_x = event_x;
-	day_view->last_mouse_y = event_y;
-
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
 					 &scroll_x, &scroll_y);
 	canvas_x = event_x + scroll_x;
@@ -2638,14 +2634,16 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
-			e_day_view_update_selection (day_view, row, day);
-			e_day_view_check_auto_scroll (day_view, event_y);
+			e_day_view_update_selection (day_view, day, row);
+			e_day_view_check_auto_scroll (day_view,
+						      event_x, event_y);
 			return TRUE;
 		}
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 			e_day_view_update_resize (day_view, row);
-			e_day_view_check_auto_scroll (day_view, event_y);
+			e_day_view_check_auto_scroll (day_view,
+						      event_x, event_y);
 			return TRUE;
 		}
 	} else if (day_view->pressed_event_day != -1
@@ -2705,45 +2703,81 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 }
 
 
-static void
-e_day_view_update_selection (EDayView *day_view,
-			     gint row,
-			     gint col)
+/* This sets the selection to a single cell. If day is -1 then the current
+   start day is reused. If row is -1 then the selection is in the top canvas.
+*/
+void
+e_day_view_start_selection (EDayView *day_view,
+			    gint day,
+			    gint row)
 {
-	gint tmp_row, tmp_col;
+	if (day == -1) {
+		day = day_view->selection_start_day;
+		if (day == -1)
+			day = 0;
+	}
+
+	day_view->selection_start_day = day;
+	day_view->selection_end_day = day;
+
+	day_view->selection_start_row = row;
+	day_view->selection_end_row = row;
+
+	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
+	day_view->selection_in_top_canvas = (row == -1) ? TRUE : FALSE;
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+/* Updates the selection during a drag. If day is -1 the selection day is
+   unchanged. */
+void
+e_day_view_update_selection (EDayView *day_view,
+			     gint day,
+			     gint row)
+{
+	gint tmp_row, tmp_day;
 	gboolean need_redraw = FALSE;
 
 #if 0
-	g_print ("Updating selection %i,%i\n", col, row);
+	g_print ("Updating selection %i,%i\n", day, row);
 #endif
 
 	day_view->selection_in_top_canvas = (row == -1) ? TRUE : FALSE;
 
+	if (day == -1)
+		day = (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
+			? day_view->selection_start_day
+			: day_view->selection_end_day;
+
 	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START) {
 		if (row != day_view->selection_start_row
-		    || col != day_view->selection_start_col) {
+		    || day != day_view->selection_start_day) {
 			need_redraw = TRUE;
 			day_view->selection_start_row = row;
-			day_view->selection_start_col = col;
+			day_view->selection_start_day = day;
 		}
 	} else {
 		if (row != day_view->selection_end_row
-		    || col != day_view->selection_end_col) {
+		    || day != day_view->selection_end_day) {
 			need_redraw = TRUE;
 			day_view->selection_end_row = row;
-			day_view->selection_end_col = col;
+			day_view->selection_end_day = day;
 		}
 	}
 
 	/* Switch the drag position if necessary. */
-	if (day_view->selection_start_col > day_view->selection_end_col
-	    || (day_view->selection_start_col == day_view->selection_end_col
+	if (day_view->selection_start_day > day_view->selection_end_day
+	    || (day_view->selection_start_day == day_view->selection_end_day
 		&& day_view->selection_start_row > day_view->selection_end_row)) {
 		tmp_row = day_view->selection_start_row;
-		tmp_col = day_view->selection_start_col;
-		day_view->selection_start_col = day_view->selection_end_col;
+		tmp_day = day_view->selection_start_day;
+		day_view->selection_start_day = day_view->selection_end_day;
 		day_view->selection_start_row = day_view->selection_end_row;
-		day_view->selection_end_col = tmp_col;
+		day_view->selection_end_day = tmp_day;
 		day_view->selection_end_row = tmp_row;
 		if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
 			day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
@@ -2756,6 +2790,14 @@ e_day_view_update_selection (EDayView *day_view,
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
+}
+
+
+void
+e_day_view_finish_selection (EDayView *day_view)
+{
+	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
+	e_day_view_update_calendar_selection_time (day_view);
 }
 
 
@@ -3808,9 +3850,16 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 	}
 
-
-	if (day_view->selection_start_col == -1)
+	if (day_view->selection_start_day == -1)
 		return FALSE;
+
+	/* Check if there is room for a new event to be typed in. If there
+	   isn't we don't want to add an event as we will then add a new
+	   event for every key press. */
+	if (!e_day_view_check_if_new_event_fits (day_view)) {
+		g_print ("Skipping new event. No more room\n");
+		return FALSE;
+	}
 
 	/* We only want to start an edit with a return key or a simple
 	   character. */
@@ -3856,6 +3905,33 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	gnome_calendar_add_object (day_view->calendar, ico);
 
 	ical_object_unref (ico);
+
+	return TRUE;
+}
+
+
+static gboolean
+e_day_view_check_if_new_event_fits (EDayView *day_view)
+{
+	gint day, start_row, end_row, row;
+
+	day = day_view->selection_start_day;
+	start_row = day_view->selection_start_row;
+	end_row = day_view->selection_end_row;
+
+	/* Long events always fit, since we keep adding rows to the top
+	   canvas. */
+	if (day != day_view->selection_end_day)
+		return FALSE;
+	if (start_row == 0 && end_row == day_view->rows)
+		return FALSE;
+
+	/* If any of the rows already have E_DAY_VIEW_MAX_COLUMNS columns,
+	   return FALSE. */
+	for (row = start_row; row <= end_row; row++) {
+		if (day_view->cols_per_row[day][row] >= E_DAY_VIEW_MAX_COLUMNS)
+			return FALSE;
+	}
 
 	return TRUE;
 }
@@ -4160,10 +4236,14 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 
 /* This starts or stops auto-scrolling when dragging a selection or resizing
    an event. */
-static void
+void
 e_day_view_check_auto_scroll (EDayView *day_view,
+			      gint event_x,
 			      gint event_y)
 {
+	day_view->last_mouse_x = event_x;
+	day_view->last_mouse_y = event_y;
+
 	if (event_y < E_DAY_VIEW_AUTO_SCROLL_OFFSET)
 		e_day_view_start_auto_scroll (day_view, TRUE);
 	else if (event_y >= day_view->main_canvas->allocation.height
@@ -4186,7 +4266,7 @@ e_day_view_start_auto_scroll (EDayView *day_view,
 }
 
 
-static void
+void
 e_day_view_stop_auto_scroll (EDayView *day_view)
 {
 	if (day_view->auto_scroll_timeout_id != 0) {
@@ -4241,14 +4321,23 @@ e_day_view_auto_scroll_handler (gpointer data)
 	canvas_x = day_view->last_mouse_x + scroll_x;
 	canvas_y = day_view->last_mouse_y + new_scroll_y;
 
+	/* The last_mouse_x position is set to -1 when we are selecting using
+	   the time column. In this case we set canvas_x to 0 and we ignore
+	   the resulting day. */
+	if (day_view->last_mouse_x == -1)
+		canvas_x = 0;
+
 	/* Update the selection/resize/drag if necessary. */
 	pos = e_day_view_convert_position_in_main_canvas (day_view,
 							  canvas_x, canvas_y,
 							  &day, &row, NULL);
 
+	if (day_view->last_mouse_x == -1)
+		day = -1;
+
 	if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 		if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
-			e_day_view_update_selection (day_view, row, day);
+			e_day_view_update_selection (day_view, day, row);
 		} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 			e_day_view_update_resize (day_view, row);
 		} else if (day_view->drag_item->object.flags
@@ -4675,9 +4764,6 @@ e_day_view_on_main_canvas_drag_motion (GtkWidget      *widget,
 {
 	gint scroll_x, scroll_y;
 
-	day_view->last_mouse_x = x;
-	day_view->last_mouse_y = y;
-
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
 					 &scroll_x, &scroll_y);
 	day_view->drag_event_x = x + scroll_x;
@@ -4686,7 +4772,7 @@ e_day_view_on_main_canvas_drag_motion (GtkWidget      *widget,
 	e_day_view_reshape_main_canvas_drag_item (day_view);
 	e_day_view_reshape_main_canvas_resize_bars (day_view);
 
-	e_day_view_check_auto_scroll (day_view, y);
+	e_day_view_check_auto_scroll (day_view, x, y);
 
 	return TRUE;
 }

@@ -229,17 +229,17 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 
 	/* Paint the selection background. */
 	if (GTK_WIDGET_HAS_FOCUS (day_view)
-	    && day_view->selection_start_col != -1
+	    && day_view->selection_start_day != -1
 	    && !day_view->selection_in_top_canvas) {
-		for (day = day_view->selection_start_col;
-		     day <= day_view->selection_end_col;
+		for (day = day_view->selection_start_day;
+		     day <= day_view->selection_end_day;
 		     day++) {
-			if (day == day_view->selection_start_col
+			if (day == day_view->selection_start_day
 			    && day_view->selection_start_row != -1)
 				start_row = day_view->selection_start_row;
 			else
 				start_row = 0;
-			if (day == day_view->selection_end_col
+			if (day == day_view->selection_end_day
 			    && day_view->selection_end_row != -1)
 				end_row = day_view->selection_end_row;
 			else
