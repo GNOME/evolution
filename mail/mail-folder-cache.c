@@ -49,7 +49,6 @@ typedef enum mail_folder_info_flags {
 	MAIL_FIF_NEED_UPDATE = (1 << 4),
 	MAIL_FIF_PATH_VALID = (1 << 5),
 	MAIL_FIF_NAME_VALID = (1 << 6),
-	MAIL_FIF_UPDATE_QUEUED = (1 << 7),
 	MAIL_FIF_FB_VALID = (1 << 8),
 	MAIL_FIF_SELECTED_VALID = (1 << 9)
 } mfif;
@@ -77,6 +76,8 @@ typedef struct _mail_folder_info {
 	guint unread, total, hidden, selected;
 
 	FolderBrowser *fb;
+
+	int timeout_id;
 
 	mfium update_mode;
 	mfiui update_info;
@@ -122,6 +123,7 @@ get_folder_info (const gchar *uri)
 		mfi->flags = 0;
 		mfi->update_mode = MAIL_FIUM_UNKNOWN;
 		mfi->update_info.es = NULL;
+		mfi->timeout_id = 0;
 
 		g_hash_table_insert (folders, mfi->uri, mfi);
 	} else
@@ -192,7 +194,7 @@ update_idle (gpointer user_data)
 
 	d(g_message("update_idle called"));
 
-	mfi->flags &= (~MAIL_FIF_UPDATE_QUEUED);
+	mfi->timeout_id = 0;
 
 	/* Check if this makes sense */
 
@@ -297,11 +299,10 @@ update_idle (gpointer user_data)
 static void
 maybe_update (mail_folder_info *mfi)
 {
-	if (mfi->flags & MAIL_FIF_UPDATE_QUEUED)
+	if (mfi->timeout_id)
 		return;
 
-	mfi->flags |= MAIL_FIF_UPDATE_QUEUED;
-	g_timeout_add (100, update_idle, mfi);
+	mfi->timeout_id = g_timeout_add (100, update_idle, mfi);
 }
 
 static void
@@ -601,19 +602,32 @@ mail_folder_cache_set_update_lstorage (const gchar *uri,
 void
 mail_folder_cache_remove_folder (const gchar *uri)
 {
-	if (uri && *uri) {
-		mail_folder_info *mfi;
+	mail_folder_info *mfi;
 
-		mfi = g_hash_table_lookup (folders, uri);
+	g_return_if_fail (uri);
 
-		/* Free everything we've allocated for this folder info */
-		g_free (mfi->uri);
-		g_free (mfi->path);
-		g_free (mfi->name);
-
-		/* Remove it from the hash */
-		g_hash_table_remove (folders, uri);
+	LOCK_FOLDERS ();
+	
+	mfi = g_hash_table_lookup (folders, uri);
+	if (!mfi) {
+		UNLOCK_FOLDERS ();
+		g_warning ("folder cache: trying to remove uri \"%s\": not found in the cache",
+			   uri);
+		return;
 	}
+	g_hash_table_remove (folders, uri);
+
+	if (mfi->timeout_id)
+		g_source_remove (mfi->timeout_id);
+
+	UNLOCK_FOLDERS ();
+
+	d(g_message ("folder cache: removing uri \"%s\".", uri));
+
+	g_free (mfi->uri);
+	g_free (mfi->path);
+	g_free (mfi->name);
+	g_free (mfi);
 }
 
 void

@@ -1,3 +1,13 @@
+2001-08-23  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (maybe_update): Record the timeout_id so we
+	can cancel it if the mail_folder_info is later freed. Also obviates
+	the use of the _UPDATE_QUEUED flag.
+	(mail_folder_cache_remove_folder): Cancel the timeout if we need to.
+	Lock around the hash table operations. Free mfi itself. Add debugging
+	spew.
+	(get_folder_info): Initialiae the timeout_id to 0.
+
 2001-08-22  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (ask_confirm_for_only_bcc): Provide alternative
