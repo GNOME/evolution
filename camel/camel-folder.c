@@ -49,6 +49,8 @@ static void _close (CamelFolder *folder,
 		    gboolean expunge, 
 		    CamelException *ex);
 
+#ifdef FOLDER_ASYNC_TEST
+
 /* Async operations are not used for the moment */
 static void _open_async (CamelFolder *folder, 
 			 CamelFolderOpenMode mode, 
@@ -61,6 +63,7 @@ static void _close_async (CamelFolder *folder,
 			  gpointer user_data, 
 			  CamelException *ex);
 
+#endif 
 
 static void _set_name (CamelFolder *folder, 
 		       const gchar *name, 
@@ -132,9 +135,13 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	/* virtual method definition */
 	camel_folder_class->init_with_store = _init_with_store;
 	camel_folder_class->open = _open;
+#ifdef FOLDER_ASYNC_TEST
 	camel_folder_class->open_async = _open_async;
+#endif
 	camel_folder_class->close = _close;
+#ifdef FOLDER_ASYNC_TEST
 	camel_folder_class->close_async = _close_async;
+#endif
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->get_full_name = _get_full_name;
@@ -302,7 +309,7 @@ camel_folder_open (CamelFolder *folder,
 
 
 
-
+#ifdef FOLDER_ASYNC_TEST
 
 static void
 _open_async (CamelFolder *folder, 
@@ -314,6 +321,7 @@ _open_async (CamelFolder *folder,
 	CAMEL_LOG_WARNING ("Calling CamelFolder::open_async directly. "
 			   "Should be overloaded\n");
 }
+
 
 
 
@@ -347,7 +355,7 @@ camel_folder_open_async (CamelFolder *folder,
 }
 
 
-
+#endif /* FOLDER_ASYNC_TEST */
 
 
 
@@ -392,6 +400,7 @@ camel_folder_close (CamelFolder *folder,
 
 
 
+#ifdef FOLDER_ASYNC_TEST
 
 
 static void
@@ -442,7 +451,7 @@ camel_folder_close_async (CamelFolder *folder,
 }
 
 
-
+#endif
 
 
 static void
@@ -1686,6 +1695,10 @@ _get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelExcep
 	return NULL;
 }
 
+
+const gchar * 
+camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex);
+
 /**
  * camel_folder_get_message_uid_by_number: get the UID corresponding to a message number
  * @folder: Folder object
@@ -1710,6 +1723,8 @@ camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number
 
 	/*  if (!folder->has_uid_capability) return NULL; */
 	/*  return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number, ex); */
+	
+	return NULL;
 }
 
 

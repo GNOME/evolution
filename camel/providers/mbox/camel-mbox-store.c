@@ -54,7 +54,6 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
-	CamelMboxStore *mbox_store = CAMEL_MBOX_STORE (object);
 	CamelStore *store = CAMEL_STORE (object);
 	
 	store->separator = '/';

@@ -627,7 +627,6 @@ static void
 _set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_type, gchar *recipients_string)
 {
 	GList *recipients_list;
-	GList *tmp;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string);
 	recipients_list = string_split (

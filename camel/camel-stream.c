@@ -68,6 +68,7 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->available = NULL;
 	camel_stream_class->eos = NULL; 
 	camel_stream_class->close = default_camel_close;
+	camel_stream_class->close = NULL;
 
 	/* virtual method overload */
 	
@@ -158,7 +159,7 @@ camel_stream_flush (CamelStream *stream)
  * camel_stream_available: 
  * @stream: a CamelStream object
  * 
- * Return value: the number of bytes available.
+ * Return value: %TRUE if some data is available for reading, %FALSE otherwise
  **/
 gboolean
 camel_stream_available (CamelStream *stream)
@@ -192,6 +193,25 @@ void
 camel_stream_close (CamelStream *stream)
 {
 	CS_CLASS (stream)->close (stream);
+}
+
+
+
+
+/**
+ * camel_stream_reset: reset a stream
+ * @stream: the stream object
+ * 
+ * Reset a stream, that is put it in a state
+ * where it can be read from the begining. 
+ * All streams in camel are not seekable, 
+ * but they must all be resettable. 
+ * 
+ **/
+void 
+camel_stream_reset (CamelStream *stream)
+{	
+	CS_CLASS (stream)->reset (stream);
 }
 
 

@@ -74,7 +74,7 @@ typedef struct {
 GtkType camel_session_get_type (void);
 
 
-CamelSession *camel_session_new ();
+CamelSession *camel_session_new (void);
 void camel_session_set_provider (CamelSession *session, CamelProvider *provider);
 CamelStore *camel_session_get_store_for_protocol (CamelSession *session, const gchar *protocol);
 CamelStore *camel_session_get_store (CamelSession *session, const gchar *url_string);

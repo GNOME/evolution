@@ -196,8 +196,6 @@ static const gchar *
 _get_header (CamelMedium *medium, const gchar *header_name)
 {
 	
-	gchar *old_header_name;
-	gchar *old_header_value;
 	gchar *header_value;
 	
 	header_value = (gchar *)g_hash_table_lookup (medium->headers, header_name);
@@ -235,7 +233,6 @@ camel_medium_get_content_object (CamelMedium *medium)
 static void
 _set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 {
-	GMimeContentField *object_content_field;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::set_content_object\n");
 	if (medium->content) {

@@ -117,8 +117,10 @@ camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy
 	camel_folder_class->init_with_store = _init_with_store;
 	camel_folder_class->open = _open;
 	camel_folder_class->close = _close;
+#ifdef FOLDER_ASYNC_TEST
 	camel_folder_class->open_async = _open_async;
 	camel_folder_class->close_async = _close_async;
+#endif
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->can_hold_folders = _can_hold_folders;

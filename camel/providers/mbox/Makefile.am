@@ -4,9 +4,10 @@ SUBDIRS =
 
 libcamelmboxincludedir = $(includedir)/camel
 
-lib_LTLIBRARIES = libcamelmbox.la
 
-#provider_LTLIBRARIES = libcamelmbox.la
+providerdir = $(pkglibdir)/camel-providers/$(VERSION)
+
+provider_LTLIBRARIES = libcamelmbox.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
@@ -34,6 +35,7 @@ libcamelmboxinclude_HEADERS =			\
 libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
 #libcamelmbox_la_LIBADD = -L$(top_srcdir)/libibex -libex
-libcamelmbox_la_LIBADD = $(top_srcdir)/libibex/libibex.la $(UNICODE_LIBS)
+#libcamelmbox_la_LIBADD = $(top_srcdir)/libibex/libibex.la $(UNICODE_LIBS)
+libcamelmbox_la_LIBADD =  -L$(top_srcdir)/libibex -libex $(UNICODE_LIBS)
 
 EXTRA_DIST = 

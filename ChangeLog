@@ -1,3 +1,33 @@
+2000-02-17  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-formatter.c (handle_text_plain): 
+	(handle_text_html): use camel_stream_reset instead
+	of seek. The formatter should be able to work 
+	with all streams, not only seekable streams. 
+	In the case where some provider implementation
+	would not be able to provide a reset method 
+	to their stream, implementors would have
+	to find a workaround.
+
+	* camel/camel-session.c (camel_session_new): use
+	(void) instean of () in function decl.
+
+	* camel/camel-folder.c: ifdef async operation 
+	related code. 
+
+	* camel/camel-seekable-stream.c (_seek): added a warning.
+	(_reset): default implementation of reset for seekable
+	stream.
+
+	* camel/camel-mime-message.h: set_received_date declaration fix.
+	cosmetic changes.
+
+	* camel/providers/mbox/camel-mbox-provider.c (camel_provider_module_init): 
+	use (void) instead of ().
+
+	* camel/camel-stream.c (camel_stream_reset): 
+	new method for CamelStream.
+
 2000-02-17  Dan Winship  <danw@helixcode.com>
 
 	* camel/url-util.c (g_url_to_string): New function to convert

@@ -611,10 +611,7 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 	/* get the output stream of the data wrapper */
 	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
 	
-	if (CAMEL_IS_SEEKABLE_STREAM (wrapper_output_stream))
-		camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (wrapper_output_stream),
-					    0, 
-					    CAMEL_STREAM_SET);
+	camel_stream_reset (wrapper_output_stream);
 	
 
 	do {
@@ -623,7 +620,7 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 		nb_bytes_read = camel_stream_read (wrapper_output_stream,
 						   tmp_buffer,
 						   4096);
-		printf ("after camel_stream_read, nb_bytes_read=%d\n", nb_bytes_read);
+
 		/* If there's any text, write it to the stream */
 		if (nb_bytes_read > 0) {
 			
@@ -667,10 +664,7 @@ handle_text_html (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 	/* get the output stream of the data wrapper */
 	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
 	
-	if (CAMEL_IS_SEEKABLE_STREAM (wrapper_output_stream))
-		camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (wrapper_output_stream),
-					    0, 
-					    CAMEL_STREAM_SET);
+	camel_stream_reset (wrapper_output_stream);
 
 	/* write the header */
 	camel_stream_write_string (formatter->priv->stream,

@@ -247,6 +247,8 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	stream_fs->name = g_strdup (name);
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
 	
+	gtk_signal_emit_by_name (GTK_OBJECT (stream_fs), "data_available");
+	
 }
 
 

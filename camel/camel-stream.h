@@ -60,9 +60,10 @@ typedef struct {
 	gint      (*read)       (CamelStream *stream, gchar *buffer, gint n);
 	gint      (*write)      (CamelStream *stream, const gchar *buffer, gint n);
 	void      (*flush)      (CamelStream *stream);
-	gint      (*available)  (CamelStream *stream);
+	gboolean  (*available)  (CamelStream *stream);
 	gboolean  (*eos)        (CamelStream *stream);
 	void      (*close)      (CamelStream *stream);
+	void      (*reset)      (CamelStream *stream);
 } CamelStreamClass;
 
 
@@ -83,6 +84,7 @@ void       camel_stream_flush     (CamelStream *stream);
 gboolean   camel_stream_available (CamelStream *stream);
 gboolean   camel_stream_eos       (CamelStream *stream);
 void       camel_stream_close     (CamelStream *stream);
+void       camel_stream_reset     (CamelStream *stream);
 
 
 

@@ -35,19 +35,24 @@ static CamelStreamClass *parent_class=NULL;
 /* Returns the class for a CamelSeekableStream */
 #define CSS_CLASS(so) CAMEL_SEEKABLE_STREAM_CLASS (GTK_OBJECT(so)->klass)
 
-static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
+static gint      _seek      (CamelSeekableStream *stream, 
+			     gint offset, 
+			     CamelStreamSeekPolicy policy);
+static void      _reset     (CamelStream *stream);
 
 
 static void
 camel_seekable_stream_class_init (CamelSeekableStreamClass *camel_seekable_stream_class)
 {
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_seekable_stream_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_seekable_stream_class);
 
 	parent_class = gtk_type_class (camel_stream_get_type ());
 	
+	/* seekable stream methods */
 	camel_seekable_stream_class->seek = _seek;
 
+	/* camel stream methods overload */
+	camel_stream_class->reset = _reset;
 }
 
 GtkType
@@ -82,6 +87,7 @@ _seek (CamelSeekableStream *stream,
        gint offset, 
        CamelStreamSeekPolicy policy)
 {
+	g_warning ("CamelSeekableStream::seek called on default implementation \n");
 	return -1;
 }
 
@@ -124,6 +130,17 @@ camel_seekable_stream_get_current_position  (CamelSeekableStream *stream)
 
 
 
+/* a default implementation of reset for seekable streams */
+static void 
+_reset (CamelStream *stream)
+{
+	CamelSeekableStream *seekable_stream;
+
+	g_assert (stream);
+	seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
+
+	camel_seekable_stream_seek (seekable_stream, 0, CAMEL_STREAM_SET);	
+}
 
 
 

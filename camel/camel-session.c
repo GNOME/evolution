@@ -84,7 +84,7 @@ camel_session_get_type (void)
 
 
 CamelSession *
-camel_session_new ()
+camel_session_new (void)
 {
 	return gtk_type_new (CAMEL_SESSION_TYPE);
 }

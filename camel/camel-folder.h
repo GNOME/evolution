@@ -60,7 +60,9 @@ typedef enum {
 	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
 
+
 typedef void (*CamelFolderAsyncCallback) ();
+
 
 struct _CamelFolder
 {
