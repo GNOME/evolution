@@ -1691,7 +1691,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		g_free (tasks_uri);
 	}
 	else {
-		if (gnome_vfs_uri_is_local (uri)) {
+		if (!g_strcasecmp (uri->method_string, "file")) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 

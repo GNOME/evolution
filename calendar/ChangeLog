@@ -1,3 +1,9 @@
+2001-10-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): don't use
+	gnome_vfs_uri_is_local on URIs created with
+	gnome_vfs_uri_new_private
+
 2001-09-28  Damon Chaplin  <damon@ximian.com>
 
 	* gui/print.c (print_comp_item): use bound_text to print the summary,

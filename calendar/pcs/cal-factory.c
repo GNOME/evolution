@@ -436,14 +436,12 @@ impl_CalFactory_open (PortableServer_Servant servant,
 	priv = factory->priv;
 
 	/* check URI to see if we support it */
-	CORBA_exception_init (&ev2);
 
 	uri = gnome_vfs_uri_new_private (str_uri, TRUE, TRUE, TRUE);
 	if (!uri) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI,
 				     NULL);
-		CORBA_exception_free (&ev2);
 		return;
 	}
 
@@ -455,11 +453,8 @@ impl_CalFactory_open (PortableServer_Servant servant,
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod,
 				     NULL);
-		CORBA_exception_free (&ev2);
 		return;
 	}
-
-	CORBA_exception_free (&ev2);
 		
 	/* duplicate the listener object */
 	CORBA_exception_init (&ev2);

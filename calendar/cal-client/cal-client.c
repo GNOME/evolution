@@ -748,8 +748,6 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 				     BONOBO_OBJECT (priv->w_client));
 
 	corba_listener = (GNOME_Evolution_Calendar_Listener) (BONOBO_OBJREF (priv->listener));
-	
-	CORBA_exception_init (&ev);
 
 	priv->load_state = CAL_CLIENT_LOAD_LOADING;
 	priv->uri = g_strdup (str_uri);
