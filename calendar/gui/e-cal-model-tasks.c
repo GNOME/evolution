@@ -545,7 +545,7 @@ set_due (ECalModelComponent *comp_data, const void *value)
 	icalparameter *param;
 	const char *tzid;
 	
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
 	if (prop)
 		param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
 	else
@@ -570,9 +570,9 @@ set_due (ECalModelComponent *comp_data, const void *value)
 		dv->tt.is_utc = 0;
 
 	if (prop) {
-		icalproperty_set_dtend (prop, dv->tt);
+		icalproperty_set_due (prop, dv->tt);
 	} else {
-		prop = icalproperty_new_dtend (dv->tt);
+		prop = icalproperty_new_due (dv->tt);
 		icalcomponent_add_property (comp_data->icalcomp, prop);
 	}
 

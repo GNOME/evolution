@@ -1,3 +1,8 @@
+2004-05-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model-tasks.c (set_due): use/set the DUE date, not
+	the DTEND date.
+
 2004-05-07  Umeshtej <umeshtej@gawab.com>
 
 	Fixes #58014
