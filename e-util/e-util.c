@@ -26,6 +26,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "e-util.h"
 
@@ -250,4 +251,57 @@ e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 				GTK_VALUE_DOUBLE (args[2]),
 				GTK_VALUE_BOOL   (args[3]),
 				func_data);
+}
+
+gchar**
+e_strsplit (const gchar *string,
+	    const gchar *delimiter,
+	    gint         max_tokens)
+{
+  GSList *string_list = NULL, *slist;
+  gchar **str_array, *s;
+  guint i, n = 1;
+
+  g_return_val_if_fail (string != NULL, NULL);
+  g_return_val_if_fail (delimiter != NULL, NULL);
+
+  if (max_tokens < 1)
+    max_tokens = G_MAXINT;
+
+  s = strstr (string, delimiter);
+  if (s)
+    {
+      guint delimiter_len = strlen (delimiter);
+
+      do
+	{
+	  guint len;
+	  gchar *new_string;
+
+	  len = s - string;
+	  new_string = g_new (gchar, len + 1);
+	  strncpy (new_string, string, len);
+	  new_string[len] = 0;
+	  string_list = g_slist_prepend (string_list, new_string);
+	  n++;
+	  string = s + delimiter_len;
+	  s = strstr (string, delimiter);
+	}
+      while (--max_tokens && s);
+    }
+
+  n++;
+  string_list = g_slist_prepend (string_list, g_strdup (string));
+
+  str_array = g_new (gchar*, n);
+
+  i = n - 1;
+
+  str_array[i--] = NULL;
+  for (slist = string_list; slist; slist = slist->next)
+    str_array[i--] = slist->data;
+
+  g_slist_free (string_list);
+
+  return str_array;
 }

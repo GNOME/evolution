@@ -42,6 +42,10 @@ void  e_free_string_list  (GList *list);
 char *e_read_file  (const char *filename);
 gint e_write_file(const char *filename, const char *data, int flags);
 
+gchar **e_strsplit (const gchar *string,
+		    const gchar *delimiter,
+		    gint         max_tokens);
+
 void e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 				     GtkSignalFunc func,
 				     gpointer func_data, GtkArg * args);
