@@ -471,13 +471,68 @@ the workaround described in the note below.
       and don't want to lose the information.  The following section
       describes how to import mail from specific mail clients.
     </para>
+    <sect2 id="mutt">
+      <title>Importing Mail from mutt</title>
+      <para>
+	<application>mutt</application> is a full-featured mail client
+	which is shipped with most Linux and Unix distributions.
+	<application>mutt</application> uses the standard mbox file
+	format, which makes importing your mail into
+	<application>Evolution</application> easy.
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Open <application>Ximian Evolution</application>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>File</guimenu>
+		<guimenuitem>Import</guimenuitem>
+	      </menuchoice>
+	      or press
+	      <keycombo action="simul">
+		<keycap>Ctrl</keycap>
+		<keycap>I</keycap>
+	      </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Next</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select <guibutton>Import a Single File</guibutton>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Browse</guibutton> and select the file
+	      you would like to import from.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      When prompted for what folder in
+	      <application>Evolution</application> to import to,
+	      select a folder.  You can also create a new folder and
+	      drop it in there.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </sect2>
     <sect2 id="kmail">
       <title>Importing Mail from KMail</title>
       <para>
 	KMail is a full-featured mail client which is shipped with the
 	KDE desktop environment.  KMail uses the standard mbox file
-	format, which means that importing your mail into Evolution is
-	easy.
+	format, which means that importing your mail into
+	<application>Evolution</application> is easy.
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>

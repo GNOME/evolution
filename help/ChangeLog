@@ -1,3 +1,7 @@
+2001-12-22  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mainwindow.sgml: Added information about importing mutt to Evolution.
+
 2001-12-20  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-exchange.sgml: Added a <sect1> that discusses features of Connector
