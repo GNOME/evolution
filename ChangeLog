@@ -1,3 +1,9 @@
+2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Define `VERSION_COMMENT' to be the empty string.
+	Up version number to 1.0.1.  Require GAL 0.19 or later and gtkhtml
+	1.0.1 or later.
+
 2001-12-17  JP Rosevear  <jpr@ximian.com>
 
 	* NEWS: Update

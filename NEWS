@@ -1,4 +1,4 @@
-Evolution 1.0.1, 12-17-2001
+Evolution 1.0.1, 12-18-2001
 ---------------------------
 
 New features:
@@ -7,7 +7,7 @@ New features:
     into VCard files that the Evolution importer can understand (by
     Michael MacDonald).
 
-  * Alarms synced in calendar conduit
+  * Alarms are now properly synced in the calendar conduit.
 
 Bugs fixed:
 
@@ -24,10 +24,10 @@ Bugs fixed:
     #14876 -- Modifying LDAP contacts destroys existing objectclass entries
     #15379 -- Printing from the addressbook totally broken
     #16156 -- "Save As", "Send As", "Send To" not available in list editor
-    #16176 -- tab_order starts wrong
+    #16176 -- Tab order starts wrong
     #16510 -- Small contact editor fixes
     #16744 -- Crash
-    #16852 -- Crash: Closed empty mail
+    #16852 -- Crash closing empty mail
     #16910 -- Crashed addressbook when selecting addresses
     #17109 -- Crashed when editing a contact
     #17126 -- Adding some addresses does not work
@@ -66,6 +66,17 @@ Bugs fixed:
     #17531 -- libical does not build with bison 1.30
     #17606 -- libical does not build with autoconf 2.52
     (none) -- Scheduling page did not accurately display no information range
+
+  * Conduits
+
+    #1183  -- Handle alarms in conduits
+    #14452 -- Converting names wrong from Palm
+    #15810 -- Crashed during EAddress sync
+    #15922 -- Crash
+    #16460 -- Changing a meeting doesn't always offer to send an
+              update
+    #16997 -- Pilot compilation with libiconv
+    #17230 -- Custom data on Pilot being over written
 
   * Importers
 
@@ -149,17 +160,6 @@ Bugs fixed:
     #16772 -- Summary crashes on startup
     #17249 -- Crash going offline
   
-  * Conduits
-
-    #1183  -- Handle alarms in conduits
-    #14452 -- Converting names wrong from Palm
-    #15810 -- Crashed during EAddress sync
-    #15922 -- Crash
-    #16460 -- Changing a meeting doesn't always offer to send an
-              update
-    #16997 -- Pilot compilation with libiconv
-    #17230 -- Custom data on Pilot being over written
-
   * Misc
 
     #16358 -- Evolution doesn't have a man page

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2001-12-17 14:30-0500\n"
+"POT-Creation-Date: 2001-12-18 17:59-0500\n"
 "PO-Revision-Date: 2001-09-29 10:08-01:00\n"
 "Last-Translator: Ettore Perazzoli <ettore@ximian.com>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -616,10 +616,10 @@ msgstr "VCard per %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1539
+#: addressbook/conduit/address-conduit.c:1548
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1546
-#: calendar/conduits/todo/todo-conduit.c:1130
+#: calendar/conduits/calendar/calendar-conduit.c:1554
+#: calendar/conduits/todo/todo-conduit.c:1138
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
@@ -672,28 +672,28 @@ msgstr "Ricezione dei risultati della ricerca LDAP in corso..."
 msgid "Restarting search."
 msgstr "Riavvio della ricerca in corso."
 
-#: addressbook/conduit/address-conduit.c:293
+#: addressbook/conduit/address-conduit.c:296
 msgid "Cursor could not be loaded\n"
 msgstr "Il cursore non può essere caricato\n"
 
-#: addressbook/conduit/address-conduit.c:306
+#: addressbook/conduit/address-conduit.c:309
 msgid "EBook not loaded\n"
 msgstr "EBook non caricato\n"
 
-#: addressbook/conduit/address-conduit.c:1094
-#: calendar/conduits/calendar/calendar-conduit.c:1078
-#: calendar/conduits/todo/todo-conduit.c:694
+#: addressbook/conduit/address-conduit.c:1099
+#: calendar/conduits/calendar/calendar-conduit.c:1082
+#: calendar/conduits/todo/todo-conduit.c:698
 msgid "Could not start wombat server"
 msgstr "Impossibile avviare il server wombat"
 
-#: addressbook/conduit/address-conduit.c:1095
-#: calendar/conduits/calendar/calendar-conduit.c:1079
-#: calendar/conduits/todo/todo-conduit.c:695
+#: addressbook/conduit/address-conduit.c:1100
+#: calendar/conduits/calendar/calendar-conduit.c:1083
+#: calendar/conduits/todo/todo-conduit.c:699
 msgid "Could not start wombat"
 msgstr "Impossibile avviare wombat"
 
-#: addressbook/conduit/address-conduit.c:1125
-#: addressbook/conduit/address-conduit.c:1128
+#: addressbook/conduit/address-conduit.c:1130
+#: addressbook/conduit/address-conduit.c:1133
 msgid "Could not read pilot's Address application block"
 msgstr "Impossibile leggere il blocco Indirizzi del Pilot"
 
@@ -817,7 +817,8 @@ msgstr "Indirizzo Email:"
 #: addressbook/gui/component/addressbook-config.glade.h:10
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
-msgstr "Evolution utilizzerà questo indirizzo di posta per autenticarsi con il server"
+msgstr ""
+"Evolution utilizzerà questo indirizzo di posta per autenticarsi con il server"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -964,37 +965,37 @@ msgstr ""
 msgid "Enter password for %s (user %s)"
 msgstr "Digitare la password per %s (utente %s)"
 
-#: addressbook/gui/component/addressbook.c:803
+#: addressbook/gui/component/addressbook.c:808
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "Qualunque campo contiene"
 
-#: addressbook/gui/component/addressbook.c:804
+#: addressbook/gui/component/addressbook.c:809
 msgid "Name contains"
 msgstr "Il nome contiene"
 
-#: addressbook/gui/component/addressbook.c:805
+#: addressbook/gui/component/addressbook.c:810
 msgid "Email contains"
 msgstr "Email contiene"
 
-#: addressbook/gui/component/addressbook.c:806
+#: addressbook/gui/component/addressbook.c:811
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "La categoria è"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:807 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:812 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Avanzato..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1025
+#: addressbook/gui/component/addressbook.c:1030
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "Qualunque Categoria"
 
-#: addressbook/gui/component/addressbook.c:1107
+#: addressbook/gui/component/addressbook.c:1112
 msgid "The URI that the Folder Browser will display"
 msgstr "La URI visualizzata dal Browser delle cartelle"
 
@@ -1064,7 +1065,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Fabbrica per l'interfaccia di selezione dei nomi della Rubrica"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:777
+#: addressbook/gui/component/select-names/e-select-names.c:838
 #: composer/e-msg-composer-attachment-bar.c:501 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
@@ -1095,7 +1096,7 @@ msgstr "(%d non mostrati)"
 msgid "Unnamed Contact"
 msgstr "Contatto senza nome"
 
-#: addressbook/gui/component/select-names/e-select-names.c:524
+#: addressbook/gui/component/select-names/e-select-names.c:579
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "This may have been caused by the evolution-addressbook component crashing.\n"
@@ -1105,7 +1106,7 @@ msgid ""
 "occurred.  Thank you."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:532
+#: addressbook/gui/component/select-names/e-select-names.c:587
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "Under normal circumstances, this should never happen.\n"
@@ -1113,7 +1114,7 @@ msgid ""
 "correct this problem."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:608
+#: addressbook/gui/component/select-names/e-select-names.c:669
 msgid "Select Contacts from Addressbook"
 msgstr "Seleziona Contatti dalla Rubrica"
 
@@ -4602,7 +4603,7 @@ msgstr ""
 msgid "Pacific/Yap"
 msgstr ""
 
-#: calendar/cal-util/cal-component.c:1202
+#: calendar/cal-util/cal-component.c:1207
 msgid "Untitled appointment"
 msgstr "Appuntamento senza titolo"
 
@@ -4632,18 +4633,18 @@ msgstr "Basso"
 msgid "Undefined"
 msgstr "Non definito"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1034
-#: calendar/conduits/todo/todo-conduit.c:649
+#: calendar/conduits/calendar/calendar-conduit.c:1029
+#: calendar/conduits/todo/todo-conduit.c:644
 msgid "Error while communicating with calendar server"
 msgstr "Errore durante la comunicazione con il server del calendario"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1172
-#: calendar/conduits/calendar/calendar-conduit.c:1175
+#: calendar/conduits/calendar/calendar-conduit.c:1176
+#: calendar/conduits/calendar/calendar-conduit.c:1179
 msgid "Could not read pilot's Calendar application block"
 msgstr "Impossibile leggere il blocco di applicazione del Calendario"
 
-#: calendar/conduits/todo/todo-conduit.c:756
-#: calendar/conduits/todo/todo-conduit.c:759
+#: calendar/conduits/todo/todo-conduit.c:760
+#: calendar/conduits/todo/todo-conduit.c:763
 msgid "Could not read pilot's ToDo application block"
 msgstr "Impossibile leggere il blocco delle applicazioni da fare del Pilot "
 
@@ -5045,7 +5046,10 @@ msgstr "Esegui programma:"
 msgid ""
 "This is an email reminder, but Evolution does not yet support this kind of "
 "reminders.  You will not be able to edit the options for this reminder."
-msgstr "Questo è un avvertimento di posta elettronica, ma Evolution al momento non supporta questo tipo di avvertimenti.  Per questo non sarà possibile modificare le impostazioni di questo avvertimento."
+msgstr ""
+"Questo è un avvertimento di posta elettronica, ma Evolution al momento non "
+"supporta questo tipo di avvertimenti.  Per questo non sarà possibile "
+"modificare le impostazioni di questo avvertimento."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
@@ -5191,7 +5195,7 @@ msgstr "Promemoria"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:745 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:738 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Indice:"
 
@@ -5757,7 +5761,7 @@ msgid "Member"
 msgstr "Membro"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:806
+#: calendar/gui/e-itip-control.c:799
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5933,7 +5937,7 @@ msgstr "_Stato:"
 msgid "Assignment"
 msgstr "Assegnato"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:754
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:747
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -6192,320 +6196,330 @@ msgstr "_Elimina questa Ricorrenza"
 msgid "Delete _All Occurrences"
 msgstr "Elimina _Tutte le Ricorrenze"
 
-#: calendar/gui/e-itip-control.c:532
+#: calendar/gui/e-itip-control.c:525
 msgid "Meeting begins: <b>"
 msgstr "Inizio Riunione: <b>"
 
-#: calendar/gui/e-itip-control.c:537
+#: calendar/gui/e-itip-control.c:530
 msgid "Task begins: <b>"
 msgstr "Inizio attività: <b>"
 
-#: calendar/gui/e-itip-control.c:542
+#: calendar/gui/e-itip-control.c:535
 msgid "Free/Busy info begins: <b>"
 msgstr "Inizio informazioni di disponibilità: <b>"
 
-#: calendar/gui/e-itip-control.c:546
+#: calendar/gui/e-itip-control.c:539
 msgid "Begins: <b>"
 msgstr "Inizio: <b>"
 
-#: calendar/gui/e-itip-control.c:558
+#: calendar/gui/e-itip-control.c:551
 msgid "Meeting ends: <b>"
 msgstr "Fine riunione: <b>"
 
-#: calendar/gui/e-itip-control.c:561
+#: calendar/gui/e-itip-control.c:554
 msgid "Free/Busy info ends: <b>"
 msgstr "Fine informazioni di disponibilità:"
 
-#: calendar/gui/e-itip-control.c:565
+#: calendar/gui/e-itip-control.c:558
 msgid "Ends: <b>"
 msgstr "Fine: <b>"
 
-#: calendar/gui/e-itip-control.c:579
+#: calendar/gui/e-itip-control.c:572
 msgid "Task Completed: <b>"
 msgstr "Attività Completata: <b>"
 
-#: calendar/gui/e-itip-control.c:589
+#: calendar/gui/e-itip-control.c:582
 msgid "Task Due: <b>"
 msgstr "Attività Da Completare Entro: <b>"
 
-#: calendar/gui/e-itip-control.c:626 calendar/gui/e-itip-control.c:675
+#: calendar/gui/e-itip-control.c:619 calendar/gui/e-itip-control.c:668
 msgid "iCalendar Information"
 msgstr "Informazioni iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:641
+#: calendar/gui/e-itip-control.c:634
 msgid "iCalendar Error"
 msgstr "Errore iCalendar"
 
-#: calendar/gui/e-itip-control.c:706 calendar/gui/e-itip-control.c:722
+#: calendar/gui/e-itip-control.c:699 calendar/gui/e-itip-control.c:715
 msgid "An unknown person"
 msgstr "Partecipante sconosciuto"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:729
+#: calendar/gui/e-itip-control.c:722
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 "<br> Controllate queste informazioni, e poi selezionate un'azione dal menu."
 
-#: calendar/gui/e-itip-control.c:745
+#: calendar/gui/e-itip-control.c:738
 msgid "<i>None</i>"
 msgstr "<i>Nessuno</i>"
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-itip-control.c:802
-#: calendar/gui/e-itip-control.c:818 calendar/gui/e-itip-control.c:831
-#: calendar/gui/e-itip-control.c:845 calendar/gui/e-itip-control.c:859
+#: calendar/gui/e-itip-control.c:779 calendar/gui/e-itip-control.c:795
+#: calendar/gui/e-itip-control.c:811 calendar/gui/e-itip-control.c:824
+#: calendar/gui/e-itip-control.c:837 calendar/gui/e-itip-control.c:850
 msgid "Choose an action:"
 msgstr "Specificare un'operazione:"
 
-#: calendar/gui/e-itip-control.c:787
+#: calendar/gui/e-itip-control.c:780
 msgid "Update"
 msgstr "Aggiornare"
 
-#: calendar/gui/e-itip-control.c:788 calendar/gui/e-itip-control.c:807
-#: calendar/gui/e-itip-control.c:820 calendar/gui/e-itip-control.c:833
-#: calendar/gui/e-itip-control.c:847 calendar/gui/e-itip-control.c:861
+#: calendar/gui/e-itip-control.c:781 calendar/gui/e-itip-control.c:800
+#: calendar/gui/e-itip-control.c:813 calendar/gui/e-itip-control.c:826
+#: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:852
 #: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:803
+#: calendar/gui/e-itip-control.c:796
 msgid "Accept"
 msgstr "Accettare"
 
-#: calendar/gui/e-itip-control.c:804
+#: calendar/gui/e-itip-control.c:797
 msgid "Tentatively accept"
 msgstr "Accettare con tentativo"
 
-#: calendar/gui/e-itip-control.c:805
+#: calendar/gui/e-itip-control.c:798
 msgid "Decline"
 msgstr "Rifiutare"
 
-#: calendar/gui/e-itip-control.c:819
+#: calendar/gui/e-itip-control.c:812
 msgid "Send Free/Busy Information"
 msgstr "Invia Informazioni sulla Disponibilità"
 
-#: calendar/gui/e-itip-control.c:832
+#: calendar/gui/e-itip-control.c:825
 msgid "Update respondent status"
 msgstr "Aggiorna stato risposta"
 
-#: calendar/gui/e-itip-control.c:846
+#: calendar/gui/e-itip-control.c:838
 msgid "Send Latest Information"
 msgstr "Invia Informazioni Correnti"
 
-#: calendar/gui/e-itip-control.c:860 ui/evolution-mail-global.xml.h:1
+#: calendar/gui/e-itip-control.c:851 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Annulla"
 
-#: calendar/gui/e-itip-control.c:875
+#: calendar/gui/e-itip-control.c:899
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> ha pubblicato informazioni riguardo una riunione."
 
-#: calendar/gui/e-itip-control.c:876
+#: calendar/gui/e-itip-control.c:900
 msgid "Meeting Information"
 msgstr "Dettagli della Riunione"
 
-#: calendar/gui/e-itip-control.c:880
+#: calendar/gui/e-itip-control.c:904
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> richiede la tua presenza ad una riunione."
 
-#: calendar/gui/e-itip-control.c:881
+#: calendar/gui/e-itip-control.c:905
 msgid "Meeting Proposal"
 msgstr "Proposta di Riunione"
 
-#: calendar/gui/e-itip-control.c:885
+#: calendar/gui/e-itip-control.c:909
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> vuole aggiungersi ad una riunione esistente."
 
-#: calendar/gui/e-itip-control.c:886
+#: calendar/gui/e-itip-control.c:910
 msgid "Meeting Update"
 msgstr "Aggiornamento Riunione"
 
-#: calendar/gui/e-itip-control.c:890
+#: calendar/gui/e-itip-control.c:914
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sulla riunione."
 
-#: calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:915
 msgid "Meeting Update Request"
 msgstr "Richiesta di Aggiornamento sulla Riunione"
 
-#: calendar/gui/e-itip-control.c:895
+#: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
+#: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:782
+#: calendar/gui/e-meeting-model.c:798
+#: camel/providers/smtp/camel-smtp-transport.c:170
+#: camel/providers/smtp/camel-smtp-transport.c:225
+#: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: calendar/gui/e-itip-control.c:938
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> ha risposto ad una richiesta di riunione."
 
-#: calendar/gui/e-itip-control.c:896
+#: calendar/gui/e-itip-control.c:939
 msgid "Meeting Reply"
 msgstr "Risposta ad una Riunione"
 
-#: calendar/gui/e-itip-control.c:900
+#: calendar/gui/e-itip-control.c:943
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> ha annullato una riunione."
 
-#: calendar/gui/e-itip-control.c:901
+#: calendar/gui/e-itip-control.c:944
 msgid "Meeting Cancellation"
 msgstr "Annullamento Riunione"
 
-#: calendar/gui/e-itip-control.c:905 calendar/gui/e-itip-control.c:955
-#: calendar/gui/e-itip-control.c:990
+#: calendar/gui/e-itip-control.c:948 calendar/gui/e-itip-control.c:1019
+#: calendar/gui/e-itip-control.c:1054
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> ha mandato un messaggio indecifrabile."
 
-#: calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:949
 msgid "Bad Meeting Message"
 msgstr "Messaggio di Richiesta Riunione Non Valido"
 
-#: calendar/gui/e-itip-control.c:925
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> ha pubblicato informazioni sulle proprie attività."
 
-#: calendar/gui/e-itip-control.c:926
+#: calendar/gui/e-itip-control.c:970
 msgid "Task Information"
 msgstr "Informazioni sull'Attività"
 
-#: calendar/gui/e-itip-control.c:930
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> ha richiesto che venga eseguito un compito."
 
-#: calendar/gui/e-itip-control.c:931
+#: calendar/gui/e-itip-control.c:975
 msgid "Task Proposal"
 msgstr "Proposta di Attività"
 
-#: calendar/gui/e-itip-control.c:935
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> vuole aggiungere informazioni ad una attività esistente."
 
-#: calendar/gui/e-itip-control.c:936
+#: calendar/gui/e-itip-control.c:980
 msgid "Task Update"
 msgstr "Aggiornamento Attività"
 
-#: calendar/gui/e-itip-control.c:940
+#: calendar/gui/e-itip-control.c:984
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> vuole ricevere informazioni aggiornate sull'attività."
 
-#: calendar/gui/e-itip-control.c:941
+#: calendar/gui/e-itip-control.c:985
 msgid "Task Update Request"
 msgstr "Richiesta di Aggiornamento dell'Attività"
 
-#: calendar/gui/e-itip-control.c:945
+#: calendar/gui/e-itip-control.c:1009
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> ha risposto all'assegnamento di un compito."
 
-#: calendar/gui/e-itip-control.c:946
+#: calendar/gui/e-itip-control.c:1010
 msgid "Task Reply"
 msgstr "Risposta all'Attività"
 
-#: calendar/gui/e-itip-control.c:950
+#: calendar/gui/e-itip-control.c:1014
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> ha annullato un'attività."
 
-#: calendar/gui/e-itip-control.c:951
+#: calendar/gui/e-itip-control.c:1015
 msgid "Task Cancellation"
 msgstr "Annullamento Attività"
 
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:1020
 msgid "Bad Task Message"
 msgstr "Messaggio di Attività Indecifrabile"
 
-#: calendar/gui/e-itip-control.c:975
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> ha pubblicato informazioni sulla disponibilità."
 
-#: calendar/gui/e-itip-control.c:976
+#: calendar/gui/e-itip-control.c:1040
 msgid "Free/Busy Information"
 msgstr "Informazioni sulla Disponibilità"
 
-#: calendar/gui/e-itip-control.c:980
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> richiede informazioni sulla disponibilità."
 
-#: calendar/gui/e-itip-control.c:981
+#: calendar/gui/e-itip-control.c:1045
 msgid "Free/Busy Request"
 msgstr "Richiesta Disponibilità"
 
-#: calendar/gui/e-itip-control.c:985
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> ha risposto a una richiesta di disponibilità."
 
-#: calendar/gui/e-itip-control.c:986
+#: calendar/gui/e-itip-control.c:1050
 msgid "Free/Busy Reply"
 msgstr "Risposta Disponibilità"
 
-#: calendar/gui/e-itip-control.c:991
+#: calendar/gui/e-itip-control.c:1055
 msgid "Bad Free/Busy Message"
 msgstr "Messaggio di Disponibilità Indecifrabile"
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1128
 msgid "The message does not appear to be properly formed"
 msgstr "Il messaggio non sembra avere un formato valido"
 
-#: calendar/gui/e-itip-control.c:1083
+#: calendar/gui/e-itip-control.c:1147
 msgid "The message contains only unsupported requests."
 msgstr "Il messaggio contiene solo richieste di tipo non supportato."
 
-#: calendar/gui/e-itip-control.c:1111 calendar/gui/e-itip-control.c:1117
+#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1181
 msgid "The attachment does not contain a valid calendar message"
 msgstr "L'allegato non contiene un messaggio di calendario valido"
 
-#: calendar/gui/e-itip-control.c:1142
+#: calendar/gui/e-itip-control.c:1206
 msgid "The attachment has no viewable calendar items"
 msgstr "L'allegato non ha nessun elemento di calendario visibile"
 
-#: calendar/gui/e-itip-control.c:1241
+#: calendar/gui/e-itip-control.c:1305
 msgid "Calendar file could not be updated!\n"
 msgstr "Impossibile aggiornare il file di calendario!\n"
 
-#: calendar/gui/e-itip-control.c:1243
+#: calendar/gui/e-itip-control.c:1307
 msgid "Update complete\n"
 msgstr "Aggiornamento completato\n"
 
-#: calendar/gui/e-itip-control.c:1288
+#: calendar/gui/e-itip-control.c:1352
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Impossibile aggiornare lo stato del partecipante; lo stato non è valido!\n"
 
-#: calendar/gui/e-itip-control.c:1296
+#: calendar/gui/e-itip-control.c:1360
 msgid "Attendee status could not be updated!\n"
 msgstr "Impossibile aggiornare lo stato del partecipante!\n"
 
-#: calendar/gui/e-itip-control.c:1298
+#: calendar/gui/e-itip-control.c:1362
 msgid "Attendee status updated\n"
 msgstr "Stato del partecipante aggiornato\n"
 
-#: calendar/gui/e-itip-control.c:1300
+#: calendar/gui/e-itip-control.c:1364
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Impossibile aggiornare lo stato del partecipante; l'elemento non esiste più"
 
-#: calendar/gui/e-itip-control.c:1328
+#: calendar/gui/e-itip-control.c:1392
 msgid "Removal Complete"
 msgstr "Rimozione Completata"
 
-#: calendar/gui/e-itip-control.c:1361 calendar/gui/e-itip-control.c:1411
+#: calendar/gui/e-itip-control.c:1411 calendar/gui/e-itip-control.c:1461
 msgid "Item sent!\n"
 msgstr "Elemento Spedito!\n"
 
-#: calendar/gui/e-itip-control.c:1363 calendar/gui/e-itip-control.c:1415
+#: calendar/gui/e-itip-control.c:1413 calendar/gui/e-itip-control.c:1465
 msgid "The item could not be sent!\n"
 msgstr "L'elemento non può essere spedito!\n"
 
-#: calendar/gui/e-itip-control.c:1581
+#: calendar/gui/e-itip-control.c:1638
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr ""
 "Impossibile trovare una delle tue identità nella lista dei partecipanti!\n"
@@ -6551,7 +6565,7 @@ msgstr "inizio"
 msgid "Chair Persons"
 msgstr "Moderatori"
 
-#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
+#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1570
 msgid "Required Participants"
 msgstr "Partecipanti Richiesti"
 
@@ -6582,15 +6596,6 @@ msgstr "Risorse"
 #: calendar/gui/e-meeting-model.c:781
 msgid "Room"
 msgstr "Stanza"
-
-#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
-#: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:782
-#: calendar/gui/e-meeting-model.c:798
-#: camel/providers/smtp/camel-smtp-transport.c:170
-#: camel/providers/smtp/camel-smtp-transport.c:225
-#: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
-msgid "Unknown"
-msgstr "Sconosciuto"
 
 #: calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
 #: calendar/gui/e-meeting-model.c:794
@@ -6850,7 +6855,7 @@ msgstr "Informazioni sulla disponibilità (da %s a %s)"
 msgid "iCalendar information"
 msgstr "Informazioni iCalendar"
 
-#: calendar/gui/itip-utils.c:573
+#: calendar/gui/itip-utils.c:581
 msgid "You must be an attendee of the event."
 msgstr "Devi essere un partecipante all'evento."
 
@@ -7370,7 +7375,9 @@ msgstr "Impossibile aggiungere un messaggio a %s (operazione non supportata)"
 #: camel/camel-folder.c:1040
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr "Impossibile ricercare attraverso un'espressione in %s (operazione non supportata)"
+msgstr ""
+"Impossibile ricercare attraverso un'espressione in %s (operazione non "
+"supportata)"
 
 #: camel/camel-folder.c:1080
 #, c-format
@@ -7720,7 +7727,8 @@ msgstr "Server challenge non valido\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Il server challenge conteneva un token \"Quality of Protection\" non valido\n"
+msgstr ""
+"Il server challenge conteneva un token \"Quality of Protection\" non valido\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -10142,7 +10150,9 @@ msgstr "Modifica le proprietà dei questa cartella"
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
-msgstr "Alcune delle impostazioni della posta sembrano essere state corrotte, controllare che tutto sia a posto."
+msgstr ""
+"Alcune delle impostazioni della posta sembrano essere state corrotte, "
+"controllare che tutto sia a posto."
 
 #: mail/component-factory.c:951
 msgid "New Mail Message"
@@ -24587,7 +24597,8 @@ msgstr "Selezionare la cartella a cui si vuole che punti il collegamento:"
 
 #: shell/e-shell-view-menu.c:577
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "I tool di GNOME Pilot non sembrano essere installati in questo sistema."
+msgstr ""
+"I tool di GNOME Pilot non sembrano essere installati in questo sistema."
 
 #: shell/e-shell-view-menu.c:585
 #, c-format
