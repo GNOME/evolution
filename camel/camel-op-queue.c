@@ -25,9 +25,6 @@
 
 #include "camel-op-queue.h"
 
-#define NB_OP_CHUNKS 20
-static GMemChunk *op_chunk=NULL;
-
 static GStaticMutex op_queue_mutex = G_STATIC_MUTEX_INIT;
 
 
@@ -44,12 +41,6 @@ camel_op_queue_new ()
 {
 	CamelOpQueue *op_queue;
 
-	g_static_mutex_lock (&op_queue_mutex);
-	if (!op_chunk)
-		op_chunk = g_mem_chunk_create (CamelOp, 
-					       NB_OP_CHUNKS,
-					       G_ALLOC_AND_FREE);
-	g_static_mutex_unlock (&op_queue_mutex);
 
 	op_queue = g_new (CamelOpQueue, 1);
 	op_queue->ops_tail = NULL;
@@ -162,59 +153,3 @@ camel_op_queue_get_service_availability (CamelOpQueue *queue)
 	return available;
 }
 
-/**
- * camel_op_new: return a new CamelOp object 
- * 
- * The obtained object must be destroyed with 
- * camel_op_free ()
- * 
- * Return value: the newly allocated CamelOp object
- **/
-CamelOp *
-camel_op_new (CamelFuncDef *func_def)
-{
-	CamelOp *op;
-
-	op = g_chunk_new (CamelOp, op_chunk);
-	op->func_def = func_def;
-	op->params = g_new (GtkArg, func_def->n_params);
-	
-	return op;	
-}
-
-/**
- * camel_op_free: free a CamelOp object allocated with camel_op_new
- * @op: CamelOp object to free
- * 
- * Free a CamelOp object allocated with camel_op_new ()
- * this routine won't work with CamelOp objects allocated 
- * with other allocators.
- **/
-void 
-camel_op_free (CamelOp *op)
-{
-	g_free (op->params);
-	g_chunk_free (op, op_chunk);
-}
-
-
-/**
- * camel_op_run: run an operation 
- * @op: the opertaion object
- * 
- * run an operation 
- * 
- * Return value: 
- **/
-gboolean
-camel_op_run (CamelOp *op)
-{
-	GtkArg	*params;
-	gboolean error;
-	
-	g_assert (op);
-	g_assert (op->func_def);
-	g_assert (op->params);
-
-	return  (op->func_def->marshal (op->func_def->func, op->params));
-}

@@ -65,6 +65,8 @@ typedef struct {
 
 typedef struct {
 	CamelFolderClass parent_class;
+	
+	CamelFuncDef *open_func_def;
 
 } CamelFolderPtProxyClass;
 

@@ -27,7 +27,12 @@
 #include "config.h"
 #include "camel-log.h"
 #include "camel-marshal-utils.h"
+#include "camel-arg-collector.c"
 
+
+#define NB_OP_CHUNKS 20
+static GMemChunk *op_chunk=NULL;
+static GStaticMutex op_chunk_mutex = G_STATIC_MUTEX_INIT;
 
 CamelFuncDef *
 camel_func_def_new (CamelMarshal marshal, guint n_params, ...)
@@ -60,20 +65,22 @@ _collect_params (GtkArg	*params,
 		 CamelFuncDef *func_def,
 		 va_list var_args)
 {
-  register GtkArg *last_param;
-  register gboolean failed = FALSE;
+  GtkArg *last_param;
+  int i;
+  gboolean failed = FALSE;
+  
 
-  for (last_param = params + func_def->n_params; 
-       params < last_param; 
-       params++)
+  for (i=0; 
+       i<func_def->n_params; 
+       i++, params++)
     {
-      register gchar *error;
+      gchar *error;
 
       params->name = NULL;
-      params->type = *(func_def->params_type++);
-      GTK_ARG_COLLECT_VALUE (params,
-			     var_args,
-			     error);
+      params->type = (func_def->params_type) [i];
+      CAMEL_ARG_COLLECT_VALUE (params,
+			       var_args,
+			       error);
       if (error)
 	{
 	  failed = TRUE;
@@ -85,30 +92,20 @@ _collect_params (GtkArg	*params,
 }
 
 
-gboolean
-camel_marshal_exec_func (CamelFuncDef *func_def, ...)
-{
-	GtkArg	*params;
-	gboolean error;
-	va_list args;
 
-	g_assert (func_def);
-
-	params = g_new (GtkArg, func_def->n_params);
-
-	va_start (args, func_def);
-	error = _collect_params (params, func_def, args);
-	va_end (args);
-	if (!error)
-		error = func_def->marshal (func_def->func, params);
- 
-	g_free (params);
-	return (!error);
-}
-
-
+/**
+ * camel_marshal_create_op: create an operation 
+ * @func_def: function definition object
+ * @func: function to call
+ * 
+ * create a function ready to be executed. The 
+ * vari
+ * 
+ * 
+ * Return value: operation ready to be executed
+ **/
 CamelOp *
-camel_marshal_create_op (CamelFuncDef *func_def, ...)
+camel_marshal_create_op (CamelFuncDef *func_def, CamelFunc func, ...)
 {
 	GtkArg	*params;
 	gboolean error;
@@ -118,8 +115,9 @@ camel_marshal_create_op (CamelFuncDef *func_def, ...)
 	g_assert (func_def);
 
 	op = camel_op_new (func_def);
-	
-	va_start (args, func_def);
+	op->func = func;
+
+	va_start (args, func);
 	error = _collect_params (op->params, func_def, args);
 	va_end (args);
 	 
@@ -133,6 +131,102 @@ camel_marshal_create_op (CamelFuncDef *func_def, ...)
 
 
 
+/**
+ * camel_op_new: return a new CamelOp object 
+ * 
+ * The obtained object must be destroyed with 
+ * camel_op_free ()
+ * 
+ * Return value: the newly allocated CamelOp object
+ **/
+CamelOp *
+camel_op_new (CamelFuncDef *func_def)
+{
+	CamelOp *op;
+
+	g_static_mutex_lock (&op_chunk_mutex);
+	if (!op_chunk)
+		op_chunk = g_mem_chunk_create (CamelOp, 
+					       NB_OP_CHUNKS,
+					       G_ALLOC_AND_FREE);
+	g_static_mutex_unlock (&op_chunk_mutex);
+
+	op = g_chunk_new (CamelOp, op_chunk);
+	op->func_def = func_def;
+	op->params = g_new (GtkArg, func_def->n_params);
+	
+	return op;	
+}
+
+/**
+ * camel_op_free: free a CamelOp object allocated with camel_op_new
+ * @op: CamelOp object to free
+ * 
+ * Free a CamelOp object allocated with camel_op_new ()
+ * this routine won't work with CamelOp objects allocated 
+ * with other allocators.
+ **/
+void 
+camel_op_free (CamelOp *op)
+{
+	g_free (op->params);
+	g_chunk_free (op, op_chunk);
+}
+
+
+/**
+ * camel_op_run: run an operation 
+ * @op: the operation object
+ * 
+ * run an operation 
+ * 
+ **/
+void
+camel_op_run (CamelOp *op)
+{
+	GtkArg	*params;
+	gboolean error;
+	
+	g_assert (op);
+	g_assert (op->func_def);
+	g_assert (op->params);
+
+	op->func_def->marshal (op->func, op->params);
+}
+
+
+
+
+/**
+ * camel_op_set_user_data: set the private field
+ * @op: operation 
+ * @user_data: private field
+ * 
+ * associate a field to an operation object
+ **/
+void 
+camel_op_set_user_data (CamelOp *op, gpointer user_data)
+{
+	g_assert (op);
+	op->user_data = user_data;
+}
+
+
+/**
+ * camel_op_get_user_data: return the private field
+ * @op: operation object
+ * 
+ * return the private field associated to 
+ * an operation object.
+ * 
+ * Return value: 
+ **/
+gpointer 
+camel_op_get_user_data (CamelOp *op)
+{
+	g_assert (op);
+	return op->user_data;
+}
 
 
 
@@ -166,3 +260,34 @@ void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func,
 		   GTK_VALUE_INT(args[1]),
 		   GTK_VALUE_POINTER(args[2]));
 }
+
+typedef void (*CamelMarshal_NONE__POINTER_INT_POINTER_POINTER) (gpointer arg1,
+								gint arg2,
+								gpointer arg3,
+								gpointer arg4);
+void camel_marshal_NONE__POINTER_INT_POINTER_POINTER (CamelFunc func, 
+						      GtkArg *args)
+{
+	CamelMarshal_NONE__POINTER_INT_POINTER_POINTER rfunc;
+	rfunc = (CamelMarshal_NONE__POINTER_INT_POINTER_POINTER) func;
+	(* rfunc) (GTK_VALUE_POINTER(args[0]),
+		   GTK_VALUE_INT(args[1]),
+		   GTK_VALUE_POINTER(args[2]),
+		   GTK_VALUE_POINTER(args[3]));
+}
+
+
+typedef void (*CamelMarshal_NONE__INT) (gint arg1);
+void camel_marshal_NONE__INT (CamelFunc func, 
+			      GtkArg *args)
+{
+	CamelMarshal_NONE__INT rfunc;
+	rfunc = (CamelMarshal_NONE__INT) func;
+	(* rfunc) (GTK_VALUE_INT (args[0]));
+}
+
+
+
+
+
+

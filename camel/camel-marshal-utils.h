@@ -34,14 +34,19 @@ extern "C" {
 
 #include <gtk/gtk.h>
 
+
 typedef void (*CamelFunc) ();
 
-typedef gboolean ( *CamelMarshal) (CamelFunc func,
+typedef void ( *CamelMarshal) (CamelFunc func,
 				   GtkArg *args);
 
+
+
+
+
 typedef struct {
+
 	CamelMarshal marshal;
-	CamelFunc func;
 	guint n_params;
 	GtkType	 *params_type;
 
@@ -49,7 +54,36 @@ typedef struct {
 
 
 
+typedef struct {
+	CamelFuncDef *func_def;
+	CamelFunc func;
+	GtkArg	*params;
+	gpointer user_data;
+} CamelOp;
 
+
+CamelFuncDef *
+camel_func_def_new (CamelMarshal marshal, 
+		    guint n_params, 
+		    ...);
+
+
+CamelOp *camel_op_new (CamelFuncDef *func_def);
+void camel_op_free (CamelOp *op);
+void camel_op_run (CamelOp *op);
+void camel_op_run_and_free (CamelOp *op);
+void camel_op_set_user_data (CamelOp *op, gpointer user_data);
+gpointer camel_op_get_user_data (CamelOp *op);
+
+CamelOp *camel_marshal_create_op (CamelFuncDef *func_def, CamelFunc func, ...);
+
+/* marshallers */
+void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func, 
+					      GtkArg *args);
+void camel_marshal_NONE__POINTER_INT_POINTER_POINTER (CamelFunc func, 
+						      GtkArg *args);
+void camel_marshal_NONE__INT (CamelFunc func, 
+			      GtkArg *args);
 
 #ifdef __cplusplus
 }

@@ -38,10 +38,13 @@ extern "C" {
 #include <camel/camel-data-wrapper.h>
 #include <camel-simple-data-wrapper.h>
 #include <camel-folder.h>
+#include <camel-folder-pt-proxy.h>
+#include <camel-marshal-utils.h>
 #include <camel-mime-body-part.h>
 #include <camel-mime-message.h>
 #include <camel-mime-part.h>
 #include <camel-multipart.h>
+#include <camel-op-queue.h>
 #include <camel-provider.h>
 #include <camel-service.h>
 #include <camel-session.h>

@@ -98,6 +98,8 @@ libcamelinclude_HEADERS =			\
 	url-util.h				\
 	$(pthread_HDR)
 
+libcamel_extra_sources = \
+	camel-arg-collector.c
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
