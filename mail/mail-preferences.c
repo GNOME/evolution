@@ -244,7 +244,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
 	gdk_color_parse (buf ? buf : "#737373", &colour);
-	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff) >> 8);
+	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
 	colorpicker_set_color (prefs->citation_color, rgb);
 	g_signal_connect (prefs->citation_color, "color-set", G_CALLBACK (color_set), prefs);
 	g_free (buf);

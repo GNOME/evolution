@@ -75,7 +75,7 @@ mail_composer_prefs_get_type (void)
 			(GInstanceInitFunc) mail_composer_prefs_init,
 		};
 		
-		type = g_type_register_static(gtk_vbox_get_type (), "MailComposerPrefs", &info, 0);
+		type = g_type_register_static (gtk_vbox_get_type (), "MailComposerPrefs", &info, 0);
 	}
 	
 	return type;
@@ -187,9 +187,9 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 		str = g_strdup (" ");
 	
 	/* printf ("HTML: %s\n", str); */
-	if (sig->html)
+	if (sig->html) {
 		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), str, strlen (str));
-	else {
+	} else {
 		GtkHTMLStream *stream;
 		int len;
 		
@@ -213,12 +213,12 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
 	
-	selection = gtk_tree_view_get_selection(prefs->sig_clist);
-	if (!gtk_tree_selection_get_selected(selection, &model, &iter))
+	selection = gtk_tree_view_get_selection (prefs->sig_clist);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
-
-	gtk_tree_model_get(model, &iter, 1, &sig, -1);
-
+	
+	gtk_tree_model_get (model, &iter, 1, &sig, -1);
+	
 	if (sig->filename && *sig->filename)
 		mail_signature_editor (sig);
 	else
@@ -239,17 +239,17 @@ mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, cons
 		GtkTreeSelection *selection;
 		char *name = NULL, *val;
 
-		model = (GtkListStore *)gtk_tree_view_get_model(prefs->sig_clist);
-		selection = gtk_tree_view_get_selection(prefs->sig_clist);
+		model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_clist);
+		selection = gtk_tree_view_get_selection (prefs->sig_clist);
 		if (sig->name)
 			val = name = g_strconcat (sig->name, " ", _("[script]"), NULL);
 		else
 			val = g_strdup (_("[script]"));
 		
-		gtk_list_store_append(model, &iter);
-		gtk_list_store_set(model, &iter, 0, val, 1, sig, -1);
-		gtk_tree_selection_select_iter(selection, &iter);
-		g_free(name);
+		gtk_list_store_append (model, &iter);
+		gtk_list_store_set (model, &iter, 0, val, 1, sig, -1);
+		gtk_tree_selection_select_iter (selection, &iter);
+		g_free (name);
 	}
 	
 	if (sig->filename && *sig->filename)
@@ -266,11 +266,11 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
-	selection = gtk_tree_view_get_selection(prefs->sig_clist);
-	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-		gtk_tree_model_get(model, &iter, 1, &sig, -1);
-		gtk_list_store_remove((GtkListStore *)model, &iter);
-		mail_config_signature_delete(sig);
+	selection = gtk_tree_view_get_selection (prefs->sig_clist);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, 1, &sig, -1);
+		gtk_list_store_remove ((GtkListStore *) model, &iter);
+		mail_config_signature_delete (sig);
 	}
 }
 
@@ -340,9 +340,9 @@ sig_selection_changed(GtkTreeSelection *selection, MailComposerPrefs *prefs)
 	MailConfigSignature *sig;
 	int state;
 
-	state = gtk_tree_selection_get_selected(selection, &model, &iter);
+	state = gtk_tree_selection_get_selected (selection, &model, &iter);
 	if (state) {
-		gtk_tree_model_get(model, &iter, 1, &sig, -1);
+		gtk_tree_model_get (model, &iter, 1, &sig, -1);
 		sig_load_preview (prefs, sig);
 	}
 
@@ -356,22 +356,22 @@ sig_fill_clist (GtkTreeView *clist)
 	GList *l;
 	GtkListStore *model;
 	GtkTreeIter iter;
-
-	model = (GtkListStore *)gtk_tree_view_get_model(clist);
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (clist);
 	gtk_list_store_clear (model);
-
+	
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
 		MailConfigSignature *sig = l->data;
 		char *name = NULL, *val;
-
-		gtk_list_store_append(model, &iter);
-
+		
+		gtk_list_store_append (model, &iter);
+		
 		if (sig->script)
 			name = val = g_strconcat (sig->name, " ", _("[script]"), NULL);
 		else
 			val = sig->name;
 		gtk_list_store_set (model, &iter, 0, val, 1, sig, -1);
-		g_free(name);
+		g_free (name);
 	}
 }
 
@@ -416,25 +416,25 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 		d(printf ("accounts NAME CHANGED\n"));
 
 		/* this is one bizarro interface */
-		model = gtk_tree_view_get_model(prefs->sig_clist);
-		sprintf(path, "%d", sig->id);
-		if (gtk_tree_model_get_iter_from_string(model, &iter, path)) {
+		model = gtk_tree_view_get_model (prefs->sig_clist);
+		sprintf (path, "%d", sig->id);
+		if (gtk_tree_model_get_iter_from_string (model, &iter, path)) {
 			char *val, *name = NULL;
-
+			
 			if (sig->script)
 				name = val = g_strconcat (sig->name, " ", _("[script]"), NULL);
 			else
 				val = sig->name;			
-
-			gtk_list_store_set ((GtkListStore *)model, &iter, 0, val, -1);
-			g_free(name);
+			
+			gtk_list_store_set ((GtkListStore *) model, &iter, 0, val, -1);
+			g_free (name);
 		}
 		break;
 	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
 		d(printf ("accounts CONTENT CHANGED\n"));
-		selection = gtk_tree_view_get_selection(prefs->sig_clist);
-		if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-			gtk_tree_model_get(model, &iter, 1, &current, -1);
+		selection = gtk_tree_view_get_selection (prefs->sig_clist);
+		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+			gtk_tree_model_get (model, &iter, 1, &current, -1);
 			if (sig == current)
 				sig_load_preview (prefs, sig);
 		}
@@ -468,23 +468,22 @@ spell_set_ui (MailComposerPrefs *prefs)
 	prefs->spell_active = FALSE;
 
 	/* setup the language list */
-	strv = g_strsplit(prefs->language_str, " ", 0);
-	present = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i=0;strv[i];i++)
-		g_hash_table_insert(present, strv[i], strv[i]);
-
-	model = (GtkListStore *)gtk_tree_view_get_model(prefs->language);
-	for (go = gtk_tree_model_get_iter_first((GtkTreeModel *)model, &iter);
-	     go;
-	     go = gtk_tree_model_iter_next((GtkTreeModel *)model, &iter)) {
+	strv = g_strsplit (prefs->language_str, " ", 0);
+	present = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; strv[i]; i++)
+		g_hash_table_insert (present, strv[i], strv[i]);
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
+	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter); go;
+	     go = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter)) {
 		char *abbr;
-
-		gtk_tree_model_get((GtkTreeModel *)model, &iter, 2, &abbr, -1);
-		gtk_list_store_set(model, &iter, 0, g_hash_table_lookup(present, abbr) != NULL, -1);
+		
+		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 2, &abbr, -1);
+		gtk_list_store_set (model, &iter, 0, g_hash_table_lookup (present, abbr) != NULL, -1);
 	}
-
-	g_hash_table_destroy(present);
-	g_strfreev(strv);
+	
+	g_hash_table_destroy (present);
+	g_strfreev (strv);
 	
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour),
 				    prefs->spell_error_color.red,
@@ -503,14 +502,14 @@ spell_get_language_str (MailComposerPrefs *prefs)
 	gboolean go;
 	char *rv;
 
-	model = (GtkListStore *)gtk_tree_view_get_model(prefs->language);
-	for (go = gtk_tree_model_get_iter_first((GtkTreeModel *)model, &iter);
+	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
+	for (go = gtk_tree_model_get_iter_first ((GtkTreeModel *) model, &iter);
 	     go;
-	     go = gtk_tree_model_iter_next((GtkTreeModel *)model, &iter)) {
+	     go = gtk_tree_model_iter_next ((GtkTreeModel *) model, &iter)) {
 		char *abbr;
 		gboolean state;
-
-		gtk_tree_model_get((GtkTreeModel *)model, &iter, 0, &state, 2, &abbr, -1);
+		
+		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, 2, &abbr, -1);
 		if (state) {
 			if (str->len)
 				g_string_append_c (str, ' ');
@@ -640,9 +639,9 @@ spell_language_selection_changed (GtkTreeSelection *selection, MailComposerPrefs
 	GtkTreeModel *model;
 	gboolean state = FALSE;
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-		gtk_tree_model_get((GtkTreeModel *)model, &iter, 0, &state, -1);
-		gtk_button_set_label((GtkButton *)prefs->spell_able_button, state?_("Disable"):_("Enable"));
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, -1);
+		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Disable") : _("Enable"));
 		state = TRUE;
 	}
 	gtk_widget_set_sensitive (prefs->spell_able_button, state);
@@ -655,12 +654,12 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	gboolean state;
-
-	selection = gtk_tree_view_get_selection(prefs->language);
-	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-		gtk_tree_model_get(model, &iter, 0, &state, -1);
-		gtk_list_store_set((GtkListStore *)model, &iter, 0, !state, -1);
-		gtk_button_set_label((GtkButton *)prefs->spell_able_button, state?_("Enable"):_("Disable"));
+	
+	selection = gtk_tree_view_get_selection (prefs->language);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, 0, &state, -1);
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, !state, -1);
+		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Enable") : _("Disable"));
 		spell_changed (prefs);
 	}
 }
@@ -668,19 +667,19 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 spell_setup (MailComposerPrefs *prefs)
 {
-	int i;
-	GtkTreeIter iter;
 	GtkListStore *model;
-
-	model = (GtkListStore *)gtk_tree_view_get_model(prefs->language);
-
+	GtkTreeIter iter;
+	int i;
+	
+	model = (GtkListStore *) gtk_tree_view_get_model (prefs->language);
+	
 	if (prefs->language_seq) {
 		for (i = 0; i < prefs->language_seq->_length; i++) {
-			gtk_list_store_append(model, &iter);
-			gtk_list_store_set(model, &iter,
-					   1, _(prefs->language_seq->_buffer[i].name),
-					   2, prefs->language_seq->_buffer[i].abrev,
-					   -1);
+			gtk_list_store_append (model, &iter);
+			gtk_list_store_set (model, &iter,
+					    1, _(prefs->language_seq->_buffer[i].name),
+					    2, prefs->language_seq->_buffer[i].abrev,
+					    -1);
 		}
 	}
 	
@@ -696,9 +695,9 @@ spell_setup_check_options (MailComposerPrefs *prefs)
 	GNOME_Spell_Dictionary dict;
 	CORBA_Environment ev;
 	char *dictionary_id;
-
+	
 	dictionary_id = "OAFIID:GNOME_Spell_Dictionary:" SPELL_API_VERSION;
-	dict = bonobo_activation_activate_from_id(dictionary_id, 0, NULL, NULL);
+	dict = bonobo_activation_activate_from_id (dictionary_id, 0, NULL, NULL);
 	if (dict == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot activate %s", dictionary_id);
 		
@@ -713,7 +712,7 @@ spell_setup_check_options (MailComposerPrefs *prefs)
 	
 	if (prefs->language_seq == NULL)
 		return FALSE;
-
+	
 	gconf_client_add_dir (prefs->gconf, GNOME_SPELL_GCONF_DIR, GCONF_CLIENT_PRELOAD_NONE, NULL);
 	
         spell_setup (prefs);
@@ -802,18 +801,18 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
 	model = gtk_list_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model(prefs->language, (GtkTreeModel *)model);
-	gtk_tree_view_insert_column_with_attributes(prefs->language, -1, _("Enabled"),
-						    gtk_cell_renderer_toggle_new(),
-						    "active", 0,
-						    NULL);
-	gtk_tree_view_insert_column_with_attributes(prefs->language, -1, _("Language(s)"),
-						    gtk_cell_renderer_text_new(),
-						    "text", 1,
-						    NULL);
+	gtk_tree_view_set_model (prefs->language, (GtkTreeModel *) model);
+	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Enabled"),
+						     gtk_cell_renderer_toggle_new (),
+						     "active", 0,
+						     NULL);
+	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Language(s)"),
+						     gtk_cell_renderer_text_new (),
+						     "text", 1,
+						     NULL);
 	selection = gtk_tree_view_get_selection (prefs->language);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect(selection, "changed", G_CALLBACK(spell_language_selection_changed), prefs);
+	g_signal_connect (selection, "changed", G_CALLBACK (spell_language_selection_changed), prefs);
 #if 0
 	gtk_clist_set_column_justification (prefs->language, 0, GTK_JUSTIFY_RIGHT);
 	gtk_clist_set_column_auto_resize (prefs->language, 0, TRUE);
@@ -821,7 +820,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 
 	prefs->spell_able_button = glade_xml_get_widget (gui, "buttonSpellCheckEnable");
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
-	gtk_image_set_from_file(GTK_IMAGE (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");	
+	gtk_image_set_from_file (GTK_IMAGE (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");	
 	if (!spell_setup_check_options (prefs)) {
 		gtk_widget_hide (GTK_WIDGET (prefs->colour));
 		gtk_widget_hide (GTK_WIDGET (prefs->language));
@@ -867,15 +866,15 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	
 	prefs->sig_clist = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model(prefs->sig_clist, (GtkTreeModel *)model);
-	gtk_tree_view_insert_column_with_attributes(prefs->sig_clist, -1, _("Signature(s)"),
-						    gtk_cell_renderer_text_new(),
-						    "text", 0,
-						    NULL);
+	gtk_tree_view_set_model (prefs->sig_clist, (GtkTreeModel *)model);
+	gtk_tree_view_insert_column_with_attributes (prefs->sig_clist, -1, _("Signature(s)"),
+						     gtk_cell_renderer_text_new (),
+						     "text", 0,
+						     NULL);
 	selection = gtk_tree_view_get_selection (prefs->sig_clist);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect(selection, "changed", G_CALLBACK(sig_selection_changed), prefs);
-
+	g_signal_connect (selection, "changed", G_CALLBACK (sig_selection_changed), prefs);
+	
 	sig_fill_clist (prefs->sig_clist);
 	if (mail_config_get_signature_list () == NULL) {
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);

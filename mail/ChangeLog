@@ -1,5 +1,9 @@
 2002-12-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-preferences.c (mail_preferences_construct): Fix the colour
+	code to get a guint32 rgb correctly (I think - can't test because
+	the shell keeps crashing, yay).
+
 	* message-tag-followup.c (construct): Don't re-use cell renderers
 	- I'm not sure this is actually safe to do.
 
