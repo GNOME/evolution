@@ -644,8 +644,12 @@ static CalComponent *
 comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 {
 	CalComponent *clone, *temp_clone;
+	struct icaltimetype itt;
 	
 	clone = cal_component_clone (comp);
+	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+					     icaltimezone_get_utc_timezone ());
+	cal_component_set_dtstamp (clone, &itt);
 
 	/* We delete incoming alarms anyhow, and this helps with outlook */
 	cal_component_remove_all_alarms (clone);
