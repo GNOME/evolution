@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "popup-menu.h"
+#include "../../e-util/e-gui-utils.h"
 
 
 void
@@ -20,7 +21,7 @@ popup_menu (struct menu_item *items, int nitems, GdkEventButton *event)
 	menu = gtk_menu_new ();
 
 	/* Make sure the menu is destroyed when it disappears. */
-	e_auto_kill_popup_menu_on_hide (menu);
+	e_auto_kill_popup_menu_on_hide (GTK_MENU (menu));
 
 	for (i = 0; i < nitems; i++) {
 		if (items[i].text) {

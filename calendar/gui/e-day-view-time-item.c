@@ -31,6 +31,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkradiomenuitem.h>
 #include "e-day-view-time-item.h"
+#include "../../e-util/e-gui-utils.h"
 
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
@@ -369,6 +370,9 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 
 	menu = gtk_menu_new ();
 
+	/* Make sure the menu is destroyed when it disappears. */
+	e_auto_kill_popup_menu_on_hide (GTK_MENU (menu));
+
 	for (i = 0; i < num_divisions; i++) {
 		sprintf (buffer, _("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
@@ -389,8 +393,6 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
 			event->button.button, event->button.time);
-
-	/* FIXME: Use e-util function to destroy menu when hidden. */
 }
 
 

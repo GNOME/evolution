@@ -990,7 +990,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 	switch (status) {
 	case CAL_OBJ_FIND_SUCCESS:
-		/* Fall through. */
+		/* Do nothing. */
 		break;
 	case CAL_OBJ_FIND_SYNTAX_ERROR:
 		g_warning ("syntax error uid=%s\n", uid);
@@ -1001,8 +1001,10 @@ e_week_view_update_event		(EWeekView	*week_view,
 	}
 
 	/* We only care about events. */
-	if (ico && ico->type != ICAL_EVENT)
+	if (ico && ico->type != ICAL_EVENT) {
+		ical_object_unref (ico);
 		return;
+	}
 
 	/* If the event already exists and the dates didn't change, we can
 	   update the event fairly easily without changing the events arrays
@@ -1015,6 +1017,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 		if (ical_object_compare_dates (event->ico, ico)) {
 			g_print ("  dates unchanged\n");
 			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, ico);
+			ical_object_unref (ico);
 			gtk_widget_queue_draw (week_view->main_canvas);
 			return;
 		}
@@ -1034,6 +1037,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 				     week_view->day_starts[num_days],
 				     e_week_view_add_event,
 				     week_view);
+	ical_object_unref (ico);
 
 	e_week_view_check_layout (week_view);
 
@@ -1055,8 +1059,8 @@ e_week_view_update_event_cb (EWeekView *week_view,
 	ico = data;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
-	/* FIXME: When do ico's get freed? */
 	event->ico = ico;
+	ical_object_ref (ico);
 
 	/* If we are editing an event which we have just created, we will get
 	   an update_event callback from the server. But we need to ignore it
@@ -1102,7 +1106,7 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 	     event_num--) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		if (event->ico && event->ico->uid
+		if (event->ico->uid
 		    && !strcmp (uid, event->ico->uid)) {
 			if (!(*callback) (week_view, event_num, data))
 				return;
@@ -1159,6 +1163,9 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 			span->background_item = NULL;
 		}
 	}
+
+	ical_object_unref (event->ico);
+
 	g_array_remove_index (week_view->events, event_num);
 	week_view->events_need_layout = TRUE;
 
@@ -1527,19 +1534,16 @@ e_week_view_reload_events (EWeekView *week_view)
 static void
 e_week_view_free_events (EWeekView *week_view)
 {
+	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	gint span_num;
+	gint event_num, span_num;
 
-	/* There is nothing to free in the event structs at present. */
-#if 0
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-
-		if (event->canvas_item)
-			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+		ical_object_unref (event->ico);
 	}
-#endif
+
 	g_array_set_size (week_view->events, 0);
 
 	/* Destroy all the old canvas items. */
@@ -1591,6 +1595,7 @@ e_week_view_add_event (iCalObject *ico,
 	end_tm = *(localtime (&end));
 
 	event.ico = ico;
+	ical_object_ref (event.ico);
 	event.start = start;
 	event.end = end;
 	event.spans_index = 0;
@@ -2252,6 +2257,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		g_print ("  button release\n");
 		if (!E_TEXT (item)->editing) {
 			g_print ("  stopping signal\n");
+
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
 
@@ -2430,8 +2436,7 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 	for (event_num = 0; event_num < num_events; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		if (event->ico && event->ico->uid
-		    && !strcmp (uid, event->ico->uid)) {
+		if (event->ico->uid && !strcmp (uid, event->ico->uid)) {
 			*event_num_return = event_num;
 			return TRUE;
 		}
@@ -2536,6 +2541,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	gnome_calendar_add_object (week_view->calendar, ico);
 
+	ical_object_unref (ico);
+
 	return TRUE;
 }
 
@@ -2625,6 +2632,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	ico->dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
 	event_editor = event_editor_new (week_view->calendar, ico);
+	ical_object_unref (ico);
 	gtk_widget_show (event_editor);
 }
 
@@ -2650,6 +2658,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	event_editor = event_editor_new (week_view->calendar, ico);
+	ical_object_unref (ico);
 	gtk_widget_show (event_editor);
 }
 
@@ -2725,4 +2734,6 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	gnome_calendar_object_changed (week_view->calendar, event->ico,
 				       CHANGE_ALL);
 	gnome_calendar_add_object (week_view->calendar, ico);
+
+	ical_object_unref (ico);
 }

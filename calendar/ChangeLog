@@ -1,3 +1,33 @@
+2000-05-06  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/calobj.[hc]: added guint ref_count to iCalObject struct,
+	and ical_object_ref/unref() functions. I've updated all the gui/
+	stuff to use ref_counts but I haven't touched the pcs/ stuff. Maybe
+	just using ical_object_destroy() is OK there.
+
+	* gui/gncal-todo.c: 
+	* gui/calendar-commands.c: 
+	* gui/eventedit.c: 
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: use refcounting for iCalObjects.
+
+	* gui/e-day-view-main-item.c: 
+	* gui/e-day-view-top-item.c: 
+	* gui/e-day-view.c: try not to ever draw outside the event, even when
+	the event is very small.
+
+2000-05-05  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c: don't allow recurring events to be resized or
+	dragged, and don't show the resize/drag cursors. Actually it may be
+	better to let the user do the resize/drag and then ask them what they
+	want to do - change the single occurrence or the entire series.
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_show_popup_menu): 
+	use e_auto_kill_popup_menu_on_hide() to destroy the popup menu.
+
+	* gui/popup-menu.c: include e-gui-utils.h
+
 2000-05-04  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_foreach_event_with_uid): for the long

@@ -447,6 +447,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	GdkGC *gc;
 	iCalObject *ico;
 	gint num_icons, icon_x, icon_y, icon_x_inc, icon_y_inc;
+	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon;
 
 	day_view = dvmitem->day_view;
@@ -475,20 +476,20 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				event_num);
 
 	/* Fill in the white background. Note that for events in the first
-	   column of the day, we might not want topaint over the vertical bar,
+	   column of the day, we might not want to paint over the vertical bar,
 	   since that is used for multiple events. But then you can't see
 	   where the event in the first column finishes. */
 #if 0
 	if (event->start_row_or_col == 0)
 		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
 				    item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
-				    item_w - E_DAY_VIEW_BAR_WIDTH - 1,
+				    MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1, 0),
 				    item_h - 2);
 	else
 #endif
 		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
 				    item_x + 1, item_y + 1,
-				    item_w - 2, item_h - 2);
+				    MAX (item_w - 2, 0), item_h - 2);
 
 	/* Draw the right edge of the vertical bar. */
 	gdk_draw_line (drawable, style->black_gc,
@@ -520,7 +521,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	   the colored bar so we don't have to worry about being 1
 	   pixel out. */
 	gdk_draw_rectangle (drawable, style->black_gc, FALSE,
-			    item_x, item_y, item_w - 1, item_h - 1);
+			    item_x, item_y, MAX (item_w - 1, 0), item_h - 1);
 
 #if 0
 	/* Draw the horizontal bars above and beneath the event if it
@@ -571,32 +572,46 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		}
 
 		if (draw_reminder_icon) {
+			max_icon_w = item_x + item_w - icon_x
+				- E_DAY_VIEW_EVENT_BORDER_WIDTH;
+			max_icon_h = item_y + item_h - icon_y
+				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
+
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 			gdk_gc_set_clip_mask (gc, day_view->reminder_mask);
 			gdk_draw_pixmap (drawable, gc,
 					 day_view->reminder_icon,
 					 0, 0, icon_x, icon_y,
-					 E_DAY_VIEW_ICON_WIDTH,
-					 E_DAY_VIEW_ICON_HEIGHT);
+					 MIN (E_DAY_VIEW_ICON_WIDTH,
+					      max_icon_w),
+					 MIN (E_DAY_VIEW_ICON_HEIGHT,
+					      max_icon_h));
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
 
 		if (draw_recurrence_icon) {
+			max_icon_w = item_x + item_w - icon_x
+				- E_DAY_VIEW_EVENT_BORDER_WIDTH;
+			max_icon_h = item_y + item_h - icon_y
+				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
+
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 			gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
 			gdk_draw_pixmap (drawable, gc,
 					 day_view->recurrence_icon,
 					 0, 0, icon_x, icon_y,
-					 E_DAY_VIEW_ICON_WIDTH,
-					 E_DAY_VIEW_ICON_HEIGHT);
+					 MIN (E_DAY_VIEW_ICON_WIDTH,
+					      max_icon_w),
+					 MIN (E_DAY_VIEW_ICON_HEIGHT,
+					      max_icon_h));
 		}
 		gdk_gc_set_clip_mask (gc, NULL);
 	}
 }
 
 
-/* This is supposed to return the nearest item the the point and the distance.
+/* This is supposed to return the nearest item to the point and the distance.
    Since we are the only item we just return ourself and 0 for the distance.
    This is needed so that we get button/motion events. */
 static double

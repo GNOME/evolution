@@ -760,11 +760,10 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 static void
 ee_cancel (GtkWidget *widget, EventEditor *ee)
 {
-	if (ee->ical->new) {
-		ical_object_destroy (ee->ical);
-		ee->ical = NULL;
-	}
-
+	if (ee->ical) {
+	  ical_object_unref (ee->ical);
+	  ee->ical = NULL;
+	}	  
 }
 
 static void
@@ -1519,7 +1518,7 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 
 	if (ee->ical) {
-	  ical_object_destroy (ee->ical);
+	  ical_object_unref (ee->ical);
 	  ee->ical = NULL;
 	}	  
 }
@@ -1539,7 +1538,9 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	if (ical == 0){
 		ical = ical_new ("", user_name, "");
 		ical->new     = 1;
-	} 
+	} else {
+		ical_object_ref (ical);
+	}
 
 	if (ical->new){
 		gtk_window_set_title (GTK_WINDOW (ee), _("Create new appointment"));

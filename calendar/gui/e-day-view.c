@@ -1122,7 +1122,7 @@ e_day_view_update_event		(EDayView	*day_view,
 
 	switch (status) {
 	case CAL_OBJ_FIND_SUCCESS:
-		/* Fall through. */
+		/* Do nothing. */
 		break;
 	case CAL_OBJ_FIND_SYNTAX_ERROR:
 		g_warning ("syntax error uid=%s\n", uid);
@@ -1133,8 +1133,10 @@ e_day_view_update_event		(EDayView	*day_view,
 	}
 
 	/* We only care about events. */
-	if (ico && ico->type != ICAL_EVENT)
+	if (ico && ico->type != ICAL_EVENT) {
+		ical_object_unref (ico);
 		return;
+	}
 
 	/* If the event already exists and the dates didn't change, we can
 	   update the event fairly easily without changing the events arrays
@@ -1151,6 +1153,7 @@ e_day_view_update_event		(EDayView	*day_view,
 		if (ical_object_compare_dates (event->ico, ico)) {
 			g_print ("  unchanged dates\n");
 			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
+			ical_object_unref (ico);
 			gtk_widget_queue_draw (day_view->top_canvas);
 			gtk_widget_queue_draw (day_view->main_canvas);
 			return;
@@ -1168,6 +1171,7 @@ e_day_view_update_event		(EDayView	*day_view,
 	g_print ("  generating events\n");
 	ical_object_generate_events (ico, day_view->lower, day_view->upper,
 				     e_day_view_add_event, day_view);
+	ical_object_unref (ico);
 
 	e_day_view_check_layout (day_view);
 
@@ -1190,16 +1194,17 @@ e_day_view_update_event_cb (EDayView *day_view,
 	g_print ("In e_day_view_update_event_cb day:%i event_num:%i\n",
 		 day, event_num);
 
-	/* FIXME: When do ico's get freed? */
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
-		event->ico = ico;
 	} else {
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
-		event->ico = ico;
 	}
+
+	ical_object_unref (event->ico);
+	event->ico = ico;
+	ical_object_ref (ico);
 
 	/* If we are editing an event which we have just created, we will get
 	   an update_event callback from the server. But we need to ignore it
@@ -1239,7 +1244,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 		     event_num--) {
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-			if (event->ico && event->ico->uid
+			if (event->ico->uid
 			    && !strcmp (uid, event->ico->uid)) {
 				if (!(*callback) (day_view, day, event_num,
 						  data))
@@ -1253,7 +1258,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	     event_num--) {
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
-		if (event->ico && event->ico->uid
+		if (event->ico->uid
 		    && !strcmp (uid, event->ico->uid)) {
 			if (!(*callback) (day_view, E_DAY_VIEW_LONG_EVENT,
 					  event_num, data))
@@ -1308,6 +1313,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 
 	if (event->canvas_item)
 		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+	ical_object_unref (event->ico);
 
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		g_array_remove_index (day_view->long_events, event_num);
@@ -1442,7 +1448,7 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-			if (event->ico && event->ico->uid
+			if (event->ico->uid
 			    && !strcmp (uid, event->ico->uid)) {
 				*day_return = day;
 				*event_num_return = event_num;
@@ -1455,7 +1461,7 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 	     event_num++) {
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
-		if (event->ico && event->ico->uid
+		if (event->ico->uid
 		    && !strcmp (uid, event->ico->uid)) {
 			*day_return = E_DAY_VIEW_LONG_EVENT;
 			*event_num_return = event_num;
@@ -2010,8 +2016,9 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (pos == E_DAY_VIEW_POS_LEFT_EDGE
-	    || pos == E_DAY_VIEW_POS_RIGHT_EDGE) {
+	if (!event->ico->recur
+	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
+		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
 		if (!e_day_view_find_long_event_days (day_view, event,
 						      &start_day, &end_day))
 			return;
@@ -2081,8 +2088,9 @@ e_day_view_on_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (pos == E_DAY_VIEW_POS_TOP_EDGE
-	    || pos == E_DAY_VIEW_POS_BOTTOM_EDGE) {
+	if (!event->ico->recur
+	    && (pos == E_DAY_VIEW_POS_TOP_EDGE
+		|| pos == E_DAY_VIEW_POS_BOTTOM_EDGE)) {
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
@@ -2316,6 +2324,7 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	e_day_view_get_selected_time_range (day_view, &ico->dtstart,
 					    &ico->dtend);
 	event_editor = event_editor_new (day_view->calendar, ico);
+	ical_object_unref (ico);
 	gtk_widget_show (event_editor);
 }
 
@@ -2339,6 +2348,7 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	event_editor = event_editor_new (day_view->calendar, ico);
+	ical_object_unref (ico);
 	gtk_widget_show (event_editor);
 }
 
@@ -2408,6 +2418,8 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	gnome_calendar_object_changed (day_view->calendar, event->ico,
 				       CHANGE_ALL);
 	gnome_calendar_add_object (day_view->calendar, ico);
+
+	ical_object_unref (ico);
 }
 
 
@@ -2496,6 +2508,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 				 GdkEventMotion *mevent,
 				 EDayView *day_view)
 {
+	EDayViewEvent *event = NULL;
 	EDayViewPosition pos;
 	gint event_x, event_y, scroll_x, scroll_y, canvas_x, canvas_y;
 	gint day, event_num;
@@ -2521,6 +2534,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	pos = e_day_view_convert_position_in_top_canvas (day_view,
 							 canvas_x, canvas_y,
 							 &day, &event_num);
+	if (event_num != -1)
+		event = &g_array_index (day_view->long_events, EDayViewEvent,
+					event_num);
 
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
 		e_day_view_update_selection (day_view, -1, day);
@@ -2533,11 +2549,23 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	} else if (day_view->pressed_event_day == E_DAY_VIEW_LONG_EVENT) {
 		GtkTargetList *target_list;
 
-		if (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
-		    || abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET) {
+		event = &g_array_index (day_view->long_events, EDayViewEvent,
+					day_view->pressed_event_num);
+
+		if (!event->ico->recur
+		    && (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
+			|| abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->pressed_event_day = -1;
+
+			/* Hide the horizontal bars. */
+			if (day_view->resize_bars_event_day != -1) {
+				day_view->resize_bars_event_day = -1;
+				day_view->resize_bars_event_num = -1;
+				gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
+				gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
+			}
 
 			target_list = gtk_target_list_new (target_table,
 							   n_targets);
@@ -2548,14 +2576,19 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		}
 	} else {
 		cursor = day_view->normal_cursor;
-		switch (pos) {
-		case E_DAY_VIEW_POS_LEFT_EDGE:
-		case E_DAY_VIEW_POS_RIGHT_EDGE:
-			cursor = day_view->resize_width_cursor;
-			break;
-		default:
-			break;
+
+		/* Recurring events can't be resized. */
+		if (event && !event->ico->recur) {
+			switch (pos) {
+			case E_DAY_VIEW_POS_LEFT_EDGE:
+			case E_DAY_VIEW_POS_RIGHT_EDGE:
+				cursor = day_view->resize_width_cursor;
+				break;
+			default:
+				break;
+			}
 		}
+
 		/* Only set the cursor if it is different to last one set. */
 		if (day_view->last_cursor_set_in_top_canvas != cursor) {
 			day_view->last_cursor_set_in_top_canvas = cursor;
@@ -2573,6 +2606,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 				  GdkEventMotion *mevent,
 				  EDayView *day_view)
 {
+	EDayViewEvent *event = NULL;
 	EDayViewPosition pos;
 	gint event_x, event_y, scroll_x, scroll_y, canvas_x, canvas_y;
 	gint row, day, event_num;
@@ -2601,6 +2635,9 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 							  canvas_x, canvas_y,
 							  &day, &row,
 							  &event_num);
+	if (event_num != -1)
+		event = &g_array_index (day_view->events[day], EDayViewEvent,
+					event_num);
 
 	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
@@ -2614,14 +2651,26 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			e_day_view_check_auto_scroll (day_view, event_y);
 			return TRUE;
 		}
-	} else if (day_view->pressed_event_day != -1) {
+	} else if (day_view->pressed_event_day != -1
+		   && day_view->pressed_event_day != E_DAY_VIEW_LONG_EVENT) {
 		GtkTargetList *target_list;
 
-		if (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
-		    || abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET) {
+		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
+
+		if (!event->ico->recur
+		    && (abs (canvas_x - day_view->drag_event_x) > E_DAY_VIEW_DRAG_START_OFFSET
+			|| abs (canvas_y - day_view->drag_event_y) > E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->pressed_event_day = -1;
+
+			/* Hide the horizontal bars. */
+			if (day_view->resize_bars_event_day != -1) {
+				day_view->resize_bars_event_day = -1;
+				day_view->resize_bars_event_num = -1;
+				gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
+				gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
+			}
 
 			target_list = gtk_target_list_new (target_table,
 							   n_targets);
@@ -2632,17 +2681,22 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		}
 	} else {
 		cursor = day_view->normal_cursor;
-		switch (pos) {
-		case E_DAY_VIEW_POS_LEFT_EDGE:
-			cursor = day_view->move_cursor;
-			break;
-		case E_DAY_VIEW_POS_TOP_EDGE:
-		case E_DAY_VIEW_POS_BOTTOM_EDGE:
-			cursor = day_view->resize_height_cursor;
-			break;
-		default:
-			break;
+
+		/* Recurring events can't be resized. */
+		if (event && !event->ico->recur) {
+			switch (pos) {
+			case E_DAY_VIEW_POS_LEFT_EDGE:
+				cursor = day_view->move_cursor;
+				break;
+			case E_DAY_VIEW_POS_TOP_EDGE:
+			case E_DAY_VIEW_POS_BOTTOM_EDGE:
+				cursor = day_view->resize_height_cursor;
+				break;
+			default:
+				break;
+			}
 		}
+
 		/* Only set the cursor if it is different to last one set. */
 		if (day_view->last_cursor_set_in_main_canvas != cursor) {
 			day_view->last_cursor_set_in_main_canvas = cursor;
@@ -2959,6 +3013,7 @@ e_day_view_free_event_array (EDayView *day_view,
 		event = &g_array_index (array, EDayViewEvent, event_num);
 		if (event->canvas_item)
 			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+		ical_object_unref (event->ico);
 	}
 
 	g_array_set_size (array, 0);
@@ -2989,6 +3044,7 @@ e_day_view_add_event (iCalObject *ico,
 	end_tm = *(localtime (&end));
 	
 	event.ico = ico;
+	ical_object_ref (ico);
 	event.start = start;
 	event.end = end;
 	event.canvas_item = NULL;
@@ -3241,8 +3297,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 	}
 
-	/* FIXME: Handle item_w & item_h <= 0. */
-
 	if (!event->canvas_item) {
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
@@ -3301,12 +3355,13 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			max_text_w -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
 
 		text_w = MIN (width, max_text_w);
+
+		/* Now take out the space for the icons. */
+		text_x += icons_width;
+		text_w -= icons_width;
 	}
 
-	/* Now take out the space for the icons. */
-	text_x += icons_width;
-	text_w -= icons_width;
-
+	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (event->canvas_item,
 			       "x", (gdouble) text_x,
 			       "y", (gdouble) item_y,
@@ -3598,8 +3653,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			item_w -= icons_offset;
 		}
 
-		/* FIXME: Handle item_w & item_h <= 0. */
-
 		if (!event->canvas_item) {
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
@@ -3618,6 +3671,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       event_num);
 		}
 
+		item_w = MAX (item_w, 0);
 		gnome_canvas_item_set (event->canvas_item,
 				       "x", (gdouble) item_x,
 				       "y", (gdouble) item_y,
@@ -3803,6 +3857,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 
 	gnome_calendar_add_object (day_view->calendar, ico);
+
+	ical_object_unref (ico);
 
 	return TRUE;
 }
@@ -4234,6 +4290,7 @@ e_day_view_get_event_position (EDayView *day_view,
 
 	*item_x = day_view->day_offsets[day] + day_view->day_widths[day] * start_col / cols_in_row;
 	*item_w = day_view->day_widths[day] * num_columns / cols_in_row - E_DAY_VIEW_GAP_WIDTH;
+	*item_w = MAX (*item_w, 0);
 	*item_y = start_row * day_view->row_height;
 	*item_h = (end_row - start_row + 1) * day_view->row_height;
 
@@ -4277,6 +4334,7 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 	*item_x = day_view->day_offsets[*start_day] + E_DAY_VIEW_BAR_WIDTH;
 	*item_w = day_view->day_offsets[*end_day + 1] - *item_x
 		- E_DAY_VIEW_GAP_WIDTH;
+	*item_w = MAX (*item_w, 0);
 	*item_y = (event->start_row_or_col + 1) * day_view->top_row_height;
 	*item_h = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	return TRUE;
@@ -4284,7 +4342,8 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 
 
 /* Converts a position within the entire top canvas to a day & event and
-   a place within the event if appropriate. */
+   a place within the event if appropriate. If event_num_return is NULL, it
+   simply returns the grid position without trying to find the event. */
 static EDayViewPosition
 e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 					   gint x,
@@ -4295,6 +4354,10 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, row, col;
 	gint event_num, start_day, end_day, item_x, item_y, item_w, item_h;
+
+	*day_return = -1;
+	if (event_num_return)
+		*event_num_return = -1;
 
 	if (x < 0 || y < 0)
 		return E_DAY_VIEW_POS_OUTSIDE;
@@ -4355,7 +4418,8 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 
 
 /* Converts a position within the entire main canvas to a day, row, event and
-   a place within the event if appropriate. */
+   a place within the event if appropriate. If event_num_return is NULL, it
+   simply returns the grid position without trying to find the event. */
 static EDayViewPosition
 e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 					    gint x,
@@ -4366,6 +4430,11 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 {
 	gint day, row, col, event_num;
 	gint item_x, item_y, item_w, item_h;
+
+	*day_return = -1;
+	*row_return = -1;
+	if (event_num_return)
+		*event_num_return = -1;
 
 	/* Check the position is inside the canvas, and determine the day
 	   and row. */

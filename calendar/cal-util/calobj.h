@@ -221,6 +221,8 @@ typedef struct {
 	/* Pilot */
 	iCalPilotState pilot_status;    /* Status information */
 	guint32            pilot_id;        /* Pilot ID */
+
+	guint	       ref_count;
 } iCalObject;
 
 /* The callback for the recurrence generator */
@@ -228,7 +230,16 @@ typedef int (*calendarfn) (iCalObject *, time_t, time_t, void *);
 
 iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new                 (void);
+
+/* iCalObjects are created with a refcount of 1. When it drops to 0 it is
+   destroyed with ical_object_destroy(). To maintain backwards compatability
+   ical_object_destroy() can still be used, though code which uses it should
+   not be mixed with code that uses refcounts. */
+void        ical_object_ref                 (iCalObject *ico);
+void        ical_object_unref               (iCalObject *ico);
+
 void        ical_object_destroy             (iCalObject *ico);
+
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 VObject    *ical_object_to_vobject          (iCalObject *ical);
 iCalObject *ical_object_duplicate           (iCalObject *o);

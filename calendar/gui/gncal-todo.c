@@ -88,6 +88,8 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	} else 
 		gnome_calendar_object_changed (todo->calendar, ico, CHANGE_ALL); /* ok, summary only... */
 
+	ical_object_unref (ico);
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -100,8 +102,7 @@ cancel_button (GtkWidget *widget, GnomeDialog *dialog)
 
 	ico->user_data = NULL;
 
-	if (ico->new)
-		ical_object_destroy (ico);
+	ical_object_unref (ico);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
@@ -227,6 +228,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	ico->user_data = dialog;
 
 	gtk_object_set_user_data (GTK_OBJECT (dialog), ico);
+	ical_object_ref (ico);
 
 	gtk_object_set_data (GTK_OBJECT (dialog), "gncal_todo", todo);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
@@ -272,6 +274,7 @@ add_todo (GncalTodo *todo)
 	ico->new = TRUE;
 
 	simple_todo_editor (todo, ico);
+	ical_object_unref (ico);
 }
 
 static void
@@ -762,7 +765,9 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 
 	i = gtk_clist_append (todo->clist, text);
 	
-	gtk_clist_set_row_data (todo->clist, i, ico);
+	gtk_clist_set_row_data_full (todo->clist, i, ico,
+				     (GtkDestroyNotify) ical_object_unref);
+	ical_object_ref (ico);
 
 	/*
 	 * determine if the task is overdue..
@@ -872,6 +877,7 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 		g_free (obj_string);
 
 		insert_in_clist (todo, obj);
+		ical_object_unref (obj);
 		g_free (uid);
 	}
 	g_list_free (uids);

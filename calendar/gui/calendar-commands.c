@@ -96,6 +96,10 @@ CalendarAlarm alarm_defaults[4] = {
 };
 
 
+static void calendar_iterate_free_cache_entry	(gpointer	key,
+						 gpointer	value,
+						 gpointer	user_data);
+
 static void
 init_username (void)
 {
@@ -863,11 +867,21 @@ calendar_iterate (GnomeCalendar *cal,
 
 	g_list_free (cois);
 
-	/* Note that we don't need to free the hash keys since they are part
-	   of the iCalObjects. */
+	/* We need to unref all the iCalObjects in the cache now. The callback
+	   function should have ref'd any of them it wants to keep. */
+	g_hash_table_foreach (cache, calendar_iterate_free_cache_entry, NULL);
+
 	g_hash_table_destroy (cache);
 }
 
+
+static void
+calendar_iterate_free_cache_entry	(gpointer	key,
+					 gpointer	value,
+					 gpointer	user_data)
+{
+	ical_object_unref ((iCalObject*) value);
+}
 
 
 static gint

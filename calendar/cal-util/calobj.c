@@ -66,6 +66,8 @@ ical_object_new (void)
 	ico->pilot_id = 0;
 	ico->pilot_status = ICAL_PILOT_SYNC_MOD;
 
+	ico->ref_count = 1;
+
 	return ico;
 }
 
@@ -90,6 +92,23 @@ ical_new (char *comment, char *organizer, char *summary)
 
 	return ico;
 }
+
+
+void
+ical_object_ref (iCalObject *ico)
+{
+	ico->ref_count++;
+}
+
+
+void
+ical_object_unref (iCalObject *ico)
+{
+	ico->ref_count--;
+	if (ico->ref_count == 0)
+		ical_object_destroy (ico);
+}
+
 
 static void
 my_free (gpointer data, gpointer user_dat_ignored)
@@ -587,6 +606,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		g_free (ical);
 		return 0;
 	}
+
+	ical->ref_count = 1;
 
 	/* uid */
 	if (has (o, VCUniqueStringProp)){

@@ -330,8 +330,9 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gint text_x, icon_x, icon_y, icon_x_inc;
 	iCalObject *ico;
 	gchar buffer[16];
-	gint hour, minute, offset, time_width;
+	gint hour, minute, offset, time_width, time_x, min_end_time_x;
 	gboolean draw_start_triangle, draw_end_triangle;
+	GdkRectangle clip_rect;
 
 	day_view = dvtitem->day_view;
 
@@ -456,30 +457,50 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* Draw the start & end times, if necessary.
 	   Note that GtkLabel adds 1 to the ascent so we must do that to be
 	   level with it. */
+	min_end_time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
+
 	if (event->start > day_view->day_starts[start_day]) {
 		offset = day_view->first_hour_shown * 60
 			+ day_view->first_minute_shown + event->start_minute;
 		hour = offset / 60;
 		minute = offset % 60;
 		sprintf (buffer, "%02i:%02i", hour, minute);
+
+		clip_rect.x = item_x - x;
+		clip_rect.y = item_y - y;
+		clip_rect.width = item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH;
+		clip_rect.height = item_h;
+		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+
 		gdk_draw_string (drawable, font, fg_gc,
-				 item_x + + E_DAY_VIEW_LONG_EVENT_X_PAD  - x,
+				 item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x,
 				 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + font->ascent + 1 - y,
 				 buffer);
+
+		gdk_gc_set_clip_rectangle (fg_gc, NULL);
+
+		min_end_time_x += day_view->small_hour_widths[hour] + 2
+			+ day_view->max_minute_width + day_view->colon_width;
 	}
 
 	if (event->end < day_view->day_starts[end_day + 1]) {
 		offset = day_view->first_hour_shown * 60
-			+ day_view->first_minute_shown + event->end_minute;
+			+ day_view->first_minute_shown
+			+ event->end_minute;
 		hour = offset / 60;
 		minute = offset % 60;
-		sprintf (buffer, "%02i:%02i", hour, minute);
 		time_width = day_view->small_hour_widths[hour]
 			+ day_view->max_minute_width + day_view->colon_width;
-		gdk_draw_string (drawable, font, fg_gc,
-				 item_x + item_w - E_DAY_VIEW_LONG_EVENT_X_PAD - time_width - E_DAY_VIEW_LONG_EVENT_TIME_X_PAD - x,
-				 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + font->ascent + 1 - y,
-				 buffer);
+		time_x = item_x + item_w - E_DAY_VIEW_LONG_EVENT_X_PAD - time_width - E_DAY_VIEW_LONG_EVENT_TIME_X_PAD - x;
+
+		if (time_x >= min_end_time_x) {
+			sprintf (buffer, "%02i:%02i", hour, minute);
+			gdk_draw_string (drawable, font, fg_gc,
+					 time_x,
+					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD
+					 + font->ascent + 1 - y,
+					 buffer);
+		}
 	}
 }
 
