@@ -418,6 +418,35 @@ command_xml_dump (gpointer    dummy,
 }
 
 
+static void
+command_work_offline (BonoboUIComponent *uih,
+		      void *data,
+		      const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	switch (e_shell_get_line_status (shell)) {
+	case E_SHELL_LINE_STATUS_ONLINE:
+		g_warning ("Putting the shell offline");
+		e_shell_go_offline (shell, shell_view);
+		break;
+	case E_SHELL_LINE_STATUS_OFFLINE:
+		g_warning ("Putting the shell online");
+		e_shell_go_online (shell, shell_view);
+		break;
+	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
+		g_warning ("The shell is going off-line already; not doing anything.");
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+
 /* Unimplemented commands.  */
 
 #define DEFINE_UNIMPLEMENTED(func)					\
@@ -468,6 +497,8 @@ BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileClose", command_close),
 	BONOBO_UI_VERB ("FileExit", command_quit),
 
+	BONOBO_UI_VERB ("WorkOffline", command_work_offline),
+
 	BONOBO_UI_VERB_END
 };
 
@@ -485,7 +516,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
-	E_PIXMAP ("/menu/File/WorkOffLine",	"work_offline.xpm"),
+	E_PIXMAP ("/menu/File/WorkOffline",	"work_offline.xpm"),
 	E_PIXMAP_END
 };
 

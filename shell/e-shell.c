@@ -82,8 +82,8 @@ struct _EShellPrivate {
 	/* Names for the types of the folders that have maybe crashed.  */
 	GList *crash_type_names; /* char * */
 
-	/* Whether the shell is off-line or not.  */
-	guint is_offline : 1;
+	/* Line status.  */
+	EShellLineStatus line_status;
 };
 
 
@@ -97,6 +97,7 @@ struct _EShellPrivate {
 
 enum {
 	NO_VIEWS_LEFT,
+	LINE_STATUS_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -671,6 +672,15 @@ class_init (EShellClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	signals[LINE_STATUS_CHANGED] =
+		gtk_signal_new ("line_status_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShellClass, line_status_changed),
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_ENUM);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	corba_class_init ();
@@ -694,7 +704,7 @@ init (EShell *shell)
 	priv->corba_storage_registry = NULL;
 	priv->offline_handler        = NULL;
 	priv->crash_type_names       = NULL;
-	priv->is_offline             = FALSE;
+	priv->line_status            = E_SHELL_LINE_STATUS_ONLINE;
 
 	shell->priv = priv;
 }
@@ -1271,22 +1281,59 @@ e_shell_component_maybe_crashed   (EShell *shell,
 }
 
 
+/* Offline/online handling.  */
+
+static void
+offline_procedure_started_cb (EShellOfflineHandler *offline_handler,
+			      void *data)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (data);
+	priv = shell->priv;
+
+	priv->line_status = E_SHELL_LINE_STATUS_GOING_OFFLINE;
+	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+}
+
+static void
+offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
+			       gboolean now_offline,
+			       void *data)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (data);
+	priv = shell->priv;
+
+	if (now_offline)
+		priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
+	else
+		priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
+
+	gtk_object_unref (GTK_OBJECT (priv->offline_handler));
+	priv->offline_handler = NULL;
+
+	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+}
+
 /**
- * e_shell_is_offline:
+ * e_shell_get_line_status:
  * @shell: A pointer to an EShell object.
  * 
- * Return whether @shell is working in off-line mode.
+ * Get the line status for @shell.
  * 
- * Return value: %TRUE if the @shell is working in off-line mode, %FALSE
- * otherwise.
+ * Return value: The current line status for @shell.
  **/
-gboolean
-e_shell_is_offline (EShell *shell)
+EShellLineStatus
+e_shell_get_line_status (EShell *shell)
 {
-	g_return_val_if_fail (shell != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (shell != NULL, E_SHELL_LINE_STATUS_OFFLINE);
+	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_LINE_STATUS_OFFLINE);
 
-	return shell->priv->is_offline;
+	return shell->priv->line_status;
 }
 
 /**
@@ -1308,6 +1355,20 @@ e_shell_go_offline (EShell *shell,
 	g_return_if_fail (action_view == NULL || E_IS_SHELL_VIEW (action_view));
 
 	priv = shell->priv;
+
+	if (priv->line_status != E_SHELL_LINE_STATUS_ONLINE)
+		return;
+
+	g_assert (priv->offline_handler == NULL);
+
+	priv->offline_handler = e_shell_offline_handler_new (priv->component_registry);
+
+	gtk_signal_connect (GTK_OBJECT (priv->offline_handler), "offline_procedure_started",
+			    GTK_SIGNAL_FUNC (offline_procedure_started_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (priv->offline_handler), "offline_procedure_finished",
+			    GTK_SIGNAL_FUNC (offline_procedure_finished_cb), shell);
+
+	e_shell_offline_handler_put_components_offline (priv->offline_handler, action_view);
 }
 
 /**
@@ -1359,6 +1420,9 @@ e_shell_go_online (EShell *shell,
 	}
 
 	e_free_string_list (component_ids);
+
+	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
+	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
 }
 
 

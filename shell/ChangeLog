@@ -1,5 +1,48 @@
 2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-handler.c: New member `dialog_gui' in
+	`EShellOfflineHandlerPrivate'.
+	(impl_destroy): Unref here if not NULL.
+	(init): Init to NULL.
+	(update_dialog_clist_hash_foreach): New.
+	(update_dialog_clist): New.
+	(dialog_clicked_cb): New, callback for the "clicked" signal on the
+	active connection dialog.
+	(pop_up_confirmation_dialog): Implemented.
+	(init): Init `procedure_in_progress' to `FALSE' instead of `TRUE'.
+	(cancel_offline): Emit `offline_procedure_finished'.
+	(impl_OfflineProgressListener_updateProgress): Call
+	`update_dialog_clist()'.
+
+	* glade/e-active-connection-dialog.glade: New.
+
+	* e-shell-view-menu.c: Update to use the `WorkOffline' verb
+	instead of the `WorkOffLine' one.
+	(command_work_offline): New, temporary implementation for the
+	"WorkOffline" verb.
+
+	* e-shell-view.c (shell_line_status_changed_cb): New, callback for
+	the shell's `line_status_changed' signal.
+	(e_shell_view_construct): Connect it.
+
+	* e-shell.c: New member `line_status' in `EShellPrivate'.
+	(init): Init to `E_SHELL_LINE_STATUS_ONLINE'.
+	(class_init): Set up the `line_status_changed' signal.
+	(e_shell_is_offline): Removed.
+	(e_shell_get_line_status): New.
+	(e_shell_go_online): Set the `line_status' member to
+	`E_SHELL_LINE_STATUS_ONLINE' and emit `line_status_changed'.
+	(offline_procedure_started_cb): New, signal for the
+	`offline_procedure_started' signal in EShellOfflineHandler.
+	(offline_procedure_finished_cb): New, signal for the
+	`offline_procedure_finished' signal in EShellOfflineHandler.
+	(e_shell_go_offline): Implemented.
+
+	* e-shell.h: New enum `EShellLineStatus'.  New signal
+	`line_status_changed'.
+
+2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-handler.c (e_shell_offline_handler_construct):
 	Unset the `GTK_FLOATING' flag.
 

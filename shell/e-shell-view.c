@@ -171,6 +171,23 @@ bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 }
 
 
+/* Shell signal handling.  */
+
+static void
+shell_line_status_changed_cb (EShell *shell,
+			      EShellLineStatus new_status,
+			      void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	g_warning ("Shell status changed -- %d", new_status);
+}
+
+
 /* Folder bar pop-up handling.  */
 
 static void disconnect_popup_signals (EShellView *shell_view);
@@ -1020,12 +1037,14 @@ e_shell_view_construct (EShellView *shell_view,
 
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)),
 					  "/evolution/UIConf/kvps");
-
 	e_shell_view_menu_setup (shell_view);
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 
 	bonobo_ui_component_thaw (priv->ui_component, NULL);
+
+	gtk_signal_connect (GTK_OBJECT (shell), "line_status_changed",
+			    GTK_SIGNAL_FUNC (shell_line_status_changed_cb), view);
 
 	return view;
 }

@@ -49,6 +49,13 @@ typedef struct _EShellClass   EShellClass;
 #define E_IS_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
 
 
+enum _EShellLineStatus {
+	E_SHELL_LINE_STATUS_ONLINE,
+	E_SHELL_LINE_STATUS_GOING_OFFLINE,
+	E_SHELL_LINE_STATUS_OFFLINE
+};
+typedef enum _EShellLineStatus EShellLineStatus;
+
 struct _EShell {
 	BonoboObject parent;
 
@@ -59,6 +66,8 @@ struct _EShellClass {
 	BonoboObjectClass parent_class;
 
 	void (* no_views_left) (EShell *shell);
+
+	void (* line_status_changed) (EShell *shell, EShellLineStatus status);
 };
 
 
@@ -94,9 +103,11 @@ void                 e_shell_component_maybe_crashed   (EShell          *shell,
 							const char      *type_name,
 							EShellView      *shell_view);
 
-gboolean  e_shell_is_offline  (EShell *shell);
-void      e_shell_go_offline  (EShell *shell, EShellView *action_view);
-void      e_shell_go_online   (EShell *shell, EShellView *action_view);
+EShellLineStatus  e_shell_get_line_status  (EShell     *shell);
+void              e_shell_go_offline       (EShell     *shell,
+					    EShellView *action_view);
+void              e_shell_go_online        (EShell     *shell,
+					    EShellView *action_view);
 
 #ifdef __cplusplus
 }
