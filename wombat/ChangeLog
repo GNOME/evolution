@@ -1,4 +1,9 @@
-2001-06-21  Rodrigo Moya <rodrigo@gnome-db.org>
+2001-06-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat.idl: changed getFreeBusy method to return a CalObj instead
+	of a sequence
+
+2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* wombat.idl: added new interface (WombatClient)
 
