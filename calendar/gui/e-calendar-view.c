@@ -33,6 +33,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-calendar-marshal.h"
 #include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal-component.h>
 
 #include "calendar-commands.h"
 #include "calendar-component.h"

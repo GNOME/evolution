@@ -1,3 +1,9 @@
+2004-04-17  Trent Lloyd  <lathiat@sixlabs.org>
+
+	* gui/e-calendar-view.c: include libecal/e-cal-component.h to kill
+	implicit declaration of e_cal_component_get_recur_id_as_string at line
+	869.
+
 2004-04-15 Gary Ekker <gekker@novell.com>
 
 	Fixes #52271
