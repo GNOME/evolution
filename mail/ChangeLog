@@ -1,5 +1,11 @@
 2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (mail_format_data_wrapper_write_to_stream):
+	Default to the charset provied in the MimePart's Content-Type over
+	that of the user's mailer charset. Fixes bug #39204.
+
+2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-composer-prefs.c (spell_load_values): "en_us" should not be
 	translated. Fixes bug #40088.
 

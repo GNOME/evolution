@@ -1099,19 +1099,20 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 	
 	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
 		CamelMimeFilterCharset *filter;
+		CamelContentType *content_type;
 		GConfClient *gconf;
 		char *charset;
 		
 		gconf = gconf_client_get_default ();
 		
+		content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+		
 		if (!wrapper->rawtext) {
 			/* data wrapper had been successfully converted to UTF-8 using the mime
 			   part's charset, but the user thinks he knows best so we'll let him
 			   shoot himself in the foot here... */
-			CamelContentType *content_type;
 			
 			/* get the original charset of the mime part */
-			content_type = camel_data_wrapper_get_mime_type_field (wrapper);
 			charset = (char *) (content_type ? header_content_type_param (content_type, "charset") : NULL);
 			if (!charset)
 				charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
@@ -1132,6 +1133,8 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 		/* find out the charset the user wants to override to */
 		if (mail_display && mail_display->charset)
 			charset = g_strdup (mail_display->charset);
+		else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset")))
+			charset = g_strdup (charset);
 		else
 			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 		
