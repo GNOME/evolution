@@ -321,8 +321,6 @@ real_fetch_mail (gpointer user_data)
 		gtk_object_unref (GTK_OBJECT (filter));
 	if (url)
 		g_free (url);
-	if (dest_url)
-		g_free (dest_url);
 
 	if (folder) {
 		camel_folder_sync (folder, TRUE, ex);

@@ -1,5 +1,7 @@
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (real_fetch_mail): Don't multiply free dest_url.
+
 	* message-list.c (message_list_select): Update
 	message_list_select_next to do either next or previous.
 
