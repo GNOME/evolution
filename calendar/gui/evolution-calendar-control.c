@@ -132,6 +132,7 @@ calendar_properties_init (GnomeCalendar *gcal)
 				 0);
 
 	bonobo_control_set_property_bag (gcal->control, gcal->properties);
+	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
 

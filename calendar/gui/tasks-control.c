@@ -109,6 +109,7 @@ tasks_control_properties_init		(BonoboControl		*control,
 				 0);
 
 	bonobo_control_set_properties (control, pbag);
+	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
 

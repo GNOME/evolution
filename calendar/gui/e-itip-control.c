@@ -1038,12 +1038,13 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 
 	/* create a property bag */
 	prop_bag = bonobo_property_bag_new ( get_prop, set_prop, priv );
-	bonobo_control_set_properties (control, prop_bag);
-
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "from_address", 0 );
 	bonobo_property_bag_add (prop_bag, "my_address", MY_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "my_address", 0 );
+
+	bonobo_control_set_properties (control, prop_bag);
+	bonobo_object_unref (BONOBO_OBJECT (prop_bag));
 
 	bonobo_control_set_automerge (control, TRUE);	
 

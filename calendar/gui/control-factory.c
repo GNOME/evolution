@@ -127,6 +127,7 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 				 0);
 
 	bonobo_control_set_properties (control, pbag);
+	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
 /* Callback factory function for calendar controls */
