@@ -530,8 +530,6 @@ impl_createControls (PortableServer_Servant servant,
 	mc_startup(mail_component);
 
 	view_widget = em_folder_browser_new ();
-	/* so error boxes have a parent if none supplied */
-	e_error_default_parent((GtkWindow *)view_widget);
 	
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);

@@ -1,3 +1,9 @@
+2004-07-22  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (impl_createControls): dont call
+	e_error_default parent here, we dont have access to the toplevel
+	yet.
+
 2004-07-23  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61824.
