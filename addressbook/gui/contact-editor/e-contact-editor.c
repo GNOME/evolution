@@ -2317,7 +2317,10 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY (fname_widget)) {
 			char *full_name = e_contact_name_to_string(name);
-			set_entry_text (editor, GTK_ENTRY (fname_widget), full_name);
+			const char *old_full_name = gtk_entry_get_text (GTK_ENTRY(fname_widget));
+
+			if (strcmp (full_name, old_full_name))
+				gtk_entry_set_text (GTK_ENTRY (fname_widget), full_name);
 			g_free(full_name);
 		}
 

@@ -1,3 +1,11 @@
+2004-06-16  Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* gui/contact-editor/e-contact-editor.c (full_name_clicked) :
+	compare old and new full names and if it is different set the new 
+	the name using gtk_entry_set_text instead of set_entry_text
+	as this function blocks siganls hence preventing ok button being 
+	enabled
+
 2004-06-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (extract_im_record): set
