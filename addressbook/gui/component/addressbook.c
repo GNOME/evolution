@@ -188,6 +188,34 @@ stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+cut_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_cut(view->view);
+}
+
+static void
+copy_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_copy(view->view);
+}
+
+static void
+paste_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_paste(view->view);
+}
+
+static void
+select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_select_all (view->view);
+}
+
+static void
 update_command_state (EAddressbookView *eav, AddressbookView *view)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
@@ -210,7 +238,24 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 				      "sensitive",
 				      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
 
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsCut",
+				      "sensitive",
+				      e_addressbook_view_can_cut (view->view) ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsCopy",
+				      "sensitive",
+				      e_addressbook_view_can_copy (view->view) ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsPaste",
+				      "sensitive",
+				      e_addressbook_view_can_paste (view->view) ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsSelectAll",
+				      "sensitive",
+				      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
 
+	
 	/* View All Contacts */
 #if 0
 	/* this is always enabled */
@@ -242,6 +287,11 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactViewAll", show_all_contacts_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
+
+	BONOBO_UI_UNSAFE_VERB ("ContactsCut", cut_contacts_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsCopy", copy_contacts_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsPaste", paste_contacts_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsSelectAll", select_all_contacts_cb),
 	
 	BONOBO_UI_VERB_END
 };

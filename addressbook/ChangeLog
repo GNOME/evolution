@@ -1,3 +1,55 @@
+2001-05-30  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (cut_contacts_cb): new function, for
+	the Cut verb.
+	(copy_contacts_cb): new function, for the Copy verb.
+	(paste_contacts_cb): new function, for the Paste verb.
+	(select_all_contacts_cb): new function, for the Select All verb.
+	(update_command_state): add handling for sensitivity of
+	Cut/Copy/Paste/Select All.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init): init
+	the invisible and set up selection/destroy signals.
+	(get_selection_model): new function, so we can get the
+	ETableSelectionModel from either view type.  makes lots of the
+	other functions easier, since we can get the list of selected
+	cards using the same code regardless of view type.
+	(invisible_destroyed): new function.
+	(selection_get): new function.  convert the clipboard list to
+	string.
+	(selection_clear_event): new function - free up the list of
+	ECards.
+	(selection_received): if the selection data is valid and
+	well-formed, add the corresponding cards to the ebook.
+	(add_to_list): new function.
+	(get_selected_cards): new function.
+	(e_addressbook_view_cut): new function, implement in terms of
+	_copy and _delete_selection.
+	(e_addressbook_view_copy): claim ownership of the CLIPBOARD
+	selection after saving the list of selected ECards.
+	(e_addressbook_view_paste): call gtk_selection_convert.
+	(e_addressbook_view_select_all): new function, using
+	e_selection_model_select_all.
+	(e_addressbook_view_can_print): re-implement in terms of
+	get_selection_model.
+	(e_addressbook_view_can_delete): same.
+	(e_addressbook_view_can_cut): new function.
+	(e_addressbook_view_can_copy): new function.
+	(e_addressbook_view_can_paste): new function.  hmm, always return
+	TRUE here.
+	(e_addressbook_view_can_select_all): new function.
+
+	* gui/widgets/e-addressbook-view.h (struct _EAddressbookView): add
+	selection stuff - the list of selected cards, and the GtkInvisible
+	selection owner, and add prototypes for
+	e_addressbook_view_[can]_{cut,copy,paste,select_all}.
+	
+	* gui/widgets/e-minicard-view-widget.h: add a prototype for
+	e_minicard_view_widget_get_selection_model.
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_get_selection_model): new function.
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook.c: #include

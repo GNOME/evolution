@@ -329,3 +329,10 @@ void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 	if (view->emv)
 		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(view->emv), letter);
 }
+
+ESelectionModel *
+e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view)
+{
+	if (view->emv)
+		return E_SELECTION_MODEL (E_REFLOW (view->emv)->selection);
+}

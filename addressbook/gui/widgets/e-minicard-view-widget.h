@@ -69,6 +69,8 @@ void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 						    char           letter);
 GtkWidget *e_minicard_view_widget_new              (EAddressbookReflowAdapter *adapter);
 
+ESelectionModel *e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include <gtk/gtkinvisible.h>
+
 #include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -66,6 +68,14 @@ static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
 
+static void selection_clear_event (GtkWidget *invisible, GdkEventSelection *event,
+				   EAddressbookView *view);
+static void selection_received (GtkWidget *invisible, GtkSelectionData *selection_data,
+				guint time, EAddressbookView *view);
+static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_data,
+			   guint info, guint time_stamp, EAddressbookView *view);
+static void invisible_destroyed (GtkWidget *invisible, EAddressbookView *view);
+
 static GtkTableClass *parent_class = NULL;
 
 /* The arguments we take */
@@ -92,6 +102,8 @@ static GtkTargetEntry drag_types[] = {
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
+
+static GdkAtom clipboard_atom = GDK_NONE;
 
 GtkType
 e_addressbook_view_get_type (void)
@@ -154,6 +166,9 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_addressbook_view_signals, LAST_SIGNAL);
+
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 static void
@@ -184,6 +199,26 @@ e_addressbook_view_init (EAddressbookView *eav)
 
 	eav->object = NULL;
 	eav->widget = NULL;
+
+	eav->invisible = gtk_invisible_new ();
+
+	gtk_selection_add_target (eav->invisible,
+				  clipboard_atom,
+				  GDK_SELECTION_TYPE_STRING,
+				  0);
+		
+	gtk_signal_connect (GTK_OBJECT(eav->invisible), "selection_get",
+			    GTK_SIGNAL_FUNC (selection_get), 
+			    eav);
+	gtk_signal_connect (GTK_OBJECT(eav->invisible), "selection_clear_event",
+			    GTK_SIGNAL_FUNC (selection_clear_event),
+			    eav);
+	gtk_signal_connect (GTK_OBJECT(eav->invisible), "selection_received",
+			    GTK_SIGNAL_FUNC (selection_received),
+			    eav);
+	gtk_signal_connect (GTK_OBJECT(eav->invisible), "destroyed",
+			    GTK_SIGNAL_FUNC (invisible_destroyed),
+			    eav);
 }
 
 static void
@@ -194,6 +229,15 @@ e_addressbook_view_destroy (GtkObject *object)
 	if (eav->book)
 		gtk_object_unref(GTK_OBJECT(eav->book));
 	g_free(eav->query);
+
+	if (eav->clipboard_cards) {
+		g_list_foreach (eav->clipboard_cards, (GFunc)gtk_object_unref, NULL);
+		g_list_free (eav->clipboard_cards);
+		eav->clipboard_cards = NULL;
+	}
+		
+	if (eav->invisible)
+		gtk_widget_destroy (eav->invisible);
 
 	if (GTK_OBJECT_CLASS(parent_class)->destroy)
 		GTK_OBJECT_CLASS(parent_class)->destroy(object);
@@ -1004,6 +1048,16 @@ e_addressbook_view_setup_menus (EAddressbookView *view,
 	gtk_object_sink(GTK_OBJECT(collection));
 }
 
+static ESelectionModel*
+get_selection_model (EAddressbookView *view)
+{
+	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
+		return e_minicard_view_widget_get_selection_model (E_MINICARD_VIEW_WIDGET(view->object));
+	else
+		return E_SELECTION_MODEL(E_TABLE_SCROLLED(view->widget)->table->selection);
+}
+
+
 void
 e_addressbook_view_print(EAddressbookView *view)
 {
@@ -1053,8 +1107,131 @@ card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 void
 e_addressbook_view_delete_selection(EAddressbookView *view)
 {
+	ESelectionModel *model = get_selection_model (view);
+
+	g_return_if_fail (model);
+
 	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
 		e_minicard_view_widget_remove_selection (E_MINICARD_VIEW_WIDGET(view->object), card_deleted_cb, NULL);
+}
+
+static void
+invisible_destroyed (GtkWidget *invisible, EAddressbookView *view)
+{
+	view->invisible = NULL;
+}
+
+static void
+selection_get (GtkWidget *invisible,
+	       GtkSelectionData *selection_data,
+	       guint info,
+	       guint time_stamp,
+	       EAddressbookView *view)
+{
+	char *value;
+
+	value = e_card_list_get_vcard(view->clipboard_cards);
+
+	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
+				8, value, strlen (value));
+				
+}
+
+static void
+selection_clear_event (GtkWidget *invisible,
+		       GdkEventSelection *event,
+		       EAddressbookView *view)
+{
+	if (view->clipboard_cards) {
+		g_list_foreach (view->clipboard_cards, (GFunc)gtk_object_unref, NULL);
+		g_list_free (view->clipboard_cards);
+		view->clipboard_cards = NULL;
+	}
+}
+
+static void
+selection_received (GtkWidget *invisible,
+		    GtkSelectionData *selection_data,
+		    guint time,
+		    EAddressbookView *view)
+{
+	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+		return;
+	}
+	else {
+		/* XXX make sure selection_data->data = \0 terminated */
+		GList *card_list = e_card_load_cards_from_string (selection_data->data);
+		GList *l;
+		
+		if (!card_list /* it wasn't a vcard list */)
+			return;
+
+		for (l = card_list; l; l = l->next) {
+			ECard *card = l->data;
+
+			e_book_add_card (view->book, card, NULL /* XXX */, NULL);
+		}
+
+		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);
+		g_list_free (card_list);
+	}
+}
+
+static void
+add_to_list (int model_row, gpointer closure)
+{
+	GList **list = closure;
+	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));
+}
+
+static GList *
+get_selected_cards (EAddressbookView *view)
+{
+	GList *list;
+	GList *iterator;
+	ESelectionModel *selection = get_selection_model (view);
+
+	list = NULL;
+	e_selection_model_foreach (selection, add_to_list, &list);
+
+	for (iterator = list; iterator; iterator = iterator->next) {
+		iterator->data = e_addressbook_model_card_at (view->model, GPOINTER_TO_INT (iterator->data));
+	}
+	list = g_list_reverse (list);
+	return list;
+}
+
+void
+e_addressbook_view_cut (EAddressbookView *view)
+{
+	e_addressbook_view_copy (view);
+	e_addressbook_view_delete_selection (view);
+}
+
+void
+e_addressbook_view_copy (EAddressbookView *view)
+{
+	view->clipboard_cards = get_selected_cards (view);
+
+	gtk_selection_owner_set (view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+void
+e_addressbook_view_paste (EAddressbookView *view)
+{
+	gtk_selection_convert (view->invisible, clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
+}
+
+void
+e_addressbook_view_select_all (EAddressbookView *view)
+{
+	ESelectionModel *model = get_selection_model (view);
+
+	g_return_if_fail (model);
+
+	e_selection_model_select_all (model);
 }
 
 void
@@ -1080,30 +1257,61 @@ e_addressbook_view_can_create (EAddressbookView  *view)
 gboolean
 e_addressbook_view_can_print (EAddressbookView  *view)
 {
-	switch (view->view_type) {
-	case E_ADDRESSBOOK_VIEW_TABLE:
-		return e_table_selected_count (E_TABLE_SCROLLED(view->widget)->table) != 0;
-	case E_ADDRESSBOOK_VIEW_MINICARD:
-		return e_minicard_view_widget_selected_count (E_MINICARD_VIEW_WIDGET (view->object)) != 0;
-	default:
+	ESelectionModel *selection_model;
+
+	if (!e_addressbook_model_editable (view->model))
 		return FALSE;
-	}
+
+	selection_model = get_selection_model (view);
+	g_return_val_if_fail (selection_model != NULL, FALSE);
+
+	return e_selection_model_selected_count (selection_model) != 0;
 }
 
 gboolean
 e_addressbook_view_can_delete (EAddressbookView  *view)
 {
+	ESelectionModel *selection_model;
+
 	if (!e_addressbook_model_editable (view->model))
 		return FALSE;
 
-	switch (view->view_type) {
-	case E_ADDRESSBOOK_VIEW_TABLE:
-		return e_table_selected_count (E_TABLE_SCROLLED(view->widget)->table) != 0;
-	case E_ADDRESSBOOK_VIEW_MINICARD:
-		return e_minicard_view_widget_selected_count (E_MINICARD_VIEW_WIDGET (view->object)) != 0;
-	default:
+	selection_model = get_selection_model (view);
+	g_return_val_if_fail (selection_model != NULL, FALSE);
+
+	return e_selection_model_selected_count (selection_model) != 0;
+}
+
+gboolean
+e_addressbook_view_can_cut (EAddressbookView *view)
+{
+	return (e_addressbook_view_can_copy (view) && e_addressbook_model_editable (view->model));
+}
+
+gboolean
+e_addressbook_view_can_copy (EAddressbookView *view)
+{
+	ESelectionModel *selection_model;
+
+	if (!e_addressbook_model_editable (view->model))
 		return FALSE;
-	}
+
+	selection_model = get_selection_model (view);
+	g_return_val_if_fail (selection_model != NULL, FALSE);
+
+	return e_selection_model_selected_count (selection_model) != 0;
+}
+
+gboolean
+e_addressbook_view_can_paste (EAddressbookView *view)
+{
+	return TRUE;
+}
+
+gboolean
+e_addressbook_view_can_select_all (EAddressbookView *view)
+{
+	return e_addressbook_model_card_count (view->model) != 0;
 }
 
 gboolean

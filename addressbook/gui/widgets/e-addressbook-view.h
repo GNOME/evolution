@@ -64,6 +64,9 @@ struct _EAddressbookView
 
 	EAddressbookModel   *model;
 
+	GtkWidget *invisible;
+	GList *clipboard_cards;
+
 	EBook *book;
 	char  *query;
 	guint editable : 1;
@@ -93,12 +96,20 @@ void       e_addressbook_view_setup_menus       (EAddressbookView  *view,
 
 void       e_addressbook_view_print             (EAddressbookView  *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
+void       e_addressbook_view_cut               (EAddressbookView  *view);
+void       e_addressbook_view_copy              (EAddressbookView  *view);
+void       e_addressbook_view_paste             (EAddressbookView  *view);
+void       e_addressbook_view_select_all        (EAddressbookView  *view);
 void       e_addressbook_view_show_all          (EAddressbookView  *view);
 void       e_addressbook_view_stop              (EAddressbookView  *view);
 
 gboolean   e_addressbook_view_can_create        (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_print         (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_delete        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_cut           (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_copy          (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_paste         (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_select_all    (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_stop          (EAddressbookView  *view);
 
 #ifdef __cplusplus
