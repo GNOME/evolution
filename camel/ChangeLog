@@ -1,5 +1,8 @@
 2004-04-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-store.c: Added mutex locking where
+	appropriate.
+
 	* camel-folder-summary.h (CAMEL_FOLDER_SUMMARY_TYPE): Defined.
 
 	* camel-object.h (CAMEL_OBJECT_TYPE): Fixed.

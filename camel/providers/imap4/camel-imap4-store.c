@@ -680,6 +680,7 @@ static CamelFolder *
 imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelFolder *folder = NULL;
 	camel_imap4_list_t *list;
 	CamelIMAP4Command *ic;
 	CamelFolderInfo *fi;
@@ -687,6 +688,8 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 	char *utf7_name;
 	int create;
 	int id, i;
+	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	/* make sure the folder exists - try LISTing it? */
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
@@ -702,7 +705,7 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
 		g_ptr_array_free (array, TRUE);
-		return NULL;
+		goto done;
 	}
 	
 	create = array->len == 0;
@@ -720,7 +723,7 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 				      _("Cannot get folder `%s' on IMAP server %s: Unknown"),
 				      folder_name, ((CamelService *) store)->url->host);
 		camel_imap4_command_unref (ic);
-		return NULL;
+		goto done;
 	}
 	
 	camel_imap4_command_unref (ic);
@@ -731,7 +734,7 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 		int len;
 		
 		if (!(flags & CAMEL_STORE_FOLDER_CREATE))
-			return NULL;
+			goto done;
 		
 		if (!(basename = strrchr (folder_name, '/')))
 			basename = folder_name;
@@ -744,12 +747,18 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 		parent[len] = '\0';
 		
 		if (!(fi = imap4_create_folder (store, parent, basename, ex)))
-			return NULL;
+			goto done;
 		
 		camel_store_free_folder_info (store, fi);
 	}
 	
-	return camel_imap4_folder_new (store, folder_name, ex);
+	folder = camel_imap4_folder_new (store, folder_name, ex);
+	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
+	
+	return folder;
 }
 
 static CamelFolderInfo *
@@ -784,6 +793,8 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	else
 		name = g_strdup (folder_name);
 	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
 	utf7_name = imap4_folder_utf7_name (store, name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "CREATE %S\r\n", utf7_name);
 	g_free (utf7_name);
@@ -795,7 +806,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
 		g_free (name);
-		return NULL;
+		goto done;
 	}
 	
 	switch (ic->result) {
@@ -804,7 +815,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 			camel_imap4_command_unref (ic);
 			g_free (name);
 			
-			return NULL;
+			goto done;
 		}
 		
 		camel_object_trigger_event (store, "folder_created", fi);
@@ -827,7 +838,11 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	camel_imap4_command_unref (ic);
 	
 	g_free (name);
-		
+	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
+	
 	return fi;
 }
 
@@ -847,6 +862,8 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 		return;
 	}
 	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "DELETE %S\r\n", utf7_name);
 	g_free (utf7_name);
@@ -857,6 +874,7 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return;
 	}
 	
@@ -881,6 +899,8 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 	}
 	
 	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
 static void
@@ -971,6 +991,7 @@ static CamelFolderInfo *
 imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelFolderInfo *fi = NULL;
 	camel_imap4_list_t *list;
 	CamelIMAP4Command *ic;
 	GPtrArray *array;
@@ -986,6 +1007,8 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	if (top == NULL)
 		top = "";
 	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
 	pattern = imap4_folder_utf7_name (store, top, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%');
 	ic = camel_imap4_engine_queue (engine, NULL, "%s "" %S\r\n", cmd, pattern);
 	camel_imap4_command_register_untagged (ic, cmd, camel_imap4_untagged_list);
@@ -999,7 +1022,7 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 		camel_imap4_command_unref (ic);
 		g_ptr_array_free (array, TRUE);
 		g_free (pattern);
-		return NULL;
+		goto done;
 	}
 	
 	if (ic->result != CAMEL_IMAP4_RESULT_OK) {
@@ -1020,12 +1043,18 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 		
 		g_free (pattern);
 		
-		return NULL;
+		goto done;
 	}
 	
 	g_free (pattern);
 	
-	return imap4_build_folder_info (engine, flags, array, top);
+	fi = imap4_build_folder_info (engine, flags, array, top);
+	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
+	
+	return fi;
 }
 
 static void
@@ -1035,6 +1064,8 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	CamelIMAP4Command *ic;
 	char *utf7_name;
 	int id;
+	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "SUBSCRIBE %S\r\n", utf7_name);
@@ -1046,6 +1077,7 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return;
 	}
 	
@@ -1071,6 +1103,8 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	}
 	
 	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
 static void
@@ -1080,6 +1114,8 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	CamelIMAP4Command *ic;
 	char *utf7_name;
 	int id;
+	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "UNSUBSCRIBE %S\r\n", utf7_name);
@@ -1091,6 +1127,7 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return;
 	}
 	
@@ -1115,6 +1152,8 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	}
 	
 	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
 static void
@@ -1124,6 +1163,8 @@ imap4_noop (CamelStore *store, CamelException *ex)
 	CamelIMAP4Command *ic;
 	int id;
 	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
 	ic = camel_imap4_engine_queue (engine, NULL, "NOOP\r\n");
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
@@ -1132,4 +1173,6 @@ imap4_noop (CamelStore *store, CamelException *ex)
 		camel_exception_xfer (ex, &ic->ex);
 	
 	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
