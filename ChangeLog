@@ -1,5 +1,9 @@
 2000-09-20  Christopher James Lahey  <clahey@helixcode.com>
 
+	* ui/.cvsignore: Added a cvsignore file here.
+
+2000-09-20  Christopher James Lahey  <clahey@helixcode.com>
+
 	* ui/Makefile.am (XML_FILES): Added evolution-contact-editor.xml.
 
 	* ui/evolution-contact-editor.xml: New file for the UI for the
