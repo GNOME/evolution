@@ -1,3 +1,10 @@
+2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (menu_file_send_cb): Emit the POSTPONE signal
+	if we are offline.
+	(setup_ui): If we are offline, change the Control+Enter accel to
+	be on the SendLater menu item.
+
 2001-06-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save_draft): Save the formatting preference

@@ -64,13 +64,15 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include "camel/camel.h"
-#include "camel-charset-map.h"
+#include "camel/camel-charset-map.h"
+#include "camel/camel-session.h"
 
 #include "mail/mail.h"
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
+#include "mail/mail-session.h"
 
 #include "e-util/e-html-utils.h"
 
@@ -154,10 +156,10 @@ best_encoding (GByteArray *buf, const char *charset)
 	size_t inlen, outlen;
 	int status, count = 0;
 	iconv_t cd;
-
+	
 	cd = iconv_open (charset, "utf-8");
 	g_return_val_if_fail (cd != (iconv_t)-1, -1);
-
+	
 	in = buf->data;
 	inlen = buf->len;
 	do {
@@ -170,10 +172,10 @@ best_encoding (GByteArray *buf, const char *charset)
 		}
 	} while (status == -1 && errno == E2BIG);
 	iconv_close (cd);
-
+	
 	if (status == -1)
 		return -1;
-
+	
 	if (count == 0)
 		return CAMEL_MIME_PART_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
@@ -372,7 +374,7 @@ build_message (EMsgComposer *composer)
 			current = CAMEL_DATA_WRAPPER (body);
 	} else
 		current = plain;
-
+	
 	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
 		CamelMultipart *multipart = camel_multipart_new ();
 		
@@ -1054,7 +1056,10 @@ menu_file_send_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
+	if (camel_session_is_online (session))
+		gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
+	else
+		gtk_signal_emit (GTK_OBJECT (data), signals[POSTPONE]);
 }
 
 static void
@@ -1461,11 +1466,21 @@ setup_ui (EMsgComposer *composer)
 	        composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
 	bonobo_ui_component_add_verb_list_with_data (
-		composer->uic, verbs, composer);	
+		composer->uic, verbs, composer);
 	
 	bonobo_ui_util_set_ui (composer->uic, EVOLUTION_DATADIR,
 			       "evolution-message-composer.xml",
 			       "evolution-message-composer");
+	
+	if (!camel_session_is_online (session)) {
+		/* Move the accelerator from Send to Send Later */
+		bonobo_ui_component_set_prop (
+			composer->uic, "/commands/FileSend",
+			"accel", NULL, NULL);
+		bonobo_ui_component_set_prop (
+			composer->uic, "/commands/FileSendLater",
+			"accel", "*Ctrl*Return", NULL);
+	}
 	
 	/* Format -> HTML */
 	bonobo_ui_component_set_prop (
@@ -1474,7 +1489,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "FormatHtml",
 		menu_format_html_cb, composer);
-
+	
 	/* View/From */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/ViewFrom",
@@ -1482,7 +1497,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewFrom",
 		menu_view_from_cb, composer);
-
+	
 	/* View/ReplyTo */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/ViewReplyTo",
@@ -1490,7 +1505,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewReplyTo",
 		menu_view_replyto_cb, composer);
-
+	
 	/* View/BCC */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/ViewBCC",
@@ -1498,7 +1513,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewBCC",
 		menu_view_bcc_cb, composer);
-
+	
 	/* View/CC */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/ViewCC",
@@ -1507,7 +1522,6 @@ setup_ui (EMsgComposer *composer)
 		composer->uic, "ViewCC",
 		menu_view_cc_cb, composer);
 	
-
 	/* Security -> PGP Sign */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/SecurityPGPSign",
