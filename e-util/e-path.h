@@ -21,6 +21,16 @@
 #ifndef __E_PATH__
 #define __E_PATH__
 
-char *e_path_to_physical (const char *prefix, const char *vpath);
+#include <glib.h>
+
+typedef gboolean (*EPathFindFoldersCallback) (const char *physical_path,
+					      const char *path,
+					      gpointer user_data);
+
+char *   e_path_to_physical  (const char *prefix, const char *vpath);
+
+gboolean e_path_find_folders (const char *prefix,
+			      EPathFindFoldersCallback callback,
+			      gpointer data);
 
 #endif /* __E_PATH__ */
