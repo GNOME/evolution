@@ -539,6 +539,9 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 		return;
 	}
 
+	g_free (result);
+	g_free (folder_path);
+	
 	if (!(info = (CamelMessageInfo *)imap_summary_get_by_uid (source, uid))) {
 		CamelService *service = CAMEL_SERVICE (store);
 		

@@ -45,6 +45,7 @@ libcamel_la_SOURCES = 				\
 	hash-table-utils.c			\
 	md5-utils.c				\
 	string-utils.c				\
+	broken-date-parser.c			\
 	camel-mime-parser.c			\
 	camel-mime-utils.c			\
 	camel-mime-filter.c			\
@@ -90,6 +91,7 @@ libcamelinclude_HEADERS =			\
 	hash-table-utils.h			\
 	md5-utils.h				\
 	string-utils.h				\
+	broken-date-parser.h			\
 	camel-exception-list.def		\
 	camel-mime-parser.h			\
 	camel-mime-utils.h			\
