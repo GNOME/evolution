@@ -184,11 +184,11 @@ errlib_error_to_errno (int ret)
 }
 
 static void
-ssl_error_to_errno (CamelTcpStreamOpenSSL *stream, int ret)
+ssl_error_to_errno (SSL *ssl, int ret)
 {
 	/* hm, a CamelException might be useful right about now! */
 	
-	switch (SSL_get_error (stream->priv->ssl, ret)) {
+	switch (SSL_get_error (ssl, ret)) {
 	case SSL_ERROR_NONE:
 		errno = 0;
 		return;
@@ -271,7 +271,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	}
 	
 	if (nread == -1)
-		ssl_error_to_errno (tcp_stream_openssl, -1);
+		ssl_error_to_errno (tcp_stream_openssl->priv->ssl, -1);
 	
 	return nread;
 }
@@ -337,7 +337,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	}
 	
 	if (written == -1)
-		ssl_error_to_errno (tcp_stream_openssl, -1);
+		ssl_error_to_errno (tcp_stream_openssl->priv->ssl, -1);
 	
 	return written;
 }
@@ -526,7 +526,7 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 
 	n = SSL_connect (ssl);
 	if (n != 1) {
-		ssl_error_to_errno (openssl, n);
+		ssl_error_to_errno (ssl, n);
 
 		SSL_shutdown (ssl);
 		

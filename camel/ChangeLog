@@ -1,3 +1,10 @@
+2001-09-28  Dan Winship  <danw@ximian.com>
+
+	* camel-tcp-stream-openssl.c (ssl_error_to_errno): Make this take
+	an SSL * instead of a CamelTcpStreamSSL *, since it can get called
+	from open_ssl_connection, when the CamelTcpStreamSSL isn't set up
+	right yet. Fixes a crash on connection failure.
+
 2001-09-27  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c
