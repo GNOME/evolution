@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-08-21 14:59+0200\n"
+"POT-Creation-Date: 2001-08-22 18:50-0400\n"
 "PO-Revision-Date: 2001-08-21 16:41+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -532,12 +532,12 @@ msgstr "_Postafiók neve:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:7
-#: mail/mail-config.glade.h:89 my-evolution/my-evolution.glade.h:18
+#: mail/mail-config.glade.h:90 my-evolution/my-evolution.glade.h:18
 msgid "_Add"
 msgstr "Hozzá_adás"
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
-#: filter/filter.glade.h:9 mail/mail-config.glade.h:94
+#: filter/filter.glade.h:9 mail/mail-config.glade.h:95
 #: ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:48
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
@@ -657,18 +657,18 @@ msgstr "(semmi)"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:1599
+#: addressbook/gui/contact-editor/e-contact-editor.c:1603
 msgid "Primary Email"
 msgstr "Elsõdleges email"
 
 #: addressbook/gui/component/e-address-popup.c:476
-#: addressbook/gui/contact-editor/e-contact-editor.c:1600
+#: addressbook/gui/contact-editor/e-contact-editor.c:1604
 #: addressbook/gui/widgets/e-addressbook-view.c:860
 msgid "Email 2"
 msgstr "2. email"
 
 #: addressbook/gui/component/e-address-popup.c:486
-#: addressbook/gui/contact-editor/e-contact-editor.c:1601
+#: addressbook/gui/contact-editor/e-contact-editor.c:1605
 #: addressbook/gui/widgets/e-addressbook-view.c:861
 msgid "Email 3"
 msgstr "3. email"
@@ -691,19 +691,19 @@ msgstr "Cím hozzáadása a létezõ %s névjegyjez"
 msgid "Querying Addressbook..."
 msgstr "A címjegyzék lekérdezése..."
 
-#: addressbook/gui/component/e-address-popup.c:916
+#: addressbook/gui/component/e-address-popup.c:934
 #: addressbook/gui/component/e-address-widget.c:388
 #: addressbook/gui/component/select-names/e-select-names-popup.c:310
 msgid "Edit Contact Info"
 msgstr "Névjegy adatainak szerkesztése"
 
-#: addressbook/gui/component/e-address-popup.c:946
+#: addressbook/gui/component/e-address-popup.c:963
 #: addressbook/gui/component/e-address-widget.c:424
 #: addressbook/gui/component/select-names/e-select-names-popup.c:383
 msgid "Add to Contacts"
 msgstr "Hozzáadás a névjegyalbumhoz"
 
-#: addressbook/gui/component/e-address-popup.c:989
+#: addressbook/gui/component/e-address-popup.c:1006
 msgid "Merge E-Mail Address"
 msgstr "Email cím összefésülése"
 
@@ -864,8 +864,8 @@ msgstr "_Névjegyek..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:1476 filter/filter.glade.h:8
-#: mail/folder-browser.c:1319 mail/mail-config.glade.h:93
-#: ui/evolution-calendar.xml.h:37 ui/evolution-mail-message.xml.h:88
+#: mail/folder-browser.c:1322 mail/mail-config.glade.h:94
+#: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
 msgstr "_Törlés"
@@ -926,93 +926,98 @@ msgstr "Névjegy törlése?"
 msgid "This contact belongs to these categories:"
 msgstr "Ez a névjegy az alábbi kategóriákhoz tartozik:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1557
+#: addressbook/gui/contact-editor/e-contact-editor.c:1561
 #: addressbook/gui/widgets/e-addressbook-view.c:868
 msgid "Assistant"
 msgstr "Asszisztens"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1558
-#: addressbook/gui/contact-editor/e-contact-editor.c:1625
+#: addressbook/gui/contact-editor/e-contact-editor.c:1562
+#: addressbook/gui/contact-editor/e-contact-editor.c:1629
 msgid "Business"
 msgstr "Üzleti"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1559
+#: addressbook/gui/contact-editor/e-contact-editor.c:1563
 msgid "Business 2"
 msgstr "2. Üzleti"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1560
+#: addressbook/gui/contact-editor/e-contact-editor.c:1564
 #: addressbook/gui/widgets/e-addressbook-view.c:848
 msgid "Business Fax"
 msgstr "Üzleti fax"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1561
+#: addressbook/gui/contact-editor/e-contact-editor.c:1565
 msgid "Callback"
 msgstr "Visszahívás"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1562
+#: addressbook/gui/contact-editor/e-contact-editor.c:1566
 msgid "Car"
 msgstr "Autó"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1563
+#: addressbook/gui/contact-editor/e-contact-editor.c:1567
 msgid "Company"
 msgstr "Vállalat"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1564
-#: addressbook/gui/contact-editor/e-contact-editor.c:1626
+#: addressbook/gui/contact-editor/e-contact-editor.c:1568
+#: addressbook/gui/contact-editor/e-contact-editor.c:1630
 msgid "Home"
 msgstr "Otthoni"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1565
+#: addressbook/gui/contact-editor/e-contact-editor.c:1569
 msgid "Home 2"
 msgstr "2. Otthoni"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1566
+#: addressbook/gui/contact-editor/e-contact-editor.c:1570
 #: addressbook/gui/widgets/e-addressbook-view.c:849
 msgid "Home Fax"
 msgstr "Otthoni fax"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1567
+#: addressbook/gui/contact-editor/e-contact-editor.c:1571
 #: addressbook/gui/widgets/e-addressbook-view.c:852
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1568
+#: addressbook/gui/contact-editor/e-contact-editor.c:1572
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1569
-#: addressbook/gui/contact-editor/e-contact-editor.c:1627
-#: mail/mail-config.glade.h:50
+#: addressbook/gui/contact-editor/e-contact-editor.c:1573
+#: addressbook/gui/contact-editor/e-contact-editor.c:1631
+#: mail/mail-config.glade.h:51
 msgid "Other"
 msgstr "Más"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1570
+#: addressbook/gui/contact-editor/e-contact-editor.c:1574
 #: addressbook/gui/widgets/e-addressbook-view.c:854
 msgid "Other Fax"
 msgstr "Egyéb fax"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1571
+#: addressbook/gui/contact-editor/e-contact-editor.c:1575
 #: addressbook/gui/widgets/e-addressbook-view.c:855
 msgid "Pager"
 msgstr "Személyhívó"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1572
+#: addressbook/gui/contact-editor/e-contact-editor.c:1576
 msgid "Primary"
 msgstr "Elsõdleges"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1573
+#: addressbook/gui/contact-editor/e-contact-editor.c:1577
 #: addressbook/gui/widgets/e-addressbook-view.c:856
 msgid "Radio"
 msgstr "Rádió"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1574
+#: addressbook/gui/contact-editor/e-contact-editor.c:1578
 #: addressbook/gui/widgets/e-addressbook-view.c:857
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1575
+#: addressbook/gui/contact-editor/e-contact-editor.c:1579
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2198
+#, fuzzy, c-format
+msgid "Could not find widget for a field: `%s'"
+msgstr "Nem sikerült '%s' mappaösszegzõfájt törölni: %s"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:265
 msgid "Contact Quick-Add"
@@ -2319,8 +2324,8 @@ msgid "Success"
 msgstr "Sikerült"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
-#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1651
-#: shell/e-storage.c:503
+#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1652
+#: shell/e-storage.c:515
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -2328,7 +2333,7 @@ msgstr "Ismeretlen hiba"
 msgid "Repository offline"
 msgstr "Kapcsolat nélküli tároló"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:37 shell/e-storage.c:495
+#: addressbook/gui/widgets/e-addressbook-util.c:37 shell/e-storage.c:505
 msgid "Permission denied"
 msgstr "Jogosultsági hiba"
 
@@ -3032,9 +3037,9 @@ msgstr "Nem megadott"
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1190 calendar/gui/dialogs/meeting-page.c:368
-#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1416
+#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1417
 #: mail/mail-accounts.c:144 mail/mail-accounts.c:392
-#: mail/mail-config.glade.h:48 shell/e-shell-view.c:1454
+#: mail/mail-config.glade.h:49 shell/e-shell-view.c:1454
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:203
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:447
 #: widgets/misc/e-dateedit.c:1407 widgets/misc/e-dateedit.c:1522
@@ -3121,7 +3126,8 @@ msgstr "Új találkozó létrehozása"
 msgid "New _Appointment"
 msgstr "Új _találkozó"
 
-#: calendar/gui/component-factory.c:408 ui/evolution-tasks.xml.h:5
+#: calendar/gui/component-factory.c:408 ui/evolution-calendar.xml.h:8
+#: ui/evolution-tasks.xml.h:5
 msgid "Create a new task"
 msgstr "Új feladat létrehozása"
 
@@ -3133,23 +3139,23 @@ msgstr "Új _feladat"
 msgid "The URI that the calendar will display"
 msgstr "Az URI amit a naptár megjelenít"
 
-#: calendar/gui/dialogs/alarm-options.c:354
+#: calendar/gui/dialogs/alarm-options.c:357
 msgid "Audio Alarm Options"
 msgstr "Hangos riasztás beállításai"
 
-#: calendar/gui/dialogs/alarm-options.c:363
+#: calendar/gui/dialogs/alarm-options.c:366
 msgid "Message Alarm Options"
 msgstr "Riasztóüzenet beállításai"
 
-#: calendar/gui/dialogs/alarm-options.c:372
+#: calendar/gui/dialogs/alarm-options.c:375
 msgid "Mail Alarm Options"
 msgstr "Riasztólevél beállításai"
 
-#: calendar/gui/dialogs/alarm-options.c:381
+#: calendar/gui/dialogs/alarm-options.c:384
 msgid "Program Alarm Options"
 msgstr "Riasztóprogram beállításai"
 
-#: calendar/gui/dialogs/alarm-options.c:390
+#: calendar/gui/dialogs/alarm-options.c:393
 msgid "Unknown Alarm Options"
 msgstr "Ismeretlen típusú riasztás beállításai"
 
@@ -3334,7 +3340,7 @@ msgstr "találkozó vége"
 msgid "hour(s)"
 msgstr "óra"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:114
+#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:115
 msgid "minute(s)"
 msgstr "perc"
 
@@ -3392,21 +3398,22 @@ msgid "Friday"
 msgstr "Péntek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-msgid "Hide completed tasks after"
-msgstr "Befejezett feladatok elrejtése"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Hours"
 msgstr "óra múlva"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
 msgstr "perc múlva"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:965
 msgid "Monday"
 msgstr "Hétfõ"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#, fuzzy
+msgid "O_verdue tasks:"
+msgstr "_Lejárt határidejû feladatok:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:970
@@ -3478,7 +3485,7 @@ msgid "Wednesday"
 msgstr "Szerda"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ui/evolution-calendar.xml.h:32
+#: ui/evolution-calendar.xml.h:33
 msgid "Work Week"
 msgstr "Munkahét"
 
@@ -3515,16 +3522,17 @@ msgid "_General"
 msgstr "_Alap"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#, fuzzy
+msgid "_Hide completed tasks after"
+msgstr "Befejezett feladatok elrejtése"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Mon"
 msgstr "_H"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Other"
 msgstr "_Más"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-msgid "_Overdue tasks:"
-msgstr "_Lejárt határidejû feladatok:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Sat"
@@ -3954,7 +3962,7 @@ msgid "Status"
 msgstr "Állapot"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:84
+#: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:85
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Típus"
@@ -4189,7 +4197,7 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:850 calendar/gui/e-day-view.c:3421
-#: calendar/gui/e-week-view.c:3264 mail/folder-browser.c:1284
+#: calendar/gui/e-week-view.c:3264 mail/folder-browser.c:1287
 msgid "_Open"
 msgstr "_Megnyitás"
 
@@ -4201,7 +4209,7 @@ msgstr "K_ivágás"
 
 #: calendar/gui/e-calendar-table.c:856 calendar/gui/e-day-view.c:3432
 #: calendar/gui/e-week-view.c:3275 ui/evolution-addressbook.xml.h:33
-#: ui/evolution-calendar.xml.h:36 ui/evolution-mail-list.xml.h:24
+#: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:14
 msgid "_Copy"
 msgstr "_Másolás"
@@ -4209,7 +4217,7 @@ msgstr "_Másolás"
 #: calendar/gui/e-calendar-table.c:858 calendar/gui/e-day-view.c:3407
 #: calendar/gui/e-day-view.c:3434 calendar/gui/e-week-view.c:3251
 #: calendar/gui/e-week-view.c:3277 ui/evolution-addressbook.xml.h:35
-#: ui/evolution-calendar.xml.h:38 ui/evolution-mail-list.xml.h:28
+#: ui/evolution-calendar.xml.h:39 ui/evolution-mail-list.xml.h:28
 #: ui/evolution-tasks.xml.h:16
 msgid "_Paste"
 msgstr "_Beillesztés"
@@ -4323,7 +4331,7 @@ msgid "New All Day _Event"
 msgstr "Ú_j egész napos esemény"
 
 #: calendar/gui/e-day-view.c:3412 calendar/gui/e-week-view.c:3256
-#: ui/evolution-calendar.xml.h:16
+#: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Ugrás a _mai napra"
 
@@ -4575,12 +4583,12 @@ msgstr "'%s' betöltéséhez szükséges eljárás nem támogatott"
 msgid "New _Appointment..."
 msgstr "Új _találkozó..."
 
-#: calendar/gui/gnome-cal.c:1258
+#: calendar/gui/gnome-cal.c:1260
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Nem sikerült megnyitni a mappát '%s'-ben"
 
-#: calendar/gui/gnome-cal.c:1269
+#: calendar/gui/gnome-cal.c:1271
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "'%s' megnyitásához szükséges eljárás nem támogatott"
@@ -4641,7 +4649,7 @@ msgstr "október"
 msgid "September"
 msgstr "szeptember"
 
-#: calendar/gui/itip-utils.c:228
+#: calendar/gui/itip-utils.c:253
 msgid "An organizer must be set."
 msgstr "A szervezõt be kell állítani."
 
@@ -4983,7 +4991,12 @@ msgstr ""
 "a has-categories? minden argumentumaként karakterláncot vár, vagy csak "
 "egyetlen logikai hamis (#f) értéket"
 
-#: calendar/pcs/query.c:967
+#: calendar/pcs/query.c:805
+#, fuzzy
+msgid "is-completed? expects 0 arguments"
+msgstr "a time-now 0 argumentumot vár"
+
+#: calendar/pcs/query.c:1008
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "A keresési kifejezés kiértékelése nem logikai értékre vezetett"
 
@@ -5444,7 +5457,7 @@ msgstr "Ismeretlen hitelesítési állapot."
 
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:302
-#: camel/providers/pop3/camel-pop3-provider.c:67 mail/mail-config.glade.h:53
+#: camel/providers/pop3/camel-pop3-provider.c:67 mail/mail-config.glade.h:54
 msgid "Password"
 msgstr "Jelszó"
 
@@ -6056,7 +6069,7 @@ msgstr "Nem sikerült %s mappa összefoglalóját elkészíteni: %s"
 #: camel/providers/local/camel-mbox-summary.c:502
 #: camel/providers/local/camel-mbox-summary.c:703
 #: camel/providers/local/camel-spool-summary.c:644
-#: camel/providers/local/camel-spool-summary.c:931 mail/mail-ops.c:1550
+#: camel/providers/local/camel-spool-summary.c:931
 msgid "Synchronizing folder"
 msgstr "Mappaszinkronizálás"
 
@@ -6267,35 +6280,35 @@ msgstr "Ez a beállítás sima szöveges jelszót használ az NNTP kiszolgálhoz."
 msgid "Unable to open or create .newsrc file for %s: %s"
 msgstr "Nem sikerült .newsrc fájlt létrehozni %s számára: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:190
+#: camel/providers/pop3/camel-pop3-folder.c:189
 msgid "Retrieving POP summary"
 msgstr "POP összefoglaló letöltése"
 
-#: camel/providers/pop3/camel-pop3-folder.c:196
+#: camel/providers/pop3/camel-pop3-folder.c:195
 #, c-format
 msgid "Could not check POP server for new messages: %s"
 msgstr "Nem sikerült az új levelek ellenõrzése a POP kiszolgálón: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:236
+#: camel/providers/pop3/camel-pop3-folder.c:235
 msgid "Could not open folder: message listing was incomplete."
 msgstr "Nem sikerült megnyitni a mappát: az üzenetlista nem teljes."
 
-#: camel/providers/pop3/camel-pop3-folder.c:329
+#: camel/providers/pop3/camel-pop3-folder.c:328
 #, c-format
 msgid "Could not fetch message: %s"
 msgstr "Nem sikerült letölteni a levelet: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:345
+#: camel/providers/pop3/camel-pop3-folder.c:344
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
 msgstr "Nem sikerült letölteni a levelet a %s POP kiszolgálóról: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:368
+#: camel/providers/pop3/camel-pop3-folder.c:367
 #, c-format
 msgid "No message with uid %s"
 msgstr "Nincs %s azonosítójú levél"
 
-#: camel/providers/pop3/camel-pop3-folder.c:372
+#: camel/providers/pop3/camel-pop3-folder.c:371
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr "%d. POP levél letöltése"
@@ -6313,7 +6326,7 @@ msgstr "Az üzenetek maradjanak meg a kiszolgálón is"
 msgid "Delete after %s day(s)"
 msgstr "Törlés a kiszolgálóról %s nap múlva"
 
-#: camel/providers/pop3/camel-pop3-provider.c:48 mail/mail-config.glade.h:52
+#: camel/providers/pop3/camel-pop3-provider.c:48 mail/mail-config.glade.h:53
 msgid "POP"
 msgstr "POP"
 
@@ -6407,7 +6420,7 @@ msgid "No such folder `%s'."
 msgstr "Nincs '%s' mappa."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:37
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:72
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -6460,7 +6473,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Levélküldés a sendmail programon keresztül"
 
-#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:64
+#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:65
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -6862,21 +6875,21 @@ msgstr "Mentés másként..."
 msgid "Warning!"
 msgstr "Figyelem!"
 
-#: composer/e-msg-composer.c:876
+#: composer/e-msg-composer.c:878
 msgid "File exists, overwrite?"
 msgstr "A fájl létezik, felülírod?"
 
-#: composer/e-msg-composer.c:898
+#: composer/e-msg-composer.c:900
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fájlmentési hiba: %s"
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:919
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fájlbetöltési hiba: %s"
 
-#: composer/e-msg-composer.c:989
+#: composer/e-msg-composer.c:990
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -6884,16 +6897,16 @@ msgstr ""
 "Nem sikerült megnyitni az ehhez a postafiókhoz tartozó piszkozatok mappát.\n"
 "Szeretnéd használni az alapértelmezett piszkozatok mappát?"
 
-#: composer/e-msg-composer.c:1042
+#: composer/e-msg-composer.c:1043
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fájlelérési hiba: %s"
 
-#: composer/e-msg-composer.c:1050
+#: composer/e-msg-composer.c:1051
 msgid "Unable to retrieve message from editor"
 msgstr "Nem sikerült betölteni a levelet a szerkesztõbõl"
 
-#: composer/e-msg-composer.c:1056
+#: composer/e-msg-composer.c:1057
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -6902,7 +6915,7 @@ msgstr ""
 "Nem sikerült keresni a fájlban: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1062
+#: composer/e-msg-composer.c:1063
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -6911,7 +6924,7 @@ msgstr ""
 "Nem sikerült csonkolni a  fájlt: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1071
+#: composer/e-msg-composer.c:1072
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -6920,15 +6933,16 @@ msgstr ""
 "Hiba a levelek automatikus mentése közben: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1171
+#: composer/e-msg-composer.c:1172
+#, fuzzy
 msgid ""
 "Evolution has found unsaved files from a previous session.\n"
-"Would you like to attempt recovery?"
+"Would you like to try to recover them?"
 msgstr ""
 "Az Evolúció talált egy elõzõ munkafolyamatból származó mentetlen fájlokat.\n"
 "Szeretnéd visszaállítani õket?"
 
-#: composer/e-msg-composer.c:1319
+#: composer/e-msg-composer.c:1320
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -6938,24 +6952,24 @@ msgstr ""
 "\n"
 "Akarod menteni a változásaidat?"
 
-#: composer/e-msg-composer.c:1326 data/evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:1327 data/evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:217
 msgid "Evolution"
 msgstr "Evolúció"
 
-#: composer/e-msg-composer.c:1349
+#: composer/e-msg-composer.c:1350
 msgid "Open file"
 msgstr "Fájl megnyitás"
 
-#: composer/e-msg-composer.c:1498
+#: composer/e-msg-composer.c:1499
 msgid "Insert File"
 msgstr "Fájl beillesztése"
 
-#: composer/e-msg-composer.c:1874 composer/e-msg-composer.c:2315
+#: composer/e-msg-composer.c:1875 composer/e-msg-composer.c:2316
 msgid "Compose a message"
 msgstr "Levél írása"
 
-#: composer/e-msg-composer.c:2405
+#: composer/e-msg-composer.c:2406
 msgid "Could not create composer window."
 msgstr "Nem sikerült létrehozni a levélíró ablakot."
 
@@ -7223,7 +7237,7 @@ msgstr ""
 "Lépj vissza, és adj meg egy érvényes mappanevet, ahová a leveleket kéred."
 
 #: filter/filter-folder.c:232 filter/vfolder-rule.c:319
-#: mail/mail-account-gui.c:808
+#: mail/mail-account-gui.c:809
 msgid "Select Folder"
 msgstr "Válassz mappát"
 
@@ -7540,12 +7554,12 @@ msgid "Oops.  You need to to specify at least one folder as a source."
 msgstr "Hoppá! Legalább egy mappát meg kell adnod, mint forrást."
 
 #: importers/elm-importer.c:470 importers/evolution-gnomecard-importer.c:228
-#: importers/netscape-importer.c:814 importers/pine-importer.c:627
+#: importers/netscape-importer.c:816 importers/pine-importer.c:627
 #: shell/e-shell-importer.c:685 shell/importer/intelligent.c:194
 msgid "Import"
 msgstr "Importálás"
 
-#: importers/elm-importer.c:475 importers/netscape-importer.c:819
+#: importers/elm-importer.c:475 importers/netscape-importer.c:821
 #: importers/pine-importer.c:632 mail/component-factory.c:96
 msgid "Mail"
 msgstr "Levél"
@@ -7574,11 +7588,11 @@ msgstr ""
 "Az Evolúció GnomeCard fájlokat talált.\n"
 "Szeretnéd ezeket az Evolúcióba importálni?"
 
-#: importers/netscape-importer.c:824
+#: importers/netscape-importer.c:826
 msgid "Settings"
 msgstr "Beállítások"
 
-#: importers/netscape-importer.c:849
+#: importers/netscape-importer.c:851
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -7675,129 +7689,129 @@ msgstr "\"%s\" tulajdonságai"
 msgid "Properties"
 msgstr "Tulajdonságok"
 
-#: mail/folder-browser.c:233 mail/mail-display.c:281
+#: mail/folder-browser.c:236 mail/mail-display.c:281
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nem sikerült létrehozni az ideiglenes könyvtárat: %s"
 
-#: mail/folder-browser.c:906
+#: mail/folder-browser.c:909
 msgid "Create vFolder from Search"
 msgstr "VMappa gyártása keresésbõl"
 
-#: mail/folder-browser.c:1251
+#: mail/folder-browser.c:1254
 msgid "VFolder on _Subject"
 msgstr "VMappa a _tárgyra"
 
-#: mail/folder-browser.c:1254
+#: mail/folder-browser.c:1257
 msgid "VFolder on Se_nder"
 msgstr "VMappa a _feladóra"
 
-#: mail/folder-browser.c:1257
+#: mail/folder-browser.c:1260
 msgid "VFolder on _Recipients"
 msgstr "VMappa a _címzettekre"
 
-#: mail/folder-browser.c:1260
+#: mail/folder-browser.c:1263
 msgid "VFolder on Mailing _List"
 msgstr "VMappa a _levelezõlistára"
 
-#: mail/folder-browser.c:1266
+#: mail/folder-browser.c:1269
 msgid "Filter on Sub_ject"
 msgstr "Szû_rõ a tárgyra"
 
-#: mail/folder-browser.c:1269
+#: mail/folder-browser.c:1272
 msgid "Filter on Sen_der"
 msgstr "Szûrõ a f_eladóra"
 
-#: mail/folder-browser.c:1272
+#: mail/folder-browser.c:1275
 msgid "Filter on Re_cipients"
 msgstr "Szûrõ a _címzettekre"
 
-#: mail/folder-browser.c:1275
+#: mail/folder-browser.c:1278
 msgid "Filter on _Mailing List"
 msgstr "Szûrõ a _levelezõlistára"
 
-#: mail/folder-browser.c:1286 ui/evolution-mail-message.xml.h:89
+#: mail/folder-browser.c:1289 ui/evolution-mail-message.xml.h:89
 msgid "_Edit as New Message..."
 msgstr "S_zerkesztés új levélként..."
 
-#: mail/folder-browser.c:1288 ui/evolution-mail-message.xml.h:97
+#: mail/folder-browser.c:1291 ui/evolution-mail-message.xml.h:97
 msgid "_Save As..."
 msgstr "M_entés másként..."
 
-#: mail/folder-browser.c:1290
+#: mail/folder-browser.c:1293
 msgid "_Print"
 msgstr "_Nyomtatás"
 
-#: mail/folder-browser.c:1295 ui/evolution-mail-message.xml.h:96
+#: mail/folder-browser.c:1298 ui/evolution-mail-message.xml.h:96
 msgid "_Reply to Sender"
 msgstr "_Válasz a feladónak"
 
-#: mail/folder-browser.c:1297 ui/evolution-mail-message.xml.h:69
+#: mail/folder-browser.c:1300 ui/evolution-mail-message.xml.h:69
 msgid "Reply to _List"
 msgstr "Válasz a _listának"
 
-#: mail/folder-browser.c:1299 ui/evolution-mail-message.xml.h:68
+#: mail/folder-browser.c:1302 ui/evolution-mail-message.xml.h:68
 msgid "Reply to _All"
 msgstr "Válasz _mindenkinek"
 
-#: mail/folder-browser.c:1301
+#: mail/folder-browser.c:1304
 msgid "_Forward"
 msgstr "Továbbítás"
 
-#: mail/folder-browser.c:1304 ui/evolution-mail-message.xml.h:40
+#: mail/folder-browser.c:1307 ui/evolution-mail-message.xml.h:40
 msgid "Mar_k as Read"
 msgstr "_Elolvasva"
 
-#: mail/folder-browser.c:1306 ui/evolution-mail-message.xml.h:42
+#: mail/folder-browser.c:1309 ui/evolution-mail-message.xml.h:42
 msgid "Mark as U_nread"
 msgstr "_Olvasatlan"
 
-#: mail/folder-browser.c:1308
+#: mail/folder-browser.c:1311
 msgid "Mark as _Important"
 msgstr "_Fontos"
 
-#: mail/folder-browser.c:1310
+#: mail/folder-browser.c:1313
 msgid "Mark as Unim_portant"
 msgstr "_Nem fontos"
 
-#: mail/folder-browser.c:1315
+#: mail/folder-browser.c:1318
 msgid "_Move to Folder..."
 msgstr "Á_thelyezés mappába..."
 
-#: mail/folder-browser.c:1317
+#: mail/folder-browser.c:1320
 msgid "_Copy to Folder..."
 msgstr "_Másolás mappába..."
 
-#: mail/folder-browser.c:1321 ui/evolution-mail-message.xml.h:99
+#: mail/folder-browser.c:1324 ui/evolution-mail-message.xml.h:99
 msgid "_Undelete"
 msgstr "_Visszaállítás"
 
-#: mail/folder-browser.c:1326
+#: mail/folder-browser.c:1329
 msgid "Add Sender to Address Book"
 msgstr "Feladó hozzáadása a címjegyzékhez"
 
-#: mail/folder-browser.c:1331
+#: mail/folder-browser.c:1334
 msgid "Apply Filters"
 msgstr "Szûrõk alkalmazása"
 
-#: mail/folder-browser.c:1335
+#: mail/folder-browser.c:1338
 msgid "Create Ru_le From Message"
 msgstr "S_zabály gyártása levélbõl"
 
-#: mail/folder-browser.c:1493
+#: mail/folder-browser.c:1496
 msgid "Filter on Mailing List"
 msgstr "Szûrõ a levelezõlistára"
 
-#: mail/folder-browser.c:1494
+#: mail/folder-browser.c:1497
 msgid "VFolder on Mailing List"
 msgstr "VMappa a levelezõlistára"
 
-#: mail/folder-browser.c:1496
+#: mail/folder-browser.c:1499
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Szûrõ a levelezõlistára (%s)"
 
-#: mail/folder-browser.c:1497
+#: mail/folder-browser.c:1500
 #, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr "VMappa a levelezõlistára (%s)"
@@ -7866,15 +7880,15 @@ msgid "Evolution News Editor"
 msgstr "Evolúció News-szerkesztõ"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:162
+#: mail/mail-account-editor.c:163
 msgid "Evolution Account Editor"
 msgstr "Evolúció Postafiók-szerkesztõ"
 
-#: mail/mail-account-gui.c:998
+#: mail/mail-account-gui.c:999
 msgid "Save signature"
 msgstr "Aláírás mentése"
 
-#: mail/mail-account-gui.c:1004
+#: mail/mail-account-gui.c:1005
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
@@ -7883,6 +7897,10 @@ msgstr ""
 "Az aláírás megváltozott, de nem lett mentve.\n"
 "\n"
 "Akarod menteni a változásaidat?"
+
+#: mail/mail-account-gui.c:1585
+msgid "You may not create two accounts with the same name."
+msgstr ""
 
 #: mail/mail-accounts.c:145
 msgid " (default)"
@@ -7913,7 +7931,7 @@ msgid "Are you sure you want to delete this news account?"
 msgstr "Tényleg törölni akarod ezt a news-hozzáférést?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:759 mail/mail-config.glade.h:41
+#: mail/mail-accounts.c:759 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "Levelezõ beállításai"
 
@@ -8151,7 +8169,7 @@ msgstr ""
 "csak az Evolúció programban jelenik meg."
 
 #. set window title
-#: mail/mail-config-druid.c:589
+#: mail/mail-config-druid.c:558
 msgid "Evolution Account Assistant"
 msgstr "Evolúció Postafiók varázsló"
 
@@ -8281,197 +8299,202 @@ msgstr "Piszkozatok mappa"
 msgid "E_nable"
 msgstr "E_ngedélyezés"
 
-#: mail/mail-config.glade.h:31 widgets/misc/e-filter-bar.h:96
+#: mail/mail-config.glade.h:31
+#, fuzzy
+msgid "Each account must have a different name."
+msgstr "Az aktuális fájl mentése más néven"
+
+#: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:96
 #: widgets/misc/e-filter-bar.h:103
 msgid "Edit..."
 msgstr "Szerkesztés..."
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:33
 msgid "Enabled"
 msgstr "Aktív"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:34
 msgid "Get Digital ID..."
 msgstr "Digitális azonosító szerzése..."
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:35
 msgid "HTML signature file:"
 msgstr "HTML aláírásfájl:"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:36
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:37
 msgid "Identity"
 msgstr "Azonosító"
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:38
 msgid "In HTML mail"
 msgstr "HTML levélben"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:39
 msgid "Inline"
 msgstr "Beágyazott"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:40
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:41
 msgid "Mail Configuration"
 msgstr "Levelezés beállítása"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:43
 msgid "Mailbox location"
 msgstr "Postafiók helye"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:44
 msgid "Make this my _default account"
 msgstr "L_egyen ez az alapértelmezett postafiók"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:45
 msgid "Message _preview should be displayed by default"
 msgstr "Legyen _betekintõ ablaktábla alapértelmezés szerint"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:46
 msgid "Message list should display in a _threaded fashion by default"
 msgstr "A leveleket _szálanként rendezze alapértelmezés szerint"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:47
 msgid "NNTP Server:"
 msgstr "NNTP kiszolgáló:"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:48
 msgid "News"
 msgstr "News"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:50
 msgid "Optional Information"
 msgstr "Egyéb információ"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:52
 msgid "PGP Key ID:"
 msgstr "PGP kulcs azonosítója:"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:55
 msgid "Pick a color"
 msgstr "Válassz egy színt"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:56
 msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:57
 msgid "Prompt when sending messages with an _empty subject"
 msgstr "Kérdez, ha ü_res tárggyal akarod elküldeni a levelet"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:58
 msgid "Prompt when sending messages with only _Bcc recipients defined"
 msgstr "Kérdez, ha csak _titkos másolat szerepel a címzettek között"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:59
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:60
 msgid "Quoted"
 msgstr "Idézet"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:61
 msgid "Receiving Email"
 msgstr "Levelek fogadása"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:62
 msgid "Receiving Mail"
 msgstr "Levelek fogadása"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:63
 msgid "Receiving Options"
 msgstr "Fogadás beállításai"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:64
 msgid "Required Information"
 msgstr "Szükséges információ"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:66
 msgid "Secure MIME"
 msgstr "Biztonságos MIME"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:67
 msgid "Security"
 msgstr "Biztonság"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:68
 msgid "Select Filter Log file..."
 msgstr "Válassz egy szûrõnaplófájlt"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:69
 msgid "Select PGP binary"
 msgstr "Válaszd ki a PGP programot"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:70
 msgid "Sending Email"
 msgstr "Levél küldése"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:71
 msgid "Sending Mail"
 msgstr "Levél küldése"
 
-#: mail/mail-config.glade.h:72 mail/message-list.etspec.h:6
+#: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
 #: shell/e-local-storage.c:179
 msgid "Sent"
 msgstr "Elküldve"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:74
 msgid "Sent and Draft Messages"
 msgstr "Elküldött levelek és piszkozatok"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:75
 msgid "Sent messages folder:"
 msgstr "Elküldött levelek mappája"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:76
 msgid "Server Configuration"
 msgstr "Kiszolgáló beállítása"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:77
 msgid "Server Type: "
 msgstr "Kiszolgáló típusa: "
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:78
 msgid "Server requires _authentication"
 msgstr "A kiszolgáló megköveteli a _hitelesítést"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:79
 msgid "Signature file:"
 msgstr "Aláírás fájl:"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:80
 msgid "Source"
 msgstr "Forrás"
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:81
 msgid "Source Information"
 msgstr "Forrásinformáció"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:82
 msgid "Sources"
 msgstr "Források"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:83
 msgid "Special Folders"
 msgstr "Különleges mappák"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:84
 msgid "Standard Unix mbox"
 msgstr "Szabványos Unix mbox"
 
-#: mail/mail-config.glade.h:85
+#: mail/mail-config.glade.h:86
 msgid "Use secure connection (_SSL)"
 msgstr "Biztonságos kapcsolat használata (_SSL)"
 
-#: mail/mail-config.glade.h:86
+#: mail/mail-config.glade.h:87
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8481,103 +8504,103 @@ msgstr ""
 "\n"
 "A folytatáshoz kattints a \"Tovább\" gombra."
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:91
 msgid "_Always load images off the net"
 msgstr "_Mindig töltse le a képeket a hálózatról"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:92
 msgid "_Automatically check for new mail every"
 msgstr "Az új _levelek automatikus lekérdezése minden"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:93
 msgid "_Check for supported types"
 msgstr "_Támogatott típusok detektálása"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:96
 msgid "_Email Address:"
 msgstr "_Emailcím:"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:97
 msgid "_Empty trash folders on exit"
 msgstr "_Kuka ürítése kilépéskor"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:98
 msgid "_Full Name:"
 msgstr "_Teljes név:"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:99
 msgid "_HTML Signature:"
 msgstr "_HTML aláírás:"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:100
 msgid "_Highlight citations with"
 msgstr "_Idézetek kiemelése"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:101
 msgid "_Host:"
 msgstr "_Gép:"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:102
 msgid "_Load images if sender is in addressbook"
 msgstr "_Képek betöltése, ha a feladó szerepel a címjegyzékben"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:103
 msgid "_Log filter actions to:"
 msgstr "Szûrõmûveletek _naplózása ide:"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:104
 msgid "_Mark messages as Read after"
 msgstr "_Várakozás a levél olvasottként megjelölése elõtt:"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:105
 msgid "_Name:"
 msgstr "_Név:"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:106
 msgid "_Never load images off the net"
 msgstr "_Soha ne töltse le a képeket a hálózatról"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:107
 msgid "_Organization:"
 msgstr "_Szervezet:"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:108
 msgid "_PGP binary path:"
 msgstr "_PGP program elérési útja:"
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:109
 msgid "_Path:"
 msgstr "Ú_tvonal:"
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:110
 msgid "_Remember PGP Passphrase until exit"
 msgstr "_PGP jelszó megjegyzése kilépésig"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:111
 msgid "_Remember this password"
 msgstr "_Jelszó megjegyzése"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:112
 msgid "_Send mail in HTML format by default."
 msgstr "A levelet _HTML formátumban küldi alapértelmezésként."
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:113
 msgid "_Signature file:"
 msgstr "A_láírás fájl:"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:114
 msgid "_Username:"
 msgstr "_Felhasználónév:"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:116
 msgid "newswindow1"
 msgstr "newswindow1"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:117
 msgid "placeholder"
 msgstr "helykitöltõ"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:118
 msgid "seconds."
 msgstr "másodperc."
 
@@ -8874,7 +8897,7 @@ msgstr "%d / %d üzenet küldése"
 msgid "Failed on message %d of %d"
 msgstr "Hiba a %d / %d üzenetnél"
 
-#: mail/mail-ops.c:730 mail/mail-send-recv.c:511
+#: mail/mail-ops.c:730 mail/mail-send-recv.c:498
 msgid "Complete."
 msgstr "Kész."
 
@@ -8934,30 +8957,35 @@ msgstr "%s mappa létrehozása"
 msgid "Removing folder %s"
 msgstr "%s mappa eltávolítása"
 
-#: mail/mail-ops.c:1600
+#: mail/mail-ops.c:1552
+#, fuzzy, c-format
+msgid "Synchronizing '%s'"
+msgstr "Mappaszinkronizálás"
+
+#: mail/mail-ops.c:1603
 msgid "Refreshing folder"
 msgstr "Mappa frissítése"
 
-#: mail/mail-ops.c:1636
+#: mail/mail-ops.c:1639
 msgid "Expunging folder"
 msgstr "Mappa tisztítása"
 
-#: mail/mail-ops.c:1685
+#: mail/mail-ops.c:1688
 #, c-format
 msgid "Retrieving message %s"
 msgstr "%s levél letöltése"
 
-#: mail/mail-ops.c:1752
+#: mail/mail-ops.c:1755
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "%d levél letöltése"
 
-#: mail/mail-ops.c:1838
+#: mail/mail-ops.c:1841
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "%d levél mentése"
 
-#: mail/mail-ops.c:1918
+#: mail/mail-ops.c:1921
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -8966,7 +8994,7 @@ msgstr ""
 "Nem sikerült létrehozni a kimeneti fájlt: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1944
+#: mail/mail-ops.c:1947
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -8975,11 +9003,11 @@ msgstr ""
 "Hiba a levelek mentése közben: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2018
+#: mail/mail-ops.c:2021
 msgid "Saving attachment"
 msgstr "Melléklet mentése"
 
-#: mail/mail-ops.c:2034
+#: mail/mail-ops.c:2037
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -8988,12 +9016,12 @@ msgstr ""
 "Nem lehet létrehozni a kimeneti fájlt: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2065
+#: mail/mail-ops.c:2068
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nem sikerült az adatok kiírása: %s"
 
-#: mail/mail-ops.c:2134
+#: mail/mail-ops.c:2137
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Szétkapcsolódás %s kiszolgálóval"
@@ -9050,7 +9078,7 @@ msgstr "Frissítés folyamatban..."
 msgid "Waiting..."
 msgstr "Várakozás..."
 
-#: mail/mail-send-recv.c:507
+#: mail/mail-send-recv.c:494
 msgid "Cancelled."
 msgstr "Megszakítva"
 
@@ -9149,7 +9177,7 @@ msgstr "%a %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%Y %d %b"
 
-#: mail/message-list.c:2314
+#: mail/message-list.c:2312
 msgid "Generating message list"
 msgstr "Levéllista létrehozása"
 
@@ -9262,7 +9290,7 @@ msgstr "%l:%M%p"
 msgid "%a %l:%M%p"
 msgstr "%a %l:%M%p"
 
-#: my-evolution/e-summary-mail.c:105
+#: my-evolution/e-summary-mail.c:111
 msgid "Mail summary"
 msgstr "Összegzés a levelekrõl"
 
@@ -9271,7 +9299,7 @@ msgstr "Összegzés a levelekrõl"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-preferences.c:65
-#: my-evolution/e-summary-weather.c:602
+#: my-evolution/e-summary-weather.c:603
 msgid "KBOS:ZSAM:EGAA"
 msgstr "LHBP:LHSY"
 
@@ -9308,8 +9336,9 @@ msgid "<b>Error downloading RDF</b>"
 msgstr "<b>Hiba az RDF letöltése közben</b>"
 
 #: my-evolution/e-summary-rdf.c:479
-msgid "RDF Summary"
-msgstr "RDF összefoglaló"
+#, fuzzy
+msgid "News Feed"
+msgstr "Hírforrások"
 
 #: my-evolution/e-summary-tasks.c:213
 msgid "No tasks"
@@ -9327,7 +9356,7 @@ msgstr "<dd><b>Az idõjárás-kiszolgáló nem elérhetõ</b></dd>"
 msgid "Weather"
 msgstr "Idõjárás"
 
-#: my-evolution/e-summary-weather.c:663
+#: my-evolution/e-summary-weather.c:664
 msgid "Regions"
 msgstr "Régiók"
 
@@ -10665,7 +10694,7 @@ msgstr "Beérkezett levelek"
 msgid "Outbox"
 msgstr "Postázandó levelek"
 
-#: shell/e-local-storage.c:592
+#: shell/e-local-storage.c:593
 msgid "Local Folders"
 msgstr "Helyi mappÃ¡k"
 
@@ -10768,25 +10797,25 @@ msgstr "Nem sikerült mappát önmagára másolni."
 msgid "Cannot move a folder into one of its descendants."
 msgstr "Nem lehet a mappát a saját almappájába áthelyezni."
 
-#: shell/e-shell-folder-commands.c:284
+#: shell/e-shell-folder-commands.c:285
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr "Add meg a mappát, amelybe \"%s\" mappát másolod:"
 
-#: shell/e-shell-folder-commands.c:289
+#: shell/e-shell-folder-commands.c:290
 msgid "Copy folder"
 msgstr "Mappa másolása"
 
-#: shell/e-shell-folder-commands.c:327
+#: shell/e-shell-folder-commands.c:328
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
 msgstr "Add meg a mappát, amelybe \"%s\" mappát mozgatod:"
 
-#: shell/e-shell-folder-commands.c:332
+#: shell/e-shell-folder-commands.c:333
 msgid "Move folder"
 msgstr "Mappa áthelyezése"
 
-#: shell/e-shell-folder-commands.c:357
+#: shell/e-shell-folder-commands.c:358
 #, c-format
 msgid ""
 "Cannot delete folder:\n"
@@ -10795,30 +10824,30 @@ msgstr ""
 "Nem sikerült törölni a mappát:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:373
+#: shell/e-shell-folder-commands.c:374
 #, c-format
 msgid "Delete folder '%s'"
 msgstr "'%s' mappa törlése"
 
 #. "Are you sure..." label
-#: shell/e-shell-folder-commands.c:383
+#: shell/e-shell-folder-commands.c:384
 #, c-format
 msgid "Are you sure you want to remove the '%s' folder?"
 msgstr "Tényleg törölni akarod ezt a mappát: '%s'?"
 
 #. Popup a dialog asking what the user would like to rename
 #. the folder to
-#: shell/e-shell-folder-commands.c:458
+#: shell/e-shell-folder-commands.c:459
 #, c-format
 msgid "Rename folder '%s'"
 msgstr "%s mappa átnevezése"
 
-#: shell/e-shell-folder-commands.c:462 shell/e-shortcuts-view.c:383
+#: shell/e-shell-folder-commands.c:463 shell/e-shortcuts-view.c:383
 msgid "Rename"
 msgstr "Átnevezés"
 
 #. Make, pack the label
-#: shell/e-shell-folder-commands.c:470
+#: shell/e-shell-folder-commands.c:471
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
 msgstr "Mappanév:"
@@ -10852,7 +10881,7 @@ msgstr ""
 msgid "New..."
 msgstr "Új..."
 
-#: shell/e-shell-folder-title-bar.c:577 shell/e-shell-folder-title-bar.c:578
+#: shell/e-shell-folder-title-bar.c:582 shell/e-shell-folder-title-bar.c:583
 msgid "(Untitled)"
 msgstr "(Névtelen)"
 
@@ -10892,7 +10921,7 @@ msgstr ""
 "%s importálása\n"
 "%d. elem importálása."
 
-#: shell/e-shell-importer.c:352
+#: shell/e-shell-importer.c:350
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -10961,7 +10990,19 @@ msgstr "Válaszd ki az importálálandó adatok célkönyvtárát"
 msgid "Closing connections..."
 msgstr "Kapcsolatok bezárása..."
 
-#: shell/e-shell-startup-wizard.c:539
+#: shell/e-shell-startup-wizard.c:144
+#, c-format
+msgid ""
+"Could not start the Evolution Mailer Wizard interface\n"
+"%s"
+msgstr ""
+
+#: shell/e-shell-startup-wizard.c:153
+#, fuzzy
+msgid "Cannot initialize the Evolution Mailer Wizard interface"
+msgstr "Nem sikerült inicializálni az Evolúció héjat: %s"
+
+#: shell/e-shell-startup-wizard.c:558
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -10969,7 +11010,7 @@ msgstr ""
 "Várj...\n"
 "Meglévõ beállítások keresése"
 
-#: shell/e-shell-startup-wizard.c:542
+#: shell/e-shell-startup-wizard.c:561
 msgid "Starting Intelligent Importers"
 msgstr "Az okos importálók indítása"
 
@@ -11050,12 +11091,12 @@ msgstr ""
 "Az Evolúció kapcsolat nélküli módban van. Kattints erre a gombra a hálózatra "
 "csatlakozáshoz."
 
-#: shell/e-shell.c:508
+#: shell/e-shell.c:509
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Nem sikerült beállítani a helyi tárterületet -- %s"
 
-#: shell/e-shell.c:1437
+#: shell/e-shell.c:1438
 #, c-format
 msgid ""
 "Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
@@ -11064,23 +11105,23 @@ msgstr ""
 "Hoppá! Az '%s' nézet váratlanul meghalt. :-(\n"
 "Ez valószínûleg azt jelenti, hogy a %s komponens összeomlott."
 
-#: shell/e-shell.c:1641 widgets/misc/e-cell-date-edit.c:248
+#: shell/e-shell.c:1642 widgets/misc/e-cell-date-edit.c:248
 msgid "OK"
 msgstr "OK"
 
-#: shell/e-shell.c:1643
+#: shell/e-shell.c:1644
 msgid "Invalid arguments"
 msgstr "Érvénytelen argumentumok"
 
-#: shell/e-shell.c:1645
+#: shell/e-shell.c:1646
 msgid "Cannot register on OAF"
 msgstr "Nem sikerült regisztrálni az OAF-ban"
 
-#: shell/e-shell.c:1647
+#: shell/e-shell.c:1648
 msgid "Configuration Database not found"
 msgstr "A beállítások adatbázisa nem található"
 
-#: shell/e-shell.c:1649 shell/e-storage.c:481
+#: shell/e-shell.c:1650 shell/e-storage.c:491
 msgid "Generic error"
 msgstr "Általános hiba"
 
@@ -11201,45 +11242,50 @@ msgstr "Indítóikonok"
 msgid "(No name)"
 msgstr "(névtelen)"
 
-#: shell/e-storage.c:479
+#: shell/e-storage.c:489
 msgid "No error"
 msgstr "Nincs hiba"
 
-#: shell/e-storage.c:483
+#: shell/e-storage.c:493
 msgid "A folder with the same name already exists"
 msgstr "A megadott néven már létezik mappa"
 
-#: shell/e-storage.c:485
+#: shell/e-storage.c:495
 msgid "The specified folder type is not valid"
 msgstr "A megadott mappatípus nem jó"
 
-#: shell/e-storage.c:487
+#: shell/e-storage.c:497
 msgid "I/O error"
 msgstr "I/O hiba"
 
-#: shell/e-storage.c:489
+#: shell/e-storage.c:499
 msgid "Not enough space to create the folder"
 msgstr "Nincs elég hely a mappa elkészítéséhez"
 
-#: shell/e-storage.c:491
+#: shell/e-storage.c:501
 msgid "The specified folder was not found"
 msgstr "A megadott mappa nem található"
 
-#: shell/e-storage.c:493
+#: shell/e-storage.c:503
 msgid "Function not implemented in this storage"
 msgstr "A funkció nincs még ebben a tárolóban megírva"
 
-#: shell/e-storage.c:497
+#: shell/e-storage.c:507
 msgid "Operation not supported"
 msgstr "A mûvelet nem támogatott"
 
-#: shell/e-storage.c:499
+#: shell/e-storage.c:509
 msgid "The specified type is not supported in this storage"
 msgstr "A megadott típus nem támogatott ebben a tárolóban."
 
-#: shell/e-storage.c:501
+#: shell/e-storage.c:511
 msgid "The specified folder cannot be modified or removed"
 msgstr "A megadott mappa nem módosítható vagy törölhetõ"
+
+#: shell/e-storage.c:513
+#, fuzzy
+msgid "Cannot make a folder a child of one of its descendants"
+msgstr "Nem lehet a mappát a saját almappájába áthelyezni."
 
 #: shell/e-task-widget.c:170
 #, c-format
@@ -11400,7 +11446,7 @@ msgstr "Új címlista készítése"
 msgid "Cut"
 msgstr "Kivágás"
 
-#: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:9
+#: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:10
 msgid "Cut the selection"
 msgstr "Kijelölés kivágása"
 
@@ -11416,7 +11462,7 @@ msgstr "Új lista"
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:22
+#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:23
 msgid "Paste the clipboard"
 msgstr "Vágólap beillesztése"
 
@@ -11464,7 +11510,7 @@ msgstr "Leállítás"
 msgid "Stop Loading"
 msgstr "Betöltés leállítása"
 
-#: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:33
+#: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:34
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10 ui/evolution-event-editor.xml.h:9
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-list.xml.h:23
@@ -11489,7 +11535,7 @@ msgstr "_Címlista"
 msgid "_Forward Contact..."
 msgstr "Névjegy _továbbítása..."
 
-#: ui/evolution-addressbook.xml.h:36 ui/evolution-calendar.xml.h:39
+#: ui/evolution-addressbook.xml.h:36 ui/evolution-calendar.xml.h:40
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:95
 #: ui/my-evolution.xml.h:7
 msgid "_Print..."
@@ -11507,7 +11553,7 @@ msgstr "_Névjegy keresése"
 msgid "_Select All"
 msgstr "_Mindet kijelöli"
 
-#: ui/evolution-addressbook.xml.h:40 ui/evolution-calendar.xml.h:42
+#: ui/evolution-addressbook.xml.h:40 ui/evolution-calendar.xml.h:43
 #: ui/evolution-mail-global.xml.h:25 ui/evolution-mail-message.xml.h:98
 #: ui/evolution-mail-messagedisplay.xml.h:8 ui/evolution-tasks.xml.h:18
 #: ui/my-evolution.xml.h:9
@@ -11519,7 +11565,8 @@ msgid "Configure the calendar's settings"
 msgstr "A naptár beállításai"
 
 #: ui/evolution-calendar.xml.h:4
-msgid "Create a New All-Day _Event"
+#, fuzzy
+msgid "Create a New All Day _Event"
 msgstr "Új egész _napos esemémy létrehozása"
 
 #: ui/evolution-calendar.xml.h:5
@@ -11530,103 +11577,103 @@ msgstr "Új _feladat létrehozása"
 msgid "Create a _New Appointment"
 msgstr "Új _találkozó létrehozása"
 
-#: ui/evolution-calendar.xml.h:8
+#: ui/evolution-calendar.xml.h:9
 msgid "Create an event for the whole day"
 msgstr "Egész napos esemény létrehozása"
 
-#: ui/evolution-calendar.xml.h:10
+#: ui/evolution-calendar.xml.h:11
 msgid "Day"
 msgstr "Nap"
 
-#: ui/evolution-calendar.xml.h:11
+#: ui/evolution-calendar.xml.h:12
 msgid "Delete the appointment"
 msgstr "A találkozó törlése"
 
-#: ui/evolution-calendar.xml.h:12 ui/evolution-mail-message.xml.h:38
+#: ui/evolution-calendar.xml.h:13 ui/evolution-mail-message.xml.h:38
 msgid "Go To"
 msgstr "Ugrás"
 
-#: ui/evolution-calendar.xml.h:13
+#: ui/evolution-calendar.xml.h:14
 msgid "Go back"
 msgstr "Ugrás visszafelé"
 
-#: ui/evolution-calendar.xml.h:14
+#: ui/evolution-calendar.xml.h:15
 msgid "Go forward"
 msgstr "Ugrás elõre "
 
-#: ui/evolution-calendar.xml.h:15
+#: ui/evolution-calendar.xml.h:16
 msgid "Go to _Date"
 msgstr "_Dátumra ugrás"
 
-#: ui/evolution-calendar.xml.h:17
+#: ui/evolution-calendar.xml.h:18
 msgid "Go to a specific date"
 msgstr "Ugrás adott dátumra"
 
-#: ui/evolution-calendar.xml.h:18
+#: ui/evolution-calendar.xml.h:19
 msgid "Go to today"
 msgstr "Ugrás a mai napra"
 
-#: ui/evolution-calendar.xml.h:19
+#: ui/evolution-calendar.xml.h:20
 msgid "Month"
 msgstr "Hónap"
 
-#: ui/evolution-calendar.xml.h:20
+#: ui/evolution-calendar.xml.h:21
 msgid "New Appointment"
 msgstr "Új találkozó"
 
-#: ui/evolution-calendar.xml.h:21 ui/evolution-tasks.xml.h:10
+#: ui/evolution-calendar.xml.h:22 ui/evolution-tasks.xml.h:10
 msgid "New Task"
 msgstr "Új feladat"
 
-#: ui/evolution-calendar.xml.h:23
+#: ui/evolution-calendar.xml.h:24
 msgid "Previews the calendar to be printed"
 msgstr "A nyomtatandó naptár nyomtatási képe"
 
-#: ui/evolution-calendar.xml.h:24 ui/evolution-comp-editor.xml.h:9
+#: ui/evolution-calendar.xml.h:25 ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
 msgstr "Nyomtatási _kép"
 
-#: ui/evolution-calendar.xml.h:25
+#: ui/evolution-calendar.xml.h:26
 msgid "Print this calendar"
 msgstr "Naptár nyomtatása"
 
-#: ui/evolution-calendar.xml.h:26
+#: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
 msgstr "Szabad/foglalt információ közzététele ehhez a naptárhoz"
 
-#: ui/evolution-calendar.xml.h:27
+#: ui/evolution-calendar.xml.h:28
 msgid "Show one day"
 msgstr "Egy nap mutatása"
 
-#: ui/evolution-calendar.xml.h:28
+#: ui/evolution-calendar.xml.h:29
 msgid "Show one month"
 msgstr "Egy hónap mutatása"
 
-#: ui/evolution-calendar.xml.h:29
+#: ui/evolution-calendar.xml.h:30
 msgid "Show one week"
 msgstr "Egy hét mutatása"
 
-#: ui/evolution-calendar.xml.h:30
-msgid "Show work week"
-msgstr "Egy munkahét mutatása"
-
 #: ui/evolution-calendar.xml.h:31
+msgid "Show the working week"
+msgstr "A munkahét mutatása"
+
+#: ui/evolution-calendar.xml.h:32
 msgid "Week"
 msgstr "Hét"
 
-#: ui/evolution-calendar.xml.h:34
+#: ui/evolution-calendar.xml.h:35
 msgid "_Appointment..."
 msgstr "_Találkozó..."
 
-#: ui/evolution-calendar.xml.h:35
+#: ui/evolution-calendar.xml.h:36
 msgid "_Calendar Settings..."
 msgstr "_Naptár beállításai"
 
-#: ui/evolution-calendar.xml.h:40
+#: ui/evolution-calendar.xml.h:41
 msgid "_Publish Free/Busy Information"
 msgstr "Szabad/foglalt információ _közzététele"
 
-#: ui/evolution-calendar.xml.h:41
+#: ui/evolution-calendar.xml.h:42
 msgid "_Task..."
 msgstr "_Feladat..."
 
@@ -13068,6 +13115,12 @@ msgstr "init_corba(): nem sikerült a GNOME inicializálása"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
+#~ msgid "RDF Summary"
+#~ msgstr "RDF összefoglaló"
+
+#~ msgid "Show work week"
+#~ msgstr "Egy munkahét mutatása"
+
 #~ msgid "USA"
 #~ msgstr "USA"
 
@@ -13246,9 +13299,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
 #~ msgid "Print this Calendar"
 #~ msgstr "Naptár nyomtatása"
-
-#~ msgid "Show the working week"
-#~ msgstr "A munkahét mutatása"
 
 #~ msgid "W_ork Week"
 #~ msgstr "M_unkahét"
