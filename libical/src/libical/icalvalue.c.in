@@ -3,7 +3,7 @@
   FILE: icalvalue.c
   CREATOR: eric 02 May 1999
   
-  $Id: icalvalue.c.in,v 1.1 2000/12/11 22:06:02 federico Exp $
+  $Id: icalvalue.c.in,v 1.2 2001/01/19 14:55:26 jpr Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -838,7 +838,8 @@ void append_duration_segment(char** buf, char** buf_ptr, size_t* buf_size,
     
 }
 
-char* icalvalue_duration_as_ical_string(icalvalue* value) {
+char* icalvalue_duration_as_ical_string(icalvalue* value) 
+{
 
     struct icaldurationtype data;
     char *buf, *output_line;
@@ -851,6 +852,8 @@ char* icalvalue_duration_as_ical_string(icalvalue* value) {
     buf = (char*)icalmemory_new_buffer(buf_size);
     buf_ptr = buf;
     
+    if (data.is_neg)
+	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "-");
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, "P");
     
     
@@ -1081,16 +1084,33 @@ char* icalvalue_period_as_ical_string(icalvalue* value) {
     return str;
 }
 
-char* icalvalue_trigger_as_ical_string(icalvalue* value) {
+char* icalvalue_trigger_as_ical_string(icalvalue* value) 
+{
 
     union icaltriggertype data;
     char* str;
+    icalvalue *e;
+
     icalerror_check_arg_rz( (value!=0),"value");
     data = icalvalue_get_trigger(value);
-
+    
     str = (char*)icalmemory_tmp_buffer(60);
-    sprintf(str,"icalvalue_trigger_as_ical_string is not implemented yet");
 
+    if (data.time.is_date != -1){
+	/* use the absolute date */
+	e = icalvalue_new_datetime(data.time);
+
+	strcpy (str, icalvalue_datetime_as_ical_string(e));	
+
+    } else {
+	/* use the duration */
+	e = icalvalue_new_duration(data.duration);
+	
+	strcpy (str, icalvalue_duration_as_ical_string(e));
+	
+    }
+
+    icalvalue_free(e);
     return str;
 }
 
