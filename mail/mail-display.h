@@ -38,6 +38,7 @@ struct _MailDisplay {
 	GtkHTML *      body_html_widget;
 	CamelStream *  body_stream;
 	
+	CamelMimeMessage *current_message;
 };
 
 typedef struct {

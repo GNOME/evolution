@@ -1,3 +1,9 @@
+2000-03-07  bertrand  <bertrand@helixcode.com>
+
+	* shell/e-shell-shortcut.c (shortcut_bar_item_selected): 
+	removed a test that prevented the standard menu 
+	to be shown.
+
 2000-03-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Added a

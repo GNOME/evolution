@@ -59,6 +59,7 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 	CamelFolderSummary *folder_summary;
+	
 } ;
 
 typedef struct {

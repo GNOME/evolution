@@ -250,6 +250,12 @@ mail_display_set_message (MailDisplay *mail_display,
 	 */
 	if (CAMEL_IS_MIME_MESSAGE (medium)) {
 		
+		/* we were given a reference to the message in the last call 
+		 * to mail_display_set_message, free it now. */
+		if (mail_display->current_message)
+			gtk_object_unref (GTK_OBJECT (mail_display->current_message));
+				
+		mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
 		/* 
 		 * reset the html stream to clean 
 		 * the gtkhtml widget 
@@ -287,13 +293,11 @@ mail_display_set_message (MailDisplay *mail_display,
 			 CAMEL_MIME_MESSAGE (medium),
 			 mail_display->headers_stream,
 			 mail_display->body_stream);
+		 
 		
-		
-		 /*camel_formatter_wrapper_to_html (camel_formatter,
-						 CAMEL_DATA_WRAPPER (medium),
-						 mail_display->body_stream);*/
+		 gtk_object_unref (GTK_OBJECT (camel_formatter));
 
-		camel_stream_write_string (mail_display->headers_stream, "
+		 camel_stream_write_string (mail_display->headers_stream, "
 </font>
 </body>
 </html>
@@ -333,6 +337,9 @@ mail_display_init (GtkObject *object)
 
 	mail_display->body_stream = html_stream_new (mail_display->body_html_widget);
 	gtk_widget_show (GTK_WIDGET (mail_display->body_html_widget));
+	
+	/* various other initializations */
+	mail_display->current_message = NULL;
 }
 
 static void

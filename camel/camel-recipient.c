@@ -79,6 +79,7 @@ _free_recipient_list (gpointer key, gpointer value, gpointer user_data)
 		recipient_list = recipient_list->next;
 	}
 
+	g_list_free ((GList *)value);
 	g_free (recipient_name);
 	
 }

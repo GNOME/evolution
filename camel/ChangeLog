@@ -1,3 +1,18 @@
+2000-03-07  bertrand  <bertrand@helixcode.com>
+
+	* camel-formatter.c (handle_mime_part): 
+	plug mem leaks due to bad documentation
+	of camel_content_field_get_mime_type
+	(print_camel_body_part): idem
+	(handle_multipart_alternative): idem
+
+	* gmime-content-field.c (gmime_content_field_get_mime_type): 
+	documentation fix.
+
+
+	* camel-mime-part.c (my_finalize): unref the 
+	content_input_stream if any. 
+
 2000-03-06  bertrand  <bertrand@helixcode.com>
 
 	* camel-stream-fs.c (_seek): fix a bogus calculation

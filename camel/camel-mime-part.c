@@ -191,18 +191,18 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 	
-	camel_mime_part->content_type        = gmime_content_field_new (NULL, NULL);
-	camel_mime_part->description         = NULL;
-	camel_mime_part->disposition         = NULL;
-	camel_mime_part->content_id          = NULL;
-	camel_mime_part->content_MD5         = NULL;
-	camel_mime_part->content_languages   = NULL;
-	camel_mime_part->encoding            = CAMEL_MIME_PART_ENCODING_DEFAULT;
-	camel_mime_part->filename            = NULL;
-	camel_mime_part->header_lines        = NULL;
+	camel_mime_part->content_type         = gmime_content_field_new (NULL, NULL);
+	camel_mime_part->description          = NULL;
+	camel_mime_part->disposition          = NULL;
+	camel_mime_part->content_id           = NULL;
+	camel_mime_part->content_MD5          = NULL;
+	camel_mime_part->content_languages    = NULL;
+	camel_mime_part->encoding             = CAMEL_MIME_PART_ENCODING_DEFAULT;
+	camel_mime_part->filename             = NULL;
+	camel_mime_part->header_lines         = NULL;
 
-	camel_mime_part->temp_message_buffer = NULL;
-
+	camel_mime_part->temp_message_buffer  = NULL;	
+	camel_mime_part->content_input_stream = NULL;
 }
 
 
@@ -252,6 +252,8 @@ my_finalize (GtkObject *object)
 	
 	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
 	if (mime_part->temp_message_buffer) g_byte_array_free (mime_part->temp_message_buffer, TRUE);
+
+	if (mime_part->content_input_stream) gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::finalize\n");
@@ -870,6 +872,9 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	/* set the input stream for the content object */
 	content_stream_inf_bound = camel_seekable_stream_get_current_position (seekable_stream);
 	printf ("Current position = %d\n", content_stream_inf_bound);
+	
+	if (mime_part->content_input_stream)
+		gtk_object_unref (mime_part->content_input_stream);
 	mime_part->content_input_stream = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 													content_stream_inf_bound, 
 													-1);

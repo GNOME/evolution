@@ -211,7 +211,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
  * A RFC 2045 content type field contains the mime type in the
  * form "type/subtype" (example : "application/postscript") and some
  * parameters (attribute/value pairs). This routine returns the mime type 
- * in a gchar object. 
+ * in a gchar object. THIS OBJECT MUST BE FREED BY THE CALLER.
  * 
  * Return value: the mime type in the form "type/subtype" or NULL if not defined.
  **/

@@ -778,10 +778,12 @@ handle_mime_part (CamelFormatter *formatter,
 {
 	CamelMimePart* mime_part; 
 	CamelDataWrapper* message_contents; 
+	gchar *whole_mime_type;
 
 	g_assert (formatter);
 	g_assert (wrapper);
 	g_assert (CAMEL_IS_MIME_PART (wrapper));
+	
 	
 	mime_part = CAMEL_MIME_PART (wrapper);
 	message_contents =
@@ -797,10 +799,12 @@ handle_mime_part (CamelFormatter *formatter,
 //				   "<table width=95% border=1><tr><td>\n\n");		
 
 	/* dispatch the correct handler function for the mime type */
+	whole_mime_type = MIME_TYPE_WHOLE (mime_part);
 	call_handler_function (formatter, message_contents,
-			       MIME_TYPE_WHOLE (mime_part),
+			       whole_mime_type,
 			       MIME_TYPE_MAIN (mime_part));
-	
+	g_free (whole_mime_type);
+
 	/* close up the table we opened */
 //	camel_stream_write_string (formatter->priv->stream,
 //				   "\n\n</td></tr></table>\n\n");
@@ -855,6 +859,8 @@ print_camel_body_part (CamelMimeBodyPart* body_part,
 		       CamelFormatter* formatter,
 		       gboolean* text_printed_yet)
 {
+	gchar *whole_mime_type;
+
 	CamelDataWrapper* contents =
 		camel_medium_get_content_object (CAMEL_MEDIUM (body_part));
 	gboolean is_text =
@@ -862,9 +868,11 @@ print_camel_body_part (CamelMimeBodyPart* body_part,
 
 	if (is_text && *text_printed_yet)
 		return;
-
-	call_handler_function (formatter, contents, MIME_TYPE_WHOLE (body_part),
+	whole_mime_type = MIME_TYPE_WHOLE (body_part);
+	call_handler_function (formatter, contents, whole_mime_type,
 			       MIME_TYPE_MAIN (body_part));
+	g_free (whole_mime_type);
+
 	camel_stream_write_string (formatter->priv->stream, "\n\n");
 	/* use this when gtktmhl is fixed */
 	/* camel_stream_write_string (formatter->priv->stream, "\n<hr>\n"); */
@@ -940,7 +948,8 @@ handle_multipart_alternative (CamelFormatter *formatter,
 {
 	CamelMultipart* multipart = CAMEL_MULTIPART (wrapper);
 	CamelMimePart* mime_part;
-	
+	gchar *whole_mime_type;
+
 	debug ("handle_multipart_alternative: entered\n");
 
 	mime_part =
@@ -952,9 +961,11 @@ handle_multipart_alternative (CamelFormatter *formatter,
 			camel_medium_get_content_object (
 				CAMEL_MEDIUM (mime_part));
 
+		whole_mime_type = MIME_TYPE_WHOLE (mime_part);
 		call_handler_function (formatter, contents,
-				       MIME_TYPE_WHOLE (mime_part),
+				       whole_mime_type,
 				       MIME_TYPE_MAIN (mime_part));
+		g_free (whole_mime_type);
 	}
 	
 	debug ("handle_multipart_alternative: exiting\n");		

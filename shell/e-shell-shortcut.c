@@ -299,9 +299,7 @@ shortcut_bar_item_selected (EShortcutBar *e_shortcut_bar,
 		return;
 			
 	shortcut = e_shortcut_from_pos (shortcut_group, item_num);
-
-	if (shortcut == NULL)
-		return;
+	
 	
 	if (event->button.button == 1) {
 		e_shell_view_set_view (eshell_view, shortcut->efolder);
