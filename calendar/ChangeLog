@@ -1,3 +1,14 @@
+2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/itip-utils.[ch]: I created this file to store some commonly used enumeration to
+	string mappings and functions.
+
+	* gui/Makefile.am: this was changed to reflect the addition of the above file.
+
+	* gui/e-itip-control.c: added code to take action on a REPLY message.
+
+	* gui/e-meeting-edit.c: bug fixes.
+
 2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	OK, bugzilla bug #829 is fixed and that does not redeem me from

@@ -105,6 +105,8 @@ evolution_calendar_SOURCES =			\
 	gnome-month-item.c			\
 	gnome-month-item.h			\
 	goto.c					\
+	itip-utils.c				\
+	itip-utils.h				\
 	main.c					\
 	mark.c					\
 	mark.h					\

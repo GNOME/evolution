@@ -28,6 +28,7 @@
 #include <Evolution-Composer.h>
 #include <string.h>
 #include "e-meeting-edit.h"
+#include "itip-utils.h"
 
 #define E_MEETING_GLADE_XML "e-meeting-dialog.glade"
 
@@ -62,41 +63,6 @@ struct _EMeetingEditorPrivate {
 #define NUM_COLUMNS 4  /* The number of columns in our attendee list. */
 
 enum column_names {ADDRESS_COL, ROLE_COL, RSVP_COL, STATUS_COL};
-
-static gchar *partstat_values[] = {
-	"Needs action",
-	"Accepted",
-	"Declined",
-	"Tentative",
-	"Delegated",
-	"Completed",
-	"In Progress",
-	"Unknown"
-};
-
-static gchar *role_values[] = {
-	"Chair",
-	"Required Participant",
-	"Optional Participant",
-	"Non-Participant",
-	"Other"
-};
-
-
-/* Note that I have to iterate and check myself because
-   ical_property_get_xxx_parameter doesn't take into account the
-   kind of parameter for which you wish to search! */
-static icalparameter *
-get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
-{
-	icalparameter *param;
-
-	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
-	     param != NULL && icalparameter_isa (param) != kind;
-	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER) );
-
-	return param;
-}
 
 
 static void

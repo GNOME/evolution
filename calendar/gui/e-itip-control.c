@@ -20,6 +20,7 @@
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
+#include "itip-utils.h"
 
 
 #define DEFAULT_WIDTH 400
@@ -46,24 +47,13 @@ struct _EItipControlPrivate {
 	CalComponent *cal_comp;
 	char *vcalendar;
 	gchar *from_address, *my_address, *organizer;
+	icalparameter_partstat new_partstat;
 };
 
 enum E_ITIP_BONOBO_ARGS {
 	FROM_ADDRESS_ARG_ID,
 	MY_ADDRESS_ARG_ID
 };
-
-static icalparameter *
-get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
-{
-	icalparameter *param;
-
-	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
-	     param != NULL && icalparameter_isa (param) != kind;
-	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER) );
-
-	return param;
-}
 
 
 /********
@@ -184,7 +174,7 @@ update_calendar (EItipControlPrivate *priv)
 	gchar cal_uri[255];
 	CalClient *client;
 
-	sprintf (cal_uri, "%s/local/Calendar/calendar.ics", evolution_dir);
+	snprintf (cal_uri, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
 	
 	client = cal_client_new ();
 	if (cal_client_load_calendar (client, cal_uri) == FALSE) {
@@ -379,6 +369,114 @@ accept_button_clicked_cb (GtkWidget *widget, gpointer data)
 	
 	return;
 }
+
+static void
+tentative_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+
+	change_my_status (ICAL_PARTSTAT_TENTATIVE, priv);
+	send_itip_reply (priv);
+	update_calendar (priv);
+	
+	return;
+}
+
+static void
+decline_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+
+	change_my_status (ICAL_PARTSTAT_DECLINED, priv);
+	send_itip_reply (priv);
+	
+	return;
+}
+
+static void
+update_reply_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+	CalClient *cal_client;
+	CalComponent *cal_comp;
+	icalcomponent *comp;
+	icalproperty *prop;
+	icalparameter *param;
+	const char *uid;
+	char cal_uri[255];
+
+
+	/* First we must load our calendar object from the calendar store. */
+	snprintf (cal_uri, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
+
+	cal_client = cal_client_new ();
+	if (cal_client_load_calendar (cal_client, cal_uri) == FALSE) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't open your calendar file!\n");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+	
+		return;
+	}
+
+	while (!cal_client_is_loaded (cal_client)) {
+		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
+	}
+
+	cal_component_get_uid (priv->cal_comp, &uid);
+	if (cal_client_get_object (cal_client, uid, &cal_comp) != CAL_CLIENT_GET_SUCCESS) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't read your calendar file!\n");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+	
+		return;
+	}
+
+	comp = cal_component_get_icalcomponent (cal_comp);
+
+	prop = find_attendee (comp, priv->from_address);
+	if (!prop) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("This is a reply from someone who was uninvited!");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+		gtk_object_unref (GTK_OBJECT (cal_comp));
+	
+		return;
+	}
+	
+	icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+	param = icalparameter_new_partstat (priv->new_partstat);
+	icalproperty_add_parameter (prop, param);
+
+	/* Now we need to update the object in the calendar store. */
+	if (!cal_client_update_object (cal_client, cal_comp)) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't update your calendar store.");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+		gtk_object_unref (GTK_OBJECT (cal_comp));
+	
+		return;
+	}
+	else {
+		/* We have success. */
+		GtkWidget *dialog;
+
+		dialog = gnome_ok_dialog("Component successfully updated.");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+	}
+
+	
+	gtk_object_unref (GTK_OBJECT (cal_client));
+	gtk_object_unref (GTK_OBJECT (cal_comp));
+}
+
 
 /*
  * Bonobo::PersistStream
@@ -644,10 +742,51 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 				gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
 						    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
+				gtk_signal_connect (GTK_OBJECT (tentative_button), "clicked",
+						    GTK_SIGNAL_FUNC (tentative_button_clicked_cb), priv);
+				gtk_signal_connect (GTK_OBJECT (decline_button), "clicked",
+						    GTK_SIGNAL_FUNC (decline_button_clicked_cb), priv);
 
 				gtk_widget_show (accept_button);
 				gtk_widget_show (decline_button);
 				gtk_widget_show (tentative_button);
+			}
+
+			}
+			break;
+		case ICAL_METHOD_REPLY:
+			{
+			icalproperty *prop;
+			icalparameter *param;
+			gboolean success = FALSE;
+
+			prop = find_attendee (priv->comp, priv->from_address);
+			if (prop) {
+				param = get_icalparam_by_type (prop, ICAL_PARTSTAT_PARAMETER);
+				if (param) {
+					success = TRUE;
+
+					priv->new_partstat = icalparameter_get_partstat (param);
+				}
+			}
+
+			if (!success) {
+				sprintf (message, "%s sent a reply to a meeting request, but "
+						  "the reply is not properly formed.",
+					 priv->from_address);
+			}
+			else {
+				GtkWidget *button;
+		
+				button =  gtk_button_new_with_label ("Update Calendar");
+				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
+				gtk_widget_show (button);
+	
+				gtk_signal_connect (GTK_OBJECT (button), "clicked",
+						    GTK_SIGNAL_FUNC (update_reply_cb), priv);
+				
+				sprintf (message, "%s responded to your request, replying with: %s",
+					 priv->from_address, partstat_values[priv->new_partstat]);
 			}
 
 			}
