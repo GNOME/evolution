@@ -1631,6 +1631,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (fb->folder
 	    && (fb->expunging == NULL
 		|| fb->folder != fb->expunging)) {
+		mail_display_set_message(fb->mail_display, NULL);
 		fb->expunging = fb->folder;
 		mail_expunge_folder(fb->folder, expunged_folder, fb);
 	}
