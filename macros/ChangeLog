@@ -1,3 +1,7 @@
+2001-08-04  Darin Adler  <darin@bentspoon.com>
+
+	* .cvsignore: Ignore generated .dep file.
+
 2001-08-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gnome-guile-checks.m4: Made "--without-guile" work. Added $guile_msg 

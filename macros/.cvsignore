@@ -3,3 +3,4 @@ WDEI*.h
 Makefile
 Makefile.in
 .deps
+gnome-macros.dep
