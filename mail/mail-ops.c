@@ -1801,73 +1801,6 @@ static char *save_messages_desc(struct _mail_msg *mm, int done)
 	return g_strdup_printf(_("Saving %d messsage(s)"), m->uids->len);
 }
 
-/* tries to build a From line, based on message headers */
-/* this is a copy directly from camel-mbox-summary.c */
-
-static char *tz_months[] = {
-	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-};
-
-static char *tz_days[] = {
-	"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-};
-
-static char *
-build_from(struct _header_raw *header)
-{
-	GString *out = g_string_new("From ");
-	char *ret;
-	const char *tmp;
-	time_t thetime;
-	int offset;
-	struct tm tm;
-	
-	tmp = header_raw_find (&header, "Sender", NULL);
-	if (tmp == NULL)
-		tmp = header_raw_find (&header, "From", NULL);
-	if (tmp != NULL) {
-		struct _header_address *addr = header_address_decode (tmp);
-		
-		tmp = NULL;
-		if (addr) {
-			if (addr->type == HEADER_ADDRESS_NAME) {
-				g_string_append (out, addr->v.addr);
-				tmp = "";
-			}
-			header_address_unref (addr);
-		}
-	}
-	
-	if (tmp == NULL)
-		g_string_append (out, "unknown@nodomain.now.au");
-	
-	/* try use the received header to get the date */
-	tmp = header_raw_find (&header, "Received", NULL);
-	if (tmp) {
-		tmp = strrchr(tmp, ';');
-		if (tmp)
-			tmp++;
-	}
-	
-	/* if there isn't one, try the Date field */
-	if (tmp == NULL)
-		tmp = header_raw_find (&header, "Date", NULL);
-	
-	thetime = header_decode_date (tmp, &offset);
-	thetime += ((offset / 100) * (60 * 60)) + (offset % 100) * 60;
-	gmtime_r (&thetime, &tm);
-	g_string_append_printf (out, " %s %s %d %02d:%02d:%02d %4d\n",
-				tz_days[tm.tm_wday], tz_months[tm.tm_mon],
-				tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec,
-				tm.tm_year + 1900);
-	
-	ret = out->str;
-	g_string_free (out, FALSE);
-	
-	return ret;
-}
-
 static void
 save_prepare_part (CamelMimePart *mime_part)
 {
@@ -1935,7 +1868,7 @@ save_messages_save (struct _mail_msg *mm)
 		save_prepare_part (CAMEL_MIME_PART (message));
 		
 		/* we need to flush after each stream write since we are writing to the same fd */
-		from = build_from(((CamelMimePart *)message)->headers);
+		from = camel_mime_message_build_mbox_from(message);
 		if (camel_stream_write_string(stream, from) == -1
 		    || camel_stream_flush(stream) == -1
 		    || camel_data_wrapper_write_to_stream((CamelDataWrapper *)message, (CamelStream *)filtered_stream) == -1
