@@ -1,5 +1,9 @@
 2001-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (mail_delete): Confirm thatt he user REALLY
+	wants to delete this account.
+	(news_delete): Same.
+
 	* mail-ops.c (mail_send_message): Changed the product string -
 	will change it to use User-Agent once I get the RFC/DRUMS draft or
 	whatever. Until then I'll stick with User-Agent.
