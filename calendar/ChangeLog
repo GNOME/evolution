@@ -1,3 +1,23 @@
+2004-06-09  JP Rosevear  <jpr@novell.com>
+
+	* gui/gnome-cal.c (get_times_for_views): calculate the work week,
+	week, and month views more exactly
+	(update_adjustment): update the view based on week view scrolling
+	(setup_widgets): listen for the scroll bar moving on the week
+	views
+	(gnome_calendar_update_date_navigator): adjust for compressed
+	weekends in the month view
+	(gnome_calendar_on_date_navigator_selection_changed): ditto
+
+	* gui/e-week-view.h: add protos
+
+	* gui/e-week-view.c (time_range_changed_cb): calculate the
+	base_date and first_day_shown more simply, allows multi-week
+	selection to work better; update the base date when told to do so
+	(e_week_view_init): init update_base_value var
+	(e_week_view_get_update_base_date): accessor
+	(e_week_view_set_update_base_date): ditto
+
 2004-06-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #57578

@@ -260,35 +260,15 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
-	if (week_view->multi_week_view) {
-		/* Find the number of days since the start of the month. */
-		day_offset = g_date_day (&date) - 1;
-
-		/* Find the 1st week which starts at or before the start of
-		   the month. */
-		base_date = date;
-		g_date_set_day (&base_date, 1);
-
-		/* Calculate the weekday of the 1st of the month, 0 = Mon. */
-		weekday = g_date_weekday (&base_date) - 1;
-
-		/* Convert it to an offset from the start of the display. */
-		week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-
-		/* Add it to the day offset so we go back to the 1st week at
-		   or before the start of the month. */
-		day_offset += week_start_offset;
-	} else {
-		/* Calculate the weekday of the given date, 0 = Mon. */
-		weekday = g_date_weekday (&date) - 1;
-
-		/* Convert it to an offset from the start of the display. */
-		week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-
-		/* Set the day_offset to the result, so we move back to the
-		   start of the week. */
-		day_offset = week_start_offset;
-	}
+	/* Calculate the weekday of the given date, 0 = Mon. */
+	weekday = g_date_weekday (&date) - 1;
+	
+	/* Convert it to an offset from the start of the display. */
+	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
+	
+	/* Set the day_offset to the result, so we move back to the
+	   start of the week. */
+	day_offset = week_start_offset;
 
 	/* Calculate the base date, i.e. the first day shown when the
 	   scrollbar adjustment value is 0. */
@@ -297,11 +277,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	/* See if we need to update the base date. */
 	if (!g_date_valid (&week_view->base_date)
-	    || g_date_compare (&week_view->base_date, &base_date)) {
+	    || week_view->update_base_date) {
 		week_view->base_date = base_date;
 		update_adjustment_value = TRUE;
 	}
-
+	
 	/* See if we need to update the first day shown. */
 	if (!g_date_valid (&week_view->first_day_shown)
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
@@ -316,7 +296,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	/* Reset the adjustment value to 0 if the base address has changed.
 	   Note that we do this after updating first_day_shown so that our
 	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)
+	if (update_adjustment_value)	
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
 
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -556,6 +536,7 @@ e_week_view_init (EWeekView *week_view)
 	week_view->spans = NULL;
 
 	week_view->multi_week_view = FALSE;
+	week_view->update_base_date = TRUE;
 	week_view->weeks_shown = 6;
 	week_view->rows = 6;
 	week_view->columns = 2;
@@ -658,9 +639,6 @@ e_week_view_init (EWeekView *week_view)
 	 * Scrollbar.
 	 */
 	adjustment = gtk_adjustment_new (0, -52, 52, 1, 1, 1);
-	gtk_signal_connect (adjustment, "value_changed",
-			    G_CALLBACK (e_week_view_on_adjustment_changed),
-			    week_view);
 
 	week_view->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (adjustment));
 	gtk_table_attach (GTK_TABLE (week_view), week_view->vscrollbar,
@@ -1714,6 +1692,22 @@ e_week_view_set_multi_week_view	(EWeekView	*week_view,
 						 &week_view->first_day_shown);
 }
 
+gboolean
+e_week_view_get_update_base_date (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	return week_view->update_base_date;
+}
+
+
+void
+e_week_view_set_update_base_date (EWeekView *week_view, gboolean update_base_date)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	week_view->update_base_date = update_base_date;
+}
 
 gint
 e_week_view_get_weeks_shown	(EWeekView	*week_view)
@@ -2842,57 +2836,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
 }
-
-
-static void
-e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
-				   EWeekView *week_view)
-{
-	GDate date;
-	gint week_offset;
-	struct icaltimetype start_tt = icaltime_null_time ();
-	time_t lower, start, end;
-	guint32 old_first_day_julian, new_first_day_julian;
-
-	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return;
-
-	/* Determine the first date shown. */
-	date = week_view->base_date;
-	week_offset = floor (adjustment->value + 0.5);
-	g_date_add_days (&date, week_offset * 7);
-
-	/* Convert the old & new first days shown to julian values. */
-	old_first_day_julian = g_date_julian (&week_view->first_day_shown);
-	new_first_day_julian = g_date_julian (&date);
-
-	/* If we are already showing the date, just return. */
-	if (old_first_day_julian == new_first_day_julian)
-		return;
-
-	/* Set the new first day shown. */
-	week_view->first_day_shown = date;
-
-	/* Convert it to a time_t. */
-	start_tt.year = g_date_year (&date);
-	start_tt.month = g_date_month (&date);
-	start_tt.day = g_date_day (&date);
-
-	lower = icaltime_as_timet_with_zone (start_tt, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-
-	e_week_view_recalc_day_starts (week_view, lower);
-	e_week_view_update_query (week_view);
-
-	/* Update the selection, if needed. */
-	if (week_view->selection_start_day != -1) {
-		start = week_view->day_starts[week_view->selection_start_day];
-		end = week_view->day_starts[week_view->selection_end_day + 1];
-		gnome_calendar_set_selected_time_range (e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)),
-							start, end);
-	}
-}
-
 
 gboolean
 e_week_view_start_editing_event (EWeekView *week_view,
