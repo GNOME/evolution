@@ -1,3 +1,7 @@
+2001-05-24  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (menu_edit_delete_all_cb): new callback
+
 2001-05-23  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_sig_file): set orig to 0

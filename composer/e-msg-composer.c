@@ -1051,6 +1051,28 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 }
 
 static void
+menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	CORBA_Environment ev;
+	EMsgComposer *composer;
+	
+	composer = E_MSG_COMPOSER (data);
+	CORBA_exception_init (&ev);
+
+	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Delete all but signature", "Undelete all", &ev);
+	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "select-all", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete", &ev);
+	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
+	e_msg_composer_set_sig_file (composer, composer->sig_file);
+	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+
+	CORBA_exception_free (&ev);
+	printf ("delete all\n");
+}
+
+static void
 menu_view_attachments_activate_cb (BonoboUIComponent           *component,
 				   const char                  *path,
 				   Bonobo_UIComponent_EventType type,
@@ -1372,6 +1394,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),
 	BONOBO_UI_VERB ("FileSendLater",  menu_file_send_later_cb),
 	
+	BONOBO_UI_VERB ("DeleteAll",  menu_edit_delete_all_cb),
+
 	BONOBO_UI_VERB_END
 };	
 
