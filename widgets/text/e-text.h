@@ -20,7 +20,7 @@
 #define E_TEXT_H
 
 #include <gnome.h>
-#include "e-util/e-font.h"
+#include "widgets/e-font.h"
 #include "e-text-event-processor.h"
 #include "e-text-model.h"
 

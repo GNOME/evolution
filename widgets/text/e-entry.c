@@ -19,10 +19,10 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
-#include "e-util/e-util.h"
-#include "e-util/e-canvas.h"
+#include "util/e-util.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-canvas-utils.h"
 #include "e-entry.h"
-#include "e-util/e-canvas-utils.h"
 
 #define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER     2

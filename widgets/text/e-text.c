@@ -26,9 +26,9 @@
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 #include <unicode.h>
 #include <gtk/gtkinvisible.h>
-#include "e-util/e-canvas.h"
-#include "e-util/e-canvas-utils.h"
-#include "e-util/e-unicode.h"
+#include "widgets/e-canvas.h"
+#include "widgets/e-canvas-utils.h"
+#include "widgets/e-unicode.h"
 
 #include "e-text-event-processor-emacs-like.h"
 
