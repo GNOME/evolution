@@ -10068,7 +10068,7 @@ msgstr "Errore nella risposta di STARTTLS"
 #: camel/providers/smtp/camel-smtp-transport.c:472
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "Il server SMTP %s non supporta il tipo di autenticazione richiesto %s"
+msgstr "Il server SMTP %s non supporta il tipo di autenticazione richiesto %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:510
 #, c-format
@@ -10330,11 +10330,11 @@ msgstr ""
 #.
 #: composer/e-msg-composer-hdrs.c:447
 msgid "Post To:"
-msgstr "Destinatario"
+msgstr "Invia a:"
 
 #: composer/e-msg-composer-hdrs.c:449
 msgid "Posting destination"
-msgstr "Destinatari"
+msgstr "Destinatario"
 
 #: composer/e-msg-composer-select-file.c:275
 #: ui/evolution-message-composer.xml.h:2
@@ -10860,7 +10860,7 @@ msgid ""
 "12:00am of the date specified."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con le 12:00am di quella specificata qui."
+"con le 12:00am di quella specificata."
 
 #: filter/filter.glade.h:9
 msgid ""
@@ -10868,7 +10868,7 @@ msgid ""
 "a time relative to when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con una data relativa all'utilizzo del filtro."
+"con un ora relativa all'utilizzo del filtro."
 
 #: filter/filter.glade.h:11
 msgid ""
@@ -10876,7 +10876,7 @@ msgid ""
 "the current time when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con la data corrente all'utilizzo del filtro.."
+"con l'ora corrente all'utilizzo del filtro."
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
@@ -11065,7 +11065,7 @@ msgstr "Sposta nella Cartella..."
 
 #: filter/libfilter-i18n.h:40
 msgid "Pipe Message to Shell Command"
-msgstr "Spedisce un comando tramite pipe alla shell"
+msgstr "Manda messaggio in pipe ad un comando della shell"
 
 #: filter/libfilter-i18n.h:41
 msgid "Play Sound"
@@ -11156,7 +11156,7 @@ msgstr "Regole"
 #: filter/rule-editor.c:239 filter/rule-editor.c:335
 #, c-format
 msgid "Rule name '%s' is not unique, choose another"
-msgstr "Il nome della regola '%s' non è unico, usatene un altro"
+msgstr "Il nome della regola '%s' non è unico, usane un altro"
 
 #: filter/rule-editor.c:299
 msgid "Add Rule"
@@ -11370,7 +11370,7 @@ msgstr "Configura qui il controllo ortografico, le firme e il compositore dei me
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
 msgid "Configure the fonts used by Evolution here"
-msgstr "Configura qui i font utilizzati da Evolution."
+msgstr "Configura qui i font utilizzati da Evolution"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:9
 msgid "Configure your email accounts here"
@@ -12194,7 +12194,7 @@ msgstr "Aggiungi nuova firma..."
 
 #: mail/mail-config.glade.h:11
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografat"
+msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografata"
 
 #: mail/mail-config.glade.h:13
 msgid "Alwa_ys sign outgoing messages when using this account"
@@ -12238,7 +12238,7 @@ msgstr "Baltico (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:24
 msgid "C_haracter set:"
-msgstr "Set di caratteri sconosciuto:"
+msgstr "Set di caratteri:"
 
 #: mail/mail-config.glade.h:25
 msgid "C_olors"
@@ -12286,7 +12286,7 @@ msgstr "Pr_edefinito"
 
 #: mail/mail-config.glade.h:39
 msgid "Default Behavior"
-msgstr "Comportamento predefinito:"
+msgstr "Comportamento predefinito"
 
 #: mail/mail-config.glade.h:40
 msgid "Default character _encoding:"
@@ -12294,7 +12294,7 @@ msgstr "Codice dei caratteri predefinito:"
 
 #: mail/mail-config.glade.h:41
 msgid "Deleting Mail"
-msgstr "Cancellazione Posta"
+msgstr "Cancellazione posta"
 
 #: mail/mail-config.glade.h:43
 msgid "Digital IDs..."
@@ -12412,7 +12412,8 @@ msgstr "Notifica Nuova Posta"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "Nota: non verrà richiesta una password fino alla prima connessione"
+msgstr ""
+"Nota: non verrà richiesta una password fino alla prima connessione"
 
 #: mail/mail-config.glade.h:79
 msgid "On Screen fonts"
@@ -12480,7 +12481,7 @@ msgstr "Ricorda questa _password"
 
 #: mail/mail-config.glade.h:99
 msgid "Required Information"
-msgstr "Informazioni Richieste"
+msgstr "Informazioni richieste"
 
 #: mail/mail-config.glade.h:100
 msgid "Restore Defaults"
@@ -12488,7 +12489,7 @@ msgstr "Ripristina predefiniti"
 
 #: mail/mail-config.glade.h:102
 msgid "S_ecurity"
-msgstr "Sicurezza"
+msgstr "Sicur_ezza"
 
 #: mail/mail-config.glade.h:103
 msgid "Secure MIME (S/MIME)"
@@ -12706,7 +12707,7 @@ msgstr "Chiedere conferma _prima di inviare messaggi HTML a contatti che non li 
 
 #: mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Segnala l'invio di messaggi senza oggetto."
+msgstr "Segnala l'invio di messaggi senza oggetto"
 
 #: mail/mail-config.glade.h:168
 msgid "_Receiving Mail"
@@ -12778,7 +12779,7 @@ msgstr "Impossibile creare un contesto di codifica  S/MIME."
 
 #: mail/mail-display.c:321
 msgid "Save Attachment"
-msgstr "Salva Allegati"
+msgstr "Salva allegati"
 
 #: mail/mail-display.c:386
 #, c-format
@@ -12787,7 +12788,7 @@ msgstr "Impossibile creare il file temporaneo '%s': %s"
 
 #: mail/mail-display.c:432
 msgid "Save Attachment..."
-msgstr "Salva Allegati..."
+msgstr "Salva allegati..."
 
 #: mail/mail-display.c:433
 msgid "View Inline"
@@ -12943,7 +12944,7 @@ msgstr "Parte esterna del messaggio malformata."
 #: mail/mail-local.c:539 mail/mail-local.c:541
 #, c-format
 msgid "Local folders/%s"
-msgstr "Cartelle locali/%s"
+msgstr "Cartelle/%s locali"
 
 #: mail/mail-local.c:671
 msgid "Reconfiguring folder"
@@ -13418,11 +13419,11 @@ msgstr "Segnazione di Stato"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr "Con la bandierina"
+msgstr "Con segnalazione"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Segnalazione che Segue"
+msgstr "Segnalazione che segue"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -13474,7 +13475,7 @@ msgstr "Anteprima"
 
 #: mail/message-tag-followup.c:246 mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
-msgstr "Segnala che Segue"
+msgstr "Segnalazione che segue"
 
 #: mail/message-tags.glade.h:1
 msgid "C_ompleted"
@@ -13535,7 +13536,7 @@ msgstr "Nessun server è stato selezionato"
 
 #: mail/subscribe-dialog.c:1621
 msgid "Please select a server."
-msgstr "Selezionare un server."
+msgstr "Prego selezionare un server."
 
 #: mail/subscribe-dialog.glade.h:1
 msgid "All folders"
@@ -24825,7 +24826,7 @@ msgstr "\"%s\" in \"%s\""
 
 #: shell/e-folder-list.c:312
 msgid "Add a Folder"
-msgstr "Aggiungi una Cartella"
+msgstr "Aggiungi una cartella"
 
 #: shell/e-local-storage.c:178
 msgid "Drafts"
@@ -24959,15 +24960,15 @@ msgstr "Sviluppato da"
 
 #: shell/e-shell-config-autocompletion.c:106
 msgid "Extra Completion folders"
-msgstr "Cartelle Extra di Completamento"
+msgstr "Cartelle extra di completamento"
 
 #: shell/e-shell-config-default-folders.c:133
 msgid "Select Default Folder"
-msgstr "Scegli Cartella Predefinita"
+msgstr "Scegli cartella predefinita"
 
 #: shell/e-shell-config-folder-settings.c:71
 msgid "Default Folders"
-msgstr "Cartelle Predefinite"
+msgstr "Cartelle predefinite"
 
 #: shell/e-shell-config-folder-settings.c:74
 msgid "Offline Folders"
@@ -24975,7 +24976,7 @@ msgstr "Cartelle non in linea"
 
 #: shell/e-shell-config-folder-settings.c:77
 msgid "Autocompletion Folders"
-msgstr "Cartelle di Autocompletamento"
+msgstr "Cartelle di autocompletamento"
 
 #: shell/e-shell-folder-commands.c:140
 #, c-format
@@ -25084,7 +25085,7 @@ msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:288
 msgid "Create New Folder"
-msgstr "Crea Nuova Cartella"
+msgstr "Crea nuova cartella"
 
 #: shell/e-shell-folder-selection-dialog.c:393
 msgid "New..."
@@ -25262,7 +25263,7 @@ msgstr "Impostazioni di Evolution"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:357
 msgid "Opening Folder"
-msgstr "Apertura Cartella"
+msgstr "Apertura cartella"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
 #, c-format
@@ -25349,7 +25350,7 @@ msgstr "Selezionare la cartella che si desidera aprire"
 
 #: shell/e-shell-view-menu.c:625
 msgid "Create New Shortcut"
-msgstr "Crea Nuova Scorciatoia"
+msgstr "Crea nuova scorciatoia"
 
 #: shell/e-shell-view-menu.c:626
 msgid "Select the folder you want the shortcut to point to:"
@@ -25518,7 +25519,7 @@ msgstr "Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:274
 msgid "Create _Default Shortcuts"
-msgstr "Crea scorciatoia predefinita"
+msgstr "Crea scorciatoia pre_definita"
 
 #: shell/e-shortcuts-view.c:275
 msgid "Create Default Shortcuts"
@@ -26001,11 +26002,11 @@ msgstr "Impossibile caricare l'indirizzario di default."
 #: tools/evolution-addressbook-abuse.c:111
 #: tools/evolution-addressbook-import.c:67
 msgid "Input File"
-msgstr "File Sorgente"
+msgstr "File sorgente"
 
 #: tools/evolution-addressbook-export.c:46
 msgid "Output File"
-msgstr "File di Destinazione"
+msgstr "File di destinazione"
 
 #: tools/evolution-addressbook-import.c:80
 msgid "No filename provided."
@@ -26013,7 +26014,7 @@ msgstr "È necessario fornire un nome di file."
 
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Copia Contatto(i) su un'Altra Cartella..."
+msgstr "Copia contatto(i) su un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -26021,7 +26022,7 @@ msgstr "Copia selezionato"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
-msgstr "Copia nella Cartella..."
+msgstr "Copia nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -26033,11 +26034,11 @@ msgstr "Cancella il contatto selezionato"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Sposta Contatto(i) in un'altra cartella..."
+msgstr "Sposta contatto(i) in un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
-msgstr "Sposta nella Cartella..."
+msgstr "Sposta nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:14
 msgid "Paste the clipboard"
@@ -26051,7 +26052,7 @@ msgstr "Anteprime dei contatti da stampare"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "_Anteprima di Stampa"
+msgstr "_Anteprima di stampa"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -26063,7 +26064,7 @@ msgstr "Salva i contatti selezionati come VCard."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
-msgstr "Seleziona Tutto"
+msgstr "Seleziona tutto"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Select all contacts"
@@ -26367,15 +26368,15 @@ msgstr "Rimuovi permanentemente i messaggi cancellati da tutte le cartelle"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Post New Message"
-msgstr "Nuovo Messaggio"
+msgstr "Nuovo messaggio"
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Post a message to a Public folder"
-msgstr "Nuovo messaggio per una cartella Pubblica"
+msgstr "Nuovo messaggio per una cartella pubblica"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "S_ubscribe to Folders..."
-msgstr "_Sottoscrizione a Cartelle..."
+msgstr "Sottoscrizione cartelle..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
@@ -26507,19 +26508,19 @@ msgstr "_Proprietà"
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
-msgstr "Raggruppa per _Discussioni"
+msgstr "Raggruppa per _discussioni"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
-msgstr "Aggiungi Mittente alla Rubrica"
+msgstr "Aggiungi mittente alla rubrica"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "A_pplica Filtri"
+msgstr "A_pplica filtri"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Addressbook"
-msgstr "Aggiungi Mittente alla Rubrica"
+msgstr "Aggiungi mittente alla rubrica"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
@@ -26711,15 +26712,15 @@ msgstr "Successivo"
 
 #: ui/evolution-mail-message.xml.h:55
 msgid "Next _Important Message"
-msgstr "Messaggio Importante Successivo"
+msgstr "Messaggio _importante successivo"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Next _Thread"
-msgstr "Discussione Successiva"
+msgstr "Discussione successiva"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Next _Unread Message"
-msgstr "Messaggo Non Letto Successivo"
+msgstr "Messaggo non letto successivo"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Open the selected message in a new window"
@@ -26731,23 +26732,23 @@ msgstr "Apre il messaggio selezionato in una finestra di composizione per riinvi
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Original Si_ze"
-msgstr "Dimensione _Predefinita"
+msgstr "Dimensione _predefinita"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "P_revious Unread Message"
-msgstr "Messaggio Non Letto P_recedente"
+msgstr "Messaggio non letto p_recedente"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Post a Reply"
-msgstr "Invia una Risposta"
+msgstr "Invia una risposta"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Post a reply to a message message in a Public folder"
-msgstr "Invia una risposta ad un messaggio in una Cartella Pubblica"
+msgstr "Invia una risposta ad un messaggio in una cartella pubblica"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Pr_evious Important Message"
-msgstr "Messaggio Importante Pr_ecedente"
+msgstr "Messaggio importante pr_ecedente"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Preview the message to be printed"
@@ -26847,15 +26848,15 @@ msgstr "_Copia nella Cartella"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
-msgstr "_Crea Filtro dal Messaggio"
+msgstr "_Crea filtro dal messaggio"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Forward Message"
-msgstr "_Inoltra Messaggio"
+msgstr "_Inoltra messaggio"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
-msgstr "Vai a"
+msgstr "Vai al"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Inline"
@@ -26863,31 +26864,31 @@ msgstr "_In linea"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "_Larger"
-msgstr "Più _Grande"
+msgstr "Più _grande"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "_Message Display"
-msgstr "Visualizzazione _Messaggio"
+msgstr "Visualizzazione _messaggio"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Move to Folder"
-msgstr "_Sposta nella Cartella"
+msgstr "_Sposta nella cartella"
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "_Next Message"
-msgstr "Messaggio Successivo"
+msgstr "Messaggio successivo"
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Normal Display"
-msgstr "Visualizzazione _Normale"
+msgstr "Visualizzazione _normale"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Open Message"
-msgstr "_Apri Messaggio"
+msgstr "_Apri messaggio"
 
 #: ui/evolution-mail-message.xml.h:107
 msgid "_Previous Message"
-msgstr "Messaggio _Precedente"
+msgstr "Messaggio _precedente"
 
 #: ui/evolution-mail-message.xml.h:109
 msgid "_Quoted"
