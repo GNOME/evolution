@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-04-02 13:07+0300\n"
-"PO-Revision-Date: 2003-04-02 07:17--500\n"
+"PO-Revision-Date: 2003-04-02 07:58--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1009,7 +1009,7 @@ msgid ""
 "secure."
 msgstr ""
 "Вибір цього параметру означатиме, що Evolution намагатиметься використовувати SSL/TLS\n"
-"лише у випадку якщо ви у небезпечному середовищі. Наприклад, якщо ви, та ваш сервер LDAP\n"
+"лише у випадку, якщо ви у небезпечному середовищі. Наприклад, якщо ви, та ваш сервер LDAP\n"
 "захищені корпоративним брандмауером, тоді Evolution не використовуватиме SSL/TLS, бо\n"
 "ваше з'єднання вже захищене."
 
@@ -1024,12 +1024,12 @@ msgstr "Вибір цього параметру означатиме, цо ва
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "Selecting this option will let you change Evolution's default settings for LDAP\n"
 "searches, and for creating and editing contacts. "
-msgstr "Вибір цього параметру дозволить вам змінити типові параметри Evolution виконування\n"
-"пошуку в LDAP, створення та виправлення контактів. "
+msgstr "Вибір цього параметру дозволить вам змінити типові параметри Evolution\n"
+"для виконання пошуку в LDAP, створення та виправлення контактів. "
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Specifying a display name is the last required step in configuring an LDAP server."
-msgstr "Вказування відображуваного імені - останній крок у налаштовуванні сервера LDAP."
+msgstr "Вказання відображуваного імені є останнім короком у налаштовуванні сервера LDAP."
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 msgid "Step 1: Server Information"
@@ -1059,7 +1059,7 @@ msgstr "Підтримувані бази пошуку"
 msgid "The first step in configuring an LDAP server is to provide its name, and your log in\n"
 "information. Please ask your system administrator if you are unsure of this information."
 msgstr "Перший крок у налаштовуванні сервера LDAP — вказати його назву та інформацію про підключення\n"
-"до нього. Якщо ви не впевнені - зверніться до системного адміністратора."
+"до нього. Якщо ви не впевнені — зверніться до системного адміністратора."
 
 #: addressbook/gui/component/ldap-config.glade.h:57
 msgid ""
@@ -1068,7 +1068,7 @@ msgid ""
 "need to change these options."
 msgstr ""
 "Параметри цієї сторінки визначають кількість елементів, які слід включати під час\n"
-"виконання пошуку, та час який займатиме пошук. Якщо ви хочете змінити ці параметри\n"
+"виконання пошуку, та час який займатиме пошук. Якщо ви хочете змінити ці параметри,\n"
 "зверніться до системного адміністратора."
 
 #: addressbook/gui/component/ldap-config.glade.h:60
@@ -1096,10 +1096,10 @@ msgid ""
 "about the server. Please contact your system administrator if you \n"
 "need help finding this information."
 msgstr ""
-"Цей майстер допоможе вам отримати доступ до онлайн служби каталогів,\n"
+"Цей майстер допоможе вам отримати доступ до служби каталогів,\n"
 "використовуючи сервери LDAP (Lightweight Directory Access Protocol). \n"
 "\n"
-"Додавання нового сервера LDAP потребує спеціальної інформацію про сервер.\n"
+"Додавання нового сервера LDAP потребує спеціальної інформації про сервер.\n"
 "Будь ласка, зв'яжіться з вашім системним адміністратором, якщо вам потрібна допомога\n"
 "для отримання цієї інформації."
 
@@ -1143,7 +1143,7 @@ msgstr "Використовувати _SSL/TLS:"
 
 #: addressbook/gui/component/ldap-config.glade.h:83
 msgid "Using distinguished name (DN)"
-msgstr "Використовувати відокремленe назву (DN)"
+msgstr "Використовувати відокремлену назву (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid "Using email address"
@@ -1167,7 +1167,7 @@ msgstr "_Додати"
 
 #: addressbook/gui/component/ldap-config.glade.h:87
 msgid "_Display name:"
-msgstr "_Ім'я для відображення:"
+msgstr "_Назва для відображення:"
 
 #: addressbook/gui/component/ldap-config.glade.h:88
 msgid "_Download limit:"
@@ -1205,7 +1205,7 @@ msgstr "Назва _сервера:"
 
 #: addressbook/gui/component/ldap-config.glade.h:94
 msgid "_Timeout (minutes):"
-msgstr "_Таймаут (в хвилинах):"
+msgstr "За_тримка (в хвилинах):"
 
 #: addressbook/gui/component/ldap-config.glade.h:95
 msgid "cards"
@@ -2175,7 +2175,7 @@ msgstr "Папуа Нова Гвінея"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 #: my-evolution/Locations.h:1686
 msgid "Paraguay"
-msgstr "Парагвай"
+msgstr "Параґвай"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 #: my-evolution/Locations.h:1721
@@ -7247,7 +7247,7 @@ msgstr "Америка/Розаріо"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr "Америка/Сант'яґо"
+msgstr "Америка/Сантьяґо"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
@@ -12261,7 +12261,7 @@ msgstr "Це повідомлення містить тільки одержув
 #: mail/mail-callbacks.c:322
 msgid "It is possible that the mail server may reveal the recipients by adding an Apparently-To header.\n"
 "Send anyway?"
-msgstr "Може статися, що сервер викриє отримувачів додавши їх до заголовку Apparently-To .\n"
+msgstr "Може статися, що сервер викриє отримувачів, додавши їх до заголовку Apparently-To .\n"
 "Надіслати все одно?"
 
 #: mail/mail-callbacks.c:470
@@ -24391,15 +24391,15 @@ msgstr "Мілкий град на околицях"
 
 #: my-evolution/metar.c:236
 msgid "Moderate small hail"
-msgstr "Помірний мілкий град"
+msgstr "Помірний дрібний град"
 
 #: my-evolution/metar.c:237
 msgid "Heavy small hail"
-msgstr "Сильний мілкий град"
+msgstr "Сильний дрібний град"
 
 #: my-evolution/metar.c:238
 msgid "Shallow small hail"
-msgstr "Легкий мілкий град"
+msgstr "Легкий дрібний град"
 
 #: my-evolution/metar.c:239
 msgid "Patches of small hail"
@@ -24407,11 +24407,11 @@ msgstr "Мілкий град місцями"
 
 #: my-evolution/metar.c:240
 msgid "Partial small hail"
-msgstr "Частково мілкий град"
+msgstr "Частково дрібний град"
 
 #: my-evolution/metar.c:241
 msgid "Small hailstorm"
-msgstr "Шторм із мілким градом"
+msgstr "Шторм із дрібним градом"
 
 #: my-evolution/metar.c:242
 msgid "Blowing small hail"
@@ -24419,11 +24419,11 @@ msgstr "Мілкий град та вітер"
 
 #: my-evolution/metar.c:243
 msgid "Showers of small hail"
-msgstr "Опади із мілким градом"
+msgstr "Опади із дрібним градом"
 
 #: my-evolution/metar.c:244
 msgid "Drifting small hail"
-msgstr "Дрейфуючий мілкий град"
+msgstr "Дрейфуючий дрібний град"
 
 #: my-evolution/metar.c:245
 msgid "Freezing small hail"
