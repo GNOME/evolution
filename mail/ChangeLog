@@ -1,5 +1,11 @@
 2001-07-12  Jason Leach  <jleach@ximian.com>
 
+	* mail-callbacks.c (expunge_folder): Only blank the mail display
+	if the message being viewed is one of those to be expunged.  Bug
+	#4030.
+
+2001-07-12  Jason Leach  <jleach@ximian.com>
+
 	* mail-config.c (config_read): Should be saving the
 	'identity_html_signature' and 'identity_has_html_signature" keys
 	in the /Mail/Accounts prefix (with the rest of the per-account

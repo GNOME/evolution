@@ -1634,7 +1634,14 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (fb->folder
 	    && (fb->expunging == NULL
 		|| fb->folder != fb->expunging)) {
-		mail_display_set_message(fb->mail_display, NULL);
+		CamelMessageInfo *info;
+
+		/* Only blank the mail display if the message being
+                   viewed is one of those to be expunged */
+		info = camel_folder_get_message_info (fb->folder, fb->loaded_uid);
+		if (info->flags & CAMEL_MESSAGE_DELETED)
+			mail_display_set_message (fb->mail_display, NULL);
+
 		fb->expunging = fb->folder;
 		mail_expunge_folder(fb->folder, expunged_folder, fb);
 	}
