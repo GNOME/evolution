@@ -1,5 +1,22 @@
 2004-01-26  Chris Toshok  <toshok@ximian.com>
 
+	[ Should fix #53361 and other migration problems/crashes ]
+	* gui/component/addressbook-migrate.c
+	(migrate_contact_folder_to_source): new function, takes most of
+	migrate_contact_folder's contents.  Fix some of the refcounting
+	problems though, by not unreffing dest_group, and using
+	e_group_add_source instead of e_source_set_group.
+	(migrate_contact_folder): convert to calling
+	migrate_contact_folder_to_source.
+	(create_groups): add an out parameter for *personal_source.
+	(migrate_local_folders): add personal_source as an arg, so we can
+	get the source that create_groups created/found.  Call
+	migrate_contact_folder_to_source for the personal_source.
+	(addressbook_migrate): pass personal_source to
+	migrate_local_folders.
+
+2004-01-26  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #53238 ]
 	* util/eab-destination.c (nonempty): make this accept NULL's (and
 	return FALSE for them).
