@@ -1,3 +1,7 @@
+2001-05-15  Chris Toshok  <toshok@ximian.com>
+
+	* tools/killev: add the importers.
+
 2001-05-14  Kevin Breit  <battery841@mediaone.net>
 
 	* doc/C/evolution-C.omf: added file for Scrollkeeper

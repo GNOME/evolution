@@ -29,3 +29,9 @@ $killcmd -9 lt-evolution-exe 2>/dev/null
 $killcmd -9 evolution 2>/dev/null
 $killcmd -9 rdf-summary 2>/dev/null
 $killcmd -9 lt-rdf-summary 2>/dev/null
+$killcmd -9 evolution-elm-importer 2>/dev/null
+$killcmd -9 evolution-elm-im 2>/dev/null
+$killcmd -9 evolution-pine-importer 2>/dev/null
+$killcmd -9 evolution-pine-i 2>/dev/null
+$killcmd -9 evolution-netscape-importer 2>/dev/null
+$killcmd -9 evolution-netsca 2>/dev/null
