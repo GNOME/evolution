@@ -1273,7 +1273,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ N_("Group By This Field"),       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     NULL, 0},
 	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, 1},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
-	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, 0},
+	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, 8},
 	{ N_("Add a Column..."),           NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, 0},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
 	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, 1},
@@ -1295,7 +1295,9 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	e_popup_menu_run (ethi_context_menu, (GdkEvent *) event,
 			  1 +
 			  (col->sortable ? 0 : 2) +
-			  (ethi->table ? 0 : 4), 0, info);
+			  (ethi->table ? 0 : 4) + 
+			  ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+			  0, info);
 }
 
 static void
