@@ -1265,14 +1265,14 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 }
 
 #define INITIAL_VCARD "BEGIN:VCARD\n\
-X-EVOLUTION-FILE-AS:Helix Code, Inc.\n\
+X-EVOLUTION-FILE-AS:Ximian, Inc.\n\
 LABEL;WORK;QUOTED-PRINTABLE:101 Rogers St. Ste. 214=0ACambridge, MA 02142=0AUSA\n\
 TEL;WORK;VOICE:(617) 679-1984\n\
 TEL;WORK;FAX:(617) 679-1949\n\
-EMAIL;INTERNET:hello@helixcode.com\n\
-URL:http://www.helixcode.com/\n\
-ORG:Helix Code, Inc.;\n\
-NOTE:Welcome to the Helix Code Addressbook.\n\
+EMAIL;INTERNET:hello@ximian.com\n\
+URL:http://www.ximian.com/\n\
+ORG:Ximian, Inc.;\n\
+NOTE:Welcome to the Ximian Addressbook.\n\
 END:VCARD"
 
 static gboolean

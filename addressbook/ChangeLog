@@ -1,3 +1,8 @@
+2001-01-16  Jason Leach  <jasonleach@usa.net>
+
+	* backend/pas/pas-backend-file.c (INITIAL_VCARD): s/Helix
+	Code/Ximian/ for the initial contact card.
+
 2001-01-15  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (print_local): prevent segfaults and 
