@@ -895,15 +895,39 @@ write_default_header(CamelMimeMessage *message, MailDisplay *md,
 	}
 }
 
+static gboolean
+write_xmailer_header (CamelMimeMessage *message, MailDisplay *md,
+		      GtkHTML *html, GtkHTMLStream *stream,
+		      MailConfigXMailerDisplayStyle xm)
+{
+	const char *xmailer, *evolution;
+
+	xmailer = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Mailer");
+	if (!xmailer) {
+		xmailer = camel_medium_get_header (CAMEL_MEDIUM (message), "User-Agent");
+		if (!xmailer)
+			return FALSE;
+	}
+
+	evolution = strstr (xmailer, "Evolution");
+	if ((xm & MAIL_CONFIG_XMAILER_OTHER) ||
+	    (evolution && (xm & MAIL_CONFIG_XMAILER_EVO)))
+		write_text_header (_("Mailer"), xmailer, WRITE_BOLD, html, stream);
+
+	return evolution != NULL && (xm & MAIL_CONFIG_XMAILER_RUPERT_APPROVED);
+}
+
 #define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
 
 static void
 write_headers (CamelMimeMessage *message, MailDisplay *md,
 	       GtkHTML *html, GtkHTMLStream *stream)
 {
+	MailConfigXMailerDisplayStyle xm = mail_config_get_x_mailer_display_style ();
 	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
 	char bgcolor[7], fontcolor[7];
 	GtkStyle *style = NULL;
+	gboolean evo_icon = FALSE;
 	int i;
 
 	/* My favorite thing to do... muck around with colors so we respect people's stupid themes.
@@ -940,16 +964,20 @@ write_headers (CamelMimeMessage *message, MailDisplay *md,
 		strcpy (fontcolor, "000000");
 	}
 	
-	gtk_html_stream_printf (stream,
-				"<table width=\"100%%\" cellpadding=0 cellspacing=0>"
-				"<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0>"
-				"<tr><td></td></tr></table></td></tr>"
-				"<tr><td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
-				"<td width=\"100%%\"><font color=\"#%s\">"
-				"<table bgcolor=\"#000000\" width=\"100%%\" "
-				"cellspacing=0 cellpadding=1><tr><td>"
-				"<table bgcolor=\"#%s\" width=\"100%%\" cellpadding=0 cellspacing=0>"
-				"<tr><td><table>\n", fontcolor, bgcolor);
+	gtk_html_stream_printf (
+		stream,
+		"<table width=\"100%%\" cellpadding=0 cellspacing=0>"
+		/* Top margin */
+		"<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td></tr>"
+		/* Left margin */
+		"<tr><td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
+		/* Black border */
+		"<td width=\"100%%\"><table bgcolor=\"#000000\" width=\"100%%\" cellspacing=0 cellpadding=1>"
+		/* Main header box */
+		"<tr><td><table bgcolor=\"#%s\" width=\"100%%\" cellpadding=0 cellspacing=0>"
+		/* Internal header table */
+		"<tr valign=top><td><table><font color=\"#%s\">\n",
+		bgcolor, fontcolor);
 	
 	if (full) {
 		struct _header_raw *header;
@@ -975,12 +1003,29 @@ write_headers (CamelMimeMessage *message, MailDisplay *md,
 	} else {
 		for (i=0;i<sizeof(default_headers)/sizeof(default_headers[0]);i++)
 			write_default_header(message, md, html, stream, i, 0);
+		if (xm != MAIL_CONFIG_XMAILER_NONE)
+			evo_icon = write_xmailer_header(message, md, html, stream, xm);
 	}
 	
+	/* Close off the internal header table */
+	mail_html_write (html, stream, "</font></table></td>");
+
+	if (!md->printing && evo_icon) {
+		gtk_html_stream_printf (stream,
+					"<td align=right><table><tr><td width=16>"
+					"<img src=\"%s\">"
+					"</td></tr></table></td>",
+					mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/monkey-16.png"));
+	}
+
 	mail_html_write (html, stream,
-			 "</table></td></tr></table></td></tr></table></font></td>"
-			 "<td><table width=10 cellpadding=0 cellspacing=0><tr><td>"
-			 "</td></tr></table></td></tr></table>\n");
+			 /* Main header box */
+			 "</tr></table>"
+			 /* Black border */
+			 "</td></tr></table></td>"
+			 /* Right margin */
+			 "<td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
+			 "</tr></table>\n");
 }
 
 static void

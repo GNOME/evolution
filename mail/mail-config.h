@@ -114,6 +114,13 @@ typedef enum {
 	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
 } MailConfigNewMailNotify;
 
+typedef enum {
+	MAIL_CONFIG_XMAILER_NONE            = 0,
+	MAIL_CONFIG_XMAILER_EVO             = 1,
+	MAIL_CONFIG_XMAILER_OTHER           = 2,
+	MAIL_CONFIG_XMAILER_RUPERT_APPROVED = 4
+} MailConfigXMailerDisplayStyle;
+
 typedef struct {
 	char *name;
 	guint32 color;
@@ -233,6 +240,9 @@ MailConfigNewMailNotify mail_config_get_new_mail_notify (void);
 void                    mail_config_set_new_mail_notify (MailConfigNewMailNotify type);
 const char             *mail_config_get_new_mail_notify_sound_file (void);
 void                    mail_config_set_new_mail_notify_sound_file (const char *filename);
+
+MailConfigXMailerDisplayStyle mail_config_get_x_mailer_display_style (void);
+void                          mail_config_set_x_mailer_display_style (MailConfigXMailerDisplayStyle style);
 
 const char *mail_config_get_default_charset (void);
 void        mail_config_set_default_charset (const char *charset);

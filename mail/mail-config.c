@@ -112,6 +112,7 @@ typedef struct {
 	MailConfigForwardStyle default_forward_style;
 	MailConfigReplyStyle default_reply_style;
 	MailConfigDisplayStyle message_display_style;
+	MailConfigXMailerDisplayStyle x_mailer_display_style;
 	char *default_charset;
 	
 	GHashTable *threaded_hash;
@@ -946,6 +947,11 @@ config_read (void)
 	config->notify_filename = bonobo_config_get_string (
 		config->db, "/Mail/Notify/new_mail_notification_sound_file", NULL);
 	
+	/* X-Mailer header display */
+	config->x_mailer_display_style = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Format/x_mailer_display_style", 
+		MAIL_CONFIG_XMAILER_NONE, NULL);
+
 	/* last filesel dir */
 	config->last_filesel_dir = bonobo_config_get_string (
 		config->db, "/Mail/Filesel/last_filesel_dir", NULL);
@@ -1309,6 +1315,11 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_sound_file",
 					  config->notify_filename, NULL);
+	
+	/* X-Mailer Display */
+	bonobo_config_set_long (config->db, 
+				"/Mail/Format/x_mailer_display_style", 
+				config->x_mailer_display_style, NULL);
 	
 	/* last filesel dir */
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filesel/last_filesel_dir",
@@ -2130,6 +2141,18 @@ mail_config_set_new_mail_notify_sound_file (const char *filename)
 {
 	g_free (config->notify_filename);
 	config->notify_filename = g_strdup (filename);
+}
+
+MailConfigXMailerDisplayStyle
+mail_config_get_x_mailer_display_style (void)
+{
+	return config->x_mailer_display_style;
+}
+
+void
+mail_config_set_x_mailer_display_style (MailConfigXMailerDisplayStyle style)
+{
+	config->x_mailer_display_style = style;
 }
 
 const char *

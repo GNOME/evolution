@@ -1,3 +1,14 @@
+2002-04-10  Dan Winship  <danw@ximian.com>
+
+	* mail-config.c (config_read, mail_config_write,
+	mail_config_get_x_mailer_display_style,
+	mail_config_set_x_mailer_display_style): Handle the X-Mailer
+	display style. (There is currently no GUI for configuring this.)
+
+	* mail-format.c (write_headers, write_xmailer_header): Show
+	X-Mailer/User-Agent (and Rupert's stamp of approval) as
+	appropriate.
+	
 2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (setup_service): Kludge around the brokeness
