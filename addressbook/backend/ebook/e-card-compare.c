@@ -351,6 +351,7 @@ match_search_info_free (MatchSearchInfo *info)
 		if (info->avoid) {
 			g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
 			g_list_free (info->avoid);
+			info->avoid = NULL;
 		}
 
 		g_free (info);

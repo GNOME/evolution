@@ -1,5 +1,11 @@
 2001-07-05  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card-compare.c (match_search_info_free): Set
+	info->avoid = NULL.  This shouldn't make a difference, but it
+	can't hurt.
+
+2001-07-05  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-table-adapter.c
 	(addressbook_is_cell_editable): Check if the row is within our
 	table and return from this function as if the card is a standard
