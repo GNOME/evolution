@@ -236,8 +236,11 @@ rule_match_thread (RuleContext *context, FilterRule *rule, const char *msgid)
 	
 	element = filter_part_find_element (part, "header-type");
 	filter_option_set_current ((FilterOption *) element, "contains");
+
+	element = filter_part_find_element (part, "header-field");
+	filter_input_set_value ((FilterInput *) element, "References");
 	
-	element = filter_part_find_element (part, "header");
+	element = filter_part_find_element (part, "word");
 	filter_input_set_value ((FilterInput *) element, msgid);
 }
 

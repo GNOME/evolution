@@ -1,3 +1,18 @@
+2003-12-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-autofilter.c (rule_match_thread): changed to setup the rule
+	part properly, it could never have worked.  Bug #51601.
+
+	* em-popup.c (emp_uri_popup_address_add): implement.
+
+	* em-folder-view.c (emfv_popup_add_sender): implement.
+	(emfv_add_sender_addressbook): hook up to above func.
+
+	* em-utils.c (em_utils_add_address): implementation to add an
+	email address to the addressbook.
+	(emu_add_address_cb): callback required for funny api.  Bug
+	#51321.
+
 2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (drop_uid_list): Moved here.

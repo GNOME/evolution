@@ -88,6 +88,8 @@ void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const c
 void em_utils_save_part(struct _GtkWidget *parent, const char *prompt, struct _CamelMimePart *part);
 void em_utils_save_messages (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 
+void em_utils_add_address(struct _GtkWidget *parent, const char *email);
+
 void em_utils_flag_for_followup (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_completed (struct _GtkWidget *parent, struct _CamelFolder *folder, GPtrArray *uids);

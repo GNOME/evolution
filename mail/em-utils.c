@@ -1443,6 +1443,48 @@ em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 	gtk_widget_show((GtkWidget *)filesel);
 }
 
+/* ********************************************************************** */
+
+static void
+emu_add_address_cb(BonoboListener *listener, const char *name, const CORBA_any *any, CORBA_Environment *ev, void *data)
+{
+	char *type = bonobo_event_subtype(name);
+	
+	if (!strcmp(type, "Destroy"))
+		gtk_widget_destroy((GtkWidget *)data);
+	
+	g_free(type);
+}
+
+/**
+ * em_utils_add_address:
+ * @parent: 
+ * @email: 
+ * 
+ * Add address @email to the addressbook.
+ **/
+void em_utils_add_address(struct _GtkWidget *parent, const char *email)
+{
+	GtkWidget *win;
+	GtkWidget *control;
+	/*GtkWidget *socket;*/
+
+	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title((GtkWindow *)win, _("Add address"));
+	
+	control = bonobo_widget_new_control("OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION, CORBA_OBJECT_NIL);
+	bonobo_widget_set_property((BonoboWidget *)control, "email", TC_CORBA_string, email, NULL);
+	
+	bonobo_event_source_client_add_listener(bonobo_widget_get_objref((BonoboWidget *)control), emu_add_address_cb, NULL, NULL, win);
+	
+	/*socket = find_socket (GTK_CONTAINER (control));
+	  g_object_weak_ref ((GObject *) socket, (GWeakNotify) gtk_widget_destroy, win);*/
+
+	gtk_container_add((GtkContainer *)win, control);
+	gtk_widget_show_all(win);
+}
+
+/* ********************************************************************** */
 /* Flag-for-Followup... */
 
 /* tag-editor callback data */

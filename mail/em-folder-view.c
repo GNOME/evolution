@@ -630,8 +630,17 @@ emfv_popup_label_set(GtkWidget *w, struct _emfv_label_item *item)
 static void
 emfv_popup_add_sender(GtkWidget *w, EMFolderView *emfv)
 {
-	/* FIXME */
-	printf("UNIMPLEMENTED: add sender to addressbook\n");
+	GPtrArray *uids = message_list_get_selected(emfv->list);
+	CamelMessageInfo *info;
+	const char *addr;
+
+	if (uids->len == 1
+	    && (info = camel_folder_get_message_info(emfv->folder, uids->pdata[0])) != NULL
+	    && (addr = camel_message_info_from(info)) != NULL
+	    && addr[0] != 0)
+		em_utils_add_address((GtkWidget *)emfv, addr);
+
+	em_utils_uids_free(uids);
 }
 
 static void
@@ -824,6 +833,7 @@ from(BonoboUIComponent *uid, void *data, const char *path)	\
 	to(NULL, (EMFolderView *)data);				\
 }
 
+EMFV_MAP_CALLBACK(emfv_add_sender_addressbook, emfv_popup_add_sender)
 EMFV_MAP_CALLBACK(emfv_message_apply_filters, emfv_popup_apply_filters)
 EMFV_MAP_CALLBACK(emfv_message_copy, emfv_popup_copy)
 EMFV_MAP_CALLBACK(emfv_message_move, emfv_popup_move)
@@ -931,15 +941,6 @@ emfv_mail_previous_unread(BonoboUIComponent *uid, void *data, const char *path)
 	EMFolderView *emfv = data;
 
 	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN, TRUE);
-}
-
-static void
-emfv_add_sender_addressbook(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	
-	emfv = emfv;
-	/* FIXME: need to find out what the new addressbook API is for this... */
 }
 
 static void

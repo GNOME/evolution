@@ -22,6 +22,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-string-utils.h>
+#include <camel/camel-url.h>
 
 static void emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data);
 
@@ -678,7 +679,18 @@ emp_uri_popup_address_send (GtkWidget *w, EMPopupTarget *t)
 static void
 emp_uri_popup_address_add(GtkWidget *w, EMPopupTarget *t)
 {
-	printf("UNIMPLEMENTED: Add address '%s'\n", t->data.uri);
+	CamelURL *url;
+
+	url = camel_url_new(t->data.uri, NULL);
+	if (url == NULL) {
+		g_warning("cannot parse url '%s'", t->data.uri);
+		return;
+	}
+
+	if (url->path && url->path[0])
+		em_utils_add_address(w, url->path);
+
+	camel_url_free(url);
 }
 
 static EMPopupItem emp_standard_uri_popups[] = {
