@@ -889,27 +889,6 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 	}
 }
 
-static GNOME_Evolution_ShellView
-retrieve_shell_view_interface_from_control (BonoboControl *control)
-{
-	Bonobo_ControlFrame control_frame;
-	GNOME_Evolution_ShellView shell_view_interface;
-	CORBA_Environment ev;
-
-	control_frame = bonobo_control_get_control_frame (control, NULL);
-
-	if (control_frame == NULL)
-		return CORBA_OBJECT_NIL;
-
-	CORBA_exception_init (&ev);
-	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
-							       "IDL:GNOME/Evolution/ShellView:" BASE_VERSION,
-							       &ev);
-	CORBA_exception_free (&ev);
-
-	return shell_view_interface;
-}
-
 static void
 set_status_message (EABView *eav, const char *message, AddressbookView *view)
 {
@@ -977,42 +956,6 @@ search_result (EABView *eav, EBookViewStatus status, AddressbookView *view)
 		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 		gtk_widget_show (dialog);
 	}
-}
-
-static void
-set_folder_bar_label (EABView *eav, const char *message, AddressbookView *view)
-{
-	CORBA_Environment ev;
-	GNOME_Evolution_ShellView shell_view_interface;
-
-	CORBA_exception_init (&ev);
-
-	shell_view_interface = retrieve_shell_view_interface_from_control (view->control);
-	if (!shell_view_interface) {
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	d(g_message("Updating via ShellView"));
-
-	if (message == NULL || message[0] == 0) {
-		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view_interface,
-							     "",
-							     &ev);
-	}
-	else {
-		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view_interface,
-							     message,
-							     &ev);
-	}
-
-	if (BONOBO_EX (&ev))
-		g_warning ("Exception in label update: %s",
-			   bonobo_exception_get_text (&ev));
-
-	CORBA_exception_free (&ev);
-
-	bonobo_object_release_unref (shell_view_interface, NULL);
 }
 
 static int
@@ -1128,9 +1071,6 @@ addressbook_new_control (void)
 
 	g_signal_connect (view->view, "search_result",
 			  G_CALLBACK(search_result), view);
-
-	g_signal_connect (view->view, "folder_bar_message",
-			  G_CALLBACK(set_folder_bar_label), view);
 
 	g_signal_connect (view->view, "command_state_change",
 			  G_CALLBACK(update_command_state), view);

@@ -1,5 +1,12 @@
 2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook.c
+	(retrieve_shell_view_interface_from_control): Remove.
+	(set_folder_bar_label): Remove.
+	(addressbook_new_control): Don't connect.
+
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook-config.c: Do not depend on
 	e-folder-list.
 
