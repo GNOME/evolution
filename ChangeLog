@@ -1,3 +1,8 @@
+2004-01-12  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: compile flags for the test component and a
+	conditional compile
+
 2004-01-11  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: dont kill the quote

@@ -1104,6 +1104,12 @@ else
 	AC_MSG_ERROR(no)
 fi
 
+dnl --- evolution-test flags
+
+EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 >= $BONOBOUI_REQUIRED libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
+AC_SUBST(EVOLUTION_TEST_CFLAGS)
+AC_SUBST(EVOLUTION_TEST_LIBS)
+
 dnl *******************
 dnl Special directories
 dnl *******************
