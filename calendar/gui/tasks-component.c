@@ -538,9 +538,9 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
 
-	/* FIXME temporary for testing.  */
+	/* The tasks component doesn't use the status bar so just return an empty label.  */
 	{
-		GtkLabel *label = gtk_label_new ("Hey hey this is the tasks component");
+		GtkLabel *label = gtk_label_new ("");
 		BonoboControl *control;
 
 		gtk_widget_show (label);

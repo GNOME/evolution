@@ -23,7 +23,6 @@
 #include "e-select-names.h"
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
-#include "e-folder-list.h"
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/util/eab-destination.h>
 #include "addressbook/gui/component/addressbook.h"
@@ -394,6 +393,7 @@ open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 static void
 load_completion_books (ESelectNamesManager *manager)
 {
+#if 0
 	EFolderListItem *folders = e_folder_list_parse_xml (manager->cached_folder_list);
 	EFolderListItem *f;
 
@@ -415,6 +415,7 @@ load_completion_books (ESelectNamesManager *manager)
 		g_object_unref (source);
 	}
 	e_folder_list_free_items (folders);
+#endif
 }
 
 static void
@@ -610,7 +611,6 @@ clear_widget (gpointer data, GObject *where_object_was)
 
 void
 e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
-					EvolutionShellClient *shell_client,
 					const char *id)
 {
 	g_return_if_fail (E_IS_SELECT_NAMES_MANAGER (manager));
@@ -627,7 +627,7 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 
 		GList *iter;
 
-		manager->names = E_SELECT_NAMES (e_select_names_new (shell_client));
+		manager->names = E_SELECT_NAMES (e_select_names_new ());
 
 		for (iter = manager->sections; iter != NULL; iter = g_list_next (iter)) {
 			ESelectNamesManagerSection *section = iter->data;

@@ -1,3 +1,35 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-config.c: Do not depend on
+	e-folder-list.
+
+	* gui/component/select-names/e-select-names.c: Remove dependency
+	on evolution-folder-selector-button.
+	(e_addressbook_create_folder_selector): Just return a FIXME label
+	for now.
+	(folder_selected): #if 0 out.
+	(e_select_names_init): Do not connect.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_activate_dialog): Don't get a shell_client
+	arg anymore.
+	(load_completion_books): Stub out.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_new): Don't get an EvolutionShellClient anymore.
+	Don't create the folder selector button for now.
+
+	* gui/component/select-names/e-select-names.h: Remove dependency
+	on evolution-shell-client.
+
+	* gui/component/select-names/e-select-names-bonobo.c: Remove
+	dependency on evolution-shell-client.
+	(impl_SelectNames_activate_dialog): Stub out.
+
+	* gui/widgets/eab-gui-util.c: Remove dependency on
+	evolution-shell-client.
+	(eab_transfer_contacts): Stub out.
+
 2003-12-02  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/Makefile.am: Version the schemas

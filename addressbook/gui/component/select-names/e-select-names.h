@@ -27,7 +27,6 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 
-#include "evolution-shell-client.h"
 #include "e-addressbook-model.h"
 
 #include "e-select-names-model.h"
@@ -85,8 +84,9 @@ struct _ESelectNamesClass
 };
 
 
-GtkWidget *e_select_names_new          (EvolutionShellClient *shell_client);
 GType      e_select_names_get_type     (void);
+
+GtkWidget *e_select_names_new          (void);
 
 void       e_select_names_add_section  (ESelectNames         *e_select_names,
 				       	const char           *name,

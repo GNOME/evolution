@@ -30,7 +30,6 @@
 #include "addressbook-config.h"
 
 #include "evolution-config-control.h"
-#include <shell/e-folder-list.h>
 
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-table-scrolled.h>

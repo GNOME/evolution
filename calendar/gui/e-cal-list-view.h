@@ -30,7 +30,6 @@
 
 #include "e-cal-view.h"
 #include "gnome-cal.h"
-#include "evolution-activity-client.h"
 
 #ifdef __cplusplus
 extern "C" {

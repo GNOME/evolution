@@ -32,7 +32,6 @@
 
 #include "e-cal-view.h"
 #include "gnome-cal.h"
-#include "evolution-activity-client.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -449,9 +448,6 @@ struct _EDayView
 	gchar *pm_string;
 	gint am_string_width;
 	gint pm_string_width;
-
-	/* The activity client used to show messages on the status bar. */
-	EvolutionActivityClient *activity;
 };
 
 struct _EDayViewClass

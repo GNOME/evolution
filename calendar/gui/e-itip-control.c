@@ -47,8 +47,6 @@
 #include <libecal/e-cal.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <evolution-shell-client.h>
-#include <evolution-folder-selector-button.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include "dialogs/delete-error.h"
 #include "calendar-config.h"
@@ -156,6 +154,7 @@ start_default_server (EItipControl *itip, ECal *client, gboolean tasks)
 	else
 		return e_cal_open_default_calendar (client, FALSE);
 #endif
+	return FALSE;
 }
 
 #if 0				/* EPFIXME, rewrite this */
@@ -2079,6 +2078,7 @@ send_freebusy (EItipControl *itip)
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
+#if 0				/* FIXME */
 static void
 button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder, gpointer data)
 {
@@ -2100,6 +2100,7 @@ button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folde
 
 	g_free (uri);
 }
+#endif
 
 static void
 url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
@@ -2181,7 +2182,9 @@ default_server_started_cb (ECal *client, ECalendarStatus status, gpointer data)
 		button = NULL;
 	}
 
+#if 0
 	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), context->itip);
+#endif
 	
 	gtk_container_add (GTK_CONTAINER (context->eb), button);
 	gtk_widget_show (button);

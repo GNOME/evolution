@@ -1,3 +1,24 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/icalendar-importer.c: Do not #include shell stuff.
+
+	* gui/main.c: Do not #include <evolution-shell-client.h>.
+
+	* gui/e-itip-control.c: Do not #include
+	<e-folder-selector-button.h> nor <evolution-shell-client.h>.
+	(start_default_server): Return FALSE.
+	(default_server_started_cb): Do not connect the "selected" signal
+	on the button since it's now NULL.
+	(button_selected_cb): #if 0 out.
+
+	* gui/e-cal-list-view.h: Do not #include
+	"evolution-activity-client.h".
+
+	* gui/tasks-component.c (impl_createControls): Give an empty label
+	for the status bar.
+
+	* gui/e-day-view.h: Remove all deps on evolution-activity-client.
+
 2003-12-02  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/Makefile.am: Version the schemas

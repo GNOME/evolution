@@ -38,8 +38,6 @@
 #include <gal/e-text/e-entry.h>
 #include <gal/util/e-text-event-processor.h>
 
-#include "evolution-shell-client.h"
-
 #include "Evolution-Addressbook-SelectNames.h"
 
 #include "e-select-names-manager.h"
@@ -491,6 +489,7 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 				  const CORBA_char *section_id,
 				  CORBA_Environment *ev)
 {
+#if 0				/* FIXME */
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
 	EvolutionShellClient *shell_client;
@@ -510,6 +509,7 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 	e_select_names_manager_activate_dialog (priv->manager, shell_client,
 						section_id);
 	g_object_unref (shell_client);
+#endif
 }
 
 

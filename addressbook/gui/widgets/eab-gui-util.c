@@ -33,8 +33,6 @@
 
 #include <gnome.h>
 
-#include <shell/evolution-shell-client.h>
-
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 
@@ -496,6 +494,7 @@ got_book_cb (EBook *book, EBookStatus status, gpointer closure)
 void
 eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
 {
+#if 0
 	EBook *dest;
 	const char *allowed_types[] = { "contacts/*", NULL };
 	GNOME_Evolution_Folder *folder;
@@ -521,14 +520,10 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 			desc = _("Copy contacts to");
 	}
 
-#if 0                           /* EPFIXME */
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   parent_window,
 						   desc, last_uri, allowed_types,
 						   &folder);
-#else
-	folder = NULL;
-#endif
 
 	if (!folder)
 		return;
@@ -554,6 +549,7 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 	e_book_async_load_uri (dest, folder->physicalUri, got_book_cb, process);
 
 	CORBA_free (folder);
+#endif
 }
 
 #include <Evolution-Composer.h>

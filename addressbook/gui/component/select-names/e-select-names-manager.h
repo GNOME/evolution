@@ -62,7 +62,6 @@ ESelectNamesModel   *e_select_names_manager_get_source             (ESelectNames
 GtkWidget           *e_select_names_manager_create_entry           (ESelectNamesManager *manager,
 							            const char *id);
 void                 e_select_names_manager_activate_dialog        (ESelectNamesManager *manager,
-								    EvolutionShellClient *shell_client,
 							            const char *id);
 /* Standard Gtk function */			      
 GType                e_select_names_manager_get_type               (void);

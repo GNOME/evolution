@@ -35,8 +35,6 @@
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook.h>
-#include <shell/evolution-shell-client.h>
-#include <shell/evolution-folder-selector-button.h>
 
 #include "e-select-names.h"
 #include "e-select-names-table-model.h"
@@ -336,9 +334,10 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 GtkWidget *
 e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2)
 {
-	return g_object_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON, NULL);
+	return gtk_label_new ("FIXME");
 }
 
+#if 0				/* FIXME */
 static void
 folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder,
 		 ESelectNames *e_select_names)
@@ -348,6 +347,7 @@ folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *
 	e_config_listener_set_string (eab_get_config_database(),
 				      "/apps/evolution/addressbook/select_names/last_used_uri", folder->physicalUri);
 }
+#endif
 
 static void
 update_query (GtkWidget *widget, ESelectNames *e_select_names)
@@ -560,9 +560,11 @@ e_select_names_init (ESelectNames *e_select_names)
 				 G_CALLBACK(update_query), e_select_names);
 
 	button = glade_xml_get_widget (gui, "folder-selector");
+#if 0				/* FIXME */
 	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
 		g_signal_connect(button, "selected",
 				 G_CALLBACK(folder_selected), e_select_names);
+#endif
 	gtk_widget_show (button);
 
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "double_click",
@@ -632,7 +634,7 @@ e_select_names_dispose (GObject *object)
 }
 
 GtkWidget*
-e_select_names_new (EvolutionShellClient *shell_client)
+e_select_names_new (void)
 {
 	ESelectNames *e_select_names;
 	const char *selector_types[] = { "contacts/*", NULL };
@@ -652,11 +654,14 @@ e_select_names_new (EvolutionShellClient *shell_client)
 #endif
 
 	button = glade_xml_get_widget (e_select_names->gui, "folder-selector");
+
+#if 0				/* FIXME */
 	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
 						    shell_client,
 						    _("Find contact in"),
 						    contacts_uri,
 						    selector_types);
+#endif
 
 	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
 
