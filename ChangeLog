@@ -1,3 +1,7 @@
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add addressbook/tools/Makefile to AC_OUTPUT.
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* tools/Makefile.am (privlibexec_SCRIPTS, privlibexec_PROGRAMS):
