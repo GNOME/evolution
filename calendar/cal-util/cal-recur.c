@@ -1044,7 +1044,7 @@ generate_instances_for_chunk (CalComponent	*comp,
 
 	/* Add on specific exception dates. */
 	for (elem = exdates; elem; elem = elem->next) {
-		struct icaltimetype *it;
+		CalComponentDateTime *cdt;
 		time_t t;
 
 		/* FIXME we should only be dealing with dates, not times too.
@@ -1052,8 +1052,8 @@ generate_instances_for_chunk (CalComponent	*comp,
 		   No, I think it is supposed to be dates & times - Damon.
 		   I'm not sure what the semantics of just a date would be,
 		   since the event could recur several times each day. */
-		it = elem->data;
-		t = icaltime_as_timet (*it);
+		cdt = elem->data;
+		t = icaltime_as_timet (*cdt->value);
 		cal_object_time_from_time (&cotime, t);
 
 		g_array_append_val (ex_occs, cotime);

@@ -1,5 +1,46 @@
 2000-11-08  Federico Mena Quintero  <federico@helixcode.com>
 
+	These changes fix bugzilla bugs #874 and #875.
+
+	* cal-util/cal-component.c (cal_component_get_exdate_list): Return
+	a list of CalComponentDateTime instead of simple struct
+	icaltimetype objects.  Exception date properties *can* contain a
+	timezone parameter, so we need to include those if they are
+	present.
+	(cal_component_set_exdate_list): On the input, handle a list of
+	CalComponentDateTime structures.  On the internals, handle a list
+	of struct datetime instead of plain properties.
+	(cal_component_free_exdate_list): Handle a list of
+	CalComponentDateTime structures.
+	(scan_exdate): Create a list of struct datetime structures.
+	(free_icalcomponent): Free the exdate_list properly.
+
+	* cal-util/cal-recur.c (generate_instances_for_chunk): Use the
+	proper types for exception dates.
+
+	* gui/comp-util.h:
+	* gui/comp-util.c: New files with utilities for manipulating
+	calendar component objects.
+	(cal_comp_util_add_exdate): New function.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	comp-util.[ch] to the list of sources.
+
+	* gui/e-day-view.c (add_exdate): New convenience function to add
+	an exception date to a calendar component.
+	(e_day_view_on_unrecur_appointment): Use cal_comp_util_add_exdate().
+	(e_day_view_on_delete_occurrence): Likewise.
+
+	* gui/e-week-view.c (e_week_view_on_delete_occurrence): Likewise.
+	(e_week_view_on_unrecur_appointment): Likewise.
+
+	* gui/event-editor.c (nth_weekday): Be paranoid about valid
+	position values.
+	(fill_widgets): Use the proper types for exdates.
+	(dialog_to_comp_object): Likewise.
+
+2000-11-08  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (adjust_day_index_spin): Adjust the valid
 	range of the month index spin button depending on the selection of
 	the day/weekday menu.

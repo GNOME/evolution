@@ -32,6 +32,7 @@
 #include <gnome.h>
 #include <gdk/gdkx.h>
 #include <cal-util/timeutil.h>
+#include "comp-util.h"
 #include "e-day-view.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
@@ -368,12 +369,12 @@ static void e_day_view_on_main_canvas_drag_data_received (GtkWidget      *widget
 							  guint           info,
 							  guint           time,
 							  EDayView	 *day_view);
-#ifndef NO_WARNINGS
+
 static gboolean e_day_view_update_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
 					    gpointer data);
-#endif
+
 static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
@@ -1325,9 +1326,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		else
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-#ifndef NO_WARNINGS
 #warning "FIXME"
-#endif
 
 		/* Do this the long way every time for now */
 #if 0
@@ -1423,7 +1422,6 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 }
 
 
-#ifndef NO_WARNINGS
 static gboolean
 e_day_view_update_event_cb (EDayView *day_view,
 			    gint day,
@@ -1459,7 +1457,6 @@ e_day_view_update_event_cb (EDayView *day_view,
 	}
 	return TRUE;
 }
-#endif
 
 
 /* This calls a given function for each event instance that matches the given
@@ -2749,8 +2746,6 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	CalComponent *comp;
-	struct icaltimetype *time;
-	GSList *list;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2761,12 +2756,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
-	cal_component_get_exdate_list (comp, &list);
-	time = g_new0 (struct icaltimetype, 1);
-	*time = icaltime_from_timet (event->start, FALSE, FALSE);
-	list = g_slist_append (list, time);
-	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE, FALSE));
 
 	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
@@ -2808,7 +2798,6 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	CalComponent *comp, *new_comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
-	GSList *list;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -2816,17 +2805,11 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	date.value = &itt;
-	date.tzid = NULL;
-
-	/* For the recurring object, we add a exception to get rid of the
+	/* For the recurring object, we add an exception to get rid of the
 	   instance. */
+
 	comp = cal_component_clone (event->comp);
-	cal_component_get_exdate_list (comp, &list);
-	*date.value = icaltime_from_timet (event->start, FALSE, FALSE);
-	list = g_slist_append (list, &date);
-	cal_component_set_exdate_list (comp, list);
-	g_slist_free (list);
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE, FALSE));
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -2837,6 +2820,9 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_rrule_list (new_comp, NULL);
 	cal_component_set_exdate_list (new_comp, NULL);
 	cal_component_set_exrule_list (new_comp, NULL);
+
+	date.value = &itt;
+	date.tzid = NULL;
 
 	*date.value = icaltime_from_timet (event->start, FALSE, FALSE);
 	cal_component_set_dtstart (new_comp, &date);
@@ -2986,9 +2972,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 					day_view->pressed_event_num);
 
 		if (!(cal_component_has_recurrences (event->comp))
-		    && (abs (canvas_x - day_view->drag_event_x) 
+		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
-			|| abs (canvas_y - day_view->drag_event_y) 
+			|| abs (canvas_y - day_view->drag_event_y)
 			> E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
@@ -3092,9 +3078,9 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
 
 		if (!cal_component_has_recurrences (event->comp)
-		    && (abs (canvas_x - day_view->drag_event_x) 
+		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
-			|| abs (canvas_y - day_view->drag_event_y) 
+			|| abs (canvas_y - day_view->drag_event_y)
 			> E_DAY_VIEW_DRAG_START_OFFSET)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;

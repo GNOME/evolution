@@ -32,6 +32,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "calendar-commands.h"
+#include "comp-util.h"
 #include "e-week-view.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-main-item.h"
@@ -873,10 +874,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
-#ifndef NO_WARNINGS
 #warning "FIXME"
-#endif
-
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
@@ -3045,8 +3043,6 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	CalComponent *comp;
-	CalComponentDateTime *date=NULL;
-	GSList *list;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3060,13 +3056,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	   when we get the "update_event" callback. */
 
 	comp = cal_component_clone (event->comp);
-	cal_component_get_exdate_list (comp, &list);
-	list = g_slist_append (list, date);
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, FALSE);
-	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE, FALSE));
 
 	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
@@ -3107,7 +3097,6 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	CalComponent *comp, *new_comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
-	GSList *list;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3117,17 +3106,10 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	date.value = &itt;
-	date.tzid = NULL;
-
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	comp = cal_component_clone (event->comp);
-	cal_component_get_exdate_list (comp, &list);
-	*date.value = icaltime_from_timet (event->start, TRUE, FALSE);
-	list = g_slist_append (list, &date);
-	cal_component_set_exdate_list (comp, list);
-	g_slist_free (list);
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE, FALSE));
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3138,6 +3120,9 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_rrule_list (new_comp, NULL);
 	cal_component_set_exdate_list (new_comp, NULL);
 	cal_component_set_exrule_list (new_comp, NULL);
+
+	date.value = &itt;
+	date.tzid = NULL;
 
 	*date.value = icaltime_from_timet (event->start, TRUE, FALSE);
 	cal_component_set_dtstart (new_comp, &date);

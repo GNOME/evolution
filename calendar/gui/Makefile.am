@@ -67,6 +67,8 @@ evolution_calendar_SOURCES =			\
 	calendar-commands.h			\
 	calendar-model.c			\
 	calendar-model.h			\
+	comp-util.c				\
+	comp-util.h				\
 	control-factory.c			\
 	control-factory.h			\
 	component-factory.c			\

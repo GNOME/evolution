@@ -70,7 +70,7 @@ struct _CalComponentPrivate {
 
 	struct datetime due;
 
-	GSList *exdate_list; /* list of icalproperty objects */
+	GSList *exdate_list; /* list of struct datetime */
 	GSList *exrule_list; /* list of icalproperty objects */
 
 	icalproperty *geo;
@@ -242,8 +242,7 @@ free_icalcomponent (CalComponent *comp)
 	priv->due.prop = NULL;
 	priv->due.tzid_param = NULL;
 
-	g_slist_free (priv->exdate_list);
-	priv->exdate_list = NULL;
+	priv->exdate_list = free_slist (priv->exdate_list);
 
 	g_slist_free (priv->exrule_list);
 	priv->exrule_list = NULL;
@@ -348,10 +347,10 @@ cal_component_new (void)
 /**
  * cal_component_clone:
  * @comp: A calendar component object.
- * 
+ *
  * Creates a new calendar component object by copying the information from
  * another one.
- * 
+ *
  * Return value: A newly-created calendar component with the same values as the
  * original one.
  **/
@@ -410,9 +409,15 @@ static void
 scan_exdate (CalComponent *comp, icalproperty *prop)
 {
 	CalComponentPrivate *priv;
+	struct datetime *dt;
 
 	priv = comp->priv;
-	priv->exdate_list = g_slist_append (priv->exdate_list, prop);
+
+	dt = g_new (struct datetime, 1);
+	dt->prop = prop;
+	dt->tzid_param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+	priv->exdate_list = g_slist_append (priv->exdate_list, dt);
 }
 
 /* Scans an icalperiodtype property */
@@ -860,8 +865,8 @@ cal_component_get_as_string (CalComponent *comp)
 
 /**
  * cal_component_commit_sequence:
- * @comp: 
- * 
+ * @comp:
+ *
  * Increments the sequence number property in a calendar component object if it
  * needs it.  This needs to be done when any of a number of properties listed in
  * RFC 2445 change values, such as the start and end dates of a component.
@@ -1976,9 +1981,9 @@ set_period_list (CalComponent *comp,
  * cal_component_get_exdate_list:
  * @comp: A calendar component object.
  * @exdate_list: Return value for the list of exception dates, as a list of
- * struct #icaltimetype structures.  This should be freed using the
+ * #CalComponentDateTime structures.  This should be freed using the
  * cal_component_free_exdate_list() function.
- * 
+ *
  * Queries the list of exception date properties in a calendar component object.
  **/
 void
@@ -1997,15 +2002,22 @@ cal_component_get_exdate_list (CalComponent *comp, GSList **exdate_list)
 	*exdate_list = NULL;
 
 	for (l = priv->exdate_list; l; l = l->next) {
-		icalproperty *prop;
-		struct icaltimetype *t;
+		struct datetime *dt;
+		CalComponentDateTime *cdt;
 
-		prop = l->data;
+		dt = l->data;
 
-		t = g_new (struct icaltimetype, 1);
-		*t = icalproperty_get_exdate (prop);
+		cdt = g_new (CalComponentDateTime, 1);
+		cdt->value = g_new (struct icaltimetype, 1);
 
-		*exdate_list = g_slist_prepend (*exdate_list, t);
+		*cdt->value = icalproperty_get_exdate (dt->prop);
+
+		if (dt->tzid_param)
+			cdt->tzid = icalparameter_get_tzid (dt->tzid_param);
+		else
+			cdt->tzid = NULL;
+
+		*exdate_list = g_slist_prepend (*exdate_list, cdt);
 	}
 
 	*exdate_list = g_slist_reverse (*exdate_list);
@@ -2014,8 +2026,8 @@ cal_component_get_exdate_list (CalComponent *comp, GSList **exdate_list)
 /**
  * cal_component_set_exdate_list:
  * @comp: A calendar component object.
- * @exdate_list: List of struct #icaltimetype structures.
- * 
+ * @exdate_list: List of #CalComponentDateTime structures.
+ *
  * Sets the list of exception dates in a calendar component object.
  **/
 void
@@ -2033,11 +2045,13 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 	/* Remove old exception dates */
 
 	for (l = priv->exdate_list; l; l = l->next) {
-		icalproperty *prop;
+		struct datetime *dt;
 
-		prop = l->data;
-		icalcomponent_remove_property (priv->icalcomp, prop);
-		icalproperty_free (prop);
+		dt = l->data;
+
+		icalcomponent_remove_property (priv->icalcomp, dt->prop);
+		icalproperty_free (dt->prop);
+		g_free (dt);
 	}
 
 	g_slist_free (priv->exdate_list);
@@ -2046,16 +2060,25 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 	/* Add in new exception dates */
 
 	for (l = exdate_list; l; l = l->next) {
-		icalproperty *prop;
-		struct icaltimetype *t;
+		CalComponentDateTime *cdt;
+		struct datetime *dt;
 
 		g_assert (l->data != NULL);
-		t = l->data;
+		cdt = l->data;
 
-		prop = icalproperty_new_exdate (*t);
-		icalcomponent_add_property (priv->icalcomp, prop);
+		g_assert (cdt->value != NULL);
 
-		priv->exdate_list = g_slist_prepend (priv->exdate_list, prop);
+		dt = g_new (struct datetime, 1);
+		dt->prop = icalproperty_new_exdate (*cdt->value);
+
+		if (cdt->tzid) {
+			dt->tzid_param = icalparameter_new_tzid ((char *) cdt->tzid);
+			icalproperty_add_parameter (dt->prop, dt->tzid_param);
+		} else
+			dt->tzid_param = NULL;
+
+		icalcomponent_add_property (priv->icalcomp, dt->prop);
+		priv->exdate_list = g_slist_prepend (priv->exdate_list, dt);
 	}
 
 	priv->exdate_list = g_slist_reverse (priv->exdate_list);
@@ -2066,10 +2089,10 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 /**
  * cal_component_has_exdates:
  * @comp: A calendar component object.
- * 
+ *
  * Queries whether a calendar component object has any exception dates defined
  * for it.
- * 
+ *
  * Return value: TRUE if the component has exception dates, FALSE otherwise.
  **/
 gboolean
@@ -2160,7 +2183,7 @@ set_recur_list (CalComponent *comp,
  * @recur_list: List of exception rules as struct #icalrecurrencetype
  * structures.  This should be freed using the cal_component_free_recur_list()
  * function.
- * 
+ *
  * Queries the list of exception rule properties of a calendar component
  * object.
  **/
@@ -2183,7 +2206,7 @@ cal_component_get_exrule_list (CalComponent *comp, GSList **recur_list)
  * cal_component_get_exrule_property_list:
  * @comp: A calendar component object.
  * @recur_list: Returns a list of exception rule properties.
- * 
+ *
  * Returns a list of exception rule properties of a calendar component
  * object.
  **/
@@ -2206,7 +2229,7 @@ cal_component_get_exrule_property_list (CalComponent *comp, GSList **recur_list)
  * cal_component_set_exrule_list:
  * @comp: A calendar component object.
  * @recur_list: List of struct #icalrecurrencetype structures.
- * 
+ *
  * Sets the list of exception rules in a calendar component object.
  **/
 void
@@ -2228,10 +2251,10 @@ cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list)
 /**
  * cal_component_has_exrules:
  * @comp: A calendar component object.
- * 
+ *
  * Queries whether a calendar component object has any exception rules defined
  * for it.
- * 
+ *
  * Return value: TRUE if the component has exception rules, FALSE otherwise.
  **/
 gboolean
@@ -2251,13 +2274,13 @@ cal_component_has_exrules (CalComponent *comp)
 /**
  * cal_component_has_exceptions:
  * @comp: A calendar component object
- * 
+ *
  * Queries whether a calendar component object has any exception dates
  * or exception rules.
- * 
+ *
  * Return value: TRUE if the component has exceptions, FALSE otherwise.
  **/
-gboolean 
+gboolean
 cal_component_has_exceptions (CalComponent *comp)
 {
 	return cal_component_has_exdates (comp) || cal_component_has_exrules (comp);
@@ -2268,7 +2291,7 @@ cal_component_has_exceptions (CalComponent *comp)
  * @comp: A calendar component object.
  * @geo: Return value for the geographic position property.  This should be
  * freed using the cal_component_free_geo() function.
- * 
+ *
  * Sets the geographic position property of a calendar component object.
  **/
 void
@@ -2294,7 +2317,7 @@ cal_component_get_geo (CalComponent *comp, struct icalgeotype **geo)
  * cal_component_set_geo:
  * @comp: A calendar component object.
  * @geo: Value for the geographic position property.
- * 
+ *
  * Sets the geographic position property on a calendar component object.
  **/
 void
@@ -2379,7 +2402,7 @@ cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
  * @comp: A calendar component object.
  * @percent: Return value for the percent-complete property.  This should be
  * freed using the cal_component_free_percent() function.
- * 
+ *
  * Queries the percent-complete property of a calendar component object.
  **/
 void
@@ -2405,7 +2428,7 @@ cal_component_get_percent (CalComponent *comp, int **percent)
  * cal_component_set_percent:
  * @comp: A calendar component object.
  * @percent: Value for the percent-complete property.
- * 
+ *
  * Sets the percent-complete property of a calendar component object.
  **/
 void
@@ -2444,7 +2467,7 @@ cal_component_set_percent (CalComponent *comp, int *percent)
  * @comp: A calendar component object.
  * @priority: Return value for the priority property.  This should be freed using
  * the cal_component_free_priority() function.
- * 
+ *
  * Queries the priority property of a calendar component object.
  **/
 void
@@ -2470,7 +2493,7 @@ cal_component_get_priority (CalComponent *comp, int **priority)
  * cal_component_set_priority:
  * @comp: A calendar component object.
  * @priority: Value for the priority property.
- * 
+ *
  * Sets the priority property of a calendar component object.
  **/
 void
@@ -2510,7 +2533,7 @@ cal_component_set_priority (CalComponent *comp, int *priority)
  * @period_list: Return value for the list of recurrence dates, as a list of
  * #CalComponentPeriod structures.  This should be freed using the
  * cal_component_free_period_list() function.
- * 
+ *
  * Queries the list of recurrence date properties in a calendar component
  * object.
  **/
@@ -2533,7 +2556,7 @@ cal_component_get_rdate_list (CalComponent *comp, GSList **period_list)
  * cal_component_set_rdate_list:
  * @comp: A calendar component object.
  * @period_list: List of #CalComponentPeriod structures.
- * 
+ *
  * Sets the list of recurrence dates in a calendar component object.
  **/
 void
@@ -2555,10 +2578,10 @@ cal_component_set_rdate_list (CalComponent *comp, GSList *period_list)
 /**
  * cal_component_has_rdates:
  * @comp: A calendar component object.
- * 
+ *
  * Queries whether a calendar component object has any recurrence dates defined
  * for it.
- * 
+ *
  * Return value: TRUE if the component has recurrence dates, FALSE otherwise.
  **/
 gboolean
@@ -2581,7 +2604,7 @@ cal_component_has_rdates (CalComponent *comp)
  * @recur_list: List of recurrence rules as struct #icalrecurrencetype
  * structures.  This should be freed using the cal_component_free_recur_list()
  * function.
- * 
+ *
  * Queries the list of recurrence rule properties of a calendar component
  * object.
  **/
@@ -2604,7 +2627,7 @@ cal_component_get_rrule_list (CalComponent *comp, GSList **recur_list)
  * cal_component_get_rrule_property_list:
  * @comp: A calendar component object.
  * @recur_list: Returns a list of recurrence rule properties.
- * 
+ *
  * Returns a list of recurrence rule properties of a calendar component
  * object.
  **/
@@ -2627,7 +2650,7 @@ cal_component_get_rrule_property_list (CalComponent *comp, GSList **recur_list)
  * cal_component_set_rrule_list:
  * @comp: A calendar component object.
  * @recur_list: List of struct #icalrecurrencetype structures.
- * 
+ *
  * Sets the list of recurrence rules in a calendar component object.
  **/
 void
@@ -2649,10 +2672,10 @@ cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list)
 /**
  * cal_component_has_rrules:
  * @comp: A calendar component object.
- * 
+ *
  * Queries whether a calendar component object has any recurrence rules defined
  * for it.
- * 
+ *
  * Return value: TRUE if the component has recurrence rules, FALSE otherwise.
  **/
 gboolean
@@ -2672,13 +2695,13 @@ cal_component_has_rrules (CalComponent *comp)
 /**
  * cal_component_has_recurrences:
  * @comp: A calendar component object
- * 
+ *
  * Queries whether a calendar component object has any recurrence dates or
  * recurrence rules.
- * 
+ *
  * Return value: TRUE if the component has recurrences, FALSE otherwise.
  **/
-gboolean 
+gboolean
 cal_component_has_recurrences (CalComponent *comp)
 {
 	return cal_component_has_rdates (comp) || cal_component_has_rrules (comp);
@@ -3026,9 +3049,10 @@ cal_component_free_datetime (CalComponentDateTime *dt)
 
 /**
  * cal_component_free_exdate_list:
- * @exdate_list: List of struct #icaltimetype structures.
- * 
- * Frees a list of struct #icaltimetype structures.
+ * @exdate_list: List of #CalComponentDateTime structures.
+ *
+ * Frees a list of #CalComponentDateTime structures as returned by the
+ * cal_component_get_exdate_list() function.
  **/
 void
 cal_component_free_exdate_list (GSList *exdate_list)
@@ -3036,12 +3060,15 @@ cal_component_free_exdate_list (GSList *exdate_list)
 	GSList *l;
 
 	for (l = exdate_list; l; l = l->next) {
-		struct icaltimetype *t;
+		CalComponentDateTime *cdt;
 
 		g_assert (l->data != NULL);
-		t = l->data;
+		cdt = l->data;
 
-		g_free (t);
+		g_assert (cdt->value != NULL);
+		g_free (cdt->value);
+
+		g_free (cdt);
 	}
 
 	g_slist_free (exdate_list);
@@ -3050,7 +3077,7 @@ cal_component_free_exdate_list (GSList *exdate_list)
 /**
  * cal_component_free_geo:
  * @geo: An #icalgeotype structure.
- * 
+ *
  * Frees a struct #icalgeotype structure as returned by the calendar component
  * functions.
  **/
@@ -3080,7 +3107,7 @@ cal_component_free_icaltimetype (struct icaltimetype *t)
 /**
  * cal_component_free_percent:
  * @percent: Percent value.
- * 
+ *
  * Frees a percent value as returned by the cal_component_get_percent()
  * function.
  **/
@@ -3095,7 +3122,7 @@ cal_component_free_percent (int *percent)
 /**
  * cal_component_free_priority:
  * @priority: Priority value.
- * 
+ *
  * Frees a priority value as returned by the cal_component_get_priority()
  * function.
  **/
@@ -3133,7 +3160,7 @@ cal_component_free_period_list (GSList *period_list)
 /**
  * cal_component_free_recur_list:
  * @recur_list: List of struct #icalrecurrencetype structures.
- * 
+ *
  * Frees a list of struct #icalrecurrencetype structures.
  **/
 void
@@ -3325,10 +3352,10 @@ cal_component_get_first_alarm (CalComponent *comp)
 /**
  * cal_component_get_next_alarm:
  * @comp: A calendar component object.
- * 
+ *
  * Gets the next alarm on a calendar component object.  This should be used as
  * an iterator function after calling cal_component_get_first_alarm().
- * 
+ *
  * Return value: The next alarm in the component, or NULL if the component has
  * no more alarms.  This should be freed using the cal_component_alarm_free()
  * function.

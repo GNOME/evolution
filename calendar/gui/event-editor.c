@@ -975,16 +975,12 @@ init_widgets (EventEditor *ee)
 	/* Recurrence units */
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
-	g_assert (menu != NULL);
-
 	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
 			    GTK_SIGNAL_FUNC (recur_interval_selection_done_cb), ee);
 
 	/* Recurrence ending */
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_ending_menu));
-	g_assert (menu != NULL);
-
 	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
 			    GTK_SIGNAL_FUNC (recur_ending_selection_done_cb), ee);
 
@@ -1528,11 +1524,11 @@ fill_widgets (EventEditor *ee)
 	cal_component_get_exdate_list (priv->comp, &list);
 
 	for (l = list; l; l = l->next) {
-		struct icaltimetype *t;
+		CalComponentDateTime *cdt;
 		time_t ext;
-		
-		t = l->data;
-		ext = icaltime_as_timet (*t);
+
+		cdt = l->data;
+		ext = icaltime_as_timet (*cdt->value);
 		append_exception (ee, ext);
 	}
 
@@ -1572,6 +1568,8 @@ classification_get (GtkWidget *widget)
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
+	g_assert (pos > 0 && pos <= 5);
+
 	return (pos << 3) | (int) weekday;
 }
 
@@ -1872,18 +1870,21 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	list = NULL;
 	exception_list = GTK_CLIST (priv->recurrence_exception_list);
 	for (i = 0; i < exception_list->rows; i++) {
-		struct icaltimetype *tt;
+		CalComponentDateTime *cdt;
 		time_t *tim;
-		
+
+		cdt = g_new (CalComponentDateTime, 1);
+		cdt->value = g_new (struct icaltimetype, 1);
+		cdt->tzid = NULL;
+
 		tim = gtk_clist_get_row_data (exception_list, i);
-		tt = g_new0 (struct icaltimetype, 1);
-		*tt = icaltime_from_timet (*tim, FALSE, FALSE);
+		*cdt->value = icaltime_from_timet (*tim, FALSE, FALSE);
 		
-		list = g_slist_prepend (list, tt);
+		list = g_slist_prepend (list, cdt);
 	}
+
 	cal_component_set_exdate_list (comp, list);
-	if (list)
-		cal_component_free_exdate_list (list);
+	cal_component_free_exdate_list (list);
 
 	cal_component_commit_sequence (comp);
 }
