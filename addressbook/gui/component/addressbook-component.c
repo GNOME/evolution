@@ -163,6 +163,45 @@ impl_createControls (PortableServer_Servant servant,
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
 }
 
+static GNOME_Evolution_CreatableItemTypeList *
+impl__get_userCreatableItems (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
+
+	list->_length  = 2;
+	list->_maximum = list->_length;
+	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
+
+	CORBA_sequence_set_release (list, FALSE);
+
+	list->_buffer[0].id = "contact";
+	list->_buffer[0].description = _("New Contact");
+	list->_buffer[0].menuDescription = _("_Contact");
+	list->_buffer[0].tooltip = _("Create a new contact");
+	list->_buffer[0].menuShortcut = 'c';
+	list->_buffer[0].iconName = "evolution-contacts-mini.png";
+
+	list->_buffer[1].id = "contact_list";
+	list->_buffer[1].description = _("New Contact List");
+	list->_buffer[1].menuDescription = _("Contact _List");
+	list->_buffer[1].tooltip = _("Create a new contact list");
+	list->_buffer[1].menuShortcut = 'l';
+	list->_buffer[1].iconName = "contact-list-16.png";
+
+	return list;
+}
+
+static void
+impl_requestCreateItem (PortableServer_Servant servant,
+			const CORBA_char *item_type_name,
+			CORBA_Environment *ev)
+{
+	/* FIXME: fill me in */
+
+	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+}
+
 
 /* GObject methods.  */
 
@@ -203,7 +242,9 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	epv->createControls = impl_createControls;
+	epv->createControls          = impl_createControls;
+	epv->_get_userCreatableItems = impl__get_userCreatableItems;
+	epv->requestCreateItem       = impl_requestCreateItem;
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

@@ -1,3 +1,12 @@
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c
+	(impl__get_userCreatableItems): New, implementation for the
+	userCreatableItems property.
+	(impl_requestCreateItem): New, implementation for the
+	requestCreateItem method.
+	(addressbook_component_class_init): Install.
+
 2003-11-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add
