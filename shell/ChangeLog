@@ -1,3 +1,17 @@
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-shell-component.h
+	(EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER): add this define for
+	the xml path to use when adding menu items to the folder popup.
+
+	* e-storage-set-view.c
+	(populate_folder_context_menu_with_common_items): add (#ifdef
+	DEBUG_XML) a menu item to dump the bonobo xml.
+	(popup_folder_menu): pass the BonoboUIContainer to the
+	populate_folder_context_menu CORBA call, instead of the component.
+	Also, reorder things a bit so the component doesn't get an error
+	when setting xml the first time.
+
 2001-05-11  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (dbl_click_cb): Use gnome_dialog_close

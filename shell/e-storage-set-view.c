@@ -49,6 +49,8 @@ static char *list [] = {
 };
 #endif
 
+/*#define DEBUG_XML*/
+
 #define DRAG_RESISTANCE 3	/* FIXME hardcoded in ETable to this value as
 				 * well, and there is no way for us to use the
 				 * same value as it's not exported.  */
@@ -652,6 +654,10 @@ populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_vie
 		"<submenu name=\"Folder\" _label=\"Folder\">\n"
 		"  <menuitem name=\"Activate\" verb=\"ActivateView\" _label=\"_View\" _tip=\"View the selected folder\"/>\n"
 		"  <placeholder name=\"componentPlaceholder\" delimit=\"top\"/>\n"
+#ifdef DEBUG_XML
+		"  <separator/>\n"
+		"  <menuitem name=\"Dump\" verb=\"BonoboUIDump\" _label=\"_Dump XML\" _tip=\"Dump the bonobo xml\"/>\n"
+#endif
 		"</submenu>\n";
 
 	bonobo_ui_component_add_verb (uih, "ActivateView",
@@ -695,17 +701,17 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	bonobo_ui_component_set (uih, "/",
 				 "<popups> <popup name=\"folderPopup\"/> </popups>", NULL);
 
-	evolution_shell_component_client_populate_folder_context_menu (handler,
-								       uih,
-								       e_folder_get_physical_uri (folder),
-								       e_folder_get_type_string (folder));
-
 	populate_folder_context_menu_with_common_items (storage_set_view, uih);
 
 	menu = gtk_menu_new ();
 
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),
 				 GTK_MENU (menu), "/popups/folderPopup");
+
+	evolution_shell_component_client_populate_folder_context_menu (handler,
+								       priv->container,
+								       e_folder_get_physical_uri (folder),
+								       e_folder_get_type_string (folder));
 
 	gtk_widget_show (GTK_WIDGET (menu));
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, 0);
