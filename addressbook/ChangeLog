@@ -1,3 +1,9 @@
+2003-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* backend/ebook/evolution-ldif-importer.c (load_file_fn):
+	* backend/ebook/evolution-vcard-importer.c (load_file_fn): added
+	"folder_type" parameter to EvolutionImporterLoadFileFn.
+
 2003-03-31  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book-util.c (get_local_book_uri): new function,

@@ -169,6 +169,7 @@ static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
 	      const char *uri,
+	      const char *folder_type,
 	      void *closure)
 {
 	VCardImporter *gci;
