@@ -37,22 +37,27 @@ typedef struct {
 	GtkObjectClass parent_class;
 } PASBackendSummaryClass;
 
-PASBackendSummary* pas_backend_summary_new              (const char *db_path, int flush_timeout_millis);
+PASBackendSummary* pas_backend_summary_new              (const char *summary_path,
+							 int flush_timeout_millis);
 GtkType            pas_backend_summary_get_type         (void);
 
 /* returns FALSE if the load fails for any reason (including that the
    summary is out of date), TRUE if it succeeds */
-gboolean           pas_backend_summary_load             (PASBackendSummary *summary);
+gboolean           pas_backend_summary_load       f       (PASBackendSummary *summary);
 /* returns FALSE if the save fails, TRUE if it succeeds (or isn't required due to no changes) */
-gboolean           pas_backend_summary_save             (PASBackendSummary *summary);
+gboolean           pas_backend_summary_save              (PASBackendSummary *summary);
 
-void               pas_backend_summary_add_card         (PASBackendSummary *summary, const char *vcard);
-void               pas_backend_summary_remove_card      (PASBackendSummary *summary, const char *id);
+void               pas_backend_summary_add_card          (PASBackendSummary *summary, const char *vcard);
+void               pas_backend_summary_remove_card       (PASBackendSummary *summary, const char *id);
 
-void               pas_backend_summary_touch            (PASBackendSummary *summary);
+void               pas_backend_summary_touch             (PASBackendSummary *summary);
 
-gboolean           pas_backend_summary_is_summary_query (PASBackendSummary *summary, const char *query);
-GPtrArray*         pas_backend_summary_search           (PASBackendSummary *summary, const char *query);
+/* returns TRUE if the summary's mtime is >= @t. */
+gboolean           pas_backend_summary_is_up_to_date     (PASBackendSummary *summary, time_t t);
+
+gboolean           pas_backend_summary_is_summary_query  (PASBackendSummary *summary, const char *query);
+GPtrArray*         pas_backend_summary_search            (PASBackendSummary *summary, const char *query);
+char*              pas_backend_summary_get_summary_vcard (PASBackendSummary *summary, const char *id);
 
 #define PAS_BACKEND_SUMMARY_TYPE        (pas_backend_summary_get_type ())
 #define PAS_BACKEND_SUMMARY(o)          (GTK_CHECK_CAST ((o), PAS_BACKEND_SUMMARY_TYPE, PASBackendSummary))

@@ -1306,6 +1306,47 @@ e_book_get_book_view       (EBook                 *book,
 }
 
 guint
+e_book_get_completion_view      (EBook                 *book,
+				 const gchar           *query,
+				 EBookBookViewCallback  cb,
+				 gpointer               closure)
+{
+	CORBA_Environment ev;
+	EBookViewListener *listener;
+	guint tag;
+  
+	g_return_val_if_fail (book != NULL,     0);
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_get_completion_view: No URI loaded!\n");
+		return 0;
+	}
+
+	listener = e_book_view_listener_new();
+	
+	CORBA_exception_init (&ev);
+
+	tag = e_book_queue_op (book, cb, closure, listener);
+	
+	GNOME_Evolution_Addressbook_Book_getCompletionView (book->priv->corba_book,
+							    bonobo_object_corba_objref(BONOBO_OBJECT(listener)),
+							    query, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_get_completion_view: Exception "
+			   "getting completion_view!\n");
+		CORBA_exception_free (&ev);
+		e_book_unqueue_op (book);
+		return 0;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	return tag;
+}
+
+guint
 e_book_get_changes         (EBook                 *book,
 			    gchar                 *changeid,
 			    EBookBookViewCallback  cb,

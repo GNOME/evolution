@@ -39,13 +39,16 @@
 static GtkObjectClass *parent_class;
 
 struct _PASBackendSummaryPrivate {
-	char *db_path;
 	char *summary_path;
+	FILE *fp;
 	guint32 file_version;
+	time_t mtime;
 	gboolean dirty;
 	int flush_timeout_millis;
 	int flush_timeout;
 	GPtrArray *items;
+	GHashTable *id_to_item;
+	guint32 num_items; /* used only for loading */
 #ifdef SUMMARY_STATS
 	int size;
 #endif
@@ -73,19 +76,21 @@ typedef struct {
 	guint16 email_1_len;
 	guint16 email_2_len;
 	guint16 email_3_len;
-} PASBackendSummaryDiskItem_1_0;
+} PASBackendSummaryDiskItem;
 
 typedef struct {
 	guint32 file_version;
 	guint32 num_items;
+	guint32 summary_mtime; /* version 2.0 field */
 } PASBackendSummaryHeader;
 
 #define PAS_SUMMARY_MAGIC "PAS-SUMMARY"
 #define PAS_SUMMARY_MAGIC_LEN 11
 
 #define PAS_SUMMARY_FILE_VERSION_1_0 1000
+#define PAS_SUMMARY_FILE_VERSION_2_0 2000
 
-#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_1_0
+#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_2_0
 
 static void
 free_summary_item (PASBackendSummaryItem *item)
@@ -106,17 +111,17 @@ clear_items (PASBackendSummary *summary)
 	int i;
 	for (i = 0; i < summary->priv->items->len; i++) {
 		PASBackendSummaryItem *item = g_ptr_array_index (summary->priv->items, i);
+		g_hash_table_remove (summary->priv->id_to_item, item->id);
 		free_summary_item (item);
 	}
 }
 
 PASBackendSummary*
-pas_backend_summary_new (const char *db_path, int flush_timeout_millis)
+pas_backend_summary_new (const char *summary_path, int flush_timeout_millis)
 {
 	PASBackendSummary *summary = gtk_type_new (PAS_BACKEND_SUMMARY_TYPE);
 
-	summary->priv->db_path = g_strdup (db_path);
-	summary->priv->summary_path = g_strconcat (db_path, ".summary", NULL);
+	summary->priv->summary_path = g_strdup (summary_path);
 	summary->priv->flush_timeout_millis = flush_timeout_millis;
 	summary->priv->file_version = PAS_SUMMARY_FILE_VERSION_1_0;
 
@@ -136,10 +141,14 @@ pas_backend_summary_destroy (GtkObject *object)
 		summary->priv->flush_timeout = 0;
 	}
 
-	g_free (summary->priv->db_path);
+	if (summary->priv->fp)
+		fclose (summary->priv->fp);
+
 	g_free (summary->priv->summary_path);
 	clear_items (summary);
 	g_ptr_array_free (summary->priv->items, TRUE);
+
+	g_hash_table_destroy (summary->priv->id_to_item);
 
 	g_free (summary->priv);
 
@@ -167,10 +176,11 @@ pas_backend_summary_init (PASBackendSummary *summary)
 
 	summary->priv = priv;
 
-	priv->db_path = NULL;
 	priv->summary_path = NULL;
+	priv->fp = NULL;
 	priv->dirty = FALSE;
 	priv->items = g_ptr_array_new();
+	priv->id_to_item = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->flush_timeout_millis = 0;
 	priv->flush_timeout = 0;
 #ifdef SUMMARY_STATS
@@ -233,10 +243,33 @@ pas_backend_summary_load_header (PASBackendSummary *summary, FILE *fp,
 		return FALSE;
 
 	header->file_version = ntohl (header->file_version);
-	if (header->file_version != PAS_SUMMARY_FILE_VERSION) {
-		/* XXX upgrade stuff in here, but since there's only 1
-		   version now return FALSE */
-		return FALSE;
+
+	if (header->file_version == PAS_SUMMARY_FILE_VERSION) {
+		rv = fread (&header->summary_mtime, sizeof (header->summary_mtime), 1, fp);
+		if (rv != 1)
+			return FALSE;
+		header->summary_mtime = ntohl (header->summary_mtime);
+	}
+	else {
+		if (header->file_version == PAS_SUMMARY_FILE_VERSION_1_0) {
+			/* the header lacks the mtime of the file.
+			   set it to the mtime of the on-disk file,
+			   and we'll save it out properly next time */
+			int fd;
+			struct stat sb;
+
+			fd = fileno (fp);
+			if (fstat (fd, &sb) == -1) {
+				g_warning ("error fstat'ing summary file.");
+				/* just set the mtime to zero and hope for the best */
+				header->summary_mtime = 0;
+			}
+			header->summary_mtime = sb.st_mtime;
+		}
+		else {
+			/* unknown version */
+			return FALSE;
+		}
 	}
 
 	rv = fread (&header->num_items, sizeof (header->num_items), 1, fp);
@@ -266,14 +299,15 @@ read_string (FILE *fp, int len)
 }
 
 static gboolean
-pas_backend_summary_load_item (PASBackendSummary *summary, FILE *fp,
+pas_backend_summary_load_item (PASBackendSummary *summary,
 			       PASBackendSummaryItem **new_item)
 {
 	PASBackendSummaryItem *item;
 	char *buf;
+	FILE *fp = summary->priv->fp;
 
-	if (summary->priv->file_version == PAS_SUMMARY_FILE_VERSION_1_0) {
-		PASBackendSummaryDiskItem_1_0 disk_item;
+	if (summary->priv->file_version <= PAS_SUMMARY_FILE_VERSION_2_0) {
+		PASBackendSummaryDiskItem disk_item;
 		int rv = fread (&disk_item, sizeof (disk_item), 1, fp);
 		if (rv != 1)
 			return FALSE;
@@ -376,22 +410,13 @@ pas_backend_summary_load_item (PASBackendSummary *summary, FILE *fp,
 	return TRUE;
 }
 
-gboolean
-pas_backend_summary_load (PASBackendSummary *summary)
+/* opens the file and loads the header */
+static void
+pas_backend_summary_open (PASBackendSummary *summary)
 {
+	FILE *fp;
+	PASBackendSummaryHeader header;
 	struct stat sb;
-	time_t db_mtime, summary_mtime;
-
-	/* we don't have a way to determine what was added since we
-	   last updated the summary (without traversing the entire db
-	   anyway), so if the db is newer we just lose the on-disk
-	   summary */
-
-	if (stat (summary->priv->db_path, &sb) == -1) {
-		g_warning ("no db present for summary load");
-		return FALSE;
-	}
-	db_mtime = sb.st_mtime;
 
 	if (stat (summary->priv->summary_path, &sb) == -1) {
 		/* if there's no summary present, look for the .new
@@ -401,61 +426,63 @@ pas_backend_summary_load (PASBackendSummary *summary)
 		if (stat (new_filename, &sb) == -1) {
 			g_warning ("no summary present");
 			g_free (new_filename);
-			return FALSE;
+			return;
 		}
 		else {
 			rename (new_filename, summary->priv->summary_path);
-			stat (summary->priv->summary_path, &sb);
 			g_free (new_filename);
 		}
-		
 	}
-	summary_mtime = sb.st_mtime;
 
-	if (summary_mtime < db_mtime) {
-		/* we need to regenerate the summary */
+	fp = fopen (summary->priv->summary_path, "r");
+	if (!fp) {
+		g_warning ("failed to open summary file");
+		return;
+	}
+
+	if (!pas_backend_summary_check_magic (summary, fp)) {
+		g_warning ("file is not a valid summary file");
+		fclose (fp);
+		return;
+	}
+
+	if (!pas_backend_summary_load_header (summary, fp, &header)) {
+		g_warning ("failed to read summary header");
+		fclose (fp);
+		return;
+	}
+
+	summary->priv->num_items = header.num_items;
+	summary->priv->file_version = header.file_version;
+	summary->priv->mtime = header.summary_mtime;
+	summary->priv->fp = fp;
+}
+
+gboolean
+pas_backend_summary_load (PASBackendSummary *summary)
+{
+	PASBackendSummaryItem *new_item;
+	int i;
+	
+	pas_backend_summary_open (summary);
+
+	if (!summary->priv->fp)
 		return FALSE;
+
+	for (i = 0; i < summary->priv->num_items; i ++) {
+		if (!pas_backend_summary_load_item (summary, &new_item)) {
+			g_warning ("error while reading summary item");
+			clear_items (summary);
+			fclose (summary->priv->fp);
+			summary->priv->fp = NULL;
+			return FALSE;
+		}
+
+		g_ptr_array_add (summary->priv->items, new_item);
+		g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 	}
-	else {
-		/* the mtime is ok, load the summary */
-		PASBackendSummaryHeader header;
-		PASBackendSummaryItem *new_item;
-		FILE *fp = fopen (summary->priv->summary_path, "r");
-		int i;
 
-		if (!fp) {
-			g_warning ("failed to open summary file");
-			return FALSE;
-		}
-
-		if (!pas_backend_summary_check_magic (summary, fp)) {
-			g_warning ("file is not a valid summary file");
-			fclose (fp);
-			return FALSE;
-		}
-
-		if (!pas_backend_summary_load_header (summary, fp, &header)) {
-			g_warning ("failed to read summary header");
-			fclose (fp);
-			return FALSE;
-		}
-
-		summary->priv->file_version = header.file_version;
-
-		for (i = 0; i < header.num_items; i ++) {
-			if (!pas_backend_summary_load_item (summary, fp, &new_item)) {
-				g_warning ("error while reading summary item");
-				clear_items (summary);
-				fclose (fp);
-				return FALSE;
-			}
-
-			g_ptr_array_add (summary->priv->items, new_item);
-		}
-
-		/* XXX for now return FALSE so we'll regenerate the summary */
-		return TRUE;
-	}
+	return TRUE;
 }
 
 static gboolean
@@ -475,8 +502,9 @@ pas_backend_summary_save_header (PASBackendSummary *summary, FILE *fp)
 	PASBackendSummaryHeader header;
 	int rv;
 
-	header.file_version = htonl (summary->priv->file_version);
+	header.file_version = htonl (PAS_SUMMARY_FILE_VERSION);
 	header.num_items = htonl (summary->priv->items->len);
+	header.summary_mtime = htonl (time (NULL));
 
 	rv = fwrite (&header, sizeof (header), 1, fp);
 	if (rv != 1)
@@ -500,7 +528,7 @@ save_string (const char *str, FILE *fp)
 static gboolean
 pas_backend_summary_save_item (PASBackendSummary *summary, FILE *fp, PASBackendSummaryItem *item)
 {
-	PASBackendSummaryDiskItem_1_0 disk_item;
+	PASBackendSummaryDiskItem disk_item;
 	int len;
 	int rv;
 
@@ -635,6 +663,7 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 	new_item->email_3    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL_3);
 	
 	g_ptr_array_add (summary->priv->items, new_item);
+	g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 
 	gtk_object_unref (GTK_OBJECT (simple));
 	gtk_object_unref (GTK_OBJECT (card));
@@ -656,16 +685,14 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 void
 pas_backend_summary_remove_card (PASBackendSummary *summary, const char *id)
 {
-	int i;
+	PASBackendSummaryItem *item = g_hash_table_lookup (summary->priv->id_to_item, id);
 
-	for (i = 0; i < summary->priv->items->len; i ++) {
-		PASBackendSummaryItem *item = g_ptr_array_index (summary->priv->items, i);
-		if (!strcmp (item->id, id)) {
-			g_ptr_array_remove_index (summary->priv->items, i);
-			free_summary_item (item);
-			pas_backend_summary_touch (summary);
-			return;
-		}
+	if (item) {
+		g_ptr_array_remove (summary->priv->items, item);
+		g_hash_table_remove (summary->priv->id_to_item, id);
+		free_summary_item (item);
+		pas_backend_summary_touch (summary);
+		return;
 	}
 
 	g_warning ("pas_backend_summary_remove_card: unable to locate id `%s'", id);
@@ -700,6 +727,12 @@ pas_backend_summary_touch (PASBackendSummary *summary)
 	    && summary->priv->flush_timeout_millis)
 		summary->priv->flush_timeout = gtk_timeout_add (summary->priv->flush_timeout_millis,
 								summary_flush_func, summary);
+}
+
+gboolean
+pas_backend_summary_is_up_to_date (PASBackendSummary *summary, time_t t)
+{
+	return summary->priv->mtime >= t;
 }
 
 
@@ -955,3 +988,37 @@ pas_backend_summary_search (PASBackendSummary *summary, const char *query)
 
 	return retval;
 }
+
+char*
+pas_backend_summary_get_summary_vcard(PASBackendSummary *summary, const char *id)
+{
+	PASBackendSummaryItem *item = g_hash_table_lookup (summary->priv->id_to_item, id);
+
+	if (item) {
+		ECard *card = e_card_new ("");
+		ECardSimple *simple = e_card_simple_new (card);
+		char *vcard;
+
+		e_card_simple_set_id (simple, item->id);
+		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FILE_AS, item->file_as);
+		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_GIVEN_NAME, item->given_name);
+		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FAMILY_NAME, item->surname);
+		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NICKNAME, item->nickname);
+		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL, item->email_1);
+		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2, item->email_2);
+		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, item->email_3);
+
+		e_card_simple_sync_card (simple);
+
+		vcard = e_card_simple_get_vcard (simple);
+
+		gtk_object_unref (GTK_OBJECT (simple));
+		gtk_object_unref (GTK_OBJECT (card));
+
+		return vcard;
+	}
+	else {
+		g_warning ("in unable to locate card `%s' in summary", id);
+	}
+}
+

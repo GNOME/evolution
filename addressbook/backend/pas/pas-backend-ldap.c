@@ -2948,6 +2948,11 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 		pas_backend_ldap_process_get_book_view (backend, book, req);
 		break;
 
+	case GetCompletionView:
+		/* we don't support summaries so completion view requests are the same as book view requests */
+		pas_backend_ldap_process_get_book_view (backend, book, req);
+		break;
+
 	case GetChanges:
 		/* FIXME: Code this. */
 		break;

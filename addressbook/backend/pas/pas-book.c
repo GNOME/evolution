@@ -179,6 +179,30 @@ pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_B
 }
 
 static void
+pas_book_queue_get_completion_view (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *search)
+{
+	PASRequest *req;
+	CORBA_Environment ev;
+
+	req                       = g_new0 (PASRequest, 1);
+	req->op                   = GetCompletionView;
+	req->get_book_view.search = g_strdup(search);
+	
+	CORBA_exception_init (&ev);
+
+	req->get_book_view.listener = bonobo_object_dup_ref(listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_queue_get_completion_view: Exception "
+			   "duplicating BookViewListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+
+	pas_book_queue_request (book, req);
+}
+
+static void
 pas_book_queue_get_changes (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *change_id)
 {
 	PASRequest *req;
@@ -284,6 +308,18 @@ impl_GNOME_Evolution_Addressbook_Book_getBookView (PortableServer_Servant servan
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_get_book_view (book, listener, search);
+}
+
+
+static void
+impl_GNOME_Evolution_Addressbook_Book_getCompletionView (PortableServer_Servant servant,
+				   const GNOME_Evolution_Addressbook_BookViewListener listener,
+				   const CORBA_char *search,
+				   CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+
+	pas_book_queue_get_completion_view (book, listener, search);
 }
 
 static void
@@ -601,6 +637,32 @@ pas_book_respond_get_book_view (PASBook                           *book,
 }
 
 /**
+ * pas_book_respond_get_book_view:
+ */
+void
+pas_book_respond_get_completion_view (PASBook                           *book,
+				      GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+				      PASBookView                       *completion_view)
+{
+	CORBA_Environment ev;
+	CORBA_Object      object;
+
+	CORBA_exception_init (&ev);
+	
+	object = bonobo_object_corba_objref(BONOBO_OBJECT(completion_view));
+
+	GNOME_Evolution_Addressbook_BookListener_notifyViewRequested (
+		book->priv->listener, status, object, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_respond_get_completion_view: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+/**
  * pas_book_respond_get_changes:
  */
 void
@@ -797,6 +859,16 @@ pas_book_free_request (PASRequest *req)
 	
 		CORBA_exception_free (&ev);
 		break;
+	case GetCompletionView:
+		g_free (req->get_completion_view.search);
+		CORBA_exception_init (&ev);
+		bonobo_object_release_unref (req->get_completion_view.listener, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_free_request(GetCompletionView): could not release the listener");
+	
+		CORBA_exception_free (&ev);
+		break;
 	case GetChanges:
 		g_free (req->get_changes.change_id);
 		CORBA_exception_init (&ev);
@@ -875,6 +947,7 @@ pas_book_get_epv (void)
 	epv->getSupportedFields    = impl_GNOME_Evolution_Addressbook_Book_getSupportedFields;
 	epv->getCursor             = impl_GNOME_Evolution_Addressbook_Book_getCursor;
 	epv->getBookView           = impl_GNOME_Evolution_Addressbook_Book_getBookView;
+	epv->getCompletionView     = impl_GNOME_Evolution_Addressbook_Book_getCompletionView;
 	epv->getChanges            = impl_GNOME_Evolution_Addressbook_Book_getChanges;
 
 	return epv;

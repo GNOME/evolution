@@ -77,6 +77,16 @@ module Addressbook {
 
 		void getChanges  (in BookViewListener listener, in string change_id);
 
+		/*
+		 * This function returns a book view that is identical
+		 * to a normal book view, except in one way - The only
+		 * values reflected in the cards that are transfered
+		 * back are: File As, family name, given name, email
+		 * addresses, and nickname.  It is intended for use in
+		 * completion searches.
+		 */
+		void getCompletionView (in BookViewListener listener, in string query);
+
 		void checkConnection ();
 
 		void getSupportedFields ();

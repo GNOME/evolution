@@ -31,6 +31,7 @@ typedef enum {
 	GetVCard,
 	GetCursor,
 	GetBookView,
+	GetCompletionView,
 	GetChanges,
 	CheckConnection,
 	AuthenticateUser,
@@ -71,6 +72,12 @@ typedef struct {
 
 typedef struct {
 	PASOperation op;
+	char *search;
+	GNOME_Evolution_Addressbook_BookViewListener listener;
+} PASGetCompletionViewRequest;
+
+typedef struct {
+	PASOperation op;
 	char *change_id;
 	GNOME_Evolution_Addressbook_BookViewListener listener;
 } PASGetChangesRequest;
@@ -91,17 +98,18 @@ typedef struct {
 } PASGetSupportedFieldsRequest;
 
 typedef union {
-	PASOperation               op;
+	PASOperation                 op;
 
-	PASCreateCardRequest       create;
-	PASRemoveCardRequest       remove;
-	PASModifyCardRequest       modify;
-	PASGetVCardRequest         get_vcard;
-	PASGetCursorRequest        get_cursor;
-	PASGetBookViewRequest      get_book_view;
-	PASGetChangesRequest       get_changes;
-	PASCheckConnectionRequest  check_connection;
-	PASAuthenticateUserRequest auth_user;
+	PASCreateCardRequest         create;
+	PASRemoveCardRequest         remove;
+	PASModifyCardRequest         modify;
+	PASGetVCardRequest           get_vcard;
+	PASGetCursorRequest          get_cursor;
+	PASGetBookViewRequest        get_book_view;
+	PASGetCompletionViewRequest  get_completion_view;
+	PASGetChangesRequest         get_changes;
+	PASCheckConnectionRequest    check_connection;
+	PASAuthenticateUserRequest   auth_user;
 	PASGetSupportedFieldsRequest get_supported_fields;
 } PASRequest;
 
@@ -148,6 +156,9 @@ void                    pas_book_respond_get_cursor     (PASBook                
 void                    pas_book_respond_get_book_view  (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 PASBookView                       *book_view);
+void                    pas_book_respond_get_completion_view (PASBook                           *book,
+						      GNOME_Evolution_Addressbook_BookListener_CallStatus status,
+						      PASBookView                       *completion_view);
 void                    pas_book_respond_get_vcard      (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 char                              *vcard);

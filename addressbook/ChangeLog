@@ -1,3 +1,76 @@
+2002-07-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/idl/addressbook.idl: add Book.getCompletionView.
+
+	* backend/ebook/e-book.c (e_book_get_completion_view): new
+	function, basically c&p of e_book_get_book_view, but call
+	getCompletionView.
+
+	* backend/ebook/e-book.h: add prototype for
+	e_book_get_completion_view.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_client_requests): add a
+	GetCompletionView case here that just calls the same code as
+	GetBookView (since we don't build summaries for the ldap backend.)
+
+	* backend/pas/pas-backend-file.c (do_summary_query): add
+	@completion_search.  If it's TRUE, just create the vcards from the
+	summary using pas_backend_summary_get_summary_vcard instead of
+	looking them up from the db.
+	(pas_backend_file_search): add @completion_search and pass it on
+	to do_summary_query.
+	(pas_backend_file_process_get_book_view): pass FALSE to
+	pas_backend_file_search.
+	(pas_backend_file_process_get_completion_view): new function,
+	basically c&p pas_backend_file_process_get_book_view, but pass
+	TRUE to pas_backend_file_search.
+	(pas_backend_file_process_client_requests): add a case for
+	GetCompletionView.
+	(pas_backend_file_load_uri): track the change to the summary api -
+	create the summary filename
+
+	* backend/pas/pas-book.c (pas_book_queue_get_completion_view): new
+	function, queue a GetCompletionView request to our queue.
+	(impl_GNOME_Evolution_Addressbook_Book_getCompletionView): new
+	function, call pas_book_queue_get_completion_view.
+	(pas_book_respond_get_completion_view): new function, just call
+	notifyViewRequested.
+	(pas_book_free_request): add a case for GetCompletionView.
+	(pas_book_get_epv): fill in epv->getCompletionView.
+
+	* backend/pas/pas-book.h: add a GetCompletionView PASOperation,
+	and a new structure (PASGetCompletionViewRequest).  Also, add
+	get_completion_view to PASRequest.
+
+	* backend/pas/pas-backend-summary.c (clear_items): remove the
+	items from the hash table.
+	(pas_backend_summary_new): db_path -> summary_path.
+	(pas_backend_summary_destroy): db_.path -> summary_path, and
+	destroy the hash table.
+	(pas_backend_summary_init): db_path = summary_path, and initialize
+	the id_to_item hashtable.
+	(pas_backend_summary_load_header): handle the upgrading from
+	version 1.0 to version 2.0 (the addition of an mtime field in the
+	header)
+	(pas_backend_summary_load_item): version 1.0 and 2.0 have the same
+	format for items.
+	(pas_backend_summary_open): new function.  open the summary so we
+	can load the header (and get the mtime).
+	(pas_backend_summary_load): rework this a bit since the header has
+	already been loaded, and also add the items to the hashtable.
+	(pas_backend_summary_add_card): add the new item to the hashtable.
+	(pas_backend_summary_remove_card): remove the item from the hash
+	table.
+	(pas_backend_summary_is_up_to_date): new function, chekc @t
+	against the summary's mtime.
+	(pas_backend_summary_get_summary_vcard): create a vcard from the
+	fields we have in the summary.
+
+	* backend/pas/pas-backend-summary.h: add prorotypes for
+	pas_backend_summary_is_up_to_date and
+	pas_backend_summary_get_summary_vcard.
+
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-storage.c (load_source_data): Pass

@@ -126,6 +126,11 @@ guint     e_book_get_book_view            (EBook                 *book,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
 
+guint     e_book_get_completion_view      (EBook                 *book,
+					   const gchar           *query,
+					   EBookBookViewCallback  cb,
+					   gpointer               closure);
+
 guint     e_book_get_changes              (EBook                 *book,
 					   char                  *changeid,
 					   EBookBookViewCallback  cb,
