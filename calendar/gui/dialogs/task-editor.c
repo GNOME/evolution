@@ -53,6 +53,7 @@ struct _TaskEditorPrivate {
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
+static void task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void task_editor_destroy (GtkObject *object);
 
 static void assign_task_cmd (GtkWidget *widget, gpointer data);
@@ -121,6 +122,7 @@ task_editor_class_init (TaskEditorClass *klass)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
 	editor_class->edit_comp = task_editor_edit_comp;
+	editor_class->send_comp = task_editor_send_comp;
 
 	object_class->destroy = task_editor_destroy;
 }
@@ -240,6 +242,31 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
+}
+
+static void
+task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
+{
+	TaskEditor *te = TASK_EDITOR (editor);
+	TaskEditorPrivate *priv;
+	CalComponent *comp = NULL;
+
+	priv = te->priv;
+
+	/* Don't cancel more than once or when just publishing */
+	if (method == CAL_COMPONENT_METHOD_PUBLISH ||
+	    method == CAL_COMPONENT_METHOD_CANCEL)
+		goto parent;
+	
+	comp = meeting_page_get_cancel_comp (priv->meet_page);
+	if (comp != NULL) {		
+		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp);
+		gtk_object_unref (GTK_OBJECT (comp));
+	}
+
+ parent:
+	if (parent_class->send_comp)
+		parent_class->send_comp (editor, method);
 }
 
 /* Destroy handler for the event editor */
