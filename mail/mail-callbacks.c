@@ -1288,6 +1288,22 @@ find_socket (GtkContainer *container)
         return NULL;
 }
 
+static void
+popup_listener_cb (BonoboListener *listener,
+		   char *event_name,
+		   CORBA_any *any,
+		   CORBA_Environment *ev,
+		   gpointer user_data)
+{
+	char *type = bonobo_event_subtype (event_name);
+
+	if (!strcmp (type, "Destroy")) {
+		gtk_widget_destroy (GTK_WIDGET (user_data));
+	}
+
+	g_free (type);
+}
+
 void
 addrbook_sender (GtkWidget *widget, gpointer user_data)
 {
@@ -1322,6 +1338,9 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 				    "email", addr_str,
 				    NULL);
 
+	bonobo_event_source_client_add_listener (bonobo_widget_get_objref (BONOBO_WIDGET (control)),
+						 popup_listener_cb, NULL, NULL, win);
+	
 	socket = find_socket (GTK_CONTAINER (control));
 	gtk_signal_connect_object (GTK_OBJECT (socket),
 				   "destroy",
