@@ -48,6 +48,10 @@ typedef struct {
 	gint count;
 } ETableGroupContainerChildNode;
 
+static EPrintable *
+etgc_get_printable (ETableGroup *etg);
+
+
 static void
 e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
 					ETableGroupContainerChildNode *child_node)
@@ -670,6 +674,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->get_selected_view_row = etgc_get_selected_view_row;
 	e_group_class->unfocus    = etgc_unfocus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
+	e_group_class->get_printable = etgc_get_printable;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
@@ -807,3 +812,308 @@ e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *clos
 	}
 }
 
+
+typedef struct {
+	ETableGroupContainer *etgc;
+	GList *child;
+	EPrintable *child_printable;
+} ETGCPrintContext;
+
+#if 0
+#define CHECK(x) if((x) == -1) return -1;
+
+static gint
+gp_draw_rect (GnomePrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height, gdouble r, gdouble g, gdouble b)
+{
+	CHECK(gnome_print_moveto(context, x, y));
+	CHECK(gnome_print_lineto(context, x + width, y));
+	CHECK(gnome_print_lineto(context, x + width, y - height));
+	CHECK(gnome_print_lineto(context, x, y - height));
+	CHECK(gnome_print_lineto(context, x, y));
+	return gnome_print_fill(context);
+}
+#endif
+
+static void
+e_table_group_container_print_page  (EPrintable *ep,
+				     GnomePrintContext *context,
+				     gdouble width,
+				     gdouble height,
+				     gboolean quantize,
+				     ETGCPrintContext *groupcontext)
+{
+	gdouble yd = height;
+	gdouble child_height;
+	ETableGroupContainerChildNode *child_node;
+	GList *child;
+	EPrintable *child_printable;
+
+	child_printable = groupcontext->child_printable;
+	child = groupcontext->child;
+
+	if (child_printable)
+		gtk_object_ref(GTK_OBJECT(child_printable));
+	else {
+		if (!child) {
+			return;
+		} else {
+			child_node = child->data;
+			child_printable = e_table_group_get_printable(child_node->child);
+			if (child_printable)
+				gtk_object_ref(GTK_OBJECT(child_printable));
+			e_printable_reset(child_printable);
+		}
+	}
+	
+	while (1) {
+		child_height = e_printable_height(child_printable, context, width - 36, yd, quantize);
+
+		if (gnome_print_gsave(context) == -1)
+			/* FIXME */;
+		if (gnome_print_translate(context, 36, yd - child_height) == -1)
+			/* FIXME */;
+		
+		if (gnome_print_moveto(context, 0, 0) == -1)
+			/* FIXME */;
+		if (gnome_print_lineto(context, width - 36, 0) == -1)
+			/* FIXME */;
+		if (gnome_print_lineto(context, width - 36, child_height) == -1)
+			/* FIXME */;
+		if (gnome_print_lineto(context, 0, child_height) == -1)
+			/* FIXME */;
+		if (gnome_print_lineto(context, 0, 0) == -1)
+			/* FIXME */;
+		if (gnome_print_clip(context) == -1)
+			/* FIXME */;
+		
+		e_printable_print_page(child_printable, context, width - 36, child_height, quantize);
+		
+		if (gnome_print_grestore(context) == -1)
+			/* FIXME */;
+		
+		yd -= child_height;
+		
+		if (e_printable_data_left(child_printable))
+			break;
+		
+		child = child->next;
+		if (!child) {
+			child_printable = NULL;
+			break;
+		}
+		
+		child_node = child->data;
+		if (child_printable)
+			gtk_object_unref(GTK_OBJECT(child_printable));
+		child_printable = e_table_group_get_printable(child_node->child);
+		if (child_printable)
+			gtk_object_ref(GTK_OBJECT(child_printable));
+		e_printable_reset(child_printable);
+	}
+
+	if (groupcontext->child_printable)
+		gtk_object_unref(GTK_OBJECT(groupcontext->child_printable));
+	groupcontext->child_printable = child_printable;
+	groupcontext->child = child;
+			
+}
+
+static gboolean
+e_table_group_container_data_left   (EPrintable *ep,
+				     ETGCPrintContext *groupcontext)
+{
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "data_left");
+	return groupcontext->child != NULL;
+}
+
+static void
+e_table_group_container_reset       (EPrintable *ep,
+				     ETGCPrintContext *groupcontext)
+{
+	groupcontext->child = groupcontext->etgc->children;
+	if (groupcontext->child_printable)
+		gtk_object_unref(GTK_OBJECT(groupcontext->child_printable));
+	groupcontext->child_printable = NULL;
+}
+
+static gdouble
+e_table_group_container_height      (EPrintable *ep,
+				     GnomePrintContext *context,
+				     gdouble width,
+				     gdouble max_height,
+				     gboolean quantize,
+				     ETGCPrintContext *groupcontext)
+{
+	gdouble height = 0;
+	gdouble child_height;
+	gdouble yd = max_height;
+	ETableGroupContainerChildNode *child_node;
+	GList *child;
+	EPrintable *child_printable;
+
+	child_printable = groupcontext->child_printable;
+	child = groupcontext->child;
+
+	if (child_printable)
+		gtk_object_ref(GTK_OBJECT(child_printable));
+	else {
+		if (!child) {
+			gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "height");
+			return 0;
+		} else {
+			child_node = child->data;
+			child_printable = e_table_group_get_printable(child_node->child);
+			if (child_printable)
+				gtk_object_ref(GTK_OBJECT(child_printable));
+			e_printable_reset(child_printable);
+		}
+	}
+	
+	while (1) {
+		child_height = e_printable_height(child_printable, context, width - 36, yd, quantize);
+
+		height += child_height;
+
+		if (yd != -1) {
+			if (!e_printable_will_fit(child_printable, context, width - 36, yd, quantize)) {
+				break;
+			}
+
+			yd -= child_height;
+		}
+
+		child = child->next;
+		if (!child) {
+			break;
+		}
+		
+		child_node = child->data;
+		if (child_printable)
+			gtk_object_unref(GTK_OBJECT(child_printable));
+		child_printable = e_table_group_get_printable(child_node->child);
+		if (child_printable)
+			gtk_object_ref(GTK_OBJECT(child_printable));
+		e_printable_reset(child_printable);
+	}
+	if (child_printable)
+		gtk_object_unref(GTK_OBJECT(child_printable));
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "height");
+	return height;
+}
+
+static gboolean
+e_table_group_container_will_fit      (EPrintable *ep,
+				       GnomePrintContext *context,
+				       gdouble width,
+				       gdouble max_height,
+				       gboolean quantize,
+				       ETGCPrintContext *groupcontext)
+{
+	gboolean will_fit = TRUE;
+	gdouble child_height;
+	gdouble yd = max_height;
+	ETableGroupContainerChildNode *child_node;
+	GList *child;
+	EPrintable *child_printable;
+
+	child_printable = groupcontext->child_printable;
+	child = groupcontext->child;
+
+	if (child_printable)
+		gtk_object_ref(GTK_OBJECT(child_printable));
+	else {
+		if (!child) {
+			gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "will_fit");
+			return will_fit;
+		} else {
+			child_node = child->data;
+			child_printable = e_table_group_get_printable(child_node->child);
+			if (child_printable)
+				gtk_object_ref(GTK_OBJECT(child_printable));
+			e_printable_reset(child_printable);
+		}
+	}
+	
+	while (1) {
+		child_height = e_printable_height(child_printable, context, width - 36, yd, quantize);
+
+		if (yd != -1) {
+			if (!e_printable_will_fit(child_printable, context, width - 36, yd, quantize)) {
+				will_fit = FALSE;
+				break;
+			}
+
+			yd -= child_height;
+		}
+
+		child = child->next;
+		if (!child) {
+			break;
+		}
+		
+		child_node = child->data;
+		if (child_printable)
+			gtk_object_unref(GTK_OBJECT(child_printable));
+		child_printable = e_table_group_get_printable(child_node->child);
+		if (child_printable)
+			gtk_object_ref(GTK_OBJECT(child_printable));
+		e_printable_reset(child_printable);
+	}
+
+	if (child_printable)
+		gtk_object_unref(GTK_OBJECT(child_printable));
+
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "will_fit");
+	return will_fit;
+}
+
+static void
+e_table_group_container_printable_destroy (GtkObject *object,
+				ETGCPrintContext *groupcontext)
+{
+	gtk_object_unref(GTK_OBJECT(groupcontext->etgc));
+	if (groupcontext->child_printable)
+		gtk_object_ref(GTK_OBJECT(groupcontext->child_printable));
+	g_free(groupcontext);
+}
+
+static EPrintable *
+etgc_get_printable (ETableGroup *etg)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	EPrintable *printable = e_printable_new();
+	ETGCPrintContext *groupcontext;
+
+	groupcontext = g_new(ETGCPrintContext, 1);
+	groupcontext->etgc = etgc;
+	gtk_object_ref(GTK_OBJECT(etgc));
+	groupcontext->child = etgc->children;
+	groupcontext->child_printable = NULL;
+
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "print_page",
+			    GTK_SIGNAL_FUNC(e_table_group_container_print_page),
+			    groupcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "data_left",
+			    GTK_SIGNAL_FUNC(e_table_group_container_data_left),
+			    groupcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "reset",
+			    GTK_SIGNAL_FUNC(e_table_group_container_reset),
+			    groupcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "height",
+			    GTK_SIGNAL_FUNC(e_table_group_container_height),
+			    groupcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "will_fit",
+			    GTK_SIGNAL_FUNC(e_table_group_container_will_fit),
+			    groupcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "destroy",
+			    GTK_SIGNAL_FUNC(e_table_group_container_printable_destroy),
+			    groupcontext);
+
+	return printable;
+}

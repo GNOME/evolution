@@ -1167,9 +1167,23 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	} else {
 		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	}
-	gnome_print_moveto(context, 0, (height - gnome_font_get_ascender(font) + gnome_font_get_descender(font)) / 2);
+	gnome_print_gsave(context);
+	if (gnome_print_moveto(context, 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, width - 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, width - 2, height - 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, 2, height - 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_clip(context) == -1)
+				/* FIXME */;
+	gnome_print_moveto(context, 2, (height - gnome_font_get_ascender(font) + gnome_font_get_descender(font)) / 2);
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
+	gnome_print_grestore(context);
 	if (ect->filter) {
 		g_free(string);
 	}
@@ -1180,7 +1194,7 @@ ect_print_height (ECellView *ecell_view, GnomePrintContext *context,
 		  int model_col, int view_col, int row,
 		  double width)
 {
-	return 12;
+	return 16;
 }
 
 /*

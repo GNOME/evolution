@@ -1804,7 +1804,7 @@ e_table_item_print_page  (EPrintable *ep,
 	yd--;
 	
 	for (row = rows_printed; row < rows; row++){
-		gdouble xd = 0, row_height;
+		gdouble xd = 1, row_height;
 		
 		row_height = eti_printed_row_height(item, widths, context, row);
 		if (quantize) {
@@ -1894,6 +1894,7 @@ e_table_item_height      (EPrintable *ep,
 			  GnomePrintContext *context,
 			  gdouble width,
 			  gdouble max_height,
+			  gboolean quantize,
 			  ETableItemPrintContext *itemcontext)
 {
 	ETableItem *item = itemcontext->item;
@@ -1914,8 +1915,67 @@ e_table_item_height      (EPrintable *ep,
 		gdouble row_height;
 		
 		row_height = eti_printed_row_height(item, widths, context, row);
-		if (max_height != -1 && yd + row_height + 1 > max_height && row != rows_printed) {
-			break;
+		if (quantize) {
+			if (max_height != -1 && yd + row_height + 1 > max_height && row != rows_printed) {
+				break;
+			}
+		} else {
+			if (max_height != -1 && yd > max_height) {
+				break;
+			}
+		}
+
+		yd += row_height;
+
+		yd++;
+	}
+
+	g_free (widths);
+	
+	if (max_height != -1 && (!quantize) && yd > max_height)
+		yd = max_height;
+
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "height");
+	return yd;
+}
+
+static gboolean
+e_table_item_will_fit     (EPrintable *ep,
+			   GnomePrintContext *context,
+			   gdouble width,
+			   gdouble max_height,
+			   gboolean quantize,
+			   ETableItemPrintContext *itemcontext)
+{
+	ETableItem *item = itemcontext->item;
+	const int rows = item->rows;
+	int rows_printed = itemcontext->rows_printed;
+	gdouble *widths;
+	int row;
+	gdouble yd = 0;
+	gboolean ret_val = TRUE;
+	
+	widths = e_table_item_calculate_print_widths (itemcontext->item->header, width);
+
+	/*
+	 * Draw cells
+	 */
+	yd++;
+	
+	for (row = rows_printed; row < rows; row++){
+		gdouble row_height;
+		
+		row_height = eti_printed_row_height(item, widths, context, row);
+		if (quantize) {
+			if (max_height != -1 && yd + row_height + 1 > max_height && row != rows_printed) {
+				ret_val = FALSE;
+				break;
+			}
+		} else {
+			if (max_height != -1 && yd > max_height) {
+				ret_val = FALSE;
+				break;
+			}
 		}
 
 		yd += row_height;
@@ -1925,8 +1985,8 @@ e_table_item_height      (EPrintable *ep,
 
 	g_free (widths);
 
-	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "height");
-	return yd;
+	gtk_signal_emit_stop_by_name(GTK_OBJECT(ep), "will_fit");
+	return ret_val;
 }
 
 static void
@@ -1963,6 +2023,10 @@ e_table_item_get_printable (ETableItem *item)
 	gtk_signal_connect (GTK_OBJECT(printable),
 			    "height",
 			    GTK_SIGNAL_FUNC(e_table_item_height),
+			    itemcontext);
+	gtk_signal_connect (GTK_OBJECT(printable),
+			    "will_fit",
+			    GTK_SIGNAL_FUNC(e_table_item_will_fit),
 			    itemcontext);
 	gtk_signal_connect (GTK_OBJECT(printable),
 			    "destroy",
