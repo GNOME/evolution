@@ -2033,50 +2033,47 @@ e_tree_get_tooltip (ETree *et)
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
 }
 
-typedef struct {
-	ETreePathFunc func;
-	gpointer data;
-	ETree *et;
-} FindNextCallback;
-
-static gboolean
-find_next_callback (ETreeModel *model, ETreePath path, gpointer data)
+static ETreePath
+find_next_in_range (ETree *et, gint start, gint end, ETreePathFunc func, gpointer data)
 {
-	FindNextCallback *cb_data = data;
-	ETree *et = cb_data->et;
+	ETreePath path;
+	gint row;
 
-	return cb_data->func (et->priv->model, path, cb_data->data);
+	for (row = start; row <= end; row++) {
+		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
+		if (func (et->priv->model, path, data))
+			return path;
+	}
+
+	return NULL;
 }
 
 gboolean
 e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpointer data)
 {
-	ETreePath cursor;
-	ETreePath found;
-	FindNextCallback cb_data;
-
-	cb_data.func = func;
-	cb_data.data = data;
-	cb_data.et   = et;
+	ETreePath cursor, found;
+	gint row, row_count;
 
 	cursor = e_tree_get_cursor (et);
+	row = e_tree_table_adapter_row_of_node (et->priv->etta, cursor);
+	row_count = e_table_model_row_count (E_TABLE_MODEL (et->priv->etta));
+	if (row == -1)
+		row = 0;
 
-	found = e_tree_model_node_find (et->priv->model, cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+	found = find_next_in_range (et, row + 1, row_count - 1, func, data);
 
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
-		cursor = found;
-		e_tree_set_cursor (et, cursor);
+		e_tree_set_cursor (et, found);
 		return TRUE;
 	}
 
-	if (params & E_TREE_FIND_NEXT_WRAP) {
-		found = e_tree_model_node_find (et->priv->model, NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+	if ((params & E_TREE_FIND_NEXT_WRAP) && (row > 0)) {
+		found = find_next_in_range (et, 0, row, func, data);
 
 		if (found && found != cursor) {
 			e_tree_table_adapter_show_node (et->priv->etta, found);
-			cursor = found;
-			e_tree_set_cursor (et, cursor);
+			e_tree_set_cursor (et, found);
 			return TRUE;
 		}
 	}
