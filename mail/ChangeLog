@@ -1,3 +1,11 @@
+2003-12-01  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+
+        * mail-callbacks.c: (composer_get_message) Encode the value of
+        "Organization:" header string here incase it contains 8 bit
+        characters.
+
+        Fix for bug #51551
+
 2003-10-13  Charles Zhang  <charles.zhang@sun.com>
 
 	* mail-account-gui.c (mail_account_gui_changed): change signal 
