@@ -6,6 +6,9 @@
 
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
+	* mail-session.c (mail_session_forget_passwords): Only clear the
+	Mail passwords.
+
 	* component-factory.c (interactive_cb): Call
 	composer_check_autosave if we're going interactive, to check for
 	unsaved files.  Fixes #40300.
