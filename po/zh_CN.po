@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-08 14:41+0800\n"
+"POT-Creation-Date: 2004-08-13 19:07+0200\n"
+"PO-Revision-Date: 2004-08-14 04:14+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -633,9 +633,8 @@ msgstr ""
 "接不太安全，您也易于受到安全漏洞的攻击。"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid "Sub"
-msgstr "日"
+msgstr "子"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Supported Search Bases"
@@ -3486,9 +3485,9 @@ msgid ""
 msgstr "如果您不发送取消通知，其他参与者也许不知道会议已经取消。"
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
-#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
-#: calendar/calendar-errors.xml.h:105
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
+#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
+#: calendar/calendar-errors.xml.h:103
 msgid "Don't Send"
 msgstr "不发送"
 
@@ -3635,12 +3634,11 @@ msgstr "您想要保存对约会的更改吗？"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "您已经对此约会做出了更改，但尚未保存。"
 
-#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
-#: composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "丢弃更改"
 
-#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:74
 msgid "Save Changes"
 msgstr "保存更改"
 
@@ -3660,75 +3658,75 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "您已经对此任务做出了更改，但尚未保存。"
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "您是否想要给参与者发送会议邀请？"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:86
+#: calendar/calendar-errors.xml.h:84
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "将会向全部参与者发送电子邮件邀请，并要求他们答复。"
 
-#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
-#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
+#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "发送"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "您是否想要给参与者发送更新的会议信息？"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:92
+#: calendar/calendar-errors.xml.h:90
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr "发送更新的信息将允许其他参与者使他们的日历保持最新。"
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send this task to participants?"
 msgstr "您是否想要将此任务发送给参与者？"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:98
+#: calendar/calendar-errors.xml.h:96
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr "将会向全部参与者发送电子邮件邀请，并允许他们接受此任务。"
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:100
 msgid "Would you like to send updated task information to participants?"
 msgstr "您是否想要给参与者发送更新的任务信息？"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:102
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr "发送更新的信息允许其他参与者使他们的任务列表保持最新。"
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:106
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution 任务异常退出。"
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:108
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:110
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution 日历异常退出。"
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:114
+#: calendar/calendar-errors.xml.h:112
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的日历无法使用。"
 
@@ -4709,9 +4707,8 @@ msgid "_Add Calendar"
 msgstr "添加日历(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "添加任务列表"
+msgstr "添加任务列表(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10040,7 +10037,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "自动将远程邮件同步到本地"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "地址簿和日历"
 
@@ -10053,9 +10049,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "邮局代理 SOAP 端口："
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "使用安全连接(SSL)(_U)："
+msgstr "使用安全连接(SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12209,9 +12204,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Ximian Evolution 群件套件"
+msgstr "Evolution 群件套件"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -16910,22 +16904,17 @@ msgstr ""
 "留此数据，那么您可以在您方便的时候手动删除“evolution”目录。\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
-msgid "_Remind Me Later"
-msgstr "提醒!!"
-
-#: shell/shell-errors.xml.h:26
-msgid "_Keep Data"
-msgstr ""
+msgid "Keep"
+msgstr "保留"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
+#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
 msgid "Really delete old data?"
 msgstr "真的要删除旧数据吗？"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:32
+#: shell/shell-errors.xml.h:31
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -16946,18 +16935,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
+#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
 msgid "Cannot start Evolution"
 msgstr "无法启动 Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
+#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
 msgid "Evolution can not start."
 msgstr "Evolution 无法启动。"
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:43
+#: shell/shell-errors.xml.h:42
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -16968,7 +16957,7 @@ msgstr ""
 "请单击帮助查看详情"
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:51
+#: shell/shell-errors.xml.h:50
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -19271,20 +19260,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
-#~ msgid "_Add Group"
-#~ msgstr "添加组(_A)"
-
-#~ msgid "Use ssl"
-#~ msgstr "使用 SSL"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (不稳定)"
-
-#~ msgid "Remember this password"
-#~ msgstr "记住该密码"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "在本会话中记住该密码"
-
-#~ msgid "Keep"
-#~ msgstr "保留"
