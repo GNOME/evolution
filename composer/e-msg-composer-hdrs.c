@@ -193,8 +193,9 @@ static GtkWidget *
 create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
 	GtkWidget *omenu, *menu, *first = NULL;
-	const GSList *accounts, *a;
-	const MailConfigAccount *account;
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
 	GPtrArray *addresses;
 	GtkWidget *item, *hbox;
 	int i = 0, history = 0, m, matches;
@@ -210,16 +211,22 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	/* Make list of account email addresses */
 	addresses = g_ptr_array_new ();
 	accounts = mail_config_get_accounts ();
-	for (a = accounts; a; a = a->next) {
-		account = a->data;
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		account = (EAccount *) e_iterator_get (iter);
+		
 		if (account->id->address)
 			g_ptr_array_add (addresses, account->id->address);
+		
+		e_iterator_next (iter);
 	}
 	
-	while (accounts) {
+	e_iterator_reset (iter);
+	
+	while (e_iterator_is_valid (iter)) {
 		char *label;
 		
-		account = accounts->data;
+		account = (EAccount *) e_iterator_get (iter);
 		
 		/* this should never ever fail */
 		if (!account || !account->name || !account->id) {
@@ -245,7 +252,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			item = gtk_menu_item_new_with_label (label);
 			g_free (label);
 			
-			g_object_set_data ((GObject *) item, "account", account_copy (account));
+			g_object_ref (account);
+			g_object_set_data ((GObject *) item, "account", account);
 			g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
 			
 			if (i == index) {
@@ -261,8 +269,10 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			i++;
 		}
 		
-		accounts = accounts->next;
+		e_iterator_next (iter);
 	}
+	
+	g_object_unref (iter);
 	
 	g_ptr_array_free (addresses, TRUE);
 	
@@ -292,7 +302,7 @@ addressbook_entry_changed (BonoboListener    *listener,
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
 	
-	g_signal_emit(hdrs, signals[HDRS_CHANGED], 0);
+	g_signal_emit (hdrs, signals[HDRS_CHANGED], 0);
 }
 
 static GtkWidget *
@@ -570,7 +580,7 @@ destroy (GtkObject *object)
 {
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
-	GSList *l;
+	GSList *l, *n;
 	
 	hdrs = E_MSG_COMPOSER_HDRS (object);
 	priv = hdrs->priv;
@@ -583,7 +593,7 @@ destroy (GtkObject *object)
 			CORBA_exception_free (&ev);
 			priv->corba_select_names = CORBA_OBJECT_NIL;
 		}
-
+		
 		if (priv->tooltips) {
 			gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 			g_object_unref (priv->tooltips);
@@ -592,15 +602,17 @@ destroy (GtkObject *object)
 		
 		l = priv->from_options;
 		while (l) {
-			MailConfigAccount *account;
+			EAccount *account;
 			GtkWidget *item = l->data;
 			
 			account = g_object_get_data ((GObject *) item, "account");
-			account_destroy (account);
+			g_object_unref (account);
 			
-			l = l->next;
+			n = l->next;
+			g_slist_free_1 (l);
+			l = n;
 		}
-		g_slist_free (priv->from_options);
+		
 		priv->from_options = NULL;
 		
 		g_free (priv);
@@ -901,7 +913,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
 	while (l) {
-		MailConfigAccount *account;
+		EAccount *account;
 		item = l->data;
 		
 		account = g_object_get_data ((GObject *) item, "account");
@@ -998,22 +1010,20 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 	
-	g_object_set((hdrs->priv->subject.entry),
-			"text", subject,
-			NULL);
+	g_object_set ((GObject *) hdrs->priv->subject.entry,
+		      "text", subject, NULL);
 }
 
 
 CamelInternetAddress *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
-	const MailConfigAccount *account;
 	CamelInternetAddress *addr;
+	EAccount *account;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	account = hdrs->account;
-	if (!account || !account->id) {
+	if (!(account = hdrs->account)) {
 		/* FIXME: perhaps we should try the default account? */
 		return NULL;
 	}

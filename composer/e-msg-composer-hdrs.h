@@ -29,9 +29,9 @@
 
 #include <bonobo/bonobo-ui-component.h>
 
+#include <e-util/e-account.h>
 #include <camel/camel-mime-message.h>
 #include <addressbook/backend/ebook/e-destination.h>
-#include <mail/mail-config.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,10 +53,10 @@ typedef struct _EMsgComposerHdrsPrivate EMsgComposerHdrsPrivate;
 
 struct _EMsgComposerHdrs {
 	GtkTable parent;
-
+	
 	EMsgComposerHdrsPrivate *priv;
 	
-	const MailConfigAccount *account;
+	EAccount *account;
 	
 	guint32 visible_mask;
 	

@@ -83,32 +83,42 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionComposer *composer;
 	EDestination **tov, **ccv, **bccv;
-	const MailConfigAccount *account;
-	const GSList *accounts;
-
+	EAccountList *accounts;
+	EAccount *account;
+	EIterator *iter;
+	int found = 0;
+	
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
-
+	
 	account = mail_config_get_account_by_name (from);
 	if (!account) {
 		accounts = mail_config_get_accounts ();
-		while (accounts) {
-			account = accounts->data;
-			if (!strcasecmp (account->id->address, from))
+		iter = e_list_get_iterator ((EList *) accounts);
+		while (e_iterator_is_valid (iter)) {
+			account = (EAccount *) e_iterator_get (iter);
+			
+			if (!strcasecmp (account->id->address, from)) {
+				found = TRUE;
 				break;
-			accounts = accounts->next;
+			}
+			
+			e_iterator_next (iter);
 		}
-		if (!accounts)
+		
+		g_object_unref (iter);
+		
+		if (!found)
 			account = mail_config_get_default_account ();
 	}
-
+	
 	tov  = corba_recipientlist_to_destv (to);
 	ccv  = corba_recipientlist_to_destv (cc);
 	bccv = corba_recipientlist_to_destv (bcc);
 	
 	e_msg_composer_set_headers (composer->composer, account->name,
 				    tov, ccv, bccv, subject);
-
+	
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
 	e_destination_freev (bccv);
@@ -300,12 +310,12 @@ evolution_composer_class_init (EvolutionComposerClass *klass)
 static void
 evolution_composer_init (EvolutionComposer *composer)
 {
-	const MailConfigAccount *account;
 	BonoboObject *item_handler;
-
-	account            = mail_config_get_default_account ();
+	EAccount *account;
+	
+	account = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
-
+	
 	g_signal_connect (composer->composer, "send",
 			  G_CALLBACK (send_cb), NULL);
 	g_signal_connect (composer->composer, "save-draft",

@@ -1008,7 +1008,7 @@ decode_signature_name (const gchar *name)
 
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 
-static gchar *
+static char *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
@@ -1019,7 +1019,7 @@ get_signature_html (EMsgComposer *composer)
 		format_html = composer->signature->html;
 		script = composer->signature->script;
 	} else if (composer->auto_signature) {
-		MailConfigIdentity *id;
+		EAccountIdentity *id;
 		char *organization;
 		char *address;
 		char *name;
@@ -2303,7 +2303,7 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 	composer = E_MSG_COMPOSER (data);
 	
 	if (hdrs->account) {
-		const MailConfigAccount *account = hdrs->account;
+		EAccount *account = hdrs->account;
 		
 		e_msg_composer_set_pgp_sign (composer,
 					     account->pgp_always_sign &&
@@ -2931,11 +2931,14 @@ set_editor_signature (EMsgComposer *composer)
 {
 	/* printf ("set_editor_signature\n"); */
 	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
-		MailConfigIdentity *id;
+		EAccountIdentity *id;
+		GSList *signatures;
 		
 		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
 		
-		composer->signature = id->def_signature;
+		signatures = mail_config_get_signature_list ();
+		
+		composer->signature = g_slist_nth_data (signatures, id->def_signature);
 		composer->auto_signature = id->auto_signature;
 		
 		/* printf ("auto: %d\n", id->auto_signature); */
@@ -3404,13 +3407,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
-	const MailConfigAccount *account = NULL;
 	const char *format, *subject, *postto;
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
 	struct _header_raw *headers;
 	CamelDataWrapper *content;
+	EAccount *account = NULL;
 	char *account_name;
 	EMsgComposer *new;
 	XEvolution *xev;
@@ -4070,7 +4073,7 @@ CamelMimeMessage *
 e_msg_composer_get_message_draft (EMsgComposer *composer)
 {
 	CamelMimeMessage *msg;
-	const MailConfigAccount *account;
+	EAccount *account;
 	gboolean old_send_html;
 	gboolean old_pgp_sign;
 	gboolean old_pgp_encrypt;
@@ -4244,7 +4247,7 @@ e_msg_composer_get_send_html (EMsgComposer *composer)
  *
  * Returns the user-specified account (from field).
  */
-const MailConfigAccount *
+EAccount *
 e_msg_composer_get_preferred_account (EMsgComposer *composer)
 {
 	EMsgComposerHdrs *hdrs;
