@@ -2209,6 +2209,7 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *menus = NULL;
+	guint32 info_flags = 0;
 	guint32 flags = 0;
 	gboolean isstore;
 	char *uri, *path;
@@ -2242,11 +2243,15 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	if (!(store == local && is_special_local_folder (folder_name)))
 		flags |= EM_POPUP_FOLDER_DELETE;
 	
+	/* hack for vTrash/vJunk */
+	if (!strcmp (folder_name, CAMEL_VTRASH_NAME) || !strcmp (folder_name, CAMEL_VJUNK_NAME))
+		info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
+	
 	/* handle right-click by opening a context menu */
 	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
 	
 	/* FIXME: pass valid fi->flags here */
-	target = em_popup_target_new_folder (uri, /* fi->flags */ 0, flags);
+	target = em_popup_target_new_folder (uri, info_flags, flags);
 	
 	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++) {
 		EMPopupItem *item = &emft_popup_menu[i];

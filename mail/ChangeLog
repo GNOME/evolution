@@ -2,6 +2,8 @@
 
 	* em-folder-tree.c (emft_tree_button_press): Pass flags to
 	em_popup_target_new_folder() instead of just an isstore arg.
+	(emft_tree_button_press): Fake the fi flags for vTrash/vJunk so
+	that em-popup.c can disable the delete flag for these.
 
 	* em-popup.c (em_popup_target_new_folder): Instead of taking an
 	isstore argument, take a flags argument so that our caller can
