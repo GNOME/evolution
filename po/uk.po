@@ -7486,7 +7486,7 @@ msgstr "не ╕снують"
 
 #: filter/libfilter-i18n.h:19
 msgid "Draft"
-msgstr "Чорновик"
+msgstr "Чернетка"
 
 #: filter/libfilter-i18n.h:20
 msgid "ends with"
@@ -7850,9 +7850,9 @@ msgid "Cannot register storage with shell"
 msgstr ""
 
 #: mail/folder-browser-ui.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Properties for \"%s\""
-msgstr "Властивост╕"
+msgstr "Властивост╕ для \"%s\""
 
 #: mail/folder-browser-ui.c:273
 msgid "Properties"
@@ -7876,7 +7876,7 @@ msgstr ", "
 #: mail/folder-browser.c:768
 #, c-format
 msgid "%d hidden"
-msgstr ""
+msgstr "%d приховано"
 
 #: mail/folder-browser.c:773
 #, c-format
@@ -8008,46 +8008,43 @@ msgstr "Створити правило з пов╕домлення"
 
 #: mail/folder-browser.c:1625
 msgid "Filter on Mailing List"
-msgstr "Ф╕льтр списку розсилки"
+msgstr "Ф╕льтр списку листування"
 
 #: mail/folder-browser.c:1626
-#, fuzzy
 msgid "VFolder on Mailing List"
-msgstr "Ф╕льтр списку розсилки"
+msgstr "В╕ртуальна теку списку листування"
 
 #: mail/folder-browser.c:1628
 #, c-format
 msgid "Filter on Mailing List (%s)"
-msgstr "Ф╕льтр списку розсилки (%s)"
+msgstr "Ф╕льтр списку листування (%s)"
 
 #: mail/folder-browser.c:1629
-#, fuzzy, c-format
+#, c-format
 msgid "VFolder on Mailing List (%s)"
-msgstr "Ф╕льтр списку розсилки (%s)"
+msgstr "В╕ртуальна тека списку листування (%s)"
 
 #: mail/folder-info.c:64
 msgid "Getting Folder Information"
 msgstr "Отримання ╕нформац╕╖ про теку"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
-#, fuzzy
 msgid "Factory to import mbox into Evolution"
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
+msgstr "Фабрика для ╕мпортування mbox у Evolutuion."
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:2
 msgid "Imports mbox files into Evolution"
-msgstr ""
+msgstr "╤мпоруту╓ файли mbox у Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:1
 msgid "Factory to import Outlook Express 4 mails into Evolution"
-msgstr ""
+msgstr "Фабрика для ╕мпортування пошти Outlook Express 4 у Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:2
 msgid "Imports Outlook Express 4 files into Evolution"
-msgstr ""
+msgstr "╤мпорту╓ файли Outlook Express 4 у Evolution"
 
 #: mail/local-config.glade.h:1
-#, fuzzy
 msgid "Body contents"
 msgstr "Т╕ло м╕стить"
 
@@ -8129,16 +8126,15 @@ msgstr "Стерти"
 
 #: mail/mail-accounts.c:189
 msgid "Disable"
-msgstr ""
+msgstr "Вимкнути"
 
 #: mail/mail-accounts.c:191
 msgid "Enable"
-msgstr ""
+msgstr "Ув╕мкнути"
 
 #: mail/mail-accounts.c:278
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr "Ви впевнен╕, що хочете стерти завдання"
+msgstr "Ви впевнен╕, що хочете стерти цей рахунок?"
 
 #: mail/mail-accounts.c:282
 msgid "Don't delete"
@@ -8149,20 +8145,18 @@ msgid "Really delete account?"
 msgstr "Справд╕ стерти рахунок?"
 
 #: mail/mail-accounts.c:511 mail/mail-accounts.c:515
-#, fuzzy
 msgid "Are you sure you want to delete this news account?"
-msgstr "Ви впевнен╕, що хочете стерти зустр╕ч"
+msgstr "Ви впевнен╕, що хочете стерти ц╕ нов╕ рахунки?"
 
 #. give our dialog an Close button and title
 #: mail/mail-accounts.c:769 mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Mail Settings"
-msgstr "Установки пошти..."
+msgstr "Параметри пошти"
 
 #: mail/mail-autofilter.c:70
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "Пошта до %s"
 
 #: mail/mail-autofilter.c:213
 #, c-format
@@ -8180,9 +8174,8 @@ msgid "%s mailing list"
 msgstr "Список розсилки %s"
 
 #: mail/mail-autofilter.c:335 mail/mail-autofilter.c:356
-#, fuzzy
 msgid "Add Filter Rule"
-msgstr "Редагування"
+msgstr "Додати правило ф╕льтрування"
 
 #: mail/mail-callbacks.c:138
 msgid ""
@@ -8216,15 +8209,16 @@ msgid ""
 msgstr ""
 
 #: mail/mail-callbacks.c:281
-#, fuzzy
 msgid "Send anyway?"
-msgstr "В╕д╕слати пошту"
+msgstr "В╕д╕слати всеодно?"
 
 #: mail/mail-callbacks.c:323
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
+"Це пов╕домлення не ма╓ теми.\n"
+"Справд╕ в╕д╕слати?"
 
 #: mail/mail-callbacks.c:367
 msgid ""
@@ -8246,7 +8240,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:469
 msgid "This message contains invalid recipients:"
-msgstr ""
+msgstr "Це пов╕домлення м╕стить нев╕рних отримувач╕в:"
 
 #: mail/mail-callbacks.c:504
 msgid "You must specify recipients in order to send this message."
@@ -8265,41 +8259,42 @@ msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
 #: mail/mail-callbacks.c:1240
-#, fuzzy
 msgid "Move message(s) to"
-msgstr "В╕д╕слан╕ пов╕домлення"
+msgstr "Перенести пов╕домлення у"
 
 #: mail/mail-callbacks.c:1242
-#, fuzzy
 msgid "Copy message(s) to"
-msgstr "В╕д╕слан╕ пов╕домлення"
+msgstr "Скоп╕ювати пов╕домлення у"
 
 #: mail/mail-callbacks.c:1702
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to edit all %d messages?"
-msgstr "Ви впевнен╕, що хочете стерти завдання \"%s\"?"
+msgstr "Ви впевнен╕, що хочете виправити вс╕ %d пов╕домлень?"
 
 #: mail/mail-callbacks.c:1727
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
+"Ви можете лише редагувати збережен╕\n"
+"пов╕домлення в тец╕ \"Чернетки\"."
 
 #: mail/mail-callbacks.c:1766
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
+"Ви можете лише в╕д╕слати повторно\n"
+"пов╕домлення з теки \"В╕д╕слан╕\"."
 
 #: mail/mail-callbacks.c:1780
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to resend all %d messages?"
-msgstr "Ви впевнен╕, що хочете стерти завдання \"%s\"?"
+msgstr "Ви впевнен╕, що хочете в╕д╕слати повторно вс╕ %d пов╕домлень?"
 
 #: mail/mail-callbacks.c:1806
-#, fuzzy
 msgid "No Message Selected"
-msgstr "Пов╕домлення було отримано"
+msgstr "Нема╓ вибраних пов╕домлень"
 
 #: mail/mail-callbacks.c:1900
 msgid "Save Message As..."
@@ -8503,31 +8498,28 @@ msgid "Digital IDs..."
 msgstr ""
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Display"
-msgstr "День"
+msgstr "В╕добразити"
 
 #: mail/mail-config.glade.h:29 shell/glade/evolution-startup-wizard.glade.h:2
-#, fuzzy
 msgid "Done"
-msgstr "Нема╓"
+msgstr "Готово"
 
 #: mail/mail-config.glade.h:30
 msgid "Drafts"
-msgstr "Чорновики"
+msgstr "Чернетки"
 
 #: mail/mail-config.glade.h:31
 msgid "E_nable"
-msgstr ""
+msgstr "Ув╕мкнути"
 
 #: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:104
-#, fuzzy
 msgid "Edit..."
-msgstr "Виправити"
+msgstr "Виправити..."
 
 #: mail/mail-config.glade.h:33
 msgid "Enabled"
-msgstr ""
+msgstr "Ув╕мкнено"
 
 #: mail/mail-config.glade.h:34
 msgid "Get Digital ID..."
@@ -9077,30 +9069,29 @@ msgstr ""
 "%s"
 
 #: mail/mail-mt.c:254
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error while performing operation:\n"
 "%s"
-msgstr "Помилка завантаження файлу: %s"
+msgstr ""
+"Помилка п╕д час зд╕йснення операц╕╖:\n"
+"%s"
 
 #: mail/mail-mt.c:862
-#, fuzzy
 msgid "Working"
-msgstr "Перенесення"
+msgstr "Робота"
 
 #: mail/mail-ops.c:86
-#, fuzzy
 msgid "Filtering Folder"
-msgstr "Конф╕╜урувати теку"
+msgstr "Ф╕льтрування теки"
 
 #: mail/mail-ops.c:249
-#, fuzzy
 msgid "Fetching Mail"
-msgstr "Sendmail"
+msgstr "Отримання пошти"
 
 #: mail/mail-ops.c:491 mail/mail-ops.c:520
 msgid "However, the message was successfully sent."
-msgstr ""
+msgstr "Всеодно, пов╕домлення було усп╕шно в╕д╕слано."
 
 #: mail/mail-ops.c:556
 #, c-format
@@ -10420,9 +10411,8 @@ msgstr ""
 
 #. SAND
 #: my-evolution/metar.c:322
-#, fuzzy
 msgid "Sand"
-msgstr "В╕дправити"
+msgstr "П╕сок"
 
 #: my-evolution/metar.c:323
 msgid "Sand in the vicinity"
@@ -12900,7 +12890,7 @@ msgstr "Зберегти як"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
-msgstr "Зберегти чорновик"
+msgstr "Зберегти чернетку"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
