@@ -1,3 +1,12 @@
+2002-05-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-window.c (folder_browser_window_new): If the
+	folder-browser has a parent, reparent it.
+
+	* message-browser.[c,h]: Revert back to the old broken
+	implementation since that's what users want. They're not happy
+	unless it's broken.
+
 2002-05-23  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c: be more careful about language_str{_orig}

@@ -77,6 +77,23 @@ folder_browser_window_init (GtkObject *object)
 }
 
 
+static gboolean
+destroy_cb (GtkWidget *widget)
+{
+	FolderBrowserWindow *fbw = (FolderBrowserWindow *) widget;
+	FolderBrowser *fb = fbw->folder_browser;
+	
+	if (fbw->fb_parent) {
+		gtk_widget_ref (GTK_WIDGET (fb));
+		gtk_widget_unparent (GTK_WIDGET (fb));
+		gtk_container_add (GTK_CONTAINER (fbw->fb_parent), GTK_WIDGET (fb));
+		gtk_widget_unref (GTK_WIDGET (fb));
+		fbw->folder_browser = NULL;
+	}
+	
+	return FALSE;
+}
+
 static void
 folder_browser_window_size_allocate_cb (GtkWidget *widget, GtkAllocation *allocation)
 {
@@ -111,7 +128,18 @@ folder_browser_window_new (FolderBrowser *fb)
 	set_default_size (GTK_WIDGET (new));
 	
 	new->folder_browser = fb;
+	gtk_widget_ref (GTK_WIDGET (fb));
+	if (GTK_WIDGET (fb)->parent) {
+		new->fb_parent = GTK_WIDGET (fb)->parent;
+		gtk_widget_unparent (GTK_WIDGET (fb));
+		
+		gtk_signal_connect (GTK_OBJECT (new), "delete_event",
+				    destroy_cb, new);
+	}
+	
+	new->folder_browser = fb;
 	bonobo_window_set_contents (BONOBO_WINDOW (new), GTK_WIDGET (fb));
+	gtk_widget_unref (GTK_WIDGET (fb));
 	
 	uicont = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (uicont, BONOBO_WINDOW (new));

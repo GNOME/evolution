@@ -24,6 +24,7 @@
  * USA
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -3118,7 +3119,7 @@ do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void
 		GtkWidget *mb;
 		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		mb = message_browser_new (message);
+		mb = folder_browser_window_new (fb);
 		gtk_widget_show (mb);
 	}
 }

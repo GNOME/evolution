@@ -45,6 +45,7 @@ typedef struct _FolderBrowserWindow FolderBrowserWindow;
 struct _FolderBrowserWindow {
 	BonoboWindow parent;
 	
+	GtkWidget *fb_parent;
 	FolderBrowser *folder_browser;
 };
 

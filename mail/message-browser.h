@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef __MESSAGE_BROWSER_H__
-#define __MESSAGE_BROWSER_H__
+#ifndef _MESSAGE_BROWSER_H_
+#define _MESSAGE_BROWSER_H_
 
 #include <gnome.h>
 #include <bonobo/bonobo-win.h>
@@ -38,19 +38,24 @@
 #define IS_MESSAGE_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MESSAGE_BROWSER_TYPE))
 
 struct _MessageBrowser {
-	GtkWindow parent;
+	BonoboWindow parent;
 	
+	/*
+	 * The current URI being displayed by the MessageBrowser
+	 */
+	FolderBrowser *fb;
 };
 
 
 typedef struct {
-	GtkWindowClass parent_class;
+	BonoboWindowClass parent_class;
 	
 } MessageBrowserClass;
 
-GtkType message_browser_get_type (void);
+GtkType    message_browser_get_type (void);
 
-GtkWidget *message_browser_new (CamelMimeMessage *message);
+GtkWidget *message_browser_new      (const GNOME_Evolution_Shell shell,
+				     const char *uri, const char *uid);
 
-#endif /* __MESSAGE_BROWSER_H__ */
+#endif /* _MESSAGE_BROWSER_H_ */
 
