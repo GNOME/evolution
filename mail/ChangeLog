@@ -1,3 +1,12 @@
+2004-05-24  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (regen_list_regened): pull the message from the
+	regen list before we check the list and pending uid.
+
+	* em-folder-view.c (emfv_enable_menus): remove the hack for
+	enabling select delete from here and put it in the right place.
+	(em_folder_view_get_popup_target): put it here so its consistent.
+
 2004-05-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): put note_store back in.

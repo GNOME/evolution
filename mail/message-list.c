@@ -3516,6 +3516,8 @@ regen_list_regened (struct _mail_msg *mm)
                 g_free (m->ml->search);
 	m->ml->search = m->search;
 
+	m->ml->regen = g_list_remove(m->ml->regen, m);
+
 	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
 		char *uid = m->ml->pending_select_uid;
 
@@ -3549,7 +3551,7 @@ regen_list_free (struct _mail_msg *mm)
 	if (m->changes)
 		camel_folder_change_info_free (m->changes);
 
-	/* we have to poke this here since we might've been cancelled and regened wont get called */
+	/* we have to poke this here as well since we might've been cancelled and regened wont get called */
 	m->ml->regen = g_list_remove(m->ml->regen, m);
 
 	g_object_unref(m->ml);

@@ -1621,15 +1621,15 @@ emfv_enable_menus(EMFolderView *emfv)
 	if (emfv->folder) {
 		t = em_folder_view_get_popup_target(emfv);
 		disable_mask = t->mask;
+
+		printf("\nenabling menu's\n");
+		printf("selected = %d\n", t->data.select.uids->len);
+
 		em_popup_target_free(t);
-		
-		/* always allow deleting of already-deleted messages
-		 * from the main menus/toolbar */
-		if (!emfv->hide_deleted)
-			disable_mask &= ~EM_POPUP_SELECT_DELETE;
 	} else {
 		disable_mask = ~0;
 	}
+
 
 	name = g_string_new("");
 	for (l = emfv->enable_map; l; l = l->next) {
@@ -1840,6 +1840,10 @@ em_folder_view_get_popup_target(EMFolderView *emfv)
 
 	if (message_list_hidden(emfv->list) != 0)
 		t->mask &= ~EM_FOLDER_VIEW_SELECT_HIDDEN;
+
+	/* See bug #54770 */
+	if (!emfv->hide_deleted)
+		t->mask &= ~EM_POPUP_SELECT_DELETE;
 	
 	return t;
 }
