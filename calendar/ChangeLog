@@ -1,5 +1,9 @@
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/week-view.[hc]: removed.
+
+2000-05-06  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/gncal-day-panel.[hc]:
 	* gui/gncal-day-view.[hc]:
 	* gui/gncal-full-day.[hc]:
