@@ -1,5 +1,10 @@
 2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* rule-editor.c (cursor_changed): Use an easier method for getting
+	the iter.
+
+2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* vfolder-rule.c (vfolder_editor_sourcelist_new): New custom
 	function for creating the source_list widget.
 	(get_widget): Removed the source_list creation code.
