@@ -109,6 +109,7 @@ struct ETreePriv {
 	/*
 	 * Configuration settings
 	 */
+	guint alternating_row_colors : 1;
 	guint horizontal_draw_grid : 1;
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
@@ -267,6 +268,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->sorter                             = NULL;
 	e_tree->priv->reflow_idle_id                     = 0;
 
+	e_tree->priv->alternating_row_colors		 = 1;
 	e_tree->priv->horizontal_draw_grid               = 1;
 	e_tree->priv->vertical_draw_grid                 = 1;
 	e_tree->priv->draw_focus                         = 1;
@@ -605,6 +607,7 @@ et_build_item (ETree *et)
 					 "ETableHeader", et->priv->header,
 					 "ETableModel", et->priv->etta,
 					 "selection_model", et->priv->selection,
+					 "alternating_row_colors", et->priv->alternating_row_colors,
 					 "horizontal_draw_grid", et->priv->horizontal_draw_grid,
 					 "vertical_draw_grid", et->priv->vertical_draw_grid,
 					 "drawfocus", et->priv->draw_focus,
@@ -930,6 +933,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	else
 		ete = e_table_extras_new();
 
+	e_tree->priv->alternating_row_colors = specification->alternating_row_colors;
 	e_tree->priv->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_tree->priv->vertical_draw_grid = specification->vertical_draw_grid;
 	e_tree->priv->draw_focus = specification->draw_focus;

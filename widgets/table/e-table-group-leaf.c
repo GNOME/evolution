@@ -29,6 +29,7 @@ enum {
 	ARG_WIDTH,
 	ARG_MINIMUM_WIDTH,
 	ARG_FROZEN,
+	ARG_TABLE_ALTERNATING_ROW_COLORS,
 	ARG_TABLE_HORIZONTAL_DRAW_GRID,
 	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
@@ -176,6 +177,7 @@ etgl_realize (GnomeCanvasItem *item)
 							 e_table_item_get_type (),
 							 "ETableHeader", E_TABLE_GROUP(etgl)->header,
 							 "ETableModel", etgl->ets,
+							 "alternating_row_colors", etgl->alternating_row_colors,
 							 "horizontal_draw_grid", etgl->horizontal_draw_grid,
 							 "vertical_draw_grid", etgl->vertical_draw_grid,
 							 "drawfocus", etgl->draw_focus,
@@ -345,6 +347,15 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_TABLE_ALTERNATING_ROW_COLORS:
+		etgl->alternating_row_colors = GTK_VALUE_BOOL (*arg);
+		if (etgl->item) {
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+					       "alternating_row_colors", GTK_VALUE_BOOL (*arg),
+					       NULL);
+		}
+		break;
+
 	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
 		etgl->horizontal_draw_grid = GTK_VALUE_BOOL (*arg);
 		if (etgl->item) {
@@ -436,7 +447,9 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->get_printable = etgl_get_printable;
 	e_group_class->compute_location = etgl_compute_location;
 	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
- 
+
+	gtk_object_add_arg_type ("ETableGroupLeaf::alternating_row_colors", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_ALTERNATING_ROW_COLORS);
 	gtk_object_add_arg_type ("ETableGroupLeaf::horizontal_draw_grid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableGroupLeaf::vertical_draw_grid", GTK_TYPE_BOOL,
@@ -472,6 +485,7 @@ etgl_init (GtkObject *object)
 	etgl->ets = NULL;
 	etgl->item = NULL;
 	
+	etgl->alternating_row_colors = 1;
 	etgl->horizontal_draw_grid = 1;
 	etgl->vertical_draw_grid = 1;
 	etgl->draw_focus = 1;

@@ -25,6 +25,7 @@ typedef struct {
 	ETableColumnSpecification **columns;
 	ETableState *state;
 
+	guint alternating_row_colors : 1;
 	guint no_headers : 1;
 	guint click_to_add : 1;
 	guint horizontal_draw_grid : 1;

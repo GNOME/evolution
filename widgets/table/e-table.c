@@ -208,6 +208,7 @@ e_table_init (GtkObject *object)
 	e_table->group_info_change_id = 0;
 	e_table->reflow_idle_id = 0;
 
+	e_table->alternating_row_colors = 1;
 	e_table->horizontal_draw_grid = 1;
 	e_table->vertical_draw_grid = 1;
 	e_table->draw_focus = 1;
@@ -594,6 +595,7 @@ et_build_groups (ETable *et)
 				       0);
 	e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
+			      "alternating_row_colors", et->alternating_row_colors,
 			      "horizontal_draw_grid", et->horizontal_draw_grid,
 			      "vertical_draw_grid", et->vertical_draw_grid,
 			      "drawfocus", et->draw_focus,
@@ -970,6 +972,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->click_to_add_message = e_utf8_from_locale_string (gettext (specification->click_to_add_message));
+	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_table->vertical_draw_grid = specification->vertical_draw_grid;
 	e_table->draw_focus = specification->draw_focus;

@@ -33,7 +33,6 @@
 #define FOCUSED_BORDER 2
 
 #define DO_TOOLTIPS 1
-#define ALTERNATE_COLORS 1
 
 #define d(x)
 
@@ -60,6 +59,7 @@ enum {
 	ARG_TABLE_HEADER,
 	ARG_TABLE_MODEL,
 	ARG_SELECTION_MODEL,
+	ARG_TABLE_ALTERNATING_ROW_COLORS,
 	ARG_TABLE_HORIZONTAL_DRAW_GRID,
 	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
@@ -168,17 +168,17 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 		background = &canvas->style->base [GTK_STATE_NORMAL];
 	}
 
-#ifdef ALTERNATE_COLORS
-	if (row % 2) {
+	if (eti->alternating_row_colors) {
+		if (row % 2) {
 		
-	} else {
-		if (allocated)
-			*allocated = TRUE;
-		background = gdk_color_copy (background);
-		e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
-		gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+		} else {
+			if (allocated)
+				*allocated = TRUE;
+			background = gdk_color_copy (background);
+			e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
+			gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+		}
 	}
-#endif
 
 	return background;
 }
@@ -1062,6 +1062,10 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		
 	case ARG_LENGTH_THRESHOLD:
 		eti->length_threshold = GTK_VALUE_INT (*arg);
+		break;
+
+	case ARG_TABLE_ALTERNATING_ROW_COLORS:
+		eti->alternating_row_colors = GTK_VALUE_BOOL (*arg);
 		break;
 
 	case ARG_TABLE_HORIZONTAL_DRAW_GRID:
@@ -2106,6 +2110,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
 	gtk_object_add_arg_type ("ETableItem::selection_model", E_SELECTION_MODEL_TYPE,
 				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
+	gtk_object_add_arg_type ("ETableItem::alternating_row_colors", GTK_TYPE_BOOL,
+				 GTK_ARG_WRITABLE, ARG_TABLE_ALTERNATING_ROW_COLORS);
 	gtk_object_add_arg_type ("ETableItem::horizontal_draw_grid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableItem::vertical_draw_grid", GTK_TYPE_BOOL,

@@ -73,6 +73,7 @@ typedef struct {
 	/*
 	 * Configuration settings
 	 */
+	guint alternating_row_colors : 1;
 	guint horizontal_draw_grid : 1;
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
