@@ -1,3 +1,7 @@
+2001-02-14  Dan Winship  <danw@ximian.com>
+
+	* various .cvsignore files: Ignore generated .oaf files
+
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* art/Makefile.am: install new files

@@ -16,3 +16,4 @@ test-thread
 *.bbg
 *.da
 *.gcov
+GNOME_Evolution_Mail.oaf
