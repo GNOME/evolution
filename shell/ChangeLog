@@ -1,5 +1,13 @@
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (corba_interface_set_message_cb): Replaced with
+	an empty stub, as the "set_message" method is going to be
+	deprecated.
+	(corba_interface_unset_message_cb): Likewise for the
+	"unset_message" method.
+
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_construct): Set `splash' to NULL when
 	@show_splash is false, so the compiler doesn't complain.
 

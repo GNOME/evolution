@@ -1086,52 +1086,16 @@ corba_interface_set_message_cb (EvolutionShellView *shell_view,
 				     gboolean busy,
 				     void *data)
 {
-	char *status;
-	EShellView *view;
-
-	view = E_SHELL_VIEW (data);
-
-	g_return_if_fail (view != NULL);
-
-	if (message != NULL) {
-		const char *newline;
-		
-		newline = strchr (message, '\n');
-		if (newline == NULL)
-			status = g_strdup (message);
-		else
-			status = g_strndup (message, newline - message);
-	} else {
-		status = g_strdup ("");
-	}
-
-	bonobo_ui_component_set_status (view->priv->ui_component, status, NULL);
-
-	g_free (status);
-
-#if 0
-	if (busy)
-		start_progress_bar (E_SHELL_VIEW (data));
-	else
-		stop_progress_bar (E_SHELL_VIEW (data));
-#endif
+	/* Don't do anything here anymore.  The interface is going to be
+	   deprecated soon.  */
 }
 
 static void
 corba_interface_unset_message_cb (EvolutionShellView *shell_view,
 				       void *data)
 {
-	EShellView *view;
-
-	view = E_SHELL_VIEW (data);
-
-	g_return_if_fail (view != NULL);
-
-	bonobo_ui_component_set_status (view->priv->ui_component, "", NULL);
-
-#if 0
-	stop_progress_bar (E_SHELL_VIEW (data));
-#endif
+	/* Don't do anything here anymore.  The interface is going to be
+	   deprecated soon.  */
 }
 
 static void
