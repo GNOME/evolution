@@ -39,7 +39,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
 
 	
-	input_stream = camel_stream_fs_new_with_name (g_string_new ("mail1.test"), CAMEL_STREAM_FS_READ);
+	input_stream = camel_stream_fs_new_with_name (g_string_new ("mail.test"), CAMEL_STREAM_FS_READ);
 	if (!input_stream) {
 		perror("could not open input file");
 		exit(2);

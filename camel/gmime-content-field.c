@@ -90,7 +90,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 		camel_stream_write_strings (stream, "Content-Type: ", content_field->type->str, NULL);
 		if ((content_field->subtype) && ((content_field->subtype)->str)) {
 			//fprintf (file, "/%s", content_field->subtype->str);
-			camel_stream_write_strings (stream, "/", content_field->type->str, NULL);
+			camel_stream_write_strings (stream, "/", content_field->subtype->str, NULL);
 		}
 		/* print all parameters */
 		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
@@ -99,3 +99,64 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 	}
 }
 
+GMimeContentField *
+gmime_content_field_construct_from_string (GString *string)
+{
+	GMimeContentField *cf;
+	gint first, len;
+	gchar *str;
+	gint i=0;
+	GString *type, *subtype;
+	GString *param_name, *param_value;
+	gboolean param_end;
+	
+	g_assert (string);
+	g_assert (string->str);
+
+	cf = g_new (GMimeContentField,1);
+	str = string->str;
+	first = 0;
+	len = string->len;
+	if (!len) return NULL;
+
+	/* find the type */
+	while ( (i<len) && (!strchr ("/;", str[i])) ) i++;
+	
+	if (i == 0) return NULL;
+	
+	type = g_string_new (strndup (str, i));
+	if (i == len) return (gmime_content_field_new (type, NULL));
+	
+	first = i+1;
+	/* find the subtype, if any */
+	if (str[i++] == '/') {
+		while ( (i<len) && (str[i] != ';') ) i++;
+		if (i != first) {
+			subtype = g_string_new (strndup (str+first, i-first));
+			if (first == len) return (gmime_content_field_new (type, subtype));
+		}
+ 	}
+	first = i+1;
+	cf = gmime_content_field_new (type, subtype);
+
+	/* parse parameters list */
+	param_end = FALSE;
+	do {
+		while ( (i<len) && (str[i] != '=') ) i++;
+		if ((i == len) || (i==first)) param_end = TRUE;
+		else {
+			/* we have found parameter name */
+			param_name = g_string_new (strndup (str+first, i-first));
+			i++;
+			first = i;
+			while ( (i<len) && (str[i] != ';') ) i++;
+			if (i != first) {
+				/** ****/
+			} else {
+
+			}
+		}
+	} while ((!param_end) && (first < len));
+
+	return cf;
+}

@@ -36,8 +36,11 @@ typedef enum {
 	HEADER_CONTENT_ID,
 	HEADER_ENCODING,
 	HEADER_CONTENT_MD5,
-	HEADER_CONTENT_LANGUAGES
+	HEADER_CONTENT_LANGUAGES,
+	HEADER_CONTENT_TYPE
 } CamelHeaderType;
+
+
 static GHashTable *header_name_table;
 
 
@@ -72,6 +75,9 @@ static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *strea
 static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 
 
+/* loads in a hash table the set of header names we */
+/* recognize and associate them with a unique enum  */
+/* identifier (see CamelHeaderType above)           */
 static void
 _init_header_name_table()
 {
@@ -81,6 +87,7 @@ _init_header_name_table()
 	g_hash_table_insert (header_name_table, g_string_new ("Content-id"), (gpointer)HEADER_CONTENT_ID);
 	g_hash_table_insert (header_name_table, g_string_new ("Content-Transfer-Encoding"), (gpointer)HEADER_ENCODING);
 	g_hash_table_insert (header_name_table, g_string_new ("Content-MD5"), (gpointer)HEADER_CONTENT_MD5);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-Type"), (gpointer)HEADER_CONTENT_TYPE);
 
 }
 
@@ -165,7 +172,10 @@ _add_header (CamelMimePart *mime_part, GString *header_name, GString *header_val
 	gboolean header_exists;
 	GString *old_header_name;
 	GString *old_header_value;
-	
+
+	/* Try to parse the header pair. If it corresponds to something   */
+	/* known, the job is done in the parsing routine. If not,         */
+	/* we simply add the header in a raw fashion                      */
 	if (CMP_CLASS(mime_part)->parse_header_pair (mime_part, header_name, header_value)) 
 		return;
 	header_exists = g_hash_table_lookup_extended (mime_part->headers, header_name, 
@@ -601,6 +611,15 @@ _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *hea
 			   header_value->str );
 
 		CMP_CLASS(mime_part)->set_content_MD5 (mime_part, header_value);		
+		header_handled = TRUE;
+		break;
+		
+	case HEADER_CONTENT_TYPE:
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_TYPE: %s\n",
+			   header_value->str );
+
+		/* CMP_CLASS(mime_part)->set_content_MD5 (mime_part, header_value); */		
 		header_handled = TRUE;
 		break;
 		
