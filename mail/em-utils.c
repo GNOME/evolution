@@ -799,10 +799,10 @@ generate_account_hash (void)
 	return account_hash;
 }
 
-static EABDestination **
+static EDestination **
 em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 {
-	EABDestination *dest, **destv;
+	EDestination *dest, **destv;
 	int n, i, j;
 	
 	if (iaddr == NULL)
@@ -811,14 +811,14 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 	if ((n = camel_address_length ((CamelAddress *) iaddr)) == 0)
 		return NULL;
 	
-	destv = g_malloc (sizeof (EABDestination *) * (n + 1));
+	destv = g_malloc (sizeof (EDestination *) * (n + 1));
 	for (i = 0, j = 0; i < n; i++) {
 		const char *name, *addr;
 		
 		if (camel_internet_address_get (iaddr, i, &name, &addr)) {
-			dest = eab_destination_new ();
-			eab_destination_set_name (dest, name);
-			eab_destination_set_email (dest, addr);
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
 			
 			destv[j++] = dest;
 		}
@@ -840,7 +840,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		    CamelFolder *folder, const char *postto)
 {
 	const char *message_id, *references;
-	EABDestination **tov, **ccv;
+	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	char *subject;
 	
@@ -1281,7 +1281,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	/* FIXME: would be nice if this shared more code with reply_get_composer() */
 	const char *message_id, *references;
 	CamelInternetAddress *to = NULL;
-	EABDestination **tov = NULL;
+	EDestination **tov = NULL;
 	EMsgComposer *composer;
 	char *subject, *url;
 	EAccount *account;

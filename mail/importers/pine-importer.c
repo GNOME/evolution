@@ -62,7 +62,7 @@
 #include "mail/mail-component.h"
 
 #include <libebook/e-book.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 
 #define KEY "pine-mail-imported"
 
@@ -210,18 +210,19 @@ import_contact(EBook *book, char *line)
 			/* So ... this api is just insane ... we set plain strings as the contact email if it
 			   is a normal contact, but need to do this xml crap for mailing lists */
 			for (i=0;addrs[i];i++) {
-				EABDestination *d;
-				char *xml;
+				EDestination *d;
+				EVCardAttribute *attr;
 
-				d = eab_destination_new();
-				eab_destination_set_email(d, addrs[i]);
-				xml = eab_destination_export(d);
-				if (xml)
-					list = g_list_append(list, xml);
+				d = e_destination_new();
+				e_destination_set_email(d, addrs[i]);
+
+				attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
+				e_destination_export_to_vcard_attribute (d, attr);
+				list = g_list_append(list, attr);
 				g_object_unref(d);
 			}
-			e_contact_set(card, E_CONTACT_EMAIL, list);
-			g_list_foreach(list, (GFunc)g_free, NULL);
+			e_contact_set_attributes(card, E_CONTACT_EMAIL, list);
+			g_list_foreach(list, (GFunc)e_vcard_attribute_free, NULL);
 			g_list_free(list);
 			g_strfreev(addrs);
 			e_contact_set(card, E_CONTACT_IS_LIST, GINT_TO_POINTER(TRUE));

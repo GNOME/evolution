@@ -102,7 +102,7 @@ composer_destroy_cb (gpointer user_data, GObject *deadbeef)
 }
 
 static gboolean
-ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EABDestination **recipients)
+ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
 {
 	gboolean res;
 	GString *str;
@@ -110,10 +110,10 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EABDestination **rec
 	
 	str = g_string_new("");
 	for (i = 0; recipients[i] != NULL; ++i) {
-		if (!eab_destination_get_html_mail_pref (recipients[i])) {
+		if (!e_destination_get_html_mail_pref (recipients[i])) {
 			const char *name;
 			
-			name = eab_destination_get_textrep (recipients[i], FALSE);
+			name = e_destination_get_textrep (recipients[i], FALSE);
 			
 			g_string_append_printf (str, "     %s\n", name);
 		}
@@ -234,7 +234,7 @@ static CamelMimeMessage *
 composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_object_data, gboolean *no_recipients)
 {
 	CamelMimeMessage *message = NULL;
-	EABDestination **recipients, **recipients_bcc;
+	EDestination **recipients, **recipients_bcc;
 	gboolean send_html, confirm_html;
 	CamelInternetAddress *cia;
 	int hidden = 0, shown = 0;
@@ -258,15 +258,15 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	/* see which ones are visible/present, etc */
 	if (recipients) {
 		for (i = 0; recipients[i] != NULL; i++) {
-			const char *addr = eab_destination_get_address (recipients[i]);
+			const char *addr = e_destination_get_address (recipients[i]);
 			
 			if (addr && addr[0]) {
 				camel_address_decode ((CamelAddress *) cia, addr);
 				if (camel_address_length ((CamelAddress *) cia) > 0) {
 					camel_address_remove ((CamelAddress *) cia, -1);
 					num++;
-					if (eab_destination_is_evolution_list (recipients[i])
-					    && !eab_destination_list_show_addresses (recipients[i])) {
+					if (e_destination_is_evolution_list (recipients[i])
+					    && !e_destination_list_show_addresses (recipients[i])) {
 						hidden++;
 					} else {
 						shown++;
@@ -279,7 +279,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	recipients_bcc = e_msg_composer_get_bcc (composer);
 	if (recipients_bcc) {
 		for (i = 0; recipients_bcc[i] != NULL; i++) {
-			const char *addr = eab_destination_get_address (recipients_bcc[i]);
+			const char *addr = e_destination_get_address (recipients_bcc[i]);
 			
 			if (addr && addr[0]) {
 				camel_address_decode ((CamelAddress *) cia, addr);
@@ -290,7 +290,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 			}
 		}
 		
-		eab_destination_freev (recipients_bcc);
+		e_destination_freev (recipients_bcc);
 	}
 	
 	camel_object_unref (cia);
@@ -324,7 +324,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 		
 		if (recipients) {
 			for (i = 0; recipients[i] != NULL && !html_problem; i++) {
-				if (!eab_destination_get_html_mail_pref (recipients[i]))
+				if (!e_destination_get_html_mail_pref (recipients[i]))
 					html_problem = TRUE;
 			}
 		}
@@ -364,14 +364,10 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 		}
 	}
 	
-	/* Get the message recipients and 'touch' them, boosting their use scores */
-	if (recipients)
-		eab_destination_touchv (recipients);
-	
  finished:
 	
 	if (recipients)
-		eab_destination_freev (recipients);
+		e_destination_freev (recipients);
 	
 	return message;
 }

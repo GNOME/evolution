@@ -1,3 +1,18 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* importers/pine-importer.c (import_contact): use
+	e_destination_export_to_vcard_attribute instead of exporting to
+	xml, and use e_contact_set_attributes.
+
+	* em-utils.c (em_utils_camel_address_to_destination):
+	EABDestination -> EDestination.
+	(reply_get_composer): same
+	(post_reply_to_message): same.
+
+	* em-composer-utils.c (ask_confirm_for_unwanted_html_mail):
+	EABDestination -> EDestination.
+	(composer_get_message): same.
+
 2004-04-09  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html.c (efh_format_headers): add width=16 height=16 to
