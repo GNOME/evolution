@@ -32,9 +32,9 @@
 #include <glib.h>
 
 #include "camel-nntp-stream.h"
+#include "camel-debug.h"
 
-extern int camel_verbose_debug;
-#define dd(x) (camel_verbose_debug?(x):0)
+#define dd(x) (camel_debug("nntp:stream")?(x):0)
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -60,7 +60,9 @@ stream_fill(CamelNNTPStream *is)
 			is->end[0] = '\n';
 			return is->end - is->ptr;
 		} else {
-			dd(printf("NNTP_STREAM_FILL(ERROR): '%s'\n", strerror(errno)));
+			if (left == 0)
+				errno = ECONNRESET;
+			dd(printf("NNTP_STREAM_FILL(ERROR): %d - '%s'\n", left, strerror(errno)));
 			return -1;
 		}
 	}

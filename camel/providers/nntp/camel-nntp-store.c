@@ -45,6 +45,7 @@
 #include <camel/camel-disco-store.h>
 #include <camel/camel-disco-diary.h>
 #include "camel/camel-private.h"
+#include <camel/camel-debug.h>
 
 #include "camel-nntp-summary.h"
 #include "camel-nntp-store.h"
@@ -55,8 +56,7 @@
 #include "camel-i18n.h"
 
 #define w(x)
-extern int camel_verbose_debug;
-#define dd(x) (camel_verbose_debug?(x):0)
+#define dd(x) (camel_debug("nntp")?(x):0)
 
 #define NNTP_PORT  "119"
 #define NNTPS_PORT "563"
@@ -111,8 +111,6 @@ xover_setup(CamelNNTPStore *store, CamelException *ex)
 
 	ret = camel_nntp_raw_command_auth(store, ex, &line, "list overview.fmt");
 	if (ret == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("NNTP Command failed: %s"), g_strerror(errno));
 		return -1;
 	} else if (ret != 215)
 		/* unsupported command?  ignore */
@@ -1130,25 +1128,36 @@ camel_nntp_try_authenticate (CamelNNTPStore *store, CamelException *ex)
 	CamelService *service = (CamelService *) store;
 	CamelSession *session = camel_service_get_session (service);
 	int ret;
-	char *line;
+	char *line = NULL;
 	
 	if (!service->url->user) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     _("Authentication requested but no username provided"));
 		return -1;
 	}
-	
+
 	/* if nessecary, prompt for the password */
 	if (!service->url->passwd) {
-		char *prompt;
-		
-		prompt = g_strdup_printf (_("Please enter the NNTP password for %s@%s"),
-					  service->url->user,
-					  service->url->host);
+		char *prompt, *base;
+	retry:
+		base = g_strdup_printf (_("Please enter the NNTP password for %s@%s"),
+					service->url->user,
+					service->url->host);
+		if (line) {
+			char *top = g_strdup_printf(_("Cannot authenticate to server: %s"), line);
+
+			prompt = g_strdup_printf("%s\n\n%s", top, base);
+			g_free(top);
+		} else {
+			prompt = base;
+			base = NULL;
+		}
+
 		service->url->passwd =
 			camel_session_get_password (session, service, NULL,
 						    prompt, "password", CAMEL_SESSION_PASSWORD_SECRET, ex);
-		g_free (prompt);
+		g_free(prompt);
+		g_free(base);
 		
 		if (!service->url->passwd)
 			return -1;
@@ -1163,8 +1172,7 @@ camel_nntp_try_authenticate (CamelNNTPStore *store, CamelException *ex)
 		if (ret != -1) {
 			/* Need to forget the password here since we have no context on it */
 			camel_session_forget_password(session, service, NULL, "password", ex);
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					     _("Cannot authenticate to server: %s"), line);
+			goto retry;
 		}
 		return -1;
 	}
@@ -1356,6 +1364,8 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 		case NNTP_AUTH_REQUIRED:
 			if (camel_nntp_try_authenticate(store, ex) != NNTP_AUTH_ACCEPTED)
 				return -1;
+			retry--;
+			ret = -1;
 			continue;
 		case 411:	/* no such group */
 			camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
@@ -1365,6 +1375,7 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 		case 401:	/* wrong client state - this should quit but this is what the old code did */
 		case 503:	/* information not available - this should quit but this is what the old code did (?) */
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+			ret = -1;
 			continue;
 		case -1:	/* i/o error */
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
