@@ -60,6 +60,8 @@ void mail_do_display_message (MessageList *ml, const char *uid,
 void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 			    GtkSignalFunc signal);
 void mail_do_setup_draftbox (void);
+void mail_do_setup_outbox (void);
+void mail_do_setup_sentbox (void);
 void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
 

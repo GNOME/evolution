@@ -43,6 +43,8 @@
 #include "component-factory.h"
 
 CamelFolder *drafts_folder = NULL;
+CamelFolder *outbox_folder = NULL;
+CamelFolder *sentbox_folder = NULL;     /* this one should be configurable? */
 char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
@@ -116,6 +118,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	mail_config_init ();
 	mail_do_setup_draftbox ();
+	mail_do_setup_outbox ();
+	mail_do_setup_sentbox ();
 	create_vfolder_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));

@@ -1,3 +1,14 @@
+2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (mail_do_setup_outbox): New convenience function to
+	load the Outbox folder
+	(mail_do_setup_sentbox): Same, but for Sentbox.
+	(do_send_mail): Now saves messages in Sentbox if sent successfully
+
+	* component-factory.c: Added outbox_folder and sent_folder
+	(owner_set_cb): Call our new convenience functions to load Outbox
+	and Sentbox
+
 2000-09-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (cleanup_scan_subfolders): Update for the extra arg
