@@ -15,7 +15,7 @@ dnl   gnome_cv_passdown_{x_libs,X_LIBS,X_CFLAGS}
 dnl
 AC_DEFUN([GNOME_X_CHECKS],
 [
-	AM_PATH_GTK(1.0.1,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
+	AM_PATH_GTK(1.1.1,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
 
 	dnl Hope that GTK_CFLAGS have only -I and -D.  Otherwise, we could
 	dnl   test -z "$x_includes" || CPPFLAGS="$CPPFLAGS -I$x_includes"
@@ -34,17 +34,19 @@ AC_DEFUN([GNOME_X_CHECKS],
 
         LDFLAGS="$saved_ldflags $GTK_LIBS"
 
-	AC_MSG_CHECKING([whether to use features from (unstable) GTK+ 1.1.x])
-	AC_EGREP_CPP(answer_affirmatively,
-	[#include <gtk/gtkfeatures.h>
-	#ifdef GTK_HAVE_FEATURES_1_1_0
-	   answer_affirmatively
-	#endif
-	], dev_gtk=yes, dev_gtk=no)
-	if test "$dev_gtk" = "yes"; then
-	   USE_DEVGTK=true
-	fi
-	AC_MSG_RESULT("$dev_gtk")
+dnl We are requiring GTK >= 1.1.1, which means this will be fine anyhow.
+
+dnl	AC_MSG_CHECKING([whether to use features from (unstable) GTK+ 1.1.x])
+dnl	AC_EGREP_CPP(answer_affirmatively,
+dnl	[#include <gtk/gtkfeatures.h>
+dnl	#ifdef GTK_HAVE_FEATURES_1_1_0
+dnl	   answer_affirmatively
+dnl	#endif
+dnl	], dev_gtk=yes, dev_gtk=no)
+dnl	if test "$dev_gtk" = "yes"; then
+dnl	   USE_DEVGTK=true
+dnl	fi
+dnl	AC_MSG_RESULT("$dev_gtk")
 
 	GNOME_HAVE_SM=true
 	case "$GTK_LIBS" in

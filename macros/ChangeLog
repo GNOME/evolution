@@ -1,3 +1,8 @@
+1998-08-04  Stuart Parmenter  <pavlov@innerx.net>
+
+	* gnome-x-checks.m4: (AM_PATH_GTK) make it require GTK >= 1.1.1
+	dnl'd the dev_gtk since they will have to anyways.
+
 1998-08-04  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
 
 	* gnome.m4: (GNOME_INIT_HOOK): Call $1 also, if `gnome-config' is
