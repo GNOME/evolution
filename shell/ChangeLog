@@ -1,5 +1,27 @@
 2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (impl_Shell_user_select_folder): New, implementation
+	for `Shell:user_select_folder'.
+	(corba_class_init): Install it.
+	(folder_selection_dialog_clicked_cb): Callback for the folder
+	selection dialog.
+
+	* Evolution-Shell.idl: New method `Shell::user_select_folder'.
+	New interface `FolderSelectionListener'.
+
+	* glade/e-shell-folder-creation-dialog.glade: Make it larger.
+
+	* e-shell-folder-creation-dialog.h: Fix typo: #include
+	<gtk/gtkwindow.h>, not <gtk/gtkwidget.h>.
+
+	* e-shell-view-menu.c: Added "Go to folder..." command.
+	(commmand_goto_folder): Implementation for it.
+
+	* e-shell-folder-selection-dialog.c: New.
+	* e-shell-folder-selection-dialog.h: New.
+
+2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-local-folder.c (save_metadata): Don't set the description in
 	the XML file if null.  Compute the physical path correctly.
 

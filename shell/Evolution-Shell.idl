@@ -13,10 +13,23 @@
 module Evolution {
 	interface ShellComponent;
 
+	interface FolderSelectionListener;
+
 	interface Shell : Bonobo::Unknown {
 		exception NotFound {};
+		exception Busy {};
 
 		ShellComponent get_component_for_type (in string type)
 			raises (NotFound);
+
+		/* FIXME: Parent "transient_for" window. */
+		void user_select_folder (in FolderSelectionListener listener,
+					 in string title,
+					 in string default_folder)
+			raises (Busy);
+	};
+
+	interface FolderSelectionListener {
+		void selected (in string uri, in string physical_uri);
 	};
 };

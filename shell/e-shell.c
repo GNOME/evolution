@@ -35,6 +35,8 @@
 #include "e-corba-storage-registry.h"
 #include "e-folder-type-registry.h"
 #include "e-local-storage.h"
+#include "e-shell-constants.h"
+#include "e-shell-folder-selection-dialog.h"
 #include "e-shell-view.h"
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
@@ -82,6 +84,50 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* Callback for the folder selection dialog.  */
+
+static void
+folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
+				    int button_number,
+				    void *data)
+{
+	EShellFolderSelectionDialog *folder_selection_dialog;
+	Evolution_FolderSelectionListener listener;
+	EShell *shell;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	CORBA_Environment ev;
+	const char *path;
+	char *uri;
+	const char *physical_uri;
+
+	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
+	shell = E_SHELL (data);
+	listener = gtk_object_get_data (GTK_OBJECT (dialog), "corba_listener");
+
+	storage_set = e_shell_get_storage_set (shell);
+	path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog),
+	folder = e_storage_set_get_folder (storage_set, path);
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+	if (folder == NULL)	/* Uh? */
+		physical_uri = "";
+	else
+		physical_uri = e_folder_get_physical_uri (folder);
+
+	CORBA_exception_init (&ev);
+
+	Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
+
+	CORBA_Object_release (listener, &ev);
+
+	CORBA_exception_free (&ev);
+
+	g_free (uri);
+}
 
 
 /* CORBA interface implementation.  */
@@ -135,7 +181,34 @@ impl_Shell_get_component_for_type (PortableServer_Servant servant,
 
 	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (handler));
 	Bonobo_Unknown_ref (corba_component, ev);
+
 	return CORBA_Object_duplicate (corba_component, ev);
+}
+
+static void
+impl_Shell_user_select_folder (PortableServer_Servant servant,
+			       const Evolution_FolderSelectionListener listener,
+			       const CORBA_char *title,
+			       const CORBA_char *default_folder,
+			       CORBA_Environment *ev)
+{
+	GtkWidget *folder_selection_dialog;
+	BonoboObject *bonobo_object;
+	Evolution_FolderSelectionListener listener_duplicate;
+	EShell *shell;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder);
+
+	listener_duplicate = CORBA_Object_duplicate (listener, ev);
+	gtk_object_set_data (GTK_OBJECT (folder_selection_dialog), "corba_listener", shell);
+
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_clicked_cb), shell);
+
+	gtk_widget_show (folder_selection_dialog);
 }
 
 
@@ -295,6 +368,7 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_Evolution_Shell__epv, 1);
 	epv->get_component_for_type = impl_Shell_get_component_for_type;
+	epv->user_select_folder     = impl_Shell_user_select_folder;
 
 	vepv = &shell_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();

@@ -24,7 +24,7 @@
 #ifndef E_SHELL_FOLDER_CREATION_DIALOG_H
 #define E_SHELL_FOLDER_CREATION_DIALOG_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
 
 #include "e-shell.h"
 

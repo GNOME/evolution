@@ -27,6 +27,8 @@
 #include <gnome.h>
 
 #include "e-shell-folder-creation-dialog.h"
+#include "e-shell-folder-selection-dialog.h"
+
 #include "e-shell-constants.h"
 
 #include "e-shell-view-menu.h"
@@ -244,6 +246,69 @@ command_new_folder (BonoboUIHandler *uih,
 }
 
 
+/* Going to a folder.  */
+
+static void
+folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
+				    int button_number,
+				    void *data)
+{
+	EShellFolderSelectionDialog *folder_selection_dialog;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
+
+	if (button_number != 0 /* OK */ && button_number != 1 /* Cancel */)
+		return;
+
+	if (button_number == 0 /* OK */) {
+		const char *path;
+
+		path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog);
+		if (path != NULL) {
+			char *uri;
+
+			uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+			e_shell_view_display_uri (shell_view, uri);
+		}
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+command_goto_folder (BonoboUIHandler *uih,
+		     void *data,
+		     const char *path)
+{
+	GtkWidget *folder_selection_dialog;
+	EShellView *shell_view;
+	EShell *shell;
+	const char *current_uri;
+	const char *default_folder;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	current_uri = e_shell_view_get_current_uri (shell_view);
+
+	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		default_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
+	else
+		default_folder = NULL;
+
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
+								       _("Go to folder..."),
+								       default_folder);
+
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_clicked_cb), shell_view);
+
+	gtk_widget_show (folder_selection_dialog);
+}
+
+
 /* Unimplemented commands.  */
 
 #define DEFINE_UNIMPLEMENTED(func)					\
@@ -326,7 +391,14 @@ static GnomeUIInfo menu_file_open [] = {
 static GnomeUIInfo menu_file [] = {
 	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), menu_file_new, GNOME_STOCK_MENU_NEW),
 	GNOMEUIINFO_SUBTREE_STOCK (N_("_Open"), menu_file_open, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"), command_close_open_items),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"),
+			       command_close_open_items),
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_NONE (N_("Go to folder..."), N_("Display a different folder"),
+			       command_goto_folder),
+
 	GNOMEUIINFO_SEPARATOR,
 	
 	GNOMEUIINFO_MENU_EXIT_ITEM(command_quit, NULL),

@@ -53,6 +53,8 @@ evolution_SOURCES =				\
 	e-shell-constants.h			\
 	e-shell-folder-creation-dialog.c	\
 	e-shell-folder-creation-dialog.h	\
+	e-shell-folder-selection-dialog.c	\
+	e-shell-folder-selection-dialog.h	\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
 	e-shell-utils.c				\
