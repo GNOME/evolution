@@ -132,7 +132,7 @@
 		
 	</menu>
 	
-	<dockitem name="Toolbar" behavior="exclusive" hlook="both_horiz" vlook="icon">
+	<dockitem name="Toolbar" behavior="exclusive" hlook="system" vlook="icon">
 		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 

@@ -49,7 +49,7 @@
 	</menu>
 
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
-			hlook="both_horiz" vlook="icon">
+			hlook="system" vlook="icon">
 	        <toolitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
 
 		<separator/>

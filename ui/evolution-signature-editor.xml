@@ -66,7 +66,7 @@
 		<placeholder name="Component"/>
 	</menu>
 
-	<dockitem name="Toolbar" behavior="exclusive" hlook="both_horiz" vlook="icon">
+	<dockitem name="Toolbar" behavior="exclusive" hlook="system" vlook="icon">
 		<toolitem name="FileSaveClose" verb=""/>
 	</dockitem>
 

@@ -1,3 +1,14 @@
+2004-01-06  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-comp-editor.xml:
+	* evolution-contact-editor.xml:
+	* evolution-contact-list-editor.xml:
+	* evolution-event-editor.xml:
+	* evolution-mail-messagedisplay.xml:
+	* evolution-message-composer.xml:
+	* evolution-signature-editor.xml:
+	* evolution.xml: Fixes bug #39488, use hlook="system" for toolbars
+
 2003-12-31  Kidd Wang  <kidd.wang@sun.com>
 
 	* evolution-tasks.xml: Add a menu item [Open Task] to [File] for

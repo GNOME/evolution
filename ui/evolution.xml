@@ -108,7 +108,7 @@
   </menu>
 
   <dockitem name="Toolbar" relief="none" behavior="exclusive" config="0" _tip="Main toolbar"
-            hlook="both_horiz" vlook="icon">
+            hlook="system" vlook="icon">
     <control name="NewComboButton"/>
     <separator f="" name="eshell4"/>
 
