@@ -150,7 +150,10 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	w = gtk_calendar_new ();
 	dpanel->gtk_calendar = GTK_CALENDAR (w);
 	gtk_calendar_display_options (dpanel->gtk_calendar,
-				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
+				      (GTK_CALENDAR_SHOW_HEADING
+				       | GTK_CALENDAR_SHOW_DAY_NAMES
+				       | (week_starts_on_monday
+					  ? GTK_CALENDAR_WEEK_START_MONDAY : 0)));
 	gtk_calendar_select_month (dpanel->gtk_calendar, tm->tm_mon, tm->tm_year + 1900);
 	gtk_calendar_select_day (dpanel->gtk_calendar, tm->tm_mday);
 	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar),
@@ -244,4 +247,18 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	gtk_signal_handler_unblock (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
 
 	update (dpanel, FALSE, NULL, 0);
+}
+
+void
+gncal_day_panel_time_format_changed (GncalDayPanel *dpanel)
+{
+	g_return_if_fail (dpanel != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
+
+	gtk_calendar_display_options (dpanel->gtk_calendar,
+				      (week_starts_on_monday
+				       ? (dpanel->gtk_calendar->display_flags
+					  | GTK_CALENDAR_WEEK_START_MONDAY)
+				       : (dpanel->gtk_calendar->display_flags
+					  & ~GTK_CALENDAR_WEEK_START_MONDAY)));
 }

@@ -10,6 +10,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include "gncal-week-view.h"
+#include "main.h"
 #include "timeutil.h"
 
 static void gncal_week_view_init (GncalWeekView *wview);
@@ -140,7 +141,11 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 			    GTK_SIGNAL_FUNC(sync_week), wview);
 	
 	gtk_calendar_display_options (wview->gtk_calendar,
-				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
+				      (GTK_CALENDAR_SHOW_HEADING
+				       | GTK_CALENDAR_SHOW_DAY_NAMES
+				       | (week_starts_on_monday
+					  ? GTK_CALENDAR_WEEK_START_MONDAY : 0)));
+
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (wview->gtk_calendar),
 			  0, 3,
 			  1, 2,
@@ -235,3 +240,16 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 	}
 }
 
+void
+gncal_week_view_time_format_changed (GncalWeekView *wview)
+{
+	g_return_if_fail (wview != NULL);
+	g_return_if_fail (GNCAL_IS_WEEK_VIEW (wview));
+
+	gtk_calendar_display_options (wview->gtk_calendar,
+				      (week_starts_on_monday
+				       ? (wview->gtk_calendar->display_flags
+					  | GTK_CALENDAR_WEEK_START_MONDAY)
+				       : (wview->gtk_calendar->display_flags
+					  & ~GTK_CALENDAR_WEEK_START_MONDAY)));
+}

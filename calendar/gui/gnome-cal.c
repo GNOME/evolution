@@ -465,7 +465,9 @@ gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 
 	/* FIXME: the queue resizes will do until we rewrite those views... */
 
+	gncal_day_panel_time_format_changed (GNCAL_DAY_PANEL (gcal->day_view));
 	gtk_widget_queue_resize (gcal->day_view);
+	gncal_week_view_time_format_changed (GNCAL_WEEK_VIEW (gcal->week_view));
 	gtk_widget_queue_resize (gcal->week_view);
 	month_view_time_format_changed (MONTH_VIEW (gcal->month_view));
 	year_view_time_format_changed (YEAR_VIEW (gcal->year_view));

@@ -49,11 +49,12 @@ struct _GncalDayPanelClass {
 };
 
 
-guint      gncal_day_panel_get_type (void);
-GtkWidget *gncal_day_panel_new      (GnomeCalendar *calendar, time_t start_of_day);
+guint gncal_day_panel_get_type (void);
+GtkWidget *gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day);
 
-void       gncal_day_panel_update   (GncalDayPanel *dpanel, iCalObject *ico, int flags);
-void       gncal_day_panel_set      (GncalDayPanel *dpanel, time_t start_of_day);
+void gncal_day_panel_update (GncalDayPanel *dpanel, iCalObject *ico, int flags);
+void gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day);
+void gncal_day_panel_time_format_changed (GncalDayPanel *dpanel);
 
 
 END_GNOME_DECLS

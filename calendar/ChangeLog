@@ -1,3 +1,18 @@
+1999-02-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-week-view.c (gncal_week_view_new): Make the calendar start
+	weeks on Monday if appropriate.
+	(gncal_week_view_time_format_changed): New function to notify the
+	week view that the time format has changed.
+
+	* gncal-day-panel.c (gncal_day_panel_new): Make the calendar start
+	weeks on Monday if appropriate.
+	(gncal_day_panel_time_format_changed): New function to notify the
+	day panel that the time format has changed.
+
+	* gnome-cal.c (gnome_calendar_time_format_changed): Tell the day
+	and week views that the time format has changed.
+
 1999-02-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (event_editor_init): Set the title of the event
