@@ -58,6 +58,8 @@
 #include "mail-mt.h"
 #include "mail.h"
 
+#include "camel/camel-data-cache.h"
+
 #include "art/empty.xpm"
 
 #define d(x)
@@ -82,6 +84,9 @@ struct _MailDisplayPrivate {
 /* max number of connections to download images */
 #define FETCH_MAX_CONNECTIONS (4)
 
+/* path to http cache in fetch_cache */
+#define FETCH_HTTP_CACHE "http"
+
 /* for asynchronously downloading remote content */
 struct _remote_data {
 	struct _remote_data *next;
@@ -93,6 +98,7 @@ struct _remote_data {
 	char *uri;
 	GtkHTML *html;
 	GtkHTMLStream *stream;
+	CamelStream *cstream;	/* cache stream */
 	size_t length;
 	size_t total;
 };
@@ -103,6 +109,9 @@ static void fetch_next(MailDisplay *md);
 static void fetch_data(SoupMessage *req, void *data);
 static void fetch_free(struct _remote_data *rd);
 static void fetch_done(SoupMessage *req, void *data);
+
+/* global http cache, relies on external evolution_dir as well */
+static CamelDataCache *fetch_cache;
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -1306,6 +1315,32 @@ static void fetch_next(MailDisplay *md)
 static void fetch_remote(MailDisplay *md, const char *uri, GtkHTML *html, GtkHTMLStream *stream)
 {
 	struct _remote_data *rd;
+	CamelStream *cstream = NULL;
+
+	if (fetch_cache) {
+		cstream = camel_data_cache_get(fetch_cache, FETCH_HTTP_CACHE, uri, NULL);
+		if (cstream) {
+			char buf[1024];
+			ssize_t len;
+
+			/* need to verify header? */
+
+			while (!camel_stream_eos(cstream)) {
+				len = camel_stream_read(cstream, buf, 1024);
+				if (len > 0) {
+					gtk_html_write(html, stream, buf, len);
+				} else if (len < 0) {
+					gtk_html_end(html, stream, GTK_HTML_STREAM_ERROR);
+					camel_object_unref(cstream);
+					return;
+				}
+			}
+			gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
+			camel_object_unref(cstream);
+			return;
+		}
+		cstream = camel_data_cache_add(fetch_cache, FETCH_HTTP_CACHE, uri, NULL);
+	}
 
 	rd = g_malloc0(sizeof(*rd));
 	rd->md = md;		/* dont ref */
@@ -1313,6 +1348,7 @@ static void fetch_remote(MailDisplay *md, const char *uri, GtkHTML *html, GtkHTM
 	rd->html = html;
 	gtk_object_ref((GtkObject *)html);
 	rd->stream = stream;
+	rd->cstream = cstream;
 
 	md->priv->fetch_total++;
 	e_dlist_addtail(&md->priv->fetch_queue, (EDListNode *)rd);
@@ -1339,6 +1375,15 @@ static void fetch_data(SoupMessage *req, void *data)
 
 	gtk_html_write(rd->html, rd->stream, req->response.body, req->response.length);
 
+	/* copy to cache, clear cache if we get a cache failure */
+	if (rd->cstream) {
+		if (camel_stream_write(rd->cstream, req->response.body, req->response.length) == -1) {
+			camel_data_cache_remove(fetch_cache, FETCH_HTTP_CACHE, rd->uri, NULL);
+			camel_object_unref(rd->cstream);
+			rd->cstream = NULL;
+		}
+	}
+
 	/* update based on total active + finished totals */
 	complete = 0.0;
 	wd = (struct _remote_data *)p->fetch_active.head;
@@ -1357,8 +1402,10 @@ static void fetch_data(SoupMessage *req, void *data)
 static void fetch_free(struct _remote_data *rd)
 {
 	gtk_object_unref((GtkObject *)rd->html);
+	if (rd->cstream)
+		camel_object_unref(rd->cstream);
 	g_free(rd->uri);
-	g_free(rd);	
+	g_free(rd);
 }
 
 static void fetch_done(SoupMessage *req, void *data)
@@ -1369,6 +1416,8 @@ static void fetch_done(SoupMessage *req, void *data)
 	if (SOUP_MESSAGE_IS_ERROR(req)) {
 		d(printf("Loading '%s' failed!\n", rd->uri));
 		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_ERROR);
+		if (fetch_cache)
+			camel_data_cache_remove(fetch_cache, FETCH_HTTP_CACHE, rd->uri, NULL);
 	} else {
 		d(printf("Loading '%s' complete!\n", rd->uri));
 		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_OK);
@@ -1388,6 +1437,8 @@ static void fetch_cancel(MailDisplay *md)
 	/* first, clean up all the ones we haven't finished yet */
 	while ((rd = (struct _remote_data *)e_dlist_remhead(&md->priv->fetch_queue))) {
 		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_ERROR);
+		if (fetch_cache)
+			camel_data_cache_remove(fetch_cache, FETCH_HTTP_CACHE, rd->uri, NULL);
 		fetch_free(rd);
 	}
 
@@ -1918,9 +1969,22 @@ static void
 mail_display_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = mail_display_destroy;
-	mail_display_parent_class = gtk_type_class (PARENT_TYPE);
 
-	thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	if (mail_display_parent_class == NULL) {
+		/* blah, this is an unecessary dependency ... */
+		extern char *evolution_dir;
+		char *path = alloca(strlen(evolution_dir)+16);
+
+		sprintf(path, "%s/cache", evolution_dir);
+		/* cache expiry - 2 hour access, 1 day max */
+		fetch_cache = camel_data_cache_new(path, 0, NULL);
+		camel_data_cache_set_expire_age(fetch_cache, 24*60*60);
+		camel_data_cache_set_expire_access(fetch_cache, 2*60*60);
+
+		mail_display_parent_class = gtk_type_class (PARENT_TYPE);
+		thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
+
+	}
 }
 
 static void
