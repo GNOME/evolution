@@ -73,6 +73,20 @@ struct _CamelStorePrivate {
 #define CAMEL_STORE_UNLOCK(f, l)
 #endif
 
+struct _CamelTransportPrivate {
+#ifdef ENABLE_THREADS
+	GMutex *send_lock;   /* for locking send operations */
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_TRANSPORT_LOCK(f, l) (g_mutex_lock(((CamelTransport *)f)->priv->l))
+#define CAMEL_TRANSPORT_UNLOCK(f, l) (g_mutex_unlock(((CamelTransport *)f)->priv->l))
+#else
+#define CAMEL_TRANSPORT_LOCK(f, l)
+#define CAMEL_TRANSPORT_UNLOCK(f, l)
+#endif
+
 struct _CamelServicePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *connect_lock;	/* for locking connection operations */

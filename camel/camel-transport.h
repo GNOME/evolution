@@ -47,6 +47,8 @@ struct _CamelTransport
 {
 	CamelService parent_object;
 	
+	struct _CamelTransportPrivate *priv;
+	
 	gboolean supports_8bit;
 };
 

@@ -1,5 +1,16 @@
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-transport.c (camel_transport_init): Initialize the private
+	send_lock.
+	(camel_transport_finalize): Free the private send_lock.
+	(camel_transport_get_type): Set the init and finalize functions.
+	(camel_transport_send): Lock the transport.
+	(camel_transport_send_to): Same.
+
+	* camel-private.h: Add CAMEL_TRANSPORT_(UN)LOCK macros.
+
+2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* tests/folder/test9.c (main): Updated to match the current API.
 
 	* tests/folder/test3.c: #include <gtk/gtk.h> since we use
