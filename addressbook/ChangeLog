@@ -1,3 +1,11 @@
+2002-03-06  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (ldap_search_handler): only ask
+	for the attributes we can handle.
+	(pas_backend_ldap_destroy): free our list of search attributes.
+	(pas_backend_ldap_init): fill in the search_attr array from
+	prop_info (use the ldap_attrs.)
+
 2002-03-04  Chris Toshok  <toshok@ximian.com>
 
 	[fixes bug #20871]

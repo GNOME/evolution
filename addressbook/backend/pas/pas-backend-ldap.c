@@ -100,6 +100,8 @@ struct _PASBackendLDAPPrivate {
 
 	gboolean writable;
 
+	char     **search_attrs;
+
 	/* whether or not there's a request in process on our LDAP* */
 	LDAPOp *current_op;
 	GList *pending_ops;
@@ -2397,9 +2399,8 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 		ldap_err = ldap_search_ext (ldap, bl->priv->ldap_rootdn,
 					    bl->priv->ldap_scope,
 					    search_op->ldap_query,
-					    NULL, 0,
-					    NULL, /* XXX */
-					    NULL, /* XXX */
+					    bl->priv->search_attrs, 0,
+					    NULL, NULL,
 					    NULL,
 					    LDAP_MAX_SEARCH_RESPONSES, &view->search_msgid);
 
@@ -2831,6 +2832,7 @@ pas_backend_ldap_destroy (GtkObject *object)
 	if (bl->priv->supported_fields)
 		gtk_object_unref (GTK_OBJECT (bl->priv->supported_fields));
 
+	g_free (bl->priv->search_attrs);
 	g_free (bl->priv->uri);
 
 	GTK_OBJECT_CLASS (pas_backend_ldap_parent_class)->destroy (object);	
@@ -2860,10 +2862,16 @@ static void
 pas_backend_ldap_init (PASBackendLDAP *backend)
 {
 	PASBackendLDAPPrivate *priv;
+	int i;
 
 	priv                   = g_new0 (PASBackendLDAPPrivate, 1);
 
 	priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+	priv->search_attrs = g_new (char*, num_prop_infos+1);
+	for (i = 0; i < num_prop_infos; i ++) {
+		priv->search_attrs[i] = prop_info[i].ldap_attr;
+	}
+	priv->search_attrs[num_prop_infos] = NULL;
 
 	backend->priv = priv;
 }
