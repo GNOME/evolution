@@ -1,3 +1,8 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-model.c (dup_date_edit_value): return NULL if passed
+	NULL. Should fix bug #14048.
+
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/calendar-config.c (config_read): Do not ignore the
