@@ -1,5 +1,10 @@
 2001-08-07  Jakub Steiner <jimmac@ximian.com>
 
+	* evolution-trash-mini.png: scaled down Tuomas' trash icon.
+	  tweaked a bit. looks a lot better than the previous one.
+	
+2001-08-07  Jakub Steiner <jimmac@ximian.com>
+
 	* inbox-*, outbox-*: tree view icons
    * filters.xpm, edit-16.xpm, marlboro_filters.xpm: remove unused
    * vfolder-16.xpm, delete-message.xpm, undelete-message.xpm: let's
