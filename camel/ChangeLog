@@ -1,3 +1,10 @@
+2002-07-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c: Renamed stdin to stdin_fd, stdout to
+	stdout_fd, and stderr to stderr_fd in struct _GpgCtx since
+	Solaris' stdin/stdout/etderr variables seem to be macros and are
+	thus breaking the compilation.
+
 2002-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/nntp/camel-nntp-provider.c: Set the IS_SOURCE provider

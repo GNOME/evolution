@@ -231,9 +231,9 @@ struct _GpgCtx {
 	GPtrArray *recipients;
 	CamelCipherHash hash;
 	
-	int stdin;
-	int stdout;
-	int stderr;
+	int stdin_fd;
+	int stdout_fd;
+	int stderr_fd;
 	int status_fd;
 	int passwd_fd;  /* only needed for sign/decrypt */
 	
@@ -293,9 +293,9 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->always_trust = FALSE;
 	gpg->armor = FALSE;
 	
-	gpg->stdin = -1;
-	gpg->stdout = -1;
-	gpg->stderr = -1;
+	gpg->stdin_fd = -1;
+	gpg->stdout_fd = -1;
+	gpg->stderr_fd = -1;
 	gpg->status_fd = -1;
 	gpg->passwd_fd = -1;
 	
@@ -425,12 +425,12 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 		g_ptr_array_free (gpg->recipients, TRUE);
 	}
 	
-	if (gpg->stdin != -1)
-		close (gpg->stdin);
-	if (gpg->stdout != -1)
-		close (gpg->stdout);
-	if (gpg->stderr != -1)
-		close (gpg->stderr);
+	if (gpg->stdin_fd != -1)
+		close (gpg->stdin_fd);
+	if (gpg->stdout_fd != -1)
+		close (gpg->stdout_fd);
+	if (gpg->stderr_fd != -1)
+		close (gpg->stderr_fd);
 	if (gpg->status_fd != -1)
 		close (gpg->status_fd);
 	if (gpg->passwd_fd != -1)
@@ -623,10 +623,10 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	
 	/* Parent */
 	close (fds[0]);
-	gpg->stdin = fds[1];
-	gpg->stdout = fds[2];
+	gpg->stdin_fd = fds[1];
+	gpg->stdout_fd = fds[2];
 	close (fds[3]);
-	gpg->stderr = fds[4];
+	gpg->stderr_fd = fds[4];
 	close (fds[5]);
 	gpg->status_fd = fds[6];
 	close (fds[7]);
@@ -636,9 +636,9 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 		fcntl (gpg->passwd_fd, F_SETFL, O_NONBLOCK);
 	}
 	
-	fcntl (gpg->stdin, F_SETFL, O_NONBLOCK);
-	fcntl (gpg->stdout, F_SETFL, O_NONBLOCK);
-	fcntl (gpg->stderr, F_SETFL, O_NONBLOCK);
+	fcntl (gpg->stdin_fd, F_SETFL, O_NONBLOCK);
+	fcntl (gpg->stdout_fd, F_SETFL, O_NONBLOCK);
+	fcntl (gpg->stderr_fd, F_SETFL, O_NONBLOCK);
 	fcntl (gpg->status_fd, F_SETFL, O_NONBLOCK);
 	
 	return 0;
@@ -902,18 +902,18 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 	
  retry:
 	FD_ZERO (&rdset);
-	FD_SET (gpg->stdout, &rdset);
-	FD_SET (gpg->stderr, &rdset);
+	FD_SET (gpg->stdout_fd, &rdset);
+	FD_SET (gpg->stderr_fd, &rdset);
 	FD_SET (gpg->status_fd, &rdset);
 	
-	maxfd = MAX (gpg->stdout, gpg->stderr);
+	maxfd = MAX (gpg->stdout_fd, gpg->stderr_fd);
 	maxfd = MAX (maxfd, gpg->status_fd);
 	
-	if (gpg->stdin != -1 || gpg->passwd_fd != -1) {
+	if (gpg->stdin_fd != -1 || gpg->passwd_fd != -1) {
 		FD_ZERO (&wrset);
-		if (gpg->stdin != -1) {
-			FD_SET (gpg->stdin, &wrset);
-			maxfd = MAX (maxfd, gpg->stdin);
+		if (gpg->stdin_fd != -1) {
+			FD_SET (gpg->stdin_fd, &wrset);
+			maxfd = MAX (maxfd, gpg->stdin_fd);
 		}
 		if (gpg->passwd_fd != -1) {
 			FD_SET (gpg->passwd_fd, &wrset);
@@ -967,14 +967,14 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	if (FD_ISSET (gpg->stdout, &rdset) && gpg->ostream) {
+	if (FD_ISSET (gpg->stdout_fd, &rdset) && gpg->ostream) {
 		char buffer[4096];
 		ssize_t nread;
 		
 		d(printf ("reading gpg's stdout...\n"));
 		
 		do {
-			nread = read (gpg->stdout, buffer, sizeof (buffer));
+			nread = read (gpg->stdout_fd, buffer, sizeof (buffer));
 		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
 		if (nread == -1)
 			goto exception;
@@ -987,14 +987,14 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	if (FD_ISSET (gpg->stderr, &rdset)) {
+	if (FD_ISSET (gpg->stderr_fd, &rdset)) {
 		char buffer[4096];
 		ssize_t nread;
 		
 		d(printf ("reading gpg's stderr...\n"));
 		
 		do {
-			nread = read (gpg->stderr, buffer, sizeof (buffer));
+			nread = read (gpg->stderr_fd, buffer, sizeof (buffer));
 		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
 		if (nread == -1)
 			goto exception;
@@ -1034,7 +1034,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		gpg->send_passwd = FALSE;
 	}
 	
-	if (wrsetp && gpg->stdin != -1 && FD_ISSET (gpg->stdin, &wrset)) {
+	if (wrsetp && gpg->stdin_fd != -1 && FD_ISSET (gpg->stdin_fd, &wrset)) {
 		char buffer[4096];
 		ssize_t nread;
 		
@@ -1047,7 +1047,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			
 			do {
 				do {
-					w = write (gpg->stdin, buffer + nwritten, nread - nwritten);
+					w = write (gpg->stdin_fd, buffer + nwritten, nread - nwritten);
 				} while (w == -1 && (errno == EINTR || errno == EAGAIN));
 				
 				if (w > 0)
@@ -1062,8 +1062,8 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		
 		if (camel_stream_eos (gpg->istream)) {
 			d(printf ("closing gpg's stdin\n"));
-			close (gpg->stdin);
-			gpg->stdin = -1;
+			close (gpg->stdin_fd);
+			gpg->stdin_fd = -1;
 		}
 	}
 	
