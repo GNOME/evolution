@@ -200,7 +200,12 @@ next_func (GnomeDruidPage *page,
 	pagenum = page_to_num (page);
 	GNOME_Evolution_Wizard_notifyAction (data->mailer, pagenum, GNOME_Evolution_Wizard_NEXT, &ev);
 	CORBA_exception_free (&ev);
-	return FALSE;
+
+	/* If on last page we own, let druid goto next page */
+	if (pagenum == g_list_length(page_list)-1)
+		return FALSE;
+
+	return TRUE;
 }
 
 static gboolean
@@ -230,7 +235,12 @@ back_func (GnomeDruidPage *page,
 	pagenum = page_to_num (page);
 	GNOME_Evolution_Wizard_notifyAction (data->mailer, pagenum, GNOME_Evolution_Wizard_BACK, &ev);
 	CORBA_exception_free (&ev);
-	return FALSE;
+
+	/* if we're on page 0, let the druid go back to the start page, if we have one */
+	if (pagenum == 0)
+		return FALSE;
+
+	return TRUE;
 }
 
 static void

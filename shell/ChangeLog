@@ -1,3 +1,11 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* e-shell-startup-wizard.c (next_func): If we're not at the end of
+	the druid list, tell the druid we're going to change the page.
+	(back_func): Same for going back a page.  This way we can properly
+	synchronise with the druid object and not race with the wizard
+	object to set the right page.  Part of fix for #12127.
+
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c (owner_ping_callback): Slightly
