@@ -441,6 +441,16 @@ primary_source_selection_changed_cb (ESourceSelector *selector, CalendarComponen
 }
 
 static void
+source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
+{
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+	default:
+	}
+}
+
+static void
 config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
@@ -960,13 +970,18 @@ create_component_view (CalendarComponent *calendar_component)
 	}
 
 	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
+	g_signal_connect (component_view->calendar, "source_removed", 
+			  G_CALLBACK (source_removed_cb), component_view);
 
 	/* Create status bar */
 	statusbar_widget = e_task_bar_new ();
+	component_view->activity_handler = e_activity_handler_new ();
 	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
 	gtk_widget_show (statusbar_widget);
 
 	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
+	
+	gnome_calendar_set_activity_handler (component_view->calendar, component_view->activity_handler);
 	
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
@@ -1298,20 +1313,6 @@ ESourceList *
 calendar_component_peek_source_list (CalendarComponent *component)
 {
 	return component->priv->source_list;
-}
-
-ESourceSelector *
-calendar_component_peek_source_selector (CalendarComponent *component)
-{
-// return E_SOURCE_SELECTOR (component->priv->source_selector);
-	return NULL;
-}
-
-EActivityHandler *
-calendar_component_peek_activity_handler (CalendarComponent *component)
-{
-//	return component->priv->activity_handler;
-	return NULL;
 }
 
 void

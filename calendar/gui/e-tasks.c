@@ -42,6 +42,7 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
+#include "e-calendar-marshal.h"
 #include "cal-search-bar.h"
 #include "calendar-config.h"
 #include "calendar-component.h"
@@ -92,6 +93,8 @@ static void backend_error_cb (ECal *client, const char *message, gpointer data);
 /* Signal IDs */
 enum {
 	SELECTION_CHANGED,
+	SOURCE_ADDED,
+	SOURCE_REMOVED,
 	LAST_SIGNAL
 };
 
@@ -383,9 +386,33 @@ e_tasks_class_init (ETasksClass *class)
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_INT);
 
+	e_tasks_signals[SOURCE_ADDED] =
+		g_signal_new ("source_added",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ETasksClass, source_added),
+			      NULL, NULL,
+			      e_calendar_marshal_VOID__OBJECT,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_OBJECT);
+
+	e_tasks_signals[SOURCE_REMOVED] =
+		g_signal_new ("source_removed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ETasksClass, source_removed),
+			      NULL, NULL,
+			      e_calendar_marshal_VOID__OBJECT,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_OBJECT);
+
 	object_class->destroy = e_tasks_destroy;
 
 	class->selection_changed = NULL;
+	class->source_added = NULL;
+	class->source_removed = NULL;
 }
 
 
@@ -534,16 +561,23 @@ backend_died_cb (ECal *client, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
+	ESource *source;
 	char *message;
 	GtkWidget *dialog;
-
+	
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	/* FIXME: this doesn't remove the task list from the list or anything */
-	message = g_strdup_printf (_("The task backend for\n%s\n has crashed."), e_cal_get_uri (client));
+	source = g_object_ref (e_cal_get_source (client));
+
+	priv->clients_list = g_list_remove (priv->clients_list, client);
+	g_hash_table_remove (priv->clients, e_cal_get_uri (client));
+
+	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
+
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL);
 
+	message = g_strdup_printf (_("The task backend for '%s' has crashed."), e_source_peek_name (source));
 	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
 					 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 					 message);
@@ -551,13 +585,7 @@ backend_died_cb (ECal *client, gpointer data)
 	gtk_widget_destroy (dialog);
 	g_free (message);
 
-	e_source_selector_unselect_source (
-		tasks_component_peek_source_selector (tasks_component_peek ()),
-		e_cal_get_source (client));
-
-	g_hash_table_remove (priv->clients, e_cal_get_uri (client));
-	priv->clients_list = g_list_remove (priv->clients_list, client);
-	g_object_unref (client);
+	g_object_unref (source);
 }
 
 void
@@ -621,6 +649,8 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 		return TRUE;
 	}
 
+	/* FIXME Loading should be async */
+	/* FIXME With no event handling here the status message never actually changes */
 	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
 
 	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
@@ -635,6 +665,8 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
+
+	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_ADDED], source);
 
 	if (!e_cal_open (client, FALSE, &error)) {
 		GtkWidget *dialog;
@@ -652,6 +684,8 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 
 		/* Do this last because it unrefs the client */
 		g_hash_table_remove (priv->clients, str_uri);
+
+		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -701,6 +735,8 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 
 	g_hash_table_remove (priv->clients, str_uri);
 	g_free (str_uri);
+
+	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
 	return TRUE;
 }

@@ -1360,16 +1360,24 @@ static char *test[] = {
 static GdkPixbuf *progress_icon = NULL;
 
 void
+e_calendar_table_set_activity_handler (ECalendarTable *cal_table, EActivityHandler *activity_handler)
+{
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	cal_table->activity_handler = activity_handler;
+}
+
+void
 e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
 {
-#if 0
-	EActivityHandler *activity_handler = tasks_component_peek_activity_handler (tasks_component_peek ());
-
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
+	if (!cal_table->activity_handler)
+		return;
+	
         if (!message || !*message) {
 		if (cal_table->activity_id != 0) {
-			e_activity_handler_operation_finished (activity_handler, cal_table->activity_id);
+			e_activity_handler_operation_finished (cal_table->activity_handler, cal_table->activity_id);
 			cal_table->activity_id = 0;
 		}
         } else if (cal_table->activity_id == 0) {
@@ -1378,12 +1386,11 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
                 if (progress_icon == NULL)
                         progress_icon = e_icon_factory_get_icon (EVOLUTION_TASKS_PROGRESS_IMAGE, 16);
 
-                cal_table->activity_id = e_activity_handler_operation_started (activity_handler, client_id,
+                cal_table->activity_id = e_activity_handler_operation_started (cal_table->activity_handler, client_id,
 									       progress_icon, message, TRUE);
 
                 g_free (client_id);
         } else {
-                e_activity_handler_operation_progressing (activity_handler, cal_table->activity_id, message, -1.0);
+                e_activity_handler_operation_progressing (cal_table->activity_handler, cal_table->activity_id, message, -1.0);
 	}
-#endif
 }

@@ -1,5 +1,59 @@
 2004-04-29  JP Rosevear  <jpr@ximian.com>
 
+	* gui/tasks-component.h (tasks_component_peek_source_list): remove
+	prototypes
+
+	* gui/tasks-component.c (source_removed_cb):  unselect the
+	source in the selector if source removed from calendar
+	(create_component_view): create the activity handler and listen to
+	source remove signal
+
+	* gui/gnome-cal.h: add signals, protos
+
+	* gui/gnome-cal.c (gnome_calendar_class_init): add source added
+	and removed signals
+	(client_cal_opened_cb): emit source removed signal
+	(open_ecal): set the status message
+	(backend_died_cb): emit source removed signal
+	(gnome_calendar_set_activity_handler): allow an activity handler
+	to be set
+	(gnome_calendar_add_source): emit source added signal
+	(gnome_calendar_remove_source): emit source removed signal
+	(display_view): update the active activity handler
+	
+	* gui/e-tasks.h: add signal prototypes
+
+	* gui/e-tasks.c (e_tasks_class_init): add source added and removed
+	signals
+	(backend_died_cb): emit source removed signal
+	(e_tasks_add_todo_source): emit source added/removed signals
+	(e_tasks_remove_todo_source): emit source removed signal
+
+	* gui/e-calendar-view.h: add proto
+
+	* gui/e-calendar-view.c (e_calendar_view_set_activity_handler):
+	allow an activity handler to be set
+	(e_calendar_view_set_status_message): use private activity handler
+	(if any) to set status message
+
+	* gui/e-calendar-table.h: add data member and proto
+
+	* gui/e-calendar-table.c (e_calendar_table_set_activity_handler):
+	allow an activity handler to be set
+	(e_calendar_table_set_status_message): use private activity
+	handler (if any) to set status message
+
+	* gui/e-calendar-marshal.list: add extra marshallers
+
+	* gui/calendar-component.h: kill protos
+
+	* gui/calendar-component.c (source_removed_cb): unselect the
+	source in the selector if source removed from calendar
+	(create_component_view): create the activity handler and listen to
+	source remove signal
+
+2004-04-29  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/comp-editor.c (send_timezone): ditto
 
 	* gui/dialogs/task-page.c (task_page_fill_component): kill warning

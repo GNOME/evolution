@@ -28,7 +28,6 @@
 #include <libedataserver/e-source-list.h>
 
 #include "widgets/misc/e-source-selector.h"
-#include "e-activity-handler.h"
 #include "Evolution.h"
 
 
@@ -63,8 +62,6 @@ CalendarComponent *calendar_component_peek  (void);
 const char       *calendar_component_peek_base_directory    (CalendarComponent *component);
 const char       *calendar_component_peek_config_directory  (CalendarComponent *component);
 ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
-ESourceSelector  *calendar_component_peek_source_selector   (CalendarComponent *component);
-EActivityHandler *calendar_component_peek_activity_handler  (CalendarComponent *component);
 
 void calendar_component_init_publishing (void);
 

@@ -376,6 +376,11 @@ primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponentVi
 	update_uri_for_primary_selection (component_view);
 }
 
+static void
+source_removed_cb (ETasks *tasks, ESource *source, TasksComponentView *component_view)
+{
+	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
+}
 
 /* Evolution::Component CORBA methods */
 
@@ -602,13 +607,18 @@ create_component_view (TasksComponent *tasks_component)
 	}
 
 	component_view->tasks = (ETasks *) bonobo_control_get_widget (component_view->view_control);
+	g_signal_connect (component_view->tasks, "source_removed", 
+			  G_CALLBACK (source_removed_cb), component_view);
 
 	/* Create status bar */
 	statusbar_widget = e_task_bar_new ();
+	component_view->activity_handler = e_activity_handler_new ();
 	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
 	gtk_widget_show (statusbar_widget);
 
 	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
+	
+	e_calendar_table_set_activity_handler (e_tasks_get_calendar_table (component_view->tasks), component_view->activity_handler);
 	
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
@@ -889,20 +899,6 @@ ESourceList *
 tasks_component_peek_source_list (TasksComponent *component)
 {
 	return component->priv->source_list;	
-}
-
-ESourceSelector *
-tasks_component_peek_source_selector (TasksComponent *component)
-{
-//	return component->priv->source_selector;
-	return NULL;
-}
-
-EActivityHandler *
-tasks_component_peek_activity_handler (TasksComponent *component)
-{
-//	return component->priv->activity_handler;
-	return NULL;
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

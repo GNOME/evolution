@@ -27,6 +27,7 @@
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <widgets/misc/e-cell-date-edit.h>
+#include "e-activity-handler.h"
 #include "e-cal-model.h"
 
 G_BEGIN_DECLS
@@ -61,6 +62,7 @@ struct _ECalendarTable {
 	icalcomponent *tmp_vcal;
 
 	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
+	EActivityHandler *activity_handler;
 	guint activity_id;
 };
 
@@ -92,6 +94,8 @@ void	   e_calendar_table_load_state		(ECalendarTable *cal_table,
 void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
 
+void       e_calendar_table_set_activity_handler (ECalendarTable *cal_table,
+						  EActivityHandler *activity_handler);
 void       e_calendar_table_set_status_message (ECalendarTable *cal_table,
 						const gchar *message);
 

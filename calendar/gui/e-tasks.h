@@ -54,6 +54,8 @@ struct _ETasksClass {
 
 	/* Notification signals */
 	void (* selection_changed) (ETasks *tasks, int n_selected);
+        void (* source_added)      (ETasks *tasks, ESource *source);
+        void (* source_removed)    (ETasks *tasks, ESource *source);
 };
 
 

@@ -60,7 +60,5 @@ TasksComponent   *tasks_component_peek  (void);
 const char       *tasks_component_peek_base_directory (TasksComponent *component);
 const char       *tasks_component_peek_config_directory (TasksComponent *component);
 ESourceList      *tasks_component_peek_source_list (TasksComponent *component);
-ESourceSelector  *tasks_component_peek_source_selector (TasksComponent *component);
-EActivityHandler *tasks_component_peek_activity_handler (TasksComponent *component);
 
 #endif /* _TASKS_COMPONENT_H_ */

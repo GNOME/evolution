@@ -30,7 +30,8 @@
 #include <gtk/gtkbindings.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-#include "e-util/e-dialog-utils.h"
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 #include "e-calendar-marshal.h"
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
@@ -67,6 +68,7 @@ struct _ECalendarViewPrivate {
 	ECalModel *model;
 
 	/* Current activity (for the EActivityHandler, i.e. the status bar).  */
+	EActivityHandler *activity_handler;
 	guint activity_id;
 
 	/* The popup menu */
@@ -529,31 +531,46 @@ e_calendar_view_set_use_24_hour_format (ECalendarView *cal_view, gboolean use_24
 }
 
 void
-e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message)
+e_calendar_view_set_activity_handler (ECalendarView *cal_view, EActivityHandler *activity_handler)
 {
-#if 0
-	EActivityHandler *activity_handler = calendar_component_peek_activity_handler (calendar_component_peek ());
-
+	ECalendarViewPrivate *priv;
+	
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
+	priv = cal_view->priv;
+
+	priv->activity_handler = activity_handler;
+}
+
+void
+e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message)
+{
+	ECalendarViewPrivate *priv;
+	
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	priv = cal_view->priv;
+
+	if (!priv->activity_handler)
+		return;
+	
 	if (!message || !*message) {
-		if (cal_view->priv->activity_id != 0) {
-			e_activity_handler_operation_finished (activity_handler, cal_view->priv->activity_id);
-			cal_view->priv->activity_id = 0;
+		if (priv->activity_id != 0) {
+			e_activity_handler_operation_finished (priv->activity_handler, priv->activity_id);
+			priv->activity_id = 0;
 		}
-	} else if (cal_view->priv->activity_id == 0) {
+	} else if (priv->activity_id == 0) {
 		char *client_id = g_strdup_printf ("%p", cal_view);
 
 		if (progress_icon == NULL)
 			progress_icon = e_icon_factory_get_icon (EVOLUTION_CALENDAR_PROGRESS_IMAGE, 16);
 
-		cal_view->priv->activity_id = e_activity_handler_operation_started (activity_handler, client_id, progress_icon, message, TRUE);
+		priv->activity_id = e_activity_handler_operation_started (priv->activity_handler, client_id, progress_icon, message, TRUE);
 
 		g_free (client_id);
 	} else {
-		e_activity_handler_operation_progressing (activity_handler, cal_view->priv->activity_id, message, -1.0);
+		e_activity_handler_operation_progressing (priv->activity_handler, priv->activity_id, message, -1.0);
 	}
-#endif
 }
 
 GList *
