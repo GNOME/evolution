@@ -1,3 +1,7 @@
+2003-04-07  Not Zed  <NotZed@Ximian.com>
+
+	* NEWS: Updated for mail/camel/composer/filter for 1.3.2
+	
 2003-04-06  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* data/Makefile.am: Create $(DESTDIR)$(kdedeskdopdir).

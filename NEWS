@@ -1,3 +1,98 @@
+Evoluiton 1.3.2, 2003-04-07
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Mail
+
+    #40535 - Send/receive dialogue should transient for parent
+             (Michael)
+    #40608 - Crash saving attachment (Jeff)
+    #40300 - Files are only detected for recovery when you start an
+             editor (Michael)
+    #40522 - Two passphrase dialogues viewing encrypted mail (Michael)
+    #40074 - Threads always open expanded (Jeff)
+    #40472 - Crash after entering password (Michael)
+    #37084 - Mailer forgets message list pane size on startup
+             (Michael)
+    #39870 - Message browser button sensitivity not correct (Jeff)
+    #40314 - Some folders not expandable in subscriptions dialog
+             (Jeff)
+    #40188 - Context menu on addresses crashes (Michael)
+    #40083 - Search box doesn't work on subscription dialog - it was
+             removed (Jeff)
+    #40124 - Cannot unsubscribe from folders that aren't selectable
+             (Jeff)
+    #39204 - Charset handling problems with broken mails (Jeff)
+    #40043 - A warning dialog wont go away (Jeff)
+    #38461 - Mail importers cannot import to non-local folders
+             (Michael)
+    #39741, 39914, 38926 - Configuration dialogs overlap each other
+             (Ettore, Jeff)
+    #39464 - Trying to remove a duplicate vfolder crashes (Michael)
+    #39759 - Crash using search dialog (Michael)
+    #29564 - Message list loses focus when you expunge (Michael)
+    #39809 - Dialog's don't match gnome 2 layout (Jeff)
+    #39382 - Signature editor dialog buttons messed up (Jeff)
+    #39325 - Allow user to enable/disable account from account list
+             (Jeff)
+    #39165 - Losing all vFolder rules after editing them, until
+             restart (Michael)
+    #39256 - Send message to contact/forward contact doesn't work
+             (Michael)
+    #38227 - Button spacing issues (Ettore)
+    #36245 - Translation string context problem (Dan)
+    #39654 - vFolder source remove button doesn't work (Jeff)
+    #39170 - compiler compatability, returning a void return value
+             (Jeff)
+    #38659 - rfc2047 word encoding errors (Jeff)
+    #40103 - Deadlock at startup (Michael)
+    #39744 - Sending 8 bit mime to a smtp server which doesn't say it
+             supports it (Jeff)
+    #39486 - Cancelling send/receive could cause a crash (Michael)
+    #33786 - Crash when invalid expression fed to vFolder (Michael)
+    #39173 - prototype mismatch (Jeff)
+    #39168 - compiler compatability, empty structs (Jeff)
+    #40764 - composer backs up drafts too often (Jeff)
+    #40679 - composer crash browsing files to attach (Jeff)
+    #39813 - Crash/noop adding signature script (Jeff)
+    #39800 - Make To: have focus on a new message (Jeff)
+    #39924, and many others - Subject entry box didn't work
+             properly/support i18n very well (Jeff)
+    #39696 - Default composer window title is meaningless (Jeff)
+
+Other bugs:
+
+  * Mail
+
+    - Clear passwords didn't work (Michael)
+    - Show preview and view threaded were made per-folder, as in
+      1.2.x, 1.3.1 had them global (Michael)
+    - Make the printing dialog, and account editor transient for the
+      parent (Larry, Jeff)
+    - Check for unique filter/vFolder names in all cases (Michael)
+    - Most warnings removed (Jeff, Michael)
+    - some text/plain mails detected as text/html, re-do the fix for
+      #16817 to make it pickier (Michael)
+    - Imap buffer overflow potential (Timo Sirainen)
+    - GSSAPI SASL support (Jeff)
+    - Handle broken header charset checking similarly to badly
+      labelled/broken body content (Dan)
+    - Various glib deprecation issues, and use non-locale specific
+      string compares in various places (Jeff, Michael)
+    - Mail piped to the sendmail transport is canoncalised into Un*x
+      format, using network format (CRLF) confuses some versions of
+      postfix (Jeff).
+    - Some work on fixing cut and paste shortcuts in composer (Jeff)
+    - Made the EvolutionComposer corba interfaces work again/port to
+      gnome 2 (Michael)
+
+  * All
+
+    - A number of compiler portability fixes, varadic macro's,
+      __FUNCTION__ -> G_GNUC_FUNCTION, inline usage, void returns, etc
+      (Everyone)
+
 Evolution 1.3.1, 2003-03-05
 ---------------------------
 
