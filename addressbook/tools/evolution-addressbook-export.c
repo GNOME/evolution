@@ -119,7 +119,7 @@ main (int argc, char **argv)
 		} else {
 			/*check no file_size */
 			if (file_size != 0) {
-				g_warning (_("In normal mode, there should not need size option."));
+				g_warning (_("In normal mode, there is no need for the size option."));
 				exit (-1);
 			}
 		}
