@@ -23,6 +23,8 @@ noinst_LTLIBRARIES =				\
 	libfilter.la
 
 libfilter_la_SOURCES =				\
+	e-search-bar.c				\
+	e-search-bar.h				\
 	filter-code.c				\
 	filter-code.h				\
 	filter-colour.c				\

@@ -1,3 +1,10 @@
+2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added e-search-bar.c and e-search-bar.h.
+
+	* e-search-bar.c, e-search-bar.h: Moved this from
+	e-addressbook-search.
+
 2000-11-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_log): Fix for when 'desc' is
