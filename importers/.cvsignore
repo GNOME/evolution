@@ -10,10 +10,10 @@ Makefile.in
 *.oaf
 *.lo
 *.la
-Mail-stubs.c
-Mail-skels.c
-Mail-common.c
-Mail.h
+Mailer-stubs.c
+Mailer-skels.c
+Mailer-common.c
+Mailer.h
 evolution-elm-importer
 evolution-gnomecard-importer
 evolution-pine-importer

@@ -59,7 +59,7 @@
 #include <filter/filter-int.h>
 #include <shell/evolution-shell-client.h>
 
-#include "Mail.h"
+#include "Mailer.h"
 
 static char *nsmail_dir = NULL;
 static GHashTable *user_prefs = NULL;

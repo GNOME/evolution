@@ -15,16 +15,16 @@ INCLUDES = 						\
 	$(IMPORTERS_CFLAGS)
 
 IDLS = 			\
-	$(top_srcdir)/mail/Mail.idl
+	$(top_srcdir)/mail/Mailer.idl
 
 MAIL_GENERATED = 	\
-	Mail.h		\
-	Mail-common.c	\
-	Mail-skels.c	\
-	Mail-stubs.c
+	Mailer.h	\
+	Mailer-common.c	\
+	Mailer-skels.c	\
+	Mailer-stubs.c
 
 $(MAIL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` $(top_srcdir)/mail/Mail.idl
+	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` $(top_srcdir)/mail/Mailer.idl
 
 evolution_netscape_importer_SOURCES =	\
 	$(MAIL_GENERATED)		\
