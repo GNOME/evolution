@@ -1,3 +1,8 @@
+2003-04-18  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-request.c (e_request_string): Added appropriate spacing/padding 
+	to the rename dialogs. Fixes bugs #41040, #41036, #41038
+
 2003-04-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gtk-utils.c (e_gtk_button_new_with_icon): Remove debugging

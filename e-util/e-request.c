@@ -67,12 +67,14 @@ e_request_string (GtkWindow *parent,
 					      NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 275, -1);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6); 
 
 	vbox = GTK_DIALOG (dialog)->vbox;
 	
 	prompt_label = gtk_label_new (prompt);
-	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 3);
-	
+	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 6);
+	gtk_box_set_spacing (GTK_BOX (vbox), 6); 
+
 	entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY (entry), default_string);
 	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
