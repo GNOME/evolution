@@ -208,20 +208,20 @@ struct _GpgCtx {
 	
 	unsigned int bad_passwds:2;
 	
-	unsigned int nodata:1;
 	unsigned int hadsig:1;
 	unsigned int badsig:1;
 	unsigned int errsig:1;
 	unsigned int goodsig:1;
 	unsigned int validsig:1;
 	unsigned int nopubkey:1;
+	unsigned int nodata:1;
 	unsigned int trust:3;
 	
 	unsigned int diagflushed:1;
 	
 	unsigned int utf8:1;
 	
-	unsigned int padding:11;
+	unsigned int padding:10;
 };
 
 static struct _GpgCtx *
