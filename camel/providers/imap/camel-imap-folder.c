@@ -57,6 +57,7 @@
 #include "camel-mime-utils.h"
 #include "camel-multipart.h"
 #include "camel-multipart-signed.h"
+#include "camel-multipart-encrypted.h"
 #include "camel-operation.h"
 #include "camel-session.h"
 #include "camel-stream-buffer.h"
@@ -1660,17 +1661,20 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			}
 		}
 		
-		return (CamelDataWrapper *)body_mp;
+		return (CamelDataWrapper *) body_mp;
 	} else if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
 		char *child_spec;
 		int speclen, num;
 		
-		body_mp = camel_multipart_new ();
-		camel_data_wrapper_set_mime_type_field (
-			CAMEL_DATA_WRAPPER (body_mp), ci->type);
+		if (header_content_type_is (ci->type, "multipart", "encrypted"))
+			body_mp = (CamelMultipart *) camel_multipart_encrypted_new ();
+		else
+			body_mp = camel_multipart_new ();
 		
-		camel_multipart_set_boundary (body_mp, NULL);
+		/* need to set this so it grabs the boundary and other info about the multipart */
+		/* we assume that part->content_type is more accurate/full than ci->type */
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 17); /* dot + 10 + dot + MIME + nul */
@@ -1716,7 +1720,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		
 		g_free (child_spec);
 		
-		return (CamelDataWrapper *)body_mp;
+		return (CamelDataWrapper *) body_mp;
 	} else if (header_content_type_is (ci->type, "message", "rfc822")) {
 		content = (CamelDataWrapper *) get_message (imap_folder, uid, part_spec, ci->childs, ex);
 		g_free (part_spec);

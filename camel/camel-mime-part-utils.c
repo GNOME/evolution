@@ -39,6 +39,7 @@
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-multipart-signed.h"
+#include "camel-multipart-encrypted.h"
 #include "camel-seekable-substream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-filter.h"
@@ -342,9 +343,12 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
 		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
-		if (header_content_type_is(camel_mime_parser_content_type(mp), "multipart", "signed")) {
-			content = (CamelDataWrapper *)camel_multipart_signed_new();
-			camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
+		if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "signed")) {
+			content = (CamelDataWrapper *) camel_multipart_signed_new ();
+			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
+		} else if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "encrypted")) {
+			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();
+			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
 		} else {
 			content = camel_data_wrapper_new ();
 			simple_data_wrapper_construct_from_parser (content, mp);
