@@ -1917,11 +1917,12 @@ Kerberos
 	  </widget>
 
 	  <widget>
-	    <class>GtkButton</class>
+	    <class>Custom</class>
 	    <name>drafts_button</name>
-	    <can_focus>True</can_focus>
-	    <label>Drafts</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <creation_function>mail_account_gui_folder_selector_button_new</creation_function>
+	    <int1>0</int1>
+	    <int2>0</int2>
+	    <last_modification_time>Wed, 03 Apr 2002 23:03:41 GMT</last_modification_time>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -1934,16 +1935,17 @@ Kerberos
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
-	      <yfill>False</yfill>
+	      <yfill>True</yfill>
 	    </child>
 	  </widget>
 
 	  <widget>
-	    <class>GtkButton</class>
+	    <class>Custom</class>
 	    <name>sent_button</name>
-	    <can_focus>True</can_focus>
-	    <label>Sent</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <creation_function>mail_account_gui_folder_selector_button_new</creation_function>
+	    <int1>0</int1>
+	    <int2>0</int2>
+	    <last_modification_time>Wed, 03 Apr 2002 23:03:59 GMT</last_modification_time>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -1956,7 +1958,7 @@ Kerberos
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
-	      <yfill>False</yfill>
+	      <yfill>True</yfill>
 	    </child>
 	  </widget>
 	</widget>

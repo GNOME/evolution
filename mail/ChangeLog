@@ -1,3 +1,34 @@
+2002-04-04  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): Make the drafts and
+	sent folder buttons be EvolutionFolderSelectorButtons. Remove the
+	code to deal with drafts_folder_name and sent_folder_name, since
+	they were only used to construct the button and aren't needed now.
+	(mail_account_gui_save): Remove drafts/sent name references.
+	(mail_account_gui_destroy): Likewise
+	(folder_selected): Handle the "selected" signal on the folder
+	selector button by updating the URI in the MailAccountGui.
+	(mail_account_gui_folder_selector_button_new): Glade custom widget
+	constructor.
+
+	* mail-callbacks.c (transfer_msg): Update for
+	evolution_shell_client_user_select_folder change.
+
+	* message-browser.c (transfer_msg): Likewise. (Sigh. Why is this
+	cut+pasted?)
+
+	* mail-config.glade: Make the drafts/sent folder buttons custom
+	widgets.
+
+	* mail-config.c (account_copy): Remove drafts/sent folder name
+	handling.
+	(account_destroy): Likewise.
+	(config_read): Likewise.
+	(mail_config_write): Likewise.
+
+	* Mail.idl (MailConfig:Account): remove drafts_folder_name and
+	sent_folder_name.
+
 2002-04-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (construct): Set the window title/icon

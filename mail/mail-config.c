@@ -253,9 +253,7 @@ account_copy (const MailConfigAccount *account)
 	new->source = service_copy (account->source);
 	new->transport = service_copy (account->transport);
 	
-	new->drafts_folder_name = g_strdup (account->drafts_folder_name);
 	new->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
-	new->sent_folder_name = g_strdup (account->sent_folder_name);
 	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
 	
 	new->always_cc = account->always_cc;
@@ -286,9 +284,7 @@ account_destroy (MailConfigAccount *account)
 	service_destroy (account->source);
 	service_destroy (account->transport);
 	
-	g_free (account->drafts_folder_name);
 	g_free (account->drafts_folder_uri);
-	g_free (account->sent_folder_name);
 	g_free (account->sent_folder_uri);
 	
 	g_free (account->cc_addrs);
@@ -632,27 +628,11 @@ config_read (void)
 			config->corrupt = TRUE;
 		}
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->drafts_folder_name = val;
-		else
-			g_free (val);
-		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->drafts_folder_uri = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->sent_folder_name = val;
 		else
 			g_free (val);
 		
@@ -1071,19 +1051,9 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->name, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->drafts_folder_name, NULL);
-		g_free (path);
-		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, 
 						  account->drafts_folder_uri, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->sent_folder_name, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);

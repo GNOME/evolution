@@ -1410,38 +1410,35 @@ transfer_msg_done (gboolean ok, void *data)
 static void
 transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 {
-	const char *allowed_types[] = { "mail", "vtrash", NULL };
+	static const char *allowed_types[] = { "mail", "vtrash", NULL };
 	extern EvolutionShellClient *global_shell_client;
-	char *uri, *physical, *path, *desc;
-	static char *last = NULL;
+	GNOME_Evolution_Folder *folder;
+	static char *last_uri = NULL;
 	GPtrArray *uids;
+	char *desc;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (last == NULL)
-		last = g_strdup ("");
+	if (last_uri == NULL)
+		last_uri = g_strdup ("");
 	
 	if (delete_from_source)
 		desc = _("Move message(s) to");
 	else
 		desc = _("Copy message(s) to");
 	
-	uri = NULL;
-	physical = NULL;
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (fb))),
-						   desc, last,
-						   allowed_types, &uri, &physical);
-	if (!uri)
+						   desc, last_uri, allowed_types,
+						   &folder);
+	if (!folder)
 		return;
 	
-	path = strchr (uri, '/');
-	if (path && strcmp (last, path) != 0) {
-		g_free (last);
-		last = g_strdup_printf ("evolution:%s", path);
+	if (strcmp (last_uri, folder->evolutionUri) != 0) {
+		g_free (last_uri);
+		last_uri = g_strdup (folder->evolutionUri);
 	}
-	g_free (uri);
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
@@ -1449,12 +1446,13 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 	if (delete_from_source) {
 		gtk_object_ref (GTK_OBJECT (fb));
 		mail_transfer_messages (fb->folder, uids, delete_from_source,
-					physical, 0, transfer_msg_done, fb);
+					folder->physicalUri, 0,
+					transfer_msg_done, fb);
 	} else {
 		mail_transfer_messages (fb->folder, uids, delete_from_source,
-					physical, 0, NULL, NULL);
+					folder->physicalUri, 0, NULL, NULL);
 	}
-	g_free(physical);
+	CORBA_free (folder);
 }
 
 void

@@ -58,10 +58,6 @@ typedef struct {
 } MailAccountGuiService;
 
 typedef struct {
-	char *name, *uri;
-} MailAccountGuiFolder;
-
-typedef struct {
 	GtkWidget *top;
 	MailConfigAccount *account;
 	MailAccountsTab *dialog;
@@ -102,9 +98,9 @@ typedef struct {
 	
 	/* special folders */
 	GtkButton *drafts_folder_button;
-	MailAccountGuiFolder drafts_folder;
+	char *drafts_folder_uri;
 	GtkButton *sent_folder_button;
-	MailAccountGuiFolder sent_folder;
+	char *sent_folder_uri;
 	
 	/* always cc/bcc */
 	GtkToggleButton *always_cc;

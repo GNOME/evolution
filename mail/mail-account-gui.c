@@ -32,7 +32,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include "shell/evolution-shell-client.h"
+#include "evolution-folder-selector-button.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
@@ -41,6 +41,7 @@
 #define d(x)
 
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
+extern EvolutionShellClient *global_shell_client;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
 static void service_changed (GtkEntry *entry, gpointer user_data);
@@ -858,60 +859,26 @@ extract_values (MailAccountGuiService *source, GHashTable *extra_config, CamelUR
 }
 
 
-extern EvolutionShellClient *global_shell_client;
-
 static void
-set_folder_picker_label (GtkButton *button, const char *name)
+folder_selected (EvolutionFolderSelectorButton *button,
+		 GNOME_Evolution_Folder *corba_folder,
+		 gpointer user_data)
 {
-	char *string;
+	char **folder_name = user_data;
 	
-	string = e_utf8_to_gtk_string (GTK_WIDGET (button), name);
-	gtk_label_set_text (GTK_LABEL (GTK_BIN (button)->child), string);
-	g_free (string);
+	g_free (*folder_name);
+	*folder_name = g_strdup (corba_folder->physicalUri);
 }
 
-static char *
-basename_from_uri (const char *uri)
-{
-	const char *base;
-	
-	base = strrchr (uri, '/');
-	g_assert (base != NULL);
-	
-	/* translate the basename: fixes bug #7160 */
-	if (!strncmp (uri, "evolution:/local", 16))
-		return g_strdup (_(base + 1));
-	else
-		return g_strdup (base + 1);
-}
+GtkWidget *mail_account_gui_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2);
 
-static void
-folder_picker_clicked (GtkButton *button, gpointer user_data)
+GtkWidget *
+mail_account_gui_folder_selector_button_new (char *widget_name,
+					     char *string1, char *string2,
+					     int int1, int int2)
 {
-	MailAccountGuiFolder *folder = user_data;
-	const char *allowed_types[] = { "mail", NULL };
-	char *physical_uri, *evolution_uri;
-	
-	physical_uri = evolution_uri = NULL;
-	evolution_shell_client_user_select_folder (
-		global_shell_client,
-		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
-		_("Select Folder"), folder->uri,
-		allowed_types, &evolution_uri, &physical_uri);
-	if (!physical_uri || !*physical_uri) {
-		g_free (physical_uri);
-		g_free (evolution_uri);
-		return;
-	}
-	
-	g_free (folder->uri);
-	folder->uri = physical_uri;
-	g_free (folder->name);
-	folder->name = basename_from_uri (evolution_uri);
-	g_free (evolution_uri);
-	set_folder_picker_label (button, folder->name);
+	return (GtkWidget *)gtk_type_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON);
 }
-
 
 static gboolean
 setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
@@ -1405,6 +1372,7 @@ MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 {
 	MailAccountGui *gui;
+	const char *allowed_types[] = { "mail", NULL };
 	
 	gui = g_new0 (MailAccountGui, 1);
 	gui->account = account;
@@ -1487,29 +1455,31 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 	
 	/* Drafts folder */
 	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
-	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "clicked",
-			    GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->drafts_folder);
-	if (account->drafts_folder_uri) {
-		gui->drafts_folder.uri = g_strdup (account->drafts_folder_uri);
-		gui->drafts_folder.name = g_strdup (account->drafts_folder_name);
-	} else {
-		gui->drafts_folder.uri = g_strdup (default_drafts_folder_uri);
-		gui->drafts_folder.name = g_strdup (strrchr (default_drafts_folder_uri, '/') + 1);
-	}
-	set_folder_picker_label (gui->drafts_folder_button, gui->drafts_folder.name);
+	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "selected",
+			    GTK_SIGNAL_FUNC (folder_selected), &gui->drafts_folder_uri);
+	if (account->drafts_folder_uri)
+		gui->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
+	else
+		gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->drafts_folder_button),
+						    global_shell_client,
+						    _("Select Folder"),
+						    gui->drafts_folder_uri,
+						    allowed_types);
 	
 	/* Sent folder */
 	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
-	gtk_signal_connect (GTK_OBJECT (gui->sent_folder_button), "clicked",
-			    GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->sent_folder);
-	if (account->sent_folder_uri) {
-		gui->sent_folder.uri = g_strdup (account->sent_folder_uri);
-		gui->sent_folder.name = g_strdup (account->sent_folder_name);
-	} else {
-		gui->sent_folder.uri = g_strdup (default_sent_folder_uri);
-		gui->sent_folder.name = g_strdup (strrchr (default_sent_folder_uri, '/') + 1);
-	}
-	set_folder_picker_label (gui->sent_folder_button, gui->sent_folder.name);
+	gtk_signal_connect (GTK_OBJECT (gui->sent_folder_button), "selected",
+			    GTK_SIGNAL_FUNC (folder_selected), &gui->sent_folder_uri);
+	if (account->sent_folder_uri)
+		gui->sent_folder_uri = g_strdup (account->sent_folder_uri);
+	else
+		gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
+	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->sent_folder_button),
+						    global_shell_client,
+						    _("Select Folder"),
+						    gui->sent_folder_uri,
+						    allowed_types);
 	
 	/* Always Cc */
 	gui->always_cc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_cc"));
@@ -1882,17 +1852,13 @@ mail_account_gui_save (MailAccountGui *gui)
 		save_service (&gui->transport, NULL, account->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
-	url = source_url && gui->drafts_folder.uri ? camel_url_new (gui->drafts_folder.uri, NULL) : NULL;
-	if (mail_config_get_account_by_source_url (gui->drafts_folder.uri) ||
+	url = source_url && gui->drafts_folder_uri ? camel_url_new (gui->drafts_folder_uri, NULL) : NULL;
+	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
 	    (url && provider->url_equal (source_url, url))) {
-		g_free (account->drafts_folder_name);
-		account->drafts_folder_name = g_strdup (gui->drafts_folder.name);
 		g_free (account->drafts_folder_uri);
-		account->drafts_folder_uri = g_strdup (gui->drafts_folder.uri);
+		account->drafts_folder_uri = g_strdup (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		g_free (account->drafts_folder_name);
-		account->drafts_folder_name = basename_from_uri (default_drafts_folder_uri);
 		g_free (account->drafts_folder_uri);
 		account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	}
@@ -1901,17 +1867,13 @@ mail_account_gui_save (MailAccountGui *gui)
 		camel_url_free (url);
 	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
-	url = source_url && gui->sent_folder.uri ? camel_url_new (gui->sent_folder.uri, NULL) : NULL;
-	if (mail_config_get_account_by_source_url (gui->sent_folder.uri) ||
+	url = source_url && gui->sent_folder_uri ? camel_url_new (gui->sent_folder_uri, NULL) : NULL;
+	if (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
 	    (url && provider->url_equal (source_url, url))) {
-		g_free (account->sent_folder_name);
-		account->sent_folder_name = g_strdup (gui->sent_folder.name);
 		g_free (account->sent_folder_uri);
-		account->sent_folder_uri = g_strdup (gui->sent_folder.uri);
+		account->sent_folder_uri = g_strdup (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		g_free (account->sent_folder_name);
-		account->sent_folder_name = basename_from_uri (default_sent_folder_uri);
 		g_free (account->sent_folder_uri);
 		account->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	}
@@ -1958,9 +1920,7 @@ mail_account_gui_destroy (MailAccountGui *gui)
 	gtk_object_unref (GTK_OBJECT (gui->xml));
 	if (gui->extra_config)
 		g_hash_table_destroy (gui->extra_config);
-	g_free (gui->drafts_folder.name);
-	g_free (gui->drafts_folder.uri);
-	g_free (gui->sent_folder.name);
-	g_free (gui->sent_folder.uri);
+	g_free (gui->drafts_folder_uri);
+	g_free (gui->sent_folder_uri);
 	g_free (gui);
 }

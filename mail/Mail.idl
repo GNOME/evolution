@@ -63,9 +63,7 @@ module Evolution {
 			Service source;
 			Service transport;
 
-			string drafts_folder_name;
 			string drafts_folder_uri;
-			string sent_folder_name;
 			string sent_folder_uri;
 		};
 

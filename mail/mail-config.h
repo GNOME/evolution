@@ -67,8 +67,7 @@ typedef struct {
 	MailConfigService *source;
 	MailConfigService *transport;
 	
-	char *drafts_folder_name, *drafts_folder_uri;
-	char *sent_folder_name, *sent_folder_uri;
+	char *drafts_folder_uri, *sent_folder_uri;
 	
 	gboolean always_cc;
 	char *cc_addrs;
