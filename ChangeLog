@@ -1,3 +1,8 @@
+2001-10-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in (AC_OUTPUT): Fix the order of the help/ subdirs.
+	These must be sorted as a preorder walk for a tree!
+
 2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: 0.16.99.

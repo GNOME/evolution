@@ -1095,8 +1095,8 @@ doc/devel/calendar/cal-util/Makefile
 e-util/Makefile
 e-util/ename/Makefile
 filter/Makefile
-help/C/Makefile
 help/Makefile
+help/C/Makefile
 help/no/Makefile
 importers/Makefile
 intl/Makefile
