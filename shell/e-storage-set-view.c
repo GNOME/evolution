@@ -388,6 +388,8 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	const char *trailing_slash;
 	const char *name;
 
+	g_return_if_fail(storage_set_view != NULL);
+
 	priv = storage_set_view->priv;
 
 	trailing_slash = strrchr (priv->selected_row_path, '/');

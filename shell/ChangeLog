@@ -1,3 +1,8 @@
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-storage-set-view.c (set_e_shortcut_selection): Added a
+	g_return_if_fail check.
+
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* e-shell-view-menu.c (command_help): New menu callback to launch
