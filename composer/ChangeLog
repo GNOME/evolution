@@ -1,3 +1,10 @@
+2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (set_editor_text): No need to query for the
+	persist-stream interface here, just re-use
+	composer->persist_stream_interface - this might improve the speed
+	at which a reply action brings up the composer.
+
 2002-04-09  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients_from_destv): Use decode

@@ -882,28 +882,25 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	BonoboWidget *editor;
 	CORBA_Environment ev;
 	
+	g_return_if_fail (composer->persist_stream_interface != CORBA_OBJECT_NIL);
+	
+	persist = composer->persist_stream_interface;
+	
 	editor = BONOBO_WIDGET (composer->editor);
 	
 	CORBA_exception_init (&ev);
-	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
-		bonobo_widget_get_server (editor), "IDL:Bonobo/PersistStream:1.0", &ev);
 	
-	g_return_if_fail (persist != CORBA_OBJECT_NIL);
-	
-	stream = bonobo_stream_mem_create (text, strlen (text),
-					   TRUE, FALSE);
+	stream = bonobo_stream_mem_create (text, strlen (text), TRUE, FALSE);
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 				   "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return;
 	}
-	if (ev._major != CORBA_SYSTEM_EXCEPTION)
-		CORBA_Object_release (persist, &ev);
 	
-	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
-	bonobo_object_unref (BONOBO_OBJECT(stream));
+	
+	bonobo_object_unref (BONOBO_OBJECT (stream));
 }
 
 static void
@@ -2736,7 +2733,7 @@ create_composer (void)
 	gtk_widget_show (composer->editor);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
-
+	
 	prepare_engine (composer);
 	if (composer->editor_engine == CORBA_OBJECT_NIL) {
 		e_activation_failure_dialog (GTK_WINDOW (composer),
@@ -2749,12 +2746,12 @@ create_composer (void)
 	}
 		
 	gtk_signal_connect (GTK_OBJECT (composer), "map", map_default_cb, NULL);
-
+	
 	if (am == NULL) {
 		am = autosave_manager_new ();
 	}
 	autosave_manager_register (am, composer);
-
+	
 	return composer;
 }
 
