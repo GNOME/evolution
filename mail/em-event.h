@@ -32,13 +32,16 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+struct _CamelFolder;
+struct _CamelMimeMessage;
+
 typedef struct _EMEvent EMEvent;
 typedef struct _EMEventClass EMEventClass;
 
 /* Current target description */
-/* Types of popup tagets */
 enum _em_event_target_t {
 	EM_EVENT_TARGET_FOLDER,
+	EM_EVENT_TARGET_MESSAGE,
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -51,6 +54,15 @@ typedef struct _EMEventTargetFolder EMEventTargetFolder;
 struct _EMEventTargetFolder {
 	EEventTarget target;
 	char *uri;
+};
+
+typedef struct _EMEventTargetMessage EMEventTargetMessage;
+
+struct _EMEventTargetMessage {
+	EEventTarget      target;
+	struct _CamelFolder      *folder;
+	char             *uid;
+	struct _CamelMimeMessage *message;
 };
 
 typedef struct _EEventItem EMEventItem;
@@ -71,6 +83,7 @@ GType em_event_get_type(void);
 EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
+EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
 
 /* ********************************************************************** */
 

@@ -45,6 +45,7 @@
 #include "composer/e-msg-composer.h"
 #include "em-format-html.h"
 #include "em-format-quote.h"
+#include "em-event.h"
 
 #include "e-util/e-account-list.h"
 
@@ -1745,6 +1746,8 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	EAccount *account;
 	const char *postto = NULL;
 	guint32 flags;
+	EMEvent *eme;
+	EMEventTargetMessage *target;
 
 	if (folder && uid && message == NULL) {
 		struct _reply_data *rd = g_malloc0(sizeof(*rd));
@@ -1758,6 +1761,11 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	}
 
 	g_return_if_fail(message != NULL);
+
+	/* EVENT: message.replying definition */
+	eme = em_event_peek();
+	target = em_event_target_new_message(eme, folder, message, uid, 0);
+	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
 	
 	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;

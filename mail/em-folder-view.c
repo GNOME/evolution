@@ -2195,7 +2195,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	/* FIXME: this maybe should just fit on em-html-display, it has access to the
 	   snooped part type */
 
-	emp = em_popup_new("org.gnome.mail.folderview.popup.uri");
+	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup.uri");
 	if (part)
 		target = (EPopupTarget *)em_popup_target_new_part(emp, part, NULL);
 	else {

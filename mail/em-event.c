@@ -68,6 +68,13 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 
 		g_free(s->uri);
 		break; }
+	case EM_EVENT_TARGET_MESSAGE: {
+		EMEventTargetMessage *s = (EMEventTargetMessage *)t;
+
+		g_object_unref(s->folder);
+		g_object_unref(s->message);
+		g_free(s->uid);
+		break; }
 	}
 
 	((EEventClass *)eme_parent)->target_free(ep, t);
@@ -130,6 +137,21 @@ em_event_target_new_folder (EMEvent *eme, const char *uri, guint32 flags)
 	return t;
 }
 
+EMEventTargetMessage *
+em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage *message, const char *uid, guint32 flags)
+{
+	EMEventTargetMessage *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_MESSAGE, sizeof(*t));
+
+	t->uid = g_strdup (uid);
+	t->folder = folder;
+	camel_object_ref(folder);
+	t->message = message;
+	camel_object_ref(message);
+	t->target.mask = ~flags;
+
+	return t;
+}
+
 /* ********************************************************************** */
 
 static void *emeh_parent_class;
@@ -139,8 +161,14 @@ static const EEventHookTargetMask emeh_folder_masks[] = {
 	{ "newmail", EM_EVENT_FOLDER_NEWMAIL },
 	{ 0 }
 };
+
+static const EEventHookTargetMask emeh_message_masks[] = {
+	{ 0 }
+};
+
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "folder", EM_EVENT_TARGET_FOLDER, emeh_folder_masks },
+	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ 0 }
 };
 

@@ -1,3 +1,18 @@
+2004-10-21  Not Zed  <NotZed@Ximian.com>
+
+	* em-composer-utils.c (em_utils_reply_to_message): emit a
+	'message.replying' event with a message target.
+
+2004-10-21  Nat <nat@novell.com>
+
+	* em-event.c (em_event_target_new_message): new target type for
+	message-related events.
+
+2004-10-21  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_format_popup_event): put 'evolution' back
+	in the popup hook names.
+
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
 	* em-account-editor.c, em-composer-prefs.c, em-config.c,
