@@ -1,3 +1,13 @@
+2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-settings-dialog.c: Add type "Page".
+	(page_new): New helper function.
+	(page_free): New helper function.
+	(compare_page_func): Callback for sorting a GList of pages.
+	(sort_page_list): New helper function.
+	(load_pages): Create the pages, sort them, add them sorted.  Now
+	we have a priority field that overrides alphabetical sorting.
+
 2002-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-component-info.c: New.
