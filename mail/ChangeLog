@@ -1,7 +1,21 @@
+2001-07-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (filter_folder_filter): Updated to reflect changes in
+	the filter API by passing in the provided uid cache to
+	camel_filter_driver_filter_folder.
+	(mail_filter_folder): Set the cache to NULL.
+	(mail_fetch_mail): Set the cache to NULL.
+	(fetch_mail_fetch): If a cache exists for this folder, set
+	it. When we are finished filtering the incoming messages, the
+	logic changes a bit. We now save the cache if keep_on_server is
+	set *or* if there was an exception this way if the user's download
+	gets interrupted, he won't have to download all the messages
+	again.
+
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
-	* importers/evolution-mbox-importer.c (load_file_fn): Check that the folder
-	does exist before trying to import it.
+	* importers/evolution-mbox-importer.c (load_file_fn): Check that
+	the folder does exist before trying to import it.
 
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
