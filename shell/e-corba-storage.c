@@ -704,6 +704,8 @@ e_corba_storage_corba_result_to_storage_result (GNOME_Evolution_Storage_Result c
 		return E_STORAGE_NOSPACE;
 	case GNOME_Evolution_Storage_NOT_EMPTY:
 		return E_STORAGE_NOTEMPTY;
+	case GNOME_Evolution_Storage_NOT_ONLINE:
+		return E_STORAGE_NOTONLINE;
 	case GNOME_Evolution_Storage_GENERIC_ERROR:
 	default:
 		return E_STORAGE_GENERICERROR;

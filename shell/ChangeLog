@@ -1,5 +1,18 @@
 2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage.c (e_storage_result_to_string): Add description for
+	E_STORAGE_NOTONLINE.
+
+	* e-corba-storage.c
+	(e_corba_storage_corba_result_to_storage_result): Support
+	GNOME_Evolution_Storage_NOT_ONLINE (E_STORAGE_NOTONLINE).
+
+	* Evolution-Storage.idl: Add NOT_ONLINE to enum Result.
+
+	* e-storage.h: Add E_STORAGE_NOTONLINE to EStorageResult enum.
+
+2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (sort_idle_callback): Remove unused
 	variable.
 

@@ -29,6 +29,7 @@ module Evolution {
 			PERMISSION_DENIED,
 			NO_SPACE,
 			NOT_EMPTY,
+			NOT_ONLINE,
 			GENERIC_ERROR
 		};
 
