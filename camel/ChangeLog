@@ -1,7 +1,26 @@
+2001-04-18  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_finalize):
+	Free base_url and storage_path.
+
+	* providers/pop3/camel-pop3-store.c (finalize): Free the
+	implementation string.
+	(camel_pop3_command): Clarify documentation to mention that
+	@ex isn't set (and *@ret is) on CAMEL_POP3_ERR.
+	(connect_to_server): Set @ex properly on CAMEL_POP3_ERR.
+
+	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info,
+	pop3_get_message): Set @ex properly on CAMEL_POP3_ERR.
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_disconnect):
 	s/imap_store/store/ to get it to compile.
+
+2001-04-17  Dan Winship  <danw@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): Fix
+	a memory leak in the error case.
 
 2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 

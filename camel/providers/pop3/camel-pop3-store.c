@@ -141,6 +141,8 @@ finalize (CamelObject *object)
 
 	if (pop3_store->apop_timestamp)
 		g_free (pop3_store->apop_timestamp);
+	if (pop3_store->implementation)
+		g_free (pop3_store->implementation);
 }
 
 static gboolean
@@ -212,8 +214,16 @@ connect_to_server (CamelService *service, CamelException *ex)
 
 	/* Read the greeting, check status */
 	status = pop3_get_response (store, &buf, ex);
-	if (status != CAMEL_POP3_OK)
+	switch (status) {
+	case CAMEL_POP3_ERR:
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not connect to server: %s"),
+				      buf);
+		g_free (buf);
+		/* fall through */
+	case CAMEL_POP3_FAIL:
 		return FALSE;
+	}
 
 	if (buf) {
 		apoptime = strchr (buf, '<');
@@ -514,7 +524,8 @@ get_trash (CamelStore *store, CamelException *ex)
  * Return value: one of CAMEL_POP3_OK (command executed successfully),
  * CAMEL_POP3_ERR (command encounted an error), or CAMEL_POP3_FAIL
  * (a protocol-level error occurred, and Camel is uncertain of the
- * result of the command.)
+ * result of the command.) @ex will be set if the return value is
+ * CAMEL_POP3_FAIL, but *NOT* if it is CAMEL_POP3_ERR.
  **/
 int
 camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char *fmt, ...)

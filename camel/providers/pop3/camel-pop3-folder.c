@@ -149,7 +149,14 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	camel_operation_start(NULL, _("Retrieving POP summary"));
 
 	status = camel_pop3_command (pop3_store, &data, ex, "STAT");
-	if (status != CAMEL_POP3_OK) {
+	switch (status) {
+	case CAMEL_POP3_ERR:
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not check POP server for new messages: %s"),
+				      data);
+		g_free (data);
+		/* fall through */
+	case CAMEL_POP3_FAIL:
 		camel_operation_end(NULL);
 		return;
 	}
@@ -290,12 +297,18 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, ex, "RETR %d", num);
-	if (status != CAMEL_POP3_OK) {
+	switch (status) {
+	case CAMEL_POP3_ERR:
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not fetch message: %s"), result);
+		g_free (result);
+		/* fall through */
+	case CAMEL_POP3_FAIL:
 		camel_operation_end(NULL);
 		return NULL;
 	}
 
-	/* this should be "nnn octets" ? */
+	/* this should be "nnn octets" ? No. RTFRFC. FIXME. */
 	if (result && sscanf (result, "%d", &total) != 1)
 		total = 0;
 
