@@ -20,14 +20,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2004-03-05 13:00-0500\n"
-"PO-Revision-Date: 2004-03-01 23:00+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-03-06 03:18+0100\n"
+"PO-Revision-Date: 2004-03-06 16:27+0100\n"
 "Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
+"Content-Transfer-Encoding: 8bit"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -59,6 +59,7 @@ msgstr "Hier kunt u auto-afmaken instellen"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
+#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:363
@@ -207,6 +208,7 @@ msgid "Migrating `%s':"
 msgstr "`%s' wordt overgezet:"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:409
 #: calendar/gui/migration.c:426 calendar/gui/migration.c:503
 #: mail/em-folder-tree-model.c:163 mail/em-folder-tree-model.c:165
@@ -215,6 +217,7 @@ msgid "On This Computer"
 msgstr "Op deze computer"
 
 #. Create the default Person addressbook
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:417
 #: calendar/gui/migration.c:434 calendar/gui/migration.c:511
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
@@ -3119,17 +3122,17 @@ msgstr "Kaartweergave"
 msgid "GTK Tree View"
 msgstr "GTK boomweergave"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr ""
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr ""
 
@@ -3784,9 +3787,8 @@ msgid "Comment contains"
 msgstr "Commentaar bevat"
 
 #: calendar/gui/cal-search-bar.c:53
-#, fuzzy
 msgid "Location contains"
-msgstr "Omschrijving bevat"
+msgstr "Lokatie bevat"
 
 #: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1100
 msgid "Unmatched"
@@ -3822,6 +3824,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1367 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4042,7 +4048,7 @@ msgstr "minuten"
 
 #: calendar/gui/dialogs/alarm-page.c:800
 msgid "Action/Trigger"
-msgstr ""
+msgstr "Actie/Sensor"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
@@ -4442,33 +4448,28 @@ msgid "New Task List"
 msgstr "Nieuwe takenlijst"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15
-#, fuzzy
 msgid "Remote"
-msgstr "Verwijderen"
+msgstr "Op afstand"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:18
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a "
 "calendar."
 msgstr ""
-"Het geven van een schermnaam is de laatste stap die nodig is om de LDAP "
-"server\n"
-"te configureren."
+"Het geven van een schermnaam en groepsnaam is de laatste stap die nodig "
+"is om de agenda te configureren."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:19
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a task "
 "list."
 msgstr ""
-"Het geven van een schermnaam is de laatste stap die nodig is om de LDAP "
-"server\n"
-"te configureren."
+"Het geven van een schermnaam en groepsnaam is de laatste stap die nodig is om "
+"de takenlijst te configureren."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:21
 msgid "Step 2: Remote Folder Parameters"
-msgstr ""
+msgstr "Stap 2: Parameters voor map op afstand"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:22
 msgid "Task List Creation Assistant"
@@ -4479,7 +4480,6 @@ msgid "Task List Properties"
 msgstr "Takenlijst eigenschappen"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:24
-#, fuzzy
 msgid ""
 "This assistant will help you create a new calendar. \n"
 "\n"
@@ -4487,15 +4487,13 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Deze assistent zal u helpen bij het raadplegen van een online adresboek\n"
-"met behulp van LDAP-servers.\n"
+"Deze assistent zal u helpen bij aanmaken van een nieuwe agenda. \n"
 "\n"
-"Een nieuwe LDAP-server toevoegen vereist bepaald specifieke informatie over "
-"de server. Neem contact op met de systeembeheerder als u hulp nodig heeft "
-"bij het vinden van deze informatie."
+"Afhankelijk van het type agenda dat u aan wilt maken is er meer "
+"informatie vereist. Neem contact op met de systeembeheerder als u "
+"hulp nodig heeft bij het vinden van deze informatie."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:29
-#, fuzzy
 msgid ""
 "This assistant will help you create a new task list.\n"
 "\n"
@@ -4503,11 +4501,10 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Deze assistent zal u helpen bij het raadplegen van een online adresboek\n"
-"met behulp van LDAP-servers.\n"
+"Deze assistent zal u helpen bij het aanmaken van een nieuwe takenlijst.\n"
 "\n"
-"Een nieuwe LDAP-server toevoegen vereist bepaald specifieke informatie over "
-"de server. Neem contact op met de systeembeheerder als u hulp nodig heeft "
+"Afhankelijk van het type takenlijst dat u aan wilt maken is meer informatie "
+"vereist. Neem contact op met de systeembeheerder als u hulp nodig heeft "
 "bij het vinden van deze informatie."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:35
@@ -4695,9 +4692,9 @@ msgid "Destination is read only"
 msgstr "Doel is alleen lezen"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "Select destination %s"
-msgstr "Selecteer een doelmap voor deze belangrijke data"
+msgstr "Selecteer doel %s"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:167
 msgid "calendar"
@@ -4864,9 +4861,9 @@ msgid "End time is wrong"
 msgstr "Eindtijd is fout"
 
 #: calendar/gui/dialogs/event-page.c:1234
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "Toegang geweigerd bij openen van de kalender"
+msgstr "Kan de agenda '%s' niet openen."
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "A_ll day event"
@@ -4937,6 +4934,11 @@ msgid "_Start time:"
 msgstr "_Begintijd:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
@@ -5833,12 +5835,20 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d-%m-%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5862,6 +5872,10 @@ msgstr "%02i minuten delingen"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1350
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5869,6 +5883,9 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1383
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6430,6 +6447,10 @@ msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6438,6 +6459,10 @@ msgstr "%a %d-%m-%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6543,6 +6568,9 @@ msgid ""
 "%s\n"
 " has crashed."
 msgstr ""
+"De achterliggende takenlijst voor\n"
+"%s\n"
+" is vastgelopen."
 
 #: calendar/gui/e-tasks.c:868
 #, c-format
@@ -6585,9 +6613,9 @@ msgid "Loading appointments at %s"
 msgstr "Bezig met het laden van afspraken uit %s"
 
 #: calendar/gui/gnome-cal.c:1796
-#, fuzzy, c-format
+#, c-format
 msgid "Opening %s"
-msgstr "Openen in %s..."
+msgstr "Bezig met openen van %s"
 
 #: calendar/gui/gnome-cal.c:1945
 #, c-format
@@ -6596,6 +6624,9 @@ msgid ""
 "%s\n"
 " has crashed."
 msgstr ""
+"De achterligende agenda voor\n"
+"%s\n"
+" is vastgelopen."
 
 #: calendar/gui/gnome-cal.c:2799
 msgid "Purging"
@@ -8836,9 +8867,8 @@ msgid "Copying messages"
 msgstr "Berichten worden gekopieerd"
 
 #: camel/camel-folder.c:1571
-#, fuzzy
 msgid "Filtering new message(s)"
-msgstr "Bezig met ophalen van %d bericht(en)"
+msgstr "Bezig met filteren van nieuwe berichten."
 
 #: camel/camel-gpg-context.c:710
 #, c-format
@@ -9461,9 +9491,9 @@ msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Kan map niet verkrijgen: Ongeldige bewerking op deze opslag"
 
 #: camel/camel-store.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "Kan map niet verkrijgen: %s: %s"
+msgstr "Kan map `%s' niet aanmaken: map bestaat reeds"
 
 #: camel/camel-store.c:297
 msgid "Cannot create folder: Invalid operation on this store"
@@ -9789,9 +9819,8 @@ msgstr ""
 
 #: camel/providers/groupwise/camel-gw-listener.c:299
 #: camel/providers/groupwise/camel-gw-listener.c:323
-#, fuzzy
 msgid "Checklist"
-msgstr "Dikke mist"
+msgstr "Aftekenlijst"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
@@ -10071,9 +10100,9 @@ msgstr "Map `%s' bestaat niet."
 #: camel/providers/local/camel-maildir-store.c:137
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "Kan map niet verkrijgen: %s: %s"
+msgstr "Kan map `%s' niet aanmaken: map bestaat reeds."
 
 #: camel/providers/imap/camel-imap-store.c:2046
 #, c-format
@@ -10248,7 +10277,7 @@ msgstr "Kon indexbestand van map `%s' niet verwijderen: %s"
 
 #: camel/providers/local/camel-local-store.c:417
 #: camel/providers/local/camel-mbox-store.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Kon samenvattingsbestand van map `%s' niet verwijderen: %s"
 
@@ -10292,9 +10321,9 @@ msgstr "Map `%s' bestaat niet."
 #: camel/providers/local/camel-maildir-store.c:119
 #: camel/providers/local/camel-mbox-store.c:184
 #: camel/providers/local/camel-mbox-store.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': %s"
-msgstr "Kan map niet verkrijgen: %s: %s"
+msgstr "Kan map niet aanmaken: `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:134
 #, fuzzy, c-format
@@ -10413,9 +10442,9 @@ msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Map `%s' is niet leeg. Niet verwijderd."
 
 #: camel/providers/local/camel-mbox-store.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory `%s': %s."
-msgstr "Kon directory %s niet maken: %s"
+msgstr "Kan directory `%s' niet maken: %s."
 
 #: camel/providers/local/camel-mbox-store.c:388
 #, fuzzy, c-format
@@ -10427,14 +10456,13 @@ msgid "Folder already exists"
 msgstr "Map bestaat reeds"
 
 #: camel/providers/local/camel-mbox-store.c:472
-#, fuzzy
 msgid "The new folder name is illegal."
-msgstr "De opgegeven mapnaam is niet geldig: %s"
+msgstr "De opgegeven mapnaam is niet geldig."
 
 #: camel/providers/local/camel-mbox-store.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename `%s': `%s': %s"
-msgstr "Kon '%s' niet hernoemen: %s"
+msgstr "Kon `%s' niet hernoemen: `%s': %s"
 
 #: camel/providers/local/camel-mbox-store.c:560
 #, fuzzy, c-format
@@ -10524,11 +10552,9 @@ msgid "Cannot append message to mh folder: %s: %s"
 msgstr "Kan bericht niet toevoegen aan mh map %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder `%s': %s"
-msgstr ""
-"Kon map `%s' niet maken:\n"
-"%s"
+msgstr "Kan map `%s' niet maken: %s"
 
 #: camel/providers/local/camel-mh-store.c:229
 #, fuzzy, c-format
@@ -10630,18 +10656,17 @@ msgstr ""
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
 #: camel/providers/nntp/camel-nntp-store.c:997
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr "%sVoer het SMTP wachtwoord in voor %s@%s"
+msgstr "Voer het NNTP wachtwoord in voor %s@%s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
 msgid "Server rejected username"
 msgstr "De server heeft de gebruikersnaam geweigerd"
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
-#, fuzzy
 msgid "Failed to send username to server"
-msgstr "Kan geen verbinding krijgen met LDAP server"
+msgstr "Kon de gebruikersnaam niet naar de server versturen"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
 msgid "Server rejected username/password"
@@ -10720,18 +10745,14 @@ msgstr "Kon de groep: %s niet verkrijgen"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:98
 #: camel/providers/nntp/camel-nntp-grouplist.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr ""
-"Kon uitvoerbestand niet maken: %s\n"
-" %s"
+msgstr "Kan groeplijst bestand voor %s niet laden: %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save grouplist file for %s: %s"
-msgstr ""
-"Kon uitvoerbestand niet maken: %s\n"
-" %s"
+msgstr "Kon groepslijstbestand voor %s niet opslaan: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid ""
@@ -11387,11 +11408,8 @@ msgid "Suggest automatic display of attachment"
 msgstr "Probeer bijlage automatisch weer te geven"
 
 #: composer/e-msg-composer-hdrs.c:304
-#, fuzzy
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
-"U dient een account in te stellen\n"
-"voordat u post kunt versturen."
+msgstr "U dient een account in te stellen voordat u post kunt versturen."
 
 #: composer/e-msg-composer-hdrs.c:507
 msgid "Posting destination"
@@ -11559,7 +11577,6 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1394
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
@@ -11596,11 +11613,9 @@ msgid "Autogenerated"
 msgstr "Automatisch gegenereerd"
 
 #: composer/e-msg-composer.c:2263
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%d</b> File Attached"
-msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] "<b>%d</b> Bestand bijgevoegd"
-msgstr[1] "<b>%d</b> Bestand bijgevoegd"
+msgstr "<b>%d</b> Bestand bijgevoegd"
 
 #: composer/e-msg-composer.c:2292
 msgid "Hide _Attachment Bar (drop attachments here)"
@@ -11644,7 +11659,7 @@ msgstr ""
 "Niet in staat de HTML editor component te activeren."
 
 # # Het origineel heeft <b> in plaats van </b>
-#: composer/e-msg-composer.c:4237
+#: composer/e-msg-composer.c:4234
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11804,12 +11819,16 @@ msgstr "Categorieën Actualiseren:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d-%m-%Y %H:%M:%S"
@@ -11861,23 +11880,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12740,9 +12767,9 @@ msgid "Could not delete folder: %s"
 msgstr "Kon map %s niet verwijderen"
 
 #: mail/em-folder-tree.c:2094
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete local %s folder."
-msgstr "Kon map: %s niet verwijderen: map bestaat niet"
+msgstr "Kan lokale map %s niet verwijderen."
 
 #: mail/em-folder-tree.c:2100
 #, c-format
@@ -12971,9 +12998,8 @@ msgstr ""
 "het authentiek is."
 
 #: mail/em-format-html-display.c:639 mail/em-format-html.c:563
-#, fuzzy
 msgid "Valid signature"
-msgstr "Handtekening bewerken"
+msgstr "Geldige handtekening"
 
 #: mail/em-format-html-display.c:639
 #, fuzzy
@@ -13123,9 +13149,8 @@ msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
 #: mail/em-format-html.c:1098
-#, fuzzy
 msgid "Formatting message"
-msgstr "Verplaatsen van berichten"
+msgstr "Bezig met opmaken van bericht"
 
 #: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:742
 #: mail/em-mailer-prefs.c:67 mail/message-list.etspec.h:7
@@ -13385,7 +13410,6 @@ msgstr ""
 "Deze berichten echt verwijderen?"
 
 #: mail/em-utils.c:2459
-#, fuzzy
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -13428,9 +13452,8 @@ msgid "Composer Window default width"
 msgstr "Standaardbreedte berichtvenster"
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
-msgstr "Standaardonderwerp van het bericht."
+msgstr "Standaard tekenset voor het maken van berichten"
 
 #: mail/evolution-mail.schemas.in.in.h:9
 #, fuzzy
@@ -13486,9 +13509,8 @@ msgid "Empty Trash folders on exit"
 msgstr "Prullenbakken legen bij afsluiten"
 
 #: mail/evolution-mail.schemas.in.in.h:20
-#, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Prullenbakken legen bij afsluiten"
+msgstr "Alle Prullenbakken legen bij het afsluiten van Evolution."
 
 #: mail/evolution-mail.schemas.in.in.h:21
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -13500,11 +13522,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Height of the message-list pane"
-msgstr ""
+msgstr "Hoogte van het berichtenlijst paneel"
 
 #: mail/evolution-mail.schemas.in.in.h:24
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "Hoogte van het berichtenlijst paneel."
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid ""
@@ -13555,13 +13577,12 @@ msgid ""
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:34
-#, fuzzy
 msgid "Log filter actions"
-msgstr "Acties uitvoeren"
+msgstr "Filter acties bijhouden"
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "Filter acties bijhouden in het gespecificeerde log bestand."
 
 # Logbestand waarin filteracties worden gelogt
 #: mail/evolution-mail.schemas.in.in.h:36
@@ -13677,7 +13698,6 @@ msgstr "Standaard HTLM e-mail versturen."
 
 # filmpjes weergeven
 #: mail/evolution-mail.schemas.in.in.h:62
-#, fuzzy
 msgid "Show Animations"
 msgstr "Bewegende afbeeldingen _weergeven"
 
@@ -13715,9 +13735,8 @@ msgstr ""
 "te gebruiken."
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Spell check inline"
-msgstr "Spellings_controle"
+msgstr "Spellings controle in bericht"
 
 # console ipv terminal?
 #: mail/evolution-mail.schemas.in.in.h:71
@@ -13729,9 +13748,8 @@ msgid "The terminal font for mail display"
 msgstr "Het terminal lettertype voor mail weergave"
 
 #: mail/evolution-mail.schemas.in.in.h:73
-#, fuzzy
 msgid "The variable width font for mail display"
-msgstr "Kies HTML lettertype met variabele breedte voor afdrukken"
+msgstr "Het lettertype met variabele breedte voor weergave van berichten"
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid ""
@@ -13792,9 +13810,8 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "Gebruik enkel locale spam testen (geen DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:87
-#, fuzzy
 msgid "Variable width font"
-msgstr "V_ariabele breedte:"
+msgstr "Lettertype met variabele breedte"
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "View/Bcc menu item is checked"
@@ -13844,7 +13861,7 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:99
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "port voor het starten van gebruikersmode spamd"
 
 #: mail/evolution-mail.schemas.in.in.h:100
 msgid "spamd port"
@@ -13917,9 +13934,8 @@ msgid "Destination folder:"
 msgstr "Doel map:"
 
 #: mail/importers/evolution-mbox-importer.c:119
-#, fuzzy
 msgid "Select folder to import into"
-msgstr "Importeerder selecteren"
+msgstr "Selecteer map waar in geimporteerd moet worden"
 
 #: mail/importers/evolution-mbox-importer.c:219
 #: mail/importers/evolution-outlook-importer.c:224
@@ -14162,9 +14178,8 @@ msgid "Compose a new mail message"
 msgstr "Een nieuwe e-mail opstellen"
 
 #: mail/mail-component.c:553
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "Nieuwe VMap"
+msgstr "Nieuwe berichten map"
 
 #: mail/mail-component.c:554
 #, fuzzy
@@ -14172,9 +14187,8 @@ msgid "Mail _Folder"
 msgstr "E-mail filters"
 
 #: mail/mail-component.c:555
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "Maak een nieuwe agenda aan"
+msgstr "Maak een berichten map aan"
 
 #: mail/mail-component.c:722
 #, fuzzy
@@ -15193,11 +15207,9 @@ msgid "Name:"
 msgstr "Naam:"
 
 #: mail/mail-tools.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
-"Kon de directory %s niet aanmaken:\n"
-"%s"
+msgstr "Kan de spool map `%s' niet aanmaken: %s"
 
 #: mail/mail-tools.c:141
 #, c-format
@@ -15214,9 +15226,9 @@ msgid "Forwarded message"
 msgstr "Doorgestuurd bericht"
 
 #: mail/mail-tools.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Bezig met openen map %s"
+msgstr "Ongeldige map: `%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
@@ -15483,6 +15495,8 @@ msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
 msgstr ""
+"Als ingesteld op true zal Evolution opstarten in offline mode in plaats"
+"van online mode."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid ""
@@ -15494,6 +15508,7 @@ msgstr ""
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
+"Lijst met paden voor de mappen die gesynchroniseerd dienen te worden voor offline gebruik"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Path to the default calendar folder"
@@ -16044,14 +16059,12 @@ msgid "Import Location"
 msgstr "Importeren lokatie"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Importeerders"
+msgstr "Type importeerder"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "Importeerder selecteren"
+msgstr "Selecteer importeerders"
 
 #: shell/importer/import.glade.h:7
 msgid "Select a File"
@@ -16185,9 +16198,8 @@ msgstr ""
 
 #: smime/gui/certificate-manager.c:127 smime/gui/certificate-manager.c:316
 #: smime/gui/certificate-manager.c:463
-#, fuzzy
 msgid "Select a cert to import..."
-msgstr "Importeerder selecteren"
+msgstr "Selecteer een cert om te importeren"
 
 #: smime/gui/certificate-manager.c:238 smime/gui/certificate-manager.c:400
 #: smime/gui/certificate-manager.c:546
@@ -16213,11 +16225,9 @@ msgid "E-Mail Address"
 msgstr "E-mailadres"
 
 #: smime/gui/certificate-viewer.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
-"Certificaat verlopen op: %s\n"
-"Eigenaar: %s"
+msgstr "Certificaat weergave: %s"
 
 #: smime/gui/component.c:41
 #, c-format
@@ -16273,7 +16283,7 @@ msgstr "<b>Uitgegeven aan</b>"
 
 #: smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>Dit certificaat is geverifieerd voor het volgende gebruik:</b>"
 
 #: smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
