@@ -1,3 +1,8 @@
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-gui-utils.c (e_create_image_widget): change this to use
+	GtkImage instead of GnomeCanvas.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Images are now in $(datadir)/evolution/images
