@@ -517,7 +517,11 @@ archive_local (GnomePilotConduitStandardAbs *conduit,
 }
 
 /*
-  Store in archive and set status to Nothing
+** used when copying information from the pilot to the desktop.  if
+** the archived flag is set to true in the PilotRecord, this method is
+** called.
+**
+** Store in archive and set status to Nothing
 */
 static gint
 archive_remote (GnomePilotConduitStandardAbs *conduit,
@@ -534,8 +538,12 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 }
 
 /*
-  Store and set status to Nothing
- */
+** used when copying information from the pilot to the desktop.  if
+** the archived flags and deleted flags are not set to true in the
+** PilotRecord, this method is called.
+**
+** Store and set status to Nothing
+*/
 static gint
 store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
@@ -549,6 +557,11 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	return update_record(conduit,remote,ctxt);
 }
 
+/*
+** Called when copying records to the pilot.
+**
+** XXX more here.
+*/
 static gint
 clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 			    AddressbookLocalRecord *local,
@@ -561,6 +574,14 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
         return -1;
 }
 
+/*
+** Used when looping over records on the local side of things.
+** function should maintain state such that *local moves along the
+** list of records.
+**
+** return value is 0 if we're done, 1 to continue iterating, and -1 on
+** error.
+*/
 static gint
 iterate (GnomePilotConduitStandardAbs *conduit,
 	 AddressbookLocalRecord **local,
@@ -602,6 +623,14 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 }
 
 
+/*
+** similar to iterate, except the list of records we iterate over have
+** to have FLAG set and ARCHIVE should match the state of the local
+** record.
+**
+** return value is 0 if we're done, 1 to continue iterating, and -1 on
+** error.
+*/
 static gint
 iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		  AddressbookLocalRecord **local,
@@ -634,6 +663,12 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 	return (*local)==NULL?0:1;
 }
 
+/*
+** actually remove the records flagged as deleted from the local
+** store.
+**
+** XXX return value isn't checked by gnome-pilot source.
+*/
 static gint
 purge (GnomePilotConduitStandardAbs *conduit,
        AddressbookConduitContext *ctxt)
@@ -646,6 +681,12 @@ purge (GnomePilotConduitStandardAbs *conduit,
 }
 
 
+/*
+** sets the value of the status flag on the local record (deleted,
+** nothing, modified, etc.)
+**
+** XXX return value not checked by gnome-pilot source.
+*/
 static gint
 set_status (GnomePilotConduitStandardAbs *conduit,
 	    AddressbookLocalRecord *local,
@@ -691,6 +732,10 @@ set_status (GnomePilotConduitStandardAbs *conduit,
         return 0;
 }
 
+/*
+** presumably used to set the archived flag on a local record.  not
+** actually used in the gnome-pilot source.
+*/
 static gint
 set_archived (GnomePilotConduitStandardAbs *conduit,
 	      AddressbookLocalRecord *local,
@@ -709,6 +754,15 @@ set_archived (GnomePilotConduitStandardAbs *conduit,
         return 0;
 }
 
+/*
+** used when writing a record to the pilot.  the id is the one
+** assigned to the remote record.  storing it in the local record
+** makes it easier to match up local and remote records later on.
+**
+** this should not change the state of the local entry to modified.
+**
+** XXX return value not checked by gnome-pilot source.
+*/
 static gint
 set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      AddressbookLocalRecord *local,
@@ -736,6 +790,14 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	}
 }
 
+/*
+** used to convert between a local record and a remote record.  memory
+** allocated during this process should be freed in free_transmit
+** below.
+**
+** XXX return value not checked by gnome-pilot source, but setting
+** *remote to NULL triggers an error.
+*/
 static gint
 transmit (GnomePilotConduitStandardAbs *conduit,
 	  AddressbookLocalRecord *local,
@@ -774,6 +836,11 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	return 0;
 }
 
+/*
+** free memory allocated in the transmit signal.
+**
+** XXX return value not checked.
+*/
 static gint
 free_transmit (GnomePilotConduitStandardAbs *conduit,
 	       AddressbookLocalRecord *local,
@@ -791,6 +858,13 @@ free_transmit (GnomePilotConduitStandardAbs *conduit,
         return 0;
 }
 
+/*
+** used when synching.  compare the local and remove record data and
+** determine equality.
+**
+** retval is similar to strcmp: 0 for equality, anything else for
+** inequality (no ordering is imposed).
+*/
 static gint
 compare (GnomePilotConduitStandardAbs *conduit,
 	 AddressbookLocalRecord *local,
@@ -860,6 +934,9 @@ compare (GnomePilotConduitStandardAbs *conduit,
 	return 0;
 }
 
+/*
+** XXX not actually called from the gnome-pilot source
+*/
 static gint
 compare_backup (GnomePilotConduitStandardAbs *conduit,
 		AddressbookLocalRecord *local,
@@ -874,6 +951,14 @@ compare_backup (GnomePilotConduitStandardAbs *conduit,
         return -1;
 }
 
+/*
+** used when copying from the pilot.
+**
+** delete all records in the local database.  this doesn't actually
+** remove the records, merely sets their status to DELETED.
+**
+** return value is < 0 on error, >= 0 on success.
+*/
 static gint
 delete_all (GnomePilotConduitStandardAbs *conduit,
 	    AddressbookConduitContext *ctxt)

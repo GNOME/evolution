@@ -1,5 +1,10 @@
 2000-07-25  Chris Toshok  <toshok@helixcode.com>
 
+	* conduit/address-conduit.c: add comment headers to signals that
+	didn't have any.
+	
+2000-07-25  Chris Toshok  <toshok@helixcode.com>
+
 	* conduit/address-conduit.c (start_address_server): use the user's
 	Contact db.  not toshok's.
 
