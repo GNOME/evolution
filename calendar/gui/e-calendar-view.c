@@ -813,6 +813,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
+	e_cal_component_set_recurid (comp, NULL);
 
 	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
 		const char *uid;
