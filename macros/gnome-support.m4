@@ -35,6 +35,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 
   # This header enables some optimizations inside argp.  
   AC_CHECK_HEADERS(linewrap.h)
+  # for `scandir'
+  AC_HEADER_DIRENT
 
   AC_CACHE_CHECK([for program_invocation_short_name], gnome_cv_short_name, [
     AC_TRY_LINK([#include <errno.h>],[

@@ -1,7 +1,8 @@
 1998-04-08  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* autogen.sh: Update to list newer versions of packages.
-	* gnome-support.m4 (AC_REPLACE_FUNCS): Add `scandir'.
+	* gnome-support.m4: Add `scandir' to AC_REPLACE_FUNCS.
+	Also run AC_HEADER_DIRENT.
 
 1998-03-31  Raja R Harinath  <harinath@cs.umn.edu>
 
