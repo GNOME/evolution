@@ -1,3 +1,9 @@
+2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (tree_drag_motion): We want UID_LISTs to drop
+	with the MOVE action by default. Fixes a common complaint from
+	IRC.
+
 2004-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* em-format.c (emf_multipart_signed): check mps->protocol != NULL

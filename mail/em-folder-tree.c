@@ -1201,6 +1201,12 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 						action = GDK_ACTION_MOVE;
 					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_AFTER);
 					break;
+				case DND_DROP_TYPE_UID_LIST:
+					action = context->suggested_action;
+					if (context->actions & GDK_ACTION_MOVE)
+						action = GDK_ACTION_MOVE;
+					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
+					break;
 				default:
 					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
 					action = context->suggested_action;
@@ -1222,8 +1228,8 @@ void
 em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv;
+	static int setup = 0;
 	int i;
-	static int setup;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
