@@ -20,6 +20,10 @@
 #include "timeutil.h"
 #include "../libversit/vcc.h"
 
+#ifdef HAVE_TZNAME
+extern char *tzname[2];
+#endif
+
 /* Our day range */
 time_t calendar_day_begin, calendar_day_end;
 
@@ -325,16 +329,21 @@ calendar_save (Calendar *cal, char *fname)
 	GList   *l;
 	time_t  now = time (NULL);
 	struct  stat s;
+	struct tm *tm;
 	
 	if (fname == NULL)
 		fname = cal->filename;
 
 	/* WE call localtime for the side effect of setting tzname */
-	localtime (&now);
+	tm = localtime (&now);
 	
 	vcal = newVObject (VCCalProp);
 	addPropValue (vcal, VCProdIdProp, "-//GNOME//NONSGML GnomeCalendar//EN");
-	addPropValue (vcal, VCTimeZoneProp, tzname [0]);
+#if defined(HAVE_TM_ZONE)
+	addPropValue (vcal, VCTimeZoneProp, tm->tm_zone);
+#elif defined(HAVE_TZNAME)
+	addPropValue (vcal, VCTimeZoneProp, tzname[0]);
+#endif
 	addPropValue (vcal, VCVersionProp, VERSION);
 	cal->temp = vcal;
 

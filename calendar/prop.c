@@ -6,7 +6,11 @@
  *          Federico Mena <federico@nuclecu.unam.mx>
  */
 #include <config.h>
+#ifdef HAVE_LANGINGO_H
 #include <langinfo.h>
+#else
+#include <locale.h>
+#endif
 #include <gnome.h>
 #include "gnome-cal.h"
 #include "gnome-month-item.h"

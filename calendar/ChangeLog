@@ -1,3 +1,11 @@
+1999-02-22  Timur Bakeyev  <mc@bat.ru>
+
+	* calendar.c: According to configured values, use either tm.tm_zone
+	or tzname. In last case, also declare it extern.
+	
+	* prop.c: langinfo.h not available everywhere. Wrapped. BTW, works
+	fine without it.
+
 1999-02-20  Tomas Ogren  <stric@ing.umu.se>
 
 	* main.c (init_username): Made use of g_get_{user,real}_name() instead
