@@ -1910,6 +1910,7 @@ e_meeting_time_selector_on_zoomed_out_toggled (GtkWidget *menuitem,
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
 	e_meeting_time_selector_set_zoomed_out (mts, GTK_CHECK_MENU_ITEM (menuitem)->active);
+	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 }
 
 
@@ -1923,6 +1924,7 @@ e_meeting_time_selector_on_working_hours_toggled (GtkWidget *menuitem,
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
 	e_meeting_time_selector_set_working_hours_only (mts, GTK_CHECK_MENU_ITEM (menuitem)->active);
+	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 }
 
 

@@ -1,3 +1,12 @@
+2003-05-22  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #41329
+	
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_on_zoomed_out_toggled): make sure the
+	meeting time is shown afterwards
+	(e_meeting_time_selector_on_working_hours_toggled): ditto
+
 2003-05-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41234
