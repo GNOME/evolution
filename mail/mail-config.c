@@ -896,7 +896,10 @@ static void check_service_check(struct _mail_msg *mm)
 		service = camel_session_get_service (session, m->url, m->type, &mm->ex);
 		if (!service)
 			return;
-		*m->authtypes = camel_service_query_auth_types (service, m->connect, &mm->ex);
+		if (m->connect)
+			*m->authtypes = camel_service_query_auth_types (service, &mm->ex);
+		else
+			*m->authtypes = g_list_copy (service->provider->authtypes);
 	} else if (m->connect) {
 		service = camel_session_get_service_connected (session, m->url, m->type, &mm->ex);
 	}

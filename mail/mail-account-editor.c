@@ -497,7 +497,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* hostname */
 	label = glade_xml_get_widget (editor->gui, "lblTransportHost");
-	if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_host), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
@@ -508,7 +508,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* username */
 	label = glade_xml_get_widget (editor->gui, "lblTransportUser");
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_user), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
@@ -519,7 +519,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* password */
 	label = glade_xml_get_widget (editor->gui, "lblTransportPasswd");
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_passwd), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_save_passwd), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
@@ -532,7 +532,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* auth */
 	label = glade_xml_get_widget (editor->gui, "lblTransportAuth");
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 		CamelURL *url;
 		char *host;
 		
@@ -642,7 +642,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* host */
 				label = glade_xml_get_widget (editor->gui, "lblSourceHost");
-				if (url && provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+				if (url && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_host), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -652,7 +652,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* user */
 				label = glade_xml_get_widget (editor->gui, "lblSourceUser");
-				if (url && provider->url_flags & CAMEL_URL_ALLOW_USER) {
+				if (url && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_USER)) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_user), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -662,7 +662,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* path */
 				label = glade_xml_get_widget (editor->gui, "lblSourcePath");
-				if (url && provider->url_flags & CAMEL_URL_ALLOW_PATH) {
+				if (url && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH)) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_path), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -672,7 +672,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* auth */
 				label = glade_xml_get_widget (editor->gui, "lblSourceAuth");
-				if (url && provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+				if (url && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auth), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);
 				} else {
@@ -682,7 +682,7 @@ source_check (MailAccountEditor *editor, CamelURL *url)
 				
 				/* passwd */
 				label = glade_xml_get_widget (editor->gui, "lblSourcePasswd");
-				if (url && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
+				if (url && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PASSWORD)) {
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), TRUE);
 					gtk_widget_set_sensitive (GTK_WIDGET (editor->source_save_passwd), TRUE);
 					gtk_widget_set_sensitive (label, TRUE);

@@ -1,3 +1,13 @@
+2001-03-21  Dan Winship  <danw@ximian.com>
+
+	* mail-config-druid.c (incoming_check, incoming_type_changed,
+	transport_check, transport_type_changed): 
+	* mail-account-editor.c (transport_type_changed, source_check):
+	Use the new URL part macros
+
+	* mail-config.c (check_service_check): Use provider authtype list
+	if not connecting.
+
 2001-03-20  Miguel de Icaza  <miguel@ximian.com>
 
 	* folder-browser-factory.c: Added new icons. 

@@ -1538,14 +1538,14 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 				break;
 			}
 		}
-
-		if (!display_part) {
-			/* Oops. Hrmph. */
-			return handle_multipart_mixed (part, mime_type, md);
-		}
 	} else {
 		/* No start parameter, so it defaults to the first part. */
 		display_part = camel_multipart_get_part (mp, 0);
+	}
+
+	if (!display_part) {
+		/* Oops. Hrmph. */
+		return handle_multipart_mixed (part, mime_type, md);
 	}
 
 	/* Record the Content-IDs of any non-displayed parts. */

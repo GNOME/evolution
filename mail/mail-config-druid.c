@@ -326,13 +326,13 @@ incoming_check (MailConfigDruid *druid)
 	gboolean host = TRUE, user = TRUE, path = TRUE;
 	gboolean next_sensitive = TRUE;
 	
-	if (prov && prov->url_flags & CAMEL_URL_NEED_HOST)
+	if (prov && CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST))
 		host = gtk_entry_get_text (druid->incoming_hostname) != NULL;
 	
-	if (prov && prov->url_flags & CAMEL_URL_NEED_USER)
+	if (prov && CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_USER))
 		user = gtk_entry_get_text (druid->incoming_username) != NULL;
 	
-	if (prov && prov->url_flags & CAMEL_URL_NEED_PATH)
+	if (prov && CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH))
 		path = gtk_entry_get_text (druid->incoming_path) != NULL;
 	
 	next_sensitive = host && user && path;
@@ -462,7 +462,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* hostname */
 	label = glade_xml_get_widget (druid->gui, "lblSourceHost");
-	if (provider && provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+	if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
 		dwidget = GTK_WIDGET (druid->incoming_hostname);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
@@ -474,7 +474,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* username */
 	label = glade_xml_get_widget (druid->gui, "lblSourceUser");
-	if (provider && provider->url_flags & CAMEL_URL_ALLOW_USER) {
+	if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_USER)) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_username);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), TRUE);
@@ -487,7 +487,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* password */
 	label = glade_xml_get_widget (druid->gui, "lblSourcePasswd");
-	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PASSWORD) {
+	if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PASSWORD)) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->source_password);
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_password), TRUE);
@@ -500,7 +500,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* auth */
 	label = glade_xml_get_widget (druid->gui, "lblSourceAuthType");
-	if (provider && provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+	if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->source_auth_type), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
@@ -515,7 +515,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_label_set_text (GTK_LABEL (label), _("Namespace:"));
 	else
 		gtk_label_set_text (GTK_LABEL (label), _("Path:"));
-	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PATH) {
+	if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH)) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_path);
 		
@@ -665,7 +665,7 @@ transport_check (MailConfigDruid *druid)
 	const CamelProvider *prov = druid->transport_provider;
 	gboolean next_sensitive = TRUE;
 	
-	if (prov && prov->url_flags & CAMEL_URL_NEED_HOST)
+	if (prov && CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST))
 		next_sensitive = gtk_entry_get_text (druid->outgoing_hostname) != NULL;
 	
 	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
@@ -769,7 +769,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* hostname */
 	label = glade_xml_get_widget (druid->gui, "lblTransportHost");
-	if (provider->url_flags & CAMEL_URL_ALLOW_HOST) {
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_HOST)) {
 		gtk_widget_grab_focus (GTK_WIDGET (druid->outgoing_hostname));
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_hostname), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
@@ -780,7 +780,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	}
 	
 	/* auth */
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH)
+	if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH))
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_requires_auth), TRUE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_requires_auth), FALSE);
