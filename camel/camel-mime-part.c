@@ -199,7 +199,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
 		text = header_decode_string(header_value);
 		g_free(mime_part->description);
-		mime_part->description = text;
+		mime_part->description = g_strstrip (text);
 		break;
 	case HEADER_DISPOSITION:
 		set_disposition (mime_part, header_value);
@@ -351,9 +351,13 @@ camel_mime_part_set_filename (CamelMimePart *mime_part, const gchar *filename)
 const gchar *
 camel_mime_part_get_filename (CamelMimePart *mime_part)
 {
-	if (mime_part->disposition)
-		return header_param(mime_part->disposition->params, "filename");
-	return NULL;
+	if (mime_part->disposition) {
+		const gchar *name = header_param (mime_part->disposition->params, "filename");
+		if (name)
+			return name;
+	}
+
+	return gmime_content_field_get_parameter (mime_part->content_type, "name");
 }
 
 
