@@ -11,14 +11,38 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-control.h> 
 #include "e-util/e-util.h"
+#include "e-util/e-gui-utils.h"
+#include "folder-browser.h"
+#include "main.h"
 
+/*
+ * Creates the Folder Browser, wraps it in a Bonobo Control, and
+ * sets the Bonobo Control properties to point to the Folder Browser
+ * Properties
+ */
 static BonoboObject *
 folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 {
-	g_error ("Fill me in!");
-		
-	return NULL;
+	BonoboControl *control;
+	GtkWidget *folder_browser;
+
+	folder_browser = folder_browser_new ();
+	if (folder_browser == NULL)
+		return NULL;
+
+	control = bonobo_control_new (folder_browser);
+	if (control == NULL){
+		gtk_object_destroy (GTK_OBJECT (folder_browser));
+		return NULL;
+	}
+	
+	bonobo_control_set_property_bag (
+		control,
+		FOLDER_BROWSER (folder_browser)->properties);
+
+	return BONOBO_OBJECT (control);
 }
 
 void

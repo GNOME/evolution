@@ -14,16 +14,18 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
-evolution_mail_SOURCES =	\
-	folder-browser-factory.c\
-	folder-browser-factory.h\
-	html-stream.c		\
-	html-stream.h		\
-	mail-display.h		\
-	mail-display.c		\
-	main.c			\
-	message-list.c		\
-	message-list.h		\
+evolution_mail_SOURCES =		\
+	folder-browser.c		\
+	folder-browser.h		\
+	folder-browser-factory.c	\
+	folder-browser-factory.h	\
+	html-stream.c			\
+	html-stream.h			\
+	mail-display.h			\
+	mail-display.c			\
+	main.c				\
+	message-list.c			\
+	message-list.h			\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)
 
 evolution_mail_LDADD = 					\
