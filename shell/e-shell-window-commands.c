@@ -26,7 +26,6 @@
 
 #include "e-shell-window-commands.h"
 
-#include "e-shell-about-box.h"
 #include "e-shell-importer.h"
 #include "e-shell-window.h"
 
@@ -358,7 +357,9 @@ command_help_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
 		  const char *path)
 {
-	gnome_url_show ("http://www.ximian.com/apps/evolution-faq.html", NULL);	/* FIXME use the error */
+	/* FIXME Show when we have a faq
+	/* FIXME use the error */
+	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);	
 }
 
 static void
@@ -516,7 +517,6 @@ static BonoboUIVerb tools_verbs[] = {
 };
 
 static BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_VERB ("HelpFAQ", (BonoboUIVerbFn) command_help_faq),
 	BONOBO_UI_VERB ("QuickReference", (BonoboUIVerbFn) command_quick_reference),
 	BONOBO_UI_VERB ("HelpSubmitBug", (BonoboUIVerbFn) command_submit_bug),
 	BONOBO_UI_VERB ("HelpAbout", (BonoboUIVerbFn) command_about_box),
