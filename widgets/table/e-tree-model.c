@@ -12,7 +12,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <stdlib.h>
-#include "gal/util/e-util.h"
+#include "util/e-util.h"
 #include "e-tree-model.h"
 
 #define ETM_CLASS(e) ((ETreeModelClass *)((GtkObject *)e)->klass)
@@ -787,25 +787,41 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 {
 	int num_nodes = g_node_n_children (node);
 	ETreePath **path_array;
+	gboolean *expanded;
 	int i;
+	int child_index;
 
 	if (num_nodes == 0)
 		return;
 
 	path_array = g_new (ETreePath*, num_nodes);
+	expanded = g_new (gboolean, num_nodes);
 
+	child_index = e_tree_model_row_of_node (tree_model, node) + 1;
+
+	printf ("====== before sort ==== \n");
 	for (i = 0; i < num_nodes; i ++) {
 		path_array[i] = g_node_first_child(node);
+		printf ("i: %s\n", e_tree_model_node_get_data (tree_model, path_array[i]));
 		g_node_unlink (path_array[i]);
 	}
 
-	qsort (path_array, num_nodes, sizeof(ETreePath*), compare);
-
 	for (i = 0; i < num_nodes; i ++) {
-		g_node_append (node, path_array[i]);
+		expanded[i] = e_tree_model_node_is_expanded (tree_model, path_array[i]);
+		e_tree_model_node_set_expanded(tree_model, path_array[i], FALSE);
+		tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
+	}
+
+	qsort (path_array, num_nodes, sizeof(ETreePath*), compare);
+	
+	for (i = num_nodes - 1; i >= 0; i --) {
+		g_node_prepend (node, path_array[i]);
+		tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index, path_array[i]);
+		e_tree_model_node_set_expanded (tree_model, path_array[i], expanded[i]);
 	}
 
 	g_free (path_array);
+	g_free (expanded);
 
 	e_table_model_changed (E_TABLE_MODEL (tree_model));
 }
