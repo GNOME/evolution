@@ -863,7 +863,7 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelImapResponse *response;
-	
+
 	if (store->connected && clean) {
 		response = camel_imap_command (store, NULL, ex, "LOGOUT");
 		camel_imap_response_free (store, response);

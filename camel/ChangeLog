@@ -1,3 +1,12 @@
+2002-05-09  Not Zed  <NotZed@Ximian.com>
+
+	* camel-service.c (camel_service_disconnect): Instead of testing
+	for SERVICE_CONNECTED, we need to also handle SERVICE_CONNECTING
+	too, as it will often have setup some details before it failed.
+	Make it !DISCONNECTED (and !DISCONNECTING for recursive calls,
+	which happen).  Fixes #23782, and maybe also #21604 and many other
+	random crashes.
+
 2002-05-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-digest-store.c (digest_setv): Implemented.

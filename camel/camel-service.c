@@ -430,7 +430,8 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 
 	CAMEL_SERVICE_LOCK (service, connect_lock);
 	
-	if (service->status == CAMEL_SERVICE_CONNECTED) {
+	if (service->status != CAMEL_SERVICE_DISCONNECTED
+	    && service->status != CAMEL_SERVICE_DISCONNECTING) {
 		CAMEL_SERVICE_LOCK (service, connect_op_lock);
 		service->connect_op = camel_operation_registered ();
 		if (!service->connect_op) {
