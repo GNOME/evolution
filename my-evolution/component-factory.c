@@ -34,6 +34,8 @@
 
 #include <gal/widgets/e-gui-utils.h>
 
+#include <gtk/gtkmain.h>
+
 #include "e-summary-factory.h"
 #include "e-summary-offline-handler.h"
 #include "e-summary.h"
@@ -127,6 +129,7 @@ component_destroy (BonoboObject *factory,
 
 static BonoboObject *
 create_component (BonoboGenericFactory *factory,
+		  const char *id,
 		  void *data)
 {
 	EvolutionShellComponent *shell_component;
@@ -145,12 +148,10 @@ create_component (BonoboGenericFactory *factory,
 							 NULL, NULL,
 							 NULL, NULL,
 							 NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-			    GTK_SIGNAL_FUNC (component_destroy), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+
+	g_signal_connect (shell_component, "destroy", G_CALLBACK (component_destroy), NULL);
+	g_signal_connect (shell_component, "owner_set", G_CALLBACK (owner_set_cb), NULL);
+	g_signal_connect (shell_component, "owner_unset", G_CALLBACK (owner_unset_cb), NULL);
 
 	offline_handler = e_summary_offline_handler_new ();
 	gtk_object_set_data (GTK_OBJECT (shell_component), "offline-handler",
@@ -174,5 +175,7 @@ component_factory_init (void)
 		g_error ("Cannot register Evolution Summary component factory.");
 }
 
+#if 0
 /* Factory for the shlib case.  */
 BONOBO_OAF_SHLIB_FACTORY (COMPONENT_FACTORY_ID, "Evolution Summary component", create_component, NULL)
+#endif

@@ -23,19 +23,22 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <liboaf/liboaf.h>
+
 #include <gal/widgets/e-unicode.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
+
 #include <gtk/gtksignal.h>
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-property-bag-client.h>
 
 #include <Evolution.h>
 #include <evolution-storage-listener.h>
+
+#include <string.h>
 
 #include "Mailer.h"
 #include "e-summary.h"
@@ -888,7 +891,7 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 	folder_store->shell = shell;
 	
 	CORBA_exception_init (&ev);
-	folder_store->folder_info = oaf_activate_from_id (MAIL_IID, 0, NULL, &ev);
+	folder_store->folder_info = bonobo_activation_activate_from_id (MAIL_IID, 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || folder_store->folder_info == NULL) {
 		g_warning ("Exception creating folderinfo: %s\n",
 			   CORBA_exception_id (&ev) ? CORBA_exception_id (&ev) : "(null)");

@@ -31,9 +31,10 @@
 #include <fcntl.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-url.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -48,16 +49,26 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <bonobo-conf/bonobo-config-database.h>
 
-#include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-url.h>
 
 #include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
+
+#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-dialog.h>
+
+#include <gtk/gtkdialog.h>
 
 #include <gui/alarm-notify/alarm.h>
 #include <cal-util/timeutil.h>
+
+#include <gtk/gtkmain.h>
+#include <gtk/gtkscrolledwindow.h>
+
+#include <string.h>
+#include <unistd.h>
+
+#include "e-util/e-config-listener.h"
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -327,7 +338,7 @@ e_summary_url_clicked (GtkHTML *html,
 	protocol_end = strchr (url, ':');
 	if (protocol_end == NULL) {
 		/* No url, let gnome work it out */
-		gnome_url_show (url);
+		gnome_url_show (url, NULL);
 		return;
 	}
 
@@ -339,7 +350,7 @@ e_summary_url_clicked (GtkHTML *html,
 
 	if (protocol_listener == NULL) {
 		/* Again, let gnome work it out */
-		gnome_url_show (url);
+		gnome_url_show (url, NULL);
 		return;
 	}
 
@@ -478,8 +489,7 @@ alarm_fn (gpointer alarm_id,
 static void
 e_summary_init (ESummary *summary)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *config_listener;
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
 	time_t t, day_end;
@@ -520,24 +530,18 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		g_warning ("Error getting Wombat. Using defaults");
-		return;
-	}
+	config_listener = e_config_listener_new ();
 
-	summary->timezone = bonobo_config_get_string_with_default (db,
-		"/Calendar/Display/Timezone", "UTC", NULL);
+	summary->timezone = e_config_listener_get_string_with_default (config_listener,
+								       "/Calendar/Display/Timezone", "UTC",
+								       NULL);
 	if (!summary->timezone || !summary->timezone[0]) {
 		g_free (summary->timezone);
 		summary->timezone = g_strdup ("UTC");
 	}
 	summary->tz = icaltimezone_get_builtin_timezone (summary->timezone);
 
-	bonobo_object_release_unref (db, NULL);
-	CORBA_exception_free (&ev);
+	g_object_unref (config_listener);
 
 	t = time (NULL);
 	if (summary->tz == NULL) {
@@ -585,53 +589,39 @@ do_summary_print (ESummary *summary,
 {
 	GnomePrintContext *print_context;
 	GnomePrintMaster *print_master;
-	GnomePrintDialog *gpd;
-	GnomePrinter *printer = NULL;
-	int copies = 1;
-	int collate = FALSE;
+	GtkWidget *gpd;
+	GnomePrintConfig *config = NULL;
 
-	if (!preview) {
-		gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (_("Print Summary"), GNOME_PRINT_DIALOG_COPIES));
-		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
+	if (! preview) {
+		gpd = gnome_print_dialog_new (_("Print Summary"), GNOME_PRINT_DIALOG_COPIES);
 
-		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
-		case GNOME_PRINT_PRINT:
+		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
+		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 			break;
 
-		case GNOME_PRINT_PREVIEW:
+		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 			preview = TRUE;
 			break;
 
-		case -1:
-			return;
-
 		default:
-			gnome_dialog_close (GNOME_DIALOG (gpd));
+			gtk_widget_destroy (gpd);
 			return;
 		}
 
-		gnome_print_dialog_get_copies (gpd, &copies, &collate);
-		printer = gnome_print_dialog_get_printer (gpd);
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (gpd));
 	}
 
-	print_master = gnome_print_master_new ();
+	print_master = gnome_print_master_new_from_config (config);
 	
-	if (printer) {
-		gnome_print_master_set_printer (print_master, printer);
-	}
-	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
 	gtk_html_print (GTK_HTML (summary->priv->html), print_context);
 	gnome_print_master_close (print_master);
 
 	if (preview) {
-		gboolean landscape = FALSE;
-		GnomePrintMasterPreview *preview;
+		GtkWidget *preview;
 
-		preview = gnome_print_master_preview_new_with_orientation (
-			print_master, _("Print Preview"), landscape);
-		gtk_widget_show (GTK_WIDGET (preview));
+		preview = gnome_print_master_preview_new (print_master, _("Print Preview"));
+		gtk_widget_show (preview);
 	} else {
 		int result = gnome_print_master_print (print_master);
 

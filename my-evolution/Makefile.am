@@ -9,6 +9,10 @@ INCLUDES = \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
+	-DPREFIX=\"$(prefix)\"					\
+	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
+	-DDATADIR=\""$(datadir)"\"	 			\
+	-DLIBDIR=\""$(datadir)"\"	 			\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"		\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 
@@ -22,7 +26,7 @@ MAIL_GENERATED =						\
 	Mailer-stubs.c
 
 $(MAIL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` $(top_srcdir)/mail/Mailer.idl
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(top_srcdir)/mail/Mailer.idl
 
 summary_sources =				\
 	$(MAIL_GENERATED)			\
@@ -109,7 +113,7 @@ oaf_DATA = $(oaf_files)
 gladedir = $(datadir)/evolution/glade
 glade_DATA = my-evolution.glade
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST = 				\
 	$(summary_sources)		\

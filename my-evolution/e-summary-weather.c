@@ -28,11 +28,12 @@
 #include <gtk/gtkctree.h>
 #include <gtk/gtkmain.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 
 #include <gal/widgets/e-unicode.h>
+
+#include <string.h>
 
 #include "e-summary.h"
 #include "e-summary-shown.h"
@@ -410,7 +411,7 @@ e_summary_weather_init_locations (void)
 			iter = gnome_config_init_iterator (state_path);
 
 			while ((iter = gnome_config_iterator_next (iter, &iter_key, &iter_val)) != NULL) {
-				if (strstr (iter_key, "loc") != NULL) {
+				if (strstr ((const char *) iter_key, "loc") != NULL) {
 					char **locdata;
 					int nlocdata;
 					ESummaryWeatherLocation *location;

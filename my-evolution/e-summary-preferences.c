@@ -26,13 +26,11 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 
 #include <libgnomeui/gnome-propertybox.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include <glade/glade.h>
 #include <stdio.h>
@@ -44,9 +42,11 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
-#include <bonobo-conf/bonobo-config-database.h>
-
 #include <shell/evolution-storage-set-view-listener.h>
+
+#include <string.h>
+
+#include "e-util/e-config-listener.h"
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -238,98 +238,62 @@ vector_from_folder_list (GList *flist)
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *config_listener;
 	char *vector;
+	gboolean used_default;
 
 	g_return_val_if_fail (prefs != NULL, FALSE);
 
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Wombat. Using defaults");
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	config_listener = e_config_listener_new ();
 
-	CORBA_exception_free (&ev);
-	vector = bonobo_config_get_string (db, "My-Evolution/Mail/display_folders-1.2", &ev);
-	if (BONOBO_EX (&ev)) {
+	vector = e_config_listener_get_string (config_listener, "My-Evolution/Mail/display_folders-1.2");
+	if (vector == NULL) {
 		g_warning ("Error getting Mail/display_folders. Using defaults");
-		CORBA_exception_free (&ev);
 		make_initial_mail_list (prefs);
 	} else {
 		prefs->display_folders = folder_list_from_vector (vector);
 		g_free (vector);
 	}
 
-	prefs->show_full_path = bonobo_config_get_boolean (db, "My-Evolution/Mail/show_full_path", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Mail/show_full_path. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
+	prefs->show_full_path = e_config_listener_get_boolean (config_listener, "My-Evolution/Mail/show_full_path");
+
+	vector = e_config_listener_get_string (config_listener, "My-Evolution/RDF/rdf_urls");
+	if (vector == NULL)
 		return FALSE;
-	}
-
-
-	vector = bonobo_config_get_string (db, "My-Evolution/RDF/rdf_urls", &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Error getting RDF/rdf_urls");
-		CORBA_exception_free (&ev);
-		bonobo_object_release_unref (db, NULL);
-		return FALSE;
-	}
-	prefs->rdf_urls = str_list_from_vector (vector);
-  	g_free (vector);
-
-	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
-
-	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, NULL);
-
-	vector = bonobo_config_get_string (db, "My-Evolution/Weather/stations", &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Error getting Weather/stations");
-		CORBA_exception_free (&ev);
-		bonobo_object_release_unref (db, NULL);
-		return FALSE;
-	}
-	prefs->stations = str_list_from_vector (vector);
-  	g_free (vector);
-
-	prefs->units = bonobo_config_get_long (db, "My-Evolution/Weather/units", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Weather/units. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	prefs->weather_refresh_time = bonobo_config_get_long (db, "My-Evolution/Weather/weather_refresh_time", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Weather/weather_refresh_time. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
 	
-	prefs->days = bonobo_config_get_long (db, "My-Evolution/Schedule/days", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Schedule/days. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	prefs->rdf_urls = str_list_from_vector (vector);
+	g_free (vector);
 
-	prefs->show_tasks = bonobo_config_get_long (db, "My-Evolution/Schedule/show_tasks", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting Schedule/show_tasks. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	prefs->rdf_refresh_time = e_config_listener_get_long_with_default (config_listener, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
 
-	bonobo_object_release_unref (db, NULL);
+	prefs->limit = e_config_listener_get_long_with_default (config_listener, "My-Evolution/RDF/limit", 10, NULL);
+
+	vector = e_config_listener_get_string (config_listener, "My-Evolution/Weather/stations");
+	if (vector == NULL)
+		return FALSE;
+
+	prefs->stations = str_list_from_vector (vector);
+	g_free (vector);
+
+	prefs->units = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Weather/units", -1, &used_default);
+	if (used_default)
+		return FALSE;
+
+	prefs->weather_refresh_time = e_config_listener_get_long_with_default (config_listener,
+									       "My-Evolution/Weather/weather_refresh_time",
+									       -1, &used_default);
+	if (used_default)
+		return FALSE;
+	
+	prefs->days = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Schedule/days", -1, &used_default);
+	if (used_default)
+		return FALSE;
+
+	prefs->show_tasks = e_config_listener_get_long_with_default (config_listener, "My-Evolution/Schedule/show_tasks", -1, &used_default);
+	if (&used_default)
+		return FALSE;
+
+	g_object_unref (config_listener);
 	return TRUE;
 }
 
@@ -337,49 +301,35 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 void
 e_summary_preferences_save (ESummaryPrefs *prefs)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *config_listener;
 	char *vector;
 
-	g_return_if_fail (prefs != NULL);
-
-	CORBA_exception_init (&ev);
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot save preferences");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	CORBA_exception_free (&ev);
+	config_listener = e_config_listener_new ();
 
 	vector = vector_from_folder_list (prefs->display_folders);
-	bonobo_config_set_string (db, "My-Evolution/Mail/display_folders-1.2", vector, NULL);
+	e_config_listener_set_string (config_listener, "My-Evolution/Mail/display_folders-1.2", vector);
   	g_free (vector); 
 
-	bonobo_config_set_boolean (db, "My-Evolution/Mail/show_full_path", prefs->show_full_path, NULL);
+	e_config_listener_set_boolean (config_listener, "My-Evolution/Mail/show_full_path", prefs->show_full_path);
 
 	vector = vector_from_str_list (prefs->rdf_urls);
-	bonobo_config_set_string (db, "My-Evolution/RDF/rdf_urls", vector, NULL);
+	e_config_listener_set_string (config_listener, "My-Evolution/RDF/rdf_urls", vector);
   	g_free (vector); 
 
-	bonobo_config_set_long (db, "My-Evolution/RDF/rdf_refresh_time", prefs->rdf_refresh_time, NULL);
-	bonobo_config_set_long (db, "My-Evolution/RDF/limit", prefs->limit, NULL);
+	e_config_listener_set_long (config_listener, "My-Evolution/RDF/rdf_refresh_time", prefs->rdf_refresh_time);
+	e_config_listener_set_long (config_listener, "My-Evolution/RDF/limit", prefs->limit);
 
 	vector = vector_from_str_list (prefs->stations);
-	bonobo_config_set_string (db, "My-Evolution/Weather/stations", vector, NULL);
+	e_config_listener_set_string (config_listener, "My-Evolution/Weather/stations", vector);
   	g_free (vector); 
 
-	bonobo_config_set_long (db, "My-Evolution/Weather/units", prefs->units, NULL);
-	bonobo_config_set_long (db, "My-Evolution/Weather/weather_refresh_time", prefs->weather_refresh_time, NULL);
+	e_config_listener_set_long (config_listener, "My-Evolution/Weather/units", prefs->units);
+	e_config_listener_set_long (config_listener, "My-Evolution/Weather/weather_refresh_time", prefs->weather_refresh_time);
 
-	bonobo_config_set_long (db, "My-Evolution/Schedule/days", prefs->days, NULL);
-	bonobo_config_set_long (db, "My-Evolution/Schedule/show_tasks", prefs->show_tasks, NULL);
+	e_config_listener_set_long (config_listener, "My-Evolution/Schedule/days", prefs->days);
+	e_config_listener_set_long (config_listener, "My-Evolution/Schedule/show_tasks", prefs->show_tasks);
 
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_sync (db, &ev);
-	CORBA_exception_free (&ev);
-
-	bonobo_object_release_unref (db, NULL);
+	g_object_unref (config_listener);
 }
 
 static void
@@ -786,8 +736,8 @@ add_dialog_clicked_cb (GtkWidget *widget,
 		       PropertyData *pd)
 {
 	if (button == 0) {
-		char *url;
-		char *name;
+		const char *url;
+		const char *name;
 
 		name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
 		url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
@@ -1482,6 +1432,7 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *generic_factory,
+	    const char *id,
 	    void *data)
 {
 	PropertyData *pd;
@@ -1489,7 +1440,7 @@ factory_fn (BonoboGenericFactory *generic_factory,
 
 	pd = g_new0 (PropertyData, 1);
 
-	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
+	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL, NULL);
 	g_return_val_if_fail (pd->xml != NULL, NULL);
 
 	widget = glade_xml_get_widget (pd->xml, "notebook");

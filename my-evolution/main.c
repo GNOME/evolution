@@ -32,12 +32,10 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkrgb.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 
 #include <bonobo/bonobo-main.h>
-#include <liboaf/liboaf.h>
 
 #include <e-util/e-proxy.h>
 
@@ -54,31 +52,18 @@ int
 main (int argc,
       char **argv)
 {
-	CORBA_ORB orb;
+	/* Make ElectricFence work.  */
+	free (malloc (10));
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("Evolution Executive Summary", VERSION,
-				    argc, argv, oaf_popt_options, 0, NULL);
-	orb = oaf_init (argc, argv);
-
-	gdk_rgb_init ();
-	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
-		g_error (_("Executive summary component could not initialize Bonobo.\n"));
-		exit (1);
-	}
-
-	gconf_init (argc, argv, NULL);
-
-	glade_gnome_init ();
+	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution Summary"),
+			    NULL);
 
 	e_cursors_init ();
-
-	e_proxy_init ();
-	
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	/* Start our component */
 	component_factory_init ();

@@ -24,9 +24,6 @@
 #define __E_CELL_TRI_H__
 
 #include <gal/e-table/e-cell-toggle.h>
-#include <libgnome/gnome-defs.h>
-
-BEGIN_GNOME_DECLS
 
 typedef struct _ECellTri {
 	ECellToggle parent;
@@ -38,7 +35,5 @@ typedef struct _ECellTriClass {
 
 GtkType e_cell_tri_get_type (void);
 ECell *e_cell_tri_new (void);
-
-END_GNOME_DECLS
 
 #endif

@@ -12,8 +12,9 @@
 #include <regex.h>
 #include <math.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+
+#include <string.h>
 
 #include "e-summary.h"
 #include "weather.h"

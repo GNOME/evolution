@@ -1,3 +1,60 @@
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* metar.c: #include <string.h>.
+
+	* main.c (main): Use gnome_program_init().
+
+	* e-summary-tasks.c (e_summary_tasks_protocol): Use
+	bonobo-activation.
+
+	* e-summary-table.c (set_value_at): Use g_signal_emit() instead of
+	gtk_signal_emit().
+
+	* e-summary-shown.c (e_summary_shown_class_init): GObjectified.
+	(construct_pixmap_button): Use gtk_image_new_from_stock() instead
+	of gnome_stock_pixmap_new().
+
+	* e-summary-preferences.c (e_summary_preferences_restore): Use
+	EConfigListener.
+	(add_dialog_clicked_cb): Add some missing consts.
+	(factory_fn): Pass NULL as the domain arg to glade_xml_new().
+	(factory_fn): Add id arg.
+	(e_summary_preferences_register_config_control_factory): 
+
+	* e-summary-mail.c (e_summary_folder_init_folder_store): Use
+	bonobo-activation.
+
+	* e-summary-factory.c (control_activate): Pass NULL ev arg to
+	bonobo functions that now need it.
+	(control_deactivate): Likewise.
+	(control_activate_cb): Likewise.
+	(e_summary_factory_new_control): Use g_signal_connect() instead of
+	gtk_signal_connect().
+
+	* e-summary-calendar.c (e_summary_calendar_protocol): Use
+	bonobo_activation.
+
+	* e-summary.c: Update gnome-print #includes.  Added some missing
+	#includes.
+	(e_summary_url_clicked): Pass NULL as the error arg to
+	gnome_url_show().
+	(do_summary_print): Use GnomePrintConfig instead of GnomePrinter
+	et al.
+
+	* e-cell-tri.h: Removed BEGIN_GNOME_DECLS/END_GNOME_DECLS.
+
+	* e-summary.c: Removed #include <libgnome/gnome-defs.h>.  Ported
+	to e-config-listener.c.
+
+	* e-cell-tri.h: Removed #include <libgnome/gnome-defs.h>.
+
+	* component-factory.c: #include <gtk/gtkmain.h>.
+	(create_component): Use g_signal_connect.  Match prototype with
+	the one required by bonobo_generic_factory().
+
+	* Makefile.am: Add @INTLTOOL_SERVER_RULE@.
+	($(MAIL_GENERATED)): Update with new ORBit rules.
+
 2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-cell-tri.c (set_value): Removed debugging message.

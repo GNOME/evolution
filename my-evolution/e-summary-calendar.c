@@ -38,9 +38,6 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-conf/bonobo-config-database.h>
-
-#include <liboaf/liboaf.h>
 
 #include <ical.h>
 
@@ -510,7 +507,7 @@ e_summary_calendar_protocol (ESummary *summary,
 
 	/* Get the factory */
 	CORBA_exception_init (&ev);
-	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
+	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_message ("%s: Could not activate the component editor factory (%s)", __FUNCTION__,
 			   CORBA_exception_id (&ev));

@@ -57,15 +57,14 @@ control_activate (BonoboControl *control,
 {
 	Bonobo_UIContainer container;
 
-	container = bonobo_control_get_remote_ui_container (control);
-	bonobo_ui_component_set_container (ui_component, container);
+	container = bonobo_control_get_remote_ui_container (control, NULL);
+	bonobo_ui_component_set_container (ui_component, container, NULL);
 	bonobo_object_release_unref (container, NULL);
 
 	bonobo_ui_component_add_verb_list_with_data (ui_component, verbs, summary);
 	bonobo_ui_component_freeze (ui_component, NULL);
 
-	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR,
-			       "my-evolution.xml", "my-evolution");
+	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR, "my-evolution.xml", "my-evolution", NULL);
   	e_pixmaps_update (ui_component, pixmaps); 
 
 	bonobo_ui_component_thaw (ui_component, NULL);
@@ -76,7 +75,7 @@ control_deactivate (BonoboControl *control,
 		    BonoboUIComponent *ui_component,
 		    ESummary *summary)
 {
-	bonobo_ui_component_unset_container (ui_component);
+	bonobo_ui_component_unset_container (ui_component, NULL);
 }
 
 static void
@@ -92,10 +91,9 @@ control_activate_cb (BonoboControl *control,
 		Bonobo_ControlFrame control_frame;
 		CORBA_Environment ev;
 
-		control_frame = bonobo_control_get_control_frame (control);
-		if (control_frame == NULL) {
+		control_frame = bonobo_control_get_control_frame (control, NULL);
+		if (control_frame == NULL)
 			goto out;
-		}
 
 		CORBA_exception_init (&ev);
 		summary->shell_view_interface = Bonobo_Unknown_queryInterface (control_frame, "IDL:GNOME/Evolution/ShellView:1.0", &ev);
@@ -145,10 +143,8 @@ e_summary_factory_new_control (const char *uri,
 		return NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, summary);
-	gtk_signal_connect (GTK_OBJECT (control), "destroy",
-			    control_destroy_cb, summary);
+	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), summary);
+	g_signal_connect (control, "destroy", G_CALLBACK (control_destroy_cb), summary);
 
 	/* FIXME: We register the factory here as it needs the summary object.
 	   Sigh, this is really wrong.  */

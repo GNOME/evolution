@@ -29,6 +29,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkenums.h>
+#include <gtk/gtksignal.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -46,7 +47,6 @@
 #include <gal/e-table/e-tree-table-adapter.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
 
 #include "e-summary-table.h"
 #include "e-cell-tri.h"
@@ -249,7 +249,7 @@ set_value_at (ETreeModel *etm,
 
 	if (entry->editable == TRUE) {
 		entry->shown = GPOINTER_TO_INT (val) == 1 ? FALSE : TRUE;
-		gtk_signal_emit (GTK_OBJECT (est), table_signals[ITEM_CHANGED], path);
+		g_signal_emit (est, table_signals[ITEM_CHANGED], 0, path);
 	}
 }
 
@@ -326,12 +326,11 @@ e_summary_table_class_init (GtkObjectClass *object_class)
 
 	table_signals[ITEM_CHANGED] = gtk_signal_new ("item-changed",
 						      GTK_RUN_LAST,
-						      object_class->type,
+						      GTK_CLASS_TYPE (object_class),
 						      GTK_SIGNAL_OFFSET (ESummaryTableClass, item_changed),
 						      gtk_marshal_NONE__POINTER,
 						      GTK_TYPE_NONE, 1,
 						      GTK_TYPE_POINTER);
-	gtk_object_class_add_signals (object_class, table_signals, LAST_SIGNAL);
 }
 
 static void

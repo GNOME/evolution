@@ -31,13 +31,13 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-
 
 #include <gal/widgets/e-unicode.h>
 
 #include <libsoup/soup.h>
+
+#include <string.h>
 
 #include "e-summary.h"
 

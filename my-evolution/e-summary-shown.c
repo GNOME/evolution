@@ -27,9 +27,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkbutton.h>
 #include <gtk/gtkenums.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkvbox.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -48,8 +54,6 @@
 #include <gal/e-table/e-tree-table-adapter.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include "e-summary-shown.h"
 
@@ -204,18 +208,17 @@ e_summary_shown_class_init (GtkObjectClass *object_class)
 
 	shown_signals[ITEM_CHANGED] = gtk_signal_new ("item-changed",
 						      GTK_RUN_LAST,
-						      object_class->type,
+						      GTK_CLASS_TYPE (object_class),
 						      GTK_SIGNAL_OFFSET (ESummaryShownClass, item_changed),
 						      gtk_marshal_NONE__NONE,
 						      GTK_TYPE_NONE, 0);
 	shown_signals[SELECTION_CHANGED] = gtk_signal_new ("selection-changed",
 							   GTK_RUN_LAST,
-							   object_class->type,
+							   GTK_CLASS_TYPE (object_class),
 							   GTK_SIGNAL_OFFSET (ESummaryShownClass, selection_changed),
 							   gtk_marshal_NONE__POINTER,
 							   GTK_TYPE_NONE, 1,
 							   GTK_TYPE_POINTER);
-	gtk_object_class_add_signals (object_class, shown_signals, LAST_SIGNAL);
 }
 
 static gboolean
@@ -483,12 +486,12 @@ static GtkWidget *
 construct_pixmap_button (const char *text,
 			 const char *image)
 {
-	GtkWidget *box, *button, *pixmap, *label;
+	GtkWidget *box, *button, *image_widget, *label;
 
 	box = gtk_hbox_new (FALSE, 1);
 
-	pixmap = gnome_stock_pixmap_widget (NULL, image);
-	gtk_box_pack_start (GTK_BOX (box), pixmap, FALSE, FALSE, 0);
+	image_widget = gtk_image_new_from_stock (image, 48);
+	gtk_box_pack_start (GTK_BOX (box), image_widget, FALSE, FALSE, 0);
 	
 	label = gtk_label_new (text);
 	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
@@ -683,5 +686,3 @@ e_summary_shown_get_selection (ESummaryShown *shown,
 
 	return list;
 }
-	
-			       
