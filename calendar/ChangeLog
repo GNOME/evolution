@@ -1,3 +1,10 @@
+2004-02-13  Bruce Tao  <bruce.tao@sun.com>
+                                                                                
+        See #51567
+	* gui/dialogs/delete-comp.c (delete_component_dialog):
+        use "gtk_dialog_add_buttons" to change the response_id of button
+        "YES" and "NO".
+
 2004-02-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #53886

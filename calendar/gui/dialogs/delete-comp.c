@@ -150,9 +150,10 @@ delete_component_dialog (ECalComponent *comp,
 	}
 
 	dialog = gtk_message_dialog_new ((GtkWindow *)gtk_widget_get_toplevel (widget),
-					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
+					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", str);
+	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_STOCK_NO, GTK_RESPONSE_CANCEL, GTK_STOCK_YES, GTK_RESPONSE_OK, NULL);
 	g_free (str);
-	ret = gtk_dialog_run ((GtkDialog *)dialog) == GTK_RESPONSE_YES;
+	ret = gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK;
 	gtk_widget_destroy (dialog);
 
 	return ret;
