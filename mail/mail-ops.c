@@ -519,6 +519,17 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 
 	config = mail_config_fetch ();
 	
+	if (!check_configured() || !config->ids) {
+		GtkWidget *message;
+
+		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
+							   "before you can send mail."),
+							 gtk_widget_get_ancestor (GTK_WIDGET (composer),
+										  GTK_TYPE_WINDOW));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
+		return;
+	}
+
 	if (!from) {
 		CamelInternetAddress *ciaddr;
 

@@ -12,7 +12,7 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
-#include <gconf/gconf.h>
+/*#include <gconf/gconf.h>*/
 #include <liboaf/liboaf.h>
 
 #include "e-util/e-gui-utils.h"
@@ -44,7 +44,7 @@ main (int argc, char *argv [])
 			 "Bonobo against GOAD instead of OAF.");
 	}
 
-	gconf_init (argc, argv, NULL);
+	/*gconf_init (argc, argv, NULL);*/
 
 	glade_gnome_init ();
 

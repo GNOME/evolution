@@ -1,3 +1,10 @@
+2000-08-03  Peter Williams  <peterw@helixcode.com>
+
+	* main.c (main): One more gconf reference to take out...
+
+	* mail-ops.c (composer_send_cb): Check for an identity before
+	sending.
+	
 2000-08-03  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-config.glade: Increase window size slightly, rename
