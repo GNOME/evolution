@@ -78,7 +78,7 @@ static struct {
 	char *expr;
 } searches[] = {
 	{ { 100, 50, 0 }, "(header-contains \"subject\" \"subject\")" },
-	{ { 100, 50, 0 }, "(header-contains \"subject\" \"Subject\")" },
+	{ { 0, 0, 0 }, "(header-contains \"subject\" \"Subject\")" },
 
 	{ { 100, 50, 0 }, "(body-contains \"content\")" },
 	{ { 100, 50, 0 }, "(body-contains \"Content\")" },

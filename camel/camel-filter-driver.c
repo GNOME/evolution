@@ -772,7 +772,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 				camel_exception_setv(ex, 1, _("Error executing filter: %s: %s"), e_sexp_error(p->eval), node->action);
 				goto error;
 			}
-			e_sexp_result_free (r);
+			e_sexp_result_free (p->eval, r);
 			if (p->terminated)
 				break;
 		}

@@ -1,4 +1,58 @@
+2001-01-25  Not Zed  <NotZed@Ximian.com>
+
+	* tests/folder/test3.c: Changed the subject search to handle case
+	sensitive when it is mixed case.
+
+	* Makefile.am (libcamel_la_SOURCES): Added camel-ssearch-private.c
+	(noinst_HEADERS): Added camel-search-private.h
+
+	* camel-folder-search.c (check_header): New function to do the
+	work of the various header checks.
+	(search_header_matches): 
+	(search_header_starts_with): 
+	(search_header_ends_with): 
+	(search_header_contains): Use check_header to do the work.
+	(build_match_regex): Removed.
+
+	* camel-search-private.c (header_soundex):  New
+	function to match words to phrases using soundex algorithm.
+
+	* camel-filter-search.c (soundexcmp): Removed.
+	(check_match): Moved to search-private.h
+
 2001-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* camel-search-private.c (camel_search_build_match_regex): Added
+	extra flags, so the same function can be used for
+	start/end/whole/partial matches.
+	(camel_search_header_match): Convenience function to check a
+	single header against all sorts of different matches.
+
+	* providers/imap/camel-imap-search.c (imap_body_contains): Fix for
+	e_sexp api changes.
+
+	* camel-folder-search.c: Fix for e_sexp api changes.
+	(search_header_contains): Free args/quit on unknown header.
+	(search_header_matches): "
+	(search_header_starts_with): "
+	(search_header_ends_with): "
+	(match_message): Add an exception argument.
+	(search_body_contains): Free args/quit on fatal error.
+	(message_body_contains): Removed (moved to
+	camel-search-private.c), fixed callers.
+
+	* camel-filter-search.c: Fix for e_sexp api changes.
+	(build_match_regex, message_body_contains): Moved into
+	camel-filter-private.c  Fixed callers.
+	(check_header): moved guts to camel-search-private, and
+	changed to use regex's for everything.  Just calls that with the
+	right args.
+	(check_header): GEts the header, decodes it, and checks for
+	failure, and whatnot.
+	(check_match): Removed.
+	(header_soundex): Changed significantly.  Now it soundexes each
+	word in the header separately, and compares it to the first
+	argument.
 
 	* tests/folder/test9.c (main): Fix for api changes.
 	(main): Added tests to see that invalid match and action
@@ -8,6 +62,7 @@
 	the 'finished message' bit.
 	(camel_filter_driver_filter_message): Remove an accidentally
 	checked in debug.
+	(camel_filter_driver_filter_message): Fix for e-sexp api changes.
 
 2001-01-23  Dan Winship  <danw@ximian.com>
 

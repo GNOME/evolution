@@ -48,6 +48,7 @@ libcamel_la_SOURCES = 				\
 	camel-object.c				\
 	camel-provider.c			\
 	camel-remote-store.c			\
+	camel-search-private.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
 	camel-service.c				\
@@ -130,7 +131,8 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 noinst_HEADERS =				\
 	camel-charset-map-private.h		\
-	camel-private.h
+	camel-private.h				\
+	camel-search-private.h
 
 EXTRA_DIST =					\
 	README 

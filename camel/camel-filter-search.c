@@ -29,9 +29,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#warning "Fixme: remove gal/widgets/e-unicode dependency"
-#include <gal/widgets/e-unicode.h>
-
 #include "e-util/e-sexp.h"
 
 #include "camel-mime-message.h"
@@ -39,6 +36,7 @@
 #include "camel-exception.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
+#include "camel-search-private.h"
 
 #define d(x)
 
@@ -98,165 +96,8 @@ static struct {
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
 };
 
-/* builds the regex into pattern */
-/* taken from camel-folder-search, with added isregex & exception parameter */
-/* Basically, we build a new regex, either based on subset regex's, or substrings,
-   that can be executed once over the whoel body, to match anything suitable.
-   This is more efficient than multiple searches, and probably most (naive) strstr
-   implementations, over long content.
-
-   A small issue is that case-insenstivity wont work entirely correct for utf8 strings. */
-static int
-build_match_regex(regex_t *pattern, int isregex, int argc, struct _ESExpResult **argv, CamelException *ex)
-{
-	GString *match = g_string_new("");
-	int c, i, count=0, err;
-	char *word;
-
-	/* build a regex pattern we can use to match the words, we OR them together */
-	if (argc>1)
-		g_string_append_c(match, '(');
-	for (i=0;i<argc;i++) {
-		if (argv[i]->type == ESEXP_RES_STRING) {
-			if (count > 0)
-				g_string_append_c(match, '|');
-			/* escape any special chars (not sure if this list is complete) */
-			word = argv[i]->value.string;
-			if (isregex) {
-				g_string_append(match, word);
-			} else {
-				while ((c = *word++)) {
-					if (strchr("*\\.()[]^$+", c) != NULL) {
-						g_string_append_c(match, '\\');
-					}
-					g_string_append_c(match, c);
-				}
-			}
-			count++;
-		} else {
-			g_warning("Invalid type passed to body-contains match function");
-		}
-	}
-	if (argc>1)
-		g_string_append_c(match, ')');
-	err = regcomp(pattern, match->str, REG_EXTENDED|REG_ICASE|REG_NOSUB);
-	if (err != 0) {
-		/* regerror gets called twice to get the full error string 
-		   length to do proper posix error reporting */
-		int len = regerror(err, pattern, 0, 0);
-		char *buffer = g_malloc0(len + 1);
-
-		regerror(err, pattern, buffer, len);
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Regular expression compilation failed: %s: %s"),
-				     match->str, buffer);
-
-		regfree(pattern);
-	}
-	d(printf("Built regex: '%s'\n", match->str));
-	g_string_free(match, TRUE);
-	return err;
-}
-
-static unsigned char soundex_table[256] = {
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0, 49, 50, 51,  0, 49, 50,  0,  0, 50, 50, 52, 53, 53,  0,
-	 49, 50, 54, 50, 51,  0, 49,  0, 50,  0, 50,  0,  0,  0,  0,  0,
-	  0,  0, 49, 50, 51,  0, 49, 50,  0,  0, 50, 50, 52, 53, 53,  0,
-	 49, 50, 54, 50, 51,  0, 49,  0, 50,  0, 50,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-};
-
-static void
-soundexify (const gchar *sound, gchar code[5])
-{
-	guchar *c, last = '\0';
-	gint n;
-	
-	for (c = (guchar *) sound; *c && !isalpha (*c); c++);
-	code[0] = toupper (*c);
-	memset (code + 1, '0', 3);
-	for (n = 1; *c && n < 5; c++) {
-		guchar ch = soundex_table[*c];
-		
-		if (ch && ch != last) {
-			code[n++] = ch;
-			last = ch;
-		}
-	}
-	code[4] = '\0';
-}
-
-static gint
-soundexcmp (const gchar *sound1, const gchar *sound2)
-{
-	gchar code1[5], code2[5];
-	
-	soundexify (sound1, code1);
-	soundexify (sound2, code2);
-	
-	return strcmp (code1, code2);
-}
-
-static gboolean check_match(const char *value, const char *match, int how)
-{
-	const char *p;
-
-	while (*value && isspace(*value))
-		value++;
-
-	if (strlen(value) < strlen(match))
-		return FALSE;
-
-	/* from dan the man, if we have mixed case, perform a case-sensitive match,
-	   otherwise not */
-	p = match;
-	while (*p) {
-		if (isupper(*p)) {
-			switch(how) {
-			case 0:	/* is */
-				return strcmp(value, match) == 0;
-			case 1:	/* contains */
-				return strstr(value, match) != NULL;
-			case 2:	/* starts with */
-				return strncmp(value, match, strlen(match)) == 0;
-			case 3:	/* ends with */
-				return strcmp(value+strlen(value)-strlen(match), match) == 0;
-			case 4:	/* soundex */
-				return soundexcmp(value, match) == 0;
-			}
-			return FALSE;
-		}
-		p++;
-	}
-	switch(how) {
-	case 0:	/* is */
-		return strcasecmp(value, match) == 0;
-	case 1:	/* contains */
-		return e_utf8_strstrcase(value, match) != NULL;
-	case 2:	/* starts with */
-		return strncasecmp(value, match, strlen(match)) == 0;
-	case 3:	/* ends with */
-		return strcasecmp(value+strlen(value)-strlen(match), match) == 0;
-	case 4:	/* soundex */
-		return soundexcmp(value, match) == 0;
-	}
-
-	return FALSE;
-}
-
 static ESExpResult *
-check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms, int how)
+check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms, camel_search_match_t how)
 {
 	gboolean matched = FALSE;
 	ESExpResult *r;
@@ -268,7 +109,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		if (header) {
 			for (i=1;i<argc && !matched;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING
-				    && check_match(header, argv[i]->value.string, how)) {
+				    && camel_search_header_match(header, argv[i]->value.string, how)) {
 					matched = TRUE;
 					break;
 				}
@@ -276,7 +117,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		}
 	}
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = matched;
 	
 	return r;
@@ -285,32 +126,32 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 static ESExpResult *
 header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, 1);
+	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_CONTAINS);
 }
 
 
 static ESExpResult *
 header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, 0);
+	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_EXACT);
 }
 
 static ESExpResult *
 header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, 2);
+	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_STARTS);
 }
 
 static ESExpResult *
 header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, 3);
+	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_ENDS);
 }
 
 static ESExpResult *
 header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	return check_header(f, argc, argv, fms, 4);
+	return check_header(f, argc, argv, fms, CAMEL_SEARCH_MATCH_SOUNDEX);
 }
 
 static ESExpResult *
@@ -325,7 +166,7 @@ header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 			matched = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[i]->value.string) != NULL;
 	}
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = matched;
 	
 	return r;
@@ -334,14 +175,14 @@ header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 static ESExpResult *
 header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new (ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
 	const char *contents;
 
 	if (argc>1
 	    && argv[0]->type == ESEXP_RES_STRING
 	    && (contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string))
-	    && build_match_regex(&pattern, TRUE, argc-1, argv+1, fms->ex) == 0) {
+	    && camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
 		r->value.bool = regexec(&pattern, contents, 0, NULL, 0) == 0;
 		regfree(&pattern);
 	} else
@@ -378,11 +219,11 @@ get_full_header (CamelMimeMessage *message)
 static ESExpResult *
 header_full_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new (ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
 	char *contents;
 
-	if (build_match_regex(&pattern, TRUE, argc, argv, fms->ex) == 0) {
+	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
 		contents = get_full_header (fms->message);
 		r->value.bool = regexec(&pattern, contents, 0, NULL, 0) == 0;
 		g_free(contents);
@@ -402,61 +243,20 @@ match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSe
 	if (argc > 0)
 		return e_sexp_term_eval(f, argv[0]);
 
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = FALSE;
 
 	return r;
 }
 
-/* performs a 'slow' content-based match */
-/* taken directly from camel-folder-search.c */
-static gboolean
-message_body_contains(CamelDataWrapper *object, regex_t *pattern)
-{
-	CamelDataWrapper *containee;
-	int truth = FALSE;
-	int parts, i;
-
-	containee = camel_medium_get_content_object(CAMEL_MEDIUM(object));
-
-	if (containee == NULL)
-		return FALSE;
-
-	/* TODO: I find it odd that get_part and get_content_object do not
-	   add a reference, probably need fixing for multithreading */
-
-	/* using the object types is more accurate than using the mime/types */
-	if (CAMEL_IS_MULTIPART(containee)) {
-		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
-		for (i=0;i<parts && truth==FALSE;i++) {
-			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
-			if (part) {
-				truth = message_body_contains(part, pattern);
-			}
-		}
-	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
-		/* for messages we only look at its contents */
-		truth = message_body_contains((CamelDataWrapper *)containee, pattern);
-	} else if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
-		/* for all other text parts, we look inside, otherwise we dont care */
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
-
-		camel_data_wrapper_write_to_stream(containee, (CamelStream *)mem);
-		camel_stream_write((CamelStream *)mem, "", 1);
-		truth = regexec(pattern, mem->buffer->data, 0, NULL, 0) == 0;
-		camel_object_unref((CamelObject *)mem);
-	}
-	return truth;
-}
-
 static ESExpResult *
 body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new (ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
 
-	if (build_match_regex(&pattern, FALSE, argc, argv, fms->ex) == 0) {
-		r->value.bool = message_body_contains((CamelDataWrapper *)fms->message, &pattern);
+	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE, argc, argv, fms->ex) == 0) {
+		r->value.bool = camel_search_message_body_contains((CamelDataWrapper *)fms->message, &pattern);
 		regfree(&pattern);
 	} else
 		r->value.bool = FALSE;
@@ -467,11 +267,11 @@ body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 static ESExpResult *
 body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
-	ESExpResult *r = e_sexp_result_new (ESEXP_RES_BOOL);
+	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
 
-	if (build_match_regex(&pattern, TRUE, argc, argv, fms->ex) == 0) {
-		r->value.bool = message_body_contains((CamelDataWrapper *)fms->message, &pattern);
+	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE|CAMEL_SEARCH_MATCH_REGEX, argc, argv, fms->ex) == 0) {
+		r->value.bool = camel_search_message_body_contains((CamelDataWrapper *)fms->message, &pattern);
 		regfree(&pattern);
 	} else
 		r->value.bool = FALSE;
@@ -495,7 +295,7 @@ user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessage
 		}
 	}
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = truth;
 	
 	return r;
@@ -510,7 +310,7 @@ system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	if (argc == 1)
 		truth = camel_system_flag_get (fms->info->flags, argv[0]->value.string);
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = truth;
 	
 	return r;
@@ -524,7 +324,7 @@ user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	
 	tag = camel_tag_get (&fms->info->user_tags, argv[0]->value.string);
 	
-	r = e_sexp_result_new (ESEXP_RES_STRING);
+	r = e_sexp_result_new(f, ESEXP_RES_STRING);
 	r->value.string = g_strdup (tag ? tag : "");
 	
 	return r;
@@ -535,7 +335,7 @@ get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 {
 	ESExpResult *r;
 	
-	r = e_sexp_result_new(ESEXP_RES_INT);
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = camel_mime_message_get_date(fms->message, NULL);
 	
 	return r;
@@ -546,7 +346,7 @@ get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filte
 {
 	ESExpResult *r;
 	
-	r = e_sexp_result_new(ESEXP_RES_INT);
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = camel_mime_message_get_date_received(fms->message, NULL);
 	
 	return r;
@@ -557,7 +357,7 @@ get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filter
 {
 	ESExpResult *r;
 	
-	r = e_sexp_result_new (ESEXP_RES_INT);
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = time (NULL);
 	
 	return r;
@@ -571,7 +371,7 @@ get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessage
 	
 	tag = camel_tag_get (&fms->info->user_tags, "score");
 	
-	r = e_sexp_result_new (ESEXP_RES_INT);
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	if (tag)
 		r->value.number = atoi (tag);
 	else
@@ -585,7 +385,7 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 {
 	ESExpResult *r;
 	
-	r = e_sexp_result_new (ESEXP_RES_STRING);
+	r = e_sexp_result_new(f, ESEXP_RES_STRING);
 	r->value.string = g_strdup (fms->source);
 	
 	return r;
@@ -632,7 +432,7 @@ gboolean camel_filter_search_match(CamelMimeMessage *message, CamelMessageInfo *
 	else
 		retval = FALSE;
 	
-	e_sexp_result_free (result);
+	e_sexp_result_free (sexp, result);
 	e_sexp_unref(sexp);
 	
 	return retval;

@@ -83,13 +83,13 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = FALSE;
 		response = camel_imap_command (store, s->folder, NULL,
 					       "UID SEARCH UID %s BODY \"%s\"",
 					       uid, value);
 	} else {
-		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
 		response = camel_imap_command (store, s->folder, NULL,
 					       "UID SEARCH BODY \"%s\"",

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2000 Helix Code Inc.
+ *  Copyright (C) 2000,2001 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
  *
@@ -30,8 +30,6 @@
 #include <sys/types.h>
 #include <regex.h>
 
-#warning "Fixme: remove gal/widgets/e-unicode dependency"
-#include <gal/widgets/e-unicode.h>
 #include "camel-folder-search.h"
 #include "string-utils.h"
 
@@ -41,6 +39,7 @@
 #include "camel-mime-message.h"
 #include "camel-stream-mem.h"
 #include "e-util/e-memory.h"
+#include "camel-search-private.h"
 
 #define d(x)
 #define r(x)
@@ -364,7 +363,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 				g_ptr_array_add(matches, e_mempool_strdup(pool, g_ptr_array_index(r->value.ptrarray, i)));
 			}
 		}
-		e_sexp_result_free(r);
+		e_sexp_result_free(search->sexp, r);
 		/* instead of putting the mempool_hash in the structure, we keep the api clean by
 		   putting a reference to it in a hashtable.  Lets us do some debugging and catch
 		   unfree'd results as well. */
@@ -440,10 +439,10 @@ search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 	ESExpResult *r;
 
 	if (search->current == NULL) {
-		r = e_sexp_result_new(ESEXP_RES_BOOL);
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = FALSE;
 	} else {
-		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new();
 	}
 
@@ -459,7 +458,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 	if (argc>1) {
 		g_warning("match-all only takes a single argument, other arguments ignored");
 	}
-	r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+	r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 	r->value.ptrarray = g_ptr_array_new();
 
 	/* we are only matching a single message? */
@@ -475,7 +474,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 				g_warning("invalid syntax, matches require a single bool result");
 				e_sexp_fatal_error(f, _("(match-all) requires a single bool result"));
 			}
-			e_sexp_result_free(r1);
+			e_sexp_result_free(f, r1);
 		} else {
 			g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
 		}
@@ -503,7 +502,7 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 				g_warning("invalid syntax, matches require a single bool result");
 				e_sexp_fatal_error(f, _("(match-all) requires a single bool result"));
 			}
-			e_sexp_result_free(r1);
+			e_sexp_result_free(f, r1);
 		} else {
 			g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(search->current));
 		}
@@ -514,12 +513,12 @@ search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFold
 }
 
 static ESExpResult *
-search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search, camel_search_match_t how)
 {
 	ESExpResult *r;
 	int truth = FALSE;
 
-	r(printf("executing header-contains\n"));
+	r(printf("executing check-header\n"));
 
 	/* are we inside a match-all? */
 	if (search->current && argc>1
@@ -544,240 +543,50 @@ search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, C
 		} else if (!strcasecmp(headername, "cc")) {
 			header = camel_message_info_cc(search->current);
 		} else {
-			g_warning("Performing query on unknown header: %s", headername);
+			e_sexp_resultv_free(f, argc, argv);
+			e_sexp_fatal_error(f, _("Performing query on unknown header: %s"), headername);
 		}
 
 		if (header) {
 			/* performs an OR of all words */
 			for (i=1;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING
-				    && e_utf8_strstrcase (header, argv[i]->value.string)) {
-					r(printf("%s got a match with %s of %s\n",
-						 camel_message_info_uid(search->current),
-						 header, argv[i]->value.string));
+				    && camel_search_header_match(header, argv[i]->value.string, how)) {
 					truth = TRUE;
-					break;
 				}
 			}
 		}
 	}
 	/* TODO: else, find all matches */
 
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	r->value.bool = truth;
 
 	return r;
 }
 
 static ESExpResult *
+search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+{
+	return check_header(f, argc, argv, search, CAMEL_SEARCH_MATCH_CONTAINS);
+}
+
+static ESExpResult *
 search_header_matches(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
-	ESExpResult *r;
-	
-	r(printf ("executing header-matches\n"));
-	
-	if (search->current && argc == 2) {
-		char *headername;
-		const char *header = NULL;
-		char strbuf[32];
-		gboolean truth = FALSE;
-		
-		/* only a subset of headers are supported .. */
-		headername = argv[0]->value.string;
-		if (!strcasecmp (headername, "subject")) {
-			header = camel_message_info_subject (search->current);
-		} else if (!strcasecmp (headername, "date")) {
-			/* FIXME: not a very useful form of the date */
-			sprintf (strbuf, "%d", (int)search->current->date_sent);
-			header = strbuf;
-		} else if (!strcasecmp (headername, "from")) {
-			header = camel_message_info_from (search->current);
-		} else if (!strcasecmp (headername, "to")) {
-			header = camel_message_info_to (search->current);
-		} else if (!strcasecmp (headername, "cc")) {
-			header = camel_message_info_cc (search->current);
-		} else {
-			g_warning ("Performing query on unknown header: %s", headername);
-		}
-		
-		if (header && argv[1]->type == ESEXP_RES_STRING) {
-			/* danw says to use search-engine style matching...
-			 * This means that if the search match string is
-			 * lowercase then compare case-insensitive else
-			 * compare case-sensitive. */
-			gboolean is_lowercase = TRUE;
-			char *match = argv[1]->value.string;
-			char *c;
-			
-			/* remove any leading white space... */
-			for ( ; *header && isspace (*header); header++);
-			
-			for (c = match; *c; c++) {
-				if (isalpha (*c) && isupper (*c)) {
-					is_lowercase = FALSE;
-					break;
-				}
-			}
-			
-			if (is_lowercase) {
-				if (!g_strcasecmp (header, match))
-					truth = TRUE;
-			} else {
-				if (!strcmp (header, match))
-					truth = TRUE;
-			}
-		}
-		
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
-		r->value.bool = truth;
-	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
-		r->value.ptrarray = g_ptr_array_new ();
-	}
-	
-	return r;
+	return check_header(f, argc, argv, search, CAMEL_SEARCH_MATCH_EXACT);
 }
 
 static ESExpResult *
 search_header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
-	ESExpResult *r;
-	
-	r(printf ("executing header-starts-with\n"));
-	
-	if (search->current && argc == 2) {
-		char *headername, *match;
-		const char *header = NULL;
-		char strbuf[32];
-		gboolean truth = FALSE;
-		
-		/* only a subset of headers are supported .. */
-		headername = argv[0]->value.string;
-		if (!strcasecmp (headername, "subject")) {
-			header = camel_message_info_subject (search->current);
-		} else if (!strcasecmp (headername, "date")) {
-			/* FIXME: not a very useful form of the date */
-			sprintf (strbuf, "%d", (int)search->current->date_sent);
-			header = strbuf;
-		} else if (!strcasecmp (headername, "from")) {
-			header = camel_message_info_from (search->current);
-		} else if (!strcasecmp (headername, "to")) {
-			header = camel_message_info_to (search->current);
-		} else if (!strcasecmp (headername, "cc")) {
-			header = camel_message_info_cc (search->current);
-		} else {
-			g_warning ("Performing query on unknown header: %s", headername);
-		}
-		
-		match = argv[1]->value.string;
-		
-		if (header && strlen (header) >= strlen (match)) {
-			/* danw says to use search-engine style matching...
-			 * This means that if the search match string is
-			 * lowercase then compare case-insensitive else
-			 * compare case-sensitive. */
-			gboolean is_lowercase = TRUE;
-			char *c;
-			
-			/* remove any leading white space... */
-			for ( ; *header && isspace (*header); header++);
-			
-			for (c = match; *c; c++) {
-				if (isalpha (*c) && isupper (*c)) {
-					is_lowercase = FALSE;
-					break;
-				}
-			}
-			
-			if (is_lowercase) {
-				if (!g_strncasecmp (header, match, strlen (match)))
-					truth = TRUE;
-			} else {
-				if (!strncmp (header, match, strlen (match)))
-					truth = TRUE;
-			}
-		}
-		
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
-		r->value.bool = truth;
-	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
-		r->value.ptrarray = g_ptr_array_new ();
-	}
-	
-	return r;
+	return check_header(f, argc, argv, search, CAMEL_SEARCH_MATCH_STARTS);
 }
 
 static ESExpResult *
 search_header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
-	ESExpResult *r;
-	
-	r(printf ("executing header-ends-with\n"));
-	
-	if (search->current && argc == 2) {
-		char *headername, *match;
-		const char *header = NULL;
-		char strbuf[32];
-		gboolean truth = FALSE;
-		
-		/* only a subset of headers are supported .. */
-		headername = argv[0]->value.string;
-		if (!strcasecmp (headername, "subject")) {
-			header = camel_message_info_subject (search->current);
-		} else if (!strcasecmp (headername, "date")) {
-			/* FIXME: not a very useful form of the date */
-			sprintf (strbuf, "%d", (int)search->current->date_sent);
-			header = strbuf;
-		} else if (!strcasecmp (headername, "from")) {
-			header = camel_message_info_from (search->current);
-		} else if (!strcasecmp (headername, "to")) {
-			header = camel_message_info_to (search->current);
-		} else if (!strcasecmp (headername, "cc")) {
-			header = camel_message_info_cc (search->current);
-		} else {
-			g_warning ("Performing query on unknown header: %s", headername);
-		}
-		
-		match = argv[1]->value.string;
-		
-		if (header && strlen (header) >= strlen (match)) {
-			/* danw says to use search-engine style matching...
-			 * This means that if the search match string is
-			 * lowercase then compare case-insensitive else
-			 * compare case-sensitive. */
-			gboolean is_lowercase = TRUE;
-			char *c, *end;
-			
-			/* remove any leading white space... */
-			for ( ; *header && isspace (*header); header++);
-			
-			for (c = match; *c; c++) {
-				if (isalpha (*c) && isupper (*c)) {
-					is_lowercase = FALSE;
-					break;
-				}
-			}
-			
-			end = (char *) header + strlen (header) - strlen (match);
-			
-			if (is_lowercase) {
-				if (!g_strncasecmp (header, match, strlen (match)))
-					truth = TRUE;
-			} else {
-				if (!strncmp (header, match, strlen (match)))
-					truth = TRUE;
-			}
-		}
-		
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
-		r->value.bool = truth;
-	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
-		r->value.ptrarray = g_ptr_array_new ();
-	}
-	
-	return r;
+	return check_header(f, argc, argv, search, CAMEL_SEARCH_MATCH_ENDS);
 }
 
 static ESExpResult *
@@ -788,17 +597,13 @@ search_header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, Ca
 	r(printf ("executing header-exists\n"));
 	
 	if (search->current) {
-		const gchar *value = NULL;
-		
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		if (argc == 1 && argv[0]->type == ESEXP_RES_STRING)
-			value = camel_medium_get_header (CAMEL_MEDIUM (search->current),
-							 argv[0]->value.string);
+			r->value.bool = camel_medium_get_header(CAMEL_MEDIUM(search->current), argv[0]->value.string) != NULL;
 		
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
-		r->value.bool = value ? TRUE : FALSE;
 	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
-		r->value.ptrarray = g_ptr_array_new ();
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
 	}
 	
 	return r;
@@ -817,104 +622,17 @@ g_lib_sux_htor(char *key, int value, struct _glib_sux_donkeys *fuckup)
 	g_ptr_array_add(fuckup->uids, key);
 }
 
-/* performs a 'slow' content-based match */
-/* there is also an identical copy of this in camel-filter-search.c */
-static gboolean
-message_body_contains(CamelDataWrapper *object, regex_t *pattern)
-{
-	CamelDataWrapper *containee;
-	int truth = FALSE;
-	int parts, i;
-
-	containee = camel_medium_get_content_object(CAMEL_MEDIUM(object));
-
-	if (containee == NULL)
-		return FALSE;
-
-	/* TODO: I find it odd that get_part and get_content_object do not
-	   add a reference, probably need fixing for multithreading */
-
-	/* using the object types is more accurate than using the mime/types */
-	if (CAMEL_IS_MULTIPART(containee)) {
-		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
-		for (i=0;i<parts && truth==FALSE;i++) {
-			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
-			if (part) {
-				truth = message_body_contains(part, pattern);
-			}
-		}
-	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
-		/* for messages we only look at its contents */
-		truth = message_body_contains((CamelDataWrapper *)containee, pattern);
-	} else if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
-		/* for all other text parts, we look inside, otherwise we dont care */
-		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
-
-		camel_data_wrapper_write_to_stream(containee, (CamelStream *)mem);
-		camel_stream_write((CamelStream *)mem, "", 1);
-		truth = regexec(pattern, mem->buffer->data, 0, NULL, 0) == 0;
-		camel_object_unref((CamelObject *)mem);
-	}
-	return truth;
-}
-
-/* builds the regex into pattern */
 static int
-build_match_regex(regex_t *pattern, int argc, struct _ESExpResult **argv)
-{
-	GString *match = g_string_new("");
-	int c, i, count=0, err;
-	char *word;
-
-	/* build a regex pattern we can use to match the words, we OR them together */
-	if (argc>1)
-		g_string_append_c(match, '(');
-	for (i=0;i<argc;i++) {
-		if (argv[i]->type == ESEXP_RES_STRING) {
-			if (count > 0)
-				g_string_append_c(match, '|');
-			/* escape any special chars (not sure if this list is complete) */
-			word = argv[i]->value.string;
-			while ((c = *word++)) {
-				if (strchr("*\\.()[]^$+", c) != NULL) {
-					g_string_append_c(match, '\\');
-				}
-				g_string_append_c(match, c);
-			}
-			count++;
-		} else {
-			g_warning("Invalid type passed to body-contains match function");
-		}
-	}
-	if (argc>1)
-		g_string_append_c(match, ')');
-	err = regcomp(pattern, match->str, REG_EXTENDED|REG_ICASE|REG_NOSUB);
-	if (err != 0) {
-		char buffer[1024]; /* dont really care if its longer than this ... */
-		
-		regerror(err, pattern, buffer, 1023);
-		g_warning("Internal error with search pattern: %s: %s", match->str, buffer);
-		regfree(pattern);
-	}
-	d(printf("Built regex: '%s'\n", match->str));
-	g_string_free(match, TRUE);
-	return err;
-}
-
-static int
-match_message(CamelFolder *folder, const char *uid, regex_t *pattern)
+match_message(CamelFolder *folder, const char *uid, regex_t *pattern, CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	int truth = FALSE;
-	CamelException *ex;
 
-	ex = camel_exception_new();
 	msg = camel_folder_get_message(folder, uid, ex);
 	if (!camel_exception_is_set(ex) && msg!=NULL) {
-		truth = message_body_contains((CamelDataWrapper *)msg, pattern);
+		truth = camel_search_message_body_contains((CamelDataWrapper *)msg, pattern);
 		camel_object_unref((CamelObject *)msg);
 	}
-	camel_exception_free(ex);
 	return truth;
 }
 
@@ -928,28 +646,29 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 	if (search->current) {
 		int truth = FALSE;
 
-		r = e_sexp_result_new(ESEXP_RES_BOOL);
 		if (search->body_index) {
 			for (i=0;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING) {
 					truth = ibex_find_name(search->body_index, (char *)camel_message_info_uid(search->current),
 							       argv[i]->value.string);
 				} else {
-					g_warning("Invalid type passed to body-contains match function");
+					e_sexp_resultv_free(f, argc, argv);
+					e_sexp_fatal_error(f, _("Invalid type in body-contains, expecting string"));
 				}
 			}
 		} else if (search->folder) {
 			/* we do a 'slow' direct search */
-			if (build_match_regex(&pattern, argc, argv) == 0) {
-				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern);
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
+				truth = match_message(search->folder, camel_message_info_uid(search->current), &pattern, search->priv->ex);
 				regfree(&pattern);
 			}
 		} else {
 			g_warning("Cannot perform indexed body query with no index or folder set");
 		}
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = truth;
 	} else {
-		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 
 		if (search->body_index) {
 			if (argc==1) {
@@ -969,7 +688,9 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 						}
 						g_ptr_array_free(pa, FALSE);
 					} else {
-						g_warning("invalid type passed to body-contains");
+						e_sexp_result_free(f, r);
+						e_sexp_resultv_free(f, argc, argv);
+						e_sexp_fatal_error(f, _("Invalid type in body-contains, expecting string"));
 					}
 				}
 				lambdafoo.uids = g_ptr_array_new();
@@ -980,12 +701,12 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		} else if (search->folder) {
 			/* do a slow search */
 			r->value.ptrarray = g_ptr_array_new();
-			if (build_match_regex(&pattern, argc, argv) == 0) {
+			if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc, argv, search->priv->ex) == 0) {
 				if (search->summary) {
 					for (i=0;i<search->summary->len;i++) {
 						CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
 
-						if (match_message(search->folder, camel_message_info_uid(info), &pattern))
+						if (match_message(search->folder, camel_message_info_uid(info), &pattern, search->priv->ex))
 							g_ptr_array_add(r->value.ptrarray, (char *)camel_message_info_uid(info));
 					}
 				} /* else?  we could always get the summary from the folder, but then
@@ -1020,10 +741,10 @@ search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFo
 				break;
 			}
 		}
-		r = e_sexp_result_new(ESEXP_RES_BOOL);
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = truth;
 	} else {
-		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new();
 	}
 
@@ -1043,10 +764,10 @@ search_system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, Came
 		if (argc == 1)
 			truth = camel_system_flag_get (search->current->flags, argv[0]->value.string);
 		
-		r = e_sexp_result_new (ESEXP_RES_BOOL);
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = truth;
 	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
 	}
 	
@@ -1065,10 +786,10 @@ static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpRes
 		if (argc == 1) {
 			value = camel_tag_get(&search->current->user_tags, argv[0]->value.string);
 		}
-		r = e_sexp_result_new(ESEXP_RES_STRING);
+		r = e_sexp_result_new(f, ESEXP_RES_STRING);
 		r->value.string = g_strdup(value?value:"");
 	} else {
-		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new();
 	}
 
@@ -1084,11 +805,11 @@ search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 
 	/* are we inside a match-all? */
 	if (s->current) {
-		r = e_sexp_result_new (ESEXP_RES_INT);
+		r = e_sexp_result_new(f, ESEXP_RES_INT);
 
 		r->value.number = s->current->date_sent;
 	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
 	}
 
@@ -1104,11 +825,11 @@ search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv,
 
 	/* are we inside a match-all? */
 	if (s->current) {
-		r = e_sexp_result_new (ESEXP_RES_INT);
+		r = e_sexp_result_new(f, ESEXP_RES_INT);
 
 		r->value.number = s->current->date_received;
 	} else {
-		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new ();
 	}
 
@@ -1122,7 +843,7 @@ search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, 
 
 	r(printf("executing get-current-date\n"));
 
-	r = e_sexp_result_new (ESEXP_RES_INT);
+	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = time (NULL);
 	return r;
 }
