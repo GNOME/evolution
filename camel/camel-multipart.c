@@ -29,7 +29,6 @@
  */
 
 #include <config.h>
-#include "gmime-content-field.h"
 #include "camel-stream-mem.h"
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
@@ -368,8 +367,7 @@ set_boundary (CamelMultipart *multipart, gchar *boundary)
 		boundary = bbuf;
 	}
 
-	gmime_content_field_set_parameter (cdw->mime_type, "boundary",
-					   boundary);
+	header_content_type_set_param (cdw->mime_type, "boundary", boundary);
 }
 
 /**
@@ -397,7 +395,7 @@ get_boundary (CamelMultipart *multipart)
 	CamelDataWrapper *cdw = CAMEL_DATA_WRAPPER (multipart);
 
 	g_return_val_if_fail (cdw->mime_type != NULL, NULL);
-	return gmime_content_field_get_parameter (cdw->mime_type, "boundary");
+	return header_content_type_param (cdw->mime_type, "boundary");
 }
 
 /**

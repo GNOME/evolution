@@ -28,7 +28,6 @@
 
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
-#include "gmime-content-field.h"
 #include "camel-stream-mem.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
@@ -602,7 +601,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 		return CAMEL_MIME_PART_ENCODING_DEFAULT;
 	}
 
-	istext = gmime_content_field_is_type(part->content_type, "text", "*");
+	istext = header_content_type_is(part->content_type, "text", "*");
 	if (istext) {
 		flags = CAMEL_BESTENC_GET_CHARSET|CAMEL_BESTENC_GET_ENCODING;
 	} else {
@@ -621,7 +620,7 @@ find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBest
 
 	/* if we're not looking for the best charset, then use the one we have */
 	if (istext && (required & CAMEL_BESTENC_GET_CHARSET) == 0
-	    && (charsetin = gmime_content_field_get_parameter(part->content_type, "charset"))) {
+	    && (charsetin = header_content_type_param(part->content_type, "charset"))) {
 		/* if libunicode doesn't support it, we dont really have utf8 anyway, so
 		   we dont need a converter */
 		charenc = camel_mime_filter_charset_new_convert("UTF-8", charsetin);
@@ -716,12 +715,12 @@ best_encoding(CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 		camel_mime_part_set_encoding(part, encoding);
 
 		if ((data->required & CAMEL_BESTENC_GET_CHARSET) != 0) {
-			if (gmime_content_field_is_type(part->content_type, "text", "*")) {
+			if (header_content_type_is(part->content_type, "text", "*")) {
 				char *newct;
 
 				/* FIXME: ick, the part content_type interface needs fixing bigtime */
-				gmime_content_field_set_parameter(part->content_type, "charset", charset?charset:"us-ascii");
-				newct = header_content_type_format(part->content_type->content_type);
+				header_content_type_set_param(part->content_type, "charset", charset?charset:"us-ascii");
+				newct = header_content_type_format(part->content_type);
 				if (newct) {
 					d(printf("Setting content-type to %s\n", newct));
 

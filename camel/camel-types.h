@@ -28,6 +28,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 typedef struct _CamelAddress CamelAddress;
+typedef struct _header_content_type CamelContentType;
 typedef struct _CamelDataWrapper CamelDataWrapper;
 typedef struct _CamelException CamelException;
 typedef struct _CamelFolder CamelFolder;
@@ -68,6 +69,3 @@ typedef struct _CamelTransport CamelTransport;
 #endif /* __cplusplus */
 
 #endif /* CAMEL_TYPES_H */
-
-
-

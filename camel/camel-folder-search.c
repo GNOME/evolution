@@ -37,7 +37,6 @@
 #include "camel-medium.h"
 #include "camel-multipart.h"
 #include "camel-mime-message.h"
-#include "gmime-content-field.h"
 #include "camel-stream-mem.h"
 #include "e-util/e-memory.h"
 
@@ -578,7 +577,7 @@ message_body_contains(CamelDataWrapper *object, regex_t *pattern)
 	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
 		/* for messages we only look at its contents */
 		truth = message_body_contains((CamelDataWrapper *)containee, pattern);
-	} else if (gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+	} else if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
 		/* for all other text parts, we look inside, otherwise we dont care */
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
 

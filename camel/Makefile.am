@@ -62,7 +62,6 @@ libcamel_la_SOURCES = 				\
 	camel-url.c				\
 	camel-charset-map.c			\
 	camel.c					\
-	gmime-content-field.c			\
 	gstring-util.c				\
 	hash-table-utils.c			\
 	string-utils.c
@@ -116,7 +115,6 @@ libcamelinclude_HEADERS =			\
 	camel-uid-cache.h			\
 	camel-url.h				\
 	camel.h					\
-	gmime-content-field.h			\
 	gstring-util.h				\
 	hash-table-utils.h			\
 	string-utils.h

@@ -35,7 +35,6 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-object.h>
-#include <camel/gmime-content-field.h>
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
 #define CAMEL_DATA_WRAPPER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapper))
@@ -46,7 +45,7 @@ struct _CamelDataWrapper
 {
 	CamelObject parent_object;
 
-	GMimeContentField *mime_type;
+	CamelContentType *mime_type;
 	CamelStream *stream;
 };
 
@@ -61,9 +60,9 @@ typedef struct {
 	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper,
 						       const gchar * mime_type);
 	gchar *             (*get_mime_type)          (CamelDataWrapper *data_wrapper);
-	GMimeContentField * (*get_mime_type_field)    (CamelDataWrapper *data_wrapper);
+	CamelContentType *  (*get_mime_type_field)    (CamelDataWrapper *data_wrapper);
 	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper,
-						       GMimeContentField *mime_type_field);
+						       CamelContentType *mime_type_field);
 
 	int                 (*write_to_stream)        (CamelDataWrapper *data_wrapper,
 						       CamelStream *stream);
@@ -82,9 +81,9 @@ int                 camel_data_wrapper_write_to_stream          (CamelDataWrappe
 void                camel_data_wrapper_set_mime_type            (CamelDataWrapper *data_wrapper,
 								 const gchar *mime_type);
 gchar *             camel_data_wrapper_get_mime_type            (CamelDataWrapper *data_wrapper);
-GMimeContentField * camel_data_wrapper_get_mime_type_field      (CamelDataWrapper *data_wrapper);
+CamelContentType *  camel_data_wrapper_get_mime_type_field      (CamelDataWrapper *data_wrapper);
 void                camel_data_wrapper_set_mime_type_field      (CamelDataWrapper *data_wrapper,
-								 GMimeContentField *mime_type);
+								 CamelContentType *mime_type);
 
 int                 camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper, CamelStream *stream);
 

@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "camel-medium.h"
-#include "gmime-content-field.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
 

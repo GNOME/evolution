@@ -2073,10 +2073,10 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 	   add a reference, probably need fixing for multithreading */
 
 	/* check for attachments */
-	if (gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "*")) {
-		if (gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "mixed"))
+	if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "*")) {
+		if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
-	} else if (!gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*"))
+	} else if (!header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*"))
 		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
 	/* using the object types is more accurate than using the mime/types */
@@ -2099,7 +2099,7 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 			my_list_append((struct _node **)&info->childs, (struct _node *)child);
 		}
 	} else if (p->index
-		   && gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		   && header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
 		/* index all text parts if we're indexing */
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
 

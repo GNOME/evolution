@@ -27,7 +27,6 @@
 #include <string.h>
 #include "camel-mime-part.h"
 #include <stdio.h>
-#include "gmime-content-field.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
 #include "camel-mime-part-utils.h"
@@ -126,7 +125,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 	
-	camel_mime_part->content_type         = gmime_content_field_new ("text", "plain");
+	camel_mime_part->content_type         = header_content_type_new ("text", "plain");
 	camel_mime_part->description          = NULL;
 	camel_mime_part->disposition          = NULL;
 	camel_mime_part->content_id           = NULL;
@@ -148,7 +147,7 @@ camel_mime_part_finalize (CamelObject *object)
 	header_disposition_unref(mime_part->disposition);
 	
 	if (mime_part->content_type)
-		gmime_content_field_unref (mime_part->content_type);
+		header_content_type_unref (mime_part->content_type);
 
 	header_raw_clear(&mime_part->headers);
 }
@@ -212,7 +211,9 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		mime_part->content_MD5 = g_strdup(header_value);
 		break;
 	case HEADER_CONTENT_TYPE: 
-		gmime_content_field_construct_from_string(mime_part->content_type, header_value);
+		if (mime_part->content_type)
+			header_content_type_unref (mime_part->content_type);
+		mime_part->content_type = header_content_type_decode (header_value);
 		break;
 	default:
 		return FALSE;
@@ -363,7 +364,7 @@ camel_mime_part_get_filename (CamelMimePart *mime_part)
 			return name;
 	}
 
-	return gmime_content_field_get_parameter (mime_part->content_type, "name");
+	return header_content_type_param (mime_part->content_type, "name");
 }
 
 
@@ -444,7 +445,7 @@ camel_mime_part_set_content_type (CamelMimePart *mime_part, gchar *content_type)
 				 "Content-Type", content_type);
 }
 
-GMimeContentField *
+CamelContentType *
 camel_mime_part_get_content_type (CamelMimePart *mime_part)
 {
 	return mime_part->content_type;
@@ -458,16 +459,15 @@ static void
 set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
-	GMimeContentField *object_content_field;
+	CamelContentType *object_content_type;
 
 	parent_class->set_content_object (medium, content);
 
-	object_content_field = camel_data_wrapper_get_mime_type_field (content);
-	if (mime_part->content_type &&
-	    (mime_part->content_type != object_content_field)) {
+	object_content_type = camel_data_wrapper_get_mime_type_field (content);
+	if (mime_part->content_type != object_content_type) {
 		char *txt;
 
-		txt = header_content_type_format(object_content_field?object_content_field->content_type:NULL);
+		txt = header_content_type_format (object_content_type);
 		camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-Type", txt);
 		g_free(txt);
 	}
@@ -539,8 +539,8 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			break;
 		}
 
-		if (gmime_content_field_is_type(mp->content_type, "text", "*")) {
-			charset = gmime_content_field_get_parameter(mp->content_type, "charset");
+		if (header_content_type_is(mp->content_type, "text", "*")) {
+			charset = header_content_type_param(mp->content_type, "charset");
 			if (!(charset == NULL || !strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
 				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert("utf-8", charset);
 			} 
@@ -556,7 +556,7 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			}
 
 			/* we only re-do crlf on encoded blocks */
-			if (filter && gmime_content_field_is_type(mp->content_type, "text", "*")) {
+			if (filter && header_content_type_is(mp->content_type, "text", "*")) {
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 
@@ -601,7 +601,9 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	switch (camel_mime_parser_step(mp, &buf, &len)) {
 	case HSCAN_MESSAGE:
 		/* set the default type of a message always */
-		gmime_content_field_construct_from_string (dw->content_type, "message/rfc822");
+		if (dw->content_type)
+			header_content_type_unref (dw->content_type);
+		dw->content_type = header_content_type_decode ("message/rfc822");
 	case HSCAN_HEADER:
 	case HSCAN_MULTIPART:
 		/* we have the headers, build them into 'us' */

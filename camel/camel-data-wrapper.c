@@ -24,6 +24,8 @@
  */
 #include <config.h>
 #include "camel-data-wrapper.h"
+#include "camel-mime-utils.h"
+#include "camel-stream.h"
 #include "camel-exception.h"
 
 #include <errno.h>
@@ -40,8 +42,8 @@ static int construct_from_stream(CamelDataWrapper *, CamelStream *);
 static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type);
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
-static GMimeContentField *get_mime_type_field (CamelDataWrapper *data_wrapper);
-static void set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
+static CamelContentType *get_mime_type_field (CamelDataWrapper *data_wrapper);
+static void set_mime_type_field (CamelDataWrapper *data_wrapper, CamelContentType *mime_type);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -63,7 +65,7 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 {
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
-	camel_data_wrapper->mime_type = gmime_content_field_new (NULL, NULL);
+	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
 }
 
 static void
@@ -72,7 +74,7 @@ camel_data_wrapper_finalize (CamelObject *object)
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
 	if (camel_data_wrapper->mime_type)
-		gmime_content_field_unref (camel_data_wrapper->mime_type);
+		header_content_type_unref (camel_data_wrapper->mime_type);
 
 	if (camel_data_wrapper->stream)
 		camel_object_unref (CAMEL_OBJECT (camel_data_wrapper->stream));
@@ -173,8 +175,9 @@ camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper,
 static void
 set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_type)
 {
-	gmime_content_field_construct_from_string (data_wrapper->mime_type,
-						   mime_type);
+	if (data_wrapper->mime_type)
+		header_content_type_unref (data_wrapper->mime_type);
+	data_wrapper->mime_type = header_content_type_decode (mime_type);
 }
 
 /**
@@ -202,14 +205,15 @@ camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper,
 static gchar *
 get_mime_type (CamelDataWrapper *data_wrapper)
 {
-	return gmime_content_field_get_mime_type (data_wrapper->mime_type);
+	return header_content_type_format (data_wrapper->mime_type);
 }
 
 /**
  * camel_data_wrapper_get_mime_type:
  * @data_wrapper: a data wrapper
  *
- * Return value: the text form of the data wrapper's MIME type
+ * Return value: the text form of the data wrapper's MIME type,
+ * which the caller must free.
  **/
 gchar *
 camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper)
@@ -220,7 +224,7 @@ camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper)
 }
 
 
-static GMimeContentField *
+static CamelContentType *
 get_mime_type_field (CamelDataWrapper *data_wrapper)
 {
 	return data_wrapper->mime_type;
@@ -232,7 +236,7 @@ get_mime_type_field (CamelDataWrapper *data_wrapper)
  *
  * Return value: the parsed form of the data wrapper's MIME type
  **/
-GMimeContentField *
+CamelContentType *
 camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper)
 {
 	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), NULL);
@@ -250,21 +254,21 @@ camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper)
  **/
 static void
 set_mime_type_field (CamelDataWrapper *data_wrapper,
-		     GMimeContentField *mime_type)
+		     CamelContentType *mime_type)
 {
 	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
 	g_return_if_fail (mime_type != NULL);
 
 	if (data_wrapper->mime_type)
-		gmime_content_field_unref (data_wrapper->mime_type);
+		header_content_type_unref (data_wrapper->mime_type);
 	data_wrapper->mime_type = mime_type;
 	if (mime_type)
-		gmime_content_field_ref (data_wrapper->mime_type);
+		header_content_type_ref (data_wrapper->mime_type);
 }
 
 void
 camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
-					GMimeContentField *mime_type)
+					CamelContentType *mime_type)
 {
 	CDW_CLASS (data_wrapper)->set_mime_type_field (data_wrapper, mime_type);
 }

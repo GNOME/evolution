@@ -69,7 +69,7 @@ struct _CamelMimePart
 	GList *content_languages;
 	CamelMimePartEncodingType encoding;
 	
-	GMimeContentField *content_type;
+	CamelContentType *content_type;
 
 	struct _header_raw *headers; /* mime headers */
 };
@@ -110,7 +110,7 @@ const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
 
 /* FIXME: what about content-type parameters?   what about major/minor parts? */
 void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, gchar *content_type);
-GMimeContentField *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
+CamelContentType  *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
 
 const     gchar *         camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
 CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);

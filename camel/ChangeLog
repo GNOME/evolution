@@ -1,3 +1,27 @@
+2000-12-28  Dan Winship  <danw@helixcode.com>
+
+	* gmime-content-field.[ch]: Remove this. It was only a thin
+	wrapper around struct _header_content_type anyway, and didn't
+	match the naming scheme of anything else.
+
+	* Makefile.am: Remove gmime-content-field.[ch]
+
+	* camel.h: Remove gmime-content-field.h
+
+	* camel-types.h: Add CamelContentType as a typedef for struct
+	_header_content_type (especially for use outside of camel).
+
+	* camel-multipart.c: 
+	* camel-mime-part.c: 
+	* camel-mime-message.c: 
+	* camel-folder-summary.c:
+	* camel-folder-search.c: 
+	* camel-data-wrapper.[ch]: Use CamelContentType and
+	header_content_type_* functions rather than the GMime stuff. 
+
+	* camel-mime-part-utils.c: 
+	* camel-medium.c: Remove unused gmime-content-field.h include.
+
 2000-12-27  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (connect_to_server): Fix the
