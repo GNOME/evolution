@@ -1,3 +1,11 @@
+2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-day-view.c (e_day_view_finish_resize), (e_day_view_reshape_day_event),
+      	(e_day_view_change_event_time): Free the string day_view->last_edited_comp_string
+	before changing assigning it another value.
+	* gui/e-week-view.c (e_week_view_change_event_time): Free the string
+	week_view->last_edited_comp_string for the same reason above.
+
 2004-11-08  Rodney Dawes  <dobey@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
