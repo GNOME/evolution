@@ -1,3 +1,8 @@
+2002-04-10  Not Zed  <NotZed@Ximian.com>
+
+	* filtertypes.xml: Matched all )'s in rule parts.  About 5 were
+	broken.
+
 2001-11-15  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* rule-editor.c (set_source): Removed U_.  Fixes #15415.
