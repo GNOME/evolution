@@ -1,3 +1,8 @@
+2003-04-23  Anna Marie Dirks  <anna@ximian.com>
+
+	*glade/e-folder-list.glade : replaced buttons with stock 
+	buttons and added HIG-blessed spacing. Fixes 41145. 
+
 2003-04-22  Anna Marie Dirks  <anna@ximian.com>
 	
 	* e-shortcuts-view.c
@@ -8,7 +13,6 @@
 	Group" . Partially fixes 41038.
 	(rename_shortcut_cb): Corrected the label capitalization for 
 	Rename dialog. Fixes 41567.
-
 
 
 2003-04-21  Chris Toshok  <toshok@ximian.com>
