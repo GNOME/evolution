@@ -1067,7 +1067,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	target = eab_config_target_new_source(ec, sdialog->source);
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 
-	sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("Address Book Properties"));
+	if(source)
+		sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("Address Book Properties"));
+	else
+		sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("New Address Book"));
+
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
