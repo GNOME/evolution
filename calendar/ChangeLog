@@ -1,3 +1,9 @@
+2003-02-25  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): don't
+	let the user change to an email organizer if the back end is not
+	an email address
+
 2003-02-20  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (class_init): override finalize, not
