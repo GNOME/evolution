@@ -857,27 +857,6 @@ backend_error_cb (CalClient *client, const char *message, gpointer data)
 	g_free (urinopwd);
 }
 
-/**
- * e_tasks_get_cal_client:
- * @tasks: An #ETasks.
- *
- * Queries the calendar client interface object that a tasks view is using.
- *
- * Return value: A calendar client interface object.
- **/
-CalClient *
-e_tasks_get_cal_client			(ETasks		*tasks)
-{
-	ETasksPrivate *priv;
-
-	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
-
-	priv = tasks->priv;
-
-	return priv->client;
-}
-
-
 void
 e_tasks_new_task			(ETasks		*tasks)
 {

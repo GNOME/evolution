@@ -88,6 +88,16 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 	priv->uri_client_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 
+static void
+free_client_hash (gpointer key, gpointer value, gpointer user_data)
+{
+	char *uri = key;
+	CalClient *client = value;
+
+	g_free (uri);
+	g_object_unref (client);
+}
+
 /* Finalize handler for the alarm notify system */
 static void
 alarm_notify_finalize (GObject *object)
@@ -101,6 +111,7 @@ alarm_notify_finalize (GObject *object)
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
 
+	g_hash_table_foreach (priv->uri_client_hash, (GHFunc) free_client_hash, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
 
 	g_free (priv);

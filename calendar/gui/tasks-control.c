@@ -47,6 +47,7 @@
 #include "calendar-config.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"
+#include "e-calendar-table.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 
@@ -162,11 +163,13 @@ tasks_control_get_property		(BonoboPropertyBag	*bag,
 {
 	ETasks *tasks = user_data;
 	const char *uri;
+	ECalModel *model;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		uri = cal_client_get_uri (e_tasks_get_cal_client (tasks));
+		model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
+		uri = cal_client_get_uri (e_cal_model_get_default_client (model));
 		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 
@@ -231,11 +234,13 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 {
 	BonoboUIComponent *uic;
 	gboolean read_only = TRUE;
+	ECalModel *model;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	cal_client_is_read_only (e_tasks_get_cal_client (tasks), &read_only, NULL);
+	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
+	cal_client_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",

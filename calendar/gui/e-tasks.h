@@ -67,8 +67,6 @@ void  e_tasks_set_ui_component  (ETasks            *tasks,
 gboolean   e_tasks_open            (ETasks            *tasks,
 				    char              *file);
 
-CalClient *e_tasks_get_cal_client  (ETasks            *tasks);
-
 void       e_tasks_new_task          (ETasks            *tasks);
 void       e_tasks_complete_selected (ETasks            *tasks);
 void       e_tasks_delete_selected   (ETasks            *tasks);

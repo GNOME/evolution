@@ -1,5 +1,18 @@
 2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-tasks.[ch] (e_tasks_get_cal_client): removed.
+
+	* gui/tasks-control.c (sensitize_commands): fixed to work correctly
+	with the ECalView's model.
+	(tasks_control_set_property): don't use e_tasks_get_cal_client.
+
+	* gui/alarm-notify/alarm-notify.c (free_client_hash): new function
+	to remove items from the CalClient's hash table.
+	(alarm_notify_finalize): call free_client_hash() for each item
+	in the hash table.
+
+2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/notify-main.c (client_die_cb): use
 	bonobo_main_quit, not gtk_main_quit.
 
