@@ -1,5 +1,13 @@
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_set_icon):
+	Allow a NULL icon [remove the precondition].
+
+	* e-shell-view.c (update_folder_title_bar): Only unref the
+	folder_icon if not NULL.
+
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage-set-view.c
 	(impl_StorageSetView__set_checkedFolders): Handle
 	Folder.evolutionUri as a URI, not as a path.  Also use
