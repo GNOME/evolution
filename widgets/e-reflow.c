@@ -238,7 +238,9 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
   switch( event->type )
     {
     case GDK_KEY_PRESS:
-	    if (event->key.length == 1 && event->key.string[0] == '\t') {
+	    if (event->key.keyval == GDK_Tab || 
+		event->key.keyval == GDK_KP_Tab || 
+		event->key.keyval == GDK_ISO_Left_Tab) {
 		    GList *list;
 		    for (list = e_reflow->items; list; list = list->next) {
 			    GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);

@@ -188,26 +188,22 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = e_minicard_label->has_focus;
 		break;
 	case ARG_FIELD:
-	  if ( e_minicard_label->field )
-	    {
-	      gtk_object_get( GTK_OBJECT( e_minicard_label->field ), "text", &temp, NULL );
-	      GTK_VALUE_STRING (*arg) = temp;
-	    }
-	  else
-	    GTK_VALUE_STRING (*arg) = g_strdup( e_minicard_label->field_text );
-	  break;
+		if ( e_minicard_label->field ) {
+			gtk_object_get( GTK_OBJECT( e_minicard_label->field ), "text", &temp, NULL );
+			GTK_VALUE_STRING (*arg) = temp;
+		} else
+			GTK_VALUE_STRING (*arg) = g_strdup( e_minicard_label->field_text );
+		break;
 	case ARG_FIELDNAME:
-	  if ( e_minicard_label->fieldname )
-	    {
-	      gtk_object_get( GTK_OBJECT( e_minicard_label->fieldname ), "text", &temp, NULL );
-	      GTK_VALUE_STRING (*arg) = temp;
-	    }
-	  else
-	    GTK_VALUE_STRING (*arg) = g_strdup( e_minicard_label->fieldname_text );
-	  break;
+		if ( e_minicard_label->fieldname ) {
+			gtk_object_get( GTK_OBJECT( e_minicard_label->fieldname ), "text", &temp, NULL );
+			GTK_VALUE_STRING (*arg) = temp;
+		} else
+			GTK_VALUE_STRING (*arg) = g_strdup( e_minicard_label->fieldname_text );
+		break;
 	default:
-	  arg->type = GTK_TYPE_INVALID;
-	  break;
+		arg->type = GTK_TYPE_INVALID;
+		break;
 	}
 }
 

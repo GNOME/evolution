@@ -357,7 +357,9 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	    }
 	    break;
     case GDK_KEY_PRESS:
-	    if (event->key.length == 1 && event->key.string[0] == '\t') {
+	    if (event->key.keyval == GDK_Tab || 
+		event->key.keyval == GDK_KP_Tab || 
+		event->key.keyval == GDK_ISO_Left_Tab) {
 		    GList *list;
 		    for (list = e_minicard->fields; list; list = list->next) {
 			    GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);

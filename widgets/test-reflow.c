@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <gnome.h>
+#include "e-canvas.h"
 #include "e-reflow.h"
 #include "e-minicard.h"
 
@@ -99,7 +100,7 @@ int main( int argc, char *argv[] )
 
   vbox = gtk_vbox_new(FALSE, 0);
 
-  canvas = gnome_canvas_new();
+  canvas = e_canvas_new();
   rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
 				gnome_canvas_rect_get_type(),
 				"x1", (double) 0,
@@ -147,6 +148,7 @@ int main( int argc, char *argv[] )
 		      ( gpointer ) app );
 
   gtk_widget_show_all( app );
+  gdk_window_set_back_pixmap( GTK_LAYOUT(canvas)->bin_window, NULL, FALSE);
 
   gtk_main(); 
 

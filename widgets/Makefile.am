@@ -11,6 +11,8 @@ noinst_LIBRARIES =				\
 	libevolutionwidgets.a
 
 libevolutionwidgets_a_SOURCES = 		\
+	e-canvas.c				\
+	e-canvas.h				\
 	e-canvas-utils.c			\
 	e-canvas-utils.h			\
 	e-cursors.c				\

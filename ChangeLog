@@ -1,5 +1,24 @@
 2000-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-reflow.c, widgets/e-minicard.c: Handle shift-tab
+	properly now.
+
+	* widgets/e-minicard-label.c: Reindented some areas.
+
+	* widgets/test-reflow.c: Use e-canvas.  Set the back pixmap to
+	NULL for the canvas so that scrolling won't flash grey.
+
+	* widgets/e-canvas.c, widgets/e-canvas.h: These subclass
+	GnomeCanvas to work around a few bugs so that evolution will work
+	well with old versions of gnome-libs.
+
+	* widgets/Makefile.am: Added e-canvas.c and e-canvas.h.
+
+	* addressbook/contact-editor/contact-editor.glade: Not much
+	change.  Mostly internal reorganization by glade itself.
+
+2000-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/printing/smallbook.ecps: Example contact printing
 	style.  Not used yet.
 
