@@ -58,6 +58,7 @@
 struct _CamelPgpContextPrivate {
 	CamelPgpType type;
 	char *path;
+	gboolean remember;
 };
 
 static int                  pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
@@ -132,6 +133,7 @@ camel_pgp_context_get_type (void)
  * @session: CamelSession
  * @type: One of CAMEL_PGP_TYPE_PGP2, PGP5, GPG, or PGP6
  * @path: path to PGP binary
+ * @remember: Remember the pgp passphrase
  *
  * This creates a new CamelPgpContext object which is used to sign,
  * verify, encrypt and decrypt streams.
@@ -139,7 +141,7 @@ camel_pgp_context_get_type (void)
  * Return value: the new CamelPgpContext
  **/
 CamelPgpContext *
-camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path)
+camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path, gboolean remember)
 {
 	CamelPgpContext *context;
 	
@@ -154,6 +156,7 @@ camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *pat
 	
 	context->priv->type = type;
 	context->priv->path = g_strdup (path);
+	context->priv->remember = remember;
 	
 	return context;
 }
@@ -639,6 +642,9 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		return -1;
 	}
 	
+	if (!context->priv->remember)
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
+	
 	g_free (diagnostics);
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
@@ -807,6 +813,9 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		g_free (ciphertext);
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
+	
+	if (!context->priv->remember)
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	
 	g_free (diagnostics);
 	
@@ -1220,6 +1229,9 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		return -1;
 	}
 	
+	if (!context->priv->remember)
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
+	
 	g_free (diagnostics);
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
@@ -1345,6 +1357,9 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 		
 		return -1;
 	}
+	
+	if (!context->priv->remember)
+		pgp_forget_passphrase (ctx->session, context->priv->type, NULL);
 	
 	g_free (diagnostics);
 	
