@@ -485,6 +485,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	CamelTransport *xport = NULL;
 	CamelFolder *folder;
 	const char *version, *header;
+	gchar *acct_header;
 	char *transport_url = NULL, *sent_folder_uri = NULL;
 	
 	if (SUB_VERSION[0] == '\0')
@@ -499,11 +500,11 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
 	
 	/* Get information about the account this was composed by. */
-	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	acct_header = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
 	if (header) {
 		const MailConfigAccount *account;
 		
-		account = mail_config_get_account_by_name (header);
+		account = mail_config_get_account_by_name (acct_header);
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 		if (account) {
 			transport_url = g_strdup (account->transport->url);
@@ -546,6 +547,12 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	/* post-process */
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
+
+	/* Re-attach account header */
+	if (acct_header) {
+		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Account", acct_header);
+		g_free (acct_header);
+	}
 	
 	if (driver)
 		camel_filter_driver_filter_message (driver, message, info,

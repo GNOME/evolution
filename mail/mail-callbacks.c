@@ -984,8 +984,9 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 	
 	for (i = 0; i < messages->len; i++) {
 		EMsgComposer *composer;
-		
+
 		composer = e_msg_composer_new_with_message (messages->pdata[i]);
+
 		if (composer) {
 			gtk_signal_connect (GTK_OBJECT (composer), "send",
 					    composer_send_cb, NULL);

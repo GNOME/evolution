@@ -1,5 +1,10 @@
 2001-06-08  Jon Trowbridge  <trow@ximian.com>
 
+	* mail-ops.c (mail_send_message): Reattach X-Evolution-Account
+	information to the message after sending it.  This way it can
+	be used to set the identity properly if we later Resend the
+	message.
+
 	* mail-tools.c (mail_tool_get_local_movemail_path): If you had
 	multiple accounts that used mboxes, and if you received mail in N
 	of those accounts, you would get N copies of each of your e-mail
