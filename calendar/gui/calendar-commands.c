@@ -63,6 +63,7 @@
 #include "e-pub-utils.h"
 #include "e-cal-list-view.h"
 #include "evolution-shell-component-utils.h"
+#include "e-util/e-icon-factory.h"
 
 /* Focusing information for the calendar view.  We have to keep track of this
  * ourselves because with Bonobo controls, we may get unpaired focus_out events.
@@ -715,11 +716,11 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/Toolbar/DayView",	      "stock_calendar-view-day",       24),
-	E_PIXMAP ("/Toolbar/WorkWeekView",    "stock_calendar-view-work-week", 24),
-	E_PIXMAP ("/Toolbar/WeekView",	      "stock_calendar-view-week",      24),
-	E_PIXMAP ("/Toolbar/MonthView",	      "stock_calendar-view-month",     24),
-	E_PIXMAP ("/Toolbar/ListView",	      "stock_calendar-view-list",      24),
+	E_PIXMAP ("/Toolbar/DayView",	      "stock_calendar-view-day",       E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/WorkWeekView",    "stock_calendar-view-work-week", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/WeekView",	      "stock_calendar-view-week",      E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/MonthView",	      "stock_calendar-view-month",     E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ListView",	      "stock_calendar-view-list",      E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };

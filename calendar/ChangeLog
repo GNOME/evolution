@@ -1,5 +1,8 @@
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
+	* gui/calendar-commands.c (pixmaps): Change E_PIXMAP size args
+	over to E_ICON_SIZE_* values.
+
 	* gui/tasks-component.c (add_popup_menu_item): Use
 	E_ICON_SIZE_MENU
 
