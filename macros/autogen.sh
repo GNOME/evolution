@@ -168,6 +168,13 @@ do
   fi
 done
 
+if [ -r po/Makefile.i18npatch ]; then
+        if grep GENPOT po/Makefile.in.in >/dev/null;
+        then echo "no need for patching file \`Makefile.in.in'";
+        else patch po/Makefile.in.in < po/Makefile.i18npatch;
+        fi;
+fi
+
 conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c
 
 if test x$NOCONFIGURE = x; then
