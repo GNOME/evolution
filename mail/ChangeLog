@@ -1,5 +1,9 @@
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (construct): Need to listen for changes to
+	S/MIME options, the signature option menu, and any extra
+	provider-specific config options. Fixes bug #54036.
+
 	* em-folder-view.c (emfv_popup_mark_junk): Set the SEEN flag as
 	well.
 	(emfv_list_key_press): Removed the skip-to-next-message logic as

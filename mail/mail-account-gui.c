@@ -1264,7 +1264,7 @@ sig_fill_options (MailAccountGui *gui)
 		mi = gtk_menu_item_new_with_label (sig->name);
 		g_object_set_data ((GObject *) mi, "sig", sig);
 		gtk_widget_show (mi);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 	}
 }
 
@@ -1277,7 +1277,7 @@ sig_changed (GtkWidget *w, MailAccountGui *gui)
 	active = gtk_menu_get_active (GTK_MENU (w));
 	index = g_list_index (GTK_MENU_SHELL (w)->children, active);
 	
-	gui->def_signature = (MailConfigSignature *) g_object_get_data(G_OBJECT(active), "sig");
+	gui->def_signature = (MailConfigSignature *) g_object_get_data (G_OBJECT (active), "sig");
 	gui->auto_signature = index == 1 ? TRUE : FALSE;
 }
 
