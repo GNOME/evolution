@@ -216,7 +216,7 @@ fi
 if test -z "$list_mounted_fs"; then
 AC_MSG_ERROR([could not determine how to read list of mounted filesystems])
 # FIXME -- no need to abort building the whole package
-# Can't build mountlist.c or anything that needs its functions
+# Cannot build mountlist.c or anything that needs its functions
 fi
 
 AC_CHECKING(how to get filesystem space usage)
