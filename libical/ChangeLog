@@ -1,3 +1,8 @@
+2000-04-24  Seth Alves  <alves@hungry.com>
+
+	* src/libical/icaltypes.c (icaldurationtype_from_timet): convert
+	from a time_t to an icaldurationtype.
+
 2000-03-17  Eric Busboom  <eric@agony.qualcomm.com>
 
 	* icalstore.c Vastly improved icalstore_test. 
