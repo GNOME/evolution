@@ -1,3 +1,7 @@
+2001-08-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* tools/killev: Ben said to do it.
+
 2001-08-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Don't link to libnssckbi3 when linking to nss.

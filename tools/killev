@@ -1,3 +1,4 @@
+#!/bin/sh
 # FIXME: Sigh, we need a less gross way of doing this.
 
 sysname=`uname -s`
