@@ -55,6 +55,7 @@ typedef enum {
 
 /* Used for mode stuff */
 typedef enum {
+	CAL_MODE_INVALID = -1,
 	CAL_MODE_LOCAL   = 1 << 0,
 	CAL_MODE_REMOTE  = 1 << 1,
 	CAL_MODE_ANY     = 0x07
