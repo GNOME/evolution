@@ -59,7 +59,10 @@ struct _EMultiConfigDialogPrivate {
 static char *list_e_table_spec =
 	"<ETableSpecification cursor-mode=\"line\""
 	"		      selection-mode=\"browse\""
-	"                     no-headers=\"true\">"
+	"                     no-headers=\"true\""
+        "                     alternating-row-colors=\"false\""
+/*        "                     horizontal-resize=\"true\""*/
+        ">"
 	"  <ETableColumn model_col=\"0\""
 	"	         expansion=\"1.0\""
 	"                cell=\"vbox\""
@@ -263,8 +266,59 @@ class_init (EMultiConfigDialogClass *class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
+#define RGBA_COLOR(color) (((color).red & 0xff00) << 8 | \
+			   ((color).green & 0xff00) | \
+			   ((color).blue & 0xff00) >> 8)
+
+static void
+fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
+{
+	GdkPixbuf *original = e_table_model_value_at (dialog->priv->list_e_table_model, 1, row);
+	GtkWidget *canvas;
+	guint32 colors[3];
+	int i;
+
+	if (original == NULL)
+		return;
+
+	canvas = GTK_WIDGET (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas);
+
+	colors[0] = RGBA_COLOR (canvas->style->bg [GTK_STATE_SELECTED]);
+	colors[1] = RGBA_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
+	colors[2] = RGBA_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
+
+	g_print ("%x %x", colors[1], canvas->style->bg [GTK_STATE_ACTIVE].green);
+
+	for (i = 0; i < 3; i++) {
+		GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (original,
+								       gdk_pixbuf_get_width (original),
+								       gdk_pixbuf_get_height (original),
+								       GDK_INTERP_BILINEAR,
+								       255,
+								       1,
+								       colors[i], colors[i]);
+		e_table_model_set_value_at (dialog->priv->list_e_table_model, i + 2, row, pixbuf);
+		gdk_pixbuf_unref(pixbuf);
+	}
+}
+
+static void
+canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
+{
+	int i;
+	int row_count;
+	row_count = e_table_model_row_count (dialog->priv->list_e_table_model);
+	for (i = 0; i < row_count; i++) {
+		fill_in_pixbufs (dialog, i);
+	}
+}
+
+
 ETableMemoryStoreColumnInfo columns[] = {
 	E_TABLE_MEMORY_STORE_STRING,
+	E_TABLE_MEMORY_STORE_PIXBUF,
+	E_TABLE_MEMORY_STORE_PIXBUF,
+	E_TABLE_MEMORY_STORE_PIXBUF,
 	E_TABLE_MEMORY_STORE_PIXBUF,
 	E_TABLE_MEMORY_STORE_TERMINATOR
 };
@@ -292,6 +346,11 @@ init (EMultiConfigDialog *multi_config_dialog)
 	vbox = e_cell_vbox_new ();
 
 	pixbuf = e_cell_pixbuf_new();
+	gtk_object_set (GTK_OBJECT (pixbuf),
+			"selected_column", 3,
+			"focused_column", 2,
+			"unselected_column", 4,
+			NULL);
 	e_cell_vbox_append (E_CELL_VBOX (vbox), pixbuf, 1);
 	gtk_object_unref (GTK_OBJECT (pixbuf));
 
@@ -306,6 +365,10 @@ init (EMultiConfigDialog *multi_config_dialog)
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (list_e_table), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))),
 			    "cursor_change", GTK_SIGNAL_FUNC (table_cursor_change_callback),
+			    multi_config_dialog);
+
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (E_TABLE_SCROLLED (list_e_table))->table_canvas),
+			    "realize", GTK_SIGNAL_FUNC (canvas_realize),
 			    multi_config_dialog);
 
 	gtk_object_unref (GTK_OBJECT (extras));
@@ -375,7 +438,11 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 
 	priv->pages = g_slist_append (priv->pages, page_widget);
 
-	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon);
+	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon, NULL, NULL, NULL);
+
+	if (GTK_WIDGET_REALIZED (e_table_scrolled_get_table (E_TABLE_SCROLLED (dialog->priv->list_e_table))->table_canvas)) {
+		fill_in_pixbufs (dialog, e_table_model_row_count (priv->list_e_table_model) - 1);
+	}
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  create_page_container (description, GTK_WIDGET (page_widget)),

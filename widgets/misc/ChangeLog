@@ -1,3 +1,7 @@
+2002-03-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-multi-config-dialog.c: Added alpha blending here.
+
 2002-03-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-multi-config-dialog.c: Removed Page struct.
