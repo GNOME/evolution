@@ -46,6 +46,7 @@ addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
 addressbook/printing/e-contact-print.c
 addressbook/printing/e-contact-print-envelope.c
+calendar/cal-util/cal-util.c
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
