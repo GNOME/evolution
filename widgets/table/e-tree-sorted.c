@@ -103,6 +103,9 @@ struct ETreeSortedPriv {
 	int          sort_idle_id;
 	int          insert_idle_id;
 	int          insert_count;
+
+	guint        in_resort_idle : 1;
+	guint        nested_resort_idle : 1;
 };
 
 enum {
@@ -127,10 +130,19 @@ static gboolean
 ets_sort_idle(gpointer user_data)
 {
 	ETreeSorted *ets = user_data;
-	ets->priv->sort_idle_id = 0;
-	if (ets->priv->root) {
-		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
+	if (ets->priv->in_resort_idle) {
+		ets->priv->nested_resort_idle = TRUE;
+		return FALSE;
 	}
+	ets->priv->in_resort_idle = TRUE;
+	if (ets->priv->root) {
+		do {
+			ets->priv->nested_resort_idle = FALSE;
+			resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
+		} while (ets->priv->nested_resort_idle);
+	}
+	ets->priv->in_resort_idle = FALSE;
+	ets->priv->sort_idle_id = 0;
 	return FALSE;
 }
 
@@ -561,6 +573,8 @@ schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, 
 	mark_path_needs_resort(ets, path, needs_regen, resort_all_children);
 	if (ets->priv->sort_idle_id == 0) {
 		ets->priv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
+	} else if (ets->priv->in_resort_idle) {
+		ets->priv->nested_resort_idle = TRUE;
 	}
 }
 
@@ -1232,6 +1246,9 @@ e_tree_sorted_init (GtkObject *object)
 	priv->sort_idle_id                    = 0;
 	priv->insert_idle_id                  = 0;
 	priv->insert_count                    = 0;
+
+	priv->in_resort_idle                  = 0;
+	priv->nested_resort_idle              = 0;
 }
 
 E_MAKE_TYPE(e_tree_sorted, "ETreeSorted", ETreeSorted, e_tree_sorted_class_init, e_tree_sorted_init, PARENT_TYPE)

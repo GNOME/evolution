@@ -725,6 +725,8 @@ setup_gui (ETableConfig *config)
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
 
+	gtk_widget_hide (GNOME_PROPERTY_BOX(config->dialog_toplevel)->help_button);
+
 	gtk_notebook_set_show_tabs (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (
 			config->dialog_toplevel)->notebook),
