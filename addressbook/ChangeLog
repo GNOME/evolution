@@ -1,7 +1,8 @@
 2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/contact-list-editor/e-contact-list-editor.c: Marked a
-	string for translation.
+	string for translation. Also add the neccesary includes to make
+	_() macros work.
 	
 2001-07-07  Jon Trowbridge  <trow@ximian.com>
 
