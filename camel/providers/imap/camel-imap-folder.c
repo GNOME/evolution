@@ -606,28 +606,47 @@ static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelImapStream *imap_stream;
-	CamelMimeMessage *message;
+	CamelStream *msgstream;
+	CamelStreamFilter *f_stream;   /* will be used later w/ crlf filter */
+	CamelMimeFilter *filter;       /* crlf/dot filter */
+	CamelMimeMessage *msg;
 	CamelMimePart *part;
 	CamelDataWrapper *cdw;
 	gchar *cmdbuf;
+	int id;
 
 	/* TODO: fetch the correct part, get rid of the hard-coded stuff */
-	cmdbuf = g_strdup_printf("UID FETCH %s BODY[TEXT]", uid);
-	imap_stream = camel_imap_stream_new(folder, cmdbuf);
-	g_free(cmdbuf);
+	cmdbuf = g_strdup_printf ("UID FETCH %s BODY[TEXT]", uid);
+	imap_stream = camel_imap_stream_new (folder, cmdbuf);
+	g_free (cmdbuf);
 
-	message = camel_mime_message_new();
-	
-	cdw = camel_data_wrapper_new();
-	camel_data_wrapper_construct_from_stream(cdw, imap_stream);
-	gtk_object_unref(GTK_OBJECT (imap_stream));
-	
-	camel_data_wrapper_set_mime_type (cdw, "text/plain");
 
-	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (cdw));
-	gtk_object_unref (GTK_OBJECT (cdw));
+	/* Temp hack - basically we read in the entire message instead of getting a part as it's needed */
+	msgstream = camel_stream_mem_new ();
+	camel_stream_write_to_stream (msgstream, CAMEL_STREAM (imap_stream));
+	gtk_object_unref (GTK_OBJECT (imap_stream));
 	
-	return message;
+	f_stream = camel_stream_filter_new_with_stream (msgstream);
+	filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
+	id = camel_stream_filter_add (f_stream, CAMEL_MIME_FILTER (filter));
+	
+	msg = camel_mime_message_new ();
+	
+	/*cdw = camel_data_wrapper_new ();*/
+	/*camel_data_wrapper_construct_from_stream (cdw, CAMEL_STREAM (f_stream));*/
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), CAMEL_STREAM (f_stream));
+	
+	camel_stream_filter_remove (f_stream, id);
+	camel_stream_close (CAMEL_STREAM (f_stream));
+	gtk_object_unref (GTK_OBJECT (msgstream));
+	gtk_object_unref (GTK_OBJECT (f_stream));
+	
+	/*camel_data_wrapper_set_mime_type (cdw, "text/plain");*/
+
+	/*camel_medium_set_content_object (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (cdw));*/
+	/*gtk_object_unref (GTK_OBJECT (cdw));*/
+	
+	return msg;
 }
 
 #if 0

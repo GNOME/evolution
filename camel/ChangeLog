@@ -1,5 +1,9 @@
 2000-06-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message_by_uid): 
+	Works like the POP fetch code, should work for temporarily until
+	we get around to coding it the way it "Should Be".
+
 	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): Now uses
 	the camel-mime-filter-crlf decoder when retrieving messages.
 

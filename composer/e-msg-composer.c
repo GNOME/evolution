@@ -59,11 +59,9 @@
 #endif
 
 
-
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 500
 
-
 enum {
 	SEND,
 	POSTPONE,
@@ -74,7 +72,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GnomeAppClass *parent_class = NULL;
 
-
 static GtkWidget *
 create_editor (EMsgComposer *composer)
 {
@@ -90,7 +87,6 @@ create_editor (EMsgComposer *composer)
 	return control;
 }
 
-
 static void
 free_string_list (GList *list)
 {
@@ -128,6 +124,7 @@ get_editor_text (BonoboWidget *editor, char *format)
 		/* FIXME. Some error message. */
 		return NULL;
 	}
+	
 	if (ev._major != CORBA_SYSTEM_EXCEPTION)
 		CORBA_Object_release (persist, &ev);
 
@@ -243,8 +240,7 @@ build_message (EMsgComposer *composer)
 
 	new = camel_mime_message_new ();
 
-	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs),
-					new);
+	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs), new);
 	for (i = 0; i < composer->extra_hdr_names->len; i++) {
 		camel_medium_add_header (CAMEL_MEDIUM (new),
 					 composer->extra_hdr_names->pdata[i],
@@ -292,40 +288,34 @@ build_message (EMsgComposer *composer)
 			gtk_object_unref (GTK_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			camel_mime_part_set_content (part, fmt,
-						     strlen (fmt), "text/plain");
+			camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
 			g_free(fmt);
 			break;
 		}
 		camel_multipart_add_part (multipart, part);
 		gtk_object_unref (GTK_OBJECT (part));
 
-		e_msg_composer_attachment_bar_to_multipart (attachment_bar,
-							    multipart);
+		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
 
-		camel_medium_set_content_object (CAMEL_MEDIUM (new),
-						 CAMEL_DATA_WRAPPER (multipart));
+		camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (multipart));
 		gtk_object_unref (GTK_OBJECT (multipart));
 	} else {
 		CamelDataWrapper *cdw;
 		CamelStream *stream;
 		switch (type) {
 		case MSG_FORMAT_ALTERNATIVE:
-			camel_medium_set_content_object (CAMEL_MEDIUM (new),
-							 CAMEL_DATA_WRAPPER (body));
+			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
 			gtk_object_unref (GTK_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			stream = camel_stream_mem_new_with_buffer (fmt,
-								   strlen (fmt));
+			stream = camel_stream_mem_new_with_buffer (fmt, strlen (fmt));
 			cdw = camel_data_wrapper_new ();
 			camel_data_wrapper_construct_from_stream (cdw, stream);
 			gtk_object_unref (GTK_OBJECT (stream));
 			
 			camel_data_wrapper_set_mime_type (cdw, "text/plain");
 
-			camel_medium_set_content_object (CAMEL_MEDIUM (new),
-							 CAMEL_DATA_WRAPPER (cdw));
+			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (cdw));
 			gtk_object_unref (GTK_OBJECT (cdw));
 			g_free (fmt);
 			break;
