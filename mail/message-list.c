@@ -16,6 +16,9 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 
+#include <string.h>
+#include <ctype.h>
+
 #include "message-list.h"
 #include "message-thread.h"
 #include "mail-threads.h"
@@ -104,6 +107,162 @@ static struct {
 	{ score_highest_xpm,    NULL },
 	{ NULL,			NULL }
 };
+
+typedef struct {
+	char *name;
+	char *address;
+} InternetAddress;
+
+
+static InternetAddress *
+internet_address_new_from_string (const gchar *string)
+{
+	/* We have 3 possibilities...
+	   1. "Jeffrey Stedfast" <fejj@helixcode.com>
+	   2. fejj@helixcode.com
+	   3. <fejj@helixcode.com> (Jeffrey Stedfast)
+	*/
+	InternetAddress *ia;
+	gchar *name = NULL, *address = NULL;
+	gchar *ptr, *padding = NULL;
+	gboolean in_quotes = FALSE;
+	gboolean name_first = FALSE;
+	
+	g_return_val_if_fail (string != NULL, NULL);
+	g_return_val_if_fail (*string != '\0', NULL);
+	
+	/* look for padding between parts... */
+	for (ptr = (gchar *) string; *ptr; ptr++) {
+		if (*ptr == '"') {
+			in_quotes = !in_quotes;
+			name_first = TRUE;
+		} else if (!in_quotes && isspace (*ptr)) {
+			padding = ptr;
+			break;
+		}
+	}
+	
+	if (padding) {
+		padding--;
+		/* we have a type-one or a type-three address */
+		if (name_first) {
+			name = g_strndup (string, (gint) (padding - string));
+			g_strstrip (name);
+			
+			/* strip off the quotes */
+			if (*name) {
+				*(name + strlen (name) - 1) = '\0';
+				memmove (name, name + 1, strlen (name) - 1);
+			} else {
+				g_free (name);
+				name = NULL;
+			}
+			
+			address = strchr (padding, '<');
+			if (address) {
+				address++;
+				for (ptr = address; *ptr && *ptr != '>'; ptr++);
+				
+				address = g_strndup (address, (gint) (ptr - address));
+			}
+		} else {
+			address = g_strndup (string, (gint) (padding - string));
+			g_strstrip (address);
+			
+			/* strip off the braces */
+			if (*address) {
+				*(address + strlen (address) - 1) = '\0';
+				memmove (address, address + 1, strlen (address) - 1);
+			} else {
+				g_free (address);
+				address = NULL;
+			}
+			
+			name = strchr (padding, '(');
+			if (name) {
+				name++;
+				in_quotes = FALSE;
+				ptr = name;
+				
+				while (*ptr) {
+					if (*ptr == '"')
+						in_quotes = !in_quotes;
+					else if (!in_quotes && *ptr == ')')
+						break;
+				}
+				
+				name = g_strndup (name, (gint) (ptr - name));
+			}
+		}
+	} else {
+		/* we have a type-two address */
+		address = g_strdup (string);
+	}
+	
+	if (!address) {
+		/* the address is the most important part! */
+		g_free (name);
+		return NULL;
+	}
+	
+	ia = g_new (InternetAddress, 1);
+	ia->name = name;
+	ia->address = address;
+	
+	return ia;
+}
+
+static void
+internet_address_destroy (InternetAddress *ia)
+{
+	g_return_if_fail (ia != NULL);
+	
+	g_free (ia->name);
+	g_free (ia->address);
+	g_free (ia);
+}
+
+static gint
+address_compare (gconstpointer address1, gconstpointer address2)
+{
+	InternetAddress *ia1, *ia2;
+	gint retval;
+	
+	ia1 = internet_address_new_from_string ((const char *) address1);
+	ia2 = internet_address_new_from_string ((const char *) address2);
+	
+	if (!ia1->name || !ia2->name) {
+		/* if one or the other doesn't have a name we should compare addresses */
+		retval = g_strcasecmp (ia1->address, ia2->address);
+	} else {
+		/* FIXME: compare last names...then first names if last names are the same? */
+		retval = g_strcasecmp (ia1->name, ia2->name);
+	}
+	
+	internet_address_destroy (ia1);
+	internet_address_destroy (ia2);
+	
+	return retval;
+}
+
+static gint
+subject_compare (gconstpointer subject1, gconstpointer subject2)
+{
+	char *sub1;
+	char *sub2;
+	
+	/* trim off any "Re:"'s at the beginning of subject1 */
+	sub1 = (char *) subject1;
+	while (!g_strncasecmp (sub1, "Re:", 3))
+		sub1 += 3;
+	
+	/* trim off any "Re:"'s at the beginning of subject2 */
+	sub2 = (char *) subject2;
+	while (!g_strncasecmp (sub2, "Re:", 3))
+		sub2 += 3;
+	
+	return g_strcasecmp (sub1, sub2);
+}
 
 /* Gets the CamelMessageInfo for the message displayed at the given
  * view row.
@@ -722,14 +881,14 @@ message_list_init_header (MessageList *message_list)
 			COL_FROM, _("From"),
 			COL_FROM_EXPANSION, COL_FROM_WIDTH_MIN,
 			message_list->render_text,
-			g_str_compare, TRUE);
+			address_compare, TRUE);
 	
 	message_list->table_cols [COL_SUBJECT] =
 		e_table_col_new (
 			COL_SUBJECT, _("Subject"),
 			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
 			message_list->render_tree,
-			g_str_compare, TRUE);
+			subject_compare, TRUE);
 	
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (
@@ -750,7 +909,7 @@ message_list_init_header (MessageList *message_list)
 			COL_TO, _("To"),
 			COL_TO_EXPANSION, COL_TO_WIDTH_MIN,
 			message_list->render_text,
-			g_str_compare, TRUE);
+			address_compare, TRUE);
 	
 	message_list->table_cols [COL_SIZE] =
 		e_table_col_new (

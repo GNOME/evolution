@@ -1,3 +1,10 @@
+2000-09-22  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (address_compare): New comparison function for
+	email addresses.
+	(subject_compare): New comparison function for message subjects.
+	(message_list_init_header): Updated to use the new compare funcs.
+
 2000-09-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Fixed some memory
