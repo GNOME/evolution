@@ -188,7 +188,7 @@ alert_user (CamelSession *session, CamelSessionAlertType type,
 	    const char *prompt, gboolean cancel)
 {
 	MailSession *mail_session = MAIL_SESSION (session);
-	const char *message_type;
+	const char *message_type = NULL;
 
 	if (!mail_session->interaction_enabled)
 		return FALSE;

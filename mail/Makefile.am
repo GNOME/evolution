@@ -21,11 +21,7 @@ INCLUDES = \
 	-I$(top_srcdir)/executive-summary		\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
-	$(EXTRA_GNOME_CFLAGS)				\
-	$(BONOBO_HTML_GNOME_CFLAGS)			\
-	$(GNOME_VFS_CFLAGS)				\
-	$(GTKHTML_CFLAGS)				\
-	$(THREADS_CFLAGS)				\
+	$(MAILER_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
@@ -118,7 +114,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(BONOBO_HTML_GNOME_LIBS)
+	$(MAILER_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

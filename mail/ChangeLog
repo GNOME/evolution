@@ -1,5 +1,7 @@
 2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Use MAILER_CFLAGS and MAILER_LIBS.
+
 	* message-browser.c (message_browser_folder_loaded): Instead of
 	calling message_list_select_uid() here, instead connect to the
 	"message_list_loaded" signal since the message-list is not built
