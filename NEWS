@@ -23,6 +23,8 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #20787 -- Accepted/declined messages aren't always clear (JP)
     #20800 -- Sorting of free busy information in schedule page does
 	      not work (JP)
+    #21198 -- Outlook didn't recognize Evolution's acceptance of an
+	      updated meeting request (Dan)
 
   * Shell
 
