@@ -2747,6 +2747,8 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 			}
 			
 			camel_folder_change_info_free (changes);
+
+			g_signal_emit(ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 			return;
 		}
 	}

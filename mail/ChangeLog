@@ -1,3 +1,10 @@
+2005-03-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #73293
+
+	* message-list.c (main_folder_changed): emit a 'list built' signal
+	if we just modified it too.
+
 2005-03-10  Vivek Jain  <jvivek@novell.com>
 	
 	**fixes bug #73139
