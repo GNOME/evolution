@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Todo conduit 
+Name=Evolution ToDo conduit 
 Name[da]=Udstående
 Name[no]=Oppgaver
 Name[sv]=Att göra-lista
@@ -9,6 +9,6 @@ Comment[da]=Konfigurér Udstående
 Comment[no]=Konfigurér oppgavelisten
 Comment[sv]=Konfigurerar att göra-listan
 Comment[tr]=Yapýlacaklar parçasý ayarlarý
-Exec=todo-conduit-control-applet --cap-id=1
+Exec=e-todo-conduit-control-applet --cap-id=1
 Terminal=0
 Type=Application
