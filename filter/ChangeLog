@@ -1,3 +1,10 @@
+2000-11-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_filter_message): If there is a
+	default folder and the message hasn't been deleted then... should
+	be: If there is a default folder and the message hasn't been
+	copied to another folder...
+
 2000-11-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-search-bar.c: Made the underline show up properly in the main

@@ -783,7 +783,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	if (p->defaultfolder && !p->deleted) {
+	if (p->defaultfolder && !p->copied) {
 		/* copy it to the default inbox */
 		filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		mail_tool_camel_lock_up ();
