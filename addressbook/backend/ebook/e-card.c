@@ -62,7 +62,6 @@ static void e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 
 static void assign_string(VObject *vobj, char **string);
 
-static void e_card_name_free(ECardName *name);
 char *e_v_object_get_child_value(VObject *vobj, char *name);
 static ECardDate e_card_date_from_string (char *str);
 
@@ -772,12 +771,23 @@ e_card_class_init (ECardClass *klass)
 	object_class->set_arg = e_card_set_arg;
 }
 
+ECardPhone *
+e_card_phone_new (void)
+{
+	ECardPhone *newphone = g_new(ECardPhone, 1);
+
+	newphone->number = NULL;
+	newphone->flags = 0;
+	
+	return newphone;
+}
+
 void
 e_card_phone_free (ECardPhone *phone)
 {
 	if ( phone ) {
-		if ( phone->number )
-			g_free(phone->number);
+		g_free(phone->number);
+
 		g_free(phone);
 	}
 }
@@ -794,24 +804,35 @@ e_card_phone_copy (const ECardPhone *phone)
 		return NULL;
 }
 
+ECardDeliveryAddress *
+e_card_delivery_address_new (void)
+{
+	ECardDeliveryAddress *newaddr = g_new(ECardDeliveryAddress, 1);
+
+	newaddr->po      = NULL;
+	newaddr->ext     = NULL;
+	newaddr->street  = NULL;
+	newaddr->city    = NULL;
+	newaddr->region  = NULL;
+	newaddr->code    = NULL;
+	newaddr->country = NULL;
+	newaddr->flags   = 0;
+
+	return newaddr;
+}
+
 void
 e_card_delivery_address_free (ECardDeliveryAddress *addr)
 {
 	if ( addr ) {
-		if ( addr->po )
-			g_free(addr->po);
-		if ( addr->ext )
-			g_free(addr->ext);
-		if ( addr->street )
-			g_free(addr->street);
-		if ( addr->city )
-			g_free(addr->city);
-		if ( addr->region )
-			g_free(addr->region);
-		if ( addr->code )
-			g_free(addr->code);
-		if ( addr->country )
-			g_free(addr->country);
+		g_free(addr->po);
+		g_free(addr->ext);
+		g_free(addr->street);
+		g_free(addr->city);
+		g_free(addr->region);
+		g_free(addr->code);
+		g_free(addr->country);
+
 		g_free(addr);
 	}
 }
@@ -834,12 +855,66 @@ e_card_delivery_address_copy (const ECardDeliveryAddress *addr)
 		return NULL;
 }
 
+char *
+e_card_delivery_address_to_string(const ECardDeliveryAddress *addr)
+{
+	char *strings[4], **stringptr = strings;
+	char *line1, *line22, *line2;
+	char *final;
+	if (addr->po && *addr->po)
+		*(stringptr++) = addr->po;
+	if (addr->street && *addr->street)
+		*(stringptr++) = addr->street;
+	if (addr->ext && *addr->ext)
+		*(stringptr++) = addr->ext;
+	*stringptr = NULL;
+	line1 = g_strjoinv(" ", strings);
+	stringptr = strings;
+	if (addr->region && *addr->region)
+		*(stringptr++) = addr->region;
+	if (addr->code && *addr->code)
+		*(stringptr++) = addr->code;
+	*stringptr = NULL;
+	line22 = g_strjoinv(" ", strings);
+	stringptr = strings;
+	if (addr->city && *addr->city)
+		*(stringptr++) = addr->city;
+	if (line22 && *line22)
+		*(stringptr++) = line22;
+	*stringptr = NULL;
+	line2 = g_strjoinv(", ", strings);
+	stringptr = strings;
+	if (line1 && *line1)
+		*(stringptr++) = line1;
+	if (line2 && *line2)
+		*(stringptr++) = line2;
+	if (addr->country && *addr->country)
+		*(stringptr++) = addr->country;
+	*stringptr = NULL;
+	final = g_strjoinv("\n", strings);
+	g_free(line1);
+	g_free(line22);
+	g_free(line2);
+	return final;
+}
+
+ECardAddrLabel *
+e_card_address_label_new (void)
+{
+	ECardAddrLabel *newaddr = g_new(ECardAddrLabel, 1);
+
+	newaddr->data = NULL;
+	newaddr->flags = 0;
+	
+	return newaddr;
+}
+
 void
 e_card_address_label_free (ECardAddrLabel *addr)
 {
 	if ( addr ) {
-		if ( addr->data )
-			g_free(addr->data);
+		g_free(addr->data);
+
 		g_free(addr);
 	}
 }
@@ -854,6 +929,69 @@ e_card_address_label_copy (const ECardAddrLabel *addr)
 		return addr_copy;
 	} else
 		return NULL;
+}
+
+ECardName *e_card_name_new(void)
+{
+	ECardName *newname = g_new(ECardName, 1);
+
+	newname->prefix     = NULL;
+	newname->given      = NULL;
+	newname->additional = NULL;
+	newname->family     = NULL;
+	newname->suffix     = NULL;
+
+	return newname;
+}
+
+void
+e_card_name_free(ECardName *name)
+{
+	if (name) {
+		if ( name->prefix )
+			g_free(name->prefix);
+		if ( name->given )
+			g_free(name->given);
+		if ( name->additional )
+			g_free(name->additional);
+		if ( name->family )
+			g_free(name->family);
+		if ( name->suffix )
+			g_free(name->suffix);
+		g_free ( name );
+	}
+}
+
+ECardName *
+e_card_name_copy(const ECardName *name)
+{
+	ECardName *newname = g_new(ECardName, 1);
+
+	newname->prefix = g_strdup(name->prefix);
+	newname->given = g_strdup(name->given);
+	newname->additional = g_strdup(name->additional);
+	newname->family = g_strdup(name->family);
+	newname->suffix = g_strdup(name->suffix);
+
+	return newname;
+}
+
+char *
+e_card_name_to_string(const ECardName *name)
+{
+	char *strings[6], **stringptr = strings;
+	if (name->prefix && *name->prefix)
+		*(stringptr++) = name->prefix;
+	if (name->given && *name->given)
+		*(stringptr++) = name->given;
+	if (name->additional && *name->additional)
+		*(stringptr++) = name->additional;
+	if (name->family && *name->family)
+		*(stringptr++) = name->family;
+	if (name->suffix && *name->suffix)
+		*(stringptr++) = name->suffix;
+	*stringptr = NULL;
+	return g_strjoinv(" ", strings);
 }
 
 /*
@@ -1212,18 +1350,6 @@ e_card_str_free (CardStrProperty *sp)
 	g_free (sp->str);
 
 	e_card_prop_free (sp->prop);
-}
-
-static void
-e_card_name_free (CardName *name)
-{
-	g_free (name->family);
-	g_free (name->given);
-	g_free (name->additional);
-	g_free (name->prefix);
-	g_free (name->suffix);
-
-	e_card_prop_free (name->prop);
 }
 
 static void
@@ -2686,24 +2812,6 @@ e_card_date_from_string (char *str)
 	}
 	
 	return date;
-}
-
-static void
-e_card_name_free(ECardName *name)
-{
-	if ( name ) {
-		if ( name->prefix )
-			g_free(name->prefix);
-		if ( name->given )
-			g_free(name->given);
-		if ( name->additional )
-			g_free(name->additional);
-		if ( name->family )
-			g_free(name->family);
-		if ( name->suffix )
-			g_free(name->suffix);
-		g_free ( name );
-	}
 }
 
 char *

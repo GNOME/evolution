@@ -13,6 +13,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\
+	-I$(top_srcdir)/addressbook/ename	\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"
 
@@ -20,6 +21,8 @@ noinst_LIBRARIES =				\
 	libecontacteditor.a
 
 libecontacteditor_a_SOURCES = 			\
+	e-contact-editor-fullname.c		\
+	e-contact-editor-fullname.h		\
 	e-contact-editor.c			\
 	e-contact-editor.h
 
@@ -31,6 +34,7 @@ contact_editor_test_SOURCES = 	\
 
 contact_editor_test_LDADD =					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/addressbook/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
 	$(GNOMEGNORBA_LIBS)					\
 	-lbonobo						\
@@ -41,4 +45,5 @@ contact_editor_test_LDADD =					\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 				\
-	contact-editor.glade
+	contact-editor.glade		\
+	fullname.glade

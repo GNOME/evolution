@@ -350,7 +350,7 @@ register_factory (CORBA_Object obj)
 		g_message ("pas_book_factory_activate: Exception "
 			   "registering PASBookFactory!\n");
 		CORBA_exception_free (&ev);
-		return;
+		return FALSE;
 	}
 
 	CORBA_exception_free (&ev);

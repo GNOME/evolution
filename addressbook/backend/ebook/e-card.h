@@ -64,9 +64,6 @@ struct _ECard {
 	char            *fburl;         /* Free Busy URL                    */
 
 #if 0
-	ECardOrg        *org;	        /* The person's organization.       */
-
-	char            *role;	        /* The person's role w/in his org   */
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 
 	ECardPhoto      *photo;    	/* A photo of the person.           */
@@ -78,8 +75,6 @@ struct _ECard {
 	char            *categories;    /* A list of the categories to which
 					   this card belongs.               */
 	
-	char            *comment;       /* An unstructured comment string.  */
-
 	ECardSound      *sound;
 	
 	ECardKey        *key;	        /* The person's public key.         */
@@ -88,7 +83,6 @@ struct _ECard {
 
 	char            *mailer;        /* The user's mailer.               */
 
-	char            *uid;	        /* This card's unique identifier.   */
 	ECardRev        *rev;	        /* The time this card was last
 					   modified.                        */
 
@@ -109,31 +103,25 @@ char          *e_card_get_vcard (ECard *card);
 
 ECard         *e_card_duplicate (ECard *card);
 
+ECardPhone *e_card_phone_new (void);
 void e_card_phone_free (ECardPhone *phone);
 ECardPhone *e_card_phone_copy (const ECardPhone *phone);
+
+ECardDeliveryAddress *e_card_delivery_address_new (void);
 void e_card_delivery_address_free (ECardDeliveryAddress *addr);
 ECardDeliveryAddress *e_card_delivery_address_copy (const ECardDeliveryAddress *addr);
+char *e_card_delivery_address_to_string (const ECardDeliveryAddress *addr);
+
+ECardAddrLabel *e_card_address_label_new (void);
 void e_card_address_label_free (ECardAddrLabel *addr);
 ECardAddrLabel *e_card_address_label_copy (const ECardAddrLabel *addr);
 
+ECardName *e_card_name_new (void);
+void e_card_name_free(ECardName *name);
+ECardName *e_card_name_copy (const ECardName *name);
+char *e_card_name_to_string(const ECardName *name);
 
 /* Standard Gtk function */
 GtkType        e_card_get_type (void);
-
-
-#if 0
-void          e_card_free (ECard *crd);
-void          e_card_prop_free (CardProperty prop);
-CardProperty  e_card_prop_empty (void);
-int           e_card_check_prop (CardProperty prop);
-GList        *e_card_load (GList *crdlist, char *fname);
-void          e_card_save (ECard *crd, FILE *fp);
-char         *e_card_to_vobj_string (ECard *card);
-char         *e_card_to_string (ECard *card);
-
-char *e_card_bday_str (ECardDate bday);
-char *e_card_timezn_str (ECardTimeZone timezn);
-char *e_card_geopos_str (ECardGeoPos geopos);
-#endif
 
 #endif /* ! __E_CARD_H__ */

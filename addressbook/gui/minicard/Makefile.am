@@ -50,6 +50,7 @@ minicard_test_LDADD =							\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
@@ -64,6 +65,7 @@ reflow_test_LDADD =							\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
@@ -78,5 +80,6 @@ minicard_view_test_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/addressbook/ename/libename.la			\
 	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a

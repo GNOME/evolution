@@ -113,6 +113,8 @@ struct _EContactEditor
 	ECardPhone *phone[E_CONTACT_EDITOR_PHONE_ID_LAST];
 	char *email[E_CONTACT_EDITOR_EMAIL_ID_LAST];
 	ECardAddrLabel *address[E_CONTACT_EDITOR_ADDRESS_ID_LAST];
+	
+	ECardName *name;
 
 	EContactEditorEmailId email_choice;
 	EContactEditorPhoneId phone_choice[4];

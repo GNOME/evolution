@@ -1,4 +1,3 @@
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-contact-editor.c
@@ -24,6 +23,8 @@
 #include <config.h>
 #include <gnome.h>
 #include "e-contact-editor.h"
+#include <e-name-western.h>
+#include <e-contact-editor-fullname.h>
 
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
@@ -211,9 +212,7 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 			g_free(editor->phone[editor->phone_choice[which - 1]]->number);
 		editor->phone[editor->phone_choice[which - 1]]->number = NULL;
 	} else {
-		editor->phone[editor->phone_choice[which - 1]] = g_new(ECardPhone, 1);
-		editor->phone[editor->phone_choice[which - 1]]->number = NULL;
-		editor->phone[editor->phone_choice[which - 1]]->flags = 0;
+		editor->phone[editor->phone_choice[which - 1]] = e_card_phone_new();
 	}
 	editor->phone[editor->phone_choice[which - 1]]->number = g_strdup(string);
 	set_fields(editor);
@@ -252,12 +251,38 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 			g_free(editor->address[editor->address_choice]->data);
 		editor->address[editor->address_choice]->data = NULL;
 	} else {
-		editor->address[editor->address_choice] = g_new(ECardAddrLabel, 1);
-		editor->address[editor->address_choice]->data = NULL;
-			editor->address[editor->address_choice]->flags = 0;
+		editor->address[editor->address_choice] = e_card_address_label_new();
 	}
 	editor->address[editor->address_choice]->data = g_strdup(string);
 	g_free(string);
+}
+
+static void
+name_entry_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	char *string;
+	ECardName *name;
+	GtkEntry *entry = GTK_ENTRY(widget);
+	ENameWestern *western;
+	
+	name = editor->name;
+	if (name)
+		e_card_name_free(name);
+
+	name = e_card_name_new();
+
+	string = gtk_entry_get_text(entry);
+	western = e_name_western_parse (string);
+	
+	name->prefix     = g_strdup (western->prefix);
+	name->given      = g_strdup (western->first );
+	name->additional = g_strdup (western->middle);
+	name->family     = g_strdup (western->last  );
+	name->suffix     = g_strdup (western->suffix);
+	
+	e_name_western_free(western);
+	
+	editor->name = name;
 }
 
 static void
@@ -282,6 +307,32 @@ set_entry_changed_signals(EContactEditor *editor)
 	widget = glade_xml_get_widget(editor->gui, "text-address");
 	gtk_signal_connect(GTK_OBJECT(widget), "changed",
 			   address_text_changed, editor);
+	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
+	gtk_signal_connect(GTK_OBJECT(widget), "changed",
+			   name_entry_changed, editor);
+}
+
+static void
+full_name_clicked(GtkWidget *button, EContactEditor *editor)
+{
+	GnomeDialog *dialog = GNOME_DIALOG(e_contact_editor_fullname_new(editor->name));
+	int result;
+	gtk_widget_show(GTK_WIDGET(dialog));
+	gnome_dialog_close_hides (dialog, TRUE);
+	result = gnome_dialog_run_and_close (dialog);
+	if (result == 0) {
+		ECardName *name;
+		char *full_name;
+		gtk_object_get(GTK_OBJECT(dialog),
+			       "name", &name,
+			       NULL);
+		full_name = e_card_name_to_string(name);
+		gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-fullname")), full_name);
+		g_free(full_name);
+		e_card_name_free(editor->name);
+		editor->name = e_card_name_copy(name);
+	}
+	gtk_object_unref(GTK_OBJECT(dialog));
 }
 
 static void
@@ -302,6 +353,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	_replace_buttons(e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
+	gtk_signal_connect(GTK_OBJECT(glade_xml_get_widget(e_contact_editor->gui, "button-fullname")), "clicked",
+			   full_name_clicked, e_contact_editor);
+
 	gtk_object_get(GTK_OBJECT(glade_xml_get_widget(gui, "text-comments")),
 		       "vadjustment", &adjustment,
 		       NULL);
@@ -317,6 +371,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->email_list = NULL;
 	e_contact_editor->phone_list = NULL;
 	e_contact_editor->address_list = NULL;
+	e_contact_editor->name = NULL;
 	
 	for (i = 0; i < E_CONTACT_EDITOR_PHONE_ID_LAST; i++) {
 		e_contact_editor->phone[i] = NULL;
@@ -784,6 +839,7 @@ fill_in_info(EContactEditor *editor)
 	if (card) {
 		char *file_as;
 		char *fname;
+		ECardName *name;
 		ECardList *address_list;
 		ECardList *phone_list;
 		ECardList *email_list;
@@ -811,6 +867,7 @@ fill_in_info(EContactEditor *editor)
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "file_as",       &file_as,
+			       "name",          &name,
 			       "full_name",     &fname,
 			       "address_label", &address_list,
 			       "phone",         &phone_list,
@@ -836,6 +893,8 @@ fill_in_info(EContactEditor *editor)
 		gtk_editable_delete_text(editable, 0, -1);
 		if (fname)
 			gtk_editable_insert_text(editable, fname, strlen(fname), &position);
+
+		
 
 		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-file-as"));

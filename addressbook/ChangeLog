@@ -1,3 +1,29 @@
+2000-04-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added
+	e_card_phone_new e_card_delivery_address_new,
+	e_card_delivery_address_to_string, e_card_name_copy,
+	e_card_name_new, e_card_name_to_string, and made e_card_name_free
+	public.  Removed some unused code.
+
+	* backend/pas/pas-backend-file.c: Fixed a warning.
+
+	* contact-editor/Makefile.am: Added e-contact-editor-fullname.[ch]
+	and fullname.glade.  Added e-name libs and includes.
+
+	* contact-editor/e-contact-editor-fullname.c,
+	contact-editor/e-contact-editor-fullname.h,
+	contact-editor/fullname-strings.h, contact-editor/fullname.glade:
+	New dialog for editing the fields of a name separately.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Create an
+	EContactEditorFullname when you click on the Full Name button.
+	Maintain a parsed name at all times.
+
+	* gui/component/Makefile.am, gui/minicard/Makefile.am: Added
+	e-name libs.
+
 2000-04-28  Larry Ewing  <lewing@helixcode.com>
 
 	* backend/pas/pas-book-factory.c (register_factory): fix the
