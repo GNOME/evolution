@@ -1,3 +1,8 @@
+2004-02-19  Rodney Dawes  <dobey@ximian.com>
+
+	* em-folder-tree.c (emft_save_state): Don't set the timeout id to 0
+	and then immediately return FALSE, which tries to remove the timeout
+
 2004-02-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (get_receive_type): 
