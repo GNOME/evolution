@@ -1238,69 +1238,65 @@ folder_name_to_string (EMsgComposerHdrs *hdrs, const char *uri)
 void
 e_msg_composer_hdrs_set_post_to_list (EMsgComposerHdrs *hdrs, GList *urls)
 {
-	/* compile the name */
-	char *caption, *tmp, *tmp2;
+	GString *caption;
+	char *tmp;
 	gboolean post_custom;
 	
 	if (hdrs->priv->post_to.entry == NULL)
 		return;
-	
-	caption = g_strdup ("");
-	
+
+	caption = g_string_new("");
 	while (urls) {
-		tmp = folder_name_to_string (hdrs, (char *)urls->data);
+		tmp = folder_name_to_string(hdrs, (char *)urls->data);
 		if (tmp) {
-			tmp2 = g_strconcat (caption, ", ", tmp, NULL);
-			g_free (caption);
-			caption = tmp2;
-			g_free (tmp);
+			if (caption->len)
+				g_string_append(caption, ", ");
+			g_string_append(caption, tmp);
 		}
 		
 		urls = g_list_next (urls);
 	}
 	
 	post_custom = hdrs->priv->post_custom;
-	gtk_entry_set_text (GTK_ENTRY (hdrs->priv->post_to.entry), caption[0] ? caption + 2 : "");
+	gtk_entry_set_text(GTK_ENTRY(hdrs->priv->post_to.entry), caption->str);
 	hdrs->priv->post_custom = post_custom;
-	g_free (caption);
+
+	g_string_free(caption, TRUE);
 }
 
 void
-e_msg_composer_hdrs_set_post_to_base (EMsgComposerHdrs *hdrs,
-                                      const char *base, const char *post_to)
+e_msg_composer_hdrs_set_post_to_base (EMsgComposerHdrs *hdrs, const char *base, const char *post_to)
 {
 	GList *lst, *curlist;
-	char *hdr_copy = g_strdup (post_to), *caption, *tmp, *tmp2;
+	char *tmp, *tmp2;
 	gboolean post_custom;
+	GString *caption;
 	
 	/* split to newsgroup names */
-	lst = newsgroups_list_split (hdr_copy);
+	lst = newsgroups_list_split(post_to);
 	curlist = lst;
 	
-	/* compile the name */
-	caption = g_strdup ("");
-	
+	caption = g_string_new("");
 	while (curlist) {
+		/* FIXME: this doens't handle all folder names properly */
 		tmp2 = g_strdup_printf ("%s/%s", base, (char *)curlist->data);
 		tmp = folder_name_to_string (hdrs, tmp2);
 		g_free (tmp2);
 		if (tmp) {
-			tmp2 = g_strconcat (caption, ", ", tmp, NULL);
-			g_free (caption);
-			caption = tmp2;
-			g_free (tmp);
+			if (caption->len)
+				g_string_append(caption, ", ");
+			g_string_append(caption, tmp);
 		}
-		curlist = g_list_next (curlist);
+		curlist = g_list_next(curlist);
 	}
 	
 	post_custom = hdrs->priv->post_custom;
-	gtk_entry_set_text (GTK_ENTRY (hdrs->priv->post_to.entry), caption[0] ? caption + 2 : "");
+	gtk_entry_set_text(GTK_ENTRY(hdrs->priv->post_to.entry), caption->str);
 	hdrs->priv->post_custom = post_custom;
-	g_free (caption);
-	
-        g_list_foreach (lst, (GFunc) g_free, NULL);
-	g_list_free (lst);
-	g_free (hdr_copy);
+
+	g_string_free(caption, TRUE);
+        g_list_foreach(lst, (GFunc)g_free, NULL);
+	g_list_free(lst);
 }
 
 void
@@ -1472,7 +1468,8 @@ e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 	
 	cur = uris;
 	while (cur) {
-		if (strstr ((char *) cur->data, "://") == NULL) {
+		/* FIXME: this is a bit of a hack, should use camelurl's etc */
+		if (strstr ((char *) cur->data, ":/") == NULL) {
 			/* relative folder name: convert to absolute */
 			if (!storeurl)
 				storeurl = get_account_store_url (hdrs);

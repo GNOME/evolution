@@ -1,3 +1,20 @@
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_type): reverted
+	radek's patch below, it was already fixed (#53176).  Changed the
+	init order though, set_editor_signature only sets the current one,
+	it doen'st insert it.
+
+	** See bug #53506.
+	
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_post_to_list):
+	use a GString to build the result.
+	(e_msg_composer_hdrs_set_post_to_base): same here.
+	(e_msg_composer_hdrs_set_post_to_base): dont bother copying the
+	post_to string.
+	(e_msg_composer_hdrs_get_post_to): change the relative-url test to
+	":/" rather than "://", so that mbox url's work.
+
 2004-01-27  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_type): set body text
