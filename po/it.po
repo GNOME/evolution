@@ -11880,7 +11880,7 @@ msgid ""
 msgstr ""
 "Si sta spedendo un messaggio formattato in HTML. Verificare che\n"
 "i seguenti destinatari vogliano e possano ricevere posta in HTML:\n"
-"%sSpedire comunque?\n"
+"%sSpedire comunque?"
 
 #: mail/em-composer-utils.c:137
 msgid ""
