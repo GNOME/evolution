@@ -769,6 +769,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		gtk_widget_show (dialog);
 	}
+
+	/* Everything should be ready now */
+	evolution_folder_info_notify_ready ();
 }
 
 static void

@@ -1,3 +1,18 @@
+2002-05-08  Iain Holmes <iain@ximian.com>
+
+	* component-factory.c (owner_set_cb): Tell the folder info listeners 
+	that they're ready.
+
+	* folder-info.c: Add a property bag to the CORBAObject.
+	(do_get_info): Remove a load of cruft. Add some error checks.
+	(do_free_info): Unref the listener.
+	(destroy): Unref the propertybag.
+	(set_prop): Set the property.
+	(get_prop): Get the property.
+	(evolution_folder_info_factory_fn): Create a propertybag.
+	(evolution_folder_info_notify_ready): Notify all the listeners that
+	the folder info is ready for querying.
+
 2002-05-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-autofilter.c (mail_filter_rename_uri): Changed for
