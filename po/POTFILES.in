@@ -65,7 +65,6 @@ addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
 addressbook/tools/evolution-addressbook-import.c
-addressbook/util/e-destination.c
 calendar/calendar-errors.xml.h
 calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
@@ -350,7 +349,7 @@ shell/evolution-test-component.c
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
-shell/shell-errors.xml.h
+shell/shell-errors.xml.in
 smime/gui/ca-trust-dialog.c
 smime/gui/cert-trust-dialog.c
 smime/gui/certificate-manager.c
