@@ -1,3 +1,8 @@
+2002-03-01  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (write_html): if this is a reply, print the
+	attendee status
+
 2002-02-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* calendar/gui/e-itip-control.c (e_itip_control_set_data): added the

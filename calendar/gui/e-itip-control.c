@@ -757,6 +757,40 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_stream_printf (html_stream, "<b>%s</b> %s<br><br>",
 				U_("Summary:"), text.value ? text.value : U_("<i>None</i>"));
 
+	/* Status */
+	if (priv->method == ICAL_METHOD_REPLY) {
+		GSList *alist;
+
+		cal_component_get_attendee_list (priv->comp, &alist);
+		
+		if (alist != NULL) {
+			CalComponentAttendee *a = alist->data;
+
+			gtk_html_stream_printf (html_stream, "<b>%s</b> ",
+						U_("Status:"));
+			
+			switch (a->status) {
+			case ICAL_PARTSTAT_ACCEPTED:
+				gtk_html_stream_printf (html_stream, "%s<br><br>",
+							U_("Accepted"));
+				break;
+			case ICAL_PARTSTAT_TENTATIVE:
+				gtk_html_stream_printf (html_stream, "%s<br><br>",
+							U_("Tentatively Accepted"));
+				break;
+			case ICAL_PARTSTAT_DECLINED:
+				gtk_html_stream_printf (html_stream, "%s<br><br>",
+							U_("Declined"));
+				break;
+			default:
+				gtk_html_stream_printf (html_stream, "%s<br><br>",
+							U_("Unknown"));
+			}
+		}
+		
+		cal_component_free_attendee_list (alist);
+	}
+	
 	/* Description */
 	cal_component_get_description_list (priv->comp, &l);
 	if (l)
