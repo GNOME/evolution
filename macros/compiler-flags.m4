@@ -15,7 +15,7 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
       esac
 
       if test "x$enable_compile_warnings" = "xyes"; then
-	warnCFLAGS="$warnCFLAGS -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
+	warnCFLAGS="$warnCFLAGS -W -Wno-unused -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
       fi
     fi
   fi
