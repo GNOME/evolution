@@ -51,6 +51,7 @@
 #include "camel/camel-mime-filter-bestenc.h"
 #include "camel/camel-mime-part.h"
 
+#include "e-util/e-gui-utils.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -203,66 +204,6 @@ remove_attachment (EMsgComposerAttachmentBar *bar,
 
 /* Icon list contents handling.  */
 
-static GdkPixbuf *
-pixbuf_for_mime_type (const char *mime_type)
-{
-	const char *icon_name;
-	char *filename = NULL;
-	GdkPixbuf *pixbuf;
-
-	/* Special-case these two since GNOME VFS doesn't know about them and
-	   they are used every time the user forwards one or more messages
-	   inline.  (See #9786.)  */
-	if (strcmp (mime_type, "message/digest") == 0
-	    || strcmp (mime_type, "multipart/digest") == 0
-	    || strcmp (mime_type, "message/rfc822") == 0) {
-		char *name;
-		
-		name = g_build_filename (EVOLUTION_IMAGESDIR, "mail.png", NULL);
-		pixbuf = gdk_pixbuf_new_from_file (name, NULL);
-		g_free (name);
-		
-		if (pixbuf != NULL)
-			return pixbuf;
-	}
-	
-	icon_name = gnome_vfs_mime_get_icon (mime_type);
-	if (icon_name) {
-		if (*icon_name == '/') {
-			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
-			if (pixbuf)
-				return pixbuf;
-		}
-		
-		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, icon_name, TRUE, NULL);
-		if (!filename) {
-			char *fm_icon;
-			
-			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
-			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
-			if (!filename) {
-				g_free (fm_icon);
-				fm_icon = g_strdup_printf ("mc/%s", icon_name);
-				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
-			}
-			g_free (fm_icon);
-		}
-	}
-	
-	if (filename && (pixbuf = gdk_pixbuf_new_from_file (filename, NULL))) {
-		g_free (filename);
-		return pixbuf;
-	}
-	
-	g_free (filename);
-	filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, "gnome-unknown.png", TRUE, NULL);
-	
-	pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-	g_free (filename);
-	
-	return pixbuf;
-}
-
 static void
 update (EMsgComposerAttachmentBar *bar)
 {
@@ -384,7 +325,7 @@ update (EMsgComposerAttachmentBar *bar)
 			char *mime_type;
 			
 			mime_type = header_content_type_simple (content_type);
-			pixbuf = pixbuf_for_mime_type (mime_type);
+			pixbuf = e_icon_for_mime_type (mime_type, 48);
 			g_free (mime_type);
 			gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, label);
 			if (pixbuf)
