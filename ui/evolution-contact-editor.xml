@@ -24,14 +24,15 @@
 
 		<cmd name="ContactEditorSaveClose"
 		 _tip="Save the contact and close the dialog box"
-		 pixtype="stock" pixname="Save"/>
+		 pixtype="pixbuf"/>
 	</commands>
 
 	<menu>
 
 		<submenu name="File" _label="_File">
 
-		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>
+		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>                    <menuitem name="ContactEditorSaveClose" verb="" _label="Save and Close"/>
+
 		        <menuitem name="ContactEditorSaveAs" verb="" _label="Save _As..."/>
 
 			<separator/>
@@ -71,11 +72,11 @@
 
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
 			hlook="text" vlook="icon">
-	        <toolitem name="ContactEditorSave" verb=""
-		_label="Save" priority="1" pixtype="pixbuf"/>
+
+	        <toolitem name="ContactEditorSaveClose" verb=""
+		_label="Save and Close" priority="1"  pixtype="pixbuf"/>
 
 		<separator/>
-
 		<toolitem name="ContactEditorPrint" verb=""
 		_label="Print" priority="1" pixtype="pixbuf"/>
 
@@ -90,3 +91,6 @@
 	</dockitem>
 
 </Root>
+
+
+

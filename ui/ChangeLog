@@ -1,3 +1,7 @@
+2001-09-06  Anna Marie Dirks  <anna@ximian.com> 
+
+	* evolution-contact-editor.xml: Changed "Save" to "Save and Close"
+	
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #5503, Edit menu is empty and should be removed.]
@@ -24,6 +28,7 @@
 	Ctrl-Shift-Y so we are more like O* and don't get in the way of
 	the Ctrl-Shift-C for "New Contact".
 
+>>>>>>> 1.245
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-global.xml: Add an F9 accelerator for the
@@ -38,6 +43,7 @@
 	* evolution-mail-message.xml: Add a pixtype to 
 	/Commands/MessageUndelete so that people can see the icon.
 
+>>>>>>> 1.242
 2001-08-23  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-mail-message.xml: added ... to Search Message to
@@ -65,6 +71,7 @@
 
 	* evolution-comp-editor.xml: remove print preview from toolbar
 
+>>>>>>> 1.239
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: remove print setup option for
