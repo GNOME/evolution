@@ -250,6 +250,7 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	
 	/* preserve the pathname */
 	dir = g_path_get_dirname (gtk_file_selection_get_filename (file_select));
+	gconf = gconf_client_get_default ();
 	gconf_client_set_string (gconf, "/apps/evolution/mail/save_dir", dir, NULL);
 	g_free (dir);
 	
