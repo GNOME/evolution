@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-06-08 09:12+0200\n"
-"PO-Revision-Date: 2001-06-08 12:05+02:00\n"
+"POT-Creation-Date: 2001-06-12 11:12+0200\n"
+"PO-Revision-Date: 2001-06-12 11:53+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -417,7 +417,7 @@ msgid "Phone Types"
 msgstr "Telefon típusok"
 
 #: addressbook/contact-editor/contact-editor.glade.h:14
-#: addressbook/contact-editor/e-contact-editor.c:1284
+#: addressbook/contact-editor/e-contact-editor.c:1283
 msgid "Primary Email"
 msgstr "Elsõdleges email"
 
@@ -510,101 +510,101 @@ msgstr "Ez a _levelezési cím"
 msgid "This contact belongs to these categories:"
 msgstr "Ez a névjegy az alábbi kategóriákhoz tartozik:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1242
-#: addressbook/gui/widgets/e-addressbook-view.c:827
+#: addressbook/contact-editor/e-contact-editor.c:1241
+#: addressbook/gui/widgets/e-addressbook-view.c:732
 msgid "Assistant"
 msgstr "Asszisztens"
 
-#: addressbook/contact-editor/e-contact-editor.c:1243
-#: addressbook/contact-editor/e-contact-editor.c:1310
+#: addressbook/contact-editor/e-contact-editor.c:1242
+#: addressbook/contact-editor/e-contact-editor.c:1309
 msgid "Business"
 msgstr "Üzleti"
 
-#: addressbook/contact-editor/e-contact-editor.c:1244
+#: addressbook/contact-editor/e-contact-editor.c:1243
 msgid "Business 2"
 msgstr "2. Üzleti"
 
-#: addressbook/contact-editor/e-contact-editor.c:1245
-#: addressbook/gui/widgets/e-addressbook-view.c:807
+#: addressbook/contact-editor/e-contact-editor.c:1244
+#: addressbook/gui/widgets/e-addressbook-view.c:712
 msgid "Business Fax"
 msgstr "Üzleti fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1246
+#: addressbook/contact-editor/e-contact-editor.c:1245
 msgid "Callback"
 msgstr "Visszahívás"
 
-#: addressbook/contact-editor/e-contact-editor.c:1247
+#: addressbook/contact-editor/e-contact-editor.c:1246
 msgid "Car"
 msgstr "Autó"
 
-#: addressbook/contact-editor/e-contact-editor.c:1248
+#: addressbook/contact-editor/e-contact-editor.c:1247
 msgid "Company"
 msgstr "Vállalat"
 
-#: addressbook/contact-editor/e-contact-editor.c:1249
-#: addressbook/contact-editor/e-contact-editor.c:1311
+#: addressbook/contact-editor/e-contact-editor.c:1248
+#: addressbook/contact-editor/e-contact-editor.c:1310
 msgid "Home"
 msgstr "Otthoni"
 
-#: addressbook/contact-editor/e-contact-editor.c:1250
+#: addressbook/contact-editor/e-contact-editor.c:1249
 msgid "Home 2"
 msgstr "2. Otthoni"
 
-#: addressbook/contact-editor/e-contact-editor.c:1251
-#: addressbook/gui/widgets/e-addressbook-view.c:808
+#: addressbook/contact-editor/e-contact-editor.c:1250
+#: addressbook/gui/widgets/e-addressbook-view.c:713
 msgid "Home Fax"
 msgstr "Otthoni fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1252
-#: addressbook/gui/widgets/e-addressbook-view.c:811
+#: addressbook/contact-editor/e-contact-editor.c:1251
+#: addressbook/gui/widgets/e-addressbook-view.c:716
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1253
+#: addressbook/contact-editor/e-contact-editor.c:1252
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1254
-#: addressbook/contact-editor/e-contact-editor.c:1312
+#: addressbook/contact-editor/e-contact-editor.c:1253
+#: addressbook/contact-editor/e-contact-editor.c:1311
 #: mail/mail-config.glade.h:55
 msgid "Other"
 msgstr "Más"
 
-#: addressbook/contact-editor/e-contact-editor.c:1255
-#: addressbook/gui/widgets/e-addressbook-view.c:813
+#: addressbook/contact-editor/e-contact-editor.c:1254
+#: addressbook/gui/widgets/e-addressbook-view.c:718
 msgid "Other Fax"
 msgstr "Egyéb fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1256
-#: addressbook/gui/widgets/e-addressbook-view.c:814
+#: addressbook/contact-editor/e-contact-editor.c:1255
+#: addressbook/gui/widgets/e-addressbook-view.c:719
 msgid "Pager"
 msgstr "Személyhívó"
 
-#: addressbook/contact-editor/e-contact-editor.c:1257
+#: addressbook/contact-editor/e-contact-editor.c:1256
 msgid "Primary"
 msgstr "Elsõdleges"
 
-#: addressbook/contact-editor/e-contact-editor.c:1258
-#: addressbook/gui/widgets/e-addressbook-view.c:815
+#: addressbook/contact-editor/e-contact-editor.c:1257
+#: addressbook/gui/widgets/e-addressbook-view.c:720
 msgid "Radio"
 msgstr "Rádió"
 
-#: addressbook/contact-editor/e-contact-editor.c:1259
-#: addressbook/gui/widgets/e-addressbook-view.c:816
+#: addressbook/contact-editor/e-contact-editor.c:1258
+#: addressbook/gui/widgets/e-addressbook-view.c:721
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/contact-editor/e-contact-editor.c:1260
+#: addressbook/contact-editor/e-contact-editor.c:1259
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/contact-editor/e-contact-editor.c:1285
-#: addressbook/gui/widgets/e-addressbook-view.c:819
+#: addressbook/contact-editor/e-contact-editor.c:1284
+#: addressbook/gui/widgets/e-addressbook-view.c:724
 msgid "Email 2"
 msgstr "2. email"
 
-#: addressbook/contact-editor/e-contact-editor.c:1286
-#: addressbook/gui/widgets/e-addressbook-view.c:820
+#: addressbook/contact-editor/e-contact-editor.c:1285
+#: addressbook/gui/widgets/e-addressbook-view.c:725
 msgid "Email 3"
 msgstr "3. email"
 
@@ -612,20 +612,20 @@ msgstr "3. email"
 msgid "Delete Contact?"
 msgstr "Névjegy törlése?"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:233
+#: addressbook/contact-editor/e-contact-quick-add.c:234
 msgid "Contact Quick-Add"
 msgstr "Gyors névjegyhozzáadás"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:235
+#: addressbook/contact-editor/e-contact-quick-add.c:236
 msgid "Edit Full"
 msgstr "Részletes szerkesztés"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:276
-#: addressbook/gui/widgets/e-addressbook-view.c:794
+#: addressbook/contact-editor/e-contact-quick-add.c:277
+#: addressbook/gui/widgets/e-addressbook-view.c:699
 msgid "Full Name"
 msgstr "Teljes név"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:282
+#: addressbook/contact-editor/e-contact-quick-add.c:283
 msgid "E-mail"
 msgstr "Email"
 
@@ -741,16 +741,16 @@ msgstr "M_egkülönböztetõ név"
 msgid "_Title:"
 msgstr "_Megszólítás:"
 
-#: addressbook/gui/component/addressbook.c:413
+#: addressbook/gui/component/addressbook.c:341
 #, c-format
 msgid "Enter password for %s"
 msgstr "Írd be %s jelszavát"
 
-#: addressbook/gui/component/addressbook.c:441
+#: addressbook/gui/component/addressbook.c:369
 msgid "Unable to open addressbook"
 msgstr "Nem sikerült megnyitni a címjegyzéket"
 
-#: addressbook/gui/component/addressbook.c:448
+#: addressbook/gui/component/addressbook.c:376
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -760,7 +760,7 @@ msgstr ""
 "jelenti, hogy helytelen URI-t adtál meg, vagy az LDAP\n"
 "kiszolgáló nem mûködik."
 
-#: addressbook/gui/component/addressbook.c:453
+#: addressbook/gui/component/addressbook.c:381
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -772,7 +772,7 @@ msgstr ""
 "a CVS forrásból kell lefordítanod a programot, miután letöltötted\n"
 "az OpenLDAP-t az alábbi helyrõl.\n"
 
-#: addressbook/gui/component/addressbook.c:461
+#: addressbook/gui/component/addressbook.c:389
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -780,19 +780,19 @@ msgstr ""
 "Nem sikerült megnyitni a címjegyzéket. Ellenõrizd, hogy az útvonal\n"
 "létezik-e és van-e jogod az eléréséhez."
 
-#: addressbook/gui/component/addressbook.c:621 calendar/gui/gnome-cal.c:233
+#: addressbook/gui/component/addressbook.c:549 calendar/gui/gnome-cal.c:233
 msgid "Any field contains"
 msgstr "Bármely mezõ tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:622
+#: addressbook/gui/component/addressbook.c:550
 msgid "Name contains"
 msgstr "A név tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:623
+#: addressbook/gui/component/addressbook.c:551
 msgid "Email contains"
 msgstr "Az emailcím tartalmazza"
 
-#: addressbook/gui/component/addressbook.c:769
+#: addressbook/gui/component/addressbook.c:697
 msgid "The URI that the Folder Browser will display"
 msgstr "Az URI amit a Mappaböngészõ meg fog nyitni"
 
@@ -943,7 +943,7 @@ msgstr "Címjegyzék forrásai"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:235
-#: addressbook/gui/widgets/e-addressbook-view.c:698
+#: addressbook/gui/widgets/e-addressbook-view.c:603
 #: calendar/gui/dialogs/alarm-page.glade.h:4
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 #: calendar/gui/e-meeting-dialog.glade.h:8 filter/filter.glade.h:2
@@ -1073,6 +1073,51 @@ msgstr "Válassz neveket"
 msgid "Select name from:"
 msgstr "Válassz egy nevet innen:"
 
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
+msgid "Add Anyway"
+msgstr "Hozzáadás végrehajtása"
+
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
+msgid "Duplicate Contact Detected"
+msgstr "Többször elõforduló névjegyek"
+
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
+msgid "New Contact:"
+msgstr "Új névjegy:"
+
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
+msgid "Original Contact:"
+msgstr "Eredeti névjegy:"
+
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
+msgid ""
+"The name or email address of this contact already exists\n"
+"in this folder.  Would you like to add it anyway?"
+msgstr ""
+"Ilyen név vagy emailcím már van a címjegyzékben.\n"
+"Mindenképpen hozzáadod?"
+
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
+msgid "Change Anyway"
+msgstr "Változtatás végrehajtása"
+
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
+msgid "Changed Contact:"
+msgstr "Megváltozott névjegy:"
+
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
+msgid "Conflicting Contact:"
+msgstr "Ellentmondó névjegy:"
+
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:5
+msgid ""
+"The changed email or name of this contact already\n"
+"exists in this folder.  Would you like to add it anyway?"
+msgstr ""
+"A megváltoztatott név vagy emailcím már szerepel a\n"
+"címjegyzékben. Mindenképpen hozzáadod?"
+
 #: addressbook/gui/search/e-addressbook-search-dialog.c:158
 #: mail/mail-search.c:242
 msgid "Search"
@@ -1186,210 +1231,172 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:477
-msgid "Error adding card"
-msgstr "Hiba a kártya hozzáadásakor"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:486
-msgid "Error modifying card"
-msgstr "Hiba a kártya módosításakor"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:495
-#: addressbook/gui/widgets/e-addressbook-view.c:1177
-msgid "Error removing card"
-msgstr "Hiba a kártya törlésekor"
-
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:135
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:230
-#: addressbook/gui/widgets/e-addressbook-view.c:633
-#: addressbook/gui/widgets/e-addressbook-view.c:693
+#: addressbook/gui/widgets/e-addressbook-view.c:538
+#: addressbook/gui/widgets/e-addressbook-view.c:598
 msgid "Save as VCard"
 msgstr "Mentés VCard-ként"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:231
-#: addressbook/gui/widgets/e-addressbook-view.c:694
+#: addressbook/gui/widgets/e-addressbook-view.c:599
 msgid "Send contact to other"
 msgstr "A névjegy elküldése valakinek"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:232
-#: addressbook/gui/widgets/e-addressbook-view.c:695
+#: addressbook/gui/widgets/e-addressbook-view.c:600
 msgid "Send message to contact"
 msgstr "Levél küldése ennek a személynek"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:233
-#: addressbook/gui/widgets/e-addressbook-view.c:696 mail/message-browser.c:208
+#: addressbook/gui/widgets/e-addressbook-view.c:601 mail/message-browser.c:208
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-calendar.xml.h:23
 #: ui/evolution-mail.xml.h:70 ui/evolution-tasks.xml.h:6
 msgid "Print"
 msgstr "Nyomtatás"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:234
-#: addressbook/gui/widgets/e-addressbook-view.c:697
+#: addressbook/gui/widgets/e-addressbook-view.c:602
 msgid "Print Envelope"
 msgstr "Boríték nyomtatása"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:792
+#: addressbook/gui/widgets/e-addressbook-view.c:697
 msgid "* Click here to add a contact *"
 msgstr "* Kattints ide névjegy hozzáadásához *"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:793
+#: addressbook/gui/widgets/e-addressbook-view.c:698
 msgid "File As"
 msgstr "Tárolás mint"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:795
+#: addressbook/gui/widgets/e-addressbook-view.c:700
 msgid "Email"
 msgstr "Email"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:796
+#: addressbook/gui/widgets/e-addressbook-view.c:701
 msgid "Primary Phone"
 msgstr "Elsõdleges telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:797
+#: addressbook/gui/widgets/e-addressbook-view.c:702
 msgid "Assistant Phone"
 msgstr "Asszisztens telefonja"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:798
+#: addressbook/gui/widgets/e-addressbook-view.c:703
 msgid "Business Phone"
 msgstr "Munkahelyi telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:799
+#: addressbook/gui/widgets/e-addressbook-view.c:704
 msgid "Callback Phone"
 msgstr "Visszahívó telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:800
+#: addressbook/gui/widgets/e-addressbook-view.c:705
 msgid "Company Phone"
 msgstr "Céges telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:801
+#: addressbook/gui/widgets/e-addressbook-view.c:706
 msgid "Home Phone"
 msgstr "Otthoni telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:802
+#: addressbook/gui/widgets/e-addressbook-view.c:707
 msgid "Organization"
 msgstr "Szervezet"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:803
+#: addressbook/gui/widgets/e-addressbook-view.c:708
 msgid "Business Address"
 msgstr "Munkahelyi cím"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:804
+#: addressbook/gui/widgets/e-addressbook-view.c:709
 msgid "Home Address"
 msgstr "Otthoni cím"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:805
+#: addressbook/gui/widgets/e-addressbook-view.c:710
 msgid "Mobile Phone"
 msgstr "Mobiltelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:806
+#: addressbook/gui/widgets/e-addressbook-view.c:711
 msgid "Car Phone"
 msgstr "Autótelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:809
+#: addressbook/gui/widgets/e-addressbook-view.c:714
 msgid "Business Phone 2"
 msgstr "2. munkahelyi telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:810
+#: addressbook/gui/widgets/e-addressbook-view.c:715
 msgid "Home Phone 2"
 msgstr "2. otthoni telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:812
+#: addressbook/gui/widgets/e-addressbook-view.c:717
 msgid "Other Phone"
 msgstr "Egyéb telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:817
+#: addressbook/gui/widgets/e-addressbook-view.c:722
 msgid "TTY"
 msgstr "TTY"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:818
+#: addressbook/gui/widgets/e-addressbook-view.c:723
 msgid "Other Address"
 msgstr "Egyéb cím"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:821
+#: addressbook/gui/widgets/e-addressbook-view.c:726
 msgid "Web Site"
 msgstr "Webhely"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:822
+#: addressbook/gui/widgets/e-addressbook-view.c:727
 msgid "Department"
 msgstr "Osztály"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:823
+#: addressbook/gui/widgets/e-addressbook-view.c:728
 msgid "Office"
 msgstr "Hivatal"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:824
+#: addressbook/gui/widgets/e-addressbook-view.c:729
 msgid "Title"
 msgstr "Beosztás"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:825
+#: addressbook/gui/widgets/e-addressbook-view.c:730
 msgid "Profession"
 msgstr "Foglalkozás"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:826
+#: addressbook/gui/widgets/e-addressbook-view.c:731
 msgid "Manager"
 msgstr "Fõnök"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:828
+#: addressbook/gui/widgets/e-addressbook-view.c:733
 msgid "Nickname"
 msgstr "Becenév"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:829
+#: addressbook/gui/widgets/e-addressbook-view.c:734
 msgid "Spouse"
 msgstr "Házastárs"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:830
+#: addressbook/gui/widgets/e-addressbook-view.c:735
 msgid "Note"
 msgstr "Megjegyzés"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:831
+#: addressbook/gui/widgets/e-addressbook-view.c:736
 msgid "Free-busy URL"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1174
+#: addressbook/gui/widgets/e-addressbook-view.c:1079
 msgid "Done."
 msgstr "Kész."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1206
+#: addressbook/gui/widgets/e-addressbook-view.c:1082
+msgid "Error removing card"
+msgstr "Hiba a kártya törlésekor"
+
+#: addressbook/gui/widgets/e-addressbook-view.c:1111
 msgid "Removing cards..."
 msgstr "Kártyák eltávolítása..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1223
-msgid "Success"
-msgstr "Sikerült"
+#: addressbook/gui/widgets/e-minicard.c:436
+msgid "Error modifying card"
+msgstr "Hiba a kártya módosításakor"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1224
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:481
-msgid "Unknown error"
-msgstr "Ismeretlen hiba"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1225
-msgid "Repository offline"
-msgstr "Kapcsolat nélküli tároló"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1226 shell/e-storage.c:475
-msgid "Permission denied"
-msgstr "Jogosultsági hiba"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1227
-msgid "Card not found"
-msgstr "A kártya nem található"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1228
-msgid "Protocol not supported"
-msgstr "A protokoll nem támogatott"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1229
-msgid "Canceled"
-msgstr "Megszakítva"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:1230
-msgid "Other error"
-msgstr "Egyéb hiba"
-
-#: addressbook/gui/widgets/e-minicard-control.c:282
+#: addressbook/gui/widgets/e-minicard-control.c:283
 msgid "Save in addressbook"
 msgstr "Mentés a címjegyzékbe"
 
-#: addressbook/gui/widgets/e-minicard-view.c:216
+#: addressbook/gui/widgets/e-minicard-view.c:151
 msgid ""
 "\n"
 "\n"
@@ -1769,7 +1776,7 @@ msgstr ""
 #: calendar/gui/calendar-model.c:1174 calendar/gui/e-calendar-table.c:322
 #: calendar/gui/e-calendar-table.c:397 mail/mail-account-gui.c:997
 #: mail/mail-accounts.c:123 mail/mail-accounts.c:174
-#: mail/mail-config.glade.h:52 shell/e-shell-view.c:1372
+#: mail/mail-config.glade.h:52 shell/e-shell-view.c:1394
 #: widgets/misc/e-cell-date-edit.c:237 widgets/misc/e-dateedit.c:432
 #: widgets/misc/e-dateedit.c:1341 widgets/misc/e-dateedit.c:1456
 msgid "None"
@@ -3222,7 +3229,7 @@ msgstr "Ezév (%Y)"
 msgid "Print Calendar"
 msgstr "Naptár nyomtatása"
 
-#: calendar/gui/print.c:2299 mail/mail-callbacks.c:1486
+#: calendar/gui/print.c:2299 mail/mail-callbacks.c:1487
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:24
 msgid "Print Preview"
 msgstr "Nyomtatási kép"
@@ -3682,18 +3689,18 @@ msgid ""
 msgstr ""
 
 #: camel/camel-sasl-anonymous.c:131
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid opaque trace information:\n"
 "%s"
-msgstr "Fájl betöltési hiba: %s"
+msgstr ""
 
 #: camel/camel-sasl-anonymous.c:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid trace information:\n"
 "%s"
-msgstr "Fájl betöltési hiba: %s"
+msgstr ""
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -3823,7 +3830,9 @@ msgstr "Virtuális mappa email szolgáltató"
 
 #: camel/camel-session.c:70
 msgid "For reading mail as a query of another set of folders"
-msgstr "A leveleket más mappákon futtatott lekérdezés eredményétõl függõen csoportosíthatod."
+msgstr ""
+"A leveleket más mappákon futtatott lekérdezés eredményétõl függõen "
+"csoportosíthatod."
 
 #: camel/camel-session.c:295 camel/camel-session.c:364
 #, c-format
@@ -3846,23 +3855,23 @@ msgstr "Add meg %s jelszavát!"
 
 #: camel/camel-smime-context.c:203
 msgid "Please indicate the nickname of a certificate to sign with."
-msgstr ""
+msgstr "Add meg a tanúsítvány nevét, amellyel aláírsz."
 
 #: camel/camel-smime-context.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "The signature certificate for \"%s\" does not exist."
-msgstr "A fájl nem létezik."
+msgstr "Nincs aláírástanúsítvány \"%s\" számára."
 
 #: camel/camel-smime-context.c:249
-#, fuzzy, c-format
+#, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "A fájl nem létezik."
+msgstr "Nincs titkosítási tanúsítvány \"%s\" számára."
 
 #: camel/camel-smime-context.c:408 camel/camel-smime-context.c:419
 #: camel/camel-smime-context.c:525 camel/camel-smime-context.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find certificate for \"%s\"."
-msgstr "Nem sikerült a felhasználónevet elküldeni a kiszolgálónak"
+msgstr "Nem található \"%s\" tanúsítványa."
 
 #: camel/camel-smime-context.c:545
 msgid "Failed to find a common bulk algorithm."
@@ -3874,11 +3883,11 @@ msgstr "A levél dekódolása sikertelen."
 
 #: camel/camel-smime-context.c:844
 msgid "Failed to verify certificates."
-msgstr ""
+msgstr "Tanúsítványok ellenõrzése sikertelen."
 
 #. Fill in the new fields
-#: camel/camel-store.c:378 mail/mail-ops.c:1010 mail/mail-ops.c:1017
-#: mail/mail-ops.c:1035 mail/mail-ops.c:1036
+#: camel/camel-store.c:378 mail/mail-ops.c:1017 mail/mail-ops.c:1024
+#: mail/mail-ops.c:1042 mail/mail-ops.c:1043
 msgid "Trash"
 msgstr "Kuka"
 
@@ -3961,6 +3970,10 @@ msgstr "Váratlan válasz az IMAP kiszolgálótól: %s"
 msgid "IMAP command failed: %s"
 msgstr "Az IMAP parancs sikertelen: %s"
 
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:481
+msgid "Unknown error"
+msgstr "Ismeretlen hiba"
+
 #: camel/providers/imap/camel-imap-command.c:297
 msgid "Server response ended too soon."
 msgstr "A kiszolgáló válasza túl hamar végetért."
@@ -4001,7 +4014,7 @@ msgstr "Ez a levél jelenleg nem elérhetõ"
 #: camel/providers/imap/camel-imap-folder.c:1465
 #: camel/providers/imap/camel-imap-folder.c:1706
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "Nem található a levéltörzs a FETCH válaszban."
 
 #: camel/providers/imap/camel-imap-provider.c:43 mail/mail-config.glade.h:16
 msgid "Checking for new mail"
@@ -4323,7 +4336,7 @@ msgid "Cannot summarise folder: %s: %s"
 msgstr "Nem sikerült %s mappa összefoglalóját elkészíteni: %s."
 
 #: camel/providers/local/camel-mbox-summary.c:502
-#: camel/providers/local/camel-mbox-summary.c:703 mail/mail-ops.c:1591
+#: camel/providers/local/camel-mbox-summary.c:703 mail/mail-ops.c:1598
 msgid "Synchronising folder"
 msgstr "Mappaszinkronizálás"
 
@@ -4482,9 +4495,9 @@ msgid "Retrieving POP message %d"
 msgstr "%d. POP levél letöltése"
 
 #: camel/providers/pop3/camel-pop3-folder.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "Could not fetch message: %s"
-msgstr "Levél írása"
+msgstr "Nem sikerült letölteni a levelet: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:320
 #, c-format
@@ -4670,9 +4683,8 @@ msgid "System status, or system help reply"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:178
-#, fuzzy
 msgid "Help message"
-msgstr "Levél _nyomtatása"
+msgstr "Súgóüzenet"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Service ready"
@@ -4680,19 +4692,19 @@ msgstr "Szolgáltatás rendelkezésre áll"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "A szolgáltatás lezárja az átviteli csatornát"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Service not available, closing transmission channel"
-msgstr ""
+msgstr "A szolgáltatás nem elérhetõ, az átviteli csatorna lezáródik"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "A kért levélmûvelet rendben, kész van"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
+msgstr "A felhasználó nem helyi, továbbítás a <forward-path>-ra"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -4860,7 +4872,8 @@ msgstr "Hibás DATA válasz: %s: a levél nem ment el"
 #: camel/providers/smtp/camel-smtp-transport.c:981
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "Idõtúllépés a DATA küldésénél: a levél véget ért: %s: a levél nem ment el"
+msgstr ""
+"Idõtúllépés a DATA küldésénél: a levél véget ért: %s: a levél nem ment el"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1000
 #, c-format
@@ -4957,7 +4970,7 @@ msgstr "MIME-típus:"
 msgid "Send as:"
 msgstr "Küldés mint"
 
-#: composer/e-msg-composer.c:616
+#: composer/e-msg-composer.c:621
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -4966,21 +4979,21 @@ msgstr ""
 "Nem sikerült megnyitni az aláírásfájlt: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:789
+#: composer/e-msg-composer.c:794
 msgid "Save as..."
 msgstr "Mentés másként..."
 
-#: composer/e-msg-composer.c:800
+#: composer/e-msg-composer.c:805
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fájlmentési hiba: %s"
 
-#: composer/e-msg-composer.c:820
+#: composer/e-msg-composer.c:825
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fájlbetöltési hiba: %s"
 
-#: composer/e-msg-composer.c:892
+#: composer/e-msg-composer.c:897
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -4988,12 +5001,12 @@ msgstr ""
 "Nem sikerült megnyitni az ehhez a postafiókhoz tartozó piszkozatok mappát.\n"
 "Szeretnéd használni az alapértelmezett piszkozatok mappát?"
 
-#: composer/e-msg-composer.c:950 data/evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:959 data/evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:228
 msgid "Evolution"
 msgstr "Evolúció"
 
-#: composer/e-msg-composer.c:956
+#: composer/e-msg-composer.c:965
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -5003,27 +5016,27 @@ msgstr ""
 "\n"
 "Akarod menteni a változásaidat?"
 
-#: composer/e-msg-composer.c:981
+#: composer/e-msg-composer.c:990
 msgid "Open file"
 msgstr "Fájl megnyitás"
 
-#: composer/e-msg-composer.c:1137
+#: composer/e-msg-composer.c:1146
 msgid "That file does not exist."
 msgstr "A fájl nem létezik."
 
-#: composer/e-msg-composer.c:1147
+#: composer/e-msg-composer.c:1156
 msgid "That is not a regular file."
 msgstr "Nem közönséges fájl."
 
-#: composer/e-msg-composer.c:1157
+#: composer/e-msg-composer.c:1166
 msgid "That file exists but is not readable."
 msgstr "Az a fájl létezik, de nem olvasható."
 
-#: composer/e-msg-composer.c:1167
+#: composer/e-msg-composer.c:1176
 msgid "That file appeared accesible but open(2) failed."
 msgstr "A fájl elérhetõnek látszik, de open(2) hiba történt."
 
-#: composer/e-msg-composer.c:1189
+#: composer/e-msg-composer.c:1198
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -5031,15 +5044,15 @@ msgstr ""
 "A fájl túl nagy (100K fölötti).\n"
 "Tényleg be szeretnéd szúrni?"
 
-#: composer/e-msg-composer.c:1210
+#: composer/e-msg-composer.c:1219
 msgid "An error occurred while reading the file."
 msgstr "Hiba történt megnyitás közben."
 
-#: composer/e-msg-composer.c:1573 composer/e-msg-composer.c:1918
+#: composer/e-msg-composer.c:1582 composer/e-msg-composer.c:1927
 msgid "Compose a message"
 msgstr "Levél írása"
 
-#: composer/e-msg-composer.c:2009
+#: composer/e-msg-composer.c:2021
 msgid "Could not create composer window."
 msgstr "Nem sikerült létrehozni a levélíró ablakot."
 
@@ -5130,24 +5143,30 @@ msgstr "%Y/%m/%d"
 #. strptime format for a time of day, in 12-hour format.
 #. If it is not appropriate in the locale set to an empty string.
 #: e-util/e-time-utils.c:87 e-util/e-time-utils.c:198
-msgid "%I:%M:%S %p%n"
-msgstr "%I:%M:%S %p%n"
+#: e-util/e-time-utils.c:323
+msgid "%I:%M:%S %p"
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:90 e-util/e-time-utils.c:201
-msgid "%H:%M:%S%n"
-msgstr "%H:%M:%S%n"
+#: e-util/e-time-utils.c:315
+msgid "%H:%M:%S"
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
 #: e-util/e-time-utils.c:94 e-util/e-time-utils.c:205
-msgid "%I:%M %p%n"
-msgstr "%I:%M %p%n"
+#: e-util/e-time-utils.c:320 widgets/misc/e-dateedit.c:1262
+#: widgets/misc/e-dateedit.c:1321 widgets/misc/e-dateedit.c:1500
+msgid "%I:%M %p"
+msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:97 e-util/e-time-utils.c:208
-msgid "%H:%M%n"
-msgstr "%H:%M%n"
+#: e-util/e-time-utils.c:312 widgets/misc/e-dateedit.c:1259
+#: widgets/misc/e-dateedit.c:1318 widgets/misc/e-dateedit.c:1497
+msgid "%H:%M"
+msgstr "%H:%M"
 
 #. strftime format of a weekday and a date.
 #: e-util/e-time-utils.c:269
@@ -5167,30 +5186,6 @@ msgstr "%Y/%m/%d %a %H:%M"
 #: e-util/e-time-utils.c:283
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%Y/%m/%d %a %I:%M %p"
-
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#: e-util/e-time-utils.c:312 widgets/misc/e-dateedit.c:1259
-#: widgets/misc/e-dateedit.c:1318 widgets/misc/e-dateedit.c:1497
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. strftime format of a time in 24-hour format.
-#: e-util/e-time-utils.c:315
-msgid "%H:%M:%S"
-msgstr "%H:%M:%S"
-
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#: e-util/e-time-utils.c:320 widgets/misc/e-dateedit.c:1262
-#: widgets/misc/e-dateedit.c:1321 widgets/misc/e-dateedit.c:1500
-msgid "%I:%M %p"
-msgstr "%I:%M %p"
-
-#. strftime format of a time in 12-hour format.
-#: e-util/e-time-utils.c:323
-msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
 
 #: executive-summary/component/component-factory.c:152
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -5766,9 +5761,8 @@ msgid "sounds like"
 msgstr "úgy hangzik, mint"
 
 #: filter/libfilter-i18n.h:46
-#, fuzzy
 msgid "Source Account"
-msgstr "Email tartalmaz"
+msgstr "Forráspostafiók"
 
 #: filter/libfilter-i18n.h:47
 msgid "Specific header"
@@ -5812,7 +5806,7 @@ msgstr "Pontszámszabályok"
 
 #: importers/elm-importer.c:512 importers/evolution-gnomecard-importer.c:238
 #: importers/netscape-importer.c:780 importers/pine-importer.c:646
-#: shell/e-shell-importer.c:652 shell/importer/import.glade.h:4
+#: shell/e-shell-importer.c:651 shell/importer/import.glade.h:4
 #: shell/importer/intelligent.c:190
 msgid "Import"
 msgstr "Importálás"
@@ -5860,7 +5854,7 @@ msgstr ""
 msgid "Settings"
 msgstr "Beállítások"
 
-#: importers/netscape-importer.c:795 mail/mail-callbacks.c:1398
+#: importers/netscape-importer.c:795 mail/mail-callbacks.c:1399
 msgid "Filters"
 msgstr "Szûrõk..."
 
@@ -5888,13 +5882,13 @@ msgstr ""
 msgid "Pine mail"
 msgstr "Pine levél"
 
-#: mail/component-factory.c:412
+#: mail/component-factory.c:401
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nem sikerült az Evolúció levelezõ komponensét inicializálni."
 
-#: mail/component-factory.c:538
+#: mail/component-factory.c:527
 msgid "Cannot register storage with shell"
-msgstr ""
+msgstr "Nem sikerült regisztrálni a tárolót a héjban"
 
 #: mail/folder-browser.c:339
 msgid "Store search as vFolder"
@@ -6092,6 +6086,9 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
+"Megjegyzés: Amikor postafiók-formátumok között végzel \n"
+"átalakításokat, a sikertelen mûvelet (pl. betelt a lemez)\n"
+"nem feltétlenül vonható vissza. Légy óvatos."
 
 #: mail/local-config.glade.h:7
 msgid "maildir"
@@ -6228,12 +6225,12 @@ msgstr "Levél(levelek) mozgatása más mappába"
 msgid "Copy message(s) to"
 msgstr "Levél(levelek) másolása más mappába"
 
-#: mail/mail-callbacks.c:1030
+#: mail/mail-callbacks.c:1031
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Tényleg szerkeszteni szeretnéd mind a %d levelet?"
 
-#: mail/mail-callbacks.c:1052
+#: mail/mail-callbacks.c:1053
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -6241,7 +6238,7 @@ msgstr ""
 "Csak a Piszkozatok mappában lévõ \n"
 "leveleket lehet szerkeszteni."
 
-#: mail/mail-callbacks.c:1086
+#: mail/mail-callbacks.c:1087
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -6249,20 +6246,20 @@ msgstr ""
 "Csak az Elküldött mappában lévõ \n"
 "leveleket lehet újra elküldeni."
 
-#: mail/mail-callbacks.c:1098
+#: mail/mail-callbacks.c:1099
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Tényleg újra akarod küldeni mind a %d üzenetet?"
 
-#: mail/mail-callbacks.c:1119
+#: mail/mail-callbacks.c:1120
 msgid "No Message Selected"
 msgstr "Nincs levél kijelölve"
 
-#: mail/mail-callbacks.c:1153 mail/mail-display.c:93
+#: mail/mail-callbacks.c:1154 mail/mail-display.c:93
 msgid "Overwrite file?"
 msgstr "Felülírod a fájlt?"
 
-#: mail/mail-callbacks.c:1157 mail/mail-display.c:97
+#: mail/mail-callbacks.c:1158 mail/mail-display.c:97
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -6270,15 +6267,15 @@ msgstr ""
 "A megadott néven már létezik fájl.\n"
 "Felülírod?"
 
-#: mail/mail-callbacks.c:1201
+#: mail/mail-callbacks.c:1202
 msgid "Save Message As..."
 msgstr "Levél mentése másként..."
 
-#: mail/mail-callbacks.c:1203
+#: mail/mail-callbacks.c:1204
 msgid "Save Messages As..."
 msgstr "Levelek mentése másként..."
 
-#: mail/mail-callbacks.c:1388
+#: mail/mail-callbacks.c:1389
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -6287,15 +6284,15 @@ msgstr ""
 "Hiba a szûrõinformációk betöltése közben:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1446
+#: mail/mail-callbacks.c:1447
 msgid "Print Message"
 msgstr "Levél nyomtatása"
 
-#: mail/mail-callbacks.c:1493
+#: mail/mail-callbacks.c:1494
 msgid "Printing of message failed"
 msgstr "Levél nyomtatása sikertelen"
 
-#: mail/mail-callbacks.c:1588
+#: mail/mail-callbacks.c:1589
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Tényleg külön ablakban akarod megnyitni mind a %d levelet?"
@@ -6402,7 +6399,7 @@ msgstr "Az új levelek automatikus lekérdezése minden"
 
 #: mail/mail-config.glade.h:15
 msgid "Certificate ID:"
-msgstr ""
+msgstr "Tanúsítványazonosító:"
 
 #: mail/mail-config.glade.h:17
 msgid "Composer"
@@ -6653,50 +6650,40 @@ msgid "placeholder"
 msgstr "helykitöltõ"
 
 #: mail/mail-crypto.c:59
-#, fuzzy
 msgid "Could not create a PGP signature context."
-msgstr "Nem tudom a dialógust elkészíteni."
+msgstr "Nem sikerült létrehozni a PGP aláírás részt."
 
 #: mail/mail-crypto.c:84
-#, fuzzy
 msgid "Could not create a PGP verification context."
-msgstr "Nem sikerült a POP kiszolgálóhoz kapcsolódni a %s gépen."
+msgstr "Nem sikerült létrehozni a PGP ellenõrzés részt."
 
 #: mail/mail-crypto.c:113
-#, fuzzy
 msgid "Could not create a PGP encryption context."
-msgstr "Nem sikerült létrehozni a levélíró ablakot."
+msgstr "Nem sikerült létrehozni a PGP titkosítás részt."
 
 #: mail/mail-crypto.c:138
-#, fuzzy
 msgid "Could not create a PGP decryption context."
-msgstr ""
-"Nem sikerült létrehozni %s könyvtárat:\n"
-"%s"
+msgstr "Nem sikerült létrehozni a PGP visszafejtõ részt."
 
 #: mail/mail-crypto.c:173
-#, fuzzy
 msgid "Could not create a S/MIME signature context."
-msgstr "Nem tudom a dialógust elkészíteni."
+msgstr "Nem sikerült létrehozni az S/MIME aláírás részt."
 
 #: mail/mail-crypto.c:205
-#, fuzzy
 msgid "Could not create a S/MIME certsonly context."
-msgstr "Nem tudom a dialógust elkészíteni."
+msgstr "Nem sikerült létrehozni az S/MIME csak-tanúsítvány részt."
 
 #: mail/mail-crypto.c:236
 msgid "Could not create a S/MIME encryption context."
-msgstr ""
+msgstr "Nem sikerült létrehozni az S/MIME titkosító részt."
 
 #: mail/mail-crypto.c:267
-#, fuzzy
 msgid "Could not create a S/MIME envelope context."
-msgstr "Nem tudom a dialógust elkészíteni."
+msgstr "Nem sikerült létrehozni az S/MIME boríték részt."
 
 #: mail/mail-crypto.c:297
-#, fuzzy
 msgid "Could not create a S/MIME decode context."
-msgstr "Nem tudom a dialógust elkészíteni."
+msgstr "Nem sikerült létrehozni az S/MIME dekódoló részt."
 
 #: mail/mail-display.c:197
 msgid "Save Attachment"
@@ -6906,112 +6893,112 @@ msgstr "Várj"
 msgid "Evolution progress"
 msgstr "Evolúció folyamatban"
 
-#: mail/mail-ops.c:600
+#: mail/mail-ops.c:607
 #, c-format
 msgid "Sending \"%s\""
 msgstr "'%s' küldése"
 
-#: mail/mail-ops.c:604
+#: mail/mail-ops.c:611
 msgid "Sending message"
 msgstr "Levél küldése"
 
-#: mail/mail-ops.c:719
+#: mail/mail-ops.c:726
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d / %d üzenet küldése"
 
-#: mail/mail-ops.c:738
+#: mail/mail-ops.c:745
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Hiba a %d / %d üzenetnél"
 
-#: mail/mail-ops.c:740 mail/mail-send-recv.c:475
+#: mail/mail-ops.c:747 mail/mail-send-recv.c:475
 msgid "Complete."
 msgstr "Kész."
 
-#: mail/mail-ops.c:826
+#: mail/mail-ops.c:833
 msgid "Saving message to folder"
 msgstr "Levél mentése a mappába"
 
-#: mail/mail-ops.c:900
+#: mail/mail-ops.c:907
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Levelek mozgatása %s-be"
 
-#: mail/mail-ops.c:900
+#: mail/mail-ops.c:907
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Levelek másolása %s-be"
 
-#: mail/mail-ops.c:916
+#: mail/mail-ops.c:923
 msgid "Moving"
 msgstr "Mozgatás alatt"
 
-#: mail/mail-ops.c:919
+#: mail/mail-ops.c:926
 msgid "Copying"
 msgstr "Másolás alatt"
 
-#: mail/mail-ops.c:995
+#: mail/mail-ops.c:1002
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Mappák pásztázása \"%s\"-ben"
 
-#: mail/mail-ops.c:1157
+#: mail/mail-ops.c:1164
 msgid "Forwarded messages"
 msgstr "Továbbított levelek"
 
-#: mail/mail-ops.c:1198 mail/mail-ops.c:1336
+#: mail/mail-ops.c:1205 mail/mail-ops.c:1343
 #, c-format
 msgid "Opening folder %s"
 msgstr "%s mappa megnyitása"
 
-#: mail/mail-ops.c:1265
+#: mail/mail-ops.c:1272
 #, c-format
 msgid "Opening store %s"
 msgstr "%s tároló megnyitása"
 
-#: mail/mail-ops.c:1404
+#: mail/mail-ops.c:1411
 #, c-format
 msgid "Removing folder %s"
 msgstr "%s mappa eltávolítása"
 
-#: mail/mail-ops.c:1488
+#: mail/mail-ops.c:1495
 #, c-format
 msgid "Moving folder %s to %s"
 msgstr "Mappa mozgatása %s-bõl %s-be"
 
-#: mail/mail-ops.c:1490
+#: mail/mail-ops.c:1497
 #, c-format
 msgid "Copying folder %s to %s"
 msgstr "Mappa másolása %s-bõl %s-be"
 
-#: mail/mail-ops.c:1643
+#: mail/mail-ops.c:1650
 msgid "Refreshing folder"
 msgstr "Mappa frissítése"
 
-#: mail/mail-ops.c:1679
+#: mail/mail-ops.c:1686
 msgid "Expunging folder"
 msgstr "Mappa tisztítása"
 
-#: mail/mail-ops.c:1728
+#: mail/mail-ops.c:1735
 #, c-format
 msgid "Retrieving message %s"
 msgstr "%s levél letöltése"
 
-#: mail/mail-ops.c:1795
+#: mail/mail-ops.c:1802
 msgid "Retrieving messages"
 msgstr "Levelek letöltése"
 
-#: mail/mail-ops.c:1805
+#: mail/mail-ops.c:1812
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "%d / %d számú levél letöltése (uid \"%s\")"
 
-#: mail/mail-ops.c:1879
+#: mail/mail-ops.c:1886
 msgid "Saving messages"
 msgstr "Levelek mentése"
 
-#: mail/mail-ops.c:1958
+#: mail/mail-ops.c:1965
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -7020,12 +7007,12 @@ msgstr ""
 "Nem sikerült létrehozni a kimeneti fájlt: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1971
+#: mail/mail-ops.c:1978
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "%d / %d levél mentése (uid \"%s\")"
 
-#: mail/mail-ops.c:1985
+#: mail/mail-ops.c:1992
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -7034,11 +7021,11 @@ msgstr ""
 "Hiba a levelek mentése közben: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2059
+#: mail/mail-ops.c:2066
 msgid "Saving attachment"
 msgstr "Csatolás mentése"
 
-#: mail/mail-ops.c:2074
+#: mail/mail-ops.c:2081
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -7047,12 +7034,12 @@ msgstr ""
 "Nem lehet létrehozni a kimeneti fájlt: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2102
+#: mail/mail-ops.c:2109
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nem sikerült az adatok kiírása: %s"
 
-#: mail/mail-ops.c:2169
+#: mail/mail-ops.c:2176
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Szétkapcsolódás %s kiszolgálóval"
@@ -7121,30 +7108,30 @@ msgstr "Nem teljes üzenet lett a csõbe írva!"
 msgid "Mail Summary"
 msgstr "Összegzés a levelekrõl"
 
-#: mail/mail-tools.c:145
+#: mail/mail-tools.c:156
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Nem sikerült létrehozni '%s' ideiglenes mbox-ot: %s"
 
-#: mail/mail-tools.c:192
+#: mail/mail-tools.c:203
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (továbbított üzenet)"
 
-#: mail/mail-tools.c:202
+#: mail/mail-tools.c:213
 msgid "Fwd: (no subject)"
 msgstr "Fwd: (tárgy nélkül)"
 
-#: mail/mail-tools.c:219
+#: mail/mail-tools.c:230
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Továbbított üzenet - %s"
 
-#: mail/mail-tools.c:221
+#: mail/mail-tools.c:232
 msgid "Forwarded message (no subject)"
 msgstr "Továbbított üzenet (tárgy nélkül)"
 
-#: mail/mail-tools.c:428
+#: mail/mail-tools.c:439
 #, c-format
 msgid ""
 "-----Forwarded Message-----<br><b>From:</b> %s<br><b>To:</b> "
@@ -7291,9 +7278,9 @@ msgid "Display folders starting with:"
 msgstr "Az ezzel kezdõdõ mappák megjelenítése:"
 
 #: mail/subscribe-dialog.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "Getting store for \"%s\""
-msgstr "_Induláshoz"
+msgstr "Tároló keresése \"%s\" számára"
 
 #: mail/subscribe-dialog.c:271
 #, c-format
@@ -7310,11 +7297,11 @@ msgstr "Leiratkozás \"%s\" mappáról"
 msgid "Manage Subscriptions"
 msgstr "Elõfizetések kezelése"
 
-#: shell/e-setup.c:118 shell/e-setup.c:191
+#: shell/e-setup.c:124 shell/e-setup.c:197
 msgid "Evolution installation"
 msgstr "Evolúció telepítés"
 
-#: shell/e-setup.c:122
+#: shell/e-setup.c:128
 msgid ""
 "This new version of Evolution needs to install additional files\n"
 "into your personal Evolution directory"
@@ -7322,30 +7309,30 @@ msgstr ""
 "Az Evolúciónak ez az új verziója további fájlokat fog telepíteni\n"
 "a személyes Evolúció könyvtáradba"
 
-#: shell/e-setup.c:123
+#: shell/e-setup.c:129
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr ""
 "Nyomd meg az \"OK\" gombot a fájlok telepítéséhez, vagy a \"Mégse\" gombot a "
 "kilépéshez."
 
-#: shell/e-setup.c:163
+#: shell/e-setup.c:169
 msgid "Could not update files correctly"
 msgstr "Nem sikerült rendesen frissíteni a fájlokat."
 
-#: shell/e-setup.c:166 shell/e-setup.c:234
+#: shell/e-setup.c:172 shell/e-setup.c:240
 msgid "Evolution files successfully installed."
 msgstr "Az Evolúció fájljai sikeresen települtek."
 
-#: shell/e-setup.c:195
+#: shell/e-setup.c:201
 msgid "This seems to be the first time you are running Evolution."
 msgstr "Úgy látszik, elsõ alkalommal futtatod az Evolúciót."
 
-#: shell/e-setup.c:196
+#: shell/e-setup.c:202
 msgid "Please click \"OK\" to install the Evolution user files under"
 msgstr ""
 "Nyomd meg az \"OK\" gombot az Evolúció felhasználói fájljainak telepítéséhez"
 
-#: shell/e-setup.c:215
+#: shell/e-setup.c:221
 #, c-format
 msgid ""
 "Cannot create the directory\n"
@@ -7356,7 +7343,7 @@ msgstr ""
 "%s\n"
 "Hiba: %s"
 
-#: shell/e-setup.c:230
+#: shell/e-setup.c:236
 #, c-format
 msgid ""
 "Cannot copy files into\n"
@@ -7365,7 +7352,7 @@ msgstr ""
 "Nem sikerült másolni a fájlokat\n"
 "`%s'-be."
 
-#: shell/e-setup.c:255
+#: shell/e-setup.c:303
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -7376,7 +7363,21 @@ msgstr ""
 "Kérlek mozgasd el a fájlt, hogy az Evolúció\n"
 "települni tudjon."
 
-#: shell/e-setup.c:267
+#: shell/e-setup.c:317
+msgid ""
+"Evolution has detected an old\n"
+"Executive-Summary directory.\n"
+"This needs to be removed before\n"
+"Evolution will run.\n"
+"Do you want me to remove this directory?"
+msgstr ""
+"Az Evolúció talált egy régi\n"
+"Vezetõi összefoglaló (Executive \n"
+"Summary) könyvtárat. Ezt el kell\n"
+"távolítani, mielõtt a program futhatna.\n"
+"Szeretnéd eltávolítani ezt a könyvtárat?"
+
+#: shell/e-setup.c:342
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -7392,7 +7393,7 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr "Nem sikerült beállítani a helyi tárterületet -- %s"
 
-#: shell/e-shell.c:1261
+#: shell/e-shell.c:1256
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -7515,12 +7516,12 @@ msgstr ""
 msgid "Error starting %s"
 msgstr "Hiba %s indításakor"
 
-#: shell/e-shell-importer.c:403
+#: shell/e-shell-importer.c:402
 #, c-format
 msgid "Error loading %s"
 msgstr "Hiba %s betöltésekor"
 
-#: shell/e-shell-importer.c:418
+#: shell/e-shell-importer.c:417
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -7529,27 +7530,27 @@ msgstr ""
 "%s importálása\n"
 "1. elem importálása."
 
-#: shell/e-shell-importer.c:489
+#: shell/e-shell-importer.c:488
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: shell/e-shell-importer.c:539
+#: shell/e-shell-importer.c:538
 msgid "Filename:"
 msgstr "Fájlnév:"
 
-#: shell/e-shell-importer.c:544 shell/importer/import.glade.h:5
+#: shell/e-shell-importer.c:543 shell/importer/import.glade.h:5
 msgid "Select a file"
 msgstr "Válassz egy fájlt"
 
-#: shell/e-shell-importer.c:554
+#: shell/e-shell-importer.c:553
 msgid "File type:"
 msgstr "Fájltípus:"
 
-#: shell/e-shell-importer.c:600
+#: shell/e-shell-importer.c:599
 msgid "Select folder"
 msgstr "Válassz mappát"
 
-#: shell/e-shell-importer.c:601
+#: shell/e-shell-importer.c:600
 msgid "Select a destination folder for importing this data"
 msgstr "Válaszd ki az importálálandó adatok célkönyvtárát"
 
@@ -7561,27 +7562,36 @@ msgstr "Kapcsolatok bezárása..."
 msgid "(No folder displayed)"
 msgstr "(Nem jeleníthetõ meg a mappa)"
 
-#: shell/e-shell-view.c:1377
+#. Special case for My Evolution
+#: shell/e-shell-view.c:1383
+msgid "My Evolution"
+msgstr "Saját Evolúció"
+
+#: shell/e-shell-view.c:1400
 #, c-format
 msgid "%s - Evolution %s"
 msgstr "%s - Evolúció %s"
 
-#: shell/e-shell-view.c:1379
+#: shell/e-shell-view.c:1402
 #, c-format
 msgid "%s - Evolution %s [%s]"
 msgstr "%s - Evolúció %s [%s]"
 
-#: shell/e-shell-view.c:1417
+#: shell/e-shell-view.c:1440
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Az Evolúció a hálózatban van. Kattints erre a gombra a kapcsolat nélküli munkához."
+msgstr ""
+"Az Evolúció a hálózatban van. Kattints erre a gombra a kapcsolat nélküli "
+"munkához."
 
-#: shell/e-shell-view.c:1424
+#: shell/e-shell-view.c:1447
 msgid "Evolution is in the process of going offline."
 msgstr "Az Evolúció felkészül a kapcsolat nélküli munkára."
 
-#: shell/e-shell-view.c:1430
+#: shell/e-shell-view.c:1453
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Az Evolúció kapcsolat nélküli módban van. Kattints erre a gombra a hálózatra csatlakozáshoz."
+msgstr ""
+"Az Evolúció kapcsolat nélküli módban van. Kattints erre a gombra a hálózatra "
+"csatlakozáshoz."
 
 #: shell/e-shell-view-menu.c:179
 msgid "Bug buddy was not found in your $PATH."
@@ -7733,6 +7743,10 @@ msgstr "A megadott mappa nem található"
 #: shell/e-storage.c:473
 msgid "Function not implemented in this storage"
 msgstr "A funkció nincs még ebben a tárolóban megírva"
+
+#: shell/e-storage.c:475
+msgid "Permission denied"
+msgstr "Jogosultsági hiba"
 
 #: shell/e-storage.c:477
 msgid "Operation not supported"
@@ -8373,24 +8387,8 @@ msgid "_View"
 msgstr "_Nézet"
 
 #: ui/evolution-executive-summary.xml.h:1
-msgid "Add Service"
-msgstr "Szolgáltatás hozzáadása"
-
-#: ui/evolution-executive-summary.xml.h:2
-msgid "Add a new service to the Executive Summary"
-msgstr "Új szolgáltatás hozzáadása a Vezetõi összefoglalóhoz"
-
-#: ui/evolution-executive-summary.xml.h:3
-msgid "Create a new email"
-msgstr "Új levél írása"
-
-#: ui/evolution-executive-summary.xml.h:4
-msgid "Executive Summary Settings..."
-msgstr "Vezetõi összefoglaló beállításai..."
-
-#: ui/evolution-executive-summary.xml.h:5
-msgid "New Mail"
-msgstr "Új levél"
+msgid "Customise My Evolution"
+msgstr "A Saját Evolúció testreszabása"
 
 #: ui/evolution-mail.xml.h:1
 msgid "Apply filter rules to the selected messages"
@@ -9567,6 +9565,54 @@ msgstr "init_corba(): nem sikerült a GNOME inicializálása"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
+#~ msgid "Error adding card"
+#~ msgstr "Hiba a kártya hozzáadásakor"
+
+#~ msgid "Success"
+#~ msgstr "Sikerült"
+
+#~ msgid "Repository offline"
+#~ msgstr "Kapcsolat nélküli tároló"
+
+#~ msgid "Card not found"
+#~ msgstr "A kártya nem található"
+
+#~ msgid "Protocol not supported"
+#~ msgstr "A protokoll nem támogatott"
+
+#~ msgid "Canceled"
+#~ msgstr "Megszakítva"
+
+#~ msgid "Other error"
+#~ msgstr "Egyéb hiba"
+
+#~ msgid "%I:%M:%S %p%n"
+#~ msgstr "%I:%M:%S %p%n"
+
+#~ msgid "%H:%M:%S%n"
+#~ msgstr "%H:%M:%S%n"
+
+#~ msgid "%I:%M %p%n"
+#~ msgstr "%I:%M %p%n"
+
+#~ msgid "%H:%M%n"
+#~ msgstr "%H:%M%n"
+
+#~ msgid "Add Service"
+#~ msgstr "Szolgáltatás hozzáadása"
+
+#~ msgid "Add a new service to the Executive Summary"
+#~ msgstr "Új szolgáltatás hozzáadása a Vezetõi összefoglalóhoz"
+
+#~ msgid "Create a new email"
+#~ msgstr "Új levél írása"
+
+#~ msgid "Executive Summary Settings..."
+#~ msgstr "Vezetõi összefoglaló beállításai..."
+
+#~ msgid "New Mail"
+#~ msgstr "Új levél"
+
 #~ msgid "Edit Task"
 #~ msgstr "Feladat vége"
 
@@ -10013,9 +10059,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 #~ msgid "JP Rosevear <jpr@helixcode.com>"
 #~ msgstr "JP Rosevear <jpr@helixcode.com>"
 
-#~ msgid "Original Author:"
-#~ msgstr "Eredeti tulajdonos:"
-
 #~ msgid "Eskil Heyn Olsen <deity@eskil.dk>"
 #~ msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
 
@@ -10090,7 +10133,7 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 #~ msgstr "A prioritás 1 és 9 között lehet, bezárólag"
 
 #~ msgid "Open..."
-#~ msgstr "Megnyit..."
+#~ msgstr "Megnyitás..."
 
 #, fuzzy
 #~ msgid "Enter the identity you wish to send this message from"
@@ -10117,19 +10160,19 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 #~ msgstr "VMappa szabály szerkesztése"
 
 #~ msgid "Body or subject contains"
-#~ msgstr "A szövegtörzs vagy a téma tartalmaz"
+#~ msgstr "A szövegtörzs vagy a tárgy tartalmazza"
 
 #~ msgid "Body contains"
-#~ msgstr "A szövegtörzs tartalmaz"
+#~ msgstr "A szövegtörzs tartalmazza"
 
 #~ msgid "Subject contains"
-#~ msgstr "Téma tartalmaz"
+#~ msgstr "Tárgy tartalmazza"
 
 #~ msgid "Body does not contain"
-#~ msgstr "A szövegtörzs nem tartalmaz"
+#~ msgstr "A szövegtörzs nem tartalmazza"
 
 #~ msgid "Subject does not contain"
-#~ msgstr "A téma nem tartalmaz"
+#~ msgstr "A tárgy nem tartalmazza"
 
 #~ msgid "You have no Outbox configured"
 #~ msgstr "Nincs kimenõ mappád beállítva"
