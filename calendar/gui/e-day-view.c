@@ -55,6 +55,7 @@
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
+#include "dialogs/recur-comp.h"
 #include "print.h"
 #include "comp-util.h"
 #include "itip-utils.h"
@@ -4878,16 +4879,29 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		cal_component_set_dtend (comp, &date);
 	}
 
-	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
+	if (cal_component_is_instance (comp)) {
+		CalObjModType mod;
 
-	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
-
-	if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
+		if (recur_component_dialog (comp, &mod)) {
+			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
+			} else {
+				g_message ("e_day_view_finish_resize(): Could not update the object!");
+			}
+		} else {
+			gtk_widget_queue_draw (day_view->top_canvas);
+		}		
+	} else if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
 		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
 	}
+
+	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
+
+	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
 	gtk_object_unref (GTK_OBJECT (comp));
 }
@@ -4932,6 +4946,26 @@ e_day_view_finish_resize (EDayView *day_view)
 		cal_component_set_dtend (comp, &date);
 	}
 
+	if (cal_component_is_instance (comp)) {
+		CalObjModType mod;
+
+		if (recur_component_dialog (comp, &mod)) {
+			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
+			} else {
+				g_message ("e_day_view_finish_resize(): Could not update the object!");
+			}
+		} else {
+			gtk_widget_queue_draw (day_view->main_canvas);
+		}		
+	} else if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
+		if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
+	} else {
+		g_message ("e_day_view_finish_resize(): Could not update the object!");
+	}
+
 	gnome_canvas_item_hide (day_view->resize_rect_item);
 	gnome_canvas_item_hide (day_view->resize_bar_item);
 
@@ -4943,13 +4977,6 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
-		if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
-	} else {
-		g_message ("e_day_view_finish_resize(): Could not update the object!");
-	}
-	
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -6277,7 +6304,20 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		if (cal_client_update_object (day_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
+		if (cal_component_is_instance (event->comp)) {
+			CalObjModType mod;
+			
+			if (recur_component_dialog (event->comp, &mod)) {
+				if (cal_client_update_object_with_mod (day_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+					if (itip_organizer_is_user (event->comp) 
+					    && send_component_dialog (event->comp, FALSE))
+						itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, 
+								day_view->client, NULL);
+				} else {
+					g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
+				}
+			}
+		} else if (cal_client_update_object (day_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
 			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						day_view->client, NULL);
@@ -7342,7 +7382,21 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (cal_client_update_object (day_view->client, comp)
+			if (cal_component_is_instance (comp)) {
+				CalObjModType mod;
+				
+				if (recur_component_dialog (comp, &mod)) {
+					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+						if (itip_organizer_is_user (comp) 
+						    && send_component_dialog (comp, FALSE))
+							itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, 
+									day_view->client, NULL);
+					} else {
+						g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
+							   "not update the object!");
+					}
+				}
+			} else if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
 				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
@@ -7456,7 +7510,21 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (cal_client_update_object (day_view->client, comp)
+			if (cal_component_is_instance (comp)) {
+				CalObjModType mod;
+				
+				if (recur_component_dialog (comp, &mod)) {
+					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+						if (itip_organizer_is_user (comp) 
+						    && send_component_dialog (comp, FALSE))
+							itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, 
+									day_view->client, NULL);
+					} else {
+						g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
+							   "not update the object!");
+					}
+				}
+			} else if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
 				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,

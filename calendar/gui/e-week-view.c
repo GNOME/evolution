@@ -55,6 +55,7 @@
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
+#include "dialogs/recur-comp.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "cal-util/timeutil.h"
@@ -3279,7 +3280,20 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
+		if (cal_component_is_instance (event->comp)) {
+			CalObjModType mod;
+			
+			if (recur_component_dialog (event->comp, &mod)) {
+				if (cal_client_update_object_with_mod (week_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+					if (itip_organizer_is_user (event->comp) 
+					    && send_component_dialog (event->comp, FALSE))
+						itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, 
+								week_view->client, NULL);
+				} else {
+					g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
+				}
+			}
+		} else if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
 			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						week_view->client, NULL);

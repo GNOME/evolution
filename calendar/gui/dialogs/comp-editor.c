@@ -948,7 +948,7 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 		priv->comp = cal_component_clone (comp);
 
 	if (cal_component_is_instance (comp))
-		priv->mod = recur_component_dialog (comp, GTK_WIDGET (editor));
+		recur_component_dialog (comp, &priv->mod);
 	
  	priv->existing_org = cal_component_has_organizer (comp);
  	priv->user_org = itip_organizer_is_user (comp);

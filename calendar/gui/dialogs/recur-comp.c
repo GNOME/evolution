@@ -23,6 +23,7 @@
 #endif
 
 #include <glib.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>
@@ -32,19 +33,16 @@
 
 
 
-CalObjModType
+gboolean
 recur_component_dialog (CalComponent *comp,
-			GtkWidget *widget)
+			CalObjModType *mod)
 {
 	char *str;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *rb1, *rb2, *rb3, *hbox;
 	CalComponentVType vtype;
-	gint button;
+	int btn;
 	
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
-	g_return_val_if_fail (widget != NULL, CALOBJ_MOD_THIS);
-	g_return_val_if_fail (GTK_IS_WIDGET (widget), CALOBJ_MOD_THIS);
-
 
 	vtype = cal_component_get_vtype (comp);
 	
@@ -67,16 +65,37 @@ recur_component_dialog (CalComponent *comp,
 	}
 
 	dialog = e_message_box_new (str, E_MESSAGE_BOX_QUESTION,
-				    _("This Instance Only"),
-				    _("This and Prior"),
-				    _("This and Future"),
-				    _("All"),
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
+
 	g_free (str);
-
-	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
-
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	
-	return MIN (1 << button, 0x07);
+	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), hbox);
+	rb1 = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb1);
+
+	rb2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("This and Future Instances"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb2);	
+	rb3 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("All Instances"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb3);
+
+	gtk_widget_show_all (hbox);
+	
+	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	
+	btn = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1)))
+		*mod = CALOBJ_MOD_THIS;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb2)))
+		*mod = CALOBJ_MOD_THISANDFUTURE;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb3)))
+		*mod = CALOBJ_MOD_ALL;
+
+	gtk_widget_destroy (dialog);
+
+	return btn == 0 ? TRUE : FALSE;
 }

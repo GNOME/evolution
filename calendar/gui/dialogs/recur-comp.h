@@ -25,7 +25,7 @@
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 
-CalObjModType recur_component_dialog (CalComponent *comp,
-				      GtkWidget *widget);
+gboolean recur_component_dialog (CalComponent *comp,
+				 CalObjModType *mod);
 
 #endif
