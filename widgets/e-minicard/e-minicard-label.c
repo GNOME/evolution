@@ -239,6 +239,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "use_ellipsis", TRUE,
 				 "font", "lucidasans-10",
 				 "fill_color", "black",
+				 "editable", TRUE,
 				 NULL );
 	
 	if ( e_minicard_label->field_text )

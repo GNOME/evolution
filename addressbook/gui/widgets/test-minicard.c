@@ -61,11 +61,6 @@ static void about_callback( GtkWidget *widget, gpointer data )
   gtk_widget_show (about);                                            
 }
 
-static void button_press_callback( GtkWidget *widget, gpointer data )
-{
-  gnome_canvas_item_grab_focus( card );
-}
-
 int main( int argc, char *argv[] )
 {
   GtkWidget *app;
@@ -102,7 +97,6 @@ int main( int argc, char *argv[] )
 
   gnome_app_set_contents( GNOME_APP( app ), canvas );
 
-
   /* Connect the signals */
   gtk_signal_connect( GTK_OBJECT( app ), "destroy",
 		      GTK_SIGNAL_FUNC( destroy_callback ),
@@ -110,10 +104,6 @@ int main( int argc, char *argv[] )
 
   gtk_signal_connect( GTK_OBJECT( canvas ), "size_allocate",
 		      GTK_SIGNAL_FUNC( allocate_callback ),
-		      ( gpointer ) app );
-
-  gtk_signal_connect( GTK_OBJECT( canvas ), "button_press_event",
-		      GTK_SIGNAL_FUNC( button_press_callback ),
 		      ( gpointer ) app );
 
   gtk_widget_show_all( app );

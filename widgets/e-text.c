@@ -18,11 +18,14 @@
 
 #include <config.h>
 #include <math.h>
+#include <ctype.h>
 #include "e-text.h"
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
+
+#include "e-text-event-processor-emacs-like.h"
 
 
 
@@ -58,6 +61,7 @@ enum {
 	ARG_FILL_STIPPLE,
 	ARG_TEXT_WIDTH,
 	ARG_TEXT_HEIGHT,
+	ARG_EDITABLE,
 	ARG_USE_ELLIPSIS,
 	ARG_ELLIPSIS
 };
@@ -80,6 +84,9 @@ static double e_text_point (GnomeCanvasItem *item, double x, double y, int cx, i
 static void e_text_bounds (GnomeCanvasItem *item,
 				      double *x1, double *y1, double *x2, double *y2);
 static void e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
+static gint e_text_event (GnomeCanvasItem *item, GdkEvent *event);
+
+static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
 
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
@@ -171,6 +178,8 @@ e_text_class_init (ETextClass *class)
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_WIDTH);
 	gtk_object_add_arg_type ("EText::text_height",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_HEIGHT);
+	gtk_object_add_arg_type ("EText::editable",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
 	gtk_object_add_arg_type ("EText::use_ellipsis",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_USE_ELLIPSIS);
 	gtk_object_add_arg_type ("EText::ellipsis",
@@ -187,6 +196,7 @@ e_text_class_init (ETextClass *class)
 	item_class->point = e_text_point;
 	item_class->bounds = e_text_bounds;
 	item_class->render = e_text_render;
+	item_class->event = e_text_event;
 }
 
 /* Object initialization function for the text item */
@@ -201,9 +211,18 @@ e_text_init (EText *text)
 	text->clip_height = 0.0;
 	text->xofs = 0.0;
 	text->yofs = 0.0;
+
 	text->ellipsis = NULL;
 	text->use_ellipsis = FALSE;
 	text->ellipsis_width = 0;
+
+	text->editable = FALSE;
+	text->editing = FALSE;
+	text->xofs_edit = 0;
+	
+	text->selection_start = 0;
+	text->selection_end = 0;
+	text->select_by_word = FALSE;
 }
 
 /* Destroy handler for the text item */
@@ -456,7 +475,8 @@ calc_line_widths (EText *text)
 			}
 			
 			if (text->clip && 
-			    text->use_ellipsis && 
+			    text->use_ellipsis &&
+			    ! text->editing &&
 			    lines->width > text->clip_width) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
@@ -729,6 +749,10 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		set_stipple (text, GTK_VALUE_BOXED (*arg), FALSE);
 		break;
 
+	case ARG_EDITABLE:
+		text->editable = GTK_VALUE_BOOL (*arg);
+		break;
+
 	case ARG_USE_ELLIPSIS:
 		text->use_ellipsis = GTK_VALUE_BOOL (*arg);
 		calc_line_widths (text);
@@ -837,6 +861,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_TEXT_HEIGHT:
 		GTK_VALUE_DOUBLE (*arg) = text->height / text->item.canvas->pixels_per_unit;
+		break;
+
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = text->editable;
 		break;
 
 	case ARG_USE_ELLIPSIS:
@@ -1016,6 +1044,19 @@ get_line_xpos (EText *text, struct line *line)
 	return x;
 }
 
+static void
+_get_tep(EText *text)
+{
+	if (!text->tep) {
+		text->tep = e_text_event_processor_emacs_like_new();
+		gtk_signal_connect(GTK_OBJECT(text->tep),
+				   "command",
+				   GTK_SIGNAL_FUNC(e_text_command),
+				   (gpointer) text);
+				    
+	}
+}
+
 /* Draw handler for the text item */
 static void
 e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
@@ -1026,8 +1067,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	struct line *lines;
 	int i;
 	int xpos, ypos;
+	int start_char, end_char;
+	int sel_start, sel_end;
+	GdkRectangle sel_rect;
+	GdkGC *fg_gc;
+	GnomeCanvas *canvas;
 
 	text = E_TEXT (item);
+	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 
 	if (!text->text || !text->font)
 		return;
@@ -1039,6 +1086,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.height = text->clip_cheight;
 		
 		gdk_gc_set_clip_rectangle (text->gc, &rect);
+		gdk_gc_set_clip_rectangle (GTK_WIDGET(canvas)->style->fg_gc[GTK_STATE_SELECTED], &rect);
 	}
 	lines = text->lines;
 	ypos = text->cy + text->font->ascent;
@@ -1049,39 +1097,122 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	for (i = 0; i < text->num_lines; i++) {
 		if (lines->length != 0) {
 			xpos = get_line_xpos (text, lines);
-			if ( text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       lines->ellipsis_length);
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x + 
-					       lines->width - text->ellipsis_width,
-					       ypos - y,
-					       text->ellipsis ? text->ellipsis : "...",
-					       text->ellipsis ? strlen (text->ellipsis) : 3);
-			} else
-				
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       lines->length);
+			if (text->editing) {
+				xpos -= text->xofs_edit;
+				start_char = lines->text - text->text;
+				end_char = start_char + lines->length;
+				sel_start = text->selection_start;
+				sel_end = text->selection_end;
+				if (sel_start > sel_end ) {
+					sel_start ^= sel_end;
+					sel_end ^= sel_start;
+					sel_start ^= sel_end;
+				}
+				if ( sel_start < start_char )
+					sel_start = start_char;
+				if ( sel_end > end_char )
+					sel_end = end_char;
+				if ( sel_start < sel_end ) {
+					sel_rect.x = xpos - x + gdk_text_width (text->font,
+										lines->text,
+										sel_start - start_char);
+					sel_rect.y = ypos - y - text->font->ascent;
+					sel_rect.width = gdk_text_width (text->font,
+									 lines->text + sel_start - start_char,
+									 sel_end - sel_start);
+					sel_rect.height = text->font->ascent + text->font->descent;
+					gdk_draw_rectangle (drawable,
+							    text->gc,
+							    TRUE,
+							    sel_rect.x,
+							    sel_rect.y,
+							    sel_rect.width,
+							    sel_rect.height);
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       sel_start - start_char);
+					fg_gc = GTK_WIDGET(canvas)->style->fg_gc[GTK_STATE_SELECTED];
+					gdk_draw_text (drawable,
+						       text->font,
+						       fg_gc,
+						       xpos - x + gdk_text_width (text->font,
+										  lines->text,
+										  sel_start - start_char),
+						       ypos - y,
+						       lines->text + sel_start - start_char,
+						       sel_end - sel_start);
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x + gdk_text_width (text->font,
+										  lines->text,
+										  sel_end - start_char),
+						       ypos - y,
+						       lines->text + sel_end - start_char,
+						       end_char - sel_end);
+				} else {
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->length);
+				}
+				if (text->selection_start == text->selection_end &&
+				    text->selection_start >= start_char &&
+				    text->selection_start <= end_char) {
+					gdk_draw_rectangle (drawable,
+							    text->gc,
+							    TRUE,
+							    xpos - x + gdk_text_width (text->font, 
+										       lines->text,
+										       sel_start - start_char),
+							    ypos - y - text->font->ascent,
+							    1,
+							    text->font->ascent + text->font->descent);
+				}
+			} else {
+				if ( text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->ellipsis_length);
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x + 
+						       lines->width - text->ellipsis_width,
+						       ypos - y,
+						       text->ellipsis ? text->ellipsis : "...",
+						       text->ellipsis ? strlen (text->ellipsis) : 3);
+				} else
+					
+					gdk_draw_text (drawable,
+						       text->font,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->length);
+			}
 		}
 
 		ypos += text->font->ascent + text->font->descent;
 		lines++;
 	}
 
-	if (text->clip)
+	if (text->clip) {
 		gdk_gc_set_clip_rectangle (text->gc, NULL);
+		gdk_gc_set_clip_rectangle (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->style->fg_gc[GTK_STATE_SELECTED], NULL);
+	}
 }
 
 /* Render handler for the text item */
@@ -1306,6 +1437,285 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 
 	*x2 = *x1 + width;
 	*y2 = *y1 + height;
+}
+
+static gint
+_get_position_from_xy (EText *text, gint x, gint y)
+{
+	int i, j;
+	int ypos = text->cy;
+	int xpos;
+	struct line *lines;
+	j = 0;
+	while (y > ypos)
+		{
+			ypos += text->font->ascent + text->font->descent;
+			j ++;
+		}
+	j--;
+	if (j >= text->num_lines)
+		j = text->num_lines - 1;
+	if (j < 0)
+		j = 0;
+	i = 0;
+	lines = text->lines;
+	lines += j;
+	xpos = get_line_xpos (text, lines);
+	for(i = 0; i < lines->length; i++) {
+		int charwidth = gdk_text_width(text->font,
+					       lines->text + i,
+					       1);
+		xpos += charwidth / 2;
+		if (xpos > x)
+			break;
+		xpos += (charwidth + 1) / 2;
+	}
+	return lines->text + i - text->text;
+}
+
+static gint
+e_text_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	EText *text = E_TEXT(item);
+	ETextEventProcessorEvent e_tep_event;
+
+	gint return_val;
+
+	e_tep_event.type = event->type;
+	switch (event->type) {
+	case GDK_FOCUS_CHANGE:
+		if (text->editable) {
+			GdkEventFocus *focus_event;
+			focus_event = (GdkEventFocus *) event;
+			if (focus_event->in) {
+				if(!text->editing) {
+					text->editing = TRUE;
+					text->selection_start = 0;
+					text->selection_end = 0;
+					text->select_by_word = FALSE;
+					text->xofs_edit = 0;
+				}
+			} else {
+				text->editing = FALSE;
+			}
+			calc_line_widths (text);
+		}
+		return_val = 0;
+		break;
+	case GDK_KEY_PRESS: /* Fall Through */
+	case GDK_KEY_RELEASE:
+		if (text->editing) {
+			GdkEventKey key = event->key;
+			e_tep_event.key.time = key.time;
+			e_tep_event.key.state = key.state;
+			e_tep_event.key.keyval = key.keyval;
+			e_tep_event.key.length = key.length;
+			e_tep_event.key.string = key.string;
+			_get_tep(text);
+			return e_text_event_processor_handle_event (text->tep,
+								    &e_tep_event);
+		}
+		else
+			return 0;
+		break;
+	case GDK_BUTTON_PRESS: /* Fall Through */
+	case GDK_BUTTON_RELEASE:
+		if (text->editing) {
+			GdkEventButton button = event->button;
+			e_tep_event.button.time = button.time;
+			e_tep_event.button.state = button.state;
+			e_tep_event.button.button = button.button;
+			e_tep_event.button.position = _get_position_from_xy(text, button.x, button.y);
+			_get_tep(text);
+			return_val = e_text_event_processor_handle_event (text->tep,
+								       &e_tep_event);
+		} else if (text->editable && event->type == GDK_BUTTON_RELEASE) {
+			gnome_canvas_item_grab_focus (item);
+			return 1;
+		}
+		break;
+	case GDK_MOTION_NOTIFY:
+		if (text->editing) {
+			GdkEventMotion motion = event->motion;
+			e_tep_event.motion.time = motion.time;
+			e_tep_event.motion.state = motion.state;
+			e_tep_event.motion.position = _get_position_from_xy(text, motion.x, motion.y);
+			_get_tep(text);
+			return_val = e_text_event_processor_handle_event (text->tep,
+								       &e_tep_event);
+		}
+		break;
+	default:
+		break;
+	}
+	if (return_val)
+		return return_val;
+	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
+		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+	else
+		return 0;
+}
+
+static int
+_get_position(EText *text, ETextEventProcessorCommand *command)
+{
+	int i;
+	int length;
+	
+	switch (command->position) {
+		
+	case E_TEP_VALUE:
+		return command->value;
+
+	case E_TEP_SELECTION:
+		return text->selection_end;
+
+	case E_TEP_START_OF_BUFFER:
+		return 0;
+	case E_TEP_END_OF_BUFFER:
+		return strlen(text->text);
+
+	case E_TEP_START_OF_LINE:
+		for (i = text->selection_end - 2; i > 0; i--)
+			if (text->text[i] == '\n') {
+				i++;
+				break;
+			}
+		return i;
+	case E_TEP_END_OF_LINE:
+		length = strlen(text->text);
+		for (i = text->selection_end + 1; i < length; i++)
+			if (text->text[i] == '\n') {
+				break;
+			}
+		if (i > length)
+			i = length;
+		return i;
+
+	case E_TEP_FORWARD_CHARACTER:
+		length = strlen(text->text);
+		i = text->selection_end + 1;
+		if (i > length)
+			i = length;
+		return i;
+	case E_TEP_BACKWARD_CHARACTER:
+		i = text->selection_end - 1;
+		if (i < 0)
+			i = 0;
+		return i;
+
+	case E_TEP_FORWARD_WORD:
+		length = strlen(text->text);
+		for (i = text->selection_end + 1; i < length; i++)
+			if (isspace(text->text[i])) {
+				break;
+			}
+		if (i > length)
+			i = length;
+		return i;
+	case E_TEP_BACKWARD_WORD:
+		for (i = text->selection_end - 2; i > 0; i--)
+			if (isspace(text->text[i])) {
+				i++;
+				break;
+			}
+		if (i < 0)
+			i = 0;
+		return i;
+
+	case E_TEP_FORWARD_LINE:
+	case E_TEP_BACKWARD_LINE:
+
+	case E_TEP_FORWARD_PARAGRAPH:
+	case E_TEP_BACKWARD_PARAGRAPH:
+		
+	case E_TEP_FORWARD_PAGE:
+	case E_TEP_BACKWARD_PAGE:
+		return text->selection_end;
+	default:
+		return text->selection_end;
+		}
+}
+
+static void
+_delete_selection(EText *text)
+{
+	gint length = strlen(text->text);
+	if (text->selection_end == text->selection_start)
+		return;
+	if (text->selection_end < text->selection_start) {
+		text->selection_end ^= text->selection_start;
+		text->selection_start ^= text->selection_end;
+		text->selection_end ^= text->selection_start;
+	}
+	memmove( text->text + text->selection_start,
+		 text->text + text->selection_end,
+		 length - text->selection_end + 1 );
+	length -= text->selection_end - text->selection_start;
+	text->selection_end = text->selection_start;
+}
+
+static void
+_insert(EText *text, char *string, int value)
+{
+	if (value > 0) {
+		char *temp;
+		gint length = strlen(text->text);
+		temp = g_new(gchar, length + value + 1);
+		strncpy(temp, text->text, text->selection_start);
+		strncpy(temp + text->selection_start, string, value);
+		strcpy(temp + text->selection_start + value, text->text + text->selection_start);
+		g_free(text->text);
+		text->text = temp;
+		text->selection_start += value;
+		text->selection_end = text->selection_start;
+	}
+}
+
+static void
+e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
+{
+	EText *text = E_TEXT(data);
+	switch (command->action) {
+	case E_TEP_MOVE:
+		text->selection_start = _get_position(text, command);
+		text->selection_end = text->selection_start;
+		break;
+	case E_TEP_SELECT:
+		text->selection_end = _get_position(text, command);
+		break;
+	case E_TEP_DELETE:
+		if (text->selection_end == text->selection_start) {
+			text->selection_end = _get_position(text, command);
+		}
+		_delete_selection(text);
+		split_into_lines (text);
+		recalc_bounds (text);
+		break;
+
+	case E_TEP_INSERT:
+		if (text->selection_end != text->selection_start) {
+			_delete_selection(text);
+		}
+		_insert(text, command->string, command->value);
+		split_into_lines (text);
+		recalc_bounds (text);
+		break;
+	case E_TEP_COPY:
+		if (text->selection_end != text->selection_start) {
+		}
+		break;
+	case E_TEP_PASTE:
+		break;
+	case E_TEP_ACTIVATE:
+		break;
+	case E_TEP_SET_SELECT_BY_WORD:
+		text->select_by_word = command->value;
+		break;
+	case E_TEP_NOP:
+		break;
+	}
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
 

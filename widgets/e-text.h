@@ -20,6 +20,7 @@
 #define E_TEXT_H
 
 #include <gnome.h>
+#include "e-text-event-processor.h"
 
 
 BEGIN_GNOME_DECLS
@@ -59,8 +60,15 @@ BEGIN_GNOME_DECLS
  * text_height		double			R		Used to query the rendered height of the text
  *
  * These are ignored in the AA version:
+ * editable             boolean                 RW              Can this item be edited
  * use_ellipsis         boolean                 RW              Whether to use ellipsises if text gets cut off.  Meaningless if clip == false.
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
+ *
+ * These are not implemented yet:
+ * multi_line           boolean                 RW              Line wrap when not editing.
+ * multi_line_on_edit   boolean                 RW              Switch to line wrap when editing.
+ * background           boolean                 RW              Draw a background rectangle.
+ * background_on_edit   boolean                 RW              Draw a background when editing.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -129,6 +137,18 @@ struct _EText {
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	double ellipsis_width;          /* The width of the ellipsis. */
 	gboolean use_ellipsis;          /* Whether to use the ellipsis. */
+
+	gboolean editable;              /* Item is editable */
+	gboolean editing;               /* Item is currently being edited */
+
+	int xofs_edit;                  /* Offset because of editing */
+
+	/* This needs to be reworked a bit once we get line wrapping. */
+	int selection_start;            /* Start of selection */
+	int selection_end;              /* End of selection */
+	gboolean select_by_word;        /* Current selection is by word */
+
+	ETextEventProcessor *tep;       /* Text Event Processor */
 };
 
 struct _ETextClass {

@@ -1,3 +1,42 @@
+2000-01-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/test-minicard.c: Removed some code which got in the way
+	of testing properly.
+
+	* widgets/e-minicard-label.c (e_minicard_label_realize): Made the
+	field text item editable.
+
+	* widgets/Makefile.am: Added e-text-event-process*.[ch].
+
+	* widgets/e-text.c, widgets/e-text.h: Changed these to support
+	editing.
+
+	* widgets/e-text-event-processor.c,
+	widgets/e-text-event-processor.h,
+	widgets/e-text-event-processor-types.h,
+	widgets/e-text-event-processor-emacs-like.c,
+	widgets/e-text-event-processor-emacs-like.h: These are a new pair
+	of classes which handle all events from the text item and convert
+	them into commands.
+
+
+2000-01-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/Makefile.am: Added minicard and text stuff.
+
+	* widgets/e-minicard.c, widgets/e-minicard.h,
+	widgets/e-minicard-label.c, widgets/e-minicard-label.h: Added
+	canvas items for the minicard view in the contact manager.
+
+	* widgets/test-minicard.c, widgets/test-minicard-label.c: Tests
+	for the minicard items.
+
+	* widgets/e-text.h, widgets/e-text.c: New canvas item.  Based on
+	GnomeCanvasText.  Adds ellipsis capabilities.  Used in
+	e-minicard*.[ch].
+
+	* widgets/.cvsignore: Added minicard-test and minicard-label-test.
+
 2000-01-06  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in: Add Bonobo detection, Bonobo flags for compilation
