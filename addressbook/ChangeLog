@@ -1,3 +1,19 @@
+2003-12-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_class_init): Make "address" a boxed type.
+	(e_contact_editor_address_init): Set address to NULL.
+	(e_contact_editor_address_dispose): Free address.
+	(e_contact_editor_address_new): Take an EContactAddress.
+	(e_contact_editor_address_set_property): Re-implement setting the
+	address property.
+	(e_contact_editor_address_get_property): Ditto for getting.
+	(fill_in_info): Enable, use EContactAddress fields.
+	(extract_info): Ditto.
+
+	* gui/contact-editor/e-contact-editor-address.h:
+	Re-enable the address field, as EContactAddress.
+
 2003-12-09  JP Rosevear <jpr@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c (fill_in_info):
