@@ -1,3 +1,8 @@
+2005-01-25  Rodrigo Moya <rodrigo@novell.com>
+
+	* calendar-weather.c (e_plugin_lib_enable): set all new categories to
+	not searchable.
+
 2005-01-12  David Trowbridge <trowbrds@cs.colorado.edu>
 
 	* calendar-weather.c (e_calendar_weather_units): fix spelling
