@@ -1,3 +1,9 @@
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-message.c (camel_mime_message_set_subject): Do a
+	g_strstrip on the subject so we can stop getting those annoying
+	leading spaces
+
 2000-08-07  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c (camel_folder_free_deep): Fix this to not require
