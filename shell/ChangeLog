@@ -1,5 +1,10 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c (update_offline_menu_item): Add accelerators
+	for "Work Offline" and "Work Online".
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_for_current_uri): Don't allow translators
 	to translate "Ximian Evolution".
 
