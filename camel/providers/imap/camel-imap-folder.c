@@ -1792,7 +1792,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 			if (messages->pdata[i])
 				camel_folder_summary_info_free (folder->summary, messages->pdata[i]);
 		}
-		g_ptr_array_free (fetch_data, TRUE);
+		g_ptr_array_free (messages, TRUE);
 	}
 }
 

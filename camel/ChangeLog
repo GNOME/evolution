@@ -1,5 +1,8 @@
 2001-09-24    <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_update_summary): In the
+	'lose' case, free messages, not fetch_data twice!
+
 	* camel-filter-search.c (check_header): If the type is encoded,
 	get the fallback charset from the message content-type.
 
