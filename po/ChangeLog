@@ -1,3 +1,7 @@
+2001-06-22  Zbigniew Chyla  <chyla@gnome.pl>
+
+	* POTFILES.in: Added mail/message-list.etspec.
+
 2001-06-20  Zbigniew Chyla  <chyla@gnome.pl>
 
 	* pl.po: Updated Polish translation.
