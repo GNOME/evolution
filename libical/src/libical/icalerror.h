@@ -135,7 +135,7 @@ extern icalerrorenum icalerrno;
 
 
 void icalerror_clear_errno(void);
-void icalerror_set_errno(icalerrorenum);
+void icalerror_set_errno(icalerrorenum e);
 
 char* icalerror_strerror(icalerrorenum e);
 
