@@ -1,5 +1,13 @@
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (delete_task_list_cb): sync the source
+	list after the source removal
+
+	* gui/calendar-component.c (delete_calendar_cb): ditto
+
+	Fixes #53271
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
 	* gui/migration.c (setup_progress_dialog): display a progress
 	dialog
 	(dialog_close): destroy it

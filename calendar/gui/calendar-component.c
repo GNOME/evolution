@@ -316,6 +316,7 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 									   selected_source);
 		
 				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+				e_source_list_sync (priv->source_list, NULL);
 			}
 		}
 	}
