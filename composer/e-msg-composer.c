@@ -347,7 +347,7 @@ build_message (EMsgComposer *composer)
 	
 	if (composer->send_html) {
 		clear_current_images (composer);
-
+		
 		data = get_text (composer->persist_stream_interface, "text/html");		
 		if (!data) {
 			/* The component has probably died */
@@ -401,7 +401,7 @@ build_message (EMsgComposer *composer)
 			
 			add_inlined_images (composer, html_with_images);
 			clear_current_images (composer);
-
+			
 			current = CAMEL_DATA_WRAPPER (html_with_images);
 		} else
 			current = CAMEL_DATA_WRAPPER (body);
@@ -415,7 +415,7 @@ build_message (EMsgComposer *composer)
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
 							  "multipart/alternative");
 		}
-
+		
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
 		
@@ -431,16 +431,16 @@ build_message (EMsgComposer *composer)
 		
 		if (composer->is_alternative) {
 			int i;
-
+			
 			for (i = camel_multipart_get_number (multipart); i > 1; i--) {
 				part = camel_multipart_get_part (multipart, i - 1);
 				camel_medium_remove_header (CAMEL_MEDIUM (part), "Content-Disposition");
 			}
 		}
-
+		
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
-
+	
 	if (composer->pgp_sign || composer->pgp_encrypt) {
 		part = camel_mime_part_new ();
 		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);
@@ -461,6 +461,8 @@ build_message (EMsgComposer *composer)
 				from = e_msg_composer_hdrs_get_from (hdrs);
 				camel_internet_address_get (from, 0, NULL, &pgpid);
 			}
+			
+			printf ("build_message(): pgpid = '%s'\n", pgpid);
 			
 			mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
 			
@@ -1108,7 +1110,7 @@ autosave_save_draft (EMsgComposer *composer)
 	CamelMimeMessage *message;
 	CamelStream *stream;
 	char *file;
-	gint fd;
+	int fd;
 	gboolean success = TRUE;
 	
 	fd = composer->autosave_fd;
@@ -2270,6 +2272,8 @@ init (EMsgComposer *composer)
 	composer->has_changed              = FALSE;
 	
 	composer->charset                  = NULL;
+	
+	composer->enable_autosave          = TRUE;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
 }

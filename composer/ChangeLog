@@ -1,5 +1,16 @@
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
+	Attach to the parent widget's destroy signal - when that gets
+	destroyed, we need to cancel the editor dialog too. Also connect
+	to our parent window's "hide" signal so that when the composer
+	gets hidden (ie, it's being sent), we also close the dialogs.
+
+	* e-msg-composer.c (init): Default composer->enable_autosave to
+	TRUE.
+
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer-select-file.c (confirm): If multiple-selection is
 	enabled but nothing is slected, fall back to using the filename in
 	the entry box as the "selected" file.
@@ -51,6 +62,11 @@
 
 	* e-msg-composer.c (drag_data_received): Allow drag & drop for
 	vcards.
+
+2001-11-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Change the FileSend tooltip the be
+	the same as the FileSendLater tooltip if we are in offline mode.
 
 2001-11-14  Larry Ewing  <lewing@ximian.com>
 

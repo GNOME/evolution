@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer-attachment.c
  *
- * Copyright (C) 1999  Ximian, Inc.
+ * Copyright (C) 1999,2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -185,6 +185,7 @@ e_msg_composer_attachment_new (const char *file_name,
 				      file_name, g_strerror (errno));
 		return NULL;
 	}
+	
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
@@ -323,49 +324,47 @@ connect_widget (GladeXML *gui,
 }
 
 static void
-close_cb (GtkWidget *widget,
-	  gpointer data)
+close_cb (GtkWidget *widget, gpointer data)
 {
 	EMsgComposerAttachment *attachment;
 	DialogData *dialog_data;
-
+	
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
-
+	
 	gtk_widget_destroy (glade_xml_get_widget (attachment->editor_gui,
 						  "dialog"));
 	gtk_object_unref (GTK_OBJECT (attachment->editor_gui));
 	attachment->editor_gui = NULL;
-
+	
 	destroy_dialog_data (dialog_data);
 }
 
 static void
-ok_cb (GtkWidget *widget,
-       gpointer data)
+ok_cb (GtkWidget *widget, gpointer data)
 {
 	DialogData *dialog_data;
 	EMsgComposerAttachment *attachment;
-	gchar *str;
+	char *str;
 	
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
-
+	
 	str = e_utf8_gtk_entry_get_text (dialog_data->file_name_entry);
 	camel_mime_part_set_filename (attachment->body, str);
 	g_free (str);
-
+	
 	str = e_utf8_gtk_entry_get_text (dialog_data->description_entry);
 	camel_mime_part_set_description (attachment->body, str);
 	g_free (str);
-
+	
 	str = e_utf8_gtk_entry_get_text (dialog_data->mime_type_entry);
 	camel_mime_part_set_content_type (attachment->body, str);
 	
 	camel_data_wrapper_set_mime_type (
 		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)), str);
 	g_free (str);
-
+	
 	switch (gtk_toggle_button_get_active (dialog_data->disposition_checkbox)) {
 	case 0:
 		camel_mime_part_set_disposition (attachment->body, "attachment");
@@ -377,7 +376,7 @@ ok_cb (GtkWidget *widget,
 		/* Hmmmm? */
 		break;
 	}
-
+	
 	changed (attachment);
 	close_cb (widget, data);
 }
@@ -388,7 +387,7 @@ file_name_focus_out_cb (GtkWidget *widget,
 			gpointer data)
 {
 	DialogData *dialog_data;
-
+	
 	dialog_data = (DialogData *) data;
 	update_mime_type (dialog_data);
 }
@@ -400,32 +399,32 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 {
 	DialogData *dialog_data;
 	GladeXML *editor_gui;
-
+	
 	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT (attachment));
-
+	
 	if (attachment->editor_gui != NULL) {
 		GtkWidget *window;
-
+		
 		window = glade_xml_get_widget (attachment->editor_gui,
 					       "dialog");
 		gdk_window_show (window->window);
 		return;
 	}
-
+	
 	editor_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer-attachment.glade",
 				    NULL);
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-msg-composer-attachment.glade'");
 		return;
 	}
-
+	
 	attachment->editor_gui = editor_gui;
-
+	
 	gtk_window_set_transient_for
 		(GTK_WINDOW (glade_xml_get_widget (editor_gui, "dialog")),
 		 GTK_WINDOW (gtk_widget_get_toplevel (parent)));
-
+	
 	dialog_data = g_new (DialogData, 1);
 	dialog_data->attachment = attachment;
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
@@ -437,12 +436,12 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		glade_xml_get_widget (editor_gui, "mime_type_entry"));
 	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (editor_gui, "disposition_checkbox"));
-
+	
 	if (attachment != NULL) {
 		CamelContentType *content_type;
 		char *type;
 		const char *disposition;
-
+		
 		set_entry (editor_gui, "file_name_entry",
 			   camel_mime_part_get_filename (attachment->body));
 		set_entry (editor_gui, "description_entry",
@@ -451,15 +450,19 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		type = header_content_type_simple (content_type);
 		set_entry (editor_gui, "mime_type_entry", type);
 		g_free (type);
-
+		
 		disposition = camel_mime_part_get_disposition (attachment->body);
 		gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
 					      disposition && !g_strcasecmp (disposition, "inline"));
 	}
-
+	
 	connect_widget (editor_gui, "ok_button", "clicked", ok_cb, dialog_data);
 	connect_widget (editor_gui, "close_button", "clicked", close_cb, dialog_data);
-
+	
 	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
 			file_name_focus_out_cb, dialog_data);
+	
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy", close_cb, dialog_data);
+	gtk_signal_connect (GTK_OBJECT (gtk_widget_get_toplevel (parent)), "hide",
+			    close_cb, dialog_data);
 }
