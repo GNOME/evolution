@@ -30,4 +30,4 @@ camelfilter_LDADD = \
 	$(EXTRA_GNOME_LIBS)
 
 noinst_PROGRAMS =  	\
-	message-browser	camelfilter
+	message-browser	
