@@ -1,3 +1,9 @@
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_latitude): 
+	(icaltimezone_get_longitude): added functions to get the coords of
+	builtin timezones.
+
 2001-06-13  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icalrecur.c: merged in some new stuff from libical CVS.

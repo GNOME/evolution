@@ -55,6 +55,12 @@ char*	icaltimezone_get_tzid			(icaltimezone	*zone);
 /* Returns the city name of a timezone. */
 char*	icaltimezone_get_location		(icaltimezone	*zone);
 
+/* Returns the latitude of a builtin timezone. */
+double	icaltimezone_get_latitude		(icaltimezone	*zone);
+
+/* Returns the longitude of a builtin timezone. */
+double	icaltimezone_get_longitude		(icaltimezone	*zone);
+
 /* Returns the VTIMEZONE component of a timezone. */
 icalcomponent*	icaltimezone_get_component	(icaltimezone	*zone);
 

@@ -999,6 +999,22 @@ icaltimezone_get_location		(icaltimezone	*zone)
 }
 
 
+/* Returns the latitude of a builtin timezone. */
+double
+icaltimezone_get_latitude		(icaltimezone	*zone)
+{
+    return zone->latitude;
+}
+
+
+/* Returns the longitude of a builtin timezone. */
+double
+icaltimezone_get_longitude		(icaltimezone	*zone)
+{
+    return zone->longitude;
+}
+
+
 /* Returns the VTIMEZONE component of a timezone. */
 icalcomponent*
 icaltimezone_get_component		(icaltimezone	*zone)
