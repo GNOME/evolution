@@ -30,7 +30,6 @@ Mail:
 
   - Several IMAP fixes. (Peter, Jeff, Danw)
 
-
   - Fix crash after conversion of an empty folder to another
     format. (Peter)
 
