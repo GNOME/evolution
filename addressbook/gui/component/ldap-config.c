@@ -29,8 +29,10 @@
 
 #include <stdlib.h>
 
+#ifdef HAVE_LDAP
 #include "ldap.h"
 #include "ldap_schema.h"
+#endif
 
 #define LDAP_PORT_STRING "389"
 #define LDAPS_PORT_STRING "636"
@@ -39,12 +41,13 @@
 
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControlFactory"
 
+#ifdef HAVE_LDAP
 GtkWidget* addressbook_dialog_create_sources_table (char *name, char *string1, char *string2,
 						    int num1, int num2);
 GtkWidget* supported_bases_create_table (char *name, char *string1, char *string2,
 					 int num1, int num2);
 
-#ifdef NEW_ADVANCED_GUI
+#ifdef NEW_ADVANCED_UI
 GtkWidget* objectclasses_create_server_table (char *name, char *string1, char *string2,
 					      int num1, int num2);
 GtkWidget* objectclasses_create_evolution_table (char *name, char *string1, char *string2,
@@ -152,6 +155,14 @@ typedef struct {
 	ETableModel *objectclasses_evolution_model;
 	GtkWidget *objectclasses_add_button;
 	GtkWidget *objectclasses_remove_button;
+
+	/* refs we keep around so we can add/hide the tabs */
+	GtkWidget *objectclasses_tab;
+	GtkWidget *objectclasses_label;
+	GtkWidget *mappings_tab;
+	GtkWidget *mappings_label;
+	GtkWidget *dn_customization_tab;
+	GtkWidget *dn_customization_label;
 #endif
 
 	/* stuff for the account editor window */
@@ -161,14 +172,7 @@ typedef struct {
 	GtkWidget *close_button;
 	GtkWidget *advanced_button_notebook;
 	GtkWidget *notebook; /* the toplevel notebook */
-#ifdef NEW_ADVANCED_UI
-	GtkWidget *objectclasses_tab;
-	GtkWidget *objectclasses_label;
-	GtkWidget *mappings_tab;
-	GtkWidget *mappings_label;
-	GtkWidget *dn_customization_tab;
-	GtkWidget *dn_customization_label;
-#endif
+
 	gboolean advanced;
 
 } AddressbookSourceDialog;
@@ -217,7 +221,7 @@ addressbook_root_dse_query (AddressbookSource *source, LDAP *ldap, char **attrs,
 	ldap_error = ldap_search_ext_s (ldap,
 					LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
 					"(objectclass=*)",
-					attrs, 0, NULL, NULL, NULL, 0, resp);
+					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error)
 		gnome_error_dialog (_("Could not perform query on Root DSE"));
 
@@ -278,9 +282,45 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 }
 
 static void
-addressbook_add_server_druid_destroy (GtkWidget *widget, AddressbookSourceDialog *dialog)
+addressbook_source_dialog_destroy (GtkWidget *widget, AddressbookSourceDialog *dialog)
 {
-	/* XXX free other stuff */
+#ifdef NEW_ADVANCED_UI
+#define IF_UNREF(x) if (x) gtk_object_unref (GTK_OBJECT ((x)))
+
+	int i;
+
+	if (dialog->server_objectclasses) {
+		for (i = 0; i < dialog->server_objectclasses->len; i ++)
+			ldap_objectclass_free (g_ptr_array_index (dialog->server_objectclasses, i));
+		g_ptr_array_free (dialog->server_objectclasses, TRUE);
+	}
+
+	if (dialog->evolution_objectclasses) {
+		for (i = 0; i < dialog->evolution_objectclasses->len; i ++)
+			ldap_objectclass_free (g_ptr_array_index (dialog->evolution_objectclasses, i));
+		g_ptr_array_free (dialog->evolution_objectclasses, TRUE);
+	}
+
+	if (dialog->default_objectclasses) {
+		for (i = 0; i < dialog->default_objectclasses->len; i ++)
+			ldap_objectclass_free (g_ptr_array_index (dialog->default_objectclasses, i));
+		g_ptr_array_free (dialog->default_objectclasses, TRUE);
+	}
+
+	IF_UNREF (dialog->objectclasses_server_model);
+	IF_UNREF (dialog->objectclasses_evolution_model);
+
+	IF_UNREF (dialog->objectclasses_tab);
+	IF_UNREF (dialog->objectclasses_label);
+	IF_UNREF (dialog->mappings_tab);
+	IF_UNREF (dialog->mappings_label);
+	IF_UNREF (dialog->dn_customization_tab);
+	IF_UNREF (dialog->dn_customization_label);
+
+#undef IF_UNREF
+#endif
+
+	gtk_object_destroy (GTK_OBJECT (dialog->gui));
 
 	g_free (dialog);
 }
@@ -1008,7 +1048,7 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT(sdialog->druid), "cancel",
 			    GTK_SIGNAL_FUNC(addressbook_add_server_druid_cancel), sdialog);
 	gtk_signal_connect (GTK_OBJECT(sdialog->window), "destroy",
-			    GTK_SIGNAL_FUNC(addressbook_add_server_druid_destroy), sdialog);
+			    GTK_SIGNAL_FUNC(addressbook_source_dialog_destroy), sdialog);
 
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
@@ -1076,6 +1116,7 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 	int i;
 	AddressbookSource *source = addressbook_dialog_get_source (sdialog);
 	LDAPMessage *resp;
+	struct timeval timeout;
 
 	ldap = addressbook_ldap_init (source);
 	if (!ldap)
@@ -1106,9 +1147,13 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 	attrs[0] = "objectClasses";
 	attrs[1] = NULL;
 
+	/* 3 second timeout */
+	timeout.tv_sec = 3;
+	timeout.tv_usec = 0;
+
 	ldap_error = ldap_search_ext_s (ldap, schema_dn, LDAP_SCOPE_BASE,
 					"(objectClass=subschema)", attrs, 0,
-					NULL, NULL, NULL, 0, &resp);
+					NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp);
 	if (LDAP_SUCCESS != ldap_error) {
 		gnome_error_dialog (_("Could not query for schema information"));
 		goto fail;
@@ -1285,11 +1330,8 @@ addressbook_edit_server_dialog (AddressbookDialog *dialog, AddressbookSource *so
 #endif
 
 	sdialog->ok_button = glade_xml_get_widget (sdialog->gui, "account-editor-ok-button");
-	/* XXX signal */
 	sdialog->apply_button = glade_xml_get_widget (sdialog->gui, "account-editor-apply-button");
-	/* XXX signal */
 	sdialog->close_button = glade_xml_get_widget (sdialog->gui, "account-editor-close-button");
-	/* XXX signal */
 
 	sdialog->advanced_button_notebook = glade_xml_get_widget (sdialog->gui, "account-editor-advanced-button-notebook");
 	fewer_options_button = glade_xml_get_widget (sdialog->gui, "account-editor-fewer-options-button");
@@ -1337,6 +1379,8 @@ addressbook_edit_server_dialog (AddressbookDialog *dialog, AddressbookSource *so
 			    "clicked", GTK_SIGNAL_FUNC(edit_dialog_apply_clicked), sdialog);
 	gtk_signal_connect (GTK_OBJECT (sdialog->close_button),
 			    "clicked", GTK_SIGNAL_FUNC(edit_dialog_close_clicked), sdialog);
+	gtk_signal_connect (GTK_OBJECT(sdialog->window), "destroy",
+			    GTK_SIGNAL_FUNC(addressbook_source_dialog_destroy), sdialog);
 
 	gtk_widget_set_sensitive (sdialog->ok_button, FALSE);
 	gtk_widget_set_sensitive (sdialog->apply_button, FALSE);
@@ -1427,6 +1471,9 @@ config_control_destroy_callback (EvolutionConfigControl *config_control,
 	dialog = (AddressbookDialog *) data;
 
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
+
+	/* XXX free more stuff here */
+
 	g_free (dialog);
 }
 
@@ -1539,7 +1586,6 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 	GtkWidget *table;
 	ETableModel *model;
 	
-
 	model = e_table_memory_store_new (sources_table_columns);
 
 	table = e_table_scrolled_new (model, NULL, SOURCES_TABLE_SPEC, NULL);
@@ -1548,27 +1594,43 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 
 	return table;
 }
+#endif /* HAVE_LDAP */
 
 static EvolutionConfigControl *
 config_control_new (GNOME_Evolution_Shell shell)
 {
+	GtkWidget *control_widget;
+	EvolutionConfigControl *control;
+
+#ifdef HAVE_LDAP
 	AddressbookDialog *dialog;
 
 	dialog = ldap_dialog_new (shell);
 
-	gtk_widget_ref (dialog->page);
+	control_widget = dialog->page;
 
-	gtk_container_remove (GTK_CONTAINER (dialog->page->parent), dialog->page);
+	gtk_widget_ref (control_widget);
 
-	dialog->config_control = evolution_config_control_new (dialog->page);
+	gtk_container_remove (GTK_CONTAINER (control_widget->parent), control_widget);
+#else
+	control_widget = gtk_label_new (_("LDAP was not enabled in this build of Evolution"));
+	gtk_widget_set_sensitive (control_widget, FALSE);
+	gtk_widget_show (control_widget);
+#endif
+
+	control = evolution_config_control_new (control_widget);
+
+#ifdef HAVE_LDAP
+	dialog->config_control = control;
 	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "apply",
 			    GTK_SIGNAL_FUNC (config_control_apply_callback), dialog);
 	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "destroy",
 			    GTK_SIGNAL_FUNC (config_control_destroy_callback), dialog);
 
 	gtk_widget_unref (dialog->page);
+#endif
 
-	return dialog->config_control;
+	return control;
 }
 
 
@@ -1609,6 +1671,7 @@ ldap_config_register_factory (GNOME_Evolution_Shell shell)
 void
 ldap_config_create_new_source (const char *new_source, GtkWidget *parent)
 {
+#ifdef HAVE_LDAP
 #if 0
 	AddressbookSourceDialog *dialog;
 	GladeXML *gui;
@@ -1631,6 +1694,7 @@ ldap_config_create_new_source (const char *new_source, GtkWidget *parent)
 		addressbook_storage_write_sources();
 	}
 #endif
+#endif /* HAVE_LDAP */
 }
 
 #ifdef STANDALONE

@@ -1,5 +1,23 @@
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: change ldap
+	config control text so it fits in the config dialog.
+
+	* gui/component/ldap-config.c: #ifdef lots of stuff HAVE_LDAP so
+	it'll build/run in either case.
+	(addressbook_source_dialog_destroy): rename
+	addressbook_add_server_druid_destroy to this, and free lots more
+	stuff.
+	(addressbook_add_server_druid):
+	addressbook_add_server_druid_destroy ->
+	addressbook_source_dialog_destroy.
+	(do_schema_query): add 3 second timeout to schema query.
+	(addressbook_edit_server_dialog): hook up destroy signal.
+	(config_control_new): if HAVE_LDAP isn't defined, put up a label
+	saying so.
+
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/Makefile.am (INCLUDES): add LDAP_CFLAGS to INCLUDES
 
 2002-04-18  Chris Toshok  <toshok@ximian.com>

@@ -156,7 +156,7 @@
 		       _value="Directory Servers"/>
 
 	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure access to directory servers using the LDAP protocol"/>
+		       _value="This page can be used to configure access to LDAP directory servers"/>
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-contacts.png"/>
