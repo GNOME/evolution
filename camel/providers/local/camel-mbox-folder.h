@@ -55,6 +55,10 @@ CamelFolder *camel_mbox_folder_new(CamelStore *parent_store, const char *full_na
 /* Standard Camel function */
 CamelType camel_mbox_folder_get_type(void);
 
+/* utilities */
+char *camel_mbox_folder_get_full_path (CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name);
+char *camel_mbox_folder_get_meta_path (CamelLocalFolder *lf, const char *toplevel_dir, const char *full_name, const char *ext);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

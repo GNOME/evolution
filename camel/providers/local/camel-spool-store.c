@@ -235,16 +235,51 @@ static void free_folder_info (CamelStore *store, CamelFolderInfo *fi)
 	}
 }
 
+/* partially copied from mbox */
+static void
+spool_fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
+{
+	CamelFolder *folder;
+
+	fi->unread = -1;
+	fi->total = -1;
+	folder = camel_object_bag_get(store->folders, fi->full_name);
+	if (folder) {
+		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
+			camel_folder_refresh_info(folder, NULL);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->total = camel_folder_get_message_count(folder);
+		camel_object_unref(folder);
+	}
+}
+
 static CamelFolderInfo *
-camel_folder_info_new(const char *url, const char *full, const char *name, int unread)
+spool_new_fi(CamelStore *store, CamelFolderInfo *parent, CamelFolderInfo **fip, const char *full, guint32 flags)
 {
 	CamelFolderInfo *fi;
+	const char *name;
+	CamelURL *url;
+
+	name = strrchr(full, '/');
+	if (name)
+		name++;
+	else
+		name = full;
 
 	fi = g_malloc0(sizeof(*fi));
-	fi->uri = g_strdup(url);
+	url = camel_url_copy(((CamelService *)store)->url);
+	camel_url_set_fragment(url, full);
+	fi->uri = camel_url_to_string(url, 0);
+	camel_url_free(url);
 	fi->full_name = g_strdup(full);
 	fi->name = g_strdup(name);
-	fi->unread = unread;
+	fi->unread = -1;
+	fi->total = -1;
+	fi->flags = flags;
+
+	fi->parent = parent;
+	fi->next = *fip;
+	*fip = fi;
 
 	d(printf("Adding spoold info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
 
@@ -262,11 +297,10 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 {
 	DIR *dir;
 	struct dirent *d;
-	char *name, *uri, *tmp, *fname;
+	char *name, *tmp, *fname;
 	CamelFolderInfo *fi = NULL;
 	struct stat st;
 	CamelFolder *folder;
-	int unread;
 	char from[80];
 	FILE *fp;
 
@@ -286,24 +320,8 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	} else if (S_ISREG(st.st_mode)) {
 		/* incase we start scanning from a file.  messy duplication :-/ */
 		if (path) {
-			folder = camel_object_bag_get(store->folders, path);
-			if (folder) {
-				/* should this refresh if ! FAST? */
-				unread = camel_folder_get_unread_message_count(folder);
-				camel_object_unref(folder);
-			} else
-				unread = -1;
-			tmp = strrchr(path, '/');
-			if (tmp)
-				tmp++;
-			else
-				tmp = (char *)path;
-			uri = g_strdup_printf("%s:%s#%s", ((CamelService *)store)->url->protocol, root, path);
-			fi = camel_folder_info_new(uri, path, tmp, unread);
-			fi->parent = parent;
-			fi->next = *fip;
-			*fip = fi;
-			g_free(uri);
+			fi = spool_new_fi(store, parent, fip, path, CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_NOCHILDREN);
+			spool_fill_fi(store, fi, flags);
 		}
 		return 0;
 	}
@@ -317,18 +335,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	}
 
 	if (path != NULL) {
-		uri = g_strdup_printf("%s:%s;noselect=yes#%s", ((CamelService *)store)->url->protocol, root, path);
-		tmp = strrchr(path, '/');
-		if (tmp == NULL)
-			tmp = (char *)path;
-		else
-			tmp++;
-		fi = camel_folder_info_new(uri, path, tmp, -1);
-		fi->parent = parent;
-		fi->next = *fip;
-		*fip = fi;
-		g_free(uri);
-	
+		fi = spool_new_fi(store, parent, fip, path, CAMEL_FOLDER_NOSELECT);	
 		fip = &fi->child;
 		parent = fi;
 	}
@@ -346,38 +353,26 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 				fname = g_strdup(d->d_name);
 
 			if (S_ISREG(st.st_mode)) {
+				int isfolder = FALSE;
+
 				/* first, see if we already have it open */
 				folder = camel_object_bag_get(store->folders, fname);
-				if (folder) {
-					/* should this refresh if ! FAST? */
-					unread = camel_folder_get_unread_message_count(folder);
-					camel_object_unref(folder);
-				} else
-					unread = -1;
-
-				/* no?  check its content to see if its a folder or not */
 				if (folder == NULL) {
 					fp = fopen(tmp, "r");
 					if (fp != NULL) {
-						if (st.st_size == 0
-						    || (fgets(from, sizeof(from), fp) != NULL
-							&& strncmp(from, "From ", 5) == 0)) {
-							folder = (CamelFolder *)1;
-							/* TODO: if slow mode selected, we could look up unread counts here -
-							   but its pretty expensive */
-						}
+						isfolder = (st.st_size == 0
+							    || (fgets(from, sizeof(from), fp) != NULL
+								&& strncmp(from, "From ", 5) == 0));
 						fclose(fp);
 					}
 				}
 
-				if (folder != NULL) {
-					uri = g_strdup_printf("%s:%s#%s", ((CamelService *)store)->url->protocol, root, fname);
-					fi = camel_folder_info_new(uri, fname, d->d_name, unread);
-					fi->parent = parent;
-					fi->next = *fip;
-					*fip = fi;
-					g_free(uri);
+				if (folder != NULL || isfolder) {
+					fi = spool_new_fi(store, parent, fip, fname, CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_NOCHILDREN);
+					spool_fill_fi(store, fi, flags);
 				}
+				if (folder)
+					camel_object_unref(folder);
 
 			} else if (S_ISDIR(st.st_mode)) {
 				struct _inode in = { st.st_dev, st.st_ino };
@@ -448,22 +443,13 @@ get_folder_info_elm(CamelStore *store, const char *top, guint32 flags, CamelExce
 static CamelFolderInfo *
 get_folder_info_mbox(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
-	CamelFolderInfo *fi = NULL;
-	CamelService *service = (CamelService *)store;
-	CamelFolder *folder;
+	CamelFolderInfo *fi = NULL, *fip = NULL;
 
 	if (top == NULL || strcmp(top, "INBOX") == 0) {
-		fi = g_malloc0(sizeof(*fi));
-		fi->full_name = g_strdup("INBOX");
-		fi->name = g_strdup("INBOX");
-		fi->uri = g_strdup_printf("%s:%s#%s", service->url->protocol, service->url->path, fi->name);
-
-		folder = camel_object_bag_get(store->folders, fi->full_name);
-		if (folder) {
-			fi->unread = camel_folder_get_unread_message_count(folder);
-			camel_object_unref(folder);
-		} else
-			fi->unread = -1;
+		fi = spool_new_fi(store, NULL, &fip, "INBOX", CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_SYSTEM);
+		g_free(fi->name);
+		fi->name = g_strdup(_("Inbox"));
+		spool_fill_fi(store, fi, flags);
 	}
 
 	return fi;
