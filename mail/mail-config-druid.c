@@ -414,17 +414,18 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 	name = gtk_entry_get_text (gui->gui->email_address);
 	if (name && *name) {
 		if (mail_config_get_account_by_name (name)) {
-			char *template, *p;
-			unsigned int i = 1;
+			char *template;
+			unsigned int i = 1, len;
 			
 			/* length of name + 1 char for ' ' + 1 char
                            for '(' + 10 chars for %d + 1 char for ')'
                            + 1 char for nul */
-			template = alloca (strlen (name) + 14);
-			p = stpcpy (template, name);
+			len = strlen (name);
+			template = alloca (len + 14);
+			strcpy (template, name);
 			name = template;
 			do {
-				sprintf (p, " (%d)", i++);
+				sprintf (template + len, " (%d)", i++);
 			} while (mail_config_get_account_by_name (name) && i != 0);
 		}
 		
