@@ -710,8 +710,9 @@ properties (GtkWidget *toplevel)
 
 	prop_win = gnome_property_box_new ();
 	gtk_window_set_title (GTK_WINDOW (prop_win), _("Preferences"));
-	gnome_dialog_set_parent (GNOME_DIALOG (prop_win), GTK_WINDOW (toplevel));
-	
+	gnome_dialog_set_parent (GNOME_DIALOG (prop_win),
+			 GTK_WINDOW (gtk_widget_get_toplevel (toplevel)));
+
 	create_time_display_page ();
 	create_colors_page ();
 	create_todo_page ();

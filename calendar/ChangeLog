@@ -1,5 +1,18 @@
 2000-04-08  Seth Alves  <alves@hungry.com>
 
+	* gui/gnome-cal.c (gnome_calendar_create): new function:
+	friendly wrapper for cal_client_create_calendar
+
+	* gui/calendar-commands.c (new_calendar): call gnome_calendar_create
+	if no filename is provided
+
+	* gui/prop.c (properties): calendar is a frame
+
+	* gui/calendar-commands.c (calendar_control_activate): sort out the
+	menus a bit, more of them show up now.
+
+	* gui/Makefile.am: don't build library or test, just the bonobo control
+
 	* gui/gncal-todo.c (simple_todo_editor): calendar is a frame instead
 	of a window, now.
 	

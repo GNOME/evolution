@@ -387,12 +387,12 @@ close_save (GtkWidget *w)
 }
 
 static void
-save_as_calendar_cmd (GtkWidget *widget, void *data)
+save_as_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkFileSelection *fs;
 
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save calendar")));
-	gtk_object_set_user_data (GTK_OBJECT (fs), data);
+	gtk_object_set_user_data (GTK_OBJECT (fs), user_data);
 
 	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
 			    (GtkSignalFunc) save_ok,
@@ -492,57 +492,58 @@ calendar_control_activate (BonoboControl *control,
 
 
 	/* file menu */
-	bonobo_ui_handler_menu_new_item (uih, "/File/New", N_("_Mail"),
-					 N_("Create a new calendar"), -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, new_calendar_cmd, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Open", NULL,
-					 NULL, -1,
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Calendar", N_("New Ca_lendar"),
+					 N_("Create a new calendar"),
+					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 NULL, 0, 0, new_calendar_cmd, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/File/Open/Calendar", N_("Open Ca_lendar"),
+					 N_("Open a calendar"), -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, open_calendar_cmd, cal);
-	/*bonobo_ui_handler_menu_new_item (uih, "/File/Save", NULL,
-					 NULL, -1,
+	bonobo_ui_handler_menu_new_item (uih, "/File/Save Calendar As",
+					 N_("Save Calendar As"),
+					 N_("Save Calendar As"),
+					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, save_calendar_cmd, cal); */
-	/* separator */
-	bonobo_ui_handler_menu_new_item (uih, "/File/Close", NULL,
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, save_as_calendar_cmd, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/File/Close", N_("_Close Calendar"),
+					 N_("Close current calendar"),
+					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, close_cmd, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Exit", NULL,
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, quit_cmd, cal);
+	/*bonobo_ui_handler_menu_new_item (uih, "/File/Exit",
+					 N_("_Exit"), N_("Exit"),
+					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, quit_cmd, cal);	*/
 
 	/* edit menu */
 	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment",
-					 N_("_New appointment..."),
-					 N_("Create a new appointment"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_NEW,
-					 0, 0, display_objedit, cal);
+					 N_("_New appointment..."), N_("Create a new appointment"),
+					 -1, BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_NEW, 0, 0,
+					 display_objedit, cal);
 	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment for today",
 					 N_("New appointment for _today..."),
 					 N_("Create a new appointment for today"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_NEW,
-					 0, 0, display_objedit_today, cal);
+					 -1, BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_NEW, 0, 0,
+					 display_objedit_today, cal);
 
+	//bonobo_ui_handler_menu_new_separator (uih, "/Edit", -1);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Edit/Preferences",
+					 N_("Preferences"), N_("Preferences"),
+					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, properties_cmd, cal);
 	/* help menu */
 
-	bonobo_ui_handler_menu_new_item (uih, "/Help/About Calendar", NULL,
-					 NULL, -1,
+	bonobo_ui_handler_menu_new_item (uih,
+					 "/Help/About Calendar",
+					 N_("About Calendar"),
+					 N_("About Calendar"),
+					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, about_calendar_cmd, cal);
 
-	/* settings menu */
-
-	bonobo_ui_handler_menu_new_item (uih, "/Settings/Preferences", NULL,
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, properties_cmd, cal);
 }
 
 
@@ -571,6 +572,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	GtkWidget   *toplevel;
 	char        title[128];
 	int         xpos, ypos, width, height;
+	gboolean    success;
 
 	/* i18n: This "%s%s" indicates possession. Languages where the order is
 	 * the inverse should translate it to "%2$s%1$s".
@@ -582,14 +584,10 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
-#if 0
-	if (width != -1)
-		gtk_widget_set_usize (toplevel, width, 600);
-#endif
+		/*if (width != -1)
+		  gtk_widget_set_usize (toplevel, width, 600);*/
 	}
-#if 0
- 	gtk_widget_set_usize (toplevel, width, 600); 
-#endif
+ 	/*gtk_widget_set_usize (toplevel, width, 600); */
 
 	/*
 	setup_appbar (toplevel);
@@ -600,12 +598,19 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (page)
 		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
 
-	if (calendar_file && g_file_exists (calendar_file))
-		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
-	/* FIX ME
-	else
-		GNOME_CALENDAR (toplevel)->client->filename = g_strdup (calendar_file);
-	*/
+	printf ("calendar_file is '%s'\n", calendar_file?calendar_file:"NULL");
+	if (calendar_file && g_file_exists (calendar_file)) {
+		printf ("loading calendar\n");
+		success = gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
+	}
+	else {
+		printf ("creating calendar\n");
+		success = gnome_calendar_create (GNOME_CALENDAR (toplevel), calendar_file);
+		/*GNOME_CALENDAR (toplevel)->client->filename = g_strdup (calendar_file);*/
+	}
+
+	printf ("load or create returned %d\n", success);
+
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
@@ -757,7 +762,7 @@ calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
 	const CalendarObject *ca = a;
 	const CalendarObject *cb = b;
 	time_t diff;
-	
+
 	diff = ca->ev_start - cb->ev_start;
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }

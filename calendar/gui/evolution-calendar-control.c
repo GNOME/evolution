@@ -37,7 +37,9 @@ calendar_factory (BonoboGenericFactory *Factory, void *closure)
 	BonoboControl      *control;
 
 	/* Create the control. */
-	GnomeCalendar *cal = new_calendar ("title", NULL, NULL, NULL, 0);
+	GnomeCalendar *cal = new_calendar (full_name,
+					   user_calendar_file,
+					   NULL, NULL, 0);
 	gtk_widget_show (GTK_WIDGET (cal));
 
 	control = bonobo_control_new (GTK_WIDGET (cal));
@@ -85,6 +87,8 @@ main (int argc, char **argv)
 {
 	alarm_init ();
 	init_calendar ();
+
+	/*g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);*/
 
 	CORBA_exception_init (&ev);
 

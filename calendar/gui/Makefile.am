@@ -28,9 +28,8 @@ LINK_FLAGS = \
 	$(top_builddir)/libical/src/libical/libical.la \
 	$(top_builddir)/calendar/cal-client/libcal-client.la
 
-noinst_LIBRARIES = libcalendarwidget.a
-
-libcalendarwidget_a_SOURCES =			\
+bin_PROGRAMS = evolution-calendar
+evolution_calendar_SOURCES =			\
 	alarm.c					\
 	alarm.h					\
 	e-day-view-main-item.c			\
@@ -76,25 +75,12 @@ libcalendarwidget_a_SOURCES =			\
 	year-view.c				\
 	year-view.h				\
 	calendar-commands.c			\
-	calendar-commands.h
-
-
-bin_PROGRAMS = evolution-calendar
-noinst_PROGRAMS = test-calendar-widget
-test_calendar_widget_SOURCES = main.c
-test_calendar_widget_INCLUDES =		\
-	$(INCLUDES)			\
-	-DG_LOG_DOMAIN=\"test-calendar-widget\"
-test_calendar_widget_LDADD = \
-	libcalendarwidget.a \
-	$(LINK_FLAGS)
-
-evolution_calendar_SOURCES = evolution-calendar-control.c
+	calendar-commands.h			\
+	evolution-calendar-control.c
 
 evolution_calendar_LDADD =					\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_HTML_GNOME_LIBS)				\
-	$(top_builddir)/calendar/gui/libcalendarwidget.a	\
 	$(top_builddir)/widgets/e-minicard/libeminicard.a	\
 	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\

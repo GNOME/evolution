@@ -282,6 +282,27 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 	return 1;
 }
 
+int
+gnome_calendar_create (GnomeCalendar *gcal, char *file)
+{
+	g_return_val_if_fail (gcal != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
+	g_return_val_if_fail (file != NULL, 0);
+
+	/* FIXME: connect to the cal_loaded signal fo the CalClient and get the
+	 * asynchronous notification properly!
+	 */
+
+	/* if ((r = calendar_load (gcal->cal, file)) != NULL){ DELETE */
+	if (cal_client_create_calendar (gcal->client, file) == FALSE){
+		printf ("Error creating calendar: %s\n", file);
+		return 0;
+	}
+	gnome_calendar_update_all (gcal, NULL, 0);
+	return 1;
+}
+
+
 void
 gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 {
