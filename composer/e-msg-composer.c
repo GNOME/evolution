@@ -44,6 +44,8 @@
 
 #include <camel/camel.h>
 
+#include "../mail/mail.h"
+
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h"
 #include "e-util/e-gui-utils.h"
@@ -70,6 +72,10 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static GnomeAppClass *parent_class = NULL;
+
+/* local prototypes */
+static GList *add_recipients (GList *list, const char *recips, gboolean decode);
+static void free_recipients (GList *list);
 
 
 static GtkWidget *
@@ -364,10 +370,10 @@ set_editor_text (BonoboWidget *editor, const char *sig_file, const char *text)
 	sig = get_signature (sig_file);
 	if (sig) {
 		if (!strncmp ("-- \n", sig, 3))
-			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n%s</PRE>",
+			fulltext = g_strdup_printf ("%s<br>\n<pre>\n%s</pre>",
 						    text, sig);
 		else
-			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n-- \n%s</PRE>",
+			fulltext = g_strdup_printf ("%s<br>\n<pre>\n-- \n%s</pre>",
 						    text, sig);
 	} else {
 		if (!*text)
@@ -1303,9 +1309,13 @@ GtkWidget *
 e_msg_composer_new_with_message (CamelMimeMessage *msg)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
-	GList *tmp, *To = NULL, *Cc = NULL, *Bcc = NULL;
+	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
+	gboolean want_plain, is_html;
+	CamelDataWrapper *contents;
+	const MailConfig *config;
 	const gchar *subject;
 	GtkWidget *new;
+	char *text, *final_text;
 	guint len, i;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
@@ -1345,27 +1355,26 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	
 	e_msg_composer_set_headers (E_MSG_COMPOSER (new), To, Cc, Bcc, subject);
 	
-	tmp = To;
-	while (tmp) {
-		g_free (tmp->data);
-		tmp = tmp->next;
-	}
-	g_list_free (To);
-	tmp = Cc;
-	while (tmp) {
-		g_free (tmp->data);
-		tmp = tmp->next;
-	}
-	g_list_free (Cc);
-	tmp = Bcc;
-	while (tmp) {
-		g_free (tmp->data);
-		tmp = tmp->next;
-	}
-	g_list_free (Bcc);
+	free_recipients (To);
+	free_recipients (Cc);
+	free_recipients (Bcc);
 	
-	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
-			 NULL, "FIXME: like, uh... put the message here and stuff\n");
+	config = mail_config_fetch ();
+	want_plain = !config->send_html;
+
+	contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
+	text = mail_get_message_body (contents, want_plain, &is_html);
+	if (is_html)
+		final_text = g_strdup (text);
+	else
+		final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+					     E_TEXT_TO_HTML_CONVERT_SPACES);
+	g_free (text);
+	
+	e_msg_composer_set_body_text (E_MSG_COMPOSER (new), final_text);
+	
+	/*set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
+	  NULL, "FIXME: like, uh... put the message here and stuff\n");*/
 	
 	return new;
 }
