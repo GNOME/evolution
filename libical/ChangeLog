@@ -1,3 +1,8 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in: AC_OUTPUT the Makefile in `src' before the stuff
+	in its subdirs.
+
 2000-09-12  JP Rosevear  <jpr@helixcode.com>
 
 	* test-data/stresstest.ics: Merge missing file for distcheck
