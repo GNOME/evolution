@@ -738,9 +738,6 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	d(g_print ("y = %d, widget->allocation.y = %d, GTK_LAYOUT (widget)->vadjustment->value = %f\n", y, widget->allocation.y, GTK_LAYOUT (widget)->vadjustment->value));
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
-
 	if (x < 20)
 		direction |= ET_SCROLL_LEFT;
 	if (x > widget->allocation.width - 20)
