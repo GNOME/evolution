@@ -924,7 +924,11 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key)
 	xmlNodePtr node;
 	const char *name;
 	char *buf, *p;
-	
+
+	/* This code needs to be rewritten.
+	   First it doesn't belong on the model
+	   Second, it shouldn't use an xml tree to store a bit table in memory! */
+
 	node = model->state ? model->state->children : NULL;
 	if (!node || strcmp (node->name, "tree-state") != 0)
 		return FALSE;

@@ -1,3 +1,31 @@
+2004-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_set_selected): store the
+	select-uri on the view not in the thread message.
+	(emft_get_folder_info__free):
+	(emft_get_folder_info__got): select_uri removed.
+	(em_folder_tree_set_selected_list): don't set each selected
+	separately, do it as a list.
+	(emft_maybe_expand_row): if this is a selected row, select it too.
+	(emft_get_folder_info__got): do no pending set selection stuff
+	here.
+	(em_folder_tree_set_selected): just call set_selected_list with
+	one item.
+	(emft_expand_node): if this is a selected row, select it too.
+	(emft_get_folder_info__got): no longer need to track lost folders.
+	(emft_tree_row_activated): clear the pending select list.
+	(emft_tree_selection_changed): and here too.
+	(em_folder_tree_get_selected_uris): get the lost folders from the
+	un-applied selected ones now.  also fixes a list appending error.
+	(emft_tree_user_event): find out when the user hits a key or mouse
+	button to override any pending single-user select and don't
+	override the cursor setting either.
+	(emft_tree_row_expanded): set the 'load subdirs' false before we
+	load it, so we don't try to load it again if its still being
+	loaded.
+	(emft_get_folder_info__got): don't check the loaded flag here, it
+	should be set by the callee, also check the exception return.
+
 2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #62812
