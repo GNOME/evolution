@@ -64,7 +64,7 @@ e_color_init (void)
 	static gboolean e_color_inited = FALSE;
 
 	/* It's surprisingly easy to end up calling this twice.  Survive.  */
-	if (!e_color_inited)
+	if (e_color_inited)
 		return;
 
 	e_color_inited = TRUE;

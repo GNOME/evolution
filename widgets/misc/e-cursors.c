@@ -93,6 +93,8 @@ e_cursors_init (void)
 {
 	int i;
 
+	e_color_init ();
+
 	for (i = 0; cursors [i].hot_x; i++){
 		GdkBitmap *bitmap, *mask;
 
