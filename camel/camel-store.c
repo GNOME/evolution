@@ -684,7 +684,7 @@ camel_folder_info_free (CamelFolderInfo *fi)
 void
 camel_folder_info_build_path (CamelFolderInfo *fi, char separator)
 {
-	fi->path = g_strdup (fi->full_name);
+	fi->path = g_strdup_printf("/%s", fi->full_name);
 	if (separator != '/') {
 		char *p;
 		

@@ -226,12 +226,9 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	fi->name = g_strdup (name);
 	fi->url = g_strdup (lf->folder_path);
 	fi->unread_message_count = -1;
-	fi->path = g_strdup (full_name);
-	
-	camel_object_trigger_event (CAMEL_OBJECT (parent_store),
-				    "folder_created", fi);
-	
-	camel_folder_info_free (fi);
+	camel_folder_info_build_path(fi, '/');
+	camel_object_trigger_event(CAMEL_OBJECT (parent_store), "folder_created", fi);
+	camel_folder_info_free(fi);
 	
 	return lf;
 }

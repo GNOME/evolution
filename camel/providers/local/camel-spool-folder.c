@@ -206,9 +206,9 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 	fi = g_malloc0(sizeof(*fi));
 	fi->full_name = g_strdup(full_name);
 	fi->name = g_strdup(name);
-	fi->url = g_strdup(lf->folder_path);
+	fi->url = g_strdup_printf("spool:%s#%s", ((CamelService *)parent_store)->url->path, fi->name);
 	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-	fi->path = g_strdup (full_name);
+	camel_folder_info_build_path(fi, '/');
 	
 	camel_object_trigger_event(CAMEL_OBJECT(parent_store), "folder_created", fi);
 	camel_folder_info_free (fi);

@@ -1542,14 +1542,11 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	if (name)
 		name++;
 	
-	/* FIXME: we should probably relocate all code that generates
-           fi->path to a single location and have all code use that */
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_strdup (name);
 	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 	fi->unread_message_count = -1;
-	
 	camel_folder_info_build_path (fi, imap_store->dir_sep);
 	
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_created", fi);
@@ -1591,6 +1588,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	fi->name = g_strdup (name);
 	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 	fi->unread_message_count = -1;
+	camel_folder_info_build_path (fi, imap_store->dir_sep);
 
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_deleted", fi);
 	camel_folder_info_free (fi);

@@ -1,3 +1,38 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-store.c (camel_folder_info_new):
+	Build the path on the folderinfo.
+
+	* providers/local/camel-spool-store.c (get_folder_info): If we
+	have this folder open, then set unread from the folder itself.
+	(get_folder_info): Change the INBOX path to not include the
+	leading /.
+
+	* providers/local/camel-spool-folder.c
+	(camel_spool_folder_construct): Fix path.
+	(camel_spool_folder_construct): Properly setup the url field when
+	we say we've got a new folder created.
+
+	* providers/imap/camel-imap-store.c (unsubscribe_folder): Build
+	path on folderinfo.
+
+	* camel-store.c (camel_folder_info_build_path): Prepend / to path.
+
+	* camel-vee-folder.c (camel_vee_folder_construct): Use macro for
+	unmatched folder name.
+	(camel_vee_folder_new): "
+
+	* camel-vee-store.c (vee_get_folder_info): Use macro for unmatched
+	folder name.
+	(vee_delete_folder): "
+	(vee_rename_folder): "
+	(vee_get_folder): Prepend / onto path.
+	(vee_delete_folder): Setup path in folderinfo.
+	(vee_get_folder_info): Fix path in folderinfo.
+
+	* camel-vee-folder.h (CAMEL_UNMATCHED_NAME): New define for
+	unmatched (internal) name.
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-spool-folder.c

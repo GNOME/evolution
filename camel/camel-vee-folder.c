@@ -217,7 +217,7 @@ camel_vee_folder_construct(CamelVeeFolder *vf, CamelStore *parent_store, const c
 		folder_unmatched = (CamelVeeFolder *)camel_object_new (camel_vee_folder_get_type ());
 		d(printf("created foldeer unmatched %p\n", folder_unmatched));
 		
-		vee_folder_construct (folder_unmatched, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
+		vee_folder_construct (folder_unmatched, parent_store, CAMEL_UNMATCHED_NAME, CAMEL_STORE_FOLDER_PRIVATE);
 	}
 	
 	UNMATCHED_UNLOCK();
@@ -247,12 +247,12 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 		unmatched_uids = g_hash_table_new(g_str_hash, g_str_equal);
 		folder_unmatched = vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
 		d(printf("created foldeer unmatched %p\n", folder_unmatched));
-		vee_folder_construct (vf, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
+		vee_folder_construct (vf, parent_store, CAMEL_UNMATCHED_NAME, CAMEL_STORE_FOLDER_PRIVATE);
 	}
 
 	UNMATCHED_UNLOCK();
 
-	if (strcmp(name, "UNMATCHED") == 0) {
+	if (strcmp(name, CAMEL_UNMATCHED_NAME) == 0) {
 		camel_object_ref((CamelObject *)folder_unmatched);
 		d(printf("returning unmatched %p, count = %d\n", folder_unmatched, camel_folder_get_message_count((CamelFolder *)folder_unmatched)));
 		return (CamelFolder *)folder_unmatched;

@@ -224,6 +224,7 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	fi->full_name = g_strdup(full);
 	fi->name = g_strdup(name);
 	fi->unread_message_count = unread;
+	camel_folder_info_build_path(fi, '/');
 
 	return fi;
 }

@@ -56,6 +56,8 @@ struct _CamelVeeFolderClass {
 	CamelFolderClass parent_class;
 };
 
+#define CAMEL_UNMATCHED_NAME "UNMATCHED"
+
 guint	      camel_vee_folder_get_type		(void);
 CamelFolder  *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags);
 void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags);

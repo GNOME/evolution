@@ -303,7 +303,8 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi->name = g_strdup (g_basename (folder_name));
 	fi->url = g_strdup_printf ("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 	fi->unread_message_count = -1;
-	
+	camel_folder_info_build_path(fi, '/');
+
 	camel_object_trigger_event (CAMEL_OBJECT (store),
 				    "folder_deleted", fi);
 	

@@ -135,7 +135,7 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 		fi->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path,
 					  ((CamelFolder *)vf)->full_name);
 		fi->unread_message_count = camel_folder_get_message_count((CamelFolder *)vf);
-		fi->path = g_strdup (fi->full_name);
+		camel_folder_info_build_path(fi, '/');
 		camel_object_trigger_event(CAMEL_OBJECT(store), "folder_created", fi);
 		camel_folder_info_free(fi);
 	}
@@ -207,13 +207,13 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 	CAMEL_STORE_UNLOCK(store, cache_lock);
 
 	/* and always add UNMATCHED, if scanning from top/etc */
-	if (top == NULL || top[0] == 0 || strncmp(top, "UNMATCHED", strlen("UNMATCHED")) == 0) {
+	if (top == NULL || top[0] == 0 || strncmp(top, CAMEL_UNMATCHED_NAME, strlen(CAMEL_UNMATCHED_NAME)) == 0) {
 		info = g_malloc0(sizeof(*info));
-		info->url = g_strdup_printf("vfolder:%s#UNMATCHED", ((CamelService *)store)->url->path);
-		info->full_name = g_strdup("UNMATCHED");
-		info->name = g_strdup("UNMATCHED");
+		info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, CAMEL_UNMATCHED_NAME);
+		info->full_name = g_strdup(CAMEL_UNMATCHED_NAME);
+		info->name = g_strdup(CAMEL_UNMATCHED_NAME);
 		info->unread_message_count = -1;
-		info->path = g_strdup (info->full_name);
+		camel_folder_info_build_path(info, '/');
 		g_ptr_array_add(data.infos, info);
 	}
 		
@@ -230,7 +230,7 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 	CamelFolder *folder;
 	char *key;
 
-	if (strcmp(folder_name, "UNMATCHED") == 0) {
+	if (strcmp(folder_name, CAMEL_UNMATCHED_NAME) == 0) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Cannot delete folder: %s: Invalid operation"), folder_name);
 		return;
@@ -258,6 +258,7 @@ vee_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 				fi->name = g_strdup(fi->name);
 			fi->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, key);
 			fi->unread_message_count = -1;
+			camel_folder_info_build_path(fi, '/');
 	
 			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_deleted", fi);
 			camel_folder_info_free(fi);
@@ -277,7 +278,7 @@ vee_rename_folder(CamelStore *store, const char *old, const char *new, CamelExce
 	CamelFolder *folder;
 	char *key, *oldname, *full_oldname;
 
-	if (strcmp(old, "UNMATCHED") == 0) {
+	if (strcmp(old, CAMEL_UNMATCHED_NAME) == 0) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Cannot rename folder: %s: Invalid operation"), old);
 		return;
