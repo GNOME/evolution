@@ -1,3 +1,12 @@
+2000-09-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-tools.c (mail_tool_move_folder_contents): Since POP3
+	doesn't implement get_message_info, we need to check for info to
+	be NULL. In this case, we need to make our own info structure to
+	pass to append_message and then remember to free it
+	afterward. Should we even bother with get_message_info? And if so,
+	should we then implement get_message_info for POP3?
+
 2000-09-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser.c (etable_key): Make the `Home' key to move to
