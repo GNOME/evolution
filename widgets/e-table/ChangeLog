@@ -1,3 +1,9 @@
+2000-03-26  Matias Mutchinick <matias@seul.org>
+
+	* e-cell-toggle.c (etog_draw): Removed extra code that computed
+	bogus width.  This was the actual source of the problem with the
+	miss-rendering feature.
+
 2000-03-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header-item.c (ethi_realize): Remove warning from here.

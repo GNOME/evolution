@@ -125,7 +125,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		height = art->height;
 	}
 
-	width = y2 - y1;
 
 	if (image->art_pixbuf->has_alpha){
 		GdkColor background;
@@ -138,14 +137,14 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		background.green = 255;
 		background.blue = 255;
 		
-		for (iy = 0; iy <= art->height; iy++){
+		for (iy = 0; iy < art->height; iy++){
 			unsigned char *dest;
 			unsigned char *src;
 		
 			dest = buffer + (iy * art->rowstride);
 			src = art->pixels + (iy * art->rowstride);
 
-			for (ix = 0; ix <= art->width; ix++){
+			for (ix = 0; ix < art->width; ix++){
 				alpha = src [3];
 				if (alpha == 0){
 					*dest++ = background.red;
