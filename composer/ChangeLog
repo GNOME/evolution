@@ -1,3 +1,10 @@
+2004-04-06  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (prepare_signatures_menu): added empty hbox so
+	that we have 12pxs between account setting and signature setting
+
+	Fixes #42866
+
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (set_editor_text): Revert Radek's last change

@@ -2077,7 +2077,7 @@ signature_changed (ESignatureList *signatures, ESignature *sig, EMsgComposer *co
 static void
 prepare_signatures_menu (EMsgComposer *composer)
 {
-	GtkWidget *hbox;
+	GtkWidget *hbox, *hspace;
 	GtkWidget *label;
 	
 	hbox = e_msg_composer_hdrs_get_from_hbox (E_MSG_COMPOSER_HDRS (composer->hdrs));
@@ -2090,6 +2090,9 @@ prepare_signatures_menu (EMsgComposer *composer)
 	
 	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+	hspace = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hspace);
+	gtk_box_pack_start (GTK_BOX (hbox), hspace, FALSE, FALSE, 0);
 }
 
 static void
