@@ -36,6 +36,7 @@
 
 #include "e-msg-composer-address-entry.h"
 #include "e-msg-composer-hdrs.h"
+#include "widgets/e-text/e-entry.h"
 
 #include "mail/mail-config.h"
 
@@ -263,15 +264,19 @@ add_header (EMsgComposerHdrs *hdrs,
 		entry = create_dropdown_entry (hdrs, name);
 		break;
 	default:
-		entry = gtk_entry_new ();
+		entry = e_entry_new ();
+		gtk_object_set(GTK_OBJECT(entry),
+			       "editable", TRUE,
+			       "use_ellipsis", TRUE,
+			       NULL);
 	}
-	
+
 	if (entry != NULL) {
 		gtk_widget_show (entry);
 		
 		gtk_table_attach (GTK_TABLE (hdrs), entry,
 				  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
-				  GTK_FILL | GTK_EXPAND, GTK_FILL,
+				  GTK_FILL | GTK_EXPAND, 0,
 				  2, 2);
 		
 		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
@@ -521,10 +526,12 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (msg != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
-	
-	s = gtk_entry_get_text (GTK_ENTRY (hdrs->priv->subject_entry));
+
+	gtk_object_get(GTK_OBJECT(hdrs->priv->subject_entry),
+		       "text", &s,
+		       NULL);
 	camel_mime_message_set_subject (msg, g_strdup (s));
-	
+
 	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
 	set_recipients (msg, hdrs->priv->bcc_entry, CAMEL_RECIPIENT_TYPE_BCC);
@@ -597,14 +604,13 @@ void
 e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 				 const char *subject)
 {
-	GtkEntry *entry;
-
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 
-	entry = GTK_ENTRY (hdrs->priv->subject_entry);
-	gtk_entry_set_text (entry, subject);
+	gtk_object_set(GTK_OBJECT(hdrs->priv->subject_entry),
+		       "text", subject,
+		       NULL);
 }
 
 
@@ -656,11 +662,16 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 const char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
+	gchar *subject;
+
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return gtk_entry_get_text
-		(GTK_ENTRY (hdrs->priv->subject_entry));
+	gtk_object_get(GTK_OBJECT(hdrs->priv->subject_entry),
+		       "text", &subject,
+		       NULL);
+	
+	return subject;
 }
 
 

@@ -1196,7 +1196,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	vbox = gtk_vbox_new (FALSE, 0);
 	
 	composer->hdrs = e_msg_composer_hdrs_new ();
-	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	gtk_widget_show (composer->hdrs);
 	
 	/* Editor component.  */
@@ -1231,7 +1231,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 			   composer->attachment_bar);
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    composer->attachment_scroll_frame,
-			    FALSE, TRUE, GNOME_PAD_SMALL);
+			    FALSE, FALSE, GNOME_PAD_SMALL);
 
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed_cb), composer);

@@ -166,7 +166,6 @@ paste_recipient_cb (GtkWidget *widget,
 {
 	RecipientListInfo *info;
 	GdkAtom atom;
-	gchar *text[2];
 
 	info = (RecipientListInfo *) data;
 
@@ -439,8 +438,6 @@ static void
 destroy (GtkObject *object)
 {
 	EMsgComposerAddressDialog *dialog;
-	GtkCList *address_clist;
-	GList *p;
 
 	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (object);
 
@@ -614,7 +611,6 @@ static GList *
 get_list (EMsgComposerAddressDialog *dialog,
 	  const gchar *clist_name)
 {
-	GtkCList *address_clist;
 	GtkCList *clist;
 	GList *list;
 	guint i;
