@@ -1,3 +1,11 @@
+1999-12-13  Nat Friedman  <nat@helixcode.com>
+
+	* ebook/e-book.h: New file.
+	* ebook/e-book.c: New file.
+	* ebook/e-card.h: New file.
+	* ebook/e-card-fields.h: New file.
+	* ebook/e-commerce.h: New file. :-)
+
 1999-12-08  Ettore Perazzoli  <ettore@gnu.org>
 
 	* tests/test1.c (main): Removed the strdup()s, which are not
