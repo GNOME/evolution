@@ -498,17 +498,43 @@ remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChi
 }
 
 struct _RightClickData {
-	int row;
+	ETable *table;
 	ESelectNamesChild *child;
 };
 typedef struct _RightClickData RightClickData;
+
+static GSList *selected_rows = NULL;
+
+static void
+etable_selection_foreach_cb (int row, void *data)
+{
+	/* Build a list of rows in reverse order, then remove them,
+           necessary because otherwise it'll start trying to delete
+           rows out of index in ETableModel */
+	selected_rows = g_slist_prepend (selected_rows,
+					 GINT_TO_POINTER (row));
+}
+
+static void
+selected_rows_foreach_cb (void *row, void *data)
+{
+	ESelectNamesChild *child = data;
+
+	e_select_names_model_delete (child->source, GPOINTER_TO_INT (row));
+}
 
 static void
 remove_cb (GtkWidget *widget, void *data)
 {
 	RightClickData *rcdata = (RightClickData *)data;
 
-	remove_address (NULL, rcdata->row, 0, NULL, rcdata->child);
+	e_table_selected_row_foreach (rcdata->table,
+				      etable_selection_foreach_cb,
+				      rcdata->child);
+
+	g_slist_foreach (selected_rows,
+			 (GFunc)selected_rows_foreach_cb,
+			 rcdata->child);
 
 	g_free (rcdata);
 }
@@ -523,7 +549,7 @@ section_right_click_cb (ETable *table, gint row, gint col, GdkEvent *event, ESel
 	};
 
 	RightClickData *rcdata = g_new0 (RightClickData, 1);
-	rcdata->row = row;
+	rcdata->table = table;
 	rcdata->child = child;
 
 	e_popup_menu_run (right_click_menu, event, 0, 0,
