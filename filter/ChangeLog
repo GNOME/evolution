@@ -1,3 +1,8 @@
+2005-01-21  Not Zed  <NotZed@Ximian.com>
+
+	* filter-part.c (filter_part_expand_code): cast length specifiers
+	to int.
+
 2004-07-29  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* filter-file.c: added the "use_filechooser" property to the 
