@@ -1,3 +1,7 @@
+2003-08-27  Bolian Yin <bolian.yin@sun.com>
+
+	* gui/Makefile.am use libevolution-calendar-a11y instead of libevolution-a11y.
+
 2003-08-26  Jack Jia  <jack.jia@sun.com>
 
 	** Fixes #47863.
