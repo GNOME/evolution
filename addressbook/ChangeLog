@@ -1,3 +1,7 @@
+2001-01-22  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: remove vfs dependency
+
 2001-01-21  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (delete_record):  Remove

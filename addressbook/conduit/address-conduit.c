@@ -580,7 +580,7 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
 			g_hash_table_insert (ctxt->changed_hash, e_card_get_id (coc->card), coc);
-	}	
+	}
 }
 
 
