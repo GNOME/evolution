@@ -1,3 +1,34 @@
+2002-05-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-remote-store.c: Removed from the build. Glory glory
+	hallelujah.
+
+	* camel-disco-store.c: Updated to inherit from
+	CamelStore rather than CamelRemoteStore.
+
+	* providers/imap/camel-imap-command.c (imap_command_start): Don't
+	use the camel-remote-store shit to send a string. Just use
+	camel_stream_printf for chrissakes.
+
+	* providers/imap/camel-imap-store.c: Updated to not depend on
+	CamelRemoteStore and to handle STARTTLS.
+	(imap_disconnect_online): Unref the streams.
+	(imap_keepalive): Removed.
+	(camel_imap_store_connected): New function to replace
+	camel_remote_store_connected().
+	(camel_imap_store_finalize): Unref the streams.
+	(camel_imap_store_recv_line): New function to replace
+	camel_remote_store_recv_line().
+	(imap_get_capability): Renamed from connect_to_server
+	(connect_to_server): New function to try and connect to the
+	server.
+	(connect_to_server_wrapper): New wrapper function around
+	connect_to_server that takes the ssl modes into consideration.
+	(query_auth_types): Don't bother calling our parent's
+	implementation of query_auth_types() since CamelDiscoStore doesn't
+	have any anyway.
+	(imap_get_name): New method to implement CamelService::get_name
+
 2002-05-18  Not Zed  <NotZed@Ximian.com>
 
 	* camel-search-private.c (camel_utf8_getc): If we get an invalid

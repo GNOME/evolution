@@ -84,8 +84,9 @@ typedef enum {
 #define IMAP_CAPABILITY_NAMESPACE		(1 << 3)
 #define IMAP_CAPABILITY_UIDPLUS			(1 << 4)
 #define IMAP_CAPABILITY_LITERALPLUS		(1 << 5)
-#define IMAP_CAPABILITY_useful_lsub		(1 << 6)
-#define IMAP_CAPABILITY_utf8_search		(1 << 7)
+#define IMAP_CAPABILITY_STARTTLS                (1 << 6)
+#define IMAP_CAPABILITY_useful_lsub		(1 << 7)
+#define IMAP_CAPABILITY_utf8_search		(1 << 8)
 
 #define IMAP_PARAM_OVERRIDE_NAMESPACE		(1 << 0)
 #define IMAP_PARAM_CHECK_ALL			(1 << 1)
@@ -94,6 +95,9 @@ typedef enum {
 struct _CamelImapStore {
 	CamelDiscoStore parent_object;	
 	struct _CamelImapStorePrivate *priv;
+	
+	CamelStream *istream;
+	CamelStream *ostream;
 	
 	/* Information about the command channel / connection status */
 	gboolean connected;
@@ -123,6 +127,11 @@ typedef struct {
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
+
+
+gboolean camel_imap_store_connected (CamelImapStore *store, CamelException *ex);
+
+int camel_imap_store_recv_line (CamelImapStore *store, char **dest, CamelException *ex);
 
 #ifdef __cplusplus
 }

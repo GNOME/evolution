@@ -73,7 +73,6 @@ libcamel_la_SOURCES = 				\
 	camel-smime-context.c			\
 	camel-smime-utils.c			\
 	camel-provider.c			\
-	camel-remote-store.c			\
 	camel-sasl.c				\
 	camel-sasl-anonymous.c			\
 	camel-sasl-cram-md5.c			\
@@ -170,7 +169,6 @@ libcamelinclude_HEADERS =			\
 	camel-smime-context.h			\
 	camel-smime-utils.h			\
 	camel-provider.h			\
-	camel-remote-store.h			\
 	camel-sasl.h				\
 	camel-sasl-anonymous.h			\
 	camel-sasl-cram-md5.h			\

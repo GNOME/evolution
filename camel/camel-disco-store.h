@@ -29,9 +29,9 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
-#include "camel-remote-store.h"
+#include <camel/camel-store.h>
 
 #define CAMEL_DISCO_STORE_TYPE     (camel_disco_store_get_type ())
 #define CAMEL_DISCO_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_DISCO_STORE_TYPE, CamelDiscoStore))
@@ -39,7 +39,7 @@ extern "C" {
 #define CAMEL_IS_DISCO_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_DISCO_STORE_TYPE))
 
 enum {
-	CAMEL_DISCO_STORE_ARG_FIRST  = CAMEL_REMOTE_STORE_ARG_FIRST + 100,
+	CAMEL_DISCO_STORE_ARG_FIRST  = CAMEL_STORE_ARG_FIRST + 100,
 };
 
 typedef enum {
@@ -49,7 +49,7 @@ typedef enum {
 } CamelDiscoStoreStatus;
 
 struct _CamelDiscoStore {
-	CamelRemoteStore parent_object;	
+	CamelStore parent_object;	
 
 	CamelDiscoStoreStatus status;
 	CamelDiscoDiary *diary;
@@ -57,7 +57,7 @@ struct _CamelDiscoStore {
 
 
 typedef struct {
-	CamelRemoteStoreClass parent_class;
+	CamelStoreClass parent_class;
 
 	void              (*set_status)              (CamelDiscoStore *,
 						      CamelDiscoStoreStatus,

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-disco-store.c: abstract class for a disconnectable remote store */
+/* camel-disco-store.c: abstract class for a disconnectable store */
 
 /*
  *  Authors: Dan Winship <danw@ximian.com>
@@ -22,6 +22,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -33,7 +34,7 @@
 
 #define CDS_CLASS(o) (CAMEL_DISCO_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 
-static CamelRemoteStoreClass *parent_class = NULL;
+static CamelStoreClass *parent_class = NULL;
 
 static void disco_construct (CamelService *service, CamelSession *session,
 			     CamelProvider *provider, CamelURL *url,
@@ -64,7 +65,7 @@ camel_disco_store_class_init (CamelDiscoStoreClass *camel_disco_store_class)
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_disco_store_class);
 	
-	parent_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
+	parent_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
 	
 	/* virtual method definition */
 	camel_disco_store_class->set_status = set_status;
@@ -87,10 +88,11 @@ CamelType
 camel_disco_store_get_type (void)
 {
 	static CamelType camel_disco_store_type = CAMEL_INVALID_TYPE;
-
+	
 	if (camel_disco_store_type == CAMEL_INVALID_TYPE) {
 		camel_disco_store_type = camel_type_register (
-			CAMEL_REMOTE_STORE_TYPE, "CamelDiscoStore",
+			CAMEL_STORE_TYPE,
+			"CamelDiscoStore",
 			sizeof (CamelDiscoStore),
 			sizeof (CamelDiscoStoreClass),
 			(CamelObjectClassInitFunc) camel_disco_store_class_init,
@@ -98,7 +100,7 @@ camel_disco_store_get_type (void)
 			NULL,
 			NULL);
 	}
-
+	
 	return camel_disco_store_type;
 }
 

@@ -40,6 +40,10 @@
 #include "camel-imap-private.h"
 #include <camel/camel-exception.h>
 
+#define d(x) x
+
+extern int camel_verbose_debug;
+
 static gboolean imap_command_start (CamelImapStore *store, CamelFolder *folder,
 				    const char *cmd, CamelException *ex);
 CamelImapResponse *imap_read_response (CamelImapStore *store,
@@ -170,6 +174,8 @@ static gboolean
 imap_command_start (CamelImapStore *store, CamelFolder *folder,
 		    const char *cmd, CamelException *ex)
 {
+	ssize_t nwritten;
+	
 	/* Check for current folder */
 	if (folder && folder != store->current_folder) {
 		CamelImapResponse *response;
@@ -188,10 +194,39 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
 	}
 	
 	/* Send the command */
-	return camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
-					       "%c%.5d %s\r\n",
-					       store->tag_prefix,
-					       store->command++, cmd) != -1;
+#if d(!)0
+	if (camel_verbose_debug) {
+		const char *mask;
+		
+		if (!strncmp ("LOGIN \"", cmd, 7))
+			mask = "LOGIN \"xxx\" xxx";
+		else if (!strncmp ("LOGIN {", cmd, 7))
+			mask = "LOGIN {N+}\r\nxxx {N+}\r\nxxx";
+		else if (!strncmp ("LOGIN ", cmd, 6))
+			mask = "LOGIN xxx xxx";
+		else
+			mask = cmd;
+		
+		fprintf (stderr, "sending : %c%.5d %s\r\n", store->tag_prefix, store->command, mask);
+	}
+#endif
+	
+	nwritten = camel_stream_printf (store->ostream, "%c%.5d %s\r\n",
+					store->tag_prefix, store->command++, cmd);
+	
+	if (nwritten == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Operation cancelled"));
+		else
+			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					     g_strerror (errno));
+		
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+		return FALSE;
+	}
+	
+	return TRUE;
 }
 
 /**
@@ -205,7 +240,7 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
  * after camel_imap_command() or camel_imap_command_response() returns
  * a continuation response.
  * 
- * This function assumes you have an exclusive lock on the remote stream.
+ * This function assumes you have an exclusive lock on the imap stream.
  *
  * Return value: as for camel_imap_command(). On failure, the store's
  * command_lock will be released.
@@ -214,15 +249,11 @@ CamelImapResponse *
 camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
 				 size_t cmdlen, CamelException *ex)
 {
-	CamelStream *stream;
-	
-	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+	if (!camel_imap_store_connected (store, ex))
 		return NULL;
 	
-	stream = CAMEL_REMOTE_STORE (store)->ostream;
-	
-	if (camel_stream_write (stream, cmd, cmdlen) == -1 ||
-	    camel_stream_write (stream, "\r\n", 2) == -1) {
+	if (camel_stream_write (store->ostream, cmd, cmdlen) == -1 ||
+	    camel_stream_write (store->ostream, "\r\n", 2) == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Operation cancelled"));
@@ -259,8 +290,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	CamelImapResponseType type;
 	char *respbuf;
 	
-	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
-					  &respbuf, ex) < 0) {
+	if (camel_imap_store_recv_line (store, &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return CAMEL_IMAP_RESPONSE_ERROR;
 	}
@@ -402,8 +432,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		/* Read the literal */
 		str = g_string_sized_new (length + 2);
 		str->str[0] = '\n';
-		nread = camel_stream_read (CAMEL_REMOTE_STORE (store)->istream,
-					   str->str + 1, length);
+		nread = camel_stream_read (store->istream, str->str + 1, length);
 		if (nread == -1) {
 			if (errno == EINTR)
 				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
@@ -464,8 +493,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		g_ptr_array_add (data, str);
 		
 		/* Read the next line. */
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
-						  &line, ex) < 0)
+		if (camel_imap_store_recv_line (store, &line, ex) < 0)
 			goto lose;
 	}
 	
