@@ -1,6 +1,8 @@
-2001-07-10    <tigert@ximian.com>
+2001-07-10  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* new_appointment.png: New appointment icon. 	
+	* new_appointment.xpm: Small version.. (should we change this to 
+	16_new_appointment.png btw?
 
 2001-07-09  Iain Holmes  <iain@ximian.com>
 
