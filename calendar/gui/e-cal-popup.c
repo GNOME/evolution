@@ -31,6 +31,10 @@
 #include "e-cal-popup.h"
 #include "widgets/misc/e-source-selector.h"
 
+#include "gui/e-calendar-view.h"
+#include "gui/e-cal-model.h"
+#include "itip-utils.h"
+
 static GObjectClass *ecalp_parent;
 
 static void
@@ -51,9 +55,12 @@ ecalp_target_free(EPopup *ep, EPopupTarget *t)
 	switch (t->type) {
 	case E_CAL_POPUP_TARGET_SELECT: {
 		ECalPopupTargetSelect *s = (ECalPopupTargetSelect *)t;
+		int i;
 
-		/* FIXME: implement */
-		s = s;
+		for (i=0;i<s->events->len;i++)
+			e_cal_model_free_component_data(s->events->pdata[i]);
+		g_ptr_array_free(s->events, TRUE);
+		g_object_unref(s->model);
 		break; }
 	case E_CAL_POPUP_TARGET_SOURCE: {
 		ECalPopupTargetSource *s = (ECalPopupTargetSource *)t;
@@ -110,12 +117,69 @@ ECalPopup *e_cal_popup_new(const char *menuid)
  * Return value: 
  **/
 ECalPopupTargetSelect *
-e_cal_popup_target_new_select(ECalPopup *eabp)
+e_cal_popup_target_new_select(ECalPopup *eabp, ECalendarView *view)
 {
 	ECalPopupTargetSelect *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
+	GList *events, *l;
+	ECal *client;
+	gboolean read_only;
 
-	/* FIXME: impelement */
+	t->model = e_calendar_view_get_model(view);
+	g_object_ref(t->model);
+	t->events = g_ptr_array_new();
+	l = events = e_calendar_view_get_selected_events(view);
+	for (l=events;l;l=g_list_next(l)) {
+		ECalendarViewEvent *event = l->data;
+
+		if (event)
+			g_ptr_array_add(t->events, e_cal_model_copy_component_data(event->comp_data));
+	}
+
+	/* In reality this is only ever called with a single event or none */
+
+	if (t->events->len == 0) {
+		client = e_cal_model_get_default_client(t->model);
+	} else {
+		ECalendarViewEvent *event = (ECalendarViewEvent *)events->data;
+
+		mask &= ~E_CAL_POPUP_SELECT_MANY;
+		if (events->next == NULL)
+			mask &= ~E_CAL_POPUP_SELECT_ONE;
+
+		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+			mask &= ~E_CAL_POPUP_SELECT_RECURRING;
+		else
+			mask &= ~E_CAL_POPUP_SELECT_NONRECURRING;
+
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp))
+			mask &= ~E_CAL_POPUP_SELECT_INSTANCE;
+
+		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
+			ECalComponent *comp;
+
+			comp = e_cal_component_new ();
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+			if (!itip_organizer_is_user (comp, event->comp_data->client))
+				mask &= ~E_CAL_POPUP_SELECT_ORGANIZER;
+
+			g_object_unref (comp);
+		} else {
+			/* organiser is synonym for owner in this case */
+			mask &= ~(E_CAL_POPUP_SELECT_ORGANIZER|E_CAL_POPUP_SELECT_NOTMEETING);
+		}
+
+		client = event->comp_data->client;
+	}
+
+	g_list_free(events);
+
+	e_cal_is_read_only(client, &read_only, NULL);
+	if (!read_only)
+		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
+
+	/* This bit isn't implemented ... */
+	mask &= ~E_CAL_POPUP_SELECT_NOTEDITING;
 
 	t->target.mask = mask;
 
@@ -185,12 +249,20 @@ static void *ecalph_parent_class;
 static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "one", E_CAL_POPUP_SELECT_ONE },
 	{ "many", E_CAL_POPUP_SELECT_MANY },
+	{ "editable", E_CAL_POPUP_SELECT_EDITABLE },
+	{ "recurring", E_CAL_POPUP_SELECT_RECURRING },
+	{ "non-recurring", E_CAL_POPUP_SELECT_NONRECURRING },
+	{ "instance", E_CAL_POPUP_SELECT_INSTANCE },
+	{ "organizer", E_CAL_POPUP_SELECT_ORGANIZER },
+	{ "not-editing", E_CAL_POPUP_SELECT_NOTEDITING },
+	{ "not-meeting", E_CAL_POPUP_SELECT_NOTMEETING },
 	{ 0 }
 };
 
 static const EPopupHookTargetMask ecalph_source_masks[] = {
 	{ "primary", E_CAL_POPUP_SOURCE_PRIMARY },
 	{ "system", E_CAL_POPUP_SOURCE_SYSTEM },
+	{ "user", E_CAL_POPUP_SOURCE_USER },
 	{ 0 }
 };
 

@@ -76,7 +76,7 @@ typedef struct {
 	gpointer cb_data;
 } ECalModelGenerateInstancesData;
 
-typedef struct {
+typedef struct _ECalModel {
 	ETableModel model;
 	ECalModelPrivate *priv;
 } ECalModel;

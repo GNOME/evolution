@@ -3289,7 +3289,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (day_view));
 	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, day_view);
-	e_popup_menu (popup, gdk_event);
+	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0, gdk_event?gdk_event->button.time:gtk_get_current_event_time());
 }
 
 static gboolean

@@ -26,7 +26,6 @@
 #include <time.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktooltips.h>
-#include <gal/widgets/e-popup-menu.h>
 
 #include "e-calendar-view.h"
 #include "gnome-cal.h"

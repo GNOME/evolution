@@ -379,10 +379,10 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_calendar_cb, NULL, "stock_folder-copy", E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_calendar_cb, NULL, "stock_delete", E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_calendar_cb, NULL, NULL, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "10.new", N_("New Calendar"), new_calendar_cb, NULL, "stock_calendar", 0, 0 },
+	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_calendar_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_calendar_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_calendar_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -409,8 +409,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 
 	e_popup_add_items((EPopup *)ep, menus, ecc_source_popup_free, component_view);
 
-	/* visibility is disabled, we only disable menu items */
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0, t->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
 
 	return TRUE;

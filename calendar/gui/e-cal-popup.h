@@ -34,6 +34,8 @@ extern "C" {
 typedef struct _ECalPopup ECalPopup;
 typedef struct _ECalPopupClass ECalPopupClass;
 
+struct _ECalendarView;
+
 /**
  * enum _e_cal_popup_target_t - A list of mail popup target types.
  * 
@@ -52,11 +54,26 @@ enum _e_cal_popup_target_t {
  * 
  * @E_CAL_POPUP_SELECT_ONE: Only one item is selected.
  * @E_CAL_POPUP_SELECT_MANY: One ore more items are selected.
+ * @E_CAL_POPUP_SELECT_EDITABLE: The selection is editable.
+ * @E_CAL_POPUP_SELECT_RECURRING: Is a recurring event.
+ * @E_CAL_POPUP_SELECT_NONRECURRING: Is not a recurring event.
+ * @E_CAL_POPUP_SELECT_INSTANCE: This is an instance event.
+ * @E_CAL_POPUP_SELECT_ORGANIZER: The user is the organiser of the event.
+ * @E_CAL_POPUP_SELECT_NOTEDITING: The event is not being edited already.  Not implemented.
+ * @E_CAL_POPUP_SELECT_NOTMEETING: The event is not a meeting.
  * 
  **/
 enum _e_cal_popup_target_select_t {
-	E_CAL_POPUP_SELECT_ONE                = 1<<1,
-	E_CAL_POPUP_SELECT_MANY               = 1<<2,
+	E_CAL_POPUP_SELECT_ONE = 1<<0,
+	E_CAL_POPUP_SELECT_MANY = 1<<1,
+	E_CAL_POPUP_SELECT_EDITABLE = 1<<2,
+	E_CAL_POPUP_SELECT_RECURRING = 1<<3,
+	E_CAL_POPUP_SELECT_NONRECURRING = 1<<4,
+	E_CAL_POPUP_SELECT_INSTANCE = 1<<5,
+
+	E_CAL_POPUP_SELECT_ORGANIZER = 1<<6,
+	E_CAL_POPUP_SELECT_NOTEDITING = 1<<7,
+	E_CAL_POPUP_SELECT_NOTMEETING = 1<<8,
 };
 
 /**
@@ -78,15 +95,21 @@ typedef struct _ECalPopupTargetSource ECalPopupTargetSource;
 /**
  * struct _ECalPopupTargetSelect - A list of address cards.
  * 
- * @target: Superclass.
+ * @target: Superclass.  target.widget is an ECalendarView.
+ * @model: The ECalModel.
+ * @events: The selected events.  These are ECalModelComponent's.
  *
  * Used to represent a selection of appointments as context for a popup
  * menu.
  *
- * FIXME: impelemnt me
+ * TODO: For maximum re-usability references to the view could be removed
+ * from this structure.
  **/
 struct _ECalPopupTargetSelect {
 	EPopupTarget target;
+
+	struct _ECalModel *model;
+	GPtrArray *events;
 };
 
 /**
@@ -120,7 +143,7 @@ GType e_cal_popup_get_type(void);
 
 ECalPopup *e_cal_popup_new(const char *menuid);
 
-ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp);
+ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalendarView *view);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
 
 /* ********************************************************************** */

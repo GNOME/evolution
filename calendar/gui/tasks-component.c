@@ -325,10 +325,10 @@ edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem etc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("New Task List"), new_task_list_cb, NULL, "stock_todo", 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_task_list_cb, NULL, "stock_folder-copy", E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_task_list_cb, NULL, "stock_delete", E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_task_list_cb, NULL, NULL, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "10.new", N_("New Task List"), new_task_list_cb, NULL, "stock_todo", 0, 0 },
+	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_task_list_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_task_list_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_task_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -355,8 +355,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 
 	e_popup_add_items((EPopup *)ep, menus, etc_source_popup_free, component_view);
 
-	/* visibility is disabled, we only disable menu items */
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0, t->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
 
 	return TRUE;

@@ -1,3 +1,37 @@
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_setup_view_popup): rename to
+	view_popup_factory.  Make it build an epopup item list directly.
+	Can't re-use the galview cruft :-/
+	(gnome_calendar_discard_view_popup): no longer needed.
+	(gc_set_view, gc_save_custom_view, gc_define_views_response) 
+	(gc_define_views): implement the gal-view popup menu items.
+
+	* gui/gnome-cal.h:
+	* gui/e-week-view.h:
+	* gui/e-day-view.h:
+	* gui/e-cal-list-view.h: removed old e-popup-menu header.
+
+	* gui/e-calendar-view.c (setup_popup_icons): removed.
+	(e_calendar_view_create_popup_menu): converted to use e-popup.
+	(on_paste, on_copy, on_cut, on_delete_occurrence) 
+	(on_unrecur_appointment, on_delete_appointment, on_publish) 
+	(on_forward, on_meeting, on_move_to, on_copy_to, on_print_event) 
+	(on_save_as, on_print, on_edit_appointment, on_goto_today) 
+	(on_goto_date, on_new_task, on_new_meeting, on_new_event) 
+	(on_new_appointment): convert to use e-popup stuff.
+
+	* gui/tasks-component.c (popup_event_cb): e-popup api changes.
+
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select): implement the
+	selection target.
+	(ecalp_target_free): and free it.
+
+	* gui/e-cal-model.h: Make the ECalModel struct non-anonymous so it
+	can be forward-declared.
+
+	* gui/calendar-component.c (popup_event_cb): e-popup api changes.
+
 2004-10-06  Rodrigo Moya <rodrigo@novell.com>
 
 	Revert fix for #60551
