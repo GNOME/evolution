@@ -29,6 +29,7 @@
 #include <gnome.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -162,7 +163,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		for (node = l; node != NULL; node = node->next) {
 			const char *icon_file;
 
-			icon_file = e_categories_config_get_icon_file_for ((const char *) node->data);
+			icon_file = e_categories_get_icon_file_for ((const char *) node->data);
 			if (icon_file) {
 				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"file://%s\">",
 							(const char *) node->data, icon_file);
