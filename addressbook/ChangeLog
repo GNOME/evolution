@@ -1,3 +1,8 @@
+2003-12-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/component/Makefile.am (INCLUDES): remove
+	GTK_DISABLED_DEPRECATED so that we can build with gtk-2.3.
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
@@ -152,6 +157,7 @@
 	(addressbook_model_set_uri): Use addressbook_load_source (). However,
 	this needs a bit more work to get source UIDs instead of URIs.
 
+>>>>>>> 1.1484
 2003-11-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/widgets/Makefile.am: turn on deprecated gtk and libgnomeui
