@@ -1,3 +1,8 @@
+2002-08-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-filter-bar.c (menubar_activated): Set the query text into the
+	filter name when saving it, for #10979.
+
 2002-07-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_signal_emission_idle_cb): Add

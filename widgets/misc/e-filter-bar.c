@@ -196,9 +196,15 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			GtkWidget *w;
 			GtkWidget *gd;
 			FilterRule *rule;
-			
+			char *name, *text;
+
 			rule = filter_rule_clone (efb->current_query);
-			
+			text = e_search_bar_get_text(esb);
+			name = g_strdup_printf("%s %s", rule->name, text&&text[0]?text:"''");
+			g_free(text);
+			filter_rule_set_name(rule, name);
+			g_free(name);
+
 			w = filter_rule_get_widget (rule, efb->context);
 			filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 			gd = gnome_dialog_new (_("Save Search"), GNOME_STOCK_BUTTON_OK,
