@@ -1,3 +1,10 @@
+2005-03-02  Harry Lu <harry.lu@sun.com>
+
+	Fix for 71733.
+
+	* mail-signature-editor.c: (mail_signature_editor): if is_new,
+	let name_entry get the focus.
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* em-utils.c (em_utils_configure_account): pass in accountDruid

@@ -431,7 +431,11 @@ mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 	gtk_widget_show (GTK_WIDGET (editor->win));
 	gtk_widget_show (GTK_WIDGET (editor->control));
 	
-	CORBA_exception_init (&ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (editor->engine, "grab-focus", &ev);
-	CORBA_exception_free (&ev);
+	if (is_new)
+		gtk_widget_grab_focus (editor->name_entry);
+	else {
+		CORBA_exception_init (&ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (editor->engine, "grab-focus", &ev);
+		CORBA_exception_free (&ev);
+	}
 }
