@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-08 13:10+0200\n"
-"PO-Revision-Date: 2005-01-08 13:15+0200\n"
+"POT-Creation-Date: 2005-01-10 14:59+0200\n"
+"PO-Revision-Date: 2005-01-10 14:59+0200\n"
 "Last-Translator: Vladimir Petkov <vpetkov@i-space.org>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "календарен изглед за един или повече дн
 msgid "a table to view and select the current time range"
 msgstr "таблица за преглед и избор на текущия времеви интервал"
 
-#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:519
+#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:520
 msgid "%A %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -167,22 +167,22 @@ msgstr "%a %d %b %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:522
-#: calendar/gui/e-day-view.c:1508 calendar/gui/e-day-view-top-item.c:708
+#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:523
+#: calendar/gui/e-day-view.c:1511 calendar/gui/e-day-view-top-item.c:719
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: a11y/calendar/ea-gnome-calendar.c:192 a11y/calendar/ea-gnome-calendar.c:197
-#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:524
-#: calendar/gui/calendar-component.c:529 calendar/gui/calendar-component.c:531
+#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:525
+#: calendar/gui/calendar-component.c:530 calendar/gui/calendar-component.c:532
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
 #: a11y/calendar/ea-gnome-calendar.c:216 a11y/calendar/ea-gnome-calendar.c:222
 #: a11y/calendar/ea-gnome-calendar.c:228 a11y/calendar/ea-gnome-calendar.c:230
-#: calendar/gui/calendar-component.c:543 calendar/gui/calendar-component.c:550
-#: calendar/gui/calendar-component.c:556 calendar/gui/calendar-component.c:558
+#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:551
+#: calendar/gui/calendar-component.c:557 calendar/gui/calendar-component.c:559
 msgid "%d %b %Y"
 msgstr "%d %B %Y"
 
@@ -191,8 +191,8 @@ msgstr "%d %B %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:548
-#: calendar/gui/e-day-view.c:1524 calendar/gui/e-day-view-top-item.c:712
+#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:549
+#: calendar/gui/e-day-view.c:1527 calendar/gui/e-day-view-top-item.c:723
 #: calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%d %b"
@@ -200,7 +200,7 @@ msgstr "%d %b"
 #: a11y/calendar/ea-gnome-calendar.c:247 a11y/calendar/ea-gnome-calendar.c:255
 #: calendar/importers/icalendar-importer.c:734
 msgid "Gnome Calendar"
-msgstr "Календар на GNOME"
+msgstr "Календар към GNOME"
 
 #: a11y/calendar/ea-gnome-calendar.c:290
 msgid "search bar"
@@ -319,12 +319,12 @@ msgstr ""
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
 msgid "Could not remove addressbook."
-msgstr "Адресника не може да бъде премахнат."
+msgstr "Адресникът не може да бъде премахнат."
 
 #. addressbook:ask-delete-addressbook primary
 #: addressbook/addressbook-errors.xml.h:22
 msgid "Delete address book '{0}'?"
-msgstr "Да се изтрие адресникът \"{0}\"?"
+msgstr "Да се изтрие адресника \"{0}\"?"
 
 #. addressbook:ask-delete-addressbook secondary
 #: addressbook/addressbook-errors.xml.h:24
@@ -368,7 +368,7 @@ msgstr "{1}"
 #. addressbook:load-error title
 #: addressbook/addressbook-errors.xml.h:32
 msgid "Unable to open addressbook"
-msgstr "Адресника не може да бъде отворен"
+msgstr "Адресникът не може да бъде отворен"
 
 #. addressbook:load-error primary
 #: addressbook/addressbook-errors.xml.h:34
@@ -545,7 +545,7 @@ msgstr "Основни"
 #: addressbook/gui/component/addressbook-config.c:905
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
-msgstr "Книга с адреси"
+msgstr "Адресник"
 
 #: addressbook/gui/component/addressbook-config.c:909
 msgid "Server Information"
@@ -660,7 +660,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-view.c:758
 #: addressbook/gui/widgets/e-addressbook-view.c:934
-#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:330
+#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:330
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:24
 #: ui/evolution-tasks.xml.h:6
@@ -668,7 +668,7 @@ msgid "Delete"
 msgstr "Изтриване"
 
 #: addressbook/gui/component/addressbook-view.c:760
-#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:331
+#: calendar/gui/calendar-component.c:387 calendar/gui/tasks-component.c:331
 msgid "Properties..."
 msgstr "Настройки..."
 
@@ -1054,7 +1054,7 @@ msgstr "<b>Домашна</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Instant Messaging</b>"
-msgstr "<b>Мигновени съобщения</b>"
+msgstr "<b>Бързи съобщения</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "<b>Job</b>"
@@ -2484,7 +2484,7 @@ msgstr "Име на _абонамента:"
 
 #: addressbook/gui/contact-editor/im.glade.h:4
 msgid "_IM Service:"
-msgstr "Услуга за мигновени съобщения:"
+msgstr "Услуга за бързи съобщения:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
 msgid "_Location:"
@@ -2921,7 +2921,7 @@ msgstr "Копиране на контакти в"
 
 #: addressbook/gui/widgets/eab-gui-util.c:714
 msgid "Select target addressbook."
-msgstr ""
+msgstr "Избор на целеви адресник."
 
 #: addressbook/gui/widgets/eab-gui-util.c:937
 msgid "Multiple VCards"
@@ -2999,7 +2999,7 @@ msgstr "Показване на пълната VCard"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr ""
+msgstr "Показване на компактен VCard"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:277
 msgid "Save in addressbook"
@@ -3121,7 +3121,7 @@ msgid "Cut"
 msgstr "Изрязване"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:932
-#: calendar/gui/calendar-component.c:384 calendar/gui/tasks-component.c:329
+#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:329
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -4032,7 +4032,7 @@ msgstr "Въвеждане на парола"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "Разделяне на събития по-дълги от един ден:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1359
 #: calendar/conduits/calendar/calendar-conduit.c:1360
@@ -4199,7 +4199,7 @@ msgstr "Не може да се инициализира Bonobo"
 
 #: calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "Неуспех при създаването на фабриката за алармата"
 
 #: calendar/gui/alarm-notify/util.c:41
 msgid "invalid time"
@@ -4243,7 +4243,7 @@ msgstr "Интервалите показани в изгледите за де�
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Изписване на адрестите за свободно/заето публикуване"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -4337,7 +4337,7 @@ msgstr "Дали времето да се показва в 24ч формат в
 msgid "Whether to show week numbers in date navigator"
 msgstr "Дали да се показват номерата на седмиците в навигатора за дати"
 
-#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:567
+#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
 #: camel/providers/groupwise/camel-gw-listener.c:405
 #: camel/providers/groupwise/camel-gw-listener.c:435
@@ -4357,7 +4357,7 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:361
 msgid "Purge events older than"
-msgstr ""
+msgstr "Прочистване на събития по-стари от"
 
 #: calendar/gui/calendar-commands.c:366
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
@@ -4366,80 +4366,80 @@ msgstr ""
 msgid "days"
 msgstr "дни"
 
-#: calendar/gui/calendar-component.c:383
+#: calendar/gui/calendar-component.c:384
 #: calendar/gui/dialogs/calendar-setup.c:442
 msgid "New Calendar"
 msgstr "Нов календар"
 
-#: calendar/gui/calendar-component.c:638
+#: calendar/gui/calendar-component.c:701
 msgid "Failed upgrading calendars."
 msgstr "Неуспех при осъвременяването на календарите."
 
-#: calendar/gui/calendar-component.c:934
+#: calendar/gui/calendar-component.c:997
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 "Неуспех при отварянето на календара \"%s\", за да създавате събития и "
 "събрания"
 
-#: calendar/gui/calendar-component.c:950
+#: calendar/gui/calendar-component.c:1013
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Няма наличен календар за създаване на събития и събрания"
 
-#: calendar/gui/calendar-component.c:1060
+#: calendar/gui/calendar-component.c:1123
 msgid "Calendar Source Selector"
 msgstr "Местонахождение на календара"
 
-#: calendar/gui/calendar-component.c:1085
+#: calendar/gui/calendar-component.c:1148
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Calendars"
 msgstr "Календари"
 
-#: calendar/gui/calendar-component.c:1251
+#: calendar/gui/calendar-component.c:1314
 msgid "New appointment"
 msgstr "Нова среща"
 
-#: calendar/gui/calendar-component.c:1252
+#: calendar/gui/calendar-component.c:1315
 msgid "_Appointment"
 msgstr "Срещ_а"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1316
 msgid "Create a new appointment"
 msgstr "Създаване на нова среща"
 
-#: calendar/gui/calendar-component.c:1259
+#: calendar/gui/calendar-component.c:1322
 msgid "New meeting"
 msgstr "Ново събрание"
 
-#: calendar/gui/calendar-component.c:1260
+#: calendar/gui/calendar-component.c:1323
 msgid "M_eeting"
 msgstr "Събрани_е"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1324
 msgid "Create a new meeting request"
 msgstr "Създаване на ново искане за събрание"
 
-#: calendar/gui/calendar-component.c:1267
+#: calendar/gui/calendar-component.c:1330
 msgid "New all day appointment"
 msgstr "Нова _среща за цял ден"
 
-#: calendar/gui/calendar-component.c:1268
+#: calendar/gui/calendar-component.c:1331
 msgid "All Day A_ppointment"
 msgstr "Целодневна среща"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1332
 msgid "Create a new all-day appointment"
 msgstr "Създаване на нов среща за цял ден"
 
-#: calendar/gui/calendar-component.c:1275
+#: calendar/gui/calendar-component.c:1338
 msgid "New calendar"
 msgstr "Нов календар"
 
-#: calendar/gui/calendar-component.c:1276
+#: calendar/gui/calendar-component.c:1339
 msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
-#: calendar/gui/calendar-component.c:1277
+#: calendar/gui/calendar-component.c:1340
 msgid "Create a new calendar"
 msgstr "Създаване на нов календар"
 
@@ -4497,7 +4497,7 @@ msgstr "Не беше разрешено да се отвори календар
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/pop3/camel-pop3-store.c:526
 #: camel/providers/pop3/camel-pop3-store.c:533
-#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1252
+#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1259
 msgid "Unknown error"
 msgstr "Неизвестна грешка"
 
@@ -4608,14 +4608,12 @@ msgid "option menu to choose alarm action"
 msgstr ""
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:29
-#, fuzzy
 msgid "option menu to choose alarm relative"
-msgstr "Трябва да изберете дата."
+msgstr "настройка за относителна аларма"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:30
-#, fuzzy
 msgid "option menu to choose alarm time"
-msgstr "Трябва да изберете дата."
+msgstr "настройка за избор на времето на алармата"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:31
 msgid "option menu to choose alarm value units"
@@ -4640,6 +4638,8 @@ msgstr "Аларми"
 #: calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
+"Копиране на събитията в календара локално с цел действия по време на режим "
+"\"Изключен\""
 
 #: calendar/gui/dialogs/calendar-setup.c:336
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -4757,9 +4757,8 @@ msgid "<b>Alerts</b>"
 msgstr "<b>Аларми</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-#, fuzzy
 msgid "<b>Default Free/Busy Server</b>"
-msgstr "<b>К_алендари свободен/зает</b>"
+msgstr "<b>Стандартен сървър свободен/зает</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>General</b>"
@@ -5029,58 +5028,75 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  Няма направени промени, да се обнови ли редактора?"
 
-#: calendar/gui/dialogs/comp-editor.c:257
+#: calendar/gui/dialogs/comp-editor.c:279
 msgid "Could not update object"
 msgstr "Обектът не може да бъде актуализиран"
 
-#: calendar/gui/dialogs/comp-editor.c:899
-#: calendar/gui/dialogs/comp-editor.c:942
+#: calendar/gui/dialogs/comp-editor.c:417 composer/e-msg-composer.c:2315
+#, c-format
+msgid "<b>%d</b> File Attached"
+msgid_plural "<b>%d</b> Files Attached"
+msgstr[0] "<b>%d</b> прикрепен файл"
+msgstr[1] "<b>%d</b> прикрепени файла"
+
+#: calendar/gui/dialogs/comp-editor.c:470 composer/e-msg-composer.c:2344
+msgid "Hide _Attachment Bar (drop attachments here)"
+msgstr "Скриване на лент_ата за прикрепените документи"
+
+#: calendar/gui/dialogs/comp-editor.c:473
+#: calendar/gui/dialogs/comp-editor.c:517 composer/e-msg-composer.c:2347
+#: composer/e-msg-composer.c:3468
+msgid "Show _Attachment Bar (drop attachments here)"
+msgstr "Показване на лент_ата за прикрепените документи"
+
+#: calendar/gui/dialogs/comp-editor.c:1046
+#: calendar/gui/dialogs/comp-editor.c:1089
 msgid "Edit Appointment"
 msgstr "Редактиране на среща"
 
-#: calendar/gui/dialogs/comp-editor.c:905
-#: calendar/gui/dialogs/comp-editor.c:948
+#: calendar/gui/dialogs/comp-editor.c:1052
+#: calendar/gui/dialogs/comp-editor.c:1095
 #, c-format
 msgid "Meeting - %s"
 msgstr "Събрание - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:907
-#: calendar/gui/dialogs/comp-editor.c:950
+#: calendar/gui/dialogs/comp-editor.c:1054
+#: calendar/gui/dialogs/comp-editor.c:1097
 #, c-format
 msgid "Appointment - %s"
 msgstr "Среща - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:911
-#: calendar/gui/dialogs/comp-editor.c:954
+#: calendar/gui/dialogs/comp-editor.c:1058
+#: calendar/gui/dialogs/comp-editor.c:1101
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Назначена задача - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:913
-#: calendar/gui/dialogs/comp-editor.c:956
+#: calendar/gui/dialogs/comp-editor.c:1060
+#: calendar/gui/dialogs/comp-editor.c:1103
 #, c-format
 msgid "Task - %s"
 msgstr "Задача - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:916
-#: calendar/gui/dialogs/comp-editor.c:959
+#: calendar/gui/dialogs/comp-editor.c:1063
+#: calendar/gui/dialogs/comp-editor.c:1106
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Запис в дневника - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:927
-#: calendar/gui/dialogs/comp-editor.c:969
+#: calendar/gui/dialogs/comp-editor.c:1074
+#: calendar/gui/dialogs/comp-editor.c:1116
 msgid "No summary"
 msgstr "Няма резюме"
 
-#: calendar/gui/dialogs/comp-editor.c:1335
-#: calendar/gui/dialogs/comp-editor.c:1368
-#: calendar/gui/dialogs/comp-editor.c:1392
+#: calendar/gui/dialogs/comp-editor.c:1548
+#: calendar/gui/dialogs/comp-editor.c:1581
+#: calendar/gui/dialogs/comp-editor.c:1605
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Промените по този запис може да бъдат презаписани, ако пристигне обновяване"
 
-#: calendar/gui/dialogs/comp-editor.c:1416
+#: calendar/gui/dialogs/comp-editor.c:1629
 msgid "Unable to use current version!"
 msgstr "Не може да се използва текущата версия!"
 
@@ -5184,13 +5200,13 @@ msgstr "Повторение"
 
 #: calendar/gui/dialogs/event-editor.c:159
 #: calendar/gui/dialogs/event-editor.c:231
-#: calendar/gui/dialogs/event-editor.c:375
+#: calendar/gui/dialogs/event-editor.c:376
 msgid "Scheduling"
 msgstr "Разпределение"
 
 #: calendar/gui/dialogs/event-editor.c:166
 #: calendar/gui/dialogs/event-editor.c:234
-#: calendar/gui/dialogs/event-editor.c:378
+#: calendar/gui/dialogs/event-editor.c:379
 msgid "Invitations"
 msgstr "Покани"
 
@@ -5275,7 +5291,7 @@ msgstr "С_ъбитие за цял ден"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "Ad_vanced  send options"
-msgstr ""
+msgstr "До_пълнителни опции за изпращането"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "C_ustomize..."
@@ -5366,7 +5382,7 @@ msgstr "_Начало:"
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1146
+#: plugins/itip-formatter/itip-formatter.c:1273
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5722,7 +5738,7 @@ msgstr "Задача"
 
 #: calendar/gui/dialogs/task-editor.c:156
 #: calendar/gui/dialogs/task-editor.c:218
-#: calendar/gui/dialogs/task-editor.c:356
+#: calendar/gui/dialogs/task-editor.c:357
 msgid "Assignment"
 msgstr "Задача"
 
@@ -5745,7 +5761,7 @@ msgstr "<span weight=\"bold\">Дата и време</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ad_vanced send options"
-msgstr ""
+msgstr "_Допълнителни опции за изпращането"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "D_escription:"
@@ -6197,8 +6213,8 @@ msgstr "Начална дата"
 #: camel/providers/imap4/camel-imap4-utils.c:575
 #: camel/providers/smtp/camel-smtp-transport.c:163
 #: camel/providers/smtp/camel-smtp-transport.c:218 mail/em-utils.c:1157
-#: plugins/itip-formatter/itip-formatter.c:248
-#: plugins/itip-formatter/itip-formatter.c:1168
+#: plugins/itip-formatter/itip-formatter.c:247
+#: plugins/itip-formatter/itip-formatter.c:1295
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6298,7 +6314,7 @@ msgstr "вечер"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: calendar/gui/e-day-view.c:1491 calendar/gui/e-day-view-top-item.c:704
+#: calendar/gui/e-day-view.c:1494 calendar/gui/e-day-view-top-item.c:715
 #: calendar/gui/e-week-view-main-item.c:312 calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -6413,19 +6429,19 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:421 plugins/itip-formatter/itip-formatter.c:1159
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1286
 msgid "Accepted"
 msgstr "Прието"
 
-#: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:424
-#: plugins/itip-formatter/itip-formatter.c:1162
+#: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
+#: plugins/itip-formatter/itip-formatter.c:1289
 msgid "Tentatively Accepted"
 msgstr "Неуверено прието"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
-#: calendar/gui/itip-utils.c:427 calendar/gui/itip-utils.c:453
-#: plugins/itip-formatter/itip-formatter.c:1165
+#: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
+#: plugins/itip-formatter/itip-formatter.c:1292
 msgid "Declined"
 msgstr "Отказано"
 
@@ -6698,7 +6714,7 @@ msgstr "Обновяване на статуса на отговарящият"
 msgid "Send Latest Information"
 msgstr "Изпращане на най-новата информация"
 
-#: calendar/gui/e-itip-control.c:2375 calendar/gui/itip-utils.c:441
+#: calendar/gui/e-itip-control.c:2375 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:408 mail/mail-send-recv.c:460
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6932,7 +6948,7 @@ msgstr "Изтриване на избраните обекти..."
 
 #: calendar/gui/e-tasks.c:1111
 msgid "Expunging"
-msgstr ""
+msgstr "Зачеркване"
 
 #: calendar/gui/e-tasks.c:1189
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
@@ -6990,7 +7006,7 @@ msgstr "Отворяне на %s..."
 
 #: calendar/gui/gnome-cal.c:3286
 msgid "Purging"
-msgstr ""
+msgstr "Прочистване"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "Calendar and Tasks"
@@ -7089,57 +7105,57 @@ msgstr "Септември"
 msgid "_Select Today"
 msgstr "_Избиране на \"Днес\""
 
-#: calendar/gui/itip-utils.c:270 calendar/gui/itip-utils.c:318
-#: calendar/gui/itip-utils.c:350
+#: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
+#: calendar/gui/itip-utils.c:351
 msgid "An organizer must be set."
 msgstr "Трябва да бъде зададен организатор."
 
-#: calendar/gui/itip-utils.c:305
+#: calendar/gui/itip-utils.c:306
 msgid "At least one attendee is necessary"
 msgstr "Необходим е поне един участник."
 
-#: calendar/gui/itip-utils.c:393 calendar/gui/itip-utils.c:502
+#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Event information"
 msgstr "Информация за събитие"
 
-#: calendar/gui/itip-utils.c:395 calendar/gui/itip-utils.c:504
+#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
 msgstr "Информация за задача"
 
-#: calendar/gui/itip-utils.c:397 calendar/gui/itip-utils.c:506
+#: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
 msgstr "Информация за дневник"
 
-#: calendar/gui/itip-utils.c:399 calendar/gui/itip-utils.c:524
+#: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
 msgid "Free/Busy information"
 msgstr "Информация свободен/зает"
 
-#: calendar/gui/itip-utils.c:401
+#: calendar/gui/itip-utils.c:402
 msgid "Calendar information"
 msgstr "Календарна информация"
 
-#: calendar/gui/itip-utils.c:437
+#: calendar/gui/itip-utils.c:438
 msgid "Updated"
 msgstr "Осъвременен"
 
-#: calendar/gui/itip-utils.c:445
+#: calendar/gui/itip-utils.c:446
 msgid "Refresh"
 msgstr "Презареждане"
 
-#: calendar/gui/itip-utils.c:449
+#: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
 msgstr "Контра-предложение"
 
-#: calendar/gui/itip-utils.c:520
+#: calendar/gui/itip-utils.c:521
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Информация свободен/зает (%s на %s)"
 
-#: calendar/gui/itip-utils.c:530
+#: calendar/gui/itip-utils.c:531
 msgid "iCalendar information"
 msgstr "iCalendar информация"
 
-#: calendar/gui/itip-utils.c:672
+#: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
 msgstr "Вие трябва да сте участник в събитието."
 
@@ -9420,7 +9436,7 @@ msgstr "Неуспех при изпълнението на gpg."
 
 #: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
-msgstr ""
+msgstr "Това е част от писмо, която е подписана цифрово"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:692
@@ -9556,7 +9572,7 @@ msgstr "Грешка при копиране на поща във времене
 
 #: camel/camel-multipart-signed.c:559
 msgid "parse error"
-msgstr ""
+msgstr "грешка при прегледа"
 
 #: camel/camel-net-utils.c:465
 msgid "cannot create thread"
@@ -9687,7 +9703,7 @@ msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:823
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "Промяната на сървъра е невалидна\n"
 
 #: camel/camel-sasl-digest-md5.c:829
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
@@ -9890,23 +9906,21 @@ msgid "Cannot attach CMS data"
 msgstr ""
 
 #: camel/camel-smime-context.c:261
-#, fuzzy
 msgid "Cannot create CMS Signer information"
-msgstr "Не може да се създаде CMS съобщение"
+msgstr "Не може да се създаде CMS съобщение с подпис"
 
 #: camel/camel-smime-context.c:267
-#, fuzzy
 msgid "Cannot find certificate chain"
-msgstr "Не може да се намери серфтификат за \"%s\""
+msgstr "Не може да се намери веригата на серфтификата"
 
 #: camel/camel-smime-context.c:273
 msgid "Cannot add CMS Signing time"
 msgstr ""
 
 #: camel/camel-smime-context.c:295 camel/camel-smime-context.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption certificate for '%s' does not exist"
-msgstr "Сертификата за криптиране за \"%s\" не съществува"
+msgstr "Сертификатът за криптиране за \"%s\" не съществува"
 
 #: camel/camel-smime-context.c:314
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
@@ -9921,9 +9935,8 @@ msgid "Cannot add encryption certificate"
 msgstr ""
 
 #: camel/camel-smime-context.c:330
-#, fuzzy
 msgid "Cannot add CMS Signer information"
-msgstr "Календарна информация"
+msgstr "Не може да се добави информация за подпис в CMS"
 
 #: camel/camel-smime-context.c:400 camel/camel-smime-context.c:848
 msgid "Cannot create encoder context"
@@ -9963,11 +9976,11 @@ msgstr ""
 
 #: camel/camel-smime-context.c:496
 msgid "Signature algorithm unknown"
-msgstr ""
+msgstr "Алгоритъмът за подписване е неизвестен"
 
 #: camel/camel-smime-context.c:498
 msgid "Signature algorithm unsupported"
-msgstr ""
+msgstr "Алгоритъмът за подписване не се поддържа"
 
 #: camel/camel-smime-context.c:500
 msgid "Malformed signature"
@@ -10037,9 +10050,8 @@ msgid "Cannot create CMS Message"
 msgstr "Не може да се създаде CMS съобщение"
 
 #: camel/camel-smime-context.c:808
-#, fuzzy
 msgid "Cannot create CMS Enveloped data"
-msgstr "Не може да се създаде CMS съобщение"
+msgstr "Не може да се създаде CMS съобщение в плик"
 
 #: camel/camel-smime-context.c:814
 msgid "Cannot attach CMS Enveloped data"
@@ -10050,9 +10062,8 @@ msgid "Cannot attach CMS data object"
 msgstr ""
 
 #: camel/camel-smime-context.c:829
-#, fuzzy
 msgid "Cannot create CMS Recipient information"
-msgstr "Не може да се създаде CMS съобщение"
+msgstr "Не може да се създаде информация за получател в CMS "
 
 #: camel/camel-smime-context.c:834
 msgid "Cannot add CMS Recipient information"
@@ -10065,7 +10076,7 @@ msgstr "Неуспех при добавянето на данни към дек
 #: camel/camel-smime-context.c:946
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Декодирането е неуспешно, грешка %d"
 
 #: camel/camel-smime-context.c:953
 msgid "S/MIME Decrypt: No encrypted content found"
@@ -10478,12 +10489,12 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-folder.c:565
 #, c-format
 msgid "Cannot expunge folder `%s': Unknown"
-msgstr ""
+msgstr "Неуспех при зачеркването на папка \"%s\": неизвестна грешка"
 
 #: camel/providers/imap4/camel-imap4-folder.c:570
 #, c-format
 msgid "Cannot expunge folder `%s': Bad command"
-msgstr ""
+msgstr "Неуспех при зачеркването на папка \"%s\": лоша команда"
 
 #: camel/providers/imap4/camel-imap4-folder.c:749
 #: camel/providers/nntp/camel-nntp-folder.c:157
@@ -10517,6 +10528,7 @@ msgstr "Това писмо не е налично в режим \"Изключ�
 #, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
 msgstr ""
+"Неуспех при взимането на писмо %s от папка \"%s\": такова писмо не съществува"
 
 #: camel/providers/imap4/camel-imap4-folder.c:831
 #, c-format
@@ -10524,9 +10536,10 @@ msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:873
-#, fuzzy
 msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "Не може да се добави съобщението в mh папката: %s: %s"
+msgstr ""
+"Не може да бъдат прикрепяни писма към IMAP папки, докато сте в режим "
+"\"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-folder.c:966
 #, c-format
@@ -10539,16 +10552,15 @@ msgid "Cannot append message to folder `%s': Bad command"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:1038
-#, fuzzy
 msgid "Cannot move messages to or from IMAP folders in offline mode."
 msgstr ""
-"Преместването на писма от папка \"%s\" в папка \"%s\" е неуспешно: "
-"неизвестна грешка"
+"Не може да премествате писма в и от IMAP папки, докато сте в режим \"Изключен"
+"\"."
 
 #: camel/providers/imap4/camel-imap4-folder.c:1041
-#, fuzzy
 msgid "Cannot copy messages to or from IMAP folders in offline mode."
-msgstr "Не може да се копират съобщенията в кошчето"
+msgstr ""
+"Не може да копирате писма в и от IMAP папки, докато сте в режим \"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-folder.c:1086
 #, c-format
@@ -10561,11 +10573,14 @@ msgstr ""
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
+"Неуспех при копирането на писма от папка \"%s\" в папка \"%s\": неизвестно"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1098
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
+"Неуспех при преместването на писма от папка \"%s\" в папка \"%s\": лоша "
+"команда"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1102
 #, c-format
@@ -10691,9 +10706,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:656
 #: camel/providers/imap4/camel-imap4-store.c:769
-#, fuzzy
 msgid "Cannot create IMAP folders in offline mode."
-msgstr "Папка с такова име не може да бъде създадена."
+msgstr "Не може да създавате IMAP папки, докато сте в режим \"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-store.c:695
 #, c-format
@@ -10712,6 +10726,7 @@ msgstr "Името на папката \"%s\" е невалидно, защот�
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr ""
+"Неуспех при създаването на папка \"%s\": невалидно име на пощенската кутия"
 
 #: camel/providers/imap4/camel-imap4-store.c:823
 #, c-format
@@ -10724,14 +10739,14 @@ msgid "Cannot delete folder `%s': Special folder"
 msgstr "Папката \"%s\" не може да бъде изтрита: специална папка"
 
 #: camel/providers/imap4/camel-imap4-store.c:862
-#, fuzzy
 msgid "Cannot delete IMAP folders in offline mode."
-msgstr "Папката \"%s\" не може да бъде изтрита: специална папка"
+msgstr "Не може да изтривате IMAP папки, докато сте в режим \"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-store.c:921
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr ""
+"Неуспех при изтриването на папка \"%s\": невалидно име на пощенската кутия"
 
 #: camel/providers/imap4/camel-imap4-store.c:926
 #, c-format
@@ -10742,21 +10757,23 @@ msgstr "Папката \"%s\" не може да бъде изтрита: лош
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr ""
+"Неуспех при преименуването на папка \"%s\" в \"%s\": това е специална папка"
 
 #: camel/providers/imap4/camel-imap4-store.c:954
-#, fuzzy
 msgid "Cannot rename IMAP folders in offline mode."
-msgstr "Папка с такова име не може да бъде създадена."
+msgstr "Не може да преименувате IMAP папки, докато сте в режим изключен."
 
 #: camel/providers/imap4/camel-imap4-store.c:985
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr ""
+"Неуспех при преименуването на папка \"%s\" в \"%s\": невалидно име на "
+"пощенската кутия"
 
 #: camel/providers/imap4/camel-imap4-store.c:990
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr ""
+msgstr "Неуспех при преименуването на папка \"%s\" в \"%s\": лоша команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:1239
 #, c-format
@@ -10768,15 +10785,15 @@ msgid "Bad command"
 msgstr "Невалидна команда"
 
 #: camel/providers/imap4/camel-imap4-store.c:1280
-#, fuzzy
 msgid "Cannot subscribe to IMAP folders in offline mode."
 msgstr ""
-"Не можете да се отпишете от папката \"%s\": грешно име на пощенската кутия"
+"Не можете да се отпишете от IMAP папки, когато сте в режим \"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-store.c:1325
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr ""
+"Неуспех при абонирането за папка \"%s\": невалидно име на пощенската кутия"
 
 #: camel/providers/imap4/camel-imap4-store.c:1330
 #, c-format
@@ -10784,10 +10801,8 @@ msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:1353
-#, fuzzy
 msgid "Cannot unsubscribe from IMAP folders in offline mode."
-msgstr ""
-"Не можете да се отпишете от папката \"%s\": грешно име на пощенската кутия"
+msgstr "Не може да се отпишете от IMAP папки, докато сте в режим \"Изключен\"."
 
 #: camel/providers/imap4/camel-imap4-store.c:1398
 #, c-format
@@ -10798,7 +10813,7 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:1403
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr ""
+msgstr "Неуспех при отписването от папка \"%s\": лоша команда"
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap4/camel-imap4-summary.c:1266
@@ -10807,9 +10822,8 @@ msgid "Scanning for changed messages"
 msgstr "Сканиране за променени писма"
 
 #: camel/providers/imap4/camel-imap4-summary.c:1290
-#, fuzzy
 msgid "Fetching envelopes for new messages"
-msgstr "Проверяване за нови писма"
+msgstr "Доставяне на пликовете за новите съобщения"
 
 #: camel/providers/imap4/camel-imap4-utils.c:368
 #, c-format
@@ -10984,24 +10998,20 @@ msgid "O_verride server-supplied folder namespace"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:66
-#, fuzzy
 msgid "_Apply filters to new messages in INBOX on this server"
-msgstr "Използване на филтри за нови съобщения в INBOX от този сървър"
+msgstr "_Използване на филтри за нови съобщения в INBOX от този сървър"
 
 #: camel/providers/imap/camel-imap-provider.c:68
-#, fuzzy
 msgid "Check new messages for _Junk contents"
-msgstr "Проверка на новите съобщения за спам"
+msgstr "Проверка на новите писма за _спам"
 
 #: camel/providers/imap/camel-imap-provider.c:70
-#, fuzzy
 msgid "Only check for Junk messa_ges in the INBOX folder"
-msgstr "Проверка за нови съобщения във всички папки"
+msgstr "Да проверява за спам само в папката \"Пощенска кутия\""
 
 #: camel/providers/imap/camel-imap-provider.c:72
-#, fuzzy
 msgid "Automatically synchroni_ze remote mail locally"
-msgstr "Автоматично синхронизиране на отдалечената поща локално"
+msgstr "Автоматично синхрони_зиране на отдалечената поща локално"
 
 #: camel/providers/imap/camel-imap-provider.c:79
 msgid "IMAP"
@@ -11013,9 +11023,8 @@ msgstr "За четене и запазване на поща от IMAP сърв
 
 #: camel/providers/imap/camel-imap-store.c:653
 #: camel/providers/smtp/camel-smtp-transport.c:323
-#, fuzzy
 msgid "STARTTLS not supported"
-msgstr "Неподдържано SSL/TLS разширение"
+msgstr "Не се поддържа STARTTLS"
 
 #: camel/providers/imap/camel-imap-store.c:811
 #, c-format
@@ -11076,7 +11085,7 @@ msgstr "Не може да се създаде папка \"%s\": вече съ�
 #: camel/providers/imap/camel-imap-store.c:2250
 #, c-format
 msgid "Unknown parent folder: %s"
-msgstr ""
+msgstr "Родителската папка е неизвестна: %s"
 
 #: camel/providers/imapp/camel-imapp-provider.c:40
 #: camel/providers/pop3/camel-pop3-provider.c:39
@@ -11380,7 +11389,7 @@ msgstr "Папката изглежда е невъзстановимо повр
 #: camel/providers/local/camel-mbox-folder.c:461
 #: camel/providers/local/camel-mh-folder.c:223
 msgid "Message construction failed."
-msgstr ""
+msgstr "Създаването на писмото е неуспешно."
 
 #: camel/providers/local/camel-mbox-store.c:174
 #: camel/providers/local/camel-mbox-store.c:359
@@ -11707,7 +11716,7 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-store.c:232
 #, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr ""
+msgstr "Неуспех при прочитането на поздрава от %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:244
 #, c-format
@@ -11726,6 +11735,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Грешка при получаването на новинарските групи:\n"
+"\n"
+"%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:893
 msgid ""
@@ -11760,7 +11772,7 @@ msgstr "Изискване на удостоверение"
 #: camel/providers/nntp/camel-nntp-store.c:1148
 #, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr ""
+msgstr "Неуспех при идентифицинарето пред сървър: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1264
 #, c-format
@@ -12354,21 +12366,6 @@ msgstr "Автоматично генерирано"
 msgid "Si_gnature:"
 msgstr "_Подпис:"
 
-#: composer/e-msg-composer.c:2315
-#, c-format
-msgid "<b>%d</b> File Attached"
-msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] "<b>%d</b> прикрепен файл"
-msgstr[1] "<b>%d</b> прикрепени файла"
-
-#: composer/e-msg-composer.c:2344
-msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr "Скриване на лент_ата за прикрепените документи"
-
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3468
-msgid "Show _Attachment Bar (drop attachments here)"
-msgstr "Показване на лент_ата за прикрепените документи"
-
 #: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3357
 #: composer/e-msg-composer.c:3358
 msgid "Compose a message"
@@ -12575,6 +12572,8 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
+"Сигурни ли сте, че искате да се откажете от писмото с име \"{0}\", което "
+"пишете в момента?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12605,7 +12604,7 @@ msgstr ""
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr ""
+msgstr "Файлът с подпис \"{0}\" не може да бъде прочетен."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
@@ -12663,7 +12662,7 @@ msgstr ""
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>Съобщение \"Не съм в офиса\":</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -12766,9 +12765,8 @@ msgid "Overwrite file?"
 msgstr "Презаписване на файл?"
 
 #: e-util/eggtrayicon.c:119
-#, fuzzy
 msgid "The orientation of the tray."
-msgstr "Описание на прикаченето към писмото"
+msgstr "Ориентацията на тавата."
 
 #: e-util/e-passwords.c:468
 msgid "_Remember this password"
@@ -13017,7 +13015,7 @@ msgstr "Входящи"
 
 #: filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr ""
+msgstr "Показване на пощенски филтри:"
 
 #: filter/filter.glade.h:5
 msgid ""
@@ -13368,9 +13366,8 @@ msgid "Mailing list"
 msgstr "Пощенски списък"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Match All"
-msgstr "Резервно копие за всички"
+msgstr "Съвпадане по всички"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -13454,7 +13451,7 @@ msgstr "звучи като"
 
 #: mail/em-filter-i18n.h:60
 msgid "Source Account"
-msgstr ""
+msgstr "Изходен абонамент"
 
 #: mail/em-filter-i18n.h:61
 msgid "Specific header"
@@ -13486,14 +13483,14 @@ msgstr "<b>Тогава</b>"
 
 #: mail/em-folder-browser.c:133
 msgid "Create _Virtual Folder From Search..."
-msgstr ""
+msgstr "Създаване на _витруална папка от търсене..."
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:143
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Общо писмо:"
+msgstr[1] "Общо писма:"
 
 #: mail/em-folder-properties.c:155
 msgid "Unread message:"
@@ -13527,9 +13524,8 @@ msgid "Folder _name:"
 msgstr "Име_на_папка:"
 
 #: mail/em-folder-tree.c:670
-#, fuzzy
 msgid "Mail Folder Tree"
-msgstr "Пощенска папка"
+msgstr "Дърво на папката с пощата"
 
 #: mail/em-folder-tree.c:903
 #, c-format
@@ -13947,7 +13943,7 @@ msgstr "Съвпадения: %d"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr ""
+msgstr "Това писмо не е подписано. Няма гаранции, че това писмо е истинско."
 
 #: mail/em-format-html-display.c:639
 msgid ""
@@ -14078,12 +14074,12 @@ msgstr "Неуспех при създаването на новата папк�
 #: mail/em-migrate.c:1628
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
+msgstr "Неуспех при копирането на папка \"%s\" в \"%s\": %s"
 
 #: mail/em-migrate.c:1813
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "Неуспех при сканирането за съществуващи пощенски кутии на \"%s\":·%s"
 
 #: mail/em-migrate.c:2017
 #, c-format
@@ -14243,11 +14239,11 @@ msgstr "Стандартната кодова таблица, в която да
 
 #: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages"
-msgstr ""
+msgstr "Стандартна кодова таблица, чрез която да се изобразяват писмата"
 
 #: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to display messages."
-msgstr ""
+msgstr "Стандартна кодова таблица, чрез която да се изобразяват писмата."
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
@@ -15052,7 +15048,7 @@ msgstr "<span weight=\"bold\">Изобразени пощенски колонт
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Настройка на филтър</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1367
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1545
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Общи</span>"
 
@@ -15125,10 +15121,9 @@ msgid "Add _Script"
 msgstr "Добавяне на _скрипт"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
-"Когато се използва този абонамент, винаги да се подписват пращаните съобщения"
+"Когато се използва този абонамент, _винаги да се подписват изпращаните писма"
 
 #: mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted mail"
@@ -15243,9 +15238,8 @@ msgid "Defaults"
 msgstr "Стандартни"
 
 #: mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally _sign outgoing messages (by default)"
-msgstr "Цифрово подписване на пращаните съобщения (по подразбиране)"
+msgstr "Цифрово _подписване на пращаните съобщения (по подразбиране)"
 
 #: mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -15276,9 +15270,8 @@ msgid "Encry_ption certificate:"
 msgstr "Криптиращ сертификат:"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Encrypt out_going messages (by default)"
-msgstr "Криптиране на изпращаните писма (по подразбиране)"
+msgstr "Криптиране на _изпращаните писма (по подразбиране)"
 
 #: mail/mail-config.glade.h:81
 msgid "Execute Command..."
@@ -15310,7 +15303,7 @@ msgstr "Маркиране на _цитатите с"
 
 #: mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "Включване на отдалече_ните проби"
 
 #: mail/mail-config.glade.h:90
 msgid "Identity"
@@ -15708,9 +15701,8 @@ msgid "_Subscribe"
 msgstr "_Абониране"
 
 #: mail/mail-dialogs.glade.h:28
-#, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "Сложете отметка тук, за да се съгласите с лицензното споразумение"
+msgstr "_Сложете отметка тук, за да се съгласите с лицензното споразумение"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
@@ -15734,9 +15726,8 @@ msgstr "с всички локални папки"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "Опълномощаване"
+msgstr "Невалидна идентификация"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
@@ -15752,20 +15743,18 @@ msgstr ""
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"Проверете, за да се уверите, че паролата е написана правилно и че използвате "
-"поддържан метод за идентификация. Запомнете, че при много пароли големите и "
-"малките букви имат значение; може би клавиша caps lock-а е натиснат."
+"Уверете се, че паролата е написана правилно. Запомнете, че при много пароли "
+"големите и малките букви имат значение. Може би клавишът Caps Lock-а е "
+"натиснат."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Сигурен ли сте, че желаете да изпратите задача без обобщение?"
+msgstr "Сигурни ли сте, че искате да изпратите писмото в HTML формат?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -15778,9 +15767,8 @@ msgstr ""
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Сигурен ли сте, че желаете да изпратите задача без обобщение?"
+msgstr "Сигурни ли сте, че искате да изпратите писмото без заглавие?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
@@ -15792,9 +15780,10 @@ msgstr ""
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Сигурни ли сте, че желаете да изтриете този запис в дневника?"
+msgstr ""
+"Сигурни ли сте, че желаете да изпратите писмото само с получатели в полето "
+"\"Скрито копие до\"?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15821,6 +15810,7 @@ msgstr ""
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
+"Това писмо не може да бъде изпратено, защото не сте посочили получател(и)"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15832,7 +15822,7 @@ msgstr ""
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr ""
+msgstr "Да бъде ли използвана стандартната папка за чернови?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
@@ -15840,61 +15830,64 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
+"Неуспех при отварянето на папката за чернови към този абонамент. Да влезе ли "
+"в употреба стандартната папка за чернови?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "Стандартна"
+msgstr "Използване на _стандартни"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Изтриване за постоянно на всички писма от тази папка"
+msgstr ""
+"Сигурни ли сте, че искате да премахнете за постоянно всички изтрити писма в "
+"папката \"{0}\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
+"Ако продължите, няма да имате втора възможност да възстановите тези писма."
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
-msgstr "Разширен"
+msgstr "_Задраскване"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Изтриване за постоянно на всички писма от тези папки"
+msgstr ""
+"Сигурни ли сте, че искате да премахнете за постоянно всички изтрити писма от "
+"всички папки?"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
 msgstr "Изпразване на _кошчето"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Имате неизпратени писма, желаете ли да спрете програмата въпреки това?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "Вашите задачи няма да бъдат налични, докато не рестартирате Evolution."
+msgstr ""
+"Ако спрете програмата, вашите писма няма да бъдат изпратени, докато не "
+"стартирате отново Evolution."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "Вашето писмо, озаглавено \"{0}\", не беше доставено."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15908,90 +15901,75 @@ msgstr ""
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
 msgid "Error while {0}."
-msgstr ""
+msgstr "Грешка по време на {0}."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
-#, fuzzy
 msgid "{1}."
-msgstr "{1}"
+msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
-#, fuzzy
 msgid "Error while performing operation."
-msgstr "Грешка при отваряне на календара"
+msgstr "Грешка при изпълнение на операцията."
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
-#, fuzzy
 msgid "{0}."
-msgstr "{0}"
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
-#, fuzzy
 msgid "Enter password."
-msgstr "Въвеждане на парола"
+msgstr "Въвеждане на парола."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr "Грешка при зареждането на адресника."
+msgstr "Грешка при зареждането на дефинициите за филтрите."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Неуспех при запазването в папка \"{0}\"."
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
 #. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Неуспех при запазването във файл \"{0}\"."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Не може да се създаде папка \"%s\": %s"
+msgstr "Не може да се създаде директория за запазването, защото \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Не може да се създаде папка \"%s\": %s"
+msgstr "Не може да се създаде временна директория за запазвания."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr ""
-"%s вече съществува\n"
-"Искате ли да го презапишете?"
+msgstr "Файлът съществува, но не може да бъде презаписан."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "Файлът \"{0}\" не съществува или не е обикновен файл."
+msgstr "Файлът съществува, но не е обикновен файл."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Неуспех при изтриването на папката \"{0}\"."
 
 #. mail:no-delete-special-folder primary
 #: mail/mail-errors.xml.h:114
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Системната папка \"{0}\" не може да бъде изтрита."
 
 #. mail:no-delete-special-folder secondary
 #. mail:no-rename-special-folder secondary
@@ -16003,21 +15981,19 @@ msgstr ""
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Не може да се преименува папката %s Няма такава папка"
+msgstr "Системната папка \"{0}\" не може да бъде преименувана или преместена."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "Изтриване"
+msgstr "Изтриване на \"{0}\"?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "На родителската папка не е разрешено да има подпапки"
+msgstr ""
+"Наистина ли искате да изтриете папката \"{0}\" и всички нейни под-папки?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
@@ -16025,157 +16001,140 @@ msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"Ако изтриета папката, цялото й съдържание, както и съдъжанието на всички "
+"нейни под-папки, ще бъде изтрито за постоянно."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Неуспех при преименуването на \"{0}\" в \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr ""
+msgstr "Вече съществува папка с име \"{1}\". Моля, изберете друго име."
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
-#, fuzzy
 msgid "Because \"{2}\"."
-msgstr "Защото \"{1}\"."
+msgstr "Защото \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Неуспех при преместването на папка \"{0}\" в \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Не може да се отвори източника \"{2}\"."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Неуспех при отварянето на целта \"{2}\"."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Неуспех при копирането на папка \"{0}\" в \"{1}\"."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Неуспех при създаването на папка \"{0}\"."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Не може да се отвори файла \"{0}\"."
+msgstr "Неуспех при отварянето на източника \"{1}\"."
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "Контактът не може да бъде преместен."
+msgstr "Неуспех при запазването на промените в абонамент."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "Не сте подали цялата необходима информация."
 
 #. mail:account-notunique secondary
 #: mail/mail-errors.xml.h:162
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "Не може да имате два абонамента с едно и също име."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
-#, fuzzy
 msgid "Delete account?"
-msgstr "Изтриване на избраните контакти"
+msgstr "Изтриване на абонамента?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr ""
-"Сигурни ли сте, че желаете\n"
-"да изтриете този контакт?"
+msgstr "Сигурни ли сте, че искате да изтриете този абонамент?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
+"Ако продължите, информацията за абонамента ще бъде изтрита за постоянно."
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "Възстановяване на изтрито"
+msgstr "Да не се изтрива"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "Не можа да се пише във файла за авт. запазване \"{0}\"."
+msgstr "Неуспех при запазването на файла с подписа."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
-#, fuzzy
 msgid "Because \"{0}\"."
-msgstr "Защото \"{1}\"."
+msgstr "Защото \"{0}\"."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Не може да се зададе скрипт за подписване \"{0}\"."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Този скриптов файл трябва да съществува и да бъде изпълним."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
-#, fuzzy
 msgid "Discard changed?"
-msgstr "Игнориране на промените"
+msgstr "Игнориране на промените?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Желаете ли да запазите промените си?"
+msgstr "Желаете ли да запазите направените промени?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "Този подпис беше променен, но промените не бяха запазени."
 
 #: mail/mail-errors.xml.h:184
-#, fuzzy
 msgid "_Discard changes"
-msgstr "Игнориране на промените"
+msgstr "_Игнориране на промените"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Папката \"%s\" не съществува."
+msgstr ""
+"Не може да се редактива виртуалната папка \"{0}\", защото тя не съществува."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -16186,14 +16145,13 @@ msgstr ""
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr "Не може да се запази файла \"{0}\"."
+msgstr "Неуспех при добавянето на vFolder \"{0}\"."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "vFolders автоматично обновени."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -16208,7 +16166,7 @@ msgstr ""
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "Филтрите на пощата са актуализирани автоматично."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
@@ -16222,27 +16180,23 @@ msgstr ""
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
-#, fuzzy
 msgid "Missing folder."
-msgstr "Липсваща дата."
+msgstr "Липсваща папка."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Трябва да определите име на файла."
+msgstr "Трябва да определите папка."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "Трябва да има име този филтър."
+msgstr "Трябва да дадете име на тази vFolder."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
-#, fuzzy
 msgid "No sources selected."
-msgstr "Не е избран сървър"
+msgstr "Няма избрани източници."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
@@ -16255,7 +16209,7 @@ msgstr ""
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "Проблем по време на мигрирането на папка със стара поща \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -16268,22 +16222,20 @@ msgstr ""
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
-msgstr ""
+msgstr "Игнориране"
 
 #: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "Пре_записване"
 
 #: mail/mail-errors.xml.h:232
-#, fuzzy
 msgid "_Append"
-msgstr "_Отваряне"
+msgstr "_Закачане"
 
 #. mail:no-load-license primary
 #: mail/mail-errors.xml.h:234
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "Неуспех при създаването на новата папка \"%s\": %s"
+msgstr "Неуспех при прочитането на файла с лицензионното споразумение."
 
 #. mail:no-load-license secondary
 #: mail/mail-errors.xml.h:236
@@ -16297,19 +16249,17 @@ msgstr ""
 #. mail:checking-service title
 #: mail/mail-errors.xml.h:240
 msgid "Querying server"
-msgstr ""
+msgstr "Обръщане към сървър"
 
 #. mail:checking-service primary
 #: mail/mail-errors.xml.h:242
-#, fuzzy
 msgid "Please wait."
-msgstr "Моля, изчакайте"
+msgstr "Моля, изчакайте."
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:244
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "IMAP сървър %s не подържа заявената оторизация тип %s"
+msgstr "Сървърът се запитва за поддържаните методи за оторизация."
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:246
@@ -16317,6 +16267,8 @@ msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
 msgstr ""
+"Неуспех при свързването с GroupWise\n"
+"сървър."
 
 #. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:249
@@ -16410,7 +16362,7 @@ msgstr "Запазване на папка %s"
 #: mail/mail-ops.c:1482
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "Зачеркване и съхраняване на абонамент \"%s\""
 
 #: mail/mail-ops.c:1483
 #, c-format
@@ -16790,9 +16742,8 @@ msgid "Restore Evolution directory"
 msgstr "Възстановяване на директорията Evolution"
 
 #: plugins/backup-restore/backup.c:113
-#, fuzzy
 msgid "Check Evolution archive"
-msgstr "Програмата за работа в група Evolution"
+msgstr "Проверка на архива на Evolution"
 
 #: plugins/backup-restore/backup.c:115
 msgid "Restart Evolution"
@@ -16800,11 +16751,11 @@ msgstr "Рестартиране на Evolution"
 
 #: plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr ""
+msgstr "Избор на име от архив на Evolution"
 
 #: plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "_Рестартиране на Evolution след създаването на резервно копие"
 
 #: plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
@@ -16812,16 +16763,16 @@ msgstr ""
 
 #: plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr ""
+msgstr "_Рестартиране на Evolution след възстановяването"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup Settings..."
 msgstr "Създаване на резервно копие на настройките..."
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "Промяна настройките на Evolution"
+msgstr ""
+"Резервно копиране и възстановяване на данните и настройките на Evolution"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "Restore Settings..."
@@ -16840,6 +16791,7 @@ msgstr "<span weight=\"bold\">Автоматични контакти</span>"
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
+"_Автоматично добавяне на контакти в адресника, при отговор на писмо от тях"
 
 #: plugins/bbdb/bbdb.c:427
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
@@ -16855,44 +16807,43 @@ msgstr ""
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:447
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "Синхронизиране със _списъкът с приятели, сега"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr ""
+msgstr "Отписване от папка \"%s\""
 
-#: plugins/itip-formatter/itip-formatter.c:668
-#, fuzzy, c-format
+#: plugins/itip-formatter/itip-formatter.c:670
+#, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Не може да се отвори календара \"%s\"."
+msgstr "Не може да се изпрати елемента към календара \"%s\". \"%s\""
 
 #: plugins/itip-formatter/itip-formatter.c:681
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr ""
+msgstr "Изпращане до календара \"%s\" като прието"
 
 #: plugins/itip-formatter/itip-formatter.c:685
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "Изпращане до календара \"%s\" като несигурен"
 
 #: plugins/itip-formatter/itip-formatter.c:690
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr ""
+msgstr "Изпращане до календар \"%s\" като отказан"
 
 #: plugins/itip-formatter/itip-formatter.c:695
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
-msgstr ""
+msgstr "Изпращане до календар \"%s\" като отменен"
 
 #: plugins/itip-formatter/itip-formatter.c:743
-#, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
-"Състоянието на присъстващия не може да бъде осъвременено заради невалиден "
-"статус!\n"
+"Състоянието на присъстващия не може да бъде актуализирано заради невалиден "
+"статус"
 
 #: plugins/itip-formatter/itip-formatter.c:754
 #, c-format
@@ -16900,28 +16851,47 @@ msgid "Unable to update attendee statusAttendee status updated. %s"
 msgstr ""
 
 #: plugins/itip-formatter/itip-formatter.c:758
-#, fuzzy
 msgid "Attendee status updated"
-msgstr "Състоянието на присъстващия е осъвременено\n"
+msgstr "Състоянието на присъстващия е актуализирано"
 
-#: plugins/itip-formatter/itip-formatter.c:1358
-#, fuzzy
+#: plugins/itip-formatter/itip-formatter.c:883
+msgid "The calendar attached is not valid"
+msgstr "Добавеният календар е невалиден"
+
+#: plugins/itip-formatter/itip-formatter.c:884
+msgid ""
+"The message claims to contain a calendar, but the calendar is not valid "
+"iCalendar."
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:918
+#: plugins/itip-formatter/itip-formatter.c:967
+msgid "The item in the calendar is not valid"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:919
+#: plugins/itip-formatter/itip-formatter.c:968
+msgid ""
+"The message does contain a calendar, but the calendar contains no events, "
+"tasks or free/busy information"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:1536
 msgid "Meetings and Tasks"
-msgstr "Календар и задачи"
+msgstr "Събрания и задачи"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1559
 msgid "_Delete message after acting"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1391
-#, fuzzy
+#: plugins/itip-formatter/itip-formatter.c:1569
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Конфигурация</span>"
+msgstr "<span weight=\"bold\">Търсене на конфликти</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1404
+#: plugins/itip-formatter/itip-formatter.c:1582
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -17043,159 +17013,157 @@ msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: plugins/itip-formatter/itip-view.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> публикува информация за събрание."
+msgstr "<b>%s</b> през %s публикува следната информация за събрание:"
 
 #: plugins/itip-formatter/itip-view.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> публикува информация за събрание."
+msgstr "<b>%s</b> публикува следнтата информация за събрание:"
 
 #: plugins/itip-formatter/itip-view.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> изисква присъствието на %s по време на събранието."
+msgstr "<b>%s</b> изисква присъствието на %s по време на следното събрание:"
 
 #: plugins/itip-formatter/itip-view.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> изисква вашето присъствие на събрание."
+msgstr "<b>%s</b> през %s изисква вашето присъствие на следното събрание:"
 
 #: plugins/itip-formatter/itip-view.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> изисква вашето присъствие на събрание."
+msgstr "<b>%s</b> изисква вашето присъствие на следното събрание:"
 
 #: plugins/itip-formatter/itip-view.c:309
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> желае да бъде добавен към съществуващо събрание."
+msgstr "<b>%s</b> през %s желае да бъде добавен към съществуващо събрание:"
 
 #: plugins/itip-formatter/itip-view.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> желае да бъде добавен към съществуващо събрание."
+msgstr "<b>%s</b> желае да бъде добавен към съществуващо събрание:"
 
 #: plugins/itip-formatter/itip-view.c:314
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> желае да получи последната информация за задача.."
+msgstr "<b>%s</b> желае да получи последната информация за следното събрание:"
 
 #: plugins/itip-formatter/itip-view.c:317
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> изпрати обратно следния отговор относно събранието:"
 
 #: plugins/itip-formatter/itip-view.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> през %s отказа следното съобрание:"
 
 #: plugins/itip-formatter/itip-view.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> отказа следното събрание."
 
 #: plugins/itip-formatter/itip-view.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> предложи следните промени в събранието."
 
 #: plugins/itip-formatter/itip-view.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> през %s отказа следните промени в събранието:"
 
 #: plugins/itip-formatter/itip-view.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> отказа следните промени в събранието."
 
 #: plugins/itip-formatter/itip-view.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> публикува информация за събрание."
+msgstr "<b>%s</b> през %s публикува следната задача:"
 
 #: plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> публикува информация за събрание."
+msgstr "<b>%s</b> публикува следната задача:"
 
 #: plugins/itip-formatter/itip-view.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> изисква присъствието на %s по време на събранието."
+msgstr "<b>%s</b> изисква назначаването на %s за следната задача:"
 
 #: plugins/itip-formatter/itip-view.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> през %s ви назначи следната задача:"
 
 #: plugins/itip-formatter/itip-view.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "<b>%s</b> прекъсна задача."
+msgstr "<b>%s</b> ви назначи следната задача:"
 
 #: plugins/itip-formatter/itip-view.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> желае да бъде добавен към съществуващо събрание."
+msgstr "<b>%s</b> през %s желае да бъде добавен към съществуваща задача:"
 
 #: plugins/itip-formatter/itip-view.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "<b>%s</b> желае да бъде добавен към съществуваща задача.."
+msgstr "<b>%s</b> желае да бъде добавен към съществуваща задача:"
 
 #: plugins/itip-formatter/itip-view.c:382
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr "<b>%s</b> желае да получи последната информация за задача.."
+msgstr "<b>%s</b> желае да получи последната информация за задача:"
 
 #: plugins/itip-formatter/itip-view.c:385
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> отговори относно назначената задача:"
 
 #: plugins/itip-formatter/itip-view.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> през %s отказа следните му назначени задачи:"
 
 #: plugins/itip-formatter/itip-view.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> отмени следната назначена задача:"
 
 #: plugins/itip-formatter/itip-view.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> предложи следните промени в назначените задачи:"
 
 #: plugins/itip-formatter/itip-view.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> през %s отказа следната назначена задача:"
 
 #: plugins/itip-formatter/itip-view.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> отказа събранието."
+msgstr "<b>%s</b> отказа следната назначена задача:"
 
 #. Comment
 #: plugins/itip-formatter/itip-view.c:846
 #: plugins/itip-formatter/itip-view.c:896
-#, fuzzy
 msgid "Comment:"
-msgstr "Команда:"
+msgstr "Коментар:"
 
-#: plugins/itip-formatter/itip-view.c:1542
-#, fuzzy
+#: plugins/itip-formatter/itip-view.c:1573
 msgid "_Calendar:"
-msgstr "К_алендар:"
+msgstr "_Календар:"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
@@ -17207,7 +17175,7 @@ msgstr "Действието не е налично"
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "Това писмо не съдържа колонтитул, нужен за това действие."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
@@ -17246,9 +17214,8 @@ msgstr "_Редактиране на писмото"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "Лошо форматиран подпис"
+msgstr "Лошо формирана заглавна част"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
@@ -17260,9 +17227,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "Избор на действие:"
+msgstr "Няма действие за елекртонна поща"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -17278,45 +17244,43 @@ msgid "Contact list _owner"
 msgstr "С_обственик на списък контакти"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Създаване на отговор на пощенски списък на избраното писмо"
+msgstr "Връзка с оператора на пощенския списък, от който е това писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
 msgstr ""
+"Получаване на архива на пощенския списък, към който принадлежи това писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
+"Получаване на информация, отновно употребата на пощенския списък, към който "
+"принадлежи това писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
-msgstr ""
+msgstr "Получаване на списъка с _архивите"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-#, fuzzy
 msgid "Get list _usage information"
-msgstr "Информация за събрание"
+msgstr "Получаване на информация за _ползване на списъка"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
 msgid "Mailing _List"
 msgstr "Пощенски _списък"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Създаване на отговор на пощенски списък на избраното писмо"
+msgstr "Създаване на отговор към пощенския списък, от който е избраното писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Създаване на отговор на пощенски списък на избраното писмо"
+msgstr "Абониране към пощенския списък, от който е избраното писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-#, fuzzy
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Създаване на отговор на пощенски списък на избраното писмо"
+msgstr "Отписване от пощенския списък, от който е избраното писмо"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post message to list"
@@ -17332,7 +17296,7 @@ msgstr "О_тписване от пощенски списък"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Включване и спиране на модули"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "Manage Plugins..."
@@ -17362,6 +17326,7 @@ msgstr "Мениджър на модулите"
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
+"Бележка: Някои промени ще влязат в сила след рестартиране на програмата"
 
 #: plugins/plugin-manager/plugin-manager.c:210
 msgid "Plugin"
@@ -17392,9 +17357,8 @@ msgid "Save all attachments"
 msgstr "Запазване на всички прикрепени файлове"
 
 #: plugins/save-attachments/save-attachments.c:331
-#, fuzzy
 msgid "Select save base name"
-msgstr "Избор на времева зона"
+msgstr "Избор на основното име за запис"
 
 #: plugins/save-attachments/save-attachments.c:351
 msgid "MIME Type"
@@ -17428,9 +17392,8 @@ msgid "Prepend a header"
 msgstr ""
 
 #: plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Локално разпределяне"
+msgstr "Разделител на стойност:"
 
 #: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
@@ -17445,19 +17408,17 @@ msgid "Comma separated value format (.csv)"
 msgstr ""
 
 #: plugins/save-calendar/ical-format.c:120
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "iCalendar файлове (.ics)"
+msgstr "формат на iCalendar файлове (.ics)"
 
 #: plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "Формат RDF (.rdf)"
 
 #: plugins/save-calendar/save-calendar.c:172
 #: plugins/save-calendar/save-calendar.c:182
-#, fuzzy
 msgid "Select destination file"
-msgstr "Избор на местоположение"
+msgstr "Избор на целеви файл"
 
 #: plugins/save-calendar/save-calendar.c:217
 #, c-format
@@ -17480,7 +17441,7 @@ msgstr "_Добавяне"
 
 #: plugins/shared-folder/properties.glade.h:5
 msgid "Additional Access"
-msgstr ""
+msgstr "Допълнителен достъп"
 
 #: plugins/shared-folder/properties.glade.h:7
 msgid "Delet_e"
@@ -17496,11 +17457,11 @@ msgstr "Писмо"
 
 #: plugins/shared-folder/properties.glade.h:12
 msgid "Sen_d Custom Notification"
-msgstr ""
+msgstr "Изпращане на потребителско уве_домяване"
 
 #: plugins/shared-folder/properties.glade.h:13
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Известяване за споделената папка"
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "The participants will receive the following notification.\n"
@@ -17512,7 +17473,7 @@ msgstr "_Не са споделени"
 
 #: plugins/shared-folder/properties.glade.h:20
 msgid "_Shared With ..."
-msgstr ""
+msgstr "_Споделено с..."
 
 #: plugins/shared-folder/properties.glade.h:21
 msgid "_Sharing"
@@ -17524,7 +17485,7 @@ msgstr "Потребители"
 
 #: plugins/shared-folder/share-folder-common.c:283
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "Въвеждане на потребители и задаване на привилегии"
 
 #: plugins/shared-folder/share-folder-common.c:361
 msgid "Sharing"
@@ -17537,15 +17498,15 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "Button style"
-msgstr ""
+msgstr "Стил на бутоните"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Buttons are visible"
-msgstr ""
+msgstr "Бутоните са видими"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default width of the folder bar pane"
-msgstr ""
+msgstr "Стандартна ширина на панела за папките"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
@@ -17594,6 +17555,9 @@ msgid ""
 "toolbar is set, the style of the toolbar is followed as determined by the "
 "GNOME setting."
 msgstr ""
+"Стилът на изобразяване на бутоните. Може да бъде текст, икони, текст и "
+"икони, както и лента с инструменти. Ако зададете лента с инструменти, то "
+"стилът на изобразяване ще зависи от генералните настройки на GNOME."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Toolbar is visible"
@@ -17604,9 +17568,8 @@ msgid "Whether Evolution should start up in offline mode"
 msgstr "Дали Evolution да се стартира в режим \"Изключен\""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid "Whether the buttons should be visible."
-msgstr "Дали лентата с инструменти трябва да е видима."
+msgstr "Дали бутоните трябва да са видими."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:16
 msgid "Whether the toolbar should be visible."
@@ -17614,7 +17577,7 @@ msgstr "Дали лентата с инструменти трябва да е �
 
 #: shell/apps_evolution_shell.schemas.in.in.h:17
 msgid "Whether to skip the development warning dialog"
-msgstr ""
+msgstr "Дали диалоговия прозорец с предупреждението да бъде пропускан"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -17629,32 +17592,32 @@ msgid "Click OK to close these connections and go offline"
 msgstr ""
 "Натиснете OK за да затворите връзките и да преминете в режим \"Изключен\""
 
-#: shell/e-shell.c:590
+#: shell/e-shell.c:597
 msgid "Uknown system error."
 msgstr "Непозната системна грешка."
 
-#: shell/e-shell.c:798 shell/e-shell.c:799
+#: shell/e-shell.c:805 shell/e-shell.c:806
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1242 widgets/misc/e-cell-date-edit.c:256
+#: shell/e-shell.c:1249 widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "Да"
 
-#: shell/e-shell.c:1244
+#: shell/e-shell.c:1251
 msgid "Invalid arguments"
 msgstr "Грешни аргументи"
 
-#: shell/e-shell.c:1246
+#: shell/e-shell.c:1253
 msgid "Cannot register on OAF"
 msgstr "Не може да регистрира в OAF"
 
-#: shell/e-shell.c:1248
+#: shell/e-shell.c:1255
 msgid "Configuration Database not found"
 msgstr "Конфигурационната база данни не е намерена"
 
-#: shell/e-shell.c:1250
+#: shell/e-shell.c:1257
 msgid "Generic error"
 msgstr "Грешка"
 
@@ -17925,6 +17888,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Добре дошли в Evolution. Следващите няколко екрана ще позволят на "
+"Evolutionда се свърже с вашите абонаменти и да внесе файлове от други "
+"програми. \n"
+"\n"
+"Моля, натиснете бутона \"Продължаване\". "
 
 #: shell/evolution-startup-wizard.glade.h:9
 msgid ""
@@ -18062,7 +18030,6 @@ msgid "Start in online mode"
 msgstr "Стартиране в режим \"Включен\""
 
 #: shell/main.c:480
-#, fuzzy
 msgid "Forcibly shut down all Evolution components"
 msgstr "Принудително затваряне на всички компоненти на Evolution"
 
@@ -18076,11 +18043,11 @@ msgstr "Изпращане изхода от дебъга на всички ко
 
 #: shell/main.c:490
 msgid "Disable the mono plugin environment."
-msgstr ""
+msgstr "Спиране на модула за обкръжението mono."
 
 #: shell/main.c:493
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "Спиране зареждането на каквито и да е модули."
 
 #: shell/main.c:524
 #, c-format
@@ -18902,7 +18869,7 @@ msgstr "Публична свободна/заета информация за �
 
 #: ui/evolution-calendar.xml.h:23 ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr ""
+msgstr "Прочистван_е"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
@@ -19055,7 +19022,7 @@ msgstr "Отрязване на избраните писма в буферът 
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
-msgstr ""
+msgstr "За_черкване"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -19902,11 +19869,11 @@ msgstr ""
 
 #: ui/evolution.xml.h:16
 msgid "Hide window buttons"
-msgstr ""
+msgstr "Скриване на бутоните за прозореца"
 
 #: ui/evolution.xml.h:17
 msgid "Icons _and text"
-msgstr ""
+msgstr "_Икони и текст"
 
 #: ui/evolution.xml.h:18
 msgid "Import data from other programs"
@@ -19961,14 +19928,12 @@ msgid "Tool_bar"
 msgstr "Лента с _инструменти"
 
 #: ui/evolution.xml.h:32
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "Лента с _инструменти"
+msgstr "Стил на лентата с _инструменти"
 
 #: ui/evolution.xml.h:33
-#, fuzzy
 msgid "Window B_uttons"
-msgstr "Предишен бутон"
+msgstr "Бутони за _прозорци"
 
 #: ui/evolution.xml.h:35
 msgid "_About Evolution..."
@@ -19980,11 +19945,11 @@ msgstr "_Помощ"
 
 #: ui/evolution.xml.h:41
 msgid "_Hide buttons"
-msgstr ""
+msgstr "_Скриване на бутоните"
 
 #: ui/evolution.xml.h:42
 msgid "_Icons only"
-msgstr ""
+msgstr "_Само икони"
 
 #: ui/evolution.xml.h:43
 msgid "_Import..."
@@ -20003,9 +19968,8 @@ msgid "_Send / Receive"
 msgstr "_Изпращане / получаване"
 
 #: ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Text only"
-msgstr "Текстов модел"
+msgstr "Само _текст"
 
 #: ui/evolution.xml.h:50
 msgid "_Window"
@@ -20093,9 +20057,8 @@ msgid "Select a Time Zone"
 msgstr "Избор на времева зона"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr "Времева зона "
+msgstr "Падащо меню за времева зона"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
 msgid ""
@@ -20235,9 +20198,8 @@ msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-dateedit.c:313
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "<b>Дата и време</b>"
+msgstr "Дата и време"
 
 #: widgets/misc/e-dateedit.c:332
 msgid "Text entry to input date"
@@ -20452,93 +20414,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% приключено)"
-
-#~ msgid "Meetings"
-#~ msgstr "Събрания"
-
-#~ msgid "Close this item"
-#~ msgstr "Затваряне на тази точка"
-
-#~ msgid "Delete this item"
-#~ msgstr "Изтриване на тази точка"
-
-#~ msgid "Preview the printed item"
-#~ msgstr "Преглед на точката за печат"
-
-#~ msgid "Print this item"
-#~ msgstr "Печат на тази точка"
-
-#~ msgid "Save the item and close the dialog box"
-#~ msgstr "Запазване на точката и затваряне на прозореца"
-
-#~ msgid "Save this item to disk"
-#~ msgstr "Запазване на тази точка на диска"
-
-#~ msgid "Print En_velope..."
-#~ msgstr "Разпечатване на п_лик..."
-
-#~ msgid "Save the contact and close the dialog box"
-#~ msgstr "Запазване на контакта и затваряне на прозореца"
-
-#~ msgid "Send _Message to Contact..."
-#~ msgstr "Изпращане на съобщението на контакт.."
-
-#~ msgid "Delete this list"
-#~ msgstr "Изтриване на този списък"
-
-#~ msgid "Save the list and close the dialog box"
-#~ msgstr "Запазване на списъка и затваря диалога"
-
-#~ msgid "Se_nd list to other..."
-#~ msgstr "Изпращане на спис_ък на друг..."
-
-#~ msgid "Send _message to list..."
-#~ msgstr "Изпращане на с_ъобщението към списък..."
-
-#~ msgid "_Delete..."
-#~ msgstr "_Изтриване..."
-
-#~ msgid "Cancel Mee_ting"
-#~ msgstr "Отмяна на _среща"
-
-#~ msgid "Cancel the meeting for this item"
-#~ msgstr "Отмяна на събранието по този пункт"
-
-#~ msgid "Forward as i_Calendar"
-#~ msgstr "Препращане като _iCalendar"
-
-#~ msgid "Forward this item via email"
-#~ msgstr "Препращане на това съобщение чрез ел. поща"
-
-#~ msgid "Meeting"
-#~ msgstr "Събрание"
-
-#~ msgid "Obtain the latest meeting information"
-#~ msgstr "Получаване на последната информация за събрание"
-
-#~ msgid "Re_fresh Meeting"
-#~ msgstr "Опресняване на събранието"
-
-#~ msgid "Schedule _Meeting"
-#~ msgstr "Насрочване на събрание"
-
-#~ msgid "Schedule a meeting for this item"
-#~ msgstr "Насрочване на събрание за тази точка"
-
-#~ msgid "Assign Task"
-#~ msgstr "Присвояване на задача"
-
-#~ msgid "Assign this task to others"
-#~ msgstr "Поставяне на тази задача на други"
-
-#~ msgid "Cancel Task"
-#~ msgstr "Прекъсване на задача"
-
-#~ msgid "Cancel this task"
-#~ msgstr "Прекратяване на тази задача"
-
-#~ msgid "Obtain the latest task information"
-#~ msgstr "Получаване на информация за последната задача"
-
-#~ msgid "Re_fresh Task"
-#~ msgstr "О_пресняване на задача"
